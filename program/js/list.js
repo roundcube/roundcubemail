@@ -912,7 +912,8 @@ shift_select: function(id, control)
     from_rowIndex = this._rowIndex(this.rows[this.shift_start].obj),
     to_rowIndex = this._rowIndex(to_row.obj);
 
-  if (!to_row.expanded && to_row.has_children)
+  // if we're going down the list, and we hit a thread, and it's closed, select the whole thread
+  if (from_rowIndex < to_rowIndex && !to_row.expanded && to_row.has_children)
     if (to_row = this.rows[(this.row_children(id)).pop()])
       to_rowIndex = this._rowIndex(to_row.obj);
 
@@ -933,6 +934,7 @@ shift_select: function(id, control)
     }
   }
 },
+
 
 /**
  * Helper method to emulate the rowIndex property of non-tr elements
@@ -1134,10 +1136,13 @@ key_press: function(e)
       // Stop propagation so that the browser doesn't scroll
       rcube_event.cancel(e);
       return this.use_arrow_key(keyCode, mod_key);
-    case 61:
-    case 107: // Plus sign on a numeric keypad (fc11 + firefox 3.5.2)
-    case 109:
     case 32:
+      rcube_event.cancel(e);
+      return this.select_row(this.last_selected, mod_key, true);
+    case 37: // Left arrow key
+    case 39: // Right arrow key
+    case 107: // Plus sign on a numeric keypad
+    case 109: // Minus sign on a numeric keypad
       // Stop propagation
       rcube_event.cancel(e);
       var ret = this.use_plusminus_key(keyCode, mod_key);
@@ -1205,9 +1210,7 @@ use_plusminus_key: function(keyCode, mod_key)
   if (!selected_row)
     return;
 
-  if (keyCode == 32)
-    keyCode = selected_row.expanded ? 109 : 61;
-  if (keyCode == 61 || keyCode == 107)
+  if (keyCode == 39 || keyCode == 107)
     if (mod_key == CONTROL_KEY || this.multiexpand)
       this.expand_all(selected_row);
     else
