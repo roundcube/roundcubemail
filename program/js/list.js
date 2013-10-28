@@ -1224,7 +1224,7 @@ scrollto: function(id)
   var row = this.rows[id].obj;
   if (row && this.frame) {
     var scroll_to = Number(row.offsetTop),
-        headOffset = 0;
+      head_offset = 0;
 
     // expand thread if target row is hidden (collapsed)
     if (!scroll_to && this.rows[id].parent_uid) {
@@ -1233,14 +1233,13 @@ scrollto: function(id)
       scroll_to = Number(row.offsetTop);
     }
   
-    if( this.fixed_header ) {
-      headOffset = Number(this.thead.offsetHeight);
-    }
+    if(this.fixed_header) 
+      head_offset = Number(this.thead.offsetHeight);
 
     // if row is above the frame (or behind header)
-    if (scroll_to < Number(this.frame.scrollTop) + headOffset) {
+    if (scroll_to < Number(this.frame.scrollTop) + head_offset) {
       // scroll window so that row isn't behind header
-      this.frame.scrollTop = scroll_to - headOffset;
+      this.frame.scrollTop = scroll_to - head_offset;
     } else if (scroll_to + Number(row.offsetHeight) > Number(this.frame.scrollTop) + Number(this.frame.offsetHeight))
       this.frame.scrollTop = (scroll_to + Number(row.offsetHeight)) - Number(this.frame.offsetHeight);
   }
