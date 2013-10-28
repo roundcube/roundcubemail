@@ -294,6 +294,32 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * rcube:utils::anytodatetime()
+     */
+    function test_anytodatetime()
+    {
+        $test = array(
+            '2013-04-22' => '2013-04-22',
+            '2013/04/22' => '2013-04-22',
+            '2013.04.22' => '2013-04-22',
+            '22-04-2013' => '2013-04-22',
+            '22/04/2013' => '2013-04-22',
+            '22.04.2013' => '2013-04-22',
+            '04/22/2013' => '2013-04-22',
+            '22.4.2013'  => '2013-04-22',
+            '20130422'   => '2013-04-22',
+            '1900-10-10' => '1900-10-10',
+            '01-01-1900' => '1900-01-01',
+            '01/30/1960' => '1960-01-30'
+        );
+
+        foreach ($test as $datetime => $ts) {
+            $result = rcube_utils::anytodatetime($datetime);
+            $this->assertSame($ts, $result ? $result->format('Y-m-d') : '', "Error parsing date: $datetime");
+        }
+    }
+
+    /**
      * rcube:utils::normalize _string()
      */
     function test_normalize_string()
