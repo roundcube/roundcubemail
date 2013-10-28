@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix an issue where shift + arrow-up key wasn't selecting all messages in collapsed thread (#1489397)
 - Added icon for priority column in messages list header (#1489234)
 - New feature "Canned Responses" to save and recall boilerplate text snippets
 - Fix HTML part detection when encapsulated inside multipart/signed (#1489372)
