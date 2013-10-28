@@ -856,14 +856,8 @@ select_first: function(mod_key)
 {
   var row = this.get_first_row();
   if (row) {
-    if (mod_key) {
-      this.shift_select(row, mod_key);
-      this.triggerEvent('select');
-      this.scrollto(row);
-    }
-    else {
-      this.select(row);
-    }
+    this.select_row(row, mod_key, false);
+    this.scrollto(row);
   }
 },
 
@@ -875,14 +869,8 @@ select_last: function(mod_key)
 {
   var row = this.get_last_row();
   if (row) {
-    if (mod_key) {
-      this.shift_select(row, mod_key);
-      this.triggerEvent('select');
-      this.scrollto(row);
-    }
-    else {
-      this.select(row);
-    }
+    this.select_row(row, mod_key, false);
+    this.scrollto(row);
   }
 },
 
@@ -1209,16 +1197,21 @@ use_plusminus_key: function(keyCode, mod_key)
 
   if (keyCode == 32)
     keyCode = selected_row.expanded ? 109 : 61;
-  if (keyCode == 61 || keyCode == 107)
+  if (keyCode == 61 || keyCode == 107) {
+    if( this.row_children(this.last_selected).length === 0)
+      return;
     if (mod_key == CONTROL_KEY || this.multiexpand)
       this.expand_all(selected_row);
     else
      this.expand(selected_row);
-  else
+  } else {
+    if (!selected_row.expanded || this.find_root(this.last_selected) !== this.last_selected)
+      return;
     if (mod_key == CONTROL_KEY || this.multiexpand)
       this.collapse_all(selected_row);
     else
       this.collapse(selected_row);
+  }
 
   this.update_expando(selected_row.uid, selected_row.expanded);
 
@@ -1233,7 +1226,8 @@ scrollto: function(id)
 {
   var row = this.rows[id].obj;
   if (row && this.frame) {
-    var scroll_to = Number(row.offsetTop);
+    var scroll_to = Number(row.offsetTop),
+      head_offset = 0;
 
     // expand thread if target row is hidden (collapsed)
     if (!scroll_to && this.rows[id].parent_uid) {
@@ -1241,10 +1235,15 @@ scrollto: function(id)
       this.expand_all(this.rows[parent]);
       scroll_to = Number(row.offsetTop);
     }
+  
+    if(this.fixed_header) 
+      head_offset = Number(this.thead.offsetHeight);
 
-    if (scroll_to < Number(this.frame.scrollTop))
-      this.frame.scrollTop = scroll_to;
-    else if (scroll_to + Number(row.offsetHeight) > Number(this.frame.scrollTop) + Number(this.frame.offsetHeight))
+    // if row is above the frame (or behind header)
+    if (scroll_to < Number(this.frame.scrollTop) + head_offset) {
+      // scroll window so that row isn't behind header
+      this.frame.scrollTop = scroll_to - head_offset;
+    } else if (scroll_to + Number(row.offsetHeight) > Number(this.frame.scrollTop) + Number(this.frame.offsetHeight))
       this.frame.scrollTop = (scroll_to + Number(row.offsetHeight)) - Number(this.frame.offsetHeight);
   }
 },
