@@ -80,8 +80,8 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
 
     // normalize the submitted date strings
     if ($colprop['type'] == 'date') {
-        if ($timestamp = rcube_utils::strtotime($a_record[$col])) {
-            $a_record[$col] = date('Y-m-d', $timestamp);
+        if ($a_record[$col] && ($dt = rcube_utils::anytodatetime($a_record[$col]))) {
+            $a_record[$col] = $dt->format('Y-m-d');
         }
         else {
             unset($a_record[$col]);
