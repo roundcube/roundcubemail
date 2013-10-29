@@ -1204,21 +1204,33 @@ use_arrow_key: function(keyCode, mod_key)
 use_plusminus_key: function(keyCode, mod_key)
 {
   var selected_row = this.rows[this.last_selected];
-  if (!selected_row)
+
+  if (!selected_row || !selected_row.has_children)
     return;
 
   if (keyCode == 32)
     keyCode = selected_row.expanded ? 109 : 61;
-  if (keyCode == 61 || keyCode == 107)
+
+  // expand
+  if (keyCode == 61 || keyCode == 107) {
+    if (selected_row.expanded)
+      return;
+
     if (mod_key == CONTROL_KEY || this.multiexpand)
       this.expand_all(selected_row);
     else
-     this.expand(selected_row);
-  else
+      this.expand(selected_row);
+  }
+  // collapse
+  else {
+    if (!selected_row.expanded)
+      return;
+
     if (mod_key == CONTROL_KEY || this.multiexpand)
       this.collapse_all(selected_row);
     else
       this.collapse(selected_row);
+  }
 
   this.update_expando(selected_row.uid, selected_row.expanded);
 
