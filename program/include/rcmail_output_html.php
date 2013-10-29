@@ -1165,7 +1165,7 @@ class rcmail_output_html extends rcmail_output
         }
         else if ($attrib['type'] == 'link') {
             $btn_content = isset($attrib['content']) ? $attrib['content'] : ($attrib['label'] ? $attrib['label'] : $attrib['command']);
-            $link_attrib = array('href', 'onclick', 'title', 'id', 'class', 'style', 'tabindex', 'target');
+            $link_attrib = array_merge(html::$common_attrib, array('href', 'onclick', 'tabindex', 'target'));
             if ($attrib['innerclass'])
                 $btn_content = html::span($attrib['innerclass'], $btn_content);
         }
@@ -1184,7 +1184,7 @@ class rcmail_output_html extends rcmail_output
 
         // generate html code for button
         if ($btn_content) {
-            $attrib_str = html::attrib_string($attrib, array_merge(html::$common_attrib, $link_attrib));
+            $attrib_str = html::attrib_string($attrib, $link_attrib);
             $out = sprintf('<a%s>%s</a>', $attrib_str, $btn_content);
         }
 
