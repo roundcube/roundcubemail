@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-$messages['forgotattachment'] = "";
-$messages['reminderoption'] = "";
+$messages['forgotattachment'] = "Ви забули прикріпити файл?";
+$messages['reminderoption'] = "Нагадати про забуте вкладення";
 $messages['keywords'] = "";
