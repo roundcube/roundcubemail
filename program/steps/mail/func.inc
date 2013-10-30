@@ -97,6 +97,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
   $OUTPUT->set_env('delimiter', $delimiter);
   $OUTPUT->set_env('threading', $threading);
   $OUTPUT->set_env('threads', $threading || $RCMAIL->storage->get_capability('THREAD'));
+  $OUTPUT->set_env('reply_all_mode', (int) $RCMAIL->config->get('reply_all_mode'));
   $OUTPUT->set_env('preview_pane_mark_read', $RCMAIL->config->get('preview_pane_mark_read', 0));
   if ($RCMAIL->storage->get_capability('QUOTA')) {
     $OUTPUT->set_env('quota', true);

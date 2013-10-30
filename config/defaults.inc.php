@@ -1023,3 +1023,8 @@ $config['default_font_size'] = '10pt';
 
 // Enables display of email address with name instead of a name (and address in title)
 $config['message_show_email'] = false;
+
+// Default behavior of Reply-All button:
+// 0 - Reply-All always
+// 1 - Reply-List if mailing list is detected
+$config['reply_all_mode'] = 0;

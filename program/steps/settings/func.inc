@@ -869,6 +869,24 @@ function rcmail_user_prefs($current = null)
                         $select_default_font_size->show($RCMAIL->config->get('default_font_size', 1))
                 );
             }
+
+            if (!isset($no_override['reply_all_mode'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_reply_all_mode';
+                $select   = new html_select(array('name' => '_reply_all_mode', 'id' => $field_id));
+
+                $select->add(rcube_label('replyalldefault'), 0);
+                $select->add(rcube_label('replyalllist'), 1);
+
+                $blocks['main']['options']['reply_all_mode'] = array(
+                    'title'   => html::label($field_id, Q(rcube_label('replyallmode'))),
+                    'content' => $select->show(intval($config['reply_all_mode'])),
+                );
+            }
+
         break;
 
         // Addressbook config

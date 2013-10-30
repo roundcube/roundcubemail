@@ -473,7 +473,7 @@ function rcube_mail_ui()
 
   function enable_command(p)
   {
-    if (p.command == 'reply-list') {
+    if (p.command == 'reply-list' && rcmail.env.reply_all_mode == 1) {
       var label = rcmail.gettext(p.status ? 'replylist' : 'replyall');
       if (rcmail.env.action == 'preview')
         $('a.button.replyall').attr('title', label);
