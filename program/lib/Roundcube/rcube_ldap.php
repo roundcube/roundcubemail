@@ -706,7 +706,7 @@ class rcube_ldap extends rcube_addressbook
             if ($result = $this->ldap->search($m[1], $filter, $m[2], $attrs, $this->group_data)) {
                 $entries = $result->entries();
                 for ($j = 0; $j < $entries['count']; $j++) {
-                    if (self::is_group_entry($entries[$j]) && ($nested_group_members = $this->list_group_members($entries[$j]['dn'], $count)))
+                    if ($this->is_group_entry($entries[$j]) && ($nested_group_members = $this->list_group_members($entries[$j]['dn'], $count)))
                         $group_members = array_merge($group_members, $nested_group_members);
                     else
                         $group_members[] = $entries[$j];
@@ -1391,7 +1391,7 @@ class rcube_ldap extends rcube_addressbook
             $out[$this->primary_key] = self::dn_encode($rec['dn']);
 
         // determine record type
-        if (self::is_group_entry($rec)) {
+        if ($this->is_group_entry($rec)) {
             $out['_type'] = 'group';
             $out['readonly'] = true;
             $fieldmap['name'] = $this->group_data['name_attr'] ? $this->group_data['name_attr'] : $this->prop['groups']['name_attr'];
@@ -1516,7 +1516,7 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Determines whether the given LDAP entry is a group record
      */
-    private static function is_group_entry($entry)
+    private function is_group_entry($entry)
     {
         $classes = array_map('strtolower', (array)$entry['objectclass']);
 
