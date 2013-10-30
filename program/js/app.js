@@ -3032,9 +3032,12 @@ function rcube_webmail()
   // test if purge command is allowed
   this.purge_mailbox_test = function()
   {
-    return (this.env.exists && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox
-      || this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter))
-      || this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))));
+    return (this.env.exists && (
+      this.env.mailbox == this.env.trash_mailbox
+      || this.env.mailbox == this.env.junk_mailbox
+      || this.env.mailbox.indexOf(this.env.trash_mailbox + this.env.delimiter) == 0
+      || this.env.mailbox.indexOf(this.env.junk_mailbox + this.env.delimiter) == 0
+    ));
   };
 
 

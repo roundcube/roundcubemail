@@ -1245,14 +1245,15 @@ scrollto: function(id)
       scroll_to = Number(row.offsetTop);
     }
 
-    if(this.fixed_header)
+    if (this.fixed_header)
       head_offset = Number(this.thead.offsetHeight);
-    
+
     // if row is above the frame (or behind header)
     if (scroll_to < Number(this.frame.scrollTop) + head_offset) {
       // scroll window so that row isn't behind header
       this.frame.scrollTop = scroll_to - head_offset;
-    } else if (scroll_to + Number(row.offsetHeight) > Number(this.frame.scrollTop) + Number(this.frame.offsetHeight))
+    }
+    else if (scroll_to + Number(row.offsetHeight) > Number(this.frame.scrollTop) + Number(this.frame.offsetHeight))
       this.frame.scrollTop = (scroll_to + Number(row.offsetHeight)) - Number(this.frame.offsetHeight);
   }
 },
