@@ -27,7 +27,7 @@ function rcmail_is_archive()
 
   // check if current folder is an archive folder or one of its children
   if (rcmail.env.mailbox == rcmail.env.archive_folder
-    || rcmail.env.mailbox.indexOf(rcmail.env.archive_folder + rcmail.env.delimiter) != 0
+    || rcmail.env.mailbox.startsWith(rcmail.env.archive_folder + rcmail.env.delimiter)
   ) {
     return true;
   }

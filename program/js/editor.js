@@ -161,7 +161,7 @@ function rcmail_editor_images()
 
   for (i in files) {
     att = files[i];
-    if (att.complete && att.mimetype.indexOf('image/') == 0) {
+    if (att.complete && att.mimetype.startsWith('image/')) {
       list.push([att.name, rcmail.env.comm_path+'&_action=display-attachment&_file='+i+'&_id='+rcmail.env.compose_id]);
     }
   }

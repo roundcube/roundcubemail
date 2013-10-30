@@ -1474,7 +1474,7 @@ function rcube_webmail()
 
       // select the folder if one of its childs is currently selected
       // don't select if it's virtual (#1488346)
-      if (this.env.mailbox && this.env.mailbox.indexOf(name + this.env.delimiter) == 0 && !node.virtual)
+      if (this.env.mailbox && this.env.mailbox.startsWith(name + this.env.delimiter) && !node.virtual)
         this.command('list', name);
     }
     else {
@@ -1655,8 +1655,8 @@ function rcube_webmail()
     this.env.coltypes = [];
 
     for (i=0; i<cols.length; i++)
-      if (cols[i].id && cols[i].id.match(/^rcm/)) {
-        name = cols[i].id.replace(/^rcm/, '');
+      if (cols[i].id && cols[i].id.startsWith('rcm')) {
+        name = cols[i].id.slice(3);
         this.env.coltypes.push(name);
       }
 
@@ -3035,8 +3035,8 @@ function rcube_webmail()
     return (this.env.exists && (
       this.env.mailbox == this.env.trash_mailbox
       || this.env.mailbox == this.env.junk_mailbox
-      || this.env.mailbox.indexOf(this.env.trash_mailbox + this.env.delimiter) == 0
-      || this.env.mailbox.indexOf(this.env.junk_mailbox + this.env.delimiter) == 0
+      || this.env.mailbox.startsWith(this.env.trash_mailbox + this.env.delimiter)
+      || this.env.mailbox.startsWith(this.env.junk_mailbox + this.env.delimiter)
     ));
   };
 
@@ -4182,7 +4182,7 @@ function rcube_webmail()
       return;
 
     // ...new search value contains old one and previous search was not finished or its result was empty
-    if (old_value && old_value.length && q.indexOf(old_value) == 0 && (!ac || ac.num <= 0) && this.env.contacts && !this.env.contacts.length)
+    if (old_value && old_value.length && q.startsWith(old_value) && (!ac || ac.num <= 0) && this.env.contacts && !this.env.contacts.length)
       return;
 
     var i, lock, source, xhr, reqid = new Date().getTime(),
@@ -5467,7 +5467,7 @@ function rcube_webmail()
         if (this.check_droptarget(folder) &&
             !this.env.subscriptionrows[this.get_folder_row_id(this.env.mailbox)][2] &&
             (folder != this.env.mailbox.replace(reg, '')) &&
-            (!folder.match(new RegExp('^'+RegExp.escape(this.env.mailbox+this.env.delimiter))))
+            (!folder.startsWith(this.env.mailbox + this.env.delimiter))
         ) {
           this.env.dstfolder = folder;
           $(row).addClass('droptarget');
@@ -5593,7 +5593,7 @@ function rcube_webmail()
         tmp = tmp_name;
       }
       // protected folder's child
-      else if (tmp && folders[n][0].indexOf(tmp) == 0)
+      else if (tmp && folders[n][0].startsWith(tmp))
         slist.push(folders[n][0]);
       // other
       else {
@@ -5604,7 +5604,7 @@ function rcube_webmail()
 
     // check if subfolder of a protected folder
     for (n=0; n<slist.length; n++) {
-      if (name.indexOf(slist[n]+this.env.delimiter) == 0)
+      if (name.startsWith(slist[n] + this.env.delimiter))
         rowid = this.get_folder_row_id(slist[n]);
     }
 
@@ -5716,13 +5716,13 @@ function rcube_webmail()
   this.get_subfolders = function(folder)
   {
     var name, list = [],
-      regex = new RegExp('^'+RegExp.escape(folder)+RegExp.escape(this.env.delimiter)),
+      prefix = folder + this.env.delimiter,
       row = $('#'+this.get_folder_row_id(folder)).get(0);
 
     while (row = row.nextSibling) {
       if (row.id) {
         name = this.env.subscriptionrows[row.id][0];
-        if (regex.test(name)) {
+        if (name && name.startsWith(prefix)) {
           list.push(row.id);
         }
         else
@@ -6325,7 +6325,7 @@ function rcube_webmail()
           div.className.match(/collapsed/)) {
         // add children's counters
         for (var k in this.env.unread_counts)
-          if (k.indexOf(mbox + this.env.delimiter) == 0)
+          if (k.startsWith(mbox + this.env.delimiter))
             childcount += this.env.unread_counts[k];
       }
 

@@ -592,6 +592,14 @@ Date.prototype.getStdTimezoneOffset = function()
   return tzo;
 }
 
+// define String's startsWith() method for old browsers
+if (!String.prototype.startsWith) {
+  String.prototype.startsWith = function(search, position) {
+    position = position || 0;
+    return this.slice(position, search.length) === search;
+  };
+}
+
 // Make getElementById() case-sensitive on IE
 if (bw.ie) {
   document._getElementById = document.getElementById;

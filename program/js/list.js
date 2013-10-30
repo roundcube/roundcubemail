@@ -31,6 +31,7 @@ function rcube_list_widget(list, p)
 
   this.list = list ? list : null;
   this.tagname = this.list ? this.list.nodeName.toLowerCase() : 'table';
+  this.id_regexp = /^rcmrow([a-z0-9\-_=\+\/]+)/i;
   this.thead;
   this.tbody;
   this.fixed_header;
@@ -110,7 +111,7 @@ init: function()
 init_row: function(row)
 {
   // make references in internal array and set event handlers
-  if (row && String(row.id).match(/^rcmrow([a-z0-9\-_=\+\/]+)/i)) {
+  if (row && String(row.id).match(this.id_regexp)) {
     var self = this,
       uid = RegExp.$1;
     row.uid = uid;
@@ -728,7 +729,7 @@ get_first_row: function()
     var i, len, rows = this.tbody.childNodes;
 
     for (i=0, len=rows.length-1; i<len; i++)
-      if (rows[i].id && String(rows[i].id).match(/^rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
+      if (rows[i].id && String(rows[i].id).match(this.id_regexp) && this.rows[RegExp.$1] != null)
         return RegExp.$1;
   }
 
@@ -741,7 +742,7 @@ get_last_row: function()
     var i, rows = this.tbody.childNodes;
 
     for (i=rows.length-1; i>=0; i--)
-      if (rows[i].id && String(rows[i].id).match(/^rcmrow([a-z0-9\-_=\+\/]+)/i) && this.rows[RegExp.$1] != null)
+      if (rows[i].id && String(rows[i].id).match(this.id_regexp) && this.rows[RegExp.$1] != null)
         return RegExp.$1;
   }
 
