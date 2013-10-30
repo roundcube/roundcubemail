@@ -53,7 +53,7 @@ if (window.rcmail) {
     // callback for server response
     rcmail.addEventListener('plugin.move2archive_response', function(result) {
       if (result.update)
-        rcmail.command('checkmail');  // refresh list
+        rcmail.command('list');  // refresh list
     });
   })
 }

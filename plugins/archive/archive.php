@@ -123,6 +123,7 @@ class archive extends rcube_plugin
     $result  = array('reload' => false, 'update' => false, 'errors' => array());
     $folders = array();
     $uids    = rcube_utils::get_input_value('_uid', RCUBE_INPUT_POST);
+    $search_request = get_input_value('_search', RCUBE_INPUT_GPC);
 
     if ($uids == '*') {
       $index = $storage->index(null, rcmail_sort_column(), rcmail_sort_order());
@@ -214,6 +215,11 @@ class archive extends rcube_plugin
     }
     else if ($result['update']) {
       $rcmail->output->show_message($this->gettext('archived'), 'confirmation');
+    }
+
+    // refresh saved search set after moving some messages
+    if ($search_request && $rcmail->storage->get_search_set()) {
+        $_SESSION['search'] = $rcmail->storage->refresh_search();
     }
 
     if ($_POST['_from'] == 'show' && !empty($result['update'])) {
