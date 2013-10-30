@@ -13,6 +13,12 @@
 		<email>roundcube@gmail.com</email>
 		<active>yes</active>
 	</lead>
+	<lead>
+		<name>Aleksander Machniak</name>
+		<user>alec</user>
+		<email>alec@alec.pl</email>
+		<active>yes</active>
+	</lead>
 	<date>2013-10-30</date>
 	<version>
 		<release>2.1</release>
