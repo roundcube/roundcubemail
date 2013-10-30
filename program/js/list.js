@@ -856,8 +856,14 @@ select_first: function(mod_key)
 {
   var row = this.get_first_row();
   if (row) {
-    this.select_row(row, mod_key, false);
-    this.scrollto(row);
+    if (mod_key) {
+      this.shift_select(row, mod_key);
+      this.triggerEvent('select');
+      this.scrollto(row);
+    }
+    else {
+      this.select(row);
+    }
   }
 },
 
@@ -869,8 +875,14 @@ select_last: function(mod_key)
 {
   var row = this.get_last_row();
   if (row) {
-    this.select_row(row, mod_key, false);
-    this.scrollto(row);
+    if (mod_key) {
+      this.shift_select(row, mod_key);
+      this.triggerEvent('select');
+      this.scrollto(row);
+    }
+    else {
+      this.select(row);
+    }
   }
 },
 
@@ -1124,10 +1136,13 @@ key_press: function(e)
       // Stop propagation so that the browser doesn't scroll
       rcube_event.cancel(e);
       return this.use_arrow_key(keyCode, mod_key);
-    case 61:
-    case 107: // Plus sign on a numeric keypad (fc11 + firefox 3.5.2)
-    case 109:
     case 32:
+      rcube_event.cancel(e);
+      return this.select_row(this.last_selected, mod_key, true);
+    case 37: // Left arrow key
+    case 39: // Right arrow key
+    case 107: // Plus sign on a numeric keypad
+    case 109: // Minus sign on a numeric keypad      
       // Stop propagation
       rcube_event.cancel(e);
       var ret = this.use_plusminus_key(keyCode, mod_key);
@@ -1196,11 +1211,8 @@ use_plusminus_key: function(keyCode, mod_key)
   if (!selected_row || !selected_row.has_children)
     return;
 
-  if (keyCode == 32)
-    keyCode = selected_row.expanded ? 109 : 61;
-
   // expand
-  if (keyCode == 61 || keyCode == 107) {
+  if (keyCode == 39 || keyCode == 107) {
     if (selected_row.expanded)
       return;
 
