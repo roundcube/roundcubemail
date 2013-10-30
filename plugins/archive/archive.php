@@ -170,7 +170,9 @@ class archive extends rcube_plugin
       // create archive subfolder if it doesn't yet exist
       // we'll create all folders in the path
       if (!in_array($folder, $folders)) {
-        $list = $storage->list_folders('', $archive_folder . '*', 'mail', null, true);
+        if (empty($list)) {
+          $list = $storage->list_folders('', $archive_folder . '*', 'mail', null, true);
+        }
         $path = explode($delimiter, $folder);
 
         for ($i=0; $i<count($path); $i++) {
@@ -178,6 +180,7 @@ class archive extends rcube_plugin
           if (!in_array($_folder, $list)) {
             if ($storage->create_folder($_folder, true)) {
               $result['reload'] = true;
+              $list[] = $_folder;
             }
           }
         }
