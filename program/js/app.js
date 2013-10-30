@@ -2778,7 +2778,7 @@ function rcube_webmail()
       data._search = this.env.search_request;
 
     if (this.env.display_next && this.env.next_uid)
-      post_data._next_uid = this.env.next_uid;
+      data._next_uid = this.env.next_uid;
 
     return data;
   };
