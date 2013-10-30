@@ -856,8 +856,14 @@ select_first: function(mod_key)
 {
   var row = this.get_first_row();
   if (row) {
-    this.select_row(row, mod_key, false);
-    this.scrollto(row);
+    if (mod_key) {
+      this.shift_select(row, mod_key);
+      this.triggerEvent('select');
+      this.scrollto(row);
+    }
+    else {
+      this.select(row);
+    }
   }
 },
 
@@ -869,8 +875,14 @@ select_last: function(mod_key)
 {
   var row = this.get_last_row();
   if (row) {
-    this.select_row(row, mod_key, false);
-    this.scrollto(row);
+    if (mod_key) {
+      this.shift_select(row, mod_key);
+      this.triggerEvent('select');
+      this.scrollto(row);
+    }
+    else {
+      this.select(row);
+    }
   }
 },
 
