@@ -1,6 +1,6 @@
 /*
  * Archive plugin script
- * @version 2.0
+ * @version 2.1
  */
 
 function rcmail_archive(prop)
@@ -15,15 +15,7 @@ function rcmail_archive(prop)
     }
     else {
       // let the server sort the messages to the according subfolders
-      var post_data = { _uid: rcmail.env.uid ? rcmail.env.uid : rcmail.message_list.get_selection().join(','), _mbox: rcmail.env.mailbox };
-
-      if (rcmail.env.display_next && rcmail.env.next_uid)
-        post_data._next_uid = rcmail.env.next_uid;
-
-      if (rcmail.env.action)
-        post_data._from = rcmail.env.action;
-
-      rcmail.http_post('plugin.move2archive', post_data);
+      rcmail.http_post('plugin.move2archive', rcmail.selection_post_data());
     }
   }
 }

@@ -121,8 +121,16 @@ class archive extends rcube_plugin
     $storage->set_folder(($current_mbox = rcube_utils::get_input_value('_mbox', RCUBE_INPUT_POST)));
 
     $result  = array('reload' => false, 'update' => false, 'errors' => array());
-    $uids    = explode(',', rcube_utils::get_input_value('_uid', RCUBE_INPUT_POST));
     $folders = array();
+    $uids    = rcube_utils::get_input_value('_uid', RCUBE_INPUT_POST);
+
+    if ($uids == '*') {
+      $index = $storage->index(null, rcmail_sort_column(), rcmail_sort_order());
+      $uids  = $index->get();
+    }
+    else {
+      $uids = explode(',', $uids);
+    }
 
     foreach ($uids as $uid) {
       if (!$archive_folder || !($message = $rcmail->storage->get_message($uid))) {
