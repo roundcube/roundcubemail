@@ -55,7 +55,6 @@ function rcube_list_widget(list, p)
   this.column_fixed = null;
   this.last_selected = 0;
   this.shift_start = 0;
-  this.in_selection_before = false;
   this.focused = false;
   this.drag_mouse_start = null;
   this.dblclick_time = 500; // default value on MS Windows is 500
@@ -405,20 +404,15 @@ drag_column: function(e, col)
 drag_row: function(e, id)
 {
   // don't do anything (another action processed before)
-  var evtarget = rcube_event.get_target(e),
-    tagname = evtarget.tagName.toLowerCase();
-
-  if (evtarget && (tagname == 'input' || tagname == 'img' || (tagname != 'a' && evtarget.onclick)))
+  if (!this.is_event_target(e))
     return true;
 
   // accept right-clicks
   if (rcube_event.get_button(e) == 2)
     return true;
 
-  this.in_selection_before = e && e.istouch || this.in_selection(id) ? id : false;
-
   // selects currently unselected row
-  if (!this.in_selection_before) {
+  if (!(e && e.istouch || this.in_selection(id))) {
     var mod_key = rcube_event.get_modifier(e);
     this.select_row(id, mod_key, false);
   }
@@ -446,22 +440,18 @@ drag_row: function(e, id)
  */
 click_row: function(e, id)
 {
-  var now = new Date().getTime(),
-    mod_key = rcube_event.get_modifier(e),
-    evtarget = rcube_event.get_target(e),
-    tagname = evtarget.tagName.toLowerCase();
-
-  if ((evtarget && (tagname == 'input' || tagname == 'img')))
+  // don't do anything (another action processed before)
+  if (!this.is_event_target(e))
     return true;
 
-  var dblclicked = now - this.rows[id].clicked < this.dblclick_time;
+  var now = new Date().getTime(),
+    dblclicked = now - this.rows[id].clicked < this.dblclick_time;
 
-  // selects/unselects currently selected row
-  if (!this.drag_active && this.in_selection_before == id && !dblclicked)
-    this.select_row(id, mod_key, true);
+  // selects (or unselects currently selected) row
+  if (!this.drag_active && !dblclicked)
+    this.select_row(id, rcube_event.get_modifier(e), true);
 
   this.drag_start = false;
-  this.in_selection_before = false;
 
   // row was double clicked
   if (this.rowcount && dblclicked && this.in_selection(id)) {
@@ -479,6 +469,18 @@ click_row: function(e, id)
 
   this.rows[id].clicked = now;
   return false;
+},
+
+
+/**
+ * Check target of the current event
+ */
+is_event_target: function(e)
+{
+  var target = rcube_event.get_target(e),
+    tagname = target.tagName.toLowerCase();
+
+  return !(target && (tagname == 'input' || tagname == 'img' || (tagname != 'a' && target.onclick)));
 },
 
 
@@ -856,14 +858,8 @@ select_first: function(mod_key)
 {
   var row = this.get_first_row();
   if (row) {
-    if (mod_key) {
-      this.shift_select(row, mod_key);
-      this.triggerEvent('select');
-      this.scrollto(row);
-    }
-    else {
-      this.select(row);
-    }
+    this.select_row(row, mod_key, false);
+    this.scrollto(row);
   }
 },
 
@@ -875,14 +871,8 @@ select_last: function(mod_key)
 {
   var row = this.get_last_row();
   if (row) {
-    if (mod_key) {
-      this.shift_select(row, mod_key);
-      this.triggerEvent('select');
-      this.scrollto(row);
-    }
-    else {
-      this.select(row);
-    }
+    this.select_row(row, mod_key, false);
+    this.scrollto(row);
   }
 },
 
@@ -1255,14 +1245,15 @@ scrollto: function(id)
       scroll_to = Number(row.offsetTop);
     }
 
-    if(this.fixed_header)
+    if (this.fixed_header)
       head_offset = Number(this.thead.offsetHeight);
-    
+
     // if row is above the frame (or behind header)
     if (scroll_to < Number(this.frame.scrollTop) + head_offset) {
       // scroll window so that row isn't behind header
       this.frame.scrollTop = scroll_to - head_offset;
-    } else if (scroll_to + Number(row.offsetHeight) > Number(this.frame.scrollTop) + Number(this.frame.offsetHeight))
+    }
+    else if (scroll_to + Number(row.offsetHeight) > Number(this.frame.scrollTop) + Number(this.frame.offsetHeight))
       this.frame.scrollTop = (scroll_to + Number(row.offsetHeight)) - Number(this.frame.offsetHeight);
   }
 },

@@ -2062,12 +2062,14 @@ function rcube_webmail()
 
     if (name && (frame = this.get_frame_element(name))) {
       if (!show && (win = this.get_frame_window(name))) {
-        if (win.stop)
-          win.stop();
-        else // IE
-          win.document.execCommand('Stop');
+        if (win.location.href.indexOf(this.env.blankpage) < 0) {
+          if (win.stop)
+            win.stop();
+          else // IE
+            win.document.execCommand('Stop');
 
-        win.location.href = this.env.blankpage;
+          win.location.href = this.env.blankpage;
+        }
       }
       else if (!bw.safari && !bw.konq)
         $(frame)[show ? 'show' : 'hide']();
@@ -3030,9 +3032,12 @@ function rcube_webmail()
   // test if purge command is allowed
   this.purge_mailbox_test = function()
   {
-    return (this.env.exists && (this.env.mailbox == this.env.trash_mailbox || this.env.mailbox == this.env.junk_mailbox
-      || this.env.mailbox.match('^' + RegExp.escape(this.env.trash_mailbox) + RegExp.escape(this.env.delimiter))
-      || this.env.mailbox.match('^' + RegExp.escape(this.env.junk_mailbox) + RegExp.escape(this.env.delimiter))));
+    return (this.env.exists && (
+      this.env.mailbox == this.env.trash_mailbox
+      || this.env.mailbox == this.env.junk_mailbox
+      || this.env.mailbox.indexOf(this.env.trash_mailbox + this.env.delimiter) == 0
+      || this.env.mailbox.indexOf(this.env.junk_mailbox + this.env.delimiter) == 0
+    ));
   };
 
 
