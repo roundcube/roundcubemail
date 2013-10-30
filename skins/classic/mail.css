@@ -989,6 +989,7 @@ table.messagelist.fixedcopy
 #listmenu
 {
   padding: 6px;
+  max-height: none;
 }
 
 #listmenu legend
