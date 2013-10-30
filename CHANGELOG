@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix an issue where using arrow keys to go up a list can result in selected message being under headers (#1489403)
+- Fix an issue where Home/End keys don't focus list row properly, don't scrollTo properly (#1489396)
 - Add an option to disable smart Reply-List behaviour - reply_all_mode (#1488734)
 - Fix an issue where pressing minus key on contacts list was hiding list records (#1489393)
 - Fix an issue where shift + arrow-up key wasn't selecting all messages in collapsed thread (#1489397)
