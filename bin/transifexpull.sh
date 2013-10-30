@@ -3,6 +3,9 @@
 # In 'translator' mode files will contain empty translated texts
 # where translation is not available, we'll remove these later
 
+# Note: there's a bug in txclib, so if the command below doesn't
+# work see https://github.com/transifex/transifex-client/commit/a80320735973dd608b48520bf3b89ad53e2b088b
+
 tx --debug pull -a --mode translator
 
 PWD=`dirname "$0"`
