@@ -208,7 +208,17 @@ class archive extends rcube_plugin
       $rcmail->output->show_message($this->gettext('archived'), 'confirmation');
     }
 
-    $rcmail->output->command('plugin.move2archive_response', $result);
+    if ($_POST['_from'] == 'show' && !empty($result['update'])) {
+      if ($next = get_input_value('_next_uid', RCUBE_INPUT_GPC)) {
+        $rcmail->output->command('show_message', $next);
+      }
+      else {
+        $rcmail->output->command('command', 'list');
+      }
+    }
+    else {
+      $rcmail->output->command('plugin.move2archive_response', $result);
+    }
   }
 
   /**
