@@ -2062,12 +2062,14 @@ function rcube_webmail()
 
     if (name && (frame = this.get_frame_element(name))) {
       if (!show && (win = this.get_frame_window(name))) {
-        if (win.stop)
-          win.stop();
-        else // IE
-          win.document.execCommand('Stop');
+        if (win.location.href.indexOf(this.env.blankpage) < 0) {
+          if (win.stop)
+            win.stop();
+          else // IE
+            win.document.execCommand('Stop');
 
-        win.location.href = this.env.blankpage;
+          win.location.href = this.env.blankpage;
+        }
       }
       else if (!bw.safari && !bw.konq)
         $(frame)[show ? 'show' : 'hide']();
