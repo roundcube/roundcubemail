@@ -90,6 +90,7 @@ switch ($CURR_SECTION)
       'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
       'default_font'       => get_input_value('_default_font', RCUBE_INPUT_POST),
       'default_font_size'  => get_input_value('_default_font_size', RCUBE_INPUT_POST),
+      'reply_all_mode'     => intval($_POST['_reply_all_mode']),
       'forward_attachment' => !empty($_POST['_forward_attachment']),
     );
 

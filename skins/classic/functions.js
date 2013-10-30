@@ -625,7 +625,7 @@ prev_sibling: function(elm)
 
 enable_command: function(p)
 {
-  if (p.command == 'reply-list') {
+  if (p.command == 'reply-list' && rcmail.env.reply_all_mode == 1) {
     var label = rcmail.gettext(p.status ? 'replylist' : 'replyall');
     $('a.button.replyAll').attr('title', label);
   }

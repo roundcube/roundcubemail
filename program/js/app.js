@@ -1065,7 +1065,7 @@ function rcube_webmail()
           url = {_reply_uid: uid, _mbox: this.env.mailbox};
           if (command == 'reply-all')
             // do reply-list, when list is detected and popup menu wasn't used
-            url._all = (!props && this.commands['reply-list'] ? 'list' : 'all');
+            url._all = (!props && this.env.reply_all_mode == 1 && this.commands['reply-list'] ? 'list' : 'all');
           else if (command == 'reply-list')
             url._all = 'list';
 

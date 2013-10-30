@@ -493,6 +493,9 @@ $labels['standardwindows'] = 'Handle popups as standard windows';
 $labels['forwardmode'] = 'Messages forwarding';
 $labels['inline'] = 'inline';
 $labels['asattachment'] = 'as attachment';
+$labels['replyallmode'] = 'Default action of [Reply all] button';
+$labels['replyalldefault'] = 'reply to all';
+$labels['replyalllist'] = 'reply to mailing list only (if found)';
 
 $labels['folder']  = 'Folder';
 $labels['folders']  = 'Folders';
