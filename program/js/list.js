@@ -412,7 +412,7 @@ drag_row: function(e, id)
     return true;
 
   // selects currently unselected row
-  if (e && e.istouch || this.in_selection(id)) {
+  if (!(e && e.istouch || this.in_selection(id))) {
     var mod_key = rcube_event.get_modifier(e);
     this.select_row(id, mod_key, false);
   }
