@@ -2742,9 +2742,6 @@ function rcube_webmail()
       }
     }
 
-    if (this.env.display_next && this.env.next_uid)
-      post_data._next_uid = this.env.next_uid;
-
     if (count < 0)
       post_data._count = (count*-1);
     // remove threads from the end of the list
@@ -2779,6 +2776,9 @@ function rcube_webmail()
     // also send search request to get the right messages
     if (this.env.search_request)
       data._search = this.env.search_request;
+
+    if (this.env.display_next && this.env.next_uid)
+      post_data._next_uid = this.env.next_uid;
 
     return data;
   };
