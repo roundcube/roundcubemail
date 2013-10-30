@@ -110,19 +110,20 @@ class archive extends rcube_plugin
    */
   function move_messages()
   {
-    $rcmail = rcmail::get_instance();
     $this->add_texts('localization');
 
-    $storage = $rcmail->get_storage();
+    $rcmail         = rcmail::get_instance();
+    $storage        = $rcmail->get_storage();
+    $delimiter      = $storage->get_hierarchy_delimiter();
+    $archive_folder = $rcmail->config->get('archive_mbox');
+    $archive_type   = $rcmail->config->get('archive_type', '');
+
     $storage->set_folder(($current_mbox = rcube_utils::get_input_value('_mbox', RCUBE_INPUT_POST)));
 
-    $delimiter = $storage->get_hierarchy_delimiter();
-    $archive_folder = $rcmail->config->get('archive_mbox');
-    $archive_type = $rcmail->config->get('archive_type', '');
+    $result  = array('reload' => false, 'update' => false, 'errors' => array());
+    $uids    = explode(',', rcube_utils::get_input_value('_uid', RCUBE_INPUT_POST));
+    $folders = array();
 
-    $result = array('reload' => false, 'update' => false, 'errors' => array());
-
-    $uids = explode(',', rcube_utils::get_input_value('_uid', RCUBE_INPUT_POST));
     foreach ($uids as $uid) {
       if (!$archive_folder || !($message = $rcmail->storage->get_message($uid))) {
         continue;
@@ -164,12 +165,24 @@ class archive extends rcube_plugin
       }
 
       // compose full folder path
-      $folder =  $archive_folder . ($subfolder ? $delimiter . $subfolder : '');
+      $folder = $archive_folder . ($subfolder ? $delimiter . $subfolder : '');
 
       // create archive subfolder if it doesn't yet exist
-      if (!$storage->folder_exists($folder, false)) {
-        if ($storage->create_folder($folder, true))
-          $result['reload'] = true;
+      // we'll create all folders in the path
+      if (!in_array($folder, $folders)) {
+        $list = $storage->list_folders('', $archive_folder . '*', 'mail', null, true);
+        $path = explode($delimiter, $folder);
+
+        for ($i=0; $i<count($path); $i++) {
+          $_folder = implode($delimiter, array_slice($path, 0, $i+1));
+          if (!in_array($_folder, $list)) {
+            if ($storage->create_folder($_folder, true)) {
+              $result['reload'] = true;
+            }
+          }
+        }
+
+        $folders[] = $folder;
       }
 
       // move message to target folder
