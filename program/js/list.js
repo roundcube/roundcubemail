@@ -412,15 +412,18 @@ drag_row: function(e, id)
   if (rcube_event.get_button(e) == 2)
     return true;
 
+  this.in_selection_before = e && e.istouch || this.in_selection(id) ? id : false;
+
   // selects currently unselected row
-  if (!(e && e.istouch || this.in_selection(id))) {
+  if (!this.in_selection_before) {
     var mod_key = rcube_event.get_modifier(e);
-    this.select_row(id, mod_key, false);
+    this.select_row(id, mod_key, true);
   }
 
   if (this.draggable && this.selection.length && this.in_selection(id)) {
     this.drag_start = true;
     this.drag_mouse_start = rcube_event.get_mouse_pos(e);
+
     rcube_event.add_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
     rcube_event.add_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
     if (bw.touch) {
@@ -448,11 +451,12 @@ click_row: function(e, id)
   var now = new Date().getTime(),
     dblclicked = now - this.rows[id].clicked < this.dblclick_time;
 
-  // selects (or unselects currently selected) row
-  if (!this.drag_active && !dblclicked)
+  // unselects currently selected row
+  if (!this.drag_active && !dblclicked && this.in_selection_before == id)
     this.select_row(id, rcube_event.get_modifier(e), true);
 
   this.drag_start = false;
+  this.in_selection_before = false;
 
   // row was double clicked
   if (this.rowcount && dblclicked && this.in_selection(id)) {
@@ -772,6 +776,7 @@ get_cell: function(row, index)
 select_row: function(id, mod_key, with_mouse)
 {
   var select_before = this.selection.join(',');
+
   if (!this.multiselect)
     mod_key = 0;
 
@@ -802,6 +807,7 @@ select_row: function(id, mod_key, with_mouse)
         this.highlight_row(id, false);
         break;
     }
+
     this.multi_selecting = true;
   }
 
