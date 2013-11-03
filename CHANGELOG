@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix issue where mails with inline images of the same name contained only the first image multiple times (#1489406)
 - Use left/right arrow keys to collapse/expand thread and spacebar to select a row, change Ctrl key behavior (#1489392)
 - Fix an issue where using arrow keys to go up a list can result in selected message being under headers (#1489403)
 - Fix an issue where Home/End keys don't focus list row properly, don't scrollTo properly (#1489396)
