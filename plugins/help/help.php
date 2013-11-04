@@ -33,6 +33,11 @@ class help extends rcube_plugin
         $this->register_action('about', array($this, 'action'));
         $this->register_action('license', array($this, 'action'));
 
+        $this->add_hook('startup', array($this, 'startup'));
+    }
+
+    function startup($args)
+    {
         $rcmail = rcmail::get_instance();
 
         // add taskbar button
