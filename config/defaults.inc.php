@@ -496,7 +496,7 @@ $config['message_sort_order'] = 'DESC';
 
 // These cols are shown in the message list. Available cols are:
 // subject, from, to, fromto, cc, replyto, date, size, status, flag, attachment, 'priority'
-$config['list_cols'] = array('subject', 'status', 'fromto', 'date', 'size', 'flag', 'attachment');
+$config['list_cols'] = array('subject', 'status', 'fromto', 'date', 'size', 'flag', 'attachment', 'focus');
 
 // the default locale setting (leave empty for auto-detection)
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR

@@ -74,7 +74,7 @@ input.button:active {
 	left: 10px;
 }
 
-.records-table tr.selected td {
+.records-table tr.selected td, .records-table tr.focused > td.focus {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#019bc6', endColorstr='#017cb4', GradientType=0);
 }
 

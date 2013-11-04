@@ -1296,6 +1296,15 @@ table.records-table {
 	border-left: 0;
 }
 
+.records-table td.focus {
+	width: 2px;
+}
+
+.records-table tr.selected > td.focus {
+	filter: none;
+	background: white;
+}
+
 .records-table tr.selected td, .records-table tr.focused > td.focus {
 	color: #fff !important;
 	background: #019bc6;
@@ -1326,25 +1335,6 @@ table.records-table {
 	color: #ccc !important;
 }
 
-.records-table td.focus {
-	/*background: none repeat scroll 0 0 rgba(0, 0, 0, 0);*/
-	width: 2px;
-}
- .records-table tr.focused > td.focus {
-    border-bottom: 1px solid #017cb4;
-    border-top: 1px double #019bc6;
- }
-
-.records-table tr.selected.focused > td.focus {
-	background: none repeat scroll 0 0 white;
-	border-top: none;
-	border-bottom: 1px solid #ddd;
-}
-/*
-.records-table tr.focused > td.focus {
-	background: #019bc6 !important;
-}
-*/
 /*** iFrames ***/
 
 #aboutframe {

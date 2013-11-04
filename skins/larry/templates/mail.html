@@ -175,7 +175,7 @@
 </div>
 
 <div id="listoptions" class="propform popupdialog">
-<roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
+	<roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
 	<fieldset class="floating">
 		<legend><roundcube:label name="listcolumns" /></legend>
 		<ul class="proplist">
@@ -192,6 +192,7 @@
 			<li><label><input type="checkbox" name="list_col[]" value="attachment" /> <span><roundcube:label name="attachment" /></span></label></li>
 			<li><label><input type="checkbox" name="list_col[]" value="flag" /> <span><roundcube:label name="flag" /></span></label></li>
 			<li><label><input type="checkbox" name="list_col[]" value="priority" /> <span><roundcube:label name="priority" /></span></label></li>
+			<li><label><input type="checkbox" name="list_col[]" value="focus" /> <span><roundcube:label name="focus" /></span></label></li>		
 		</ul>
 	</fieldset>
 	<roundcube:endif />
