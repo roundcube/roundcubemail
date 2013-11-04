@@ -615,22 +615,39 @@ else {
 }
 
 // add stored attachments, if any
-if (is_array($COMPOSE['attachments']))
-{
+if (is_array($COMPOSE['attachments'])) {
   foreach ($COMPOSE['attachments'] as $id => $attachment) {
     // This hook retrieves the attachment contents from the file storage backend
     $attachment = $RCMAIL->plugins->exec_hook('attachment_get', $attachment);
 
-    $dispurl = '/\ssrc\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\s\'"]*/';
-    $message_body = $MAIL_MIME->getHTMLBody();
-    if ($isHtml && (preg_match($dispurl, $message_body) > 0)) {
-      $message_body = preg_replace($dispurl, ' src="'.$attachment['name'].'" ', $message_body);
+    if ($isHtml) {
+      $dispurl      = '/\ssrc\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\s\'"]*/';
+      $message_body = $MAIL_MIME->getHTMLBody();
+      $is_inline    = preg_match($dispurl, $message_body);
+    }
+    else {
+      $is_inline = false;
+    }
+
+    // inline image
+    if ($is_inline) {
+      // Mail_Mime does not support many inline attachments with the same name (#1489406)
+      // we'll generate cid: urls here to workaround this
+      $cid = preg_replace('/[^0-9a-zA-Z]/', '', uniqid(time(), true));
+      if (preg_match('#(@[0-9a-zA-Z\-\.]+)#', $from, $matches)) {
+        $cid .= $matches[1];
+      } else {
+        $cid .= '@localhost';
+      }
+
+      $message_body = preg_replace($dispurl, ' src="cid:' . $cid . '" ', $message_body);
+
       $MAIL_MIME->setHTMLBody($message_body);
 
       if ($attachment['data'])
-        $MAIL_MIME->addHTMLImage($attachment['data'], $attachment['mimetype'], $attachment['name'], false);
+        $MAIL_MIME->addHTMLImage($attachment['data'], $attachment['mimetype'], $attachment['name'], false, $cid);
       else
-        $MAIL_MIME->addHTMLImage($attachment['path'], $attachment['mimetype'], $attachment['name'], true);
+        $MAIL_MIME->addHTMLImage($attachment['path'], $attachment['mimetype'], $attachment['name'], true, $cid);
     }
     else {
       $ctype = str_replace('image/pjpeg', 'image/jpeg', $attachment['mimetype']); // #1484914

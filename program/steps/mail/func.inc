@@ -1781,28 +1781,34 @@ function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'r
         }
     }
 
-    $from_idx         = null;
-    $found_idx        = null;
-    $default_identity = 0; // default identity is always first on the list
+    // decode From: address
+    $from = rcube_mime::decode_address_list($MESSAGE->headers->from, null, true, $MESSAGE->headers->charset);
+    $from = array_shift($from);
+    $from['mailto'] = strtolower($from['mailto']);
+
+    $from_idx   = null;
+    $found_idx  = array('to' => null, 'from' => null);
+    $check_from = in_array($compose_mode, array('draft', 'edit', 'reply'));
 
     // Select identity
     foreach ($identities as $idx => $ident) {
-        // use From header
-        if (in_array($compose_mode, array('draft', 'edit'))) {
-            if ($MESSAGE->headers->from == $ident['ident']) {
+        // use From: header when in edit/draft or reply-to-self
+        if ($check_from && $from['mailto'] == strtolower($ident['email_ascii'])) {
+            // remember first matching identity address
+            if ($found_idx['from'] === null) {
+                $found_idx['from'] = $idx;
+            }
+            // match identity name
+            if ($from['name'] && $ident['name'] && $from['name'] == $ident['name']) {
                 $from_idx = $idx;
                 break;
             }
         }
-        // reply to yourself
-        else if ($compose_mode == 'reply' && $MESSAGE->headers->from == $ident['ident']) {
-            $from_idx = $idx;
-            break;
-        }
-        // use replied message recipients
+        // use replied/forwarded message recipients
         else if (($found = array_search(strtolower($ident['email_ascii']), $a_recipients)) !== false) {
-            if ($found_idx === null) {
-                $found_idx = $idx;
+            // remember first matching identity address
+            if ($found_idx['to'] === null) {
+                $found_idx['to'] = $idx;
             }
             // match identity name
             if ($a_names[$found] && $ident['name'] && $a_names[$found] == $ident['name']) {
@@ -1812,9 +1818,10 @@ function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'r
         }
     }
 
-    // If matching by name+address doesn't found any matches, get first found address (identity)
+    // If matching by name+address didn't find any matches,
+    // get first found identity (address) if any
     if ($from_idx === null) {
-        $from_idx = $found_idx;
+        $from_idx = $found_idx['from'] !== null ? $found_idx['from'] : $found_idx['to'];
     }
 
     // Try Return-Path
@@ -1845,7 +1852,8 @@ function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'r
 
     $selected = $plugin['selected'];
 
-    return $identities[$selected !== null ? $selected : $default_identity];
+    // default identity is always first on the list
+    return $identities[$selected !== null ? $selected : 0];
 }
 
 // Fixes some content-type names

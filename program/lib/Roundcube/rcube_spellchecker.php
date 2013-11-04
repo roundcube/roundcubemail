@@ -104,6 +104,9 @@ class rcube_spellchecker
             }
         }
 
+        // remove possible duplicates (#1489395)
+        $languages = array_unique($languages);
+
         asort($languages);
 
         return $languages;

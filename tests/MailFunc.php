@@ -217,4 +217,52 @@ class MailFunc extends PHPUnit_Framework_TestCase
 
         $this->assertSame($identities[1], $res);
     }
+
+    /**
+     * Test identities selection (#1489378)
+     */
+    function test_rcmail_identity_select2()
+    {
+        $identities = array(
+            array(
+                'name' => 'Test 1',
+                'email_ascii' => 'addr1@domain.tld',
+                'ident' => 'Test 1 <addr1@domain.tld>',
+            ),
+            array(
+                'name' => 'Test 2',
+                'email_ascii' => 'addr2@domain.tld',
+                'ident' => 'Test 2 <addr2@domain.tld>',
+            ),
+            array(
+                'name' => 'Test 3',
+                'email_ascii' => 'addr3@domain.tld',
+                'ident' => 'Test 3 <addr3@domain.tld>',
+            ),
+            array(
+                'name' => 'Test 4',
+                'email_ascii' => 'addr2@domain.tld',
+                'ident' => 'Test 4 <addr2@domain.tld>',
+            ),
+        );
+
+        $message = new stdClass;
+        $message->headers = new rcube_message_header;
+
+        $message->headers->set('From', '<addr2@domain.tld>');
+        $res = rcmail_identity_select($message, $identities);
+        $this->assertSame($identities[1], $res);
+
+        $message->headers->set('From', 'Test 2 <addr2@domain.tld>');
+        $res = rcmail_identity_select($message, $identities);
+        $this->assertSame($identities[1], $res);
+
+        $message->headers->set('From', 'Other <addr2@domain.tld>');
+        $res = rcmail_identity_select($message, $identities);
+        $this->assertSame($identities[1], $res);
+
+        $message->headers->set('From', 'Test 4 <addr2@domain.tld>');
+        $res = rcmail_identity_select($message, $identities);
+        $this->assertSame($identities[3], $res);
+    }
 }
