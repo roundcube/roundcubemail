@@ -795,8 +795,10 @@ select_row: function(id, mod_key, with_mouse)
         break;
 
       case CONTROL_KEY:
-        if (with_mouse)
+        if (with_mouse) {
+          this.shift_start = id;
           this.highlight_row(id, true);
+        }
         break;
 
       case CONTROL_SHIFT_KEY:
