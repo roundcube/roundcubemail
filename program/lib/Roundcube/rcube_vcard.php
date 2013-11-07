@@ -378,7 +378,7 @@ class rcube_vcard
         default:
             if ($field == 'phone' && $this->phonetypemap[$type_uc]) {
                 $type = $this->phonetypemap[$type_uc];
-             }
+            }
 
             if (($tag = self::$fieldmap[$field]) && (is_array($value) || strlen($value))) {
                 $index = count($this->raw[$tag]);

@@ -47,7 +47,7 @@ class rcube_csv2vcard
         //'business_street_2'     => '',
         //'business_street_3'     => '',
         'car_phone'             => 'phone:car',
-        'categories'            => 'categories',
+        'categories'            => 'groups',
         //'children'              => '',
         'company'               => 'organization',
         //'company_main_phone'    => '',
@@ -146,6 +146,9 @@ class rcube_csv2vcard
         'work_title'            => 'jobtitle',
         'work_zip'              => 'zipcode:work',
         'group'                 => 'groups',
+
+        // GMail
+        'groups'                => 'groups',
     );
 
     /**
@@ -425,6 +428,11 @@ class rcube_csv2vcard
         // Handle special values
         if (!empty($contact['birthday-d']) && !empty($contact['birthday-m']) && !empty($contact['birthday-y'])) {
             $contact['birthday'] = $contact['birthday-y'] .'-' .$contact['birthday-m'] . '-' . $contact['birthday-d'];
+        }
+
+        // categories/groups separator in vCard is ',' not ';'
+        if (!empty($contact['groups'])) {
+            $contact['groups'] = str_replace(';', ',', $contact['groups']);
         }
 
         // Empty dates, e.g. "0/0/00", "0000-00-00 00:00:00"
