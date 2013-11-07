@@ -307,7 +307,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
   }
 
   $mbox = $RCMAIL->storage->get_folder();
-  
+
   // make sure 'threads' and 'subject' columns are present
   if (!in_array('subject', $a_show_cols))
     array_unshift($a_show_cols, 'subject');
@@ -471,7 +471,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
       case 'attachment':
       case 'priority':
       case 'status':
-	  case 'focus':
+      case 'focus':
         $col_name = '<span class="' . $col .'">&nbsp;</span>';
         break;
       case 'threads':
