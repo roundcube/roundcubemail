@@ -795,8 +795,10 @@ select_row: function(id, mod_key, with_mouse)
         break;
 
       case CONTROL_KEY:
-        if (with_mouse)
+        if (with_mouse) {
+          this.shift_start = id;
           this.highlight_row(id, true);
+        }
         break;
 
       case CONTROL_SHIFT_KEY:
@@ -893,7 +895,7 @@ select_children: function(uid)
 
   for (i=0; i<len; i++)
     if (!this.in_selection(children[i]))
-      this.select_row(children[i], CONTROL_KEY);
+      this.select_row(children[i], CONTROL_KEY, true);
 },
 
 
@@ -1133,13 +1135,15 @@ key_press: function(e)
       // Stop propagation so that the browser doesn't scroll
       rcube_event.cancel(e);
       return this.use_arrow_key(keyCode, mod_key);
+
     case 32:
       rcube_event.cancel(e);
       return this.select_row(this.last_selected, mod_key, true);
+
     case 37: // Left arrow key
     case 39: // Right arrow key
     case 107: // Plus sign on a numeric keypad
-    case 109: // Minus sign on a numeric keypad      
+    case 109: // Minus sign on a numeric keypad
       // Stop propagation
       rcube_event.cancel(e);
       var ret = this.use_plusminus_key(keyCode, mod_key);
@@ -1148,20 +1152,26 @@ key_press: function(e)
       this.triggerEvent('keypress');
       this.modkey = 0;
       return ret;
+
     case 36: // Home
       this.select_first(mod_key);
       return rcube_event.cancel(e);
+
     case 35: // End
       this.select_last(mod_key);
       return rcube_event.cancel(e);
+
     case 27:
       if (this.drag_active)
         return this.drag_mouse_up(e);
+
       if (this.col_drag_active) {
         this.selected_column = null;
         return this.column_drag_mouse_up(e);
       }
+
       return rcube_event.cancel(e);
+
     default:
       this.key_pressed = keyCode;
       this.modkey = mod_key;

@@ -392,7 +392,7 @@ class rcube_db
      */
     protected function _query($query, $offset, $numrows, $params)
     {
-        $query = trim($query);
+        $query = ltrim($query);
 
         $this->db_connect($this->dsn_select($query), true);
 
@@ -405,27 +405,28 @@ class rcube_db
             $query = $this->set_limit($query, $numrows, $offset);
         }
 
-        $params = (array) $params;
-
         // Because in Roundcube we mostly use queries that are
         // executed only once, we will not use prepared queries
         $pos = 0;
         $idx = 0;
 
-        while ($pos = strpos($query, '?', $pos)) {
-            if ($query[$pos+1] == '?') {  // skip escaped ?
-                $pos += 2;
-            }
-            else {
-                $val = $this->quote($params[$idx++]);
-                unset($params[$idx-1]);
-                $query = substr_replace($query, $val, $pos, 1);
-                $pos += strlen($val);
+        if (count($params)) {
+            while ($pos = strpos($query, '?', $pos)) {
+                if ($query[$pos+1] == '?') {  // skip escaped '?'
+                    $pos += 2;
+                }
+                else {
+                    $val = $this->quote($params[$idx++]);
+                    unset($params[$idx-1]);
+                    $query = substr_replace($query, $val, $pos, 1);
+                    $pos += strlen($val);
+                }
             }
         }
 
-        // replace escaped ? back to normal
-        $query = rtrim(strtr($query, array('??' => '?')), ';');
+        // replace escaped '?' back to normal, see self::quote()
+        $query = str_replace('??', '?', $query);
+        $query = rtrim($query, " \t\n\r\0\x0B;");
 
         $this->debug($query);
 
