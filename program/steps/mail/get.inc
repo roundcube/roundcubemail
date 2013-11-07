@@ -84,17 +84,18 @@ else if ($_GET['_thumb']) {
 
     // render thumbnail image if not done yet
     if (!is_file($cache_file)) {
-      $fp = fopen(($orig_name = $cache_basename . '.orig.' . $ext), 'w');
-      $MESSAGE->get_part_content($part->mime_id, $fp);
-      fclose($fp);
+      if ($fp = fopen(($orig_name = $cache_basename . '.orig.' . $ext), 'w')) {
+        $MESSAGE->get_part_content($part->mime_id, $fp);
+        fclose($fp);
 
-      $image = new rcube_image($orig_name);
-      if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
-        $mimetype = 'image/' . $imgtype;
-        unlink($orig_name);
-      }
-      else {
-        rename($orig_name, $cache_file);
+        $image = new rcube_image($orig_name);
+        if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
+          $mimetype = 'image/' . $imgtype;
+          unlink($orig_name);
+        }
+        else {
+          rename($orig_name, $cache_file);
+        }
       }
     }
 
