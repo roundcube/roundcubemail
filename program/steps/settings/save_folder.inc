@@ -5,7 +5,7 @@
  | program/steps/settings/save_folder.inc                                |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -26,8 +26,8 @@ $STORAGE = $RCMAIL->get_storage();
 
 
 $name = trim(get_input_value('_name', RCUBE_INPUT_POST, true));
-$old  = trim(get_input_value('_mbox', RCUBE_INPUT_POST, true));
-$path = trim(get_input_value('_parent', RCUBE_INPUT_POST, true));
+$old  = get_input_value('_mbox', RCUBE_INPUT_POST, true);
+$path = get_input_value('_parent', RCUBE_INPUT_POST, true);
 
 $name_imap = rcube_charset_convert($name, RCMAIL_CHARSET, 'UTF7-IMAP');
 $old_imap  = rcube_charset_convert($old, RCMAIL_CHARSET, 'UTF7-IMAP');

@@ -109,7 +109,7 @@ else if ($RCMAIL->action == 'delete-folder')
 else if ($RCMAIL->action == 'rename-folder')
 {
     $name_utf8    = trim(get_input_value('_folder_newname', RCUBE_INPUT_POST, true));
-    $oldname_utf8 = trim(get_input_value('_folder_oldname', RCUBE_INPUT_POST, true));
+    $oldname_utf8 = get_input_value('_folder_oldname', RCUBE_INPUT_POST, true);
 
     if (strlen($name_utf8) && strlen($oldname_utf8)) {
         $name    = rcube_charset_convert($name_utf8, RCMAIL_CHARSET, 'UTF7-IMAP');
@@ -167,7 +167,7 @@ else if ($RCMAIL->action == 'purge')
 // get mailbox size
 else if ($RCMAIL->action == 'folder-size')
 {
-    $name = trim(get_input_value('_mbox', RCUBE_INPUT_POST, true));
+    $name = get_input_value('_mbox', RCUBE_INPUT_POST, true);
 
     $size = $STORAGE->folder_size($name);
 

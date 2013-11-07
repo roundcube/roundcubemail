@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix operations on folders with trailing spaces in name (#1489419)
 - Improve identity selection based on From: header (#1489378)
 - Fix issue where mails with inline images of the same name contained only the first image multiple times (#1489406)
 - Use left/right arrow keys to collapse/expand thread and spacebar to select a row, change Ctrl key behavior (#1489392)

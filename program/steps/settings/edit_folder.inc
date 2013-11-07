@@ -28,11 +28,11 @@ function rcmail_folder_form($attrib)
     $storage = $RCMAIL->get_storage();
 
     // edited folder name (empty in create-folder mode)
-    $mbox      = trim(get_input_value('_mbox', RCUBE_INPUT_GPC, true));
+    $mbox      = get_input_value('_mbox', RCUBE_INPUT_GPC, true);
     $mbox_imap = rcube_charset_convert($mbox, RCMAIL_CHARSET, 'UTF7-IMAP');
 
     // predefined path for new folder
-    $parent      = trim(get_input_value('_path', RCUBE_INPUT_GPC, true));
+    $parent      = get_input_value('_path', RCUBE_INPUT_GPC, true);
     $parent_imap = rcube_charset_convert($parent, RCMAIL_CHARSET, 'UTF7-IMAP');
 
     $threading_supported = $storage->get_capability('THREAD');
