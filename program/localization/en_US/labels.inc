@@ -53,7 +53,6 @@ $labels['size']    = 'Size';
 $labels['priority'] = 'Priority';
 $labels['organization'] = 'Organization';
 $labels['readstatus'] = 'Read status';
-$labels['focus'] = 'Focus';
 $labels['listoptions'] = 'List options...';
 
 $labels['mailboxlist'] = 'Folders';

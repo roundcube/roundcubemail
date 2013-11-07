@@ -255,11 +255,15 @@ function rcmail_message_list($attrib)
 
   // save some variables for use in ajax list
   $_SESSION['list_attrib'] = $attrib;
+  
   // make sure 'threads' and 'subject' columns are present
   if (!in_array('subject', $a_show_cols))
     array_unshift($a_show_cols, 'subject');
   if (!in_array('threads', $a_show_cols))
     array_unshift($a_show_cols, 'threads');
+
+  // always put focus first
+  array_unshift($a_show_cols, 'focus');  
 
   $_SESSION['skin_path'] = $CONFIG['skin_path'];
 
@@ -303,13 +307,16 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
   }
 
   $mbox = $RCMAIL->storage->get_folder();
-
+  
   // make sure 'threads' and 'subject' columns are present
   if (!in_array('subject', $a_show_cols))
     array_unshift($a_show_cols, 'subject');
   if (!in_array('threads', $a_show_cols))
     array_unshift($a_show_cols, 'threads');
-	
+
+  // always put focus first
+  array_unshift($a_show_cols, 'focus');  
+    
   $_SESSION['list_attrib']['columns'] = $a_show_cols;
 
   // Make sure there are no duplicated columns (#1486999)
