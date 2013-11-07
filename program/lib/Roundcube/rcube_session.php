@@ -34,6 +34,7 @@ class rcube_session
     private $changed;
     private $time_diff = 0;
     private $reloaded = false;
+    private $appends = array();
     private $unsets = array();
     private $gc_handlers = array();
     private $cookiename = 'roundcube_sessauth';
@@ -441,8 +442,19 @@ class rcube_session
 
         $node = &$this->get_node(explode('.', $path), $_SESSION);
 
-        if ($key !== null) $node[$key] = $value;
-        else               $node[] = $value;
+        if ($key !== null) {
+            $node[$key] = $value;
+            $path .= '.' . $key;
+        }
+        else {
+            $node[] = $value;
+        }
+
+        $this->appends[] = $path;
+
+        // when overwriting a previously unset variable
+        if ($this->unsets[$path])
+            unset($this->unsets[$path]);
     }
 
 
@@ -491,13 +503,40 @@ class rcube_session
      */
     public function reload()
     {
+        // collect updated data from previous appends
+        $merge_data = array();
+        foreach ((array)$this->appends as $var) {
+            $path = explode('.', $var);
+            $value = $this->get_node($path, $_SESSION);
+            $k = array_pop($path);
+            $node = &$this->get_node($path, $merge_data);
+            $node[$k] = $value;
+        }
+
         if ($this->key && $this->memcache)
             $data = $this->mc_read($this->key);
         else if ($this->key)
             $data = $this->db_read($this->key);
 
-        if ($data)
+        if ($data) {
             session_decode($data);
+
+            // apply appends and unsets to reloaded data
+            $_SESSION = array_merge_recursive($_SESSION, $merge_data);
+
+            foreach ((array)$this->unsets as $var) {
+                if (isset($_SESSION[$var])) {
+                    unset($_SESSION[$var]);
+                }
+                else {
+                    $path = explode('.', $var);
+                    $k = array_pop($path);
+                    $node = &$this->get_node($path, $_SESSION);
+                    unset($node[$k]);
+                }
+            }
+        }
+
     }
 
     /**
