@@ -187,6 +187,8 @@ class rcube_ldap_simple_password
 
         $search_base   = $rcmail->config->get('password_ldap_search_base');
         $search_filter = $rcmail->config->get('password_ldap_search_filter');
+
+        $search_base   = rcube_ldap_password::substitute_vars($search_base);
         $search_filter = rcube_ldap_password::substitute_vars($search_filter);
 
         $this->_debug("C: Search $search_base for $search_filter");

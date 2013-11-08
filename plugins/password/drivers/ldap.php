@@ -146,7 +146,7 @@ class rcube_ldap_password
             return '';
         }
 
-        $base = $rcmail->config->get('password_ldap_search_base');
+        $base   = self::substitute_vars($rcmail->config->get('password_ldap_search_base'));
         $filter = self::substitute_vars($rcmail->config->get('password_ldap_search_filter'));
         $options = array (
             'scope' => 'sub',
