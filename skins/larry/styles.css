@@ -2323,6 +2323,18 @@ ul.toolbarmenu li span.conversation {
 	background-position: 0 -494px;
 }
 
+.attachmentslist li.ppt,
+.attachmentslist li.pptx,
+.attachmentslist li.ppsx,
+.attachmentslist li.vnd.mspowerpoint {
+	background-position: 0 -520px;
+}
+
+.attachmentslist li.odp,
+.attachmentslist li.otp {
+	background-position: 0 -546px;
+}
+
 .attachmentslist li a,
 #compose-attachments ul li {
 	display: block;
