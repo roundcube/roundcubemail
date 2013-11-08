@@ -2,7 +2,7 @@
  * Roundcube webmail styles for the Settings section
  *
  * Copyright (c) 2012, The Roundcube Dev Team
- * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
+ * Screendesign by FLINT / BÃ¼ro fÃ¼r Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -61,11 +61,21 @@
 
 #preferences-details fieldset.advanced .advanced-toggle {
 	position: absolute;
-	top: 2px;
+	display: block;
+	top: 0px;
 	right: 6px;
 	text-decoration: none;
 	color: #666;
 	font-size: 11px;
+	width: 20px;
+	height: 18px;
+	background: url('images/listicons.png') 0 -1157px no-repeat;
+	text-indent: 1000px;
+	overflow: hidden;
+}
+
+#preferences-details fieldset.advanced .collapsed .advanced-toggle {
+	background-position: -24px -1137px;
 }
 
 #sections-table tbody td.section,

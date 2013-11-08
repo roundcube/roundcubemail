@@ -43,7 +43,8 @@ a.deletebutton,
 .attachmentslist li a.cancelupload,
 #contacts-table td.action a,
 .previewheader .iconlink,
-.minimal #taskbar .button-inner {
+.minimal #taskbar .button-inner,
+#preferences-details fieldset.advanced .advanced-toggle {
 	/* workaround for text-indent which also offsets the background image */
 	text-indent: 0;
 	font-size: 0;

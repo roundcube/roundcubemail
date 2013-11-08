@@ -1241,7 +1241,6 @@ table.records-table {
 	display: table;
 	width: 100%;
 	table-layout: fixed;
-	border-collapse: collapse;
 	border-spacing: 0;
 	border: 1px solid #bbd3da;
 }
