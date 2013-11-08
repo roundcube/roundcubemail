@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix date column width to fit the widest possible date format (#1489368)
+- Move certain user preference options to a collapsed "advanced" block (#1488829)
+- Add file type icons for Powerpoint and Open Office presentations (#1489225)
 - Fix operations on folders with trailing spaces in name (#1489419)
 - Improve identity selection based on From: header (#1489378)
 - Fix issue where mails with inline images of the same name contained only the first image multiple times (#1489406)
