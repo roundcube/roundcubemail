@@ -113,7 +113,6 @@ function rcube_mail_ui()
         rcmail.addEventListener('aftertoggle-editor', function(){ window.setTimeout(function(){ layout_composeview() }, 200); });
         rcmail.addEventListener('aftersend-attachment', show_uploadform);
         rcmail.addEventListener('add-recipient', function(p){ show_header_row(p.field, true); });
-        layout_composeview();
 
         // Show input elements with non-empty value
         var f, v, field, fields = ['cc', 'bcc', 'replyto', 'followupto'];
@@ -132,6 +131,10 @@ function rcube_mail_ui()
           layout_composeview();
           return false;
         }).css('cursor', 'pointer');
+
+        // adjust hight when textarea starts to scroll
+        $("textarea[name='_to'], textarea[name='_cc'], textarea[name='_bcc']").change(function(e){ adjust_compose_editfields(this); }).change();
+        rcmail.addEventListener('autocomplete_insert', function(p){ adjust_compose_editfields(p.field); });
 
         // toggle compose options if opened in new window and they were visible before
         var opener_rc = rcmail.opener();
@@ -428,6 +431,16 @@ function rcube_mail_ui()
     // STUB
   }
 
+  function adjust_compose_editfields(elem)
+  {
+    if (elem.nodeName == 'TEXTAREA') {
+      var $elem = $(elem), line_height = 14,  // hard-coded because some browsers only provide the outer height in elem.clientHeight
+        content_height = elem.scrollHeight,
+        rows = elem.value.length > 80 && content_height > line_height*1.5 ? 2 : 1;
+      $elem.css('height', (line_height*rows) + 'px');
+      layout_composeview();
+    }
+  }
 
   function layout_composeview()
   {
