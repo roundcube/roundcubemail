@@ -4,9 +4,17 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 <link rel="stylesheet" type="text/css" href="/this/managesieve.css" />
+<style type="text/css">
+	div.actionrow table {
+    padding: 0px;
+    min-width: 300px;
+	}
+</style>
 </head>
 <body class="iframe<roundcube:exp expression="env:task != 'mail' ? ' floatingbuttons' : ' mail'" />">
-
+<script type="text/javascript">
+	window.rcmail_editor_settings = {width : 300};
+</script>
 <roundcube:if condition="env:task != 'mail'" />
 <div id="filter-title" class="boxtitle"><roundcube:label name="managesieve.filterdef" /></div>
 <roundcube:endif />

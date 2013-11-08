@@ -465,8 +465,12 @@ class rcube_sieve_script
                             $action_script .= " :handle " . self::escape_string($action['handle']);
                         if (!empty($action['from']))
                             $action_script .= " :from " . self::escape_string($action['from']);
-                        if (!empty($action['mime']))
+                        // if (!empty($action['mime']))
+                        //     $action_script .= " :mime";
+                        if (!empty($action['mime'])) {
                             $action_script .= " :mime";
+                            $action['reason'] = "Content-Type: text/html;\n\n" . $action['reason'];
+                        }
                         $action_script .= " " . self::escape_string($action['reason']);
                         break;
                     }
@@ -809,6 +813,7 @@ class rcube_sieve_script
 
             case 'vacation':
                 $action  = array('type' => 'vacation', 'reason' => array_pop($tokens));
+                $action['reason'] = str_replace("Content-Type: text/html;\n\n", "", $action['reason'] );
                 $args    = array('mime');
                 $vargs   = array('seconds', 'days', 'addresses', 'subject', 'handle', 'from');
                 $action += $this->action_arguments($tokens, $args, $vargs);
