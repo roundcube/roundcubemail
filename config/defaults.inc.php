@@ -252,6 +252,10 @@ $config['enable_installer'] = false;
 // don't allow these settings to be overriden by the user
 $config['dont_override'] = array();
 
+// define which settings should be listed under the 'advanced' block
+// which is hidden by default
+$config['advanced_prefs'] = array();
+
 // provide an URL where a user can get support for this Roundcube installation
 // PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!
 $config['support_url'] = '';

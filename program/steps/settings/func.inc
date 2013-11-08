@@ -1180,11 +1180,21 @@ function rcmail_user_prefs($current = null)
         $data  = $RCMAIL->plugins->exec_hook('preferences_list',
             array('section' => $sect['id'], 'blocks' => $blocks, 'current' => $current));
 
+        $advanced_prefs = $config['advanced_prefs'];
+
         // create output
-        foreach ($data['blocks'] as $block) {
+        foreach ($data['blocks'] as $key => $block) {
             if (!empty($block['content']) || !empty($block['options'])) {
                 $found = true;
-                break;
+            }
+            // move some options to the 'advanced' block as configured by admin
+            if ($key != 'advanced') {
+                foreach ($advanced_prefs as $opt) {
+                    if ($block['options'][$opt]) {
+                        $data['blocks']['advanced']['options'][$opt] = $block['options'][$opt];
+                        unset($data['blocks'][$key]['options'][$opt]);
+                    }
+                }
             }
         }
 
