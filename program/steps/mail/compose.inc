@@ -240,6 +240,9 @@ if (!empty($msg_uid) && empty($COMPOSE['as_attachment']))
       $COMPOSE['reply_msgid'] = '<' . $in_reply_to . '>';
 
     $COMPOSE['references'] = $MESSAGE->headers->references;
+
+    // use message-ID as draft_id, same as in sendmail.inc
+    $OUTPUT->set_env('draft_id', trim($MESSAGE->headers->get('message-id'), '<>'));
   }
 }
 else {

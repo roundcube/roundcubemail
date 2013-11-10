@@ -3131,13 +3131,20 @@ function rcube_webmail()
 
       for (var key, i = 0; i < index.length; i++) {
         key = index[i], formdata = this.local_storage_get_item('compose.' + key, null, true);
+        if (!formdata) {
+          continue;
+        }
         // restore saved copy of current compose_id
-        if (formdata && formdata.changed && key == this.env.compose_id) {
+        if (formdata.changed && key == this.env.compose_id) {
           this.restore_compose_form(key, html_mode);
           break;
         }
+        // skip records from 'other' drafts
+        if (this.env.draft_id && formdata.draft_id && formdata.draft_id != this.env.draft_id) {
+          continue;
+        }
         // show dialog asking to restore the message
-        if (formdata && formdata.changed && formdata.session != this.env.session_id) {
+        if (formdata.changed && formdata.session != this.env.session_id) {
           this.show_popup_dialog(
             this.get_label('restoresavedcomposedata')
               .replace('$date', new Date(formdata.changed).toLocaleString())
@@ -3669,6 +3676,10 @@ function rcube_webmail()
     // get fresh content from editor
     if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody))) {
       tinyMCE.triggerSave();
+    }
+
+    if (this.env.draft_id) {
+      formdata.draft_id = this.env.draft_id;
     }
 
     $('input, select, textarea', this.gui_objects.messageform).each(function(i, elem){
