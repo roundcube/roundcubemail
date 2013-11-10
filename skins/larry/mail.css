@@ -453,11 +453,6 @@ a.iconbutton.threadmode.selected {
 
 /*** message list ***/
 
-/* this is necessary to make FF3 display borders */
-body:-moz-last-node #messagelist {
-	border-collapse: separate;
-}
-
 table.messagelist {
 	z-index: 1;
 }

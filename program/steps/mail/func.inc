@@ -262,9 +262,6 @@ function rcmail_message_list($attrib)
   if (!in_array('threads', $a_show_cols))
     array_unshift($a_show_cols, 'threads');
 
-  // always put focus first
-  array_unshift($a_show_cols, 'focus');  
-
   $_SESSION['skin_path'] = $CONFIG['skin_path'];
 
   // set client env
@@ -314,9 +311,6 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
   if (!in_array('threads', $a_show_cols))
     array_unshift($a_show_cols, 'threads');
 
-  // always put focus first
-  array_unshift($a_show_cols, 'focus');  
-    
   $_SESSION['list_attrib']['columns'] = $a_show_cols;
 
   // Make sure there are no duplicated columns (#1486999)
@@ -342,8 +336,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
   if (empty($a_headers))
     return;
 
-  // remove 'threads', 'attachment', 'flag', 'status', 'focus' columns, we don't need them here
-  foreach (array('threads', 'attachment', 'flag', 'status', 'priority', 'focus') as $col) {
+  // remove 'threads', 'attachment', 'flag', 'status' columns, we don't need them here
+  foreach (array('threads', 'attachment', 'flag', 'status', 'priority') as $col) {
     if (($key = array_search($col, $a_show_cols)) !== FALSE)
       unset($a_show_cols[$key]);
   }
@@ -471,7 +465,6 @@ function rcmail_message_list_head($attrib, $a_show_cols)
       case 'attachment':
       case 'priority':
       case 'status':
-      case 'focus':
         $col_name = '<span class="' . $col .'">&nbsp;</span>';
         break;
       case 'threads':
