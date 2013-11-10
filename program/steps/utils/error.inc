@@ -110,6 +110,7 @@ EOF;
 
 if ($rcmail->output && $rcmail->output->template_exists('error')) {
   $rcmail->output->reset();
+  $rcmail->output->set_env('server_error', $ERROR_CODE);
   $rcmail->output->send('error');
 }
 

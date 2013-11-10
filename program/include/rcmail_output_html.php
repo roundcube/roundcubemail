@@ -310,12 +310,14 @@ class rcmail_output_html extends rcmail_output
      */
     public function reset($all = false)
     {
+        $framed = $this->framed;
         $env = $all ? null : array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
 
         parent::reset();
 
         // let some env variables survive
         $this->env = $this->js_env = $env;
+        $this->framed = $framed || $this->env['framed'];
         $this->js_labels    = array();
         $this->js_commands  = array();
         $this->script_files = array();
@@ -323,6 +325,11 @@ class rcmail_output_html extends rcmail_output
         $this->header       = '';
         $this->footer       = '';
         $this->body         = '';
+
+        // load defaults
+        if (!$all) {
+            $this->__construct();
+        }
     }
 
     /**
@@ -1203,8 +1210,6 @@ class rcmail_output_html extends rcmail_output
      */
     public function include_script($file, $position='head')
     {
-        static $sa_files = array();
-
         if (!preg_match('|^https?://|i', $file) && $file[0] != '/') {
             $file = $this->scripts_path . $file;
             if ($fs = @filemtime($file)) {
@@ -1212,17 +1217,13 @@ class rcmail_output_html extends rcmail_output
             }
         }
 
-        if (in_array($file, $sa_files)) {
-            return;
-        }
-
-        $sa_files[] = $file;
-
         if (!is_array($this->script_files[$position])) {
             $this->script_files[$position] = array();
         }
 
-        $this->script_files[$position][] = $file;
+        if (!in_array($file, $this->script_files[$position])) {
+            $this->script_files[$position][] = $file;
+        }
     }
 
     /**
