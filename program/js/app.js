@@ -187,6 +187,8 @@ function rcube_webmail()
     if (this.env.permaurl)
       this.enable_command('permaurl', 'extwin', true);
 
+    this.local_storage_prefix = 'roundcube.' + (this.env.user_id || 'anonymous') + '.';
+
     switch (this.task) {
 
       case 'mail':
@@ -578,9 +580,12 @@ function rcube_webmail()
     }
 
     // check input before leaving compose step
-    if (this.task == 'mail' && this.env.action == 'compose' && $.inArray(command, this.env.compose_commands)<0) {
+    if (this.task == 'mail' && this.env.action == 'compose' && $.inArray(command, this.env.compose_commands) < 0 && !this.env.server_error) {
       if (this.cmp_hash != this.compose_field_hash() && !confirm(this.get_label('notsentwarning')))
         return false;
+
+      // remove copy from local storage if compose screen is left intentionally
+      this.remove_compose_data(this.env.compose_id);
     }
 
     // process external commands
@@ -615,10 +620,10 @@ function rcube_webmail()
         break;
 
       // commands to switch task
+      case 'logout':
       case 'mail':
       case 'addressbook':
       case 'settings':
-      case 'logout':
         this.switch_task(command);
         break;
 
@@ -638,6 +643,7 @@ function rcube_webmail()
           var form = this.gui_objects.messageform,
             win = this.open_window('');
 
+          this.save_compose_form_local();
           $("input[name='_action']", form).val('compose');
           form.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
           form.target = win.name;
@@ -1292,8 +1298,10 @@ function rcube_webmail()
       return;
 
     var url = this.get_task_url(task);
-    if (task=='mail')
+    if (task == 'mail')
       url += '&_mbox=INBOX';
+    else if (task == 'logout')
+      this.clear_compose_data();
 
     this.redirect(url);
   };
@@ -3117,6 +3125,53 @@ function rcube_webmail()
       }
     }
 
+    // check for locally stored compose data
+    if (window.localStorage) {
+      var index = this.local_storage_get_item('compose.index', []);
+
+      for (var key, i = 0; i < index.length; i++) {
+        key = index[i], formdata = this.local_storage_get_item('compose.' + key, null, true);
+        // restore saved copy of current compose_id
+        if (formdata && formdata.changed && key == this.env.compose_id) {
+          this.restore_compose_form(key, html_mode);
+          break;
+        }
+        // show dialog asking to restore the message
+        if (formdata && formdata.changed && formdata.session != this.env.session_id) {
+          this.show_popup_dialog(
+            this.get_label('restoresavedcomposedata')
+              .replace('$date', new Date(formdata.changed).toLocaleString())
+              .replace('$subject', formdata._subject)
+              .replace(/\n/g, '<br/>'),
+            this.get_label('restoremessage'),
+            [{
+              text: this.get_label('restore'),
+              click: function(){
+                ref.restore_compose_form(key, html_mode);
+                ref.remove_compose_data(key);  // remove old copy
+                ref.save_compose_form_local();  // save under current compose_id
+                $(this).dialog('close');
+              }
+            },
+            {
+              text: this.get_label('delete'),
+              click: function(){
+                ref.remove_compose_data(key);
+                $(this).dialog('close');
+              }
+            },
+            {
+              text: this.get_label('cancel'),
+              click: function(){
+                $(this).dialog('close');
+              }
+            }]
+          );
+          break;
+        }
+      }
+    }
+
     if (input_to.val() == '')
       input_to.focus();
     else if (input_subject.val() == '')
@@ -3554,12 +3609,19 @@ function rcube_webmail()
 
     this.env.draft_id = id;
     $("input[name='_draft_saveid']").val(id);
+
+    this.remove_compose_data(this.env.compose_id);
   };
 
   this.auto_save_start = function()
   {
     if (this.env.draft_autosave)
       this.save_timer = setTimeout(function(){ ref.command("savedraft"); }, this.env.draft_autosave * 1000);
+
+    // save compose form content to local storage every 10 seconds
+    // TODO: track typing activity and only save on changes
+    if (!this.local_save_timer && window.localStorage)
+      this.local_save_timer = setInterval(function(){ ref.save_compose_form_local(); }, 10000);
 
     // Unlock interface now that saving is complete
     this.busy = false;
@@ -3588,6 +3650,109 @@ function rcube_webmail()
 
     return str;
   };
+
+  // store the contents of the compose form to localstorage
+  this.save_compose_form_local = function()
+  {
+    var formdata = { session:this.env.session_id, changed:new Date().getTime() },
+      ed, empty = true;
+
+    // get fresh content from editor
+    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody))) {
+      tinyMCE.triggerSave();
+    }
+
+    $('input, select, textarea', this.gui_objects.messageform).each(function(i, elem){
+      switch (elem.tagName.toLowerCase()) {
+        case 'input':
+          if (elem.type == 'button' || elem.type == 'submit' || (elem.type == 'hidden' && elem.name != '_is_html')) {
+            break;
+          }
+          formdata[elem.name] = elem.type != 'checkbox' || elem.checked ? elem.value : '';
+
+          if (formdata[elem.name] != '' && elem.type != 'hidden')
+            empty = false;
+          break;
+
+        case 'select':
+          formdata[elem.name] = $('option:checked', elem).val();
+          break;
+
+        default:
+          formdata[elem.name] = $(elem).val();
+      }
+    });
+
+    if (window.localStorage && !empty) {
+      var index = this.local_storage_get_item('compose.index', []),
+        key = this.env.compose_id;
+
+        if (index.indexOf(key) < 0) {
+          index.push(key);
+        }
+        this.local_storage_set_item('compose.' + key, formdata, true);
+        this.local_storage_set_item('compose.index', index);
+    }
+  };
+
+  // write stored compose data back to form
+  this.restore_compose_form = function(key, html_mode)
+  {
+    var ed, formdata = this.local_storage_get_item('compose.' + key, true);
+
+    if (formdata && typeof formdata == 'object') {
+      $.each(formdata, function(k, value){
+        if (k[0] == '_') {
+          var elem = $("*[name='"+k+"']");
+          if (elem[0] && elem[0].type == 'checkbox') {
+            elem.prop('checked', value != '');
+          }
+          else {
+            elem.val(value);
+          }
+        }
+      });
+
+      // initialize HTML editor
+      if (formdata._is_html == '1') {
+        if (!html_mode) {
+          tinyMCE.execCommand('mceAddControl', false, this.env.composebody);
+          this.triggerEvent('aftertoggle-editor', { mode:'html' });
+        }
+      }
+      else if (html_mode) {
+        tinyMCE.execCommand('mceRemoveControl', false, this.env.composebody);
+        this.triggerEvent('aftertoggle-editor', { mode:'plain' });
+      }
+    }
+  };
+
+  // remove stored compose data from localStorage
+  this.remove_compose_data = function(key)
+  {
+    if (window.localStorage) {
+      var index = this.local_storage_get_item('compose.index', []);
+
+      if (index.indexOf(key) >= 0) {
+        this.local_storage_remove_item('compose.' + key);
+        this.local_storage_set_item('compose.index', $.grep(index, function(val,i){ return val != key; }));
+      }
+    }
+  };
+
+  // clear all stored compose data of this user
+  this.clear_compose_data = function()
+  {
+    if (window.localStorage) {
+      var index = this.local_storage_get_item('compose.index', []);
+
+      for (var i=0; i < index.length; i++) {
+        this.local_storage_remove_item('compose.' + index[i]);
+      }
+      this.local_storage_remove_item('compose.index');
+    }
+  }
+
 
   this.change_identity = function(obj, show_sig)
   {
@@ -6709,6 +6874,20 @@ function rcube_webmail()
       setTimeout(function(){ ref.keep_alive(); ref.start_keepalive(); }, 30000);
   };
 
+  // handler for session errors detected on the server
+  this.session_error = function(redirect_url)
+  {
+    this.env.server_error = 401;
+
+    // save message in local storage and do not redirect
+    if (this.env.action == 'compose') {
+      this.save_compose_form_local();
+    }
+    else if (redirect_url) {
+      window.setTimeout(function(){ ref.redirect(redirect_url, true); }, 2000);
+    }
+  };
+
   // callback when an iframe finished loading
   this.iframe_loaded = function(unlock)
   {
@@ -7230,7 +7409,28 @@ function rcube_webmail()
   this.set_cookie = function(name, value, expires)
   {
     setCookie(name, value, expires, this.env.cookie_path, this.env.cookie_domain, this.env.cookie_secure);
-  }
+  };
+
+  // wrapper for localStorage.getItem(key)
+  this.local_storage_get_item = function(key, deflt, encrypted)
+  {
+    // TODO: add encryption
+    var item = localStorage.getItem(this.local_storage_prefix + key);
+    return item !== null ? JSON.parse(item) : (deflt || null);
+  };
+
+  // wrapper for localStorage.setItem(key, data)
+  this.local_storage_set_item = function(key, data, encrypted)
+  {
+    // TODO: add encryption
+    return localStorage.setItem(this.local_storage_prefix + key, JSON.stringify(data));
+  };
+
+  // wrapper for localStorage.removeItem(key)
+  this.local_storage_remove_item = function(key)
+  {
+    return localStorage.removeItem(this.local_storage_prefix + key);
+  };
 
 }  // end object rcube_webmail
 

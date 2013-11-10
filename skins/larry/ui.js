@@ -110,7 +110,11 @@ function rcube_mail_ui()
         });
       }
       else if (rcmail.env.action == 'compose') {
-        rcmail.addEventListener('aftertoggle-editor', function(){ window.setTimeout(function(){ layout_composeview() }, 200); });
+        rcmail.addEventListener('aftertoggle-editor', function(e){
+          window.setTimeout(function(){ layout_composeview() }, 200);
+          if (e && e.mode)
+            $("select[name='editorSelector']").val(e.mode);
+        });
         rcmail.addEventListener('aftersend-attachment', show_uploadform);
         rcmail.addEventListener('add-recipient', function(p){ show_header_row(p.field, true); });
 

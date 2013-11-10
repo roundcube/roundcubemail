@@ -232,6 +232,9 @@ $labels['checkspelling'] = 'Check spelling';
 $labels['resumeediting'] = 'Resume editing';
 $labels['revertto']      = 'Revert to';
 
+$labels['restore'] = 'Restore';
+$labels['restoremessage'] = 'Restore message?';
+
 $labels['responses'] = 'Responses';
 $labels['insertresponse'] = 'Insert a response';
 $labels['manageresponses'] = 'Manage responses';

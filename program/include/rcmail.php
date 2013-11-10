@@ -413,6 +413,9 @@ class rcmail extends rcube
     $this->output->set_env('comm_path', $this->comm_path);
     $this->output->set_charset(RCUBE_CHARSET);
 
+    if ($this->user && $this->user->ID)
+      $this->output->set_env('user_id', $this->user->get_hash());
+
     // add some basic labels to client
     $this->output->add_label('loading', 'servererror', 'requesttimedout', 'refreshing');
 

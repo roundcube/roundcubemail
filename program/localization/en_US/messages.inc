@@ -84,6 +84,7 @@ $messages['norecipientwarning'] = 'Please enter at least one recipient.';
 $messages['nosubjectwarning']  = 'The "Subject" field is empty. Would you like to enter one now?';
 $messages['nobodywarning'] = 'Send this message without text?';
 $messages['notsentwarning'] = 'Message has not been sent. Do you want to discard your message?';
+$messages['restoresavedcomposedata'] = 'A previously composed but unsent message was found.\n\nSubject: $subject\nSaved: $date\n\nDo you want to restore this message?';
 $messages['noldapserver'] = 'Please select an ldap server to search.';
 $messages['nosearchname'] = 'Please enter a contact name or email address.';
 $messages['notuploadedwarning'] = 'Not all attachments have been uploaded yet. Please wait or cancel the upload.';

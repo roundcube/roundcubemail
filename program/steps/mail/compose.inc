@@ -110,9 +110,10 @@ $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubj
     'nobodywarning', 'notsentwarning', 'notuploadedwarning', 'savingmessage', 'sendingmessage', 
     'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
     'fileuploaderror', 'sendmessage', 'savenewresponse', 'responsename', 'responsetext', 'save',
-    'savingresponse');
+    'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore');
 
 $OUTPUT->set_env('compose_id', $COMPOSE['id']);
+$OUTPUT->set_env('session_id', session_id());
 $OUTPUT->set_pagetitle(rcube_label('compose'));
 
 // add config parameters to client script
@@ -826,6 +827,9 @@ function rcmail_compose_body($attrib)
 
   $msgtype = new html_hiddenfield(array('name' => '_is_html', 'value' => ($isHtml?"1":"0")));
   $out .= $msgtype->show();
+
+  $framed = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
+  $out .= $framed->show();
 
   // If desired, set this textarea to be editable by TinyMCE
   if ($isHtml) {

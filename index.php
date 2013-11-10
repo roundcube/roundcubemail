@@ -193,12 +193,6 @@ if (empty($RCMAIL->user->ID)) {
     $session_error = true;
   }
 
-  if ($OUTPUT->ajax_call)
-    $OUTPUT->redirect(array('_err' => 'session'), 2000);
-
-  if (!empty($_REQUEST['_framed']))
-    $OUTPUT->command('redirect', $RCMAIL->url(array('_err' => 'session')));
-
   // check if installer is still active
   if ($RCMAIL->config->get('enable_installer') && is_readable('./installer/index.php')) {
     $OUTPUT->add_footer(html::div(array('style' => "background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em"),
@@ -211,8 +205,14 @@ if (empty($RCMAIL->user->ID)) {
     );
   }
 
-  if ($session_error || $_REQUEST['_err'] == 'session')
+  if ($session_error || $_REQUEST['_err'] == 'session') {
     $OUTPUT->show_message('sessionerror', 'error', null, true, -1);
+  }
+
+  if ($OUTPUT->ajax_call || !empty($_REQUEST['_framed'])) {
+    $OUTPUT->command('session_error', $RCMAIL->url(array('_err' => 'session')));
+    $OUTPUT->send('iframe');
+  }
 
   $plugin = $RCMAIL->plugins->exec_hook('unauthenticated', array('task' => 'login', 'error' => $session_error));
 

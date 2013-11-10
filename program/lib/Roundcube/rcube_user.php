@@ -221,6 +221,14 @@ class rcube_user
         return false;
     }
 
+    /**
+     * Generate a unique hash to identify this user which
+     */
+    function get_hash()
+    {
+        $key = substr($this->rc->config->get('des_key'), 1, 4);
+        return md5($this->data['user_id'] . $key . $this->data['username'] . '@' . $this->data['mail_host']);
+    }
 
     /**
      * Get default identity of this user

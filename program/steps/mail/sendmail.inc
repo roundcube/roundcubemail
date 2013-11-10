@@ -855,6 +855,7 @@ else {
     $folders[] = $COMPOSE['mailbox'];
 
   rcmail_compose_cleanup($COMPOSE_ID);
+  $OUTPUT->command('remove_compose_data', $COMPOSE_ID);
 
   if ($store_folder && !$saved)
     $OUTPUT->command('sent_successfully', 'error', rcube_label('errorsavingsent'), $folders);
