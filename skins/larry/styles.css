@@ -1305,7 +1305,7 @@ table.records-table {
 	padding-left: 2px;
 }
 
-.records-table tr.selected td, .records-table tr.focused > td.focus {
+.records-table tr.selected td {
 	color: #fff !important;
 	background: #019bc6;
 	background: -moz-linear-gradient(top, #019bc6 0%, #017cb4 100%);
