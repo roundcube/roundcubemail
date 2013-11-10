@@ -255,7 +255,6 @@ function rcmail_message_list($attrib)
 
   // save some variables for use in ajax list
   $_SESSION['list_attrib'] = $attrib;
-  
   // make sure 'threads' and 'subject' columns are present
   if (!in_array('subject', $a_show_cols))
     array_unshift($a_show_cols, 'subject');
