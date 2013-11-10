@@ -61,6 +61,9 @@ function rcmail_editor_init(config)
         if (!active)
           rcmail.spellcheck_state();
       });
+      ed.onKeyPress.add(function(ed, e) {
+          rcmail.compose_type_activity++;
+      });
     }
   }
 
