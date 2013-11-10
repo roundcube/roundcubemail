@@ -110,7 +110,7 @@ $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubj
     'nobodywarning', 'notsentwarning', 'notuploadedwarning', 'savingmessage', 'sendingmessage', 
     'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
     'fileuploaderror', 'sendmessage', 'savenewresponse', 'responsename', 'responsetext', 'save',
-    'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore');
+    'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore', 'ignore');
 
 $OUTPUT->set_env('compose_id', $COMPOSE['id']);
 $OUTPUT->set_env('session_id', session_id());

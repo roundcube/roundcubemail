@@ -3161,7 +3161,7 @@ function rcube_webmail()
               }
             },
             {
-              text: this.get_label('cancel'),
+              text: this.get_label('ignore'),
               click: function(){
                 $(this).dialog('close');
               }
