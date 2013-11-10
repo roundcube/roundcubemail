@@ -3618,10 +3618,19 @@ function rcube_webmail()
     if (this.env.draft_autosave)
       this.save_timer = setTimeout(function(){ ref.command("savedraft"); }, this.env.draft_autosave * 1000);
 
-    // save compose form content to local storage every 10 seconds
-    // TODO: track typing activity and only save on changes
-    if (!this.local_save_timer && window.localStorage)
-      this.local_save_timer = setInterval(function(){ ref.save_compose_form_local(); }, 10000);
+    // save compose form content to local storage every 5 seconds
+    if (!this.local_save_timer && window.localStorage) {
+      // track typing activity and only save on changes
+      this.compose_type_activity = this.compose_type_activity_last = 0;
+      $(document).bind('keypress', function(e){ ref.compose_type_activity++; });
+
+      this.local_save_timer = setInterval(function(){
+        if (ref.compose_type_activity > ref.compose_type_activity_last) {
+          ref.save_compose_form_local();
+          ref.compose_type_activity_last = ref.compose_type_activity;
+        }
+      }, 5000);
+    }
 
     // Unlock interface now that saving is complete
     this.busy = false;
@@ -3680,6 +3689,8 @@ function rcube_webmail()
 
         default:
           formdata[elem.name] = $(elem).val();
+          if (formdata[elem.name] != '')
+            empty = false;
       }
     });
 
@@ -4285,8 +4296,10 @@ function rcube_webmail()
     if (this.ksearch_input.setSelectionRange)
       this.ksearch_input.setSelectionRange(cpos, cpos);
 
-    if (trigger)
+    if (trigger) {
       this.triggerEvent('autocomplete_insert', { field:this.ksearch_input, insert:insert });
+      this.compose_type_activity++;
+    }
   };
 
   this.replace_group_recipients = function(id, recipients)
@@ -4295,6 +4308,7 @@ function rcube_webmail()
       this.group2expand[id].input.value = this.group2expand[id].input.value.replace(this.group2expand[id].name, recipients);
       this.triggerEvent('autocomplete_insert', { field:this.group2expand[id].input, insert:recipients });
       this.group2expand[id] = null;
+      this.compose_type_activity++;
     }
   };
 
