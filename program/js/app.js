@@ -4208,7 +4208,7 @@ function rcube_webmail()
       case 38:  // arrow up
       case 40:  // arrow down
         if (!this.ksearch_visible())
-          break;
+          return;
 
         var dir = key==38 ? 1 : 0;
 
@@ -4243,8 +4243,7 @@ function rcube_webmail()
 
       case 37:  // left
       case 39:  // right
-        if (mod != SHIFT_KEY)
-          return;
+        return;
     }
 
     // start timer
