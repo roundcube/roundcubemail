@@ -901,7 +901,8 @@ class rcube_sieve_engine
                     break;
 
                 case 'vacation':
-                    $reason        = $this->strip_value($reasons[$idx]);
+                    // $reason        = $this->strip_value($reasons[$idx]);
+                    $reason        = $reasons[$idx];
                     $interval_type = $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
 
                     $this->form['actions'][$i]['reason']    = str_replace("\r\n", "\n", $reason);
@@ -1658,10 +1659,14 @@ class rcube_sieve_engine
             . "</textarea>\n";
 
         // vacation
+        // Add HTML editor script(s) only if not ajax request
+        if(!$this->rc->output->ajax_call){
+          rcube_html_editor('identity');
+        }
         $vsec = in_array('vacation-seconds', $this->exts);
         $out .= '<div id="action_vacation' .$id.'" style="display:' .($action['type']=='vacation' ? 'inline' : 'none') .'">';
         $out .= '<span class="label">'. rcube::Q($this->plugin->gettext('vacationreason')) .'</span><br />'
-            .'<textarea name="_action_reason['.$id.']" id="action_reason' .$id. '" '
+            .'<textarea name="_action_reason['.$id.']" id="action_reason' .$id. '" spellcheck="1" class="mce_editor" '
             .'rows="3" cols="35" '. $this->error_class($id, 'action', 'reason', 'action_reason') . '>'
             . Q($action['reason'], 'strict', false) . "</textarea>\n";
         $out .= '<br /><span class="label">' .rcube::Q($this->plugin->gettext('vacationsubject')) . '</span><br />'
