@@ -646,7 +646,7 @@ function rcmail_prepare_message_body()
   }
   else if ($COMPOSE['param']['body']) {
     $body = $COMPOSE['param']['body'];
-    $isHtml = false;
+    $isHtml = (bool) $COMPOSE['param']['html'];
   }
   // forward as attachment
   else if ($compose_mode == RCUBE_COMPOSE_FORWARD && $COMPOSE['as_attachment']) {
