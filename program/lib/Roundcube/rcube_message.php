@@ -529,8 +529,9 @@ class rcube_message
                     $part_mimetype = $mail_part->real_mimetype;
                     list($primary_type, $secondary_type) = explode('/', $part_mimetype);
                 }
-                else
-                    $part_mimetype = $mail_part->mimetype;
+                else {
+                    $part_mimetype = $part_orig_mimetype = $mail_part->mimetype;
+                  }
 
                 // multipart/alternative
                 if ($primary_type == 'multipart') {
