@@ -446,6 +446,11 @@ function rcmail_process_compose_params(&$COMPOSE)
     }
   }
 
+  // clean HTML message body which can be submitted by URL
+  if ($COMPOSE['param']['body']) {
+    $COMPOSE['param']['body'] = rcmail_wash_html($COMPOSE['param']['body'], array('safe' => false, 'inline_html' => true), array());
+  }
+
   $RCMAIL = rcmail::get_instance();
 
   // select folder where to save the sent message
