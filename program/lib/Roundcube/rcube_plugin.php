@@ -109,7 +109,7 @@ abstract class rcube_plugin
      */
     public function require_plugin($plugin_name)
     {
-        return $this->api->load_plugin($plugin_name);
+        return $this->api->load_plugin($plugin_name, true);
     }
 
     /**

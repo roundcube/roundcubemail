@@ -168,10 +168,11 @@ class rcube_plugin_api
      * Load the specified plugin
      *
      * @param string Plugin name
+     * @param boolean Force loading of the plugin even if it doesn't match the filter
      *
      * @return boolean True on success, false if not loaded or failure
      */
-    public function load_plugin($plugin_name)
+    public function load_plugin($plugin_name, $force = false)
     {
         static $plugins_dir;
 
@@ -197,7 +198,7 @@ class rcube_plugin_api
                 // check inheritance...
                 if (is_subclass_of($plugin, 'rcube_plugin')) {
                     // ... task, request type and framed mode
-                    if ((!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $this->task))
+                    if ($force || (!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $this->task))
                         && (!$plugin->noajax || (is_object($this->output) && $this->output->type == 'html'))
                         && (!$plugin->noframe || empty($_REQUEST['_framed']))
                     ) {
