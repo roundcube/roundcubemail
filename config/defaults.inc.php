@@ -276,10 +276,10 @@ $config['user_aliases'] = false;
 
 // use this folder to store log files (must be writeable for apache user)
 // This is used by the 'file' log driver.
-$config['log_dir'] = 'logs/';
+$config['log_dir'] = RCUBE_INSTALL_PATH . 'logs/';
 
 // use this folder to store temp files (must be writeable for apache user)
-$config['temp_dir'] = 'temp/';
+$config['temp_dir'] = RCUBE_INSTALL_PATH . 'temp/';
 
 // expire files in temp_dir after 48 hours
 // possible units: s, m, h, d, w
