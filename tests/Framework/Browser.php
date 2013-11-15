@@ -199,6 +199,27 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                  'canPNGALPHA'  => false,                                                                                            //canPNGALPHA
                  'canIMGDATA'   => true,                                                                                            //canIMGDATA
              ),
+
+            'IE 11' => array(
+                 'useragent'    => 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; .NET4.0E; .NET4.0C; rv:11.0) like Gecko',
+                 'version'      => '11.0',                                                                                      //Version
+                 'isWin'        => true,                                                                                           //isWindows
+                 'isLinux'      => false,
+                 'isMac'        => false,                                                                                           //isMac
+                 'isUnix'       => false,                                                                                           //isUnix
+                 'isOpera'      => false,                                                                                           //isOpera
+                 'isChrome'     => false,                                                                                           //isChrome
+                 'isIE'         => true,                                                                                           //isIE
+                 'isNS'         => false,                                                                                           //isNS
+                 'isNS4'        => false,                                                                                           //isNS4
+                 'isKHTML'      => false,                                                                                           //isKHTML
+                 'isSafari'     => false,                                                                                           //isSafari
+                 'isMZ'         => false,                                                                                           //isMZ
+                 'lang'         => '',                                                                                         //lang
+                 'hasDOM'       => true,                                                                                            //hasDOM
+                 'canPNGALPHA'  => true,                                                                                            //canPNGALPHA
+                 'canIMGDATA'   => false,                                                                                            //canIMGDATA
+             ),
         );
     }
 

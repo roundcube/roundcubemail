@@ -37,7 +37,7 @@ class rcube_browser
         $this->opera = strpos($HTTP_USER_AGENT, 'opera') !== false;
         $this->ns4 = strpos($HTTP_USER_AGENT, 'mozilla/4') !== false && strpos($HTTP_USER_AGENT, 'msie') === false;
         $this->ns  = ($this->ns4 || strpos($HTTP_USER_AGENT, 'netscape') !== false);
-        $this->ie  = !$this->opera && strpos($HTTP_USER_AGENT, 'compatible; msie') !== false;
+        $this->ie  = !$this->opera && (strpos($HTTP_USER_AGENT, 'compatible; msie') !== false || strpos($HTTP_USER_AGENT, 'trident/') !== false);
         $this->khtml = strpos($HTTP_USER_AGENT, 'khtml') !== false;
         $this->mz  = !$this->ie && !$this->khtml && strpos($HTTP_USER_AGENT, 'mozilla/5') !== false;
         $this->chrome = strpos($HTTP_USER_AGENT, 'chrome') !== false;
@@ -54,6 +54,11 @@ class rcube_browser
         else if ($this->ie || $this->opera) {
             $test = preg_match('/(msie|opera) ([0-9.]+)/', $HTTP_USER_AGENT, $regs);
             $this->ver = $test ? (float)$regs[2] : 0;
+
+            // IE 11
+            if (!$this->ver && preg_match('/rv:([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+                $this->ver = (float) $regs[1];
+            }
         }
 
         if (preg_match('/ ([a-z]{2})-([a-z]{2})/', $HTTP_USER_AGENT, $regs))

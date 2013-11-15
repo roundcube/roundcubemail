@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix Internet Explorer 11 detection (#1489434)
 - Fix date column width to fit the widest possible date format (#1489368)
 - Move certain user preference options to a collapsed "advanced" block (#1488829)
 - Add file type icons for Powerpoint and Open Office presentations (#1489225)
