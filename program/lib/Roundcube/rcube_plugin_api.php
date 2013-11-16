@@ -198,7 +198,7 @@ class rcube_plugin_api
                 // check inheritance...
                 if (is_subclass_of($plugin, 'rcube_plugin')) {
                     // ... task, request type and framed mode
-                    if ($force || (!$plugin->task || preg_match('/^('.$plugin->task.')$/i', $this->task))
+                    if (($force || !$plugin->task || preg_match('/^('.$plugin->task.')$/i', $this->task))
                         && (!$plugin->noajax || (is_object($this->output) && $this->output->type == 'html'))
                         && (!$plugin->noframe || empty($_REQUEST['_framed']))
                     ) {
