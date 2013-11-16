@@ -1198,6 +1198,13 @@ function rcmail_user_prefs($current = null)
             }
         }
 
+        // move 'advanced' block to the end of the list
+        if (!empty($data['blocks']['advanced'])) {
+            $adv = $data['blocks']['advanced'];
+            unset($data['blocks']['advanced']);
+            $data['blocks']['advanced'] = $adv;
+        }
+
         if (!$found)
             unset($sections[$idx]);
         else
