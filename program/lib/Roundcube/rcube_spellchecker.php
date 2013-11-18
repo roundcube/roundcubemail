@@ -352,7 +352,7 @@ class rcube_spellchecker
                     "UPDATE ".$this->rc->db->table_name('dictionary')
                     ." SET data = ?"
                     ." WHERE user_id " . ($plugin['userid'] ? "= ".$this->rc->db->quote($plugin['userid']) : "IS NULL")
-                        ." AND " . $this->rc->db->quoteIdentifier('language') . " = ?",
+                        ." AND " . $this->rc->db->quote_identifier('language') . " = ?",
                     implode(' ', $plugin['dictionary']), $plugin['language']);
             }
             // don't store empty dict
@@ -360,14 +360,14 @@ class rcube_spellchecker
                 $this->rc->db->query(
                     "DELETE FROM " . $this->rc->db->table_name('dictionary')
                     ." WHERE user_id " . ($plugin['userid'] ? "= ".$this->rc->db->quote($plugin['userid']) : "IS NULL")
-                        ." AND " . $this->rc->db->quoteIdentifier('language') . " = ?",
+                        ." AND " . $this->rc->db->quote_identifier('language') . " = ?",
                     $plugin['language']);
             }
         }
         else if (!empty($this->dict)) {
             $this->rc->db->query(
                 "INSERT INTO " .$this->rc->db->table_name('dictionary')
-                ." (user_id, " . $this->rc->db->quoteIdentifier('language') . ", data) VALUES (?, ?, ?)",
+                ." (user_id, " . $this->rc->db->quote_identifier('language') . ", data) VALUES (?, ?, ?)",
                 $plugin['userid'], $plugin['language'], implode(' ', $plugin['dictionary']));
         }
     }
@@ -394,7 +394,7 @@ class rcube_spellchecker
             $sql_result = $this->rc->db->query(
                 "SELECT data FROM ".$this->rc->db->table_name('dictionary')
                 ." WHERE user_id ". ($plugin['userid'] ? "= ".$this->rc->db->quote($plugin['userid']) : "IS NULL")
-                    ." AND " . $this->rc->db->quoteIdentifier('language') . " = ?",
+                    ." AND " . $this->rc->db->quote_identifier('language') . " = ?",
                 $plugin['language']);
 
             if ($sql_arr = $this->rc->db->fetch_assoc($sql_result)) {

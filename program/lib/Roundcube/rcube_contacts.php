@@ -350,7 +350,7 @@ class rcube_contacts extends rcube_addressbook
                 if (in_array($col, $this->table_cols)) {
                     switch ($mode) {
                     case 1: // strict
-                        $where[] = '(' . $this->db->quoteIdentifier($col) . ' = ' . $this->db->quote($val)
+                        $where[] = '(' . $this->db->quote_identifier($col) . ' = ' . $this->db->quote($val)
                             . ' OR ' . $this->db->ilike($col, $val . $AS . '%')
                             . ' OR ' . $this->db->ilike($col, '%' . $AS . $val . $AS . '%')
                             . ' OR ' . $this->db->ilike($col, '%' . $AS . $val) . ')';
@@ -390,7 +390,7 @@ class rcube_contacts extends rcube_addressbook
         }
 
         foreach (array_intersect($required, $this->table_cols) as $col) {
-            $and_where[] = $this->db->quoteIdentifier($col).' <> '.$this->db->quote('');
+            $and_where[] = $this->db->quote_identifier($col).' <> '.$this->db->quote('');
         }
 
         if (!empty($where)) {
@@ -630,7 +630,7 @@ class rcube_contacts extends rcube_addressbook
         $a_insert_cols = $a_insert_values = array();
 
         foreach ($save_data as $col => $value) {
-            $a_insert_cols[]   = $this->db->quoteIdentifier($col);
+            $a_insert_cols[]   = $this->db->quote_identifier($col);
             $a_insert_values[] = $this->db->quote($value);
         }
 
@@ -665,7 +665,7 @@ class rcube_contacts extends rcube_addressbook
         $save_cols = $this->convert_save_data($save_cols, $record);
 
         foreach ($save_cols as $col => $value) {
-            $write_sql[] = sprintf("%s=%s", $this->db->quoteIdentifier($col), $this->db->quote($value));
+            $write_sql[] = sprintf("%s=%s", $this->db->quote_identifier($col), $this->db->quote($value));
         }
 
         if (!empty($write_sql)) {
