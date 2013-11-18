@@ -41,7 +41,7 @@ class rcube_browser
         $this->safari = !$this->chrome && (strpos($HTTP_USER_AGENT, 'safari') !== false || strpos($HTTP_USER_AGENT, 'applewebkit') !== false);
         $this->mz     = !$this->ie && !$this->safari && !$this->chrome && !$this->ns && strpos($HTTP_USER_AGENT, 'mozilla') !== false;
 
-        if (preg_match('/(mozilla|chrome|msie|opera|safari|applewebkit|khtml)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+        if (preg_match('/(chrome|msie|opera|version|khtml)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
             $this->ver = (float) $regs[3];
         }
         else if (preg_match('/rv:([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
