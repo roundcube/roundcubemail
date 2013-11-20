@@ -108,7 +108,7 @@ function newmail_notifier_desktop(body)
                 lang: "",
                 body: body,
                 tag: "newmail_notifier",
-                icon: "plugins/newmail_notifier/mail.png",
+                icon: "plugins/newmail_notifier/mail.png"
             });
             popup.onclick = function() {
                 this.close();
