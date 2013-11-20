@@ -1708,7 +1708,7 @@ function rcube_webmail()
     url += (url.match(/\?/) ? '&' : '?') + '_extwin=1';
 
     if (this.env.standard_windows)
-      extwin = window.open(url, wname);
+      var extwin = window.open(url, wname);
     else {
       var win = this.is_framed() ? parent.window : window,
         page = $(win),
@@ -1729,7 +1729,7 @@ function rcube_webmail()
     }
 
     // focus window, delayed to bring to front
-    window.setTimeout(function() { extwin.focus(); }, 10);
+    window.setTimeout(function() { extwin && extwin.focus(); }, 10);
 
     return extwin;
   };
