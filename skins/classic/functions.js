@@ -984,7 +984,7 @@ function rcube_init_mail_ui()
       else if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
         // add menu link for each attachment
         $('#attachment-list > li[id^="attach"]').each(function() {
-          $(this).append($('<a class="drop">').click(function() { rcmail_ui.show_attachmentmenu(this); }));
+          $(this).append($('<a class="drop"></a>').click(function() { rcmail_ui.show_attachmentmenu(this); }));
         });
     }
     else if (rcmail.env.task == 'addressbook') {

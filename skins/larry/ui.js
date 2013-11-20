@@ -106,7 +106,7 @@ function rcube_mail_ui()
 
         // add menu link for each attachment
         $('#attachment-list > li').each(function() {
-          $(this).append($('<a class="drop">').click(function() { attachmentmenu(this); }));
+          $(this).append($('<a class="drop"></a>').click(function() { attachmentmenu(this); }));
         });
       }
       else if (rcmail.env.action == 'compose') {
