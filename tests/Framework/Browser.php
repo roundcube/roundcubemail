@@ -21,7 +21,7 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider browsers
      */
-    function test_browser($useragent, $opera, $chrome, $ie, $ns, $ns4, $khtml, $safari, $mz)
+    function test_browser($useragent, $opera, $chrome, $ie, $ns, $safari, $mz)
     {
 
         $object = $this->getBrowser($useragent);
@@ -30,8 +30,6 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
         $this->assertEquals($chrome, $object->chrome, 'Check for Chrome failed');
         $this->assertEquals($ie, $object->ie, 'Check for IE failed');
         $this->assertEquals($ns, $object->ns, 'Check for NS failed');
-        $this->assertEquals($ns4, $object->ns4, 'Check for NS4 failed');
-        $this->assertEquals($khtml, $object->khtml, 'Check for khtml failed');
         $this->assertEquals($safari, $object->safari, 'Check for Safari failed');
         $this->assertEquals($mz, $object->mz, 'Check for MZ failed');
     }
@@ -132,7 +130,7 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
 
     function browsers()
     {
-        return $this->extractDataSet(array('isOpera','isChrome','isIE','isNS','isNS4','isKHTML','isSafari','isMZ'));
+        return $this->extractDataSet(array('isOpera','isChrome','isIE','isNS','isSafari','isMZ'));
     }
 
     function useragents()
@@ -149,8 +147,6 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                  'isChrome'     => false,                                                                                           //isChrome
                  'isIE'         => false,                                                                                           //isIE
                  'isNS'         => false,                                                                                           //isNS
-                 'isNS4'        => false,                                                                                           //isNS4
-                 'isKHTML'      => false,                                                                                           //isKHTML
                  'isSafari'     => false,                                                                                           //isSafari
                  'isMZ'         => true,                                                                                           //isMZ
                  'lang'         => 'en-US',                                                                               //lang
@@ -169,8 +165,6 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                  'isChrome'     => false,                                                                                           //isChrome
                  'isIE'         => false,                                                                                           //isIE
                  'isNS'         => false,                                                                                           //isNS
-                 'isNS4'        => false,                                                                                           //isNS4
-                 'isKHTML'      => false,                                                                                           //isKHTML
                  'isSafari'     => false,                                                                                           //isSafari
                  'isMZ'         => true,                                                                                           //isMZ
                  'lang'         => 'en-US',                                                                               //lang
@@ -181,7 +175,7 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
 
             'Chrome Mac' => array(
                  'useragent'    => 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-US) AppleWebKit/534.3 (KHTML, like Gecko) Chrome/6.0.461.0 Safari/534.3',
-                 'version'      => '5',                                                                                      //Version
+                 'version'      => '6',                                                                                      //Version
                  'isWin'        => false,                                                                                           //isWindows
                  'isLinux'      => false,
                  'isMac'        => true,                                                                                           //isMac
@@ -190,8 +184,6 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                  'isChrome'     => true,                                                                                           //isChrome
                  'isIE'         => false,                                                                                           //isIE
                  'isNS'         => false,                                                                                           //isNS
-                 'isNS4'        => false,                                                                                           //isNS4
-                 'isKHTML'      => true,                                                                                           //isKHTML
                  'isSafari'     => false,                                                                                           //isSafari
                  'isMZ'         => false,                                                                                           //isMZ
                  'lang'         => 'en-US',                                                                               //lang
@@ -211,8 +203,6 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                  'isChrome'     => false,                                                                                           //isChrome
                  'isIE'         => true,                                                                                           //isIE
                  'isNS'         => false,                                                                                           //isNS
-                 'isNS4'        => false,                                                                                           //isNS4
-                 'isKHTML'      => false,                                                                                           //isKHTML
                  'isSafari'     => false,                                                                                           //isSafari
                  'isMZ'         => false,                                                                                           //isMZ
                  'lang'         => '',                                                                                         //lang
