@@ -5732,7 +5732,7 @@ function rcube_webmail()
     if (!this.gui_objects.subscriptionlist)
       return false;
 
-    var row, n, i, tmp, tmp_name, folders, rowid, list = [], slist = [],
+    var row, n, i, tmp, tmp_name, rowid, folders = [], list = [], slist = [],
       tbody = this.gui_objects.subscriptionlist.tBodies[0],
       refrow = $('tr', tbody).get(1),
       id = 'rcmrow'+((new Date).getTime());
@@ -5747,8 +5747,7 @@ function rcube_webmail()
     row = $(refrow).clone(true);
 
     // set ID, reset css class
-    row.attr('id', id);
-    row.attr('class', class_name);
+    row.attr({id: id, 'class': class_name});
 
     // set folder name
     row.find('td:first').html(display_name);
@@ -5760,10 +5759,21 @@ function rcube_webmail()
     // add to folder/row-ID map
     this.env.subscriptionrows[id] = [name, display_name, 0];
 
-    // sort folders, to find a place where to insert the row
-    folders = [];
-    $.each(this.env.subscriptionrows, function(k,v){ folders.push(v) });
-    folders.sort(function(a,b){ return a[0] < b[0] ? -1 : (a[0] > b[0] ? 1 : 0) });
+    // sort folders (to find a place where to insert the row)
+    // replace delimiter with \0 character to fix sorting
+    // issue where 'Abc Abc' would be placed before 'Abc/def'
+    var replace_from = RegExp(RegExp.escape(this.env.delimiter), 'g'),
+      replace_to = String.fromCharCode(0);
+    $.each(this.env.subscriptionrows, function(k,v) {
+      var n = v[0];
+      n = n.replace(replace_from, replace_to);
+      v.push(n);
+      folders.push(v);
+    });
+    folders.sort(function(a, b) {
+      var len = a.length - 1; n1 = a[len], n2 = b[len];
+      return n1 < n2 ? -1 : 1;
+    });
 
     for (n in folders) {
       // protected folder
