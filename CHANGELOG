@@ -93,7 +93,7 @@ RELEASE 0.9.5
 -------------
 - Fix failing vCard import when email address field contains spaces (#1489386)
 - Fix default spell-check configuration after Google suspended their spell service
-- Fix vulnerability in handling _session argument of utils/save-prefs (#1489382)
+- Fix vulnerability in handling _session argument of utils/save-prefs [CVE-2013-6172] (#1489382)
 - Fix iframe onload for upload errors handling (#1489379)
 - Fix address matching in Return-Path header on identity selection (#1489374)
 - Fix text wrapping issue with long unwrappable lines (#1489371)
