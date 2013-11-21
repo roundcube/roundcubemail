@@ -3682,7 +3682,7 @@ function rcube_webmail()
       formdata.draft_id = this.env.draft_id;
     }
 
-    $('input, select, textarea', this.gui_objects.messageform).each(function(i, elem){
+    $('input, select, textarea', this.gui_objects.messageform).each(function(i, elem) {
       switch (elem.tagName.toLowerCase()) {
         case 'input':
           if (elem.type == 'button' || elem.type == 'submit' || (elem.type == 'hidden' && elem.name != '_is_html')) {
@@ -3709,7 +3709,7 @@ function rcube_webmail()
       var index = this.local_storage_get_item('compose.index', []),
         key = this.env.compose_id;
 
-        if (index.indexOf(key) < 0) {
+        if ($.inArray(key, index) < 0) {
           index.push(key);
         }
         this.local_storage_set_item('compose.' + key, formdata, true);
@@ -3723,7 +3723,7 @@ function rcube_webmail()
     var ed, formdata = this.local_storage_get_item('compose.' + key, true);
 
     if (formdata && typeof formdata == 'object') {
-      $.each(formdata, function(k, value){
+      $.each(formdata, function(k, value) {
         if (k[0] == '_') {
           var elem = $("*[name='"+k+"']");
           if (elem[0] && elem[0].type == 'checkbox') {
@@ -3755,9 +3755,9 @@ function rcube_webmail()
     if (window.localStorage) {
       var index = this.local_storage_get_item('compose.index', []);
 
-      if (index.indexOf(key) >= 0) {
+      if ($.inArray(key, index) >= 0) {
         this.local_storage_remove_item('compose.' + key);
-        this.local_storage_set_item('compose.index', $.grep(index, function(val,i){ return val != key; }));
+        this.local_storage_set_item('compose.index', $.grep(index, function(val,i) { return val != key; }));
       }
     }
   };
