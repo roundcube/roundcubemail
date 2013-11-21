@@ -3688,7 +3688,7 @@ function rcube_webmail()
           if (elem.type == 'button' || elem.type == 'submit' || (elem.type == 'hidden' && elem.name != '_is_html')) {
             break;
           }
-          formdata[elem.name] = elem.type != 'checkbox' || elem.checked ? elem.value : '';
+          formdata[elem.name] = elem.type != 'checkbox' || elem.checked ? $(elem).val() : '';
 
           if (formdata[elem.name] != '' && elem.type != 'hidden')
             empty = false;
