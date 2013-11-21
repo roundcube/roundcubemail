@@ -3848,9 +3848,12 @@ class rcube_imap extends rcube_storage
     /**
      * Sort folders first by default folders and then in alphabethical order
      *
-     * @param array $a_folders Folders list
+     * @param array $a_folders    Folders list
+     * @param bool  $skip_default Skip default folders handling
+     *
+     * @return array Sorted list
      */
-    protected function sort_folder_list($a_folders)
+    public function sort_folder_list($a_folders, $skip_default = false)
     {
         $a_out = $a_defaults = $folders = array();
 
@@ -3862,7 +3865,7 @@ class rcube_imap extends rcube_storage
                 continue;
             }
 
-            if (($p = array_search($folder, $this->default_folders)) !== false && !$a_defaults[$p]) {
+            if (!$skip_default && ($p = array_search($folder, $this->default_folders)) !== false && !$a_defaults[$p]) {
                 $a_defaults[$p] = $folder;
             }
             else {
