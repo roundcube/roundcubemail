@@ -1537,6 +1537,10 @@ class rcube
                     !empty($response) ? join('; ', $response) : ''));
             }
         }
+        else {
+            // allow plugins to catch sending errors with the same parameters as in 'message_before_send'
+            $this->plugins->exec_hook('message_send_error', $plugin + array('error' => $error));
+        }
 
         if (is_resource($msg_body)) {
             fclose($msg_body);
