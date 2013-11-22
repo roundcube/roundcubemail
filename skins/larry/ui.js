@@ -1292,6 +1292,18 @@ function rcube_splitter(p)
     if (!me.drag_active)
       return false;
 
+    // with timing events dragging action is more responsive
+    window.clearTimeout(me.ts);
+    me.ts = window.setTimeout(function() { onDragAction(e); }, 1);
+
+    return false;
+  };
+
+  /**
+   * Dragging action (see onDrag())
+   */
+  function onDragAction(e)
+  {
     var pos = rcube_event.get_mouse_pos(e);
 
     if (me.relative) {
@@ -1315,7 +1327,6 @@ function rcube_splitter(p)
 
     me.p1pos = me.relative ? me.p1.position() : me.p1.offset();
     me.p2pos = me.relative ? me.p2.position() : me.p2.offset();
-    return false;
   };
 
   /**
