@@ -45,7 +45,7 @@ function rcmail_contact_head($attrib)
 
     // check if we have a valid result
     if (!(($result = $CONTACTS->get_result()) && ($record = $result->first()))) {
-        $RCMAIL->output->show_message('contactnotfound');
+        $RCMAIL->output->show_message('contactnotfound', 'error');
         return false;
     }
 
@@ -72,7 +72,6 @@ function rcmail_contact_details($attrib)
 
     // check if we have a valid result
     if (!(($result = $CONTACTS->get_result()) && ($record = $result->first()))) {
-        //$RCMAIL->output->show_message('contactnotfound');
         return false;
     }
 

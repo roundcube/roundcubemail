@@ -70,7 +70,7 @@ function rcmail_get_edit_record()
      else if ($RCMAIL->action != 'add'
          && !(($result = $CONTACTS->get_result()) && ($record = $result->first()))
      ) {
-         $RCMAIL->output->show_message('contactnotfound');
+         $RCMAIL->output->show_message('contactnotfound', 'error');
          return false;
      }
 
