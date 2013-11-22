@@ -56,6 +56,10 @@ input.button:active {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eaeaea', endColorstr='#c8c8c8', GradientType=0);
 }
 
+#messagestack div {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e0404040', endColorstr='#e0303030', GradientType=0);
+}
+
 .ui-dialog.popupmessage .ui-dialog-titlebar {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e3e3e3', endColorstr='#cfcfcf', GradientType=0);
 }
