@@ -531,8 +531,8 @@ a.iconlink.upload {
 
 #messagestack {
 	position: absolute;
-	bottom: 14px;
-	right: 5px;
+	bottom: 18px;
+	right: 8px;
 	z-index: 50000;
 	width: auto;
 	height: auto;
@@ -579,7 +579,7 @@ a.iconlink.upload {
 	left: 4px;
 	width: 20px;
 	height: 24px;
-	background: url(images/messages_dark.png) 0 6px no-repeat;
+	background: url(images/messages_dark.png) 0 7px no-repeat;
 }
 
 #messagestack div.error {
