@@ -161,7 +161,7 @@ rcube_webmail.prototype.managesieve_rowid = function(id)
 {
   var i, rows = this.filters_list.rows;
 
-  for (i=0; i<rows.length; i++)
+  for (i in rows)
     if (rows[i] != null && rows[i].uid == id)
       return i;
 };
