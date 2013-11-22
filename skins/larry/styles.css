@@ -531,8 +531,8 @@ a.iconlink.upload {
 
 #messagestack {
 	position: absolute;
-	bottom: 12px;
-	right: 10px;
+	bottom: 20px;
+	right: 12px;
 	z-index: 50000;
 	width: auto;
 	height: auto;
