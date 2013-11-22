@@ -34,7 +34,7 @@ function rcube_webmail()
 
   // webmail client settings
   this.dblclick_time = 500;
-  this.message_time = 4000;
+  this.message_time = 5000;
   this.identifier_expr = new RegExp('[^0-9a-z\-_]', 'gi');
 
   // environment defaults
@@ -6209,7 +6209,7 @@ function rcube_webmail()
     this.triggerEvent('message', { message:msg, type:type, timeout:timeout, object:obj });
 
     if (timeout > 0)
-      setTimeout(function() { ref.hide_message(id, type == 'loading'); }, timeout);
+      setTimeout(function() { ref.hide_message(id, type != 'loading'); }, timeout);
     return id;
   };
 

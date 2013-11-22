@@ -373,6 +373,10 @@ function rcube_mail_ui()
    */
   function message_displayed(p)
   {
+    var siblings = $(p.object).siblings('div');
+    if (siblings.length)
+      $(p.object).insertBefore(siblings.first());
+
     // show a popup dialog on errors
     if (p.type == 'error' && rcmail.env.task != 'login') {
       if (me.message_timer) {
@@ -399,12 +403,12 @@ function rcube_mail_ui()
             me.messagedialog.dialog('destroy').hide();
           },
           position: ['center', pos.top],
-          hide: { effect:'drop', direction:'down' },
+          hide: { effect:'drop', direction:'right' },
           width: 420,
           minHeight: 90
         }).show();
 
-      me.message_timer = window.setTimeout(function(){ me.messagedialog.dialog('close'); }, Math.max(2000, p.timeout / 2));
+      me.message_timer = window.setTimeout(function(){ me.messagedialog.dialog('close'); }, Math.max(3000, p.timeout / 2));
     }
   }
 
@@ -609,7 +613,7 @@ function rcube_mail_ui()
 
     if (visible) {
       $('#mailview-top').removeClass('fullheight').css({ bottom:'auto' });
-      $('#mailview-bottom').css({ height:'auto' });
+      $('#mailview-bottom').css({ height:'auto' }).show();
 
       rcmail.env.contentframe = 'messagecontframe';
       if (uid = rcmail.message_list.get_single_selection())
@@ -627,8 +631,8 @@ function rcube_mail_ui()
       rcmail.env.contentframe = null;
       rcmail.show_contentframe(false);
 
-      $('#mailview-top').addClass('fullheight').css({ height:'auto', bottom:'28px' });
-      $('#mailview-bottom').css({ top:'auto', height:'26px' });
+      $('#mailview-top').addClass('fullheight').css({ height:'auto', bottom:'0px' });
+      $('#mailview-bottom').css({ top:'auto', height:'0px' }).hide();
 
       if (mailviewsplit.handle)
         mailviewsplit.handle.hide();
