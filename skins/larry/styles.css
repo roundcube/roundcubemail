@@ -531,8 +531,8 @@ a.iconlink.upload {
 
 #messagestack {
 	position: absolute;
-	bottom: 18px;
-	right: 8px;
+	bottom: 12px;
+	right: 10px;
 	z-index: 50000;
 	width: auto;
 	height: auto;
@@ -557,13 +557,13 @@ a.iconlink.upload {
 	color: #ebebeb;
 	text-shadow: 0 1px 1px #000;
 
-	background: rgba(64,64,64,0.9);
-	background: -moz-linear-gradient(top, rgba(64,64,64,0.9) 0%, rgba(48,48,48,0.9) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(64,64,64,0.9)), color-stop(100%,rgba(48,48,48,0.9)));
-	background: -webkit-linear-gradient(top, rgba(64,64,64,0.9) 0%, rgba(48,48,48,0.9) 100%);
-	background: -o-linear-gradient(top, rgba(64,64,64,0.9) 0%, rgba(48,48,48,0.9) 100%);
-	background: -ms-linear-gradient(top, rgba(64,64,64,0.9) 0%, rgba(48,48,48,0.9) 100%);
-	background: linear-gradient(to bottom, rgba(64,64,64,0.9) 0%, rgba(48,48,48,0.9) 100%);
+	background: rgba(64,64,64,0.85);
+	background: -moz-linear-gradient(top, rgba(64,64,64,0.85) 0%, rgba(48,48,48,0.9) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(64,64,64,0.85)), color-stop(100%,rgba(48,48,48,0.9)));
+	background: -webkit-linear-gradient(top, rgba(64,64,64,0.85) 0%, rgba(48,48,48,0.85) 100%);
+	background: -o-linear-gradient(top, rgba(64,64,64,0.85) 0%, rgba(48,48,48,0.85) 100%);
+	background: -ms-linear-gradient(top, rgba(64,64,64,0.85) 0%, rgba(48,48,48,0.85) 100%);
+	background: linear-gradient(to bottom, rgba(64,64,64,0.85) 0%, rgba(48,48,48,0.85) 100%);
 
 	-moz-box-shadow: 0 1px 4px 0 rgba(50,50,50,0.8), inset 0px 1px 0 0px #888;
 	-webkit-box-shadow: 0 1px 4px 0 rgba(50,50,50,0.8), inset 0px 1px 0 0px #888;
