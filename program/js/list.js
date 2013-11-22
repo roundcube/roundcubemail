@@ -91,8 +91,7 @@ init: function()
     var r, len, rows = this.tbody.childNodes;
 
     for (r=0, len=rows.length; r<len; r++) {
-      this.init_row(rows[r]);
-      this.rowcount++;
+      this.rowcount += this.init_row(rows[r]) ? 1 : 0;
     }
 
     this.init_header();
@@ -148,6 +147,8 @@ init_row: function(row)
 
     this.row_init(this.rows[uid]);  // legacy support
     this.triggerEvent('initrow', this.rows[uid]);
+
+    return true;
   }
 },
 
