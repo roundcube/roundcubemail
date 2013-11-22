@@ -233,13 +233,13 @@
 
 /* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
 #contacts-table tbody tr.focused > td:first-child {
-	border-left: 4px solid #ddd;
-	padding-left: 4px;
+	border-left: 2px solid #d4d4d4;
+	padding-left: 6px;
 }
 
 #contacts-table tbody tr.selected.focused > td:first-child {
-	border-left: 0;
-	padding-left: 8px;
+	border-left: 1px solid #ccc;
+	padding-left: 7px;
 }
 
 #contacts-table .contact.readonly td
