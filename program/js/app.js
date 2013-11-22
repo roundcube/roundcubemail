@@ -5547,9 +5547,8 @@ function rcube_webmail()
       target = win;
     }
 
-    if (action && (id || action == 'add-identity')) {
-      this.set_busy(true);
-      this.location_href(url, target);
+    if (id || action == 'add-identity') {
+      this.location_href(url, target, true);
     }
 
     return true;
