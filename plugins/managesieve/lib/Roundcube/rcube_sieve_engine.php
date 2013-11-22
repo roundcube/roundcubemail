@@ -53,7 +53,7 @@ class rcube_sieve_engine
         "x-beenthere",
     );
 
-    const VERSION  = '7.0';
+    const VERSION  = '7.1';
     const PROGNAME = 'Roundcube (Managesieve)';
     const PORT     = 4190;
 

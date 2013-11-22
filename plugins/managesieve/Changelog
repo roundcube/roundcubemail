@@ -1,3 +1,5 @@
+* version 7.1 [2013-11-22]
+-----------------------------------------------------------
 - lib/Net Sieve.php moved to Roundcube /lib directory
 - Added managesieve_domains option to limit redirect destinations
 - Fix bug where at least one additional address of vacation message was required (#1489345)
