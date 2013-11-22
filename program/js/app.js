@@ -3202,7 +3202,7 @@ function rcube_webmail()
   {
     this.env.recipients_delimiter = this.env.recipients_separator + ' ';
 
-    obj[bw.ie || bw.safari || bw.chrome ? 'keydown' : 'keypress'](function(e) { return ref.ksearch_keydown(e, this, props); })
+    obj.keydown(function(e) { return ref.ksearch_keydown(e, this, props); })
       .attr('autocomplete', 'off');
   };
 
