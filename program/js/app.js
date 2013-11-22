@@ -1728,6 +1728,9 @@ function rcube_webmail()
       extwin.document.write('<html><body>' + this.get_label('loading') + '</body></html>');
     }
 
+    // allow plugins to grab the window reference (#1489413)
+    this.triggerEvent('openwindow', { url:url, handle:extwin });
+
     // focus window, delayed to bring to front
     window.setTimeout(function() { extwin && extwin.focus(); }, 10);
 
