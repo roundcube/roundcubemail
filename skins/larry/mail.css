@@ -36,7 +36,7 @@
 	position: absolute;
 	top: 42px;
 	left: 0;
-	width: 100%;
+	right: 0;
 	bottom: 0px;
 }
 
@@ -45,7 +45,7 @@
 	position: absolute;
 	left: 0;
 	bottom: 0;
-	width: 100%;
+	right: 0;
 	height: 0;
 	border-radius: 4px;
 	border-top: none;
@@ -1359,7 +1359,7 @@ div.message-partheaders .headers-table td.header {
 	position: absolute;
 	top: 42px;
 	left: 0;
-	width: 100%;
+	right: 0;
 	bottom: 0px;
 	overflow: hidden;
 }
