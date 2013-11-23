@@ -17,6 +17,8 @@ function rcube_splitter(attrib)
   this.drag_active = false;
   this.callback = attrib.callback;
 
+  var me = this;
+
   this.init = function()
   {
     this.p1 = document.getElementById(this.p1id);
@@ -42,9 +44,9 @@ function rcube_splitter(attrib)
     this.elm.unselectable = 'on';
 
     // add the mouse event listeners
-    rcube_event.add_listener({element: this.elm, event:'mousedown', object:this, method:'onDragStart'});
+    $(this.elm).mousedown(onDragStart);
     if (bw.ie)
-      rcube_event.add_listener({element: window, event:'resize', object:this, method:'onResize'});
+      $(window).resize(onResize);
 
     // read saved position from cookie
     var cookie = rcmail.get_cookie(this.id);
@@ -90,19 +92,19 @@ function rcube_splitter(attrib)
   /**
    * Handler for mousedown events
    */
-  this.onDragStart = function(e)
+  function onDragStart(e)
   {
+    me.drag_active = true;
+
     // disable text selection while dragging the splitter
     if (bw.konq || bw.chrome || bw.safari)
       document.body.style.webkitUserSelect = 'none';
 
-    this.p1pos = this.relative ? $(this.p1).position() : $(this.p1).offset();
-    this.p2pos = this.relative ? $(this.p2).position() : $(this.p2).offset();
-    this.drag_active = true;
+    me.p1pos = me.relative ? $(me.p1).position() : $(me.p1).offset();
+    me.p2pos = me.relative ? $(me.p2).position() : $(me.p2).offset();
 
     // start listening to mousemove events
-    rcube_event.add_listener({element:document, event:'mousemove', object:this, method:'onDrag'});
-    rcube_event.add_listener({element:document, event:'mouseup', object:this, method:'onDragStop'});
+    $(document).bind('mousemove.'+me.id, onDrag).bind('mouseup.'+me.id, onDragStop);
 
     // enable dragging above iframes
     $('iframe').each(function() {
@@ -119,68 +121,64 @@ function rcube_splitter(attrib)
   /**
    * Handler for mousemove events
    */
-  this.onDrag = function(e)
+  function onDrag(e)
   {
-    if (!this.drag_active)
+    if (!me.drag_active)
       return false;
 
-    ref = this;
-
     // with timing events dragging action is more responsive
-    window.clearTimeout(this.ts);
-    this.ts = window.setTimeout(function() { ref.onDragAction(e); }, 1);
+    window.clearTimeout(me.ts);
+    me.ts = window.setTimeout(function() { onDragAction(e); }, 1);
 
     return false;
   };
 
-  this.onDragAction = function(e)
+  function onDragAction(e)
   {
     var pos = rcube_event.get_mouse_pos(e);
 
-    if (this.relative) {
-      var parent = $(this.p1.parentNode).offset();
+    if (me.relative) {
+      var parent = $(me.p1.parentNode).offset();
       pos.x -= parent.left;
       pos.y -= parent.top;
     }
 
-    if (this.horizontal) {
-      if (((pos.y - this.layer.height * 1.5) > this.p1pos.top) && ((pos.y + this.layer.height * 1.5) < (this.p2pos.top + this.p2.offsetHeight))) {
-        this.pos = pos.y;
-        this.resize();
+    if (me.horizontal) {
+      if (((pos.y - me.layer.height * 1.5) > me.p1pos.top) && ((pos.y + me.layer.height * 1.5) < (me.p2pos.top + me.p2.offsetHeight))) {
+        me.pos = pos.y;
+        me.resize();
       }
     }
-    else {
-      if (((pos.x - this.layer.width * 1.5) > this.p1pos.left) && ((pos.x + this.layer.width * 1.5) < (this.p2pos.left + this.p2.offsetWidth))) {
-        this.pos = pos.x;
-        this.resize();
-      }
+    else if (((pos.x - me.layer.width * 1.5) > me.p1pos.left) && ((pos.x + me.layer.width * 1.5) < (me.p2pos.left + me.p2.offsetWidth))) {
+      me.pos = pos.x;
+      me.resize();
     }
 
-    this.p1pos = this.relative ? $(this.p1).position() : $(this.p1).offset();
-    this.p2pos = this.relative ? $(this.p2).position() : $(this.p2).offset();
+    me.p1pos = me.relative ? $(me.p1).position() : $(me.p1).offset();
+    me.p2pos = me.relative ? $(me.p2).position() : $(me.p2).offset();
   };
 
   /**
    * Handler for mouseup events
    */
-  this.onDragStop = function(e)
+  function onDragStop(e)
   {
+    me.drag_active = false;
+
     // resume the ability to highlight text
     if (bw.konq || bw.chrome || bw.safari)
       document.body.style.webkitUserSelect = 'auto';
 
     // cancel the listening for drag events
-    rcube_event.remove_listener({element:document, event:'mousemove', object:this, method:'onDrag'});
-    rcube_event.remove_listener({element:document, event:'mouseup', object:this, method:'onDragStop'});
-    this.drag_active = false;
+    $(document).unbind('.' + me.id);
 
     // remove temp divs
-    $('div.iframe-splitter-fix').each(function() { this.parentNode.removeChild(this); });
+    $('div.iframe-splitter-fix').remove();
 
-    this.set_cookie();
+    me.set_cookie();
 
-    if (typeof this.callback == 'function')
-      this.callback(this);
+    if (typeof me.callback == 'function')
+      me.callback(me);
 
     return bw.safari ? true : rcube_event.cancel(e);
   };
@@ -188,15 +186,15 @@ function rcube_splitter(attrib)
   /**
    * Handler for window resize events
    */
-  this.onResize = function(e)
+  function onResize(e)
   {
-    if (this.horizontal) {
-      var new_height = parseInt(this.p2.parentNode.offsetHeight, 10) - parseInt(this.p2.style.top, 10) - (bw.ie8 ? 2 : 0);
-      this.p2.style.height = (new_height > 0 ? new_height : 0) +'px';
+    if (me.horizontal) {
+      var new_height = parseInt(me.p2.parentNode.offsetHeight, 10) - parseInt(me.p2.style.top, 10) - (bw.ie8 ? 2 : 0);
+      me.p2.style.height = (new_height > 0 ? new_height : 0) +'px';
     }
     else {
-      var new_width = parseInt(this.p2.parentNode.offsetWidth, 10) - parseInt(this.p2.style.left, 10);
-      this.p2.style.width = (new_width > 0 ? new_width : 0) + 'px';
+      var new_width = parseInt(me.p2.parentNode.offsetWidth, 10) - parseInt(me.p2.style.left, 10);
+      me.p2.style.width = (new_width > 0 ? new_width : 0) + 'px';
     }
   };
 
