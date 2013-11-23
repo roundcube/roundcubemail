@@ -220,13 +220,7 @@ else if (strlen($part_id)) {
     $browser = $RCMAIL->output->browser;
     list($ctype_primary, $ctype_secondary) = explode('/', $mimetype);
 
-    // send download headers
-    if ($plugin['download']) {
-      header("Content-Type: application/octet-stream");
-      if ($browser->ie)
-        header("Content-Type: application/force-download");
-    }
-    else if ($ctype_primary == 'text') {
+    if (!$plugin['download'] && $ctype_primary == 'text') {
       header("Content-Type: text/$ctype_secondary; charset=" . ($part->charset ? $part->charset : RCMAIL_CHARSET));
     }
     else {

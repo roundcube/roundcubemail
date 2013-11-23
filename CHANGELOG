@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Set real content-type for file downloads (#1489439)
 - Update TinyMCE to version 3.5.10 (#1489442)
 - Fix keyboard navigation in list widgets (#1489392)
 - Allow plugins to grab the reference of opened windows (#1489413)
