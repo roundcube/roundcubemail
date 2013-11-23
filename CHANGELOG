@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Update TinyMCE to version 3.5.10 (#1489442)
 - Fix keyboard navigation in list widgets (#1489392)
 - Allow plugins to grab the reference of opened windows (#1489413)
 - Larry skin: Improved status message display for better visibility (#1488974)
