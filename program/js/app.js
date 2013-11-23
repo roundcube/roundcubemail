@@ -187,8 +187,6 @@ function rcube_webmail()
     if (this.env.permaurl)
       this.enable_command('permaurl', 'extwin', true);
 
-    this.local_storage_prefix = 'roundcube.' + (this.env.user_id || 'anonymous') + '.';
-
     switch (this.task) {
 
       case 'mail':
@@ -7447,11 +7445,20 @@ function rcube_webmail()
     setCookie(name, value, expires, this.env.cookie_path, this.env.cookie_domain, this.env.cookie_secure);
   };
 
+  this.get_local_storage_prefix = function()
+  {
+    if (!this.local_storage_prefix)
+      this.local_storage_prefix = 'roundcube.' + (this.env.user_id || 'anonymous') + '.';
+
+    return this.local_storage_prefix;
+  };
+
   // wrapper for localStorage.getItem(key)
   this.local_storage_get_item = function(key, deflt, encrypted)
   {
+
     // TODO: add encryption
-    var item = localStorage.getItem(this.local_storage_prefix + key);
+    var item = localStorage.getItem(this.get_local_storage_prefix() + key);
     return item !== null ? JSON.parse(item) : (deflt || null);
   };
 
@@ -7459,13 +7466,13 @@ function rcube_webmail()
   this.local_storage_set_item = function(key, data, encrypted)
   {
     // TODO: add encryption
-    return localStorage.setItem(this.local_storage_prefix + key, JSON.stringify(data));
+    return localStorage.setItem(this.get_local_storage_prefix() + key, JSON.stringify(data));
   };
 
   // wrapper for localStorage.removeItem(key)
   this.local_storage_remove_item = function(key)
   {
-    return localStorage.removeItem(this.local_storage_prefix + key);
+    return localStorage.removeItem(this.get_local_storage_prefix() + key);
   };
 
 }  // end object rcube_webmail
