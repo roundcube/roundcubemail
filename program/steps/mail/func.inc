@@ -1705,32 +1705,32 @@ function rcmail_send_mdn($message, &$smtp_error)
       'References' => trim($message->headers->references . ' ' . $message->headers->messageID),
     );
 
-    if ($agent = $RCMAIL->config->get('useragent'))
-      $headers['User-Agent'] = $agent;
+    $report = "Final-Recipient: rfc822; {$identity['email']}\r\n" .
+               "Original-Message-ID: {$message->headers->messageID}\r\n" .
+               "Disposition: manual-action/MDN-sent-manually; displayed\r\n";
 
-    if ($RCMAIL->config->get('mdn_use_from'))
-      $options['mdn_use_from'] = true;
+    if ($message->headers->to) {
+        $report .= "Original-Recipient: {$message->headers->to}\r\n";
+    }
+
+    if ($agent = $RCMAIL->config->get('useragent')) {
+      $headers['User-Agent'] = $agent;
+      $report .= "Reporting-UA: $agent\r\n";
+    }
 
     $body = rcube_label("yourmessage") . "\r\n\r\n" .
       "\t" . rcube_label("to") . ': ' . rcube_mime::decode_mime_string($message->headers->to, $message->headers->charset) . "\r\n" .
       "\t" . rcube_label("subject") . ': ' . $message->subject . "\r\n" .
       "\t" . rcube_label("sent") . ': ' . format_date($message->headers->date, $RCMAIL->config->get('date_long')) . "\r\n" .
-      "\r\n" . rcube_label("receiptnote") . "\r\n";
-
-    $ua = $RCMAIL->config->get('useragent', "Roundcube Webmail (Version ".RCMAIL_VERSION.")");
-    $report = "Reporting-UA: $ua\r\n";
-
-    if ($message->headers->to)
-        $report .= "Original-Recipient: {$message->headers->to}\r\n";
-
-    $report .= "Final-Recipient: rfc822; {$identity['email']}\r\n" .
-               "Original-Message-ID: {$message->headers->messageID}\r\n" .
-               "Disposition: manual-action/MDN-sent-manually; displayed\r\n";
+      "\r\n" . rcube_label("receiptnote");
 
     $compose->headers($headers);
     $compose->setContentType('multipart/report', array('report-type'=> 'disposition-notification'));
     $compose->setTXTBody(rc_wordwrap($body, 75, "\r\n"));
     $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
+
+    if ($RCMAIL->config->get('mdn_use_from'))
+      $options['mdn_use_from'] = true;
 
     $sent = rcmail_deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file, $options);
 
