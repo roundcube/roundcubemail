@@ -669,10 +669,22 @@ if (is_array($COMPOSE['attachments'])) {
 }
 
 // choose transfer encoding for plain/text body
-if (preg_match('/[^\x00-\x7F]/', $MAIL_MIME->getTXTBody()))
+if (preg_match('/[^\x00-\x7F]/', $MAIL_MIME->getTXTBody())) {
+  $text_charset      = $message_charset;
   $transfer_encoding = $RCMAIL->config->get('force_7bit') ? 'quoted-printable' : '8bit';
-else
+}
+else {
+  $text_charset      = '';
   $transfer_encoding = '7bit';
+}
+
+if ($flowed) {
+  if (!$text_charset) {
+    $text_charset = 'US-ASCII';
+  }
+
+  $text_charset .= ";\r\n format=flowed";
+}
 
 // encoding settings for mail composing
 $MAIL_MIME->setParam('text_encoding', $transfer_encoding);
@@ -680,7 +692,7 @@ $MAIL_MIME->setParam('html_encoding', 'quoted-printable');
 $MAIL_MIME->setParam('head_encoding', 'quoted-printable');
 $MAIL_MIME->setParam('head_charset', $message_charset);
 $MAIL_MIME->setParam('html_charset', $message_charset);
-$MAIL_MIME->setParam('text_charset', $message_charset . ($flowed ? ";\r\n format=flowed" : ''));
+$MAIL_MIME->setParam('text_charset', $text_charset);
 
 // encoding subject header with mb_encode provides better results with asian characters
 if (function_exists('mb_encode_mimeheader')) {
