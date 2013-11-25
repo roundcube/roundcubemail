@@ -1565,7 +1565,7 @@ add_dragfix: function()
  */
 del_dragfix: function()
 {
-  $('div.iframe-dragdrop-fix').each(function() { this.parentNode.removeChild(this); });
+  $('div.iframe-dragdrop-fix').remove();
 },
 
 
