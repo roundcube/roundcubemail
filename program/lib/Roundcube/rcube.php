@@ -642,10 +642,11 @@ class rcube
     /**
      * Load a localization package
      *
-     * @param string Language ID
-     * @param array  Additional text labels/messages
+     * @param string $lang  Language ID
+     * @param array  $add   Additional text labels/messages
+     * @param array  $merge Additional text labels/messages to merge
      */
-    public function load_language($lang = null, $add = array())
+    public function load_language($lang = null, $add = array(), $merge = array())
     {
         $lang = $this->language_prop(($lang ? $lang : $_SESSION['language']));
 
@@ -684,6 +685,11 @@ class rcube
         // append additional texts (from plugin)
         if (is_array($add) && !empty($add)) {
             $this->texts += $add;
+        }
+
+        // merge additional texts (from plugin)
+        if (is_array($merge) && !empty($merge)) {
+            $this->texts = array_merge($this->texts, $merge);
         }
     }
 
