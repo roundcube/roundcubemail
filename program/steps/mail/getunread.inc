@@ -35,7 +35,10 @@ if (!empty($a_folders))
     else
       $unseen = $RCMAIL->storage->count($mbox_row, 'UNSEEN', $unseen_old === null);
 
-    if ($unseen || $unseen_old === null) {
+    // call it always for current folder, so it can update counter
+    // after possible message status change when opening a message
+    // not in preview frame
+    if ($unseen || $unseen_old === null || $mbox_row == $current) {
       $OUTPUT->command('set_unread_count', $mbox_row, $unseen, $inbox && $mbox_row == 'INBOX');
     }
 
@@ -44,5 +47,3 @@ if (!empty($a_folders))
 }
 
 $OUTPUT->send();
-
-
