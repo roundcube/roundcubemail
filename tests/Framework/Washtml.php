@@ -68,4 +68,17 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $this->assertRegExp('|<textarea>test</textarea>|', $washed, "Self-closing textarea (#1489137)");
     }
 
+    /**
+     * Test fixing of invalid closing tags (#1489446)
+     */
+    function test_closing_tag_attrs()
+    {
+        $html = "<a href=\"http://test.com\">test</a href>";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|</a>|', $washed, "Invalid closing tag (#1489446)");
+    }
+
 }

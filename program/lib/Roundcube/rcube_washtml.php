@@ -455,7 +455,7 @@ class rcube_washtml
         }
 
         // fix (unknown/malformed) HTML tags before "wash"
-        $html = preg_replace_callback('/(<(?!\!)[\/]*)([^\s>]+)/', array($this, 'html_tag_callback'), $html);
+        $html = preg_replace_callback('/(<(?!\!)[\/]*)([^\s>]+)([^>]*)/', array($this, 'html_tag_callback'), $html);
 
         // Remove invalid HTML comments (#1487759)
         // Don't remove valid conditional comments
@@ -479,7 +479,12 @@ class rcube_washtml
             '/[^a-z0-9_\[\]\!-]/i', // forbidden characters
         ), '', $tagname);
 
-        return $matches[1] . $tagname;
+        // fix invalid closing tags - remove any attributes (#1489446)
+        if ($matches[1] == '</') {
+            $matches[3] = '';
+        }
+
+        return $matches[1] . $tagname . $matches[3];
     }
 
     /**
