@@ -82,6 +82,7 @@ $messages['norecipientwarning'] = 'Zadejte, prosím, alespoň jednoho příjemce
 $messages['nosubjectwarning']  = 'Předmět nebyl vyplňen. Přejete si jej zadat nyní?';
 $messages['nobodywarning'] = 'Opravdu chtete odeslat prázdnou zprávu?';
 $messages['notsentwarning'] = 'Zpráva nebyla odeslána. Přejete si zprávu zahodit?';
+$messages['restoresavedcomposedata'] = 'Byla nalezena dříve vytvořená ale neodeslaná zpráva.\n\nPředmět: $subject\nUloženo: $date\n\nPřejete si obnovit tuto zprávu?';
 $messages['noldapserver'] = 'Zvolte, prosím, LDAP server k hledání';
 $messages['nosearchname'] = 'Zadejte, prosím, jméno nebo e-mail kontaktu';
 $messages['notuploadedwarning'] = 'Ještě nebyly nahrány všechny přílohy. Počkejte prosím nebo nahrávání zrušte.';

@@ -82,6 +82,7 @@ $messages['norecipientwarning'] = 'Legalább egy címzettet adjon meg';
 $messages['nosubjectwarning']  = 'A Tárgy mező üres. Szeretné most kitölteni?';
 $messages['nobodywarning'] = 'Elküldi az üzenetet üresen?';
 $messages['notsentwarning'] = 'Az üzenet még nem lett elküldve. Eldobja az üzenetet?';
+$messages['restoresavedcomposedata'] = 'Egy elkezdett de el nem küldött üzenetet talált a program.\n\Tárgy: $subject\nMentve: $date\n\nSzeretnéd visszaállítani és folytatni ez az üzenetet?';
 $messages['noldapserver'] = 'Adjon meg egy LDAP szervert a kereséshez';
 $messages['nosearchname'] = 'Adja meg a kapcsolat nevét vagy e-mail címét';
 $messages['notuploadedwarning'] = 'Még nem került feltöltésre minden csatolmány. Kérem várjon vagy állítsa le a feltöltést!';

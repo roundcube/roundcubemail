@@ -82,6 +82,7 @@ $messages['norecipientwarning'] = 'Пожалуйста, введите хотя
 $messages['nosubjectwarning']  = 'Поле Тема не заполнено. Хотите заполнить его сейчас?';
 $messages['nobodywarning'] = 'Отправить сообщение без текста?';
 $messages['notsentwarning'] = 'Сообщение не было отправлено. Вы хотите отказаться от отправки?';
+$messages['restoresavedcomposedata'] = 'Найдено ранее составленное, но неотправленное сообщение.\n\nТема: $subject\nСохранено: $date\n\nХотите восстановить это сообщение?';
 $messages['noldapserver'] = 'Пожалуйста, выберите LDAP сервер для поиска.';
 $messages['nosearchname'] = 'Пожалуйста, введите имя или адрес E-Mail';
 $messages['notuploadedwarning'] = 'Вложения загружены не полностью. Подождите или отмените загрузку.';

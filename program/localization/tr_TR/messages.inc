@@ -82,6 +82,7 @@ $messages['norecipientwarning'] = 'Lütfen en az bir alıcı belirtin';
 $messages['nosubjectwarning']  = '"Konu" kutusu boş bırakılmış. Şimdi bir konu belirtmek ister misiniz?';
 $messages['nobodywarning'] = 'Postayı boş olarak gönder?';
 $messages['notsentwarning'] = 'Posta gönderilmedi. Postanızı iptal etmek istiyor musunuz?';
+$messages['restoresavedcomposedata'] = 'Daha önce oluşturulmuş fakat gönderilmemiş mesaj bulundu.\n\nKonu: $subject\Kaydetme zamanı: $date\n\nBu mesajı geri yüklemek istiyor musunuz?';
 $messages['noldapserver'] = 'Lütfen arama için bir LDAP sunucu seçin';
 $messages['nosearchname'] = 'Lütfen bir kişi ismi veya e-posta adresi girin';
 $messages['notuploadedwarning'] = 'Henüz tüm ekli dosyalar yüklenmedi. Lütfen bekleyin ya da yüklemeyi iptal edin.';

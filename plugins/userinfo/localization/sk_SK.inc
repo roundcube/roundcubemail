@@ -15,8 +15,8 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
-$labels['userinfo'] = 'Užívateľské informácie';
+$labels['userinfo'] = 'Informácie o používateľovi';
 $labels['created'] = 'Vytvorené';
 $labels['lastlogin'] = 'Posledné prihlásenie';
-$labels['defaultidentity'] = 'Štandardná identita';
+$labels['defaultidentity'] = 'Predvolená identita';
 ?>

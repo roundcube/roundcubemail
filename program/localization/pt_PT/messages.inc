@@ -82,6 +82,7 @@ $messages['norecipientwarning'] = 'Por favor, insira pelo menos um destinatário
 $messages['nosubjectwarning']  = 'O campo "Assunto" não foi preenchido. Deseja incluí-lo agora?';
 $messages['nobodywarning'] = 'Enviar a mensagem sem texto?';
 $messages['notsentwarning'] = 'A mensagem não foi enviada, deseja apagá-la?';
+$messages['restoresavedcomposedata'] = 'Uma mensagem, anteriormente, composta mas não enviada foi encontrado.\n\nAssunto: $subject\nGuardada: $date\n\nDeseja restaurar esta mensagem?';
 $messages['noldapserver'] = 'Seleccione um servidor LDAP para efectuar a pesquisa';
 $messages['nosearchname'] = 'Por favor, insira o nome do contacto ou endereço de e-mail';
 $messages['notuploadedwarning'] = 'Nem todos os anexos foram ainda enviados. Por favor aguarde ou cancele o envio.';

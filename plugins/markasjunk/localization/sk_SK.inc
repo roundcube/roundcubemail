@@ -15,7 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-$labels['buttontext'] = 'Spam';
-$labels['buttontitle'] = 'Označiť ako Spam';
-$labels['reportedasjunk'] = 'Úspešne nahlásené ako Spam';
+$labels['buttontext'] = 'Nevyžiadaná pošta';
+$labels['buttontitle'] = 'Označiť ako nevyžiadané';
+$labels['reportedasjunk'] = 'Úspešne nahlásené ako nevyžiadaná pošta';
 ?>

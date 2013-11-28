@@ -82,6 +82,7 @@ $messages['norecipientwarning'] = '少なくとも1つ宛先を入力してく�
 $messages['nosubjectwarning']  = '件名(Subject)の欄が空です。今、入力しますか?';
 $messages['nobodywarning'] = '本文の無いメッセージを送信しますか?';
 $messages['notsentwarning'] = 'メッセージを送信しませんでした。このメッセージを破棄しますか。';
+$messages['restoresavedcomposedata'] = '以前に作成して未送信のメッセージがあります。\n\n件名: $subject\n保存日: $date\n\nこのメッセージを回復しますか?';
 $messages['noldapserver'] = '検索するLDAPサーバーを選択してください。';
 $messages['nosearchname'] = '連絡先の名前か電子メールアドレスを入力してください。';
 $messages['notuploadedwarning'] = 'すべての添付ファイルのアップロードを完了していません。今しばらく待つか、取り消ししてください。';

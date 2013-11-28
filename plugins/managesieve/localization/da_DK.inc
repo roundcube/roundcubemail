@@ -162,6 +162,7 @@ $messages['filterconnerror'] = 'Kan ikke forbinde til server.';
 $messages['filterdeleteerror'] = 'Kunne ikke slette filter. Serverfejl opstod.';
 $messages['filterdeleted'] = 'Filter slettet.';
 $messages['filtersaved'] = 'Filter gemt.';
+$messages['filtersaveerror'] = 'Kunne ikke gemme filter. Serverfejl.';
 $messages['filterdeleteconfirm'] = 'Vil du slette det valgte filter?';
 $messages['ruledeleteconfirm'] = 'Er du sikker på at du vil slette den valgte regel?';
 $messages['actiondeleteconfirm'] = 'Er du sikker på du vil slette den valgte handling?';

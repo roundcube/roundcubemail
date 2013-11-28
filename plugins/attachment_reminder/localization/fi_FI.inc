@@ -17,4 +17,4 @@
 */
 $messages['forgotattachment'] = "Unohditko liittää tiedoston?";
 $messages['reminderoption'] = "Muistuta mahdollisesti unohtuneista liitteistä";
-$messages['keywords'] = "attachment,file,attach,attached,attaching,enclosed,CV,cover letter,liite,tiedosto,liitteenä,liitetiedosto";
+$messages['keywords'] = "attachment,file,attach,attached,attaching,enclosed,CV,cover letter,liite,tiedosto,liitteenä,liitetiedosto,ansioluettelo";

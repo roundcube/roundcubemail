@@ -17,5 +17,5 @@
 */
 $labels['hide'] = 'Skryť';
 $labels['show'] = 'Zobraziť';
-$labels['quotelimit'] = 'Skryť citáciu pokiaľ je počet riadkov väčší než';
+$labels['quotelimit'] = 'Skryť citovaný text, ak je počet riadkov väčší než';
 ?>

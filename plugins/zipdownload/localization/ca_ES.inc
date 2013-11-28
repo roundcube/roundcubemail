@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-$labels['downloadall'] = 'Descarregar tots els adjunts';
-$labels['downloadfolder'] = 'Descarregar carpeta';
+$labels['downloadall'] = 'Descarrega tots els adjunts';
+$labels['downloadfolder'] = 'Descarrega la carpeta';
 ?>

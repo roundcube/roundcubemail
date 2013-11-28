@@ -16,6 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
 $labels['buttontext'] = 'Correu brossa';
-$labels['buttontitle'] = 'Marca com a Spam';
-$labels['reportedasjunk'] = 'S\'ha reportat correctament com a Spam';
+$labels['buttontitle'] = 'Marca com a correu brossa';
+$labels['reportedasjunk'] = 'S\'ha reportat correctament com a correu brossa';
 ?>

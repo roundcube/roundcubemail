@@ -82,6 +82,7 @@ $messages['norecipientwarning'] = 'Indtast mindst én modtager.';
 $messages['nosubjectwarning']  = '\'Emne\'-feltet er tomt. Kunne du tænke dig at skrive et nu?';
 $messages['nobodywarning'] = 'Send denne besked uden tekst?';
 $messages['notsentwarning'] = 'Beskeden er ikke sendt. Vil du kassere din besked?';
+$messages['restoresavedcomposedata'] = 'En tidligere skreven men usendt besked blev fundet.\n\nEmne: $subject\nGemt: $date\n\nØnsker du at gendanne denne besked?';
 $messages['noldapserver'] = 'Vælg venligst hvilken LDAP-server der skal søges i.';
 $messages['nosearchname'] = 'Indtast venligst en kontakts navn eller e-mailadresse.';
 $messages['notuploadedwarning'] = 'Ikke alle vedhæftede filer er blevet uploadet endnu. Vent venligst eller afbryd upload.';

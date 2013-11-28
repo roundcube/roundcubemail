@@ -17,5 +17,5 @@
 */
 $labels['hide'] = 'Gizlət';
 $labels['show'] = 'Göstər';
-$labels['quotelimit'] = 'Sətr saytı göstəriləndən çoxdursa sitatı gizlə:';
+$labels['quotelimit'] = 'Sayğac xətti çoxdursa sitatı gizlə';
 ?>

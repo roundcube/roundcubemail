@@ -82,6 +82,7 @@ $messages['norecipientwarning'] = 'Bitte geben Sie mindestens einen Empfänger a
 $messages['nosubjectwarning']  = 'Die Betreffzeile ist leer. Möchten Sie jetzt einen Betreff eingeben?';
 $messages['nobodywarning'] = 'Wollen Sie diese Nachricht ohne Inhalt senden?';
 $messages['notsentwarning'] = 'Ihre Nachricht wurde nicht gesendet. Wollen Sie die Nachricht verwerfen?';
+$messages['restoresavedcomposedata'] = 'Eine zuvor verfasste aber nicht gesendete Nachricht wurde gefunden.\n\nBetreff: $subject\nGespeichert: $date\n\nWollen Sie diese Nachricht wiederherstellen?';
 $messages['noldapserver'] = 'Bitte wählen Sie einen LDAP-Server aus';
 $messages['nosearchname'] = 'Bitte geben Sie einen Namen oder eine E-Mail-Adresse ein.';
 $messages['notuploadedwarning'] = 'Es wurden noch nicht alle Dateien hochgeladen. Bitte warten oder Upload abbrechen.';

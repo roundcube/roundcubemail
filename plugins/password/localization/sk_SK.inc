@@ -16,16 +16,16 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 $labels['changepasswd']  = 'Zmeniť heslo';
-$labels['curpasswd']  = 'Súčasné heslo:';
+$labels['curpasswd']  = 'Aktuálne heslo:';
 $labels['newpasswd']  = 'Nové heslo:';
-$labels['confpasswd']  = 'Potvrď nové heslo:';
-$messages['nopassword'] = 'Prosím zadaj nové heslo.';
-$messages['nocurpassword'] = 'Prosím zadaj súčasné heslo.';
-$messages['passwordincorrect'] = 'Súčasné heslo je nesprávne.';
-$messages['passwordinconsistency'] = 'Heslá nie sú rovnaké, skús znova.';
-$messages['crypterror'] = 'Nemôžem uložiť nové heslo. Chýba šifrovacia funkcia.';
-$messages['connecterror'] = 'Nemôžem uložiť nové heslo. Chyba spojenia.';
-$messages['internalerror'] = 'Nemôžem uložiť nové heslo.';
+$labels['confpasswd']  = 'Potvrďte nové heslo:';
+$messages['nopassword'] = 'Prosím zadajte nové heslo.';
+$messages['nocurpassword'] = 'Prosím zadajte aktuálne heslo.';
+$messages['passwordincorrect'] = 'Aktuálne heslo je nesprávne.';
+$messages['passwordinconsistency'] = 'Heslá nie sú rovnaké, skúste to znova.';
+$messages['crypterror'] = 'Nové heslo nemožno uložiť. Chýba šifrovacia funkcia.';
+$messages['connecterror'] = 'Nové heslo nemožno uložiť. Chyba spojenia.';
+$messages['internalerror'] = 'Nové heslo nemožno uložiť.';
 $messages['passwordshort'] = 'Heslo musí mať najmenej $length znakov.';
 $messages['passwordweak'] = 'Heslo musí obsahovať aspoň jedno číslo a jedno interpunkčné znamienko.';
 $messages['passwordforbidden'] = 'Heslo obsahuje nepovolené znaky.';

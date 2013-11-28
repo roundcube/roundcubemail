@@ -17,4 +17,4 @@
 */
 $messages['forgotattachment'] = "Esqueceches adxuntar un ficheiro?";
 $messages['reminderoption'] = "Lembrete de adxuntos esquecidos";
-$messages['keywords'] = "adxunto,ficheiro,engádega, engadido,engadindo,anexo,CV,cuberta,carta";
+$messages['keywords'] = "anexo, arquivo, engadir, anexo, anexando, pechado, CV, carta de presentación";

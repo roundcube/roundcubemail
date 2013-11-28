@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-$labels['identitydialogtitle'] = 'Por favor, complete os seus datos persoais';
-$labels['identitydialoghint'] = 'Este diálogo só aparecerá a primera vez que se conecte ao correo.';
+$labels['identitydialogtitle'] = 'Por favor, completa os teus datos persoais';
+$labels['identitydialoghint'] = 'Este diálogo só aparecerá a primera vez que te conectes ao correo.';
 ?>

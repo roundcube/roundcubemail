@@ -18,7 +18,7 @@
 $labels['buttontext'] = 'Arquivo';
 $labels['buttontitle'] = 'Arquivar esta mensaxe';
 $labels['archived'] = 'Aquivouse a mensaxe';
-$labels['archivedreload'] = 'Arquivado correctamente. Recargue a páxina para ver os novos cartafoles de arquivado.';
+$labels['archivedreload'] = 'Arquivado correctamente. Recargua a páxina para ver os novos cartafoles de arquivado.';
 $labels['archiveerror'] = 'Non se puideron arquivar algunhas mensaxes';
 $labels['archivefolder'] = 'Arquivo';
 $labels['settingstitle'] = 'Arquivar';
@@ -26,6 +26,6 @@ $labels['archivetype'] = 'Dividir o arquivo por';
 $labels['archivetypeyear'] = 'Ano (p.ex. Arquivo/2012)';
 $labels['archivetypemonth'] = 'Mes (p.ex. Arquivo/2012/06)';
 $labels['archivetypefolder'] = 'Cartafol orixe';
-$labels['archivetypesender'] = 'Enderezo do remitente';
+$labels['archivetypesender'] = 'Enderezo da persoa remitente';
 $labels['unkownsender'] = 'descoñecido';
 ?>

@@ -24,4 +24,5 @@ $labels['body'] = 'Sizə məktub gəldi';
 $labels['testbody'] = 'Bu sınaq bildirişidir';
 $labels['desktopdisabled'] = 'Sizin brauzerdə iş masasında bildiriş söndürülüb';
 $labels['desktopunsupported'] = 'Sizin brauzer iş masasında bildiriş funksiyasını dəstəkləmir';
+$labels['desktoptimeout'] = 'Masaüstü bildirişi bağla';
 ?>

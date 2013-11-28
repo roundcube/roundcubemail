@@ -18,11 +18,11 @@
 $labels['basic'] = 'Zobraziť upozornenie v prehliadači pri novej správe';
 $labels['desktop'] = 'Zobraziť upozornenie na ploche pri novej správe';
 $labels['sound'] = 'Prehrať zvuk pri novej správe';
-$labels['test'] = 'Skúška';
-$labels['title'] = 'Nová správa';
+$labels['test'] = 'Otestovať';
+$labels['title'] = 'Nová správa!';
 $labels['body'] = 'Máte novú správu.';
 $labels['testbody'] = 'Toto je skúšobné upozornenie.';
 $labels['desktopdisabled'] = 'Upozornenia na ploche sú vo vašom prehliadači vypnuté.';
-$labels['desktopunsupported'] = 'Váč prehliadač nepodporuje upozornenia na ploche.';
+$labels['desktopunsupported'] = 'Váš prehliadač nepodporuje upozornenia na ploche.';
 $labels['desktoptimeout'] = 'Zatvoriť notifikáciu na ploche';
 ?>

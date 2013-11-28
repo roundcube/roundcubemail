@@ -16,7 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 $messages['errortitle']  = 'Έχει προκύψει κάποιο σφάλμα!';
-$messages['loginfailed']  = 'Είσοδος απέτυχε';
+$messages['loginfailed']  = 'Είσοδος απέτυχε.';
 $messages['cookiesdisabled'] = 'Ο περιηγητής σας (browser) δεν αποδέχεται cookies';
 $messages['sessionerror'] = 'Η συνεδρία σας είναι άκυρη ή έχει λήξει';
 $messages['storageerror'] = 'Η σύνδεση με το διακομιστή IMAP απέτυχε';
@@ -44,6 +44,8 @@ $messages['messagesent'] = 'Μήνυμα εστάλη επιτυχώς';
 $messages['savingmessage'] = 'Αποθήκευση μηνύματος...';
 $messages['messagesaved'] = 'Μήνυμα αποθηκεύτηκε στα Πρόχειρα';
 $messages['successfullysaved'] = 'Αποθηκεύτηκε επιτυχώς';
+$messages['savingresponse'] = 'Αποθηκεύετε το κείμενο απάντησης...';
+$messages['deleteresponseconfirm'] = 'Σίγουρα θέλετε να διαγράψετε αυτό το κείμενο απάντησης;';
 $messages['addedsuccessfully'] = 'Η επαφή προστέθηκε επιτυχώς στις Επαφές';
 $messages['contactexists'] = 'Υπάρχει ήδη επαφή με αυτή τη διεύθυνση e-mail';
 $messages['contactnameexists'] = 'Μια επαφή με το ίδιο όνομα υπάρχει ήδη.';
@@ -54,6 +56,8 @@ $messages['contactnotfound'] = 'Η ζητούμενη επαφή δεν βρέθ
 $messages['contactsearchonly'] = 'Εισάγετε κάποιους όρους προς αναζήτηση';
 $messages['sendingfailed'] = 'Αποστολή μηνύματος απέτυχε';
 $messages['senttooquickly'] = 'Παρακαλώ περιμένετε $sec δευτερόλεπτα, πριν στείλετε το μήνυμα';
+$messages['errorsavingsent'] = 'Προέκυψε σφάλμα κατά την αποθήκευση σταλμένου μηνύματος.';
+$messages['errorsaving'] = 'Προέκυψε σφάλμα κατά την αποθήκευση.';
 $messages['errormoving'] = 'Το μήνυμα δε μπορούσε να μετακινηθεί';
 $messages['errorcopying'] = 'Δεν είναι δυνατή η αντιγραφή του μηνύματος/των';
 $messages['errordeleting'] = 'Το μήνυμα δε μπορούσε να διαγραφεί';
@@ -140,6 +144,7 @@ $messages['smtperror'] = 'Σφάλμα SMTP: $msg';
 $messages['emailformaterror'] = 'Λανθασμένη διεύθνση email: $email';
 $messages['toomanyrecipients'] = 'Μεγάλο πλήθος αποδεκτών. Μειώστε τον αριθμό των αποδεκτών σε $max.';
 $messages['maxgroupmembersreached'] = 'Ο αριθμός των μελών της ομάδας υπερβαίνει τον μέγιστο των $max μελών.';
+$messages['internalerror'] = 'Προέκυψε εσωτερικό σφάλμα. Παρακαλώ δοκιμάστε ξανά.';
 $messages['contactdelerror'] = 'Δεν είναι δυνατή η διαγραφή της επαφής/ων';
 $messages['contactdeleted'] = 'Η επαφή/ές διαγράφηκαν με επιτυχία.';
 $messages['contactrestoreerror'] = 'Οι διαγραφημενη επαφη(ες) δεν μπορουν να επαναφερθουν.';

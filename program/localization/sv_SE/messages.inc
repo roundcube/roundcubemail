@@ -82,6 +82,7 @@ $messages['norecipientwarning'] = 'Ange minst en mottagare';
 $messages['nosubjectwarning']  = 'Ämnesraden är tom. Vill du ange ämne nu?';
 $messages['nobodywarning'] = 'Skicka det här meddelandet utan text?';
 $messages['notsentwarning'] = 'Meddelandet har inte skickats. Vill du avbryta meddelandet?';
+$messages['restoresavedcomposedata'] = 'Ett tidigare skrivet men inte skickat meddelande upptäcktes.\n\nÄmne: $subject\nSparat: $date\n\nVill du återskapa meddelandet?';
 $messages['noldapserver'] = 'Ange en LDAP-server för att söka';
 $messages['nosearchname'] = 'Ange ett kontaktnamn eller en adress';
 $messages['notuploadedwarning'] = 'Alla bilagor har inte överförts ännu. Vänta eller avbryt överföringen.';
