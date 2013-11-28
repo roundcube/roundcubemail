@@ -284,6 +284,7 @@ class rcube_plugin_api
         $composer = INSTALL_PATH . "/plugins/$plugin_name/composer.json";
         if (file_exists($composer) && ($json = @json_decode(file_get_contents($composer), true))) {
           list($info['vendor'], $info['name']) = explode('/', $json['name']);
+          $info['version'] = $json['version'];
           $info['license'] = $json['license'];
           if ($license_uri = $license_uris[$info['license']])
             $info['license_uri'] = $license_uri;
