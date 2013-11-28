@@ -373,7 +373,11 @@ class rcube_config
      */
     public function all()
     {
-        return $this->prop;
+        $rcube  = rcube::get_instance();
+        $plugin = $rcube->plugins->exec_hook('config_get', array(
+            'name' => '*', 'result' => $this->prop));
+
+        return $plugin['result'];
     }
 
     /**
