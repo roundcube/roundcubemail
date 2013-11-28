@@ -1250,10 +1250,8 @@ class rcube_imap_cache
 
         unset($msg->replaces);
 
-        if (is_array($msg->structure->parts)) {
-            foreach ($msg->structure->parts as $part) {
-                $this->message_object_prepare($part, $size);
-            }
+        if (is_object($msg->structure)) {
+            $this->message_object_prepare($msg->structure, $size);
         }
 
         if (is_array($msg->parts)) {
