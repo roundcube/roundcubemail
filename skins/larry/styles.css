@@ -1133,6 +1133,9 @@ ul.listing {
 
 ul.listing li {
 	background-color: #d9ecf4;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 ul.listing li ul {
