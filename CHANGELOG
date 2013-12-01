@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix performance of listing writeable folders (#1489451)
+
 RELEASE 1.0-beta
 ----------------
 - Fix handling of invalid closing tags in HTML messages (#1489446)
