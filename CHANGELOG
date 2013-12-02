@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix unreliable mimetype tests in Installer (#1489453)
 - Fix performance of listing writeable folders (#1489451)
 
 RELEASE 1.0-beta
