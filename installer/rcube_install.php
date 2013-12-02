@@ -467,7 +467,8 @@ class rcube_install
     $files = array(
       'installer/images/roundcube_logo.png' => 'image/png',
       'program/resources/blank.tif' => 'image/tiff',
-      'skins/larry/templates/login.html' => 'text/html',
+      'skins/larry/images/buttons.gif' => 'image/gif',
+      'skins/larry/README' => 'text/plain',
     );
 
     $errors = array();
@@ -490,7 +491,7 @@ class rcube_install
       'application/zip'   => 'zip',
       'application/x-tar' => 'tar',
       'application/java-archive' => 'jar',
-      'image/bmp'     => 'bmp',
+      'image/gif'     => 'gif',
       'image/svg+xml' => 'svg',
     );
 
