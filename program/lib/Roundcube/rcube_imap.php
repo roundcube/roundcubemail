@@ -2843,12 +2843,21 @@ class rcube_imap extends rcube_storage
 
     /**
      * Filter the given list of folders according to access rights
+     *
+     * For performance reasons we assume user has full rights
+     * on all personal folders.
      */
     protected function filter_rights($a_folders, $rights)
     {
         $regex = '/('.$rights.')/';
+
         foreach ($a_folders as $idx => $folder) {
+            if ($this->folder_namespace($folder) == 'personal') {
+                continue;
+            }
+
             $myrights = join('', (array)$this->my_rights($folder));
+
             if ($myrights !== null && !preg_match($regex, $myrights)) {
                 unset($a_folders[$idx]);
             }

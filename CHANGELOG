@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix performance of listing writeable folders (#1489451)
+
+RELEASE 1.0-beta
+----------------
 - Fix handling of invalid closing tags in HTML messages (#1489446)
 - Set real content-type for file downloads (#1489439)
 - Update TinyMCE to version 3.5.10 (#1489442)
