@@ -1324,8 +1324,10 @@ class rcube_ldap extends rcube_addressbook
 
     /**
      * Remove all contact records
+     *
+     * @param bool $with_groups Delete also groups if enabled
      */
-    function delete_all()
+    function delete_all($with_groups = false)
     {
         // searching for contact entries
         $dn_list = $this->ldap->list_entries($this->base_dn, $this->prop['filter'] ? $this->prop['filter'] : '(objectclass=*)');
@@ -1335,6 +1337,16 @@ class rcube_ldap extends rcube_addressbook
                 $dn_list[$idx] = self::dn_encode($entry['dn']);
             }
             $this->delete($dn_list);
+        }
+
+        if ($with_groups && $this->groups && ($groups = $this->_fetch_groups()) && count($groups)) {
+            foreach ($groups as $group) {
+                $this->ldap->delete($group['dn']);
+            }
+
+            if ($this->cache) {
+                $this->cache->remove('groups');
+            }
         }
     }
 

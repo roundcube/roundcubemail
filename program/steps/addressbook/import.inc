@@ -249,7 +249,7 @@ if (is_array($_FILES['_file'])) {
         $IMPORT_STATS->inserted = $IMPORT_STATS->skipped = $IMPORT_STATS->invalid = $IMPORT_STATS->errors = 0;
 
         if ($replace) {
-            $CONTACTS->delete_all();
+            $CONTACTS->delete_all($CONTACTS->groups && $with_groups < 2);
         }
 
         if ($with_groups) {

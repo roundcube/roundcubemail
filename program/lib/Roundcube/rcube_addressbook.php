@@ -311,8 +311,10 @@ abstract class rcube_addressbook
 
     /**
      * Mark all records in database as deleted
+     *
+     * @param bool $with_groups Remove also groups
      */
-    function delete_all()
+    function delete_all($with_groups = false)
     {
         /* empty for read-only address books */
     }

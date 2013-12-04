@@ -812,16 +812,30 @@ class rcube_contacts extends rcube_addressbook
 
     /**
      * Remove all records from the database
+     *
+     * @param bool $with_groups Remove also groups
+     *
+     * @return int Number of removed records
      */
-    function delete_all()
+    function delete_all($with_groups = false)
     {
         $this->cache = null;
 
-        $this->db->query("UPDATE ".$this->db->table_name($this->db_name).
-            " SET del=1, changed=".$this->db->now().
-            " WHERE user_id = ?", $this->user_id);
+        $this->db->query("UPDATE " . $this->db->table_name($this->db_name)
+            . " SET del = 1, changed = " . $this->db->now()
+            . " WHERE user_id = ?", $this->user_id);
 
-        return $this->db->affected_rows();
+        $count = $this->db->affected_rows();
+
+        if ($with_groups) {
+            $this->db->query("UPDATE " . $this->db->table_name($this->db_groups)
+                . " SET del = 1, changed = " . $this->db->now()
+                . " WHERE user_id = ?", $this->user_id);
+
+            $count += $this->db->affected_rows();
+        }
+
+        return $count;
     }
 
 
@@ -860,11 +874,11 @@ class rcube_contacts extends rcube_addressbook
     function delete_group($gid)
     {
         // flag group record as deleted
-        $sql_result = $this->db->query(
-            "UPDATE ".$this->db->table_name($this->db_groups).
-            " SET del=1, changed=".$this->db->now().
-            " WHERE contactgroup_id=?".
-            " AND user_id=?",
+        $this->db->query(
+            "UPDATE " . $this->db->table_name($this->db_groups)
+            . " SET del = 1, changed = " . $this->db->now()
+            . " WHERE contactgroup_id = ?"
+            . " AND user_id = ?",
             $gid, $this->user_id
         );
 
@@ -872,7 +886,6 @@ class rcube_contacts extends rcube_addressbook
 
         return $this->db->affected_rows();
     }
-
 
     /**
      * Rename a specific contact group

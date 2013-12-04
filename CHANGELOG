@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix issue where groups were not deleted when "Replace entire addressbook" option on contacts import was used (#1489420)
 - Fix unreliable mimetype tests in Installer (#1489453)
 - Fix performance of listing writeable folders (#1489451)
 
