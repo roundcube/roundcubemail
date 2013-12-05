@@ -432,6 +432,9 @@ function rcube_mail_ui()
 
     // show a popup dialog on errors
     if (p.type == 'error' && rcmail.env.task != 'login') {
+      // hide original message object, we don't want both
+      rcmail.hide_message(p.object);
+
       if (me.message_timer) {
         window.clearTimeout(me.message_timer);
       }
@@ -440,8 +443,10 @@ function rcube_mail_ui()
       }
 
       var msg = p.message,
-        pos = $(p.object).offset();
-      pos.top -= (rcmail.env.task == 'login' ? 20 : 160);
+        dialog_close = function() {
+          // check if dialog is still displayed, to prevent from js error
+          me.messagedialog.is(':visible') && me.messagedialog.dialog('destroy').hide();
+        };
 
       if (me.messagedialog.is(':visible'))
         msg = me.messagedialog.html() + '<p>' + p.message + '</p>';
@@ -452,16 +457,14 @@ function rcube_mail_ui()
           closeOnEscape: true,
           dialogClass: 'popupmessage ' + p.type,
           title: env.errortitle,
-          close: function() {
-            me.messagedialog.dialog('destroy').hide();
-          },
-          position: ['center', pos.top],
-          hide: { effect:'drop', direction:'right' },
+          close: dialog_close,
+          position: ['center', 'center'],
+          hide: {effect: 'fadeOut'},
           width: 420,
           minHeight: 90
         }).show();
 
-      me.message_timer = window.setTimeout(function(){ me.messagedialog.dialog('close'); }, Math.max(3000, p.timeout / 2));
+      me.message_timer = window.setTimeout(dialog_close, p.timeout);
     }
   }
 
