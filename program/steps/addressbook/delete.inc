@@ -51,7 +51,17 @@ foreach ($cids as $source => $cid)
     $deleted = !$plugin['abort'] ? $CONTACTS->delete($cid, $undo_time < 1) : $plugin['result'];
 
     if (!$deleted) {
-        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'contactdelerror', 'error');
+        if ($plugin['message']) {
+            $error = $plugin['message'];
+        }
+        else if (($error = $CONTACTS->get_error()) && $error['message']) {
+            $error = $error['message'];
+        }
+        else {
+            $error = 'contactdelerror';
+        }
+
+        $OUTPUT->show_message($error, 'error');
         $OUTPUT->command('list_contacts');
         $OUTPUT->send();
     }
