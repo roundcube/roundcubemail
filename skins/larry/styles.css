@@ -616,6 +616,15 @@ a.iconlink.upload {
 	background: url(images/ajaxloader_dark.gif) 0 4px no-repeat;
 }
 
+#messagestack div a {
+	color: #94c0da;
+}
+
+#messagestack div a:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
 .ui-dialog.error .ui-dialog-title,
 .ui-dialog.warning .ui-dialog-title,
 .ui-dialog.confirmation .ui-dialog-title {
