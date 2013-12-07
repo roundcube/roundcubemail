@@ -313,6 +313,7 @@ function rcube_webmail()
         if (this.gui_objects.contactslist) {
           this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
             { multiselect:true, draggable:false, keyboard:false });
+          this.contact_list.row_init = function(row){ p.triggerEvent('insertrow', { cid:row.uid, row:row }); };
           this.contact_list.addEventListener('select', function(o){ ref.compose_recipient_select(o); });
           this.contact_list.addEventListener('dblclick', function(o){ ref.compose_add_recipient('to'); });
           this.contact_list.init();
