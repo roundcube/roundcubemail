@@ -61,8 +61,11 @@ foreach ($cids as $source => $cid)
             $error = 'contactdelerror';
         }
 
+        $source = get_input_value('_source', RCUBE_INPUT_GPC);
+        $group  = get_input_value('_gid', RCUBE_INPUT_GPC);
+
         $OUTPUT->show_message($error, 'error');
-        $OUTPUT->command('list_contacts');
+        $OUTPUT->command('list_contacts', $source, $group);
         $OUTPUT->send();
     }
     else {
