@@ -626,7 +626,7 @@ class rcube_contacts extends rcube_addressbook
             }
         }
 
-        $save_data = $this->convert_save_data($save_data);
+        $save_data     = $this->convert_save_data($save_data);
         $a_insert_cols = $a_insert_values = array();
 
         foreach ($save_data as $col => $value) {
@@ -655,13 +655,14 @@ class rcube_contacts extends rcube_addressbook
      *
      * @param mixed Record identifier
      * @param array Assoziative array with save data
+     *
      * @return boolean True on success, False on error
      */
     function update($id, $save_cols)
     {
-        $updated = false;
+        $updated   = false;
         $write_sql = array();
-        $record = $this->get_record($id, true);
+        $record    = $this->get_record($id, true);
         $save_cols = $this->convert_save_data($save_cols, $record);
 
         foreach ($save_cols as $col => $value) {
@@ -683,7 +684,7 @@ class rcube_contacts extends rcube_addressbook
             $this->result = null;  // clear current result (from get_record())
         }
 
-        return $updated;
+        return $updated ? true : false;
     }
 
 
