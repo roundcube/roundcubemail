@@ -249,6 +249,9 @@ clear: function(sel)
   // reset scroll position (in Opera)
   if (this.frame)
     this.frame.scrollTop = 0;
+
+  // fix list header after removing any rows
+  this.resize();
 },
 
 
@@ -257,7 +260,7 @@ clear: function(sel)
  */
 remove_row: function(uid, sel_next)
 {
-  var node = this.rows[uid] ? this.rows[uid].obj : null;
+  var self = this, node = this.rows[uid] ? this.rows[uid].obj : null;
 
   if (!node)
     return;
@@ -269,6 +272,10 @@ remove_row: function(uid, sel_next)
 
   delete this.rows[uid];
   this.rowcount--;
+
+  // fix list header after removing any rows
+  clearTimeout(this.resize_timeout)
+  this.resize_timeout = setTimeout(function() { self.resize(); }, 50);
 },
 
 
@@ -277,7 +284,7 @@ remove_row: function(uid, sel_next)
  */
 insert_row: function(row, before)
 {
-  var tbody = this.tbody;
+  var self = this, tbody = this.tbody;
 
   // create a real dom node first
   if (row.nodeName === undefined) {
@@ -305,6 +312,10 @@ insert_row: function(row, before)
 
   this.init_row(row);
   this.rowcount++;
+
+  // fix list header after adding any rows
+  clearTimeout(this.resize_timeout)
+  this.resize_timeout = setTimeout(function() { self.resize(); }, 50);
 },
 
 /**
