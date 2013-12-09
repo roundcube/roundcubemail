@@ -1630,7 +1630,7 @@ class rcmail extends rcube
 
         $rcmail->output->add_script('rcmail.set_quota('.rcube_output::json_serialize($quota).');', 'docready');
 
-        return html::span($attrib, '');
+        return html::span($attrib, '&nbsp;');
     }
 
 

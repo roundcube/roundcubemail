@@ -2019,6 +2019,7 @@ select.decorated option {
 
 #quotadisplay {
 	left: 6px;
+	height: 18px;
 	font-size: 12px;
 	font-weight: bold;
 	text-shadow: 0px 1px 1px #fff;
