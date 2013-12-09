@@ -41,6 +41,7 @@ class managesieve extends rcube_plugin
 
         // register actions
         $this->register_action('plugin.managesieve', array($this, 'managesieve_actions'));
+        $this->register_action('plugin.managesieve-action', array($this, 'managesieve_actions'));
         $this->register_action('plugin.managesieve-save', array($this, 'managesieve_save'));
 
         if ($this->rc->task == 'settings') {

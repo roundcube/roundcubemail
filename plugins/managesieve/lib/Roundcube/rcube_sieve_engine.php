@@ -132,6 +132,11 @@ class rcube_sieve_engine
             // Get list of scripts
             $list = $this->list_scripts();
 
+            // reset current script when entering filters UI (#1489412)
+            if ($this->rc->action == 'plugin.managesieve') {
+                $this->rc->session->remove('managesieve_current');
+            }
+
             if (!empty($_GET['_set']) || !empty($_POST['_set'])) {
                 $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
             }
@@ -179,15 +184,20 @@ class rcube_sieve_engine
                 case SIEVE_ERROR_CONNECTION:
                 case SIEVE_ERROR_LOGIN:
                     $this->rc->output->show_message('managesieve.filterconnerror', 'error');
+                    rcube::raise_error(array('code' => 403, 'type' => 'php',
+                        'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Unable to connect to managesieve on $host:$port"), true, false);
                     break;
+
                 default:
                     $this->rc->output->show_message('managesieve.filterunknownerror', 'error');
                     break;
             }
 
-            rcube::raise_error(array('code' => 403, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Unable to connect to managesieve on $host:$port"), true, false);
+            // reload interface in case of possible error when specified script wasn't found (#1489412)
+            if ($script_name !== null && !empty($list) && !in_array($script_name, $list)) {
+                $this->rc->output->command('reload', 500);
+            }
 
             // to disable 'Add filter' button set env variable
             $this->rc->output->set_env('filterconnerror', true);

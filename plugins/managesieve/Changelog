@@ -1,3 +1,5 @@
+- Nicely handle server-side modification of script names (#1489412)
+
 * version 7.1 [2013-11-22]
 -----------------------------------------------------------
 - lib/Net Sieve.php moved to Roundcube /lib directory
