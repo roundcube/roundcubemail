@@ -2662,20 +2662,7 @@ function rcube_webmail()
   // delete selected messages from the current mailbox
   this.delete_messages = function(event)
   {
-    var uid, i, len, trash = this.env.trash_mailbox,
-      list = this.message_list,
-      selection = list ? list.get_selection() : [];
-
-    // exit if no mailbox specified or if selection is empty
-    if (!this.env.uid && !selection.length)
-      return;
-
-    // also select childs of collapsed rows
-    for (i=0, len=selection.length; i<len; i++) {
-      uid = selection[i];
-      if (list.rows[uid].has_children && !list.rows[uid].expanded)
-        list.select_children(uid);
-    }
+    var list = this.message_list, trash = this.env.trash_mailbox;
 
     // if config is set to flag for deletion
     if (this.env.flag_for_deletion) {
@@ -2715,7 +2702,7 @@ function rcube_webmail()
     this._with_selected_messages('delete', post_data);
   };
 
-  // Send a specifc move/delete request with UIDs of all selected messages
+  // Send a specific move/delete request with UIDs of all selected messages
   // @private
   this._with_selected_messages = function(action, post_data, lock)
   {

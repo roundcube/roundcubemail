@@ -542,17 +542,18 @@ expand_row: function(e, id)
 
 collapse: function(row)
 {
+  var r, depth = row.depth,
+    new_row = row ? row.obj.nextSibling : null;
+
   row.expanded = false;
   this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
-  var depth = row.depth;
-  var new_row = row ? row.obj.nextSibling : null;
-  var r;
 
   while (new_row) {
     if (new_row.nodeType == 1) {
-      var r = this.rows[new_row.uid];
+      r = this.rows[new_row.uid];
       if (r && r.depth <= depth)
         break;
+
       $(new_row).css('display', 'none');
       if (r.expanded) {
         r.expanded = false;
@@ -564,6 +565,7 @@ collapse: function(row)
 
   this.resize();
   this.triggerEvent('listupdate');
+
   return false;
 },
 
@@ -961,7 +963,7 @@ _rowIndex: function(obj)
 in_selection: function(id)
 {
   for (var n in this.selection)
-    if (this.selection[n]==id)
+    if (this.selection[n] == id)
       return true;
 
   return false;
@@ -1057,9 +1059,26 @@ clear_selection: function(id)
 /**
  * Getter for the selection array
  */
-get_selection: function()
+get_selection: function(deep)
 {
-  return this.selection;
+  var res = $.merge([], this.selection);
+
+  // return children of selected threads even if only root is selected
+  if (deep !== false && res.length) {
+    for (var uid, uids, i=0, len=res.length; i<len; i++) {
+      uid = res[i];
+      if (this.rows[uid].has_children && !this.rows[uid].expanded) {
+        uids = this.row_children(uid);
+        for (var j=0, uids_len=uids.length; j<uids_len; j++) {
+          uid = uids[j];
+          if (!this.in_selection(uid))
+            res.push(uid);
+        }
+      }
+    }
+  }
+
+  return res;
 },
 
 
@@ -1325,7 +1344,7 @@ drag_mouse_move: function(e)
     this.draglayer.html('');
 
     // get subjects of selected messages
-    var i, n, obj, me;
+    var n, obj, me = this;
     for (n=0; n<this.selection.length; n++) {
       // only show 12 lines
       if (n>12) {
@@ -1333,9 +1352,8 @@ drag_mouse_move: function(e)
         break;
       }
 
-      me = this;
       if (obj = this.rows[this.selection[n]].obj) {
-        $('> '+this.col_tagname(), obj).each(function(i,elem){
+        $('> '+this.col_tagname(), obj).each(function(i, elem) {
           if (n == 0)
             me.drag_start_pos = $(elem).offset();
 
@@ -1541,7 +1559,7 @@ row_children: function(uid)
 
   while (row) {
     if (row.nodeType == 1) {
-      if ((r = this.rows[row.uid])) {
+      if (r = this.rows[row.uid]) {
         if (!r.depth || r.depth <= depth)
           break;
         res.push(r.uid);
