@@ -40,7 +40,7 @@ $options = strlen($old_imap) ? rcmail_folder_options($old_imap) : array();
 if ($options['protected'] || $options['norename']) {
 }
 else if (!strlen($name)) {
-    $error = rcube_label('cannotbeempty');
+    $error = rcube_label('namecannotbeempty');
 }
 else if (mb_strlen($name) > 128) {
     $error = rcube_label('nametoolong');
