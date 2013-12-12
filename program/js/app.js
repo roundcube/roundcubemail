@@ -5744,19 +5744,23 @@ function rcube_webmail()
       .prop({checked: subscribed ? true : false, disabled: is_protected ? true : false});
 
     // add to folder/row-ID map
-    this.env.subscriptionrows[id] = [name, display_name, 0];
+    this.env.subscriptionrows[id] = [name, display_name, false];
 
     // sort folders (to find a place where to insert the row)
     // replace delimiter with \0 character to fix sorting
     // issue where 'Abc Abc' would be placed before 'Abc/def'
     var replace_from = RegExp(RegExp.escape(this.env.delimiter), 'g'),
       replace_to = String.fromCharCode(0);
+
     $.each(this.env.subscriptionrows, function(k,v) {
-      var n = v[0];
-      n = n.replace(replace_from, replace_to);
-      v.push(n);
+      if (v.length < 4) {
+        var n = v[0];
+        n = n.replace(replace_from, replace_to);
+        v.push(n);
+      }
       folders.push(v);
     });
+
     folders.sort(function(a, b) {
       var len = a.length - 1; n1 = a[len], n2 = b[len];
       return n1 < n2 ? -1 : 1;

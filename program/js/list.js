@@ -1322,59 +1322,71 @@ drag_mouse_move: function(e)
 
   if (this.drag_start) {
     // check mouse movement, of less than 3 pixels, don't start dragging
-    var m = rcube_event.get_mouse_pos(e);
+    var m = rcube_event.get_mouse_pos(e),
+      limit = 10, selection = [], self = this;
 
     if (!this.drag_mouse_start || (Math.abs(m.x - this.drag_mouse_start.x) < 3 && Math.abs(m.y - this.drag_mouse_start.y) < 3))
       return false;
 
+    // remember dragging start position
+    this.drag_start_pos = {left: m.x, top: m.y};
+
+    // initialize drag layer
     if (!this.draglayer)
       this.draglayer = $('<div>').attr('id', 'rcmdraglayer')
-        .css({ position:'absolute', display:'none', 'z-index':2000 })
+        .css({position: 'absolute', display: 'none', 'z-index': 2000})
         .appendTo(document.body);
+    else
+      this.draglayer.html('');
 
-    // also select childs of (collapsed) threads for dragging
-    var n, uid, selection = $.merge([], this.selection);
-    for (n in selection) {
-      uid = selection[n];
-      if (!this.rows[uid].expanded)
-        this.select_children(uid);
-    }
+    // get selected rows (in display order), don't use this.selection here
+    $(this.row_tagname() + '.selected', this.tbody).each(function() {
+      if (!String(this.id).match(self.id_regexp))
+        return;
 
-    // reset content
-    this.draglayer.html('');
+      var uid = RegExp.$1, row = self.rows[uid];
 
-    // get subjects of selected messages
-    var n, obj, me = this;
-    for (n=0; n<this.selection.length; n++) {
-      // only show 12 lines
-      if (n>12) {
-        this.draglayer.append('...');
-        break;
-      }
+      if ($.inArray(uid, selection) > -1)
+        return;
 
-      if (obj = this.rows[this.selection[n]].obj) {
-        $('> '+this.col_tagname(), obj).each(function(i, elem) {
-          if (n == 0)
-            me.drag_start_pos = $(elem).offset();
+      selection.push(uid);
 
-          if (me.subject_col < 0 || (me.subject_col >= 0 && me.subject_col == i)) {
-            var subject = $(elem).text();
-
-            if (subject) {
-              // remove leading spaces
-              subject = $.trim(subject);
-              // truncate line to 50 characters
-              subject = (subject.length > 50 ? subject.substring(0, 50) + '...' : subject);
-
-              var entry = $('<div>').text(subject);
-              me.draglayer.append(entry);
-            }
-
-            return false;  // break
-          }
+      // also handle children of (collapsed) trees for dragging (they might be not selected)
+      if (row.has_children && !row.expanded)
+        $.each(self.row_children(uid), function() {
+          if ($.inArray(this, selection) > -1)
+            return;
+          selection.push(this);
         });
+
+      // break the loop asap
+      if (selection.length > limit + 1)
+        return false;
+    });
+
+    // append subject (of every row up to the limit) to the drag layer
+    $.each(selection, function(i, uid) {
+      if (i > limit) {
+        self.draglayer.append('...');
+        return false;
       }
-    }
+
+      $('> ' + self.col_tagname(), self.rows[uid].obj).each(function(n, cell) {
+        if (self.subject_col < 0 || (self.subject_col >= 0 && self.subject_col == n)) {
+          var subject = $(cell).text();
+
+          if (subject) {
+            // remove leading spaces
+            subject = $.trim(subject);
+            // truncate line to 50 characters
+            subject = (subject.length > 50 ? subject.substring(0, 50) + '...' : subject);
+
+            self.draglayer.append($('<div>').text(subject));
+            return false;
+          }
+        }
+      });
+    });
 
     this.draglayer.show();
     this.drag_active = true;

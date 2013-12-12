@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix regression where only first new folder was placed in correct place on the list (#1489472)
 - Fix issue where children of selected and collapsed thread were skipped on various actions (#1489457)
 - Fix issue where groups were not deleted when "Replace entire addressbook" option on contacts import was used (#1489420)
 - Fix unreliable mimetype tests in Installer (#1489453)
