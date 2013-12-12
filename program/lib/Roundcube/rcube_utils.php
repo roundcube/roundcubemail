@@ -912,10 +912,20 @@ class rcube_utils
      *
      * @param string  Input string (UTF-8)
      * @param boolean True to return list of words as array
+     *
      * @return mixed  Normalized string or a list of normalized tokens
      */
     public static function normalize_string($str, $as_array = false)
     {
+        // replace 4-byte unicode characters with '?' character,
+        // these are not supported in default utf-8 charset on mysql,
+        // the chance we'd need them in searching is very low
+        $str = preg_replace('/('
+            . '\xF0[\x90-\xBF][\x80-\xBF]{2}'
+            . '|[\xF1-\xF3][\x80-\xBF]{3}'
+            . '|\xF4[\x80-\x8F][\x80-\xBF]{2}'
+            . ')/', '?', $str);
+
         // split by words
         $arr = self::tokenize_string($str);
 
