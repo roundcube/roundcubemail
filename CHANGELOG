@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix border issue on folders list in classic skin (#1489473)
 - Implemented menu actions to copy/move messages, added folder-selector widget (#1484086)
 - Fix security rules in .htaccess preventing access to base URL without the ending slash (#1489477)
 - Fix regression where only first new folder was placed in correct place on the list (#1489472)
