@@ -2329,6 +2329,38 @@ ul.toolbarmenu li span.conversation {
 	z-index: 255;
 }
 
+/*** folder selector ***/
+
+#folder-selector li a span {
+	background: url("images/listicons.png") 4px -2021px no-repeat;
+	display: block;
+	height: 17px;
+	min-height: 14px;
+	padding: 4px 4px 1px 28px;
+	overflow: hidden;
+	max-width: 120px;
+	text-overflow: ellipsis;
+}
+
+#folder-selector li a.virtual {
+	opacity: .2;
+}
+
+#folder-selector li a.inbox span {
+	background-position: 4px -2049px;
+}
+#folder-selector li a.drafts span {
+	background-position: 4px -1388px;
+}
+#folder-selector li a.sent span {
+	background-position: 4px -2074px;
+}
+#folder-selector li a.trash span {
+	background-position: 4px -1508px;
+}
+#folder-selector li a.junk span {
+	background-position: 4px -2100px;
+}
 
 /*** attachment list ***/
 

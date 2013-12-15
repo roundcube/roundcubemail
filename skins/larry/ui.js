@@ -369,8 +369,10 @@ function rcube_mail_ui()
   function body_mouseup(e)
   {
     var config, obj, target = e.target;
+
     if (target.className == 'inner')
         target = e.target.parentNode;
+
     for (var id in popups) {
       obj = popups[id];
       config = popupconfig[id];
@@ -379,9 +381,10 @@ function rcube_mail_ui()
         && !config.toggle
         && (!config.editable || !target_overlaps(target, obj.get(0)))
         && (!config.sticky || !rcube_mouse_is_over(e, obj.get(0)))
+        && !$(target).is('.folder-selector-link')
       ) {
         var myid = id+'';
-        window.setTimeout(function(){ show_popupmenu(myid, false) }, 10);
+        window.setTimeout(function() { show_popupmenu(myid, false); }, 10);
       }
     }
   }

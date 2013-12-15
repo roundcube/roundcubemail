@@ -175,23 +175,6 @@
   background-position: -512px 0;
 }
 
-#messagetoolbar select.mboxlist
-{
-  position: relative;
-  margin: 0 8px;
-  top: 7px;
-}
-
-#messagetoolbar select.mboxlist option
-{
-  padding-left: 15px;
-}
-
-#messagetoolbar select.mboxlist option[value=""]
-{
-  padding-left: 2px;
-}
-
 #messagemenu li a.active:hover,
 #attachmentmenu li a.active:hover,
 #markmessagemenu li a.active:hover

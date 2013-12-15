@@ -842,14 +842,14 @@ function rcube_webmail()
       case 'move':
       case 'moveto': // deprecated
         if (this.task == 'mail')
-          this.move_messages(props);
+          this.move_messages(props, obj);
         else if (this.task == 'addressbook')
           this.move_contacts(props);
         break;
 
       case 'copy':
         if (this.task == 'mail')
-          this.copy_messages(props);
+          this.copy_messages(props, obj);
         else if (this.task == 'addressbook')
           this.copy_contacts(props);
         break;
@@ -1411,8 +1411,6 @@ function rcube_webmail()
 
   this.drag_start = function(list)
   {
-    var model = this.task == 'mail' ? this.env.mailboxes : this.env.contactfolders;
-
     this.drag_active = true;
 
     if (this.preview_timer)
@@ -2612,10 +2610,12 @@ function rcube_webmail()
   };
 
   // copy selected messages to the specified mailbox
-  this.copy_messages = function(mbox)
+  this.copy_messages = function(mbox, obj)
   {
     if (mbox && typeof mbox === 'object')
       mbox = mbox.id;
+    else if (!mbox)
+      return this.folder_selector(obj, function(folder) { ref.command('copy', folder); });
 
     // exit if current or no mailbox specified
     if (!mbox || mbox == this.env.mailbox)
@@ -2632,10 +2632,12 @@ function rcube_webmail()
   };
 
   // move selected messages to the specified mailbox
-  this.move_messages = function(mbox)
+  this.move_messages = function(mbox, obj)
   {
     if (mbox && typeof mbox === 'object')
       mbox = mbox.id;
+    else if (!mbox)
+      return this.folder_selector(obj, function(folder) { ref.command('move', folder); });
 
     // exit if current or no mailbox specified
     if (!mbox || mbox == this.env.mailbox)
@@ -6551,6 +6553,105 @@ function rcube_webmail()
     $(elem).removeClass('hide-headers').addClass('show-headers');
     $(this.gui_objects.all_headers_row).hide();
     elem.onclick = function() { rcmail.command('show-headers', '', elem); };
+  };
+
+  // create folder selector popup, position and display it
+  this.folder_selector = function(obj, callback)
+  {
+    var container = this.folder_selector_element;
+
+    if (!container) {
+      var rows = [],
+        delim = this.env.delimiter,
+        ul = $('<ul class="toolbarmenu iconized">'),
+        li = document.createElement('li'),
+        link = document.createElement('a'),
+        span = document.createElement('span');
+
+      container = $('<div id="folder-selector" class="popupmenu"></div>');
+      link.href = '#';
+      link.className = 'icon';
+
+      // loop over sorted folders list
+      $.each(this.env.mailboxes_list, function() {
+        var tmp, n = 0, s = 0,
+          folder = ref.env.mailboxes[this],
+          id = folder.id,
+          a = link.cloneNode(false), row = li.cloneNode(false);
+
+        if (folder.virtual)
+          a.className += ' virtual';
+        else {
+          a.className += ' active';
+          a.onclick = function() { container.hide().data('callback')(folder.id); };
+        }
+
+        if (folder['class'])
+          a.className += ' ' + folder['class'];
+
+        // calculate/set indentation level
+        while ((s = id.indexOf(delim, s)) >= 0) {
+          n++; s++;
+        }
+        a.style.paddingLeft =  n ? (n * 16) + 'px' : 0;
+
+        // add folder name element
+        tmp = span.cloneNode(false);
+        $(tmp).text(folder.name);
+        a.appendChild(tmp);
+
+        row.appendChild(a);
+        rows.push(row);
+      });
+
+      ul.append(rows).appendTo(container);
+
+      // temporarily show element to calculate its size
+      container.css({left: '-1000px', top: '-1000px'})
+        .appendTo($('body')).show();
+
+      // set max-height if the list is long
+      if (rows.length > 10)
+        container.css('max-height', $('li', container)[0].offsetHeight * 10 + 9)
+
+      // hide selector on click out of selector element
+      var fn = function(e) { if (e.target != container.get(0)) container.hide(); };
+      $(document.body).on('mouseup', fn);
+      $('iframe').contents().on('mouseup', fn)
+        .load(function(e) { try { $(this).contents().on('mouseup', fn); } catch(e) {}; });
+
+      this.folder_selector_element = container;
+    }
+
+    // position menu on the screen
+    this.element_position(container, obj);
+
+    container.show().data('callback', callback);
+  };
+
+  // position a menu element on the screen in relation to other object
+  this.element_position = function(element, obj)
+  {
+    var obj = $(obj), win = $(window),
+      width = obj.width(),
+      height = obj.height(),
+      win_height = win.height(),
+      elem_height = $(element).height(),
+      elem_width = $(element).width(),
+      pos = obj.offset(),
+      top = pos.top,
+      left = pos.left + width;
+
+    if (top + elem_height > win_height) {
+      top -= elem_height - height;
+      if (top < 0)
+        top = Math.max(0, (win_height - elem_height) / 2);
+    }
+
+    if (left + elem_width > win.width())
+      left -= elem_width + width;
+
+    element.css({left: left + 'px', top: top + 'px'});
   };
 
 

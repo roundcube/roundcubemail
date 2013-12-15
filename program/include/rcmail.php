@@ -1282,13 +1282,22 @@ class rcmail extends rcube
         }
         else {
             $js_mailboxlist = array();
-            $out = html::tag('ul', $attrib, $rcmail->render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib), html::$common_attrib);
+            $tree = $rcmail->render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib);
 
-            $rcmail->output->include_script('treelist.js');
-            $rcmail->output->add_gui_object('mailboxlist', $attrib['id']);
+            if ($type != 'js') {
+                $out = html::tag('ul', $attrib, $tree, html::$common_attrib);
+
+                $rcmail->output->include_script('treelist.js');
+                $rcmail->output->add_gui_object('mailboxlist', $attrib['id']);
+                $rcmail->output->set_env('unreadwrap', $attrib['unreadwrap']);
+                $rcmail->output->set_env('collapsed_folders', (string)$rcmail->config->get('collapsed_folders'));
+            }
+
             $rcmail->output->set_env('mailboxes', $js_mailboxlist);
-            $rcmail->output->set_env('unreadwrap', $attrib['unreadwrap']);
-            $rcmail->output->set_env('collapsed_folders', (string)$rcmail->config->get('collapsed_folders'));
+
+            // we can't use object keys in javascript because they are unordered
+            // we need sorted folders list for folder-selector widget
+            $rcmail->output->set_env('mailboxes_list', array_keys($js_mailboxlist));
         }
 
         return $out;
@@ -1473,8 +1482,12 @@ class rcmail extends rcube
             $jslist[$folder['id']] = array(
                 'id'      => $folder['id'],
                 'name'    => $foldername,
-                'virtual' => $folder['virtual']
+                'virtual' => $folder['virtual'],
             );
+
+            if (!empty($folder_class)) {
+                $jslist[$folder['id']]['class'] = $folder_class;
+            }
 
             if (!empty($folder['folders'])) {
                 $out .= html::tag('ul', array('style' => ($is_collapsed ? "display:none;" : null)),

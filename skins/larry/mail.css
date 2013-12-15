@@ -417,12 +417,6 @@ a.iconbutton.threadmode.selected {
 	right: 0;
 }
 
-#messagetoolbar .toolbarselect {
-	position: absolute;
-	bottom: 6px;
-	right: 3px;
-}
-
 #messagesearchtools {
 	position: absolute;
 	right: 0;

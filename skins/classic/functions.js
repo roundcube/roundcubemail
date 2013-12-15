@@ -419,6 +419,7 @@ body_mouseup: function(evt, p)
       && !this.popups[i].toggle
       && (!this.popups[i].editable || !this.target_overlaps(target, this.popups[i].id))
       && (!this.popups[i].sticky || !rcube_mouse_is_over(evt, rcube_find_object(this.popups[i].id)))
+      && !$(target).is('.folder-selector-link') && !$(target).children('.folder-selector-link').length
     ) {
       window.setTimeout('rcmail_ui.show_popup("'+i+'",false);', 50);
     }

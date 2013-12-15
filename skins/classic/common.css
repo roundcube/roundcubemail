@@ -965,6 +965,57 @@ ul.toolbarmenu li.separator_above
 }
 
 
+/*** folder selector ***/
+
+#folder-selector li a
+{
+  padding: 0;
+}
+
+#folder-selector li a span
+{
+  background: url(images/icons/folders.png) no-repeat 6px 0;
+  display: block;
+  height: 15px;
+  min-height: 14px;
+  padding: 2px 4px 2px 28px;
+  overflow: hidden;
+  max-width: 120px;
+  text-overflow: ellipsis;
+}
+
+#folder-selector li a.virtual
+{
+  color: #A0A0A0;
+}
+
+#folder-selector li a.active:hover span
+{
+  color: white;
+}
+
+#folder-selector li a.inbox span
+{
+  background-position: 6px -18px;
+}
+#folder-selector li a.drafts span
+{
+  background-position: 6px -37px;
+}
+#folder-selector li a.sent span
+{
+  background-position: 6px -54px;
+}
+#folder-selector li a.trash span
+{
+  background-position: 6px -91px;
+}
+#folder-selector li a.junk span
+{
+  background-position: 6px -73px;
+}
+
+
 /***** tabbed interface elements *****/
 
 div.tabsbar,

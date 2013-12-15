@@ -20,9 +20,6 @@
 <roundcube:container name="toolbar" id="messagetoolbar" />
 <roundcube:button name="markmenulink" id="markmenulink" type="link" class="button markmessage" title="markmessages" onclick="rcmail_ui.show_popup('markmenu');return false" content=" " />
 <roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button messagemenu" title="moreactions" onclick="rcmail_ui.show_popup('messagemenu');return false" content=" " />
-<roundcube:if condition="template:name == 'message'" />
-<roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('move', this.options[this.selectedIndex].value)" class="mboxlist" folder_filter="mail" />
-<roundcube:endif />
 </div>
 
 <div id="forwardmenu" class="popupmenu">
@@ -46,6 +43,8 @@
     <li><roundcube:button class="printlink" command="print" label="printmessage" classAct="printlink active" /></li>
     <li><roundcube:button class="downloadlink" command="download" label="emlsave" classAct="downloadlink active" /></li>
     <li><roundcube:button class="editlink" command="edit" prop="new" label="editasnew" classAct="editlink active" /></li>
+    <li><roundcube:button class="movelink" command="move" label="moveto" classAct="copylink active" innerclass="folder-selector-link" /></li>
+    <li><roundcube:button class="copylink" command="copy" label="copyto" classAct="movelink active" innerclass="folder-selector-link" /></li>
     <li class="separator_below"><roundcube:button class="sourcelink" command="viewsource" label="viewsource" classAct="sourcelink active" /></li>
     <li><roundcube:button class="openlink" command="open" label="openinextwin" target="_blank" classAct="openlink active" /></li>
     <roundcube:container name="messagemenu" id="messagemenu" />

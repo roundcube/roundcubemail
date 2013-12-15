@@ -30,11 +30,13 @@
 <div id="mailboxlist-container">
 <div id="mailboxlist-title" class="boxtitle"><roundcube:label name="mailboxlist" /></div>
 <div class="boxlistcontent">
-    <roundcube:object name="mailboxlist" id="mailboxlist" class="treelist" maxlength="25" />
+    <roundcube:object name="mailboxlist" id="mailboxlist" class="treelist" folder_filter="mail" />
 </div>
 <div class="boxfooter"></div>
 </div>
 </div>
+<roundcube:else />
+<roundcube:object name="mailboxlist" folder_filter="mail" type="js" />
 <roundcube:endif />
 
 <div id="messageframe">

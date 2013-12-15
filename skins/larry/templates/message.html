@@ -16,9 +16,6 @@
 	<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
 <roundcube:endif />
 	<roundcube:include file="/includes/mailtoolbar.html" />
-	<div class="toolbarselect">
-		<roundcube:object name="mailboxlist" type="select" noSelection="moveto" maxlength="25" onchange="rcmail.command('move', this.options[this.selectedIndex].value)" class="mailboxlist decorated" folder_filter="mail" />
-	</div>
 </div>
 
 <roundcube:if condition="!env:extwin" />
@@ -36,6 +33,7 @@
 
 <div id="mailview-right" class="offset uibox">
 <roundcube:else />
+<roundcube:object name="mailboxlist" folder_filter="mail" type="js" />
 
 <div id="mailview-right" class="offset fullwidth uibox">
 <roundcube:endif />
