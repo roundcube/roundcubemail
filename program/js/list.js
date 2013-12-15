@@ -1461,6 +1461,9 @@ column_drag_mouse_move: function(e)
       var lpos = $(this.list).offset(),
         cells = this.thead.rows[0].cells;
 
+      // fix layer position when list is scrolled
+      lpos.top += this.list.scrollTop + this.list.parentNode.scrollTop;
+
       // create dragging layer
       this.col_draglayer = $('<div>').attr('id', 'rcmcoldraglayer')
         .css(lpos).css({ position:'absolute', 'z-index':2001,
