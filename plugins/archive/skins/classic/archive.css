@@ -4,7 +4,7 @@
 	background: url(archive_act.png) 0 0 no-repeat;
 }
 
-#mailboxlist li.mailbox.archive {
+#mailboxlist li.mailbox.archive > a {
 	background-image: url(foldericon.png);
 	background-position: 5px 1px;
 }
