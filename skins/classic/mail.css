@@ -403,27 +403,27 @@
   border-bottom: 0 none;
 }
 
-#mailboxlist li.inbox
+#mailboxlist li.inbox a
 {
   background-position: 5px -18px;
 }
 
-#mailboxlist li.drafts
+#mailboxlist li.drafts a
 {
   background-position: 5px -37px;
 }
 
-#mailboxlist li.sent
+#mailboxlist li.sent a
 {
   background-position: 5px -54px;
 }
 
-#mailboxlist li.junk
+#mailboxlist li.junk a
 {
   background-position: 5px -73px;
 }
 
-#mailboxlist li.trash
+#mailboxlist li.trash a
 {
   background-position: 5px -91px;
 }
@@ -485,35 +485,35 @@
 }
 
 #mailboxlist li.mailbox ul li a {
-  padding-left: 36px;  /* 20 + 1 x 16 */
-  background-position: 16px 0;  /* 1 x 16 */
+  padding-left: 40px;  /* 24 + 1 x 16 */
+  background-position: 20px 0;  /* 4 + 1 x 16 */
 }
 #mailboxlist li.mailbox ul li div.treetoggle {
-  left: 19px !important;
+  left: 23px !important;
 }
 
 #mailboxlist li.mailbox ul ul li.mailbox a {
-  padding-left: 52px;  /* 2x */
-  background-position: 32px 0;
+  padding-left: 56px;  /* 2x */
+  background-position: 36px 0;
 }
 #mailboxlist li.mailbox ul ul li div.treetoggle {
-  left: 35px !important;
+  left: 39px !important;
 }
 
 #mailboxlist li.mailbox ul ul ul li.mailbox a {
-  padding-left: 68px;  /* 3x */
-  background-position: 48px 0;
+  padding-left: 72px;  /* 3x */
+  background-position: 52px 0;
 }
 #mailboxlist li.mailbox ul ul ul li div.treetoggle {
-  left: 51px !important;
+  left: 55px !important;
 }
 
 #mailboxlist li.mailbox ul ul ul ul li.mailbox a {
-  padding-left: 84px;  /* 4x */
-  background-position: 64px 0;
+  padding-left: 88px;  /* 4x */
+  background-position: 68px 0;
 }
 #mailboxlist li.mailbox ul ul ul ul li div.treetoggle {
-  left: 70px !important;
+  left: 71px !important;
 }
 
 /* indent folders on levels > 4 */
@@ -521,7 +521,7 @@
   padding-left: 16px;
 }
 #mailboxlist li.mailbox ul ul ul ul ul li div.treetoggle {
-  left: 89px !important;
+  left: 87px !important;
 }
 
 #listcontrols
