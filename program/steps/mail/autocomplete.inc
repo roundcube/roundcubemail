@@ -28,9 +28,9 @@ if ($RCMAIL->action == 'group-expand') {
     $abook->set_pagesize(1000);  // TODO: limit number of group members by config
     $result = $abook->list_records($RCMAIL->config->get('contactlist_fields'));
     while ($result && ($sql_arr = $result->iterate())) {
-      foreach ((array)$sql_arr['email'] as $email) {
+      $emails = (array) $abook->get_col_values('email', $sql_arr, true);
+      if (!empty($emails) && ($email = array_shift($emails))) {
         $members[] = format_email_recipient($email, rcube_addressbook::compose_list_name($sql_arr));
-        break;  // only expand one email per contact
       }
     }
 
