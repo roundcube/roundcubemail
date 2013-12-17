@@ -680,9 +680,17 @@ class rcube_utils
      */
     public static function remote_addr()
     {
-        foreach (array('HTTP_X_FORWARDED_FOR','HTTP_X_REAL_IP','REMOTE_ADDR') as $prop) {
-            if (!empty($_SERVER[$prop]))
-                return $_SERVER[$prop];
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $hosts = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'], 2);
+            return $hosts[0];
+        }
+
+        if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+            return $_SERVER['HTTP_X_REAL_IP'];
+        }
+
+        if (!empty($_SERVER['REMOTE_ADDR'])) {
+            return $_SERVER['REMOTE_ADDR'];
         }
 
         return '';

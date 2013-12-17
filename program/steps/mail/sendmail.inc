@@ -345,9 +345,10 @@ if ($CONFIG['http_received_header'])
   $nldlm = "\r\n\t";
   // FROM/VIA
   $http_header = 'from ';
-  if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-    $host = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    $hostname = gethostbyaddr($host);
+  if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $hosts    = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'], 2);
+    $hostname = gethostbyaddr($hosts[0]);
+
     if ($CONFIG['http_received_header_encrypt']) {
       $http_header .= rcmail_encrypt_header($hostname);
       if ($host != $hostname)
