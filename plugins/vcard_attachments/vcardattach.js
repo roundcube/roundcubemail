@@ -1,4 +1,4 @@
-/*
+/**
  * vcard_attachments plugin script
  * @version @package_version@
  */
@@ -13,6 +13,7 @@ function plugin_vcard_save_contact(mime_id)
 function plugin_vcard_insertrow(data)
 {
   var ctype = data.row.ctype;
+
   if (ctype == 'text/vcard' || ctype == 'text/x-vcard' || ctype == 'text/directory') {
     $('#rcmrow'+data.uid+' > td.attachment').html('<img src="'+rcmail.env.vcard_icon+'" alt="" />');
   }

@@ -1,4 +1,4 @@
-/*
+/**
  * Help plugin client script
  * @version 1.4
  */

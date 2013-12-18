@@ -45,6 +45,7 @@ class rcmail_output_html extends rcmail_output
     protected $footer = '';
     protected $body = '';
     protected $base_path = '';
+    protected $devel_mode = false;
 
     // deprecated names of templates used before 0.5
     protected $deprecated_templates = array(
@@ -63,6 +64,8 @@ class rcmail_output_html extends rcmail_output
     public function __construct($task = null, $framed = false)
     {
         parent::__construct();
+
+        $this->devel_mode = $this->config->get('devel_mode');
 
         //$this->framed = $framed;
         $this->set_env('task', $task);
@@ -658,8 +661,19 @@ class rcmail_output_html extends rcmail_output
         }
 
         // add file modification timestamp
-        if (preg_match('/\.(js|css)$/', $file)) {
-            if ($fs = @filemtime($file)) {
+        if (preg_match('/\.(js|css)$/', $file, $m)) {
+            $fs  = false;
+            $ext = $m[1];
+
+            // use minified file if exists (not in development mode)
+            if (!$this->devel_mode && !preg_match('/\.min\.' . $ext . '$/', $file)) {
+                $minified_file = substr($file, 0, strlen($ext) * -1) . 'min.' . $ext;
+                if ($fs = @filemtime($minified_file)) {
+                    $file = $minified_file . '?s=' . $fs;
+                }
+            }
+
+            if (!$fs && ($fs = @filemtime($file))) {
                 $file .= '?s=' . $fs;
             }
         }
@@ -971,7 +985,7 @@ class rcmail_output_html extends rcmail_output
                   $content = html::quote($this->get_pagetitle());
                 }
                 else if ($object == 'pagetitle') {
-                    if ($this->config->get('devel_mode') && !empty($_SESSION['username']))
+                    if ($this->devel_mode && !empty($_SESSION['username']))
                         $title = $_SESSION['username'].' :: ';
                     else if ($prod_name = $this->config->get('product_name'))
                         $title = $prod_name . ' :: ';

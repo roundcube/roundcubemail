@@ -1,4 +1,4 @@
-/*
+/**
  * Archive plugin script
  * @version 2.1
  */

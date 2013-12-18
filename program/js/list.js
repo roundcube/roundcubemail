@@ -20,7 +20,7 @@
 
 /**
  * Roundcube List Widget class
- * @contructor
+ * @constructor
  */
 function rcube_list_widget(list, p)
 {
@@ -32,10 +32,6 @@ function rcube_list_widget(list, p)
   this.list = list ? list : null;
   this.tagname = this.list ? this.list.nodeName.toLowerCase() : 'table';
   this.id_regexp = /^rcmrow([a-z0-9\-_=\+\/]+)/i;
-  this.thead;
-  this.tbody;
-  this.fixed_header;
-  this.frame = null;
   this.rows = {};
   this.selection = [];
   this.rowcount = 0;
