@@ -662,23 +662,33 @@ class rcmail_output_html extends rcmail_output
 
         // add file modification timestamp
         if (preg_match('/\.(js|css)$/', $file, $m)) {
-            $fs  = false;
-            $ext = $m[1];
-
-            // use minified file if exists (not in development mode)
-            if (!$this->devel_mode && !preg_match('/\.min\.' . $ext . '$/', $file)) {
-                $minified_file = substr($file, 0, strlen($ext) * -1) . 'min.' . $ext;
-                if ($fs = @filemtime($minified_file)) {
-                    $file = $minified_file . '?s=' . $fs;
-                }
-            }
-
-            if (!$fs && ($fs = @filemtime($file))) {
-                $file .= '?s=' . $fs;
-            }
+            $file = $this->file_mod($file);
         }
 
         return $matches[1] . '=' . $matches[2] . $file . $matches[4];
+    }
+
+    /**
+     * Modify file by adding mtime indicator
+     */
+    protected function file_mod($file)
+    {
+        $fs  = false;
+        $ext = substr($file, strrpos($file, '.') + 1);
+
+        // use minified file if exists (not in development mode)
+        if (!$this->devel_mode && !preg_match('/\.min\.' . $ext . '$/', $file)) {
+            $minified_file = substr($file, 0, strlen($ext) * -1) . 'min.' . $ext;
+            if ($fs = @filemtime($minified_file)) {
+                return $minified_file . '?s=' . $fs;
+            }
+        }
+
+        if ($fs = @filemtime($file)) {
+            $file .= '?s=' . $fs;
+        }
+
+        return $file;
     }
 
     /**
@@ -1225,10 +1235,7 @@ class rcmail_output_html extends rcmail_output
     public function include_script($file, $position='head')
     {
         if (!preg_match('|^https?://|i', $file) && $file[0] != '/') {
-            $file = $this->scripts_path . $file;
-            if ($fs = @filemtime($file)) {
-                $file .= '?s=' . $fs;
-            }
+            $file = $this->file_mod($this->scripts_path . $file);
         }
 
         if (!is_array($this->script_files[$position])) {

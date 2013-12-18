@@ -1,7 +1,10 @@
 #!/bin/sh
-JS_DIR=`dirname "$0"`/../program/js
+PWD=`dirname "$0"`
+JS_DIR="$PWD/../program/js"
 JAR_DIR='/tmp'
 LANG_IN='ECMASCRIPT3'
+# latest version requires Java 7, we'll use an older one
+#CLOSURE_COMPILER_URL='http://dl.google.com/closure-compiler/compiler-latest.zip'
 CLOSURE_COMPILER_URL='http://dl.google.com/closure-compiler/compiler-20131014.zip'
 
 do_shrink() {
@@ -15,7 +18,7 @@ if [ ! -d "$JS_DIR" ]; then
 fi
 
 if [ ! -w "$JAR_DIR" ]; then
-	JAR_DIR=`dirname "$0"`
+	JAR_DIR=$PWD
 fi
 
 if java -version >/dev/null 2>&1; then
@@ -47,21 +50,26 @@ if [ $# -gt 0 ]; then
 		LANG_IN="$2"
 	fi
 
-	if [ ! -r "${JS_FILE}.src" ]; then
-		mv "$JS_FILE" "${JS_FILE}.src"
-	fi
 	echo "Shrinking $JS_FILE"
-	do_shrink "${JS_FILE}.src" "$JS_FILE" "$LANG_IN"
+    minfile=`echo $JS_FILE | sed -e 's/\.js$/\.min\.js/'`
+	do_shrink "$JS_FILE" "$minfile" "$LANG_IN"
 	exit
 fi
 
+DIRS="$PWD/../program/js $PWD/../skins/* $PWD/../plugins/* $PWD/../plugins/*/skins/*"
 # default: compress application scripts
-for fn in app common googiespell list treelist; do
-	if [ -r "$JS_DIR/${fn}.js.src" ]; then
-		echo "$JS_DIR/${fn}.js.src already exists, not overwriting"
-	else
-		mv "$JS_DIR/${fn}.js" "$JS_DIR/${fn}.js.src"
-	fi
-	echo "Shrinking $JS_DIR/${fn}.js"
-	do_shrink "$JS_DIR/${fn}.js.src" "$JS_DIR/${fn}.js" "$LANG_IN"
+for dir in $DIRS; do
+    for file in $dir/*.js; do
+        echo "$file" | grep -e '.min.js$' >/dev/null
+        if [ $? -eq 0 ]; then
+            continue
+        fi
+        if [ ! -f "$file" ]; then
+            continue
+        fi
+
+        echo "Shrinking $file"
+        minfile=`echo $file | sed -e 's/\.js$/\.min\.js/'`
+        do_shrink "$file" "$minfile" "$LANG_IN"
+    done
 done
