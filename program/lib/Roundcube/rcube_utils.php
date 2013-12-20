@@ -622,6 +622,10 @@ class rcube_utils
      */
     public static function parse_host($name, $host = '')
     {
+        if (!is_string($name)) {
+            return $name;
+        }
+
         // %n - host
         $n = preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME']);
         // %t - host name without first part, e.g. %n=mail.domain.tld, %t=domain.tld
@@ -642,8 +646,7 @@ class rcube_utils
             }
         }
 
-        $name = str_replace(array('%n', '%t', '%d', '%h', '%z', '%s'), array($n, $t, $d, $h, $z, $s[2]), $name);
-        return $name;
+        return str_replace(array('%n', '%t', '%d', '%h', '%z', '%s'), array($n, $t, $d, $h, $z, $s[2]), $name);
     }
 
 
