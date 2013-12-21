@@ -76,7 +76,7 @@ if (!empty($result) && $result->count > 0) {
         // (same as in list_contacts.inc)
         $emails = $source->get_col_values('email', $row, true);
         foreach ($emails as $i => $email) {
-            $row_id = $row['ID'].$i;
+            $row_id = $row['ID'].'-'.$i;
             $jsresult[$row_id] = format_email_recipient($email, $name);
             $OUTPUT->command('add_contact_row', $row_id, array(
                 'contact' => html::span(array('title' => $email), Q($name ? $name : $email) .

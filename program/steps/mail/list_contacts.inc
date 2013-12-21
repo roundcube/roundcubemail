@@ -134,7 +134,7 @@ else if (!empty($result) && $result->count > 0) {
         // add record for every email address of the contact
         $emails = $CONTACTS->get_col_values('email', $row, true);
         foreach ($emails as $i => $email) {
-            $row_id = $row['ID'].$i;
+            $row_id = $row['ID'].'-'.$i;
             $jsresult[$row_id] = format_email_recipient($email, $name);
             $classname = $row['_type'] == 'group' ? 'group' : 'person';
             $keyname = $row['_type'] == 'group' ? 'contactgroup' : 'contact';
