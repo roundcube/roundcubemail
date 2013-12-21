@@ -2121,7 +2121,7 @@ class rcube_imap extends rcube_storage
         // convert charset (if text or message part)
         if ($body && preg_match('/^(text|message)$/', $o_part->ctype_primary)) {
             // Remove NULL characters if any (#1486189)
-            if (strpos($body, "\x00") !== false) {
+            if ($formatted && strpos($body, "\x00") !== false) {
                 $body = str_replace("\x00", '', $body);
             }
 

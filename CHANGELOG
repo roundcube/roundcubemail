@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix broken text/* attachments when forwarding/editing a message (#1489426)
 - Improved minified files handling, added css minification (#1486988)
 - Fix handling of X-Forwarded-For header with multiple addresses (#1489481)
 - Fix border issue on folders list in classic skin (#1489473)

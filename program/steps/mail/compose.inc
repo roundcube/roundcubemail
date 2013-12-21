@@ -1286,12 +1286,12 @@ function rcmail_save_attachment(&$message, $pid)
     $temp_dir = unslashify($rcmail->config->get('temp_dir'));
     $path = tempnam($temp_dir, 'rcmAttmnt');
     if ($fp = fopen($path, 'w')) {
-      $message->get_part_content($pid, $fp);
+      $message->get_part_content($pid, $fp, true, 0, false);
       fclose($fp);
     } else
       return false;
   } else {
-    $data = $message->get_part_content($pid);
+    $data = $message->get_part_content($pid, null, true, 0, false);
   }
 
   $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
