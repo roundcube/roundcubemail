@@ -26,13 +26,13 @@ $OUTPUT->framed = TRUE;
 
 $savedraft = !empty($_POST['_draft']) ? true : false;
 
-$COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GPC);
+$COMPOSE_ID = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
 $COMPOSE    =& $_SESSION['compose_data_'.$COMPOSE_ID];
 
 /****** checks ********/
 
 if (!isset($COMPOSE['id'])) {
-  raise_error(array('code' => 500, 'type' => 'php',
+  rcube::raise_error(array('code' => 500, 'type' => 'php',
     'file' => __FILE__, 'line' => __LINE__,
     'message' => "Invalid compose ID"), true, false);
 
@@ -78,9 +78,9 @@ function rcmail_get_identity($id)
   if ($sql_arr = $RCMAIL->user->get_identity($id)) {
     $out = $sql_arr;
 
-    if ($message_charset != RCMAIL_CHARSET) {
+    if ($message_charset != RCUBE_CHARSET) {
       foreach ($out as $k => $v)
-        $out[$k] = rcube_charset_convert($v, RCMAIL_CHARSET, $message_charset);
+        $out[$k] = rcube_charset::convert($v, RCUBE_CHARSET, $message_charset);
     }
 
     $out['mailto'] = $sql_arr['email'];
@@ -212,17 +212,17 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
   $mailto = trim(preg_replace($regexp, $replace, $mailto));
 
   $result = array();
-  $items = rcube_explode_quoted_string($delim, $mailto);
+  $items = rcube_utils::explode_quoted_string($delim, $mailto);
 
   foreach($items as $item) {
     $item = trim($item);
     // address in brackets without name (do nothing)
     if (preg_match('/^<'.$email_regexp.'>$/', $item)) {
-      $item = rcube_idn_to_ascii(trim($item, '<>'));
+      $item = rcube_utils::idn_to_ascii(trim($item, '<>'));
       $result[] = $item;
     // address without brackets and without name (add brackets)
     } else if (preg_match('/^'.$email_regexp.'$/', $item)) {
-      $item = rcube_idn_to_ascii($item);
+      $item = rcube_utils::idn_to_ascii($item);
       $result[] = $item;
     // address with name (handle name)
     } else if (preg_match('/<*'.$email_regexp.'>*$/', $item, $matches)) {
@@ -232,7 +232,7 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
         $name = substr($name, 1, -1);
       }
       $name = stripcslashes($name);
-      $address = rcube_idn_to_ascii(trim($address, '<>'));
+      $address = rcube_utils::idn_to_ascii(trim($address, '<>'));
       $result[] = format_email_recipient($address, $name);
       $item = $address;
     } else if (trim($item)) {
@@ -241,7 +241,7 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
 
     // check address format
     $item = trim($item, '<>');
-    if ($item && $check && !check_email($item)) {
+    if ($item && $check && !rcube_utils::check_email($item)) {
       $EMAIL_FORMAT_ERROR = $item;
       return;
     }
@@ -285,9 +285,9 @@ function rcmail_generic_message_footer($isHtml)
 /****** compose message ********/
 
 if (strlen($_POST['_draft_saveid']) > 3)
-  $olddraftmessageid = get_input_value('_draft_saveid', RCUBE_INPUT_POST);
+  $olddraftmessageid = rcube_utils::get_input_value('_draft_saveid', rcube_utils::INPUT_POST);
 
-$message_id = rcmail_gen_message_id();
+$message_id = $RCMAIL->gen_message_id();
 
 // set default charset
 $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $OUTPUT->get_charset();
@@ -295,9 +295,9 @@ $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $OUTPUT->get
 $EMAIL_FORMAT_ERROR = NULL;
 $RECIPIENT_COUNT = 0;
 
-$mailto = rcmail_email_input_format(get_input_value('_to', RCUBE_INPUT_POST, TRUE, $message_charset), true);
-$mailcc = rcmail_email_input_format(get_input_value('_cc', RCUBE_INPUT_POST, TRUE, $message_charset), true);
-$mailbcc = rcmail_email_input_format(get_input_value('_bcc', RCUBE_INPUT_POST, TRUE, $message_charset), true);
+$mailto = rcmail_email_input_format(rcube_utils::get_input_value('_to', rcube_utils::INPUT_POST, TRUE, $message_charset), true);
+$mailcc = rcmail_email_input_format(rcube_utils::get_input_value('_cc', rcube_utils::INPUT_POST, TRUE, $message_charset), true);
+$mailbcc = rcmail_email_input_format(rcube_utils::get_input_value('_bcc', rcube_utils::INPUT_POST, TRUE, $message_charset), true);
 
 if ($EMAIL_FORMAT_ERROR) {
   $OUTPUT->show_message('emailformaterror', 'error', array('email' => $EMAIL_FORMAT_ERROR));
@@ -312,7 +312,7 @@ else if (empty($mailto))
   $mailto = 'undisclosed-recipients:;';
 
 // Get sender name and address...
-$from = get_input_value('_from', RCUBE_INPUT_POST, true, $message_charset);
+$from = rcube_utils::get_input_value('_from', rcube_utils::INPUT_POST, true, $message_charset);
 // ... from identity...
 if (is_numeric($from)) {
   if (is_array($identity_arr = rcmail_get_identity($from))) {
@@ -381,8 +381,8 @@ if ($CONFIG['http_received_header'])
   $headers['Received'] = $http_header;
 }
 
-$headers['Date'] = rcmail_user_date();
-$headers['From'] = rcube_charset_convert($from_string, RCMAIL_CHARSET, $message_charset);
+$headers['Date'] = $RCMAIL->user_date();
+$headers['From'] = rcube_charset::convert($from_string, RCUBE_CHARSET, $message_charset);
 $headers['To'] = $mailto;
 
 // additional recipients
@@ -401,19 +401,19 @@ if (($max_recipients = (int) $RCMAIL->config->get('max_recipients')) > 0) {
 }
 
 // add subject
-$headers['Subject'] = trim(get_input_value('_subject', RCUBE_INPUT_POST, TRUE, $message_charset));
+$headers['Subject'] = trim(rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, TRUE, $message_charset));
 
 if (!empty($identity_arr['organization'])) {
   $headers['Organization'] = $identity_arr['organization'];
 }
 if (!empty($_POST['_replyto'])) {
-  $headers['Reply-To'] = rcmail_email_input_format(get_input_value('_replyto', RCUBE_INPUT_POST, TRUE, $message_charset));
+  $headers['Reply-To'] = rcmail_email_input_format(rcube_utils::get_input_value('_replyto', rcube_utils::INPUT_POST, TRUE, $message_charset));
 }
 if (!empty($headers['Reply-To'])) {
   $headers['Mail-Reply-To'] = $headers['Reply-To'];
 }
 if (!empty($_POST['_followupto'])) {
-  $headers['Mail-Followup-To'] = rcmail_email_input_format(get_input_value('_followupto', RCUBE_INPUT_POST, TRUE, $message_charset));
+  $headers['Mail-Followup-To'] = rcmail_email_input_format(rcube_utils::get_input_value('_followupto', rcube_utils::INPUT_POST, TRUE, $message_charset));
 }
 
 // remember reply/forward UIDs in special headers
@@ -468,10 +468,10 @@ else
   $headers = $data['headers'];
 
 
-$isHtml = (bool) get_input_value('_is_html', RCUBE_INPUT_POST);
+$isHtml = (bool) rcube_utils::get_input_value('_is_html', rcube_utils::INPUT_POST);
 
 // fetch message body
-$message_body = get_input_value('_message', RCUBE_INPUT_POST, TRUE, $message_charset);
+$message_body = rcube_utils::get_input_value('_message', rcube_utils::INPUT_POST, TRUE, $message_charset);
 
 if ($isHtml) {
   $bstyle = array();
@@ -505,7 +505,7 @@ if (!$savedraft) {
     && empty($COMPOSE['spell_checked']) && !empty($message_body)
   ) {
     $message_body = str_replace("\r\n", "\n", $message_body);
-    $spellchecker = new rcube_spellchecker(get_input_value('_lang', RCUBE_INPUT_GPC));
+    $spellchecker = new rcube_spellchecker(rcube_utils::get_input_value('_lang', rcube_utils::INPUT_GPC));
     $spell_result = $spellchecker->check($message_body, $isHtml);
 
     $COMPOSE['spell_checked'] = true;
@@ -520,7 +520,7 @@ if (!$savedraft) {
 
   // generic footer for all messages
   if ($footer = rcmail_generic_message_footer($isHtml)) {
-    $footer = rcube_charset_convert($footer, RCMAIL_CHARSET, $message_charset);
+    $footer = rcube_charset::convert($footer, RCUBE_CHARSET, $message_charset);
     $message_body .= "\r\n" . $footer;
   }
 }
@@ -530,7 +530,7 @@ if ($isHtml) {
 }
 
 // sort attachments to make sure the order is the same as in the UI (#1488423)
-$files = get_input_value('_attachments', RCUBE_INPUT_POST);
+$files = rcube_utils::get_input_value('_attachments', rcube_utils::INPUT_POST);
 if ($files) {
   $files = explode(',', $files);
   $files = array_flip($files);
@@ -576,11 +576,11 @@ if ($isHtml) {
   $MAIL_MIME->setHTMLBody($plugin['body']);
 
   // replace emoticons
-  $plugin['body'] = rcmail_replace_emoticons($plugin['body']);
+  $plugin['body'] = $RCMAIL->replace_emoticons($plugin['body']);
 
   // add a plain text version of the e-mail as an alternative part.
   $h2t = new rcube_html2text($plugin['body'], false, true, 0, $message_charset);
-  $plainTextPart = rc_wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n", false, $message_charset);
+  $plainTextPart = rcube_mime::wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n", false, $message_charset);
   $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
 
   // make sure all line endings are CRLF (#1486712)
@@ -608,7 +608,7 @@ else {
   if ($flowed = ($savedraft || $RCMAIL->config->get('send_format_flowed', true)))
     $message_body = rcube_mime::format_flowed($message_body, min($LINE_LENGTH+2, 79), $message_charset);
   else
-    $message_body = rc_wordwrap($message_body, $LINE_LENGTH, "\r\n", false, $message_charset);
+    $message_body = rcube_mime::wordwrap($message_body, $LINE_LENGTH, "\r\n", false, $message_charset);
 
   $message_body = wordwrap($message_body, 998, "\r\n", true);
 
@@ -663,7 +663,7 @@ if (is_array($COMPOSE['attachments'])) {
         '', '', '',
         $CONFIG['mime_param_folding'] ? 'quoted-printable' : NULL,
         $CONFIG['mime_param_folding'] == 2 ? 'quoted-printable' : NULL,
-        '', RCMAIL_CHARSET
+        '', RCUBE_CHARSET
       );
     }
   }
@@ -700,7 +700,7 @@ if (function_exists('mb_encode_mimeheader')) {
   mb_internal_encoding($message_charset);
   $headers['Subject'] = mb_encode_mimeheader($headers['Subject'],
     $message_charset, 'Q', "\r\n", 8);
-  mb_internal_encoding(RCMAIL_CHARSET);
+  mb_internal_encoding(RCUBE_CHARSET);
 }
 
 // pass headers to message object
@@ -720,7 +720,7 @@ if (!$savedraft)
     $smtp_opts['dsn'] = true;
   }
 
-  $sent = rcmail_deliver_message($MAIL_MIME, $from, $mailto,
+  $sent = $RCMAIL->deliver_message($MAIL_MIME, $from, $mailto,
     $smtp_error, $mailbody_file, $smtp_opts);
 
   // return to compose page if sending failed
@@ -754,7 +754,7 @@ if (!$savedraft)
 if ($savedraft)
   $store_target = $CONFIG['drafts_mbox'];
 else if (!$RCMAIL->config->get('no_save_sent_messages'))
-  $store_target = isset($_POST['_store_target']) ? get_input_value('_store_target', RCUBE_INPUT_POST) : $CONFIG['sent_mbox'];
+  $store_target = isset($_POST['_store_target']) ? rcube_utils::get_input_value('_store_target', rcube_utils::INPUT_POST) : $CONFIG['sent_mbox'];
 
 if ($store_target) {
   // check if folder is subscribed
@@ -788,7 +788,7 @@ if ($store_target) {
     }
 
     if (PEAR::isError($msg))
-      raise_error(array('code' => 650, 'type' => 'php',
+      rcube::raise_error(array('code' => 650, 'type' => 'php',
         'file' => __FILE__, 'line' => __LINE__,
             'message' => "Could not create message: ".$msg->getMessage()),
             TRUE, FALSE);
@@ -805,7 +805,7 @@ if ($store_target) {
 
   // raise error if saving failed
   if (!$saved) {
-    raise_error(array('code' => 800, 'type' => 'imap',
+    rcube::raise_error(array('code' => 800, 'type' => 'imap',
        'file' => __FILE__, 'line' => __LINE__,
        'message' => "Could not save message in $store_target"), TRUE, FALSE);
 
@@ -828,7 +828,7 @@ if ($store_target) {
 
       // raise error if deletion of old draft failed
       if (!$deleted)
-        raise_error(array('code' => 800, 'type' => 'imap',
+        rcube::raise_error(array('code' => 800, 'type' => 'imap',
           'file' => __FILE__, 'line' => __LINE__,
           'message' => "Could not delete message from ".$CONFIG['drafts_mbox']), TRUE, FALSE);
     }
@@ -871,13 +871,13 @@ else {
   $OUTPUT->command('remove_compose_data', $COMPOSE_ID);
 
   if ($store_folder && !$saved)
-    $OUTPUT->command('sent_successfully', 'error', rcube_label('errorsavingsent'), $folders);
+    $OUTPUT->command('sent_successfully', 'error', $RCMAIL->gettext('errorsavingsent'), $folders);
   else {
     if ($store_folder) {
       $folders[] = $store_target;
     }
 
-    $OUTPUT->command('sent_successfully', 'confirmation', rcube_label('messagesent'), $folders);
+    $OUTPUT->command('sent_successfully', 'confirmation', $RCMAIL->gettext('messagesent'), $folders);
   }
 }
 

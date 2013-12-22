@@ -22,7 +22,7 @@
 $PRINT_MODE = $RCMAIL->action == 'print' ? TRUE : FALSE;
 
 // Read browser capabilities and store them in session
-if ($caps = get_input_value('_caps', RCUBE_INPUT_GET)) {
+if ($caps = rcube_utils::get_input_value('_caps', rcube_utils::INPUT_GET)) {
   $browser_caps = array();
   foreach (explode(',', $caps) as $cap) {
     $cap = explode('=', $cap);
@@ -31,7 +31,7 @@ if ($caps = get_input_value('_caps', RCUBE_INPUT_GET)) {
   $_SESSION['browser_caps'] = $browser_caps;
 }
 
-$uid       = get_input_value('_uid', RCUBE_INPUT_GET);
+$uid       = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET);
 $mbox_name = $RCMAIL->storage->get_folder();
 
 // similar code as in program/steps/mail/get.inc
@@ -68,7 +68,7 @@ if ($uid) {
   // set environement
   $OUTPUT->set_env('safemode', $MESSAGE->is_safe);
   $OUTPUT->set_env('sender', $MESSAGE->sender['string']);
-  $OUTPUT->set_env('permaurl', rcmail_url('show', array('_uid' => $MESSAGE->uid, '_mbox' => $mbox_name)));
+  $OUTPUT->set_env('permaurl', $RCMAIL->url(array('_action' => 'show', '_uid' => $MESSAGE->uid, '_mbox' => $mbox_name)));
   $OUTPUT->set_env('delimiter', $RCMAIL->storage->get_hierarchy_delimiter());
   $OUTPUT->set_env('mailbox', $mbox_name);
   $OUTPUT->set_env('compose_extwin', $RCMAIL->config->get('compose_extwin',false));
@@ -172,7 +172,7 @@ function rcmail_message_attachments($attrib)
 
       if ($PRINT_MODE) {
         $size = $RCMAIL->message_part_size($attach_prop);
-        $ol .= html::tag('li', null, Q(sprintf("%s (%s)", $filename, $size)));
+        $ol .= html::tag('li', null, rcube::Q(sprintf("%s (%s)", $filename, $size)));
       }
       else {
         if ($attrib['maxlength'] && mb_strlen($filename) > $attrib['maxlength']) {
@@ -184,15 +184,15 @@ function rcmail_message_attachments($attrib)
         }
 
         $mimetype = rcmail_fix_mimetype($attach_prop->mimetype);
-        $class    = rcmail_filetype2classname($mimetype, $filename);
+        $class    = rcube_utils::file2class($mimetype, $filename);
         $id       = 'attach' . $attach_prop->mime_id;
         $link     = html::a(array(
             'href' => $MESSAGE->get_part_url($attach_prop->mime_id, false),
             'onclick' => sprintf('return %s.command(\'load-attachment\',\'%s\',this)',
-              JS_OBJECT_NAME, $attach_prop->mime_id),
+              rcmail_output::JS_OBJECT_NAME, $attach_prop->mime_id),
             'onmouseover' => $title ? '' : 'rcube_webmail.long_subject_title_ex(this, 0)',
-            'title' => Q($title),
-            ), Q($filename));
+            'title' => rcube::Q($title),
+            ), rcube::Q($filename));
         $ol .= html::tag('li', array('class' => $class, 'id' => $id), $link);
 
         $attachments[$attach_prop->mime_id] = $mimetype;
@@ -214,13 +214,13 @@ function rcmail_remote_objects_msg()
   $attrib['class'] = 'notice';
   $attrib['style'] = 'display: none';
 
-  $msg = Q(rcube_label('blockedimages')) . '&nbsp;';
-  $msg .= html::a(array('href' => "#loadimages", 'onclick' => JS_OBJECT_NAME.".command('load-images')"), Q(rcube_label('showimages')));
+  $msg = rcube::Q($RCMAIL->gettext('blockedimages')) . '&nbsp;';
+  $msg .= html::a(array('href' => "#loadimages", 'onclick' => rcmail_output::JS_OBJECT_NAME.".command('load-images')"), rcube::Q($RCMAIL->gettext('showimages')));
 
   // add link to save sender in addressbook and reload message
   if ($MESSAGE->sender['mailto'] && $RCMAIL->config->get('show_images') == 1) {
-    $msg .= ' ' . html::a(array('href' => "#alwaysload", 'onclick' => JS_OBJECT_NAME.".command('always-load')", 'style' => "white-space:nowrap"),
-      Q(rcube_label(array('name' => 'alwaysshow', 'vars' => array('sender' => $MESSAGE->sender['mailto'])))));
+    $msg .= ' ' . html::a(array('href' => "#alwaysload", 'onclick' => rcmail_output::JS_OBJECT_NAME.".command('always-load')", 'style' => "white-space:nowrap"),
+      rcube::Q($RCMAIL->gettext(array('name' => 'alwaysshow', 'vars' => array('sender' => $MESSAGE->sender['mailto'])))));
   }
 
   $RCMAIL->output->add_gui_object('remoteobjectsmsg', $attrib['id']);
@@ -243,8 +243,8 @@ function rcmail_message_buttons()
   $attrib['id']    = 'message-buttons';
   $attrib['class'] = 'notice';
 
-  $msg = Q(rcube_label('isdraft')) . '&nbsp;';
-  $msg .= html::a(array('href' => "#edit", 'onclick' => JS_OBJECT_NAME.".command('edit')"), Q(rcube_label('edit')));
+  $msg = rcube::Q($RCMAIL->gettext('isdraft')) . '&nbsp;';
+  $msg .= html::a(array('href' => "#edit", 'onclick' => rcmail_output::JS_OBJECT_NAME.".command('edit')"), rcube::Q($RCMAIL->gettext('edit')));
 
   return html::div($attrib, $msg);
 }

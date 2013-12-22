@@ -28,7 +28,7 @@ $updated = $default_id = false;
 // check input
 if (IDENTITIES_LEVEL != 4 && (empty($_POST['_name']) || (empty($_POST['_email']) && IDENTITIES_LEVEL != 1 && IDENTITIES_LEVEL != 3))) {
   $OUTPUT->show_message('formincomplete', 'warning');
-  rcmail_overwrite_action('edit-identity');
+  $RCMAIL->overwrite_action('edit-identity');
   return;
 }
 
@@ -36,7 +36,7 @@ $save_data = array();
 foreach ($a_save_cols as $col) {
   $fname = '_'.$col;
   if (isset($_POST[$fname]))
-    $save_data[$col] = get_input_value($fname, RCUBE_INPUT_POST, true);
+    $save_data[$col] = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
 }
 
 // set "off" values for checkboxes that were not checked, and therefore
@@ -61,17 +61,17 @@ else if (IDENTITIES_LEVEL == 4) {
 }
 
 // Validate e-mail addresses
-$email_checks = array(rcube_idn_to_ascii($save_data['email']));
+$email_checks = array(rcube_utils::idn_to_ascii($save_data['email']));
 foreach (array('reply-to', 'bcc') as $item) {
   foreach (rcube_mime::decode_address_list($save_data[$item], null, false) as $rcpt)
-    $email_checks[] = rcube_idn_to_ascii($rcpt['mailto']);
+    $email_checks[] = rcube_utils::idn_to_ascii($rcpt['mailto']);
 }
 
 foreach ($email_checks as $email) {
-  if ($email && !check_email($email)) {
+  if ($email && !rcube_utils::check_email($email)) {
     // show error message
-    $OUTPUT->show_message('emailformaterror', 'error', array('email' => rcube_idn_to_utf8($email)), false);
-    rcmail_overwrite_action('edit-identity');
+    $OUTPUT->show_message('emailformaterror', 'error', array('email' => rcube_utils::idn_to_utf8($email)), false);
+    $RCMAIL->overwrite_action('edit-identity');
     return;
   }
 }
@@ -87,7 +87,7 @@ if (!empty($save_data['signature']) && !empty($save_data['html_signature'])) {
 
 // update an existing contact
 if ($_POST['_iid']) {
-  $iid = get_input_value('_iid', RCUBE_INPUT_POST);
+  $iid = rcube_utils::get_input_value('_iid', rcube_utils::INPUT_POST);
 
   if (in_array(IDENTITIES_LEVEL, array(1,3,4))) {
     // merge with old identity data, fixes #1488834
@@ -100,7 +100,7 @@ if ($_POST['_iid']) {
   $save_data = $plugin['record'];
 
   if ($save_data['email'])
-    $save_data['email'] = rcube_idn_to_ascii($save_data['email']);
+    $save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']);
   if (!$plugin['abort'])
     $updated = $RCMAIL->user->update_identity($iid, $save_data);
   else
@@ -114,13 +114,13 @@ if ($_POST['_iid']) {
 
     if ($_POST['_framed']) {
       // update the changed col in list
-      $OUTPUT->command('parent.update_identity_row', $iid, Q(trim($save_data['name'] . ' <' . rcube_idn_to_utf8($save_data['email']) .'>')));
+      $OUTPUT->command('parent.update_identity_row', $iid, rcube::Q(trim($save_data['name'] . ' <' . rcube_utils::idn_to_utf8($save_data['email']) .'>')));
     }
   }
   else {
     // show error message
     $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
-    rcmail_overwrite_action('edit-identity');
+    $RCMAIL->overwrite_action('edit-identity');
     return;
   }
 }
@@ -135,7 +135,7 @@ else if (IDENTITIES_LEVEL < 2) {
   $save_data = $plugin['record'];
 
   if ($save_data['email'])
-    $save_data['email'] = rcube_idn_to_ascii($save_data['email']);
+    $save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']);
 
   if (!$plugin['abort'])
     $insert_id = $save_data['email'] ? $RCMAIL->user->insert_identity($save_data) : null;
@@ -152,13 +152,13 @@ else if (IDENTITIES_LEVEL < 2) {
 
     if ($_POST['_framed']) {
       // add a new row to the list
-      $OUTPUT->command('parent.update_identity_row', $insert_id, Q(trim($save_data['name'] . ' <' . rcube_idn_to_utf8($save_data['email']) .'>')), true);
+      $OUTPUT->command('parent.update_identity_row', $insert_id, rcube::Q(trim($save_data['name'] . ' <' . rcube_utils::idn_to_utf8($save_data['email']) .'>')), true);
     }
   }
   else {
     // show error message
     $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
-    rcmail_overwrite_action('edit-identity');
+    $RCMAIL->overwrite_action('edit-identity');
     return;
   }
 }
@@ -172,10 +172,10 @@ if ($default_id)
 
 // go to next step
 if (!empty($_REQUEST['_framed'])) {
-  rcmail_overwrite_action('edit-identity');
+  $RCMAIL->overwrite_action('edit-identity');
 }
 else
-  rcmail_overwrite_action('identities');
+  $RCMAIL->overwrite_action('identities');
 
 
 /**
@@ -185,14 +185,14 @@ function rcmail_wash_html($html)
 {
     // Add header with charset spec., washtml cannot work without that
     $html = '<html><head>'
-        . '<meta http-equiv="Content-Type" content="text/html; charset='.RCMAIL_CHARSET.'" />'
+        . '<meta http-equiv="Content-Type" content="text/html; charset='.RCUBE_CHARSET.'" />'
         . '</head><body>' . $html . '</body></html>';
 
     // clean HTML with washhtml by Frederic Motte
     $wash_opts = array(
         'show_washed' => false,
         'allow_remote' => 1,
-        'charset' => RCMAIL_CHARSET,
+        'charset' => RCUBE_CHARSET,
         'html_elements' => array('body', 'link'),
         'html_attribs' => array('rel', 'type'),
     );
@@ -204,7 +204,7 @@ function rcmail_wash_html($html)
     //$washer->add_callback('style', 'rcmail_washtml_callback');
 
     // Remove non-UTF8 characters (#1487813)
-    $html = rc_utf8_clean($html);
+    $html = rcube_charset::clean($html);
 
     $html = $washer->wash($html);
 

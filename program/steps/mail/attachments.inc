@@ -21,10 +21,10 @@
 
 // Upload progress update
 if (!empty($_GET['_progress'])) {
-  rcube_upload_progress();
+  $RCMAIL->upload_progress();
 }
 
-$COMPOSE_ID = get_input_value('_id', RCUBE_INPUT_GPC);
+$COMPOSE_ID = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
 $COMPOSE    = null;
 
 if ($COMPOSE_ID && $_SESSION['compose_data_' . $COMPOSE_ID]) {
@@ -84,7 +84,7 @@ if ($RCMAIL->action=='display-attachment')
 // clear all stored output properties (like scripts and env vars)
 $OUTPUT->reset();
 
-$uploadid = get_input_value('_uploadid', RCUBE_INPUT_GET);
+$uploadid = rcube_utils::get_input_value('_uploadid', rcube_utils::INPUT_GET);
 
 if (is_array($_FILES['_attachments']['tmp_name'])) {
   $multiple = count($_FILES['_attachments']['tmp_name']) > 1;
@@ -98,7 +98,7 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
         'path' => $filepath,
         'size' => $_FILES['_attachments']['size'][$i],
         'name' => $_FILES['_attachments']['name'][$i],
-        'mimetype' => rc_mime_content_type($filepath, $_FILES['_attachments']['name'][$i], $_FILES['_attachments']['type'][$i]),
+        'mimetype' => rcube_mime::file_content_type($filepath, $_FILES['_attachments']['name'][$i], $_FILES['_attachments']['type'][$i]),
         'group' => $COMPOSE_ID,
       );
 
@@ -115,11 +115,11 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
       if (($icon = $COMPOSE['deleteicon']) && is_file($icon)) {
         $button = html::img(array(
           'src' => $icon,
-          'alt' => rcube_label('delete')
+          'alt' => $RCMAIL->gettext('delete')
         ));
       }
       else if ($COMPOSE['textbuttons']) {
-        $button = Q(rcube_label('delete'));
+        $button = rcube::Q($RCMAIL->gettext('delete'));
       }
       else {
         $button = '';
@@ -127,29 +127,30 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
 
       $content = html::a(array(
         'href' => "#delete",
-        'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", JS_OBJECT_NAME, $id),
-        'title' => rcube_label('delete'),
+        'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", rcmail_output::JS_OBJECT_NAME, $id),
+        'title' => $RCMAIL->gettext('delete'),
         'class' => 'delete',
       ), $button);
 
-      $content .= Q($attachment['name']);
+      $content .= rcube::Q($attachment['name']);
 
       $OUTPUT->command('add2attachment_list', "rcmfile$id", array(
         'html' => $content,
         'name' => $attachment['name'],
         'mimetype' => $attachment['mimetype'],
-        'classname' => rcmail_filetype2classname($attachment['mimetype'], $attachment['name']),
+        'classname' => rcube_utils::file2class($attachment['mimetype'], $attachment['name']),
         'complete' => true), $uploadid);
     }
     else {  // upload failed
       if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-        $msg = rcube_label(array('name' => 'filesizeerror', 'vars' => array('size' => show_bytes(parse_bytes(ini_get('upload_max_filesize'))))));
+        $size = $RCMAIL->show_bytes(parse_bytes(ini_get('upload_max_filesize')));
+        $msg  = $RCMAIL->gettext(array('name' => 'filesizeerror', 'vars' => array('size' => $size)));
       }
       else if ($attachment['error']) {
         $msg = $attachment['error'];
       }
       else {
-        $msg = rcube_label('fileuploaderror');
+        $msg = $RCMAIL->gettext('fileuploaderror');
       }
 
       if ($attachment['error'] || $err != UPLOAD_ERR_NO_FILE) {
@@ -163,9 +164,9 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // if filesize exceeds post_max_size then $_FILES array is empty,
   // show filesizeerror instead of fileuploaderror
   if ($maxsize = ini_get('post_max_size'))
-    $msg = rcube_label(array('name' => 'filesizeerror', 'vars' => array('size' => show_bytes(parse_bytes($maxsize)))));
+    $msg = $RCMAIL->gettext(array('name' => 'filesizeerror', 'vars' => array('size' => $RCMAIL->show_bytes(parse_bytes($maxsize)))));
   else
-    $msg = rcube_label('fileuploaderror');
+    $msg = $RCMAIL->gettext('fileuploaderror');
   $OUTPUT->command('display_message', $msg, 'error');
   $OUTPUT->command('remove_from_attachment_list', $uploadid);
 }

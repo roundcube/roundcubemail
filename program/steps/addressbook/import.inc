@@ -26,7 +26,7 @@
 function rcmail_import_form($attrib)
 {
   global $RCMAIL, $OUTPUT;
-  $target = get_input_value('_target', RCUBE_INPUT_GPC);
+  $target = rcube_utils::get_input_value('_target', rcube_utils::INPUT_GPC);
 
   $attrib += array('id' => "rcmImportForm");
 
@@ -39,7 +39,7 @@ function rcmail_import_form($attrib)
     'size' => 40,
     'multiple' => 'multiple',
   ));
-  $form = html::p(null, html::label('rcmimportfile', rcube_label('importfromfile')) . $upload->show());
+  $form = html::p(null, html::label('rcmimportfile', $RCMAIL->gettext('importfromfile')) . $upload->show());
   $table = new html_table(array('cols' => 2));
 
   // addressbook selector
@@ -49,7 +49,7 @@ function rcmail_import_form($attrib)
     foreach ($writable_books as $book)
         $select->add($book['name'], $book['id']);
 
-    $table->add('title', html::label('rcmimporttarget', rcube_label('importtarget')));
+    $table->add('title', html::label('rcmimporttarget', $RCMAIL->gettext('importtarget')));
     $table->add(null, $select->show($target));
   }
   else {
@@ -60,18 +60,18 @@ function rcmail_import_form($attrib)
   // selector for group import options
   if (count($writable_books) >= 1 || $writable_books[0]->groups) {
     $select = new html_select(array('name' => '_groups', 'id' => 'rcmimportgroups', 'is_escaped' => true));
-    $select->add(rcube_label('none'), '0');
-    $select->add(rcube_label('importgroupsall'), '1');
-    $select->add(rcube_label('importgroupsexisting'), '2');
+    $select->add($RCMAIL->gettext('none'), '0');
+    $select->add($RCMAIL->gettext('importgroupsall'), '1');
+    $select->add($RCMAIL->gettext('importgroupsexisting'), '2');
 
-    $table->add('title', html::label('rcmimportgroups', rcube_label('importgroups')));
-    $table->add(null, $select->show(get_input_value('_groups', RCUBE_INPUT_GPC)));
+    $table->add('title', html::label('rcmimportgroups', $RCMAIL->gettext('importgroups')));
+    $table->add(null, $select->show(rcube_utils::get_input_value('_groups', rcube_utils::INPUT_GPC)));
   }
 
   // checkbox to replace the entire address book
   $check_replace = new html_checkbox(array('name' => '_replace', 'value' => 1, 'id' => 'rcmimportreplace'));
-  $table->add('title', html::label('rcmimportreplace', rcube_label('importreplace')));
-  $table->add(null, $check_replace->show(get_input_value('_replace', RCUBE_INPUT_GPC)));
+  $table->add('title', html::label('rcmimportreplace', $RCMAIL->gettext('importreplace')));
+  $table->add(null, $check_replace->show(rcube_utils::get_input_value('_replace', rcube_utils::INPUT_GPC)));
 
   $form .= $table->show(array('id' => null) + $attrib);
 
@@ -79,7 +79,7 @@ function rcmail_import_form($attrib)
   $OUTPUT->add_label('selectimportfile','importwait');
   $OUTPUT->add_gui_object('importform', $attrib['id']);
 
-  $out = html::p(null, Q(rcube_label('importdesc'), 'show'));
+  $out = html::p(null, rcube::Q($RCMAIL->gettext('importdesc'), 'show'));
 
   $out .= $OUTPUT->form_tag(array(
       'action' => $RCMAIL->url('import'),
@@ -96,12 +96,12 @@ function rcmail_import_form($attrib)
  */
 function rcmail_import_confirm($attrib)
 {
-  global $IMPORT_STATS;
+  global $IMPORT_STATS, $RCMAIL;
 
   $vars = get_object_vars($IMPORT_STATS);
   $vars['names'] = $vars['skipped_names'] = '';
 
-  $content = html::p(null, rcube_label(array(
+  $content = html::p(null, $RCMAIL->gettext(array(
       'name' => 'importconfirm',
       'nr' => $IMPORT_STATS->inserted,
       'vars' => $vars,
@@ -111,7 +111,7 @@ function rcmail_import_confirm($attrib)
     $content .= html::p('em', join(', ', array_map('Q', $IMPORT_STATS->names)));
 
   if ($IMPORT_STATS->skipped) {
-      $content .= html::p(null, rcube_label(array(
+      $content .= html::p(null, $RCMAIL->gettext(array(
           'name' => 'importconfirmskipped',
           'nr' => $IMPORT_STATS->skipped,
           'vars' => $vars,
@@ -129,7 +129,7 @@ function rcmail_import_confirm($attrib)
 function rcmail_import_buttons($attrib)
 {
   global $IMPORT_STATS, $OUTPUT;
-  $target = get_input_value('_target', RCUBE_INPUT_GPC);
+  $target = rcube_utils::get_input_value('_target', rcube_utils::INPUT_GPC);
 
   $attrib += array('type' => 'input');
   unset($attrib['name']);
@@ -180,9 +180,9 @@ function rcmail_import_group_id($group_name, $CONTACTS, $create, &$import_groups
 $importstep = 'rcmail_import_form';
 
 if (is_array($_FILES['_file'])) {
-    $replace      = (bool)get_input_value('_replace', RCUBE_INPUT_GPC);
-    $target       = get_input_value('_target', RCUBE_INPUT_GPC);
-    $with_groups  = intval(get_input_value('_groups', RCUBE_INPUT_GPC));
+    $replace      = (bool)rcube_utils::get_input_value('_replace', rcube_utils::INPUT_GPC);
+    $target       = rcube_utils::get_input_value('_target', rcube_utils::INPUT_GPC);
+    $with_groups  = intval(rcube_utils::get_input_value('_groups', rcube_utils::INPUT_GPC));
 
     $vcards       = array();
     $upload_error = null;
@@ -232,7 +232,8 @@ if (is_array($_FILES['_file'])) {
     // no vcards detected
     if (!count($vcards)) {
         if ($upload_error == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-            $OUTPUT->show_message('filesizeerror', 'error', array('size' => show_bytes(parse_bytes(ini_get('upload_max_filesize')))));
+            $size = $RCMAIL->show_bytes(parse_bytes(ini_get('upload_max_filesize')));
+            $OUTPUT->show_message('filesizeerror', 'error', array('size' => $size));
         }
         else if ($upload_error) {
             $OUTPUT->show_message('fileuploaderror', 'error');
@@ -276,7 +277,7 @@ if (is_array($_FILES['_file'])) {
 
             // We're using UTF8 internally
             $email = $vcard->email[0];
-            $email = rcube_idn_to_utf8($email);
+            $email = rcube_utils::idn_to_utf8($email);
 
             if (!$replace) {
                 $existing = null;
@@ -330,7 +331,7 @@ if (is_array($_FILES['_file'])) {
 }
 
 
-$OUTPUT->set_pagetitle(rcube_label('importcontacts'));
+$OUTPUT->set_pagetitle($RCMAIL->gettext('importcontacts'));
 
 $OUTPUT->add_handlers(array(
   'importstep' => $importstep,

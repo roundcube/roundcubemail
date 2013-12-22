@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-$search        = get_input_value('_q', RCUBE_INPUT_GPC, true);
+$search        = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GPC, true);
 $sources       = $RCMAIL->get_address_sources();
 $search_mode   = (int) $RCMAIL->config->get('addressbook_search_mode');
 $addr_sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
@@ -79,8 +79,8 @@ if (!empty($result) && $result->count > 0) {
             $row_id = $row['ID'].'-'.$i;
             $jsresult[$row_id] = format_email_recipient($email, $name);
             $OUTPUT->command('add_contact_row', $row_id, array(
-                'contact' => html::span(array('title' => $email), Q($name ? $name : $email) .
-                    ($name && count($emails) > 1 ? '&nbsp;' . html::span('email', Q($email)) : '')
+                'contact' => html::span(array('title' => $email), rcube::Q($name ? $name : $email) .
+                    ($name && count($emails) > 1 ? '&nbsp;' . html::span('email', rcube::Q($email)) : '')
                 )), 'person');
         }
     }

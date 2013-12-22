@@ -23,12 +23,12 @@
 // show loading page
 if (!empty($_GET['_preload'])) {
   $url = preg_replace('/([&?]+)_preload=/', '\\1_mimewarning=1&_embed=', $_SERVER['REQUEST_URI']);
-  $message = rcube_label('loadingdata');
+  $message = $RCMAIL->gettext('loadingdata');
 
-  header('Content-Type: text/html; charset=' . RCMAIL_CHARSET);
+  header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
   print "<html>\n<head>\n"
-        . '<meta http-equiv="refresh" content="0; url='.Q($url).'">' . "\n"
-        . '<meta http-equiv="content-type" content="text/html; charset='.RCMAIL_CHARSET.'">' . "\n"
+        . '<meta http-equiv="refresh" content="0; url='.rcube::Q($url).'">' . "\n"
+        . '<meta http-equiv="content-type" content="text/html; charset='.RCUBE_CHARSET.'">' . "\n"
         . "</head>\n<body>\n$message\n</body>\n</html>";
   exit;
 }
@@ -38,7 +38,7 @@ ob_end_clean();
 
 // similar code as in program/steps/mail/show.inc
 if (!empty($_GET['_uid'])) {
-  $uid = get_input_value('_uid', RCUBE_INPUT_GET);
+  $uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET);
   $RCMAIL->config->set('prefer_html', true);
   $MESSAGE = new rcube_message($uid);
 }
@@ -46,7 +46,7 @@ if (!empty($_GET['_uid'])) {
 // check connection status
 check_storage_status();
 
-$part_id = get_input_value('_part', RCUBE_INPUT_GPC);
+$part_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_GPC);
 
 // show part page
 if (!empty($_GET['_frame'])) {
@@ -72,7 +72,7 @@ if (!empty($_GET['_frame'])) {
 
 // render thumbnail of an image attachment
 else if ($_GET['_thumb']) {
-  $pid = get_input_value('_part', RCUBE_INPUT_GET);
+  $pid = rcube_utils::get_input_value('_part', rcube_utils::INPUT_GET);
   if ($part = $MESSAGE->mime_parts[$pid]) {
     $thumbnail_size = $RCMAIL->config->get('image_thumbnail_size', 240);
     $temp_dir       = $RCMAIL->config->get('temp_dir');
@@ -187,7 +187,7 @@ else if (strlen($part_id)) {
           $OUTPUT = new rcmail_html_page();
           $OUTPUT->write(html::tag('html', null, html::tag('body', 'embed',
             html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'),
-              rcube_label(array(
+              $RCMAIL->gettext(array(
                 'name' => 'attachmentvalidationerror',
                 'vars' => array(
                   'expected' => $mimetype . ($file_extension ? " (.$file_extension)" : ''),
@@ -197,7 +197,7 @@ else if (strlen($part_id)) {
               html::p(array('class' => 'rcmail-inline-buttons'),
                 html::tag('button',
                   array('onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_nocheck' => 1))) . "'"),
-                  rcube_label('showanyway')))
+                  $RCMAIL->gettext('showanyway')))
               )
           )));
         }
@@ -221,7 +221,7 @@ else if (strlen($part_id)) {
     list($ctype_primary, $ctype_secondary) = explode('/', $mimetype);
 
     if (!$plugin['download'] && $ctype_primary == 'text') {
-      header("Content-Type: text/$ctype_secondary; charset=" . ($part->charset ? $part->charset : RCMAIL_CHARSET));
+      header("Content-Type: text/$ctype_secondary; charset=" . ($part->charset ? $part->charset : RCUBE_CHARSET));
     }
     else {
       header("Content-Type: $mimetype");
@@ -232,10 +232,10 @@ else if (strlen($part_id)) {
     if ($ctype_primary == 'text' && $ctype_secondary == 'html' && empty($plugin['download'])) {
       // Check if we have enough memory to handle the message in it
       // #1487424: we need up to 10x more memory than the body
-      if (!rcmail_mem_check($part->size * 10)) {
-        $out = '<body>' . rcube_label('messagetoobig'). ' '
+      if (!rcube_utils::mem_check($part->size * 10)) {
+        $out = '<body>' . $RCMAIL->gettext('messagetoobig'). ' '
           . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id
-            .'&_mbox='. urlencode($RCMAIL->storage->get_folder()), rcube_label('download')) . '</body></html>';
+            .'&_mbox='. urlencode($RCMAIL->storage->get_folder()), $RCMAIL->gettext('download')) . '</body></html>';
       }
       else {
         // get part body if not available
@@ -256,10 +256,10 @@ else if (strlen($part_id)) {
           }
           $out = substr($out, 0, $body_start) .
             html::div(array('class' => 'rcmail-inline-message rcmail-inline-warning'),
-              Q(rcube_label('blockedimages')) . '&nbsp;' .
+              rcube::Q($RCMAIL->gettext('blockedimages')) . '&nbsp;' .
               html::tag('button',
                 array('onclick' => "location.href='" . $RCMAIL->url(array_merge($_GET, array('_safe' => 1))) . "'"),
-                Q(rcube_label('showimages')))
+                rcube::Q($RCMAIL->gettext('showimages')))
             ) .
             substr($out, $body_start);
         }
@@ -270,7 +270,7 @@ else if (strlen($part_id)) {
         check_storage_status();
       }
 
-      $OUTPUT = new rcube_html_page();
+      $OUTPUT = new rcmail_html_page();
       $OUTPUT->write($out);
     }
     else {
@@ -376,7 +376,7 @@ else {
   $cont .= rcmail_message_body(array());
   $cont .= "\n</body>\n</html>";
 
-  $OUTPUT = new rcube_html_page();
+  $OUTPUT = new rcmail_html_page();
   $OUTPUT->write($cont);
 
   exit;
@@ -410,7 +410,7 @@ function check_storage_status()
             header('Location: ' . $_SERVER['REQUEST_URI'] . '&_redirected=1');
         }
         else {
-            raise_error(array(
+            rcube::raise_error(array(
                 'code' => 500, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => 'Unable to get/display message part. IMAP connection error'),
@@ -429,7 +429,7 @@ function rcmail_message_part_controls($attrib)
 {
     global $MESSAGE, $RCMAIL;
 
-    $part = asciiwords(get_input_value('_part', RCUBE_INPUT_GPC));
+    $part = asciiwords(rcube_utils::get_input_value('_part', rcube_utils::INPUT_GPC));
     if (!is_object($MESSAGE) || !is_array($MESSAGE->parts)
         || !($_GET['_uid'] && $_GET['_part']) || !$MESSAGE->mime_parts[$part]
     ) {
@@ -439,14 +439,14 @@ function rcmail_message_part_controls($attrib)
     $part  = $MESSAGE->mime_parts[$part];
     $table = new html_table(array('cols' => 2));
 
-    $table->add('title', Q(rcube_label('namex')).':');
-    $table->add('header', Q(rcmail_attachment_name($part)));
+    $table->add('title', rcube::Q($RCMAIL->gettext('namex')).':');
+    $table->add('header', rcube::Q(rcmail_attachment_name($part)));
 
-    $table->add('title', Q(rcube_label('type')).':');
-    $table->add('header', Q($part->mimetype));
+    $table->add('title', rcube::Q($RCMAIL->gettext('type')).':');
+    $table->add('header', rcube::Q($part->mimetype));
 
-    $table->add('title', Q(rcube_label('size')).':');
-    $table->add('header', Q($RCMAIL->message_part_size($part)));
+    $table->add('title', rcube::Q($RCMAIL->gettext('size')).':');
+    $table->add('header', rcube::Q($RCMAIL->message_part_size($part)));
 
     return $table->show($attrib);
 }
@@ -458,7 +458,7 @@ function rcmail_message_part_frame($attrib)
 {
     global $MESSAGE, $RCMAIL;
 
-    $part = $MESSAGE->mime_parts[asciiwords(get_input_value('_part', RCUBE_INPUT_GPC))];
+    $part = $MESSAGE->mime_parts[asciiwords(rcube_utils::get_input_value('_part', rcube_utils::INPUT_GPC))];
     $ctype_primary = strtolower($part->ctype_primary);
 
     $attrib['src'] = './?' . str_replace('_frame=', ($ctype_primary=='text' ? '_embed=' : '_preload='), $_SERVER['QUERY_STRING']);

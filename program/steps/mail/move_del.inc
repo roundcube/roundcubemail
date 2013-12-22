@@ -30,9 +30,9 @@ $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
 
 // move messages
 if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
-    $count  = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
-    $target = get_input_value('_target_mbox', RCUBE_INPUT_POST, true);
-    $mbox   = get_input_value('_mbox', RCUBE_INPUT_POST, true);
+    $count  = sizeof(explode(',', ($uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))));
+    $target = rcube_utils::get_input_value('_target_mbox', rcube_utils::INPUT_POST, true);
+    $mbox   = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
     $trash  = $RCMAIL->config->get('trash_mbox');
 
     $moved = $RCMAIL->storage->move_message($uids, $target, $mbox);
@@ -41,7 +41,7 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
         // send error message
         if ($_POST['_from'] != 'show')
             $OUTPUT->command('list_mailbox');
-        rcmail_display_server_error('errormoving', null, $target == $trash ? 'delete' : '');
+        $RCMAIL->display_server_error('errormoving', null, $target == $trash ? 'delete' : '');
         $OUTPUT->send();
         exit;
     }
@@ -53,8 +53,8 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
 }
 // delete messages 
 else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
-    $count = sizeof(explode(',', ($uids = get_input_value('_uid', RCUBE_INPUT_POST))));
-    $mbox = get_input_value('_mbox', RCUBE_INPUT_POST, true);
+    $count = sizeof(explode(',', ($uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))));
+    $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
 
     $del = $RCMAIL->storage->delete_message($uids, $mbox);
 
@@ -62,7 +62,7 @@ else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
         // send error message
         if ($_POST['_from'] != 'show')
             $OUTPUT->command('list_mailbox');
-        rcmail_display_server_error('errordeleting');
+        $RCMAIL->display_server_error('errordeleting');
         $OUTPUT->send();
         exit;
     }
@@ -79,7 +79,7 @@ else {
     exit;
 }
 
-$search_request = get_input_value('_search', RCUBE_INPUT_GPC);
+$search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
 
 // refresh saved search set after moving some messages
 if ($search_request && $RCMAIL->storage->get_search_set()) {
@@ -88,7 +88,7 @@ if ($search_request && $RCMAIL->storage->get_search_set()) {
 
 if ($_POST['_from'] == 'show')
 {
-  if ($next = get_input_value('_next_uid', RCUBE_INPUT_GPC))
+  if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC))
     $OUTPUT->command('show_message', $next);
   else
     $OUTPUT->command('command', 'list');
@@ -130,11 +130,11 @@ else
     rcmail_send_unread_count($target, true);
   }
 
-  $OUTPUT->command('set_quota', rcmail_quota_content());
+  $OUTPUT->command('set_quota', $RCMAIL->quota_content());
   $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count), $mbox);
 
   if ($threading) {
-    $count = get_input_value('_count', RCUBE_INPUT_POST);
+    $count = rcube_utils::get_input_value('_count', rcube_utils::INPUT_POST);
   }
 
   // add new rows from next page (if any)

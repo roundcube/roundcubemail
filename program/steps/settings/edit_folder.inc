@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-// WARNING: folder names in UI are encoded with RCMAIL_CHARSET
+// WARNING: folder names in UI are encoded with RCUBE_CHARSET
 
 function rcmail_folder_form($attrib)
 {
@@ -28,12 +28,12 @@ function rcmail_folder_form($attrib)
     $storage = $RCMAIL->get_storage();
 
     // edited folder name (empty in create-folder mode)
-    $mbox      = get_input_value('_mbox', RCUBE_INPUT_GPC, true);
-    $mbox_imap = rcube_charset_convert($mbox, RCMAIL_CHARSET, 'UTF7-IMAP');
+    $mbox      = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true);
+    $mbox_imap = rcube_charset::convert($mbox, RCUBE_CHARSET, 'UTF7-IMAP');
 
     // predefined path for new folder
-    $parent      = get_input_value('_path', RCUBE_INPUT_GPC, true);
-    $parent_imap = rcube_charset_convert($parent, RCMAIL_CHARSET, 'UTF7-IMAP');
+    $parent      = rcube_utils::get_input_value('_path', rcube_utils::INPUT_GPC, true);
+    $parent_imap = rcube_charset::convert($parent, RCUBE_CHARSET, 'UTF7-IMAP');
 
     $threading_supported = $storage->get_capability('THREAD');
     $delimiter = $storage->get_hierarchy_delimiter();
@@ -46,7 +46,7 @@ function rcmail_folder_form($attrib)
         $path   = explode($delimiter, $mbox_imap);
         $folder = array_pop($path);
         $path   = implode($delimiter, $path);
-        $folder = rcube_charset_convert($folder, 'UTF7-IMAP');
+        $folder = rcube_charset::convert($folder, 'UTF7-IMAP');
 
         $hidden_fields = array('name' => '_mbox', 'value' => $mbox);
     }
@@ -73,33 +73,33 @@ function rcmail_folder_form($attrib)
 
     // General tab
     $form['props'] = array(
-        'name' => rcube_label('properties'),
+        'name' => $RCMAIL->gettext('properties'),
     );
 
     // Location (name)
     if ($options['protected']) {
-        $foldername = str_replace($delimiter, ' &raquo; ', Q(rcmail_localize_folderpath($mbox_imap)));
+        $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q($RCMAIL->localize_folderpath($mbox_imap)));
     }
     else if ($options['norename']) {
-        $foldername = Q($folder);
+        $foldername = rcube::Q($folder);
     }
     else {
         if (isset($_POST['_name']))
-            $folder = trim(get_input_value('_name', RCUBE_INPUT_POST, true));
+            $folder = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
 
         $foldername = new html_inputfield(array('name' => '_name', 'id' => '_name', 'size' => 30));
         $foldername = $foldername->show($folder);
 
         if ($options['special']) {
-            $foldername .= '&nbsp;(' . Q(rcmail_localize_foldername($mbox_imap)) .')';
+            $foldername .= '&nbsp;(' . rcube::Q($RCMAIL->localize_foldername($mbox_imap)) .')';
         }
     }
 
     $form['props']['fieldsets']['location'] = array(
-        'name'  => rcube_label('location'),
+        'name'  => $RCMAIL->gettext('location'),
         'content' => array(
             'name' => array(
-                'label' => rcube_label('foldername'),
+                'label' => $RCMAIL->gettext('foldername'),
                 'value' => $foldername,
             ),
         ),
@@ -121,7 +121,7 @@ function rcmail_folder_form($attrib)
             $exceptions[] = substr($prefix, 0, -1);
         }
 
-        $select = rcmail_mailbox_select(array(
+        $select = $RCMAIL->folder_selector(array(
             'name'        => '_parent',
             'noselection' => '---',
             'realnames'   => false,
@@ -132,21 +132,21 @@ function rcmail_folder_form($attrib)
         ));
 
         $form['props']['fieldsets']['location']['content']['path'] = array(
-            'label' => rcube_label('parentfolder'),
+            'label' => $RCMAIL->gettext('parentfolder'),
             'value' => $select->show($selected),
         );
     }
 
     // Settings
     $form['props']['fieldsets']['settings'] = array(
-        'name'  => rcube_label('settings'),
+        'name'  => $RCMAIL->gettext('settings'),
     );
 
     // Settings: threading
     if ($threading_supported && ($mbox_imap == 'INBOX' || (!$options['noselect'] && !$options['is_root']))) {
         $select = new html_select(array('name' => '_viewmode', 'id' => '_listmode'));
-        $select->add(rcube_label('list'), 0);
-        $select->add(rcube_label('threads'), 1);
+        $select->add($RCMAIL->gettext('list'), 0);
+        $select->add($RCMAIL->gettext('threads'), 1);
 
         if (isset($_POST['_viewmode'])) {
             $value = (int) $_POST['_viewmode'];
@@ -157,38 +157,38 @@ function rcmail_folder_form($attrib)
         }
 
         $form['props']['fieldsets']['settings']['content']['viewmode'] = array(
-            'label' => rcube_label('listmode'),
+            'label' => $RCMAIL->gettext('listmode'),
             'value' => $select->show($value),
         );
     }
 /*
     // Settings: sorting column
     $select = new html_select(array('name' => '_sortcol', 'id' => '_sortcol'));
-    $select->add(rcube_label('nonesort'), '');
-    $select->add(rcube_label('arrival'), 'arrival');
-    $select->add(rcube_label('sentdate'), 'date');
-    $select->add(rcube_label('subject'), 'subject');
-    $select->add(rcube_label('fromto'), 'from');
-    $select->add(rcube_label('replyto'), 'replyto');
-    $select->add(rcube_label('cc'), 'cc');
-    $select->add(rcube_label('size'), 'size');
+    $select->add($RCMAIL->gettext('nonesort'), '');
+    $select->add($RCMAIL->gettext('arrival'), 'arrival');
+    $select->add($RCMAIL->gettext('sentdate'), 'date');
+    $select->add($RCMAIL->gettext('subject'), 'subject');
+    $select->add($RCMAIL->gettext('fromto'), 'from');
+    $select->add($RCMAIL->gettext('replyto'), 'replyto');
+    $select->add($RCMAIL->gettext('cc'), 'cc');
+    $select->add($RCMAIL->gettext('size'), 'size');
 
     $value = isset($_POST['_sortcol']) ? $_POST['_sortcol'] : '';
 
     $form['props']['fieldsets']['settings']['content']['sortcol'] = array(
-        'label' => rcube_label('listsorting'),
+        'label' => $RCMAIL->gettext('listsorting'),
         'value' => $select->show($value),
     );
 
     // Settings: sorting order
     $select = new html_select(array('name' => '_sortord', 'id' => '_sortord'));
-    $select->add(rcube_label('asc'), 'ASC');
-    $select->add(rcube_label('desc'), 'DESC');
+    $select->add($RCMAIL->gettext('asc'), 'ASC');
+    $select->add($RCMAIL->gettext('desc'), 'DESC');
 
     $value = isset($_POST['_sortord']) ? $_POST['_sortord'] : '';
 
     $form['props']['fieldsets']['settings']['content']['sortord'] = array(
-        'label' => rcube_label('listorder'),
+        'label' => $RCMAIL->gettext('listorder'),
         'value' => $select->show(),
     );
 */
@@ -196,7 +196,7 @@ function rcmail_folder_form($attrib)
     if (strlen($mbox)) {
         // Number of messages
         $form['props']['fieldsets']['info'] = array(
-            'name'  => rcube_label('info'),
+            'name'  => $RCMAIL->gettext('info'),
             'content' => array()
         );
 
@@ -207,9 +207,9 @@ function rcmail_folder_form($attrib)
             if ($msgcount) {
                 // create link with folder-size command
                 $onclick = sprintf("return %s.command('folder-size', '%s', this)",
-                    JS_OBJECT_NAME, JQ($mbox_imap));
+                    rcmail_output::JS_OBJECT_NAME, rcube::JQ($mbox_imap));
                 $size = html::a(array('href' => '#', 'onclick' => $onclick,
-                    'id' => 'folder-size'), rcube_label('getfoldersize'));
+                    'id' => 'folder-size'), $RCMAIL->gettext('getfoldersize'));
             }
             else {
                 // no messages -> zero size
@@ -217,11 +217,11 @@ function rcmail_folder_form($attrib)
             }
 
             $form['props']['fieldsets']['info']['content']['count'] = array(
-                'label' => rcube_label('messagecount'),
+                'label' => $RCMAIL->gettext('messagecount'),
                 'value' => (int) $msgcount
             );
             $form['props']['fieldsets']['info']['content']['size'] = array(
-                'label' => rcube_label('size'),
+                'label' => $RCMAIL->gettext('size'),
                 'value' => $size,
             );
         }
@@ -229,8 +229,8 @@ function rcmail_folder_form($attrib)
         // show folder type only if we have non-private namespaces
         if (!empty($namespace['shared']) || !empty($namespace['others'])) {
             $form['props']['fieldsets']['info']['content']['foldertype'] = array(
-                'label' => rcube_label('foldertype'),
-                'value' => rcube_label($options['namespace'] . 'folder'));
+                'label' => $RCMAIL->gettext('foldertype'),
+                'value' => $RCMAIL->gettext($options['namespace'] . 'folder'));
         }
     }
 
@@ -256,7 +256,7 @@ function rcmail_folder_form($attrib)
             foreach ($tab['fieldsets'] as $fieldset) {
                 $subcontent = rcmail_get_form_part($fieldset, $attrib);
                 if ($subcontent) {
-                    $content .= html::tag('fieldset', null, html::tag('legend', null, Q($fieldset['name'])) . $subcontent) ."\n";
+                    $content .= html::tag('fieldset', null, html::tag('legend', null, rcube::Q($fieldset['name'])) . $subcontent) ."\n";
                 }
             }
         }
@@ -265,7 +265,7 @@ function rcmail_folder_form($attrib)
         }
 
         if ($content && sizeof($form) > 1) {
-            $out .= html::tag('fieldset', null, html::tag('legend', null, Q($tab['name'])) . $content) ."\n";
+            $out .= html::tag('fieldset', null, html::tag('legend', null, rcube::Q($tab['name'])) . $content) ."\n";
         }
         else {
             $out .= $content ."\n";
@@ -287,9 +287,9 @@ function rcmail_get_form_part($form, $attrib = array())
         $table = new html_table(array('cols' => 2));
         foreach ($form['content'] as $col => $colprop) {
             $colprop['id'] = '_'.$col;
-            $label = !empty($colprop['label']) ? $colprop['label'] : rcube_label($col);
+            $label = !empty($colprop['label']) ? $colprop['label'] : $RCMAIL->gettext($col);
 
-            $table->add('title', html::label($colprop['id'], Q($label)));
+            $table->add('title', html::label($colprop['id'], rcube::Q($label)));
             $table->add(null, $colprop['value']);
         }
         $content = $table->show($attrib);
@@ -302,7 +302,7 @@ function rcmail_get_form_part($form, $attrib = array())
 }
 
 
-//$OUTPUT->set_pagetitle(rcube_label('folders'));
+//$OUTPUT->set_pagetitle($RCMAIL->gettext('folders'));
 
 // register UI objects
 $OUTPUT->add_handlers(array(

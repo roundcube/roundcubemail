@@ -21,7 +21,7 @@
 
 define('IDENTITIES_LEVEL', intval($RCMAIL->config->get('identities_level', 0)));
 
-$OUTPUT->set_pagetitle(rcube_label('identities'));
+$OUTPUT->set_pagetitle($RCMAIL->gettext('identities'));
 $OUTPUT->include_script('list.js');
 
 

@@ -28,7 +28,7 @@ function rcmail_supportlink($attrib)
   if ($url = $RCMAIL->config->get('support_url')) {
     $label = $attrib['label'] ? $attrib['label'] : 'support';
     $attrib['href'] = $url;
-    return html::a($attrib, rcube_label($label));
+    return html::a($attrib, $RCMAIL->gettext($label));
   }
 }
 
@@ -66,10 +66,10 @@ function rcmail_plugins_list($attrib)
   $table = new html_table($attrib);
 
   // add table header
-  $table->add_header('name', rcube_label('plugin'));
-  $table->add_header('version', rcube_label('version'));
-  $table->add_header('license', rcube_label('license'));
-  $table->add_header('source', rcube_label('source'));
+  $table->add_header('name', $RCMAIL->gettext('plugin'));
+  $table->add_header('version', $RCMAIL->gettext('version'));
+  $table->add_header('license', $RCMAIL->gettext('license'));
+  $table->add_header('source', $RCMAIL->gettext('source'));
 
   foreach ($plugin_info as $name => $data) {
     $uri = $data['src_uri'] ? $data['src_uri'] : $data['uri'];
@@ -78,19 +78,19 @@ function rcmail_plugins_list($attrib)
     }
 
     $table->add_row();
-    $table->add('name', Q($data['name'] ? $data['name'] : $name));
-    $table->add('version', Q($data['version']));
-    $table->add('license', $data['license_uri'] ? html::a(array('target' => '_blank', href=> Q($data['license_uri'])),
-        Q($data['license'])) : $data['license']);
-    $table->add('source', $uri ? html::a(array('target' => '_blank', href=> Q($uri)),
-        Q(rcube_label('download'))) : '');
+    $table->add('name', rcube::Q($data['name'] ? $data['name'] : $name));
+    $table->add('version', rcube::Q($data['version']));
+    $table->add('license', $data['license_uri'] ? html::a(array('target' => '_blank', href=> rcube::Q($data['license_uri'])),
+        rcube::Q($data['license'])) : $data['license']);
+    $table->add('source', $uri ? html::a(array('target' => '_blank', href=> rcube::Q($uri)),
+        rcube::Q($RCMAIL->gettext('download'))) : '');
   }
 
   return $table->show();
 }
 
 
-$OUTPUT->set_pagetitle(rcube_label('about'));
+$OUTPUT->set_pagetitle($RCMAIL->gettext('about'));
 
 $OUTPUT->add_handler('supportlink', 'rcmail_supportlink');
 $OUTPUT->add_handler('pluginlist', 'rcmail_plugins_list');

@@ -23,7 +23,7 @@
 if (!$OUTPUT->ajax_call)
     return;
 
-$mbox = get_input_value('_mbox', RCUBE_INPUT_POST, true);
+$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
 
 // send EXPUNGE command
 if ($RCMAIL->action == 'expunge') {
@@ -35,14 +35,14 @@ if ($RCMAIL->action == 'expunge') {
         $OUTPUT->show_message('folderexpunged', 'confirmation');
 
         if (!empty($_REQUEST['_reload'])) {
-            $OUTPUT->command('set_quota', rcmail_quota_content());
+            $OUTPUT->command('set_quota', $RCMAIL->quota_content());
             $OUTPUT->command('message_list.clear');
             $RCMAIL->action = 'list';
             return;
         }
     }
     else {
-        rcmail_display_server_error();
+        $RCMAIL->display_server_error();
     }
 }
 
@@ -69,12 +69,12 @@ else if ($RCMAIL->action == 'purge')
                 $OUTPUT->command('message_list.clear');
                 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text(), $mbox);
                 $OUTPUT->command('set_unread_count', $mbox, 0);
-                $OUTPUT->command('set_quota', rcmail_quota_content());
+                $OUTPUT->command('set_quota', $RCMAIL->quota_content());
                 rcmail_set_unseen_count($mbox, 0);
             }
         }
         else {
-            rcmail_display_server_error();
+            $RCMAIL->display_server_error();
         }
     }
 }

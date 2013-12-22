@@ -55,7 +55,7 @@ $ctype   = '~Content-Type:\s+text/(css|plain)~i';
 
 if ($source !== false && preg_match($ctype, $headers)) {
     header('Content-Type: text/css');
-    echo rcmail_mod_css_styles($source, preg_replace('/[^a-z0-9]/i', '', $_GET['_c']));
+    echo rcube_utils::mod_css_styles($source, preg_replace('/[^a-z0-9]/i', '', $_GET['_c']));
     exit;
 }
 

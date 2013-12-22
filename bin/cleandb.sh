@@ -48,7 +48,7 @@ $threshold = date('Y-m-d 00:00:00', time() - $days * 86400);
 
 foreach (array('contacts','contactgroups','identities') as $table) {
 
-    $sqltable = get_table_name($table);
+    $sqltable = $db->table_name($table);
 
     // also delete linked records
     // could be skipped for databases which respect foreign key constraints

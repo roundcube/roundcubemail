@@ -22,7 +22,7 @@
 $html = $HTTP_RAW_POST_DATA;
 
 // Replace emoticon images with its text representation
-$html = rcmail_replace_emoticons($html);
+$html = $RCMAIL->replace_emoticons($html);
 
 $converter = new rcube_html2text($html, false, true, 0);
 

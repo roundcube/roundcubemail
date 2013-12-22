@@ -36,12 +36,12 @@ if ($RCMAIL->action == 'edit') {
     // editing not allowed here
     if ($CONTACTS->readonly || $record['readonly']) {
         $OUTPUT->show_message('sourceisreadonly');
-        rcmail_overwrite_action('show');
+        $RCMAIL->overwrite_action('show');
         return;
     }
 }
 else {
-    $source = get_input_value('_source', RCUBE_INPUT_GPC);
+    $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
 
     if (strlen($source)) {
         $CONTACTS = $RCMAIL->get_address_book($source, true);
@@ -125,7 +125,7 @@ function rcmail_contact_editform($attrib)
 
     $form = array(
         'contact' => array(
-            'name'    => rcube_label('properties'),
+            'name'    => $RCMAIL->gettext('properties'),
             'content' => array(
                 'email' => array('size' => $i_size, 'visible' => true),
                 'phone' => array('size' => $i_size, 'visible' => true),
@@ -135,7 +135,7 @@ function rcmail_contact_editform($attrib)
             ),
         ),
         'personal' => array(
-            'name'    => rcube_label('personalinfo'),
+            'name'    => $RCMAIL->gettext('personalinfo'),
             'content' => array(
                 'gender' => array('visible' => true),
                 'maidenname' => array('size' => $i_size),
@@ -150,7 +150,7 @@ function rcmail_contact_editform($attrib)
 
     if (isset($CONTACT_COLTYPES['notes'])) {
         $form['notes'] = array(
-            'name'    => rcube_label('notes'),
+            'name'    => $RCMAIL->gettext('notes'),
             'content' => array(
                 'notes' => array('size' => $t_cols, 'rows' => $t_rows, 'label' => false, 'visible' => true, 'limit' => 1),
             ),
@@ -169,7 +169,7 @@ function rcmail_contact_editform($attrib)
 
 function rcmail_upload_photo_form($attrib)
 {
-  global $OUTPUT;
+  global $RCMAIL, $OUTPUT;
 
   // set defaults
   $attrib += array('id' => 'rcmUploadform', 'buttons' => 'yes');
@@ -179,7 +179,7 @@ function rcmail_upload_photo_form($attrib)
   $max_postsize = parse_bytes(ini_get('post_max_size'));
   if ($max_postsize && $max_postsize < $max_filesize)
     $max_filesize = $max_postsize;
-  $max_filesize = show_bytes($max_filesize);
+  $max_filesize = $RCMAIL->show_bytes($max_filesize);
 
   $hidden = new html_hiddenfield(array('name' => '_cid', 'value' => $GLOBALS['cid']));
   $input = new html_inputfield(array('type' => 'file', 'name' => '_photo', 'size' => $attrib['size']));
@@ -189,10 +189,10 @@ function rcmail_upload_photo_form($attrib)
     $OUTPUT->form_tag(array('id' => $attrib['id'].'Frm', 'name' => 'uploadform', 'method' => 'post', 'enctype' => 'multipart/form-data'),
       $hidden->show() .
       html::div(null, $input->show()) .
-      html::div('hint', rcube_label(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize)))) .
-      (get_boolean($attrib['buttons']) ? html::div('buttons',
-        $button->show(rcube_label('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()")) . ' ' .
-        $button->show(rcube_label('upload'), array('class' => 'button mainaction', 'onclick' => JS_OBJECT_NAME . ".command('upload-photo', this.form)"))
+      html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize)))) .
+      (rcube_utils::get_boolean($attrib['buttons']) ? html::div('buttons',
+        $button->show($RCMAIL->gettext('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()")) . ' ' .
+        $button->show($RCMAIL->gettext('upload'), array('class' => 'button mainaction', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('upload-photo', this.form)"))
       ) : '')
     )
   );
@@ -247,7 +247,7 @@ function rcmail_source_selector($attrib)
 
     $attrib['name']       = '_source';
     $attrib['is_escaped'] = true;
-    $attrib['onchange']   = JS_OBJECT_NAME . ".command('save', 'reload', this.form)";
+    $attrib['onchange']   = rcmail_output::JS_OBJECT_NAME . ".command('save', 'reload', this.form)";
 
     $select = new html_select($attrib);
 

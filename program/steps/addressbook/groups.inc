@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-$source = get_input_value('_source', RCUBE_INPUT_GPC);
+$source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
 $CONTACTS = rcmail_contact_source($source);
 
 if ($CONTACTS->readonly || !$CONTACTS->groups) {
@@ -28,7 +28,7 @@ if ($CONTACTS->readonly || !$CONTACTS->groups) {
 }
 
 if ($RCMAIL->action == 'group-addmembers') {
-  if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($ids = rcmail_get_cids($source))) {
+  if (($gid = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_POST)) && ($ids = rcmail_get_cids($source))) {
     $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array('group_id' => $gid, 'ids' => $ids, 'source' => $source));
 
     $CONTACTS->set_group($gid);
@@ -55,7 +55,7 @@ if ($RCMAIL->action == 'group-addmembers') {
 }
 
 else if ($RCMAIL->action == 'group-delmembers') {
-  if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($ids = rcmail_get_cids($source))) {
+  if (($gid = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_POST)) && ($ids = rcmail_get_cids($source))) {
     $plugin = $RCMAIL->plugins->exec_hook('group_delmembers', array('group_id' => $gid, 'ids' => $ids, 'source' => $source));
 
     if (!$plugin['abort'])
@@ -74,7 +74,7 @@ else if ($RCMAIL->action == 'group-delmembers') {
 }
 
 else if ($RCMAIL->action == 'group-create') {
-  if ($name = trim(get_input_value('_name', RCUBE_INPUT_POST, true))) {
+  if ($name = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true))) {
     $plugin = $RCMAIL->plugins->exec_hook('group_create', array('name' => $name, 'source' => $source));
 
     if (!$plugin['abort'])
@@ -84,7 +84,7 @@ else if ($RCMAIL->action == 'group-create') {
   }
 
   if ($created && $OUTPUT->ajax_call) {
-    $created['name'] = Q($created['name']);
+    $created['name'] = rcube::Q($created['name']);
     $OUTPUT->show_message('groupcreated', 'confirmation');
     $OUTPUT->command('insert_contact_group', array('source' => $source) + $created);
   }
@@ -94,7 +94,7 @@ else if ($RCMAIL->action == 'group-create') {
 }
 
 else if ($RCMAIL->action == 'group-rename') {
-  if (($gid = get_input_value('_gid', RCUBE_INPUT_POST)) && ($name = trim(get_input_value('_name', RCUBE_INPUT_POST, true)))) {
+  if (($gid = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_POST)) && ($name = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true)))) {
     $plugin = $RCMAIL->plugins->exec_hook('group_rename', array('group_id' => $gid, 'name' => $name, 'source' => $source));
 
     if (!$plugin['abort'])
@@ -106,14 +106,14 @@ else if ($RCMAIL->action == 'group-rename') {
   if ($newname && $OUTPUT->ajax_call) {
     $OUTPUT->show_message('grouprenamed', 'confirmation');
     $OUTPUT->command('update_contact_group', array(
-      'source' => $source, 'id' => $gid, 'name' => Q($newname), 'newid' => $newgid));
+      'source' => $source, 'id' => $gid, 'name' => rcube::Q($newname), 'newid' => $newgid));
   }
   else if (!$newname)
     $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');
 }
 
 else if ($RCMAIL->action == 'group-delete') {
-  if ($gid = get_input_value('_gid', RCUBE_INPUT_POST)) {
+  if ($gid = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_POST)) {
     $plugin = $RCMAIL->plugins->exec_hook('group_delete', array('group_id' => $gid, 'source' => $source));
 
     if (!$plugin['abort'])

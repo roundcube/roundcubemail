@@ -26,7 +26,7 @@ $source = key($cids);
 $cid    = $cids ? array_shift($cids[$source]) : null;
 
 // read the referenced file
-if (($file_id = get_input_value('_photo', RCUBE_INPUT_GPC)) && ($tempfile = $_SESSION['contacts']['files'][$file_id])) {
+if (($file_id = rcube_utils::get_input_value('_photo', rcube_utils::INPUT_GPC)) && ($tempfile = $_SESSION['contacts']['files'][$file_id])) {
     $tempfile = $RCMAIL->plugins->exec_hook('attachment_display', $tempfile);
     if ($tempfile['status']) {
         if ($tempfile['data'])
@@ -37,7 +37,7 @@ if (($file_id = get_input_value('_photo', RCUBE_INPUT_GPC)) && ($tempfile = $_SE
 }
 else {
     // by email, search for contact first
-    if ($email = get_input_value('_email', RCUBE_INPUT_GPC)) {
+    if ($email = rcube_utils::get_input_value('_email', rcube_utils::INPUT_GPC)) {
         foreach ($RCMAIL->get_address_sources() as $s) {
             $abook = $RCMAIL->get_address_book($s['id']);
             $result = $abook->search(array('email'), $email, 1, true, true, 'photo');
@@ -77,7 +77,7 @@ else {
 }
 
 // deliver alt image
-if (!$data && ($alt_img = get_input_value('_alt', RCUBE_INPUT_GPC)) && is_file($alt_img)) {
+if (!$data && ($alt_img = rcube_utils::get_input_value('_alt', rcube_utils::INPUT_GPC)) && is_file($alt_img)) {
     $data = file_get_contents($alt_img);
 }
 
@@ -86,6 +86,6 @@ if (!$cid && $email) {
     $RCMAIL->output->future_expire_header(86400);
 }
 
-header('Content-Type: ' . rc_image_content_type($data));
+header('Content-Type: ' . rcube_mime::image_content_type($data));
 echo $data ? $data : file_get_contents('program/resources/blank.gif');
 exit;

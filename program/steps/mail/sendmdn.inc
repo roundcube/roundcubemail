@@ -24,7 +24,7 @@ if (!$OUTPUT->ajax_call)
   return;
 
 if (!empty($_POST['_uid'])) {
-  $sent = rcmail_send_mdn(get_input_value('_uid', RCUBE_INPUT_POST), $smtp_error);
+  $sent = rcmail_send_mdn(rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST), $smtp_error);
 }
 
 // show either confirm or error message

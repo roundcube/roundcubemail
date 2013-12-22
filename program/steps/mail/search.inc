@@ -24,13 +24,13 @@ $_SESSION['page'] = 1;
 
 // using encodeURI with javascript "should" give us
 // a correctly encoded query string
-$imap_charset = RCMAIL_CHARSET;
+$imap_charset = RCUBE_CHARSET;
 
 // get search string
-$str     = get_input_value('_q', RCUBE_INPUT_GET, true);
-$mbox    = get_input_value('_mbox', RCUBE_INPUT_GET, true);
-$filter  = get_input_value('_filter', RCUBE_INPUT_GET);
-$headers = get_input_value('_headers', RCUBE_INPUT_GET);
+$str     = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GET, true);
+$mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GET, true);
+$filter  = rcube_utils::get_input_value('_filter', rcube_utils::INPUT_GET);
+$headers = rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET);
 $subject = array();
 
 $search_request = md5($mbox.$filter.$str);
@@ -134,7 +134,7 @@ if (!empty($result_h)) {
 }
 // handle IMAP errors (e.g. #1486905)
 else  if ($err_code = $RCMAIL->storage->get_error_code()) {
-  rcmail_display_server_error();
+  $RCMAIL->display_server_error();
 }
 else {
   $OUTPUT->show_message('searchnomatch', 'notice');

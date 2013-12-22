@@ -19,18 +19,18 @@
  +-----------------------------------------------------------------------+
 */
 
-// WARNING: folder names in UI are encoded with RCMAIL_CHARSET
+// WARNING: folder names in UI are encoded with RCUBE_CHARSET
 
 // init IMAP connection
 $STORAGE = $RCMAIL->get_storage();
 
 
-$name = trim(get_input_value('_name', RCUBE_INPUT_POST, true));
-$old  = get_input_value('_mbox', RCUBE_INPUT_POST, true);
-$path = get_input_value('_parent', RCUBE_INPUT_POST, true);
+$name = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
+$old  = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
+$path = rcube_utils::get_input_value('_parent', rcube_utils::INPUT_POST, true);
 
-$name_imap = rcube_charset_convert($name, RCMAIL_CHARSET, 'UTF7-IMAP');
-$old_imap  = rcube_charset_convert($old, RCMAIL_CHARSET, 'UTF7-IMAP');
+$name_imap = rcube_charset::convert($name, RCUBE_CHARSET, 'UTF7-IMAP');
+$old_imap  = rcube_charset::convert($old, RCUBE_CHARSET, 'UTF7-IMAP');
 // $path is in UTF7-IMAP already
 
 $delimiter = $STORAGE->get_hierarchy_delimiter();
@@ -40,16 +40,16 @@ $options = strlen($old_imap) ? rcmail_folder_options($old_imap) : array();
 if ($options['protected'] || $options['norename']) {
 }
 else if (!strlen($name)) {
-    $error = rcube_label('namecannotbeempty');
+    $error = $RCMAIL->gettext('namecannotbeempty');
 }
 else if (mb_strlen($name) > 128) {
-    $error = rcube_label('nametoolong');
+    $error = $RCMAIL->gettext('nametoolong');
 }
 else {
     // these characters are problematic e.g. when used in LIST/LSUB
     foreach (array($delimiter, '%', '*') as $char) {
         if (strpos($name, $delimiter) !== false) {
-            $error = rcube_label('forbiddencharacter') . " ($char)";
+            $error = $RCMAIL->gettext('forbiddencharacter') . " ($char)";
             break;
         }
     }
@@ -76,7 +76,7 @@ if (!$error && strlen($path) && (!strlen($old_imap) || $old_imap != $name_imap))
     if ($parent_opts['namespace'] != 'personal'
         && (empty($parent_opts['rights']) || !preg_match('/[ck]/', implode($parent_opts['rights'])))
     ) {
-        $error = rcube_label('parentnotwritable');
+        $error = $RCMAIL->gettext('parentnotwritable');
     }
 }
 
@@ -90,9 +90,9 @@ else {
     $folder['options']  = $options;
     $folder['settings'] = array(
         // List view mode: 0-list, 1-threads
-        'view_mode'   => (int) get_input_value('_viewmode', RCUBE_INPUT_POST),
-        'sort_column' => get_input_value('_sortcol', RCUBE_INPUT_POST),
-        'sort_order'  => get_input_value('_sortord', RCUBE_INPUT_POST),
+        'view_mode'   => (int) rcube_utils::get_input_value('_viewmode', rcube_utils::INPUT_POST),
+        'sort_column' => rcube_utils::get_input_value('_sortcol', rcube_utils::INPUT_POST),
+        'sort_order'  => rcube_utils::get_input_value('_sortord', rcube_utils::INPUT_POST),
     );
 }
 
@@ -199,4 +199,4 @@ else if (!$error) {
     }
 }
 
-rcmail_overwrite_action('edit-folder');
+$RCMAIL->overwrite_action('edit-folder');

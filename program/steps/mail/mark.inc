@@ -32,7 +32,7 @@ $a_flags_map = array(
 
 $threading = (bool) $RCMAIL->storage->get_threading();
 
-if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_value('_flag', RCUBE_INPUT_POST)))
+if (($uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST)) && ($flag = rcube_utils::get_input_value('_flag', rcube_utils::INPUT_POST)))
 {
   $flag = $a_flags_map[$flag] ? $a_flags_map[$flag] : strtoupper($flag);
 
@@ -49,7 +49,7 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
     // send error message
     if ($_POST['_from'] != 'show')
       $OUTPUT->command('list_mailbox');
-    rcmail_display_server_error('errormarking');
+    $RCMAIL->display_server_error('errormarking');
     $OUTPUT->send();
     exit;
   }
@@ -58,7 +58,7 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
   }
 
   if ($flag == 'DELETED' && $CONFIG['read_when_deleted'] && !empty($_POST['_ruid'])) {
-    $ruids = get_input_value('_ruid', RCUBE_INPUT_POST);
+    $ruids = rcube_utils::get_input_value('_ruid', rcube_utils::INPUT_POST);
     $read = $RCMAIL->storage->set_flag($ruids, 'SEEN');
 
     if ($read && !$CONFIG['skip_deleted'])
@@ -70,12 +70,12 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
   }
   else if ($flag == 'DELETED' && $CONFIG['skip_deleted']) {
     if ($_POST['_from'] == 'show') {
-      if ($next = get_input_value('_next_uid', RCUBE_INPUT_GPC))
+      if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC))
         $OUTPUT->command('show_message', $next);
       else
         $OUTPUT->command('command', 'list');
     } else {
-      $search_request = get_input_value('_search', RCUBE_INPUT_GPC);
+      $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
       // refresh saved search set after moving some messages
       if ($search_request && $RCMAIL->storage->get_search_set()) {
         $_SESSION['search'] = $RCMAIL->storage->refresh_search();
@@ -113,7 +113,7 @@ if (($uids = get_input_value('_uid', RCUBE_INPUT_POST)) && ($flag = get_input_va
       $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count), $mbox);
 
       if ($threading) {
-        $count = get_input_value('_count', RCUBE_INPUT_POST);
+        $count = rcube_utils::get_input_value('_count', rcube_utils::INPUT_POST);
       }
 
       // add new rows from next page (if any)

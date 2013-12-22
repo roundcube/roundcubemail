@@ -22,7 +22,7 @@
 ob_end_clean();
 
 // similar code as in program/steps/mail/get.inc
-if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
+if ($uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET))
 {
   $headers = $RCMAIL->storage->get_message_headers($uid);
   $charset = $headers->charset ? $headers->charset : $CONFIG['default_charset'];
@@ -48,7 +48,7 @@ if ($uid = get_input_value('_uid', RCUBE_INPUT_GET))
 }
 else
 {
-  raise_error(array(
+  rcube::raise_error(array(
       'code' => 500,
       'type' => 'php',
       'file' => __FILE__, 'line' => __LINE__,

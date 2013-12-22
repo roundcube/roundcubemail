@@ -140,7 +140,7 @@ else {
 }
 
 // send downlaod headers
-header('Content-Type: text/x-vcard; charset='.RCMAIL_CHARSET);
+header('Content-Type: text/x-vcard; charset='.RCUBE_CHARSET);
 header('Content-Disposition: attachment; filename="contacts.vcf"');
 
 while ($result && ($row = $result->next())) {

@@ -61,8 +61,8 @@ foreach ($cids as $source => $cid)
             $error = 'contactdelerror';
         }
 
-        $source = get_input_value('_source', RCUBE_INPUT_GPC);
-        $group  = get_input_value('_gid', RCUBE_INPUT_GPC);
+        $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+        $group  = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC);
 
         $OUTPUT->show_message($error, 'error');
         $OUTPUT->command('list_contacts', $source, $group);
@@ -126,8 +126,8 @@ $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result));
 
 if (!empty($_SESSION['contact_undo'])) {
     $_SESSION['contact_undo']['ts'] = time();
-    $msg = html::span(null, rcube_label('contactdeleted'))
-        . ' ' . html::a(array('onclick' => JS_OBJECT_NAME.".command('undo', '', this)"), rcube_label('undo'));
+    $msg = html::span(null, $RCMAIL->gettext('contactdeleted'))
+        . ' ' . html::a(array('onclick' => rcmail_output::JS_OBJECT_NAME.".command('undo', '', this)"), $RCMAIL->gettext('undo'));
 
     $OUTPUT->show_message($msg, 'confirmation', null, true, $undo_time);
 }

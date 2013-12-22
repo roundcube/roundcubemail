@@ -20,19 +20,19 @@
 */
 
 $CONTACTS = rcmail_contact_source(null, true, true);
-$cid      = get_input_value('_cid', RCUBE_INPUT_POST);
+$cid      = rcube_utils::get_input_value('_cid', rcube_utils::INPUT_POST);
 $return_action = empty($cid) ? 'add' : 'edit';
 
 // Source changed, display the form again
 if (!empty($_GET['_reload'])) {
-   rcmail_overwrite_action($return_action);
+   $RCMAIL->overwrite_action($return_action);
    return;
 }
 
 // cannot edit record
 if ($CONTACTS->readonly) {
   $OUTPUT->show_message('contactreadonly', 'error');
-  rcmail_overwrite_action($return_action);
+  $RCMAIL->overwrite_action($return_action);
   return;
 }
 
@@ -46,11 +46,11 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
   if ($colprop['childs']) {
     $values = array();
     foreach ($colprop['childs'] as $childcol => $cp) {
-      $vals = get_input_value('_'.$childcol, RCUBE_INPUT_POST, true);
+      $vals = rcube_utils::get_input_value('_'.$childcol, rcube_utils::INPUT_POST, true);
       foreach ((array)$vals as $i => $val)
         $values[$i][$childcol] = $val;
     }
-    $subtypes = isset($_REQUEST['_subtype_' . $col]) ? (array)get_input_value('_subtype_' . $col, RCUBE_INPUT_POST) : array('');
+    $subtypes = isset($_REQUEST['_subtype_' . $col]) ? (array)rcube_utils::get_input_value('_subtype_' . $col, rcube_utils::INPUT_POST) : array('');
     foreach ($subtypes as $i => $subtype) {
       $suffix = $subtype ? ':'.$subtype : '';
       if ($values[$i])
@@ -59,8 +59,8 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
   }
   // assign values and subtypes
   else if (is_array($_POST[$fname])) {
-    $values   = get_input_value($fname, RCUBE_INPUT_POST, true);
-    $subtypes = get_input_value('_subtype_' . $col, RCUBE_INPUT_POST);
+    $values   = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
+    $subtypes = rcube_utils::get_input_value('_subtype_' . $col, rcube_utils::INPUT_POST);
 
     foreach ($values as $i => $val) {
       if ($col == 'email') {
@@ -76,7 +76,7 @@ foreach ($GLOBALS['CONTACT_COLTYPES'] as $col => $colprop) {
     }
   }
   else if (isset($_POST[$fname])) {
-    $a_record[$col] = get_input_value($fname, RCUBE_INPUT_POST, true);
+    $a_record[$col] = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
 
     // normalize the submitted date strings
     if ($colprop['type'] == 'date') {
@@ -103,9 +103,9 @@ if (empty($a_record['name'])) {
 // do input checks (delegated to $CONTACTS instance)
 if (!$CONTACTS->validate($a_record)) {
     $err = (array)$CONTACTS->get_error();
-    $OUTPUT->show_message($err['message'] ? Q($err['message']) : 'formincomplete', 'warning');
+    $OUTPUT->show_message($err['message'] ? rcube::Q($err['message']) : 'formincomplete', 'warning');
     $GLOBALS['EDIT_RECORD'] = $a_record;  // store submitted data to be used in edit form
-    rcmail_overwrite_action($return_action);
+    $RCMAIL->overwrite_action($return_action);
     return;
 }
 
@@ -127,7 +127,7 @@ if (isset($a_record['photo'])) {
     $RCMAIL->session->remove('contacts');
 }
 
-$source = get_input_value('_source', RCUBE_INPUT_GPC);
+$source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
 
 // update an existing contact
 if (!empty($cid))
@@ -156,27 +156,27 @@ if (!empty($cid))
     $record['name']  = rcube_addressbook::compose_list_name($record);
 
     foreach (array('name') as $col)
-      $a_js_cols[] = Q((string)$record[$col]);
+      $a_js_cols[] = rcube::Q((string)$record[$col]);
 
     // update the changed col in list
     $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source, $record);
 
     // show confirmation
     $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
-    rcmail_overwrite_action('show');
+    $RCMAIL->overwrite_action('show');
   }
   else {
     // show error message
     $err = $CONTACTS->get_error();
     $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : ($err['message'] ? $err['message'] : 'errorsaving'), 'error', null, false);
-    rcmail_overwrite_action('show');
+    $RCMAIL->overwrite_action('show');
   }
 }
 
 // insert a new contact
 else {
   // Name of the addressbook already selected on the list
-  $orig_source = get_input_value('_orig_source', RCUBE_INPUT_GPC);
+  $orig_source = rcube_utils::get_input_value('_orig_source', rcube_utils::INPUT_GPC);
 
   if (!strlen($source))
     $source = $orig_source;
@@ -225,7 +225,7 @@ else {
       $result = $CONTACTS->search($CONTACTS->primary_key, $insert_id);
 
       rcmail_js_contacts_list($result, 'parent.');
-      $OUTPUT->command('parent.contact_list.select', html_identifier($insert_id));
+      $OUTPUT->command('parent.contact_list.select', rcube_utils::html_identifier($insert_id));
 
       // update record count display
       $CONTACTS->reset();
@@ -244,6 +244,6 @@ else {
     // show error message
     $err = $CONTACTS->get_error();
     $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : ($err['message'] ? $err['message'] : 'errorsaving'), 'error', null, false);
-    rcmail_overwrite_action('add');
+    $RCMAIL->overwrite_action('add');
   }
 }

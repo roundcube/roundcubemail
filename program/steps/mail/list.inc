@@ -27,7 +27,7 @@ $save_arr       = array();
 $dont_override  = (array) $RCMAIL->config->get('dont_override');
 
 // is there a sort type for this request?
-if ($sort = get_input_value('_sort', RCUBE_INPUT_GET)) {
+if ($sort = rcube_utils::get_input_value('_sort', rcube_utils::INPUT_GET)) {
   // yes, so set the sort vars
   list($sort_col, $sort_order) = explode('_', $sort);
 
@@ -41,7 +41,7 @@ if ($sort = get_input_value('_sort', RCUBE_INPUT_GET)) {
 }
 
 // is there a set of columns for this request?
-if ($cols = get_input_value('_cols', RCUBE_INPUT_GET)) {
+if ($cols = rcube_utils::get_input_value('_cols', rcube_utils::INPUT_GET)) {
   if (!in_array('list_cols', $dont_override)) {
     $save_arr['list_cols'] = explode(',', $cols);
   }
@@ -60,7 +60,7 @@ $RCMAIL->storage->folder_sync($mbox_name);
 // initialize searching result if search_filter is used
 if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
   $search_request = md5($mbox_name.$_SESSION['search_filter']);
-  $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCMAIL_CHARSET, rcmail_sort_column());
+  $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCUBE_CHARSET, rcmail_sort_column());
   $_SESSION['search'] = $RCMAIL->storage->get_search_set();
   $_SESSION['search_request'] = $search_request;
   $OUTPUT->set_env('search_request', $search_request);
@@ -108,7 +108,7 @@ if (isset($a_headers) && count($a_headers)) {
 else {
   // handle IMAP errors (e.g. #1486905)
   if ($err_code = $RCMAIL->storage->get_error_code()) {
-    rcmail_display_server_error();
+    $RCMAIL->display_server_error();
   }
   else if ($search_request)
     $OUTPUT->show_message('searchnomatch', 'notice');

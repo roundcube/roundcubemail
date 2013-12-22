@@ -65,7 +65,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search
 }
 // list contacts from selected source
 else {
-    $source = get_input_value('_source', RCUBE_INPUT_GPC);
+    $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
     $CONTACTS = $RCMAIL->get_address_book($source);
 
     if ($CONTACTS && $CONTACTS->ready) {
@@ -73,7 +73,7 @@ else {
         $CONTACTS->set_pagesize($page_size);
         $CONTACTS->set_page($list_page);
 
-        if ($group_id = get_input_value('_gid', RCUBE_INPUT_GPC)) {
+        if ($group_id = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC)) {
             $CONTACTS->set_group($group_id);
         }
         // list groups of this source (on page one)
@@ -89,7 +89,7 @@ else {
                         $row_id = 'G'.$group['ID'];
                         $jsresult[$row_id] = format_email_recipient($email, $group['name']);
                         $OUTPUT->command('add_contact_row', $row_id, array(
-                            'contactgroup' => html::span(array('title' => $email), Q($group['name']))), 'group');
+                            'contactgroup' => html::span(array('title' => $email), rcube::Q($group['name']))), 'group');
                     }
                 }
                 // make virtual groups clickable to list their members
@@ -99,9 +99,9 @@ else {
                         'contactgroup' => html::a(array(
                             'href' => '#list',
                             'rel' => $row['ID'],
-                            'title' => rcube_label('listgroup'),
-                            'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)", JS_OBJECT_NAME, $source, $group['ID']),
-                        ), Q($group['name']) . '&nbsp;' . html::span('action', '&raquo;'))),
+                            'title' => $RCMAIL->gettext('listgroup'),
+                            'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)", rcmail_output::JS_OBJECT_NAME, $source, $group['ID']),
+                        ), rcube::Q($group['name']) . '&nbsp;' . html::span('action', '&raquo;'))),
                         'group',
                         array('ID' => $group['ID'], 'name' => $group['name'], 'virtual' => true));
                 }
@@ -110,7 +110,7 @@ else {
                     $row_id = 'E'.$group['ID'];
                     $jsresult[$row_id] = $group['name'];
                     $OUTPUT->command('add_contact_row', $row_id, array(
-                        'contactgroup' => Q($group['name'] . ' (' . intval($result->count) . ')')), 'group');
+                        'contactgroup' => rcube::Q($group['name'] . ' (' . intval($result->count) . ')')), 'group');
                 }
             }
 
@@ -140,8 +140,8 @@ else if (!empty($result) && $result->count > 0) {
             $keyname = $row['_type'] == 'group' ? 'contactgroup' : 'contact';
 
             $OUTPUT->command('add_contact_row', $row_id, array(
-                $keyname => html::span(array('title' => $email), Q($name ? $name : $email) .
-                    ($name && count($emails) > 1 ? '&nbsp;' . html::span('email', Q($email)) : '')
+                $keyname => html::span(array('title' => $email), rcube::Q($name ? $name : $email) .
+                    ($name && count($emails) > 1 ? '&nbsp;' . html::span('email', rcube::Q($email)) : '')
                 )), $classname);
         }
     }

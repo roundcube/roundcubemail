@@ -20,10 +20,10 @@
 */
 
 if (!$OUTPUT->ajax_call)
-  $OUTPUT->set_pagetitle(rcube_label('preferences'));
+  $OUTPUT->set_pagetitle($RCMAIL->gettext('preferences'));
 
 
-$CURR_SECTION = get_input_value('_section', RCUBE_INPUT_GPC);
+$CURR_SECTION = rcube_utils::get_input_value('_section', rcube_utils::INPUT_GPC);
 list($SECTIONS,) = rcmail_user_prefs($CURR_SECTION);
 
 function rcmail_user_prefs_form($attrib)

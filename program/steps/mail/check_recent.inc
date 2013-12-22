@@ -65,7 +65,7 @@ foreach ($a_mailboxes as $mbox_name) {
 
     if ($status && $is_current) {
         // refresh saved search set
-        $search_request = get_input_value('_search', RCUBE_INPUT_GPC);
+        $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
         if ($search_request && isset($_SESSION['search'])
             && $_SESSION['search_request'] == $search_request
         ) {
@@ -73,7 +73,7 @@ foreach ($a_mailboxes as $mbox_name) {
         }
 
         if (!empty($_GET['_quota']))
-            $OUTPUT->command('set_quota', rcmail_quota_content());
+            $OUTPUT->command('set_quota', $RCMAIL->quota_content());
 
         $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
 

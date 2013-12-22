@@ -20,7 +20,7 @@
 */
 
 // read input
-$lang = get_input_value('lang', RCUBE_INPUT_GET);
+$lang = rcube_utils::get_input_value('lang', rcube_utils::INPUT_GET);
 $data = file_get_contents('php://input');
 
 $learn_word = strpos($data, '<learnword>');
@@ -29,13 +29,13 @@ $learn_word = strpos($data, '<learnword>');
 $left = strpos($data, '<text>');
 $right = strrpos($data, '</text>');
 $data = substr($data, $left+6, $right-($left+6));
-$data = html_entity_decode($data, ENT_QUOTES, RCMAIL_CHARSET);
+$data = html_entity_decode($data, ENT_QUOTES, RCUBE_CHARSET);
 
 $spellchecker = new rcube_spellchecker($lang);
 
 if ($learn_word) {
     $spellchecker->add_word($data);
-    $result = '<?xml version="1.0" encoding="'.RCMAIL_CHARSET.'"?><learnwordresult></learnwordresult>';
+    $result = '<?xml version="1.0" encoding="'.RCUBE_CHARSET.'"?><learnwordresult></learnwordresult>';
 }
 else {
     $spellchecker->check($data);
@@ -56,6 +56,6 @@ if ($err = $spellchecker->error()) {
 header("Content-Length: " . strlen($result));
 
 // Don't use server's default Content-Type charset (#1486406)
-header("Content-Type: text/xml; charset=" . RCMAIL_CHARSET);
+header("Content-Type: text/xml; charset=" . RCUBE_CHARSET);
 print $result;
 exit;

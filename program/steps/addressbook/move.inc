@@ -25,8 +25,8 @@ if (!$OUTPUT->ajax_call) {
 }
 
 $cids         = rcmail_get_cids();
-$target       = get_input_value('_to', RCUBE_INPUT_POST);
-$target_group = get_input_value('_togid', RCUBE_INPUT_POST);
+$target       = rcube_utils::get_input_value('_to', rcube_utils::INPUT_POST);
+$target_group = rcube_utils::get_input_value('_togid', rcube_utils::INPUT_POST);
 
 $all      = 0;
 $deleted  = 0;

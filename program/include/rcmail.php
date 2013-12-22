@@ -1870,7 +1870,7 @@ class rcmail extends rcube
         }
 
         $this->output->set_env('max_filesize', $max_filesize);
-        $max_filesize = self::show_bytes($max_filesize);
+        $max_filesize = $this->show_bytes($max_filesize);
         $this->output->set_env('filesizeerror', $this->gettext(array(
             'name' => 'filesizeerror', 'vars' => array('size' => $max_filesize))));
 

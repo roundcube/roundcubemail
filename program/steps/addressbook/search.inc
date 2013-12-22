@@ -22,8 +22,8 @@
 */
 
 if ($RCMAIL->action == 'search-create') {
-    $id   = get_input_value('_search', RCUBE_INPUT_POST);
-    $name = get_input_value('_name', RCUBE_INPUT_POST, true);
+    $id   = rcube_utils::get_input_value('_search', rcube_utils::INPUT_POST);
+    $name = rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true);
 
     if (($params = $_SESSION['search_params']) && $params['id'] == $id) {
 
@@ -46,7 +46,7 @@ if ($RCMAIL->action == 'search-create') {
 
     if ($result) {
         $OUTPUT->show_message('savedsearchcreated', 'confirmation');
-        $OUTPUT->command('insert_saved_search', Q($name), Q($result));
+        $OUTPUT->command('insert_saved_search', rcube::Q($name), rcube::Q($result));
     }
     else
         $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'savedsearchcreateerror', 'error');
@@ -55,7 +55,7 @@ if ($RCMAIL->action == 'search-create') {
 }
 
 if ($RCMAIL->action == 'search-delete') {
-    $id = get_input_value('_sid', RCUBE_INPUT_POST);
+    $id = rcube_utils::get_input_value('_sid', rcube_utils::INPUT_POST);
 
     $plugin = $RCMAIL->plugins->exec_hook('saved_search_delete', array('id' => $id));
 
@@ -66,9 +66,9 @@ if ($RCMAIL->action == 'search-delete') {
 
     if ($result) {
         $OUTPUT->show_message('savedsearchdeleted', 'confirmation');
-        $OUTPUT->command('remove_search_item', Q($id));
+        $OUTPUT->command('remove_search_item', rcube::Q($id));
         // contact list will be cleared, clear also page counter
-        $OUTPUT->command('set_rowcount', rcube_label('nocontactsfound'));
+        $OUTPUT->command('set_rowcount', $RCMAIL->gettext('nocontactsfound'));
         $OUTPUT->set_env('pagecount', 0);
     }
     else
@@ -91,7 +91,7 @@ function rcmail_contact_search()
     global $RCMAIL, $OUTPUT, $SEARCH_MODS_DEFAULT, $PAGE_SIZE;
 
     $adv = isset($_POST['_adv']);
-    $sid = get_input_value('_sid', RCUBE_INPUT_GET);
+    $sid = rcube_utils::get_input_value('_sid', rcube_utils::INPUT_GET);
 
     // get search criteria from saved search
     if ($sid && ($search = $RCMAIL->user->get_search($sid))) {
@@ -101,7 +101,7 @@ function rcmail_contact_search()
     // get fields/values from advanced search form
     else if ($adv) {
         foreach (array_keys($_POST) as $key) {
-            $s = trim(get_input_value($key, RCUBE_INPUT_POST, true));
+            $s = trim(rcube_utils::get_input_value($key, rcube_utils::INPUT_POST, true));
             if (strlen($s) && preg_match('/^_search_([a-zA-Z0-9_-]+)$/', $key, $m)) {
                 $search[] = $s;
                 $fields[] = $m[1];
@@ -115,8 +115,8 @@ function rcmail_contact_search()
     }
     // quick-search
     else {
-        $search = trim(get_input_value('_q', RCUBE_INPUT_GET, true));
-        $fields = explode(',', get_input_value('_headers', RCUBE_INPUT_GET));
+        $search = trim(rcube_utils::get_input_value('_q', rcube_utils::INPUT_GET, true));
+        $fields = explode(',', rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET));
 
         if (empty($fields)) {
             $fields = array_keys($SEARCH_MODS_DEFAULT);
@@ -257,17 +257,17 @@ function rcmail_contact_search_form($attrib)
 
     $form = array(
         'main' => array(
-            'name'    => rcube_label('properties'),
+            'name'    => $RCMAIL->gettext('properties'),
             'content' => array(
             ),
         ),
         'personal' => array(
-            'name'    => rcube_label('personalinfo'),
+            'name'    => $RCMAIL->gettext('personalinfo'),
             'content' => array(
             ),
         ),
         'other' => array(
-            'name'    => rcube_label('other'),
+            'name'    => $RCMAIL->gettext('other'),
             'content' => array(
             ),
         ),
@@ -297,7 +297,7 @@ function rcmail_contact_search_form($attrib)
         if ($colprop['type'] != 'image' && !$colprop['nosearch'])
         {
             $ftype    = $colprop['type'] == 'select' ? 'select' : 'text';
-            $label    = isset($colprop['label']) ? $colprop['label'] : rcube_label($col);
+            $label    = isset($colprop['label']) ? $colprop['label'] : $RCMAIL->gettext($col);
             $category = $colprop['category'] ? $colprop['category'] : 'other';
 
             // load jquery UI datepicker for date fields 
@@ -307,8 +307,8 @@ function rcmail_contact_search_form($attrib)
                 $colprop['size'] = $i_size;
 
 
-            $content  = html::div('row', html::div('contactfieldlabel label', Q($label))
-                . html::div('contactfieldcontent', rcmail_get_edit_field('search_'.$col, '', $colprop, $ftype)));
+            $content  = html::div('row', html::div('contactfieldlabel label', rcube::Q($label))
+                . html::div('contactfieldcontent', rcube_output::get_edit_field('search_'.$col, '', $colprop, $ftype)));
 
             $form[$category]['content'][] = $content;
         }
@@ -332,7 +332,7 @@ function rcmail_contact_search_form($attrib)
             $content = html::div('contactfieldgroup', join("\n", $f['content']));
 
             $out .= html::tag('fieldset', $attrib,
-                html::tag('legend', null, Q($f['name']))
+                html::tag('legend', null, rcube::Q($f['name']))
                 . $content) . "\n";
         }
     }

@@ -19,9 +19,9 @@
  +-----------------------------------------------------------------------+
 */
 
-$name     = get_input_value('_name', RCUBE_INPUT_POST);
-$value    = get_input_value('_value', RCUBE_INPUT_POST);
-$sessname = get_input_value('_session', RCUBE_INPUT_POST);
+$name     = rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST);
+$value    = rcube_utils::get_input_value('_value', rcube_utils::INPUT_POST);
+$sessname = rcube_utils::get_input_value('_session', rcube_utils::INPUT_POST);
 
 // Whitelisted preferences and session variables, others
 // can be added by plugins
@@ -39,7 +39,7 @@ $whitelist      = array_merge($whitelist, $RCMAIL->plugins->allowed_prefs);
 $whitelist_sess = array_merge($whitelist_sess, $RCMAIL->plugins->allowed_session_prefs);
 
 if (!in_array($name, $whitelist) || ($sessname && !in_array($sessname, $whitelist_sess))) {
-    raise_error(array('code' => 500, 'type' => 'php',
+    rcube::raise_error(array('code' => 500, 'type' => 'php',
         'file' => __FILE__, 'line' => __LINE__,
         'message' => sprintf("Hack attempt detected (user: %s)", $RCMAIL->get_user_name())),
         true, false);

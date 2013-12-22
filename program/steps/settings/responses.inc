@@ -21,8 +21,8 @@
 
 
 if (!empty($_POST['_insert'])) {
-    $name = trim(get_input_value('_name', RCUBE_INPUT_POST));
-    $text = trim(get_input_value('_text', RCUBE_INPUT_POST));
+    $name = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST));
+    $text = trim(rcube_utils::get_input_value('_text', rcube_utils::INPUT_POST));
 
     if (!empty($name) && !empty($text)) {
         $dupes = 0;
@@ -40,10 +40,10 @@ if (!empty($_POST['_insert'])) {
 
         if ($RCMAIL->user->save_prefs(array('compose_responses' => $responses))) {
             $RCMAIL->output->command('add_response_item', $response);
-            $RCMAIL->output->command('display_message', rcube_label('successfullysaved'), 'confirmation');
+            $RCMAIL->output->command('display_message', $RCMAIL->gettext('successfullysaved'), 'confirmation');
         }
         else {
-            $RCMAIL->output->command('display_message', rcube_label('errorsaving'), 'error');
+            $RCMAIL->output->command('display_message', $RCMAIL->gettext('errorsaving'), 'error');
         }
     }
 
@@ -53,7 +53,7 @@ if (!empty($_POST['_insert'])) {
 
 
 if ($RCMAIL->action == 'delete-response') {
-    if ($key = get_input_value('_key', RCUBE_INPUT_GPC)) {
+    if ($key = rcube_utils::get_input_value('_key', rcube_utils::INPUT_GPC)) {
         $responses = $RCMAIL->get_compose_responses(false, true);
         foreach ($responses as $i => $response) {
             if (empty($response['key']))
@@ -67,7 +67,7 @@ if ($RCMAIL->action == 'delete-response') {
     }
 
     if ($deleted) {
-        $RCMAIL->output->command('display_message', rcube_label('deletedsuccessfully'), 'confirmation');
+        $RCMAIL->output->command('display_message', $RCMAIL->gettext('deletedsuccessfully'), 'confirmation');
         $RCMAIL->output->command('remove_response', $key);
     }
 
@@ -77,7 +77,7 @@ if ($RCMAIL->action == 'delete-response') {
 }
 
 
-$OUTPUT->set_pagetitle(rcube_label('responses'));
+$OUTPUT->set_pagetitle($RCMAIL->gettext('responses'));
 $OUTPUT->include_script('list.js');
 
 
@@ -95,7 +95,7 @@ function rcmail_responses_list($attrib)
         'cols' => array('name')
     ));
 
-    $out = rcube_table_output($attrib, $plugin['list'], $plugin['cols'], 'key');
+    $out = $RCMAIL->table_output($attrib, $plugin['list'], $plugin['cols'], 'key');
 
     // set client env
     $OUTPUT->add_gui_object('responseslist', $attrib['id']);

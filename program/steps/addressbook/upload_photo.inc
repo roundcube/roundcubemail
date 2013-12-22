@@ -54,7 +54,7 @@ if ($filepath = $_FILES['_photo']['tmp_name']) {
         ));
     }
     else {
-        $attachment['error'] = rcube_label('invalidimageformat');
+        $attachment['error'] = $RCMAIL->gettext('invalidimageformat');
     }
 
     if ($attachment['status'] && !$attachment['abort']) {
@@ -63,14 +63,16 @@ if ($filepath = $_FILES['_photo']['tmp_name']) {
         $OUTPUT->command('replace_contact_photo', $file_id);
     }
     else {  // upload failed
-        $err = $_FILES['_photo']['error'];
+        $err  = $_FILES['_photo']['error'];
+        $size = $RCMAIL->show_bytes(parse_bytes(ini_get('upload_max_filesize')));
+
         if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE)
-            $msg = rcube_label(array('name' => 'filesizeerror', 'vars' => array('size' => show_bytes(parse_bytes(ini_get('upload_max_filesize'))))));
+            $msg = $RCMAIL->gettext(array('name' => 'filesizeerror', 'vars' => array('size' => $size)));
         else if ($attachment['error'])
             $msg = $attachment['error'];
         else
-            $msg = rcube_label('fileuploaderror');
-            
+            $msg = $RCMAIL->gettext('fileuploaderror');
+
         $OUTPUT->command('display_message', $msg, 'error');
     }
 }
@@ -78,9 +80,9 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // if filesize exceeds post_max_size then $_FILES array is empty,
     // show filesizeerror instead of fileuploaderror
     if ($maxsize = ini_get('post_max_size'))
-        $msg = rcube_label(array('name' => 'filesizeerror', 'vars' => array('size' => show_bytes(parse_bytes($maxsize)))));
+        $msg = $RCMAIL->gettext(array('name' => 'filesizeerror', 'vars' => array('size' => $RCMAIL->show_bytes(parse_bytes($maxsize)))));
     else
-        $msg = rcube_label('fileuploaderror');
+        $msg = $RCMAIL->gettext('fileuploaderror');
 
     $OUTPUT->command('display_message', $msg, 'error');
 }

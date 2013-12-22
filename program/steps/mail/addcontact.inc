@@ -28,7 +28,7 @@ $CONTACTS = $RCMAIL->get_address_book(-1, true);
 
 if (!empty($_POST['_address']) && is_object($CONTACTS))
 {
-  $contact_arr = rcube_mime::decode_address_list(get_input_value('_address', RCUBE_INPUT_POST, true), 1, false);
+  $contact_arr = rcube_mime::decode_address_list(rcube_utils::get_input_value('_address', rcube_utils::INPUT_POST, true), 1, false);
 
   if (!empty($contact_arr[1]['mailto'])) {
     $contact = array(
@@ -42,13 +42,13 @@ if (!empty($_POST['_address']) && is_object($CONTACTS))
       $OUTPUT->send();
     }
 
-    $email = rcube_idn_to_ascii($contact['email']);
-    if (!check_email($email, false)) {
+    $email = rcube_utils::idn_to_ascii($contact['email']);
+    if (!rcube_utils::check_email($email, false)) {
       $OUTPUT->show_message('emailformaterror', 'error', array('email' => $contact['email']));
       $OUTPUT->send();
     }
 
-    $contact['email'] = rcube_idn_to_utf8($contact['email']);
+    $contact['email'] = rcube_utils::idn_to_utf8($contact['email']);
     $contact = $RCMAIL->plugins->exec_hook('contact_displayname', $contact);
 
     if (empty($contact['firstname']) || empty($contact['surname']))

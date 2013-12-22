@@ -56,7 +56,7 @@ if ($error = $spellchecker->error()) {
 }
 
 // send output
-header("Content-Type: text/xml; charset=".RCMAIL_CHARSET);
+header("Content-Type: text/xml; charset=".RCUBE_CHARSET);
 echo json_encode($result);
 exit;
 

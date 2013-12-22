@@ -21,8 +21,8 @@
 */
 
 if ($RCMAIL->action == 'group-expand') {
-  $abook = $RCMAIL->get_address_book(get_input_value('_source', RCUBE_INPUT_GPC));
-  if ($gid = get_input_value('_gid', RCUBE_INPUT_GPC)) {
+  $abook = $RCMAIL->get_address_book(rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC));
+  if ($gid = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC)) {
     $members = array();
     $abook->set_group($gid);
     $abook->set_pagesize(1000);  // TODO: limit number of group members by config
@@ -45,9 +45,9 @@ if ($RCMAIL->action == 'group-expand') {
 $MAXNUM = (int) $RCMAIL->config->get('autocomplete_max', 15);
 $mode   = (int) $RCMAIL->config->get('addressbook_search_mode');
 $single = (bool) $RCMAIL->config->get('autocomplete_single');
-$search = get_input_value('_search', RCUBE_INPUT_GPC, true);
-$source = get_input_value('_source', RCUBE_INPUT_GPC);
-$sid    = get_input_value('_id', RCUBE_INPUT_GPC);
+$search = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC, true);
+$source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+$sid    = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
 
 if (strlen($source))
   $book_types = array($source);

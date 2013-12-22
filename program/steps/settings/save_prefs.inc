@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-$CURR_SECTION = get_input_value('_section', RCUBE_INPUT_POST);
+$CURR_SECTION = rcube_utils::get_input_value('_section', rcube_utils::INPUT_POST);
 
 $a_user_prefs = array();
 
@@ -28,14 +28,14 @@ switch ($CURR_SECTION)
 {
   case 'general':
     $a_user_prefs = array(
-      'language'     => isset($_POST['_language']) ? get_input_value('_language', RCUBE_INPUT_POST) : $CONFIG['language'],
-      'timezone'     => isset($_POST['_timezone']) ? get_input_value('_timezone', RCUBE_INPUT_POST) : $CONFIG['timezone'],
-      'date_format'  => isset($_POST['_date_format']) ? get_input_value('_date_format', RCUBE_INPUT_POST) : $CONFIG['date_format'],
-      'time_format'  => isset($_POST['_time_format']) ? get_input_value('_time_format', RCUBE_INPUT_POST) : ($CONFIG['time_format'] ? $CONFIG['time_format'] : 'H:i'),
+      'language'     => isset($_POST['_language']) ? rcube_utils::get_input_value('_language', rcube_utils::INPUT_POST) : $CONFIG['language'],
+      'timezone'     => isset($_POST['_timezone']) ? rcube_utils::get_input_value('_timezone', rcube_utils::INPUT_POST) : $CONFIG['timezone'],
+      'date_format'  => isset($_POST['_date_format']) ? rcube_utils::get_input_value('_date_format', rcube_utils::INPUT_POST) : $CONFIG['date_format'],
+      'time_format'  => isset($_POST['_time_format']) ? rcube_utils::get_input_value('_time_format', rcube_utils::INPUT_POST) : ($CONFIG['time_format'] ? $CONFIG['time_format'] : 'H:i'),
       'prettydate'   => isset($_POST['_pretty_date']) ? TRUE : FALSE,
       'refresh_interval' => isset($_POST['_refresh_interval']) ? intval($_POST['_refresh_interval'])*60 : $CONFIG['refresh_interval'],
       'standard_windows' => isset($_POST['_standard_windows']) ? TRUE : FALSE,
-      'skin'         => isset($_POST['_skin']) ? get_input_value('_skin', RCUBE_INPUT_POST) : $CONFIG['skin'],
+      'skin'         => isset($_POST['_skin']) ? rcube_utils::get_input_value('_skin', rcube_utils::INPUT_POST) : $CONFIG['skin'],
     );
 
     // compose derived date/time format strings
@@ -66,7 +66,7 @@ switch ($CURR_SECTION)
       'inline_images'   => isset($_POST['_inline_images']) ? TRUE : FALSE,
       'show_images'     => isset($_POST['_show_images']) ? intval($_POST['_show_images']) : 0,
       'display_next'    => isset($_POST['_display_next']) ? TRUE : FALSE,
-      'default_charset' => get_input_value('_default_charset', RCUBE_INPUT_POST),
+      'default_charset' => rcube_utils::get_input_value('_default_charset', rcube_utils::INPUT_POST),
     );
 
   break;
@@ -88,8 +88,8 @@ switch ($CURR_SECTION)
       'show_sig'           => isset($_POST['_show_sig']) ? intval($_POST['_show_sig']) : 1,
       'reply_mode'         => isset($_POST['_reply_mode']) ? intval($_POST['_reply_mode']) : 0,
       'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
-      'default_font'       => get_input_value('_default_font', RCUBE_INPUT_POST),
-      'default_font_size'  => get_input_value('_default_font_size', RCUBE_INPUT_POST),
+      'default_font'       => rcube_utils::get_input_value('_default_font', rcube_utils::INPUT_POST),
+      'default_font_size'  => rcube_utils::get_input_value('_default_font_size', rcube_utils::INPUT_POST),
       'reply_all_mode'     => intval($_POST['_reply_all_mode']),
       'forward_attachment' => !empty($_POST['_forward_attachment']),
     );
@@ -98,10 +98,10 @@ switch ($CURR_SECTION)
 
   case 'addressbook':
     $a_user_prefs = array(
-      'default_addressbook'  => get_input_value('_default_addressbook', RCUBE_INPUT_POST, true),
+      'default_addressbook'  => rcube_utils::get_input_value('_default_addressbook', rcube_utils::INPUT_POST, true),
       'autocomplete_single'  => isset($_POST['_autocomplete_single']) ? TRUE : FALSE,
-      'addressbook_sort_col' => get_input_value('_addressbook_sort_col', RCUBE_INPUT_POST),
-      'addressbook_name_listing' => intval(get_input_value('_addressbook_name_listing', RCUBE_INPUT_POST)),
+      'addressbook_sort_col' => rcube_utils::get_input_value('_addressbook_sort_col', rcube_utils::INPUT_POST),
+      'addressbook_name_listing' => intval(rcube_utils::get_input_value('_addressbook_name_listing', rcube_utils::INPUT_POST)),
       'addressbook_pagesize' => is_numeric($_POST['_addressbook_pagesize']) ? max(2, intval($_POST['_addressbook_pagesize'])) : $CONFIG['addressbook_pagesize'],
     );
 
@@ -124,10 +124,10 @@ switch ($CURR_SECTION)
     $a_user_prefs = array(
       'show_real_foldernames'  =>
       isset($_POST['_show_real_foldernames']) ? TRUE : FALSE,
-      'drafts_mbox' => get_input_value('_drafts_mbox', RCUBE_INPUT_POST, true),
-      'sent_mbox'   => get_input_value('_sent_mbox', RCUBE_INPUT_POST, true),
-      'junk_mbox'   => get_input_value('_junk_mbox', RCUBE_INPUT_POST, true),
-      'trash_mbox'  => get_input_value('_trash_mbox', RCUBE_INPUT_POST, true),
+      'drafts_mbox' => rcube_utils::get_input_value('_drafts_mbox', rcube_utils::INPUT_POST, true),
+      'sent_mbox'   => rcube_utils::get_input_value('_sent_mbox', rcube_utils::INPUT_POST, true),
+      'junk_mbox'   => rcube_utils::get_input_value('_junk_mbox', rcube_utils::INPUT_POST, true),
+      'trash_mbox'  => rcube_utils::get_input_value('_trash_mbox', rcube_utils::INPUT_POST, true),
     );
 
   break;
@@ -221,5 +221,4 @@ else
   $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');
 
 // display the form again
-rcmail_overwrite_action('edit-prefs');
-
+$RCMAIL->overwrite_action('edit-prefs');
