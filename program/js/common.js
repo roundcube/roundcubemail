@@ -285,7 +285,6 @@ rcube_event_engine.prototype = {
  *
  * @param {String}   Event name
  * @param {Function} Handler function
- * @return Listener ID (used to remove this handler later on)
  */
 addEventListener: function(evt, func, obj)
 {
@@ -295,6 +294,8 @@ addEventListener: function(evt, func, obj)
     this._events[evt] = [];
 
   this._events[evt].push({func:func, obj:obj ? obj : window});
+
+  return this; // chainable
 },
 
 /**

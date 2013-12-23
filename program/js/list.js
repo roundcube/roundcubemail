@@ -97,6 +97,8 @@ init: function()
     if (this.keyboard)
       rcube_event.add_listener({event:'keydown', object:this, method:'key_press'});
   }
+
+  return this;
 },
 
 

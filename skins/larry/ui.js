@@ -136,9 +136,9 @@ function rcube_mail_ui()
 
     /***  mail task  ***/
     if (rcmail.env.task == 'mail') {
-      rcmail.addEventListener('menu-open', menu_open);
-      rcmail.addEventListener('menu-save', menu_save);
-      rcmail.addEventListener('responseafterlist', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list') });
+      rcmail.addEventListener('menu-open', menu_open)
+        .addEventListener('menu-save', menu_save)
+        .addEventListener('responseafterlist', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list') });
 
       var dragmenu = $('#dragmessagemenu');
       if (dragmenu.length) {
@@ -147,9 +147,9 @@ function rcube_mail_ui()
       }
 
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
-        rcmail.addEventListener('enable-command', enable_command);
-        rcmail.addEventListener('aftershow-headers', function() { layout_messageview(); });
-        rcmail.addEventListener('afterhide-headers', function() { layout_messageview(); });
+        rcmail.addEventListener('enable-command', enable_command)
+          .addEventListener('aftershow-headers', function() { layout_messageview(); })
+          .addEventListener('afterhide-headers', function() { layout_messageview(); });
         $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(); return false });
 
         // add menu link for each attachment
@@ -162,13 +162,13 @@ function rcube_mail_ui()
         }
       }
       else if (rcmail.env.action == 'compose') {
-        rcmail.addEventListener('aftertoggle-editor', function(e){
-          window.setTimeout(function(){ layout_composeview() }, 200);
-          if (e && e.mode)
-            $("select[name='editorSelector']").val(e.mode);
-        });
-        rcmail.addEventListener('aftersend-attachment', show_uploadform);
-        rcmail.addEventListener('add-recipient', function(p){ show_header_row(p.field, true); });
+        rcmail.addEventListener('aftersend-attachment', show_uploadform)
+          .addEventListener('add-recipient', function(p){ show_header_row(p.field, true); })
+          .addEventListener('aftertoggle-editor', function(e){
+            window.setTimeout(function(){ layout_composeview() }, 200);
+            if (e && e.mode)
+              $("select[name='editorSelector']").val(e.mode);
+          });
 
         // Show input elements with non-empty value
         var f, v, field, fields = ['cc', 'bcc', 'replyto', 'followupto'];
@@ -218,9 +218,9 @@ function rcube_mail_ui()
 
         new rcube_scroller('#folderlist-content', '#folderlist-header', '#folderlist-footer');
 
-        rcmail.addEventListener('setquota', update_quota);
-        rcmail.addEventListener('enable-command', enable_command);
-        rcmail.addEventListener('afterimport-messages', show_uploadform);
+        rcmail.addEventListener('setquota', update_quota)
+          .addEventListener('enable-command', enable_command)
+          .addEventListener('afterimport-messages', show_uploadform);
       }
       else if (rcmail.env.action == 'get') {
         new rcube_splitter({ id:'mailpartsplitterv', p1:'#messagepartheader', p2:'#messagepartcontainer',
@@ -275,9 +275,9 @@ function rcube_mail_ui()
     }
     /***  addressbook task  ***/
     else if (rcmail.env.task == 'addressbook') {
-      rcmail.addEventListener('afterupload-photo', show_uploadform);
-      rcmail.addEventListener('beforepushgroup', push_contactgroup);
-      rcmail.addEventListener('beforepopgroup', pop_contactgroup);
+      rcmail.addEventListener('afterupload-photo', show_uploadform)
+        .addEventListener('beforepushgroup', push_contactgroup)
+        .addEventListener('beforepopgroup', pop_contactgroup);
 
       if (rcmail.env.action == '') {
         new rcube_splitter({ id:'addressviewsplitterd', p1:'#addressview-left', p2:'#addressview-right',

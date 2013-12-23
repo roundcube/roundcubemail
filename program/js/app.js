@@ -198,22 +198,23 @@ function rcube_webmail()
             multiselect:true, multiexpand:true, draggable:true, keyboard:true,
             column_movable:this.env.col_movable, dblclick_time:this.dblclick_time
             });
-          this.message_list.row_init = function(o){ p.init_message_row(o); };
-          this.message_list.addEventListener('dblclick', function(o){ p.msglist_dbl_click(o); });
-          this.message_list.addEventListener('click', function(o){ p.msglist_click(o); });
-          this.message_list.addEventListener('keypress', function(o){ p.msglist_keypress(o); });
-          this.message_list.addEventListener('select', function(o){ p.msglist_select(o); });
-          this.message_list.addEventListener('dragstart', function(o){ p.drag_start(o); });
-          this.message_list.addEventListener('dragmove', function(e){ p.drag_move(e); });
-          this.message_list.addEventListener('dragend', function(e){ p.drag_end(e); });
-          this.message_list.addEventListener('expandcollapse', function(e){ p.msglist_expand(e); });
-          this.message_list.addEventListener('column_replace', function(e){ p.msglist_set_coltypes(e); });
-          this.message_list.addEventListener('listupdate', function(e){ p.triggerEvent('listupdate', e); });
+          this.message_list
+            .addEventListener('initrow', function(o) { p.init_message_row(o); })
+            .addEventListener('dblclick', function(o) { p.msglist_dbl_click(o); })
+            .addEventListener('click', function(o) { p.msglist_click(o); })
+            .addEventListener('keypress', function(o) { p.msglist_keypress(o); })
+            .addEventListener('select', function(o) { p.msglist_select(o); })
+            .addEventListener('dragstart', function(o) { p.drag_start(o); })
+            .addEventListener('dragmove', function(e) { p.drag_move(e); })
+            .addEventListener('dragend', function(e) { p.drag_end(e); })
+            .addEventListener('expandcollapse', function(o) { p.msglist_expand(o); })
+            .addEventListener('column_replace', function(o) { p.msglist_set_coltypes(o); })
+            .addEventListener('listupdate', function(o) { p.triggerEvent('listupdate', o); })
+            .init();
 
           document.onmouseup = function(e){ return p.doc_mouse_up(e); };
           this.gui_objects.messagelist.parentNode.onmousedown = function(e){ return p.click_on_list(e); };
 
-          this.message_list.init();
           this.enable_command('toggle_status', 'toggle_flag', 'sort', true);
 
           // load messages
@@ -313,10 +314,11 @@ function rcube_webmail()
         if (this.gui_objects.contactslist) {
           this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
             { multiselect:true, draggable:false, keyboard:false });
-          this.contact_list.row_init = function(row){ p.triggerEvent('insertrow', { cid:row.uid, row:row }); };
-          this.contact_list.addEventListener('select', function(o){ ref.compose_recipient_select(o); });
-          this.contact_list.addEventListener('dblclick', function(o){ ref.compose_add_recipient('to'); });
-          this.contact_list.init();
+          this.contact_list
+            .addEventListener('initrow', function(o) { p.triggerEvent('insertrow', { cid:o.uid, row:o }); })
+            .addEventListener('select', function(o) { ref.compose_recipient_select(o); })
+            .addEventListener('dblclick', function(o) { ref.compose_add_recipient('to'); })
+            .init();
         }
 
         if (this.gui_objects.addressbookslist) {
@@ -353,13 +355,14 @@ function rcube_webmail()
         if (this.gui_objects.contactslist) {
           this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
             {multiselect:true, draggable:this.gui_objects.folderlist?true:false, keyboard:true});
-          this.contact_list.row_init = function(row){ p.triggerEvent('insertrow', { cid:row.uid, row:row }); };
-          this.contact_list.addEventListener('keypress', function(o){ p.contactlist_keypress(o); });
-          this.contact_list.addEventListener('select', function(o){ p.contactlist_select(o); });
-          this.contact_list.addEventListener('dragstart', function(o){ p.drag_start(o); });
-          this.contact_list.addEventListener('dragmove', function(e){ p.drag_move(e); });
-          this.contact_list.addEventListener('dragend', function(e){ p.drag_end(e); });
-          this.contact_list.init();
+          this.contact_list
+            .addEventListener('initrow', function(o) { p.triggerEvent('insertrow', { cid:o.uid, row:o }); })
+            .addEventListener('keypress', function(o) { p.contactlist_keypress(o); })
+            .addEventListener('select', function(o) { p.contactlist_select(o); })
+            .addEventListener('dragstart', function(o) { p.drag_start(o); })
+            .addEventListener('dragmove', function(e) { p.drag_move(e); })
+            .addEventListener('dragend', function(e) { p.drag_end(e); })
+            .init();
 
           if (this.env.cid)
             this.contact_list.highlight_row(this.env.cid);
@@ -416,35 +419,39 @@ function rcube_webmail()
         }
 
         if (this.gui_objects.identitieslist) {
-          this.identity_list = new rcube_list_widget(this.gui_objects.identitieslist, {multiselect:false, draggable:false, keyboard:false});
-          this.identity_list.addEventListener('select', function(o){ p.identity_select(o); });
-          this.identity_list.init();
-          this.identity_list.focus();
+          this.identity_list = new rcube_list_widget(this.gui_objects.identitieslist,
+            {multiselect:false, draggable:false, keyboard:false});
+          this.identity_list
+            .addEventListener('select', function(o) { p.identity_select(o); })
+            .init()
+            .focus();
 
           if (this.env.iid)
             this.identity_list.highlight_row(this.env.iid);
         }
         else if (this.gui_objects.sectionslist) {
           this.sections_list = new rcube_list_widget(this.gui_objects.sectionslist, {multiselect:false, draggable:false, keyboard:false});
-          this.sections_list.addEventListener('select', function(o){ p.section_select(o); });
-          this.sections_list.init();
-          this.sections_list.focus();
+          this.sections_list
+            .addEventListener('select', function(o) { p.section_select(o); })
+            .init()
+            .focus();
         }
         else if (this.gui_objects.subscriptionlist) {
           this.init_subscription_list();
         }
         else if (this.gui_objects.responseslist) {
           this.responses_list = new rcube_list_widget(this.gui_objects.responseslist, {multiselect:false, draggable:false, keyboard:false});
-          this.responses_list.addEventListener('select', function(list) {
-            var win, id = list.get_single_selection();
-            p.enable_command('delete', !!id && $.inArray(id, p.env.readonly_responses) < 0);
-            if (id && (win = p.get_frame_window(p.env.contentframe))) {
-              p.set_busy(true);
-              p.location_href({ _action:'edit-response', _key:id, _framed:1 }, win);
-            }
-          });
-          this.responses_list.init();
-          this.responses_list.focus();
+          this.responses_list
+            .addEventListener('select', function(list) {
+              var win, id = list.get_single_selection();
+              p.enable_command('delete', !!id && $.inArray(id, p.env.readonly_responses) < 0);
+              if (id && (win = p.get_frame_window(p.env.contentframe))) {
+                p.set_busy(true);
+                p.location_href({ _action:'edit-response', _key:id, _framed:1 }, win);
+              }
+            })
+            .init()
+            .focus();
         }
 
         break;
@@ -510,11 +517,12 @@ function rcube_webmail()
           id_prefix: 'rcmli',
           id_encode: this.html_identifier_encode,
           id_decode: this.html_identifier_decode,
-          check_droptarget: function(node){ return !node.virtual && ref.check_droptarget(node.id) }
+          check_droptarget: function(node) { return !node.virtual && ref.check_droptarget(node.id) }
         });
-        this.treelist.addEventListener('collapse', function(node){ ref.folder_collapsed(node) });
-        this.treelist.addEventListener('expand', function(node){ ref.folder_collapsed(node) });
-        this.treelist.addEventListener('select', function(node){ ref.triggerEvent('selectfolder', { folder:node.id, prefix:'rcmli' }) });
+        this.treelist
+          .addEventListener('collapse', function(node) { ref.folder_collapsed(node) })
+          .addEventListener('expand', function(node) { ref.folder_collapsed(node) })
+          .addEventListener('select', function(node) { ref.triggerEvent('selectfolder', { folder:node.id, prefix:'rcmli' }) });
       }
     }
 
@@ -5615,14 +5623,15 @@ function rcube_webmail()
 
     this.subscription_list = new rcube_list_widget(this.gui_objects.subscriptionlist,
       {multiselect:false, draggable:true, keyboard:false, toggleselect:true});
-    this.subscription_list.addEventListener('select', function(o){ p.subscription_select(o); });
-    this.subscription_list.addEventListener('dragstart', function(o){ p.drag_active = true; });
-    this.subscription_list.addEventListener('dragend', function(o){ p.subscription_move_folder(o); });
-    this.subscription_list.row_init = function (row) {
-      row.obj.onmouseover = function() { p.focus_subscription(row.id); };
-      row.obj.onmouseout = function() { p.unfocus_subscription(row.id); };
-    };
-    this.subscription_list.init();
+    this.subscription_list
+      .addEventListener('select', function(o){ p.subscription_select(o); })
+      .addEventListener('dragstart', function(o){ p.drag_active = true; })
+      .addEventListener('dragend', function(o){ p.subscription_move_folder(o); })
+      .addEventListener('initrow', function (row) {
+        row.obj.onmouseover = function() { p.focus_subscription(row.id); };
+        row.obj.onmouseout = function() { p.unfocus_subscription(row.id); };
+      })
+      .init();
 
     $('#mailboxroot')
       .mouseover(function(){ p.focus_subscription(this.id); })
