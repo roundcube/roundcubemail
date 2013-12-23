@@ -360,6 +360,18 @@ abstract class rcube_storage
 
 
     /**
+     * Public method for listing message flags
+     *
+     * @param string $folder  Folder name
+     * @param array  $uids    Message UIDs
+     * @param int    $mod_seq Optional MODSEQ value
+     *
+     * @return array Indexed array with message flags
+     */
+    abstract function list_flags($folder, $uids, $mod_seq = null);
+
+
+    /**
      * Public method for listing headers.
      *
      * @param   string   $folder     Folder name

@@ -131,6 +131,13 @@ if (!empty($result_h)) {
   rcmail_js_message_list($result_h);
   if ($search_str)
     $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $RCMAIL->storage->count(NULL, 'ALL')));
+
+  // remember last HIGHESTMODSEQ value (if supported)
+  // we need it for flag updates in check-recent
+  $data = $RCMAIL->storage->folder_data($mbox_name);
+  if (!empty($data['HIGHESTMODSEQ'])) {
+    $_SESSION['list_mod_seq'] = $data['HIGHESTMODSEQ'];
+  }
 }
 // handle IMAP errors (e.g. #1486905)
 else  if ($err_code = $RCMAIL->storage->get_error_code()) {

@@ -6923,6 +6923,16 @@ function rcube_webmail()
 
       case 'refresh':
       case 'check-recent':
+        // update message flags
+        $.each(this.env.recent_flags || {}, function(uid, flags) {
+          ref.set_message(uid, 'deleted', flags.deleted);
+          ref.set_message(uid, 'replied', flags.answered);
+          ref.set_message(uid, 'unread', !flags.seen);
+          ref.set_message(uid, 'forwarded', flags.forwarded);
+          ref.set_message(uid, 'flagged', flags.flagged);
+        });
+        delete this.env.recent_flags;
+
       case 'getunread':
       case 'search':
         this.env.qsearch = null;
@@ -7246,12 +7256,17 @@ function rcube_webmail()
 
     if (this.gui_objects.mailboxlist)
       params._folderlist = 1;
-    if (this.gui_objects.messagelist)
-      params._list = 1;
     if (this.gui_objects.quotadisplay)
       params._quota = 1;
     if (this.env.search_request)
       params._search = this.env.search_request;
+
+    if (this.gui_objects.messagelist) {
+      params._list = 1;
+
+      // message uids for flag updates check
+      params._uids = $.map(this.message_list.rows, function(row, uid) { return uid; }).join(',');
+    }
 
     return params;
   };

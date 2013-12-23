@@ -680,6 +680,41 @@ class rcube_imap extends rcube_storage
 
 
     /**
+     * Public method for listing message flags
+     *
+     * @param string $folder  Folder name
+     * @param array  $uids    Message UIDs
+     * @param int    $mod_seq Optional MODSEQ value (of last flag update)
+     *
+     * @return array Indexed array with message flags
+     */
+    public function list_flags($folder, $uids, $mod_seq = null)
+    {
+        if (!strlen($folder)) {
+            $folder = $this->folder;
+        }
+
+        if (!$this->check_connection()) {
+            return array();
+        }
+
+        // @TODO: when cache was synchronized in this request
+        // we might already have asked for flag updates, use it.
+
+        $flags  = $this->conn->fetch($folder, $uids, true, array('FLAGS'), $mod_seq);
+        $result = array();
+
+        if (!empty($flags)) {
+            foreach ($flags as $message) {
+                $result[$message->uid] = $message->flags;
+            }
+        }
+
+        return $result;
+    }
+
+
+    /**
      * Public method for listing headers
      *
      * @param   string   $folder     Folder name

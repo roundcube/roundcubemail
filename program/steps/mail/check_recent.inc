@@ -114,6 +114,24 @@ foreach ($a_mailboxes as $mbox_name) {
             $OUTPUT->command('update_selection');
         }
     }
+    // handle flag updates
+    else if ($is_current && ($uids = rcube_utils::get_input_value('_uids', rcube_utils::INPUT_GPC))) {
+        $data = $RCMAIL->storage->folder_data($mbox_name);
+
+        if (empty($_SESSION['list_mod_seq']) || $_SESSION['list_mod_seq'] != $data['HIGHESTMODSEQ']) {
+            $flags = $RCMAIL->storage->list_flags($mbox_name, explode(',', $uids), $_SESSION['list_mod_seq']);
+            foreach ($flags as $idx => $row) {
+                $flags[$idx] = array_change_key_case(array_map('intval', $row));
+            }
+
+            // remember last HIGHESTMODSEQ value (if supported)
+            if (!empty($data['HIGHESTMODSEQ'])) {
+                $_SESSION['list_mod_seq'] = $data['HIGHESTMODSEQ'];
+            }
+
+            $RCMAIL->output->set_env('recent_flags', $flags);
+        }
+    }
 }
 
 // trigger refresh hook

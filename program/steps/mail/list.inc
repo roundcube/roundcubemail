@@ -23,8 +23,8 @@ if (!$OUTPUT->ajax_call) {
   return;
 }
 
-$save_arr       = array();
-$dont_override  = (array) $RCMAIL->config->get('dont_override');
+$save_arr      = array();
+$dont_override = (array) $RCMAIL->config->get('dont_override');
 
 // is there a sort type for this request?
 if ($sort = rcube_utils::get_input_value('_sort', rcube_utils::INPUT_GET)) {
@@ -103,6 +103,13 @@ rcmail_js_message_list($a_headers, FALSE, $cols);
 if (isset($a_headers) && count($a_headers)) {
   if ($search_request) {
     $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
+  }
+
+  // remember last HIGHESTMODSEQ value (if supported)
+  // we need it for flag updates in check-recent
+  $data = $RCMAIL->storage->folder_data($mbox_name);
+  if (!empty($data['HIGHESTMODSEQ'])) {
+    $_SESSION['list_mod_seq'] = $data['HIGHESTMODSEQ'];
   }
 }
 else {
