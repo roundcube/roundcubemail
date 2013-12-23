@@ -156,6 +156,10 @@ function rcube_mail_ui()
         $('#attachment-list > li').each(function() {
           $(this).append($('<a class="drop"></a>').click(function() { attachmentmenu(this); }));
         });
+
+        if (get_pref('previewheaders') == '1') {
+          toggle_preview_headers();
+        }
       }
       else if (rcmail.env.action == 'compose') {
         rcmail.addEventListener('aftertoggle-editor', function(e){
@@ -721,6 +725,8 @@ function rcube_mail_ui()
       button.attr('href', '#hide').removeClass('add').addClass('remove')
     else
       button.attr('href', '#details').removeClass('remove').addClass('add')
+
+    save_pref('previewheaders', full.is(':visible') ? '1' : '0');
   }
 
 
