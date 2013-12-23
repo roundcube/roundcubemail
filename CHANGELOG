@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Remember last position of more headers switch (#1488323)
 - Fix so message flags modified by another client are applied on the list on refresh (#1485186)
 - Fix broken text/* attachments when forwarding/editing a message (#1489426)
 - Improved minified files handling, added css minification (#1486988)
