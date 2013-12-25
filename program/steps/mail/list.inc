@@ -90,12 +90,14 @@ if (empty($search_request) && empty($a_headers)) {
 rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']), $unseen);
 
 // update message count display
-$pages = ceil($count/$RCMAIL->storage->get_pagesize());
+$pages  = ceil($count/$RCMAIL->storage->get_pagesize());
+$exists = $RCMAIL->storage->count($mbox_name, 'EXISTS');
+
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', $pages);
 $OUTPUT->set_env('threading', $threading);
 $OUTPUT->set_env('current_page', $count ? $RCMAIL->storage->get_page() : 1);
-$OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
+$OUTPUT->set_env('exists', $exists);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count), $mbox_name);
 
 // add message rows
@@ -121,6 +123,11 @@ else {
     $OUTPUT->show_message('searchnomatch', 'notice');
   else
     $OUTPUT->show_message('nomessagesfound', 'notice');
+}
+
+// set trash folder state
+if ($mbox_name === $RCMAIL->config->get('trash_mbox')) {
+    $OUTPUT->command('set_trash_count', $exists);
 }
 
 // send response

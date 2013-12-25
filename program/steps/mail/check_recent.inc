@@ -25,6 +25,7 @@ if (empty($_REQUEST['_folderlist']) && empty($_REQUEST['_list'])) {
     return;
 }
 
+$trash     = $RCMAIL->config->get('trash_mbox');
 $current   = $RCMAIL->storage->get_folder();
 $check_all = $RCMAIL->action != 'refresh' || (bool)$RCMAIL->config->get('check_all_folders');
 
@@ -131,6 +132,11 @@ foreach ($a_mailboxes as $mbox_name) {
 
             $RCMAIL->output->set_env('recent_flags', $flags);
         }
+    }
+
+    // set trash folder state
+    if ($mbox_name === $trash) {
+        $OUTPUT->command('set_trash_count', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
     }
 }
 

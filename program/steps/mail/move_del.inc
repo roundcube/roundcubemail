@@ -28,12 +28,13 @@ $threading = (bool) $RCMAIL->storage->get_threading();
 $old_count = $RCMAIL->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
 $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
 
+$trash  = $RCMAIL->config->get('trash_mbox');
+
 // move messages
 if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
     $count  = sizeof(explode(',', ($uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))));
     $target = rcube_utils::get_input_value('_target_mbox', rcube_utils::INPUT_POST, true);
     $mbox   = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
-    $trash  = $RCMAIL->config->get('trash_mbox');
 
     $moved = $RCMAIL->storage->move_message($uids, $target, $mbox);
 
@@ -86,16 +87,15 @@ if ($search_request && $RCMAIL->storage->get_search_set()) {
     $_SESSION['search'] = $RCMAIL->storage->refresh_search();
 }
 
-if ($_POST['_from'] == 'show')
-{
+if ($_POST['_from'] == 'show') {
   if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC))
     $OUTPUT->command('show_message', $next);
   else
     $OUTPUT->command('command', 'list');
 }
-else
-{
+else {
   $msg_count      = $RCMAIL->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
+  $exists         = $RCMAIL->storage->count($mbox, 'EXISTS', true);
   $page_size      = $RCMAIL->storage->get_pagesize();
   $page           = $RCMAIL->storage->get_page();
   $pages          = ceil($msg_count / $page_size);
@@ -114,7 +114,7 @@ else
   $OUTPUT->set_env('messagecount', $msg_count);
   $OUTPUT->set_env('current_page', $page);
   $OUTPUT->set_env('pagecount', $pages);
-  $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox, 'EXISTS', true));
+  $OUTPUT->set_env('exists', $exists);
 
   // update mailboxlist
   $mbox = $RCMAIL->storage->get_folder();
@@ -143,6 +143,14 @@ else
       rcmail_sort_column(), rcmail_sort_order(), $jump_back ? NULL : $count);
 
     rcmail_js_message_list($a_headers, false);
+  }
+
+  // set trash folder state
+  if ($mbox === $trash) {
+      $OUTPUT->command('set_trash_count', $exists);
+  }
+  else if ($target !== null && $target === $trash) {
+      $OUTPUT->command('set_trash_count', $RCMAIL->storage->count($trash, 'EXISTS'));
   }
 }
 

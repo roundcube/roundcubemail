@@ -6459,6 +6459,12 @@ function rcube_webmail()
     this.env.quota_content = content;
   };
 
+  // update trash folder state
+  this.set_trash_count = function(count)
+  {
+    this[(count ? 'un' : '') + 'mark_folder'](this.env.trash_mailbox, 'empty', '', true);
+  };
+
   // update the mailboxlist
   this.set_unread_count = function(mbox, count, set_title, mark)
   {

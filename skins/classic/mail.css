@@ -425,7 +425,12 @@
 
 #mailboxlist li.trash a
 {
-  background-position: 5px -91px;
+  background-position: 5px -180px;
+}
+
+#mailboxlist li.trash.empty a
+{
+  background-position: 5px -90px;
 }
 
 #mailboxlist li a
