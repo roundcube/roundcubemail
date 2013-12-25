@@ -39,10 +39,10 @@ if (!empty($_REQUEST['_gid']) && isset($_REQUEST['_source']))
 {
     $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
     $CONTACTS = $RCMAIL->get_address_book($source);
-    
+
     $group_id = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC);
     $group_data = $CONTACTS->get_group($group_id);
-    
+
     // group has an email address assigned: use that
     if ($group_data['email']) {
         $mailto[] = format_email_recipient($group_data['email'][0], $group_data['name']);

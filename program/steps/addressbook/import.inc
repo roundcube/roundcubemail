@@ -5,7 +5,7 @@
  | program/steps/addressbook/import.inc                                  |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -25,69 +25,70 @@
  */
 function rcmail_import_form($attrib)
 {
-  global $RCMAIL, $OUTPUT;
-  $target = rcube_utils::get_input_value('_target', rcube_utils::INPUT_GPC);
+    global $RCMAIL, $OUTPUT;
 
-  $attrib += array('id' => "rcmImportForm");
+    $target = rcube_utils::get_input_value('_target', rcube_utils::INPUT_GPC);
 
-  $writable_books = $RCMAIL->get_address_sources(true, true);
+    $attrib += array('id' => "rcmImportForm");
 
-  $upload = new html_inputfield(array(
-    'type' => 'file',
-    'name' => '_file[]',
-    'id' => 'rcmimportfile',
-    'size' => 40,
-    'multiple' => 'multiple',
-  ));
-  $form = html::p(null, html::label('rcmimportfile', $RCMAIL->gettext('importfromfile')) . $upload->show());
-  $table = new html_table(array('cols' => 2));
+    $writable_books = $RCMAIL->get_address_sources(true, true);
 
-  // addressbook selector
-  if (count($writable_books) > 1) {
-    $select = new html_select(array('name' => '_target', 'id' => 'rcmimporttarget', 'is_escaped' => true));
+    $upload = new html_inputfield(array(
+        'type'     => 'file',
+        'name'     => '_file[]',
+        'id'       => 'rcmimportfile',
+        'size'     => 40,
+        'multiple' => 'multiple',
+    ));
+    $form  = html::p(null, html::label('rcmimportfile', $RCMAIL->gettext('importfromfile')) . $upload->show());
+    $table = new html_table(array('cols' => 2));
 
-    foreach ($writable_books as $book)
-        $select->add($book['name'], $book['id']);
+    // addressbook selector
+    if (count($writable_books) > 1) {
+        $select = new html_select(array('name' => '_target', 'id' => 'rcmimporttarget', 'is_escaped' => true));
 
-    $table->add('title', html::label('rcmimporttarget', $RCMAIL->gettext('importtarget')));
-    $table->add(null, $select->show($target));
-  }
-  else {
-    $abook = new html_hiddenfield(array('name' => '_target', 'value' => key($writable_books)));
-    $form .= $abook->show();
-  }
+        foreach ($writable_books as $book) {
+            $select->add($book['name'], $book['id']);
+        }
 
-  // selector for group import options
-  if (count($writable_books) >= 1 || $writable_books[0]->groups) {
-    $select = new html_select(array('name' => '_groups', 'id' => 'rcmimportgroups', 'is_escaped' => true));
-    $select->add($RCMAIL->gettext('none'), '0');
-    $select->add($RCMAIL->gettext('importgroupsall'), '1');
-    $select->add($RCMAIL->gettext('importgroupsexisting'), '2');
+        $table->add('title', html::label('rcmimporttarget', $RCMAIL->gettext('importtarget')));
+        $table->add(null, $select->show($target));
+    }
+    else {
+        $abook = new html_hiddenfield(array('name' => '_target', 'value' => key($writable_books)));
+        $form .= $abook->show();
+    }
 
-    $table->add('title', html::label('rcmimportgroups', $RCMAIL->gettext('importgroups')));
-    $table->add(null, $select->show(rcube_utils::get_input_value('_groups', rcube_utils::INPUT_GPC)));
-  }
+    // selector for group import options
+    if (count($writable_books) >= 1 || $writable_books[0]->groups) {
+        $select = new html_select(array('name' => '_groups', 'id' => 'rcmimportgroups', 'is_escaped' => true));
+        $select->add($RCMAIL->gettext('none'), '0');
+        $select->add($RCMAIL->gettext('importgroupsall'), '1');
+        $select->add($RCMAIL->gettext('importgroupsexisting'), '2');
 
-  // checkbox to replace the entire address book
-  $check_replace = new html_checkbox(array('name' => '_replace', 'value' => 1, 'id' => 'rcmimportreplace'));
-  $table->add('title', html::label('rcmimportreplace', $RCMAIL->gettext('importreplace')));
-  $table->add(null, $check_replace->show(rcube_utils::get_input_value('_replace', rcube_utils::INPUT_GPC)));
+        $table->add('title', html::label('rcmimportgroups', $RCMAIL->gettext('importgroups')));
+        $table->add(null, $select->show(rcube_utils::get_input_value('_groups', rcube_utils::INPUT_GPC)));
+    }
 
-  $form .= $table->show(array('id' => null) + $attrib);
+    // checkbox to replace the entire address book
+    $check_replace = new html_checkbox(array('name' => '_replace', 'value' => 1, 'id' => 'rcmimportreplace'));
+    $table->add('title', html::label('rcmimportreplace', $RCMAIL->gettext('importreplace')));
+    $table->add(null, $check_replace->show(rcube_utils::get_input_value('_replace', rcube_utils::INPUT_GPC)));
 
-  $OUTPUT->set_env('writable_source', !empty($writable_books));
-  $OUTPUT->add_label('selectimportfile','importwait');
-  $OUTPUT->add_gui_object('importform', $attrib['id']);
+    $form .= $table->show(array('id' => null) + $attrib);
 
-  $out = html::p(null, rcube::Q($RCMAIL->gettext('importdesc'), 'show'));
+    $OUTPUT->set_env('writable_source', !empty($writable_books));
+    $OUTPUT->add_label('selectimportfile','importwait');
+    $OUTPUT->add_gui_object('importform', $attrib['id']);
 
-  $out .= $OUTPUT->form_tag(array(
-      'action' => $RCMAIL->url('import'),
-      'method' => 'post',
-      'enctype' => 'multipart/form-data') + $attrib,
-    $form);
+    $out = html::p(null, rcube::Q($RCMAIL->gettext('importdesc'), 'show'))
+        . $OUTPUT->form_tag(array(
+            'action'  => $RCMAIL->url('import'),
+            'method'  => 'post',
+            'enctype' => 'multipart/form-data') + $attrib,
+            $form);
 
-  return $out;
+    return $out;
 }
 
 
@@ -96,30 +97,31 @@ function rcmail_import_form($attrib)
  */
 function rcmail_import_confirm($attrib)
 {
-  global $IMPORT_STATS, $RCMAIL;
+    global $IMPORT_STATS, $RCMAIL;
 
-  $vars = get_object_vars($IMPORT_STATS);
-  $vars['names'] = $vars['skipped_names'] = '';
+    $vars = get_object_vars($IMPORT_STATS);
+    $vars['names'] = $vars['skipped_names'] = '';
 
-  $content = html::p(null, $RCMAIL->gettext(array(
-      'name' => 'importconfirm',
-      'nr' => $IMPORT_STATS->inserted,
-      'vars' => $vars,
-    )) . ($IMPORT_STATS->names ? ':' : '.'));
+    $content = html::p(null, $RCMAIL->gettext(array(
+        'name' => 'importconfirm',
+        'nr'   => $IMPORT_STATS->inserted,
+        'vars' => $vars,
+        )) . ($IMPORT_STATS->names ? ':' : '.'));
 
-  if ($IMPORT_STATS->names)
-    $content .= html::p('em', join(', ', array_map('Q', $IMPORT_STATS->names)));
+    if ($IMPORT_STATS->names) {
+        $content .= html::p('em', join(', ', array_map('Q', $IMPORT_STATS->names)));
+    }
 
-  if ($IMPORT_STATS->skipped) {
-      $content .= html::p(null, $RCMAIL->gettext(array(
-          'name' => 'importconfirmskipped',
-          'nr' => $IMPORT_STATS->skipped,
-          'vars' => $vars,
-        )) . ':');
-      $content .= html::p('em', join(', ', array_map('Q', $IMPORT_STATS->skipped_names)));
-  }
+    if ($IMPORT_STATS->skipped) {
+        $content .= html::p(null, $RCMAIL->gettext(array(
+                'name' => 'importconfirmskipped',
+                'nr'   => $IMPORT_STATS->skipped,
+                'vars' => $vars,
+            )) . ':')
+            . html::p('em', join(', ', array_map('Q', $IMPORT_STATS->skipped_names)));
+    }
 
-  return html::div($attrib, $content);
+    return html::div($attrib, $content);
 }
 
 
@@ -128,24 +130,25 @@ function rcmail_import_confirm($attrib)
  */
 function rcmail_import_buttons($attrib)
 {
-  global $IMPORT_STATS, $OUTPUT;
-  $target = rcube_utils::get_input_value('_target', rcube_utils::INPUT_GPC);
+    global $IMPORT_STATS, $OUTPUT;
 
-  $attrib += array('type' => 'input');
-  unset($attrib['name']);
+    $target = rcube_utils::get_input_value('_target', rcube_utils::INPUT_GPC);
 
-  if (is_object($IMPORT_STATS)) {
-    $attrib['class'] = trim($attrib['class'] . ' mainaction');
-    $out = $OUTPUT->button(array('command' => 'list', 'prop' => $target, 'label' => 'done') + $attrib);
-  }
-  else {
-    $out = $OUTPUT->button(array('command' => 'list', 'label' => 'cancel') + $attrib);
-    $out .= '&nbsp;';
-    $attrib['class'] = trim($attrib['class'] . ' mainaction');
-    $out .= $OUTPUT->button(array('command' => 'import', 'label' => 'import') + $attrib);
-  }
+    $attrib += array('type' => 'input');
+    unset($attrib['name']);
 
-  return $out;
+    if (is_object($IMPORT_STATS)) {
+        $attrib['class'] = trim($attrib['class'] . ' mainaction');
+        $out = $OUTPUT->button(array('command' => 'list', 'prop' => $target, 'label' => 'done') + $attrib);
+    }
+    else {
+        $out = $OUTPUT->button(array('command' => 'list', 'label' => 'cancel') + $attrib);
+        $out .= '&nbsp;';
+        $attrib['class'] = trim($attrib['class'] . ' mainaction');
+        $out .= $OUTPUT->button(array('command' => 'import', 'label' => 'import') + $attrib);
+    }
+
+    return $out;
 }
 
 
@@ -334,8 +337,8 @@ if (is_array($_FILES['_file'])) {
 $OUTPUT->set_pagetitle($RCMAIL->gettext('importcontacts'));
 
 $OUTPUT->add_handlers(array(
-  'importstep' => $importstep,
-  'importnav' => 'rcmail_import_buttons',
+    'importstep' => $importstep,
+    'importnav'  => 'rcmail_import_buttons',
 ));
 
 // render page

@@ -5,7 +5,7 @@
  | program/steps/addressbook/func.inc                                    |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -23,37 +23,37 @@ $SEARCH_MODS_DEFAULT = array('name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1
 
 // general definition of contact coltypes
 $CONTACT_COLTYPES = array(
-  'name'         => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('name'), 'category' => 'main'),
-  'firstname'    => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('firstname'), 'category' => 'main'),
-  'surname'      => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('surname'), 'category' => 'main'),
-  'email'        => array('type' => 'text', 'size' => 40, 'maxlength' => 254, 'label' => $RCMAIL->gettext('email'), 'subtypes' => array('home','work','other'), 'category' => 'main'),
-  'middlename'   => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('middlename'), 'category' => 'main'),
-  'prefix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => $RCMAIL->gettext('nameprefix'), 'category' => 'main'),
-  'suffix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => $RCMAIL->gettext('namesuffix'), 'category' => 'main'),
-  'nickname'     => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('nickname'), 'category' => 'main'),
-  'jobtitle'     => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('jobtitle'), 'category' => 'main'),
-  'organization' => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('organization'), 'category' => 'main'),
-  'department'   => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('department'), 'category' => 'main'),
-  'gender'       => array('type' => 'select', 'limit' => 1, 'label' => $RCMAIL->gettext('gender'), 'options' => array('male' => $RCMAIL->gettext('male'), 'female' => $RCMAIL->gettext('female')), 'category' => 'personal'),
-  'maidenname'   => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('maidenname'), 'category' => 'personal'),
-  'phone'        => array('type' => 'text', 'size' => 40, 'maxlength' => 20, 'label' => $RCMAIL->gettext('phone'), 'subtypes' => array('home','home2','work','work2','mobile','main','homefax','workfax','car','pager','video','assistant','other'), 'category' => 'main'),
-  'address'      => array('type' => 'composite', 'label' => $RCMAIL->gettext('address'), 'subtypes' => array('home','work','other'), 'childs' => array(
-    'street'     => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => $RCMAIL->gettext('street'), 'category' => 'main'),
-    'locality'   => array('type' => 'text', 'size' => 28, 'maxlength' => 50, 'label' => $RCMAIL->gettext('locality'), 'category' => 'main'),
-    'zipcode'    => array('type' => 'text', 'size' => 8,  'maxlength' => 15, 'label' => $RCMAIL->gettext('zipcode'), 'category' => 'main'),
-    'region'     => array('type' => 'text', 'size' => 12, 'maxlength' => 50, 'label' => $RCMAIL->gettext('region'), 'category' => 'main'),
-    'country'    => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => $RCMAIL->gettext('country'), 'category' => 'main'),
-  ), 'category' => 'main'),
-  'birthday'     => array('type' => 'date', 'size' => 12, 'maxlength' => 16, 'label' => $RCMAIL->gettext('birthday'), 'limit' => 1, 'render_func' => 'rcmail_format_date_col', 'category' => 'personal'),
-  'anniversary'  => array('type' => 'date', 'size' => 12, 'maxlength' => 16, 'label' => $RCMAIL->gettext('anniversary'), 'limit' => 1, 'render_func' => 'rcmail_format_date_col', 'category' => 'personal'),
-  'website'      => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => $RCMAIL->gettext('website'), 'subtypes' => array('homepage','work','blog','profile','other'), 'category' => 'main'),
-  'im'           => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => $RCMAIL->gettext('instantmessenger'), 'subtypes' => array('aim','icq','msn','yahoo','jabber','skype','other'), 'category' => 'main'),
-  'notes'        => array('type' => 'textarea', 'size' => 40, 'rows' => 15, 'maxlength' => 500, 'label' => $RCMAIL->gettext('notes'), 'limit' => 1),
-  'photo'        => array('type' => 'image', 'limit' => 1, 'category' => 'main'),
-  'assistant'    => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('assistant'), 'category' => 'personal'),
-  'manager'      => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('manager'), 'category' => 'personal'),
-  'spouse'       => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('spouse'), 'category' => 'personal'),
-  // TODO: define fields for vcards like GEO, KEY
+    'name'         => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('name'), 'category' => 'main'),
+    'firstname'    => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('firstname'), 'category' => 'main'),
+    'surname'      => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('surname'), 'category' => 'main'),
+    'email'        => array('type' => 'text', 'size' => 40, 'maxlength' => 254, 'label' => $RCMAIL->gettext('email'), 'subtypes' => array('home','work','other'), 'category' => 'main'),
+    'middlename'   => array('type' => 'text', 'size' => 19, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('middlename'), 'category' => 'main'),
+    'prefix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => $RCMAIL->gettext('nameprefix'), 'category' => 'main'),
+    'suffix'       => array('type' => 'text', 'size' => 8,  'maxlength' => 20, 'limit' => 1, 'label' => $RCMAIL->gettext('namesuffix'), 'category' => 'main'),
+    'nickname'     => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('nickname'), 'category' => 'main'),
+    'jobtitle'     => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('jobtitle'), 'category' => 'main'),
+    'organization' => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('organization'), 'category' => 'main'),
+    'department'   => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('department'), 'category' => 'main'),
+    'gender'       => array('type' => 'select', 'limit' => 1, 'label' => $RCMAIL->gettext('gender'), 'options' => array('male' => $RCMAIL->gettext('male'), 'female' => $RCMAIL->gettext('female')), 'category' => 'personal'),
+    'maidenname'   => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('maidenname'), 'category' => 'personal'),
+    'phone'        => array('type' => 'text', 'size' => 40, 'maxlength' => 20, 'label' => $RCMAIL->gettext('phone'), 'subtypes' => array('home','home2','work','work2','mobile','main','homefax','workfax','car','pager','video','assistant','other'), 'category' => 'main'),
+    'address'      => array('type' => 'composite', 'label' => $RCMAIL->gettext('address'), 'subtypes' => array('home','work','other'), 'childs' => array(
+        'street'     => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => $RCMAIL->gettext('street'), 'category' => 'main'),
+        'locality'   => array('type' => 'text', 'size' => 28, 'maxlength' => 50, 'label' => $RCMAIL->gettext('locality'), 'category' => 'main'),
+        'zipcode'    => array('type' => 'text', 'size' => 8,  'maxlength' => 15, 'label' => $RCMAIL->gettext('zipcode'), 'category' => 'main'),
+        'region'     => array('type' => 'text', 'size' => 12, 'maxlength' => 50, 'label' => $RCMAIL->gettext('region'), 'category' => 'main'),
+        'country'    => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => $RCMAIL->gettext('country'), 'category' => 'main'),
+        ), 'category' => 'main'),
+    'birthday'     => array('type' => 'date', 'size' => 12, 'maxlength' => 16, 'label' => $RCMAIL->gettext('birthday'), 'limit' => 1, 'render_func' => 'rcmail_format_date_col', 'category' => 'personal'),
+    'anniversary'  => array('type' => 'date', 'size' => 12, 'maxlength' => 16, 'label' => $RCMAIL->gettext('anniversary'), 'limit' => 1, 'render_func' => 'rcmail_format_date_col', 'category' => 'personal'),
+    'website'      => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => $RCMAIL->gettext('website'), 'subtypes' => array('homepage','work','blog','profile','other'), 'category' => 'main'),
+    'im'           => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'label' => $RCMAIL->gettext('instantmessenger'), 'subtypes' => array('aim','icq','msn','yahoo','jabber','skype','other'), 'category' => 'main'),
+    'notes'        => array('type' => 'textarea', 'size' => 40, 'rows' => 15, 'maxlength' => 500, 'label' => $RCMAIL->gettext('notes'), 'limit' => 1),
+    'photo'        => array('type' => 'image', 'limit' => 1, 'category' => 'main'),
+    'assistant'    => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('assistant'), 'category' => 'personal'),
+    'manager'      => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('manager'), 'category' => 'personal'),
+    'spouse'       => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('spouse'), 'category' => 'personal'),
+    // TODO: define fields for vcards like GEO, KEY
 );
 
 $PAGE_SIZE = $RCMAIL->config->get('addressbook_pagesize', $RCMAIL->config->get('pagesize', 50));

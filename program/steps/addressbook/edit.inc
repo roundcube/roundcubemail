@@ -5,7 +5,7 @@
  | program/steps/addressbook/edit.inc                                    |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2007, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -169,37 +169,56 @@ function rcmail_contact_editform($attrib)
 
 function rcmail_upload_photo_form($attrib)
 {
-  global $RCMAIL, $OUTPUT;
+    global $RCMAIL, $OUTPUT;
 
-  // set defaults
-  $attrib += array('id' => 'rcmUploadform', 'buttons' => 'yes');
+    // set defaults
+    $attrib += array('id' => 'rcmUploadform', 'buttons' => 'yes');
 
-  // find max filesize value
-  $max_filesize = parse_bytes(ini_get('upload_max_filesize'));
-  $max_postsize = parse_bytes(ini_get('post_max_size'));
-  if ($max_postsize && $max_postsize < $max_filesize)
-    $max_filesize = $max_postsize;
-  $max_filesize = $RCMAIL->show_bytes($max_filesize);
+    // find max filesize value
+    $max_filesize = parse_bytes(ini_get('upload_max_filesize'));
+    $max_postsize = parse_bytes(ini_get('post_max_size'));
 
-  $hidden = new html_hiddenfield(array('name' => '_cid', 'value' => $GLOBALS['cid']));
-  $input = new html_inputfield(array('type' => 'file', 'name' => '_photo', 'size' => $attrib['size']));
-  $button = new html_inputfield(array('type' => 'button'));
+    if ($max_postsize && $max_postsize < $max_filesize) {
+        $max_filesize = $max_postsize;
+    }
+    $max_filesize = $RCMAIL->show_bytes($max_filesize);
 
-  $out = html::div($attrib,
-    $OUTPUT->form_tag(array('id' => $attrib['id'].'Frm', 'name' => 'uploadform', 'method' => 'post', 'enctype' => 'multipart/form-data'),
-      $hidden->show() .
-      html::div(null, $input->show()) .
-      html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize)))) .
-      (rcube_utils::get_boolean($attrib['buttons']) ? html::div('buttons',
-        $button->show($RCMAIL->gettext('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()")) . ' ' .
-        $button->show($RCMAIL->gettext('upload'), array('class' => 'button mainaction', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('upload-photo', this.form)"))
-      ) : '')
-    )
-  );
+    $hidden = new html_hiddenfield(array('name' => '_cid', 'value' => $GLOBALS['cid']));
+    $input  = new html_inputfield(array('type' => 'file', 'name' => '_photo', 'size' => $attrib['size']));
+    $button = new html_inputfield(array('type' => 'button'));
 
-  $OUTPUT->add_label('addphoto','replacephoto');
-  $OUTPUT->add_gui_object('uploadform', $attrib['id'].'Frm');
-  return $out;
+    $content = $hidden->show() . html::div(null, $input->show())
+        . html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
+
+    if (rcube_utils::get_boolean($attrib['buttons'])) {
+        $content .= html::div('buttons',
+            $button->show($RCMAIL->gettext('close'), array(
+                'class'   => 'button',
+                'onclick' => "$('#$attrib[id]').hide()"
+            ))
+            . ' ' .
+            $button->show($RCMAIL->gettext('upload'), array(
+                'class'   => 'button mainaction',
+                'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('upload-photo', this.form)"
+            ))
+        );
+    }
+
+    $out = html::div($attrib,
+        $OUTPUT->form_tag(array(
+                'id'      => $attrib['id'] . 'Frm',
+                'name'    => 'uploadform',
+                'method'  => 'post',
+                'enctype' => 'multipart/form-data'
+            ),
+            $content
+        )
+    );
+
+    $OUTPUT->add_label('addphoto','replacephoto');
+    $OUTPUT->add_gui_object('uploadform', $attrib['id'].'Frm');
+
+    return $out;
 }
 
 // similar function as in /steps/settings/edit_identity.inc

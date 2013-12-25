@@ -5,7 +5,7 @@
  | program/steps/utils/error.inc                                         |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,10 +22,10 @@
 $rcmail = rcmail::get_instance();
 
 // browser is not compatible with this application
-if ($ERROR_CODE==409) {
-  $user_agent = htmlentities($_SERVER['HTTP_USER_AGENT']);
-  $__error_title = 'Your browser does not suit the requirements for this application';
-  $__error_text = <<<EOF
+if ($ERROR_CODE == 409) {
+    $user_agent    = htmlentities($_SERVER['HTTP_USER_AGENT']);
+    $__error_title = 'Your browser does not suit the requirements for this application';
+    $__error_text  = <<<EOF
 <i>Supported browsers:</i><br />
 &raquo; &nbsp;Microsoft Internet Explorer 7+<br />
 &raquo; &nbsp;Mozilla Firefox 3+<br />
@@ -42,24 +42,24 @@ EOF;
 }
 
 // authorization error
-else if ($ERROR_CODE==401) {
-  $__error_title = "AUTHORIZATION FAILED";
-  $__error_text  = "Could not verify that you are authorized to access this service!<br />\n".
-                   "Please contact your server-administrator.";
+else if ($ERROR_CODE == 401) {
+    $__error_title = "AUTHORIZATION FAILED";
+    $__error_text  = "Could not verify that you are authorized to access this service!<br />\n"
+        . "Please contact your server-administrator.";
 }
 
 // forbidden due to request check
-else if ($ERROR_CODE==403) {
-  $__error_title = "REQUEST CHECK FAILED";
-  $__error_text  = "Access to this service was denied due to failing security checks!<br />\n".
-                   "Please contact your server-administrator.";
+else if ($ERROR_CODE == 403) {
+    $__error_title = "REQUEST CHECK FAILED";
+    $__error_text  = "Access to this service was denied due to failing security checks!<br />\n"
+        . "Please contact your server-administrator.";
 }
 
 // failed request (wrong step in URL)
-else if ($ERROR_CODE==404) {
-  $__error_title = "REQUEST FAILED/FILE NOT FOUND";
-  $request_url = htmlentities($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-  $__error_text  = <<<EOF
+else if ($ERROR_CODE == 404) {
+    $request_url   = htmlentities($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+    $__error_title = "REQUEST FAILED/FILE NOT FOUND";
+    $__error_text  = <<<EOF
 The requested page was not found!<br />
 Please contact your server-administrator.
 
@@ -69,35 +69,36 @@ EOF;
 }
 
 // database connection error
-else if ($ERROR_CODE==601)
-{
-  $__error_title = "CONFIGURATION ERROR";
-  $__error_text  =  nl2br($ERROR_MESSAGE) . "<br />Please read the INSTALL instructions!";
+else if ($ERROR_CODE == 601) {
+    $__error_title = "CONFIGURATION ERROR";
+    $__error_text  =  nl2br($ERROR_MESSAGE) . "<br />Please read the INSTALL instructions!";
 }
 
 // database connection error
-else if ($ERROR_CODE==603) {
-  $__error_title = "DATABASE ERROR: CONNECTION FAILED!";
-  $__error_text  =  "Unable to connect to the database!<br />Please contact your server-administrator.";
+else if ($ERROR_CODE == 603) {
+    $__error_title = "DATABASE ERROR: CONNECTION FAILED!";
+    $__error_text  =  "Unable to connect to the database!<br />Please contact your server-administrator.";
 }
 
 // system error
 else {
-  $__error_title = "SERVICE CURRENTLY NOT AVAILABLE!";
-  $__error_text  = "Please contact your server-administrator.";
+    $__error_title = "SERVICE CURRENTLY NOT AVAILABLE!";
+    $__error_text  = "Please contact your server-administrator.";
 
-  if (($rcmail->config->get('debug_level') & 4) && $ERROR_MESSAGE)
-    $__error_text = $ERROR_MESSAGE;
-  else
-    $__error_text = sprintf('Error No. [%s]', $ERROR_CODE);
+    if (($rcmail->config->get('debug_level') & 4) && $ERROR_MESSAGE) {
+        $__error_text = $ERROR_MESSAGE;
+    }
+    else {
+        $__error_text = sprintf('Error No. [%s]', $ERROR_CODE);
+    }
 }
 
 $HTTP_ERR_CODE = $ERROR_CODE && $ERROR_CODE < 600 ? $ERROR_CODE : 500;
 
 // Ajax request
 if ($rcmail->output && $rcmail->output->type == 'js') {
-  header("HTTP/1.0 $HTTP_ERR_CODE $__error_title");
-  die;
+    header("HTTP/1.0 $HTTP_ERR_CODE $__error_title");
+    die;
 }
 
 // compose page content
@@ -109,9 +110,9 @@ $__page_content = <<<EOF
 EOF;
 
 if ($rcmail->output && $rcmail->output->template_exists('error')) {
-  $rcmail->output->reset();
-  $rcmail->output->set_env('server_error', $ERROR_CODE);
-  $rcmail->output->send('error');
+    $rcmail->output->reset();
+    $rcmail->output->set_env('server_error', $ERROR_CODE);
+    $rcmail->output->send('error');
 }
 
 $__skin = $rcmail->config->get('skin', 'default');
@@ -137,4 +138,3 @@ $__page_content
 EOF;
 
 exit;
-

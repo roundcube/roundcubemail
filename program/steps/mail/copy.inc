@@ -5,7 +5,7 @@
  | program/steps/mail/copy.inc                                           |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -20,8 +20,9 @@
 */
 
 // only process ajax requests
-if (!$OUTPUT->ajax_call)
-  return;
+if (!$OUTPUT->ajax_call) {
+    return;
+}
 
 // move messages
 if (!empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {

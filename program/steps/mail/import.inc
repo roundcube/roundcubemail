@@ -32,6 +32,7 @@ if (is_array($_FILES['_file'])) {
         if (!$err) {
             // check file content type first
             list($mtype_primary,) = explode('/', rcube_mime::file_content_type($filepath, $_FILES['_file']['name'][$i], $_FILES['_file']['type'][$i]));
+
             if (!in_array($mtype_primary, array('text','message'))) {
                 $OUTPUT->show_message('importmessageerror', 'error');
                 continue;
@@ -39,7 +40,9 @@ if (is_array($_FILES['_file'])) {
 
             // read the first few lines to detect header-like structure
             $fp = fopen($filepath, 'r');
-            do { $line = fgets($fp); }
+            do {
+                $line = fgets($fp);
+            }
             while ($line !== false && trim($line) == '');
 
             if (!preg_match('/^From\s+-/', $line) && !preg_match('/^[a-z-_]+:\s+.+/i', $line)) {
@@ -103,4 +106,3 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // send html page with JS calls as response
 $OUTPUT->send('iframe');
-
