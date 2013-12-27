@@ -1,7 +1,7 @@
 <?php
 /*
  +-------------------------------------------------------------------------+
- | GnuPG (PGP) driver for the Enigma Plugin                                |
+ | S/MIME driver for the Enigma Plugin                                |
  |                                                                         |
  | This program is free software; you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License version 2          |
@@ -21,19 +21,17 @@
  +-------------------------------------------------------------------------+
 */
 
-require_once 'Crypt/GPG.php';
-
-class enigma_driver_gnupg extends enigma_driver
+class enigma_driver_phpssl extends enigma_driver
 {
     private $rc;
-    private $gpg;
+    //private $gpg;
     private $homedir;
     private $user;
 
     function __construct($user)
     {
         $rcmail = rcmail::get_instance();
-        $this->rc = $rcmail;
+        $this->rc   = $rcmail;
         $this->user = $user;
     }
 
@@ -45,11 +43,11 @@ class enigma_driver_gnupg extends enigma_driver
      */
     function init()
     {
-        $homedir = $this->rc->config->get('enigma_pgp_homedir', INSTALL_PATH . '/plugins/enigma/home');
+        $homedir = $this->rc->config->get('enigma_smime_homedir', INSTALL_PATH . '/plugins/enigma/home');
 
         if (!$homedir)
             return new enigma_error(enigma_error::E_INTERNAL,
-                "Option 'enigma_pgp_homedir' not specified");
+                "Option 'enigma_smime_homedir' not specified");
 
         // check if homedir exists (create it if not) and is readable
         if (!file_exists($homedir))
@@ -74,101 +72,73 @@ class enigma_driver_gnupg extends enigma_driver
 
         $this->homedir = $homedir;
 
-        // Create Crypt_GPG object
-        try {
-            $this->gpg = new Crypt_GPG(array(
-                'homedir'   => $this->homedir,
-//                'debug'     => true,
-          ));
-        }
-        catch (Exception $e) {
-            return $this->get_error_from_exception($e);
-        }
     }
 
     function encrypt($text, $keys)
     {
-/*
-        foreach ($keys as $key) {
-            $this->gpg->addEncryptKey($key);
-        }
-        $enc = $this->gpg->encrypt($text);
-        return $enc;
-*/
     }
 
     function decrypt($text, $key, $passwd)
     {
-//        $this->gpg->addDecryptKey($key, $passwd);
-        try {
-            $dec = $this->gpg->decrypt($text);
-            return $dec;
-        }
-        catch (Exception $e) {
-            return $this->get_error_from_exception($e);
-        }
     }
 
     function sign($text, $key, $passwd)
     {
-/*
-        $this->gpg->addSignKey($key, $passwd);
-        $signed = $this->gpg->sign($text, Crypt_GPG::SIGN_MODE_DETACHED);
-        return $signed;
-*/
     }
 
-    function verify($text, $signature)
+    function verify($struct, $message)
     {
-        try {
-            $verified = $this->gpg->verify($text, $signature);
-            return $this->parse_signature($verified[0]);
+        // use common temp dir
+        $temp_dir  = $this->rc->config->get('temp_dir');
+        $msg_file  = tempnam($temp_dir, 'rcmMsg');
+        $cert_file = tempnam($temp_dir, 'rcmCert');
+
+        $fh = fopen($msg_file, "w");
+        if ($struct->mime_id) {
+            $message->get_part_content($struct->mime_id, $fh, true, 0, false);
         }
-        catch (Exception $e) {
-            return $this->get_error_from_exception($e);
+        else {
+            $this->rc->storage->get_raw_body($message->uid, $fh);
         }
+        fclose($fh);
+
+        // @TODO: use stored certificates
+
+        // try with certificate verification
+        $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file);
+        $validity = true;
+
+        if ($sig !== true) {
+            // try without certificate verification
+            $sig      = openssl_pkcs7_verify($msg_file, PKCS7_NOVERIFY, $cert_file);
+            $validity = enigma_error::E_UNVERIFIED;
+        }
+
+        if ($sig === true) {
+            $sig = $this->parse_sig_cert($cert_file, $validity);
+        }
+        else {
+            $errorstr = $this->get_openssl_error();
+            $sig = new enigma_error(enigma_error::E_INTERNAL, $errorstr);
+        }
+
+        // remove temp files
+        @unlink($msg_file);
+        @unlink($cert_file);
+
+        return $sig;
     }
 
     public function import($content, $isfile=false)
     {
-        try {
-            if ($isfile)
-                return $this->gpg->importKeyFile($content);
-            else
-                return $this->gpg->importKey($content);
-        }
-        catch (Exception $e) {
-            return $this->get_error_from_exception($e);
-        }
     }
 
     public function list_keys($pattern='')
     {
-        try {
-            $keys = $this->gpg->getKeys($pattern);
-            $result = array();
-//print_r($keys);
-            foreach ($keys as $idx => $key) {
-                $result[] = $this->parse_key($key);
-                unset($keys[$idx]);
-            }
-//print_r($result);
-            return $result;
-        }
-        catch (Exception $e) {
-            return $this->get_error_from_exception($e);
-        }
     }
 
     public function get_key($keyid)
     {
-        $list = $this->list_keys($keyid);
-
-        if (is_array($list))
-            return array_shift($list);
-
-        // error
-        return $list;
     }
 
     public function gen_key($data)
@@ -177,85 +147,14 @@ class enigma_driver_gnupg extends enigma_driver
 
     public function del_key($keyid)
     {
-//        $this->get_key($keyid);
     }
 
     public function del_privkey($keyid)
     {
-        try {
-            $this->gpg->deletePrivateKey($keyid);
-            return true;
-        }
-        catch (Exception $e) {
-            return $this->get_error_from_exception($e);
-        }
     }
 
     public function del_pubkey($keyid)
     {
-        try {
-            $this->gpg->deletePublicKey($keyid);
-            return true;
-        }
-        catch (Exception $e) {
-            return $this->get_error_from_exception($e);
-        }
-    }
-
-    /**
-     * Converts Crypt_GPG exception into Enigma's error object
-     *
-     * @param mixed Exception object
-     *
-     * @return enigma_error Error object
-     */
-    private function get_error_from_exception($e)
-    {
-        $data = array();
-
-        if ($e instanceof Crypt_GPG_KeyNotFoundException) {
-            $error = enigma_error::E_KEYNOTFOUND;
-            $data['id'] = $e->getKeyId();
-        }
-        else if ($e instanceof Crypt_GPG_BadPassphraseException) {
-            $error = enigma_error::E_BADPASS;
-            $data['bad']     = $e->getBadPassphrases();
-            $data['missing'] = $e->getMissingPassphrases();
-        }
-        else if ($e instanceof Crypt_GPG_NoDataException)
-            $error = enigma_error::E_NODATA;
-        else if ($e instanceof Crypt_GPG_DeletePrivateKeyException)
-            $error = enigma_error::E_DELKEY;
-        else
-            $error = enigma_error::E_INTERNAL;
-
-        $msg = $e->getMessage();
-
-        return new enigma_error($error, $msg, $data);
-    }
-
-    /**
-     * Converts Crypt_GPG_Signature object into Enigma's signature object
-     *
-     * @param Crypt_GPG_Signature Signature object
-     *
-     * @return enigma_signature Signature object
-     */
-    private function parse_signature($sig)
-    {
-        $user = $sig->getUserId();
-
-        $data = new enigma_signature();
-        $data->id          = $sig->getId();
-        $data->valid       = $sig->isValid();
-        $data->fingerprint = $sig->getKeyFingerprint();
-        $data->created     = $sig->getCreationDate();
-        $data->expires     = $sig->getExpirationDate();
-        $data->name        = $user->getName();
-        $data->comment     = $user->getComment();
-        $data->email       = $user->getEmail();
-
-        return $data;
     }
 
     /**
@@ -267,6 +166,7 @@ class enigma_driver_gnupg extends enigma_driver
      */
     private function parse_key($key)
     {
+/*
         $ekey = new enigma_key();
 
         foreach ($key->getUserIds() as $idx => $user) {
@@ -279,7 +179,7 @@ class enigma_driver_gnupg extends enigma_driver
 
             $ekey->users[$idx] = $id;
         }
-
+        
         $ekey->name = trim($ekey->users[0]->name . ' <' . $ekey->users[0]->email . '>');
 
         foreach ($key->getSubKeys() as $idx => $subkey) {
@@ -295,9 +195,44 @@ class enigma_driver_gnupg extends enigma_driver
 
                 $ekey->subkeys[$idx] = $skey;
         };
-
+        
         $ekey->id = $ekey->subkeys[0]->id;
-
+        
         return $ekey;
+*/
     }
+
+    private function get_openssl_error()
+    {
+        $tmp = array();
+        while ($errorstr = openssl_error_string()) {
+            $tmp[] = $errorstr;
+        }
+
+        return join("\n", array_values($tmp));
+    }
+
+    private function parse_sig_cert($file, $validity)
+    {
+        $cert = openssl_x509_parse(file_get_contents($file));
+
+        if (empty($cert) || empty($cert['subject'])) {
+            $errorstr = $this->get_openssl_error();
+            return new enigma_error(enigm_error::E_INTERNAL, $errorstr);
+        }
+
+        $data = new enigma_signature();
+
+        $data->id          = $cert['hash']; //?
+        $data->valid       = $validity;
+        $data->fingerprint = $cert['serialNumber'];
+        $data->created     = $cert['validFrom_time_t'];
+        $data->expires     = $cert['validTo_time_t'];
+        $data->name        = $cert['subject']['CN'];
+//        $data->comment     = '';
+        $data->email       = $cert['subject']['emailAddress'];
+
+        return $data;
+    }
+
 }

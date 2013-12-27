@@ -1,9 +1,9 @@
 <?php
 
 $labels = array();
-$labels['enigmasettings'] = 'Enigma: Settings';
-$labels['enigmacerts'] = 'Enigma: Certificates (S/MIME)';
-$labels['enigmakeys'] = 'Enigma: Keys (PGP)';
+$labels['enigmasettings'] = 'Enigma Settings';
+$labels['enigmacerts'] = 'S/MIME Certificates';
+$labels['enigmakeys'] = 'PGP Keys';
 $labels['keysfromto'] = 'Keys $from to $to of $count';
 $labels['keyname'] = 'Name';
 $labels['keyid'] = 'Key ID';
@@ -36,6 +36,7 @@ $labels['signmsg'] = 'Digitally sign this message';
 $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';
 $messages['siginvalid'] = 'Invalid signature from $sender.';
+$messages['sigunverified'] = 'Unverified signature. Certificate not verified. Certificate ID: $keyid.';
 $messages['signokey'] = 'Unverified signature. Public key not found. Key ID: $keyid.';
 $messages['sigerror'] = 'Unverified signature. Internal error.';
 $messages['decryptok'] = 'Message decrypted.';

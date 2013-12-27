@@ -12,6 +12,7 @@ Enigma Plugin Status:
 - Handling of PGP keys files attached to incoming messages
 - PGP encrypted messages decryption (started)
 - PGP keys management UI (started)
+- S/MIME signatures verification (started)
 
 * TODO (must have):
 

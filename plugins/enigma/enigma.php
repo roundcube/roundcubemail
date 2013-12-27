@@ -179,10 +179,11 @@ class enigma extends rcube_plugin
     {
         // add labels
         $this->add_texts('localization/');
-
+/*
         $p['list']['enigmasettings'] = array(
             'id' => 'enigmasettings', 'section' => $this->gettext('enigmasettings'),
         );
+*/
         $p['list']['enigmacerts'] = array(
             'id' => 'enigmacerts', 'section' => $this->gettext('enigmacerts'),
         );
@@ -203,11 +204,13 @@ class enigma extends rcube_plugin
      */
     function preferences_list($p)
     {
+/*
         if ($p['section'] == 'enigmasettings') {
             // This makes that section is not removed from the list
             $p['blocks']['dummy']['options']['dummy'] = array();
         }
-        else if ($p['section'] == 'enigmacerts') {
+        else */
+        if ($p['section'] == 'enigmacerts') {
             // This makes that section is not removed from the list
             $p['blocks']['dummy']['options']['dummy'] = array();
         }
@@ -313,18 +316,24 @@ class enigma extends rcube_plugin
             $attrib['id'] = 'enigma-message';
 
             if ($sig instanceof enigma_signature) {
-                if ($sig->valid) {
+                $sender = ($sig->name ? $sig->name . ' ' : '') . '<' . $sig->email . '>';
+
+                if ($sig->valid === enigma_error::E_UNVERIFIED) {
+                    $attrib['class'] = 'enigmawarning';
+                    $msg = str_replace('$sender', $sender, $this->gettext('sigunverified'));
+                    $msg = str_replace('$keyid', $sig->id, $msg);
+                    $msg = rcube::Q($msg);
+                }
+                else if ($sig->valid) {
                     $attrib['class'] = 'enigmanotice';
-                    $sender = ($sig->name ? $sig->name . ' ' : '') . '<' . $sig->email . '>';
                     $msg = rcube::Q(str_replace('$sender', $sender, $this->gettext('sigvalid')));
                 }
                 else {
                     $attrib['class'] = 'enigmawarning';
-                    $sender = ($sig->name ? $sig->name . ' ' : '') . '<' . $sig->email . '>';
                     $msg = rcube::Q(str_replace('$sender', $sender, $this->gettext('siginvalid')));
                 }
             }
-            else if ($sig->getCode() == enigma_error::E_KEYNOTFOUND) {
+            else if ($sig && $sig->getCode() == enigma_error::E_KEYNOTFOUND) {
                 $attrib['class'] = 'enigmawarning';
                 $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($sig->getData('id')),
                     $this->gettext('signokey')));

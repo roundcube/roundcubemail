@@ -32,9 +32,9 @@
  * @package   Crypt_GPG
  * @author    Nathan Fredrickson <nathan@silverorange.com>
  * @author    Michael Gauthier <mike@silverorange.com>
- * @copyright 2005 silverorange
+ * @copyright 2005-2011 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
- * @version   CVS: $Id: Exceptions.php 273745 2009-01-18 05:24:25Z gauthierm $
+ * @version   CVS: $Id$
  * @link      http://pear.php.net/package/Crypt_GPG
  */
 
@@ -463,6 +463,131 @@ class Crypt_GPG_DeletePrivateKeyException extends Crypt_GPG_Exception
     public function getKeyId()
     {
         return $this->_keyId;
+    }
+
+    // }}}
+}
+
+// }}}
+// {{{ class Crypt_GPG_KeyNotCreatedException
+
+/**
+ * An exception thrown when an attempt is made to generate a key and the
+ * attempt fails
+ *
+ * @category  Encryption
+ * @package   Crypt_GPG
+ * @author    Michael Gauthier <mike@silverorange.com>
+ * @copyright 2011 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link      http://pear.php.net/package/Crypt_GPG
+ */
+class Crypt_GPG_KeyNotCreatedException extends Crypt_GPG_Exception
+{
+}
+
+// }}}
+// {{{ class Crypt_GPG_InvalidKeyParamsException
+
+/**
+ * An exception thrown when an attempt is made to generate a key and the
+ * key parameters set on the key generator are invalid
+ *
+ * @category  Encryption
+ * @package   Crypt_GPG
+ * @author    Michael Gauthier <mike@silverorange.com>
+ * @copyright 2011 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link      http://pear.php.net/package/Crypt_GPG
+ */
+class Crypt_GPG_InvalidKeyParamsException extends Crypt_GPG_Exception
+{
+    // {{{ private class properties
+
+    /**
+     * The key algorithm
+     *
+     * @var integer
+     */
+    private $_algorithm = 0;
+
+    /**
+     * The key size
+     *
+     * @var integer
+     */
+    private $_size = 0;
+
+    /**
+     * The key usage
+     *
+     * @var integer
+     */
+    private $_usage = 0;
+
+    // }}}
+    // {{{ __construct()
+
+    /**
+     * Creates a new Crypt_GPG_InvalidKeyParamsException
+     *
+     * @param string  $message   an error message.
+     * @param integer $code      a user defined error code.
+     * @param string  $algorithm the key algorithm.
+     * @param string  $size      the key size.
+     * @param string  $usage     the key usage.
+     */
+    public function __construct(
+        $message,
+        $code = 0,
+        $algorithm = 0,
+        $size = 0,
+        $usage = 0
+    ) {
+        parent::__construct($message, $code);
+
+        $this->_algorithm = $algorithm;
+        $this->_size      = $size;
+        $this->_usage     = $usage;
+    }
+
+    // }}}
+    // {{{ getAlgorithm()
+
+    /**
+     * Gets the key algorithm
+     *
+     * @return integer the key algorithm.
+     */
+    public function getAlgorithm()
+    {
+        return $this->_algorithm;
+    }
+
+    // }}}
+    // {{{ getSize()
+
+    /**
+     * Gets the key size
+     *
+     * @return integer the key size.
+     */
+    public function getSize()
+    {
+        return $this->_size;
+    }
+
+    // }}}
+    // {{{ getUsage()
+
+    /**
+     * Gets the key usage
+     *
+     * @return integer the key usage.
+     */
+    public function getUsage()
+    {
+        return $this->_usage;
     }
 
     // }}}

@@ -34,7 +34,9 @@ class enigma_error
     const E_KEYNOTFOUND = 3;
     const E_DELKEY = 4;
     const E_BADPASS = 5;
-    
+    const E_EXPIRED = 6;
+    const E_UNVERIFIED = 7;
+
     function __construct($code = null, $message = '', $data = array())
     {
         $this->code = $code;

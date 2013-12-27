@@ -28,7 +28,7 @@
  * @author    Michael Gauthier <mike@silverorange.com>
  * @copyright 2008-2010 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
- * @version   CVS: $Id: Key.php 295621 2010-03-01 04:18:54Z gauthierm $
+ * @version   CVS: $Id$
  * @link      http://pear.php.net/package/Crypt_GPG
  */
 
