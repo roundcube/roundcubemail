@@ -206,6 +206,7 @@ class rcmail extends rcube
       $contacts = new rcube_contacts($this->db, $this->get_user_id());
     }
     else {
+      $default = true;
       $plugin = $this->plugins->exec_hook('addressbook_get', array('id' => $id, 'writeable' => $writeable));
 
       // plugin returned instance of a rcube_addressbook
