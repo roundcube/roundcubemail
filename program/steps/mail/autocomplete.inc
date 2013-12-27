@@ -66,6 +66,9 @@ if (!empty($book_types) && strlen($search)) {
 
     foreach ($book_types as $id) {
         $abook = $RCMAIL->get_address_book($id);
+        if (!$abook) {
+            continue;
+        }
         $abook->set_pagesize($MAXNUM);
 
         if ($result = $abook->search($RCMAIL->config->get('contactlist_fields'), $search, $mode, true, true, 'email')) {
