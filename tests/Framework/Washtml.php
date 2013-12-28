@@ -81,4 +81,47 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $this->assertRegExp('|</a>|', $washed, "Invalid closing tag (#1489446)");
     }
 
+    /**
+     * Test fixing of invalid lists nesting (#1488768)
+     */
+    function test_lists()
+    {
+        $data = array(
+            array(
+                "<ol><li>First</li><li>Second</li><ul><li>First sub</li></ul><li>Third</li></ol>",
+                "<ol><li>First</li><li>Second<ul><li>First sub</li></ul></li><li>Third</li></ol>"
+            ),
+            array(
+                "<ol><li>First<ul><li>First sub</li></ul></li></ol>",
+                "<ol><li>First<ul><li>First sub</li></ul></li></ol>",
+            ),
+            array(
+                "<ol><li>First<ol><li>First sub</li></ol></li></ol>",
+                "<ol><li>First<ol><li>First sub</li></ol></li></ol>",
+            ),
+            array(
+                "<ul><li>First</li><ul><li>First sub</li><ul><li>sub sub</li></ul></ul><li></li></ul>",
+                "<ul><li>First<ul><li>First sub<ul><li>sub sub</li></ul></li></ul></li><li></li></ul>",
+            ),
+            array(
+                "<ul><li>First</li><li>second</li><ul><ul><li>sub sub</li></ul></ul></ul>",
+                "<ul><li>First</li><li>second<ul><ul><li>sub sub</li></ul></ul></li></ul>",
+            ),
+            array(
+                "<ol><ol><ol></ol></ol></ol>",
+                "<ol><ol><ol></ol></ol></ol>",
+            ),
+            array(
+                "<div><ol><ol><ol></ol></ol></ol></div>",
+                "<div><ol><ol><ol></ol></ol></ol></div>",
+            ),
+        );
+
+        foreach ($data as $element) {
+            rcube_washtml::fix_broken_lists($element[0]);
+
+            $this->assertSame($element[1], $element[0], "Broken nested lists (#1488768)");
+        }
+    }
+
 }

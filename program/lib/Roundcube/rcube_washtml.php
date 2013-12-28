@@ -418,7 +418,7 @@ class rcube_washtml
         $html = preg_replace($html_search, $html_replace, trim($html));
 
         //-> Replace all of those weird MS Word quotes and other high characters
-        $badwordchars=array(
+        $badwordchars = array(
             "\xe2\x80\x98", // left single quote
             "\xe2\x80\x99", // right single quote
             "\xe2\x80\x9c", // left double quote
@@ -426,7 +426,7 @@ class rcube_washtml
             "\xe2\x80\x94", // em dash
             "\xe2\x80\xa6" // elipses
         );
-        $fixedwordchars=array(
+        $fixedwordchars = array(
             "'",
             "'",
             '"',
@@ -434,7 +434,7 @@ class rcube_washtml
             '&mdash;',
             '...'
         );
-        $html = str_replace($badwordchars,$fixedwordchars, $html);
+        $html = str_replace($badwordchars, $fixedwordchars, $html);
 
         // PCRE errors handling (#1486856), should we use something like for every preg_* use?
         if ($html === null && ($preg_error = preg_last_error()) != PREG_NO_ERROR) {
@@ -461,6 +461,9 @@ class rcube_washtml
         // Don't remove valid conditional comments
         // Don't remove MSOutlook (<!-->) conditional comments (#1489004)
         $html = preg_replace('/<!--[^->\[\n]+>/', '', $html);
+
+        // fix broken nested lists
+        self::fix_broken_lists($html);
 
         // turn relative into absolute urls
         $html = self::resolve_base($html);
@@ -500,5 +503,77 @@ class rcube_washtml
 
         return $body;
     }
-}
 
+    /**
+     * Fix broken nested lists, they are not handled properly by DOMDocument (#1488768)
+     */
+    public static function fix_broken_lists(&$html)
+    {
+        // do two rounds, one for <ol>, one for <ul>
+        foreach (array('ol', 'ul') as $tag) {
+            $pos = 0;
+            while (($pos = stripos($html, '<' . $tag, $pos)) !== false) {
+                $pos++;
+
+                // make sure this is an ol/ul tag
+                if (!in_array($html[$pos+2], array(' ', '>'))) {
+                    continue;
+                }
+
+                $p      = $pos;
+                $in_li  = false;
+                $li_pos = 0;
+
+                while (($p = strpos($html, '<', $p)) !== false) {
+                    $tt = strtolower(substr($html, $p, 4));
+
+                    // li open tag
+                    if ($tt == '<li>' || $tt == '<li ') {
+                        $in_li = true;
+                        $p += 4;
+                    }
+                    // li close tag
+                    else if ($tt == '</li' && in_array($html[$p+4], array(' ', '>'))) {
+                        $li_pos = $p;
+                        $p += 4;
+                        $in_li = false;
+                    }
+                    // ul/ol closing tag
+                    else if ($tt == '</' . $tag && in_array($html[$p+4], array(' ', '>'))) {
+                        break;
+                    }
+                    // nested ol/ul element out of li
+                    else if (!$in_li && $li_pos && ($tt == '<ol>' || $tt == '<ol ' || $tt == '<ul>' || $tt == '<ul ')) {
+                        // find closing tag of this ul/ol element
+                        $element = substr($tt, 1, 2);
+                        $cpos    = $p;
+                        do {
+                            $tpos = stripos($html, '<' . $element, $cpos+1);
+                            $cpos = stripos($html, '</' . $element, $cpos+1);
+                        }
+                        while ($tpos !== false && $cpos !== false && $cpos > $tpos);
+
+                        // not found, this is invalid HTML, skip it
+                        if ($cpos === false) {
+                            break;
+                        }
+
+                        // get element content
+                        $end     = strpos($html, '>', $cpos);
+                        $len     = $end - $p + 1;
+                        $element = substr($html, $p, $len);
+
+                        // move element to the end of the last li
+                        $html    = substr_replace($html, '', $p, $len);
+                        $html    = substr_replace($html, $element, $li_pos, 0);
+
+                        $p = $end;
+                    }
+                    else {
+                        $p++;
+                    }
+                }
+            }
+        }
+    }
+}
