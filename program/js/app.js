@@ -3607,16 +3607,18 @@ function rcube_webmail()
   {
     var rc;
 
-    if (!this.env.draft_id && id && (rc = this.opener())) {
-      // refresh the drafts folder in opener window
-      if (rc.env.task == 'mail' && rc.env.action == '' && rc.env.mailbox == this.env.drafts_mailbox)
-        rc.command('checkmail');
+    if (id && id != this.env.draft_id) {
+      if (rc = this.opener()) {
+        // refresh the drafts folder in opener window
+        if (rc.env.task == 'mail' && rc.env.action == '' && rc.env.mailbox == this.env.drafts_mailbox)
+          rc.command('checkmail');
+      }
+
+      this.env.draft_id = id;
+      $("input[name='_draft_saveid']").val(id);
+
+      this.remove_compose_data(this.env.compose_id);
     }
-
-    this.env.draft_id = id;
-    $("input[name='_draft_saveid']").val(id);
-
-    this.remove_compose_data(this.env.compose_id);
   };
 
   this.auto_save_start = function()

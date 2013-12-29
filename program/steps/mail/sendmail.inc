@@ -284,10 +284,10 @@ function rcmail_generic_message_footer($isHtml)
 
 /****** compose message ********/
 
-if (strlen($_POST['_draft_saveid']) > 3)
-  $olddraftmessageid = rcube_utils::get_input_value('_draft_saveid', rcube_utils::INPUT_POST);
-
-$message_id = $RCMAIL->gen_message_id();
+if (empty($COMPOSE['param']['message-id'])) {
+  $COMPOSE['param']['message-id'] = $RCMAIL->gen_message_id();
+}
+$message_id = $COMPOSE['param']['message-id'];
 
 // set default charset
 $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $OUTPUT->get_charset();
@@ -817,21 +817,15 @@ if ($store_target) {
     }
   }
 
-  if ($olddraftmessageid) {
+  if ($saved && ($old_id = rcube_utils::get_input_value('_draft_saveid', rcube_utils::INPUT_POST))) {
     // delete previous saved draft
-    // @TODO: use message UID (remember to check UIDVALIDITY) to skip this SEARCH
-    $delete_idx = $RCMAIL->storage->search_once($CONFIG['drafts_mbox'],
-        'HEADER Message-ID '.$olddraftmessageid);
+    $deleted = $RCMAIL->storage->delete_message($old_id, $CONFIG['drafts_mbox']);
 
-    if ($del_uid = $delete_idx->get_element('FIRST')) {
-      $deleted = $RCMAIL->storage->delete_message($del_uid, $CONFIG['drafts_mbox']);
-
-      // raise error if deletion of old draft failed
-      if (!$deleted)
-        rcube::raise_error(array('code' => 800, 'type' => 'imap',
-          'file' => __FILE__, 'line' => __LINE__,
-          'message' => "Could not delete message from ".$CONFIG['drafts_mbox']), TRUE, FALSE);
-    }
+    // raise error if deletion of old draft failed
+    if (!$deleted)
+      rcube::raise_error(array('code' => 800, 'type' => 'imap',
+        'file' => __FILE__, 'line' => __LINE__,
+        'message' => "Could not delete message from ".$CONFIG['drafts_mbox']), TRUE, FALSE);
   }
 }
 // remove temp file
@@ -841,22 +835,24 @@ else if ($mailbody_file) {
 
 
 if ($savedraft) {
-  $msgid = strtr($message_id, array('>' => '', '<' => ''));
-
-  // remember new draft-uid ($saved could be an UID or TRUE here)
-  if (is_bool($saved)) {
-    $draft_idx = $RCMAIL->storage->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID '.$msgid);
-    $saved     = $draft_idx->get_element('FIRST');
+  // remember new draft-uid ($saved could be an UID or true/false here)
+  if ($saved && is_bool($saved)) {
+    $index = $RCMAIL->storage->search_once($CONFIG['drafts_mbox'], 'HEADER Message-ID ' . $message_id);
+    $saved = @max($index->get());
   }
-  $COMPOSE['param']['draft_uid'] = $saved;
-  $plugin = $RCMAIL->plugins->exec_hook('message_draftsaved', array('msgid' => $msgid, 'uid' => $saved, 'folder' => $store_target));
 
-  // display success
-  $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'messagesaved', 'confirmation');
+  if ($saved) {
+    $plugin = $RCMAIL->plugins->exec_hook('message_draftsaved',
+      array('msgid' => $message_id, 'uid' => $saved, 'folder' => $store_target));
 
-  // update "_draft_saveid" and the "cmp_hash" to prevent "Unsaved changes" warning
-  $OUTPUT->command('set_draft_id', $msgid);
-  $OUTPUT->command('compose_field_hash', true);
+    // display success
+    $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'messagesaved', 'confirmation');
+
+    // update "_draft_saveid" and the "cmp_hash" to prevent "Unsaved changes" warning
+    $COMPOSE['param']['draft_uid'] = $plugin['uid'];
+    $OUTPUT->command('set_draft_id', $plugin['uid']);
+    $OUTPUT->command('compose_field_hash', true);
+  }
 
   // start the auto-save timer again
   $OUTPUT->command('auto_save_start');

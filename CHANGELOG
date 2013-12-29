@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Don't alter Message-ID of a draft when sending (#1489409)
 - Fix issue where deprecated syntax for HTML lists was not handled properly (#1488768)
 - Display different icons when Trash folder is empty or full (#1485775)
 - Remember last position of more headers switch (#1488323)

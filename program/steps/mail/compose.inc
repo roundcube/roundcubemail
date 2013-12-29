@@ -217,32 +217,36 @@ if (!empty($msg_uid) && empty($COMPOSE['as_attachment']))
     }
   }
   else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
-    if ($compose_mode == RCUBE_COMPOSE_DRAFT && ($draft_info = $MESSAGE->headers->get('x-draft-info'))) {
-      // get reply_uid/forward_uid to flag the original message when sending
-      $info = rcmail_draftinfo_decode($draft_info);
+    if ($compose_mode == RCUBE_COMPOSE_DRAFT) {
+      if ($draft_info = $MESSAGE->headers->get('x-draft-info')) {
+        // get reply_uid/forward_uid to flag the original message when sending
+        $info = rcmail_draftinfo_decode($draft_info);
 
-      if ($info['type'] == 'reply')
-        $COMPOSE['reply_uid'] = $info['uid'];
-      else if ($info['type'] == 'forward')
-        $COMPOSE['forward_uid'] = $info['uid'];
+        if ($info['type'] == 'reply')
+          $COMPOSE['reply_uid'] = $info['uid'];
+        else if ($info['type'] == 'forward')
+          $COMPOSE['forward_uid'] = $info['uid'];
 
-      $COMPOSE['mailbox'] = $info['folder'];
+        $COMPOSE['mailbox'] = $info['folder'];
 
-      // Save the sent message in the same folder of the message being replied to
-      if ($RCMAIL->config->get('reply_same_folder') && ($sent_folder = $info['folder'])
-        && rcmail_check_sent_folder($sent_folder, false)
-      ) {
-        $COMPOSE['param']['sent_mbox'] = $sent_folder;
+        // Save the sent message in the same folder of the message being replied to
+        if ($RCMAIL->config->get('reply_same_folder') && ($sent_folder = $info['folder'])
+          && rcmail_check_sent_folder($sent_folder, false)
+        ) {
+          $COMPOSE['param']['sent_mbox'] = $sent_folder;
+        }
       }
+
+      $COMPOSE['param']['message-id'] = $MESSAGE->headers->get('message-id');
+
+      // use message UID as draft_id
+      $OUTPUT->set_env('draft_id', $msg_uid);
     }
 
     if ($in_reply_to = $MESSAGE->headers->get('in-reply-to'))
       $COMPOSE['reply_msgid'] = '<' . $in_reply_to . '>';
 
     $COMPOSE['references'] = $MESSAGE->headers->references;
-
-    // use message-ID as draft_id, same as in sendmail.inc
-    $OUTPUT->set_env('draft_id', trim($MESSAGE->headers->get('message-id'), '<>'));
   }
 }
 else {
@@ -813,7 +817,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
 
 function rcmail_compose_body($attrib)
 {
-  global $RCMAIL, $CONFIG, $OUTPUT, $MESSAGE, $compose_mode, $HTML_MODE, $MESSAGE_BODY;
+  global $RCMAIL, $CONFIG, $OUTPUT, $HTML_MODE, $MESSAGE_BODY;
 
   list($form_start, $form_end) = get_form_tags($attrib);
   unset($attrib['form']);
@@ -827,7 +831,7 @@ function rcmail_compose_body($attrib)
 
   $out = $form_start ? "$form_start\n" : '';
 
-  $saveid = new html_hiddenfield(array('name' => '_draft_saveid', 'value' => $compose_mode==RCUBE_COMPOSE_DRAFT ? str_replace(array('<','>'), "", $MESSAGE->headers->messageID) : ''));
+  $saveid = new html_hiddenfield(array('name' => '_draft_saveid', 'value' => $RCMAIL->output->get_env('draft_id')));
   $out .= $saveid->show();
 
   $drafttoggle = new html_hiddenfield(array('name' => '_draft', 'value' => 'yes'));
