@@ -91,7 +91,7 @@ class enigma_ui
                     'searchform' => array($this->rc->output, 'search_form'),
                 ));
                 $this->rc->output->set_pagetitle($this->enigma->gettext('enigmakeys'));
-                $this->rc->output->send('enigma.keys'); 
+                $this->rc->output->send('enigma.keys');
             }
         }
     }
@@ -104,11 +104,11 @@ class enigma_ui
         if ($this->css_loaded)
             return;
 
-        $skin = $this->rc->config->get('skin');
-        if (!file_exists($this->home . "/skins/$skin/enigma.css"))
-            $skin = 'default';
+        $skin_path = $this->local_skin_path();
+        if (is_file($this->home . "/$skin_path/enigma.css")) {
+            $this->enigma->include_stylesheet("$skin_path/enigma.css");
+        }
 
-        $this->enigma->include_stylesheet("skins/$skin/enigma.css");
         $this->css_added = true;
     }
 
@@ -415,8 +415,8 @@ class enigma_ui
         // @TODO: make this work with non-default skins
         $this->enigma->add_button(array(
             'name' => 'enigmamenu',
-            'imagepas' => 'skins/default/enigma.png',
-            'imageact' => 'skins/default/enigma.png',
+            'imagepas' => 'skins/classic/enigma.png',
+            'imageact' => 'skins/classic/enigma.png',
             'onclick' => "rcmail_ui.show_popup('enigmamenu', true); return false",
             'title' => 'securityoptions',
             'domain' => 'enigma',
