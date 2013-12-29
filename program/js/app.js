@@ -5048,6 +5048,7 @@ function rcube_webmail()
   {
     var key = 'G'+prop.source+prop.id;
     if (this.treelist.remove(key)) {
+      this.triggerEvent('group_delete', { source:prop.source, id:prop.id });
       delete this.env.contactfolders[key];
       delete this.env.contactgroups[key];
     }
