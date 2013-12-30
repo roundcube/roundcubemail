@@ -104,7 +104,7 @@ class enigma_ui
         if ($this->css_loaded)
             return;
 
-        $skin_path = $this->local_skin_path();
+        $skin_path = $this->enigma->local_skin_path();
         if (is_file($this->home . "/$skin_path/enigma.css")) {
             $this->enigma->include_stylesheet("$skin_path/enigma.css");
         }
