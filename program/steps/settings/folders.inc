@@ -378,8 +378,9 @@ function rcmail_folder_frame($attrib)
 {
     global $OUTPUT;
 
-    if (!$attrib['id'])
+    if (!$attrib['id']) {
         $attrib['id'] = 'rcmfolderframe';
+    }
 
     return $OUTPUT->frame($attrib, true);
 }
@@ -428,4 +429,3 @@ function rcmail_rename_folder($oldname, $newname)
 
     return false;
 }
-

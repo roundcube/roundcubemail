@@ -5,7 +5,7 @@
  | program/steps/settings/edit_folder.inc                                |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -18,6 +18,16 @@
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
+
+// register UI objects
+$OUTPUT->add_handlers(array(
+    'folderdetails' => 'rcmail_folder_form',
+));
+
+$OUTPUT->add_label('nonamewarning');
+
+$OUTPUT->send('folderedit');
+
 
 // WARNING: folder names in UI are encoded with RCUBE_CHARSET
 
@@ -256,7 +266,8 @@ function rcmail_folder_form($attrib)
             foreach ($tab['fieldsets'] as $fieldset) {
                 $subcontent = rcmail_get_form_part($fieldset, $attrib);
                 if ($subcontent) {
-                    $content .= html::tag('fieldset', null, html::tag('legend', null, rcube::Q($fieldset['name'])) . $subcontent) ."\n";
+                    $subcontent = html::tag('legend', null, rcube::Q($fieldset['name'])) . $subcontent;
+                    $content .= html::tag('fieldset', null, $subcontent) ."\n";
                 }
             }
         }
@@ -300,15 +311,3 @@ function rcmail_get_form_part($form, $attrib = array())
 
     return $content;
 }
-
-
-//$OUTPUT->set_pagetitle($RCMAIL->gettext('folders'));
-
-// register UI objects
-$OUTPUT->add_handlers(array(
-    'folderdetails' => 'rcmail_folder_form',
-));
-
-$OUTPUT->add_label('nonamewarning');
-
-$OUTPUT->send('folderedit');

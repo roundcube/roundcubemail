@@ -5,7 +5,7 @@
  | program/steps/settings/func.inc                                       |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,6 +22,30 @@
 if (!$OUTPUT->ajax_call) {
     $OUTPUT->set_pagetitle($RCMAIL->gettext('preferences'));
 }
+
+// register UI objects
+$OUTPUT->add_handlers(array(
+    'settingstabs'   => 'rcmail_settings_tabs',
+    'prefsframe'     => 'rcmail_preferences_frame',
+    'sectionslist'   => 'rcmail_sections_list',
+    'identitieslist' => 'rcmail_identities_list',
+));
+
+// register action aliases
+$RCMAIL->register_action_map(array(
+    'folders'       => 'folders.inc',
+    'rename-folder' => 'folders.inc',
+    'delete-folder' => 'folders.inc',
+    'subscribe'     => 'folders.inc',
+    'unsubscribe'   => 'folders.inc',
+    'purge'         => 'folders.inc',
+    'folder-size'   => 'folders.inc',
+    'add-identity'  => 'edit_identity.inc',
+    'add-response'  => 'edit_response.inc',
+    'save-response' => 'edit_response.inc',
+    'delete-response' => 'responses.inc',
+));
+
 
 // similar function as /steps/settings/identities.inc::rcmail_identity_frame()
 function rcmail_preferences_frame($attrib)
@@ -1273,12 +1297,14 @@ function rcmail_update_folder_row($name, $oldname=null, $subscribe=false, $class
     $display_name = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level)
         . rcube::Q($protected ? $RCMAIL->localize_foldername($name) : rcube_charset::convert($foldersplit[$level], 'UTF7-IMAP'));
 
-    if ($oldname === null)
+    if ($oldname === null) {
         $OUTPUT->command('add_folder_row', $name_utf8, $display_name, $protected, $subscribe,
             false, $class_name);
-    else
+    }
+    else {
         $OUTPUT->command('replace_folder_row', rcube_charset::convert($oldname, 'UTF7-IMAP'),
             $name_utf8, $display_name, $protected, $class_name);
+    }
 }
 
 /**
@@ -1295,18 +1321,18 @@ function rcmail_settings_tabs($attrib)
         array('command' => 'preferences', 'type' => 'link', 'label' => 'preferences', 'title' => 'editpreferences'),
         array('command' => 'folders',     'type' => 'link', 'label' => 'folders',     'title' => 'managefolders'),
         array('command' => 'identities',  'type' => 'link', 'label' => 'identities',  'title' => 'manageidentities'),
-        array('command' => 'responses',   'type' => 'link', 'label' => 'responses',  'title' => 'editresponses'),
+        array('command' => 'responses',   'type' => 'link', 'label' => 'responses',   'title' => 'editresponses'),
     );
 
     // get all identites from DB and define list of cols to be displayed
     $plugin = $RCMAIL->plugins->exec_hook('settings_actions', array(
         'actions' => $default_actions,
-        'attrib' => $attrib,
+        'attrib'  => $attrib,
     ));
 
-    $attrib = $plugin['attrib'];
+    $attrib  = $plugin['attrib'];
     $tagname = $attrib['tagname'];
-    $tabs = array();
+    $tabs    = array();
 
     foreach ($plugin['actions'] as $k => $action) {
         if (!$action['command'] && !$action['href'] && $action['action']) {
@@ -1314,13 +1340,15 @@ function rcmail_settings_tabs($attrib)
         }
 
         $button = $OUTPUT->button($action);
-        $attr = $attrib;
+        $attr   = $attrib;
 
         $cmd = $action['action'] ? $action['action'] : $action['command'];
-        $id = $action['id'] ? $action['id'] : $cmd;
+        $id  = $action['id'] ? $action['id'] : $cmd;
+
         if (!empty($id)) {
             $attr['id'] = preg_replace('/[^a-z0-9]/i', '', $attrib['idprefix'] . $id);
         }
+
         $classnames = array($attrib['class']);
         if (!empty($action['class'])) {
             $classnames[] = $action['class'];
@@ -1331,33 +1359,10 @@ function rcmail_settings_tabs($attrib)
         if ($RCMAIL->action == $cmd) {
             $classnames[] = $attrib['selclass'];
         }
+
         $attr['class'] = join(' ', $classnames);
         $tabs[] = html::tag($tagname, $attr, $button, html::$common_attrib);
     }
 
     return join('', $tabs);
 }
-
-
-// register UI objects
-$OUTPUT->add_handlers(array(
-    'settingstabs' => 'rcmail_settings_tabs',
-    'prefsframe' => 'rcmail_preferences_frame',
-    'sectionslist' => 'rcmail_sections_list',
-    'identitieslist' => 'rcmail_identities_list',
-));
-
-// register action aliases
-$RCMAIL->register_action_map(array(
-    'folders'       => 'folders.inc',
-    'rename-folder' => 'folders.inc',
-    'delete-folder' => 'folders.inc',
-    'subscribe'     => 'folders.inc',
-    'unsubscribe'   => 'folders.inc',
-    'purge'         => 'folders.inc',
-    'folder-size'   => 'folders.inc',
-    'add-identity'  => 'edit_identity.inc',
-    'add-response'  => 'edit_response.inc',
-    'save-response' => 'edit_response.inc',
-    'delete-response' => 'responses.inc',
-));

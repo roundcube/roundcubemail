@@ -51,7 +51,6 @@ if (!empty($_POST['_insert'])) {
     $RCMAIL->output->send();
 }
 
-
 if ($RCMAIL->action == 'delete-response') {
     if ($key = rcube_utils::get_input_value('_key', rcube_utils::INPUT_GPC)) {
         $responses = $RCMAIL->get_compose_responses(false, true);
@@ -80,6 +79,14 @@ if ($RCMAIL->action == 'delete-response') {
 $OUTPUT->set_pagetitle($RCMAIL->gettext('responses'));
 $OUTPUT->include_script('list.js');
 
+$OUTPUT->add_handlers(array(
+    'responseframe' => 'rcmail_response_frame',
+    'responseslist' => 'rcmail_responses_list',
+));
+$OUTPUT->add_label('deleteresponseconfirm');
+
+$OUTPUT->send('responses');
+
 
 /**
  *
@@ -105,7 +112,6 @@ function rcmail_responses_list($attrib)
     return $out;
 }
 
-
 // similar function as /steps/addressbook/func.inc::rcmail_contact_frame()
 function rcmail_response_frame($attrib)
 {
@@ -116,13 +122,6 @@ function rcmail_response_frame($attrib)
     }
 
     $OUTPUT->set_env('contentframe', $attrib['id']);
+
     return $OUTPUT->frame($attrib, true);
 }
-
-$OUTPUT->add_handlers(array(
-    'responseframe' => 'rcmail_response_frame',
-    'responseslist' => 'rcmail_responses_list',
-));
-$OUTPUT->add_label('deleteresponseconfirm');
-
-$OUTPUT->send('responses');

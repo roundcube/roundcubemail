@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | program/steps/settings/save_folder.inc                                |
  |                                                                       |
@@ -23,7 +23,6 @@
 
 // init IMAP connection
 $STORAGE = $RCMAIL->get_storage();
-
 
 $name = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
 $old  = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
@@ -98,7 +97,6 @@ else {
 
 // create a new mailbox
 if (!$error && !strlen($old)) {
-
     $folder['subscribe'] = true;
 
     $plugin = $RCMAIL->plugins->exec_hook('folder_create', array('record' => $folder));
@@ -136,7 +134,6 @@ if (!$error && !strlen($old)) {
         $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
     }
 }
-
 // update a mailbox
 else if (!$error) {
     $plugin = $RCMAIL->plugins->exec_hook('folder_update', array('record' => $folder));

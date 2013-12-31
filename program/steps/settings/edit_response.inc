@@ -70,6 +70,12 @@ if ($RCMAIL->action == 'save-response' && isset($_POST['_name']) && !$RESPONSE_R
     }
 }
 
+$OUTPUT->set_env('readonly', !empty($RESPONSE_RECORD['static']));
+$OUTPUT->add_handler('responseform', 'rcube_response_form');
+$OUTPUT->set_pagetitle($RCMAIL->gettext($RCMAIL->action == 'add-response' ? 'savenewresponse' : 'editresponse'));
+
+$OUTPUT->send('responseedit');
+
 
 function rcube_response_form($attrib)
 {
@@ -88,20 +94,15 @@ function rcube_response_form($attrib)
     $label = $RCMAIL->gettext('responsename');
 
     $table->add('title', html::label('ffname', rcube::Q($RCMAIL->gettext('responsename'))));
-    $table->add(null, rcube_output::get_edit_field('name', $RESPONSE_RECORD['name'], array('id' => 'ffname', 'size' => $attrib['size'], 'disabled' => $disabled), 'text'));
+    $table->add(null, rcube_output::get_edit_field('name', $RESPONSE_RECORD['name'],
+        array('id' => 'ffname', 'size' => $attrib['size'], 'disabled' => $disabled), 'text'));
 
     $table->add('title', html::label('fftext', rcube::Q($RCMAIL->gettext('responsetext'))));
-    $table->add(null, rcube_output::get_edit_field('text', $RESPONSE_RECORD['text'], array('id' => 'fftext', 'size' => $attrib['textareacols'], 'rows' => $attrib['textarearows'], 'disabled' => $disabled), 'textarea'));
+    $table->add(null, rcube_output::get_edit_field('text', $RESPONSE_RECORD['text'],
+        array('id' => 'fftext', 'size' => $attrib['textareacols'], 'rows' => $attrib['textarearows'], 'disabled' => $disabled), 'textarea'));
 
     $out .= $table->show($attrib);
     $out .= $form_end;
 
     return $out;
 }
-
-$OUTPUT->set_env('readonly', !empty($RESPONSE_RECORD['static']));
-$OUTPUT->add_handler('responseform', 'rcube_response_form');
-$OUTPUT->set_pagetitle($RCMAIL->gettext($RCMAIL->action == 'add-response' ? 'savenewresponse' : 'editresponse'));
-
-$OUTPUT->send('responseedit');
-
