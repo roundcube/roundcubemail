@@ -1592,7 +1592,7 @@ function rcmail_priority_selector($attrib)
         $sel = 0;
 
     $out = $form_start ? "$form_start\n" : '';
-    $out .= $selector->show(strval($sel));
+    $out .= $selector->show((int) $sel);
     $out .= $form_end ? "\n$form_end" : '';
 
     return $out;
