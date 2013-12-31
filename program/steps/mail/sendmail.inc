@@ -60,236 +60,6 @@ if (!$savedraft) {
 }
 
 
-/****** message sending functions ********/
-
-// encrypt parts of the header
-function rcmail_encrypt_header($what)
-{
-    global $RCMAIL;
-
-    if (!$RCMAIL->config->get('http_received_header_encrypt')) {
-        return $what;
-    }
-
-    return $RCMAIL->encrypt($what);
-}
-
-// get identity record
-function rcmail_get_identity($id)
-{
-    global $RCMAIL, $message_charset;
-
-    if ($sql_arr = $RCMAIL->user->get_identity($id)) {
-        $out = $sql_arr;
-
-        if ($message_charset != RCUBE_CHARSET) {
-            foreach ($out as $k => $v) {
-                $out[$k] = rcube_charset::convert($v, RCUBE_CHARSET, $message_charset);
-            }
-        }
-
-        $out['mailto'] = $sql_arr['email'];
-        $out['string'] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
-
-        return $out;
-    }
-
-    return false;
-}
-
-/**
- * go from this:
- * <img src="http[s]://.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
- *
- * to this:
- *
- * <img src="/path/on/server/.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
- */
-function rcmail_fix_emoticon_paths($mime_message)
-{
-    global $RCMAIL;
-
-    $body = $mime_message->getHTMLBody();
-
-    // remove any null-byte characters before parsing
-    $body = preg_replace('/\x00/', '', $body);
-
-    $searchstr = 'program/js/tiny_mce/plugins/emotions/img/';
-    $offset = 0;
-
-    // keep track of added images, so they're only added once
-    $included_images = array();
-
-    if (preg_match_all('# src=[\'"]([^\'"]+)#', $body, $matches, PREG_OFFSET_CAPTURE)) {
-        foreach ($matches[1] as $m) {
-            // find emoticon image tags
-            if (preg_match('#'.$searchstr.'(.*)$#', $m[0], $imatches)) {
-                $image_name = $imatches[1];
-
-                // sanitize image name so resulting attachment doesn't leave images dir
-                $image_name = preg_replace('/[^a-zA-Z0-9_\.\-]/i', '', $image_name);
-                $img_file   = INSTALL_PATH . '/' . $searchstr . $image_name;
-
-                if (! in_array($image_name, $included_images)) {
-                    // add the image to the MIME message
-                    if (!$mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name)) {
-                        $RCMAIL->output->show_message("emoticonerror", 'error');
-                    }
-
-                    array_push($included_images, $image_name);
-                }
-
-                $body    = substr_replace($body, $img_file, $m[1] + $offset, strlen($m[0]));
-                $offset += strlen($img_file) - strlen($m[0]);
-            }
-        }
-    }
-
-    $mime_message->setHTMLBody($body);
-}
-
-/**
- * Extract image attachments from HTML content (data URIs)
- */
-function rcmail_extract_inline_images($mime_message, $from)
-{
-    $body   = $mime_message->getHTMLBody();
-    $offset = 0;
-    $list   = array();
-    $regexp = '# src=[\'"](data:(image/[a-z]+);base64,([a-z0-9+/=\r\n]+))([\'"])#i';
-
-    // get domain for the Content-ID, must be the same as in Mail_Mime::get()
-    if (preg_match('#@([0-9a-zA-Z\-\.]+)#', $from, $matches)) {
-        $domain = $matches[1];
-    } else {
-        $domain = 'localhost';
-    }
-
-    if (preg_match_all($regexp, $body, $matches, PREG_OFFSET_CAPTURE)) {
-        foreach ($matches[1] as $idx => $m) {
-            $data = preg_replace('/\r\n/', '', $matches[3][$idx][0]);
-            $data = base64_decode($data);
-
-            if (empty($data)) {
-                continue;
-            }
-
-            $hash      = md5($data) . '@' . $domain;
-            $mime_type = $matches[2][$idx][0];
-            $name      = $list[$hash];
-
-            // add the image to the MIME message
-            if (!$name) {
-                $ext         = preg_replace('#^[^/]+/#', '', $mime_type);
-                $name        = substr($hash, 0, 8) . '.' . $ext;
-                $list[$hash] = $name;
-
-                $mime_message->addHTMLImage($data, $mime_type, $name, false, $hash);
-            }
-
-            $body = substr_replace($body, $name, $m[1] + $offset, strlen($m[0]));
-            $offset += strlen($name) - strlen($m[0]);
-        }
-    }
-
-    $mime_message->setHTMLBody($body);
-}
-
-/**
- * Parse and cleanup email address input (and count addresses)
- *
- * @param string  Address input
- * @param boolean Do count recipients (saved in global $RECIPIENT_COUNT)
- * @param boolean Validate addresses (errors saved in global $EMAIL_FORMAT_ERROR)
- * @return string Canonical recipients string separated by comma
- */
-function rcmail_email_input_format($mailto, $count=false, $check=true)
-{
-    global $RCMAIL, $EMAIL_FORMAT_ERROR, $RECIPIENT_COUNT;
-
-    // simplified email regexp, supporting quoted local part
-    $email_regexp = '(\S+|("[^"]+"))@\S+';
-
-    $delim   = trim($RCMAIL->config->get('recipients_separator', ','));
-    $regexp  = array("/[,;$delim]\s*[\r\n]+/", '/[\r\n]+/', "/[,;$delim]\s*\$/m", '/;/', '/(\S{1})(<'.$email_regexp.'>)/U');
-    $replace = array($delim.' ', ', ', '', $delim, '\\1 \\2');
-
-    // replace new lines and strip ending ', ', make address input more valid
-    $mailto = trim(preg_replace($regexp, $replace, $mailto));
-    $items  = rcube_utils::explode_quoted_string($delim, $mailto);
-    $result = array();
-
-    foreach ($items as $item) {
-        $item = trim($item);
-        // address in brackets without name (do nothing)
-        if (preg_match('/^<'.$email_regexp.'>$/', $item)) {
-            $item     = rcube_utils::idn_to_ascii(trim($item, '<>'));
-            $result[] = $item;
-        }
-        // address without brackets and without name (add brackets)
-        else if (preg_match('/^'.$email_regexp.'$/', $item)) {
-            $item     = rcube_utils::idn_to_ascii($item);
-            $result[] = $item;
-        }
-        // address with name (handle name)
-        else if (preg_match('/<*'.$email_regexp.'>*$/', $item, $matches)) {
-            $address = $matches[0];
-            $name    = trim(str_replace($address, '', $item));
-            if ($name[0] == '"' && $name[count($name)-1] == '"') {
-                $name = substr($name, 1, -1);
-            }
-            $name     = stripcslashes($name);
-            $address  = rcube_utils::idn_to_ascii(trim($address, '<>'));
-            $result[] = format_email_recipient($address, $name);
-            $item     = $address;
-        }
-        else if (trim($item)) {
-            continue;
-        }
-
-        // check address format
-        $item = trim($item, '<>');
-        if ($item && $check && !rcube_utils::check_email($item)) {
-            $EMAIL_FORMAT_ERROR = $item;
-            return;
-        }
-    }
-
-    if ($count) {
-        $RECIPIENT_COUNT += count($result);
-    }
-
-    return implode(', ', $result);
-}
-
-
-function rcmail_generic_message_footer($isHtml)
-{
-    global $RCMAIL;
-
-    if ($isHtml && ($file = $RCMAIL->config->get('generic_message_footer_html'))) {
-        $html_footer = true;
-    }
-    else {
-        $file = $RCMAIL->config->get('generic_message_footer');
-        $html_footer = false;
-    }
-
-    if ($file && realpath($file)) {
-        // sanity check
-        if (!preg_match('/\.(php|ini|conf)$/', $file) && strpos($file, '/etc/') === false) {
-            $footer = file_get_contents($file);
-            if ($isHtml && !$html_footer) {
-                $footer = '<pre>' . $footer . '</pre>';
-            }
-            return $footer;
-        }
-    }
-
-    return false;
-}
-
-
 /****** compose message ********/
 
 if (empty($COMPOSE['param']['message-id'])) {
@@ -911,3 +681,233 @@ else {
 }
 
 $OUTPUT->send('iframe');
+
+
+/****** message sending functions ********/
+
+// encrypt parts of the header
+function rcmail_encrypt_header($what)
+{
+    global $RCMAIL;
+
+    if (!$RCMAIL->config->get('http_received_header_encrypt')) {
+        return $what;
+    }
+
+    return $RCMAIL->encrypt($what);
+}
+
+// get identity record
+function rcmail_get_identity($id)
+{
+    global $RCMAIL, $message_charset;
+
+    if ($sql_arr = $RCMAIL->user->get_identity($id)) {
+        $out = $sql_arr;
+
+        if ($message_charset != RCUBE_CHARSET) {
+            foreach ($out as $k => $v) {
+                $out[$k] = rcube_charset::convert($v, RCUBE_CHARSET, $message_charset);
+            }
+        }
+
+        $out['mailto'] = $sql_arr['email'];
+        $out['string'] = format_email_recipient($sql_arr['email'], $sql_arr['name']);
+
+        return $out;
+    }
+
+    return false;
+}
+
+/**
+ * go from this:
+ * <img src="http[s]://.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
+ *
+ * to this:
+ *
+ * <img src="/path/on/server/.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
+ */
+function rcmail_fix_emoticon_paths($mime_message)
+{
+    global $RCMAIL;
+
+    $body = $mime_message->getHTMLBody();
+
+    // remove any null-byte characters before parsing
+    $body = preg_replace('/\x00/', '', $body);
+
+    $searchstr = 'program/js/tiny_mce/plugins/emotions/img/';
+    $offset = 0;
+
+    // keep track of added images, so they're only added once
+    $included_images = array();
+
+    if (preg_match_all('# src=[\'"]([^\'"]+)#', $body, $matches, PREG_OFFSET_CAPTURE)) {
+        foreach ($matches[1] as $m) {
+            // find emoticon image tags
+            if (preg_match('#'.$searchstr.'(.*)$#', $m[0], $imatches)) {
+                $image_name = $imatches[1];
+
+                // sanitize image name so resulting attachment doesn't leave images dir
+                $image_name = preg_replace('/[^a-zA-Z0-9_\.\-]/i', '', $image_name);
+                $img_file   = INSTALL_PATH . '/' . $searchstr . $image_name;
+
+                if (! in_array($image_name, $included_images)) {
+                    // add the image to the MIME message
+                    if (!$mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name)) {
+                        $RCMAIL->output->show_message("emoticonerror", 'error');
+                    }
+
+                    array_push($included_images, $image_name);
+                }
+
+                $body    = substr_replace($body, $img_file, $m[1] + $offset, strlen($m[0]));
+                $offset += strlen($img_file) - strlen($m[0]);
+            }
+        }
+    }
+
+    $mime_message->setHTMLBody($body);
+}
+
+/**
+ * Extract image attachments from HTML content (data URIs)
+ */
+function rcmail_extract_inline_images($mime_message, $from)
+{
+    $body   = $mime_message->getHTMLBody();
+    $offset = 0;
+    $list   = array();
+    $regexp = '# src=[\'"](data:(image/[a-z]+);base64,([a-z0-9+/=\r\n]+))([\'"])#i';
+
+    // get domain for the Content-ID, must be the same as in Mail_Mime::get()
+    if (preg_match('#@([0-9a-zA-Z\-\.]+)#', $from, $matches)) {
+        $domain = $matches[1];
+    } else {
+        $domain = 'localhost';
+    }
+
+    if (preg_match_all($regexp, $body, $matches, PREG_OFFSET_CAPTURE)) {
+        foreach ($matches[1] as $idx => $m) {
+            $data = preg_replace('/\r\n/', '', $matches[3][$idx][0]);
+            $data = base64_decode($data);
+
+            if (empty($data)) {
+                continue;
+            }
+
+            $hash      = md5($data) . '@' . $domain;
+            $mime_type = $matches[2][$idx][0];
+            $name      = $list[$hash];
+
+            // add the image to the MIME message
+            if (!$name) {
+                $ext         = preg_replace('#^[^/]+/#', '', $mime_type);
+                $name        = substr($hash, 0, 8) . '.' . $ext;
+                $list[$hash] = $name;
+
+                $mime_message->addHTMLImage($data, $mime_type, $name, false, $hash);
+            }
+
+            $body = substr_replace($body, $name, $m[1] + $offset, strlen($m[0]));
+            $offset += strlen($name) - strlen($m[0]);
+        }
+    }
+
+    $mime_message->setHTMLBody($body);
+}
+
+/**
+ * Parse and cleanup email address input (and count addresses)
+ *
+ * @param string  Address input
+ * @param boolean Do count recipients (saved in global $RECIPIENT_COUNT)
+ * @param boolean Validate addresses (errors saved in global $EMAIL_FORMAT_ERROR)
+ * @return string Canonical recipients string separated by comma
+ */
+function rcmail_email_input_format($mailto, $count=false, $check=true)
+{
+    global $RCMAIL, $EMAIL_FORMAT_ERROR, $RECIPIENT_COUNT;
+
+    // simplified email regexp, supporting quoted local part
+    $email_regexp = '(\S+|("[^"]+"))@\S+';
+
+    $delim   = trim($RCMAIL->config->get('recipients_separator', ','));
+    $regexp  = array("/[,;$delim]\s*[\r\n]+/", '/[\r\n]+/', "/[,;$delim]\s*\$/m", '/;/', '/(\S{1})(<'.$email_regexp.'>)/U');
+    $replace = array($delim.' ', ', ', '', $delim, '\\1 \\2');
+
+    // replace new lines and strip ending ', ', make address input more valid
+    $mailto = trim(preg_replace($regexp, $replace, $mailto));
+    $items  = rcube_utils::explode_quoted_string($delim, $mailto);
+    $result = array();
+
+    foreach ($items as $item) {
+        $item = trim($item);
+        // address in brackets without name (do nothing)
+        if (preg_match('/^<'.$email_regexp.'>$/', $item)) {
+            $item     = rcube_utils::idn_to_ascii(trim($item, '<>'));
+            $result[] = $item;
+        }
+        // address without brackets and without name (add brackets)
+        else if (preg_match('/^'.$email_regexp.'$/', $item)) {
+            $item     = rcube_utils::idn_to_ascii($item);
+            $result[] = $item;
+        }
+        // address with name (handle name)
+        else if (preg_match('/<*'.$email_regexp.'>*$/', $item, $matches)) {
+            $address = $matches[0];
+            $name    = trim(str_replace($address, '', $item));
+            if ($name[0] == '"' && $name[count($name)-1] == '"') {
+                $name = substr($name, 1, -1);
+            }
+            $name     = stripcslashes($name);
+            $address  = rcube_utils::idn_to_ascii(trim($address, '<>'));
+            $result[] = format_email_recipient($address, $name);
+            $item     = $address;
+        }
+        else if (trim($item)) {
+            continue;
+        }
+
+        // check address format
+        $item = trim($item, '<>');
+        if ($item && $check && !rcube_utils::check_email($item)) {
+            $EMAIL_FORMAT_ERROR = $item;
+            return;
+        }
+    }
+
+    if ($count) {
+        $RECIPIENT_COUNT += count($result);
+    }
+
+    return implode(', ', $result);
+}
+
+
+function rcmail_generic_message_footer($isHtml)
+{
+    global $RCMAIL;
+
+    if ($isHtml && ($file = $RCMAIL->config->get('generic_message_footer_html'))) {
+        $html_footer = true;
+    }
+    else {
+        $file = $RCMAIL->config->get('generic_message_footer');
+        $html_footer = false;
+    }
+
+    if ($file && realpath($file)) {
+        // sanity check
+        if (!preg_match('/\.(php|ini|conf)$/', $file) && strpos($file, '/etc/') === false) {
+            $footer = file_get_contents($file);
+            if ($isHtml && !$html_footer) {
+                $footer = '<pre>' . $footer . '</pre>';
+            }
+            return $footer;
+        }
+    }
+
+    return false;
+}

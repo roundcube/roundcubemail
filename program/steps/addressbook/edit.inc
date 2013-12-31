@@ -59,6 +59,25 @@ else {
 $SOURCE_ID = $source;
 rcmail_set_sourcename($CONTACTS);
 
+
+$OUTPUT->add_handlers(array(
+    'contactedithead' => 'rcmail_contact_edithead',
+    'contacteditform' => 'rcmail_contact_editform',
+    'contactphoto'    => 'rcmail_contact_photo',
+    'photouploadform' => 'rcmail_upload_photo_form',
+    'sourceselector'  => 'rcmail_source_selector',
+    'filedroparea'    => 'rcmail_photo_drop_area',
+));
+
+if ($RCMAIL->action == 'add' && $OUTPUT->template_exists('contactadd')) {
+    $OUTPUT->send('contactadd');
+}
+
+// this will be executed if no template for addcontact exists
+$OUTPUT->send('contactedit');
+
+
+
 function rcmail_get_edit_record()
 {
     global $RCMAIL, $CONTACTS;
@@ -289,19 +308,3 @@ function rcmail_photo_drop_area($attrib)
         $OUTPUT->set_env('filedrop', array('action' => 'upload-photo', 'fieldname' => '_photo', 'single' => 1, 'filter' => '^image/.+'));
     }
 }
-
-
-$OUTPUT->add_handlers(array(
-    'contactedithead' => 'rcmail_contact_edithead',
-    'contacteditform' => 'rcmail_contact_editform',
-    'contactphoto'    => 'rcmail_contact_photo',
-    'photouploadform' => 'rcmail_upload_photo_form',
-    'sourceselector'  => 'rcmail_source_selector',
-    'filedroparea'    => 'rcmail_photo_drop_area',
-));
-
-if ($RCMAIL->action == 'add' && $OUTPUT->template_exists('contactadd'))
-    $OUTPUT->send('contactadd');
-
-// this will be executed if no template for addcontact exists
-$OUTPUT->send('contactedit');

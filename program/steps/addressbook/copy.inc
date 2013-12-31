@@ -5,7 +5,7 @@
  | program/steps/addressbook/copy.inc                                    |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2007, The Roundcube Dev Team                            |
+ | Copyright (C) 2007-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,8 +32,7 @@ $success  = 0;
 $errormsg = 'copyerror';
 $maxnum   = $RCMAIL->config->get('max_group_members', 0);
 
-foreach ($cids as $source => $cid)
-{
+foreach ($cids as $source => $cid) {
     // Something wrong, target not specified
     if (!strlen($target)) {
         break;

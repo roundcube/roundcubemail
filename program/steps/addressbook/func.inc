@@ -109,6 +109,31 @@ if ($undo = $_SESSION['contact_undo']) {
         $RCMAIL->session->remove('contact_undo');
 }
 
+// register UI objects
+$OUTPUT->add_handlers(array(
+    'directorylist'       => 'rcmail_directory_list',
+//  'groupslist'          => 'rcmail_contact_groups',
+    'addresslist'         => 'rcmail_contacts_list',
+    'addresslisttitle'    => 'rcmail_contacts_list_title',
+    'addressframe'        => 'rcmail_contact_frame',
+    'recordscountdisplay' => 'rcmail_rowcount_display',
+    'searchform'          => array($OUTPUT, 'search_form')
+));
+
+// register action aliases
+$RCMAIL->register_action_map(array(
+    'add'              => 'edit.inc',
+    'group-create'     => 'groups.inc',
+    'group-rename'     => 'groups.inc',
+    'group-delete'     => 'groups.inc',
+    'group-addmembers' => 'groups.inc',
+    'group-delmembers' => 'groups.inc',
+    'search-create'    => 'search.inc',
+    'search-delete'    => 'search.inc',
+));
+
+
+
 // instantiate a contacts object according to the given source
 function rcmail_contact_source($source=null, $init_env=false, $writable=false)
 {
@@ -895,27 +920,3 @@ function rcmail_get_cids($filter = null)
 
     return $filter !== null ? $result[$filter] : $result;
 }
-
-
-// register UI objects
-$OUTPUT->add_handlers(array(
-    'directorylist' => 'rcmail_directory_list',
-//  'groupslist' => 'rcmail_contact_groups',
-    'addresslist' => 'rcmail_contacts_list',
-    'addresslisttitle' => 'rcmail_contacts_list_title',
-    'addressframe' => 'rcmail_contact_frame',
-    'recordscountdisplay' => 'rcmail_rowcount_display',
-    'searchform' => array($OUTPUT, 'search_form')
-));
-
-// register action aliases
-$RCMAIL->register_action_map(array(
-    'add' => 'edit.inc',
-    'group-create' => 'groups.inc',
-    'group-rename' => 'groups.inc',
-    'group-delete' => 'groups.inc',
-    'group-addmembers' => 'groups.inc',
-    'group-delmembers' => 'groups.inc',
-    'search-create' => 'search.inc',
-    'search-delete' => 'search.inc',
-));

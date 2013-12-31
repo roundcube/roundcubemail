@@ -5,7 +5,7 @@
  | program/steps/addressbook/mailto.inc                                  |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2007, The Roundcube Dev Team                            |
+ | Copyright (C) 2007-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -19,24 +19,21 @@
  +-----------------------------------------------------------------------+
 */
 
-$cids   = rcmail_get_cids();
-$mailto = array();
+$cids       = rcmail_get_cids();
+$mailto     = array();
 $recipients = null;
 
-foreach ($cids as $source => $cid)
-{
+foreach ($cids as $source => $cid) {
     $CONTACTS = $RCMAIL->get_address_book($source);
 
-    if ($CONTACTS->ready)
-    {
+    if ($CONTACTS->ready) {
         $CONTACTS->set_page(1);
         $CONTACTS->set_pagesize(count($cid) + 2); // +2 to skip counting query
         $recipients = $CONTACTS->search($CONTACTS->primary_key, $cid, 0, true, true, 'email');
     }
 }
 
-if (!empty($_REQUEST['_gid']) && isset($_REQUEST['_source']))
-{
+if (!empty($_REQUEST['_gid']) && isset($_REQUEST['_source'])) {
     $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
     $CONTACTS = $RCMAIL->get_address_book($source);
 
@@ -55,16 +52,14 @@ if (!empty($_REQUEST['_gid']) && isset($_REQUEST['_source']))
     }
 }
 
-if ($recipients)
-{
+if ($recipients) {
     while (is_object($recipients) && ($rec = $recipients->iterate())) {
         $emails = $CONTACTS->get_col_values('email', $rec, true);
         $mailto[] = format_email_recipient($emails[0], $rec['name']);
     }
 }
 
-if (!empty($mailto))
-{
+if (!empty($mailto)) {
     $mailto_str = join(', ', $mailto);
     $mailto_id = substr(md5($mailto_str), 0, 16);
     $_SESSION['mailto'][$mailto_id] = urlencode($mailto_str);

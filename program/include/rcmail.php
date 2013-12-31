@@ -980,6 +980,19 @@ class rcmail extends rcube
 
 
     /**
+     * Set environment variables for specified config options
+     */
+    public function set_env_config($options)
+    {
+        foreach ((array) $options as $option) {
+            if ($this->config->get($option)) {
+                $this->output->set_env($option, true);
+            }
+        }
+    }
+
+
+    /**
      * Returns RFC2822 formatted current date in user's timezone
      *
      * @return string Date

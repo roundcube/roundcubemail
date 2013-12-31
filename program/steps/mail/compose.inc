@@ -121,10 +121,13 @@ $OUTPUT->set_env('mailbox', $RCMAIL->storage->get_folder());
 $OUTPUT->set_env('top_posting', intval($RCMAIL->config->get('reply_mode')) > 0);
 $OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_separator', ',')));
 
+$drafts_mbox     = $RCMAIL->config->get('drafts_mbox');
+$config_show_sig = $RCMAIL->config->get('show_sig', 1);
+
 // add config parameters to client script
-if (!empty($CONFIG['drafts_mbox'])) {
-    $OUTPUT->set_env('drafts_mailbox', $CONFIG['drafts_mbox']);
-    $OUTPUT->set_env('draft_autosave', $CONFIG['draft_autosave']);
+if (strlen($drafts_mbox)) {
+    $OUTPUT->set_env('drafts_mailbox', $drafts_mbox);
+    $OUTPUT->set_env('draft_autosave', $RCMAIL->config->get('draft_autosave'));
 }
 
 // default font for HTML editor
@@ -142,7 +145,7 @@ if ($font_size = $RCMAIL->config->get('default_font_size')) {
 if ($msg_uid = $COMPOSE['param']['draft_uid']) {
     $compose_mode = RCUBE_COMPOSE_DRAFT;
     $OUTPUT->set_env('draft_id', $msg_uid);
-    $RCMAIL->storage->set_folder($CONFIG['drafts_mbox']);
+    $RCMAIL->storage->set_folder($drafts_mbox);
 }
 else if ($msg_uid = $COMPOSE['param']['reply_uid']) {
     $compose_mode = RCUBE_COMPOSE_REPLY;
@@ -159,7 +162,6 @@ else if ($msg_uid = $COMPOSE['param']['uid']) {
 $COMPOSE['mode'] = $compose_mode;
 $OUTPUT->set_env('compose_mode', $compose_mode);
 
-$config_show_sig = $RCMAIL->config->get('show_sig', 1);
 if ($compose_mode == RCUBE_COMPOSE_EDIT || $compose_mode == RCUBE_COMPOSE_DRAFT) {
     // don't add signature in draft/edit mode, we'll also not remove the old-one
     // but only on page display, later we should be able to change identity/sig (#1489229)
@@ -186,7 +188,9 @@ if (!empty($msg_uid) && empty($COMPOSE['as_attachment'])) {
         $RCMAIL->config->set('prefer_html', $_SESSION['msg_formats'][$mbox_name.':'.$msg_uid]);
     }
     else {
-        $prefer_html = $CONFIG['prefer_html'] || $CONFIG['htmleditor'] || $compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT;
+        $prefer_html = $RCMAIL->config->get('prefer_html') || $RCMAIL->config->get('htmleditor')
+            || $compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT;
+
         $RCMAIL->config->set('prefer_html', $prefer_html);
     }
 
@@ -849,7 +853,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
 
 function rcmail_compose_body($attrib)
 {
-    global $RCMAIL, $CONFIG, $OUTPUT, $HTML_MODE, $MESSAGE_BODY;
+    global $RCMAIL, $OUTPUT, $HTML_MODE, $MESSAGE_BODY;
 
     list($form_start, $form_end) = get_form_tags($attrib);
     unset($attrib['form']);
@@ -901,7 +905,7 @@ function rcmail_compose_body($attrib)
     $RCMAIL->html_editor();
 
     // Set language list
-    if (!empty($CONFIG['enable_spellcheck'])) {
+    if ($RCMAIL->config->get('enable_spellcheck')) {
         $engine           = new rcube_spellchecker();
         $dictionary       = (bool) $RCMAIL->config->get('spellcheck_dictionary');
         $spellcheck_langs = $engine->languages();
@@ -1453,20 +1457,21 @@ function rcmail_compose_subject($attrib)
 
 function rcmail_compose_attachment_list($attrib)
 {
-    global $RCMAIL, $OUTPUT, $CONFIG, $COMPOSE;
+    global $RCMAIL, $OUTPUT, $COMPOSE;
 
     // add ID if not given
     if (!$attrib['id'])
         $attrib['id'] = 'rcmAttachmentList';
 
-    $out    = "\n";
-    $jslist = array();
-    $button = '';
+    $out       = "\n";
+    $jslist    = array();
+    $button    = '';
+    $skin_path = $RCMAIL->config->get('skin_path');
 
     if (is_array($COMPOSE['attachments'])) {
         if ($attrib['deleteicon']) {
             $button = html::img(array(
-                'src' => $CONFIG['skin_path'] . $attrib['deleteicon'],
+                'src' => $skin_path . $attrib['deleteicon'],
                 'alt' => $RCMAIL->gettext('delete')
             ));
         }
@@ -1503,13 +1508,13 @@ function rcmail_compose_attachment_list($attrib)
     }
 
     if ($attrib['deleteicon'])
-        $COMPOSE['deleteicon'] = $CONFIG['skin_path'] . $attrib['deleteicon'];
+        $COMPOSE['deleteicon'] = $skin_path . $attrib['deleteicon'];
     else if (rcube_utils::get_boolean($attrib['textbuttons']))
         $COMPOSE['textbuttons'] = true;
     if ($attrib['cancelicon'])
-        $OUTPUT->set_env('cancelicon', $CONFIG['skin_path'] . $attrib['cancelicon']);
+        $OUTPUT->set_env('cancelicon', $skin_path . $attrib['cancelicon']);
     if ($attrib['loadingicon'])
-        $OUTPUT->set_env('loadingicon', $CONFIG['skin_path'] . $attrib['loadingicon']);
+        $OUTPUT->set_env('loadingicon', $skin_path . $attrib['loadingicon']);
 
     $OUTPUT->set_env('attachments', $jslist);
     $OUTPUT->add_gui_object('attachmentlist', $attrib['id']);

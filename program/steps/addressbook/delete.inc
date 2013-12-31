@@ -5,7 +5,7 @@
  | program/steps/addressbook/delete.inc                                  |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -30,8 +30,7 @@ $delcnt = 0;
 $undo_time = $RCMAIL->config->get('undo_timeout', 0);
 $RCMAIL->session->remove('contact_undo');
 
-foreach ($cids as $source => $cid)
-{
+foreach ($cids as $source => $cid) {
     $CONTACTS = rcmail_contact_source($source);
 
     if ($CONTACTS->readonly) {

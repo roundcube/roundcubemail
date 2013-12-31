@@ -5,7 +5,7 @@
  | program/steps/addressbook/show.inc                                    |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -37,6 +37,15 @@ if ($cid && ($record = $CONTACTS->get_record($cid, true))) {
 
 // get address book name (for display)
 rcmail_set_sourcename($CONTACTS);
+
+$OUTPUT->add_handlers(array(
+    'contacthead'    => 'rcmail_contact_head',
+    'contactdetails' => 'rcmail_contact_details',
+    'contactphoto'   => 'rcmail_contact_photo',
+));
+
+$OUTPUT->send('contact');
+
 
 
 function rcmail_contact_head($attrib)
@@ -183,12 +192,3 @@ function rcmail_contact_record_groups($contact_id)
 
     return $form_start . html::tag('fieldset', 'contactfieldgroup contactgroups', $table->show()) . $form_end;
 }
-
-
-$OUTPUT->add_handlers(array(
-    'contacthead'    => 'rcmail_contact_head',
-    'contactdetails' => 'rcmail_contact_details',
-    'contactphoto'   => 'rcmail_contact_photo',
-));
-
-$OUTPUT->send('contact');

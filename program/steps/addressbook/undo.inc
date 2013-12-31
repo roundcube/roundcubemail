@@ -5,7 +5,7 @@
  | program/steps/addressbook/undo.inc                                    |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2011, Kolab Systems AG                                  |
+ | Copyright (C) 2011-2013, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -20,14 +20,14 @@
 */
 
 // process ajax requests only
-if (!$OUTPUT->ajax_call)
+if (!$OUTPUT->ajax_call) {
     return;
+}
 
 $undo   = $_SESSION['contact_undo'];
 $delcnt = 0;
 
-foreach ((array)$undo['data'] as $source => $cid)
-{
+foreach ((array)$undo['data'] as $source => $cid) {
     $CONTACTS = rcmail_contact_source($source);
 
     $plugin = $RCMAIL->plugins->exec_hook('contact_undelete', array(

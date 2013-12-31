@@ -35,14 +35,19 @@ if ($prev) {
     $OUTPUT->set_env('prev_uid', $prev);
     $OUTPUT->command('enable_command', 'previousmessage', 'firstmessage', true);
 }
+
 if ($next) {
     $OUTPUT->set_env('next_uid', $next);
     $OUTPUT->command('enable_command', 'nextmessage', 'lastmessage', true);
 }
-if ($first)
+
+if ($first) {
     $OUTPUT->set_env('first_uid', $first);
-if ($last)
+}
+
+if ($last) {
     $OUTPUT->set_env('last_uid', $last);
+}
 
 // Don't need a real messages count value
 $OUTPUT->set_env('messagecount', 1);
@@ -54,4 +59,3 @@ $OUTPUT->command('set_rowcount', $RCMAIL->gettext(array(
 )));
 
 $OUTPUT->send();
-
