@@ -84,4 +84,3 @@ function rcmail_autoload($classname)
 
     return false;
 }
-

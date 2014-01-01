@@ -5,8 +5,8 @@
  | program/include/rcmail.php                                            |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2012, Kolab Systems AG                             |
+ | Copyright (C) 2008-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2011-2013, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
 /**
  * Application class of Roundcube Webmail
  * implemented as singleton
@@ -30,616 +29,640 @@
  */
 class rcmail extends rcube
 {
-  /**
-   * Main tasks.
-   *
-   * @var array
-   */
-  static public $main_tasks = array('mail','settings','addressbook','login','logout','utils','dummy');
+    /**
+     * Main tasks.
+     *
+     * @var array
+     */
+    static public $main_tasks = array('mail','settings','addressbook','login','logout','utils','dummy');
 
-  /**
-   * Current task.
-   *
-   * @var string
-   */
-  public $task;
+    /**
+     * Current task.
+     *
+     * @var string
+     */
+    public $task;
 
-  /**
-   * Current action.
-   *
-   * @var string
-   */
-  public $action = '';
-  public $comm_path = './';
-  public $filename = '';
+    /**
+     * Current action.
+     *
+     * @var string
+     */
+    public $action    = '';
+    public $comm_path = './';
+    public $filename  = '';
 
-  private $address_books = array();
-  private $action_map = array();
-
-
-  const ERROR_STORAGE          = -2;
-  const ERROR_INVALID_REQUEST  = 1;
-  const ERROR_INVALID_HOST     = 2;
-  const ERROR_COOKIES_DISABLED = 3;
+    private $address_books = array();
+    private $action_map    = array();
 
 
-  /**
-   * This implements the 'singleton' design pattern
-   *
-   * @param string Environment name to run (e.g. live, dev, test)
-   * @return rcmail The one and only instance
-   */
-  static function get_instance($env = '')
-  {
-    if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
-      self::$instance = new rcmail($env);
-      self::$instance->startup();  // init AFTER object was linked with self::$instance
-    }
-
-    return self::$instance;
-  }
+    const ERROR_STORAGE          = -2;
+    const ERROR_INVALID_REQUEST  = 1;
+    const ERROR_INVALID_HOST     = 2;
+    const ERROR_COOKIES_DISABLED = 3;
 
 
-  /**
-   * Initial startup function
-   * to register session, create database and imap connections
-   */
-  protected function startup()
-  {
-    $this->init(self::INIT_WITH_DB | self::INIT_WITH_PLUGINS);
-
-    // set filename if not index.php
-    if (($basename = basename($_SERVER['SCRIPT_FILENAME'])) && $basename != 'index.php')
-      $this->filename = $basename;
-
-    // start session
-    $this->session_init();
-
-    // create user object
-    $this->set_user(new rcube_user($_SESSION['user_id']));
-
-    // set task and action properties
-    $this->set_task(rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC));
-    $this->action = asciiwords(rcube_utils::get_input_value('_action', rcube_utils::INPUT_GPC));
-
-    // reset some session parameters when changing task
-    if ($this->task != 'utils') {
-      // we reset list page when switching to another task
-      // but only to the main task interface - empty action (#1489076)
-      // this will prevent from unintentional page reset on cross-task requests
-      if ($this->session && $_SESSION['task'] != $this->task && empty($this->action))
-        $this->session->remove('page');
-      // set current task to session
-      $_SESSION['task'] = $this->task;
-    }
-
-    // init output class
-    if (!empty($_REQUEST['_remote']))
-      $GLOBALS['OUTPUT'] = $this->json_init();
-    else
-      $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
-
-    // load plugins
-    $this->plugins->init($this, $this->task);
-    $this->plugins->load_plugins((array)$this->config->get('plugins', array()), array('filesystem_attachments', 'jqueryui'));
-  }
-
-
-  /**
-   * Setter for application task
-   *
-   * @param string Task to set
-   */
-  public function set_task($task)
-  {
-    $task = asciiwords($task, true);
-
-    if ($this->user && $this->user->ID)
-      $task = !$task ? 'mail' : $task;
-    else
-      $task = 'login';
-
-    $this->task = $task;
-    $this->comm_path = $this->url(array('task' => $this->task));
-
-    if ($this->output)
-      $this->output->set_env('task', $this->task);
-  }
-
-
-  /**
-   * Setter for system user object
-   *
-   * @param rcube_user Current user instance
-   */
-  public function set_user($user)
-  {
-    if (is_object($user)) {
-      $this->user = $user;
-
-      // overwrite config with user preferences
-      $this->config->set_user_prefs((array)$this->user->get_prefs());
-    }
-
-    $lang = $this->language_prop($this->config->get('language', $_SESSION['language']));
-    $_SESSION['language'] = $this->user->language = $lang;
-
-    // set localization
-    setlocale(LC_ALL, $lang . '.utf8', $lang . '.UTF-8', 'en_US.utf8', 'en_US.UTF-8');
-
-    // workaround for http://bugs.php.net/bug.php?id=18556
-    if (version_compare(PHP_VERSION, '5.5.0', '<') && in_array($lang, array('tr_TR', 'ku', 'az_AZ'))) {
-      setlocale(LC_CTYPE, 'en_US.utf8', 'en_US.UTF-8');
-    }
-  }
-
-
-  /**
-   * Return instance of the internal address book class
-   *
-   * @param string  Address book identifier (-1 for default addressbook)
-   * @param boolean True if the address book needs to be writeable
-   *
-   * @return rcube_contacts Address book object
-   */
-  public function get_address_book($id, $writeable = false)
-  {
-    $contacts    = null;
-    $ldap_config = (array)$this->config->get('ldap_public');
-
-    // 'sql' is the alias for '0' used by autocomplete
-    if ($id == 'sql')
-      $id = '0';
-    else if ($id == -1) {
-      $id = $this->config->get('default_addressbook');
-      $default = true;
-    }
-
-    // use existing instance
-    if (isset($this->address_books[$id]) && ($this->address_books[$id] instanceof rcube_addressbook)) {
-      $contacts = $this->address_books[$id];
-    }
-    else if ($id && $ldap_config[$id]) {
-      $contacts = new rcube_ldap($ldap_config[$id], $this->config->get('ldap_debug'), $this->config->mail_domain($_SESSION['storage_host']));
-    }
-    else if ($id === '0') {
-      $contacts = new rcube_contacts($this->db, $this->get_user_id());
-    }
-    else {
-      $plugin = $this->plugins->exec_hook('addressbook_get', array('id' => $id, 'writeable' => $writeable));
-
-      // plugin returned instance of a rcube_addressbook
-      if ($plugin['instance'] instanceof rcube_addressbook) {
-        $contacts = $plugin['instance'];
-      }
-    }
-
-    // when user requested default writeable addressbook
-    // we need to check if default is writeable, if not we
-    // will return first writeable book (if any exist)
-    if ($contacts && $default && $contacts->readonly && $writeable) {
-      $contacts = null;
-    }
-
-    // Get first addressbook from the list if configured default doesn't exist
-    // This can happen when user deleted the addressbook (e.g. Kolab folder)
-    if (!$contacts && (!$id || $default)) {
-      $source = reset($this->get_address_sources($writeable, !$default));
-      if (!empty($source)) {
-        $contacts = $this->get_address_book($source['id']);
-        if ($contacts) {
-          $id = $source['id'];
+    /**
+     * This implements the 'singleton' design pattern
+     *
+     * @param string Environment name to run (e.g. live, dev, test)
+     *
+     * @return rcmail The one and only instance
+     */
+    static function get_instance($env = '')
+    {
+        if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
+            self::$instance = new rcmail($env);
+            // init AFTER object was linked with self::$instance
+            self::$instance->startup();
         }
-      }
+
+        return self::$instance;
     }
 
-    if (!$contacts) {
-      // there's no default, just return
-      if ($default) {
-        return null;
-      }
+    /**
+     * Initial startup function
+     * to register session, create database and imap connections
+     */
+    protected function startup()
+    {
+        $this->init(self::INIT_WITH_DB | self::INIT_WITH_PLUGINS);
 
-      self::raise_error(array(
-        'code' => 700, 'type' => 'php',
-        'file' => __FILE__, 'line' => __LINE__,
-        'message' => "Addressbook source ($id) not found!"),
-        true, true);
-    }
-
-    // add to the 'books' array for shutdown function
-    $this->address_books[$id] = $contacts;
-
-    if ($writeable && $contacts->readonly) {
-      return null;
-    }
-
-    // set configured sort order
-    if ($sort_col = $this->config->get('addressbook_sort_col')) {
-        $contacts->set_sort_order($sort_col);
-    }
-
-    return $contacts;
-  }
-
-
-  /**
-   * Return identifier of the address book object
-   *
-   * @param rcube_addressbook Addressbook source object
-   *
-   * @return string Source identifier
-   */
-  public function get_address_book_id($object)
-  {
-    foreach ($this->address_books as $index => $book) {
-      if ($book === $object) {
-        return $index;
-      }
-    }
-  }
-
-
-  /**
-   * Return address books list
-   *
-   * @param boolean True if the address book needs to be writeable
-   * @param boolean True if the address book needs to be not hidden
-   *
-   * @return array  Address books array
-   */
-  public function get_address_sources($writeable = false, $skip_hidden = false)
-  {
-    $abook_type   = (string) $this->config->get('address_book_type');
-    $ldap_config  = (array) $this->config->get('ldap_public');
-    $autocomplete = (array) $this->config->get('autocomplete_addressbooks');
-    $list         = array();
-
-    // We are using the DB address book or a plugin address book
-    if (!empty($abook_type) && strtolower($abook_type) != 'ldap') {
-      if (!isset($this->address_books['0']))
-        $this->address_books['0'] = new rcube_contacts($this->db, $this->get_user_id());
-      $list['0'] = array(
-        'id'       => '0',
-        'name'     => $this->gettext('personaladrbook'),
-        'groups'   => $this->address_books['0']->groups,
-        'readonly' => $this->address_books['0']->readonly,
-        'autocomplete' => in_array('sql', $autocomplete),
-        'undelete' => $this->address_books['0']->undelete && $this->config->get('undo_timeout'),
-      );
-    }
-
-    if (!empty($ldap_config)) {
-      foreach ($ldap_config as $id => $prop) {
-        // handle misconfiguration
-        if (empty($prop) || !is_array($prop)) {
-          continue;
+        // set filename if not index.php
+        if (($basename = basename($_SERVER['SCRIPT_FILENAME'])) && $basename != 'index.php') {
+            $this->filename = $basename;
         }
-        $list[$id] = array(
-          'id'       => $id,
-          'name'     => html::quote($prop['name']),
-          'groups'   => !empty($prop['groups']) || !empty($prop['group_filters']),
-          'readonly' => !$prop['writable'],
-          'hidden'   => $prop['hidden'],
-          'autocomplete' => in_array($id, $autocomplete)
-        );
-      }
-    }
 
-    $plugin = $this->plugins->exec_hook('addressbooks_list', array('sources' => $list));
-    $list = $plugin['sources'];
+        // start session
+        $this->session_init();
 
-    foreach ($list as $idx => $item) {
-      // register source for shutdown function
-      if (!is_object($this->address_books[$item['id']])) {
-        $this->address_books[$item['id']] = $item;
-      }
-      // remove from list if not writeable as requested
-      if ($writeable && $item['readonly']) {
-          unset($list[$idx]);
-      }
-      // remove from list if hidden as requested
-      else if ($skip_hidden && $item['hidden']) {
-          unset($list[$idx]);
-      }
-    }
+        // create user object
+        $this->set_user(new rcube_user($_SESSION['user_id']));
 
-    return $list;
-  }
+        // set task and action properties
+        $this->set_task(rcube_utils::get_input_value('_task', rcube_utils::INPUT_GPC));
+        $this->action = asciiwords(rcube_utils::get_input_value('_action', rcube_utils::INPUT_GPC));
 
-  /**
-   * Getter for compose responses.
-   * These are stored in local config and user preferences.
-   *
-   * @param boolean True to sort the list alphabetically
-   * @param boolean True if only this user's responses shall be listed
-   * @return array List of the current user's stored responses
-   */
-  public function get_compose_responses($sorted = false, $user_only = false)
-  {
-    $responses = array();
+        // reset some session parameters when changing task
+        if ($this->task != 'utils') {
+            // we reset list page when switching to another task
+            // but only to the main task interface - empty action (#1489076)
+            // this will prevent from unintentional page reset on cross-task requests
+            if ($this->session && $_SESSION['task'] != $this->task && empty($this->action)) {
+                $this->session->remove('page');
+            }
 
-    if (!$user_only) {
-      foreach ($this->config->get('compose_responses_static', array()) as $response) {
-        if (empty($response['key']))
-          $response['key'] = substr(md5($response['name']), 0, 16);
-        $response['static'] = true;
-        $response['class'] = 'readonly';
-        $k = $sorted ? '0000-' . strtolower($response['name']) : $response['key'];
-        $responses[$k] = $response;
-      }
-    }
-
-    foreach ($this->config->get('compose_responses', array()) as $response) {
-      if (empty($response['key']))
-        $response['key'] = substr(md5($response['name']), 0, 16);
-      $k = $sorted ? strtolower($response['name']) : $response['key'];
-      $responses[$k] = $response;
-    }
-
-    // sort list by name
-    if ($sorted) {
-      ksort($responses, SORT_LOCALE_STRING);
-    }
-
-    return array_values($responses);
-  }
-
-
-  /**
-   * Init output object for GUI and add common scripts.
-   * This will instantiate a rcmail_output_html object and set
-   * environment vars according to the current session and configuration
-   *
-   * @param boolean True if this request is loaded in a (i)frame
-   * @return rcube_output Reference to HTML output object
-   */
-  public function load_gui($framed = false)
-  {
-    // init output page
-    if (!($this->output instanceof rcmail_output_html))
-      $this->output = new rcmail_output_html($this->task, $framed);
-
-    // set refresh interval
-    $this->output->set_env('refresh_interval', $this->config->get('refresh_interval', 0));
-    $this->output->set_env('session_lifetime', $this->config->get('session_lifetime', 0) * 60);
-
-    if ($framed) {
-      $this->comm_path .= '&_framed=1';
-      $this->output->set_env('framed', true);
-    }
-
-    $this->output->set_env('task', $this->task);
-    $this->output->set_env('action', $this->action);
-    $this->output->set_env('comm_path', $this->comm_path);
-    $this->output->set_charset(RCUBE_CHARSET);
-
-    if ($this->user && $this->user->ID)
-      $this->output->set_env('user_id', $this->user->get_hash());
-
-    // add some basic labels to client
-    $this->output->add_label('loading', 'servererror', 'requesttimedout', 'refreshing');
-
-    return $this->output;
-  }
-
-
-  /**
-   * Create an output object for JSON responses
-   *
-   * @return rcube_output Reference to JSON output object
-   */
-  public function json_init()
-  {
-    if (!($this->output instanceof rcmail_output_json))
-      $this->output = new rcmail_output_json($this->task);
-
-    return $this->output;
-  }
-
-
-  /**
-   * Create session object and start the session.
-   */
-  public function session_init()
-  {
-    parent::session_init();
-
-    // set initial session vars
-    if (!$_SESSION['user_id'])
-      $_SESSION['temp'] = true;
-
-    // restore skin selection after logout
-    if ($_SESSION['temp'] && !empty($_SESSION['skin']))
-      $this->config->set('skin', $_SESSION['skin']);
-  }
-
-
-  /**
-   * Perfom login to the mail server and to the webmail service.
-   * This will also create a new user entry if auto_create_user is configured.
-   *
-   * @param string Mail storage (IMAP) user name
-   * @param string Mail storage (IMAP) password
-   * @param string Mail storage (IMAP) host
-   * @param bool   Enables cookie check
-   *
-   * @return boolean True on success, False on failure
-   */
-  function login($username, $pass, $host = null, $cookiecheck = false)
-  {
-    $this->login_error = null;
-
-    if (empty($username)) {
-      return false;
-    }
-
-    if ($cookiecheck && empty($_COOKIE)) {
-      $this->login_error = self::ERROR_COOKIES_DISABLED;
-      return false;
-    }
-
-    $config = $this->config->all();
-
-    if (!$host)
-      $host = $config['default_host'];
-
-    // Validate that selected host is in the list of configured hosts
-    if (is_array($config['default_host'])) {
-      $allowed = false;
-      foreach ($config['default_host'] as $key => $host_allowed) {
-        if (!is_numeric($key))
-          $host_allowed = $key;
-        if ($host == $host_allowed) {
-          $allowed = true;
-          break;
+            // set current task to session
+            $_SESSION['task'] = $this->task;
         }
-      }
-      if (!$allowed) {
-        $host = null;
-      }
-    }
-    else if (!empty($config['default_host']) && $host != rcube_utils::parse_host($config['default_host'])) {
-      $host = null;
-    }
 
-    if (!$host) {
-      $this->login_error = self::ERROR_INVALID_HOST;
-      return false;
-    }
+        // init output class
+        if (!empty($_REQUEST['_remote']))
+            $GLOBALS['OUTPUT'] = $this->json_init();
+        else
+            $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
 
-    // parse $host URL
-    $a_host = parse_url($host);
-    if ($a_host['host']) {
-      $host = $a_host['host'];
-      $ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? $a_host['scheme'] : null;
-      if (!empty($a_host['port']))
-        $port = $a_host['port'];
-      else if ($ssl && $ssl != 'tls' && (!$config['default_port'] || $config['default_port'] == 143))
-        $port = 993;
+        // load plugins
+        $this->plugins->init($this, $this->task);
+        $this->plugins->load_plugins((array)$this->config->get('plugins', array()),
+            array('filesystem_attachments', 'jqueryui'));
     }
 
-    if (!$port) {
-        $port = $config['default_port'];
-    }
+    /**
+     * Setter for application task
+     *
+     * @param string Task to set
+     */
+    public function set_task($task)
+    {
+        $task = asciiwords($task, true);
 
-    // Check if we need to add/force domain to username
-    if (!empty($config['username_domain'])) {
-      $domain = is_array($config['username_domain']) ? $config['username_domain'][$host] : $config['username_domain'];
+        if ($this->user && $this->user->ID)
+            $task = !$task ? 'mail' : $task;
+        else
+            $task = 'login';
 
-      if ($domain = rcube_utils::parse_host((string)$domain, $host)) {
-        $pos = strpos($username, '@');
+        $this->task      = $task;
+        $this->comm_path = $this->url(array('task' => $this->task));
 
-        // force configured domains
-        if (!empty($config['username_domain_forced']) && $pos !== false) {
-          $username = substr($username, 0, $pos) . '@' . $domain;
+        if ($this->output) {
+            $this->output->set_env('task', $this->task);
         }
-        // just add domain if not specified
-        else if ($pos === false) {
-          $username .= '@' . $domain;
+    }
+
+    /**
+     * Setter for system user object
+     *
+     * @param rcube_user Current user instance
+     */
+    public function set_user($user)
+    {
+        if (is_object($user)) {
+            $this->user = $user;
+
+            // overwrite config with user preferences
+            $this->config->set_user_prefs((array)$this->user->get_prefs());
         }
-      }
+
+        $lang = $this->language_prop($this->config->get('language', $_SESSION['language']));
+        $_SESSION['language'] = $this->user->language = $lang;
+
+        // set localization
+        setlocale(LC_ALL, $lang . '.utf8', $lang . '.UTF-8', 'en_US.utf8', 'en_US.UTF-8');
+
+        // workaround for http://bugs.php.net/bug.php?id=18556
+        if (version_compare(PHP_VERSION, '5.5.0', '<') && in_array($lang, array('tr_TR', 'ku', 'az_AZ'))) {
+            setlocale(LC_CTYPE, 'en_US.utf8', 'en_US.UTF-8');
+        }
     }
 
-    if (!isset($config['login_lc'])) {
-      $config['login_lc'] = 2; // default
+    /**
+     * Return instance of the internal address book class
+     *
+     * @param string  Address book identifier (-1 for default addressbook)
+     * @param boolean True if the address book needs to be writeable
+     *
+     * @return rcube_contacts Address book object
+     */
+    public function get_address_book($id, $writeable = false)
+    {
+        $contacts    = null;
+        $ldap_config = (array)$this->config->get('ldap_public');
+
+        // 'sql' is the alias for '0' used by autocomplete
+        if ($id == 'sql')
+            $id = '0';
+        else if ($id == -1) {
+            $id = $this->config->get('default_addressbook');
+            $default = true;
+        }
+
+        // use existing instance
+        if (isset($this->address_books[$id]) && ($this->address_books[$id] instanceof rcube_addressbook)) {
+            $contacts = $this->address_books[$id];
+        }
+        else if ($id && $ldap_config[$id]) {
+            $domain   = $this->config->mail_domain($_SESSION['storage_host']);
+            $contacts = new rcube_ldap($ldap_config[$id], $this->config->get('ldap_debug'), $domain);
+        }
+        else if ($id === '0') {
+            $contacts = new rcube_contacts($this->db, $this->get_user_id());
+        }
+        else {
+            $plugin = $this->plugins->exec_hook('addressbook_get', array('id' => $id, 'writeable' => $writeable));
+
+            // plugin returned instance of a rcube_addressbook
+            if ($plugin['instance'] instanceof rcube_addressbook) {
+                $contacts = $plugin['instance'];
+            }
+        }
+
+        // when user requested default writeable addressbook
+        // we need to check if default is writeable, if not we
+        // will return first writeable book (if any exist)
+        if ($contacts && $default && $contacts->readonly && $writeable) {
+            $contacts = null;
+        }
+
+        // Get first addressbook from the list if configured default doesn't exist
+        // This can happen when user deleted the addressbook (e.g. Kolab folder)
+        if (!$contacts && (!$id || $default)) {
+            $source = reset($this->get_address_sources($writeable, !$default));
+            if (!empty($source)) {
+                $contacts = $this->get_address_book($source['id']);
+                if ($contacts) {
+                    $id = $source['id'];
+                }
+            }
+        }
+
+        if (!$contacts) {
+            // there's no default, just return
+            if ($default) {
+                return null;
+            }
+
+            self::raise_error(array(
+                    'code'    => 700,
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                    'message' => "Addressbook source ($id) not found!"
+                ),
+                true, true);
+        }
+
+        // add to the 'books' array for shutdown function
+        $this->address_books[$id] = $contacts;
+
+        if ($writeable && $contacts->readonly) {
+            return null;
+        }
+
+        // set configured sort order
+        if ($sort_col = $this->config->get('addressbook_sort_col')) {
+            $contacts->set_sort_order($sort_col);
+        }
+
+        return $contacts;
     }
 
-    // Convert username to lowercase. If storage backend
-    // is case-insensitive we need to store always the same username (#1487113)
-    if ($config['login_lc']) {
-      if ($config['login_lc'] == 2 || $config['login_lc'] === true) {
-        $username = mb_strtolower($username);
-      }
-      else if (strpos($username, '@')) {
-        // lowercase domain name
-        list($local, $domain) = explode('@', $username);
-        $username = $local . '@' . mb_strtolower($domain);
-      }
+    /**
+     * Return identifier of the address book object
+     *
+     * @param rcube_addressbook Addressbook source object
+     *
+     * @return string Source identifier
+     */
+    public function get_address_book_id($object)
+    {
+        foreach ($this->address_books as $index => $book) {
+            if ($book === $object) {
+                return $index;
+            }
+        }
     }
 
-    // try to resolve email address from virtuser table
-    if (strpos($username, '@') && ($virtuser = rcube_user::email2user($username))) {
-      $username = $virtuser;
+    /**
+     * Return address books list
+     *
+     * @param boolean True if the address book needs to be writeable
+     * @param boolean True if the address book needs to be not hidden
+     *
+     * @return array  Address books array
+     */
+    public function get_address_sources($writeable = false, $skip_hidden = false)
+    {
+        $abook_type   = (string) $this->config->get('address_book_type');
+        $ldap_config  = (array) $this->config->get('ldap_public');
+        $autocomplete = (array) $this->config->get('autocomplete_addressbooks');
+        $list         = array();
+
+        // We are using the DB address book or a plugin address book
+        if (!empty($abook_type) && strtolower($abook_type) != 'ldap') {
+            if (!isset($this->address_books['0'])) {
+                $this->address_books['0'] = new rcube_contacts($this->db, $this->get_user_id());
+            }
+
+            $list['0'] = array(
+                'id'       => '0',
+                'name'     => $this->gettext('personaladrbook'),
+                'groups'   => $this->address_books['0']->groups,
+                'readonly' => $this->address_books['0']->readonly,
+                'undelete' => $this->address_books['0']->undelete && $this->config->get('undo_timeout'),
+                'autocomplete' => in_array('sql', $autocomplete),
+            );
+        }
+
+        if (!empty($ldap_config)) {
+            foreach ($ldap_config as $id => $prop) {
+                // handle misconfiguration
+                if (empty($prop) || !is_array($prop)) {
+                    continue;
+                }
+
+                $list[$id] = array(
+                    'id'       => $id,
+                    'name'     => html::quote($prop['name']),
+                    'groups'   => !empty($prop['groups']) || !empty($prop['group_filters']),
+                    'readonly' => !$prop['writable'],
+                    'hidden'   => $prop['hidden'],
+                    'autocomplete' => in_array($id, $autocomplete)
+                );
+            }
+        }
+
+        $plugin = $this->plugins->exec_hook('addressbooks_list', array('sources' => $list));
+        $list   = $plugin['sources'];
+
+        foreach ($list as $idx => $item) {
+            // register source for shutdown function
+            if (!is_object($this->address_books[$item['id']])) {
+                $this->address_books[$item['id']] = $item;
+            }
+            // remove from list if not writeable as requested
+            if ($writeable && $item['readonly']) {
+                unset($list[$idx]);
+            }
+            // remove from list if hidden as requested
+            else if ($skip_hidden && $item['hidden']) {
+                unset($list[$idx]);
+            }
+        }
+
+        return $list;
     }
 
-    // Here we need IDNA ASCII
-    // Only rcube_contacts class is using domain names in Unicode
-    $host     = rcube_utils::idn_to_ascii($host);
-    $username = rcube_utils::idn_to_ascii($username);
+    /**
+     * Getter for compose responses.
+     * These are stored in local config and user preferences.
+     *
+     * @param boolean True to sort the list alphabetically
+     * @param boolean True if only this user's responses shall be listed
+     *
+     * @return array List of the current user's stored responses
+     */
+    public function get_compose_responses($sorted = false, $user_only = false)
+    {
+        $responses = array();
 
-    // user already registered -> overwrite username
-    if ($user = rcube_user::query($username, $host)) {
-      $username = $user->data['username'];
+        if (!$user_only) {
+            foreach ($this->config->get('compose_responses_static', array()) as $response) {
+                if (empty($response['key'])) {
+                    $response['key']    = substr(md5($response['name']), 0, 16);
+                }
+
+                $response['static'] = true;
+                $response['class']  = 'readonly';
+
+                $k = $sorted ? '0000-' . strtolower($response['name']) : $response['key'];
+                $responses[$k] = $response;
+            }
+        }
+
+        foreach ($this->config->get('compose_responses', array()) as $response) {
+            if (empty($response['key'])) {
+                $response['key'] = substr(md5($response['name']), 0, 16);
+            }
+
+            $k = $sorted ? strtolower($response['name']) : $response['key'];
+            $responses[$k] = $response;
+        }
+
+        // sort list by name
+        if ($sorted) {
+            ksort($responses, SORT_LOCALE_STRING);
+        }
+
+        return array_values($responses);
     }
 
-    $storage = $this->get_storage();
+    /**
+     * Init output object for GUI and add common scripts.
+     * This will instantiate a rcmail_output_html object and set
+     * environment vars according to the current session and configuration
+     *
+     * @param boolean True if this request is loaded in a (i)frame
+     *
+     * @return rcube_output Reference to HTML output object
+     */
+    public function load_gui($framed = false)
+    {
+        // init output page
+        if (!($this->output instanceof rcmail_output_html)) {
+            $this->output = new rcmail_output_html($this->task, $framed);
+        }
 
-    // try to log in
-    if (!$storage->connect($host, $username, $pass, $port, $ssl)) {
-      return false;
+        // set refresh interval
+        $this->output->set_env('refresh_interval', $this->config->get('refresh_interval', 0));
+        $this->output->set_env('session_lifetime', $this->config->get('session_lifetime', 0) * 60);
+
+        if ($framed) {
+            $this->comm_path .= '&_framed=1';
+            $this->output->set_env('framed', true);
+        }
+
+        $this->output->set_env('task', $this->task);
+        $this->output->set_env('action', $this->action);
+        $this->output->set_env('comm_path', $this->comm_path);
+        $this->output->set_charset(RCUBE_CHARSET);
+
+        if ($this->user && $this->user->ID) {
+            $this->output->set_env('user_id', $this->user->get_hash());
+        }
+
+        // add some basic labels to client
+        $this->output->add_label('loading', 'servererror', 'requesttimedout', 'refreshing');
+
+        return $this->output;
     }
 
-    // user already registered -> update user's record
-    if (is_object($user)) {
-      // update last login timestamp
-      $user->touch();
-    }
-    // create new system user
-    else if ($config['auto_create_user']) {
-      if ($created = rcube_user::create($username, $host)) {
-        $user = $created;
-      }
-      else {
-        self::raise_error(array(
-          'code' => 620, 'type' => 'php',
-          'file' => __FILE__, 'line' => __LINE__,
-          'message' => "Failed to create a user record. Maybe aborted by a plugin?"
-          ), true, false);
-      }
-    }
-    else {
-      self::raise_error(array(
-        'code' => 621, 'type' => 'php',
-        'file' => __FILE__, 'line' => __LINE__,
-        'message' => "Access denied for new user $username. 'auto_create_user' is disabled"
-        ), true, false);
+    /**
+     * Create an output object for JSON responses
+     *
+     * @return rcube_output Reference to JSON output object
+     */
+    public function json_init()
+    {
+        if (!($this->output instanceof rcmail_output_json)) {
+            $this->output = new rcmail_output_json($this->task);
+        }
+
+        return $this->output;
     }
 
-    // login succeeded
-    if (is_object($user) && $user->ID) {
-      // Configure environment
-      $this->set_user($user);
-      $this->set_storage_prop();
+    /**
+     * Create session object and start the session.
+     */
+    public function session_init()
+    {
+        parent::session_init();
 
-      // fix some old settings according to namespace prefix
-      $this->fix_namespace_settings($user);
+        // set initial session vars
+        if (!$_SESSION['user_id']) {
+            $_SESSION['temp'] = true;
+        }
 
-      // create default folders on first login
-      if ($config['create_default_folders'] && (!empty($created) || empty($user->data['last_login']))) {
-        $storage->create_default_folders();
-      }
-
-      // set session vars
-      $_SESSION['user_id']      = $user->ID;
-      $_SESSION['username']     = $user->data['username'];
-      $_SESSION['storage_host'] = $host;
-      $_SESSION['storage_port'] = $port;
-      $_SESSION['storage_ssl']  = $ssl;
-      $_SESSION['password']     = $this->encrypt($pass);
-      $_SESSION['login_time']   = time();
-
-      if (isset($_REQUEST['_timezone']) && $_REQUEST['_timezone'] != '_default_')
-        $_SESSION['timezone'] = rcube_utils::get_input_value('_timezone', rcube_utils::INPUT_GPC);
-
-      // force reloading complete list of subscribed mailboxes
-      $storage->clear_cache('mailboxes', true);
-
-      return true;
+        // restore skin selection after logout
+        if ($_SESSION['temp'] && !empty($_SESSION['skin'])) {
+            $this->config->set('skin', $_SESSION['skin']);
+        }
     }
 
-    return false;
-  }
+    /**
+     * Perfom login to the mail server and to the webmail service.
+     * This will also create a new user entry if auto_create_user is configured.
+     *
+     * @param string Mail storage (IMAP) user name
+     * @param string Mail storage (IMAP) password
+     * @param string Mail storage (IMAP) host
+     * @param bool   Enables cookie check
+     *
+     * @return boolean True on success, False on failure
+     */
+    function login($username, $pass, $host = null, $cookiecheck = false)
+    {
+        $this->login_error = null;
 
+        if (empty($username)) {
+            return false;
+        }
+
+        if ($cookiecheck && empty($_COOKIE)) {
+            $this->login_error = self::ERROR_COOKIES_DISABLED;
+            return false;
+        }
+
+        $config = $this->config->all();
+
+        if (!$host) {
+            $host = $config['default_host'];
+        }
+
+        // Validate that selected host is in the list of configured hosts
+        if (is_array($config['default_host'])) {
+            $allowed = false;
+
+            foreach ($config['default_host'] as $key => $host_allowed) {
+                if (!is_numeric($key)) {
+                    $host_allowed = $key;
+                }
+                if ($host == $host_allowed) {
+                    $allowed = true;
+                    break;
+                }
+            }
+
+            if (!$allowed) {
+                $host = null;
+            }
+        }
+        else if (!empty($config['default_host']) && $host != rcube_utils::parse_host($config['default_host'])) {
+            $host = null;
+        }
+
+        if (!$host) {
+            $this->login_error = self::ERROR_INVALID_HOST;
+            return false;
+        }
+
+        // parse $host URL
+        $a_host = parse_url($host);
+        if ($a_host['host']) {
+            $host = $a_host['host'];
+            $ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'))) ? $a_host['scheme'] : null;
+
+            if (!empty($a_host['port']))
+                $port = $a_host['port'];
+            else if ($ssl && $ssl != 'tls' && (!$config['default_port'] || $config['default_port'] == 143))
+                $port = 993;
+        }
+
+        if (!$port) {
+            $port = $config['default_port'];
+        }
+
+        // Check if we need to add/force domain to username
+        if (!empty($config['username_domain'])) {
+            $domain = is_array($config['username_domain']) ? $config['username_domain'][$host] : $config['username_domain'];
+
+            if ($domain = rcube_utils::parse_host((string)$domain, $host)) {
+                $pos = strpos($username, '@');
+
+                // force configured domains
+                if (!empty($config['username_domain_forced']) && $pos !== false) {
+                    $username = substr($username, 0, $pos) . '@' . $domain;
+                }
+                // just add domain if not specified
+                else if ($pos === false) {
+                    $username .= '@' . $domain;
+                }
+            }
+        }
+
+        if (!isset($config['login_lc'])) {
+            $config['login_lc'] = 2; // default
+        }
+
+        // Convert username to lowercase. If storage backend
+        // is case-insensitive we need to store always the same username (#1487113)
+        if ($config['login_lc']) {
+            if ($config['login_lc'] == 2 || $config['login_lc'] === true) {
+                $username = mb_strtolower($username);
+            }
+            else if (strpos($username, '@')) {
+                // lowercase domain name
+                list($local, $domain) = explode('@', $username);
+                $username = $local . '@' . mb_strtolower($domain);
+            }
+        }
+
+        // try to resolve email address from virtuser table
+        if (strpos($username, '@') && ($virtuser = rcube_user::email2user($username))) {
+            $username = $virtuser;
+        }
+
+        // Here we need IDNA ASCII
+        // Only rcube_contacts class is using domain names in Unicode
+        $host     = rcube_utils::idn_to_ascii($host);
+        $username = rcube_utils::idn_to_ascii($username);
+
+        // user already registered -> overwrite username
+        if ($user = rcube_user::query($username, $host)) {
+            $username = $user->data['username'];
+        }
+
+        $storage = $this->get_storage();
+
+        // try to log in
+        if (!$storage->connect($host, $username, $pass, $port, $ssl)) {
+            return false;
+        }
+
+        // user already registered -> update user's record
+        if (is_object($user)) {
+            // update last login timestamp
+            $user->touch();
+        }
+        // create new system user
+        else if ($config['auto_create_user']) {
+            if ($created = rcube_user::create($username, $host)) {
+                $user = $created;
+            }
+            else {
+                self::raise_error(array(
+                        'code'    => 620,
+                        'file'    => __FILE__,
+                        'line'    => __LINE__,
+                        'message' => "Failed to create a user record. Maybe aborted by a plugin?"
+                    ),
+                    true, false);
+            }
+        }
+        else {
+            self::raise_error(array(
+                    'code'    => 621,
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                    'message' => "Access denied for new user $username. 'auto_create_user' is disabled"
+                ),
+                true, false);
+        }
+
+        // login succeeded
+        if (is_object($user) && $user->ID) {
+            // Configure environment
+            $this->set_user($user);
+            $this->set_storage_prop();
+
+            // fix some old settings according to namespace prefix
+            $this->fix_namespace_settings($user);
+
+            // create default folders on first login
+            if ($config['create_default_folders'] && (!empty($created) || empty($user->data['last_login']))) {
+                $storage->create_default_folders();
+            }
+
+            // set session vars
+            $_SESSION['user_id']      = $user->ID;
+            $_SESSION['username']     = $user->data['username'];
+            $_SESSION['storage_host'] = $host;
+            $_SESSION['storage_port'] = $port;
+            $_SESSION['storage_ssl']  = $ssl;
+            $_SESSION['password']     = $this->encrypt($pass);
+            $_SESSION['login_time']   = time();
+
+            if (isset($_REQUEST['_timezone']) && $_REQUEST['_timezone'] != '_default_') {
+                $_SESSION['timezone'] = rcube_utils::get_input_value('_timezone', rcube_utils::INPUT_GPC);
+            }
+
+            // force reloading complete list of subscribed mailboxes
+            $storage->clear_cache('mailboxes', true);
+
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * Returns error code of last login operation
@@ -657,315 +680,317 @@ class rcmail extends rcube
         }
     }
 
+    /**
+     * Auto-select IMAP host based on the posted login information
+     *
+     * @return string Selected IMAP host
+     */
+    public function autoselect_host()
+    {
+        $default_host = $this->config->get('default_host');
+        $host         = null;
 
-  /**
-   * Auto-select IMAP host based on the posted login information
-   *
-   * @return string Selected IMAP host
-   */
-  public function autoselect_host()
-  {
-    $default_host = $this->config->get('default_host');
-    $host = null;
+        if (is_array($default_host)) {
+            $post_host = rcube_utils::get_input_value('_host', rcube_utils::INPUT_POST);
+            $post_user = rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST);
 
-    if (is_array($default_host)) {
-      $post_host = rcube_utils::get_input_value('_host', rcube_utils::INPUT_POST);
-      $post_user = rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST);
+            list(, $domain) = explode('@', $post_user);
 
-      list(, $domain) = explode('@', $post_user);
+            // direct match in default_host array
+            if ($default_host[$post_host] || in_array($post_host, array_values($default_host))) {
+                $host = $post_host;
+            }
+            // try to select host by mail domain
+            else if (!empty($domain)) {
+                foreach ($default_host as $storage_host => $mail_domains) {
+                    if (is_array($mail_domains) && in_array_nocase($domain, $mail_domains)) {
+                        $host = $storage_host;
+                        break;
+                    }
+                    else if (stripos($storage_host, $domain) !== false || stripos(strval($mail_domains), $domain) !== false) {
+                        $host = is_numeric($storage_host) ? $mail_domains : $storage_host;
+                        break;
+                    }
+                }
+            }
 
-      // direct match in default_host array
-      if ($default_host[$post_host] || in_array($post_host, array_values($default_host))) {
-        $host = $post_host;
-      }
-      // try to select host by mail domain
-      else if (!empty($domain)) {
-        foreach ($default_host as $storage_host => $mail_domains) {
-          if (is_array($mail_domains) && in_array_nocase($domain, $mail_domains)) {
-            $host = $storage_host;
-            break;
-          }
-          else if (stripos($storage_host, $domain) !== false || stripos(strval($mail_domains), $domain) !== false) {
-            $host = is_numeric($storage_host) ? $mail_domains : $storage_host;
-            break;
-          }
+            // take the first entry if $host is still not set
+            if (empty($host)) {
+                list($key, $val) = each($default_host);
+                $host = is_numeric($key) ? $val : $key;
+            }
         }
-      }
-
-      // take the first entry if $host is still not set
-      if (empty($host)) {
-        list($key, $val) = each($default_host);
-        $host = is_numeric($key) ? $val : $key;
-      }
-    }
-    else if (empty($default_host)) {
-      $host = rcube_utils::get_input_value('_host', rcube_utils::INPUT_POST);
-    }
-    else
-      $host = rcube_utils::parse_host($default_host);
-
-    return $host;
-  }
-
-
-  /**
-   * Destroy session data and remove cookie
-   */
-  public function kill_session()
-  {
-    $this->plugins->exec_hook('session_destroy');
-
-    $this->session->kill();
-    $_SESSION = array('language' => $this->user->language, 'temp' => true, 'skin' => $this->config->get('skin'));
-    $this->user->reset();
-  }
-
-
-  /**
-   * Do server side actions on logout
-   */
-  public function logout_actions()
-  {
-    $config  = $this->config->all();
-    $storage = $this->get_storage();
-
-    if ($config['logout_purge'] && !empty($config['trash_mbox'])) {
-      $storage->clear_folder($config['trash_mbox']);
-    }
-
-    if ($config['logout_expunge']) {
-      $storage->expunge_folder('INBOX');
-    }
-
-    // Try to save unsaved user preferences
-    if (!empty($_SESSION['preferences'])) {
-      $this->user->save_prefs(unserialize($_SESSION['preferences']));
-    }
-  }
-
-
-  /**
-   * Generate a unique token to be used in a form request
-   *
-   * @return string The request token
-   */
-  public function get_request_token()
-  {
-    $sess_id = $_COOKIE[ini_get('session.name')];
-    if (!$sess_id) $sess_id = session_id();
-
-    $plugin = $this->plugins->exec_hook('request_token', array(
-        'value' => md5('RT' . $this->get_user_id() . $this->config->get('des_key') . $sess_id)));
-
-    return $plugin['value'];
-  }
-
-
-  /**
-   * Check if the current request contains a valid token
-   *
-   * @param int Request method
-   * @return boolean True if request token is valid false if not
-   */
-  public function check_request($mode = rcube_utils::INPUT_POST)
-  {
-    $token = rcube_utils::get_input_value('_token', $mode);
-    $sess_id = $_COOKIE[ini_get('session.name')];
-    return !empty($sess_id) && $token == $this->get_request_token();
-  }
-
-
-  /**
-   * Build a valid URL to this instance of Roundcube
-   *
-   * @param mixed Either a string with the action or url parameters as key-value pairs
-   *
-   * @return string Valid application URL
-   */
-  public function url($p)
-  {
-    if (!is_array($p)) {
-      if (strpos($p, 'http') === 0)
-        return $p;
-
-      $p = array('_action' => @func_get_arg(0));
-    }
-
-    $task = $p['_task'] ? $p['_task'] : ($p['task'] ? $p['task'] : $this->task);
-    $p['_task'] = $task;
-    unset($p['task']);
-
-    $url = './' . $this->filename;
-    $delm = '?';
-    foreach (array_reverse($p) as $key => $val) {
-      if ($val !== '' && $val !== null) {
-        $par = $key[0] == '_' ? $key : '_'.$key;
-        $url .= $delm.urlencode($par).'='.urlencode($val);
-        $delm = '&';
-      }
-    }
-    return $url;
-  }
-
-
-  /**
-   * Function to be executed in script shutdown
-   */
-  public function shutdown()
-  {
-    parent::shutdown();
-
-    foreach ($this->address_books as $book) {
-      if (is_object($book) && is_a($book, 'rcube_addressbook'))
-        $book->close();
-    }
-
-    // write performance stats to logs/console
-    if ($this->config->get('devel_mode')) {
-      if (function_exists('memory_get_usage'))
-        $mem = $this->show_bytes(memory_get_usage());
-      if (function_exists('memory_get_peak_usage'))
-        $mem .= '/'.$this->show_bytes(memory_get_peak_usage());
-
-      $log = $this->task . ($this->action ? '/'.$this->action : '') . ($mem ? " [$mem]" : '');
-      if (defined('RCMAIL_START'))
-        self::print_timer(RCMAIL_START, $log);
-      else
-        self::console($log);
-    }
-  }
-
-
-  /**
-   * Registers action aliases for current task
-   *
-   * @param array $map Alias-to-filename hash array
-   */
-  public function register_action_map($map)
-  {
-    if (is_array($map)) {
-      foreach ($map as $idx => $val) {
-        $this->action_map[$idx] = $val;
-      }
-    }
-  }
-
-
-  /**
-   * Returns current action filename
-   *
-   * @param array $map Alias-to-filename hash array
-   */
-  public function get_action_file()
-  {
-    if (!empty($this->action_map[$this->action])) {
-      return $this->action_map[$this->action];
-    }
-
-    return strtr($this->action, '-', '_') . '.inc';
-  }
-
-
-  /**
-   * Fixes some user preferences according to namespace handling change.
-   * Old Roundcube versions were using folder names with removed namespace prefix.
-   * Now we need to add the prefix on servers where personal namespace has prefix.
-   *
-   * @param rcube_user $user User object
-   */
-  private function fix_namespace_settings($user)
-  {
-    $prefix     = $this->storage->get_namespace('prefix');
-    $prefix_len = strlen($prefix);
-
-    if (!$prefix_len)
-      return;
-
-    $prefs = $this->config->all();
-    if (!empty($prefs['namespace_fixed']))
-      return;
-
-    // Build namespace prefix regexp
-    $ns     = $this->storage->get_namespace();
-    $regexp = array();
-
-    foreach ($ns as $entry) {
-      if (!empty($entry)) {
-        foreach ($entry as $item) {
-          if (strlen($item[0])) {
-            $regexp[] = preg_quote($item[0], '/');
-          }
+        else if (empty($default_host)) {
+            $host = rcube_utils::get_input_value('_host', rcube_utils::INPUT_POST);
         }
-      }
-    }
-    $regexp = '/^('. implode('|', $regexp).')/';
-
-    // Fix preferences
-    $opts = array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox', 'archive_mbox');
-    foreach ($opts as $opt) {
-      if ($value = $prefs[$opt]) {
-        if ($value != 'INBOX' && !preg_match($regexp, $value)) {
-          $prefs[$opt] = $prefix.$value;
+        else {
+            $host = rcube_utils::parse_host($default_host);
         }
-      }
+
+        return $host;
     }
 
-    if (!empty($prefs['default_folders'])) {
-      foreach ($prefs['default_folders'] as $idx => $name) {
-        if ($name != 'INBOX' && !preg_match($regexp, $name)) {
-          $prefs['default_folders'][$idx] = $prefix.$name;
+    /**
+     * Destroy session data and remove cookie
+     */
+    public function kill_session()
+    {
+        $this->plugins->exec_hook('session_destroy');
+
+        $this->session->kill();
+        $_SESSION = array('language' => $this->user->language, 'temp' => true, 'skin' => $this->config->get('skin'));
+        $this->user->reset();
+    }
+
+    /**
+     * Do server side actions on logout
+     */
+    public function logout_actions()
+    {
+        $config  = $this->config->all();
+        $storage = $this->get_storage();
+
+        if ($config['logout_purge'] && !empty($config['trash_mbox'])) {
+            $storage->clear_folder($config['trash_mbox']);
         }
-      }
-    }
 
-    if (!empty($prefs['search_mods'])) {
-      $folders = array();
-      foreach ($prefs['search_mods'] as $idx => $value) {
-        if ($idx != 'INBOX' && $idx != '*' && !preg_match($regexp, $idx)) {
-          $idx = $prefix.$idx;
+        if ($config['logout_expunge']) {
+            $storage->expunge_folder('INBOX');
         }
-        $folders[$idx] = $value;
-      }
-      $prefs['search_mods'] = $folders;
-    }
 
-    if (!empty($prefs['message_threading'])) {
-      $folders = array();
-      foreach ($prefs['message_threading'] as $idx => $value) {
-        if ($idx != 'INBOX' && !preg_match($regexp, $idx)) {
-          $idx = $prefix.$idx;
+        // Try to save unsaved user preferences
+        if (!empty($_SESSION['preferences'])) {
+            $this->user->save_prefs(unserialize($_SESSION['preferences']));
         }
-        $folders[$prefix.$idx] = $value;
-      }
-      $prefs['message_threading'] = $folders;
     }
 
-    if (!empty($prefs['collapsed_folders'])) {
-      $folders     = explode('&&', $prefs['collapsed_folders']);
-      $count       = count($folders);
-      $folders_str = '';
+    /**
+     * Generate a unique token to be used in a form request
+     *
+     * @return string The request token
+     */
+    public function get_request_token()
+    {
+        $sess_id = $_COOKIE[ini_get('session.name')];
 
-      if ($count) {
-          $folders[0]        = substr($folders[0], 1);
-          $folders[$count-1] = substr($folders[$count-1], 0, -1);
-      }
-
-      foreach ($folders as $value) {
-        if ($value != 'INBOX' && !preg_match($regexp, $value)) {
-          $value = $prefix.$value;
+        if (!$sess_id) {
+            $sess_id = session_id();
         }
-        $folders_str .= '&'.$value.'&';
-      }
-      $prefs['collapsed_folders'] = $folders_str;
+
+        $plugin = $this->plugins->exec_hook('request_token', array(
+            'value' => md5('RT' . $this->get_user_id() . $this->config->get('des_key') . $sess_id)));
+
+        return $plugin['value'];
     }
 
-    $prefs['namespace_fixed'] = true;
+    /**
+     * Check if the current request contains a valid token
+     *
+     * @param int Request method
+     *
+     * @return boolean True if request token is valid false if not
+     */
+    public function check_request($mode = rcube_utils::INPUT_POST)
+    {
+        $token   = rcube_utils::get_input_value('_token', $mode);
+        $sess_id = $_COOKIE[ini_get('session.name')];
 
-    // save updated preferences and reset imap settings (default folders)
-    $user->save_prefs($prefs);
-    $this->set_storage_prop();
-  }
+        return !empty($sess_id) && $token == $this->get_request_token();
+    }
 
+    /**
+     * Build a valid URL to this instance of Roundcube
+     *
+     * @param mixed Either a string with the action or url parameters as key-value pairs
+     *
+     * @return string Valid application URL
+     */
+    public function url($p)
+    {
+        if (!is_array($p)) {
+            if (strpos($p, 'http') === 0) {
+                return $p;
+            }
+
+            $p = array('_action' => @func_get_arg(0));
+        }
+
+        $task = $p['_task'] ? $p['_task'] : ($p['task'] ? $p['task'] : $this->task);
+        $p['_task'] = $task;
+        unset($p['task']);
+
+        $url  = './' . $this->filename;
+        $delm = '?';
+
+        foreach (array_reverse($p) as $key => $val) {
+            if ($val !== '' && $val !== null) {
+                $par  = $key[0] == '_' ? $key : '_'.$key;
+                $url .= $delm.urlencode($par).'='.urlencode($val);
+                $delm = '&';
+            }
+        }
+
+        return $url;
+    }
+
+    /**
+     * Function to be executed in script shutdown
+     */
+    public function shutdown()
+    {
+        parent::shutdown();
+
+        foreach ($this->address_books as $book) {
+            if (is_object($book) && is_a($book, 'rcube_addressbook'))
+                $book->close();
+        }
+
+        // write performance stats to logs/console
+        if ($this->config->get('devel_mode')) {
+            if (function_exists('memory_get_usage'))
+                $mem = $this->show_bytes(memory_get_usage());
+            if (function_exists('memory_get_peak_usage'))
+                $mem .= '/'.$this->show_bytes(memory_get_peak_usage());
+
+            $log = $this->task . ($this->action ? '/'.$this->action : '') . ($mem ? " [$mem]" : '');
+
+            if (defined('RCMAIL_START'))
+                self::print_timer(RCMAIL_START, $log);
+            else
+                self::console($log);
+        }
+    }
+
+    /**
+     * Registers action aliases for current task
+     *
+     * @param array $map Alias-to-filename hash array
+     */
+    public function register_action_map($map)
+    {
+        if (is_array($map)) {
+            foreach ($map as $idx => $val) {
+                $this->action_map[$idx] = $val;
+            }
+        }
+    }
+
+    /**
+     * Returns current action filename
+     *
+     * @param array $map Alias-to-filename hash array
+     */
+    public function get_action_file()
+    {
+        if (!empty($this->action_map[$this->action])) {
+            return $this->action_map[$this->action];
+        }
+
+        return strtr($this->action, '-', '_') . '.inc';
+    }
+
+    /**
+     * Fixes some user preferences according to namespace handling change.
+     * Old Roundcube versions were using folder names with removed namespace prefix.
+     * Now we need to add the prefix on servers where personal namespace has prefix.
+     *
+     * @param rcube_user $user User object
+     */
+    private function fix_namespace_settings($user)
+    {
+        $prefix     = $this->storage->get_namespace('prefix');
+        $prefix_len = strlen($prefix);
+
+        if (!$prefix_len)
+            return;
+
+        $prefs = $this->config->all();
+        if (!empty($prefs['namespace_fixed']))
+            return;
+
+        // Build namespace prefix regexp
+        $ns     = $this->storage->get_namespace();
+        $regexp = array();
+
+        foreach ($ns as $entry) {
+            if (!empty($entry)) {
+                foreach ($entry as $item) {
+                    if (strlen($item[0])) {
+                        $regexp[] = preg_quote($item[0], '/');
+                    }
+                }
+            }
+        }
+        $regexp = '/^('. implode('|', $regexp).')/';
+
+        // Fix preferences
+        $opts = array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox', 'archive_mbox');
+        foreach ($opts as $opt) {
+            if ($value = $prefs[$opt]) {
+                if ($value != 'INBOX' && !preg_match($regexp, $value)) {
+                    $prefs[$opt] = $prefix.$value;
+                }
+            }
+        }
+
+        if (!empty($prefs['default_folders'])) {
+            foreach ($prefs['default_folders'] as $idx => $name) {
+                if ($name != 'INBOX' && !preg_match($regexp, $name)) {
+                    $prefs['default_folders'][$idx] = $prefix.$name;
+                }
+            }
+        }
+
+        if (!empty($prefs['search_mods'])) {
+            $folders = array();
+            foreach ($prefs['search_mods'] as $idx => $value) {
+                if ($idx != 'INBOX' && $idx != '*' && !preg_match($regexp, $idx)) {
+                    $idx = $prefix.$idx;
+                }
+                $folders[$idx] = $value;
+            }
+
+            $prefs['search_mods'] = $folders;
+        }
+
+        if (!empty($prefs['message_threading'])) {
+            $folders = array();
+            foreach ($prefs['message_threading'] as $idx => $value) {
+                if ($idx != 'INBOX' && !preg_match($regexp, $idx)) {
+                    $idx = $prefix.$idx;
+                }
+                $folders[$prefix.$idx] = $value;
+            }
+
+            $prefs['message_threading'] = $folders;
+        }
+
+        if (!empty($prefs['collapsed_folders'])) {
+            $folders     = explode('&&', $prefs['collapsed_folders']);
+            $count       = count($folders);
+            $folders_str = '';
+
+            if ($count) {
+                $folders[0]        = substr($folders[0], 1);
+                $folders[$count-1] = substr($folders[$count-1], 0, -1);
+            }
+
+            foreach ($folders as $value) {
+                if ($value != 'INBOX' && !preg_match($regexp, $value)) {
+                    $value = $prefix.$value;
+                }
+                $folders_str .= '&'.$value.'&';
+            }
+
+            $prefs['collapsed_folders'] = $folders_str;
+        }
+
+        $prefs['namespace_fixed'] = true;
+
+        // save updated preferences and reset imap settings (default folders)
+        $user->save_prefs($prefs);
+        $this->set_storage_prop();
+    }
 
     /**
      * Overwrite action variable
@@ -978,7 +1003,6 @@ class rcmail extends rcube
         $this->output->set_env('action', $action);
     }
 
-
     /**
      * Set environment variables for specified config options
      */
@@ -990,7 +1014,6 @@ class rcmail extends rcube
             }
         }
     }
-
 
     /**
      * Returns RFC2822 formatted current date in user's timezone
@@ -1010,7 +1033,6 @@ class rcmail extends rcube
 
         return $date->format('r');
     }
-
 
     /**
      * Write login data (name, ID, IP address) to the 'userlogins' log file.
@@ -1036,13 +1058,12 @@ class rcmail extends rcube
             }
 
             $message = sprintf('Successful login for %s (ID: %d) from %s in session %s',
-                    $user_name, $user_id, rcube_utils::remote_ip(), session_id());
+                $user_name, $user_id, rcube_utils::remote_ip(), session_id());
         }
 
         // log login
         self::write_log('userlogins', $message);
     }
-
 
     /**
      * Create a HTML table based on the given data
@@ -1092,7 +1113,6 @@ class rcmail extends rcube
 
         return $table->show($attrib);
     }
-
 
     /**
      * Convert the given date to a human readable form
@@ -1223,7 +1243,6 @@ class rcmail extends rcube
         return $out;
     }
 
-
     /**
      * Return folders list in HTML
      *
@@ -1316,7 +1335,6 @@ class rcmail extends rcube
         return $out;
     }
 
-
     /**
      * Return folders list as html_select object
      *
@@ -1359,7 +1377,6 @@ class rcmail extends rcube
 
         return $select;
     }
-
 
     /**
      * Create a hierarchical array of the mailbox list
@@ -1417,7 +1434,6 @@ class rcmail extends rcube
             $this->build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path.$delm);
         }
     }
-
 
     /**
      * Return html for a structured list &lt;ul&gt; for the mailbox tree
@@ -1513,7 +1529,6 @@ class rcmail extends rcube
         return $out;
     }
 
-
     /**
      * Return html for a flat list <select> for the mailbox tree
      */
@@ -1558,7 +1573,6 @@ class rcmail extends rcube
         return $out;
     }
 
-
     /**
      * Return internal name for the given folder if it matches the configured special folders
      */
@@ -1576,7 +1590,6 @@ class rcmail extends rcube
             }
         }
     }
-
 
     /**
      * Try to localize the given IMAP folder name.
@@ -1695,7 +1708,6 @@ class rcmail extends rcube
         return $quota_result;
     }
 
-
     /**
      * Outputs error message according to server error/response codes
      *
@@ -1749,7 +1761,6 @@ class rcmail extends rcube
         }
     }
 
-
     /**
      * Output HTML editor scripts
      *
@@ -1790,7 +1801,6 @@ class rcmail extends rcube
         $this->output->add_script("rcmail_editor_init($script)", 'docready');
     }
 
-
     /**
      * Replaces TinyMCE's emoticon images with plain-text representation
      *
@@ -1828,7 +1838,6 @@ class rcmail extends rcube
         return preg_replace($search, $replace, $html);
     }
 
-
     /**
      * File upload progress handler.
      */
@@ -1860,7 +1869,6 @@ class rcmail extends rcube
         $this->output->send();
     }
 
-
     /**
      * Initializes file uploading interface.
      */
@@ -1878,6 +1886,7 @@ class rcmail extends rcube
         // find max filesize value
         $max_filesize = parse_bytes(ini_get('upload_max_filesize'));
         $max_postsize = parse_bytes(ini_get('post_max_size'));
+
         if ($max_postsize && $max_postsize < $max_filesize) {
             $max_filesize = $max_postsize;
         }
@@ -1889,7 +1898,6 @@ class rcmail extends rcube
 
         return $max_filesize;
     }
-
 
     /**
      * Initializes client-side autocompletion.
@@ -1916,7 +1924,6 @@ class rcmail extends rcube
         $this->output->set_env('autocomplete_min_length', $this->config->get('autocomplete_min_length'));
         $this->output->add_label('autocompletechars', 'autocompletemore');
     }
-
 
     /**
      * Returns supported font-family specifications
@@ -1950,7 +1957,6 @@ class rcmail extends rcube
         return $fonts;
     }
 
-
     /**
      * Create a human readable string for a number of bytes
      *
@@ -1977,7 +1983,6 @@ class rcmail extends rcube
 
         return $str;
     }
-
 
     /**
      * Returns real size (calculated) of the message part

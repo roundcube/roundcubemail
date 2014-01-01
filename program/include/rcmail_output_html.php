@@ -5,7 +5,7 @@
  | program/include/rcmail_output_html.php                                |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -83,9 +83,9 @@ class rcmail_output_html extends rcmail_output
         $this->set_env('skin', $skin);
 
         if (!empty($_REQUEST['_extwin']))
-          $this->set_env('extwin', 1);
+            $this->set_env('extwin', 1);
         if ($this->framed || !empty($_REQUEST['_framed']))
-          $this->set_env('framed', 1);
+            $this->set_env('framed', 1);
 
         // add common javascripts
         $this->add_script('var '.self::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
@@ -119,6 +119,7 @@ class rcmail_output_html extends rcmail_output
     public function set_env($name, $value, $addtojs = true)
     {
         $this->env[$name] = $value;
+
         if ($addtojs || isset($this->js_env[$name])) {
             $this->js_env[$name] = $value;
         }

@@ -1152,7 +1152,6 @@ class rcube
         // handle PHP exceptions
         if (is_object($arg) && is_a($arg, 'Exception')) {
             $arg = array(
-                'type' => 'php',
                 'code' => $arg->getCode(),
                 'line' => $arg->getLine(),
                 'file' => $arg->getFile(),
@@ -1160,7 +1159,7 @@ class rcube
             );
         }
         else if (is_string($arg)) {
-            $arg = array('message' => $arg, 'type' => 'php');
+            $arg = array('message' => $arg);
         }
 
         if (empty($arg['code'])) {
@@ -1176,7 +1175,7 @@ class rcube
 
         $cli = php_sapi_name() == 'cli';
 
-        if (($log || $terminate) && !$cli && $arg['type'] && $arg['message']) {
+        if (($log || $terminate) && !$cli && $arg['message']) {
             $arg['fatal'] = $terminate;
             self::log_bug($arg);
         }
@@ -1204,7 +1203,7 @@ class rcube
      */
     public static function log_bug($arg_arr)
     {
-        $program = strtoupper($arg_arr['type']);
+        $program = strtoupper(!empty($arg_arr['type']) ? $arg_arr['type'] : 'php');
         $level   = self::get_instance()->config->get('debug_level');
 
         // disable errors for ajax requests, write to log instead (#1487831)
