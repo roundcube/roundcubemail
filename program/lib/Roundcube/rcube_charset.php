@@ -199,10 +199,13 @@ class rcube_charset
                     $iconv_options = '';
                 }
             }
+            else {
+                $iconv_options = false;
+            }
         }
 
         // convert charset using iconv module
-        if ($iconv_options !== null && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP') {
+        if ($iconv_options !== false && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP') {
             // throw an exception if iconv reports an illegal character in input
             // it means that input string has been truncated
             set_error_handler(array('rcube_charset', 'error_handler'), E_NOTICE);
@@ -224,10 +227,13 @@ class rcube_charset
                 $mbstring_list = mb_list_encodings();
                 $mbstring_list = array_map('strtoupper', $mbstring_list);
             }
+            else {
+                $mbstring_list = false;
+            }
         }
 
         // convert charset using mbstring module
-        if ($mbstring_list !== null) {
+        if ($mbstring_list !== false) {
             $aliases['WINDOWS-1257'] = 'ISO-8859-13';
             // it happens that mbstring supports ASCII but not US-ASCII
             if (($from == 'US-ASCII' || $to == 'US-ASCII') && !in_array('US-ASCII', $mbstring_list)) {
