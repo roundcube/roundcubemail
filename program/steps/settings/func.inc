@@ -1204,7 +1204,7 @@ function rcmail_user_prefs($current = null)
         $data  = $RCMAIL->plugins->exec_hook('preferences_list',
             array('section' => $sect['id'], 'blocks' => $blocks, 'current' => $current));
 
-        $advanced_prefs = $config['advanced_prefs'];
+        $advanced_prefs = (array) $RCMAIL->config->get('advanced_prefs');
 
         // create output
         foreach ($data['blocks'] as $key => $block) {
