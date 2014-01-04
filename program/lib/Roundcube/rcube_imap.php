@@ -1444,7 +1444,7 @@ class rcube_imap extends rcube_storage
     public function search_once($folder = null, $str = 'ALL')
     {
         if (!$str) {
-            return 'ALL';
+            $str = 'ALL';
         }
 
         if (!strlen($folder)) {

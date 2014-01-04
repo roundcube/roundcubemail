@@ -677,8 +677,8 @@ class html_table extends html
      */
     public function __construct($attrib = array())
     {
-        $default_attrib = self::$doctype == 'xhtml' ? array('summary' => '', 'border' => 0) : array();
-        $this->attrib = array_merge($attrib, $default_attrib);
+        $default_attrib = self::$doctype == 'xhtml' ? array('summary' => '', 'border' => '0') : array();
+        $this->attrib   = array_merge($attrib, $default_attrib);
 
         if (!empty($attrib['tagname']) && $attrib['tagname'] != 'table') {
           $this->tagname = $attrib['tagname'];
