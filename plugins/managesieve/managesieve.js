@@ -10,16 +10,6 @@ if (window.rcmail) {
       else
         rcmail.enable_command('managesieve-create', true);
     }
-    else {
-      var tab = $('<span>').attr('id', 'settingstabpluginmanagesieve').addClass('tablink filter'),
-        button = $('<a>').attr('href', rcmail.env.comm_path+'&_action=plugin.managesieve')
-          .attr('title', rcmail.gettext('managesieve.managefilters'))
-          .html(rcmail.gettext('managesieve.filters'))
-          .appendTo(tab);
-
-      // add tab
-      rcmail.add_element(tab, 'tabs');
-    }
 
     if (rcmail.env.task == 'mail' || rcmail.env.action.startsWith('plugin.managesieve')) {
       // Create layer for form tips
