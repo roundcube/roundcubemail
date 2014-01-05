@@ -216,8 +216,6 @@ function rcube_mail_ui()
         if (previewframe)
           mailviewsplit.init();
 
-        new rcube_scroller('#folderlist-content', '#folderlist-header', '#folderlist-footer');
-
         rcmail.addEventListener('setquota', update_quota)
           .addEventListener('enable-command', enable_command)
           .addEventListener('afterimport-messages', show_uploadform);
@@ -284,8 +282,6 @@ function rcube_mail_ui()
           orientation:'v', relative:true, start:226, min:150, size:12, render:resize_leftcol }).init();
         new rcube_splitter({ id:'addressviewsplitter', p1:'#addresslist', p2:'#contacts-box',
           orientation:'v', relative:true, start:286, min:270, size:12 }).init();
-
-        new rcube_scroller('#directorylist-content', '#directorylist-header', '#directorylist-footer');
       }
 
       var dragmenu = $('#dragcontactmenu');

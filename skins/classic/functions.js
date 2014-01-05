@@ -976,8 +976,6 @@ function rcube_init_mail_ui()
         rcmail.addEventListener('responseaftercheck-recent', rcube_render_mailboxlist);
         rcmail.addEventListener('responseafterrefresh', rcube_render_mailboxlist);
         rcmail.addEventListener('afterimport-messages', function(){ rcmail_ui.show_popup('uploadform', false); });
-
-        new rcmail_scroller('#mailboxlist-content', '#mailboxlist-title', '#mailboxlist-footer');
       }
 
       if (rcmail.env.action == 'compose')
@@ -990,9 +988,6 @@ function rcube_init_mail_ui()
     }
     else if (rcmail.env.task == 'addressbook') {
       rcmail.addEventListener('afterupload-photo', function(){ rcmail_ui.show_popup('uploadform', false); });
-
-      if (rcmail.gui_objects.folderlist)
-       new rcmail_scroller('#directorylist-content', '#directorylist-title', '#directorylist-footer');
 
       rcmail.gui_object('dragmenu', 'dragmenu');
     }
