@@ -104,10 +104,16 @@ function rcmail_responses_list($attrib)
 
     $out = $RCMAIL->table_output($attrib, $plugin['list'], $plugin['cols'], 'key');
 
+    $readonly_responses = array();
+    foreach ($plugin['list'] as $item) {
+        if (!empty($item['static'])) {
+            $readonly_responses[] = $item['key'];
+        }
+    }
+
     // set client env
     $OUTPUT->add_gui_object('responseslist', $attrib['id']);
-    $OUTPUT->set_env('readonly_responses', array_values(array_map(function($rec){ return $rec['key']; },
-      array_filter($plugin['list'], function($item){ return !empty($item['static']); }))));
+    $OUTPUT->set_env('readonly_responses', $readonly_responses);
 
     return $out;
 }
