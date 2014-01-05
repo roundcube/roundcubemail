@@ -294,6 +294,7 @@ else if (count($MESSAGE->identities)) {
 $a_recipients = array();
 $parts        = array('to', 'cc', 'bcc', 'replyto', 'followupto');
 $separator    = trim($RCMAIL->config->get('recipients_separator', ',')) . ' ';
+$from_email   = @mb_strtolower($MESSAGE->compose['from_email']);
 
 foreach ($parts as $header) {
     $fvalue        = '';
@@ -391,21 +392,20 @@ foreach ($parts as $header) {
                 continue;
             }
 
-            $mailto = format_email(rcube_utils::idn_to_utf8($addr_part['mailto']));
+            // According to RFC5321 local part of email address is case-sensitive
+            // however, here it is better to compare addresses in case-insensitive manner
+            $mailto    = format_email(rcube_utils::idn_to_utf8($addr_part['mailto']));
+            $mailto_lc = mb_strtolower($addr_part['mailto']);
 
-            if (!in_array($mailto, $a_recipients)
-                && ($header == 'to'
-                    || $compose_mode != RCUBE_COMPOSE_REPLY
-                    || empty($MESSAGE->compose['from_email'])
-                    || $mailto != $MESSAGE->compose['from_email'])
+            if (($header == 'to' || $compose_mode != RCUBE_COMPOSE_REPLY || $mailto_lc != $from_email)
+                && !in_array($mailto_lc, $a_recipients)
             ) {
-                if ($addr_part['name'] && $addr_part['mailto'] != $addr_part['name'])
-                    $string = format_email_recipient($mailto, $addr_part['name']);
-                else
-                    $string = $mailto;
+                if ($addr_part['name'] && $mailto != $addr_part['name']) {
+                    $mailto = format_email_recipient($mailto, $addr_part['name']);
+                }
 
-                $fvalue[]       = $string;
-                $a_recipients[] = $addr_part['mailto'];
+                $fvalue[]       = $mailto;
+                $a_recipients[] = $mailto_lc;
             }
         }
 
