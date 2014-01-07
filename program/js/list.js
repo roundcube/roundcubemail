@@ -1065,7 +1065,7 @@ get_selection: function(deep)
   if (deep !== false && res.length) {
     for (var uid, uids, i=0, len=res.length; i<len; i++) {
       uid = res[i];
-      if (this.rows[uid].has_children && !this.rows[uid].expanded) {
+      if (this.rows[uid] && this.rows[uid].has_children && !this.rows[uid].expanded) {
         uids = this.row_children(uid);
         for (var j=0, uids_len=uids.length; j<uids_len; j++) {
           uid = uids[j];
