@@ -106,9 +106,20 @@ class zipdownload extends rcube_plugin
 		$zip->open($tmpfname, ZIPARCHIVE::OVERWRITE);
 
 		foreach ($message->attachments as $part) {
-			$pid = $part->mime_id;
-			$part = $message->mime_parts[$pid];
-			$disp_name = $this->_convert_filename($part->filename);
+			$pid      = $part->mime_id;
+			$part     = $message->mime_parts[$pid];
+			$filename = $part->filename;
+
+            if ($filename === null || $filename === '') {
+                $ext      = (array) rcube_mime::get_mime_extensions($part->mimetype);
+                $ext      = array_shift($ext);
+                $filename = $rcmail->gettext('messagepart') . ' ' . $pid;
+                if ($ext) {
+                    $filename .= '.' . $ext;
+                }
+            }
+
+			$disp_name = $this->_convert_filename($filename);
 
 			if ($part->body) {
 				$orig_message_raw = $part->body;
@@ -205,11 +216,7 @@ class zipdownload extends rcube_plugin
 			$subject = $this->_convert_filename($subject);
 			$subject = substr($subject, 0, 16);
 
-			if (isset($subject) && $subject !="")
-				$disp_name = $subject . ".eml";
-			else
-				$disp_name = "message_rfc822.eml";
-
+            $disp_name = ($subject ? $subject : 'message_rfc822') . ".eml";
 			$disp_name = $uid . "_" . $disp_name;
 
 			$tmpfn = tempnam($temp_dir, 'zipmessage');
