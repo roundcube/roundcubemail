@@ -23,7 +23,7 @@ REQUIREMENTS
    - Net_SMTP (latest from https://github.com/pear/Net_SMTP/)
    - Net_IDNA2 0.1.1 or newer
    - Auth_SASL 1.0.6 or newer
-   - Net_Sieve 1.8.2 or newer (for managesieve plugin)
+   - Net_Sieve 1.3.2 or newer (for managesieve plugin)
    - Crypt_GPG 1.2.0 or newer (for enigma plugin)
 * php.ini options (see .htaccess file):
    - error_reporting E_ALL & ~E_NOTICE (or lower)
