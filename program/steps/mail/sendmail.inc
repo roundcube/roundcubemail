@@ -779,16 +779,15 @@ function rcmail_extract_inline_images($mime_message, $from)
     $body   = $mime_message->getHTMLBody();
     $offset = 0;
     $list   = array();
-    $regexp = '# src=[\'"](data:(image/[a-z]+);base64,([a-z0-9+/=\r\n]+))([\'"])#i';
-
-    // get domain for the Content-ID, must be the same as in Mail_Mime::get()
-    if (preg_match('#@([0-9a-zA-Z\-\.]+)#', $from, $matches)) {
-        $domain = $matches[1];
-    } else {
-        $domain = 'localhost';
-    }
+    $domain = 'localhost';
+    $regexp = '#img[^>]+src=[\'"](data:([^;]*);base64,([a-z0-9+/=\r\n]+))([\'"])#i';
 
     if (preg_match_all($regexp, $body, $matches, PREG_OFFSET_CAPTURE)) {
+        // get domain for the Content-ID, must be the same as in Mail_Mime::get()
+        if (preg_match('#@([0-9a-zA-Z\-\.]+)#', $from, $m)) {
+            $domain = $m[1];
+        }
+
         foreach ($matches[1] as $idx => $m) {
             $data = preg_replace('/\r\n/', '', $matches[3][$idx][0]);
             $data = base64_decode($data);
@@ -800,6 +799,10 @@ function rcmail_extract_inline_images($mime_message, $from)
             $hash      = md5($data) . '@' . $domain;
             $mime_type = $matches[2][$idx][0];
             $name      = $list[$hash];
+
+            if (empty($mime_type)) {
+                $mime_type = rcube_mime::image_content_type($data);
+            }
 
             // add the image to the MIME message
             if (!$name) {
