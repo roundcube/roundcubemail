@@ -5834,8 +5834,11 @@ function rcube_webmail()
   // replace an existing table row with a new folder line (with subfolders)
   this.replace_folder_row = function(oldfolder, newfolder, display_name, is_protected, class_name)
   {
-    if (!this.gui_objects.subscriptionlist)
+    if (!this.gui_objects.subscriptionlist) {
+      if (this.is_framed)
+        return parent.rcmail.replace_folder_row(oldfolder, newfolder, display_name, is_protected, class_name);
       return false;
+    }
 
     var i, n, len, name, dispname, oldrow, tmprow, row, level,
       tbody = this.gui_objects.subscriptionlist.tBodies[0],
@@ -5845,6 +5848,13 @@ function rcube_webmail()
       subscribed = $('input[name="_subscribed[]"]', $('#'+id)).prop('checked'),
       // find subfolders of renamed folder
       list = this.get_subfolders(oldfolder);
+
+    // no renaming, only update class_name
+    if (oldfolder == newfolder) {
+      $('#'+id).attr('class', class_name || '');
+      this.subscription_list.focus();
+      return;
+    }
 
     // replace an existing table row
     this._remove_folder_row(id);

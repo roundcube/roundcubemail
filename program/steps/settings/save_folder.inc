@@ -189,6 +189,9 @@ else if (!$error) {
             rcmail_update_folder_row($folder['name'], $folder['oldname'], $folder['subscribe'], $folder['class']);
             $OUTPUT->send('iframe');
         }
+        else if (!empty($folder['class'])) {
+            rcmail_update_folder_row($folder['name'], $folder['oldname'], $folder['subscribe'], $folder['class']);
+        }
     }
     else {
         // show error message
