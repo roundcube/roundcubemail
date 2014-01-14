@@ -1,7 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix issues where filesystem path was added to all-attachments (zip) file (#1489507)
+- Remove expand/collapse with plus/minus keys (on numeric keypad) (#1489513)
+- Fix issue where filesystem path was added to all-attachments (zip) file (#1489507)
 - Fix case-sensitivity of email addresses handling on compose (#1485499)
 - Don't alter Message-ID of a draft when sending (#1489409)
 - Fix issue where deprecated syntax for HTML lists was not handled properly (#1488768)
