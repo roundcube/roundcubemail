@@ -2054,7 +2054,6 @@ function rcube_webmail()
       if (preview && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read >= 0) {
         this.preview_read_timer = setTimeout(function() {
           ref.set_message(id, 'unread', false);
-          ref.update_thread_root(id, 'read');
           if (ref.env.unread_counts[ref.env.mailbox]) {
             ref.env.unread_counts[ref.env.mailbox] -= 1;
             ref.set_unread_count(ref.env.mailbox, ref.env.unread_counts[ref.env.mailbox], ref.env.mailbox == 'INBOX');
@@ -2560,8 +2559,11 @@ function rcube_webmail()
     if (!row)
       return false;
 
-    if (flag == 'unread')
+    if (flag == 'unread') {
+      if (row.unread != status)
+        this.update_thread_root(uid, status ? 'unread' : 'read');
       row.unread = status;
+    }
     else if(flag == 'deleted')
       row.deleted = status;
     else if (flag == 'replied')
@@ -2849,9 +2851,6 @@ function rcube_webmail()
       this.set_message(a_uids[i], 'unread', (flag == 'unread' ? true : false));
 
     this.http_post('mark', post_data, lock);
-
-    for (i=0; i<len; i++)
-      this.update_thread_root(a_uids[i], flag);
   };
 
   // set image to flagged or unflagged
