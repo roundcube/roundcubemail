@@ -37,8 +37,25 @@ class Framework_ResultThread extends PHPUnit_Framework_TestCase
         $this->assertSame(1719, $object->get_element('LAST'), "Get last element");
         $this->assertSame(14, (int) $object->get_element(2), "Get specified element");
 
+        $clone = clone $object;
+        $clone->filter(array(7));
+        $clone = $clone->get_tree();
+
+        $this->assertSame(1, count($clone), "Structure check");
+        $this->assertSame(3, count($clone[7]), "Structure check");
+        $this->assertSame(0, count($clone[7][12]), "Structure check");
+        $this->assertSame(1, count($clone[7][167]), "Structure check");
+        $this->assertSame(0, count($clone[7][167][197]), "Structure check");
+        $this->assertSame(2, count($clone[7][458]), "Structure check");
+        $this->assertSame(1, count($clone[7][458][460]), "Structure check");
+        $this->assertSame(0, count($clone[7][458][460][463]), "Structure check");
+        $this->assertSame(1, count($clone[7][458][464]), "Structure check");
+        $this->assertSame(0, count($clone[7][458][464][471]), "Structure check");
+
         $object->filter(array(784));
         $this->assertSame(118, $object->count_messages(), "Messages filter");
         $this->assertSame(1, $object->count(), "Messages filter (count)");
+
+//echo         $object->get_compressed();
     }
 }
