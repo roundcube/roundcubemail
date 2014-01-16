@@ -606,33 +606,39 @@ class rcube_result_thread
         // arrays handling is much more expensive
         // For the following structure: THREAD (2)(3 6 (4 23)(44 7 96))
         // -- 2
-        //
         // -- 3
         //     \-- 6
         //         |-- 4
         //         |    \-- 23
         //         |
         //         \-- 44
-        //              \-- 7
-        //                   \-- 96
+        //               \-- 7
+        //                    \-- 96
         //
         // The output will be: 2,3^1:6^2:4^3:23^2:44^3:7^4:96
 
         if ($str[$begin] != '(') {
-            $stop = $begin + strspn($str, '1234567890', $begin, $end - $begin);
-            $msg  = substr($str, $begin, $stop - $begin);
-            if (!$msg) {
+            // find next bracket
+            $stop      = $begin + strcspn($str, '()', $begin, $end - $begin);
+            $messages  = explode(' ', trim(substr($str, $begin, $stop - $begin)));
+
+            if (empty($messages)) {
                 return $node;
             }
 
-            $this->meta['messages']++;
-
-            $node .= ($depth ? self::SEPARATOR_ITEM.$depth.self::SEPARATOR_LEVEL : '').$msg;
-
-            if ($stop + 1 < $end) {
-                $node .= $this->parse_thread($str, $stop + 1, $end, $depth + 1);
+            foreach ($messages as $msg) {
+                if ($msg) {
+                    $node .= ($depth ? self::SEPARATOR_ITEM.$depth.self::SEPARATOR_LEVEL : '').$msg;
+                    $this->meta['messages']++;
+                    $depth++;
+                }
             }
-        } else {
+
+            if ($stop < $end) {
+                $node .= $this->parse_thread($str, $stop, $end, $depth);
+            }
+        }
+        else {
             $off = $begin;
             while ($off < $end) {
                 $start = $off;
@@ -649,7 +655,8 @@ class rcube_result_thread
                     if ($p1 !== false && $p1 < $p) {
                         $off = $p1 + 1;
                         $n++;
-                    } else {
+                    }
+                    else {
                         $off = $p + 1;
                         $n--;
                     }
