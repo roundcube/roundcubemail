@@ -73,6 +73,10 @@ $config['syslog_id'] = 'roundcube';
 // For possible values see installer or http://php.net/manual/en/function.openlog.php
 $config['syslog_facility'] = LOG_USER;
 
+// Activate this option if logs should be written to per-user directories.
+// Data will only be logged if a directry <log_dir>/<username>/ exists and is writable.
+$config['per_user_logging'] = false;
+
 // Log sent messages to <log_dir>/sendmail or to syslog
 $config['smtp_log'] = true;
 

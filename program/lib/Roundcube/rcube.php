@@ -1114,7 +1114,20 @@ class rcube
         // log_driver == 'file' is assumed here
 
         $line = sprintf("[%s]: %s\n", $date, $line);
-        $log_dir  = self::$instance ? self::$instance->config->get('log_dir') : null;
+        $log_dir = null;
+
+        // per-user logging is activated
+        if (self::$instance && self::$instance->config->get('per_user_logging', false) && self::$instance->get_user_id()) {
+            $log_dir = self::$instance->get_user_log_dir();
+            if (empty($log_dir))
+                return false;
+        }
+        else if (!empty($log['dir'])) {
+            $log_dir = $log['dir'];
+        }
+        else if (self::$instance) {
+            $log_dir = self::$instance->config->get('log_dir');
+        }
 
         if (empty($log_dir)) {
             $log_dir = RCUBE_INSTALL_PATH . 'logs';
@@ -1352,6 +1365,17 @@ class rcube
         }
     }
 
+    /**
+     * Get the per-user log directory
+     */
+    protected function get_user_log_dir()
+    {
+        $log_dir = $this->config->get('log_dir', RCUBE_INSTALL_PATH . 'logs');
+        $user_name = $this->get_user_name();
+        $user_log_dir = $log_dir . '/' . $user_name;
+
+        return !empty($user_name) && is_writable($user_log_dir) ? $user_log_dir : false;
+    }
 
     /**
      * Getter for logged user language code.
