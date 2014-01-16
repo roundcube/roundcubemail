@@ -75,6 +75,22 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
     && $_SESSION['search_request'] == $_REQUEST['_search']
 ) {
   $_SESSION['search'] = $RCMAIL->storage->get_search_set();
+
+  // multi-folder search
+  if ($_SESSION['search'][1]->multi) {
+    if (empty($cols))
+      $cols = $_SESSION['list_attrib']['columns'] ? $_SESSION['list_attrib']['columns'] : (array)$CONFIG['list_cols'];
+    if (!in_array('folder', $cols))
+      $cols[] = 'folder';  // Add 'folder' column to list
+
+    // make message UIDs unique by appending the folder name
+    foreach ($a_headers as $i => $header) {
+      $header->uid .= '-'.$header->folder;
+      $header->flags['skip_mbox_check'] = true;
+      if ($header->parent_uid)
+        $header->parent_uid .= '-'.$header->folder;
+    }
+  }
 }
 // remove old search data
 else if (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {

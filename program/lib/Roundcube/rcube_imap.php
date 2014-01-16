@@ -952,7 +952,7 @@ class rcube_imap extends rcube_storage
             $search_set = $this->search_set;
 
             $this->sort_field = null;
-            $this->page_size = 100;  // limit to 100 messages per folder
+            $this->page_size = 1000;  // fetch up to 1000 matching messages per folder
 
             $a_msg_headers = array();
             foreach ($search_set->sets as $resultset) {
@@ -970,7 +970,7 @@ class rcube_imap extends rcube_storage
 
             // sort headers
             if (!$this->threading && !empty($a_msg_headers)) {
-                $a_msg_headers = $this->conn->sortHeaders($a_msg_headers, $this->sort_field, $this->sort_order);
+                $a_msg_headers = $this->conn->sortHeaders($a_msg_headers, $sort_field, $this->sort_order);
             }
 
             // only return the requested part of the set

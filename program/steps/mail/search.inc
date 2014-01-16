@@ -111,7 +111,7 @@ $mboxes = $RCMAIL->storage->list_folders_subscribed('', '*', 'mail');
 
 // execute IMAP search
 if ($search_str) {
-    $RCMAIL->storage->search($mbox, $search_str, $imap_charset, $sort_column);
+    $RCMAIL->storage->search($mboxes, $search_str, $imap_charset, $sort_column);
 }
 
 // save search results in session
@@ -125,43 +125,25 @@ if ($search_str) {
 }
 $_SESSION['search_request'] = $search_request;
 
-
 // Get the headers
 $result_h = $RCMAIL->storage->list_messages($mbox, 1, $sort_column, rcmail_sort_order());
 $count    = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
 
 // Add 'folder' column to list
 if ($_SESSION['search'][1]->multi) {
-  $a_show_cols = $_SESSION['list_attrib']['columns'] ? $_SESSION['list_attrib']['columns'] : (array)$CONFIG['list_cols'];
-  if (!in_array('folder', $a_show_cols))
-    $a_show_cols[] = 'folder';
+    $a_show_cols = $_SESSION['list_attrib']['columns'] ? $_SESSION['list_attrib']['columns'] : (array)$CONFIG['list_cols'];
+    if (!in_array('folder', $a_show_cols))
+        $a_show_cols[] = 'folder';
 
-  // make message UIDs unique by appending the folder name
-  foreach ($result_h as $i => $header) {
-    $header->uid .= '-'.$header->folder;
-    $header->flags['skip_mbox_check'] = true;
-    if ($header->parent_uid)
-      $header->parent_uid .= '-'.$header->folder;
-  }
+    // make message UIDs unique by appending the folder name
+    foreach ($result_h as $i => $header) {
+        $header->uid .= '-'.$header->folder;
+        $header->flags['skip_mbox_check'] = true;
+        if ($header->parent_uid)
+            $header->parent_uid .= '-'.$header->folder;
+    }
 
-  $OUTPUT->command('select_folder', '');
-}
-
-// Add 'folder' column to list
-if ($_SESSION['search'][1]->multi) {
-  $a_show_cols = $_SESSION['list_attrib']['columns'] ? $_SESSION['list_attrib']['columns'] : (array)$CONFIG['list_cols'];
-  if (!in_array('folder', $a_show_cols))
-    $a_show_cols[] = 'folder';
-
-  // make message UIDs unique by appending the folder name
-  foreach ($result_h as $i => $header) {
-    $header->uid .= '-'.$header->folder;
-    $header->flags['skip_mbox_check'] = true;
-    if ($header->parent_uid)
-      $header->parent_uid .= '-'.$header->folder;
-  }
-
-  $OUTPUT->command('select_folder', '');
+    $OUTPUT->command('select_folder', '');
 }
 
 // Make sure we got the headers
