@@ -235,7 +235,7 @@ class rcube_imap_search_job extends Stackable
             }
         }
 
-        if (!$messages || !$messages->is_error()) {
+        if (!$messages || $messages->is_error()) {
             $messages = $imap->search($this->folder,
                 ($charset && $charset != 'US-ASCII' ? "CHARSET $charset " : '') . $criteria, true);
 
@@ -272,7 +272,7 @@ class rcube_imap_search_job extends Stackable
 
 
 /**
- * Wrker thread to run search jobs while maintaining a common context
+ * Worker thread to run search jobs while maintaining a common context
  */
 class rcube_imap_search_worker extends Worker
 {
