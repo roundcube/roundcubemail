@@ -2217,6 +2217,14 @@ ul.toolbarmenu li span.conversation {
 	background-position: 0 -1532px;
 }
 
+ul.toolbarmenu li span.move {
+	background-position: 0 -2126px;
+}
+
+ul.toolbarmenu li span.copy {
+	background-position: 0 -2150px;
+}
+
 #snippetslist {
 	max-width: 200px;
 }
