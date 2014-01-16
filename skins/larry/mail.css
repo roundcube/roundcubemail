@@ -501,6 +501,10 @@ table.messagelist.fixedcopy {
 	width: 135px;
 }
 
+.messagelist tr td.folder {
+	width: 135px;
+}
+
 .messagelist tr td.hidden {
 	display: none;
 }

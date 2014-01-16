@@ -147,6 +147,23 @@ if ($_SESSION['search'][1]->multi) {
   $OUTPUT->command('select_folder', '');
 }
 
+// Add 'folder' column to list
+if ($_SESSION['search'][1]->multi) {
+  $a_show_cols = $_SESSION['list_attrib']['columns'] ? $_SESSION['list_attrib']['columns'] : (array)$CONFIG['list_cols'];
+  if (!in_array('folder', $a_show_cols))
+    $a_show_cols[] = 'folder';
+
+  // make message UIDs unique by appending the folder name
+  foreach ($result_h as $i => $header) {
+    $header->uid .= '-'.$header->folder;
+    $header->flags['skip_mbox_check'] = true;
+    if ($header->parent_uid)
+      $header->parent_uid .= '-'.$header->folder;
+  }
+
+  $OUTPUT->command('select_folder', '');
+}
+
 // Make sure we got the headers
 if (!empty($result_h)) {
     rcmail_js_message_list($result_h, false, $a_show_cols);

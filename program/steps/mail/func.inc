@@ -210,7 +210,6 @@ function rcmail_get_uids()
     return $result;
 }
 
-
 /**
  * Returns default search mods
  */
