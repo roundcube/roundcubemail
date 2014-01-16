@@ -1656,6 +1656,7 @@ class rcube_imap extends rcube_storage
     public function refresh_search()
     {
         if (!empty($this->search_string)) {
+            // FIXME: make this work with saved multi-folder searches
             $this->search('', $this->search_string, $this->search_charset, $this->search_sort_field);
         }
 
@@ -1676,6 +1677,11 @@ class rcube_imap extends rcube_storage
     {
         if (!strlen($folder)) {
             $folder = $this->folder;
+        }
+
+        // decode combined UID-folder identifier
+        if (preg_match('/^\d+-[^,]+$/', $uid)) {
+            list($uid, $folder) = explode('-', $uid);
         }
 
         // get cached headers
@@ -1707,6 +1713,11 @@ class rcube_imap extends rcube_storage
     {
         if (!strlen($folder)) {
             $folder = $this->folder;
+        }
+
+        // decode combined UID-folder identifier
+        if (preg_match('/^\d+-[^,]+$/', $uid)) {
+            list($uid, $folder) = explode('-', $uid);
         }
 
         // Check internal cache
