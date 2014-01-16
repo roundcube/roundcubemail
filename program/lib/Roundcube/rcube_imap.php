@@ -973,6 +973,9 @@ class rcube_imap extends rcube_storage
                 $a_msg_headers = $this->conn->sortHeaders($a_msg_headers, $sort_field, $this->sort_order);
             }
 
+            // store (sorted) message index
+            $search_set->set_message_index($a_msg_headers, $sort_field, $this->sort_order);
+
             // only return the requested part of the set
             $slice_length  = min($page_size, $cnt - ($to > $cnt ? $from : $to));
             $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $slice_length);
@@ -1279,8 +1282,13 @@ class rcube_imap extends rcube_storage
                 return new rcube_result_index($folder, '* SORT');
             }
 
+            if ($this->search_set instanceof rcube_result_multifolder) {
+                $index = $this->search_set;
+                $index->folder = $folder;
+                // TODO: handle changed sorting
+            }
             // search result is an index with the same sorting?
-            if (($this->search_set instanceof rcube_result_index)
+            else if (($this->search_set instanceof rcube_result_index)
                 && ((!$this->sort_field && !$this->search_sorted) ||
                     ($this->search_sorted && $this->search_sort_field == $this->sort_field))
             ) {

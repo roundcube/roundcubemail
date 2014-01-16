@@ -696,6 +696,7 @@ function rcube_webmail()
         break;
 
       case 'list':
+        // TODO: don't reset search but re-send for the new folder
         if (props && props != '')
           this.reset_qsearch();
         if (this.env.action == 'compose' && this.env.extwin)
@@ -1620,7 +1621,7 @@ function rcube_webmail()
 
     var uid = list.get_single_selection();
 
-    if (uid && this.env.mailbox == this.env.drafts_mailbox)
+    if (uid && (this.env.messages[uid].mbox || this.env.mailbox) == this.env.drafts_mailbox)
       this.open_compose_step({ _draft_uid: uid, _mbox: this.env.mailbox });
     else if (uid)
       this.show_message(uid, false, false);

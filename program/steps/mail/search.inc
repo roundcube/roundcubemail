@@ -114,6 +114,10 @@ if ($search_str) {
     $RCMAIL->storage->search($mboxes, $search_str, $imap_charset, $sort_column);
 }
 
+// Get the headers
+$result_h = $RCMAIL->storage->list_messages($mbox, 1, $sort_column, rcmail_sort_order());
+$count    = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
+
 // save search results in session
 if (!is_array($_SESSION['search'])) {
     $_SESSION['search'] = array();
@@ -124,10 +128,6 @@ if ($search_str) {
     $_SESSION['last_text_search'] = $str;
 }
 $_SESSION['search_request'] = $search_request;
-
-// Get the headers
-$result_h = $RCMAIL->storage->list_messages($mbox, 1, $sort_column, rcmail_sort_order());
-$count    = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
 
 // Add 'folder' column to list
 if ($_SESSION['search'][1]->multi) {

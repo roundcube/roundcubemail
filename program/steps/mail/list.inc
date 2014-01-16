@@ -90,6 +90,8 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
       if ($header->parent_uid)
         $header->parent_uid .= '-'.$header->folder;
     }
+
+    $OUTPUT->command('select_folder', '');
   }
 }
 // remove old search data

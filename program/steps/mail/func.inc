@@ -76,9 +76,11 @@ if (($_uid  = get_input_value('_uid', RCUBE_INPUT_GPC)) && preg_match('/^\d+-[^,
   $_REQUEST['_uid'] = $_uid;
   unset($_uid);
 
-  if (empty($_REQUEST['_mbox']) && !empty($mbox)) {
+  // override mbox
+  if (!empty($mbox)) {
     $_GET['_mbox']  = $mbox;
     $_POST['_mbox'] = $mbox;
+    $RCMAIL->storage->set_folder(($_SESSION['mbox'] = $mbox));
   }
 }
 

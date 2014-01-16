@@ -28,8 +28,11 @@ class rcube_result_multifolder
 {
     public $multi = true;
     public $sets = array();
+    public $folder;
 
     protected $meta = array();
+    protected $index = array();
+    protected $sorting;
     protected $order = 'ASC';
 
 
@@ -53,6 +56,19 @@ class rcube_result_multifolder
         $this->meta['count'] += $result->count();
     }
 
+    /**
+     * Store a global index of (sorted) message UIDs
+     */
+    public function set_message_index($headers, $sort_field, $sort_order)
+    {
+        $this->index = array();
+        foreach ($headers as $header) {
+            $this->index[] = $header->uid . '-' . $header->folder;
+        }
+
+        $this->sorting = $sort_field;
+        $this->order = $sort_order;
+    }
 
     /**
      * Checks the result from IMAP command
@@ -119,7 +135,10 @@ class rcube_result_multifolder
      */
     public function exists($msgid, $get_index = false)
     {
-        return false;
+        if (!empty($this->folder)) {
+            $msgid .= '-' . $this->folder;
+        }
+        return array_search($msgid, $this->index);
     }
 
 
@@ -157,7 +176,7 @@ class rcube_result_multifolder
      */
     public function get()
     {
-        return array();
+        return $this->index;
     }
 
 
@@ -179,9 +198,13 @@ class rcube_result_multifolder
      *
      * @return int Element value
      */
-    public function get_element($index)
+    public function get_element($idx)
     {
-        return null;
+        switch ($idx) {
+            case 'FIRST': return $this->index[0];
+            case 'LAST':  return end($this->index);
+            default:      return $this->index[$idx];
+        }
     }
 
 
@@ -195,6 +218,15 @@ class rcube_result_multifolder
      */
     public function get_parameters($param=null)
     {
+        $params = array(
+            'SORT' => $this->sorting,
+            'ORDER' => $this->order,
+        );
+
+        if ($param !== null) {
+            return $params[$param];
+        }
+
         return $params;
     }
 
