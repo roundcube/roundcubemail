@@ -32,11 +32,7 @@ $trash  = $RCMAIL->config->get('trash_mbox');
 
 // move messages
 if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
-<<<<<<< HEAD
     $target = rcube_utils::get_input_value('_target_mbox', rcube_utils::INPUT_POST, true);
-=======
-    $target = get_input_value('_target_mbox', RCUBE_INPUT_POST, true);
->>>>>>> 010a350715f1a36eab666fe26d3118ed025133c1
     $trash  = $RCMAIL->config->get('trash_mbox');
 
     foreach (rcmail_get_uids() as $mbox => $uids) {
