@@ -554,7 +554,7 @@ class rcube_ldap extends rcube_addressbook
         }
         else {
             $prop    = $this->group_id ? $this->group_data : $this->prop;
-            $base_dn = $this->group_id ? $this->group_base_dn : $this->base_dn;
+            $base_dn = $this->group_id ? $prop['base_dn'] : $this->base_dn;
 
             // use global search filter
             if (!empty($this->filter))

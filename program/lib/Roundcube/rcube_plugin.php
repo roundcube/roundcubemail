@@ -133,15 +133,8 @@ abstract class rcube_plugin
             return false;
         }
         else if (!$is_local) {
-            $fname = $this->ID . '.inc.php';
             // Search plugin_name.inc.php file in any configured path
-            if (!$rcube->config->load_from_file($fname)) {
-                rcube::raise_error(array(
-                    'code' => 527, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Failed to load $fname config file from any configured path"), true, false);
-                return false;
-            }
+            return $rcube->config->load_from_file($this->ID . '.inc.php');
         }
 
         return true;
