@@ -1,6 +1,6 @@
 #messagemenu li a.filterlink {
   background-image: url(images/filter.png);
-  background-position: 7px 0;
+  background-position: 7px 1px;
 }
 
 #sievefilterform {

@@ -209,12 +209,22 @@
 #messagemenu li a.openlink,
 #attachmentmenu li a.openlink
 {
-  background-position: 7px -53px;
+  background-position: 7px -52px;
 }
 
 #messagemenu li a.editlink
 {
-  background-position: 7px -71px;
+  background-position: 6px -70px;
+}
+
+#messagemenu li a.movelink
+{
+  background-position: 6px -161px;
+}
+
+#messagemenu li a.copylink
+{
+  background-position: 6px -143px;
 }
 
 #markmessagemenu li a,
