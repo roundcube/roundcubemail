@@ -107,11 +107,7 @@ init: function()
  */
 init_row: function(row)
 {
-  var uid;
-  if (row && (uid = $(row).data('uid')))
-    row.uid = uid;
-  else if (row && String(row.id).match(this.id_regexp))
-    row.uid = RegExp.$1;
+  row.uid = this.get_row_uid(row);
 
   // make references in internal array and set event handlers
   if (row && row.uid) {
@@ -726,6 +722,19 @@ update_expando: function(id, expanded)
     expando.className = expanded ? 'expanded' : 'collapsed';
 },
 
+get_row_uid: function(row)
+{
+  if (row && row.uid)
+    return row.uid;
+
+  var uid;
+  if (row && (uid = $(row).data('uid')))
+    row.uid = uid;
+  else if (row && String(row.id).match(this.id_regexp))
+    row.uid = RegExp.$1;
+
+  return row.uid;
+},
 
 /**
  * get first/next/previous/last rows that are not hidden
@@ -761,11 +770,11 @@ get_prev_row: function()
 get_first_row: function()
 {
   if (this.rowcount) {
-    var i, len, rows = this.tbody.childNodes;
+    var i, len, uid, rows = this.tbody.childNodes;
 
     for (i=0, len=rows.length-1; i<len; i++)
-      if (rows[i].id && String(rows[i].id).match(this.id_regexp) && this.rows[RegExp.$1] != null)
-        return RegExp.$1;
+      if (rows[i].id && (uid = this.get_row_uid(rows[i])))
+        return uid;
   }
 
   return null;
@@ -774,11 +783,11 @@ get_first_row: function()
 get_last_row: function()
 {
   if (this.rowcount) {
-    var i, rows = this.tbody.childNodes;
+    var i, uid, rows = this.tbody.childNodes;
 
     for (i=rows.length-1; i>=0; i--)
-      if (rows[i].id && String(rows[i].id).match(this.id_regexp) && this.rows[RegExp.$1] != null)
-        return RegExp.$1;
+      if (rows[i].id && (uid = this.get_row_uid(rows[i])))
+        return uid;
   }
 
   return null;
@@ -1351,12 +1360,9 @@ drag_mouse_move: function(e)
 
     // get selected rows (in display order), don't use this.selection here
     $(this.row_tagname() + '.selected', this.tbody).each(function() {
-      if (!String(this.id).match(self.id_regexp))
-        return;
+      var uid = self.get_row_uid(this), row = self.rows[uid];
 
-      var uid = RegExp.$1, row = self.rows[uid];
-
-      if ($.inArray(uid, selection) > -1)
+      if (!uid || $.inArray(uid, selection) > -1)
         return;
 
       selection.push(uid);
