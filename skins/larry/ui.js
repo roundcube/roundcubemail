@@ -139,7 +139,8 @@ function rcube_mail_ui()
     if (rcmail.env.task == 'mail') {
       rcmail.addEventListener('menu-open', menu_open)
         .addEventListener('menu-save', menu_save)
-        .addEventListener('responseafterlist', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list') });
+        .addEventListener('responseafterlist', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list', true) })
+        .addEventListener('responseaftersearch', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list', true) });
 
       var dragmenu = $('#dragmessagemenu');
       if (dragmenu.length) {
@@ -730,9 +731,9 @@ function rcube_mail_ui()
   /**
    *
    */
-  function switch_view_mode(mode)
+  function switch_view_mode(mode, force)
   {
-    if (!$('#mail'+mode+'mode').hasClass('disabled')) {
+    if (force || !$('#mail'+mode+'mode').hasClass('disabled')) {
       $('#maillistmode, #mailthreadmode').removeClass('selected');
       $('#mail'+mode+'mode').addClass('selected');
     }

@@ -332,6 +332,10 @@ class rcube_imap extends rcube_storage
         $this->search_sort_field = $set[3];
         $this->search_sorted     = $set[4];
         $this->search_threads    = is_a($this->search_set, 'rcube_result_thread');
+
+        if (is_a($this->search_set, 'rcube_result_multifolder')) {
+            $this->set_threading(false);
+        }
     }
 
 
