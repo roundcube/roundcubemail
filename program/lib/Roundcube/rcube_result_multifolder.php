@@ -52,8 +52,15 @@ class rcube_result_multifolder
      */
     public function add($result)
     {
-        $this->sets[] = $result;
-        $this->meta['count'] += $result->count();
+        if ($count = $result->count()) {
+            $this->sets[] = $result;
+            $this->meta['count'] += $count;
+
+            // append UIDs to global index
+            $folder = $result->get_parameters('MAILBOX');
+            $index = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
+            $this->index = array_merge($this->index, $index);
+        }
     }
 
     /**
