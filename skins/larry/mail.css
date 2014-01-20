@@ -201,6 +201,14 @@ a.iconbutton.threadmode.selected {
 	background-position: 6px -406px;
 }
 
+#mailboxlist li.mailbox.trash.empty > a {
+	background-position: 6px -1924px;
+}
+
+#mailboxlist li.mailbox.trash.empty.selected > a {
+	background-position: 6px -1948px;
+}
+
 #mailboxlist li.mailbox.archive > a {
 	background-position: 6px -1699px;
 }
