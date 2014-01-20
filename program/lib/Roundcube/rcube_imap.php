@@ -978,7 +978,7 @@ class rcube_imap extends rcube_storage
             $search_set->set_message_index($a_msg_headers, $sort_field, $this->sort_order);
 
             // only return the requested part of the set
-            $slice_length  = min($page_size, $cnt - ($to > $cnt ? $from : $to));
+            $slice_length  = min($page_size, $cnt - $from);
             $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $slice_length);
 
             if ($slice) {
