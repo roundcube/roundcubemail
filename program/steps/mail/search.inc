@@ -35,6 +35,7 @@ $str     = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GET, true);
 $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GET, true);
 $filter  = rcube_utils::get_input_value('_filter', rcube_utils::INPUT_GET);
 $headers = rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET);
+$scope   = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET);
 $subject = array();
 
 $search_request = md5($mbox.$filter.$str);
@@ -106,8 +107,15 @@ if (!empty($subject)) {
 $search_str  = trim($search_str);
 $sort_column = rcmail_sort_column();
 
-// TEMPORARY: search all folders
-$mboxes = $RCMAIL->storage->list_folders_subscribed('', '*', 'mail');
+// search all, current or subfolders folders
+if ($scope == 'all') {
+    $mboxes = $RCMAIL->storage->list_folders_subscribed('', '*', 'mail');
+}
+else if ($scope == 'sub') {
+    $mboxes = $RCMAIL->storage->list_folders_subscribed($mbox, '*', 'mail');
+    if ($mbox != 'INBOX' && $mboxes[0] == 'INBOX')
+        array_shift($mboxes);
+}
 
 // execute IMAP search
 if ($search_str) {
@@ -128,6 +136,7 @@ if ($search_str) {
     $_SESSION['last_text_search'] = $str;
 }
 $_SESSION['search_request'] = $search_request;
+$_SESSION['search_scope'] = $scope;
 
 // Add 'folder' column to list
 if ($_SESSION['search'][1]->multi) {

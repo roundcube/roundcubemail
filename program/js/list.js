@@ -107,11 +107,15 @@ init: function()
  */
 init_row: function(row)
 {
-  // make references in internal array and set event handlers
-  if (row && String(row.id).match(this.id_regexp)) {
-    var self = this,
-      uid = RegExp.$1;
+  var uid;
+  if (row && (uid = $(row).data('uid')))
     row.uid = uid;
+  else if (row && String(row.id).match(this.id_regexp))
+    row.uid = RegExp.$1;
+
+  // make references in internal array and set event handlers
+  if (row && row.uid) {
+    var self = this, uid = row.uid;
     this.rows[uid] = {uid:uid, id:row.id, obj:row};
 
     // set eventhandlers to table row
@@ -291,6 +295,7 @@ insert_row: function(row, before)
     if (row.id) domrow.id = row.id;
     if (row.className) domrow.className = row.className;
     if (row.style) $.extend(domrow.style, row.style);
+    if (row.uid) $(domrow).data('uid', row.uid);
 
     for (var domcell, col, i=0; row.cols && i < row.cols.length; i++) {
       col = row.cols[i];
@@ -589,7 +594,7 @@ expand: function(row)
     row.expanded = true;
     depth = row.depth;
     new_row = row.obj.nextSibling;
-    this.update_expando(row.uid, true);
+    this.update_expando(row.id, true);
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
   }
   else {
@@ -639,7 +644,7 @@ collapse_all: function(row)
     row.expanded = false;
     depth = row.depth;
     new_row = row.obj.nextSibling;
-    this.update_expando(row.uid);
+    this.update_expando(row.id);
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
 
     // don't collapse sub-root tree in multiexpand mode 
@@ -661,7 +666,7 @@ collapse_all: function(row)
           $(new_row).css('display', 'none');
         if (r.has_children && r.expanded) {
           r.expanded = false;
-          this.update_expando(r.uid, false);
+          this.update_expando(r.id, false);
           this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
         }
       }
@@ -683,7 +688,7 @@ expand_all: function(row)
     row.expanded = true;
     depth = row.depth;
     new_row = row.obj.nextSibling;
-    this.update_expando(row.uid, true);
+    this.update_expando(row.id, true);
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
   }
   else {
@@ -700,7 +705,7 @@ expand_all: function(row)
         $(new_row).css('display', '');
         if (r.has_children && !r.expanded) {
           r.expanded = true;
-          this.update_expando(r.uid, true);
+          this.update_expando(r.id, true);
           this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
         }
       }
@@ -714,9 +719,9 @@ expand_all: function(row)
 },
 
 
-update_expando: function(uid, expanded)
+update_expando: function(id, expanded)
 {
-  var expando = document.getElementById('rcmexpando' + uid);
+  var expando = document.getElementById('rcmexpando' + id);
   if (expando)
     expando.className = expanded ? 'expanded' : 'collapsed';
 },
@@ -1267,7 +1272,7 @@ use_arrow_key: function(keyCode, mod_key)
         this.collapse(selected_row);
     }
 
-    this.update_expando(selected_row.uid, selected_row.expanded);
+    this.update_expando(selected_row.id, selected_row.expanded);
 
     return false;
   }

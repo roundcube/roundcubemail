@@ -953,6 +953,7 @@ class rcube_imap extends rcube_storage
 
             $this->sort_field = null;
             $this->page_size = 1000;  // fetch up to 1000 matching messages per folder
+            $this->threading = false;
 
             $a_msg_headers = array();
             foreach ($search_set->sets as $resultset) {
@@ -1486,6 +1487,9 @@ class rcube_imap extends rcube_storage
 
             // connect IMAP to have all the required classes and settings loaded
             $this->check_connection();
+
+            // disable threading
+            $this->threading = false;
 
             $searcher = new rcube_imap_search($this->options, $this->conn);
             $results = $searcher->exec(
