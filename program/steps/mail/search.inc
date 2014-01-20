@@ -104,20 +104,20 @@ if (!empty($subject)) {
     foreach ($subject as $sub) {
         $search_str .= ' ' . $sub . ' ' . rcube_imap_generic::escape($search);
     }
+
+    // search all, current or subfolders folders
+    if ($scope == 'all') {
+        $mboxes = $RCMAIL->storage->list_folders_subscribed('', '*', 'mail');
+    }
+    else if ($scope == 'sub') {
+        $mboxes = $RCMAIL->storage->list_folders_subscribed($mbox, '*', 'mail');
+        if ($mbox != 'INBOX' && $mboxes[0] == 'INBOX')
+            array_shift($mboxes);
+    }
 }
 
 $search_str  = trim($search_str);
 $sort_column = rcmail_sort_column();
-
-// search all, current or subfolders folders
-if ($scope == 'all') {
-    $mboxes = $RCMAIL->storage->list_folders_subscribed('', '*', 'mail');
-}
-else if ($scope == 'sub') {
-    $mboxes = $RCMAIL->storage->list_folders_subscribed($mbox, '*', 'mail');
-    if ($mbox != 'INBOX' && $mboxes[0] == 'INBOX')
-        array_shift($mboxes);
-}
 
 // execute IMAP search
 if ($search_str) {
@@ -140,26 +140,9 @@ if ($search_str) {
 $_SESSION['search_request'] = $search_request;
 $_SESSION['search_scope'] = $scope;
 
-// Add 'folder' column to list
-if ($_SESSION['search'][1]->multi) {
-    $a_show_cols = $_SESSION['list_attrib']['columns'] ? $_SESSION['list_attrib']['columns'] : (array)$CONFIG['list_cols'];
-    if (!in_array('folder', $a_show_cols))
-        $a_show_cols[] = 'folder';
-
-    // make message UIDs unique by appending the folder name
-    foreach ($result_h as $i => $header) {
-        $header->uid .= '-'.$header->folder;
-        $header->flags['skip_mbox_check'] = true;
-        if ($header->parent_uid)
-            $header->parent_uid .= '-'.$header->folder;
-    }
-
-    $OUTPUT->command('select_folder', '');
-}
-
 // Make sure we got the headers
 if (!empty($result_h)) {
-    rcmail_js_message_list($result_h, false, $a_show_cols);
+    rcmail_js_message_list($result_h, false);
     if ($search_str) {
         $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $RCMAIL->storage->count(NULL, 'ALL')));
     }

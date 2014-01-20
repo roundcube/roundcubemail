@@ -42,6 +42,7 @@ if ($sort = rcube_utils::get_input_value('_sort', rcube_utils::INPUT_GET)) {
 
 // is there a set of columns for this request?
 if ($cols = rcube_utils::get_input_value('_cols', rcube_utils::INPUT_GET)) {
+  $_SESSION['list_attrib']['columns'] = $cols;
   if (!in_array('list_cols', $dont_override)) {
     $save_arr['list_cols'] = explode(',', $cols);
   }
@@ -75,24 +76,6 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
     && $_SESSION['search_request'] == $_REQUEST['_search']
 ) {
   $_SESSION['search'] = $RCMAIL->storage->get_search_set();
-
-  // multi-folder search
-  if ($_SESSION['search'][1]->multi) {
-    if (empty($cols))
-      $cols = $_SESSION['list_attrib']['columns'] ? $_SESSION['list_attrib']['columns'] : (array)$CONFIG['list_cols'];
-    if (!in_array('folder', $cols))
-      $cols[] = 'folder';  // Add 'folder' column to list
-
-    // make message UIDs unique by appending the folder name
-    foreach ($a_headers as $i => $header) {
-      $header->uid .= '-'.$header->folder;
-      $header->flags['skip_mbox_check'] = true;
-      if ($header->parent_uid)
-        $header->parent_uid .= '-'.$header->folder;
-    }
-
-    $OUTPUT->command('select_folder', '');
-  }
 }
 // remove old search data
 else if (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {
@@ -119,7 +102,8 @@ $OUTPUT->set_env('exists', $exists);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count), $mbox_name);
 
 // add message rows
-rcmail_js_message_list($a_headers, FALSE, $cols);
+rcmail_js_message_list($a_headers, false, $cols);
+
 if (isset($a_headers) && count($a_headers)) {
   if ($search_request) {
     $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));

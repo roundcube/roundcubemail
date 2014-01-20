@@ -6422,7 +6422,7 @@ function rcube_webmail()
       this.env.status_col = n;
 
     if (list) {
-      list.hide_column('folder', !(this.env.search_request || this.env.search_id));
+      list.hide_column('folder', !(this.env.search_request || this.env.search_id) || this.env.search_scope == 'base');
       list.init_header();
     }
   };

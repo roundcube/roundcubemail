@@ -363,7 +363,7 @@ function rcmail_message_list($attrib)
 /**
  * return javascript commands to add rows to the message list
  */
-function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null)
+function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null)
 {
     global $RCMAIL, $OUTPUT;
 
@@ -382,6 +382,14 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
         $head_replace = true;
     }
 
+    // add 'folder' column to list on multi-folder searches
+    $search_set = $RCMAIL->storage->get_search_set();
+    $multifolder = $search_set && $search_set[1]->multi;
+    if ($multifolder && !in_array('folder', $a_show_cols)) {
+        $a_show_cols[] = 'folder';
+        $head_replace = true;
+    }
+
     $mbox = $RCMAIL->storage->get_folder();
 
     // make sure 'threads' and 'subject' columns are present
@@ -389,8 +397,6 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
         array_unshift($a_show_cols, 'subject');
     if (!in_array('threads', $a_show_cols))
         array_unshift($a_show_cols, 'threads');
-
-    $_SESSION['list_attrib']['columns'] = $a_show_cols;
 
     // Make sure there are no duplicated columns (#1486999)
     $a_show_cols = array_unique($a_show_cols);
@@ -412,6 +418,10 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
 
     $OUTPUT->command('set_message_coltypes', $a_show_cols, $thead, $smart_col);
 
+    if ($multifolder) {
+        $OUTPUT->command('select_folder', '');
+    }
+
     if (empty($a_headers)) {
         return;
     }
@@ -427,6 +437,14 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
     foreach ($a_headers as $header) {
         if (empty($header))
             continue;
+
+        // make message UIDs unique by appending the folder name
+        if ($multifolder) {
+            $header->uid .= '-'.$header->folder;
+            $header->flags['skip_mbox_check'] = true;
+            if ($header->parent_uid)
+                $header->parent_uid .= '-'.$header->folder;
+        }
 
         $a_msg_cols  = array();
         $a_msg_flags = array();
