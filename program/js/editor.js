@@ -18,51 +18,50 @@
 function rcmail_editor_init(config)
 {
   var ret, conf = {
-      mode: 'textareas',
-      editor_selector: 'mce_editor',
+      selector: '.mce_editor',
       apply_source_formatting: true,
-      theme: 'advanced',
+      theme: 'modern',
       language: config.lang,
       content_css: config.skin_path + '/editor_content.css',
-      theme_advanced_toolbar_location: 'top',
-      theme_advanced_toolbar_align: 'left',
-      theme_advanced_buttons3: '',
-      theme_advanced_statusbar_location: 'none',
+      menubar: false,
+      statusbar: false,
       extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
       relative_urls: false,
       remove_script_host: false,
       gecko_spellcheck: true,
       convert_urls: false, // #1486944
-      external_image_list: window.rcmail_editor_images,
+      external_image_list: window.rcmail_editor_images, //TODO
       rc_client: rcmail
     };
 
   if (config.mode == 'identity')
     $.extend(conf, {
-      plugins: 'paste,tabfocus',
-      theme_advanced_buttons1: 'bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,outdent,indent,charmap,hr,link,unlink,code,forecolor',
-      theme_advanced_buttons2: 'fontselect,fontsizeselect'
+      plugins: ['charmap code hr link paste tabfocus textcolor'],
+      toolbar: 'bold italic underline alignleft aligncenter alignright alignjustify'
+             + ' | outdent indent charmap hr link unlink code forecolor'
+             + ' | fontselect fontsizeselect'
     });
   else { // mail compose
     $.extend(conf, {
-      plugins: 'paste,emotions,media,nonbreaking,table,searchreplace,visualchars,directionality,inlinepopups,tabfocus' + (config.spellcheck ? ',spellchecker' : ''),
-      theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,ltr,rtl,blockquote,|,forecolor,backcolor,fontselect,fontsizeselect',
-      theme_advanced_buttons2: 'link,unlink,table,|,emotions,charmap,image,media,|,code,search,undo,redo',
-      spellchecker_languages: (rcmail.env.spellcheck_langs ? rcmail.env.spellcheck_langs : 'Dansk=da,Deutsch=de,+English=en,Espanol=es,Francais=fr,Italiano=it,Nederlands=nl,Polski=pl,Portugues=pt,Suomi=fi,Svenska=sv'),
+      plugins: ['charmap code directionality emoticons link image media nonbreaking paste table tabfocus textcolor searchreplace' + (config.spellcheck ? ' spellchecker' : '')],
+      toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
+              + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
+              + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',
+//      spellchecker_languages: (rcmail.env.spellcheck_langs ? rcmail.env.spellcheck_langs : 'Dansk=da,Deutsch=de,+English=en,Espanol=es,Francais=fr,Italiano=it,Nederlands=nl,Polski=pl,Portugues=pt,Suomi=fi,Svenska=sv'),
       spellchecker_rpc_url: '?_task=utils&_action=spell_html&_remote=1',
       spellchecker_enable_learn_rpc: config.spelldict,
-      accessibility_focus: false,
-      oninit: 'rcmail_editor_callback'
+      accessibility_focus: false
     });
 
-    // add handler for spellcheck button state update
     conf.setup = function(ed) {
-      ed.onSetProgressState.add(function(ed, active) {
-        if (!active)
+      ed.on('init', rcmail_editor_callback);
+      // add handler for spellcheck button state update
+      ed.on('SetProgressState', function(args) {
+        if (!args.active)
           rcmail.spellcheck_state();
       });
-      ed.onKeyPress.add(function(ed, e) {
-          rcmail.compose_type_activity++;
+      ed.on('keypress', function() {
+        rcmail.compose_type_activity++;
       });
     }
   }
@@ -71,7 +70,7 @@ function rcmail_editor_init(config)
   if (window.rcmail_editor_settings)
     $.extend(conf, window.rcmail_editor_settings);
 
-  tinyMCE.init(conf);
+  tinymce.init(conf);
 }
 
 // react to real individual tinyMCE editor init
@@ -88,7 +87,7 @@ function rcmail_editor_callback()
     css['font-size'] = rcmail.env.default_font_size;
 
   if (css['font-family'] || css['font-size'])
-    $(tinyMCE.get(rcmail.env.composebody).getBody()).css(css);
+    $(tinymce.get(rcmail.env.composebody).getBody()).css(css);
 
   if (elem && elem.type == 'select-one') {
     rcmail.change_identity(elem);
@@ -108,11 +107,11 @@ function rcmail_editor_callback()
   $(window).resize();
 }
 
-// set tabIndex on tinyMCE editor
+// set tabIndex on tinymce editor
 function rcmail_editor_tabindex(focus)
 {
   if (rcmail.env.task == 'mail') {
-    var editor = tinyMCE.get(rcmail.env.composebody);
+    var editor = tinymce.get(rcmail.env.composebody);
     if (editor) {
       var textarea = editor.getElement();
       var node = editor.getContentAreaContainer().childNodes[0];

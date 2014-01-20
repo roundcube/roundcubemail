@@ -940,10 +940,7 @@ function percent_indicator(obj, data)
 };
 
 // Optional parameters used by TinyMCE
-var rcmail_editor_settings = {
-  skin: "default", // "default", "o2k7"
-  skin_variant: "" // "", "silver", "black"
-};
+var rcmail_editor_settings = {};
 
 var rcmail_ui;
 

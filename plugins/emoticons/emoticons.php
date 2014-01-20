@@ -71,8 +71,8 @@ class emoticons extends rcube_plugin
     }
 
     private function img_tag($ico, $title)
-    { 
-        $path = './program/js/tiny_mce/plugins/emotions/img/';
+    {
+        $path = './program/js/tinymce/plugins/emoticons/img/';
         return html::img(array('src' => $path.$ico, 'title' => $title));
     }
 }

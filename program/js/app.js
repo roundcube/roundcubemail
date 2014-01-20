@@ -1012,8 +1012,8 @@ function rcube_webmail()
           this.stop_spellchecking();
         }
         else {
-          if (window.tinyMCE && tinyMCE.get(this.env.composebody)) {
-            tinyMCE.execCommand('mceSpellCheck', true);
+          if (window.tinymce && tinymce.get(this.env.composebody)) {
+            tinymce.execCommand('mceSpellCheck', true);
           }
           else if (this.env.spellcheck && this.env.spellcheck.spellCheck) {
             this.env.spellcheck.spellCheck();
@@ -3334,8 +3334,8 @@ function rcube_webmail()
     // Apply spellcheck changes if spell checker is active
     this.stop_spellchecking();
 
-    if (window.tinyMCE)
-      ed = tinyMCE.get(this.env.composebody);
+    if (window.tinymce)
+      ed = tinymce.get(this.env.composebody);
 
     // check for empty body
     if (!ed && input_message.val() == '' && !confirm(this.get_label('nobodywarning'))) {
@@ -3348,7 +3348,7 @@ function rcube_webmail()
         return false;
       }
       // move body from html editor to textarea (just to be sure, #1485860)
-      tinyMCE.triggerSave();
+      tinymce.triggerSave();
     }
 
     return true;
@@ -3360,15 +3360,15 @@ function rcube_webmail()
 
     if (props.mode == 'html') {
       this.plain2html($('#'+props.id).val(), props.id);
-      tinyMCE.execCommand('mceAddControl', false, props.id);
+      tinymce.execCommand('mceAddEditor', false, props.id);
 
       if (this.env.default_font)
         setTimeout(function() {
-          $(tinyMCE.get(props.id).getBody()).css('font-family', rcmail.env.default_font);
+          $(tinymce.get(props.id).getBody()).css('font-family', rcmail.env.default_font);
         }, 500);
     }
     else {
-      var thisMCE = tinyMCE.get(props.id), existingHtml;
+      var thisMCE = tinymce.get(props.id), existingHtml;
 
       if (existingHtml = thisMCE.getContent()) {
         if (!confirm(this.get_label('editorwarning'))) {
@@ -3376,7 +3376,7 @@ function rcube_webmail()
         }
         this.html2plain(existingHtml, props.id);
       }
-      tinyMCE.execCommand('mceRemoveControl', false, props.id);
+      tinymce.execCommand('mceRemoveEditor', false, props.id);
     }
 
     return true;
@@ -3388,9 +3388,9 @@ function rcube_webmail()
     if (!insert)
       return false;
 
-    // insert into tinyMCE editor
+    // insert into tinymce editor
     if ($("input[name='_is_html']").val() == '1') {
-      var editor = tinyMCE.get(this.env.composebody);
+      var editor = tinymce.get(this.env.composebody);
       editor.getWin().focus(); // correct focus in IE & Chrome
       editor.selection.setContent(insert, { format:'text' });
     }
@@ -3418,9 +3418,9 @@ function rcube_webmail()
   {
     var sigstart, text = '', strip = false;
 
-    // get selected text from tinyMCE editor
+    // get selected text from tinymce editor
     if ($("input[name='_is_html']").val() == '1') {
-      var editor = tinyMCE.get(this.env.composebody);
+      var editor = tinymce.get(this.env.composebody);
       editor.getWin().focus(); // correct focus in IE & Chrome
       text = editor.selection.getContent({ format:'text' });
 
@@ -3534,7 +3534,7 @@ function rcube_webmail()
   {
     var ed;
 
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody))) {
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody))) {
       if (ed.plugins && ed.plugins.spellchecker && ed.plugins.spellchecker.active)
         ed.execCommand('mceSpellCheck');
     }
@@ -3550,7 +3550,7 @@ function rcube_webmail()
   {
     var ed, active;
 
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins && ed.plugins.spellchecker)
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody)) && ed.plugins && ed.plugins.spellchecker)
       active = ed.plugins.spellchecker.active;
     else if ((ed = this.env.spellcheck) && ed.state)
       active = ed.state != 'ready' && ed.state != 'no_error_found';
@@ -3566,7 +3566,7 @@ function rcube_webmail()
   {
     var ed;
 
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins && ed.plugins.spellchecker)
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody)) && ed.plugins && ed.plugins.spellchecker)
       return ed.plugins.spellchecker.selectedLang;
     else if (this.env.spellcheck)
       return GOOGIE_CUR_LANG;
@@ -3576,7 +3576,7 @@ function rcube_webmail()
   {
     var ed;
 
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins)
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody)) && ed.plugins)
       ed.plugins.spellchecker.selectedLang = lang;
     else if (this.env.spellcheck)
       this.env.spellcheck.setCurrentLanguage(lang);
@@ -3586,7 +3586,7 @@ function rcube_webmail()
   this.spellcheck_resume = function(ishtml, data)
   {
     if (ishtml) {
-      var ed = tinyMCE.get(this.env.composebody);
+      var ed = tinymce.get(this.env.composebody);
         sp = ed.plugins.spellchecker;
 
       sp.active = 1;
@@ -3652,7 +3652,7 @@ function rcube_webmail()
       if (val = $('[name="_' + hash_fields[i] + '"]').val())
         str += val + ':';
 
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)))
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody)))
       str += ed.getContent();
     else
       str += $("[name='_message']").val();
@@ -3674,8 +3674,8 @@ function rcube_webmail()
       ed, empty = true;
 
     // get fresh content from editor
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody))) {
-      tinyMCE.triggerSave();
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody))) {
+      tinymce.triggerSave();
     }
 
     if (this.env.draft_id) {
@@ -3738,12 +3738,12 @@ function rcube_webmail()
       // initialize HTML editor
       if (formdata._is_html == '1') {
         if (!html_mode) {
-          tinyMCE.execCommand('mceAddControl', false, this.env.composebody);
+          tinymce.execCommand('mceAddEditor', false, this.env.composebody);
           this.triggerEvent('aftertoggle-editor', { mode:'html' });
         }
       }
       else if (html_mode) {
-        tinyMCE.execCommand('mceRemoveControl', false, this.env.composebody);
+        tinymce.execCommand('mceRemoveEditor', false, this.env.composebody);
         this.triggerEvent('aftertoggle-editor', { mode:'plain' });
       }
     }
@@ -3892,7 +3892,7 @@ function rcube_webmail()
       this.set_caret_pos(input_message.get(0), cursor_pos);
     }
     else if (show_sig && this.env.signatures) {  // html
-      var editor = tinyMCE.get(this.env.composebody),
+      var editor = tinymce.get(this.env.composebody),
         sigElem = editor.dom.get('_rc_sig');
 
       // Append the signature as a div within the body

@@ -1520,15 +1520,11 @@ div.hide-headers
   outline: none;
 }
 
-#compose-body_tbl,
-#compose-body_tbl td
+.mce-container.mce-panel
 {
   border: none;
-}
-
-#compose-body_tbl tr.mceFirst td.mceToolbar
-{
   border-bottom: 1px solid #ccc;
+  background-image: none;
 }
 
 #compose-headers

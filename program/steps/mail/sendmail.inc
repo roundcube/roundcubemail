@@ -722,11 +722,11 @@ function rcmail_get_identity($id)
 
 /**
  * go from this:
- * <img src="http[s]://.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
+ * <img src="http[s]://.../tinymce/plugins/emoticons/img/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
  *
  * to this:
  *
- * <img src="/path/on/server/.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
+ * <img src="/path/on/server/.../tinymce/plugins/emoticons/img/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
  */
 function rcmail_fix_emoticon_paths($mime_message)
 {
@@ -737,7 +737,7 @@ function rcmail_fix_emoticon_paths($mime_message)
     // remove any null-byte characters before parsing
     $body = preg_replace('/\x00/', '', $body);
 
-    $searchstr = 'program/js/tiny_mce/plugins/emotions/img/';
+    $searchstr = 'program/js/tinymce/plugins/emoticons/img/';
     $offset = 0;
 
     // keep track of added images, so they're only added once
