@@ -697,9 +697,17 @@ function rcube_webmail()
         break;
 
       case 'list':
-        // TODO: don't reset search but re-send for the new folder
-        if (props && props != '')
-          this.reset_qsearch();
+        // re-send for the selected folder
+        if (props && props != '' && this.env.search_request) {
+          var oldmbox = this.env.search_scope == 'all' ? '*' : this.env.mailbox;
+          this.env.search_mods[props] = this.env.search_mods[oldmbox];  // copy search mods from active search
+          this.env.mailbox = props;
+          this.env.search_scope = 'base';
+          this.qsearch(this.gui_objects.qsearchbox.value);
+          this.select_folder(this.env.mailbox, '', true);
+          break;
+        }
+
         if (this.env.action == 'compose' && this.env.extwin)
           window.close();
         else if (this.task == 'mail') {
@@ -4100,11 +4108,11 @@ function rcube_webmail()
   };
 
   // send remote request to search mail or contacts
-  this.qsearch = function(value)
+  this.qsearch = function(value, mods)
   {
     if (value != '') {
       var r, lock = this.set_busy(true, 'searching'),
-        url = this.search_params(value);
+        url = this.search_params(value, null, mods);
 
       if (this.message_list)
         this.clear_message_list();
@@ -4128,7 +4136,7 @@ function rcube_webmail()
   };
 
   // build URL params for search
-  this.search_params = function(search, filter)
+  this.search_params = function(search, filter, smods)
   {
     var n, url = {}, mods_arr = [],
       mods = this.env.search_mods,
@@ -4147,11 +4155,11 @@ function rcube_webmail()
     if (search) {
       url._q = search;
 
-      if (mods && this.message_list)
-        mods = mods[mbox] ? mods[mbox] : mods['*'];
+      if (!smods && mods && this.message_list)
+        smods = mods[mbox] || mods['*'];
 
-      if (mods) {
-        for (n in mods)
+      if (smods) {
+        for (n in smods)
           mods_arr.push(n);
         url._headers = mods_arr.join(',');
       }

@@ -21,6 +21,8 @@
 
 $REMOTE_REQUEST = TRUE;
 
+@set_time_limit(170);  // extend default max_execution_time to ~3 minutes
+
 // reset list_page and old search results
 $RCMAIL->storage->set_page(1);
 $RCMAIL->storage->set_search_set(NULL);

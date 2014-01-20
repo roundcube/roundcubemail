@@ -769,7 +769,7 @@ function rcube_mail_ui()
           mbox = '*';
         mods = mods[mbox] ? mods[mbox] : mods['*'];
         all = 'text';
-        $('#s_scope_'+scope).prop('checked', true);
+        $('#s_scope_'+scope).attr('checked',true);
       }
       else {
         all = '*';
