@@ -235,6 +235,19 @@ $config['smtp_helo_host'] = '';
 // timeout > 0 causes connection errors (https://bugs.php.net/bug.php?id=54511)
 $config['smtp_timeout'] = 0;
 
+// SMTP socket context options
+// See http://php.net/manual/en/context.ssl.php
+// The example below enables server certificate validation, and
+// requires 'smtp_timeout' to be non zero.
+// $config['smtp_conn_options'] = array(
+//   'ssl'         => array(
+//     'verify_peer'     => true,
+//     'verify_depth     => 3,
+//     'cafile'          => '/etc/openssl/certs/ca.crt',
+//   ),
+// );
+$config['smtp_conn_options'] = null;
+
 // ----------------------------------
 // LDAP
 // ----------------------------------

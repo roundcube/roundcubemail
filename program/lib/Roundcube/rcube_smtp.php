@@ -67,6 +67,7 @@ class rcube_smtp
             'smtp_auth_type' => $rcube->config->get('smtp_auth_type'),
             'smtp_helo_host' => $rcube->config->get('smtp_helo_host'),
             'smtp_timeout'   => $rcube->config->get('smtp_timeout'),
+            'smtp_conn_options'   => $rcube->config->get('smtp_conn_options'),
             'smtp_auth_callbacks' => array(),
         ));
 
@@ -106,7 +107,7 @@ class rcube_smtp
         // IDNA Support
         $smtp_host = rcube_utils::idn_to_ascii($smtp_host);
 
-        $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host);
+        $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host, false, 0, $CONFIG['smtp_conn_options']);
 
         if ($rcube->config->get('smtp_debug')) {
             $this->conn->setDebug(true, array($this, 'debug_handler'));

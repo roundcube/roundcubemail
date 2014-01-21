@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support SMTP socket context options via new config option 'smtp_conn_options'
 - Fix compatibility with PHP 5.2 in html.php file (#1489514)
 - Remove expand/collapse with plus/minus keys (on numeric keypad) (#1489513)
 - Fix issue where filesystem path was added to all-attachments (zip) file (#1489507)
