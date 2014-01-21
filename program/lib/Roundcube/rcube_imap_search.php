@@ -189,6 +189,8 @@ class rcube_imap_search_job extends Stackable
         $imap = $this->worker->get_imap();
 
         if (!$imap->connected()) {
+            trigger_error("No IMAP connection for $this->folder", E_USER_WARNING);
+
             if ($this->threading) {
                 return new rcube_result_thread();
             }
@@ -280,14 +282,13 @@ class rcube_imap_search_worker extends Worker
     public $options;
 
     private $conn;
+    private $counts = 0;
 
     /**
      * Default constructor
      */
     public function __construct($id, $options)
     {
-        $options['ident']['command'] = 'search-'.$id;
-
         $this->id = $id;
         $this->options = $options;
     }
@@ -298,21 +299,19 @@ class rcube_imap_search_worker extends Worker
     public function get_imap()
     {
         // TODO: make this connection persistent for several jobs
-        #if ($this->conn)
-        #    return $this->conn;
+        // This doesn't seem to work. Socket connections don't survive serialization which is used in pthreads
 
         $conn = new rcube_imap_generic();
         # $conn->setDebug(true, function($conn, $message){ trigger_error($message, E_USER_NOTICE); });
 
         if ($this->options['user'] && $this->options['password']) {
-            // TODO: do this synchronized to avoid warnings like "Only one Id allowed in non-authenticated state"
+            $this->options['ident']['command'] = 'search-' . $this->id . 't' . ++$this->counts;
             $conn->connect($this->options['host'], $this->options['user'], $this->options['password'], $this->options);
         }
 
         if ($conn->error)
             trigger_error($conn->error, E_USER_WARNING);
 
-        #$this->conn = $conn;
         return $conn;
     }
 
