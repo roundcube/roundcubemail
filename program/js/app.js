@@ -4108,11 +4108,11 @@ function rcube_webmail()
   };
 
   // send remote request to search mail or contacts
-  this.qsearch = function(value, mods)
+  this.qsearch = function(value)
   {
     if (value != '') {
       var r, lock = this.set_busy(true, 'searching'),
-        url = this.search_params(value, null, mods);
+        url = this.search_params(value);
 
       if (this.message_list)
         this.clear_message_list();
@@ -4140,8 +4140,8 @@ function rcube_webmail()
   {
     var n, url = {}, mods_arr = [],
       mods = this.env.search_mods,
-      mbox = this.env.mailbox,
-      scope = this.env.search_scope || 'base';
+      scope = this.env.search_scope || 'base',
+      mbox = scope == 'all' ? '*' : this.env.mailbox;
 
     if (!filter && this.gui_objects.search_filter)
       filter = this.gui_objects.search_filter.value;
