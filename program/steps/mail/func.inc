@@ -583,7 +583,7 @@ function rcmail_get_messagecount_text($count = null, $page = null)
         $max = $RCMAIL->storage->count(NULL, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
 
     if ($max == 0)
-        $out = $RCMAIL->gettext('mailboxempty');
+        $out = $RCMAIL->storage->get_search_set() ? $RCMAIL->gettext('nomessages') : $RCMAIL->gettext('mailboxempty');
     else
         $out = $RCMAIL->gettext(array('name' => $RCMAIL->storage->get_threading() ? 'threadsfromto' : 'messagesfromto',
             'vars' => array('from'  => $start_msg,
