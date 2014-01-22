@@ -1057,17 +1057,17 @@ function rcmail_message_headers($attrib, $headers=null)
         return rcube::Q($plugin['output'][$attrib['valueof']]['value'], ($attrib['valueof'] == 'subject' ? 'strict' : 'show'));
     }
 
-    // compose html table
-    $table = new html_table(array('cols' => 2));
+    // compose div
+    $out = '';
 
     foreach ($plugin['output'] as $hkey => $row) {
-        $val = $row['html'] ? $row['value'] : rcube::Q($row['value'], ($hkey == 'subject' ? 'strict' : 'show'));
-
-        $table->add(array('class' => 'header-title'), rcube::Q($row['title']));
-        $table->add(array('class' => 'header '.$hkey), $val);
+       $divrow = '';
+       $divrow .= html::span('title', Q($hkey));
+       $divrow .= html::span('content', $row['html'] ? $row['value'] : Q($row['value'], ($hkey == 'subject' ? 'strict' : 'show')));
+       $out .= html::div(array('id' => Q($hkey), 'class' => "divrow"), $divrow);
     }
 
-    return $table->show($attrib);
+    return html::div($attrib, $out);
 }
 
 /**
