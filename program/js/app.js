@@ -6362,12 +6362,14 @@ function rcube_webmail()
   this.mark_folder = function(name, class_name, prefix, encode)
   {
     $(this.get_folder_li(name, prefix, encode)).addClass(class_name);
+    this.triggerEvent('markfolder', {folder: name, mark: class_name, status: true});
   };
 
   // adds a class to selected folder
   this.unmark_folder = function(name, class_name, prefix, encode)
   {
     $(this.get_folder_li(name, prefix, encode)).removeClass(class_name);
+    this.triggerEvent('markfolder', {folder: name, mark: class_name, status: false});
   };
 
   // helper method to find a folder list item
