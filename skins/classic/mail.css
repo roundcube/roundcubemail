@@ -539,6 +539,31 @@
   left: 87px !important;
 }
 
+#mailboxlist li.mailbox ul li.drafts a
+{
+  background-position: 21px -37px;
+}
+
+#mailboxlist li.mailbox ul li.sent a
+{
+  background-position: 21px -54px;
+}
+
+#mailboxlist li.mailbox ul li.junk a
+{
+  background-position: 21px -73px;
+}
+
+#mailboxlist li.mailbox ul li.trash a
+{
+  background-position: 21px -180px;
+}
+
+#mailboxlist li.mailbox ul li.trash.empty a
+{
+  background-position: 21px -90px;
+}
+
 #listcontrols
 {
   position: relative;
