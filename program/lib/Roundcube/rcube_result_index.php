@@ -231,27 +231,11 @@ class rcube_result_index
 
 
     /**
-     * Filters data set. Removes elements listed in $ids list.
+     * Filters data set. Removes elements not listed in $ids list.
      *
      * @param array $ids List of IDs to remove.
      */
     public function filter($ids = array())
-    {
-        $data = $this->get();
-        $data = array_diff($data, $ids);
-
-        $this->meta          = array();
-        $this->meta['count'] = count($data);
-        $this->raw_data      = implode(self::SEPARATOR_ELEMENT, $data);
-    }
-
-
-    /**
-     * Filters data set. Removes elements not listed in $ids list.
-     *
-     * @param array $ids List of IDs to keep.
-     */
-    public function intersect($ids = array())
     {
         $data = $this->get();
         $data = array_intersect($data, $ids);
@@ -332,6 +316,7 @@ class rcube_result_index
         if (empty($this->raw_data)) {
             return array();
         }
+
         return explode(self::SEPARATOR_ELEMENT, $this->raw_data);
     }
 

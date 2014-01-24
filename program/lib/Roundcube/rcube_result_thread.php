@@ -453,7 +453,7 @@ class rcube_result_thread
 
         // when sorting search result it's good to make the index smaller
         if ($index->count() != $this->count_messages()) {
-            $index->intersect($this->get());
+            $index->filter($this->get());
         }
 
         $result  = array_fill_keys($index->get(), null);

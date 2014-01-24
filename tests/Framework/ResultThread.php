@@ -55,7 +55,5 @@ class Framework_ResultThread extends PHPUnit_Framework_TestCase
         $object->filter(array(784));
         $this->assertSame(118, $object->count_messages(), "Messages filter");
         $this->assertSame(1, $object->count(), "Messages filter (count)");
-
-//echo         $object->get_compressed();
     }
 }
