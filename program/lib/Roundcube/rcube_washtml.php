@@ -184,7 +184,7 @@ class rcube_washtml
                         '|rgb\(\s*[0-9]+\s*,\s*[0-9]+\s*,\s*[0-9]+\s*\)'.
                         '|-?[0-9.]+\s*(em|ex|px|cm|mm|in|pt|pc|deg|rad|grad|ms|s|hz|khz|%)?'.
                         '|#[0-9a-f]{3,6}'.
-                        '|[a-z0-9", -]+'.
+                        '|[a-z0-9"\', -]+'.
                         ')\s*/i', $str, $match)
                 ) {
                     if ($match[2]) {
