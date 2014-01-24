@@ -41,6 +41,7 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
             21 => '"test test"@domain.tld',
             // invalid (#1489092)
             22 => '"John Doe @ SomeBusinessName" <MAILER-DAEMON>',
+            23 => '=?UTF-8?B?IlRlc3QsVGVzdCI=?= <test@domain.tld>',
         );
 
         $results = array(
@@ -68,6 +69,7 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
             21 => array(1, '', '"test test"@domain.tld'),
             // invalid (#1489092)
             22 => array(1, 'John Doe @ SomeBusinessName', 'MAILER-DAEMON'),
+            23 => array(1, 'Test,Test', 'test@domain.tld'),
         );
 
         foreach ($headers as $idx => $header) {

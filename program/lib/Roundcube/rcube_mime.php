@@ -378,6 +378,10 @@ class rcube_mime
                 }
                 if ($decode) {
                     $name = self::decode_header($name, $fallback);
+                    // some clients encode addressee name with quotes around it
+                    if ($name[0] == '"' && $name[strlen($name)-1] == '"') {
+                        $name = substr($name, 1, -1);
+                    }
                 }
             }
 
