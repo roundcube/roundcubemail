@@ -391,7 +391,9 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
                 $cont = rcmail_address_string($header->$col_name, 3, false, null, $header->charset);
             else if ($col == 'subject') {
                 $cont = trim(rcube_mime::decode_header($header->$col, $header->charset));
-                if (!$cont) $cont = $RCMAIL->gettext('nosubject');
+                if (!$cont) {
+                    $cont = rcube_label('nosubject');
+                }
                 $cont = rcube::Q($cont);
             }
             else if ($col == 'size')
@@ -400,35 +402,50 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
                 $cont = $RCMAIL->format_date($header->date);
             else
                 $cont = rcube::Q($header->$col);
-
+            if ($col == 'fromto'){
+                $cont = rcmail_address_string($header->from, 3, false, null, $header->charset);                
+                if ($header->number_children > 0) {
+                       $cont .= " (".$header->number_children.")";
+                }
+            }
             $a_msg_cols[$col] = $cont;
         }
 
         $a_msg_flags = array_change_key_case(array_map('intval', (array) $header->flags));
-        if ($header->depth)
+        if ($header->depth) {
             $a_msg_flags['depth'] = $header->depth;
-        else if ($header->has_children)
+        } else if ($header->has_children) {
             $roots[] = $header->uid;
-        if ($header->parent_uid)
+        }
+        if ($header->parent_uid) {
             $a_msg_flags['parent_uid'] = $header->parent_uid;
-        if ($header->has_children)
+        }
+        if ($header->has_children) {
             $a_msg_flags['has_children'] = $header->has_children;
-        if ($header->unread_children)
+        }
+        if ($header->unread_children) {
             $a_msg_flags['unread_children'] = $header->unread_children;
-        if ($header->others['list-post'])
+        }
+        if ($header->number_children) {
+            $a_msg_flags['number_children'] = $header->number_children;
+        }
+        if ($header->others['list-post']) {
             $a_msg_flags['ml'] = 1;
-        if ($header->priority)
+        }
+        if ($header->priority) {
             $a_msg_flags['prio'] = (int) $header->priority;
+        }
 
         $a_msg_flags['ctype'] = rcube::Q($header->ctype);
         $a_msg_flags['mbox']  = $mbox;
 
         // merge with plugin result (Deprecated, use $header->flags)
-        if (!empty($header->list_flags) && is_array($header->list_flags))
+        if (!empty($header->list_flags) && is_array($header->list_flags)) {
             $a_msg_flags = array_merge($a_msg_flags, $header->list_flags);
-        if (!empty($header->list_cols) && is_array($header->list_cols))
+        }
+        if (!empty($header->list_cols) && is_array($header->list_cols)) {
             $a_msg_cols = array_merge($a_msg_cols, $header->list_cols);
-
+        	}
         $OUTPUT->command('add_message_row',
             $header->uid,
             $a_msg_cols,
