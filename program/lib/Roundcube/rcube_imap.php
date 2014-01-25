@@ -919,6 +919,7 @@ class rcube_imap extends rcube_storage
 
             if (!empty($parents)) {
                 $headers[$uid]->parent_uid = end($parents);
+                $headers[$parents[0]]->number_children++;
                 if (empty($header->flags['SEEN']))
                     $headers[$parents[0]]->unread_children++;
             }
