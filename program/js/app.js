@@ -3141,6 +3141,10 @@ function rcube_webmail()
         if (this.env.draft_id && formdata.draft_id && formdata.draft_id != this.env.draft_id) {
           continue;
         }
+        // skip records on reply
+        if (this.env.reply_msgid && formdata.reply_msgid != this.env.reply_msgid) {
+          continue;
+        }
         // show dialog asking to restore the message
         if (formdata.changed && formdata.session != this.env.session_id) {
           this.show_popup_dialog(
@@ -3616,8 +3620,10 @@ function rcube_webmail()
       this.env.draft_id = id;
       $("input[name='_draft_saveid']").val(id);
 
-      this.remove_compose_data(this.env.compose_id);
     }
+
+    // always remove local copy upon saving as draft
+    this.remove_compose_data(this.env.compose_id);
   };
 
   this.auto_save_start = function()
@@ -3680,6 +3686,9 @@ function rcube_webmail()
 
     if (this.env.draft_id) {
       formdata.draft_id = this.env.draft_id;
+    }
+    if (this.env.reply_msgid) {
+      formdata.reply_msgid = this.env.reply_msgid;
     }
 
     $('input, select, textarea', this.gui_objects.messageform).each(function(i, elem) {

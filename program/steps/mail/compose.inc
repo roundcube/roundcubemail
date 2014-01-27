@@ -271,6 +271,9 @@ else {
     }
 }
 
+if (!empty($COMPOSE['reply_msgid']))
+  $OUTPUT->set_env('reply_msgid', $COMPOSE['reply_msgid']);
+
 $MESSAGE->compose = array();
 
 // get user's identities
