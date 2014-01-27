@@ -634,14 +634,6 @@ class rcmail extends rcube
             $this->set_user($user);
             $this->set_storage_prop();
 
-            // fix some old settings according to namespace prefix
-            $this->fix_namespace_settings($user);
-
-            // create default folders on first login
-            if ($config['create_default_folders'] && (!empty($created) || empty($user->data['last_login']))) {
-                $storage->create_default_folders();
-            }
-
             // set session vars
             $_SESSION['user_id']      = $user->ID;
             $_SESSION['username']     = $user->data['username'];
@@ -655,7 +647,15 @@ class rcmail extends rcube
                 $_SESSION['timezone'] = rcube_utils::get_input_value('_timezone', rcube_utils::INPUT_GPC);
             }
 
-            // force reloading complete list of subscribed mailboxes
+            // fix some old settings according to namespace prefix
+            $this->fix_namespace_settings($user);
+
+            // create default folders on login
+            if ($config['create_default_folders']) {
+                $storage->create_default_folders();
+            }
+
+            // clear all mailboxes related cache(s)
             $storage->clear_cache('mailboxes', true);
 
             return true;
