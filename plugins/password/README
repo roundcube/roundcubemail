@@ -43,6 +43,7 @@
  2.17. Expect (expect)
  2.18. Samba (smb)
  2.19. Vpopmail daemon (vpopmaild)
+ 2.20. Domain-Offensive (dode)
  3. Driver API
 
 
@@ -310,6 +311,10 @@
 
  Set $config['password_vpopmaild_port'] to the port of vpopmaild.
 
+ 2.20. Domain-Offensive (dode)
+ -----------------------------------
+
+ Driver to change the POP3/IMAP password of mail accounts of Domain-Offensive (do.de) webhosting.
 
  3. Driver API
  -------------
