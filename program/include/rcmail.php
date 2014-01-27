@@ -492,17 +492,20 @@ class rcmail extends rcube
             return false;
         }
 
-        $config = $this->config->all();
+        $default_host    = $this->config->get('default_host');
+        $default_port    = $this->config->get('default_port');
+        $username_domain = $this->config->get('username_domain');
+        $login_lc        = $this->config->get('login_lc', 2);
 
         if (!$host) {
-            $host = $config['default_host'];
+            $host = $default_host;
         }
 
         // Validate that selected host is in the list of configured hosts
-        if (is_array($config['default_host'])) {
+        if (is_array($default_host)) {
             $allowed = false;
 
-            foreach ($config['default_host'] as $key => $host_allowed) {
+            foreach ($default_host as $key => $host_allowed) {
                 if (!is_numeric($key)) {
                     $host_allowed = $key;
                 }
@@ -516,7 +519,7 @@ class rcmail extends rcube
                 $host = null;
             }
         }
-        else if (!empty($config['default_host']) && $host != rcube_utils::parse_host($config['default_host'])) {
+        else if (!empty($default_host) && $host != rcube_utils::parse_host($default_host)) {
             $host = null;
         }
 
@@ -533,23 +536,23 @@ class rcmail extends rcube
 
             if (!empty($a_host['port']))
                 $port = $a_host['port'];
-            else if ($ssl && $ssl != 'tls' && (!$config['default_port'] || $config['default_port'] == 143))
+            else if ($ssl && $ssl != 'tls' && (!$default_port || $default_port == 143))
                 $port = 993;
         }
 
         if (!$port) {
-            $port = $config['default_port'];
+            $port = $default_port;
         }
 
         // Check if we need to add/force domain to username
-        if (!empty($config['username_domain'])) {
-            $domain = is_array($config['username_domain']) ? $config['username_domain'][$host] : $config['username_domain'];
+        if (!empty($username_domain)) {
+            $domain = is_array($username_domain) ? $username_domain[$host] : $username_domain;
 
             if ($domain = rcube_utils::parse_host((string)$domain, $host)) {
                 $pos = strpos($username, '@');
 
                 // force configured domains
-                if (!empty($config['username_domain_forced']) && $pos !== false) {
+                if ($pos !== false && $this->config->get('username_domain_forced')) {
                     $username = substr($username, 0, $pos) . '@' . $domain;
                 }
                 // just add domain if not specified
@@ -559,14 +562,10 @@ class rcmail extends rcube
             }
         }
 
-        if (!isset($config['login_lc'])) {
-            $config['login_lc'] = 2; // default
-        }
-
         // Convert username to lowercase. If storage backend
         // is case-insensitive we need to store always the same username (#1487113)
-        if ($config['login_lc']) {
-            if ($config['login_lc'] == 2 || $config['login_lc'] === true) {
+        if ($login_lc) {
+            if ($login_lc == 2 || $login_lc === true) {
                 $username = mb_strtolower($username);
             }
             else if (strpos($username, '@')) {
@@ -604,7 +603,7 @@ class rcmail extends rcube
             $user->touch();
         }
         // create new system user
-        else if ($config['auto_create_user']) {
+        else if ($this->config->get('auto_create_user')) {
             if ($created = rcube_user::create($username, $host)) {
                 $user = $created;
             }
@@ -651,7 +650,7 @@ class rcmail extends rcube
             $this->fix_namespace_settings($user);
 
             // create default folders on login
-            if ($config['create_default_folders']) {
+            if ($this->config->get('create_default_folders')) {
                 $storage->create_default_folders();
             }
 
