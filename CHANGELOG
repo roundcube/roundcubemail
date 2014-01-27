@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Update to jQuery-1.11.0 and jQuery-UI-1.9.2
 - Support SMTP socket context options via new config option 'smtp_conn_options'
 - Fix compatibility with PHP 5.2 in html.php file (#1489514)
 - Remove expand/collapse with plus/minus keys (on numeric keypad) (#1489513)
