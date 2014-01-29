@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add mime-type mapping for .7z files (#1489512)
+- Invoke update scripts with php to circumvent execution restrictions (#1489322)
+- Fix drag & drop message/contact moving on touch device (#1489431)
+- Fix canned responses in HTML mode (#1489536)
 - Check/create default folders on every login not only the first (#1489423)
 - Update to jQuery-1.11.0 and jQuery-UI-1.9.2
 - Support SMTP socket context options via new config option 'smtp_conn_options'
