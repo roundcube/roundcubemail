@@ -1072,17 +1072,14 @@ div.hide-headers {
 	border: 1px solid #ffdf0e;
 	background-color: #fef893;
 	background-position: 5px -83px;
-	padding: 8px 12px 8px 30px;
+	padding: 6px 12px 6px 30px;
 	white-space: normal;
 }
 
 #message-objects div a.button,
 #messagebody span.part-notice a.button {
 	margin-left: 10px;
-}
-
-#message-objects div a.button {
-	display: inline;
+	margin-top: -1px;
 }
 
 div.message-part,
