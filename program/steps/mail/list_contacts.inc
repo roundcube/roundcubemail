@@ -5,7 +5,7 @@
  | program/steps/mail/list_contacts.inc                                  |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -23,14 +23,21 @@ $afields       = $RCMAIL->config->get('contactlist_fields');
 $addr_sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');
 $page_size     = $RCMAIL->config->get('addressbook_pagesize', $RCMAIL->config->get('pagesize', 50));
 $list_page     = max(1, intval($_GET['_page']));
+$jsresult      = array();
 
 // Use search result
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']])) {
     $search  = (array)$_SESSION['search'][$_REQUEST['_search']];
+    $sparam = $_SESSION['search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['search_params']['data'] : array();
 
     // get records from all sources
     foreach ($search as $s => $set) {
         $CONTACTS = $RCMAIL->get_address_book($s);
+
+        // list matching groups of this source (on page one)
+        if ($sparam[1] && $CONTACTS->groups && $list_page == 1) {
+            $jsresult += rcmail_compose_contact_groups($CONTACTS, $s, $sparam[1], (int)$RCMAIL->config->get('addressbook_search_mode'));
+        }
 
         // reset page
         $CONTACTS->set_page(1);
@@ -78,44 +85,7 @@ else {
         }
         // list groups of this source (on page one)
         else if ($CONTACTS->groups && $CONTACTS->list_page == 1) {
-            foreach ($CONTACTS->list_groups() as $group) {
-                $CONTACTS->reset();
-                $CONTACTS->set_group($group['ID']);
-                $group_prop = $CONTACTS->get_group($group['ID']);
-
-                // group (distribution list) with email address(es)
-                if ($group_prop['email']) {
-                    foreach ((array)$group_prop['email'] as $email) {
-                        $row_id = 'G'.$group['ID'];
-                        $jsresult[$row_id] = format_email_recipient($email, $group['name']);
-                        $OUTPUT->command('add_contact_row', $row_id, array(
-                            'contactgroup' => html::span(array('title' => $email), rcube::Q($group['name']))), 'group');
-                    }
-                }
-                // make virtual groups clickable to list their members
-                else if ($group_prop['virtual']) {
-                    $row_id = 'G'.$group['ID'];
-                    $OUTPUT->command('add_contact_row', $row_id, array(
-                        'contactgroup' => html::a(array(
-                            'href' => '#list',
-                            'rel' => $row['ID'],
-                            'title' => $RCMAIL->gettext('listgroup'),
-                            'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)", rcmail_output::JS_OBJECT_NAME, $source, $group['ID']),
-                        ), rcube::Q($group['name']) . '&nbsp;' . html::span('action', '&raquo;'))),
-                        'group',
-                        array('ID' => $group['ID'], 'name' => $group['name'], 'virtual' => true));
-                }
-                // show group with count
-                else if (($result = $CONTACTS->count()) && $result->count) {
-                    $row_id = 'E'.$group['ID'];
-                    $jsresult[$row_id] = $group['name'];
-                    $OUTPUT->command('add_contact_row', $row_id, array(
-                        'contactgroup' => rcube::Q($group['name'] . ' (' . intval($result->count) . ')')), 'group');
-                }
-            }
-
-            $CONTACTS->reset();
-            $CONTACTS->set_group(0);
+            $jsresult = rcmail_compose_contact_groups($CONTACTS, $source);
         }
 
         // get contacts for this user

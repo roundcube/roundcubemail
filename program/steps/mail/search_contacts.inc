@@ -5,7 +5,7 @@
  | program/steps/mail/search_contacts.inc                                |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Copyright (C) 2013-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -27,11 +27,17 @@ $afields       = $RCMAIL->config->get('contactlist_fields');
 $page_size     = $RCMAIL->config->get('addressbook_pagesize', $RCMAIL->config->get('pagesize', 50));
 $records       = array();
 $search_set    = array();
+$jsresult      = array();
 
 foreach ($sources as $s) {
     $source = $RCMAIL->get_address_book($s['id']);
     $source->set_page(1);
     $source->set_pagesize(9999);
+
+    // list matching groups of this source
+    if ($source->groups) {
+        $jsresult += rcmail_compose_contact_groups($source, $s['id'], $search, $search_mode);
+    }
 
     // get contacts count
     $result = $source->search($afields, $search, $search_mode, true, true, 'email');
@@ -52,6 +58,8 @@ foreach ($sources as $s) {
     $search_set[$s['id']] = $source->get_search_set();
     unset($result);
 }
+
+$group_count = count($jsresult);
 
 // sort the records
 ksort($records, SORT_LOCALE_STRING);
@@ -98,7 +106,7 @@ if (!empty($result) && $result->count > 0) {
     $OUTPUT->command('set_env', 'source', '');
     $OUTPUT->command('unselect_directory');
 }
-else {
+else if (!$group_count) {
     $OUTPUT->show_message('nocontactsfound', 'notice');
 }
 

@@ -5,7 +5,7 @@
  | program/steps/mail/func.inc                                           |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -2072,4 +2072,55 @@ function rcmail_message_import_form($attrib = array())
     $RCMAIL->output->add_gui_object('importform', $attrib['id'].'Frm');
 
     return html::div($attrib, $out);
+}
+
+/**
+ * Add groups from the given address source to the address book widget
+ */
+function rcmail_compose_contact_groups($abook, $source_id, $search = null, $search_mode = 0)
+{
+    global $RCMAIL, $OUTPUT;
+
+    $jsresult = array();
+    foreach ($abook->list_groups($search, $search_mode) as $group) {
+        $abook->reset();
+        $abook->set_group($group['ID']);
+        $group_prop = $abook->get_group($group['ID']);
+
+        // group (distribution list) with email address(es)
+        if ($group_prop['email']) {
+            foreach ((array)$group_prop['email'] as $email) {
+                $row_id = 'G'.$group['ID'];
+                $jsresult[$row_id] = format_email_recipient($email, $group['name']);
+                $OUTPUT->command('add_contact_row', $row_id, array(
+                    'contactgroup' => html::span(array('title' => $email), rcube::Q($group['name']))), 'group');
+            }
+        }
+        // make virtual groups clickable to list their members
+        else if ($group_prop['virtual']) {
+            $row_id = 'G'.$group['ID'];
+            $OUTPUT->command('add_contact_row', $row_id, array(
+                'contactgroup' => html::a(array(
+                    'href' => '#list',
+                    'rel' => $group['ID'],
+                    'title' => $RCMAIL->gettext('listgroup'),
+                    'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)",
+                                    rcmail_output::JS_OBJECT_NAME, $source_id, $group['ID']),
+                ), rcube::Q($group['name']) . '&nbsp;' . html::span('action', '&raquo;'))),
+                'group',
+                array('ID' => $group['ID'], 'name' => $group['name'], 'virtual' => true));
+        }
+        // show group with count
+        else if (($result = $abook->count()) && $result->count) {
+            $row_id = 'E'.$group['ID'];
+            $jsresult[$row_id] = $group['name'];
+            $OUTPUT->command('add_contact_row', $row_id, array(
+                'contactgroup' => rcube::Q($group['name'] . ' (' . intval($result->count) . ')')), 'group');
+        }
+    }
+
+    $abook->reset();
+    $abook->set_group(0);
+
+    return $jsresult;
 }
