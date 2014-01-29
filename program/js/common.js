@@ -65,6 +65,7 @@ function roundcube_browser()
     this.iphone = this.safari && (this.agent_lc.indexOf('iphone') > 0 || this.agent_lc.indexOf('ipod') > 0);
     this.ipad = this.safari && this.agent_lc.indexOf('ipad') > 0;
     this.opera = window.opera ? true : false;
+    this.webkit = this.safari || this.chrome;
   }
 
   if (!this.vendver) {

@@ -195,7 +195,12 @@ init_fixed_header: function()
 
     var me = this;
     $(window).resize(function(){ me.resize() });
-    $(window).scroll(function(){ me.fixed_header.css({ 'marginLeft': (-$(window).scrollLeft()) + 'px' }) });
+    $(window).scroll(function(){
+      var w = $(window);
+      me.fixed_header.css('marginLeft', (-w.scrollLeft()) + 'px');
+      if (!bw.webkit)
+        me.fixed_header.css('marginTop', (-w.scrollTop()) + 'px');
+    });
   }
   else {
     $(this.fixed_header).find('thead').replaceWith(clone);
