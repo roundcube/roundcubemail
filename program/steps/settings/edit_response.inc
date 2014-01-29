@@ -35,7 +35,7 @@ if (($key = rcube_utils::get_input_value('_key', rcube_utils::INPUT_GPC))) {
 // save response
 if ($RCMAIL->action == 'save-response' && isset($_POST['_name']) && !$RESPONSE_RECORD['static']) {
     $name = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST));
-    $text = trim(rcube_utils::get_input_value('_text', rcube_utils::INPUT_POST));
+    $text = trim(rcube_utils::get_input_value('_text', rcube_utils::INPUT_POST, true));
 
     if (!empty($name) && !empty($text)) {
         $dupes = 0;

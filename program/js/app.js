@@ -3396,7 +3396,7 @@ function rcube_webmail()
     if ($("input[name='_is_html']").val() == '1') {
       var editor = tinyMCE.get(this.env.composebody);
       editor.getWin().focus(); // correct focus in IE & Chrome
-      editor.selection.setContent(insert, { format:'text' });
+      editor.selection.setContent(this.quote_html(insert).replace(/\r?\n/g, '<br/>'), { format:'text' });
     }
     // replace selection in compose textarea
     else {
