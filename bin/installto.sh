@@ -71,7 +71,7 @@ if (strtolower($input) == 'y') {
 
   if (!$err) {
     echo "Running update script at target...\n";
-    system("cd $target_dir && bin/update.sh --version=$oldversion");
+    system("cd $target_dir && php bin/update.sh --version=$oldversion");
     echo "All done.\n";
   }
 }
