@@ -1434,11 +1434,31 @@ function rcube_webmail()
 
   this.drag_end = function(e)
   {
-    this.drag_active = false;
-    this.env.last_folder_target = null;
+    var list, model;
 
     if (this.treelist)
       this.treelist.drag_end();
+
+    // execute drag & drop action when mouse was released
+    if (list = this.message_list)
+      model = this.env.mailboxes;
+    else if (list = this.contact_list)
+      model = this.env.contactfolders;
+
+    if (this.drag_active && model && this.env.last_folder_target) {
+      var target = model[this.env.last_folder_target];
+      list.draglayer.hide();
+
+      if (this.contact_list) {
+        if (!this.contacts_drag_menu(e, target))
+          this.command('move', target);
+      }
+      else if (!this.drag_menu(e, target))
+        this.command('move', target);
+    }
+
+    this.drag_active = false;
+    this.env.last_folder_target = null;
   };
 
   this.drag_move = function(e)
@@ -1499,37 +1519,15 @@ function rcube_webmail()
 
   this.doc_mouse_up = function(e)
   {
-    var model, list, id;
+    var list, id;
 
     // ignore event if jquery UI dialog is open
     if ($(rcube_event.get_target(e)).closest('.ui-dialog, .ui-widget-overlay').length)
       return;
 
-    if (list = this.message_list)
-      model = this.env.mailboxes;
-    else if (list = this.contact_list)
-      model = this.env.contactfolders;
-    else if (this.ksearch_value)
-      this.ksearch_blur();
-
+    list = this.message_list || this.contact_list;
     if (list && !rcube_mouse_is_over(e, list.list.parentNode))
       list.blur();
-
-    // handle mouse release when dragging
-    if (this.drag_active && model && this.env.last_folder_target) {
-      var target = model[this.env.last_folder_target];
-
-      this.env.last_folder_target = null;
-      list.draglayer.hide();
-      this.drag_end(e);
-
-      if (this.contact_list) {
-        if (!this.contacts_drag_menu(e, target))
-          this.command('move', target);
-      }
-      else if (!this.drag_menu(e, target))
-        this.command('move', target);
-    }
 
     // reset 'pressed' buttons
     if (this.buttons_sel) {
