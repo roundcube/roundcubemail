@@ -49,6 +49,8 @@ return array(
   'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   'xps' => 'application/vnd.ms-xpsdocument',
   'rar' => 'application/x-rar-compressed',
+  '7z'  => 'application/x-7z-compressed',
+  's7z' => 'application/x-7z-compressed',
   'vcf' => 'text/vcard',
   'ics' => 'text/calendar',
 );
