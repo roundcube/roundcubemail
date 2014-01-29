@@ -195,6 +195,7 @@ init_fixed_header: function()
 
     var me = this;
     $(window).resize(function(){ me.resize() });
+    $(window).scroll(function(){ me.fixed_header.css({ 'marginLeft': (-$(window).scrollLeft()) + 'px' }) });
   }
   else {
     $(this.fixed_header).find('thead').replaceWith(clone);
@@ -221,6 +222,8 @@ resize: function()
     $(this.thead).find('tr td').each(function(index) {
       $(this).css('width', column_widths[index]);
     });
+
+    $(window).scroll();
 },
 
 /**
