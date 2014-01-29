@@ -38,6 +38,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0px;
+	overflow: visible; /* fixes display issues of fixed list header in IE */
 }
 
 #mailview-bottom {
