@@ -5,7 +5,7 @@
  | program/localization/index.inc                                        |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -26,7 +26,8 @@
 
 $rcube_languages = array(
   'sq_AL' => 'Albanian (Shqip)',
-  'ar_SA' => 'Arabic (العربية)',
+  'ar'    => 'Arabic (العربية)',
+  'ar_SA' => 'Arabic (Saudi Arabia)',
   'hy_AM' => 'Armenian (Հայերեն)',
   'ast'	  => 'Asturiana (Asturianu)',
   'az_AZ' => 'Azerbaijani (Azərbaycanca)',
@@ -109,7 +110,6 @@ $rcube_languages = array(
 
 $rcube_language_aliases = array(
   'am' => 'hy_AM',
-  'ar' => 'ar_SA',
   'az' => 'az_AZ',
   'bg' => 'bg_BG',
   'bs' => 'bs_BA',
