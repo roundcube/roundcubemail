@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,8 @@ $messages['invalidrequest'] = 'Ongeldige aanvraag! Er zijn geen gegevens opgesla
 $messages['invalidhost'] = 'Ongeldige servernaam.';
 $messages['nomessagesfound'] = 'Geen berichten gevonden in deze mailbox.';
 $messages['loggedout'] = 'Succesvol uitgelogd. Tot ziens!';
-$messages['mailboxempty'] = 'Mailbox is leeg.';
+$messages['mailboxempty'] = 'Mailbox is leeg';
+$messages['nomessages'] = 'Geen berichten';
 $messages['refreshing'] = 'Vernieuwen...';
 $messages['loading'] = 'Laden...';
 $messages['uploading'] = 'Bestand wordt geüpload...';

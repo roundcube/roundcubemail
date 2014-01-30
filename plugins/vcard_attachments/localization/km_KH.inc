@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-$labels['addvcardmsg'] = 'បន្ថែម vCard ទៅសៀវភៅកត់ត្រា';
-$labels['vcardsavefailed'] = 'មិនអាចរក្សាទុក vCard';
+$labels['addvcardmsg'] = 'បន្ថែម vCard ទៅ​សៀវភៅ​អាសយដ្ឋាន';
+$labels['vcardsavefailed'] = 'មិន​អាច​រក្សាទុក vCard';
 ?>

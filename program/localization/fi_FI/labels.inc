@@ -52,6 +52,7 @@ $labels['fromtoshort'] = '$from - $to (yhteensä $count)';
 $labels['copy']     = 'Kopioi';
 $labels['move']     = 'Siirrä';
 $labels['moveto']   = 'siirrä kansioon...';
+$labels['copyto']   = 'Kopioi...';
 $labels['download'] = 'lataa';
 $labels['open']     = 'Avaa';
 $labels['showattachment'] = 'Näytä';

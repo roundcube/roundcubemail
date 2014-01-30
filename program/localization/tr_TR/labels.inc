@@ -52,6 +52,7 @@ $labels['fromtoshort'] = '$from - $to , Toplam: $count';
 $labels['copy']     = 'Kopyala';
 $labels['move']     = 'Taşı';
 $labels['moveto']   = 'Şuraya taşı...';
+$labels['copyto']   = 'Şuraya kopyala...';
 $labels['download'] = 'İndir';
 $labels['open']     = 'Aç';
 $labels['showattachment'] = 'Göster';

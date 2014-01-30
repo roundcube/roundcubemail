@@ -52,6 +52,7 @@ $labels['fromtoshort'] = '$from – $to od ukupno $count';
 $labels['copy']     = 'Kopiraj';
 $labels['move']     = 'Premjesti';
 $labels['moveto']   = 'Premjesti u...';
+$labels['copyto']   = 'Kopiraj u...';
 $labels['download'] = 'Preuzmi';
 $labels['open']     = 'Otvori';
 $labels['showattachment'] = 'Prikaži';

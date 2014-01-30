@@ -22,7 +22,10 @@ $labels['archivedreload'] = 'Архівацію успішно завершен�
 $labels['archiveerror'] = 'Деякі повідомлення неможуть бути зархівованими';
 $labels['archivefolder'] = 'Архів';
 $labels['settingstitle'] = 'Архів';
+$labels['archivetype'] = 'Розділіть архів по';
 $labels['archivetypeyear'] = 'Рік (наприклад Архів/2012)';
 $labels['archivetypemonth'] = 'Місяць (наприклад Архів/2012/06)';
+$labels['archivetypefolder'] = 'Оригінальний каталог';
+$labels['archivetypesender'] = 'Відправник email';
 $labels['unkownsender'] = 'невідомо';
 ?>

@@ -24,4 +24,5 @@ $labels['body'] = 'Mezu berria jaso duzu';
 $labels['testbody'] = 'Hau jakinarazpen proba bat da';
 $labels['desktopdisabled'] = 'Sistemaren jakinarazpenak ezgaituak daude zure nabigatzailean';
 $labels['desktopunsupported'] = 'Zure nabigatzaileak ez ditu sistemaren jakinarazpenak onartzen.';
+$labels['desktoptimeout'] = 'Itxi mahaigaineko jakinarazpena';
 ?>

@@ -52,6 +52,7 @@ $labels['fromtoshort'] = '$from – $to di $count';
 $labels['copy']     = 'Copia';
 $labels['move']     = 'Sposta';
 $labels['moveto']   = 'Sposta in...';
+$labels['copyto']   = 'Copia su...';
 $labels['download'] = 'Download';
 $labels['open']     = 'Apri';
 $labels['showattachment'] = 'Visualizza';

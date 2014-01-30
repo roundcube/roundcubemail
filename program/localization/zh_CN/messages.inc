@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,6 @@ $messages['invalidrequest'] = '请求无效！未保存数据。';
 $messages['invalidhost'] = '无效的主机名。';
 $messages['nomessagesfound'] = '此邮件夹内无邮件。';
 $messages['loggedout'] = '您已成功注销，再见！';
-$messages['mailboxempty'] = '邮件夹为空。';
 $messages['refreshing'] = '正在刷新...';
 $messages['loading'] = '正在载入...';
 $messages['uploading'] = '正在上传文件...';
@@ -44,6 +43,8 @@ $messages['messagesent'] = '邮件已发送。';
 $messages['savingmessage'] = '正在保存邮件...';
 $messages['messagesaved'] = '邮件已暂存至草稿箱。';
 $messages['successfullysaved'] = '保存成功。';
+$messages['savingresponse'] = '正在保存响应文本...';
+$messages['deleteresponseconfirm'] = '是否确认删除响应文本?';
 $messages['addedsuccessfully'] = '联系人已添加。';
 $messages['contactexists'] = '当前联系人的电子邮件地址已存在。';
 $messages['contactnameexists'] = '已存在同名联系人。';
@@ -54,6 +55,8 @@ $messages['contactnotfound'] = '未找到指定的联系人。';
 $messages['contactsearchonly'] = '请输入联系人的搜索条件';
 $messages['sendingfailed'] = '发送失败。';
 $messages['senttooquickly'] = '您需要等待$sec秒才能发送邮件。';
+$messages['errorsavingsent'] = '保存已发送邮件时发生错误。';
+$messages['errorsaving'] = '保存时发生错误。';
 $messages['errormoving'] = '无法移动邮件。';
 $messages['errorcopying'] = '无法复制邮件。';
 $messages['errordeleting'] = '无法删除邮件。';
@@ -78,6 +81,7 @@ $messages['norecipientwarning'] = '至少输入一个收件人。';
 $messages['nosubjectwarning']  = '主题为空。您要输入一个主题吗？';
 $messages['nobodywarning'] = '要发送没有正文的邮件吗？';
 $messages['notsentwarning'] = '邮件未发送。您确定要离开并舍弃当前邮件吗？';
+$messages['restoresavedcomposedata'] = '您有一封邮件尚未发送.\n\nSubject: $subject\nSaved: $date\n\n您是否要恢复这封邮件？';
 $messages['noldapserver'] = '请选择一个用来查找的 LDAP 服务器。';
 $messages['nosearchname'] = '请输入联系人姓名或电子邮件地址。';
 $messages['notuploadedwarning'] = '附件尚未全部上传，请耐心等待或者取消上传。';
@@ -140,6 +144,7 @@ $messages['smtperror'] = 'SMTP 错误: $msg';
 $messages['emailformaterror'] = '无效的邮件地址：$email';
 $messages['toomanyrecipients'] = '收件人太多，请减少人数至 $max。';
 $messages['maxgroupmembersreached'] = '组员数量超过最大值 $max。';
+$messages['internalerror'] = '遇到一个内部错误，请重试。';
 $messages['contactdelerror'] = '无法删除联系人。';
 $messages['contactdeleted'] = '删除联系人成功。';
 $messages['contactrestoreerror'] = '无法恢复已删除的联系人。';

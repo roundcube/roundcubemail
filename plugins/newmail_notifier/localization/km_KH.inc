@@ -15,9 +15,14 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-$labels['sound'] = 'បន្លឹសម្កេងពេលមានសារថ្មី';
+$labels['basic'] = 'បង្ហាញ​ការ​ជូនដំណឹង​កម្មវិធី​អ៊ីនធឺណិត​ពេល​មាន​សារ​ថ្មី';
+$labels['desktop'] = 'បង្ហាញ​ការ​ជូនដំណឹង​ផ្ទៃតុ​ពេល​មាន​សារ​ថ្មី';
+$labels['sound'] = 'បន្លឺ​សំឡេង​ពេល​មាន​សារ​ថ្មី';
 $labels['test'] = 'សាកល្បង';
-$labels['title'] = 'មានសារថ្មី';
-$labels['body'] = 'អ្នកបានទទួលសារថ្មី';
-$labels['testbody'] = 'នេះជាការសាក្បងដំណឹង';
+$labels['title'] = 'មាន​សារ​ថ្មី!';
+$labels['body'] = 'អ្នក​បាន​ទទួល​សារ​ថ្មី';
+$labels['testbody'] = 'នេះ​ជា​ការ​ជូនដំណឹង​សាកល្បង។';
+$labels['desktopdisabled'] = 'ការ​ជូនដំណឹង​ផ្ទៃតុ​ត្រូវ​បាន​បិទ​នៅ​ក្នុង​កម្មវិធី​អ៊ីនធឺណិត​របស់​អ្នក។';
+$labels['desktopunsupported'] = 'កម្មវិធី​អ៊ីនធឺណិត​របស់​អ្នក​មិន​គាំទ្រ​ការ​ជូនដំណឹង​ផ្ទៃតុ។';
+$labels['desktoptimeout'] = 'បិទ​ការ​ជូនដំណឹង​ផ្ទៃតុ';
 ?>

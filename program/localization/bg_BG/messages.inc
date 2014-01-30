@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -30,9 +30,10 @@ $messages['erroroverquota'] = 'Невъзможно извършване на о
 $messages['erroroverquotadelete'] = 'Няма достатъчно свободно дисково пространство. Ползвайте Shift+Del за да изтриете писма.';
 $messages['invalidrequest'] = 'Невалидна заявка! Данните не са съхранени.';
 $messages['invalidhost'] = 'Невалидно име на сървър.';
-$messages['nomessagesfound'] = 'Няма писма.';
+$messages['nomessagesfound'] = 'Няма писма в тази пощенска кутия.';
 $messages['loggedout'] = 'Сесията е прекратена успешно. Довиждане до следващия път!';
-$messages['mailboxempty'] = 'Пощенската кутия е празна.';
+$messages['mailboxempty'] = 'Пощенската кутия е празна';
+$messages['nomessages'] = 'Няма писма';
 $messages['refreshing'] = 'Обновяване...';
 $messages['loading'] = 'Зареждане...';
 $messages['uploading'] = 'Качване на файл...';

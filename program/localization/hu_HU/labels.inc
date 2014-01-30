@@ -52,6 +52,7 @@ $labels['fromtoshort'] = '$from – $to / $count';
 $labels['copy']     = 'Másolás';
 $labels['move']     = 'Áthelyezés';
 $labels['moveto']   = 'Áthelyezés...';
+$labels['copyto']   = 'Másold oda..';
 $labels['download'] = 'letöltés';
 $labels['open']     = 'Megnyítás';
 $labels['showattachment'] = 'Megjelenítés';

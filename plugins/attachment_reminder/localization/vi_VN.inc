@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-$messages['forgotattachment'] = "";
-$messages['reminderoption'] = "";
-$messages['keywords'] = "";
+$messages['forgotattachment'] = "Bạn đã quên không đính kèm tệp tin?";
+$messages['reminderoption'] = "Nhắc về tệp tin đính kèm bị quên";
+$messages['keywords'] = "tệp đính kèm,tệp tin,đính kèm,đã đính kèm,đang đính kèm tập tin,đính kèm,CV,thư mở đầu";

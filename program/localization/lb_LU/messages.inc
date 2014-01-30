@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,8 @@ $messages['invalidrequest'] = 'Ongëlteg Ufro! Et goufe keng Date gespäichert.'
 $messages['invalidhost'] = 'Ongëltege Server-Numm.';
 $messages['nomessagesfound'] = 'Keng Messagen an der Mailbox fonnt.';
 $messages['loggedout'] = 'Du hues dech erfollegräich ofgemellt. Äddi!';
-$messages['mailboxempty'] = 'D\'Mailbox ass eidel.';
+$messages['mailboxempty'] = 'D\'Mailbox ass eidel';
+$messages['nomessages'] = 'Keng Messagen';
 $messages['refreshing'] = 'Lueden nei...';
 $messages['loading'] = 'Lueden...';
 $messages['uploading'] = 'Fichier gëtt eropgelueden...';
@@ -82,6 +83,7 @@ $messages['norecipientwarning'] = 'Gëff w.e.gl op mannst een Empfänger an.';
 $messages['nosubjectwarning']  = 'D\'Feld "Sujet" ass eidel. Wëlls du elo eent uginn?';
 $messages['nobodywarning'] = 'Soll dëse Message ouni Text verschéckt ginn?';
 $messages['notsentwarning'] = 'De Message gouf net verschéckt. Wëlls du e verwerfen?';
+$messages['restoresavedcomposedata'] = 'Et gouf e Message fonnt dee scho geschriwwen awer nach net verschéckt ginn ass.\n\nSujet: $subject\nGespäichert: $date\n\nSoll de Message recuperéiert ginn?';
 $messages['noldapserver'] = 'Wiel w.e.gl en LDAP-Server fir d\'Sich aus.';
 $messages['nosearchname'] = 'Gëff w.e.gl en Numm oder eng E-Mail-Adress fir de Kontakt an.';
 $messages['notuploadedwarning'] = 'Net all d\'Unhäng goufen eropgelueden. Waart w.e.gl e Moment oder briech den Upload of.';

@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,6 @@ $messages['invalidrequest'] = '要求無效！未儲存任何資料。';
 $messages['invalidhost'] = '無效的伺服器名稱';
 $messages['nomessagesfound'] = '此郵件匣沒有任何郵件';
 $messages['loggedout'] = '你已成功地登出並結束工作階段了。再見！';
-$messages['mailboxempty'] = '郵件匣是空的';
 $messages['refreshing'] = '重新整理中...';
 $messages['loading'] = '載入中...';
 $messages['uploading'] = '上傳檔案中...';
@@ -44,6 +43,8 @@ $messages['messagesent'] = '郵件寄出成功';
 $messages['savingmessage'] = '儲存郵件中...';
 $messages['messagesaved'] = '郵件已經儲存至草稿匣';
 $messages['successfullysaved'] = '儲存成功';
+$messages['savingresponse'] = '儲存預設回應中...';
+$messages['deleteresponseconfirm'] = '你確定要刪除這個預設回應嗎？';
 $messages['addedsuccessfully'] = '聯絡人已經成功地新增至通訊錄';
 $messages['contactexists'] = '此聯絡人的電子郵件位址已存在';
 $messages['contactnameexists'] = '已存在相同名稱的連絡人';
@@ -54,6 +55,8 @@ $messages['contactnotfound'] = '找不到要求的聯絡人';
 $messages['contactsearchonly'] = '輸入關鍵字找尋連絡人';
 $messages['sendingfailed'] = '郵件寄出失敗';
 $messages['senttooquickly'] = '你寄出的郵件太過於頻繁，請稍候 $sec 秒後再試一次。';
+$messages['errorsavingsent'] = '儲存郵件到寄件備份時發生錯誤。';
+$messages['errorsaving'] = '儲存時發生錯誤。';
 $messages['errormoving'] = '無法移動此郵件';
 $messages['errorcopying'] = '無法訊息';
 $messages['errordeleting'] = '無法刪除此郵件';
@@ -78,6 +81,7 @@ $messages['norecipientwarning'] = '請輸入至少一位收信者';
 $messages['nosubjectwarning']  = '「主旨」欄是空的。你要輸入一個主旨嗎？';
 $messages['nobodywarning'] = '要傳送沒有內文的郵件嗎？';
 $messages['notsentwarning'] = '郵件尚未寄出。你確定要離開並且捨棄此郵件？';
+$messages['restoresavedcomposedata'] = '發現一封上次編寫但尚未寄出的郵件。\n\n主旨: $subject\n日期: $date\n\n你要回復這封郵件嗎？';
 $messages['noldapserver'] = '請選擇一個 LDAP 伺服器進行搜尋';
 $messages['nosearchname'] = '請輸入一個聯絡人姓名或電子郵件位址';
 $messages['notuploadedwarning'] = '尚有附加檔案未上傳完畢，請等待或取消上傳';
@@ -95,8 +99,8 @@ $messages['folderexpunged'] = '資料夾成功壓縮';
 $messages['deletedsuccessfully'] = '刪除成功';
 $messages['converting'] = '移除郵件格式中...';
 $messages['messageopenerror'] = '無法從伺服器載入郵件';
-$messages['fileuploaderror'] = '檔案上傳失敗';
-$messages['filesizeerror'] = '上傳的檔案超過了 $size 的大小限制';
+$messages['fileuploaderror'] = '檔案上傳失敗。';
+$messages['filesizeerror'] = '上傳的檔案超過了 $size 的大小限制。';
 $messages['copysuccess'] = '成功複製 $nr 個聯絡人。';
 $messages['movesuccess'] = '成功移動 $nr 個聯絡人。';
 $messages['copyerror'] = '無法複製任何聯絡人。';
@@ -116,17 +120,17 @@ $messages['errorsendingreceipt'] = '無法傳送回條';
 $messages['deleteidentityconfirm'] = '您確定要刪除這位連絡人嗎?';
 $messages['nodeletelastidentity'] = '你不能刪除此身份，因為只剩一個身份。';
 $messages['forbiddencharacter'] = '資料夾名稱中包含非法的字元';
-$messages['selectimportfile'] = '請選擇一個上傳的檔案';
+$messages['selectimportfile'] = '請選擇一個要上傳的檔案。';
 $messages['addresswriterror'] = '無法寫入選擇的通訊錄';
 $messages['contactaddedtogroup'] = '成功把聯絡人加入此群組';
 $messages['contactremovedfromgroup'] = '成功把移除此群組中的聯絡人';
 $messages['nogroupassignmentschanged'] = '群組資料沒有異動';
 $messages['importwait'] = '匯入中，請稍候...';
-$messages['importformaterror'] = '匯入失敗！上載的檔案格式不支援';
+$messages['importformaterror'] = '匯入失敗！不支援上載的檔案格式。';
 $messages['importconfirm'] = '<b>成功匯入 $inserted 筆資料，略過 $skipped 筆已存在的資料</b>：<p><em>$names</em></p>';
 $messages['importconfirmskipped'] = '<b>略過 $skipped 個已存在的項目</b>';
 $messages['importmessagesuccess'] = '成功匯入 $nr 封郵件';
-$messages['importmessageerror'] = '匯入失敗！上載的檔案不是有效的郵件或資料夾檔案';
+$messages['importmessageerror'] = '匯入失敗！上載的檔案不是有效的郵件或資料夾檔案。';
 $messages['opnotpermitted'] = '不允許的操作';
 $messages['nofromaddress'] = '在選擇的身分中遺失了電子郵件位址';
 $messages['editorwarning'] = '切換到純文字編輯模式將會遺失所有設定的樣式。您確定要繼續嗎？';
@@ -140,6 +144,7 @@ $messages['smtperror'] = 'SMTP 錯誤：$msg';
 $messages['emailformaterror'] = '錯誤電子郵件：$email';
 $messages['toomanyrecipients'] = '太多收件人。請減少至 $max 人';
 $messages['maxgroupmembersreached'] = '太多群組成員，超過最大人數 $max 人';
+$messages['internalerror'] = '發生內部錯誤。請再次嘗試。';
 $messages['contactdelerror'] = '無法刪除聯絡人';
 $messages['contactdeleted'] = '聯絡人成功刪除';
 $messages['contactrestoreerror'] = '無法復原刪除的連絡人';

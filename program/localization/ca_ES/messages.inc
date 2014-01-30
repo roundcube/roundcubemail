@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,8 @@ $messages['invalidrequest'] = 'Petició no vàlida! No s\'han desat les dades.';
 $messages['invalidhost'] = 'Nom de servidor no vàlid.';
 $messages['nomessagesfound'] = 'No s\'han trobat missatges en aquesta bústia.';
 $messages['loggedout'] = 'Heu tancat la sessió correctament. A reveure!';
-$messages['mailboxempty'] = 'La bústia és buida.';
+$messages['mailboxempty'] = 'La bústia és buida';
+$messages['nomessages'] = 'No hi ha missatges';
 $messages['refreshing'] = 'S\'està actualitzant...';
 $messages['loading'] = 'S\'està carregant…';
 $messages['uploading'] = 'S\'està pujant el fitxer...';

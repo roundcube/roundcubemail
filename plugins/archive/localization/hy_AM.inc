@@ -18,5 +18,14 @@
 $labels['buttontext'] = 'Արխիվ';
 $labels['buttontitle'] = 'Արխիվացնել այս հաղորդագրությունը';
 $labels['archived'] = 'Բարեհաջող արխիվացվեց';
+$labels['archivedreload'] = 'Բարեհաջող արխիվացվեց: Վերբեռնեք էջը նոր արխիվացված պանակները տեսնելու համար:';
+$labels['archiveerror'] = 'Որոշ հաղորդագրություններ հնարավոր չէ արխիվացնել';
 $labels['archivefolder'] = 'Արխիվ';
+$labels['settingstitle'] = 'Արխիվ';
+$labels['archivetype'] = 'Բաժանել արխիվը';
+$labels['archivetypeyear'] = 'Տարեթիվ (օր.՝ Արխիվ/2012)';
+$labels['archivetypemonth'] = 'Ամսաթիվ (օր.՝ Արխիվ/2012/06)';
+$labels['archivetypefolder'] = 'Առաջին պանակը';
+$labels['archivetypesender'] = 'Ուղարկողի էլ-փոստը';
+$labels['unkownsender'] = 'անհայտ';
 ?>

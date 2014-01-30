@@ -24,4 +24,5 @@ $labels['body'] = 'התקבלה הודעה חדשה';
 $labels['testbody'] = 'זה איתות לנסיון';
 $labels['desktopdisabled'] = 'איתותים משולחן העבודה אינם פעילים בדפדפן שלך';
 $labels['desktopunsupported'] = 'הדפדפן שלך אינו תומך באיתותים משולחן העבודה';
+$labels['desktoptimeout'] = 'ביטול איתות משולחן העבודה על הגעת הודעות חדשות';
 ?>

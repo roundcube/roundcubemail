@@ -17,6 +17,15 @@
 */
 $labels['buttontext'] = 'Arhiva';
 $labels['buttontitle'] = 'Arhiviraj poruku';
-$labels['archived'] = 'Uspješno arhivirana';
+$labels['archived'] = 'Uspješno arhivirano';
+$labels['archivedreload'] = 'Uspješno arhivirano. Osvježite stranicu kako biste vidjeli nove arhivske mape.';
+$labels['archiveerror'] = 'Neke poruke nije bilo moguće arhivirati';
 $labels['archivefolder'] = 'Arhiva';
+$labels['settingstitle'] = 'Arhiva';
+$labels['archivetype'] = 'Podijeli arhivu po';
+$labels['archivetypeyear'] = 'Godina (npr. Arhiva/2012)';
+$labels['archivetypemonth'] = 'Mjesec (e.g. Arhiva/2012/06)';
+$labels['archivetypefolder'] = 'Izvorna mapa';
+$labels['archivetypesender'] = 'E-mail adresa pošiljatelja';
+$labels['unkownsender'] = 'nepoznato';
 ?>

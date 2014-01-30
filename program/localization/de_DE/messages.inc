@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,8 @@ $messages['invalidrequest'] = 'Ungültige Anfrage! Es wurden keine Daten gespeic
 $messages['invalidhost'] = 'Ungültiger Server Name';
 $messages['nomessagesfound'] = 'Keine Nachrichten in diesem Ordner.';
 $messages['loggedout'] = 'Sie haben Ihre Sitzung erfolgreich beendet. Auf Wiedersehen!';
-$messages['mailboxempty'] = 'Mailbox ist leer.';
+$messages['mailboxempty'] = 'Mailbox ist leer';
+$messages['nomessages'] = 'Keine Nachrichten';
 $messages['refreshing'] = 'Aktualisieren…';
 $messages['loading'] = 'Wird geladen...';
 $messages['uploading'] = 'Datei wird hochgeladen...';
@@ -44,6 +45,8 @@ $messages['messagesent'] = 'Nachricht erfolgreich gesendet.';
 $messages['savingmessage'] = 'Nachricht wird gespeichert...';
 $messages['messagesaved'] = 'Nachricht als Entwurf gespeichert.';
 $messages['successfullysaved'] = 'Erfolgreich gespeichert.';
+$messages['savingresponse'] = 'Antwortvorlage wird gespeichert...';
+$messages['deleteresponseconfirm'] = 'Möchten Sie diese Vorlage wirklich löschen?';
 $messages['addedsuccessfully'] = 'Kontakt zum Adressbuch hinzugefügt.';
 $messages['contactexists'] = 'Es existiert bereits ein Kontakt mit dieser E-Mail-Adresse.';
 $messages['contactnameexists'] = 'Ein Kontakt mit dem gleichen Namen existiert bereits.';
@@ -54,6 +57,8 @@ $messages['contactnotfound'] = 'Der angeforderte Kontakt wurde nicht gefunden.';
 $messages['contactsearchonly'] = 'Geben Sie einen Suchbegriff ein, um Kontakte zu finden.';
 $messages['sendingfailed'] = 'Versenden der Nachricht fehlgeschlagen.';
 $messages['senttooquickly'] = 'Bitte warten Sie $sec Sekunde(n) vor dem Senden dieser Nachricht.';
+$messages['errorsavingsent'] = 'Ein Fehler ist beim Speichern der gesendeten Nachricht aufgetreten.';
+$messages['errorsaving'] = 'Beim Speichern ist ein Fehler aufgetreten.';
 $messages['errormoving'] = 'Nachricht(en) konnte(n) nicht verschoben werden.';
 $messages['errorcopying'] = 'Nachticht(en) konnte(n) nicht kopiert werden.';
 $messages['errordeleting'] = 'Nachricht(en) konnte(n) nicht gelöscht werden.';
@@ -78,6 +83,7 @@ $messages['norecipientwarning'] = 'Bitte geben Sie mindestens einen Empfänger a
 $messages['nosubjectwarning']  = 'Die Betreffzeile ist leer. Möchten Sie jetzt einen Betreff eingeben?';
 $messages['nobodywarning'] = 'Diese Nachricht ohne Inhalt senden?';
 $messages['notsentwarning'] = 'Ihre Nachricht wurde nicht gesendet. Wollen Sie die Nachricht verwerfen?';
+$messages['restoresavedcomposedata'] = 'Es wurde ein nicht versandter Entwurf einer Nachricht gefunden.\n\nBetreff: $subject\nGespeichert am: $date\n\nMöchten Sie diese Nachricht wiederherstellen?';
 $messages['noldapserver'] = 'Bitte wählen Sie einen LDAP-Server aus.';
 $messages['nosearchname'] = 'Bitte geben Sie einen Namen oder eine E-Mail-Adresse ein.';
 $messages['notuploadedwarning'] = 'Es wurden noch nicht alle Dateien hochgeladen. Bitte warten oder Upload abbrechen.';
@@ -140,6 +146,7 @@ $messages['smtperror'] = 'SMTP Fehler: $msg';
 $messages['emailformaterror'] = 'Ungültige E-Mail-Adresse: $email';
 $messages['toomanyrecipients'] = 'Zuviele Empfänger. Reduzieren Sie die Anzahl Empfängeradressen auf $max.';
 $messages['maxgroupmembersreached'] = 'Die Anzahl Adressen in dieser Gruppe überschreitet das Maximum von $max.';
+$messages['internalerror'] = 'Ein interner Fehler ist aufgetreten. Bitte versuchen es erneut.';
 $messages['contactdelerror'] = 'Fehler beim Löschen.';
 $messages['contactdeleted'] = 'Kontakt(e) erfolgreich gelöscht.';
 $messages['contactrestoreerror'] = 'Konnte die gelöschten Kontakte nicht wiederherstellen.';

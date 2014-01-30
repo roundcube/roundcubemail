@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -33,6 +33,7 @@ $messages['invalidhost'] = 'Άκυρο όνομα εξυπηρετητή.';
 $messages['nomessagesfound'] = 'Δε βρέθηκαν μηνύματα σε αυτή τη θυρίδα';
 $messages['loggedout'] = 'Έχετε τερματίσει επιτυχώς τη συνεδρία. Αντίο!';
 $messages['mailboxempty'] = 'Η θυρίδα είναι άδεια';
+$messages['nomessages'] = 'Κανένα μήνυμα';
 $messages['refreshing'] = 'Ανανέωση....';
 $messages['loading'] = 'Φόρτωση...';
 $messages['uploading'] = 'Το αρχείο φορτώνεται...';

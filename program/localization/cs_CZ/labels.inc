@@ -52,6 +52,7 @@ $labels['fromtoshort'] = '$from - $to z $count';
 $labels['copy']     = 'Kopírovat';
 $labels['move']     = 'Přesunout';
 $labels['moveto']   = 'přesunout do...';
+$labels['copyto']   = 'Kopírovat do...';
 $labels['download'] = 'stáhnout';
 $labels['open']     = 'Otevřít';
 $labels['showattachment'] = 'Zobrazit';

@@ -52,6 +52,7 @@ $labels['fromtoshort'] = '$count通の$from通目から$to通目';
 $labels['copy']     = 'コピー';
 $labels['move']     = '移動';
 $labels['moveto']   = 'フォルダーに移動';
+$labels['copyto']   = 'コピー...';
 $labels['download'] = 'ダウンロード';
 $labels['open']     = '開く';
 $labels['showattachment'] = '表示';

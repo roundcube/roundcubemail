@@ -52,6 +52,7 @@ $labels['fromtoshort'] = '$from – $to van $count';
 $labels['copy']     = 'Kopiëren';
 $labels['move']     = 'Verplaats';
 $labels['moveto']   = 'Verplaats naar...';
+$labels['copyto']   = 'Kopiëren naar...';
 $labels['download'] = 'Download';
 $labels['open']     = 'Openen';
 $labels['showattachment'] = 'Toon';

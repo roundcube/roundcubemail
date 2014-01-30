@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,8 @@ $messages['invalidrequest'] = 'Virheellinen pyyntö! Tietoa ei tallennettu.';
 $messages['invalidhost'] = 'Virheellinen palvelinnimi.';
 $messages['nomessagesfound'] = 'Kansiossa ei ole sähköpostiviestejä';
 $messages['loggedout'] = 'Sinut on kirjattu ulos järjestelmästä.';
-$messages['mailboxempty'] = 'Kansio on tyhjä';
+$messages['mailboxempty'] = 'Postilaatikko on tyhjä';
+$messages['nomessages'] = 'Ei viestejä';
 $messages['refreshing'] = 'Päivitetään...';
 $messages['loading'] = 'Ladataan...';
 $messages['uploading'] = 'Ladataan tiedostoa palvelimelle...';

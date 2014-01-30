@@ -81,6 +81,7 @@ $messages['saving'] = 'Saving access rights...';
 $messages['updatesuccess'] = 'Successfully changed access rights';
 $messages['deletesuccess'] = 'Successfully deleted access rights';
 $messages['createsuccess'] = 'Successfully added access rights';
+$messages['updateerror'] = 'Unable to update access rights';
 $messages['deleteerror'] = 'Unable to delete access rights';
 $messages['createerror'] = 'Unable to add access rights';
 $messages['deleteconfirm'] = 'Are you sure, you want to remove access rights of selected user(s)?';

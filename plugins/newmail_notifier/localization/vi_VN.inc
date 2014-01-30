@@ -15,13 +15,14 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-$labels['basic'] = 'Hiển thị thông báo trên trình duyệt là có thư mới';
-$labels['desktop'] = 'Hiển thị thông báo trên màn hình là có thư mới';
-$labels['sound'] = 'Mở tính năng âm thanh trên thư mới';
+$labels['basic'] = 'Hiển thị thông báo trên trình duyệt khi có thư mới';
+$labels['desktop'] = 'Hiển thị thông báo trên màn hình khi có thư mới';
+$labels['sound'] = 'Thông báo bằng âm thanh khi có thư mới';
 $labels['test'] = 'Kiểm tra';
 $labels['title'] = 'Có thư mới!';
 $labels['body'] = 'Bạn vừa nhận một thư mới';
 $labels['testbody'] = 'Đây là thông báo kiểm tra';
-$labels['desktopdisabled'] = 'Thông báo máy tính bị tắt trên trình duyệt của bạn';
-$labels['desktopunsupported'] = 'Trình duyệt của bạn không hỗ trợ thông báo trên máy tính';
+$labels['desktopdisabled'] = 'Thông báo trên màn hình bị tắt ở trình duyệt của bạn';
+$labels['desktopunsupported'] = 'Trình duyệt của bạn không hỗ trợ thông báo trên màn hình.';
+$labels['desktoptimeout'] = 'Đóng hiển thị màn hình';
 ?>

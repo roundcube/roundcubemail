@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
+ | plugins/markasjunk/localization/<lang>.inc                            |
  |                                                                       |
- | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Localization file of the Roundcube Webmail Mark-As-Junk plugin        |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,6 +13,9 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
+$labels['buttontext'] = 'Møsn';
+$labels['buttontitle'] = 'Merk sum møsn';
+$labels['reportedasjunk'] = 'Melda sum møsn.';
 ?>

@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,6 @@ $messages['invalidrequest'] = 'Невірний запит! Дані не збе
 $messages['invalidhost'] = 'Невірне ім\'я серверу.';
 $messages['nomessagesfound'] = 'Листів не знайдено';
 $messages['loggedout'] = 'Вашу сесію завершено. Всього найкращого!';
-$messages['mailboxempty'] = 'Поштова скринька порожня';
 $messages['refreshing'] = 'Оновлення...';
 $messages['loading'] = 'Завантаження...';
 $messages['uploading'] = 'Файл відправляється...';
@@ -44,6 +43,8 @@ $messages['messagesent'] = 'Лист успішно відправлено';
 $messages['savingmessage'] = 'Збереження листа...';
 $messages['messagesaved'] = 'Збережено в Чернетках';
 $messages['successfullysaved'] = 'Збережено';
+$messages['savingresponse'] = 'Збереження тексту відповіді...';
+$messages['deleteresponseconfirm'] = 'Справді бажаєте видалити цей текст відповіді?';
 $messages['addedsuccessfully'] = 'Контакт успішно доданий до списку контактів';
 $messages['contactexists'] = 'Контакт з такою електронною адресою вже існує';
 $messages['contactnameexists'] = 'Контакт з таким самим іменем вже існує.';

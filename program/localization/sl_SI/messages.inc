@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -33,6 +33,7 @@ $messages['invalidhost'] = 'Nepravilno ime strežnika';
 $messages['nomessagesfound'] = 'V poštnem predalu ni sporočil.';
 $messages['loggedout'] = 'Odjava je bila uspešna.';
 $messages['mailboxempty'] = 'Poštni predal je prazen.';
+$messages['nomessages'] = 'Ni sporočil';
 $messages['refreshing'] = 'Osvežujem...';
 $messages['loading'] = 'Nalaganje...';
 $messages['uploading'] = 'Prenos dokumenta na strežnik...';
@@ -82,6 +83,7 @@ $messages['norecipientwarning'] = 'Vnesite vsaj enega prejemnika sporočila';
 $messages['nosubjectwarning']  = 'Polje "Zadeva" je prazno. Želite dodati tekst v to polje?';
 $messages['nobodywarning'] = 'Želite poslati sporočilo brez vsebine?';
 $messages['notsentwarning'] = 'Sporočilo ni bilo poslano. Želite zavreči to sporočilo?';
+$messages['restoresavedcomposedata'] = 'Ali želite nadaljevati z urejanjem še neodposlanega osnutka:\n\nZadeva: $subject\nShranjeno dne: $date\n\n ';
 $messages['noldapserver'] = 'Izberite LDAP strežnik, v katerem želite iskati?';
 $messages['nosearchname'] = 'Vnesite ime ali elektronski naslov stika';
 $messages['notuploadedwarning'] = 'Priponke se še nalagajo na strežnik. Počakajte ali prekinite prenos.';

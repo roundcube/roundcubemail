@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -33,6 +33,7 @@ $messages['invalidhost'] = 'Špatné jméno serveru.';
 $messages['nomessagesfound'] = 'Ve schránce nebyla nalezena žádná zpráva';
 $messages['loggedout'] = 'Byli jste úspěšně odhlášeni. Na shledanou!';
 $messages['mailboxempty'] = 'Schránka je prázdná';
+$messages['nomessages'] = 'Žádné zprávy';
 $messages['refreshing'] = 'Obnovuji...';
 $messages['loading'] = 'Načítám...';
 $messages['uploading'] = 'Nahrávám soubor...';

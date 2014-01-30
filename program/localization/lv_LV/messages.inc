@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,6 @@ $messages['invalidrequest'] = 'Nederīgs pieprasījums! Dati netika saglabāti .
 $messages['invalidhost'] = 'Nederīgs servera nosaukums';
 $messages['nomessagesfound'] = 'Šajā pastkastē nav vēstuļu';
 $messages['loggedout'] = 'Jūs esat veiksmīgi atslēdzies no sistēmas. Uz redzēšanos!';
-$messages['mailboxempty'] = 'Pastkaste ir tukša';
 $messages['refreshing'] = 'Atjauno...';
 $messages['loading'] = 'Notiek ielāde...';
 $messages['uploading'] = 'Augšupielāde failu...';
@@ -82,6 +81,7 @@ $messages['norecipientwarning'] = 'Lūdzu ievadiet vismaz vienu saņēmēju';
 $messages['nosubjectwarning']  = 'Lauks "temats" ir tukšs. Vai vēlaties to aizpildīt tagad?';
 $messages['nobodywarning'] = 'Sūtīt vēstuli bez teksta?';
 $messages['notsentwarning'] = 'Vēstule netika nosūtīta. Vai tiešām vēlaties atcelt vēstules rakstīšanu?';
+$messages['restoresavedcomposedata'] = 'Ir atrasta pirms kāda laika uzrakstīta, bet nenosūtīta vēstule.\n\nTēma: $subject\nSaglabāta:$date\n\nVai atjaunot šo vēstuli?';
 $messages['noldapserver'] = 'Lai meklētu, lūdzu izvēlaties LDAP serveri';
 $messages['nosearchname'] = 'Lūdzu ievadiet kontaktpersonas vārdu vai e-pasta adresi';
 $messages['notuploadedwarning'] = 'Visi pielikumi vēl nav augšupielādēti - lūdzu uzgaidiet vai atceļiet augšupielādi';

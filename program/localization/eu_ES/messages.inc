@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,6 @@ $messages['invalidrequest'] = 'Eskaera ez da baliozkoa! Datuak ez dira gorde.';
 $messages['invalidhost'] = 'Zerbitzari-izena ez da baliozkoa.';
 $messages['nomessagesfound'] = 'Ez da mezurik aurkitu posta kutxa honetan';
 $messages['loggedout'] = 'Saioa behar bezala amaitu duzu. Agur!';
-$messages['mailboxempty'] = 'Posta kutxa hutsik dago';
 $messages['refreshing'] = 'Freskatzen...';
 $messages['loading'] = 'Kargatzen...';
 $messages['uploading'] = 'Fitxategia kargatzen...';
@@ -44,6 +43,8 @@ $messages['messagesent'] = 'Mezua behar bezala bidali da';
 $messages['savingmessage'] = 'Mezua gordetzen...';
 $messages['messagesaved'] = 'Mezua zirriborroetan gordea';
 $messages['successfullysaved'] = 'Behar bezala gorde da';
+$messages['savingresponse'] = 'Erantzun-testua gordetzen...';
+$messages['deleteresponseconfirm'] = 'Seguru zaude erantzun-testu hau  ezabatu nahi duzula?';
 $messages['addedsuccessfully'] = 'Txartela behar bezala gehitu da helbide liburura';
 $messages['contactexists'] = 'ePosta honetako txartel bat badago dagoeneko';
 $messages['contactnameexists'] = 'Lehendik badago izen hori duen kontaktua.';
@@ -54,6 +55,8 @@ $messages['contactnotfound'] = 'Eskatutako txartela ez da aurkitu';
 $messages['contactsearchonly'] = 'Sartu kontaktua aurkitzeko bilaketa daturen bat.';
 $messages['sendingfailed'] = 'Huts mezua bidaltzerakoan';
 $messages['senttooquickly'] = 'Itxaron $sec segundo mezua bidali aurretik, mesedez.';
+$messages['errorsavingsent'] = 'Errore bat gertatu da bidalitako mezua gordetzean.';
+$messages['errorsaving'] = 'Errore bat gertatu da gordetzean.';
 $messages['errormoving'] = 'Ezin da mezua mugitu';
 $messages['errorcopying'] = 'Ezin d(ir)a kopiatu mezua(k).';
 $messages['errordeleting'] = 'Ezin da mezua ezabatu';
@@ -78,6 +81,7 @@ $messages['norecipientwarning'] = 'Mesedez behintzat hartzaile bat idatzi';
 $messages['nosubjectwarning']  = '"Gaia" eremua hutsik dago. Bat idatzi nahi al duzu?';
 $messages['nobodywarning'] = 'Testu gabeko mezu hau bidali?';
 $messages['notsentwarning'] = 'Mezua ez da bidali. Mezua ezeztatu nahi al duzu?';
+$messages['restoresavedcomposedata'] = 'Lehendik idatzitako baina bidali gabeko mezu bat aurkitu da.\n\nGaia:$subject\nGordeta:$date\n\nBerreskuratu nahi duzu mezu hau?';
 $messages['noldapserver'] = 'Mesedez hautatu bilaketa egiteko LDAP zerbitzari bat';
 $messages['nosearchname'] = 'Mesedez idatzi kontaktu izen bat edo eposta helbide bat';
 $messages['notuploadedwarning'] = 'Oraindik ez dira kargatu eranskin guztiak. Itxaron edo ezeztatu karga.';
@@ -140,6 +144,7 @@ $messages['smtperror'] = 'SMTP errorea: $msg';
 $messages['emailformaterror'] = 'Helbide elektronikoa ez da baliozkoa: $email';
 $messages['toomanyrecipients'] = 'Hartzaile gehiegi. Txikitu hartzaile kopura hona $max.';
 $messages['maxgroupmembersreached'] = 'Taldeko partaideen kopurua $max -ko maximoa gainditzen du:';
+$messages['internalerror'] = 'Barne akatsa. Saiatu berriz, mesedez.';
 $messages['contactdelerror'] = 'Ezin d(ir)a kontaktua(k) ezabatu.';
 $messages['contactdeleted'] = 'Kontaktua(k) ongi ezabatu dira.';
 $messages['contactrestoreerror'] = 'Ezin d(ir)a ezabatutako kontaktua(k) leheneratu.';

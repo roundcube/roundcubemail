@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-$labels['identitydialogtitle'] = 'សូមបំពេញអ្តសញ្ញាណអ្នកផ្ញើ';
-$labels['identitydialoghint'] = 'ប្រអប់នេះបង្ហាញតែម្តងទេ ពេលចូលលើកទីមួយ';
+$labels['identitydialogtitle'] = 'សូម​បំពេញ​អត្តសញ្ញាណ​របស់​អ្នក​ផ្ញើ​របស់​អ្នក';
+$labels['identitydialoghint'] = 'ប្រអប់​នេះ​បង្ហាញ​តែ​ម្ដង​នៅ​ពេល​ចូល​​ដំបូង​ប៉ុណ្ណោះ។';
 ?>
