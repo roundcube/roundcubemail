@@ -2,7 +2,7 @@
 
 // Help content iframe source
 // %l will be replaced by the language code resolved using the 'help_language_map' option
-$config['help_source'] = 'http://roundcube.net/doc/help/0.9/%l/';
+$config['help_source'] = 'http://docs.roundcube.net/doc/help/1.0/%l/';
 
 // Map task/action combinations to deep-links
 // Use '<task>/<action>' or only '<task>' strings as keys
