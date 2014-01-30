@@ -23,7 +23,7 @@
  * Helper class for turning URLs and email addresses in plaintext content
  * into clickable links.
  *
- * @package    Core
+ * @package Webmail
  * @subpackage Utils
  */
 class rcmail_string_replacer extends rcube_string_replacer

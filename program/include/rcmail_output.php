@@ -22,7 +22,7 @@
 /**
  * Class for output generation
  *
- * @package    Core
+ * @package Webmail
  * @subpackage View
  */
 abstract class rcmail_output extends rcube_output

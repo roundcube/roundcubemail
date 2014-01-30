@@ -1,7 +1,7 @@
 #!/bin/sh
 
 TITLE="Roundcube Webmail"
-PACKAGES="Core"
+PACKAGES="Webmail"
 
 INSTALL_PATH="`dirname $0`/.."
 PATH_PROJECT=$INSTALL_PATH/program/include
@@ -16,11 +16,9 @@ then
 fi
 
 OUTPUTFORMAT=HTML
-CONVERTER=frames
-TEMPLATE=earthli
-PRIVATE=off
+TEMPLATE=responsive-twig
 
 # make documentation
-$BIN_PHPDOC -d $PATH_PROJECT,$PATH_FRAMEWORK -t $PATH_DOCS -ti "$TITLE" -dn $PACKAGES \
--o $OUTPUTFORMAT:$CONVERTER:$TEMPLATE -pp $PRIVATE
+$BIN_PHPDOC -d $PATH_PROJECT,$PATH_FRAMEWORK -t $PATH_DOCS --title "$TITLE" --defaultpackagename $PACKAGES \
+	--template=$TEMPLATE
 

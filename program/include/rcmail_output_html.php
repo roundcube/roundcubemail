@@ -23,7 +23,7 @@
 /**
  * Class to create HTML page output using a skin template
  *
- * @package    Core
+ * @package Webmail
  * @subpackage View
  */
 class rcmail_output_html extends rcmail_output
