@@ -365,7 +365,7 @@ focus: function(e)
 
   // Un-focus already focused elements (#1487123, #1487316, #1488600, #1488620)
   // It looks that window.focus() does the job for all browsers, but not Firefox (#1489058)
-  $(':focus:not(body)').blur();
+  $('iframe,:focus:not(body)').blur();
   window.focus();
 
   if (e || (e = window.event))
