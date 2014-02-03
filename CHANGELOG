@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.0-rc
+--------------
 - Small CSS fix with message notice boxes in Larry skin (#1489497)
 - Include groups in contacts search on mail compose (#1489082)
 - Add mime-type mapping for .7z files (#1489512)
