@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fixed Opera > 15 detection (#1489562)
+
 RELEASE 1.0-rc
 --------------
 - Small CSS fix with message notice boxes in Larry skin (#1489497)

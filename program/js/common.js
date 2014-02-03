@@ -49,6 +49,7 @@ function roundcube_browser()
   this.dom = document.getElementById ? true : false;
   this.dom2 = document.addEventListener && document.removeEventListener;
 
+  this.webkit = this.agent_lc.indexOf('applewebkit') > 0;
   this.ie = (document.all && !window.opera) || (this.win && this.agent_lc.indexOf('trident/') > 0);
 
   if (this.ie) {
@@ -57,20 +58,22 @@ function roundcube_browser()
     this.ie8 = this.appver.indexOf('MSIE 8') > 0;
     this.ie9 = this.appver.indexOf('MSIE 9') > 0;
   }
+  else if (window.opera) {
+    this.opera = true;
+    this.vendver = opera.version();
+  }
   else {
     this.chrome = this.agent_lc.indexOf('chrome') > 0;
-    this.safari = !this.chrome && (this.agent_lc.indexOf('safari') > 0 || this.agent_lc.indexOf('applewebkit') > 0);
+    this.safari = !this.chrome && (this.webkit || this.agent_lc.indexOf('safari') > 0);
     this.konq = this.agent_lc.indexOf('konqueror') > 0;
     this.mz = this.dom && !this.chrome && !this.safari && !this.konq && this.agent.indexOf('Mozilla') >= 0;
     this.iphone = this.safari && (this.agent_lc.indexOf('iphone') > 0 || this.agent_lc.indexOf('ipod') > 0);
     this.ipad = this.safari && this.agent_lc.indexOf('ipad') > 0;
-    this.opera = window.opera ? true : false;
-    this.webkit = this.safari || this.chrome;
   }
 
   if (!this.vendver) {
     // common version strings
-    this.vendver = /(khtml|chrome|safari|applewebkit|opera|msie)(\s|\/)([0-9\.]+)/.test(this.agent_lc) ? parseFloat(RegExp.$3) : 0;
+    this.vendver = /(opera|opr|khtml|chrome|safari|applewebkit|msie)(\s|\/)([0-9\.]+)/.test(this.agent_lc) ? parseFloat(RegExp.$3) : 0;
 
     // any other (Mozilla, Camino, IE>=11)
     if (!this.vendver)
@@ -117,7 +120,7 @@ function roundcube_browser()
       classname += ' iphone';
     else if (this.ipad)
       classname += ' ipad';
-    else if (this.safari || this.chrome)
+    else if (this.webkit)
       classname += ' webkit';
 
     if (this.mobile)
