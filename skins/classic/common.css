@@ -495,6 +495,7 @@ body.iframe .boxtitle
   border-radius: 3px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
+  box-shadow: 1px 1px 12px #999;
   -moz-box-shadow: 1px 1px 12px #999;
   -webkit-box-shadow: #999 1px 1px 12px;
 }
@@ -764,6 +765,7 @@ ul.treelist li div.expanded
   border-radius: 3px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
+  box-shadow: 1px 1px 12px #999;
   -moz-box-shadow: 1px 1px 12px #999;
   -webkit-box-shadow: #999 1px 1px 12px;
 }
