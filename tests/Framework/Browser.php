@@ -210,6 +210,25 @@ class Framework_Browser extends PHPUnit_Framework_TestCase
                  'canPNGALPHA'  => true,                                                                                            //canPNGALPHA
                  'canIMGDATA'   => false,                                                                                            //canIMGDATA
              ),
+
+            'Opera 15' => array(
+                 'useragent'    => 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36 OPR/15.0.1147.24',
+                 'version'      => '15.0',                                                                                      //Version
+                 'isWin'        => true,                                                                                           //isWindows
+                 'isLinux'      => false,
+                 'isMac'        => false,                                                                                           //isMac
+                 'isUnix'       => false,                                                                                           //isUnix
+                 'isOpera'      => true,                                                                                           //isOpera
+                 'isChrome'     => false,                                                                                           //isChrome
+                 'isIE'         => false,                                                                                           //isIE
+                 'isNS'         => false,                                                                                           //isNS
+                 'isSafari'     => false,                                                                                           //isSafari
+                 'isMZ'         => false,                                                                                           //isMZ
+                 'lang'         => '',                                                                                         //lang
+                 'hasDOM'       => true,                                                                                            //hasDOM
+                 'canPNGALPHA'  => true,                                                                                            //canPNGALPHA
+                 'canIMGDATA'   => true,                                                                                            //canIMGDATA
+             ),
         );
     }
 
