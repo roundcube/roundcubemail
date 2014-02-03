@@ -240,7 +240,7 @@ class rcube_ldap_generic
             $method = 'DIGEST-MD5';
         }
 
-        $this->_debug("C: SASL Bind [mech: $method, authc: $authc, authz: $authz, pass: $pass]");
+        $this->_debug("C: SASL Bind [mech: $method, authc: $authc, authz: $authz, pass: **** [" . strlen($pass) . "]");
 
         if (ldap_sasl_bind($this->conn, NULL, $pass, $method, NULL, $authc, $authz)) {
             $this->_debug("S: OK");
@@ -271,7 +271,7 @@ class rcube_ldap_generic
             return false;
         }
 
-        $this->_debug("C: Bind $dn [pass: $pass]");
+        $this->_debug("C: Bind $dn, pass: **** [" . strlen($pass) . "]");
 
         if (@ldap_bind($this->conn, $dn, $pass)) {
             $this->_debug("S: OK");

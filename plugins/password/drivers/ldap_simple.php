@@ -113,7 +113,7 @@ class rcube_ldap_simple_password
             return PASSWORD_CRYPT_ERROR;
         }
 
-        $this->_debug("C: Bind $binddn [pass: $bindpw]");
+        $this->_debug("C: Bind $binddn, pass: **** [" . strlen($bindpw) . "]");
 
         // Bind
         if (!ldap_bind($ds, $binddn, $bindpw)) {
@@ -175,7 +175,7 @@ class rcube_ldap_simple_password
             return null;
         }
 
-        $this->_debug("C: Bind $search_user [pass: $search_pass]");
+        $this->_debug("C: Bind $search_user, pass: **** [" . strlen($search_pass) . "]");
 
         // Bind
         if (!ldap_bind($ds, $search_user, $search_pass)) {

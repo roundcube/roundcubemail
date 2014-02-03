@@ -29,6 +29,7 @@ class rcube_smtp
     private $conn = null;
     private $response;
     private $error;
+    private $anonymize_log = 0;
 
     // define headers delimiter
     const SMTP_MIME_CRLF = "\r\n";
@@ -111,6 +112,7 @@ class rcube_smtp
 
         if ($rcube->config->get('smtp_debug')) {
             $this->conn->setDebug(true, array($this, 'debug_handler'));
+            $this->anonymize_log = 0;
         }
 
         // register authentication methods
@@ -330,6 +332,15 @@ class rcube_smtp
      */
     public function debug_handler(&$smtp, $message)
     {
+        // catch AUTH commands and set anonymization flag for subsequent sends
+        if (preg_match('/^Send: AUTH ([A-Z]+)/', $message, $m)) {
+            $this->anonymize_log = $m[1] == 'LOGIN' ? 2 : 1;
+        }
+        // anonymize this log entry
+        else if ($this->anonymize_log > 0 && strpos($message, 'Send:') === 0 && --$this->anonymize_log == 0) {
+            $message = sprintf('Send: ****** [%d]', strlen($message) - 8);
+        }
+
         if (($len = strlen($message)) > self::DEBUG_LINE_LENGTH) {
             $diff    = $len - self::DEBUG_LINE_LENGTH;
             $message = substr($message, 0, self::DEBUG_LINE_LENGTH)
