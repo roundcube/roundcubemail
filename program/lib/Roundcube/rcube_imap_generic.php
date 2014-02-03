@@ -73,6 +73,7 @@ class rcube_imap_generic
     const COMMAND_NORESPONSE = 1;
     const COMMAND_CAPABILITY = 2;
     const COMMAND_LASTLINE   = 4;
+    const COMMAND_ANONYMIZED = 8;
 
     const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
 
@@ -88,16 +89,28 @@ class rcube_imap_generic
      *
      * @param string $string Command string
      * @param bool   $endln  True if CRLF need to be added at the end of command
+     * @param bool   $anonymized Don't write the given data to log but a placeholder
      *
      * @param int Number of bytes sent, False on error
      */
-    function putLine($string, $endln=true)
+    function putLine($string, $endln=true, $anonymized=false)
     {
         if (!$this->fp)
             return false;
 
         if ($this->_debug) {
-            $this->debug('C: '. rtrim($string));
+            // anonymize the sent command for logging
+            $cut = $endln ? 2 : 0;
+            if ($anonymized && preg_match('/^(A\d+ (?:[A-Z]+ )+)(.+)/', $string, $m)) {
+                $log = $m[1] . sprintf('****** [%d]', strlen($m[2]) - $cut);
+            }
+            else if ($anonymized) {
+                $log = sprintf('****** [%d]', strlen($string) - $cut);
+            }
+            else {
+                $log = rtrim($string);
+            }
+            $this->debug('C: ' . $log);
         }
 
         $res = fwrite($this->fp, $string . ($endln ? "\r\n" : ''));
@@ -116,10 +129,11 @@ class rcube_imap_generic
      *
      * @param string $string Command string
      * @param bool   $endln  True if CRLF need to be added at the end of command
+     * @param bool   $anonymized Don't write the given data to log but a placeholder
      *
      * @return int|bool Number of bytes sent, False on error
      */
-    function putLineC($string, $endln=true)
+    function putLineC($string, $endln=true, $anonymized=false)
     {
         if (!$this->fp) {
             return false;
@@ -138,7 +152,7 @@ class rcube_imap_generic
                         $parts[$i+1] = sprintf("{%d+}\r\n", $matches[1]);
                     }
 
-                    $bytes = $this->putLine($parts[$i].$parts[$i+1], false);
+                    $bytes = $this->putLine($parts[$i].$parts[$i+1], false, $anonymized);
                     if ($bytes === false)
                         return false;
                     $res += $bytes;
@@ -153,7 +167,7 @@ class rcube_imap_generic
                     $i++;
                 }
                 else {
-                    $bytes = $this->putLine($parts[$i], false);
+                    $bytes = $this->putLine($parts[$i], false, $anonymized);
                     if ($bytes === false)
                         return false;
                     $res += $bytes;
@@ -519,7 +533,7 @@ class rcube_imap_generic
                 $reply = base64_encode($user . ' ' . $hash);
 
                 // send result
-                $this->putLine($reply);
+                $this->putLine($reply, true, true);
             }
             else {
                 // RFC2831: DIGEST-MD5
@@ -537,7 +551,7 @@ class rcube_imap_generic
                     base64_decode($challenge), $this->host, 'imap', $user));
 
                 // send result
-                $this->putLine($reply);
+                $this->putLine($reply, true, true);
                 $line = trim($this->readReply());
 
                 if ($line[0] == '+') {
@@ -577,7 +591,7 @@ class rcube_imap_generic
             // RFC 4959 (SASL-IR): save one round trip
             if ($this->getCapability('SASL-IR')) {
                 list($result, $line) = $this->execute("AUTHENTICATE PLAIN", array($reply),
-                    self::COMMAND_LASTLINE | self::COMMAND_CAPABILITY);
+                    self::COMMAND_LASTLINE | self::COMMAND_CAPABILITY | self::COMMAND_ANONYMIZED);
             }
             else {
                 $this->putLine($this->nextTag() . " AUTHENTICATE PLAIN");
@@ -588,7 +602,7 @@ class rcube_imap_generic
                 }
 
                 // send result, get reply and process it
-                $this->putLine($reply);
+                $this->putLine($reply, true, true);
                 $line = $this->readReply();
                 $result = $this->parseResult($line);
             }
@@ -3419,7 +3433,7 @@ class rcube_imap_generic
         }
 
         // Send command
-        if (!$this->putLineC($query)) {
+        if (!$this->putLineC($query, true, ($options & self::COMMAND_ANONYMIZED))) {
             $this->setError(self::ERROR_COMMAND, "Unable to send command: $query");
             return $noresp ? self::ERROR_COMMAND : array(self::ERROR_COMMAND, '');
         }
