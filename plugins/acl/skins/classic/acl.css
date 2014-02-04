@@ -87,9 +87,7 @@
 
 #aclform
 {
-  top: 80px;
-  width: 480px;
-  padding: 10px;
+  display: none;
 }
 
 #aclform div

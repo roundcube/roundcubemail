@@ -150,7 +150,8 @@ class acl extends rcube_plugin
         $this->load_config();
         $this->specials = $this->rc->config->get('acl_specials', $this->specials);
         $this->add_texts('localization/', array('deleteconfirm', 'norights',
-            'nouser', 'deleting', 'saving'));
+            'nouser', 'deleting', 'saving', 'newuser', 'editperms'));
+        $this->rc->output->add_label('save', 'cancel');
         $this->include_script('acl.js');
         $this->rc->output->include_script('list.js');
         $this->include_stylesheet($this->local_skin_path().'/acl.css');
@@ -307,7 +308,7 @@ class acl extends rcube_plugin
                     . $val);
             }
 
-            $out = html::tag('ul', array('id' => 'usertype'), $ul, html::$common_attrib);
+            $out = html::tag('ul', array('id' => 'usertype', 'class' => $attrib['class']), $ul, html::$common_attrib);
         }
         // Display text input alone
         else {

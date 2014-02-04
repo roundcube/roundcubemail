@@ -17,15 +17,11 @@
     </ul>
 </div>
 
-<div id="aclform" class="popupmenu propform">
+<div id="aclform" class="propform" style="position:absolute; width:480px; top:0; left:0; padding:8px">
     <fieldset class="thinbordered"><legend><roundcube:label name="acl.identifier" /></legend>
-        <roundcube:object name="acluser" id="acluser" size="35" />
+        <roundcube:object name="acluser" id="acluser" size="35" class="proplist" />
     </fieldset>
     <fieldset class="thinbordered"><legend><roundcube:label name="acl.myrights" /></legend>
-        <roundcube:object name="aclrights" />
+        <roundcube:object name="aclrights" class="proplist" />
     </fieldset>
-    <div class="formbuttons">
-        <roundcube:button command="acl-cancel" type="input" class="button" label="cancel" />
-        <roundcube:button command="acl-save" type="input" class="button mainaction" label="save" />
-    </div>
 </div>
