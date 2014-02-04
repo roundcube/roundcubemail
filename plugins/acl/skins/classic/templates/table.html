@@ -24,17 +24,13 @@
     </ul>
 </div>
 
-<div id="aclform" class="popupmenu">
+<div id="aclform" style="position:absolute; width:480px; top:0; left:0; padding:10px">
     <fieldset class="thinbordered"><legend><roundcube:label name="acl.identifier" /></legend>
         <roundcube:object name="acluser" class="toolbarmenu" id="acluser" size="35" />
     </fieldset>
     <fieldset class="thinbordered"><legend><roundcube:label name="acl.myrights" /></legend>
         <roundcube:object name="aclrights" class="toolbarmenu" />
     </fieldset>
-    <div>
-        <roundcube:button command="acl-cancel" type="input" class="button" label="cancel" />
-        <roundcube:button command="acl-save" type="input" class="button mainaction" label="save" />
-    </div>
 </div>
 
 <script type="text/javascript">

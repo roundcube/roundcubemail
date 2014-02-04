@@ -99,10 +99,7 @@
 
 #aclform
 {
-  top: 80px;
-  width: 480px;
-  padding: 10px;
-  background-color: white;
+  display: none;
 }
 
 #aclform div

@@ -6335,7 +6335,7 @@ function rcube_webmail()
 
     popup.dialog('option', {
       height: Math.min(h - 40, height + 75 + (buttons ? 50 : 0)),
-      width: Math.min(w - 20, width + 20)
+      width: Math.min(w - 20, width + 36)
     });
 
     return popup;
