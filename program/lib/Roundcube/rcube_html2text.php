@@ -616,6 +616,10 @@ class rcube_html2text
 
                     break;
                 }
+                // abort on invalid tag structure (e.g. no closing tag found)
+                else {
+                    break;
+                }
             }
             while ($end || $next);
         }
