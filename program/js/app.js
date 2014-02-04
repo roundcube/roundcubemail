@@ -6315,7 +6315,7 @@ function rcube_webmail()
   {
     // forward call to parent window
     if (this.is_framed()) {
-      return parent.rcmail.show_popup_dialog(html, title, buttons);
+      return parent.rcmail.show_popup_dialog(html, title, buttons, options);
     }
 
     var popup = $('<div class="popup">')
