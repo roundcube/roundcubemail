@@ -75,4 +75,32 @@ EOF;
         $this->assertContains('>> INNER 3', $res, 'Quote inner');
         $this->assertContains('> OUTER END', $res, 'Quote outer');
     }
+
+    function test_broken_blockquotes()
+    {
+        // no end tag
+        $html = <<<EOF
+Begin<br>
+<blockquote>QUOTED TEXT
+<blockquote>
+NO END TAG FOUND
+EOF;
+        $ht = new rcube_html2text($html, false, false);
+        $res = $ht->get_text();
+
+        $this->assertContains('QUOTED TEXT NO END TAG FOUND', $res, 'No quoating on invalid html');
+
+        // with some (nested) end tags
+        $html = <<<EOF
+Begin<br>
+<blockquote>QUOTED TEXT
+<blockquote>INNER 1</blockquote>
+<blockquote>INNER 2</blockquote>
+NO END TAG FOUND
+EOF;
+        $ht = new rcube_html2text($html, false, false);
+        $res = $ht->get_text();
+
+        $this->assertContains('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoating on invalid html');
+    }
 }
