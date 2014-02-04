@@ -1424,7 +1424,7 @@ table.records-table {
 
 .records-table tr.unfocused td {
 	color: #fff !important;
-	background: #4db0d2 !important;
+	background-color: #4db0d2 !important;
 }
 
 .records-table tr.unfocused td a,

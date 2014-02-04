@@ -12,7 +12,7 @@
         <li><roundcube:button command="acl-edit" label="edit" class="icon" classAct="icon active" innerclass="icon edit" /></li>
         <li><roundcube:button command="acl-delete" label="delete" class="icon" classAct="icon active" innerclass="icon delete" /></li>
         <roundcube:if condition="!in_array('acl_advanced_mode', (array)config:dont_override)" />
-            <li><roundcube:button name="acl-switch" id="acl-switch" label="acl.advanced" onclick="rcmail.command('acl-mode-switch')" class="active" /></li>
+            <li><roundcube:button name="acl-switch" id="acl-switch" label="acl.advanced" onclick="rcmail.command('acl-mode-switch');return false" class="active" /></li>
         <roundcube:endif />
     </ul>
 </div>
