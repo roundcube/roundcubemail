@@ -134,7 +134,9 @@ rcube_webmail.prototype.acl_mode_switch = function(elem)
 // ACL table initialization
 rcube_webmail.prototype.acl_list_init = function()
 {
-    $('#acl-switch')[this.env.acl_advanced ? 'addClass' : 'removeClass']('selected');
+    var method = this.env.acl_advanced ? 'addClass' : 'removeClass';
+    $('#acl-switch')[method]('selected');
+    $(this.gui_objects.acltable)[method]('advanced');
 
     this.acl_list = new rcube_list_widget(this.gui_objects.acltable,
         {multiselect:true, draggable:false, keyboard:true, toggleselect:true});
