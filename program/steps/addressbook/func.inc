@@ -160,7 +160,7 @@ function rcmail_contact_source($source=null, $init_env=false, $writable=false)
         return $CONTACTS;
 
     $OUTPUT->set_env('readonly', $CONTACTS->readonly);
-    $OUTPUT->set_env('source', $source);
+    $OUTPUT->set_env('source', (string) $source);
 
     // reduce/extend $CONTACT_COLTYPES with specification from the current $CONTACT object
     if (is_array($CONTACTS->coltypes)) {
