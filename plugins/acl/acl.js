@@ -338,6 +338,7 @@ rcube_webmail.prototype.acl_init_form = function(id)
             modal: true,
             closeOnEscape: false,
             close: function(e, ui) {
+                (rcmail.is_framed() ? parent.rcmail : rcmail).ksearch_hide();
                 me.acl_form.appendTo(body).hide();
                 $(this).remove();
             }
