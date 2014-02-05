@@ -1345,7 +1345,7 @@ drag_mouse_move: function(e)
 
       var uid = RegExp.$1, row = self.rows[uid];
 
-      if ($.inArray(uid, selection) > -1)
+      if (!row || $.inArray(uid, selection) > -1)
         return;
 
       selection.push(uid);
