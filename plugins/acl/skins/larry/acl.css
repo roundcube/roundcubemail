@@ -29,7 +29,6 @@
 #acltable td
 {
   white-space: nowrap;
-  border: none;
   text-align: center;
 }
 
@@ -51,7 +50,6 @@
 
 #acltable thead td.user
 {
-  border-left: none;
   width: 30%;
 }
 
