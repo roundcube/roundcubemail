@@ -1,0 +1,16 @@
+<html>
+<head>
+<title>Roundcube Test Message</title>
+</head>
+<body>
+
+<!--REF>
+<p>test1</p>
+<!--DEREF>
+
+<!--[if gte mso 9]><xml>
+    <p>test2</p>
+</xml><![endif]-->
+
+</body>
+</html>

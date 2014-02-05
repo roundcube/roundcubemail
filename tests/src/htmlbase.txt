@@ -1,0 +1,12 @@
+<html>
+<head>
+<base href="http://alec.pl/dir/" />
+</head>
+<body>
+<img src="img1.gif" />
+<img src="./img2.gif" />
+<img src="../img3.gif" />
+<img src="cid:theCID" />
+<img src="http://other.domain.tld/img3.gif" />
+</body>
+</html>

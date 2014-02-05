@@ -1,0 +1,19 @@
+I'm replying on this with a very long line which is then wrapped and space-stuffed because the draft is saved as format=flowed.
+From what's specified in RFC 2646 some lines need to be space-stuffed to avoid muning during transport.
+
+X
+
+On XX.YY.YYYY Y:YY, Somebody wrote:
+> This part is a reply wihtout any flowing lines. rcube_mime::unfold_flowed()
+>> has to be careful with empty quoted lines because they might end with a
+> space but still shouldn't be considered as flowed!
+> 
+> The above empty line should persist after unfolding.
+> xxxxxxxxxx. xxxx xxxxx xxxxx xxxx xx xx.xx. xxxxxx xxxxxxxxxxxx, xxxx xx
+> 
+> ... and this one as well.
+
+> > text
+
+-- 
+Sig

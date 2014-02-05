@@ -1,0 +1,30 @@
+/** Master style definitions **/
+
+body, p, div, h1, h2, h3, textarea {
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+  font-size: 8.8pt;
+  color: #333;
+}
+
+body {
+  background-color: white;
+  margin: 0;
+}
+
+h1 {
+  color: #1F519A;
+  font-size: 1.7em;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.noscript {
+  display: none;
+}
+
+.hint, .username {
+  color: #999;
+}
+
+

@@ -1,0 +1,20 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Displayname
+N:Lastname;Firstname;;;
+NICKNAME:Nick
+EMAIL;TYPE=INTERNET;TYPE=PREF:test@domain.tld
+EMAIL;TYPE=INTERNET;TYPE=OTHER:next@domain.tld
+TEL;TYPE=work:phone work
+TEL;TYPE=home:phone home
+TEL;TYPE=fax:fax
+TEL;TYPE=cell:mobile
+TITLE:title
+X-DEPARTMENT:department
+ORG:Organization
+URL;TYPE=homepage:http://page.com
+URL;TYPE=other:http://webpage.tld
+BDAY;VALUE=date:1970-11-15
+ADR;TYPE=home:;;Priv address;City;region;xx-xxx;USA
+ADR;TYPE=work:;;Addr work;Wcity;Wstate;33-333;Poland
+END:VCARD
