@@ -91,8 +91,7 @@ if ($RCI->config['log_driver'] != 'syslog')
     $dirs[] = $RCI->config['log_dir'] ? $RCI->config['log_dir'] : 'logs';
 
 foreach ($dirs as $dir) {
-    $dirpath = $dir[0] == '/' ? $dir : INSTALL_PATH . $dir;
-    if (is_writable(realpath($dirpath))) {
+    if (is_writable(realpath($dir))) {
         $RCI->pass($dir);
         $pass = true;
     }
