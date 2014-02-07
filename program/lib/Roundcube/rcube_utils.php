@@ -1045,4 +1045,16 @@ class rcube_utils
         return !in_array($str, array('false', '0', 'no', 'off', 'nein', ''), true);
     }
 
+    /**
+     * OS-dependent absolute path detection
+     */
+    public static function is_absolute_path($path)
+    {
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+            return (bool) preg_match('!^[a-z]:[\\\\/]!i', $path);
+        }
+        else {
+            return $path[0] == DIRECTORY_SEPARATOR;
+        }
+    }
 }

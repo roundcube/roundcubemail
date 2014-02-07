@@ -63,7 +63,7 @@ class rcube_config
             $this->paths = explode(PATH_SEPARATOR, $paths);
             // make all paths absolute
             foreach ($this->paths as $i => $path) {
-                if (!$this->_is_absolute($path)) {
+                if (!rcube_utils::is_absolute_path($path)) {
                     if ($realpath = realpath(RCUBE_INSTALL_PATH . $path)) {
                         $this->paths[$i] = unslashify($realpath) . '/';
                     }
@@ -243,8 +243,8 @@ class rcube_config
      */
     public function resolve_paths($file, $use_env = true)
     {
-        $files = array();
-        $abs_path = $this->_is_absolute($file);
+        $files    = array();
+        $abs_path = rcube_utils::is_absolute_path($file);
 
         foreach ($this->paths as $basepath) {
             $realpath = $abs_path ? $file : realpath($basepath . '/' . $file);
@@ -267,14 +267,6 @@ class rcube_config
         }
 
         return $files;
-    }
-
-    /**
-     * Determine whether the given file path is absolute or relative
-     */
-    private function _is_absolute($path)
-    {
-        return $path[0] == DIRECTORY_SEPARATOR || preg_match('!^[a-z]:[\\\\/]!i', $path);
     }
 
     /**
