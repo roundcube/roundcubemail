@@ -24,6 +24,10 @@
             <file>Framework/ResultSet.php</file>
             <file>Framework/ResultThread.php</file>
             <file>Framework/Smtp.php</file>
+            <file>Framework/SpellcheckAtd.php</file>
+            <file>Framework/SpellcheckEnchant.php</file>
+            <file>Framework/SpellcheckGoogie.php</file>
+            <file>Framework/SpellcheckPspell.php</file>
             <file>Framework/Spellchecker.php</file>
             <file>Framework/StringReplacer.php</file>
             <file>Framework/User.php</file>
