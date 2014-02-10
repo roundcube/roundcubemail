@@ -3,8 +3,8 @@
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2012, Kolab Systems AG                             |
+ | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2011-2014, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -93,6 +93,13 @@ class rcube
      * @var rcube_plugin_api
      */
     public $plugins;
+
+    /**
+     * Instance of rcube_user class.
+     *
+     * @var rcube_user
+     */
+    public $user;
 
 
     /* private/protected vars */
@@ -1302,6 +1309,20 @@ class rcube
         self::write_log($dest, sprintf("%s: %0.4f sec", $label, $diff));
     }
 
+    /**
+     * Setter for system user object
+     *
+     * @param rcube_user Current user instance
+     */
+    public function set_user($user)
+    {
+        if (is_object($user)) {
+            $this->user = $user;
+
+            // overwrite config with user preferences
+            $this->config->set_user_prefs((array)$this->user->get_prefs());
+        }
+    }
 
     /**
      * Getter for logged user ID.

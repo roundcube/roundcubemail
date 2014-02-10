@@ -5,8 +5,8 @@
  | program/include/rcmail.php                                            |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2013, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2013, Kolab Systems AG                             |
+ | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2011-2014, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -157,12 +157,7 @@ class rcmail extends rcube
      */
     public function set_user($user)
     {
-        if (is_object($user)) {
-            $this->user = $user;
-
-            // overwrite config with user preferences
-            $this->config->set_user_prefs((array)$this->user->get_prefs());
-        }
+        parent::set_user($user);
 
         $lang = $this->language_prop($this->config->get('language', $_SESSION['language']));
         $_SESSION['language'] = $this->user->language = $lang;
