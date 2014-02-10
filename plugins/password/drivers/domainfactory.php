@@ -29,11 +29,11 @@ class rcube_domainfactory_password
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_URL => 'https://ssl.df.eu/chmail.php',
 				CURLOPT_POST => true,
-				CURLOPT_POSTFIELDS => array(
+				CURLOPT_POSTFIELDS => http_build_query(array(
 					'login' => $rcmail->user->get_username(),
 					'pwd' => $curpass,
 					'action' => 'change'
-				)
+				))
 			));
 
 			if ($result = curl_exec($ch)) {
