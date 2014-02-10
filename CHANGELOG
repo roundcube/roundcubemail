@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix directories check in Installer on Windows (#1489576)
 - Fix issue when default_addressbook option is set to integer value (#1489407)
 - Fix Opera > 15 detection (#1489562)
+- Fix security issue in DomainFactory driver of Password plugin
 
 RELEASE 1.0-rc
 --------------
