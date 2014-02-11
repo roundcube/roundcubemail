@@ -209,7 +209,7 @@ if (!empty($COMPOSE['reply_uid']) && $savedraft) {
     $headers['X-Draft-Info'] = array('type' => 'reply', 'uid' => $COMPOSE['reply_uid']);
 }
 else if (!empty($COMPOSE['forward_uid']) && $savedraft) {
-    $headers['X-Draft-Info'] = array('type' => 'forward', 'uid' => $COMPOSE['forward_uid']);
+    $headers['X-Draft-Info'] = array('type' => 'forward', 'uid' => rcube_imap_generic::compressMessageSet($COMPOSE['forward_uid']));
 }
 
 if (!empty($COMPOSE['reply_msgid'])) {

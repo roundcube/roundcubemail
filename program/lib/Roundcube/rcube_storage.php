@@ -613,7 +613,7 @@ abstract class rcube_storage
     /**
      * Parse message UIDs input
      *
-     * @param mixed  $uids  UIDs array or comma-separated list or '*' or '1:*'
+     * @param mixed $uids UIDs array or comma-separated list or '*' or '1:*'
      *
      * @return array Two elements array with UIDs converted to list and ALL flag
      */
@@ -632,6 +632,9 @@ abstract class rcube_storage
         else {
             if (is_array($uids)) {
                 $uids = join(',', $uids);
+            }
+            else if (strpos($uids, ':')) {
+                $uids = join(',', rcube_imap_generic::uncompressMessageSet($uids));
             }
 
             if (preg_match('/[^0-9,]/', $uids)) {
