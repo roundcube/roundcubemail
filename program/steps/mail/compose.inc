@@ -1250,6 +1250,9 @@ function rcmail_write_forward_attachments()
         $index = $storage->index(null, rcmail_sort_column(), rcmail_sort_order());
         $COMPOSE['forward_uid'] = $index->get();
     }
+    else if (strpos($COMPOSE['forward_uid'], ':')) {
+        $COMPOSE['forward_uid'] = rcube_imap_generic::uncompressMessageSet($COMPOSE['forward_uid']);
+    }
     else {
         $COMPOSE['forward_uid'] = explode(',', $COMPOSE['forward_uid']);
     }
