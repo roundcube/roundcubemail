@@ -57,12 +57,9 @@ if (ini_get('allow_url_fopen')) {
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 	$data = curl_exec($curl);
 
-	if ($data !== false)
-	{
+	if ($data !== false) {
 		list($headers, $source) = explode("\r\n\r\n", $data, 2);
-	}
-	else
-	{
+	} else {
 		$headers = false;
 		$source = false;
 	}
