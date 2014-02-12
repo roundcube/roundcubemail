@@ -1,5 +1,6 @@
 - Nicely handle server-side modification of script names (#1489412)
 - Add Filters tab/section using plugin API hook
+- Fix issue where folder selector wasn't visible on new filter form
 
 * version 7.1 [2013-11-22]
 -----------------------------------------------------------

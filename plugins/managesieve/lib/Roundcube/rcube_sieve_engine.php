@@ -1788,7 +1788,7 @@ class rcube_sieve_engine
             'maxlength' => 100,
             'id' => 'action_mailbox' . $id,
             'name' => "_action_mailbox[$id]",
-            'style' => 'display:'.(!isset($action) || $action['type']=='fileinto' ? 'inline' : 'none')
+            'style' => 'display:'.(empty($action['type']) || $action['type'] == 'fileinto' ? 'inline' : 'none')
         ));
         $out .= $select->show($mailbox);
         $out .= '</td>';
