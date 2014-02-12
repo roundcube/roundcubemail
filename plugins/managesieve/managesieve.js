@@ -502,6 +502,11 @@ rcube_webmail.prototype.managesieve_actionfill = function(content, id, after)
     row.setAttribute('id', 'actionrow'+id);
     row.innerHTML = content;
 
+    // initialize smart list inputs
+    $('textarea[data-type="list"]', row).each(function() {
+      smart_field_init(this);
+    });
+
     this.managesieve_formbuttons(div);
   }
 };
