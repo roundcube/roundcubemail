@@ -51,7 +51,7 @@ class rcube_domainfactory_password
 
 				// change password
 				$ch = curl_copy_handle($ch);
-				curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postfields));
 				if ($result = curl_exec($ch)) {
 
 					// did the new password match the requirements?
