@@ -1895,6 +1895,10 @@ ul.proplist li {
 	background-position: center -1094px;
 }
 
+.toolbar a.button.move {
+	background-position: center -1972px;
+}
+
 .toolbar a.button.more {
 	background-position: center -850px;
 }
@@ -2338,6 +2342,10 @@ ul.toolbarmenu li span.copy {
 }
 
 /*** folder selector ***/
+
+#folder-selector {
+	z-index: 1000;
+}
 
 #folder-selector li a span {
 	background: url("images/listicons.png") 4px -2021px no-repeat;
