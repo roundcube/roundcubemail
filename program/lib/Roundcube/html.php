@@ -269,17 +269,26 @@ class html
             return '';
         }
 
-        $allowed_f = array_flip((array)$allowed);
+        $allowed_f  = array_flip((array)$allowed);
         $attrib_arr = array();
+
         foreach ($attrib as $key => $value) {
             // skip size if not numeric
             if ($key == 'size' && !is_numeric($value)) {
                 continue;
             }
 
-            // ignore "internal" or not allowed attributes
-            if ($key == 'nl' || ($allowed && !isset($allowed_f[$key])) || $value === null) {
+            // ignore "internal" or empty attributes
+            if ($key == 'nl' || $value === null) {
                 continue;
+            }
+
+            // ignore not allowed attributes
+            if (!empty($allowed)) {
+                $is_data_attr = substr_compare($key, 'data-', 0, 5) === 0;
+                if (!isset($allowed_f[$key]) && (!$is_data_attr || !isset($allowed_f['data-*']))) {
+                    continue;
+                }
             }
 
             // skip empty eventhandlers

@@ -6670,14 +6670,22 @@ function rcube_webmail()
   this.element_position = function(element, obj)
   {
     var obj = $(obj), win = $(window),
-      width = obj.width(),
-      height = obj.height(),
+      width = obj.outerWidth(),
+      height = obj.outerHeight(),
+      menu_pos = obj.data('menu-pos'),
       win_height = win.height(),
       elem_height = $(element).height(),
       elem_width = $(element).width(),
       pos = obj.offset(),
       top = pos.top,
       left = pos.left + width;
+
+    if (menu_pos == 'bottom') {
+      top += height;
+      left -= width;
+    }
+    else
+      left -= 5;
 
     if (top + elem_height > win_height) {
       top -= elem_height - height;
