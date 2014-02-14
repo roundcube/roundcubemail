@@ -108,11 +108,11 @@
 }
 
 #messagetoolbar a.print {
-  background-position: -224px 0;
+  background-position: -256px 0;
 }
 
 #messagetoolbar a.printSel {
-  background-position: -224px -32px;
+  background-position: -256px -32px;
 }
 
 #messagetoolbar a.markmessage {
@@ -120,7 +120,8 @@
 }
 
 #messagetoolbar a.messagemenu {
-  background-position: -322px 0;
+  background-position: -320px 0;
+  width: 34px;
 }
 
 #messagetoolbar a.spellcheck {
@@ -164,11 +165,11 @@
 }
 
 #messagetoolbar a.move {
-  background-position: -578px 0;
+  background-position: -580px 0;
 }
 
 #messagetoolbar a.moveSel {
-  background-position: -578px -32px;
+  background-position: -580px -32px;
 }
 
 #messagetoolbar a.download {
