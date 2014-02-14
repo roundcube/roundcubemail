@@ -226,7 +226,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
 
     // Delete filter row
     case 'del':
-      var i = 0, list = this.filters_list;
+      var id = o.id, list = this.filters_list;
 
       list.remove_row(this.managesieve_rowid(o.id));
       list.clear_selection();
@@ -241,8 +241,14 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
           return;
         }
 
-        // modify ID and remove all attached events
-        $(this).attr('id', 'rcmrow'+(i++)).unbind();
+        var rowid = this.id.substr(6);
+
+        // remove all attached events
+        $(this).unbind();
+
+        // update row id
+        if (rowid > id)
+          $(this).attr('id', 'rcmrow' + (rowid-1));
       });
       list.init();
 

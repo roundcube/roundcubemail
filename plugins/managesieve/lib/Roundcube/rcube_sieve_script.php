@@ -585,6 +585,7 @@ class rcube_sieve_script
                     if ($rule[0]['type'] == 'set') {
                         unset($rule[0]['type']);
                         $this->vars[] = $rule[0];
+                        unset($rule);
                     }
                     else {
                         $rule = array('actions' => $rule);
