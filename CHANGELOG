@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added toolbar button to move message in message view
 - Improve UI integration of ACL settings
 - Fix directories check in Installer on Windows (#1489576)
 - Fix issue when default_addressbook option is set to integer value (#1489407)
