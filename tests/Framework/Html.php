@@ -19,6 +19,63 @@ class Framework_Html extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Data for test_attrib_string()
+     */
+    function data_attrib_string()
+    {
+        return array(
+            array(
+                array(), null, '',
+            ),
+            array(
+                array('test' => 'test'), null, ' test="test"',
+            ),
+            array(
+                array('test' => 'test'), array('test'), ' test="test"',
+            ),
+            array(
+                array('test' => 'test'), array('other'), '',
+            ),
+            array(
+                array('checked' => true), null, ' checked="checked"',
+            ),
+            array(
+                array('checked' => ''), null, '',
+            ),
+            array(
+                array('onclick' => ''), null, '',
+            ),
+            array(
+                array('size' => 5), null, ' size="5"',
+            ),
+            array(
+                array('size' => 'test'), null, '',
+            ),
+            array(
+                array('data-test' => 'test'), null, ' data-test="test"',
+            ),
+            array(
+                array('data-test' => 'test'), array('other'), '',
+            ),
+            array(
+                array('data-test' => 'test'), array('data-test'), ' data-test="test"',
+            ),
+            array(
+                array('data-test' => 'test'), array('data-*'), ' data-test="test"',
+            ),
+        );
+    }
+
+    /**
+     * Test for attrib_string()
+     * @dataProvider data_attrib_string
+     */
+    function test_attrib_string($arg1, $arg2, $result)
+    {
+        $this->assertEquals(html::attrib_string($arg1, $arg2), $result);
+    }
+
+    /**
      * Data for test_quote()
      */
     function data_quote()
