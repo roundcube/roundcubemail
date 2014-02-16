@@ -1642,11 +1642,12 @@ class rcube_sieve_engine
             $domain_select = new html_select(array('name' => "_action_target_domain[$id]", 'id' => 'action_target_domain'.$id));
             $domain_select->add(array_combine($domains, $domains));
 
-            $parts = explode('@', $action['target']);
-
-            if (!empty($parts)) {
-                $action['domain'] = array_pop($parts);
-                $action['target'] = implode('@', $parts);
+            if ($action['type'] == 'redirect') {
+                $parts = explode('@', $action['target']);
+                if (!empty($parts)) {
+                    $action['domain'] = array_pop($parts);
+                    $action['target'] = implode('@', $parts);
+                }
             }
         }
 
