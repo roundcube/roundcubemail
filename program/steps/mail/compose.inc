@@ -62,36 +62,6 @@ if (!is_array($COMPOSE)) {
 
     rcmail_process_compose_params($COMPOSE);
 
-    // add attachments listed by message_compose hook
-    if (is_array($plugin['attachments'])) {
-        foreach ($plugin['attachments'] as $attach) {
-            // we have structured data
-            if (is_array($attach)) {
-                $attachment = $attach;
-            }
-            // only a file path is given
-            else {
-                $filename   = basename($attach);
-                $attachment = array(
-                    'group'    => $COMPOSE_ID,
-                    'name'     => $filename,
-                    'mimetype' => rcube_mime::file_content_type($attach, $filename),
-                    'path'     => $attach,
-                );
-            }
-
-            // save attachment if valid
-            if (($attachment['data'] && $attachment['name']) || ($attachment['path'] && file_exists($attachment['path']))) {
-                $attachment = rcmail::get_instance()->plugins->exec_hook('attachment_save', $attachment);
-            }
-
-            if ($attachment['status'] && !$attachment['abort']) {
-                unset($attachment['data'], $attachment['status'], $attachment['abort']);
-                $COMPOSE['attachments'][$attachment['id']] = $attachment;
-            }
-        }
-    }
-
     // check if folder for saving sent messages exists and is subscribed (#1486802)
     if ($sent_folder = $COMPOSE['param']['sent_mbox']) {
         rcmail_check_sent_folder($sent_folder, true);
@@ -498,6 +468,36 @@ function rcmail_process_compose_params(&$COMPOSE)
     // pipe compose parameters thru plugins
     $plugin = $RCMAIL->plugins->exec_hook('message_compose', $COMPOSE);
     $COMPOSE['param'] = array_merge($COMPOSE['param'], $plugin['param']);
+
+    // add attachments listed by message_compose hook
+    if (is_array($plugin['attachments'])) {
+        foreach ($plugin['attachments'] as $attach) {
+            // we have structured data
+            if (is_array($attach)) {
+                $attachment = $attach;
+            }
+            // only a file path is given
+            else {
+                $filename   = basename($attach);
+                $attachment = array(
+                    'group'    => $COMPOSE_ID,
+                    'name'     => $filename,
+                    'mimetype' => rcube_mime::file_content_type($attach, $filename),
+                    'path'     => $attach,
+                );
+            }
+
+            // save attachment if valid
+            if (($attachment['data'] && $attachment['name']) || ($attachment['path'] && file_exists($attachment['path']))) {
+                $attachment = rcmail::get_instance()->plugins->exec_hook('attachment_save', $attachment);
+            }
+
+            if ($attachment['status'] && !$attachment['abort']) {
+                unset($attachment['data'], $attachment['status'], $attachment['abort']);
+                $COMPOSE['attachments'][$attachment['id']] = $attachment;
+            }
+        }
+    }
 }
 
 function rcmail_compose_headers($attrib)

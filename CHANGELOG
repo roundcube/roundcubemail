@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix Opera > 15 detection (#1489562)
 - Fix security issue in DomainFactory driver of Password plugin
 - Fix invalid X-Draft-Info on forwarded message draft (#1489587)
+- Fix regression in handling of 'attachments' result in message_compose hook (#1489627)
 
 RELEASE 1.0-rc
 --------------
