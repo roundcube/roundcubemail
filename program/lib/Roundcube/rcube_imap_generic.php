@@ -633,7 +633,7 @@ class rcube_imap_generic
     function login($user, $password)
     {
         list($code, $response) = $this->execute('LOGIN', array(
-            $this->escape($user), $this->escape($password)), self::COMMAND_CAPABILITY);
+            $this->escape($user), $this->escape($password)), self::COMMAND_CAPABILITY | self::COMMAND_ANONYMIZED);
 
         // re-set capabilities list if untagged CAPABILITY response provided
         if (preg_match('/\* CAPABILITY (.+)/i', $response, $matches)) {
