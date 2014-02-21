@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix security issue in DomainFactory driver of Password plugin
 - Fix invalid X-Draft-Info on forwarded message draft (#1489587)
 - Fix regression in handling of 'attachments' result in message_compose hook (#1489627)
+- Fix issue where msgexport.sh printed the message to STDOUT instead of a file (#1489634)
 
 RELEASE 1.0-rc
 --------------
