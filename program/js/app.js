@@ -1888,11 +1888,11 @@ function rcube_webmail()
     row.className = row_class;
 
     // build subject link 
-    if (!bw.ie && cols.subject) {
+    if (cols.subject) {
       var action = flags.mbox == this.env.drafts_mailbox ? 'compose' : 'show';
       var uid_param = flags.mbox == this.env.drafts_mailbox ? '_draft_uid' : '_uid';
       cols.subject = '<a href="./?_task=mail&_action='+action+'&_mbox='+urlencode(flags.mbox)+'&'+uid_param+'='+uid+'"'+
-        ' onclick="return rcube_event.cancel(event)" onmouseover="rcube_webmail.long_subject_title(this,'+(message.depth+1)+')">'+cols.subject+'</a>';
+        ' onclick="return rcube_event.cancel(event)" onmouseover="rcube_webmail.long_subject_title(this,'+(message.depth+1)+')"><span>'+cols.subject+'</span></a>';
     }
 
     // add each submitted col
