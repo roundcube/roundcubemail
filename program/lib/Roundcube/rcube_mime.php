@@ -366,6 +366,9 @@ class rcube_mime
                 $address = 'MAILER-DAEMON';
                 $name    = substr($val, 0, -strlen($m[1]));
             }
+            else if (preg_match('/('.$email_rx.')/', $val, $m)) {
+                $name = $m[1];
+            }
             else {
                 $name = $val;
             }
@@ -387,6 +390,7 @@ class rcube_mime
 
             if (!$address && $name) {
                 $address = $name;
+                $name    = '';
             }
 
             if ($address) {
