@@ -128,11 +128,11 @@ class rcube_db_mysql extends rcube_db
         $result = array();
 
         if (!empty($dsn['key'])) {
-            $result[PDO::MYSQL_ATTR_KEY] = $dsn['key'];
+            $result[PDO::MYSQL_ATTR_SSL_KEY] = $dsn['key'];
         }
 
         if (!empty($dsn['cipher'])) {
-            $result[PDO::MYSQL_ATTR_CIPHER] = $dsn['cipher'];
+            $result[PDO::MYSQL_ATTR_SSL_CIPHER] = $dsn['cipher'];
         }
 
         if (!empty($dsn['cert'])) {
