@@ -801,9 +801,17 @@ rcube_webmail.prototype.managesieve_tip_register = function(tips)
 /*********           Mail UI methods             *********/
 /*********************************************************/
 
-rcube_webmail.prototype.managesieve_create = function()
+rcube_webmail.prototype.managesieve_create = function(force)
 {
-  if (!rcmail.env.sieve_headers || !rcmail.env.sieve_headers.length)
+  if (!force && this.env.action != 'show' && !$('#'+this.env.contentframe).is(':visible')) {
+    var uid = this.message_list.get_single_selection(),
+      lock = this.set_busy(true, 'loading');
+
+    this.http_post('plugin.managesieve-action', {_uid: uid}, lock);
+    return;
+  }
+
+  if (!this.env.sieve_headers || !this.env.sieve_headers.length)
     return;
 
   var i, html, buttons = {}, dialog = $("#sievefilterform");
@@ -816,9 +824,9 @@ rcube_webmail.prototype.managesieve_create = function()
 
   // build dialog window content
   html = '<fieldset><legend>'+this.gettext('managesieve.usedata')+'</legend><ul>';
-  for (i in rcmail.env.sieve_headers)
+  for (i in this.env.sieve_headers)
     html += '<li><input type="checkbox" name="headers[]" id="sievehdr'+i+'" value="'+i+'" checked="checked" />'
-      +'<label for="sievehdr'+i+'">'+rcmail.env.sieve_headers[i][0]+':</label> '+rcmail.env.sieve_headers[i][1]+'</li>';
+      +'<label for="sievehdr'+i+'">'+this.env.sieve_headers[i][0]+':</label> '+this.env.sieve_headers[i][1]+'</li>';
   html += '</ul></fieldset>';
 
   dialog.html(html);
