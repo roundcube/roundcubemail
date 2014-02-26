@@ -7,6 +7,7 @@
 - Fix issue in displaying filter form when managesieve_kolab_master=true
   and sieve variables extension is supported by the server (#1489599)
 - Fix wrong action folder selection if managesieve_domains is not empty (#1489617)
+- Fix filter creation from an email when preview frame is disabled (#1489647)
 
 * version 7.1 [2013-11-22]
 -----------------------------------------------------------

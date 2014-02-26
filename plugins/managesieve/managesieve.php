@@ -137,30 +137,12 @@ class managesieve extends rcube_plugin
 
         $this->mail_headers_done = true;
 
-        $headers = $args['headers'];
-        $ret     = array();
-
-        if ($headers->subject)
-            $ret[] = array('Subject', rcube_mime::decode_header($headers->subject));
-
-        // @TODO: List-Id, others?
-        foreach (array('From', 'To') as $h) {
-            $hl = strtolower($h);
-            if ($headers->$hl) {
-                $list = rcube_mime::decode_address_list($headers->$hl);
-                foreach ($list as $item) {
-                    if ($item['mailto']) {
-                        $ret[] = array($h, $item['mailto']);
-                    }
-                }
-            }
-        }
+        $headers = $this->parse_headers($args['headers']);
 
         if ($this->rc->action == 'preview')
-            $this->rc->output->command('parent.set_env', array('sieve_headers' => $ret));
+            $this->rc->output->command('parent.set_env', array('sieve_headers' => $headers));
         else
-            $this->rc->output->set_env('sieve_headers', $ret);
-
+            $this->rc->output->set_env('sieve_headers', $headers);
 
         return $args;
     }
@@ -170,6 +152,18 @@ class managesieve extends rcube_plugin
      */
     function managesieve_actions()
     {
+        // handle fetching email headers for the new filter form
+        if ($uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GPC)) {
+            $mailbox = $this->rc->get_storage()->get_folder();
+            $message = new rcube_message($uid, $mailbox);
+            $headers = $this->parse_headers($message->headers);
+
+            $this->rc->output->set_env('sieve_headers', $headers);
+            $this->rc->output->command('managesieve_create', true);
+            $this->rc->output->send();
+        }
+
+        // handle other action
         $this->init_ui();
         $engine = $this->get_engine();
         $engine->actions();
@@ -209,5 +203,31 @@ class managesieve extends rcube_plugin
         }
 
         return $this->engine;
+    }
+
+    /**
+     * Extract mail headers for new filter form
+     */
+    private function parse_headers($headers)
+    {
+        $result = array();
+
+        if ($headers->subject)
+            $result[] = array('Subject', rcube_mime::decode_header($headers->subject));
+
+        // @TODO: List-Id, others?
+        foreach (array('From', 'To') as $h) {
+            $hl = strtolower($h);
+            if ($headers->$hl) {
+                $list = rcube_mime::decode_address_list($headers->$hl);
+                foreach ($list as $item) {
+                    if ($item['mailto']) {
+                        $result[] = array($h, $item['mailto']);
+                    }
+                }
+            }
+        }
+
+        return $result;
     }
 }
