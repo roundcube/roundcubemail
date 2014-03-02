@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix opening compose screen in new window after saving as draft (#1489643)
 - Added toolbar button to move message in message view
 - Improve UI integration of ACL settings
 - Fix directories check in Installer on Windows (#1489576)
