@@ -650,11 +650,16 @@ function rcube_webmail()
           var form = this.gui_objects.messageform,
             win = this.open_window('');
 
-          this.save_compose_form_local();
-          $("input[name='_action']", form).val('compose');
-          form.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
-          form.target = win.name;
-          form.submit();
+          if (win) {
+            this.save_compose_form_local();
+            $("input[name='_action']", form).val('compose');
+            form.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
+            form.target = win.name;
+            form.submit();
+          }
+          else {
+            // this.display_message(this.get_label('windowopenerror'), 'error');
+          }
         }
         else {
           this.open_window(this.env.permaurl, true);
@@ -3094,7 +3099,12 @@ function rcube_webmail()
 
     // close compose step in opener
     if (opener_rc && opener_rc.env.action == 'compose') {
-      setTimeout(function(){ opener.history.back(); }, 100);
+      setTimeout(function(){
+        if (opener.history.length > 1)
+          opener.history.back();
+        else
+          opener_rc.redirect(opener_rc.get_task_url('mail'));
+      }, 100);
       this.env.opened_extwin = true;
     }
 
@@ -3618,6 +3628,10 @@ function rcube_webmail()
       this.env.draft_id = id;
       $("input[name='_draft_saveid']").val(id);
 
+      // reset history of hidden iframe used for saving draft (#1489643)
+      if (window.frames['savetarget'] && window.frames['savetarget'].history) {
+        window.frames['savetarget'].history.back();
+      }
     }
 
     // always remove local copy upon saving as draft
