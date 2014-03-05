@@ -17,7 +17,7 @@
 
 class rcube_dbmail_password
 {
-    function password_save($currpass, $newpass)
+    function save($currpass, $newpass)
     {
         $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
         $username = escapeshellcmd($_SESSION['username']);
