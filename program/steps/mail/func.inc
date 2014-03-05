@@ -37,7 +37,7 @@ if (!empty($_GET['_page'])) {
 
 $a_threading        = $RCMAIL->config->get('message_threading', array());
 $message_sort_col   = $RCMAIL->config->get('message_sort_col');
-$message_sort_order = $RCMAIL->config->get('message_sort_col');
+$message_sort_order = $RCMAIL->config->get('message_sort_order');
 
 // set default sort col/order to session
 if (!isset($_SESSION['sort_col'])) {
