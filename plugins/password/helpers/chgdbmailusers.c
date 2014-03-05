@@ -5,7 +5,17 @@
 // set the UID this script will run as (root user)
 #define UID 0
 #define CMD "/usr/sbin/dbmail-users"
-#define RCOK 0x100
+//#define RCOK 0x100 --> use:
+#define RCOK 0
+//instead, because the return of the system() execution, never return 0x100 for me. As I read on 'man system'
+// the return it's -1 on error, and the return status of the command otherwise
+//I had to edit this file too:
+// - drivers/dbmail.php:
+//      change this:  function password_save($currpass, $newpass)
+//      to this:      function save($currpass, $newpass)
+//
+
+
 
 /* INSTALLING:
   gcc -o chgdbmailusers chgdbmailusers.c
