@@ -14,7 +14,7 @@ REQUIREMENTS
 * PHP Version 5.2.1 or greater including
    - PCRE, DOM, JSON, XML, Session, Sockets (required)
    - PHP Data Objects (PDO) with driver for either MySQL, PostgreSQL or SQLite (required)
-     Note: MySQL database driver requires PHP 5.3 or newer.
+     Note: MySQL database driver requires PHP 5.3.7 or newer.
    - Libiconv, Zip (recommended)
    - Fileinfo, Mcrypt, mbstring (optional)
 * PEAR packages distributed with Roundcube or external:
