@@ -5,7 +5,6 @@
 // set the UID this script will run as (root user)
 #define UID 0
 #define CMD "/usr/sbin/dbmail-users"
-#define RCOK 0x100
 
 /* INSTALLING:
   gcc -o chgdbmailusers chgdbmailusers.c
@@ -38,7 +37,7 @@ main(int argc, char *argv[])
   cc = setuid(UID);
   rc = system(cmnd);
 
-  if ((rc != RCOK) || (cc != 0))
+  if ((rc != 0) || (cc != 0))
   {
     fprintf(stderr, "__ %s:  failed %d  %d\n", argv[0], rc, cc);
     return 1;
