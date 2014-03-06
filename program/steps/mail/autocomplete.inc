@@ -90,7 +90,7 @@ if (!empty($book_types) && strlen($search)) {
 
                     // skip duplicates
                     if (!in_array($contact, $contacts)) {
-                        $contacts[]  = $contact;
+                        $contacts[]  = array('name' => $contact, 'type' => $sql_arr['_type']);
                         $sort_keys[] = sprintf('%s %03d', $sql_arr['name'] , $idx++);
 
                         if (count($contacts) >= $MAXNUM) {
@@ -118,7 +118,7 @@ if (!empty($book_types) && strlen($search)) {
                 if ($group_prop['email']) {
                     $idx = 0;
                     foreach ((array)$group_prop['email'] as $email) {
-                        $contacts[]  = format_email_recipient($email, $group['name']);
+                        $contacts[]  = array('name' => format_email_recipient($email, $group['name']), 'type' => 'group');
                         $sort_keys[] = sprintf('%s %03d', $group['name'] , $idx++);
 
                         if (count($contacts) >= $MAXNUM) {
@@ -131,6 +131,7 @@ if (!empty($book_types) && strlen($search)) {
                     $sort_keys[] = $group['name'];
                     $contacts[]  = array(
                         'name'   => $group['name'] . ' (' . intval($result->count) . ')',
+                        'type'   => 'group',
                         'id'     => $group['ID'],
                         'source' => $id
                     );
