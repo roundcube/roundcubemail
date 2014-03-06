@@ -4310,14 +4310,10 @@ function rcube_webmail()
     this.ksearch_destroy();
 
     // insert all members of a group
-    if (typeof this.env.contacts[id] === 'object' && this.env.contacts[id].type == 'group') {
+    if (typeof this.env.contacts[id] === 'object' && this.env.contacts[id].id) {
       insert += this.env.contacts[id].name + this.env.recipients_delimiter;
       this.group2expand[this.env.contacts[id].id] = $.extend({ input: this.ksearch_input }, this.env.contacts[id]);
       this.http_request('mail/group-expand', {_source: this.env.contacts[id].source, _gid: this.env.contacts[id].id}, false);
-    }
-    else if (typeof this.env.contacts[id] === 'object' && this.env.contacts[id].name) {
-      insert = this.env.contacts[id].name + this.env.recipients_delimiter;
-      trigger = true;
     }
     else if (typeof this.env.contacts[id] === 'string') {
       insert = this.env.contacts[id] + this.env.recipients_delimiter;
@@ -4332,7 +4328,7 @@ function rcube_webmail()
       this.ksearch_input.setSelectionRange(cpos, cpos);
 
     if (trigger) {
-      this.triggerEvent('autocomplete_insert', { field:this.ksearch_input, insert:insert, data:this.env.contacts[id] });
+      this.triggerEvent('autocomplete_insert', { field:this.ksearch_input, insert:insert });
       this.compose_type_activity++;
     }
   };
@@ -4427,7 +4423,7 @@ function rcube_webmail()
       return;
 
     // display search results
-    var i, len, ul, li, text, type, init,
+    var i, len, ul, li, text, init,
       value = this.ksearch_value,
       data = this.ksearch_data,
       maxlen = this.env.autocomplete_max ? this.env.autocomplete_max : 15;
@@ -4461,13 +4457,11 @@ function rcube_webmail()
     if (results && (len = results.length)) {
       for (i=0; i < len && maxlen > 0; i++) {
         text = typeof results[i] === 'object' ? results[i].name : results[i];
-        type = typeof results[i] === 'object' ? results[i].type : '';
         li = document.createElement('LI');
         li.innerHTML = text.replace(new RegExp('('+RegExp.escape(value)+')', 'ig'), '##$1%%').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/##([^%]+)%%/g, '<b>$1</b>');
         li.onmouseover = function(){ ref.ksearch_select(this); };
         li.onmouseup = function(){ ref.ksearch_click(this) };
         li._rcm_id = this.env.contacts.length + i;
-        if (type) li.className = type;
         ul.appendChild(li);
         maxlen -= 1;
       }
