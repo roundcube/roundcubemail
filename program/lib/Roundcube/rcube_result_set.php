@@ -25,7 +25,7 @@
  * @package    Framework
  * @subpackage Addressbook
  */
-class rcube_result_set implements Iterator, ArrayAccess
+class rcube_result_set implements Iterator
 {
     public $count = 0;
     public $first = 0;
@@ -59,34 +59,6 @@ class rcube_result_set implements Iterator, ArrayAccess
     function seek($i)
     {
         $this->current = $i;
-    }
-
-    /*** Implement PHP ArrayAccess interface ***/
-
-    public function offsetSet($offset, $value)
-    {
-        if (is_null($offset)) {
-            $offset = count($this->records);
-            $this->records[] = $value;
-        }
-        else {
-            $this->records[$offset] = $value;
-        }
-    }
-
-    public function offsetExists($offset)
-    {
-        return isset($this->records[$offset]);
-    }
-
-    public function offsetUnset($offset)
-    {
-        unset($this->records[$offset]);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->records[$offset];
     }
 
     /***  PHP 5 Iterator interface  ***/
