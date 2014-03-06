@@ -95,8 +95,8 @@ class rcube_ldap extends rcube_addressbook
             if (empty($this->prop['groups']['scope']))
                 $this->prop['groups']['scope'] = 'sub';
             // extend group objectclass => member attribute mapping
-            if (!empty($this->prop['groups']['class_member_attr']))
-                $this->group_types = array_merge($this->group_types, $this->prop['groups']['class_member_attr']);
+            if (!empty($this->prop['groups']['event-panel-summary']))
+                $this->group_types = array_merge($this->group_types, $this->prop['groups']['event-panel-summary']);
 
             // add group name attrib to the list of attributes to be fetched
             $fetch_attributes[] = $this->prop['groups']['name_attr'];
@@ -1407,6 +1407,16 @@ class rcube_ldap extends rcube_addressbook
             $out['_type'] = 'group';
             $out['readonly'] = true;
             $fieldmap['name'] = $this->group_data['name_attr'] ? $this->group_data['name_attr'] : $this->prop['groups']['name_attr'];
+        }
+
+        // assign object type from object class mapping
+        if (!empty($this->prop['class_type_map'])) {
+            foreach (array_map('strtolower', (array)$rec['objectclass']) as $objcls) {
+                if (!empty($this->prop['class_type_map'][$objcls])) {
+                    $out['_type'] = $this->prop['class_type_map'][$objcls];
+                    break;
+                }
+            }
         }
 
         foreach ($fieldmap as $rf => $lf)
