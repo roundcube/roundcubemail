@@ -1175,14 +1175,47 @@ ul.treelist li {
 	position: relative;
 }
 
+ul.treelist li ul {
+	margin: 0;
+	padding: 0;
+}
+
+ul.treelist li ul li:last-child {
+	border-bottom: 0;
+}
+
+ul.treelist li a {
+	display: block;
+	padding-left: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+ul.treelist li ul li a {
+	padding-left: 38px;
+}
+
+ul.treelist.iconized li a {
+	padding-left: 36px;
+}
+
+ul.treelist.iconized li ul li a {
+	padding-left: 62px;
+}
+
 ul.treelist li div.treetoggle {
 	position: absolute;
-	top: 13px;
-	left: 19px;
+	top: 7px;
+	left: 4px;
 	width: 13px;
 	height: 13px;
 	background: url(images/listicons.png) -3px -144px no-repeat;
 	cursor: pointer;
+}
+
+ul.treelist.iconized li div.treetoggle {
+	top: 13px;
+	left: 19px;
 }
 
 ul.treelist li div.treetoggle.expanded {

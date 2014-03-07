@@ -71,7 +71,6 @@
 	background-position: -100px 0;
 	background-repeat: no-repeat;
 	overflow: hidden;
-	padding-left: 36px;
 	text-overflow: ellipsis;
 }
 
@@ -83,21 +82,11 @@
 	background-position: 6px -791px;
 }
 
-#directorylist li.addressbook ul li:last-child {
-	border-bottom: 0;
-}
-
-#directorylist li.addressbook ul.groups {
-	margin: 0;
-	padding: 0;
-}
-
 #directorylist li.addressbook ul.groups li {
 	width: 100%;
 }
 
 #directorylist li.contactgroup a {
-	padding-left: 62px;
 	background-position: 32px -1555px;
 }
 
