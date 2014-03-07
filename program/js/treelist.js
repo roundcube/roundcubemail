@@ -56,6 +56,7 @@ function rcube_treelist_widget(node, p)
   this.collapse = collapse;
   this.select = select;
   this.render = render;
+  this.reset = reset;
   this.drag_start = drag_start;
   this.drag_end = drag_end;
   this.intersects = intersects;
@@ -311,6 +312,20 @@ function rcube_treelist_widget(node, p)
     li.children('ul').first()[(node.collapsed ? 'hide' : 'show')]();
     li.children('div.treetoggle').removeClass('collapsed expanded').addClass(node.collapsed ? 'collapsed' : 'expanded');
     me.triggerEvent('toggle', node);
+  }
+
+  /**
+   *
+   */
+  function reset()
+  {
+    select('');
+
+    data = [];
+    indexbyid = {};
+    drag_active = false;
+
+    container.html('');
   }
 
   /**
