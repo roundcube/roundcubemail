@@ -431,6 +431,10 @@ input.ui-button { padding: .4em 1em; }
 
 /* workarounds */
 button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra padding in Firefox */
+
+.ui-button.mainaction { font-weight: bold; border: 1px solid #999; }
+
+
 /*
  * jQuery UI Dialog 1.8.18
  *

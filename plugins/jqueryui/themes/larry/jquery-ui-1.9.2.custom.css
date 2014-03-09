@@ -475,13 +475,29 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 	outline: none;
 }
 
+.ui-button.mainaction {
+	color: #ededed;
+	text-shadow: 0px 1px 1px #333;
+	border-color: #1f262c;
+	background: #505050;
+	background: -moz-linear-gradient(top, #505050 0%, #2a2e31 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#505050), color-stop(100%,#2a2e31));
+	background: -o-linear-gradient(top, #505050 0%, #2a2e31 100%);
+	background: -ms-linear-gradient(top, #505050 0%, #2a2e31 100%);
+	background: linear-gradient(top, #505050 0%, #2a2e31 100%);
+	-moz-box-shadow: inset 0 1px 0 0 #777;
+	-webkit-box-shadow: inset 0 1px 0 0 #777;
+	-o-box-shadow: inset 0 1px 0 0 #777;
+	box-shadow: inset 0 1px 0 0 #777;
+}
+
 .ui-button.ui-state-focus {
 	color: #525252;
 	border-color: #4fadd5;
-	box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
 	-moz-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
 	-webkit-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
 	-o-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
+	box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
 }
 
 .ui-button.ui-state-active {
@@ -494,6 +510,35 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 	background: -ms-linear-gradient(top, #e6e6e6 0%, #f9f9f9 100%);
 	background: linear-gradient(top, #e6e6e6 0%, #f9f9f9 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6e6e6', endColorstr='#f9f9f9', GradientType=0);
+}
+
+.ui-button.ui-state-focus.mainaction,
+.ui-button.ui-state-hover.mainaction {
+	color: #fff;
+}
+
+.ui-button.ui-state-focus.mainaction {
+	border-color: #1f262c;
+	-moz-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6), inset 0 1px 0 0 #777;
+	-webkit-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6), inset 0 1px 0 0 #777;
+	-o-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6), inset 0 1px 0 0 #777;
+	box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6), inset 0 1px 0 0 #777;
+}
+
+.ui-button.ui-state-active.mainaction {
+	color: #fff;
+	background: #515151;
+	background: -moz-linear-gradient(top, #2a2e31 0%, #505050 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2a2e31), color-stop(100%,#505050));
+	background: -o-linear-gradient(top, #2a2e31 0%, #505050 100%);
+	background: -ms-linear-gradient(top, #2a2e31 0%, #505050 100%);
+	background: linear-gradient(top, #2a2e31 0%, #505050 100%);
+}
+
+.ui-button[disabled],
+.ui-button[disabled]:hover,
+.ui-button.mainaction[disabled] {
+	color: #aaa !important;
 }
 
 /*
@@ -568,7 +613,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 .ui-tabs .ui-tabs-nav li.ui-tabs-active { }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active a, .ui-dialog-content .tabsbar .tablink.selected a { outline:none; color: #004458; background: #efefef; background: -moz-linear-gradient(top, #fafafa 40%, #e4e4e4 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(40%,#fff), color-stop(100%,#e4e4e4)); background: -o-linear-gradient(top, #fafafa 40%, #e4e4e4 100%); background: -ms-linear-gradient(top, #fafafa 40%, #e4e4e4 100%); background: linear-gradient(top, #fafafa 40%, #e4e4e4 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#e4e4e4', GradientType=0); }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
-.ui-tabs .ui-tabs-nav li:last-child { background: none; }
+.ui-tabs .ui-tabs-nav li:last-child { /* background: none; */ }
 .ui-tabs .ui-tabs-nav li:last-child a { border: 0; }
 .ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
 .ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 0.5em 1em; margin-top: 0.2em; background: #efefef; }
