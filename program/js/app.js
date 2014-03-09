@@ -6119,7 +6119,10 @@ function rcube_webmail()
       // disable/enable input buttons
       if (button.type == 'input') {
         button.status = state;
-        obj.disabled = !state;
+        obj.disabled = state == 'pas';
+      }
+      else if (button.type == 'uibutton') {
+        $(obj).button('option', 'disabled', state == 'pas');
       }
     }
   };
