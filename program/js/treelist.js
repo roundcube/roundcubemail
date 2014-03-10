@@ -81,6 +81,7 @@ function rcube_treelist_widget(node, p)
   // register click handlers on list
   container.on('click', 'div.treetoggle', function(e){
     toggle(dom2id($(this).parent()));
+    e.stopPropagation();
   });
 
   container.on('click', 'li', function(e){
