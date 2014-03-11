@@ -160,7 +160,7 @@ class rcube_ldap_generic
                 $this->config['hosts'] = array($this->config['hosts']);
 
             foreach ($this->config['hosts'] as $host) {
-                if ($this->connect($host)) {
+                if (!empty($host) && $this->connect($host)) {
                     return true;
                 }
             }
