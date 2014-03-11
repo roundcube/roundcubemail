@@ -1,7 +1,6 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix opening compose screen in new window after saving as draft (#1489643)
 - Added toolbar button to move message in message view
 - Improve UI integration of ACL settings
 - Fix directories check in Installer on Windows (#1489576)
@@ -11,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Fix invalid X-Draft-Info on forwarded message draft (#1489587)
 - Fix regression in handling of 'attachments' result in message_compose hook (#1489627)
 - Fix issue where msgexport.sh printed the message to STDOUT instead of a file (#1489634)
+- Fix opening compose screen in new window after saving as draft (#1489643)
 
 RELEASE 1.0-rc
 --------------
