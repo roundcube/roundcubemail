@@ -16,7 +16,6 @@
  * @license GNU GPLv3+
  * @author Ziba Scott <ziba@umich.edu>
  * @author Thomas Bruederli <roundcube@gmail.com>
- *
  */
 class filesystem_attachments extends rcube_plugin
 {
@@ -50,7 +49,7 @@ class filesystem_attachments extends rcube_plugin
     function upload($args)
     {
         $args['status'] = false;
-        $group = $args['group'];
+        $group  = $args['group'];
         $rcmail = rcmail::get_instance();
 
         // use common temp dir for file uploads
@@ -58,13 +57,13 @@ class filesystem_attachments extends rcube_plugin
         $tmpfname = tempnam($temp_dir, 'rcmAttmnt');
 
         if (move_uploaded_file($args['path'], $tmpfname) && file_exists($tmpfname)) {
-            $args['id'] = $this->file_id();
-            $args['path'] = $tmpfname;
+            $args['id']     = $this->file_id();
+            $args['path']   = $tmpfname;
             $args['status'] = true;
             @chmod($tmpfname, 0600);  // set correct permissions (#1488996)
 
             // Note the file for later cleanup
-            $_SESSION['plugins']['filesystem_attachments'][$group][] = $tmpfname;
+            $_SESSION['plugins']['filesystem_attachments'][$group][$args['id']] = $tmpfname;
         }
 
         return $args;
@@ -79,7 +78,7 @@ class filesystem_attachments extends rcube_plugin
         $args['status'] = false;
 
         if (!$args['path']) {
-            $rcmail = rcmail::get_instance();
+            $rcmail   = rcmail::get_instance();
             $temp_dir = $rcmail->config->get('temp_dir');
             $tmp_path = tempnam($temp_dir, 'rcmAttmnt');
 
@@ -87,15 +86,17 @@ class filesystem_attachments extends rcube_plugin
                 fwrite($fp, $args['data']);
                 fclose($fp);
                 $args['path'] = $tmp_path;
-            } else
+            }
+            else {
                 return $args;
+            }
         }
 
-        $args['id'] = $this->file_id();
+        $args['id']     = $this->file_id();
         $args['status'] = true;
 
         // Note the file for later cleanup
-        $_SESSION['plugins']['filesystem_attachments'][$group][] = $args['path'];
+        $_SESSION['plugins']['filesystem_attachments'][$group][$args['id']] = $args['path'];
 
         return $args;
     }
@@ -139,15 +140,18 @@ class filesystem_attachments extends rcube_plugin
         // $_SESSION['compose']['attachments'] is not a complete record of
         // temporary files because loading a draft or starting a forward copies
         // the file to disk, but does not make an entry in that array
-        if (is_array($_SESSION['plugins']['filesystem_attachments'])){
+        if (is_array($_SESSION['plugins']['filesystem_attachments'])) {
             foreach ($_SESSION['plugins']['filesystem_attachments'] as $group => $files) {
-                if ($args['group'] && $args['group'] != $group)
+                if ($args['group'] && $args['group'] != $group) {
                     continue;
-                foreach ((array)$files as $filename){
-                    if(file_exists($filename)){
+                }
+
+                foreach ((array)$files as $filename) {
+                    if(file_exists($filename)) {
                         unlink($filename);
                     }
                 }
+
                 unset($_SESSION['plugins']['filesystem_attachments'][$group]);
             }
         }
@@ -157,7 +161,25 @@ class filesystem_attachments extends rcube_plugin
     function file_id()
     {
         $userid = rcmail::get_instance()->user->ID;
-	    list($usec, $sec) = explode(' ', microtime()); 
-        return preg_replace('/[^0-9]/', '', $userid . $sec . $usec);
+        list($usec, $sec) = explode(' ', microtime());
+        $id = preg_replace('/[^0-9]/', '', $userid . $sec . $usec);
+
+        // make sure the ID is really unique (#1489546)
+        while ($this->find_file_by_id($id)) {
+            // increment last four characters
+            $x  = substr($id, -4) + 1;
+            $id = substr($id, 0, -4) . sprintf('%04d', ($x > 9999 ? $x - 9999 : $x));
+        }
+
+        return $id;
+    }
+
+    private function find_file_by_id($id)
+    {
+        foreach ((array) $_SESSION['plugins']['filesystem_attachments'] as $group => $files) {
+            if (isset($files[$id])) {
+                return true;
+            }
+        }
     }
 }
