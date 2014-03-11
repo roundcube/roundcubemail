@@ -882,6 +882,10 @@ font.bold
   font-weight: bold;
 }
 
+.formbuttons
+{
+  text-align: center;
+}
 
 /***** onclick menu list *****/
 
