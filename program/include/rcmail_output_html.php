@@ -1629,6 +1629,12 @@ class rcmail_output_html extends rcmail_output
             $out .= $input_host->show();
         }
 
+        if (rcube_utils::get_boolean($attrib['submit'])) {
+            $submit = new html_inputfield(array('type' => 'submit', 'id' => 'rcmloginsubmit',
+                'class' => 'button mainaction', 'value' => $this->app->gettext('login')));
+            $out .= html::p('formbuttons', $submit->show());
+        }
+
         // surround html output with a form tag
         if (empty($attrib['form'])) {
             $out = $this->form_tag(array('name' => $form_name, 'method' => 'post'), $out);
@@ -1691,9 +1697,9 @@ class rcmail_output_html extends rcmail_output
         // add form tag around text field
         if (empty($attrib['form'])) {
             $out = $this->form_tag(array(
-                'name' => "rcmqsearchform",
+                'name'     => "rcmqsearchform",
                 'onsubmit' => self::JS_OBJECT_NAME . ".command('search'); return false",
-                'style' => "display:inline"),
+                'style'    => "display:inline"),
                 $out);
         }
 
