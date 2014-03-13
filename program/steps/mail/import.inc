@@ -34,7 +34,6 @@ if (is_array($_FILES['_file'])) {
             list($mtype_primary,) = explode('/', rcube_mime::file_content_type($filepath, $_FILES['_file']['name'][$i], $_FILES['_file']['type'][$i]));
 
             if (!in_array($mtype_primary, array('text','message'))) {
-                $OUTPUT->show_message('importmessageerror', 'error');
                 continue;
             }
 
@@ -46,7 +45,6 @@ if (is_array($_FILES['_file'])) {
             while ($line !== false && trim($line) == '');
 
             if (!preg_match('/^From\s+-/', $line) && !preg_match('/^[a-z-_]+:\s+.+/i', $line)) {
-                $OUTPUT->show_message('importmessageerror', 'error');
                 continue;
             }
 
