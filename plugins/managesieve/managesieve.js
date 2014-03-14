@@ -50,6 +50,18 @@ if (window.rcmail) {
         $('textarea[data-type="list"]', rcmail.gui_objects.sieveform).each(function() {
           smart_field_init(this);
         });
+
+        // enable date pickers on date fields
+        if ($.datepicker && rcmail.env.date_format) {
+          $.datepicker.setDefaults({
+            dateFormat: rcmail.env.date_format,
+            changeMonth: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            onSelect: function(dateText) { $(this).focus().val(dateText) }
+          });
+          $('input.datepicker').datepicker();
+        }
       }
       else {
         rcmail.enable_command('plugin.managesieve-add', 'plugin.managesieve-setadd', !rcmail.env.sieveconnerror);
@@ -443,6 +455,12 @@ rcube_webmail.prototype.managesieve_unfocus_filter = function(row)
 // Form submition
 rcube_webmail.prototype.managesieve_save = function()
 {
+  if (this.env.action == 'plugin.managesieve-vacation') {
+    var data = $(this.gui_objects.sieveform).serialize();
+    this.http_post('plugin.managesieve-vacation', data, this.display_message(this.get_label('managesieve.vacation.saving'), 'loading'));
+    return;
+  }
+
   if (parent.rcmail && parent.rcmail.filters_list && this.gui_objects.sieveform.name != 'filtersetform') {
     var id = parent.rcmail.filters_list.get_single_selection();
     if (id != null)

@@ -68,4 +68,10 @@ $config['managesieve_filename_exceptions'] = array();
 // If not empty, user will need to select domain from a list
 $config['managesieve_domains'] = array();
 
+// Enables separate management interface for vacation responses (out-of-office)
+// 0 - no separate section (default),
+// 1 - add Vacation section,
+// 2 - add Vacation section, but hide Filters section
+$config['managesieve_vacation'] = 0;
+
 ?>
