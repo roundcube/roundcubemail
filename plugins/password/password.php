@@ -70,9 +70,14 @@ class password extends rcube_plugin
         }
 
         $this->add_hook('settings_actions', array($this, 'settings_actions'));
+
         $this->register_action('plugin.password', array($this, 'password_init'));
         $this->register_action('plugin.password-save', array($this, 'password_save'));
-        $this->include_script('password.js');
+
+
+        if (strpos($rcmail->action, 'plugin.password') === 0) {
+            $this->include_script('password.js');
+        }
     }
 
     function settings_actions($args)
