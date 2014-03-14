@@ -1,3 +1,5 @@
+- Added optional separate interface for out-of-office management (#1488266)
+
 * version 7.2 [2014-02-14]
 -----------------------------------------------------------
 - Nicely handle server-side modification of script names (#1489412)

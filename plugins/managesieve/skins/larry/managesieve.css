@@ -89,7 +89,7 @@ body.iframe
   padding: 20px 10px 10px 10px;
 }
 
-legend, label
+#filter-form legend, #filter-form label
 {
   color: #666666;
 }
@@ -124,7 +124,7 @@ div.rulerow table, div.actionrow table
   min-width: 600px;
 }
 
-td
+#filter-form td
 {
   vertical-align: top;
 }
@@ -413,4 +413,40 @@ body.iframe.mail
 body.iframe.mail #filter-form
 {
   padding: 10px 5px 5px 5px;
+}
+
+
+/* vacation form */
+#settings-sections span.vacation a {
+  background: url(images/vacation_icons.png) no-repeat 7px 1px;
+}
+
+#settings-sections span.vacation.selected a {
+  background-position: 7px -23px;
+}
+
+#managesieve-vacation {
+  position: absolute;
+  top: 0;
+  left: 212px;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+}
+
+#vacationform .listarea {
+  max-height: 83px;
+}
+
+#vacationform .listelement,
+#vacationform .listelement .reset {
+  height: 27px;
+}
+
+#vacationform .listelement .reset {
+  background-position: -1px 5px;
+}
+
+#vacationform .listelement input {
+  vertical-align: top;
 }
