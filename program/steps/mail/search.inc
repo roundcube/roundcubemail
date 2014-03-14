@@ -37,6 +37,7 @@ $filter  = rcube_utils::get_input_value('_filter', rcube_utils::INPUT_GET);
 $headers = rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET);
 $subject = array();
 
+$filter         = trim($filter);
 $search_request = md5($mbox.$filter.$str);
 
 // add list filter string
