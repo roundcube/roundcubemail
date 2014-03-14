@@ -1177,8 +1177,12 @@ function rcube_webmail()
 
       case 'import-messages':
         var form = props || this.gui_objects.importform;
-        $('input[name="_unlock"]', form).val(this.set_busy(true, 'importwait'));
-        this.upload_file(form, 'import');
+        var importlock = this.set_busy(true, 'importwait');
+        $('input[name="_unlock"]', form).val(importlock);
+        if (!this.upload_file(form, 'import')) {
+          this.set_busy(false, null, importlock);
+          alert(this.get_label('selectimportfile'));
+        }
         break;
 
       case 'import':
@@ -4015,11 +4019,13 @@ function rcube_webmail()
       if (this.env.upload_progress_time) {
         this.upload_progress_start('upload', ts);
       }
+
+      // set reference to the form object
+      this.gui_objects.attachmentform = form;
+      return true;
     }
 
-    // set reference to the form object
-    this.gui_objects.attachmentform = form;
-    return true;
+    return false;
   };
 
   // add file name to attachment list
@@ -4061,8 +4067,10 @@ function rcube_webmail()
 
   this.remove_from_attachment_list = function(name)
   {
-    delete this.env.attachments[name];
-    $('#'+name).remove();
+    if (this.env.attachments) {
+      delete this.env.attachments[name];
+      $('#'+name).remove();
+    }
   };
 
   this.remove_attachment = function(name)
