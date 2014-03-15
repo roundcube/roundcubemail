@@ -412,18 +412,19 @@ body.iframe.mail #filter-form
 }
 
 #vacationform .listarea {
-  max-height: 83px;
+  max-height: 75px;
 }
 
 #vacationform .listelement,
 #vacationform .listelement .reset {
-  height: 20px;
+  height: 18px;
 }
 
 #vacationform .listelement .reset {
-  background-position: -1px 2px;
+  background-position: -1px 1px;
 }
 
 #vacationform .listelement input {
   vertical-align: top;
+  border: 0;
 }
