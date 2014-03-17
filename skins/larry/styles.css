@@ -1191,8 +1191,16 @@ ul.treelist li a {
 	text-overflow: ellipsis;
 }
 
-ul.treelist li ul li a {
+ul.treelist ul li a {
 	padding-left: 38px;
+}
+
+ul.treelist ul ul li a {
+	padding-left: 54px;
+}
+
+ul.treelist ul ul ul li {
+	margin-left: 16px;
 }
 
 ul.treelist.iconized li a {
@@ -1213,9 +1221,17 @@ ul.treelist li div.treetoggle {
 	cursor: pointer;
 }
 
+ul.treelist li ul li div.treetoggle {
+	left: 22px;
+}
+
 ul.treelist.iconized li div.treetoggle {
 	top: 13px;
 	left: 19px;
+}
+
+ul.treelist.iconized li ul li div.treetoggle {
+	left: 35px;
 }
 
 ul.treelist li div.treetoggle.expanded {
