@@ -566,6 +566,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 .ui-dialog .uibox { background-color: #fbfbfb; -moz-box-shadow: 0 0 1px #aaa; -webkit-box-shadow: 0 0 1px #aaa; box-shadow: 0 0 1px #aaa; }
 .ui-dialog .uibox ul.proplist li, .ui-dialog .uibox table.propform td { border-bottom-color: #fbfbfb; }
+.ui-dialog .listbox { background: #d9ecf4; }
 
 /*
  * jQuery UI Slider 1.8.18
