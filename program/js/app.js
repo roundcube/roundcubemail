@@ -564,7 +564,7 @@ function rcube_webmail()
   // execute a specific command on the web client
   this.command = function(command, props, obj, event)
   {
-    var ret, uid, cid, url, flag;
+    var ret, uid, cid, url, flag, aborted = false;
 
     if (obj && obj.blur)
       obj.blur();
@@ -1054,7 +1054,10 @@ function rcube_webmail()
         // Reset the auto-save timer
         clearTimeout(this.save_timer);
 
-        this.upload_file(props || this.gui_objects.uploadform, 'upload');
+        if (!this.upload_file(props || this.gui_objects.uploadform, 'upload')) {
+          alert(this.get_label('selectimportfile'));
+          aborted = true;
+        }
         break;
 
       case 'insert-sig':
@@ -1182,6 +1185,7 @@ function rcube_webmail()
         if (!this.upload_file(form, 'import')) {
           this.set_busy(false, null, importlock);
           alert(this.get_label('selectimportfile'));
+          aborted = true;
         }
         break;
 
@@ -1190,6 +1194,7 @@ function rcube_webmail()
           var file = document.getElementById('rcmimportfile');
           if (file && !file.value) {
             alert(this.get_label('selectimportfile'));
+            aborted = true;
             break;
           }
           this.gui_objects.importform.submit();
@@ -1241,9 +1246,9 @@ function rcube_webmail()
         break;
     }
 
-    if (this.triggerEvent('after'+command, props) === false)
+    if (!aborted && this.triggerEvent('after'+command, props) === false)
       ret = false;
-    this.triggerEvent('actionafter', {props:props, action:command});
+    this.triggerEvent('actionafter', { props:props, action:command, aborted:aborted });
 
     return ret === false ? false : obj ? false : true;
   };
@@ -3985,7 +3990,7 @@ function rcube_webmail()
     if (numfiles) {
       if (this.env.max_filesize && this.env.filesizeerror && size > this.env.max_filesize) {
         this.display_message(this.env.filesizeerror, 'error');
-        return;
+        return false;
       }
 
       var frame_name = this.async_upload_form(form, action || 'upload', function(e) {
