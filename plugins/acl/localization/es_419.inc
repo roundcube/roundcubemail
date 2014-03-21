@@ -16,7 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
 $labels['username'] = 'Usuario:';
-$labels['advanced'] = 'modo avanzado';
 $labels['newuser'] = 'Agregar entrada';
 $labels['anyone'] = 'Todos los usuarios ';
 $labels['anonymous'] = 'Invitados (anonimos)';

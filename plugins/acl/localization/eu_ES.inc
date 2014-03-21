@@ -18,7 +18,6 @@
 $labels['sharing'] = 'Partekatzen';
 $labels['myrights'] = 'Sarbide-eskubideak';
 $labels['username'] = 'Erabiltzailea:';
-$labels['advanced'] = 'modu aurreratua';
 $labels['newuser'] = 'Gehitu sarrera';
 $labels['actions'] = 'Sarbide-eskubideen ekintzak...';
 $labels['anyone'] = 'Erabiltzaile guztiak (edozein)';

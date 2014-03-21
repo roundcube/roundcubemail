@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -30,7 +30,6 @@ $messages['invalidrequest'] = 'Погрешан захтев! Подаци ни�
 $messages['invalidhost'] = 'Погрешно име сервера.';
 $messages['nomessagesfound'] = 'Немате порука у сандучету.';
 $messages['loggedout'] = 'Успешно сте се одјавили.';
-$messages['mailboxempty'] = 'Сандуче је празно.';
 $messages['refreshing'] = 'Освежавам...';
 $messages['loading'] = 'Учитавам...';
 $messages['uploading'] = 'Шаљем датотеку...';

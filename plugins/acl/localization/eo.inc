@@ -18,7 +18,6 @@
 $labels['sharing'] = 'Kunhavigado';
 $labels['myrights'] = 'Atingrajtoj';
 $labels['username'] = 'Uzanto:';
-$labels['advanced'] = 'progresinta reĝimo';
 $labels['newuser'] = 'Aldoni eron';
 $labels['actions'] = 'Agoj de atingrajtoj...';
 $labels['anyone'] = 'Ĉiuj uzantoj (iu ajn)';

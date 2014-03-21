@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -28,7 +28,6 @@ $messages['errornoperm'] = 'कृती करण्यास असमर्�
 $messages['invalidrequest'] = 'अवैध विनंती! माहिती साठवलेली नाही.';
 $messages['nomessagesfound'] = 'या खात्यामधे कोणताही संदेश आलेला नाही';
 $messages['loggedout'] = 'तुम्ही यशस्वीरित्या खाते बंद केले आहे . राम राम !';
-$messages['mailboxempty'] = 'खात्यात कोणताही संदेश नाही';
 $messages['loading'] = 'संदेश आणत आहे';
 $messages['uploading'] = 'फाईल चढवली जात आहे...';
 $messages['loadingdata'] = 'माहिती आणत आहे';

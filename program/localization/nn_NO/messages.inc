@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -30,7 +30,6 @@ $messages['invalidrequest'] = 'Eg forstår ingen ting! Ingen data lagra.';
 $messages['invalidhost'] = 'Ugyldig tenarnamn.';
 $messages['nomessagesfound'] = 'Ingen meldingar i denne postkassa.';
 $messages['loggedout'] = 'Du har avslutta økta. Ha det bra!';
-$messages['mailboxempty'] = 'Postkassa er tom.';
 $messages['refreshing'] = 'Oppdaterer …';
 $messages['loading'] = 'Hentar …';
 $messages['uploading'] = 'Lastar opp fil …';

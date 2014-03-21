@@ -18,7 +18,6 @@
 $labels['sharing'] = 'ការ​ចែក​រំលែក';
 $labels['myrights'] = 'សិទ្ធិ​ចូល';
 $labels['username'] = 'អ្នក​ប្រើ៖';
-$labels['advanced'] = 'បែប​កម្រិត​ខ្ពស់';
 $labels['newuser'] = 'បន្ថែម​ធាតុ';
 $labels['actions'] = 'សកម្មភាព​សិទ្ធិ​ចូល...';
 $labels['anyone'] = 'អ្នក​ប្រើ​ទាំង​អស់ (នរណា​ម្នាក់)';

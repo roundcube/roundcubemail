@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,6 @@ $messages['sessionerror'] = 'Tá an seisiúin neamhbhailí nó as feidhm';
 $messages['storageerror'] = 'Theip an iarraidh chun nasc go dtí an freastalaí Prótacal Rochtana Teachtaireachtaí Idirlín (IMAP)';
 $messages['nomessagesfound'] = 'Ní bhfuair mé aon teachtaireacht i bosca postas seo';
 $messages['loggedout'] = 'D\'éirigh tú logáil amach. Slán Leat!';
-$messages['mailboxempty'] = 'Tá an bosca postas folamh';
 $messages['loading'] = 'Fan nóiméad, ag lódáil...';
 $messages['loadingdata'] = 'Ag lódáil sonraí...';
 $messages['checkingmail'] = 'Ag seiceáil chun teachtaireacht nua...';

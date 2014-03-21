@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -28,7 +28,6 @@ $messages['errornoperm'] = 'Ne povis fari agon. Ne havas permeson.';
 $messages['invalidrequest'] = 'Nevalida peto';
 $messages['nomessagesfound'] = 'Neniu mesaĝo en ĉi tiu dosierujo';
 $messages['loggedout'] = 'Vi sukcese finis la seancon. Ĝis!';
-$messages['mailboxempty'] = 'Dosierujo estas malplena';
 $messages['loading'] = 'Ŝarganta...';
 $messages['loadingdata'] = 'Ŝarganta datumojn...';
 $messages['checkingmail'] = 'Kontrolanta, ĉu  novaj mesaĝoj...';

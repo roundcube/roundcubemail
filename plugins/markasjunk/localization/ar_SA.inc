@@ -2,9 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/zipdownload/localization/<lang>.inc                           |
+ | plugins/markasjunk/localization/<lang>.inc                            |
  |                                                                       |
- | Localization file of the Roundcube Webmail Zipdownload plugin         |
+ | Localization file of the Roundcube Webmail Mark-As-Junk plugin        |
  | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -13,8 +13,9 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-$labels['downloadall'] = 'ទាញ​យក​ឯកសារ​ភ្ជាប់​ទាំងអស់';
-$labels['downloadfolder'] = 'ទាញ​យក​ថត​ឯកសារ';
+$labels['buttontext'] = 'غير المرغوب';
+$labels['buttontitle'] = 'وضع علامة كـ غير المرغوب فيه';
+$labels['reportedasjunk'] = 'تمت الافادة كـ غير مرغوب فية بنجاح';
 ?>

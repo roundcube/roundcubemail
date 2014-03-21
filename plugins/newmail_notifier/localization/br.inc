@@ -16,5 +16,9 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
 $labels['sound'] = 'Seniñ ar son pa kemennadenn nevez';
+$labels['test'] = 'Taol-arnod';
 $labels['title'] = 'Kemennadenn nevez !';
+$labels['body'] = 'Resevet ho p\'eus ur postel nevez';
+$labels['testbody'] = 'An dra se a zo un taol arnod kemenn';
+$labels['desktoptimeout'] = 'Serr burev kemen';
 ?>

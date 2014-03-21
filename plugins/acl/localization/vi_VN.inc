@@ -18,7 +18,6 @@
 $labels['sharing'] = 'Chia sẻ';
 $labels['myrights'] = 'Quyền truy cập';
 $labels['username'] = 'Người dùng:';
-$labels['advanced'] = 'Chế độ tính năng cao hơn';
 $labels['newuser'] = 'Thêm bài viết';
 $labels['actions'] = 'Các thao tác quyền truy cập';
 $labels['anyone'] = 'Tất cả người dùng (bất kỳ ai)';

@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -25,7 +25,6 @@ $messages['servererrormsg'] = 'Fazi dafariad : $msg';
 $messages['dberror'] = 'Fazi stlennvon !';
 $messages['nomessagesfound'] = 'Kemennadoù ebet er voest lizhiri';
 $messages['loggedout'] = 'Digevreet hoc\'h eus mat. Kenavo !';
-$messages['mailboxempty'] = 'Boest lizhiri dileun';
 $messages['loading'] = 'O kargañ...';
 $messages['loadingdata'] = 'O kargañ roadennoù...';
 $messages['checkingmail'] = 'O Gwiriañ kemennadoù nevez...';

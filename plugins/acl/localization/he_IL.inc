@@ -20,6 +20,7 @@ $labels['myrights'] = 'זכויות גישה';
 $labels['username'] = 'משתמש:';
 $labels['advanced'] = 'מצב מתקדם';
 $labels['newuser'] = 'הוסף ערך';
+$labels['editperms'] = 'עריכת הרשאות';
 $labels['actions'] = 'פעולות על זכויות גישה...';
 $labels['anyone'] = 'כל המשתמשים (כל אחד)';
 $labels['anonymous'] = 'אורחים (אנונימי)';

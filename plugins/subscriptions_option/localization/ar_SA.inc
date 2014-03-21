@@ -2,9 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/zipdownload/localization/<lang>.inc                           |
+ | plugins/subscriptions_option/localization/<lang>.inc                  |
  |                                                                       |
- | Localization file of the Roundcube Webmail Zipdownload plugin         |
+ | Localization file of the Roundcube Webmail Subscriptions plugin       |
  | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -13,8 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-subscriptions_option/
 */
-$labels['downloadall'] = 'ទាញ​យក​ឯកសារ​ភ្ជាប់​ទាំងអស់';
-$labels['downloadfolder'] = 'ទាញ​យក​ថត​ឯកសារ';
+$labels['useimapsubscriptions']  = 'استخدم اشتراكات IMAP';
 ?>

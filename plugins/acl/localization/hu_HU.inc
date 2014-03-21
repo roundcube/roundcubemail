@@ -18,8 +18,9 @@
 $labels['sharing'] = 'Megosztás';
 $labels['myrights'] = 'Hozzáférési jogok';
 $labels['username'] = 'Felhasználó:';
-$labels['advanced'] = 'Haladó beállítások';
+$labels['advanced'] = 'Haladó mód';
 $labels['newuser'] = 'Elem hozzáadása';
+$labels['editperms'] = 'Jogosultságok szerkesztése';
 $labels['actions'] = 'Hozzáférési jogok müveletei..';
 $labels['anyone'] = 'Minden felhasználó (bárki)';
 $labels['anonymous'] = 'Vendégek (névtelen)';
