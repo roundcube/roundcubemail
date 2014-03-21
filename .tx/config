@@ -1,6 +1,6 @@
 [main]
 host = https://www.transifex.com
-lang_map = be: be_BE, sr: sr_CS, fa: fa_AF, lb: lb_LU
+lang_map = be: be_BE, sr: sr_CS, fa: fa_AF, lb: lb_LU, fr: fr_FR
 type = PHP_ALT_ARRAY
 
 [roundcube-webmail.labels]
