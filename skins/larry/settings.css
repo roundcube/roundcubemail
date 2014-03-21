@@ -319,3 +319,8 @@ img.skinthumbnail {
 #rcmfd_signature_toolbar2 td {
 	width: auto;
 }
+
+.mailtoprotohandler-status {
+	padding-left: 1em;
+	font-style: italic;
+}

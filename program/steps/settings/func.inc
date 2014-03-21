@@ -376,13 +376,16 @@ function rcmail_user_prefs($current = null)
             if ($current) {
                 $product_name = $RCMAIL->config->get('product_name', 'Roundcube Webmail');
                 $RCMAIL->output->add_script(sprintf("%s.check_protocol_handler('%s', '#mailtoprotohandler');",
-                    rcmail_output::JS_OBJECT_NAME, rcube::JQ($product_name)), 'foot');
+                    rcmail_output::JS_OBJECT_NAME, rcube::JQ($product_name)), 'docready');
             }
 
             $blocks['browser']['options']['mailtoprotohandler'] = array(
                 'content' => html::a(array(
-                'href'    => '#',
-                'id'      => 'mailtoprotohandler'), rcube::Q($RCMAIL->gettext('mailtoprotohandler'))),
+                    'href'    => '#',
+                    'id'      => 'mailtoprotohandler'
+                ),
+                rcube::Q($RCMAIL->gettext('mailtoprotohandler'))) .
+                html::span('mailtoprotohandler-status', ''),
             );
 
         break;
