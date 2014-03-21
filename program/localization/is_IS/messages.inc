@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,6 @@ $messages['sessionerror'] = 'Innskráningin þín ógild eða útrunnin';
 $messages['storageerror'] = 'Tengin við IMAP-miðlara mistókst';
 $messages['nomessagesfound'] = 'Engin skeyti eru í þessu pósthólfi';
 $messages['loggedout'] = 'Þú hefur útskráðst. Bless!';
-$messages['mailboxempty'] = 'Pósthólfið er tómt';
 $messages['loading'] = 'Hleð...';
 $messages['loadingdata'] = 'Hleð gögn...';
 $messages['checkingmail'] = 'Gái að nýjum skeytum...';

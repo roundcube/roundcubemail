@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,6 @@ $messages['sessionerror'] = 'Sesioni juaj është i pavlefshëm ose i ka kaluar 
 $messages['storageerror'] = 'Lidhja me serverin IMAP dështoi';
 $messages['nomessagesfound'] = 'Nuk ka mesazhe në këtë kuti postare';
 $messages['loggedout'] = 'Sesionin e mbyllët me sukses. Mirupafshim!';
-$messages['mailboxempty'] = 'Kutia postare është bosh';
 $messages['loading'] = 'Po ngarkohet...';
 $messages['loadingdata'] = 'Po ngarkohen të dhëna...';
 $messages['checkingmail'] = 'Po shoh për mesazhe të reja...';

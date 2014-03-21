@@ -18,7 +18,7 @@
 $labels['sharing'] = 'Jakaminen';
 $labels['myrights'] = 'Käyttöoikeudet';
 $labels['username'] = 'Käyttäjä:';
-$labels['advanced'] = 'edistynyt tila';
+$labels['editperms'] = 'Muokkaa oikeuksia';
 $labels['anyone'] = 'Kaikki käyttäjät (kuka tahansa)';
 $labels['anonymous'] = 'Vieraat (anonyymit)';
 $labels['aclother'] = 'Muu';

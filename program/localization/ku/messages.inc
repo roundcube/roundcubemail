@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,6 @@ $messages['sessionerror'] = 'Danişîna te çewt e an jî bi dawî bûye';
 $messages['storageerror'] = 'Girêdana pêşkêşkara IMAP têk çû';
 $messages['nomessagesfound'] = 'Di vê peyamdankê de tu peyam nehat dîtin';
 $messages['loggedout'] = 'Te danişînî bi dawî anî. Oxir be!';
-$messages['mailboxempty'] = 'Peyamdank vala ye';
 $messages['loading'] = 'Tê barkirin...';
 $messages['loadingdata'] = 'Dane tên barkirin...';
 $messages['checkingmail'] = 'Li peyamên nû vedinihêre...';

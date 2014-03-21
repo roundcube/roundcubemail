@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,7 +22,6 @@ $messages['sessionerror'] = 'ඔබේ වාරය අවලංගු හෝ �
 $messages['dberror'] = 'දත්ත ගබඩාවේ දෝෂය!';
 $messages['nomessagesfound'] = 'ලියුම් පෙට්ටියේ පනිවුඩ නැත';
 $messages['loggedout'] = 'ඔබගේ වාරය සාර්ථකව අවසන් විය. අයුබොවන්!';
-$messages['mailboxempty'] = 'ලියුම් පෙට්ටිය හිස්';
 $messages['loading'] = 'පූරනය...';
 $messages['loadingdata'] = 'දත්ත පූරනය...';
 $messages['checkingmail'] = 'අලුත් පණිවිඩ පරීක්ෂා කරමින්...';

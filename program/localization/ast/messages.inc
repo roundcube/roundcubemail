@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,6 @@ $messages['invalidrequest'] = 'Fallu de la solicitú. Nun se guardaron datos.';
 $messages['invalidhost'] = 'Nome de sirvidor inválidu.';
 $messages['nomessagesfound'] = 'Nun s\'atoparon mensaxes na bandexa';
 $messages['loggedout'] = 'Zarraste la sesión. ¡Talluéu!';
-$messages['mailboxempty'] = 'La to cuenta nun tien mensaxes';
 $messages['refreshing'] = 'Anovando...';
 $messages['loading'] = 'Cargando...';
 $messages['uploading'] = 'Xubiendo ficheru';

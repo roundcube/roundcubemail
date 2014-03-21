@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -25,7 +25,6 @@ $messages['dberror'] = 'เกิดข้อผิดพลาดเกี่�
 $messages['invalidhost'] = 'ชื่อเซิร์ฟเวอร์ไม่ถูกต้อง';
 $messages['nomessagesfound'] = 'ไม่มีจดหมายในกล่องจดหมายนี้';
 $messages['loggedout'] = 'ทำการออกจากระบบเรียบร้อย';
-$messages['mailboxempty'] = 'กล่องจดหมายนี้ว่างเปล่า';
 $messages['refreshing'] = 'กำลังรีเฟรช...';
 $messages['loading'] = 'Loading...';
 $messages['uploading'] = 'กำลังอัพโหลดไฟล์...';
