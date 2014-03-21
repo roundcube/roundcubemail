@@ -21,7 +21,7 @@
 */
 
 // application constants
-define('RCMAIL_VERSION', '1.0-rc');
+define('RCMAIL_VERSION', '1.0.0');
 define('RCMAIL_START', microtime(true));
 
 if (!defined('INSTALL_PATH')) {
