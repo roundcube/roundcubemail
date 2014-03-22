@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -33,6 +33,7 @@ $messages['invalidhost'] = 'Nume server invalid.';
 $messages['nomessagesfound'] = 'Nu a fost găsit nici un mesaj în această căsuţă poştală';
 $messages['loggedout'] = 'Sesiune încheiată cu succes. La revedere!';
 $messages['mailboxempty'] = 'Căsuţa poştală este goală';
+$messages['nomessages'] = 'Nici un mesaj';
 $messages['refreshing'] = 'Reîmprospătare...';
 $messages['loading'] = 'Se încarcă...';
 $messages['uploading'] = 'Fişierul se încarcă...';
@@ -82,6 +83,7 @@ $messages['norecipientwarning'] = 'Vă rugăm să introduceţi cel puţin un des
 $messages['nosubjectwarning']  = 'Mesajul nu are subiect. Vreţi să introduceţi unul acum?';
 $messages['nobodywarning'] = 'Trimiteţi acest mesaj fără text?';
 $messages['notsentwarning'] = 'Mesajul nu a fost trimis. Vreţi să renunţaţi la el?';
+$messages['restoresavedcomposedata'] = 'Un mesaj compus anterior a fost găsit.\n\nSubiect:$subject\nSalvat: $date\n\nDoriţi restaurarea acestuia ?';
 $messages['noldapserver'] = 'Vă rugăm să alegeţi un server ldap pentru căutare';
 $messages['nosearchname'] = 'Vă rugăm să introduceţi un nume de contact sau adresă de e-mail';
 $messages['notuploadedwarning'] = 'Nu toate fişierele au fost ataşate. Vă rugăm să aşteptaţi sau să anulaţi încărcarea acestora.';

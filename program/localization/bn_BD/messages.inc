@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,6 @@ $messages['sessionerror'] = 'আপনার সেশন শেষ';
 $messages['storageerror'] = 'মেইল সারভার এর সাথে যোগাযোগ করা গেল না';
 $messages['nomessagesfound'] = 'এই মেইলবক্সে কোনো চিঠি নাই';
 $messages['loggedout'] = 'আপনের সেশন ঠিকঠাক মতো শেষ হইছে। শুভবিদায়।';
-$messages['mailboxempty'] = 'মেইলবক্স খালি';
 $messages['loading'] = 'কম্পুটার কাজ করতেছে . .';
 $messages['loadingdata'] = 'কম্পুটার তথ্য আনছে আপনার জন্য..';
 $messages['checkingmail'] = 'নতুন চিঠি আসছে কিনা তা দেখা হচ্ছে';

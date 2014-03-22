@@ -55,6 +55,13 @@ a.tab
   text-align: center;
 }
 
+a.disabled
+{
+  color: #999;
+  text-decoration: none;
+  cursor: default;
+}
+
 hr
 {
   height: 1px;

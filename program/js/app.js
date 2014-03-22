@@ -7516,20 +7516,28 @@ function rcube_webmail()
     try {
       window.navigator.registerProtocolHandler('mailto', this.mailto_handler_uri(), name);
     }
-    catch(e) {};
+    catch(e) {
+      this.display_message(String(e), 'error');
+    };
   };
 
   this.check_protocol_handler = function(name, elem)
   {
     var nav = window.navigator;
-    if (!nav
-      || (typeof nav.registerProtocolHandler != 'function')
-      || ((typeof nav.isProtocolHandlerRegistered == 'function')
-        && nav.isProtocolHandlerRegistered('mailto', this.mailto_handler_uri()) == 'registered')
-    )
-      $(elem).addClass('disabled');
-    else
-      $(elem).click(function() { rcmail.register_protocol_handler(name); return false; });
+    if (!nav || (typeof nav.registerProtocolHandler != 'function')) {
+      $(elem).addClass('disabled').click(function(){ return false; });
+    }
+    else {
+      var status = null;
+      if (typeof nav.isProtocolHandlerRegistered == 'function') {
+        status = nav.isProtocolHandlerRegistered('mailto', this.mailto_handler_uri());
+        if (status)
+          $(elem).parent().find('.mailtoprotohandler-status').html(status);
+      }
+      else {
+        $(elem).click(function() { rcmail.register_protocol_handler(name); return false; });
+      }
+    }
   };
 
   // Checks browser capabilities eg. PDF support, TIF support

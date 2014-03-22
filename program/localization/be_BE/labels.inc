@@ -52,6 +52,7 @@ $labels['fromtoshort'] = '$from—$to з $count';
 $labels['copy']     = 'Капіяваць';
 $labels['move']     = 'Перамясціць';
 $labels['moveto']   = 'Перамясціць у...';
+$labels['copyto']   = 'Скапіяваць у...';
 $labels['download'] = 'Сцягнуць';
 $labels['open']     = 'Адкрыць';
 $labels['showattachment'] = 'Паказаць';

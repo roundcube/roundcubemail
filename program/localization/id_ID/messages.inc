@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,6 @@ $messages['invalidrequest'] = 'Permintaan tidak valid! Tidak ada data yang tersi
 $messages['invalidhost'] = 'Nama server invalid.';
 $messages['nomessagesfound'] = 'Surat tidak ditemukan di kotak masuk ini';
 $messages['loggedout'] = 'Anda berhasil mengakhiri session. Selamat Tinggal!';
-$messages['mailboxempty'] = 'Kotak masuk kosong.';
 $messages['refreshing'] = 'Menyegarkan...';
 $messages['loading'] = 'Memuat...';
 $messages['uploading'] = 'Menggungah berkas ...';

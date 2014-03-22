@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,6 @@ $messages['sessionerror'] = 'सत्र समाप्त वा अवैद
 $messages['storageerror'] = 'सर्वर संग सम्पर्क हुन पाएन';
 $messages['nomessagesfound'] = 'यो मेलबक्स मा कुनै मेल छैन';
 $messages['loggedout'] = 'सत्र समाप्त । नमास्कार!';
-$messages['mailboxempty'] = 'मेल बक्स खाली छ';
 $messages['loading'] = 'लोड भईरहेको छ...';
 $messages['loadingdata'] = 'डाटा लोड भईरहेको छै...';
 $messages['checkingmail'] = 'नया मेलको खोजी भईरहेको छ...';

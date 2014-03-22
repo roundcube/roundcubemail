@@ -18,7 +18,6 @@
 $labels['sharing'] = 'Jagamine';
 $labels['myrights'] = 'Ligipääsuõigused';
 $labels['username'] = 'Kasutaja:';
-$labels['advanced'] = 'laiendatud režiim';
 $labels['newuser'] = 'Lisa sissekanne';
 $labels['actions'] = 'Ligipääsuõiguste toimingud...';
 $labels['anyone'] = 'Kõik kasutajad';

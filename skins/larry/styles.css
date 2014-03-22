@@ -1613,6 +1613,12 @@ body.iframe .footerleft.floating:before,
 	width: 95%;
 }
 
+.propform a.disabled {
+	color: #999;
+	text-decoration: none;
+	cursor: default;
+}
+
 fieldset.floating {
 	float: left;
 	margin-right: 10px;

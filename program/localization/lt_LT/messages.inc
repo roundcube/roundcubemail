@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,7 +32,6 @@ $messages['invalidrequest'] = 'Netinkama užklausa! Duomenys neišsaugoti.';
 $messages['invalidhost'] = 'Negalimas serverio vardas.';
 $messages['nomessagesfound'] = 'Šioje pašto dėžutėje laiškų nėra.';
 $messages['loggedout'] = 'Jūs sėkmingai atsijungėte. Iki kito karto!';
-$messages['mailboxempty'] = 'Pašto dėžutė tuščia.';
 $messages['refreshing'] = 'Atnaujinama…';
 $messages['loading'] = 'Įkeliama…';
 $messages['uploading'] = 'Įkeliamas failas…';

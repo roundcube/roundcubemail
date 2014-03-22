@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -26,7 +26,6 @@ $messages['requesttimedout'] = 'عدم پاسخگویی در زمان مقرر';
 $messages['invalidhost'] = 'نام سرور نامعتبر است';
 $messages['nomessagesfound'] = 'هيچ پيغامی در اين صندوق پستي دريافت نه شد';
 $messages['loggedout'] = 'جلسه شما بصورت مکمل فسخ شده است  خدا حافظ';
-$messages['mailboxempty'] = 'صندوق پستي خالي است';
 $messages['refreshing'] = 'دوباره سازی....';
 $messages['loading'] = 'در حال بارگزاری...';
 $messages['uploading'] = 'در حال بارگزاری فایل...';
