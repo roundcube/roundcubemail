@@ -5,7 +5,7 @@
  | program/steps/utils/modcss.inc                                        |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2007-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2007-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -34,43 +34,46 @@ if (!preg_match('~^(https?)://~i', $realurl, $matches)) {
 }
 
 if (ini_get('allow_url_fopen')) {
-	$scheme  = strtolower($matches[1]);
-	$options = array(
-	    $scheme => array(
-	        'method' => 'GET',
-	        'timeout' => 15,
-	    )
-	);
+    $scheme  = strtolower($matches[1]);
+    $options = array(
+        $scheme => array(
+            'method' => 'GET',
+            'timeout' => 15,
+        )
+    );
 
-	$context = stream_context_create($options);
-	$source  = @file_get_contents($realurl, false, $context);
+    $context = stream_context_create($options);
+    $source  = @file_get_contents($realurl, false, $context);
 
-	// php.net/manual/en/reserved.variables.httpresponseheader.php
-	$headers = implode("\n", (array)$http_response_header);
-} else if (function_exists('curl_init')) {
-	$curl = curl_init($realurl);
-	curl_setopt($curl, CURLOPT_TIMEOUT, 15);
-	curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 15);
-	curl_setopt($curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
-	curl_setopt($curl, CURLOPT_ENCODING, '');
-	curl_setopt($curl, CURLOPT_HEADER, true);
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-	$data = curl_exec($curl);
+    // php.net/manual/en/reserved.variables.httpresponseheader.php
+    $headers = implode("\n", (array) $http_response_header);
+}
+else if (function_exists('curl_init')) {
+    $curl = curl_init($realurl);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 15);
+    curl_setopt($curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+    curl_setopt($curl, CURLOPT_ENCODING, '');
+    curl_setopt($curl, CURLOPT_HEADER, true);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $data = curl_exec($curl);
 
-	if ($data !== false) {
-		list($headers, $source) = explode("\r\n\r\n", $data, 2);
-	} else {
-		$headers = false;
-		$source = false;
-	}
-} else {
+    if ($data !== false) {
+        list($headers, $source) = explode("\r\n\r\n", $data, 2);
+    }
+    else {
+        $headers = false;
+        $source  = false;
+    }
+}
+else {
     header('HTTP/1.1 403 Forbidden');
     exit("HTTP connections disabled");
 }
 
-$ctype   = '~Content-Type:\s+text/(css|plain)~i';
+$ctype_regexp = '~Content-Type:\s+text/(css|plain)~i';
 
-if ($source !== false && preg_match($ctype, $headers)) {
+if ($source !== false && preg_match($ctype_regexp, $headers)) {
     header('Content-Type: text/css');
     echo rcube_utils::mod_css_styles($source, preg_replace('/[^a-z0-9]/i', '', $_GET['_c']));
     exit;
