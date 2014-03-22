@@ -1,10 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix message import dialog when no file is selected (#1489685)
-- Fix opening compose screen in new window after saving as draft (#1489643)
 - Added toolbar button to move message in message view
 - Improve UI integration of ACL settings
+- Drop support for PHP < 5.3.7
 - Fix directories check in Installer on Windows (#1489576)
 - Fix issue when default_addressbook option is set to integer value (#1489407)
 - Fix Opera > 15 detection (#1489562)
@@ -12,6 +11,8 @@ CHANGELOG Roundcube Webmail
 - Fix invalid X-Draft-Info on forwarded message draft (#1489587)
 - Fix regression in handling of 'attachments' result in message_compose hook (#1489627)
 - Fix issue where msgexport.sh printed the message to STDOUT instead of a file (#1489634)
+- Fix opening compose screen in new window after saving as draft (#1489643)
+- Fix message import dialog when no file is selected (#1489685)
 - Fix opening compose screen in new window after saving as draft (#1489643)
 
 RELEASE 1.0-rc
