@@ -139,6 +139,7 @@ function rcmail_folder_form($attrib)
             'unsubscribed' => true,
             'skip_noinferiors' => true,
             'exceptions'  => $exceptions,
+            'additional'  => strlen($selected) ? array($selected) : null,
         ));
 
         $form['props']['fieldsets']['location']['content']['path'] = array(
