@@ -1355,10 +1355,29 @@ class rcmail extends rcube
 
         $delimiter = $storage->get_hierarchy_delimiter();
 
-        foreach ($list as $folder) {
-            if (empty($p['exceptions']) || !in_array($folder, $p['exceptions'])) {
-                $this->build_folder_tree($a_mailboxes, $folder, $delimiter);
+        if (!empty($p['exceptions'])) {
+            $list = array_diff($list, (array) $p['exceptions']);
+        }
+
+        if (!empty($p['additional'])) {
+            foreach ($p['additional'] as $add_folder) {
+                $add_items = explode($delimiter, $add_folder);
+                $folder    = '';
+                while (count($add_items)) {
+                    $folder .= array_shift($add_items);
+
+                    // @TODO: sorting
+                    if (!in_array($folder, $list)) {
+                        $list[] = $folder;
+                    }
+
+                    $folder .= $delimiter;
+                }
             }
+        }
+
+        foreach ($list as $folder) {
+            $this->build_folder_tree($a_mailboxes, $folder, $delimiter);
         }
 
         $select = new html_select($p);
