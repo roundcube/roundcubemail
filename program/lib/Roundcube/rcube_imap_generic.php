@@ -1569,23 +1569,23 @@ class rcube_imap_generic
      *
      * @param string $mailbox    Mailbox name
      * @param string $field      Field to sort by (ARRIVAL, CC, DATE, FROM, SIZE, SUBJECT, TO)
-     * @param string $add        Searching criteria
+     * @param string $criteria   Searching criteria
      * @param bool   $return_uid Enables UID SORT usage
      * @param string $encoding   Character set
      *
      * @return rcube_result_index Response data
      */
-    function sort($mailbox, $field, $add='', $return_uid=false, $encoding = 'US-ASCII')
+    function sort($mailbox, $field = 'ARRIVAL', $criteria = '', $return_uid = false, $encoding = 'US-ASCII')
     {
-        $field = strtoupper($field);
+        $old_sel   = $this->selected;
+        $supported = array('ARRIVAL', 'CC', 'DATE', 'FROM', 'SIZE', 'SUBJECT', 'TO');
+        $field     = strtoupper($field);
+
         if ($field == 'INTERNALDATE') {
             $field = 'ARRIVAL';
         }
 
-        $fields = array('ARRIVAL' => 1,'CC' => 1,'DATE' => 1,
-            'FROM' => 1, 'SIZE' => 1, 'SUBJECT' => 1, 'TO' => 1);
-
-        if (!$fields[$field]) {
+        if (!in_array($field, $supported)) {
             return new rcube_result_index($mailbox);
         }
 
@@ -1593,18 +1593,21 @@ class rcube_imap_generic
             return new rcube_result_index($mailbox);
         }
 
+        // return empty result when folder is empty and we're just after SELECT
+        if ($old_sel != $mailbox && !$this->data['EXISTS']) {
+            return new rcube_result_index($mailbox, '* SORT');
+        }
+
         // RFC 5957: SORT=DISPLAY
         if (($field == 'FROM' || $field == 'TO') && $this->getCapability('SORT=DISPLAY')) {
             $field = 'DISPLAY' . $field;
         }
 
-        // message IDs
-        if (!empty($add)) {
-            $add = $this->compressMessageSet($add);
-        }
+        $encoding = $encoding ? trim($encoding) : 'US-ASCII';
+        $criteria = $criteria ? 'ALL ' . trim($criteria) : 'ALL';
 
         list($code, $response) = $this->execute($return_uid ? 'UID SORT' : 'SORT',
-            array("($field)", $encoding, !empty($add) ? $add : 'ALL'));
+            array("($field)", $encoding, $criteria));
 
         if ($code != self::ERROR_OK) {
             $response = null;
@@ -1634,7 +1637,7 @@ class rcube_imap_generic
 
         // return empty result when folder is empty and we're just after SELECT
         if ($old_sel != $mailbox && !$this->data['EXISTS']) {
-            return new rcube_result_thread($mailbox);
+            return new rcube_result_thread($mailbox, '* THREAD');
         }
 
         $encoding  = $encoding ? trim($encoding) : 'US-ASCII';
