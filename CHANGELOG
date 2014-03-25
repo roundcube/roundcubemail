@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Fix opening compose screen in new window after saving as draft (#1489643)
 - Fix message import dialog when no file is selected (#1489685)
 - Fix opening compose screen in new window after saving as draft (#1489643)
+- Fix fatal error in database_attachments plugin under some conditions (#1489726)
 
 RELEASE 1.0-rc
 --------------
