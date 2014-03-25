@@ -52,7 +52,7 @@ if (is_array($_FILES['_file'])) {
             fseek($fp, 0);
             while (($line = fgets($fp)) !== false) {
                 // importing mbox file, split by From - lines
-                if (preg_match('/^From\s+-/', $line) && $lastline == '') {
+                if (preg_match('/^From\s+-/', $line) && ($lastline == '' || substr($lastline, -2) == '--')) {
                     if (!empty($message)) {
                         if ($RCMAIL->storage->save_message(null, rtrim($message))) {
                             $imported++;
