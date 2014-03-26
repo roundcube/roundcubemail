@@ -358,6 +358,10 @@ $config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.1
 // check client IP in session athorization
 $config['ip_check'] = false;
 
+// List of trusted proxies
+// X_FORWARDED_* and X_REAL_IP headers are only accepted from these IPs
+$config['proxy_whitelist'] = array();
+
 // check referer of incoming requests
 $config['referer_check'] = false;
 
