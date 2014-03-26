@@ -355,7 +355,7 @@ $config['session_storage'] = 'db';
 // Define any number of hosts in the form of hostname:port or unix:///path/to/socket.file
 $config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
 
-// check client IP in session athorization
+// check client IP in session authorization
 $config['ip_check'] = false;
 
 // check referer of incoming requests
