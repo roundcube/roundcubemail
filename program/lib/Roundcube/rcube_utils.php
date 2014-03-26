@@ -593,8 +593,6 @@ class rcube_utils
      */
     public static function https_check($port=null, $use_https=true)
     {
-        global $RCMAIL;
-
         if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') {
             return true;
         }
@@ -606,7 +604,7 @@ class rcube_utils
         if ($port && $_SERVER['SERVER_PORT'] == $port) {
             return true;
         }
-        if ($use_https && isset($RCMAIL) && $RCMAIL->config->get('use_https')) {
+        if ($use_https && rcube::get_instance()->config->get('use_https')) {
             return true;
         }
 
