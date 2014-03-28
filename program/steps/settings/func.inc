@@ -1260,6 +1260,7 @@ function rcmail_get_skins()
     }
 
     closedir($dir);
+    sort($skins);
 
     return $skins;
 }
