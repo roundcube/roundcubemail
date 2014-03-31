@@ -1162,11 +1162,11 @@ class rcmail extends rcube
             $week_limit  = mktime(0, 0, 0, $now_date['mon'], $now_date['mday']-6, $now_date['year']);
             $pretty_date = $this->config->get('prettydate');
 
-            if ($pretty_date && $timestamp > $today_limit && $timestamp < $now) {
+            if ($pretty_date && $timestamp > $today_limit && $timestamp <= $now) {
                 $format = $this->config->get('date_today', $this->config->get('time_format', 'H:i'));
                 $today  = true;
             }
-            else if ($pretty_date && $timestamp > $week_limit && $timestamp < $now) {
+            else if ($pretty_date && $timestamp > $week_limit && $timestamp <= $now) {
                 $format = $this->config->get('date_short', 'D H:i');
             }
             else {
