@@ -179,14 +179,20 @@ if (!empty($msg_uid) && empty($COMPOSE['as_attachment'])) {
     if (!$MESSAGE->headers) {
         // error
     }
-    else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
-        $COMPOSE['reply_uid']   = $msg_uid;
+    else if ($compose_mode == RCUBE_COMPOSE_FORWARD || $compose_mode == RCUBE_COMPOSE_REPLY) {
+        if ($compose_mode == RCUBE_COMPOSE_REPLY) {
+            $COMPOSE['reply_msgid'] = $MESSAGE->headers->messageID;
+
+            if (!empty($COMPOSE['param']['all'])) {
+                $MESSAGE->reply_all = $COMPOSE['param']['all'];
+            }
+        }
+        else {
+            $COMPOSE['forward_uid'] = $msg_uid;
+        }
+
         $COMPOSE['reply_msgid'] = $MESSAGE->headers->messageID;
         $COMPOSE['references']  = trim($MESSAGE->headers->references . " " . $MESSAGE->headers->messageID);
-
-        if (!empty($COMPOSE['param']['all'])) {
-            $MESSAGE->reply_all = $COMPOSE['param']['all'];
-        }
 
         // Save the sent message in the same folder of the message being replied to
         if ($RCMAIL->config->get('reply_same_folder') && ($sent_folder = $COMPOSE['mailbox'])
@@ -242,8 +248,9 @@ else {
     }
 }
 
-if (!empty($COMPOSE['reply_msgid']))
-  $OUTPUT->set_env('reply_msgid', $COMPOSE['reply_msgid']);
+if (!empty($COMPOSE['reply_msgid'])) {
+    $OUTPUT->set_env('reply_msgid', $COMPOSE['reply_msgid']);
+}
 
 $MESSAGE->compose = array();
 
@@ -1241,6 +1248,7 @@ function rcmail_write_forward_attachments()
 
     $storage = $RCMAIL->get_storage();
     $names   = array();
+    $refs    = array();
 
     $loaded_attachments = array();
     foreach ((array)$COMPOSE['attachments'] as $attachment) {
@@ -1323,6 +1331,18 @@ function rcmail_write_forward_attachments()
         else if ($path) {
             @unlink($path);
         }
+
+        if ($message->headers->messageID) {
+            $refs[] = $message->headers->messageID;
+        }
+    }
+
+    // set In-Reply-To and References headers
+    if (count($refs) == 1) {
+        $COMPOSE['reply_msgid'] = $refs[0];
+    }
+    if (!empty($refs)) {
+        $COMPOSE['references'] = implode(' ', $refs);
     }
 }
 
