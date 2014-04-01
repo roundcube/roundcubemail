@@ -593,18 +593,18 @@ class rcube_utils
      */
     public static function https_check($port=null, $use_https=true)
     {
-        global $RCMAIL;
-
         if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') {
             return true;
         }
-        if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https') {
+        if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])
+            && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https'
+            && in_array($_SERVER['REMOTE_ADDR'], rcube::get_instance()->config->get('proxy_whitelist', array()))) {
             return true;
         }
         if ($port && $_SERVER['SERVER_PORT'] == $port) {
             return true;
         }
-        if ($use_https && isset($RCMAIL) && $RCMAIL->config->get('use_https')) {
+        if ($use_https && rcube::get_instance()->config->get('use_https')) {
             return true;
         }
 
@@ -683,13 +683,22 @@ class rcube_utils
      */
     public static function remote_addr()
     {
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $hosts = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'], 2);
-            return $hosts[0];
-        }
+        // Check if any of the headers are set first to improve performance
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) || !empty($_SERVER['HTTP_X_REAL_IP'])) {
+            $proxy_whitelist = rcube::get_instance()->config->get('proxy_whitelist', array());
+            if (in_array($_SERVER['REMOTE_ADDR'], $proxy_whitelist)) {
+                if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                    foreach(array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) as $forwarded_ip) {
+                        if (!in_array($forwarded_ip, $proxy_whitelist)) {
+                            return $forwarded_ip;
+                        }
+                    }
+                }
 
-        if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
-            return $_SERVER['HTTP_X_REAL_IP'];
+                if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+                    return $_SERVER['HTTP_X_REAL_IP'];
+                }
+            }
         }
 
         if (!empty($_SERVER['REMOTE_ADDR'])) {

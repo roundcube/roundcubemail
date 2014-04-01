@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add proxy_whitelist configuration option (#1489729)
 - Added toolbar button to move message in message view
 - Improve UI integration of ACL settings
 - Drop support for PHP < 5.3.7

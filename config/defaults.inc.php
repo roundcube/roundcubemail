@@ -355,8 +355,12 @@ $config['session_storage'] = 'db';
 // Define any number of hosts in the form of hostname:port or unix:///path/to/socket.file
 $config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
 
-// check client IP in session athorization
+// check client IP in session authorization
 $config['ip_check'] = false;
+
+// List of trusted proxies
+// X_FORWARDED_* and X_REAL_IP headers are only accepted from these IPs
+$config['proxy_whitelist'] = array();
 
 // check referer of incoming requests
 $config['referer_check'] = false;
