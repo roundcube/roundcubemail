@@ -473,6 +473,9 @@ class rcube_html2text
         // Replace known html entities
         $text = html_entity_decode($text, ENT_QUOTES, $this->charset);
 
+        // Replace unicode nbsp to regular spaces
+        $text = preg_replace('/\xC2\xA0/', ' ', $text);
+
         // Remove unknown/unhandled entities (this cannot be done in search-and-replace block)
         $text = preg_replace('/&([a-zA-Z0-9]{2,6}|#[0-9]{2,4});/', '', $text);
 
