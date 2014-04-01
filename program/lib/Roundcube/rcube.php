@@ -420,14 +420,41 @@ class rcube
 
         $storage->set_charset($this->config->get('default_charset', RCUBE_CHARSET));
 
-        if ($default_folders = $this->config->get('default_folders')) {
-            $storage->set_default_folders($default_folders);
-        }
         if (isset($_SESSION['mbox'])) {
             $storage->set_folder($_SESSION['mbox']);
         }
         if (isset($_SESSION['page'])) {
             $storage->set_page($_SESSION['page']);
+        }
+    }
+
+
+    /**
+     * Set special folders type association.
+     * This must be done AFTER connecting to the server!
+     */
+    protected function set_special_folders()
+    {
+        $storage = $this->get_storage();
+        $folders = $storage->get_special_folders(true);
+        $prefs   = array();
+
+        // check SPECIAL-USE flags on IMAP folders
+        foreach ($folders as $type => $folder) {
+            $idx = $type . '_mbox';
+            if ($folder !== $this->config->get($idx)) {
+                $prefs[$idx] = $folder;
+            }
+        }
+
+        // Some special folders differ, update user preferences
+        if (!empty($prefs) && $this->user) {
+            $this->user->save_prefs($prefs);
+        }
+
+        // create default folders (on login)
+        if ($this->config->get('create_default_folders')) {
+            $storage->create_default_folders();
         }
     }
 

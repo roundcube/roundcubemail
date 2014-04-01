@@ -561,19 +561,14 @@ $config['sent_mbox'] = 'Sent';
 // NOTE: Use folder names with namespace prefix (INBOX. on Courier-IMAP)
 $config['trash_mbox'] = 'Trash';
 
-// display these folders separately in the mailbox list.
-// these folders will also be displayed with localized names
-// NOTE: Use folder names with namespace prefix (INBOX. on Courier-IMAP)
-$config['default_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
-
-// Disable localization of the default folder names listed above
-$config['show_real_foldernames'] = false;
-
 // automatically create the above listed default folders on first login
 $config['create_default_folders'] = false;
 
 // protect the default folders from renames, deletes, and subscription changes
 $config['protect_default_folders'] = true;
+
+// Disable localization of the default folder names listed above
+$config['show_real_foldernames'] = false;
 
 // if in your system 0 quota means no limit set this option to true 
 $config['quota_zero_as_unlimited'] = false;

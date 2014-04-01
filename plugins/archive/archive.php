@@ -6,22 +6,22 @@
  * Plugin that adds a new button to the mailbox toolbar
  * to move messages to a (user selectable) archive folder.
  *
- * @version 2.1
+ * @version 2.2
  * @license GNU GPLv3+
  * @author Andre Rodier, Thomas Bruederli, Aleksander Machniak
  */
 class archive extends rcube_plugin
 {
-  public $task = 'mail|settings';
-
   function init()
   {
     $rcmail = rcmail::get_instance();
 
-    // There is no "Archived flags"
-    // $GLOBALS['IMAP_FLAGS']['ARCHIVED'] = 'Archive';
+    // register special folder type
+    rcube_storage::$folder_types[] = 'archive';
+
     if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show')
-        && ($archive_folder = $rcmail->config->get('archive_mbox'))) {
+        && ($archive_folder = $rcmail->config->get('archive_mbox'))
+    ) {
       $skin_path = $this->local_skin_path();
       if (is_file($this->home . "/$skin_path/archive.css"))
         $this->include_stylesheet("$skin_path/archive.css");
@@ -48,12 +48,6 @@ class archive extends rcube_plugin
       // set env variables for client
       $rcmail->output->set_env('archive_folder', $archive_folder);
       $rcmail->output->set_env('archive_type', $rcmail->config->get('archive_type',''));
-
-      // add archive folder to the list of default mailboxes
-      if (($default_folders = $rcmail->config->get('default_folders')) && !in_array($archive_folder, $default_folders)) {
-        $default_folders[] = $archive_folder;
-        $rcmail->config->set('default_folders', $default_folders);
-      }
     }
     else if ($rcmail->task == 'mail') {
       // handler for ajax request
@@ -99,7 +93,7 @@ class archive extends rcube_plugin
         return true;
       } else if (!empty($item['folders']))
         if ($this->_mod_folder_name($list[$idx]['folders'], $folder, $new_name))
-        return true;
+          return true;
     }
     return false;
   }
@@ -286,7 +280,6 @@ class archive extends rcube_plugin
   function save_prefs($args)
   {
     if ($args['section'] == 'folders') {
-      $args['prefs']['archive_mbox'] = rcube_utils::get_input_value('_archive_mbox', rcube_utils::INPUT_POST);
       $args['prefs']['archive_type'] = rcube_utils::get_input_value('_archive_type', rcube_utils::INPUT_POST);
       return $args;
     }

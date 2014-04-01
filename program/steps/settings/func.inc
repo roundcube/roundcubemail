@@ -1035,7 +1035,8 @@ function rcmail_user_prefs($current = null)
             }
 
             // Configure special folders
-            if (!isset($no_override['default_folders']) && $current) {
+            $set = array('drafts_mbox', 'sent_mbox', 'junk_mbox', 'trash_mbox');
+            if ($current && count(array_intersect($no_override, $set)) < 4) {
                 $select = $RCMAIL->folder_selector(array(
                     'noselection'   => '---',
                     'realnames'     => true,
@@ -1043,10 +1044,10 @@ function rcmail_user_prefs($current = null)
                     'folder_filter' => 'mail',
                     'folder_rights' => 'w',
                 ));
-            }
 
-            // #1486114, #1488279, #1489219
-            $onchange = "if ($(this).val() == 'INBOX') $(this).val('')";
+                // #1486114, #1488279, #1489219
+                $onchange = "if ($(this).val() == 'INBOX') $(this).val('')";
+            }
 
             if (!isset($no_override['drafts_mbox'])) {
                 if (!$current) {
@@ -1287,13 +1288,11 @@ function rcmail_update_folder_row($name, $oldname=null, $subscribe=false, $class
 {
     global $RCMAIL, $OUTPUT;
 
-    $default_folders = (array) $RCMAIL->config->get('default_folders');
     $protect_folders = $RCMAIL->config->get('protect_default_folders');
-
-    $storage      = $RCMAIL->get_storage();
-    $delimiter    = $storage->get_hierarchy_delimiter();
-    $name_utf8    = rcube_charset::convert($name, 'UTF7-IMAP');
-    $protected    = $protect_folders && in_array($name, $default_folders);
+    $storage         = $RCMAIL->get_storage();
+    $delimiter       = $storage->get_hierarchy_delimiter();
+    $name_utf8       = rcube_charset::convert($name, 'UTF7-IMAP');
+    $protected       = $protect_folders && $storage->is_special_folder($name);
 
     $foldersplit  = explode($delimiter, $storage->mod_folder($name));
     $level        = count($foldersplit) - 1;

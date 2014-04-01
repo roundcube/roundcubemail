@@ -45,7 +45,7 @@ if ($RCMAIL->action == 'subscribe') {
         if ($result) {
             // Handle subscription of protected folder (#1487656)
             if ($RCMAIL->config->get('protect_default_folders')
-                && in_array($mbox, (array)$RCMAIL->config->get('default_folders'))
+                && $STORAGE->is_special_folder($mbox)
             ) {
                 $OUTPUT->command('disable_subscription', $mbox);
             }
@@ -221,16 +221,15 @@ function rcube_subscription_form($attrib)
     // get folders from server
     $STORAGE->clear_cache('mailboxes', true);
 
-    $a_unsubscribed = $STORAGE->list_folders();
-    $a_subscribed   = $STORAGE->list_folders_subscribed('', '*', null, null, true); // unsorted
-    $delimiter      = $STORAGE->get_hierarchy_delimiter();
-    $namespace      = $STORAGE->get_namespace();
-    $a_js_folders   = array();
-    $seen           = array();
-    $list_folders   = array();
-
-    $default_folders = (array) $RCMAIL->config->get('default_folders');
+    $a_unsubscribed  = $STORAGE->list_folders();
+    $a_subscribed    = $STORAGE->list_folders_subscribed('', '*', null, null, true); // unsorted
+    $delimiter       = $STORAGE->get_hierarchy_delimiter();
+    $namespace       = $STORAGE->get_namespace();
+    $special_folders = array_flip(array_merge(array('inbox' => 'INBOX'), $STORAGE->get_special_folders()));
     $protect_default = $RCMAIL->config->get('protect_default_folders');
+    $a_js_folders    = array();
+    $seen            = array();
+    $list_folders    = array();
 
     // pre-process folders list
     foreach ($a_unsubscribed as $i => $folder) {
@@ -291,7 +290,7 @@ function rcube_subscription_form($attrib)
         $idx        = $i + 1;
         $sub_key    = array_search($folder['id'], $a_subscribed);
         $subscribed = $sub_key !== false;
-        $protected  = $protect_default && in_array($folder['id'], $default_folders);
+        $protected  = $protect_default && isset($special_folders[$folder['id']]);
         $noselect   = false;
         $classes    = array($i%2 ? 'even' : 'odd');
 
@@ -368,7 +367,7 @@ function rcube_subscription_form($attrib)
 
     $OUTPUT->add_gui_object('subscriptionlist', $attrib['id']);
     $OUTPUT->set_env('subscriptionrows', $a_js_folders);
-    $OUTPUT->set_env('defaultfolders', $default_folders);
+    $OUTPUT->set_env('defaultfolders', array_keys($special_folders));
     $OUTPUT->set_env('delimiter', $delimiter);
 
     return $form_start . $table->show($attrib) . $form_end;

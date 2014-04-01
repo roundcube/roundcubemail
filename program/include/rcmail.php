@@ -644,10 +644,8 @@ class rcmail extends rcube
             // fix some old settings according to namespace prefix
             $this->fix_namespace_settings($user);
 
-            // create default folders on login
-            if ($this->config->get('create_default_folders')) {
-                $storage->create_default_folders();
-            }
+            // set/create special folders
+            $this->set_special_folders();
 
             // clear all mailboxes related cache(s)
             $storage->clear_cache('mailboxes', true);
@@ -923,14 +921,6 @@ class rcmail extends rcube
             if ($value = $prefs[$opt]) {
                 if ($value != 'INBOX' && !preg_match($regexp, $value)) {
                     $prefs[$opt] = $prefix.$value;
-                }
-            }
-        }
-
-        if (!empty($prefs['default_folders'])) {
-            foreach ($prefs['default_folders'] as $idx => $name) {
-                if ($name != 'INBOX' && !preg_match($regexp, $name)) {
-                    $prefs['default_folders'][$idx] = $prefix.$name;
                 }
             }
         }
@@ -1646,14 +1636,13 @@ class rcmail extends rcube
     public function localize_folderpath($path)
     {
         $protect_folders = $this->config->get('protect_default_folders');
-        $default_folders = (array) $this->config->get('default_folders');
         $delimiter       = $this->storage->get_hierarchy_delimiter();
         $path            = explode($delimiter, $path);
         $result          = array();
 
         foreach ($path as $idx => $dir) {
             $directory = implode($delimiter, array_slice($path, 0, $idx+1));
-            if ($protect_folders && in_array($directory, $default_folders)) {
+            if ($protect_folders && $this->storage->is_special_folder($directory)) {
                 unset($result);
                 $result[] = $this->localize_foldername($directory);
             }

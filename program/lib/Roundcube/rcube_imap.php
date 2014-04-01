@@ -2365,19 +2365,7 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        // make sure folder exists
-        if ($to_mbox != 'INBOX' && !$this->folder_exists($to_mbox)) {
-            if (in_array($to_mbox, $this->default_folders)) {
-                if (!$this->create_folder($to_mbox, true)) {
-                    return false;
-                }
-            }
-            else {
-                return false;
-            }
-        }
-
-        $config = rcube::get_instance()->config;
+        $config   = rcube::get_instance()->config;
         $to_trash = $to_mbox == $config->get('trash_mbox');
 
         // flag messages as read before moving them
@@ -2446,18 +2434,6 @@ class rcube_imap extends rcube_storage
 
         if (!$this->check_connection()) {
             return false;
-        }
-
-        // make sure folder exists
-        if ($to_mbox != 'INBOX' && !$this->folder_exists($to_mbox)) {
-            if (in_array($to_mbox, $this->default_folders)) {
-                if (!$this->create_folder($to_mbox, true)) {
-                    return false;
-                }
-            }
-            else {
-                return false;
-            }
         }
 
         // copy messages
@@ -2975,16 +2951,17 @@ class rcube_imap extends rcube_storage
      *
      * @param string  $folder    New folder name
      * @param boolean $subscribe True if the new folder should be subscribed
+     * @param string  $type      Optional folder type (junk, trash, drafts, sent, archive)
      *
      * @return boolean True on success
      */
-    public function create_folder($folder, $subscribe=false)
+    public function create_folder($folder, $subscribe = false, $type = null)
     {
         if (!$this->check_connection()) {
             return false;
         }
 
-        $result = $this->conn->createFolder($folder);
+        $result = $this->conn->createFolder($folder, $type ? array("\\" . ucfirst($type)) : null);
 
         // try to subscribe it
         if ($result) {
@@ -3109,19 +3086,84 @@ class rcube_imap extends rcube_storage
 
 
     /**
-     * Create all folders specified as default
+     * Detect special folder associations stored in storage backend
      */
-    public function create_default_folders()
+    public function get_special_folders($forced = false)
     {
-        // create default folders if they do not exist
-        foreach ($this->default_folders as $folder) {
-            if (!$this->folder_exists($folder)) {
-                $this->create_folder($folder, true);
-            }
-            else if (!$this->folder_exists($folder, true)) {
-                $this->subscribe($folder);
+        $result = parent::get_special_folders();
+
+        if (isset($this->icache['special-use'])) {
+            return array_merge($result, $this->icache['special-use']);
+        }
+
+        if (!$forced || !$this->get_capability('SPECIAL-USE')) {
+            return $result;
+        }
+
+        if (!$this->check_connection()) {
+            return $result;
+        }
+
+        $types   = array_map(function($value) { return "\\" . ucfirst($value); }, rcube_storage::$folder_types);
+        $special = array();
+
+        // request \Subscribed flag in LIST response as performance improvement for folder_exists()
+        $folders = $this->conn->listMailboxes('', '*', array('SUBSCRIBED'), array('SPECIAL-USE'));
+
+        foreach ($folders as $folder) {
+            if ($flags = $this->conn->data['LIST'][$folder]) {
+                foreach ($types as $type) {
+                    if (in_array($type, $flags)) {
+                        $type           = strtolower(substr($type, 1));
+                        $special[$type] = $folder;
+                    }
+                }
             }
         }
+
+        $this->icache['special-use'] = $special;
+        unset($this->icache['special-folders']);
+
+        return array_merge($result, $special);
+    }
+
+
+    /**
+     * Set special folder associations stored in storage backend
+     */
+    public function set_special_folders($specials)
+    {
+        if (!$this->get_capability('SPECIAL-USE') || !$this->get_capability('METADATA')) {
+            return false;
+        }
+
+        if (!$this->check_connection()) {
+            return false;
+        }
+
+        $folders = $this->get_special_folders(true);
+        $old     = (array) $this->icache['special-use'];
+
+        foreach ($specials as $type => $folder) {
+            if (in_array($type, rcube_storage::$folder_types)) {
+                $old_folder = $old[$type];
+                if ($old_folder !== $folder) {
+                    // unset old-folder metadata
+                    if ($old_folder !== null) {
+                        $this->delete_metadata($old_folder, array('/private/specialuse'));
+                    }
+                    // set new folder metadata
+                    if ($folder) {
+                        $this->set_metadata($folder, array('/private/specialuse' => "\\" . ucfirst($type)));
+                    }
+                }
+            }
+        }
+
+        $this->icache['special-use'] = $specials;
+        unset($this->icache['special-folders']);
+
+        return true;
     }
 
 
@@ -3133,13 +3175,13 @@ class rcube_imap extends rcube_storage
      *
      * @return boolean TRUE or FALSE
      */
-    public function folder_exists($folder, $subscription=false)
+    public function folder_exists($folder, $subscription = false)
     {
         if ($folder == 'INBOX') {
             return true;
         }
 
-        $key  = $subscription ? 'subscribed' : 'existing';
+        $key = $subscription ? 'subscribed' : 'existing';
 
         if (is_array($this->icache[$key]) && in_array($folder, $this->icache[$key])) {
             return true;
@@ -3150,10 +3192,24 @@ class rcube_imap extends rcube_storage
         }
 
         if ($subscription) {
-            $a_folders = $this->conn->listSubscribed('', $folder);
+            // It's possible we already called LIST command, check LIST data
+            if (!empty($this->conn->data['LIST']) && !empty($this->conn->data['LIST'][$folder])
+                && in_array('\\Subscribed', $this->conn->data['LIST'][$folder])
+            ) {
+                $a_folders = array($folder);
+            }
+            else {
+                $a_folders = $this->conn->listSubscribed('', $folder);
+            }
         }
         else {
-            $a_folders = $this->conn->listMailboxes('', $folder);
+            // It's possible we already called LIST command, check LIST data
+            if (!empty($this->conn->data['LIST']) && isset($this->conn->data['LIST'][$folder])) {
+                $a_folders = array($folder);
+            }
+            else {
+                $a_folders = $this->conn->listMailboxes('', $folder);
+            }
         }
 
         if (is_array($a_folders) && in_array($folder, $a_folders)) {
@@ -3364,7 +3420,7 @@ class rcube_imap extends rcube_storage
         $options['name']       = $folder;
         $options['attributes'] = $this->folder_attributes($folder, true);
         $options['namespace']  = $this->folder_namespace($folder);
-        $options['special']    = in_array($folder, $this->default_folders);
+        $options['special']    = $this->is_special_folder($folder);
 
         // Set 'noselect' flag
         if (is_array($options['attributes'])) {
@@ -3902,6 +3958,7 @@ class rcube_imap extends rcube_storage
         $a_out = $a_defaults = $folders = array();
 
         $delimiter = $this->get_hierarchy_delimiter();
+        $specials  = array_merge(array('INBOX'), array_values($this->get_special_folders()));
 
         // find default folders and skip folders starting with '.'
         foreach ($a_folders as $folder) {
@@ -3909,7 +3966,7 @@ class rcube_imap extends rcube_storage
                 continue;
             }
 
-            if (!$skip_default && ($p = array_search($folder, $this->default_folders)) !== false && !$a_defaults[$p]) {
+            if (!$skip_default && ($p = array_search($folder, $specials)) !== false && !$a_defaults[$p]) {
                 $a_defaults[$p] = $folder;
             }
             else {

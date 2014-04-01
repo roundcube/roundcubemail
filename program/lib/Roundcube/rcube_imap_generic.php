@@ -1191,13 +1191,20 @@ class rcube_imap_generic
      * Folder creation (CREATE)
      *
      * @param string $mailbox Mailbox name
+     * @param array  $types    Optional folder types (RFC 6154)
      *
      * @return bool True on success, False on error
      */
-    function createFolder($mailbox)
+    function createFolder($mailbox, $types = null)
     {
-        $result = $this->execute('CREATE', array($this->escape($mailbox)),
-            self::COMMAND_NORESPONSE);
+        $args = array($this->escape($mailbox));
+
+        // RFC 6154: CREATE-SPECIAL-USE
+        if (!empty($types) && $this->getCapability('CREATE-SPECIAL-USE')) {
+            $args[] = '(USE (' . implode(' ', $types) . '))';
+        }
+
+        $result = $this->execute('CREATE', $args, self::COMMAND_NORESPONSE);
 
         return ($result == self::ERROR_OK);
     }
@@ -1293,10 +1300,12 @@ class rcube_imap_generic
      * @param string $ref         Reference name
      * @param string $mailbox     Mailbox name
      * @param bool   $subscribed  Enables returning subscribed mailboxes only
-     * @param array  $status_opts List of STATUS options (RFC5819: LIST-STATUS)
-     *                            Possible: MESSAGES, RECENT, UIDNEXT, UIDVALIDITY, UNSEEN
+     * @param array  $status_opts List of STATUS options
+     *                            (RFC5819: LIST-STATUS:  MESSAGES, RECENT, UIDNEXT, UIDVALIDITY, UNSEEN)
+     *                            or RETURN options (RFC5258: LIST_EXTENDED: SUBSCRIBED, CHILDREN)
      * @param array  $select_opts List of selection options (RFC5258: LIST-EXTENDED)
-     *                            Possible: SUBSCRIBED, RECURSIVEMATCH, REMOTE
+     *                            Possible: SUBSCRIBED, RECURSIVEMATCH, REMOTE,
+     *                                      SPECIAL-USE (RFC6154)
      *
      * @return array List of mailboxes or hash of options if $status_ops argument
      *               is non-empty.
@@ -1309,6 +1318,7 @@ class rcube_imap_generic
         }
 
         $args = array();
+        $rets = array();
 
         if (!empty($select_opts) && $this->getCapability('LIST-EXTENDED')) {
             $select_opts = (array) $select_opts;
@@ -1319,11 +1329,21 @@ class rcube_imap_generic
         $args[] = $this->escape($ref);
         $args[] = $this->escape($mailbox);
 
-        if (!empty($status_opts) && $this->getCapability('LIST-STATUS')) {
-            $status_opts = (array) $status_opts;
-            $lstatus = true;
+        if (!empty($status_opts) && $this->getCapability('LIST-EXTENDED')) {
+            $rets = array_intersect($status_opts, array('SUBSCRIBED', 'CHILDREN'));
+        }
 
-            $args[] = 'RETURN (STATUS (' . implode(' ', $status_opts) . '))';
+        if (!empty($status_opts) && $this->getCapability('LIST-STATUS')) {
+            $status_opts = array_intersect($status_opts, array('MESSAGES', 'RECENT', 'UIDNEXT', 'UIDVALIDITY', 'UNSEEN'));
+
+            if (!empty($status_opts)) {
+                $lstatus = true;
+                $rets[] = 'STATUS (' . implode(' ', $status_opts) . ')';
+            }
+        }
+
+        if (!empty($rets)) {
+            $args[] = 'RETURN (' . implode(' ', $rets) . ')';
         }
 
         list($code, $response) = $this->execute($subscribed ? 'LSUB' : 'LIST', $args);

@@ -42,7 +42,6 @@ class rcube_install
     'addrbook_show_images' => 'show_images',
     'imap_root'            => 'imap_ns_personal',
     'pagesize'             => 'mail_pagesize',
-    'default_imap_folders' => 'default_folders',
     'top_posting'          => 'reply_mode',
     'keep_alive'           => 'refresh_interval',
     'min_keep_alive'       => 'min_refresh_interval',
@@ -227,19 +226,6 @@ class rcube_install
       }
       else if ($prop == 'smtp_pass' && !empty($_POST['_smtp_user_u'])) {
         $value = '%p';
-      }
-      else if ($prop == 'default_folders') {
-        $value = array();
-        foreach ($this->config['default_folders'] as $_folder) {
-          switch ($_folder) {
-          case 'Drafts': $_folder = $this->config['drafts_mbox']; break;
-          case 'Sent':   $_folder = $this->config['sent_mbox']; break;
-          case 'Junk':   $_folder = $this->config['junk_mbox']; break;
-          case 'Trash':  $_folder = $this->config['trash_mbox']; break;
-          }
-        if (!in_array($_folder, $value))
-          $value[] = $_folder;
-        }
       }
       else if (is_bool($default)) {
         $value = (bool)$value;
