@@ -182,7 +182,7 @@ class rcube_plugin_api
         }
 
         // plugin already loaded
-        if ($this->plugins[$plugin_name] || class_exists($plugin_name, false)) {
+        if ($this->plugins[$plugin_name]) {
             return true;
         }
 
@@ -190,7 +190,9 @@ class rcube_plugin_api
             . DIRECTORY_SEPARATOR . $plugin_name . '.php';
 
         if (file_exists($fn)) {
-            include $fn;
+            if (!class_exists($plugin_name, false)) {
+                include $fn;
+            }
 
             // instantiate class if exists
             if (class_exists($plugin_name, false)) {
