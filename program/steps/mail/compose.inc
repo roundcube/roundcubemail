@@ -181,7 +181,7 @@ if (!empty($msg_uid) && empty($COMPOSE['as_attachment'])) {
     }
     else if ($compose_mode == RCUBE_COMPOSE_FORWARD || $compose_mode == RCUBE_COMPOSE_REPLY) {
         if ($compose_mode == RCUBE_COMPOSE_REPLY) {
-            $COMPOSE['reply_msgid'] = $MESSAGE->headers->messageID;
+            $COMPOSE['reply_uid'] = $msg_uid;
 
             if (!empty($COMPOSE['param']['all'])) {
                 $MESSAGE->reply_all = $COMPOSE['param']['all'];
