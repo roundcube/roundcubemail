@@ -24,6 +24,15 @@
 	<roundcube:container name="toolbar" id="addressbooktoolbar" />
 </div>
 
+<!-- search box -->
+<div id="quicksearchbar" class="searchbox">
+<roundcube:object name="searchform" id="quicksearchbox" />
+<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" onclick="UI.show_popup('searchmenu');return false" title="searchmod" content=" " />
+<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
+</div>
+
+<div id="mainscreencontent">
+
 <div id="addressview-left">
 
 <!-- sources/groups list -->
@@ -40,13 +49,6 @@
 </div><!-- end addressview-left -->
 
 <div id="addressview-right">
-
-<!-- search box -->
-<div id="quicksearchbar" class="searchbox">
-<roundcube:object name="searchform" id="quicksearchbox" />
-<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" onclick="UI.show_popup('searchmenu');return false" title="searchmod" content=" " />
-<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
-</div>
 
 <!-- contacts list -->
 <div id="addresslist" class="uibox listbox">
@@ -73,8 +75,9 @@
 	</div>
 </div>
 
-
 </div><!-- end addressview-right -->
+
+</div><!-- end mainscreencontent -->
 
 </div><!-- end mainscreen -->
 

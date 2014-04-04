@@ -39,7 +39,7 @@
 
 #directorylistbox {
 	position: absolute;
-	top: 42px;
+	top: 0;
 	left: 0;
 	width: 100%;
 	bottom: 0;
@@ -47,7 +47,7 @@
 
 #addresslist {
 	position: absolute;
-	top: 42px;
+	top: 0;
 	left: 0;
 	width: 280px;
 	bottom: 0;
@@ -55,7 +55,7 @@
 
 #contacts-box {
 	position: absolute;
-	top: 42px;
+	top: 0;
 	left: 292px;
 	right: 0;
 	bottom: 0;

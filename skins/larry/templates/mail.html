@@ -11,9 +11,8 @@
 <roundcube:endif />
 </style>
 </head>
-<body>
+<body class="minwidth">
 
-<div class="minwidth">
 <roundcube:include file="/includes/header.html" />
 
 <div id="mainscreen">
@@ -24,6 +23,23 @@
 	<roundcube:include file="/includes/mailtoolbar.html" />
 </div>
 
+<div id="messagesearchtools">
+
+<!-- search filter -->
+<div id="searchfilter">
+	<roundcube:object name="searchfilter" class="searchfilter decorated" />
+</div>
+
+<!-- search box -->
+<div id="quicksearchbar" class="searchbox">
+<roundcube:object name="searchform" id="quicksearchbox" />
+<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" onclick="UI.show_popup('searchmenu');return false" title="searchmod" content=" " />
+<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
+</div>
+
+</div>
+
+<div id="mainscreencontent">
 <div id="mailview-left">
 
 <!-- folders list -->
@@ -42,22 +58,6 @@
 </div>
 
 <div id="mailview-right">
-
-<div id="messagesearchtools">
-
-<!-- search filter -->
-<div id="searchfilter">
-	<roundcube:object name="searchfilter" class="searchfilter decorated" />
-</div>
-
-<!-- search box -->
-<div id="quicksearchbar" class="searchbox">
-<roundcube:object name="searchform" id="quicksearchbox" />
-<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" onclick="UI.show_popup('searchmenu');return false" title="searchmod" content=" " />
-<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
-</div>
-
-</div>
 
 <roundcube:if condition="config:preview_pane == true" />
 <div id="mailview-top" class="uibox">
@@ -119,9 +119,9 @@
 
 </div><!-- end mailview-right -->
 
-</div><!-- end mainscreen -->
+</div><!-- end mainscreencontent -->
 
-</div><!-- end minwidth -->
+</div><!-- end mainscreen -->
 
 <div id="searchmenu" class="popupmenu">
 	<ul class="toolbarmenu">

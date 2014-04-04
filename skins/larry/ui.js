@@ -329,7 +329,7 @@ function rcube_mail_ui()
     });
 
     // set min-width to show all toolbar buttons
-    var screen = $('body > div.minwidth');
+    var screen = $('body.minwidth');
     if (screen.length) {
       screen.css('min-width', $('.toolbar').width() + $('#quicksearchbar').width() + $('#searchfilter').width() + 30);
     }

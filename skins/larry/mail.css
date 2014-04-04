@@ -34,7 +34,7 @@
 
 #mailview-top {
 	position: absolute;
-	top: 42px;
+	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0px;
@@ -59,7 +59,7 @@
 #mailboxcontainer,
 #messagelistcontainer {
 	position: absolute;
-	top: 42px;
+	top: 0;
 	left: 0;
 	width: 100%;
 	bottom: 0;
@@ -1203,7 +1203,7 @@ div.message-partheaders .headers-table td.header {
 
 #messagepartcontainer {
 	position: absolute;
-	top: 42px;
+	top: 0;
 	left: 232px;
 	right: 0;
 	bottom: 0;
@@ -1217,7 +1217,7 @@ div.message-partheaders .headers-table td.header {
 
 #messagepartheader {
 	position: absolute;
-	top: 42px;
+	top: 0;
 	left: 0;
 	width: 220px;
 	bottom: 0;
@@ -1259,7 +1259,7 @@ div.message-partheaders .headers-table td.header {
 
 #compose-contacts {
 	position: absolute;
-	top: 42px;
+	top: 0;
 	left: 0;
 	width: 100%;
 	bottom: 0;
@@ -1362,7 +1362,7 @@ div.message-partheaders .headers-table td.header {
 
 #compose-content {
 	position: absolute;
-	top: 42px;
+	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0px;

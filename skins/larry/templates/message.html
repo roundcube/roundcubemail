@@ -20,6 +20,8 @@
 
 <roundcube:if condition="!env:extwin" />
 
+<div id="mainscreencontent">
+
 <div id="mailview-left">
 
 <!-- folders list -->
@@ -31,7 +33,7 @@
 
 </div>
 
-<div id="mailview-right" class="offset uibox">
+<div id="mailview-right" class="uibox">
 <roundcube:else />
 <roundcube:object name="mailboxlist" folder_filter="mail" type="js" />
 
@@ -83,6 +85,10 @@
 </div>
 
 </div><!-- end mailview-right -->
+
+<roundcube:if condition="!env:extwin" />
+</div><!-- end mainscreencontent -->
+<roundcube:endif />
 
 </div><!-- end mainscreen -->
 
