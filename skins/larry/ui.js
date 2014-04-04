@@ -1210,6 +1210,7 @@ function rcube_splitter(p)
   {
     this.p1 = $(this.p.p1);
     this.p2 = $(this.p.p2);
+    this.parent = this.p1.parent();
 
     // check if referenced elements exist, otherwise abort
     if (!this.p1.length || !this.p2.length)
@@ -1222,7 +1223,7 @@ function rcube_splitter(p)
       .attr('id', this.id)
       .attr('unselectable', 'on')
       .addClass('splitter ' + (this.horizontal ? 'splitter-h' : 'splitter-v'))
-      .appendTo(this.p1.parent())
+      .appendTo(this.parent)
       .bind('mousedown', onDragStart);
 
     if (this.horizontal) {
@@ -1261,7 +1262,7 @@ function rcube_splitter(p)
       this.p2.css('top', Math.ceil(this.pos + this.halfsize + 2) + 'px');
       this.handle.css('top', Math.round(this.pos - this.halfsize + this.offset)+'px');
       if (bw.ie) {
-        var new_height = parseInt(this.p2.parent().outerHeight(), 10) - parseInt(this.p2.css('top'), 10) - (bw.ie8 ? 2 : 0);
+        var new_height = parseInt(this.parent.outerHeight(), 10) - parseInt(this.p2.css('top'), 10) - (bw.ie8 ? 2 : 0);
         this.p2.css('height', (new_height > 0 ? new_height : 0) + 'px');
       }
     }
@@ -1270,7 +1271,7 @@ function rcube_splitter(p)
       this.p2.css('left', Math.ceil(this.pos + this.halfsize) + 'px');
       this.handle.css('left', Math.round(this.pos - this.halfsize + this.offset + 3)+'px');
       if (bw.ie) {
-        var new_width = parseInt(this.p2.parent().outerWidth(), 10) - parseInt(this.p2.css('left'), 10) ;
+        var new_width = parseInt(this.parent.outerWidth(), 10) - parseInt(this.p2.css('left'), 10) ;
         this.p2.css('width', (new_width > 0 ? new_width : 0) + 'px');
       }
     }
@@ -1343,7 +1344,7 @@ function rcube_splitter(p)
     var pos = rcube_event.get_mouse_pos(e);
 
     if (me.relative) {
-      var parent = me.p1.parent().offset();
+      var parent = me.parent.offset();
       pos.x -= parent.left;
       pos.y -= parent.top;
     }
@@ -1351,12 +1352,18 @@ function rcube_splitter(p)
     if (me.horizontal) {
       if (((pos.y - me.halfsize) > me.p1pos.top) && ((pos.y + me.halfsize) < (me.p2pos.top + me.p2.outerHeight()))) {
         me.pos = Math.max(me.min, pos.y - me.offset);
+        if (me.pos > me.min)
+          me.pos = Math.min(me.pos, me.parent.height() - me.min);
+
         me.resize();
       }
     }
     else {
       if (((pos.x - me.halfsize) > me.p1pos.left) && ((pos.x + me.halfsize) < (me.p2pos.left + me.p2.outerWidth()))) {
         me.pos = Math.max(me.min, pos.x - me.offset);
+        if (me.pos > me.min)
+          me.pos = Math.min(me.pos, me.parent.width() - me.min);
+
         me.resize();
       }
     }
@@ -1395,11 +1402,11 @@ function rcube_splitter(p)
   function onResize(e)
   {
     if (me.horizontal) {
-      var new_height = parseInt(me.p2.parent().outerHeight(), 10) - parseInt(me.p2[0].style.top, 10) - (bw.ie8 ? 2 : 0);
+      var new_height = parseInt(me.parent.outerHeight(), 10) - parseInt(me.p2[0].style.top, 10) - (bw.ie8 ? 2 : 0);
       me.p2.css('height', (new_height > 0 ? new_height : 0) +'px');
     }
     else {
-      var new_width = parseInt(me.p2.parent().outerWidth(), 10) - parseInt(me.p2[0].style.left, 10);
+      var new_width = parseInt(me.parent.outerWidth(), 10) - parseInt(me.p2[0].style.left, 10);
       me.p2.css('width', (new_width > 0 ? new_width : 0) + 'px');
     }
   };
