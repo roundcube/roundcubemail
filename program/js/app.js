@@ -1901,7 +1901,7 @@ function rcube_webmail()
     tree += '<span id="msgicn'+uid+'" class="'+css_class+'">&nbsp;</span>';
     row.className = row_class;
 
-    // build subject link 
+    // build subject link
     if (cols.subject) {
       var action = flags.mbox == this.env.drafts_mailbox ? 'compose' : 'show';
       var uid_param = flags.mbox == this.env.drafts_mailbox ? '_draft_uid' : '_uid';
@@ -7069,7 +7069,7 @@ function rcube_webmail()
     else if (status == 'timeout')
       this.display_message(this.get_label('requesttimedout'), 'error');
     else if (request.status == 0 && status != 'abort')
-      this.display_message(this.get_label('servererror') + ' (No connection)', 'error');
+      this.display_message(this.get_label('connerror'), 'error');
 
     // redirect to url specified in location header if not empty
     var location_url = request.getResponseHeader("Location");
