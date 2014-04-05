@@ -283,10 +283,12 @@ class rcube_washtml
 
     /**
      * The main loop that recurse on a node tree.
-     * It output only allowed tags with allowed attributes
-     * and allowed inline styles
+     * It output only allowed tags with allowed attributes and allowed inline styles
+     *
+     * @param DOMNode $node  HTML element
+     * @param int     $level Recurrence level (safe initial value found empirically)
      */
-    private function dumpHtml($node, $level = 0)
+    private function dumpHtml($node, $level = 20)
     {
         if (!$node->hasChildNodes()) {
             return '';
