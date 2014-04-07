@@ -1,0 +1,106 @@
+.miniColors-trigger {
+	height: 22px;
+	width: 22px;
+	background: url('images/minicolors-all.png') -170px 0 no-repeat;
+	vertical-align: middle;
+	margin: 0 .25em;
+	display: inline-block;
+	outline: none;
+}
+
+.miniColors-selector {
+	position: absolute;
+	width: 175px;
+	height: 150px;
+	background: #FFF;
+	border: solid 1px #BBB;
+	-moz-box-shadow: 0 0 6px rgba(0, 0, 0, .25);
+	-webkit-box-shadow: 0 0 6px rgba(0, 0, 0, .25);
+	box-shadow: 0 0 6px rgba(0, 0, 0, .25);
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	padding: 5px;
+	z-index: 999999;
+}
+
+.miniColors-selector.black {
+	background: #000;
+	border-color: #000;
+}
+
+.miniColors-colors {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 150px;
+	height: 150px;
+	background: url('images/minicolors-all.png') top left no-repeat;
+	cursor: crosshair;
+}
+
+.miniColors-hues {
+	position: absolute;
+	top: 5px;
+	left: 160px;
+	width: 20px;
+	height: 150px;
+	background: url('images/minicolors-all.png') -150px 0 no-repeat;
+	cursor: crosshair;
+}
+
+.miniColors-colorPicker {
+	position: absolute;
+	width: 11px;
+	height: 11px;
+	background: url('images/minicolors-all.png') -170px -28px no-repeat;
+}
+
+.miniColors-huePicker {
+	position: absolute;
+	left: -3px;
+	width: 26px;
+	height: 3px;
+	background: url('images/minicolors-all.png') -170px -24px no-repeat;
+	overflow: hidden;
+}
+
+.miniColors-presets {
+	position: absolute;
+	left: 185px;
+	top: 5px;
+	width: 60px;
+}
+
+.miniColors-colorPreset {
+	float: left;
+	width: 18px;
+	height: 15px;
+	margin: 2px;
+	border: 1px solid #333;
+	cursor: pointer;
+}
+
+.miniColors-colorPreset-active {
+	border: 2px dotted #666;
+	margin: 1px;
+}
+
+/* Hacks for IE6/7 */
+
+* html .miniColors-colors {
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='plugins/calendar/skins/classic/images/minicolors-all.png', sizingMethod='crop');
+}
+
+* html .miniColors-colorPicker {
+	background: url('images/minicolors-handles.gif') 0 -28px no-repeat;
+}
+
+* html .miniColors-huePicker {
+	background: url('images/minicolors-handles.gif') 0 -24px no-repeat;
+}
+
+* html .miniColors-trigger {
+	background: url('images/minicolors-handles.gif') 0 0 no-repeat;
+}

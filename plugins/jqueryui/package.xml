@@ -20,10 +20,10 @@
 		<email>roundcube@gmail.com</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-11-07</date>
+	<date>2014-04-07</date>
 	<version>
-		<release>1.9.1</release>
-		<api>1.8</api>
+		<release>1.9.2</release>
+		<api>1.9</api>
 	</version>
 	<stability>
 		<release>stable</release>
@@ -41,6 +41,7 @@
 			<file name="config.inc.php.dist" role="data"></file>
 
 			<file name="js/jquery-ui-1.9.1.custom.min.js" role="data"></file>
+			<file name="js/jquery.miniColors.min.js" role="data"></file>
 			<file name="js/i18n/jquery.ui.datepicker-af.js" role="data"></file>
 			<file name="js/i18n/jquery.ui.datepicker-ar-DZ.js" role="data"></file>
 			<file name="js/i18n/jquery.ui.datepicker-ar.js" role="data"></file>
@@ -128,7 +129,9 @@
 			<file name="themes/classic/images/ui-bg_highlight-hard_90_e6e6e7_1x100.png" role="data"></file>
 			<file name="themes/classic/images/ui-icons_666666_256x240.png" role="data"></file>
 
-			<file name="themes/larry/jquery-ui-1.9.1.custom.css" role="data"></file>
+			<file name="themes/larry/jquery.miniColors.css" role="data"></file>
+			<file name="themes/larry/images/minicolors-all.png" role="data"></file>
+			<file name="themes/larry/images/minicolors-handles.gif" role="data"></file>
 			<file name="themes/larry/images/ui-bg_highlight-hard_55_b0ccd7_1x100.png" role="data"></file>
 			<file name="themes/larry/images/ui-bg_highlight-hard_65_ffffff_1x100.png" role="data"></file>
 			<file name="themes/larry/images/ui-bg_highlight-hard_75_eaeaea_1x100.png" role="data"></file>
