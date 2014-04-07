@@ -208,6 +208,10 @@ $labels['msgtext']  = 'Entire message';
 $labels['body']  = 'Body';
 $labels['type'] = 'Type';
 $labels['namex'] = 'Name';
+$labels['searchscope'] = 'Scope';
+$labels['currentfolder'] = 'Current folder';
+$labels['subfolders'] = 'This and subfolders';
+$labels['allfolders'] = 'All folders';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';

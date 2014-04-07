@@ -68,6 +68,23 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
     $OUTPUT->set_env('search_text', $_SESSION['last_text_search']);
 }
 
+// remove mbox part from _uid
+if (($_uid  = get_input_value('_uid', RCUBE_INPUT_GPC)) && preg_match('/^\d+-[^,]+$/', $_uid)) {
+  list($_uid, $mbox) = explode('-', $_uid);
+  if (isset($_GET['_uid']))  $_GET['_uid']  = $_uid;
+  if (isset($_POST['_uid'])) $_POST['_uid'] = $_uid;
+  $_REQUEST['_uid'] = $_uid;
+  unset($_uid);
+
+  // override mbox
+  if (!empty($mbox)) {
+    $_GET['_mbox']  = $mbox;
+    $_POST['_mbox'] = $mbox;
+    $RCMAIL->storage->set_folder(($_SESSION['mbox'] = $mbox));
+  }
+}
+
+
 // set main env variables, labels and page title
 if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     // connect to storage server and trigger error on failure
@@ -88,6 +105,9 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
         }
 
         $OUTPUT->set_env('search_mods', rcmail_search_mods());
+
+        if (!empty($_SESSION['search_scope']))
+            $OUTPUT->set_env('search_scope', $_SESSION['search_scope']);
     }
 
     $threading = (bool) $RCMAIL->storage->get_threading();
@@ -166,6 +186,34 @@ $RCMAIL->register_action_map(array(
 ));
 
 
+/**
+ * Returns message UID(s) and IMAP folder(s) from GET/POST data
+ *
+ * @return array List of message UIDs per folder
+ */
+function rcmail_get_uids()
+{
+    // message UID (or comma-separated list of IDs) is provided in
+    // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
+
+    $_uid  = get_input_value('_uid', RCUBE_INPUT_GPC);
+    $_mbox = (string)get_input_value('_mbox', RCUBE_INPUT_GPC);
+
+    if (is_array($uid)) {
+        return $uid;
+    }
+
+    // create a per-folder UIDs array
+    $result = array();
+    foreach (explode(',', $_uid) as $uid) {
+        list($uid, $mbox) = explode('-', $uid, 2);
+        if (empty($mbox))
+            $mbox = $_mbox;
+        $result[$mbox][] = $uid;
+    }
+
+    return $result;
+}
 
 /**
  * Returns default search mods
@@ -315,7 +363,7 @@ function rcmail_message_list($attrib)
 /**
  * return javascript commands to add rows to the message list
  */
-function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null)
+function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null)
 {
     global $RCMAIL, $OUTPUT;
 
@@ -334,6 +382,14 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
         $head_replace = true;
     }
 
+    // add 'folder' column to list on multi-folder searches
+    $search_set = $RCMAIL->storage->get_search_set();
+    $multifolder = $search_set && $search_set[1]->multi;
+    if ($multifolder && !in_array('folder', $a_show_cols)) {
+        $a_show_cols[] = 'folder';
+        $head_replace = true;
+    }
+
     $mbox = $RCMAIL->storage->get_folder();
 
     // make sure 'threads' and 'subject' columns are present
@@ -341,8 +397,6 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
         array_unshift($a_show_cols, 'subject');
     if (!in_array('threads', $a_show_cols))
         array_unshift($a_show_cols, 'threads');
-
-    $_SESSION['list_attrib']['columns'] = $a_show_cols;
 
     // Make sure there are no duplicated columns (#1486999)
     $a_show_cols = array_unique($a_show_cols);
@@ -364,6 +418,10 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
 
     $OUTPUT->command('set_message_coltypes', $a_show_cols, $thead, $smart_col);
 
+    if ($multifolder) {
+        $OUTPUT->command('select_folder', '');
+    }
+
     if (empty($a_headers)) {
         return;
     }
@@ -379,6 +437,14 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
     foreach ($a_headers as $header) {
         if (empty($header))
             continue;
+
+        // make message UIDs unique by appending the folder name
+        if ($multifolder) {
+            $header->uid .= '-'.$header->folder;
+            $header->flags['skip_mbox_check'] = true;
+            if ($header->parent_uid)
+                $header->parent_uid .= '-'.$header->folder;
+        }
 
         $a_msg_cols  = array();
         $a_msg_flags = array();
@@ -398,6 +464,8 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
                 $cont = show_bytes($header->$col);
             else if ($col == 'date')
                 $cont = $RCMAIL->format_date($header->date);
+            else if ($col == 'folder')
+                $cont = rcube::Q(rcube_charset::convert($header->folder, 'UTF7-IMAP'));
             else
                 $cont = rcube::Q($header->$col);
 
@@ -421,7 +489,7 @@ function rcmail_js_message_list($a_headers, $insert_top=FALSE, $a_show_cols=null
             $a_msg_flags['prio'] = (int) $header->priority;
 
         $a_msg_flags['ctype'] = rcube::Q($header->ctype);
-        $a_msg_flags['mbox']  = $mbox;
+        $a_msg_flags['mbox']  = $header->folder;
 
         // merge with plugin result (Deprecated, use $header->flags)
         if (!empty($header->list_flags) && is_array($header->list_flags))
