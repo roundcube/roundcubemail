@@ -420,7 +420,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
 
     $OUTPUT->command('set_message_coltypes', $a_show_cols, $thead, $smart_col);
 
-    if ($multifolder) {
+    if ($multifolder && $_SESSION['search_scope'] == 'all') {
         $OUTPUT->command('select_folder', '');
     }
 

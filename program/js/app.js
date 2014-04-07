@@ -712,7 +712,7 @@ function rcube_webmail()
           var oldmbox = this.env.search_scope == 'all' ? '*' : this.env.mailbox;
           this.env.search_mods[props] = this.env.search_mods[oldmbox];  // copy search mods from active search
           this.env.mailbox = props;
-          this.env.search_scope = 'base';
+          this.env.search_scope = 'sub';
           this.qsearch(this.gui_objects.qsearchbox.value);
           this.select_folder(this.env.mailbox, '', true);
           break;
