@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "Adds an option to download all attachments to a message in one zip file, when a message has multiple attachments. Also allows the download of a selection of messages in one zip file and the download of entire folders.",
     "license": "GNU GPLv3+",
-    "version": "2.0",
+    "version": "2.1",
     "authors": [
         {
             "name": "Thomas Bruederli",
