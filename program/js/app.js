@@ -2689,7 +2689,7 @@ function rcube_webmail()
       return this.folder_selector(obj, function(folder) { ref.command('move', folder); });
 
     // exit if current or no mailbox specified
-    if (!mbox || mbox == this.env.mailbox)
+    if (!mbox || (mbox == this.env.mailbox && (!this.env.search_request || this.env.search_scope == 'base')))
       return;
 
     var lock = false, post_data = this.selection_post_data({_target_mbox: mbox});
@@ -6499,7 +6499,7 @@ function rcube_webmail()
       this.env.status_col = n;
 
     if (list) {
-      list.hide_column('folder', this.env.coltypes.folder && this.env.coltypes.folder.hidden);
+      list.hide_column('folder', (this.env.coltypes.folder && this.env.coltypes.folder.hidden) || $.inArray('folder', this.env.listcols) < 0);
       list.init_header();
     }
   };
