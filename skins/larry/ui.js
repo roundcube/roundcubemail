@@ -41,6 +41,7 @@ function rcube_mail_ui()
   this.show_popup = show_popup;
   this.add_popup = add_popup;
   this.set_searchmod = set_searchmod;
+  this.set_searchscope = set_searchscope;
   this.show_uploadform = show_uploadform;
   this.show_header_row = show_header_row;
   this.hide_header_row = hide_header_row;
@@ -138,7 +139,8 @@ function rcube_mail_ui()
     if (rcmail.env.task == 'mail') {
       rcmail.addEventListener('menu-open', menu_open)
         .addEventListener('menu-save', menu_save)
-        .addEventListener('responseafterlist', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list') });
+        .addEventListener('responseafterlist', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list', true) })
+        .addEventListener('responseaftersearch', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list', true) });
 
       var dragmenu = $('#dragmessagemenu');
       if (dragmenu.length) {
@@ -729,13 +731,12 @@ function rcube_mail_ui()
   /**
    *
    */
-  function switch_view_mode(mode)
+  function switch_view_mode(mode, force)
   {
-    if (rcmail.env.threading != (mode == 'thread'))
-      rcmail.set_list_options(null, undefined, undefined, mode == 'thread' ? 1 : 0);
-
-    $('#maillistmode, #mailthreadmode').removeClass('selected');
-    $('#mail'+mode+'mode').addClass('selected');
+    if (force || !$('#mail'+mode+'mode').hasClass('disabled')) {
+      $('#maillistmode, #mailthreadmode').removeClass('selected');
+      $('#mail'+mode+'mode').addClass('selected');
+    }
   }
 
 
@@ -761,11 +762,15 @@ function rcube_mail_ui()
         obj = popups['searchmenu'],
         list = $('input:checkbox[name="s_mods[]"]', obj),
         mbox = rcmail.env.mailbox,
-        mods = rcmail.env.search_mods;
+        mods = rcmail.env.search_mods,
+        scope = rcmail.env.search_scope || 'base';
 
       if (rcmail.env.task == 'mail') {
+        if (scope == 'all')
+          mbox = '*';
         mods = mods[mbox] ? mods[mbox] : mods['*'];
         all = 'text';
+        $('input:radio[name="s_scope"]').prop('checked', false).filter('#s_scope_'+scope).prop('checked', true);
       }
       else {
         all = '*';
@@ -856,7 +861,7 @@ function rcube_mail_ui()
 
     // set checkboxes
     $('input[name="list_col[]"]').each(function() {
-      $(this).prop('checked', $.inArray(this.value, rcmail.env.coltypes) != -1);
+      $(this).prop('checked', $.inArray(this.value, rcmail.env.listcols) != -1);
     });
 
     $dialog.dialog({
@@ -896,7 +901,11 @@ function rcube_mail_ui()
   {
     var all, m, task = rcmail.env.task,
       mods = rcmail.env.search_mods,
-      mbox = rcmail.env.mailbox;
+      mbox = rcmail.env.mailbox,
+      scope = $('input[name="s_scope"]:checked').val();
+
+    if (scope == 'all')
+      mbox = '*';
 
     if (!mods)
       mods = {};
@@ -918,23 +927,29 @@ function rcube_mail_ui()
       m[elem.value] = 1;
 
     // mark all fields
-    if (elem.value != all)
-      return;
+    if (elem.value == all) {
+      $('input:checkbox[name="s_mods[]"]').map(function() {
+        if (this == elem)
+          return;
 
-    $('input:checkbox[name="s_mods[]"]').map(function() {
-      if (this == elem)
-        return;
+        this.checked = true;
+        if (elem.checked) {
+          this.disabled = true;
+          delete m[this.value];
+        }
+        else {
+          this.disabled = false;
+          m[this.value] = 1;
+        }
+      });
+    }
 
-      this.checked = true;
-      if (elem.checked) {
-        this.disabled = true;
-        delete m[this.value];
-      }
-      else {
-        this.disabled = false;
-        m[this.value] = 1;
-      }
-    });
+    rcmail.set_searchmods(m);
+  }
+
+  function set_searchscope(elem)
+  {
+    rcmail.set_searchscope(elem.value);
   }
 
   function push_contactgroup(p)

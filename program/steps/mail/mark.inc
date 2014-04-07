@@ -36,7 +36,7 @@ $a_flags_map  = array(
     'unflagged' => 'UNFLAGGED',
 );
 
-if (($uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))
+if (($_uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))
     && ($flag = rcube_utils::get_input_value('_flag', rcube_utils::INPUT_POST))
 ) {
     $flag = $a_flags_map[$flag] ? $a_flags_map[$flag] : strtoupper($flag);
@@ -45,10 +45,12 @@ if (($uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))
         // count messages before changing anything
         $old_count = $RCMAIL->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
         $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
-        $count     = sizeof(explode(',', $uids));
     }
 
-    $marked = $RCMAIL->storage->set_flag($uids, $flag);
+    foreach (rcmail_get_uids() as $mbox => $uids) {
+        $marked += (int)$RCMAIL->storage->set_flag($uids, $flag, $mbox);
+        $count += count($uids);
+    }
 
     if (!$marked) {
         // send error message
@@ -128,7 +130,7 @@ if (($uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))
             }
 
             // add new rows from next page (if any)
-            if ($count && $uids != '*' && ($jump_back || $nextpage_count > 0)) {
+            if ($old_count && $_uids != '*' && ($jump_back || $nextpage_count > 0)) {
                 $a_headers = $RCMAIL->storage->list_messages($mbox, NULL,
                     rcmail_sort_column(), rcmail_sort_order(), $jump_back ? NULL : $count);
 

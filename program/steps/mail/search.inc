@@ -21,6 +21,8 @@
 
 $REMOTE_REQUEST = TRUE;
 
+@set_time_limit(170);  // extend default max_execution_time to ~3 minutes
+
 // reset list_page and old search results
 $RCMAIL->storage->set_page(1);
 $RCMAIL->storage->set_search_set(NULL);
@@ -35,6 +37,7 @@ $str     = rcube_utils::get_input_value('_q', rcube_utils::INPUT_GET, true);
 $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GET, true);
 $filter  = rcube_utils::get_input_value('_filter', rcube_utils::INPUT_GET);
 $headers = rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET);
+$scope   = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET);
 $subject = array();
 
 $filter         = trim($filter);
@@ -102,6 +105,16 @@ if (!empty($subject)) {
     foreach ($subject as $sub) {
         $search_str .= ' ' . $sub . ' ' . rcube_imap_generic::escape($search);
     }
+
+    // search all, current or subfolders folders
+    if ($scope == 'all') {
+        $mboxes = $RCMAIL->storage->list_folders_subscribed('', '*', 'mail');
+    }
+    else if ($scope == 'sub') {
+        $mboxes = $RCMAIL->storage->list_folders_subscribed($mbox, '*', 'mail');
+        if ($mbox != 'INBOX' && $mboxes[0] == 'INBOX')
+            array_shift($mboxes);
+    }
 }
 
 $search_str  = trim($search_str);
@@ -109,8 +122,12 @@ $sort_column = rcmail_sort_column();
 
 // execute IMAP search
 if ($search_str) {
-    $RCMAIL->storage->search($mbox, $search_str, $imap_charset, $sort_column);
+    $RCMAIL->storage->search($mboxes, $search_str, $imap_charset, $sort_column);
 }
+
+// Get the headers
+$result_h = $RCMAIL->storage->list_messages($mbox, 1, $sort_column, rcmail_sort_order());
+$count    = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
 
 // save search results in session
 if (!is_array($_SESSION['search'])) {
@@ -122,15 +139,11 @@ if ($search_str) {
     $_SESSION['last_text_search'] = $str;
 }
 $_SESSION['search_request'] = $search_request;
-
-
-// Get the headers
-$result_h = $RCMAIL->storage->list_messages($mbox, 1, $sort_column, rcmail_sort_order());
-$count    = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
+$_SESSION['search_scope'] = $scope;
 
 // Make sure we got the headers
 if (!empty($result_h)) {
-    rcmail_js_message_list($result_h);
+    rcmail_js_message_list($result_h, false);
     if ($search_str) {
         $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $RCMAIL->storage->count(NULL, 'ALL')));
     }
@@ -152,6 +165,7 @@ else {
 
 // update message count display
 $OUTPUT->set_env('search_request', $search_str ? $search_request : '');
+$OUTPUT->set_env('threading', $RCMAIL->storage->get_threading());
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', ceil($count/$RCMAIL->storage->get_pagesize()));
 $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));

@@ -5,7 +5,7 @@
  | program/steps/mail/list.inc                                           |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2007, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -42,6 +42,7 @@ if ($sort = rcube_utils::get_input_value('_sort', rcube_utils::INPUT_GET)) {
 
 // is there a set of columns for this request?
 if ($cols = rcube_utils::get_input_value('_cols', rcube_utils::INPUT_GET)) {
+  $_SESSION['list_attrib']['columns'] = explode(',', $cols);
   if (!in_array('list_cols', $dont_override)) {
     $save_arr['list_cols'] = explode(',', $cols);
   }
@@ -101,7 +102,8 @@ $OUTPUT->set_env('exists', $exists);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count), $mbox_name);
 
 // add message rows
-rcmail_js_message_list($a_headers, FALSE, $cols);
+rcmail_js_message_list($a_headers, false, $cols);
+
 if (isset($a_headers) && count($a_headers)) {
   if ($search_request) {
     $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));

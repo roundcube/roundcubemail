@@ -76,13 +76,8 @@
 <!-- list footer -->
 <div id="messagelistfooter">
 	<div id="listcontrols">
-		<roundcube:if condition="env:threads" />
-			<a href="#list" class="iconbutton listmode" id="maillistmode" title="<roundcube:label name='list' />">List</a>
-			<a href="#threads" class="iconbutton threadmode" id="mailthreadmode" title="<roundcube:label name='threads' />">Threads</a>
-		<roundcube:else />
-			<a href="#list" class="iconbutton listmode selected" title="<roundcube:label name='list' />" onclick="return false">List</a>
-			<a href="#threads" class="iconbutton threadmode disabled" title="<roundcube:label name='threads' />" onclick="return false">Threads</a>
-		<roundcube:endif />
+		<roundcube:button href="#list" command="set-listmode" prop="list" class="iconbutton listmode disabled" classAct="iconbutton listmode" id="maillistmode" title="list" content="List" />
+		<roundcube:button href="#threads" command="set-listmode" prop="threads" class="iconbutton threadmode disabled" classAct="iconbutton threadmode" id="mailthreadmode" title="threads" content="Threads" />
 	</div>
 	
 	<div id="listselectors">
@@ -132,6 +127,10 @@
 		<li><label><input type="checkbox" name="s_mods[]" value="bcc" id="s_mod_bcc" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="bcc" /></span></label></li>
 		<li><label><input type="checkbox" name="s_mods[]" value="body" id="s_mod_body" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="body" /></span></label></li>
 		<li><label><input type="checkbox" name="s_mods[]" value="text" id="s_mod_text" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="msgtext" /></span></label></li>
+		<li class="separator" id=""><label><roundcube:label name="searchscope" /></label></li>
+		<li><label><input type="radio" name="s_scope" value="base" id="s_scope_base" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="currentfolder" /></span></label></li>
+		<li><label><input type="radio" name="s_scope" value="sub" id="s_scope_sub" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="subfolders" /></span></label></li>
+		<li><label><input type="radio" name="s_scope" value="all" id="s_scope_all" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="allfolders" /></span></label></li>
 	</ul>
 </div>
 
