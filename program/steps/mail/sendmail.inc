@@ -535,12 +535,12 @@ if (!$savedraft) {
 
     // set replied/forwarded flag
     if ($COMPOSE['reply_uid']) {
-        foreach (rcmail_get_uids($COMPOSE['reply_uid'], $COMPOSE['mailbox']) as $mbox => $uids) {
+        foreach (rcmail::get_uids($COMPOSE['reply_uid'], $COMPOSE['mailbox']) as $mbox => $uids) {
             $RCMAIL->storage->set_flag($uids, 'ANSWERED', $mbox);
         }
     }
     else if ($COMPOSE['forward_uid']) {
-        foreach (rcmail_get_uids($COMPOSE['forward_uid'], $COMPOSE['mailbox']) as $mbox => $uids) {
+        foreach (rcmail::get_uids($COMPOSE['forward_uid'], $COMPOSE['mailbox']) as $mbox => $uids) {
             $RCMAIL->storage->set_flag($uids, 'FORWARDED', $mbox);
         }
     }
