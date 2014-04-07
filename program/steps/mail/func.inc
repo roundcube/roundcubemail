@@ -187,37 +187,6 @@ $RCMAIL->register_action_map(array(
 
 
 /**
- * Returns message UID(s) and IMAP folder(s) from GET/POST data
- *
- * @param  string UID value to decode
- * @param  string Default mailbox value (if not encoded in UIDs)
- * @return array  List of message UIDs per folder
- */
-function rcmail_get_uids($uids = null, $mbox = null)
-{
-    // message UID (or comma-separated list of IDs) is provided in
-    // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
-
-    $_uid  = $uids ?: get_input_value('_uid', RCUBE_INPUT_GPC);
-    $_mbox = $mbox ?: (string)get_input_value('_mbox', RCUBE_INPUT_GPC);
-
-    if (is_array($uid)) {
-        return $uid;
-    }
-
-    // create a per-folder UIDs array
-    $result = array();
-    foreach (explode(',', $_uid) as $uid) {
-        list($uid, $mbox) = explode('-', $uid, 2);
-        if (empty($mbox))
-            $mbox = $_mbox;
-        $result[$mbox][] = $uid;
-    }
-
-    return $result;
-}
-
-/**
  * Returns default search mods
  */
 function rcmail_search_mods()
@@ -420,7 +389,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
 
     $OUTPUT->command('set_message_coltypes', $a_show_cols, $thead, $smart_col);
 
-    if ($multifolder) {
+    if ($multifolder && $_SESSION['search_scope'] == 'all') {
         $OUTPUT->command('select_folder', '');
     }
 

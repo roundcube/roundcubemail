@@ -47,7 +47,7 @@ if (($_uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))
         $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
     }
 
-    foreach (rcmail_get_uids() as $mbox => $uids) {
+    foreach (rcmail::get_uids() as $mbox => $uids) {
         $marked += (int)$RCMAIL->storage->set_flag($uids, $flag, $mbox);
         $count += count($uids);
     }

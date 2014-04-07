@@ -5,7 +5,7 @@
  *
  * Plugin to allow the download of all message attachments in one zip file
  *
- * @version @package_version@
+ * @version 2.1
  * @requires php_zip extension (including ZipArchive class)
  * @author Philip Weir
  * @author Thomas Bruderli
@@ -156,10 +156,10 @@ class zipdownload extends rcube_plugin
     public function download_selection()
     {
         if (isset($_REQUEST['_uid'])) {
-            $uids = explode(",", rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GPC));
+            $messageset = rcmail::get_uids();
 
-            if (sizeof($uids) > 0) {
-                $this->_download_messages($uids);
+            if (sizeof($messageset) > 0) {
+                $this->_download_messages($messageset);
             }
         }
     }
@@ -193,7 +193,7 @@ class zipdownload extends rcube_plugin
         }
 
         if (sizeof($uids) > 0)
-            $this->_download_messages($uids);
+            $this->_download_messages(array($mbox_name => $uids));
     }
 
     /**
@@ -201,38 +201,45 @@ class zipdownload extends rcube_plugin
      *
      * @param array List of message UIDs to download
      */
-    private function _download_messages($uids)
+    private function _download_messages($messageset)
     {
         $rcmail    = rcmail::get_instance();
         $imap      = $rcmail->get_storage();
         $temp_dir  = $rcmail->config->get('temp_dir');
         $tmpfname  = tempnam($temp_dir, 'zipdownload');
         $tempfiles = array($tmpfname);
+        $folders   = count($messageset) > 1;
 
         // open zip file
         $zip = new ZipArchive();
         $zip->open($tmpfname, ZIPARCHIVE::OVERWRITE);
 
-        foreach ($uids as $uid){
-            $headers = $imap->get_message_headers($uid);
-            $subject = rcube_mime::decode_mime_string((string)$headers->subject);
-            $subject = $this->_convert_filename($subject);
-            $subject = substr($subject, 0, 16);
+        foreach ($messageset as $mbox => $uids){
+            $imap->set_folder($mbox);
+            $path = $folders ? str_replace($imap->get_hierarchy_delimiter(), '/', $mbox) . '/' : '';
 
-            $disp_name = ($subject ? $subject : 'message_rfc822') . ".eml";
-            $disp_name = $uid . "_" . $disp_name;
+            foreach ($uids as $uid){
+                $headers = $imap->get_message_headers($uid);
+                $subject = rcube_mime::decode_mime_string((string)$headers->subject);
+                $subject = $this->_convert_filename($subject);
+                $subject = substr($subject, 0, 16);
 
-            $tmpfn = tempnam($temp_dir, 'zipmessage');
-            $tmpfp = fopen($tmpfn, 'w');
-            $imap->get_raw_body($uid, $tmpfp);
-            $tempfiles[] = $tmpfn;
-            fclose($tmpfp);
-            $zip->addFile($tmpfn, $disp_name);
+                $disp_name = ($subject ? $subject : 'message_rfc822') . ".eml";
+                $disp_name = $path . $uid . "_" . $disp_name;
+
+                $tmpfn = tempnam($temp_dir, 'zipmessage');
+                $tmpfp = fopen($tmpfn, 'w');
+                $imap->get_raw_body($uid, $tmpfp);
+                $tempfiles[] = $tmpfn;
+                fclose($tmpfp);
+                $zip->addFile($tmpfn, $disp_name);
+            }
         }
 
         $zip->close();
 
-        $this->_deliver_zipfile($tmpfname, $imap->get_folder() . '.zip');
+        $filename = $folders ? 'messages' : $imap->get_folder();
+        $this->_deliver_zipfile($tmpfname, $filename . '.zip');
 
         // delete temporary files from disk
         foreach ($tempfiles as $tmpfn) {
