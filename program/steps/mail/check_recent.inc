@@ -5,7 +5,7 @@
  | program/steps/mail/check_recent.inc                                   |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -29,9 +29,16 @@ $trash     = $RCMAIL->config->get('trash_mbox');
 $current   = $RCMAIL->storage->get_folder();
 $check_all = $RCMAIL->action != 'refresh' || (bool)$RCMAIL->config->get('check_all_folders');
 
+$search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
+if ($search_request && $_SESSION['search_request'] != $search_request)
+    $search_request = null;
+
 // list of folders to check
 if ($check_all) {
     $a_mailboxes = $RCMAIL->storage->list_folders_subscribed('', '*', 'mail');
+}
+else if ($search_request && is_object($_SESSION['search'][1])) {
+    $a_mailboxes = (array) $_SESSION['search'][1]->get_parameters('MAILBOX');
 }
 else {
     $a_mailboxes = (array) $current;
@@ -46,7 +53,7 @@ $a_mailboxes = $plugin['folders'];
 
 // check recent/unseen counts
 foreach ($a_mailboxes as $mbox_name) {
-    $is_current = $mbox_name == $current;
+    $is_current = $mbox_name == $current || ($search_request && is_object($_SESSION['search'][1]) && in_array($mbox_name, (array)$_SESSION['search'][1]->get_parameters('MAILBOX')));
     if ($is_current) {
         // Synchronize mailbox cache, handle flag changes
         $RCMAIL->storage->folder_sync($mbox_name);
@@ -66,11 +73,11 @@ foreach ($a_mailboxes as $mbox_name) {
 
     if ($status && $is_current) {
         // refresh saved search set
-        $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
-        if ($search_request && isset($_SESSION['search'])
-            && $_SESSION['search_request'] == $search_request
-        ) {
+        if ($search_request && isset($_SESSION['search'])) {
+            unset($search_request);  // only do this once
             $_SESSION['search'] = $RCMAIL->storage->refresh_search();
+            if ($_SESSION['search'][1]->multi)
+                $mbox_name = '';
         }
 
         if (!empty($_GET['_quota']))
@@ -116,7 +123,7 @@ foreach ($a_mailboxes as $mbox_name) {
         }
     }
     // handle flag updates
-    else if ($is_current && ($uids = rcube_utils::get_input_value('_uids', rcube_utils::INPUT_GPC))) {
+    else if ($is_current && ($uids = rcube_utils::get_input_value('_uids', rcube_utils::INPUT_GPC)) && empty($search_request)) {
         $data = $RCMAIL->storage->folder_data($mbox_name);
 
         if (empty($_SESSION['list_mod_seq']) || $_SESSION['list_mod_seq'] != $data['HIGHESTMODSEQ']) {

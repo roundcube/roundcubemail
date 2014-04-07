@@ -32,6 +32,7 @@ class rcube_result_multifolder
 
     protected $meta = array();
     protected $index = array();
+    protected $folders = array();
     protected $sorting;
     protected $order = 'ASC';
 
@@ -39,8 +40,9 @@ class rcube_result_multifolder
     /**
      * Object constructor.
      */
-    public function __construct()
+    public function __construct($folders = array())
     {
+        $this->folders = $folders;
         $this->meta = array('count' => 0);
     }
 
@@ -228,6 +230,7 @@ class rcube_result_multifolder
         $params = array(
             'SORT' => $this->sorting,
             'ORDER' => $this->order,
+            'MAILBOX' => $this->folders,
         );
 
         if ($param !== null) {

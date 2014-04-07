@@ -1480,10 +1480,6 @@ class rcube_imap extends rcube_storage
             $str = 'ALL';
         }
 
-        if (empty($folder)) {
-            $folder = $this->folder;
-        }
-
         // multi-folder search
         if (is_array($folder) && count($folder) > 1 && $str != 'ALL') {
             new rcube_result_index; // trigger autoloader and make these classes available for threaded context
@@ -1506,6 +1502,9 @@ class rcube_imap extends rcube_storage
         }
         else {
             $folder = is_array($folder) ? $folder[0] : $folder;
+            if (!strlen($folder)) {
+                $folder = $this->folder;
+            }
             $results = $this->search_index($folder, $str, $charset, $sort_field);
         }
 
@@ -1664,8 +1663,12 @@ class rcube_imap extends rcube_storage
     public function refresh_search()
     {
         if (!empty($this->search_string)) {
-            // FIXME: make this work with saved multi-folder searches
-            $this->search('', $this->search_string, $this->search_charset, $this->search_sort_field);
+            $this->search(
+                is_object($this->search_set) ? $this->search_set->get_parameters('MAILBOX') : '',
+                $this->search_string,
+                $this->search_charset,
+                $this->search_sort_field
+            );
         }
 
         return $this->get_search_set();

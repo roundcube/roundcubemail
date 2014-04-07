@@ -65,6 +65,8 @@ class rcube_imap_search
     {
         $pthreads = defined('PTHREADS_INHERIT_ALL');
 
+        $results = new rcube_result_multifolder($folders);
+
         // start a search job for every folder to search in
         foreach ($folders as $folder) {
             $job = new rcube_imap_search_job($folder, $str, $charset, $sort_field, $threading);
@@ -82,7 +84,6 @@ class rcube_imap_search
         $this->shutdown();
 
         // gather results
-        $results = new rcube_result_multifolder;
         foreach ($this->jobs as $job) {
             $results->add($job->get_result());
         }

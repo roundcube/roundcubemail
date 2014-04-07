@@ -189,15 +189,17 @@ $RCMAIL->register_action_map(array(
 /**
  * Returns message UID(s) and IMAP folder(s) from GET/POST data
  *
- * @return array List of message UIDs per folder
+ * @param  string UID value to decode
+ * @param  string Default mailbox value (if not encoded in UIDs)
+ * @return array  List of message UIDs per folder
  */
-function rcmail_get_uids()
+function rcmail_get_uids($uids = null, $mbox = null)
 {
     // message UID (or comma-separated list of IDs) is provided in
     // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
 
-    $_uid  = get_input_value('_uid', RCUBE_INPUT_GPC);
-    $_mbox = (string)get_input_value('_mbox', RCUBE_INPUT_GPC);
+    $_uid  = $uids ?: get_input_value('_uid', RCUBE_INPUT_GPC);
+    $_mbox = $mbox ?: (string)get_input_value('_mbox', RCUBE_INPUT_GPC);
 
     if (is_array($uid)) {
         return $uid;
@@ -1770,7 +1772,8 @@ function rcmail_draftinfo_encode($p)
 {
     $parts = array();
     foreach ($p as $key => $val) {
-        $parts[] = $key . '=' . ($key == 'folder' ? base64_encode($val) : $val);
+        $encode = $key == 'folder' || strpos($val, ';') !== false;
+        $parts[] = $key . '=' . ($encode ? 'B::' . base64_encode($val) : $val);
     }
 
     return join('; ', $parts);
@@ -1782,7 +1785,10 @@ function rcmail_draftinfo_decode($str)
 
     foreach (preg_split('/;\s+/', $str) as $part) {
         list($key, $val) = explode('=', $part, 2);
-        if ($key == 'folder') {
+        if (strpos($val, 'B::') === 0) {
+            $val = base64_decode(substr($val, 3));
+        }
+        else if ($key == 'folder') {
             $val = base64_decode($val);
         }
 
