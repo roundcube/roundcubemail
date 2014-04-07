@@ -5,9 +5,9 @@
     http://pear.php.net/dtd/package-2.0.xsd">
 	<name>new_user_identity</name>
 	<channel>pear.roundcube.net</channel>
-	<summary>Populates a new user's default identity from LDAP on their first visit.</summary>
+	<summary>Populates a new user's default identity on their first visit.</summary>
 	<description>
-	    Populates a new user's default identity from LDAP on their first visit.
+	    Populates a new user's default identity on their first visit.
 	</description>
 	<lead>
 		<name>Aleksander Machniak</name>
