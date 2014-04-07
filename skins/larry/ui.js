@@ -770,7 +770,7 @@ function rcube_mail_ui()
           mbox = '*';
         mods = mods[mbox] ? mods[mbox] : mods['*'];
         all = 'text';
-        $('#s_scope_'+scope).attr('checked',true);
+        $('input:radio[name="s_scope"]').prop('checked', false).filter('#s_scope_'+scope).prop('checked', true);
       }
       else {
         all = '*';
@@ -861,7 +861,7 @@ function rcube_mail_ui()
 
     // set checkboxes
     $('input[name="list_col[]"]').each(function() {
-      $(this).prop('checked', $.inArray(this.value, rcmail.env.coltypes) != -1);
+      $(this).prop('checked', $.inArray(this.value, rcmail.env.listcols) != -1);
     });
 
     $dialog.dialog({
@@ -927,28 +927,29 @@ function rcube_mail_ui()
       m[elem.value] = 1;
 
     // mark all fields
-    if (elem.value != all)
-      return;
+    if (elem.value == all) {
+      $('input:checkbox[name="s_mods[]"]').map(function() {
+        if (this == elem)
+          return;
 
-    $('input:checkbox[name="s_mods[]"]').map(function() {
-      if (this == elem)
-        return;
+        this.checked = true;
+        if (elem.checked) {
+          this.disabled = true;
+          delete m[this.value];
+        }
+        else {
+          this.disabled = false;
+          m[this.value] = 1;
+        }
+      });
+    }
 
-      this.checked = true;
-      if (elem.checked) {
-        this.disabled = true;
-        delete m[this.value];
-      }
-      else {
-        this.disabled = false;
-        m[this.value] = 1;
-      }
-    });
+    rcmail.set_searchmods(m);
   }
 
   function set_searchscope(elem)
   {
-    rcmail.env.search_scope = elem.value;
+    rcmail.set_searchscope(elem.value);
   }
 
   function push_contactgroup(p)

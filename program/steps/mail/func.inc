@@ -346,7 +346,7 @@ function rcmail_message_list($attrib)
     $OUTPUT->set_env('sort_col', $_SESSION['sort_col']);
     $OUTPUT->set_env('sort_order', $_SESSION['sort_order']);
     $OUTPUT->set_env('messages', array());
-    $OUTPUT->set_env('coltypes', $a_show_cols);
+    $OUTPUT->set_env('listcols', $a_show_cols);
 
     $OUTPUT->include_script('list.js');
 
@@ -549,7 +549,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $list_menu = '';
     }
 
-    $cells = array();
+    $cells = $coltypes = array();
 
     // get name of smart From/To column in folder context
     if (array_search('fromto', $a_show_cols) !== false) {
@@ -557,32 +557,39 @@ function rcmail_message_list_head($attrib, $a_show_cols)
     }
 
     foreach ($a_show_cols as $col) {
+        $label = '';
+        $sortable = false;
+
         // get column name
         switch ($col) {
         case 'flag':
-            $col_name = '<span class="flagged">&nbsp;</span>';
+            $col_name = html::span('flagged', '&nbsp;');
             break;
         case 'attachment':
         case 'priority':
         case 'status':
-            $col_name = '<span class="' . $col .'">&nbsp;</span>';
+            $col_name = html::span($col, '&nbsp;');
             break;
         case 'threads':
             $col_name = $list_menu;
             break;
         case 'fromto':
-            $col_name = rcube::Q($RCMAIL->gettext($smart_col));
+            $label = $RCMAIL->gettext($smart_col);
+            $col_name = rcube::Q($label);
             break;
         default:
-            $col_name = rcube::Q($RCMAIL->gettext($col));
+            $label = $RCMAIL->gettext($col);
+            $col_name = rcube::Q($label);
         }
 
         // make sort links
         if (in_array($col, $a_sort_cols)) {
+            $sortable = true;
             $col_name = html::a(array(
-                    'href'    => "./#sort",
-                    'onclick' => 'return '.rcmail_output::JS_OBJECT_NAME.".command('sort','".$col."',this)",
-                    'title'   => $RCMAIL->gettext('sortby')
+                    'href'  => "./#sort",
+                    'class' => 'sortcol',
+                    'rel'   => $col,
+                    'title' => $RCMAIL->gettext('sortby')
                 ), $col_name);
         }
         else if ($col_name[0] != '<') {
@@ -594,8 +601,10 @@ function rcmail_message_list_head($attrib, $a_show_cols)
 
         // put it all together
         $cells[] = array('className' => $class_name, 'id' => "rcm$col", 'html' => $col_name);
+        $coltypes[$col] = array('className' => $class_name, 'id' => "rcm$col", 'label' => $label, 'sortable' => $sortable);
     }
 
+    $RCMAIL->output->set_env('coltypes', $coltypes);
     return $cells;
 }
 

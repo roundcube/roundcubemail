@@ -213,6 +213,11 @@ function rcube_webmail()
             .addEventListener('listupdate', function(o) { p.triggerEvent('listupdate', o); })
             .init();
 
+          // TODO: this should go into the list-widget code
+          $(this.message_list.thead).on('click', 'a.sortcol', function(e){
+            return rcmail.command('sort', $(this).attr('rel'), this);
+          });
+
           document.onmouseup = function(e){ return p.doc_mouse_up(e); };
           this.gui_objects.messagelist.parentNode.onmousedown = function(e){ return p.click_on_list(e); };
 
@@ -1687,21 +1692,21 @@ function rcube_webmail()
   {
     var i, found, name, cols = list.thead.rows[0].cells;
 
-    this.env.coltypes = [];
+    this.env.listcols = [];
 
     for (i=0; i<cols.length; i++)
       if (cols[i].id && cols[i].id.startsWith('rcm')) {
         name = cols[i].id.slice(3);
-        this.env.coltypes.push(name);
+        this.env.listcols.push(name);
       }
 
-    if ((found = $.inArray('flag', this.env.coltypes)) >= 0)
+    if ((found = $.inArray('flag', this.env.listcols)) >= 0)
       this.env.flagged_col = found;
 
-    if ((found = $.inArray('subject', this.env.coltypes)) >= 0)
+    if ((found = $.inArray('subject', this.env.listcols)) >= 0)
       this.env.subject_col = found;
 
-    this.command('save-pref', { name: 'list_cols', value: this.env.coltypes, session: 'list_attrib/columns' });
+    this.command('save-pref', { name: 'list_cols', value: this.env.listcols, session: 'list_attrib/columns' });
   };
 
   this.check_droptarget = function(id)
@@ -1927,9 +1932,13 @@ function rcube_webmail()
     }
 
     // add each submitted col
-    for (n in this.env.coltypes) {
-      c = this.env.coltypes[n];
+    for (n in this.env.listcols) {
+      c = this.env.listcols[n];
       col = { className: String(c).toLowerCase() };
+
+      if (this.env.coltypes[c] && this.env.coltypes[c].hidden) {
+        col.className += ' hidden';
+      }
 
       if (c == 'flag') {
         css_class = (flags.flagged ? 'flagged' : 'unflagged');
@@ -2019,7 +2028,7 @@ function rcube_webmail()
 
     if (cols && cols.length) {
       // make sure new columns are added at the end of the list
-      var i, idx, name, newcols = [], oldcols = this.env.coltypes;
+      var i, idx, name, newcols = [], oldcols = this.env.listcols;
       for (i=0; i<oldcols.length; i++) {
         name = oldcols[i];
         idx = $.inArray(name, cols);
@@ -4223,6 +4232,33 @@ function rcube_webmail()
     this.enable_command('set-listmode', this.env.threads);
   };
 
+  this.set_searchscope = function(scope)
+  {
+    var old = this.env.search_scope;
+    this.env.search_scope = scope;
+
+    // re-send search query with new scope
+    if (scope != old && this.env.search_request) {
+      this.qsearch(this.gui_objects.qsearchbox.value);
+      if (scope == 'base')
+        this.select_folder(this.env.mailbox, '', true);
+    }
+  };
+
+  this.set_searchmods = function(mods)
+  {
+    var mbox = rcmail.env.mailbox,
+      scope = this.env.search_scope || 'base';
+
+    if (scope == 'all')
+      mbox = '*';
+
+    if (!this.env.search_mods)
+      this.env.search_mods = {};
+
+    this.env.search_mods[mbox] = mods;
+  };
+
   this.sent_successfully = function(type, msg, folders)
   {
     this.display_message(msg, type);
@@ -6413,18 +6449,18 @@ function rcube_webmail()
 
   // for reordering column array (Konqueror workaround)
   // and for setting some message list global variables
-  this.set_message_coltypes = function(coltypes, repl, smart_col)
+  this.set_message_coltypes = function(listcols, repl, smart_col)
   {
     var list = this.message_list,
       thead = list ? list.thead : null,
-      cell, col, n, len, th, tr;
+      repl, cell, col, n, len, tr;
 
-    this.env.coltypes = coltypes;
+    this.env.listcols = listcols;
 
     // replace old column headers
     if (thead) {
       if (repl) {
-        th = document.createElement('thead');
+        thead.innerHTML = '';
         tr = document.createElement('tr');
 
         for (c=0, len=repl.length; c < len; c++) {
@@ -6434,20 +6470,13 @@ function rcube_webmail()
           if (repl[c].className) cell.className = repl[c].className;
           tr.appendChild(cell);
         }
-        th.appendChild(tr);
-        thead.parentNode.replaceChild(th, thead);
-        list.thead = thead = th;
+        thead.appendChild(tr);
       }
 
-      for (n=0, len=this.env.coltypes.length; n<len; n++) {
-        col = this.env.coltypes[n];
+      for (n=0, len=this.env.listcols.length; n<len; n++) {
+        col = this.env.listcols[n];
         if ((cell = thead.rows[0].cells[n]) && (col == 'from' || col == 'to' || col == 'fromto')) {
-          cell.id = 'rcm'+col;
-          $('span,a', cell).text(this.get_label(col == 'fromto' ? smart_col : col));
-          // if we have links for sorting, it's a bit more complicated...
-          $('a', cell).click(function(){
-            return rcmail.command('sort', this.id.replace(/^rcm/, ''), this);
-          });
+          $(cell).attr('rel', col).find('span,a').text(this.get_label(col == 'fromto' ? smart_col : col));
         }
       }
     }
@@ -6456,18 +6485,21 @@ function rcube_webmail()
     this.env.flagged_col = null;
     this.env.status_col = null;
 
-    if ((n = $.inArray('subject', this.env.coltypes)) >= 0) {
+    if (this.env.coltypes.folder)
+      this.env.coltypes.folder.hidden = !(this.env.search_request || this.env.search_id) || this.env.search_scope == 'base';
+
+    if ((n = $.inArray('subject', this.env.listcols)) >= 0) {
       this.env.subject_col = n;
       if (list)
         list.subject_col = n;
     }
-    if ((n = $.inArray('flag', this.env.coltypes)) >= 0)
+    if ((n = $.inArray('flag', this.env.listcols)) >= 0)
       this.env.flagged_col = n;
-    if ((n = $.inArray('status', this.env.coltypes)) >= 0)
+    if ((n = $.inArray('status', this.env.listcols)) >= 0)
       this.env.status_col = n;
 
     if (list) {
-      list.hide_column('folder', !(this.env.search_request || this.env.search_id) || this.env.search_scope == 'base');
+      list.hide_column('folder', this.env.coltypes.folder && this.env.coltypes.folder.hidden);
       list.init_header();
     }
   };
