@@ -56,7 +56,7 @@ class rcube_csv2vcard
         //'email_2_type'          => '',
         //'email_3_address'       => '', //@TODO
         //'email_3_type'          => '',
-        'email_address'         => 'email:main',
+        'email_address'         => 'email:pref',
         //'email_type'            => '',
         'first_name'            => 'firstname',
         'gender'                => 'gender',
