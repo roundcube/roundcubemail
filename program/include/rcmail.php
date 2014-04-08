@@ -2045,7 +2045,10 @@ class rcmail extends rcube
                 list($uid, $mbox) = explode('-', $uid, 2);
                 if (empty($mbox))
                     $mbox = $_mbox;
-                $result[$mbox][] = $uid;
+                if ($uid == '*')
+                    $result[$mbox] = $uid;
+                else
+                    $result[$mbox][] = $uid;
             }
         }
 
