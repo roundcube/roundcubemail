@@ -988,6 +988,10 @@ class rcube_imap extends rcube_storage
                 $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $slice_length);
             }
             else {
+                if ($this->sort_order != $search_set->get_parameters('ORDER')) {
+                    $search_set->revert();
+                }
+
                 // slice resultset first...
                 $fetch = array();
                 foreach (array_slice($search_set->get(), $from, $slice_length) as $msg_id) {
