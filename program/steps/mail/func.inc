@@ -2036,7 +2036,7 @@ function rcmail_search_filter($attrib)
     $ctypes = array('application/', 'multipart/m', 'multipart/signed', 'multipart/report');
 
     // Build search string of "with attachment" filter
-    $attachment = str_repeat(' OR', count($ctypes)-1);
+    $attachment = trim(str_repeat(' OR', count($ctypes)-1));
     foreach ($ctypes as $type) {
         $attachment .= ' HEADER Content-Type ' . rcube_imap_generic::escape($type);
     }
