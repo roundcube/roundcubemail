@@ -393,6 +393,8 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         $OUTPUT->command('select_folder', '');
     }
 
+    $OUTPUT->set_env('multifolder_listing', $multifolder);
+
     if (empty($a_headers)) {
         return;
     }

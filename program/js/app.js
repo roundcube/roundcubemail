@@ -3,8 +3,8 @@
  | Roundcube Webmail Client Script                                       |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2013, Kolab Systems AG                             |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2011-2014, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -222,7 +222,7 @@ function rcube_webmail()
           this.gui_objects.messagelist.parentNode.onmousedown = function(e){ return p.click_on_list(e); };
 
           this.enable_command('toggle_status', 'toggle_flag', 'sort', true);
-          this.enable_command('set-listmode', this.env.threads && !this.env.search_request);
+          this.enable_command('set-listmode', this.env.threads && !this.is_multifolder_listing());
 
           // load messages
           this.command('list');
@@ -1715,7 +1715,7 @@ function rcube_webmail()
       case 'mail':
         return (this.env.mailboxes[id]
             && !this.env.mailboxes[id].virtual
-            && (this.env.mailboxes[id].id != this.env.mailbox || this.is_multifolder_search())) ? 1 : 0;
+            && (this.env.mailboxes[id].id != this.env.mailbox || this.is_multifolder_listing())) ? 1 : 0;
 
       case 'settings':
         return id != this.env.mailbox ? 1 : 0;
@@ -2698,7 +2698,7 @@ function rcube_webmail()
       return this.folder_selector(obj, function(folder) { ref.command('move', folder); });
 
     // exit if current or no mailbox specified
-    if (!mbox || (mbox == this.env.mailbox && !this.is_multifolder_search()))
+    if (!mbox || (mbox == this.env.mailbox && !this.is_multifolder_listing()))
       return;
 
     var lock = false, post_data = this.selection_post_data({_target_mbox: mbox});
@@ -2767,7 +2767,7 @@ function rcube_webmail()
   this._with_selected_messages = function(action, post_data, lock)
   {
     var count = 0, msg,
-      remove = (action == 'delete' || !this.is_multifolder_search());
+      remove = (action == 'delete' || !this.is_multifolder_listing());
 
     // update the list (remove rows, clear selection)
     if (this.message_list) {
@@ -4273,9 +4273,10 @@ function rcube_webmail()
     this.env.search_mods[mbox] = mods;
   };
 
-  this.is_multifolder_search = function()
+  this.is_multifolder_listing = function()
   {
-    return this.env.search_request && (this.env.search_scope || 'base') != 'base';
+    return typeof this.env.multifolder_listing != 'undefined' ? this.env.multifolder_listing :
+      (this.env.search_request && (this.env.search_scope || 'base') != 'base');
   }
 
   this.sent_successfully = function(type, msg, folders)
@@ -7060,6 +7061,7 @@ function rcube_webmail()
           this.enable_command('expunge', this.env.exists);
           this.enable_command('purge', this.purge_mailbox_test());
           this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount);
+          this.enable_command('set-listmode', this.env.threads && !this.is_multifolder_listing());
 
           if ((response.action == 'list' || response.action == 'search') && this.message_list) {
             this.msglist_select(this.message_list);
