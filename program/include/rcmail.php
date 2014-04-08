@@ -2029,13 +2029,24 @@ class rcmail extends rcube
             return $uid;
         }
 
-        // create a per-folder UIDs array
         $result = array();
-        foreach (explode(',', $_uid) as $uid) {
-            list($uid, $mbox) = explode('-', $uid, 2);
-            if (empty($mbox))
-                $mbox = $_mbox;
-            $result[$mbox][] = $uid;
+
+        // special case: *
+        if ($_uid == '*' && is_object($_SESSION['search'][1]) && $_SESSION['search'][1]->multi) {
+            // extract the full list of UIDs per folder from the search set
+            foreach ($_SESSION['search'][1]->sets as $subset) {
+                $mbox = $subset->get_parameters('MAILBOX');
+                $result[$mbox] = $subset->get();
+            }
+        }
+        else {
+            // create a per-folder UIDs array
+            foreach (explode(',', $_uid) as $uid) {
+                list($uid, $mbox) = explode('-', $uid, 2);
+                if (empty($mbox))
+                    $mbox = $_mbox;
+                $result[$mbox][] = $uid;
+            }
         }
 
         return $result;
