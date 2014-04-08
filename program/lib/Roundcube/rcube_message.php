@@ -75,7 +75,7 @@ class rcube_message
     function __construct($uid, $folder = null)
     {
         // decode combined UID-folder identifier
-        if (preg_match('/^\d+-[^,]+$/', $uid)) {
+        if (preg_match('/^\d+-.+/', $uid)) {
             list($uid, $folder) = explode('-', $uid, 2);
         }
 

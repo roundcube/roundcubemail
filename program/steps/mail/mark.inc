@@ -68,7 +68,9 @@ if (($_uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))
 
     if ($flag == 'DELETED' && $read_deleted && !empty($_POST['_ruid'])) {
         $ruids = rcube_utils::get_input_value('_ruid', rcube_utils::INPUT_POST);
-        $read  = $RCMAIL->storage->set_flag($ruids, 'SEEN');
+        foreach (rcmail::get_uids($ruids) as $mbox => $uids) {
+            $read += (int)$RCMAIL->storage->set_flag($uids, 'SEEN', $mbox);
+        }
 
         if ($read && !$skip_deleted) {
             $OUTPUT->command('flag_deleted_as_read', $ruids);

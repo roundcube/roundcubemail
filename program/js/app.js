@@ -3014,7 +3014,8 @@ function rcube_webmail()
     var icn_src, uid, i, len,
       rows = this.message_list ? this.message_list.rows : {};
 
-    uids = String(uids).split(',');
+    if (typeof uids == 'string')
+      uids = String(uids).split(',');
 
     for (i=0, len=uids.length; i<len; i++) {
       uid = uids[i];
@@ -3027,7 +3028,7 @@ function rcube_webmail()
   // with select_all mode checking
   this.uids_to_list = function(uids)
   {
-    return this.select_all_mode ? '*' : uids.join(',');
+    return this.select_all_mode ? '*' : (uids.length <= 1 ? uids.join(',') : uids);
   };
 
   // Sets title of the delete button
