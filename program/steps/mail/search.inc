@@ -108,7 +108,8 @@ if (!empty($subject)) {
 
     // search all, current or subfolders folders
     if ($scope == 'all') {
-        $mboxes = $RCMAIL->storage->list_folders_subscribed('', '*', 'mail');
+        $mboxes = $RCMAIL->storage->list_folders_subscribed('', '*', 'mail', null, true);
+        natcasesort($mboxes);  // we want natural alphabetic sorting of folders in the result set
     }
     else if ($scope == 'sub') {
         $mboxes = $RCMAIL->storage->list_folders_subscribed($mbox, '*', 'mail');

@@ -169,6 +169,21 @@ class rcube_result_multifolder
     }
 
     /**
+     * Slices data set.
+     *
+     * @param $offset Offset (as for PHP's array_slice())
+     * @param $length Number of elements (as for PHP's array_slice())
+     *
+     */
+    public function slice($offset, $length)
+    {
+        $data = array_slice($this->get(), $offset, $length);
+
+        $this->index = $data;
+        $this->meta['count'] = count($data);
+    }
+
+    /**
      * Filters data set. Removes elements not listed in $ids list.
      *
      * @param array $ids List of IDs to keep.

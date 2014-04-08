@@ -955,35 +955,52 @@ class rcube_imap extends rcube_storage
             $sort_field = $this->sort_field;
             $search_set = $this->search_set;
 
-            $this->sort_field = null;
-            $this->page_size = 1000;  // fetch up to 1000 matching messages per folder
-            $this->threading = false;
-
-            $a_msg_headers = array();
-            foreach ($search_set->sets as $resultset) {
-                if (!$resultset->is_empty()) {
-                    $this->search_set = $resultset;
-                    $this->search_threads = $resultset instanceof rcube_result_thread;
-                    $a_msg_headers = array_merge($a_msg_headers, $this->list_search_messages($resultset->get_parameters('MAILBOX'), 1));
-                }
-            }
-
-            // do sorting and paging
+            // prepare paging
             $cnt   = $search_set->count();
             $from  = ($page-1) * $page_size;
             $to    = $from + $page_size;
+            $slice_length = min($page_size, $cnt - $from);
 
-            // sort headers
-            if (!$this->threading && !empty($a_msg_headers)) {
-                $a_msg_headers = $this->conn->sortHeaders($a_msg_headers, $sort_field, $this->sort_order);
+            // fetch resultset headers, sort and slice them
+            if (!empty($sort_field)) {
+                $this->sort_field = null;
+                $this->page_size = 1000;  // fetch up to 1000 matching messages per folder
+                $this->threading = false;
+
+                $a_msg_headers = array();
+                foreach ($search_set->sets as $resultset) {
+                    if (!$resultset->is_empty()) {
+                        $this->search_set = $resultset;
+                        $this->search_threads = $resultset instanceof rcube_result_thread;
+                        $a_msg_headers = array_merge($a_msg_headers, $this->list_search_messages($resultset->get_parameters('MAILBOX'), 1));
+                    }
+                }
+
+                // sort headers
+                if (!empty($a_msg_headers)) {
+                    $a_msg_headers = $this->conn->sortHeaders($a_msg_headers, $sort_field, $this->sort_order);
+                }
+
+                // store (sorted) message index
+                $search_set->set_message_index($a_msg_headers, $sort_field, $this->sort_order);
+
+                // only return the requested part of the set
+                $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $slice_length);
             }
+            else {
+                // slice resultset first...
+                $fetch = array();
+                foreach (array_slice($search_set->get(), $from, $slice_length) as $msg_id) {
+                    list($uid, $folder) = explode('-', $msg_id, 2);
+                    $fetch[$folder][] = $uid;
+                }
 
-            // store (sorted) message index
-            $search_set->set_message_index($a_msg_headers, $sort_field, $this->sort_order);
-
-            // only return the requested part of the set
-            $slice_length  = min($page_size, $cnt - $from);
-            $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $slice_length);
+                // ... and fetch the requested set of headers
+                $a_msg_headers = array();
+                foreach ($fetch as $folder => $a_index) {
+                    $a_msg_headers = array_merge($a_msg_headers, array_values($this->fetch_headers($folder, $a_index)));
+                }
+            }
 
             if ($slice) {
                 $a_msg_headers = array_slice($a_msg_headers, -$slice, $slice);
