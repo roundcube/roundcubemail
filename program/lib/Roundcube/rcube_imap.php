@@ -1709,7 +1709,7 @@ class rcube_imap extends rcube_storage
 
         // decode combined UID-folder identifier
         if (preg_match('/^\d+-[^,]+$/', $uid)) {
-            list($uid, $folder) = explode('-', $uid);
+            list($uid, $folder) = explode('-', $uid, 2);
         }
 
         // get cached headers
@@ -1745,7 +1745,7 @@ class rcube_imap extends rcube_storage
 
         // decode combined UID-folder identifier
         if (preg_match('/^\d+-[^,]+$/', $uid)) {
-            list($uid, $folder) = explode('-', $uid);
+            list($uid, $folder) = explode('-', $uid, 2);
         }
 
         // Check internal cache

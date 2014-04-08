@@ -70,7 +70,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
 
 // remove mbox part from _uid
 if (($_uid  = get_input_value('_uid', RCUBE_INPUT_GPC)) && preg_match('/^\d+-[^,]+$/', $_uid)) {
-  list($_uid, $mbox) = explode('-', $_uid);
+  list($_uid, $mbox) = explode('-', $_uid, 2);
   if (isset($_GET['_uid']))  $_GET['_uid']  = $_uid;
   if (isset($_POST['_uid'])) $_POST['_uid'] = $_uid;
   $_REQUEST['_uid'] = $_uid;
