@@ -707,7 +707,7 @@ function rcube_webmail()
         break;
 
       case 'list':
-        // re-send for the selected folder
+        // re-send search query for the selected folder
         if (props && props != '' && this.env.search_request && this.gui_objects.qsearchbox.value) {
           var oldmbox = this.env.search_scope == 'all' ? '*' : this.env.mailbox;
           this.env.search_mods[props] = this.env.search_mods[oldmbox];  // copy search mods from active search
@@ -1713,7 +1713,9 @@ function rcube_webmail()
   {
     switch (this.task) {
       case 'mail':
-        return (this.env.mailboxes[id] && this.env.mailboxes[id].id != this.env.mailbox && !this.env.mailboxes[id].virtual) ? 1 : 0;
+        return (this.env.mailboxes[id]
+            && !this.env.mailboxes[id].virtual
+            && (this.env.mailboxes[id].id != this.env.mailbox || this.is_multifolder_search())) ? 1 : 0;
 
       case 'settings':
         return id != this.env.mailbox ? 1 : 0;
@@ -2191,8 +2193,16 @@ function rcube_webmail()
     this.http_request('search', this.search_params(false, filter), lock);
   };
 
+  // reload the current message listing
+  this.refresh_list = function()
+  {
+    this.list_mailbox(this.env.mailbox, this.env.current_page || 1, null, { _clear:1 }, true);
+    if (this.message_list)
+      this.message_list.clear_selection();
+  };
+
   // list messages of a specific mailbox
-  this.list_mailbox = function(mbox, page, sort, url)
+  this.list_mailbox = function(mbox, page, sort, url, update_only)
   {
     var win, target = window;
 
@@ -2217,15 +2227,17 @@ function rcube_webmail()
       this.select_all_mode = false;
     }
 
-    // unselect selected messages and clear the list and message data
-    this.clear_message_list();
+    if (!update_only) {
+      // unselect selected messages and clear the list and message data
+      this.clear_message_list();
 
-    if (mbox != this.env.mailbox || (mbox == this.env.mailbox && !page && !sort))
-      url._refresh = 1;
+      if (mbox != this.env.mailbox || (mbox == this.env.mailbox && !page && !sort))
+        url._refresh = 1;
 
-    this.select_folder(mbox, '', true);
-    this.unmark_folder(mbox, 'recent', '', true);
-    this.env.mailbox = mbox;
+      this.select_folder(mbox, '', true);
+      this.unmark_folder(mbox, 'recent', '', true);
+      this.env.mailbox = mbox;
+    }
 
     // load message list remotely
     if (this.gui_objects.messagelist) {
@@ -2259,20 +2271,17 @@ function rcube_webmail()
   };
 
   // send remote request to load message list
-  this.list_mailbox_remote = function(mbox, page, post_data)
+  this.list_mailbox_remote = function(mbox, page, url)
   {
-    // clear message list first
-    this.message_list.clear();
-
     var lock = this.set_busy(true, 'loading');
 
-    if (typeof post_data != 'object')
-      post_data = {};
-    post_data._mbox = mbox;
+    if (typeof url != 'object')
+      url = {};
+    url._mbox = mbox;
     if (page)
-      post_data._page = page;
+      url._page = page;
 
-    this.http_request('list', post_data, lock);
+    this.http_request('list', url, lock);
   };
 
   // removes messages that doesn't exists from list selection array
@@ -2689,7 +2698,7 @@ function rcube_webmail()
       return this.folder_selector(obj, function(folder) { ref.command('move', folder); });
 
     // exit if current or no mailbox specified
-    if (!mbox || (mbox == this.env.mailbox && (!this.env.search_request || this.env.search_scope == 'base')))
+    if (!mbox || (mbox == this.env.mailbox && !this.is_multifolder_search()))
       return;
 
     var lock = false, post_data = this.selection_post_data({_target_mbox: mbox});
@@ -2757,7 +2766,8 @@ function rcube_webmail()
   // @private
   this._with_selected_messages = function(action, post_data, lock)
   {
-    var count = 0, msg;
+    var count = 0, msg,
+      remove = (action == 'delete' || !this.is_multifolder_search());
 
     // update the list (remove rows, clear selection)
     if (this.message_list) {
@@ -2774,10 +2784,11 @@ function rcube_webmail()
             roots.push(root);
           }
         }
-        this.message_list.remove_row(id, (this.env.display_next && n == selection.length-1));
+        if (remove)
+          this.message_list.remove_row(id, (this.env.display_next && n == selection.length-1));
       }
       // make sure there are no selected rows
-      if (!this.env.display_next)
+      if (!this.env.display_next && remove)
         this.message_list.clear_selection();
       // update thread tree icons
       for (n=0, len=roots.length; n<len; n++) {
@@ -2788,8 +2799,11 @@ function rcube_webmail()
     if (count < 0)
       post_data._count = (count*-1);
     // remove threads from the end of the list
-    else if (count > 0)
+    else if (count > 0 && remove)
       this.delete_excessive_thread_rows();
+
+    if (!remove)
+      post_data._refresh = 1;
 
     if (!lock) {
       msg = action == 'move' ? 'movingmessage' : 'deletingmessage';
@@ -4258,6 +4272,11 @@ function rcube_webmail()
 
     this.env.search_mods[mbox] = mods;
   };
+
+  this.is_multifolder_search = function()
+  {
+    return this.env.search_request && (this.env.search_scope || 'base') != 'base';
+  }
 
   this.sent_successfully = function(type, msg, folders)
   {
