@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Search across multiple folders (#1485234)
 - Improve UI integration of ACL settings
 - Drop support for PHP < 5.3.7
 - Set In-Reply-To and References for forwarded messages (#1489593)
