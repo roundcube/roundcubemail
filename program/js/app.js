@@ -1113,7 +1113,7 @@ function rcube_webmail()
       case 'forward':
         var uids = this.env.uid ? [this.env.uid] : (this.message_list ? this.message_list.get_selection() : []);
         if (uids.length) {
-          url = { _forward_uid: this.uids_to_list(uids), _mbox: this.env.mailbox };
+          url = { _forward_uid: this.uids_to_list(uids), _mbox: this.env.mailbox, _search: this.env.search_request };
           if (command == 'forward-attachment' || (!props && this.env.forward_attachment) || uids.length > 1)
             url._attachment = 1;
           this.open_compose_step(url);
