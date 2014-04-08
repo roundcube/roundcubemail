@@ -285,7 +285,7 @@ class html
 
             // ignore not allowed attributes
             if (!empty($allowed)) {
-                $is_data_attr = substr_compare($key, 'data-', 0, 5) === 0;
+                $is_data_attr = @substr_compare($key, 'data-', 0, 5) === 0;
                 if (!isset($allowed_f[$key]) && (!$is_data_attr || !isset($allowed_f['data-*']))) {
                     continue;
                 }
