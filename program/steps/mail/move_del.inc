@@ -5,7 +5,7 @@
  | program/steps/mail/move_del.inc                                       |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -35,12 +35,20 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
     $target = rcube_utils::get_input_value('_target_mbox', rcube_utils::INPUT_POST, true);
     $trash  = $RCMAIL->config->get('trash_mbox');
 
+    $success = true;
     foreach (rcmail::get_uids() as $mbox => $uids) {
-        $moved += (int)$RCMAIL->storage->move_message($uids, $target, $mbox);
-        $count += count($uids);
+        if ($mbox == $target) {
+            $count += count($uids);
+        }
+        else if ($RCMAIL->storage->move_message($uids, $target, $mbox)) {
+            $count += count($uids);
+        }
+        else {
+            $success = false;
+        }
     }
 
-    if (!$moved) {
+    if (!$success) {
         // send error message
         if ($_POST['_from'] != 'show')
             $OUTPUT->command('list_mailbox');

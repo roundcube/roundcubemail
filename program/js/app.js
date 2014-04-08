@@ -708,7 +708,7 @@ function rcube_webmail()
 
       case 'list':
         // re-send for the selected folder
-        if (props && props != '' && this.env.search_request) {
+        if (props && props != '' && this.env.search_request && this.gui_objects.qsearchbox.value) {
           var oldmbox = this.env.search_scope == 'all' ? '*' : this.env.mailbox;
           this.env.search_mods[props] = this.env.search_mods[oldmbox];  // copy search mods from active search
           this.env.mailbox = props;

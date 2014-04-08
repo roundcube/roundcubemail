@@ -2022,8 +2022,8 @@ class rcmail extends rcube
         // message UID (or comma-separated list of IDs) is provided in
         // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
 
-        $_uid  = $uids ?: get_input_value('_uid', RCUBE_INPUT_GPC);
-        $_mbox = $mbox ?: (string)get_input_value('_mbox', RCUBE_INPUT_GPC);
+        $_uid  = $uids ?: rcube_utils::get_input_value('_uid', RCUBE_INPUT_GPC);
+        $_mbox = $mbox ?: (string)rcube_utils::get_input_value('_mbox', RCUBE_INPUT_GPC);
 
         if (is_array($uid)) {
             return $uid;
