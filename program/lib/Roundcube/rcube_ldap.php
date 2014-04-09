@@ -95,8 +95,8 @@ class rcube_ldap extends rcube_addressbook
             if (empty($this->prop['groups']['scope']))
                 $this->prop['groups']['scope'] = 'sub';
             // extend group objectclass => member attribute mapping
-            if (!empty($this->prop['groups']['event-panel-summary']))
-                $this->group_types = array_merge($this->group_types, $this->prop['groups']['event-panel-summary']);
+            if (!empty($this->prop['groups']['class_member_attr']))
+                $this->group_types = array_merge($this->group_types, $this->prop['groups']['class_member_attr']);
 
             // add group name attrib to the list of attributes to be fetched
             $fetch_attributes[] = $this->prop['groups']['name_attr'];
