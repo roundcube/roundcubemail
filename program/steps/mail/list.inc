@@ -101,6 +101,11 @@ $OUTPUT->set_env('current_page', $count ? $RCMAIL->storage->get_page() : 1);
 $OUTPUT->set_env('exists', $exists);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count), $mbox_name);
 
+// remove old message rows if commanded by the client
+if (!empty($_REQUEST['_clear'])) {
+  $OUTPUT->command('clear_message_list');
+}
+
 // add message rows
 rcmail_js_message_list($a_headers, false, $cols);
 

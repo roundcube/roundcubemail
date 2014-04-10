@@ -463,6 +463,11 @@ function rcmail_process_compose_params(&$COMPOSE)
         }
     }
 
+    // resolve _forward_uid=* to an absolute list of messages from a search result
+    if ($COMPOSE['param']['forward_uid'] == '*' && is_object($_SESSION['search'][1])) {
+        $COMPOSE['param']['forward_uid'] = $_SESSION['search'][1]->get();
+    }
+
     // clean HTML message body which can be submitted by URL
     if (!empty($COMPOSE['param']['body'])) {
         $COMPOSE['param']['body'] = rcmail_wash_html($COMPOSE['param']['body'], array('safe' => false, 'inline_html' => true), array());
@@ -1259,10 +1264,10 @@ function rcmail_write_forward_attachments()
         $index = $storage->index(null, rcmail_sort_column(), rcmail_sort_order());
         $COMPOSE['forward_uid'] = $index->get();
     }
-    else if (strpos($COMPOSE['forward_uid'], ':')) {
+    else if (!is_array($COMPOSE['forward_uid']) && strpos($COMPOSE['forward_uid'], ':')) {
         $COMPOSE['forward_uid'] = rcube_imap_generic::uncompressMessageSet($COMPOSE['forward_uid']);
     }
-    else {
+    else if (is_string($COMPOSE['forward_uid'])) {
         $COMPOSE['forward_uid'] = explode(',', $COMPOSE['forward_uid']);
     }
 

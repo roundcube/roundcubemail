@@ -169,6 +169,8 @@ class zipdownload extends rcube_plugin
      */
     public function download_folder()
     {
+        @set_time_limit(0);
+
         $imap      = rcmail::get_instance()->get_storage();
         $mbox_name = $imap->get_folder();
 

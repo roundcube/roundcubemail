@@ -60,7 +60,13 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
         $OUTPUT->show_message('messagemoved', 'confirmation');
     }
 
-    $addrows = true;
+    if (!empty($_POST['_refresh'])) {
+        // FIXME: send updated message rows instead of releading the entire list
+        $OUTPUT->command('refresh_list');
+    }
+    else {
+        $addrows = true;
+    }
 }
 // delete messages 
 else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {

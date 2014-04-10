@@ -130,6 +130,17 @@ class rcube_result_multifolder
     public function revert()
     {
         $this->order = $this->order == 'ASC' ? 'DESC' : 'ASC';
+        $this->index = array();
+
+        // revert order in all sub-sets
+        foreach ($this->sets as $set) {
+            if ($this->order != $set->get_parameters('ORDER')) {
+                $set->revert();
+            }
+            $folder = $set->get_parameters('MAILBOX');
+            $index = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $set->get());
+            $this->index = array_merge($this->index, $index);
+        }
     }
 
 

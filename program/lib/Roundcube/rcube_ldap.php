@@ -95,8 +95,8 @@ class rcube_ldap extends rcube_addressbook
             if (empty($this->prop['groups']['scope']))
                 $this->prop['groups']['scope'] = 'sub';
             // extend group objectclass => member attribute mapping
-            if (!empty($this->prop['groups']['event-panel-summary']))
-                $this->group_types = array_merge($this->group_types, $this->prop['groups']['event-panel-summary']);
+            if (!empty($this->prop['groups']['class_member_attr']))
+                $this->group_types = array_merge($this->group_types, $this->prop['groups']['class_member_attr']);
 
             // add group name attrib to the list of attributes to be fetched
             $fetch_attributes[] = $this->prop['groups']['name_attr'];
@@ -377,10 +377,11 @@ class rcube_ldap extends rcube_addressbook
                 // replace placeholders in filter settings
                 if (!empty($this->prop['filter']))
                     $this->prop['filter'] = strtr($this->prop['filter'], $replaces);
-                if (!empty($this->prop['groups']['filter']))
-                    $this->prop['groups']['filter'] = strtr($this->prop['groups']['filter'], $replaces);
-                if (!empty($this->prop['groups']['member_filter']))
-                    $this->prop['groups']['member_filter'] = strtr($this->prop['groups']['member_filter'], $replaces);
+
+                foreach (array('base_dn','filter','member_filter') as $k) {
+                    if (!empty($this->prop['groups'][$k]))
+                        $this->prop['groups'][$k] = strtr($this->prop['groups'][$k], $replaces);
+                }
 
                 if (!empty($this->prop['group_filters'])) {
                     foreach ($this->prop['group_filters'] as $i => $gf) {

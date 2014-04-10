@@ -2028,8 +2028,9 @@ class rcmail extends rcube
         $_uid  = $uids ?: rcube_utils::get_input_value('_uid', RCUBE_INPUT_GPC);
         $_mbox = $mbox ?: (string)rcube_utils::get_input_value('_mbox', RCUBE_INPUT_GPC);
 
-        if (is_array($uid)) {
-            return $uid;
+        // already a hash array
+        if (is_array($_uid) && !isset($_uid[0])) {
+            return $_uid;
         }
 
         $result = array();
@@ -2043,8 +2044,11 @@ class rcmail extends rcube
             }
         }
         else {
+            if (is_string($_uid))
+                $_uid = explode(',', $_uid);
+
             // create a per-folder UIDs array
-            foreach (explode(',', $_uid) as $uid) {
+            foreach ((array)$_uid as $uid) {
                 list($uid, $mbox) = explode('-', $uid, 2);
                 if (empty($mbox))
                     $mbox = $_mbox;
