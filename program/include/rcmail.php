@@ -839,6 +839,9 @@ class rcmail extends rcube
 
         // write performance stats to logs/console
         if ($this->config->get('devel_mode')) {
+            // make sure logged numbers use unified format
+            setlocale(LC_NUMERIC, 'en_US.utf8', 'en_US.UTF-8', 'en_US', 'C');
+
             if (function_exists('memory_get_usage'))
                 $mem = $this->show_bytes(memory_get_usage());
             if (function_exists('memory_get_peak_usage'))
