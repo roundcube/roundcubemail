@@ -1947,7 +1947,9 @@ function rcube_webmail()
         html = '<span id="flagicn'+row.id+'" class="'+css_class+'">&nbsp;</span>';
       }
       else if (c == 'attachment') {
-        if (/application\/|multipart\/(m|signed)/.test(flags.ctype))
+        if (flags.attachmentClass)
+          html = '<span class="'+flags.attachmentClass+'">&nbsp;</span>';
+        else if (/application\/|multipart\/(m|signed)/.test(flags.ctype))
           html = '<span class="attachment">&nbsp;</span>';
         else if (/multipart\/report/.test(flags.ctype))
           html = '<span class="report">&nbsp;</span>';
