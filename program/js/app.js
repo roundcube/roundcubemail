@@ -3638,9 +3638,12 @@ function rcube_webmail()
       $("input[name='_draft_saveid']").val(id);
 
       // reset history of hidden iframe used for saving draft (#1489643)
-      if (window.frames['savetarget'] && window.frames['savetarget'].history) {
+      // but don't do this on timer-triggered draft-autosaving (#1489789)
+      if (window.frames['savetarget'] && window.frames['savetarget'].history && !this.draft_autosave_submit) {
         window.frames['savetarget'].history.back();
       }
+
+      this.draft_autosave_submit = false;
     }
 
     // always remove local copy upon saving as draft
@@ -3650,7 +3653,11 @@ function rcube_webmail()
   this.auto_save_start = function()
   {
     if (this.env.draft_autosave)
-      this.save_timer = setTimeout(function(){ ref.command("savedraft"); }, this.env.draft_autosave * 1000);
+      this.draft_autosave_submit = false;
+      this.save_timer = setTimeout(function(){
+          ref.draft_autosave_submit = true;  // set auto-saved flag (#1489789)
+          ref.command("savedraft");
+      }, this.env.draft_autosave * 1000);
 
     // save compose form content to local storage every 5 seconds
     if (!this.local_save_timer && window.localStorage) {
