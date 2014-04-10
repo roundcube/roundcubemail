@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Search across multiple folders (#1485234)
 - Improve UI integration of ACL settings
 - Drop support for PHP < 5.3.7
+- Apply user-specific replacements to group's base_dn property (#1489779)
 - Set In-Reply-To and References for forwarded messages (#1489593)
 - Removed redundant default_folders config option (#1489737)
 - Implemented IMAP SPECIAL-USE extension support [RFC6154] (#1487830)
