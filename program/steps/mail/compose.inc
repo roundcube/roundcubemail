@@ -475,7 +475,7 @@ function rcmail_process_compose_params(&$COMPOSE)
         foreach ($plugin['attachments'] as $attach) {
             // we have structured data
             if (is_array($attach)) {
-                $attachment = $attach;
+                $attachment = $attach + array('group' => $COMPOSE_ID);
             }
             // only a file path is given
             else {
