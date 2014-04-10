@@ -355,29 +355,6 @@ class rcube
         // for backward compat. (deprecated, will be removed)
         $this->imap = $this->storage;
 
-        // enable caching of mail data
-        $storage_cache  = $this->config->get("{$driver}_cache");
-        $messages_cache = $this->config->get('messages_cache');
-        // for backward compatybility
-        if ($storage_cache === null && $messages_cache === null && $this->config->get('enable_caching')) {
-            $storage_cache  = 'db';
-            $messages_cache = true;
-        }
-
-        if ($storage_cache) {
-            $this->storage->set_caching($storage_cache);
-        }
-        if ($messages_cache) {
-            $this->storage->set_messages_caching(true);
-        }
-
-        // set pagesize from config
-        $pagesize = $this->config->get('mail_pagesize');
-        if (!$pagesize) {
-            $pagesize = $this->config->get('pagesize', 50);
-        }
-        $this->storage->set_pagesize($pagesize);
-
         // set class options
         $options = array(
             'auth_type'   => $this->config->get("{$driver}_auth_type", 'check'),
@@ -412,19 +389,35 @@ class rcube
 
     /**
      * Set storage parameters.
-     * This must be done AFTER connecting to the server!
      */
     protected function set_storage_prop()
     {
         $storage = $this->get_storage();
 
+        // set pagesize from config
+        $pagesize = $this->config->get('mail_pagesize');
+        if (!$pagesize) {
+            $pagesize = $this->config->get('pagesize', 50);
+        }
+
+        $storage->set_pagesize($pagesize);
         $storage->set_charset($this->config->get('default_charset', RCUBE_CHARSET));
 
-        if (isset($_SESSION['mbox'])) {
-            $storage->set_folder($_SESSION['mbox']);
+        // enable caching of mail data
+        $driver         = $this->config->get('storage_driver', 'imap');
+        $storage_cache  = $this->config->get("{$driver}_cache");
+        $messages_cache = $this->config->get('messages_cache');
+        // for backward compatybility
+        if ($storage_cache === null && $messages_cache === null && $this->config->get('enable_caching')) {
+            $storage_cache  = 'db';
+            $messages_cache = true;
         }
-        if (isset($_SESSION['page'])) {
-            $storage->set_page($_SESSION['page']);
+
+        if ($storage_cache) {
+            $storage->set_caching($storage_cache);
+        }
+        if ($messages_cache) {
+            $storage->set_messages_caching(true);
         }
     }
 

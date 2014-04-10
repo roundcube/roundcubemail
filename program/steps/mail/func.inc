@@ -24,16 +24,15 @@
 $RCMAIL->storage_init();
 
 // set imap properties and session vars
-if (strlen(trim($mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true)))) {
-    $RCMAIL->storage->set_folder(($_SESSION['mbox'] = $mbox));
+if (!strlen($mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true))) {
+    $mbox = strlen($_SESSION['mbox']) ? $_SESSION['mbox'] : 'INBOX';
 }
-else if ($RCMAIL->storage) {
-    $_SESSION['mbox'] = $RCMAIL->storage->get_folder();
+if (!($page = intval($_GET['_page']))) {
+    $page = $_SESSION['page'] ? $_SESSION['page'] : 1;
 }
 
-if (!empty($_GET['_page'])) {
-    $RCMAIL->storage->set_page(($_SESSION['page'] = intval($_GET['_page'])));
-}
+$RCMAIL->storage->set_folder($_SESSION['mbox'] = $mbox);
+$RCMAIL->storage->set_page($_SESSION['page'] = $page);
 
 $a_threading        = $RCMAIL->config->get('message_threading', array());
 $message_sort_col   = $RCMAIL->config->get('message_sort_col');
