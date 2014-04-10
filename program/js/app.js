@@ -6861,7 +6861,7 @@ function rcube_webmail()
 
   this.goto_url = function(action, query, lock)
   {
-    this.redirect(this.url(action, query));
+    this.redirect(this.url(action, query), lock);
   };
 
   this.location_href = function(url, target, frame)
