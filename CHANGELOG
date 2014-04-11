@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Apply user-specific replacements to group's base_dn property (#1489779)
 - Fix bug where "With attachment" option in search filter wasn't selected after return from mail view (#1489774)
+- Fix "washing" of unicoded style attributes (#1489777)
 
 RELEASE 1.0.0
 -------------

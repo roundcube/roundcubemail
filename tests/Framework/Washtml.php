@@ -124,4 +124,39 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Test color style handling (#1489697)
+     */
+    function test_color_style()
+    {
+        $html = "<p style=\"font-size: 10px; color: rgb(241, 245, 218)\">a</p>";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|color: rgb\(241, 245, 218\)|', $washed, "Color style (#1489697)");
+        $this->assertRegExp('|font-size: 10px|', $washed, "Font-size style");
+    }
+
+    /**
+     * Test handling of unicode chars in style (#1489777)
+     */
+    function test_style_unicode()
+    {
+        $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+            <body><span style='font-family:\"新細明體\",\"serif\";color:red'>test</span></body></html>";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|style=\'font-family: "新細明體","serif"; color: red\'|', $washed, "Unicode chars in style attribute - quoted (#1489697)");
+
+        $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+            <body><span style='font-family:新細明體;color:red'>test</span></body></html>";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|style="font-family: 新細明體; color: red"|', $washed, "Unicode chars in style attribute (#1489697)");
+    }
 }
