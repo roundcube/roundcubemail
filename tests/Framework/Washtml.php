@@ -144,11 +144,19 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     function test_style_unicode()
     {
         $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
-            <body><span style='font-family:\"新細明體\",\"serif\";color:red'>令全場爆滿</span></body></html>";
+            <body><span style='font-family:\"新細明體\",\"serif\";color:red'>test</span></body></html>";
 
         $washer = new rcube_washtml;
         $washed = $washer->wash($html);
 
-        $this->assertRegExp('|style=\'font-family: "新細明體","serif"; color: red\'|', $washed, "Unicode chars in style attribute (#1489697)");
+        $this->assertRegExp('|style=\'font-family: "新細明體","serif"; color: red\'|', $washed, "Unicode chars in style attribute - quoted (#1489697)");
+
+        $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+            <body><span style='font-family:新細明體;color:red'>test</span></body></html>";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|style="font-family: 新細明體; color: red"|', $washed, "Unicode chars in style attribute (#1489697)");
     }
 }

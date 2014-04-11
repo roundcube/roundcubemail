@@ -171,7 +171,7 @@ class rcube_washtml
      */
     private function wash_style($style)
     {
-        $s = '';
+        $result = array();
 
         foreach (explode(';', $style) as $declaration) {
             if (preg_match('/^\s*([a-z\-]+)\s*:\s*(.*)\s*$/i', $declaration, $match)) {
@@ -179,54 +179,48 @@ class rcube_washtml
                 $str   = $match[2];
                 $value = '';
 
-                while (sizeof($str) > 0 &&
-                    preg_match('/^(url\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)'./*1,2*/
-                        '|rgb\(\s*[0-9]+\s*,\s*[0-9]+\s*,\s*[0-9]+\s*\)'.
-                        '|-?[0-9.]+\s*(em|ex|px|cm|mm|in|pt|pc|deg|rad|grad|ms|s|hz|khz|%)?'.
-                        '|#[0-9a-f]{3,6}'.
-                        '|[a-z0-9"\', -]+'.
-                        ')\s*/i', $str, $match)
-                ) {
-                    if ($match[2]) {
-                        if (($src = $this->config['cid_map'][$match[2]])
-                            || ($src = $this->config['cid_map'][$this->config['base_url'].$match[2]])
-                        ) {
-                            $value .= ' url('.htmlspecialchars($src, ENT_QUOTES) . ')';
-                        }
-                        else if (preg_match('!^(https?:)?//[a-z0-9/._+-]+$!i', $match[2], $url)) {
-                            if ($this->config['allow_remote']) {
-                                $value .= ' url('.htmlspecialchars($url[0], ENT_QUOTES).')';
+                foreach ($this->explode_style($str) as $val) {
+                    if (preg_match('/^url\(/i', $val)) {
+                        if (preg_match('/^url\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $val, $match)) {
+                            $url = $match[1];
+                            if (($src = $this->config['cid_map'][$url])
+                                || ($src = $this->config['cid_map'][$this->config['base_url'].$url])
+                            ) {
+                                $value .= ' url('.htmlspecialchars($src, ENT_QUOTES) . ')';
                             }
-                            else {
-                                $this->extlinks = true;
+                            else if (preg_match('!^(https?:)?//[a-z0-9/._+-]+$!i', $url, $m)) {
+                                if ($this->config['allow_remote']) {
+                                    $value .= ' url('.htmlspecialchars($m[0], ENT_QUOTES).')';
+                                }
+                                else {
+                                    $this->extlinks = true;
+                                }
                             }
-                        }
-                        else if (preg_match('/^data:.+/i', $match[2])) { // RFC2397
-                            $value .= ' url('.htmlspecialchars($match[2], ENT_QUOTES).')';
+                            else if (preg_match('/^data:.+/i', $url)) { // RFC2397
+                                $value .= ' url('.htmlspecialchars($url, ENT_QUOTES).')';
+                            }
                         }
                     }
-                    else {
+                    else if (!preg_match('/^(behavior|expression)/i', $val)) {
                         // whitelist ?
-                        $value .= ' ' . $match[0];
+                        $value .= ' ' . $val;
 
                         // #1488535: Fix size units, so width:800 would be changed to width:800px
                         if (preg_match('/(left|right|top|bottom|width|height)/i', $cssid)
-                            && preg_match('/^[0-9]+$/', $match[0])
+                            && preg_match('/^[0-9]+$/', $val)
                         ) {
                             $value .= 'px';
                         }
                     }
-
-                    $str = substr($str, strlen($match[0]));
                 }
 
                 if (isset($value[0])) {
-                    $s .= ($s?' ':'') . $cssid . ':' . $value . ';';
+                    $result[] = $cssid . ':' . $value;
                 }
             }
         }
 
-        return $s;
+        return implode('; ', $result);
     }
 
     /**
@@ -577,5 +571,50 @@ class rcube_washtml
                 }
             }
         }
+    }
+
+    /**
+     * Explode css style value
+     */
+    protected function explode_style($style)
+    {
+        $style = trim($style);
+
+        // first remove comments
+        $pos = 0;
+        while (($pos = strpos($style, '/*', $pos)) !== false) {
+            $end = strpos($style, '*/', $pos+2);
+
+            if ($end === false) {
+                $style = substr($style, 0, $pos);
+            }
+            else {
+                $style = substr_replace($style, '', $pos, $end - $pos + 2);
+            }
+        }
+
+        $strlen = strlen($style);
+        $result = array();
+
+        // explode value
+        for ($p=$i=0; $i < $strlen; $i++) {
+            if (($style[$i] == "\"" || $style[$i] == "'") && $style[$i-1] != "\\") {
+                if ($q == $style[$i]) {
+                    $q = false;
+                }
+                else if (!$q) {
+                    $q = $style[$i];
+                }
+            }
+
+            if (!$q && $style[$i] == ' ' && !preg_match('/[,\(]/', $style[$i-1])) {
+                $result[] = substr($style, $p, $i - $p);
+                $p = $i + 1;
+            }
+        }
+
+        $result[] = (string) substr($style, $p);
+
+        return $result;
     }
 }
