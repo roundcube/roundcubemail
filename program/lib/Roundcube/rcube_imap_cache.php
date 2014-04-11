@@ -171,7 +171,7 @@ class rcube_imap_cache
         // Seek in internal cache
         if (array_key_exists('index', $this->icache[$mailbox])) {
             // The index was fetched from database already, but not validated yet
-            if (!array_key_exists('object', $this->icache[$mailbox]['index'])) {
+            if (empty($this->icache[$mailbox]['index']['validated'])) {
                 $index = $this->icache[$mailbox]['index'];
             }
             // We've got a valid index
@@ -248,6 +248,7 @@ class rcube_imap_cache
         }
 
         $this->icache[$mailbox]['index'] = array(
+            'validated'  => true,
             'object'     => $data,
             'sort_field' => $sort_field,
             'modseq'     => !empty($index['modseq']) ? $index['modseq'] : $mbox_data['HIGHESTMODSEQ']
@@ -889,6 +890,8 @@ class rcube_imap_cache
         if (empty($object)) {
             return false;
         }
+
+        $index['validated'] = true;
 
         // Get mailbox data (UIDVALIDITY, counters, etc.) for status check
         $mbox_data = $this->imap->folder_data($mailbox);
