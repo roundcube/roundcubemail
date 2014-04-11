@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where "With attachment" option in search filter wasn't selected after return from mail view (#1489774)
 - Fix "washing" of unicoded style attributes (#1489777)
 - Fix unintentional redirect from compose page in Webkit browsers (#1489789)
+- Fix messages index cache update under some conditions (e.g. proxy) (#1489756)
 
 RELEASE 1.0.0
 -------------
