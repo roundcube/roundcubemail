@@ -53,7 +53,6 @@ function roundcube_browser()
   this.ie = (document.all && !window.opera) || (this.win && this.agent_lc.indexOf('trident/') > 0);
 
   if (this.ie) {
-    this.ie6 = this.appver.indexOf('MSIE 6') > 0;
     this.ie7 = this.appver.indexOf('MSIE 7') > 0;
     this.ie8 = this.appver.indexOf('MSIE 8') > 0;
     this.ie9 = this.appver.indexOf('MSIE 9') > 0;

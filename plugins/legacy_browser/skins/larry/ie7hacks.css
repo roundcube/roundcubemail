@@ -204,10 +204,7 @@ ul.toolbarmenu li label {
 	box-sizing: border-box;
 }
 
-
 .minimal #taskbar a:hover .tooltip {
 	right: 34px;
 	top: 1px;
 }
-
-

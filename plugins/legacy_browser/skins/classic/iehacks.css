@@ -219,7 +219,7 @@ div.message-part div.pre
 div.draglayercopy
 {
   border-color: #00cc00;
-  background: url(images/messageactions.png) 0 -125px no-repeat #fff;
+  background: url(../../../skins/classic/images/messageactions.png) 0 -125px no-repeat #fff;
 }
 
 html.ie8 .draglayercopy:before

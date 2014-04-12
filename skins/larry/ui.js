@@ -635,12 +635,6 @@ function rcube_mail_ui()
 
     obj[show?'show':'hide']();
 
-    // hide drop-down elements on buggy browsers
-    if (bw.ie6 && config.overlap) {
-      $('select').css('visibility', show?'hidden':'inherit');
-      $('select', obj).css('visibility', 'inherit');
-    }
-
     return show;
   }
 

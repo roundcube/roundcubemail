@@ -106,8 +106,8 @@ function rcube_treelist_widget(node, p)
       node.collapsed = typeof set == 'undefined' || set;
       update_dom(node);
 
-      // Work around a bug in IE6 and IE7, see #1485309
-      if (window.bw && (bw.ie6 || bw.ie7) && node.collapsed) {
+      // Work around a bug in IE7, see #1485309
+      if (window.bw && bw.ie7 && node.collapsed) {
         id2dom(node.id).next().children('ul:visible').hide().show();
       }
 

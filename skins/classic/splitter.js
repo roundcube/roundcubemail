@@ -11,7 +11,6 @@ function rcube_splitter(attrib)
   this.id = attrib.id ? attrib.id : this.p1id + '_' + this.p2id + '_splitter';
   this.orientation = attrib.orientation;
   this.horizontal = (this.orientation == 'horizontal' || this.orientation == 'h');
-  this.offset = bw.ie6 ? 2 : 0;
   this.pos = attrib.start ? attrib.start * 1 : 0;
   this.relative = attrib.relative ? true : false;
   this.drag_active = false;
@@ -67,7 +66,7 @@ function rcube_splitter(attrib)
   this.resize = function()
   {
     if (this.horizontal) {
-      var lh = this.layer.height - this.offset * 2;
+      var lh = this.layer.height;
       this.p1.style.height = Math.floor(this.pos - this.p1pos.top - lh / 2) + 'px';
       this.p2.style.top = Math.ceil(this.pos + lh / 2) + 'px';
       this.layer.move(this.layer.x, Math.round(this.pos - lh / 2 + 1));

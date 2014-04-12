@@ -884,8 +884,8 @@ rcube_webmail.prototype.managesieve_create = function(force)
   // show dialog window
   dialog.dialog({
     modal: false,
-    resizable: !bw.ie6,
-    closeOnEscape: (!bw.ie6 && !bw.ie7),  // disable for performance reasons
+    resizable: true,
+    closeOnEscape: !bw.ie7,  // disable for performance reasons
     title: this.gettext('managesieve.newfilter'),
     close: function() { rcmail.managesieve_dialog_close(); },
     buttons: buttons,

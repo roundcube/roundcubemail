@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Drop support for IE6, move IE7/IE8 support to legacy_browser plugin
+- Update to jQuery-2.1.0
 - Search across multiple folders (#1485234)
 - Improve UI integration of ACL settings
 - Drop support for PHP < 5.3.7

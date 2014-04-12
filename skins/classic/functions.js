@@ -155,11 +155,6 @@ show_popupmenu: function(popup, show)
   }
 
   obj[show?'show':'hide']();
-
-  if (bw.ie6 && this.popups[popup].overlap) {
-    $('select').css('visibility', show?'hidden':'inherit');
-    $('select', obj).css('visibility', 'inherit');
-  }
 },
 
 dragmenu: function(show)
@@ -319,9 +314,6 @@ listmenu: function(show)
       }
     });
     $('#listmenu fieldset').css("min-height", maxheight+"px")
-    // IE6 complains if you set this attribute using either method:
-    //$('#listmenu fieldset').css({'height':'auto !important'});
-    //$('#listmenu fieldset').css("height","auto !important");
       .height(maxheight);
   };
 },
@@ -470,7 +462,7 @@ switch_preview_pane: function(elem)
   }
   else {
     prev_frm.hide();
-    if (bw.ie6 || bw.ie7) {
+    if (bw.ie7) {
       var fr = document.getElementById('mailcontframe');
       fr.style.bottom = 0;
       fr.style.height = parseInt(fr.parentNode.offsetHeight)+'px';
