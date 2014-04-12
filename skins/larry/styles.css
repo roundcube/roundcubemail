@@ -861,13 +861,9 @@ a.iconlink.upload {
 	border-width: 0 4px 4px;
 	border-color: #888 transparent;
 	/* reduce the damage in FF3.0 */
-	display: block; 
+	display: block;
 	width: 0;
 	z-index: 251;
-}
-
-.ie8 .minimal #taskbar .tooltip:after {
-	top: -6px;
 }
 
 .minimal #taskbar a:hover .tooltip {

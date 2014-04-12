@@ -9,6 +9,10 @@
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
  */
 
+.ie8 .minimal #taskbar .tooltip:after {
+	top: -6px;
+}
+
 input.button {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e6e6e6', GradientType=0);
 }
