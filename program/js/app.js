@@ -473,7 +473,7 @@ function rcube_webmail()
           $('#rcmloginpwd').focus();
 
         // detect client timezone
-        if (window.jstz && !bw.ie6) {
+        if (window.jstz) {
           var timezone = jstz.determine();
           if (timezone.name())
             $('#rcmlogintz').val(timezone.name());
