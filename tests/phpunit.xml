@@ -57,6 +57,7 @@
             <file>./../plugins/http_authentication/tests/HttpAuthentication.php</file>
             <file>./../plugins/identity_select/tests/IdentitySelect.php</file>
             <file>./../plugins/jqueryui/tests/Jqueryui.php</file>
+            <file>./../plugins/legacy_browser/tests/LegacyBrowser.php</file>
             <file>./../plugins/managesieve/tests/Managesieve.php</file>
             <file>./../plugins/managesieve/tests/Parser.php</file>
             <file>./../plugins/managesieve/tests/Tokenizer.php</file>
