@@ -21,7 +21,7 @@
 
 // If there's no folder or messages list, there's nothing to update
 // This can happen on 'refresh' request
-if (empty($_REQUEST['_folderlist']) && empty($_REQUEST['_list'])) {
+if (empty($_POST['_folderlist']) && empty($_POST['_list'])) {
     return;
 }
 
@@ -73,14 +73,16 @@ foreach ($a_mailboxes as $mbox_name) {
             $_SESSION['search'] = $RCMAIL->storage->refresh_search();
         }
 
-        if (!empty($_GET['_quota']))
+        if (!empty($_POST['_quota'])) {
             $OUTPUT->command('set_quota', $RCMAIL->quota_content());
+        }
 
         $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
 
         // "No-list" mode, don't get messages
-        if (empty($_GET['_list']))
+        if (empty($_POST['_list'])) {
             continue;
+        }
 
         // get overall message count; allow caching because rcube_storage::folder_status()
         // did a refresh but only in list mode
