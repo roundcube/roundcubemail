@@ -2050,7 +2050,7 @@ class rcmail extends rcube
             // create a per-folder UIDs array
             foreach ((array)$_uid as $uid) {
                 list($uid, $mbox) = explode('-', $uid, 2);
-                if (empty($mbox))
+                if (!strlen($mbox))
                     $mbox = $_mbox;
                 if ($uid == '*')
                     $result[$mbox] = $uid;

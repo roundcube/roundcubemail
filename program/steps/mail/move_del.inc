@@ -37,7 +37,7 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
 
     $success = true;
     foreach (rcmail::get_uids() as $mbox => $uids) {
-        if ($mbox == $target) {
+        if ($mbox === $target) {
             $count += count($uids);
         }
         else if ($RCMAIL->storage->move_message($uids, $target, $mbox)) {
