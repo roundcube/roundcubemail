@@ -1,4 +1,5 @@
 - Added optional separate interface for out-of-office management (#1488266)
+- Fix disabled "create filter" action
 
 * version 7.2 [2014-02-14]
 -----------------------------------------------------------
