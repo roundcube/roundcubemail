@@ -759,7 +759,12 @@ class rcube_charset
 
         // iconv/mbstring are much faster (especially with long strings)
         if (function_exists('mb_convert_encoding')) {
-            if (($res = mb_convert_encoding($input, 'UTF-8', 'UTF-8')) !== false) {
+            $msch = mb_substitute_character('none');
+            mb_substitute_character('none');
+            $res = mb_convert_encoding($input, 'UTF-8', 'UTF-8');
+            mb_substitute_character($msch);
+
+            if ($res !== false) {
                 return $res;
             }
         }
@@ -795,8 +800,8 @@ class rcube_charset
                 }
                 $seq = '';
                 $out .= $chr;
-            // first (or second) byte of multibyte sequence
             }
+            // first (or second) byte of multibyte sequence
             else if ($ord >= 0xC0) {
                 if (strlen($seq) > 1) {
                     $out .= preg_match($regexp, $seq) ? $seq : '';
@@ -806,8 +811,8 @@ class rcube_charset
                     $seq = '';
                 }
                 $seq .= $chr;
-            // next byte of multibyte sequence
             }
+            // next byte of multibyte sequence
             else if ($seq) {
                 $seq .= $chr;
             }
