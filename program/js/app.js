@@ -2180,7 +2180,7 @@ function rcube_webmail()
     var lock = this.set_busy(true, 'checkingmail'),
       params = this.check_recent_params();
 
-    this.http_request('check-recent', params, lock);
+    this.http_post('check-recent', params, lock);
   };
 
   // list messages of a specific mailbox using filter
@@ -7500,7 +7500,7 @@ function rcube_webmail()
     this.env.lastrefresh = new Date();
 
     // plugins should bind to 'requestrefresh' event to add own params
-    this.http_request('refresh', params, lock);
+    this.http_post('refresh', params, lock);
   };
 
   // returns check-recent request parameters
