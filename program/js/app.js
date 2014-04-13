@@ -6829,13 +6829,13 @@ function rcube_webmail()
 
     if (action)
       query._action = action;
-    else
+    else if (this.env.action)
       query._action = this.env.action;
 
     var base = this.env.comm_path, k, param = {};
 
     // overwrite task name
-    if (query._action.match(/([a-z0-9_-]+)\/([a-z0-9-_.]+)/)) {
+    if (action && action.match(/([a-z0-9_-]+)\/([a-z0-9-_.]+)/)) {
       query._action = RegExp.$2;
       base = base.replace(/\_task=[a-z0-9_-]+/, '_task='+RegExp.$1);
     }
