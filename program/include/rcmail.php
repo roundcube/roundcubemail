@@ -1606,9 +1606,13 @@ class rcmail extends rcube
      *
      * @return string Localized folder name in UTF-8 encoding
      */
-    public function localize_foldername($name, $with_path = true)
+    public function localize_foldername($name, $with_path = false)
     {
         $realnames = $this->config->get('show_real_foldernames');
+
+        if (!$realnames && ($folder_class = $this->folder_classname($name))) {
+            return $this->gettext($folder_class);
+        }
 
         // try to localize path of the folder
         if ($with_path && !$realnames) {
@@ -1626,10 +1630,6 @@ class rcmail extends rcube
                     }
                 }
             }
-        }
-
-        if (!$realnames && ($folder_class = $this->folder_classname($name))) {
-            return $this->gettext($folder_class);
         }
 
         return rcube_charset::convert($name, 'UTF7-IMAP');

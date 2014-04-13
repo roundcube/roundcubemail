@@ -146,7 +146,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
             'copy', 'move', 'quota', 'replyall', 'replylist');
     }
 
-    $pagetitle = $RCMAIL->localize_foldername($RCMAIL->storage->mod_folder($mbox_name), true);
+    $pagetitle = $RCMAIL->localize_foldername($mbox_name, true);
     $pagetitle = str_replace($delimiter, " \xC2\xBB ", $pagetitle);
 
     $OUTPUT->set_pagetitle($pagetitle);

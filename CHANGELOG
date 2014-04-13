@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Fix "washing" of unicoded style attributes (#1489777)
 - Fix unintentional redirect from compose page in Webkit browsers (#1489789)
 - Fix messages index cache update under some conditions (e.g. proxy) (#1489756)
+- Fix lack of translation of special folders in some configurations (#1489799)
 
 RELEASE 1.0.0
 -------------
