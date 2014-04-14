@@ -1912,7 +1912,7 @@ function rcube_webmail()
     // add each submitted col
     for (n in this.env.coltypes) {
       c = this.env.coltypes[n];
-      col = { className: String(c).toLowerCase() };
+      col = {className: String(c).toLowerCase(), events:{}};
 
       if (c == 'flag') {
         css_class = (flags.flagged ? 'flagged' : 'unflagged');
@@ -1940,11 +1940,8 @@ function rcube_webmail()
       else if (c == 'threads')
         html = expando;
       else if (c == 'subject') {
-        if (bw.ie) {
-          col.onmouseover = function() { rcube_webmail.long_subject_title_ex(this, message.depth+1); };
-          if (bw.ie8)
-            tree = '<span></span>' + tree; // #1487821
-        }
+        if (bw.ie)
+          col.events.mouseover = function() { rcube_webmail.long_subject_title_ex(this); };
         html = tree + cols[c];
       }
       else if (c == 'priority') {
@@ -4059,7 +4056,7 @@ function rcube_webmail()
     li.attr('id', name)
       .addClass(att.classname)
       .html(att.html)
-      .on('mouseover', function() { rcube_webmail.long_subject_title_ex(this, 0); });
+      .on('mouseover', function() { rcube_webmail.long_subject_title_ex(this); });
 
     // replace indicator's li
     if (upload_id && (indicator = document.getElementById(upload_id))) {
@@ -7683,7 +7680,7 @@ rcube_webmail.long_subject_title = function(elem, indent)
   }
 };
 
-rcube_webmail.long_subject_title_ex = function(elem, indent)
+rcube_webmail.long_subject_title_ex = function(elem)
 {
   if (!elem.title) {
     var $elem = $(elem),
@@ -7695,7 +7692,7 @@ rcube_webmail.long_subject_title_ex = function(elem, indent)
       w = tmp.width();
 
     tmp.remove();
-    if (w + indent * 15 > $elem.width())
+    if (w + $('span.branch', $elem).width() * 15 > $elem.width())
       elem.title = txt;
   }
 };
