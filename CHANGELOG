@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix messages index cache update under some conditions (e.g. proxy) (#1489756)
 - Fix lack of translation of special folders in some configurations (#1489799)
 - Fix XSS issue in plain text spellchecker (#1489806)
+- Fix invalid page title for some folders (1489804)
 
 RELEASE 1.0.0
 -------------
