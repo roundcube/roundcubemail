@@ -191,7 +191,7 @@ function rcube_mail_ui()
           return false;
         }).css('cursor', 'pointer');
 
-        if (get_pref('composeoptions') !== '0') {
+        if (get_pref('composeoptions') && get_pref('composeoptions') !== '0') {
           $('#composeoptionstoggle').click();
         }
 
