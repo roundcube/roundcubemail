@@ -301,11 +301,13 @@ insert_row: function(row, before)
     if (row.style) $.extend(domrow.style, row.style);
     if (row.uid) $(domrow).data('uid', row.uid);
 
-    for (var domcell, col, i=0; row.cols && i < row.cols.length; i++) {
+    for (var e, domcell, col, i=0; row.cols && i < row.cols.length; i++) {
       col = row.cols[i];
       domcell = document.createElement(this.col_tagname());
       if (col.className) domcell.className = col.className;
       if (col.innerHTML) domcell.innerHTML = col.innerHTML;
+      for (e in col.events)
+        domcell['on' + e] = col.events[e];
       domrow.appendChild(domcell);
     }
 
