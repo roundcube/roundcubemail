@@ -15,6 +15,7 @@ CHANGELOG Roundcube Webmail
 - Fix unintentional redirect from compose page in Webkit browsers (#1489789)
 - Fix messages index cache update under some conditions (e.g. proxy) (#1489756)
 - Fix lack of translation of special folders in some configurations (#1489799)
+- Fix XSS issue in plain text spellchecker (#1489806)
 
 RELEASE 1.0.0
 -------------
