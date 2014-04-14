@@ -1544,19 +1544,26 @@ class rcube_imap extends rcube_storage
      */
     public function search_once($folder = null, $str = 'ALL')
     {
-        if (!$str) {
-            $str = 'ALL';
-        }
-
-        if (!strlen($folder)) {
-            $folder = $this->folder;
-        }
-
         if (!$this->check_connection()) {
             return new rcube_result_index();
         }
 
-        $index = $this->conn->search($folder, $str, true);
+        if (!$str) {
+            $str = 'ALL';
+        }
+
+        // multi-folder search
+        if (is_array($folder) && count($folder) > 1) {
+            $searcher = new rcube_imap_search($this->options, $this->conn);
+            $index = $searcher->exec($folder, $str, $this->default_charset);
+        }
+        else {
+            $folder = is_array($folder) ? $folder[0] : $folder;
+            if (!strlen($folder)) {
+                $folder = $this->folder;
+            }
+            $index = $this->conn->search($folder, $str, true);
+        }
 
         return $index;
     }
@@ -1707,13 +1714,13 @@ class rcube_imap extends rcube_storage
      */
     public function get_message_headers($uid, $folder = null, $force = false)
     {
-        if (!strlen($folder)) {
-            $folder = $this->folder;
-        }
-
         // decode combined UID-folder identifier
         if (preg_match('/^\d+-.+/', $uid)) {
             list($uid, $folder) = explode('-', $uid, 2);
+        }
+
+        if (!strlen($folder)) {
+            $folder = $this->folder;
         }
 
         // get cached headers
@@ -1726,6 +1733,9 @@ class rcube_imap extends rcube_storage
         else {
             $headers = $this->conn->fetchHeader(
                 $folder, $uid, true, true, $this->get_fetch_headers());
+
+            if (is_object($headers))
+                $headers->folder = $folder;
         }
 
         return $headers;
