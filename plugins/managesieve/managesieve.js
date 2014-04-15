@@ -72,22 +72,25 @@ if (window.rcmail) {
       if (rcmail.gui_objects.filterslist) {
         rcmail.filters_list = new rcube_list_widget(rcmail.gui_objects.filterslist,
           {multiselect:false, draggable:true, keyboard:false});
-        rcmail.filters_list.addEventListener('select', function(e) { p.managesieve_select(e); });
-        rcmail.filters_list.addEventListener('dragstart', function(e) { p.managesieve_dragstart(e); });
-        rcmail.filters_list.addEventListener('dragend', function(e) { p.managesieve_dragend(e); });
-        rcmail.filters_list.row_init = function (row) {
-          row.obj.onmouseover = function() { p.managesieve_focus_filter(row); };
-          row.obj.onmouseout = function() { p.managesieve_unfocus_filter(row); };
-        };
-        rcmail.filters_list.init();
-        rcmail.filters_list.focus();
+
+        rcmail.filters_list
+          .addEventListener('select', function(e) { p.managesieve_select(e); })
+          .addEventListener('dragstart', function(e) { p.managesieve_dragstart(e); })
+          .addEventListener('dragend', function(e) { p.managesieve_dragend(e); })
+          .addEventListener('initrow', function(row) {
+            row.obj.onmouseover = function() { p.managesieve_focus_filter(row); };
+            row.obj.onmouseout = function() { p.managesieve_unfocus_filter(row); };
+          })
+          .init().focus();
       }
 
       if (rcmail.gui_objects.filtersetslist) {
-        rcmail.filtersets_list = new rcube_list_widget(rcmail.gui_objects.filtersetslist, {multiselect:false, draggable:false, keyboard:false});
-        rcmail.filtersets_list.addEventListener('select', function(e) { p.managesieve_setselect(e); });
-        rcmail.filtersets_list.init();
-        rcmail.filtersets_list.focus();
+        rcmail.filtersets_list = new rcube_list_widget(rcmail.gui_objects.filtersetslist,
+          {multiselect:false, draggable:false, keyboard:false});
+
+        rcmail.filtersets_list
+          .addEventListener('select', function(e) { p.managesieve_setselect(e); })
+          .init().focus();
 
         if (set != null) {
           set = rcmail.managesieve_setid(set);
