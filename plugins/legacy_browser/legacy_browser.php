@@ -23,10 +23,12 @@ class legacy_browser extends rcube_plugin
     function send_page($args)
     {
         // replace jQuery 2.x with 1.x
-        $ts = filemtime($this->home . '/js/jquery.min.js');
+        $ts1 = filemtime($this->home . '/js/jquery.min.js');
+        $ts2 = filemtime($this->home . '/js/iehacks.js');
         $args['content'] = preg_replace(
-            '|"program/js/jquery\.min\.js\?s=[0-9]+"|',
-            '"plugins/legacy_browser/js/jquery.min.js?s=' . $ts . '"',
+            '|<script src="program/js/jquery\.min\.js\?s=[0-9]+" type="text/javascript"></script>|',
+            '<script src="plugins/legacy_browser/js/jquery.min.js?s=' . $ts1 . '" type="text/javascript"></script>'."\n"
+            .'<script src="plugins/legacy_browser/js/iehacks.js?s=' . $ts2 . '" type="text/javascript"></script>',
             $args['content'], 1);
 
         return $args;
@@ -53,17 +55,6 @@ class legacy_browser extends rcube_plugin
                     '<link rel="stylesheet" type="text/css" href="plugins/legacy_browser/larry/iehacks.css" />'
                 );
             }
-
-            // fix missing :last-child selectors
-            $rcube->output->add_footer(implode("\n", array(
-                '<script type="text/javascript">',
-                '$(document).ready(function() {',
-                '    $(\'ul.treelist ul\').each(function(i,ul) {',
-                '        $(\'li:last-child\', ul).css(\'border-bottom\', 0);',
-                '    });',
-                '});',
-                '</script>'
-            )));
         }
     }
 

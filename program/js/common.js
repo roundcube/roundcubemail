@@ -596,20 +596,6 @@ if (!String.prototype.startsWith) {
   };
 }
 
-// Make getElementById() case-sensitive on IE
-if (bw.ie) {
-  document._getElementById = document.getElementById;
-  document.getElementById = function(id) {
-    var i = 0, obj = document._getElementById(id);
-
-    if (obj && obj.id != id)
-      while ((obj = document.all[i]) && obj.id != id)
-        i++;
-
-    return obj;
-  }
-}
-
 // jQuery plugin to emulate HTML5 placeholder attributes on input elements
 jQuery.fn.placeholder = function(text) {
   return this.each(function() {
