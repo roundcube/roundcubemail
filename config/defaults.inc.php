@@ -56,7 +56,7 @@ $config['db_table_dsn'] = array(
 // LOGGING/DEBUGGING
 // ----------------------------------
 
-// system error reporting, sum of: 1 = log; 4 = show, 8 = trace
+// system error reporting, sum of: 1 = log; 4 = show
 $config['debug_level'] = 1;
 
 // log driver:  'syslog' or 'file'.

@@ -529,36 +529,6 @@ function getCookie(name)
 roundcube_browser.prototype.set_cookie = setCookie;
 roundcube_browser.prototype.get_cookie = getCookie;
 
-// tiny replacement for Firebox functionality
-function rcube_console()
-{
-  this.log = function(msg)
-  {
-    var box = rcube_find_object('dbgconsole');
-
-    if (box) {
-      if (msg.charAt(msg.length-1)=='\n')
-        msg += '--------------------------------------\n';
-      else
-        msg += '\n--------------------------------------\n';
-
-      // Konqueror doesn't allow to just change the value of hidden element
-      if (bw.konq) {
-        box.innerText += msg;
-        box.value = box.innerText;
-      } else
-        box.value += msg;
-    }
-  };
-
-  this.reset = function()
-  {
-    var box = rcube_find_object('dbgconsole');
-    if (box)
-      box.innerText = box.value = '';
-  };
-};
-
 var bw = new roundcube_browser();
 bw.set_html_class();
 
