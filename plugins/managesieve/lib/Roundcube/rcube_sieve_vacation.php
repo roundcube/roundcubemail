@@ -146,7 +146,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         if (!$error) {
             $rule               = $this->vacation;
             $rule['type']       = 'if';
-            $rule['name']       = $rule['name'] ?: $this->plugin->gettext('vacation');
+            $rule['name']       = $rule['name'] ? $rule['name'] : $this->plugin->gettext('vacation');
             $rule['disabled']   = $status == 'off';
             $rule['actions'][0] = $vacation_action;
             $rule['tests']      = $vacation_tests;
