@@ -519,24 +519,11 @@ class rcmail_output_html extends rcmail_output
         $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
         $this->footer = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $this->footer);
 
-        if ($write) {
-            // add debug console
-            if ($realname != 'error' && ($this->config->get('debug_level') & 8)) {
-                $this->add_footer('<div id="console" style="position:absolute;top:5px;left:5px;width:405px;padding:2px;background:white;z-index:9000;display:none">
-                    <a href="#toggle" onclick="con=$(\'#dbgconsole\');con[con.is(\':visible\')?\'hide\':\'show\']();return false">console</a>
-                    <textarea name="console" id="dbgconsole" rows="20" cols="40" style="display:none;width:400px;border:none;font-size:10px" spellcheck="false"></textarea></div>'
-                );
-                $this->add_script(
-                    "if (!window.console || !window.console.log) {\n".
-                    "  window.console = new rcube_console();\n".
-                    "  $('#console').show();\n".
-                    "}", 'foot');
-            }
-            $this->write(trim($output));
-        }
-        else {
+        if (!$write) {
             return $output;
         }
+
+        $this->write(trim($output));
 
         if ($exit) {
             exit;

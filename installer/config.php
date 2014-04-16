@@ -198,9 +198,6 @@ echo '<label for="cfgdebug1">Log errors</label><br />';
 echo $check_debug->show(($value & 4) ? 4 : 0, array('value' => 4, 'id' => 'cfgdebug4'));
 echo '<label for="cfgdebug4">Print errors (to the browser)</label><br />';
 
-echo $check_debug->show(($value & 8) ? 8 : 0, array('value' => 8, 'id' => 'cfgdebug8'));
-echo '<label for="cfgdebug8">Verbose display (enables debug console)</label><br />';
-
 ?>
 </dd>
 

@@ -533,36 +533,6 @@ function getCookie(name)
 roundcube_browser.prototype.set_cookie = setCookie;
 roundcube_browser.prototype.get_cookie = getCookie;
 
-// tiny replacement for Firebox functionality
-function rcube_console()
-{
-  this.log = function(msg)
-  {
-    var box = rcube_find_object('dbgconsole');
-
-    if (box) {
-      if (msg.charAt(msg.length-1)=='\n')
-        msg += '--------------------------------------\n';
-      else
-        msg += '\n--------------------------------------\n';
-
-      // Konqueror doesn't allow to just change the value of hidden element
-      if (bw.konq) {
-        box.innerText += msg;
-        box.value = box.innerText;
-      } else
-        box.value += msg;
-    }
-  };
-
-  this.reset = function()
-  {
-    var box = rcube_find_object('dbgconsole');
-    if (box)
-      box.innerText = box.value = '';
-  };
-};
-
 var bw = new roundcube_browser();
 bw.set_html_class();
 
@@ -598,20 +568,6 @@ if (!String.prototype.startsWith) {
     position = position || 0;
     return this.slice(position, search.length) === search;
   };
-}
-
-// Make getElementById() case-sensitive on IE
-if (bw.ie) {
-  document._getElementById = document.getElementById;
-  document.getElementById = function(id) {
-    var i = 0, obj = document._getElementById(id);
-
-    if (obj && obj.id != id)
-      while ((obj = document.all[i]) && obj.id != id)
-        i++;
-
-    return obj;
-  }
 }
 
 // jQuery plugin to emulate HTML5 placeholder attributes on input elements
