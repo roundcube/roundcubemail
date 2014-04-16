@@ -255,13 +255,17 @@ remove_listener: function(p)
 cancel: function(evt)
 {
   var e = evt ? evt : window.event;
+
   if (e.preventDefault)
     e.preventDefault();
+  else
+    e.returnValue = false;
+
   if (e.stopPropagation)
     e.stopPropagation();
 
   e.cancelBubble = true;
-  e.returnValue = false;
+
   return false;
 },
 
