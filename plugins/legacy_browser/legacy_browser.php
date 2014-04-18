@@ -40,19 +40,20 @@ class legacy_browser extends rcube_plugin
         $skin  = $this->skin();
 
         if ($skin == 'classic') {
+            $minified = file_exists(INSTALL_PATH . '/plugins/legacy_browser/skins/classic/iehacks.min.css') ? '.min' : '';
             $rcube->output->add_header(
-                '<link rel="stylesheet" type="text/css" href="plugins/legacy_browser/classic/iehacks.css" />'
+                '<link rel="stylesheet" type="text/css" href="plugins/legacy_browser/skins/classic/iehacks' . $minified . '.css" />'
             );
         }
         else if ($skin == 'larry') {
+            $minified = file_exists(INSTALL_PATH . '/plugins/legacy_browser/skins/larry/iehacks.min.css') ? '.min' : '';
+            $rcube->output->add_header(
+                '<link rel="stylesheet" type="text/css" href="plugins/legacy_browser/skins/larry/iehacks' . $minified . '.css" />'
+            );
+
             if ($rcube->output->browser->ver < 8) {
                 $rcube->output->add_header(
-                    '<link rel="stylesheet" type="text/css" href="plugins/legacy_browser/larry/ie7hacks.css" />'
-                );
-            }
-            else {
-                $rcube->output->add_header(
-                    '<link rel="stylesheet" type="text/css" href="plugins/legacy_browser/larry/iehacks.css" />'
+                    '<link rel="stylesheet" type="text/css" href="plugins/legacy_browser/skins/larry/ie7hacks' . $minified . '.css" />'
                 );
             }
         }

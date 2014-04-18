@@ -13,7 +13,9 @@
 	top: -6px;
 }
 
-input.button {
+input.button,
+a.disabled.button,
+.buttongroup {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e6e6e6', GradientType=0);
 }
 
@@ -31,11 +33,6 @@ input.button.mainaction {
 
 input.button.mainaction:active {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2a2e31', endColorstr='#505050', GradientType=0);
-}
-
-a.button,
-.buttongroup {
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e6e6e6', GradientType=0);
 }
 
 a.button.pressed,
