@@ -1300,6 +1300,11 @@ function rcube_webmail()
     }
   };
 
+  this.command_enabled = function(cmd)
+  {
+    return this.commands[cmd];
+  }
+
   // lock/unlock interface
   this.set_busy = function(a, message, id)
   {
@@ -2193,6 +2198,7 @@ function rcube_webmail()
 
     // reset vars
     this.env.current_page = 1;
+    this.env.search_filter = filter;
     this.http_request('search', this.search_params(false, filter), lock);
   };
 
@@ -4198,7 +4204,11 @@ function rcube_webmail()
 
       this.env.qsearch = {lock: lock, request: r};
       this.enable_command('set-listmode', this.env.threads && (this.env.search_scope || 'base') == 'base');
+
+      return true;
     }
+
+    return false;
   };
 
   // build URL params for search
@@ -4262,8 +4272,9 @@ function rcube_webmail()
 
     // re-send search query with new scope
     if (scope != old && this.env.search_request) {
-      this.qsearch(this.gui_objects.qsearchbox.value);
-      if (scope == 'base')
+      if (!this.qsearch(this.gui_objects.qsearchbox.value) && this.env.search_filter && this.env.search_filter != 'ALL')
+        this.filter_mailbox(this.env.search_filter);
+      if (scope != 'all')
         this.select_folder(this.env.mailbox, '', true);
     }
   };
@@ -7066,11 +7077,13 @@ function rcube_webmail()
         this.env.qsearch = null;
       case 'list':
         if (this.task == 'mail') {
+          var is_multifolder = this.is_multifolder_listing();
           this.enable_command('show', 'select-all', 'select-none', this.env.messagecount > 0);
-          this.enable_command('expunge', this.env.exists);
-          this.enable_command('purge', this.purge_mailbox_test());
-          this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount);
-          this.enable_command('set-listmode', this.env.threads && !this.is_multifolder_listing());
+          this.enable_command('expunge', this.env.exists && !is_multifolder);
+          this.enable_command('purge', this.purge_mailbox_test() && !is_multifolder);
+          this.enable_command('import-messages', !is_multifolder);
+          this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount && !is_multifolder);
+          this.enable_command('set-listmode', this.env.threads && !is_multifolder);
 
           if ((response.action == 'list' || response.action == 'search') && this.message_list) {
             this.msglist_select(this.message_list);

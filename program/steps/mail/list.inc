@@ -60,11 +60,12 @@ $RCMAIL->storage->folder_sync($mbox_name);
 
 // initialize searching result if search_filter is used
 if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
-  $search_request = md5($mbox_name.$_SESSION['search_filter']);
+  $search_request = md5($mbox_name.$_SESSION['search_scope'].$_SESSION['search_filter']);
   $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCUBE_CHARSET, rcmail_sort_column());
   $_SESSION['search'] = $RCMAIL->storage->get_search_set();
   $_SESSION['search_request'] = $search_request;
   $OUTPUT->set_env('search_request', $search_request);
+  $OUTPUT->set_env('search_filter', $_SESSION['search_filter']);
 }
 
 // fetch message headers

@@ -1492,7 +1492,7 @@ class rcube_imap extends rcube_storage
      * @param  string  $str        Search criteria
      * @param  string  $charset    Search charset
      * @param  string  $sort_field Header field to sort by
-     *
+     * @return rcube_result_index  Search result object
      * @todo: Search criteria should be provided in non-IMAP format, eg. array
      */
     public function search($folder='', $str='ALL', $charset=NULL, $sort_field=NULL)
@@ -1531,6 +1531,8 @@ class rcube_imap extends rcube_storage
 
         $this->set_search_set(array($str, $results, $charset, $sort_field,
             $this->threading || $this->search_sorted ? true : false));
+
+        return $results;
     }
 
 

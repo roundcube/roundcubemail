@@ -41,7 +41,7 @@ $scope   = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET);
 $subject = array();
 
 $filter         = trim($filter);
-$search_request = md5($mbox.$filter.$str);
+$search_request = md5($mbox.$scope.$filter.$str);
 
 // add list filter string
 $search_str = $filter && $filter != 'ALL' ? $filter : '';
@@ -105,7 +105,13 @@ if (!empty($subject)) {
     foreach ($subject as $sub) {
         $search_str .= ' ' . $sub . ' ' . rcube_imap_generic::escape($search);
     }
+}
 
+$search_str  = trim($search_str);
+$sort_column = rcmail_sort_column();
+
+// execute IMAP search
+if ($search_str) {
     // search all, current or subfolders folders
     if ($scope == 'all') {
         $mboxes = $RCMAIL->storage->list_folders_subscribed('', '*', 'mail', null, true);
@@ -116,14 +122,8 @@ if (!empty($subject)) {
         if ($mbox != 'INBOX' && $mboxes[0] == 'INBOX')
             array_shift($mboxes);
     }
-}
 
-$search_str  = trim($search_str);
-$sort_column = rcmail_sort_column();
-
-// execute IMAP search
-if ($search_str) {
-    $RCMAIL->storage->search($mboxes, $search_str, $imap_charset, $sort_column);
+    $result = $RCMAIL->storage->search($mboxes, $search_str, $imap_charset, $sort_column);
 }
 
 // Get the headers
@@ -162,10 +162,14 @@ else  if ($err_code = $RCMAIL->storage->get_error_code()) {
 }
 else {
     $OUTPUT->show_message('searchnomatch', 'notice');
+    $OUTPUT->set_env('multifolder_listing', (bool)$result->multi);
+    if ($result->multi && $scope == 'all')
+        $OUTPUT->command('select_folder', '');
 }
 
 // update message count display
 $OUTPUT->set_env('search_request', $search_str ? $search_request : '');
+$OUTPUT->set_env('search_filter', $_SESSION['search_filter']);
 $OUTPUT->set_env('threading', $RCMAIL->storage->get_threading());
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', ceil($count/$RCMAIL->storage->get_pagesize()));
