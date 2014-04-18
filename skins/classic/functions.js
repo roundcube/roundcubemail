@@ -202,11 +202,13 @@ searchmenu: function(show)
       var n, all,
         list = $('input:checkbox[name="s_mods[]"]', obj),
         mbox = rcmail.env.mailbox,
-        mods = rcmail.env.search_mods;
+        mods = rcmail.env.search_mods,
+        scope = rcmail.env.search_scope || 'base';
 
       if (rcmail.env.task == 'mail') {
         mods = mods[mbox] ? mods[mbox] : mods['*'];
         all = 'text';
+        $('input:radio[name="s_scope"]').prop('checked', false).filter('#s_scope_'+scope).prop('checked', true);
       }
       else {
         all = '*';
@@ -231,7 +233,11 @@ set_searchmod: function(elem)
 {
   var all, m, task = rcmail.env.task,
     mods = rcmail.env.search_mods,
-    mbox = rcmail.env.mailbox;
+    mbox = rcmail.env.mailbox,
+    scope = $('input[name="s_scope"]:checked').val();
+
+  if (scope == 'all')
+    mbox = '*';
 
   if (!mods)
     mods = {};
@@ -253,23 +259,24 @@ set_searchmod: function(elem)
     m[elem.value] = 1;
 
   // mark all fields
-  if (elem.value != all)
-    return;
+  if (elem.value == all) {
+    $('input:checkbox[name="s_mods[]"]').map(function() {
+      if (this == elem)
+        return;
 
-  $('input:checkbox[name="s_mods[]"]').map(function() {
-    if (this == elem)
-      return;
+      this.checked = true;
+      if (elem.checked) {
+        this.disabled = true;
+        delete m[this.value];
+      }
+      else {
+        this.disabled = false;
+        m[this.value] = 1;
+      }
+    });
+  }
 
-    this.checked = true;
-    if (elem.checked) {
-      this.disabled = true;
-      delete m[this.value];
-    }
-    else {
-      this.disabled = false;
-      m[this.value] = 1;
-    }
-  });
+  rcmail.set_searchmods(m);
 },
 
 listmenu: function(show)

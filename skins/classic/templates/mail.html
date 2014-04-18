@@ -114,6 +114,10 @@
     <li><label><input type="checkbox" name="s_mods[]" value="bcc" id="s_mod_bcc" onclick="rcmail_ui.set_searchmod(this)" /> <span><roundcube:label name="bcc" /></span></label></li>
     <li><label><input type="checkbox" name="s_mods[]" value="body" id="s_mod_body" onclick="rcmail_ui.set_searchmod(this)" /> <span><roundcube:label name="body" /></span></label></li>
     <li><label><input type="checkbox" name="s_mods[]" value="text" id="s_mod_text" onclick="rcmail_ui.set_searchmod(this)" /> <span><roundcube:label name="msgtext" /></span></label></li>
+    <li><label class="comment"><roundcube:label name="searchscope" /></label></li>
+    <li><label><input type="radio" name="s_scope" value="base" id="s_scope_base" onclick="rcmail.set_searchscope(this.value)" /> <span><roundcube:label name="currentfolder" /></span></label></li>
+    <li><label><input type="radio" name="s_scope" value="sub" id="s_scope_sub" onclick="rcmail.set_searchscope(this.value)" /> <span><roundcube:label name="subfolders" /></span></label></li>
+    <li><label><input type="radio" name="s_scope" value="all" id="s_scope_all" onclick="rcmail.set_searchscope(this.value)" /> <span><roundcube:label name="allfolders" /></span></label></li>
   </ul>
 </div>
 
@@ -138,7 +142,7 @@
   <ul>
     <li><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
     <li><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
-    <li class="separator_below"><roundcube:button name="messageimport" type="link" class="active" label="importmessages" id="uploadformlink" onclick="rcmail_ui.show_popup('uploadform', true); return false" /></li>
+    <li class="separator_below"><roundcube:button command="import-messages" name="messageimport" type="link" classAct="active" label="importmessages" id="uploadformlink" onclick="if(rcmail.command_enabled('import-messages'))rcmail_ui.show_popup('uploadform', true); return false" /></li>
     <li><roundcube:button command="folders" task="settings" type="link" label="managefolders" classAct="active" /></li>
     <roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
   </ul>
