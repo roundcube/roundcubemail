@@ -346,6 +346,7 @@ function rcmail_user_prefs($current = null)
                             $license_link = $meta['license-url'] ? html::a(array('href' => $meta['license-url'], 'target' => '_blank'), rcube::Q($meta['license'])) : rcube::Q($meta['license']);
                         }
 
+                        $skinnames[] = mb_strtolower($skinname);
                         $blocks['skin']['options'][$skin]['content'] = html::label(array('class' => 'skinselection'),
                             html::span('skinitem', $input->show($config['skin'], array('value' => $skin, 'id' => $field_id.$skin))) .
                             html::span('skinitem', html::img(array('src' => $thumbnail, 'class' => 'skinthumbnail', 'alt' => $skin, 'width' => 64, 'height' => 64))) .
@@ -354,6 +355,7 @@ function rcmail_user_prefs($current = null)
                                 html::span('skinlicense', $license_link ? $RCMAIL->gettext('license').':&nbsp;' . $license_link : ''))
                         );
                     }
+                    array_multisort($blocks['skin']['options'], SORT_ASC, SORT_STRING, $skinnames);
                 }
             }
 
