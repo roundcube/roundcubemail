@@ -5,7 +5,7 @@
  | plugins/zipdownload/localization/<lang>.inc                           |
  |                                                                       |
  | Localization file of the Roundcube Webmail Zipdownload plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -18,6 +18,7 @@
 
 $labels = array();
 $labels['downloadall'] = 'Download all attachments';
-$labels['downloadfolder'] = 'Download folder';
-
-?>
+$labels['download'] = 'Download...';
+$labels['downloadmbox'] = 'Mbox format (.zip)';
+$labels['downloadmaildir'] = 'Maildir format (.zip)';
+$labels['downloademl'] = 'Source (.eml)';
