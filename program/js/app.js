@@ -1054,8 +1054,9 @@ function rcube_webmail()
         // Reset the auto-save timer
         clearTimeout(this.save_timer);
 
-        if (!this.upload_file(props || this.gui_objects.uploadform, 'upload')) {
-          alert(this.get_label('selectimportfile'));
+        if (!(flag = this.upload_file(props || this.gui_objects.uploadform, 'upload'))) {
+          if (flag !== false)
+            alert(this.get_label('selectimportfile'));
           aborted = true;
         }
         break;
@@ -1179,12 +1180,15 @@ function rcube_webmail()
         break;
 
       case 'import-messages':
-        var form = props || this.gui_objects.importform;
-        var importlock = this.set_busy(true, 'importwait');
+        var form = props || this.gui_objects.importform,
+          importlock = this.set_busy(true, 'importwait');
+
         $('input[name="_unlock"]', form).val(importlock);
-        if (!this.upload_file(form, 'import')) {
+
+        if (!(flag = this.upload_file(form, 'import'))) {
           this.set_busy(false, null, importlock);
-          alert(this.get_label('selectimportfile'));
+          if (flag !== false)
+            alert(this.get_label('selectimportfile'));
           aborted = true;
         }
         break;
@@ -3973,7 +3977,7 @@ function rcube_webmail()
   this.upload_file = function(form, action)
   {
     if (!form)
-      return false;
+      return;
 
     // count files and size on capable browser
     var size = 0, numfiles = 0;
@@ -4033,8 +4037,6 @@ function rcube_webmail()
       this.gui_objects.attachmentform = form;
       return true;
     }
-
-    return false;
   };
 
   // add file name to attachment list
