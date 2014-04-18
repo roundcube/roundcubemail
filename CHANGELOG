@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support messages import from zip archives
 - Zipdownload: Added mbox format support (#1486069)
 - Drop support for IE6, move IE7/IE8 support to legacy_browser plugin
 - Update to jQuery-2.1.0
