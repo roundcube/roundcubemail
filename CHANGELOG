@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Zipdownload: Added mbox format support (#1486069)
 - Drop support for IE6, move IE7/IE8 support to legacy_browser plugin
 - Update to jQuery-2.1.0
 - Search across multiple folders (#1485234)
@@ -10,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Set In-Reply-To and References for forwarded messages (#1489593)
 - Removed redundant default_folders config option (#1489737)
 - Implemented IMAP SPECIAL-USE extension support [RFC6154] (#1487830)
+- Fix mbox files import
 - Fix bug where "With attachment" option in search filter wasn't selected after return from mail view (#1489774)
 - Fix "washing" of unicoded style attributes (#1489777)
 - Fix unintentional redirect from compose page in Webkit browsers (#1489789)
