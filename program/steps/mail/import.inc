@@ -33,7 +33,7 @@ if (is_array($_FILES['_file'])) {
             // check file content type first
             list($mtype_primary,) = explode('/', rcube_mime::file_content_type($filepath, $_FILES['_file']['name'][$i], $_FILES['_file']['type'][$i]));
 
-            if (!in_array($mtype_primary, array('text','message'))) {
+            if (!in_array($mtype_primary, array('text', 'message'))) {
                 continue;
             }
 
@@ -44,7 +44,7 @@ if (is_array($_FILES['_file'])) {
             }
             while ($line !== false && trim($line) == '');
 
-            if (!preg_match('/^From\s+-/', $line) && !preg_match('/^[a-z-_]+:\s+.+/i', $line)) {
+            if (!preg_match('/^From .+/', $line) && !preg_match('/^[a-z-_]+:\s+.+/i', $line)) {
                 continue;
             }
 
@@ -52,8 +52,10 @@ if (is_array($_FILES['_file'])) {
             fseek($fp, 0);
             while (($line = fgets($fp)) !== false) {
                 // importing mbox file, split by From - lines
-                if (preg_match('/^From\s+-/', $line) && ($lastline == '' || substr($lastline, -2) == '--')) {
+                if ($lastline === '' && strncmp($line, 'From ', 5) === 0 && strlen($line) > 5) {
                     if (!empty($message)) {
+                        // unquote ">From " lines in message body
+                        $message = preg_replace('/\n>([>]*)From /', "\n\\1From ", $message);
                         if ($RCMAIL->storage->save_message(null, rtrim($message))) {
                             $imported++;
                         }
