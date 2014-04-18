@@ -293,9 +293,7 @@ else if (strlen($part_id)) {
 
             $filename = rcmail_attachment_name($part);
 
-            if ($browser->ie && $browser->ver < 7)
-                $filename = rawurlencode(abbreviate_string($filename, 55));
-            else if ($browser->ie)
+            if ($browser->ie)
                 $filename = rawurlencode($filename);
             else
                 $filename = addcslashes($filename, '"');

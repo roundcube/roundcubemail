@@ -33,9 +33,7 @@ if ($uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET)) {
         $filename = ($subject ? $subject : $RCMAIL->config->get('product_name', 'email')) . '.eml';
         $browser  = $RCMAIL->output->browser;
 
-        if ($browser->ie && $browser->ver < 7)
-            $filename = rawurlencode(abbreviate_string($filename, 55));
-        else if ($browser->ie)
+        if ($browser->ie)
             $filename = rawurlencode($filename);
         else
             $filename = addcslashes($filename, '"');

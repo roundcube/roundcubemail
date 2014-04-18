@@ -352,14 +352,13 @@ class rcube_sieve_engine
                 header("Content-Type: application/octet-stream");
                 header("Content-Length: ".strlen($script));
 
-                if ($browser->ie)
+                if ($browser->ie) {
                     header("Content-Type: application/force-download");
-                if ($browser->ie && $browser->ver < 7)
-                    $filename = rawurlencode(abbreviate_string($script_name, 55));
-                else if ($browser->ie)
                     $filename = rawurlencode($script_name);
-                else
+                }
+                else {
                     $filename = addcslashes($script_name, '\\"');
+                }
 
                 header("Content-Disposition: attachment; filename=\"$filename.txt\"");
                 echo $script;
