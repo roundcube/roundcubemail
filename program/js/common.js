@@ -327,13 +327,17 @@ removeEventListener: function(evt, func, obj)
 triggerEvent: function(evt, e)
 {
   var ret, h;
+
   if (e === undefined)
     e = this;
   else if (typeof e === 'object')
     e.event = evt;
 
-  if (this._events && this._events[evt] && !this._event_exec) {
-    this._event_exec = true;
+  if (!this._event_exec)
+    this._event_exec = {};
+
+  if (this._events && this._events[evt] && !this._event_exec[evt]) {
+    this._event_exec[evt] = true;
     for (var i=0; i < this._events[evt].length; i++) {
       if ((h = this._events[evt][i])) {
         if (typeof h.func === 'function')
@@ -356,7 +360,8 @@ triggerEvent: function(evt, e)
     }
   }
 
-  this._event_exec = false;
+  delete this._event_exec[evt];
+
   if (e.event) {
     try {
       delete e.event;
