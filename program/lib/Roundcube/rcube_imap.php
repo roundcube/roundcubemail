@@ -2457,6 +2457,17 @@ class rcube_imap extends rcube_storage
         if ($saved) {
             // increase messagecount of the target folder
             $this->set_messagecount($folder, 'ALL', 1);
+
+            rcube::get_instance()->plugins->exec_hook('message_saved', array(
+                    'folder'  => $folder,
+                    'message' => $message,
+                    'headers' => $headers,
+                    'is_file' => $is_file,
+                    'flags'   => $flags,
+                    'date'    => $date,
+                    'binary'  => $binary,
+                    'result'  => $saved,
+            ));
         }
 
         return $saved;
