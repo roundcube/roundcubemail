@@ -106,11 +106,6 @@ function rcube_treelist_widget(node, p)
       node.collapsed = typeof set == 'undefined' || set;
       update_dom(node);
 
-      // Work around a bug in IE7, see #1485309
-      if (window.bw && bw.ie7 && node.collapsed) {
-        id2dom(node.id).next().children('ul:visible').hide().show();
-      }
-
       if (recursive && node.children) {
         for (var i=0; i < node.children.length; i++) {
           collapse(node.children[i].id, recursive, set);
