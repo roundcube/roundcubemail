@@ -576,7 +576,8 @@ function rcube_webmail()
     if (obj && obj.blur)
       obj.blur();
 
-    if (this.busy)
+    // do nothing if interface is locked by other command (with exception for searching reset)
+    if (this.busy && !(command == 'reset-search' && this.last_command == 'search'))
       return false;
 
     // let the browser handle this click (shift/ctrl usually opens the link in a new window/tab)
@@ -601,6 +602,8 @@ function rcube_webmail()
       // remove copy from local storage if compose screen is left intentionally
       this.remove_compose_data(this.env.compose_id);
     }
+
+    this.last_command = command;
 
     // process external commands
     if (typeof this.command_handlers[command] === 'function') {
