@@ -3110,8 +3110,8 @@ function rcube_webmail()
   // handler for keyboard events on the _user field
   this.login_user_keyup = function(e)
   {
-    var key = rcube_event.get_keycode(e);
-    var passwd = $('#rcmloginpwd');
+    var key = rcube_event.get_keycode(e),
+      passwd = $('#rcmloginpwd');
 
     // enter
     if (key == 13 && passwd.length && !passwd.val()) {
@@ -3853,9 +3853,9 @@ function rcube_webmail()
   this.clear_compose_data = function()
   {
     if (window.localStorage) {
-      var index = this.local_storage_get_item('compose.index', []);
+      var i, index = this.local_storage_get_item('compose.index', []);
 
-      for (var i=0; i < index.length; i++) {
+      for (i=0; i < index.length; i++) {
         this.local_storage_remove_item('compose.' + index[i]);
       }
       this.local_storage_remove_item('compose.index');
@@ -7189,7 +7189,8 @@ function rcube_webmail()
   */
   this.multi_thread_http_request = function(prop)
   {
-    var reqid = new Date().getTime();
+    var i, item, reqid = new Date().getTime(),
+      threads = prop.threads || 1;
 
     prop.reqid = reqid;
     prop.running = 0;
@@ -7204,8 +7205,7 @@ function rcube_webmail()
     this.http_request_jobs[reqid] = prop;
 
     // start n threads
-    var item, threads = prop.threads || 1;
-    for (var i=0; i < threads; i++) {
+    for (i=0; i < threads; i++) {
       item = prop._items.shift();
       if (item === undefined)
         break;
@@ -7843,7 +7843,6 @@ function rcube_webmail()
   // wrapper for localStorage.getItem(key)
   this.local_storage_get_item = function(key, deflt, encrypted)
   {
-
     // TODO: add encryption
     var item = localStorage.getItem(this.get_local_storage_prefix() + key);
     return item !== null ? JSON.parse(item) : (deflt || null);
