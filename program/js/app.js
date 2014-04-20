@@ -6612,8 +6612,9 @@ function rcube_webmail()
 
     // fetch headers only once
     if (!this.gui_objects.all_headers_box.innerHTML) {
-      var lock = this.display_message(this.get_label('loading'), 'loading');
-      this.http_post('headers', {_uid: this.env.uid}, lock);
+      this.http_post('headers', {_uid: this.env.uid, _mbox: this.env.mailbox},
+        this.display_message(this.get_label('loading'), 'loading')
+      );
     }
   };
 
