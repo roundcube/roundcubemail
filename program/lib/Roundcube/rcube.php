@@ -1207,8 +1207,8 @@ class rcube
         }
 
         // installer
-        if (class_exists('rcube_install', false)) {
-            $rci = rcube_install::get_instance();
+        if (class_exists('rcmail_install', false)) {
+            $rci = rcmail_install::get_instance();
             $rci->raise_error($arg);
             return;
         }
