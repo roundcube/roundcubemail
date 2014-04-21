@@ -2,6 +2,12 @@
 
 class Selenium_Login extends Selenium_Test
 {
+    protected function setUp()
+    {
+        bootstrap::init_db();
+        parent::setUp();
+    }
+
     public function testLogin()
     {
         // first test, we're already on the login page
