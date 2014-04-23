@@ -1714,6 +1714,19 @@ class rcube_imap extends rcube_storage
         return $this->get_search_set();
     }
 
+    /**
+     * Flag certain result subsets as 'incomplete'.
+     * For subsequent refresh_search() calls to only refresh the updated parts.
+     */
+    protected function set_search_dirty($folder)
+    {
+        if ($this->search_set && is_a($this->search_set, 'rcube_result_multifolder')) {
+            if ($subset = $this->search_set->get_set($folder)) {
+                $subset->incomplete = $this->search_set->incomplete = true;
+            }
+        }
+    }
+
 
     /**
      * Return message headers object of a specific message
@@ -2420,6 +2433,8 @@ class rcube_imap extends rcube_storage
                     $this->clear_message_cache($folder, $all_mode ? null : explode(',', $uids));
                 }
             }
+
+            $this->set_search_dirty($folder);
         }
 
         return $result;
@@ -2529,6 +2544,9 @@ class rcube_imap extends rcube_storage
         if ($moved) {
             $this->clear_messagecount($from_mbox);
             $this->clear_messagecount($to_mbox);
+
+            $this->set_search_dirty($from_mbox);
+            $this->set_search_dirty($to_mbox);
         }
         // moving failed
         else if ($to_trash && $config->get('delete_always', false)) {
@@ -2545,7 +2563,7 @@ class rcube_imap extends rcube_storage
                 if ($this->search_threads || $all_mode) {
                     $this->refresh_search();
                 }
-                else {
+                else if (!$this->search_set->incomplete) {
                     $this->search_set->filter(explode(',', $uids), $this->folder);
                 }
             }
@@ -2633,13 +2651,15 @@ class rcube_imap extends rcube_storage
             // unset threads internal cache
             unset($this->icache['threads']);
 
+            $this->set_search_dirty($folder);
+
             // remove message ids from search set
             if ($this->search_set && $folder == $this->folder) {
                 // threads are too complicated to just remove messages from set
                 if ($this->search_threads || $all_mode) {
                     $this->refresh_search();
                 }
-                else {
+                else if (!$this->search_set->incomplete) {
                     $this->search_set->filter(explode(',', $uids));
                 }
             }
