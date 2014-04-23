@@ -35,6 +35,7 @@ REQUIREMENTS
    - mbstring.func_overload disabled
    - magic_quotes_runtime disabled
    - magic_quotes_sybase disabled
+   - register_globals disabled (PHP < 5.4)
 * PHP compiled with OpenSSL to connect to IMAPS and to use the spell checker
 * A MySQL (4.0.8 or newer), PostgreSQL, MS SQL Server (2005 or newer) database engine
   or SQLite support in PHP
