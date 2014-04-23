@@ -174,7 +174,6 @@ else if ($err_code = $RCMAIL->storage->get_error_code()) {
 else if ($result->incomplete) {
     $count = 0;  // keep UI locked
     $OUTPUT->command('continue_search', $search_request);
-    console('search incomplete', strlen(serialize($result)));
 }
 else {
     $OUTPUT->show_message('searchnomatch', 'notice');
