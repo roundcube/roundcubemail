@@ -139,6 +139,8 @@ class rcmail extends rcube
 
         if ($this->user && $this->user->ID)
             $task = !$task ? 'mail' : $task;
+        else if (php_sapi_name() == 'cli')
+            $task = 'cli';
         else
             $task = 'login';
 
