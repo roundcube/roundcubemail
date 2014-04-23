@@ -1992,6 +1992,9 @@ function rcube_webmail()
         else
           html = '&nbsp;';
       }
+      else if (c == 'folder') {
+        html = '<span onmouseover="rcube_webmail.long_subject_title(this)">' + cols[c] + '<span>';
+      }
       else
         html = cols[c];
 
@@ -4212,6 +4215,17 @@ function rcube_webmail()
     }
 
     return false;
+  };
+
+  this.continue_search = function(request_id)
+  {
+    var lock = ref.set_busy(true, 'stillsearching');
+
+    setTimeout(function(){
+      var url = ref.search_params();
+      url._continue = request_id;
+      ref.env.qsearch = { lock: lock, request: ref.http_request('search', url, lock) };
+    }, 100);
   };
 
   // build URL params for search
@@ -7870,7 +7884,7 @@ rcube_webmail.long_subject_title = function(elem, indent)
 {
   if (!elem.title) {
     var $elem = $(elem);
-    if ($elem.width() + indent * 15 > $elem.parent().width())
+    if ($elem.width() + (indent || 0) * 15 > $elem.parent().width())
       elem.title = $elem.text();
   }
 };

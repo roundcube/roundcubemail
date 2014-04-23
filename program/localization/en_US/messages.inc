@@ -95,6 +95,7 @@ $messages['contactsearchsuccessful'] = '$nr contacts found.';
 $messages['searchnomatch'] = 'Search returned no matches.';
 $messages['searching'] = 'Searching...';
 $messages['checking'] = 'Checking...';
+$messages['stillsearching'] = 'Still searching...';
 $messages['nospellerrors'] = 'No spelling errors found.';
 $messages['folderdeleted'] = 'Folder successfully deleted.';
 $messages['foldersubscribed'] = 'Folder successfully subscribed.';

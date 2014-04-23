@@ -38,6 +38,7 @@ $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GET, true);
 $filter  = rcube_utils::get_input_value('_filter', rcube_utils::INPUT_GET);
 $headers = rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET);
 $scope   = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET);
+$continue = rcube_utils::get_input_value('_continue', rcube_utils::INPUT_GET);
 $subject = array();
 
 $filter         = trim($filter);
@@ -110,6 +111,12 @@ if (!empty($subject)) {
 $search_str  = trim($search_str);
 $sort_column = rcmail_sort_column();
 
+// set message set for already stored (but incomplete) search request
+if (!empty($continue) && isset($_SESSION['search']) && $_SESSION['search_request'] == $continue) {
+    $RCMAIL->storage->set_search_set($_SESSION['search']);
+    $search_str = $_SESSION['search'][0];
+}
+
 // execute IMAP search
 if ($search_str) {
     // search all, current or subfolders folders
@@ -126,10 +133,6 @@ if ($search_str) {
     $result = $RCMAIL->storage->search($mboxes, $search_str, $imap_charset, $sort_column);
 }
 
-// Get the headers
-$result_h = $RCMAIL->storage->list_messages($mbox, 1, $sort_column, rcmail_sort_order());
-$count    = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
-
 // save search results in session
 if (!is_array($_SESSION['search'])) {
     $_SESSION['search'] = array();
@@ -141,6 +144,13 @@ if ($search_str) {
 }
 $_SESSION['search_request'] = $search_request;
 $_SESSION['search_scope'] = $scope;
+
+
+// Get the headers
+if (!$result->incomplete) {
+    $result_h = $RCMAIL->storage->list_messages($mbox, 1, $sort_column, rcmail_sort_order());
+    $count    = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
+}
 
 // Make sure we got the headers
 if (!empty($result_h)) {
@@ -157,8 +167,14 @@ if (!empty($result_h)) {
     }
 }
 // handle IMAP errors (e.g. #1486905)
-else  if ($err_code = $RCMAIL->storage->get_error_code()) {
+else if ($err_code = $RCMAIL->storage->get_error_code()) {
     $RCMAIL->display_server_error();
+}
+// advice the client to re-send the (cross-folder) search request
+else if ($result->incomplete) {
+    $count = 0;  // keep UI locked
+    $OUTPUT->command('continue_search', $search_request);
+    console('search incomplete', strlen(serialize($result)));
 }
 else {
     $OUTPUT->show_message('searchnomatch', 'notice');

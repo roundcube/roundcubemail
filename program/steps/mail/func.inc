@@ -142,7 +142,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     if (!$OUTPUT->ajax_call) {
         $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
             'movingmessage', 'copyingmessage', 'deletingmessage', 'markingmessage',
-            'copy', 'move', 'quota', 'replyall', 'replylist');
+            'copy', 'move', 'quota', 'replyall', 'replylist', 'stillsearching');
     }
 
     $pagetitle = $RCMAIL->localize_foldername($mbox_name, true);

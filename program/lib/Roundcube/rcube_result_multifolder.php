@@ -28,6 +28,7 @@ class rcube_result_multifolder
 {
     public $multi = true;
     public $sets = array();
+    public $incomplete = false;
     public $folder;
 
     protected $meta = array();
@@ -54,14 +55,18 @@ class rcube_result_multifolder
      */
     public function add($result)
     {
+        $this->sets[] = $result;
+
         if ($count = $result->count()) {
-            $this->sets[] = $result;
             $this->meta['count'] += $count;
 
             // append UIDs to global index
             $folder = $result->get_parameters('MAILBOX');
             $index = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
             $this->index = array_merge($this->index, $index);
+        }
+        else if ($result->incomplete) {
+            $this->incomplete = true;
         }
     }
 
@@ -266,6 +271,22 @@ class rcube_result_multifolder
         return $params;
     }
 
+    /**
+     * Returns the stored result object for a particular folder
+     *
+     * @param string $folder  Folder name
+     * @return false|obejct rcube_result_* instance of false if none found
+     */
+    public function get_set($folder)
+    {
+        foreach ($this->sets as $set) {
+            if ($set->get_parameters('MAILBOX') == $folder) {
+                return $set;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Returns length of internal data representation
@@ -276,4 +297,33 @@ class rcube_result_multifolder
     {
         return $this->count();
     }
+
+
+    /* Serialize magic methods */
+
+    public function __sleep()
+    {
+        return array('sets','folders','sorting','order');
+    }
+
+    public function __wakeup()
+    {
+        // restore index from saved result sets
+        $this->meta = array('count' => 0);
+
+        foreach ($this->sets as $result) {
+            if ($count = $result->count()) {
+                $this->meta['count'] += $count;
+
+                // append UIDs to global index
+                $folder = $result->get_parameters('MAILBOX');
+                $index = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
+                $this->index = array_merge($this->index, $index);
+            }
+            else if ($result->incomplete) {
+                $this->incomplete = true;
+            }
+        }
+    }
+
 }

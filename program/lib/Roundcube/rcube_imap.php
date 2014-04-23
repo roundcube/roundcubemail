@@ -1513,6 +1513,16 @@ class rcube_imap extends rcube_storage
             $this->threading = false;
 
             $searcher = new rcube_imap_search($this->options, $this->conn);
+
+            // set limit to not exceed the client's request timeout
+            $searcher->set_timelimit(60);
+
+            // continue existing incomplete search
+            if (!empty($this->search_set) && $this->search_set->incomplete && $str == $this->search_string) {
+                $searcher->set_results($this->search_set);
+            }
+
+            // execute the search
             $results = $searcher->exec(
                 $folder,
                 $str,
