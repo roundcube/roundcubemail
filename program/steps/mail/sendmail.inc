@@ -201,7 +201,7 @@ if (!empty($headers['Reply-To'])) {
     $headers['Mail-Reply-To'] = $headers['Reply-To'];
 }
 if ($hdr = rcube_utils::get_input_value('_followupto', rcube_utils::INPUT_POST, TRUE, $message_charset)) {
-    $headers['Mail-Followup-To'] = rcmail_email_input_format();
+    $headers['Mail-Followup-To'] = rcmail_email_input_format($hdr);
 }
 
 // remember reply/forward UIDs in special headers
