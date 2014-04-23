@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Utility script to remove user records from the local database
 - Plugin API: Added message_saved hook (#1489752)
 - Support messages import from zip archives
 - Zipdownload: Added mbox format support (#1486069)
