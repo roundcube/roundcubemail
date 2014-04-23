@@ -347,7 +347,7 @@ function rcube_mail_ui()
         }
       });
 
-    $('iframe').load(function(e){
+    $('iframe :not([sandbox])').load(function(e){
       // this = iframe
       try {
         var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
