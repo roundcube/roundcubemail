@@ -57,17 +57,25 @@ class rcube_result_multifolder
     {
         $this->sets[] = $result;
 
-        if ($count = $result->count()) {
-            $this->meta['count'] += $count;
-
-            // append UIDs to global index
-            $folder = $result->get_parameters('MAILBOX');
-            $index = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
-            $this->index = array_merge($this->index, $index);
+        if ($result->count()) {
+            $this->append_result($result);
         }
         else if ($result->incomplete) {
             $this->incomplete = true;
         }
+    }
+
+    /**
+     * Append message UIDs from the given result to our index
+     */
+    protected function append_result($result)
+    {
+        $this->meta['count'] += $result->count();
+
+        // append UIDs to global index
+        $folder = $result->get_parameters('MAILBOX');
+        $index = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
+        $this->index = array_merge($this->index, $index);
     }
 
     /**
@@ -312,13 +320,8 @@ class rcube_result_multifolder
         $this->meta = array('count' => 0);
 
         foreach ($this->sets as $result) {
-            if ($count = $result->count()) {
-                $this->meta['count'] += $count;
-
-                // append UIDs to global index
-                $folder = $result->get_parameters('MAILBOX');
-                $index = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
-                $this->index = array_merge($this->index, $index);
+            if ($result->count()) {
+                $this->append_result($result);
             }
             else if ($result->incomplete) {
                 $this->incomplete = true;
