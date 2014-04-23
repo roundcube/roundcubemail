@@ -58,6 +58,12 @@ if (empty($args['host'])) {
     else {
         _die("Specify a host name", true);
     }
+
+    // host can be a URL like tls://192.168.12.44
+    $host_url = parse_url($args['host']);
+    if ($host_url['host']) {
+        $args['host'] = $host_url['host'];
+    }
 }
 
 // connect to DB
