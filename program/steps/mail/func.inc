@@ -83,6 +83,9 @@ if (($_uid  = rcube_utils::get_input_value('_uid', RCUBE_INPUT_GPC)) && !is_arra
   }
 }
 
+if (!empty($_SESSION['browser_caps']) && !$OUTPUT->ajax_call) {
+    $OUTPUT->set_env('browser_capabilities', $_SESSION['browser_caps']);
+}
 
 // set main env variables, labels and page title
 if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
@@ -135,10 +138,6 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     // set configuration
     $RCMAIL->set_env_config(array('delete_junk', 'flag_for_deletion', 'read_when_deleted',
         'skip_deleted', 'display_next', 'message_extwin', 'compose_extwin', 'forward_attachment'));
-
-    if (!empty($_SESSION['browser_caps'])) {
-        $OUTPUT->set_env('browser_capabilities', $_SESSION['browser_caps']);
-    }
 
     if (!$OUTPUT->ajax_call) {
         $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
