@@ -88,8 +88,9 @@ else if (strlen(trim($str))) {
         }
 
         // save search modifiers for the current folder to user prefs
+        $mkey               = $scope == 'all' ? '*' : $mbox;
         $search_mods        = rcmail_search_mods();
-        $search_mods[$mbox] = array_fill_keys(array_keys($subject), 1);
+        $search_mods[$mkey] = array_fill_keys(array_keys($subject), 1);
 
         $RCMAIL->user->save_prefs(array('search_mods' => $search_mods));
     }
