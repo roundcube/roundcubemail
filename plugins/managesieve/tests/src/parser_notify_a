@@ -14,5 +14,5 @@ if header :matches "Subject" "*"
 if header :matches "From" "*"
 {
 	set "from" "${1}";
-	notify :high :message "${from}: ${subject}" :method "mailto:test@example.org";
+	notify :high :method "mailto" :options "test@example.org" :message "${from}: ${subject}";
 }
