@@ -149,6 +149,11 @@ class rcube_vcard
             $this->email[0] = $this->email[$pref_index];
             $this->email[$pref_index] = $tmp;
         }
+
+        // fix broken vcards from Outlook that only supply ORG but not the required N or FN properties
+        if (!strlen(trim($this->displayname . $this->surname . $this->firstname)) && strlen($this->organization)) {
+            $this->displayname = $this->organization;
+        }
     }
 
     /**
