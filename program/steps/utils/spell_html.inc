@@ -35,7 +35,7 @@ $result['id'] = $request['id'];
 $spellchecker = new rcube_spellchecker($lang);
 
 if ($request['method'] == 'checkWords') {
-    $result['result'] = $spellchecker->get_words($data);
+    $result['result'] = empty($data) ? array() : $spellchecker->get_words($data);
 }
 else if ($request['method'] == 'getSuggestions') {
     $result['result'] = $spellchecker->get_suggestions($data);
