@@ -289,6 +289,7 @@ this.prepare = function(ignore, no_indicator)
     this.cnt_errors_fixed = 0;
     this.cnt_errors = 0;
     this.setStateChanged('checking_spell');
+    this.orginal_text = '';
 
     if (!no_indicator && this.main_controller)
         this.appendIndicator(this.spell_span);

@@ -56,6 +56,10 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
     {
         $this->content = $text;
 
+        if (empty($text)) {
+            return $this->matches = array();
+        }
+
         // spell check uri is configured
         $url = rcube::get_instance()->config->get('spellcheck_uri');
 

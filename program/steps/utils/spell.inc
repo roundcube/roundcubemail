@@ -37,6 +37,9 @@ if ($learn_word) {
     $spellchecker->add_word($data);
     $result = '<?xml version="1.0" encoding="'.RCUBE_CHARSET.'"?><learnwordresult></learnwordresult>';
 }
+else if (empty($data)) {
+    $result = '<?xml version="1.0" encoding="'.RCUBE_CHARSET.'"?><spellresult charschecked="0"></spellresult>';
+}
 else {
     $spellchecker->check($data);
     $result = $spellchecker->get_xml();

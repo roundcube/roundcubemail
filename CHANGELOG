@@ -25,6 +25,7 @@ CHANGELOG Roundcube Webmail
 - Fix redundant alert message on over-size uploads (#1489817)
 - Fix next message display after removing a message (#1489800)
 - Fix missing Mail-Followup-To header in sent mail (#1489829)
+- Fix error when spell-checking an empty text (#1489831)
 
 RELEASE 1.0.0
 -------------
