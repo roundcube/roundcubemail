@@ -417,6 +417,7 @@ body_mouseup: function(evt, p)
   for (i in this.popups) {
     if (this.popups[i].obj.is(':visible') && target != rcube_find_object(i+'link')
       && !this.popups[i].toggle
+      && target != this.popups[i].obj.get(0)  // check if scroll bar was clicked (#1489832)
       && (!this.popups[i].editable || !this.target_overlaps(target, this.popups[i].id))
       && (!this.popups[i].sticky || !rcube_mouse_is_over(evt, rcube_find_object(this.popups[i].id)))
       && !$(target).is('.folder-selector-link') && !$(target).children('.folder-selector-link').length
