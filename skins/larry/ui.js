@@ -380,6 +380,7 @@ function rcube_mail_ui()
       config = popupconfig[id];
       if (obj.is(':visible')
         && target.id != id+'link'
+        && target != obj.get(0)  // check if scroll bar was clicked (#1489832)
         && !config.toggle
         && (!config.editable || !target_overlaps(target, obj.get(0)))
         && (!config.sticky || !rcube_mouse_is_over(e, obj.get(0)))
