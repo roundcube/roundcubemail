@@ -9,7 +9,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
     rcmail.register_command('download-maildir', function() { rcmail_zipdownload('maildir'); });
 
     // commands status
-    rcmail.message_list.addEventListener('select', function(list) {
+    rcmail.message_list && rcmail.message_list.addEventListener('select', function(list) {
         var selected = list.get_selection().length;
 
         rcmail.enable_command('download', selected > 0);
