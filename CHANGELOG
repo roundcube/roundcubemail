@@ -27,6 +27,7 @@ CHANGELOG Roundcube Webmail
 - Fix missing Mail-Followup-To header in sent mail (#1489829)
 - Fix error when spell-checking an empty text (#1489831)
 - Avoid popupmenus being closed when scrollbar is clicked (#1489832)
+- Add proxy_whitelist configuration option (#1489729)
 
 RELEASE 1.0.0
 -------------
