@@ -1,3 +1,4 @@
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt Expat (MIT) */
 /* Arabic Translation for jQuery UI date picker plugin. */
 /* Khaled Alhourani -- me@khaledalhourani.com */
 /* NOTE: monthNames are the original months names and they are the Arabic names, not the new months name فبراير - يناير and there isn't any Arabic roots for these months */
@@ -21,3 +22,4 @@ jQuery(function($){
 		yearSuffix: ''};
 	$.datepicker.setDefaults($.datepicker.regional['ar']);
 });
+/* @license-end */

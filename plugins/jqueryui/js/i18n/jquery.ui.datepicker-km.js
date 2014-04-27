@@ -1,3 +1,4 @@
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt Expat (MIT) */
 /* Khmer initialisation for the jQuery calendar extension. */
 /* Written by Chandara Om (chandara.teacher@gmail.com). */
 jQuery(function($){
@@ -21,3 +22,4 @@ jQuery(function($){
 		yearSuffix: ''};
 	$.datepicker.setDefaults($.datepicker.regional['km']);
 });
+/* @license-end */

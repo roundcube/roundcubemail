@@ -87,7 +87,28 @@ class rcmail_output_html extends rcmail_output
         if ($this->framed || !empty($_REQUEST['_framed']))
             $this->set_env('framed', 1);
 
+        $lic = <<<EOF
+/*
+        @licstart  The following is the entire license notice for the 
+        JavaScript code in this page.
+
+        Copyright (C) 2005-2014 The Roundcube Dev Team
+
+        The JavaScript code in this page is free software: you can redistribute
+        it and/or modify it under the terms of the GNU General Public License
+        as published by the Free Software Foundation, either version 3 of
+        the License, or (at your option) any later version.
+
+        The code is distributed WITHOUT ANY WARRANTY; without even the implied
+        warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU GPL for more details.
+
+        @licend  The above is the entire license notice
+        for the JavaScript code in this page.
+*/
+EOF;
         // add common javascripts
+        $this->add_script($lic, 'head_top');
         $this->add_script('var '.self::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
 
         // don't wait for page onload. Call init at the bottom of the page (delayed)

@@ -1,3 +1,5 @@
+// @license http://creativecommons.org/publicdomain/zero/1.0/legalcode CC0
+
 /**
  * Roundcube functions for default skin interface
  *
@@ -8,7 +10,6 @@
  * by keeping credits to the original autors in the README file.
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
  */
-
 
 function rcube_mail_ui()
 {
@@ -1448,3 +1449,5 @@ rcube_splitter.get_instance = function(id)
 {
   return rcube_splitter._instances[id];
 };
+
+// @license-end

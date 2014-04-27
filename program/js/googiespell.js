@@ -1,23 +1,36 @@
-/*
- +-----------------------------------------------------------------------+
- | Roundcube SpellCheck script                                           |
- |   jQuery'fied spell checker based on GoogieSpell 4.0                  |
- |    (which was published under GPL "version 2 or any later version")   |
- |                                                                       |
- | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006 Amir Salihefendic                                  |
- | Copyright (C) 2009 The Roundcube Dev Team                             |
- | Copyright (C) 2011 Kolab Systems AG                                   |
- |                                                                       |
- | Licensed under the GNU General Public License version 3 or            |
- | any later version with exceptions for skins & plugins.                |
- | See the README file for a full license statement.                     |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Authors: 4mir Salihefendic <amix@amix.dk>                             |
- |          Aleksander Machniak - <alec [at] alec.pl>                    |
- +-----------------------------------------------------------------------+
-*/
+/**
+ * Roundcube SpellCheck script
+ *
+ * jQuery'fied spell checker based on GoogieSpell 4.0
+ * (which was published under GPL "version 2 or any later version")
+ *
+ * @licstart  The following is the entire license notice for the
+ * JavaScript code in this file.
+ *
+ * Copyright (C) 2006 Amir Salihefendic
+ * Copyright (C) 2009 The Roundcube Dev Team
+ * Copyright (C) 2011 Kolab Systems AG
+ *
+ * The JavaScript code in this page is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in this file.
+ *
+ * @author 4mir Salihefendic <amix@amix.dk> 
+ * @author Aleksander Machniak - <alec [at] alec.pl>
+ */
 
 var GOOGIE_CUR_LANG,
     GOOGIE_DEFAULT_LANG = 'en';
