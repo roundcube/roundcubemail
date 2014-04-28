@@ -26,8 +26,8 @@ $a_boolean_cols = array('standard', 'html_signature');
 $updated = $default_id = false;
 
 // check input
-if (IDENTITIES_LEVEL != 4 && (empty($_POST['_name']) || (empty($_POST['_email']) && IDENTITIES_LEVEL != 1 && IDENTITIES_LEVEL != 3))) {
-    $OUTPUT->show_message('formincomplete', 'warning');
+if (empty($_POST['_email']) && (IDENTITIES_LEVEL == 0 || IDENTITIES_LEVEL == 2)) {
+    $OUTPUT->show_message('noemailwarning', 'warning');
     $RCMAIL->overwrite_action('edit-identity');
     return;
 }
