@@ -253,6 +253,10 @@ function rcube_mail_ui()
         new rcube_splitter({ id:'identviewsplitter', p1:'#identitieslist', p2:'#identity-details',
           orientation:'v', relative:true, start:266, min:180, size:12 }).init();
       }
+      else if (rcmail.env.action == 'responses') {
+        new rcube_splitter({ id:'responseviewsplitter', p1:'#identitieslist', p2:'#identity-details',
+          orientation:'v', relative:true, start:266, min:180, size:12 }).init();
+      }
       else if (rcmail.env.action == 'preferences' || !rcmail.env.action) {
         new rcube_splitter({ id:'prefviewsplitter', p1:'#sectionslist', p2:'#preferences-box',
           orientation:'v', relative:true, start:266, min:180, size:12 }).init();
