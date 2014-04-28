@@ -59,7 +59,8 @@ class new_user_dialog extends rcube_plugin
       $table->add(null, html::tag('input', array(
         'type' => 'text',
         'name' => '_name',
-        'value' => $identity['name']
+        'value' => $identity['name'],
+        'disabled' => $identities_level == 4
       )));
 
       $table->add('title', $this->gettext('email'));
@@ -67,14 +68,15 @@ class new_user_dialog extends rcube_plugin
         'type' => 'text',
         'name' => '_email',
         'value' => rcube_utils::idn_to_utf8($identity['email']),
-        'disabled' => ($identities_level == 1 || $identities_level == 3)
+        'disabled' => in_array($identities_level, array(1, 3, 4))
       )));
 
       $table->add('title', $this->gettext('organization'));
       $table->add(null, html::tag('input', array(
         'type' => 'text',
         'name' => '_organization',
-        'value' => $identity['organization']
+        'value' => $identity['organization'],
+        'disabled' => $identities_level == 4
       )));
 
       $table->add('title', $this->gettext('signature'));
@@ -130,6 +132,7 @@ class new_user_dialog extends rcube_plugin
     $rcmail      = rcmail::get_instance();
     $identity    = $rcmail->user->get_identity();
     $ident_level = intval($rcmail->config->get('identities_level', 0));
+    $disabled    = array();
 
     $save_data = array(
       'name'         => rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST),
@@ -138,9 +141,15 @@ class new_user_dialog extends rcube_plugin
       'signature'    => rcube_utils::get_input_value('_signature', rcube_utils::INPUT_POST),
     );
 
-    // don't let the user alter the e-mail address if disabled by config
-    if (in_array($ident_level, array(1,3,4))) {
-      $save_data['email'] = $identity['email'];
+    if ($ident_level == 4) {
+      $disabled = array('name', 'email', 'organization');
+    }
+    else if (in_array($ident_level, array(1, 3))) {
+      $disabled = array('email');
+    }
+
+    foreach ($disabled as $key) {
+      $save_data[$key] = $identity[$key];
     }
 
     if (empty($save_data['name']) || empty($save_data['email'])) {
