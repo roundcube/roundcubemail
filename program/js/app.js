@@ -857,9 +857,9 @@ function rcube_webmail()
             else if (this.task == 'settings' && (this.env.identities_level % 2) == 0  &&
               (input = $("input[name='_email']", form)) && input.length && !rcube_check_email(input.val())
             ) {
-//              alert(this.get_label('noemailwarning'));
+              alert(this.get_label('noemailwarning'));
               input.focus();
-//              break;
+              break;
             }
 
             // clear empty input fields
