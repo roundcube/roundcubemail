@@ -611,8 +611,7 @@ class rcube_db
     {
         // get tables if not cached
         if ($this->tables === null) {
-            $q = $this->query('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? ORDER BY TABLE_NAME',
-                array($this->db_dsnw_array['database']));
+            $q = $this->query('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES ORDER BY TABLE_NAME');
 
             if ($q) {
                 $this->tables = $q->fetchAll(PDO::FETCH_COLUMN, 0);
@@ -634,8 +633,8 @@ class rcube_db
      */
     public function list_cols($table)
     {
-        $q = $this->query('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ? AND TABLE_SCHEMA = ?',
-            array($table, $this->db_dsnw_array['database']));
+        $q = $this->query('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ?',
+            array($table));
 
         if ($q) {
             return $q->fetchAll(PDO::FETCH_COLUMN, 0);
