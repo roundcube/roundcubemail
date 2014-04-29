@@ -155,42 +155,42 @@ ALTER TABLE [dbo].[contacts] WITH NOCHECK ADD
 	CONSTRAINT [PK_contacts_contact_id] PRIMARY KEY  CLUSTERED 
 	(
 		[contact_id]
-	)  ON [PRIMARY] 
+	) ON [PRIMARY] 
 GO
 
 ALTER TABLE [dbo].[contactgroups] WITH NOCHECK ADD 
 	CONSTRAINT [PK_contactgroups_contactgroup_id] PRIMARY KEY CLUSTERED 
 	(
 		[contactgroup_id]
-	)  ON [PRIMARY] 
+	) ON [PRIMARY] 
 GO
 
 ALTER TABLE [dbo].[contactgroupmembers] WITH NOCHECK ADD 
 	CONSTRAINT [PK_contactgroupmembers_id] PRIMARY KEY CLUSTERED 
 	(
 		[contactgroup_id], [contact_id]
-	)  ON [PRIMARY] 
+	) ON [PRIMARY] 
 GO
 
 ALTER TABLE [dbo].[identities] WITH NOCHECK ADD 
 	 PRIMARY KEY  CLUSTERED 
 	(
 		[identity_id]
-	)  ON [PRIMARY] 
+	) ON [PRIMARY] 
 GO
 
 ALTER TABLE [dbo].[session] WITH NOCHECK ADD 
 	CONSTRAINT [PK_session_sess_id] PRIMARY KEY  CLUSTERED 
 	(
 		[sess_id]
-	)  ON [PRIMARY] 
+	) ON [PRIMARY] 
 GO
 
 ALTER TABLE [dbo].[users] WITH NOCHECK ADD 
 	CONSTRAINT [PK_users_user_id] PRIMARY KEY  CLUSTERED 
 	(
 		[user_id]
-	)  ON [PRIMARY] 
+	) ON [PRIMARY] 
 GO
 
 ALTER TABLE [dbo].[searches] WITH NOCHECK ADD 
@@ -225,22 +225,22 @@ ALTER TABLE [dbo].[cache_messages] ADD
 	CONSTRAINT [DF_cache_messages_flags] DEFAULT (0) FOR [flags]
 GO
 
-CREATE  INDEX [IX_cache_user_id] ON [dbo].[cache]([user_id]) ON [PRIMARY]
+CREATE INDEX [IX_cache_user_id] ON [dbo].[cache]([user_id]) ON [PRIMARY]
 GO
 
-CREATE  INDEX [IX_cache_cache_key] ON [dbo].[cache]([cache_key]) ON [PRIMARY]
+CREATE INDEX [IX_cache_cache_key] ON [dbo].[cache]([cache_key]) ON [PRIMARY]
 GO
 
-CREATE  INDEX [IX_cache_shared_cache_key] ON [dbo].[cache_shared]([cache_key]) ON [PRIMARY]
+CREATE INDEX [IX_cache_shared_cache_key] ON [dbo].[cache_shared]([cache_key]) ON [PRIMARY]
 GO
 
-CREATE  INDEX [IX_cache_index_user_id] ON [dbo].[cache_index]([user_id]) ON [PRIMARY]
+CREATE INDEX [IX_cache_index_user_id] ON [dbo].[cache_index]([user_id]) ON [PRIMARY]
 GO
 
-CREATE  INDEX [IX_cache_thread_user_id] ON [dbo].[cache_thread]([user_id]) ON [PRIMARY]
+CREATE INDEX [IX_cache_thread_user_id] ON [dbo].[cache_thread]([user_id]) ON [PRIMARY]
 GO
 
-CREATE  INDEX [IX_cache_messages_user_id] ON [dbo].[cache_messages]([user_id]) ON [PRIMARY]
+CREATE INDEX [IX_cache_messages_user_id] ON [dbo].[cache_messages]([user_id]) ON [PRIMARY]
 GO
 
 CREATE INDEX [IX_cache_expires] ON [dbo].[cache]([expires]) ON [PRIMARY]
@@ -269,7 +269,7 @@ ALTER TABLE [dbo].[contacts] ADD
 	CONSTRAINT [CK_contacts_del] CHECK ([del] = '1' or [del] = '0')
 GO
 
-CREATE  INDEX [IX_contacts_user_id] ON [dbo].[contacts]([user_id]) ON [PRIMARY]
+CREATE INDEX [IX_contacts_user_id] ON [dbo].[contacts]([user_id]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[contactgroups] ADD 
@@ -280,7 +280,7 @@ ALTER TABLE [dbo].[contactgroups] ADD
 	CONSTRAINT [CK_contactgroups_del] CHECK ([del] = '1' or [del] = '0')
 GO
 
-CREATE  INDEX [IX_contactgroups_user_id] ON [dbo].[contacts]([user_id]) ON [PRIMARY]
+CREATE INDEX [IX_contactgroups_user_id] ON [dbo].[contacts]([user_id]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[contactgroupmembers] ADD 
@@ -289,7 +289,7 @@ ALTER TABLE [dbo].[contactgroupmembers] ADD
 	CONSTRAINT [DF_contactgroupmembers_created] DEFAULT (getdate()) FOR [created]
 GO
 
-CREATE  INDEX [IX_contactgroupmembers_contact_id] ON [dbo].[contactgroupmembers]([contact_id]) ON [PRIMARY]
+CREATE INDEX [IX_contactgroupmembers_contact_id] ON [dbo].[contactgroupmembers]([contact_id]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[identities] ADD 
@@ -302,13 +302,13 @@ ALTER TABLE [dbo].[identities] ADD
 	CONSTRAINT [DF_identities_reply] DEFAULT ('') FOR [reply-to],
 	CONSTRAINT [DF_identities_bcc] DEFAULT ('') FOR [bcc],
 	CONSTRAINT [DF_identities_html_signature] DEFAULT ('0') FOR [html_signature],
-	 CHECK ([standard] = '1' or [standard] = '0'),
-	 CHECK ([del] = '1' or [del] = '0')
+	CHECK ([standard] = '1' or [standard] = '0'),
+	CHECK ([del] = '1' or [del] = '0')
 GO
 
-CREATE  INDEX [IX_identities_user_id] ON [dbo].[identities]([user_id]) ON [PRIMARY]
+CREATE INDEX [IX_identities_user_id] ON [dbo].[identities]([user_id]) ON [PRIMARY]
 GO
-CREATE  INDEX [IX_identities_email] ON [dbo].[identities]([email],[del]) ON [PRIMARY]
+CREATE INDEX [IX_identities_email] ON [dbo].[identities]([email],[del]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[session] ADD 
@@ -317,7 +317,7 @@ ALTER TABLE [dbo].[session] ADD
 	CONSTRAINT [DF_session_ip] DEFAULT ('') FOR [ip]
 GO
 
-CREATE  INDEX [IX_session_changed] ON [dbo].[session]([changed]) ON [PRIMARY]
+CREATE INDEX [IX_session_changed] ON [dbo].[session]([changed]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[users] ADD 
@@ -326,10 +326,10 @@ ALTER TABLE [dbo].[users] ADD
 	CONSTRAINT [DF_users_created] DEFAULT (getdate()) FOR [created]
 GO
 
-CREATE  UNIQUE INDEX [IX_users_username] ON [dbo].[users]([username],[mail_host]) ON [PRIMARY]
+CREATE UNIQUE INDEX [IX_users_username] ON [dbo].[users]([username],[mail_host]) ON [PRIMARY]
 GO
 
-CREATE  UNIQUE INDEX [IX_dictionary_user_language] ON [dbo].[dictionary]([user_id],[language]) ON [PRIMARY]
+CREATE UNIQUE INDEX [IX_dictionary_user_language] ON [dbo].[dictionary]([user_id],[language]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[searches] ADD 
