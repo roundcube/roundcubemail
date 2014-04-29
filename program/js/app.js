@@ -3458,17 +3458,8 @@ function rcube_webmail()
           $(tinyMCE.get(props.id).getBody()).css('font-family', rcmail.env.default_font);
         }, 500);
     }
-    else {
-      var thisMCE = tinyMCE.get(props.id), existingHtml;
-
-      if (existingHtml = thisMCE.getContent()) {
-        if (!confirm(this.get_label('editorwarning'))) {
-          return false;
-        }
-        this.html2plain(existingHtml, props.id);
-      }
+    else if (this.html2plain(tinyMCE.get(props.id).getContent(), props.id))
       tinyMCE.execCommand('mceRemoveControl', false, props.id);
-    }
 
     return true;
   };
@@ -6831,6 +6822,16 @@ function rcube_webmail()
 
   this.html2plain = function(htmlText, id)
   {
+    // warn the user (if converted content is not empty)
+    if (!htmlText || !(htmlText.replace(/<[^>]+>|&nbsp;|\s/g, '')).length) {
+      // without setTimeout() here, textarea is filled with initial (onload) content
+      setTimeout(function() { $('#'+id).val(''); }, 50);
+      return true;
+    }
+
+    if (!confirm(this.get_label('editorwarning')))
+      return false;
+
     var url = '?_task=utils&_action=html2text',
       lock = this.set_busy(true, 'converting');
 
@@ -6840,6 +6841,8 @@ function rcube_webmail()
       error: function(o, status, err) { ref.http_error(o, status, err, lock); },
       success: function(data) { ref.set_busy(false, null, lock); $('#'+id).val(data); ref.log(data); }
     });
+
+    return true;
   };
 
   this.plain2html = function(plain, id)
