@@ -30,6 +30,7 @@ CHANGELOG Roundcube Webmail
 - Avoid popupmenus being closed when scrollbar is clicked (#1489832)
 - Add proxy_whitelist configuration option (#1489729)
 - Fix identities_level=4 handling in new_user_dialog plugin (#1489840)
+- Fix varius db_prefix issues (#1489839)
 
 RELEASE 1.0.0
 -------------

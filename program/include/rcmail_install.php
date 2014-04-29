@@ -710,7 +710,8 @@ class rcmail_install
     // read schema file from /SQL/*
     $fname = INSTALL_PATH . "SQL/$engine.initial.sql";
     if ($sql = @file_get_contents($fname)) {
-      $this->exec_sql($sql, $DB);
+      $DB->set_option('table_prefix', $this->config['db_prefix']);
+      $DB->exec_script($sql);
     }
     else {
       $this->fail('DB Schema', "Cannot read the schema file: $fname");
@@ -741,63 +742,6 @@ class rcmail_install
       . " 2>&1", $result);
 
     return !$result;
-  }
-
-
-  /**
-   * Execute the given SQL queries on the database connection
-   *
-   * @param string SQL queries to execute
-   * @param object rcube_db Database connection
-   * @return boolen True on success, False on error
-   */
-  function exec_sql($sql, $DB)
-  {
-    $sql = $this->fix_table_names($sql, $DB);
-    $buff = '';
-    foreach (explode("\n", $sql) as $line) {
-      if (preg_match('/^--/', $line) || trim($line) == '')
-        continue;
-
-      $buff .= $line . "\n";
-      if (preg_match('/(;|^GO)$/', trim($line))) {
-        $DB->query($buff);
-        $buff = '';
-        if ($DB->is_error())
-          break;
-      }
-    }
-
-    return !$DB->is_error();
-  }
-
-
-  /**
-   * Parse SQL file and fix table names according to db_prefix
-   * Note: This need to be a complete database initial file
-   */
-  private function fix_table_names($sql, $DB)
-  {
-    if (empty($this->config['db_prefix'])) {
-        return $sql;
-    }
-
-    // replace table names
-    if (preg_match_all('/CREATE TABLE (\[dbo\]\.|IF NOT EXISTS )?[`"\[\]]*([^`"\[\] \r\n]+)/i', $sql, $matches)) {
-      foreach ($matches[2] as $table) {
-        $real_table = $this->config['db_prefix'] . $table;
-        $sql = preg_replace("/([^a-zA-Z0-9_])$table([^a-zA-Z0-9_])/", "\\1$real_table\\2", $sql);
-      }
-    }
-    // replace sequence names
-    if ($DB->db_provider == 'postgres' && preg_match_all('/CREATE SEQUENCE (IF NOT EXISTS )?"?([^" \n\r]+)/i', $sql, $matches)) {
-      foreach ($matches[2] as $sequence) {
-        $real_sequence = $this->config['db_prefix'] . $sequence;
-        $sql = preg_replace("/([^a-zA-Z0-9_])$sequence([^a-zA-Z0-9_])/", "\\1$real_sequence\\2", $sql);
-      }
-    }
-
-    return $sql;
   }
 
 
