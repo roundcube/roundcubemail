@@ -29,25 +29,25 @@
 <roundcube:object name="messageFullHeaders" id="full-headers" />
 
 <!-- record navigation -->
-<div id="countcontrols" class="pagenav">
+<div id="countcontrols">
 <roundcube:if condition="env:optional_format=='text'" />
 	<span class="buttongroup">
-		<roundcube:button command="change-format" prop="html" type="link" class="button first changeformat html selected" innerClass="inner" title="changeformathtml" content="HTML" /><roundcube:button command="change-format" prop="text" type="link" class="button last changeformat text" classSel="button changeformat text pressed" innerClass="inner" title="changeformattext" content="Text" />
+		<roundcube:button command="change-format" prop="html" type="link" class="button first changeformat html selected" innerClass="icon" title="changeformathtml" content="HTML" /><roundcube:button command="change-format" prop="text" type="link" class="button last changeformat text" classSel="button changeformat text pressed" innerClass="icon" title="changeformattext" content="Text" />
 	</span>
 	&nbsp;
 <roundcube:elseif condition="env:optional_format=='html'" />
 	<span class="buttongroup">
-		<roundcube:button command="change-format" prop="html" type="link" class="button first changeformat html" classSel="button changeformat html pressed" innerClass="inner" title="changeformathtml" content="HTML" /><roundcube:button command="change-format" prop="text" type="link" class="button last changeformat text selected" innerClass="inner" title="changeformattext" content="Text" />
+		<roundcube:button command="change-format" prop="html" type="link" class="button first changeformat html" classSel="button changeformat html pressed" innerClass="icon" title="changeformathtml" content="HTML" /><roundcube:button command="change-format" prop="text" type="link" class="button last changeformat text selected" innerClass="icon" title="changeformattext" content="Text" />
 	</span>
 	&nbsp;
 <roundcube:endif />
 <roundcube:if condition="env:mailbox != config:drafts_mbox">
-	<roundcube:button command="reply" type="link" class="button reply" classSel="button reply pressed" innerClass="inner" title="replytomessage" content="&lt;-" />
-	<roundcube:button command="reply-all" type="link" class="button replyall" classSel="button replyall pressed" innerClass="inner" title="replytoallmessage" content="&lt;&lt;-" />
-	<roundcube:button command="forward" type="link" class="button forward" classSel="button forward pressed" innerClass="inner" title="forwardmessage" content="-&gt;" />
+	<roundcube:button command="reply" type="link" class="button reply" classSel="button reply pressed" innerClass="icon" title="replytomessage" content="&lt;-" />
+	<roundcube:button command="reply-all" type="link" class="button replyall" classSel="button replyall pressed" innerClass="icon" title="replytoallmessage" content="&lt;&lt;-" />
+	<roundcube:button command="forward" type="link" class="button forward" classSel="button forward pressed" innerClass="icon" title="forwardmessage" content="-&gt;" />
 	&nbsp;
 <roundcube:endif />
-	<roundcube:button command="extwin" type="link" class="button extwin" classSel="button extwin pressed" innerClass="inner" title="openinextwin" content="[]" />
+	<roundcube:button command="extwin" type="link" class="button extwin" classSel="button extwin pressed" innerClass="icon" title="openinextwin" content="[]" />
 </div>
 
 </div>
