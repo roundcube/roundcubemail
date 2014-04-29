@@ -290,4 +290,4 @@ CREATE TABLE "system" (
     value text
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2013061000');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2014042900');
