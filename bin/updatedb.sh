@@ -45,6 +45,8 @@ if (!file_exists($opts['dir'])) {
 $RC = rcube::get_instance();
 $DB = rcube_db::factory($RC->config->get('db_dsnw'));
 
+$DB->set_debug((bool)$RC->config->get('sql_debug'));
+
 // Connect to database
 $DB->db_connect('w');
 if (!$DB->is_connected()) {
