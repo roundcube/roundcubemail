@@ -1890,12 +1890,13 @@ function rcube_webmail()
       list = this.message_list,
       rows = list.rows,
       message = this.env.messages[uid],
+      msg_id = this.html_identifier(uid,true),
       row_class = 'message'
         + (!flags.seen ? ' unread' : '')
         + (flags.deleted ? ' deleted' : '')
         + (flags.flagged ? ' flagged' : '')
         + (message.selected ? ' selected' : ''),
-      row = { cols:[], style:{}, id:'rcmrow'+this.html_identifier(uid,true), uid:uid };
+      row = { cols:[], style:{}, id:'rcmrow'+msg_id, uid:uid };
 
     // message status icons
     css_class = 'msgicon';
@@ -1921,7 +1922,7 @@ function rcube_webmail()
     if (this.env.threading) {
       if (message.depth) {
         // This assumes that div width is hardcoded to 15px,
-        tree += '<span id="rcmtab' + row.id + '" class="branch" style="width:' + (message.depth * 15) + 'px;">&nbsp;&nbsp;</span>';
+        tree += '<span id="rcmtab' + msg_id + '" class="branch" style="width:' + (message.depth * 15) + 'px;">&nbsp;&nbsp;</span>';
 
         if ((rows[message.parent_uid] && rows[message.parent_uid].expanded === false)
           || ((this.env.autoexpand_threads == 0 || this.env.autoexpand_threads == 2) &&
