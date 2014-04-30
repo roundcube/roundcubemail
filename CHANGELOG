@@ -33,6 +33,7 @@ CHANGELOG Roundcube Webmail
 - Fix various db_prefix issues (#1489839)
 - Fix too small length of users.preferences column data type on MySQL
 - Fix redundant warning when switching from html to text in empty editor (#1489819)
+- Fix invalid host validation on login (#1489841)
 
 RELEASE 1.0.0
 -------------

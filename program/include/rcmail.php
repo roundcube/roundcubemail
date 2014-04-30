@@ -494,30 +494,18 @@ class rcmail extends rcube
         $username_domain = $this->config->get('username_domain');
         $login_lc        = $this->config->get('login_lc', 2);
 
-        if (!$host) {
-            $host = $default_host;
-        }
-
-        // Validate that selected host is in the list of configured hosts
-        if (is_array($default_host)) {
-            $allowed = false;
-
-            foreach ($default_host as $key => $host_allowed) {
-                if (!is_numeric($key)) {
-                    $host_allowed = $key;
-                }
-                if ($host == $host_allowed) {
-                    $allowed = true;
-                    break;
-                }
+        // host is validated in rcmail::autoselect_host(), so here
+        // we'll only handle unset host (if possible)
+        if (!$host && !empty($default_host)) {
+            if (is_array($default_host)) {
+                list($key, $val) = each($default_host);
+                $host = is_numeric($key) ? $val : $key;
+            }
+            else {
+                $host = $default_host;
             }
 
-            if (!$allowed) {
-                $host = null;
-            }
-        }
-        else if (!empty($default_host) && $host != rcube_utils::parse_host($default_host)) {
-            $host = null;
+            $host = rcube_utils::parse_host($host);
         }
 
         if (!$host) {
