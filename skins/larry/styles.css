@@ -945,6 +945,13 @@ a.iconlink.upload {
 	background: url(images/buttons.png) -1000px 0 no-repeat;
 }
 
+#taskbar a:focus {
+	color: #fff;
+	text-shadow: 0px 1px 1px #666;
+	background-color: #3da0c2;
+	outline: none;
+}
+
 #taskbar a.button-selected {
 	color: #3cf;
 	background-color: #2c2c2c;
@@ -1240,6 +1247,13 @@ ul.treelist li a {
 	text-overflow: ellipsis;
 }
 
+ul.treelist li a:focus {
+	color: #fff;
+	background: #4db0d2;
+	text-shadow: 0px 1px 1px #666;
+	outline: none;
+}
+
 ul.treelist ul li a {
 	padding-left: 38px;
 }
@@ -1320,6 +1334,13 @@ ul.treelist li.selected > div.expanded {
 	margin-top: 1px;
 }
 
+.boxfooter a.listbutton:focus {
+	color: #fff;
+	background: #4db0d2;
+	text-shadow: 0px 1px 1px #666;
+	outline: none;
+}
+
 .uibox .boxfooter .listbutton:first-child {
 	border-radius: 0 0 0 4px;
 }
@@ -1329,7 +1350,9 @@ ul.treelist li.selected > div.expanded {
 	width: 48px;
 	height: 35px;
 	text-indent: -5000px;
-	background: url(images/buttons.png) -1000px 0 no-repeat;
+	background-image: url(images/buttons.png);
+	background-position: -1000px 0;
+	background-repeat: no-repeat;
 }
 
 .boxfooter .listbutton.add .inner {
@@ -1473,6 +1496,13 @@ table.records-table {
 	text-overflow: ellipsis;
 }
 
+.records-table thead td a:focus {
+	color: #fff;
+	background: #4db0d2;
+	text-shadow: 0px 1px 1px #666;
+	outline: none;
+}
+
 .records-table tbody td {
 	padding: 2px 7px;
 	border-bottom: 1px solid #ddd;
@@ -1492,12 +1522,12 @@ table.records-table {
 }
 
 /* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
-.records-table tbody tr.focused > td:first-child {
+.records-table.focus tbody tr.focused > td:first-child {
 	border-left: 2px solid #b0ccd7;
 	padding-left: 4px;
 }
 
-.records-table tbody tr.selected.focused > td:first-child {
+.records-table.focus tbody tr.selected.focused > td:first-child {
 	border-left-color: #49b3d2;
 }
 
@@ -1908,6 +1938,13 @@ ul.proplist li {
 	border-radius: 0;
 }
 
+.toolbar a.button:focus {
+	color: #fff;
+	text-shadow: 0px 1px 1px #666;
+	background-color: #4db0d2;
+	border-radius: 4px;
+}
+
 .toolbar a.button.disabled {
 	opacity: 0.4;
 	filter: alpha(opacity=40);
@@ -2119,6 +2156,19 @@ select.decorated option {
 }
 
 
+a.menuselector:focus,
+a.menuselector.focus,
+a.iconbutton:focus,
+.pagenav a.button:focus {
+	border-color: #4fadd5;
+	-webkit-box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	   -moz-box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	     -o-box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	        box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	outline: none;
+}
+
+
 /*** quota indicator ***/
 
 #quotadisplay {
@@ -2211,6 +2261,7 @@ ul.toolbarmenu li a.active {
 
 .googie_list td.googie_list_onhover,
 ul.toolbarmenu li a.active:hover,
+ul.toolbarmenu li a.active:focus,
 #rcmKSearchpane ul li.selected,
 select.decorated option:hover,
 select.decorated option[selected='selected'] {
@@ -2220,6 +2271,7 @@ select.decorated option[selected='selected'] {
 	background: -o-linear-gradient(top, #00aad6 0%, #008fc9 100%);
 	background: -ms-linear-gradient(top, #00aad6 0%, #008fc9 100%);
 	background: linear-gradient(top, #00aad6 0%, #008fc9 100%);
+	outline: none;
 }
 
 ul.toolbarmenu.iconized li a,

@@ -32,7 +32,7 @@ class html
 
     public static $doctype = 'xhtml';
     public static $lc_tags = true;
-    public static $common_attrib = array('id','class','style','title','align','unselectable');
+    public static $common_attrib = array('id','class','style','title','align','unselectable','tabindex','role');
     public static $containers = array('iframe','div','span','p','h1','h2','h3','ul','form','textarea','table','thead','tbody','tr','th','td','style','script');
 
 
@@ -286,7 +286,8 @@ class html
             // ignore not allowed attributes
             if (!empty($allowed)) {
                 $is_data_attr = @substr_compare($key, 'data-', 0, 5) === 0;
-                if (!isset($allowed_f[$key]) && (!$is_data_attr || !isset($allowed_f['data-*']))) {
+                $is_aria_attr = @substr_compare($key, 'aria-', 0, 5) === 0;
+                if (!$is_aria_attr && !isset($allowed_f[$key]) && (!$is_data_attr || !isset($allowed_f['data-*']))) {
                     continue;
                 }
             }

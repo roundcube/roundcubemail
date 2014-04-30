@@ -33,6 +33,8 @@ function rcube_mail_ui()
   var mailviewsplit;
   var compose_headers = {};
   var prefs;
+  var focused_popup;
+  var popup_keyboard_active = false;
 
   // export public methods
   this.set = setenv;
@@ -40,6 +42,7 @@ function rcube_mail_ui()
   this.init_tabs = init_tabs;
   this.show_about = show_about;
   this.show_popup = show_popup;
+  this.toggle_popup = toggle_popup;
   this.add_popup = add_popup;
   this.set_searchmod = set_searchmod;
   this.set_searchscope = set_searchscope;
@@ -333,6 +336,10 @@ function rcube_mail_ui()
           var val = $('option:selected', this).text();
           $(this).next().children().text(val);
         });
+
+      select
+        .on('focus', function(e){ overlay.addClass('focus'); })
+        .on('blur', function(e){ overlay.removeClass('focus'); });
     });
 
     // set min-width to show all toolbar buttons
@@ -343,14 +350,7 @@ function rcube_mail_ui()
 
     $(document.body)
       .bind('mouseup', body_mouseup)
-      .bind('keyup', function(e){
-        if (e.keyCode == 27) {
-          for (var id in popups) {
-            if (popups[id].is(':visible'))
-              show_popup(id, false);
-          }
-        }
-      });
+      .bind('keydown', popup_keypress);
 
     $('iframe').load(function(e){
       // this = iframe
@@ -586,13 +586,21 @@ function rcube_mail_ui()
   /**
    * Trigger for popup menus
    */
-  function show_popup(popup, show, config)
+  function toggle_popup(popup, e, config)
+  {
+    show_popup(popup, undefined, config, rcube_event.is_keyboard(e));
+  }
+
+  /**
+   * (Deprecated) trigger for popup menus
+   */
+  function show_popup(popup, show, config, keyboard)
   {
     // auto-register menu object
     if (config || !popupconfig[popup])
       add_popup(popup, config);
 
-    var visible = show_popupmenu(popup, show),
+    var visible = show_popupmenu(popup, show, keyboard),
       config = popupconfig[popup];
     if (typeof config.callback == 'function')
       config.callback(visible);
@@ -601,7 +609,7 @@ function rcube_mail_ui()
   /**
    * Show/hide a specific popup menu
    */
-  function show_popupmenu(popup, show)
+  function show_popupmenu(popup, show, keyboard)
   {
     var obj = popups[popup],
       config = popupconfig[popup],
@@ -638,10 +646,74 @@ function rcube_mail_ui()
 
       obj.css({ left:pos.left, top:(pos.top + (above ? -obj.height() : ref.offsetHeight)) });
     }
+    else if (!show && keyboard && ref.length) {
+      ref.focus();
+    }
 
     obj[show?'show':'hide']();
 
+    popup_keyboard_active = show && keyboard;
+    if (popup_keyboard_active) {
+      focused_popup = popup;
+      obj.find('a,input').not('[aria-disabled=true]').first().focus();
+    }
+    else {
+      focused_popup = null;
+    }
+
     return show;
+  }
+
+  /** 
+   * Handler for keyboard events on active popups
+   */
+  function popup_keypress(e)
+  {
+    var target = e.target || {},
+      keyCode = rcube_event.get_keycode(e);
+
+    if (e.keyCode != 27 && (!popup_keyboard_active || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT'))
+      return true;
+
+    switch (keyCode) {
+      case 38:
+      case 40:
+      case 63232: // "up", in safari keypress
+      case 63233: // "down", in safari keypress
+        popup_focus_item(mod = keyCode == 38 || keyCode == 63232 ? -1 : 1);
+        break;
+
+      case 9:   // tab
+        if (focused_popup) {
+          var mod = rcube_event.get_modifier(e);
+          if (!popup_focus_item(mod == SHIFT_KEY ? -1 : 1)) {
+            show_popup(focused_popup, false, undefined, true);
+          }
+        }
+        return rcube_event.cancel(e);
+
+      case 27:  // esc
+        for (var id in popups) {
+          if (popups[id].is(':visible'))
+            show_popup(id, false, undefined, true);
+        }
+        break;
+    }
+
+    return true;
+  }
+
+  /**
+   * Helper method to move focus to the next/prev popup menu item
+   */
+  function popup_focus_item(dir)
+  {
+    var obj, mod = dir < 0 ? 'prevAll' : 'nextAll', limit = dir < 0 ? 'last' : 'first';
+    if (focused_popup && (obj = popups[focused_popup])) {
+      return obj.find(':focus').closest('li')[mod](':has(:not([aria-disabled=true]))').find('a,input')[limit]().focus().length;
+    }
+
+    return 0;
   }
 
   /**
@@ -734,8 +806,8 @@ function rcube_mail_ui()
   function switch_view_mode(mode, force)
   {
     if (force || !$('#mail'+mode+'mode').hasClass('disabled')) {
-      $('#maillistmode, #mailthreadmode').removeClass('selected');
-      $('#mail'+mode+'mode').addClass('selected');
+      $('#maillistmode, #mailthreadmode').removeClass('selected').attr('tabindex', '0').attr('aria-disabled', 'false');
+      $('#mail'+mode+'mode').addClass('selected').attr('tabindex', '-1').attr('aria-disabled', 'true');
     }
   }
 

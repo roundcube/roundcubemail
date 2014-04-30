@@ -281,6 +281,26 @@ cancel: function(evt)
   return false;
 },
 
+/**
+ * Determine whether the given event was trigered from keyboard
+ */
+is_keyboard: function(e)
+{
+  return e && (
+      (e.mozInputSource && e.mozInputSource == e.MOZ_SOURCE_KEYBOARD) ||
+      (!e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0)
+    );
+},
+
+/**
+ * Accept event if triggered from keyboard action (e.g. <Enter>)
+ */
+keyboard_only: function(e)
+{
+  console.log(e);
+  return rcube_event.is_keyboard(e) ? true : rcube_event.cancel(e);
+},
+
 touchevent: function(e)
 {
   return { pageX:e.pageX, pageY:e.pageY, offsetX:e.pageX - e.target.offsetLeft, offsetY:e.pageY - e.target.offsetTop, target:e.target, istouch:true };

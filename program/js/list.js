@@ -98,7 +98,7 @@ init: function()
     this.rows = {};
     this.rowcount = 0;
 
-    var r, len, rows = this.tbody.childNodes;
+    var r, len, rows = this.tbody.childNodes, me = this;
 
     for (r=0, len=rows.length; r<len; r++) {
       this.rowcount += this.init_row(rows[r]) ? 1 : 0;
@@ -108,8 +108,19 @@ init: function()
     this.frame = this.list.parentNode;
 
     // set body events
-    if (this.keyboard)
+    if (this.keyboard) {
       rcube_event.add_listener({event:'keydown', object:this, method:'key_press'});
+
+      // install a link element to receive focus.
+      // this helps to maintain the natural tab order when moving focus with keyboard
+      this.focus_elem = $('<a>')
+        .attr('tabindex', '0')
+        .attr('style', 'display:block; width:1px; height:1px; line-height:1px; overflow:hidden; position:absolute; top:-1000px')
+        .html('Select List')
+        .insertAfter(this.list)
+        .on('focus', function(e){ me.focus(e); })
+        .on('blur', function(e){ me.blur(e); });
+    }
   }
 
   return this;
@@ -175,9 +186,9 @@ init_header: function()
 
     if (this.fixed_header) {  // copy (modified) fixed header back to the actual table
       $(this.list.tHead).replaceWith($(this.fixed_header).find('thead').clone());
-      $(this.list.tHead).find('tr td').attr('style', '');  // remove fixed widths
+      $(this.list.tHead).find('tr td').attr('style', '').find('a.sortcol').attr('tabindex', '-1');  // remove fixed widths
     }
-    else if (!bw.touch && this.list.className.indexOf('fixedheader') >= 0) {
+    else if (!bw.touch && this.list.className.indexOf('fixedheader') >= 0 && 0) {
       this.init_fixed_header();
     }
 
@@ -219,6 +230,12 @@ init_fixed_header: function()
   else {
     $(this.fixed_header).find('thead').replaceWith(clone);
   }
+
+  // avoid scrolling header links being focused
+  $(this.list.tHead).find('a.sortcol').attr('tabindex', '-1');
+
+  // set tabindex to fixed header sort links
+  clone.find('a.sortcol').attr('tabindex', '0');
 
   this.thead = clone.get(0);
   this.resize();
@@ -265,6 +282,8 @@ clear: function(sel)
 
   if (sel)
     this.clear_selection();
+  else
+    this.last_selected = 0;
 
   // reset scroll position (in Opera)
   if (this.frame)
@@ -370,6 +389,9 @@ update_row: function(id, cols, newid, select)
  */
 focus: function(e)
 {
+  if (this.focused)
+    return;
+
   var n, id;
   this.focused = true;
 
@@ -380,20 +402,26 @@ focus: function(e)
     }
   }
 
+  if (e)
+    rcube_event.cancel(e);
+
   // Un-focus already focused elements (#1487123, #1487316, #1488600, #1488620)
   // It looks that window.focus() does the job for all browsers, but not Firefox (#1489058)
-  $('iframe,:focus:not(body)').blur();
-  window.focus();
+  // We now fix this by explicitly assigning focus to a dedicated link element
+  this.focus_elem.focus();
 
-  if (e || (e = window.event))
-    rcube_event.cancel(e);
+  $(this.list).addClass('focus');
+
+  // set internal focus pointer to first row
+  if (!this.last_selected)
+    this.select_first(CONTROL_KEY);
 },
 
 
 /**
  * remove focus from the list
  */
-blur: function()
+blur: function(e)
 {
   var n, id;
   this.focused = false;
@@ -403,6 +431,8 @@ blur: function()
       $(this.rows[id].obj).removeClass('selected focused').addClass('unfocused');
     }
   }
+  
+  $(this.list).removeClass('focus');
 },
 
 
@@ -1101,8 +1131,10 @@ clear_selection: function(id, no_event)
     this.selection = [];
   }
 
-  if (num_select && !this.selection.length && !no_event)
+  if (num_select && !this.selection.length && !no_event) {
     this.triggerEvent('select');
+    this.last_selected = 0;
+  }
 },
 
 
@@ -1311,8 +1343,16 @@ use_arrow_key: function(keyCode, mod_key)
   }
 
   if (new_row) {
+    // simulate ctr-key if no rows are selected
+    if (!mod_key && !this.selection.length)
+      mod_key = CONTROL_KEY;
+
     this.select_row(new_row.uid, mod_key, false);
     this.scrollto(new_row.uid);
+  }
+  else if (!new_row && !selected_row) {
+    // select the first row if none selected yet
+    this.select_first(CONTROL_KEY);
   }
 
   return false;

@@ -105,6 +105,8 @@ function rcube_treelist_widget(node, p)
     }
   });
 
+  container.attr('role', 'tree');
+
 
   /////// private methods
 
@@ -424,6 +426,9 @@ function rcube_treelist_widget(node, p)
       if (li.hasClass('selected')) {
         selection = node.id;
       }
+
+      // declare list item as treeitem
+      li.attr('role', 'treeitem');
 
       result.push(node);
       indexbyid[node.id] = node;

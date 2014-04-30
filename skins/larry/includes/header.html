@@ -1,4 +1,4 @@
-<div id="header">
+<div id="header" role="banner">
 <div id="topline">
 	<div class="topleft">
 		<roundcube:container name="topline-left" id="topline-left" />
@@ -21,7 +21,7 @@
 
 <roundcube:if condition="!env:extwin &amp;&amp; !env:framed" />
 <div id="topnav">
-	<div id="taskbar" class="topright">
+	<div id="taskbar" class="topright" role="navigation" aria-label="Application Tasks">
 	<roundcube:button command="mail" label="mail" class="button-mail" classSel="button-mail button-selected" innerClass="button-inner" />
 	<roundcube:button command="addressbook" label="addressbook" class="button-addressbook" classSel="button-addressbook button-selected" innerClass="button-inner" />
 	<roundcube:container name="taskbar" id="taskbar" />

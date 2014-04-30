@@ -199,6 +199,9 @@ function rcube_webmail()
     this.enable_command('close', 'logout', 'mail', 'addressbook', 'settings', 'save-pref',
       'compose', 'undo', 'about', 'switch-task', 'menu-open', 'menu-save', true);
 
+    // set active task button
+    this.set_button(this.task, 'sel');
+
     if (this.env.permaurl)
       this.enable_command('permaurl', 'extwin', true);
 
@@ -233,7 +236,7 @@ function rcube_webmail()
           });
 
           document.onmouseup = function(e){ return ref.doc_mouse_up(e); };
-          this.gui_objects.messagelist.parentNode.onmousedown = function(e){ return ref.click_on_list(e); };
+          this.gui_objects.messagelist.parentNode.onclick = function(e){ return ref.click_on_list(e || window.event); };
 
           this.enable_command('toggle_status', 'toggle_flag', 'sort', true);
           this.enable_command('set-listmode', this.env.threads && !this.is_multifolder_listing());
@@ -1605,9 +1608,9 @@ function rcube_webmail()
       this.gui_objects.qsearchbox.blur();
 
     if (this.message_list)
-      this.message_list.focus();
+      this.message_list.focus(e);
     else if (this.contact_list)
-      this.contact_list.focus();
+      this.contact_list.focus(e);
 
     return true;
   };
@@ -1953,10 +1956,12 @@ function rcube_webmail()
 
     // build subject link
     if (cols.subject) {
-      var action = flags.mbox == this.env.drafts_mailbox ? 'compose' : 'show';
-      var uid_param = flags.mbox == this.env.drafts_mailbox ? '_draft_uid' : '_uid';
-      cols.subject = '<a href="./?_task=mail&_action='+action+'&_mbox='+urlencode(flags.mbox)+'&'+uid_param+'='+urlencode(uid)+'"'+
-        ' onclick="return rcube_event.cancel(event)" onmouseover="rcube_webmail.long_subject_title(this,'+(message.depth+1)+')"><span>'+cols.subject+'</span></a>';
+      var action  = flags.mbox == this.env.drafts_mailbox ? 'compose' : 'show',
+        uid_param = flags.mbox == this.env.drafts_mailbox ? '_draft_uid' : '_uid',
+        query = { _mbox: flags.mbox };
+      query[uid_param] = uid;
+      cols.subject = '<a href="' + this.url(action, query) + '" onclick="return rcube_event.keyboard_only(event)"' +
+        ' onmouseover="rcube_webmail.long_subject_title(this,'+(message.depth+1)+')" tabindex="-1"><span>'+cols.subject+'</span></a>';
     }
 
     // add each submitted col
@@ -6182,9 +6187,6 @@ function rcube_webmail()
         init_button(cmd, this.buttons[cmd][i]);
       }
     }
-
-    // set active task button
-    this.set_button(this.task, 'sel');
   };
 
   // set button to a specific state
@@ -6197,7 +6199,7 @@ function rcube_webmail()
       button = a_buttons[n];
       obj = document.getElementById(button.id);
 
-      if (!obj)
+      if (!obj || button.status == state)
         continue;
 
       // get default/passive setting of the button
@@ -6226,7 +6228,13 @@ function rcube_webmail()
         obj.disabled = state == 'pas';
       }
       else if (button.type == 'uibutton') {
+        button.status = state;
         $(obj).button('option', 'disabled', state == 'pas');
+      }
+      else {
+        $(obj)
+          .attr('tabindex', state == 'pas' || state == 'sel' ? '-1' : '0')
+          .attr('aria-disabled', state == 'pas' || state == 'sel' ? 'true' : 'false');
       }
     }
   };
@@ -7116,6 +7124,7 @@ function rcube_webmail()
           this.enable_command('set-listmode', this.env.threads && !is_multifolder);
 
           if ((response.action == 'list' || response.action == 'search') && this.message_list) {
+            this.message_list.focus();
             this.msglist_select(this.message_list);
             this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
           }

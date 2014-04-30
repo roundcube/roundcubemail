@@ -18,7 +18,7 @@
 <div id="mainscreen">
 
 <!-- toolbar -->
-<div id="messagetoolbar" class="toolbar">
+<div id="messagetoolbar" class="toolbar" role="toolbar">
 	<roundcube:button command="checkmail" type="link" class="button checkmail disabled" classAct="button checkmail" classSel="button checkmail pressed" label="refresh" title="checkmail" />
 	<roundcube:include file="/includes/mailtoolbar.html" />
 </div>
@@ -27,13 +27,13 @@
 
 <!-- search filter -->
 <div id="searchfilter">
-	<roundcube:object name="searchfilter" class="searchfilter decorated" />
+	<roundcube:object name="searchfilter" class="searchfilter decorated" aria-controls="messagelist" />
 </div>
 
 <!-- search box -->
-<div id="quicksearchbar" class="searchbox">
+<div id="quicksearchbar" class="searchbox" role="search" aria-label="Email message search form">
 <roundcube:object name="searchform" id="quicksearchbox" />
-<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" onclick="UI.show_popup('searchmenu');return false" title="searchmod" content=" " />
+<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" onclick="UI.toggle_popup('searchmenu',event);return false" title="searchmod" content=" " />
 <roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
 </div>
 
@@ -43,12 +43,12 @@
 <div id="mailview-left">
 
 <!-- folders list -->
-<div id="mailboxcontainer" class="uibox listbox">
+<div id="mailboxcontainer" class="uibox listbox" role="navigation" aria-label="Email folder selection">
 <div id="folderlist-content" class="scroller withfooter">
 <roundcube:object name="mailboxlist" id="mailboxlist" class="treelist listing" folder_filter="mail" unreadwrap="%s" />
 </div>
 <div id="folderlist-footer" class="boxfooter">
-	<roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" onclick="UI.show_popup('mailboxmenu');return false" innerClass="inner" content="&#9881;" />
+	<roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" onclick="UI.toggle_popup('mailboxmenu',event);return false" innerClass="inner" content="&#9881;" />
 	<roundcube:if condition="env:quota" />
 		<roundcube:object name="quotaDisplay" id="quotadisplay" class="countdisplay" display="text" />
 	<roundcube:endif />
@@ -57,7 +57,7 @@
 
 </div>
 
-<div id="mailview-right">
+<div id="mailview-right" role="main">
 
 <roundcube:if condition="config:preview_pane == true" />
 <div id="mailview-top" class="uibox">
@@ -81,9 +81,9 @@
 	</div>
 	
 	<div id="listselectors">
-	<a href="#select" id="listselectmenulink" class="menuselector" onclick="UI.show_popup('listselectmenu');return false"><span class="handle"><roundcube:label name="select" /></span></a>
+	<a href="#select" id="listselectmenulink" class="menuselector" onclick="UI.toggle_popup('listselectmenu', event);return false" aria-haspopup="true" aria-owns="listselectmenu"><span class="handle"><roundcube:label name="select" /></span></a>
 	<roundcube:if condition="env:threads" />
-		&nbsp; <a href="#threads" id="threadselectmenulink" class="menuselector" onclick="UI.show_popup('threadselectmenu');return false"><span class="handle"><roundcube:label name="threads" /></span></a>
+		&nbsp; <a href="#threads" id="threadselectmenulink" class="menuselector" onclick="UI.toggle_popup('threadselectmenu', event);return false" aria-haspopup="true" aria-owns="threadselectmenu"><span class="handle"><roundcube:label name="threads" /></span></a>
 	<roundcube:endif />
 	</div>
 
@@ -99,7 +99,7 @@
 
 	<roundcube:container name="listcontrols" id="listcontrols" />
 
-	<a href="#preview" id="mailpreviewtoggle" title="<roundcube:label name='previewpane' />"></a>
+	<a href="#preview" id="mailpreviewtoggle" class="iconbutton" title="<roundcube:label name='previewpane' />" role="button" tabindex="0"></a>
 </div>
 
 </div><!-- end mailview-top -->

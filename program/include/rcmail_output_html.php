@@ -1130,6 +1130,15 @@ EOF;
             $attrib['alt'] = html::quote($this->app->gettext($attrib['alt'], $attrib['domain']));
         }
 
+        // set accessibility attributes
+        if (!$attrib['role']) {
+            $attrib['role'] = 'button';
+        }
+        if (!empty($attrib['class']) && !empty($attrib['classact']) || !empty($attrib['imagepas']) && !empty($attrib['imageact'])) {
+            $attrib['tabindex'] = '-1';  // disable button by default
+            $attrib['aria-disabled'] = 'true';
+        }
+
         // set title to alt attribute for IE browsers
         if ($this->browser->ie && !$attrib['title'] && $attrib['alt']) {
             $attrib['title'] = $attrib['alt'];
