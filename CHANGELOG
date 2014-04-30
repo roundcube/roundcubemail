@@ -1,8 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support 'error' and 'body_file' return attribs in 'message_before_send' hook (#1489595)
 - Fix missing email address when importing contacts from outlook csv (#1489830)
-- Apply user-specific replacements to group's base_dn property (#1489779)
 - Fix bug where "With attachment" option in search filter wasn't selected after return from mail view (#1489774)
 - Fix "washing" of unicoded style attributes (#1489777)
 - Fix unintentional redirect from compose page in Webkit browsers (#1489789)
