@@ -3045,7 +3045,7 @@ function rcube_webmail()
       rows = this.message_list ? this.message_list.rows : {};
 
     if (typeof uids == 'string')
-      uids = String(uids).split(',');
+      uids = uids.split(',');
 
     for (i=0, len=uids.length; i<len; i++) {
       uid = uids[i];
@@ -7253,12 +7253,12 @@ function rcube_webmail()
   // helper method to send an HTTP request with the given iterator value
   this.multi_thread_send_request = function(prop, item)
   {
-    var postdata, query;
+    var k, postdata, query;
 
     // replace %s in post data
     if (prop.postdata) {
       postdata = {};
-      for (var k in prop.postdata) {
+      for (k in prop.postdata) {
         postdata[k] = String(prop.postdata[k]).replace('%s', item);
       }
       postdata._reqid = prop.reqid;
@@ -7270,7 +7270,7 @@ function rcube_webmail()
     }
     else if (typeof prop.query == 'object' && prop.query) {
       query = {};
-      for (var k in prop.query) {
+      for (k in prop.query) {
         query[k] = String(prop.query[k]).replace('%s', item);
       }
       query._reqid = prop.reqid;
