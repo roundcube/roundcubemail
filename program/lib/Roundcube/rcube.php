@@ -1479,6 +1479,13 @@ class rcube
         ));
 
         if ($plugin['abort']) {
+            if (!empty($plugin['error'])) {
+                $error = $plugin['error'];
+            }
+            if (!empty($plugin['body_file'])) {
+                $body_file = $plugin['body_file'];
+            }
+
             return isset($plugin['result']) ? $plugin['result'] : false;
         }
 
