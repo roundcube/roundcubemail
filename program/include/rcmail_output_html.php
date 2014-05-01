@@ -5,7 +5,7 @@
  | program/include/rcmail_output_html.php                                |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2006-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -209,6 +209,14 @@ EOF;
         // read meta file and check for dependecies
         $meta = @file_get_contents(RCUBE_INSTALL_PATH . $skin_path . '/meta.json');
         $meta = @json_decode($meta, true);
+
+        $meta['path'] = $skin_path;
+        $skin_id = end(explode('/', $skin_path));
+        if (!$meta['name']) {
+            $meta['name'] = $skin_id;
+        }
+        $this->skins[$skin_id] = $meta;
+
         if ($meta['extends']) {
             $path = RCUBE_INSTALL_PATH . 'skins/';
             if (is_dir($path . $meta['extends']) && is_readable($path . $meta['extends'])) {

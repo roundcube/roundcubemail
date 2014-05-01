@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2012 The Roundcube Dev Team                        |
+ | Copyright (C) 2005-2014 The Roundcube Dev Team                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -31,6 +31,7 @@ abstract class rcube_output
     protected $config;
     protected $charset = RCUBE_CHARSET;
     protected $env = array();
+    protected $skins = array();
 
 
     /**
@@ -49,9 +50,12 @@ abstract class rcube_output
      */
     public function __get($var)
     {
-        // allow read-only access to $env
-        if ($var == 'env')
-            return $this->env;
+        // allow read-only access to some members
+        switch ($var) {
+            case 'env':     return $this->env;
+            case 'skins':   return $this->skins;
+            case 'charset': return $this->charset;
+        }
 
         return null;
     }
