@@ -406,9 +406,15 @@ focus: function(e)
     rcube_event.cancel(e);
 
   // Un-focus already focused elements (#1487123, #1487316, #1488600, #1488620)
-  // It looks that window.focus() does the job for all browsers, but not Firefox (#1489058)
-  // We now fix this by explicitly assigning focus to a dedicated link element
-  this.focus_elem.focus();
+  if (this.focus_elem) {
+    // We now fix this by explicitly assigning focus to a dedicated link element
+    this.focus_elem.focus();
+  }
+  else {
+    // It looks that window.focus() does the job for all browsers, but not Firefox (#1489058)
+    $('iframe,:focus:not(body)').blur();
+    window.focus();
+  }
 
   $(this.list).addClass('focus');
 
