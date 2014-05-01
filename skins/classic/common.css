@@ -597,6 +597,10 @@ img.uploading
   height: 16px;
 }
 
+.mce-btn button {
+  height: 28px;
+}
+
 /***** common table settings ******/
 
 table.records-table thead tr td

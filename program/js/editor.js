@@ -19,7 +19,6 @@ function rcmail_editor_init(config)
 {
   var ret, conf = {
       selector: '.mce_editor',
-      apply_source_formatting: true,
       theme: 'modern',
       language: config.lang,
       content_css: config.skin_path + '/editor_content.css',
@@ -28,36 +27,37 @@ function rcmail_editor_init(config)
       extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
       relative_urls: false,
       remove_script_host: false,
-      gecko_spellcheck: true,
       convert_urls: false, // #1486944
-      external_image_list: window.rcmail_editor_images, //TODO
-      rc_client: rcmail
+      image_list: window.rcmail_editor_images,
+      image_description: false,
+      paste_webkit_style: "color font-size font-family",
+      paste_data_images: true
     };
 
   if (config.mode == 'identity')
     $.extend(conf, {
       plugins: ['charmap code hr link paste tabfocus textcolor'],
       toolbar: 'bold italic underline alignleft aligncenter alignright alignjustify'
-             + ' | outdent indent charmap hr link unlink code forecolor'
-             + ' | fontselect fontsizeselect'
+        + ' | outdent indent charmap hr link unlink code forecolor'
+        + ' | fontselect fontsizeselect'
     });
   else { // mail compose
     $.extend(conf, {
-      plugins: ['charmap code directionality emoticons link image media nonbreaking paste table tabfocus textcolor searchreplace' + (config.spellcheck ? ' spellchecker' : '')],
+      plugins: ['charmap code directionality emoticons link image media nonbreaking'
+        + ' paste table tabfocus textcolor searchreplace' + (config.spellcheck ? ' spellchecker' : '')],
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
-              + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
-              + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',
-//      spellchecker_languages: (rcmail.env.spellcheck_langs ? rcmail.env.spellcheck_langs : 'Dansk=da,Deutsch=de,+English=en,Espanol=es,Francais=fr,Italiano=it,Nederlands=nl,Polski=pl,Portugues=pt,Suomi=fi,Svenska=sv'),
-      spellchecker_rpc_url: '?_task=utils&_action=spell_html&_remote=1',
-      spellchecker_enable_learn_rpc: config.spelldict,
+        + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
+        + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',
+      spellchecker_rpc_url: '../../../../../?_task=utils&_action=spell_html&_remote=1',
+      spellchecker_enable_learn_rpc: config.spelldict, //TODO
       accessibility_focus: false
     });
 
     conf.setup = function(ed) {
       ed.on('init', rcmail_editor_callback);
       // add handler for spellcheck button state update
-      ed.on('SetProgressState', function(args) {
-        if (!args.active)
+      ed.on('ProgressState', function(args) {
+        if (!args.state)
           rcmail.spellcheck_state();
       });
       ed.on('keypress', function() {
@@ -90,7 +90,10 @@ function rcmail_editor_callback()
     $(tinymce.get(rcmail.env.composebody).getBody()).css(css);
 
   if (elem && elem.type == 'select-one') {
-    rcmail.change_identity(elem);
+    // insert signature (only for the first time)
+    if (!rcmail.env.identities_initialized)
+      rcmail.change_identity(elem);
+
     // Focus previously focused element
     if (fe && fe.id != rcmail.env.composebody) {
       // use setTimeout() for IE9 (#1488541)
@@ -103,8 +106,8 @@ function rcmail_editor_callback()
 
   // set tabIndex and set focus to element that was focused before
   rcmail_editor_tabindex(fe && fe.id == rcmail.env.composebody);
-  // Trigger resize (needed for proper editor resizing in some browsers using default skin)
-  $(window).resize();
+  // Trigger resize (needed for proper editor resizing in some browsers)
+  window.setTimeout(function() { $(window).resize(); }, 100);
 }
 
 // set tabIndex on tinymce editor
@@ -113,8 +116,9 @@ function rcmail_editor_tabindex(focus)
   if (rcmail.env.task == 'mail') {
     var editor = tinymce.get(rcmail.env.composebody);
     if (editor) {
-      var textarea = editor.getElement();
-      var node = editor.getContentAreaContainer().childNodes[0];
+      var textarea = editor.getElement(),
+        node = editor.getContentAreaContainer().childNodes[0];
+
       if (textarea && node)
         node.tabIndex = textarea.tabIndex;
       if (focus)
@@ -124,49 +128,37 @@ function rcmail_editor_tabindex(focus)
 }
 
 // switch html/plain mode
-function rcmail_toggle_editor(select, textAreaId, flagElement)
+function rcmail_toggle_editor(select, textAreaId)
 {
-  var flag, ishtml;
+  var ishtml = select.tagName != 'SELECT' ? select.checked : select.value == 'html',
+    res = rcmail.command('toggle-editor', {id: textAreaId, mode: ishtml ? 'html' : 'plain'});
 
-  if (select.tagName != 'SELECT')
-    ishtml = select.checked;
-  else
-    ishtml = select.value == 'html';
-
-  var res = rcmail.command('toggle-editor', {id:textAreaId, mode:ishtml?'html':'plain'});
-
-  if (ishtml) {
-    // #1486593
-    setTimeout("rcmail_editor_tabindex(true);", 500);
-    if (flagElement && (flag = rcube_find_object(flagElement)))
-      flag.value = '1';
-  }
-  else if (res) {
-    if (flagElement && (flag = rcube_find_object(flagElement)))
-      flag.value = '0';
-
-    if (rcmail.env.composebody)
-      rcube_find_object(rcmail.env.composebody).focus();
-  }
-  else { // !res
+  if (!res) {
     if (select.tagName == 'SELECT')
       select.value = 'html';
     else if (select.tagName == 'INPUT')
       select.checked = true;
   }
+  else if (ishtml) {
+    // #1486593
+    setTimeout("rcmail_editor_tabindex(true);", 500);
+  }
+  else if (rcmail.env.composebody) {
+    rcube_find_object(rcmail.env.composebody).focus();
+  }
 }
 
-// editor callbeck for images listing
-function rcmail_editor_images()
+// editor callback for images listing
+function rcmail_editor_images(callback)
 {
-  var i, files = rcmail.env.attachments, list = [];
+  var i, file, list = [];
 
-  for (i in files) {
-    att = files[i];
-    if (att.complete && att.mimetype.startsWith('image/')) {
-      list.push([att.name, rcmail.env.comm_path+'&_id='+rcmail.env.compose_id+'&_action=display-attachment&_file='+i]);
+  for (i in rcmail.env.attachments) {
+    file = rcmail.env.attachments[i];
+    if (file.complete && file.mimetype.startsWith('image/')) {
+      list.push({title: file.name, value: rcmail.env.comm_path+'&_id='+rcmail.env.compose_id+'&_action=display-attachment&_file='+i});
     }
   }
 
-  return list;
-};
+  callback(list);
+}

@@ -3358,8 +3358,11 @@ function rcube_webmail()
   {
     this.stop_spellchecking();
 
+    var flag = $('[name="_is_html"]');
+
     if (props.mode == 'html') {
       this.plain2html($('#'+props.id).val(), props.id);
+      flag.val(1);
       tinymce.execCommand('mceAddEditor', false, props.id);
 
       if (this.env.default_font)
@@ -3376,6 +3379,8 @@ function rcube_webmail()
         }
         this.html2plain(existingHtml, props.id);
       }
+
+      flag.val(0);
       tinymce.execCommand('mceRemoveEditor', false, props.id);
     }
 

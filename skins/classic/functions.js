@@ -543,10 +543,9 @@ resize_compose_body: function()
     w = div.width() - 2, h = div.height(),
     x = bw.ie || bw.opera ? 4 : 0;
 
-  $('#compose-body_tbl').width((w+3)+'px').height('');
-  $('#compose-body_ifr').width((w+3)+'px').height((h-54)+'px');
-  $('#compose-body').width((w-x)+'px').height(h+'px');
-  $('#googie_edit_layer').height(h+'px');
+  $('#compose-body_ifr').width(w+3).height(h-2 - $('div.mce-toolbar').height());
+  $('#compose-body').width(w-x).height(h);
+  $('#googie_edit_layer').height(h);
 },
 
 resize_compose_body_ev: function()

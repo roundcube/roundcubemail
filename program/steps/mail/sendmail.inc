@@ -273,9 +273,10 @@ if ($isHtml) {
     }
 
     // append doctype and html/body wrappers
-    $message_body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">'
-        . "\r\n<html><body" . (!empty($bstyle) ? " style='" . implode($bstyle, '; ') . "'" : '') . ">\r\n"
-        . $message_body;
+    $bstyle       = !empty($bstyle) ? (" style='" . implode($bstyle, '; ') . "'") : '';
+    $message_body = '<html><head>'
+        . '<meta http-equiv="Content-Type" content="text/html; charset=' . $message_charset . '" /></head>'
+        . "<body" . $bstyle . ">\r\n" . $message_body;
 }
 
 if (!$savedraft) {
