@@ -43,12 +43,6 @@
 <div id="messageheader">
 <span class="moreheaderstoggle"></span>
 
-<h2 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h2>
-<div class="message-headers">
-<roundcube:object name="messageHeaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject" max="20" />
-</div>
-<roundcube:object name="messageFullHeaders" id="full-headers" />
-
 <!-- record navigation -->
 <div id="countcontrols" class="pagenav">
 	<roundcube:object name="messageCountDisplay" class="countdisplay" />
@@ -70,11 +64,16 @@
 </div>
 <roundcube:endif />
 
+<h2 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h2>
+<div class="message-headers">
+<roundcube:object name="messageHeaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject" max="20" />
+</div>
+<roundcube:object name="messageFullHeaders" id="full-headers" />
 
 <div id="contactphoto"><roundcube:object name="contactphoto" /></div>
 </div>
 
-<div id="messagecontent">
+<div id="messagecontent" role="main">
 <div class="rightcol">
 <roundcube:object name="messageAttachments" id="attachment-list" class="attachmentslist" />
 </div>

@@ -6359,7 +6359,8 @@ function rcube_webmail()
       this.messages[key].labels = [{'id': id, 'msg': msg}];
     }
     else {
-      obj.click(function() { return ref.hide_message(obj); });
+      obj.click(function() { return ref.hide_message(obj); })
+        .attr('role', 'alert');
     }
 
     this.triggerEvent('message', { message:msg, type:type, timeout:timeout, object:obj });

@@ -35,6 +35,10 @@ img {
   border: 0;
 }
 
+.voice {
+	display: none;
+}
+
 input[type="text"],
 input[type="password"],
 textarea {
@@ -310,6 +314,16 @@ input.button:active {
 	box-shadow: inset 0 1px 2px 0 #555;
 	border-right-color: #555;
 	border-left-color: #555;
+}
+
+.buttongroup a.button:focus,
+.buttongroup a.button.selected:focus {
+	background: #f2f2f2;
+	background: -moz-linear-gradient(top, #49b3d2 0, #66bcd9 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0,#49b3d2), color-stop(100%,#66bcd9));
+	background: -o-linear-gradient(top, #49b3d2 0, #66bcd9 100%);
+	background: -ms-linear-gradient(top, #49b3d2 0, #66bcd9 100%);
+	background: linear-gradient(top, #49b3d2 0, #66bcd9 100%);
 }
 
 .pagenav a.button {
@@ -948,7 +962,7 @@ a.iconlink.upload {
 #taskbar a:focus {
 	color: #fff;
 	text-shadow: 0px 1px 1px #666;
-	background-color: #3da0c2;
+	background-color: rgba(73,180,210,0.7);
 	outline: none;
 }
 
@@ -1248,8 +1262,8 @@ ul.treelist li a {
 }
 
 ul.treelist li a:focus {
-	color: #fff;
-	background: #4db0d2;
+	color: #fff !important;
+	background-color: rgba(73,180,210,0.6);
 	text-shadow: 0px 1px 1px #666;
 	outline: none;
 }
@@ -1336,7 +1350,7 @@ ul.treelist li.selected > div.expanded {
 
 .boxfooter a.listbutton:focus {
 	color: #fff;
-	background: #4db0d2;
+	background-color: rgba(73,180,210,0.6);
 	text-shadow: 0px 1px 1px #666;
 	outline: none;
 }
@@ -1498,7 +1512,7 @@ table.records-table {
 
 .records-table thead td a:focus {
 	color: #fff;
-	background: #4db0d2;
+	background-color: rgba(73,180,210,0.7);
 	text-shadow: 0px 1px 1px #666;
 	outline: none;
 }
@@ -1938,11 +1952,12 @@ ul.proplist li {
 	border-radius: 0;
 }
 
+.dropbutton .dropbuttontip:focus,
 .toolbar a.button:focus {
 	color: #fff;
 	text-shadow: 0px 1px 1px #666;
-	background-color: #4db0d2;
-	border-radius: 4px;
+	background-color: rgba(30,150,192, 0.5);
+	border-radius: 3px;
 }
 
 .toolbar a.button.disabled {
@@ -1960,12 +1975,16 @@ ul.proplist li {
 	position: absolute;
 	right: 0;
 	top: 0;
-	height: 42px;
+	height: 41px;
 	width: 18px;
+	overflow: hidden;
+	text-indent: -5000px;
 	background: url(images/buttons.png) 0 -1255px no-repeat;
 	cursor: pointer;
+	outline: none;
 }
 
+.dropbutton .dropbuttontip:focus,
 .dropbutton .dropbuttontip:hover {
 	background-position: -26px -1255px;
 }

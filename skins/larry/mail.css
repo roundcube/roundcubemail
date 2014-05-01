@@ -924,6 +924,16 @@ h3.subject {
 	border-radius: 3px 0 0 0; /* for Opera */
 }
 
+.moreheaderstoggle:focus {
+	background: #f2f2f2;
+	background: -moz-linear-gradient(left, #66bcd9 0, #49b3d2 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0,#66bcd9), color-stop(100%,#49b3d2));
+	background: -o-linear-gradient(left, #66bcd9 0, #49b3d2 100%);
+	background: -ms-linear-gradient(left, #66bcd9 0, #49b3d2 100%);
+	background: linear-gradient(left, #66bcd9 0, #49b3d2 100%);
+	border-right-color: #149cc5;
+}
+
 .moreheaderstoggle .iconlink {
 	display: inline-block;
 	position: absolute;

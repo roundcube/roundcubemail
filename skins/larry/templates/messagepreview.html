@@ -7,26 +7,6 @@
 <body class="iframe fullheight">
 
 <div id="messageheader" class="previewheader">
-<h3 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h3>
-
-<a href="#details" id="previewheaderstoggle" class="moreheaderstoggle"><span class="iconlink" title="<roundcube:label name='togglemoreheaders' />"></span></a>
-<div id="contactphoto"><roundcube:object name="contactphoto" /></div>
-
-<table class="headers-table" id="preview-shortheaders"><tbody><tr>
-<roundcube:if condition="env:mailbox == config:drafts_mbox || env:mailbox == config:sent_mbox">
-	<td class="header-title"><roundcube:label name="to" /></td>
-	<td class="header from"><roundcube:object name="messageHeaders" valueOf="to" max="3" addicon="/images/addcontact.png" /></td>
-<roundcube:else />
-	<td class="header-title"><roundcube:label name="from" /></td>
-	<td class="header from"><roundcube:object name="messageHeaders" valueOf="from" addicon="/images/addcontact.png" /></td>
-<roundcube:endif />
-	<td class="header-title"><roundcube:label name="date" /></td>
-	<td class="header date"><span><roundcube:object name="messageHeaders" valueOf="date" /></span></td>
-</tr></tbody></table>
-
-<roundcube:object name="messageHeaders" id="preview-allheaders" class="headers-table" addicon="/images/addcontact.png" max="10" exclude="subject,replyto" />
-
-<roundcube:object name="messageFullHeaders" id="full-headers" />
 
 <!-- record navigation -->
 <div id="countcontrols">
@@ -50,9 +30,30 @@
 	<roundcube:button command="extwin" type="link" class="button extwin" classSel="button extwin pressed" innerClass="icon" title="openinextwin" content="[]" />
 </div>
 
+<h3 class="subject"><roundcube:object name="messageHeaders" valueOf="subject" /></h3>
+
+<a href="#details" id="previewheaderstoggle" class="moreheaderstoggle"><span class="iconlink" title="<roundcube:label name='togglemoreheaders' />"></span></a>
+<div id="contactphoto"><roundcube:object name="contactphoto" /></div>
+
+<table class="headers-table" id="preview-shortheaders"><tbody><tr>
+<roundcube:if condition="env:mailbox == config:drafts_mbox || env:mailbox == config:sent_mbox">
+	<td class="header-title"><roundcube:label name="to" /></td>
+	<td class="header from"><roundcube:object name="messageHeaders" valueOf="to" max="3" addicon="/images/addcontact.png" /></td>
+<roundcube:else />
+	<td class="header-title"><roundcube:label name="from" /></td>
+	<td class="header from"><roundcube:object name="messageHeaders" valueOf="from" addicon="/images/addcontact.png" /></td>
+<roundcube:endif />
+	<td class="header-title"><roundcube:label name="date" /></td>
+	<td class="header date"><span><roundcube:object name="messageHeaders" valueOf="date" /></span></td>
+</tr></tbody></table>
+
+<roundcube:object name="messageHeaders" id="preview-allheaders" class="headers-table" addicon="/images/addcontact.png" max="10" exclude="subject,replyto" />
+
+<roundcube:object name="messageFullHeaders" id="full-headers" />
+
 </div>
 
-<div id="messagepreview">
+<div id="messagepreview" role="main">
 <div class="rightcol">
 <roundcube:object name="messageAttachments" id="attachment-list" class="attachmentslist" />
 </div>
