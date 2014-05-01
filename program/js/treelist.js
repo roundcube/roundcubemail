@@ -52,6 +52,7 @@ function rcube_treelist_widget(node, p)
     indexbyid = {},
     selection = null,
     drag_active = false,
+    has_focus = false,
     box_coords = {},
     item_coords = [],
     autoexpand_timer,
@@ -105,7 +106,18 @@ function rcube_treelist_widget(node, p)
     }
   });
 
+  container.on('focusin', function(e){
+      // TODO: only accept focus on virtual nodes from keyboard events
+      has_focus = true;
+    })
+    .on('focusout', function(e){
+      has_focus = false;
+    });
+
   container.attr('role', 'tree');
+
+  $(document.body)
+    .bind('keydown', keypress);
 
 
   /////// private methods
@@ -156,13 +168,13 @@ function rcube_treelist_widget(node, p)
   function select(id)
   {
     if (selection) {
-      id2dom(selection).removeClass('selected');
+      id2dom(selection).removeClass('selected').removeAttr('aria-selected');
       selection = null;
     }
 
     var li = id2dom(id);
     if (li.length) {
-      li.addClass('selected');
+      li.addClass('selected').attr('aria-selected', 'true');
       selection = id;
       // TODO: expand all parent nodes if collapsed
       scroll_to_node(li);
@@ -368,6 +380,7 @@ function rcube_treelist_widget(node, p)
 
     var li = $('<li>')
       .attr('id', p.id_prefix + (p.id_encode ? p.id_encode(node.id) : node.id))
+      .attr('role', 'treeitem')
       .addClass((node.classes || []).join(' '));
 
     if (replace)
@@ -388,7 +401,7 @@ function rcube_treelist_widget(node, p)
     // add child list and toggle icon
     if (node.children && node.children.length) {
       $('<div class="treetoggle '+(node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
-      var ul = $('<ul>').appendTo(li).attr('class', node.childlistclass);
+      var ul = $('<ul>').appendTo(li).attr('class', node.childlistclass).attr('role', 'tree');
       if (node.collapsed)
         ul.hide();
 
@@ -424,15 +437,23 @@ function rcube_treelist_widget(node, p)
         node.collapsed = sublist.css('display') == 'none';
       }
       if (li.hasClass('selected')) {
+        li.attr('aria-selected', 'true');
         selection = node.id;
       }
 
       // declare list item as treeitem
       li.attr('role', 'treeitem');
 
+      // allow virtual nodes to receive focus
+      if (node.virtual) {
+        li.children('a:first').attr('tabindex', '0');
+      }
+
       result.push(node);
       indexbyid[node.id] = node;
-    })
+    });
+
+    ul.attr('role', 'tree');
 
     return result;
   }
@@ -480,6 +501,70 @@ function rcube_treelist_widget(node, p)
     if (rel_offset < 0 || rel_offset + li.height() > scroller.height())
       scroller.scrollTop(rel_offset + current_offset);
   }
+
+  /**
+   * Handler for keyboard events on treelist
+   */
+  function keypress(e)
+  {
+    var target = e.target || {},
+      keyCode = rcube_event.get_keycode(e);
+
+    if (!has_focus || target.nodeName == 'INPUT' || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
+      return true;
+
+    switch (keyCode) {
+      case 38:
+      case 40:
+      case 63232: // 'up', in safari keypress
+      case 63233: // 'down', in safari keypress
+        var li = container.find(':focus').closest('li');
+        if (li.length) {
+          focus_next(li, (mod = keyCode == 38 || keyCode == 63232 ? -1 : 1));
+        }
+        break;
+
+      case 37: // Left arrow key
+      case 39: // Right arrow key
+        var id, node, li = container.find(':focus').closest('li');
+        if (li.length) {
+          id = dom2id(li);
+          node = indexbyid[id];
+          if (node && node.children.length)
+            toggle(id, rcube_event.get_modifier(e) == SHIFT_KEY);  // toggle subtree
+        }
+        return false;
+    }
+
+    return true;
+  }
+
+  function focus_next(li, dir, from_child)
+  {
+    var mod = dir < 0 ? 'prev' : 'next',
+      next = li[mod](), limit, parent;
+
+    if (dir > 0 && !from_child && li.children('ul[role=tree]:visible').length) {
+      li.children('ul').children('li:first').children('a:first').focus();
+    }
+    else if (dir < 0 && !from_child && next.children('ul[role=tree]:visible').length) {
+      next.children('ul').children('li:last').children('a:last').focus();
+    }
+    else if (next.length && next.children('a:first')) {
+      next.children('a:first').focus();
+    }
+    else {
+      parent = li.parent().closest('li[role=treeitem]');
+      if (parent.length)
+        if (dir < 0) {
+          parent.children('a:first').focus();
+        }
+        else {
+          focus_next(parent, dir, true);
+        }
+    }
+  }
+
 
   ///// drag & drop support
 
