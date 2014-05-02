@@ -262,7 +262,7 @@ class rcube_spellchecker
     public function is_exception($word)
     {
         // Contain only symbols (e.g. "+9,0", "2:2")
-        if (!$word || preg_match('/^[0-9@#$%^&_+~*=:;?!,.-]+$/', $word))
+        if (!$word || preg_match('/^[0-9@#$%^&_+~*<>=:;?!,.-]+$/', $word))
             return true;
 
         // Contain symbols (e.g. "g@@gle"), all symbols excluding separators
