@@ -4462,9 +4462,7 @@ function rcube_webmail()
     this.ksearch_input.value = pre + insert + end;
 
     // set caret to insert pos
-    cpos = p+insert.length;
-    if (this.ksearch_input.setSelectionRange)
-      this.ksearch_input.setSelectionRange(cpos, cpos);
+    this.set_caret_pos(this.ksearch_input, p + insert.length);
 
     if (trigger) {
       this.triggerEvent('autocomplete_insert', { field:this.ksearch_input, insert:insert, data:this.env.contacts[id] });
