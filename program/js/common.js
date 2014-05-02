@@ -472,21 +472,25 @@ function urlencode(str)
 function rcube_find_object(id, d)
 {
   var n, f, obj, e;
-  if(!d) d = document;
 
-  if(d.getElementsByName && (e = d.getElementsByName(id)))
+  if (!d) d = document;
+
+  if (d.getElementById)
+    if (obj = d.getElementById(id))
+      return obj;
+
+  if (!obj && d.getElementsByName && (e = d.getElementsByName(id)))
     obj = e[0];
-  if(!obj && d.getElementById)
-    obj = d.getElementById(id);
-  if(!obj && d.all)
+
+  if (!obj && d.all)
     obj = d.all[id];
 
-  if(!obj && d.images.length)
+  if (!obj && d.images.length)
     obj = d.images[id];
 
   if (!obj && d.forms.length) {
     for (f=0; f<d.forms.length; f++) {
-      if(d.forms[f].name == id)
+      if (d.forms[f].name == id)
         obj = d.forms[f];
       else if(d.forms[f].elements[id])
         obj = d.forms[f].elements[id];
@@ -494,7 +498,8 @@ function rcube_find_object(id, d)
   }
 
   if (!obj && d.layers) {
-    if (d.layers[id]) obj = d.layers[id];
+    if (d.layers[id])
+      obj = d.layers[id];
     for (n=0; !obj && n<d.layers.length; n++)
       obj = rcube_find_object(id, d.layers[n].document);
   }
