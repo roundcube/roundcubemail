@@ -35,6 +35,7 @@ CHANGELOG Roundcube Webmail
 - Fix too small length of users.preferences column data type on MySQL
 - Fix redundant warning when switching from html to text in empty editor (#1489819)
 - Fix invalid host validation on login (#1489841)
+- Fix IMAP connection test in installer so it is aware of imap_auth_type (#1489746)
 
 RELEASE 1.0.0
 -------------
