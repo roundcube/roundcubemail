@@ -175,6 +175,7 @@ $input_ilevel->add('many identities with possibility to edit all params', 0);
 $input_ilevel->add('many identities with possibility to edit all params but not email address', 1);
 $input_ilevel->add('one identity with possibility to edit all params', 2);
 $input_ilevel->add('one identity with possibility to edit all params but not email address', 3);
+$input_ilevel->add('one identity with possibility to edit only signature', 4);
 echo $input_ilevel->show($RCI->getprop('identities_level'), 0);
 
 ?>
