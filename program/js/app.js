@@ -7611,7 +7611,7 @@ function rcube_webmail()
   {
     var msg = this.env.messages ? this.env.messages[uid] : {};
     return msg.mbox || this.env.mailbox;
-  }
+  };
 
   // gets cursor position
   this.get_caret_pos = function(obj)
@@ -7619,89 +7619,31 @@ function rcube_webmail()
     if (obj.selectionEnd !== undefined)
       return obj.selectionEnd;
 
-    if (document.selection && document.selection.createRange) {
-      var range = document.selection.createRange();
-      if (range.parentElement() != obj)
-        return 0;
-
-      var gm = range.duplicate();
-      if (obj.tagName == 'TEXTAREA')
-        gm.moveToElementText(obj);
-      else
-        gm.expand('textedit');
-
-      gm.setEndPoint('EndToStart', range);
-      var p = gm.text.length;
-
-      return p <= obj.value.length ? p : -1;
-    }
-
     return obj.value.length;
   };
 
   // moves cursor to specified position
   this.set_caret_pos = function(obj, pos)
   {
-    if (obj.setSelectionRange)
-      obj.setSelectionRange(pos, pos);
-    else if (obj.createTextRange) {
-      var range = obj.createTextRange();
-      range.collapse(true);
-      range.moveEnd('character', pos);
-      range.moveStart('character', pos);
-      range.select();
+    try {
+      if (obj.setSelectionRange)
+        obj.setSelectionRange(pos, pos);
     }
+    catch(e) {}; // catch Firefox exception if obj is hidden
   };
 
   // get selected text from an input field
-  // http://stackoverflow.com/questions/7186586/how-to-get-the-selected-text-in-textarea-using-jquery-in-internet-explorer-7
   this.get_input_selection = function(obj)
   {
-    var start = 0, end = 0,
-      normalizedValue, range,
-      textInputRange, len, endRange;
+    var start = 0, end = 0, normalizedValue = '';
 
     if (typeof obj.selectionStart == "number" && typeof obj.selectionEnd == "number") {
       normalizedValue = obj.value;
       start = obj.selectionStart;
       end = obj.selectionEnd;
     }
-    else {
-      range = document.selection.createRange();
 
-      if (range && range.parentElement() == obj) {
-        len = obj.value.length;
-        normalizedValue = obj.value; //.replace(/\r\n/g, "\n");
-
-        // create a working TextRange that lives only in the input
-        textInputRange = obj.createTextRange();
-        textInputRange.moveToBookmark(range.getBookmark());
-
-        // Check if the start and end of the selection are at the very end
-        // of the input, since moveStart/moveEnd doesn't return what we want
-        // in those cases
-        endRange = obj.createTextRange();
-        endRange.collapse(false);
-
-        if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
-          start = end = len;
-        }
-        else {
-          start = -textInputRange.moveStart("character", -len);
-          start += normalizedValue.slice(0, start).split("\n").length - 1;
-
-          if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
-            end = len;
-          }
-          else {
-            end = -textInputRange.moveEnd("character", -len);
-            end += normalizedValue.slice(0, end).split("\n").length - 1;
-          }
-        }
-      }
-    }
-
-    return { start:start, end:end, text:normalizedValue.substr(start, end-start) };
+    return {start: start, end: end, text: normalizedValue.substr(start, end-start)};
   };
 
   // disable/enable all fields of a form
@@ -7723,9 +7665,7 @@ function rcube_webmail()
       // remember which elem was disabled before lock
       if (lock && elm.disabled)
         this.disabled_form_elements.push(elm);
-      // check this.disabled_form_elements before inArray() as a workaround for FF5 bug
-      // http://bugs.jquery.com/ticket/9873
-      else if (lock || (this.disabled_form_elements && $.inArray(elm, this.disabled_form_elements)<0))
+      else if (lock || $.inArray(elm, this.disabled_form_elements) < 0)
         elm.disabled = lock;
     }
   };

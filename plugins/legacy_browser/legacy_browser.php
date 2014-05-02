@@ -25,10 +25,17 @@ class legacy_browser extends rcube_plugin
         // replace jQuery 2.x with 1.x
         $ts1 = filemtime($this->home . '/js/jquery.min.js');
         $ts2 = filemtime($this->home . '/js/iehacks.js');
+
+        // put iehacks.js after app.js
+        $args['content'] = preg_replace(
+            '|(<script src="program/js/app(\.min)?\.js\?s=[0-9]+" type="text/javascript"></script>)|',
+            '\\1<script src="plugins/legacy_browser/js/iehacks.js?s=' . $ts2 . '" type="text/javascript"></script>',
+            $args['content'], 1, $count);
+
         $args['content'] = preg_replace(
             '|<script src="program/js/jquery\.min\.js\?s=[0-9]+" type="text/javascript"></script>|',
-            '<script src="plugins/legacy_browser/js/jquery.min.js?s=' . $ts1 . '" type="text/javascript"></script>'."\n"
-            .'<script src="plugins/legacy_browser/js/iehacks.js?s=' . $ts2 . '" type="text/javascript"></script>',
+            '<script src="plugins/legacy_browser/js/jquery.min.js?s=' . $ts1 . '" type="text/javascript"></script>'
+            . ($count ? '' : "\n".'<script src="plugins/legacy_browser/js/iehacks.js?s=' . $ts2 . '" type="text/javascript"></script>'),
             $args['content'], 1);
 
         return $args;
