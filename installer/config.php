@@ -153,7 +153,10 @@ echo $check_spell->show(intval($RCI->getprop('enable_spellcheck')), array('value
 $select_spell = new html_select(array('name' => '_spellcheck_engine', 'id' => "cfgspellcheckengine"));
 if (extension_loaded('pspell'))
   $select_spell->add('pspell', 'pspell');
+if (extension_loaded('enchant'))
+  $select_spell->add('Enchant', 'enchant');
 $select_spell->add('Googie', 'googie');
+$select_spell->add('ATD', 'atd');
 
 echo $select_spell->show($RCI->is_post ? $_POST['_spellcheck_engine'] : 'pspell');
 
