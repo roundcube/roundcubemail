@@ -224,7 +224,7 @@ add_listener: function(p)
     p.element = document;
 
   if (!p.object._rc_events)
-    p.object._rc_events = [];
+    p.object._rc_events = {};
 
   var key = p.event + '*' + p.method;
   if (!p.object._rc_events[key])
@@ -508,8 +508,8 @@ function rcube_mouse_is_over(ev, obj)
   var mouse = rcube_event.get_mouse_pos(ev),
     pos = $(obj).offset();
 
-  return ((mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth)) &&
-    (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight)));
+  return (mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth)) &&
+    (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight));
 };
 
 
@@ -521,6 +521,7 @@ function setCookie(name, value, expires, path, domain, secure)
       (path ? "; path=" + path : "") +
       (domain ? "; domain=" + domain : "") +
       (secure ? "; secure" : "");
+
   document.cookie = curCookie;
 };
 
