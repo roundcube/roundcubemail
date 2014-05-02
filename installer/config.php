@@ -152,7 +152,7 @@ echo $check_spell->show(intval($RCI->getprop('enable_spellcheck')), array('value
 <?php
 $select_spell = new html_select(array('name' => '_spellcheck_engine', 'id' => "cfgspellcheckengine"));
 if (extension_loaded('pspell'))
-  $select_spell->add('pspell', 'pspell');
+  $select_spell->add('Pspell', 'pspell');
 if (extension_loaded('enchant'))
   $select_spell->add('Enchant', 'enchant');
 $select_spell->add('Googie', 'googie');
@@ -163,7 +163,7 @@ echo $select_spell->show($RCI->is_post ? $_POST['_spellcheck_engine'] : 'pspell'
 ?>
 <label for="cfgspellcheckengine">Which spell checker to use</label><br />
 
-<p class="hint">GoogieSpell implies that the message content will be sent to Google in order to check the spelling.</p>
+<p class="hint">Googie implies that the message content will be sent to external server to check the spelling.</p>
 </dd>
 
 <dt class="propname">identities_level</dt>
