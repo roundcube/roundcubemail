@@ -1241,6 +1241,13 @@ function rcmail_user_prefs($current = null)
             $sections[$idx]['blocks'] = $data['blocks'];
     }
 
+    $data = $RCMAIL->plugins->exec_hook('preferences_section_header',
+        array('section' => $sect['id'], 'header' => '', 'current' => $current));
+
+    if(!empty($data['header'])) {
+        $sections[$idx]['header'] = $data['header'];
+    }
+
     return array($sections, $plugin['cols']);
 }
 
