@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support upload progress with session.upload_progress and PECL uploadprogress module (#1488702)
 - Make identity name field optional (#1489510)
 - Utility script to remove user records from the local database
 - Plugin API: Added message_saved hook (#1489752)

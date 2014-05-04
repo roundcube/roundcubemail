@@ -1838,27 +1838,52 @@ class rcmail extends rcube
      */
     public function upload_progress()
     {
-        $prefix = ini_get('apc.rfc1867_prefix');
         $params = array(
             'action' => $this->action,
-            'name' => rcube_utils::get_input_value('_progress', rcube_utils::INPUT_GET),
+            'name'   => rcube_utils::get_input_value('_progress', rcube_utils::INPUT_GET),
         );
 
-        if (function_exists('apc_fetch')) {
-            $status = apc_fetch($prefix . $params['name']);
+        if (function_exists('uploadprogress_get_info')) {
+            $status = uploadprogress_get_info($params['name']);
 
             if (!empty($status)) {
-                $status['percent'] = round($status['current']/$status['total']*100);
-                $params = array_merge($status, $params);
+                $params['current'] = $status['bytes_uploaded'];
+                $params['total']   = $status['bytes_total'];
             }
         }
 
-        if (isset($params['percent']))
-            $params['text'] = $this->gettext(array('name' => 'uploadprogress', 'vars' => array(
-                'percent' => $params['percent'] . '%',
-                'current' => $this->show_bytes($params['current']),
-                'total'   => $this->show_bytes($params['total'])
-        )));
+        if (!isset($status) && filter_var(ini_get('apc.rfc1867'), FILTER_VALIDATE_BOOLEAN)
+            && ini_get('apc.rfc1867_name')
+        ) {
+            $prefix = ini_get('apc.rfc1867_prefix');
+            $status = apc_fetch($prefix . $params['name']);
+
+            if (!empty($status)) {
+                $params['current'] = $status['current'];
+                $params['total']   = $status['total'];
+            }
+        }
+
+        if (!isset($status) && filter_var(ini_get('session.upload_progress.enabled'), FILTER_VALIDATE_BOOLEAN)
+            && ini_get('session.upload_progress.name')
+        ) {
+            $key = ini_get('session.upload_progress.prefix') . $params['name'];
+
+            $params['total']   = $_SESSION[$key]['content_length'];
+            $params['current'] = $_SESSION[$key]['bytes_processed'];
+        }
+
+        if (!empty($params['total'])) {
+            $params['percent'] = round($status['current']/$status['total']*100);
+            $params['text']    = $this->gettext(array(
+                'name' => 'uploadprogress',
+                'vars' => array(
+                    'percent' => $params['percent'] . '%',
+                    'current' => $this->show_bytes($params['current']),
+                    'total'   => $this->show_bytes($params['total'])
+                )
+            ));
+        }
 
         $this->output->command('upload_progress_update', $params);
         $this->output->send();
@@ -1870,9 +1895,18 @@ class rcmail extends rcube
     public function upload_init()
     {
         // Enable upload progress bar
-        $rfc1867 = filter_var(ini_get('apc.rfc1867'), FILTER_VALIDATE_BOOLEAN);
-        if ($rfc1867 && ($seconds = $this->config->get('upload_progress'))) {
-            if ($field_name = ini_get('apc.rfc1867_name')) {
+        if ($seconds = $this->config->get('upload_progress')) {
+            if (function_exists('uploadprogress_get_info')) {
+                $field_name = 'UPLOAD_IDENTIFIER';
+            }
+            if (!$field_name && filter_var(ini_get('apc.rfc1867'), FILTER_VALIDATE_BOOLEAN)) {
+                $field_name = ini_get('apc.rfc1867_name');
+            }
+            if (!$field_name && filter_var(ini_get('session.upload_progress.enabled'), FILTER_VALIDATE_BOOLEAN)) {
+                $field_name = ini_get('session.upload_progress.name');
+            }
+
+            if ($field_name) {
                 $this->output->set_env('upload_progress_name', $field_name);
                 $this->output->set_env('upload_progress_time', (int) $seconds);
             }

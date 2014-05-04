@@ -6,8 +6,8 @@ php_flag    display_errors  Off
 php_flag    log_errors      On
 # php_value    error_log    logs/errors
 
-php_value   upload_max_filesize    5M
-php_value   post_max_size          6M
+php_value   upload_max_filesize   5M
+php_value   post_max_size         6M
 php_value   memory_limit          64M
 
 php_flag    register_globals            Off
