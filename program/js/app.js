@@ -3540,7 +3540,7 @@ function rcube_webmail()
     var ed;
 
     if (window.tinymce && (ed = tinymce.get(this.env.composebody))) {
-      if (ed.plugins && ed.plugins.spellchecker && ed.plugins.spellchecker.active)
+      if (ed.plugins && ed.plugins.spellchecker && this.env.spellcheck_active)
         ed.execCommand('mceSpellCheck');
     }
     else if (ed = this.env.spellcheck) {
@@ -3555,8 +3555,8 @@ function rcube_webmail()
   {
     var ed, active;
 
-    if (window.tinymce && (ed = tinymce.get(this.env.composebody)) && ed.plugins && ed.plugins.spellchecker)
-      active = ed.plugins.spellchecker.active;
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody)))
+      active = this.env.spellcheck_active;
     else if ((ed = this.env.spellcheck) && ed.state)
       active = ed.state != 'ready' && ed.state != 'no_error_found';
 
@@ -3571,8 +3571,8 @@ function rcube_webmail()
   {
     var ed;
 
-    if (window.tinymce && (ed = tinymce.get(this.env.composebody)) && ed.plugins && ed.plugins.spellchecker)
-      return ed.plugins.spellchecker.selectedLang;
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody)))
+      return ed.settings.spellchecker_language || this.env.spell_lang;
     else if (this.env.spellcheck)
       return GOOGIE_CUR_LANG;
   };
@@ -3581,8 +3581,8 @@ function rcube_webmail()
   {
     var ed;
 
-    if (window.tinymce && (ed = tinymce.get(this.env.composebody)) && ed.plugins)
-      ed.plugins.spellchecker.selectedLang = lang;
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody)))
+      ed.settings.spellchecker_language = lang;
     else if (this.env.spellcheck)
       this.env.spellcheck.setCurrentLanguage(lang);
   };

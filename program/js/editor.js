@@ -51,15 +51,16 @@ function rcmail_editor_init(config)
         + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',
       spellchecker_rpc_url: '../../../../../?_task=utils&_action=spell_html&_remote=1',
       spellchecker_enable_learn_rpc: config.spelldict, //TODO
+      spellchecker_language: rcmail.env.spell_lang,
       accessibility_focus: false
     });
 
     conf.setup = function(ed) {
       ed.on('init', rcmail_editor_callback);
       // add handler for spellcheck button state update
-      ed.on('ProgressState', function(args) {
-        if (!args.state)
-          rcmail.spellcheck_state();
+      ed.on('SpellcheckStart SpellcheckEnd', function(args) {
+        rcmail.env.spellcheck_active = args.type == 'spellcheckstart';
+        rcmail.spellcheck_state();
       });
       ed.on('keypress', function() {
         rcmail.compose_type_activity++;
