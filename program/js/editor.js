@@ -24,6 +24,7 @@ function rcmail_editor_init(config)
       content_css: config.skin_path + '/editor_content.css',
       menubar: false,
       statusbar: false,
+      toolbar_items_size: 'small',
       extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
       relative_urls: false,
       remove_script_host: false,

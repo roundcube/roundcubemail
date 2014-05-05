@@ -597,8 +597,13 @@ img.uploading
   height: 16px;
 }
 
-.mce-btn button {
-  height: 28px;
+.mce-btn-small button {
+  height: 22px;
+}
+
+.mce-btn-small i {
+  line-height: 16px !important;
+  vertical-align: text-top !important;
 }
 
 /***** common table settings ******/
