@@ -1343,12 +1343,10 @@ function rcmail_message_body($attrib)
 
 function rcmail_part_image_type($part)
 {
-    $rcmail = rcmail::get_instance();
-
     // Skip TIFF images if browser doesn't support this format...
     $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
     // until we can convert them to JPEG
-    $tiff_support = $tiff_support || $rcmail->config->get('im_convert_path');
+    $tiff_support = $tiff_support || rcube_image::is_convertable('image/tiff');
 
     // Content-type regexp
     $mime_regex = $tiff_support ? '/^image\//i' : '/^image\/(?!tif)/i';

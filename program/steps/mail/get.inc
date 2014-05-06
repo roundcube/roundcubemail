@@ -221,7 +221,7 @@ else if (strlen($part_id)) {
         // TIFF to JPEG conversion, if needed
         $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
         if (!empty($_REQUEST['_embed']) && !$tiff_support
-            && $RCMAIL->config->get('im_convert_path')
+            && rcube_image::is_convertable('image/tiff')
             && rcmail_part_image_type($part) == 'image/tiff'
         ) {
             $tiff2jpeg = true;
