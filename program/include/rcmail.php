@@ -487,6 +487,20 @@ class rcmail extends rcube
             return false;
         }
 
+        if($this->config->load_from_file('authorizedDomains.inc.php')) {
+            if( filter_var( $username, FILTER_VALIDATE_EMAIL ) ) {
+                // split on @ and return last value of array (the domain)
+                $domain = array_pop(explode('@', $username));
+                $domainArray = $this->config->get('authorizedDomains',[]);
+
+                if(!empty($domainArray)) {
+                    if(!in_array($domain,$domainArray)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
         if ($cookiecheck && empty($_COOKIE)) {
             $this->login_error = self::ERROR_COOKIES_DISABLED;
             return false;
