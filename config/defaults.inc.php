@@ -480,10 +480,10 @@ $config['mime_magic'] = null;
 // download it from http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
 $config['mime_types'] = null;
 
-// path to imagemagick identify binary
+// path to imagemagick identify binary (if not set we'll use Imagick or GD extensions)
 $config['im_identify_path'] = null;
 
-// path to imagemagick convert binary
+// path to imagemagick convert binary (if not set we'll use Imagick or GD extensions)
 $config['im_convert_path'] = null;
 
 // Size of thumbnails from image attachments displayed below the message content.
