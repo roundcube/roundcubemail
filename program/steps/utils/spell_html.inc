@@ -21,7 +21,7 @@
 
 
 $lang   = rcube_utils::get_input_value('lang', rcube_utils::INPUT_POST);
-$data   = rcube_utils::get_input_value('text', rcube_utils::INPUT_POST);
+$data   = rcube_utils::get_input_value('text', rcube_utils::INPUT_POST, true);
 $data   = html_entity_decode($data, ENT_QUOTES, RCUBE_CHARSET);
 $result = array();
 
