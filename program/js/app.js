@@ -724,19 +724,12 @@ function rcube_webmail()
         break;
 
       case 'list':
-        // re-send search query for the selected folder
-        if (props && props != '' && this.env.search_request && this.gui_objects.qsearchbox.value) {
-          var oldmbox = this.env.search_scope == 'all' ? '*' : this.env.mailbox;
-          this.env.search_mods[props] = this.env.search_mods[oldmbox];  // copy search mods from active search
-          this.env.mailbox = props;
-          this.env.search_scope = 'sub';
-          this.qsearch(this.gui_objects.qsearchbox.value);
-          this.select_folder(this.env.mailbox, '', true);
-          break;
+        if (props && props != '') {
+          this.reset_qsearch();
         }
-
-        if (this.env.action == 'compose' && this.env.extwin)
+        if (this.env.action == 'compose' && this.env.extwin) {
           window.close();
+        }
         else if (this.task == 'mail') {
           this.list_mailbox(props);
           this.set_button_titles();
