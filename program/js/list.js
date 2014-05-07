@@ -558,6 +558,8 @@ click_row: function(e, id)
   }
 
   this.rows[id].clicked = now;
+  this.focus();
+
   return false;
 },
 

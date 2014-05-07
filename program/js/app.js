@@ -300,10 +300,12 @@ function rcube_webmail()
             $('a.insertresponse', this.gui_objects.responseslist)
               .attr('unselectable', 'on')
               .mousedown(function(e){ return rcube_event.cancel(e); })
-              .mouseup(function(e){
-                ref.command('insert-response', $(this).attr('rel'));
-                $(document.body).trigger('mouseup');  // hides the menu
-                return rcube_event.cancel(e);
+              .bind('mouseup keypress', function(e){
+                if (e.type == 'mouseup' || rcube_event.get_keycode(e) == 13) {
+                  ref.command('insert-response', $(this).attr('rel'));
+                  $(document.body).trigger('mouseup');  // hides the menu
+                  return rcube_event.cancel(e);
+                }
               });
 
             // avoid textarea loosing focus when hitting the save-response button/link
@@ -337,11 +339,12 @@ function rcube_webmail()
         // init address book widget
         if (this.gui_objects.contactslist) {
           this.contact_list = new rcube_list_widget(this.gui_objects.contactslist,
-            { multiselect:true, draggable:false, keyboard:false });
+            { multiselect:true, draggable:false, keyboard:true });
           this.contact_list
             .addEventListener('initrow', function(o) { ref.triggerEvent('insertrow', { cid:o.uid, row:o }); })
             .addEventListener('select', function(o) { ref.compose_recipient_select(o); })
             .addEventListener('dblclick', function(o) { ref.compose_add_recipient('to'); })
+            .addEventListener('keypress', function(o) { if (o.key_pressed == o.ENTER_KEY) ref.compose_add_recipient('to'); })
             .init();
         }
 
@@ -3600,10 +3603,12 @@ function rcube_webmail()
         .mousedown(function(e){
           return rcube_event.cancel(e);
         })
-        .mouseup(function(e){
-          ref.command('insert-response', key);
-          $(document.body).trigger('mouseup');  // hides the menu
-          return rcube_event.cancel(e);
+        .bind('mouseup keypress', function(e){
+          if (e.type == 'mouseup' || rcube_event.get_keycode(e) == 13) {
+            ref.command('insert-response', $(this).attr('rel'));
+            $(document.body).trigger('mouseup');  // hides the menu
+            return rcube_event.cancel(e);
+          }
         });
     }
   };
@@ -6195,7 +6200,7 @@ function rcube_webmail()
   // set button to a specific state
   this.set_button = function(command, state)
   {
-    var n, button, obj, a_buttons = this.buttons[command],
+    var n, button, obj, $obj, a_buttons = this.buttons[command],
       len = a_buttons ? a_buttons.length : 0;
 
     for (n=0; n<len; n++) {
@@ -6235,8 +6240,9 @@ function rcube_webmail()
         $(obj).button('option', 'disabled', state == 'pas');
       }
       else {
-        $(obj)
-          .attr('tabindex', state == 'pas' || state == 'sel' ? '-1' : '0')
+        $obj = $(obj);
+        $obj
+          .attr('tabindex', state == 'pas' || state == 'sel' ? '-1' : ($obj.attr('data-tabindex') || '0'))
           .attr('aria-disabled', state == 'pas' || state == 'sel' ? 'true' : 'false');
       }
     }
@@ -7147,6 +7153,7 @@ function rcube_webmail()
             this.enable_command('search-create', this.env.source == '');
             this.enable_command('search-delete', this.env.search_id);
             this.update_group_commands();
+            this.contact_list.focus();
             this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
           }
         }

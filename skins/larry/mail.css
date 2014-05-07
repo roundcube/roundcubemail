@@ -1358,11 +1358,17 @@ div.message-partheaders .headers-table td.header {
 	margin-left: 0.5em;
 }
 
-#compose-contacts li a, #contacts-table td {
-	background: url(images/listicons.png) -100px 0 no-repeat;
+#compose-contacts li a,
+#contacts-table td {
+	background-image: url(images/listicons.png);
+	background-position: -100px 0;
+	background-repeat: no-repeat;
 	overflow: hidden;
-	padding-left: 36px;
 	text-overflow: ellipsis;
+}
+
+#compose-contacts li a {
+	padding-left: 36px;
 }
 
 #contacts-table td.contactgroup a {
@@ -1386,6 +1392,7 @@ div.message-partheaders .headers-table td.header {
 	background-position: 6px -766px;
 }
 
+#compose-contacts li.addressbook a:focus,
 #compose-contacts li.addressbook.selected a {
 	background-position: 6px -791px;
 }
@@ -1394,18 +1401,34 @@ div.message-partheaders .headers-table td.header {
 	background-position: 6px -1555px;
 }
 
+#contacts-table.focus tr.focused td.contactgroup {
+	background-position: 4px -1555px;
+}
+
 #contacts-table tr.unfocused td.contactgroup,
 #contacts-table tr.selected td.contactgroup {
 	background-position: 6px -1579px;
+}
+
+#contacts-table.focus tr.selected.focused td.contactgroup {
+	background-position: 4px -1579px;
 }
 
 #contacts-table td.contact {
 	background-position: 6px -1603px;
 }
 
+#contacts-table.focus tr.focused td.contact {
+	background-position: 4px -1603px;
+}
+
 #contacts-table tr.unfocused td.contact,
 #contacts-table tr.selected td.contact {
 	background-position: 6px -1627px;
+}
+
+#contacts-table.focus tr.selected.focused td.contact {
+	background-position: 4px -1627px;
 }
 
 #compose-content {

@@ -195,11 +195,13 @@ function rcube_mail_ui()
           }
         }
 
-        $('#composeoptionstoggle').click(function(){
+        $('#composeoptionstoggle').click(function(e){
           $('#composeoptionstoggle').toggleClass('remove');
           $('#composeoptions').toggle();
           layout_composeview();
           save_pref('composeoptions', $('#composeoptions').is(':visible') ? '1' : '0');
+          if (!rcube_event.is_keyboard(e))
+            this.blur();
           return false;
         }).css('cursor', 'pointer');
 
@@ -1071,7 +1073,7 @@ function rcube_mail_ui()
       });
   }
 
-  function show_uploadform()
+  function show_uploadform(e)
   {
     var $dialog = $('#upload-dialog');
 
@@ -1097,6 +1099,10 @@ function rcube_mail_ui()
       resizable: false,
       closeOnEscape: true,
       title: $dialog.attr('title'),
+      open: function(e) {
+        if (!document.all)
+          $('input[type=file]', $dialog).first().click();
+      },
       close: function() {
         try { $('#upload-dialog form').get(0).reset(); }
         catch(e){ }  // ignore errors
@@ -1106,9 +1112,6 @@ function rcube_mail_ui()
       },
       width: 480
     }).show();
-
-    if (!document.all)
-      $('input[type=file]', $dialog).first().click();
   }
 
   function add_uploadfile(e)
