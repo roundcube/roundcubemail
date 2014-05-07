@@ -1235,7 +1235,7 @@ function rcmail_user_prefs($current = null)
             $data['blocks']['advanced'] = $adv;
         }
 
-        if (!$found)
+        if ($current && !$found)
             unset($sections[$idx]);
         else
             $sections[$idx]['blocks'] = $data['blocks'];
