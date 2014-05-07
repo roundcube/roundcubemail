@@ -507,14 +507,19 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
     if (!empty($attrib['optionsmenuicon'])) {
-        $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu')";
-        if ($attrib['optionsmenuicon'] === true || $attrib['optionsmenuicon'] == 'true')
-            $list_menu = html::div(array('onclick' => $onclick, 'class' => 'listmenu',
-                'id' => 'listmenulink', 'title' => $RCMAIL->gettext('listoptions')));
-        else
-            $list_menu = html::a(array('href' => '#', 'onclick' => $onclick),
-                html::img(array('src' => $skin_path . $attrib['optionsmenuicon'],
-                    'id' => 'listmenulink', 'title' => $RCMAIL->gettext('listoptions'))));
+        $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', null, event)";
+        $inner   = 'v';
+        if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
+            $inner = html::img(array('src' => $skin_path . $attrib['optionsmenuicon'], 'alt' => $RCMAIL->gettext('listoptions')));
+        }
+        $list_menu = html::a(array(
+            'href' => '#list-options',
+            'onclick' => $onclick,
+            'class' => 'listmenu',
+            'id' => 'listmenulink',
+            'title' => $RCMAIL->gettext('listoptions'),
+            'tabindex' => '0',
+        ), $inner);
     }
     else {
         $list_menu = '';

@@ -18,7 +18,7 @@
 <roundcube:button name="markmenulink" id="markmessagemenulink" type="link" class="button markmessage" label="mark" title="markmessages" onclick="UI.toggle_popup('markmessagemenu',event);return false" aria-haspopup="true" aria-owns="markmessagemenu-menu" />
 <roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button more" label="more" title="moreactions" onclick="UI.toggle_popup('messagemenu',event);return false" aria-haspopup="true" aria-owns="messagemenu-menu" />
 
-<div id="forwardmenu" class="popupmenu">
+<div id="forwardmenu" class="popupmenu" aria-hidden="true">
 	<h3 id="aria-label-forwardmenu" class="voice">Forwarding options</h3>
 	<ul class="toolbarmenu" role="menu" aria-labelledby="aria-label-forwardmenu">
 		<li role="menuitem"><roundcube:button command="forward-inline" label="forwardinline" prop="sub" classAct="forwardlink active" class="forwardlink" /></li>
@@ -27,7 +27,7 @@
 	</ul>
 </div>
 
-<div id="replyallmenu" class="popupmenu">
+<div id="replyallmenu" class="popupmenu" aria-hidden="true">
 	<h3 id="aria-label-replyallmenu" class="voice">Reply-all options</h3>
 	<ul class="toolbarmenu" role="menu" aria-labelledby="aria-label-replyallmenu">
 		<li role="menuitem"><roundcube:button command="reply-all" label="replyall" prop="sub" class="replyalllink" classAct="replyalllink active" /></li>
@@ -36,7 +36,7 @@
 	</ul>
 </div>
 
-<div id="messagemenu" class="popupmenu">
+<div id="messagemenu" class="popupmenu" aria-hidden="true">
   <h3 id="aria-label-messagemenu" class="voice">More message toolbar actions</h3>
   <ul id="messagemenu-menu" class="toolbarmenu iconized" role="menu" aria-labelledby="aria-label-messagemenu">
 	<li role="menuitem"><roundcube:button command="print" label="printmessage" class="icon" classAct="icon active" innerclass="icon print" /></li>
@@ -50,7 +50,7 @@
   </ul>
 </div>
 
-<div id="markmessagemenu" class="popupmenu">
+<div id="markmessagemenu" class="popupmenu" aria-hidden="true">
   <h3 id="aria-label-markmessagemenu" class="voice">Mark selected messages as...</h3>
   <ul id="markmessagemenu-menu" class="toolbarmenu iconized" role="menu" aria-labelledby="aria-label-markmessagemenu">
 	<li role="menuitem"><roundcube:button command="mark" prop="read" label="markread" classAct="icon active" class="icon" innerclass="icon read" /></li>

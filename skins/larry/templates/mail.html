@@ -92,12 +92,13 @@
 
 <!-- messagelist -->
 <div id="messagelistcontainer" class="boxlistcontent">
-<h2 id="aria-label-messagelist" class="voice">Messages list</h2>
+<h2 id="aria-label-messagelist" class="voice">Email Messages Listing</h2>
 <roundcube:object name="messages"
 	id="messagelist"
 	class="records-table messagelist sortheader fixedheader"
 	optionsmenuIcon="true"
-    role="grid"
+	summary="Email Messages Listing"
+	role="grid"
 	aria-labelledby="aria-label-messagelist" />
 </div>
 
@@ -136,7 +137,7 @@
 
 <div id="mailpreviewframe" class="iframebox" role="complementary" aria-labelledby="aria-label-mailpreviewframe">
 <h2 id="aria-label-mailpreviewframe" class="voice">Message preview</h2>
-<roundcube:object name="messagecontentframe" id="messagecontframe" style="width:100%; height:100%" frameborder="0" src="/watermark.html" />
+<roundcube:object name="messagecontentframe" id="messagecontframe" style="width:100%; height:100%" frameborder="0" src="/watermark.html" title="Message preview" />
 </div>
 
 </div><!-- end mailview-bottom -->
@@ -147,14 +148,14 @@
 
 </div><!-- end mainscreen -->
 
-<div id="dragmessagemenu" class="popupmenu">
+<div id="dragmessagemenu" class="popupmenu" aria-hidden="true">
 	<ul class="toolbarmenu" role="menu">
 		<li role="menuitem"><roundcube:button command="move" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" /></li>
 		<li role="menuitem"><roundcube:button command="copy" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" /></li>
 	</ul>
 </div>
 
-<div id="mailboxmenu" class="popupmenu">
+<div id="mailboxmenu" class="popupmenu" aria-hidden="true">
 	<h3 id="aria-label-mailboxmenu" class="voice">Folder actions menu</h3>
 	<ul id="mailboxmenu-menu" class="toolbarmenu" id="mailboxoptionsmenu" role="menu" aria-labelledby="aria-label-mailboxmenu">
 		<li role="menuitem"><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
@@ -165,7 +166,7 @@
 	</ul>
 </div>
 
-<div id="listselectmenu" class="popupmenu dropdown">
+<div id="listselectmenu" class="popupmenu dropdown" aria-hidden="true">
 	<h3 id="aria-label-listselectmenu" class="voice">List selection menu</h3>
 	<ul id="listselectmenu-menu" class="toolbarmenu iconized" role="menu" aria-labelledby="aria-label-listselectmenu">
 		<li role="menuitem"><roundcube:button command="select-all" type="link" label="all" class="icon" classAct="icon active" innerclass="icon mail" /></li>
@@ -177,7 +178,7 @@
 	</ul>
 </div>
 
-<div id="threadselectmenu" class="popupmenu dropdown">
+<div id="threadselectmenu" class="popupmenu dropdown" aria-hidden="true">
 	<h3 id="aria-label-threadselectmenu" class="voice">Threads listing menu</h3>
 	<ul id="threadselectmenu-menu" class="toolbarmenu" role="menu" aria-labelledby="aria-label-threadselectmenu">
 		<li role="menuitem"><roundcube:button command="expand-all" type="link" label="expand-all" class="icon" classAct="icon active" innerclass="icon conversation" /></li>
@@ -186,7 +187,7 @@
 	</ul>
 </div>
 
-<div id="listoptions" class="propform popupdialog" role="dialog" aria-labelledby="aria-label-listoptions">
+<div id="listoptions" class="propform popupdialog" role="dialog" aria-labelledby="aria-label-listoptions" aria-hidden="true">
 <h2 id="aria-label-listoptions" class="voice">Message list display and sorting options</h2>
 <roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
 	<fieldset class="floating">
@@ -236,11 +237,12 @@
 	<br style="clear:both" />
 	<div class="formbuttons">
 		<roundcube:button command="menu-save" id="listmenusave" type="input" class="button mainaction" label="save" />
-		<roundcube:button command="menu-open" id="listmenucancel" type="input" class="button" label="cancel" />
+		<roundcube:button command="menu-close" id="listmenucancel" type="input" class="button" label="cancel" />
 	</div>
 </div>
 
-<div id="upload-dialog" class="propform popupdialog" title="<roundcube:label name='importmessages' />">
+<div id="upload-dialog" class="propform popupdialog" title="<roundcube:label name='importmessages' />" aria-hidden="true">
+	<h2 id="aria-label-uploaddialog" class="voice">Message import dialog</h2>
 	<roundcube:object name="messageimportform" id="uploadform" buttons="no" />
 	<div class="formbuttons">
 		<roundcube:button command="import-messages" type="input" class="button mainaction" label="upload" />

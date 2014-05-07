@@ -197,7 +197,7 @@ function rcube_webmail()
 
     // enable general commands
     this.enable_command('close', 'logout', 'mail', 'addressbook', 'settings', 'save-pref',
-      'compose', 'undo', 'about', 'switch-task', 'menu-open', 'menu-save', true);
+      'compose', 'undo', 'about', 'switch-task', 'menu-open', 'menu-close', 'menu-save', true);
 
     // set active task button
     this.set_button(this.task, 'sel');
@@ -711,7 +711,8 @@ function rcube_webmail()
         }
 
       case 'menu-save':
-        this.triggerEvent(command, {props:props, e:event});
+      case 'menu-close':
+        this.triggerEvent(command, {props:props, originalEvent:event});
         return false;
 
       case 'open':
@@ -2316,6 +2317,7 @@ function rcube_webmail()
       url._page = page;
 
     this.http_request('list', url, lock);
+    this.update_state({ _mbox: mbox, _page: (page && page > 1 ? page : null) });
   };
 
   // removes messages that doesn't exists from list selection array
@@ -3592,6 +3594,7 @@ function rcube_webmail()
       $('<a>').addClass('insertresponse active')
         .attr('href', '#')
         .attr('rel', key)
+        .attr('tabindex', '0')
         .html(this.quote_html(response.name))
         .appendTo(li)
         .mousedown(function(e){
@@ -6938,6 +6941,13 @@ function rcube_webmail()
 
     // reset keep-alive interval
     this.start_keepalive();
+  };
+
+  // update browser location to remember current view
+  this.update_state = function(query)
+  {
+    if (window.history.replaceState)
+      window.history.replaceState({}, document.title, rcmail.url('', query));
   };
 
   // send a http request to the server

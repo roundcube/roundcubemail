@@ -141,8 +141,9 @@ function rcube_mail_ui()
 
     /***  mail task  ***/
     if (rcmail.env.task == 'mail') {
-      rcmail.addEventListener('menu-open', menu_open)
-        .addEventListener('menu-save', menu_save)
+      rcmail.addEventListener('menu-open', menu_toggle)
+        .addEventListener('menu-close', menu_toggle)
+        .addEventListener('menu-save', save_listoptions)
         .addEventListener('responseafterlist', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list', true) })
         .addEventListener('responseaftersearch', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list', true) });
 
@@ -161,8 +162,12 @@ function rcube_mail_ui()
         // add menu link for each attachment
         $('#attachment-list > li').each(function() {
           $(this).append($('<a class="drop" tabindex="0" aria-haspopup="true">Show options</a>')
-              .click(function(e) { attachmentmenu(this, e); return false; })
-              .keypress(function(e){ if (rcube_event.get_keycode(e) == 13) attachmentmenu(this, e); return false; })
+              .bind('click keypress', function(e) {
+                  if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
+                      attachmentmenu(this, e);
+                      return false;
+                  }
+              })
           );
         });
 
@@ -819,17 +824,12 @@ function rcube_mail_ui()
 
   /**** popup callbacks ****/
 
-  function menu_open(p)
+  function menu_toggle(p)
   {
     if (p && p.props && p.props.menu == 'attachmentmenu')
-      show_popupmenu('attachmentmenu', true, rcube_event.is_keyboard(p.e));
+      show_popupmenu('attachmentmenu', undefined, rcube_event.is_keyboard(p.originalEvent));
     else
-      show_listoptions();
-  }
-
-  function menu_save(prop)
-  {
-    save_listoptions();
+      show_listoptions(p);
   }
 
   function searchmenu(show)
@@ -884,20 +884,24 @@ function rcube_mail_ui()
 
   function spellmenu(show)
   {
-    var link, li,
+    var k, link, li,
       lang = rcmail.spellcheck_lang(),
       menu = popups.spellmenu,
       ul = $('ul', menu);
 
     if (!ul.length) {
-      ul = $('<ul class="toolbarmenu selectable">');
+      ul = $('<ul class="toolbarmenu selectable" role="menu">');
 
-      for (i in rcmail.env.spell_langs) {
-        li = $('<li>');
-        link = $('<a href="#"></a>').text(rcmail.env.spell_langs[i])
-          .addClass('active').data('lang', i)
-          .click(function() {
-            rcmail.spellcheck_lang_set($(this).data('lang'));
+      for (k in rcmail.env.spell_langs) {
+        li = $('<li role="menuitem">');
+        link = $('<a href="#'+k+'" tabindex="0"></a>').text(rcmail.env.spell_langs[k])
+          .addClass('active').data('lang', k)
+          .bind('click keypress', function(e) {
+              if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
+                  rcmail.spellcheck_lang_set($(this).data('lang'));
+                  show_popupmenu('spellmenu', false, rcube_event.is_keyboard(e))
+                  return false;
+              }
           });
 
         link.appendTo(li);
@@ -911,9 +915,9 @@ function rcube_mail_ui()
     $('li', ul).each(function() {
       var el = $('a', this);
       if (el.data('lang') == lang)
-        el.addClass('selected');
+        el.addClass('selected').attr('aria-selected', 'true');
       else if (el.hasClass('selected'))
-        el.removeClass('selected');
+        el.removeClass('selected').removeAttr('aria-selected');
     });
   }
 
@@ -921,13 +925,13 @@ function rcube_mail_ui()
   /**
    *
    */
-  function show_listoptions()
+  function show_listoptions(p)
   {
     var $dialog = $('#listoptions');
 
     // close the dialog
     if ($dialog.is(':visible')) {
-      $dialog.dialog('close');
+      $dialog.dialog('close', p.originalEvent);
       return;
     }
 
@@ -946,8 +950,13 @@ function rcube_mail_ui()
       resizable: false,
       closeOnEscape: true,
       title: null,
-      close: function() {
+      open: function(e) {
+        setTimeout(function(){ $dialog.find('a, input:not(:disabled)').not('[aria-disabled=true]').first().focus(); }, 100);
+      },
+      close: function(e) {
         $dialog.dialog('destroy').hide();
+        if (e.originalEvent && rcube_event.is_keyboard(e.originalEvent))
+          $('#listmenulink').focus();
       },
       minWidth: 500,
       width: $dialog.width()+25
@@ -958,9 +967,12 @@ function rcube_mail_ui()
   /**
    *
    */
-  function save_listoptions()
+  function save_listoptions(p)
   {
     $('#listoptions').dialog('close');
+
+    if (rcube_event.is_keyboard(p.originalEvent))
+      $('#listmenulink').focus();
 
     var sort = $('input[name="sort_col"]:checked').val(),
       ord = $('input[name="sort_ord"]:checked').val(),

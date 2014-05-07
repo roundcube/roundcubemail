@@ -599,7 +599,7 @@ table.messagelist.fixedcopy {
 
 .messagelist tr td div.collapsed,
 .messagelist tr td div.expanded,
-.messagelist tr td.threads div.listmenu,
+.messagelist tr td.threads .listmenu,
 .messagelist tr td.attachment span.attachment,
 .messagelist tr td.attachment span.report,
 .messagelist tr td.priority span.priority,
@@ -734,10 +734,20 @@ table.messagelist.fixedcopy {
 	cursor: pointer;
 }
 
-.messagelist tr td.threads div.listmenu {
-	background-position: 0 -976px;
+.messagelist tr td.threads .listmenu {
+	background-position: 6px -972px;
 	cursor: pointer;
 	width: 26px;
+	height: 21px;
+	overflow: hidden;
+	text-indent: -5000px;
+	margin: -3px -5px -2px -6px;
+	padding: 3px  5px  2px  6px;
+}
+
+.messagelist tr td.threads .listmenu:focus {
+	background-color: rgba(73,180,210,0.7);
+	outline: none;
 }
 
 .messagelist thead tr td.subject,

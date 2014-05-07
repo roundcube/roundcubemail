@@ -814,7 +814,7 @@ table.messagelist.fixedcopy
 
 .messagelist tr td div.collapsed,
 .messagelist tr td div.expanded,
-.messagelist tr td.threads div.listmenu,
+.messagelist tr td.threads .listmenu,
 .messagelist tr td.attachment span.attachment,
 .messagelist tr td.attachment span.report,
 .messagelist tr td.priority span.priority,
@@ -954,10 +954,12 @@ table.messagelist.fixedcopy
   cursor: pointer;
 }
 
-.messagelist tr td.threads div.listmenu
+.messagelist tr td.threads .listmenu
 {
   background-position: 0 -238px;
   cursor: pointer;
+  overflow: hidden;
+  text-indent: -5000px;
 }
 
 .messagelist tbody tr td.subject

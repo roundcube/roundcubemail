@@ -2678,6 +2678,7 @@ ul.toolbarmenu li span.copy {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	line-height: 20px;
+	outline: none;
 }
 
 .attachmentslist li a.drop {
@@ -2689,6 +2690,15 @@ ul.toolbarmenu li span.copy {
 	right: 0;
 	top: 0;
 	padding: 0;
+	overflow: hidden;
+	text-indent: -5000px;
+	outline: none;
+}
+
+.attachmentslist li a:focus,
+.attachmentslist li a.drop:focus {
+	background-color: rgba(30,150,192, 0.5);
+	border-radius: 2px;
 }
 
 #compose-attachments ul li {
