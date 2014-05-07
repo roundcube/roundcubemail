@@ -1332,6 +1332,15 @@ EOF;
             $this->pagetitle = 'Roundcube Mail';
         }
 
+        // declare page language
+        if (!empty($_SESSION['language'])) {
+            $lang = substr($_SESSION['language'], 0, 2);
+            $output = preg_replace('/<html/', '<html lang="' . html::quote($lang) . '"', $output, 1);
+            if (!headers_sent()) {
+                header('Content-Language: ' . $lang);
+            }
+        }
+
         // replace specialchars in content
         $page_title  = html::quote($this->pagetitle);
         $page_header = '';
