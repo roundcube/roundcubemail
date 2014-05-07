@@ -711,7 +711,7 @@ function rcube_webmail()
         }
 
       case 'menu-save':
-        this.triggerEvent(command, {props:props});
+        this.triggerEvent(command, {props:props, e:event});
         return false;
 
       case 'open':

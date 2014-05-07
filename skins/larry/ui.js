@@ -160,7 +160,10 @@ function rcube_mail_ui()
 
         // add menu link for each attachment
         $('#attachment-list > li').each(function() {
-          $(this).append($('<a class="drop"></a>').click(function() { attachmentmenu(this); }));
+          $(this).append($('<a class="drop" tabindex="0" aria-haspopup="true">Show options</a>')
+              .click(function(e) { attachmentmenu(this, e); return false; })
+              .keypress(function(e){ if (rcube_event.get_keycode(e) == 13) attachmentmenu(this, e); return false; })
+          );
         });
 
         if (get_pref('previewheaders') == '1') {
@@ -491,7 +494,7 @@ function rcube_mail_ui()
     $('#message-objects div a').addClass('button');
 
     if (!$('#attachment-list li').length) {
-      $('div.rightcol').hide();
+      $('div.rightcol').hide().attr('aria-hidden', 'true');
       $('div.leftcol').css('margin-right', '0');
     }
   }
@@ -652,12 +655,12 @@ function rcube_mail_ui()
       ref.focus();
     }
 
-    obj[show?'show':'hide']();
+    obj[show?'show':'hide']().attr('aria-hidden', show?'false':'true');
 
     popup_keyboard_active = show && keyboard;
     if (popup_keyboard_active) {
       focused_popup = popup;
-      obj.find('a,input').not('[aria-disabled=true]').first().focus();
+      obj.find('a,input:not(:disabled)').not('[aria-disabled=true]').first().focus();
     }
     else {
       focused_popup = null;
@@ -819,7 +822,7 @@ function rcube_mail_ui()
   function menu_open(p)
   {
     if (p && p.props && p.props.menu == 'attachmentmenu')
-      show_popupmenu('attachmentmenu');
+      show_popupmenu('attachmentmenu', true, rcube_event.is_keyboard(p.e));
     else
       show_listoptions();
   }
@@ -863,7 +866,7 @@ function rcube_mail_ui()
     }
   }
 
-  function attachmentmenu(elem)
+  function attachmentmenu(elem, event)
   {
     var id = elem.parentNode.id.replace(/^attach/, '');
 
@@ -876,7 +879,7 @@ function rcube_mail_ui()
     });
 
     popupconfig.attachmentmenu.link = elem;
-    rcmail.command('menu-open', {menu: 'attachmentmenu', id: id});
+    rcmail.command('menu-open', {menu: 'attachmentmenu', id: id}, elem, event);
   }
 
   function spellmenu(show)
