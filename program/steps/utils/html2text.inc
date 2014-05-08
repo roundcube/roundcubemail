@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-$html = $HTTP_RAW_POST_DATA;
+$html = stream_get_contents(fopen('php://input', 'r'));
 
 // Replace emoticon images with its text representation
 $html = $RCMAIL->replace_emoticons($html);
