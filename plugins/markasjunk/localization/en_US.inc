@@ -20,5 +20,7 @@ $labels = array();
 $labels['buttontext'] = 'Junk';
 $labels['buttontitle'] = 'Mark as Junk';
 $labels['reportedasjunk'] = 'Successfully reported as Junk';
-
+$labels['buttontext2'] = 'NotJunk';
+$labels['buttontitle2'] = 'Mark as Not Junk';
+$labels['reportedasnotjunk'] = 'Successfully reported as Not Junk';
 ?>
