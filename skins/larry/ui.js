@@ -13,6 +13,11 @@
 
 function rcube_mail_ui()
 {
+  var aboveconfig = {
+    automatic: "automatic",
+    never: "never",
+    always: "always"
+  };
   var env = {};
   var popups = {};
   var popupconfig = {
@@ -21,11 +26,12 @@ function rcube_mail_ui()
     attachmentmenu:     { },
     listoptions:        { editable:1 },
     dragmenu:           { sticky:1 },
-    groupmenu:          { above:1 },
-    mailboxmenu:        { above:1 },
+    groupmenu:          { above:aboveconfig.always },
+    mailboxmenu:        { above:aboveconfig.always },
+    markmessagemenu:    { above:aboveconfig.never },
     spellmenu:          { callback: spellmenu },
     // toggle: #1486823, #1486930
-    'attachment-form':  { editable:1, above:1, toggle:!bw.ie&&!bw.linux },
+    'attachment-form':  { editable:1, above:aboveconfig.always, toggle:!bw.ie&&!bw.linux },
     'upload-form':      { editable:1, toggle:!bw.ie&&!bw.linux }
   };
 
@@ -606,7 +612,8 @@ function rcube_mail_ui()
     var obj = popups[popup],
       config = popupconfig[popup],
       ref = $(config.link ? config.link : '#'+popup+'link'),
-      above = config.above;
+      above = config.above || aboveconfig.automatic,
+      showAbove = above == aboveconfig.always;
 
     if (!obj) {
       obj = popups[popup] = $('#'+popup);
@@ -631,12 +638,12 @@ function rcube_mail_ui()
 
       pos = ref.offset();
       ref.offsetHeight = ref.outerHeight();
-      if (!above && pos.top + ref.offsetHeight + obj.height() > win.height())
-        above = true;
+      if (above == aboveconfig.automatic && pos.top + ref.offsetHeight + obj.height() > win.height())
+          showAbove = true;
       if (pos.left + obj.width() > win.width())
         pos.left = win.width() - obj.width() - 12;
 
-      obj.css({ left:pos.left, top:(pos.top + (above ? -obj.height() : ref.offsetHeight)) });
+      obj.css({ left:pos.left, top:(pos.top + (showAbove ? -obj.height() : ref.offsetHeight)) });
     }
 
     obj[show?'show':'hide']();
