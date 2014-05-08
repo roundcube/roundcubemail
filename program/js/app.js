@@ -6762,7 +6762,7 @@ function rcube_webmail()
       // hide selector on click out of selector element
       var fn = function(e) { if (e.target != container.get(0)) container.hide(); };
       $(document.body).on('mouseup', fn);
-      $('iframe').contents().on('mouseup', fn)
+      $('iframe :not([sandbox]').contents().on('mouseup', fn)
         .load(function(e) { try { $(this).contents().on('mouseup', fn); } catch(e) {}; });
 
       this.folder_selector_element = container;
