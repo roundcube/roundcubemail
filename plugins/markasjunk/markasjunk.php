@@ -19,6 +19,7 @@ class markasjunk extends rcube_plugin
     $rcmail = rcmail::get_instance();
 
     $this->register_action('plugin.markasjunk', array($this, 'request_action'));
+    $this->register_action('plugin.markasnotjunk', array($this, 'request_action_notjunk'));
     $this->add_hook('storage_init', array($this, 'storage_init'));
 
     if ($rcmail->action == '' || $rcmail->action == 'show') {
@@ -72,4 +73,22 @@ class markasjunk extends rcube_plugin
     $rcmail->output->send();
   }
 
+  function request_action_notjunk()
+  {
+    $this->add_texts('localization');
+
+    $uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
+    $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+
+    $rcmail  = rcmail::get_instance();
+    $storage = $rcmail->get_storage();
+
+    $storage->unset_flag($uids, 'JUNK');
+    $storage->set_flag($uids, 'NONJUNK');
+
+    $rcmail->output->command('move_messages', 'INBOX');
+
+    $rcmail->output->command('display_message', $this->gettext('reportedasnotjunk'), 'confirmation');
+    $rcmail->output->send();
+  }
 }
