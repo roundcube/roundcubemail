@@ -528,23 +528,19 @@ function rcube_webmail()
     if (this.pending_message)
       this.display_message(this.pending_message[0], this.pending_message[1], this.pending_message[2]);
 
-    // map implicit containers
-    if (this.gui_objects.folderlist) {
-      this.gui_containers.foldertray = $(this.gui_objects.folderlist);
-
-      // init treelist widget
-      if (window.rcube_treelist_widget) {
-        this.treelist = new rcube_treelist_widget(this.gui_objects.folderlist, {
+    // init treelist widget
+    if (this.gui_objects.folderlist && window.rcube_treelist_widget) {
+      this.treelist = new rcube_treelist_widget(this.gui_objects.folderlist, {
           id_prefix: 'rcmli',
           id_encode: this.html_identifier_encode,
           id_decode: this.html_identifier_decode,
           check_droptarget: function(node) { return !node.virtual && ref.check_droptarget(node.id) }
-        });
-        this.treelist
-          .addEventListener('collapse', function(node) { ref.folder_collapsed(node) })
-          .addEventListener('expand', function(node) { ref.folder_collapsed(node) })
-          .addEventListener('select', function(node) { ref.triggerEvent('selectfolder', { folder:node.id, prefix:'rcmli' }) });
-      }
+      });
+
+      this.treelist
+        .addEventListener('collapse', function(node) { ref.folder_collapsed(node) })
+        .addEventListener('expand', function(node) { ref.folder_collapsed(node) })
+        .addEventListener('select', function(node) { ref.triggerEvent('selectfolder', { folder:node.id, prefix:'rcmli' }) });
     }
 
     // activate html5 file drop feature (if browser supports it and if configured)
