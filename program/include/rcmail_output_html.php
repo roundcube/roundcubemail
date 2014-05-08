@@ -1232,7 +1232,7 @@ EOF;
 
         // generate html code for button
         if ($btn_content) {
-            $attrib_str = html::attrib_string($attrib, array_merge($link_attrib, array('data-*')));
+            $attrib_str = html::attrib_string($attrib, $link_attrib);
             $out = sprintf('<a%s>%s</a>', $attrib_str, $btn_content);
         }
 
