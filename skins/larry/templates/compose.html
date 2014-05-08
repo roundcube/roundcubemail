@@ -27,7 +27,7 @@
 	<roundcube:if condition="config:enable_spellcheck" />
 	<span class="dropbutton">
 		<roundcube:button command="spellcheck" type="link" class="button spellcheck disabled" classAct="button spellcheck" classSel="button spellcheck pressed" label="spellcheck" title="checkspelling" tabindex="2" />
-		<a href="#languages" class="dropbuttontip" id="spellmenulink" onclick="UI.toggle_popup('spellmenu',event);return false" aria-haspopup="true" tabindex="2"></a>
+		<a href="#languages" class="dropbuttontip" id="spellmenulink" onclick="UI.toggle_popup('spellmenu',event);return false" aria-haspopup="true" tabindex="2">Select Spell Language</a>
 	</span>
 	<roundcube:endif />
 	<roundcube:button name="addattachment" type="link" class="button attach" label="attach" title="addattachment" onclick="UI.show_uploadform(event);return false" aria-haspopup="true" tabindex="2" />
@@ -77,7 +77,7 @@
 <div id="composeheaders" role="region" aria-labelledby="aria-label-composeheaders">
 <h2 id="aria-label-composeheaders" class="voice">Message headers</h2>
 
-<a href="#options" id="composeoptionstoggle" class="moreheaderstoggle"><span class="iconlink" title="<roundcube:label name='options' />"></span></a>
+<a href="#options" id="composeoptionstoggle" class="moreheaderstoggle" title="<roundcube:label name='options' />"><span class="iconlink"></span></a>
 
 <table class="headers-table compose-headers">
 <tbody>
@@ -167,6 +167,7 @@
 <!-- message compose body -->
 <div id="composeview-bottom">
 	<div id="composebodycontainer">
+		<label for="composebody" class="voice">Message Body</label>
 		<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" tabindex="1" />
 	</div>
 	<div id="compose-attachments" class="rightcol" role="region">

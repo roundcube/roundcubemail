@@ -46,6 +46,7 @@ function rcube_webmail()
   this.messages = {};
   this.group2expand = {};
   this.http_request_jobs = {};
+  this.menu_stack = new Array();
 
   // webmail client settings
   this.dblclick_time = 500;
@@ -235,7 +236,6 @@ function rcube_webmail()
             return ref.command('sort', $(this).attr('rel'), this);
           });
 
-          document.onmouseup = function(e){ return ref.doc_mouse_up(e); };
           this.gui_objects.messagelist.parentNode.onclick = function(e){ return ref.click_on_list(e || window.event); };
 
           this.enable_command('toggle_status', 'toggle_flag', 'sort', true);
@@ -279,7 +279,7 @@ function rcube_webmail()
           this.env.address_group_stack = [];
           this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel',
             'toggle-editor', 'list-adresses', 'pushgroup', 'search', 'reset-search', 'extwin',
-            'insert-response', 'save-response'];
+            'insert-response', 'save-response', 'menu-open', 'menu-close'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
@@ -313,8 +313,6 @@ function rcube_webmail()
               $('#'+this.buttons['save-response'][i].id).mousedown(function(e){ return rcube_event.cancel(e); })
             }
           }
-
-          document.onmouseup = function(e){ return ref.doc_mouse_up(e); };
 
           // init message compose form
           this.init_messageform();
@@ -395,7 +393,6 @@ function rcube_webmail()
             this.contact_list.highlight_row(this.env.cid);
 
           this.gui_objects.contactslist.parentNode.onmousedown = function(e){ return ref.click_on_list(e); };
-          document.onmouseup = function(e){ return ref.doc_mouse_up(e); };
 
           $(this.gui_objects.qsearchbox).focusin(function() { ref.contact_list.blur(); });
 
@@ -561,6 +558,18 @@ function rcube_webmail()
         .get(0).addEventListener('drop', function(e){ return ref.file_dropped(e); }, false);
     }
 
+    // catch document (and iframe) mouse clicks
+    var body_mouseup = function(e){ return ref.doc_mouse_up(e); };
+    $(document.body)
+      .bind('mouseup', body_mouseup)
+      .bind('keydown', function(e){ return ref.doc_keypress(e); });
+
+    $('iframe').load(function(e) {
+        try { $(this.contentDocument || this.contentWindow).on('mouseup', body_mouseup);  }
+        catch (e) {/* catch possible "Permission denied" error in IE */ }
+      })
+      .contents().on('mouseup', body_mouseup);
+
     // trigger init event hook
     this.triggerEvent('init', { task:this.task, action:this.env.action });
 
@@ -636,8 +645,8 @@ function rcube_webmail()
     }
 
     // trigger plugin hooks
-    this.triggerEvent('actionbefore', {props:props, action:command});
-    ret = this.triggerEvent('before'+command, props);
+    this.triggerEvent('actionbefore', {props:props, action:command, originalEvent:event});
+    ret = this.triggerEvent('before'+command, props || event);
     if (ret !== undefined) {
       // abort if one of the handlers returned false
       if (ret === false)
@@ -712,9 +721,14 @@ function rcube_webmail()
           var mimetype = this.env.attachments[props.id];
           this.enable_command('open-attachment', mimetype && this.env.mimetypes && $.inArray(mimetype, this.env.mimetypes) >= 0);
         }
+        this.show_menu(props, props.show || undefined, event);
+        break;
+
+      case 'menu-close':
+        this.hide_menu(props, event);
+        break;
 
       case 'menu-save':
-      case 'menu-close':
         this.triggerEvent(command, {props:props, originalEvent:event});
         return false;
 
@@ -900,14 +914,14 @@ function rcube_webmail()
       case 'move':
       case 'moveto': // deprecated
         if (this.task == 'mail')
-          this.move_messages(props, obj);
+          this.move_messages(props, event);
         else if (this.task == 'addressbook')
           this.move_contacts(props);
         break;
 
       case 'copy':
         if (this.task == 'mail')
-          this.copy_messages(props, obj);
+          this.copy_messages(props, event);
         else if (this.task == 'addressbook')
           this.copy_contacts(props);
         break;
@@ -1469,7 +1483,8 @@ function rcube_webmail()
     if (menu && modkey == SHIFT_KEY && this.commands['copy']) {
       var pos = rcube_event.get_mouse_pos(e);
       this.env.drag_target = target;
-      $(menu).css({top: (pos.y-10)+'px', left: (pos.x-10)+'px'}).show();
+      this.show_menu(this.gui_objects.dragmenu.id, true, e);
+      $(menu).css({top: (pos.y-10)+'px', left: (pos.x-10)+'px'});
       return true;
     }
 
@@ -1585,12 +1600,13 @@ function rcube_webmail()
     }
   };
 
+  // global mouse-click handler to cleanup some UI elements
   this.doc_mouse_up = function(e)
   {
-    var list, id;
+    var list, id, target = rcube_event.get_target(e);
 
     // ignore event if jquery UI dialog is open
-    if ($(rcube_event.get_target(e)).closest('.ui-dialog, .ui-widget-overlay').length)
+    if ($(target).closest('.ui-dialog, .ui-widget-overlay').length)
       return;
 
     list = this.message_list || this.contact_list;
@@ -1604,7 +1620,73 @@ function rcube_webmail()
           this.button_out(this.buttons_sel[id], id);
       this.buttons_sel = {};
     }
+
+    // reset popup menus; delayed to have updated menu_stack data
+    window.setTimeout(function(e){
+      var obj, skip, config, id, i;
+      for (i = ref.menu_stack.length - 1; i >= 0; i--) {
+        id = ref.menu_stack[i];
+        obj = $('#' + id);
+
+        if (obj.is(':visible')
+          && target != obj.data('opener')
+          && target != obj.get(0)  // check if scroll bar was clicked (#1489832)
+          && id != skip
+          && (obj.attr('data-editable') != 'true' || !$(target).parents('#' + id).length)
+          && (obj.attr('data-sticky') != 'true' || !rcube_mouse_is_over(e, obj.get(0)))
+        ) {
+          ref.hide_menu(id, e);
+        }
+        skip = obj.data('parent');
+      }
+    }, 10);
   };
+
+  // global keypress event handler
+  this.doc_keypress = function(e)
+  {
+    // Helper method to move focus to the next/prev active menu item
+    var focus_menu_item = function(dir) {
+      var obj, mod = dir < 0 ? 'prevAll' : 'nextAll', limit = dir < 0 ? 'last' : 'first';
+      if (ref.focused_menu && (obj = $('#'+ref.focused_menu))) {
+        return obj.find(':focus').closest('li')[mod](':has(:not([aria-disabled=true]))').find('a,input')[limit]().focus().length;
+      }
+
+      return 0;
+    };
+
+    var target = e.target || {},
+      keyCode = rcube_event.get_keycode(e);
+
+    if (e.keyCode != 27 && (!this.menu_keyboard_active || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')) {
+      return true;
+    }
+
+    switch (keyCode) {
+      case 38:
+      case 40:
+      case 63232: // "up", in safari keypress
+      case 63233: // "down", in safari keypress
+        focus_menu_item(mod = keyCode == 38 || keyCode == 63232 ? -1 : 1);
+        break;
+
+      case 9:   // tab
+        if (this.focused_menu) {
+          var mod = rcube_event.get_modifier(e);
+          if (!focus_menu_item(mod == SHIFT_KEY ? -1 : 1)) {
+            this.hide_menu(this.focused_menu, e);
+          }
+        }
+        return rcube_event.cancel(e);
+
+      case 27:  // esc
+        if (this.menu_stack.length)
+          this.hide_menu(this.menu_stack[this.menu_stack.length-1], e);
+        break;
+    }
+
+    return true;
+  }
 
   this.click_on_list = function(e)
   {
@@ -2707,12 +2789,12 @@ function rcube_webmail()
   };
 
   // copy selected messages to the specified mailbox
-  this.copy_messages = function(mbox, obj)
+  this.copy_messages = function(mbox, event)
   {
     if (mbox && typeof mbox === 'object')
       mbox = mbox.id;
     else if (!mbox)
-      return this.folder_selector(obj, function(folder) { ref.command('copy', folder); });
+      return this.folder_selector(event, function(folder) { ref.command('copy', folder); });
 
     // exit if current or no mailbox specified
     if (!mbox || mbox == this.env.mailbox)
@@ -2729,12 +2811,12 @@ function rcube_webmail()
   };
 
   // move selected messages to the specified mailbox
-  this.move_messages = function(mbox, obj)
+  this.move_messages = function(mbox, event)
   {
     if (mbox && typeof mbox === 'object')
       mbox = mbox.id;
     else if (!mbox)
-      return this.folder_selector(obj, function(folder) { ref.command('move', folder); });
+      return this.folder_selector(event, function(folder) { ref.command('move', folder); });
 
     // exit if current or no mailbox specified
     if (!mbox || (mbox == this.env.mailbox && !this.is_multifolder_listing()))
@@ -3938,7 +4020,7 @@ function rcube_webmail()
 
       // cleanup
       rx = new RegExp(rx_delim + '\\s*' + rx_delim, 'g');
-      input_val = input_val.replace(rx, delim);
+      input_val = String(input_val).replace(rx, delim);
       rx = new RegExp('^[\\s' + rx_delim + ']+');
       input_val = input_val.replace(rx, '');
 
@@ -6736,17 +6818,15 @@ function rcube_webmail()
   };
 
   // create folder selector popup, position and display it
-  this.folder_selector = function(obj, callback)
+  this.folder_selector = function(event, callback)
   {
     var container = this.folder_selector_element;
 
     if (!container) {
       var rows = [],
         delim = this.env.delimiter,
-        ul = $('<ul class="toolbarmenu iconized">'),
-        li = document.createElement('li'),
-        link = document.createElement('a'),
-        span = document.createElement('span');
+        ul = $('<ul class="toolbarmenu">'),
+        link = document.createElement('a');
 
       container = $('<div id="folder-selector" class="popupmenu"></div>');
       link.href = '#';
@@ -6754,33 +6834,30 @@ function rcube_webmail()
 
       // loop over sorted folders list
       $.each(this.env.mailboxes_list, function() {
-        var tmp, n = 0, s = 0,
+        var n = 0, s = 0,
           folder = ref.env.mailboxes[this],
           id = folder.id,
-          a = link.cloneNode(false), row = li.cloneNode(false);
+          a = $(link.cloneNode(false)),
+          row = $('<li>');
 
         if (folder.virtual)
-          a.className += ' virtual';
-        else {
-          a.className += ' active';
-          a.onclick = function() { container.hide().data('callback')(folder.id); };
-        }
+          a.addClass('virtual').attr('aria-disabled', 'true').attr('tabindex', '-1');
+        else
+          a.addClass('active').data('id', folder.id);
 
         if (folder['class'])
-          a.className += ' ' + folder['class'];
+          a.addClass(folder['class']);
 
         // calculate/set indentation level
         while ((s = id.indexOf(delim, s)) >= 0) {
           n++; s++;
         }
-        a.style.paddingLeft =  n ? (n * 16) + 'px' : 0;
+        a.css('padding-left', n ? (n * 16) + 'px' : 0);
 
         // add folder name element
-        tmp = span.cloneNode(false);
-        $(tmp).text(folder.name);
-        a.appendChild(tmp);
+        a.append($('<span>').text(folder.name));
 
-        row.appendChild(a);
+        row.append(a);
         rows.push(row);
       });
 
@@ -6792,22 +6869,156 @@ function rcube_webmail()
 
       // set max-height if the list is long
       if (rows.length > 10)
-        container.css('max-height', $('li', container)[0].offsetHeight * 10 + 9)
+        container.css('max-height', $('li', container)[0].offsetHeight * 10 + 9);
 
+      // register delegate event handler for folder item clicks
+      container.on('click', 'a.active', function(e){
+        container.data('callback')($(this).data('id'));
+        return false;
+      });
+/*
       // hide selector on click out of selector element
       var fn = function(e) { if (e.target != container.get(0)) container.hide(); };
       $(document.body).on('mouseup', fn);
       $('iframe').contents().on('mouseup', fn)
         .load(function(e) { try { $(this).contents().on('mouseup', fn); } catch(e) {}; });
-
+*/
       this.folder_selector_element = container;
     }
 
-    // position menu on the screen
-    this.element_position(container, obj);
+    container.data('callback', callback);
 
-    container.show().data('callback', callback);
+    // position menu on the screen
+    this.show_menu('folder-selector', true, event);
   };
+
+
+  /***********************************************/
+  /*********    popup menu functions     *********/
+  /***********************************************/
+
+  // Show/hide a specific popup menu
+  this.show_menu = function(prop, show, event)
+  {
+    var name = typeof prop == 'object' ? prop.menu : prop,
+      obj = $('#'+name),
+      ref = event && event.target ? $(event.target) : $(obj.attr('rel') || '#'+name+'link'),
+      keyboard = rcube_event.is_keyboard(event),
+      align = obj.attr('data-align') || '',
+      stack = false;
+
+    if (typeof prop == 'string')
+      prop = { menu:name };
+
+    // let plugins or skins provide the menu element
+    if (!obj.length) {
+      obj = this.triggerEvent('menu-get', { name:name, props:prop, originalEvent:event });
+    }
+
+    if (!obj || !obj.length) {
+      // just delegate the action to subscribers
+      return this.triggerEvent(show === false ? 'menu-close' : 'menu-open', { name:name, props:prop, originalEvent:event });
+    }
+
+    // move element to top for proper absolute positioning
+    obj.appendTo(document.body);
+
+    if (typeof show == 'undefined')
+      show = obj.is(':visible') ? false : true;
+
+    if (show && ref.length) {
+      var win = $(window),
+        pos = ref.offset(),
+        above = align.indexOf('bottom') >= 0;
+
+      stack = ref.attr('role') == 'menuitem' || ref.closest('[role=menuitem]').length > 0;
+
+      ref.offsetWidth = ref.outerWidth();
+      ref.offsetHeight = ref.outerHeight();
+      if (!above && pos.top + ref.offsetHeight + obj.height() > win.height()) {
+        above = true;
+      }
+      if (align.indexOf('right') >= 0) {
+        pos.left = pos.left + ref.outerWidth() - obj.width();
+      }
+      else if (stack) {
+        pos.left = pos.left + ref.offsetWidth - 5;
+        pos.top -= ref.offsetHeight;
+      }
+      if (pos.left + obj.width() > win.width()) {
+        pos.left = win.width() - obj.width() - 12;
+      }
+      pos.top = Math.max(0, pos.top + (above ? -obj.height() : ref.offsetHeight));
+      obj.css({ left:pos.left+'px', top:pos.top+'px' });
+    }
+
+    // add menu to stack
+    if (show) {
+      // truncate stack down to the one containing the ref link
+      for (var i = this.menu_stack.length - 1; stack && i >= 0; i--) {
+        if (!$(ref).parents('#'+this.menu_stack[i]).length)
+          this.hide_menu(this.menu_stack[i]);
+      }
+      if (stack && this.menu_stack.length) {
+        obj.data('parent', this.menu_stack.last());
+        obj.css('z-index', ($('#'+this.menu_stack.last()).css('z-index') || 0) + 1);
+      }
+      else if (!stack && this.menu_stack.length) {
+        this.hide_menu(this.menu_stack[0], event);
+      }
+
+      obj.show().attr('aria-hidden', 'false').data('opener', ref.get(0));
+      this.triggerEvent('menu-open', { name:name, obj:obj, props:prop, originalEvent:event });
+      this.menu_stack.push(name);
+
+      this.menu_keyboard_active = show && keyboard;
+      if (this.menu_keyboard_active) {
+        this.focused_menu = name;
+        obj.find('a,input:not(:disabled)').not('[aria-disabled=true]').first().focus();
+      }
+    }
+    else {  // close menu
+      this.hide_menu(name, event);
+    }
+
+    return show;
+  };
+
+  // hide the given popup menu (and it's childs)
+  this.hide_menu = function(name, event)
+  {
+    if (!this.menu_stack.length) {
+      // delegate to subscribers
+      this.triggerEvent('menu-close', { name:name, props:{ menu:name }, originalEvent:event });
+      return;
+    }
+
+    var obj, keyboard = rcube_event.is_keyboard(event);
+    for (var j=this.menu_stack.length-1; j >= 0; j--) {
+      obj = $('#' + this.menu_stack[j]).hide().attr('aria-hidden', 'true').data('parent', false);
+      this.triggerEvent('menu-close', { name:this.menu_stack[j], obj:obj, props:{ menu:this.menu_stack[j] }, originalEvent:event });
+      if (this.menu_stack[j] == name) {
+        j = -1;  // stop loop
+        if (keyboard && obj.data('opener')) {
+          obj.data('opener').focus();
+        }
+      }
+      this.menu_stack.pop();
+    }
+
+    // focus previous menu in stack
+    if (this.menu_stack.length && keyboard) {
+      this.menu_keyboard_active = true;
+      this.focused_menu = this.menu_stack.last();
+      if (!obj || !obj.data('opener'))
+        $('#'+this.focused_menu).find('a,input:not(:disabled)').not('[aria-disabled=true]').first().focus();
+    }
+    else {
+      this.focused_menu = null;
+      this.menu_keyboard_active = false;
+    }
+  }
+
 
   // position a menu element on the screen in relation to other object
   this.element_position = function(element, obj)

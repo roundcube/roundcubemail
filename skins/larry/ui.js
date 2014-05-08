@@ -20,21 +20,16 @@ function rcube_mail_ui()
     searchmenu:         { editable:1, callback:searchmenu },
     attachmentmenu:     { },
     listoptions:        { editable:1 },
-    dragmenu:           { sticky:1 },
     groupmenu:          { above:1 },
     mailboxmenu:        { above:1 },
     spellmenu:          { callback: spellmenu },
-    // toggle: #1486823, #1486930
-    'attachment-form':  { editable:1, above:1, toggle:!bw.ie&&!bw.linux },
-    'upload-form':      { editable:1, toggle:!bw.ie&&!bw.linux }
+    'folder-selector':  { iconized:1 }
   };
 
   var me = this;
   var mailviewsplit;
   var compose_headers = {};
   var prefs;
-  var focused_popup;
-  var popup_keyboard_active = false;
 
   // export public methods
   this.set = setenv;
@@ -358,53 +353,9 @@ function rcube_mail_ui()
       screen.css('min-width', $('.toolbar').width() + $('#quicksearchbar').width() + $('#searchfilter').width() + 30);
     }
 
-    $(document.body)
-      .bind('mouseup', body_mouseup)
-      .bind('keydown', popup_keypress);
-
-    $('iframe').load(function(e){
-      // this = iframe
-      try {
-        var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-        $(doc).mouseup(body_mouseup);
-      }
-      catch (e) {
-        // catch possible "Permission denied" error in IE
-      };
-    })
-    .contents().mouseup(body_mouseup);
-
     // don't use $(window).resize() due to some unwanted side-effects
     window.onresize = resize;
     resize();
-  }
-
-  /**
-   * Handler for mouse-up events on the document body.
-   * This will close all open popup menus
-   */
-  function body_mouseup(e)
-  {
-    var config, obj, target = e.target;
-
-    if (target.className == 'inner')
-        target = e.target.parentNode;
-
-    for (var id in popups) {
-      obj = popups[id];
-      config = popupconfig[id];
-      if (obj.is(':visible')
-        && target.id != id+'link'
-        && target != obj.get(0)  // check if scroll bar was clicked (#1489832)
-        && !config.toggle
-        && (!config.editable || !target_overlaps(target, obj.get(0)))
-        && (!config.sticky || !rcube_mouse_is_over(e, obj.get(0)))
-        && !$(target).is('.folder-selector-link')
-      ) {
-        var myid = id+'';
-        window.setTimeout(function() { show_popupmenu(myid, false); }, 10);
-      }
-    }
   }
 
   /**
@@ -600,145 +551,33 @@ function rcube_mail_ui()
    */
   function toggle_popup(popup, e, config)
   {
-    show_popup(popup, undefined, config, rcube_event.is_keyboard(e));
+    // auto-register menu object
+    if (config || !popupconfig[popup])
+      add_popup(popup, config);
+
+    return rcmail.command('menu-open', popup, e.target, e);
   }
 
   /**
    * (Deprecated) trigger for popup menus
    */
-  function show_popup(popup, show, config, keyboard)
+  function show_popup(popup, show, config)
   {
     // auto-register menu object
     if (config || !popupconfig[popup])
       add_popup(popup, config);
 
-    var visible = show_popupmenu(popup, show, keyboard),
-      config = popupconfig[popup];
-    if (typeof config.callback == 'function')
-      config.callback(visible);
-  }
-
-  /**
-   * Show/hide a specific popup menu
-   */
-  function show_popupmenu(popup, show, keyboard)
-  {
-    var obj = popups[popup],
-      config = popupconfig[popup],
-      ref = $(config.link ? config.link : '#'+popup+'link'),
-      above = config.above;
-
-    if (!obj) {
-      obj = popups[popup] = $('#'+popup);
-      obj.appendTo(document.body);  // move them to top for proper absolute positioning
-    }
-
-    if (!obj || !obj.length)
-      return false;
-
-    if (typeof show == 'undefined')
-      show = obj.is(':visible') ? false : true;
-    else if (config.toggle && show && obj.is(':visible'))
-      show = false;
-
-    if (show && ref.length) {
-      var parent = ref.parent(),
-        win = $(window),
-        pos;
-
-      if (parent.hasClass('dropbutton'))
-        ref = parent;
-
+    config = popupconfig[popup] || {};
+    var ref = $(config.link ? config.link : '#'+popup+'link'),
       pos = ref.offset();
-      ref.offsetHeight = ref.outerHeight();
-      if (!above && pos.top + ref.offsetHeight + obj.height() > win.height())
-        above = true;
-      if (pos.left + obj.width() > win.width())
-        pos.left = win.width() - obj.width() - 12;
+    if (ref.has('.inner'))
+      ref = ref.children('.inner');
 
-      obj.css({ left:pos.left, top:(pos.top + (above ? -obj.height() : ref.offsetHeight)) });
-    }
-    else if (!show && keyboard && ref.length) {
-      ref.focus();
-    }
-
-    obj[show?'show':'hide']().attr('aria-hidden', show?'false':'true');
-
-    popup_keyboard_active = show && keyboard;
-    if (popup_keyboard_active) {
-      focused_popup = popup;
-      obj.find('a,input:not(:disabled)').not('[aria-disabled=true]').first().focus();
-    }
-    else {
-      focused_popup = null;
-    }
-
-    return show;
-  }
-
-  /** 
-   * Handler for keyboard events on active popups
-   */
-  function popup_keypress(e)
-  {
-    var target = e.target || {},
-      keyCode = rcube_event.get_keycode(e);
-
-    if (e.keyCode != 27 && (!popup_keyboard_active || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT'))
-      return true;
-
-    switch (keyCode) {
-      case 38:
-      case 40:
-      case 63232: // "up", in safari keypress
-      case 63233: // "down", in safari keypress
-        popup_focus_item(mod = keyCode == 38 || keyCode == 63232 ? -1 : 1);
-        break;
-
-      case 9:   // tab
-        if (focused_popup) {
-          var mod = rcube_event.get_modifier(e);
-          if (!popup_focus_item(mod == SHIFT_KEY ? -1 : 1)) {
-            show_popup(focused_popup, false, undefined, true);
-          }
-        }
-        return rcube_event.cancel(e);
-
-      case 27:  // esc
-        for (var id in popups) {
-          if (popups[id].is(':visible'))
-            show_popup(id, false, undefined, true);
-        }
-        break;
-    }
-
-    return true;
-  }
-
-  /**
-   * Helper method to move focus to the next/prev popup menu item
-   */
-  function popup_focus_item(dir)
-  {
-    var obj, mod = dir < 0 ? 'prevAll' : 'nextAll', limit = dir < 0 ? 'last' : 'first';
-    if (focused_popup && (obj = popups[focused_popup])) {
-      return obj.find(':focus').closest('li')[mod](':has(:not([aria-disabled=true]))').find('a,input')[limit]().focus().length;
-    }
-
-    return 0;
-  }
-
-  /**
-   *
-   */
-  function target_overlaps(target, elem)
-  {
-    while (target.parentNode) {
-      if (target.parentNode == elem)
-        return true;
-      target = target.parentNode;
-    }
-    return false;
+    // fire command with simulated mouse click event
+    return rcmail.command('menu-open',
+      { menu:popup, show:show },
+      ref.get(0),
+      $.Event('click', { target:ref.get(0), pageX:pos.left, pageY:pos.top, clientX:pos.left, clientY:pos.top }));
   }
 
 
@@ -824,14 +663,51 @@ function rcube_mail_ui()
   }
 
 
-  /**** popup callbacks ****/
+  /**** popup menu callbacks ****/
 
+  /**
+   * Handler for menu-open and menu-close events
+   */
   function menu_toggle(p)
   {
-    if (p && p.props && p.props.menu == 'attachmentmenu')
-      show_popupmenu('attachmentmenu', undefined, rcube_event.is_keyboard(p.originalEvent));
-    else
+    if (p && p.name == 'messagelistmenu') {
       show_listoptions(p);
+    }
+    else if (p) {
+      // adjust menu position according to config
+      var config = popupconfig[p.name] || {},
+        ref = $(config.link || '#'+p.name+'link'),
+        visible = p.obj && p.obj.is(':visible'),
+        above = config.above;
+
+      // fix position according to config
+      if (p.obj && visible && ref.length) {
+        var parent = ref.parent(),
+          win = $(window), pos;
+
+        if (parent.hasClass('dropbutton'))
+          ref = parent;
+
+        if (config.above || ref.hasClass('dropbutton')) {
+          pos = ref.offset();
+          p.obj.css({ left:pos.left+'px', top:(pos.top + (config.above ? -p.obj.height() : ref.outerHeight()))+'px' });
+        }
+      }
+
+      // add the right classes
+      if (p.obj && config.iconized) {
+        p.obj.children('ul').addClass('iconized');
+      }
+
+      // apply some data-attributes from menu config
+      if (p.obj && config.editable)
+        p.obj.attr('data-editable', 'true');
+
+      // trigger callback function
+      if (typeof config.callback == 'function') {
+        config.callback(visible, p);
+      }
+    }
   }
 
   function searchmenu(show)
@@ -884,12 +760,11 @@ function rcube_mail_ui()
     rcmail.command('menu-open', {menu: 'attachmentmenu', id: id}, elem, event);
   }
 
-  function spellmenu(show)
+  function spellmenu(show, p)
   {
     var k, link, li,
       lang = rcmail.spellcheck_lang(),
-      menu = popups.spellmenu,
-      ul = $('ul', menu);
+      ul = $('ul', p.obj);
 
     if (!ul.length) {
       ul = $('<ul class="toolbarmenu selectable" role="menu">');
@@ -901,7 +776,7 @@ function rcube_mail_ui()
           .bind('click keypress', function(e) {
               if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
                   rcmail.spellcheck_lang_set($(this).data('lang'));
-                  show_popupmenu('spellmenu', false, rcube_event.is_keyboard(e))
+                  rcmail.hide_menu('spellmenu', e);
                   return false;
               }
           });
@@ -910,7 +785,7 @@ function rcube_mail_ui()
         li.appendTo(ul);
       }
 
-      ul.appendTo(menu);
+      ul.appendTo(p.obj);
     }
 
     // select current language

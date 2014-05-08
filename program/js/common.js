@@ -297,7 +297,6 @@ is_keyboard: function(e)
  */
 keyboard_only: function(e)
 {
-  console.log(e);
   return rcube_event.is_keyboard(e) ? true : rcube_event.cancel(e);
 },
 
@@ -605,6 +604,11 @@ if (!String.prototype.startsWith) {
     position = position || 0;
     return this.slice(position, search.length) === search;
   };
+}
+
+// array utility function
+Array.prototype.last = function() {
+  return this[this.length-1];
 }
 
 // jQuery plugin to emulate HTML5 placeholder attributes on input elements

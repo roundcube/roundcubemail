@@ -39,10 +39,10 @@
 <h2 id="aria-label-searchform" class="voice">Email message search form</h2>
 <label for="quicksearchbox" class="voice">Email search input</label>
 <roundcube:object name="searchform" id="quicksearchbox" />
-<roundcube:button name="searchmenulink" id="searchmenulink" class="iconbutton searchoptions" onclick="UI.toggle_popup('searchmenu',event);return false" title="searchmod" label="options" aria-haspopup="true" aria-owns="searchmenu-menu" />
+<roundcube:button command="menu-open" prop="searchmenu" id="searchmenulink" class="iconbutton searchoptions" title="searchmod" label="options" aria-haspopup="true" aria-owns="searchmenu-menu" />
 <roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content="Reset" />
 
-<div id="searchmenu" class="popupmenu">
+<div id="searchmenu" class="popupmenu" data-editable="true">
 	<h3 id="aria-label-searchmenu" class="voice"><roundcube:label name="searchmod" /></h3>
 	<ul class="toolbarmenu" id="searchmenu-menu" role="menu" aria-labelledby="aria-label-searchmenu">
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="subject" id="s_mod_subject" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="subject" /></span></label></li>
@@ -237,7 +237,7 @@
 	<br style="clear:both" />
 	<div class="formbuttons">
 		<roundcube:button command="menu-save" id="listmenusave" type="input" class="button mainaction" label="save" />
-		<roundcube:button command="menu-close" id="listmenucancel" type="input" class="button" label="cancel" />
+		<roundcube:button command="menu-close" prop="messagelistmenu" id="listmenucancel" type="input" class="button" label="cancel" />
 	</div>
 </div>
 
