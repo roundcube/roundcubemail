@@ -115,7 +115,7 @@ init: function()
       // this helps to maintain the natural tab order when moving focus with keyboard
       this.focus_elem = $('<a>')
         .attr('tabindex', '0')
-        .attr('style', 'display:block; width:1px; height:1px; line-height:1px; overflow:hidden; position:absolute; top:-1000px')
+        .attr('style', 'display:block; width:1px; height:1px; line-height:1px; overflow:hidden; position:fixed; top:-1000px')
         .html('Select List')
         .insertAfter(this.list)
         .on('focus', function(e){ me.focus(e); })
@@ -186,9 +186,9 @@ init_header: function()
 
     if (this.fixed_header) {  // copy (modified) fixed header back to the actual table
       $(this.list.tHead).replaceWith($(this.fixed_header).find('thead').clone());
-      $(this.list.tHead).find('tr td').attr('style', '').find('a.sortcol').attr('tabindex', '-1');  // remove fixed widths
+      $(this.list.tHead).find('tr td').attr('style', '').find('a').attr('tabindex', '-1');  // remove fixed widths
     }
-    else if (!bw.touch && this.list.className.indexOf('fixedheader') >= 0 && 0) {
+    else if (!bw.touch && this.list.className.indexOf('fixedheader') >= 0) {
       this.init_fixed_header();
     }
 
@@ -408,7 +408,7 @@ focus: function(e)
   // Un-focus already focused elements (#1487123, #1487316, #1488600, #1488620)
   if (this.focus_elem) {
     // We now fix this by explicitly assigning focus to a dedicated link element
-    this.focus_elem.focus();
+    this.focus_noscroll(this.focus_elem);
   }
   else {
     // It looks that window.focus() does the job for all browsers, but not Firefox (#1489058)
@@ -439,6 +439,16 @@ blur: function(e)
   }
   
   $(this.list).removeClass('focus');
+},
+
+/**
+ * Focus the given element without scrolling the list container
+ */
+focus_noscroll: function(elem)
+{
+  var y = this.frame.scrollTop || this.frame.scrollY;
+  elem.focus();
+  this.frame.scrollTop = y;
 },
 
 
