@@ -298,10 +298,10 @@ a.iconbutton.threadmode.selected {
 
 #mailboxlist li.mailbox ul li a {
 	padding-left: 52px;  /* 36 + 1 x 16 */
-	background-position: 22px -93px;  /* 6 + 1 x 16 */
+	background-position: 22px -95px;  /* 6 + 1 x 16 */
 }
 #mailboxlist li.mailbox ul li.selected > a {
-	background-position: 22px -117px;
+	background-position: 22px -119px;
 }
 #mailboxlist li.mailbox ul li div.treetoggle {
 	left: 33px;
@@ -310,10 +310,10 @@ a.iconbutton.threadmode.selected {
 
 #mailboxlist li.mailbox ul ul li.mailbox a {
 	padding-left: 68px;  /* 2x */
-	background-position: 38px -93px;
+	background-position: 38px -95px;
 }
 #mailboxlist li.mailbox ul ul li.selected > a {
-	background-position: 38px -117px;
+	background-position: 38px -119px;
 }
 #mailboxlist li.mailbox ul ul li div.treetoggle {
 	left: 48px;
@@ -321,10 +321,10 @@ a.iconbutton.threadmode.selected {
 
 #mailboxlist li.mailbox ul ul ul li.mailbox a {
 	padding-left: 84px;  /* 3x */
-	background-position: 54px -93px;
+	background-position: 54px -95px;
 }
 #mailboxlist li.mailbox ul ul ul li.selected > a {
-	background-position: 54px -117px;
+	background-position: 54px -119px;
 }
 #mailboxlist li.mailbox ul ul ul li div.treetoggle {
 	left: 64px;
@@ -332,10 +332,10 @@ a.iconbutton.threadmode.selected {
 
 #mailboxlist li.mailbox ul ul ul ul li.mailbox a {
 	padding-left: 100px;  /* 4x */
-	background-position: 70px -93px;
+	background-position: 70px -95px;
 }
 #mailboxlist li.mailbox ul ul ul ul li.selected > a {
-	background-position: 70px -117px;
+	background-position: 70px -119px;
 }
 #mailboxlist li.mailbox ul ul ul ul li div.treetoggle {
 	left: 80px;
@@ -354,6 +354,7 @@ a.iconbutton.threadmode.selected {
 	top: 3px;
 	right: 6px;
 	min-width: 1.8em;
+	line-height: 15px;
 	padding: 2px 4px;
 	background: #82acb5;
 	background: -moz-linear-gradient(top, #82acb5 0%, #6a939f 100%);
