@@ -4244,10 +4244,10 @@ function rcube_webmail()
       url._q = search;
 
       if (!smods && mods && this.message_list)
-        smods = mods[mbox] || mods['*'];
+        mods = mods[mbox] || mods['*'];
 
-      if (smods) {
-        for (n in smods)
+      if (mods) {
+        for (n in mods)
           mods_arr.push(n);
         url._headers = mods_arr.join(',');
       }
@@ -4302,7 +4302,8 @@ function rcube_webmail()
     if (!this.env.search_mods)
       this.env.search_mods = {};
 
-    this.env.search_mods[mbox] = mods;
+    if (mbox)
+      this.env.search_mods[mbox] = mods;
   };
 
   this.is_multifolder_listing = function()
