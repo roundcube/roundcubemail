@@ -3439,17 +3439,23 @@ function rcube_webmail()
   {
     this.stop_spellchecking();
 
-    if (props.mode == 'html') {
-      this.plain2html($('#'+props.id).val(), props.id);
-      tinyMCE.execCommand('mceAddControl', false, props.id);
+    var input = $('#' + props.id);
 
-      if (this.env.default_font)
-        setTimeout(function() {
-          $(tinyMCE.get(props.id).getBody()).css('font-family', rcmail.env.default_font);
-        }, 500);
-    }
-    else if (this.html2plain(tinyMCE.get(props.id).getContent(), props.id))
-      tinyMCE.execCommand('mceRemoveControl', false, props.id);
+    if (props.mode == 'html')
+      this.plain2html(input.val(), function(data) {
+        input.val(data);
+        tinyMCE.execCommand('mceAddControl', false, props.id);
+
+        if (ref.env.default_font)
+          setTimeout(function() {
+            $(tinyMCE.get(props.id).getBody()).css('font-family', ref.env.default_font);
+          }, 500);
+      });
+    else
+      this.html2plain(tinyMCE.get(props.id).getContent(), function(data) {
+        tinyMCE.execCommand('mceRemoveControl', false, props.id);
+        input.val(data);
+      });
 
     return true;
   };
@@ -6809,39 +6815,49 @@ function rcube_webmail()
   /*********  html to text conversion functions   *********/
   /********************************************************/
 
-  this.html2plain = function(htmlText, id)
+  this.html2plain = function(html, func)
+  {
+    return this.format_converter(html, 'html', func);
+  };
+
+  this.plain2html = function(plain, func)
+  {
+    return this.format_converter(plain, 'plain', func);
+  };
+
+  this.format_converter = function(text, format, func)
   {
     // warn the user (if converted content is not empty)
-    if (!htmlText || !(htmlText.replace(/<[^>]+>|&nbsp;|\s/g, '')).length) {
+    if (!text
+      || (format == 'html' && !(text.replace(/<[^>]+>|&nbsp;|\xC2\xA0|\s/g, '')).length)
+      || (format != 'html' && !(text.replace(/\xC2\xA0|\s/g, '')).length)
+    ) {
       // without setTimeout() here, textarea is filled with initial (onload) content
-      setTimeout(function() { $('#'+id).val(''); }, 50);
+      setTimeout(function() { if (func) func(''); }, 50);
       return true;
     }
 
-    if (!confirm(this.get_label('editorwarning')))
+    var confirmed = this.env.editor_warned || confirm(this.get_label('editorwarning'));
+
+    this.env.editor_warned = true;
+
+    if (!confirmed)
       return false;
 
-    var url = '?_task=utils&_action=html2text',
+    var url = '?_task=utils&_action=' + (format == 'html' ? 'html2text' : 'text2html'),
       lock = this.set_busy(true, 'converting');
 
     this.log('HTTP POST: ' + url);
 
-    $.ajax({ type: 'POST', url: url, data: htmlText, contentType: 'application/octet-stream',
+    $.ajax({ type: 'POST', url: url, data: text, contentType: 'application/octet-stream',
       error: function(o, status, err) { ref.http_error(o, status, err, lock); },
-      success: function(data) { ref.set_busy(false, null, lock); $('#'+id).val(data); ref.log(data); }
+      success: function(data) {
+        ref.set_busy(false, null, lock);
+        if (func) func(data);
+      }
     });
 
     return true;
-  };
-
-  this.plain2html = function(plain, id)
-  {
-    var lock = this.set_busy(true, 'converting');
-
-    plain = plain.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    $('#'+id).val(plain ? '<pre>'+plain+'</pre>' : '');
-
-    this.set_busy(false, null, lock);
   };
 
 

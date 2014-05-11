@@ -280,13 +280,23 @@ if ($isHtml) {
 
 if (!$savedraft) {
     if ($isHtml) {
-        // remove signature's div ID
-        $message_body = preg_replace('/\s*id="_rc_sig"/', '', $message_body);
+        $b_style   = 'padding: 0 0.4em; border-left: #1010ff 2px solid; margin: 0';
+        $pre_style = 'margin: 0; padding: 0; font-family: monospace';
 
-        // add inline css for blockquotes
-        $bstyle       = 'padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px';
-        $message_body = preg_replace('/<blockquote>/',
-            '<blockquote type="cite" style="'.$bstyle.'">', $message_body);
+        $message_body = preg_replace(
+            array(
+                // remove signature's div ID
+                '/\s*id="_rc_sig"/',
+                // add inline css for blockquotes and container
+                '/<blockquote>/',
+                '/<div class="pre">/'
+            ),
+            array(
+                '',
+                '<blockquote type="cite" style="'.$b_style.'">',
+                '<div class="pre" style="'.$pre_style.'">'
+            ),
+            $message_body);
     }
 
     // Check spelling before send
@@ -912,7 +922,8 @@ function rcmail_generic_message_footer($isHtml)
         if (!preg_match('/\.(php|ini|conf)$/', $file) && strpos($file, '/etc/') === false) {
             $footer = file_get_contents($file);
             if ($isHtml && !$html_footer) {
-                $footer = '<pre>' . $footer . '</pre>';
+                $t2h    = new rcube_text2html($footer, false);
+                $footer = $t2h->get_html();
             }
             return $footer;
         }

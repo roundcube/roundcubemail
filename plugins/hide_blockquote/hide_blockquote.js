@@ -25,7 +25,7 @@ function hide_blockquote()
   if (limit <= 0)
     return;
 
-  $('pre > blockquote', $('#messagebody')).each(function() {
+  $('div.message-part div.pre > blockquote', $('#messagebody')).each(function() {
     var div, link, q = $(this),
       text = $.trim(q.text()),
       res = text.split(/\n/);

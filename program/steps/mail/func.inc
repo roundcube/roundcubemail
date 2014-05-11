@@ -854,95 +854,28 @@ function rcmail_print_body($part, $p = array())
 
     // plaintext postprocessing
     if ($part->ctype_secondary == 'plain') {
-        if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed') {
-            $body = rcube_mime::unfold_flowed($body);
-        }
-
-        $body = rcmail_plain_body($body);
+        $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed');
     }
 
     // allow post-processing of the message body
     $data = $RCMAIL->plugins->exec_hook('message_part_after',
         array('type' => $part->ctype_secondary, 'body' => $body, 'id' => $part->mime_id) + $data);
 
-    return $data['type'] == 'html' ? $data['body'] : html::tag('pre', array(), $data['body']);
+    return $data['body'];
 }
 
 /**
  * Handle links and citation marks in plain text message
  *
  * @param string  Plain text string
+ * @param boolean Set to True if the source text is in format=flowed
  *
  * @return string Formatted HTML string
  */
-function rcmail_plain_body($body)
+function rcmail_plain_body($body, $flowed = false)
 {
-    global $RCMAIL;
-
-    // make links and email-addresses clickable
-    $attribs  = array('link_attribs' => array('rel' => 'noreferrer', 'target' => '_blank'));
-    $replacer = new rcmail_string_replacer($attribs);
-
-    // search for patterns like links and e-mail addresses and replace with tokens
-    $body = $replacer->replace($body);
-
-    // split body into single lines
-    $body        = preg_split('/\r?\n/', $body);
-    $quote_level = 0;
-    $last        = -1;
-
-    // find/mark quoted lines...
-    for ($n=0, $cnt=count($body); $n < $cnt; $n++) {
-        if ($body[$n][0] == '>' && preg_match('/^(>+ {0,1})+/', $body[$n], $regs)) {
-            $q        = substr_count($regs[0], '>');
-            $body[$n] = substr($body[$n], strlen($regs[0]));
-
-            if ($q > $quote_level) {
-                $body[$n] = $replacer->get_replacement($replacer->add(
-                    str_repeat('<blockquote>', $q - $quote_level))) . $body[$n];
-                $last = $n;
-            }
-            else if ($q < $quote_level) {
-                $body[$n] = $replacer->get_replacement($replacer->add(
-                    str_repeat('</blockquote>', $quote_level - $q))) . $body[$n];
-                $last = $n;
-            }
-        }
-        else {
-            $q = 0;
-            if ($quote_level > 0)
-                $body[$n] = $replacer->get_replacement($replacer->add(
-                    str_repeat('</blockquote>', $quote_level))) . $body[$n];
-        }
-
-        $quote_level = $q;
-    }
-
-    $body = join("\n", $body);
-
-    // quote plain text (don't use rcube::Q() here, to display entities "as is")
-    $table = get_html_translation_table(HTML_SPECIALCHARS);
-    unset($table['?']);
-    $body = strtr($body, $table);
-
-    // colorize signature (up to <sig_max_lines> lines)
-    $len = strlen($body);
-    $sig_max_lines = $RCMAIL->config->get('sig_max_lines', 15);
-
-    while (($sp = strrpos($body, "-- \n", $sp ? -$len+$sp-1 : 0)) !== false) {
-        if ($sp == 0 || $body[$sp-1] == "\n") {
-            // do not touch blocks with more that X lines
-            if (substr_count($body, "\n", $sp) < $sig_max_lines) {
-                $body = substr($body, 0, max(0, $sp))
-                    . '<span class="sig">'.substr($body, $sp).'</span>';
-            }
-
-            break;
-        }
-    }
-
-    // insert url/mailto links and citation tags
-    $body = $replacer->resolve($body);
+    $text2html = new rcube_text2html($body, false, array('flowed' => $flowed));
+    $body      = $text2html->get_html();
 
     return $body;
 }
@@ -1272,8 +1205,8 @@ function rcmail_message_body($attrib)
             $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
                 array('part' => $MESSAGE, 'prefix' => ''));
 
-            $out .= html::div('message-part', $plugin['prefix'] . html::tag('pre', array(),
-                rcmail_plain_body(rcube::Q($MESSAGE->body, 'strict', false))));
+            $out .= html::div('message-part',
+                $plugin['prefix'] . rcmail_plain_body($MESSAGE->body));
         }
     }
 

@@ -12,20 +12,15 @@ body {
 	margin-top: 2px;
 }
 
-pre
-{
+div.pre {
 	margin: 0;
 	padding: 0;
-	white-space: -moz-pre-wrap !important;
-	white-space: pre-wrap !important;
-	white-space: pre;
-	word-wrap: break-word; /* IE (and Safari) */
+	font-family: monospace;
 }
 
 blockquote
 {
-	padding-left: 5px;
 	border-left: #1010ff 2px solid;
-	margin-left: 5px;
-	width: 100%;
+	margin: 0;
+	padding: 0 0.4em;
 }

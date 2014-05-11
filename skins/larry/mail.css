@@ -1103,16 +1103,11 @@ div.message-partheaders {
 	border-top: 0;
 }
 
-div.message-part pre,
-div.message-htmlpart pre,
 div.message-part div.pre {
 	margin: 0;
 	padding: 0;
 	font-family: monospace;
 	font-size: 12px;
-	white-space: -moz-pre-wrap !important;
-	white-space: pre-wrap !important;
-	white-space: pre;
 }
 
 div.message-part span.sig {
@@ -1124,8 +1119,10 @@ div.message-part blockquote {
 	border-left: 2px solid blue;
 	border-right: 2px solid blue;
 	background-color: #F6F6F6;
-	margin: 2px 0 2px 0;
-	padding: 1px 8px 1px 10px;
+	margin: 0;
+	padding: 0 0.4em;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 div.message-part blockquote blockquote {

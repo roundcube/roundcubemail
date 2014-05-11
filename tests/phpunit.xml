@@ -40,6 +40,7 @@
             <file>Framework/SpellcheckPspell.php</file>
             <file>Framework/Spellchecker.php</file>
             <file>Framework/StringReplacer.php</file>
+            <file>Framework/Text2Html.php</file>
             <file>Framework/User.php</file>
             <file>Framework/Utils.php</file>
             <file>Framework/VCard.php</file>
