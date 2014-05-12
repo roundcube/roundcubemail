@@ -16,6 +16,7 @@ CHANGELOG Roundcube Webmail
 - Set In-Reply-To and References for forwarded messages (#1489593)
 - Removed redundant default_folders config option (#1489737)
 - Implemented IMAP SPECIAL-USE extension support [RFC6154] (#1487830)
+- Add configurable LDAP_OPT_DEREF option (#1489864)
 - Fix mbox files import
 
 RELEASE 1.0.1
