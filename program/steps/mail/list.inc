@@ -93,7 +93,7 @@ rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']), $unseen);
 
 // update message count display
 $pages  = ceil($count/$RCMAIL->storage->get_pagesize());
-$exists = $RCMAIL->storage->count($mbox_name, 'EXISTS');
+$exists = $RCMAIL->storage->count($mbox_name, 'EXISTS', true);
 
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', $pages);
