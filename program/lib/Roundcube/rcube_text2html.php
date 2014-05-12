@@ -275,7 +275,8 @@ class rcube_text2html
             $text = $copy;
         }
         else {
-            $text = str_replace(' ', $nbsp, $text);
+            // make the whole line non-breakable
+            $text = str_replace(array(' ', '-'), array($nbsp, '-&#8288;'), $text);
         }
 
         return $text;
