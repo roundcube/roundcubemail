@@ -211,7 +211,7 @@ if (empty($RCMAIL->user->ID)) {
         $OUTPUT->show_message('sessionerror', 'error', null, true, -1);
     }
 
-    if ($OUTPUT->ajax_call || !empty($_REQUEST['_framed'])) {
+    if ($OUTPUT->ajax_call || $OUTPUT->framed) {
         $OUTPUT->command('session_error', $RCMAIL->url(array('_err' => 'session')));
         $OUTPUT->send('iframe');
     }
