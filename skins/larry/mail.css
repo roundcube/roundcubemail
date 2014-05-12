@@ -1274,23 +1274,6 @@ div.message-partheaders .headers-table td.header {
 	bottom: 0;
 }
 
-#composequicksearch {
-	position: relative;
-	padding: 4px;
-	background: #c7e3ef;
-}
-
-#composequicksearch .searchbox input {
-	width: 100%;
-	height: 26px;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-#composequicksearch #searchmenulink {
-	width: 15px;
-}
-
 #compose-contacts #directorylist {
 	border-bottom: 4px solid #c7e3ef;
 }

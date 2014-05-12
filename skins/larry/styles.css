@@ -433,9 +433,15 @@ a.iconbutton.disabled {
 	cursor: default;
 }
 
+a.iconbutton.searchicon,
 a.iconbutton.searchoptions {
 	width: 24px;
 	background-position: -2px -317px;
+}
+
+a.iconbutton.searchicon,
+a.iconbutton.searchoptions {
+	width: 15px;
 }
 
 a.iconbutton.reset {
@@ -1857,6 +1863,7 @@ ul.proplist li {
 	font-size: 11px;
 }
 
+.searchbox .searchicon,
 .searchbox #searchmenulink,
 #quicksearchbar #searchmenulink {
 	position: absolute;
@@ -1865,12 +1872,25 @@ ul.proplist li {
 }
 
 .searchbox #searchreset,
+.searchbox .iconbutton.reset,
 #quicksearchbar #searchreset {
 	position: absolute;
 	top: 4px;
 	right: 1px;
 }
 
+.listsearchbox {
+	position: relative;
+	padding: 4px;
+	background: #c7e3ef;
+}
+
+.listsearchbox input {
+	width: 100%;
+	height: 26px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
 
 /*** toolbar ***/
 
