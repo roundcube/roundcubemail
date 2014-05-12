@@ -378,7 +378,7 @@ $config['password_plesk_user'] = 'admin';
 $config['password_plesk_pass'] = 'password';
 
 // Plesk RPC Port
-$config['password_plesk_rcp_port'] = 8443;
+$config['password_plesk_rpc_port'] = '8443';
 
 // Plesk RPC Path
-$config['password_plesk_rcp_path'] = enterprise/control/agent.php;
+$config['password_plesk_rpc_path'] = 'enterprise/control/agent.php';

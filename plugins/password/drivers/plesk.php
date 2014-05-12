@@ -10,11 +10,11 @@
  * @license       GNU GPL v3
  *
  * Config needed:
- * $config['password_plesk_host'] = '192.168.0.15';
- * $config['password_plesk_user'] = 'admin';
- * $config['password_plesk_pass'] = 'yourRPCpass';
- * $config['password_plesk_rcp_port'] = 8443;
- * $config['password_plesk_rcp_path'] = enterprise/control/agent.php;
+ * $config['password_plesk_host'] 	= '10.0.0.5';
+ * $config['password_plesk_user'] 	= 'admin';
+ * $config['password_plesk_pass'] 	= 'pass';
+ * $config['password_plesk_rpc_port'] 	= 8443;
+ * $config['password_plesk_rpc_path'] 	= enterprise/control/agent.php;
  *
  */
 
@@ -27,7 +27,7 @@
  */
 class rcube_plesk_password {
 
-	/** 
+	/**
 	 * this method is called from roundcube to change the password
 	 *
 	 * roundcube allready validated the old password so we just need to change it at this point
