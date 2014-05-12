@@ -190,6 +190,9 @@ class rcube_ldap_generic
 
             if (isset($this->config['referrals']))
                 ldap_set_option($lc, LDAP_OPT_REFERRALS, $this->config['referrals']);
+
+            if (isset($this->config['dereference']))
+                ldap_set_option($lc, LDAP_OPT_DEREF, $this->config['dereference']);
         }
         else {
             $this->_debug("S: NOT OK");

@@ -1,6 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add configurable LDAP_OPT_DEREF option (#1489864)
+
+RELEASE 1.0.1
+-------------
 - Support 'error' and 'body_file' return attribs in 'message_before_send' hook (#1489595)
 - Apply user-specific replacements to group's base_dn property (#1489779)
 - Fix missing email address when importing contacts from outlook csv (#1489830)
