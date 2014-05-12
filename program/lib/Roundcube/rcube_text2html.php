@@ -163,7 +163,7 @@ class rcube_text2html
         // find/mark quoted lines...
         for ($n=0, $cnt=count($text); $n < $cnt; $n++) {
             $flowed = false;
-            if ($this->config['flowed'] && ord($text[0]) == $flowed_char) {
+            if ($this->config['flowed'] && ord($text[$n][0]) == $flowed_char) {
                 $flowed   = true;
                 $text[$n] = substr($text[$n], 1);
             }
