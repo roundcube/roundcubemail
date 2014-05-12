@@ -165,6 +165,10 @@ if (!empty($cid)) {
             $a_js_cols[] = rcube::Q((string)$record[$col]);
         }
 
+        // performance: unset some big data items we don't need here
+        $record = array_intersect_key($record, array('ID' => 1,'email' => 1,'name' => 1));
+        $record['_type'] = 'person';
+
         // update the changed col in list
         $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source, $record);
 
