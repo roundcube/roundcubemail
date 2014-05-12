@@ -409,7 +409,7 @@ function rcube_treelist_widget(node, p)
       var li = $(e), sublist = li.children('ul');
       var node = {
         id: dom2id(li),
-        classes: li.attr('class').split(' '),
+        classes: String(li.attr('class')).split(' '),
         virtual: li.hasClass('virtual'),
         html: li.children().first().get(0).outerHTML,
         children: walk_list(sublist)
@@ -420,6 +420,8 @@ function rcube_treelist_widget(node, p)
       }
       if (node.children.length) {
         node.collapsed = sublist.css('display') == 'none';
+        if (!li.children('div.treetoggle').length)
+          $('<div class="treetoggle '+(node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
       }
       if (li.hasClass('selected')) {
         selection = node.id;
