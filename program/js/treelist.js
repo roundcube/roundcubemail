@@ -209,6 +209,7 @@ function rcube_treelist_widget(node, p)
 
     // insert as child of an existing node
     if (parent_node) {
+      node.level = parent_node.level + 1;
       if (!parent_node.children)
         parent_node.children = [];
 
@@ -227,6 +228,7 @@ function rcube_treelist_widget(node, p)
     }
     // insert at top level
     else {
+      node.level = 0;
       data.push(node);
       li = render_node(node, container);
     }
@@ -365,6 +367,7 @@ function rcube_treelist_widget(node, p)
 
     // render child nodes
     for (var i=0; i < data.length; i++) {
+      data[i].level = 0;
       render_node(data[i], container);
     }
 
@@ -408,6 +411,7 @@ function rcube_treelist_widget(node, p)
         ul.hide();
 
       for (var i=0; i < node.children.length; i++) {
+        node.children[i].level = node.level + 1;
         render_node(node.children[i], ul);
       }
     }
@@ -428,6 +432,7 @@ function rcube_treelist_widget(node, p)
         id: dom2id(li),
         classes: li.attr('class').split(' '),
         virtual: li.hasClass('virtual'),
+        level: level,
         html: li.children().first().get(0).outerHTML,
         children: walk_list(sublist, level+1)
       }
@@ -445,7 +450,7 @@ function rcube_treelist_widget(node, p)
       }
 
       // declare list item as treeitem
-      li.attr('role', 'treeitem');
+      li.attr('role', 'treeitem').attr('aria-level', node.level+1);
 
       // allow virtual nodes to receive focus
       if (node.virtual) {
@@ -547,10 +552,10 @@ function rcube_treelist_widget(node, p)
     var mod = dir < 0 ? 'prev' : 'next',
       next = li[mod](), limit, parent;
 
-    if (dir > 0 && !from_child && li.children('ul[role=tree]:visible').length) {
+    if (dir > 0 && !from_child && li.children('ul[role=group]:visible').length) {
       li.children('ul').children('li:first').children('a:first').focus();
     }
-    else if (dir < 0 && !from_child && next.children('ul[role=tree]:visible').length) {
+    else if (dir < 0 && !from_child && next.children('ul[role=group]:visible').length) {
       next.children('ul').children('li:last').children('a:last').focus();
     }
     else if (next.length && next.children('a:first')) {
