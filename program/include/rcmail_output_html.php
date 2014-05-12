@@ -431,15 +431,17 @@ EOF;
             $this->set_env('request_token', $this->app->get_request_token());
         }
 
-        // write all env variables to client
-        if ($commands = $this->get_js_commands()) {
-            if ($this->framed) {
-                $prefix = "if (window.parent) {\n";
-                $suffix = " }";
-            }
+        $commands = $this->get_js_commands($framed);
 
-            $this->add_script($prefix . $commands . $suffix, 'head_top');
+        // if all js commands go to parent window we can ignore all
+        // script files and skip rcube_webmail initialization (#1489792)
+        if ($framed) {
+            $this->scripts      = array();
+            $this->script_files = array();
         }
+
+        // write all javascript commands
+        $this->add_script($commands, 'head_top');
 
         // send clickjacking protection headers
         $iframe = $this->framed || $this->env['framed'];
@@ -567,17 +569,18 @@ EOF;
      *
      * @return string $out
      */
-    protected function get_js_commands()
+    protected function get_js_commands(&$framed = null)
     {
-        $out = '';
-
         if (!$this->framed && !empty($this->js_env)) {
-            $out .= self::JS_OBJECT_NAME . '.set_env('.self::json_serialize($this->js_env).");\n";
+            $this->command('set_env', $this->js_env);
         }
 
         if (!empty($this->js_labels)) {
             $this->command('add_label', $this->js_labels);
         }
+
+        $out = '';
+        $parent_commands = 0;
 
         foreach ($this->js_commands as $i => $args) {
             $method = array_shift($args);
@@ -587,12 +590,26 @@ EOF;
                 $args[$i] = self::json_serialize($arg);
             }
 
-            $out .= sprintf(
-                "%s.%s(%s);\n",
-                ($parent ? 'if (window.parent && parent.'.self::JS_OBJECT_NAME.') parent.' : '') . self::JS_OBJECT_NAME,
-                preg_replace('/^parent\./', '', $method),
-                implode(',', $args)
-            );
+            if ($parent) {
+                $parent_commands++;
+                $method        = preg_replace('/^parent\./', '', $method);
+                $parent_prefix = 'if (window.parent && parent.' . self::JS_OBJECT_NAME . ') parent.';
+                $method        = $parent_prefix . self::JS_OBJECT_NAME . '.' . $method;
+            }
+            else {
+                $method = self::JS_OBJECT_NAME . '.' . $method;
+            }
+
+            $out .= sprintf("%s(%s);\n", $method, implode(',', $args));
+        }
+
+        $framed = $parent_prefix && $parent_commands == count($this->js_commands);
+
+        // make the output more compact if all commands go to parent window
+        if ($framed) {
+            $out = "if (window.parent && parent." . self::JS_OBJECT_NAME . ") {\n"
+                . str_replace($parent_prefix, "\tparent.", $out)
+                . "}\n";
         }
 
         return $out;
@@ -1331,13 +1348,8 @@ EOF;
         $output = trim($templ);
 
         if (empty($output)) {
-            $output   = $this->default_template;
+            $output   = html::doctype('html5') . "\n" . $this->default_template;
             $is_empty = true;
-        }
-
-        // set default page title
-        if (empty($this->pagetitle)) {
-            $this->pagetitle = 'Roundcube Mail';
         }
 
         // replace specialchars in content
