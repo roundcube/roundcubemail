@@ -157,6 +157,10 @@ $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
 
+$labels['first'] = 'First';
+$labels['last'] = 'Last';
+$labels['previous'] = 'Previous';
+$labels['next'] = 'Next';
 $labels['select'] = 'Select';
 $labels['all'] = 'All';
 $labels['none'] = 'None';
@@ -564,5 +568,29 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
+
+// accessibility (voice-only) headings and descriptions
+$labels['arialabeltopnav'] = 'Window control';
+$labels['arialabeltasknav'] = 'Application tasks';
+$labels['arialabeltoolbar'] = 'Application toolbar';
+$labels['arialabelmessagessearchfilter'] = 'Email listing filter';
+$labels['arialabelsearchform'] = 'Email message search form';
+$labels['arialabelquicksearchbox'] = 'Email search input';
+$labels['arialabelfolderlist'] = 'Email folder selection';
+$labels['arialabelmessagelist'] = 'Email Messages Listing';
+$labels['arialabelmailpreviewframe'] = 'Message preview';
+$labels['arialabelmailboxmenu'] = 'Folder actions menu';
+$labels['arialabellistselectmenu'] = 'List selection menu';
+$labels['arialabelthreadselectmenu'] = 'Threads listing menu';
+$labels['arialabelmessagelistoptions'] = 'Message list display and sorting options';
+$labels['arialabelmailimportdialog'] = 'Message import dialog';
+$labels['arialabelmessagenav'] = 'Message navigation';
+$labels['arialabelmessagebody'] = 'Message Body';
+$labels['arialabelcontactquicksearch'] = 'Contacts search form';
+$labels['arialabelcontactsearchbox'] = 'Contact search input';
+$labels['arialabelmessageheaders'] = 'Message headers';
+$labels['arialabelcomposeoptions'] = 'Composition options';
+$labels['arialabelresponsesmenu'] = 'Canned responses menu';
+$labels['arialabelattachmentuploadform'] = 'Attachment upload form';
 
 ?>

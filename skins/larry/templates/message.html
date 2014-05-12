@@ -13,7 +13,7 @@
 <h1 class="voice"><roundcube:object name="messageHeaders" valueOf="subject" /></h1>
 
 <!-- toolbar -->
-<h2 id="aria-label-toolbar" class="voice">Application toolbar</h2>
+<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 <div id="messagetoolbar" class="toolbar fullwidth" role="toolbar" aria-labelledby="aria-label-toolbar">
 <roundcube:if condition="!env:extwin" />
 	<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
@@ -29,7 +29,7 @@
 
 <!-- folders list -->
 <div id="mailboxcontainer" class="uibox listbox" role="navigation" aria-labelledby="aria-label-folderlist">
-<h2 id="aria-label-folderlist" class="voice">Email folder selection</h2>
+<h2 id="aria-label-folderlist" class="voice"><roundcube:label name="arialabelfolderlist" /></h2>
 <div class="scroller">
 <roundcube:object name="mailboxlist" id="mailboxlist" class="treelist listing" folder_filter="mail" unreadwrap="%s" />
 </div>
@@ -49,10 +49,10 @@
 
 <!-- record navigation -->
 <div id="countcontrols" class="pagenav" role="navigation" aria-labelledby="aria-label-countcontrols">
-	<h2 id="aria-label-countcontrols" class="voice">Message navigation</h2>
+	<h2 id="aria-label-countcontrols" class="voice"><roundcube:label name="arialabelmessagenav" /></h2>
 	<roundcube:object name="messageCountDisplay" class="countdisplay" />
-	<roundcube:button command="previousmessage" type="link" class="button prevpage disabled" classAct="button prevpage" classSel="button prevpage pressed" innerClass="inner" title="previousmessage" content="&amp;lt;" />
-	<roundcube:button command="nextmessage" type="link" class="button nextpage disabled" classAct="button nextpage" classSel="button nextpage pressed" innerClass="inner" title="nextmessage" content="&amp;gt;" />
+	<roundcube:button command="previousmessage" type="link" class="button prevpage disabled" classAct="button prevpage" classSel="button prevpage pressed" innerClass="inner" title="previousmessage" label="previous" />
+	<roundcube:button command="nextmessage" type="link" class="button nextpage disabled" classAct="button nextpage" classSel="button nextpage pressed" innerClass="inner" title="nextmessage" label="next" />
 </div>
 
 <roundcube:if condition="env:optional_format=='text'" />
@@ -84,7 +84,7 @@
 <roundcube:object name="messageAttachments" id="attachment-list" class="attachmentslist" />
 </div>
 <div class="leftcol" role="region" aria-labelledby="aria-label-messagebody">
-<h2 id="aria-label-messagebody" class="voice">Message Body</h2>
+<h2 id="aria-label-messagebody" class="voice"><roundcube:label name="arialabelmessagebody" /></h2>
 <roundcube:object name="messageObjects" id="message-objects" />
 <roundcube:object name="messageBody" id="messagebody" headertableclass="message-partheaders headers-table" />
 </div>

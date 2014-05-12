@@ -20,7 +20,7 @@
 <h1 class="voice"><roundcube:label name="mail" /></h1>
 
 <!-- toolbar -->
-<h2 id="aria-label-toolbar" class="voice">Application toolbar</h2>
+<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 <div id="messagetoolbar" class="toolbar" role="toolbar" aria-labelledby="aria-label-toolbar">
 	<roundcube:button command="checkmail" type="link" class="button checkmail disabled" classAct="button checkmail" classSel="button checkmail pressed" label="refresh" title="checkmail" />
 	<roundcube:include file="/includes/mailtoolbar.html" />
@@ -30,14 +30,14 @@
 
 <!-- search filter -->
 <div id="searchfilter">
-	<label for="messagessearchfilter" class="voice">Email listing filter</label>
+	<label for="messagessearchfilter" class="voice"><roundcube:label name="arialabelmessagessearchfilter" /></label>
 	<roundcube:object name="searchfilter" class="searchfilter decorated" id="messagessearchfilter" aria-controls="messagelist" />
 </div>
 
 <!-- search box -->
 <div id="quicksearchbar" class="searchbox" role="search" aria-labelledby="aria-label-searchform">
-<h2 id="aria-label-searchform" class="voice">Email message search form</h2>
-<label for="quicksearchbox" class="voice">Email search input</label>
+<h2 id="aria-label-searchform" class="voice"><roundcube:label name="arialabelsearchform" /></h2>
+<label for="quicksearchbox" class="voice"><roundcube:label name="arialabelquicksearchbox" /></label>
 <roundcube:object name="searchform" id="quicksearchbox" />
 <roundcube:button command="menu-open" prop="searchmenu" id="searchmenulink" class="iconbutton searchoptions" title="searchmod" label="options" aria-haspopup="true" aria-expanded="false"aria-owns="searchmenu-menu" />
 <roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content="Reset" />
@@ -68,7 +68,7 @@
 
 <!-- folders list -->
 <div id="mailboxcontainer" class="uibox listbox" role="navigation" aria-labelledby="aria-label-folderlist">
-<h2 id="aria-label-folderlist" class="voice">Email folder selection</h2>
+<h2 id="aria-label-folderlist" class="voice"><roundcube:label name="arialabelfolderlist" /></h2>
 <div id="folderlist-content" class="scroller withfooter">
 <roundcube:object name="mailboxlist" id="mailboxlist" class="treelist listing" folder_filter="mail" unreadwrap="%s" />
 </div>
@@ -92,7 +92,7 @@
 
 <!-- messagelist -->
 <div id="messagelistcontainer" class="boxlistcontent">
-<h2 id="aria-label-messagelist" class="voice">Email Messages Listing</h2>
+<h2 id="aria-label-messagelist" class="voice"><roundcube:label name="arialabelmessagelist" /></h2>
 <roundcube:object name="messages"
 	id="messagelist"
 	class="records-table messagelist sortheader fixedheader"
@@ -118,16 +118,16 @@
 	<div id="countcontrols" class="pagenav dark">
 		<roundcube:object name="messageCountDisplay" class="countdisplay" />
 		<span class="pagenavbuttons">
-		<roundcube:button command="firstpage" type="link" class="button firstpage disabled" classAct="button firstpage" classSel="button firstpage pressed" innerClass="inner" title="firstpage" content="|&amp;lt;" />
-		<roundcube:button command="previouspage" type="link" class="button prevpage disabled" classAct="button prevpage" classSel="button prevpage pressed" innerClass="inner" title="previouspage" content="&amp;lt;" />
-		<roundcube:button command="nextpage" type="link" class="button nextpage disabled" classAct="button nextpage" classSel="button nextpage pressed" innerClass="inner" title="nextpage" content="&amp;gt;" />
-		<roundcube:button command="lastpage" type="link" class="button lastpage disabled" classAct="button lastpage" classSel="button lastpage pressed" innerClass="inner" title="lastpage" content="&amp;gt;|" />
+		<roundcube:button command="firstpage" type="link" class="button firstpage disabled" classAct="button firstpage" classSel="button firstpage pressed" innerClass="inner" title="firstpage" label="first" />
+		<roundcube:button command="previouspage" type="link" class="button prevpage disabled" classAct="button prevpage" classSel="button prevpage pressed" innerClass="inner" title="previouspage" label="previous" />
+		<roundcube:button command="nextpage" type="link" class="button nextpage disabled" classAct="button nextpage" classSel="button nextpage pressed" innerClass="inner" title="nextpage" label="next" />
+		<roundcube:button command="lastpage" type="link" class="button lastpage disabled" classAct="button lastpage" classSel="button lastpage pressed" innerClass="inner" title="lastpage" label="last" />
 		</span>
 	</div>
 
 	<roundcube:container name="listcontrols" id="listcontrols" />
 
-	<a href="#preview" id="mailpreviewtoggle" class="iconbutton" title="<roundcube:label name='previewpane' />" role="button" tabindex="0"></a>
+	<a href="#preview" id="mailpreviewtoggle" class="iconbutton" title="<roundcube:label name='previewpane' />" role="button" tabindex="0"><roundcube:label name="previewpane" /></a>
 </div>
 
 </div><!-- end mailview-top -->
@@ -135,7 +135,7 @@
 <div id="mailview-bottom" class="uibox">
 
 <div id="mailpreviewframe" class="iframebox" role="complementary" aria-labelledby="aria-label-mailpreviewframe">
-<h2 id="aria-label-mailpreviewframe" class="voice">Message preview</h2>
+<h2 id="aria-label-mailpreviewframe" class="voice"><roundcube:label name="arialabelmailpreviewframe" /></h2>
 <roundcube:object name="messagecontentframe" id="messagecontframe" style="width:100%; height:100%" frameborder="0" src="/watermark.html" title="Message preview" />
 </div>
 
@@ -155,7 +155,7 @@
 </div>
 
 <div id="mailboxmenu" class="popupmenu" aria-hidden="true">
-	<h3 id="aria-label-mailboxmenu" class="voice">Folder actions menu</h3>
+	<h3 id="aria-label-mailboxmenu" class="voice"><roundcube:label name="arialabelmailboxmenu" /></h3>
 	<ul id="mailboxmenu-menu" class="toolbarmenu" id="mailboxoptionsmenu" role="menu" aria-labelledby="aria-label-mailboxmenu">
 		<li role="menuitem"><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
 		<li role="menuitem"><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
@@ -166,7 +166,7 @@
 </div>
 
 <div id="listselectmenu" class="popupmenu dropdown" aria-hidden="true">
-	<h3 id="aria-label-listselectmenu" class="voice">List selection menu</h3>
+	<h3 id="aria-label-listselectmenu" class="voice"><roundcube:label name="arialabellistselectmenu" /></h3>
 	<ul id="listselectmenu-menu" class="toolbarmenu iconized" role="menu" aria-labelledby="aria-label-listselectmenu">
 		<li role="menuitem"><roundcube:button command="select-all" type="link" label="all" class="icon" classAct="icon active" innerclass="icon mail" /></li>
 		<li role="menuitem"><roundcube:button command="select-all" type="link" prop="page" label="currpage" class="icon" classAct="icon active" innerclass="icon list" /></li>
@@ -178,7 +178,7 @@
 </div>
 
 <div id="threadselectmenu" class="popupmenu dropdown" aria-hidden="true">
-	<h3 id="aria-label-threadselectmenu" class="voice">Threads listing menu</h3>
+	<h3 id="aria-label-threadselectmenu" class="voice"><roundcube:label name="arialabelthreadselectmenu" /></h3>
 	<ul id="threadselectmenu-menu" class="toolbarmenu" role="menu" aria-labelledby="aria-label-threadselectmenu">
 		<li role="menuitem"><roundcube:button command="expand-all" type="link" label="expand-all" class="icon" classAct="icon active" innerclass="icon conversation" /></li>
 		<li role="menuitem"><roundcube:button command="expand-unread" type="link" label="expand-unread" class="icon" classAct="icon active" innerclass="icon conversation" /></li>
@@ -187,7 +187,7 @@
 </div>
 
 <div id="listoptions" class="propform popupdialog" role="dialog" aria-labelledby="aria-label-listoptions" aria-hidden="true">
-<h2 id="aria-label-listoptions" class="voice">Message list display and sorting options</h2>
+<h2 id="aria-label-listoptions" class="voice"><roundcube:label name="arialabelmessagelistoptions" /></h2>
 <roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
 	<fieldset class="floating">
 		<legend><roundcube:label name="listcolumns" /></legend>
@@ -241,7 +241,7 @@
 </div>
 
 <div id="upload-dialog" class="propform popupdialog" title="<roundcube:label name='importmessages' />" aria-hidden="true">
-	<h2 id="aria-label-uploaddialog" class="voice">Message import dialog</h2>
+	<h2 id="aria-label-uploaddialog" class="voice"><roundcube:label name="arialabelmailimportdialog" /></h2>
 	<roundcube:object name="messageimportform" id="uploadform" buttons="no" />
 	<div class="formbuttons">
 		<roundcube:button command="import-messages" type="input" class="button mainaction" label="upload" />

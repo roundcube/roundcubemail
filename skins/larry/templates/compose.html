@@ -16,7 +16,7 @@
 <h1 class="voice"><roundcube:object name="pagetitle" /></h1>
 
 <!-- toolbar -->
-<h2 id="aria-label-toolbar" class="voice">Application toolbar</h2>
+<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 <div id="messagetoolbar" class="toolbar fullwidth" role="toolbar" aria-labelledby="aria-label-toolbar">
 	<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" label="cancel" condition="!env:extwin" tabindex="2" />
 	<roundcube:button command="close" type="link" class="button close disabled" classAct="button close" label="cancel" condition="env:extwin" tabindex="2" />
@@ -44,9 +44,9 @@
 <div id="compose-contacts" class="uibox listbox" role="region" aria-labelledby="aria-label-composecontacts">
 <h2 id="aria-label-composecontacts" class="boxtitle"><roundcube:label name="contacts" /></h2>
 	<div id="composequicksearch" role="search" aria-labelledby="aria-label-composequicksearch">
-		<h3 id="aria-label-composequicksearch" class="voice">Contacts search form</h3>
+		<h3 id="aria-label-composequicksearch" class="voice"><roundcube:label name="arialabelcontactquicksearch" /></h3>
 		<div class="searchbox">
-			<label for="contactsearchbox" class="voice">Contact search input</label>
+			<label for="contactsearchbox" class="voice"><roundcube:label name="arialabelcontactsearchbox" /></label>
 			<roundcube:object name="searchform" id="contactsearchbox" />
 			<a id="searchmenulink" class="iconbutton searchoptions"> </a>
 			<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
@@ -60,10 +60,10 @@
 	<roundcube:button command="add-recipient" prop="to" type="link" title="to" class="listbutton addto disabled" classAct="listbutton addto" innerClass="inner" content="To+" /><roundcube:button command="add-recipient" prop="cc" type="link" title="cc" class="listbutton addcc disabled" classAct="listbutton addcc" innerClass="inner" content="Cc+" /><roundcube:button command="add-recipient" prop="bcc" type="link" title="bcc" class="listbutton addbcc disabled" classAct="listbutton addbcc" innerClass="inner" content="Bcc+" />
 </div>
 <div class="boxpagenav">
-	<roundcube:button command="firstpage" type="link" class="icon firstpage disabled" classAct="icon firstpage" title="firstpage" content="|&amp;lt;" />
-	<roundcube:button command="previouspage" type="link" class="icon prevpage disabled" classAct="icon prevpage" title="previouspage" content="&amp;lt;" />
-	<roundcube:button command="nextpage" type="link" class="icon nextpage disabled" classAct="icon nextpage" title="nextpage" content="&amp;gt;" />
-	<roundcube:button command="lastpage" type="link" class="icon lastpage disabled" classAct="icon lastpage" title="lastpage" content="&amp;gt;|" />
+	<roundcube:button command="firstpage" type="link" class="icon firstpage disabled" classAct="icon firstpage" title="firstpage" label="first" />
+	<roundcube:button command="previouspage" type="link" class="icon prevpage disabled" classAct="icon prevpage" title="previouspage" label="previous" />
+	<roundcube:button command="nextpage" type="link" class="icon nextpage disabled" classAct="icon nextpage" title="nextpage" label="next" />
+	<roundcube:button command="lastpage" type="link" class="icon lastpage disabled" classAct="icon lastpage" title="lastpage" label="last" />
 </div>
 </div>
 
@@ -75,7 +75,7 @@
 
 <!-- message headers -->
 <div id="composeheaders" role="region" aria-labelledby="aria-label-composeheaders">
-<h2 id="aria-label-composeheaders" class="voice">Message headers</h2>
+<h2 id="aria-label-composeheaders" class="voice"><roundcube:label name="arialabelmessageheaders" /></h2>
 
 <a href="#options" id="composeoptionstoggle" class="moreheaderstoggle" title="<roundcube:label name='options' />"><span class="iconlink"></span></a>
 
@@ -135,7 +135,7 @@
 
 <!-- (collapsable) message options -->
 <div id="composeoptions" role="region" aria-labelledby="aria-label-composeoptions">
-	<h2 id="aria-label-composeoptions" class="voice">Composition options</h2>
+	<h2 id="aria-label-composeoptions" class="voice"><roundcube:label name="arialabelcomposeoptions" /></h2>
 	<roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />
 	<span class="composeoption">
 		<label><roundcube:label name="editortype" />
@@ -167,7 +167,7 @@
 <!-- message compose body -->
 <div id="composeview-bottom">
 	<div id="composebodycontainer">
-		<label for="composebody" class="voice">Message Body</label>
+		<label for="composebody" class="voice"><roundcube:label name="arialabelmessagebody" /></label>
 		<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" tabindex="1" />
 	</div>
 	<div id="compose-attachments" class="rightcol" role="region">
@@ -196,7 +196,7 @@
 </div><!-- end mainscreen -->
 
 <div id="upload-dialog" class="propform popupdialog" title="<roundcube:label name='addattachment' />" aria-hidden="true">
-	<h2 id="aria-label-uploaddialog" class="voice">Attachment upload form</h2>
+	<h2 id="aria-label-uploaddialog" class="voice"><roundcube:label name="arialabelattachmentuploadform" /></h2>
 	<roundcube:object name="composeAttachmentForm" id="uploadform" buttons="no" />
 	<div class="formbuttons">
 		<roundcube:button command="send-attachment" type="input" class="button mainaction" label="upload" />
@@ -207,7 +207,8 @@
 <div id="spellmenu" class="popupmenu" aria-hidden="true"></div>
 
 <div id="responsesmenu" class="popupmenu" aria-hidden="true">
-	<ul class="toolbarmenu" id="textresponsesmenu" role="menu">
+	<h3 id="aria-label-responsesmenu" class="voice"><roundcube:label name="arialabelresponsesmenu" /></h3>
+	<ul class="toolbarmenu" id="textresponsesmenu" role="menu" aria-labelledby="aria-label-responsesmenu">
 		<li role="separator" class="separator" id=""><label><roundcube:label name="insertresponse" /></label></li>
 		<roundcube:object name="responseslist" id="responseslist" tagname="ul" itemclass="active" />
 		<li role="separator" class="separator"><label><roundcube:label name="manageresponses" /></label></li>
