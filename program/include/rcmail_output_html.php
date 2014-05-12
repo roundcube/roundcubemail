@@ -30,16 +30,16 @@ class rcmail_output_html extends rcmail_output
 {
     public $type = 'html';
 
-    protected $message = null;
-    protected $js_env = array();
-    protected $js_labels = array();
-    protected $js_commands = array();
-    protected $skin_paths = array();
+    protected $message;
     protected $template_name;
+    protected $js_env       = array();
+    protected $js_labels    = array();
+    protected $js_commands  = array();
+    protected $skin_paths   = array();
     protected $scripts_path = '';
     protected $script_files = array();
-    protected $css_files = array();
-    protected $scripts = array();
+    protected $css_files    = array();
+    protected $scripts      = array();
     protected $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
     protected $header = '';
     protected $footer = '';
@@ -58,8 +58,6 @@ class rcmail_output_html extends rcmail_output
 
     /**
      * Constructor
-     *
-     * @todo   Replace $this->config with the real rcube_config object
      */
     public function __construct($task = null, $framed = false)
     {
@@ -67,7 +65,6 @@ class rcmail_output_html extends rcmail_output
 
         $this->devel_mode = $this->config->get('devel_mode');
 
-        //$this->framed = $framed;
         $this->set_env('task', $task);
         $this->set_env('x_frame_options', $this->config->get('x_frame_options', 'sameorigin'));
         $this->set_env('standard_windows', (bool) $this->config->get('standard_windows'));
@@ -84,7 +81,7 @@ class rcmail_output_html extends rcmail_output
 
         if (!empty($_REQUEST['_extwin']))
             $this->set_env('extwin', 1);
-        if ($this->framed || !empty($_REQUEST['_framed']))
+        if ($this->framed || $framed)
             $this->set_env('framed', 1);
 
         $lic = <<<EOF
@@ -256,8 +253,9 @@ EOF;
     public function get_skin_file($file, &$skin_path = null, $add_path = null)
     {
         $skin_paths = $this->skin_paths;
-        if ($add_path)
+        if ($add_path) {
             array_unshift($skin_paths, $add_path);
+        }
 
         foreach ($skin_paths as $skin_path) {
             $path = realpath($skin_path . $file);
@@ -291,9 +289,9 @@ EOF;
     {
         $cmd = func_get_args();
         if (strpos($cmd[0], 'plugin.') !== false)
-          $this->js_commands[] = array('triggerEvent', $cmd[0], $cmd[1]);
+            $this->js_commands[] = array('triggerEvent', $cmd[0], $cmd[1]);
         else
-          $this->js_commands[] = $cmd;
+            $this->js_commands[] = $cmd;
     }
 
     /**
@@ -303,7 +301,7 @@ EOF;
     {
         $args = func_get_args();
         if (count($args) == 1 && is_array($args[0]))
-          $args = $args[0];
+            $args = $args[0];
 
         foreach ($args as $name) {
             $this->js_labels[$name] = $this->app->gettext($name);
@@ -344,13 +342,13 @@ EOF;
     public function reset($all = false)
     {
         $framed = $this->framed;
-        $env = $all ? null : array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
+        $env    = $all ? null : array_intersect_key($this->env, array('extwin'=>1, 'framed'=>1));
 
         parent::reset();
 
         // let some env variables survive
-        $this->env = $this->js_env = $env;
-        $this->framed = $framed || $this->env['framed'];
+        $this->env          = $this->js_env = $env;
+        $this->framed       = $framed || $this->env['framed'];
         $this->js_labels    = array();
         $this->js_commands  = array();
         $this->script_files = array();
@@ -429,20 +427,25 @@ EOF;
             array_unshift($this->js_commands, array('hide_message', $unlock));
         }
 
-        if (!empty($this->script_files))
-          $this->set_env('request_token', $this->app->get_request_token());
+        if (!empty($this->script_files)) {
+            $this->set_env('request_token', $this->app->get_request_token());
+        }
 
         // write all env variables to client
         if ($commands = $this->get_js_commands()) {
-            $js = $this->framed ? "if (window.parent) {\n" : '';
-            $js .= $commands . ($this->framed ? ' }' : '');
-            $this->add_script($js, 'head_top');
+            if ($this->framed) {
+                $prefix = "if (window.parent) {\n";
+                $suffix = " }";
+            }
+
+            $this->add_script($prefix . $commands . $suffix, 'head_top');
         }
 
         // send clickjacking protection headers
-        $iframe = $this->framed || !empty($_REQUEST['_framed']);
-        if (!headers_sent() && ($xframe = $this->app->config->get('x_frame_options', 'sameorigin')))
+        $iframe = $this->framed || $this->env['framed'];
+        if (!headers_sent() && ($xframe = $this->app->config->get('x_frame_options', 'sameorigin'))) {
             header('X-Frame-Options: ' . ($iframe && $xframe == 'deny' ? 'sameorigin' : $xframe));
+        }
 
         // call super method
         $this->_write($template, $this->config->get('skin_path'));
@@ -459,15 +462,15 @@ EOF;
      */
     function parse($name = 'main', $exit = true, $write = true)
     {
-        $plugin    = false;
-        $realname  = $name;
+        $plugin   = false;
+        $realname = $name;
         $this->template_name = $realname;
 
         $temp = explode('.', $name, 2);
         if (count($temp) > 1) {
-            $plugin    = $temp[0];
-            $name      = $temp[1];
-            $skin_dir  = $plugin . '/skins/' . $this->config->get('skin');
+            $plugin   = $temp[0];
+            $name     = $temp[1];
+            $skin_dir = $plugin . '/skins/' . $this->config->get('skin');
 
             // apply skin search escalation list to plugin directory
             $plugin_skin_paths = array();
@@ -567,21 +570,26 @@ EOF;
     protected function get_js_commands()
     {
         $out = '';
+
         if (!$this->framed && !empty($this->js_env)) {
             $out .= self::JS_OBJECT_NAME . '.set_env('.self::json_serialize($this->js_env).");\n";
         }
+
         if (!empty($this->js_labels)) {
             $this->command('add_label', $this->js_labels);
         }
+
         foreach ($this->js_commands as $i => $args) {
             $method = array_shift($args);
+            $parent = $this->framed || preg_match('/^parent\./', $method);
+
             foreach ($args as $i => $arg) {
                 $args[$i] = self::json_serialize($arg);
             }
-            $parent = $this->framed || preg_match('/^parent\./', $method);
+
             $out .= sprintf(
                 "%s.%s(%s);\n",
-                ($parent ? 'if(window.parent && parent.'.self::JS_OBJECT_NAME.') parent.' : '') . self::JS_OBJECT_NAME,
+                ($parent ? 'if (window.parent && parent.'.self::JS_OBJECT_NAME.') parent.' : '') . self::JS_OBJECT_NAME,
                 preg_replace('/^parent\./', '', $method),
                 implode(',', $args)
             );
@@ -600,13 +608,14 @@ EOF;
     public function abs_url($str, $search_path = false)
     {
         if ($str[0] == '/') {
-            if ($search_path && ($file_url = $this->get_skin_file($str, $skin_path)))
+            if ($search_path && ($file_url = $this->get_skin_file($str, $skin_path))) {
                 return $file_url;
+            }
 
             return $this->base_path . $str;
         }
-        else
-            return $str;
+
+        return $str;
     }
 
     /**
@@ -1478,7 +1487,7 @@ EOF;
      */
     public function form_tag($attrib, $content = null)
     {
-      if ($this->framed || !empty($_REQUEST['_framed'])) {
+      if ($this->framed || $this->env['framed']) {
         $hiddenfield = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
         $hidden = $hiddenfield->show();
       }
@@ -1518,7 +1527,7 @@ EOF;
 
         // we already have a <form> tag
         if ($attrib['form']) {
-            if ($this->framed || !empty($_REQUEST['_framed']))
+            if ($this->framed || $this->env['framed'])
                 $hidden->add(array('name' => '_framed', 'value' => '1'));
             return $hidden->show() . $content;
         }
