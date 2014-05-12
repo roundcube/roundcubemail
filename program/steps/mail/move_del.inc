@@ -166,7 +166,7 @@ else {
       $OUTPUT->command('set_trash_count', $exists);
   }
   else if ($target !== null && $target === $trash) {
-      $OUTPUT->command('set_trash_count', $RCMAIL->storage->count($trash, 'EXISTS'));
+      $OUTPUT->command('set_trash_count', $RCMAIL->storage->count($trash, 'EXISTS', true));
   }
 }
 

@@ -85,7 +85,7 @@ foreach ($a_mailboxes as $mbox_name) {
             $OUTPUT->command('set_quota', $RCMAIL->quota_content());
         }
 
-        $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
+        $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS', true));
 
         // "No-list" mode, don't get messages
         if (empty($_POST['_list'])) {
@@ -146,7 +146,7 @@ foreach ($a_mailboxes as $mbox_name) {
 
     // set trash folder state
     if ($mbox_name === $trash) {
-        $OUTPUT->command('set_trash_count', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
+        $OUTPUT->command('set_trash_count', $RCMAIL->storage->count($mbox_name, 'EXISTS', true));
     }
 }
 
