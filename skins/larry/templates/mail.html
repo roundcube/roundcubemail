@@ -39,7 +39,7 @@
 <h2 id="aria-label-searchform" class="voice">Email message search form</h2>
 <label for="quicksearchbox" class="voice">Email search input</label>
 <roundcube:object name="searchform" id="quicksearchbox" />
-<roundcube:button command="menu-open" prop="searchmenu" id="searchmenulink" class="iconbutton searchoptions" title="searchmod" label="options" aria-haspopup="true" aria-owns="searchmenu-menu" />
+<roundcube:button command="menu-open" prop="searchmenu" id="searchmenulink" class="iconbutton searchoptions" title="searchmod" label="options" aria-haspopup="true" aria-expanded="false"aria-owns="searchmenu-menu" />
 <roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content="Reset" />
 
 <div id="searchmenu" class="popupmenu" data-editable="true">
@@ -73,7 +73,7 @@
 <roundcube:object name="mailboxlist" id="mailboxlist" class="treelist listing" folder_filter="mail" unreadwrap="%s" />
 </div>
 <div id="folderlist-footer" class="boxfooter">
-	<roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" onclick="UI.toggle_popup('mailboxmenu',event);return false" innerClass="inner" content="&#9881;" aria-haspopup="true" aria-owns="mailboxmenu-menu" />
+	<roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" onclick="UI.toggle_popup('mailboxmenu',event);return false" innerClass="inner" content="&#9881;" aria-haspopup="true" aria-expanded="false"aria-owns="mailboxmenu-menu" />
 	<roundcube:if condition="env:quota" />
 		<roundcube:object name="quotaDisplay" id="quotadisplay" class="countdisplay" display="text" />
 	<roundcube:endif />
@@ -98,7 +98,6 @@
 	class="records-table messagelist sortheader fixedheader"
 	optionsmenuIcon="true"
 	summary="Email Messages Listing"
-	role="grid"
 	aria-labelledby="aria-label-messagelist" />
 </div>
 
@@ -110,9 +109,9 @@
 	</div>
 	
 	<div id="listselectors">
-	<a href="#select" id="listselectmenulink" class="menuselector" onclick="UI.toggle_popup('listselectmenu', event);return false" aria-haspopup="true" aria-owns="listselectmenu-menu"><span class="handle"><roundcube:label name="select" /></span></a>
+	<a href="#select" id="listselectmenulink" class="menuselector" onclick="UI.toggle_popup('listselectmenu', event);return false" aria-haspopup="true" aria-expanded="false"aria-owns="listselectmenu-menu"><span class="handle"><roundcube:label name="select" /></span></a>
 	<roundcube:if condition="env:threads" />
-		&nbsp; <a href="#threads" id="threadselectmenulink" class="menuselector" onclick="UI.toggle_popup('threadselectmenu', event);return false" aria-haspopup="true" aria-owns="threadselectmenu-menu"><span class="handle"><roundcube:label name="threads" /></span></a>
+		&nbsp; <a href="#threads" id="threadselectmenulink" class="menuselector" onclick="UI.toggle_popup('threadselectmenu', event);return false" aria-haspopup="true" aria-expanded="false"aria-owns="threadselectmenu-menu"><span class="handle"><roundcube:label name="threads" /></span></a>
 	<roundcube:endif />
 	</div>
 

@@ -6967,7 +6967,7 @@ function rcube_webmail()
         this.hide_menu(this.menu_stack[0], event);
       }
 
-      obj.show().attr('aria-hidden', 'false').data('opener', ref.get(0));
+      obj.show().attr('aria-hidden', 'false').data('opener', ref.attr('aria-expanded', 'true').get(0));
       this.triggerEvent('menu-open', { name:name, obj:obj, props:prop, originalEvent:event });
       this.menu_stack.push(name);
 
@@ -6999,8 +6999,10 @@ function rcube_webmail()
       this.triggerEvent('menu-close', { name:this.menu_stack[j], obj:obj, props:{ menu:this.menu_stack[j] }, originalEvent:event });
       if (this.menu_stack[j] == name) {
         j = -1;  // stop loop
-        if (keyboard && obj.data('opener')) {
-          obj.data('opener').focus();
+        if (obj.data('opener')) {
+          $(obj.data('opener')).attr('aria-expanded', 'false');
+          if (keyboard)
+            obj.data('opener').focus();
         }
       }
       this.menu_stack.pop();

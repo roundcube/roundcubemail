@@ -116,7 +116,7 @@ init: function()
       this.focus_elem = $('<a>')
         .attr('tabindex', '0')
         .attr('style', 'display:block; width:1px; height:1px; line-height:1px; overflow:hidden; position:fixed; top:-1000px')
-        .html('Select List')
+        .html($(this.list).attr('summary') || 'Select List')
         .insertAfter(this.list)
         .on('focus', function(e){ me.focus(e); })
         .on('blur', function(e){ me.blur(e); });
@@ -1086,7 +1086,7 @@ select_all: function(filter)
       this.highlight_row(n, true, true);
     }
     else {
-      $(this.rows[n].obj).removeClass('selected').removeClass('unfocused');
+      $(this.rows[n].obj).removeClass('selected').removeClass('unfocused').removeAttr('aria-selected');
     }
   }
 
@@ -1143,7 +1143,7 @@ clear_selection: function(id, no_event)
   else {
     for (n in this.selection)
       if (this.rows[this.selection[n]]) {
-        $(this.rows[this.selection[n]].obj).removeClass('selected').removeClass('unfocused');
+        $(this.rows[this.selection[n]].obj).removeClass('selected').removeClass('unfocused').removeAttr('aria-selected');
       }
 
     this.selection = [];
@@ -1206,13 +1206,13 @@ highlight_row: function(id, multiple, norecur)
     if (this.selection.length > 1 || !this.in_selection(id)) {
       this.clear_selection(null, true);
       this.selection[0] = id;
-      $(this.rows[id].obj).addClass('selected');
+      $(this.rows[id].obj).addClass('selected').attr('aria-selected', 'true');
     }
   }
   else {
     if (!this.in_selection(id)) { // select row
       this.selection.push(id);
-      $(this.rows[id].obj).addClass('selected');
+      $(this.rows[id].obj).addClass('selected').attr('aria-selected', 'true');
       if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, true);
     }
@@ -1222,7 +1222,7 @@ highlight_row: function(id, multiple, norecur)
         a_post = this.selection.slice(p+1, this.selection.length);
 
       this.selection = a_pre.concat(a_post);
-      $(this.rows[id].obj).removeClass('selected').removeClass('unfocused');
+      $(this.rows[id].obj).removeClass('selected').removeClass('unfocused').removeAttr('aria-selected');
       if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, false);
     }

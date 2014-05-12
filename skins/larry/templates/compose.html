@@ -27,12 +27,12 @@
 	<roundcube:if condition="config:enable_spellcheck" />
 	<span class="dropbutton">
 		<roundcube:button command="spellcheck" type="link" class="button spellcheck disabled" classAct="button spellcheck" classSel="button spellcheck pressed" label="spellcheck" title="checkspelling" tabindex="2" />
-		<a href="#languages" class="dropbuttontip" id="spellmenulink" onclick="UI.toggle_popup('spellmenu',event);return false" aria-haspopup="true" tabindex="2">Select Spell Language</a>
+		<a href="#languages" class="dropbuttontip" id="spellmenulink" onclick="UI.toggle_popup('spellmenu',event);return false" aria-haspopup="true" aria-expanded="false"tabindex="2">Select Spell Language</a>
 	</span>
 	<roundcube:endif />
-	<roundcube:button name="addattachment" type="link" class="button attach" label="attach" title="addattachment" onclick="UI.show_uploadform(event);return false" aria-haspopup="true" tabindex="2" />
+	<roundcube:button name="addattachment" type="link" class="button attach" label="attach" title="addattachment" onclick="UI.show_uploadform(event);return false" aria-haspopup="true" aria-expanded="false"tabindex="2" />
 	<roundcube:button command="insert-sig" type="link" class="button insertsig disabled" classAct="button insertsig" label="signature" title="insertsignature" tabindex="2" />
-	<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="UI.toggle_popup('responsesmenu',event);return false" tabindex="2" aria-haspopup="true" aria-owns="textresponsesmenu"><roundcube:label name="responses" /></a>
+	<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="UI.toggle_popup('responsesmenu',event);return false" tabindex="2" aria-haspopup="true" aria-expanded="false"aria-owns="textresponsesmenu"><roundcube:label name="responses" /></a>
 	<roundcube:container name="toolbar" id="compose-toolbar" />
 </div>
 

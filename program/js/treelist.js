@@ -323,7 +323,7 @@ function rcube_treelist_widget(node, p)
    */
   function update_data()
   {
-    data = walk_list(container);
+    data = walk_list(container, 0);
   }
 
   /**
@@ -332,6 +332,7 @@ function rcube_treelist_widget(node, p)
   function update_dom(node)
   {
     var li = id2dom(node.id);
+    li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
     li.children('ul').first()[(node.collapsed ? 'hide' : 'show')]();
     li.children('div.treetoggle').removeClass('collapsed expanded').addClass(node.collapsed ? 'collapsed' : 'expanded');
     me.triggerEvent('toggle', node);
@@ -400,8 +401,9 @@ function rcube_treelist_widget(node, p)
 
     // add child list and toggle icon
     if (node.children && node.children.length) {
+      li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
       $('<div class="treetoggle '+(node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
-      var ul = $('<ul>').appendTo(li).attr('class', node.childlistclass).attr('role', 'tree');
+      var ul = $('<ul>').appendTo(li).attr('class', node.childlistclass).attr('role', 'group');
       if (node.collapsed)
         ul.hide();
 
@@ -417,7 +419,7 @@ function rcube_treelist_widget(node, p)
    * Recursively walk the DOM tree and build an internal data structure
    * representing the skeleton of this tree list.
    */
-  function walk_list(ul)
+  function walk_list(ul, level)
   {
     var result = [];
     ul.children('li').each(function(i,e){
@@ -427,7 +429,7 @@ function rcube_treelist_widget(node, p)
         classes: li.attr('class').split(' '),
         virtual: li.hasClass('virtual'),
         html: li.children().first().get(0).outerHTML,
-        children: walk_list(sublist)
+        children: walk_list(sublist, level+1)
       }
 
       if (sublist.length) {
@@ -435,6 +437,7 @@ function rcube_treelist_widget(node, p)
       }
       if (node.children.length) {
         node.collapsed = sublist.css('display') == 'none';
+        li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
       }
       if (li.hasClass('selected')) {
         li.attr('aria-selected', 'true');
@@ -453,7 +456,7 @@ function rcube_treelist_widget(node, p)
       indexbyid[node.id] = node;
     });
 
-    ul.attr('role', 'tree');
+    ul.attr('role', level == 0 ? 'tree' : 'group');
 
     return result;
   }
