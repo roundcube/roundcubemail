@@ -2489,6 +2489,11 @@ ul.toolbarmenu li span.copy {
 	margin-bottom: 1px;
 }
 
+.attachmentslist li.txt,
+.attachmentslist li.text {
+	background-position: 0 -416px;
+}
+
 .attachmentslist li.pdf {
 	background-position: 0 -26px;
 }
@@ -2546,11 +2551,6 @@ ul.toolbarmenu li span.copy {
 
 .attachmentslist li.video {
 	background-position: 0 -338px;
-}
-
-.attachmentslist li.txt,
-.attachmentslist li.text {
-	background-position: 0 -416px;
 }
 
 .attachmentslist li.ics,
