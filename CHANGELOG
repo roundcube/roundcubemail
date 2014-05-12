@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Add configurable LDAP_OPT_DEREF option (#1489864)
+- Fix unintentional draft autosave request if autosave is disabled (#1489882)
 
 RELEASE 1.0.1
 -------------

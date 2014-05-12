@@ -3644,12 +3644,13 @@ function rcube_webmail()
 
   this.auto_save_start = function()
   {
-    if (this.env.draft_autosave)
+    if (this.env.draft_autosave) {
       this.draft_autosave_submit = false;
       this.save_timer = setTimeout(function(){
           ref.draft_autosave_submit = true;  // set auto-saved flag (#1489789)
           ref.command("savedraft");
       }, this.env.draft_autosave * 1000);
+    }
 
     // save compose form content to local storage every 5 seconds
     if (!this.local_save_timer && window.localStorage) {
