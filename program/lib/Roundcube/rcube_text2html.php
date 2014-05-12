@@ -54,7 +54,7 @@ class rcube_text2html
         'break'  => "<br>\n",
         // prefix and suffix (wrapper element)
         'begin'  => '<div class="pre">',
-        'end'    => '</end>',
+        'end'    => '</div>',
         // enables links replacement
         'links'  => true,
     );
