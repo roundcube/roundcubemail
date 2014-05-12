@@ -259,14 +259,20 @@ class rcube_text2html
 
         // replace spaces with non-breaking spaces
         if ($is_flowed) {
-            $text = preg_replace_callback('/(^|[^ ])( +)/', function($matches) {
-                    if (!strlen($matches[2])) {
-                        return str_repeat($nbsp, strlen($matches[2]));
-                    }
-                    else {
-                        return $matches[1] . ' ' . str_repeat($nbsp, strlen($matches[2])-1);
-                    }
-                }, $text);
+            $pos  = 0;
+            $diff = 0;
+            $len  = strlen($nbsp);
+            $copy = $text;
+
+            while (($pos = strpos($text, ' ', $pos)) !== false) {
+                if ($pos == 0 || $text[$pos-1] == ' ') {
+                    $copy = substr_replace($copy, $nbsp, $pos + $diff, 1);
+                    $diff += $len - 1;
+                }
+                $pos++;
+            }
+
+            $text = $copy;
         }
         else {
             $text = str_replace(' ', $nbsp, $text);
