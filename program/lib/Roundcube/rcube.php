@@ -1132,6 +1132,11 @@ class rcube
                 return true;
         }
 
+        // add session ID to the log
+        if ($sess = session_id()) {
+            $line = '<' . substr($sess, 0, 8) . '> ' . $line;
+        }
+
         if ($log_driver == 'syslog') {
             $prio = $name == 'errors' ? LOG_ERR : LOG_INFO;
             syslog($prio, $line);
