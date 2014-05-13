@@ -162,9 +162,11 @@ if (!empty($result_h)) {
 
     // remember last HIGHESTMODSEQ value (if supported)
     // we need it for flag updates in check-recent
-    $data = $RCMAIL->storage->folder_data($mbox_name);
-    if (!empty($data['HIGHESTMODSEQ'])) {
-        $_SESSION['list_mod_seq'] = $data['HIGHESTMODSEQ'];
+    if ($mbox !== null) {
+        $data = $RCMAIL->storage->folder_data($mbox);
+        if (!empty($data['HIGHESTMODSEQ'])) {
+            $_SESSION['list_mod_seq'] = $data['HIGHESTMODSEQ'];
+        }
     }
 }
 // handle IMAP errors (e.g. #1486905)
@@ -189,7 +191,7 @@ $OUTPUT->set_env('search_filter', $_SESSION['search_filter']);
 $OUTPUT->set_env('threading', $RCMAIL->storage->get_threading());
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', ceil($count/$RCMAIL->storage->get_pagesize()));
-$OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
+$OUTPUT->set_env('exists', $mbox === null ? 0 : $RCMAIL->storage->count($mbox, 'EXISTS'));
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count, 1), $mbox);
 $OUTPUT->set_pagetitle($RCMAIL->gettext(array('name' => 'searchfor', 'vars' => array('q' => $str))));
 $OUTPUT->send();
