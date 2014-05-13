@@ -49,7 +49,7 @@ class rcube_text2html
         // enables format=flowed parser
         'flowed' => false,
         // enables wrapping for non-flowed text
-        'wrap'   => false,
+        'wrap'   => true,
         // line-break tag
         'break'  => "<br>\n",
         // prefix and suffix (wrapper element)

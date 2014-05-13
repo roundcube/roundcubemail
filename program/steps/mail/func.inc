@@ -874,7 +874,8 @@ function rcmail_print_body($part, $p = array())
  */
 function rcmail_plain_body($body, $flowed = false)
 {
-    $text2html = new rcube_text2html($body, false, array('flowed' => $flowed));
+    $options   = array('flowed' => $flowed, 'wrap' => !$flowed);
+    $text2html = new rcube_text2html($body, false, $options);
     $body      = $text2html->get_html();
 
     return $body;

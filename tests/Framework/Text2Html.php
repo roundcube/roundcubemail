@@ -19,6 +19,7 @@ class Framework_Text2Html extends PHPUnit_Framework_TestCase
             'break'  => '<br>',
             'links'  => false,
             'flowed' => false,
+            'wrap'   => false,
             'space'  => '_', // replace UTF-8 non-breaking space for simpler testing
         );
 
