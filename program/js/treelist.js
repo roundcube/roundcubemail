@@ -64,7 +64,7 @@ function rcube_treelist_widget(node, p)
     scroll_timer,
     searchfield,
     tree_state,
-    list_id = (container.attr('id') || id_prefix || '0'),
+    list_id = (container.attr('id') || p.id_prefix || '0'),
     me = this;
 
 
