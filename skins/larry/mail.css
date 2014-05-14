@@ -92,6 +92,7 @@ html>/**/body #messagelist {
 	background: -ms-linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
 	background: linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
 	border-radius: 0 0 4px 4px;
+	white-space: nowrap;
 }
 
 #messagelistfooter.rightalign {
