@@ -83,6 +83,7 @@ function rcube_treelist_widget(node, p)
   this.insert = insert;
   this.remove = remove;
   this.get_item = get_item;
+  this.get_node = get_node;
   this.get_selection = get_selection;
 
   /////// startup code (constructor)
@@ -224,9 +225,17 @@ function rcube_treelist_widget(node, p)
   /**
    * Return the DOM element of the list item with the given ID
    */
-  function get_item(id)
+  function get_node(id)
   {
-    return id2dom(id).get(0);
+    return indexbyid[id];
+  }
+
+  /**
+   * Return the DOM element of the list item with the given ID
+   */
+  function get_item(id, real)
+  {
+    return id2dom(id, real).get(0);
   }
 
   /**
@@ -237,6 +246,11 @@ function rcube_treelist_widget(node, p)
     var li, parent_li,
       parent_node = parent_id ? indexbyid[parent_id] : null
       search_ = search_active;
+
+    // ignore, already exists
+    if (indexbyid[node.id]) {
+      return;
+    }
 
     // apply saved state
     state = get_state(node.id, node.collapsed);
@@ -341,7 +355,7 @@ function rcube_treelist_widget(node, p)
     if (sibling) {
       li.insertAfter(sibling);
     }
-    else if (first.id != myid) {
+    else if (first && first.id != myid) {
       li.insertBefore(first);
     }
 
@@ -357,7 +371,7 @@ function rcube_treelist_widget(node, p)
     var node, li;
 
     if (node = indexbyid[id]) {
-      li = id2dom(id);
+      li = id2dom(id, true);
       li.remove();
 
       node.deleted = true;
@@ -610,11 +624,11 @@ function rcube_treelist_widget(node, p)
   /**
    * Get the <li> element for the given node ID
    */
-  function id2dom(id)
+  function id2dom(id, real)
   {
     var domid = p.id_encode ? p.id_encode(id) : id,
-      suffix = search_active ? '--xsR' : '';
-    return $('#' + p.id_prefix + domid + suffix);
+      suffix = search_active && !real ? '--xsR' : '';
+    return $('#' + p.id_prefix + domid + suffix, container);
   }
 
   /**
