@@ -20,6 +20,7 @@ CHANGELOG Roundcube Webmail
 - Optimize some framed pages content for better performance (#1489792)
 - Fix mbox files import
 - Fix unintentional draft autosave request if autosave is disabled (#1489882)
+- Fix malformed References: header in send/saved mail (#1489891)
 
 RELEASE 1.0.1
 -------------
