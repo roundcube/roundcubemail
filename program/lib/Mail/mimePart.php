@@ -839,7 +839,7 @@ class Mail_mimePart
             // Simple e-mail address regexp
             $email_regexp = '([^\s<]+|("[^\r\n"]+"))@\S+';
 
-            $parts = Mail_mimePart::_explodeQuotedString($separator, $value);
+            $parts = Mail_mimePart::_explodeQuotedString("[\t$separator]", $value);
             $value = '';
 
             foreach ($parts as $part) {
@@ -850,7 +850,7 @@ class Mail_mimePart
                     continue;
                 }
                 if ($value) {
-                    $value .= $separator==',' ? $separator.' ' : ' ';
+                    $value .= $separator == ',' ? $separator . ' ' : ' ';
                 } else {
                     $value = $name . ': ';
                 }
@@ -869,7 +869,7 @@ class Mail_mimePart
                     // check if phrase requires quoting
                     if ($word) {
                         // non-ASCII: require encoding
-                        if (preg_match('#([\x80-\xFF]){1}#', $word)) {
+                        if (preg_match('#([^\s\x21-\x7E]){1}#', $word)) {
                             if ($word[0] == '"' && $word[strlen($word)-1] == '"') {
                                 // de-quote quoted-string, encoding changes
                                 // string to atom
@@ -908,11 +908,10 @@ class Mail_mimePart
             $value = preg_replace(
                 '/^'.$name.':('.preg_quote($eol, '/').')* /', '', $value
             );
-
         } else {
             // Unstructured header
             // non-ASCII: require encoding
-            if (preg_match('#([\x80-\xFF]){1}#', $value)) {
+            if (preg_match('#([^\s\x21-\x7E]){1}#', $value)) {
                 if ($value[0] == '"' && $value[strlen($value)-1] == '"') {
                     // de-quote quoted-string, encoding changes
                     // string to atom
