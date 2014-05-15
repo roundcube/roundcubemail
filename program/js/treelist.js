@@ -282,12 +282,14 @@ function rcube_treelist_widget(node, p)
         search_active = search_;
 
         // add clone to current search results (top level)
-        $('<li>')
-          .attr('id', li.attr('id') + '--xsR')
-          .attr('class', li.attr('class'))
-          .addClass('searchresult__')
-          .append(li.children().first().clone(true, true))
-          .appendTo(container);
+        if (!li.is(':visible')) {
+          $('<li>')
+            .attr('id', li.attr('id') + '--xsR')
+            .attr('class', li.attr('class'))
+            .addClass('searchresult__')
+            .append(li.children().first().clone(true, true))
+            .appendTo(container);
+        }
       }
     }
     // insert at top level
@@ -434,7 +436,7 @@ function rcube_treelist_widget(node, p)
     var search_tree = function(items) {
       $.each(items, function(i, node) {
         var li, sli;
-        if (!node.virtual && !node.deleted && String(node.text).toLowerCase().indexOf(q) >= 0) {
+        if (!node.virtual && !node.deleted && String(node.text).toLowerCase().indexOf(q) >= 0 && hits.indexOf(node.id) < 0) {
           li = id2dom(node.id);
           sli = $('<li>')
             .attr('id', li.attr('id') + '--xsR')
