@@ -38,6 +38,9 @@
 	left: 0;
 	right: 0;
 	bottom: 0px;
+}
+
+html.ie #mailview-top {
 	overflow: visible; /* fixes display issues of fixed list header in IE */
 }
 
