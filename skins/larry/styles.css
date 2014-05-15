@@ -439,8 +439,7 @@ a.iconbutton.searchoptions {
 	background-position: -2px -317px;
 }
 
-a.iconbutton.searchicon,
-a.iconbutton.searchoptions {
+a.iconbutton.searchicon {
 	width: 15px;
 }
 
