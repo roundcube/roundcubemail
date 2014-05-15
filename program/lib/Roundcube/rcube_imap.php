@@ -1489,23 +1489,39 @@ class rcube_imap extends rcube_storage
      * Invoke search request to IMAP server
      *
      * @param  string  $folder     Folder name to search in
-     * @param  string  $str        Search criteria
+     * @param  string  $search     Search criteria
      * @param  string  $charset    Search charset
      * @param  string  $sort_field Header field to sort by
+     *
      * @return rcube_result_index  Search result object
      * @todo: Search criteria should be provided in non-IMAP format, eg. array
      */
-    public function search($folder='', $str='ALL', $charset=NULL, $sort_field=NULL)
+    public function search($folder = '', $search = 'ALL', $charset = null, $sort_field = null)
     {
-        if (!$str) {
-            $str = 'ALL';
+        if (!$search) {
+            $search = 'ALL';
         }
 
-        // multi-folder search
-        if (is_array($folder) && count($folder) > 1 && $str != 'ALL') {
-            new rcube_result_index; // trigger autoloader and make these classes available for threaded context
-            new rcube_result_thread;
+        if ((is_array($folder) && empty($folder)) || (!is_array($folder) && !strlen($folder))) {
+            $folder = $this->folder;
+        }
 
+        $plugin = rcube::get_instance()->plugins->exec_hook('imap_search_before', array(
+            'folder'     => $folder,
+            'search'     => $search,
+            'charset'    => $charset,
+            'sort_field' => $sort_field,
+            'threading'  => $this->threading,
+        ));
+
+        $folder     = $plugin['folder'];
+        $search     = $plugin['search'];
+        $charset    = $plugin['charset'];
+        $sort_field = $plugin['sort_field'];
+        $results    = $plugin['result'];
+
+        // multi-folder search
+        if (!$results && is_array($folder) && count($folder) > 1 && $search != 'ALL') {
             // connect IMAP to have all the required classes and settings loaded
             $this->check_connection();
 
@@ -1518,29 +1534,28 @@ class rcube_imap extends rcube_storage
             $searcher->set_timelimit(60);
 
             // continue existing incomplete search
-            if (!empty($this->search_set) && $this->search_set->incomplete && $str == $this->search_string) {
+            if (!empty($this->search_set) && $this->search_set->incomplete && $search == $this->search_string) {
                 $searcher->set_results($this->search_set);
             }
 
             // execute the search
             $results = $searcher->exec(
                 $folder,
-                $str,
+                $search,
                 $charset ? $charset : $this->default_charset,
                 $sort_field && $this->get_capability('SORT') ? $sort_field : null,
                 $this->threading
             );
         }
-        else {
-            $folder = is_array($folder) ? $folder[0] : $folder;
-            if (!strlen($folder)) {
-                $folder = $this->folder;
-            }
-            $results = $this->search_index($folder, $str, $charset, $sort_field);
+        else if (!$results) {
+            $folder  = is_array($folder) ? $folder[0] : $folder;
+            $search  = is_array($search) ? $search[$folder] : $search;
+            $results = $this->search_index($folder, $search, $charset, $sort_field);
         }
 
-        $this->set_search_set(array($str, $results, $charset, $sort_field,
-            $this->threading || $this->search_sorted ? true : false));
+        $sorted = $this->threading || $this->search_sorted || $plugin['search_sorted'] ? true : false;
+
+        $this->set_search_set(array($search, $results, $charset, $sort_field, $sorted));
 
         return $results;
     }

@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Make identity name field optional (#1489510)
 - Utility script to remove user records from the local database
 - Plugin API: Added message_saved hook (#1489752)
+- Plugin API: Added imap_search_before hook
 - Support messages import from zip archives
 - Zipdownload: Added mbox format support (#1486069)
 - Drop support for IE6, move IE7/IE8 support to legacy_browser plugin

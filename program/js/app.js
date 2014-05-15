@@ -4225,7 +4225,7 @@ function rcube_webmail()
   };
 
   // build URL params for search
-  this.search_params = function(search, filter, smods)
+  this.search_params = function(search, filter)
   {
     var n, url = {}, mods_arr = [],
       mods = this.env.search_mods,
@@ -4244,7 +4244,7 @@ function rcube_webmail()
     if (search) {
       url._q = search;
 
-      if (!smods && mods && this.message_list)
+      if (mods && this.message_list)
         mods = mods[mbox] || mods['*'];
 
       if (mods) {
