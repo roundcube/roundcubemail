@@ -26,16 +26,16 @@
  */
 class rcube_result_multifolder
 {
-    public $multi = true;
-    public $sets = array();
+    public $multi      = true;
+    public $sets       = array();
     public $incomplete = false;
     public $folder;
 
-    protected $meta = array();
-    protected $index = array();
+    protected $meta    = array();
+    protected $index   = array();
     protected $folders = array();
+    protected $order   = 'ASC';
     protected $sorting;
-    protected $order = 'ASC';
 
 
     /**
@@ -44,7 +44,7 @@ class rcube_result_multifolder
     public function __construct($folders = array())
     {
         $this->folders = $folders;
-        $this->meta = array('count' => 0);
+        $this->meta    = array('count' => 0);
     }
 
 
@@ -74,7 +74,8 @@ class rcube_result_multifolder
 
         // append UIDs to global index
         $folder = $result->get_parameters('MAILBOX');
-        $index = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
+        $index  = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
+
         $this->index = array_merge($this->index, $index);
     }
 
@@ -89,7 +90,7 @@ class rcube_result_multifolder
         }
 
         $this->sorting = $sort_field;
-        $this->order = $sort_order;
+        $this->order   = $sort_order;
     }
 
     /**
@@ -150,8 +151,10 @@ class rcube_result_multifolder
             if ($this->order != $set->get_parameters('ORDER')) {
                 $set->revert();
             }
+
             $folder = $set->get_parameters('MAILBOX');
-            $index = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $set->get());
+            $index  = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $set->get());
+
             $this->index = array_merge($this->index, $index);
         }
     }
@@ -171,6 +174,7 @@ class rcube_result_multifolder
         if (!empty($this->folder)) {
             $msgid .= '-' . $this->folder;
         }
+
         return array_search($msgid, $this->index);
     }
 
@@ -188,6 +192,7 @@ class rcube_result_multifolder
             if ($set->get_parameters('MAILBOX') == $folder) {
                 $set->filter($ids);
             }
+
             $this->meta['count'] += $set->count();
         }
     }
@@ -267,8 +272,8 @@ class rcube_result_multifolder
     public function get_parameters($param=null)
     {
         $params = array(
-            'SORT' => $this->sorting,
-            'ORDER' => $this->order,
+            'SORT'    => $this->sorting,
+            'ORDER'   => $this->order,
             'MAILBOX' => $this->folders,
         );
 
