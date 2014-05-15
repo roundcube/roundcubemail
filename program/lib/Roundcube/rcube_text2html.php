@@ -158,10 +158,10 @@ class rcube_text2html
         // split body into single lines
         $text        = preg_split('/\r?\n/', $text);
         $quote_level = 0;
-        $last        = -1;
+        $last        = null;
 
-        // find/mark quoted lines...
-        for ($n=0, $cnt=count($text); $n < $cnt; $n++) {
+        // wrap quoted lines with <blockquote>
+        for ($n = 0, $cnt = count($text); $n < $cnt; $n++) {
             $flowed = false;
             if ($this->config['flowed'] && ord($text[$n][0]) == $flowed_char) {
                 $flowed   = true;
@@ -172,43 +172,71 @@ class rcube_text2html
                 $q        = substr_count($regs[0], '>');
                 $text[$n] = substr($text[$n], strlen($regs[0]));
                 $text[$n] = $this->_convert_line($text[$n], $flowed || $this->config['wrap']);
+                $_length  = strlen(str_replace(' ', '', $text[$n]));
 
                 if ($q > $quote_level) {
-                    $text[$n] = $replacer->get_replacement($replacer->add(
-                        str_repeat('<blockquote>', $q - $quote_level))) . $text[$n];
-                    $last = $n;
+                    if ($last !== null) {
+                        $text[$last] .= (!$length ? "\n" : '')
+                            . $replacer->get_replacement($replacer->add(
+                                str_repeat('<blockquote>', $q - $quote_level)))
+                            . $text[$n];
+
+                        unset($text[$n]);
+                    }
+                    else {
+                        $text[$n] = $replacer->get_replacement($replacer->add(
+                            str_repeat('<blockquote>', $q - $quote_level))) . $text[$n];
+
+                        $last = $n;
+                    }
                 }
                 else if ($q < $quote_level) {
-                    $text[$n] = $replacer->get_replacement($replacer->add(
-                        str_repeat('</blockquote>', $quote_level - $q))) . $text[$n];
+                    $text[$last] .= (!$length ? "\n" : '')
+                        . $replacer->get_replacement($replacer->add(
+                            str_repeat('</blockquote>', $quote_level - $q)))
+                        . $text[$n];
+
+                    unset($text[$n]);
+                }
+                else {
                     $last = $n;
                 }
             }
             else {
                 $text[$n] = $this->_convert_line($text[$n], $flowed || $this->config['wrap']);
-                $q = 0;
+                $q        = 0;
+                $_length  = strlen(str_replace(' ', '', $text[$n]));
 
                 if ($quote_level > 0) {
-                    $text[$n] = $replacer->get_replacement($replacer->add(
-                        str_repeat('</blockquote>', $quote_level))) . $text[$n];
+                    $text[$last] .= (!$length ? "\n" : '')
+                        . $replacer->get_replacement($replacer->add(
+                            str_repeat('</blockquote>', $quote_level)))
+                        . $text[$n];
+
+                    unset($text[$n]);
+                }
+                else {
+                    $last = $n;
                 }
             }
 
             $quote_level = $q;
+            $length      = $_length;
         }
 
         if ($quote_level > 0) {
-            $text[$n] = $replacer->get_replacement($replacer->add(
-                str_repeat('</blockquote>', $quote_level))) . $text[$n];
+            $text[$last] .= $replacer->get_replacement($replacer->add(
+                str_repeat('</blockquote>', $quote_level)));
         }
 
         $text = join("\n", $text);
 
         // colorize signature (up to <sig_max_lines> lines)
-        $len = strlen($text);
+        $len           = strlen($text);
+        $sig_sep       = "--" . $this->config['space'] . "\n";
         $sig_max_lines = rcube::get_instance()->config->get('sig_max_lines', 15);
 
-        while (($sp = strrpos($text, "-- \n", $sp ? -$len+$sp-1 : 0)) !== false) {
+        while (($sp = strrpos($text, $sig_sep, $sp ? -$len+$sp-1 : 0)) !== false) {
             if ($sp == 0 || $text[$sp-1] == "\n") {
                 // do not touch blocks with more that X lines
                 if (substr_count($text, "\n", $sp) < $sig_max_lines) {
@@ -222,9 +250,6 @@ class rcube_text2html
 
         // insert url/mailto links and citation tags
         $text = $replacer->resolve($text);
-
-        // replace \n before </blockquote>
-        $text = str_replace("\n</blockquote>", "</blockquote>", $text);
 
         // replace line breaks
         $text = str_replace("\n", $this->config['break'], $text);
@@ -246,7 +271,7 @@ class rcube_text2html
 
         // skip signature separator
         if ($text == '-- ') {
-            return $text;
+            return '--' . $this->config['space'];
         }
 
         // replace HTML special characters
@@ -276,7 +301,7 @@ class rcube_text2html
         }
         else {
             // make the whole line non-breakable
-            $text = str_replace(array(' ', '-'), array($nbsp, '-&#8288;'), $text);
+            $text = str_replace(array(' ', '-', '/'), array($nbsp, '-&#8288;', '/&#8288;'), $text);
         }
 
         return $text;

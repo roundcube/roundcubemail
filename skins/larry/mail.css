@@ -1119,7 +1119,7 @@ div.message-part blockquote {
 	border-left: 2px solid blue;
 	border-right: 2px solid blue;
 	background-color: #F6F6F6;
-	margin: 0;
+	margin: 2px 0;
 	padding: 0 0.4em;
 	overflow: hidden;
 	text-overflow: ellipsis;

@@ -41,6 +41,7 @@ class Framework_Text2Html extends PHPUnit_Framework_TestCase
         $data[] = array(">aaaa \n>aaaa", "<blockquote>aaaa_<br>aaaa</blockquote>", $options);
         $data[] = array(">aaaa\n>aaaa", "<blockquote>aaaa<br>aaaa</blockquote>", $options);
         $data[] = array(">aaaa \n>bbbb\ncccc dddd", "<blockquote>aaaa_<br>bbbb</blockquote>cccc_dddd", $options);
+        $data[] = array("aaaa-bbbb/cccc", "aaaa-&#8288;bbbb/&#8288;cccc", $options);
 
         $options['flowed'] = true;
 
@@ -62,6 +63,16 @@ class Framework_Text2Html extends PHPUnit_Framework_TestCase
         $data[] = array(">aaaa \n>aaaa", "<blockquote>aaaa aaaa</blockquote>", $options);
         $data[] = array(">aaaa\n>aaaa", "<blockquote>aaaa<br>aaaa</blockquote>", $options);
         $data[] = array(">aaaa \n>bbbb\ncccc dddd", "<blockquote>aaaa bbbb</blockquote>cccc_dddd", $options);
+
+        $options['flowed'] = false;
+        $options['wrap']   = true;
+
+        $data[] = array(">>aaaa bbbb\n>>\n>>>\n>cccc\n\ndddd eeee",
+            "<blockquote><blockquote>aaaa bbbb<br><br><blockquote><br></blockquote></blockquote>cccc</blockquote><br>dddd eeee", $options);
+        $data[] = array("\n>>aaaa\n\ndddd",
+            "<br><blockquote><blockquote>aaaa</blockquote></blockquote><br>dddd", $options);
+        $data[] = array("aaaa\n>bbbb\n>cccc\n\ndddd\n>>test",
+            "aaaa<blockquote>bbbb<br>cccc</blockquote><br>dddd<blockquote><blockquote>test</blockquote></blockquote>", $options);
 
         return $data;
     }
