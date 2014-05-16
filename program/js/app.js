@@ -77,7 +77,7 @@ function rcube_webmail()
   });
 
   // unload fix
-  $(window).bind('beforeunload', function() { rcmail.unload = true; });
+  $(window).bind('beforeunload', function() { ref.unload = true; });
 
   // set environment variable(s)
   this.set_env = function(p, value)
@@ -241,7 +241,7 @@ function rcube_webmail()
           // load messages
           this.command('list');
 
-          $(this.gui_objects.qsearchbox).val(this.env.search_text).focusin(function() { rcmail.message_list.blur(); });
+          $(this.gui_objects.qsearchbox).val(this.env.search_text).focusin(function() { ref.message_list.blur(); });
         }
 
         this.set_button_titles();
@@ -479,7 +479,7 @@ function rcube_webmail()
 
       case 'login':
         var input_user = $('#rcmloginuser');
-        input_user.bind('keyup', function(e){ return rcmail.login_user_keyup(e); });
+        input_user.bind('keyup', function(e){ return ref.login_user_keyup(e); });
 
         if (input_user.val() == '')
           input_user.focus();
@@ -499,8 +499,8 @@ function rcube_webmail()
         // display 'loading' message on form submit, lock submit button
         $('form').submit(function () {
           $('input[type=submit]', this).prop('disabled', true);
-          rcmail.clear_messages();
-          rcmail.display_message('', 'loading');
+          ref.clear_messages();
+          ref.display_message('', 'loading');
         });
 
         this.enable_command('login', true);
@@ -1376,7 +1376,7 @@ function rcube_webmail()
     if (this.is_framed())
       parent.rcmail.reload(delay);
     else if (delay)
-      setTimeout(function(){ rcmail.reload(); }, delay);
+      setTimeout(function() { ref.reload(); }, delay);
     else if (window.location)
       location.href = this.env.comm_path + (this.env.action ? '&_action='+this.env.action : '');
   };
@@ -2525,8 +2525,8 @@ function rcube_webmail()
             $('#'+r.id+' .leaf:first')
               .attr('id', 'rcmexpando' + r.id)
               .attr('class', (r.obj.style.display != 'none' ? 'expanded' : 'collapsed'))
-              .bind('mousedown', {uid:r.uid, p:this},
-                function(e) { return e.data.p.expand_message_row(e, e.data.uid); });
+              .bind('mousedown', {uid: r.uid},
+                function(e) { return ref.expand_message_row(e, e.data.uid); });
 
             r.unread_children = 0;
             roots.push(r);
@@ -3445,7 +3445,7 @@ function rcube_webmail()
 
       if (this.env.default_font)
         setTimeout(function() {
-          $(tinyMCE.get(props.id).getBody()).css('font-family', rcmail.env.default_font);
+          $(tinyMCE.get(props.id).getBody()).css('font-family', ref.env.default_font);
         }, 500);
     }
     else if (this.html2plain(tinyMCE.get(props.id).getContent(), props.id))
@@ -3627,8 +3627,8 @@ function rcube_webmail()
     else if ((ed = this.env.spellcheck) && ed.state)
       active = ed.state != 'ready' && ed.state != 'no_error_found';
 
-    if (rcmail.buttons.spellcheck)
-      $('#'+rcmail.buttons.spellcheck[0].id)[active ? 'addClass' : 'removeClass']('selected');
+    if (this.buttons.spellcheck)
+      $('#'+this.buttons.spellcheck[0].id)[active ? 'addClass' : 'removeClass']('selected');
 
     return active;
   };
@@ -4060,17 +4060,17 @@ function rcube_webmail()
           } else if (this.contentWindow) {
             d = this.contentWindow.document;
           }
-          content = d.childNodes[0].innerHTML;
+          content = d.childNodes[1].innerHTML;
         } catch (err) {}
 
-        if (!content.match(/add2attachment/) && (!bw.opera || (rcmail.env.uploadframe && rcmail.env.uploadframe == e.data.ts))) {
+        if (!content.match(/add2attachment/) && (!bw.opera || (ref.env.uploadframe && ref.env.uploadframe == e.data.ts))) {
           if (!content.match(/display_message/))
-            rcmail.display_message(rcmail.get_label('fileuploaderror'), 'error');
-          rcmail.remove_from_attachment_list(e.data.ts);
+            ref.display_message(ref.get_label('fileuploaderror'), 'error');
+          ref.remove_from_attachment_list(e.data.ts);
         }
         // Opera hack: handle double onload
         if (bw.opera)
-          rcmail.env.uploadframe = e.data.ts;
+          ref.env.uploadframe = e.data.ts;
       });
 
       // display upload indicator and cancel button
@@ -4155,7 +4155,7 @@ function rcube_webmail()
 
   this.upload_progress_start = function(action, name)
   {
-    setTimeout(function() { rcmail.http_request(action, {_progress: name}); },
+    setTimeout(function() { ref.http_request(action, {_progress: name}); },
       this.env.upload_progress_time * 1000);
   };
 
@@ -4294,7 +4294,7 @@ function rcube_webmail()
 
   this.set_searchmods = function(mods)
   {
-    var mbox = rcmail.env.mailbox,
+    var mbox = this.env.mailbox,
       scope = this.env.search_scope || 'base';
 
     if (scope == 'all')
@@ -5134,7 +5134,7 @@ function rcube_webmail()
     if (!this.name_input) {
       this.enable_command('list', 'listgroup', false);
       this.name_input = $('<input>').attr('type', 'text').val(this.env.contactgroups['G'+this.env.source+this.env.group].name);
-      this.name_input.bind('keydown', function(e){ return rcmail.add_input_keydown(e); });
+      this.name_input.bind('keydown', function(e) { return ref.add_input_keydown(e); });
       this.env.group_renaming = true;
 
       var link, li = this.get_folder_li('G'+this.env.source+this.env.group,'',true);
@@ -5175,7 +5175,7 @@ function rcube_webmail()
 
     if (!this.name_input) {
       this.name_input = $('<input>').attr('type', 'text').data('tt', type);
-      this.name_input.bind('keydown', function(e){ return rcmail.add_input_keydown(e); });
+      this.name_input.bind('keydown', function(e) { return ref.add_input_keydown(e); });
       this.name_input_li = $('<li>').addClass(type).append(this.name_input);
 
       var ul, li;
@@ -5278,7 +5278,7 @@ function rcube_webmail()
     var key = 'G'+prop.source+prop.id,
       link = $('<a>').attr('href', '#')
         .attr('rel', prop.source+':'+prop.id)
-        .click(function() { return rcmail.command('listgroup', prop, this); })
+        .click(function() { return ref.command('listgroup', prop, this); })
         .html(prop.name);
 
     this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
@@ -5313,7 +5313,7 @@ function rcube_webmail()
       newnode.id = newkey;
       newnode.html = $('<a>').attr('href', '#')
         .attr('rel', prop.source+':'+prop.newid)
-        .click(function() { return rcmail.command('listgroup', newprop, this); })
+        .click(function() { return ref.command('listgroup', newprop, this); })
         .html(prop.name);
     }
     // update displayed group name
@@ -5490,7 +5490,7 @@ function rcube_webmail()
   {
     if (form && form.elements._photo.value) {
       this.async_upload_form(form, 'upload-photo', function(e) {
-        rcmail.set_busy(false, null, rcmail.file_upload_id);
+        ref.set_busy(false, null, ref.file_upload_id);
       });
 
       // display upload indicator
@@ -5555,7 +5555,7 @@ function rcube_webmail()
     var key = 'S'+id,
       link = $('<a>').attr('href', '#')
         .attr('rel', id)
-        .click(function() { return rcmail.command('listsearch', id, this); })
+        .click(function() { return ref.command('listsearch', id, this); })
         .html(name),
       prop = { name:name, id:id };
 
@@ -6139,14 +6139,14 @@ function rcube_webmail()
     elm._command = cmd;
     elm._id = prop.id;
     if (prop.sel) {
-      elm.onmousedown = function(e){ return rcmail.button_sel(this._command, this._id); };
-      elm.onmouseup = function(e){ return rcmail.button_out(this._command, this._id); };
+      elm.onmousedown = function(e) { return ref.button_sel(this._command, this._id); };
+      elm.onmouseup = function(e) { return ref.button_out(this._command, this._id); };
       if (preload)
         new Image().src = prop.sel;
     }
     if (prop.over) {
-      elm.onmouseover = function(e){ return rcmail.button_over(this._command, this._id); };
-      elm.onmouseout = function(e){ return rcmail.button_out(this._command, this._id); };
+      elm.onmouseover = function(e) { return ref.button_over(this._command, this._id); };
+      elm.onmouseout = function(e) { return ref.button_out(this._command, this._id); };
       if (preload)
         new Image().src = prop.over;
     }
@@ -6677,7 +6677,7 @@ function rcube_webmail()
 
     $(elem).removeClass('show-headers').addClass('hide-headers');
     $(this.gui_objects.all_headers_row).show();
-    elem.onclick = function() { rcmail.command('hide-headers', '', elem); };
+    elem.onclick = function() { ref.command('hide-headers', '', elem); };
 
     // fetch headers only once
     if (!this.gui_objects.all_headers_box.innerHTML) {
@@ -6695,7 +6695,7 @@ function rcube_webmail()
 
     $(elem).removeClass('hide-headers').addClass('show-headers');
     $(this.gui_objects.all_headers_row).hide();
-    elem.onclick = function() { rcmail.command('show-headers', '', elem); };
+    elem.onclick = function() { ref.command('show-headers', '', elem); };
   };
 
   // create folder selector popup, position and display it
@@ -7690,7 +7690,7 @@ function rcube_webmail()
           $(elem).parent().find('.mailtoprotohandler-status').html(status);
       }
       else {
-        $(elem).click(function() { rcmail.register_protocol_handler(name); return false; });
+        $(elem).click(function() { ref.register_protocol_handler(name); return false; });
       }
     }
   };
@@ -7729,8 +7729,8 @@ function rcube_webmail()
   {
     var img = new Image();
 
-    img.onload = function() { rcmail.env.browser_capabilities.tif = 1; };
-    img.onerror = function() { rcmail.env.browser_capabilities.tif = 0; };
+    img.onload = function() { ref.env.browser_capabilities.tif = 1; };
+    img.onerror = function() { ref.env.browser_capabilities.tif = 0; };
     img.src = 'program/resources/blank.tif';
   };
 
