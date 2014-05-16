@@ -22,6 +22,8 @@ class rcube_vpopmaild_password
             $rcmail->config->get('password_vpopmaild_port'), null))) {
             return PASSWORD_CONNECT_ERROR;
         }
+	
+        $vpopmaild->setTimeout($rcmail->config->get('password_vpopmaild_timeout'),0);
 
         $result = $vpopmaild->readLine();
         if(!preg_match('/^\+OK/', $result)) {
