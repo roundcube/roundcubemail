@@ -22,6 +22,7 @@ CHANGELOG Roundcube Webmail
 - Fix mbox files import
 - Fix unintentional draft autosave request if autosave is disabled (#1489882)
 - Fix malformed References: header in send/saved mail (#1489891)
+- Fix handling unicode characters in links (#1489898)
 
 RELEASE 1.0.1
 -------------

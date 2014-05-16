@@ -42,6 +42,10 @@ class Framework_StringReplacer extends PHPUnit_Framework_TestCase
             array('1@1.com www.domain.tld', '<a href="mailto:1@1.com">1@1.com</a> <a href="http://www.domain.tld">www.domain.tld</a>'),
             array(' www.domain.tld ', ' <a href="http://www.domain.tld">www.domain.tld</a> '),
             array(' www.domain.tld/#!download|856p1|2 ', ' <a href="http://www.domain.tld/#!download|856p1|2">www.domain.tld/#!download|856p1|2</a> '),
+            // #1489898: allow some unicode characters
+            array('https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62',
+                '<a href="https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62">https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62</a>'
+            ),
         );
     }
 
