@@ -423,7 +423,7 @@ class rcube_html2text
         // Variables used for building the link list
         $this->_link_list = array();
 
-        $text = trim(stripslashes($this->html));
+        $text = $this->html;
 
         // Convert HTML to TXT
         $this->_converter($text);

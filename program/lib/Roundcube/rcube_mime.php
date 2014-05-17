@@ -480,15 +480,17 @@ class rcube_mime
     /**
      * Interpret a format=flowed message body according to RFC 2646
      *
-     * @param string  $text Raw body formatted as flowed text
+     * @param string $text Raw body formatted as flowed text
+     * @param string $mark Mark each flowed line with specified character
      *
      * @return string Interpreted text with unwrapped lines and stuffed space removed
      */
-    public static function unfold_flowed($text)
+    public static function unfold_flowed($text, $mark = null)
     {
         $text = preg_split('/\r?\n/', $text);
         $last = -1;
         $q_level = 0;
+        $marks = array();
 
         foreach ($text as $idx => $line) {
             if (preg_match('/^(>+)/', $line, $m)) {
@@ -508,6 +510,10 @@ class rcube_mime
                 ) {
                     $text[$last] .= $line;
                     unset($text[$idx]);
+
+                    if ($mark) {
+                        $marks[$last] = true;
+                    }
                 }
                 else {
                     $last = $idx;
@@ -520,7 +526,7 @@ class rcube_mime
                 }
                 else {
                     // remove space-stuffing
-                    $line = preg_replace('/^\s/', '', $line);
+                    $line = preg_replace('/^ /', '', $line);
 
                     if (isset($text[$last]) && $line
                         && $text[$last] != '-- '
@@ -528,6 +534,10 @@ class rcube_mime
                     ) {
                         $text[$last] .= $line;
                         unset($text[$idx]);
+
+                        if ($mark) {
+                            $marks[$last] = true;
+                        }
                     }
                     else {
                         $text[$idx] = $line;
@@ -536,6 +546,12 @@ class rcube_mime
                 }
             }
             $q_level = $q;
+        }
+
+        if (!empty($marks)) {
+            foreach (array_keys($marks) as $mk) {
+                $text[$mk] = $mark . $text[$mk];
+            }
         }
 
         return implode("\r\n", $text);

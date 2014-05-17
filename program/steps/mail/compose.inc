@@ -624,7 +624,8 @@ function rcmail_compose_header_from($attrib)
                 }
 
                 if (!$sql_arr['html_signature']) {
-                    $html = "<pre>" . $html . "</pre>";
+                    $t2h  = new rcube_text2html($sql_arr['signature'], false);
+                    $html = $t2h->get_html();
                 }
 
                 $a_signatures[$identity_id]['text'] = $text;
@@ -826,15 +827,8 @@ function rcmail_compose_part_body($part, $isHtml = false)
                 }
             }
 
-            if ($part->ctype_parameters['format'] == 'flowed') {
-                $body = rcube_mime::unfold_flowed($body);
-            }
-
             // add HTML formatting
-            $body = rcmail_plain_body($body);
-            if ($body) {
-                $body = '<pre>' . $body . '</pre>';
-            }
+            $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed');
         }
     }
     else {
