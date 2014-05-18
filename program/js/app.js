@@ -3439,10 +3439,27 @@ function rcube_webmail()
   {
     this.stop_spellchecking();
 
-    var input = $('#' + props.id);
+    var ed, curr, content, result,
+      // these non-printable chars are not removed on text2html and html2text
+      // we can use them as temp signature replacement
+      sig_mark = "\u0002\u0003",
+      input = $('#' + props.id),
+      signature = this.env.identity ? this.env.signatures[this.env.identity] : null,
+      is_sig = signature && signature.text && signature.text.length > 1;
 
-    if (props.mode == 'html')
-      this.plain2html(input.val(), function(data) {
+    if (props.mode == 'html') {
+      content = input.val();
+
+      // replace current text signature with temp mark
+      if (is_sig)
+        content = content.replace(signature.text, sig_mark);
+
+      // convert to html
+      result = this.plain2html(content, function(data) {
+        // replace signature mark with html version of the signature
+        if (is_sig)
+          data = data.replace(sig_mark, '<div id="_rc_sig">' + signature.html + '</div>');
+
         input.val(data);
         tinyMCE.execCommand('mceAddControl', false, props.id);
 
@@ -3451,13 +3468,43 @@ function rcube_webmail()
             $(tinyMCE.get(props.id).getBody()).css('font-family', ref.env.default_font);
           }, 500);
       });
-    else
-      this.html2plain(tinyMCE.get(props.id).getContent(), function(data) {
+    }
+    else {
+      ed = tinyMCE.get(props.id);
+
+      if (is_sig) {
+        // get current version of signature, we'll need it in
+        // case of html2text conversion abort
+        if (curr = ed.dom.get('_rc_sig'))
+          curr = curr.innerHTML;
+
+        // replace current signature with some non-printable characters
+        // we use non-printable characters, because this replacement
+        // is visible to the user
+        // doing this after getContent() would be hard
+        ed.dom.setHTML('_rc_sig', sig_mark);
+      }
+
+      // get html content
+      content = ed.getContent();
+
+      // convert html to text
+      result = this.html2plain(content, function(data) {
         tinyMCE.execCommand('mceRemoveControl', false, props.id);
+
+        // replace signture mark with text version of the signature
+        if (is_sig)
+          data = data.replace(sig_mark, "\n" + signature.text);
+
         input.val(data);
       });
 
-    return true;
+      // bring back current signature
+      if (!result && curr)
+        ed.dom.setHTML('_rc_sig', curr);
+    }
+
+    return result;
   };
 
   this.insert_response = function(key)
@@ -6834,7 +6881,8 @@ function rcube_webmail()
       || (format != 'html' && !(text.replace(/\xC2\xA0|\s/g, '')).length)
     ) {
       // without setTimeout() here, textarea is filled with initial (onload) content
-      setTimeout(function() { if (func) func(''); }, 50);
+      if (func)
+        setTimeout(function() { func(''); }, 50);
       return true;
     }
 

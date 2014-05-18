@@ -611,7 +611,7 @@ function rcmail_compose_header_from($attrib)
                 $text = $html = $sql_arr['signature'];
 
                 if ($sql_arr['html_signature']) {
-                    $h2t  = new rcube_html2text($sql_arr['signature'], false, false);
+                    $h2t  = new rcube_html2text($sql_arr['signature'], false, true);
                     $text = trim($h2t->get_text());
                 }
                 else {

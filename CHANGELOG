@@ -20,6 +20,8 @@ CHANGELOG Roundcube Webmail
 - Add configurable LDAP_OPT_DEREF option (#1489864)
 - Optimize some framed pages content for better performance (#1489792)
 - Improve text messages display and conversion to HTML (#1488937)
+- Don't remove links when html signature is converted to text (#1489621)
+- Fix so when switching editor mode original version of signature is used (#1488849)
 - Fix mbox files import
 - Fix unintentional draft autosave request if autosave is disabled (#1489882)
 - Fix malformed References: header in send/saved mail (#1489891)

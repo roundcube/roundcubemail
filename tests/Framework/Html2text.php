@@ -41,6 +41,11 @@ class rc_html2text extends PHPUnit_Framework_TestCase
                 'in'    => '<b><strong>&#347;</strong></b>',
                 'out'   => 'Ś',
             ),
+            6 => array(
+                'title' => 'Don\'t remove non-printable chars',
+                'in'    => chr(0x002).chr(0x003),
+                'out'   => chr(0x002).chr(0x003),
+            ),
         );
     }
 

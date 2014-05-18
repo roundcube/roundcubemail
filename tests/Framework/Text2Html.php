@@ -63,6 +63,7 @@ class Framework_Text2Html extends PHPUnit_Framework_TestCase
         $data[] = array(">aaaa \n>aaaa", "<blockquote>aaaa aaaa</blockquote>", $options);
         $data[] = array(">aaaa\n>aaaa", "<blockquote>aaaa<br>aaaa</blockquote>", $options);
         $data[] = array(">aaaa \n>bbbb\ncccc dddd", "<blockquote>aaaa bbbb</blockquote>cccc_dddd", $options);
+        $data[] = array(chr(0x002).chr(0x003), chr(0x002).chr(0x003), $options);
 
         $options['flowed'] = false;
         $options['wrap']   = true;
