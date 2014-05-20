@@ -102,10 +102,10 @@ class rcube_image
         }
 
         // use Imagemagick
-        if ($convert) {
-            $p['out']  = $filename;
-            $p['in']   = $this->image_file;
-            $type      = $props['type'];
+        if ($convert || class_exists('Imagick', false)) {
+            $p['out'] = $filename;
+            $p['in']  = $this->image_file;
+            $type     = $props['type'];
 
             if (!$type && ($data = $this->identify())) {
                 $type = $data[0];
@@ -129,26 +129,49 @@ class rcube_image
                 $result = ($this->image_file == $filename || copy($this->image_file, $filename)) ? '' : false;
             }
             else {
-                if ($scale >= 1) {
-                    $width  = $props['width'];
-                    $height = $props['height'];
-                }
-                else {
-                    $width  = intval($props['width']  * $scale);
-                    $height = intval($props['height'] * $scale);
-                }
-
                 $valid_types = "bmp,eps,gif,jp2,jpg,png,svg,tif";
 
-                $p += array(
-                    'type'    => $type,
-                    'quality' => 75,
-                    'size'    => $width . 'x' . $height,
-                );
-
                 if (in_array($type, explode(',', $valid_types))) { // Valid type?
-                    $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace sRGB -strip'
-                        . ' -quality {quality} -resize {size} {intype}:{in} {type}:{out}', $p);
+                    if ($scale >= 1) {
+                        $width  = $props['width'];
+                        $height = $props['height'];
+                    }
+                    else {
+                        $width  = intval($props['width']  * $scale);
+                        $height = intval($props['height'] * $scale);
+                    }
+
+                    // use ImageMagick in command line
+                    if ($convert) {
+                        $p += array(
+                            'type'    => $type,
+                            'quality' => 75,
+                            'size'    => $width . 'x' . $height,
+                        );
+
+                        $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace sRGB -strip'
+                            . ' -quality {quality} -resize {size} {intype}:{in} {type}:{out}', $p);
+                    }
+                    // use PHP's Imagick class
+                    else {
+                        try {
+                            $image = new Imagick($this->image_file);
+                            $image = $image->flattenImages();
+
+                            $image->setImageColorspace(Imagick::COLORSPACE_SRGB);
+                            $image->setImageCompressionQuality(75);
+                            $image->setImageFormat($type);
+                            $image->stripImage();
+                            $image->scaleImage($width, $height);
+
+                            if ($image->writeImage($filename)) {
+                                $result = '';
+                            }
+                        }
+                        catch (Exception $e) {
+                            rcube::raise_error($e, true, false);
+                        }
+                    }
                 }
             }
 
@@ -249,7 +272,7 @@ class rcube_image
             }
         }
 
-        // use ImageMagick
+        // use ImageMagick in command line
         if ($convert) {
             $p['in']   = $this->image_file;
             $p['out']  = $filename;
@@ -258,8 +281,28 @@ class rcube_image
             $result = rcube::exec($convert . ' 2>&1 -colorspace sRGB -strip -quality 75 {in} {type}:{out}', $p);
 
             if ($result === '') {
-                @chmod($filename, 0600);
+                chmod($filename, 0600);
                 return true;
+            }
+        }
+
+        // use PHP's Imagick class
+        if (class_exists('Imagick', false)) {
+            try {
+                $image = new Imagick($this->image_file);
+
+                $image->setImageColorspace(Imagick::COLORSPACE_SRGB);
+                $image->setImageCompressionQuality(75);
+                $image->setImageFormat(self::$extensions[$type]);
+                $image->stripImage();
+
+                if ($image->writeImage($filename)) {
+                    @chmod($filename, 0600);
+                    return true;
+                }
+            }
+            catch (Exception $e) {
+                rcube::raise_error($e, true, false);
             }
         }
 
@@ -302,12 +345,26 @@ class rcube_image
     }
 
     /**
-     * Identify command handler.
+     * Checks if image format conversion is supported
+     *
+     * @return boolean True if specified format can be converted to another format
+     */
+    public static function is_convertable($mimetype = null)
+    {
+        $rcube = rcube::get_instance();
+
+        // @TODO: check if specified mimetype is really supported
+        return class_exists('Imagick', false) || $rcube->config->get('im_convert_path');
+    }
+
+    /**
+     * ImageMagick based image properties read.
      */
     private function identify()
     {
         $rcube = rcube::get_instance();
 
+        // use ImageMagick in command line
         if ($cmd = $rcube->config->get('im_identify_path')) {
             $args = array('in' => $this->image_file, 'format' => "%m %[fx:w] %[fx:h]");
             $id   = rcube::exec($cmd. ' 2>/dev/null -format {format} {in}', $args);
@@ -316,6 +373,19 @@ class rcube_image
                 return explode(' ', strtolower($id));
             }
         }
-    }
 
+        // use PHP's Imagick class
+        if (class_exists('Imagick', false)) {
+            try {
+                $image = new Imagick($this->image_file);
+
+                return array(
+                    strtolower($image->getImageFormat()),
+                    $image->getImageWidth(),
+                    $image->getImageHeight(),
+                );
+            }
+            catch (Exception $e) {}
+        }
+    }
 }

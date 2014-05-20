@@ -5,7 +5,7 @@
  | tests/Selenium/bootstrap.php                                          |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2009-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2009-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -38,7 +38,7 @@ if (set_include_path($include_path) === false) {
     die("Fatal error: ini_set/set_include_path does not work.");
 }
 
-$rcmail = rcube::get_instance('test');
+$rcmail = rcmail::get_instance('test');
 
 define('TESTS_URL',     $rcmail->config->get('tests_url'));
 define('TESTS_BROWSER', $rcmail->config->get('tests_browser', 'firefox'));
@@ -48,7 +48,56 @@ define('TESTS_SLEEP',   $rcmail->config->get('tests_sleep', 5));
 
 PHPUnit_Extensions_Selenium2TestCase::shareSession(true);
 
-// @TODO: remove user record from DB before running tests
+
+/**
+ * satisfy PHPUnit
+ */
+class bootstrap
+{
+    /**
+     * Wipe and re-initialize (mysql) database
+     */
+    public static function init_db()
+    {
+        $rcmail = rcmail::get_instance();
+
+        // drop all existing tables first
+        $db = $rcmail->get_dbh();
+        $db->query("SET FOREIGN_KEY_CHECKS=0");
+        $sql_res = $db->query("SHOW TABLES");
+        while ($sql_arr = $db->fetch_array($sql_res)) {
+            $table = reset($sql_arr);
+            $db->query("DROP TABLE $table");
+        }
+
+        // init database with schema
+        $dsn = parse_url($rcmail->config->get('db_dsnw'));
+        $db_name = trim($dsn['path'], '/');
+
+        if ($dsn['scheme'] == 'mysql' || $dsn['scheme'] == 'mysqli') {
+            system(sprintf('cat %s %s | mysql -h %s -u %s --password=%s %s',
+                realpath(INSTALL_PATH . '/SQL/mysql.initial.sql'),
+                realpath(TESTS_DIR . '/Selenium/data/mysql.sql'),
+                escapeshellarg($dsn['host']),
+                escapeshellarg($dsn['user']),
+                escapeshellarg($dsn['pass']),
+                escapeshellarg($db_name)
+            ));
+        }
+    }
+
+    /**
+     * Wipe the configured IMAP account and fill with test data
+     */
+    public static function init_imap()
+    {
+        if (!TESTS_USER)
+            return false;
+
+        // TBD.
+    }
+}
+
 // @TODO: make sure mailbox has some content (always the same) or is empty
 // @TODO: plugins: enable all?
 
@@ -59,12 +108,12 @@ class Selenium_Test extends PHPUnit_Extensions_Selenium2TestCase
 {
     protected function setUp()
     {
-//        $this->rc = rcube::get_instance();
         $this->setBrowser(TESTS_BROWSER);
 
         // Set root to our index.html, for better performance
         // See https://github.com/sebastianbergmann/phpunit-selenium/issues/217
-        $this->setBrowserUrl(TESTS_URL . '/tests/Selenium');
+        $baseurl = preg_replace('!/index(-.+)?\.php^!', '', TESTS_URL);
+        $this->setBrowserUrl($baseurl . '/tests/Selenium');
     }
 
     protected function login()
@@ -87,7 +136,7 @@ class Selenium_Test extends PHPUnit_Extensions_Selenium2TestCase
 
     protected function go($task = 'mail', $action = null)
     {
-        $this->url(TESTS_URL . '/?_task=' . $task);
+        $this->url(TESTS_URL . '?_task=' . $task);
 
         // wait for interface load (initial ajax requests, etc.)
         sleep(TESTS_SLEEP);

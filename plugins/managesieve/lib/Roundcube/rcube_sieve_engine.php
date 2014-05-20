@@ -52,6 +52,16 @@ class rcube_sieve_engine
         // Undocumented
         "x-beenthere",
     );
+    protected $notify_methods = array(
+        'mailto',
+        // 'sms',
+        // 'tel',
+    );
+    protected $notify_importance_options = array(
+        3 => 'notifyimportancelow',
+        2 => 'notifyimportancenormal',
+        1 => 'notifyimportancehigh'
+    );
 
     const VERSION  = '8.0';
     const PROGNAME = 'Roundcube (Managesieve)';
@@ -352,14 +362,13 @@ class rcube_sieve_engine
                 header("Content-Type: application/octet-stream");
                 header("Content-Length: ".strlen($script));
 
-                if ($browser->ie)
+                if ($browser->ie) {
                     header("Content-Type: application/force-download");
-                if ($browser->ie && $browser->ver < 7)
-                    $filename = rawurlencode(abbreviate_string($script_name, 55));
-                else if ($browser->ie)
                     $filename = rawurlencode($script_name);
-                else
+                }
+                else {
                     $filename = addcslashes($script_name, '\\"');
+                }
 
                 header("Content-Disposition: attachment; filename=\"$filename.txt\"");
                 echo $script;
@@ -559,9 +568,10 @@ class rcube_sieve_engine
             $varnames       = rcube_utils::get_input_value('_action_varname', rcube_utils::INPUT_POST);
             $varvalues      = rcube_utils::get_input_value('_action_varvalue', rcube_utils::INPUT_POST);
             $varmods        = rcube_utils::get_input_value('_action_varmods', rcube_utils::INPUT_POST);
-            $notifyaddrs    = rcube_utils::get_input_value('_action_notifyaddress', rcube_utils::INPUT_POST);
-            $notifybodies   = rcube_utils::get_input_value('_action_notifybody', rcube_utils::INPUT_POST);
-            $notifymessages = rcube_utils::get_input_value('_action_notifymessage', rcube_utils::INPUT_POST);
+            $notifymethods  = rcube_utils::get_input_value('_action_notifymethod', rcube_utils::INPUT_POST);
+            $notifytargets  = rcube_utils::get_input_value('_action_notifytarget', rcube_utils::INPUT_POST, true);
+            $notifyoptions  = rcube_utils::get_input_value('_action_notifyoption', rcube_utils::INPUT_POST, true);
+            $notifymessages = rcube_utils::get_input_value('_action_notifymessage', rcube_utils::INPUT_POST, true);
             $notifyfrom     = rcube_utils::get_input_value('_action_notifyfrom', rcube_utils::INPUT_POST);
             $notifyimp      = rcube_utils::get_input_value('_action_notifyimportance', rcube_utils::INPUT_POST);
 
@@ -961,19 +971,27 @@ class rcube_sieve_engine
                     break;
 
                 case 'notify':
-                    if (empty($notifyaddrs[$idx])) {
-                        $this->errors['actions'][$i]['address'] = $this->plugin->gettext('cannotbeempty');
+                    if (empty($notifymethods[$idx])) {
+                        $this->errors['actions'][$i]['method'] = $this->plugin->gettext('cannotbeempty');
                     }
-                    else if (!rcube_utils::check_email($notifyaddrs[$idx])) {
-                        $this->errors['actions'][$i]['address'] = $this->plugin->gettext('noemailwarning');
+                    if (empty($notifytargets[$idx])) {
+                        $this->errors['actions'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
                     }
                     if (!empty($notifyfrom[$idx]) && !rcube_utils::check_email($notifyfrom[$idx])) {
                         $this->errors['actions'][$i]['from'] = $this->plugin->gettext('noemailwarning');
                     }
-                    $this->form['actions'][$i]['address'] = $notifyaddrs[$idx];
-                    $this->form['actions'][$i]['body'] = $notifybodies[$idx];
-                    $this->form['actions'][$i]['message'] = $notifymessages[$idx];
-                    $this->form['actions'][$i]['from'] = $notifyfrom[$idx];
+
+                    // skip empty options
+                    foreach ((array)$notifyoptions[$idx] as $opt_idx => $opt) {
+                        if (!strlen(trim($opt))) {
+                            unset($notifyoptions[$idx][$opt_idx]);
+                        }
+                    }
+
+                    $this->form['actions'][$i]['method']     = $notifymethods[$idx] . ':' . $notifytargets[$idx];
+                    $this->form['actions'][$i]['options']    = $notifyoptions[$idx];
+                    $this->form['actions'][$i]['message']    = $notifymessages[$idx];
+                    $this->form['actions'][$i]['from']       = $notifyfrom[$idx];
                     $this->form['actions'][$i]['importance'] = $notifyimp[$idx];
                     break;
                 }
@@ -987,8 +1005,10 @@ class rcube_sieve_engine
                 if (!isset($this->script[$fid])) {
                     $fid = $this->sieve->script->add_rule($this->form);
                     $new = true;
-                } else
+                }
+                else {
                     $fid = $this->sieve->script->update_rule($fid, $this->form);
+                }
 
                 if ($fid !== false)
                     $save = $this->save_script();
@@ -1748,38 +1768,61 @@ class rcube_sieve_engine
         $out .= '</div>';
 
         // notify
-        // skip :options tag - not used by the mailto method
-        $out .= '<div id="action_notify' .$id.'" style="display:' .($action['type']=='notify' ? 'inline' : 'none') .'">';
-        $out .= '<span class="label">' .rcube::Q($this->plugin->gettext('notifyaddress')) . '</span><br />'
-            .'<input type="text" name="_action_notifyaddress['.$id.']" id="action_notifyaddress'.$id.'" '
-            .'value="' . rcube::Q($action['address']) . '" size="35" '
-            . $this->error_class($id, 'action', 'address', 'action_notifyaddress') .' />';
-        $out .= '<br /><span class="label">'. rcube::Q($this->plugin->gettext('notifybody')) .'</span><br />'
-            .'<textarea name="_action_notifybody['.$id.']" id="action_notifybody' .$id. '" '
-            .'rows="3" cols="35" '. $this->error_class($id, 'action', 'method', 'action_notifybody') . '>'
-            . rcube::Q($action['body'], 'strict', false) . "</textarea>\n";
-        $out .= '<br /><span class="label">' .rcube::Q($this->plugin->gettext('notifysubject')) . '</span><br />'
-            .'<input type="text" name="_action_notifymessage['.$id.']" id="action_notifymessage'.$id.'" '
-            .'value="' . rcube::Q($action['message']) . '" size="35" '
-            . $this->error_class($id, 'action', 'message', 'action_notifymessage') .' />';
-        $out .= '<br /><span class="label">' .rcube::Q($this->plugin->gettext('notifyfrom')) . '</span><br />'
-            .'<input type="text" name="_action_notifyfrom['.$id.']" id="action_notifyfrom'.$id.'" '
-            .'value="' . rcube::Q($action['from']) . '" size="35" '
-            . $this->error_class($id, 'action', 'from', 'action_notifyfrom') .' />';
-        $importance_options = array(
-            3 => 'notifyimportancelow',
-            2 => 'notifyimportancenormal',
-            1 => 'notifyimportancehigh'
-        );
+        $notify_methods     = (array) $this->rc->config->get('managesieve_notify_methods');
+        $importance_options = $this->notify_importance_options;
+
+        if (empty($notify_methods)) {
+            $notify_methods = $this->notify_methods;
+        }
+
+        list($method, $target) = explode(':', $action['method'], 2);
+        $method = strtolower($method);
+
+        if ($method && !in_array($method, $notify_methods)) {
+            $notify_methods[] = $method;
+        }
+
+        $select_method = new html_select(array(
+            'name'  => "_action_notifymethod[$id]",
+            'id'    => "_action_notifymethod$id",
+            'class' => $this->error_class($id, 'action', 'method', 'action_notifymethod'),
+        ));
+        foreach ($notify_methods as $m_n) {
+            $select_method->add(rcube::Q($this->rc->text_exists('managesieve.notifymethod'.$m_n) ? $this->plugin->gettext('managesieve.notifymethod'.$m_n) : $m_n), $m_n);
+        }
+
         $select_importance = new html_select(array(
-            'name' => '_action_notifyimportance[' . $id . ']',
-            'id' => '_action_notifyimportance' . $id,
-            'class' => $this->error_class($id, 'action', 'importance', 'action_notifyimportance')));
+            'name'  => "_action_notifyimportance[$id]",
+            'id'    => "_action_notifyimportance$id",
+            'class' => $this->error_class($id, 'action', 'importance', 'action_notifyimportance')
+        ));
         foreach ($importance_options as $io_v => $io_n) {
             $select_importance->add(rcube::Q($this->plugin->gettext($io_n)), $io_v);
         }
+
+        // @TODO: nice UI for mailto: (other methods too) URI parameters
+        $out .= '<div id="action_notify' .$id.'" style="display:' .($action['type'] == 'notify' ? 'inline' : 'none') .'">';
+        $out .= '<span class="label">' .rcube::Q($this->plugin->gettext('notifytarget')) . '</span><br />'
+            . $select_method->show($method)
+            .'<input type="text" name="_action_notifytarget['.$id.']" id="action_notifytarget'.$id.'" '
+            .'value="' . rcube::Q($target) . '" size="25" '
+            . $this->error_class($id, 'action', 'target', 'action_notifytarget') .' />';
+        $out .= '<br /><span class="label">'. rcube::Q($this->plugin->gettext('notifymessage')) .'</span><br />'
+            .'<textarea name="_action_notifymessage['.$id.']" id="action_notifymessage' .$id. '" '
+            .'rows="3" cols="35" '. $this->error_class($id, 'action', 'message', 'action_notifymessage') . '>'
+            . rcube::Q($action['message'], 'strict', false) . "</textarea>\n";
+        if (in_array('enotify', $this->exts)) {
+            $out .= '<br /><span class="label">' .rcube::Q($this->plugin->gettext('notifyfrom')) . '</span><br />'
+                .'<input type="text" name="_action_notifyfrom['.$id.']" id="action_notifyfrom'.$id.'" '
+                .'value="' . rcube::Q($action['from']) . '" size="35" '
+                . $this->error_class($id, 'action', 'from', 'action_notifyfrom') .' />';
+        }
         $out .= '<br /><span class="label">' . rcube::Q($this->plugin->gettext('notifyimportance')) . '</span><br />';
-        $out .= $select_importance->show($action['importance'] ? $action['importance'] : 2);
+        $out .= $select_importance->show($action['importance'] ? (int) $action['importance'] : 2);
+        $out .= '<div id="action_notifyoption_div' . $id  . '">'
+            .'<span class="label">' . rcube::Q($this->plugin->gettext('notifyoptions')) . '</span><br />'
+            .$this->list_input($id, 'action_notifyoption', (array)$action['options'], true,
+                $this->error_class($id, 'action', 'options', 'action_notifyoption'), 30) . '</div>';
         $out .= '</div>';
 
         // mailbox select

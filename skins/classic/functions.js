@@ -1,5 +1,18 @@
 /**
  * Roundcube functions for default skin interface
+ *
+ * @licstart  The following is the entire license notice for the
+ * JavaScript code in this file.
+ *
+ * Copyright (c) 2006-2014, The Roundcube Dev Team
+ *
+ * The JavaScript code in this page is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in this file.
  */
 
 /**
@@ -155,11 +168,6 @@ show_popupmenu: function(popup, show)
   }
 
   obj[show?'show':'hide']();
-
-  if (bw.ie6 && this.popups[popup].overlap) {
-    $('select').css('visibility', show?'hidden':'inherit');
-    $('select', obj).css('visibility', 'inherit');
-  }
 },
 
 dragmenu: function(show)
@@ -207,11 +215,13 @@ searchmenu: function(show)
       var n, all,
         list = $('input:checkbox[name="s_mods[]"]', obj),
         mbox = rcmail.env.mailbox,
-        mods = rcmail.env.search_mods;
+        mods = rcmail.env.search_mods,
+        scope = rcmail.env.search_scope || 'base';
 
       if (rcmail.env.task == 'mail') {
         mods = mods[mbox] ? mods[mbox] : mods['*'];
         all = 'text';
+        $('input:radio[name="s_scope"]').prop('checked', false).filter('#s_scope_'+scope).prop('checked', true);
       }
       else {
         all = '*';
@@ -236,7 +246,11 @@ set_searchmod: function(elem)
 {
   var all, m, task = rcmail.env.task,
     mods = rcmail.env.search_mods,
-    mbox = rcmail.env.mailbox;
+    mbox = rcmail.env.mailbox,
+    scope = $('input[name="s_scope"]:checked').val();
+
+  if (scope == 'all')
+    mbox = '*';
 
   if (!mods)
     mods = {};
@@ -258,23 +272,24 @@ set_searchmod: function(elem)
     m[elem.value] = 1;
 
   // mark all fields
-  if (elem.value != all)
-    return;
+  if (elem.value == all) {
+    $('input:checkbox[name="s_mods[]"]').map(function() {
+      if (this == elem)
+        return;
 
-  $('input:checkbox[name="s_mods[]"]').map(function() {
-    if (this == elem)
-      return;
+      this.checked = true;
+      if (elem.checked) {
+        this.disabled = true;
+        delete m[this.value];
+      }
+      else {
+        this.disabled = false;
+        m[this.value] = 1;
+      }
+    });
+  }
 
-    this.checked = true;
-    if (elem.checked) {
-      this.disabled = true;
-      delete m[this.value];
-    }
-    else {
-      this.disabled = false;
-      m[this.value] = 1;
-    }
-  });
+  rcmail.set_searchmods(m);
 },
 
 listmenu: function(show)
@@ -319,9 +334,6 @@ listmenu: function(show)
       }
     });
     $('#listmenu fieldset').css("min-height", maxheight+"px")
-    // IE6 complains if you set this attribute using either method:
-    //$('#listmenu fieldset').css({'height':'auto !important'});
-    //$('#listmenu fieldset').css("height","auto !important");
       .height(maxheight);
   };
 },
@@ -417,6 +429,7 @@ body_mouseup: function(evt, p)
   for (i in this.popups) {
     if (this.popups[i].obj.is(':visible') && target != rcube_find_object(i+'link')
       && !this.popups[i].toggle
+      && target != this.popups[i].obj.get(0)  // check if scroll bar was clicked (#1489832)
       && (!this.popups[i].editable || !this.target_overlaps(target, this.popups[i].id))
       && (!this.popups[i].sticky || !rcube_mouse_is_over(evt, rcube_find_object(this.popups[i].id)))
       && !$(target).is('.folder-selector-link') && !$(target).children('.folder-selector-link').length
@@ -470,7 +483,7 @@ switch_preview_pane: function(elem)
   }
   else {
     prev_frm.hide();
-    if (bw.ie6 || bw.ie7) {
+    if (bw.ie7) {
       var fr = document.getElementById('mailcontframe');
       fr.style.bottom = 0;
       fr.style.height = parseInt(fr.parentNode.offsetHeight)+'px';

@@ -127,7 +127,7 @@
 		<li><label><input type="checkbox" name="s_mods[]" value="bcc" id="s_mod_bcc" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="bcc" /></span></label></li>
 		<li><label><input type="checkbox" name="s_mods[]" value="body" id="s_mod_body" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="body" /></span></label></li>
 		<li><label><input type="checkbox" name="s_mods[]" value="text" id="s_mod_text" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="msgtext" /></span></label></li>
-		<li class="separator" id=""><label><roundcube:label name="searchscope" /></label></li>
+		<li class="separator"><label><roundcube:label name="searchscope" /></label></li>
 		<li><label><input type="radio" name="s_scope" value="base" id="s_scope_base" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="currentfolder" /></span></label></li>
 		<li><label><input type="radio" name="s_scope" value="sub" id="s_scope_sub" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="subfolders" /></span></label></li>
 		<li><label><input type="radio" name="s_scope" value="all" id="s_scope_all" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="allfolders" /></span></label></li>
@@ -145,7 +145,7 @@
 	<ul class="toolbarmenu" id="mailboxoptionsmenu">
 		<li><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
 		<li><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
-		<li><roundcube:button name="messageimport" type="link" class="active" label="importmessages" onclick="UI.show_uploadform()" /></li>
+		<li><roundcube:button command="import-messages" name="messageimport" type="link" classAct="active" label="importmessages" onclick="if(rcmail.command_enabled('import-messages'))UI.show_uploadform();return false" /></li>
 		<li><roundcube:button command="folders" task="settings" type="link" label="managefolders" classAct="active" /></li>
 		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
 	</ul>

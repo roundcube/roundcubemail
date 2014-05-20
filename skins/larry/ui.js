@@ -1,3 +1,5 @@
+// @license http://creativecommons.org/publicdomain/zero/1.0/legalcode CC0
+
 /**
  * Roundcube functions for default skin interface
  *
@@ -8,7 +10,6 @@
  * by keeping credits to the original autors in the README file.
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
  */
-
 
 function rcube_mail_ui()
 {
@@ -255,6 +256,10 @@ function rcube_mail_ui()
         new rcube_splitter({ id:'identviewsplitter', p1:'#identitieslist', p2:'#identity-details',
           orientation:'v', relative:true, start:266, min:180, size:12 }).init();
       }
+      else if (rcmail.env.action == 'responses') {
+        new rcube_splitter({ id:'responseviewsplitter', p1:'#identitieslist', p2:'#identity-details',
+          orientation:'v', relative:true, start:266, min:180, size:12 }).init();
+      }
       else if (rcmail.env.action == 'preferences' || !rcmail.env.action) {
         new rcube_splitter({ id:'prefviewsplitter', p1:'#sectionslist', p2:'#preferences-box',
           orientation:'v', relative:true, start:266, min:180, size:12 }).init();
@@ -380,6 +385,7 @@ function rcube_mail_ui()
       config = popupconfig[id];
       if (obj.is(':visible')
         && target.id != id+'link'
+        && target != obj.get(0)  // check if scroll bar was clicked (#1489832)
         && !config.toggle
         && (!config.editable || !target_overlaps(target, obj.get(0)))
         && (!config.sticky || !rcube_mouse_is_over(e, obj.get(0)))
@@ -634,12 +640,6 @@ function rcube_mail_ui()
     }
 
     obj[show?'show':'hide']();
-
-    // hide drop-down elements on buggy browsers
-    if (bw.ie6 && config.overlap) {
-      $('select').css('visibility', show?'hidden':'inherit');
-      $('select', obj).css('visibility', 'inherit');
-    }
 
     return show;
   }
@@ -1453,3 +1453,5 @@ rcube_splitter.get_instance = function(id)
 {
   return rcube_splitter._instances[id];
 };
+
+// @license-end

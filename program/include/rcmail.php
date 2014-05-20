@@ -139,6 +139,8 @@ class rcmail extends rcube
 
         if ($this->user && $this->user->ID)
             $task = !$task ? 'mail' : $task;
+        else if (php_sapi_name() == 'cli')
+            $task = 'cli';
         else
             $task = 'login';
 
@@ -492,30 +494,18 @@ class rcmail extends rcube
         $username_domain = $this->config->get('username_domain');
         $login_lc        = $this->config->get('login_lc', 2);
 
-        if (!$host) {
-            $host = $default_host;
-        }
-
-        // Validate that selected host is in the list of configured hosts
-        if (is_array($default_host)) {
-            $allowed = false;
-
-            foreach ($default_host as $key => $host_allowed) {
-                if (!is_numeric($key)) {
-                    $host_allowed = $key;
-                }
-                if ($host == $host_allowed) {
-                    $allowed = true;
-                    break;
-                }
+        // host is validated in rcmail::autoselect_host(), so here
+        // we'll only handle unset host (if possible)
+        if (!$host && !empty($default_host)) {
+            if (is_array($default_host)) {
+                list($key, $val) = each($default_host);
+                $host = is_numeric($key) ? $val : $key;
+            }
+            else {
+                $host = $default_host;
             }
 
-            if (!$allowed) {
-                $host = null;
-            }
-        }
-        else if (!empty($default_host) && $host != rcube_utils::parse_host($default_host)) {
-            $host = null;
+            $host = rcube_utils::parse_host($host);
         }
 
         if (!$host) {
@@ -838,7 +828,10 @@ class rcmail extends rcube
         }
 
         // write performance stats to logs/console
-        if ($this->config->get('devel_mode')) {
+        if ($this->config->get('devel_mode') || $this->config->get('performance_stats')) {
+            // make sure logged numbers use unified format
+            setlocale(LC_NUMERIC, 'en_US.utf8', 'en_US.UTF-8', 'en_US', 'C');
+
             if (function_exists('memory_get_usage'))
                 $mem = $this->show_bytes(memory_get_usage());
             if (function_exists('memory_get_peak_usage'))
@@ -1603,9 +1596,13 @@ class rcmail extends rcube
      *
      * @return string Localized folder name in UTF-8 encoding
      */
-    public function localize_foldername($name, $with_path = true)
+    public function localize_foldername($name, $with_path = false)
     {
         $realnames = $this->config->get('show_real_foldernames');
+
+        if (!$realnames && ($folder_class = $this->folder_classname($name))) {
+            return $this->gettext($folder_class);
+        }
 
         // try to localize path of the folder
         if ($with_path && !$realnames) {
@@ -1615,7 +1612,7 @@ class rcmail extends rcube
             $count     = count($path);
 
             if ($count > 1) {
-                for ($i = 0; $i < $count; $i++) {
+                for ($i = 1; $i < $count; $i++) {
                     $folder = implode($delimiter, array_slice($path, 0, -$i));
                     if ($folder_class = $this->folder_classname($folder)) {
                         $name = implode($delimiter, array_slice($path, $count - $i));
@@ -1623,10 +1620,6 @@ class rcmail extends rcube
                     }
                 }
             }
-        }
-
-        if (!$realnames && ($folder_class = $this->folder_classname($name))) {
-            return $this->gettext($folder_class);
         }
 
         return rcube_charset::convert($name, 'UTF7-IMAP');
@@ -1845,27 +1838,52 @@ class rcmail extends rcube
      */
     public function upload_progress()
     {
-        $prefix = ini_get('apc.rfc1867_prefix');
         $params = array(
             'action' => $this->action,
-            'name' => rcube_utils::get_input_value('_progress', rcube_utils::INPUT_GET),
+            'name'   => rcube_utils::get_input_value('_progress', rcube_utils::INPUT_GET),
         );
 
-        if (function_exists('apc_fetch')) {
-            $status = apc_fetch($prefix . $params['name']);
+        if (function_exists('uploadprogress_get_info')) {
+            $status = uploadprogress_get_info($params['name']);
 
             if (!empty($status)) {
-                $status['percent'] = round($status['current']/$status['total']*100);
-                $params = array_merge($status, $params);
+                $params['current'] = $status['bytes_uploaded'];
+                $params['total']   = $status['bytes_total'];
             }
         }
 
-        if (isset($params['percent']))
-            $params['text'] = $this->gettext(array('name' => 'uploadprogress', 'vars' => array(
-                'percent' => $params['percent'] . '%',
-                'current' => $this->show_bytes($params['current']),
-                'total'   => $this->show_bytes($params['total'])
-        )));
+        if (!isset($status) && filter_var(ini_get('apc.rfc1867'), FILTER_VALIDATE_BOOLEAN)
+            && ini_get('apc.rfc1867_name')
+        ) {
+            $prefix = ini_get('apc.rfc1867_prefix');
+            $status = apc_fetch($prefix . $params['name']);
+
+            if (!empty($status)) {
+                $params['current'] = $status['current'];
+                $params['total']   = $status['total'];
+            }
+        }
+
+        if (!isset($status) && filter_var(ini_get('session.upload_progress.enabled'), FILTER_VALIDATE_BOOLEAN)
+            && ini_get('session.upload_progress.name')
+        ) {
+            $key = ini_get('session.upload_progress.prefix') . $params['name'];
+
+            $params['total']   = $_SESSION[$key]['content_length'];
+            $params['current'] = $_SESSION[$key]['bytes_processed'];
+        }
+
+        if (!empty($params['total'])) {
+            $params['percent'] = round($status['current']/$status['total']*100);
+            $params['text']    = $this->gettext(array(
+                'name' => 'uploadprogress',
+                'vars' => array(
+                    'percent' => $params['percent'] . '%',
+                    'current' => $this->show_bytes($params['current']),
+                    'total'   => $this->show_bytes($params['total'])
+                )
+            ));
+        }
 
         $this->output->command('upload_progress_update', $params);
         $this->output->send();
@@ -1877,9 +1895,18 @@ class rcmail extends rcube
     public function upload_init()
     {
         // Enable upload progress bar
-        $rfc1867 = filter_var(ini_get('apc.rfc1867'), FILTER_VALIDATE_BOOLEAN);
-        if ($rfc1867 && ($seconds = $this->config->get('upload_progress'))) {
-            if ($field_name = ini_get('apc.rfc1867_name')) {
+        if ($seconds = $this->config->get('upload_progress')) {
+            if (function_exists('uploadprogress_get_info')) {
+                $field_name = 'UPLOAD_IDENTIFIER';
+            }
+            if (!$field_name && filter_var(ini_get('apc.rfc1867'), FILTER_VALIDATE_BOOLEAN)) {
+                $field_name = ini_get('apc.rfc1867_name');
+            }
+            if (!$field_name && filter_var(ini_get('session.upload_progress.enabled'), FILTER_VALIDATE_BOOLEAN)) {
+                $field_name = ini_get('session.upload_progress.name');
+            }
+
+            if ($field_name) {
                 $this->output->set_env('upload_progress_name', $field_name);
                 $this->output->set_env('upload_progress_time', (int) $seconds);
             }
@@ -2022,20 +2049,38 @@ class rcmail extends rcube
         // message UID (or comma-separated list of IDs) is provided in
         // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
 
-        $_uid  = $uids ?: get_input_value('_uid', RCUBE_INPUT_GPC);
-        $_mbox = $mbox ?: (string)get_input_value('_mbox', RCUBE_INPUT_GPC);
+        $_uid  = $uids ?: rcube_utils::get_input_value('_uid', RCUBE_INPUT_GPC);
+        $_mbox = $mbox ?: (string)rcube_utils::get_input_value('_mbox', RCUBE_INPUT_GPC);
 
-        if (is_array($uid)) {
-            return $uid;
+        // already a hash array
+        if (is_array($_uid) && !isset($_uid[0])) {
+            return $_uid;
         }
 
-        // create a per-folder UIDs array
         $result = array();
-        foreach (explode(',', $_uid) as $uid) {
-            list($uid, $mbox) = explode('-', $uid, 2);
-            if (empty($mbox))
-                $mbox = $_mbox;
-            $result[$mbox][] = $uid;
+
+        // special case: *
+        if ($_uid == '*' && is_object($_SESSION['search'][1]) && $_SESSION['search'][1]->multi) {
+            // extract the full list of UIDs per folder from the search set
+            foreach ($_SESSION['search'][1]->sets as $subset) {
+                $mbox = $subset->get_parameters('MAILBOX');
+                $result[$mbox] = $subset->get();
+            }
+        }
+        else {
+            if (is_string($_uid))
+                $_uid = explode(',', $_uid);
+
+            // create a per-folder UIDs array
+            foreach ((array)$_uid as $uid) {
+                list($uid, $mbox) = explode('-', $uid, 2);
+                if (!strlen($mbox))
+                    $mbox = $_mbox;
+                if ($uid == '*')
+                    $result[$mbox] = $uid;
+                else
+                    $result[$mbox][] = $uid;
+            }
         }
 
         return $result;

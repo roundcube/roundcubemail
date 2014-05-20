@@ -56,7 +56,7 @@ $config['db_table_dsn'] = array(
 // LOGGING/DEBUGGING
 // ----------------------------------
 
-// system error reporting, sum of: 1 = log; 4 = show, 8 = trace
+// system error reporting, sum of: 1 = log; 4 = show
 $config['debug_level'] = 1;
 
 // log driver:  'syslog' or 'file'.
@@ -355,8 +355,12 @@ $config['session_storage'] = 'db';
 // Define any number of hosts in the form of hostname:port or unix:///path/to/socket.file
 $config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
 
-// check client IP in session athorization
+// check client IP in session authorization
 $config['ip_check'] = false;
+
+// List of trusted proxies
+// X_FORWARDED_* and X_REAL_IP headers are only accepted from these IPs
+$config['proxy_whitelist'] = array();
 
 // check referer of incoming requests
 $config['referer_check'] = false;
@@ -476,10 +480,10 @@ $config['mime_magic'] = null;
 // download it from http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
 $config['mime_types'] = null;
 
-// path to imagemagick identify binary
+// path to imagemagick identify binary (if not set we'll use Imagick or GD extensions)
 $config['im_identify_path'] = null;
 
-// path to imagemagick convert binary
+// path to imagemagick convert binary (if not set we'll use Imagick or GD extensions)
 $config['im_convert_path'] = null;
 
 // Size of thumbnails from image attachments displayed below the message content.
@@ -780,6 +784,8 @@ $config['ldap_public']['Verisign'] = array(
   'sizelimit'      => '0',          // Enables you to limit the count of entries fetched. Setting this to 0 means no limit.
   'timelimit'      => '0',          // Sets the number of seconds how long is spend on the search. Setting this to 0 means no limit.
   'referrals'      => false,        // Sets the LDAP_OPT_REFERRALS option. Mostly used in multi-domain Active Directory setups
+  'dereference'    => 0,            // Sets the LDAP_OPT_DEREF option. One of: LDAP_DEREF_NEVER, LDAP_DEREF_SEARCHING, LDAP_DEREF_FINDING, LDAP_DEREF_ALWAYS
+                                    // Used where addressbook contains aliases to objects elsewhere in the LDAP tree.
 
   // definition for contact groups (uncomment if no groups are supported)
   // for the groups base_dn, the user replacements %fu, %u, $d and %dc work as for base_dn (see above)

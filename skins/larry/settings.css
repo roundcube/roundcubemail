@@ -243,7 +243,7 @@
 
 #subscription-table tr.root td {
 	font-size: 5%;
-	height: 5px;
+	line-height: 5px;
 	padding: 2px;
 }
 
@@ -255,7 +255,7 @@
 
 #subscription-table td.subscribed {
 	min-width: 30px;
-	padding: 3px 12px 3px 3px;
+	padding: 0 14px 0 2px;
 	text-align: right;
 }
 

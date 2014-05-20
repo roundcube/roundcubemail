@@ -88,9 +88,9 @@ foreach ($cids as $source => $cid) {
             }
         }
         else {
-            $record = $result->first();
-            $ids[] = $record['ID'];
-            $errormsg = empty($a_record['email']) ? 'contactnameexists' : 'contactexists';
+            $record   = $result->first();
+            $ids[]    = $record['ID'];
+            $errormsg = empty($email) ? 'contactnameexists' : 'contactexists';
         }
     }
 

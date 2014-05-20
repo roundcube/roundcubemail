@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | rcube_install.php                                                     |
+ | rcmail_install.php                                                    |
  |                                                                       |
  | This file is part of the Roundcube Webmail package                    |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,7 @@
  * @package  Roundcube
  * @author Thomas Bruederli
  */
-class rcube_install
+class rcmail_install
 {
   var $step;
   var $is_post = false;
@@ -75,7 +75,7 @@ class rcube_install
     static $inst;
 
     if (!$inst)
-      $inst = new rcube_install();
+      $inst = new rcmail_install();
 
     return $inst;
   }
@@ -162,7 +162,7 @@ class rcube_install
     $value = $this->config[$name];
 
     if ($name == 'des_key' && !$this->configured && !isset($_REQUEST["_$name"]))
-      $value = rcube_install::random_key(24);
+      $value = self::random_key(24);
 
     return $value !== null && $value !== '' ? $value : $default;
   }
@@ -214,7 +214,7 @@ class rcube_install
         $value = '';
       }
       else if ($prop == 'default_host' && is_array($value)) {
-        $value = rcube_install::_clean_array($value);
+        $value = self::_clean_array($value);
         if (count($value) <= 1)
           $value = $value[0];
       }
@@ -251,7 +251,7 @@ class rcube_install
     foreach ($config as $prop => $value) {
       // copy option descriptions from existing config or defaults.inc.php
       $out .= $this->comments[$prop];
-      $out .= "\$config['$prop'] = " . rcube_install::_dump_var($value, $prop) . ";\n\n";
+      $out .= "\$config['$prop'] = " . self::_dump_var($value, $prop) . ";\n\n";
     }
 
     return $out;
@@ -451,9 +451,9 @@ class rcube_install
   function check_mime_detection()
   {
     $files = array(
-      'installer/images/roundcube_logo.png' => 'image/png',
+      'skins/larry/images/roundcube_logo.png' => 'image/png',
       'program/resources/blank.tif' => 'image/tiff',
-      'skins/larry/images/buttons.gif' => 'image/gif',
+      'program/resources/blocked.gif' => 'image/gif',
       'skins/larry/README' => 'text/plain',
     );
 
@@ -689,7 +689,7 @@ class rcube_install
         }
 
         if ($isnum)
-          return 'array(' . join(', ', array_map(array('rcube_install', '_dump_var'), $var)) . ')';
+          return 'array(' . join(', ', array_map(array('rcmail_install', '_dump_var'), $var)) . ')';
       }
     }
 
@@ -710,7 +710,8 @@ class rcube_install
     // read schema file from /SQL/*
     $fname = INSTALL_PATH . "SQL/$engine.initial.sql";
     if ($sql = @file_get_contents($fname)) {
-      $this->exec_sql($sql, $DB);
+      $DB->set_option('table_prefix', $this->config['db_prefix']);
+      $DB->exec_script($sql);
     }
     else {
       $this->fail('DB Schema', "Cannot read the schema file: $fname");
@@ -741,63 +742,6 @@ class rcube_install
       . " 2>&1", $result);
 
     return !$result;
-  }
-
-
-  /**
-   * Execute the given SQL queries on the database connection
-   *
-   * @param string SQL queries to execute
-   * @param object rcube_db Database connection
-   * @return boolen True on success, False on error
-   */
-  function exec_sql($sql, $DB)
-  {
-    $sql = $this->fix_table_names($sql, $DB);
-    $buff = '';
-    foreach (explode("\n", $sql) as $line) {
-      if (preg_match('/^--/', $line) || trim($line) == '')
-        continue;
-
-      $buff .= $line . "\n";
-      if (preg_match('/(;|^GO)$/', trim($line))) {
-        $DB->query($buff);
-        $buff = '';
-        if ($DB->is_error())
-          break;
-      }
-    }
-
-    return !$DB->is_error();
-  }
-
-
-  /**
-   * Parse SQL file and fix table names according to db_prefix
-   * Note: This need to be a complete database initial file
-   */
-  private function fix_table_names($sql, $DB)
-  {
-    if (empty($this->config['db_prefix'])) {
-        return $sql;
-    }
-
-    // replace table names
-    if (preg_match_all('/CREATE TABLE (\[dbo\]\.|IF NOT EXISTS )?[`"\[\]]*([^`"\[\] \r\n]+)/i', $sql, $matches)) {
-      foreach ($matches[2] as $table) {
-        $real_table = $this->config['db_prefix'] . $table;
-        $sql = preg_replace("/([^a-zA-Z0-9_])$table([^a-zA-Z0-9_])/", "\\1$real_table\\2", $sql);
-      }
-    }
-    // replace sequence names
-    if ($DB->db_provider == 'postgres' && preg_match_all('/CREATE SEQUENCE (IF NOT EXISTS )?"?([^" \n\r]+)/i', $sql, $matches)) {
-      foreach ($matches[2] as $sequence) {
-        $real_sequence = $this->config['db_prefix'] . $sequence;
-        $sql = preg_replace("/([^a-zA-Z0-9_])$sequence([^a-zA-Z0-9_])/", "\\1$real_sequence\\2", $sql);
-      }
-    }
-
-    return $sql;
   }
 
 

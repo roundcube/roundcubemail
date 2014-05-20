@@ -102,7 +102,7 @@ if ($uid) {
     }
     if (empty($_SESSION['browser_caps']['tif']) && ($key = array_search('image/tiff', $mimetypes)) !== false) {
         // we can convert tiff to jpeg
-        if (!$RCMAIL->config->get('im_convert_path')) {
+        if (!rcube_image::is_convertable('image/tiff')) {
             unset($mimetypes[$key]);
         }
     }

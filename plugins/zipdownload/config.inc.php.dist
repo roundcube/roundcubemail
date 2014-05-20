@@ -9,9 +9,6 @@
 // -1 to prevent downloading of attachments as zip
 $config['zipdownload_attachments'] = 1;
 
-// Zip entire folders
-$config['zipdownload_folder'] = false;
-
 // Zip selection of messages
 $config['zipdownload_selection'] = false;
 

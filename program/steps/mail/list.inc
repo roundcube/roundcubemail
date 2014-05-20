@@ -60,11 +60,12 @@ $RCMAIL->storage->folder_sync($mbox_name);
 
 // initialize searching result if search_filter is used
 if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
-  $search_request = md5($mbox_name.$_SESSION['search_filter']);
+  $search_request = md5($mbox_name.$_SESSION['search_scope'].$_SESSION['search_filter']);
   $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCUBE_CHARSET, rcmail_sort_column());
   $_SESSION['search'] = $RCMAIL->storage->get_search_set();
   $_SESSION['search_request'] = $search_request;
   $OUTPUT->set_env('search_request', $search_request);
+  $OUTPUT->set_env('search_filter', $_SESSION['search_filter']);
 }
 
 // fetch message headers
@@ -92,7 +93,7 @@ rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']), $unseen);
 
 // update message count display
 $pages  = ceil($count/$RCMAIL->storage->get_pagesize());
-$exists = $RCMAIL->storage->count($mbox_name, 'EXISTS');
+$exists = $RCMAIL->storage->count($mbox_name, 'EXISTS', true);
 
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', $pages);
@@ -100,6 +101,11 @@ $OUTPUT->set_env('threading', $threading);
 $OUTPUT->set_env('current_page', $count ? $RCMAIL->storage->get_page() : 1);
 $OUTPUT->set_env('exists', $exists);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count), $mbox_name);
+
+// remove old message rows if commanded by the client
+if (!empty($_REQUEST['_clear'])) {
+  $OUTPUT->command('clear_message_list');
+}
 
 // add message rows
 rcmail_js_message_list($a_headers, false, $cols);

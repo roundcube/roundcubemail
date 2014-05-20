@@ -728,11 +728,6 @@ ul.treelist ul ul li a
   padding-left: 65px;
 }
 
-ul.treelist ul ul ul li
-{
-  margin-left: 20px;
-}
-
 ul.treelist li ul li:last-child
 {
   border-bottom: 0;
@@ -753,18 +748,25 @@ ul.treelist li.droptarget
 
 /***** mac-style quicksearch field *****/
 
+div.searchbox,
 #quicksearchbar
 {
-  position: absolute;
-  top: 55px;
-  right: 10px;
+  position: relative;
   width: 190px;
   height: 20px;
   text-align: right;
   background: url(images/searchfield.gif) top left no-repeat;
 }
 
-#searchreset
+#quicksearchbar
+{
+  position: absolute;
+  top: 55px;
+  right: 10px;
+}
+
+#searchreset,
+div.searchbox a.searchreset
 {
   position: absolute;
   top: 3px;
@@ -772,11 +774,33 @@ ul.treelist li.droptarget
   text-decoration: none;
 }
 
-#searchmenulink
+#searchmenulink,
+div.searchbox a.searchmenu,
+div.searchbox a.searchicon
 {
  position: absolute;
  top: 3px;
  right: 168px;
+}
+
+div.searchbox a.searchreset
+{
+  display: block;
+  width: 14px;
+  height: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: 50000px;
+  background: url(images/icons/reset.gif) top left no-repeat;
+}
+
+div.searchbox a.searchicon
+{
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  background: url(images/icons/glass.png) top left no-repeat;
 }
 
 #quicksearchbar img
@@ -784,7 +808,8 @@ ul.treelist li.droptarget
   vertical-align: middle;
 }
 
-#quicksearchbox
+#quicksearchbox,
+div.searchbox > input
 {
   position: absolute;
   top: 2px;
@@ -944,11 +969,6 @@ a.rcmContactAddress:hover
 	width: 400px;
 	color: #cf2734;
 	font-weight: bold;
-}
-
-#console
-{
-  opacity: 0.8;
 }
 
 .disabled,

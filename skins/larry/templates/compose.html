@@ -42,11 +42,11 @@
 <!-- inline address book -->
 <div id="compose-contacts" class="uibox listbox">
 <h2 class="boxtitle"><roundcube:label name="contacts" /></h2>
-	<div id="composequicksearch">
+	<div class="listsearchbox">
 		<div class="searchbox">
 			<roundcube:object name="searchform" id="contactsearchbox" />
-			<a id="searchmenulink" class="iconbutton searchoptions"> </a>
-			<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content=" " />
+			<a id="searchmenulink" class="iconbutton searchicon"> </a>
+			<roundcube:button command="reset-search" class="iconbutton reset" title="resetsearch" content=" " />
 		</div>
 	</div>
 	<roundcube:object name="addressbooks" id="directorylist" class="listing" />
@@ -124,8 +124,8 @@
 </tbody>
 </table>
 
-<div id="composebuttons" class="pagenav formbuttons">
-	<roundcube:button command="extwin" type="link" class="button extwin" classSel="button extwin pressed" innerClass="inner" title="openinextwin" content="[]" condition="!env:extwin" />
+<div id="composebuttons" class="formbuttons">
+	<roundcube:button command="extwin" type="link" class="button extwin" classSel="button extwin pressed" innerClass="icon" title="openinextwin" content="[]" condition="!env:extwin" />
 </div>
 
 <!-- (collapsable) message options -->

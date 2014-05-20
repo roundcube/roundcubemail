@@ -73,10 +73,9 @@ class rcube_db_pgsql extends rcube_db
         // Note: we support only one sequence per table
         // Note: The sequence name must be <table_name>_seq
         $sequence = $table . '_seq';
-        $rcube    = rcube::get_instance();
 
-        // return sequence name if configured
-        if ($prefix = $rcube->config->get('db_prefix')) {
+        // modify sequence name if prefix is configured
+        if ($prefix = $this->options['table_prefix']) {
             return $prefix . $sequence;
         }
 
@@ -190,4 +189,24 @@ class rcube_db_pgsql extends rcube_db
         return $result;
     }
 
+    /**
+     * Parse SQL file and fix table names according to table prefix
+     */
+    protected function fix_table_names($sql)
+    {
+        if (!$this->options['table_prefix']) {
+            return $sql;
+        }
+
+        $sql = parent::fix_table_names($sql);
+
+        // replace sequence names, and other postgres-specific commands
+        $sql = preg_replace_callback(
+            '/((SEQUENCE |RENAME TO |nextval\()["\']*)([^"\' \r\n]+)/',
+            array($this, 'fix_table_names_callback'),
+            $sql
+        );
+
+        return $sql;
+    }
 }

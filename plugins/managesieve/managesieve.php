@@ -72,7 +72,7 @@ class managesieve extends rcube_plugin
         // load localization
         $this->add_texts('localization/');
 
-        if (strpos($this->rc->action, 'plugin.managesieve') === 0) {
+        if ($this->rc->task == 'mail' || strpos($this->rc->action, 'plugin.managesieve') === 0) {
             $this->include_script('managesieve.js');
         }
 

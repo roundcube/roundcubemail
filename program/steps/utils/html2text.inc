@@ -19,7 +19,12 @@
  +-----------------------------------------------------------------------+
 */
 
-$html = $HTTP_RAW_POST_DATA;
+$html = stream_get_contents(fopen('php://input', 'r'));
+
+// strip slashes if magic_quotes enabled
+if (get_magic_quotes_gpc() || get_magic_quotes_runtime()) {
+    $html = stripslashes($html);
+}
 
 // Replace emoticon images with its text representation
 $html = $RCMAIL->replace_emoticons($html);

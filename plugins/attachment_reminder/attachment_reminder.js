@@ -1,4 +1,19 @@
-/* Attachment Reminder plugin script */
+/**
+ * Attachment Reminder plugin script
+ *
+ * @licstart  The following is the entire license notice for the
+ * JavaScript code in this file.
+ *
+ * Copyright (c) 2013, The Roundcube Dev Team
+ *
+ * The JavaScript code in this page is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in this file.
+ */
 
 function rcmail_get_compose_message()
 {

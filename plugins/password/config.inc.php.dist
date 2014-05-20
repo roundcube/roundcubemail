@@ -256,6 +256,9 @@ $config['password_vpopmaild_host'] = 'localhost';
 // TCP port used for vpopmaild connections
 $config['password_vpopmaild_port'] = 89;
 
+// Timout used for the connection to vpopmaild (in seconds)
+$config['password_vpopmaild_timeout'] = 10;
+
 
 // cPanel Driver options
 // --------------------------

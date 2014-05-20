@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -394,7 +394,11 @@ abstract class rcube_plugin
     public function local_skin_path()
     {
         $rcube = rcube::get_instance();
-        foreach (array($rcube->config->get('skin'), 'larry') as $skin) {
+        $skins = array_keys((array)$rcube->output->skins);
+        if (empty($skins)) {
+            $skins = array($rcube->config->get('skin'));
+        }
+        foreach ($skins as $skin) {
             $skin_path = 'skins/' . $skin;
             if (is_dir(realpath(slashify($this->home) . $skin_path))) {
                 break;

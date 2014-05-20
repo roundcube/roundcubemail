@@ -1,3 +1,4 @@
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt Expat (MIT) */
 /* Dutch (Belgium) initialisation for the jQuery UI date picker plugin. */
 /* David De Sloovere @DavidDeSloovere */
 jQuery(function($){
@@ -21,3 +22,4 @@ jQuery(function($){
 		yearSuffix: ''};
 	$.datepicker.setDefaults($.datepicker.regional['nl-BE']);
 });
+/* @license-end */

@@ -325,6 +325,7 @@ input.button:active {
 	margin-bottom: 0;
 }
 
+a.button span.icon,
 .pagenav a.button span.inner {
 	display: inline-block;
 	width: 16px;
@@ -334,54 +335,75 @@ input.button:active {
 	background: url(images/buttons.png) -6px -211px no-repeat;
 }
 
+a.button.prevpage span.icon,
 .pagenav a.prevpage span.inner {
 	background-position: -7px -226px;
 }
 
+a.button.nextpage span.icon,
 .pagenav a.nextpage span.inner {
 	background-position: -28px -226px;
 }
 
+a.button.lastpage span.icon,
 .pagenav a.lastpage span.inner {
 	background-position: -28px -211px;
 }
 
+a.button.pageup span.icon,
 .pagenav a.pageup span.inner {
 	background-position: -7px -241px;
 }
 
+a.button.pagedown span.icon,
 .pagenav a.pagedown span.inner {
 	background-position: -29px -241px;
 }
 
+a.button.reply span.icon,
 .pagenav a.reply span.inner {
 	background-position: -7px -256px;
 }
 
+a.button.forward span.icon,
 .pagenav a.forward span.inner {
 	background-position: -29px -256px;
 }
 
+a.button.replyall span.icon,
 .pagenav a.replyall span.inner {
 	background-position: -7px -271px;
 }
 
+a.button.extwin span.icon,
 .pagenav a.extwin span.inner {
 	background-position: -29px -271px;
 }
 
+a.button.changeformat.html span.icon,
 .pagenav a.changeformat.html span.inner {
 	background-position: -7px -1859px;
 }
+a.button.changeformat.html.selected span.icon,
 .pagenav a.changeformat.html.selected span.inner {
 	background-position: -29px -1859px;
 }
 
+a.button.changeformat.text span.icon,
 .pagenav a.changeformat.text span.inner {
 	background-position: -7px -1874px;
 }
+a.button.changeformat.text.selected span.icon,
 .pagenav a.changeformat.text.selected span.inner {
 	background-position: -29px -1874px;
+}
+
+a.button.add span.icon {
+	background-position: -7px -2009px;
+}
+
+a.button.delete span.icon {
+	background-position: -29px -2009px;
 }
 
 .pagenav .countdisplay {
@@ -398,7 +420,7 @@ input.button:active {
 
 a.iconbutton {
 	display: inline-block;
-	width: 24px;
+	width: 20px;
 	height: 18px;
 	text-decoration: none;
 	text-indent: -5000px;
@@ -411,17 +433,50 @@ a.iconbutton.disabled {
 	cursor: default;
 }
 
+a.iconbutton.searchicon,
 a.iconbutton.searchoptions {
+	width: 24px;
 	background-position: -2px -317px;
 }
 
+a.iconbutton.searchicon {
+	width: 15px;
+}
+
 a.iconbutton.reset {
+	width: 24px;
 	background-position: -25px -317px;
 }
 
+a.iconbutton.remove,
 a.iconbutton.cancel {
-	background-position: -7px -377px;
+	background-position: -7px -378px;
 }
+
+a.iconbutton.delete {
+	background-position: -7px -338px;
+}
+
+a.iconbutton.add {
+	background-position: -7px -358px;
+}
+
+a.iconbutton.remove {
+	background-position: -7px -379px;
+}
+
+a.iconbutton.cancel {
+	background-position: -7px -398px;
+}
+
+a.iconbutton.edit {
+	background-position: -7px -418px;
+}
+
+a.iconbutton.upload {
+	background-position: -6px -438px;
+}
+
 
 a.iconlink {
 	display: inline-block;
@@ -861,13 +916,9 @@ a.iconlink.upload {
 	border-width: 0 4px 4px;
 	border-color: #888 transparent;
 	/* reduce the damage in FF3.0 */
-	display: block; 
+	display: block;
 	width: 0;
 	z-index: 251;
-}
-
-.ie8 .minimal #taskbar .tooltip:after {
-	top: -6px;
 }
 
 .minimal #taskbar a:hover .tooltip {
@@ -1067,17 +1118,12 @@ a.iconlink.upload {
 .uibox .listing thead td {
 	font-size: 12px;
 	font-weight: bold;
-	padding: 10px 8px 3px 8px;
-	height: 20px;  /* doesn't affect table-cells in FF */
+	padding: 7px 8px 6px 8px;
+	line-height: 20px;
 	margin: 0;
 	text-shadow: 0px 1px 1px #fff;
 	border-bottom: 1px solid #bbd3da;
 	white-space: nowrap;
-}
-
-.uibox .listing thead td {
-	padding-bottom: 8px;
-	height: auto;
 }
 
 .uibox .boxtitle,
@@ -1107,14 +1153,13 @@ a.iconlink.upload {
 	text-shadow: 0px 1px 1px #fff;
 	text-decoration: none;
 	cursor: default;
-	padding: 6px 8px 2px 8px;
-	height: 17px; /* doesn't affect table-cells in FF */
+	padding: 4px 8px;
+	line-height: 17px;
 	white-space: nowrap;
 }
 
 .listing tbody td {
 	display: table-cell;
-	padding-bottom: 5px;
 	height: auto;
 	min-height: 14px;
 }
@@ -1817,6 +1862,7 @@ ul.proplist li {
 	font-size: 11px;
 }
 
+.searchbox .searchicon,
 .searchbox #searchmenulink,
 #quicksearchbar #searchmenulink {
 	position: absolute;
@@ -1825,12 +1871,25 @@ ul.proplist li {
 }
 
 .searchbox #searchreset,
+.searchbox .iconbutton.reset,
 #quicksearchbar #searchreset {
 	position: absolute;
 	top: 4px;
 	right: 1px;
 }
 
+.listsearchbox {
+	position: relative;
+	padding: 4px;
+	background: #c7e3ef;
+}
+
+.listsearchbox input {
+	width: 100%;
+	height: 26px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
 
 /*** toolbar ***/
 
@@ -2150,7 +2209,7 @@ ul.toolbarmenu li a {
 	text-shadow: 0px 1px 1px #333;
 	text-decoration: none;
 	min-height: 14px;
-	padding: 6px 10px 6px 10px;
+	padding: 6px 16px 6px 10px;
 }
 
 .googie_list td span {
@@ -2449,6 +2508,11 @@ ul.toolbarmenu li span.copy {
 	margin-bottom: 1px;
 }
 
+.attachmentslist li.txt,
+.attachmentslist li.text {
+	background-position: 0 -416px;
+}
+
 .attachmentslist li.pdf {
 	background-position: 0 -26px;
 }
@@ -2506,11 +2570,6 @@ ul.toolbarmenu li span.copy {
 
 .attachmentslist li.video {
 	background-position: 0 -338px;
-}
-
-.attachmentslist li.txt,
-.attachmentslist li.text {
-	background-position: 0 -416px;
 }
 
 .attachmentslist li.ics,

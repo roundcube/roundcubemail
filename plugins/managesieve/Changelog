@@ -1,4 +1,6 @@
 - Added optional separate interface for out-of-office management (#1488266)
+- Fix disabled "create filter" action
+- Fix enotify/notify extension handling
 
 * version 7.2 [2014-02-14]
 -----------------------------------------------------------

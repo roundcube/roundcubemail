@@ -1,3 +1,4 @@
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt Expat (MIT) */
 /* Persian (Farsi) Translation for the jQuery UI date picker plugin. */
 /* Javad Mowlanezhad -- jmowla@gmail.com */
 /* Jalali calendar should supported soon! (Its implemented but I have to test it) */
@@ -57,3 +58,4 @@ jQuery(function($) {
 		yearSuffix: ''};
 	$.datepicker.setDefaults($.datepicker.regional['fa']);
 });
+/* @license-end */

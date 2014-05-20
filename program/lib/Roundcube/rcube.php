@@ -355,29 +355,6 @@ class rcube
         // for backward compat. (deprecated, will be removed)
         $this->imap = $this->storage;
 
-        // enable caching of mail data
-        $storage_cache  = $this->config->get("{$driver}_cache");
-        $messages_cache = $this->config->get('messages_cache');
-        // for backward compatybility
-        if ($storage_cache === null && $messages_cache === null && $this->config->get('enable_caching')) {
-            $storage_cache  = 'db';
-            $messages_cache = true;
-        }
-
-        if ($storage_cache) {
-            $this->storage->set_caching($storage_cache);
-        }
-        if ($messages_cache) {
-            $this->storage->set_messages_caching(true);
-        }
-
-        // set pagesize from config
-        $pagesize = $this->config->get('mail_pagesize');
-        if (!$pagesize) {
-            $pagesize = $this->config->get('pagesize', 50);
-        }
-        $this->storage->set_pagesize($pagesize);
-
         // set class options
         $options = array(
             'auth_type'   => $this->config->get("{$driver}_auth_type", 'check'),
@@ -412,19 +389,35 @@ class rcube
 
     /**
      * Set storage parameters.
-     * This must be done AFTER connecting to the server!
      */
     protected function set_storage_prop()
     {
         $storage = $this->get_storage();
 
+        // set pagesize from config
+        $pagesize = $this->config->get('mail_pagesize');
+        if (!$pagesize) {
+            $pagesize = $this->config->get('pagesize', 50);
+        }
+
+        $storage->set_pagesize($pagesize);
         $storage->set_charset($this->config->get('default_charset', RCUBE_CHARSET));
 
-        if (isset($_SESSION['mbox'])) {
-            $storage->set_folder($_SESSION['mbox']);
+        // enable caching of mail data
+        $driver         = $this->config->get('storage_driver', 'imap');
+        $storage_cache  = $this->config->get("{$driver}_cache");
+        $messages_cache = $this->config->get('messages_cache');
+        // for backward compatybility
+        if ($storage_cache === null && $messages_cache === null && $this->config->get('enable_caching')) {
+            $storage_cache  = 'db';
+            $messages_cache = true;
         }
-        if (isset($_SESSION['page'])) {
-            $storage->set_page($_SESSION['page']);
+
+        if ($storage_cache) {
+            $storage->set_caching($storage_cache);
+        }
+        if ($messages_cache) {
+            $storage->set_messages_caching(true);
         }
     }
 
@@ -1139,6 +1132,11 @@ class rcube
                 return true;
         }
 
+        // add session ID to the log
+        if ($sess = session_id()) {
+            $line = '<' . substr($sess, 0, 8) . '> ' . $line;
+        }
+
         if ($log_driver == 'syslog') {
             $prio = $name == 'errors' ? LOG_ERR : LOG_INFO;
             syslog($prio, $line);
@@ -1214,8 +1212,8 @@ class rcube
         }
 
         // installer
-        if (class_exists('rcube_install', false)) {
-            $rci = rcube_install::get_instance();
+        if (class_exists('rcmail_install', false)) {
+            $rci = rcmail_install::get_instance();
             $rci->raise_error($arg);
             return;
         }
@@ -1486,6 +1484,13 @@ class rcube
         ));
 
         if ($plugin['abort']) {
+            if (!empty($plugin['error'])) {
+                $error = $plugin['error'];
+            }
+            if (!empty($plugin['body_file'])) {
+                $body_file = $plugin['body_file'];
+            }
+
             return isset($plugin['result']) ? $plugin['result'] : false;
         }
 

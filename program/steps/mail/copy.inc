@@ -5,7 +5,7 @@
  | program/steps/mail/copy.inc                                           |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -29,7 +29,10 @@ if (!empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
     $target = rcube_utils::get_input_value('_target_mbox', rcube_utils::INPUT_POST, true);
 
     foreach (rcmail::get_uids() as $mbox => $uids) {
-      $copied += (int)$RCMAIL->storage->copy_message($uids, $target, $mbox);
+        if ($mbox === $target)
+            $copied++;
+        else
+            $copied += (int)$RCMAIL->storage->copy_message($uids, $target, $mbox);
     }
 
     if (!$copied) {

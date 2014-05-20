@@ -463,6 +463,11 @@ function rcmail_process_compose_params(&$COMPOSE)
         }
     }
 
+    // resolve _forward_uid=* to an absolute list of messages from a search result
+    if ($COMPOSE['param']['forward_uid'] == '*' && is_object($_SESSION['search'][1])) {
+        $COMPOSE['param']['forward_uid'] = $_SESSION['search'][1]->get();
+    }
+
     // clean HTML message body which can be submitted by URL
     if (!empty($COMPOSE['param']['body'])) {
         $COMPOSE['param']['body'] = rcmail_wash_html($COMPOSE['param']['body'], array('safe' => false, 'inline_html' => true), array());
@@ -482,7 +487,7 @@ function rcmail_process_compose_params(&$COMPOSE)
         foreach ($plugin['attachments'] as $attach) {
             // we have structured data
             if (is_array($attach)) {
-                $attachment = $attach;
+                $attachment = $attach + array('group' => $COMPOSE_ID);
             }
             // only a file path is given
             else {
@@ -606,7 +611,7 @@ function rcmail_compose_header_from($attrib)
                 $text = $html = $sql_arr['signature'];
 
                 if ($sql_arr['html_signature']) {
-                    $h2t  = new rcube_html2text($sql_arr['signature'], false, false);
+                    $h2t  = new rcube_html2text($sql_arr['signature'], false, true);
                     $text = trim($h2t->get_text());
                 }
                 else {
@@ -619,7 +624,8 @@ function rcmail_compose_header_from($attrib)
                 }
 
                 if (!$sql_arr['html_signature']) {
-                    $html = "<pre>" . $html . "</pre>";
+                    $t2h  = new rcube_text2html($sql_arr['signature'], false);
+                    $html = $t2h->get_html();
                 }
 
                 $a_signatures[$identity_id]['text'] = $text;
@@ -821,15 +827,8 @@ function rcmail_compose_part_body($part, $isHtml = false)
                 }
             }
 
-            if ($part->ctype_parameters['format'] == 'flowed') {
-                $body = rcube_mime::unfold_flowed($body);
-            }
-
             // add HTML formatting
-            $body = rcmail_plain_body($body);
-            if ($body) {
-                $body = '<pre>' . $body . '</pre>';
-            }
+            $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed');
         }
     }
     else {
@@ -1259,10 +1258,10 @@ function rcmail_write_forward_attachments()
         $index = $storage->index(null, rcmail_sort_column(), rcmail_sort_order());
         $COMPOSE['forward_uid'] = $index->get();
     }
-    else if (strpos($COMPOSE['forward_uid'], ':')) {
+    else if (!is_array($COMPOSE['forward_uid']) && strpos($COMPOSE['forward_uid'], ':')) {
         $COMPOSE['forward_uid'] = rcube_imap_generic::uncompressMessageSet($COMPOSE['forward_uid']);
     }
-    else {
+    else if (is_string($COMPOSE['forward_uid'])) {
         $COMPOSE['forward_uid'] = explode(',', $COMPOSE['forward_uid']);
     }
 

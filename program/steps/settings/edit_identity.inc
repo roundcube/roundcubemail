@@ -71,7 +71,7 @@ function rcube_identity_form($attrib)
     $RCMAIL->html_editor('identity');
 
     // add some labels to client
-    $OUTPUT->add_label('noemailwarning', 'nonamewarning', 'converting', 'editorwarning');
+    $OUTPUT->add_label('noemailwarning', 'converting', 'editorwarning');
 
     $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
     $t_rows = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 6;

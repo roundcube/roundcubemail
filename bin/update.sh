@@ -22,7 +22,6 @@
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
 
 require_once INSTALL_PATH . 'program/include/clisetup.php';
-require_once INSTALL_PATH . 'installer/rcube_install.php';
 
 // get arguments
 $opts = rcube_utils::get_opt(array('v' => 'version', 'y' => 'accept'));
@@ -36,7 +35,7 @@ if (!$opts['version']) {
     $opts['version'] = RCMAIL_VERSION;
 }
 
-$RCI = rcube_install::get_instance();
+$RCI = rcmail_install::get_instance();
 $RCI->load_config();
 
 if ($RCI->configured) {

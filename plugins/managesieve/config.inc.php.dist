@@ -74,4 +74,5 @@ $config['managesieve_domains'] = array();
 // 2 - add Vacation section, but hide Filters section
 $config['managesieve_vacation'] = 0;
 
-?>
+// Supported methods of notify extension. Default: 'mailto'
+$config['managesieve_notify_methods'] = array('mailto');

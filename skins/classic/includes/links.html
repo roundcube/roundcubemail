@@ -5,10 +5,6 @@
 <roundcube:if condition="in_array(env:task, array('mail', 'addressbook', 'settings'))" />
 <link rel="stylesheet" type="text/css" href="/<roundcube:var name="env:task" />.css" />
 <roundcube:endif />
-<roundcube:if condition="browser:ie" />
-<!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="/iehacks.css" /><![endif]-->
-<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="/ie6hacks.css" /><![endif]-->
-<roundcube:endif />
 <roundcube:if condition="browser:safari" />
 <link rel="stylesheet" type="text/css" href="/safari.css" />
 <roundcube:endif />

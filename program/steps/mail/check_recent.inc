@@ -21,7 +21,7 @@
 
 // If there's no folder or messages list, there's nothing to update
 // This can happen on 'refresh' request
-if (empty($_REQUEST['_folderlist']) && empty($_REQUEST['_list'])) {
+if (empty($_POST['_folderlist']) && empty($_POST['_list'])) {
     return;
 }
 
@@ -30,8 +30,9 @@ $current   = $RCMAIL->storage->get_folder();
 $check_all = $RCMAIL->action != 'refresh' || (bool)$RCMAIL->config->get('check_all_folders');
 
 $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
-if ($search_request && $_SESSION['search_request'] != $search_request)
+if ($search_request && $_SESSION['search_request'] != $search_request) {
     $search_request = null;
+}
 
 // list of folders to check
 if ($check_all) {
@@ -80,14 +81,16 @@ foreach ($a_mailboxes as $mbox_name) {
                 $mbox_name = '';
         }
 
-        if (!empty($_GET['_quota']))
+        if (!empty($_POST['_quota'])) {
             $OUTPUT->command('set_quota', $RCMAIL->quota_content());
+        }
 
-        $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
+        $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS', true));
 
         // "No-list" mode, don't get messages
-        if (empty($_GET['_list']))
+        if (empty($_POST['_list'])) {
             continue;
+        }
 
         // get overall message count; allow caching because rcube_storage::folder_status()
         // did a refresh but only in list mode
@@ -143,7 +146,7 @@ foreach ($a_mailboxes as $mbox_name) {
 
     // set trash folder state
     if ($mbox_name === $trash) {
-        $OUTPUT->command('set_trash_count', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
+        $OUTPUT->command('set_trash_count', $RCMAIL->storage->count($mbox_name, 'EXISTS', true));
     }
 }
 

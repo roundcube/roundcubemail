@@ -5,7 +5,7 @@
  | program/steps/mail/import.inc                                         |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,6 +16,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -31,46 +32,62 @@ if (is_array($_FILES['_file'])) {
 
         if (!$err) {
             // check file content type first
-            list($mtype_primary,) = explode('/', rcube_mime::file_content_type($filepath, $_FILES['_file']['name'][$i], $_FILES['_file']['type'][$i]));
+            $ctype = rcube_mime::file_content_type($filepath, $_FILES['_file']['name'][$i], $_FILES['_file']['type'][$i]);
+            list($mtype_primary, $mtype_secondary) = explode('/', $ctype);
 
-            if (!in_array($mtype_primary, array('text','message'))) {
+            if (in_array($ctype, array('application/zip', 'application/x-zip'))) {
+                $filepath = rcmail_zip_extract($filepath);
+                if (empty($filepath)) {
+                    continue;
+                }
+            }
+            else if (!in_array($mtype_primary, array('text', 'message'))) {
                 continue;
             }
 
-            // read the first few lines to detect header-like structure
-            $fp = fopen($filepath, 'r');
-            do {
-                $line = fgets($fp);
-            }
-            while ($line !== false && trim($line) == '');
+            foreach ((array) $filepath as $file) {
+                // read the first few lines to detect header-like structure
+                $fp = fopen($file, 'r');
+                do {
+                    $line = fgets($fp);
+                }
+                while ($line !== false && trim($line) == '');
 
-            if (!preg_match('/^From\s+-/', $line) && !preg_match('/^[a-z-_]+:\s+.+/i', $line)) {
-                continue;
-            }
-
-            $message = $lastline = '';
-            fseek($fp, 0);
-            while (($line = fgets($fp)) !== false) {
-                // importing mbox file, split by From - lines
-                if (preg_match('/^From\s+-/', $line) && ($lastline == '' || substr($lastline, -2) == '--')) {
-                    if (!empty($message)) {
-                        if ($RCMAIL->storage->save_message(null, rtrim($message))) {
-                            $imported++;
-                        }
-                        else {
-                            rcube::raise_error("Failed to import message to " . $RCMAIL->storage->get_folder(), false, true);
-                        }
-                        $message = '';
-                    }
+                if (!preg_match('/^From .+/', $line) && !preg_match('/^[a-z-_]+:\s+.+/i', $line)) {
                     continue;
                 }
 
-                $message .= $line;
-                $lastline = rtrim($line);
-            }
+                $message = $lastline = '';
+                fseek($fp, 0);
+                while (($line = fgets($fp)) !== false) {
+                    // importing mbox file, split by From - lines
+                    if ($lastline === '' && strncmp($line, 'From ', 5) === 0 && strlen($line) > 5) {
+                        if (!empty($message)) {
+                            // unquote ">From " lines in message body
+                            $message = preg_replace('/\n>([>]*)From /', "\n\\1From ", $message);
+                            if ($RCMAIL->storage->save_message(null, rtrim($message))) {
+                                $imported++;
+                            }
+                            else {
+                                rcube::raise_error("Failed to import message to " . $RCMAIL->storage->get_folder(), false, true);
+                            }
+                            $message = '';
+                        }
+                        continue;
+                    }
 
-            if (!empty($message) && $RCMAIL->storage->save_message(null, rtrim($message))) {
-                $imported++;
+                    $message .= $line;
+                    $lastline = rtrim($line);
+                }
+
+                if (!empty($message) && $RCMAIL->storage->save_message(null, rtrim($message))) {
+                    $imported++;
+                }
+
+                // remove temp files extracted from zip
+                if (is_array($filepath)) {
+                    unlink($file);
+                }
             }
         }
 
@@ -104,3 +121,39 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // send html page with JS calls as response
 $OUTPUT->send('iframe');
+
+
+function rcmail_zip_extract($path)
+{
+    if (!class_exists('ZipArchive', false)) {
+        return;
+    }
+
+    $rcmail   = rcmail::get_instance();
+    $temp_dir = $rcmail->config->get('temp_dir');
+    $zip      = new ZipArchive;
+    $files    = array();
+
+    if ($zip->open($path)) {
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $entry    = $zip->getNameIndex($i);
+            $tmpfname = tempnam($temp_dir, 'zipimport');
+
+            if (copy("zip://$path#$entry", $tmpfname)) {
+                $ctype = rcube_mime::file_content_type($tmpfname, $entry);
+                list($mtype_primary, $mtype_secondary) = explode('/', $ctype);
+
+                if (in_array($mtype_primary, array('text', 'message'))) {
+                    $files[] = $tmpfname;
+                }
+                else {
+                    unlink($tmpfname);
+                }
+            }
+        }
+
+        $zip->close();
+    }
+
+    return $files;
+}

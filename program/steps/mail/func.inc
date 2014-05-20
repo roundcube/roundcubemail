@@ -24,16 +24,15 @@
 $RCMAIL->storage_init();
 
 // set imap properties and session vars
-if (strlen(trim($mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true)))) {
-    $RCMAIL->storage->set_folder(($_SESSION['mbox'] = $mbox));
+if (!strlen($mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true))) {
+    $mbox = strlen($_SESSION['mbox']) ? $_SESSION['mbox'] : 'INBOX';
 }
-else if ($RCMAIL->storage) {
-    $_SESSION['mbox'] = $RCMAIL->storage->get_folder();
+if (!($page = intval($_GET['_page']))) {
+    $page = $_SESSION['page'] ? $_SESSION['page'] : 1;
 }
 
-if (!empty($_GET['_page'])) {
-    $RCMAIL->storage->set_page(($_SESSION['page'] = intval($_GET['_page'])));
-}
+$RCMAIL->storage->set_folder($_SESSION['mbox'] = $mbox);
+$RCMAIL->storage->set_page($_SESSION['page'] = $page);
 
 $a_threading        = $RCMAIL->config->get('message_threading', array());
 $message_sort_col   = $RCMAIL->config->get('message_sort_col');
@@ -69,8 +68,8 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
 }
 
 // remove mbox part from _uid
-if (($_uid  = get_input_value('_uid', RCUBE_INPUT_GPC)) && preg_match('/^\d+-[^,]+$/', $_uid)) {
-  list($_uid, $mbox) = explode('-', $_uid);
+if (($_uid  = rcube_utils::get_input_value('_uid', RCUBE_INPUT_GPC)) && !is_array($_uid) && preg_match('/^\d+-.+/', $_uid)) {
+  list($_uid, $mbox) = explode('-', $_uid, 2);
   if (isset($_GET['_uid']))  $_GET['_uid']  = $_uid;
   if (isset($_POST['_uid'])) $_POST['_uid'] = $_uid;
   $_REQUEST['_uid'] = $_uid;
@@ -84,6 +83,9 @@ if (($_uid  = get_input_value('_uid', RCUBE_INPUT_GPC)) && preg_match('/^\d+-[^,
   }
 }
 
+if (!empty($_SESSION['browser_caps']) && !$OUTPUT->ajax_call) {
+    $OUTPUT->set_env('browser_capabilities', $_SESSION['browser_caps']);
+}
 
 // set main env variables, labels and page title
 if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
@@ -137,17 +139,13 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     $RCMAIL->set_env_config(array('delete_junk', 'flag_for_deletion', 'read_when_deleted',
         'skip_deleted', 'display_next', 'message_extwin', 'compose_extwin', 'forward_attachment'));
 
-    if (!empty($_SESSION['browser_caps'])) {
-        $OUTPUT->set_env('browser_capabilities', $_SESSION['browser_caps']);
-    }
-
     if (!$OUTPUT->ajax_call) {
         $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
             'movingmessage', 'copyingmessage', 'deletingmessage', 'markingmessage',
-            'copy', 'move', 'quota', 'replyall', 'replylist');
+            'copy', 'move', 'quota', 'replyall', 'replylist', 'stillsearching');
     }
 
-    $pagetitle = $RCMAIL->localize_foldername($RCMAIL->storage->mod_folder($mbox_name), true);
+    $pagetitle = $RCMAIL->localize_foldername($mbox_name, true);
     $pagetitle = str_replace($delimiter, " \xC2\xBB ", $pagetitle);
 
     $OUTPUT->set_pagetitle($pagetitle);
@@ -392,6 +390,8 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     if ($multifolder && $_SESSION['search_scope'] == 'all') {
         $OUTPUT->command('select_folder', '');
     }
+
+    $OUTPUT->set_env('multifolder_listing', $multifolder);
 
     if (empty($a_headers)) {
         return;
@@ -854,95 +854,29 @@ function rcmail_print_body($part, $p = array())
 
     // plaintext postprocessing
     if ($part->ctype_secondary == 'plain') {
-        if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed') {
-            $body = rcube_mime::unfold_flowed($body);
-        }
-
-        $body = rcmail_plain_body($body);
+        $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed');
     }
 
     // allow post-processing of the message body
     $data = $RCMAIL->plugins->exec_hook('message_part_after',
         array('type' => $part->ctype_secondary, 'body' => $body, 'id' => $part->mime_id) + $data);
 
-    return $data['type'] == 'html' ? $data['body'] : html::tag('pre', array(), $data['body']);
+    return $data['body'];
 }
 
 /**
  * Handle links and citation marks in plain text message
  *
  * @param string  Plain text string
+ * @param boolean Set to True if the source text is in format=flowed
  *
  * @return string Formatted HTML string
  */
-function rcmail_plain_body($body)
+function rcmail_plain_body($body, $flowed = false)
 {
-    global $RCMAIL;
-
-    // make links and email-addresses clickable
-    $attribs  = array('link_attribs' => array('rel' => 'noreferrer', 'target' => '_blank'));
-    $replacer = new rcmail_string_replacer($attribs);
-
-    // search for patterns like links and e-mail addresses and replace with tokens
-    $body = $replacer->replace($body);
-
-    // split body into single lines
-    $body        = preg_split('/\r?\n/', $body);
-    $quote_level = 0;
-    $last        = -1;
-
-    // find/mark quoted lines...
-    for ($n=0, $cnt=count($body); $n < $cnt; $n++) {
-        if ($body[$n][0] == '>' && preg_match('/^(>+ {0,1})+/', $body[$n], $regs)) {
-            $q        = substr_count($regs[0], '>');
-            $body[$n] = substr($body[$n], strlen($regs[0]));
-
-            if ($q > $quote_level) {
-                $body[$n] = $replacer->get_replacement($replacer->add(
-                    str_repeat('<blockquote>', $q - $quote_level))) . $body[$n];
-                $last = $n;
-            }
-            else if ($q < $quote_level) {
-                $body[$n] = $replacer->get_replacement($replacer->add(
-                    str_repeat('</blockquote>', $quote_level - $q))) . $body[$n];
-                $last = $n;
-            }
-        }
-        else {
-            $q = 0;
-            if ($quote_level > 0)
-                $body[$n] = $replacer->get_replacement($replacer->add(
-                    str_repeat('</blockquote>', $quote_level))) . $body[$n];
-        }
-
-        $quote_level = $q;
-    }
-
-    $body = join("\n", $body);
-
-    // quote plain text (don't use rcube::Q() here, to display entities "as is")
-    $table = get_html_translation_table(HTML_SPECIALCHARS);
-    unset($table['?']);
-    $body = strtr($body, $table);
-
-    // colorize signature (up to <sig_max_lines> lines)
-    $len = strlen($body);
-    $sig_max_lines = $RCMAIL->config->get('sig_max_lines', 15);
-
-    while (($sp = strrpos($body, "-- \n", $sp ? -$len+$sp-1 : 0)) !== false) {
-        if ($sp == 0 || $body[$sp-1] == "\n") {
-            // do not touch blocks with more that X lines
-            if (substr_count($body, "\n", $sp) < $sig_max_lines) {
-                $body = substr($body, 0, max(0, $sp))
-                    . '<span class="sig">'.substr($body, $sp).'</span>';
-            }
-
-            break;
-        }
-    }
-
-    // insert url/mailto links and citation tags
-    $body = $replacer->resolve($body);
+    $options   = array('flowed' => $flowed, 'wrap' => !$flowed);
+    $text2html = new rcube_text2html($body, false, $options);
+    $body      = $text2html->get_html();
 
     return $body;
 }
@@ -1272,8 +1206,8 @@ function rcmail_message_body($attrib)
             $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
                 array('part' => $MESSAGE, 'prefix' => ''));
 
-            $out .= html::div('message-part', $plugin['prefix'] . html::tag('pre', array(),
-                rcmail_plain_body(rcube::Q($MESSAGE->body, 'strict', false))));
+            $out .= html::div('message-part',
+                $plugin['prefix'] . rcmail_plain_body($MESSAGE->body));
         }
     }
 
@@ -1343,12 +1277,10 @@ function rcmail_message_body($attrib)
 
 function rcmail_part_image_type($part)
 {
-    $rcmail = rcmail::get_instance();
-
     // Skip TIFF images if browser doesn't support this format...
     $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
     // until we can convert them to JPEG
-    $tiff_support = $tiff_support || $rcmail->config->get('im_convert_path');
+    $tiff_support = $tiff_support || rcube_image::is_convertable('image/tiff');
 
     // Content-type regexp
     $mime_regex = $tiff_support ? '/^image\//i' : '/^image\/(?!tif)/i';
@@ -2036,7 +1968,7 @@ function rcmail_search_filter($attrib)
     $ctypes = array('application/', 'multipart/m', 'multipart/signed', 'multipart/report');
 
     // Build search string of "with attachment" filter
-    $attachment = str_repeat(' OR', count($ctypes)-1);
+    $attachment = trim(str_repeat(' OR', count($ctypes)-1));
     foreach ($ctypes as $type) {
         $attachment .= ' HEADER Content-Type ' . rcube_imap_generic::escape($type);
     }

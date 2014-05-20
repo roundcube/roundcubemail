@@ -1010,6 +1010,16 @@ table.messagelist.fixedcopy
   padding: 0 2px;
 }
 
+.messagelist tr td.folder
+{
+  width: 135px;
+}
+
+.messagelist tr td.hidden
+{
+  display: none;
+}
+
 .messagelist tr.message
 {
   background-color: #FFF;
@@ -1296,17 +1306,12 @@ div.message-htmlpart a
   color: #0000CC;
 }
 
-div.message-part pre,
-div.message-htmlpart pre,
 div.message-part div.pre
 {
   margin: 0px;
   padding: 0px;
   font-family: monospace;
   font-size: 12px;
-  white-space: -moz-pre-wrap !important;
-  white-space: pre-wrap !important;
-  white-space: pre;
 }
 
 div.message-part span.sig
@@ -1320,8 +1325,10 @@ div.message-part blockquote
   border-left: 2px solid blue;
   border-right: 2px solid blue;
   background-color: #F6F6F6;
-  margin: 2px 0px;
-  padding: 1px 8px 1px 10px;
+  margin: 2px 0;
+  padding: 0 0.4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 div.message-part blockquote blockquote
@@ -1853,7 +1860,7 @@ input.from_address
   color: #999;
 }
 
-#compose-contacts #quicksearchbar
+#compose-contacts .searchbox
 {
   top: 2px;
   left: 7px;

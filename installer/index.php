@@ -50,14 +50,13 @@ $include_path .= ini_get('include_path');
 set_include_path($include_path);
 
 require_once 'Roundcube/bootstrap.php';
-require_once 'rcube_install.php';
 // deprecated aliases (to be removed)
 require_once 'bc.php';
 
 if (function_exists('session_start'))
   session_start();
 
-$RCI = rcube_install::get_instance();
+$RCI = rcmail_install::get_instance();
 $RCI->load_config();
 
 if (isset($_GET['_getconfig'])) {

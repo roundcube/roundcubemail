@@ -1,11 +1,56 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support image operations with Imagick extension (#1489734)
+- Support upload progress with session.upload_progress and PECL uploadprogress module (#1488702)
+- Make identity name field optional (#1489510)
+- Utility script to remove user records from the local database
+- Plugin API: Added message_saved hook (#1489752)
+- Plugin API: Added imap_search_before hook
+- Support messages import from zip archives
+- Zipdownload: Added mbox format support (#1486069)
+- Drop support for IE6, move IE7/IE8 support to legacy_browser plugin
+- Update to jQuery-2.1.1
+- Search across multiple folders (#1485234)
 - Improve UI integration of ACL settings
 - Drop support for PHP < 5.3.7
 - Set In-Reply-To and References for forwarded messages (#1489593)
 - Removed redundant default_folders config option (#1489737)
 - Implemented IMAP SPECIAL-USE extension support [RFC6154] (#1487830)
+- Add configurable LDAP_OPT_DEREF option (#1489864)
+- Optimize some framed pages content for better performance (#1489792)
+- Improve text messages display and conversion to HTML (#1488937)
+- Don't remove links when html signature is converted to text (#1489621)
+- Fix so when switching editor mode original version of signature is used (#1488849)
+- Fix mbox files import
+- Fix unintentional draft autosave request if autosave is disabled (#1489882)
+- Fix malformed References: header in send/saved mail (#1489891)
+- Fix handling unicode characters in links (#1489898)
+
+RELEASE 1.0.1
+-------------
+- Support 'error' and 'body_file' return attribs in 'message_before_send' hook (#1489595)
+- Apply user-specific replacements to group's base_dn property (#1489779)
+- Fix missing email address when importing contacts from outlook csv (#1489830)
+- Fix bug where "With attachment" option in search filter wasn't selected after return from mail view (#1489774)
+- Fix "washing" of unicoded style attributes (#1489777)
+- Fix unintentional redirect from compose page in Webkit browsers (#1489789)
+- Fix messages index cache update under some conditions (e.g. proxy) (#1489756)
+- Fix lack of translation of special folders in some configurations (#1489799)
+- Fix XSS issue in plain text spellchecker (#1489806)
+- Fix invalid page title for some folders (1489804)
+- Fix redundant alert message on over-size uploads (#1489817)
+- Fix next message display after removing a message (#1489800)
+- Fix missing Mail-Followup-To header in sent mail (#1489829)
+- Fix error when spell-checking an empty text (#1489831)
+- Avoid popupmenus being closed when scrollbar is clicked (#1489832)
+- Add proxy_whitelist configuration option (#1489729)
+- Fix identities_level=4 handling in new_user_dialog plugin (#1489840)
+- Fix various db_prefix issues (#1489839)
+- Fix too small length of users.preferences column data type on MySQL
+- Fix redundant warning when switching from html to text in empty editor (#1489819)
+- Fix invalid host validation on login (#1489841)
+- Fix IMAP connection test in installer so it is aware of imap_auth_type (#1489746)
 
 RELEASE 1.0.0
 -------------

@@ -955,35 +955,56 @@ class rcube_imap extends rcube_storage
             $sort_field = $this->sort_field;
             $search_set = $this->search_set;
 
-            $this->sort_field = null;
-            $this->page_size = 1000;  // fetch up to 1000 matching messages per folder
-            $this->threading = false;
-
-            $a_msg_headers = array();
-            foreach ($search_set->sets as $resultset) {
-                if (!$resultset->is_empty()) {
-                    $this->search_set = $resultset;
-                    $this->search_threads = $resultset instanceof rcube_result_thread;
-                    $a_msg_headers = array_merge($a_msg_headers, $this->list_search_messages($resultset->get_parameters('MAILBOX'), 1));
-                }
-            }
-
-            // do sorting and paging
+            // prepare paging
             $cnt   = $search_set->count();
             $from  = ($page-1) * $page_size;
             $to    = $from + $page_size;
+            $slice_length = min($page_size, $cnt - $from);
 
-            // sort headers
-            if (!$this->threading && !empty($a_msg_headers)) {
-                $a_msg_headers = $this->conn->sortHeaders($a_msg_headers, $sort_field, $this->sort_order);
+            // fetch resultset headers, sort and slice them
+            if (!empty($sort_field)) {
+                $this->sort_field = null;
+                $this->page_size = 1000;  // fetch up to 1000 matching messages per folder
+                $this->threading = false;
+
+                $a_msg_headers = array();
+                foreach ($search_set->sets as $resultset) {
+                    if (!$resultset->is_empty()) {
+                        $this->search_set = $resultset;
+                        $this->search_threads = $resultset instanceof rcube_result_thread;
+                        $a_msg_headers = array_merge($a_msg_headers, $this->list_search_messages($resultset->get_parameters('MAILBOX'), 1));
+                    }
+                }
+
+                // sort headers
+                if (!empty($a_msg_headers)) {
+                    $a_msg_headers = $this->conn->sortHeaders($a_msg_headers, $sort_field, $this->sort_order);
+                }
+
+                // store (sorted) message index
+                $search_set->set_message_index($a_msg_headers, $sort_field, $this->sort_order);
+
+                // only return the requested part of the set
+                $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $slice_length);
             }
+            else {
+                if ($this->sort_order != $search_set->get_parameters('ORDER')) {
+                    $search_set->revert();
+                }
 
-            // store (sorted) message index
-            $search_set->set_message_index($a_msg_headers, $sort_field, $this->sort_order);
+                // slice resultset first...
+                $fetch = array();
+                foreach (array_slice($search_set->get(), $from, $slice_length) as $msg_id) {
+                    list($uid, $folder) = explode('-', $msg_id, 2);
+                    $fetch[$folder][] = $uid;
+                }
 
-            // only return the requested part of the set
-            $slice_length  = min($page_size, $cnt - $from);
-            $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $slice_length);
+                // ... and fetch the requested set of headers
+                $a_msg_headers = array();
+                foreach ($fetch as $folder => $a_index) {
+                    $a_msg_headers = array_merge($a_msg_headers, array_values($this->fetch_headers($folder, $a_index)));
+                }
+            }
 
             if ($slice) {
                 $a_msg_headers = array_slice($a_msg_headers, -$slice, $slice);
@@ -1468,23 +1489,39 @@ class rcube_imap extends rcube_storage
      * Invoke search request to IMAP server
      *
      * @param  string  $folder     Folder name to search in
-     * @param  string  $str        Search criteria
+     * @param  string  $search     Search criteria
      * @param  string  $charset    Search charset
      * @param  string  $sort_field Header field to sort by
      *
+     * @return rcube_result_index  Search result object
      * @todo: Search criteria should be provided in non-IMAP format, eg. array
      */
-    public function search($folder='', $str='ALL', $charset=NULL, $sort_field=NULL)
+    public function search($folder = '', $search = 'ALL', $charset = null, $sort_field = null)
     {
-        if (!$str) {
-            $str = 'ALL';
+        if (!$search) {
+            $search = 'ALL';
         }
 
-        // multi-folder search
-        if (is_array($folder) && count($folder) > 1 && $str != 'ALL') {
-            new rcube_result_index; // trigger autoloader and make these classes available for threaded context
-            new rcube_result_thread;
+        if ((is_array($folder) && empty($folder)) || (!is_array($folder) && !strlen($folder))) {
+            $folder = $this->folder;
+        }
 
+        $plugin = rcube::get_instance()->plugins->exec_hook('imap_search_before', array(
+            'folder'     => $folder,
+            'search'     => $search,
+            'charset'    => $charset,
+            'sort_field' => $sort_field,
+            'threading'  => $this->threading,
+        ));
+
+        $folder     = $plugin['folder'];
+        $search     = $plugin['search'];
+        $charset    = $plugin['charset'];
+        $sort_field = $plugin['sort_field'];
+        $results    = $plugin['result'];
+
+        // multi-folder search
+        if (!$results && is_array($folder) && count($folder) > 1 && $search != 'ALL') {
             // connect IMAP to have all the required classes and settings loaded
             $this->check_connection();
 
@@ -1492,24 +1529,35 @@ class rcube_imap extends rcube_storage
             $this->threading = false;
 
             $searcher = new rcube_imap_search($this->options, $this->conn);
+
+            // set limit to not exceed the client's request timeout
+            $searcher->set_timelimit(60);
+
+            // continue existing incomplete search
+            if (!empty($this->search_set) && $this->search_set->incomplete && $search == $this->search_string) {
+                $searcher->set_results($this->search_set);
+            }
+
+            // execute the search
             $results = $searcher->exec(
                 $folder,
-                $str,
+                $search,
                 $charset ? $charset : $this->default_charset,
                 $sort_field && $this->get_capability('SORT') ? $sort_field : null,
                 $this->threading
             );
         }
-        else {
-            $folder = is_array($folder) ? $folder[0] : $folder;
-            if (!strlen($folder)) {
-                $folder = $this->folder;
-            }
-            $results = $this->search_index($folder, $str, $charset, $sort_field);
+        else if (!$results) {
+            $folder  = is_array($folder) ? $folder[0] : $folder;
+            $search  = is_array($search) ? $search[$folder] : $search;
+            $results = $this->search_index($folder, $search, $charset, $sort_field);
         }
 
-        $this->set_search_set(array($str, $results, $charset, $sort_field,
-            $this->threading || $this->search_sorted ? true : false));
+        $sorted = $this->threading || $this->search_sorted || $plugin['search_sorted'] ? true : false;
+
+        $this->set_search_set(array($search, $results, $charset, $sort_field, $sorted));
+
+        return $results;
     }
 
 
@@ -1523,19 +1571,26 @@ class rcube_imap extends rcube_storage
      */
     public function search_once($folder = null, $str = 'ALL')
     {
-        if (!$str) {
-            $str = 'ALL';
-        }
-
-        if (!strlen($folder)) {
-            $folder = $this->folder;
-        }
-
         if (!$this->check_connection()) {
             return new rcube_result_index();
         }
 
-        $index = $this->conn->search($folder, $str, true);
+        if (!$str) {
+            $str = 'ALL';
+        }
+
+        // multi-folder search
+        if (is_array($folder) && count($folder) > 1) {
+            $searcher = new rcube_imap_search($this->options, $this->conn);
+            $index = $searcher->exec($folder, $str, $this->default_charset);
+        }
+        else {
+            $folder = is_array($folder) ? $folder[0] : $folder;
+            if (!strlen($folder)) {
+                $folder = $this->folder;
+            }
+            $index = $this->conn->search($folder, $str, true);
+        }
 
         return $index;
     }
@@ -1674,6 +1729,19 @@ class rcube_imap extends rcube_storage
         return $this->get_search_set();
     }
 
+    /**
+     * Flag certain result subsets as 'incomplete'.
+     * For subsequent refresh_search() calls to only refresh the updated parts.
+     */
+    protected function set_search_dirty($folder)
+    {
+        if ($this->search_set && is_a($this->search_set, 'rcube_result_multifolder')) {
+            if ($subset = $this->search_set->get_set($folder)) {
+                $subset->incomplete = $this->search_set->incomplete = true;
+            }
+        }
+    }
+
 
     /**
      * Return message headers object of a specific message
@@ -1686,13 +1754,13 @@ class rcube_imap extends rcube_storage
      */
     public function get_message_headers($uid, $folder = null, $force = false)
     {
-        if (!strlen($folder)) {
-            $folder = $this->folder;
+        // decode combined UID-folder identifier
+        if (preg_match('/^\d+-.+/', $uid)) {
+            list($uid, $folder) = explode('-', $uid, 2);
         }
 
-        // decode combined UID-folder identifier
-        if (preg_match('/^\d+-[^,]+$/', $uid)) {
-            list($uid, $folder) = explode('-', $uid);
+        if (!strlen($folder)) {
+            $folder = $this->folder;
         }
 
         // get cached headers
@@ -1705,6 +1773,9 @@ class rcube_imap extends rcube_storage
         else {
             $headers = $this->conn->fetchHeader(
                 $folder, $uid, true, true, $this->get_fetch_headers());
+
+            if (is_object($headers))
+                $headers->folder = $folder;
         }
 
         return $headers;
@@ -1727,8 +1798,8 @@ class rcube_imap extends rcube_storage
         }
 
         // decode combined UID-folder identifier
-        if (preg_match('/^\d+-[^,]+$/', $uid)) {
-            list($uid, $folder) = explode('-', $uid);
+        if (preg_match('/^\d+-.+/', $uid)) {
+            list($uid, $folder) = explode('-', $uid, 2);
         }
 
         // Check internal cache
@@ -2377,6 +2448,8 @@ class rcube_imap extends rcube_storage
                     $this->clear_message_cache($folder, $all_mode ? null : explode(',', $uids));
                 }
             }
+
+            $this->set_search_dirty($folder);
         }
 
         return $result;
@@ -2424,6 +2497,17 @@ class rcube_imap extends rcube_storage
         if ($saved) {
             // increase messagecount of the target folder
             $this->set_messagecount($folder, 'ALL', 1);
+
+            rcube::get_instance()->plugins->exec_hook('message_saved', array(
+                    'folder'  => $folder,
+                    'message' => $message,
+                    'headers' => $headers,
+                    'is_file' => $is_file,
+                    'flags'   => $flags,
+                    'date'    => $date,
+                    'binary'  => $binary,
+                    'result'  => $saved,
+            ));
         }
 
         return $saved;
@@ -2475,6 +2559,9 @@ class rcube_imap extends rcube_storage
         if ($moved) {
             $this->clear_messagecount($from_mbox);
             $this->clear_messagecount($to_mbox);
+
+            $this->set_search_dirty($from_mbox);
+            $this->set_search_dirty($to_mbox);
         }
         // moving failed
         else if ($to_trash && $config->get('delete_always', false)) {
@@ -2491,7 +2578,7 @@ class rcube_imap extends rcube_storage
                 if ($this->search_threads || $all_mode) {
                     $this->refresh_search();
                 }
-                else {
+                else if (!$this->search_set->incomplete) {
                     $this->search_set->filter(explode(',', $uids), $this->folder);
                 }
             }
@@ -2579,13 +2666,15 @@ class rcube_imap extends rcube_storage
             // unset threads internal cache
             unset($this->icache['threads']);
 
+            $this->set_search_dirty($folder);
+
             // remove message ids from search set
             if ($this->search_set && $folder == $this->folder) {
                 // threads are too complicated to just remove messages from set
                 if ($this->search_threads || $all_mode) {
                     $this->refresh_search();
                 }
-                else {
+                else if (!$this->search_set->incomplete) {
                     $this->search_set->filter(explode(',', $uids));
                 }
             }

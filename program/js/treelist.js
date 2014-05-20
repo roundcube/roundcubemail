@@ -1,20 +1,33 @@
-/*
- +-----------------------------------------------------------------------+
- | Roundcube Treelist widget                                             |
- |                                                                       |
- | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
- |                                                                       |
- | Licensed under the GNU General Public License version 3 or            |
- | any later version with exceptions for skins & plugins.                |
- | See the README file for a full license statement.                     |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Authors: Thomas Bruederli <roundcube@gmail.com>                       |
- +-----------------------------------------------------------------------+
- | Requires: common.js                                                   |
- +-----------------------------------------------------------------------+
-*/
+/**
+ * Roundcube Treelist Widget
+ *
+ * This file is part of the Roundcube Webmail client
+ *
+ * @licstart  The following is the entire license notice for the
+ * JavaScript code in this file.
+ *
+ * Copyright (c) 2013-2014, The Roundcube Dev Team
+ *
+ * The JavaScript code in this page is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in this file.
+ *
+ * @author Thomas Bruederli <roundcube@gmail.com>
+ * @requires jquery.js, common.js
+ */
 
 
 /**
@@ -31,6 +44,7 @@ function rcube_treelist_widget(node, p)
     scroll_delay: 500,
     scroll_step: 5,
     scroll_speed: 20,
+    save_state: false,
     check_droptarget: function(node){ return !node.virtual }
   }, p || {});
 
@@ -39,6 +53,8 @@ function rcube_treelist_widget(node, p)
     indexbyid = {},
     selection = null,
     drag_active = false,
+    search_active = false,
+    last_search = '',
     box_coords = {},
     item_coords = [],
     autoexpand_timer,
@@ -46,6 +62,9 @@ function rcube_treelist_widget(node, p)
     body_scroll_top = 0,
     list_scroll_top = 0,
     scroll_timer,
+    searchfield,
+    tree_state,
+    list_id = (container.attr('id') || p.id_prefix || '0'),
     me = this;
 
 
@@ -64,6 +83,7 @@ function rcube_treelist_widget(node, p)
   this.insert = insert;
   this.remove = remove;
   this.get_item = get_item;
+  this.get_node = get_node;
   this.get_selection = get_selection;
 
   /////// startup code (constructor)
@@ -92,6 +112,43 @@ function rcube_treelist_widget(node, p)
     }
   });
 
+  // activate search function
+  if (p.searchbox) {
+    searchfield = $(p.searchbox).on('keyup', function(e) {
+      var key = rcube_event.get_keycode(e),
+        mod = rcube_event.get_modifier(e);
+
+      switch (key) {
+        case 9:   // tab
+          break;
+
+        case 13:  // enter
+          search(this.value, true);
+          return rcube_event.cancel(e);
+
+        case 27:  // escape
+          reset_search();
+          break;
+
+        case 38:  // arrow up
+        case 37:  // left
+        case 39:  // right
+        case 40:  // arrow down
+          return;  // ignore arrow keys
+
+        default:
+          search(this.value, false);
+          break;
+      }
+    }).attr('autocomplete', 'off');
+
+    // find the reset button for this search field
+    searchfield.parent().find('a.reset').click(function(e) {
+      reset_search();
+      return false;
+    })
+  }
+
 
   /////// private methods
 
@@ -106,11 +163,6 @@ function rcube_treelist_widget(node, p)
       node.collapsed = typeof set == 'undefined' || set;
       update_dom(node);
 
-      // Work around a bug in IE6 and IE7, see #1485309
-      if (window.bw && (bw.ie6 || bw.ie7) && node.collapsed) {
-        id2dom(node.id).next().children('ul:visible').hide().show();
-      }
-
       if (recursive && node.children) {
         for (var i=0; i < node.children.length; i++) {
           collapse(node.children[i].id, recursive, set);
@@ -118,6 +170,7 @@ function rcube_treelist_widget(node, p)
       }
 
       me.triggerEvent(node.collapsed ? 'collapse' : 'expand', node);
+      save_state(id, node.collapsed);
     }
   }
 
@@ -172,9 +225,17 @@ function rcube_treelist_widget(node, p)
   /**
    * Return the DOM element of the list item with the given ID
    */
-  function get_item(id)
+  function get_node(id)
   {
-    return id2dom(id).get(0);
+    return indexbyid[id];
+  }
+
+  /**
+   * Return the DOM element of the list item with the given ID
+   */
+  function get_item(id, real)
+  {
+    return id2dom(id, real).get(0);
   }
 
   /**
@@ -183,13 +244,26 @@ function rcube_treelist_widget(node, p)
   function insert(node, parent_id, sort)
   {
     var li, parent_li,
-      parent_node = parent_id ? indexbyid[parent_id] : null;
+      parent_node = parent_id ? indexbyid[parent_id] : null
+      search_ = search_active;
+
+    // ignore, already exists
+    if (indexbyid[node.id]) {
+      return;
+    }
+
+    // apply saved state
+    state = get_state(node.id, node.collapsed);
+    if (state !== undefined) {
+      node.collapsed = state;
+    }
 
     // insert as child of an existing node
     if (parent_node) {
       if (!parent_node.children)
         parent_node.children = [];
 
+      search_active = false;
       parent_node.children.push(node);
       parent_li = id2dom(parent_id);
 
@@ -201,6 +275,21 @@ function rcube_treelist_widget(node, p)
       else {
         // append new node to parent's child list
         li = render_node(node, parent_li.children('ul').first());
+      }
+
+      // list is in search mode
+      if (search_) {
+        search_active = search_;
+
+        // add clone to current search results (top level)
+        if (!li.is(':visible')) {
+          $('<li>')
+            .attr('id', li.attr('id') + '--xsR')
+            .attr('class', li.attr('class'))
+            .addClass('searchresult__')
+            .append(li.children().first().clone(true, true))
+            .appendTo(container);
+        }
       }
     }
     // insert at top level
@@ -268,7 +357,7 @@ function rcube_treelist_widget(node, p)
     if (sibling) {
       li.insertAfter(sibling);
     }
-    else if (first.id != myid) {
+    else if (first && first.id != myid) {
       li.insertBefore(first);
     }
 
@@ -284,7 +373,7 @@ function rcube_treelist_widget(node, p)
     var node, li;
 
     if (node = indexbyid[id]) {
-      li = id2dom(id);
+      li = id2dom(id, true);
       li.remove();
 
       node.deleted = true;
@@ -327,6 +416,80 @@ function rcube_treelist_widget(node, p)
     drag_active = false;
 
     container.html('');
+
+    reset_search();
+  }
+
+  /**
+   * 
+   */
+  function search(q, enter)
+  {
+    q = String(q).toLowerCase();
+
+    if (!q.length)
+      return reset_search();
+    else if (q == last_search && !enter)
+      return 0;
+
+    var hits = [];
+    var search_tree = function(items) {
+      $.each(items, function(i, node) {
+        var li, sli;
+        if (!node.virtual && !node.deleted && String(node.text).toLowerCase().indexOf(q) >= 0 && hits.indexOf(node.id) < 0) {
+          li = id2dom(node.id);
+          sli = $('<li>')
+            .attr('id', li.attr('id') + '--xsR')
+            .attr('class', li.attr('class'))
+            .addClass('searchresult__')
+            .append(li.children().first().clone(true, true))
+            .appendTo(container);
+            hits.push(node.id);
+        }
+
+        if (node.children && node.children.length) {
+          search_tree(node.children);
+        }
+      });
+    };
+
+    // reset old search results
+    if (search_active) {
+      $(container).children('li.searchresult__').remove();
+      search_active = false;
+    }
+
+    // hide all list items
+    $(container).children('li').hide().removeClass('selected');
+
+    // search recursively in tree (to keep sorting order)
+    search_tree(data);
+    search_active = true;
+    last_search = q;
+
+    me.triggerEvent('search', { query: q, last: last_search, count: hits.length, ids: hits, execute: enter||false });
+
+    return hits.count;
+  }
+
+  /**
+   * 
+   */
+  function reset_search()
+  {
+    if (searchfield)
+      searchfield.val('');
+
+    $(container).children('li.searchresult__').remove();
+    $(container).children('li').show();
+
+    search_active = false;
+
+    me.triggerEvent('search', { query: false, last: last_search });
+    last_search = '';
+
+    if (selection)
+      select(selection);
   }
 
   /**
@@ -370,6 +533,9 @@ function rcube_treelist_widget(node, p)
     else if (typeof node.html == 'object')
       li.append(node.html);
 
+    if (!node.text)
+      node.text = li.children().first().text();
+
     if (node.virtual)
       li.addClass('virtual');
     if (node.id == selection)
@@ -398,12 +564,13 @@ function rcube_treelist_widget(node, p)
   {
     var result = [];
     ul.children('li').each(function(i,e){
-      var li = $(e), sublist = li.children('ul');
+      var state, li = $(e), sublist = li.children('ul');
       var node = {
         id: dom2id(li),
-        classes: li.attr('class').split(' '),
+        classes: String(li.attr('class')).split(' '),
         virtual: li.hasClass('virtual'),
         html: li.children().first().get(0).outerHTML,
+        text: li.children().first().text(),
         children: walk_list(sublist)
       }
 
@@ -412,6 +579,16 @@ function rcube_treelist_widget(node, p)
       }
       if (node.children.length) {
         node.collapsed = sublist.css('display') == 'none';
+
+        // apply saved state
+        state = get_state(node.id, node.collapsed);
+        if (state !== undefined) {
+          node.collapsed = state;
+          sublist[(state?'hide':'show')]();
+        }
+
+        if (!li.children('div.treetoggle').length)
+          $('<div class="treetoggle '+(node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
       }
       if (li.hasClass('selected')) {
         selection = node.id;
@@ -442,17 +619,18 @@ function rcube_treelist_widget(node, p)
    */
   function dom2id(li)
   {
-    var domid = li.attr('id').replace(new RegExp('^' + (p.id_prefix) || '%'), '');
+    var domid = li.attr('id').replace(new RegExp('^' + (p.id_prefix) || '%'), '').replace(/--xsR$/, '');
     return p.id_decode ? p.id_decode(domid) : domid;
   }
 
   /**
    * Get the <li> element for the given node ID
    */
-  function id2dom(id)
+  function id2dom(id, real)
   {
-    var domid = p.id_encode ? p.id_encode(id) : id;
-    return $('#' + p.id_prefix + domid);
+    var domid = p.id_encode ? p.id_encode(id) : id,
+      suffix = search_active && !real ? '--xsR' : '';
+    return $('#' + p.id_prefix + domid + suffix, container);
   }
 
   /**
@@ -467,6 +645,40 @@ function rcube_treelist_widget(node, p)
     if (rel_offset < 0 || rel_offset + li.height() > scroller.height())
       scroller.scrollTop(rel_offset + current_offset);
   }
+
+  /**
+   * Save node collapse state to localStorage
+   */
+  function save_state(id, collapsed)
+  {
+    if (p.save_state && window.rcmail) {
+      var key = 'treelist-' + list_id;
+      if (!tree_state) {
+        tree_state = rcmail.local_storage_get_item(key, {});
+      }
+
+      if (tree_state[id] != collapsed) {
+        tree_state[id] = collapsed;
+        rcmail.local_storage_set_item(key, tree_state);
+      }
+    }
+  }
+
+  /**
+   * Read node collapse state from localStorage
+   */
+  function get_state(id)
+  {
+    if (p.save_state && window.rcmail) {
+      if (!tree_state) {
+        tree_state = rcmail.local_storage_get_item('treelist-' + list_id, {});
+      }
+      return tree_state[id];
+    }
+
+    return undefined;
+  }
+
 
   ///// drag & drop support
 
