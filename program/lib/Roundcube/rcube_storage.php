@@ -620,7 +620,7 @@ abstract class rcube_storage
      */
     protected function parse_uids($uids)
     {
-        if ($uids === '*' || $uids === '1:*') {
+        if ($uids === '*' || $uids === '1:*' || $uids === array('*') ) {
             if (empty($this->search_set)) {
                 $uids = '1:*';
                 $all = true;
