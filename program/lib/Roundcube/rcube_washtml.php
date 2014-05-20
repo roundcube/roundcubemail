@@ -456,7 +456,7 @@ class rcube_washtml
         // Remove invalid HTML comments (#1487759)
         // Don't remove valid conditional comments
         // Don't remove MSOutlook (<!-->) conditional comments (#1489004)
-        $html = preg_replace('/<!--[^->\[\n]+>/', '', $html);
+        $html = preg_replace('/<!--[^-<>\[\n]+>/', '', $html);
 
         // fix broken nested lists
         self::fix_broken_lists($html);

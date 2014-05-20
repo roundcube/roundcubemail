@@ -26,6 +26,7 @@ CHANGELOG Roundcube Webmail
 - Fix unintentional draft autosave request if autosave is disabled (#1489882)
 - Fix malformed References: header in send/saved mail (#1489891)
 - Fix handling unicode characters in links (#1489898)
+- Fix incorrect handling of HTML comments in messages sanitization code (#1489904)
 
 RELEASE 1.0.1
 -------------
