@@ -21,8 +21,6 @@ class new_user_identity extends rcube_plugin
 
     function init()
     {
-        $this->load_config('config.inc.php.dist');
-        $this->load_config('config.inc.php');
 
         $this->rc = rcmail::get_instance();
 
@@ -31,6 +29,8 @@ class new_user_identity extends rcube_plugin
 
     public function create_user($args)
     {
+        $this->load_config('config.inc.php');
+
         $mode = (string) $this->rc->config->get('new_user_identity_driver');
 
         switch ($mode) {
