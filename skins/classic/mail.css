@@ -1860,7 +1860,7 @@ input.from_address
   color: #999;
 }
 
-#compose-contacts #quicksearchbar
+#compose-contacts .searchbox
 {
   top: 2px;
   left: 7px;
