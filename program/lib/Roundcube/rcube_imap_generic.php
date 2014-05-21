@@ -3143,7 +3143,8 @@ class rcube_imap_generic
                     if (isset($mbox) && is_array($data[$i])) {
                         $size_sub = count($data[$i]);
                         for ($x=0; $x<$size_sub; $x++) {
-                            $result[$mbox][$data[$i][$x]] = $data[$i][++$x];
+                            if ($data[$i][$x+1] !== null)
+                                $result[$mbox][$data[$i][$x]] = $data[$i][++$x];
                         }
                         unset($data[$i]);
                     }
@@ -3161,7 +3162,8 @@ class rcube_imap_generic
                         }
                     }
                     else if (isset($mbox)) {
-                        $result[$mbox][$data[$i]] = $data[++$i];
+                        if ($data[$i+1] !== null)
+                            $result[$mbox][$data[$i]] = $data[++$i];
                         unset($data[$i]);
                         unset($data[$i-1]);
                     }
@@ -3306,10 +3308,10 @@ class rcube_imap_generic
                         for ($x=0, $len=count($attribs); $x<$len;) {
                             $attr  = $attribs[$x++];
                             $value = $attribs[$x++];
-                            if ($attr == 'value.priv') {
+                            if ($attr == 'value.priv' && $value !== null) {
                                 $result[$mbox]['/private' . $entry] = $value;
                             }
-                            else if ($attr == 'value.shared') {
+                            else if ($attr == 'value.shared' && $value !== null) {
                                 $result[$mbox]['/shared' . $entry] = $value;
                             }
                         }
