@@ -27,6 +27,7 @@ CHANGELOG Roundcube Webmail
 - Fix malformed References: header in send/saved mail (#1489891)
 - Fix handling unicode characters in links (#1489898)
 - Fix incorrect handling of HTML comments in messages sanitization code (#1489904)
+- Fix so current page is reset on list-mode change (#1489907)
 
 RELEASE 1.0.1
 -------------
