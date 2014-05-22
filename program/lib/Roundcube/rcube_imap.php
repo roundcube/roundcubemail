@@ -1691,12 +1691,15 @@ class rcube_imap extends rcube_storage
                 $string_offset = $m[1] + strlen($m[0]) + 4; // {}\r\n
                 $string = substr($str, $string_offset - 1, $m[0]);
                 $string = rcube_charset::convert($string, $charset, $dest_charset);
-                if ($string === false) {
+
+                if ($string === false || !strlen($string)) {
                     continue;
                 }
+
                 $res .= substr($str, $last, $m[1] - $last - 1) . rcube_imap_generic::escape($string);
                 $last = $m[0] + $string_offset - 1;
             }
+
             if ($last < strlen($str)) {
                 $res .= substr($str, $last, strlen($str)-$last);
             }
