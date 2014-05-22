@@ -4168,21 +4168,23 @@ class rcube_imap extends rcube_storage
             return $folders;
         }
 
+        // force the type of folder name variable (#1485527)
+        $folders  = array_map('strval', $folders);
         $specials = array_unique(array_intersect($specials, $folders));
         $head     = array();
 
-        // place default folders on the top
+        // place default folders on top
         foreach ($specials as $special) {
             $prefix = $special . $delimiter;
 
             foreach ($folders as $idx => $folder) {
                 if ($folder === $special) {
-                    $head[] = (string) $special;
+                    $head[] = $special;
                     unset($folders[$idx]);
                 }
                 // put subfolders of default folders on their place...
                 else if (strpos($folder, $prefix) === 0) {
-                    $head[] = (string) $folder;
+                    $head[] = $folder;
                     unset($folders[$idx]);
                 }
             }
