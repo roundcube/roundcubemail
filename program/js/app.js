@@ -1132,7 +1132,7 @@ function rcube_webmail()
           this.gui_objects.messagepartframe.contentWindow.print();
         }
         else if (uid = this.get_single_uid()) {
-          ref.printwin = this.open_window(this.env.comm_path+'&_action=print&_uid='+uid+'&_mbox='+urlencode(this.get_message_mailbox(uid))+(this.env.safemode ? '&_safe=1' : ''), true, true);
+          this.printwin = this.open_window(this.env.comm_path+'&_action=print&_uid='+uid+'&_mbox='+urlencode(this.get_message_mailbox(uid))+(this.env.safemode ? '&_safe=1' : ''), true, true);
           if (this.printwin) {
             if (this.env.action != 'show')
               this.mark_message('read', uid);
@@ -1787,7 +1787,7 @@ function rcube_webmail()
     this.triggerEvent('openwindow', { url:url, handle:extwin });
 
     // focus window, delayed to bring to front
-    window.setTimeout(function() { extwin && extwin.focus(); }, 10);
+    setTimeout(function() { extwin && extwin.focus(); }, 10);
 
     return extwin;
   };
@@ -3785,7 +3785,7 @@ function rcube_webmail()
   this.compose_field_hash = function(save)
   {
     // check input fields
-    var ed, i, val, str = '', hash_fields = ['to', 'cc', 'bcc', 'subject'];
+    var ed, i, id, val, str = '', hash_fields = ['to', 'cc', 'bcc', 'subject'];
 
     for (i=0; i<hash_fields.length; i++)
       if (val = $('[name="_' + hash_fields[i] + '"]').val())
@@ -3797,8 +3797,8 @@ function rcube_webmail()
       str += $("[name='_message']").val();
 
     if (this.env.attachments)
-      for (var upload_id in this.env.attachments)
-        str += upload_id;
+      for (id in this.env.attachments)
+        str += id;
 
     if (save)
       this.cmp_hash = str;
@@ -4150,8 +4150,8 @@ function rcube_webmail()
     if (!this.gui_objects.attachmentlist)
       return false;
 
-    if (!att.complete && ref.env.loadingicon)
-      att.html = '<img src="'+ref.env.loadingicon+'" alt="" class="uploading" />' + att.html;
+    if (!att.complete && this.env.loadingicon)
+      att.html = '<img src="'+this.env.loadingicon+'" alt="" class="uploading" />' + att.html;
 
     if (!att.complete && att.frame)
       att.html = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\', \''+att.frame+'\');" href="#cancelupload" class="cancelupload">'
@@ -4239,7 +4239,8 @@ function rcube_webmail()
   {
     if (value != '') {
       var r, lock = this.set_busy(true, 'searching'),
-        url = this.search_params(value);
+        url = this.search_params(value),
+        action = this.env.action == 'compose' && this.contact_list ? 'search-contacts' : 'search';
 
       if (this.message_list)
         this.clear_message_list();
@@ -4254,7 +4255,6 @@ function rcube_webmail()
       // reset vars
       this.env.current_page = 1;
 
-      var action = this.env.action == 'compose' && this.contact_list ? 'search-contacts' : 'search';
       r = this.http_request(action, url, lock);
 
       this.env.qsearch = {lock: lock, request: r};
@@ -4268,9 +4268,9 @@ function rcube_webmail()
 
   this.continue_search = function(request_id)
   {
-    var lock = ref.set_busy(true, 'stillsearching');
+    var lock = this.set_busy(true, 'stillsearching');
 
-    setTimeout(function(){
+    setTimeout(function() {
       var url = ref.search_params();
       url._continue = request_id;
       ref.env.qsearch = { lock: lock, request: ref.http_request('search', url, lock) };
@@ -4362,9 +4362,9 @@ function rcube_webmail()
 
   this.is_multifolder_listing = function()
   {
-    return typeof this.env.multifolder_listing != 'undefined' ? this.env.multifolder_listing :
+    return this.env.multifolder_listing !== undefined ? this.env.multifolder_listing :
       (this.env.search_request && (this.env.search_scope || 'base') != 'base');
-  }
+  };
 
   this.sent_successfully = function(type, msg, folders)
   {
@@ -4455,7 +4455,7 @@ function rcube_webmail()
 
   this.ksearch_visible = function()
   {
-    return (this.ksearch_selected !== null && this.ksearch_selected !== undefined && this.ksearch_value);
+    return this.ksearch_selected !== null && this.ksearch_selected !== undefined && this.ksearch_value;
   };
 
   this.ksearch_select = function(node)
@@ -5255,21 +5255,21 @@ function rcube_webmail()
   //remove selected contacts from current active group
   this.group_remove_selected = function()
   {
-    ref.http_post('group-delmembers', {_cid: this.contact_list.selection,
+    this.http_post('group-delmembers', {_cid: this.contact_list.selection,
       _source: this.env.source, _gid: this.env.group});
   };
 
   //callback after deleting contact(s) from current group
   this.remove_group_contacts = function(props)
   {
-    if('undefined' != typeof this.env.group && (this.env.group === props.gid)){
+    if (this.env.group !== undefined && (this.env.group === props.gid)) {
       var n, selection = this.contact_list.get_selection();
       for (n=0; n<selection.length; n++) {
         id = selection[n];
         this.contact_list.remove_row(id, (n == selection.length-1));
       }
     }
-  }
+  };
 
   // handler for keyboard events on the input field
   this.add_input_keydown = function(e)
@@ -7247,7 +7247,7 @@ function rcube_webmail()
       this.save_compose_form_local();
     }
     else if (redirect_url) {
-      window.setTimeout(function(){ ref.redirect(redirect_url, true); }, 2000);
+      setTimeout(function(){ ref.redirect(redirect_url, true); }, 2000);
     }
   };
 
@@ -7434,14 +7434,14 @@ function rcube_webmail()
   this.document_drag_hover = function(e, over)
   {
     e.preventDefault();
-    $(ref.gui_objects.filedrop)[(over?'addClass':'removeClass')]('active');
+    $(this.gui_objects.filedrop)[(over?'addClass':'removeClass')]('active');
   };
 
   this.file_drag_hover = function(e, over)
   {
     e.preventDefault();
     e.stopPropagation();
-    $(ref.gui_objects.filedrop)[(over?'addClass':'removeClass')]('hover');
+    $(this.gui_objects.filedrop)[(over?'addClass':'removeClass')]('hover');
   };
 
   // handler when files are dropped to a designated area.
@@ -7684,7 +7684,7 @@ function rcube_webmail()
       if (obj.setSelectionRange)
         obj.setSelectionRange(pos, pos);
     }
-    catch(e) {}; // catch Firefox exception if obj is hidden
+    catch(e) {} // catch Firefox exception if obj is hidden
   };
 
   // get selected text from an input field
@@ -7737,25 +7737,23 @@ function rcube_webmail()
     }
     catch(e) {
       this.display_message(String(e), 'error');
-    };
+    }
   };
 
   this.check_protocol_handler = function(name, elem)
   {
     var nav = window.navigator;
+
     if (!nav || (typeof nav.registerProtocolHandler != 'function')) {
       $(elem).addClass('disabled').click(function(){ return false; });
     }
+    else if (typeof nav.isProtocolHandlerRegistered == 'function') {
+      var status = nav.isProtocolHandlerRegistered('mailto', this.mailto_handler_uri());
+      if (status)
+        $(elem).parent().find('.mailtoprotohandler-status').html(status);
+    }
     else {
-      var status = null;
-      if (typeof nav.isProtocolHandlerRegistered == 'function') {
-        status = nav.isProtocolHandlerRegistered('mailto', this.mailto_handler_uri());
-        if (status)
-          $(elem).parent().find('.mailtoprotohandler-status').html(status);
-      }
-      else {
-        $(elem).click(function() { ref.register_protocol_handler(name); return false; });
-      }
+      $(elem).click(function() { ref.register_protocol_handler(name); return false; });
     }
   };
 
@@ -7810,12 +7808,12 @@ function rcube_webmail()
 
     if (window.ActiveXObject) {
       try {
-        if (axObj = new ActiveXObject("AcroPDF.PDF"))
+        if (plugin = new ActiveXObject("AcroPDF.PDF"))
           return 1;
       }
       catch (e) {}
       try {
-        if (axObj = new ActiveXObject("PDF.PdfCtrl"))
+        if (plugin = new ActiveXObject("PDF.PdfCtrl"))
           return 1;
       }
       catch (e) {}
@@ -7843,7 +7841,7 @@ function rcube_webmail()
 
     if (window.ActiveXObject) {
       try {
-        if (axObj = new ActiveXObject("ShockwaveFlash.ShockwaveFlash"))
+        if (plugin = new ActiveXObject("ShockwaveFlash.ShockwaveFlash"))
           return 1;
       }
       catch (e) {}
