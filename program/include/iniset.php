@@ -61,7 +61,7 @@ require_once 'Roundcube/bootstrap.php';
 spl_autoload_register('rcmail_autoload');
 
 // include composer autoloader (if available)
-if (file_exists('vendor/autoload.php')) {
+if (@file_exists('vendor/autoload.php')) {
     require 'vendor/autoload.php';
 }
 
