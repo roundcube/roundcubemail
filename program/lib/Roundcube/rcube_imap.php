@@ -1848,7 +1848,7 @@ class rcube_imap extends rcube_storage
             $this->struct_charset = $this->structure_charset($structure);
         }
 
-        $headers->ctype = strtolower($headers->ctype);
+        $headers->ctype = @strtolower($headers->ctype);
 
         // Here we can recognize malformed BODYSTRUCTURE and
         // 1. [@TODO] parse the message in other way to create our own message structure
