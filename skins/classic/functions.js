@@ -112,6 +112,7 @@ function rcube_mail_ui()
     mailboxmenu:    {id:'mailboxoptionsmenu', above:1},
     composemenu:    {id:'composeoptionsmenu', editable:1, overlap:1},
     spellmenu:      {id:'spellmenu'},
+    responsesmenu:  {id:'responsesmenu'},
     // toggle: #1486823, #1486930
     uploadmenu:     {id:'attachment-form', editable:1, above:1, toggle:!bw.ie&&!bw.linux },
     uploadform:     {id:'upload-form', editable:1, toggle:!bw.ie&&!bw.linux }
@@ -422,21 +423,21 @@ menu_save: function(prop)
   this.save_listmenu();
 },
 
-body_mouseup: function(evt, p)
+body_mouseup: function(e)
 {
-  var i, target = rcube_event.get_target(evt);
+  var target = e.target; ref = this;
 
-  for (i in this.popups) {
-    if (this.popups[i].obj.is(':visible') && target != rcube_find_object(i+'link')
-      && !this.popups[i].toggle
-      && target != this.popups[i].obj.get(0)  // check if scroll bar was clicked (#1489832)
-      && (!this.popups[i].editable || !this.target_overlaps(target, this.popups[i].id))
-      && (!this.popups[i].sticky || !rcube_mouse_is_over(evt, rcube_find_object(this.popups[i].id)))
+  $.each(this.popups, function(i, popup) {
+    if (popup.obj.is(':visible') && target != rcube_find_object(i + 'link')
+      && !popup.toggle
+      && target != popup.obj.get(0)  // check if scroll bar was clicked (#1489832)
+      && (!popup.editable || !ref.target_overlaps(target, popup.id))
+      && (!popup.sticky || !rcube_mouse_is_over(e, rcube_find_object(popup.id)))
       && !$(target).is('.folder-selector-link') && !$(target).children('.folder-selector-link').length
     ) {
       window.setTimeout('rcmail_ui.show_popup("'+i+'",false);', 50);
     }
-  }
+  });
 },
 
 target_overlaps: function (target, elementid)
@@ -450,9 +451,9 @@ target_overlaps: function (target, elementid)
   return false;
 },
 
-body_keydown: function(evt, p)
+body_keydown: function(e)
 {
-  if (rcube_event.get_keycode(evt) == 27) {
+  if (e.keyCode == 27) {
     for (var k in this.popups) {
       if (this.popups[k].obj.is(':visible'))
         this.show_popup(k, false);
@@ -800,7 +801,7 @@ function iframe_events()
   // this==iframe
   try {
     var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-    rcube_event.add_listener({ element: doc, object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
+    $(doc).mouseup(function(e) { rcmail_ui.body_mouseup(e); });
   }
   catch (e) {
     // catch possible "Permission denied" error in IE
@@ -963,8 +964,9 @@ var rcmail_ui;
 function rcube_init_mail_ui()
 {
   rcmail_ui = new rcube_mail_ui();
-  rcube_event.add_listener({ object:rcmail_ui, method:'body_mouseup', event:'mouseup' });
-  rcube_event.add_listener({ object:rcmail_ui, method:'body_keydown', event:'keydown' });
+
+  $(document.body).mouseup(function(e) { rcmail_ui.body_mouseup(e); })
+    .mousedown(function(e) { rcmail_ui.body_keydown(e); });
 
   rcmail.addEventListener('init', function() {
     if (rcmail.env.quota_content)
@@ -972,7 +974,7 @@ function rcube_init_mail_ui()
     rcmail.addEventListener('setquota', update_quota);
 
     $('iframe').load(iframe_events)
-      .contents().mouseup(function(e){rcmail_ui.body_mouseup(e)});
+      .contents().mouseup(function(e) { rcmail_ui.body_mouseup(e); });
 
     if (rcmail.env.task == 'mail') {
       rcmail.addEventListener('enable-command', 'enable_command', rcmail_ui);
