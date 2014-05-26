@@ -546,6 +546,7 @@ body.iframe .boxtitle
 .popupmenu li a.active:visited
 {
   color: #333;
+  cursor: pointer;
 }
 
 .popupmenu li a.active:hover,
