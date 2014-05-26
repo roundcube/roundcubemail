@@ -6231,7 +6231,7 @@ function rcube_webmail()
       button = a_buttons[n];
       obj = document.getElementById(button.id);
 
-      if (!obj)
+      if (!obj || button.status === state)
         continue;
 
       // get default/passive setting of the button
@@ -6244,19 +6244,18 @@ function rcube_webmail()
       else if (!button.status)
         button.pas = String(obj.className);
 
+      button.status = state;
+
       // set image according to button state
       if (button.type == 'image' && button[state]) {
-        button.status = state;
         obj.src = button[state];
       }
       // set class name according to button state
       else if (button[state] !== undefined) {
-        button.status = state;
         obj.className = button[state];
       }
       // disable/enable input buttons
       if (button.type == 'input') {
-        button.status = state;
         obj.disabled = state == 'pas';
       }
       else if (button.type == 'uibutton') {
