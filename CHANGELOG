@@ -29,6 +29,7 @@ CHANGELOG Roundcube Webmail
 - Fix incorrect handling of HTML comments in messages sanitization code (#1489904)
 - Fix so current page is reset on list-mode change (#1489907)
 - Fix so responses menu hides on click in classic skin (#1489915)
+- Fix unintentional line-height style modification in HTML messages (#1489917)
 
 RELEASE 1.0.1
 -------------
