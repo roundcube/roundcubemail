@@ -35,6 +35,9 @@ $config['password_hosts'] = null;
 // for upgrading the stored passwords after the encryption scheme has changed.
 $config['password_force_save'] = false;
 
+// Enables forcing new users to change their password at their first login.
+$config['password_force_new_user'] = false;
+
 
 // SQL Driver options
 // ------------------

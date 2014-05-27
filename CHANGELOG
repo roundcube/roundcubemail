@@ -31,6 +31,7 @@ CHANGELOG Roundcube Webmail
 - Fix so responses menu hides on click in classic skin (#1489915)
 - Fix unintentional line-height style modification in HTML messages (#1489917)
 - Fix broken normalize_string(), add support for ISO-8859-2 (#1489918)
+- Add option to force new users to change their password (#1486884)
 
 RELEASE 1.0.1
 -------------

@@ -40,9 +40,10 @@ define('PASSWORD_SUCCESS', 0);
  */
 class password extends rcube_plugin
 {
-    public $task    = 'settings';
+    public $task    = 'settings|login';
     public $noframe = true;
     public $noajax  = true;
+    private $newuser = false;
 
     function init()
     {
@@ -70,9 +71,15 @@ class password extends rcube_plugin
         }
 
         $this->add_hook('settings_actions', array($this, 'settings_actions'));
+        if($rcmail->config->get('password_force_new_user'))
+        {
+            $this->add_hook('user_create', array($this, 'user_create'));
+            $this->add_hook('login_after', array($this, 'login_after'));
+        }
 
         $this->register_action('plugin.password', array($this, 'password_init'));
         $this->register_action('plugin.password-save', array($this, 'password_save'));
+        $this->register_action('plugin.password-first', array($this, 'password_first'));
 
 
         if (strpos($rcmail->action, 'plugin.password') === 0) {
@@ -299,5 +306,32 @@ class password extends rcube_plugin
         }
 
         return $reason;
+    }
+    
+    function user_create($args)
+    {
+        $this->newuser = true;
+        return $args;
+    }
+        
+    function login_after($args)
+    {
+        if($this->newuser)
+        {
+            $args['_task'] = 'settings';
+            $args['_action'] = 'plugin.password-first';
+        }
+        return $args;
+    }
+    
+    function password_first()
+    {
+        $rcmail = rcmail::get_instance();
+        $this->add_texts('localization/');
+        $this->register_handler('plugin.body', array($this, 'password_form'));
+        $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
+        $rcmail->output->command('display_message', $this->gettext('firstloginchange'), 'notice');
+        $rcmail->overwrite_action('plugin.password');
+        $rcmail->output->send('plugin');
     }
 }
