@@ -6597,10 +6597,8 @@ function rcube_webmail()
       this.treelist.select(name);
     }
     else if (this.gui_objects.folderlist) {
-      $('li.selected', this.gui_objects.folderlist)
-        .removeClass('selected').addClass('unfocused');
-      $(this.get_folder_li(name, prefix, encode))
-        .removeClass('unfocused').addClass('selected');
+      $('li.selected', this.gui_objects.folderlist).removeClass('selected');
+      $(this.get_folder_li(name, prefix, encode)).addClass('selected');
 
       // trigger event hook
       this.triggerEvent('selectfolder', { folder:name, prefix:prefix });
@@ -6976,8 +6974,8 @@ function rcube_webmail()
           this.hide_menu(this.menu_stack[i]);
       }
       if (stack && this.menu_stack.length) {
-        obj.data('parent', this.menu_stack.last());
-        obj.css('z-index', ($('#'+this.menu_stack.last()).css('z-index') || 0) + 1);
+        obj.data('parent', $.last(this.menu_stack));
+        obj.css('z-index', ($('#'+$.last(this.menu_stack)).css('z-index') || 0) + 1);
       }
       else if (!stack && this.menu_stack.length) {
         this.hide_menu(this.menu_stack[0], event);
@@ -7027,7 +7025,7 @@ function rcube_webmail()
     // focus previous menu in stack
     if (this.menu_stack.length && keyboard) {
       this.menu_keyboard_active = true;
-      this.focused_menu = this.menu_stack.last();
+      this.focused_menu = $.last(this.menu_stack);
       if (!obj || !obj.data('opener'))
         $('#'+this.focused_menu).find('a,input:not(:disabled)').not('[aria-disabled=true]').first().focus();
     }

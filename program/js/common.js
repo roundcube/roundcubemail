@@ -607,8 +607,8 @@ if (!String.prototype.startsWith) {
 }
 
 // array utility function
-Array.prototype.last = function() {
-  return this[this.length-1];
+jQuery.last = function(arr) {
+  return arr && arr.length ? arr[arr.length-1] : undefined;
 }
 
 // jQuery plugin to emulate HTML5 placeholder attributes on input elements
