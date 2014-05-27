@@ -206,7 +206,7 @@ class rcube_washtml
                         $value .= ' ' . $val;
 
                         // #1488535: Fix size units, so width:800 would be changed to width:800px
-                        if (preg_match('/(left|right|top|bottom|width|height)/i', $cssid)
+                        if (preg_match('/^(left|right|top|bottom|width|height)/i', $cssid)
                             && preg_match('/^[0-9]+$/', $val)
                         ) {
                             $value .= 'px';
