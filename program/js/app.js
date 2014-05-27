@@ -3381,7 +3381,9 @@ function rcube_webmail()
     this.env.recipients_delimiter = this.env.recipients_separator + ' ';
 
     obj.keydown(function(e) { return ref.ksearch_keydown(e, this, props); })
-      .attr('autocomplete', 'off');
+      .attr('autocomplete', 'off')
+      .attr('aria-autocomplete', 'list')
+      .attr('aria-expanded', 'false');
   };
 
   this.submit_messageform = function(draft)
@@ -4471,7 +4473,7 @@ function rcube_webmail()
 
         var dir = key==38 ? 1 : 0;
 
-        highlight = document.getElementById('rcmksearchSelected');
+        highlight = document.getElementById('rcmkSearchItem' + this.ksearch_selected);
         if (!highlight)
           highlight = this.ksearch_pane.__ul.firstChild;
 
@@ -4519,14 +4521,14 @@ function rcube_webmail()
 
   this.ksearch_select = function(node)
   {
-    var current = $('#rcmksearchSelected');
-    if (current[0] && node) {
-      current.removeAttr('id').removeClass('selected');
+    if (this.ksearch_pane && node) {
+      this.ksearch_pane.find('li.selected').removeClass('selected');
     }
 
     if (node) {
-      $(node).attr('id', 'rcmksearchSelected').addClass('selected');
+      $(node).addClass('selected');
       this.ksearch_selected = node._rcm_id;
+      $(this.ksearch_input).attr('aria-activedecendant', 'rcmkSearchItem' + this.ksearch_selected);
     }
   };
 
@@ -4664,9 +4666,13 @@ function rcube_webmail()
     // create results pane if not present
     if (!this.ksearch_pane) {
       ul = $('<ul>');
-      this.ksearch_pane = $('<div>').attr('id', 'rcmKSearchpane')
+      this.ksearch_pane = $('<div>').attr('id', 'rcmKSearchpane').attr('role', 'listbox')
         .css({ position:'absolute', 'z-index':30000 }).append(ul).appendTo(document.body);
       this.ksearch_pane.__ul = ul[0];
+
+      // register (delegate) event handlers
+      ul.on('mouseover', 'li', function(e){ ref.ksearch_select(e.target); })
+        .on('onmouseup', 'li', function(e){ ref.ksearch_click(e.target); })
     }
 
     ul = this.ksearch_pane.__ul;
@@ -4692,10 +4698,9 @@ function rcube_webmail()
         text = typeof results[i] === 'object' ? results[i].name : results[i];
         type = typeof results[i] === 'object' ? results[i].type : '';
         li = document.createElement('LI');
-        li.innerHTML = text.replace(new RegExp('('+RegExp.escape(value)+')', 'ig'), '##$1%%').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/##([^%]+)%%/g, '<b>$1</b>');
-        li.onmouseover = function(){ ref.ksearch_select(this); };
-        li.onmouseup = function(){ ref.ksearch_click(this) };
-        li._rcm_id = this.env.contacts.length + i;
+        li._rcm_id = i + this.env.contacts.length;
+        li.id = 'rcmkSearchItem' + li._rcm_id;
+        li.innerHTML = this.quote_html(text.replace(new RegExp('('+RegExp.escape(value)+')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>');
         if (type) li.className = type;
         ul.appendChild(li);
         maxlen -= 1;
@@ -4706,9 +4711,14 @@ function rcube_webmail()
       this.ksearch_pane.show();
       // select the first
       if (!this.env.contacts.length) {
-        $('li:first', ul).attr('id', 'rcmksearchSelected').addClass('selected');
-        this.ksearch_selected = 0;
+        this.ksearch_select($('li:first', ul).get(0));
       }
+
+      // set the right aria-* attributes to the input field
+      $(this.ksearch_input)
+        .attr('aria-haspopup', 'true')
+        .attr('aria-expanded', 'true')
+        .attr('aria-owns', 'rcmKSearchpane')
     }
 
     if (len)
@@ -4743,6 +4753,12 @@ function rcube_webmail()
 
     if (this.ksearch_pane)
       this.ksearch_pane.hide();
+
+    $(this.ksearch_input)
+      .attr('aria-haspopup', 'false')
+      .attr('aria-expanded', 'false')
+      .removeAttr('aria-activedecendant')
+      .removeAttr('aria-owns');
 
     this.ksearch_destroy();
   };

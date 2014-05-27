@@ -213,6 +213,7 @@ init_fixed_header: function()
   if (!this.fixed_header) {
     this.fixed_header = $('<table>')
       .attr('class', this.list.className + ' fixedcopy')
+      .attr('role', 'presentation')
       .css({ position:'fixed' })
       .append(clone)
       .append('<tbody></tbody>');
