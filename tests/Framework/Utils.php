@@ -325,8 +325,13 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     function test_normalize_string()
     {
         $test = array(
-            '' => '',
+            ''        => '',
             'abc def' => 'abc def',
+            'ÇçäâàåéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ' => 'ccaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy',
+            'ß'  => 'ss',
+            'ae' => 'a',
+            'oe' => 'o',
+            'ue' => 'u',
         );
 
         foreach ($test as $input => $output) {
