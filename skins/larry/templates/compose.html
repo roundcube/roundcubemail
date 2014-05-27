@@ -77,7 +77,7 @@
 <div id="composeheaders" role="region" aria-labelledby="aria-label-composeheaders">
 <h2 id="aria-label-composeheaders" class="voice"><roundcube:label name="arialabelmessageheaders" /></h2>
 
-<a href="#options" id="composeoptionstoggle" class="moreheaderstoggle" title="<roundcube:label name='options' />"><span class="iconlink"></span></a>
+<a href="#options" id="composeoptionstoggle" class="moreheaderstoggle" title="<roundcube:label name='togglecomposeoptions' />" aria-exapnded="false"><span class="iconlink"></span></a>
 
 <table class="headers-table compose-headers">
 <tbody>
@@ -130,7 +130,7 @@
 </table>
 
 <div id="composebuttons" class="formbuttons">
-	<roundcube:button command="extwin" type="link" class="button extwin" classSel="button extwin pressed" innerClass="icon" title="openinextwin" content="[]" condition="!env:extwin" />
+	<roundcube:button command="extwin" type="link" class="button extwin" classSel="button extwin pressed" innerClass="icon" title="openinextwin" label="openinextwin" condition="!env:extwin" />
 </div>
 
 <!-- (collapsable) message options -->
@@ -170,8 +170,8 @@
 		<label for="composebody" class="voice"><roundcube:label name="arialabelmessagebody" /></label>
 		<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" tabindex="1" />
 	</div>
-	<div id="compose-attachments" class="rightcol" role="region">
-		<h2 id="aria-label-composeoptions" class="voice"><roundcube:label name="attachments" /></h2>
+	<div id="compose-attachments" class="rightcol" role="region" aria-labelledby="aria-label-composeattachments">
+		<h2 id="aria-label-composeattachments" class="voice"><roundcube:label name="attachments" /></h2>
 		<div style="text-align:center; margin-bottom:20px">
 			<roundcube:button name="addattachment" type="input" class="button" classSel="button pressed" label="addattachment" onclick="UI.show_uploadform(event);return false" tabindex="1" />
 		</div>

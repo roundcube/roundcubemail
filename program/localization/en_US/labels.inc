@@ -259,6 +259,7 @@ $labels['upload'] = 'Upload';
 $labels['uploadprogress'] = '$percent ($current from $total)';
 $labels['close']  = 'Close';
 $labels['messageoptions']  = 'Message options...';
+$labels['togglecomposeoptions'] = 'Toggle composition options';
 
 $labels['low']     = 'Low';
 $labels['lowest']  = 'Lowest';

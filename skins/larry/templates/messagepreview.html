@@ -23,17 +23,17 @@
 	&nbsp;
 <roundcube:endif />
 <roundcube:if condition="env:mailbox != config:drafts_mbox">
-	<roundcube:button command="reply" type="link" class="button reply" classSel="button reply pressed" innerClass="icon" title="replytomessage" content="&lt;-" />
-	<roundcube:button command="reply-all" type="link" class="button replyall" classSel="button replyall pressed" innerClass="icon" title="replytoallmessage" content="&lt;&lt;-" />
-	<roundcube:button command="forward" type="link" class="button forward" classSel="button forward pressed" innerClass="icon" title="forwardmessage" content="-&gt;" />
+	<roundcube:button command="reply" type="link" class="button reply" classSel="button reply pressed" innerClass="icon" title="replytomessage" label="replytomessage" />
+	<roundcube:button command="reply-all" type="link" class="button replyall" classSel="button replyall pressed" innerClass="icon" title="replytoallmessage" label="replytoallmessage" />
+	<roundcube:button command="forward" type="link" class="button forward" classSel="button forward pressed" innerClass="icon" title="forwardmessage" label="forwardmessage" />
 	&nbsp;
 <roundcube:endif />
-	<roundcube:button command="extwin" type="link" class="button extwin" classSel="button extwin pressed" innerClass="icon" title="openinextwin" content="[]" />
+	<roundcube:button command="extwin" type="link" class="button extwin" classSel="button extwin pressed" innerClass="icon" title="openinextwin" label="openinextwin" />
 </div>
 
 <h3 class="subject"><span class="voice"><roundcube:label name="subject" />: </span><roundcube:object name="messageHeaders" valueOf="subject" /></h3>
 
-<a href="#details" id="previewheaderstoggle" class="moreheaderstoggle"><span class="iconlink" title="<roundcube:label name='togglemoreheaders' />"></span></a>
+<a href="#details" id="previewheaderstoggle" class="moreheaderstoggle" aria-expanded="false"><span class="iconlink" title="<roundcube:label name='togglemoreheaders' />"></span></a>
 <div id="contactphoto"><roundcube:object name="contactphoto" /></div>
 
 <table class="headers-table" id="preview-shortheaders"><tbody><tr>

@@ -191,10 +191,10 @@ function rcube_mail_ui()
         }
 
         $('#composeoptionstoggle').click(function(e){
-          $('#composeoptionstoggle').toggleClass('remove');
-          $('#composeoptions').toggle();
+          var expanded = $('#composeoptions').toggle().is(':visible');
+          $('#composeoptionstoggle').toggleClass('remove').attr('aria-expanded', expanded ? 'true' : 'false');
           layout_composeview();
-          save_pref('composeoptions', $('#composeoptions').is(':visible') ? '1' : '0');
+          save_pref('composeoptions', expanded ? '1' : '0');
           if (!rcube_event.is_keyboard(e))
             this.blur();
           return false;
@@ -218,7 +218,7 @@ function rcube_mail_ui()
       }
       else if (rcmail.env.action == 'list' || !rcmail.env.action) {
         var previewframe = $('#mailpreviewframe').is(':visible');
-        $('#mailpreviewtoggle').addClass(previewframe ? 'enabled' : 'closed').click(function(e){ toggle_preview_pane(e); return false });
+        $('#mailpreviewtoggle').addClass(previewframe ? 'enabled' : 'closed').attr('aria-expanded', previewframe ? 'true' : 'false').click(function(e){ toggle_preview_pane(e); return false });
         $('#maillistmode').addClass(rcmail.env.threading ? '' : 'selected').click(function(e){ switch_view_mode('list'); return false });
         $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : '').click(function(e){ switch_view_mode('thread'); return false });
 
@@ -593,7 +593,7 @@ function rcube_mail_ui()
       topstyles, bottomstyles, uid;
 
     frame.toggle();
-    button.removeClass().addClass(visible ? 'enabled' : 'closed');
+    button.removeClass().toggleClass('enabled closed').attr('aria-expanded', visible ? 'true' : 'false');
 
     if (visible) {
       $('#mailview-top').removeClass('fullheight').css({ bottom:'auto' });
@@ -643,9 +643,9 @@ function rcube_mail_ui()
 
     // add toggle button to full headers table
     if (full.is(':visible'))
-      button.attr('href', '#hide').removeClass('add').addClass('remove')
+      button.attr('href', '#hide').removeClass('add').addClass('remove').attr('aria-expanded', 'true');
     else
-      button.attr('href', '#details').removeClass('remove').addClass('add')
+      button.attr('href', '#details').removeClass('remove').addClass('add').attr('aria-expanded', 'false');
 
     save_pref('previewheaders', full.is(':visible') ? '1' : '0');
   }

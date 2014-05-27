@@ -4522,11 +4522,11 @@ function rcube_webmail()
   this.ksearch_select = function(node)
   {
     if (this.ksearch_pane && node) {
-      this.ksearch_pane.find('li.selected').removeClass('selected');
+      this.ksearch_pane.find('li.selected').removeClass('selected').removeAttr('aria-selected');
     }
 
     if (node) {
-      $(node).addClass('selected');
+      $(node).addClass('selected').removeAttr('aria-selected', 'true');
       this.ksearch_selected = node._rcm_id;
       $(this.ksearch_input).attr('aria-activedecendant', 'rcmkSearchItem' + this.ksearch_selected);
     }
@@ -4659,7 +4659,7 @@ function rcube_webmail()
       return;
 
     // display search results
-    var i, len, ul, li, text, type, init,
+    var i, id, len, ul, text, type, init,
       value = this.ksearch_value,
       maxlen = this.env.autocomplete_max ? this.env.autocomplete_max : 15;
 
@@ -4697,12 +4697,13 @@ function rcube_webmail()
       for (i=0; i < len && maxlen > 0; i++) {
         text = typeof results[i] === 'object' ? results[i].name : results[i];
         type = typeof results[i] === 'object' ? results[i].type : '';
-        li = document.createElement('LI');
-        li._rcm_id = i + this.env.contacts.length;
-        li.id = 'rcmkSearchItem' + li._rcm_id;
-        li.innerHTML = this.quote_html(text.replace(new RegExp('('+RegExp.escape(value)+')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>');
-        if (type) li.className = type;
-        ul.appendChild(li);
+        id = i + this.env.contacts.length;
+        $('<li>').attr('id', 'rcmkSearchItem' + id)
+          .attr('role', 'option')
+          .html(this.quote_html(text.replace(new RegExp('('+RegExp.escape(value)+')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>'))
+          .addClass(type || '')
+          .appendTo(ul)
+          .get(0)._rcm_id = id;
         maxlen -= 1;
       }
     }
