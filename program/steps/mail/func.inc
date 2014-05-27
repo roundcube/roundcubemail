@@ -1055,7 +1055,9 @@ function rcmail_message_headers($attrib, $headers=null)
     $plugin = $RCMAIL->plugins->exec_hook('message_headers_output', array(
         'output'  => $output_headers,
         'headers' => $headers_obj,
-        'exclude' => $exclude_headers
+        'exclude' => $exclude_headers, // readonly
+        'folder'  => $MESSAGE->folder, // readonly
+        'uid'     => $MESSAGE->uid,    // readonly
     ));
 
     // single header value is requested
