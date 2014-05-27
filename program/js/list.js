@@ -393,15 +393,7 @@ focus: function(e)
   if (this.focused)
     return;
 
-  var n, id;
   this.focused = true;
-
-  for (n in this.selection) {
-    id = this.selection[n];
-    if (this.rows[id] && this.rows[id].obj) {
-      $(this.rows[id].obj).addClass('selected').removeClass('unfocused');
-    }
-  }
 
   if (e)
     rcube_event.cancel(e);
@@ -430,15 +422,7 @@ focus: function(e)
  */
 blur: function(e)
 {
-  var n, id;
   this.focused = false;
-  for (n in this.selection) {
-    id = this.selection[n];
-    if (this.rows[id] && this.rows[id].obj) {
-      $(this.rows[id].obj).removeClass('selected focused').addClass('unfocused');
-    }
-  }
-  
   $(this.list).removeClass('focus');
 },
 
@@ -1087,7 +1071,7 @@ select_all: function(filter)
       this.highlight_row(n, true, true);
     }
     else {
-      $(this.rows[n].obj).removeClass('selected').removeClass('unfocused').removeAttr('aria-selected');
+      $(this.rows[n].obj).removeClass('selected').removeAttr('aria-selected');
     }
   }
 
@@ -1144,7 +1128,7 @@ clear_selection: function(id, no_event)
   else {
     for (n in this.selection)
       if (this.rows[this.selection[n]]) {
-        $(this.rows[this.selection[n]].obj).removeClass('selected').removeClass('unfocused').removeAttr('aria-selected');
+        $(this.rows[this.selection[n]].obj).removeClass('selected').removeAttr('aria-selected');
       }
 
     this.selection = [];
@@ -1223,7 +1207,7 @@ highlight_row: function(id, multiple, norecur)
         a_post = this.selection.slice(p+1, this.selection.length);
 
       this.selection = a_pre.concat(a_post);
-      $(this.rows[id].obj).removeClass('selected').removeClass('unfocused').removeAttr('aria-selected');
+      $(this.rows[id].obj).removeClass('selected').removeAttr('aria-selected');
       if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, false);
     }

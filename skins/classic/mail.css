@@ -1060,21 +1060,15 @@ table.messagelist.fixedcopy
 .messagelist tr.selected td
 {
   color: #FFFFFF;
-  background-color: #CC3333;
-}
-
-.messagelist tr.unfocused td
-{
-  color: #FFFFFF;
   background-color: #929292;
 }
 
-.messagelist tr.selected td a
+.messagelist.focus tr.selected td
 {
-  color: #FFFFFF;
+  background-color: #CC3333;
 }
 
-.messagelist tr.unfocused td a
+.messagelist tr.selected td a
 {
   color: #FFFFFF;
 }

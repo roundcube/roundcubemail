@@ -146,13 +146,12 @@
 	background-position: 4px -1603px;
 }
 
-#contacts-table .contact.selected td.name,
-#contacts-table .contact.unfocused td.name {
+#contacts-table .contact.selected td.name {
 	background-position: 6px -1627px;
 	font-weight: bold;
 }
 
-#contacts-table .contact.selected.focused td.name {
+#contacts-table.focus .contact.selected.focused td.name {
 	background-position: 4px -1627px;
 }
 
@@ -164,13 +163,12 @@
 	background-position: 4px -1555px;
 }
 
-#contacts-table .group.selected td.name,
-#contacts-table .group.unfocused td.name {
+#contacts-table .group.selected td.name {
 	background-position: 6px -1579px;
 	font-weight: bold;
 }
 
-#contacts-table .group.selected.focused td.name {
+#contacts-table.focus .group.selected.focused td.name {
 	background-position: 4px -1579px;
 }
 
