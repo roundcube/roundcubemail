@@ -44,9 +44,15 @@ class rcube_session
     private $secret = '';
     private $ip_check = false;
     private $logging = false;
-    private $nowrite = false;
     private $storage;
     private $memcache;
+
+    /**
+     * Blocks session data from being written to database.
+     * Can be used if write-race conditions are to be expected
+     * @var boolean
+     */
+    public $nowrite = false;
 
 
     /**
@@ -726,16 +732,6 @@ class rcube_session
         if ($cookiename) {
             $this->cookiename = $cookiename;
         }
-    }
-
-
-    /**
-     * Blocks session data from being written to database.
-     * Can be used if write-race conditions are to be expected
-     */
-    function nowrite($block = true)
-    {
-        $this->nowrite = $block;
     }
 
 
