@@ -327,7 +327,8 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $test = array(
             ''        => '',
             'abc def' => 'abc def',
-            'ÇçäâàåéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ' => 'ccaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy',
+            'ÇçäâàåæéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ' => 'ccaaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy',
+            'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżýĄŚŻŹĆ' => 'aaaaccceeeeiilllnnooorrsssttuuuuzzzyaszzc',
             'ß'  => 'ss',
             'ae' => 'a',
             'oe' => 'o',
