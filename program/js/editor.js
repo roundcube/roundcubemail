@@ -29,7 +29,6 @@ function rcmail_editor_init(config)
       relative_urls: false,
       remove_script_host: false,
       convert_urls: false, // #1486944
-      image_list: window.rcmail_editor_images,
       image_description: false,
       paste_webkit_style: "color font-size font-family",
       paste_data_images: true
@@ -52,7 +51,10 @@ function rcmail_editor_init(config)
       spellchecker_rpc_url: '../../../../../?_task=utils&_action=spell_html&_remote=1',
       spellchecker_enable_learn_rpc: config.spelldict, //TODO
       spellchecker_language: rcmail.env.spell_lang,
-      accessibility_focus: false
+      accessibility_focus: false,
+      file_browser_callback: rcmail_file_browser_callback,
+      // @todo: support more than image (types: file, image, media)
+      file_browser_callback_types: 'image'
     });
 
     conf.setup = function(ed) {
@@ -150,17 +152,151 @@ function rcmail_toggle_editor(select, textAreaId)
   }
 }
 
-// editor callback for images listing
-function rcmail_editor_images(callback)
+// image selector
+function rcmail_file_browser_callback(field_name, url, type, win)
 {
-  var i, file, list = [];
+  var i, elem, dialog, list = [], editor = tinyMCE.activeEditor;
 
+  // open image selector dialog
+  dialog = editor.windowManager.open({
+    title: rcmail.gettext('select' + type),
+    width: 500,
+    height: 300,
+    html: '<div id="image-selector-list"><ul></ul></div>'
+      + '<div id="image-selector-form"><div id="image-upload-button" class="mce-widget mce-btn" role="button"></div></div>',
+    buttons: [{text: 'Cancel', onclick: function() { rcmail_file_browser_close(); }}]
+  });
+
+  rcmail.env.file_browser_field = field_name;
+  rcmail.env.file_browser_type = type;
+
+  // fill images list with available images
   for (i in rcmail.env.attachments) {
-    file = rcmail.env.attachments[i];
-    if (file.complete && file.mimetype.startsWith('image/')) {
-      list.push({title: file.name, value: rcmail.env.comm_path+'&_id='+rcmail.env.compose_id+'&_action=display-attachment&_file='+i});
+    if (elem = rcmail_file_browser_entry(i, rcmail.env.attachments[i])) {
+      list.push(elem);
     }
   }
 
-  callback(list);
+  if (list.length) {
+    $('#image-selector-list > ul').append(list);
+  }
+
+  // add hint about max file size (in dialog footer)
+  $('div.mce-abs-end', dialog.getEl()).append($('<div class="hint">').text($('#uploadform div.hint').text()));
+
+  // enable (smart) upload button
+  elem = $('#image-upload-button').append($('<span>').text(rcmail.gettext('add' + type)));
+  hack_file_input(elem, rcmail.gui_objects.uploadform);
+
+  // enable drag-n-drop area
+  if (rcmail.gui_objects.filedrop && rcmail.env.filedrop && ((window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.sendAsBinary) || window.FormData)) {
+    rcmail.env.old_file_drop = rcmail.gui_objects.filedrop;
+    rcmail.gui_objects.filedrop = $('#image-selector-form');
+    rcmail.gui_objects.filedrop.addClass('droptarget')
+      .bind('dragover dragleave', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this)[(e.type == 'dragover' ? 'addClass' : 'removeClass')]('hover');
+      })
+      .get(0).addEventListener('drop', function(e) { return rcmail.file_dropped(e); }, false);
+  }
+
+  // register handler for successful file upload
+  if (!rcmail.env.file_dialog_event) {
+    rcmail.env.file_dialog_event = true;
+    rcmail.addEventListener('fileuploaded', function(attr) {
+      var elem;
+      if (elem = rcmail_file_browser_entry(attr.name, attr.attachment)) {
+        $('#image-selector-list > ul').prepend(elem);
+      }
+    });
+  }
+}
+
+// close file browser window
+function rcmail_file_browser_close(url)
+{
+  if (url)
+    $('#' + rcmail.env.file_browser_field).val(url);
+
+  tinyMCE.activeEditor.windowManager.close();
+
+  if (rcmail.env.old_file_drop)
+    rcmail.gui_objects.filedrop = rcmail.env.old_file_drop;
+}
+
+// creates file browser entry
+function rcmail_file_browser_entry(file_id, file)
+{
+  if (!file.complete || !file.mimetype) {
+    return;
+  }
+
+  if (file.mimetype.startsWith('image/')) {
+    var href = rcmail.env.comm_path+'&_id='+rcmail.env.compose_id+'&_action=display-attachment&_file='+file_id,
+      img = $('<img>').attr({title: file.name, src: href + '&_thumbnail=1'});
+
+    return $('<li>').data('url', href)
+      .append($('<span class="img">').append(img))
+      .append($('<span class="name">').text(file.name))
+      .click(function() { rcmail_file_browser_close($(this).data('url')); });
+  }
+}
+
+// create smart files upload button
+function hack_file_input(elem, clone_form)
+{
+  var link = $(elem),
+    file = $('<input>'),
+    form = $('<form>').attr({method: 'post', enctype: 'multipart/form-data'}),
+    offset = link.offset();
+
+  // clone existing upload form
+  if (clone_form) {
+    file.attr('name', $('input[type="file"]', clone_form).attr('name'));
+    form.attr('action', $(clone_form).attr('action'))
+      .append($('<input>').attr({type: 'hidden', name: '_token', value: rcmail.env.request_token}));
+  }
+
+  function move_file_input(e) {
+    file.css({top: (e.pageY - offset.top - 10) + 'px', left: (e.pageX - offset.left - 10) + 'px'});
+  }
+
+  file.attr({type: 'file', multiple: 'multiple', size: 5, title: ''})
+    .change(function() { rcmail.upload_file(form, 'upload'); })
+    .click(function() { setTimeout(function() { link.mouseleave(); }, 20); })
+    // opacity:0 does the trick, display/visibility doesn't work
+    .css({opacity: 0, cursor: 'pointer', position: 'relative', outline: 'none'})
+    .appendTo(form);
+
+  // In FF and IE we need to move the browser file-input's button under the cursor
+  // Thanks to the size attribute above we know the length of the input field
+  if (navigator.userAgent.match(/Firefox|MSIE/))
+    file.css({marginLeft: '-80px'});
+
+  // Note: now, I observe problem with cursor style on FF < 4 only
+  link.css({overflow: 'hidden', cursor: 'pointer'})
+    .mouseenter(function() { this.__active = true; })
+    // place button under the cursor
+    .mousemove(function(e) {
+      if (this.__active)
+        move_file_input(e);
+      // move the input away if button is disabled
+      else
+        $(this).mouseleave();
+    })
+    .mouseleave(function() {
+      file.css({top: '-10000px', left: '-10000px'});
+      this.__active = false;
+    })
+    .click(function(e) {
+      // forward click if mouse-enter event was missed
+      if (!this.__active) {
+        this.__active = true;
+        move_file_input(e);
+        file.trigger(e);
+      }
+    })
+    .mouseleave()
+    .append(form);
 }

@@ -539,12 +539,12 @@ function rcube_webmail()
 
     // execute all foreign onload scripts
     // @deprecated
-    for (var i in this.onloads) {
-      if (typeof this.onloads[i] === 'string')
-        eval(this.onloads[i]);
-      else if (typeof this.onloads[i] === 'function')
-        this.onloads[i]();
-      }
+    for (n in this.onloads) {
+      if (typeof this.onloads[n] === 'string')
+        eval(this.onloads[n]);
+      else if (typeof this.onloads[n] === 'function')
+        this.onloads[n]();
+    }
 
     // start keep-alive and refresh intervals
     this.start_refresh();
@@ -4010,6 +4010,9 @@ function rcube_webmail()
   // called from upload page
   this.add2attachment_list = function(name, att, upload_id)
   {
+    if (upload_id)
+      this.triggerEvent('fileuploaded', {name: name, attachment: att, id: upload_id});
+
     if (!this.gui_objects.attachmentlist)
       return false;
 

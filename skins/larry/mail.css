@@ -1550,6 +1550,7 @@ div.message-partheaders .headers-table td.header {
 
 #composebodycontainer .mce-tinymce {
 	border: 0 !important;
+	margin-top: 1px;
 }
 
 #composebodycontainer .mce-panel {

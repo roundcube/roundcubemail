@@ -527,7 +527,7 @@ function rcube_mail_ui()
     h = body.parent().height() - 8;
     body.width(w).height(h);
 
-    $('#composebodycontainer > div').width(w+8).css('margin-top', '1px');
+    $('#composebodycontainer > div').width(w+8);
     $('#composebody_ifr').height(h + 4 - $('div.mce-toolbar').height());
     $('#googie_edit_layer').height(h - 8);
 //    $('#composebodycontainer')[(btns ? 'addClass' : 'removeClass')]('buttons');

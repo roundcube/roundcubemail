@@ -1520,13 +1520,6 @@ div.hide-headers
   outline: none;
 }
 
-.mce-container.mce-panel
-{
-  border: none;
-  border-bottom: 1px solid #ccc;
-  background-image: none;
-}
-
 #compose-headers
 {
   width: 100%;

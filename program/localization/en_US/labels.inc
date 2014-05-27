@@ -226,6 +226,8 @@ $labels['returnreceipt']  = 'Return receipt';
 $labels['dsn']            = 'Delivery status notification';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
+$labels['selectimage']    = 'Select image';
+$labels['addimage']       = 'Add image';
 
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
