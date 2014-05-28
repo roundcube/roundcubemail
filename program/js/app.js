@@ -5898,7 +5898,8 @@ function rcube_webmail()
     if (!this.gui_objects.subscriptionlist)
       return false;
 
-    var row, n, i, tmp, tmp_name, rowid, folders = [], list = [], slist = [],
+    var row, n, i, tmp, tmp_name, rowid, collator,
+      folders = [], list = [], slist = [],
       tbody = this.gui_objects.subscriptionlist.tBodies[0],
       refrow = $('tr', tbody).get(1),
       id = 'rcmrow'+((new Date).getTime());
@@ -5925,24 +5926,32 @@ function rcube_webmail()
     // add to folder/row-ID map
     this.env.subscriptionrows[id] = [name, display_name, false];
 
-    // sort folders (to find a place where to insert the row)
-    // replace delimiter with \0 character to fix sorting
-    // issue where 'Abc Abc' would be placed before 'Abc/def'
-    var replace_from = RegExp(RegExp.escape(this.env.delimiter), 'g'),
-      replace_to = String.fromCharCode(0);
+    // copy folders data to an array for sorting
+    $.each(this.env.subscriptionrows, function(k, v) { folders.push(v); });
 
-    $.each(this.env.subscriptionrows, function(k,v) {
-      if (v.length < 4) {
-        var n = v[0];
-        n = n.replace(replace_from, replace_to);
-        v.push(n);
-      }
-      folders.push(v);
-    });
+    try {
+      // use collator if supported (FF29, IE11, Opera15, Chrome24)
+      collator = new Intl.Collator(this.env.locale.replace('_', '-'));
+    }
+    catch (e) {};
 
+    // sort folders
     folders.sort(function(a, b) {
-      var len = a.length - 1; n1 = a[len], n2 = b[len];
-      return n1 < n2 ? -1 : 1;
+      var i, f1, f2,
+        path1 = a[0].split(ref.env.delimiter),
+        path2 = b[0].split(ref.env.delimiter);
+
+      for (i=0; i<path1.length; i++) {
+        f1 = path1[i];
+        f2 = path2[i];
+
+        if (f1 !== f2) {
+          if (collator)
+            return collator.compare(f1, f2);
+          else
+            return f1 < f2 ? -1 : 1;
+        }
+      }
     });
 
     for (n in folders) {
