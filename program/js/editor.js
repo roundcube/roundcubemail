@@ -50,14 +50,14 @@ function rcmail_editor_init(config)
 
   if (config.mode == 'identity')
     $.extend(conf, {
-      plugins: ['charmap code hr link paste tabfocus textcolor'],
+      plugins: ['autolink charmap code hr link paste tabfocus textcolor'],
       toolbar: 'bold italic underline alignleft aligncenter alignright alignjustify'
         + ' | outdent indent charmap hr link unlink code forecolor'
         + ' | fontselect fontsizeselect'
     });
   else { // mail compose
     $.extend(conf, {
-      plugins: ['charmap code directionality emoticons link image media nonbreaking'
+      plugins: ['autolink charmap code directionality emoticons link image media nonbreaking'
         + ' paste table tabfocus textcolor searchreplace' + (config.spellcheck ? ' spellchecker' : '')],
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
         + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
