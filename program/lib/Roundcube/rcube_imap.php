@@ -4151,7 +4151,7 @@ class rcube_imap extends rcube_storage
             if ($folder[0] != '.') {
                 // for better performance skip encoding conversion
                 // if the string does not look like UTF7-IMAP
-                $folders[$folder] = strpos($folder, '+') === false ? $folder : rcube_charset::convert($folder, 'UTF7-IMAP');
+                $folders[$folder] = strpos($folder, '&') === false ? $folder : rcube_charset::convert($folder, 'UTF7-IMAP');
             }
             else {
                 unset($folders[$idx]);
