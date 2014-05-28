@@ -64,6 +64,7 @@ function rcube_treelist_widget(node, p)
     scroll_timer,
     searchfield,
     tree_state,
+    ui_droppable,
     list_id = (container.attr('id') || p.id_prefix || '0'),
     me = this;
 
@@ -79,6 +80,7 @@ function rcube_treelist_widget(node, p)
   this.drag_start = drag_start;
   this.drag_end = drag_end;
   this.intersects = intersects;
+  this.droppable = droppable;
   this.update = update_node;
   this.insert = insert;
   this.remove = remove;
@@ -521,7 +523,8 @@ function rcube_treelist_widget(node, p)
 
     var li = $('<li>')
       .attr('id', p.id_prefix + (p.id_encode ? p.id_encode(node.id) : node.id))
-      .addClass((node.classes || []).join(' '));
+      .addClass((node.classes || []).join(' '))
+      .data('id', node.id);
 
     if (replace)
       replace.replaceWith(li);
@@ -594,6 +597,7 @@ function rcube_treelist_widget(node, p)
         selection = node.id;
       }
 
+      li.data('id', node.id);
       result.push(node);
       indexbyid[node.id] = node;
     })
@@ -802,7 +806,8 @@ function rcube_treelist_widget(node, p)
     // no intersection with list bounding box
     if (mouse.x < box_coords.x1 || mouse.x >= box_coords.x2 || mouse.top < box_coords.y1 || mouse.top >= box_coords.y2) {
       // TODO: optimize performance for this operation
-      $('li.droptarget', container).removeClass('droptarget');
+      if (highlight)
+        $('li.droptarget', container).removeClass('droptarget');
       return result;
     }
 
@@ -823,6 +828,8 @@ function rcube_treelist_widget(node, p)
             expand(autoexpand_item);
             drag_start();  // re-calculate item coords
             autoexpand_item = null;
+            if (ui_droppable)
+              $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null);
           }, p.autoexpand);
         }
         else if (autoexpand_timer && autoexpand_item != id) {
@@ -850,6 +857,38 @@ function rcube_treelist_widget(node, p)
     }
 
     return result;
+  }
+
+  /**
+   * Wrapper for jQuery.UI.droppable() activation on this widget
+   *
+   * @param object Options as passed to regular .droppable() function
+   */
+  function droppable(opts)
+  {
+    var my_opts = $.extend({ greedy: true, hoverClass: 'droptarget', addClasses:false }, opts);
+
+    my_opts.activate = function(e, ui) {
+      drag_start();
+      ui_droppable = ui;
+      if (opts.activate)
+        opts.activate(e, ui);
+    };
+
+    my_opts.deactivate = function(e, ui) {
+      drag_end();
+      ui_droppable = null;
+      if (opts.deactivate)
+        opts.deactivate(e, ui);
+    };
+
+    my_opts.over = function(e, ui) {
+      intersects(rcube_event.get_mouse_pos(e), false);
+      if (opts.over)
+        opts.over(e, ui);
+    };
+
+    $('li:not(.virtual)', container).droppable(my_opts);
   }
 }
 
