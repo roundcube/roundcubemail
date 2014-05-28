@@ -301,7 +301,13 @@ if (!$savedraft) {
         $COMPOSE['spell_checked'] = true;
 
         if (!$spell_result) {
-            $result = $isHtml ? $spellchecker->get_words() : $spellchecker->get_xml();
+            if ($isHtml) {
+                $result['words']      = $spellchecker->get();
+                $result['dictionary'] = (bool) $RCMAIL->config->get('spellcheck_dictionary');
+            }
+            else {
+                $result = $spellchecker->get_xml();
+            }
 
             $OUTPUT->show_message('mispellingsfound', 'error');
             $OUTPUT->command('spellcheck_resume', $isHtml, $result);

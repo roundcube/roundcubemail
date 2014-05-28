@@ -3592,11 +3592,9 @@ function rcube_webmail()
   {
     if (ishtml) {
       var ed = tinymce.get(this.env.composebody);
-        sp = ed.plugins.spellchecker;
-
-      sp.active = 1;
-      sp._markWords(data);
-      ed.nodeChanged();
+      ed.settings.spellchecker_callback = function(name, text, done, error) { done(data); };
+      ed.execCommand('mceSpellCheck');
+      ed.settings.spellchecker_callback = null;
     }
     else {
       var sp = this.env.spellcheck;
