@@ -20,20 +20,25 @@
 */
 
 
+$method = rcube_utils::get_input_value('method', rcube_utils::INPUT_POST);
 $lang   = rcube_utils::get_input_value('lang', rcube_utils::INPUT_POST);
-$data   = rcube_utils::get_input_value('text', rcube_utils::INPUT_POST, true);
-$data   = html_entity_decode($data, ENT_QUOTES, RCUBE_CHARSET);
 $result = array();
 
 $spellchecker = new rcube_spellchecker($lang);
 
-if ($method == 'learnWord') {
+if ($method == 'addToDictionary') {
+    $data = rcube_utils::get_input_value('word', rcube_utils::INPUT_POST);
+
     $spellchecker->add_word($data);
     $result['result'] = true;
 }
-else if ($data) {
-    if (!$spellchecker->check($data)) {
-        $result['words'] = $spellchecker->get();
+else {
+    $data = rcube_utils::get_input_value('text', rcube_utils::INPUT_POST, true);
+    $data = html_entity_decode($data, ENT_QUOTES, RCUBE_CHARSET);
+
+    if ($data && !$spellchecker->check($data)) {
+        $result['words']      = $spellchecker->get();
+        $result['dictionary'] = (bool) $RCMAIL->config->get('spellcheck_dictionary');
     }
 }
 
@@ -51,4 +56,3 @@ if ($error = $spellchecker->error()) {
 header("Content-Type: application/json; charset=".RCUBE_CHARSET);
 echo json_encode($result);
 exit;
-
