@@ -4059,9 +4059,6 @@ function rcube_webmail()
           }
         }
         else {
-          if (bw.ie)  // add empty line before signature on IE
-            body.appendChild(doc.createElement('br'));
-
           body.appendChild(sigElem);
         }
       }
