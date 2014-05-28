@@ -1267,7 +1267,6 @@ fieldset.tabbed
   border: 0;
   border: 1px solid #FFF;
   border-left: 1px solid #DDD;
-  background: url(images/filedrop.png) center bottom no-repeat;
   text-align: center;
   padding-top: 10px;
 }
@@ -1323,6 +1322,10 @@ fieldset.tabbed
   overflow: hidden;
   line-height: 80px;
   vertical-align: middle;
+}
+
+#image-selector-form.droptarget {
+  background: url(images/filedrop.png) center bottom no-repeat;
 }
 
 #image-selector-form.droptarget.hover

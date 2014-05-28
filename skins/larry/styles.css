@@ -2741,7 +2741,6 @@ fieldset.tab {
 	border: 0;
 	border: 1px solid #FFF;
 	border-left: 1px solid #DDD;
-	background: url(images/filedrop.png) center bottom no-repeat;
 	text-align: center;
 	padding-top: 10px;
 }
@@ -2788,6 +2787,10 @@ fieldset.tab {
 	display: inline-block;
 	overflow: hidden;
 	line-height: 80px;
+}
+
+#image-selector-form.droptarget {
+	background: url(images/filedrop.png) center bottom no-repeat;
 }
 
 #image-selector-form.droptarget.hover,
