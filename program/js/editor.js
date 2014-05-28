@@ -49,7 +49,6 @@ function rcmail_editor_init(config)
         + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
         + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',
       spellchecker_rpc_url: '../../../../../?_task=utils&_action=spell_html&_remote=1',
-      spellchecker_enable_learn_rpc: config.spelldict, //TODO
       spellchecker_language: rcmail.env.spell_lang,
       accessibility_focus: false,
       file_browser_callback: rcmail_file_browser_callback,
@@ -182,7 +181,7 @@ function rcmail_file_browser_callback(field_name, url, type, win)
   }
 
   // add hint about max file size (in dialog footer)
-  $('div.mce-abs-end', dialog.getEl()).append($('<div class="hint">').text($('#uploadform div.hint').text()));
+  $('div.mce-abs-end', dialog.getEl()).append($('<div class="hint">').text($('div.hint', rcmail.gui_objects.uploadform).text()));
 
   // enable (smart) upload button
   elem = $('#image-upload-button').append($('<span>').text(rcmail.gettext('add' + type)));
