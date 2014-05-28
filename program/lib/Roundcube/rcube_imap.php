@@ -4142,9 +4142,8 @@ class rcube_imap extends rcube_storage
      */
     public function sort_folder_list($a_folders, $skip_default = false)
     {
-        $delimiter = $this->get_hierarchy_delimiter();
         $specials  = array_merge(array('INBOX'), array_values($this->get_special_folders()));
-        $folders   = array_flip($a_folders);
+        $folders   = array();
 
         // convert names to UTF-8 and skip folders starting with '.'
         foreach ($a_folders as $folder) {
@@ -4152,9 +4151,6 @@ class rcube_imap extends rcube_storage
                 // for better performance skip encoding conversion
                 // if the string does not look like UTF7-IMAP
                 $folders[$folder] = strpos($folder, '&') === false ? $folder : rcube_charset::convert($folder, 'UTF7-IMAP');
-            }
-            else {
-                unset($folders[$idx]);
             }
         }
 
@@ -4175,7 +4171,7 @@ class rcube_imap extends rcube_storage
 
         // place default folders on top
         foreach ($specials as $special) {
-            $prefix = $special . $delimiter;
+            $prefix = $special . $this->delimiter;
 
             foreach ($folders as $idx => $folder) {
                 if ($folder === $special) {
@@ -4200,9 +4196,8 @@ class rcube_imap extends rcube_storage
      */
     protected function sort_folder_comparator($str1, $str2)
     {
-        $delimiter = $this->get_hierarchy_delimiter();
-        $path1     = explode($delimiter, $str1);
-        $path2     = explode($delimiter, $str2);
+        $path1 = explode($this->delimiter, $str1);
+        $path2 = explode($this->delimiter, $str2);
 
         foreach ($path1 as $idx => $folder1) {
             $folder2 = $path2[$idx];
