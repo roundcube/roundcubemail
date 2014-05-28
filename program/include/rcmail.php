@@ -1769,17 +1769,20 @@ class rcmail extends rcube
             return;
         }
 
-        $lang = strtolower($_SESSION['language']);
+        $lang_codes = array($_SESSION['language']);
 
-        // TinyMCE uses two-letter lang codes, with exception of Chinese
-        if (strpos($lang, 'zh_') === 0) {
-            $lang = str_replace('_', '-', $lang);
-        }
-        else {
-            $lang = substr($lang, 0, 2);
+        if ($pos = strpos($_SESSION['language'], '_')) {
+            $lang_codes[] = substr($_SESSION['language'], 0, $pos);
         }
 
-        if (!file_exists(INSTALL_PATH . 'program/js/tiny_mce/langs/'.$lang.'.js')) {
+        foreach ($lang_codes as $code) {
+            if (file_exists(INSTALL_PATH . 'program/js/tinymce/langs/'.$code.'.js')) {
+                $lang = $code;
+                break;
+            }
+        }
+
+        if (empty($lang)) {
             $lang = 'en';
         }
 
@@ -1791,7 +1794,8 @@ class rcmail extends rcube
             'spelldict'  => intval($this->config->get('spellcheck_dictionary'))
         ));
 
-        $this->output->include_script('tiny_mce/tiny_mce.js');
+        $this->output->add_label('selectimage', 'addimage');
+        $this->output->include_script('tinymce/tinymce.min.js');
         $this->output->include_script('editor.js');
         $this->output->add_script("rcmail_editor_init($script)", 'docready');
     }
@@ -1825,8 +1829,8 @@ class rcmail extends rcube
         );
 
         foreach ($emoticons as $idx => $file) {
-            // <img title="Cry" src="http://.../program/js/tiny_mce/plugins/emotions/img/smiley-cry.gif" border="0" alt="Cry" />
-            $search[]  = '/<img title="[a-z ]+" src="https?:\/\/[a-z0-9_.\/-]+\/tiny_mce\/plugins\/emotions\/img\/'.$file.'.gif"[^>]+\/>/i';
+            // <img title="Cry" src="http://.../program/js/tinymce/plugins/emoticons/img/smiley-cry.gif" border="0" alt="Cry" />
+            $search[]  = '/<img title="[a-z ]+" src="https?:\/\/[a-z0-9_.\/-]+\/tinymce\/plugins\/emoticons\/img\/'.$file.'.gif"[^>]+\/>/i';
             $replace[] = $idx;
         }
 

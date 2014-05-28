@@ -556,12 +556,12 @@ function rcube_webmail()
 
     // execute all foreign onload scripts
     // @deprecated
-    for (var i in this.onloads) {
-      if (typeof this.onloads[i] === 'string')
-        eval(this.onloads[i]);
-      else if (typeof this.onloads[i] === 'function')
-        this.onloads[i]();
-      }
+    for (n in this.onloads) {
+      if (typeof this.onloads[n] === 'string')
+        eval(this.onloads[n]);
+      else if (typeof this.onloads[n] === 'function')
+        this.onloads[n]();
+    }
 
     // start keep-alive and refresh intervals
     this.start_refresh();
@@ -1043,8 +1043,8 @@ function rcube_webmail()
           this.stop_spellchecking();
         }
         else {
-          if (window.tinyMCE && tinyMCE.get(this.env.composebody)) {
-            tinyMCE.execCommand('mceSpellCheck', true);
+          if (window.tinymce && tinymce.get(this.env.composebody)) {
+            tinymce.execCommand('mceSpellCheck', true);
           }
           else if (this.env.spellcheck && this.env.spellcheck.spellCheck) {
             this.env.spellcheck.spellCheck();
@@ -3415,8 +3415,8 @@ function rcube_webmail()
     // Apply spellcheck changes if spell checker is active
     this.stop_spellchecking();
 
-    if (window.tinyMCE)
-      ed = tinyMCE.get(this.env.composebody);
+    if (window.tinymce)
+      ed = tinymce.get(this.env.composebody);
 
     // check for empty body
     if (!ed && input_message.val() == '' && !confirm(this.get_label('nobodywarning'))) {
@@ -3429,7 +3429,7 @@ function rcube_webmail()
         return false;
       }
       // move body from html editor to textarea (just to be sure, #1485860)
-      tinyMCE.triggerSave();
+      tinymce.triggerSave();
     }
 
     return true;
@@ -3461,7 +3461,7 @@ function rcube_webmail()
           data = data.replace(sig_mark, '<div id="_rc_sig">' + signature.html + '</div>');
 
         input.val(data);
-        tinyMCE.execCommand('mceAddControl', false, props.id);
+        tinyMCE.execCommand('mceAddEditor', false, props.id);
 
         if (ref.env.default_font)
           setTimeout(function() {
@@ -3490,7 +3490,7 @@ function rcube_webmail()
 
       // convert html to text
       result = this.html2plain(content, function(data) {
-        tinyMCE.execCommand('mceRemoveControl', false, props.id);
+        tinyMCE.execCommand('mceRemoveEditor', false, props.id);
 
         // replace signture mark with text version of the signature
         if (is_sig)
@@ -3513,9 +3513,9 @@ function rcube_webmail()
     if (!insert)
       return false;
 
-    // insert into tinyMCE editor
+    // insert into tinymce editor
     if ($("input[name='_is_html']").val() == '1') {
-      var editor = tinyMCE.get(this.env.composebody);
+      var editor = tinymce.get(this.env.composebody);
       editor.getWin().focus(); // correct focus in IE & Chrome
       editor.selection.setContent(this.quote_html(insert).replace(/\r?\n/g, '<br/>'), { format:'text' });
     }
@@ -3543,9 +3543,9 @@ function rcube_webmail()
   {
     var sigstart, text = '', strip = false;
 
-    // get selected text from tinyMCE editor
+    // get selected text from tinymce editor
     if ($("input[name='_is_html']").val() == '1') {
-      var editor = tinyMCE.get(this.env.composebody);
+      var editor = tinymce.get(this.env.composebody);
       editor.getWin().focus(); // correct focus in IE & Chrome
       text = editor.selection.getContent({ format:'text' });
 
@@ -3659,8 +3659,8 @@ function rcube_webmail()
   {
     var ed;
 
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody))) {
-      if (ed.plugins && ed.plugins.spellchecker && ed.plugins.spellchecker.active)
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody))) {
+      if (ed.plugins && ed.plugins.spellchecker && this.env.spellcheck_active)
         ed.execCommand('mceSpellCheck');
     }
     else if (ed = this.env.spellcheck) {
@@ -3675,8 +3675,8 @@ function rcube_webmail()
   {
     var ed, active;
 
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins && ed.plugins.spellchecker)
-      active = ed.plugins.spellchecker.active;
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody)))
+      active = this.env.spellcheck_active;
     else if ((ed = this.env.spellcheck) && ed.state)
       active = ed.state != 'ready' && ed.state != 'no_error_found';
 
@@ -3691,8 +3691,8 @@ function rcube_webmail()
   {
     var ed;
 
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins && ed.plugins.spellchecker)
-      return ed.plugins.spellchecker.selectedLang;
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody)))
+      return ed.settings.spellchecker_language || this.env.spell_lang;
     else if (this.env.spellcheck)
       return GOOGIE_CUR_LANG;
   };
@@ -3701,8 +3701,8 @@ function rcube_webmail()
   {
     var ed;
 
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins)
-      ed.plugins.spellchecker.selectedLang = lang;
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody)))
+      ed.settings.spellchecker_language = lang;
     else if (this.env.spellcheck)
       this.env.spellcheck.setCurrentLanguage(lang);
   };
@@ -3711,12 +3711,10 @@ function rcube_webmail()
   this.spellcheck_resume = function(ishtml, data)
   {
     if (ishtml) {
-      var ed = tinyMCE.get(this.env.composebody);
-        sp = ed.plugins.spellchecker;
-
-      sp.active = 1;
-      sp._markWords(data);
-      ed.nodeChanged();
+      var ed = tinymce.get(this.env.composebody);
+      ed.settings.spellchecker_callback = function(name, text, done, error) { done(data); };
+      ed.execCommand('mceSpellCheck');
+      ed.settings.spellchecker_callback = null;
     }
     else {
       var sp = this.env.spellcheck;
@@ -3791,7 +3789,7 @@ function rcube_webmail()
       if (val = $('[name="_' + hash_fields[i] + '"]').val())
         str += val + ':';
 
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)))
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody)))
       str += ed.getContent();
     else
       str += $("[name='_message']").val();
@@ -3813,8 +3811,8 @@ function rcube_webmail()
       ed, empty = true;
 
     // get fresh content from editor
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody))) {
-      tinyMCE.triggerSave();
+    if (window.tinymce && (ed = tinymce.get(this.env.composebody))) {
+      tinymce.triggerSave();
     }
 
     if (this.env.draft_id) {
@@ -3880,12 +3878,12 @@ function rcube_webmail()
       // initialize HTML editor
       if (formdata._is_html == '1') {
         if (!html_mode) {
-          tinyMCE.execCommand('mceAddControl', false, this.env.composebody);
+          tinymce.execCommand('mceAddEditor', false, this.env.composebody);
           this.triggerEvent('aftertoggle-editor', { mode:'html' });
         }
       }
       else if (html_mode) {
-        tinyMCE.execCommand('mceRemoveControl', false, this.env.composebody);
+        tinymce.execCommand('mceRemoveEditor', false, this.env.composebody);
         this.triggerEvent('aftertoggle-editor', { mode:'plain' });
       }
     }
@@ -4034,7 +4032,7 @@ function rcube_webmail()
       this.set_caret_pos(input_message.get(0), cursor_pos);
     }
     else if (show_sig && this.env.signatures) {  // html
-      var editor = tinyMCE.get(this.env.composebody),
+      var editor = tinymce.get(this.env.composebody),
         sigElem = editor.dom.get('_rc_sig');
 
       // Append the signature as a div within the body
@@ -4147,6 +4145,9 @@ function rcube_webmail()
   // called from upload page
   this.add2attachment_list = function(name, att, upload_id)
   {
+    if (upload_id)
+      this.triggerEvent('fileuploaded', {name: name, attachment: att, id: upload_id});
+
     if (!this.gui_objects.attachmentlist)
       return false;
 

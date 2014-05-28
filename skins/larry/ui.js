@@ -525,19 +525,19 @@ function rcube_mail_ui()
       w, h, bh, ovflw, btns = 0,
       minheight = 300,
 
-    bh = (form.height() - bottom.position().top);
+    bh = form.height() - bottom.position().top;
     ovflw = minheight - bh;
     btns = ovflw > -100 ? 0 : 40;
-    bottom.css('height', Math.max(minheight, bh) + 'px');
+    bottom.height(Math.max(minheight, bh));
     form.css('overflow', ovflw > 0 ? 'auto' : 'hidden');
 
     w = body.parent().width() - 5;
-    h = body.parent().height() - 16;
+    h = body.parent().height() - 8;
     body.width(w).height(h);
 
-    $('#composebody_tbl').width((w+8)+'px').height('').css('margin-top', '1px');
-    $('#composebody_ifr').width((w+8)+'px').height((h-40)+'px');
-    $('#googie_edit_layer').height(h+'px');
+    $('#composebodycontainer > div').width(w+8);
+    $('#composebody_ifr').height(h + 4 - $('div.mce-toolbar').height());
+    $('#googie_edit_layer').height(h - 8);
 //    $('#composebodycontainer')[(btns ? 'addClass' : 'removeClass')]('buttons');
 //    $('#composeformbuttons')[(btns ? 'show' : 'hide')]();
 

@@ -32,51 +32,53 @@
 function rcmail_editor_init(config)
 {
   var ret, conf = {
-      mode: 'textareas',
-      editor_selector: 'mce_editor',
-      apply_source_formatting: true,
-      theme: 'advanced',
+      selector: '.mce_editor',
+      theme: 'modern',
       language: config.lang,
       content_css: config.skin_path + '/editor_content.css?v2',
-      theme_advanced_toolbar_location: 'top',
-      theme_advanced_toolbar_align: 'left',
-      theme_advanced_buttons3: '',
-      theme_advanced_statusbar_location: 'none',
+      menubar: false,
+      statusbar: false,
+      toolbar_items_size: 'small',
       extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
       relative_urls: false,
       remove_script_host: false,
-      gecko_spellcheck: true,
       convert_urls: false, // #1486944
-      external_image_list: window.rcmail_editor_images,
-      rc_client: rcmail
+      image_description: false,
+      paste_webkit_style: "color font-size font-family",
+      paste_data_images: true
     };
 
   if (config.mode == 'identity')
     $.extend(conf, {
-      plugins: 'paste,tabfocus',
-      theme_advanced_buttons1: 'bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,separator,outdent,indent,charmap,hr,link,unlink,code,forecolor',
-      theme_advanced_buttons2: 'fontselect,fontsizeselect'
+      plugins: ['charmap code hr link paste tabfocus textcolor'],
+      toolbar: 'bold italic underline alignleft aligncenter alignright alignjustify'
+        + ' | outdent indent charmap hr link unlink code forecolor'
+        + ' | fontselect fontsizeselect'
     });
   else { // mail compose
     $.extend(conf, {
-      plugins: 'paste,emotions,media,nonbreaking,table,searchreplace,visualchars,directionality,inlinepopups,tabfocus' + (config.spellcheck ? ',spellchecker' : ''),
-      theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,ltr,rtl,blockquote,|,forecolor,backcolor,fontselect,fontsizeselect',
-      theme_advanced_buttons2: 'link,unlink,table,|,emotions,charmap,image,media,|,code,search,undo,redo',
-      spellchecker_languages: (rcmail.env.spellcheck_langs ? rcmail.env.spellcheck_langs : 'Dansk=da,Deutsch=de,+English=en,Espanol=es,Francais=fr,Italiano=it,Nederlands=nl,Polski=pl,Portugues=pt,Suomi=fi,Svenska=sv'),
-      spellchecker_rpc_url: '?_task=utils&_action=spell_html&_remote=1',
-      spellchecker_enable_learn_rpc: config.spelldict,
+      plugins: ['charmap code directionality emoticons link image media nonbreaking'
+        + ' paste table tabfocus textcolor searchreplace' + (config.spellcheck ? ' spellchecker' : '')],
+      toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
+        + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
+        + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',
+      spellchecker_rpc_url: '../../../../../?_task=utils&_action=spell_html&_remote=1',
+      spellchecker_language: rcmail.env.spell_lang,
       accessibility_focus: false,
-      oninit: 'rcmail_editor_callback'
+      file_browser_callback: rcmail_file_browser_callback,
+      // @todo: support more than image (types: file, image, media)
+      file_browser_callback_types: 'image'
     });
 
-    // add handler for spellcheck button state update
     conf.setup = function(ed) {
-      ed.onSetProgressState.add(function(ed, active) {
-        if (!active)
-          rcmail.spellcheck_state();
+      ed.on('init', rcmail_editor_callback);
+      // add handler for spellcheck button state update
+      ed.on('SpellcheckStart SpellcheckEnd', function(args) {
+        rcmail.env.spellcheck_active = args.type == 'spellcheckstart';
+        rcmail.spellcheck_state();
       });
-      ed.onKeyPress.add(function(ed, e) {
-          rcmail.compose_type_activity++;
+      ed.on('keypress', function() {
+        rcmail.compose_type_activity++;
       });
     }
   }
@@ -85,7 +87,7 @@ function rcmail_editor_init(config)
   if (window.rcmail_editor_settings)
     $.extend(conf, window.rcmail_editor_settings);
 
-  tinyMCE.init(conf);
+  tinymce.init(conf);
 }
 
 // react to real individual tinyMCE editor init
@@ -102,10 +104,13 @@ function rcmail_editor_callback()
     css['font-size'] = rcmail.env.default_font_size;
 
   if (css['font-family'] || css['font-size'])
-    $(tinyMCE.get(rcmail.env.composebody).getBody()).css(css);
+    $(tinymce.get(rcmail.env.composebody).getBody()).css(css);
 
   if (elem && elem.type == 'select-one') {
-    rcmail.change_identity(elem);
+    // insert signature (only for the first time)
+    if (!rcmail.env.identities_initialized)
+      rcmail.change_identity(elem);
+
     // Focus previously focused element
     if (fe && fe.id != rcmail.env.composebody) {
       // use setTimeout() for IE9 (#1488541)
@@ -118,18 +123,19 @@ function rcmail_editor_callback()
 
   // set tabIndex and set focus to element that was focused before
   rcmail_editor_tabindex(fe && fe.id == rcmail.env.composebody);
-  // Trigger resize (needed for proper editor resizing in some browsers using default skin)
-  $(window).resize();
+  // Trigger resize (needed for proper editor resizing in some browsers)
+  window.setTimeout(function() { $(window).resize(); }, 100);
 }
 
-// set tabIndex on tinyMCE editor
+// set tabIndex on tinymce editor
 function rcmail_editor_tabindex(focus)
 {
   if (rcmail.env.task == 'mail') {
-    var editor = tinyMCE.get(rcmail.env.composebody);
+    var editor = tinymce.get(rcmail.env.composebody);
     if (editor) {
-      var textarea = editor.getElement();
-      var node = editor.getContentAreaContainer().childNodes[0];
+      var textarea = editor.getElement(),
+        node = editor.getContentAreaContainer().childNodes[0];
+
       if (textarea && node)
         node.tabIndex = textarea.tabIndex;
       if (focus)
@@ -139,49 +145,171 @@ function rcmail_editor_tabindex(focus)
 }
 
 // switch html/plain mode
-function rcmail_toggle_editor(select, textAreaId, flagElement)
+function rcmail_toggle_editor(select, textAreaId)
 {
-  var flag, ishtml;
+  var ishtml = select.tagName != 'SELECT' ? select.checked : select.value == 'html',
+    res = rcmail.command('toggle-editor', {id: textAreaId, mode: ishtml ? 'html' : 'plain'});
 
-  if (select.tagName != 'SELECT')
-    ishtml = select.checked;
-  else
-    ishtml = select.value == 'html';
-
-  var res = rcmail.command('toggle-editor', {id:textAreaId, mode:ishtml?'html':'plain'});
-
-  if (ishtml) {
-    // #1486593
-    setTimeout("rcmail_editor_tabindex(true);", 500);
-    if (flagElement && (flag = rcube_find_object(flagElement)))
-      flag.value = '1';
-  }
-  else if (res) {
-    if (flagElement && (flag = rcube_find_object(flagElement)))
-      flag.value = '0';
-
-    if (rcmail.env.composebody)
-      rcube_find_object(rcmail.env.composebody).focus();
-  }
-  else { // !res
+  if (!res) {
     if (select.tagName == 'SELECT')
       select.value = 'html';
     else if (select.tagName == 'INPUT')
       select.checked = true;
   }
+  else if (ishtml) {
+    // #1486593
+    setTimeout("rcmail_editor_tabindex(true);", 500);
+  }
+  else if (rcmail.env.composebody) {
+    rcube_find_object(rcmail.env.composebody).focus();
+  }
 }
 
-// editor callbeck for images listing
-function rcmail_editor_images()
+// image selector
+function rcmail_file_browser_callback(field_name, url, type, win)
 {
-  var i, files = rcmail.env.attachments, list = [];
+  var i, elem, dialog, list = [], editor = tinyMCE.activeEditor;
 
-  for (i in files) {
-    att = files[i];
-    if (att.complete && att.mimetype.startsWith('image/')) {
-      list.push([att.name, rcmail.env.comm_path+'&_id='+rcmail.env.compose_id+'&_action=display-attachment&_file='+i]);
+  // open image selector dialog
+  dialog = editor.windowManager.open({
+    title: rcmail.gettext('select' + type),
+    width: 500,
+    height: 300,
+    html: '<div id="image-selector-list"><ul></ul></div>'
+      + '<div id="image-selector-form"><div id="image-upload-button" class="mce-widget mce-btn" role="button"></div></div>',
+    buttons: [{text: 'Cancel', onclick: function() { rcmail_file_browser_close(); }}]
+  });
+
+  rcmail.env.file_browser_field = field_name;
+  rcmail.env.file_browser_type = type;
+
+  // fill images list with available images
+  for (i in rcmail.env.attachments) {
+    if (elem = rcmail_file_browser_entry(i, rcmail.env.attachments[i])) {
+      list.push(elem);
     }
   }
 
-  return list;
-};
+  if (list.length) {
+    $('#image-selector-list > ul').append(list);
+  }
+
+  // add hint about max file size (in dialog footer)
+  $('div.mce-abs-end', dialog.getEl()).append($('<div class="hint">').text($('div.hint', rcmail.gui_objects.uploadform).text()));
+
+  // enable (smart) upload button
+  elem = $('#image-upload-button').append($('<span>').text(rcmail.gettext('add' + type)));
+  hack_file_input(elem, rcmail.gui_objects.uploadform);
+
+  // enable drag-n-drop area
+  if (rcmail.gui_objects.filedrop && rcmail.env.filedrop && ((window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.sendAsBinary) || window.FormData)) {
+    rcmail.env.old_file_drop = rcmail.gui_objects.filedrop;
+    rcmail.gui_objects.filedrop = $('#image-selector-form');
+    rcmail.gui_objects.filedrop.addClass('droptarget')
+      .bind('dragover dragleave', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this)[(e.type == 'dragover' ? 'addClass' : 'removeClass')]('hover');
+      })
+      .get(0).addEventListener('drop', function(e) { return rcmail.file_dropped(e); }, false);
+  }
+
+  // register handler for successful file upload
+  if (!rcmail.env.file_dialog_event) {
+    rcmail.env.file_dialog_event = true;
+    rcmail.addEventListener('fileuploaded', function(attr) {
+      var elem;
+      if (elem = rcmail_file_browser_entry(attr.name, attr.attachment)) {
+        $('#image-selector-list > ul').prepend(elem);
+      }
+    });
+  }
+}
+
+// close file browser window
+function rcmail_file_browser_close(url)
+{
+  if (url)
+    $('#' + rcmail.env.file_browser_field).val(url);
+
+  tinyMCE.activeEditor.windowManager.close();
+
+  if (rcmail.env.old_file_drop)
+    rcmail.gui_objects.filedrop = rcmail.env.old_file_drop;
+}
+
+// creates file browser entry
+function rcmail_file_browser_entry(file_id, file)
+{
+  if (!file.complete || !file.mimetype) {
+    return;
+  }
+
+  if (file.mimetype.startsWith('image/')) {
+    var href = rcmail.env.comm_path+'&_id='+rcmail.env.compose_id+'&_action=display-attachment&_file='+file_id,
+      img = $('<img>').attr({title: file.name, src: href + '&_thumbnail=1'});
+
+    return $('<li>').data('url', href)
+      .append($('<span class="img">').append(img))
+      .append($('<span class="name">').text(file.name))
+      .click(function() { rcmail_file_browser_close($(this).data('url')); });
+  }
+}
+
+// create smart files upload button
+function hack_file_input(elem, clone_form)
+{
+  var link = $(elem),
+    file = $('<input>'),
+    form = $('<form>').attr({method: 'post', enctype: 'multipart/form-data'}),
+    offset = link.offset();
+
+  // clone existing upload form
+  if (clone_form) {
+    file.attr('name', $('input[type="file"]', clone_form).attr('name'));
+    form.attr('action', $(clone_form).attr('action'))
+      .append($('<input>').attr({type: 'hidden', name: '_token', value: rcmail.env.request_token}));
+  }
+
+  function move_file_input(e) {
+    file.css({top: (e.pageY - offset.top - 10) + 'px', left: (e.pageX - offset.left - 10) + 'px'});
+  }
+
+  file.attr({type: 'file', multiple: 'multiple', size: 5, title: ''})
+    .change(function() { rcmail.upload_file(form, 'upload'); })
+    .click(function() { setTimeout(function() { link.mouseleave(); }, 20); })
+    // opacity:0 does the trick, display/visibility doesn't work
+    .css({opacity: 0, cursor: 'pointer', position: 'relative', outline: 'none'})
+    .appendTo(form);
+
+  // In FF and IE we need to move the browser file-input's button under the cursor
+  // Thanks to the size attribute above we know the length of the input field
+  if (navigator.userAgent.match(/Firefox|MSIE/))
+    file.css({marginLeft: '-80px'});
+
+  // Note: now, I observe problem with cursor style on FF < 4 only
+  link.css({overflow: 'hidden', cursor: 'pointer'})
+    .mouseenter(function() { this.__active = true; })
+    // place button under the cursor
+    .mousemove(function(e) {
+      if (this.__active)
+        move_file_input(e);
+      // move the input away if button is disabled
+      else
+        $(this).mouseleave();
+    })
+    .mouseleave(function() {
+      file.css({top: '-10000px', left: '-10000px'});
+      this.__active = false;
+    })
+    .click(function(e) {
+      // forward click if mouse-enter event was missed
+      if (!this.__active) {
+        this.__active = true;
+        move_file_input(e);
+        file.trigger(e);
+      }
+    })
+    .mouseleave()
+    .append(form);
+}

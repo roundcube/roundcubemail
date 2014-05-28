@@ -1557,16 +1557,13 @@ div.message-partheaders .headers-table td.header {
 	padding-bottom: 8px;
 }
 
-.defaultSkin table.mceLayout,
-.defaultSkin table.mceLayout tr.mceLast td {
+#composebodycontainer .mce-tinymce {
 	border: 0 !important;
+	margin-top: 1px;
 }
 
-.defaultSkin td.mceToolbar {
-	border: 0 !important;
-}
-
-.defaultSkin table.mceLayout tr.mceFirst td {
+#composebodycontainer .mce-panel {
+	border-color: #ccc !important;
 	background: #f0f0f0;
 }
 

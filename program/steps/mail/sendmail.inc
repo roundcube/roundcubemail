@@ -273,9 +273,10 @@ if ($isHtml) {
     }
 
     // append doctype and html/body wrappers
-    $message_body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">'
-        . "\r\n<html><body" . (!empty($bstyle) ? " style='" . implode($bstyle, '; ') . "'" : '') . ">\r\n"
-        . $message_body;
+    $bstyle       = !empty($bstyle) ? (" style='" . implode($bstyle, '; ') . "'") : '';
+    $message_body = '<html><head>'
+        . '<meta http-equiv="Content-Type" content="text/html; charset=' . $message_charset . '" /></head>'
+        . "<body" . $bstyle . ">\r\n" . $message_body;
 }
 
 if (!$savedraft) {
@@ -310,7 +311,13 @@ if (!$savedraft) {
         $COMPOSE['spell_checked'] = true;
 
         if (!$spell_result) {
-            $result = $isHtml ? $spellchecker->get_words() : $spellchecker->get_xml();
+            if ($isHtml) {
+                $result['words']      = $spellchecker->get();
+                $result['dictionary'] = (bool) $RCMAIL->config->get('spellcheck_dictionary');
+            }
+            else {
+                $result = $spellchecker->get_xml();
+            }
 
             $OUTPUT->show_message('mispellingsfound', 'error');
             $OUTPUT->command('spellcheck_resume', $isHtml, $result);
@@ -738,11 +745,11 @@ function rcmail_get_identity($id)
 
 /**
  * go from this:
- * <img src="http[s]://.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
+ * <img src="http[s]://.../tinymce/plugins/emoticons/img/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
  *
  * to this:
  *
- * <img src="/path/on/server/.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
+ * <img src="/path/on/server/.../tinymce/plugins/emoticons/img/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
  */
 function rcmail_fix_emoticon_paths($mime_message)
 {
@@ -753,7 +760,7 @@ function rcmail_fix_emoticon_paths($mime_message)
     // remove any null-byte characters before parsing
     $body = preg_replace('/\x00/', '', $body);
 
-    $searchstr = 'program/js/tiny_mce/plugins/emotions/img/';
+    $searchstr = 'program/js/tinymce/plugins/emoticons/img/';
     $offset = 0;
 
     // keep track of added images, so they're only added once
