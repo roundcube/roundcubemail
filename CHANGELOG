@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Update to TinyMCE 4.0 (#1489057)
+- Enable autolink plugin in TinyMCE (#1488845)
 - Support image operations with Imagick extension (#1489734)
 - Support upload progress with session.upload_progress and PECL uploadprogress module (#1488702)
 - Make identity name field optional (#1489510)
