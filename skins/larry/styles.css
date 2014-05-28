@@ -1184,6 +1184,7 @@ a.iconlink.upload {
 	padding-bottom: 5px;
 	height: auto;
 	min-height: 14px;
+	outline: none;
 }
 
 .webkit .listing tbody td {
@@ -1555,6 +1556,7 @@ table.records-table {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	background-color: #fff;
+	outline: none;
 }
 
 /* This padding-left minus the focused padding left should be half of the focused border-left */

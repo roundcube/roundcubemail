@@ -627,7 +627,8 @@ table.records-table tbody tr td
   white-space: nowrap;
   border-bottom: 1px solid #EBEBEB;
   overflow: hidden;
-  text-align: left;  
+  text-align: left;
+	outline: none;
 }
 
 table.records-table tr

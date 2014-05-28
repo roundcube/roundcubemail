@@ -51,7 +51,7 @@ function rcube_list_widget(list, p)
   this.rowcount = 0;
   this.colcount = 0;
 
-  this.subject_col = -1;
+  this.subject_col = 0;
   this.modkey = 0;
   this.multiselect = false;
   this.multiexpand = false;
@@ -111,15 +111,9 @@ init: function()
     if (this.keyboard) {
       rcube_event.add_listener({event:'keydown', object:this, method:'key_press'});
 
-      // install a link element to receive focus.
-      // this helps to maintain the natural tab order when moving focus with keyboard
-      this.focus_elem = $('<a>')
-        .attr('tabindex', '0')
-        .attr('style', 'display:block; width:1px; height:1px; line-height:1px; overflow:hidden; position:fixed; top:-1000px')
-        .html($(this.list).attr('summary') || 'Select List')
-        .insertAfter(this.list)
-        .on('focus', function(e){ me.focus(e); })
-        .on('blur', function(e){ me.blur(e); });
+      // allow the table element to receive focus.
+      $(this.list).attr('tabindex', '0')
+        .on('focus', function(e){ me.focus(e); });
     }
   }
 
@@ -398,10 +392,16 @@ focus: function(e)
   if (e)
     rcube_event.cancel(e);
 
+  var focus_elem = null;
+
+  if (this.last_selected && this.rows[this.last_selected]) {
+    focus_elem = $(this.rows[this.last_selected].obj).find(this.col_tagname()).eq(this.subject_col).attr('tabindex', '0');
+  }
+
   // Un-focus already focused elements (#1487123, #1487316, #1488600, #1488620)
-  if (this.focus_elem) {
+  if (focus_elem && focus_elem.length) {
     // We now fix this by explicitly assigning focus to a dedicated link element
-    this.focus_noscroll(this.focus_elem);
+    this.focus_noscroll(focus_elem);
   }
   else {
     // It looks that window.focus() does the job for all browsers, but not Firefox (#1489058)
@@ -409,7 +409,7 @@ focus: function(e)
     window.focus();
   }
 
-  $(this.list).addClass('focus');
+  $(this.list).addClass('focus').removeAttr('tabindex');
 
   // set internal focus pointer to first row
   if (!this.last_selected)
@@ -423,7 +423,17 @@ focus: function(e)
 blur: function(e)
 {
   this.focused = false;
-  $(this.list).removeClass('focus');
+
+  // avoid the table getting focus right again
+  var me = this;
+  setTimeout(function(){
+    $(me.list).removeClass('focus').attr('tabindex', '0');
+  }, 20);
+
+  if (this.last_selected && this.rows[this.last_selected]) {
+    $(this.rows[this.last_selected].obj)
+      .find(this.col_tagname()).eq(this.subject_col).removeAttr('tabindex');
+  }
 },
 
 /**
@@ -914,16 +924,22 @@ select_row: function(id, mod_key, with_mouse)
   if (this.selection.join(',') != select_before)
     this.triggerEvent('select');
 
-  if (this.last_selected != 0 && this.rows[this.last_selected])
-    $(this.rows[this.last_selected].obj).removeClass('focused');
+  if (this.last_selected != 0 && this.rows[this.last_selected]) {
+    $(this.rows[this.last_selected].obj).removeClass('focused')
+      .find(this.col_tagname()).eq(this.subject_col).removeAttr('tabindex');
+  }
 
   // unselect if toggleselect is active and the same row was clicked again
   if (this.toggleselect && this.last_selected == id) {
     this.clear_selection();
     id = null;
   }
-  else
+  else {
     $(this.rows[id].obj).addClass('focused');
+    // set cursor focus to link inside selected row
+    if (this.focused)
+      this.focus_noscroll($(this.rows[id].obj).find(this.col_tagname()).eq(this.subject_col).attr('tabindex', '0'));
+  }
 
   if (!this.selection.length)
     this.shift_start = null;
@@ -1286,6 +1302,14 @@ key_press: function(e)
       }
 
       return rcube_event.cancel(e);
+
+    case 9: // Tab
+      this.blur();
+      break;
+
+    case 13: // Enter
+      if (!this.selection.length)
+        this.select_row(this.last_selected, mod_key, false);
 
     default:
       this.key_pressed = keyCode;

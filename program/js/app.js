@@ -1974,7 +1974,7 @@ function rcube_webmail()
       flags: flags.extra_flags
     });
 
-    var c, n, col, html, css_class,
+    var c, n, col, html, css_class, label, status_class = '', status_label = '',
       tree = '', expando = '',
       list = this.message_list,
       rows = list.rows,
@@ -1990,17 +1990,26 @@ function rcube_webmail()
     css_class = 'msgicon';
     if (this.env.status_col === null) {
       css_class += ' status';
-      if (flags.deleted)
-        css_class += ' deleted';
-      else if (!flags.seen)
-        css_class += ' unread';
-      else if (flags.unread_children > 0)
-        css_class += ' unreadchildren';
+      if (flags.deleted) {
+        status_class += ' deleted';
+        status_label += this.get_label('deleted') + ' ';
+      }
+      else if (!flags.seen) {
+        status_class += ' unread';
+        status_label += this.get_label('unread') + ' ';
+      }
+      else if (flags.unread_children > 0) {
+        status_class += ' unreadchildren';
+      }
     }
-    if (flags.answered)
-      css_class += ' replied';
-    if (flags.forwarded)
-      css_class += ' forwarded';
+    if (flags.answered) {
+      status_class += ' replied';
+      status_label += this.get_label('replied') + ' ';
+    }
+    if (flags.forwarded) {
+      status_class += ' forwarded';
+      status_label += this.get_label('replied') + ' ';
+    }
 
     // update selection
     if (message.selected && !list.in_selection(uid))
@@ -2037,7 +2046,7 @@ function rcube_webmail()
         row_class += ' unroot';
     }
 
-    tree += '<span id="msgicn'+row.id+'" class="'+css_class+'">&nbsp;</span>';
+    tree += '<span id="msgicn'+row.id+'" class="'+css_class+status_class+'" title="'+status_label+'"></span>';
     row.className = row_class;
 
     // build subject link
@@ -2061,28 +2070,36 @@ function rcube_webmail()
 
       if (c == 'flag') {
         css_class = (flags.flagged ? 'flagged' : 'unflagged');
-        html = '<span id="flagicn'+row.id+'" class="'+css_class+'">&nbsp;</span>';
+        label = this.get_label(css_class);
+        html = '<span id="flagicn'+row.id+'" class="'+css_class+'" title="'+label+'"></span>';
       }
       else if (c == 'attachment') {
+        label = this.get_label('withattachment');
         if (flags.attachmentClass)
-          html = '<span class="'+flags.attachmentClass+'">&nbsp;</span>';
+          html = '<span class="'+flags.attachmentClass+'" title="'+label+'"></span>';
         else if (/application\/|multipart\/(m|signed)/.test(flags.ctype))
-          html = '<span class="attachment">&nbsp;</span>';
+          html = '<span class="attachment" title="'+label+'"></span>';
         else if (/multipart\/report/.test(flags.ctype))
-          html = '<span class="report">&nbsp;</span>';
-        else
+          html = '<span class="report"></span>';
+          else
           html = '&nbsp;';
       }
       else if (c == 'status') {
-        if (flags.deleted)
+        label = '';
+        if (flags.deleted) {
           css_class = 'deleted';
-        else if (!flags.seen)
+          label = this.get_label('deleted');
+        }
+        else if (!flags.seen) {
           css_class = 'unread';
-        else if (flags.unread_children > 0)
+          label = this.get_label('unread');
+        }
+        else if (flags.unread_children > 0) {
           css_class = 'unreadchildren';
+        }
         else
           css_class = 'msgicon';
-        html = '<span id="statusicn'+row.id+'" class="'+css_class+'">&nbsp;</span>';
+        html = '<span id="statusicn'+row.id+'" class="'+css_class+status_class+'" title="'+label+'"></span>';
       }
       else if (c == 'threads')
         html = expando;
@@ -2092,8 +2109,10 @@ function rcube_webmail()
         html = tree + cols[c];
       }
       else if (c == 'priority') {
-        if (flags.prio > 0 && flags.prio < 6)
-          html = '<span class="prio'+flags.prio+'">&nbsp;</span>';
+        if (flags.prio > 0 && flags.prio < 6) {
+          label = this.get_label('priority') + ' ' + flags.prio;
+          html = '<span class="prio'+flags.prio+'" title="'+label+'"></span>';
+        }
         else
           html = '&nbsp;';
       }
@@ -2676,7 +2695,7 @@ function rcube_webmail()
   // set message icon
   this.set_message_icon = function(uid)
   {
-    var css_class,
+    var css_class, label = '',
       row = this.message_list.rows[uid];
 
     if (!row)
@@ -2684,38 +2703,55 @@ function rcube_webmail()
 
     if (row.icon) {
       css_class = 'msgicon';
-      if (row.deleted)
+      if (row.deleted) {
         css_class += ' deleted';
-      else if (row.unread)
+        label += this.get_label('deleted') + ' ';
+      }
+      else if (row.unread) {
         css_class += ' unread';
+        label += this.get_label('unread') + ' ';
+      }
       else if (row.unread_children)
         css_class += ' unreadchildren';
       if (row.msgicon == row.icon) {
-        if (row.replied)
+        if (row.replied) {
           css_class += ' replied';
-        if (row.forwarded)
+          label += this.get_label('replied') + ' ';
+        }
+        if (row.forwarded) {
           css_class += ' forwarded';
+          label += this.get_label('forwarded') + ' ';
+        }
         css_class += ' status';
       }
 
-      row.icon.className = css_class;
+      $(row.icon).attr('class', css_class).attr('title', label);
     }
 
     if (row.msgicon && row.msgicon != row.icon) {
+      label = '';
       css_class = 'msgicon';
-      if (!row.unread && row.unread_children)
+      if (!row.unread && row.unread_children) {
         css_class += ' unreadchildren';
-      if (row.replied)
+      }
+      if (row.replied) {
         css_class += ' replied';
-      if (row.forwarded)
+        label += this.get_label('replied') + ' ';
+      }
+      if (row.forwarded) {
         css_class += ' forwarded';
+        label += this.get_label('forwarded') + ' ';
+      }
 
-      row.msgicon.className = css_class;
+      $(row.msgicon).attr('class', css_class).attr('title', label);
     }
 
     if (row.flagicon) {
       css_class = (row.flagged ? 'flagged' : 'unflagged');
-      row.flagicon.className = css_class;
+      label = this.get_label(css_class);
+      $(row.flagicon).attr('class', css_class)
+        .attr('aria-label', label)
+        .attr('title', label);
     }
   };
 
