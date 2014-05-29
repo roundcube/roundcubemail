@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Remove (was: ...) from message subject on reply (#1489375)
 - Update to TinyMCE 4.0 (#1489057)
 - Enable autolink plugin in TinyMCE (#1488845)
 - Support image operations with Imagick extension (#1489734)

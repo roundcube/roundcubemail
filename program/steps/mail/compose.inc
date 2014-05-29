@@ -1457,6 +1457,9 @@ function rcmail_compose_subject($attrib)
             $subject = $MESSAGE->subject;
         else
             $subject = 'Re: '.$MESSAGE->subject;
+
+        // replace (was: ...) (#1489375)
+        $subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
     }
     // create a forward-subject
     else if ($compose_mode == RCUBE_COMPOSE_FORWARD) {
