@@ -685,9 +685,6 @@ function rcube_webmail()
             form.target = win.name;
             form.submit();
           }
-          else {
-            // this.display_message(this.get_label('windowopenerror'), 'error');
-          }
         }
         else {
           this.open_window(this.env.permaurl, true);
@@ -1778,6 +1775,13 @@ function rcube_webmail()
         extwin = window.open(url, wname,
           'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes,location=no,scrollbars=yes'
           +(toolbar ? ',toolbar=yes,menubar=yes,status=yes' : ',toolbar=no,menubar=no,status=no'));
+    }
+
+    // detect popup blocker (#1489618)
+    // don't care this might not work with all browsers
+    if (!extwin || extwin.closed) {
+      this.display_message(this.get_label('windowopenerror'), 'warning');
+      return;
     }
 
     // write loading... message to empty windows

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Display a warning if popup window was blocked (#1489618)
 - Remove (was: ...) from message subject on reply (#1489375)
 - Update to TinyMCE 4.0 (#1489057)
 - Enable autolink plugin in TinyMCE (#1488845)
