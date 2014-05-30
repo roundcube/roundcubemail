@@ -320,7 +320,7 @@ if (!$savedraft) {
             }
 
             $OUTPUT->show_message('mispellingsfound', 'error');
-            $OUTPUT->command('spellcheck_resume', $isHtml, $result);
+            $OUTPUT->command('spellcheck_resume', $result);
             $OUTPUT->send('iframe');
         }
     }

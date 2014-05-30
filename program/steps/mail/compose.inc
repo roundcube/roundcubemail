@@ -951,8 +951,7 @@ function rcmail_compose_body($attrib)
             "googie.setLanguages(%s);\n".
             "googie.setCurrentLanguage('%s');\n".
             "googie.setDecoration(false);\n".
-            "googie.decorateTextarea('%s');\n".
-            "%s.set_env('spellcheck', googie);",
+            "googie.decorateTextarea('%s');\n",
             $RCMAIL->output->get_skin_path(),
             $RCMAIL->url(array('_task' => 'utils', '_action' => 'spell', '_remote' => 1)),
                 !empty($dictionary) ? 'true' : 'false',
@@ -964,8 +963,7 @@ function rcmail_compose_body($attrib)
             rcube::JQ(rcube::Q($RCMAIL->gettext('addtodict'))),
             rcube_output::json_serialize($spellcheck_langs),
             $lang,
-            $attrib['id'],
-            rcmail_output::JS_OBJECT_NAME), 'foot');
+            $attrib['id']), 'foot');
 
         $OUTPUT->add_label('checking');
         $OUTPUT->set_env('spellcheck_langs', join(',', $editor_lang_set));
@@ -1704,7 +1702,7 @@ function rcmail_editor_selector($attrib)
     if (empty($attrib['name']))
         $attrib['name'] = 'editorSelect';
 
-    $attrib['onchange'] = "return rcmail_toggle_editor(this, '".$attrib['editorid']."')";
+    $attrib['onchange'] = "return rcmail.command('toggle-editor', {id: '".$attrib['editorid']."', html: this.value == 'html'}, '', event)";
 
     $select = new html_select($attrib);
 
