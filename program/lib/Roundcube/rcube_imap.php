@@ -2990,7 +2990,7 @@ class rcube_imap extends rcube_storage
      * @param array  $result  Reference to folders list
      * @param string $type    Listing type (ext-subscribed, subscribed or all)
      */
-    private function list_folders_update(&$result, $type = null)
+    protected function list_folders_update(&$result, $type = null)
     {
         $namespace = $this->get_namespace();
         $search    = array();
