@@ -31,7 +31,7 @@ class new_user_identity extends rcube_plugin
     {
         $this->load_config('config.inc.php');
 
-        $mode = (string) $this->rc->config->get('new_user_identity_driver');
+        $mode = (string) $this->rc->config->get('new_user_identity_driver', 'ldap');
 
         switch ($mode) {
         case 'token':
