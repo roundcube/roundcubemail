@@ -780,6 +780,7 @@ table.messagelist.fixedcopy
   -o-text-overflow: ellipsis;
   border-bottom: 1px solid #EBEBEB;
   cursor: default;
+  outline: none;
 }
 
 .messagelist tbody tr td a

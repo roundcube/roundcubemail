@@ -1187,6 +1187,12 @@ a.iconlink.upload {
 	outline: none;
 }
 
+.listing tbody td a {
+	color: #376572;
+	text-shadow: 0px 1px 1px #fff;
+	text-decoration: none;
+}
+
 .webkit .listing tbody td {
 	height: 14px;
 }

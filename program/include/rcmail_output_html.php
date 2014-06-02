@@ -859,10 +859,10 @@ EOF;
         }
 
         // localize title and summary attributes
-        if (!empty($attrib['title']) && $this->app->text_exists($attrib['title'])) {
+        if ($command != 'button' && !empty($attrib['title']) && $this->app->text_exists($attrib['title'])) {
             $attrib['title'] = $this->app->gettext($attrib['title']);
         }
-        if (!empty($attrib['summary']) && $this->app->text_exists($attrib['summary'])) {
+        if ($command != 'button' && !empty($attrib['summary']) && $this->app->text_exists($attrib['summary'])) {
             $attrib['summary'] = $this->app->gettext($attrib['summary']);
         }
 

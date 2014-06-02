@@ -1501,7 +1501,7 @@ class rcmail extends rcube
             $html_name = $this->Q($foldername) . ($unread ? html::span('unreadcount', sprintf($attrib['unreadwrap'], $unread)) : '');
             $link_attrib = $folder['virtual'] ? array() : array(
                 'href' => $this->url(array('_mbox' => $folder['id'])),
-                'onclick' => sprintf("return %s.command('list','%s',this)", rcmail_output::JS_OBJECT_NAME, $js_name),
+                'onclick' => sprintf("return %s.command('list','%s',this,event)", rcmail_output::JS_OBJECT_NAME, $js_name),
                 'rel' => $folder['id'],
                 'title' => $title,
             );

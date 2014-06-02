@@ -274,11 +274,10 @@ clear: function(sel)
 
   this.rows = {};
   this.rowcount = 0;
+  this.last_selected = 0;
 
   if (sel)
     this.clear_selection();
-  else
-    this.last_selected = 0;
 
   // reset scroll position (in Opera)
   if (this.frame)

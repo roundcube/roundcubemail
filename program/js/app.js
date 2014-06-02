@@ -342,7 +342,16 @@ function rcube_webmail()
             .addEventListener('initrow', function(o) { ref.triggerEvent('insertrow', { cid:o.uid, row:o }); })
             .addEventListener('select', function(o) { ref.compose_recipient_select(o); })
             .addEventListener('dblclick', function(o) { ref.compose_add_recipient('to'); })
-            .addEventListener('keypress', function(o) { if (o.key_pressed == o.ENTER_KEY) ref.compose_add_recipient('to'); })
+            .addEventListener('keypress', function(o) {
+              if (o.key_pressed == o.ENTER_KEY) {
+                if (!ref.compose_add_recipient('to')) {
+                  // execute link action on <enter> if not a recipient entry
+                  if (o.last_selected && String(o.last_selected).charAt(0) == 'G') {
+                    $(o.rows[o.last_selected].obj).find('a').first().click();
+                  }
+                }
+              }
+            })
             .init();
         }
 
@@ -602,7 +611,7 @@ function rcube_webmail()
   {
     var ret, uid, cid, url, flag, aborted = false;
 
-    if (obj && obj.blur)
+    if (obj && obj.blur && !(event || rcube_event.is_keyboard(event)))
       obj.blur();
 
     // do nothing if interface is locked by other command (with exception for searching reset)
@@ -1647,9 +1656,12 @@ function rcube_webmail()
   {
     // Helper method to move focus to the next/prev active menu item
     var focus_menu_item = function(dir) {
-      var obj, mod = dir < 0 ? 'prevAll' : 'nextAll', limit = dir < 0 ? 'last' : 'first';
+      var obj, item, mod = dir < 0 ? 'prevAll' : 'nextAll', limit = dir < 0 ? 'last' : 'first';
       if (ref.focused_menu && (obj = $('#'+ref.focused_menu))) {
-        return obj.find(':focus').closest('li')[mod](':has(:not([aria-disabled=true]))').find('a,input')[limit]().focus().length;
+        item = obj.find(':focus').closest('li')[mod](':has(:not([aria-disabled=true]))').find('a,input')[limit]();
+        if (!item.length)
+          item = obj.find(':focus').closest('ul')[mod](':has(:not([aria-disabled=true]))').find('a,input')[limit]();
+        return item.focus().length;
       }
 
       return 0;
@@ -2402,7 +2414,6 @@ function rcube_webmail()
   this.clear_message_list = function()
   {
     this.env.messages = {};
-    this.last_selected = 0;
 
     this.show_contentframe(false);
     if (this.message_list)
@@ -3490,6 +3501,8 @@ function rcube_webmail()
       input.val(oldval + recipients.join(delim + ' ') + delim + ' ');
       this.triggerEvent('add-recipient', { field:field, recipients:recipients });
     }
+
+    return recipients.length;
   };
 
   // checks the input fields before sending a message
@@ -7405,7 +7418,8 @@ function rcube_webmail()
           this.enable_command('set-listmode', this.env.threads && !is_multifolder);
 
           if ((response.action == 'list' || response.action == 'search') && this.message_list) {
-            this.message_list.focus();
+            if (this.message_list.rowcount > 0)
+              this.message_list.focus();
             this.msglist_select(this.message_list);
             this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
           }
@@ -7417,10 +7431,17 @@ function rcube_webmail()
             this.enable_command('search-create', this.env.source == '');
             this.enable_command('search-delete', this.env.search_id);
             this.update_group_commands();
-            this.contact_list.focus();
+            if (this.contact_list.rowcount > 0)
+              this.contact_list.focus();
             this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
           }
         }
+        break;
+
+      case 'list-contacts':
+      case 'search-contacts':
+        if (this.contact_list && this.contact_list.rowcount > 0)
+          this.contact_list.focus();
         break;
     }
 

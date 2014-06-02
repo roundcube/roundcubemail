@@ -591,11 +591,14 @@ $labels['arialabelmessagelistoptions'] = 'Message list display and sorting optio
 $labels['arialabelmailimportdialog'] = 'Message import dialog';
 $labels['arialabelmessagenav'] = 'Message navigation';
 $labels['arialabelmessagebody'] = 'Message Body';
+$labels['arialabelmessageactions'] = 'Message actions';
 $labels['arialabelcontactquicksearch'] = 'Contacts search form';
 $labels['arialabelcontactsearchbox'] = 'Contact search input';
 $labels['arialabelmessageheaders'] = 'Message headers';
 $labels['arialabelcomposeoptions'] = 'Composition options';
 $labels['arialabelresponsesmenu'] = 'Canned responses menu';
 $labels['arialabelattachmentuploadform'] = 'Attachment upload form';
+$labels['arialabelattachmentpreview'] = 'Attachment preview';
+$labels['ariasummarycomposecontacts'] = 'List of contacts and groups to select as recipients';
 
 ?>

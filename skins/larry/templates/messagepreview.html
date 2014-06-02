@@ -10,7 +10,7 @@
 
 <!-- record navigation -->
 <div id="countcontrols" role="toolbar" aria-labelledby="aria-label-messagetoolbar">
-<h2 id="aria-label-messagetoolbar" class="voice">Message actions</h2>
+<h2 id="aria-label-messagetoolbar" class="voice"><roundcube:label name="arialabelmessageactions" /></h2>
 <roundcube:if condition="env:optional_format=='text'" />
 	<span class="buttongroup">
 		<roundcube:button command="change-format" prop="html" type="link" class="button first changeformat html selected" innerClass="icon" title="changeformathtml" content="HTML" /><roundcube:button command="change-format" prop="text" type="link" class="button last changeformat text" classSel="button changeformat text pressed" innerClass="icon" title="changeformattext" content="Text" />
@@ -60,7 +60,7 @@
 <roundcube:object name="messageAttachments" id="attachment-list" class="attachmentslist" />
 </div>
 <div class="leftcol" role="region" aria-labelledby="aria-label-messagebody">
-<h2 id="aria-label-messagebody" class="voice">Message Body</h2>
+<h2 id="aria-label-messagebody" class="voice"><roundcube:label name="arialabelmessagebody" /></h2>
 <roundcube:object name="messageObjects" id="message-objects" />
 <roundcube:object name="messageBody" id="messagebody" headertableclass="message-partheaders headers-table" />
 </div>
