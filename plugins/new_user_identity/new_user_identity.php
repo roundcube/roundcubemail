@@ -62,9 +62,6 @@ class new_user_identity extends rcube_plugin
             }
             break;
         }
-
-        write_log('new_user_identity', 'created user "' . $args['user_name'] . ' <' . $args['user_email'] . '>"');
-
         return $args;
     }
 
