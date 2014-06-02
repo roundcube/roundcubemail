@@ -60,6 +60,7 @@ function rcube_list_widget(list, p)
   this.column_movable = false;
   this.keyboard = false;
   this.toggleselect = false;
+  this.aria_listbox = false;
 
   this.drag_active = false;
   this.col_drag_active = false;
@@ -117,6 +118,12 @@ init: function()
     }
   }
 
+  if ($(this.list).attr('role') == 'listbox') {
+    this.aria_listbox = true;
+    if (this.multiselect)
+      $(this.list).attr('aria-multiselectable', 'true');
+  }
+
   return this;
 },
 
@@ -157,6 +164,15 @@ init_row: function(row)
             e.preventDefault();
         }
       }, false);
+    }
+
+    // label the list row with the subject col as descriptive label
+    if (this.aria_listbox) {
+      var lbl_id = 'l:' + row.id;
+      $(row)
+        .attr('role', 'option')
+        .attr('aria-labelledby', lbl_id)
+        .find(this.col_tagname()).eq(this.subject_col).attr('id', lbl_id);
     }
 
     if (document.all)
