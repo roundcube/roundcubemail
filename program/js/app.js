@@ -2634,16 +2634,10 @@ function rcube_webmail()
     if (flag == 'unread') {
       if (row.unread != status)
         this.update_thread_root(uid, status ? 'unread' : 'read');
-      row.unread = status;
     }
-    else if(flag == 'deleted')
-      row.deleted = status;
-    else if (flag == 'replied')
-      row.replied = status;
-    else if (flag == 'forwarded')
-      row.forwarded = status;
-    else if (flag == 'flagged')
-      row.flagged = status;
+
+    if ($.inArray(flag, ['unread', 'deleted', 'replied', 'forwarded', 'flagged']) > -1)
+      row[flag] = status;
   };
 
   // set message row status, class and icon
@@ -2657,22 +2651,8 @@ function rcube_webmail()
     if (flag)
       this.set_message_status(uid, flag, status);
 
-    var rowobj = $(row.obj);
-
-    if (row.unread && !rowobj.hasClass('unread'))
-      rowobj.addClass('unread');
-    else if (!row.unread && rowobj.hasClass('unread'))
-      rowobj.removeClass('unread');
-
-    if (row.deleted && !rowobj.hasClass('deleted'))
-      rowobj.addClass('deleted');
-    else if (!row.deleted && rowobj.hasClass('deleted'))
-      rowobj.removeClass('deleted');
-
-    if (row.flagged && !rowobj.hasClass('flagged'))
-      rowobj.addClass('flagged');
-    else if (!row.flagged && rowobj.hasClass('flagged'))
-      rowobj.removeClass('flagged');
+    if ($.inArray(flag, ['unread', 'deleted', 'flagged']) > -1)
+      $(row.obj)[row[flag] ? 'addClass' : 'removeClass'](flag);
 
     this.set_unread_children(uid);
     this.set_message_icon(uid);
