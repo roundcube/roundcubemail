@@ -97,7 +97,6 @@
 	id="messagelist"
 	class="records-table messagelist sortheader fixedheader"
 	optionsmenuIcon="true"
-	summary="Email Messages Listing"
 	aria-labelledby="aria-label-messagelist" />
 </div>
 
@@ -116,7 +115,7 @@
 	</div>
 
 	<div id="countcontrols" class="pagenav dark">
-		<roundcube:object name="messageCountDisplay" class="countdisplay" />
+		<roundcube:object name="messageCountDisplay" class="countdisplay" aria-live="polite" aria-relevant="text" />
 		<span class="pagenavbuttons">
 		<roundcube:button command="firstpage" type="link" class="button firstpage disabled" classAct="button firstpage" classSel="button firstpage pressed" innerClass="inner" title="firstpage" label="first" />
 		<roundcube:button command="previouspage" type="link" class="button prevpage disabled" classAct="button prevpage" classSel="button prevpage pressed" innerClass="inner" title="previouspage" label="previous" />
@@ -136,7 +135,7 @@
 
 <div id="mailpreviewframe" class="iframebox" role="complementary" aria-labelledby="aria-label-mailpreviewframe">
 <h2 id="aria-label-mailpreviewframe" class="voice"><roundcube:label name="arialabelmailpreviewframe" /></h2>
-<roundcube:object name="messagecontentframe" id="messagecontframe" style="width:100%; height:100%" frameborder="0" src="/watermark.html" title="Message preview" />
+<roundcube:object name="messagecontentframe" id="messagecontframe" style="width:100%; height:100%" frameborder="0" src="/watermark.html" title="arialabelmailpreviewframe" />
 </div>
 
 </div><!-- end mailview-bottom -->
