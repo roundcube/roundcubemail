@@ -45,7 +45,7 @@
 
 #preferences-frame {
 	border: 0;
-	border-radius: 4px 4px 0 0;
+	border-radius: 4px;
 }
 
 #preferences-details fieldset.advanced legend {

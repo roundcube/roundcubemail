@@ -60,7 +60,7 @@ if ($RCMAIL->action=='remove-attachment') {
     exit;
 }
 
-if ($RCMAIL->action=='display-attachment') {
+if ($RCMAIL->action == 'display-attachment') {
     $id = 'undefined';
 
     if (preg_match('/^rcmfile(\w+)$/', $_GET['_file'], $regs)) {
@@ -74,6 +74,47 @@ if ($RCMAIL->action=='display-attachment') {
     if ($attachment['status']) {
         if (empty($attachment['size'])) {
             $attachment['size'] = $attachment['data'] ? strlen($attachment['data']) : @filesize($attachment['path']);
+        }
+
+        // generate image thumbnail for file browser in HTML editor
+        if (!empty($_GET['_thumbnail'])) {
+            $temp_dir       = $RCMAIL->config->get('temp_dir');
+            $thumbnail_size = 80;
+            list(,$ext)     = explode('/', $attachment['mimetype']);
+            $mimetype       = $attachment['mimetype'];
+            $file_ident     = $attachment['id'] . ':' . $attachment['mimetype'] . ':' . $attachment['size'];
+            $cache_basename = $temp_dir . '/' . md5($file_ident . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size);
+            $cache_file     = $cache_basename . '.' . $ext;
+
+            // render thumbnail image if not done yet
+            if (!is_file($cache_file)) {
+                if (!$attachment['path']) {
+                    $orig_name = $filename = $cache_basename . '.orig.' . $ext;
+                    file_put_contents($orig_name, $attachment['data']);
+                }
+                else {
+                    $filename = $attachment['path'];
+                }
+
+                $image = new rcube_image($filename);
+                if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
+                    $mimetype = 'image/' . $imgtype;
+
+                    if ($orig_name) {
+                        unlink($orig_name);
+                    }
+                }
+            }
+
+            if (is_file($cache_file)) {
+                // cache for 1h
+                $RCMAIL->output->future_expire_header(3600);
+                header('Content-Type: ' . $mimetype);
+                header('Content-Length: ' . filesize($cache_file));
+
+                readfile($cache_file);
+                exit;
+            }
         }
 
         header('Content-Type: ' . $attachment['mimetype']);

@@ -23,39 +23,8 @@
 // always instantiate storage object (but not connect to server yet)
 $RCMAIL->storage_init();
 
-// set imap properties and session vars
-if (!strlen($mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true))) {
-    $mbox = strlen($_SESSION['mbox']) ? $_SESSION['mbox'] : 'INBOX';
-}
-if (!($page = intval($_GET['_page']))) {
-    $page = $_SESSION['page'] ? $_SESSION['page'] : 1;
-}
-
-$RCMAIL->storage->set_folder($_SESSION['mbox'] = $mbox);
-$RCMAIL->storage->set_page($_SESSION['page'] = $page);
-
-$a_threading        = $RCMAIL->config->get('message_threading', array());
-$message_sort_col   = $RCMAIL->config->get('message_sort_col');
-$message_sort_order = $RCMAIL->config->get('message_sort_order');
-
-// set default sort col/order to session
-if (!isset($_SESSION['sort_col'])) {
-    $_SESSION['sort_col'] = $message_sort_col ? $message_sort_col : '';
-}
-if (!isset($_SESSION['sort_order'])) {
-  $_SESSION['sort_order'] = strtoupper($message_sort_order) == 'ASC' ? 'ASC' : 'DESC';
-}
-
-// set threads mode
-if (isset($_GET['_threads'])) {
-    if ($_GET['_threads'])
-        $a_threading[$_SESSION['mbox']] = true;
-    else
-        unset($a_threading[$_SESSION['mbox']]);
-
-    $RCMAIL->user->save_prefs(array('message_threading' => $a_threading));
-}
-$RCMAIL->storage->set_threading($a_threading[$_SESSION['mbox']]);
+// init environment - set current folder, page, list mode
+rcmail_init_env();
 
 // set message set for search result
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
@@ -183,6 +152,61 @@ $RCMAIL->register_action_map(array(
     'group-expand'       => 'autocomplete.inc',
 ));
 
+
+/**
+ * Sets storage properties and session
+ */
+function rcmail_init_env()
+{
+    global $RCMAIL;
+
+    $a_threading        = $RCMAIL->config->get('message_threading', array());
+    $message_sort_col   = $RCMAIL->config->get('message_sort_col');
+    $message_sort_order = $RCMAIL->config->get('message_sort_order');
+
+    // set imap properties and session vars
+    if (!strlen($mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true))) {
+        $mbox = strlen($_SESSION['mbox']) ? $_SESSION['mbox'] : 'INBOX';
+    }
+    if (!($page = intval($_GET['_page']))) {
+        $page = $_SESSION['page'] ? $_SESSION['page'] : 1;
+    }
+
+    $RCMAIL->storage->set_folder($_SESSION['mbox'] = $mbox);
+    $RCMAIL->storage->set_page($_SESSION['page'] = $page);
+
+    // set default sort col/order to session
+    if (!isset($_SESSION['sort_col'])) {
+        $_SESSION['sort_col'] = $message_sort_col ? $message_sort_col : '';
+    }
+    if (!isset($_SESSION['sort_order'])) {
+        $_SESSION['sort_order'] = strtoupper($message_sort_order) == 'ASC' ? 'ASC' : 'DESC';
+    }
+
+    // set threads mode
+    if (isset($_GET['_threads'])) {
+        if ($_GET['_threads']) {
+            // re-set current page number when listing mode changes
+            if (!$a_threading[$_SESSION['mbox']]) {
+                $RCMAIL->storage->set_page($_SESSION['page'] = 1);
+            }
+
+            $a_threading[$_SESSION['mbox']] = true;
+        }
+        else {
+            // re-set current page number when listing mode changes
+            if ($a_threading[$_SESSION['mbox']]) {
+                $RCMAIL->storage->set_page($_SESSION['page'] = 1);
+            }
+
+            unset($a_threading[$_SESSION['mbox']]);
+        }
+
+        $RCMAIL->user->save_prefs(array('message_threading' => $a_threading));
+    }
+
+    $RCMAIL->storage->set_threading($a_threading[$_SESSION['mbox']]);
+}
 
 /**
  * Returns default search mods
@@ -1031,7 +1055,9 @@ function rcmail_message_headers($attrib, $headers=null)
     $plugin = $RCMAIL->plugins->exec_hook('message_headers_output', array(
         'output'  => $output_headers,
         'headers' => $headers_obj,
-        'exclude' => $exclude_headers
+        'exclude' => $exclude_headers, // readonly
+        'folder'  => $MESSAGE->folder, // readonly
+        'uid'     => $MESSAGE->uid,    // readonly
     ));
 
     // single header value is requested

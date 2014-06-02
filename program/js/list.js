@@ -313,7 +313,7 @@ insert_row: function(row, before)
     if (row.id) domrow.id = row.id;
     if (row.className) domrow.className = row.className;
     if (row.style) $.extend(domrow.style, row.style);
-    if (row.uid) $(domrow).data('uid', row.uid);
+    if (row.uid) $(domrow).data('uid', String(row.uid)); // #1489906
 
     for (var e, domcell, col, i=0; row.cols && i < row.cols.length; i++) {
       col = row.cols[i];
