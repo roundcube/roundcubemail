@@ -26,6 +26,7 @@ $messages['servererror'] = 'Server Error!';
 $messages['servererrormsg'] = 'Server Error: $msg';
 $messages['connerror'] = 'Connection Error (Failed to reach the server)!';
 $messages['dberror'] = 'Database Error!';
+$messages['windowopenerror'] = 'The popup window was blocked!';
 $messages['requesttimedout'] = 'Request timed out';
 $messages['errorreadonly'] = 'Unable to perform operation. Folder is read-only.';
 $messages['errornoperm'] = 'Unable to perform operation. Permission denied.';

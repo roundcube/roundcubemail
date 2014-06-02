@@ -226,7 +226,18 @@ class rcube_spellchecker
             else {
                 $word = mb_substr($this->content, $item[1], $item[2], RCUBE_CHARSET);
             }
-            $result[$word] = is_array($item[4]) ? implode("\t", $item[4]) : $item[4];
+
+            if (is_array($item[4])) {
+                $suggestions = $item[4];
+            }
+            else if (empty($item[4])) {
+                $suggestions = array();
+            }
+            else {
+                $suggestions = explode("\t", $item[4]);
+            }
+
+            $result[$word] = $suggestions;
         }
 
         return $result;

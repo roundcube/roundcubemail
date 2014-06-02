@@ -286,11 +286,16 @@ function rcube_webmail()
           // add more commands (not enabled)
           $.merge(this.env.compose_commands, ['add-recipient', 'firstpage', 'previouspage', 'nextpage', 'lastpage']);
 
-          if (this.env.spellcheck) {
-            this.env.spellcheck.spelling_state_observer = function(s) { ref.spellcheck_state(); };
+          if (window.googie) {
+            this.env.editor_config.spellchecker = googie;
+            this.env.editor_config.spellcheck_observer = function(s) { ref.spellcheck_state(); };
+
             this.env.compose_commands.push('spellcheck')
             this.enable_command('spellcheck', true);
           }
+
+          // initialize HTML editor
+          this.editor_init(this.env.editor_config, this.env.composebody);
 
           // init canned response functions
           if (this.gui_objects.responseslist) {
@@ -426,6 +431,9 @@ function rcube_webmail()
         else if (this.env.action == 'edit-identity' || this.env.action == 'add-identity') {
           this.enable_command('save', 'edit', 'toggle-editor', true);
           this.enable_command('delete', this.env.identities_level < 2);
+
+          // initialize HTML editor
+          this.editor_init(this.env.editor_config, 'rcmfd_signature');
         }
         else if (this.env.action == 'folders') {
           this.enable_command('subscribe', 'unsubscribe', 'create-folder', 'rename-folder', true);
@@ -556,12 +564,12 @@ function rcube_webmail()
 
     // execute all foreign onload scripts
     // @deprecated
-    for (var i in this.onloads) {
-      if (typeof this.onloads[i] === 'string')
-        eval(this.onloads[i]);
-      else if (typeof this.onloads[i] === 'function')
-        this.onloads[i]();
-      }
+    for (n in this.onloads) {
+      if (typeof this.onloads[n] === 'string')
+        eval(this.onloads[n]);
+      else if (typeof this.onloads[n] === 'function')
+        this.onloads[n]();
+    }
 
     // start keep-alive and refresh intervals
     this.start_refresh();
@@ -676,9 +684,6 @@ function rcube_webmail()
             form.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
             form.target = win.name;
             form.submit();
-          }
-          else {
-            // this.display_message(this.get_label('windowopenerror'), 'error');
           }
         }
         else {
@@ -1040,17 +1045,11 @@ function rcube_webmail()
 
       case 'spellcheck':
         if (this.spellcheck_state()) {
-          this.stop_spellchecking();
+          this.editor.spellcheck_stop();
         }
         else {
-          if (window.tinyMCE && tinyMCE.get(this.env.composebody)) {
-            tinyMCE.execCommand('mceSpellCheck', true);
-          }
-          else if (this.env.spellcheck && this.env.spellcheck.spellCheck) {
-            this.env.spellcheck.spellCheck();
-          }
+          this.editor.spellcheck_start();
         }
-        this.spellcheck_state();
         break;
 
       case 'savedraft':
@@ -1132,8 +1131,8 @@ function rcube_webmail()
           this.gui_objects.messagepartframe.contentWindow.print();
         }
         else if (uid = this.get_single_uid()) {
-          ref.printwin = this.open_window(this.env.comm_path+'&_action=print&_uid='+uid+'&_mbox='+urlencode(this.get_message_mailbox(uid))+(this.env.safemode ? '&_safe=1' : ''), true, true);
-          if (this.printwin) {
+          url = '&_action=print&_uid='+uid+'&_mbox='+urlencode(this.get_message_mailbox(uid))+(this.env.safemode ? '&_safe=1' : '');
+          if (this.open_window(this.env.comm_path + url, true, true)) {
             if (this.env.action != 'show')
               this.mark_message('read', uid);
           }
@@ -1272,7 +1271,7 @@ function rcube_webmail()
       default:
         var func = command.replace(/-/g, '_');
         if (this[func] && typeof this[func] === 'function') {
-          ret = this[func](props, obj);
+          ret = this[func](props, obj, event);
         }
         break;
     }
@@ -1778,6 +1777,13 @@ function rcube_webmail()
           +(toolbar ? ',toolbar=yes,menubar=yes,status=yes' : ',toolbar=no,menubar=no,status=no'));
     }
 
+    // detect popup blocker (#1489618)
+    // don't care this might not work with all browsers
+    if (!extwin || extwin.closed) {
+      this.display_message(this.get_label('windowopenerror'), 'warning');
+      return;
+    }
+
     // write loading... message to empty windows
     if (!url && extwin.document) {
       extwin.document.write('<html><body>' + this.get_label('loading') + '</body></html>');
@@ -1787,7 +1793,7 @@ function rcube_webmail()
     this.triggerEvent('openwindow', { url:url, handle:extwin });
 
     // focus window, delayed to bring to front
-    window.setTimeout(function() { extwin && extwin.focus(); }, 10);
+    setTimeout(function() { extwin && extwin.focus(); }, 10);
 
     return extwin;
   };
@@ -2628,16 +2634,10 @@ function rcube_webmail()
     if (flag == 'unread') {
       if (row.unread != status)
         this.update_thread_root(uid, status ? 'unread' : 'read');
-      row.unread = status;
     }
-    else if(flag == 'deleted')
-      row.deleted = status;
-    else if (flag == 'replied')
-      row.replied = status;
-    else if (flag == 'forwarded')
-      row.forwarded = status;
-    else if (flag == 'flagged')
-      row.flagged = status;
+
+    if ($.inArray(flag, ['unread', 'deleted', 'replied', 'forwarded', 'flagged']) > -1)
+      row[flag] = status;
   };
 
   // set message row status, class and icon
@@ -2651,22 +2651,8 @@ function rcube_webmail()
     if (flag)
       this.set_message_status(uid, flag, status);
 
-    var rowobj = $(row.obj);
-
-    if (row.unread && !rowobj.hasClass('unread'))
-      rowobj.addClass('unread');
-    else if (!row.unread && rowobj.hasClass('unread'))
-      rowobj.removeClass('unread');
-
-    if (row.deleted && !rowobj.hasClass('deleted'))
-      rowobj.addClass('deleted');
-    else if (!row.deleted && rowobj.hasClass('deleted'))
-      rowobj.removeClass('deleted');
-
-    if (row.flagged && !rowobj.hasClass('flagged'))
-      rowobj.addClass('flagged');
-    else if (!row.flagged && rowobj.hasClass('flagged'))
-      rowobj.removeClass('flagged');
+    if ($.inArray(flag, ['unread', 'deleted', 'flagged']) > -1)
+      $(row.obj)[row[flag] ? 'addClass' : 'removeClass'](flag);
 
     this.set_unread_children(uid);
     this.set_message_icon(uid);
@@ -3158,7 +3144,7 @@ function rcube_webmail()
     if (!this.gui_objects.messageform)
       return false;
 
-    var input_from = $("[name='_from']"),
+    var i, input_from = $("[name='_from']"),
       input_to = $("[name='_to']"),
       input_subject = $("input[name='_subject']"),
       input_message = $("[name='_message']").get(0),
@@ -3187,7 +3173,7 @@ function rcube_webmail()
 
     // init live search events
     this.init_address_input_events(input_to, ac_props);
-    for (var i in ac_fields) {
+    for (i in ac_fields) {
       this.init_address_input_events($("[name='_"+ac_fields[i]+"']"), ac_props);
     }
 
@@ -3202,10 +3188,11 @@ function rcube_webmail()
 
     // check for locally stored compose data
     if (window.localStorage) {
-      var index = this.local_storage_get_item('compose.index', []);
+      var key, formdata, index = this.local_storage_get_item('compose.index', []);
 
-      for (var key, i = 0; i < index.length; i++) {
-        key = index[i], formdata = this.local_storage_get_item('compose.' + key, null, true);
+      for (i = 0; i < index.length; i++) {
+        key = index[i];
+        formdata = this.local_storage_get_item('compose.' + key, null, true);
         if (!formdata) {
           continue;
         }
@@ -3356,12 +3343,11 @@ function rcube_webmail()
   this.check_compose_input = function(cmd)
   {
     // check input fields
-    var ed, input_to = $("[name='_to']"),
+    var input_to = $("[name='_to']"),
       input_cc = $("[name='_cc']"),
       input_bcc = $("[name='_bcc']"),
       input_from = $("[name='_from']"),
-      input_subject = $("[name='_subject']"),
-      input_message = $("[name='_message']");
+      input_subject = $("[name='_subject']");
 
     // check sender (if have no identities)
     if (input_from.prop('type') == 'text' && !rcube_check_email(input_from.val(), true)) {
@@ -3388,10 +3374,12 @@ function rcube_webmail()
 
     // display localized warning for missing subject
     if (input_subject.val() == '') {
-      var myprompt = $('<div class="prompt">').html('<div class="message">' + this.get_label('nosubjectwarning') + '</div>').appendTo(document.body);
-      var prompt_value = $('<input>').attr('type', 'text').attr('size', 30).appendTo(myprompt).val(this.get_label('nosubject'));
+      var buttons = {},
+        myprompt = $('<div class="prompt">').html('<div class="message">' + this.get_label('nosubjectwarning') + '</div>')
+          .appendTo(document.body),
+        prompt_value = $('<input>').attr({type: 'text', size: 30}).val(this.get_label('nosubject'))
+          .appendTo(myprompt);
 
-      var buttons = {};
       buttons[this.get_label('cancel')] = function(){
         input_subject.focus();
         $(this).dialog('close');
@@ -3408,100 +3396,31 @@ function rcube_webmail()
         buttons: buttons,
         close: function(event, ui) { $(this).remove() }
       });
+
       prompt_value.select();
       return false;
     }
 
-    // Apply spellcheck changes if spell checker is active
-    this.stop_spellchecking();
-
-    if (window.tinyMCE)
-      ed = tinyMCE.get(this.env.composebody);
-
     // check for empty body
-    if (!ed && input_message.val() == '' && !confirm(this.get_label('nobodywarning'))) {
-      input_message.focus();
+    if (!this.editor.get_content() && !confirm(this.get_label('nobodywarning'))) {
+      this.editor.focus();
       return false;
     }
-    else if (ed) {
-      if (!ed.getContent() && !confirm(this.get_label('nobodywarning'))) {
-        ed.focus();
-        return false;
-      }
-      // move body from html editor to textarea (just to be sure, #1485860)
-      tinyMCE.triggerSave();
-    }
+
+    // move body from html editor to textarea (just to be sure, #1485860)
+    this.editor.save();
 
     return true;
   };
 
-  this.toggle_editor = function(props)
+  this.toggle_editor = function(props, obj, e)
   {
-    this.stop_spellchecking();
+    // @todo: this should work also with many editors on page
+    var result = this.editor.toggle(props.html);
 
-    var ed, curr, content, result,
-      // these non-printable chars are not removed on text2html and html2text
-      // we can use them as temp signature replacement
-      sig_mark = "\u0002\u0003",
-      input = $('#' + props.id),
-      signature = this.env.identity ? this.env.signatures[this.env.identity] : null,
-      is_sig = signature && signature.text && signature.text.length > 1;
-
-    if (props.mode == 'html') {
-      content = input.val();
-
-      // replace current text signature with temp mark
-      if (is_sig)
-        content = content.replace(signature.text, sig_mark);
-
-      // convert to html
-      result = this.plain2html(content, function(data) {
-        // replace signature mark with html version of the signature
-        if (is_sig)
-          data = data.replace(sig_mark, '<div id="_rc_sig">' + signature.html + '</div>');
-
-        input.val(data);
-        tinyMCE.execCommand('mceAddControl', false, props.id);
-
-        if (ref.env.default_font)
-          setTimeout(function() {
-            $(tinyMCE.get(props.id).getBody()).css('font-family', ref.env.default_font);
-          }, 500);
-      });
-    }
-    else {
-      ed = tinyMCE.get(props.id);
-
-      if (is_sig) {
-        // get current version of signature, we'll need it in
-        // case of html2text conversion abort
-        if (curr = ed.dom.get('_rc_sig'))
-          curr = curr.innerHTML;
-
-        // replace current signature with some non-printable characters
-        // we use non-printable characters, because this replacement
-        // is visible to the user
-        // doing this after getContent() would be hard
-        ed.dom.setHTML('_rc_sig', sig_mark);
-      }
-
-      // get html content
-      content = ed.getContent();
-
-      // convert html to text
-      result = this.html2plain(content, function(data) {
-        tinyMCE.execCommand('mceRemoveControl', false, props.id);
-
-        // replace signture mark with text version of the signature
-        if (is_sig)
-          data = data.replace(sig_mark, "\n" + signature.text);
-
-        input.val(data);
-      });
-
-      // bring back current signature
-      if (!result && curr)
-        ed.dom.setHTML('_rc_sig', curr);
+    if (!result && e) {
+      // fix selector value if operation failed
+      $(e.target).filter('select').val(props.html ? 'plain' : 'html');
     }
 
     return result;
@@ -3510,30 +3429,11 @@ function rcube_webmail()
   this.insert_response = function(key)
   {
     var insert = this.env.textresponses[key] ? this.env.textresponses[key].text : null;
+
     if (!insert)
       return false;
 
-    // insert into tinyMCE editor
-    if ($("input[name='_is_html']").val() == '1') {
-      var editor = tinyMCE.get(this.env.composebody);
-      editor.getWin().focus(); // correct focus in IE & Chrome
-      editor.selection.setContent(this.quote_html(insert).replace(/\r?\n/g, '<br/>'), { format:'text' });
-    }
-    // replace selection in compose textarea
-    else {
-      var textarea = rcube_find_object(this.env.composebody),
-        selection = $(textarea).is(':focus') ? this.get_input_selection(textarea) : { start:0, end:0 },
-        inp_value = textarea.value;
-        pre = inp_value.substring(0, selection.start),
-        end = inp_value.substring(selection.end, inp_value.length);
-
-      // insert response text
-      textarea.value = pre + insert + end;
-
-      // set caret after inserted text
-      this.set_caret_pos(textarea, selection.start + insert.length);
-      textarea.focus();
-    }
+    this.editor.replace(insert);
   };
 
   /**
@@ -3541,42 +3441,8 @@ function rcube_webmail()
    */
   this.save_response = function()
   {
-    var sigstart, text = '', strip = false;
-
-    // get selected text from tinyMCE editor
-    if ($("input[name='_is_html']").val() == '1') {
-      var editor = tinyMCE.get(this.env.composebody);
-      editor.getWin().focus(); // correct focus in IE & Chrome
-      text = editor.selection.getContent({ format:'text' });
-
-      if (!text) {
-        text = editor.getContent({ format:'text' });
-        strip = true;
-      }
-    }
-    // get selected text from compose textarea
-    else {
-      var textarea = rcube_find_object(this.env.composebody), sigstart;
-      if (textarea && $(textarea).is(':focus')) {
-        text = this.get_input_selection(textarea).text;
-      }
-
-      if (!text && textarea) {
-        text = textarea.value;
-        strip = true;
-      }
-    }
-
-    // strip off signature
-    if (strip) {
-      sigstart = text.indexOf('-- \n');
-      if (sigstart > 0) {
-        text = text.substring(0, sigstart);
-      }
-    }
-
     // show dialog to enter a name and to modify the text to be saved
-    var buttons = {},
+    var buttons = {}, text = this.editor.get_content(true, true),
       html = '<form class="propform">' +
       '<div class="prop block"><label>' + this.get_label('responsename') + '</label>' +
       '<input type="text" name="name" id="ffresponsename" size="40" /></div>' +
@@ -3655,30 +3521,10 @@ function rcube_webmail()
     return false;
   };
 
-  this.stop_spellchecking = function()
-  {
-    var ed;
-
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody))) {
-      if (ed.plugins && ed.plugins.spellchecker && ed.plugins.spellchecker.active)
-        ed.execCommand('mceSpellCheck');
-    }
-    else if (ed = this.env.spellcheck) {
-      if (ed.state && ed.state != 'ready' && ed.state != 'no_error_found')
-        $(ed.spell_span).trigger('click');
-    }
-
-    this.spellcheck_state();
-  };
-
+  // updates spellchecker buttons on state change
   this.spellcheck_state = function()
   {
-    var ed, active;
-
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins && ed.plugins.spellchecker)
-      active = ed.plugins.spellchecker.active;
-    else if ((ed = this.env.spellcheck) && ed.state)
-      active = ed.state != 'ready' && ed.state != 'no_error_found';
+    var active = this.editor.spellcheck_state();
 
     if (this.buttons.spellcheck)
       $('#'+this.buttons.spellcheck[0].id)[active ? 'addClass' : 'removeClass']('selected');
@@ -3689,43 +3535,19 @@ function rcube_webmail()
   // get selected language
   this.spellcheck_lang = function()
   {
-    var ed;
-
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins && ed.plugins.spellchecker)
-      return ed.plugins.spellchecker.selectedLang;
-    else if (this.env.spellcheck)
-      return GOOGIE_CUR_LANG;
+    return this.editor.get_language();
   };
 
   this.spellcheck_lang_set = function(lang)
   {
-    var ed;
-
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)) && ed.plugins)
-      ed.plugins.spellchecker.selectedLang = lang;
-    else if (this.env.spellcheck)
-      this.env.spellcheck.setCurrentLanguage(lang);
+    this.editor.set_language(lang);
   };
 
   // resume spellchecking, highlight provided mispellings without new ajax request
-  this.spellcheck_resume = function(ishtml, data)
+  this.spellcheck_resume = function(data)
   {
-    if (ishtml) {
-      var ed = tinyMCE.get(this.env.composebody);
-        sp = ed.plugins.spellchecker;
-
-      sp.active = 1;
-      sp._markWords(data);
-      ed.nodeChanged();
-    }
-    else {
-      var sp = this.env.spellcheck;
-      sp.prepare(false, true);
-      sp.processData(data);
-    }
-
-    this.spellcheck_state();
-  }
+    this.editor.spellcheck_resume(data);
+  };
 
   this.set_draft_id = function(id)
   {
@@ -3785,20 +3607,17 @@ function rcube_webmail()
   this.compose_field_hash = function(save)
   {
     // check input fields
-    var ed, i, val, str = '', hash_fields = ['to', 'cc', 'bcc', 'subject'];
+    var i, id, val, str = '', hash_fields = ['to', 'cc', 'bcc', 'subject'];
 
     for (i=0; i<hash_fields.length; i++)
       if (val = $('[name="_' + hash_fields[i] + '"]').val())
         str += val + ':';
 
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody)))
-      str += ed.getContent();
-    else
-      str += $("[name='_message']").val();
+    str += this.editor.get_content();
 
     if (this.env.attachments)
-      for (var upload_id in this.env.attachments)
-        str += upload_id;
+      for (id in this.env.attachments)
+        str += id;
 
     if (save)
       this.cmp_hash = str;
@@ -3813,9 +3632,7 @@ function rcube_webmail()
       ed, empty = true;
 
     // get fresh content from editor
-    if (window.tinyMCE && (ed = tinyMCE.get(this.env.composebody))) {
-      tinyMCE.triggerSave();
-    }
+    this.editor.save();
 
     if (this.env.draft_id) {
       formdata.draft_id = this.env.draft_id;
@@ -3878,15 +3695,8 @@ function rcube_webmail()
       });
 
       // initialize HTML editor
-      if (formdata._is_html == '1') {
-        if (!html_mode) {
-          tinyMCE.execCommand('mceAddControl', false, this.env.composebody);
-          this.triggerEvent('aftertoggle-editor', { mode:'html' });
-        }
-      }
-      else if (html_mode) {
-        tinyMCE.execCommand('mceRemoveControl', false, this.env.composebody);
-        this.triggerEvent('aftertoggle-editor', { mode:'plain' });
+      if ((formdata._is_html == '1' && !html_mode) || (formdata._is_html != '1' && html_mode)) {
+        this.command('toggle-editor', {id: this.env.composebody, html: !html_mode});
       }
     }
   };
@@ -3935,11 +3745,8 @@ function rcube_webmail()
         return;
     }
 
-    var i, rx, cursor_pos, p = -1,
+    var i, rx,
       id = obj.options[obj.selectedIndex].value,
-      input_message = $("[name='_message']"),
-      message = input_message.val(),
-      is_html = ($("input[name='_is_html']").val() == '1'),
       sig = this.env.identity,
       delim = this.env.recipients_separator,
       rx_delim = RegExp.escape(delim),
@@ -3986,92 +3793,7 @@ function rcube_webmail()
     else
       this.enable_command('insert-sig', false);
 
-    if (!is_html) {
-      // remove the 'old' signature
-      if (show_sig && sig && this.env.signatures && this.env.signatures[sig]) {
-        sig = this.env.signatures[sig].text;
-        sig = sig.replace(/\r\n/g, '\n');
-
-        p = this.env.top_posting ? message.indexOf(sig) : message.lastIndexOf(sig);
-        if (p >= 0)
-          message = message.substring(0, p) + message.substring(p+sig.length, message.length);
-      }
-      // add the new signature string
-      if (show_sig && this.env.signatures && this.env.signatures[id]) {
-        sig = this.env.signatures[id].text;
-        sig = sig.replace(/\r\n/g, '\n');
-
-        if (this.env.top_posting) {
-          if (p >= 0) { // in place of removed signature
-            message = message.substring(0, p) + sig + message.substring(p, message.length);
-            cursor_pos = p - 1;
-          }
-          else if (!message) { // empty message
-            cursor_pos = 0;
-            message = '\n\n' + sig;
-          }
-          else if (pos = this.get_caret_pos(input_message.get(0))) { // at cursor position
-            message = message.substring(0, pos) + '\n' + sig + '\n\n' + message.substring(pos, message.length);
-            cursor_pos = pos;
-          }
-          else { // on top
-            cursor_pos = 0;
-            message = '\n\n' + sig + '\n\n' + message.replace(/^[\r\n]+/, '');
-          }
-        }
-        else {
-          message = message.replace(/[\r\n]+$/, '');
-          cursor_pos = !this.env.top_posting && message.length ? message.length+1 : 0;
-          message += '\n\n' + sig;
-        }
-      }
-      else
-        cursor_pos = this.env.top_posting ? 0 : message.length;
-
-      input_message.val(message);
-
-      // move cursor before the signature
-      this.set_caret_pos(input_message.get(0), cursor_pos);
-    }
-    else if (show_sig && this.env.signatures) {  // html
-      var editor = tinyMCE.get(this.env.composebody),
-        sigElem = editor.dom.get('_rc_sig');
-
-      // Append the signature as a div within the body
-      if (!sigElem) {
-        var body = editor.getBody(),
-          doc = editor.getDoc();
-
-        sigElem = doc.createElement('div');
-        sigElem.setAttribute('id', '_rc_sig');
-
-        if (this.env.top_posting) {
-          // if no existing sig and top posting then insert at caret pos
-          editor.getWin().focus(); // correct focus in IE & Chrome
-
-          var node = editor.selection.getNode();
-          if (node.nodeName == 'BODY') {
-            // no real focus, insert at start
-            body.insertBefore(sigElem, body.firstChild);
-            body.insertBefore(doc.createElement('br'), body.firstChild);
-          }
-          else {
-            body.insertBefore(sigElem, node.nextSibling);
-            body.insertBefore(doc.createElement('br'), node.nextSibling);
-          }
-        }
-        else {
-          if (bw.ie)  // add empty line before signature on IE
-            body.appendChild(doc.createElement('br'));
-
-          body.appendChild(sigElem);
-        }
-      }
-
-      if (this.env.signatures[id])
-        sigElem.innerHTML = this.env.signatures[id].html;
-    }
-
+    this.editor.change_signature(id, show_sig);
     this.env.identity = id;
     this.triggerEvent('change_identity');
     return true;
@@ -4147,11 +3869,14 @@ function rcube_webmail()
   // called from upload page
   this.add2attachment_list = function(name, att, upload_id)
   {
+    if (upload_id)
+      this.triggerEvent('fileuploaded', {name: name, attachment: att, id: upload_id});
+
     if (!this.gui_objects.attachmentlist)
       return false;
 
-    if (!att.complete && ref.env.loadingicon)
-      att.html = '<img src="'+ref.env.loadingicon+'" alt="" class="uploading" />' + att.html;
+    if (!att.complete && this.env.loadingicon)
+      att.html = '<img src="'+this.env.loadingicon+'" alt="" class="uploading" />' + att.html;
 
     if (!att.complete && att.frame)
       att.html = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\', \''+att.frame+'\');" href="#cancelupload" class="cancelupload">'
@@ -4239,7 +3964,8 @@ function rcube_webmail()
   {
     if (value != '') {
       var r, lock = this.set_busy(true, 'searching'),
-        url = this.search_params(value);
+        url = this.search_params(value),
+        action = this.env.action == 'compose' && this.contact_list ? 'search-contacts' : 'search';
 
       if (this.message_list)
         this.clear_message_list();
@@ -4254,7 +3980,6 @@ function rcube_webmail()
       // reset vars
       this.env.current_page = 1;
 
-      var action = this.env.action == 'compose' && this.contact_list ? 'search-contacts' : 'search';
       r = this.http_request(action, url, lock);
 
       this.env.qsearch = {lock: lock, request: r};
@@ -4268,9 +3993,9 @@ function rcube_webmail()
 
   this.continue_search = function(request_id)
   {
-    var lock = ref.set_busy(true, 'stillsearching');
+    var lock = this.set_busy(true, 'stillsearching');
 
-    setTimeout(function(){
+    setTimeout(function() {
       var url = ref.search_params();
       url._continue = request_id;
       ref.env.qsearch = { lock: lock, request: ref.http_request('search', url, lock) };
@@ -4362,9 +4087,9 @@ function rcube_webmail()
 
   this.is_multifolder_listing = function()
   {
-    return typeof this.env.multifolder_listing != 'undefined' ? this.env.multifolder_listing :
+    return this.env.multifolder_listing !== undefined ? this.env.multifolder_listing :
       (this.env.search_request && (this.env.search_scope || 'base') != 'base');
-  }
+  };
 
   this.sent_successfully = function(type, msg, folders)
   {
@@ -4455,7 +4180,7 @@ function rcube_webmail()
 
   this.ksearch_visible = function()
   {
-    return (this.ksearch_selected !== null && this.ksearch_selected !== undefined && this.ksearch_value);
+    return this.ksearch_selected !== null && this.ksearch_selected !== undefined && this.ksearch_value;
   };
 
   this.ksearch_select = function(node)
@@ -5255,21 +4980,21 @@ function rcube_webmail()
   //remove selected contacts from current active group
   this.group_remove_selected = function()
   {
-    ref.http_post('group-delmembers', {_cid: this.contact_list.selection,
+    this.http_post('group-delmembers', {_cid: this.contact_list.selection,
       _source: this.env.source, _gid: this.env.group});
   };
 
   //callback after deleting contact(s) from current group
   this.remove_group_contacts = function(props)
   {
-    if('undefined' != typeof this.env.group && (this.env.group === props.gid)){
+    if (this.env.group !== undefined && (this.env.group === props.gid)) {
       var n, selection = this.contact_list.get_selection();
       for (n=0; n<selection.length; n++) {
         id = selection[n];
         this.contact_list.remove_row(id, (n == selection.length-1));
       }
     }
-  }
+  };
 
   // handler for keyboard events on the input field
   this.add_input_keydown = function(e)
@@ -5898,7 +5623,8 @@ function rcube_webmail()
     if (!this.gui_objects.subscriptionlist)
       return false;
 
-    var row, n, i, tmp, tmp_name, rowid, folders = [], list = [], slist = [],
+    var row, n, i, tmp, tmp_name, rowid, collator,
+      folders = [], list = [], slist = [],
       tbody = this.gui_objects.subscriptionlist.tBodies[0],
       refrow = $('tr', tbody).get(1),
       id = 'rcmrow'+((new Date).getTime());
@@ -5925,24 +5651,32 @@ function rcube_webmail()
     // add to folder/row-ID map
     this.env.subscriptionrows[id] = [name, display_name, false];
 
-    // sort folders (to find a place where to insert the row)
-    // replace delimiter with \0 character to fix sorting
-    // issue where 'Abc Abc' would be placed before 'Abc/def'
-    var replace_from = RegExp(RegExp.escape(this.env.delimiter), 'g'),
-      replace_to = String.fromCharCode(0);
+    // copy folders data to an array for sorting
+    $.each(this.env.subscriptionrows, function(k, v) { folders.push(v); });
 
-    $.each(this.env.subscriptionrows, function(k,v) {
-      if (v.length < 4) {
-        var n = v[0];
-        n = n.replace(replace_from, replace_to);
-        v.push(n);
-      }
-      folders.push(v);
-    });
+    try {
+      // use collator if supported (FF29, IE11, Opera15, Chrome24)
+      collator = new Intl.Collator(this.env.locale.replace('_', '-'));
+    }
+    catch (e) {};
 
+    // sort folders
     folders.sort(function(a, b) {
-      var len = a.length - 1; n1 = a[len], n2 = b[len];
-      return n1 < n2 ? -1 : 1;
+      var i, f1, f2,
+        path1 = a[0].split(ref.env.delimiter),
+        path2 = b[0].split(ref.env.delimiter);
+
+      for (i=0; i<path1.length; i++) {
+        f1 = path1[i];
+        f2 = path2[i];
+
+        if (f1 !== f2) {
+          if (collator)
+            return collator.compare(f1, f2);
+          else
+            return f1 < f2 ? -1 : 1;
+        }
+      }
     });
 
     for (n in folders) {
@@ -6231,7 +5965,7 @@ function rcube_webmail()
       button = a_buttons[n];
       obj = document.getElementById(button.id);
 
-      if (!obj)
+      if (!obj || button.status === state)
         continue;
 
       // get default/passive setting of the button
@@ -6244,19 +5978,18 @@ function rcube_webmail()
       else if (!button.status)
         button.pas = String(obj.className);
 
+      button.status = state;
+
       // set image according to button state
       if (button.type == 'image' && button[state]) {
-        button.status = state;
         obj.src = button[state];
       }
       // set class name according to button state
       else if (button[state] !== undefined) {
-        button.status = state;
         obj.className = button[state];
       }
       // disable/enable input buttons
       if (button.type == 'input') {
-        button.status = state;
         obj.disabled = state == 'pas';
       }
       else if (button.type == 'uibutton') {
@@ -6858,6 +6591,12 @@ function rcube_webmail()
     element.css({left: left + 'px', top: top + 'px'});
   };
 
+  // initialize HTML editor
+  this.editor_init = function(config, id)
+  {
+    this.editor = new rcube_text_editor(config, id);
+  };
+
 
   /********************************************************/
   /*********  html to text conversion functions   *********/
@@ -7170,9 +6909,9 @@ function rcube_webmail()
           this.enable_command('purge', this.purge_mailbox_test() && !is_multifolder);
           this.enable_command('import-messages', !is_multifolder);
           this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount && !is_multifolder);
-          this.enable_command('set-listmode', this.env.threads && !is_multifolder);
 
           if ((response.action == 'list' || response.action == 'search') && this.message_list) {
+            this.enable_command('set-listmode', this.env.threads && !is_multifolder);
             this.msglist_select(this.message_list);
             this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
           }
@@ -7247,7 +6986,7 @@ function rcube_webmail()
       this.save_compose_form_local();
     }
     else if (redirect_url) {
-      window.setTimeout(function(){ ref.redirect(redirect_url, true); }, 2000);
+      setTimeout(function(){ ref.redirect(redirect_url, true); }, 2000);
     }
   };
 
@@ -7434,14 +7173,14 @@ function rcube_webmail()
   this.document_drag_hover = function(e, over)
   {
     e.preventDefault();
-    $(ref.gui_objects.filedrop)[(over?'addClass':'removeClass')]('active');
+    $(this.gui_objects.filedrop)[(over?'addClass':'removeClass')]('active');
   };
 
   this.file_drag_hover = function(e, over)
   {
     e.preventDefault();
     e.stopPropagation();
-    $(ref.gui_objects.filedrop)[(over?'addClass':'removeClass')]('hover');
+    $(this.gui_objects.filedrop)[(over?'addClass':'removeClass')]('hover');
   };
 
   // handler when files are dropped to a designated area.
@@ -7684,7 +7423,7 @@ function rcube_webmail()
       if (obj.setSelectionRange)
         obj.setSelectionRange(pos, pos);
     }
-    catch(e) {}; // catch Firefox exception if obj is hidden
+    catch(e) {} // catch Firefox exception if obj is hidden
   };
 
   // get selected text from an input field
@@ -7737,25 +7476,23 @@ function rcube_webmail()
     }
     catch(e) {
       this.display_message(String(e), 'error');
-    };
+    }
   };
 
   this.check_protocol_handler = function(name, elem)
   {
     var nav = window.navigator;
+
     if (!nav || (typeof nav.registerProtocolHandler != 'function')) {
       $(elem).addClass('disabled').click(function(){ return false; });
     }
+    else if (typeof nav.isProtocolHandlerRegistered == 'function') {
+      var status = nav.isProtocolHandlerRegistered('mailto', this.mailto_handler_uri());
+      if (status)
+        $(elem).parent().find('.mailtoprotohandler-status').html(status);
+    }
     else {
-      var status = null;
-      if (typeof nav.isProtocolHandlerRegistered == 'function') {
-        status = nav.isProtocolHandlerRegistered('mailto', this.mailto_handler_uri());
-        if (status)
-          $(elem).parent().find('.mailtoprotohandler-status').html(status);
-      }
-      else {
-        $(elem).click(function() { ref.register_protocol_handler(name); return false; });
-      }
+      $(elem).click(function() { ref.register_protocol_handler(name); return false; });
     }
   };
 
@@ -7810,12 +7547,12 @@ function rcube_webmail()
 
     if (window.ActiveXObject) {
       try {
-        if (axObj = new ActiveXObject("AcroPDF.PDF"))
+        if (plugin = new ActiveXObject("AcroPDF.PDF"))
           return 1;
       }
       catch (e) {}
       try {
-        if (axObj = new ActiveXObject("PDF.PdfCtrl"))
+        if (plugin = new ActiveXObject("PDF.PdfCtrl"))
           return 1;
       }
       catch (e) {}
@@ -7843,7 +7580,7 @@ function rcube_webmail()
 
     if (window.ActiveXObject) {
       try {
-        if (axObj = new ActiveXObject("ShockwaveFlash.ShockwaveFlash"))
+        if (plugin = new ActiveXObject("ShockwaveFlash.ShockwaveFlash"))
           return 1;
       }
       catch (e) {}
@@ -7886,7 +7623,6 @@ function rcube_webmail()
   {
     return localStorage.removeItem(this.get_local_storage_prefix() + key);
   };
-
 }  // end object rcube_webmail
 
 

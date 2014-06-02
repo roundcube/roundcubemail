@@ -50,17 +50,17 @@ class rcube_imap_generic
 
     public static $mupdate;
 
-    private $fp;
-    private $host;
-    private $logged = false;
-    private $capability = array();
-    private $capability_readed = false;
-    private $prefs;
-    private $cmd_tag;
-    private $cmd_num = 0;
-    private $resourceid;
-    private $_debug = false;
-    private $_debug_handler = false;
+    protected $fp;
+    protected $host;
+    protected $logged = false;
+    protected $capability = array();
+    protected $capability_readed = false;
+    protected $prefs;
+    protected $cmd_tag;
+    protected $cmd_num = 0;
+    protected $resourceid;
+    protected $_debug = false;
+    protected $_debug_handler = false;
 
     const ERROR_OK = 0;
     const ERROR_NO = -1;
@@ -352,7 +352,7 @@ class rcube_imap_generic
      *
      * @return bool True if connection is closed
      */
-    private function eof()
+    protected function eof()
     {
         if (!is_resource($this->fp)) {
             return true;
@@ -375,7 +375,7 @@ class rcube_imap_generic
     /**
      * Closes connection stream.
      */
-    private function closeSocket()
+    protected function closeSocket()
     {
         @fclose($this->fp);
         $this->fp = null;
@@ -421,7 +421,7 @@ class rcube_imap_generic
         return false;
     }
 
-    private function hasCapability($name)
+    protected function hasCapability($name)
     {
         if (empty($this->capability) || $name == '') {
             return false;
@@ -1310,7 +1310,7 @@ class rcube_imap_generic
      * @return array List of mailboxes or hash of options if $status_ops argument
      *               is non-empty.
      */
-    private function _listMailboxes($ref, $mailbox, $subscribed=false,
+    protected function _listMailboxes($ref, $mailbox, $subscribed=false,
         $status_opts=array(), $select_opts=array())
     {
         if (!strlen($mailbox)) {
@@ -1985,7 +1985,7 @@ class rcube_imap_generic
      *
      * @return bool True on success, False on failure
      */
-    private function modFlag($mailbox, $messages, $flag, $mod = '+')
+    protected function modFlag($mailbox, $messages, $flag, $mod = '+')
     {
         if ($mod != '+' && $mod != '-') {
             $mod = '+';
@@ -3143,7 +3143,8 @@ class rcube_imap_generic
                     if (isset($mbox) && is_array($data[$i])) {
                         $size_sub = count($data[$i]);
                         for ($x=0; $x<$size_sub; $x++) {
-                            $result[$mbox][$data[$i][$x]] = $data[$i][++$x];
+                            if ($data[$i][$x+1] !== null)
+                                $result[$mbox][$data[$i][$x]] = $data[$i][++$x];
                         }
                         unset($data[$i]);
                     }
@@ -3161,7 +3162,8 @@ class rcube_imap_generic
                         }
                     }
                     else if (isset($mbox)) {
-                        $result[$mbox][$data[$i]] = $data[++$i];
+                        if ($data[$i+1] !== null)
+                            $result[$mbox][$data[$i]] = $data[++$i];
                         unset($data[$i]);
                         unset($data[$i-1]);
                     }
@@ -3306,10 +3308,10 @@ class rcube_imap_generic
                         for ($x=0, $len=count($attribs); $x<$len;) {
                             $attr  = $attribs[$x++];
                             $value = $attribs[$x++];
-                            if ($attr == 'value.priv') {
+                            if ($attr == 'value.priv' && $value !== null) {
                                 $result[$mbox]['/private' . $entry] = $value;
                             }
-                            else if ($attr == 'value.shared') {
+                            else if ($attr == 'value.shared' && $value !== null) {
                                 $result[$mbox]['/shared' . $entry] = $value;
                             }
                         }
@@ -3679,7 +3681,7 @@ class rcube_imap_generic
         return $result;
     }
 
-    private function _xor($string, $string2)
+    protected function _xor($string, $string2)
     {
         $result = '';
         $size   = strlen($string);
@@ -3698,7 +3700,7 @@ class rcube_imap_generic
      *
      * @return string Space-separated list of flags
      */
-    private function flagsToStr($flags)
+    protected function flagsToStr($flags)
     {
         foreach ((array)$flags as $idx => $flag) {
             if ($flag = $this->flags[strtoupper($flag)]) {
@@ -3750,7 +3752,7 @@ class rcube_imap_generic
     /**
      * CAPABILITY response parser
      */
-    private function parseCapability($str, $trusted=false)
+    protected function parseCapability($str, $trusted=false)
     {
         $str = preg_replace('/^\* CAPABILITY /i', '', $str);
 
@@ -3827,7 +3829,7 @@ class rcube_imap_generic
      *
      * @since 0.5-stable
      */
-    private function debug($message)
+    protected function debug($message)
     {
         if (($len = strlen($message)) > self::DEBUG_LINE_LENGTH) {
             $diff    = $len - self::DEBUG_LINE_LENGTH;

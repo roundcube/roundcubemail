@@ -1691,12 +1691,15 @@ class rcube_imap extends rcube_storage
                 $string_offset = $m[1] + strlen($m[0]) + 4; // {}\r\n
                 $string = substr($str, $string_offset - 1, $m[0]);
                 $string = rcube_charset::convert($string, $charset, $dest_charset);
-                if ($string === false) {
+
+                if ($string === false || !strlen($string)) {
                     continue;
                 }
+
                 $res .= substr($str, $last, $m[1] - $last - 1) . rcube_imap_generic::escape($string);
                 $last = $m[0] + $string_offset - 1;
             }
+
             if ($last < strlen($str)) {
                 $res .= substr($str, $last, strlen($str)-$last);
             }
@@ -1845,7 +1848,7 @@ class rcube_imap extends rcube_storage
             $this->struct_charset = $this->structure_charset($structure);
         }
 
-        $headers->ctype = strtolower($headers->ctype);
+        $headers->ctype = @strtolower($headers->ctype);
 
         // Here we can recognize malformed BODYSTRUCTURE and
         // 1. [@TODO] parse the message in other way to create our own message structure
@@ -2987,7 +2990,7 @@ class rcube_imap extends rcube_storage
      * @param array  $result  Reference to folders list
      * @param string $type    Listing type (ext-subscribed, subscribed or all)
      */
-    private function list_folders_update(&$result, $type = null)
+    protected function list_folders_update(&$result, $type = null)
     {
         $namespace = $this->get_namespace();
         $search    = array();
@@ -4139,59 +4142,72 @@ class rcube_imap extends rcube_storage
      */
     public function sort_folder_list($a_folders, $skip_default = false)
     {
-        $a_out = $a_defaults = $folders = array();
-
-        $delimiter = $this->get_hierarchy_delimiter();
         $specials  = array_merge(array('INBOX'), array_values($this->get_special_folders()));
+        $folders   = array();
 
-        // find default folders and skip folders starting with '.'
+        // convert names to UTF-8 and skip folders starting with '.'
         foreach ($a_folders as $folder) {
-            if ($folder[0] == '.') {
-                continue;
-            }
-
-            if (!$skip_default && ($p = array_search($folder, $specials)) !== false && !$a_defaults[$p]) {
-                $a_defaults[$p] = $folder;
-            }
-            else {
-                $folders[$folder] = rcube_charset::convert($folder, 'UTF7-IMAP');
+            if ($folder[0] != '.') {
+                // for better performance skip encoding conversion
+                // if the string does not look like UTF7-IMAP
+                $folders[$folder] = strpos($folder, '&') === false ? $folder : rcube_charset::convert($folder, 'UTF7-IMAP');
             }
         }
 
-        // sort folders and place defaults on the top
-        asort($folders, SORT_LOCALE_STRING);
-        ksort($a_defaults);
-        $folders = array_merge($a_defaults, array_keys($folders));
+        // sort folders
+        // asort($folders, SORT_LOCALE_STRING) is not properly sorting case sensitive names
+        uasort($folders, array($this, 'sort_folder_comparator'));
 
-        // finally we must rebuild the list to move
-        // subfolders of default folders to their place...
-        // ...also do this for the rest of folders because
-        // asort() is not properly sorting case sensitive names
-        while (list($key, $folder) = each($folders)) {
-            // set the type of folder name variable (#1485527)
-            $a_out[] = (string) $folder;
-            unset($folders[$key]);
-            $this->rsort($folder, $delimiter, $folders, $a_out);
+        $folders = array_keys($folders);
+
+        if ($skip_default) {
+            return $folders;
         }
 
-        return $a_out;
+        // force the type of folder name variable (#1485527)
+        $folders  = array_map('strval', $folders);
+        $specials = array_unique(array_intersect($specials, $folders));
+        $head     = array();
+
+        // place default folders on top
+        foreach ($specials as $special) {
+            $prefix = $special . $this->delimiter;
+
+            foreach ($folders as $idx => $folder) {
+                if ($folder === $special) {
+                    $head[] = $special;
+                    unset($folders[$idx]);
+                }
+                // put subfolders of default folders on their place...
+                else if (strpos($folder, $prefix) === 0) {
+                    $head[] = $folder;
+                    unset($folders[$idx]);
+                }
+            }
+        }
+
+        return array_merge($head, $folders);
     }
 
 
     /**
-     * Recursive method for sorting folders
+     * Callback for uasort() that implements correct
+     * locale-aware case-sensitive sorting
      */
-    protected function rsort($folder, $delimiter, &$list, &$out)
+    protected function sort_folder_comparator($str1, $str2)
     {
-        while (list($key, $name) = each($list)) {
-            if (strpos($name, $folder.$delimiter) === 0) {
-                // set the type of folder name variable (#1485527)
-                $out[] = (string) $name;
-                unset($list[$key]);
-                $this->rsort($name, $delimiter, $list, $out);
+        $path1 = explode($this->delimiter, $str1);
+        $path2 = explode($this->delimiter, $str2);
+
+        foreach ($path1 as $idx => $folder1) {
+            $folder2 = $path2[$idx];
+
+            if ($folder1 === $folder2) {
+                continue;
             }
+
+            return strcoll($folder1, $folder2);
         }
-        reset($list);
     }
 
 

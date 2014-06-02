@@ -889,9 +889,10 @@ class rcube_ldap_generic
         }
 
         $this->vlv_config = array();
+        $config_root_dn = $this->config['config_root_dn'];
 
-        $ldap_result = ldap_search($this->conn, $this->config['config_root_dn'], '(objectclass=vlvsearch)', array('*'), 0, 0, 0);
-        $vlv_searches = new rcube_ldap_result($this->conn, $ldap_result, $this->config['config_root_dn'], '(objectclass=vlvsearch)');
+        $ldap_result = ldap_search($this->conn, $config_root_dn, '(objectclass=vlvsearch)', array('*'), 0, 0, 0);
+        $vlv_searches = new rcube_ldap_result($this->conn, $ldap_result, $config_root_dn, '(objectclass=vlvsearch)');
 
         if ($vlv_searches->count() < 1) {
             $this->_debug("D: Empty result from search for '(objectclass=vlvsearch)' on '$config_root_dn'");
