@@ -139,32 +139,20 @@
 }
 
 #contacts-table .contact td.name {
-	background-position: 6px -1603px;
-}
-
-#contacts-table.focus .contact.focused td.name {
 	background-position: 4px -1603px;
 }
 
 #contacts-table .contact.selected td.name {
-	background-position: 6px -1627px;
+	background-position: 4px -1627px;
 	font-weight: bold;
 }
 
-#contacts-table.focus .contact.selected.focused td.name {
-	background-position: 4px -1627px;
-}
-
 #contacts-table .group td.name {
-	background-position: 6px -1555px;
-}
-
-#contacts-table.focus .group.focused td.name {
 	background-position: 4px -1555px;
 }
 
 #contacts-table .group.selected td.name {
-	background-position: 6px -1579px;
+	background-position: 4px -1579px;
 	font-weight: bold;
 }
 
