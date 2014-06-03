@@ -76,6 +76,9 @@ function rcube_list_widget(list, p)
   if (p && typeof p === 'object')
     for (var n in p)
       this[n] = p[n];
+
+  // register this instance
+  rcube_list_widget._instances.push(this);
 };
 
 
@@ -1791,3 +1794,6 @@ column_replace: function(from, to)
 rcube_list_widget.prototype.addEventListener = rcube_event_engine.prototype.addEventListener;
 rcube_list_widget.prototype.removeEventListener = rcube_event_engine.prototype.removeEventListener;
 rcube_list_widget.prototype.triggerEvent = rcube_event_engine.prototype.triggerEvent;
+
+// static
+rcube_list_widget._instances = [];

@@ -453,9 +453,14 @@ function rcube_webmail()
 
         if (this.gui_objects.identitieslist) {
           this.identity_list = new rcube_list_widget(this.gui_objects.identitieslist,
-            {multiselect:false, draggable:false, keyboard:false});
+            {multiselect:false, draggable:false, keyboard:true});
           this.identity_list
             .addEventListener('select', function(o) { ref.identity_select(o); })
+            .addEventListener('keypress', function(o) {
+              if (o.key_pressed == o.ENTER_KEY) {
+                ref.identity_select(o);
+              }
+            })
             .init()
             .focus();
 
@@ -463,9 +468,10 @@ function rcube_webmail()
             this.identity_list.highlight_row(this.env.iid);
         }
         else if (this.gui_objects.sectionslist) {
-          this.sections_list = new rcube_list_widget(this.gui_objects.sectionslist, {multiselect:false, draggable:false, keyboard:false});
+          this.sections_list = new rcube_list_widget(this.gui_objects.sectionslist, {multiselect:false, draggable:false, keyboard:true});
           this.sections_list
             .addEventListener('select', function(o) { ref.section_select(o); })
+            .addEventListener('keypress', function(o) { if (o.key_pressed == o.ENTER_KEY) ref.section_select(o); })
             .init()
             .focus();
         }
@@ -473,7 +479,7 @@ function rcube_webmail()
           this.init_subscription_list();
         }
         else if (this.gui_objects.responseslist) {
-          this.responses_list = new rcube_list_widget(this.gui_objects.responseslist, {multiselect:false, draggable:false, keyboard:false});
+          this.responses_list = new rcube_list_widget(this.gui_objects.responseslist, {multiselect:false, draggable:false, keyboard:true});
           this.responses_list
             .addEventListener('select', function(list) {
               var win, id = list.get_single_selection();
@@ -1618,9 +1624,13 @@ function rcube_webmail()
     if ($(target).closest('.ui-dialog, .ui-widget-overlay').length)
       return;
 
-    list = this.message_list || this.contact_list;
-    if (list && !rcube_mouse_is_over(e, list.list.parentNode))
-      list.blur();
+    // remove focus from list widgets
+    if (window.rcube_list_widget && rcube_list_widget._instances.length) {
+      $.each(rcube_list_widget._instances, function(i,list){
+        if (list && !rcube_mouse_is_over(e, list.list.parentNode))
+          list.blur();
+      });
+    }
 
     // reset 'pressed' buttons
     if (this.buttons_sel) {
@@ -1632,7 +1642,7 @@ function rcube_webmail()
 
     // reset popup menus; delayed to have updated menu_stack data
     window.setTimeout(function(e){
-      var obj, skip, config, id, i;
+      var obj, skip, config, id, i, parents = $(target).parents();
       for (i = ref.menu_stack.length - 1; i >= 0; i--) {
         id = ref.menu_stack[i];
         obj = $('#' + id);
@@ -1640,6 +1650,7 @@ function rcube_webmail()
         if (obj.is(':visible')
           && target != obj.data('opener')
           && target != obj.get(0)  // check if scroll bar was clicked (#1489832)
+          && !parents.is(obj.data('opener'))
           && id != skip
           && (obj.attr('data-editable') != 'true' || !$(target).parents('#' + id).length)
           && (obj.attr('data-sticky') != 'true' || !rcube_mouse_is_over(e, obj.get(0)))
@@ -5917,7 +5928,7 @@ function rcube_webmail()
     this.last_sub_rx = RegExp('['+delim+']?[^'+delim+']+$');
 
     this.subscription_list = new rcube_list_widget(this.gui_objects.subscriptionlist,
-      {multiselect:false, draggable:true, keyboard:false, toggleselect:true});
+      {multiselect:false, draggable:true, keyboard:true, toggleselect:true});
     this.subscription_list
       .addEventListener('select', function(o){ ref.subscription_select(o); })
       .addEventListener('dragstart', function(o){ ref.drag_active = true; })
@@ -5926,7 +5937,8 @@ function rcube_webmail()
         row.obj.onmouseover = function() { ref.focus_subscription(row.id); };
         row.obj.onmouseout = function() { ref.unfocus_subscription(row.id); };
       })
-      .init();
+      .init()
+      .focus();
 
     $('#mailboxroot')
       .mouseover(function(){ ref.focus_subscription(this.id); })
@@ -6971,6 +6983,10 @@ function rcube_webmail()
       keyboard = rcube_event.is_keyboard(event),
       align = obj.attr('data-align') || '',
       stack = false;
+
+    // find "real" button element
+    if (ref.get(0).tagName != 'A' && ref.closest('a').length)
+      ref = ref.closest('a');
 
     if (typeof prop == 'string')
       prop = { menu:name };
