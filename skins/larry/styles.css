@@ -2764,26 +2764,18 @@ ul.toolbarmenu li span.copy {
 
 /*** fieldset tabs ***/
 
-.tabsbar {
-	margin-bottom: 12px;
-	padding-top: 15px;
-	height: 27px;
-	white-space: nowrap;
+.tabbed.ui-tabs {
+	padding: 0;
+	border: 0 !important;
+	background: none;
+}
+
+.ui-tabs .tabsbar.ui-tabs-nav {
+	margin-bottom: 10px;
 }
 
 .ui-dialog-content .tabsbar {
 	margin-bottom: 0;
-}
-
-.tabsbar .tablink {
-	padding: 15px 1px 15px 0;
-	background: #f8f8f8;
-	background: -moz-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(50%,#d3d3d3), color-stop(100%,#f8f8f8));
-	background: -webkit-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
-	background: -o-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
-	background: -ms-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
-	background: linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
 }
 
 .tabsbar .tablink:last-child {
@@ -2794,28 +2786,13 @@ ul.toolbarmenu li span.copy {
 	border-right: 0;
 }
 
-.tabsbar .tablink a {
-	padding: 15px;
-	color: #999;
-	font-size: 12px;
-	font-weight: bold;
-	text-decoration: none;
+.ui-tabs .ui-tabs-nav li.tablink a {
 	background: #fff;
-	border-right: 1px solid #fafafa;
 }
 
-.tabsbar .tablink.selected a {
-	color: #004458;
-	background: #f6f6f6;
-	background: -moz-linear-gradient(top, #fff 40%, #efefef 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(40%,#fff), color-stop(100%,#efefef));
-	background: -o-linear-gradient(top, #fff 40%, #efefef 100%);
-	background: -ms-linear-gradient(top, #fff 40%, #efefef 100%);
-	background: linear-gradient(top, #fff 40%, #efefef 100%);
-}
-
-fieldset.tab {
+.ui-tabs fieldset.ui-tabs-panel {
 	border: 0;
 	padding: 0;
 	margin-left: 0;
+	background: none;
 }

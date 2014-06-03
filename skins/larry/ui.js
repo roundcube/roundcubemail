@@ -1053,47 +1053,35 @@ function rcube_mail_ui()
       content.attr('id', id);
     }
 
-    // first hide not selected tabs
-    current = current || 0;
-    fs.each(function(idx) { if (idx != current) $(this).hide(); });
-
     // create tabs container
-    var tabs = $('<div>').addClass('tabsbar').prependTo(content);
+    var tabs = $('<ul>').addClass('tabsbar').prependTo(content);
 
     // convert fildsets into tabs
     fs.each(function(idx) {
-      var tab, a, elm = $(this), legend = elm.children('legend');
+      var tab, a, elm = $(this),
+        legend = elm.children('legend'),
+        tid = id + '-t' + idx;
 
       // create a tab
-      a   = $('<a>').text(legend.text()).attr('href', '#');
-      tab = $('<span>').attr({'id': 'tab'+idx, 'class': 'tablink'})
-        .click(function() { show_tab(id, idx); return false })
+      a   = $('<a>').text(legend.text()).attr('href', '#' + tid);
+      tab = $('<li>').addClass('tablink');
 
       // remove legend
       legend.remove();
-      // style fieldset
-      elm.addClass('tab');
-      // style selected tab
-      if (idx == current)
-        tab.addClass('selected');
+
+      // link fieldset with tab item
+      elm.attr('id', tid);
 
       // add the tab to container
       tab.append(a).appendTo(tabs);
     });
-  }
 
-  function show_tab(id, index)
-  {
-    var fs = $('#'+id).children('fieldset');
-
-    fs.each(function(idx) {
-      // Show/hide fieldset (tab content)
-      $(this)[index==idx ? 'show' : 'hide']();
-      // Select/unselect tab
-      $('#tab'+idx).toggleClass('selected', idx==index);
+    // use jquery UI tabs widget to do the interaction and styling
+    content.tabs({
+      active: current || 0,
+      heightStyle: 'content',
+      activate: function(e, ui) {resize(); }
     });
-
-    resize();
   }
 
   /**
@@ -1204,6 +1192,7 @@ function rcube_splitter(p)
     this.handle = $('<div>')
       .attr('id', this.id)
       .attr('unselectable', 'on')
+      .attr('role', 'presentation')
       .addClass('splitter ' + (this.horizontal ? 'splitter-h' : 'splitter-v'))
       .appendTo(this.parent)
       .bind('mousedown', onDragStart);
