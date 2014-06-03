@@ -2139,11 +2139,13 @@ function rcube_webmail()
     if (!self || !self.message_list)
       return;
 
-    self.set_message(id, 'unread', false);
+    // this may fail in multifolder mode
+    if (self.set_message(id, 'unread', false) === false)
+      self.set_message(id + '-' + folder, 'unread', false);
 
     if (self.env.unread_counts[folder] > 0) {
       self.env.unread_counts[folder] -= 1;
-      self.set_unread_count(folder, self.env.unread_counts[folder], folder == 'INBOX');
+      self.set_unread_count(folder, self.env.unread_counts[folder], folder == 'INBOX' && !self.is_multifolder_listing());
     }
   };
 
