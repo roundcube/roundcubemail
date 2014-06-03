@@ -2115,17 +2115,35 @@ function rcube_webmail()
         this.location_href(this.env.comm_path+url, target, true);
 
       // mark as read and change mbox unread counter
-      if (preview && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read >= 0) {
+      if (preview && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read > 0) {
         this.preview_read_timer = setTimeout(function() {
-          ref.set_message(id, 'unread', false);
-          if (ref.env.unread_counts[ref.env.mailbox]) {
-            ref.env.unread_counts[ref.env.mailbox] -= 1;
-            ref.set_unread_count(ref.env.mailbox, ref.env.unread_counts[ref.env.mailbox], ref.env.mailbox == 'INBOX');
-          }
-          if (ref.env.preview_pane_mark_read > 0)
-            ref.http_post('mark', {_uid: id, _flag: 'read', _quiet: 1});
+          ref.set_unread_message(id, ref.env.mailbox);
+          ref.http_post('mark', {_uid: id, _flag: 'read', _quiet: 1});
         }, this.env.preview_pane_mark_read * 1000);
       }
+    }
+  };
+
+  // update message status and unread counter after marking a message as read
+  this.set_unread_message = function(id, folder)
+  {
+    var self = this;
+
+    // find window with messages list
+    if (!self.message_list)
+      self = self.opener();
+
+    if (!self && window.parent)
+      self = parent.rcmail;
+
+    if (!self || !self.message_list)
+      return;
+
+    self.set_message(id, 'unread', false);
+
+    if (self.env.unread_counts[folder] > 0) {
+      self.env.unread_counts[folder] -= 1;
+      self.set_unread_count(folder, self.env.unread_counts[folder], folder == 'INBOX');
     }
   };
 
