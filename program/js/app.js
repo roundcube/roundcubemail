@@ -2997,12 +2997,12 @@ function rcube_webmail()
         this.message_list.clear_selection();
       if (count < 0)
         post_data._count = (count*-1);
-      else if (count > 0) 
+      else if (count > 0)
         // remove threads from the end of the list
         this.delete_excessive_thread_rows();
     }
 
-    // ??
+    // set of messages to mark as seen
     if (r_uids.length)
       post_data._ruid = this.uids_to_list(r_uids);
 
@@ -3016,7 +3016,7 @@ function rcube_webmail()
   // argument should be a coma-separated list of uids
   this.flag_deleted_as_read = function(uids)
   {
-    var icn_src, uid, i, len,
+    var uid, i, len,
       rows = this.message_list ? this.message_list.rows : {};
 
     if (typeof uids == 'string')
@@ -4125,8 +4125,7 @@ function rcube_webmail()
     if (this.ksearch_timer)
       clearTimeout(this.ksearch_timer);
 
-    var highlight,
-      key = rcube_event.get_keycode(e),
+    var key = rcube_event.get_keycode(e),
       mod = rcube_event.get_modifier(e);
 
     switch (key) {
@@ -4135,9 +4134,9 @@ function rcube_webmail()
         if (!this.ksearch_visible())
           return;
 
-        var dir = key==38 ? 1 : 0;
+        var dir = key == 38 ? 1 : 0,
+          highlight = document.getElementById('rcmksearchSelected');
 
-        highlight = document.getElementById('rcmksearchSelected');
         if (!highlight)
           highlight = this.ksearch_pane.__ul.firstChild;
 
@@ -4645,7 +4644,7 @@ function rcube_webmail()
     else if (framed)
       return false;
 
-    if (action && (cid || action=='add') && !this.drag_active) {
+    if (action && (cid || action == 'add') && !this.drag_active) {
       if (this.env.group)
         url._gid = this.env.group;
 
@@ -4662,7 +4661,9 @@ function rcube_webmail()
   // add/delete member to/from the group
   this.group_member_change = function(what, cid, source, gid)
   {
-    what = what == 'add' ? 'add' : 'del';
+    if (what != 'add')
+      what = 'del';
+
     var label = this.get_label(what == 'add' ? 'addingmember' : 'removingmember'),
       lock = this.display_message(label, 'loading'),
       post_data = {_cid: cid, _source: source, _gid: gid};
@@ -4699,7 +4700,7 @@ function rcube_webmail()
   // copy contact(s) to the specified target (group or directory)
   this.copy_contacts = function(to)
   {
-    var n, dest = to.type == 'group' ? to.source : to.id,
+    var dest = to.type == 'group' ? to.source : to.id,
       source = this.env.source,
       group = this.env.group ? this.env.group : '',
       cid = this.contact_list.get_selection().join(',');
@@ -4777,6 +4778,7 @@ function rcube_webmail()
     var n, a_cids = [],
       label = action == 'delete' ? 'contactdeleting' : 'movingcontact',
       lock = this.display_message(this.get_label(label), 'loading');
+
     if (this.env.cid)
       a_cids.push(this.env.cid);
     else {
@@ -4814,15 +4816,15 @@ function rcube_webmail()
   // update a contact record in the list
   this.update_contact_row = function(cid, cols_arr, newcid, source, data)
   {
-    var c, row, list = this.contact_list;
+    var list = this.contact_list;
 
     cid = this.html_identifier(cid);
 
     // when in searching mode, concat cid with the source name
     if (!list.rows[cid]) {
-      cid = cid+'-'+source;
+      cid = cid + '-' + source;
       if (newcid)
-        newcid = newcid+'-'+source;
+        newcid = newcid + '-' + source;
     }
 
     list.update_row(cid, cols_arr, newcid, true);
@@ -4838,7 +4840,7 @@ function rcube_webmail()
     var c, col, list = this.contact_list,
       row = { cols:[] };
 
-    row.id = 'rcmrow'+this.html_identifier(cid);
+    row.id = 'rcmrow' + this.html_identifier(cid);
     row.className = 'contact ' + (classes || '');
 
     if (list.in_selection(cid))
@@ -4874,7 +4876,7 @@ function rcube_webmail()
       return false;
     });
 
-    $('select.addfieldmenu').change(function(e) {
+    $('select.addfieldmenu').change(function() {
       ref.insert_edit_field($(this).val(), $(this).attr('rel'), this);
       this.selectedIndex = 0;
     });
@@ -4936,6 +4938,7 @@ function rcube_webmail()
   this.remove_group_item = function(prop)
   {
     var key = 'G'+prop.source+prop.id;
+
     if (this.treelist.remove(key)) {
       this.triggerEvent('group_delete', { source:prop.source, id:prop.id });
       delete this.env.contactfolders[key];
@@ -5053,6 +5056,7 @@ function rcube_webmail()
     this.reset_add_input();
 
     prop.type = 'group';
+
     var key = 'G'+prop.source+prop.id,
       link = $('<a>').attr('href', '#')
         .attr('rel', prop.source+':'+prop.id)
@@ -5108,9 +5112,11 @@ function rcube_webmail()
 
   this.update_group_commands = function()
   {
-    var source = this.env.source != '' ? this.env.address_sources[this.env.source] : null;
-    this.enable_command('group-create', (source && source.groups && !source.readonly));
-    this.enable_command('group-rename', 'group-delete', (source && source.groups && this.env.group && !source.readonly));
+    var source = this.env.source != '' ? this.env.address_sources[this.env.source] : null,
+      supported = source && source.groups && !source.readonly;
+
+    this.enable_command('group-create', supported);
+    this.enable_command('group-rename', 'group-delete', supported && this.env.group);
   };
 
   this.init_edit_field = function(col, elem)
@@ -5158,6 +5164,7 @@ function rcube_webmail()
           label.html(colprop.label);
 
         var name_suffix = colprop.limit != 1 ? '[]' : '';
+
         if (colprop.type == 'text' || colprop.type == 'date') {
           input = $('<input>')
             .addClass('ff_'+col)
@@ -5178,12 +5185,13 @@ function rcube_webmail()
           this.init_edit_field(col, input);
         }
         else if (colprop.type == 'composite') {
-          var childcol, cp, first, templ, cols = [], suffices = [];
+          var i, childcol, cp, first, templ, cols = [], suffices = [];
+
           // read template for composite field order
           if ((templ = this.env[col+'_template'])) {
-            for (var j=0; j < templ.length; j++) {
-              cols.push(templ[j][1]);
-              suffices.push(templ[j][2]);
+            for (i=0; i < templ.length; i++) {
+              cols.push(templ[i][1]);
+              suffices.push(templ[i][2]);
             }
           }
           else {  // list fields according to appearance in colprop
@@ -5191,7 +5199,7 @@ function rcube_webmail()
               cols.push(childcol);
           }
 
-          for (var i=0; i < cols.length; i++) {
+          for (i=0; i < cols.length; i++) {
             childcol = cols[i];
             cp = colprop.childs[childcol];
             input = $('<input>')
@@ -5376,7 +5384,7 @@ function rcube_webmail()
 
   this.listsearch = function(id)
   {
-    var folder, lock = this.set_busy(true, 'searching');
+    var lock = this.set_busy(true, 'searching');
 
     if (this.contact_list) {
       this.list_contacts_clear();
@@ -5555,7 +5563,7 @@ function rcube_webmail()
 
     this.env.dstfolder = null;
 
-    if (this.env.subscriptionrows[id] && row.length)
+    if (row.length && this.env.subscriptionrows[id])
       row.removeClass('droptarget');
     else
       $(this.subscription_list.frame).removeClass('droptarget');
@@ -5623,7 +5631,7 @@ function rcube_webmail()
     if (!this.gui_objects.subscriptionlist)
       return false;
 
-    var row, n, i, tmp, tmp_name, rowid, collator,
+    var row, n, tmp, tmp_name, rowid, collator,
       folders = [], list = [], slist = [],
       tbody = this.gui_objects.subscriptionlist.tBodies[0],
       refrow = $('tr', tbody).get(1),
@@ -5818,7 +5826,7 @@ function rcube_webmail()
     this.subscription_list.remove_row(id.replace(/^rcmrow/, ''));
     $('#'+id).remove();
     delete this.env.subscriptionrows[id];
-  }
+  };
 
   this.get_subfolders = function(folder)
   {
@@ -5838,7 +5846,7 @@ function rcube_webmail()
     }
 
     return list;
-  }
+  };
 
   this.subscribe = function(folder)
   {
@@ -5862,9 +5870,7 @@ function rcube_webmail()
     var id, folders = this.env.subscriptionrows;
     for (id in folders)
       if (folders[id] && folders[id][0] == folder)
-        break;
-
-    return id;
+        return id;
   };
 
   // when user select a folder in manager
