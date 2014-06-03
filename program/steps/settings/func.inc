@@ -343,7 +343,7 @@ function rcmail_user_prefs($current = null)
                         if (is_array($meta) && $meta['name']) {
                             $skinname     = $meta['name'];
                             $author_link  = $meta['url'] ? html::a(array('href' => $meta['url'], 'target' => '_blank'), rcube::Q($meta['author'])) : rcube::Q($meta['author']);
-                            $license_link = $meta['license-url'] ? html::a(array('href' => $meta['license-url'], 'target' => '_blank'), rcube::Q($meta['license'])) : rcube::Q($meta['license']);
+                            $license_link = $meta['license-url'] ? html::a(array('href' => $meta['license-url'], 'target' => '_blank', 'tabindex' => '-1'), rcube::Q($meta['license'])) : rcube::Q($meta['license']);
                         }
 
                         $skinnames[] = mb_strtolower($skinname);

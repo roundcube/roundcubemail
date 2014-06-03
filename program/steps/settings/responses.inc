@@ -95,7 +95,7 @@ function rcmail_responses_list($attrib)
 {
     global $RCMAIL, $OUTPUT;
 
-    $attrib += array('id' => 'rcmresponseslist', 'tagname' => 'table', 'cols' => 1);
+    $attrib += array('id' => 'rcmresponseslist', 'tagname' => 'table');
 
     $plugin = $RCMAIL->plugins->exec_hook('responses_list', array(
         'list' => $RCMAIL->get_compose_responses(true),

@@ -132,6 +132,7 @@ function rcmail_folder_form($attrib)
         }
 
         $select = $RCMAIL->folder_selector(array(
+            'id'          => '_parent',
             'name'        => '_parent',
             'noselection' => '---',
             'realnames'   => false,
@@ -155,7 +156,7 @@ function rcmail_folder_form($attrib)
 
     // Settings: threading
     if ($threading_supported && ($mbox_imap == 'INBOX' || (!$options['noselect'] && !$options['is_root']))) {
-        $select = new html_select(array('name' => '_viewmode', 'id' => '_listmode'));
+        $select = new html_select(array('name' => '_viewmode', 'id' => '_viewmode'));
         $select->add($RCMAIL->gettext('list'), 0);
         $select->add($RCMAIL->gettext('threads'), 1);
 

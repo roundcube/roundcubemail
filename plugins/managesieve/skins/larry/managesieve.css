@@ -417,11 +417,13 @@ body.iframe.mail #filter-form
 
 
 /* vacation form */
-#settings-sections span.vacation a {
-  background: url(images/vacation_icons.png) no-repeat 7px 1px;
+#settings-sections .vacation a {
+  background-image: url(images/vacation_icons.png);
+	background-repeat: no-repeat;
+	background-position: 7px 1px;
 }
 
-#settings-sections span.vacation.selected a {
+#settings-sections .vacation.selected a {
   background-position: 7px -23px;
 }
 

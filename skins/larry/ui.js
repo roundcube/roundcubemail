@@ -273,7 +273,9 @@ function rcube_mail_ui()
           orientation:'v', relative:true, start:266, min:180, size:12 }).init();
       }
       else if (rcmail.env.action == 'edit-prefs') {
-        $('<a href="#toggle">&#9660;</a>')
+        $('<a href="#toggle"></a>')
+            .text(env.toggleoptions)
+            .attr('title', env.toggleoptions)
             .addClass('advanced-toggle')
             .appendTo('#preferences-details fieldset.advanced legend');
 
