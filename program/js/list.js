@@ -95,6 +95,12 @@ init: function()
     this.tbody = this.list;
   }
 
+  if ($(this.list).attr('role') == 'listbox') {
+    this.aria_listbox = true;
+    if (this.multiselect)
+      $(this.list).attr('aria-multiselectable', 'true');
+  }
+
   if (this.tbody) {
     this.rows = {};
     this.rowcount = 0;
@@ -116,12 +122,6 @@ init: function()
       $(this.list).attr('tabindex', '0')
         .on('focus', function(e){ me.focus(e); });
     }
-  }
-
-  if ($(this.list).attr('role') == 'listbox') {
-    this.aria_listbox = true;
-    if (this.multiselect)
-      $(this.list).attr('aria-multiselectable', 'true');
   }
 
   return this;
@@ -897,9 +897,10 @@ get_cell: function(row, index)
  */
 select_row: function(id, mod_key, with_mouse)
 {
-  var select_before = this.selection.join(',');
+  var select_before = this.selection.join(','),
+    in_selection_before = this.in_selection(id);
 
-  if (!this.multiselect)
+  if (!this.multiselect && with_mouse)
     mod_key = 0;
 
   if (!this.shift_start)
@@ -935,21 +936,21 @@ select_row: function(id, mod_key, with_mouse)
     this.multi_selecting = true;
   }
 
-  // trigger event if selection changed
-  if (this.selection.join(',') != select_before)
-    this.triggerEvent('select');
-
   if (this.last_selected != 0 && this.rows[this.last_selected]) {
     $(this.rows[this.last_selected].obj).removeClass('focused')
       .find(this.col_tagname()).eq(this.subject_col).removeAttr('tabindex');
   }
 
   // unselect if toggleselect is active and the same row was clicked again
-  if (this.toggleselect && this.last_selected == id) {
+  if (this.toggleselect && in_selection_before) {
     this.clear_selection();
-    id = null;
   }
-  else {
+  // trigger event if selection changed
+  else if (this.selection.join(',') != select_before) {
+    this.triggerEvent('select');
+  }
+
+  if (this.rows[id]) {
     $(this.rows[id].obj).addClass('focused');
     // set cursor focus to link inside selected row
     if (this.focused)
