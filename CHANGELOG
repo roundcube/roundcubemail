@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Fix unintentional line-height style modification in HTML messages (#1489917)
 - Fix broken normalize_string(), add support for ISO-8859-2 (#1489918)
 - Support csv contacts import in German localization (#1489920)
+- Fix so message list and counters are updated when a message is opened in new window (#1489919)
 
 RELEASE 1.0.1
 -------------

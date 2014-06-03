@@ -148,11 +148,14 @@ if ($uid) {
     if (empty($MESSAGE->headers->flags['SEEN'])
         && ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($RCMAIL->config->get('preview_pane_mark_read')) == 0))
     ) {
+        $RCMAIL->output->command('set_unread_message', $MESSAGE->uid, $mbox_name);
         $RCMAIL->plugins->exec_hook('message_read', array(
             'uid'     => $MESSAGE->uid,
             'mailbox' => $mbox_name,
             'message' => $MESSAGE,
         ));
+
+        $set_seen_flag = true;
     }
 }
 
@@ -174,9 +177,7 @@ else
 
 
 // mark message as read
-if ($MESSAGE && $MESSAGE->headers && empty($MESSAGE->headers->flags['SEEN']) &&
-    ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($RCMAIL->config->get('preview_pane_mark_read')) == 0))
-) {
+if (!empty($set_seen_flag)) {
     if ($RCMAIL->storage->set_flag($MESSAGE->uid, 'SEEN')) {
         if ($count = rcmail_get_unseen_count($mbox_name)) {
             rcmail_set_unseen_count($mbox_name, $count - 1);
