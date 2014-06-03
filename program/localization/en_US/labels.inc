@@ -377,6 +377,7 @@ $labels['newcontactgroup'] = 'Create new contact group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
+$labels['uponelevel']     = 'Up one level';
 
 $labels['previouspage']   = 'Show previous page';
 $labels['firstpage']      = 'Show first page';
@@ -579,8 +580,10 @@ $labels['arialabeltopnav'] = 'Window control';
 $labels['arialabeltasknav'] = 'Application tasks';
 $labels['arialabeltoolbar'] = 'Application toolbar';
 $labels['arialabelmessagessearchfilter'] = 'Email listing filter';
-$labels['arialabelsearchform'] = 'Email message search form';
-$labels['arialabelquicksearchbox'] = 'Email search input';
+$labels['arialabelmailsearchform'] = 'Email message search form';
+$labels['arialabelcontactsearchform'] = 'Contacts search form';
+$labels['arialabelmailquicksearchbox'] = 'Email search input';
+$labels['arialabelquicksearchbox'] = 'Search input';
 $labels['arialabelfolderlist'] = 'Email folder selection';
 $labels['arialabelmessagelist'] = 'Email Messages Listing';
 $labels['arialabelmailpreviewframe'] = 'Message preview';
@@ -600,5 +603,17 @@ $labels['arialabelresponsesmenu'] = 'Canned responses menu';
 $labels['arialabelattachmentuploadform'] = 'Attachment upload form';
 $labels['arialabelattachmentpreview'] = 'Attachment preview';
 $labels['ariasummarycomposecontacts'] = 'List of contacts and groups to select as recipients';
+$labels['arialabelcontactexportoptions'] = 'Contact export options';
+$labels['arialabelabookgroupoptions'] = 'Addressbook/group options';
+
+$labels['helplistnavigation'] = 'List keyboard navigation';
+$labels['helplistkeyboardnavigation'] = "Arrows up/down: Move row focus/selection.
+Space: Select focused row.
+Shift + up/down: Select additional row above/below.
+Ctrl + Space: Add focused row to selection/remove from selection.";
+$labels['helplistkeyboardnavmessages'] = "Arrows right/left: expand/collapse message thread (in threads mode only).
+Enter: Open the selected/focused message.
+Delete: Move selected messages to Trash.";
+$labels['helplistkeyboardnavcontacts'] = "Enter: Open the selected/focused contact.";
 
 ?>

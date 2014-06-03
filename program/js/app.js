@@ -5014,6 +5014,7 @@ function rcube_webmail()
       // add link to pop back to parent group
       if (this.env.address_group_stack.length > 1) {
         $('<a href="#list">...</a>')
+          .attr('title', this.gettext('uponelevel'))
           .addClass('poplink')
           .appendTo(boxtitle)
           .click(function(e){ return ref.command('popgroup','',this); });

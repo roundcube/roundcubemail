@@ -36,11 +36,11 @@
 
 <!-- search box -->
 <div id="quicksearchbar" class="searchbox" role="search" aria-labelledby="aria-label-searchform">
-<h2 id="aria-label-searchform" class="voice"><roundcube:label name="arialabelsearchform" /></h2>
-<label for="quicksearchbox" class="voice"><roundcube:label name="arialabelquicksearchbox" /></label>
+<h2 id="aria-label-searchform" class="voice"><roundcube:label name="arialabelmailsearchform" /></h2>
+<label for="quicksearchbox" class="voice"><roundcube:label name="arialabelmailquicksearchbox" /></label>
 <roundcube:object name="searchform" id="quicksearchbox" />
-<roundcube:button command="menu-open" prop="searchmenu" id="searchmenulink" class="iconbutton searchoptions" title="searchmod" label="options" aria-haspopup="true" aria-expanded="false"aria-owns="searchmenu-menu" />
-<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" content="Reset" />
+<roundcube:button command="menu-open" prop="searchmenu" id="searchmenulink" class="iconbutton searchoptions" title="searchmod" label="options" aria-haspopup="true" aria-expanded="false" aria-owns="searchmenu-menu" />
+<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
 
 <div id="searchmenu" class="popupmenu" data-editable="true">
 	<h3 id="aria-label-searchmenu" class="voice"><roundcube:label name="searchmod" /></h3>
@@ -73,7 +73,7 @@
 <roundcube:object name="mailboxlist" id="mailboxlist" class="treelist listing" folder_filter="mail" unreadwrap="%s" />
 </div>
 <div id="folderlist-footer" class="boxfooter">
-	<roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" onclick="UI.toggle_popup('mailboxmenu',event);return false" innerClass="inner" content="&#9881;" aria-haspopup="true" aria-expanded="false"aria-owns="mailboxmenu-menu" />
+	<roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" onclick="UI.toggle_popup('mailboxmenu',event);return false" innerClass="inner" content="&#9881;" aria-haspopup="true" aria-expanded="false" aria-owns="mailboxoptionsmenu" />
 	<roundcube:if condition="env:quota" />
 		<span class="voice"><roundcube:label name="quota"></span>
 		<roundcube:object name="quotaDisplay" id="quotadisplay" class="countdisplay" display="text" />
@@ -101,6 +101,14 @@
 	aria-labelledby="aria-label-messagelist" />
 </div>
 
+<div class="voice" role="note">
+<h3><roundcube:label name="helplistnavigation" /></h3>
+<pre>
+<roundcube:label name="helplistkeyboardnavigation" />
+<roundcube:label name="helplistkeyboardnavmessages" />
+</pre>
+</div>
+
 <!-- list footer -->
 <div id="messagelistfooter">
 	<div id="listcontrols">
@@ -109,9 +117,9 @@
 	</div>
 	
 	<div id="listselectors">
-	<a href="#select" id="listselectmenulink" class="menuselector" onclick="UI.toggle_popup('listselectmenu', event);return false" aria-haspopup="true" aria-expanded="false"aria-owns="listselectmenu-menu"><span class="handle"><roundcube:label name="select" /></span></a>
+	<a href="#select" id="listselectmenulink" class="menuselector" onclick="UI.toggle_popup('listselectmenu', event);return false" aria-haspopup="true" aria-expanded="false" aria-owns="listselectmenu-menu"><span class="handle"><roundcube:label name="select" /></span></a>
 	<roundcube:if condition="env:threads" />
-		&nbsp; <a href="#threads" id="threadselectmenulink" class="menuselector" onclick="UI.toggle_popup('threadselectmenu', event);return false" aria-haspopup="true" aria-expanded="false"aria-owns="threadselectmenu-menu"><span class="handle"><roundcube:label name="threads" /></span></a>
+		&nbsp; <a href="#threads" id="threadselectmenulink" class="menuselector" onclick="UI.toggle_popup('threadselectmenu', event);return false" aria-haspopup="true" aria-expanded="false" aria-owns="threadselectmenu-menu"><span class="handle"><roundcube:label name="threads" /></span></a>
 	<roundcube:endif />
 	</div>
 
@@ -156,7 +164,7 @@
 
 <div id="mailboxmenu" class="popupmenu" aria-hidden="true">
 	<h3 id="aria-label-mailboxmenu" class="voice"><roundcube:label name="arialabelmailboxmenu" /></h3>
-	<ul id="mailboxmenu-menu" class="toolbarmenu" id="mailboxoptionsmenu" role="menu" aria-labelledby="aria-label-mailboxmenu">
+	<ul class="toolbarmenu" id="mailboxoptionsmenu" role="menu" aria-labelledby="aria-label-mailboxmenu">
 		<li role="menuitem"><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
 		<li role="menuitem"><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
 		<li role="menuitem"><roundcube:button command="import-messages" name="messageimport" type="link" classAct="active" label="importmessages" onclick="if(rcmail.command_enabled('import-messages'))UI.show_uploadform();return false" /></li>

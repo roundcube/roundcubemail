@@ -32,7 +32,7 @@
 	<roundcube:endif />
 	<roundcube:button name="addattachment" type="link" class="button attach" label="attach" title="addattachment" onclick="UI.show_uploadform(event);return false" aria-haspopup="true" aria-expanded="false"tabindex="2" />
 	<roundcube:button command="insert-sig" type="link" class="button insertsig disabled" classAct="button insertsig" label="signature" title="insertsignature" tabindex="2" />
-	<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="UI.toggle_popup('responsesmenu',event);return false" tabindex="2" aria-haspopup="true" aria-expanded="false"aria-owns="textresponsesmenu"><roundcube:label name="responses" /></a>
+	<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="UI.toggle_popup('responsesmenu',event);return false" tabindex="2" aria-haspopup="true" aria-expanded="false" aria-owns="textresponsesmenu"><roundcube:label name="responses" /></a>
 	<roundcube:container name="toolbar" id="compose-toolbar" />
 </div>
 
@@ -54,7 +54,7 @@
 	</div>
 	<roundcube:object name="addressbooks" id="directorylist" class="treelist listing" summary="ariasummarycomposecontacts" />
 	<div class="scroller withfooter" tabindex="-1">
-		<roundcube:object name="addresslist" id="contacts-table" class="listing iconized" noheader="true" />
+		<roundcube:object name="addresslist" id="contacts-table" class="listing iconized" noheader="true" role="listbox" />
 	</div>
 <div class="boxfooter">
 	<roundcube:button command="add-recipient" prop="to" type="link" title="to" class="listbutton addto disabled" classAct="listbutton addto" innerClass="inner" content="To+" /><roundcube:button command="add-recipient" prop="cc" type="link" title="cc" class="listbutton addcc disabled" classAct="listbutton addcc" innerClass="inner" content="Cc+" /><roundcube:button command="add-recipient" prop="bcc" type="link" title="bcc" class="listbutton addbcc disabled" classAct="listbutton addbcc" innerClass="inner" content="Bcc+" />

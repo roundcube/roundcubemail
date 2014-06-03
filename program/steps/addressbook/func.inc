@@ -395,7 +395,7 @@ function rcmail_js_contacts_list($result, $prefix='')
                         ), '&raquo;');
                     }
                     else
-                        $val = '&nbsp;';
+                        $val = '';
                     break;
 
                 default:
@@ -422,7 +422,7 @@ function rcmail_contacts_list_title($attrib)
     unset($attrib['name']);
 
     $OUTPUT->add_gui_object('addresslist_title', $attrib['id']);
-    $OUTPUT->add_label('contacts');
+    $OUTPUT->add_label('contacts','uponelevel');
 
     return html::tag($attrib['tag'], $attrib, $RCMAIL->gettext($attrib['label']), html::$common_attrib);
 }
@@ -518,7 +518,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
     foreach ($coltypes as $col => $prop) {
         if ($prop['subtypes']) {
             $subtype_names = array_map('rcmail_get_type_label', $prop['subtypes']);
-            $select_subtype = new html_select(array('name' => '_subtype_'.$col.'[]', 'class' => 'contactselectsubtype'));
+            $select_subtype = new html_select(array('name' => '_subtype_'.$col.'[]', 'class' => 'contactselectsubtype', 'title' => $prop['label'] . ' ' . $RCMAIL->gettext('type')));
             $select_subtype->add($subtype_names, $prop['subtypes']);
             $coltypes[$col]['subtypes_select'] = $select_subtype->show();
         }
@@ -607,7 +607,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 // prepare subtype selector in edit mode
                 if ($edit_mode && is_array($colprop['subtypes'])) {
                     $subtype_names = array_map('rcmail_get_type_label', $colprop['subtypes']);
-                    $select_subtype = new html_select(array('name' => '_subtype_'.$col.'[]', 'class' => 'contactselectsubtype'));
+                    $select_subtype = new html_select(array('name' => '_subtype_'.$col.'[]', 'class' => 'contactselectsubtype', 'title' => $colprop['label'] . ' ' . $RCMAIL->gettext('type')));
                     $select_subtype->add($subtype_names, $colprop['subtypes']);
                 }
                 else
