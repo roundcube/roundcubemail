@@ -649,6 +649,8 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     if ($subtypes[$i])
                         $subtype = $subtypes[$i];
 
+                    $colprop['id'] = 'ff_' . $col . intval($coltypes[$field]['count']);
+
                     // render composite field
                     if ($colprop['type'] == 'composite') {
                         $composite = array(); $j = 0;
@@ -714,7 +716,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     // display row with label
                     if ($label) {
                         $rows .= html::div('row',
-                            html::div('contactfieldlabel label', $select_subtype ? $select_subtype->show($subtype) : rcube::Q($label)) .
+                            html::div('contactfieldlabel label', $select_subtype ? $select_subtype->show($subtype) : html::label($colprop['id'], rcube::Q($label))) .
                             html::div('contactfieldcontent '.$colprop['type'], $val));
                     }
                     else   // row without label
@@ -803,7 +805,7 @@ function rcmail_contact_photo($attrib)
     else
         $ff_value = '-del-'; // will disable delete-photo action
 
-    $img = html::img(array('src' => $photo_img, 'border' => 1, 'alt' => ''));
+    $img = html::img(array('src' => $photo_img, 'border' => 1, 'alt' => $RCMAIL->gettext('contactphoto')));
     $content = html::div($attrib, $img);
 
     if ($CONTACT_COLTYPES['photo'] && ($RCMAIL->action == 'edit' || $RCMAIL->action == 'add')) {

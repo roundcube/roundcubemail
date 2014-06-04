@@ -5562,6 +5562,7 @@ function rcube_webmail()
 
       if (appendcontainer.length && appendcontainer.get(0).nodeName == 'FIELDSET') {
         var input, colprop = this.env.coltypes[col],
+          input_id = 'ff_' + col + (colprop.count || 0),
           row = $('<div>').addClass('row'),
           cell = $('<div>').addClass('contactfieldcontent data'),
           label = $('<div>').addClass('contactfieldlabel label');
@@ -5569,13 +5570,13 @@ function rcube_webmail()
         if (colprop.subtypes_select)
           label.html(colprop.subtypes_select);
         else
-          label.html(colprop.label);
+          label.html('<label for="' + input_id + '">' + colprop.label + '</label>');
 
         var name_suffix = colprop.limit != 1 ? '[]' : '';
         if (colprop.type == 'text' || colprop.type == 'date') {
           input = $('<input>')
             .addClass('ff_'+col)
-            .attr({type: 'text', name: '_'+col+name_suffix, size: colprop.size})
+            .attr({type: 'text', name: '_'+col+name_suffix, size: colprop.size, id: input_id})
             .appendTo(cell);
 
           this.init_edit_field(col, input);
@@ -5586,7 +5587,7 @@ function rcube_webmail()
         else if (colprop.type == 'textarea') {
           input = $('<textarea>')
             .addClass('ff_'+col)
-            .attr({ name: '_'+col+name_suffix, cols:colprop.size, rows:colprop.rows })
+            .attr({ name: '_'+col+name_suffix, cols:colprop.size, rows:colprop.rows, id: input_id })
             .appendTo(cell);
 
           this.init_edit_field(col, input);
@@ -5621,7 +5622,7 @@ function rcube_webmail()
         else if (colprop.type == 'select') {
           input = $('<select>')
             .addClass('ff_'+col)
-            .attr('name', '_'+col+name_suffix)
+            .attr({ 'name': '_'+col+name_suffix, id: input_id })
             .appendTo(cell);
 
           var options = input.attr('options');
@@ -6953,13 +6954,7 @@ function rcube_webmail()
         container.data('callback')($(this).data('id'));
         return false;
       });
-/*
-      // hide selector on click out of selector element
-      var fn = function(e) { if (e.target != container.get(0)) container.hide(); };
-      $(document.body).on('mouseup', fn);
-      $('iframe').contents().on('mouseup', fn)
-        .load(function(e) { try { $(this).contents().on('mouseup', fn); } catch(e) {}; });
-*/
+
       this.folder_selector_element = container;
     }
 

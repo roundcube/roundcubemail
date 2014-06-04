@@ -201,6 +201,8 @@
 	float: left;
 	margin: 0 18px 20px 0;
 	width: 112px;
+	border: 0;
+	padding: 0;
 }
 
 #contactpic {
@@ -236,12 +238,20 @@
 	opacity: 0.05;
 }
 
+#contactphoto .formlinks a[aria-disabled='true'] {
+	visibility: hidden;
+}
+
 #contacthead {
 	border: 0;
 	margin: 0 16em 1em 0;
 	padding: 0;
 	line-height: 1.5em;
 	font-size: 12px;
+}
+
+#contacthead > legend {
+	display: none;
 }
 
 form #contacthead {

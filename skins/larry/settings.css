@@ -78,7 +78,7 @@
 	background-position: -24px -1137px;
 }
 
-#sections-table td.section,
+#sections-table tbody td,
 #sections-table .listitem span,
 #settings-sections .listitem a,
 #settings-sections .tablink a {
