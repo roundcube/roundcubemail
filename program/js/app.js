@@ -3439,9 +3439,7 @@ function rcube_webmail()
     this.env.recipients_delimiter = this.env.recipients_separator + ' ';
 
     obj.keydown(function(e) { return ref.ksearch_keydown(e, this, props); })
-      .attr('autocomplete', 'off')
-      .attr('aria-autocomplete', 'list')
-      .attr('aria-expanded', 'false');
+      .attr({ 'autocomplete': 'off', 'aria-autocomplete': 'list', 'aria-expanded': 'false', 'role': 'combobox' });
   };
 
   this.submit_messageform = function(draft)
@@ -4586,9 +4584,9 @@ function rcube_webmail()
     }
 
     if (node) {
-      $(node).addClass('selected').removeAttr('aria-selected', 'true');
+      $(node).addClass('selected').attr('aria-selected', 'true');
       this.ksearch_selected = node._rcm_id;
-      $(this.ksearch_input).attr('aria-activedecendant', 'rcmkSearchItem' + this.ksearch_selected);
+      $(this.ksearch_input).attr('aria-activedescendant', 'rcmkSearchItem' + this.ksearch_selected);
     }
   };
 
@@ -4769,17 +4767,18 @@ function rcube_webmail()
     }
 
     if (ul.childNodes.length) {
-      this.ksearch_pane.show();
-      // select the first
-      if (!this.env.contacts.length) {
-        this.ksearch_select($('li:first', ul).get(0));
-      }
-
       // set the right aria-* attributes to the input field
       $(this.ksearch_input)
         .attr('aria-haspopup', 'true')
         .attr('aria-expanded', 'true')
-        .attr('aria-owns', 'rcmKSearchpane')
+        .attr('aria-owns', 'rcmKSearchpane');
+
+      this.ksearch_pane.show();
+
+      // select the first
+      if (!this.env.contacts.length) {
+        this.ksearch_select($('li:first', ul).get(0));
+      }
     }
 
     if (len)
