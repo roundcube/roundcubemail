@@ -4166,29 +4166,37 @@ class rcube_imap extends rcube_storage
 
         // force the type of folder name variable (#1485527)
         $folders  = array_map('strval', $folders);
+        $out      = array();
+
+        // finally we must put special folders on top and rebuild the list
+        // to move their subfolders where they belong...
         $specials = array_unique(array_intersect($specials, $folders));
-        $head     = array();
+        $folders  = array_merge($specials, array_diff($folders, $specials));
 
-        // place default folders on top
-        foreach ($specials as $special) {
-            $prefix = $special . $this->delimiter;
+        $this->sort_folder_specials(null, $folders, $specials, $out);
 
-            foreach ($folders as $idx => $folder) {
-                if ($folder === $special) {
-                    $head[] = $special;
-                    unset($folders[$idx]);
-                }
-                // put subfolders of default folders on their place...
-                else if (strpos($folder, $prefix) === 0) {
-                    $head[] = $folder;
-                    unset($folders[$idx]);
+        return $out;
+    }
+
+    /**
+     * Recursive function to put subfolders of special folders in place
+     */
+    protected function sort_folder_specials($folder, &$list, &$specials, &$out)
+    {
+        while (list($key, $name) = each($list)) {
+            if ($folder === null || strpos($name, $folder.$this->delimiter) === 0) {
+                $out[] = $name;
+                unset($list[$key]);
+
+                if (!empty($specials) && ($found = array_search($name, $specials)) !== false) {
+                    unset($specials[$found]);
+                    $this->sort_folder_specials($name, $list, $specials, $out);
                 }
             }
         }
 
-        return array_merge($head, $folders);
+        reset($list);
     }
-
 
     /**
      * Callback for uasort() that implements correct
