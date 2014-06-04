@@ -814,6 +814,8 @@ table.messagelist.fixedcopy
 {
   display: block;
   width: 15px;
+  text-indent: -5000px;
+  overflow: hidden;
 }
 
 .messagelist tr td div.collapsed,

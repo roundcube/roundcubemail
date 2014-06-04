@@ -541,12 +541,14 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         // get column name
         switch ($col) {
         case 'flag':
-            $col_name = html::span('flagged', '&nbsp;');
+            $col_name = html::span('flagged', $RCMAIL->gettext('flagged'));
             break;
         case 'attachment':
         case 'priority':
+            $col_name = html::span($col, $RCMAIL->gettext($col));
+            break;
         case 'status':
-            $col_name = html::span($col, '&nbsp;');
+            $col_name = html::span($col, $RCMAIL->gettext('readstatus'));
             break;
         case 'threads':
             $col_name = $list_menu;

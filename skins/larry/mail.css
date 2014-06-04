@@ -596,6 +596,8 @@ table.messagelist.fixedcopy {
 .messagelist tr > .priority span {
 	display: block;
 	width: 20px;
+	text-indent: -5000px;
+	overflow: hidden;
 }
 
 .messagelist tr td div.collapsed,
