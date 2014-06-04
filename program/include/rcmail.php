@@ -1795,8 +1795,9 @@ class rcmail extends rcube
             'spelldict'  => intval($this->config->get('spellcheck_dictionary'))
         );
 
-        $this->output->add_label('selectimage', 'addimage');
+        $this->output->add_label('selectimage', 'addimage', 'selectmedia', 'addmedia');
         $this->output->set_env('editor_config', $config);
+        $this->output->include_css('program/js/tinymce/roundcube/browser.css');
         $this->output->include_script('tinymce/tinymce.min.js');
         $this->output->include_script('editor.js');
     }

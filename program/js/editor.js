@@ -40,7 +40,7 @@ function rcube_text_editor(config, id)
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
       theme: 'modern',
       language: config.lang,
-      content_css: config.skin_path + '/editor_content.css?v2',
+      content_css: 'program/js/tinymce/roundcube/content.css?v1',
       menubar: false,
       statusbar: false,
       toolbar_items_size: 'small',
@@ -84,7 +84,7 @@ function rcube_text_editor(config, id)
       accessibility_focus: false,
       file_browser_callback: function(name, url, type, win) { ref.file_browser_callback(name, url, type); },
       // @todo: support more than image (types: file, image, media)
-      file_browser_callback_types: 'image'
+      file_browser_callback_types: 'image media'
     });
   }
 
@@ -582,9 +582,25 @@ function rcube_text_editor(config, id)
       return;
     }
 
-    if (file.mimetype.startsWith('image/')) {
+    var rx, img_src;
+
+    switch (rcmail.env.file_browser_type) {
+      case 'image':
+        rx = /^image\//i;
+        break;
+
+      case 'media':
+        rx = /^video\//i;
+        img_src = 'program/js/tinymce/roundcube/video.png';
+        break;
+
+      default:
+        return;
+    }
+
+    if (rx.test(file.mimetype)) {
       var href = rcmail.env.comm_path+'&_id='+rcmail.env.compose_id+'&_action=display-attachment&_file='+file_id,
-        img = $('<img>').attr({title: file.name, src: href + '&_thumbnail=1'});
+        img = $('<img>').attr({title: file.name, src: img_src ? img_src : href + '&_thumbnail=1'});
 
       return $('<li>').data('url', href)
         .append($('<span class="img">').append(img))

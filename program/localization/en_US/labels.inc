@@ -232,6 +232,8 @@ $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
 $labels['selectimage']    = 'Select image';
 $labels['addimage']       = 'Add image';
+$labels['selectmedia']    = 'Select movie';
+$labels['addmedia']       = 'Add movie';
 
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';

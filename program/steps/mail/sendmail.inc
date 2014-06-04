@@ -428,7 +428,7 @@ if (is_array($COMPOSE['attachments'])) {
         $attachment = $RCMAIL->plugins->exec_hook('attachment_get', $attachment);
 
         if ($isHtml) {
-            $dispurl      = '/\ssrc\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile'
+            $dispurl      = '/\s(poster|src)\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile'
                 . preg_quote($attachment['id']) . '[\s\'"]*/';
             $message_body = $MAIL_MIME->getHTMLBody();
             $is_inline    = preg_match($dispurl, $message_body);
@@ -449,7 +449,7 @@ if (is_array($COMPOSE['attachments'])) {
                 $cid .= '@localhost';
             }
 
-            $message_body = preg_replace($dispurl, ' src="cid:' . $cid . '" ', $message_body);
+            $message_body = preg_replace($dispurl, ' \\1="cid:' . $cid . '" ', $message_body);
 
             $MAIL_MIME->setHTMLBody($message_body);
 
