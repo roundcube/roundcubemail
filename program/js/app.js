@@ -4817,7 +4817,7 @@ function rcube_webmail()
     $(this.ksearch_input)
       .attr('aria-haspopup', 'false')
       .attr('aria-expanded', 'false')
-      .removeAttr('aria-activedecendant')
+      .removeAttr('aria-activedescendant')
       .removeAttr('aria-owns');
 
     this.ksearch_destroy();
