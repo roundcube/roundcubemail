@@ -1131,6 +1131,7 @@ a.iconlink.upload {
 }
 
 .boxtitle,
+.uibox .listing thead th,
 .uibox .listing thead td {
 	font-size: 12px;
 	font-weight: bold;
@@ -1142,12 +1143,14 @@ a.iconlink.upload {
 	white-space: nowrap;
 }
 
+.uibox .listing thead th,
 .uibox .listing thead td {
 	padding-bottom: 8px;
 	height: auto;
 }
 
 .uibox .boxtitle,
+.uibox .listing thead th,
 .uibox .listing thead td {
 	background: #b0ccd7;
 	color: #004458;
@@ -1212,11 +1215,7 @@ a.iconlink.upload {
 
 /* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
 .listing.focus tbody tr.focused > td:first-child {
-	border-left: 2px solid #b0ccd7;
-}
-
-.listing.focus tbody tr.selected.focused > td:first-child {
-	border-left-color: #9ec2d0;
+	border-left: 2px solid #739da8;
 }
 
 .listbox .listitem.selected,
@@ -1511,6 +1510,7 @@ table.records-table {
 	border: 0;
 }
 
+.records-table thead th,
 .records-table thead td {
 	color: #69939e;
 	font-size: 11px;
@@ -1525,13 +1525,17 @@ table.records-table {
 	padding: 8px 7px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	text-align: left;
 }
 
+.records-table.sortheader thead th,
 .records-table.sortheader thead td {
 	padding: 0;
 }
 
+.records-table thead th a,
 .records-table thead td a,
+.records-table thead th span,
 .records-table thead td span {
 	display: block;
 	padding: 7px 7px;
@@ -1541,6 +1545,7 @@ table.records-table {
 	text-overflow: ellipsis;
 }
 
+.records-table thead th a:focus,
 .records-table thead td a:focus {
 	color: #fff;
 	background-color: rgba(73,180,210,0.7);
@@ -1561,6 +1566,7 @@ table.records-table {
 }
 
 /* This padding-left minus the focused padding left should be half of the focused border-left */
+.records-table thead tr th:first-child,
 .records-table thead tr td:first-child,
 .records-table tbody tr td:first-child {
 	border-left: 2px solid transparent;
@@ -1569,11 +1575,7 @@ table.records-table {
 
 /* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
 .records-table.focus tbody tr.focused > td:first-child {
-	border-left: 2px solid #b0ccd7;
-}
-
-.records-table.focus tbody tr.selected.focused > td:first-child {
-	border-left-color: #49b3d2;
+	border-left: 2px solid #49b3d2;
 }
 
 .records-table tr.selected td {

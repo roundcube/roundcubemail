@@ -199,7 +199,7 @@ init_header: function()
 
     if (this.fixed_header) {  // copy (modified) fixed header back to the actual table
       $(this.list.tHead).replaceWith($(this.fixed_header).find('thead').clone());
-      $(this.list.tHead).find('tr td').attr('style', '').find('a').attr('tabindex', '-1');  // remove fixed widths
+      $(this.list.tHead).find('th,td').attr('style', '').find('a').attr('tabindex', '-1');  // remove fixed widths
     }
     else if (!bw.touch && this.list.className.indexOf('fixedheader') >= 0) {
       this.init_fixed_header();
@@ -855,9 +855,9 @@ get_prev_row: function()
 get_first_row: function()
 {
   if (this.rowcount) {
-    var i, len, uid, rows = this.tbody.childNodes;
+    var i, uid, rows = this.tbody.childNodes;
 
-    for (i=0, len=rows.length-1; i<len; i++)
+    for (i=0; i<rows.length; i++)
       if (rows[i].id && (uid = this.get_row_uid(rows[i])))
         return uid;
   }

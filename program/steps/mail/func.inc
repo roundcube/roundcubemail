@@ -509,8 +509,8 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
     if (!empty($attrib['optionsmenuicon'])) {
-        $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', null, event)";
-        $inner   = 'v';
+        $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', this, event)";
+        $inner   = $RCMAIL->gettext('listoptions');
         if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
             $inner = html::img(array('src' => $skin_path . $attrib['optionsmenuicon'], 'alt' => $RCMAIL->gettext('listoptions')));
         }

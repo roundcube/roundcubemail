@@ -6712,7 +6712,7 @@ function rcube_webmail()
         tr = document.createElement('tr');
 
         for (c=0, len=repl.length; c < len; c++) {
-          cell = document.createElement('td');
+          cell = document.createElement('th');
           cell.innerHTML = repl[c].html || '';
           if (repl[c].id) cell.id = repl[c].id;
           if (repl[c].className) cell.className = repl[c].className;

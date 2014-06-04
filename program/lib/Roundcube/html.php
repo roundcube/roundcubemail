@@ -837,7 +837,7 @@ class html_table extends html
         if (!empty($this->header)) {
             $rowcontent = '';
             foreach ($this->header as $c => $col) {
-                $rowcontent .= self::tag($this->_col_tagname(), $col->attrib, $col->content);
+                $rowcontent .= self::tag($this->_head_tagname(), $col->attrib, $col->content);
             }
             $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', null, $rowcontent, parent::$common_attrib)) :
                 self::tag($this->_row_tagname(), array('class' => 'thead'), $rowcontent, parent::$common_attrib);
@@ -890,7 +890,16 @@ class html_table extends html
     private function _row_tagname()
     {
         static $row_tagnames = array('table' => 'tr', 'ul' => 'li', '*' => 'div');
-        return $row_tagnames[$this->tagname] ? $row_tagnames[$this->tagname] : $row_tagnames['*'];
+        return $row_tagnames[$this->tagname] ?: $row_tagnames['*'];
+    }
+
+    /**
+     * Getter for the corresponding tag name for table row elements
+     */
+    private function _head_tagname()
+    {
+        static $head_tagnames = array('table' => 'th', '*' => 'span');
+        return $head_tagnames[$this->tagname] ?: $head_tagnames['*'];
     }
 
     /**
@@ -899,7 +908,7 @@ class html_table extends html
     private function _col_tagname()
     {
         static $col_tagnames = array('table' => 'td', '*' => 'span');
-        return $col_tagnames[$this->tagname] ? $col_tagnames[$this->tagname] : $col_tagnames['*'];
+        return $col_tagnames[$this->tagname] ?: $col_tagnames['*'];
     }
 
 }

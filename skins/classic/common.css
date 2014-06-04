@@ -607,6 +607,7 @@ img.uploading
 
 /***** common table settings ******/
 
+table.records-table thead tr th,
 table.records-table thead tr td
 {
   height: 20px;
@@ -617,6 +618,7 @@ table.records-table thead tr td
   background: url(images/listheader.gif) top left repeat-x #CCC;
   font-size: 11px;
   font-weight: bold;
+  text-align: left;
 }
 
 table.records-table tbody tr td
