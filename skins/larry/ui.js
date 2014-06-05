@@ -327,7 +327,7 @@ function rcube_mail_ui()
       if ($('option:selected', this).val() != '')
         title = $('option:selected', this).text();
 
-      var overlay = $('<a class="menuselector"><span class="handle">' + title + '</span></a>')
+      var overlay = $('<a class="menuselector" tabindex="-1"><span class="handle">' + title + '</span></a>')
         .css('position', 'absolute')
         .offset(select.position())
         .insertAfter(select);
@@ -339,7 +339,7 @@ function rcube_mail_ui()
 
       // re-set original select width to fix click action and options width in some browsers
       select.width(overlay.width())
-        .change(function() {
+        .on(bw.mz ? 'change keyup' : 'change', function() {
           var val = $('option:selected', this).text();
           $(this).next().children().text(val);
         });
