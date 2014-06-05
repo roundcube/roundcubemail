@@ -1389,34 +1389,16 @@ div.message-partheaders .headers-table td.header {
 	background-position: 6px -1555px;
 }
 
-#contacts-table.focus tr.focused td.contactgroup {
-	background-position: 4px -1555px;
-}
-
-#contacts-table tr.unfocused td.contactgroup,
 #contacts-table tr.selected td.contactgroup {
 	background-position: 6px -1579px;
-}
-
-#contacts-table.focus tr.selected.focused td.contactgroup {
-	background-position: 4px -1579px;
 }
 
 #contacts-table td.contact {
 	background-position: 6px -1603px;
 }
 
-#contacts-table.focus tr.focused td.contact {
-	background-position: 4px -1603px;
-}
-
-#contacts-table tr.unfocused td.contact,
 #contacts-table tr.selected td.contact {
 	background-position: 6px -1627px;
-}
-
-#contacts-table.focus tr.selected.focused td.contact {
-	background-position: 4px -1627px;
 }
 
 #compose-content {

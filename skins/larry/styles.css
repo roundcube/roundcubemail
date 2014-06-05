@@ -36,7 +36,8 @@ img {
 }
 
 .voice {
-	display: none;
+	position: absolute;
+	top: -1000px;
 }
 
 input[type="text"],

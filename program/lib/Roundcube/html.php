@@ -283,11 +283,11 @@ class html
                 continue;
             }
 
-            // ignore not allowed attributes, except data-*
+            // ignore not allowed attributes, except aria-* and data-*
             if (!empty($allowed)) {
                 $is_data_attr = @substr_compare($key, 'data-', 0, 5) === 0;
                 $is_aria_attr = @substr_compare($key, 'aria-', 0, 5) === 0;
-                if (!$is_aria_attr && !isset($allowed_f[$key]) && (!$is_data_attr || !isset($allowed_f['data-*']))) {
+                if (!$is_aria_attr && !$is_data_attr && !isset($allowed_f[$key])) {
                     continue;
                 }
             }
