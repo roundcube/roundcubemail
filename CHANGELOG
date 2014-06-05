@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improve support for screen readers and assistive technology using WCAG 2.0 and WAI ARIA standards
+- Enable basic keyboard navigation throughout the UI (#1487845)
 - Select/scroll to previously selected message when returning from message page (#1489023)
 - Display a warning if popup window was blocked (#1489618)
 - Remove (was: ...) from message subject on reply (#1489375)
