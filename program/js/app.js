@@ -1669,6 +1669,9 @@ function rcube_webmail()
     var target = e.target || {},
       keyCode = rcube_event.get_keycode(e);
 
+    // save global reference for keyboard detection on click events in IE
+    rcube_event._last_keyboard_event = e;
+
     if (e.keyCode != 27 && (!this.menu_keyboard_active || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')) {
       return true;
     }

@@ -747,10 +747,16 @@ function rcube_treelist_widget(node, p)
         if (li.length) {
           id = dom2id(li);
           node = indexbyid[id];
-          if (node && node.children.length)
+          if (node && node.children.length && node.collapsed != (keyCode == 37))
             toggle(id, rcube_event.get_modifier(e) == SHIFT_KEY);  // toggle subtree
         }
         return false;
+
+      case 9:  // Tab
+        // jump to last/first item to move focus away from the treelist widget by tab
+        var limit = rcube_event.get_modifier(e) == SHIFT_KEY ? 'first' : 'last';
+        container.find('li[role=treeitem]:has(a)')[limit]().find('a:'+limit).focus();
+        break;
     }
 
     return true;

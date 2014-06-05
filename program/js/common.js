@@ -31,7 +31,6 @@ var CONTROL_KEY = 1;
 var SHIFT_KEY = 2;
 var CONTROL_SHIFT_KEY = 3;
 
-
 /**
  * Default browser check class
  * @constructor
@@ -287,8 +286,10 @@ cancel: function(evt)
 is_keyboard: function(e)
 {
   return e && (
-      (e.mozInputSource && e.mozInputSource == e.MOZ_SOURCE_KEYBOARD) ||
-      (!e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0)
+      (e.pointerType !== undefined && e.pointerType !== 'mouse') ||       // IE 11+
+      (e.mozInputSource && e.mozInputSource == e.MOZ_SOURCE_KEYBOARD) ||  // Firefox
+      (!e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0) ||  // others
+      (bw.ie && rcube_event._last_keyboard_event && rcube_event._last_keyboard_event.target == e.target)  // hack for IE <= 10
     );
 },
 
