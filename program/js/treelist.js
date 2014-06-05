@@ -780,7 +780,6 @@ function rcube_treelist_widget(node, p)
           focus_next(parent, dir, true);
         }
     }
->>>>>>> dev-accessibility
   }
 
 
