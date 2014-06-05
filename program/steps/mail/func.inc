@@ -104,6 +104,10 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
         }
     }
 
+    if (!empty($_GET['_uid'])) {
+        $OUTPUT->set_env('list_uid', $_GET['_uid']);
+    }
+
     // set configuration
     $RCMAIL->set_env_config(array('delete_junk', 'flag_for_deletion', 'read_when_deleted',
         'skip_deleted', 'display_next', 'message_extwin', 'compose_extwin', 'forward_attachment'));
