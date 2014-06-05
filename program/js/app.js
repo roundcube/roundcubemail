@@ -2431,6 +2431,9 @@ function rcube_webmail()
       url._framed = 1;
     }
 
+    if (this.env.uid)
+      url._uid = this.env.uid;
+
     // load message list to target frame/window
     if (mbox) {
       this.set_busy(true, 'loading');
@@ -7258,11 +7261,24 @@ function rcube_webmail()
           this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount && !is_multifolder);
 
           if ((response.action == 'list' || response.action == 'search') && this.message_list) {
+            var list = this.message_list, uid = this.env.list_uid;
+
+            // highlight message row when we're back from message page
+            if (uid) {
+              if (!list.rows[uid])
+                uid += '-' + this.env.mailbox;
+              if (list.rows[uid]) {
+                list.select(uid);
+              }
+              delete this.env.list_uid;
+            }
+
             this.enable_command('set-listmode', this.env.threads && !is_multifolder);
-            if (this.message_list.rowcount > 0)
-              this.message_list.focus();
-            this.msglist_select(this.message_list);
-            this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
+            if (list.rowcount > 0)
+              list.focus();
+            this.msglist_select(list);
+            this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:list.rowcount });
+
           }
         }
         else if (this.task == 'addressbook') {
