@@ -3595,6 +3595,11 @@ function rcube_webmail()
       $(e.target).filter('select').val(props.html ? 'plain' : 'html');
     }
 
+    if (result) {
+      // update internal format flag
+      $("input[name='_is_html']").val(props.html ? 1 : 0);
+    }
+
     return result;
   };
 
