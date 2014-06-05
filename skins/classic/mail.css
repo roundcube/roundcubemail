@@ -719,6 +719,7 @@ table.messagelist.fixedcopy
   z-index: 2;
 }
 
+.messagelist thead tr th,
 .messagelist thead tr td
 {
   height: 20px;
@@ -729,25 +730,26 @@ table.messagelist.fixedcopy
   background: url(images/listheader.gif) top left repeat-x #CCC;
   font-size: 11px;
   font-weight: bold;
+  text-align: left;
 }
 
-.messagelist thead tr td.sortedASC,
-.messagelist thead tr td.sortedDESC
+.messagelist thead tr > .sortedASC,
+.messagelist thead tr > .sortedDESC
 {
   background-position: 0 -26px;
 }
 
-.messagelist thead tr td.sortedASC a
+.messagelist thead tr > .sortedASC a
 {
   background: url(images/icons/sort.gif) right 0 no-repeat;
 }
 
-.messagelist thead tr td.sortedDESC a
+.messagelist thead tr > .sortedDESC a
 {
   background: url(images/icons/sort.gif) right -14px no-repeat;
 }
 
-.messagelist thead tr td a
+.messagelist thead tr a
 {
   display: block;
   width: auto !important;
@@ -756,18 +758,19 @@ table.messagelist.fixedcopy
   text-decoration: none;
 }
 
-.messagelist thead tr td.size.sortedASC a,
-.messagelist thead tr td.size.sortedDESC a
+.messagelist thead tr > .size.sortedASC a,
+.messagelist thead tr > .size.sortedDESC a
 {
   padding-right: 18px;
 }
 
-.messagelist thead tr td.subject
+.messagelist thead tr > .subject
 {
   padding-left: 18px;
   width: 99%;
 }
 
+.messagelist tbody tr th,
 .messagelist tbody tr td
 {
   height: 20px;
@@ -780,6 +783,7 @@ table.messagelist.fixedcopy
   -o-text-overflow: ellipsis;
   border-bottom: 1px solid #EBEBEB;
   cursor: default;
+  outline: none;
 }
 
 .messagelist tbody tr td a
@@ -803,40 +807,42 @@ table.messagelist.fixedcopy
   cursor: pointer;
 }
 
-.messagelist tr td.flag span,
-.messagelist tr td.status span,
-.messagelist tr td.attachment span,
-.messagelist tr td.priority span
+.messagelist tr > .flag span,
+.messagelist tr > .status span,
+.messagelist tr > .attachment span,
+.messagelist tr > .priority span
 {
   display: block;
   width: 15px;
+  text-indent: -5000px;
+  overflow: hidden;
 }
 
 .messagelist tr td div.collapsed,
 .messagelist tr td div.expanded,
-.messagelist tr td.threads div.listmenu,
-.messagelist tr td.attachment span.attachment,
-.messagelist tr td.attachment span.report,
-.messagelist tr td.priority span.priority,
-.messagelist tr td.priority span.prio1,
-.messagelist tr td.priority span.prio2,
-.messagelist tr td.priority span.prio3,
-.messagelist tr td.priority span.prio4,
-.messagelist tr td.priority span.prio5,
-.messagelist tr td.flag span.flagged,
-.messagelist tr td.flag span.unflagged,
-.messagelist tr td.flag span.unflagged:hover,
-.messagelist tr td.status span.status,
-.messagelist tr td.status span.msgicon,
-.messagelist tr td.status span.deleted,
-.messagelist tr td.status span.unread,
-.messagelist tr td.status span.unreadchildren,
-.messagelist tr td.subject span.msgicon,
-.messagelist tr td.subject span.deleted,
-.messagelist tr td.subject span.unread,
-.messagelist tr td.subject span.replied,
-.messagelist tr td.subject span.forwarded,
-.messagelist tr td.subject span.unreadchildren
+.messagelist tr > .threads .listmenu,
+.messagelist tr > .attachment span.attachment,
+.messagelist tr > .attachment span.report,
+.messagelist tr > .priority span.priority,
+.messagelist tr > .priority span.prio1,
+.messagelist tr > .priority span.prio2,
+.messagelist tr > .priority span.prio3,
+.messagelist tr > .priority span.prio4,
+.messagelist tr > .priority span.prio5,
+.messagelist tr > .flag span.flagged,
+.messagelist tr > .flag span.unflagged,
+.messagelist tr > .flag span.unflagged:hover,
+.messagelist tr > .status span.status,
+.messagelist tr > .status span.msgicon,
+.messagelist tr > .status span.deleted,
+.messagelist tr > .status span.unread,
+.messagelist tr > .status span.unreadchildren,
+.messagelist tr > .subject span.msgicon,
+.messagelist tr > .subject span.deleted,
+.messagelist tr > .subject span.unread,
+.messagelist tr > .subject span.replied,
+.messagelist tr > .subject span.forwarded,
+.messagelist tr > .subject span.unreadchildren
 {
   display: inline-block;
   vertical-align: middle;
@@ -845,99 +851,99 @@ table.messagelist.fixedcopy
   background: url(images/messageicons.png) center no-repeat;
 }
 
-.messagelist tr td.attachment span.attachment
+.messagelist tr > .attachment span.attachment
 {
   background-position: 0 -170px;
 }
 
-.messagelist tr td.attachment span.report
+.messagelist tr > .attachment span.report
 {
   background-position: 0 -255px;
 }
 
-.messagelist tr td.priority span.priority
+.messagelist tr > .priority span.priority
 {
   background-position: 0 -309px;
 }
 
-.messagelist tr td.priority span.prio5
+.messagelist tr > .priority span.prio5
 {
   background-position: 0 -358px;
 }
 
-.messagelist tr td.priority span.prio4
+.messagelist tr > .priority span.prio4
 {
   background-position: 0 -340px;
 }
 
-.messagelist tr td.priority span.prio3
+.messagelist tr > .priority span.prio3
 {
   background-position: 0 -324px;
 }
 
-.messagelist tr td.priority span.prio2
+.messagelist tr > .priority span.prio2
 {
   background-position: 0 -309px;
 }
 
-.messagelist tr td.priority span.prio1
+.messagelist tr > .priority span.prio1
 {
   background-position: 0 -290px;
 }
 
-.messagelist tr td.flag span.flagged
+.messagelist tr > .flag span.flagged
 {
   background-position: 0 -153px;
 }
 
-.messagelist tr td.flag span.unflagged:hover
+.messagelist tr > .flag span.unflagged:hover
 {
   background-position: 0 -136px;
 }
 
-.messagelist tr td.subject span.msgicon,
-.messagelist tr td.subject span.unreadchildren
+.messagelist tr > .subject span.msgicon,
+.messagelist tr > .subject span.unreadchildren
 {
   background-position: 0 -51px;
   margin: 0 2px;
 }
 
-.messagelist tr td.subject span.replied
+.messagelist tr > .subject span.replied
 {
   background-position: 0 -85px;
 }
 
-.messagelist tr td.subject span.forwarded
+.messagelist tr > .subject span.forwarded
 {
   background-position: 0 -68px;
 }
 
-.messagelist tr td.subject span.replied.forwarded
+.messagelist tr > .subject span.replied.forwarded
 {
   background-position: 0 -102px;
 }
 
-.messagelist tr td.status span.msgicon,
-.messagelist tr td.flag span.unflagged,
-.messagelist tr td.status span.unreadchildren
+.messagelist tr > .status span.msgicon,
+.messagelist tr > .flag span.unflagged,
+.messagelist tr > .status span.unreadchildren
 {
   background-position: 0 17px; /* no icon */
 }
 
-.messagelist tr td.status span.msgicon:hover
+.messagelist tr > .status span.msgicon:hover
 {
   background-position: 0 -272px;
 }
 
-.messagelist tr td.status span.deleted,
-.messagelist tr td.subject span.deleted
+.messagelist tr > .status span.deleted,
+.messagelist tr > .subject span.deleted
 {
   background-position: 0 -187px;
 }
 
-.messagelist tr td.status span.status,
-.messagelist tr td.status span.unread,
-.messagelist tr td.subject span.unread
+.messagelist tr > .status span.status,
+.messagelist tr > .status span.unread,
+.messagelist tr > .subject span.unread
 {
   background-position: 0 -119px;
 }
@@ -954,10 +960,12 @@ table.messagelist.fixedcopy
   cursor: pointer;
 }
 
-.messagelist tr td.threads div.listmenu
+.messagelist tr > .threads .listmenu
 {
   background-position: 0 -238px;
   cursor: pointer;
+  overflow: hidden;
+  text-indent: -5000px;
 }
 
 .messagelist tbody tr td.subject
@@ -977,45 +985,45 @@ table.messagelist.fixedcopy
   text-decoration: underline;
 }
 
-.messagelist tr td.attachment,
-.messagelist tr td.threads,
-.messagelist tr td.status,
-.messagelist tr td.flag,
-.messagelist tr td.priority
+.messagelist tr > .attachment,
+.messagelist tr > .threads,
+.messagelist tr > .status,
+.messagelist tr > .flag,
+.messagelist tr > .priority
 {
   width: 17px;
   padding: 0 0 0 2px;
 }
 
-.messagelist tr td.size
+.messagelist tr > .size
 {
   width: 60px;
   text-align: right;
   padding: 0 2px;
 }
 
-.messagelist tr td.fromto,
-.messagelist tr td.from,
-.messagelist tr td.to,
-.messagelist tr td.cc,
-.messagelist tr td.replyto
+.messagelist tr > .fromto,
+.messagelist tr > .from,
+.messagelist tr > .to,
+.messagelist tr > .cc,
+.messagelist tr > .replyto
 {
   width: 180px;
   padding: 0 2px;
 }
 
-.messagelist tr td.date
+.messagelist tr > .date
 {
   width: 135px;
   padding: 0 2px;
 }
 
-.messagelist tr td.folder
+.messagelist tr > .folder
 {
   width: 135px;
 }
 
-.messagelist tr td.hidden
+.messagelist tr > .hidden
 {
   display: none;
 }
@@ -1038,6 +1046,7 @@ table.messagelist.fixedcopy
 }
 
 /* This padding-left minus the focused padding left should be half of the focused border-left */
+.messagelist thead tr th:first-child,
 .messagelist thead tr td:first-child,
 .messagelist tbody tr td:first-child {
 	border-left: 0;
@@ -1058,21 +1067,15 @@ table.messagelist.fixedcopy
 .messagelist tr.selected td
 {
   color: #FFFFFF;
-  background-color: #CC3333;
-}
-
-.messagelist tr.unfocused td
-{
-  color: #FFFFFF;
   background-color: #929292;
 }
 
-.messagelist tr.selected td a
+.messagelist.focus tr.selected td
 {
-  color: #FFFFFF;
+  background-color: #CC3333;
 }
 
-.messagelist tr.unfocused td a
+.messagelist tr.selected td a
 {
   color: #FFFFFF;
 }

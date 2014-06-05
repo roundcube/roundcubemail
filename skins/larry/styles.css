@@ -35,6 +35,10 @@ img {
   border: 0;
 }
 
+.voice {
+	display: none;
+}
+
 input[type="text"],
 input[type="password"],
 textarea {
@@ -310,6 +314,16 @@ input.button:active {
 	box-shadow: inset 0 1px 2px 0 #555;
 	border-right-color: #555;
 	border-left-color: #555;
+}
+
+.buttongroup a.button:focus,
+.buttongroup a.button.selected:focus {
+	background: #f2f2f2;
+	background: -moz-linear-gradient(top, #49b3d2 0, #66bcd9 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0,#49b3d2), color-stop(100%,#66bcd9));
+	background: -o-linear-gradient(top, #49b3d2 0, #66bcd9 100%);
+	background: -ms-linear-gradient(top, #49b3d2 0, #66bcd9 100%);
+	background: linear-gradient(top, #49b3d2 0, #66bcd9 100%);
 }
 
 .pagenav a.button {
@@ -950,6 +964,13 @@ a.iconlink.upload {
 	background: url(images/buttons.png) -1000px 0 no-repeat;
 }
 
+#taskbar a:focus {
+	color: #fff;
+	text-shadow: 0px 1px 1px #666;
+	background-color: rgba(73,180,210,0.7);
+	outline: none;
+}
+
 #taskbar a.button-selected {
 	color: #3cf;
 	background-color: #2c2c2c;
@@ -1115,6 +1136,7 @@ a.iconlink.upload {
 }
 
 .boxtitle,
+.uibox .listing thead th,
 .uibox .listing thead td {
 	font-size: 12px;
 	font-weight: bold;
@@ -1126,7 +1148,14 @@ a.iconlink.upload {
 	white-space: nowrap;
 }
 
+.uibox .listing thead th,
+.uibox .listing thead td {
+	padding-bottom: 8px;
+	height: auto;
+}
+
 .uibox .boxtitle,
+.uibox .listing thead th,
 .uibox .listing thead td {
 	background: #b0ccd7;
 	color: #004458;
@@ -1145,6 +1174,7 @@ a.iconlink.upload {
 }
 
 .listbox .listitem a,
+.listbox .listitem span,
 .listbox .tablink a,
 .listing tbody td,
 .listing li a {
@@ -1162,17 +1192,40 @@ a.iconlink.upload {
 	display: table-cell;
 	height: auto;
 	min-height: 14px;
+	outline: none;
+}
+
+.listing tbody td a {
+	color: #376572;
+	text-shadow: 0px 1px 1px #fff;
+	text-decoration: none;
 }
 
 .webkit .listing tbody td {
 	height: 14px;
 }
 
+/* This padding-left minus the focused padding left should be half of the focused border-left */
+.listing thead tr td:first-child,
+.listing tbody tr td:first-child {
+	border-left: 2px solid transparent;
+	padding-left: 6px;
+}
+
+.listing.iconized thead tr td:first-child,
+.listing.iconized tbody tr td:first-child {
+	padding-left: 34px;
+}
+
+/* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
+.listing.focus tbody tr.focused > td:first-child {
+	border-left: 2px solid #739da8;
+}
+
 .listbox .listitem.selected,
 .listbox .tablink.selected,
 .listbox .listitem.selected > a,
 .listbox .tablink.selected > a,
-.listing tbody tr.unfocused td,
 .listing tbody tr.selected td,
 .listing li.selected,
 .listing li.selected > a {
@@ -1237,6 +1290,16 @@ ul.treelist li a {
 	padding-left: 20px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+ul.treelist li a:focus,
+ul.listing .listitem a:focus,
+ul.listing .listitem span:focus,
+ul.listing.focus .listitem.focused span {
+	color: #fff !important;
+	background-color: rgba(73,180,210,0.6);
+	text-shadow: 0px 1px 1px #666;
+	outline: none;
 }
 
 ul.treelist ul li a {
@@ -1319,6 +1382,13 @@ ul.treelist li.selected > div.expanded {
 	margin-top: 1px;
 }
 
+.boxfooter a.listbutton:focus {
+	color: #fff;
+	background-color: rgba(73,180,210,0.6);
+	text-shadow: 0px 1px 1px #666;
+	outline: none;
+}
+
 .uibox .boxfooter .listbutton:first-child {
 	border-radius: 0 0 0 4px;
 }
@@ -1328,7 +1398,9 @@ ul.treelist li.selected > div.expanded {
 	width: 48px;
 	height: 35px;
 	text-indent: -5000px;
-	background: url(images/buttons.png) -1000px 0 no-repeat;
+	background-image: url(images/buttons.png);
+	background-position: -1000px 0;
+	background-repeat: no-repeat;
 }
 
 .boxfooter .listbutton.add .inner {
@@ -1442,6 +1514,7 @@ table.records-table {
 	border: 0;
 }
 
+.records-table thead th,
 .records-table thead td {
 	color: #69939e;
 	font-size: 11px;
@@ -1456,13 +1529,17 @@ table.records-table {
 	padding: 8px 7px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	text-align: left;
 }
 
+.records-table.sortheader thead th,
 .records-table.sortheader thead td {
 	padding: 0;
 }
 
+.records-table thead th a,
 .records-table thead td a,
+.records-table thead th span,
 .records-table thead td span {
 	display: block;
 	padding: 7px 7px;
@@ -1470,6 +1547,14 @@ table.records-table {
 	text-decoration: none;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.records-table thead th a:focus,
+.records-table thead td a:focus {
+	color: #fff;
+	background-color: rgba(73,180,210,0.7);
+	text-shadow: 0px 1px 1px #666;
+	outline: none;
 }
 
 .records-table tbody td {
@@ -1481,27 +1566,28 @@ table.records-table {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	background-color: #fff;
+	outline: none;
 }
 
 /* This padding-left minus the focused padding left should be half of the focused border-left */
+.records-table thead tr th:first-child,
 .records-table thead tr td:first-child,
 .records-table tbody tr td:first-child {
-	border-left: 0;
-	padding-left: 6px;
-}
-
-/* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
-.records-table tbody tr.focused > td:first-child {
-	border-left: 2px solid #b0ccd7;
+	border-left: 2px solid transparent;
 	padding-left: 4px;
 }
 
-.records-table tbody tr.selected.focused > td:first-child {
-	border-left-color: #49b3d2;
+/* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
+.records-table.focus tbody tr.focused > td:first-child {
+	border-left: 2px solid #49b3d2;
 }
 
 .records-table tr.selected td {
 	color: #fff !important;
+	background-color: #4db0d2 !important;
+}
+
+.records-table.focus tr.selected td {
 	background: #019bc6;
 	background: -moz-linear-gradient(top, #019bc6 0%, #017cb4 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#019bc6), color-stop(100%,#017cb4));
@@ -1512,16 +1598,6 @@ table.records-table {
 
 .records-table tr.selected td a,
 .records-table tr.selected td span {
-	color: #fff !important;
-}
-
-.records-table tr.unfocused td {
-	color: #fff !important;
-	background-color: #4db0d2 !important;
-}
-
-.records-table tr.unfocused td a,
-.records-table tr.unfocused td span {
 	color: #fff !important;
 }
 
@@ -1921,6 +1997,14 @@ ul.proplist li {
 	border-radius: 0;
 }
 
+.dropbutton .dropbuttontip:focus,
+.toolbar a.button:focus {
+	color: #fff;
+	text-shadow: 0px 1px 1px #666;
+	background-color: rgba(30,150,192, 0.5);
+	border-radius: 3px;
+}
+
 .toolbar a.button.disabled {
 	opacity: 0.4;
 	filter: alpha(opacity=40);
@@ -1936,12 +2020,16 @@ ul.proplist li {
 	position: absolute;
 	right: 0;
 	top: 0;
-	height: 42px;
+	height: 41px;
 	width: 18px;
+	overflow: hidden;
+	text-indent: -5000px;
 	background: url(images/buttons.png) 0 -1255px no-repeat;
 	cursor: pointer;
+	outline: none;
 }
 
+.dropbutton .dropbuttontip:focus,
 .dropbutton .dropbuttontip:hover {
 	background-position: -26px -1255px;
 }
@@ -2132,6 +2220,19 @@ select.decorated option {
 }
 
 
+a.menuselector:focus,
+a.menuselector.focus,
+a.iconbutton:focus,
+.pagenav a.button:focus {
+	border-color: #4fadd5;
+	-webkit-box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	   -moz-box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	     -o-box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	        box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	outline: none;
+}
+
+
 /*** quota indicator ***/
 
 #quotadisplay {
@@ -2224,6 +2325,7 @@ ul.toolbarmenu li a.active {
 
 .googie_list td.googie_list_onhover,
 ul.toolbarmenu li a.active:hover,
+ul.toolbarmenu li a.active:focus,
 #rcmKSearchpane ul li.selected,
 select.decorated option:hover,
 select.decorated option[selected='selected'] {
@@ -2233,6 +2335,7 @@ select.decorated option[selected='selected'] {
 	background: -o-linear-gradient(top, #00aad6 0%, #008fc9 100%);
 	background: -ms-linear-gradient(top, #00aad6 0%, #008fc9 100%);
 	background: linear-gradient(top, #00aad6 0%, #008fc9 100%);
+	outline: none;
 }
 
 ul.toolbarmenu.iconized li a,
@@ -2620,6 +2723,7 @@ ul.toolbarmenu li span.copy {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	line-height: 20px;
+	outline: none;
 }
 
 .attachmentslist li a.drop {
@@ -2631,6 +2735,15 @@ ul.toolbarmenu li span.copy {
 	right: 0;
 	top: 0;
 	padding: 0;
+	overflow: hidden;
+	text-indent: -5000px;
+	outline: none;
+}
+
+.attachmentslist li a:focus,
+.attachmentslist li a.drop:focus {
+	background-color: rgba(30,150,192, 0.5);
+	border-radius: 2px;
 }
 
 #compose-attachments ul li {
@@ -2665,26 +2778,22 @@ ul.toolbarmenu li span.copy {
 
 /*** fieldset tabs ***/
 
-.tabsbar {
-	margin-bottom: 12px;
-	padding-top: 15px;
-	height: 27px;
-	white-space: nowrap;
+.tabbed.ui-tabs {
+	padding: 0;
+	border: 0 !important;
+	background: none;
+}
+
+.boxcontent.tabbed.ui-tabs {
+	padding: 10px;
+}
+
+.ui-tabs .tabsbar.ui-tabs-nav {
+	margin-bottom: 10px;
 }
 
 .ui-dialog-content .tabsbar {
 	margin-bottom: 0;
-}
-
-.tabsbar .tablink {
-	padding: 15px 1px 15px 0;
-	background: #f8f8f8;
-	background: -moz-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(50%,#d3d3d3), color-stop(100%,#f8f8f8));
-	background: -webkit-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
-	background: -o-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
-	background: -ms-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
-	background: linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
 }
 
 .tabsbar .tablink:last-child {
@@ -2695,30 +2804,15 @@ ul.toolbarmenu li span.copy {
 	border-right: 0;
 }
 
-.tabsbar .tablink a {
-	padding: 15px;
-	color: #999;
-	font-size: 12px;
-	font-weight: bold;
-	text-decoration: none;
+.ui-tabs .ui-tabs-nav li.tablink a {
 	background: #fff;
-	border-right: 1px solid #fafafa;
 }
 
-.tabsbar .tablink.selected a {
-	color: #004458;
-	background: #f6f6f6;
-	background: -moz-linear-gradient(top, #fff 40%, #efefef 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(40%,#fff), color-stop(100%,#efefef));
-	background: -o-linear-gradient(top, #fff 40%, #efefef 100%);
-	background: -ms-linear-gradient(top, #fff 40%, #efefef 100%);
-	background: linear-gradient(top, #fff 40%, #efefef 100%);
-}
-
-fieldset.tab {
+.ui-tabs fieldset.ui-tabs-panel {
 	border: 0;
 	padding: 0;
 	margin-left: 0;
+	background: none;
 }
 
 #image-selector-form.droptarget {

@@ -20,13 +20,10 @@ function rcube_mail_ui()
     searchmenu:         { editable:1, callback:searchmenu },
     attachmentmenu:     { },
     listoptions:        { editable:1 },
-    dragmenu:           { sticky:1 },
     groupmenu:          { above:1 },
     mailboxmenu:        { above:1 },
     spellmenu:          { callback: spellmenu },
-    // toggle: #1486823, #1486930
-    'attachment-form':  { editable:1, above:1, toggle:!bw.ie&&!bw.linux },
-    'upload-form':      { editable:1, toggle:!bw.ie&&!bw.linux }
+    'folder-selector':  { iconized:1 }
   };
 
   var me = this;
@@ -40,6 +37,7 @@ function rcube_mail_ui()
   this.init_tabs = init_tabs;
   this.show_about = show_about;
   this.show_popup = show_popup;
+  this.toggle_popup = toggle_popup;
   this.add_popup = add_popup;
   this.set_searchmod = set_searchmod;
   this.set_searchscope = set_searchscope;
@@ -138,8 +136,9 @@ function rcube_mail_ui()
 
     /***  mail task  ***/
     if (rcmail.env.task == 'mail') {
-      rcmail.addEventListener('menu-open', menu_open)
-        .addEventListener('menu-save', menu_save)
+      rcmail.addEventListener('menu-open', menu_toggle)
+        .addEventListener('menu-close', menu_toggle)
+        .addEventListener('menu-save', save_listoptions)
         .addEventListener('responseafterlist', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list', true) })
         .addEventListener('responseaftersearch', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list', true) });
 
@@ -157,7 +156,14 @@ function rcube_mail_ui()
 
         // add menu link for each attachment
         $('#attachment-list > li').each(function() {
-          $(this).append($('<a class="drop"></a>').click(function() { attachmentmenu(this); }));
+          $(this).append($('<a class="drop" tabindex="0" aria-haspopup="true">Show options</a>')
+              .bind('click keypress', function(e) {
+                  if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
+                      attachmentmenu(this, e);
+                      return false;
+                  }
+              })
+          );
         });
 
         if (get_pref('previewheaders') == '1') {
@@ -184,11 +190,13 @@ function rcube_mail_ui()
           }
         }
 
-        $('#composeoptionstoggle').click(function(){
-          $('#composeoptionstoggle').toggleClass('remove');
-          $('#composeoptions').toggle();
+        $('#composeoptionstoggle').click(function(e){
+          var expanded = $('#composeoptions').toggle().is(':visible');
+          $('#composeoptionstoggle').toggleClass('remove').attr('aria-expanded', expanded ? 'true' : 'false');
           layout_composeview();
-          save_pref('composeoptions', $('#composeoptions').is(':visible') ? '1' : '0');
+          save_pref('composeoptions', expanded ? '1' : '0');
+          if (!rcube_event.is_keyboard(e))
+            this.blur();
           return false;
         }).css('cursor', 'pointer');
 
@@ -210,7 +218,7 @@ function rcube_mail_ui()
       }
       else if (rcmail.env.action == 'list' || !rcmail.env.action) {
         var previewframe = $('#mailpreviewframe').is(':visible');
-        $('#mailpreviewtoggle').addClass(previewframe ? 'enabled' : 'closed').click(function(e){ toggle_preview_pane(e); return false });
+        $('#mailpreviewtoggle').addClass(previewframe ? 'enabled' : 'closed').attr('aria-expanded', previewframe ? 'true' : 'false').click(function(e){ toggle_preview_pane(e); return false });
         $('#maillistmode').addClass(rcmail.env.threading ? '' : 'selected').click(function(e){ switch_view_mode('list'); return false });
         $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : '').click(function(e){ switch_view_mode('thread'); return false });
 
@@ -265,7 +273,9 @@ function rcube_mail_ui()
           orientation:'v', relative:true, start:266, min:180, size:12 }).init();
       }
       else if (rcmail.env.action == 'edit-prefs') {
-        $('<a href="#toggle">&#9660;</a>')
+        $('<a href="#toggle"></a>')
+            .text(env.toggleoptions)
+            .attr('title', env.toggleoptions)
             .addClass('advanced-toggle')
             .appendTo('#preferences-details fieldset.advanced legend');
 
@@ -333,6 +343,10 @@ function rcube_mail_ui()
           var val = $('option:selected', this).text();
           $(this).next().children().text(val);
         });
+
+      select
+        .on('focus', function(e){ overlay.addClass('focus'); })
+        .on('blur', function(e){ overlay.removeClass('focus'); });
     });
 
     // set min-width to show all toolbar buttons
@@ -341,60 +355,9 @@ function rcube_mail_ui()
       screen.css('min-width', $('.toolbar').width() + $('#quicksearchbar').width() + $('#searchfilter').width() + 30);
     }
 
-    $(document.body)
-      .bind('mouseup', body_mouseup)
-      .bind('keyup', function(e){
-        if (e.keyCode == 27) {
-          for (var id in popups) {
-            if (popups[id].is(':visible'))
-              show_popup(id, false);
-          }
-        }
-      });
-
-    $('iframe').load(function(e){
-      // this = iframe
-      try {
-        var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-        $(doc).mouseup(body_mouseup);
-      }
-      catch (e) {
-        // catch possible "Permission denied" error in IE
-      };
-    })
-    .contents().mouseup(body_mouseup);
-
     // don't use $(window).resize() due to some unwanted side-effects
     window.onresize = resize;
     resize();
-  }
-
-  /**
-   * Handler for mouse-up events on the document body.
-   * This will close all open popup menus
-   */
-  function body_mouseup(e)
-  {
-    var config, obj, target = e.target;
-
-    if (target.className == 'inner')
-        target = e.target.parentNode;
-
-    for (var id in popups) {
-      obj = popups[id];
-      config = popupconfig[id];
-      if (obj.is(':visible')
-        && target.id != id+'link'
-        && target != obj.get(0)  // check if scroll bar was clicked (#1489832)
-        && !config.toggle
-        && (!config.editable || !target_overlaps(target, obj.get(0)))
-        && (!config.sticky || !rcube_mouse_is_over(e, obj.get(0)))
-        && !$(target).is('.folder-selector-link')
-      ) {
-        var myid = id+'';
-        window.setTimeout(function() { show_popupmenu(myid, false); }, 10);
-      }
-    }
   }
 
   /**
@@ -475,6 +438,8 @@ function rcube_mail_ui()
           minHeight: 90
         }).show();
 
+      me.messagedialog.closest('div[role=dialog]').attr('role', 'alertdialog');
+
       me.message_timer = window.setTimeout(dialog_close, p.timeout);
     }
   }
@@ -489,7 +454,7 @@ function rcube_mail_ui()
     $('#message-objects div a').addClass('button');
 
     if (!$('#attachment-list li').length) {
-      $('div.rightcol').hide();
+      $('div.rightcol').hide().attr('aria-hidden', 'true');
       $('div.leftcol').css('margin-right', '0');
     }
   }
@@ -586,75 +551,35 @@ function rcube_mail_ui()
   /**
    * Trigger for popup menus
    */
+  function toggle_popup(popup, e, config)
+  {
+    // auto-register menu object
+    if (config || !popupconfig[popup])
+      add_popup(popup, config);
+
+    return rcmail.command('menu-open', popup, e.target, e);
+  }
+
+  /**
+   * (Deprecated) trigger for popup menus
+   */
   function show_popup(popup, show, config)
   {
     // auto-register menu object
     if (config || !popupconfig[popup])
       add_popup(popup, config);
 
-    var visible = show_popupmenu(popup, show),
-      config = popupconfig[popup];
-    if (typeof config.callback == 'function')
-      config.callback(visible);
-  }
-
-  /**
-   * Show/hide a specific popup menu
-   */
-  function show_popupmenu(popup, show)
-  {
-    var obj = popups[popup],
-      config = popupconfig[popup],
-      ref = $(config.link ? config.link : '#'+popup+'link'),
-      above = config.above;
-
-    if (!obj) {
-      obj = popups[popup] = $('#'+popup);
-      obj.appendTo(document.body);  // move them to top for proper absolute positioning
-    }
-
-    if (!obj || !obj.length)
-      return false;
-
-    if (typeof show == 'undefined')
-      show = obj.is(':visible') ? false : true;
-    else if (config.toggle && show && obj.is(':visible'))
-      show = false;
-
-    if (show && ref.length) {
-      var parent = ref.parent(),
-        win = $(window),
-        pos;
-
-      if (parent.hasClass('dropbutton'))
-        ref = parent;
-
+    config = popupconfig[popup] || {};
+    var ref = $(config.link ? config.link : '#'+popup+'link'),
       pos = ref.offset();
-      ref.offsetHeight = ref.outerHeight();
-      if (!above && pos.top + ref.offsetHeight + obj.height() > win.height())
-        above = true;
-      if (pos.left + obj.width() > win.width())
-        pos.left = win.width() - obj.width() - 12;
+    if (ref.has('.inner'))
+      ref = ref.children('.inner');
 
-      obj.css({ left:pos.left, top:(pos.top + (above ? -obj.height() : ref.offsetHeight)) });
-    }
-
-    obj[show?'show':'hide']();
-
-    return show;
-  }
-
-  /**
-   *
-   */
-  function target_overlaps(target, elem)
-  {
-    while (target.parentNode) {
-      if (target.parentNode == elem)
-        return true;
-      target = target.parentNode;
-    }
-    return false;
+    // fire command with simulated mouse click event
+    return rcmail.command('menu-open',
+      { menu:popup, show:show },
+      ref.get(0),
+      $.Event('click', { target:ref.get(0), pageX:pos.left, pageY:pos.top, clientX:pos.left, clientY:pos.top }));
   }
 
 
@@ -670,7 +595,7 @@ function rcube_mail_ui()
       topstyles, bottomstyles, uid;
 
     frame.toggle();
-    button.removeClass().addClass(visible ? 'enabled' : 'closed');
+    button.removeClass().toggleClass('enabled closed').attr('aria-expanded', visible ? 'true' : 'false');
 
     if (visible) {
       $('#mailview-top').removeClass('fullheight').css({ bottom:'auto' });
@@ -720,9 +645,9 @@ function rcube_mail_ui()
 
     // add toggle button to full headers table
     if (full.is(':visible'))
-      button.attr('href', '#hide').removeClass('add').addClass('remove')
+      button.attr('href', '#hide').removeClass('add').addClass('remove').attr('aria-expanded', 'true');
     else
-      button.attr('href', '#details').removeClass('remove').addClass('add')
+      button.attr('href', '#details').removeClass('remove').addClass('add').attr('aria-expanded', 'false');
 
     save_pref('previewheaders', full.is(':visible') ? '1' : '0');
   }
@@ -734,25 +659,57 @@ function rcube_mail_ui()
   function switch_view_mode(mode, force)
   {
     if (force || !$('#mail'+mode+'mode').hasClass('disabled')) {
-      $('#maillistmode, #mailthreadmode').removeClass('selected');
-      $('#mail'+mode+'mode').addClass('selected');
+      $('#maillistmode, #mailthreadmode').removeClass('selected').attr('tabindex', '0').attr('aria-disabled', 'false');
+      $('#mail'+mode+'mode').addClass('selected').attr('tabindex', '-1').attr('aria-disabled', 'true');
     }
   }
 
 
-  /**** popup callbacks ****/
+  /**** popup menu callbacks ****/
 
-  function menu_open(p)
+  /**
+   * Handler for menu-open and menu-close events
+   */
+  function menu_toggle(p)
   {
-    if (p && p.props && p.props.menu == 'attachmentmenu')
-      show_popupmenu('attachmentmenu');
-    else
-      show_listoptions();
-  }
+    if (p && p.name == 'messagelistmenu') {
+      show_listoptions(p);
+    }
+    else if (p) {
+      // adjust menu position according to config
+      var config = popupconfig[p.name] || {},
+        ref = $(config.link || '#'+p.name+'link'),
+        visible = p.obj && p.obj.is(':visible'),
+        above = config.above;
 
-  function menu_save(prop)
-  {
-    save_listoptions();
+      // fix position according to config
+      if (p.obj && visible && ref.length) {
+        var parent = ref.parent(),
+          win = $(window), pos;
+
+        if (parent.hasClass('dropbutton'))
+          ref = parent;
+
+        if (config.above || ref.hasClass('dropbutton')) {
+          pos = ref.offset();
+          p.obj.css({ left:pos.left+'px', top:(pos.top + (config.above ? -p.obj.height() : ref.outerHeight()))+'px' });
+        }
+      }
+
+      // add the right classes
+      if (p.obj && config.iconized) {
+        p.obj.children('ul').addClass('iconized');
+      }
+
+      // apply some data-attributes from menu config
+      if (p.obj && config.editable)
+        p.obj.attr('data-editable', 'true');
+
+      // trigger callback function
+      if (typeof config.callback == 'function') {
+        config.callback(visible, p);
+      }
+    }
   }
 
   function searchmenu(show)
@@ -789,7 +746,7 @@ function rcube_mail_ui()
     }
   }
 
-  function attachmentmenu(elem)
+  function attachmentmenu(elem, event)
   {
     var id = elem.parentNode.id.replace(/^attach/, '');
 
@@ -802,41 +759,44 @@ function rcube_mail_ui()
     });
 
     popupconfig.attachmentmenu.link = elem;
-    rcmail.command('menu-open', {menu: 'attachmentmenu', id: id});
+    rcmail.command('menu-open', {menu: 'attachmentmenu', id: id}, elem, event);
   }
 
-  function spellmenu(show)
+  function spellmenu(show, p)
   {
-    var link, li,
+    var k, link, li,
       lang = rcmail.spellcheck_lang(),
-      menu = popups.spellmenu,
-      ul = $('ul', menu);
+      ul = $('ul', p.obj);
 
     if (!ul.length) {
-      ul = $('<ul class="toolbarmenu selectable">');
+      ul = $('<ul class="toolbarmenu selectable" role="menu">');
 
-      for (i in rcmail.env.spell_langs) {
-        li = $('<li>');
-        link = $('<a href="#"></a>').text(rcmail.env.spell_langs[i])
-          .addClass('active').data('lang', i)
-          .click(function() {
-            rcmail.spellcheck_lang_set($(this).data('lang'));
+      for (k in rcmail.env.spell_langs) {
+        li = $('<li role="menuitem">');
+        link = $('<a href="#'+k+'" tabindex="0"></a>').text(rcmail.env.spell_langs[k])
+          .addClass('active').data('lang', k)
+          .bind('click keypress', function(e) {
+              if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
+                  rcmail.spellcheck_lang_set($(this).data('lang'));
+                  rcmail.hide_menu('spellmenu', e);
+                  return false;
+              }
           });
 
         link.appendTo(li);
         li.appendTo(ul);
       }
 
-      ul.appendTo(menu);
+      ul.appendTo(p.obj);
     }
 
     // select current language
     $('li', ul).each(function() {
       var el = $('a', this);
       if (el.data('lang') == lang)
-        el.addClass('selected');
+        el.addClass('selected').attr('aria-selected', 'true');
       else if (el.hasClass('selected'))
-        el.removeClass('selected');
+        el.removeClass('selected').removeAttr('aria-selected');
     });
   }
 
@@ -844,13 +804,13 @@ function rcube_mail_ui()
   /**
    *
    */
-  function show_listoptions()
+  function show_listoptions(p)
   {
     var $dialog = $('#listoptions');
 
     // close the dialog
     if ($dialog.is(':visible')) {
-      $dialog.dialog('close');
+      $dialog.dialog('close', p.originalEvent);
       return;
     }
 
@@ -869,8 +829,13 @@ function rcube_mail_ui()
       resizable: false,
       closeOnEscape: true,
       title: null,
-      close: function() {
+      open: function(e) {
+        setTimeout(function(){ $dialog.find('a, input:not(:disabled)').not('[aria-disabled=true]').first().focus(); }, 100);
+      },
+      close: function(e) {
         $dialog.dialog('destroy').hide();
+        if (e.originalEvent && rcube_event.is_keyboard(e.originalEvent))
+          $('#listmenulink').focus();
       },
       minWidth: 500,
       width: $dialog.width()+25
@@ -881,9 +846,12 @@ function rcube_mail_ui()
   /**
    *
    */
-  function save_listoptions()
+  function save_listoptions(p)
   {
     $('#listoptions').dialog('close');
+
+    if (rcube_event.is_keyboard(p.originalEvent))
+      $('#listmenulink').focus();
 
     var sort = $('input[name="sort_col"]:checked').val(),
       ord = $('input[name="sort_ord"]:checked').val(),
@@ -982,7 +950,7 @@ function rcube_mail_ui()
       });
   }
 
-  function show_uploadform()
+  function show_uploadform(e)
   {
     var $dialog = $('#upload-dialog');
 
@@ -1008,6 +976,10 @@ function rcube_mail_ui()
       resizable: false,
       closeOnEscape: true,
       title: $dialog.attr('title'),
+      open: function(e) {
+        if (!document.all)
+          $('input[type=file]', $dialog).first().click();
+      },
       close: function() {
         try { $('#upload-dialog form').get(0).reset(); }
         catch(e){ }  // ignore errors
@@ -1017,9 +989,6 @@ function rcube_mail_ui()
       },
       width: 480
     }).show();
-
-    if (!document.all)
-      $('input[type=file]', $dialog).first().click();
   }
 
   function add_uploadfile(e)
@@ -1086,47 +1055,35 @@ function rcube_mail_ui()
       content.attr('id', id);
     }
 
-    // first hide not selected tabs
-    current = current || 0;
-    fs.each(function(idx) { if (idx != current) $(this).hide(); });
-
     // create tabs container
-    var tabs = $('<div>').addClass('tabsbar').prependTo(content);
+    var tabs = $('<ul>').addClass('tabsbar').prependTo(content);
 
     // convert fildsets into tabs
     fs.each(function(idx) {
-      var tab, a, elm = $(this), legend = elm.children('legend');
+      var tab, a, elm = $(this),
+        legend = elm.children('legend'),
+        tid = id + '-t' + idx;
 
       // create a tab
-      a   = $('<a>').text(legend.text()).attr('href', '#');
-      tab = $('<span>').attr({'id': 'tab'+idx, 'class': 'tablink'})
-        .click(function() { show_tab(id, idx); return false })
+      a   = $('<a>').text(legend.text()).attr('href', '#' + tid);
+      tab = $('<li>').addClass('tablink');
 
       // remove legend
       legend.remove();
-      // style fieldset
-      elm.addClass('tab');
-      // style selected tab
-      if (idx == current)
-        tab.addClass('selected');
+
+      // link fieldset with tab item
+      elm.attr('id', tid);
 
       // add the tab to container
       tab.append(a).appendTo(tabs);
     });
-  }
 
-  function show_tab(id, index)
-  {
-    var fs = $('#'+id).children('fieldset');
-
-    fs.each(function(idx) {
-      // Show/hide fieldset (tab content)
-      $(this)[index==idx ? 'show' : 'hide']();
-      // Select/unselect tab
-      $('#tab'+idx).toggleClass('selected', idx==index);
+    // use jquery UI tabs widget to do the interaction and styling
+    content.tabs({
+      active: current || 0,
+      heightStyle: 'content',
+      activate: function(e, ui) {resize(); }
     });
-
-    resize();
   }
 
   /**
@@ -1237,6 +1194,7 @@ function rcube_splitter(p)
     this.handle = $('<div>')
       .attr('id', this.id)
       .attr('unselectable', 'on')
+      .attr('role', 'presentation')
       .addClass('splitter ' + (this.horizontal ? 'splitter-h' : 'splitter-v'))
       .appendTo(this.parent)
       .bind('mousedown', onDragStart);

@@ -16,7 +16,8 @@
 		<div id="sourcename"><roundcube:label name="addressbook" />: <roundcube:var name="env:sourcename" condition="env:action!='add'" /><roundcube:object name="sourceselector" id="sourceselect" condition="env:action=='add'" /></div>
 	<roundcube:endif />
 
-	<div id="contactphoto">
+	<fieldset id="contactphoto">
+		<legend class="voice"><roundcube:label name="contactphoto" /></legend>
 		<roundcube:object name="contactphoto" id="contactpic" placeholder="/images/contactpic.png" />
 		<roundcube:if condition="env:photocol" />
 		<roundcube:object name="fileDropArea" id="contactpic" />
@@ -25,7 +26,7 @@
 			<roundcube:button command="delete-photo" type="link" label="delete" class="iconlink delete disabled" classAct="iconlink delete active" condition="env:photocol" />
 		</div>
 		<roundcube:endif />
-	</div>
+	</fieldset>
 
 	<roundcube:object name="contactedithead" id="contacthead" size="16" form="editform" />
 	<br style="clear:both" />

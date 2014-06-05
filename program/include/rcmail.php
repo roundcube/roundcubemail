@@ -1077,14 +1077,17 @@ class rcmail extends rcube
         }
         else {
             foreach ($table_data as $row_data) {
-                $class = !empty($row_data['class']) ? $row_data['class'] : '';
+                $class = !empty($row_data['class']) ? $row_data['class'] : null;
+                if (!empty($attrib['rowclass']))
+                    $class = trim($class . ' ' . $attrib['rowclass']);
                 $rowid = 'rcmrow' . rcube_utils::html_identifier($row_data[$id_col]);
 
                 $table->add_row(array('id' => $rowid, 'class' => $class));
 
                 // format each col
                 foreach ($a_show_cols as $col) {
-                    $table->add($col, $this->Q(is_array($row_data[$col]) ? $row_data[$col][0] : $row_data[$col]));
+                    $val = is_array($row_data[$col]) ? $row_data[$col][0] : $row_data[$col];
+                    $table->add($col, empty($attrib['ishtml']) ? $this->Q($val) : $val);
                 }
             }
         }
@@ -1490,7 +1493,7 @@ class rcmail extends rcube
             $html_name = $this->Q($foldername) . ($unread ? html::span('unreadcount', sprintf($attrib['unreadwrap'], $unread)) : '');
             $link_attrib = $folder['virtual'] ? array() : array(
                 'href' => $this->url(array('_mbox' => $folder['id'])),
-                'onclick' => sprintf("return %s.command('list','%s',this)", rcmail_output::JS_OBJECT_NAME, $js_name),
+                'onclick' => sprintf("return %s.command('list','%s',this,event)", rcmail_output::JS_OBJECT_NAME, $js_name),
                 'rel' => $folder['id'],
                 'title' => $title,
             );

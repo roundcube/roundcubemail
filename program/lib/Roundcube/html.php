@@ -32,7 +32,7 @@ class html
 
     public static $doctype = 'xhtml';
     public static $lc_tags = true;
-    public static $common_attrib = array('id','class','style','title','align','unselectable');
+    public static $common_attrib = array('id','class','style','title','align','unselectable','tabindex','role');
     public static $containers = array('iframe','div','span','p','h1','h2','h3','ul','form','textarea','table','thead','tbody','tr','th','td','style','script');
 
 
@@ -285,7 +285,9 @@ class html
 
             // ignore not allowed attributes, except data-*
             if (!empty($allowed)) {
-                if (!isset($allowed_f[$key]) && @substr_compare($key, 'data-', 0, 5) !== 0) {
+                $is_data_attr = @substr_compare($key, 'data-', 0, 5) === 0;
+                $is_aria_attr = @substr_compare($key, 'aria-', 0, 5) === 0;
+                if (!$is_aria_attr && !isset($allowed_f[$key]) && (!$is_data_attr || !isset($allowed_f['data-*']))) {
                     continue;
                 }
             }
@@ -835,7 +837,7 @@ class html_table extends html
         if (!empty($this->header)) {
             $rowcontent = '';
             foreach ($this->header as $c => $col) {
-                $rowcontent .= self::tag($this->_col_tagname(), $col->attrib, $col->content);
+                $rowcontent .= self::tag($this->_head_tagname(), $col->attrib, $col->content);
             }
             $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', null, $rowcontent, parent::$common_attrib)) :
                 self::tag($this->_row_tagname(), array('class' => 'thead'), $rowcontent, parent::$common_attrib);
@@ -888,7 +890,16 @@ class html_table extends html
     private function _row_tagname()
     {
         static $row_tagnames = array('table' => 'tr', 'ul' => 'li', '*' => 'div');
-        return $row_tagnames[$this->tagname] ? $row_tagnames[$this->tagname] : $row_tagnames['*'];
+        return $row_tagnames[$this->tagname] ?: $row_tagnames['*'];
+    }
+
+    /**
+     * Getter for the corresponding tag name for table row elements
+     */
+    private function _head_tagname()
+    {
+        static $head_tagnames = array('table' => 'th', '*' => 'span');
+        return $head_tagnames[$this->tagname] ?: $head_tagnames['*'];
     }
 
     /**
@@ -897,7 +908,7 @@ class html_table extends html
     private function _col_tagname()
     {
         static $col_tagnames = array('table' => 'td', '*' => 'span');
-        return $col_tagnames[$this->tagname] ? $col_tagnames[$this->tagname] : $col_tagnames['*'];
+        return $col_tagnames[$this->tagname] ?: $col_tagnames['*'];
     }
 
 }

@@ -893,6 +893,14 @@ EOF;
             return '';
         }
 
+        // localize title and summary attributes
+        if ($command != 'button' && !empty($attrib['title']) && $this->app->text_exists($attrib['title'])) {
+            $attrib['title'] = $this->app->gettext($attrib['title']);
+        }
+        if ($command != 'button' && !empty($attrib['summary']) && $this->app->text_exists($attrib['summary'])) {
+            $attrib['summary'] = $this->app->gettext($attrib['summary']);
+        }
+
         // execute command
         switch ($command) {
             // return a button
@@ -1165,6 +1173,17 @@ EOF;
             $attrib['alt'] = html::quote($this->app->gettext($attrib['alt'], $attrib['domain']));
         }
 
+        // set accessibility attributes
+        if (!$attrib['role']) {
+            $attrib['role'] = 'button';
+        }
+        if (!empty($attrib['class']) && !empty($attrib['classact']) || !empty($attrib['imagepas']) && !empty($attrib['imageact'])) {
+            if (array_key_exists('tabindex', $attrib))
+                $attrib['data-tabindex'] = $attrib['tabindex'];
+            $attrib['tabindex'] = '-1';  // disable button by default
+            $attrib['aria-disabled'] = 'true';
+        }
+
         // set title to alt attribute for IE browsers
         if ($this->browser->ie && !$attrib['title'] && $attrib['alt']) {
             $attrib['title'] = $attrib['alt'];
@@ -1351,6 +1370,20 @@ EOF;
         if (empty($output)) {
             $output   = html::doctype('html5') . "\n" . $this->default_template;
             $is_empty = true;
+        }
+
+        // set default page title
+        if (empty($this->pagetitle)) {
+            $this->pagetitle = 'Roundcube Mail';
+        }
+
+        // declare page language
+        if (!empty($_SESSION['language'])) {
+            $lang = substr($_SESSION['language'], 0, 2);
+            $output = preg_replace('/<html/', '<html lang="' . html::quote($lang) . '"', $output, 1);
+            if (!headers_sent()) {
+                header('Content-Language: ' . $lang);
+            }
         }
 
         // replace specialchars in content

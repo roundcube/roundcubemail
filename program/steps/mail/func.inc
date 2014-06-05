@@ -111,7 +111,9 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     if (!$OUTPUT->ajax_call) {
         $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
             'movingmessage', 'copyingmessage', 'deletingmessage', 'markingmessage',
-            'copy', 'move', 'quota', 'replyall', 'replylist', 'stillsearching');
+            'copy', 'move', 'quota', 'replyall', 'replylist', 'stillsearching',
+            'flagged', 'unflagged', 'unread', 'deleted', 'replied', 'forwarded',
+            'priority', 'withattachment');
     }
 
     $pagetitle = $RCMAIL->localize_foldername($mbox_name, true);
@@ -531,14 +533,19 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
     if (!empty($attrib['optionsmenuicon'])) {
-        $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu')";
-        if ($attrib['optionsmenuicon'] === true || $attrib['optionsmenuicon'] == 'true')
-            $list_menu = html::div(array('onclick' => $onclick, 'class' => 'listmenu',
-                'id' => 'listmenulink', 'title' => $RCMAIL->gettext('listoptions')));
-        else
-            $list_menu = html::a(array('href' => '#', 'onclick' => $onclick),
-                html::img(array('src' => $skin_path . $attrib['optionsmenuicon'],
-                    'id' => 'listmenulink', 'title' => $RCMAIL->gettext('listoptions'))));
+        $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', this, event)";
+        $inner   = $RCMAIL->gettext('listoptions');
+        if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
+            $inner = html::img(array('src' => $skin_path . $attrib['optionsmenuicon'], 'alt' => $RCMAIL->gettext('listoptions')));
+        }
+        $list_menu = html::a(array(
+            'href' => '#list-options',
+            'onclick' => $onclick,
+            'class' => 'listmenu',
+            'id' => 'listmenulink',
+            'title' => $RCMAIL->gettext('listoptions'),
+            'tabindex' => '0',
+        ), $inner);
     }
     else {
         $list_menu = '';
@@ -558,12 +565,14 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         // get column name
         switch ($col) {
         case 'flag':
-            $col_name = html::span('flagged', '&nbsp;');
+            $col_name = html::span('flagged', $RCMAIL->gettext('flagged'));
             break;
         case 'attachment':
         case 'priority':
+            $col_name = html::span($col, $RCMAIL->gettext($col));
+            break;
         case 'status':
-            $col_name = html::span($col, '&nbsp;');
+            $col_name = html::span($col, $RCMAIL->gettext('readstatus'));
             break;
         case 'threads':
             $col_name = $list_menu;

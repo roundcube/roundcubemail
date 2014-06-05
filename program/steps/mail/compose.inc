@@ -969,7 +969,7 @@ function rcmail_compose_body($attrib)
         $OUTPUT->set_env('spellcheck_langs', join(',', $editor_lang_set));
     }
 
-    $out .= "\n".'<iframe name="savetarget" src="program/resources/blank.gif" style="width:0;height:0;border:none;visibility:hidden;"></iframe>';
+    $out .= "\n".'<iframe name="savetarget" src="program/resources/blank.gif" style="width:0;height:0;border:none;visibility:hidden;" aria-hidden="true"></iframe>';
 
     return $out;
 }
@@ -1859,9 +1859,10 @@ function rcmail_compose_responses_list($attrib)
     foreach ($RCMAIL->get_compose_responses(true) as $response) {
         $key = $response['key'];
         $item = html::a(array(
-            'href '=> '#'.urlencode($response['name']),
+            'href' => '#'.urlencode($response['name']),
             'class' => rtrim('insertresponse ' . $attrib['itemclass']),
             'unselectable' => 'on',
+            'tabindex' => '0',
             'rel' => $key,
         ), rcube::Q($response['name']));
 

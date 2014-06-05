@@ -60,6 +60,7 @@ function rcmail_contact_head($attrib)
 
     $form = array(
         'head' => array(  // section 'head' is magic!
+            'name' => $RCMAIL->gettext('contactnameandorg'),
             'content' => array(
                 'prefix' => array('type' => 'text'),
                 'firstname' => array('type' => 'text'),

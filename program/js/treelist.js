@@ -55,6 +55,7 @@ function rcube_treelist_widget(node, p)
     drag_active = false,
     search_active = false,
     last_search = '',
+    has_focus = false,
     box_coords = {},
     item_coords = [],
     autoexpand_timer,
@@ -151,6 +152,19 @@ function rcube_treelist_widget(node, p)
     })
   }
 
+  container.on('focusin', function(e){
+      // TODO: only accept focus on virtual nodes from keyboard events
+      has_focus = true;
+    })
+    .on('focusout', function(e){
+      has_focus = false;
+    });
+
+  container.attr('role', 'tree');
+
+  $(document.body)
+    .bind('keydown', keypress);
+
 
   /////// private methods
 
@@ -201,13 +215,13 @@ function rcube_treelist_widget(node, p)
   function select(id)
   {
     if (selection) {
-      id2dom(selection).removeClass('selected');
+      id2dom(selection).removeClass('selected').removeAttr('aria-selected');
       selection = null;
     }
 
     var li = id2dom(id);
     if (li.length) {
-      li.addClass('selected');
+      li.addClass('selected').attr('aria-selected', 'true');
       selection = id;
       // TODO: expand all parent nodes if collapsed
       scroll_to_node(li);
@@ -262,6 +276,7 @@ function rcube_treelist_widget(node, p)
 
     // insert as child of an existing node
     if (parent_node) {
+      node.level = parent_node.level + 1;
       if (!parent_node.children)
         parent_node.children = [];
 
@@ -296,6 +311,7 @@ function rcube_treelist_widget(node, p)
     }
     // insert at top level
     else {
+      node.level = 0;
       data.push(node);
       li = render_node(node, container);
     }
@@ -392,7 +408,7 @@ function rcube_treelist_widget(node, p)
    */
   function update_data()
   {
-    data = walk_list(container);
+    data = walk_list(container, 0);
   }
 
   /**
@@ -401,6 +417,7 @@ function rcube_treelist_widget(node, p)
   function update_dom(node)
   {
     var li = id2dom(node.id);
+    li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
     li.children('ul').first()[(node.collapsed ? 'hide' : 'show')]();
     li.children('div.treetoggle').removeClass('collapsed expanded').addClass(node.collapsed ? 'collapsed' : 'expanded');
     me.triggerEvent('toggle', node);
@@ -507,6 +524,7 @@ function rcube_treelist_widget(node, p)
 
     // render child nodes
     for (var i=0; i < data.length; i++) {
+      data[i].level = 0;
       render_node(data[i], container);
     }
 
@@ -523,6 +541,7 @@ function rcube_treelist_widget(node, p)
 
     var li = $('<li>')
       .attr('id', p.id_prefix + (p.id_encode ? p.id_encode(node.id) : node.id))
+      .attr('role', 'treeitem')
       .addClass((node.classes || []).join(' '))
       .data('id', node.id);
 
@@ -546,12 +565,14 @@ function rcube_treelist_widget(node, p)
 
     // add child list and toggle icon
     if (node.children && node.children.length) {
+      li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
       $('<div class="treetoggle '+(node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
-      var ul = $('<ul>').appendTo(li).attr('class', node.childlistclass);
+      var ul = $('<ul>').appendTo(li).attr('class', node.childlistclass).attr('role', 'group');
       if (node.collapsed)
         ul.hide();
 
       for (var i=0; i < node.children.length; i++) {
+        node.children[i].level = node.level + 1;
         render_node(node.children[i], ul);
       }
     }
@@ -563,7 +584,7 @@ function rcube_treelist_widget(node, p)
    * Recursively walk the DOM tree and build an internal data structure
    * representing the skeleton of this tree list.
    */
-  function walk_list(ul)
+  function walk_list(ul, level)
   {
     var result = [];
     ul.children('li').each(function(i,e){
@@ -572,9 +593,10 @@ function rcube_treelist_widget(node, p)
         id: dom2id(li),
         classes: String(li.attr('class')).split(' '),
         virtual: li.hasClass('virtual'),
+        level: level,
         html: li.children().first().get(0).outerHTML,
         text: li.children().first().text(),
-        children: walk_list(sublist)
+        children: walk_list(sublist, level+1)
       }
 
       if (sublist.length) {
@@ -592,15 +614,29 @@ function rcube_treelist_widget(node, p)
 
         if (!li.children('div.treetoggle').length)
           $('<div class="treetoggle '+(node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
+
+        li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
       }
       if (li.hasClass('selected')) {
+        li.attr('aria-selected', 'true');
         selection = node.id;
       }
 
       li.data('id', node.id);
+
+      // declare list item as treeitem
+      li.attr('role', 'treeitem').attr('aria-level', node.level+1);
+
+      // allow virtual nodes to receive focus
+      if (node.virtual) {
+        li.children('a:first').attr('tabindex', '0');
+      }
+
       result.push(node);
       indexbyid[node.id] = node;
-    })
+    });
+
+    ul.attr('role', level == 0 ? 'tree' : 'group');
 
     return result;
   }
@@ -681,6 +717,70 @@ function rcube_treelist_widget(node, p)
     }
 
     return undefined;
+  }
+
+  /**
+   * Handler for keyboard events on treelist
+   */
+  function keypress(e)
+  {
+    var target = e.target || {},
+      keyCode = rcube_event.get_keycode(e);
+
+    if (!has_focus || target.nodeName == 'INPUT' || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
+      return true;
+
+    switch (keyCode) {
+      case 38:
+      case 40:
+      case 63232: // 'up', in safari keypress
+      case 63233: // 'down', in safari keypress
+        var li = container.find(':focus').closest('li');
+        if (li.length) {
+          focus_next(li, (mod = keyCode == 38 || keyCode == 63232 ? -1 : 1));
+        }
+        break;
+
+      case 37: // Left arrow key
+      case 39: // Right arrow key
+        var id, node, li = container.find(':focus').closest('li');
+        if (li.length) {
+          id = dom2id(li);
+          node = indexbyid[id];
+          if (node && node.children.length)
+            toggle(id, rcube_event.get_modifier(e) == SHIFT_KEY);  // toggle subtree
+        }
+        return false;
+    }
+
+    return true;
+  }
+
+  function focus_next(li, dir, from_child)
+  {
+    var mod = dir < 0 ? 'prev' : 'next',
+      next = li[mod](), limit, parent;
+
+    if (dir > 0 && !from_child && li.children('ul[role=group]:visible').length) {
+      li.children('ul').children('li:first').children('a:first').focus();
+    }
+    else if (dir < 0 && !from_child && next.children('ul[role=group]:visible').length) {
+      next.children('ul').children('li:last').children('a:last').focus();
+    }
+    else if (next.length && next.children('a:first')) {
+      next.children('a:first').focus();
+    }
+    else {
+      parent = li.parent().closest('li[role=treeitem]');
+      if (parent.length)
+        if (dir < 0) {
+          parent.children('a:first').focus();
+        }
+        else {
+          focus_next(parent, dir, true);
+        }
+    }
+>>>>>>> dev-accessibility
   }
 
 

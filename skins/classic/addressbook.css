@@ -279,6 +279,11 @@ body.iframe,
 	padding: 0;
 }
 
+#contacthead > legend
+{
+	display: none;
+}
+
 #contacthead .names span.namefield,
 #contacthead .names input
 {
