@@ -135,7 +135,6 @@ function rcmail_folder_form($attrib)
             'id'          => '_parent',
             'name'        => '_parent',
             'noselection' => '---',
-            'realnames'   => false,
             'maxlength'   => 150,
             'unsubscribed' => true,
             'skip_noinferiors' => true,
