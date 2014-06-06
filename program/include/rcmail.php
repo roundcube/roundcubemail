@@ -1342,7 +1342,8 @@ class rcmail extends rcube
      */
     public function folder_selector($p = array())
     {
-        $p += array('maxlength' => 100, 'realnames' => false, 'is_escaped' => true);
+        $realnames = $this->config->get('show_real_foldernames');
+        $p += array('maxlength' => 100, 'realnames' => $realnames, 'is_escaped' => true);
         $a_mailboxes = array();
         $storage = $this->get_storage();
 
