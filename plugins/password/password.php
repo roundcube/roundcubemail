@@ -71,8 +71,7 @@ class password extends rcube_plugin
         }
 
         $this->add_hook('settings_actions', array($this, 'settings_actions'));
-        if($rcmail->config->get('password_force_new_user'))
-        {
+        if($rcmail->config->get('password_force_new_user')) {
             $this->add_hook('user_create', array($this, 'user_create'));
             $this->add_hook('login_after', array($this, 'login_after'));
         }
@@ -101,6 +100,10 @@ class password extends rcube_plugin
 
         $rcmail = rcmail::get_instance();
         $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
+        $first = rcube_utils::get_input_value('_first', rcube_utils::INPUT_GET);
+        if(isset($first) && $first == 'true') {
+            $rcmail->output->command('display_message', $this->gettext('firstloginchange'), 'notice');
+        }
         $rcmail->output->send('plugin');
     }
 
@@ -319,19 +322,9 @@ class password extends rcube_plugin
         if($this->newuser)
         {
             $args['_task'] = 'settings';
-            $args['_action'] = 'plugin.password-first';
+            $args['_action'] = 'plugin.password';
+            $args['_first'] = 'true';
         }
         return $args;
-    }
-    
-    function password_first()
-    {
-        $rcmail = rcmail::get_instance();
-        $this->add_texts('localization/');
-        $this->register_handler('plugin.body', array($this, 'password_form'));
-        $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
-        $rcmail->output->command('display_message', $this->gettext('firstloginchange'), 'notice');
-        $rcmail->overwrite_action('plugin.password');
-        $rcmail->output->send('plugin');
     }
 }
