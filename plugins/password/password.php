@@ -44,6 +44,8 @@ class password extends rcube_plugin
     public $noframe = true;
     public $noajax  = true;
     private $newuser = false;
+    private $login_exceptions;
+    private $allowed_hosts;
 
     function init()
     {
@@ -53,6 +55,7 @@ class password extends rcube_plugin
 
         // Host exceptions
         $hosts = $rcmail->config->get('password_hosts');
+        $this->allowed_hosts = $hosts;
         if (!empty($hosts) && !in_array($_SESSION['storage_host'], $hosts)) {
             return;
         }
@@ -61,6 +64,7 @@ class password extends rcube_plugin
         if ($exceptions = $rcmail->config->get('password_login_exceptions')) {
             $exceptions = array_map('trim', (array) $exceptions);
             $exceptions = array_filter($exceptions);
+            $this->login_exceptions = $exceptions;
             $username   = $_SESSION['username'];
 
             foreach ($exceptions as $ec) {
@@ -78,7 +82,6 @@ class password extends rcube_plugin
 
         $this->register_action('plugin.password', array($this, 'password_init'));
         $this->register_action('plugin.password-save', array($this, 'password_save'));
-        $this->register_action('plugin.password-first', array($this, 'password_first'));
 
 
         if (strpos($rcmail->action, 'plugin.password') === 0) {
@@ -319,6 +322,18 @@ class password extends rcube_plugin
         
     function login_after($args)
     {
+        $rcmail = rcmail::get_instance();
+        $userstruct = $rcmail->user;
+        $username = $userstruct->get_username();
+        foreach ($this->login_exceptions as $ec) {
+            if ($username === $ec) {
+                return $args;
+            }
+        }
+        $domain = $userstruct->get_username('domain');
+        if (!empty($this->allowed_hosts) && !in_array($domain, $this->allowed_hosts)) {
+            return;
+        }
         if($this->newuser)
         {
             $args['_task'] = 'settings';
