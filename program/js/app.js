@@ -4517,7 +4517,7 @@ function rcube_webmail()
 
       // register (delegate) event handlers
       ul.on('mouseover', 'li', function(e){ ref.ksearch_select(e.target); })
-        .on('onmouseup', 'li', function(e){ ref.ksearch_click(e.target); })
+        .on('mouseup', 'li', function(e){ ref.ksearch_click(e.target); })
     }
 
     ul = this.ksearch_pane.__ul;
