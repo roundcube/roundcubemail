@@ -44,7 +44,6 @@ abstract class rcube_output
         $this->browser = new rcube_browser();
     }
 
-
     /**
      * Magic getter
      */
@@ -60,7 +59,6 @@ abstract class rcube_output
         return null;
     }
 
-
     /**
      * Setter for output charset.
      * To be specified in a meta tag and sent as http-header
@@ -72,7 +70,6 @@ abstract class rcube_output
         $this->charset = $charset;
     }
 
-
     /**
      * Getter for output charset
      *
@@ -82,7 +79,6 @@ abstract class rcube_output
     {
         return $this->charset;
     }
-
 
     /**
      * Set environment variable
@@ -94,7 +90,6 @@ abstract class rcube_output
     {
         $this->env[$name] = $value;
     }
-
 
     /**
      * Environment variable getter.
@@ -108,7 +103,6 @@ abstract class rcube_output
         return $this->env[$name];
     }
 
-
     /**
      * Delete all stored env variables and commands
      */
@@ -116,7 +110,6 @@ abstract class rcube_output
     {
         $this->env = array();
     }
-
 
     /**
      * Invoke display_message command
@@ -129,7 +122,6 @@ abstract class rcube_output
      */
     abstract function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0);
 
-
     /**
      * Redirect to a certain url.
      *
@@ -138,12 +130,10 @@ abstract class rcube_output
      */
     abstract function redirect($p = array(), $delay = 1);
 
-
     /**
      * Send output to the client.
      */
     abstract function send();
-
 
     /**
      * Send HTTP headers to prevent caching a page
@@ -156,9 +146,6 @@ abstract class rcube_output
 
         header("Expires: ".gmdate("D, d M Y H:i:s")." GMT");
         header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-
-        // Request browser to disable DNS prefetching (CVE-2010-0464)
-        header("X-DNS-Prefetch-Control: off");
 
         // We need to set the following headers to make downloads work using IE in HTTPS mode.
         if ($this->browser->ie && rcube_utils::https_check()) {
@@ -178,14 +165,32 @@ abstract class rcube_output
      */
     public function future_expire_header($offset = 2600000)
     {
-        if (headers_sent())
+        if (headers_sent()) {
             return;
+        }
 
         header("Expires: " . gmdate("D, d M Y H:i:s", time()+$offset) . " GMT");
         header("Cache-Control: max-age=$offset");
         header("Pragma: ");
     }
 
+    /**
+     * Send browser compatibility/security/etc. headers
+     */
+    public function common_headers()
+    {
+        if (headers_sent()) {
+            return;
+        }
+
+        // Unlock IE compatibility mode
+        if ($this->browser->ie) {
+            header('X-UA-Compatible: IE=edge');
+        }
+
+        // Request browser to disable DNS prefetching (CVE-2010-0464)
+        header("X-DNS-Prefetch-Control: off");
+    }
 
     /**
      * Show error page and terminate script execution
@@ -199,7 +204,6 @@ abstract class rcube_output
         fputs(STDERR, "Error $code: $message\n");
         exit(-1);
     }
-
 
     /**
      * Create an edit field for inclusion on a form
@@ -253,7 +257,6 @@ abstract class rcube_output
         return $out;
     }
 
-
     /**
      * Convert a variable into a javascript object notation
      *
@@ -269,5 +272,4 @@ abstract class rcube_output
         // that's why we have @ here
         return @json_encode($input);
     }
-
 }

@@ -44,6 +44,7 @@ $RCMAIL = rcmail::get_instance($GLOBALS['env']);
 
 // Make the whole PHP output non-cacheable (#1487797)
 $RCMAIL->output->nocacheing_headers();
+$RCMAIL->output->common_headers();
 
 // turn on output buffering
 ob_start();
