@@ -73,7 +73,7 @@ if (window.rcmail) {
             changeMonth: true,
             showOtherMonths: true,
             selectOtherMonths: true,
-            onSelect: function(dateText) { $(this).focus().val(dateText) }
+            onSelect: function(dateText) { $(this).focus().val(dateText); }
           });
           $('input.datepicker').datepicker();
         }
@@ -82,36 +82,36 @@ if (window.rcmail) {
         rcmail.enable_command('plugin.managesieve-add', 'plugin.managesieve-setadd', !rcmail.env.sieveconnerror);
       }
 
-      var i, p = rcmail, setcnt, set = rcmail.env.currentset;
+      var setcnt, set = rcmail.env.currentset;
 
       if (rcmail.gui_objects.filterslist) {
         rcmail.filters_list = new rcube_list_widget(rcmail.gui_objects.filterslist,
-          {multiselect:false, draggable:true, keyboard:false});
+          {multiselect:false, draggable:true, keyboard:true});
 
         rcmail.filters_list
-          .addEventListener('select', function(e) { p.managesieve_select(e); })
-          .addEventListener('dragstart', function(e) { p.managesieve_dragstart(e); })
-          .addEventListener('dragend', function(e) { p.managesieve_dragend(e); })
+          .addEventListener('select', function(e) { rcmail.managesieve_select(e); })
+          .addEventListener('dragstart', function(e) { rcmail.managesieve_dragstart(e); })
+          .addEventListener('dragend', function(e) { rcmail.managesieve_dragend(e); })
           .addEventListener('initrow', function(row) {
-            row.obj.onmouseover = function() { p.managesieve_focus_filter(row); };
-            row.obj.onmouseout = function() { p.managesieve_unfocus_filter(row); };
+            row.obj.onmouseover = function() { rcmail.managesieve_focus_filter(row); };
+            row.obj.onmouseout = function() { rcmail.managesieve_unfocus_filter(row); };
           })
-          .init().focus();
+          .init();
       }
 
       if (rcmail.gui_objects.filtersetslist) {
         rcmail.filtersets_list = new rcube_list_widget(rcmail.gui_objects.filtersetslist,
-          {multiselect:false, draggable:false, keyboard:false});
+          {multiselect:false, draggable:false, keyboard:true});
 
-        rcmail.filtersets_list
-          .addEventListener('select', function(e) { p.managesieve_setselect(e); })
-          .init().focus();
+        rcmail.filtersets_list.init().focus();
 
         if (set != null) {
           set = rcmail.managesieve_setid(set);
-          rcmail.filtersets_list.shift_start = set;
-          rcmail.filtersets_list.highlight_row(set, false);
+          rcmail.filtersets_list.select(set);
         }
+
+        // attach select event after initial record was selected
+        rcmail.filtersets_list.addEventListener('select', function(e) { rcmail.managesieve_setselect(e); });
 
         setcnt = rcmail.filtersets_list.rowcount;
         rcmail.enable_command('plugin.managesieve-set', true);
@@ -119,9 +119,10 @@ if (window.rcmail) {
         rcmail.enable_command('plugin.managesieve-setdel', setcnt > 1);
 
         // Fix dragging filters over sets list
-        $('tr', rcmail.gui_objects.filtersetslist).each(function (i, e) { p.managesieve_fixdragend(e); });
+        $('tr', rcmail.gui_objects.filtersetslist).each(function (i, e) { rcmail.managesieve_fixdragend(e); });
       }
     }
+
     if (rcmail.gui_objects.sieveform && rcmail.env.rule_disabled)
       $('#disabled').attr('checked', true);
   });
@@ -778,6 +779,7 @@ function smart_field_row(value, name, idx, size)
 
   input = $('input', elem).attr(attrs).keydown(function(e) {
     var input = $(this);
+
     // element creation event (on Enter)
     if (e.which == 13) {
       var name = input.attr('name').replace(/\[\]$/, ''),
@@ -786,6 +788,21 @@ function smart_field_row(value, name, idx, size)
 
       input.parent().after(elem);
       $('input', elem).focus();
+    }
+    // backspace or delete: remove input, focus previous one
+    else if ((e.which == 8 || e.which == 46) && input.val() == '') {
+
+      var parent = input.parent(), siblings = parent.parent().children();
+
+      if (siblings.length > 1) {
+        if (parent.prev().length)
+          parent.prev().children('input').focus();
+        else
+          parent.next().children('input').focus();
+
+        parent.remove();
+        return false;
+      }
     }
   });
 

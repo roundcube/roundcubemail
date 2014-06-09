@@ -177,6 +177,11 @@ $labels['vacation.addresses'] = 'My additional addresses';
 $labels['vacation.interval'] = 'Reply interval';
 $labels['vacation.after'] = 'Put vacation rule after';
 $labels['vacation.saving'] = 'Saving data...';
+$labels['arialabelfiltersetactions'] = 'Filter set actions';
+$labels['arialabelfilteractions'] = 'Filter actions';
+$labels['arialabelfilterform'] = 'Filter properties';
+$labels['ariasummaryfilterslist'] = 'List of filters';
+$labels['ariasummaryfiltersetslist'] = 'List of filter sets';
 
 $messages = array();
 $messages['filterunknownerror'] = 'Unknown server error.';

@@ -216,18 +216,18 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             ) + $attrib);
 
         // form elements
-        $subject   = new html_inputfield(array('name' => 'vacation_subject', 'size' => 50));
-        $reason    = new html_textarea(array('name' => 'vacation_reason', 'cols' => 60, 'rows' => 8));
-        $interval  = new html_inputfield(array('name' => 'vacation_interval', 'size' => 5));
-        $addresses = '<textarea name="vacation_addresses" data-type="list" data-size="30" style="display: none">'
+        $subject   = new html_inputfield(array('name' => 'vacation_subject', 'id' => 'vacation_subject', 'size' => 50));
+        $reason    = new html_textarea(array('name' => 'vacation_reason', 'id' => 'vacation_reason', 'cols' => 60, 'rows' => 8));
+        $interval  = new html_inputfield(array('name' => 'vacation_interval', 'id' => 'vacation_interval', 'size' => 5));
+        $addresses = '<textarea name="vacation_addresses" id="vacation_addresses" data-type="list" data-size="30" style="display: none">'
             . rcube::Q(implode("\n", (array) $this->vacation['addresses']), 'strict', false) . '</textarea>';
-        $status    = new html_select(array('name' => 'vacation_status'));
+        $status    = new html_select(array('name' => 'vacation_status', 'id' => 'vacation_status'));
 
         $status->add($this->plugin->gettext('vacation.on'), 'on');
         $status->add($this->plugin->gettext('vacation.off'), 'off');
 
         if ($this->rc->config->get('managesieve_vacation') != 2 && count($this->vacation['list'])) {
-            $after = new html_select(array('name' => 'vacation_after'));
+            $after = new html_select(array('name' => 'vacation_after', 'id' => 'vacation_after'));
 
             $after->add('', '');
             foreach ($this->vacation['list'] as $idx => $rule) {
@@ -247,7 +247,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if ($date_extension) {
-            $date_from   = new html_inputfield(array('name' => 'vacation_datefrom', 'class' => 'datepicker', 'size' => 12));
+            $date_from   = new html_inputfield(array('name' => 'vacation_datefrom', 'id' => 'vacation_datefrom', 'class' => 'datepicker', 'size' => 12));
             $date_to     = new html_inputfield(array('name' => 'vacation_dateto', 'class' => 'datepicker', 'size' => 12));
             $date_format = $this->rc->config->get('date_format', 'Y-m-d');
 
@@ -283,12 +283,12 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         // Advanced tab
         $table = new html_table(array('cols' => 2));
 
-        $table->add('title', $this->plugin->gettext('vacation.addresses'));
+        $table->add('title', html::label('vacation_addresses', $this->plugin->gettext('vacation.addresses')));
         $table->add(null, $addresses);
-        $table->add('title', $this->plugin->gettext('vacation.interval'));
+        $table->add('title', html::label('vacation_interval', $this->plugin->gettext('vacation.interval')));
         $table->add(null, $interval_txt);
         if ($after) {
-            $table->add('title', $this->plugin->gettext('vacation.after'));
+            $table->add('title', html::label('vacation_after', $this->plugin->gettext('vacation.after')));
             $table->add(null, $after->show($this->vacation['idx'] - 1));
         }
 
