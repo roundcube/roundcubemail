@@ -65,8 +65,8 @@ function rcube_list_widget(list, p)
   this.drag_active = false;
   this.col_drag_active = false;
   this.column_fixed = null;
-  this.last_selected = 0;
-  this.shift_start = 0;
+  this.last_selected = null;
+  this.shift_start = null;
   this.focused = false;
   this.drag_mouse_start = null;
   this.dblclick_time = 500; // default value on MS Windows is 500
@@ -293,7 +293,7 @@ clear: function(sel)
 
   this.rows = {};
   this.rowcount = 0;
-  this.last_selected = 0;
+  this.last_selected = null;
 
   if (sel)
     this.clear_selection();
@@ -939,7 +939,7 @@ select_row: function(id, mod_key, with_mouse)
     this.multi_selecting = true;
   }
 
-  if (this.last_selected != 0 && this.rows[this.last_selected]) {
+  if (this.last_selected && this.rows[this.last_selected]) {
     $(this.rows[this.last_selected].obj).removeClass('focused')
       .find(this.col_tagname()).eq(this.subject_col).removeAttr('tabindex');
   }
@@ -1171,7 +1171,7 @@ clear_selection: function(id, no_event)
 
   if (num_select && !this.selection.length && !no_event) {
     this.triggerEvent('select');
-    this.last_selected = 0;
+    this.last_selected = null;
   }
 },
 
