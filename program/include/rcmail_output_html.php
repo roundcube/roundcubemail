@@ -419,15 +419,6 @@ EOF;
      */
     public function write($template = '')
     {
-        // unlock interface after iframe load
-        $unlock = preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']);
-        if ($this->framed) {
-            array_unshift($this->js_commands, array('iframe_loaded', $unlock));
-        }
-        else if ($unlock) {
-            array_unshift($this->js_commands, array('hide_message', $unlock));
-        }
-
         if (!empty($this->script_files)) {
             $this->set_env('request_token', $this->app->get_request_token());
         }
@@ -572,18 +563,31 @@ EOF;
      */
     protected function get_js_commands(&$framed = null)
     {
-        if (!$this->framed && !empty($this->js_env)) {
-            $this->command('set_env', $this->js_env);
-        }
-
-        if (!empty($this->js_labels)) {
-            $this->command('add_label', $this->js_labels);
-        }
-
-        $out = '';
+        $out             = '';
         $parent_commands = 0;
+        $top_commands    = array();
 
-        foreach ($this->js_commands as $i => $args) {
+        // these should be always on top,
+        // e.g. hide_message() below depends on env.framed
+        if (!$this->framed && !empty($this->js_env)) {
+            $top_commands[] = array('set_env', $this->js_env);
+        }
+        if (!empty($this->js_labels)) {
+            $top_commands[] = array('add_label', $this->js_labels);
+        }
+
+        // unlock interface after iframe load
+        $unlock = preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']);
+        if ($this->framed) {
+            $top_commands[] = array('iframe_loaded', $unlock);
+        }
+        else if ($unlock) {
+            $top_commands[] = array('hide_message', $unlock);
+        }
+
+        $commands = array_merge($top_commands, $this->js_commands);
+
+        foreach ($commands as $i => $args) {
             $method = array_shift($args);
             $parent = $this->framed || preg_match('/^parent\./', $method);
 
@@ -604,7 +608,7 @@ EOF;
             $out .= sprintf("%s(%s);\n", $method, implode(',', $args));
         }
 
-        $framed = $parent_prefix && $parent_commands == count($this->js_commands);
+        $framed = $parent_prefix && $parent_commands == count($commands);
 
         // make the output more compact if all commands go to parent window
         if ($framed) {
