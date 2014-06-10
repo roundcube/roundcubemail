@@ -43,6 +43,7 @@ class password extends rcube_plugin
     public $task    = 'settings|login';
     public $noframe = true;
     public $noajax  = true;
+
     private $newuser = false;
 
     function init()
@@ -51,22 +52,23 @@ class password extends rcube_plugin
 
         $this->load_config();
 
-        if($rcmail->task == 'settings' && !$this->check_host_login_exceptions()) {
-            return;
+        if ($rcmail->task == 'settings') {
+            if (!$this->check_host_login_exceptions()) {
+                return;
+            }
+
+            $this->add_hook('settings_actions', array($this, 'settings_actions'));
+
+            $this->register_action('plugin.password', array($this, 'password_init'));
+            $this->register_action('plugin.password-save', array($this, 'password_save'));
+
+            if (strpos($rcmail->action, 'plugin.password') === 0) {
+                $this->include_script('password.js');
+            }
         }
-        
-        $this->add_hook('settings_actions', array($this, 'settings_actions'));
-        if($rcmail->config->get('password_force_new_user')) {
+        else if ($rcmail->config->get('password_force_new_user')) {
             $this->add_hook('user_create', array($this, 'user_create'));
             $this->add_hook('login_after', array($this, 'login_after'));
-        }
-
-        $this->register_action('plugin.password', array($this, 'password_init'));
-        $this->register_action('plugin.password-save', array($this, 'password_save'));
-
-
-        if (strpos($rcmail->action, 'plugin.password') === 0) {
-            $this->include_script('password.js');
         }
     }
 
@@ -84,24 +86,25 @@ class password extends rcube_plugin
 
         $rcmail = rcmail::get_instance();
         $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
-        $first = rcube_utils::get_input_value('_first', rcube_utils::INPUT_GET);
-        if(isset($first) && $first == 'true') {
+
+        if (rcube_utils::get_input_value('_first', rcube_utils::INPUT_GET)) {
             $rcmail->output->command('display_message', $this->gettext('firstloginchange'), 'notice');
         }
+
         $rcmail->output->send('plugin');
     }
 
     function password_save()
     {
-        $rcmail = rcmail::get_instance();
-
         $this->add_texts('localization/');
         $this->register_handler('plugin.body', array($this, 'password_form'));
+
+        $rcmail = rcmail::get_instance();
         $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
 
         $confirm = $rcmail->config->get('password_confirm_current');
         $required_length = intval($rcmail->config->get('password_minimum_length'));
-        $check_strength = $rcmail->config->get('password_require_nonalpha');
+        $check_strength  = $rcmail->config->get('password_require_nonalpha');
 
         if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd'])) {
             $rcmail->output->command('display_message', $this->gettext('nopassword'), 'error');
@@ -294,44 +297,39 @@ class password extends rcube_plugin
 
         return $reason;
     }
-    
+
     function user_create($args)
     {
         $this->newuser = true;
         return $args;
     }
-        
+
     function login_after($args)
     {
-        if(!$this->check_host_login_exceptions()) {
-            return $args;
-        }
-        if($this->newuser)
-        {
-            $args['_task'] = 'settings';
+        if ($this->newuser && $this->check_host_login_exceptions()) {
+            $args['_task']   = 'settings';
             $args['_action'] = 'plugin.password';
-            $args['_first'] = 'true';
+            $args['_first']  = 'true';
         }
+
         return $args;
     }
-    
+
     // Check if host and login is allowed to change the password, false = not allowed, true = not allowed
     private function check_host_login_exceptions()
     {
         $rcmail = rcmail::get_instance();
+
         // Host exceptions
         $hosts = $rcmail->config->get('password_hosts');
-        $this->allowed_hosts = $hosts;
         if (!empty($hosts) && !in_array($_SESSION['storage_host'], $hosts)) {
             return false;
         }
-        
 
         // Login exceptions
         if ($exceptions = $rcmail->config->get('password_login_exceptions')) {
             $exceptions = array_map('trim', (array) $exceptions);
             $exceptions = array_filter($exceptions);
-            $this->login_exceptions = $exceptions;
             $username   = $_SESSION['username'];
 
             foreach ($exceptions as $ec) {
@@ -340,6 +338,7 @@ class password extends rcube_plugin
                 }
             }
         }
+
         return true;
     }
 }
