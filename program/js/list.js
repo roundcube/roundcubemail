@@ -945,7 +945,7 @@ select_row: function(id, mod_key, with_mouse)
   }
 
   // unselect if toggleselect is active and the same row was clicked again
-  if (this.toggleselect && in_selection_before) {
+  if (this.toggleselect && in_selection_before && !mod_key) {
     this.clear_selection();
   }
   // trigger event if selection changed
