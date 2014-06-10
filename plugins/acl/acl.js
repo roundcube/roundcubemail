@@ -140,15 +140,16 @@ rcube_webmail.prototype.acl_mode_switch = function(elem)
 rcube_webmail.prototype.acl_list_init = function()
 {
     var method = this.env.acl_advanced ? 'addClass' : 'removeClass';
+
     $('#acl-switch')[method]('selected');
     $(this.gui_objects.acltable)[method]('advanced');
 
     this.acl_list = new rcube_list_widget(this.gui_objects.acltable,
-        {multiselect:true, draggable:false, keyboard:true, toggleselect:true});
-    this.acl_list.addEventListener('select', function(o) { rcmail.acl_list_select(o); });
-    this.acl_list.addEventListener('dblclick', function(o) { rcmail.acl_list_dblclick(o); });
-    this.acl_list.addEventListener('keypress', function(o) { rcmail.acl_list_keypress(o); });
-    this.acl_list.init();
+        {multiselect: true, draggable: false, keyboard: true});
+    this.acl_list.addEventListener('select', function(o) { rcmail.acl_list_select(o); })
+        .addEventListener('dblclick', function(o) { rcmail.acl_list_dblclick(o); })
+        .addEventListener('keypress', function(o) { rcmail.acl_list_keypress(o); })
+        .init();
 }
 
 // ACL table row selection handler
@@ -228,16 +229,23 @@ rcube_webmail.prototype.acl_add_row = function(o, sel)
         row = $('thead > tr', table).clone();
 
     // Update new row
-    $('td', row).map(function() {
-        var r, cl = this.className.replace(/^acl/, '');
+    $('th', row).map(function() {
+        var td = $('<td>'),
+            title = $(this).attr('title'),
+            cl = this.className.replace(/^acl/, '');
+
+        if (title)
+            td.attr('title', title);
 
         if (items && items[cl])
             cl = items[cl];
 
         if (cl == 'user')
-            $(this).text(o.username);
+            td.addClass(cl).append($('<a>').text(o.username));
         else
-            $(this).addClass(rcmail.acl_class(o.acl, cl)).text('');
+            td.addClass(this.className + ' ' + rcmail.acl_class(o.acl, cl)).text('');
+
+        $(this).replaceWith(td);
     });
 
     row.attr('id', 'rcmrow'+id);
@@ -281,10 +289,10 @@ rcube_webmail.prototype.acl_init_form = function(id)
 {
     var ul, row, td, val = '', type = 'user', li_elements, body = $('body'),
         adv_ul = $('#advancedrights'), sim_ul = $('#simplerights'),
-        name_input = $('#acluser');
+        name_input = $('#acluser'), type_list = $('#usertype');
 
     if (!this.acl_form) {
-        var fn = function () { $('input[value=user]').prop('checked', true); };
+        var fn = function () { $('input[value="user"]').prop('checked', true); };
         name_input.click(fn).keypress(fn);
     }
 
@@ -329,23 +337,24 @@ rcube_webmail.prototype.acl_init_form = function(id)
 
     this.acl_id = id;
 
-    var me = this, inst = window.rcmail, body = document.body;
-    var buttons = {};
-    buttons[rcmail.gettext('save')] = function(e) { inst.command('acl-save'); };
-    buttons[rcmail.gettext('cancel')] = function(e) { inst.command('acl-cancel'); };
+    var buttons = {}, me = this, body = document.body;
+
+    buttons[this.gettext('save')] = function(e) { me.command('acl-save'); };
+    buttons[this.gettext('cancel')] = function(e) { me.command('acl-cancel'); };
 
     // display it as popup
-    this.acl_popup = rcmail.show_popup_dialog(
+    this.acl_popup = this.show_popup_dialog(
         '<div style="width:480px;height:280px">&nbsp;</div>',
-        id ? rcmail.gettext('acl.editperms') : rcmail.gettext('acl.newuser'),
+        id ? this.gettext('acl.editperms') : this.gettext('acl.newuser'),
         buttons,
         {
             modal: true,
-            closeOnEscape: false,
+            closeOnEscape: true,
             close: function(e, ui) {
-                (rcmail.is_framed() ? parent.rcmail : rcmail).ksearch_hide();
+                (me.is_framed() ? parent.rcmail : me).ksearch_hide();
                 me.acl_form.appendTo(body).hide();
                 $(this).remove();
+                window.focus(); // focus iframe
             }
         }
     );
@@ -354,9 +363,8 @@ rcube_webmail.prototype.acl_init_form = function(id)
 
     if (type == 'user')
         name_input.focus();
-
-    // unfocus the list, make backspace key in name input field working
-    this.acl_list.blur();
+    else
+        $('input:checked', type_list).focus();
 }
 
 // Returns class name according to ACL comparision result

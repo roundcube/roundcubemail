@@ -286,7 +286,7 @@ class acl extends rcube_plugin
 
         $textfield = new html_inputfield($attrib);
 
-        $fields['user'] = html::label(array('for' => 'iduser'), $this->gettext('username'))
+        $fields['user'] = html::label(array('for' => $attrib['id']), $this->gettext('username'))
             . ' ' . $textfield->show();
 
         // Add special entries
@@ -401,7 +401,7 @@ class acl extends rcube_plugin
             }
 
             $table->add_row(array('id' => 'rcmrow'.$userid));
-            $table->add('user', rcube::Q($user));
+            $table->add('user', html::a(array('id' => 'rcmlinkrow'.$userid), rcube::Q($user)));
 
             foreach ($items as $key => $right) {
                 $in = $this->acl_compare($userrights, $right);
