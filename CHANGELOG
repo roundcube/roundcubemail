@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Password: Add option to force new users to change their password (#1486884)
 - Improve support for screen readers and assistive technology using WCAG 2.0 and WAI ARIA standards
 - Enable basic keyboard navigation throughout the UI (#1487845)
 - Select/scroll to previously selected message when returning from message page (#1489023)
