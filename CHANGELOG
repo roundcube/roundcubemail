@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix PHP error in Preferences when default_folders was in dont_override (#1489940)
 - Add configurable LDAP_OPT_DEREF option (#1489864)
 - Fix unintentional draft autosave request if autosave is disabled (#1489882)
 - Fix malformed References: header in send/saved mail (#1489891)

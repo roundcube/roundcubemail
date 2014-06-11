@@ -1035,7 +1035,8 @@ function rcmail_user_prefs($current = null)
             }
 
             // Configure special folders
-            if (!isset($no_override['default_folders']) && $current) {
+            $set = array('drafts_mbox', 'sent_mbox', 'junk_mbox', 'trash_mbox');
+            if ($current && count(array_intersect($no_override, $set)) < 4) {
                 $select = $RCMAIL->folder_selector(array(
                     'noselection'   => '---',
                     'realnames'     => true,
