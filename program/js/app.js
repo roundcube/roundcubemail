@@ -7497,8 +7497,10 @@ function rcube_webmail()
   // post the given form to a hidden iframe
   this.async_upload_form = function(form, action, onload)
   {
-    var frame, ts = new Date().getTime(),
-      frame_name = 'rcmupload'+ts;
+    // create hidden iframe
+    var ts = new Date().getTime(),
+      frame_name = 'rcmupload' + ts,
+      frame = this.async_upload_form_frame(frame_name);
 
     // upload progress support
     if (this.env.upload_progress_name) {
@@ -7513,21 +7515,7 @@ function rcube_webmail()
       field.val(ts);
     }
 
-    // have to do it this way for IE
-    // otherwise the form will be posted to a new window
-    if (document.all) {
-      document.body.insertAdjacentHTML('BeforeEnd', '<iframe name="'+frame_name+'"'
-        + ' src="program/resources/blank.gif" style="width:0;height:0;visibility:hidden;"></iframe>');
-      frame = $('iframe[name="'+frame_name+'"]');
-    }
-    // for standards-compliant browsers
-    else {
-      frame = $('<iframe>').attr('name', frame_name)
-        .css({border: 'none', width: 0, height: 0, visibility: 'hidden'})
-        .appendTo(document.body);
-    }
-
-    // handle upload errors, parsing iframe content in onload
+    // handle upload errors by parsing iframe content in onload
     frame.bind('load', {ts:ts}, onload);
 
     $(form).attr({
@@ -7538,6 +7526,13 @@ function rcube_webmail()
       .submit();
 
     return frame_name;
+  };
+
+  // create iframe element for files upload
+  this.async_upload_form_frame = function(name)
+  {
+    return $('<iframe>').attr({name: name, style: 'border: none; width: 0; height: 0; visibility: hidden'})
+      .appendTo(document.body);
   };
 
   // html5 file-drop API
