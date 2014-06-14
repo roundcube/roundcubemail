@@ -1084,7 +1084,6 @@ div.hide-headers {
 }
 
 #messageheader .pagenav .countdisplay {
-	min-width: 0;
 	padding-right: 0.5em;
 	white-space: nowrap;
 }
