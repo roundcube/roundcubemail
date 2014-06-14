@@ -67,7 +67,7 @@
 	<roundcube:object name="directorylist" id="directorylist" class="treelist listing iconized" />
 </div>
 <div id="directorylist-footer" class="boxfooter">
-	<roundcube:button command="group-create" type="link" title="newcontactgroup" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" label="newcontactgroup" /><roundcube:button name="groupoptions" id="groupoptionslink" type="link" title="moreactions" class="listbutton groupactions" onclick="return UI.toggle_popup('groupoptions',event)" innerClass="inner" label="arialabelabookgroupoptions" aria-haspopup="true" aria-expanded="false" aria-owns="groupoptionsmenu" />
+	<roundcube:button command="group-create" type="link" title="newgroup" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" label="addgroup" /><roundcube:button name="groupoptions" id="groupoptionslink" type="link" title="moreactions" class="listbutton groupactions" onclick="return UI.toggle_popup('groupoptions',event)" innerClass="inner" label="arialabelabookgroupoptions" aria-haspopup="true" aria-expanded="false" aria-owns="groupoptionsmenu" />
 </div>
 </div>
 
@@ -99,7 +99,7 @@
 	<roundcube:button command="lastpage" type="link" class="icon lastpage disabled" classAct="icon lastpage" title="lastpage" label="last" />
 </div>
 <div class="boxfooter">
-	<roundcube:button command="add" type="link" title="newcontact" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" label="newcontact" /><roundcube:button command="delete" type="link" title="deletecontact" class="listbutton delete disabled" classAct="listbutton delete" innerClass="inner" label="deletecontact" /><roundcube:button command="group-remove-selected" type="link" title="groupremoveselected" class="listbutton removegroup disabled" classAct="listbutton removegroup" innerClass="inner" label="groupremoveselected" />
+	<roundcube:button command="add" type="link" title="newcontact" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" label="addcontact" /><roundcube:button command="delete" type="link" title="deletecontact" class="listbutton delete disabled" classAct="listbutton delete" innerClass="inner" label="deletecontact" /><roundcube:button command="group-remove-selected" type="link" title="groupremoveselected" class="listbutton removegroup disabled" classAct="listbutton removegroup" innerClass="inner" label="groupremoveselected" />
 	<span class="countdisplay" aria-live="polite" aria-relevant="text">
 		<span class="voice"><roundcube:label name="contacts" /></span>
 		<roundcube:object name="recordsCountDisplay" label="fromtoshort" />

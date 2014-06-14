@@ -6,10 +6,7 @@
 </head>
 <body class="iframe">
 
-<h1 class="boxtitle">
-	<roundcube:if condition="env:action=='add'" /><roundcube:label name="addcontact" />
-	<roundcube:else /><roundcube:label name="editcontact" />
-<roundcube:endif /></h1>
+<h1 class="boxtitle"><roundcube:object name="steptitle" /></h1>
 
 <roundcube:form name="editform" method="post" id="contact-details" class="boxcontent">
 	<roundcube:if condition="strlen(env:sourcename)" />

@@ -72,7 +72,7 @@ if ($RCMAIL->action == 'save-response' && isset($_POST['_name']) && !$RESPONSE_R
 
 $OUTPUT->set_env('readonly', !empty($RESPONSE_RECORD['static']));
 $OUTPUT->add_handler('responseform', 'rcube_response_form');
-$OUTPUT->set_pagetitle($RCMAIL->gettext($RCMAIL->action == 'add-response' ? 'savenewresponse' : 'editresponse'));
+$OUTPUT->set_pagetitle($RCMAIL->gettext($RCMAIL->action == 'add-response' ? 'addresponse' : 'editresponse'));
 
 $OUTPUT->send('responseedit');
 

@@ -69,6 +69,8 @@ $OUTPUT->add_handlers(array(
     'filedroparea'    => 'rcmail_photo_drop_area',
 ));
 
+$OUTPUT->set_pagetitle($RCMAIL->gettext(($RCMAIL->action == 'add' ? 'addcontact' : 'editcontact')));
+
 if ($RCMAIL->action == 'add' && $OUTPUT->template_exists('contactadd')) {
     $OUTPUT->send('contactadd');
 }

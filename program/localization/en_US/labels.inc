@@ -255,9 +255,10 @@ $labels['restoremessage'] = 'Restore message?';
 $labels['responses'] = 'Responses';
 $labels['insertresponse'] = 'Insert a response';
 $labels['manageresponses'] = 'Manage responses';
-$labels['savenewresponse'] = 'Save new response';
-$labels['editresponses'] = 'Edit responses';
+$labels['newresponse'] = 'Create new response';
+$labels['addresponse'] = 'Add response';
 $labels['editresponse'] = 'Edit response';
+$labels['editresponses'] = 'Edit responses';
 $labels['responsename'] = 'Name';
 $labels['responsetext'] = 'Response Text';
 
@@ -353,7 +354,7 @@ $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profile';
 
 $labels['addfield'] = 'Add field...';
-$labels['addcontact'] = 'Add new contact';
+$labels['addcontact'] = 'Add contact';
 $labels['editcontact'] = 'Edit contact';
 $labels['contacts'] = 'Contacts';
 $labels['contactproperties'] = 'Contact properties';
@@ -370,7 +371,7 @@ $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
 
-$labels['newcontact']     = 'Create new contact card';
+$labels['newcontact']     = 'Create new contact';
 $labels['deletecontact']  = 'Delete selected contacts';
 $labels['composeto']      = 'Compose mail to';
 $labels['contactsfromto'] = 'Contacts $from to $to of $count';
@@ -379,7 +380,7 @@ $labels['export']         = 'Export';
 $labels['exportall']      = 'Export all';
 $labels['exportsel']      = 'Export selected';
 $labels['exportvcards']   = 'Export contacts in vCard format';
-$labels['newcontactgroup'] = 'Create new contact group';
+$labels['newgroup']       = 'Create new group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
@@ -417,11 +418,10 @@ $labels['userpreferences'] = 'User preferences';
 $labels['editpreferences'] = 'Edit user preferences';
 
 $labels['identities'] = 'Identities';
-$labels['manageidentities'] = 'Manage identities for this account';
-$labels['newidentity'] = 'New identity';
-
-$labels['newitem'] = 'New item';
-$labels['edititem'] = 'Edit item';
+$labels['manageidentities'] = 'Manage identities';
+$labels['newidentity'] = 'Create new identity';
+$labels['addidentity'] = 'Add identity';
+$labels['editidentity'] = 'Edit identity';
 
 $labels['preferhtml'] = 'Display HTML';
 $labels['defaultcharset'] = 'Default Character Set';
