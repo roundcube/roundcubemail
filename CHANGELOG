@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Support csv contacts import in German localization (#1489920)
 - Fix so message list and counters are updated when a message is opened in new window (#1489919)
 - Fix malformed recipient name when composing a message by clicking on mailto link (#1489942)
+- Fix list reload after sending message in another window (#1489931)
 
 RELEASE 1.0.1
 -------------

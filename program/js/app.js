@@ -4221,21 +4221,22 @@ function rcube_webmail()
     this.display_message(msg, type);
 
     if (this.env.extwin) {
-      var rc = this.opener();
       this.lock_form(this.gui_objects.messageform);
+
+      var rc = this.opener();
       if (rc) {
         rc.display_message(msg, type);
         // refresh the folder where sent message was saved or replied message comes from
         if (folders && rc.env.task == 'mail' && rc.env.action == '' && $.inArray(rc.env.mailbox, folders) >= 0) {
-          // @TODO: try with 'checkmail' here when #1485186 is fixed. See also #1489249.
-          rc.command('list');
+          rc.command('checkmail');
         }
       }
-      setTimeout(function(){ window.close() }, 1000);
+
+      setTimeout(function() { window.close(); }, 1000);
     }
     else {
       // before redirect we need to wait some time for Chrome (#1486177)
-      setTimeout(function(){ ref.list_mailbox(); }, 500);
+      setTimeout(function() { ref.list_mailbox(); }, 500);
     }
   };
 
