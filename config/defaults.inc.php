@@ -173,6 +173,9 @@ $config['imap_auth_pw'] = null;
 $config['imap_cache'] = null;
 
 // Enables messages cache. Only 'db' cache is supported.
+// This requires an IMAP server that supports QRESYNC and CONDSTORE
+// extensions (RFC7162). See synchronize() in program/lib/Roundcube/rcube_imap_cache.php
+// for further info, or if you experience syncing problems.
 $config['messages_cache'] = false;
 
 // Lifetime of IMAP indexes cache. Possible units: s, m, h, d, w
