@@ -17,7 +17,7 @@
 */
 
 $labels = array();
-$labels['changepasswd']  = 'Change Password';
+$labels['changepasswd']  = 'Change password';
 $labels['curpasswd']  = 'Current Password:';
 $labels['newpasswd']  = 'New Password:';
 $labels['confpasswd']  = 'Confirm New Password:';

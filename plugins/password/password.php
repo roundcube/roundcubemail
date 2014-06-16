@@ -75,7 +75,14 @@ class password extends rcube_plugin
     function settings_actions($args)
     {
         // register as settings action
-        $args['actions'][] = array('action' => 'plugin.password', 'class' => 'password', 'label' => 'password', 'domain' => 'password');
+        $args['actions'][] = array(
+            'action' => 'plugin.password',
+            'class'  => 'password',
+            'label'  => 'password',
+            'title'  => 'changepasswd',
+            'domain' => 'password',
+        );
+
         return $args;
     }
 
