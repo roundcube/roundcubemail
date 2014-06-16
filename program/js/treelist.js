@@ -739,7 +739,7 @@ function rcube_treelist_widget(node, p)
         if (li.length) {
           focus_next(li, (mod = keyCode == 38 || keyCode == 63232 ? -1 : 1));
         }
-        break;
+        return rcube_event.cancel(e);
 
       case 37: // Left arrow key
       case 39: // Right arrow key
@@ -755,7 +755,7 @@ function rcube_treelist_widget(node, p)
       case 9:  // Tab
         // jump to last/first item to move focus away from the treelist widget by tab
         var limit = rcube_event.get_modifier(e) == SHIFT_KEY ? 'first' : 'last';
-        container.find('li[role=treeitem]:has(a)')[limit]().find('a:'+limit).focus();
+        focus_noscroll(container.find('li[role=treeitem]:has(a)')[limit]().find('a:'+limit));
         break;
     }
 
@@ -785,6 +785,19 @@ function rcube_treelist_widget(node, p)
         else {
           focus_next(parent, dir, true);
         }
+    }
+  }
+
+  /**
+   * Focus the given element without scrolling the list container
+   */
+  function focus_noscroll(elem)
+  {
+    if (elem.length) {
+      var frame = container.parent().get(0) || { scrollTop:0 },
+        y = frame.scrollTop || frame.scrollY;
+      elem.focus();
+      frame.scrollTop = y;
     }
   }
 

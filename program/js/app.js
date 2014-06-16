@@ -1677,7 +1677,7 @@ function rcube_webmail()
       case 63232: // "up", in safari keypress
       case 63233: // "down", in safari keypress
         focus_menu_item(keyCode == 38 || keyCode == 63232 ? -1 : 1);
-        break;
+        return rcube_event.cancel(e);
 
       case 9:   // tab
         if (this.focused_menu) {

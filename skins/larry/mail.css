@@ -492,7 +492,7 @@ table.messagelist.fixedcopy {
 .messagelist tr > .flag,
 .messagelist tr > .priority {
 	width: 20px;
-	padding: 2px 3px;
+	padding: 2px 3px !important;
 }
 
 .webkit .messagelist tr > .attachment,
@@ -512,7 +512,7 @@ table.messagelist.fixedcopy {
 }
 
 .messagelist tr > .threads,
-.messagelist tr > .threads + td {
+.messagelist tr > .threads + th {
 	border-left: 0;
 }
 
