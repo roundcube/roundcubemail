@@ -165,6 +165,24 @@ function rcube_text_editor(config, id)
         node.tabIndex = textarea.tabIndex;
       if (focus)
         this.editor.getBody().focus();
+
+      // find :prev and :next elements to get focus when tabbing away
+      if (textarea.tabIndex > 0) {
+        var x = null,
+          editor = this.editor,
+          tabfocus_elements = [':prev',':next'],
+          el = tinymce.DOM.select('*[tabindex='+textarea.tabIndex+']:not(iframe)');
+        tinymce.each(el, function(e, i) { if (e.id == editor.id) { x = i; return false; } });
+        if (x !== null) {
+          if (el[x-1] && el[x-1].id) {
+            tabfocus_elements[0] = el[x-1].id;
+          }
+          if (el[x+1] && el[x+1].id) {
+            tabfocus_elements[1] = el[x+1].id;
+          }
+          editor.settings.tabfocus_elements = tabfocus_elements.join(',');
+        }
+      }
     }
   };
 
