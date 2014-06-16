@@ -110,13 +110,13 @@ class rcube_imap extends rcube_storage
     /**
      * Connect to an IMAP server
      *
-     * @param  string   $host    Host to connect
-     * @param  string   $user    Username for IMAP account
-     * @param  string   $pass    Password for IMAP account
-     * @param  integer  $port    Port to connect to
-     * @param  string   $use_ssl SSL schema (either ssl or tls) or null if plain connection
+     * @param string  $host    Host to connect
+     * @param string  $user    Username for IMAP account
+     * @param string  $pass    Password for IMAP account
+     * @param integer $port    Port to connect to
+     * @param string  $use_ssl SSL schema (either ssl or tls) or null if plain connection
      *
-     * @return boolean  TRUE on success, FALSE on failure
+     * @return boolean True on success, False on failure
      */
     public function connect($host, $user, $pass, $port=143, $use_ssl=null)
     {

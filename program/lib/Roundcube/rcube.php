@@ -373,15 +373,16 @@ class rcube
 
         // set class options
         $options = array(
-            'auth_type'   => $this->config->get("{$driver}_auth_type", 'check'),
-            'auth_cid'    => $this->config->get("{$driver}_auth_cid"),
-            'auth_pw'     => $this->config->get("{$driver}_auth_pw"),
-            'debug'       => (bool) $this->config->get("{$driver}_debug"),
-            'force_caps'  => (bool) $this->config->get("{$driver}_force_caps"),
-            'disabled_caps' => $this->config->get("{$driver}_disabled_caps"),
-            'timeout'     => (int) $this->config->get("{$driver}_timeout"),
-            'skip_deleted' => (bool) $this->config->get('skip_deleted'),
-            'driver'      => $driver,
+            'auth_type'      => $this->config->get("{$driver}_auth_type", 'check'),
+            'auth_cid'       => $this->config->get("{$driver}_auth_cid"),
+            'auth_pw'        => $this->config->get("{$driver}_auth_pw"),
+            'debug'          => (bool) $this->config->get("{$driver}_debug"),
+            'force_caps'     => (bool) $this->config->get("{$driver}_force_caps"),
+            'disabled_caps'  => $this->config->get("{$driver}_disabled_caps"),
+            'socket_options' => $this->config->get("{$driver}_conn_options"),
+            'timeout'        => (int) $this->config->get("{$driver}_timeout"),
+            'skip_deleted'   => (bool) $this->config->get('skip_deleted'),
+            'driver'         => $driver,
         );
 
         if (!empty($_SESSION['storage_host'])) {

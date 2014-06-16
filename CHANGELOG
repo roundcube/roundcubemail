@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option to specify IMAP connection socket parameters - imap_conn_options (#1489948)
 - Add option to set default message list mode - default_list_mode (#1487312)
 - Enable contextmenu plugin for TinyMCE editor (#1487014)
 - Fix some mime-type to extension mapping checks in Installer (#1489983)
