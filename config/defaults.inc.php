@@ -123,6 +123,27 @@ $config['default_port'] = 143;
 // best server supported one)
 $config['imap_auth_type'] = null;
 
+// IMAP socket context options
+// See http://php.net/manual/en/context.ssl.php
+// The example below enables server certificate validation
+//$config['imap_conn_options'] = array(
+//  'ssl'         => array(
+//     'verify_peer'  => true,
+//     'verify_depth' => 3,
+//     'cafile'       => '/etc/openssl/certs/ca.crt',
+//   ),
+// );
+$config['imap_conn_options'] = null;
+
+// IMAP connection timeout, in seconds. Default: 0 (use default_socket_timeout)
+$config['imap_timeout'] = 0;
+
+// Optional IMAP authentication identifier to be used as authorization proxy
+$config['imap_auth_cid'] = null;
+
+// Optional IMAP authentication password to be used for imap_auth_cid
+$config['imap_auth_pw'] = null;
+
 // If you know your imap's folder delimiter, you can specify it here.
 // Otherwise it will be determined automatically
 $config['imap_delimiter'] = null;
@@ -159,15 +180,6 @@ $config['imap_force_ns'] = false;
 // For example UW-IMAP server has broken ESEARCH.
 // Note: Because the list is cached, re-login is required after change.
 $config['imap_disabled_caps'] = array();
-
-// IMAP connection timeout, in seconds. Default: 0 (use default_socket_timeout)
-$config['imap_timeout'] = 0;
-
-// Optional IMAP authentication identifier to be used as authorization proxy
-$config['imap_auth_cid'] = null;
-
-// Optional IMAP authentication password to be used for imap_auth_cid
-$config['imap_auth_pw'] = null;
 
 // Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache'.
 $config['imap_cache'] = null;
@@ -244,12 +256,13 @@ $config['smtp_timeout'] = 0;
 // requires 'smtp_timeout' to be non zero.
 // $config['smtp_conn_options'] = array(
 //   'ssl'         => array(
-//     'verify_peer'     => true,
-//     'verify_depth     => 3,
-//     'cafile'          => '/etc/openssl/certs/ca.crt',
+//     'verify_peer'  => true,
+//     'verify_depth' => 3,
+//     'cafile'       => '/etc/openssl/certs/ca.crt',
 //   ),
 // );
 $config['smtp_conn_options'] = null;
+
 
 // ----------------------------------
 // LDAP

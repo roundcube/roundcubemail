@@ -723,103 +723,30 @@ class rcube_imap_generic
         // configure
         $this->set_prefs($options);
 
-        $auth_method = $this->prefs['auth_type'];
-        $result      = false;
-
-        // initialize connection
-        $this->error    = '';
-        $this->errornum = self::ERROR_OK;
-        $this->selected = null;
-        $this->user     = $user;
         $this->host     = $host;
+        $this->user     = $user;
         $this->logged   = false;
+        $this->selected = null;
 
         // check input
         if (empty($host)) {
             $this->setError(self::ERROR_BAD, "Empty host");
             return false;
         }
+
         if (empty($user)) {
             $this->setError(self::ERROR_NO, "Empty user");
             return false;
         }
+
         if (empty($password)) {
             $this->setError(self::ERROR_NO, "Empty password");
             return false;
         }
 
-        if (!$this->prefs['port']) {
-            $this->prefs['port'] = 143;
-        }
-        // check for SSL
-        if ($this->prefs['ssl_mode'] && $this->prefs['ssl_mode'] != 'tls') {
-            $host = $this->prefs['ssl_mode'] . '://' . $host;
-        }
-
-        if ($this->prefs['timeout'] <= 0) {
-            $this->prefs['timeout'] = max(0, intval(ini_get('default_socket_timeout')));
-        }
-
         // Connect
-        $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr, $this->prefs['timeout']);
-
-        if (!$this->fp) {
-            if (!$errstr) {
-                $errstr = "Unknown reason (fsockopen() function disabled?)";
-            }
-            $this->setError(self::ERROR_BAD, sprintf("Could not connect to %s:%d: %s", $host, $this->prefs['port'], $errstr));
+        if (!$this->_connect($host)) {
             return false;
-        }
-
-        if ($this->prefs['timeout'] > 0) {
-            stream_set_timeout($this->fp, $this->prefs['timeout']);
-        }
-
-        $line = trim(fgets($this->fp, 8192));
-
-        if ($this->_debug) {
-            // set connection identifier for debug output
-            preg_match('/#([0-9]+)/', (string)$this->fp, $m);
-            $this->resourceid = strtoupper(substr(md5($m[1].$this->user.microtime()), 0, 4));
-
-            if ($line)
-                $this->debug('S: '. $line);
-        }
-
-        // Connected to wrong port or connection error?
-        if (!preg_match('/^\* (OK|PREAUTH)/i', $line)) {
-            if ($line)
-                $error = sprintf("Wrong startup greeting (%s:%d): %s", $host, $this->prefs['port'], $line);
-            else
-                $error = sprintf("Empty startup greeting (%s:%d)", $host, $this->prefs['port']);
-
-            $this->setError(self::ERROR_BAD, $error);
-            $this->closeConnection();
-            return false;
-        }
-
-        // RFC3501 [7.1] optional CAPABILITY response
-        if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
-            $this->parseCapability($matches[1], true);
-        }
-
-        // TLS connection
-        if ($this->prefs['ssl_mode'] == 'tls' && $this->getCapability('STARTTLS')) {
-            $res = $this->execute('STARTTLS');
-
-            if ($res[0] != self::ERROR_OK) {
-                $this->closeConnection();
-                return false;
-            }
-
-            if (!stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
-                $this->setError(self::ERROR_BAD, "Unable to negotiate TLS");
-                $this->closeConnection();
-                return false;
-            }
-
-            // Now we're secure, capabilities need to be reread
-            $this->clearCapability();
         }
 
         // Send ID info
@@ -827,6 +754,7 @@ class rcube_imap_generic
             $this->id($this->prefs['ident']);
         }
 
+        $auth_method  = $this->prefs['auth_type'];
         $auth_methods = array();
         $result       = null;
 
@@ -898,6 +826,103 @@ class rcube_imap_generic
         $this->closeConnection();
 
         return false;
+    }
+
+    /**
+     * Connects to IMAP server.
+     *
+     * @param string $host Server hostname or IP
+     *
+     * @return bool True on success, False on failure
+     */
+    protected function _connect($host)
+    {
+        // initialize connection
+        $this->error    = '';
+        $this->errornum = self::ERROR_OK;
+
+        if (!$this->prefs['port']) {
+            $this->prefs['port'] = 143;
+        }
+
+        // check for SSL
+        if ($this->prefs['ssl_mode'] && $this->prefs['ssl_mode'] != 'tls') {
+            $host = $this->prefs['ssl_mode'] . '://' . $host;
+        }
+
+        if ($this->prefs['timeout'] <= 0) {
+            $this->prefs['timeout'] = max(0, intval(ini_get('default_socket_timeout')));
+        }
+
+        if (!empty($this->prefs['socket_options'])) {
+            $context  = stream_context_create($this->prefs['socket_options']);
+            $this->fp = stream_socket_client($host . ':' . $this->prefs['port'], $errno, $errstr,
+                $this->prefs['timeout'], STREAM_CLIENT_CONNECT, $context);
+        }
+        else {
+            $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr, $this->prefs['timeout']);
+        }
+
+        if (!$this->fp) {
+            $this->setError(self::ERROR_BAD, sprintf("Could not connect to %s:%d: %s",
+                $host, $this->prefs['port'], $errstr ?: "Unknown reason"));
+
+            return false;
+        }
+
+        if ($this->prefs['timeout'] > 0) {
+            stream_set_timeout($this->fp, $this->prefs['timeout']);
+        }
+
+        $line = trim(fgets($this->fp, 8192));
+
+        if ($this->_debug) {
+            // set connection identifier for debug output
+            preg_match('/#([0-9]+)/', (string) $this->fp, $m);
+            $this->resourceid = strtoupper(substr(md5($m[1].$this->user.microtime()), 0, 4));
+
+            if ($line) {
+                $this->debug('S: '. $line);
+            }
+        }
+
+        // Connected to wrong port or connection error?
+        if (!preg_match('/^\* (OK|PREAUTH)/i', $line)) {
+            if ($line)
+                $error = sprintf("Wrong startup greeting (%s:%d): %s", $host, $this->prefs['port'], $line);
+            else
+                $error = sprintf("Empty startup greeting (%s:%d)", $host, $this->prefs['port']);
+
+            $this->setError(self::ERROR_BAD, $error);
+            $this->closeConnection();
+            return false;
+        }
+
+        // RFC3501 [7.1] optional CAPABILITY response
+        if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
+            $this->parseCapability($matches[1], true);
+        }
+
+        // TLS connection
+        if ($this->prefs['ssl_mode'] == 'tls' && $this->getCapability('STARTTLS')) {
+            $res = $this->execute('STARTTLS');
+
+            if ($res[0] != self::ERROR_OK) {
+                $this->closeConnection();
+                return false;
+            }
+
+            if (!stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+                $this->setError(self::ERROR_BAD, "Unable to negotiate TLS");
+                $this->closeConnection();
+                return false;
+            }
+
+            // Now we're secure, capabilities need to be reread
+            $this->clearCapability();
+        }
+
+        return true;
     }
 
     /**

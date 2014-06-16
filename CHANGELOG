@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add config option to specify IMAP connection socket parameters - imap_conn_options (#1489948)
 - Password: Add option to force new users to change their password (#1486884)
 - Improve support for screen readers and assistive technology using WCAG 2.0 and WAI ARIA standards
 - Enable basic keyboard navigation throughout the UI (#1487845)
