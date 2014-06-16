@@ -2,6 +2,7 @@
 - Fix disabled "create filter" action
 - Fix enotify/notify extension handling
 - Improved UI accessibility
+- Added option to specify connection socket parameters - managesieve_conn_options
 
 * version 7.2 [2014-02-14]
 -----------------------------------------------------------

@@ -57,10 +57,11 @@ class rcube_sieve
      * @param boolean Enable/disable debugging
      * @param string  Proxy authentication identifier
      * @param string  Proxy authentication password
+     * @param array   List of options to pass to stream_context_create().
      */
     public function __construct($username, $password='', $host='localhost', $port=2000,
         $auth_type=null, $usetls=true, $disabled=array(), $debug=false,
-        $auth_cid=null, $auth_pw=null)
+        $auth_cid=null, $auth_pw=null, $options=array())
     {
         $this->sieve = new Net_Sieve();
 
@@ -68,7 +69,7 @@ class rcube_sieve
             $this->sieve->setDebug(true, array($this, 'debug_handler'));
         }
 
-        if (PEAR::isError($this->sieve->connect($host, $port, null, $usetls))) {
+        if (PEAR::isError($this->sieve->connect($host, $port, $options, $usetls))) {
             return $this->_set_error(SIEVE_ERROR_CONNECTION);
         }
 

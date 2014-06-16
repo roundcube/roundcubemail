@@ -122,6 +122,7 @@ class rcube_sieve_engine
             'debug'     => $this->rc->config->get('managesieve_debug', false),
             'auth_cid'  => $this->rc->config->get('managesieve_auth_cid'),
             'auth_pw'   => $this->rc->config->get('managesieve_auth_pw'),
+            'socket_options' => $this->rc->config->get('managesieve_conn_options'),
         ));
 
         // try to connect to managesieve server and to fetch the script
@@ -135,7 +136,8 @@ class rcube_sieve_engine
             $plugin['disabled'],
             $plugin['debug'],
             $plugin['auth_cid'],
-            $plugin['auth_pw']
+            $plugin['auth_pw'],
+            $plugin['socket_options']
         );
 
         if (!($error = $this->sieve->error())) {
