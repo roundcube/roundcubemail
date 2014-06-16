@@ -739,7 +739,7 @@ function rcube_treelist_widget(node, p)
         if (li.length) {
           focus_next(li, (mod = keyCode == 38 || keyCode == 63232 ? -1 : 1));
         }
-        break;
+        return rcube_event.cancel(e);
 
       case 37: // Left arrow key
       case 39: // Right arrow key
