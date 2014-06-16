@@ -109,6 +109,7 @@ class managesieve extends rcube_plugin
                 'class'  => 'filter',
                 'label'  => 'filters',
                 'domain' => 'managesieve',
+                'title'  => 'filterstitle',
             );
         }
 
@@ -119,6 +120,7 @@ class managesieve extends rcube_plugin
                 'class'  => 'vacation',
                 'label'  => 'vacation',
                 'domain' => 'managesieve',
+                'title'  => 'vacationtitle',
             );
         }
 

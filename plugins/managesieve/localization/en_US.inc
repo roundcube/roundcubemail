@@ -182,6 +182,8 @@ $labels['arialabelfilteractions'] = 'Filter actions';
 $labels['arialabelfilterform'] = 'Filter properties';
 $labels['ariasummaryfilterslist'] = 'List of filters';
 $labels['ariasummaryfiltersetslist'] = 'List of filter sets';
+$labels['filterstitle'] = 'Edit incoming mail filters';
+$labels['vacationtitle'] = 'Edit out-of-office rule';
 
 $messages = array();
 $messages['filterunknownerror'] = 'Unknown server error.';
