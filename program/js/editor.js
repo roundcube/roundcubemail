@@ -23,7 +23,7 @@ function rcmail_editor_init(config)
       apply_source_formatting: true,
       theme: 'advanced',
       language: config.lang,
-      content_css: config.skin_path + '/editor_content.css',
+      content_css: config.skin_path + '/editor_content.css?v2',
       theme_advanced_toolbar_location: 'top',
       theme_advanced_toolbar_align: 'left',
       theme_advanced_buttons3: '',
