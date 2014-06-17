@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "Plugin adds the complete jQuery-UI library including the smoothness theme to Roundcube. This allows other plugins to use jQuery-UI without having to load their own version. The benefit of using one central jQuery-UI is that we wont run into problems of conflicting jQuery libraries being loaded. All plugins that want to use jQuery-UI should use this plugin as a requirement.",
     "license": "GNU GPLv3+",
-    "version": "1.9.1",
+    "version": "1.10.4",
     "authors": [
         {
             "name": "Thomas Bruederli",
