@@ -3553,26 +3553,32 @@ function rcube_webmail()
         myprompt = $('<div class="prompt">').html('<div class="message">' + this.get_label('nosubjectwarning') + '</div>')
           .appendTo(document.body),
         prompt_value = $('<input>').attr({type: 'text', size: 30}).val(this.get_label('nosubject'))
-          .appendTo(myprompt);
+          .appendTo(myprompt),
+        save_func = function() {
+          input_subject.val(prompt_value.val());
+          myprompt.dialog('close');
+          ref.command(cmd, { nocheck:true });  // repeat command which triggered this
+        };
 
-      buttons[this.get_label('cancel')] = function(){
+      buttons[this.get_label('sendmessage')] = function() {
+        save_func($(this));
+      };
+      buttons[this.get_label('cancel')] = function() {
         input_subject.focus();
         $(this).dialog('close');
-      };
-      buttons[this.get_label('sendmessage')] = function(){
-        input_subject.val(prompt_value.val());
-        $(this).dialog('close');
-        ref.command(cmd, { nocheck:true });  // repeat command which triggered this
       };
 
       myprompt.dialog({
         modal: true,
         resizable: false,
         buttons: buttons,
-        close: function(event, ui) { $(this).remove() }
+        close: function(event, ui) { $(this).remove(); }
       });
 
-      prompt_value.select();
+      prompt_value.select().keydown(function(e) {
+        if (e.which == 13) save_func();
+      });
+
       return false;
     }
 

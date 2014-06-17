@@ -643,7 +643,7 @@ table.messagelist.fixedcopy {
 }
 
 .messagelist thead tr th.attachment span.attachment {
-	background-position: -24px -997px;
+	background-position: -24px -996px;
 }
 
 .messagelist tbody tr td.attachment span.report {
@@ -651,7 +651,7 @@ table.messagelist.fixedcopy {
 }
 
 .messagelist thead tr th.priority span.priority {
-	background-position: -24px -1845px;
+	background-position: -25px -1845px;
 }
 
 .messagelist tr td.priority span.prio5 {
@@ -675,7 +675,7 @@ table.messagelist.fixedcopy {
 }
 
 .messagelist thead tr th.flag span.flagged {
-	background-position: -22px -1036px;
+	background-position: -22px -1037px;
 }
 
 .messagelist tr:hover td.status span.msgicon {
