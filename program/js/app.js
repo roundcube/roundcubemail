@@ -3650,7 +3650,7 @@ function rcube_webmail()
       $(this).dialog('close');
     };
 
-    this.show_popup_dialog(html, this.gettext('savenewresponse'), buttons);
+    this.show_popup_dialog(html, this.gettext('newresponse'), buttons);
 
     $('#ffresponsetext').val(text);
     $('#ffresponsename').select();

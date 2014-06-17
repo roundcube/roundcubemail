@@ -80,7 +80,7 @@ if (!is_array($COMPOSE)) {
 $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning', 'cancel',
     'nobodywarning', 'notsentwarning', 'notuploadedwarning', 'savingmessage', 'sendingmessage', 
     'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
-    'fileuploaderror', 'sendmessage', 'savenewresponse', 'responsename', 'responsetext', 'save',
+    'fileuploaderror', 'sendmessage', 'newresponse', 'responsename', 'responsetext', 'save',
     'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore', 'ignore',
     'selectimportfile');
 
