@@ -45,6 +45,7 @@ function rcube_treelist_widget(node, p)
     scroll_step: 5,
     scroll_speed: 20,
     save_state: false,
+    keyboard: true,
     check_droptarget: function(node){ return !node.virtual }
   }, p || {});
 
@@ -735,7 +736,7 @@ function rcube_treelist_widget(node, p)
       case 40:
       case 63232: // 'up', in safari keypress
       case 63233: // 'down', in safari keypress
-        var li = container.find(':focus').closest('li');
+        var li = p.keyboard ? container.find(':focus').closest('li') : [];
         if (li.length) {
           focus_next(li, (mod = keyCode == 38 || keyCode == 63232 ? -1 : 1));
         }
@@ -753,9 +754,11 @@ function rcube_treelist_widget(node, p)
         return false;
 
       case 9:  // Tab
-        // jump to last/first item to move focus away from the treelist widget by tab
-        var limit = rcube_event.get_modifier(e) == SHIFT_KEY ? 'first' : 'last';
-        focus_noscroll(container.find('li[role=treeitem]:has(a)')[limit]().find('a:'+limit));
+        if (p.keyboard) {
+          // jump to last/first item to move focus away from the treelist widget by tab
+          var limit = rcube_event.get_modifier(e) == SHIFT_KEY ? 'first' : 'last';
+          focus_noscroll(container.find('li[role=treeitem]:has(a)')[limit]().find('a:'+limit));
+        }
         break;
     }
 
