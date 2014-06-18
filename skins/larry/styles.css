@@ -37,7 +37,13 @@ img {
 
 .voice {
 	position: absolute;
-	top: -1000px;
+	border: 0;
+	clip: rect(0 0 0 0);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
 }
 
 input[type="text"],
@@ -2769,13 +2775,14 @@ ul.toolbarmenu li span.copy {
 	padding: 0;
 	text-decoration: none;
 	text-indent: -5000px;
-	background: url(images/buttons.png) -7px -337px no-repeat;
+	background-image: url(images/buttons.png);
+	background-position: -6px -338px;
+	background-repeat: no-repeat;
 }
 
 .attachmentslist li a.cancelupload {
-	background-position: -7px -377px;
+	background-position: -6px -378px;
 }
-
 
 /*** fieldset tabs ***/
 
