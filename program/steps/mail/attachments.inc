@@ -180,6 +180,7 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
                 'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", rcmail_output::JS_OBJECT_NAME, $id),
                 'title'   => $RCMAIL->gettext('delete'),
                 'class'   => 'delete',
+                'aria-label' => $RCMAIL->gettext('delete') . ' ' . $attachment['name'],
             ), $button);
 
             $content .= rcube::Q($attachment['name']);

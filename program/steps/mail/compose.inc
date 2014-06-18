@@ -1524,7 +1524,9 @@ function rcmail_compose_attachment_list($attrib)
                         'href'    => "#delete",
                         'title'   => $RCMAIL->gettext('delete'),
                         'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", rcmail_output::JS_OBJECT_NAME, $id),
-                        'class'   => 'delete'
+                        'class'   => 'delete',
+                        'tabindex' => $attrib['tabindex'] ?: '0',
+                        'aria-label'   => $RCMAIL->gettext('delete') . ' ' . $a_prop['name'],
                     ),
                     $button
                 ) . rcube::Q($a_prop['name'])
@@ -1549,6 +1551,12 @@ function rcmail_compose_attachment_list($attrib)
 
     $OUTPUT->set_env('attachments', $jslist);
     $OUTPUT->add_gui_object('attachmentlist', $attrib['id']);
+
+    // put tabindex value into data-tabindex attribute
+    if (isset($attrib['tabindex'])) {
+        $attrib['data-tabindex'] = $attrib['tabindex'];
+        unset($attrib['tabindex']);
+    }
 
     return html::tag('ul', $attrib, $out, html::$common_attrib);
 }

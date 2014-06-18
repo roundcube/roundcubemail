@@ -4070,7 +4070,7 @@ function rcube_webmail()
 
     if (!att.complete && att.frame)
       att.html = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\', \''+att.frame+'\');" href="#cancelupload" class="cancelupload">'
-        + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="" />' : this.get_label('cancel')) + '</a>' + att.html;
+        + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="'+this.get_label('cancel')+'" />' : this.get_label('cancel')) + '</a>' + att.html;
 
     var indicator, li = $('<li>');
 
@@ -4086,6 +4086,10 @@ function rcube_webmail()
     else { // add new li
       li.appendTo(this.gui_objects.attachmentlist);
     }
+
+    // set tabindex attribute
+    var tabindex = $(this.gui_objects.attachmentlist).attr('data-tabindex') || '0';
+    li.find('a').attr('tabindex', tabindex);
 
     if (upload_id && this.env.attachments[upload_id])
       delete this.env.attachments[upload_id];
