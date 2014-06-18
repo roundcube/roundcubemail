@@ -65,7 +65,7 @@ function rcube_text_editor(config, id)
   // minimal editor
   if (config.mode == 'identity') {
     $.extend(conf, {
-      plugins: ['autolink charmap code hr link paste tabfocus textcolor'],
+      plugins: 'autolink charmap code colorpicker hr link paste tabfocus textcolor',
       toolbar: 'bold italic underline alignleft aligncenter alignright alignjustify'
         + ' | outdent indent charmap hr link unlink code forecolor'
         + ' | fontselect fontsizeselect'
@@ -74,8 +74,8 @@ function rcube_text_editor(config, id)
   // full-featured editor
   else {
     $.extend(conf, {
-      plugins: ['autolink charmap code directionality emoticons link image media nonbreaking'
-        + ' paste table tabfocus textcolor searchreplace' + (config.spellcheck ? ' spellchecker' : '')],
+      plugins: 'autolink charmap code colorpicker directionality emoticons link image media nonbreaking'
+        + ' paste table tabfocus textcolor searchreplace' + (config.spellcheck ? ' spellchecker' : ''),
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
         + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
         + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',

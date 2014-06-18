@@ -9,7 +9,7 @@ CHANGELOG Roundcube Webmail
 - Select/scroll to previously selected message when returning from message page (#1489023)
 - Display a warning if popup window was blocked (#1489618)
 - Remove (was: ...) from message subject on reply (#1489375)
-- Update to TinyMCE 4.0 (#1489057)
+- Update to TinyMCE 4.1 (#1489057)
 - Enable autolink plugin in TinyMCE (#1488845)
 - Support image operations with Imagick extension (#1489734)
 - Support upload progress with session.upload_progress and PECL uploadprogress module (#1488702)
