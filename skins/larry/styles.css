@@ -1195,6 +1195,7 @@ a.iconlink.upload {
 	cursor: default;
 	padding: 4px 8px;
 	line-height: 17px;
+	height: 17px;
 	white-space: nowrap;
 }
 
@@ -2828,4 +2829,9 @@ ul.toolbarmenu li span.copy {
 
 #image-selector-form.droptarget {
 	background: url(images/filedrop.png) center bottom no-repeat;
+}
+
+/** Common TinyMCE fixes **/
+.mce-btn-small .mce-ico {
+	display: inline; /* for old Firefox */
 }

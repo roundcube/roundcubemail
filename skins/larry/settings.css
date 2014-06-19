@@ -245,6 +245,7 @@
 #subscription-table tr.root td {
 	font-size: 5%;
 	line-height: 5px;
+	height: 5px;
 	padding: 2px;
 }
 
