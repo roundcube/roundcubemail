@@ -1,7 +1,7 @@
 <div id="aclcontainer" class="uibox listbox">
-<div id="acllist-content" class="scroller withfooter" aria-labelledby="aria-label-acltable">
+<div id="acllist-content" class="scroller withfooter">
     <h2 class="voice" id="aria-label-acltable"><roundcube:label name="acl.ariasummaryacltable" /></h2>
-    <roundcube:object name="acltable" id="acltable" class="records-table" summary="acl.ariasummaryacltable" role="listbox" />
+    <roundcube:object name="acltable" id="acltable" class="records-table" aria-labelledby="aria-label-acltable" role="listbox" />
 </div>
 <div id="acllist-footer" class="boxfooter">
     <roundcube:button command="acl-create" id="aclcreatelink" type="link" title="acl.newuser" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button name="aclmenulink" id="aclmenulink" type="link" title="acl.actions" class="listbutton groupactions" onclick="return UI.toggle_popup('aclmenu', event)" innerClass="inner" content="&#9881;" aria-haspopup="true" aria-expanded="false" aria-owns="aclmenu-menu" />
