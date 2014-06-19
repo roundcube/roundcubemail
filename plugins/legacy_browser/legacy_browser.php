@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin which adds support for legacy browsers (IE 7/8)
+ * Plugin which adds support for legacy browsers (IE 7/8, Firefox < 4)
  *
  * @author Aleksander Machniak <alec@alec.pl>
  * @license GNU GPLv3+
@@ -9,12 +9,18 @@
 class legacy_browser extends rcube_plugin
 {
     public $noajax = true;
+    private $rc;
 
     public function init()
     {
-        $rcube = rcube::get_instance();
+        $this->rc = $rcube = rcube::get_instance();
 
-        if ($rcube->output->browser->ie && $rcube->output->browser->ver < 9) {
+        if (
+            // IE < 9
+            ($rcube->output->browser->ie && $rcube->output->browser->ver < 9)
+            // Firefox < 4 (Firefox 4 is recognized as 2.0)
+            || ($rcube->output->browser->mz && $rcube->output->browser->ver < 2)
+        ) {
             $this->add_hook('send_page', array($this, 'send_page'));
             $this->add_hook('render_page', array($this, 'render_page'));
         }
@@ -22,19 +28,25 @@ class legacy_browser extends rcube_plugin
 
     function send_page($args)
     {
-        // replace jQuery 2.x with 1.x
         $ts1 = filemtime($this->home . '/js/jquery.min.js');
         $ts2 = filemtime($this->home . '/js/iehacks.js');
 
         // put iehacks.js after app.js
-        $args['content'] = preg_replace(
-            '|(<script src="program/js/app(\.min)?\.js\?s=[0-9]+" type="text/javascript"></script>)|',
-            '\\1<script src="plugins/legacy_browser/js/iehacks.js?s=' . $ts2 . '" type="text/javascript"></script>',
-            $args['content'], 1, $count);
+        if ($this->rc->output->browser->ie) {
+            $args['content'] = preg_replace(
+                '|(<script src="program/js/app(\.min)?\.js\?s=[0-9]+" type="text/javascript"></script>)|',
+                '\\1<script src="plugins/legacy_browser/js/iehacks.js?s=' . $ts2 . '" type="text/javascript"></script>',
+                $args['content'], 1, $count);
+        }
+        else {
+            $count = 1;
+        }
 
+        // replace jQuery 2.x with 1.x
         $args['content'] = preg_replace(
             '|<script src="program/js/jquery\.min\.js\?s=[0-9]+" type="text/javascript"></script>|',
             '<script src="plugins/legacy_browser/js/jquery.min.js?s=' . $ts1 . '" type="text/javascript"></script>'
+            // add iehacks.js if it is IE and it wasn't added yet
             . ($count ? '' : "\n".'<script src="plugins/legacy_browser/js/iehacks.js?s=' . $ts2 . '" type="text/javascript"></script>'),
             $args['content'], 1);
 
@@ -43,23 +55,26 @@ class legacy_browser extends rcube_plugin
 
     function render_page($args)
     {
-        $rcube = rcube::get_instance();
+        if (!$this->rc->output->browser->ie) {
+            return $args;
+        }
+
         $skin  = $this->skin();
 
         if ($skin == 'classic') {
             $minified = file_exists(INSTALL_PATH . '/plugins/legacy_browser/skins/classic/iehacks.min.css') ? '.min' : '';
-            $rcube->output->add_header(
+            $this->rc->output->add_header(
                 '<link rel="stylesheet" type="text/css" href="plugins/legacy_browser/skins/classic/iehacks' . $minified . '.css" />'
             );
         }
         else if ($skin == 'larry') {
             $minified = file_exists(INSTALL_PATH . '/plugins/legacy_browser/skins/larry/iehacks.min.css') ? '.min' : '';
-            $rcube->output->add_header(
+            $this->rc->output->add_header(
                 '<link rel="stylesheet" type="text/css" href="plugins/legacy_browser/skins/larry/iehacks' . $minified . '.css" />'
             );
 
-            if ($rcube->output->browser->ver < 8) {
-                $rcube->output->add_header(
+            if ($this->rc->output->browser->ver < 8) {
+                $this->rc->output->add_header(
                     '<link rel="stylesheet" type="text/css" href="plugins/legacy_browser/skins/larry/ie7hacks' . $minified . '.css" />'
                 );
             }
@@ -68,8 +83,7 @@ class legacy_browser extends rcube_plugin
 
     private function skin()
     {
-        $rcube = rcube::get_instance();
-        $skin  = $rcube->config->get('skin');
+        $skin  = $this->rc->config->get('skin');
 
         // external skin, find if it inherits from other skin
         if ($skin != 'larry' && $skin != 'classic') {
