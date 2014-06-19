@@ -218,9 +218,11 @@ function rcube_mail_ui()
       }
       else if (rcmail.env.action == 'list' || !rcmail.env.action) {
         var previewframe = $('#mailpreviewframe').is(':visible');
-        $('#mailpreviewtoggle').addClass(previewframe ? 'enabled' : 'closed').attr('aria-expanded', previewframe ? 'true' : 'false').click(function(e){ toggle_preview_pane(e); return false });
-        $('#maillistmode').addClass(rcmail.env.threading ? '' : 'selected').click(function(e){ switch_view_mode('list'); return false });
-        $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : '').click(function(e){ switch_view_mode('thread'); return false });
+
+        $('#mailpreviewtoggle').addClass(previewframe ? 'enabled' : 'closed').attr('aria-expanded', previewframe ? 'true' : 'false')
+          .click(function(e) { toggle_preview_pane(e); return false; });
+        $('#maillistmode').addClass(rcmail.env.threading ? '' : 'selected').click(function(e) { switch_view_mode('list'); return false; });
+        $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : '').click(function(e) { switch_view_mode('thread'); return false; });
 
         mailviewsplit = new rcube_splitter({ id:'mailviewsplitter', p1:'#mailview-top', p2:'#mailview-bottom',
           orientation:'h', relative:true, start:310, min:150, size:12, offset:4 });
@@ -595,7 +597,7 @@ function rcube_mail_ui()
       topstyles, bottomstyles, uid;
 
     frame.toggle();
-    button.removeClass().toggleClass('enabled closed').attr('aria-expanded', visible ? 'true' : 'false');
+    button.toggleClass('enabled closed').attr('aria-expanded', visible ? 'true' : 'false');
 
     if (visible) {
       $('#mailview-top').removeClass('fullheight').css({ bottom:'auto' });
