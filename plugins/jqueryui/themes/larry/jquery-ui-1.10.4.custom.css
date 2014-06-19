@@ -1457,6 +1457,10 @@ body .ui-tooltip {
 	margin: 0;
 	border-spacing: 0;
 }
+.ui-datepicker table:focus {
+	outline: 2px solid #4fadd5;
+	outline-offset: -2px;
+}
 .ui-datepicker td {
 	border: 1px solid #bbb;
 	padding: 0;
@@ -1482,9 +1486,9 @@ body .ui-tooltip {
 }
 .ui-datepicker td a.ui-state-active {
 	color: #fff;
-	border-color: #0286ac;
-	text-shadow: 0px 1px 1px #00516e;
-	background: #00acd4;
+	border-color: #0286ac !important;
+	text-shadow: 0px 1px 1px #00516e !important;
+	background: #00acd4 !important;
 	background: -moz-linear-gradient(top, #00acd4 0%, #008fc7 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00acd4), color-stop(100%,#008fc7));
 	background: -o-linear-gradient(top, #00acd4 0%, #008fc7 100%);
@@ -1494,4 +1498,9 @@ body .ui-tooltip {
 .ui-datepicker .ui-state-highlight {
 	color: #0081c2;
 }
-
+.ui-datepicker td.ui-datepicker-days-cell-over a.ui-state-default {
+	color: #fff;
+	border-color: rgba(73,180,210,0.7);
+	background: rgba(73,180,210,0.7);
+	text-shadow: 0px 1px 1px #666;
+}
