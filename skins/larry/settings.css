@@ -107,14 +107,20 @@
 	background-position: 6px -455px;
 }
 
-#settings-sections .folders a,
-#sections-table #rcmrowfolders .section {
+#settings-sections .folders a {
 	background-position: 6px 2px;
 }
 
-#settings-sections .folders.selected a,
-#sections-table #rcmrowfolders.selected .section {
+#settings-sections .folders.selected a {
 	background-position: 6px -22px;
+}
+
+#sections-table #rcmrowfolders .section {
+	background-position: 4px 2px;
+}
+
+#sections-table #rcmrowfolders.selected .section {
+	background-position: 4px -22px;
 }
 
 #settings-sections .identities a {
