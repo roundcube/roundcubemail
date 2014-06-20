@@ -284,6 +284,13 @@ body > #message div.loading,
   border: 1px solid #CCCCCC;
 }
 
+body > #message div.voice
+{
+	position: absolute;
+	top: -1000px;
+	clip: rect(0 0 0 0);
+}
+
 body > #message a
 {
   cursor: pointer;
