@@ -966,6 +966,7 @@ table.messagelist.fixedcopy
   cursor: pointer;
   overflow: hidden;
   text-indent: -5000px;
+  display: block;
 }
 
 .messagelist tbody tr td.subject

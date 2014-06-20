@@ -106,7 +106,6 @@ function rcube_mail_ui()
     searchmenu:     {id:'searchmenu', editable:1},
     messagemenu:    {id:'messagemenu'},
     attachmentmenu: {id:'attachmentmenu'},
-    listmenu:       {id:'listmenu', editable:1},
     dragmenu:       {id:'dragmenu', sticky:1},
     groupmenu:      {id:'groupoptionsmenu', above:1},
     mailboxmenu:    {id:'mailboxoptionsmenu', above:1},
@@ -293,61 +292,62 @@ set_searchmod: function(elem)
   rcmail.set_searchmods(m);
 },
 
-listmenu: function(show)
+show_listmenu: function(p)
 {
-  var obj = this.popups.listmenu.obj,
-    ref = rcube_find_object('listmenulink');
+  var self = this, buttons = {}, $dialog = $('#listmenu');
 
-  if (typeof show == 'undefined')
-    show = obj.is(':visible') ? false : true;
-
-  if (show && ref) {
-    var pos = $(ref).offset(),
-      menuwidth = obj.width(),
-      pagewidth = $(document).width();
-
-    if (pagewidth - pos.left < menuwidth && pos.left > menuwidth)
-      pos.left = pos.left - menuwidth;
-
-    obj.css({ left:pos.left, top:(pos.top + ref.offsetHeight + 2)});
-
-    // set form values
-    $('input[name="sort_col"][value="'+rcmail.env.sort_col+'"]').prop('checked', true);
-    $('input[name="sort_ord"][value="DESC"]').prop('checked', rcmail.env.sort_order == 'DESC');
-    $('input[name="sort_ord"][value="ASC"]').prop('checked', rcmail.env.sort_order != 'DESC');
-    $('input[name="view"][value="thread"]').prop('checked', rcmail.env.threading ? true : false);
-    $('input[name="view"][value="list"]').prop('checked', rcmail.env.threading ? false : true);
-
-    // set checkboxes
-    $('input[name="list_col[]"]').each(function() {
-      $(this).prop('checked', jQuery.inArray(this.value, rcmail.env.coltypes) != -1);
-    });
+  // close the dialog
+  if ($dialog.is(':visible')) {
+    $dialog.dialog('close', p.originalEvent);
+    return;
   }
 
-  obj[show?'show':'hide']();
+  // set form values
+  $('input[name="sort_col"][value="'+rcmail.env.sort_col+'"]').prop('checked', true);
+  $('input[name="sort_ord"][value="DESC"]').prop('checked', rcmail.env.sort_order == 'DESC');
+  $('input[name="sort_ord"][value="ASC"]').prop('checked', rcmail.env.sort_order != 'DESC');
+  $('input[name="view"][value="thread"]').prop('checked', rcmail.env.threading ? true : false);
+  $('input[name="view"][value="list"]').prop('checked', rcmail.env.threading ? false : true);
 
-  if (show) {
-    var maxheight=0;
-    $('#listmenu fieldset').each(function() {
-      var height = $(this).height();
-      if (height > maxheight) {
-        maxheight = height;
-      }
-    });
-    $('#listmenu fieldset').css("min-height", maxheight+"px")
-      .height(maxheight);
+  // set checkboxes
+  $('input[name="list_col[]"]').each(function() {
+    $(this).prop('checked', $.inArray(this.value, rcmail.env.listcols) != -1);
+  });
+
+  buttons[rcmail.gettext('save')] = function(e) {
+    $dialog.dialog('close', e);
+    self.save_listmenu();
   };
-},
 
-open_listmenu: function()
-{
-  this.listmenu();
+  $dialog.dialog({
+    modal: true,
+    resizable: false,
+    closeOnEscape: true,
+    title: null,
+    open: function(e) {
+      var maxheight = 0;
+      $('#listmenu fieldset').each(function() {
+        var height = $(this).height();
+        if (height > maxheight) {
+          maxheight = height;
+        }
+      }).css("min-height", maxheight+"px").height(maxheight);
+
+      setTimeout(function() { $dialog.find('a, input:not(:disabled)').not('[aria-disabled=true]').first().focus(); }, 100);
+    },
+    close: function(e) {
+      $dialog.dialog('destroy').hide();
+      if (e.originalEvent && rcube_event.is_keyboard(e.originalEvent))
+        $('#listmenulink').focus();
+    },
+    buttons: buttons,
+    minWidth: 500,
+    width: $dialog.width()+20
+  }).show();
 },
 
 save_listmenu: function()
 {
-  this.listmenu();
-
   var sort = $('input[name="sort_col"]:checked').val(),
     ord = $('input[name="sort_ord"]:checked').val(),
     thread = $('input[name="view"]:checked').val(),
@@ -394,7 +394,7 @@ spellmenu: function(show)
   this.show_popupmenu('spellmenu', show);
 },
 
-show_attachmentmenu: function(elem)
+show_attachmentmenu: function(elem, event)
 {
   var id = elem.parentNode.id.replace(/^attach/, '');
 
@@ -407,20 +407,13 @@ show_attachmentmenu: function(elem)
   });
 
   this.popups.attachmentmenu.link = elem;
-  rcmail.command('menu-open', {menu: 'attachmentmenu', id: id});
+  rcmail.command('menu-open', {menu: 'attachmentmenu', id: id}, elem, event);
 },
 
 menu_open: function(p)
 {
-  if (p && p.props && p.props.menu == 'attachmentmenu')
-    this.show_popup('attachmentmenu');
-  else
-    this.open_listmenu();
-},
-
-menu_save: function(prop)
-{
-  this.save_listmenu();
+  if (p && p.name == 'messagelistmenu')
+    this.show_listmenu();
 },
 
 body_mouseup: function(e)
@@ -973,20 +966,19 @@ function rcube_init_mail_ui()
       .contents().mouseup(function(e) { rcmail_ui.body_mouseup(e); });
 
     if (rcmail.env.task == 'mail') {
-      rcmail.addEventListener('enable-command', 'enable_command', rcmail_ui);
-      rcmail.addEventListener('menu-open', 'menu_open', rcmail_ui);
-      rcmail.addEventListener('menu-save', 'menu_save', rcmail_ui);
-      rcmail.addEventListener('aftersend-attachment', 'uploadmenu', rcmail_ui);
-      rcmail.addEventListener('aftertoggle-editor', 'resize_compose_body_ev', rcmail_ui);
-      rcmail.gui_object('dragmenu', 'dragmenu');
+      rcmail.addEventListener('enable-command', 'enable_command', rcmail_ui)
+        .addEventListener('menu-open', 'menu_open', rcmail_ui)
+        .addEventListener('aftersend-attachment', 'uploadmenu', rcmail_ui)
+        .addEventListener('aftertoggle-editor', 'resize_compose_body_ev', rcmail_ui)
+        .gui_object('dragmenu', 'dragmenu');
 
       if (rcmail.gui_objects.mailboxlist) {
         rcmail.treelist.addEventListener('expand', rcube_render_mailboxlist);
-        rcmail.addEventListener('responseaftermark', rcube_render_mailboxlist);
-        rcmail.addEventListener('responseaftergetunread', rcube_render_mailboxlist);
-        rcmail.addEventListener('responseaftercheck-recent', rcube_render_mailboxlist);
-        rcmail.addEventListener('responseafterrefresh', rcube_render_mailboxlist);
-        rcmail.addEventListener('afterimport-messages', function(){ rcmail_ui.show_popup('uploadform', false); });
+        rcmail.addEventListener('responseaftermark', rcube_render_mailboxlist)
+          .addEventListener('responseaftergetunread', rcube_render_mailboxlist)
+          .addEventListener('responseaftercheck-recent', rcube_render_mailboxlist)
+          .addEventListener('responseafterrefresh', rcube_render_mailboxlist)
+          .addEventListener('afterimport-messages', function(){ rcmail_ui.show_popup('uploadform', false); });
       }
 
       if (rcmail.env.action == 'compose')
@@ -994,13 +986,17 @@ function rcube_init_mail_ui()
       else if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
         // add menu link for each attachment
         $('#attachment-list > li[id^="attach"]').each(function() {
-          $(this).append($('<a class="drop"></a>').click(function() { rcmail_ui.show_attachmentmenu(this); }));
+          $(this).append($('<a class="drop"></a>').bind('click keypress', function(e) {
+            if (e.type != 'keypress' || e.which == 13) {
+              rcmail_ui.show_attachmentmenu(this, e);
+              return false;
+            }
+          }));
         });
     }
     else if (rcmail.env.task == 'addressbook') {
-      rcmail.addEventListener('afterupload-photo', function(){ rcmail_ui.show_popup('uploadform', false); });
-
-      rcmail.gui_object('dragmenu', 'dragmenu');
+      rcmail.addEventListener('afterupload-photo', function(){ rcmail_ui.show_popup('uploadform', false); })
+        .gui_object('dragmenu', 'dragmenu');
     }
     else if (rcmail.env.task == 'settings') {
       if (rcmail.gui_objects.subscriptionlist)

@@ -148,7 +148,7 @@
   </ul>
 </div>
 
-<div id="listmenu" class="popupmenu">
+<div id="listmenu" style="display: none">
 <roundcube:if condition="env:threads" />
 <fieldset class="thinbordered"><legend><roundcube:label name="listmode" /></legend>
   <ul class="toolbarmenu">
@@ -200,10 +200,6 @@
   </ul>
 </fieldset>
 <roundcube:endif />
-<div>
-  <roundcube:button command="menu-open" id="listmenucancel" type="input" class="button" label="cancel" />
-  <roundcube:button command="menu-save" id="listmenusave" type="input" class="button mainaction" label="save" />
-</div>
 </div>
 
 <roundcube:object name="messageimportform" id="upload-form" attachmentFieldSize="40" class="popupmenu" />
