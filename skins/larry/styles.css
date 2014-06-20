@@ -695,6 +695,11 @@ a.iconlink.upload {
 	background: url(images/ajaxloader_dark.gif) 0 4px no-repeat;
 }
 
+#messagestack div.voice {
+	position: absolute;
+	top: -1000px;
+}
+
 #messagestack div a {
 	color: #94c0da;
 }
