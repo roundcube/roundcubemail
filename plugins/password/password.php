@@ -57,6 +57,8 @@ class password extends rcube_plugin
                 return;
             }
 
+            $this->add_texts('localization/');
+
             $this->add_hook('settings_actions', array($this, 'settings_actions'));
 
             $this->register_action('plugin.password', array($this, 'password_init'));
@@ -88,7 +90,6 @@ class password extends rcube_plugin
 
     function password_init()
     {
-        $this->add_texts('localization/');
         $this->register_handler('plugin.body', array($this, 'password_form'));
 
         $rcmail = rcmail::get_instance();
@@ -103,7 +104,6 @@ class password extends rcube_plugin
 
     function password_save()
     {
-        $this->add_texts('localization/');
         $this->register_handler('plugin.body', array($this, 'password_form'));
 
         $rcmail = rcmail::get_instance();
