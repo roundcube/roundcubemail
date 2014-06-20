@@ -77,7 +77,7 @@ $mailto  = rcmail_email_input_format(rcube_utils::get_input_value('_to', rcube_u
 $mailcc  = rcmail_email_input_format(rcube_utils::get_input_value('_cc', rcube_utils::INPUT_POST, TRUE, $message_charset), true);
 $mailbcc = rcmail_email_input_format(rcube_utils::get_input_value('_bcc', rcube_utils::INPUT_POST, TRUE, $message_charset), true);
 
-if ($EMAIL_FORMAT_ERROR) {
+if ($EMAIL_FORMAT_ERROR && !$savedraft) {
     $OUTPUT->show_message('emailformaterror', 'error', array('email' => $EMAIL_FORMAT_ERROR));
     $OUTPUT->send('iframe');
 }
