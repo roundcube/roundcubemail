@@ -2805,6 +2805,10 @@ ul.toolbarmenu li span.copy {
 	background: none;
 }
 
+.ui-dialog .tabbed.ui-tabs {
+	margin: -12px -8px 0 -8px;
+}
+
 .boxcontent.tabbed.ui-tabs {
 	padding: 10px;
 }
@@ -2813,7 +2817,7 @@ ul.toolbarmenu li span.copy {
 	margin-bottom: 10px;
 }
 
-.ui-dialog-content .tabsbar {
+.ui-dialog-content .ui-tabs .tabsbar.ui-tabs-nav {
 	margin-bottom: 0;
 }
 
@@ -2834,6 +2838,12 @@ ul.toolbarmenu li span.copy {
 	padding: 0;
 	margin-left: 0;
 	background: none;
+}
+
+.ui-dialog .propform .ui-tabs-panel {
+	display: block;
+	background: #efefef;
+	padding: 0.5em 1em;
 }
 
 #image-selector-form.droptarget {
