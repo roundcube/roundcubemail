@@ -4,7 +4,7 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 </head>
-<body class="noscroll">
+<roundcube:if condition="env:extwin" /><body class="noscroll extwin"><roundcube:else /><body class="noscroll"><roundcube:endif />
 
 <roundcube:include file="/includes/header.html" />
 
@@ -15,7 +15,6 @@
 <roundcube:include file="/includes/settingstabs.html" />
 
 <div id="settings-right" role="main" aria-labelledby="aria-label-identitieslist">
-	
 <div id="identitieslist" class="uibox listbox">
 <h2 class="boxtitle" id="aria-label-identitieslist"><roundcube:label name="identities" /></h2>
 <div class="scroller withfooter">

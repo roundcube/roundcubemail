@@ -1054,6 +1054,14 @@ a.iconlink.upload {
 	bottom: 0;
 }
 
+#mainscreen.offset {
+	top: 132px;
+}
+
+#mainscreen .offset {
+	top: 42px;
+}
+
 .minimal #mainscreen {
 	top: 62px;
 }
@@ -1066,12 +1074,8 @@ a.iconlink.upload {
 	top: 40px;
 }
 
-#mainscreen.offset {
-	top: 132px;
-}
-
-#mainscreen .offset {
-	top: 42px;
+.extwin #mainscreen.offset {
+	top: 86px;
 }
 
 .uibox {
