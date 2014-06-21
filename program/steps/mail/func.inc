@@ -142,6 +142,7 @@ function rcmail_init_env()
 {
     global $RCMAIL;
 
+    $default_threading  = $RCMAIL->config->get('default_list_mode', 'list') == 'threads';
     $a_threading        = $RCMAIL->config->get('message_threading', array());
     $message_sort_col   = $RCMAIL->config->get('message_sort_col');
     $message_sort_order = $RCMAIL->config->get('message_sort_order');
@@ -181,13 +182,15 @@ function rcmail_init_env()
                 $RCMAIL->storage->set_page($_SESSION['page'] = 1);
             }
 
-            unset($a_threading[$_SESSION['mbox']]);
+            $a_threading[$_SESSION['mbox']] = false;
         }
 
         $RCMAIL->user->save_prefs(array('message_threading' => $a_threading));
     }
 
-    $RCMAIL->storage->set_threading($a_threading[$_SESSION['mbox']]);
+    $threading = isset($a_threading[$_SESSION['mbox']]) ? $a_threading[$_SESSION['mbox']] : $default_threading;
+
+    $RCMAIL->storage->set_threading($threading);
 }
 
 /**

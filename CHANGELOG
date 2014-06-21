@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option to set default message list mode - default_list_mode (#1487312)
 - Enable contextmenu plugin for TinyMCE editor (#1487014)
 - Fix some mime-type to extension mapping checks in Installer (#1489983)
 - Fix errors when using localStorage in Safari's private browsing mode (#1489996)

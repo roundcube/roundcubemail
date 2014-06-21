@@ -115,15 +115,13 @@ if (!$error && !strlen($old)) {
         if (isset($_POST['_viewmode'])) {
             $a_threaded = (array) $RCMAIL->config->get('message_threading', array());
 
-            if ($_POST['_viewmode'])
-                $a_threaded[$folder['name']] = true;
-            else
-                unset($a_threaded[$folder['name']]);
+            $a_threaded[$folder['name']] = (bool) $_POST['_viewmode'];
 
             $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
         }
 
         rcmail_update_folder_row($folder['name'], null, $folder['subscribe'], $folder['class']);
+
         $OUTPUT->show_message('foldercreated', 'confirmation');
         // reset folder preview frame
         $OUTPUT->command('subscription_select');
@@ -167,14 +165,12 @@ else if (!$error) {
                     }
                     else if (preg_match($oldprefix, $key)) {
                         unset($a_threaded[$key]);
-                        $a_threaded[preg_replace($oldprefix, $folder['name'].$delimiter, $key)] = true;
+                        $a_threaded[preg_replace($oldprefix, $folder['name'].$delimiter, $key)] = $val;
                     }
                 }
             }
-            if ($_POST['_viewmode'])
-                $a_threaded[$folder['name']] = true;
-            else
-                unset($a_threaded[$folder['name']]);
+
+            $a_threaded[$folder['name']] = (bool) $_POST['_viewmode'];
 
             $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
         }

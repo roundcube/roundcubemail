@@ -407,16 +407,17 @@ function rcmail_rename_folder($oldname, $newname)
         $a_threaded = (array) $RCMAIL->config->get('message_threading', array());
         $oldprefix  = '/^' . preg_quote($oldname . $delimiter, '/') . '/';
 
-        foreach (array_keys($a_threaded) as $key) {
+        foreach ($a_threaded as $key => $val) {
             if ($key == $oldname) {
                 unset($a_threaded[$key]);
-                $a_threaded[$newname] = true;
+                $a_threaded[$newname] = $val;
             }
             else if (preg_match($oldprefix, $key)) {
                 unset($a_threaded[$key]);
-                $a_threaded[preg_replace($oldprefix, $newname.$delimiter, $key)] = true;
+                $a_threaded[preg_replace($oldprefix, $newname.$delimiter, $key)] = $val;
             }
         }
+
         $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
 
         // #1488692: update session

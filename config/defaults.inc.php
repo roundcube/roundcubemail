@@ -970,9 +970,12 @@ $config['check_all_folders'] = false;
 // If true, after message delete/move, the next message will be displayed
 $config['display_next'] = true;
 
-// 0 - Do not expand threads 
-// 1 - Expand all threads automatically 
-// 2 - Expand only threads with unread messages 
+// Default messages listing mode. One of 'threads' or 'list'.
+$config['default_list_mode'] = 'list';
+
+// 0 - Do not expand threads
+// 1 - Expand all threads automatically
+// 2 - Expand only threads with unread messages
 $config['autoexpand_threads'] = 0;
 
 // When replying:
