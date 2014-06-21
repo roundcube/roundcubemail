@@ -163,8 +163,10 @@ function rcmail_folder_form($attrib)
             $value = (int) $_POST['_viewmode'];
         }
         else if (strlen($mbox_imap)) {
-            $a_threaded = $RCMAIL->config->get('message_threading', array());
-            $value = (int) isset($a_threaded[$mbox_imap]);
+            $a_threaded   = $RCMAIL->config->get('message_threading', array());
+            $default_mode = $RCMAIL->config->get('default_list_mode', 'list');
+
+            $value = (int) (isset($a_threaded[$mbox_imap]) ? $a_threaded[$mbox_imap] : $default_mode == 'threads');
         }
 
         $form['props']['fieldsets']['settings']['content']['viewmode'] = array(
