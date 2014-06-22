@@ -1828,17 +1828,22 @@ class rcube_sieve_engine
         $out .= '</div>';
 
         // mailbox select
-        if ($action['type'] == 'fileinto')
+        if ($action['type'] == 'fileinto') {
             $mailbox = $this->mod_mailbox($action['target'], 'out');
-        else
+            // make sure non-existing (or unsubscribed) mailbox is listed (#1489956)
+            $additional = array($mailbox);
+        }
+        else {
             $mailbox = '';
+        }
 
         $select = $this->rc->folder_selector(array(
-            'realnames' => false,
-            'maxlength' => 100,
-            'id' => 'action_mailbox' . $id,
-            'name' => "_action_mailbox[$id]",
-            'style' => 'display:'.(empty($action['type']) || $action['type'] == 'fileinto' ? 'inline' : 'none')
+            'realnames'  => false,
+            'maxlength'  => 100,
+            'id'         => 'action_mailbox' . $id,
+            'name'       => "_action_mailbox[$id]",
+            'style'      => 'display:'.(empty($action['type']) || $action['type'] == 'fileinto' ? 'inline' : 'none'),
+            'additional' => $additional,
         ));
         $out .= $select->show($mailbox);
         $out .= '</td>';
