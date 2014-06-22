@@ -1293,15 +1293,15 @@ class rcube_imap_generic
      *
      * @param string $ref         Reference name
      * @param string $mailbox     Mailbox name
-     * @param array  $status_opts (see self::_listMailboxes)
+     * @param array  $return_opts (see self::_listMailboxes)
      * @param array  $select_opts (see self::_listMailboxes)
      *
-     * @return array List of mailboxes or hash of options if $status_opts argument
+     * @return array List of mailboxes or hash of options if $return_opts argument
      *               is non-empty.
      */
-    function listMailboxes($ref, $mailbox, $status_opts=array(), $select_opts=array())
+    function listMailboxes($ref, $mailbox, $return_opts=array(), $select_opts=array())
     {
-        return $this->_listMailboxes($ref, $mailbox, false, $status_opts, $select_opts);
+        return $this->_listMailboxes($ref, $mailbox, false, $return_opts, $select_opts);
     }
 
     /**
@@ -1309,14 +1309,14 @@ class rcube_imap_generic
      *
      * @param string $ref         Reference name
      * @param string $mailbox     Mailbox name
-     * @param array  $status_opts (see self::_listMailboxes)
+     * @param array  $return_opts (see self::_listMailboxes)
      *
-     * @return array List of mailboxes or hash of options if $status_opts argument
+     * @return array List of mailboxes or hash of options if $return_opts argument
      *               is non-empty.
      */
-    function listSubscribed($ref, $mailbox, $status_opts=array())
+    function listSubscribed($ref, $mailbox, $return_opts=array())
     {
-        return $this->_listMailboxes($ref, $mailbox, true, $status_opts, NULL);
+        return $this->_listMailboxes($ref, $mailbox, true, $return_opts, NULL);
     }
 
     /**
@@ -1325,9 +1325,9 @@ class rcube_imap_generic
      * @param string $ref         Reference name
      * @param string $mailbox     Mailbox name
      * @param bool   $subscribed  Enables returning subscribed mailboxes only
-     * @param array  $status_opts List of STATUS options
-     *                            (RFC5819: LIST-STATUS:  MESSAGES, RECENT, UIDNEXT, UIDVALIDITY, UNSEEN)
-     *                            or RETURN options (RFC5258: LIST_EXTENDED: SUBSCRIBED, CHILDREN)
+     * @param array  $return_opts List of RETURN options (RFC5819: LIST-STATUS, RFC5258: LIST-EXTENDED)
+     *                            Possible: MESSAGES, RECENT, UIDNEXT, UIDVALIDITY, UNSEEN,
+     *                                      MYRIGHTS, SUBSCRIBED, CHILDREN
      * @param array  $select_opts List of selection options (RFC5258: LIST-EXTENDED)
      *                            Possible: SUBSCRIBED, RECURSIVEMATCH, REMOTE,
      *                                      SPECIAL-USE (RFC6154)
@@ -1336,7 +1336,7 @@ class rcube_imap_generic
      *               is non-empty.
      */
     protected function _listMailboxes($ref, $mailbox, $subscribed=false,
-        $status_opts=array(), $select_opts=array())
+        $return_opts=array(), $select_opts=array())
     {
         if (!strlen($mailbox)) {
             $mailbox = '*';
@@ -1354,16 +1354,22 @@ class rcube_imap_generic
         $args[] = $this->escape($ref);
         $args[] = $this->escape($mailbox);
 
-        if (!empty($status_opts) && $this->getCapability('LIST-EXTENDED')) {
-            $rets = array_intersect($status_opts, array('SUBSCRIBED', 'CHILDREN'));
+        if (!empty($return_opts) && $this->getCapability('LIST-EXTENDED')) {
+            $rets = array_intersect($return_opts, array('SUBSCRIBED', 'CHILDREN'));
         }
 
-        if (!empty($status_opts) && $this->getCapability('LIST-STATUS')) {
-            $status_opts = array_intersect($status_opts, array('MESSAGES', 'RECENT', 'UIDNEXT', 'UIDVALIDITY', 'UNSEEN'));
+        if (!empty($return_opts) && $this->getCapability('LIST-STATUS')) {
+            $lstatus     = true;
+            $status_opts = array('MESSAGES', 'RECENT', 'UIDNEXT', 'UIDVALIDITY', 'UNSEEN');
+            $opts        = array_diff($return_opts, $status_opts);
+            $status_opts = array_diff($return_opts, $opts);
 
             if (!empty($status_opts)) {
-                $lstatus = true;
                 $rets[] = 'STATUS (' . implode(' ', $status_opts) . ')';
+            }
+
+            if (!empty($opts)) {
+                $rets = array_merge($rets, $opts);
             }
         }
 
@@ -1388,9 +1394,10 @@ class rcube_imap_generic
                 $line = substr($response, $last, $pos - $last);
                 $last = $pos + 2;
 
-                if (!preg_match('/^\* (LIST|LSUB|STATUS) /i', $line, $m)) {
+                if (!preg_match('/^\* (LIST|LSUB|STATUS|MYRIGHTS) /i', $line, $m)) {
                     continue;
                 }
+
                 $cmd  = strtoupper($m[1]);
                 $line = substr($line, strlen($m[0]));
 
@@ -1421,13 +1428,20 @@ class rcube_imap_generic
                                 $this->data['LIST'][$mailbox], $opts));
                     }
                 }
-                // * STATUS <mailbox> (<result>)
-                else if ($cmd == 'STATUS') {
-                    list($mailbox, $status) = $this->tokenizeResponse($line, 2);
+                else if ($lstatus) {
+                    // * STATUS <mailbox> (<result>)
+                    if ($cmd == 'STATUS') {
+                        list($mailbox, $status) = $this->tokenizeResponse($line, 2);
 
-                    for ($i=0, $len=count($status); $i<$len; $i += 2) {
-                        list($name, $value) = $this->tokenizeResponse($status, 2);
-                        $folders[$mailbox][$name] = $value;
+                        for ($i=0, $len=count($status); $i<$len; $i += 2) {
+                            list($name, $value) = $this->tokenizeResponse($status, 2);
+                            $folders[$mailbox][$name] = $value;
+                        }
+                    }
+                    // * MYRIGHTS <mailbox> <acl>
+                    else if ($cmd == 'MYRIGHTS') {
+                        list($mailbox, $acl)  = $this->tokenizeResponse($line, 2);
+                        $folders[$mailbox]['MYRIGHTS'] = $acl;
                     }
                 }
             }
