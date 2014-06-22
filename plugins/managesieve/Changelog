@@ -1,3 +1,4 @@
+- Fix bug where non-existing (or unsubscribed) folder wasn't listed in folder selector (#1489956)
 - Added optional separate interface for out-of-office management (#1488266)
 - Fix disabled "create filter" action
 - Fix enotify/notify extension handling
