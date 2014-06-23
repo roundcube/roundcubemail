@@ -346,10 +346,10 @@ function rcube_webmail()
           this.contact_list
             .addEventListener('initrow', function(o) { ref.triggerEvent('insertrow', { cid:o.uid, row:o }); })
             .addEventListener('select', function(o) { ref.compose_recipient_select(o); })
-            .addEventListener('dblclick', function(o) { ref.compose_add_recipient('to'); })
+            .addEventListener('dblclick', function(o) { ref.compose_add_recipient(); })
             .addEventListener('keypress', function(o) {
               if (o.key_pressed == o.ENTER_KEY) {
-                if (!ref.compose_add_recipient('to')) {
+                if (!ref.compose_add_recipient()) {
                   // execute link action on <enter> if not a recipient entry
                   if (o.last_selected && String(o.last_selected).charAt(0) == 'G') {
                     $(o.rows[o.last_selected].obj).find('a').first().click();
@@ -358,6 +358,9 @@ function rcube_webmail()
               }
             })
             .init();
+
+          // remember last focused address field
+          $('#_to,#_cc,#_bcc').focus(function() { ref.env.focused_field = this; });
         }
 
         if (this.gui_objects.addressbookslist) {
@@ -3485,6 +3488,12 @@ function rcube_webmail()
 
   this.compose_add_recipient = function(field)
   {
+    // find last focused field name
+    if (!field) {
+      field = $(this.env.focused_field).filter(':visible');
+      field = field.length ? field.attr('id').replace('_', '') : 'to';
+    }
+
     var recipients = [], input = $('#_'+field), delim = this.env.recipients_delimiter;
 
     if (this.contact_list && this.contact_list.selection.length) {
