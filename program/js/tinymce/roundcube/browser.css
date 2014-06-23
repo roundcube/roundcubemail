@@ -42,7 +42,8 @@
 	text-overflow: ellipsis;
 }
 
-#image-selector-list li:hover {
+#image-selector-list li:hover,
+#image-selector-list li:focus {
 	background-color: #F0F0F0;
 }
 
