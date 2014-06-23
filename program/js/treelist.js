@@ -771,19 +771,19 @@ function rcube_treelist_widget(node, p)
       next = li[mod](), limit, parent;
 
     if (dir > 0 && !from_child && li.children('ul[role=group]:visible').length) {
-      li.children('ul').children('li:first').children('a:first').focus();
+      li.children('ul').children('li:first').find('a:first').focus();
     }
     else if (dir < 0 && !from_child && next.children('ul[role=group]:visible').length) {
-      next.children('ul').children('li:last').children('a:last').focus();
+      next.children('ul').children('li:last').find('a:first').focus();
     }
-    else if (next.length && next.children('a:first')) {
-      next.children('a:first').focus();
+    else if (next.length && next.find('a:first')) {
+      next.find('a:first').focus();
     }
     else {
       parent = li.parent().closest('li[role=treeitem]');
       if (parent.length)
         if (dir < 0) {
-          parent.children('a:first').focus();
+          parent.find('a:first').focus();
         }
         else {
           focus_next(parent, dir, true);
