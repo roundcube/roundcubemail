@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Mail compose: Selecting contact inserts recipient to previously focused input - to/cc/bcc accordingly (#1489684)
 - Add option to set default message list mode - default_list_mode (#1487312)
 - Close "no subject" prompt with Enter key (#1489580)
 - Add config option to specify IMAP connection socket parameters - imap_conn_options (#1489948)

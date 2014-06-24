@@ -511,7 +511,7 @@ table.messagelist.fixedcopy {
 	width: 30px;
 }
 
-.messagelist tr > .threads,
+.messagelist tr > .threads + td,
 .messagelist tr > .threads + th {
 	border-left: 0;
 }

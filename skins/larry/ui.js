@@ -1019,7 +1019,10 @@ function rcube_mail_ui()
 
     row.show();
     $('#' + which + '-link').hide();
+
     layout_composeview();
+    $('input,textarea', row).focus();
+
     return false;
   }
 
