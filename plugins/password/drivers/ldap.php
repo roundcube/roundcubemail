@@ -130,15 +130,22 @@ class rcube_ldap_password
      */
     function search_userdn($rcmail)
     {
+        $binddn = $rcmail->config->get('password_ldap_searchDN');
+        $bindpw = $rcmail->config->get('password_ldap_searchPW');
+
         $ldapConfig = array (
-            'binddn'    => $rcmail->config->get('password_ldap_searchDN'),
-            'bindpw'    => $rcmail->config->get('password_ldap_searchPW'),
             'basedn'    => $rcmail->config->get('password_ldap_basedn'),
             'host'      => $rcmail->config->get('password_ldap_host'),
             'port'      => $rcmail->config->get('password_ldap_port'),
             'starttls'  => $rcmail->config->get('password_ldap_starttls'),
             'version'   => $rcmail->config->get('password_ldap_version'),
         );
+
+        // allow anonymous searches
+        if (!empty($binddn)) {
+            $ldapConfig['binddn'] = $binddn;
+            $ldapConfig['bindpw'] = $bindpw;
+        }
 
         $ldap = Net_LDAP2::connect($ldapConfig);
 
