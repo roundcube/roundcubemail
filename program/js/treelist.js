@@ -329,14 +329,28 @@ function rcube_treelist_widget(node, p)
    */
   function update_node(id, updates, sort)
   {
-    var li, node = indexbyid[id];
+    var li, parent_ul, parent_node, old_parent,
+      node = indexbyid[id];
 
     if (node) {
       li = id2dom(id);
+      parent_ul = li.parent();
 
-      if (updates.id || updates.html || updates.children || updates.classes) {
+      if (updates.id || updates.html || updates.children || updates.classes || updates.parent) {
+        if (updates.parent && (parent_node = indexbyid[updates.parent])) {
+          // remove reference from old parent's child list
+          if (old_parent = indexbyid[dom2id(parent_ul.closest('li'))]) {
+            old_parent.children = $.grep(old_parent.children, function(elem, i){ return elem.id != node.id; });
+          }
+          // append to new parent node
+          parent_ul = id2dom(updates.parent).children('ul').first();
+          if (!parent_node.children)
+            parent_node.children = [];
+          parent_node.children.push(node);
+        }
+
         $.extend(node, updates);
-        render_node(node, li.parent(), li);
+        render_node(node, parent_ul, li);
       }
 
       if (node.id != id) {
@@ -546,8 +560,11 @@ function rcube_treelist_widget(node, p)
       .addClass((node.classes || []).join(' '))
       .data('id', node.id);
 
-    if (replace)
+    if (replace) {
       replace.replaceWith(li);
+      if (parent)
+        li.appendTo(parent);
+    }
     else
       li.appendTo(parent);
 
@@ -771,19 +788,19 @@ function rcube_treelist_widget(node, p)
       next = li[mod](), limit, parent;
 
     if (dir > 0 && !from_child && li.children('ul[role=group]:visible').length) {
-      li.children('ul').children('li:first').children('a:first').focus();
+      li.children('ul').children('li:first').find('a:first').focus();
     }
     else if (dir < 0 && !from_child && next.children('ul[role=group]:visible').length) {
-      next.children('ul').children('li:last').children('a:last').focus();
+      next.children('ul').children('li:last').find('a:first').focus();
     }
-    else if (next.length && next.children('a:first')) {
-      next.children('a:first').focus();
+    else if (next.length && next.find('a:first')) {
+      next.find('a:first').focus();
     }
     else {
       parent = li.parent().closest('li[role=treeitem]');
       if (parent.length)
         if (dir < 0) {
-          parent.children('a:first').focus();
+          parent.find('a:first').focus();
         }
         else {
           focus_next(parent, dir, true);
