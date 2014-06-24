@@ -116,6 +116,16 @@ function rcube_treelist_widget(node, p)
     }
   });
 
+  // mute clicks on virtual folder links (they need tabindex="0" in order to be selectable by keyboard)
+  container.on('mousedown', 'a', function(e) {
+    var link = $(e.target), node = indexbyid[dom2id(link.closest('li'))];
+    if (node && node.virtual && !link.attr('href')) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+  });
+
   // activate search function
   if (p.searchbox) {
     searchfield = $(p.searchbox).on('keyup', function(e) {
