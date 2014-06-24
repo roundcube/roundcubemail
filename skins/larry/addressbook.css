@@ -75,25 +75,6 @@
 	text-overflow: ellipsis;
 }
 
-#directorylist li.virtual {
-	background-image: none !important;
-}
-
-#directorylist li.virtual > a {
-	color: #aaa;
-	background-image: none;
-	height: 16px;
-	padding-top: 3px;
-	padding-bottom: 3px;
-}
-
-#directorylist li.virtual > .treetoggle {
-	top: 6px !important;
-}
-
-#directorylist ul li.virtual > .treetoggle {
-}
-
 #directorylist li.addressbook a {
 	background-position: 6px -766px;
 }
@@ -120,6 +101,10 @@
 }
 
 #directorylist li.contactgroup a {
+	background-position: 6px -1555px;
+}
+
+#directorylist ul li.contactgroup a {
 	background-position: 32px -1555px;
 }
 
