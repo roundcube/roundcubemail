@@ -455,3 +455,7 @@ body.iframe.mail #filter-form
   border: 0;
   box-shadow: none;
 }
+
+#vacationform td.vacation {
+  white-space: nowrap;
+}
