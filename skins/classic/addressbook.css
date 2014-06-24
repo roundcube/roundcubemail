@@ -144,7 +144,8 @@
   width: 280px;
 }
 
-#directorylist li a
+#directorylist li a,
+#savedsearchlist li a
 {
   cursor: default;
   display: block;
@@ -169,7 +170,7 @@
   background-position: 22px -143px;
 }
 
-#directorylist li.contactsearch a
+#savedsearchlist li.contactsearch a
 {
   background-position: 6px -162px;
 }

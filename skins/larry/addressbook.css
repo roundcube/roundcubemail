@@ -66,6 +66,7 @@
 }
 
 #directorylist li a,
+.treelist li.contactsearch a,
 #contacts-table .contact td.name {
 	background-image: url(images/listicons.png);
 	background-position: -100px 0;
@@ -74,46 +75,93 @@
 	text-overflow: ellipsis;
 }
 
+#directorylist li.virtual {
+	background-image: none !important;
+}
+
+#directorylist li.virtual > a {
+	color: #aaa;
+	background-image: none;
+	height: 16px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+#directorylist li.virtual > .treetoggle {
+	top: 6px !important;
+}
+
+#directorylist ul li.virtual > .treetoggle {
+}
+
 #directorylist li.addressbook a {
 	background-position: 6px -766px;
 }
 
+#directorylist ul li.addressbook a {
+	background-position: 32px -766px;
+}
+
+#directorylist ul ul li.addressbook a {
+	background-position: 58px -766px;
+}
+
 #directorylist li.addressbook.selected > a {
+	background-color: transparent;
 	background-position: 6px -791px;
 }
 
-#directorylist li.addressbook ul.groups li {
-	width: 100%;
+#directorylist ul li.addressbook.selected > a {
+	background-position: 32px -791px;
+}
+
+#directorylist ul ul li.addressbook.selected > a {
+	background-position: 58px -791px;
 }
 
 #directorylist li.contactgroup a {
 	background-position: 32px -1555px;
 }
 
+#directorylist ul ul li.contactgroup a {
+	background-position: 58px -1555px;
+}
+
+#directorylist ul ul ul li.contactgroup a {
+	background-position: 84px -1555px;
+}
+
 #directorylist li.contactgroup.selected a {
 	background-position: 32px -1579px;
+}
+
+#directorylist ul ul li.contactgroup.selected a {
+	background-position: 58px -1579px;
+}
+
+#directorylist ul ul ul li.contactgroup.selected a {
+	background-position: 84px -1579px;
 }
 
 #directorylist li.contactgroup input {
 	margin-left: 36px;
 }
 
-#directorylist li.contactsearch a {
+.treelist li.contactsearch a {
 	background-position: 6px -1651px;
 }
 
-#directorylist li.contactsearch.selected a {
+.treelist li.contactsearch.selected a {
 	background-position: 6px -1675px;
 }
 
-#directorylist li.contactsearch input {
+.treelist li.contactsearch input {
 	margin-left: 8px;
 }
 
 #directorylist li.addressbook div.collapsed,
 #directorylist li.addressbook div.expanded {
 	top: 15px;
-	left: 20px;
 }
 
 #contacts-table .contact.readonly td {

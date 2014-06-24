@@ -112,7 +112,7 @@ if ($undo = $_SESSION['contact_undo']) {
 // register UI objects
 $OUTPUT->add_handlers(array(
     'directorylist'       => 'rcmail_directory_list',
-//  'groupslist'          => 'rcmail_contact_groups',
+    'savedsearchlist'     => 'rcmail_savedsearch_list',
     'addresslist'         => 'rcmail_contacts_list',
     'addresslisttitle'    => 'rcmail_contacts_list_title',
     'addressframe'        => 'rcmail_contact_frame',
@@ -251,6 +251,26 @@ function rcmail_directory_list($attrib)
         $out .= '</li>';
     }
 
+    $OUTPUT->set_env('contactgroups', $jsdata);
+    $OUTPUT->set_env('collapsed_abooks', (string)$RCMAIL->config->get('collapsed_abooks',''));
+    $OUTPUT->add_gui_object('folderlist', $attrib['id']);
+    $OUTPUT->include_script('treelist.js');
+
+    // add some labels to client
+    $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting', 'addingmember', 'removingmember');
+
+    return html::tag('ul', $attrib, $out, html::$common_attrib);
+}
+
+
+function rcmail_savedsearch_list($attrib)
+{
+    global $RCMAIL, $OUTPUT;
+
+    if (!$attrib['id'])
+        $attrib['id'] = 'rcmsavedsearchlist';
+
+    $out = '';
     $line_templ = html::tag('li', array(
         'id' => 'rcmli%s', 'class' => '%s'),
         html::a(array('href' => '#', 'rel' => 'S%s',
@@ -263,26 +283,19 @@ function rcmail_directory_list($attrib)
         $js_id = rcube::JQ($id);
 
         // set class name(s)
-        $class_name = 'contactsearch';
-        if ($current === $id)
-            $class_name .= ' selected';
-        if ($source['class_name'])
-            $class_name .= ' ' . $source['class_name'];
+        $classes = array('contactsearch');
+        if (!empty($source['class_name']))
+            $classes[] = $source['class_name'];
 
         $out .= sprintf($line_templ,
             rcube_utils::html_identifier('S'.$id, true),
-            $class_name,
+            join(' ', $classes),
             $id,
-            $js_id, (!empty($source['name']) ? rcube::Q($source['name']) : rcube::Q($id)));
+            $js_id, (!empty($source['name']) ? rcube::Q($source['name']) : rcube::Q($id))
+        );
     }
 
-    $OUTPUT->set_env('contactgroups', $jsdata);
-    $OUTPUT->set_env('collapsed_abooks', (string)$RCMAIL->config->get('collapsed_abooks',''));
-    $OUTPUT->add_gui_object('folderlist', $attrib['id']);
-    $OUTPUT->include_script('treelist.js');
-
-    // add some labels to client
-    $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting', 'addingmember', 'removingmember');
+    $OUTPUT->add_gui_object('savedsearchlist', $attrib['id']);
 
     return html::tag('ul', $attrib, $out, html::$common_attrib);
 }

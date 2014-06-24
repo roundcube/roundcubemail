@@ -414,6 +414,17 @@ function rcube_webmail()
           this.command('list');
         }
 
+        if (this.gui_objects.savedsearchlist) {
+          this.savedsearchlist = new rcube_treelist_widget(this.gui_objects.savedsearchlist, {
+            id_prefix: 'rcmli',
+            id_encode: this.html_identifier_encode,
+            id_decode: this.html_identifier_decode
+          });
+
+          this.savedsearchlist.addEventListener('select', function(node) {
+            ref.triggerEvent('selectfolder', { folder:node.id, prefix:'rcmli' }); });
+        }
+
         this.set_page_buttons();
 
         if (this.env.cid) {
@@ -554,6 +565,7 @@ function rcube_webmail()
     // init treelist widget
     if (this.gui_objects.folderlist && window.rcube_treelist_widget) {
       this.treelist = new rcube_treelist_widget(this.gui_objects.folderlist, {
+          selectable: true,
           id_prefix: 'rcmli',
           id_encode: this.html_identifier_encode,
           id_decode: this.html_identifier_decode,
@@ -4760,7 +4772,8 @@ function rcube_webmail()
         $(this.gui_objects.addresslist_title).html(this.get_label('contacts'));
     }
 
-    this.select_folder(folder, '', true);
+    if (!this.env.search_id)
+      this.select_folder(folder, '', true);
 
     // load contacts remotely
     if (this.gui_objects.contactslist) {
@@ -5184,7 +5197,7 @@ function rcube_webmail()
 
       // find list (UL) element
       if (type == 'contactsearch')
-        ul = this.gui_objects.folderlist;
+        ul = this.gui_objects.savedsearchlist;
       else
         ul = $('ul.groups', this.get_folder_li(this.env.source,'',true));
 
@@ -5285,7 +5298,7 @@ function rcube_webmail()
         .html(prop.name);
 
     this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
-    this.treelist.insert({ id:key, html:link, classes:['contactgroup'] }, prop.source, true);
+    this.treelist.insert({ id:key, html:link, classes:['contactgroup'] }, prop.source, 'contactgroup');
 
     this.triggerEvent('group_insert', { id:prop.id, source:prop.source, name:prop.name, li:this.treelist.get_item(key) });
   };
@@ -5567,7 +5580,7 @@ function rcube_webmail()
         .html(name),
       prop = { name:name, id:id };
 
-    this.treelist.insert({ id:key, html:link, classes:['contactsearch'] }, null, 'contactsearch');
+    this.savedsearchlist.insert({ id:key, html:link, classes:['contactsearch'] }, null, 'contactsearch');
     this.select_folder(key,'',true);
     this.enable_command('search-delete', true);
     this.env.search_id = id;
@@ -5593,7 +5606,7 @@ function rcube_webmail()
   this.remove_search_item = function(id)
   {
     var li, key = 'S'+id;
-    if (this.treelist.remove(key)) {
+    if (this.savedsearchlist.remove(key)) {
       this.triggerEvent('search_delete', { id:id, li:li });
     }
 
@@ -5613,7 +5626,13 @@ function rcube_webmail()
     }
 
     this.reset_qsearch();
-    this.select_folder('S'+id, '', true);
+
+    if (this.savedsearchlist) {
+      this.treelist.select('');
+      this.savedsearchlist.select('S'+id);
+    }
+    else
+      this.select_folder('S'+id, '', true);
 
     // reset vars
     this.env.current_page = 1;
@@ -6478,6 +6497,10 @@ function rcube_webmail()
   // mark a mailbox as selected and set environment variable
   this.select_folder = function(name, prefix, encode)
   {
+    if (this.savedsearchlist) {
+      this.savedsearchlist.select('');
+    }
+
     if (this.treelist) {
       this.treelist.select(name);
     }
