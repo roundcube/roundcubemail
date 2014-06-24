@@ -737,6 +737,13 @@ function action_type_select(id)
   }
 };
 
+function vacation_action_select()
+{
+  var selected = $('#vacation_action').val();
+
+  $('#action_target_span')[selected == 'discard' || selected == 'keep' ? 'hide' : 'show']();
+};
+
 // Inititalizes smart list input
 function smart_field_init(field)
 {
