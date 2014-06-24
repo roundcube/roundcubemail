@@ -339,18 +339,22 @@ function rcube_treelist_widget(node, p)
       if (updates.id || updates.html || updates.children || updates.classes || updates.parent) {
         if (updates.parent && (parent_node = indexbyid[updates.parent])) {
           // remove reference from old parent's child list
-          if (old_parent = indexbyid[dom2id(parent_ul.closest('li'))]) {
+          if (parent_ul.closest('li').length && (old_parent = indexbyid[dom2id(parent_ul.closest('li'))])) {
             old_parent.children = $.grep(old_parent.children, function(elem, i){ return elem.id != node.id; });
           }
+
           // append to new parent node
           parent_ul = id2dom(updates.parent).children('ul').first();
           if (!parent_node.children)
             parent_node.children = [];
           parent_node.children.push(node);
         }
+        else if (updates.parent !== undefined) {
+          parent_ul = container;
+        }
 
         $.extend(node, updates);
-        render_node(node, parent_ul, li);
+        li = render_node(node, parent_ul, li);
       }
 
       if (node.id != id) {
@@ -677,7 +681,7 @@ function rcube_treelist_widget(node, p)
    */
   function dom2id(li)
   {
-    var domid = li.attr('id').replace(new RegExp('^' + (p.id_prefix) || '%'), '').replace(/--xsR$/, '');
+    var domid = String(li.attr('id')).replace(new RegExp('^' + (p.id_prefix) || '%'), '').replace(/--xsR$/, '');
     return p.id_decode ? p.id_decode(domid) : domid;
   }
 
