@@ -2873,57 +2873,64 @@ class rcube_imap_generic
     /**
      * Returns QUOTA information
      *
+     * @param string $mailbox Mailbox name
+     *
      * @return array Quota information
      */
-    function getQuota()
+    function getQuota($mailbox = null)
     {
-        /*
-         * GETQUOTAROOT "INBOX"
-         * QUOTAROOT INBOX user/rchijiiwa1
-         * QUOTA user/rchijiiwa1 (STORAGE 654 9765)
-         * OK Completed
-         */
-        $result      = false;
-        $quota_lines = array();
-        $key         = $this->nextTag();
-        $command     = $key . ' GETQUOTAROOT INBOX';
-
-        // get line(s) containing quota info
-        if ($this->putLine($command)) {
-            do {
-                $line = rtrim($this->readLine(5000));
-                if (preg_match('/^\* QUOTA /', $line)) {
-                    $quota_lines[] = $line;
-                }
-            } while (!$this->startsWith($line, $key, true, true));
-        }
-        else {
-            $this->setError(self::ERROR_COMMAND, "Unable to send command: $command");
+        if ($mailbox === null || $mailbox === '') {
+            $mailbox = 'INBOX';
         }
 
-        // return false if not found, parse if found
+        // a0001 GETQUOTAROOT INBOX
+        // * QUOTAROOT INBOX user/sample
+        // * QUOTA user/sample (STORAGE 654 9765)
+        // a0001 OK Completed
+
+        list($code, $response) = $this->execute('GETQUOTAROOT', array($this->escape($mailbox)));
+
+        $result   = false;
         $min_free = PHP_INT_MAX;
-        foreach ($quota_lines as $key => $quota_line) {
-            $quota_line   = str_replace(array('(', ')'), '', $quota_line);
-            $parts        = explode(' ', $quota_line);
-            $storage_part = array_search('STORAGE', $parts);
+        $all      = array();
 
-            if (!$storage_part) {
-                continue;
+        if ($code == self::ERROR_OK) {
+            foreach (explode("\n", $response) as $line) {
+                if (preg_match('/^\* QUOTA /', $line)) {
+                    list(, , $quota_root) = $this->tokenizeResponse($line, 3);
+
+                    while ($line) {
+                        list($type, $used, $total) = $this->tokenizeResponse($line, 1);
+                        $type = strtolower($type);
+
+                        if ($type && $total) {
+                            $all[$quota_root][$type]['used']  = intval($used);
+                            $all[$quota_root][$type]['total'] = intval($total);
+                        }
+                    }
+
+                    if (empty($all[$quota_root]['storage'])) {
+                        continue;
+                    }
+
+                    $used  = $all[$quota_root]['storage']['used'];
+                    $total = $all[$quota_root]['storage']['total'];
+                    $free  = $total - $used;
+
+                    // calculate lowest available space from all storage quotas
+                    if ($free < $min_free) {
+                        $min_free          = $free;
+                        $result['used']    = $used;
+                        $result['total']   = $total;
+                        $result['percent'] = min(100, round(($used/max(1,$total))*100));
+                        $result['free']    = 100 - $result['percent'];
+                    }
+                }
             }
+        }
 
-            $used  = intval($parts[$storage_part+1]);
-            $total = intval($parts[$storage_part+2]);
-            $free  = $total - $used;
-
-            // return lowest available space from all quotas
-            if ($free < $min_free) {
-                $min_free          = $free;
-                $result['used']    = $used;
-                $result['total']   = $total;
-                $result['percent'] = min(100, round(($used/max(1,$total))*100));
-                $result['free']    = 100 - $result['percent'];
-            }
+        if (!empty($result)) {
+            $result['all'] = $all;
         }
 
         return $result;

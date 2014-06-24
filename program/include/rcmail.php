@@ -1678,6 +1678,7 @@ class rcmail extends rcube
         $quota = $this->storage->get_quota();
         $quota = $this->plugins->exec_hook('quota', $quota);
 
+        unset($quota['abort']);
         $quota_result = (array) $quota;
         $quota_result['type'] = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
 

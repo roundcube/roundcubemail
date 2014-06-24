@@ -3067,14 +3067,15 @@ class rcube_imap extends rcube_storage
 
     /**
      * Get mailbox quota information
-     * added by Nuny
+     *
+     * @param string $folder Folder name
      *
      * @return mixed Quota info or False if not supported
      */
-    public function get_quota()
+    public function get_quota($folder = null)
     {
         if ($this->get_capability('QUOTA') && $this->check_connection()) {
-            return $this->conn->getQuota();
+            return $this->conn->getQuota($folder);
         }
 
         return false;

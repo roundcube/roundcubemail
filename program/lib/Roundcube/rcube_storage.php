@@ -918,9 +918,11 @@ abstract class rcube_storage
     /**
      * Get mailbox quota information.
      *
+     * @param string $folder  Folder name
+     *
      * @return mixed Quota info or False if not supported
      */
-    abstract function get_quota();
+    abstract function get_quota($folder = null);
 
 
     /* -----------------------------------------
