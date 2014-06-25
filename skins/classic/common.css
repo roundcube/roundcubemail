@@ -671,18 +671,21 @@ ul.treelist li
 ul.treelist li div.treetoggle
 {
   position: absolute;
-  left: 8px !important;
-  left: -16px;
+  left: 8px;
   top: 1px;
   width: 14px;
   height: 16px;
   cursor: pointer;
 }
 
-ul.treelist li ul li div.treetoggle
+ul.treelist ul li div.treetoggle
 {
-  left: 28px !important;
-  left: 4px;
+  left: 25px;
+}
+
+ul.treelist ul ul li div.treetoggle
+{
+  left: 42px;
 }
 
 ul.treelist li div.collapsed
@@ -745,7 +748,8 @@ ul.treelist li ul li:last-child
   border-bottom: 0;
 }
 
-ul.treelist li.selected > a
+ul.treelist li.selected > a,
+ul.treelist li.selected > div a
 {
   color: #FFF;
   font-weight: bold;
