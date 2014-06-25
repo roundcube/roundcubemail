@@ -630,7 +630,7 @@ function rcube_webmail()
   {
     var ret, uid, cid, url, flag, aborted = false;
 
-    if (obj && obj.blur && !(event || rcube_event.is_keyboard(event)))
+    if (obj && obj.blur && !(event && rcube_event.is_keyboard(event)))
       obj.blur();
 
     // do nothing if interface is locked by other command (with exception for searching reset)
