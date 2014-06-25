@@ -807,8 +807,8 @@ function rcube_treelist_widget(node, p)
     else if (dir < 0 && !from_child && next.children('ul[role=group]:visible').length) {
       next.children('ul').children('li:last').find('a:first').focus();
     }
-    else if (next.length && next.find('a:first')) {
-      next.find('a:first').focus();
+    else if (next.length && next.find('a:first').focus().length) {
+        // focused
     }
     else {
       parent = li.parent().closest('li[role=treeitem]');
