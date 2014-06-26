@@ -1236,6 +1236,35 @@ fieldset.tabbed
 .quota_text_mid { color: #666; }
 .quota_text_low { color: #666; }
 
+table.quota-info {
+	border-spacing: 0;
+	border-collapse: collapse;
+	table-layout: fixed;
+	margin: 2px;
+}
+
+table.quota-info td,
+table.quota-info th {
+	border: 1px solid #999;
+	padding: 2px 3px;
+	text-align: center;
+	min-width: 80px;
+	color: #333;
+	font-size: 11px;
+}
+
+table.quota-info th {
+	font-weight: bold;
+	background-color: #ddd;
+}
+
+table.quota-info td.name {
+	text-align: left;
+}
+
+table.quota-info td.root {
+	font-style: italic;
+}
 
 /********** TinyMCE styles **********/
 .mce-btn-small button

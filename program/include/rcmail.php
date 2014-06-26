@@ -1678,7 +1678,6 @@ class rcmail extends rcube
         $quota = $this->storage->get_quota();
         $quota = $this->plugins->exec_hook('quota', $quota);
 
-        unset($quota['abort']);
         $quota_result = (array) $quota;
         $quota_result['type'] = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
 
@@ -1697,13 +1696,51 @@ class rcmail extends rcube
                 $quota_result['width'] = $attrib['width'];
             }
             if ($attrib['height']) {
-                $quota_result['height']	= $attrib['height'];
+                $quota_result['height'] = $attrib['height'];
+            }
+
+            // build a table of quota types/roots info
+            if (($root_cnt = count($quota_result['all'])) > 1 || count($quota_result['all'][key($quota_result['all'])]) > 1) {
+                $table = new html_table(array('cols' => 3, 'class' => 'quota-info'));
+
+                $table->add_header(null, self::Q($this->gettext('quotatype')));
+                $table->add_header(null, self::Q($this->gettext('quotatotal')));
+                $table->add_header(null, self::Q($this->gettext('quotaused')));
+
+                foreach ($quota_result['all'] as $root => $data) {
+                    if ($root_cnt > 1 && $root) {
+                        $table->add(array('colspan' => 3, 'class' => 'root'), self::Q($root));
+                    }
+
+                    if ($storage = $data['storage']) {
+                        $percent = min(100, round(($storage['used']/max(1,$storage['total']))*100));
+
+                        $table->add('name', self::Q($this->gettext('quotastorage')));
+                        $table->add(null, $this->show_bytes($storage['total'] * 1024));
+                        $table->add(null, sprintf('%s (%.0f%%)', $this->show_bytes($storage['used'] * 1024), $percent));
+                    }
+                    if ($message = $data['message']) {
+                        $percent = min(100, round(($message['used']/max(1,$message['total']))*100));
+
+                        $table->add('name', self::Q($this->gettext('quotamessage')));
+                        $table->add(null, intval($message['total']));
+                        $table->add(null, sprintf('%d (%.0f%%)', $message['used'], $percent));
+                    }
+                }
+
+                $quota_result['table'] = $table->show();
             }
         }
         else {
             $unlimited               = $this->config->get('quota_zero_as_unlimited');
             $quota_result['title']   = $this->gettext($unlimited ? 'unlimited' : 'unknown');
             $quota_result['percent'] = 0;
+        }
+
+        // cleanup
+        unset($quota_result['abort']);
+        if (empty($quota_result['table'])) {
+            unset($quota_result['all']);
         }
 
         return $quota_result;

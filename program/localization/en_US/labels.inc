@@ -208,6 +208,11 @@ $labels['importmessages'] = 'Import messages';
 $labels['quota'] = 'Disk usage';
 $labels['unknown']  = 'unknown';
 $labels['unlimited']  = 'unlimited';
+$labels['quotatype'] = 'Quota type';
+$labels['quotatotal'] = 'Limit';
+$labels['quotaused'] = 'Used';
+$labels['quotastorage'] = 'Disk space';
+$labels['quotamessage'] = 'Messages count';
 
 $labels['quicksearch']  = 'Quick search';
 $labels['resetsearch']  = 'Reset search';

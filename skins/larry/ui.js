@@ -515,14 +515,25 @@ function rcube_mail_ui()
 
   function update_quota(p)
   {
-    var step = 24, step_count = 20,
+    var element = $('#quotadisplay'), menu = $('#quotamenu'),
+      step = 24, step_count = 20,
       y = p.total ? Math.ceil(p.percent / 100 * step_count) * step : 0;
 
     // never show full-circle if quota is close to 100% but below.
     if (p.total && y == step * step_count && p.percent < 100)
       y -= step;
 
-    $('#quotadisplay').css('background-position', '0 -'+y+'px');
+    element.css('background-position', '0 -' + y + 'px');
+
+    if (p.table) {
+      if (!menu.length)
+        menu = $('<div id="quotamenu" class="popupmenu">').appendTo($('body'));
+
+      menu.html(p.table);
+      element.css('cursor', 'pointer').off('click').on('click', function(e) {
+        return rcmail.command('menu-open', 'quotamenu', e.target, e);
+      });
+    }
   }
 
 

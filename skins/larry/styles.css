@@ -2277,6 +2277,30 @@ a.iconbutton:focus,
 	background: url(images/quota.png) -100px 0 no-repeat;
 }
 
+table.quota-info {
+	border-spacing: 0;
+	border-collapse: collapse;
+	table-layout: fixed;
+	margin: 5px;
+}
+
+table.quota-info td,
+table.quota-info th {
+	color: white;
+	border: 1px solid lightgrey;
+	padding: 2px 3px;
+	text-align: center;
+	min-width: 80px;
+}
+
+table.quota-info td.name {
+	text-align: left;
+}
+
+table.quota-info td.root {
+	font-style: italic;
+}
+
 /*** popup menus ***/
 
 .popupmenu,

@@ -879,6 +879,18 @@ function fit_string_to_size(str, elem, len)
 function update_quota(data)
 {
   percent_indicator(rcmail.gui_objects.quotadisplay, data);
+
+  if (data.table) {
+    var menu = $('#quotamenu');
+
+    if (!menu.length)
+      menu = $('<div id="quotamenu" class="popupmenu">').appendTo($('body'));
+
+    menu.html(data.table);
+    $('#quotaimg').css('cursor', 'pointer').off('click').on('click', function(e) {
+      return rcmail.command('menu-open', 'quotamenu', e.target, e);
+    });
+  }
 };
 
 // percent (quota) indicator
