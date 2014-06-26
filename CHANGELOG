@@ -17,6 +17,7 @@ CHANGELOG Roundcube Webmail
 - Fix malformed recipient name when composing a message by clicking on mailto link (#1489942)
 - Fix list reload after sending message in another window (#1489931)
 - Fix so address format errors are ignored when saving a draft (#1489954)
+- Fix incorrect label translation in return receipt (#1489963)
 
 RELEASE 1.0.1
 -------------
