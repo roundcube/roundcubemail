@@ -1816,7 +1816,7 @@ function rcmail_send_mdn($message, &$smtp_error)
         $body = $RCMAIL->gettext("yourmessage") . "\r\n\r\n" .
             "\t" . $RCMAIL->gettext("to") . ': ' . rcube_mime::decode_mime_string($message->headers->to, $message->headers->charset) . "\r\n" .
             "\t" . $RCMAIL->gettext("subject") . ': ' . $message->subject . "\r\n" .
-            "\t" . $RCMAIL->gettext("sent") . ': ' . $RCMAIL->format_date($message->headers->date, $RCMAIL->config->get('date_long')) . "\r\n" .
+            "\t" . $RCMAIL->gettext("date") . ': ' . $RCMAIL->format_date($message->headers->date, $RCMAIL->config->get('date_long')) . "\r\n" .
             "\r\n" . $RCMAIL->gettext("receiptnote");
 
         $compose->headers($headers);
