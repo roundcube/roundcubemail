@@ -226,9 +226,28 @@ class password extends rcube_plugin
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('confpasswd'))));
         $table->add(null, $input_confpasswd->show());
 
+        $rules = '';
+        
+        $required_length = intval($rcmail->config->get('password_minimum_length'));
+        if($required_length > 0) {
+            $rules .= html::tag('li', array('id' => 'required-length'), $this->gettext(array(
+                'name' => 'passwordshort', 
+                'vars' => array('length' => $required_length)
+                )));
+        }
+        
+        if($rcmail->config->get('password_require_nonalpha')) {
+            $rules .= html::tag('li', array('id' => 'require-nonalpha'), $this->gettext('passwordweak'));
+        }
+        
+        if(!empty($rules)) {
+            $rules = html::tag('ul', array('id' => 'ruleslist'), $rules);
+        }
+
         $out = html::div(array('class' => 'box'),
             html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changepasswd')) .
             html::div(array('class' => 'boxcontent'), $table->show() .
+            $rules .
             html::p(null,
                 $rcmail->output->button(array(
                     'command' => 'plugin.password-save',
