@@ -227,20 +227,20 @@ class password extends rcube_plugin
         $table->add(null, $input_confpasswd->show());
 
         $rules = '';
-        
+
         $required_length = intval($rcmail->config->get('password_minimum_length'));
-        if($required_length > 0) {
+        if ($required_length > 0) {
             $rules .= html::tag('li', array('id' => 'required-length'), $this->gettext(array(
-                'name' => 'passwordshort', 
+                'name' => 'passwordshort',
                 'vars' => array('length' => $required_length)
-                )));
+            )));
         }
-        
-        if($rcmail->config->get('password_require_nonalpha')) {
+
+        if ($rcmail->config->get('password_require_nonalpha')) {
             $rules .= html::tag('li', array('id' => 'require-nonalpha'), $this->gettext('passwordweak'));
         }
-        
-        if(!empty($rules)) {
+
+        if (!empty($rules)) {
             $rules = html::tag('ul', array('id' => 'ruleslist'), $rules);
         }
 
@@ -251,16 +251,16 @@ class password extends rcube_plugin
             html::p(null,
                 $rcmail->output->button(array(
                     'command' => 'plugin.password-save',
-                    'type' => 'input',
-                    'class' => 'button mainaction',
-                    'label' => 'save'
+                    'type'    => 'input',
+                    'class'   => 'button mainaction',
+                    'label'   => 'save'
             )))));
 
         $rcmail->output->add_gui_object('passform', 'password-form');
 
         return $rcmail->output->form_tag(array(
-            'id' => 'password-form',
-            'name' => 'password-form',
+            'id'     => 'password-form',
+            'name'   => 'password-form',
             'method' => 'post',
             'action' => './?_task=settings&_action=plugin.password-save',
         ), $out);
