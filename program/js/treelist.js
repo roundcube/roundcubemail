@@ -226,15 +226,21 @@ function rcube_treelist_widget(node, p)
   function select(id)
   {
     if (selection) {
-      id2dom(selection).removeClass('selected').removeAttr('aria-selected');
+      id2dom(selection, true).removeClass('selected').removeAttr('aria-selected');
+      if (search_active)
+          id2dom(selection).removeClass('selected').removeAttr('aria-selected');
       selection = null;
     }
 
-    var li = id2dom(id);
+    var li = id2dom(id, true);
     if (li.length) {
       li.addClass('selected').attr('aria-selected', 'true');
       selection = id;
       // TODO: expand all parent nodes if collapsed
+
+      if (search_active)
+        id2dom(id).addClass('selected').attr('aria-selected', 'true');
+
       scroll_to_node(li);
     }
 
