@@ -46,6 +46,18 @@ img {
 	overflow: hidden;
 }
 
+html.mozilla select {
+	padding: 2px 1px;
+}
+
+input,
+textarea,
+select,
+button {
+	font-family: inherit;
+	font-size: inherit;
+}
+
 input[type="text"],
 input[type="password"],
 textarea {
