@@ -20,10 +20,14 @@ body.extwin
   margin: 10px;
 }
 
-select, input, textarea
+select, input, textarea, button
 {
-  font-size: 12px;
+  font-size: inherit;
   font-family: inherit;
+}
+
+html.mozilla select {
+  padding: 2px 1px;
 }
 
 th
