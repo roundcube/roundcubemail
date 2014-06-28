@@ -172,9 +172,13 @@ class rcube
     public function get_dbh()
     {
         if (!$this->db) {
-            $config_all = $this->config->all();
-            $this->db = rcube_db::factory($config_all['db_dsnw'], $config_all['db_dsnr'], $config_all['db_persistent']);
-            $this->db->set_debug((bool)$config_all['sql_debug']);
+            $this->db = rcube_db::factory(
+                $this->config->get('db_dsnw'),
+                $this->config->get('db_dsnr'),
+                $this->config->get('db_persistent')
+            );
+
+            $this->db->set_debug((bool)$this->config->get('sql_debug'));
         }
 
         return $this->db;

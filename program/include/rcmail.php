@@ -730,14 +730,16 @@ class rcmail extends rcube
      */
     public function logout_actions()
     {
-        $config  = $this->config->all();
-        $storage = $this->get_storage();
+        $storage        = $this->get_storage();
+        $logout_expunge = $this->config->get('logout_expunge');
+        $logout_purge   = $this->config->get('logout_purge');
+        $trash_mbox     = $this->config->get('trash_mbox');
 
-        if ($config['logout_purge'] && !empty($config['trash_mbox'])) {
-            $storage->clear_folder($config['trash_mbox']);
+        if ($logout_purge && !empty($trash_mbox)) {
+            $storage->clear_folder($trash_mbox);
         }
 
-        if ($config['logout_expunge']) {
+        if ($logout_expunge) {
             $storage->expunge_folder('INBOX');
         }
 
@@ -887,12 +889,15 @@ class rcmail extends rcube
         $prefix     = $this->storage->get_namespace('prefix');
         $prefix_len = strlen($prefix);
 
-        if (!$prefix_len)
+        if (!$prefix_len) {
             return;
+        }
 
-        $prefs = $this->config->all();
-        if (!empty($prefs['namespace_fixed']))
+        if ($this->config->get('namespace_fixed')) {
             return;
+        }
+
+        $prefs = array();
 
         // Build namespace prefix regexp
         $ns     = $this->storage->get_namespace();
@@ -912,16 +917,16 @@ class rcmail extends rcube
         // Fix preferences
         $opts = array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox', 'archive_mbox');
         foreach ($opts as $opt) {
-            if ($value = $prefs[$opt]) {
+            if ($value = $this->config->get($opt)) {
                 if ($value != 'INBOX' && !preg_match($regexp, $value)) {
                     $prefs[$opt] = $prefix.$value;
                 }
             }
         }
 
-        if (!empty($prefs['search_mods'])) {
+        if (($search_mods = $this->config->get('search_mods')) && !empty($search_mods)) {
             $folders = array();
-            foreach ($prefs['search_mods'] as $idx => $value) {
+            foreach ($search_mods as $idx => $value) {
                 if ($idx != 'INBOX' && $idx != '*' && !preg_match($regexp, $idx)) {
                     $idx = $prefix.$idx;
                 }
@@ -931,9 +936,9 @@ class rcmail extends rcube
             $prefs['search_mods'] = $folders;
         }
 
-        if (!empty($prefs['message_threading'])) {
+        if (($threading = $this->config->get('message_threading')) && !empty($threading)) {
             $folders = array();
-            foreach ($prefs['message_threading'] as $idx => $value) {
+            foreach ($threading as $idx => $value) {
                 if ($idx != 'INBOX' && !preg_match($regexp, $idx)) {
                     $idx = $prefix.$idx;
                 }
@@ -943,8 +948,8 @@ class rcmail extends rcube
             $prefs['message_threading'] = $folders;
         }
 
-        if (!empty($prefs['collapsed_folders'])) {
-            $folders     = explode('&&', $prefs['collapsed_folders']);
+        if ($collapsed = $this->config->get('collapsed_folders')) {
+            $folders     = explode('&&', $collapsed);
             $count       = count($folders);
             $folders_str = '';
 
