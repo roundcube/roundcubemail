@@ -1944,8 +1944,10 @@ class rcmail extends rcube
 
     /**
      * Initializes file uploading interface.
+     *
+     * @param $int Optional maximum file size in bytes
      */
-    public function upload_init()
+    public function upload_init($max_size = null)
     {
         // Enable upload progress bar
         if ($seconds = $this->config->get('upload_progress')) {
@@ -1973,12 +1975,87 @@ class rcmail extends rcube
             $max_filesize = $max_postsize;
         }
 
+        if ($max_size && $max_size < $max_filesize) {
+            $max_filesize = $max_size;
+        }
+
         $this->output->set_env('max_filesize', $max_filesize);
         $max_filesize = $this->show_bytes($max_filesize);
         $this->output->set_env('filesizeerror', $this->gettext(array(
             'name' => 'filesizeerror', 'vars' => array('size' => $max_filesize))));
 
         return $max_filesize;
+    }
+
+    /**
+     * Outputs uploaded file content (with image thumbnails support
+     *
+     * @param array $file Upload file data
+     */
+    public function display_uploaded_file($file)
+    {
+        if (empty($file)) {
+            return;
+        }
+
+        $file = $this->plugins->exec_hook('attachment_display', $file);
+
+        if ($file['status']) {
+            if (empty($file['size'])) {
+                $file['size'] = $file['data'] ? strlen($file['data']) : @filesize($file['path']);
+            }
+
+            // generate image thumbnail for file browser in HTML editor
+            if (!empty($_GET['_thumbnail'])) {
+                $temp_dir       = $this->config->get('temp_dir');
+                $thumbnail_size = 80;
+                list(,$ext)     = explode('/', $file['mimetype']);
+                $mimetype       = $file['mimetype'];
+                $file_ident     = $file['id'] . ':' . $file['mimetype'] . ':' . $file['size'];
+                $cache_basename = $temp_dir . '/' . md5($file_ident . ':' . $this->user->ID . ':' . $thumbnail_size);
+                $cache_file     = $cache_basename . '.' . $ext;
+
+                // render thumbnail image if not done yet
+                if (!is_file($cache_file)) {
+                    if (!$file['path']) {
+                        $orig_name = $filename = $cache_basename . '.orig.' . $ext;
+                        file_put_contents($orig_name, $file['data']);
+                    }
+                    else {
+                        $filename = $file['path'];
+                    }
+
+                    $image = new rcube_image($filename);
+                    if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
+                        $mimetype = 'image/' . $imgtype;
+
+                        if ($orig_name) {
+                            unlink($orig_name);
+                        }
+                    }
+                }
+
+                if (is_file($cache_file)) {
+                    // cache for 1h
+                    $this->output->future_expire_header(3600);
+                    header('Content-Type: ' . $mimetype);
+                    header('Content-Length: ' . filesize($cache_file));
+
+                    readfile($cache_file);
+                    exit;
+                }
+            }
+
+            header('Content-Type: ' . $file['mimetype']);
+            header('Content-Length: ' . $file['size']);
+
+            if ($file['data']) {
+                echo $file['data'];
+            }
+            else if ($file['path']) {
+                readfile($file['path']);
+            }
+        }
     }
 
     /**

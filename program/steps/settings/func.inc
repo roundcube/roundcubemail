@@ -44,6 +44,7 @@ $RCMAIL->register_action_map(array(
     'add-response'  => 'edit_response.inc',
     'save-response' => 'edit_response.inc',
     'delete-response' => 'responses.inc',
+    'upload-display'  => 'upload.inc',
 ));
 
 

@@ -65,10 +65,12 @@ function rcube_text_editor(config, id)
   // minimal editor
   if (config.mode == 'identity') {
     $.extend(conf, {
-      plugins: 'autolink charmap code colorpicker hr link paste tabfocus textcolor',
+      plugins: 'autolink charmap code colorpicker hr image link paste tabfocus textcolor',
       toolbar: 'bold italic underline alignleft aligncenter alignright alignjustify'
-        + ' | outdent indent charmap hr link unlink code forecolor'
-        + ' | fontselect fontsizeselect'
+        + ' | outdent indent charmap hr link unlink image code forecolor'
+        + ' | fontselect fontsizeselect',
+      file_browser_callback: function(name, url, type, win) { ref.file_browser_callback(name, url, type); },
+      file_browser_callback_types: 'image'
     });
   }
   // full-featured editor
@@ -610,6 +612,8 @@ function rcube_text_editor(config, id)
         }
       });
     }
+
+    // @todo: upload progress indicator
   };
 
   // close file browser window
@@ -652,7 +656,9 @@ function rcube_text_editor(config, id)
     }
 
     if (rx.test(file.mimetype)) {
-      var href = rcmail.env.comm_path+'&_id='+rcmail.env.compose_id+'&_action=display-attachment&_file='+file_id,
+      var path = rcmail.env.comm_path + '&_from=' + rcmail.env.action,
+        action = rcmail.env.compose_id ? '&_id=' + rcmail.env.compose_id + '&_action=display-attachment' : '&_action=upload-display',
+        href = path + action + '&_file=' + file_id,
         img = $('<img>').attr({title: file.name, src: img_src ? img_src : href + '&_thumbnail=1'});
 
       return $('<li>').attr({tabindex: 0})
@@ -686,7 +692,7 @@ function rcube_text_editor(config, id)
   this.hack_file_input = function(elem, clone_form)
   {
     var link = $(elem),
-      file = $('<input>'),
+      file = $('<input>').attr('name', '_files[]'),
       form = $('<form>').attr({method: 'post', enctype: 'multipart/form-data'}),
       offset = link.offset();
 

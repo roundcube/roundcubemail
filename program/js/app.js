@@ -4083,6 +4083,14 @@ function rcube_webmail()
     if (upload_id)
       this.triggerEvent('fileuploaded', {name: name, attachment: att, id: upload_id});
 
+    if (!this.env.attachments)
+      this.env.attachments = {};
+
+    if (upload_id && this.env.attachments[upload_id])
+      delete this.env.attachments[upload_id];
+
+    this.env.attachments[name] = att;
+
     if (!this.gui_objects.attachmentlist)
       return false;
 
@@ -4111,11 +4119,6 @@ function rcube_webmail()
     // set tabindex attribute
     var tabindex = $(this.gui_objects.attachmentlist).attr('data-tabindex') || '0';
     li.find('a').attr('tabindex', tabindex);
-
-    if (upload_id && this.env.attachments[upload_id])
-      delete this.env.attachments[upload_id];
-
-    this.env.attachments[name] = att;
 
     return true;
   };
@@ -7563,7 +7566,7 @@ function rcube_webmail()
 
     $(form).attr({
         target: frame_name,
-        action: this.url(action, { _id:this.env.compose_id||'', _uploadid:ts }),
+        action: this.url(action, {_id: this.env.compose_id || '', _uploadid: ts, _from: this.env.action}),
         method: 'POST'})
       .attr(form.encoding ? 'encoding' : 'enctype', 'multipart/form-data')
       .submit();
