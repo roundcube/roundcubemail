@@ -2025,7 +2025,7 @@ ul.proplist li {
 	font-size: 10px;
 	color: #555;
 	min-width: 50px;
-	max-width: 75px;
+	max-width: 70px;
 	height: 13px;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -2112,12 +2112,12 @@ ul.proplist li {
 
 .toolbar a.button.reply-all {
 	min-width: 64px;
-	background-position: left -610px;
+	background-position: 0 -610px;
 }
 
 .toolbar a.button.forward {
 	min-width: 64px;
-	background-position: left -650px;
+	background-position: 0 -650px;
 }
 
 .toolbar a.button.delete {
@@ -2154,11 +2154,11 @@ ul.proplist li {
 
 .toolbar a.button.spellcheck {
 	min-width: 64px;
-	background-position: left -930px;
+	background-position: 0 -930px;
 }
 
 .toolbar a.button.spellcheck.selected {
-	background-position: left -1620px;
+	background-position: 0 -1620px;
 	color: #1978a1;
 }
 
@@ -2175,8 +2175,8 @@ ul.proplist li {
 }
 
 .toolbar a.button.export {
-	min-width: 74px;
-	background-position: center -1054px;
+	min-width: 64px;
+	background-position: 0 -1054px;
 }
 
 .toolbar a.button.send {
