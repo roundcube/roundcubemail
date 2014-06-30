@@ -1684,7 +1684,8 @@ class rcmail extends rcube
         $quota = $this->plugins->exec_hook('quota', $quota);
 
         $quota_result = (array) $quota;
-        $quota_result['type'] = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
+        $quota_result['type']   = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
+        $quota_result['folder'] = $folder !== null && $folder !== '' ? $folder : 'INBOX';
 
         if ($quota['total'] > 0) {
             if (!isset($quota['percent'])) {
@@ -1746,10 +1747,6 @@ class rcmail extends rcube
         unset($quota_result['abort']);
         if (empty($quota_result['table'])) {
             unset($quota_result['all']);
-        }
-
-        if ($folder !== null && $folder !== '') {
-            $quota_result['folder'] = $folder;
         }
 
         return $quota_result;
