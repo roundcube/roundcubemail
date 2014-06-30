@@ -52,7 +52,7 @@ else {
 $OUTPUT->include_script('list.js');
 $OUTPUT->add_handler('identityform', 'rcube_identity_form');
 $OUTPUT->set_env('identities_level', IDENTITIES_LEVEL);
-$OUTPUT->add_label('deleteidentityconfirm');
+$OUTPUT->add_label('deleteidentityconfirm', 'uploading');
 
 $OUTPUT->set_pagetitle($RCMAIL->gettext(($RCMAIL->action == 'add-identity' ? 'addidentity' : 'editidentity')));
 

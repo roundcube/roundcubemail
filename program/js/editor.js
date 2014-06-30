@@ -589,8 +589,14 @@ function rcube_text_editor(config, id)
     this.hack_file_input(elem, rcmail.gui_objects.uploadform);
 
     // enable drag-n-drop area
-    if (rcmail.gui_objects.filedrop && rcmail.env.filedrop && ((window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.sendAsBinary) || window.FormData)) {
-      rcmail.env.old_file_drop = rcmail.gui_objects.filedrop;
+    if ((window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.sendAsBinary) || window.FormData) {
+      if (!rcmail.env.filedrop) {
+        rcmail.env.filedrop = {};
+      }
+      if (rcmail.gui_objects.filedrop) {
+        rcmail.env.old_file_drop = rcmail.gui_objects.filedrop;
+      }
+
       rcmail.gui_objects.filedrop = $('#image-selector-form');
       rcmail.gui_objects.filedrop.addClass('droptarget')
         .bind('dragover dragleave', function(e) {
@@ -637,6 +643,10 @@ function rcube_text_editor(config, id)
   {
     if (!file.complete || !file.mimetype) {
       return;
+    }
+
+    if (rcmail.file_upload_id) {
+      rcmail.set_busy(false, null, rcmail.file_upload_id);
     }
 
     var rx, img_src;
@@ -692,7 +702,7 @@ function rcube_text_editor(config, id)
   this.hack_file_input = function(elem, clone_form)
   {
     var link = $(elem),
-      file = $('<input>').attr('name', '_files[]'),
+      file = $('<input>').attr('name', '_file[]'),
       form = $('<form>').attr({method: 'post', enctype: 'multipart/form-data'}),
       offset = link.offset();
 

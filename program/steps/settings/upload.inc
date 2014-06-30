@@ -51,15 +51,15 @@ $post_size = $RCMAIL->show_bytes(parse_bytes(ini_get('upload_max_filesize')));
 $uploadid  = rcube_utils::get_input_value('_uploadid', rcube_utils::INPUT_GET);
 
 
-if (is_array($_FILES['_files']['tmp_name'])) {
-    $multiple = count($_FILES['_files']['tmp_name']) > 1;
+if (is_array($_FILES['_file']['tmp_name'])) {
+    $multiple = count($_FILES['_file']['tmp_name']) > 1;
 
-    foreach ($_FILES['_files']['tmp_name'] as $i => $filepath) {
+    foreach ($_FILES['_file']['tmp_name'] as $i => $filepath) {
         // Process uploaded attachment if there is no error
-        $err = $_FILES['_files']['error'][$i];
+        $err = $_FILES['_file']['error'][$i];
 
         if (!$err) {
-            if ($max_size < $_FILES['_files']['size'][$i]) {
+            if ($max_size < $_FILES['_file']['size'][$i]) {
                 $err = 'size_error';
             }
             // check image file type
@@ -77,8 +77,8 @@ if (is_array($_FILES['_files']['tmp_name'])) {
         if (!$err) {
             $attachment = $RCMAIL->plugins->exec_hook('attachment_upload', array(
                 'path'     => $filepath,
-                'size'     => $_FILES['_files']['size'][$i],
-                'name'     => $_FILES['_files']['name'][$i],
+                'size'     => $_FILES['_file']['size'][$i],
+                'name'     => $_FILES['_file']['name'][$i],
                 'mimetype' => 'image/' . $imageprop['type'],
                 'group'    => $type,
             ));

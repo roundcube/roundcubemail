@@ -7629,7 +7629,7 @@ function rcube_webmail()
       $.ajax({
         type: 'POST',
         dataType: 'json',
-        url: ref.url(ref.env.filedrop.action||'upload', { _id:ref.env.compose_id||ref.env.cid||'', _uploadid:ts, _remote:1 }),
+        url: ref.url(ref.env.filedrop.action || 'upload', {_id: ref.env.compose_id||ref.env.cid||'', _uploadid: ts, _remote: 1, _from: ref.env.action}),
         contentType: formdata ? false : 'multipart/form-data; boundary=' + boundary,
         processData: false,
         timeout: 0, // disable default timeout set in ajaxSetup()
