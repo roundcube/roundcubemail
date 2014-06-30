@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Display quota information for current folder not INBOX only (#1487993)
 - Support images in HTML signatures (#1488676)
 - Display full quota information in popup (#1485769, #1486604)
 - Mail compose: Selecting contact inserts recipient to previously focused input - to/cc/bcc accordingly (#1489684)

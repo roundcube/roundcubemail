@@ -1678,9 +1678,9 @@ class rcmail extends rcube
     }
 
 
-    public function quota_content($attrib = null)
+    public function quota_content($attrib = null, $folder = null)
     {
-        $quota = $this->storage->get_quota();
+        $quota = $this->storage->get_quota($folder);
         $quota = $this->plugins->exec_hook('quota', $quota);
 
         $quota_result = (array) $quota;
@@ -1746,6 +1746,10 @@ class rcmail extends rcube
         unset($quota_result['abort']);
         if (empty($quota_result['table'])) {
             unset($quota_result['all']);
+        }
+
+        if ($folder !== null && $folder !== '') {
+            $quota_result['folder'] = $folder;
         }
 
         return $quota_result;
@@ -2170,11 +2174,13 @@ class rcmail extends rcube
     /**
      * Returns message UID(s) and IMAP folder(s) from GET/POST data
      *
-     * @param  string UID value to decode
-     * @param  string Default mailbox value (if not encoded in UIDs)
+     * @param string UID value to decode
+     * @param string Default mailbox value (if not encoded in UIDs)
+     * @param bool   Will be set to True if multi-folder request
+     *
      * @return array  List of message UIDs per folder
      */
-    public static function get_uids($uids = null, $mbox = null)
+    public static function get_uids($uids = null, $mbox = null, &$is_multifolder = false)
     {
         // message UID (or comma-separated list of IDs) is provided in
         // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
@@ -2191,6 +2197,7 @@ class rcmail extends rcube
 
         // special case: *
         if ($_uid == '*' && is_object($_SESSION['search'][1]) && $_SESSION['search'][1]->multi) {
+            $is_multifolder = true;
             // extract the full list of UIDs per folder from the search set
             foreach ($_SESSION['search'][1]->sets as $subset) {
                 $mbox = $subset->get_parameters('MAILBOX');
@@ -2204,12 +2211,19 @@ class rcmail extends rcube
             // create a per-folder UIDs array
             foreach ((array)$_uid as $uid) {
                 list($uid, $mbox) = explode('-', $uid, 2);
-                if (!strlen($mbox))
+                if (!strlen($mbox)) {
                     $mbox = $_mbox;
-                if ($uid == '*')
+                }
+                else {
+                    $is_multifolder = true;
+                }
+
+                if ($uid == '*') {
                     $result[$mbox] = $uid;
-                else
+                }
+                else {
                     $result[$mbox][] = $uid;
+                }
             }
         }
 

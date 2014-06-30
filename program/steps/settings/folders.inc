@@ -134,7 +134,7 @@ else if ($RCMAIL->action == 'purge') {
         $success = $STORAGE->delete_message('*', $mbox);
         $delete = true;
     }
-    // copy to Trash
+    // move to Trash
     else {
         $success = $STORAGE->move_message('1:*', $trash_mbox, $mbox);
         $delete = false;
@@ -144,7 +144,7 @@ else if ($RCMAIL->action == 'purge') {
         $OUTPUT->set_env('messagecount', 0);
         if ($delete) {
             $OUTPUT->show_message('folderpurged', 'confirmation');
-            $OUTPUT->command('set_quota', $RCMAIL->quota_content());
+            $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $mbox));
         }
         else {
             $OUTPUT->show_message('messagemoved', 'confirmation');

@@ -290,6 +290,10 @@ function rcmail_folder_form($attrib)
 
     $RCMAIL->output->set_env('messagecount', (int) $msgcount);
 
+    if ($mbox_imap !== null && empty($_POST)) {
+        $RCMAIL->output->command('parent.set_quota', $RCMAIL->quota_content(null, $mbox_imap));
+    }
+
     return $out;
 }
 
