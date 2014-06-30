@@ -37,7 +37,7 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
     $trash  = $RCMAIL->config->get('trash_mbox');
 
     $success = true;
-    foreach (rcmail::get_uids(null, null, multifolder) as $mbox => $uids) {
+    foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
         if ($mbox === $target) {
             $count += count($uids);
         }
