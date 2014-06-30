@@ -14,7 +14,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 220px;
+	width: 200px;
 	bottom: 0;
 	z-index: 2;
 }
@@ -22,7 +22,7 @@
 #mailview-right {
 	position: absolute;
 	top: 0;
-	left: 232px;
+	left: 212px;
 	right: 0;
 	bottom: 0;
 	z-index: 3;
@@ -1297,14 +1297,14 @@ div.message-partheaders .headers-table td.header {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 250px;
+	width: 200px;
 	bottom: 0;
 }
 
 #composeview-right {
 	position: absolute;
 	top: 0;
-	left: 262px;
+	left: 212px;
 	right: 0;
 	bottom: 0;
 }

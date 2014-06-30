@@ -14,7 +14,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 220px;
+	width: 200px;
 	bottom: 0;
 	z-index: 2;
 }
@@ -22,7 +22,7 @@
 #addressview-right {
 	position: absolute;
 	top: 0;
-	left: 232px;
+	left: 212px;
 	right: 0;
 	bottom: 0;
 	z-index: 3;
@@ -49,14 +49,14 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 280px;
+	width: 260px;
 	bottom: 0;
 }
 
 #contacts-box {
 	position: absolute;
 	top: 0;
-	left: 292px;
+	left: 272px;
 	right: 0;
 	bottom: 0;
 }
