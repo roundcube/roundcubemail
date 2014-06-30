@@ -1222,7 +1222,6 @@ a.iconlink.upload {
 
 .listing tbody td {
 	display: table-cell;
-	height: auto;
 	min-height: 14px;
 	outline: none;
 }
