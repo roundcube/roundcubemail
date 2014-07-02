@@ -12,26 +12,10 @@
 }
 
 #identities-table,
-#subscription-table,
 #sections-table
 {
   width: 100%;
   table-layout: fixed;
-}
-
-#subscription-table input
-{
-  font: inherit;
-}
-
-#subscription-table tbody td,
-#identities-table tbody td,
-#sections-table tbody td
-{
-  cursor: default;
-  text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
-  height: 18px;
 }
 
 #identities-table tbody tr.readonly td
@@ -39,37 +23,42 @@
   font-style: italic;
 }
 
-#subscription-table tr.virtual td
+#subscription-table li.selected a
 {
-  color: #666;
-}
-
-#subscription-table tr.root td
-{
-  font-size: 10%;
-  height: 5px;
-}
-
-#subscription-table tr.selected td
-{
-  color: #FFFFFF;
+  color: #FFF;
   background-color: #CC3333;
 }
 
-#subscription-table tr.droptarget td
+#subscription-table li.root
 {
-  background-color: #FFFFA6;
+  font-size: 5%;
+  line-height: 5px;
+  height: 5px;
+  padding: 2px;
 }
 
-#subscription-table td.name
+#subscription-table li a.name
 {
-  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  display: block;
+  float: left;
+  padding: 0 0 0 5px;
+  height: 24px;
+  line-height: 24px;
 }
 
-#subscription-table td.subscribed
+#subscription-table li input
 {
-  text-align: right;
-  padding-right: 12px;
+  position: absolute;
+  right: 0;
+}
+
+html.chrome #subscription-table li input,
+html.opera #subscription-table li input
+{
+  margin-top: 6px;
 }
 
 #folder-box,

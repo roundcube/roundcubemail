@@ -244,27 +244,28 @@
 	bottom: 0;
 }
 
-#subscription-table {
-	table-layout: fixed;
-}
-
-#subscription-table tr.root td {
+#subscription-table li.root {
 	font-size: 5%;
 	line-height: 5px;
 	height: 5px;
 	padding: 2px;
 }
 
-#subscription-table td.name {
-	width: 85%;
+#subscription-table li a.name {
 	overflow: hidden;
 	text-overflow: ellipsis;
+	width: 100%;
+	float: left;
 }
 
-#subscription-table td.subscribed {
-	min-width: 30px;
-	padding: 0 14px 0 2px;
-	text-align: right;
+#subscription-table li input {
+	position: absolute;
+	right: 0;
+}
+
+html.chrome #subscription-table li input,
+html.opera #subscription-table li input {
+	margin-top: 6px;
 }
 
 .skinselection {

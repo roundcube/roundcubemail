@@ -1856,9 +1856,6 @@ function rcube_webmail()
             && !this.env.mailboxes[id].virtual
             && (this.env.mailboxes[id].id != this.env.mailbox || this.is_multifolder_listing())) ? 1 : 0;
 
-      case 'settings':
-        return id != this.env.mailbox ? 1 : 0;
-
       case 'addressbook':
         var target;
         if (id != this.env.source && (target = this.env.contactfolders[id])) {
@@ -5765,62 +5762,38 @@ function rcube_webmail()
 
     this.last_sub_rx = RegExp('['+delim+']?[^'+delim+']+$');
 
-    this.subscription_list = new rcube_list_widget(this.gui_objects.subscriptionlist,
-      {multiselect:false, draggable:true, keyboard:true, toggleselect:true});
+    this.subscription_list = new rcube_treelist_widget(this.gui_objects.subscriptionlist, {
+        selectable: true
+    });
+
     this.subscription_list
-      .addEventListener('select', function(o){ ref.subscription_select(o); })
-      .addEventListener('dragstart', function(o){ ref.drag_active = true; })
-      .addEventListener('dragend', function(o){ ref.subscription_move_folder(o); })
-      .addEventListener('initrow', function (row) {
-        row.obj.onmouseover = function() { ref.focus_subscription(row.id); };
-        row.obj.onmouseout = function() { ref.unfocus_subscription(row.id); };
-      })
-      .init()
-      .focus();
+      .addEventListener('select', function(node) { ref.subscription_select(node.id); })
+      .draggable({cancel: '#mailboxroot'})
+      .droppable({
+        // @todo: find better way, accept callback is executed for every folder
+        // on the list when dragging starts (and stops), this is slow, but
+        // I didn't find a method to check droptarget on over event
+        accept: function(node) {
+          var source = ref.env.subscriptionrows[$(node).attr('id')],
+            dest = ref.env.subscriptionrows[this.id],
+            source_name = source[0],
+            dest_name = dest[0];
 
-    $('#mailboxroot')
-      .mouseover(function(){ ref.focus_subscription(this.id); })
-      .mouseout(function(){ ref.unfocus_subscription(this.id); })
-  };
-
-  this.focus_subscription = function(id)
-  {
-    var row, folder;
-
-    if (this.drag_active && this.env.mailbox && (row = document.getElementById(id)))
-      if (this.env.subscriptionrows[id] &&
-          (folder = this.env.subscriptionrows[id][0]) !== null
-      ) {
-        if (this.check_droptarget(folder) &&
-            !this.env.subscriptionrows[this.get_folder_row_id(this.env.mailbox)][2] &&
-            folder != this.env.mailbox.replace(this.last_sub_rx, '') &&
-            !folder.startsWith(this.env.mailbox + this.env.delimiter)
-        ) {
-          this.env.dstfolder = folder;
-          $(row).addClass('droptarget');
+          return !source[2]
+            && dest_name != source_name.replace(ref.last_sub_rx, '')
+            && !dest_name.startsWith(source_name + ref.env.delimiter);
+        },
+        drop: function(e, ui) {
+          ref.subscription_move_folder(ui.draggable.attr('id'), this.id);
         }
-      }
+      });
   };
 
-  this.unfocus_subscription = function(id)
+  this.subscription_select = function(id)
   {
-    var row = $('#'+id);
+    var folder;
 
-    this.env.dstfolder = null;
-
-    if (row.length && this.env.subscriptionrows[id])
-      row.removeClass('droptarget');
-    else
-      $(this.subscription_list.frame).removeClass('droptarget');
-  };
-
-  this.subscription_select = function(list)
-  {
-    var id, folder;
-
-    if (list && (id = list.get_single_selection()) &&
-        (folder = this.env.subscriptionrows['rcmrow'+id])
-    ) {
+    if (id && id != 'mailboxroot' && (folder = this.env.subscriptionrows[id])) {
       this.env.mailbox = folder[0];
       this.show_folder(folder[0]);
       this.enable_command('delete-folder', !folder[2]);
@@ -5832,24 +5805,21 @@ function rcube_webmail()
     }
   };
 
-  this.subscription_move_folder = function(list)
+  this.subscription_move_folder = function(from, to)
   {
-    if (this.env.mailbox && this.env.dstfolder !== null &&
-        this.env.dstfolder != this.env.mailbox &&
-        this.env.dstfolder != this.env.mailbox.replace(this.last_sub_rx, '')
-    ) {
-      var path = this.env.mailbox.split(this.env.delimiter),
-        basename = path.pop(),
-        newname = this.env.dstfolder === '' ? basename : this.env.dstfolder + this.env.delimiter + basename;
+    var source = this.env.subscriptionrows[from][0];
+      dest = this.env.subscriptionrows[to][0];
 
-      if (newname != this.env.mailbox) {
-        this.http_post('rename-folder', {_folder_oldname: this.env.mailbox, _folder_newname: newname}, this.set_busy(true, 'foldermoving'));
-        this.subscription_list.draglayer.hide();
+    if (source && dest !== null && source != dest && dest != source.replace(this.last_sub_rx, '')) {
+      var path = source.split(this.env.delimiter),
+        basename = path.pop(),
+        newname = dest === '' ? basename : dest + this.env.delimiter + basename;
+
+      if (newname != source) {
+        this.http_post('rename-folder', {_folder_oldname: source, _folder_newname: newname},
+          this.set_busy(true, 'foldermoving'));
       }
     }
-
-    this.drag_active = false;
-    this.unfocus_subscription(this.get_folder_row_id(this.env.dstfolder));
   };
 
   // tell server to create and subscribe a new mailbox
@@ -5865,8 +5835,7 @@ function rcube_webmail()
       folder = this.env.subscriptionrows[id][0];
 
     if (folder && confirm(this.get_label('deletefolderconfirm'))) {
-      var lock = this.set_busy(true, 'folderdeleting');
-      this.http_post('delete-folder', {_mbox: folder}, lock);
+      this.http_post('delete-folder', {_mbox: folder}, this.set_busy(true, 'folderdeleting'));
     }
   };
 
@@ -5878,9 +5847,9 @@ function rcube_webmail()
 
     var row, n, tmp, tmp_name, rowid, collator,
       folders = [], list = [], slist = [],
-      tbody = this.gui_objects.subscriptionlist.tBodies[0],
-      refrow = $('tr', tbody).get(1),
-      id = 'rcmrow'+((new Date).getTime());
+      list_element = $(this.gui_objects.subscriptionlist),
+      refrow = $('li', list_element).get(1),
+      id = 'rcmli'+((new Date).getTime());
 
     if (!refrow) {
       // Refresh page if we don't have a table row to clone
@@ -5895,7 +5864,7 @@ function rcube_webmail()
     row.attr({id: id, 'class': class_name});
 
     // set folder name
-    row.find('td:first').html(display_name);
+    $('.name', row).html(display_name);
 
     // update subscription checkbox
     $('input[name="_subscribed[]"]', row).val(name)
@@ -5966,12 +5935,13 @@ function rcube_webmail()
 
     // add row to the table
     if (rowid)
-      $('#'+rowid).after(row);
+      $('#' + rowid).after(row);
     else
-      row.appendTo(tbody);
+      list_element.append(row);
 
     // update list widget
-    this.subscription_list.clear_selection();
+    this.subscription_list.select();
+
     if (!skip_init)
       this.init_subscription_list();
 
@@ -5988,11 +5958,11 @@ function rcube_webmail()
     if (!this.gui_objects.subscriptionlist) {
       if (this.is_framed)
         return parent.rcmail.replace_folder_row(oldfolder, newfolder, display_name, is_protected, class_name);
+
       return false;
     }
 
     var i, n, len, name, dispname, oldrow, tmprow, row, level,
-      tbody = this.gui_objects.subscriptionlist.tBodies[0],
       folders = this.env.subscriptionrows,
       id = this.get_folder_row_id(oldfolder),
       prefix_len = oldfolder.length,
@@ -6003,7 +5973,6 @@ function rcube_webmail()
     // no renaming, only update class_name
     if (oldfolder == newfolder) {
       $('#'+id).attr('class', class_name || '');
-      this.subscription_list.focus();
       return;
     }
 
@@ -6040,7 +6009,7 @@ function rcube_webmail()
           for (i=level; i<0; i++)
             dispname = '&nbsp;&nbsp;&nbsp;&nbsp;' + dispname;
         }
-        row.find('td:first').html(dispname);
+        $('.name', row).html(dispname);
         this.env.subscriptionrows[id][1] = dispname;
       }
     }
@@ -6068,8 +6037,8 @@ function rcube_webmail()
 
   this._remove_folder_row = function(id)
   {
-    this.subscription_list.remove_row(id.replace(/^rcmrow/, ''));
-    $('#'+id).remove();
+    this.subscription_list.remove(id.replace(/^rcmli/, ''));
+    $('#' + id).remove();
     delete this.env.subscriptionrows[id];
   };
 

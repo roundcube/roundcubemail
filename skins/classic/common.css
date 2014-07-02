@@ -723,6 +723,7 @@ ul.treelist li
   font-size: 11px;
   border-bottom: 1px solid #EBEBEB;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 ul.treelist li a

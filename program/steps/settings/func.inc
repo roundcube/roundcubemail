@@ -1309,6 +1309,8 @@ function rcmail_update_folder_row($name, $oldname=null, $subscribe=false, $class
     $display_name = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level)
         . rcube::Q($protected ? $RCMAIL->localize_foldername($name) : rcube_charset::convert($foldersplit[$level], 'UTF7-IMAP'));
 
+    $class_name = trim($class_name . ' listitem');
+
     if ($oldname === null) {
         $OUTPUT->command('add_folder_row', $name_utf8, $display_name, $protected, $subscribe,
             false, $class_name);

@@ -751,6 +751,8 @@ function rcube_layer(id, attributes)
 
 /**
  * Scroller
+ *
+ * @deprecated Use treelist widget
  */
 function rcmail_scroller(list, top, bottom)
 {
@@ -1009,10 +1011,6 @@ function rcube_init_mail_ui()
     else if (rcmail.env.task == 'addressbook') {
       rcmail.addEventListener('afterupload-photo', function(){ rcmail_ui.show_popup('uploadform', false); })
         .gui_object('dragmenu', 'dragmenu');
-    }
-    else if (rcmail.env.task == 'settings') {
-      if (rcmail.gui_objects.subscriptionlist)
-        new rcmail_scroller('#folderlist-content', '#folderlist-title', '#folderlist-footer');
     }
   });
 }

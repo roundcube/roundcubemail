@@ -409,14 +409,6 @@
   background-color: #FFF;
 }
 
-#mailboxlist li
-{
-  display: block;
-  position: relative;
-  font-size: 11px;
-  border-bottom: 1px solid #EBEBEB;
-}
-
 #mailboxlist li ul li:last-child
 {
   border-bottom: 0 none;

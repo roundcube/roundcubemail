@@ -177,11 +177,9 @@ if ($OUTPUT->ajax_call) {
 }
 
 $OUTPUT->set_pagetitle($RCMAIL->gettext('folders'));
-$OUTPUT->include_script('list.js');
 $OUTPUT->set_env('prefix_ns', $STORAGE->get_namespace('prefix'));
-if ($STORAGE->get_capability('QUOTA')) {
-    $OUTPUT->set_env('quota', true);
-}
+$OUTPUT->set_env('quota', (bool) $STORAGE->get_capability('QUOTA'));
+$OUTPUT->include_script('treelist.js');
 
 // add some labels to client
 $OUTPUT->add_label('deletefolderconfirm', 'purgefolderconfirm', 'folderdeleting',
@@ -205,15 +203,8 @@ function rcube_subscription_form($attrib)
     list($form_start, $form_end) = get_form_tags($attrib, 'folders');
     unset($attrib['form']);
 
-    if (!$attrib['id'])
+    if (!$attrib['id']) {
         $attrib['id'] = 'rcmSubscriptionlist';
-
-    $table = new html_table();
-
-    if ($attrib['noheader'] !== true && $attrib['noheader'] != "true") {
-        // add table header
-        $table->add_header('name', $RCMAIL->gettext('foldername'));
-        $table->add_header('subscribed', '');
     }
 
     $STORAGE = $RCMAIL->get_storage();
@@ -227,7 +218,6 @@ function rcube_subscription_form($attrib)
     $namespace       = $STORAGE->get_namespace();
     $special_folders = array_flip(array_merge(array('inbox' => 'INBOX'), $STORAGE->get_special_folders()));
     $protect_default = $RCMAIL->config->get('protect_default_folders');
-    $a_js_folders    = array();
     $seen            = array();
     $list_folders    = array();
 
@@ -272,18 +262,14 @@ function rcube_subscription_form($attrib)
 
     unset($seen);
 
-    // add drop-target representing 'root'
-    $table->add_row(array('id' => 'mailboxroot', 'class' => 'virtual root'));
-    $table->add('name', '&nbsp;');
-    $table->add(null, '&nbsp;');
-
-    $a_js_folders['mailboxroot'] = array('', '', true);
-
     $checkbox_subscribe = new html_checkbox(array(
         'name'    => '_subscribed[]',
         'title'   => $RCMAIL->gettext('changesubscription'),
         'onclick' => rcmail_output::JS_OBJECT_NAME.".command(this.checked?'subscribe':'unsubscribe',this.value)",
     ));
+
+    $js_folders = array();
+    $folders    = array();
 
     // create list of available folders
     foreach ($list_folders as $i => $folder) {
@@ -292,7 +278,7 @@ function rcube_subscription_form($attrib)
         $subscribed = $sub_key !== false;
         $protected  = $protect_default && isset($special_folders[$folder['id']]);
         $noselect   = false;
-        $classes    = array($i%2 ? 'even' : 'odd');
+        $classes    = array('listitem');
 
         $folder_utf8    = rcube_charset::convert($folder['id'], 'UTF7-IMAP');
         $display_folder = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $folder['level'])
@@ -352,25 +338,45 @@ function rcube_subscription_form($attrib)
             }
         }
 
-        $table->add_row(array('id' => 'rcmrow'.$idx, 'class' => join(' ', $classes),
-            'foldername' => $folder['id']));
-
-        $table->add('name', $display_folder);
-        $table->add('subscribed', $checkbox_subscribe->show(($subscribed ? $folder_utf8 : ''),
-            array('value' => $folder_utf8, 'disabled' => $disabled ? 'disabled' : '')));
-
-        $a_js_folders['rcmrow'.$idx] = array($folder_utf8,
-            $display_folder, $protected || $folder['virtual']);
+        $row_id = 'rcmli' . $idx;
+        $folders[$row_id] = array(
+            'folder'      => $folder_utf8,
+            'display'     => $display_folder,
+            'class'       => join(' ', $classes),
+            'folder_imap' => $folder['id'],
+            'subscribed'  => $subscribed,
+            'protected'   => $protected || $folder['virtual'],
+            'content'     => html::a(array('class' => 'name', 'href' => '#_' . $row_id), $display_folder)
+                . $checkbox_subscribe->show(($subscribed ? $folder_utf8 : ''),
+                    array('value' => $folder_utf8, 'disabled' => $disabled ? 'disabled' : ''))
+        );
     }
 
-    $RCMAIL->plugins->exec_hook('folders_list', array('table' => $table));
+    $plugin = $RCMAIL->plugins->exec_hook('folders_list', array('list' => $folders));
+
+    // add drop-target representing 'root'
+    $roots = array(
+        'mailboxroot' => array(
+            'folder'    => '',
+            'display'   => '',
+            'protected' => true,
+            'class'     => 'root',
+            'content'   => html::span('name', '&nbsp;')
+        )
+    );
+    $folders = array_merge($roots, $plugin['list']);
+
+    while (list($key, $data) = each($folders)) {
+        $js_folders[$key] = array($data['folder'], $data['display'], $data['protected']);
+        $folders[$key]    = html::tag('li', array('id'  => $key, 'class' => $data['class']), $data['content']);
+    }
 
     $OUTPUT->add_gui_object('subscriptionlist', $attrib['id']);
-    $OUTPUT->set_env('subscriptionrows', $a_js_folders);
+    $OUTPUT->set_env('subscriptionrows', $js_folders);
     $OUTPUT->set_env('defaultfolders', array_keys($special_folders));
     $OUTPUT->set_env('delimiter', $delimiter);
 
-    return $form_start . $table->show($attrib) . $form_end;
+    return $form_start . html::tag('ul', $attrib, implode("\n", $folders)) . $form_end;
 }
 
 function rcmail_folder_frame($attrib)

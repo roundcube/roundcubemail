@@ -86,7 +86,9 @@ class subscriptions_option extends rcube_plugin
     {
         $rcmail = rcmail::get_instance();
         if (!$rcmail->config->get('use_subscriptions', true)) {
-            $args['table']->remove_column('subscribed');
+            foreach ($args['list'] as $idx => $data) {
+                $args['list'][$idx]['content'] = preg_replace('/<input [^>]+>/', '', $data['content']);
+            }
         }
         return $args;
     }

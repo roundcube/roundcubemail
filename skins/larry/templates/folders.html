@@ -19,7 +19,7 @@
 <div id="folderslist" class="uibox listbox">
 <h2 id="folderslist-header" class="boxtitle"><span style="float:right"><roundcube:label name="subscribed" /></span><roundcube:label name="folders" /></h2>
 <div id="folderslist-content" class="scroller withfooter">
-<roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table" class="listing" noheader="true" />
+	<roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table" class="listing" />
 </div>
 <div id="folderslist-footer" class="boxfooter">
 	<roundcube:button command="create-folder" type="link" title="createfolder" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" label="createfolder" /><roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" onclick="return UI.toggle_popup('mailboxmenu',event)" innerClass="inner" content="&#9881;" aria-haspopup="true" aria-expanded="false" aria-owns="mailboxoptionsmenu" />

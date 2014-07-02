@@ -258,8 +258,6 @@ function rcube_mail_ui()
         new rcube_splitter({ id:'folderviewsplitter', p1:'#folderslist', p2:'#folder-details',
           orientation:'v', relative:true, start:266, min:180, size:12 }).init();
 
-        new rcube_scroller('#folderslist-content', '#folderslist-header', '#folderslist-footer');
-
         rcmail.addEventListener('setquota', update_quota);
       }
       else if (rcmail.env.action == 'identities') {
@@ -1136,6 +1134,8 @@ function rcube_mail_ui()
 
 /**
  * Roundcube Scroller class
+ *
+ * @deprecated Use treelist widget
  */
 function rcube_scroller(list, top, bottom)
 {

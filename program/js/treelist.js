@@ -46,7 +46,7 @@ function rcube_treelist_widget(node, p)
     scroll_speed: 20,
     save_state: false,
     keyboard: true,
-    check_droptarget: function(node){ return !node.virtual }
+    check_droptarget: function(node) { return !node.virtual; }
   }, p || {});
 
   var container = $(node),
@@ -67,6 +67,7 @@ function rcube_treelist_widget(node, p)
     searchfield,
     tree_state,
     ui_droppable,
+    ui_draggable,
     list_id = (container.attr('id') || p.id_prefix || '0'),
     me = this;
 
@@ -83,6 +84,7 @@ function rcube_treelist_widget(node, p)
   this.drag_end = drag_end;
   this.intersects = intersects;
   this.droppable = droppable;
+  this.draggable = draggable;
   this.update = update_node;
   this.insert = insert;
   this.remove = remove;
@@ -108,7 +110,11 @@ function rcube_treelist_widget(node, p)
     e.stopPropagation();
   });
 
-  container.on('click', 'li', function(e){
+  container.on('click', 'li', function(e) {
+    // do not select record on checkbox/input click
+    if ($(e.target).is('input'))
+      return true;
+
     var node = p.selectable ? indexbyid[dom2id($(this))] : null;
     if (node && !node.virtual) {
       select(node.id);
@@ -231,6 +237,9 @@ function rcube_treelist_widget(node, p)
           id2dom(selection).removeClass('selected').removeAttr('aria-selected');
       selection = null;
     }
+
+    if (!id)
+      return;
 
     var li = id2dom(id, true);
     if (li.length) {
@@ -708,6 +717,7 @@ function rcube_treelist_widget(node, p)
   {
     var domid = p.id_encode ? p.id_encode(id) : id,
       suffix = search_active && !real ? '--xsR' : '';
+
     return $('#' + p.id_prefix + domid + suffix, container);
   }
 
@@ -850,6 +860,11 @@ function rcube_treelist_widget(node, p)
    */
   function drag_start()
   {
+    if (drag_active)
+      return;
+
+    drag_active = true;
+
     var li, item, height,
       pos = container.offset();
 
@@ -857,7 +872,6 @@ function rcube_treelist_widget(node, p)
     list_scroll_top = container.parent().scrollTop();
     pos.top += list_scroll_top;
 
-    drag_active = true;
     box_coords = {
       x1: pos.left,
       y1: pos.top,
@@ -920,6 +934,9 @@ function rcube_treelist_widget(node, p)
    */
   function drag_end()
   {
+    if (!drag_active)
+      return;
+
     drag_active = false;
     scroll_timer = null;
 
@@ -950,7 +967,7 @@ function rcube_treelist_widget(node, p)
   }
 
   /**
-   * Determine if the given mouse coords intersect the list and one if its items
+   * Determine if the given mouse coords intersect the list and one of its items
    */
   function intersects(mouse, highlight)
   {
@@ -970,8 +987,8 @@ function rcube_treelist_widget(node, p)
     }
 
     // check intersection with visible list items
-    var pos, node;
-    for (var id in item_coords) {
+    var id, pos, node;
+    for (id in item_coords) {
       pos = item_coords[id];
       if (mouse.x >= pos.x1 && mouse.x < pos.x2 && mouse.top >= pos.y1 && mouse.top < pos.y2) {
         node = indexbyid[id];
@@ -1024,7 +1041,14 @@ function rcube_treelist_widget(node, p)
    */
   function droppable(opts)
   {
-    var my_opts = $.extend({ greedy: true, hoverClass: 'droptarget', addClasses:false }, opts);
+    if (!opts) opts = {};
+
+    var my_opts = $.extend({
+        greedy: true,
+        tolerance: 'pointer',
+        hoverClass: 'droptarget',
+        addClasses: false
+      }, opts);
 
     my_opts.activate = function(e, ui) {
       drag_start();
@@ -1046,7 +1070,34 @@ function rcube_treelist_widget(node, p)
         opts.over(e, ui);
     };
 
-    $('li:not(.virtual)', container).droppable(my_opts);
+    $(selector ? selector : 'li:not(.virtual)', container).droppable(my_opts);
+
+    return this;
+  }
+
+  /**
+   * Wrapper for jQuery.UI.draggable() activation on this widget
+   *
+   * @param object Options as passed to regular .draggable() function
+   */
+  function draggable(opts)
+  {
+    if (!opts) opts = {};
+
+    var my_opts = $.extend({
+        appendTo: 'body',
+        iframeFix: true,
+        addClasses: false,
+        cursorAt: {left: -20, top: 5},
+        helper: function(e) {
+          return $('<div>').attr('id', 'rcmdraglayer')
+            .text($.trim($(e.target).first().text()));
+        }
+      }, opts);
+
+    $('li:not(.virtual)', container).draggable(my_opts);
+
+    return this;
   }
 }
 
