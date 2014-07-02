@@ -385,7 +385,6 @@ a.iconbutton.threadmode.selected {
 	background: -ms-linear-gradient(top, #82acb5 0%, #6a939f 100%);
 	background: linear-gradient(top, #82acb5 0%, #6a939f 100%);
 	box-shadow: inset 0 1px 1px 0 #536d72;
-	-o-box-shadow: inset 0 1px 1px 0 #536d72;
 	-webkit-box-shadow: inset 0 1px 1px 0 #536d72;
 	-moz-box-shadow: inset 0 1px 1px 0 #536d72;
 	border-radius: 9px;
@@ -403,7 +402,6 @@ a.iconbutton.threadmode.selected {
 	background: -ms-linear-gradient(top, #005d76 0%, #004558 100%);
 	background: linear-gradient(top, #005d76 0%, #004558 100%);
 	box-shadow: inset 0 1px 1px 0 #003645;
-	-o-box-shadow: inset 0 1px 1px 0 #003645;
 	-webkit-box-shadow: inset 0 1px 1px 0 #003645;
 	-moz-box-shadow: inset 0 1px 1px 0 #003645;
 }
@@ -416,7 +414,6 @@ a.iconbutton.threadmode.selected {
 	background: -ms-linear-gradient(top, #017cb4 0%, #006ca4 100%);
 	background: linear-gradient(top, #017cb4 0%, #006ca4 100%);
 	box-shadow: inset 0 1px 1px 0 #005080;
-	-o-box-shadow: inset 0 1px 1px 0 #005080;
 	-webkit-box-shadow: inset 0 1px 1px 0 #005080;
 	-moz-box-shadow: inset 0 1px 1px 0 #005080;
 }
@@ -996,7 +993,6 @@ div.hide-headers {
 	background: #fdfdfd;
 	-moz-box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
 	-webkit-box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
-	-o-box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
 	box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
 }
 
@@ -1487,7 +1483,6 @@ div.message-partheaders .headers-table td.header {
 	white-space: normal;
 	border-top: 1px solid #dfdfdf;
 	box-shadow: inset 0 1px 0 0 #fff;
-	-o-box-shadow: inset 0 1px 0 0 #fff;
 	-webkit-box-shadow: inset 0 1px 0 0 #fff;
 	-moz-box-shadow: inset 0 1px 0 0 #fff;
 }
@@ -1546,7 +1541,6 @@ div.message-partheaders .headers-table td.header {
 	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
 	-moz-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
 	-webkit-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
-	-o-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
 }
 
 #composebody:active,
@@ -1554,7 +1548,6 @@ div.message-partheaders .headers-table td.header {
 	box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
 	-moz-box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
 	-webkit-box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
-	-o-box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
 }
 
 #compose-attachments {
@@ -1583,7 +1576,6 @@ div.message-partheaders .headers-table td.header {
 	box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
 	-moz-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
 	-webkit-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
-	-o-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
 }
 
 #compose-attachments.droptarget.hover {
@@ -1591,7 +1583,6 @@ div.message-partheaders .headers-table td.header {
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
-	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 }
 
 #composeview-bottom .formbuttons.floating {
