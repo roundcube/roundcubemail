@@ -430,6 +430,8 @@ EOF;
         if ($framed) {
             $this->scripts      = array();
             $this->script_files = array();
+            $this->header       = '';
+            $this->footer       = '';
         }
 
         // write all javascript commands
