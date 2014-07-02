@@ -66,7 +66,6 @@ textarea {
 	border: 1px solid #b2b2b2;
 	border-radius: 4px;
 	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
-	-moz-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
 	-webkit-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
 }
 
@@ -76,7 +75,6 @@ input.button:focus,
 textarea:focus {
 	border-color: #4787b1;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
-	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 	outline: none;
 }
@@ -119,7 +117,6 @@ input.button {
 	background: linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
 	box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	-webkit-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
-	-moz-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	text-decoration: none;
 	outline: none;
 }
@@ -139,7 +136,6 @@ input.button {
 	background: linear-gradient(top, #7b7b7b 0%, #606060 100%); /* W3C */
 	box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
 	-webkit-box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
-	-moz-box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
 }
 
 .formbuttons input.button:hover,
@@ -149,7 +145,6 @@ input.button.mainaction:focus {
 	color: #f2f2f2;
 	border-color: #465864;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
-	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
 	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
 }
 
@@ -173,7 +168,6 @@ input.button.mainaction {
 	background: -ms-linear-gradient(top, #505050 0%, #2a2e31 100%);
 	background: linear-gradient(top, #505050 0%, #2a2e31 100%);
 	box-shadow: inset 0 1px 0 0 #777;
-	-moz-box-shadow: inset 0 1px 0 0 #777;
 	-webkit-box-shadow: inset 0 1px 0 0 #777;
 }
 
@@ -216,7 +210,6 @@ a.button,
 	background: linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
 	box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	-webkit-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
-	-moz-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	text-decoration: none;
 }
 
@@ -229,7 +222,6 @@ a.button:focus,
 input.button:focus {
 	border-color: #4fadd5;
 	box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
-	-moz-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
 	-webkit-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
 	outline: none;
 }
@@ -248,7 +240,6 @@ input.button[disabled]:hover {
 	border-color: #c6c6c6;
 	box-shadow: 0 1px 1px 0 rgba(160, 160, 160, 0.4);
 	-webkit-box-shadow: 0 1px 1px 0 rgba(160, 160, 160, 0.4);
-	-moz-box-shadow: 0 1px 1px 0 rgba(160, 160, 160, 0.4);
 }
 
 a.button.disabled span.inner {
@@ -262,7 +253,6 @@ a.button.disabled span.inner {
 	background: none;
 	box-shadow: none;
 	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
 }
 
 .buttongroup a.button.first,
@@ -299,7 +289,6 @@ input.button:active {
 	background: linear-gradient(top, #d8d8d8 0%, #bababa 100%);
 	box-shadow: 0 1px 1px 0 #999;
 	-webkit-box-shadow: 0 1px 1px 0 #999;
-	-moz-box-shadow: 0 1px 1px 0 #999;
 }
 
 .pagenav.dark a.button.pressed {
@@ -319,9 +308,8 @@ input.button:active {
 	background: -o-linear-gradient(top, #909090 0%, #858585 100%);
 	background: -ms-linear-gradient(top, #909090 0%, #858585 100%);
 	background: linear-gradient(top, #909090 0%, #858585 100%);
-	-webkit-box-shadow: inset 0 1px 2px 0 #555;
-	-moz-box-shadow: inset 0 1px 2px 0 #555;
 	box-shadow: inset 0 1px 2px 0 #555;
+	-webkit-box-shadow: inset 0 1px 2px 0 #555;
 	border-right-color: #555;
 	border-left-color: #555;
 }
@@ -643,9 +631,8 @@ a.iconlink.upload {
 	background: -ms-linear-gradient(top, rgba(64,64,64,0.85) 0%, rgba(48,48,48,0.85) 100%);
 	background: linear-gradient(to bottom, rgba(64,64,64,0.85) 0%, rgba(48,48,48,0.85) 100%);
 
-	-moz-box-shadow: 0 1px 4px 0 rgba(50,50,50,0.8), inset 0px 1px 0 0px #888;
-	-webkit-box-shadow: 0 1px 4px 0 rgba(50,50,50,0.8), inset 0px 1px 0 0px #888;
 	box-shadow: 0 1px 4px 0 rgba(50,50,50,0.8), inset 0px 1px 0 0px #888;
+	-webkit-box-shadow: 0 1px 4px 0 rgba(50,50,50,0.8), inset 0px 1px 0 0px #888;
 }
 
 #messagestack div:after {
@@ -925,7 +912,6 @@ a.iconlink.upload {
 	white-space: nowrap;
 	border: 1px solid #777;
 	box-shadow: 0 1px 5px 0 #333;
-	-moz-box-shadow: 0 1px 5px 0 #333;
 	-webkit-box-shadow: 0 1px 5px 0 #333;
 	z-index: 200;
 	white-space: nowrap;
@@ -1085,7 +1071,6 @@ a.iconlink.upload {
 	overflow: hidden;
 	box-shadow: 0 0 2px #999;
 	-webkit-box-shadow: 0 0 2px #999;
-	-moz-box-shadow: 0 0 2px #999;
 	background: #fff;
 }
 
@@ -1387,9 +1372,8 @@ ul.treelist li.selected > div.expanded {
 	height: 42px;
 	border-top: 1px solid #ccdde4;
 	background: #d9ecf4;
-	-webkit-box-shadow: inset 0 1px 0 0 #fff;
-	-moz-box-shadow: inset 0 1px 0 0 #fff;
 	box-shadow: inset 0 1px 0 0 #fff;
+	-webkit-box-shadow: inset 0 1px 0 0 #fff;
 	white-space: nowrap;
 	overflow: hidden;
 }
@@ -1831,7 +1815,6 @@ ul.proplist li {
 	border-radius: 5px;
 	box-shadow: inset 0 0 1px #ccc;
 	-webkit-box-shadow: inset 0 0 1px #ccc;
-	-moz-box-shadow: inset 0 0 1px #ccc;
 }
 
 #login-form .box-bottom {
@@ -1870,14 +1853,12 @@ ul.proplist li {
 	background: -ms-linear-gradient(top, #f9f9f9 0%, #e2e2e2 100%);
 	background: linear-gradient(top, #f9f9f9 0%, #e2e2e2 100%);
 	box-shadow: inset 0 1px 0 0 #fff;
-	-moz-box-shadow: inset 0 1px 0 0 #fff;
 	-webkit-box-shadow: inset 0 1px 0 0 #fff;
 }
 
 #login-form input.button:hover,
 #login-form input.button:focus {
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9), inset 0 1px 0 0 #fff;
-	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9), inset 0 1px 0 0 #fff;
 	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9), inset 0 1px 0 0 #fff;
 }
 
@@ -2010,7 +1991,6 @@ ul.proplist li {
 	padding: 28px 2px 0 2px;
 	text-shadow: 0px 1px 1px #eee;
 	box-shadow: none;
-	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	background: url(images/buttons.png) -100px 0 no-repeat transparent;
 	border: 0;
@@ -2242,9 +2222,8 @@ a.menuselector.focus,
 a.iconbutton:focus,
 .pagenav a.button:focus {
 	border-color: #4fadd5;
+	box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
 	-webkit-box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
-	   -moz-box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
-	        box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
 	outline: none;
 }
 
@@ -2302,7 +2281,6 @@ table.quota-info td.root {
 	z-index: 240;
 	border-radius: 4px;
 	box-shadow: 0 2px 6px 0 #333;
-	-moz-box-shadow: 0 2px 6px 0 #333;
 	-webkit-box-shadow: 0 2px 6px 0 #333;
 }
 
@@ -2558,7 +2536,6 @@ ul.toolbarmenu li span.copy {
 	border: 1px solid #555;
 	border-radius: 4px;
 	box-shadow: 0 2px 6px 0 #333;
-	-moz-box-shadow: 0 2px 6px 0 #333;
 	-webkit-box-shadow: 0 2px 6px 0 #333;
 	z-index: 250;
 	color: #ccc;

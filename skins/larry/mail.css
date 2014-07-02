@@ -386,7 +386,6 @@ a.iconbutton.threadmode.selected {
 	background: linear-gradient(top, #82acb5 0%, #6a939f 100%);
 	box-shadow: inset 0 1px 1px 0 #536d72;
 	-webkit-box-shadow: inset 0 1px 1px 0 #536d72;
-	-moz-box-shadow: inset 0 1px 1px 0 #536d72;
 	border-radius: 9px;
 	color: #fff;
 	text-align: center;
@@ -403,7 +402,6 @@ a.iconbutton.threadmode.selected {
 	background: linear-gradient(top, #005d76 0%, #004558 100%);
 	box-shadow: inset 0 1px 1px 0 #003645;
 	-webkit-box-shadow: inset 0 1px 1px 0 #003645;
-	-moz-box-shadow: inset 0 1px 1px 0 #003645;
 }
 
 #mailboxlist li.mailbox.recent > a .unreadcount {
@@ -415,7 +413,6 @@ a.iconbutton.threadmode.selected {
 	background: linear-gradient(top, #017cb4 0%, #006ca4 100%);
 	box-shadow: inset 0 1px 1px 0 #005080;
 	-webkit-box-shadow: inset 0 1px 1px 0 #005080;
-	-moz-box-shadow: inset 0 1px 1px 0 #005080;
 }
 
 #searchfilter {
@@ -991,9 +988,8 @@ div.hide-headers {
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	background: #fdfdfd;
-	-moz-box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
-	-webkit-box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
 	box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
+	-webkit-box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
 }
 
 #headers-source {
@@ -1484,7 +1480,6 @@ div.message-partheaders .headers-table td.header {
 	border-top: 1px solid #dfdfdf;
 	box-shadow: inset 0 1px 0 0 #fff;
 	-webkit-box-shadow: inset 0 1px 0 0 #fff;
-	-moz-box-shadow: inset 0 1px 0 0 #fff;
 }
 
 .composeoption {
@@ -1539,14 +1534,12 @@ div.message-partheaders .headers-table td.header {
 	font-size: 9pt;
 	outline: none;
 	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
-	-moz-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
 	-webkit-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
 }
 
 #composebody:active,
 #composebody:focus {
 	box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
-	-moz-box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
 	-webkit-box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
 }
 
@@ -1574,14 +1567,12 @@ div.message-partheaders .headers-table td.header {
 #compose-attachments.droptarget.active {
 	border-color: #019bc6;
 	box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
-	-moz-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
 	-webkit-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
 }
 
 #compose-attachments.droptarget.hover {
 	background-color: #d9ecf4;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
-	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 }
 
