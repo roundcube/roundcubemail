@@ -262,7 +262,6 @@ input.button[disabled]:hover {
 
 a.button.disabled span.inner {
 	opacity: 0.4;
-	filter: alpha(opacity=40);
 }
 
 .buttongroup a.button {
@@ -465,7 +464,6 @@ a.iconbutton {
 
 a.iconbutton.disabled {
 	opacity: 0.4;
-	filter: alpha(opacity=40);
 	cursor: default;
 }
 
@@ -868,7 +866,6 @@ a.iconlink.upload {
 .minimal #topline:hover {
 	top: 0px;
 	opacity: 0.94;
-	filter: alpha(opacity=94);
 	-webkit-transition: top 0.3s ease-in-out;
 	-moz-transition: top 0.3s ease-in-out;
 	-o-transition: top 0.3s ease-in-out;
@@ -1481,7 +1478,6 @@ ul.treelist li.selected > div.expanded {
 
 .boxfooter .listbutton.disabled .inner {
 	opacity: 0.4;
-	filter: alpha(opacity=40);
 }
 
 .boxfooter .countdisplay {
@@ -1524,7 +1520,6 @@ ul.treelist li.selected > div.expanded {
 
 .boxpagenav a.icon.disabled {
 	opacity: 0.4;
-	filter: alpha(opacity=40);
 }
 
 .centerbox {
@@ -2050,7 +2045,6 @@ ul.proplist li {
 
 .toolbar a.button.disabled {
 	opacity: 0.4;
-	filter: alpha(opacity=40);
 }
 
 .dropbutton {
@@ -2079,7 +2073,6 @@ ul.proplist li {
 
 .dropbutton a.button.disabled + .dropbuttontip {
 	opacity: 0.5;
-	filter: alpha(opacity=50);
 }
 
 .dropbutton a.button.disabled + .dropbuttontip:hover {
@@ -2240,7 +2233,6 @@ select.decorated {
 	opacity: 0;
 	height: 22px;
 	cursor: pointer;
-	filter: alpha(opacity=0);
 	-khtml-appearance: none;
 	-webkit-appearance: none;
 	border: 0;
@@ -2440,12 +2432,10 @@ ul.toolbarmenu li span.icon {
 	background-position: -100px 0;
 	background-repeat: no-repeat;
 	opacity: 0.2;
-	filter: alpha(opacity=20);
 }
 
 ul.toolbarmenu li a.active span.icon {
 	opacity: 0.99;
-	filter: alpha(opacity=100);
 }
 
 ul.toolbarmenu li span.read {
@@ -2595,7 +2585,6 @@ ul.toolbarmenu li span.copy {
 	color: #ccc;
 	white-space: nowrap;
 	opacity: 0.92;
-	filter: alpha(opacity=92);
 	text-shadow: 0px 1px 1px #333;
 }
 
