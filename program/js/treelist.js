@@ -1070,7 +1070,7 @@ function rcube_treelist_widget(node, p)
         opts.over(e, ui);
     };
 
-    $(selector ? selector : 'li:not(.virtual)', container).droppable(my_opts);
+    $('li:not(.virtual)', container).droppable(my_opts);
 
     return this;
   }
