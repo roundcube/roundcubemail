@@ -74,13 +74,14 @@ $.extend($.datepicker, {
 			.attr('aria-labelledby', inst.id + '-dp-title');
 		}
 		else {
-			inst.dpDiv.attr('id', inst.id + '-dp-widget')
+			var widgetId = inst.dpDiv.attr('id') || inst.id + '-dp-widget';
+			inst.dpDiv.attr('id', widgetId)
 				.attr('aria-hidden', 'true')
 				.attr('aria-labelledby', inst.id + '-dp-title');
 
 				$(inst.input).attr('aria-haspopup', 'true')
 					.attr('aria-expanded', 'false')
-					.attr('aria-owns', inst.id + '-dp-widget');
+					.attr('aria-owns', widgetId);
 		}
 
 		return inst;
@@ -93,7 +94,7 @@ $.extend($.datepicker, {
 		var that = this;
 
 		// register additional keyboard events to control date selection with cursor keys
-		$(target).bind('keyup', function(event) {
+		$(target).unbind('keyup.datepicker-extended').bind('keyup.datepicker-extended', function(event) {
 			var inc = 1;
 			switch (event.keyCode) {
 				case 109:
