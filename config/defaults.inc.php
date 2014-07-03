@@ -877,6 +877,11 @@ $config['address_template'] = '{street}<br/>{locality} {zipcode}<br/>{country} {
 // Note: For LDAP sources fuzzy_search must be enabled to use 'partial' or 'prefix' mode
 $config['addressbook_search_mode'] = 0;
 
+// Template of contact entry on the autocompletion list.
+// You can use contact fields as: name, email, organization, department, etc.
+// See program/steps/addressbook/func.inc for a list
+$config['contact_search_name'] = '{name} <{email}>';
+
 // ----------------------------------
 // USER PREFERENCES
 // ----------------------------------

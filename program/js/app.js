@@ -4568,7 +4568,7 @@ function rcube_webmail()
     // add each result line to list
     if (results && (len = results.length)) {
       for (i=0; i < len && maxlen > 0; i++) {
-        text = typeof results[i] === 'object' ? results[i].name : results[i];
+        text = typeof results[i] === 'object' ? (results[i].display || results[i].name) : results[i];
         type = typeof results[i] === 'object' ? results[i].type : '';
         id = i + this.env.contacts.length;
         $('<li>').attr('id', 'rcmkSearchItem' + id)
