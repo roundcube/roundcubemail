@@ -4546,10 +4546,6 @@ function rcube_webmail()
       this.ksearch_pane = $('<div>').attr('id', 'rcmKSearchpane').attr('role', 'listbox')
         .css({ position:'absolute', 'z-index':30000 }).append(ul).appendTo(document.body);
       this.ksearch_pane.__ul = ul[0];
-
-      // register (delegate) event handlers
-      ul.on('mouseover', 'li', function(e){ ref.ksearch_select(e.target); })
-        .on('mouseup', 'li', function(e){ ref.ksearch_click(e.target); })
     }
 
     ul = this.ksearch_pane.__ul;
@@ -4580,6 +4576,8 @@ function rcube_webmail()
           .html(this.quote_html(text.replace(new RegExp('('+RegExp.escape(value)+')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>'))
           .addClass(type || '')
           .appendTo(ul)
+          .mouseover(function() { ref.ksearch_select(this); })
+          .mouseup(function() { ref.ksearch_click(this); })
           .get(0)._rcm_id = id;
         maxlen -= 1;
       }
