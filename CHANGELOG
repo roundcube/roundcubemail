@@ -19,6 +19,7 @@ CHANGELOG Roundcube Webmail
 - Fix so address format errors are ignored when saving a draft (#1489954)
 - Fix incorrect label translation in return receipt (#1489963)
 - Fix security issue in delete-response action - allow only ajax request
+- Fix Delete button state after deleting identity/response (#1489972)
 
 RELEASE 1.0.1
 -------------
