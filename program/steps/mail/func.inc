@@ -2112,11 +2112,10 @@ function rcmail_compose_contact_groups($abook, $source_id, $search = null, $sear
     foreach ($abook->list_groups($search, $search_mode) as $group) {
         $abook->reset();
         $abook->set_group($group['ID']);
-        $group_prop = $abook->get_group($group['ID']);
 
         // group (distribution list) with email address(es)
-        if ($group_prop['email']) {
-            foreach ((array)$group_prop['email'] as $email) {
+        if ($group['email']) {
+            foreach ((array)$group['email'] as $email) {
                 $row_id = 'G'.$group['ID'];
                 $jsresult[$row_id] = format_email_recipient($email, $group['name']);
                 $OUTPUT->command('add_contact_row', $row_id, array(
@@ -2124,7 +2123,7 @@ function rcmail_compose_contact_groups($abook, $source_id, $search = null, $sear
             }
         }
         // make virtual groups clickable to list their members
-        else if ($group_prop['virtual']) {
+        else if ($group['virtual']) {
             $row_id = 'G'.$group['ID'];
             $OUTPUT->command('add_contact_row', $row_id, array(
                 'contactgroup' => html::a(array(
