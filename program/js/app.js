@@ -3555,10 +3555,7 @@ function rcube_webmail()
     // submit delete request
     if (key && confirm(this.get_label('deleteresponseconfirm'))) {
       this.http_post('settings/delete-response', { _key: key }, false);
-      return true;
     }
-
-    return false;
   };
 
   this.stop_spellchecking = function()
@@ -5612,10 +5609,8 @@ function rcube_webmail()
       id = this.env.iid ? this.env.iid : selection[0];
 
     // submit request with appended token
-    if (confirm(this.get_label('deleteidentityconfirm')))
-      this.goto_url('delete-identity', { _iid: id, _token: this.env.request_token }, true);
-
-    return true;
+    if (id && confirm(this.get_label('deleteidentityconfirm')))
+      this.http_post('settings/delete-identity', { _iid: id }, true);
   };
 
   this.update_identity_row = function(id, name, add)
@@ -5655,6 +5650,19 @@ function rcube_webmail()
 
     if (this.responses_list) {
       this.responses_list.remove_row(key);
+      if (this.env.contentframe && (frame = this.get_frame_window(this.env.contentframe))) {
+        frame.location.href = this.env.blankpage;
+      }
+    }
+  };
+
+  this.remove_identity = function(id)
+  {
+    var frame, list = this.identity_list,
+      rid = this.html_identifier(id);
+
+    if (list && id) {
+      list.remove_row(rid);
       if (this.env.contentframe && (frame = this.get_frame_window(this.env.contentframe))) {
         frame.location.href = this.env.blankpage;
       }
