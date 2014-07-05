@@ -5742,6 +5742,8 @@ function rcube_webmail()
         frame.location.href = this.env.blankpage;
       }
     }
+
+    this.enable_command('delete', false);
   };
 
   this.remove_identity = function(id)
@@ -5755,6 +5757,8 @@ function rcube_webmail()
         frame.location.href = this.env.blankpage;
       }
     }
+
+    this.enable_command('delete', false);
   };
 
 
