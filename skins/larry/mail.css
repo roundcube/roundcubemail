@@ -489,20 +489,8 @@ table.messagelist.fixedcopy {
 	padding: 2px 3px !important;
 }
 
-.webkit .messagelist tr > .attachment,
-.webkit .messagelist tr > .threads,
-.webkit .messagelist tr > .status,
-.webkit .messagelist tr > .flag,
-.webkit .messagelist tr > .priority {
-	width: 26px;
-}
-
 .messagelist tr > .threads {
 	width: 26px;
-}
-
-.webkit .messagelist tr > .threads {
-	width: 30px;
 }
 
 .messagelist tr > .threads + td,
