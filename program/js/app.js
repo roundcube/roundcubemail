@@ -664,11 +664,11 @@ function rcube_webmail()
 
     // process external commands
     if (typeof this.command_handlers[command] === 'function') {
-      ret = this.command_handlers[command](props, obj);
+      ret = this.command_handlers[command](props, obj, event);
       return ret !== undefined ? ret : (obj ? false : true);
     }
     else if (typeof this.command_handlers[command] === 'string') {
-      ret = window[this.command_handlers[command]](props, obj);
+      ret = window[this.command_handlers[command]](props, obj, event);
       return ret !== undefined ? ret : (obj ? false : true);
     }
 
