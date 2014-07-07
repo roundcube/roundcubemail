@@ -21,6 +21,7 @@ CHANGELOG Roundcube Webmail
 - Fix security issue in delete-response action - allow only ajax request
 - Fix Delete button state after deleting identity/response (#1489972)
 - Fix bug where contacts with no email address were listed on compose addressbook (#1489970)
+- Fix images import from various vCard formats (#1489977)
 
 RELEASE 1.0.1
 -------------

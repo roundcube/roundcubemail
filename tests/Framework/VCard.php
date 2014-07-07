@@ -107,6 +107,22 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
         // ENCODING=b case (#1488683)
         $this->assertEquals("/9j/4AAQSkZJRgABAQA", substr(base64_encode($vcard['photo']), 0, 19), "Photo decoding");
         $this->assertEquals("Müller", $vcard['surname'], "Unicode characters");
+
+        $input = str_replace('ENCODING=b:', 'ENCODING=base64;jpeg:', $input);
+
+        $vcards = rcube_vcard::import($input);
+        $vcard = $vcards[0]->get_assoc();
+
+        // ENCODING=base64 case (#1489977)
+        $this->assertEquals("/9j/4AAQSkZJRgABAQA", substr(base64_encode($vcard['photo']), 0, 19), "Photo decoding");
+
+        $input = str_replace('PHOTO;ENCODING=base64;jpeg:', 'PHOTO:data:image/jpeg;base64,', $input);
+
+        $vcards = rcube_vcard::import($input);
+        $vcard = $vcards[0]->get_assoc();
+
+        // vcard4.0 "PHOTO:data:image/jpeg;base64," case (#1489977)
+        $this->assertEquals("/9j/4AAQSkZJRgABAQA", substr(base64_encode($vcard['photo']), 0, 19), "Photo decoding");
     }
 
     function test_encodings()
