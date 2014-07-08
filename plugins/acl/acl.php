@@ -88,6 +88,7 @@ class acl extends rcube_plugin
         $search = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC, true);
         $reqid  = rcube_utils::get_input_value('_reqid', rcube_utils::INPUT_GPC);
         $users  = array();
+        $keys   = array();
 
         if ($this->init_ldap()) {
             $max  = (int) $this->rc->config->get('autocomplete_max', 15);
@@ -105,15 +106,23 @@ class acl extends rcube_plugin
                 }
 
                 if ($user) {
-                    if ($record['name'])
-                        $user = $record['name'] . ' (' . $user . ')';
-
+                    $display = rcube_addressbook::compose_search_name($record);
+                    $user    = array('name' => $user, 'display' => $display);
                     $users[] = $user;
+                    $keys[]  = $display ?: $user['name'];
                 }
             }
         }
 
-        sort($users, SORT_LOCALE_STRING);
+        if (count($users)) {
+            // sort users index
+            asort($keys, SORT_LOCALE_STRING);
+            // re-sort users according to index
+            foreach ($keys as $idx => $val) {
+                $keys[$idx] = $users[$idx];
+            }
+            $users = array_values($keys);
+        }
 
         $this->rc->output->command('ksearch_query_results', $users, $search, $reqid);
         $this->rc->output->send();
@@ -653,8 +662,9 @@ class acl extends rcube_plugin
      */
     private function init_ldap()
     {
-        if ($this->ldap)
+        if ($this->ldap) {
             return $this->ldap->ready;
+        }
 
         // get LDAP config
         $config = $this->rc->config->get('acl_users_source');
@@ -666,7 +676,7 @@ class acl extends rcube_plugin
         // not an array, use configured ldap_public source
         if (!is_array($config)) {
             $ldap_config = (array) $this->rc->config->get('ldap_public');
-            $config = $ldap_config[$config];
+            $config      = $ldap_config[$config];
         }
 
         $uid_field = $this->rc->config->get('acl_users_field', 'mail');
@@ -692,12 +702,13 @@ class acl extends rcube_plugin
         );
 
         // search in UID and name fields
-        $config['search_fields'] = array_values($config['fieldmap']);
+        $config['search_fields']   = array_values($config['fieldmap']);
         $config['required_fields'] = array($uid_field);
 
         // set search filter
-        if ($filter)
+        if ($filter) {
             $config['filter'] = $filter;
+        }
 
         // disable vlv
         $config['vlv'] = false;

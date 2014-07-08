@@ -24,11 +24,7 @@ if (window.rcmail) {
                     if (e.field.id != 'acluser')
                         return;
 
-                    var value = e.insert;
-                    // get UID from the entry value
-                    if (value.match(/\s*\(([^)]+)\)[, ]*$/))
-                        value = RegExp.$1;
-                    e.field.value = value;
+                    e.field.value = e.insert.replace(/[ ,;]+$/, '');
                 });
             }
         }
