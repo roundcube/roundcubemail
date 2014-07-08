@@ -590,9 +590,6 @@ function rcube_webmail()
     if (this.task == 'mail' && this.env.action == 'compose' && $.inArray(command, this.env.compose_commands) < 0 && !this.env.server_error) {
       if (this.cmp_hash != this.compose_field_hash() && !confirm(this.get_label('notsentwarning')))
         return false;
-
-      // remove copy from local storage if compose screen is left intentionally
-      this.remove_compose_data(this.env.compose_id);
     }
 
     // process external commands
@@ -3679,6 +3676,11 @@ function rcube_webmail()
           ref.compose_type_activity_last = ref.compose_type_activity;
         }
       }, 5000);
+
+      // remove data from local storage if compose screen is left
+      $(window).unload(function() {
+        ref.remove_compose_data(ref.env.compose_id);
+      });
     }
 
     // Unlock interface now that saving is complete
