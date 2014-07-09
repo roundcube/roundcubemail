@@ -472,7 +472,8 @@ function rcube_mail_ui()
           minHeight: 90
         }).show();
 
-      me.message_timer = window.setTimeout(dialog_close, p.timeout);
+      if (p.timeout > 0)
+        me.message_timer = window.setTimeout(dialog_close, p.timeout);
     }
   }
 
