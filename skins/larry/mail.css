@@ -698,9 +698,9 @@ table.messagelist.fixedcopy {
 }
 */
 .messagelist tr td.status span.deleted,
-.messagelist tr td.status span.deleted:hover,
+.messagelist tr:hover td.status span.deleted,
 .messagelist tr td.subject span.deleted {
-	background-position: -22px -1096px;
+	background-position: -21px -1096px;
 }
 
 .messagelist tr td.status span.status,
