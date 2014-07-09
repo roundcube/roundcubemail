@@ -440,7 +440,8 @@ function rcube_mail_ui()
 
       me.messagedialog.closest('div[role=dialog]').attr('role', 'alertdialog');
 
-      me.message_timer = window.setTimeout(dialog_close, p.timeout);
+      if (p.timeout > 0)
+        me.message_timer = window.setTimeout(dialog_close, p.timeout);
     }
   }
 
