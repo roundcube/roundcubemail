@@ -238,6 +238,8 @@ button.ui-button-icons-only {
 .ui-button-icons-only .ui-button-text {
 	padding: .4em;
 	text-indent: -9999999px;
+	width: 1px;
+	overflow: hidden;
 }
 .ui-button-text-icon-primary .ui-button-text,
 .ui-button-text-icons .ui-button-text {
