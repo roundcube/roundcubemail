@@ -2846,3 +2846,8 @@ ul.toolbarmenu li span.copy {
 .mce-btn-small .mce-ico {
 	display: inline; /* for old Firefox */
 }
+
+.mce-btn-small i {
+	line-height: 16px !important;
+	vertical-align: text-top !important;
+}
