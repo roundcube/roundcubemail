@@ -658,6 +658,7 @@ function rcube_webmail()
 
       // remove copy from local storage if compose screen is left intentionally
       this.remove_compose_data(this.env.compose_id);
+      this.compose_skip_unsavedcheck = true;
     }
 
     this.last_command = command;
@@ -719,6 +720,7 @@ function rcube_webmail()
 
           if (win) {
             this.save_compose_form_local();
+            this.compose_skip_unsavedcheck = true;
             $("input[name='_action']", form).val('compose');
             form.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
             form.target = win.name;
@@ -1402,7 +1404,7 @@ function rcube_webmail()
 
     if (task == 'mail')
       url += '&_mbox=INBOX';
-    else if (task == 'logout')
+    else if (task == 'logout' && !this.env.server_error)
       this.clear_compose_data();
 
     this.redirect(url);
@@ -3474,6 +3476,7 @@ function rcube_webmail()
     form._draft.value = draft ? '1' : '';
     form.action = this.add_url(form.action, '_unlock', msgid);
     form.action = this.add_url(form.action, '_lang', lang);
+    form.action = this.add_url(form.action, '_framed', 1);
 
     // register timer to notify about connection timeout
     this.submit_timer = setTimeout(function(){
@@ -3779,6 +3782,7 @@ function rcube_webmail()
 
     // always remove local copy upon saving as draft
     this.remove_compose_data(this.env.compose_id);
+    this.compose_skip_unsavedcheck = false;
   };
 
   this.auto_save_start = function()
@@ -3803,6 +3807,21 @@ function rcube_webmail()
           ref.compose_type_activity_last = ref.compose_type_activity;
         }
       }, 5000);
+
+      $(window).unload(function() {
+        // remove copy from local storage if compose screen is left after warning
+        if (!ref.env.server_error)
+          ref.remove_compose_data(ref.env.compose_id);
+      });
+    }
+
+    // check for unsaved changes before leaving the compose page
+    if (!window.onbeforeunload) {
+      window.onbeforeunload = function() {
+        if (!ref.compose_skip_unsavedcheck && ref.cmp_hash != ref.compose_field_hash()) {
+          return ref.get_label('notsentwarning');
+        }
+      };
     }
 
     // Unlock interface now that saving is complete
@@ -4306,6 +4325,7 @@ function rcube_webmail()
   this.sent_successfully = function(type, msg, folders)
   {
     this.display_message(msg, type);
+    this.compose_skip_unsavedcheck = true;
 
     if (this.env.extwin) {
       this.lock_form(this.gui_objects.messageform);
@@ -7380,6 +7400,7 @@ function rcube_webmail()
     // save message in local storage and do not redirect
     if (this.env.action == 'compose') {
       this.save_compose_form_local();
+      this.compose_skip_unsavedcheck = true;
     }
     else if (redirect_url) {
       setTimeout(function(){ ref.redirect(redirect_url, true); }, 2000);
