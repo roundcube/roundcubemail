@@ -1311,7 +1311,9 @@ div.message-partheaders .headers-table td.header {
 }
 
 #compose-contacts li a, #contacts-table td {
-	background: url(images/listicons.png) -100px 0 no-repeat;
+	background-image: url(images/listicons.png);
+	background-position: -100px 0;
+	background-repeat: no-repeat;
 	overflow: hidden;
 	padding-left: 36px;
 	text-overflow: ellipsis;
