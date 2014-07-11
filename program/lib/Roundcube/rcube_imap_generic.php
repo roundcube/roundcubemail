@@ -1916,8 +1916,8 @@ class rcube_imap_generic
                         $result[$id] = '';
                     }
                 } else if ($mode == 2) {
-                    if (preg_match('/(UID|RFC822\.SIZE) ([0-9]+)/', $line, $matches)) {
-                        $result[$id] = trim($matches[2]);
+                    if (preg_match('/' . $index_field . ' ([0-9]+)/', $line, $matches)) {
+                        $result[$id] = trim($matches[1]);
                     } else {
                         $result[$id] = 0;
                     }
