@@ -22,6 +22,7 @@ CHANGELOG Roundcube Webmail
 - Fix Delete button state after deleting identity/response (#1489972)
 - Fix bug where contacts with no email address were listed on compose addressbook (#1489970)
 - Fix images import from various vCard formats (#1489977)
+- Fix sorting messages by size on servers without SORT capability (#1489981)
 
 RELEASE 1.0.1
 -------------
