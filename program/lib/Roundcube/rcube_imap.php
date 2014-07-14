@@ -3298,12 +3298,14 @@ class rcube_imap extends rcube_storage
         // request \Subscribed flag in LIST response as performance improvement for folder_exists()
         $folders = $this->conn->listMailboxes('', '*', array('SUBSCRIBED'), array('SPECIAL-USE'));
 
-        foreach ($folders as $folder) {
-            if ($flags = $this->conn->data['LIST'][$folder]) {
-                foreach ($types as $type) {
-                    if (in_array($type, $flags)) {
-                        $type           = strtolower(substr($type, 1));
-                        $special[$type] = $folder;
+        if (!empty($folders)) {
+            foreach ($folders as $folder) {
+                if ($flags = $this->conn->data['LIST'][$folder]) {
+                    foreach ($types as $type) {
+                        if (in_array($type, $flags)) {
+                            $type           = strtolower(substr($type, 1));
+                            $special[$type] = $folder;
+                        }
                     }
                 }
             }
