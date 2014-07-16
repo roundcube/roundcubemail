@@ -1,9 +1,12 @@
+* version 8.0 [2014-07-16]
+-----------------------------------------------------------
 - Fix bug where non-existing (or unsubscribed) folder wasn't listed in folder selector (#1489956)
 - Added optional separate interface for out-of-office management (#1488266)
 - Fix disabled "create filter" action
 - Fix enotify/notify extension handling
 - Improved UI accessibility
 - Added option to specify connection socket parameters - managesieve_conn_options
+- Support vacation date rules without date extension (#1489978)
 
 * version 7.2 [2014-02-14]
 -----------------------------------------------------------
