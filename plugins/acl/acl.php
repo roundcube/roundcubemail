@@ -696,10 +696,8 @@ class acl extends rcube_plugin
         }
 
         // add UID field to fieldmap, so it will be returned in a record with name
-        $config['fieldmap'] = array(
-            'name' => $name_field,
-            'uid'  => $uid_field,
-        );
+        $config['fieldmap']['name'] = $name_field;
+        $config['fieldmap']['uid']  = $uid_field;
 
         // search in UID and name fields
         $config['search_fields']   = array_values($config['fieldmap']);
