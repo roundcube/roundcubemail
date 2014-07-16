@@ -32,7 +32,6 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $this->vacation_rule();
             $this->vacation_post();
         }
-
         $this->plugin->add_label('vacation.saving');
         $this->rc->output->add_handlers(array(
             'vacationform' => array($this, 'vacation_form'),
@@ -88,6 +87,9 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             return;
         }
 
+        $date_extension  = in_array('date', $this->exts);
+        $regex_extension = in_array('regex', $this->exts);
+
         $status        = rcube_utils::get_input_value('vacation_status', rcube_utils::INPUT_POST);
         $subject       = rcube_utils::get_input_value('vacation_subject', rcube_utils::INPUT_POST, true);
         $reason        = rcube_utils::get_input_value('vacation_reason', rcube_utils::INPUT_POST, true);
@@ -128,27 +130,79 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $error = 'managesieve.forbiddenchars';
         }
 
-        foreach (array('date_from', 'date_to') as $var) {
-            $date = $$var;
+        if ($date_extension) {
+            foreach (array('date_from', 'date_to') as $var) {
+                $date = $$var;
+                if ($date && ($dt = rcube_utils::anytodatetime($date))) {
+                    $type = 'value-' . ($var == 'date_from' ? 'ge' : 'le');
+                    $test = array(
+                        'test' => 'currentdate',
+                        'part' => 'date',
+                        'type' => $type,
+                        'arg'  => $dt->format('Y-m-d'),
+                    );
 
-            if ($date && ($dt = rcube_utils::anytodatetime($date))) {
-                $type = 'value-' . ($var == 'date_from' ? 'ge' : 'le');
-                $test = array(
-                    'test' => 'currentdate',
-                    'part' => 'date',
-                    'type' => $type,
-                    'arg'  => $dt->format('Y-m-d'),
-                );
-
-                // find existing date rule
-                foreach ((array) $vacation_tests as $idx => $t) {
-                    if ($t['test'] == 'currentdate' && $t['part'] == 'date' && $t['type'] == $type) {
-                        $vacation_tests[$idx] = $test;
-                        continue 2;
+                    // find existing date rule
+                    foreach ((array) $vacation_tests as $idx => $t) {
+                        if ($t['test'] == 'currentdate' && $t['part'] == 'date' && $t['type'] == $type) {
+                            $vacation_tests[$idx] = $test;
+                            continue 2;
+                        }
                     }
+                $vacation_tests[] = $test;
+                }
+            }
+        }
+        elseif ($regex_extension) {
+            // Sieve 'date' extension not available, use RegEx based rules instead
+
+            // clear any existing date rules in tests array
+            foreach ((array) $vacation_tests as $idx => $t) {
+                if ($t['test'] == 'header' &&
+                    $t['type'] == 'regex' &&
+                    $t['arg1'] == 'received') {
+                    unset($vacation_tests[$idx]);
+                }
+                if ($t['test'] == 'true') {
+                    unset($vacation_tests[$idx]);
+                }
+            }
+            $vacation_tests = array();
+
+            if ($date_from && $date_to) {
+                // Add date range rules if range specified
+
+                $dt_from = rcube_utils::anytodatetime($date_from);
+                $dt_to = rcube_utils::anytodatetime($date_to);
+                $interval = $dt_from->diff($dt_to);
+                if ($interval->invert || $interval->days > 365) {
+                   $error = 'managesieve.invaliddateformat';
                 }
 
-                $vacation_tests[] = $test;
+                $dt_i = $dt_from;
+                $interval = new DateInterval('P1D');
+
+                $matchexp = "";
+                while (!$dt_i->diff($dt_to)->invert) {
+                    $matchexp .= $dt_i->format('d') < 10 ?
+                        "[ 0]".((int)$dt_i->format('d')) :
+                        $dt_i->format('d');
+                    if ($dt_i->format('d') == $dt_i->format('t') ||
+                        $dt_i->diff($dt_to)->days == 0) {
+                        $test = array(
+                            'test' => 'header',
+                            'type' => 'regex',
+                            'arg1' => 'received',
+                            'arg2' => '('.$matchexp.') '.$dt_i->format('M Y')
+                        );
+                        $vacation_tests[] = $test;
+                        $matchexp = "";
+                    }
+                    else {
+                        $matchexp .= '|';
+                    }
+                    $dt_i->add($interval);
+                }
             }
         }
 
@@ -174,7 +228,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $rule['name']       = $rule['name'] ?: $this->plugin->gettext('vacation');
             $rule['disabled']   = $status == 'off';
             $rule['tests']      = $vacation_tests;
-            $rule['join']       = count($vacation_tests) > 1;
+            $rule['join']       = $date_extension ? count($vacation_tests) > 1 : 0;
             $rule['actions']    = array($vacation_action);
 
             if ($action && $action != 'keep') {
@@ -235,6 +289,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
     {
         // check supported extensions
         $date_extension    = in_array('date', $this->exts);
+        $regex_extension   = in_array('regex', $this->exts);
         $seconds_extension = in_array('vacation-seconds', $this->exts);
 
         // build FORM tag
@@ -287,17 +342,44 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $interval_txt .= '&nbsp;' . $this->plugin->gettext('days');
         }
 
-        if ($date_extension) {
+        if ($date_extension || $regex_extension) {
             $date_from   = new html_inputfield(array('name' => 'vacation_datefrom', 'id' => 'vacation_datefrom', 'class' => 'datepicker', 'size' => 12));
             $date_to     = new html_inputfield(array('name' => 'vacation_dateto', 'class' => 'datepicker', 'size' => 12));
             $date_format = $this->rc->config->get('date_format', 'Y-m-d');
+        }
 
+        if ($date_extension) {
             foreach ((array) $this->vacation['tests'] as $test) {
                 if ($test['test'] == 'currentdate' && $test['part'] == 'date') {
                     $date = $this->rc->format_date($test['arg'], $date_format, false);
                     $date_value[$test['type'] == 'value-ge' ? 'from' : 'to'] = $date;
                 }
             }
+        }
+        elseif ($regex_extension) {
+            // Sieve 'date' extension not available, read start/end from RegEx based rules instead
+            foreach ((array) $this->vacation['tests'] as $test) {
+                if ($test['test'] == 'header' &&
+                    $test['type'] == 'regex' &&
+                    $test['arg1'] == 'received') {
+
+                    $textexp = preg_replace('/\[ ([^\]]*)\]/', '0', $test['arg2']);
+
+                    if (!$date_value['from']) {
+                        if (preg_match('/^\(([0-9][0-9]).*\)\s([A-Za-z]*)\s([0-9][0-9][0-9][0-9])/',
+                            $textexp, $matches)) {
+                            $date_value['from'] = $matches[1]." ".$matches[2]." ".$matches[3];
+                        }
+                    }
+
+                    if (preg_match('/^\(.*([0-9][0-9])\)\s([A-Za-z]*)\s([0-9][0-9][0-9][0-9])/',
+                        $textexp, $matches)) {
+                        $date_value['to'] = $matches[1]." ".$matches[2]." ".$matches[3];
+                    }
+                }
+            }
+            $date_value['from'] = $this->rc->format_date($date_value['from'], $date_format, false);
+            $date_value['to'] = $this->rc->format_date($date_value['to'], $date_format, false);
         }
 
         // force domain selection in redirect email input
@@ -335,7 +417,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $table->add('title', html::label('vacation_reason', $this->plugin->gettext('vacation.body')));
         $table->add(null, $reason->show($this->vacation['reason']));
 
-        if ($date_extension) {
+        if ($date_extension || $regex_extension) {
             $table->add('title', html::label('vacation_datefrom', $this->plugin->gettext('vacation.dates')));
             $table->add(null,
                 $this->plugin->gettext('vacation.from'). ' ' . $date_from->show($date_value['from'])
