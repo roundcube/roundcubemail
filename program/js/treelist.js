@@ -68,6 +68,8 @@ function rcube_treelist_widget(node, p)
     tree_state,
     ui_droppable,
     ui_draggable,
+    draggable_opts,
+    droppable_opts,
     list_id = (container.attr('id') || p.id_prefix || '0'),
     me = this;
 
@@ -470,7 +472,7 @@ function rcube_treelist_widget(node, p)
   /**
    *
    */
-  function reset()
+  function reset(keep_content)
   {
     select('');
 
@@ -478,7 +480,22 @@ function rcube_treelist_widget(node, p)
     indexbyid = {};
     drag_active = false;
 
-    container.html('');
+    if (keep_content) {
+      if (draggable_opts) {
+        draggable('destroy');
+        draggable(draggable_opts);
+      }
+
+      if (droppable_opts) {
+        droppable('destroy');
+        droppable(droppable_opts);
+      }
+
+      update_data();
+    }
+    else {
+      container.html('');
+    }
 
     reset_search();
   }
@@ -1043,6 +1060,13 @@ function rcube_treelist_widget(node, p)
   {
     if (!opts) opts = {};
 
+    if ($.type(opts) == 'string') {
+      $('li:not(.virtual)', container).droppable(opts);
+      return this;
+    }
+
+    droppable_opts = opts;
+
     var my_opts = $.extend({
         greedy: true,
         tolerance: 'pointer',
@@ -1084,8 +1108,16 @@ function rcube_treelist_widget(node, p)
   {
     if (!opts) opts = {};
 
+    if ($.type(opts) == 'string') {
+      $('li:not(.virtual)', container).draggable(opts);
+      return this;
+    }
+
+    draggable_opts = opts;
+
     var my_opts = $.extend({
         appendTo: 'body',
+        revert: 'invalid',
         iframeFix: true,
         addClasses: false,
         cursorAt: {left: -20, top: 5},

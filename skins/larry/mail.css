@@ -137,238 +137,24 @@ a.iconbutton.threadmode.selected {
 	background-position: -26px -497px;
 }
 
-#mailboxlist li.mailbox {
-	position: relative;
-	background-repeat: no-repeat;
-	background-position: 6px 2px;
-}
-
 #mailboxlist > li:first-child {
-	border-radius: 4px 4px 0 0;
 	border-top: 0;
 }
 
-#mailboxlist li.mailbox a {
-	padding-left: 36px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	background-image: url(images/listicons.png);
-	background-repeat: no-repeat;
-	background-position: 6px 3px;
+html.mozilla #mailboxlist > li:first-child {
+	border-radius: 4px 4px 0 0;
 }
 
 #mailboxlist li.mailbox.unread > a {
 	padding-right: 36px;
 }
 
-#mailboxlist li.mailbox > a:focus,
-#mailboxlist li.mailbox.selected > a {
-	background-position: 6px -21px;
-}
-
-#mailboxlist li.mailbox.inbox > a {
-	background-position: 6px -189px;
-}
-
-#mailboxlist li.mailbox.inbox > a:focus,
-#mailboxlist li.mailbox.inbox.selected > a {
-	background-position: 6px -213px;
-}
-
-#mailboxlist li.mailbox.drafts > a {
-	background-position: 6px -238px;
-}
-
-#mailboxlist li.mailbox.drafts > a:focus,
-#mailboxlist li.mailbox.drafts.selected > a {
-	background-position: 6px -262px;
-}
-
-#mailboxlist li.mailbox.sent > a {
-	background-position: 6px -286px;
-}
-
-#mailboxlist li.mailbox.sent > a:focus,
-#mailboxlist li.mailbox.sent.selected > a {
-	background-position: 6px -310px;
-}
-
-#mailboxlist li.mailbox.junk > a {
-	background-position: 6px -334px;
-}
-
-#mailboxlist li.mailbox.junk > a:focus,
-#mailboxlist li.mailbox.junk.selected > a {
-	background-position: 6px -358px;
-}
-
-#mailboxlist li.mailbox.trash > a {
-	background-position: 6px -382px;
-}
-
-#mailboxlist li.mailbox.trash > a:focus,
-#mailboxlist li.mailbox.trash.selected > a {
-	background-position: 6px -406px;
-}
-
-#mailboxlist li.mailbox.trash.empty > a {
-	background-position: 6px -1924px;
-}
-
-#mailboxlist li.mailbox.trash.empty > a:focus,
-#mailboxlist li.mailbox.trash.empty.selected > a {
-	background-position: 6px -1948px;
-}
-
-#mailboxlist li.mailbox.archive > a {
-	background-position: 6px -1699px;
-}
-
-#mailboxlist li.mailbox.archive > a:focus,
-#mailboxlist li.mailbox.archive.selected > a {
-	background-position: 6px -1723px;
-}
-
-#mailboxlist li.mailbox ul li.drafts > a {
-	background-position: 23px -238px;
-}
-
-#mailboxlist li.mailbox ul li.drafts > a:focus,
-#mailboxlist li.mailbox ul li.drafts.selected > a {
-	background-position: 23px -262px;
-}
-
-#mailboxlist li.mailbox ul li.sent > a {
-	background-position: 23px -286px;
-}
-
-#mailboxlist li.mailbox ul li.sent > a:focus,
-#mailboxlist li.mailbox ul li.sent.selected > a {
-	background-position: 23px -310px;
-}
-
-#mailboxlist li.mailbox ul li.junk > a {
-	background-position: 23px -334px;
-}
-
-#mailboxlist li.mailbox ul li.junk > a:focus,
-#mailboxlist li.mailbox ul li.junk.selected > a {
-	background-position: 23px -358px;
-}
-
-#mailboxlist li.mailbox ul li.trash > a {
-	background-position: 23px -382px;
-}
-
-#mailboxlist li.mailbox ul li.trash > a:focus,
-#mailboxlist li.mailbox ul li.trash.selected > a {
-	background-position: 23px -406px;
-}
-
-#mailboxlist li.mailbox ul li.trash.empty > a {
-	background-position: 23px -1924px;
-}
-
-#mailboxlist li.mailbox ul li.trash.empty > a:focus,
-#mailboxlist li.mailbox ul li.trash.empty.selected > a {
-	background-position: 23px -1948px;
-}
-
-#mailboxlist li.mailbox ul li.archive > a {
-	background-position: 23px -1699px;
-}
-
-#mailboxlist li.mailbox ul li.archive > a:focus,
-#mailboxlist li.mailbox ul li.archive.selected > a {
-	background-position: 23px -1723px;
-}
-
 #mailboxlist li.unread {
 	font-weight: bold;
 }
 
-#mailboxlist li.virtual > a {
-	color: #aaa;
-}
-
 #mailboxlist li.recent > a {
 	color: #017cb4;
-}
-
-#mailboxlist li.mailbox div.treetoggle {
-	top: 13px;
-	left: 19px;
-}
-
-#mailboxlist li.mailbox ul li:last-child {
-	border-bottom: 0;
-}
-
-/* nested mailboxes */
-
-#mailboxlist li.mailbox ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	border-top: 1px solid #bbd3da;
-}
-
-#mailboxlist li.mailbox ul li a {
-	padding-left: 52px;  /* 36 + 1 x 16 */
-	background-position: 22px -95px;  /* 6 + 1 x 16 */
-}
-#mailboxlist li.mailbox ul li > a:focus,
-#mailboxlist li.mailbox ul li.selected > a {
-	background-position: 22px -119px;
-}
-#mailboxlist li.mailbox ul li div.treetoggle {
-	left: 33px;
-	top: 14px;
-}
-
-#mailboxlist li.mailbox ul ul li.mailbox a {
-	padding-left: 68px;  /* 2x */
-	background-position: 38px -95px;
-}
-#mailboxlist li.mailbox ul ul li > a:focus,
-#mailboxlist li.mailbox ul ul li.selected > a {
-	background-position: 38px -119px;
-}
-#mailboxlist li.mailbox ul ul li div.treetoggle {
-	left: 48px;
-}
-
-#mailboxlist li.mailbox ul ul ul li.mailbox a {
-	padding-left: 84px;  /* 3x */
-	background-position: 54px -95px;
-}
-#mailboxlist li.mailbox ul ul ul li > a:focus,
-#mailboxlist li.mailbox ul ul ul li.selected > a {
-	background-position: 54px -119px;
-}
-#mailboxlist li.mailbox ul ul ul li div.treetoggle {
-	left: 64px;
-}
-
-#mailboxlist li.mailbox ul ul ul ul li.mailbox a {
-	padding-left: 100px;  /* 4x */
-	background-position: 70px -95px;
-}
-#mailboxlist li.mailbox ul ul ul ul li > a:focus,
-#mailboxlist li.mailbox ul ul ul ul li.selected > a {
-	background-position: 70px -119px;
-}
-#mailboxlist li.mailbox ul ul ul ul li div.treetoggle {
-	left: 80px;
-}
-
-/* indent folders on levels > 4 */
-#mailboxlist li.mailbox ul ul ul ul ul li {
-	padding-left: 16px;
-}
-#mailboxlist li.mailbox ul ul ul ul ul li div.treetoggle {
-	left: 96px;
 }
 
 #mailboxlist li.mailbox .unreadcount {

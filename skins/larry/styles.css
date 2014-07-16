@@ -2606,6 +2606,224 @@ ul.toolbarmenu li span.copy {
 	background-position: 4px -2100px;
 }
 
+/*** folders list ***/
+
+.folderlist li.mailbox a {
+	padding-left: 36px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	background-image: url(images/listicons.png);
+	background-repeat: no-repeat;
+	background-position: 6px 3px;
+}
+
+.folderlist li.mailbox.unread > a {
+	padding-right: 36px;
+}
+
+.folderlist li.mailbox > a:focus,
+.folderlist li.mailbox.selected > a {
+	background-position: 6px -21px;
+}
+
+.folderlist li.mailbox.inbox > a {
+	background-position: 6px -189px;
+}
+
+.folderlist li.mailbox.inbox > a:focus,
+.folderlist li.mailbox.inbox.selected > a {
+	background-position: 6px -213px;
+}
+
+.folderlist li.mailbox.drafts > a {
+	background-position: 6px -238px;
+}
+
+.folderlist li.mailbox.drafts > a:focus,
+.folderlist li.mailbox.drafts.selected > a {
+	background-position: 6px -262px;
+}
+
+.folderlist li.mailbox.sent > a {
+	background-position: 6px -286px;
+}
+
+.folderlist li.mailbox.sent > a:focus,
+.folderlist li.mailbox.sent.selected > a {
+	background-position: 6px -310px;
+}
+
+.folderlist li.mailbox.junk > a {
+	background-position: 6px -334px;
+}
+
+.folderlist li.mailbox.junk > a:focus,
+.folderlist li.mailbox.junk.selected > a {
+	background-position: 6px -358px;
+}
+
+.folderlist li.mailbox.trash > a {
+	background-position: 6px -382px;
+}
+
+.folderlist li.mailbox.trash > a:focus,
+.folderlist li.mailbox.trash.selected > a {
+	background-position: 6px -406px;
+}
+
+.folderlist li.mailbox.trash.empty > a {
+	background-position: 6px -1924px;
+}
+
+.folderlist li.mailbox.trash.empty > a:focus,
+.folderlist li.mailbox.trash.empty.selected > a {
+	background-position: 6px -1948px;
+}
+
+.folderlist li.mailbox.archive > a {
+	background-position: 6px -1699px;
+}
+
+.folderlist li.mailbox.archive > a:focus,
+.folderlist li.mailbox.archive.selected > a {
+	background-position: 6px -1723px;
+}
+
+.folderlist li.mailbox ul li.drafts > a {
+	background-position: 23px -238px;
+}
+
+.folderlist li.mailbox ul li.drafts > a:focus,
+.folderlist li.mailbox ul li.drafts.selected > a {
+	background-position: 23px -262px;
+}
+
+.folderlist li.mailbox ul li.sent > a {
+	background-position: 23px -286px;
+}
+
+.folderlist li.mailbox ul li.sent > a:focus,
+.folderlist li.mailbox ul li.sent.selected > a {
+	background-position: 23px -310px;
+}
+
+.folderlist li.mailbox ul li.junk > a {
+	background-position: 23px -334px;
+}
+
+.folderlist li.mailbox ul li.junk > a:focus,
+.folderlist li.mailbox ul li.junk.selected > a {
+	background-position: 23px -358px;
+}
+
+.folderlist li.mailbox ul li.trash > a {
+	background-position: 23px -382px;
+}
+
+.folderlist li.mailbox ul li.trash > a:focus,
+.folderlist li.mailbox ul li.trash.selected > a {
+	background-position: 23px -406px;
+}
+
+.folderlist li.mailbox ul li.trash.empty > a {
+	background-position: 23px -1924px;
+}
+
+.folderlist li.mailbox ul li.trash.empty > a:focus,
+.folderlist li.mailbox ul li.trash.empty.selected > a {
+	background-position: 23px -1948px;
+}
+
+.folderlist li.mailbox ul li.archive > a {
+	background-position: 23px -1699px;
+}
+
+.folderlist li.mailbox ul li.archive > a:focus,
+.folderlist li.mailbox ul li.archive.selected > a {
+	background-position: 23px -1723px;
+}
+
+.folderlist li.virtual > a {
+	color: #aaa;
+}
+
+.folderlist li.mailbox div.treetoggle {
+	top: 13px;
+	left: 19px;
+}
+
+.folderlist li.mailbox ul li:last-child {
+	border-bottom: 0;
+}
+
+/* nested mailboxes */
+
+.folderlist li.mailbox ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid #bbd3da;
+}
+
+.folderlist li.mailbox ul li a {
+	padding-left: 52px;  /* 36 + 1 x 16 */
+	background-position: 22px -95px;  /* 6 + 1 x 16 */
+}
+.folderlist li.mailbox ul li > a:focus,
+.folderlist li.mailbox ul li.selected > a {
+	background-position: 22px -119px;
+}
+.folderlist li.mailbox ul li div.treetoggle {
+	left: 33px;
+	top: 14px;
+}
+
+.folderlist li.mailbox ul ul li.mailbox a {
+	padding-left: 68px;  /* 2x */
+	background-position: 38px -95px;
+}
+.folderlist li.mailbox ul ul li > a:focus,
+.folderlist li.mailbox ul ul li.selected > a {
+	background-position: 38px -119px;
+}
+.folderlist li.mailbox ul ul li div.treetoggle {
+	left: 48px;
+}
+
+.folderlist li.mailbox ul ul ul li.mailbox a {
+	padding-left: 84px;  /* 3x */
+	background-position: 54px -95px;
+}
+.folderlist li.mailbox ul ul ul li > a:focus,
+.folderlist li.mailbox ul ul ul li.selected > a {
+	background-position: 54px -119px;
+}
+.folderlist li.mailbox ul ul ul li div.treetoggle {
+	left: 64px;
+}
+
+.folderlist li.mailbox ul ul ul ul li.mailbox a {
+	padding-left: 100px;  /* 4x */
+	background-position: 70px -95px;
+}
+.folderlist li.mailbox ul ul ul ul li > a:focus,
+.folderlist li.mailbox ul ul ul ul li.selected > a {
+	background-position: 70px -119px;
+}
+.folderlist li.mailbox ul ul ul ul li div.treetoggle {
+	left: 80px;
+}
+
+/* indent folders on levels > 4 */
+.folderlist li.mailbox ul ul ul ul ul li {
+	padding-left: 16px;
+}
+.folderlist li.mailbox ul ul ul ul ul li div.treetoggle {
+	left: 96px;
+}
+
+
 /*** attachment list ***/
 
 .attachmentslist {

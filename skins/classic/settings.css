@@ -23,12 +23,6 @@
   font-style: italic;
 }
 
-#subscription-table li.selected a
-{
-  color: #FFF;
-  background-color: #CC3333;
-}
-
 #subscription-table li.root
 {
   font-size: 5%;
@@ -37,28 +31,16 @@
   padding: 2px;
 }
 
-#subscription-table li a.name
-{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-  display: block;
-  float: left;
-  padding: 0 0 0 5px;
-  height: 24px;
-  line-height: 24px;
-}
-
-#subscription-table li input
-{
+#subscription-table li input {
   position: absolute;
   right: 0;
+  top: 2px;
 }
 
-html.chrome #subscription-table li input,
-html.opera #subscription-table li input
-{
-  margin-top: 6px;
+#subscription-table li a {
+  padding-right: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #folder-box,

@@ -38,22 +38,20 @@ function rcmail_folder_form($attrib)
     $storage = $RCMAIL->get_storage();
 
     // edited folder name (empty in create-folder mode)
-    $mbox      = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true);
-    $mbox_imap = rcube_charset::convert($mbox, RCUBE_CHARSET, 'UTF7-IMAP');
+    $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true);
 
     // predefined path for new folder
-    $parent      = rcube_utils::get_input_value('_path', rcube_utils::INPUT_GPC, true);
-    $parent_imap = rcube_charset::convert($parent, RCUBE_CHARSET, 'UTF7-IMAP');
+    $parent = rcube_utils::get_input_value('_path', rcube_utils::INPUT_GPC, true);
 
     $threading_supported = $storage->get_capability('THREAD');
     $delimiter = $storage->get_hierarchy_delimiter();
 
     // Get mailbox parameters
     if (strlen($mbox)) {
-        $options   = rcmail_folder_options($mbox_imap);
+        $options   = rcmail_folder_options($mbox);
         $namespace = $storage->get_namespace();
 
-        $path   = explode($delimiter, $mbox_imap);
+        $path   = explode($delimiter, $mbox);
         $folder = array_pop($path);
         $path   = implode($delimiter, $path);
         $folder = rcube_charset::convert($folder, 'UTF7-IMAP');
@@ -62,7 +60,7 @@ function rcmail_folder_form($attrib)
     }
     else {
         $options = array();
-        $path    = $parent_imap;
+        $path    = $parent;
 
         // allow creating subfolders of INBOX folder
         if ($path == 'INBOX') {
@@ -88,7 +86,7 @@ function rcmail_folder_form($attrib)
 
     // Location (name)
     if ($options['protected']) {
-        $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q($RCMAIL->localize_folderpath($mbox_imap)));
+        $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q($RCMAIL->localize_folderpath($mbox)));
     }
     else if ($options['norename']) {
         $foldername = rcube::Q($folder);
@@ -101,7 +99,7 @@ function rcmail_folder_form($attrib)
         $foldername = $foldername->show($folder);
 
         if ($options['special']) {
-            $foldername .= '&nbsp;(' . rcube::Q($RCMAIL->localize_foldername($mbox_imap)) .')';
+            $foldername .= '&nbsp;(' . rcube::Q($RCMAIL->localize_foldername($mbox)) .')';
         }
     }
 
@@ -122,7 +120,7 @@ function rcmail_folder_form($attrib)
     }
     else {
         $selected = isset($_POST['_parent']) ? $_POST['_parent'] : $path_id;
-        $exceptions = array($mbox_imap);
+        $exceptions = array($mbox);
 
         // Exclude 'prefix' namespace from parent folders list (#1488349)
         // If INBOX. namespace exists, folders created as INBOX subfolders
@@ -154,7 +152,7 @@ function rcmail_folder_form($attrib)
     );
 
     // Settings: threading
-    if ($threading_supported && ($mbox_imap == 'INBOX' || (!$options['noselect'] && !$options['is_root']))) {
+    if ($threading_supported && ($mbox == 'INBOX' || (!$options['noselect'] && !$options['is_root']))) {
         $select = new html_select(array('name' => '_viewmode', 'id' => '_viewmode'));
         $select->add($RCMAIL->gettext('list'), 0);
         $select->add($RCMAIL->gettext('threads'), 1);
@@ -162,11 +160,11 @@ function rcmail_folder_form($attrib)
         if (isset($_POST['_viewmode'])) {
             $value = (int) $_POST['_viewmode'];
         }
-        else if (strlen($mbox_imap)) {
+        else if (strlen($mbox)) {
             $a_threaded   = $RCMAIL->config->get('message_threading', array());
             $default_mode = $RCMAIL->config->get('default_list_mode', 'list');
 
-            $value = (int) (isset($a_threaded[$mbox_imap]) ? $a_threaded[$mbox_imap] : $default_mode == 'threads');
+            $value = (int) (isset($a_threaded[$mbox]) ? $a_threaded[$mbox] : $default_mode == 'threads');
         }
 
         $form['props']['fieldsets']['settings']['content']['viewmode'] = array(
@@ -213,14 +211,14 @@ function rcmail_folder_form($attrib)
             'content' => array()
         );
 
-        if ((!$options['noselect'] && !$options['is_root']) || $mbox_imap == 'INBOX') {
-            $msgcount = $storage->count($mbox_imap, 'ALL', true, false);
+        if ((!$options['noselect'] && !$options['is_root']) || $mbox == 'INBOX') {
+            $msgcount = $storage->count($mbox, 'ALL', true, false);
 
             // Size
             if ($msgcount) {
                 // create link with folder-size command
                 $onclick = sprintf("return %s.command('folder-size', '%s', this)",
-                    rcmail_output::JS_OBJECT_NAME, rcube::JQ($mbox_imap));
+                    rcmail_output::JS_OBJECT_NAME, rcube::JQ($mbox));
                 $size = html::a(array('href' => '#', 'onclick' => $onclick,
                     'id' => 'folder-size'), $RCMAIL->gettext('getfoldersize'));
             }
@@ -250,7 +248,7 @@ function rcmail_folder_form($attrib)
     // Allow plugins to modify folder form content
     $plugin = $RCMAIL->plugins->exec_hook('folder_form',
         array('form' => $form, 'options' => $options,
-            'name' => $mbox_imap, 'parent_name' => $parent_imap));
+            'name' => $mbox, 'parent_name' => $parent));
 
     $form = $plugin['form'];
 
@@ -290,8 +288,8 @@ function rcmail_folder_form($attrib)
 
     $RCMAIL->output->set_env('messagecount', (int) $msgcount);
 
-    if ($mbox_imap !== null && empty($_POST)) {
-        $RCMAIL->output->command('parent.set_quota', $RCMAIL->quota_content(null, $mbox_imap));
+    if ($mbox !== null && empty($_POST)) {
+        $RCMAIL->output->command('parent.set_quota', $RCMAIL->quota_content(null, $mbox));
     }
 
     return $out;

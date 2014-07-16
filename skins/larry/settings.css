@@ -251,21 +251,14 @@
 	padding: 2px;
 }
 
-#subscription-table li a.name {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	width: 100%;
-	float: left;
-}
-
 #subscription-table li input {
 	position: absolute;
 	right: 0;
+	top: 4px;
 }
 
-html.chrome #subscription-table li input,
-html.opera #subscription-table li input {
-	margin-top: 6px;
+#subscription-table li a {
+	padding-right: 20px;
 }
 
 .skinselection {

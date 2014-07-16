@@ -1302,23 +1302,20 @@ function rcmail_update_folder_row($name, $oldname=null, $subscribe=false, $class
     $protect_folders = $RCMAIL->config->get('protect_default_folders');
     $storage         = $RCMAIL->get_storage();
     $delimiter       = $storage->get_hierarchy_delimiter();
-    $name_utf8       = rcube_charset::convert($name, 'UTF7-IMAP');
-    $protected       = $protect_folders && $storage->is_special_folder($name);
 
+    $name_utf8    = rcube_charset::convert($name, 'UTF7-IMAP');
+    $protected    = $protect_folders && $storage->is_special_folder($name);
     $foldersplit  = explode($delimiter, $storage->mod_folder($name));
     $level        = count($foldersplit) - 1;
-    $display_name = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level)
-        . rcube::Q($protected ? $RCMAIL->localize_foldername($name) : rcube_charset::convert($foldersplit[$level], 'UTF7-IMAP'));
-
-    $class_name = trim($class_name . ' listitem');
+    $display_name = $protected ? $RCMAIL->localize_foldername($name) : rcube_charset::convert($foldersplit[$level], 'UTF7-IMAP');
+    $class_name   = trim($class_name . ' mailbox');
 
     if ($oldname === null) {
-        $OUTPUT->command('add_folder_row', $name_utf8, $display_name, $protected, $subscribe,
-            false, $class_name);
+        $OUTPUT->command('add_folder_row', $name, $name_utf8, $display_name, $protected, $subscribe,
+            $class_name);
     }
     else {
-        $OUTPUT->command('replace_folder_row', rcube_charset::convert($oldname, 'UTF7-IMAP'),
-            $name_utf8, $display_name, $protected, $class_name);
+        $OUTPUT->command('replace_folder_row', $oldname, $name, $name_utf8, $display_name, $protected, $class_name);
     }
 }
 

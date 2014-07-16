@@ -290,9 +290,9 @@ body > #message div.loading,
 
 body > #message div.voice
 {
-	position: absolute;
-	top: -1000px;
-	clip: rect(0 0 0 0);
+  position: absolute;
+  top: -1000px;
+  clip: rect(0 0 0 0);
 }
 
 body > #message a
@@ -764,6 +764,154 @@ ul.treelist li.selected > div a
 ul.treelist li.droptarget
 {
   background-color: #FFFFA6;
+}
+
+/***** folders list *****/
+
+.folderlist li ul li:last-child
+{
+  border-bottom: 0 none;
+}
+
+.folderlist li.inbox a
+{
+  background-position: 5px -18px;
+}
+
+.folderlist li.drafts a
+{
+  background-position: 5px -35px;
+}
+
+.folderlist li.sent a
+{
+  background-position: 5px -54px;
+}
+
+.folderlist li.junk a
+{
+  background-position: 5px -73px;
+}
+
+.folderlist li.trash a
+{
+  background-position: 5px -180px;
+}
+
+.folderlist li.trash.empty a
+{
+  background-position: 5px -90px;
+}
+
+.folderlist li a
+{
+  cursor: default;
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  text-decoration: none;
+  height: 15px;
+  background: url(images/icons/folders.png) 5px 0 no-repeat;
+}
+
+.folderlist li.virtual > a
+{
+  color: #666;
+}
+
+.folderlist li.selected,
+.folderlist li.droptarget li.selected
+{
+  background-color: #929292;
+}
+
+.folderlist li.selected > a,
+.folderlist li.droptarget li.selected a
+{
+  color: #FFF;
+  font-weight: bold;
+}
+
+.folderlist li.droptarget
+{
+  background-color: #FFFFA6;
+}
+
+/* styles for nested folders */
+.folderlist ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #EBEBEB;
+  background-color: #FFF;
+  font-weight: normal;
+}
+
+.folderlist li.mailbox ul li a {
+  padding-left: 40px;  /* 24 + 1 x 16 */
+  background-position: 20px 0;  /* 4 + 1 x 16 */
+}
+.folderlist li.mailbox ul li div.treetoggle {
+  left: 23px !important;
+}
+
+.folderlist li.mailbox ul ul li.mailbox a {
+  padding-left: 56px;  /* 2x */
+  background-position: 36px 0;
+}
+.folderlist li.mailbox ul ul li div.treetoggle {
+  left: 39px !important;
+}
+
+.folderlist li.mailbox ul ul ul li.mailbox a {
+  padding-left: 72px;  /* 3x */
+  background-position: 52px 0;
+}
+.folderlist li.mailbox ul ul ul li div.treetoggle {
+  left: 55px !important;
+}
+
+.folderlist li.mailbox ul ul ul ul li.mailbox a {
+  padding-left: 88px;  /* 4x */
+  background-position: 68px 0;
+}
+.folderlist li.mailbox ul ul ul ul li div.treetoggle {
+  left: 71px !important;
+}
+
+/* indent folders on levels > 4 */
+.folderlist li.mailbox ul ul ul ul ul li {
+  padding-left: 16px;
+}
+.folderlist li.mailbox ul ul ul ul ul li div.treetoggle {
+  left: 87px !important;
+}
+
+.folderlist li.mailbox ul li.drafts a
+{
+  background-position: 21px -37px;
+}
+
+.folderlist li.mailbox ul li.sent a
+{
+  background-position: 21px -54px;
+}
+
+.folderlist li.mailbox ul li.junk a
+{
+  background-position: 21px -73px;
+}
+
+.folderlist li.mailbox ul li.trash a
+{
+  background-position: 21px -180px;
+}
+
+.folderlist li.mailbox ul li.trash.empty a
+{
+  background-position: 21px -90px;
 }
 
 
