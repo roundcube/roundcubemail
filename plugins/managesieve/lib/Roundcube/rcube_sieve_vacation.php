@@ -130,6 +130,16 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $error = 'managesieve.forbiddenchars';
         }
 
+        // find and remove existing date/regex/true rules
+        foreach ((array) $vacation_tests as $idx => $t) {
+            if (($t['test'] == 'currentdate' && $t['part'] == 'date' && $t['type'] == $type)
+                || ($t['test'] == 'header' && $t['type'] == 'regex' && $t['arg1'] == 'received')
+                || ($t['test'] == 'true')
+            ) {
+                unset($vacation_tests[$idx]);
+            }
+        }
+
         if ($date_extension) {
             foreach (array('date_from', 'date_to') as $var) {
                 $date = $$var;
@@ -142,68 +152,15 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                         'arg'  => $dt->format('Y-m-d'),
                     );
 
-                    // find existing date rule
-                    foreach ((array) $vacation_tests as $idx => $t) {
-                        if ($t['test'] == 'currentdate' && $t['part'] == 'date' && $t['type'] == $type) {
-                            $vacation_tests[$idx] = $test;
-                            continue 2;
-                        }
-                    }
-
                     $vacation_tests[] = $test;
                 }
             }
         }
         else if ($regex_extension) {
-            // Sieve 'date' extension not available, use RegEx based rules instead
-
-            // clear any existing date rules in tests array
-            foreach ((array) $vacation_tests as $idx => $t) {
-                if ($t['test'] == 'header' && $t['type'] == 'regex' && $t['arg1'] == 'received') {
-                    unset($vacation_tests[$idx]);
-                }
-
-                if ($t['test'] == 'true') {
-                    unset($vacation_tests[$idx]);
-                }
-            }
-
-            $vacation_tests = array();
-
             // Add date range rules if range specified
             if ($date_from && $date_to) {
-                $dt_from  = rcube_utils::anytodatetime($date_from);
-                $dt_to    = rcube_utils::anytodatetime($date_to);
-                $interval = $dt_from->diff($dt_to);
-
-                if ($interval->invert || $interval->days > 365) {
-                   $error = 'managesieve.invaliddateformat';
-                }
-
-                $dt_i     = $dt_from;
-                $interval = new DateInterval('P1D');
-                $matchexp = '';
-
-                while (!$dt_i->diff($dt_to)->invert) {
-                    $days     = (int) $dt_i->format('d');
-                    $matchexp .= $days < 10 ? "[ 0]$days" : $days;
-
-                    if ($days == $dt_i->format('t') || $dt_i->diff($dt_to)->days == 0) {
-                        $test = array(
-                            'test' => 'header',
-                            'type' => 'regex',
-                            'arg1' => 'received',
-                            'arg2' => '('.$matchexp.') '.$dt_i->format('M Y')
-                        );
-
-                        $vacation_tests[] = $test;
-                        $matchexp         = '';
-                    }
-                    else {
-                        $matchexp .= '|';
-                    }
-
-                    $dt_i->add($interval);
+                if ($tests = self::build_regexp_tests($date_from, $date_to, $error)) {
+                    $vacation_tests = array_merge($vacation_tests, $tests);
                 }
             }
         }
@@ -359,25 +316,11 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             }
         }
         else if ($regex_extension) {
-            $rx1 = '/^\(([0-9][0-9]).*\)\s([A-Za-z]*)\s([0-9][0-9][0-9][0-9])/';
-            $rx2 = '/^\(.*([0-9][0-9])\)\s([A-Za-z]*)\s([0-9][0-9][0-9][0-9])/';
             // Sieve 'date' extension not available, read start/end from RegEx based rules instead
-            foreach ((array) $this->vacation['tests'] as $test) {
-                if ($test['test'] == 'header' && $test['type'] == 'regex' && $test['arg1'] == 'received') {
-                    $textexp = preg_replace('/\[ ([^\]]*)\]/', '0', $test['arg2']);
-
-                    if (!$date_value['from'] && preg_match($rx1, $textexp, $matches)) {
-                        $date_value['from'] = $matches[1]." ".$matches[2]." ".$matches[3];
-                    }
-
-                    if (preg_match($rx2, $textexp, $matches)) {
-                        $date_value['to'] = $matches[1]." ".$matches[2]." ".$matches[3];
-                    }
-                }
+            if ($date_tests = self::parse_regexp_tests($this->vacation['tests'])) {
+                $date_value['from'] = $this->rc->format_date($date_tests['from'], $date_format, false);
+                $date_value['to']   = $this->rc->format_date($date_tests['to'], $date_format, false);
             }
-
-            $date_value['from'] = $this->rc->format_date($date_value['from'], $date_format, false);
-            $date_value['to']   = $this->rc->format_date($date_value['to'], $date_format, false);
         }
 
         // force domain selection in redirect email input
@@ -451,5 +394,69 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $this->rc->output->add_gui_object('sieveform', $form_id);
 
         return $out;
+    }
+
+    public static function build_regexp_tests($date_from, $date_to, &$error)
+    {
+        $tests    = array();
+        $dt_from  = rcube_utils::anytodatetime($date_from);
+        $dt_to    = rcube_utils::anytodatetime($date_to);
+        $interval = $dt_from->diff($dt_to);
+
+        if ($interval->invert || $interval->days > 365) {
+            $error = 'managesieve.invaliddateformat';
+            return;
+        }
+
+        $dt_i     = $dt_from;
+        $interval = new DateInterval('P1D');
+        $matchexp = '';
+
+        while (!$dt_i->diff($dt_to)->invert) {
+            $days     = (int) $dt_i->format('d');
+            $matchexp .= $days < 10 ? "[ 0]$days" : $days;
+
+            if ($days == $dt_i->format('t') || $dt_i->diff($dt_to)->days == 0) {
+                $test = array(
+                    'test' => 'header',
+                    'type' => 'regex',
+                    'arg1' => 'received',
+                    'arg2' => '('.$matchexp.') '.$dt_i->format('M Y')
+                );
+
+                $tests[]  = $test;
+                $matchexp = '';
+            }
+            else {
+                $matchexp .= '|';
+            }
+
+            $dt_i->add($interval);
+        }
+
+        return $tests;
+    }
+
+    public static function parse_regexp_tests($tests)
+    {
+        $rx_from = '/^\(([0-9]{2}).*\)\s([A-Za-z]+)\s([0-9]{4})/';
+        $rx_to   = '/^\(.*([0-9]{2})\)\s([A-Za-z]+)\s([0-9]{4})/';
+        $result  = array();
+
+        foreach ((array) $tests as $test) {
+            if ($test['test'] == 'header' && $test['type'] == 'regex' && $test['arg1'] == 'received') {
+                $textexp = preg_replace('/\[ ([^\]]*)\]/', '0', $test['arg2']);
+
+                if (!$result['from'] && preg_match($rx_from, $textexp, $matches)) {
+                    $result['from'] = $matches[1]." ".$matches[2]." ".$matches[3];
+                }
+
+                if (preg_match($rx_to, $textexp, $matches)) {
+                    $result['to'] = $matches[1]." ".$matches[2]." ".$matches[3];
+                }
+            }
+        }
+
+        return $result;
     }
 }
