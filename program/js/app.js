@@ -3375,61 +3375,7 @@ function rcube_webmail()
 
     // check for locally stored compose data
     if (window.localStorage) {
-      var key, formdata, index = this.local_storage_get_item('compose.index', []);
-
-      for (i = 0; i < index.length; i++) {
-        key = index[i];
-        formdata = this.local_storage_get_item('compose.' + key, null, true);
-        if (!formdata) {
-          continue;
-        }
-        // restore saved copy of current compose_id
-        if (formdata.changed && key == this.env.compose_id) {
-          this.restore_compose_form(key, html_mode);
-          break;
-        }
-        // skip records from 'other' drafts
-        if (this.env.draft_id && formdata.draft_id && formdata.draft_id != this.env.draft_id) {
-          continue;
-        }
-        // skip records on reply
-        if (this.env.reply_msgid && formdata.reply_msgid != this.env.reply_msgid) {
-          continue;
-        }
-        // show dialog asking to restore the message
-        if (formdata.changed && formdata.session != this.env.session_id) {
-          this.show_popup_dialog(
-            this.get_label('restoresavedcomposedata')
-              .replace('$date', new Date(formdata.changed).toLocaleString())
-              .replace('$subject', formdata._subject)
-              .replace(/\n/g, '<br/>'),
-            this.get_label('restoremessage'),
-            [{
-              text: this.get_label('restore'),
-              click: function(){
-                ref.restore_compose_form(key, html_mode);
-                ref.remove_compose_data(key);  // remove old copy
-                ref.save_compose_form_local();  // save under current compose_id
-                $(this).dialog('close');
-              }
-            },
-            {
-              text: this.get_label('delete'),
-              click: function(){
-                ref.remove_compose_data(key);
-                $(this).dialog('close');
-              }
-            },
-            {
-              text: this.get_label('ignore'),
-              click: function(){
-                $(this).dialog('close');
-              }
-            }]
-          );
-          break;
-        }
-      }
+      this.compose_restore_dialog(0, html_mode)
     }
 
     if (input_to.val() == '')
@@ -3447,6 +3393,72 @@ function rcube_webmail()
     // start the auto-save timer
     this.auto_save_start();
   };
+
+  this.compose_restore_dialog = function(j, html_mode)
+  {
+    var i, key, formdata, index = this.local_storage_get_item('compose.index', []);
+
+    var show_next = function(i) {
+      if (++i < index.length)
+        ref.compose_restore_dialog(i, html_mode)
+    }
+
+    for (i = j || 0; i < index.length; i++) {
+      key = index[i];
+      formdata = this.local_storage_get_item('compose.' + key, null, true);
+      if (!formdata) {
+        continue;
+      }
+      // restore saved copy of current compose_id
+      if (formdata.changed && key == this.env.compose_id) {
+        this.restore_compose_form(key, html_mode);
+        break;
+      }
+      // skip records from 'other' drafts
+      if (this.env.draft_id && formdata.draft_id && formdata.draft_id != this.env.draft_id) {
+        continue;
+      }
+      // skip records on reply
+      if (this.env.reply_msgid && formdata.reply_msgid != this.env.reply_msgid) {
+        continue;
+      }
+      // show dialog asking to restore the message
+      if (formdata.changed && formdata.session != this.env.session_id) {
+        this.show_popup_dialog(
+          this.get_label('restoresavedcomposedata')
+            .replace('$date', new Date(formdata.changed).toLocaleString())
+            .replace('$subject', formdata._subject)
+            .replace(/\n/g, '<br/>'),
+          this.get_label('restoremessage'),
+          [{
+            text: this.get_label('restore'),
+            click: function(){
+              ref.restore_compose_form(key, html_mode);
+              ref.remove_compose_data(key);  // remove old copy
+              ref.save_compose_form_local();  // save under current compose_id
+              $(this).dialog('close');
+            }
+          },
+          {
+            text: this.get_label('delete'),
+            click: function(){
+              ref.remove_compose_data(key);
+              $(this).dialog('close');
+              show_next(i);
+            }
+          },
+          {
+            text: this.get_label('ignore'),
+            click: function(){
+              $(this).dialog('close');
+              show_next(i);
+            }
+          }]
+        );
+        break;
+      }
+    }
+  }
 
   this.init_address_input_events = function(obj, props)
   {
