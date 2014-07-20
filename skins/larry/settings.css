@@ -253,12 +253,13 @@
 
 #subscription-table li input {
 	position: absolute;
-	right: 0;
+	right: 8px;
 	top: 4px;
+	margin-right: 0;
 }
 
 #subscription-table li a {
-	padding-right: 20px;
+	padding-right: 28px;
 }
 
 .skinselection {
