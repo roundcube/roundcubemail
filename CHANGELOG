@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.0.2
+-------------
+- Fix storing unsaved drafts in localStorage (#1489818)
 - Fix redundant horizontal scrollbar in HTML editor (#1489950)
 - Fix PHP error in Preferences when default_folders was in dont_override (#1489940)
 - Add configurable LDAP_OPT_DEREF option (#1489864)
