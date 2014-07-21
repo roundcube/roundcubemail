@@ -3870,21 +3870,20 @@ function rcube_webmail()
         return;
     }
 
-    var i, rx, cursor_pos, p = -1,
+    var cursor_pos, p = -1,
       id = obj.options[obj.selectedIndex].value,
       input_message = $("[name='_message']"),
       message = input_message.val(),
       is_html = ($("input[name='_is_html']").val() == '1'),
       sig = this.env.identity,
       delim = this.env.recipients_separator,
-      rx_delim = RegExp.escape(delim),
-      headers = ['replyto', 'bcc'];
+      rx_delim = RegExp.escape(delim);
 
     // update reply-to/bcc fields with addresses defined in identities
-    for (i in headers) {
-      var key = headers[i],
-        old_val = sig && this.env.identities[sig] ? this.env.identities[sig][key] : '',
-        new_val = id && this.env.identities[id] ? this.env.identities[id][key] : '',
+    $.each(['replyto', 'bcc'], function() {
+      var rx, key = this,
+        old_val = sig && ref.env.identities[sig] ? ref.env.identities[sig][key] : '',
+        new_val = id && ref.env.identities[id] ? ref.env.identities[id][key] : '',
         input = $('[name="_'+key+'"]'), input_val = input.val();
 
       // remove old address(es)
@@ -3911,7 +3910,7 @@ function rcube_webmail()
 
       if (old_val || new_val)
         input.val(input_val).change();
-    }
+    });
 
     // enable manual signature insert
     if (this.env.signatures && this.env.signatures[id]) {
