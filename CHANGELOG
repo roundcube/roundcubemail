@@ -37,6 +37,7 @@ CHANGELOG Roundcube Webmail
 - Improve text messages display and conversion to HTML (#1488937)
 - Don't remove links when html signature is converted to text (#1489621)
 - Fix mbox files import
+- Fix some mime-type to extension mapping checks in Installer (#1489983)
 
 RELEASE 1.0.2
 -------------
