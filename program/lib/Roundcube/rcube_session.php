@@ -405,10 +405,17 @@ class rcube_session
     protected function gc_shutdown()
     {
         if ($this->gc_enabled) {
-            // just delete all expired sessions
             if ($this->storage == 'db') {
-                $this->db->query("DELETE FROM " . $this->db->table_name('session')
+                $res = $this->db->query("SELECT sess_id, created, changed, ip FROM " . $this->db->table_name('session')
                     . " WHERE changed < " . $this->db->now(-$this->gc_enabled));
+
+                while ($sql_arr = $this->db->fetch_assoc($res)) {
+                    $data = rcmail::get_instance()->plugins->exec_hook('session_garbage', array('session' => $sql_arr));
+                    if (!$data['abort']) {
+                        // delete the expired session
+                        $this->db->query("DELETE FROM " . $this->db->table_name('session') . " WHERE sess_id = ?", $sql_arr['sess_id']);
+                    }
+                }
             }
 
             foreach ($this->gc_handlers as $fct) {
