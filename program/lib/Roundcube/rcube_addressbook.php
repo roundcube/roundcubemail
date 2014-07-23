@@ -580,7 +580,8 @@ abstract class rcube_addressbook
 
         if (preg_match_all('/\{[a-z]+\}/', $result, $matches)) {
             foreach ($matches[0] as $key) {
-                $key = trim($key, '{}');
+                $key   = trim($key, '{}');
+                $value = '';
 
                 switch ($key) {
                 case 'name':
