@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Enable contextmenu plugin for TinyMCE editor (#1487014)
 - Fix some mime-type to extension mapping checks in Installer (#1489983)
+- Fix errors when using localStorage in Safari's private browsing mode (#1489996)
 
 RELEASE 1.0.2
 -------------
