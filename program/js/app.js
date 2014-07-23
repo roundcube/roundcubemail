@@ -3374,9 +3374,7 @@ function rcube_webmail()
     }
 
     // check for locally stored compose data
-    if (window.localStorage) {
-      this.compose_restore_dialog(0, html_mode)
-    }
+    this.compose_restore_dialog(0, html_mode)
 
     if (input_to.val() == '')
       input_to.focus();
@@ -3900,15 +3898,16 @@ function rcube_webmail()
       }
     });
 
-    if (window.localStorage && !empty) {
+    if (!empty) {
       var index = this.local_storage_get_item('compose.index', []),
         key = this.env.compose_id;
 
-        if ($.inArray(key, index) < 0) {
-          index.push(key);
-        }
-        this.local_storage_set_item('compose.' + key, formdata, true);
-        this.local_storage_set_item('compose.index', index);
+      if ($.inArray(key, index) < 0) {
+        index.push(key);
+      }
+
+      this.local_storage_set_item('compose.' + key, formdata, true);
+      this.local_storage_set_item('compose.index', index);
     }
   };
 
@@ -3940,27 +3939,24 @@ function rcube_webmail()
   // remove stored compose data from localStorage
   this.remove_compose_data = function(key)
   {
-    if (window.localStorage) {
-      var index = this.local_storage_get_item('compose.index', []);
+    var index = this.local_storage_get_item('compose.index', []);
 
-      if ($.inArray(key, index) >= 0) {
-        this.local_storage_remove_item('compose.' + key);
-        this.local_storage_set_item('compose.index', $.grep(index, function(val,i) { return val != key; }));
-      }
+    if ($.inArray(key, index) >= 0) {
+      this.local_storage_remove_item('compose.' + key);
+      this.local_storage_set_item('compose.index', $.grep(index, function(val,i) { return val != key; }));
     }
   };
 
   // clear all stored compose data of this user
   this.clear_compose_data = function()
   {
-    if (window.localStorage) {
-      var i, index = this.local_storage_get_item('compose.index', []);
+    var i, index = this.local_storage_get_item('compose.index', []);
 
-      for (i=0; i < index.length; i++) {
-        this.local_storage_remove_item('compose.' + index[i]);
-      }
-      this.local_storage_remove_item('compose.index');
+    for (i=0; i < index.length; i++) {
+      this.local_storage_remove_item('compose.' + index[i]);
     }
+
+    this.local_storage_remove_item('compose.index');
   };
 
 
@@ -8030,22 +8026,43 @@ function rcube_webmail()
   // wrapper for localStorage.getItem(key)
   this.local_storage_get_item = function(key, deflt, encrypted)
   {
+    var item;
+
     // TODO: add encryption
-    var item = localStorage.getItem(this.get_local_storage_prefix() + key);
+    try {
+      item = localStorage.getItem(this.get_local_storage_prefix() + key);
+    }
+    catch (e) { }
+
     return item !== null ? JSON.parse(item) : (deflt || null);
   };
 
   // wrapper for localStorage.setItem(key, data)
   this.local_storage_set_item = function(key, data, encrypted)
   {
-    // TODO: add encryption
-    return localStorage.setItem(this.get_local_storage_prefix() + key, JSON.stringify(data));
+    // try/catch to handle no localStorage support, but also error
+    // in Safari-in-private-browsing-mode where localStorage exists
+    // but can't be used (#1489996)
+    try {
+      // TODO: add encryption
+      localStorage.setItem(this.get_local_storage_prefix() + key, JSON.stringify(data));
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
   };
 
   // wrapper for localStorage.removeItem(key)
   this.local_storage_remove_item = function(key)
   {
-    return localStorage.removeItem(this.get_local_storage_prefix() + key);
+    try {
+      localStorage.removeItem(this.get_local_storage_prefix() + key);
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
   };
 }  // end object rcube_webmail
 

@@ -38,6 +38,7 @@ CHANGELOG Roundcube Webmail
 - Don't remove links when html signature is converted to text (#1489621)
 - Fix mbox files import
 - Fix some mime-type to extension mapping checks in Installer (#1489983)
+- Fix errors when using localStorage in Safari's private browsing mode (#1489996)
 
 RELEASE 1.0.2
 -------------

@@ -76,7 +76,7 @@ function rcube_mail_ui()
   function get_pref(key)
   {
     if (!prefs) {
-      prefs = window.localStorage ? rcmail.local_storage_get_item('prefs.larry', {}) : {};
+      prefs = rcmail.local_storage_get_item('prefs.larry', {});
     }
 
     // fall-back to cookies
@@ -85,9 +85,8 @@ function rcube_mail_ui()
       if (cookie != null) {
         prefs[key] = cookie;
 
-        // copy value to local storage and remove cookie
-        if (window.localStorage) {
-          rcmail.local_storage_set_item('prefs.larry', prefs);
+        // copy value to local storage and remove cookie (if localStorage is supported)
+        if (rcmail.local_storage_set_item('prefs.larry', prefs)) {
           rcmail.set_cookie(key, cookie, new Date());  // expire cookie
         }
       }
@@ -103,11 +102,8 @@ function rcube_mail_ui()
   {
     prefs[key] = val;
 
-    // write prefs to local storage
-    if (window.localStorage) {
-      rcmail.local_storage_set_item('prefs.larry', prefs);
-    }
-    else {
+    // write prefs to local storage (if supported)
+    if (!rcmail.local_storage_set_item('prefs.larry', prefs)) {
       // store value in cookie
       var exp = new Date();
       exp.setYear(exp.getFullYear() + 1);
