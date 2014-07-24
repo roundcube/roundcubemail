@@ -410,12 +410,18 @@ class rcube_session
                     . " WHERE changed < " . $this->db->now(-$this->gc_enabled));
 
                 if ($res) {
+                    $sessions_to_delete = array();
                     while ($sql_arr = $this->db->fetch_assoc($res)) {
                         $data = rcmail::get_instance()->plugins->exec_hook('session_garbage', array('session' => $sql_arr));
                         if (!$data['abort']) {
                             // delete the expired session
-                            $this->db->query("DELETE FROM " . $this->db->table_name('session') . " WHERE sess_id = ?", $sql_arr['sess_id']);
+                            $sessions_to_delete[] = $sql_arr['sess_id'];
                         }
+                    }
+
+                    if (count($sessions_to_delete) > 0) {
+                        $query = sprintf("DELETE FROM %s WHERE sess_id IN ('%s')", $this->db->table_name('session'), implode(', ', $sessions_to_delete));
+                        $this->db->query($query);
                     }
                 }
             }
