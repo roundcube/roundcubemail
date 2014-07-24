@@ -218,7 +218,7 @@ class html
             $attr = array('src' => $attr);
         }
         return self::tag('iframe', $attr, $cont, array_merge(self::$common_attrib,
-            array('src','name','width','height','border','frameborder','onload')));
+            array('src','name','width','height','border','frameborder','onload','allowfullscreen')));
     }
 
     /**
