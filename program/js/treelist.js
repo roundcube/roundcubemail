@@ -482,12 +482,14 @@ function rcube_treelist_widget(node, p)
 
     if (keep_content) {
       if (draggable_opts) {
-        draggable('destroy');
+        if (ui_draggable)
+          draggable('destroy');
         draggable(draggable_opts);
       }
 
       if (droppable_opts) {
-        droppable('destroy');
+        if (ui_droppable)
+          droppable('destroy');
         droppable(droppable_opts);
       }
 
@@ -1061,6 +1063,9 @@ function rcube_treelist_widget(node, p)
     if (!opts) opts = {};
 
     if ($.type(opts) == 'string') {
+      if (opts == 'destroy') {
+        ui_droppable = null;
+      }
       $('li:not(.virtual)', container).droppable(opts);
       return this;
     }
@@ -1109,6 +1114,9 @@ function rcube_treelist_widget(node, p)
     if (!opts) opts = {};
 
     if ($.type(opts) == 'string') {
+      if (opts == 'destroy') {
+        ui_draggable = null;
+      }
       $('li:not(.virtual)', container).draggable(opts);
       return this;
     }
@@ -1121,6 +1129,7 @@ function rcube_treelist_widget(node, p)
         iframeFix: true,
         addClasses: false,
         cursorAt: {left: -20, top: 5},
+        create: function(e, ui) { ui_draggable = ui; },
         helper: function(e) {
           return $('<div>').attr('id', 'rcmdraglayer')
             .text($.trim($(e.target).first().text()));
