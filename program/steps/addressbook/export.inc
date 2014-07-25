@@ -103,7 +103,9 @@ header('Content-Type: text/x-vcard; charset='.RCUBE_CHARSET);
 header('Content-Disposition: attachment; filename="contacts.vcf"');
 
 while ($result && ($row = $result->next())) {
-    prepare_for_export($row, $CONTACTS);
+    if ($CONTACTS) {
+        prepare_for_export($row, $CONTACTS);
+    }
 
     // fix folding and end-of-line chars
     $row['vcard'] = preg_replace('/\r|\n\s+/', '', $row['vcard']);
