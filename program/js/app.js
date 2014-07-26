@@ -236,8 +236,6 @@ function rcube_webmail()
             return ref.command('sort', $(this).attr('rel'), this);
           });
 
-          this.gui_objects.messagelist.parentNode.onclick = function(e){ return ref.click_on_list(e || window.event); };
-
           this.enable_command('toggle_status', 'toggle_flag', 'sort', true);
           this.enable_command('set-listmode', this.env.threads && !this.is_multifolder_listing());
 
@@ -405,8 +403,6 @@ function rcube_webmail()
             .addEventListener('dragmove', function(e) { ref.drag_move(e); })
             .addEventListener('dragend', function(e) { ref.drag_end(e); })
             .init();
-
-          this.gui_objects.contactslist.parentNode.onmousedown = function(e){ return ref.click_on_list(e); };
 
           $(this.gui_objects.qsearchbox).focusin(function() { ref.contact_list.blur(); });
 
@@ -1713,19 +1709,6 @@ function rcube_webmail()
 
     return true;
   }
-
-  this.click_on_list = function(e)
-  {
-    if (this.gui_objects.qsearchbox)
-      this.gui_objects.qsearchbox.blur();
-
-    if (this.message_list)
-      this.message_list.focus(e);
-    else if (this.contact_list)
-      this.contact_list.focus(e);
-
-    return true;
-  };
 
   this.msglist_select = function(list)
   {

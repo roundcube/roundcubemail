@@ -61,6 +61,7 @@ function rcube_list_widget(list, p)
   this.keyboard = false;
   this.toggleselect = false;
   this.aria_listbox = false;
+  this.parent_focus = true;
 
   this.drag_active = false;
   this.col_drag_active = false;
@@ -104,11 +105,13 @@ init: function()
       $(this.list).attr('aria-multiselectable', 'true');
   }
 
+  var me = this;
+
   if (this.tbody) {
     this.rows = {};
     this.rowcount = 0;
 
-    var r, len, rows = this.tbody.childNodes, me = this;
+    var r, len, rows = this.tbody.childNodes;
 
     for (r=0, len=rows.length; r<len; r++) {
       this.rowcount += this.init_row(rows[r]) ? 1 : 0;
@@ -125,6 +128,10 @@ init: function()
       $(this.list).attr('tabindex', '0')
         .on('focus', function(e){ me.focus(e); });
     }
+  }
+
+  if (this.parent_focus) {
+    this.list.parentNode.onclick = function(e) { me.focus(e); };
   }
 
   return this;
