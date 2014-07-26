@@ -257,7 +257,9 @@ function rcmail_directory_list($attrib)
     $OUTPUT->include_script('treelist.js');
 
     // add some labels to client
-    $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting', 'addingmember', 'removingmember');
+    $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting', 'addingmember', 'removingmember',
+        'newgroup', 'grouprename', 'searchsave', 'namex'
+    );
 
     return html::tag('ul', $attrib, $out, html::$common_attrib);
 }

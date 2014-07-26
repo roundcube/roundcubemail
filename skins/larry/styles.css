@@ -2569,6 +2569,10 @@ ul.toolbarmenu li span.copy {
 	z-index: 255;
 }
 
+.popup label > input {
+	margin-left: 10px;
+}
+
 /*** folder selector ***/
 
 #folder-selector {

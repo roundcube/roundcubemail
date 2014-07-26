@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Create/rename groups in UI dialogs (#1489951)
 - Added 'contact_search_name' option to define autocompletion entry format
 - Display quota information for current folder not INBOX only (#1487993)
 - Support images in HTML signatures (#1488676)

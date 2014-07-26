@@ -5156,29 +5156,55 @@ function rcube_webmail()
         .submit(function() { $('input.mainaction').click(); return false; });
   };
 
+  // group creation dialog
   this.group_create = function()
   {
-    this.add_input_row('contactgroup');
+    var input = $('<input>').attr('type', 'text'),
+      content = $('<label>').text(this.get_label('namex')).append(input);
+
+    this.show_popup_dialog(content, this.get_label('newgroup'),
+      [{
+        text: this.get_label('save'),
+        click: function() {
+          var name;
+
+          if (name = input.val()) {
+            ref.http_post('group-create', {_source: ref.env.source, _name: name},
+              ref.set_busy(true, 'loading'));
+          }
+
+          $(this).dialog('close');
+        }
+      }]
+    );
   };
 
+  // group rename dialog
   this.group_rename = function()
   {
-    if (!this.env.group || !this.gui_objects.folderlist)
+    if (!this.env.group)
       return;
 
-    if (!this.name_input) {
-      this.enable_command('list', 'listgroup', false);
-      this.name_input = $('<input>').attr('type', 'text').val(this.env.contactgroups['G'+this.env.source+this.env.group].name);
-      this.name_input.bind('keydown', function(e) { return ref.add_input_keydown(e); });
-      this.env.group_renaming = true;
+    var group_name = this.env.contactgroups['G' + this.env.source + this.env.group].name,
+      input = $('<input>').attr('type', 'text').val(group_name),
+      content = $('<label>').text(this.get_label('namex')).append(input);
 
-      var link, li = this.get_folder_li('G'+this.env.source+this.env.group,'',true);
-      if (li && (link = li.firstChild)) {
-        $(link).hide().before(this.name_input);
-      }
-    }
+    this.show_popup_dialog(content, this.get_label('grouprename'),
+      [{
+        text: this.get_label('save'),
+        click: function() {
+          var name;
 
-    this.name_input.select().focus();
+          if ((name = input.val()) && name != group_name) {
+            ref.http_post('group-rename', {_source: ref.env.source, _gid: ref.env.group, _name: name},
+              ref.set_busy(true, 'loading'));
+          }
+
+          $(this).dialog('close');
+        }
+      }],
+      {open: function() { input.select(); }}
+    );
   };
 
   this.group_delete = function()
@@ -5203,38 +5229,6 @@ function rcube_webmail()
     this.list_contacts(prop.source, 0);
   };
 
-  // @TODO: maybe it would be better to use popup instead of inserting input to the list?
-  this.add_input_row = function(type)
-  {
-    if (!this.gui_objects.folderlist)
-      return;
-
-    if (!this.name_input) {
-      this.name_input = $('<input>').attr('type', 'text').data('tt', type);
-      this.name_input.bind('keydown', function(e) { return ref.add_input_keydown(e); });
-      this.name_input_li = $('<li>').addClass(type).append(this.name_input);
-
-      var ul, li;
-
-      // find list (UL) element
-      if (type == 'contactsearch')
-        ul = this.gui_objects.savedsearchlist;
-      else
-        ul = $('ul.groups', this.get_folder_li(this.env.source,'',true));
-
-      // append to the list
-      li = $('li:last', ul);
-      if (li.length)
-        this.name_input_li.insertAfter(li);
-      else {
-        this.name_input_li.appendTo(ul);
-        ul.show(); // make sure the list is visible
-      }
-    }
-
-    this.name_input.select().focus();
-  };
-
   //remove selected contacts from current active group
   this.group_remove_selected = function()
   {
@@ -5254,62 +5248,9 @@ function rcube_webmail()
     }
   };
 
-  // handler for keyboard events on the input field
-  this.add_input_keydown = function(e)
-  {
-    var key = rcube_event.get_keycode(e),
-      input = $(e.target), itype = input.data('tt');
-
-    // enter
-    if (key == 13) {
-      var newname = input.val();
-
-      if (newname) {
-        var lock = this.set_busy(true, 'loading');
-
-        if (itype == 'contactsearch')
-          this.http_post('search-create', {_search: this.env.search_request, _name: newname}, lock);
-        else if (this.env.group_renaming)
-          this.http_post('group-rename', {_source: this.env.source, _gid: this.env.group, _name: newname}, lock);
-        else
-          this.http_post('group-create', {_source: this.env.source, _name: newname}, lock);
-      }
-      return false;
-    }
-    // escape
-    else if (key == 27)
-      this.reset_add_input();
-
-    return true;
-  };
-
-  this.reset_add_input = function()
-  {
-    if (this.name_input) {
-      var li = this.name_input.parent();
-      if (this.env.group_renaming) {
-        li.children().last().show();
-        this.env.group_renaming = false;
-      }
-      else if ($('li', li.parent()).length == 1)
-        li.parent().hide();
-
-      this.name_input.remove();
-
-      if (this.name_input_li)
-        this.name_input_li.remove();
-
-      this.name_input = this.name_input_li = null;
-    }
-
-    this.enable_command('list', 'listgroup', true);
-  };
-
   // callback for creating a new contact group
   this.insert_contact_group = function(prop)
   {
-    this.reset_add_input();
-
     prop.type = 'group';
 
     var key = 'G'+prop.source+prop.id,
@@ -5327,8 +5268,6 @@ function rcube_webmail()
   // callback for renaming a contact group
   this.update_contact_group = function(prop)
   {
-    this.reset_add_input();
-
     var key = 'G'+prop.source+prop.id,
       newnode = {};
 
@@ -5592,8 +5531,6 @@ function rcube_webmail()
   // callback for creating a new saved search record
   this.insert_saved_search = function(name, id)
   {
-    this.reset_add_input();
-
     var key = 'S'+id,
       link = $('<a>').attr('href', '#')
         .attr('rel', id)
@@ -5609,10 +5546,27 @@ function rcube_webmail()
     this.triggerEvent('abook_search_insert', prop);
   };
 
-  // creates an input for saved search name
+  // creates a dialog for saved search
   this.search_create = function()
   {
-    this.add_input_row('contactsearch');
+    var input = $('<input>').attr('type', 'text'),
+      content = $('<label>').text(this.get_label('namex')).append(input);
+
+    this.show_popup_dialog(content, this.get_label('searchsave'),
+      [{
+        text: this.get_label('save'),
+        click: function() {
+          var name;
+
+          if (name = input.val()) {
+            ref.http_post('search-create', {_search: ref.env.search_request, _name: name},
+              ref.set_busy(true, 'loading'));
+          }
+
+          $(this).dialog('close');
+        }
+      }]
+    );
   };
 
   this.search_delete = function()
@@ -6470,22 +6424,27 @@ function rcube_webmail()
   };
 
   // open a jquery UI dialog with the given content
-  this.show_popup_dialog = function(html, title, buttons, options)
+  this.show_popup_dialog = function(content, title, buttons, options)
   {
     // forward call to parent window
     if (this.is_framed()) {
-      return parent.rcmail.show_popup_dialog(html, title, buttons, options);
+      return parent.rcmail.show_popup_dialog(content, title, buttons, options);
     }
 
-    var popup = $('<div class="popup">')
-      .html(html)
-      .dialog($.extend({
+    var popup = $('<div class="popup">');
+
+    if (typeof content == 'object')
+      popup.append(content);
+    else
+      popup.html(html);
+
+    popup.dialog($.extend({
         title: title,
         buttons: buttons,
         modal: true,
         resizable: true,
         width: 500,
-        close: function(event, ui) { $(this).remove() }
+        close: function(event, ui) { $(this).remove(); }
       }, options || {}));
 
     // resize and center popup

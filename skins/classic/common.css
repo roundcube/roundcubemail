@@ -617,6 +617,9 @@ img.uploading
   height: 16px;
 }
 
+.popup label > input {
+  margin-left: 10px;
+}
 
 /***** common table settings ******/
 
@@ -643,7 +646,7 @@ table.records-table tbody tr td
   border-bottom: 1px solid #EBEBEB;
   overflow: hidden;
   text-align: left;
-	outline: none;
+  outline: none;
 }
 
 table.records-table tr
@@ -701,7 +704,6 @@ ul.treelist li div.expanded
 {
   background: url(images/icons/expanded.png) bottom right no-repeat;
 }
-
 
 ul.treelist,
 ul.treelist li ul
