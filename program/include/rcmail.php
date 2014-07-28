@@ -427,6 +427,9 @@ class rcmail extends rcube
             $this->output->set_env('user_id', $this->user->get_hash());
         }
 
+        // set compose mode for all tasks (message compose step can be triggered from everywhere)
+        $this->output->set_env('compose_extwin', $this->config->get('compose_extwin',false));
+
         // add some basic labels to client
         $this->output->add_label('loading', 'servererror', 'connerror', 'requesttimedout',
             'refreshing', 'windowopenerror');
