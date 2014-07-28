@@ -54,7 +54,9 @@ class managesieve extends rcube_plugin
             $this->add_hook('message_headers_output', array($this, 'mail_headers'));
 
             // inject Create Filter popup stuff
-            if (empty($this->rc->action) || $this->rc->action == 'show') {
+            if (empty($this->rc->action) || $this->rc->action == 'show'
+                || strpos($this->rc->action, 'plugin.managesieve') === 0
+            ) {
                 $this->mail_task_handler();
             }
         }
@@ -72,13 +74,15 @@ class managesieve extends rcube_plugin
         // load localization
         $this->add_texts('localization/');
 
-        if ($this->rc->task == 'mail' || strpos($this->rc->action, 'plugin.managesieve') === 0) {
+        $sieve_action = strpos($this->rc->action, 'plugin.managesieve') === 0;
+
+        if ($this->rc->task == 'mail' || $sieve_action) {
             $this->include_script('managesieve.js');
         }
 
         // include styles
         $skin_path = $this->local_skin_path();
-        if ($this->rc->task == 'settings') {
+        if ($this->rc->task == 'settings' || $sieve_action) {
             if (is_file($this->home . "/$skin_path/managesieve.css")) {
                 $this->include_stylesheet("$skin_path/managesieve.css");
             }
@@ -88,7 +92,6 @@ class managesieve extends rcube_plugin
                 $this->include_stylesheet("$skin_path/managesieve_mail.css");
             }
         }
-
 
         $this->ui_initialized = true;
     }

@@ -1,3 +1,5 @@
+- Fix missing css/js scripts in filter form in mail task
+
 * version 8.0 [2014-07-16]
 -----------------------------------------------------------
 - Fix bug where non-existing (or unsubscribed) folder wasn't listed in folder selector (#1489956)
