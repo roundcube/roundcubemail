@@ -40,6 +40,7 @@ CHANGELOG Roundcube Webmail
 - Fix mbox files import
 - Fix some mime-type to extension mapping checks in Installer (#1489983)
 - Fix errors when using localStorage in Safari's private browsing mode (#1489996)
+- Fix bug where $Forwarded flag was being set even if server didn't support it (#1490000)
 
 RELEASE 1.0.2
 -------------

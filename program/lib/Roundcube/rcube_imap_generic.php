@@ -2028,10 +2028,6 @@ class rcube_imap_generic
      */
     protected function modFlag($mailbox, $messages, $flag, $mod = '+')
     {
-        if ($mod != '+' && $mod != '-') {
-            $mod = '+';
-        }
-
         if (!$this->select($mailbox)) {
             return false;
         }
@@ -2041,12 +2037,25 @@ class rcube_imap_generic
             return false;
         }
 
+        if ($this->flags[strtoupper($flag)]) {
+            $flag = $this->flags[strtoupper($flag)];
+        }
+
+        if (!$flag || !in_array($flag, (array) $this->data['PERMANENTFLAGS'])
+            || !in_array('\\*', (array) $this->data['PERMANENTFLAGS'])
+        ) {
+            return false;
+        }
+
         // Clear internal status cache
         if ($flag == 'SEEN') {
             unset($this->data['STATUS:'.$mailbox]['UNSEEN']);
         }
 
-        $flag   = $this->flags[strtoupper($flag)];
+        if ($mod != '+' && $mod != '-') {
+            $mod = '+';
+        }
+
         $result = $this->execute('UID STORE', array(
             $this->compressMessageSet($messages), $mod . 'FLAGS.SILENT', "($flag)"),
             self::COMMAND_NORESPONSE);
