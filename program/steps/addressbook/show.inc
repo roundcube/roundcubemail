@@ -32,7 +32,6 @@ $SOURCE_ID = $source;
 if ($cid && ($record = $CONTACTS->get_record($cid, true))) {
     $OUTPUT->set_env('readonly', $CONTACTS->readonly || $record['readonly']);
     $OUTPUT->set_env('cid', $record['ID']);
-    $OUTPUT->set_env('compose_extwin', $RCMAIL->config->get('compose_extwin',false));
 }
 
 // get address book name (for display)
