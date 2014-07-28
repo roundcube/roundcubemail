@@ -980,7 +980,7 @@ function rcube_webmail()
         if (this.task == 'mail') {
           url._mbox = this.env.mailbox;
           if (props)
-             url._to = props;
+            url._to = props;
           // also send search request so we can go back to search result after message is sent
           if (this.env.search_request)
             url._search = this.env.search_request;
@@ -1008,8 +1008,12 @@ function rcube_webmail()
             break;
           }
         }
-        else if (props)
+        else if (props && typeof props == 'string') {
           url._to = props;
+        }
+        else if (props && typeof props == 'object') {
+          $.extend(url, props);
+        }
 
         this.open_compose_step(url);
         break;

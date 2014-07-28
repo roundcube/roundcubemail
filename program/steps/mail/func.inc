@@ -87,7 +87,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
 
     // set configuration
     $RCMAIL->set_env_config(array('delete_junk', 'flag_for_deletion', 'read_when_deleted',
-        'skip_deleted', 'display_next', 'message_extwin', 'compose_extwin', 'forward_attachment'));
+        'skip_deleted', 'display_next', 'message_extwin', 'forward_attachment'));
 
     if (!$OUTPUT->ajax_call) {
         $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
