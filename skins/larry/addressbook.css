@@ -128,20 +128,12 @@
 	background-position: 84px -1579px;
 }
 
-#directorylist li.contactgroup input {
-	margin-left: 36px;
-}
-
 .treelist li.contactsearch a {
 	background-position: 6px -1651px;
 }
 
 .treelist li.contactsearch.selected a {
 	background-position: 6px -1675px;
-}
-
-.treelist li.contactsearch input {
-	margin-left: 8px;
 }
 
 #directorylist li.addressbook div.collapsed,

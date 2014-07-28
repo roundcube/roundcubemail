@@ -116,13 +116,6 @@
   overflow: hidden;
 }
 
-#directorylistbox input
-{
-  margin: 0 0 0 20px;
-  font-size: 11px;
-  width: 90%;
-}
-
 #addresslist
 {
   position: absolute;
