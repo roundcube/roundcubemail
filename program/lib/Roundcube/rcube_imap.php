@@ -761,7 +761,7 @@ class rcube_imap extends rcube_storage
         $page = $page ? $page : $this->list_page;
 
         // use saved message set
-        if ($this->search_string && $folder == $this->folder) {
+        if ($this->search_string) {
             return $this->list_search_messages($folder, $page, $slice);
         }
 
