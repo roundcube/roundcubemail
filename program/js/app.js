@@ -6423,7 +6423,7 @@ function rcube_webmail()
     if (typeof content == 'object')
       popup.append(content);
     else
-      popup.html(html);
+      popup.html(content);
 
     popup.dialog($.extend({
         title: title,
