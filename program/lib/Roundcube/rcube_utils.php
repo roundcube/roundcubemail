@@ -795,7 +795,7 @@ class rcube_utils
      *
      * @return object DateTime instance or false on failure
      */
-    public static function anytodatetime($date)
+    public static function anytodatetime($date, $timezone = null)
     {
         if (is_object($date) && is_a($date, 'DateTime')) {
             return $date;
@@ -807,7 +807,7 @@ class rcube_utils
         // try to parse string with DateTime first
         if (!empty($date)) {
             try {
-                $dt = new DateTime($date);
+                $dt = new DateTime($date, $timezone);
             }
             catch (Exception $e) {
                 // ignore
