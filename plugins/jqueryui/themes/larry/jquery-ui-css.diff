@@ -1,5 +1,5 @@
 --- jquery-ui-1.10.4.custom.orig.css	2014-06-17 00:47:00.000000000 +0200
-+++ jquery-ui-1.10.4.custom.css	2014-07-09 10:42:44.000000000 +0200
++++ jquery-ui-1.10.4.custom.css	2014-07-31 08:54:40.000000000 +0200
 @@ -238,6 +238,8 @@
  .ui-button-icons-only .ui-button-text {
  	padding: .4em;
@@ -43,7 +43,7 @@
  	white-space: nowrap;
  	width: 90%;
  	overflow: hidden;
-@@ -484,50 +495,81 @@
+@@ -484,50 +495,84 @@
  }
  .ui-dialog .ui-dialog-titlebar-close {
  	position: absolute;
@@ -78,6 +78,9 @@
 +	width: 30px;
 +	height: 30px;
 +	background: url("images/ui-dialog-close.png") 0 0 no-repeat;
++}
++.no-close .ui-dialog-titlebar-close {
++	display: none !important;
  }
  .ui-dialog .ui-dialog-content {
  	position: relative;
@@ -141,7 +144,7 @@
  }
  .ui-menu .ui-menu {
  	margin-top: -3px;
-@@ -539,6 +581,16 @@
+@@ -539,6 +584,16 @@
  	width: 100%;
  	/* support: IE10, see #8844 */
  	list-style-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
@@ -158,7 +161,7 @@
  }
  .ui-menu .ui-menu-divider {
  	margin: 5px -2px 5px -2px;
-@@ -550,15 +602,26 @@
+@@ -550,15 +605,26 @@
  .ui-menu .ui-menu-item a {
  	text-decoration: none;
  	display: block;
@@ -187,7 +190,7 @@
  }
  
  .ui-menu .ui-state-disabled {
-@@ -626,7 +689,13 @@
+@@ -626,7 +692,13 @@
  	font-size: .7em;
  	display: block;
  	border: 0;
@@ -202,7 +205,7 @@
  }
  
  /* For IE8 - See #6727 */
-@@ -732,23 +801,41 @@
+@@ -732,23 +804,41 @@
  	padding: .2em;
  }
  .ui-tabs .ui-tabs-nav {
@@ -252,7 +255,7 @@
  }
  .ui-tabs .ui-tabs-nav li.ui-tabs-active {
  	margin-bottom: -1px;
-@@ -759,14 +846,26 @@
+@@ -759,14 +849,26 @@
  .ui-tabs .ui-tabs-nav li.ui-tabs-loading .ui-tabs-anchor {
  	cursor: text;
  }
@@ -281,7 +284,7 @@
  }
  .ui-tooltip {
  	padding: 8px;
-@@ -798,15 +897,21 @@
+@@ -798,15 +900,21 @@
  }
  .ui-widget-content {
  	border: 1px solid #aaaaaa;
@@ -307,7 +310,7 @@
  	color: #666666;
  	font-weight: bold;
  }
-@@ -820,7 +925,7 @@
+@@ -820,7 +928,7 @@
  .ui-widget-content .ui-state-default,
  .ui-widget-header .ui-state-default {
  	border: 1px solid #cccccc;
@@ -316,7 +319,7 @@
  	font-weight: bold;
  	color: #666666;
  }
-@@ -837,7 +942,7 @@
+@@ -837,7 +945,7 @@
  .ui-widget-content .ui-state-focus,
  .ui-widget-header .ui-state-focus {
  	border: 1px solid #aaaaaa;
@@ -325,7 +328,7 @@
  	font-weight: bold;
  	color: #333333;
  }
-@@ -856,7 +961,7 @@
+@@ -856,7 +964,7 @@
  .ui-widget-content .ui-state-active,
  .ui-widget-header .ui-state-active {
  	border: 1px solid #aaaaaa;
@@ -334,7 +337,7 @@
  	font-weight: bold;
  	color: #333333;
  }
-@@ -873,7 +978,7 @@
+@@ -873,7 +981,7 @@
  .ui-widget-content .ui-state-highlight,
  .ui-widget-header .ui-state-highlight {
  	border: 1px solid #a3a3a3;
@@ -343,7 +346,7 @@
  	color: #004458;
  }
  .ui-state-highlight a,
-@@ -885,7 +990,7 @@
+@@ -885,7 +993,7 @@
  .ui-widget-content .ui-state-error,
  .ui-widget-header .ui-state-error {
  	border: 1px solid #d7211e;
@@ -352,7 +355,7 @@
  	color: #d64040;
  }
  .ui-state-error a,
-@@ -1164,15 +1269,240 @@
+@@ -1164,15 +1272,240 @@
  
  /* Overlays */
  .ui-widget-overlay {

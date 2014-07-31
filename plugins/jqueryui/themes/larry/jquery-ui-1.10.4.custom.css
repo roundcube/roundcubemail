@@ -521,6 +521,9 @@ button.ui-button::-moz-focus-inner {
 	height: 30px;
 	background: url("images/ui-dialog-close.png") 0 0 no-repeat;
 }
+.no-close .ui-dialog-titlebar-close {
+	display: none !important;
+}
 .ui-dialog .ui-dialog-content {
 	position: relative;
 	border: 0;
