@@ -799,11 +799,15 @@ function rcmail_contact_photo($attrib)
         }
         $photo_img = $RCMAIL->url($url);
     }
-    else
+    else {
         $ff_value = '-del-'; // will disable delete-photo action
+    }
 
-    $img = html::img(array('src' => $photo_img, 'border' => 1, 'alt' => ''));
-    $content = html::div($attrib, $img);
+    $content = html::div($attrib, html::img(array(
+            'src'     => $photo_img,
+            'alt'     => '',
+            'onerror' => 'this.src = rcmail.env.photo_placeholder',
+    )));
 
     if ($CONTACT_COLTYPES['photo'] && ($RCMAIL->action == 'edit' || $RCMAIL->action == 'add')) {
         $RCMAIL->output->add_gui_object('contactphoto', $attrib['id']);

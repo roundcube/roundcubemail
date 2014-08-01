@@ -110,7 +110,7 @@ class rcube_vcard
     public function load($vcard, $charset = RCUBE_CHARSET, $detect = false)
     {
         self::$values_decoded = false;
-        $this->raw = self::vcard_decode($vcard);
+        $this->raw = self::vcard_decode(self::cleanup($vcard));
 
         // resolve charset parameters
         if ($charset == null) {
@@ -496,7 +496,7 @@ class rcube_vcard
 
             if (preg_match('/^END:VCARD$/i', $line)) {
                 // parse vcard
-                $obj = new rcube_vcard(self::cleanup($vcard_block), $charset, true, self::$fieldmap);
+                $obj = new rcube_vcard($vcard_block, $charset, true, self::$fieldmap);
                 // FN and N is required by vCard format (RFC 2426)
                 // on import we can be less restrictive, let's addressbook decide
                 if (!empty($obj->displayname) || !empty($obj->surname) || !empty($obj->firstname) || !empty($obj->email)) {
@@ -532,9 +532,9 @@ class rcube_vcard
         // Cleanup
         $vcard = preg_replace(array(
                 // convert special types (like Skype) to normal type='skype' classes with this simple regex ;)
-                '/item(\d+)\.(TEL|EMAIL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w-() ]*)(?:>!\$_)?./s',
-                '/^item\d*\.X-AB.*$/m',  // remove cruft like item1.X-AB*
-                '/^item\d*\./m',         // remove item1.ADR instead of ADR
+                '/item(\d+)\.(TEL|EMAIL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w-() ]*)(?:>!\$_)?./si',
+                '/^item\d*\.X-AB.*$/mi',  // remove cruft like item1.X-AB*
+                '/^item\d*\./mi',         // remove item1.ADR instead of ADR
                 '/\n+/',                 // remove empty lines
                 '/^(N:[^;\R]*)$/m',      // if N doesn't have any semicolons, add some
             ),

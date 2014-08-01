@@ -79,6 +79,25 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
         $this->assertEquals("http://domain.tld", $vcard['website:other'][0], "Decode dummy backslash character");
     }
 
+    /**
+     * Some Apple vCard quirks (#1489993)
+     */
+    function test_parse_six()
+    {
+        $vcard = new rcube_vcard("BEGIN:VCARD\n"
+            . "VERSION:3.0\n"
+            . "N:;;;;\n"
+            . "FN:Apple Computer AG\n"
+            . "ITEM1.ADR;type=WORK;type=pref:;;Birgistrasse 4a;Wallisellen-Zürich;;8304;Switzerland\n"
+            . "PHOTO;ENCODING=B:aHR0cDovL3Rlc3QuY29t\n"
+            . "END:VCARD"
+        );
+
+        $result = $vcard->get_assoc();
+
+        $this->assertCount(1, $result['address:work'], "ITEM1.-prefixed entry");
+    }
+
     function test_import()
     {
         $input = file_get_contents($this->_srcpath('apple.vcf'));
