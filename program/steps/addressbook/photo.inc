@@ -72,8 +72,12 @@ $plugin = $RCMAIL->plugins->exec_hook('contact_photo',
 if ($plugin['url']) {
     $RCMAIL->output->redirect($plugin['url']);
 }
-else {
-    $data = $plugin['data'];
+
+$data = $plugin['data'];
+
+// detect if photo data is an URL
+if (strlen($data) < 1024 && filter_var($data, FILTER_VALIDATE_URL)) {
+    $RCMAIL->output->redirect($data);
 }
 
 // deliver alt image
