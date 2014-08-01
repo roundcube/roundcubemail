@@ -179,7 +179,7 @@ tinymce.addI18n('es',{
 "Insert template": "Insertar plantilla",
 "Templates": "Plantillas",
 "Background color": "Color de fondo",
-"Custom...": "Personalzaci\u00f3n",
+"Custom...": "Personalizar...",
 "Custom color": "Color personalizado",
 "No color": "Sin color",
 "Text color": "Color del texto",

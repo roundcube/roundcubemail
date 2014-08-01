@@ -104,6 +104,10 @@ function rcube_text_editor(config, id)
     ed.on('keypress', function() {
       rcmail.compose_type_activity++;
     });
+    // secure spellchecker requests with Roundcube token
+    tinymce.util.XHR.on('beforeSend', function(e) {
+      e.xhr.setRequestHeader('X-Roundcube-Request', rcmail.env.request_token);
+    });
   };
 
   // textarea identifier
@@ -283,9 +287,10 @@ function rcube_text_editor(config, id)
     var ed = this.editor;
 
     if (ed) {
-      if (ed.plugins && ed.plugins.spellchecker && this.spellcheck_active)
-        ed.execCommand('mceSpellCheck');
+      if (ed.plugins && ed.plugins.spellchecker && this.spellcheck_active) {
+        ed.execCommand('mceSpellCheck', false);
         this.spellcheck_observer();
+      }
     }
     else if (ed = this.spellchecker) {
       if (ed.state && ed.state != 'ready' && ed.state != 'no_error_found')
@@ -304,17 +309,13 @@ function rcube_text_editor(config, id)
       return ed.state != 'ready' && ed.state != 'no_error_found';
   };
 
-  // resume spellchecking, highlight provided mispellings without new ajax request
+  // resume spellchecking, highlight provided mispellings without a new ajax request
   this.spellcheck_resume = function(data)
   {
     var ed = this.editor;
 
     if (ed) {
-      ed.settings.spellchecker_callback = function(name, text, done, error) { done(data); };
-      ed.execCommand('mceSpellCheck');
-      ed.settings.spellchecker_callback = null;
-
-      this.spellcheck_observer();
+      ed.plugins.spellchecker.markErrors(data);
     }
     else if (ed = this.spellchecker) {
       ed.prepare(false, true);
