@@ -1847,12 +1847,15 @@ class Net_LDAP3
                         // Not passing any sort attributes means you don't care
                         if (!empty($sort_attrs)) {
                             $sort_attrs = (array) $sort_attrs;
-                            if (count(array_intersect($sort_attrs, $vlv_index[$base_dn]['sort'])) == count($sort_attrs)) {
-                                return $sort_attrs;
+                            foreach ($vlv_index[$base_dn]['sort'] as $sss_config) {
+                                if (count(array_intersect($sort_attrs, $sss_config)) == count($sort_attrs)) {
+                                    return $sort_attrs;
+                                }
                             }
-                            else {
-                                return false;
-                            }
+
+                            $this->_error("The requested sorting does not match any server-side sorting configuration");
+
+                            return false;
                         }
                         else {
                             return $vlv_index[$base_dn]['sort'][0];
