@@ -507,6 +507,9 @@ button.ui-button::-moz-focus-inner {
 	padding: 1px;
 	height: 20px;
 }
+.no-close .ui-dialog-titlebar-close {
+	display: none !important;
+}
 .ui-dialog .ui-dialog-content {
 	position: relative;
 	border: 0;

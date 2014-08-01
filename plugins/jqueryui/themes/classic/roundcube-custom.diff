@@ -1,5 +1,5 @@
 --- jquery-ui-1.10.4.custom.orig.css	2014-06-17 00:44:04.000000000 +0200
-+++ jquery-ui-1.10.4.custom.css	2014-06-17 13:16:34.000000000 +0200
++++ jquery-ui-1.10.4.custom.css	2014-07-31 08:55:11.000000000 +0200
 @@ -226,13 +226,18 @@
  	width: 3.7em;
  }
@@ -61,7 +61,17 @@
  }
  .ui-dialog .ui-dialog-titlebar {
  	padding: .4em 1em;
-@@ -510,7 +526,7 @@
+@@ -491,6 +507,9 @@
+ 	padding: 1px;
+ 	height: 20px;
+ }
++.no-close .ui-dialog-titlebar-close {
++	display: none !important;
++}
+ .ui-dialog .ui-dialog-content {
+ 	position: relative;
+ 	border: 0;
+@@ -510,7 +529,7 @@
  }
  .ui-dialog .ui-dialog-buttonpane button {
  	margin: .5em .4em .5em 0;
@@ -70,7 +80,7 @@
  }
  .ui-dialog .ui-resizable-se {
  	width: 12px;
-@@ -528,6 +544,9 @@
+@@ -528,6 +547,9 @@
  	margin: 0;
  	display: block;
  	outline: none;
@@ -80,7 +90,7 @@
  }
  .ui-menu .ui-menu {
  	margin-top: -3px;
-@@ -559,6 +578,9 @@
+@@ -559,6 +581,9 @@
  .ui-menu .ui-menu-item a.ui-state-active {
  	font-weight: normal;
  	margin: -1px;
@@ -90,7 +100,7 @@
  }
  
  .ui-menu .ui-state-disabled {
-@@ -740,20 +762,29 @@
+@@ -740,20 +765,29 @@
  	float: left;
  	position: relative;
  	top: 0;
@@ -122,7 +132,7 @@
  .ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor,
  .ui-tabs .ui-tabs-nav li.ui-state-disabled .ui-tabs-anchor,
  .ui-tabs .ui-tabs-nav li.ui-tabs-loading .ui-tabs-anchor {
-@@ -806,9 +837,11 @@
+@@ -806,9 +840,11 @@
  }
  .ui-widget-header {
  	border: 1px solid #999999;
@@ -135,7 +145,7 @@
  }
  .ui-widget-header a {
  	color: #333333;
-@@ -841,6 +874,15 @@
+@@ -841,6 +877,15 @@
  	font-weight: normal;
  	color: #000000;
  }
@@ -151,7 +161,7 @@
  .ui-state-hover a,
  .ui-state-hover a:hover,
  .ui-state-hover a:link,
-@@ -906,8 +948,8 @@
+@@ -906,8 +951,8 @@
  .ui-priority-secondary,
  .ui-widget-content .ui-priority-secondary,
  .ui-widget-header .ui-priority-secondary {
