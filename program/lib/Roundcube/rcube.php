@@ -829,7 +829,13 @@ class rcube
          */
         $clear = pack("a*H2", $clear, "80");
 
-        if (function_exists('mcrypt_module_open') &&
+        if (function_exists('openssl_encrypt')) {
+            $method = 'DES-EDE3-CBC';
+            $opts   = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
+            $iv     = $this->create_iv(openssl_cipher_iv_length($method));
+            $cipher = $iv . openssl_encrypt($clear, $method, $ckey, $opts, $iv);
+        }
+        else if (function_exists('mcrypt_module_open') &&
             ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, ""))
         ) {
             $iv = $this->create_iv(mcrypt_enc_get_iv_size($td));
@@ -850,7 +856,7 @@ class rcube
                 self::raise_error(array(
                     'code' => 500, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not perform encryption; make sure Mcrypt is installed or lib/des.inc is available"
+                    'message' => "Could not perform encryption; make sure OpenSSL or Mcrypt or lib/des.inc is available"
                     ), true, true);
             }
         }
@@ -876,7 +882,21 @@ class rcube
 
         $cipher = $base64 ? base64_decode($cipher) : $cipher;
 
-        if (function_exists('mcrypt_module_open') &&
+        if (function_exists('openssl_decrypt')) {
+            $method  = 'DES-EDE3-CBC';
+            $opts    = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
+            $iv_size = openssl_cipher_iv_length($method);
+            $iv      = substr($cipher, 0, $iv_size);
+
+            // session corruption? (#1485970)
+            if (strlen($iv) < $iv_size) {
+                return '';
+            }
+
+            $cipher = substr($cipher, $iv_size);
+            $clear  = openssl_decrypt($cipher, $method, $ckey, $opts, $iv);
+        }
+        else if (function_exists('mcrypt_module_open') &&
             ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, ""))
         ) {
             $iv_size = mcrypt_enc_get_iv_size($td);
