@@ -333,7 +333,7 @@ class rcube_ldap extends rcube_addressbook
                         $res = $ldap->search($search_base_dn, $search_filter, 'sub', $search_attribs);
                         if ($res) {
                             $res->rewind();
-                            $replaces['%dn'] = $res->get_dn();
+                            $replaces['%dn'] = key($res->entries(TRUE));
 
                             // add more replacements from 'search_bind_attrib' config
                             if ($search_bind_attrib) {
