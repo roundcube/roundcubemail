@@ -373,7 +373,7 @@ function rcube_subscription_form($attrib)
 
     array_unshift($plugin['list'], $root);
 
-    for ($i = 0, $length = count($plugin['list'])-1; $i<$length; $i++) {
+    for ($i = 0, $length = count($plugin['list']); $i<$length; $i++) {
         $folders[] = rcmail_folder_tree_element($plugin['list'], $i, $js_folders);
     }
 
