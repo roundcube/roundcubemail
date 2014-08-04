@@ -5989,8 +5989,10 @@ function rcube_webmail()
   this.replace_folder_row = function(oldid, id, name, display_name, is_protected, class_name)
   {
     if (!this.gui_objects.subscriptionlist) {
-      if (this.is_framed)
-        return parent.rcmail.replace_folder_row(oldid, id, name, display_name, is_protected, class_name);
+      if (this.is_framed()) {
+        // @FIXME: for some reason this 'parent' variable need to be prefixed with 'window.'
+        return window.parent.rcmail.replace_folder_row(oldid, id, name, display_name, is_protected, class_name);
+      }
 
       return false;
     }
