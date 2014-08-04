@@ -117,7 +117,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
             'movingmessage', 'copyingmessage', 'deletingmessage', 'markingmessage',
             'copy', 'move', 'quota', 'replyall', 'replylist', 'stillsearching',
             'flagged', 'unflagged', 'unread', 'deleted', 'replied', 'forwarded',
-            'priority', 'withattachment');
+            'priority', 'withattachment', 'fileuploaderror');
     }
 
     $pagetitle = $RCMAIL->localize_foldername($mbox_name, true);
