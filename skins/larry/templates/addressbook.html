@@ -29,8 +29,8 @@
 	<div id="exportmenu" class="popupmenu" aria-hidden="true">
 		<h3 id="aria-label-exportmenu" class="voice"><roundcube:label name="arialabelcontactexportoptions" /></h3>
 		<ul id="exportmenu-menu" class="toolbarmenu" role="menu" aria-labelledby="aria-label-exportmenu">
-			<li role="menuitem"><roundcube:button command="export" label="exportall" prop="sub" class="exportalllink" classAct="exportalllink active" /></li>
-			<li role="menuitem"><roundcube:button command="export-selected" label="exportsel" prop="sub" class="exportsellink" classAct="exportsellink active" /></li>
+			<roundcube:button type="link-menuitem" command="export" label="exportall" prop="sub" class="exportalllink" classAct="exportalllink active" />
+			<roundcube:button type="link-menuitem" command="export-selected" label="exportsel" prop="sub" class="exportsellink" classAct="exportsellink active" />
 		</ul>
 	</div>
 
@@ -76,10 +76,10 @@
 <div id="groupoptions" class="popupmenu" aria-hidden="true">
 	<h3 id="aria-label-groupoptions" class="voice"><roundcube:label name="arialabelabookgroupoptions" /></h3>
 	<ul id="groupoptionsmenu" class="toolbarmenu" role="menu" aria-labelledby="aria-label-groupoptions">
-		<li role="menuitem"><roundcube:button command="group-rename" label="grouprename" classAct="active" /></li>
-		<li role="menuitem"><roundcube:button command="group-delete" label="groupdelete" classAct="active" /></li>
-		<li role="menuitem"><roundcube:button command="search-create" label="searchsave" classAct="active" /></li>
-		<li role="menuitem"><roundcube:button command="search-delete" label="searchdelete" classAct="active" /></li>
+		<roundcube:button type="link-menuitem" command="group-rename" label="grouprename" classAct="active" />
+		<roundcube:button type="link-menuitem" command="group-delete" label="groupdelete" classAct="active" />
+		<roundcube:button type="link-menuitem" command="search-create" label="searchsave" classAct="active" />
+		<roundcube:button type="link-menuitem" command="search-delete" label="searchdelete" classAct="active" />
 		<roundcube:container name="groupoptions" id="groupoptionsmenu" />
 	</ul>
 </div>
@@ -132,8 +132,8 @@
 
 <div id="dragcontactmenu" class="popupmenu" aria-hidden="true">
 	<ul class="toolbarmenu" role="menu">
-		<li role="menuitem"><roundcube:button command="move" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" /></li>
-		<li role="menuitem"><roundcube:button command="copy" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" /></li>
+		<roundcube:button type="link-menuitem" command="move" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" />
+		<roundcube:button type="link-menuitem" command="copy" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" />
 	</ul>
 </div>
 

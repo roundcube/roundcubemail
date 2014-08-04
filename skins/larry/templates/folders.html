@@ -32,8 +32,8 @@
 <div id="mailboxmenu" class="popupmenu" aria-hidden="true">
 	<h3 id="aria-label-mailboxmenu" class="voice"><roundcube:label name="arialabelmailboxmenu" /></h3>
 	<ul class="toolbarmenu" id="mailboxoptionsmenu" role="menu" aria-labelledby="aria-label-mailboxmenu">
-		<li role="menuitem"><roundcube:button command="delete-folder" label="delete" classAct="active" /></li>
-		<li role="menuitem"><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
+		<roundcube:button command="delete-folder" type="link-menuitem" label="delete" classAct="active" />
+		<roundcube:button command="purge" type="link-menuitem" label="empty" classAct="active" />
 		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
 	</ul>
 </div>

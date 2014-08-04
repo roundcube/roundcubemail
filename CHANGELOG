@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option (disabled_actions) to disable UI elements/actions (#1489638)
 - Support password encryption using openssl extension (#1489989)
 - Create/rename groups in UI dialogs (#1489951)
 - Added 'contact_search_name' option to define autocompletion entry format

@@ -285,6 +285,9 @@ $config['enable_installer'] = false;
 // don't allow these settings to be overriden by the user
 $config['dont_override'] = array();
 
+// List of disabled UI elements/actions
+$config['disabled_actions'] = array();
+
 // define which settings should be listed under the 'advanced' block
 // which is hidden by default
 $config['advanced_prefs'] = array();

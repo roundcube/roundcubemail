@@ -2075,6 +2075,7 @@ function rcmail_message_import_form($attrib = array())
     ));
 
     $content = html::tag('input', array('type' => 'hidden', 'name' => '_unlock', 'value' => ''))
+        . html::tag('input', array('type' => 'hidden', 'name' => '_framed', 'value' => '1'))
         . html::div(null, $fileinput->show())
         . html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
 

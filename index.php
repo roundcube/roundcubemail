@@ -260,6 +260,14 @@ else {
                 'message' => "Referer check failed"), true, true);
         }
     }
+
+    // check access to disabled actions
+    $disabled_actions = (array) $RCMAIL->config->get('disabled_actions');
+    if (in_array($RCMAIL->task . '.' . ($RCMAIL->action ?: 'index'), $disabled_actions)) {
+        rcube::raise_error(array(
+            'code' => 403, 'type' => 'php',
+            'message' => "Action disabled"), true, true);
+    }
 }
 
 // we're ready, user is authenticated and the request is safe
