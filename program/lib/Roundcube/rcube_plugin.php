@@ -94,7 +94,15 @@ abstract class rcube_plugin
     /**
      * Provide information about this
      *
-     * @return array Meta information about a plugin or false if not implemented
+     * @return array Meta information about a plugin or false if not implemented:
+     * As hash array with the following keys:
+     *      name: The plugin name
+     *    vendor: Name of the plugin developer
+     *   version: Plugin version name
+     *   license: License name (short form according to http://spdx.org/licenses/)
+     *       uri: The URL to the plugin homepage or source repository
+     *   src_uri: Direct download URL to the source code of this plugin
+     *   require: List of plugins required for this one (as array of plugin names)
      */
     public static function info()
     {
