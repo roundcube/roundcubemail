@@ -1451,7 +1451,7 @@ function rcube_webmail()
 
   this.is_framed = function()
   {
-    return (this.env.framed && parent.rcmail && parent.rcmail != this && parent.rcmail.command);
+    return this.env.framed && parent.rcmail && parent.rcmail != this && typeof parent.rcmail.command == 'function';
   };
 
   this.save_pref = function(prop)
