@@ -481,7 +481,7 @@ class Net_LDAP3
             return true;
         }
 
-        $this->_debug("C: Bind [dn: $bind_dn] [pass: $bind_pw]");
+        $this->_debug("C: Bind [dn: $bind_dn]");
 
         if (@ldap_bind($this->conn, $bind_dn, $bind_pw)) {
             $this->_debug("S: OK");
@@ -1435,7 +1435,7 @@ class Net_LDAP3
             $method = 'DIGEST-MD5';
         }
 
-        $this->_debug("C: Bind [mech: $method, authc: $authc, authz: $authz] [pass: $pass]");
+        $this->_debug("C: Bind [mech: $method, authc: $authc, authz: $authz]");
 
         if (ldap_sasl_bind($this->conn, null, $pass, $method, null, $authc, $authz)) {
             $this->_debug("S: OK");
