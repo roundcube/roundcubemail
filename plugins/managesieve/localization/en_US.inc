@@ -213,5 +213,6 @@ $messages['nodata'] = 'At least one position must be selected!';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
 $messages['saveerror'] = 'Unable to save data. Server error occurred.';
 $messages['vacationsaved'] = 'Vacation data saved successfully.';
+$messages['emptyvacationbody'] = 'Body of vacation message is required!';
 
 ?>

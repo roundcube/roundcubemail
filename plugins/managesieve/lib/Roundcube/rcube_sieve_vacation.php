@@ -107,8 +107,9 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if ($vacation_action['reason'] == '') {
-            $error = 'managesieve.cannotbeempty';
+            $error = 'managesieve.emptyvacationbody';
         }
+
         if ($vacation_action[$interval_type] && !preg_match('/^[0-9]+$/', $vacation_action[$interval_type])) {
             $error = 'managesieve.forbiddenchars';
         }
@@ -276,7 +277,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         $table->add('title', html::label('vacation_status', $this->plugin->gettext('vacation.status')));
-        $table->add(null, $status->show($this->vacation['disabled'] ? 'off' : 'on'));
+        $table->add(null, $status->show(!isset($this->vacation['disabled']) || $this->vacation['disabled'] ? 'off' : 'on'));
 
         $out .= html::tag('fieldset', $class, html::tag('legend', null, $this->plugin->gettext('vacation.reply')) . $table->show($attrib));
 
