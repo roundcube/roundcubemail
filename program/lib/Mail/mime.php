@@ -1387,19 +1387,24 @@ class Mail_mime
 
         if ($headers['Content-Type'] == 'text/plain') {
             // single-part message: add charset and encoding
-            $charset = 'charset=' . $this->_build_params['text_charset'];
-            // place charset parameter in the same line, if possible
-            // 26 = strlen("Content-Type: text/plain; ")
-            $headers['Content-Type']
-                .= (strlen($charset) + 26 <= 76) ? "; $charset" : ";$eol $charset";
+            if ($this->_build_params['text_charset']) {
+                $charset = 'charset=' . $this->_build_params['text_charset'];
+                // place charset parameter in the same line, if possible
+                // 26 = strlen("Content-Type: text/plain; ")
+                $headers['Content-Type']
+                    .= (strlen($charset) + 26 <= 76) ? "; $charset" : ";$eol $charset";
+            }
+
             $headers['Content-Transfer-Encoding']
                 = $this->_build_params['text_encoding'];
         } else if ($headers['Content-Type'] == 'text/html') {
             // single-part message: add charset and encoding
-            $charset = 'charset=' . $this->_build_params['html_charset'];
-            // place charset parameter in the same line, if possible
-            $headers['Content-Type']
-                .= (strlen($charset) + 25 <= 76) ? "; $charset" : ";$eol $charset";
+            if ($this->_build_params['html_charset']) {
+                $charset = 'charset=' . $this->_build_params['html_charset'];
+                // place charset parameter in the same line, if possible
+                $headers['Content-Type']
+                    .= (strlen($charset) + 25 <= 76) ? "; $charset" : ";$eol $charset";
+            }
             $headers['Content-Transfer-Encoding']
                 = $this->_build_params['html_encoding'];
         } else {
