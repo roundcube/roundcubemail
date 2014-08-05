@@ -467,15 +467,11 @@ if (preg_match('/[^\x00-\x7F]/', $MAIL_MIME->getTXTBody())) {
     $transfer_encoding = $RCMAIL->config->get('force_7bit') ? 'quoted-printable' : '8bit';
 }
 else {
-    $text_charset      = '';
+    $text_charset      = 'US-ASCII';
     $transfer_encoding = '7bit';
 }
 
 if ($flowed) {
-    if (!$text_charset) {
-        $text_charset = 'US-ASCII';
-    }
-
     $text_charset .= ";\r\n format=flowed";
 }
 
