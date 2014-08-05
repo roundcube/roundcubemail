@@ -1506,7 +1506,11 @@ drag_mouse_move: function(e)
 
       $('> ' + self.col_tagname(), self.rows[uid].obj).each(function(n, cell) {
         if (self.subject_col < 0 || (self.subject_col >= 0 && self.subject_col == n)) {
-          var subject = $(cell).text();
+          // remove elements marked with "skip-on-drag" class
+          cell = $(cell).clone();
+          $(cell).find('.skip-on-drag').remove();
+
+          var subject = cell.text();
 
           if (subject) {
             // remove leading spaces
