@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Intergrate Net_LDAP3 and rcube_ldap_generic classes
 - Add option (disabled_actions) to disable UI elements/actions (#1489638)
 - Support password encryption using openssl extension (#1489989)
 - Create/rename groups in UI dialogs (#1489951)
