@@ -94,8 +94,7 @@ textarea.placeholder {
 }
 
 /* fixes vertical alignment of checkboxes and labels */
-label input,
-label span {
+label input + span {
 	vertical-align: middle;
 }
 
