@@ -232,8 +232,7 @@ class rcube_ldap extends rcube_addressbook
 
         // initialize ldap wrapper object
         $this->ldap = new rcube_ldap_generic($this->prop);
-        $this->ldap->set_cache($this->cache);
-        $this->ldap->set_debug($this->debug);
+        $this->ldap->config_set(array('cache' => $this->cache, 'debug' => $this->debug));
 
         $this->_connect();
     }
@@ -320,8 +319,7 @@ class rcube_ldap extends rcube_addressbook
                             // we need to use a separate LDAP connection
                             if (!empty($this->prop['vlv'])) {
                                 $ldap = new rcube_ldap_generic($this->prop);
-                                $ldap->set_debug($this->debug);
-                                $ldap->set_cache($this->cache);
+                                $ldap->config_set(array('cache' => $this->cache, 'debug' => $this->debug));
                                 if (!$ldap->connect($host)) {
                                     continue;
                                 }
@@ -335,7 +333,7 @@ class rcube_ldap extends rcube_addressbook
                         $res = $ldap->search($search_base_dn, $search_filter, 'sub', $search_attribs);
                         if ($res) {
                             $res->rewind();
-                            $replaces['%dn'] = $res->get_dn();
+                            $replaces['%dn'] = key($res->entries(TRUE));
 
                             // add more replacements from 'search_bind_attrib' config
                             if ($search_bind_attrib) {
@@ -1066,7 +1064,7 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
-        if (!$this->ldap->add($dn, $newentry)) {
+        if (!$this->ldap->add_entry($dn, $newentry)) {
             $this->set_error(self::ERROR_SAVING, 'errorsaving');
             return false;
         }
@@ -1078,7 +1076,7 @@ class rcube_ldap extends rcube_addressbook
                 'objectClass' => (array) $this->prop['sub_fields'][$xidx],
             );
 
-            $this->ldap->add($xdn, $xf);
+            $this->ldap->add_entry($xdn, $xf);
         }
 
         $dn = self::dn_encode($dn);
@@ -1221,7 +1219,7 @@ class rcube_ldap extends rcube_addressbook
         if (!empty($subdeldata)) {
             foreach ($subdeldata as $fld => $val) {
                 $subdn = $fld.'='.rcube_ldap_generic::quote_string($val).','.$dn;
-                if (!$this->ldap->delete($subdn)) {
+                if (!$this->ldap->delete_entry($subdn)) {
                     return false;
                 }
             }
@@ -1265,7 +1263,7 @@ class rcube_ldap extends rcube_addressbook
                     $fld => $val,
                     'objectClass' => (array) $this->prop['sub_fields'][$fld],
                 );
-                $this->ldap->add($subdn, $xf);
+                $this->ldap->add_entry($subdn, $xf);
             }
         }
 
@@ -1295,7 +1293,7 @@ class rcube_ldap extends rcube_addressbook
             if ($this->sub_filter) {
                 if ($entries = $this->ldap->list_entries($dn, $this->sub_filter)) {
                     foreach ($entries as $entry) {
-                        if (!$this->ldap->delete($entry['dn'])) {
+                        if (!$this->ldap->delete_entry($entry['dn'])) {
                             $this->set_error(self::ERROR_SAVING, 'errorsaving');
                             return false;
                         }
@@ -1304,12 +1302,12 @@ class rcube_ldap extends rcube_addressbook
             }
 
             // Delete the record.
-            if (!$this->ldap->delete($dn)) {
+            if (!$this->ldap->delete_entry($dn)) {
                 $this->set_error(self::ERROR_SAVING, 'errorsaving');
                 return false;
             }
 
-            // remove contact from all groups where he was member
+            // remove contact from all groups where he was a member
             if ($this->groups) {
                 $dn = self::dn_encode($dn);
                 $group_ids = $this->get_record_groups($dn);
@@ -1342,7 +1340,7 @@ class rcube_ldap extends rcube_addressbook
 
         if ($with_groups && $this->groups && ($groups = $this->_fetch_groups()) && count($groups)) {
             foreach ($groups as $group) {
-                $this->ldap->delete($group['dn']);
+                $this->ldap->delete_entry($group['dn']);
             }
 
             if ($this->cache) {
@@ -1567,7 +1565,7 @@ class rcube_ldap extends rcube_addressbook
         $this->debug = $dbg;
 
         if ($this->ldap) {
-            $this->ldap->set_debug($dbg);
+            $this->ldap->config_set('debug', $dbg);
         }
     }
 
@@ -1666,7 +1664,7 @@ class rcube_ldap extends rcube_addressbook
             }
 
             $ldap = clone $this->ldap;
-            $ldap->set_config($this->prop['groups']);
+            $ldap->config_set($this->prop['groups']);
             $ldap->set_vlv_page($vlv_page+1, $page_size);
         }
 
@@ -1790,7 +1788,7 @@ class rcube_ldap extends rcube_addressbook
             $member_attr => '',
         );
 
-        if (!$this->ldap->add($new_dn, $new_entry)) {
+        if (!$this->ldap->add_entry($new_dn, $new_entry)) {
             $this->set_error(self::ERROR_SAVING, 'errorsaving');
             return false;
         }
@@ -1813,7 +1811,7 @@ class rcube_ldap extends rcube_addressbook
         $group_cache = $this->_fetch_groups();
         $del_dn      = $group_cache[$group_id]['dn'];
 
-        if (!$this->ldap->delete($del_dn)) {
+        if (!$this->ldap->delete_entry($del_dn)) {
             $this->set_error(self::ERROR_SAVING, 'errorsaving');
             return false;
         }
