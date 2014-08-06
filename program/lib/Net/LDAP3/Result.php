@@ -71,7 +71,7 @@ class Net_LDAP3_Result implements Iterator
     }
 
     /**
-     *
+     * Wrapper for ldap_sort()
      */
     public function sort($attr)
     {
@@ -79,18 +79,23 @@ class Net_LDAP3_Result implements Iterator
     }
 
     /**
-     *
+     * Get entries count
      */
     public function count()
     {
-        if (!isset($this->count))
+        if (!isset($this->count)) {
             $this->count = ldap_count_entries($this->conn, $this->result);
+        }
 
         return $this->count;
     }
 
     /**
+     * Wrapper for ldap_get_entries()
      *
+     * @param bool $normalize Optionally normalize the entries to a list of hash arrays
+     *
+     * @return array List of LDAP entries
      */
     public function entries($normalize = false)
     {
@@ -101,6 +106,14 @@ class Net_LDAP3_Result implements Iterator
         }
 
         return $entries;
+    }
+
+    /**
+     * Wrapper for ldap_get_dn() using the current entry pointer
+     */
+    public function get_dn()
+    {
+        return $this->current ? ldap_get_dn($this->conn, $this->current) : null;
     }
 
 
