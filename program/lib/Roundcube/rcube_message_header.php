@@ -225,8 +225,15 @@ class rcube_message_header
         }
 
         if ($decode) {
-            $value = rcube_mime::decode_header($value, $this->charset);
-            $value = rcube_charset::clean($value);
+            if (is_array($value)) {
+                foreach ($value as $key=>$val) {
+                    $value[$key] = rcube_mime::decode_header($val, $this->charset);
+                    $value[$key] = rcube_charset::clean($val);
+                }
+            } else {
+                $value = rcube_mime::decode_header($value, $this->charset);
+                $value = rcube_charset::clean($value);
+            }
         }
 
         return $value;
