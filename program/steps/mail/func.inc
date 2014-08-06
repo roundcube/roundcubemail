@@ -384,11 +384,16 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         $head_replace = true;
     }
 
-    // add 'folder' column to list on multi-folder searches
-    $search_set = $RCMAIL->storage->get_search_set();
+    $search_set  = $RCMAIL->storage->get_search_set();
     $multifolder = $search_set && $search_set[1]->multi;
+
+    // add/remove 'folder' column to the list on multi-folder searches
     if ($multifolder && !in_array('folder', $a_show_cols)) {
         $a_show_cols[] = 'folder';
+        $head_replace = true;
+    }
+    else if (!$multifolder && ($found = array_search('folder', $a_show_cols)) !== false) {
+        unset($a_show_cols[$found]);
         $head_replace = true;
     }
 
@@ -402,6 +407,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
 
     // Make sure there are no duplicated columns (#1486999)
     $a_show_cols = array_unique($a_show_cols);
+    $_SESSION['list_attrib']['columns'] = $a_show_cols;
 
     // Plugins may set header's list_cols/list_flags and other rcube_message_header variables
     // and list columns
