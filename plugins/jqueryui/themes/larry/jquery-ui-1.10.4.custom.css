@@ -493,15 +493,16 @@ button.ui-button::-moz-focus-inner {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-.ui-dialog .ui-dialog-titlebar-close {
+.ui-dialog .ui-button.ui-dialog-titlebar-close {
 	position: absolute;
 	right: -15px;
 	top: -15px;
-	width: 30px;
+	width: 29px;
+	height: 29px;
 	margin: 0;
 	padding: 0;
-	height: 30px;
 	z-index: 99999;
+	border-radius: 50%;
 	border-width: 0 !important;
 	background: none !important;
 	filter: none !important;
@@ -510,15 +511,18 @@ button.ui-button::-moz-focus-inner {
 	     -o-box-shadow: none !important;
 	        box-shadow: none !important;
 }
-.ui-dialog .ui-dialog-titlebar-close.ui-state-focus {
-	outline: 2px solid #4fadd5;
+.ui-dialog .ui-dialog-titlebar-close.ui-button:focus,
+.ui-dialog .ui-dialog-titlebar-close.ui-button.ui-state-focus {
+	box-shadow: 0 0 2px 2px rgba(71,135,177, 0.9) !important;
+	-webkit-box-shadow: 0 0 2px 2px rgba(71,135,177, 0.9) !important;
 }
 .ui-dialog .ui-dialog-titlebar-close .ui-icon-closethick {
-	top: 0;
-	left: 0;
+	top: 1px;
+	left: -1px;
 	margin: 0;
-	width: 30px;
-	height: 30px;
+	width: 29px;
+	height: 29px;
+	border-radius: 50%;
 	background: url("images/ui-dialog-close.png") 0 0 no-repeat;
 }
 .no-close .ui-dialog-titlebar-close {
