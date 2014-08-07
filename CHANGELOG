@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added config option 'imap_log_session' to enable Roundcube <-> IMAP session ID logging
+- Added config option 'log_session_id' to control the lengh of the session identifer in logs
+- Implemented 'storage_connected' API hook after successful IMAP login (#1490025)
 - Intergrate Net_LDAP3 and rcube_ldap_generic classes
 - Add option (disabled_actions) to disable UI elements/actions (#1489638)
 - Support password encryption using openssl extension (#1489989)
