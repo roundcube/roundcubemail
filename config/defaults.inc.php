@@ -66,6 +66,10 @@ $config['log_driver'] = 'file';
 // (read http://php.net/manual/en/function.date.php for all format characters)  
 $config['log_date_format'] = 'd-M-Y H:i:s O';
 
+// length of the session ID to prepend each log line with
+// set to 0 to avoid session IDs being logged.
+$config['log_session_id'] = 8;
+
 // Syslog ident string to use, if using the 'syslog' log driver.
 $config['syslog_id'] = 'roundcube';
 
@@ -180,6 +184,10 @@ $config['imap_force_ns'] = false;
 // For example UW-IMAP server has broken ESEARCH.
 // Note: Because the list is cached, re-login is required after change.
 $config['imap_disabled_caps'] = array();
+
+// Log IMAP session identifers after each IMAP login.
+// This is used to relate IMAP session with Roundcube user sessions
+$config['imap_log_session'] = false;
 
 // Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache'.
 $config['imap_cache'] = null;
