@@ -93,6 +93,7 @@ function rcube_treelist_widget(node, p)
   this.get_item = get_item;
   this.get_node = get_node;
   this.get_selection = get_selection;
+  this.is_search = is_search;
 
   /////// startup code (constructor)
 
@@ -572,6 +573,14 @@ function rcube_treelist_widget(node, p)
 
     if (selection)
       select(selection);
+  }
+
+  /**
+   *
+   */
+  function is_search()
+  {
+    return search_active;
   }
 
   /**
