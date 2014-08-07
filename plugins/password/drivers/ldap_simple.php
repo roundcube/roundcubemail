@@ -168,14 +168,16 @@ class rcube_ldap_simple_password
      */
     function search_userdn($rcmail, $ds)
     {
-        $search_user = $rcmail->config->get('password_ldap_searchDN');
-        $search_pass = $rcmail->config->get('password_ldap_searchPW');
+        $search_user   = $rcmail->config->get('password_ldap_searchDN');
+        $search_pass   = $rcmail->config->get('password_ldap_searchPW');
+        $search_base   = $rcmail->config->get('password_ldap_search_base');
+        $search_filter = $rcmail->config->get('password_ldap_search_filter');
 
-        if (empty($search_user)) {
-            return null;
+        if (empty($search_filter)) {
+            return false;
         }
 
-        $this->_debug("C: Bind $search_user, pass: **** [" . strlen($search_pass) . "]");
+        $this->_debug("C: Bind " . ($search_user ? $search_user : '[anonymous]'));
 
         // Bind
         if (!ldap_bind($ds, $search_user, $search_pass)) {
@@ -184,9 +186,6 @@ class rcube_ldap_simple_password
         }
 
         $this->_debug("S: OK");
-
-        $search_base   = $rcmail->config->get('password_ldap_search_base');
-        $search_filter = $rcmail->config->get('password_ldap_search_filter');
 
         $search_base   = rcube_ldap_password::substitute_vars($search_base);
         $search_filter = rcube_ldap_password::substitute_vars($search_filter);

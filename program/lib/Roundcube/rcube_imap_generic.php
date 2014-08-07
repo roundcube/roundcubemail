@@ -723,103 +723,30 @@ class rcube_imap_generic
         // configure
         $this->set_prefs($options);
 
-        $auth_method = $this->prefs['auth_type'];
-        $result      = false;
-
-        // initialize connection
-        $this->error    = '';
-        $this->errornum = self::ERROR_OK;
-        $this->selected = null;
-        $this->user     = $user;
         $this->host     = $host;
+        $this->user     = $user;
         $this->logged   = false;
+        $this->selected = null;
 
         // check input
         if (empty($host)) {
             $this->setError(self::ERROR_BAD, "Empty host");
             return false;
         }
+
         if (empty($user)) {
             $this->setError(self::ERROR_NO, "Empty user");
             return false;
         }
+
         if (empty($password)) {
             $this->setError(self::ERROR_NO, "Empty password");
             return false;
         }
 
-        if (!$this->prefs['port']) {
-            $this->prefs['port'] = 143;
-        }
-        // check for SSL
-        if ($this->prefs['ssl_mode'] && $this->prefs['ssl_mode'] != 'tls') {
-            $host = $this->prefs['ssl_mode'] . '://' . $host;
-        }
-
-        if ($this->prefs['timeout'] <= 0) {
-            $this->prefs['timeout'] = max(0, intval(ini_get('default_socket_timeout')));
-        }
-
         // Connect
-        $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr, $this->prefs['timeout']);
-
-        if (!$this->fp) {
-            if (!$errstr) {
-                $errstr = "Unknown reason (fsockopen() function disabled?)";
-            }
-            $this->setError(self::ERROR_BAD, sprintf("Could not connect to %s:%d: %s", $host, $this->prefs['port'], $errstr));
+        if (!$this->_connect($host)) {
             return false;
-        }
-
-        if ($this->prefs['timeout'] > 0) {
-            stream_set_timeout($this->fp, $this->prefs['timeout']);
-        }
-
-        $line = trim(fgets($this->fp, 8192));
-
-        if ($this->_debug) {
-            // set connection identifier for debug output
-            preg_match('/#([0-9]+)/', (string)$this->fp, $m);
-            $this->resourceid = strtoupper(substr(md5($m[1].$this->user.microtime()), 0, 4));
-
-            if ($line)
-                $this->debug('S: '. $line);
-        }
-
-        // Connected to wrong port or connection error?
-        if (!preg_match('/^\* (OK|PREAUTH)/i', $line)) {
-            if ($line)
-                $error = sprintf("Wrong startup greeting (%s:%d): %s", $host, $this->prefs['port'], $line);
-            else
-                $error = sprintf("Empty startup greeting (%s:%d)", $host, $this->prefs['port']);
-
-            $this->setError(self::ERROR_BAD, $error);
-            $this->closeConnection();
-            return false;
-        }
-
-        // RFC3501 [7.1] optional CAPABILITY response
-        if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
-            $this->parseCapability($matches[1], true);
-        }
-
-        // TLS connection
-        if ($this->prefs['ssl_mode'] == 'tls' && $this->getCapability('STARTTLS')) {
-            $res = $this->execute('STARTTLS');
-
-            if ($res[0] != self::ERROR_OK) {
-                $this->closeConnection();
-                return false;
-            }
-
-            if (!stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
-                $this->setError(self::ERROR_BAD, "Unable to negotiate TLS");
-                $this->closeConnection();
-                return false;
-            }
-
-            // Now we're secure, capabilities need to be reread
-            $this->clearCapability();
         }
 
         // Send ID info
@@ -827,6 +754,7 @@ class rcube_imap_generic
             $this->id($this->prefs['ident']);
         }
 
+        $auth_method  = $this->prefs['auth_type'];
         $auth_methods = array();
         $result       = null;
 
@@ -898,6 +826,103 @@ class rcube_imap_generic
         $this->closeConnection();
 
         return false;
+    }
+
+    /**
+     * Connects to IMAP server.
+     *
+     * @param string $host Server hostname or IP
+     *
+     * @return bool True on success, False on failure
+     */
+    protected function _connect($host)
+    {
+        // initialize connection
+        $this->error    = '';
+        $this->errornum = self::ERROR_OK;
+
+        if (!$this->prefs['port']) {
+            $this->prefs['port'] = 143;
+        }
+
+        // check for SSL
+        if ($this->prefs['ssl_mode'] && $this->prefs['ssl_mode'] != 'tls') {
+            $host = $this->prefs['ssl_mode'] . '://' . $host;
+        }
+
+        if ($this->prefs['timeout'] <= 0) {
+            $this->prefs['timeout'] = max(0, intval(ini_get('default_socket_timeout')));
+        }
+
+        if (!empty($this->prefs['socket_options'])) {
+            $context  = stream_context_create($this->prefs['socket_options']);
+            $this->fp = stream_socket_client($host . ':' . $this->prefs['port'], $errno, $errstr,
+                $this->prefs['timeout'], STREAM_CLIENT_CONNECT, $context);
+        }
+        else {
+            $this->fp = @fsockopen($host, $this->prefs['port'], $errno, $errstr, $this->prefs['timeout']);
+        }
+
+        if (!$this->fp) {
+            $this->setError(self::ERROR_BAD, sprintf("Could not connect to %s:%d: %s",
+                $host, $this->prefs['port'], $errstr ?: "Unknown reason"));
+
+            return false;
+        }
+
+        if ($this->prefs['timeout'] > 0) {
+            stream_set_timeout($this->fp, $this->prefs['timeout']);
+        }
+
+        $line = trim(fgets($this->fp, 8192));
+
+        if ($this->_debug) {
+            // set connection identifier for debug output
+            preg_match('/#([0-9]+)/', (string) $this->fp, $m);
+            $this->resourceid = strtoupper(substr(md5($m[1].$this->user.microtime()), 0, 4));
+
+            if ($line) {
+                $this->debug('S: '. $line);
+            }
+        }
+
+        // Connected to wrong port or connection error?
+        if (!preg_match('/^\* (OK|PREAUTH)/i', $line)) {
+            if ($line)
+                $error = sprintf("Wrong startup greeting (%s:%d): %s", $host, $this->prefs['port'], $line);
+            else
+                $error = sprintf("Empty startup greeting (%s:%d)", $host, $this->prefs['port']);
+
+            $this->setError(self::ERROR_BAD, $error);
+            $this->closeConnection();
+            return false;
+        }
+
+        // RFC3501 [7.1] optional CAPABILITY response
+        if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
+            $this->parseCapability($matches[1], true);
+        }
+
+        // TLS connection
+        if ($this->prefs['ssl_mode'] == 'tls' && $this->getCapability('STARTTLS')) {
+            $res = $this->execute('STARTTLS');
+
+            if ($res[0] != self::ERROR_OK) {
+                $this->closeConnection();
+                return false;
+            }
+
+            if (!stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+                $this->setError(self::ERROR_BAD, "Unable to negotiate TLS");
+                $this->closeConnection();
+                return false;
+            }
+
+            // Now we're secure, capabilities need to be reread
+            $this->clearCapability();
+        }
+
+        return true;
     }
 
     /**
@@ -1268,15 +1293,15 @@ class rcube_imap_generic
      *
      * @param string $ref         Reference name
      * @param string $mailbox     Mailbox name
-     * @param array  $status_opts (see self::_listMailboxes)
+     * @param array  $return_opts (see self::_listMailboxes)
      * @param array  $select_opts (see self::_listMailboxes)
      *
-     * @return array List of mailboxes or hash of options if $status_opts argument
-     *               is non-empty.
+     * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
+     *                    is requested, False on error.
      */
-    function listMailboxes($ref, $mailbox, $status_opts=array(), $select_opts=array())
+    function listMailboxes($ref, $mailbox, $return_opts=array(), $select_opts=array())
     {
-        return $this->_listMailboxes($ref, $mailbox, false, $status_opts, $select_opts);
+        return $this->_listMailboxes($ref, $mailbox, false, $return_opts, $select_opts);
     }
 
     /**
@@ -1284,14 +1309,14 @@ class rcube_imap_generic
      *
      * @param string $ref         Reference name
      * @param string $mailbox     Mailbox name
-     * @param array  $status_opts (see self::_listMailboxes)
+     * @param array  $return_opts (see self::_listMailboxes)
      *
-     * @return array List of mailboxes or hash of options if $status_opts argument
-     *               is non-empty.
+     * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
+     *                    is requested, False on error.
      */
-    function listSubscribed($ref, $mailbox, $status_opts=array())
+    function listSubscribed($ref, $mailbox, $return_opts=array())
     {
-        return $this->_listMailboxes($ref, $mailbox, true, $status_opts, NULL);
+        return $this->_listMailboxes($ref, $mailbox, true, $return_opts, NULL);
     }
 
     /**
@@ -1300,18 +1325,18 @@ class rcube_imap_generic
      * @param string $ref         Reference name
      * @param string $mailbox     Mailbox name
      * @param bool   $subscribed  Enables returning subscribed mailboxes only
-     * @param array  $status_opts List of STATUS options
-     *                            (RFC5819: LIST-STATUS:  MESSAGES, RECENT, UIDNEXT, UIDVALIDITY, UNSEEN)
-     *                            or RETURN options (RFC5258: LIST_EXTENDED: SUBSCRIBED, CHILDREN)
+     * @param array  $return_opts List of RETURN options (RFC5819: LIST-STATUS, RFC5258: LIST-EXTENDED)
+     *                            Possible: MESSAGES, RECENT, UIDNEXT, UIDVALIDITY, UNSEEN,
+     *                                      MYRIGHTS, SUBSCRIBED, CHILDREN
      * @param array  $select_opts List of selection options (RFC5258: LIST-EXTENDED)
      *                            Possible: SUBSCRIBED, RECURSIVEMATCH, REMOTE,
      *                                      SPECIAL-USE (RFC6154)
      *
-     * @return array List of mailboxes or hash of options if $status_ops argument
-     *               is non-empty.
+     * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
+     *                    is requested, False on error.
      */
     protected function _listMailboxes($ref, $mailbox, $subscribed=false,
-        $status_opts=array(), $select_opts=array())
+        $return_opts=array(), $select_opts=array())
     {
         if (!strlen($mailbox)) {
             $mailbox = '*';
@@ -1329,16 +1354,24 @@ class rcube_imap_generic
         $args[] = $this->escape($ref);
         $args[] = $this->escape($mailbox);
 
-        if (!empty($status_opts) && $this->getCapability('LIST-EXTENDED')) {
-            $rets = array_intersect($status_opts, array('SUBSCRIBED', 'CHILDREN'));
+        if (!empty($return_opts) && $this->getCapability('LIST-EXTENDED')) {
+            $ext_opts    = array('SUBSCRIBED', 'CHILDREN');
+            $rets        = array_intersect($return_opts, $ext_opts);
+            $return_opts = array_diff($return_opts, $rets);
         }
 
-        if (!empty($status_opts) && $this->getCapability('LIST-STATUS')) {
-            $status_opts = array_intersect($status_opts, array('MESSAGES', 'RECENT', 'UIDNEXT', 'UIDVALIDITY', 'UNSEEN'));
+        if (!empty($return_opts) && $this->getCapability('LIST-STATUS')) {
+            $lstatus     = true;
+            $status_opts = array('MESSAGES', 'RECENT', 'UIDNEXT', 'UIDVALIDITY', 'UNSEEN');
+            $opts        = array_diff($return_opts, $status_opts);
+            $status_opts = array_diff($return_opts, $opts);
 
             if (!empty($status_opts)) {
-                $lstatus = true;
                 $rets[] = 'STATUS (' . implode(' ', $status_opts) . ')';
+            }
+
+            if (!empty($opts)) {
+                $rets = array_merge($rets, $opts);
             }
         }
 
@@ -1363,9 +1396,10 @@ class rcube_imap_generic
                 $line = substr($response, $last, $pos - $last);
                 $last = $pos + 2;
 
-                if (!preg_match('/^\* (LIST|LSUB|STATUS) /i', $line, $m)) {
+                if (!preg_match('/^\* (LIST|LSUB|STATUS|MYRIGHTS) /i', $line, $m)) {
                     continue;
                 }
+
                 $cmd  = strtoupper($m[1]);
                 $line = substr($line, strlen($m[0]));
 
@@ -1396,13 +1430,20 @@ class rcube_imap_generic
                                 $this->data['LIST'][$mailbox], $opts));
                     }
                 }
-                // * STATUS <mailbox> (<result>)
-                else if ($cmd == 'STATUS') {
-                    list($mailbox, $status) = $this->tokenizeResponse($line, 2);
+                else if ($lstatus) {
+                    // * STATUS <mailbox> (<result>)
+                    if ($cmd == 'STATUS') {
+                        list($mailbox, $status) = $this->tokenizeResponse($line, 2);
 
-                    for ($i=0, $len=count($status); $i<$len; $i += 2) {
-                        list($name, $value) = $this->tokenizeResponse($status, 2);
-                        $folders[$mailbox][$name] = $value;
+                        for ($i=0, $len=count($status); $i<$len; $i += 2) {
+                            list($name, $value) = $this->tokenizeResponse($status, 2);
+                            $folders[$mailbox][$name] = $value;
+                        }
+                    }
+                    // * MYRIGHTS <mailbox> <acl>
+                    else if ($cmd == 'MYRIGHTS') {
+                        list($mailbox, $acl)  = $this->tokenizeResponse($line, 2);
+                        $folders[$mailbox]['MYRIGHTS'] = $acl;
                     }
                 }
             }
@@ -1877,8 +1918,8 @@ class rcube_imap_generic
                         $result[$id] = '';
                     }
                 } else if ($mode == 2) {
-                    if (preg_match('/(UID|RFC822\.SIZE) ([0-9]+)/', $line, $matches)) {
-                        $result[$id] = trim($matches[2]);
+                    if (preg_match('/' . $index_field . ' ([0-9]+)/', $line, $matches)) {
+                        $result[$id] = trim($matches[1]);
                     } else {
                         $result[$id] = 0;
                     }
@@ -1987,10 +2028,6 @@ class rcube_imap_generic
      */
     protected function modFlag($mailbox, $messages, $flag, $mod = '+')
     {
-        if ($mod != '+' && $mod != '-') {
-            $mod = '+';
-        }
-
         if (!$this->select($mailbox)) {
             return false;
         }
@@ -2000,12 +2037,25 @@ class rcube_imap_generic
             return false;
         }
 
+        if ($this->flags[strtoupper($flag)]) {
+            $flag = $this->flags[strtoupper($flag)];
+        }
+
+        if (!$flag || !in_array($flag, (array) $this->data['PERMANENTFLAGS'])
+            || !in_array('\\*', (array) $this->data['PERMANENTFLAGS'])
+        ) {
+            return false;
+        }
+
         // Clear internal status cache
         if ($flag == 'SEEN') {
             unset($this->data['STATUS:'.$mailbox]['UNSEEN']);
         }
 
-        $flag   = $this->flags[strtoupper($flag)];
+        if ($mod != '+' && $mod != '-') {
+            $mod = '+';
+        }
+
         $result = $this->execute('UID STORE', array(
             $this->compressMessageSet($messages), $mod . 'FLAGS.SILENT', "($flag)"),
             self::COMMAND_NORESPONSE);
@@ -2834,57 +2884,64 @@ class rcube_imap_generic
     /**
      * Returns QUOTA information
      *
+     * @param string $mailbox Mailbox name
+     *
      * @return array Quota information
      */
-    function getQuota()
+    function getQuota($mailbox = null)
     {
-        /*
-         * GETQUOTAROOT "INBOX"
-         * QUOTAROOT INBOX user/rchijiiwa1
-         * QUOTA user/rchijiiwa1 (STORAGE 654 9765)
-         * OK Completed
-         */
-        $result      = false;
-        $quota_lines = array();
-        $key         = $this->nextTag();
-        $command     = $key . ' GETQUOTAROOT INBOX';
-
-        // get line(s) containing quota info
-        if ($this->putLine($command)) {
-            do {
-                $line = rtrim($this->readLine(5000));
-                if (preg_match('/^\* QUOTA /', $line)) {
-                    $quota_lines[] = $line;
-                }
-            } while (!$this->startsWith($line, $key, true, true));
-        }
-        else {
-            $this->setError(self::ERROR_COMMAND, "Unable to send command: $command");
+        if ($mailbox === null || $mailbox === '') {
+            $mailbox = 'INBOX';
         }
 
-        // return false if not found, parse if found
+        // a0001 GETQUOTAROOT INBOX
+        // * QUOTAROOT INBOX user/sample
+        // * QUOTA user/sample (STORAGE 654 9765)
+        // a0001 OK Completed
+
+        list($code, $response) = $this->execute('GETQUOTAROOT', array($this->escape($mailbox)));
+
+        $result   = false;
         $min_free = PHP_INT_MAX;
-        foreach ($quota_lines as $key => $quota_line) {
-            $quota_line   = str_replace(array('(', ')'), '', $quota_line);
-            $parts        = explode(' ', $quota_line);
-            $storage_part = array_search('STORAGE', $parts);
+        $all      = array();
 
-            if (!$storage_part) {
-                continue;
+        if ($code == self::ERROR_OK) {
+            foreach (explode("\n", $response) as $line) {
+                if (preg_match('/^\* QUOTA /', $line)) {
+                    list(, , $quota_root) = $this->tokenizeResponse($line, 3);
+
+                    while ($line) {
+                        list($type, $used, $total) = $this->tokenizeResponse($line, 1);
+                        $type = strtolower($type);
+
+                        if ($type && $total) {
+                            $all[$quota_root][$type]['used']  = intval($used);
+                            $all[$quota_root][$type]['total'] = intval($total);
+                        }
+                    }
+
+                    if (empty($all[$quota_root]['storage'])) {
+                        continue;
+                    }
+
+                    $used  = $all[$quota_root]['storage']['used'];
+                    $total = $all[$quota_root]['storage']['total'];
+                    $free  = $total - $used;
+
+                    // calculate lowest available space from all storage quotas
+                    if ($free < $min_free) {
+                        $min_free          = $free;
+                        $result['used']    = $used;
+                        $result['total']   = $total;
+                        $result['percent'] = min(100, round(($used/max(1,$total))*100));
+                        $result['free']    = 100 - $result['percent'];
+                    }
+                }
             }
+        }
 
-            $used  = intval($parts[$storage_part+1]);
-            $total = intval($parts[$storage_part+2]);
-            $free  = $total - $used;
-
-            // return lowest available space from all quotas
-            if ($free < $min_free) {
-                $min_free          = $free;
-                $result['used']    = $used;
-                $result['total']   = $total;
-                $result['percent'] = min(100, round(($used/max(1,$total))*100));
-                $result['free']    = 100 - $result['percent'];
-            }
+        if (!empty($result)) {
+            $result['all'] = $all;
         }
 
         return $result;

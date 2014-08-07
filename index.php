@@ -44,6 +44,7 @@ $RCMAIL = rcmail::get_instance($GLOBALS['env']);
 
 // Make the whole PHP output non-cacheable (#1487797)
 $RCMAIL->output->nocacheing_headers();
+$RCMAIL->output->common_headers();
 
 // turn on output buffering
 ob_start();
@@ -188,7 +189,7 @@ else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])
 }
 
 // check session and auth cookie
-else if ($RCMAIL->task != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 'send') {
+else if ($RCMAIL->task != 'login' && $_SESSION['user_id']) {
     if (!$RCMAIL->session->check_auth()) {
         $RCMAIL->kill_session();
         $session_error = true;
@@ -211,7 +212,7 @@ if (empty($RCMAIL->user->ID)) {
         $OUTPUT->show_message('sessionerror', 'error', null, true, -1);
     }
 
-    if ($OUTPUT->ajax_call || $OUTPUT->framed) {
+    if ($OUTPUT->ajax_call || $OUTPUT->get_env('framed')) {
         $OUTPUT->command('session_error', $RCMAIL->url(array('_err' => 'session')));
         $OUTPUT->send('iframe');
     }
@@ -258,6 +259,14 @@ else {
                 'code' => 403, 'type' => 'php',
                 'message' => "Referer check failed"), true, true);
         }
+    }
+
+    // check access to disabled actions
+    $disabled_actions = (array) $RCMAIL->config->get('disabled_actions');
+    if (in_array($RCMAIL->task . '.' . ($RCMAIL->action ?: 'index'), $disabled_actions)) {
+        rcube::raise_error(array(
+            'code' => 403, 'type' => 'php',
+            'message' => "Action disabled"), true, true);
     }
 }
 

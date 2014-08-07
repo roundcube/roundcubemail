@@ -66,6 +66,10 @@ $config['log_driver'] = 'file';
 // (read http://php.net/manual/en/function.date.php for all format characters)  
 $config['log_date_format'] = 'd-M-Y H:i:s O';
 
+// length of the session ID to prepend each log line with
+// set to 0 to avoid session IDs being logged.
+$config['log_session_id'] = 8;
+
 // Syslog ident string to use, if using the 'syslog' log driver.
 $config['syslog_id'] = 'roundcube';
 
@@ -123,6 +127,27 @@ $config['default_port'] = 143;
 // best server supported one)
 $config['imap_auth_type'] = null;
 
+// IMAP socket context options
+// See http://php.net/manual/en/context.ssl.php
+// The example below enables server certificate validation
+//$config['imap_conn_options'] = array(
+//  'ssl'         => array(
+//     'verify_peer'  => true,
+//     'verify_depth' => 3,
+//     'cafile'       => '/etc/openssl/certs/ca.crt',
+//   ),
+// );
+$config['imap_conn_options'] = null;
+
+// IMAP connection timeout, in seconds. Default: 0 (use default_socket_timeout)
+$config['imap_timeout'] = 0;
+
+// Optional IMAP authentication identifier to be used as authorization proxy
+$config['imap_auth_cid'] = null;
+
+// Optional IMAP authentication password to be used for imap_auth_cid
+$config['imap_auth_pw'] = null;
+
 // If you know your imap's folder delimiter, you can specify it here.
 // Otherwise it will be determined automatically
 $config['imap_delimiter'] = null;
@@ -160,19 +185,17 @@ $config['imap_force_ns'] = false;
 // Note: Because the list is cached, re-login is required after change.
 $config['imap_disabled_caps'] = array();
 
-// IMAP connection timeout, in seconds. Default: 0 (use default_socket_timeout)
-$config['imap_timeout'] = 0;
-
-// Optional IMAP authentication identifier to be used as authorization proxy
-$config['imap_auth_cid'] = null;
-
-// Optional IMAP authentication password to be used for imap_auth_cid
-$config['imap_auth_pw'] = null;
+// Log IMAP session identifers after each IMAP login.
+// This is used to relate IMAP session with Roundcube user sessions
+$config['imap_log_session'] = false;
 
 // Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache'.
 $config['imap_cache'] = null;
 
 // Enables messages cache. Only 'db' cache is supported.
+// This requires an IMAP server that supports QRESYNC and CONDSTORE
+// extensions (RFC7162). See synchronize() in program/lib/Roundcube/rcube_imap_cache.php
+// for further info, or if you experience syncing problems.
 $config['messages_cache'] = false;
 
 // Lifetime of IMAP indexes cache. Possible units: s, m, h, d, w
@@ -241,12 +264,13 @@ $config['smtp_timeout'] = 0;
 // requires 'smtp_timeout' to be non zero.
 // $config['smtp_conn_options'] = array(
 //   'ssl'         => array(
-//     'verify_peer'     => true,
-//     'verify_depth     => 3,
-//     'cafile'          => '/etc/openssl/certs/ca.crt',
+//     'verify_peer'  => true,
+//     'verify_depth' => 3,
+//     'cafile'       => '/etc/openssl/certs/ca.crt',
 //   ),
 // );
 $config['smtp_conn_options'] = null;
+
 
 // ----------------------------------
 // LDAP
@@ -268,6 +292,9 @@ $config['enable_installer'] = false;
 
 // don't allow these settings to be overriden by the user
 $config['dont_override'] = array();
+
+// List of disabled UI elements/actions
+$config['disabled_actions'] = array();
 
 // define which settings should be listed under the 'advanced' block
 // which is hidden by default
@@ -464,6 +491,10 @@ $config['mdn_use_from'] = false;
 // 3 - one identity with possibility to edit all params but not email address
 // 4 - one identity with possibility to edit only signature
 $config['identities_level'] = 0;
+
+// Maximum size of uploaded image in kilobytes
+// Images (in html signatures) are stored in database as data URIs
+$config['identity_image_size'] = 64;
 
 // Mimetypes supported by the browser.
 // attachments of these types will open in a preview window
@@ -857,6 +888,11 @@ $config['address_template'] = '{street}<br/>{locality} {zipcode}<br/>{country} {
 // Note: For LDAP sources fuzzy_search must be enabled to use 'partial' or 'prefix' mode
 $config['addressbook_search_mode'] = 0;
 
+// Template of contact entry on the autocompletion list.
+// You can use contact fields as: name, email, organization, department, etc.
+// See program/steps/addressbook/func.inc for a list
+$config['contact_search_name'] = '{name} <{email}>';
+
 // ----------------------------------
 // USER PREFERENCES
 // ----------------------------------
@@ -962,9 +998,12 @@ $config['check_all_folders'] = false;
 // If true, after message delete/move, the next message will be displayed
 $config['display_next'] = true;
 
-// 0 - Do not expand threads 
-// 1 - Expand all threads automatically 
-// 2 - Expand only threads with unread messages 
+// Default messages listing mode. One of 'threads' or 'list'.
+$config['default_list_mode'] = 'list';
+
+// 0 - Do not expand threads
+// 1 - Expand all threads automatically
+// 2 - Expand only threads with unread messages
 $config['autoexpand_threads'] = 0;
 
 // When replying:

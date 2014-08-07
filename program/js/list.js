@@ -51,7 +51,7 @@ function rcube_list_widget(list, p)
   this.rowcount = 0;
   this.colcount = 0;
 
-  this.subject_col = -1;
+  this.subject_col = 0;
   this.modkey = 0;
   this.multiselect = false;
   this.multiexpand = false;
@@ -60,12 +60,14 @@ function rcube_list_widget(list, p)
   this.column_movable = false;
   this.keyboard = false;
   this.toggleselect = false;
+  this.aria_listbox = false;
+  this.parent_focus = true;
 
   this.drag_active = false;
   this.col_drag_active = false;
   this.column_fixed = null;
-  this.last_selected = 0;
-  this.shift_start = 0;
+  this.last_selected = null;
+  this.shift_start = null;
   this.focused = false;
   this.drag_mouse_start = null;
   this.dblclick_time = 500; // default value on MS Windows is 500
@@ -75,6 +77,9 @@ function rcube_list_widget(list, p)
   if (p && typeof p === 'object')
     for (var n in p)
       this[n] = p[n];
+
+  // register this instance
+  rcube_list_widget._instances.push(this);
 };
 
 
@@ -94,6 +99,14 @@ init: function()
     this.tbody = this.list;
   }
 
+  if ($(this.list).attr('role') == 'listbox') {
+    this.aria_listbox = true;
+    if (this.multiselect)
+      $(this.list).attr('aria-multiselectable', 'true');
+  }
+
+  var me = this;
+
   if (this.tbody) {
     this.rows = {};
     this.rowcount = 0;
@@ -108,8 +121,17 @@ init: function()
     this.frame = this.list.parentNode;
 
     // set body events
-    if (this.keyboard)
+    if (this.keyboard) {
       rcube_event.add_listener({event:'keydown', object:this, method:'key_press'});
+
+      // allow the table element to receive focus.
+      $(this.list).attr('tabindex', '0')
+        .on('focus', function(e){ me.focus(e); });
+    }
+  }
+
+  if (this.parent_focus) {
+    this.list.parentNode.onclick = function(e) { me.focus(e); };
   }
 
   return this;
@@ -154,6 +176,15 @@ init_row: function(row)
       }, false);
     }
 
+    // label the list row with the subject col as descriptive label
+    if (this.aria_listbox) {
+      var lbl_id = 'l:' + row.id;
+      $(row)
+        .attr('role', 'option')
+        .attr('aria-labelledby', lbl_id)
+        .find(this.col_tagname()).eq(this.subject_col).attr('id', lbl_id);
+    }
+
     if (document.all)
       row.onselectstart = function() { return false; };
 
@@ -175,7 +206,7 @@ init_header: function()
 
     if (this.fixed_header) {  // copy (modified) fixed header back to the actual table
       $(this.list.tHead).replaceWith($(this.fixed_header).find('thead').clone());
-      $(this.list.tHead).find('tr td').attr('style', '');  // remove fixed widths
+      $(this.list.tHead).find('th,td').attr('style', '').find('a').attr('tabindex', '-1');  // remove fixed widths
     }
     else if (!bw.touch && this.list.className.indexOf('fixedheader') >= 0) {
       this.init_fixed_header();
@@ -202,6 +233,7 @@ init_fixed_header: function()
   if (!this.fixed_header) {
     this.fixed_header = $('<table>')
       .attr('class', this.list.className + ' fixedcopy')
+      .attr('role', 'presentation')
       .css({ position:'fixed' })
       .append(clone)
       .append('<tbody></tbody>');
@@ -219,6 +251,12 @@ init_fixed_header: function()
   else {
     $(this.fixed_header).find('thead').replaceWith(clone);
   }
+
+  // avoid scrolling header links being focused
+  $(this.list.tHead).find('a.sortcol').attr('tabindex', '-1');
+
+  // set tabindex to fixed header sort links
+  clone.find('a.sortcol').attr('tabindex', '0');
 
   this.thead = clone.get(0);
   this.resize();
@@ -262,6 +300,7 @@ clear: function(sel)
 
   this.rows = {};
   this.rowcount = 0;
+  this.last_selected = null;
 
   if (sel)
     this.clear_selection();
@@ -370,39 +409,66 @@ update_row: function(id, cols, newid, select)
  */
 focus: function(e)
 {
-  var n, id;
+  if (this.focused)
+    return;
+
   this.focused = true;
 
-  for (n in this.selection) {
-    id = this.selection[n];
-    if (this.rows[id] && this.rows[id].obj) {
-      $(this.rows[id].obj).addClass('selected').removeClass('unfocused');
-    }
+  if (e)
+    rcube_event.cancel(e);
+
+  var focus_elem = null;
+
+  if (this.last_selected && this.rows[this.last_selected]) {
+    focus_elem = $(this.rows[this.last_selected].obj).find(this.col_tagname()).eq(this.subject_col).attr('tabindex', '0');
   }
 
   // Un-focus already focused elements (#1487123, #1487316, #1488600, #1488620)
-  // It looks that window.focus() does the job for all browsers, but not Firefox (#1489058)
-  $('iframe,:focus:not(body)').blur();
-  window.focus();
+  if (focus_elem && focus_elem.length) {
+    // We now fix this by explicitly assigning focus to a dedicated link element
+    this.focus_noscroll(focus_elem);
+  }
+  else {
+    // It looks that window.focus() does the job for all browsers, but not Firefox (#1489058)
+    $('iframe,:focus:not(body)').blur();
+    window.focus();
+  }
 
-  if (e || (e = window.event))
-    rcube_event.cancel(e);
+  $(this.list).addClass('focus').removeAttr('tabindex');
+
+  // set internal focus pointer to first row
+  if (!this.last_selected)
+    this.select_first(CONTROL_KEY);
 },
 
 
 /**
  * remove focus from the list
  */
-blur: function()
+blur: function(e)
 {
-  var n, id;
   this.focused = false;
-  for (n in this.selection) {
-    id = this.selection[n];
-    if (this.rows[id] && this.rows[id].obj) {
-      $(this.rows[id].obj).removeClass('selected focused').addClass('unfocused');
-    }
+
+  // avoid the table getting focus right again
+  var me = this;
+  setTimeout(function(){
+    $(me.list).removeClass('focus').attr('tabindex', '0');
+  }, 20);
+
+  if (this.last_selected && this.rows[this.last_selected]) {
+    $(this.rows[this.last_selected].obj)
+      .find(this.col_tagname()).eq(this.subject_col).removeAttr('tabindex');
   }
+},
+
+/**
+ * Focus the given element without scrolling the list container
+ */
+focus_noscroll: function(elem)
+{
+  var y = this.frame.scrollTop || this.frame.scrollY;
+  elem.focus();
+  this.frame.scrollTop = y;
 },
 
 
@@ -522,6 +588,8 @@ click_row: function(e, id)
   }
 
   this.rows[id].clicked = now;
+  this.focus();
+
   return false;
 },
 
@@ -794,9 +862,9 @@ get_prev_row: function()
 get_first_row: function()
 {
   if (this.rowcount) {
-    var i, len, uid, rows = this.tbody.childNodes;
+    var i, uid, rows = this.tbody.childNodes;
 
-    for (i=0, len=rows.length-1; i<len; i++)
+    for (i=0; i<rows.length; i++)
       if (rows[i].id && (uid = this.get_row_uid(rows[i])))
         return uid;
   }
@@ -839,9 +907,10 @@ get_cell: function(row, index)
  */
 select_row: function(id, mod_key, with_mouse)
 {
-  var select_before = this.selection.join(',');
+  var select_before = this.selection.join(','),
+    in_selection_before = this.in_selection(id);
 
-  if (!this.multiselect)
+  if (!this.multiselect && with_mouse)
     mod_key = 0;
 
   if (!this.shift_start)
@@ -877,20 +946,26 @@ select_row: function(id, mod_key, with_mouse)
     this.multi_selecting = true;
   }
 
-  // trigger event if selection changed
-  if (this.selection.join(',') != select_before)
-    this.triggerEvent('select');
-
-  if (this.last_selected != 0 && this.rows[this.last_selected])
-    $(this.rows[this.last_selected].obj).removeClass('focused');
+  if (this.last_selected && this.rows[this.last_selected]) {
+    $(this.rows[this.last_selected].obj).removeClass('focused')
+      .find(this.col_tagname()).eq(this.subject_col).removeAttr('tabindex');
+  }
 
   // unselect if toggleselect is active and the same row was clicked again
-  if (this.toggleselect && this.last_selected == id) {
+  if (this.toggleselect && in_selection_before && !mod_key) {
     this.clear_selection();
-    id = null;
   }
-  else
+  // trigger event if selection changed
+  else if (this.selection.join(',') != select_before) {
+    this.triggerEvent('select');
+  }
+
+  if (this.rows[id]) {
     $(this.rows[id].obj).addClass('focused');
+    // set cursor focus to link inside selected row
+    if (this.focused)
+      this.focus_noscroll($(this.rows[id].obj).find(this.col_tagname()).eq(this.subject_col).attr('tabindex', '0'));
+  }
 
   if (!this.selection.length)
     this.shift_start = null;
@@ -1038,7 +1113,7 @@ select_all: function(filter)
       this.highlight_row(n, true, true);
     }
     else {
-      $(this.rows[n].obj).removeClass('selected').removeClass('unfocused');
+      $(this.rows[n].obj).removeClass('selected').removeAttr('aria-selected');
     }
   }
 
@@ -1095,14 +1170,16 @@ clear_selection: function(id, no_event)
   else {
     for (n in this.selection)
       if (this.rows[this.selection[n]]) {
-        $(this.rows[this.selection[n]].obj).removeClass('selected').removeClass('unfocused');
+        $(this.rows[this.selection[n]].obj).removeClass('selected').removeAttr('aria-selected');
       }
 
     this.selection = [];
   }
 
-  if (num_select && !this.selection.length && !no_event)
+  if (num_select && !this.selection.length && !no_event) {
     this.triggerEvent('select');
+    this.last_selected = null;
+  }
 },
 
 
@@ -1156,13 +1233,13 @@ highlight_row: function(id, multiple, norecur)
     if (this.selection.length > 1 || !this.in_selection(id)) {
       this.clear_selection(null, true);
       this.selection[0] = id;
-      $(this.rows[id].obj).addClass('selected');
+      $(this.rows[id].obj).addClass('selected').attr('aria-selected', 'true');
     }
   }
   else {
     if (!this.in_selection(id)) { // select row
       this.selection.push(id);
-      $(this.rows[id].obj).addClass('selected');
+      $(this.rows[id].obj).addClass('selected').attr('aria-selected', 'true');
       if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, true);
     }
@@ -1172,7 +1249,7 @@ highlight_row: function(id, multiple, norecur)
         a_post = this.selection.slice(p+1, this.selection.length);
 
       this.selection = a_pre.concat(a_post);
-      $(this.rows[id].obj).removeClass('selected').removeClass('unfocused');
+      $(this.rows[id].obj).removeClass('selected').removeAttr('aria-selected');
       if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, false);
     }
@@ -1252,6 +1329,14 @@ key_press: function(e)
 
       return rcube_event.cancel(e);
 
+    case 9: // Tab
+      this.blur();
+      break;
+
+    case 13: // Enter
+      if (!this.selection.length)
+        this.select_row(this.last_selected, mod_key, false);
+
     default:
       this.key_pressed = keyCode;
       this.modkey = mod_key;
@@ -1311,8 +1396,16 @@ use_arrow_key: function(keyCode, mod_key)
   }
 
   if (new_row) {
+    // simulate ctr-key if no rows are selected
+    if (!mod_key && !this.selection.length)
+      mod_key = CONTROL_KEY;
+
     this.select_row(new_row.uid, mod_key, false);
     this.scrollto(new_row.uid);
+  }
+  else if (!new_row && !selected_row) {
+    // select the first row if none selected yet
+    this.select_first(CONTROL_KEY);
   }
 
   return false;
@@ -1413,7 +1506,11 @@ drag_mouse_move: function(e)
 
       $('> ' + self.col_tagname(), self.rows[uid].obj).each(function(n, cell) {
         if (self.subject_col < 0 || (self.subject_col >= 0 && self.subject_col == n)) {
-          var subject = $(cell).text();
+          // remove elements marked with "skip-on-drag" class
+          cell = $(cell).clone();
+          $(cell).find('.skip-on-drag').remove();
+
+          var subject = cell.text();
 
           if (subject) {
             // remove leading spaces
@@ -1708,3 +1805,6 @@ column_replace: function(from, to)
 rcube_list_widget.prototype.addEventListener = rcube_event_engine.prototype.addEventListener;
 rcube_list_widget.prototype.removeEventListener = rcube_event_engine.prototype.removeEventListener;
 rcube_list_widget.prototype.triggerEvent = rcube_event_engine.prototype.triggerEvent;
+
+// static
+rcube_list_widget._instances = [];

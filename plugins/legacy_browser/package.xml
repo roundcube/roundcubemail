@@ -5,17 +5,17 @@
     http://pear.php.net/dtd/package-2.0.xsd">
 	<name>legacy_browser</name>
 	<channel>pear.roundcube.net</channel>
-	<summary>Legacy browser (IE 7/8) support</summary>
-	<description>This adds support for legacy browsers (IE 7/8).</description>
+	<summary>Legacy browser (IE 7/8, Firefox &lt; 4) support</summary>
+	<description>This adds support for legacy browsers (IE 7/8, Firefox &lt; 4).</description>
 	<lead>
 		<name>Aleksander Machniak</name>
 		<user>alec</user>
 		<email>alec@alec.pl</email>
 		<active>yes</active>
 	</lead>
-	<date>2014-04-12</date>
+	<date>2014-06-19</date>
 	<version>
-		<release>1.0</release>
+		<release>1.1</release>
 		<api>1.0</api>
 	</version>
 	<stability>

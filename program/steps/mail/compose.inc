@@ -80,7 +80,7 @@ if (!is_array($COMPOSE)) {
 $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning', 'cancel',
     'nobodywarning', 'notsentwarning', 'notuploadedwarning', 'savingmessage', 'sendingmessage', 
     'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
-    'fileuploaderror', 'sendmessage', 'savenewresponse', 'responsename', 'responsetext', 'save',
+    'fileuploaderror', 'sendmessage', 'newresponse', 'responsename', 'responsetext', 'save',
     'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore', 'ignore',
     'selectimportfile');
 
@@ -280,6 +280,7 @@ $from_email   = @mb_strtolower($MESSAGE->compose['from_email']);
 foreach ($parts as $header) {
     $fvalue        = '';
     $decode_header = true;
+    $charset       = $MESSAGE->headers->charset;
 
     // we have a set of recipients stored is session
     if ($header == 'to' && ($mailto_id = $COMPOSE['param']['mailto'])
@@ -287,16 +288,19 @@ foreach ($parts as $header) {
     ) {
         $fvalue        = urldecode($_SESSION['mailto'][$mailto_id]);
         $decode_header = false;
+        $charset       = $RCMAIL->output->charset;
 
         // make session to not grow up too much
         unset($_SESSION['mailto'][$mailto_id]);
         $COMPOSE['param']['to'] = $fvalue;
     }
     else if (!empty($_POST['_'.$header])) {
-        $fvalue = rcube_utils::get_input_value('_'.$header, rcube_utils::INPUT_POST, TRUE);
+        $fvalue  = rcube_utils::get_input_value('_'.$header, rcube_utils::INPUT_POST, TRUE);
+        $charset = $RCMAIL->output->charset;
     }
     else if (!empty($COMPOSE['param'][$header])) {
-        $fvalue = $COMPOSE['param'][$header];
+        $fvalue  = $COMPOSE['param'][$header];
+        $charset = $RCMAIL->output->charset;
     }
     else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
         // get recipent address(es) out of the message headers
@@ -337,9 +341,9 @@ foreach ($parts as $header) {
 
             // When To: and Reply-To: are the same we add From: address to the list (#1489037)
             if ($v = $MESSAGE->headers->from) {
-                $from    = rcube_mime::decode_address_list($v, null, false, $MESSAGE->headers->charset, true);
-                $to      = rcube_mime::decode_address_list($MESSAGE->headers->to, null, false, $MESSAGE->headers->charset, true);
-                $replyto = rcube_mime::decode_address_list($MESSAGE->headers->replyto, null, false, $MESSAGE->headers->charset, true);
+                $from    = rcube_mime::decode_address_list($v, null, false, $charset, true);
+                $to      = rcube_mime::decode_address_list($MESSAGE->headers->to, null, false, $charset, true);
+                $replyto = rcube_mime::decode_address_list($MESSAGE->headers->replyto, null, false, $charset, true);
 
                 if (count($replyto) && !count(array_diff($to, $replyto)) && count(array_diff($from, $to))) {
                     $fvalue .= (!empty($fvalue) ? $separator : '') . $v;
@@ -365,7 +369,7 @@ foreach ($parts as $header) {
 
     // split recipients and put them back together in a unique way
     if (!empty($fvalue) && in_array($header, array('to', 'cc', 'bcc'))) {
-        $to_addresses = rcube_mime::decode_address_list($fvalue, null, $decode_header, $MESSAGE->headers->charset);
+        $to_addresses = rcube_mime::decode_address_list($fvalue, null, $decode_header, $charset);
         $fvalue       = array();
 
         foreach ($to_addresses as $addr_part) {
@@ -969,7 +973,7 @@ function rcmail_compose_body($attrib)
         $OUTPUT->set_env('spellcheck_langs', join(',', $editor_lang_set));
     }
 
-    $out .= "\n".'<iframe name="savetarget" src="program/resources/blank.gif" style="width:0;height:0;border:none;visibility:hidden;"></iframe>';
+    $out .= "\n".'<iframe name="savetarget" src="program/resources/blank.gif" style="width:0;height:0;border:none;visibility:hidden;" aria-hidden="true"></iframe>';
 
     return $out;
 }
@@ -1520,7 +1524,9 @@ function rcmail_compose_attachment_list($attrib)
                         'href'    => "#delete",
                         'title'   => $RCMAIL->gettext('delete'),
                         'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", rcmail_output::JS_OBJECT_NAME, $id),
-                        'class'   => 'delete'
+                        'class'   => 'delete',
+                        'tabindex' => $attrib['tabindex'] ?: '0',
+                        'aria-label'   => $RCMAIL->gettext('delete') . ' ' . $a_prop['name'],
                     ),
                     $button
                 ) . rcube::Q($a_prop['name'])
@@ -1545,6 +1551,12 @@ function rcmail_compose_attachment_list($attrib)
 
     $OUTPUT->set_env('attachments', $jslist);
     $OUTPUT->add_gui_object('attachmentlist', $attrib['id']);
+
+    // put tabindex value into data-tabindex attribute
+    if (isset($attrib['tabindex'])) {
+        $attrib['data-tabindex'] = $attrib['tabindex'];
+        unset($attrib['tabindex']);
+    }
 
     return html::tag('ul', $attrib, $out, html::$common_attrib);
 }
@@ -1859,9 +1871,10 @@ function rcmail_compose_responses_list($attrib)
     foreach ($RCMAIL->get_compose_responses(true) as $response) {
         $key = $response['key'];
         $item = html::a(array(
-            'href '=> '#'.urlencode($response['name']),
+            'href' => '#'.urlencode($response['name']),
             'class' => rtrim('insertresponse ' . $attrib['itemclass']),
             'unselectable' => 'on',
+            'tabindex' => '0',
             'rel' => $key,
         ), rcube::Q($response['name']));
 

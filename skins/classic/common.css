@@ -20,10 +20,14 @@ body.extwin
   margin: 10px;
 }
 
-select, input, textarea
+select, input, textarea, button
 {
-  font-size: 12px;
+  font-size: inherit;
   font-family: inherit;
+}
+
+html.mozilla select {
+  padding: 2px 1px;
 }
 
 th
@@ -282,6 +286,13 @@ body > #message div.loading,
   background: url(images/display/loading.gif) 6px 3px no-repeat;
   background-color: #EBEBEB;
   border: 1px solid #CCCCCC;
+}
+
+body > #message div.voice
+{
+  position: absolute;
+  top: -1000px;
+  clip: rect(0 0 0 0);
 }
 
 body > #message a
@@ -606,9 +617,13 @@ img.uploading
   height: 16px;
 }
 
+.popup label > input {
+  margin-left: 10px;
+}
 
 /***** common table settings ******/
 
+table.records-table thead tr th,
 table.records-table thead tr td
 {
   height: 20px;
@@ -619,6 +634,7 @@ table.records-table thead tr td
   background: url(images/listheader.gif) top left repeat-x #CCC;
   font-size: 11px;
   font-weight: bold;
+  text-align: left;
 }
 
 table.records-table tbody tr td
@@ -629,7 +645,8 @@ table.records-table tbody tr td
   white-space: nowrap;
   border-bottom: 1px solid #EBEBEB;
   overflow: hidden;
-  text-align: left;  
+  text-align: left;
+  outline: none;
 }
 
 table.records-table tr
@@ -661,18 +678,21 @@ ul.treelist li
 ul.treelist li div.treetoggle
 {
   position: absolute;
-  left: 8px !important;
-  left: -16px;
+  left: 8px;
   top: 1px;
   width: 14px;
   height: 16px;
   cursor: pointer;
 }
 
-ul.treelist li ul li div.treetoggle
+ul.treelist ul li div.treetoggle
 {
-  left: 28px !important;
-  left: 4px;
+  left: 25px;
+}
+
+ul.treelist ul ul li div.treetoggle
+{
+  left: 42px;
 }
 
 ul.treelist li div.collapsed
@@ -684,7 +704,6 @@ ul.treelist li div.expanded
 {
   background: url(images/icons/expanded.png) bottom right no-repeat;
 }
-
 
 ul.treelist,
 ul.treelist li ul
@@ -706,6 +725,7 @@ ul.treelist li
   font-size: 11px;
   border-bottom: 1px solid #EBEBEB;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 ul.treelist li a
@@ -735,7 +755,8 @@ ul.treelist li ul li:last-child
   border-bottom: 0;
 }
 
-ul.treelist li.selected > a
+ul.treelist li.selected > a,
+ul.treelist li.selected > div a
 {
   color: #FFF;
   font-weight: bold;
@@ -745,6 +766,154 @@ ul.treelist li.selected > a
 ul.treelist li.droptarget
 {
   background-color: #FFFFA6;
+}
+
+/***** folders list *****/
+
+.folderlist li ul li:last-child
+{
+  border-bottom: 0 none;
+}
+
+.folderlist li.inbox a
+{
+  background-position: 5px -18px;
+}
+
+.folderlist li.drafts a
+{
+  background-position: 5px -35px;
+}
+
+.folderlist li.sent a
+{
+  background-position: 5px -54px;
+}
+
+.folderlist li.junk a
+{
+  background-position: 5px -73px;
+}
+
+.folderlist li.trash a
+{
+  background-position: 5px -180px;
+}
+
+.folderlist li.trash.empty a
+{
+  background-position: 5px -90px;
+}
+
+.folderlist li a
+{
+  cursor: default;
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  text-decoration: none;
+  height: 15px;
+  background: url(images/icons/folders.png) 5px 0 no-repeat;
+}
+
+.folderlist li.virtual > a
+{
+  color: #666;
+}
+
+.folderlist li.selected,
+.folderlist li.droptarget li.selected
+{
+  background-color: #929292;
+}
+
+.folderlist li.selected > a,
+.folderlist li.droptarget li.selected a
+{
+  color: #FFF;
+  font-weight: bold;
+}
+
+.folderlist li.droptarget
+{
+  background-color: #FFFFA6;
+}
+
+/* styles for nested folders */
+.folderlist ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #EBEBEB;
+  background-color: #FFF;
+  font-weight: normal;
+}
+
+.folderlist li.mailbox ul li a {
+  padding-left: 40px;  /* 24 + 1 x 16 */
+  background-position: 20px 0;  /* 4 + 1 x 16 */
+}
+.folderlist li.mailbox ul li div.treetoggle {
+  left: 23px !important;
+}
+
+.folderlist li.mailbox ul ul li.mailbox a {
+  padding-left: 56px;  /* 2x */
+  background-position: 36px 0;
+}
+.folderlist li.mailbox ul ul li div.treetoggle {
+  left: 39px !important;
+}
+
+.folderlist li.mailbox ul ul ul li.mailbox a {
+  padding-left: 72px;  /* 3x */
+  background-position: 52px 0;
+}
+.folderlist li.mailbox ul ul ul li div.treetoggle {
+  left: 55px !important;
+}
+
+.folderlist li.mailbox ul ul ul ul li.mailbox a {
+  padding-left: 88px;  /* 4x */
+  background-position: 68px 0;
+}
+.folderlist li.mailbox ul ul ul ul li div.treetoggle {
+  left: 71px !important;
+}
+
+/* indent folders on levels > 4 */
+.folderlist li.mailbox ul ul ul ul ul li {
+  padding-left: 16px;
+}
+.folderlist li.mailbox ul ul ul ul ul li div.treetoggle {
+  left: 87px !important;
+}
+
+.folderlist li.mailbox ul li.drafts a
+{
+  background-position: 21px -37px;
+}
+
+.folderlist li.mailbox ul li.sent a
+{
+  background-position: 21px -54px;
+}
+
+.folderlist li.mailbox ul li.junk a
+{
+  background-position: 21px -73px;
+}
+
+.folderlist li.mailbox ul li.trash a
+{
+  background-position: 21px -180px;
+}
+
+.folderlist li.mailbox ul li.trash.empty a
+{
+  background-position: 21px -90px;
 }
 
 
@@ -1222,6 +1391,35 @@ fieldset.tabbed
 .quota_text_mid { color: #666; }
 .quota_text_low { color: #666; }
 
+table.quota-info {
+	border-spacing: 0;
+	border-collapse: collapse;
+	table-layout: fixed;
+	margin: 2px;
+}
+
+table.quota-info td,
+table.quota-info th {
+	border: 1px solid #999;
+	padding: 2px 3px;
+	text-align: center;
+	min-width: 80px;
+	color: #333;
+	font-size: 11px;
+}
+
+table.quota-info th {
+	font-weight: bold;
+	background-color: #ddd;
+}
+
+table.quota-info td.name {
+	text-align: left;
+}
+
+table.quota-info td.root {
+	font-style: italic;
+}
 
 /********** TinyMCE styles **********/
 .mce-btn-small button
@@ -1246,84 +1444,6 @@ fieldset.tabbed
   border: 0 !important;
 }
 
-#image-selector-list
-{
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 152px;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-#image-selector-form
-{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 150px;
-  border: 0;
-  border: 1px solid #FFF;
-  border-left: 1px solid #DDD;
-  text-align: center;
-  padding-top: 10px;
-}
-
-#image-upload-button
-{
-  width: 80%;
-  height: 30px;
-}
-
-#image-upload-button span
-{
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  line-height: 30px;
-}
-
-#image-selector-list li
-{
-  line-height: 80px;
-  padding: 2px 0 2px 3px;
-  cursor: pointer;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-#image-selector-list li:hover
-{
-  background-color: #F0F0F0;
-}
-
-#image-selector-list ul li img
-{
-  vertical-align: middle;
-  max-height: 80px;
-}
-
-#image-selector-list ul li span.name
-{
-  vertical-align: middle;
-  font-weight: bold;
-  padding-left: 10px;
-  line-height: 80px;
-  vertical-align: middle;
-}
-
-#image-selector-list ul li span.img
-{
-  width: 80px;
-  text-align: center;
-  display: inline-block;
-  overflow: hidden;
-  line-height: 80px;
-  vertical-align: middle;
-}
-
 #image-selector-form.droptarget {
   background: url(images/filedrop.png) center bottom no-repeat;
 }
@@ -1334,12 +1454,4 @@ fieldset.tabbed
   box-shadow: 0 0 5px 0 #999;
   -moz-box-shadow: 0 0 5px 0 #999;
   -o-box-shadow: 0 0 5px 0 #999;
-}
-
-div.mce-abs-end div.hint
-{
-  line-height: 50px;
-  padding-left: 10px;
-  color: #999;
-  text-shadow: 0 1px 1px #FFF;
 }

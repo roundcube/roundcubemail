@@ -177,6 +177,18 @@ $labels['vacation.addresses'] = 'My additional addresses';
 $labels['vacation.interval'] = 'Reply interval';
 $labels['vacation.after'] = 'Put vacation rule after';
 $labels['vacation.saving'] = 'Saving data...';
+$labels['vacation.action'] = 'Incoming message action';
+$labels['vacation.keep'] = 'Keep';
+$labels['vacation.discard'] = 'Discard';
+$labels['vacation.redirect'] = 'Redirect to';
+$labels['vacation.copy'] = 'Send copy to';
+$labels['arialabelfiltersetactions'] = 'Filter set actions';
+$labels['arialabelfilteractions'] = 'Filter actions';
+$labels['arialabelfilterform'] = 'Filter properties';
+$labels['ariasummaryfilterslist'] = 'List of filters';
+$labels['ariasummaryfiltersetslist'] = 'List of filter sets';
+$labels['filterstitle'] = 'Edit incoming mail filters';
+$labels['vacationtitle'] = 'Edit out-of-office rule';
 
 $messages = array();
 $messages['filterunknownerror'] = 'Unknown server error.';
@@ -213,5 +225,6 @@ $messages['nodata'] = 'At least one position must be selected!';
 $messages['invaliddateformat'] = 'Invalid date or date part format';
 $messages['saveerror'] = 'Unable to save data. Server error occurred.';
 $messages['vacationsaved'] = 'Vacation data saved successfully.';
+$messages['emptyvacationbody'] = 'Body of vacation message is required!';
 
 ?>

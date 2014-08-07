@@ -31,7 +31,6 @@ var CONTROL_KEY = 1;
 var SHIFT_KEY = 2;
 var CONTROL_SHIFT_KEY = 3;
 
-
 /**
  * Default browser check class
  * @constructor
@@ -279,6 +278,28 @@ cancel: function(evt)
   e.cancelBubble = true;
 
   return false;
+},
+
+/**
+ * Determine whether the given event was trigered from keyboard
+ */
+is_keyboard: function(e)
+{
+  return e && (
+      (e.pointerType !== undefined && e.pointerType !== 'mouse') ||       // IE 11+
+      (e.mozInputSource && e.mozInputSource == e.MOZ_SOURCE_KEYBOARD) ||  // Firefox
+      (e.offsetX === 0 && e.offsetY === 0) || // Opera
+      (!e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0) ||  // others
+      (bw.ie && rcube_event._last_keyboard_event && rcube_event._last_keyboard_event.target == e.target)  // hack for IE <= 10
+    );
+},
+
+/**
+ * Accept event if triggered from keyboard action (e.g. <Enter>)
+ */
+keyboard_only: function(e)
+{
+  return rcube_event.is_keyboard(e) ? true : rcube_event.cancel(e);
 },
 
 touchevent: function(e)
@@ -591,6 +612,11 @@ if (!String.prototype.startsWith) {
     position = position || 0;
     return this.slice(position, search.length) === search;
   };
+}
+
+// array utility function
+jQuery.last = function(arr) {
+  return arr && arr.length ? arr[arr.length-1] : undefined;
 }
 
 // jQuery plugin to emulate HTML5 placeholder attributes on input elements

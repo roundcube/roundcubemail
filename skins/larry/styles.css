@@ -35,6 +35,29 @@ img {
   border: 0;
 }
 
+.voice {
+	position: absolute;
+	border: 0;
+	clip: rect(0 0 0 0);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+}
+
+html.mozilla select {
+	padding: 2px 1px;
+}
+
+input,
+textarea,
+select,
+button {
+	font-family: inherit;
+	font-size: inherit;
+}
+
 input[type="text"],
 input[type="password"],
 textarea {
@@ -43,23 +66,22 @@ textarea {
 	border: 1px solid #b2b2b2;
 	border-radius: 4px;
 	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
-	-moz-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
 	-webkit-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
-	-o-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
 }
 
 input[type="text"]:focus,
 input[type="password"]:focus,
-input[type="text"]:required,
-input[type="password"]:required,
 input.button:focus,
 textarea:focus {
 	border-color: #4787b1;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
-	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
-	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 	outline: none;
+}
+
+input[type="text"]:required,
+input[type="password"]:required {
+	border-color: #4787b1;
 }
 
 input.placeholder,
@@ -72,8 +94,7 @@ textarea.placeholder {
 }
 
 /* fixes vertical alignment of checkboxes and labels */
-label input,
-label span {
+label input + span {
 	vertical-align: middle;
 }
 
@@ -94,9 +115,7 @@ input.button {
 	background: -ms-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
 	background: linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
 	box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
-	-o-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	-webkit-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
-	-moz-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	text-decoration: none;
 	outline: none;
 }
@@ -115,9 +134,7 @@ input.button {
 	background: -ms-linear-gradient(top, #7b7b7b 0%, #606060 100%); /* IE10+ */
 	background: linear-gradient(top, #7b7b7b 0%, #606060 100%); /* W3C */
 	box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
-	-o-box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
 	-webkit-box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
-	-moz-box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
 }
 
 .formbuttons input.button:hover,
@@ -127,9 +144,7 @@ input.button.mainaction:focus {
 	color: #f2f2f2;
 	border-color: #465864;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
-	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
 	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
-	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
 }
 
 .formbuttons input.button:active {
@@ -152,9 +167,7 @@ input.button.mainaction {
 	background: -ms-linear-gradient(top, #505050 0%, #2a2e31 100%);
 	background: linear-gradient(top, #505050 0%, #2a2e31 100%);
 	box-shadow: inset 0 1px 0 0 #777;
-	-moz-box-shadow: inset 0 1px 0 0 #777;
 	-webkit-box-shadow: inset 0 1px 0 0 #777;
-	-o-box-shadow: inset 0 1px 0 0 #777;
 }
 
 input.button.mainaction:active {
@@ -195,9 +208,7 @@ a.button,
 	background: -ms-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
 	background: linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
 	box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
-	-o-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	-webkit-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
-	-moz-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	text-decoration: none;
 }
 
@@ -210,9 +221,7 @@ a.button:focus,
 input.button:focus {
 	border-color: #4fadd5;
 	box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
-	-moz-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
 	-webkit-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
-	-o-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
 	outline: none;
 }
 
@@ -229,14 +238,11 @@ input.button.disabled:hover,
 input.button[disabled]:hover {
 	border-color: #c6c6c6;
 	box-shadow: 0 1px 1px 0 rgba(160, 160, 160, 0.4);
-	-o-box-shadow: 0 1px 1px 0 rgba(160, 160, 160, 0.4);
 	-webkit-box-shadow: 0 1px 1px 0 rgba(160, 160, 160, 0.4);
-	-moz-box-shadow: 0 1px 1px 0 rgba(160, 160, 160, 0.4);
 }
 
 a.button.disabled span.inner {
 	opacity: 0.4;
-	filter: alpha(opacity=40);
 }
 
 .buttongroup a.button {
@@ -245,9 +251,7 @@ a.button.disabled span.inner {
 	border-radius: 0;
 	background: none;
 	box-shadow: none;
-	-o-box-shadow: none;
 	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
 }
 
 .buttongroup a.button.first,
@@ -283,9 +287,7 @@ input.button:active {
 	background: -ms-linear-gradient(top, #d8d8d8 0%, #bababa 100%);
 	background: linear-gradient(top, #d8d8d8 0%, #bababa 100%);
 	box-shadow: 0 1px 1px 0 #999;
-	-o-box-shadow: 0 1px 1px 0 #999;
 	-webkit-box-shadow: 0 1px 1px 0 #999;
-	-moz-box-shadow: 0 1px 1px 0 #999;
 }
 
 .pagenav.dark a.button.pressed {
@@ -305,11 +307,20 @@ input.button:active {
 	background: -o-linear-gradient(top, #909090 0%, #858585 100%);
 	background: -ms-linear-gradient(top, #909090 0%, #858585 100%);
 	background: linear-gradient(top, #909090 0%, #858585 100%);
-	-webkit-box-shadow: inset 0 1px 2px 0 #555;
-	-moz-box-shadow: inset 0 1px 2px 0 #555;
 	box-shadow: inset 0 1px 2px 0 #555;
+	-webkit-box-shadow: inset 0 1px 2px 0 #555;
 	border-right-color: #555;
 	border-left-color: #555;
+}
+
+.buttongroup a.button:focus,
+.buttongroup a.button.selected:focus {
+	background: #f2f2f2;
+	background: -moz-linear-gradient(top, #49b3d2 0, #66bcd9 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0,#49b3d2), color-stop(100%,#66bcd9));
+	background: -o-linear-gradient(top, #49b3d2 0, #66bcd9 100%);
+	background: -ms-linear-gradient(top, #49b3d2 0, #66bcd9 100%);
+	background: linear-gradient(top, #49b3d2 0, #66bcd9 100%);
 }
 
 .pagenav a.button {
@@ -429,7 +440,6 @@ a.iconbutton {
 
 a.iconbutton.disabled {
 	opacity: 0.4;
-	filter: alpha(opacity=40);
 	cursor: default;
 }
 
@@ -620,10 +630,8 @@ a.iconlink.upload {
 	background: -ms-linear-gradient(top, rgba(64,64,64,0.85) 0%, rgba(48,48,48,0.85) 100%);
 	background: linear-gradient(to bottom, rgba(64,64,64,0.85) 0%, rgba(48,48,48,0.85) 100%);
 
-	-moz-box-shadow: 0 1px 4px 0 rgba(50,50,50,0.8), inset 0px 1px 0 0px #888;
-	-webkit-box-shadow: 0 1px 4px 0 rgba(50,50,50,0.8), inset 0px 1px 0 0px #888;
-	-o-box-shadow: 0 1px 4px 0 rgba(50,50,50,0.8), inset 0px 1px 0 0px #888;
 	box-shadow: 0 1px 4px 0 rgba(50,50,50,0.8), inset 0px 1px 0 0px #888;
+	-webkit-box-shadow: 0 1px 4px 0 rgba(50,50,50,0.8), inset 0px 1px 0 0px #888;
 }
 
 #messagestack div:after {
@@ -669,6 +677,11 @@ a.iconlink.upload {
 	top: 4px;
 	left: 6px;
 	background: url(images/ajaxloader_dark.gif) 0 4px no-repeat;
+}
+
+#messagestack div.voice {
+	position: absolute;
+	top: -1000px;
 }
 
 #messagestack div a {
@@ -827,7 +840,6 @@ a.iconlink.upload {
 .minimal #topline:hover {
 	top: 0px;
 	opacity: 0.94;
-	filter: alpha(opacity=94);
 	-webkit-transition: top 0.3s ease-in-out;
 	-moz-transition: top 0.3s ease-in-out;
 	-o-transition: top 0.3s ease-in-out;
@@ -899,9 +911,7 @@ a.iconlink.upload {
 	white-space: nowrap;
 	border: 1px solid #777;
 	box-shadow: 0 1px 5px 0 #333;
-	-moz-box-shadow: 0 1px 5px 0 #333;
 	-webkit-box-shadow: 0 1px 5px 0 #333;
-	-o-box-shadow: 0 1px 5px 0 #333;
 	z-index: 200;
 	white-space: nowrap;
 	text-shadow: 0px 1px 1px #000;
@@ -948,6 +958,13 @@ a.iconlink.upload {
 	padding: 5px 0 0 34px;
 	height: 19px;
 	background: url(images/buttons.png) -1000px 0 no-repeat;
+}
+
+#taskbar a:focus {
+	color: #fff;
+	text-shadow: 0px 1px 1px #666;
+	background-color: rgba(73,180,210,0.7);
+	outline: none;
 }
 
 #taskbar a.button-selected {
@@ -1023,6 +1040,14 @@ a.iconlink.upload {
 	bottom: 0;
 }
 
+#mainscreen.offset {
+	top: 132px;
+}
+
+#mainscreen .offset {
+	top: 42px;
+}
+
 .minimal #mainscreen {
 	top: 62px;
 }
@@ -1035,12 +1060,8 @@ a.iconlink.upload {
 	top: 40px;
 }
 
-#mainscreen.offset {
-	top: 132px;
-}
-
-#mainscreen .offset {
-	top: 42px;
+.extwin #mainscreen.offset {
+	top: 86px;
 }
 
 .uibox {
@@ -1048,9 +1069,7 @@ a.iconlink.upload {
 	border-radius: 4px;
 	overflow: hidden;
 	box-shadow: 0 0 2px #999;
-	-o-box-shadow: 0 0 2px #999;
 	-webkit-box-shadow: 0 0 2px #999;
-	-moz-box-shadow: 0 0 2px #999;
 	background: #fff;
 }
 
@@ -1115,6 +1134,7 @@ a.iconlink.upload {
 }
 
 .boxtitle,
+.uibox .listing thead th,
 .uibox .listing thead td {
 	font-size: 12px;
 	font-weight: bold;
@@ -1126,7 +1146,14 @@ a.iconlink.upload {
 	white-space: nowrap;
 }
 
+.uibox .listing thead th,
+.uibox .listing thead td {
+	padding-bottom: 8px;
+	height: auto;
+}
+
 .uibox .boxtitle,
+.uibox .listing thead th,
 .uibox .listing thead td {
 	background: #b0ccd7;
 	color: #004458;
@@ -1145,6 +1172,7 @@ a.iconlink.upload {
 }
 
 .listbox .listitem a,
+.listbox .listitem span,
 .listbox .tablink a,
 .listing tbody td,
 .listing li a {
@@ -1155,24 +1183,47 @@ a.iconlink.upload {
 	cursor: default;
 	padding: 4px 8px;
 	line-height: 17px;
+	height: 17px;
 	white-space: nowrap;
 }
 
 .listing tbody td {
 	display: table-cell;
-	height: auto;
 	min-height: 14px;
+	outline: none;
+}
+
+.listing tbody td a {
+	color: #376572;
+	text-shadow: 0px 1px 1px #fff;
+	text-decoration: none;
 }
 
 .webkit .listing tbody td {
 	height: 14px;
 }
 
+/* This padding-left minus the focused padding left should be half of the focused border-left */
+.listing thead tr td:first-child,
+.listing tbody tr td:first-child {
+	border-left: 2px solid transparent;
+	padding-left: 6px;
+}
+
+.listing.iconized thead tr td:first-child,
+.listing.iconized tbody tr td:first-child {
+	padding-left: 34px;
+}
+
+/* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
+.listing.focus tbody tr.focused > td:first-child {
+	border-left: 2px solid #739da8;
+}
+
 .listbox .listitem.selected,
 .listbox .tablink.selected,
 .listbox .listitem.selected > a,
 .listbox .tablink.selected > a,
-.listing tbody tr.unfocused td,
 .listing tbody tr.selected td,
 .listing li.selected,
 .listing li.selected > a {
@@ -1239,6 +1290,16 @@ ul.treelist li a {
 	text-overflow: ellipsis;
 }
 
+ul.treelist li a:focus,
+ul.listing .listitem a:focus,
+ul.listing .listitem span:focus,
+ul.listing.focus .listitem.focused span {
+	color: #fff !important;
+	background-color: rgba(73,180,210,0.6);
+	text-shadow: 0px 1px 1px #666;
+	outline: none;
+}
+
 ul.treelist ul li a {
 	padding-left: 38px;
 }
@@ -1251,8 +1312,16 @@ ul.treelist.iconized li a {
 	padding-left: 36px;
 }
 
-ul.treelist.iconized li ul li a {
+ul.treelist.iconized ul li a {
 	padding-left: 62px;
+}
+
+ul.treelist.iconized ul ul li a {
+	padding-left: 88px;
+}
+
+ul.treelist.iconized ul ul ul li a {
+	padding-left: 114px;
 }
 
 ul.treelist li div.treetoggle {
@@ -1274,8 +1343,12 @@ ul.treelist.iconized li div.treetoggle {
 	left: 19px;
 }
 
-ul.treelist.iconized li ul li div.treetoggle {
-	left: 35px;
+ul.treelist.iconized ul li div.treetoggle {
+	left: 45px;
+}
+
+ul.treelist.iconized ul ul li div.treetoggle {
+	left: 71px;
 }
 
 ul.treelist li div.treetoggle.expanded {
@@ -1298,9 +1371,8 @@ ul.treelist li.selected > div.expanded {
 	height: 42px;
 	border-top: 1px solid #ccdde4;
 	background: #d9ecf4;
-	-webkit-box-shadow: inset 0 1px 0 0 #fff;
-	-moz-box-shadow: inset 0 1px 0 0 #fff;
 	box-shadow: inset 0 1px 0 0 #fff;
+	-webkit-box-shadow: inset 0 1px 0 0 #fff;
 	white-space: nowrap;
 	overflow: hidden;
 }
@@ -1319,6 +1391,13 @@ ul.treelist li.selected > div.expanded {
 	margin-top: 1px;
 }
 
+.boxfooter a.listbutton:focus {
+	color: #fff;
+	background-color: rgba(73,180,210,0.6);
+	text-shadow: 0px 1px 1px #666;
+	outline: none;
+}
+
 .uibox .boxfooter .listbutton:first-child {
 	border-radius: 0 0 0 4px;
 }
@@ -1328,7 +1407,9 @@ ul.treelist li.selected > div.expanded {
 	width: 48px;
 	height: 35px;
 	text-indent: -5000px;
-	background: url(images/buttons.png) -1000px 0 no-repeat;
+	background-image: url(images/buttons.png);
+	background-position: -1000px 0;
+	background-repeat: no-repeat;
 }
 
 .boxfooter .listbutton.add .inner {
@@ -1366,7 +1447,6 @@ ul.treelist li.selected > div.expanded {
 
 .boxfooter .listbutton.disabled .inner {
 	opacity: 0.4;
-	filter: alpha(opacity=40);
 }
 
 .boxfooter .countdisplay {
@@ -1409,7 +1489,6 @@ ul.treelist li.selected > div.expanded {
 
 .boxpagenav a.icon.disabled {
 	opacity: 0.4;
-	filter: alpha(opacity=40);
 }
 
 .centerbox {
@@ -1442,6 +1521,7 @@ table.records-table {
 	border: 0;
 }
 
+.records-table thead th,
 .records-table thead td {
 	color: #69939e;
 	font-size: 11px;
@@ -1456,13 +1536,17 @@ table.records-table {
 	padding: 8px 7px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	text-align: left;
 }
 
+.records-table.sortheader thead th,
 .records-table.sortheader thead td {
 	padding: 0;
 }
 
+.records-table thead th a,
 .records-table thead td a,
+.records-table thead th span,
 .records-table thead td span {
 	display: block;
 	padding: 7px 7px;
@@ -1470,6 +1554,14 @@ table.records-table {
 	text-decoration: none;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.records-table thead th a:focus,
+.records-table thead td a:focus {
+	color: #fff;
+	background-color: rgba(73,180,210,0.7);
+	text-shadow: 0px 1px 1px #666;
+	outline: none;
 }
 
 .records-table tbody td {
@@ -1481,27 +1573,28 @@ table.records-table {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	background-color: #fff;
+	outline: none;
 }
 
 /* This padding-left minus the focused padding left should be half of the focused border-left */
+.records-table thead tr th:first-child,
 .records-table thead tr td:first-child,
 .records-table tbody tr td:first-child {
-	border-left: 0;
-	padding-left: 6px;
-}
-
-/* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
-.records-table tbody tr.focused > td:first-child {
-	border-left: 2px solid #b0ccd7;
+	border-left: 2px solid transparent;
 	padding-left: 4px;
 }
 
-.records-table tbody tr.selected.focused > td:first-child {
-	border-left-color: #49b3d2;
+/* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
+.records-table.focus tbody tr.focused > td:first-child {
+	border-left: 2px solid #49b3d2;
 }
 
 .records-table tr.selected td {
 	color: #fff !important;
+	background-color: #4db0d2 !important;
+}
+
+.records-table.focus tr.selected td {
 	background: #019bc6;
 	background: -moz-linear-gradient(top, #019bc6 0%, #017cb4 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#019bc6), color-stop(100%,#017cb4));
@@ -1512,16 +1605,6 @@ table.records-table {
 
 .records-table tr.selected td a,
 .records-table tr.selected td span {
-	color: #fff !important;
-}
-
-.records-table tr.unfocused td {
-	color: #fff !important;
-	background-color: #4db0d2 !important;
-}
-
-.records-table tr.unfocused td a,
-.records-table tr.unfocused td span {
 	color: #fff !important;
 }
 
@@ -1730,9 +1813,7 @@ ul.proplist li {
 	border: 1px solid #333;
 	border-radius: 5px;
 	box-shadow: inset 0 0 1px #ccc;
-	-o-box-shadow: inset 0 0 1px #ccc;
 	-webkit-box-shadow: inset 0 0 1px #ccc;
-	-moz-box-shadow: inset 0 0 1px #ccc;
 }
 
 #login-form .box-bottom {
@@ -1771,17 +1852,13 @@ ul.proplist li {
 	background: -ms-linear-gradient(top, #f9f9f9 0%, #e2e2e2 100%);
 	background: linear-gradient(top, #f9f9f9 0%, #e2e2e2 100%);
 	box-shadow: inset 0 1px 0 0 #fff;
-	-moz-box-shadow: inset 0 1px 0 0 #fff;
 	-webkit-box-shadow: inset 0 1px 0 0 #fff;
-	-o-box-shadow: inset 0 1px 0 0 #fff;
 }
 
 #login-form input.button:hover,
 #login-form input.button:focus {
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9), inset 0 1px 0 0 #fff;
-	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9), inset 0 1px 0 0 #fff;
 	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9), inset 0 1px 0 0 #fff;
-	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9), inset 0 1px 0 0 #fff;
 }
 
 #login-form input.button:active {
@@ -1905,7 +1982,7 @@ ul.proplist li {
 	font-size: 10px;
 	color: #555;
 	min-width: 50px;
-	max-width: 75px;
+	max-width: 70px;
 	height: 13px;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -1913,17 +1990,22 @@ ul.proplist li {
 	padding: 28px 2px 0 2px;
 	text-shadow: 0px 1px 1px #eee;
 	box-shadow: none;
-	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
-	-o-box-shadow: none;
 	background: url(images/buttons.png) -100px 0 no-repeat transparent;
 	border: 0;
 	border-radius: 0;
 }
 
+.dropbutton .dropbuttontip:focus,
+.toolbar a.button:focus {
+	color: #fff;
+	text-shadow: 0px 1px 1px #666;
+	background-color: rgba(30,150,192, 0.5);
+	border-radius: 3px;
+}
+
 .toolbar a.button.disabled {
 	opacity: 0.4;
-	filter: alpha(opacity=40);
 }
 
 .dropbutton {
@@ -1936,19 +2018,22 @@ ul.proplist li {
 	position: absolute;
 	right: 0;
 	top: 0;
-	height: 42px;
+	height: 41px;
 	width: 18px;
+	overflow: hidden;
+	text-indent: -5000px;
 	background: url(images/buttons.png) 0 -1255px no-repeat;
 	cursor: pointer;
+	outline: none;
 }
 
+.dropbutton .dropbuttontip:focus,
 .dropbutton .dropbuttontip:hover {
 	background-position: -26px -1255px;
 }
 
 .dropbutton a.button.disabled + .dropbuttontip {
 	opacity: 0.5;
-	filter: alpha(opacity=50);
 }
 
 .dropbutton a.button.disabled + .dropbuttontip:hover {
@@ -1980,12 +2065,12 @@ ul.proplist li {
 
 .toolbar a.button.reply-all {
 	min-width: 64px;
-	background-position: left -610px;
+	background-position: 0 -610px;
 }
 
 .toolbar a.button.forward {
 	min-width: 64px;
-	background-position: left -650px;
+	background-position: 0 -650px;
 }
 
 .toolbar a.button.delete {
@@ -2022,11 +2107,11 @@ ul.proplist li {
 
 .toolbar a.button.spellcheck {
 	min-width: 64px;
-	background-position: left -930px;
+	background-position: 0 -930px;
 }
 
 .toolbar a.button.spellcheck.selected {
-	background-position: left -1620px;
+	background-position: 0 -1620px;
 	color: #1978a1;
 }
 
@@ -2043,8 +2128,8 @@ ul.proplist li {
 }
 
 .toolbar a.button.export {
-	min-width: 74px;
-	background-position: center -1054px;
+	min-width: 64px;
+	background-position: 0 -1054px;
 }
 
 .toolbar a.button.send {
@@ -2109,7 +2194,6 @@ select.decorated {
 	opacity: 0;
 	height: 22px;
 	cursor: pointer;
-	filter: alpha(opacity=0);
 	-khtml-appearance: none;
 	-webkit-appearance: none;
 	border: 0;
@@ -2132,6 +2216,17 @@ select.decorated option {
 }
 
 
+a.menuselector:focus,
+a.menuselector.focus,
+a.iconbutton:focus,
+.pagenav a.button:focus {
+	border-color: #4fadd5;
+	box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	-webkit-box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	outline: none;
+}
+
+
 /*** quota indicator ***/
 
 #quotadisplay {
@@ -2142,6 +2237,30 @@ select.decorated option {
 	text-shadow: 0px 1px 1px #fff;
 	padding-left: 30px;
 	background: url(images/quota.png) -100px 0 no-repeat;
+}
+
+table.quota-info {
+	border-spacing: 0;
+	border-collapse: collapse;
+	table-layout: fixed;
+	margin: 5px;
+}
+
+table.quota-info td,
+table.quota-info th {
+	color: white;
+	border: 1px solid lightgrey;
+	padding: 2px 3px;
+	text-align: center;
+	min-width: 80px;
+}
+
+table.quota-info td.name {
+	text-align: left;
+}
+
+table.quota-info td.root {
+	font-style: italic;
 }
 
 /*** popup menus ***/
@@ -2161,9 +2280,7 @@ select.decorated option {
 	z-index: 240;
 	border-radius: 4px;
 	box-shadow: 0 2px 6px 0 #333;
-	-moz-box-shadow: 0 2px 6px 0 #333;
 	-webkit-box-shadow: 0 2px 6px 0 #333;
-	-o-box-shadow: 0 2px 6px 0 #333;
 }
 
 .popupmenu.dropdown {
@@ -2224,6 +2341,7 @@ ul.toolbarmenu li a.active {
 
 .googie_list td.googie_list_onhover,
 ul.toolbarmenu li a.active:hover,
+ul.toolbarmenu li a.active:focus,
 #rcmKSearchpane ul li.selected,
 select.decorated option:hover,
 select.decorated option[selected='selected'] {
@@ -2233,6 +2351,7 @@ select.decorated option[selected='selected'] {
 	background: -o-linear-gradient(top, #00aad6 0%, #008fc9 100%);
 	background: -ms-linear-gradient(top, #00aad6 0%, #008fc9 100%);
 	background: linear-gradient(top, #00aad6 0%, #008fc9 100%);
+	outline: none;
 }
 
 ul.toolbarmenu.iconized li a,
@@ -2270,12 +2389,10 @@ ul.toolbarmenu li span.icon {
 	background-position: -100px 0;
 	background-repeat: no-repeat;
 	opacity: 0.2;
-	filter: alpha(opacity=20);
 }
 
 ul.toolbarmenu li a.active span.icon {
 	opacity: 0.99;
-	filter: alpha(opacity=100);
 }
 
 ul.toolbarmenu li span.read {
@@ -2418,14 +2535,11 @@ ul.toolbarmenu li span.copy {
 	border: 1px solid #555;
 	border-radius: 4px;
 	box-shadow: 0 2px 6px 0 #333;
-	-moz-box-shadow: 0 2px 6px 0 #333;
 	-webkit-box-shadow: 0 2px 6px 0 #333;
-	-o-box-shadow: 0 2px 6px 0 #333;
 	z-index: 250;
 	color: #ccc;
 	white-space: nowrap;
 	opacity: 0.92;
-	filter: alpha(opacity=92);
 	text-shadow: 0px 1px 1px #333;
 }
 
@@ -2452,6 +2566,10 @@ ul.toolbarmenu li span.copy {
 	height: 16px;
 	background: url(images/buttons.png) -7px -358px no-repeat;
 	z-index: 255;
+}
+
+.popup label > input {
+	margin-left: 10px;
 }
 
 /*** folder selector ***/
@@ -2490,6 +2608,224 @@ ul.toolbarmenu li span.copy {
 #folder-selector li a.junk span {
 	background-position: 4px -2100px;
 }
+
+/*** folders list ***/
+
+.folderlist li.mailbox a {
+	padding-left: 36px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	background-image: url(images/listicons.png);
+	background-repeat: no-repeat;
+	background-position: 6px 3px;
+}
+
+.folderlist li.mailbox.unread > a {
+	padding-right: 36px;
+}
+
+.folderlist li.mailbox > a:focus,
+.folderlist li.mailbox.selected > a {
+	background-position: 6px -21px;
+}
+
+.folderlist li.mailbox.inbox > a {
+	background-position: 6px -189px;
+}
+
+.folderlist li.mailbox.inbox > a:focus,
+.folderlist li.mailbox.inbox.selected > a {
+	background-position: 6px -213px;
+}
+
+.folderlist li.mailbox.drafts > a {
+	background-position: 6px -238px;
+}
+
+.folderlist li.mailbox.drafts > a:focus,
+.folderlist li.mailbox.drafts.selected > a {
+	background-position: 6px -262px;
+}
+
+.folderlist li.mailbox.sent > a {
+	background-position: 6px -286px;
+}
+
+.folderlist li.mailbox.sent > a:focus,
+.folderlist li.mailbox.sent.selected > a {
+	background-position: 6px -310px;
+}
+
+.folderlist li.mailbox.junk > a {
+	background-position: 6px -334px;
+}
+
+.folderlist li.mailbox.junk > a:focus,
+.folderlist li.mailbox.junk.selected > a {
+	background-position: 6px -358px;
+}
+
+.folderlist li.mailbox.trash > a {
+	background-position: 6px -382px;
+}
+
+.folderlist li.mailbox.trash > a:focus,
+.folderlist li.mailbox.trash.selected > a {
+	background-position: 6px -406px;
+}
+
+.folderlist li.mailbox.trash.empty > a {
+	background-position: 6px -1924px;
+}
+
+.folderlist li.mailbox.trash.empty > a:focus,
+.folderlist li.mailbox.trash.empty.selected > a {
+	background-position: 6px -1948px;
+}
+
+.folderlist li.mailbox.archive > a {
+	background-position: 6px -1699px;
+}
+
+.folderlist li.mailbox.archive > a:focus,
+.folderlist li.mailbox.archive.selected > a {
+	background-position: 6px -1723px;
+}
+
+.folderlist li.mailbox ul li.drafts > a {
+	background-position: 23px -238px;
+}
+
+.folderlist li.mailbox ul li.drafts > a:focus,
+.folderlist li.mailbox ul li.drafts.selected > a {
+	background-position: 23px -262px;
+}
+
+.folderlist li.mailbox ul li.sent > a {
+	background-position: 23px -286px;
+}
+
+.folderlist li.mailbox ul li.sent > a:focus,
+.folderlist li.mailbox ul li.sent.selected > a {
+	background-position: 23px -310px;
+}
+
+.folderlist li.mailbox ul li.junk > a {
+	background-position: 23px -334px;
+}
+
+.folderlist li.mailbox ul li.junk > a:focus,
+.folderlist li.mailbox ul li.junk.selected > a {
+	background-position: 23px -358px;
+}
+
+.folderlist li.mailbox ul li.trash > a {
+	background-position: 23px -382px;
+}
+
+.folderlist li.mailbox ul li.trash > a:focus,
+.folderlist li.mailbox ul li.trash.selected > a {
+	background-position: 23px -406px;
+}
+
+.folderlist li.mailbox ul li.trash.empty > a {
+	background-position: 23px -1924px;
+}
+
+.folderlist li.mailbox ul li.trash.empty > a:focus,
+.folderlist li.mailbox ul li.trash.empty.selected > a {
+	background-position: 23px -1948px;
+}
+
+.folderlist li.mailbox ul li.archive > a {
+	background-position: 23px -1699px;
+}
+
+.folderlist li.mailbox ul li.archive > a:focus,
+.folderlist li.mailbox ul li.archive.selected > a {
+	background-position: 23px -1723px;
+}
+
+.folderlist li.virtual > a {
+	color: #aaa;
+}
+
+.folderlist li.mailbox div.treetoggle {
+	top: 13px;
+	left: 19px;
+}
+
+.folderlist li.mailbox ul li:last-child {
+	border-bottom: 0;
+}
+
+/* nested mailboxes */
+
+.folderlist li.mailbox ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid #bbd3da;
+}
+
+.folderlist li.mailbox ul li a {
+	padding-left: 52px;  /* 36 + 1 x 16 */
+	background-position: 22px -95px;  /* 6 + 1 x 16 */
+}
+.folderlist li.mailbox ul li > a:focus,
+.folderlist li.mailbox ul li.selected > a {
+	background-position: 22px -119px;
+}
+.folderlist li.mailbox ul li div.treetoggle {
+	left: 33px;
+	top: 14px;
+}
+
+.folderlist li.mailbox ul ul li.mailbox a {
+	padding-left: 68px;  /* 2x */
+	background-position: 38px -95px;
+}
+.folderlist li.mailbox ul ul li > a:focus,
+.folderlist li.mailbox ul ul li.selected > a {
+	background-position: 38px -119px;
+}
+.folderlist li.mailbox ul ul li div.treetoggle {
+	left: 48px;
+}
+
+.folderlist li.mailbox ul ul ul li.mailbox a {
+	padding-left: 84px;  /* 3x */
+	background-position: 54px -95px;
+}
+.folderlist li.mailbox ul ul ul li > a:focus,
+.folderlist li.mailbox ul ul ul li.selected > a {
+	background-position: 54px -119px;
+}
+.folderlist li.mailbox ul ul ul li div.treetoggle {
+	left: 64px;
+}
+
+.folderlist li.mailbox ul ul ul ul li.mailbox a {
+	padding-left: 100px;  /* 4x */
+	background-position: 70px -95px;
+}
+.folderlist li.mailbox ul ul ul ul li > a:focus,
+.folderlist li.mailbox ul ul ul ul li.selected > a {
+	background-position: 70px -119px;
+}
+.folderlist li.mailbox ul ul ul ul li div.treetoggle {
+	left: 80px;
+}
+
+/* indent folders on levels > 4 */
+.folderlist li.mailbox ul ul ul ul ul li {
+	padding-left: 16px;
+}
+.folderlist li.mailbox ul ul ul ul ul li div.treetoggle {
+	left: 96px;
+}
+
 
 /*** attachment list ***/
 
@@ -2620,6 +2956,7 @@ ul.toolbarmenu li span.copy {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	line-height: 20px;
+	outline: none;
 }
 
 .attachmentslist li a.drop {
@@ -2631,6 +2968,15 @@ ul.toolbarmenu li span.copy {
 	right: 0;
 	top: 0;
 	padding: 0;
+	overflow: hidden;
+	text-indent: -5000px;
+	outline: none;
+}
+
+.attachmentslist li a:focus,
+.attachmentslist li a.drop:focus {
+	background-color: rgba(30,150,192, 0.5);
+	border-radius: 2px;
 }
 
 #compose-attachments ul li {
@@ -2655,36 +3001,37 @@ ul.toolbarmenu li span.copy {
 	padding: 0;
 	text-decoration: none;
 	text-indent: -5000px;
-	background: url(images/buttons.png) -7px -337px no-repeat;
+	background-image: url(images/buttons.png);
+	background-position: -6px -338px;
+	background-repeat: no-repeat;
 }
 
 .attachmentslist li a.cancelupload {
-	background-position: -7px -377px;
+	background-position: -6px -378px;
 }
-
 
 /*** fieldset tabs ***/
 
-.tabsbar {
-	margin-bottom: 12px;
-	padding-top: 15px;
-	height: 27px;
-	white-space: nowrap;
+.tabbed.ui-tabs {
+	padding: 0;
+	border: 0 !important;
+	background: none;
 }
 
-.ui-dialog-content .tabsbar {
+.ui-dialog .tabbed.ui-tabs {
+	margin: -12px -8px 0 -8px;
+}
+
+.boxcontent.tabbed.ui-tabs {
+	padding: 10px;
+}
+
+.ui-tabs .tabsbar.ui-tabs-nav {
+	margin-bottom: 10px;
+}
+
+.ui-dialog-content .ui-tabs .tabsbar.ui-tabs-nav {
 	margin-bottom: 0;
-}
-
-.tabsbar .tablink {
-	padding: 15px 1px 15px 0;
-	background: #f8f8f8;
-	background: -moz-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(50%,#d3d3d3), color-stop(100%,#f8f8f8));
-	background: -webkit-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
-	background: -o-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
-	background: -ms-linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
-	background: linear-gradient(top, #f8f8f8 0%, #d3d3d3 50%, #f8f8f8 100%);
 }
 
 .tabsbar .tablink:last-child {
@@ -2695,124 +3042,33 @@ ul.toolbarmenu li span.copy {
 	border-right: 0;
 }
 
-.tabsbar .tablink a {
-	padding: 15px;
-	color: #999;
-	font-size: 12px;
-	font-weight: bold;
-	text-decoration: none;
+.ui-tabs .ui-tabs-nav li.tablink a {
 	background: #fff;
-	border-right: 1px solid #fafafa;
 }
 
-.tabsbar .tablink.selected a {
-	color: #004458;
-	background: #f6f6f6;
-	background: -moz-linear-gradient(top, #fff 40%, #efefef 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(40%,#fff), color-stop(100%,#efefef));
-	background: -o-linear-gradient(top, #fff 40%, #efefef 100%);
-	background: -ms-linear-gradient(top, #fff 40%, #efefef 100%);
-	background: linear-gradient(top, #fff 40%, #efefef 100%);
-}
-
-fieldset.tab {
+.ui-tabs fieldset.ui-tabs-panel {
 	border: 0;
 	padding: 0;
 	margin-left: 0;
+	background: none;
 }
 
-/*** image selector in HTML editor ***/
-#image-selector-list {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 152px;
-	height: 100%;
-	overflow-x: hidden;
-	overflow-y: auto;
-}
-
-#image-selector-form {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	width: 150px;
-	border: 0;
-	border: 1px solid #FFF;
-	border-left: 1px solid #DDD;
-	text-align: center;
-	padding-top: 10px;
-}
-
-#image-upload-button {
-	width: 80%;
-	height: 30px;
-}
-
-#image-upload-button span {
-	position: absolute;
-	width: 100%;
-	text-align: center;
-	line-height: 30px;
-}
-
-#image-selector-list li {
-	line-height: 80px;
-	padding: 2px 0 2px 3px;
-	cursor: pointer;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-#image-selector-list li:hover {
-	background-color: #F0F0F0;
-}
-
-#image-selector-list ul li img {
-	vertical-align: middle;
-	max-height: 80px;
-}
-
-#image-selector-list ul li span.name {
-	vertical-align: middle;
-	font-weight: bold;
-	padding-left: 10px;
-}
-
-#image-selector-list ul li span.img {
-	height: 80px;
-	width: 80px;
-	text-align: center;
-	display: inline-block;
-	overflow: hidden;
-	line-height: 80px;
+.ui-dialog .propform .ui-tabs-panel {
+	display: block;
+	background: #efefef;
+	padding: 0.5em 1em;
 }
 
 #image-selector-form.droptarget {
 	background: url(images/filedrop.png) center bottom no-repeat;
 }
 
-#image-selector-form.droptarget.hover,
-#image-selector-form.droptarget.active {
-	border: 1px solid #019bc6;
-	box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
-	-moz-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
-	-webkit-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
-	-o-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
+/** Common TinyMCE fixes **/
+.mce-btn-small .mce-ico {
+	display: inline; /* for old Firefox */
 }
 
-#image-selector-form.droptarget.hover {
-	background-color: #d9ecf4;
-	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
-	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
-	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
-	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
-}
-
-div.mce-abs-end div.hint {
-	line-height: 50px;
-	padding-left: 10px;
-	color: #999;
-	text-shadow: 0 1px 1px #FFF;
+.mce-btn-small i {
+	line-height: 16px !important;
+	vertical-align: text-top !important;
 }

@@ -27,6 +27,7 @@ if (!$OUTPUT->ajax_call)
 $threading = (bool) $RCMAIL->storage->get_threading();
 $old_count = $RCMAIL->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
 $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
+$sources   = array();
 
 $trash  = $RCMAIL->config->get('trash_mbox');
 
@@ -36,12 +37,13 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
     $trash  = $RCMAIL->config->get('trash_mbox');
 
     $success = true;
-    foreach (rcmail::get_uids() as $mbox => $uids) {
+    foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
         if ($mbox === $target) {
             $count += count($uids);
         }
         else if ($RCMAIL->storage->move_message($uids, $target, $mbox)) {
             $count += count($uids);
+            $sources[] = $mbox;
         }
         else {
             $success = false;
@@ -69,10 +71,11 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
     }
 }
 // delete messages 
-else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
-    foreach (rcmail::get_uids() as $mbox => $uids) {
-        $del += (int)$RCMAIL->storage->delete_message($uids, $mbox);
-        $count += count($uids);
+else if ($RCMAIL->action == 'delete' && !empty($_POST['_uid'])) {
+    foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
+        $del      += (int)$RCMAIL->storage->delete_message($uids, $mbox);
+        $count    += count($uids);
+        $sources[] = $mbox;
     }
 
     if (!$del) {
@@ -146,7 +149,7 @@ else {
     rcmail_send_unread_count($target, true);
   }
 
-  $OUTPUT->command('set_quota', $RCMAIL->quota_content());
+  $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $multifolder ? $sources[0] : 'INBOX'));
   $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count), $mbox);
 
   if ($threading) {

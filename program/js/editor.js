@@ -40,7 +40,7 @@ function rcube_text_editor(config, id)
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
       theme: 'modern',
       language: config.lang,
-      content_css: config.skin_path + '/editor_content.css?v2',
+      content_css: 'program/js/tinymce/roundcube/content.css?v1',
       menubar: false,
       statusbar: false,
       toolbar_items_size: 'small',
@@ -65,17 +65,19 @@ function rcube_text_editor(config, id)
   // minimal editor
   if (config.mode == 'identity') {
     $.extend(conf, {
-      plugins: ['autolink charmap code hr link paste tabfocus textcolor'],
+      plugins: 'autolink charmap code colorpicker hr image link paste tabfocus textcolor',
       toolbar: 'bold italic underline alignleft aligncenter alignright alignjustify'
-        + ' | outdent indent charmap hr link unlink code forecolor'
-        + ' | fontselect fontsizeselect'
+        + ' | outdent indent charmap hr link unlink image code forecolor'
+        + ' | fontselect fontsizeselect',
+      file_browser_callback: function(name, url, type, win) { ref.file_browser_callback(name, url, type); },
+      file_browser_callback_types: 'image'
     });
   }
   // full-featured editor
   else {
     $.extend(conf, {
-      plugins: ['autolink charmap code directionality emoticons link image media nonbreaking'
-        + ' paste table tabfocus textcolor searchreplace' + (config.spellcheck ? ' spellchecker' : '')],
+      plugins: 'autolink charmap code colorpicker directionality emoticons link image media nonbreaking'
+        + ' paste table tabfocus textcolor searchreplace' + (config.spellcheck ? ' spellchecker' : ''),
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
         + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
         + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',
@@ -84,7 +86,7 @@ function rcube_text_editor(config, id)
       accessibility_focus: false,
       file_browser_callback: function(name, url, type, win) { ref.file_browser_callback(name, url, type); },
       // @todo: support more than image (types: file, image, media)
-      file_browser_callback_types: 'image'
+      file_browser_callback_types: 'image media'
     });
   }
 
@@ -101,6 +103,10 @@ function rcube_text_editor(config, id)
     });
     ed.on('keypress', function() {
       rcmail.compose_type_activity++;
+    });
+    // secure spellchecker requests with Roundcube token
+    tinymce.util.XHR.on('beforeSend', function(e) {
+      e.xhr.setRequestHeader('X-Roundcube-Request', rcmail.env.request_token);
     });
   };
 
@@ -165,6 +171,24 @@ function rcube_text_editor(config, id)
         node.tabIndex = textarea.tabIndex;
       if (focus)
         this.editor.getBody().focus();
+
+      // find :prev and :next elements to get focus when tabbing away
+      if (textarea.tabIndex > 0) {
+        var x = null,
+          editor = this.editor,
+          tabfocus_elements = [':prev',':next'],
+          el = tinymce.DOM.select('*[tabindex='+textarea.tabIndex+']:not(iframe)');
+        tinymce.each(el, function(e, i) { if (e.id == editor.id) { x = i; return false; } });
+        if (x !== null) {
+          if (el[x-1] && el[x-1].id) {
+            tabfocus_elements[0] = el[x-1].id;
+          }
+          if (el[x+1] && el[x+1].id) {
+            tabfocus_elements[1] = el[x+1].id;
+          }
+          editor.settings.tabfocus_elements = tabfocus_elements.join(',');
+        }
+      }
     }
   };
 
@@ -263,9 +287,10 @@ function rcube_text_editor(config, id)
     var ed = this.editor;
 
     if (ed) {
-      if (ed.plugins && ed.plugins.spellchecker && this.spellcheck_active)
-        ed.execCommand('mceSpellCheck');
+      if (ed.plugins && ed.plugins.spellchecker && this.spellcheck_active) {
+        ed.execCommand('mceSpellCheck', false);
         this.spellcheck_observer();
+      }
     }
     else if (ed = this.spellchecker) {
       if (ed.state && ed.state != 'ready' && ed.state != 'no_error_found')
@@ -284,17 +309,13 @@ function rcube_text_editor(config, id)
       return ed.state != 'ready' && ed.state != 'no_error_found';
   };
 
-  // resume spellchecking, highlight provided mispellings without new ajax request
+  // resume spellchecking, highlight provided mispellings without a new ajax request
   this.spellcheck_resume = function(data)
   {
     var ed = this.editor;
 
     if (ed) {
-      ed.settings.spellchecker_callback = function(name, text, done, error) { done(data); };
-      ed.execCommand('mceSpellCheck');
-      ed.settings.spellchecker_callback = null;
-
-      this.spellcheck_observer();
+      ed.plugins.spellchecker.markErrors(data);
     }
     else if (ed = this.spellchecker) {
       ed.prepare(false, true);
@@ -505,7 +526,7 @@ function rcube_text_editor(config, id)
   // image selector
   this.file_browser_callback = function(field_name, url, type)
   {
-    var i, elem, dialog, list = [];
+    var i, elem, cancel, dialog, fn, list = [];
 
     // open image selector dialog
     dialog = this.editor.windowManager.open({
@@ -513,7 +534,7 @@ function rcube_text_editor(config, id)
       width: 500,
       height: 300,
       html: '<div id="image-selector-list"><ul></ul></div>'
-        + '<div id="image-selector-form"><div id="image-upload-button" class="mce-widget mce-btn" role="button"></div></div>',
+        + '<div id="image-selector-form"><div id="image-upload-button" class="mce-widget mce-btn" role="button" tabindex="0"></div></div>',
       buttons: [{text: 'Cancel', onclick: function() { ref.file_browser_close(); }}]
     });
 
@@ -528,19 +549,55 @@ function rcube_text_editor(config, id)
     }
 
     if (list.length) {
-      $('#image-selector-list > ul').append(list);
+      $('#image-selector-list > ul').append(list).find('li:first').focus();
     }
 
     // add hint about max file size (in dialog footer)
-    $('div.mce-abs-end', dialog.getEl()).append($('<div class="hint">').text($('div.hint', rcmail.gui_objects.uploadform).text()));
+    $('div.mce-abs-end', dialog.getEl()).append($('<div class="hint">')
+      .text($('div.hint', rcmail.gui_objects.uploadform).text()));
+
+    // init upload button
+    elem = $('#image-upload-button').append($('<span>').text(rcmail.gettext('add' + type)));
+    cancel = elem.parents('.mce-panel').find('button:last').parent();
+
+    // we need custom Tab key handlers, until we find out why
+    // tabindex do not work here as expected
+    elem.keydown(function(e) {
+      if (e.which == 9) {
+        // on Tab + Shift focus first file
+        if (rcube_event.get_modifier(e) == SHIFT_KEY)
+          $('#image-selector-list li:last').focus();
+        // on Tab focus Cancel button
+        else
+          cancel.focus();
+
+        return false;
+      }
+    });
+    cancel.keydown(function(e) {
+      if (e.which == 9) {
+        // on Tab + Shift focus upload button
+        if (rcube_event.get_modifier(e) == SHIFT_KEY)
+          elem.focus();
+        else
+          $('#image-selector-list li:first').focus();
+
+        return false;
+      }
+    });
 
     // enable (smart) upload button
-    elem = $('#image-upload-button').append($('<span>').text(rcmail.gettext('add' + type)));
     this.hack_file_input(elem, rcmail.gui_objects.uploadform);
 
     // enable drag-n-drop area
-    if (rcmail.gui_objects.filedrop && rcmail.env.filedrop && ((window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.sendAsBinary) || window.FormData)) {
-      rcmail.env.old_file_drop = rcmail.gui_objects.filedrop;
+    if ((window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.sendAsBinary) || window.FormData) {
+      if (!rcmail.env.filedrop) {
+        rcmail.env.filedrop = {};
+      }
+      if (rcmail.gui_objects.filedrop) {
+        rcmail.env.old_file_drop = rcmail.gui_objects.filedrop;
+      }
+
       rcmail.gui_objects.filedrop = $('#image-selector-form');
       rcmail.gui_objects.filedrop.addClass('droptarget')
         .bind('dragover dragleave', function(e) {
@@ -558,18 +615,25 @@ function rcube_text_editor(config, id)
         var elem;
         if (elem = ref.file_browser_entry(attr.name, attr.attachment)) {
           $('#image-selector-list > ul').prepend(elem);
+          elem.focus();
         }
       });
     }
+
+    // @todo: upload progress indicator
   };
 
   // close file browser window
   this.file_browser_close = function(url)
   {
+    var input = $('#' + rcmail.env.file_browser_field);
+
     if (url)
-      $('#' + rcmail.env.file_browser_field).val(url);
+      input.val(url);
 
     this.editor.windowManager.close();
+
+    input.focus();
 
     if (rcmail.env.old_file_drop)
       rcmail.gui_objects.filedrop = rcmail.env.old_file_drop;
@@ -582,14 +646,56 @@ function rcube_text_editor(config, id)
       return;
     }
 
-    if (file.mimetype.startsWith('image/')) {
-      var href = rcmail.env.comm_path+'&_id='+rcmail.env.compose_id+'&_action=display-attachment&_file='+file_id,
-        img = $('<img>').attr({title: file.name, src: href + '&_thumbnail=1'});
+    if (rcmail.file_upload_id) {
+      rcmail.set_busy(false, null, rcmail.file_upload_id);
+    }
 
-      return $('<li>').data('url', href)
+    var rx, img_src;
+
+    switch (rcmail.env.file_browser_type) {
+      case 'image':
+        rx = /^image\//i;
+        break;
+
+      case 'media':
+        rx = /^video\//i;
+        img_src = 'program/js/tinymce/roundcube/video.png';
+        break;
+
+      default:
+        return;
+    }
+
+    if (rx.test(file.mimetype)) {
+      var path = rcmail.env.comm_path + '&_from=' + rcmail.env.action,
+        action = rcmail.env.compose_id ? '&_id=' + rcmail.env.compose_id + '&_action=display-attachment' : '&_action=upload-display',
+        href = path + action + '&_file=' + file_id,
+        img = $('<img>').attr({title: file.name, src: img_src ? img_src : href + '&_thumbnail=1'});
+
+      return $('<li>').attr({tabindex: 0})
+        .data('url', href)
         .append($('<span class="img">').append(img))
         .append($('<span class="name">').text(file.name))
-        .click(function() { ref.file_browser_close($(this).data('url')); });
+        .click(function() { ref.file_browser_close($(this).data('url')); })
+        .keydown(function(e) {
+          if (e.which == 13) {
+            ref.file_browser_close($(this).data('url'));
+          }
+          // we need custom Tab key handlers, until we find out why
+          // tabindex do not work here as expected
+          else if (e.which == 9) {
+            if (rcube_event.get_modifier(e) == SHIFT_KEY) {
+              if (!$(this).prev().focus().length)
+                $('#image-upload-button').parents('.mce-panel').find('button:last').parent().focus();
+            }
+            else {
+              if (!$(this).next().focus().length)
+                $('#image-upload-button').focus();
+            }
+
+            return false;
+          }
+        });
     }
   };
 
@@ -597,7 +703,7 @@ function rcube_text_editor(config, id)
   this.hack_file_input = function(elem, clone_form)
   {
     var link = $(elem),
-      file = $('<input>'),
+      file = $('<input>').attr('name', '_file[]'),
       form = $('<form>').attr({method: 'post', enctype: 'multipart/form-data'}),
       offset = link.offset();
 
@@ -612,7 +718,7 @@ function rcube_text_editor(config, id)
       file.css({top: (e.pageY - offset.top - 10) + 'px', left: (e.pageX - offset.left - 10) + 'px'});
     }
 
-    file.attr({type: 'file', multiple: 'multiple', size: 5, title: ''})
+    file.attr({type: 'file', multiple: 'multiple', size: 5, title: '', tabindex: -1})
       .change(function() { rcmail.upload_file(form, 'upload'); })
       .click(function() { setTimeout(function() { link.mouseleave(); }, 20); })
       // opacity:0 does the trick, display/visibility doesn't work
@@ -646,6 +752,9 @@ function rcube_text_editor(config, id)
           move_file_input(e);
           file.trigger(e);
         }
+      })
+      .keydown(function(e) {
+        if (e.which == 13) file.trigger('click');
       })
       .mouseleave()
       .append(form);

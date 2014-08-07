@@ -19,6 +19,28 @@
  +-----------------------------------------------------------------------+
 */
 
+if ($RCMAIL->action == 'delete-identity' && $OUTPUT->ajax_call) {
+    $iid = rcube_utils::get_input_value('_iid', rcube_utils::INPUT_POST);
+
+    if ($iid && preg_match('/^[0-9]+(,[0-9]+)*$/', $iid)) {
+        $plugin = $RCMAIL->plugins->exec_hook('identity_delete', array('id' => $iid));
+
+        $deleted = !$plugin['abort'] ? $RCMAIL->user->delete_identity($iid) : $plugin['result'];
+
+        if ($deleted > 0 && $deleted !== false) {
+            $OUTPUT->show_message('deletedsuccessfully', 'confirmation', null, false);
+            $OUTPUT->command('remove_identity', $iid);
+        }
+        else {
+            $msg = $plugin['message'] ? $plugin['message'] : ($deleted < 0 ? 'nodeletelastidentity' : 'errorsaving');
+            $OUTPUT->show_message($msg, 'error', null, false);
+        }
+    }
+
+    $OUTPUT->send();
+}
+
+
 define('IDENTITIES_LEVEL', intval($RCMAIL->config->get('identities_level', 0)));
 
 $OUTPUT->set_pagetitle($RCMAIL->gettext('identities'));

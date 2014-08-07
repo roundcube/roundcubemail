@@ -13,7 +13,7 @@
   border-bottom: 0;
 }
 
-.closelink {
+.helpwin .closelink {
 	position: absolute;
 	top: 20px;
 	right: 20px;

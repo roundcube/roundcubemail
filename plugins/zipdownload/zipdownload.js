@@ -43,21 +43,10 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             link.html('').append(span);
         }
 
-        span.addClass('folder-selector-link').text(rcmail.gettext('zipdownload.download'));
-
+        span.text(rcmail.gettext('zipdownload.download'));
         rcmail.env.download_link = link;
     });
-
-    // hide menu on click out of menu element
-    var fn = function(e) {
-        var menu = $('#zipdownload-menu');
-        if (e.target != menu.get(0))
-            menu.hide();
-    };
-    $(document.body).on('mouseup', fn);
-    $('iframe').contents().on('mouseup', fn)
-        .load(function(e) { try { $(this).contents().on('mouseup', fn); } catch(e) {}; });
-});
+  });
 
 
 function rcmail_zipdownload(mode)
@@ -100,14 +89,10 @@ function rcmail_zipdownload(mode)
 }
 
 // display download options menu
-function rcmail_zipdownload_menu()
+function rcmail_zipdownload_menu(e)
 {
-    // fix menu style and display menu
-    var z_index = rcmail.env.download_link.parents('.popupmenu').css('z-index'),
-        menu = $('#zipdownload-menu').css({'max-height': 'none', 'z-index': z_index + 1}).show();
-
-    // position menu on the screen
-    rcmail.element_position(menu, rcmail.env.download_link);
+    // show (sub)menu for download selection
+    rcmail.command('menu-open', 'zipdownload-menu', e && e.target ? e.target : rcmail.env.download_link, e);
 
     // abort default download action
     return false;

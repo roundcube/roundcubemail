@@ -68,6 +68,8 @@ if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
 
     $OUTPUT->set_env('search_request', $search_request);
     $OUTPUT->set_env('search_filter', $_SESSION['search_filter']);
+
+    $multifolder = is_a($_SESSION['search'][1], 'rcube_result_multifolder');
 }
 
 // fetch message headers
@@ -96,12 +98,13 @@ rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']), $unseen);
 
 // update message count display
 $pages  = ceil($count/$RCMAIL->storage->get_pagesize());
+$page   = $count ? $RCMAIL->storage->get_page() : 1;
 $exists = $RCMAIL->storage->count($mbox_name, 'EXISTS', true);
 
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', $pages);
 $OUTPUT->set_env('threading', $threading);
-$OUTPUT->set_env('current_page', $count ? $RCMAIL->storage->get_page() : 1);
+$OUTPUT->set_env('current_page', $page);
 $OUTPUT->set_env('exists', $exists);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count), $mbox_name);
 
@@ -141,6 +144,10 @@ else {
 // set trash folder state
 if ($mbox_name === $RCMAIL->config->get('trash_mbox')) {
     $OUTPUT->command('set_trash_count', $exists);
+}
+
+if ($page == 1) {
+    $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $multifolder ? 'INBOX' : $mbox_name));
 }
 
 // send response

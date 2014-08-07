@@ -77,7 +77,7 @@ $mailto  = rcmail_email_input_format(rcube_utils::get_input_value('_to', rcube_u
 $mailcc  = rcmail_email_input_format(rcube_utils::get_input_value('_cc', rcube_utils::INPUT_POST, TRUE, $message_charset), true);
 $mailbcc = rcmail_email_input_format(rcube_utils::get_input_value('_bcc', rcube_utils::INPUT_POST, TRUE, $message_charset), true);
 
-if ($EMAIL_FORMAT_ERROR) {
+if ($EMAIL_FORMAT_ERROR && !$savedraft) {
     $OUTPUT->show_message('emailformaterror', 'error', array('email' => $EMAIL_FORMAT_ERROR));
     $OUTPUT->send('iframe');
 }
@@ -428,7 +428,7 @@ if (is_array($COMPOSE['attachments'])) {
         $attachment = $RCMAIL->plugins->exec_hook('attachment_get', $attachment);
 
         if ($isHtml) {
-            $dispurl      = '/\ssrc\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile'
+            $dispurl      = '/\s(poster|src)\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile'
                 . preg_quote($attachment['id']) . '[\s\'"]*/';
             $message_body = $MAIL_MIME->getHTMLBody();
             $is_inline    = preg_match($dispurl, $message_body);
@@ -449,7 +449,7 @@ if (is_array($COMPOSE['attachments'])) {
                 $cid .= '@localhost';
             }
 
-            $message_body = preg_replace($dispurl, ' src="cid:' . $cid . '" ', $message_body);
+            $message_body = preg_replace($dispurl, ' \\1="cid:' . $cid . '" ', $message_body);
 
             $MAIL_MIME->setHTMLBody($message_body);
 
@@ -484,15 +484,11 @@ if (preg_match('/[^\x00-\x7F]/', $MAIL_MIME->getTXTBody())) {
     $transfer_encoding = $RCMAIL->config->get('force_7bit') ? 'quoted-printable' : '8bit';
 }
 else {
-    $text_charset      = '';
+    $text_charset      = 'US-ASCII';
     $transfer_encoding = '7bit';
 }
 
 if ($flowed) {
-    if (!$text_charset) {
-        $text_charset = 'US-ASCII';
-    }
-
     $text_charset .= ";\r\n format=flowed";
 }
 

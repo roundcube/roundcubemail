@@ -96,3 +96,13 @@ rcube_webmail.prototype.get_input_selection = function(obj)
 
   return {start: start, end: end, text: normalizedValue.substr(start, end-start)};
 };
+
+// For IE<9 we have to do it this way
+// otherwise the form will be posted to a new window
+rcube_webmail.prototype.async_upload_form_frame = function(name)
+{
+  document.body.insertAdjacentHTML('BeforeEnd', '<iframe name="' + name + '"'
+    + ' src="program/resources/blank.gif" style="width:0; height:0; visibility:hidden"></iframe>');
+
+  return $('iframe[name="' + name + '"]');
+};

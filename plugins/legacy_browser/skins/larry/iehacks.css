@@ -169,3 +169,32 @@ ul.toolbarmenu li a.active:hover,
 	float: left;
 	height: 18px;
 }
+
+a.button.disabled span.inner,
+a.iconbutton.disabled,
+.boxfooter .listbutton.disabled .inner,
+.boxpagenav a.icon.disabled,
+.toolbar a.button.disabled {
+	filter: alpha(opacity=40);
+}
+
+.dropbutton a.button.disabled + .dropbuttontip {
+	filter: alpha(opacity=50);
+}
+
+select.decorated {
+	filter: alpha(opacity=0);
+}
+
+ul.toolbarmenu li span.icon {
+	filter: alpha(opacity=20);
+}
+
+ul.toolbarmenu li a.active span.icon {
+	filter: alpha(opacity=100);
+}
+
+.minimal #topline:hover,
+#rcmdraglayer {
+	filter: alpha(opacity=93);
+}

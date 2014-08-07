@@ -104,14 +104,20 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
         }
     }
 
+    if (!empty($_GET['_uid'])) {
+        $OUTPUT->set_env('list_uid', $_GET['_uid']);
+    }
+
     // set configuration
     $RCMAIL->set_env_config(array('delete_junk', 'flag_for_deletion', 'read_when_deleted',
-        'skip_deleted', 'display_next', 'message_extwin', 'compose_extwin', 'forward_attachment'));
+        'skip_deleted', 'display_next', 'message_extwin', 'forward_attachment'));
 
     if (!$OUTPUT->ajax_call) {
         $OUTPUT->add_label('checkingmail', 'deletemessage', 'movemessagetotrash',
             'movingmessage', 'copyingmessage', 'deletingmessage', 'markingmessage',
-            'copy', 'move', 'quota', 'replyall', 'replylist', 'stillsearching');
+            'copy', 'move', 'quota', 'replyall', 'replylist', 'stillsearching',
+            'flagged', 'unflagged', 'unread', 'deleted', 'replied', 'forwarded',
+            'priority', 'withattachment', 'fileuploaderror');
     }
 
     $pagetitle = $RCMAIL->localize_foldername($mbox_name, true);
@@ -160,6 +166,7 @@ function rcmail_init_env()
 {
     global $RCMAIL;
 
+    $default_threading  = $RCMAIL->config->get('default_list_mode', 'list') == 'threads';
     $a_threading        = $RCMAIL->config->get('message_threading', array());
     $message_sort_col   = $RCMAIL->config->get('message_sort_col');
     $message_sort_order = $RCMAIL->config->get('message_sort_order');
@@ -199,13 +206,15 @@ function rcmail_init_env()
                 $RCMAIL->storage->set_page($_SESSION['page'] = 1);
             }
 
-            unset($a_threading[$_SESSION['mbox']]);
+            $a_threading[$_SESSION['mbox']] = false;
         }
 
         $RCMAIL->user->save_prefs(array('message_threading' => $a_threading));
     }
 
-    $RCMAIL->storage->set_threading($a_threading[$_SESSION['mbox']]);
+    $threading = isset($a_threading[$_SESSION['mbox']]) ? $a_threading[$_SESSION['mbox']] : $default_threading;
+
+    $RCMAIL->storage->set_threading($threading);
 }
 
 /**
@@ -375,11 +384,16 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         $head_replace = true;
     }
 
-    // add 'folder' column to list on multi-folder searches
-    $search_set = $RCMAIL->storage->get_search_set();
+    $search_set  = $RCMAIL->storage->get_search_set();
     $multifolder = $search_set && $search_set[1]->multi;
+
+    // add/remove 'folder' column to the list on multi-folder searches
     if ($multifolder && !in_array('folder', $a_show_cols)) {
         $a_show_cols[] = 'folder';
+        $head_replace = true;
+    }
+    else if (!$multifolder && ($found = array_search('folder', $a_show_cols)) !== false) {
+        unset($a_show_cols[$found]);
         $head_replace = true;
     }
 
@@ -393,6 +407,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
 
     // Make sure there are no duplicated columns (#1486999)
     $a_show_cols = array_unique($a_show_cols);
+    $_SESSION['list_attrib']['columns'] = $a_show_cols;
 
     // Plugins may set header's list_cols/list_flags and other rcube_message_header variables
     // and list columns
@@ -531,14 +546,19 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
     if (!empty($attrib['optionsmenuicon'])) {
-        $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu')";
-        if ($attrib['optionsmenuicon'] === true || $attrib['optionsmenuicon'] == 'true')
-            $list_menu = html::div(array('onclick' => $onclick, 'class' => 'listmenu',
-                'id' => 'listmenulink', 'title' => $RCMAIL->gettext('listoptions')));
-        else
-            $list_menu = html::a(array('href' => '#', 'onclick' => $onclick),
-                html::img(array('src' => $skin_path . $attrib['optionsmenuicon'],
-                    'id' => 'listmenulink', 'title' => $RCMAIL->gettext('listoptions'))));
+        $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', this, event)";
+        $inner   = $RCMAIL->gettext('listoptions');
+        if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
+            $inner = html::img(array('src' => $skin_path . $attrib['optionsmenuicon'], 'alt' => $RCMAIL->gettext('listoptions')));
+        }
+        $list_menu = html::a(array(
+            'href' => '#list-options',
+            'onclick' => $onclick,
+            'class' => 'listmenu',
+            'id' => 'listmenulink',
+            'title' => $RCMAIL->gettext('listoptions'),
+            'tabindex' => '0',
+        ), $inner);
     }
     else {
         $list_menu = '';
@@ -558,12 +578,14 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         // get column name
         switch ($col) {
         case 'flag':
-            $col_name = html::span('flagged', '&nbsp;');
+            $col_name = html::span('flagged', $RCMAIL->gettext('flagged'));
             break;
         case 'attachment':
         case 'priority':
+            $col_name = html::span($col, $RCMAIL->gettext($col));
+            break;
         case 'status':
-            $col_name = html::span($col, '&nbsp;');
+            $col_name = html::span($col, $RCMAIL->gettext('readstatus'));
             break;
         case 'threads':
             $col_name = $list_menu;
@@ -1800,7 +1822,7 @@ function rcmail_send_mdn($message, &$smtp_error)
         $body = $RCMAIL->gettext("yourmessage") . "\r\n\r\n" .
             "\t" . $RCMAIL->gettext("to") . ': ' . rcube_mime::decode_mime_string($message->headers->to, $message->headers->charset) . "\r\n" .
             "\t" . $RCMAIL->gettext("subject") . ': ' . $message->subject . "\r\n" .
-            "\t" . $RCMAIL->gettext("sent") . ': ' . $RCMAIL->format_date($message->headers->date, $RCMAIL->config->get('date_long')) . "\r\n" .
+            "\t" . $RCMAIL->gettext("date") . ': ' . $RCMAIL->format_date($message->headers->date, $RCMAIL->config->get('date_long')) . "\r\n" .
             "\r\n" . $RCMAIL->gettext("receiptnote");
 
         $compose->headers($headers);
@@ -2059,6 +2081,7 @@ function rcmail_message_import_form($attrib = array())
     ));
 
     $content = html::tag('input', array('type' => 'hidden', 'name' => '_unlock', 'value' => ''))
+        . html::tag('input', array('type' => 'hidden', 'name' => '_framed', 'value' => '1'))
         . html::div(null, $fileinput->show())
         . html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
 
@@ -2096,11 +2119,10 @@ function rcmail_compose_contact_groups($abook, $source_id, $search = null, $sear
     foreach ($abook->list_groups($search, $search_mode) as $group) {
         $abook->reset();
         $abook->set_group($group['ID']);
-        $group_prop = $abook->get_group($group['ID']);
 
         // group (distribution list) with email address(es)
-        if ($group_prop['email']) {
-            foreach ((array)$group_prop['email'] as $email) {
+        if ($group['email']) {
+            foreach ((array)$group['email'] as $email) {
                 $row_id = 'G'.$group['ID'];
                 $jsresult[$row_id] = format_email_recipient($email, $group['name']);
                 $OUTPUT->command('add_contact_row', $row_id, array(
@@ -2108,7 +2130,7 @@ function rcmail_compose_contact_groups($abook, $source_id, $search = null, $sear
             }
         }
         // make virtual groups clickable to list their members
-        else if ($group_prop['virtual']) {
+        else if ($group['virtual']) {
             $row_id = 'G'.$group['ID'];
             $OUTPUT->command('add_contact_row', $row_id, array(
                 'contactgroup' => html::a(array(

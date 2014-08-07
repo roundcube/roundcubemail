@@ -127,8 +127,9 @@ if ($search_str) {
     }
     else if ($scope == 'sub') {
         $mboxes = $RCMAIL->storage->list_folders_subscribed($mbox, '*', 'mail');
-        if ($mbox != 'INBOX' && $mboxes[0] == 'INBOX')
+        if ($mbox != 'INBOX' && $mboxes[0] == 'INBOX') {
             array_shift($mboxes);
+        }
     }
 
     $result = $RCMAIL->storage->search($mboxes, $search_str, $imap_charset, $sort_column);
@@ -144,7 +145,7 @@ if ($search_str) {
     $_SESSION['last_text_search'] = $str;
 }
 $_SESSION['search_request'] = $search_request;
-$_SESSION['search_scope'] = $scope;
+$_SESSION['search_scope']   = $scope;
 
 
 // Get the headers
@@ -181,9 +182,12 @@ else if ($result->incomplete) {
 else {
     $OUTPUT->show_message('searchnomatch', 'notice');
     $OUTPUT->set_env('multifolder_listing', (bool)$result->multi);
-    if ($result->multi && $scope == 'all')
+    if ($result->multi && $scope == 'all') {
         $OUTPUT->command('select_folder', '');
+    }
 }
+
+$OUTPUT->set_pagetitle($RCMAIL->gettext(array('name' => 'searchfor', 'vars' => array('q' => $str))));
 
 // update message count display
 $OUTPUT->set_env('search_request', $search_str ? $search_request : '');
@@ -193,5 +197,9 @@ $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', ceil($count/$RCMAIL->storage->get_pagesize()));
 $OUTPUT->set_env('exists', $mbox === null ? 0 : $RCMAIL->storage->count($mbox, 'EXISTS'));
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count, 1), $mbox);
-$OUTPUT->set_pagetitle($RCMAIL->gettext(array('name' => 'searchfor', 'vars' => array('q' => $str))));
+
+if (!$result->incomplete) {
+    $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $result->multi ? 'INBOX' : $mbox));
+}
+
 $OUTPUT->send();

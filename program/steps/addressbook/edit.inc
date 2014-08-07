@@ -69,6 +69,8 @@ $OUTPUT->add_handlers(array(
     'filedroparea'    => 'rcmail_photo_drop_area',
 ));
 
+$OUTPUT->set_pagetitle($RCMAIL->gettext(($RCMAIL->action == 'add' ? 'addcontact' : 'editcontact')));
+
 if ($RCMAIL->action == 'add' && $OUTPUT->template_exists('contactadd')) {
     $OUTPUT->send('contactadd');
 }
@@ -98,12 +100,15 @@ function rcmail_get_edit_record()
 
 function rcmail_contact_edithead($attrib)
 {
+    global $RCMAIL;
+
     // check if we have a valid result
     $record = rcmail_get_edit_record();
     $i_size = !empty($attrib['size']) ? $attrib['size'] : 20;
 
     $form = array(
         'head' => array(
+            'name' => $RCMAIL->gettext('contactnameandorg'),
             'content' => array(
                 'prefix' => array('size' => $i_size),
                 'firstname' => array('size' => $i_size, 'visible' => true),

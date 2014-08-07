@@ -95,6 +95,7 @@ class rcube_washtml
         'ins', 'label', 'legend', 'li', 'map', 'menu', 'nobr', 'ol', 'p', 'pre', 'q',
         's', 'samp', 'small', 'span', 'strike', 'strong', 'sub', 'sup', 'table',
         'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'u', 'ul', 'var', 'wbr', 'img',
+        'video', 'source',
         // form elements
         'button', 'input', 'textarea', 'select', 'option', 'optgroup'
     );
@@ -246,7 +247,10 @@ class rcube_washtml
                 $quot = strpos($style, '"') !== false ? "'" : '"';
                 $t .= ' style=' . $quot . $style . $quot;
             }
-            else if ($key == 'background' || ($key == 'src' && strtolower($node->tagName) == 'img')) { //check tagName anyway
+            else if ($key == 'background'
+                || ($key == 'src' && preg_match('/^(img|source)$/i', $node->tagName))
+                || ($key == 'poster' && strtolower($node->tagName) == 'video')
+            ) {
                 if (($src = $this->config['cid_map'][$value])
                     || ($src = $this->config['cid_map'][$this->config['base_url'].$value])
                 ) {

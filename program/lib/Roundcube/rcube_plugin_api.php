@@ -38,6 +38,7 @@ class rcube_plugin_api
     public $handlers              = array();
     public $allowed_prefs         = array();
     public $allowed_session_prefs = array();
+    public $active_plugins        = array();
 
     protected $plugins = array();
     protected $tasks = array();
@@ -189,7 +190,7 @@ class rcube_plugin_api
         $fn = $plugins_dir . DIRECTORY_SEPARATOR . $plugin_name
             . DIRECTORY_SEPARATOR . $plugin_name . '.php';
 
-        if (file_exists($fn)) {
+        if (is_readable($fn)) {
             if (!class_exists($plugin_name, false)) {
                 include $fn;
             }
@@ -197,6 +198,8 @@ class rcube_plugin_api
             // instantiate class if exists
             if (class_exists($plugin_name, false)) {
                 $plugin = new $plugin_name($this);
+                $this->active_plugins[] = $plugin_name;
+
                 // check inheritance...
                 if (is_subclass_of($plugin, 'rcube_plugin')) {
                     // ... task, request type and framed mode
@@ -252,6 +255,9 @@ class rcube_plugin_api
         'GPL-3.0'    => 'http://www.gnu.org/licenses/gpl-3.0.html',
         'GPL-3.0+'   => 'http://www.gnu.org/licenses/gpl.html',
         'GPL-2.0+'   => 'http://www.gnu.org/licenses/gpl.html',
+        'AGPLv3'     => 'http://www.gnu.org/licenses/agpl.html',
+        'AGPLv3+'    => 'http://www.gnu.org/licenses/agpl.html',
+        'AGPL-3.0'   => 'http://www.gnu.org/licenses/agpl.html',
         'LGPL'       => 'http://www.gnu.org/licenses/lgpl.html',
         'LGPLv2'     => 'http://www.gnu.org/licenses/lgpl-2.0.html',
         'LGPLv2.1'   => 'http://www.gnu.org/licenses/lgpl-2.1.html',
@@ -275,8 +281,12 @@ class rcube_plugin_api
       $fn = unslashify($dir->path) . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
       $info = false;
 
-      if (!class_exists($plugin_name))
-        include($fn);
+      if (!class_exists($plugin_name, false)) {
+        if (is_readable($fn))
+          include($fn);
+        else
+          return false;
+      }
 
       if (class_exists($plugin_name))
         $info = $plugin_name::info();
@@ -284,12 +294,17 @@ class rcube_plugin_api
       // fall back to composer.json file
       if (!$info) {
         $composer = INSTALL_PATH . "/plugins/$plugin_name/composer.json";
-        if (file_exists($composer) && ($json = @json_decode(file_get_contents($composer), true))) {
+        if (is_readable($composer) && ($json = @json_decode(file_get_contents($composer), true))) {
           list($info['vendor'], $info['name']) = explode('/', $json['name']);
           $info['version'] = $json['version'];
           $info['license'] = $json['license'];
-          if ($license_uri = $license_uris[$info['license']])
-            $info['license_uri'] = $license_uri;
+          $info['uri'] = $json['homepage'];
+          $info['require'] = array_filter(array_keys((array)$json['require']), function($pname) {
+            if (strpos($pname, '/') == false)
+              return false;
+            list($vendor, $name) = explode('/', $pname);
+            return !($name == 'plugin-installer' || $vendor == 'pear-pear');
+          });
         }
 
         // read local composer.lock file (once)
@@ -313,7 +328,7 @@ class rcube_plugin_api
       // fall back to package.xml file
       if (!$info) {
         $package = INSTALL_PATH . "/plugins/$plugin_name/package.xml";
-        if (file_exists($package) && ($file = file_get_contents($package))) {
+        if (is_readable($package) && ($file = file_get_contents($package))) {
           $doc = new DOMDocument();
           $doc->loadXML($file);
           $xpath = new DOMXPath($doc);
@@ -337,9 +352,17 @@ class rcube_plugin_api
           $deps = $xpath->evaluate('//rc:package/rc:dependencies/rc:required/rc:package/rc:name');
           for ($i = 0; $i < $deps->length; $i++) {
             $dn = $deps->item($i)->nodeValue;
-            $info['requires'][] = $dn;
+            $info['require'][] = $dn;
           }
         }
+      }
+
+      // At least provide the name
+      if (!$info && class_exists($plugin_name)) {
+        $info = array('name' => $plugin_name, 'version' => '--');
+      }
+      else if ($info['license'] && empty($info['license_uri']) && ($license_uri = $license_uris[$info['license']])) {
+        $info['license_uri'] = $license_uri;
       }
 
       return $info;

@@ -264,7 +264,7 @@ class rcube_contacts extends rcube_addressbook
             if ($read_vcard)
                 $sql_arr = $this->convert_db_data($sql_arr);
             else {
-                $sql_arr['email'] = explode(self::SEPARATOR, $sql_arr['email']);
+                $sql_arr['email'] = $sql_arr['email'] ? explode(self::SEPARATOR, $sql_arr['email']) : array();
                 $sql_arr['email'] = array_map('trim', $sql_arr['email']);
             }
 

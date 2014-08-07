@@ -32,7 +32,6 @@ $SOURCE_ID = $source;
 if ($cid && ($record = $CONTACTS->get_record($cid, true))) {
     $OUTPUT->set_env('readonly', $CONTACTS->readonly || $record['readonly']);
     $OUTPUT->set_env('cid', $record['ID']);
-    $OUTPUT->set_env('compose_extwin', $RCMAIL->config->get('compose_extwin',false));
 }
 
 // get address book name (for display)
@@ -60,6 +59,7 @@ function rcmail_contact_head($attrib)
 
     $form = array(
         'head' => array(  // section 'head' is magic!
+            'name' => $RCMAIL->gettext('contactnameandorg'),
             'content' => array(
                 'prefix' => array('type' => 'text'),
                 'firstname' => array('type' => 'text'),

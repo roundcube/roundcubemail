@@ -35,7 +35,7 @@ if ($RCMAIL->action == 'expunge') {
         $OUTPUT->show_message('folderexpunged', 'confirmation');
 
         if (!empty($_REQUEST['_reload'])) {
-            $OUTPUT->command('set_quota', $RCMAIL->quota_content());
+            $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $mbox));
             $OUTPUT->command('message_list.clear');
             $RCMAIL->action = 'list';
             return;
@@ -69,7 +69,7 @@ else if ($RCMAIL->action == 'purge') {
                 $OUTPUT->command('message_list.clear');
                 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text(), $mbox);
                 $OUTPUT->command('set_unread_count', $mbox, 0);
-                $OUTPUT->command('set_quota', $RCMAIL->quota_content());
+                $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $mbox));
                 rcmail_set_unseen_count($mbox, 0);
 
                 // set trash folder state

@@ -419,15 +419,6 @@ EOF;
      */
     public function write($template = '')
     {
-        // unlock interface after iframe load
-        $unlock = preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']);
-        if ($this->framed) {
-            array_unshift($this->js_commands, array('iframe_loaded', $unlock));
-        }
-        else if ($unlock) {
-            array_unshift($this->js_commands, array('hide_message', $unlock));
-        }
-
         if (!empty($this->script_files)) {
             $this->set_env('request_token', $this->app->get_request_token());
         }
@@ -439,6 +430,8 @@ EOF;
         if ($framed) {
             $this->scripts      = array();
             $this->script_files = array();
+            $this->header       = '';
+            $this->footer       = '';
         }
 
         // write all javascript commands
@@ -572,18 +565,31 @@ EOF;
      */
     protected function get_js_commands(&$framed = null)
     {
-        if (!$this->framed && !empty($this->js_env)) {
-            $this->command('set_env', $this->js_env);
-        }
-
-        if (!empty($this->js_labels)) {
-            $this->command('add_label', $this->js_labels);
-        }
-
-        $out = '';
+        $out             = '';
         $parent_commands = 0;
+        $top_commands    = array();
 
-        foreach ($this->js_commands as $i => $args) {
+        // these should be always on top,
+        // e.g. hide_message() below depends on env.framed
+        if (!$this->framed && !empty($this->js_env)) {
+            $top_commands[] = array('set_env', $this->js_env);
+        }
+        if (!empty($this->js_labels)) {
+            $top_commands[] = array('add_label', $this->js_labels);
+        }
+
+        // unlock interface after iframe load
+        $unlock = preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']);
+        if ($this->framed) {
+            $top_commands[] = array('iframe_loaded', $unlock);
+        }
+        else if ($unlock) {
+            $top_commands[] = array('hide_message', $unlock);
+        }
+
+        $commands = array_merge($top_commands, $this->js_commands);
+
+        foreach ($commands as $i => $args) {
             $method = array_shift($args);
             $parent = $this->framed || preg_match('/^parent\./', $method);
 
@@ -604,7 +610,7 @@ EOF;
             $out .= sprintf("%s(%s);\n", $method, implode(',', $args));
         }
 
-        $framed = $parent_prefix && $parent_commands == count($this->js_commands);
+        $framed = $parent_prefix && $parent_commands == count($commands);
 
         // make the output more compact if all commands go to parent window
         if ($framed) {
@@ -893,6 +899,14 @@ EOF;
             return '';
         }
 
+        // localize title and summary attributes
+        if ($command != 'button' && !empty($attrib['title']) && $this->app->text_exists($attrib['title'])) {
+            $attrib['title'] = $this->app->gettext($attrib['title']);
+        }
+        if ($command != 'button' && !empty($attrib['summary']) && $this->app->text_exists($attrib['summary'])) {
+            $attrib['summary'] = $this->app->gettext($attrib['summary']);
+        }
+
         // execute command
         switch ($command) {
             // return a button
@@ -1125,7 +1139,8 @@ EOF;
      */
     public function button($attrib)
     {
-        static $s_button_count = 100;
+        static $s_button_count   = 100;
+        static $disabled_actions = null;
 
         // these commands can be called directly via url
         $a_static_commands = array('compose', 'list', 'preferences', 'folders', 'identities');
@@ -1134,9 +1149,14 @@ EOF;
             return '';
         }
 
+
         // try to find out the button type
         if ($attrib['type']) {
             $attrib['type'] = strtolower($attrib['type']);
+            if ($pos = strpos($attrib['type'], '-menuitem')) {
+                $attrib['type'] = substr($attrib['type'], 0, -9);
+                $menuitem = true;
+            }
         }
         else {
             $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $attrib['imageact']) ? 'image' : 'link';
@@ -1144,8 +1164,21 @@ EOF;
 
         $command = $attrib['command'];
 
-        if ($attrib['task'])
-          $command = $attrib['task'] . '.' . $command;
+        if ($attrib['task']) {
+            $element = $command = $attrib['task'] . '.' . $command;
+        }
+        else {
+            $element = ($this->env['task'] ? $this->env['task'] . '.' : '') . $command;
+        }
+
+        if ($disabled_actions === null) {
+            $disabled_actions = (array) $this->config->get('disabled_actions');
+        }
+
+        // remove buttons for disabled actions
+        if (in_array($element, $disabled_actions)) {
+            return '';
+        }
 
         if (!$attrib['image']) {
             $attrib['image'] = $attrib['imagepas'] ? $attrib['imagepas'] : $attrib['imageact'];
@@ -1163,6 +1196,17 @@ EOF;
         }
         if ($attrib['alt']) {
             $attrib['alt'] = html::quote($this->app->gettext($attrib['alt'], $attrib['domain']));
+        }
+
+        // set accessibility attributes
+        if (!$attrib['role']) {
+            $attrib['role'] = 'button';
+        }
+        if (!empty($attrib['class']) && !empty($attrib['classact']) || !empty($attrib['imagepas']) && !empty($attrib['imageact'])) {
+            if (array_key_exists('tabindex', $attrib))
+                $attrib['data-tabindex'] = $attrib['tabindex'];
+            $attrib['tabindex'] = '-1';  // disable button by default
+            $attrib['aria-disabled'] = 'true';
         }
 
         // set title to alt attribute for IE browsers
@@ -1267,6 +1311,11 @@ EOF;
             $out = html::tag($attrib['wrapper'], null, $out);
         }
 
+        if ($menuitem) {
+            $class = $attrib['menuitem-class'] ? ' class="' . $attrib['menuitem-class'] . '"' : '';
+            $out   = '<li role="menuitem"' . $class . '>' . $out . '</li>';
+        }
+
         return $out;
     }
 
@@ -1351,6 +1400,20 @@ EOF;
         if (empty($output)) {
             $output   = html::doctype('html5') . "\n" . $this->default_template;
             $is_empty = true;
+        }
+
+        // set default page title
+        if (empty($this->pagetitle)) {
+            $this->pagetitle = 'Roundcube Mail';
+        }
+
+        // declare page language
+        if (!empty($_SESSION['language'])) {
+            $lang = substr($_SESSION['language'], 0, 2);
+            $output = preg_replace('/<html/', '<html lang="' . html::quote($lang) . '"', $output, 1);
+            if (!headers_sent()) {
+                header('Content-Language: ' . $lang);
+            }
         }
 
         // replace specialchars in content
