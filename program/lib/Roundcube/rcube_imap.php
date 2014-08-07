@@ -56,6 +56,7 @@ class rcube_imap extends rcube_storage
      */
     protected $icache = array();
 
+    protected $plugins;
     protected $list_page = 1;
     protected $delimiter;
     protected $namespace;
@@ -82,6 +83,7 @@ class rcube_imap extends rcube_storage
     public function __construct()
     {
         $this->conn = new rcube_imap_generic();
+        $this->plugins = rcube::get_instance()->plugins;
 
         // Set namespace and delimiter from session,
         // so some methods would work before connection
@@ -147,7 +149,7 @@ class rcube_imap extends rcube_storage
 
         $attempt = 0;
         do {
-            $data = rcube::get_instance()->plugins->exec_hook('storage_connect',
+            $data = $this->plugins->exec_hook('storage_connect',
                 array_merge($this->options, array('host' => $host, 'user' => $user,
                     'attempt' => ++$attempt)));
 
@@ -170,8 +172,20 @@ class rcube_imap extends rcube_storage
         $this->connect_done = true;
 
         if ($this->conn->connected()) {
+            // check for session identifier
+            $session = null;
+            if (preg_match('/\s+SESSIONID=([^=\s]+)/', $this->conn->result, $m)) {
+                $session = $m[1];
+            }
+
             // get namespace and delimiter
             $this->set_env();
+
+            // trigger post-connect hook
+            $this->plugins->exec_hook('storage_connected', array(
+                'host' => $host, 'user' => $user, 'session' => $session
+            ));
+
             return true;
         }
         // write error log
@@ -1506,7 +1520,7 @@ class rcube_imap extends rcube_storage
             $folder = $this->folder;
         }
 
-        $plugin = rcube::get_instance()->plugins->exec_hook('imap_search_before', array(
+        $plugin = $this->plugins->exec_hook('imap_search_before', array(
             'folder'     => $folder,
             'search'     => $search,
             'charset'    => $charset,
@@ -2501,7 +2515,7 @@ class rcube_imap extends rcube_storage
             // increase messagecount of the target folder
             $this->set_messagecount($folder, 'ALL', 1);
 
-            rcube::get_instance()->plugins->exec_hook('message_saved', array(
+            $this->plugins->exec_hook('message_saved', array(
                     'folder'  => $folder,
                     'message' => $message,
                     'headers' => $headers,
@@ -2777,7 +2791,7 @@ class rcube_imap extends rcube_storage
         }
 
         // Give plugins a chance to provide a list of folders
-        $data = rcube::get_instance()->plugins->exec_hook('storage_folders',
+        $data = $this->plugins->exec_hook('storage_folders',
             array('root' => $root, 'name' => $name, 'filter' => $filter, 'mode' => 'LSUB'));
 
         if (isset($data['folders'])) {
@@ -2909,7 +2923,7 @@ class rcube_imap extends rcube_storage
         }
 
         // Give plugins a chance to provide a list of folders
-        $data = rcube::get_instance()->plugins->exec_hook('storage_folders',
+        $data = $this->plugins->exec_hook('storage_folders',
             array('root' => $root, 'name' => $name, 'filter' => $filter, 'mode' => 'LIST'));
 
         if (isset($data['folders'])) {

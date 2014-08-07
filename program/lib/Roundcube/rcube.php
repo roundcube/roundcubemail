@@ -389,8 +389,12 @@ class rcube
 
         $this->storage->set_options($options);
         $this->set_storage_prop();
-    }
 
+        // subscribe to 'storage_connected' hook for session logging
+        if ($this->config->get('imap_log_session', false)) {
+            $this->plugins->register_hook('storage_connected', array($this, 'storage_log_session'));
+        }
+    }
 
     /**
      * Set storage parameters.
@@ -456,6 +460,16 @@ class rcube
         }
     }
 
+
+    /**
+     * Callback for IMAP connection events to log session identifiers
+     */
+    public function storage_log_session($args)
+    {
+        if (!empty($args['session']) && session_id()) {
+            $this->write_log('imap_session', $args['session']);
+        }
+    }
 
     /**
      * Create session object and start the session.
@@ -1138,8 +1152,12 @@ class rcube
             $line = var_export($line, true);
         }
 
-        $date_format = self::$instance ? self::$instance->config->get('log_date_format') : null;
-        $log_driver  = self::$instance ? self::$instance->config->get('log_driver') : null;
+        $date_format = $log_driver = $session_key = null;
+        if (self::$instance) {
+            $date_format = self::$instance->config->get('log_date_format');
+            $log_driver  = self::$instance->config->get('log_driver');
+            $session_key = intval(self::$instance->config->get('log_session_id', 8));
+        }
 
         if (empty($date_format)) {
             $date_format = 'd-M-Y H:i:s O';
@@ -1158,8 +1176,8 @@ class rcube
         }
 
         // add session ID to the log
-        if ($sess = session_id()) {
-            $line = '<' . substr($sess, 0, 8) . '> ' . $line;
+        if ($session_key > 0 && ($sess = session_id())) {
+            $line = '<' . substr($sess, 0, $session_key) . '> ' . $line;
         }
 
         if ($log_driver == 'syslog') {
