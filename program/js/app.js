@@ -5834,6 +5834,12 @@ function rcube_webmail()
     if (!this.gui_objects.subscriptionlist)
       return false;
 
+    // reset searching
+    if (this.subscription_list.is_search()) {
+      this.subscription_select();
+      this.subscription_list.reset_search();
+    }
+
     // disable drag-n-drop temporarily
     this.subscription_list.draggable('destroy').droppable('destroy');
 
@@ -5999,6 +6005,12 @@ function rcube_webmail()
       return false;
     }
 
+    // reset searching
+    if (this.subscription_list.is_search()) {
+      this.subscription_select();
+      this.subscription_list.reset_search();
+    }
+
     var subfolders = {},
       row = this.subscription_list.get_item(oldid, true),
       parent = $(row).parent(),
@@ -6044,6 +6056,12 @@ function rcube_webmail()
   // remove the table row of a specific mailbox from the table
   this.remove_folder_row = function(folder)
   {
+    // reset searching
+    if (this.subscription_list.is_search()) {
+      this.subscription_select();
+      this.subscription_list.reset_search();
+    }
+
     var list = [], row = this.subscription_list.get_item(folder, true);
 
     // get subfolders if any

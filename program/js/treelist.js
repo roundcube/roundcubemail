@@ -94,6 +94,7 @@ function rcube_treelist_widget(node, p)
   this.get_node = get_node;
   this.get_selection = get_selection;
   this.is_search = is_search;
+  this.reset_search = reset_search;
 
   /////// startup code (constructor)
 
