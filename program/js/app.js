@@ -5743,13 +5743,15 @@ function rcube_webmail()
         selectable: true,
         id_prefix: 'rcmli',
         id_encode: this.html_identifier_encode,
-        id_decode: this.html_identifier_decode
+        id_decode: this.html_identifier_decode,
+        searchbox: '#foldersearch'
     });
 
     this.subscription_list
       .addEventListener('select', function(node) { ref.subscription_select(node.id); })
       .addEventListener('collapse', function(node) { ref.folder_collapsed(node) })
       .addEventListener('expand', function(node) { ref.folder_collapsed(node) })
+      .addEventListener('search', function(p) { if (p.query) ref.subscription_select(); })
       .draggable({cancel: 'li.mailbox.root'})
       .droppable({
         // @todo: find better way, accept callback is executed for every folder

@@ -525,7 +525,8 @@ function rcube_treelist_widget(node, p)
             .attr('id', li.attr('id') + '--xsR')
             .attr('class', li.attr('class'))
             .addClass('searchresult__')
-            .append(li.children().first().clone(true, true))
+            // append all elements like links and inputs, but not sub-trees
+            .append(li.children(':not(div.treetoggle,ul)').clone(true, true))
             .appendTo(container);
             hits.push(node.id);
         }

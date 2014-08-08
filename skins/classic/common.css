@@ -1010,6 +1010,25 @@ div.searchbox > input
   width: 97%;
 }
 
+.listsearchbox
+{
+  border-bottom: solid 1px #ddd;
+  padding: 2px 4px 1px;
+  display: none;
+  background-color: #f2f2f2;
+}
+
+.listsearchbox a.iconbutton.reset
+{
+  background: url(images/icons/reset.gif) no-repeat 0 0;
+  width: 13px;
+  height: 13px;
+  text-indent: 50000px;
+  position: absolute;
+  top: 3px;
+  left: 165px;
+  overflow: hidden;
+}
 
 /***** roundcube webmail pre-defined classes *****/
 

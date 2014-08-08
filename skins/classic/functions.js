@@ -636,6 +636,36 @@ enable_command: function(p)
     var label = rcmail.gettext(p.status ? 'replylist' : 'replyall');
     $('a.button.replyAll').attr('title', label);
   }
+},
+
+folder_search_init: function(container)
+{
+  // animation to unfold list search box
+  $('.boxtitle a.search', container).click(function(e) {
+    var title = $('.boxtitle', container),
+      box = $('.listsearchbox', container),
+      dir = box.is(':visible') ? -1 : 1;
+
+    box.slideToggle({
+      duration: 160,
+      progress: function(animation, progress) {
+        if (dir < 0) progress = 1 - progress;
+          $('.boxlistcontent', container).css('top', (title.outerHeight() + 24 * progress) + 'px');
+      },
+      complete: function() {
+        box.toggleClass('expanded');
+        if (box.is(':visible')) {
+          box.find('input[type=text]').focus();
+        }
+        else {
+          $('a.reset', box).click();
+        }
+        // TODO: save state in cookie
+      }
+    });
+
+    return false;
+  });
 }
 
 };
@@ -1011,6 +1041,11 @@ function rcube_init_mail_ui()
     else if (rcmail.env.task == 'addressbook') {
       rcmail.addEventListener('afterupload-photo', function(){ rcmail_ui.show_popup('uploadform', false); })
         .gui_object('dragmenu', 'dragmenu');
+    }
+    else if (rcmail.env.task == 'settings') {
+      if (rcmail.env.action == 'folders') {
+        rcmail_ui.folder_search_init($('#folder-manager'));
+      }
     }
   });
 }

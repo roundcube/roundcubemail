@@ -11,6 +11,16 @@
   background-color: #FFFFA6;
 }
 
+#folderlist-title a.iconbutton.search {
+  background: url(images/icons/glass.png) no-repeat 0 0;
+  cursor: pointer;
+  position: absolute;
+  right: 4px;
+  top: 2px;
+  width: 16px;
+  text-indent: 50000px;
+}
+
 #identities-table,
 #sections-table
 {

@@ -47,6 +47,7 @@ function rcube_mail_ui()
   this.update_quota = update_quota;
   this.get_pref = get_pref;
   this.save_pref = save_pref;
+  this.folder_search_init = folder_search_init;
 
 
   // set minimal mode on small screens (don't wait for document.ready)
@@ -255,6 +256,8 @@ function rcube_mail_ui()
           orientation:'v', relative:true, start:266, min:180, size:12 }).init();
 
         rcmail.addEventListener('setquota', update_quota);
+
+        folder_search_init($('#folderslist'));
       }
       else if (rcmail.env.action == 'identities') {
         new rcube_splitter({ id:'identviewsplitter', p1:'#identitieslist', p2:'#identity-details',
@@ -531,6 +534,35 @@ function rcube_mail_ui()
     }
   }
 
+  function folder_search_init(container)
+  {
+    // animation to unfold list search box
+    $('.boxtitle a.search', container).click(function(e) {
+      var title = $('.boxtitle', container),
+        box = $('.listsearchbox', container),
+        dir = box.is(':visible') ? -1 : 1;
+
+      box.slideToggle({
+        duration: 160,
+        progress: function(animation, progress) {
+          if (dir < 0) progress = 1 - progress;
+            $('.scroller', container).css('top', (title.outerHeight() + 34 * progress) + 'px');
+        },
+        complete: function() {
+          box.toggleClass('expanded');
+          if (box.is(':visible')) {
+            box.find('input[type=text]').focus();
+          }
+          else {
+            $('a.reset', box).click();
+          }
+          // TODO: save state in localStorage
+        }
+      });
+
+      return false;
+    });
+  }
 
   function enable_command(p)
   {
