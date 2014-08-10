@@ -56,6 +56,7 @@ select,
 button {
 	font-family: inherit;
 	font-size: inherit;
+	vertical-align: middle;
 }
 
 input[type="text"],
