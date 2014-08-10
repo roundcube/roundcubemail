@@ -253,6 +253,7 @@ function get_form_tags($attrib)
         if ($RCMAIL->action == 'edit')
             $hiddenfields->add(array('name' => '_source', 'value' => $SOURCE_ID));
         $hiddenfields->add(array('name' => '_gid', 'value' => $CONTACTS->group_id));
+        $hiddenfields->add(array('name' => '_search', 'value' => rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC)));
 
         if (($result = $CONTACTS->get_result()) && ($record = $result->first()))
             $hiddenfields->add(array('name' => '_cid', 'value' => $record['ID']));

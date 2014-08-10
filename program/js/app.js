@@ -4688,6 +4688,7 @@ function rcube_webmail()
   this.list_contacts = function(src, group, page)
   {
     var win, folder, url = {},
+      refresh = src === undefined && group === undefined && page === undefined,
       target = window;
 
     if (!src)
@@ -4700,7 +4701,7 @@ function rcube_webmail()
       page = this.env.current_page = 1;
       this.reset_qsearch();
     }
-    else if (group != this.env.group)
+    else if (!refresh && group != this.env.group)
       page = this.env.current_page = 1;
 
     if (this.env.search_id)
@@ -4836,6 +4837,9 @@ function rcube_webmail()
     if (action && (cid || action=='add') && !this.drag_active) {
       if (this.env.group)
         url._gid = this.env.group;
+
+      if (this.env.search_request)
+        url._search = this.env.search_request;
 
       url._action = action;
       url._source = this.env.source;
