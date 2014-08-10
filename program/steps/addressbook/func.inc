@@ -257,7 +257,7 @@ function rcmail_directory_list($attrib)
 
     // add some labels to client
     $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting', 'addingmember', 'removingmember',
-        'newgroup', 'grouprename', 'searchsave', 'namex'
+        'newgroup', 'grouprename', 'searchsave', 'namex', 'save'
     );
 
     return html::tag('ul', $attrib, $out, html::$common_attrib);
