@@ -148,6 +148,15 @@ if (!empty($cid)) {
         $result = $plugin['result'];
 
     if ($result) {
+        // show confirmation
+        $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
+
+        // in search mode, just reload the list (#1490015)
+        if ($_REQUEST['_search']) {
+            $OUTPUT->command('parent.command', 'list');
+            $OUTPUT->send('iframe');
+        }
+
         // LDAP DN change
         if (is_string($result) && strlen($result)>1) {
             $newcid = $result;
@@ -172,8 +181,6 @@ if (!empty($cid)) {
         // update the changed col in list
         $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source, $record);
 
-        // show confirmation
-        $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
         $RCMAIL->overwrite_action('show');
     }
     else {
@@ -232,8 +239,11 @@ else {
             $counts = $CONTACTS->count();
         }
 
-        if ((string)$source === (string)$orig_source) {
-            // add contact row or jump to the page where it should appear
+        // show confirmation
+        $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
+
+        // add contact row to the list
+        if (empty($_REQUEST['_search']) && (string)$source === (string)$orig_source) {
             $CONTACTS->reset();
             $result = $CONTACTS->search($CONTACTS->primary_key, $insert_id);
 
@@ -244,13 +254,11 @@ else {
             $CONTACTS->reset();
             $OUTPUT->command('parent.set_rowcount', rcmail_get_rowcount_text($counts));
         }
+        // just refresh the list (#1490015)
         else {
-            // re-set iframe
-            $OUTPUT->command('parent.show_contentframe');
+            $OUTPUT->command('parent.command', 'list');
         }
 
-        // show confirmation
-        $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
         $OUTPUT->send('iframe');
     }
     else {

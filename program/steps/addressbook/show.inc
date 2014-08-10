@@ -32,6 +32,11 @@ $SOURCE_ID = $source;
 if ($cid && ($record = $CONTACTS->get_record($cid, true))) {
     $OUTPUT->set_env('readonly', $CONTACTS->readonly || $record['readonly']);
     $OUTPUT->set_env('cid', $record['ID']);
+
+    // remember current search request ID (if in search mode)
+    if ($search = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GET)) {
+        $OUTPUT->set_env('search_request', $search);
+    }
 }
 
 // get address book name (for display)
