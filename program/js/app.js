@@ -5862,8 +5862,9 @@ function rcube_webmail()
     row.attr({id: 'rcmli' + this.html_identifier_encode(id), 'class': class_name});
 
     if (!refrow || !refrow.length) {
-      // remove old subfolders and toggle
+      // remove old data, subfolders and toggle
       $('ul,div.treetoggle', row).remove();
+      row.removeData('filtered');
     }
 
     // set folder name
@@ -5990,7 +5991,7 @@ function rcube_webmail()
       this.subscription_list.expand(this.folder_id2name(parent.id));
     }
 
-    row = row.get(0);
+    row = row.show().get(0);
     if (row.scrollIntoView)
       row.scrollIntoView();
 
@@ -6134,6 +6135,37 @@ function rcube_webmail()
     $('#folder-size').replaceWith(size);
   };
 
+  // filter folders by namespace
+  this.folder_filter = function(prefix)
+  {
+    this.subscription_list.reset_search();
+
+    this.subscription_list.container.children('li').each(function() {
+      var i, folder = ref.folder_id2name(this.id);
+      // show all folders
+      if (prefix == '---') {
+      }
+      // got namespace prefix
+      else if (prefix) {
+        if (folder !== prefix) {
+          $(this).data('filtered', true).hide();
+          return
+        }
+      }
+      // no namespace prefix, filter out all other namespaces
+      else {
+        // first get all namespace roots
+        for (i in ref.env.ns_roots) {
+          if (folder === ref.env.ns_roots[i]) {
+            $(this).data('filtered', true).hide();
+            return;
+          }
+        }
+      }
+
+      $(this).removeData('filtered').show();
+    });
+  };
 
   /*********************************************************/
   /*********           GUI functionality           *********/

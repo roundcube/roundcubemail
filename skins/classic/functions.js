@@ -644,13 +644,14 @@ folder_search_init: function(container)
   $('.boxtitle a.search', container).click(function(e) {
     var title = $('.boxtitle', container),
       box = $('.listsearchbox', container),
-      dir = box.is(':visible') ? -1 : 1;
+      dir = box.is(':visible') ? -1 : 1,
+      height = 24 + ($('select', box).length ? 24 : 0);
 
     box.slideToggle({
       duration: 160,
       progress: function(animation, progress) {
         if (dir < 0) progress = 1 - progress;
-          $('.boxlistcontent', container).css('top', (title.outerHeight() + 24 * progress) + 'px');
+          $('.boxlistcontent', container).css('top', (title.outerHeight() + height * progress) + 'px');
       },
       complete: function() {
         box.toggleClass('expanded');

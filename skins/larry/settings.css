@@ -224,6 +224,11 @@
 	top: 34px;
 }
 
+.listsearchbox select {
+	width: 100%;
+	margin: 3px 0;
+}
+
 #folderslist,
 #identitieslist {
 	position: absolute;

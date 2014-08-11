@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added namespace filter in Folder Manager
 - Added folder searching in Folder Manager
 - Added config option 'imap_log_session' to enable Roundcube <-> IMAP session ID logging
 - Added config option 'log_session_id' to control the lengh of the session identifer in logs

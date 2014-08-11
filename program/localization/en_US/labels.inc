@@ -549,6 +549,9 @@ $labels['personalfolder'] = 'Private Folder';
 $labels['otherfolder'] = 'Other User\'s Folder';
 $labels['sharedfolder'] = 'Public Folder';
 $labels['findfolders'] = 'Find folders';
+$labels['namespace.personal'] = 'Personal';
+$labels['namespace.other'] = 'Other users';
+$labels['namespace.shared'] = 'Shared';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc']  = 'Sort ascending';

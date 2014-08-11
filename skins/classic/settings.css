@@ -21,6 +21,11 @@
   text-indent: 50000px;
 }
 
+.listsearchbox select {
+  width: 100%;
+  margin: 1px 0;
+}
+
 #identities-table,
 #sections-table
 {

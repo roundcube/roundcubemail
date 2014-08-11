@@ -522,6 +522,11 @@ function rcube_treelist_widget(node, p)
         var li, sli;
         if (!node.virtual && !node.deleted && String(node.text).toLowerCase().indexOf(q) >= 0 && hits.indexOf(node.id) < 0) {
           li = id2dom(node.id);
+
+          // skip already filtered nodes
+          if (li.data('filtered'))
+            return;
+
           sli = $('<li>')
             .attr('id', li.attr('id') + '--xsR')
             .attr('class', li.attr('class'))
@@ -566,7 +571,7 @@ function rcube_treelist_widget(node, p)
       searchfield.val('');
 
     $(container).children('li.searchresult__').remove();
-    $(container).children('li').show();
+    $(container).children('li').filter(function() { return !$(this).data('filtered'); }).show();
 
     search_active = false;
 
