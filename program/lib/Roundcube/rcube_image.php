@@ -228,6 +228,24 @@ class rcube_image
                 imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $props['width'], $props['height']);
                 $image = $new_image;
 
+                // fix rotation of image if EXIF data exists and specifies rotation (GD strips the EXIF data)
+                if (file_exists($this->image_file) ) {
+                    $exif = exif_read_data($this->image_file);
+                    if ($exif && $exif['Orientation']) {
+                        switch($exif['Orientation']) {
+                            case 3:
+                                $image = imagerotate($image, 180, 0);
+                                break;
+                            case 6:
+                                $image = imagerotate($image, -90, 0);
+                                break;
+                            case 8:
+                                $image = imagerotate($image, 90, 0);
+                                break;
+                        }
+                    }
+                }
+
                 if ($props['gd_type'] == IMAGETYPE_JPEG) {
                     $result = imagejpeg($image, $filename, 75);
                 }
