@@ -189,7 +189,7 @@ class rcube_image
             }
             else if($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = imagecreatefromgif($this->image_file);
-                $type  = 'gid';
+                $type  = 'gif';
             }
             else if($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = imagecreatefrompng($this->image_file);
