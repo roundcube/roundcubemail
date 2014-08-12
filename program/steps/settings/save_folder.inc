@@ -174,6 +174,7 @@ else if (!$error) {
         }
 
         $OUTPUT->show_message('folderupdated', 'confirmation');
+        $OUTPUT->set_env('folder', $folder['name']);
 
         if ($rename) {
             // #1488692: update session

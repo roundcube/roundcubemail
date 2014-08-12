@@ -287,6 +287,7 @@ function rcmail_folder_form($attrib)
     $out .= "\n$form_end";
 
     $RCMAIL->output->set_env('messagecount', (int) $msgcount);
+    $RCMAIL->output->set_env('folder', $mbox);
 
     if ($mbox !== null && empty($_POST)) {
         $RCMAIL->output->command('parent.set_quota', $RCMAIL->quota_content(null, $mbox));
