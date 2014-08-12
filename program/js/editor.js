@@ -50,7 +50,8 @@ function rcube_text_editor(config, id)
       convert_urls: false, // #1486944
       image_description: false,
       paste_webkit_style: "color font-size font-family",
-      paste_data_images: true
+      paste_data_images: true,
+      browser_spellcheck: true
     };
 
   // register spellchecker for plain text editor
