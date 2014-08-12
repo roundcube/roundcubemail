@@ -1028,7 +1028,7 @@ $config['force_7bit'] = false;
 // Defaults of the search field configuration.
 // The array can contain a per-folder list of header fields which should be considered when searching
 // The entry with key '*' stands for all folders which do not have a specific list set.
-// Please note that folder names should to be in sync with $config['default_folders']
+// Please note that folder names should to be in sync with $config['*_mbox'] options
 $config['search_mods'] = null;  // Example: array('*' => array('subject'=>1, 'from'=>1), 'Sent' => array('subject'=>1, 'to'=>1));
 
 // Defaults of the addressbook search field configuration.
