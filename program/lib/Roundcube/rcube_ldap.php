@@ -65,6 +65,8 @@ class rcube_ldap extends rcube_addressbook
     private $base_dn        = '';
     private $groups_base_dn = '';
     private $group_url;
+    private $group_data;
+    private $group_search_cache;
     private $cache;
 
 
@@ -101,8 +103,8 @@ class rcube_ldap extends rcube_addressbook
             // add group name attrib to the list of attributes to be fetched
             $fetch_attributes[] = $this->prop['groups']['name_attr'];
         }
-        if (is_array($p['group_filters']) && count($p['group_filters'])) {
-            $this->groups = true;
+        if (is_array($p['group_filters'])) {
+            $this->groups = $this->groups || count($p['group_filters']);
 
             foreach ($p['group_filters'] as $k => $group_filter) {
                 // set default name attribute to cn
@@ -381,7 +383,7 @@ class rcube_ldap extends rcube_addressbook
                         $this->prop['groups'][$k] = strtr($this->prop['groups'][$k], $replaces);
                 }
 
-                if (!empty($this->prop['group_filters'])) {
+                if (is_array($this->prop['group_filters'])) {
                     foreach ($this->prop['group_filters'] as $i => $gf) {
                         if (!empty($gf['base_dn']))
                             $this->prop['group_filters'][$i]['base_dn'] = strtr($gf['base_dn'], $replaces);
@@ -1602,7 +1604,7 @@ class rcube_ldap extends rcube_addressbook
             return array();
         }
 
-        $group_cache = $this->_fetch_groups();
+        $group_cache = $this->_fetch_groups($search, $mode);
         $groups      = array();
 
         if ($search) {
@@ -1622,10 +1624,19 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Fetch groups from server
      */
-    private function _fetch_groups($vlv_page = null)
+    private function _fetch_groups($search = null, $mode = 0, $vlv_page = null)
     {
+        // reset group search cache
+        if ($search !== null && $vlv_page === null) {
+            $this->group_search_cache = null;
+        }
+        // return in-memory cache from previous search results
+        else if (is_array($this->group_search_cache) && $vlv_page === null) {
+            return $this->group_search_cache;
+        }
+
         // special case: list groups from 'group_filters' config
-        if ($vlv_page === null && !empty($this->prop['group_filters'])) {
+        if ($vlv_page === null && $search === null && is_array($this->prop['group_filters'])) {
             $groups = array();
             $rcube  = rcube::get_instance();
 
@@ -1642,7 +1653,7 @@ class rcube_ldap extends rcube_addressbook
             return $groups;
         }
 
-        if ($this->cache && $vlv_page === null && ($groups = $this->cache->get('groups')) !== null) {
+        if ($this->cache && $search === null && $vlv_page === null && ($groups = $this->cache->get('groups')) !== null) {
             return $groups;
         }
 
@@ -1668,8 +1679,22 @@ class rcube_ldap extends rcube_addressbook
             $ldap->set_vlv_page($vlv_page+1, $page_size);
         }
 
-        $attrs     = array_unique(array('dn', 'objectClass', $name_attr, $email_attr, $sort_attr));
-        $ldap_data = $ldap->search($base_dn, $filter, $scope, $attrs, $this->prop['groups']);
+        $props = array('sort' => $this->prop['groups']['sort']);
+        $attrs = array_unique(array('dn', 'objectClass', $name_attr, $email_attr, $sort_attr));
+
+        // add search filter
+        if ($search !== null) {
+            // set wildcards
+            $wp = $ws = '';
+            if (!empty($this->prop['fuzzy_search']) && $mode != 1) {
+                $ws = '*';
+                $wp = !$mode ? '*' : '';
+            }
+            $filter = "(&$filter($name_attr=$wp" . rcube_ldap_generic::quote_string($search) . "$ws))";
+            $props['search'] = $wp . $search . $ws;
+        }
+
+        $ldap_data = $ldap->search($base_dn, $filter, $scope, $attrs, $props);
 
         if ($ldap_data === false) {
             return array();
@@ -1706,7 +1731,7 @@ class rcube_ldap extends rcube_addressbook
 
         // call recursively until we have fetched all groups
         while ($this->prop['groups']['vlv'] && $group_count == $page_size) {
-            $next_page   = $this->_fetch_groups(++$vlv_page);
+            $next_page   = $this->_fetch_groups($search, $mode, ++$vlv_page);
             $groups      = array_merge($groups, $next_page);
             $group_count = count($next_page);
         }
@@ -1717,8 +1742,11 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // cache this
-        if ($this->cache) {
+        if ($this->cache && $search === null) {
             $this->cache->set('groups', $groups);
+        }
+        else if ($search !== null) {
+            $this->group_search_cache = $groups;
         }
 
         return $groups;
