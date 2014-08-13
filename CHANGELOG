@@ -52,6 +52,7 @@ CHANGELOG Roundcube Webmail
 - Fix various iCloud vCard issues, added fallback for external photos (#1489993)
 - Fix invalid Content-Type header when send_format_flowed=false (#1489992)
 - Fix errors when adding/updating contacts in active search (#1490015)
+- Fix incorrect thumbnail rotation with GD and exif orientation data (#1490029)
 
 RELEASE 1.0.2
 -------------
