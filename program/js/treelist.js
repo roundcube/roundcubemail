@@ -46,6 +46,7 @@ function rcube_treelist_widget(node, p)
     scroll_speed: 20,
     save_state: false,
     keyboard: true,
+    tabexit: true,
     check_droptarget: function(node) { return !node.virtual; }
   }, p || {});
 
@@ -810,7 +811,7 @@ function rcube_treelist_widget(node, p)
     var target = e.target || {},
       keyCode = rcube_event.get_keycode(e);
 
-    if (!has_focus || target.nodeName == 'INPUT' || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
+    if (!has_focus || target.nodeName == 'INPUT' && keyCode != 38 && keyCode != 40 || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
       return true;
 
     switch (keyCode) {
@@ -836,7 +837,7 @@ function rcube_treelist_widget(node, p)
         return false;
 
       case 9:  // Tab
-        if (p.keyboard) {
+        if (p.keyboard && p.tabexit) {
           // jump to last/first item to move focus away from the treelist widget by tab
           var limit = rcube_event.get_modifier(e) == SHIFT_KEY ? 'first' : 'last';
           focus_noscroll(container.find('li[role=treeitem]:has(a)')[limit]().find('a:'+limit));

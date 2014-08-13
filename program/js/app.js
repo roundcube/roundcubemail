@@ -5745,6 +5745,7 @@ function rcube_webmail()
 
     this.subscription_list = new rcube_treelist_widget(this.gui_objects.subscriptionlist, {
         selectable: true,
+        tabexit: false,
         id_prefix: 'rcmli',
         id_encode: this.html_identifier_encode,
         id_decode: this.html_identifier_decode,
