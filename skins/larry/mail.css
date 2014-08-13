@@ -1083,6 +1083,10 @@ div.message-partheaders .headers-table td.header {
 	bottom: 0;
 }
 
+#compose-contacts .listsearchbox {
+	display: block;
+}
+
 #compose-contacts #directorylist {
 	border-bottom: 4px solid #c7e3ef;
 }
