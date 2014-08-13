@@ -789,11 +789,13 @@ class rcmail extends rcube
     /**
      * Build a valid URL to this instance of Roundcube
      *
-     * @param mixed Either a string with the action or url parameters as key-value pairs
+     * @param mixed   Either a string with the action or url parameters as key-value pairs
+     * @param boolean Build an URL absolute to document root
+     * @param boolean Create fully qualified URL including http(s):// and hostname
      *
      * @return string Valid application URL
      */
-    public function url($p)
+    public function url($p, $absolute = false, $full = false)
     {
         if (!is_array($p)) {
             if (strpos($p, 'http') === 0) {
@@ -803,14 +805,15 @@ class rcmail extends rcube
             $p = array('_action' => @func_get_arg(0));
         }
 
-        $task = $p['_task'] ? $p['_task'] : ($p['task'] ? $p['task'] : $this->task);
-        $p['_task'] = $task;
-        unset($p['task']);
+        $pre = array();
+        $task = $p['_task'] ?: ($p['task'] ?: $this->task);
+        $pre['_task'] = $task;
+        unset($p['task'], $p['_task']);
 
-        $url  = './' . $this->filename;
+        $url  = $this->filename;
         $delm = '?';
 
-        foreach (array_reverse($p) as $key => $val) {
+        foreach (array_merge($pre, $p) as $key => $val) {
             if ($val !== '' && $val !== null) {
                 $par  = $key[0] == '_' ? $key : '_'.$key;
                 $url .= $delm.urlencode($par).'='.urlencode($val);
@@ -818,7 +821,33 @@ class rcmail extends rcube
             }
         }
 
-        return $url;
+        if ($absolute || $full) {
+            $prefix = '';
+
+            // prepend protocol://hostname:port
+            if ($full) {
+                $schema = 'http';
+                $default_port = 80;
+                if (rcube_utils::https_check()) {
+                    $schema = 'https';
+                    $default_port = 443;
+                }
+                $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']);
+                if ($_SERVER['SERVER_PORT'] != $default_port) {
+                  $prefix .= ':' . $_SERVER['SERVER_PORT'];
+                }
+            }
+
+            // add base path to this Roundcube installation
+            $base_path = preg_replace('![^/]+$!', '', strval($_SERVER['SCRIPT_NAME']));
+            if ($base_path == '') $base_path = '/';
+            $prefix .= $base_path;
+        }
+        else {
+            $prefix = './';
+        }
+
+        return $prefix . $url;
     }
 
     /**
