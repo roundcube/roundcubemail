@@ -261,7 +261,7 @@ function rcmail_folder_form($attrib)
     $out = "$form_start\n";
 
     // Create form output
-    foreach ($form as $tab) {
+    foreach ($form as $idx => $tab) {
         if (!empty($tab['fieldsets']) && is_array($tab['fieldsets'])) {
             $content = '';
             foreach ($tab['fieldsets'] as $fieldset) {
@@ -276,7 +276,7 @@ function rcmail_folder_form($attrib)
             $content = rcmail_get_form_part($tab, $attrib);
         }
 
-        if ($content && sizeof($form) > 1) {
+        if ($idx != 'props') {
             $out .= html::tag('fieldset', null, html::tag('legend', null, rcube::Q($tab['name'])) . $content) ."\n";
         }
         else {
