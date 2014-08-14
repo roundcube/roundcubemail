@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support contacts import in GMail CSV format
 - Added namespace filter in Folder Manager
 - Added folder searching in Folder Manager
 - Added config option 'imap_log_session' to enable Roundcube <-> IMAP session ID logging
