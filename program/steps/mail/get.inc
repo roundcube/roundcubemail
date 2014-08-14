@@ -356,7 +356,7 @@ else if (strlen($part_id)) {
             }
             // send part as-it-is
             else {
-                if ($part->body) {
+                if ($part->body && empty($plugin['download'])) {
                     header("Content-Length: " . strlen($part->body));
                     echo $part->body;
                     $sent = true;
