@@ -212,6 +212,25 @@ function rcube_mail_ui()
 
         new rcube_splitter({ id:'composesplitterv', p1:'#composeview-left', p2:'#composeview-right',
           orientation:'v', relative:true, start:206, min:170, size:12, render:layout_composeview }).init();
+
+        // enable zen-mode for message body
+        if ($.fn.zenForm) {
+            $('#composebody').zenForm({ theme: 'light' })
+                .on('zf-initialized', function(event, zenbox) {
+                    var subject = $('#compose-subject').val(),
+                        $zenbox = $(zenbox);
+                    $('<h2>').addClass('zen-forms-subject')
+                        .text(subject ? subject : rcmail.gettext('nosubject'))
+                        .insertBefore('.zen-forms-close-button', zenbox);
+
+                    $zenbox.find('.zen-forms-close-button').attr('title', env.exitfullscreen)
+                    $zenbox.find('.zen-forms-theme-switch').attr('title', env.switchtheme)
+                    $zenbox.find('.input').first().focus();
+                })
+                .on('zf-destroyed', function(event) {
+                    $('#composebody').focus();
+                });
+        }
       }
       else if (rcmail.env.action == 'list' || !rcmail.env.action) {
         var previewframe = $('#mailpreviewframe').is(':visible');
@@ -497,7 +516,7 @@ function rcube_mail_ui()
     form.css('overflow', ovflw > 0 ? 'auto' : 'hidden');
 
     w = body.parent().width() - 5;
-    h = body.parent().height() - 8;
+    h = body.parent().height() - 16;
     body.width(w).height(h);
 
     $('#composebodycontainer > div').width(w+8);
@@ -508,6 +527,9 @@ function rcube_mail_ui()
 
     var abooks = $('#directorylist');
     $('#compose-contacts .scroller').css('top', abooks.position().top + abooks.outerHeight());
+
+    // hide zen-mode switch in HTML mode
+    $('a.go-zen')[($('#composebody_ifr').is(':visible') ? 'hide' : 'show')]();
   }
 
 

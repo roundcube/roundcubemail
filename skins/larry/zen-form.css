@@ -1,0 +1,340 @@
+/* ================================== *\
+ * Zen Form
+ * ================================== */
+
+.zen-forms {
+	font: normal 18px/1.2 "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+	position: fixed;
+	z-index: 99999;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 20px 40px 20px 20px;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+.zen-forms-body-wrap {
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+body {
+	max-width: 100%;
+}
+
+.zen-forms-input-wrap {
+	max-width: 800px;
+	position: relative;
+	margin: 0 auto;
+	height: 90%;
+}
+
+/**
+ * Buttons style
+ */
+
+.zen-forms-header {
+	max-width: 800px;
+	margin: 0 auto 16px auto;
+}
+
+.zen-forms-header .zen-forms-subject {
+	float: left;
+	display: inline;
+	margin: 0;
+	color: #808080;
+	font-size: 16px;
+}
+
+.zen-forms-close-button,
+.zen-forms-theme-switch {
+	float: right;
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	font-size: .8em;
+	padding: 0 .5em;
+	vertical-align: top;
+	width: 18px;
+	height: 18px;
+	text-indent: -5000px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.zen-icon {
+	background-image: url(images/zen-form-sprites.png);
+	display: inline-block;
+	line-height: 1;
+	position: absolute;
+	zoom: 1;
+	width: 16px;
+	height: 16px;
+	top: 1px;
+	left: 1px;
+}
+
+.zen-icon:before {
+	content: "";
+	display: block;
+	width: 0;
+	height: 100%;
+}
+
+.light-theme .zen-forms-close-button:hover .zen-icon,
+.zen-icon--close {
+	background-position: -16px 0;
+}
+
+.light-theme .zen-forms-theme-switch:hover .zen-icon,
+.zen-icon--theme {
+	background-position: 0 0;
+}
+
+.light-theme .zen-icon--close,
+.zen-forms-close-button:hover .zen-icon {
+	background-position: -16px -16px;
+}
+
+.light-theme .zen-icon--theme,
+.zen-forms-theme-switch:hover .zen-icon {
+	background-position: 0 -16px;
+}
+
+
+/**
+ * Inputs basic style
+ */
+
+.zen-forms-header:after,
+.zen-forms-input-wrap:after {
+	clear: both;
+	content: '';
+	display: table;
+	margin-bottom: 2px;
+}
+
+.zen-forms .input {
+	box-shadow: none;
+	background: none;
+	text-shadow: none;
+	padding: 7px 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 0;
+	border: none;
+	margin: 0;
+	cursor: pointer;
+	font: inherit;
+}
+
+.zen-forms .input:focus {
+	cursor: text;
+}
+
+.zen-forms .select {
+	display: none;
+}
+
+.zen-forms .custom-select-wrap + label {
+	padding: 8px 3px;
+	position: static;
+	display: inline-block;
+	width: auto;
+	float: left;
+}
+
+.zen-forms .custom-select-wrap {
+	display: inline-block;
+	vertical-align: top;
+	max-width: 100%;
+}
+
+.zen-forms .custom-select {
+	border-radius: 5px;
+	top: 0;
+	right: 0;
+	left: 0;
+	overflow: auto;
+	max-height: 300px;
+}
+
+.zen-forms .custom-select a {
+	display: inline-block;
+	display: block;
+	text-decoration: none;
+	padding: 6px 10px;
+	display: none;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.zen-forms .custom-select span {
+	position: relative;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 100%;
+}
+
+.zen-forms .custom-select.is-open a,
+.zen-forms .custom-select .selected {
+	position: static;
+	display: block;
+}
+
+.zen-forms textarea {
+	resize: none;
+}
+
+.zen-forms label {
+	cursor: pointer;
+	padding: 8px 8px 8px 0;
+	display: inline-block;
+	vertical-align: top;
+	font: inherit;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+.zen-forms .input + label {
+	position: absolute;
+	display: none;
+	top: 0;
+	width: 100%;
+}
+
+.zen-forms .empty + label {
+	display: block;
+}
+
+.zen-forms .input:focus + label {
+	display: none;
+}
+
+@media (min-width: 1024px) {
+
+	.zen-forms .input:focus + label {
+		display: block;
+		background: #000;
+		font-size: .8em;
+		padding: 0 .5em;
+		line-height: 2;
+		border-radius: 3px;
+		margin: 5px 15px 0 0;
+		right: 100%;
+		width: auto;
+		white-space: nowrap;
+		color: #fff;
+		opacity: .5;
+	}
+
+	.zen-forms .input:focus + label:after {
+		content: '';
+		top: 50%;
+		left: 100%;
+		width: 0px;
+		height: 0px;
+		margin-top: -4px;
+		position: absolute;
+		border-style: solid;
+		border-width: 4px 0 4px 4px;
+		border-color: transparent transparent transparent #000000;
+	}
+
+}
+
+.zen-forms :focus {
+	outline-color: transparent;
+	outline-style: none;
+}
+
+/**
+ * Dark theme
+ */
+.zen-forms {
+	background: #151a1c;
+}
+
+.zen-forms .zen-forms-close-button,
+.zen-forms .zen-forms-theme-switch {
+	color: #768991;
+}
+
+.zen-forms .zen-forms-close-button:hover,
+.zen-forms .zen-forms-theme-switch:hover {
+	color: #707071;
+}
+
+.zen-forms label {
+	color: #415056;
+}
+
+.zen-forms .input {
+	color: #768991;
+}
+
+.zen-forms .custom-select {
+	background-color: #151a1c;
+	border: 2px solid #0f1314;
+}
+
+.zen-forms .custom-select a {
+	color: #768991;
+}
+
+.zen-forms .custom-select.is-open a:hover {
+	background-color: #181e20;
+}
+
+.zen-forms .custom-select.is-open .selected {
+	background-color: #0f1314;
+}
+
+/**
+ * Light theme
+ */
+.zen-forms.light-theme {
+	background: #fefefe;
+}
+
+.zen-forms.light-theme .zen-forms-close-button,
+.zen-forms.light-theme .zen-forms-theme-switch {
+	color: #707071;
+}
+
+.zen-forms.light-theme .zen-forms-close-button:hover,
+.zen-forms.light-theme .zen-forms-theme-switch:hover {
+	color: #768991;
+}
+
+.zen-forms.light-theme label {
+	color: #959697;
+}
+
+.zen-forms.light-theme .input {
+	color: #707071;
+}
+
+.zen-forms.light-theme .custom-select {
+	background-color: #fefefe;
+	border: 2px solid #e5e5e5;
+}
+
+.zen-forms.light-theme .custom-select a {
+	color: #707071;
+}
+
+.zen-forms.light-theme .custom-select.is-open a:hover {
+	background-color: #f5f5f5;
+}
+
+.zen-forms.light-theme .custom-select.is-open .selected {
+	background-color: #e5e5e5;
+}

@@ -3,6 +3,7 @@
 <head>
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
+<link rel="stylesheet" type="text/css" href="/zen-form.css" />
 <roundcube:if condition="config:enable_spellcheck" />
 <link rel="stylesheet" type="text/css" href="/googiespell.css" />
 <roundcube:endif />
@@ -169,6 +170,7 @@
 	<div id="composebodycontainer">
 		<label for="composebody" class="voice"><roundcube:label name="arialabelmessagebody" /></label>
 		<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" tabindex="1" />
+		<a href="#" class="go-zen" title="<roundcube:label name='editfullscreen' />"><span class="icon-go-zen"><roundcube:label name="editfullscreen" /></span></a>
 	</div>
 	<div id="compose-attachments" class="rightcol" role="region" aria-labelledby="aria-label-composeattachments">
 		<h2 id="aria-label-composeattachments" class="voice"><roundcube:label name="attachments" /></h2>
@@ -216,6 +218,8 @@
 		<roundcube:button command="responses" type="link-menuitem" label="editresponses" classAct="active" />
 	</ul>
 </div>
+
+<script type="text/javascript" src="/zen-form.js"></script>
 
 <roundcube:include file="/includes/footer.html" />
 

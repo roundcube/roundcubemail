@@ -300,6 +300,11 @@ $labels['addbcc'] = 'Add Bcc';
 $labels['addreplyto'] = 'Add Reply-To';
 $labels['addfollowupto'] = 'Add Followup-To';
 
+// zen mode labels
+$labels['editfullscreen'] = 'Edit in fullscreen';
+$labels['exitfullscreen'] = 'Exit fullscreen mode';
+$labels['switchtheme'] = 'Switch theme';
+
 // mdn
 $labels['mdnrequest'] = 'The sender of this message has asked to be notified when you read this message. Do you wish to notify the sender?';
 $labels['receiptread'] = 'Return Receipt (read)';

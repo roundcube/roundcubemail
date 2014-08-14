@@ -1298,6 +1298,21 @@ div.message-partheaders .headers-table td.header {
 	bottom: 42px;
 }
 
+#composebodycontainer .go-zen {
+	position: absolute;
+	top: 6px;
+	right: 4px;
+}
+
+#composebodycontainer .icon-go-zen {
+	display: inline-block;
+	width: 16px;
+	height: 14px;
+	background: url('data:image/gif;base64,R0lGODlhDgAMAPABAHl5ef///yH/C1hNUCBEYXRhWE1QAT8AIfkEBQAAAQAsAAAAAA4ADAAAAh+EEaln6t+YRHGegHB2bW3PfUk3itqoWdSqns8rwUcBADs=') 1px 1px no-repeat;
+	text-indent: -5000px;
+	overflow: hidden;
+}
+
 #composebody {
 	position: absolute;
 	top: 0;
