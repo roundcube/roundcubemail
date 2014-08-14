@@ -78,10 +78,10 @@ function rcube_text_editor(config, id)
   else {
     $.extend(conf, {
       plugins: 'autolink charmap code colorpicker directionality emoticons link image media nonbreaking'
-        + ' paste table tabfocus textcolor searchreplace' + (config.spellcheck ? ' spellchecker' : ''),
+        + ' paste table tabfocus textcolor searchreplace fullscreen' + (config.spellcheck ? ' spellchecker' : ''),
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
         + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
-        + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',
+        + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo fullscreen',
       spellchecker_rpc_url: '../../../../../?_task=utils&_action=spell_html&_remote=1',
       spellchecker_language: rcmail.env.spell_lang,
       accessibility_focus: false,
