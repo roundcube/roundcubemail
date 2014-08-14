@@ -24,12 +24,12 @@
     <a href="#folders" class="iconbutton search" title="<roundcube:label name='findfolders' />" tabindex="0"><roundcube:label name='findfolders' /></a>
 </div>
 <div class="listsearchbox">
+    <roundcube:object name="folderfilter" id="folderlist-filter" />
     <div class="searchbox" role="search">
         <input type="text" name="q" id="foldersearch" placeholder="<roundcube:label name='findfolders' />" />
         <a class="iconbutton searchicon"></a>
         <roundcube:button command="reset-foldersearch" id="folderlistsearch-reset" class="iconbutton reset" title="resetsearch" width="13" height="13" />
     </div>
-    <roundcube:object name="folderfilter" id="folderlist-filter" />
 </div>
 <div id="folderlist-content" class="boxlistcontent">
     <roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table"

@@ -541,7 +541,7 @@ function rcube_mail_ui()
       var title = $('.boxtitle', container),
         box = $('.listsearchbox', container),
         dir = box.is(':visible') ? -1 : 1,
-        height = 34 + ($('select', box).length ? 24 : 0);
+        height = 34 + ($('select', box).length ? 22 : 0);
 
       box.slideToggle({
         duration: 160,
@@ -553,6 +553,8 @@ function rcube_mail_ui()
           box.toggleClass('expanded');
           if (box.is(':visible')) {
             box.find('input[type=text]').focus();
+            height = 34 + ($('select', box).length ? $('select', box).outerHeight() + 4 : 0);
+            $('.scroller', container).css('top', (title.outerHeight() + height) + 'px');
           }
           else {
             $('a.reset', box).click();

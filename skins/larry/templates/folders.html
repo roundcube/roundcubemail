@@ -22,6 +22,7 @@
 	<a href="#folders" class="iconbutton search" title="<roundcube:label name='findfolders' />" tabindex="0"><roundcube:label name='findfolders' /></a>
 </h2>
 <div class="listsearchbox">
+	<roundcube:object name="folderfilter" id="folderlist-filter" />
 	<div class="searchbox" role="search" aria-labelledby="aria-label-foldersearchform">
 		<h3 id="aria-label-foldersearchform" class="voice"><roundcube:label name="arialabelfoldersearchform" /></h3>
 		<label for="foldersearch" class="voice"><roundcube:label name="arialabelsearchterms" /></label>
@@ -29,7 +30,6 @@
 		<a class="iconbutton searchicon"></a>
 		<roundcube:button command="reset-foldersearch" id="folderlistsearch-reset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
 	</div>
-	<roundcube:object name="folderfilter" id="folderlist-filter" />
 </div>
 <div id="folderslist-content" class="scroller withfooter">
 	<roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table" class="treelist listing folderlist" />
