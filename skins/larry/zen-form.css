@@ -27,7 +27,7 @@ body {
 }
 
 .zen-forms-input-wrap {
-	max-width: 800px;
+	max-width: 40em;
 	position: relative;
 	margin: 0 auto;
 	height: 90%;
@@ -38,7 +38,7 @@ body {
  */
 
 .zen-forms-header {
-	max-width: 800px;
+	max-width: 40em;
 	margin: 0 auto 16px auto;
 }
 
@@ -190,6 +190,8 @@ body {
 
 .zen-forms textarea {
 	resize: none;
+	font-family: monospace !important;
+	font-size: 12pt !important;
 }
 
 .zen-forms label {
