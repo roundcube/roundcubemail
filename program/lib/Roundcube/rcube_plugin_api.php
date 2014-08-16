@@ -170,10 +170,11 @@ class rcube_plugin_api
      *
      * @param string Plugin name
      * @param boolean Force loading of the plugin even if it doesn't match the filter
+     * @param boolean Require loading of the plugin, error if it doesn't exist
      *
      * @return boolean True on success, false if not loaded or failure
      */
-    public function load_plugin($plugin_name, $force = false)
+    public function load_plugin($plugin_name, $force = false, $require = true)
     {
         static $plugins_dir;
 
@@ -225,7 +226,7 @@ class rcube_plugin_api
                     true, false);
             }
         }
-        else {
+        elseif ($require) {
             rcube::raise_error(array('code' => 520, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Failed to load plugin file $fn"), true, false);
