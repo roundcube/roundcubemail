@@ -45,9 +45,6 @@ foreach ((array)$undo['data'] as $source => $cid) {
     }
 }
 
-// update saved search after data changed
-rcmail_search_update();
-
 $RCMAIL->session->remove('contact_undo');
 
 $OUTPUT->show_message('contactrestored', 'confirmation');

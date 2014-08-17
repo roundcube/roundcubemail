@@ -235,29 +235,12 @@ else {
                 $CONTACTS->add_to_group($plugin['group_id'], $plugin['ids']);
             }
         }
-        else {
-            $counts = $CONTACTS->count();
-        }
 
         // show confirmation
         $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
 
-        // add contact row to the list
-        if (empty($_REQUEST['_search']) && (string)$source === (string)$orig_source) {
-            $CONTACTS->reset();
-            $result = $CONTACTS->search($CONTACTS->primary_key, $insert_id);
-
-            rcmail_js_contacts_list($result, 'parent.');
-            $OUTPUT->command('parent.contact_list.select', rcube_utils::html_identifier($insert_id));
-
-            // update record count display
-            $CONTACTS->reset();
-            $OUTPUT->command('parent.set_rowcount', rcmail_get_rowcount_text($counts));
-        }
-        // just refresh the list (#1490015)
-        else {
-            $OUTPUT->command('parent.command', 'list');
-        }
+        $OUTPUT->command('parent.set_rowcount', $RCMAIL->gettext('loading'));
+        $OUTPUT->command('parent.list_contacts');
 
         $OUTPUT->send('iframe');
     }
