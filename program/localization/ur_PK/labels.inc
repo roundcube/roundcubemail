@@ -37,4 +37,7 @@ $labels['list'] = 'لِسٹ';
 $labels['expand-all'] = 'تمام کھولیں';
 $labels['attachment'] = 'مُنسلَک شُدہ';
 $labels['nonesort'] = 'کوئی نہیں';
+$labels['helplistkeyboardnavigation'] = "";
+$labels['helplistkeyboardnavmessages'] = "";
+$labels['helplistkeyboardnavcontacts'] = "";
 ?>

@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Αλλαγη κωδικου προσβασης';
 $labels['curpasswd']  = 'Τρεχων κωδικος προσβασης:';
 $labels['newpasswd']  = 'Νεος κωδικος προσβασης:';
 $labels['confpasswd']  = 'Επιβεβαιωση κωδικου προσβασης:';

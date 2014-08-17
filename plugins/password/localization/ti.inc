@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'መሕለፊ ቃል ይለወጥ';
 $labels['curpasswd']  = 'ህልው መሕለፊ ቃል:';
 $labels['newpasswd']  = 'ሓዱሽ መሕለፊ ቃል:';
 $labels['confpasswd']  = 'መረጋገፂ ሓዱሽ መሕለፊ ቃል :';

@@ -135,7 +135,6 @@ $messages['importmessagesuccess'] = 'Innflutt $nr boð.';
 $messages['importmessageerror'] = 'Innflyting bar ikki til! Tann uppsendi fílurin er ikki gyldigur boð ella postkassa fílur';
 $messages['opnotpermitted'] = 'Ger ikki loyvd!';
 $messages['nofromaddress'] = 'Manglar teldupostur í valda samleika.';
-$messages['editorwarning'] = 'Um tú skiftur til reinan tekst verður øll forsniðing mist. Ynskir tú at halda fram?';
 $messages['httpreceivedencrypterror'] = 'Ein oyðandi samansetings feilur uppstóð. Vinarliga set teg í samband við umsitaran beinanvegin. <b>Tíni boð kundu ikki sendast.</b>';
 $messages['smtpconnerror'] = 'SMTP Feilur ($code): Samband til ambatara riggaði ikki.';
 $messages['smtpautherror'] = 'SMTP Feilur ($code): Atgongd nokta.';

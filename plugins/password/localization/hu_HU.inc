@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Jelszó módosítás';
 $labels['curpasswd']  = 'Jelenlegi jelszó:';
 $labels['newpasswd']  = 'Új jelszó:';
 $labels['confpasswd']  = 'Új jelszó mégegyszer:';
@@ -29,4 +28,5 @@ $messages['internalerror'] = 'Hiba történt a kérés feldolgozása során.';
 $messages['passwordshort'] = 'A jelszónak legalább $length karakter hosszunak kell lennie.';
 $messages['passwordweak'] = 'A jelszónak mindenképpen kell tartalmaznia egy számot és egy írásjelet.';
 $messages['passwordforbidden'] = 'A jelszó tiltott karaktert is tartalmaz.';
+$messages['firstloginchange'] = 'Ez az első belépésed. Változtass jelszót.';
 ?>

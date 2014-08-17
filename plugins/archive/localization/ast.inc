@@ -17,15 +17,15 @@
 */
 $labels['buttontext'] = 'Archivu';
 $labels['buttontitle'] = 'Archivar esti mensaxe';
-$labels['archived'] = 'Mensaxe archiváu';
-$labels['archivedreload'] = 'Archiváu correchamente. Recarga la páxina pa ver les nueves carpetes d\'archivu.';
+$labels['archived'] = 'Archiváu con ésitu';
+$labels['archivedreload'] = 'Archiváu con ésitu. Recarga la páxina pa ver les nueves carpetes d\'archivos.';
 $labels['archiveerror'] = 'Nun pudieron archivase dalgunos mensaxes';
 $labels['archivefolder'] = 'Archivu';
 $labels['settingstitle'] = 'Archivu';
 $labels['archivetype'] = 'Dividir l\'archivu por';
 $labels['archivetypeyear'] = 'Añu (p.ex. Archivu/2012)';
 $labels['archivetypemonth'] = 'Mes (p.ex. Archivu/2012/06)';
-$labels['archivetypefolder'] = 'Bandexa orixinal';
+$labels['archivetypefolder'] = 'Carpeta orixinal';
 $labels['archivetypesender'] = 'Corréu-e del remitente';
 $labels['unkownsender'] = 'desconocíu';
 ?>

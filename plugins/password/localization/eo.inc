@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Ŝanĝi pasvorton';
 $labels['curpasswd']  = 'Nuna pasvorto:';
 $labels['newpasswd']  = 'Nova pasvorto:';
 $labels['confpasswd']  = 'Konfirmi novan pasvorton:';

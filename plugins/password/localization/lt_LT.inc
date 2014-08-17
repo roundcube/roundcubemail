@@ -15,7 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Slaptažodžio keitimas';
+$labels['changepasswd']  = 'Keisti slaptažodį';
 $labels['curpasswd']  = 'Dabartinis slaptažodis:';
 $labels['newpasswd']  = 'Naujasis slaptažodis:';
 $labels['confpasswd']  = 'Pakartokite naująjį slaptažodį:';
@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Nepavyko įrašyti naujojo slaptažodžio.';
 $messages['passwordshort'] = 'Slaptažodis turi būti sudarytas bent iš $length simbolių.';
 $messages['passwordweak'] = 'Slaptažodyje turi būti bent vienas skaitmuo ir vienas skyrybos ženklas.';
 $messages['passwordforbidden'] = 'Slaptažodyje rasta neleistinų simbolių.';
+$messages['firstloginchange'] = 'Tai yra pirmasis jūsų prisijungimas. Prašau, pasikeiskite savo slaptažodį.';
 ?>

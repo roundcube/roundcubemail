@@ -15,7 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Parolayı Değiştir';
+$labels['changepasswd']  = 'Parolayı değiştir';
 $labels['curpasswd']  = 'Şimdiki Parola:';
 $labels['newpasswd']  = 'Yeni Parola:';
 $labels['confpasswd']  = 'Yeni Parolayı Onaylayın:';
@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Yeni parola kaydedilemedi.';
 $messages['passwordshort'] = 'Parola en az $length karakterden oluşmalı.';
 $messages['passwordweak'] = 'Parola en az bir sayı ve bir noktalama işareti içermeli.';
 $messages['passwordforbidden'] = 'Parola uygunsuz karakter(ler) içeriyor.';
+$messages['firstloginchange'] = 'Bu ilk girişiniz. Lütfen parolanızı değiştirin.';
 ?>

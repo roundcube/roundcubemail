@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Newid Cyfrinair';
 $labels['curpasswd']  = 'Cyfrinair Presennol:';
 $labels['newpasswd']  = 'Cyfrinair Newydd:';
 $labels['confpasswd']  = 'Cadarnhau Cyfrinair Newydd:';
