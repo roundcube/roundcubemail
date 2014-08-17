@@ -1282,7 +1282,8 @@ use_arrow_key: function(keyCode, mod_key)
  */
 scrollto: function(id)
 {
-  var row = this.rows[id].obj;
+  var row = this.rows[id] ? this.rows[id].obj : null;
+
   if (row && this.frame) {
     var scroll_to = Number(row.offsetTop),
       head_offset = 0;
