@@ -3165,6 +3165,16 @@ class rcube_imap extends rcube_storage
 
         $result = $this->conn->createFolder($folder, $type ? array("\\" . ucfirst($type)) : null);
 
+        // it's quite often situation that we're trying to create and subscribe
+        // a folder that already exist, but is unsubscribed
+        if (!$result) {
+            if ($this->get_response_code() == rcube_storage::ALREADYEXISTS
+                || preg_match('/already exists/i', $this->get_error_str())
+            ) {
+                $result = true;
+            }
+        }
+
         // try to subscribe it
         if ($result) {
             // clear cache
