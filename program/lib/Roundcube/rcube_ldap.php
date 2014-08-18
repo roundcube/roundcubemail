@@ -906,7 +906,6 @@ class rcube_ldap extends rcube_addressbook
         return $this->result;
     }
 
-
     /**
      * Get a specific contact record
      *
@@ -946,6 +945,23 @@ class rcube_ldap extends rcube_addressbook
         }
 
         return $assoc ? $res : $this->result;
+    }
+
+    /**
+     * Returns the last error occurred (e.g. when updating/inserting failed)
+     *
+     * @return array Hash array with the following fields: type, message
+     */
+    function get_error()
+    {
+        $err = $this->error;
+
+        // check ldap connection for errors
+        if (!$err && $this->ldap->get_error()) {
+            $err = array(self::ERROR_SEARCH, $this->ldap->get_error());
+        }
+
+        return $err;
     }
 
 
@@ -1609,7 +1625,7 @@ class rcube_ldap extends rcube_addressbook
 
         if ($search) {
             foreach ($group_cache as $group) {
-                if ($this->compare_search_value('name', $group['name'], $search, $mode)) {
+                if ($this->compare_search_value('name', $group['name'], mb_strtolower($search), $mode)) {
                     $groups[] = $group;
                 }
             }
