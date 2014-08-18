@@ -605,7 +605,8 @@ abstract class rcube_addressbook
         }
 
         $result = preg_replace('/\s+/', ' ', $result);
-        $result = trim($result);
+        $result = preg_replace('/\s*(<>|\(\)|\[\])/', '', $result);
+        $result = trim($result, '/ ');
 
         return $result;
     }
