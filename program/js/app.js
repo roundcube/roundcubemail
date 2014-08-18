@@ -4583,7 +4583,7 @@ function rcube_webmail()
         id = i + this.env.contacts.length;
         $('<li>').attr('id', 'rcmkSearchItem' + id)
           .attr('role', 'option')
-          .html(this.quote_html(text.replace(new RegExp('('+RegExp.escape(value)+')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>'))
+          .html('<i class="icon"></i>' + this.quote_html(text.replace(new RegExp('('+RegExp.escape(value)+')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>'))
           .addClass(type || '')
           .appendTo(ul)
           .mouseover(function() { ref.ksearch_select(this); })
