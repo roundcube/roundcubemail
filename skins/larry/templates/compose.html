@@ -219,9 +219,17 @@
 	</ul>
 </div>
 
-<script type="text/javascript" src="/zen-form.js"></script>
-
 <roundcube:include file="/includes/footer.html" />
+
+<script type="text/javascript" src="/zen-form.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	UI.set('exitfullscreen', '<roundcube:label name="exitfullscreen" quoting="javascript" />');
+	UI.set('switchtheme', '<roundcube:label name="switchtheme" quoting="javascript" />');
+});
+
+</script>
 
 </body>
 </html>
