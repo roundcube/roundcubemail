@@ -124,7 +124,13 @@ if (!empty($book_types) && strlen($search)) {
                 if ($group_prop['email']) {
                     $idx = 0;
                     foreach ((array)$group_prop['email'] as $email) {
-                        $contacts[]  = array('name' => format_email_recipient($email, $group['name']), 'type' => 'group');
+                        $contacts[]  = array(
+                            'name'   => format_email_recipient($email, $group['name']),
+                            'email'  => $email,
+                            'type'   => 'group',
+                            'id'     => $group['ID'],
+                            'source' => $id,
+                        );
                         $sort_keys[] = sprintf('%s %03d', $group['name'] , $idx++);
 
                         if (count($contacts) >= $MAXNUM) {
