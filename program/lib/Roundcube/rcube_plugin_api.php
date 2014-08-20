@@ -421,21 +421,52 @@ class rcube_plugin_api
         if (!is_array($args)) {
             $args = array('arg' => $args);
         }
-
+        
         $args += array('abort' => false);
-        array_push($this->active_hook,$hook);
-
-        foreach ((array)$this->handlers[$hook] as $callback) {
-            $ret = call_user_func($callback, $args);
-            if ($ret && is_array($ret)) {
-                $args = $ret + $args;
-            }
-
-            if ($args['break']) {
-                break;
-            }
+        
+        // no hooks registered? skip
+        if (empty($this->handlers[$hook]) || !is_array($this->handlers[$hook])) {
+            return $args;
         }
 
+        // store active running hook
+        array_push($this->active_hook,$hook);
+
+        // get list of registered hooks
+        $hooks = array_keys($this->handlers[$hook]);
+        $last = end($hooks);
+
+        // loop through all registered hooks
+        while(count($hooks)) {
+            $nr = array_shift($hooks);
+
+            // execute hook
+            if (isset($this->handlers[$hook][$nr])) {
+                $callback = $this->handlers[$hook][$nr];
+                $ret = call_user_func($callback, $args);
+                if ($ret && is_array($ret)) {
+                    $args = $ret + $args;
+                }
+
+                if ($args['break']) {
+                    break;
+                }
+            }
+
+            // did we reached the end? if yes check for mid-run added hooks
+            if ($nr == $last) {
+                $check = array_keys($this->handlers[$hook]);
+                if (end($check) > $last) {
+                    foreach ($check AS $nr) {
+                        if ($nr > $last) {
+                            $hooks[] = $nr;
+                        }
+                    }
+                    $last = end($hooks);
+                }
+            }
+        }
+        // remove active hook
         array_pop($this->active_hook);
         return $args;
     }
