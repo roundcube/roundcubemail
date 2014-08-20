@@ -563,6 +563,7 @@ function rcube_webmail()
       this.treelist = new rcube_treelist_widget(this.gui_objects.folderlist, {
           selectable: true,
           id_prefix: 'rcmli',
+          parent_focus: true,
           id_encode: this.html_identifier_encode,
           id_decode: this.html_identifier_decode,
           check_droptarget: function(node) { return !node.virtual && ref.check_droptarget(node.id) }
@@ -5751,6 +5752,7 @@ function rcube_webmail()
     this.subscription_list = new rcube_treelist_widget(this.gui_objects.subscriptionlist, {
         selectable: true,
         tabexit: false,
+        parent_focus: true,
         id_prefix: 'rcmli',
         id_encode: this.html_identifier_encode,
         id_decode: this.html_identifier_decode,

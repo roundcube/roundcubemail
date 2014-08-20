@@ -47,6 +47,7 @@ function rcube_treelist_widget(node, p)
     save_state: false,
     keyboard: true,
     tabexit: true,
+    parent_focus: false,
     check_droptarget: function(node) { return !node.virtual; }
   }, p || {});
 
@@ -187,6 +188,17 @@ function rcube_treelist_widget(node, p)
   $(document.body)
     .bind('keydown', keypress);
 
+  // catch focus when clicking the list container area
+  if (p.parent_focus) {
+    container.parent(':not(body)').click(function(e) {
+      if (!has_focus && selection) {
+        $(get_item(selection)).find(':focusable').first().focus();
+      }
+      else if (!has_focus) {
+        container.children('li:has(:focusable)').first().find(':focusable').first().focus();
+      }
+    });
+  }
 
   /////// private methods
 
