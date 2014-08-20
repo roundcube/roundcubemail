@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Support contacts import in GMail CSV format
 - Added namespace filter in Folder Manager
 - Added folder searching in Folder Manager
+- Added config option/user preference to disable saving messages in localStorage (#1489979)
 - Added config option 'imap_log_session' to enable Roundcube <-> IMAP session ID logging
 - Added config option 'log_session_id' to control the lengh of the session identifer in logs
 - Implemented 'storage_connected' API hook after successful IMAP login (#1490025)
