@@ -918,6 +918,20 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
+            if (!isset($no_override['compose_save_localstorage'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_compose_save_localstorage';
+                $input    = new html_checkbox(array('name' => '_compose_save_localstorage', 'id' => $field_id, 'value' => 1));
+
+                $blocks['advanced']['options']['compose_save_localstorage'] = array(
+                    'title'    => html::label($field_id, rcube::Q($RCMAIL->gettext('savelocalstorage'))),
+                    'content'  => $input->show($config['compose_save_localstorage']?1:0),
+                );
+            }
+
         break;
 
         // Addressbook config

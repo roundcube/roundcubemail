@@ -3361,7 +3361,8 @@ function rcube_webmail()
     }
 
     // check for locally stored compose data
-    this.compose_restore_dialog(0, html_mode)
+    if (this.env.save_localstorage)
+      this.compose_restore_dialog(0, html_mode)
 
     if (input_to.val() == '')
       input_to.focus();
@@ -3793,7 +3794,7 @@ function rcube_webmail()
     }
 
     // save compose form content to local storage every 5 seconds
-    if (!this.local_save_timer && window.localStorage) {
+    if (!this.local_save_timer && window.localStorage && this.env.save_localstorage) {
       // track typing activity and only save on changes
       this.compose_type_activity = this.compose_type_activity_last = 0;
       $(document).bind('keypress', function(e){ ref.compose_type_activity++; });
@@ -3849,6 +3850,10 @@ function rcube_webmail()
   // store the contents of the compose form to localstorage
   this.save_compose_form_local = function()
   {
+    // feature is disabled
+    if (!this.env.save_localstorage)
+      return;
+
     var formdata = { session:this.env.session_id, changed:new Date().getTime() },
       ed, empty = true;
 

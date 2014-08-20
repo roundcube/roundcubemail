@@ -947,6 +947,10 @@ $config['compose_extwin'] = false;
 // 0 - never, 1 - always, 2 - on reply to HTML message, 3 - on forward or reply to HTML message
 $config['htmleditor'] = 0;
 
+// save copies of compose messages in the browser's local storage
+// for recovery in case of browser crashes and session timeout.
+$config['compose_save_localstorage'] = true;
+
 // show pretty dates as standard
 $config['prettydate'] = true;
 
