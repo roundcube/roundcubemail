@@ -44,6 +44,8 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
             23 => '=?UTF-8?B?IlRlc3QsVGVzdCI=?= <test@domain.tld>',
             // invalid, but we do our best to parse correctly
             24 => '"email@test.com" <>',
+            // valid with redundant quoting (#1490040)
+            25 => '"user"@"domain.tld"',
         );
 
         $results = array(
@@ -73,6 +75,7 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
             22 => array(1, 'John Doe @ SomeBusinessName', 'MAILER-DAEMON'),
             23 => array(1, 'Test,Test', 'test@domain.tld'),
             24 => array(1, '', 'email@test.com'),
+            25 => array(1, '', 'user@domain.tld'),
         );
 
         foreach ($headers as $idx => $header) {

@@ -394,6 +394,7 @@ class rcube_mime
             }
 
             if ($address) {
+                $address      = self::fix_email($address);
                 $result[$key] = array('name' => $name, 'address' => $address);
             }
         }
@@ -889,4 +890,19 @@ class rcube_mime
         return 'image/' . $type;
     }
 
+    /**
+     * Try to fix invalid email addresses
+     */
+    public static function fix_email($email)
+    {
+        $parts = rcube_utils::explode_quoted_string('@', $email);
+        foreach ($parts as $idx => $part) {
+            // remove redundant quoting (#1490040)
+            if ($part[0] == '"' && preg_match('/^"([a-zA-Z0-9._+=-]+)"$/', $part, $m)) {
+                $parts[$idx] = $m[1];
+            }
+        }
+
+        return implode('@', $parts);
+    }
 }
