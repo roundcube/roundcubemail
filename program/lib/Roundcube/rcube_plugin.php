@@ -121,6 +121,17 @@ abstract class rcube_plugin
     }
 
     /**
+     * Attempt to load the given plugin which is optional for the current plugin
+     *
+     * @param string Plugin name
+     * @return boolean True on success, false on failure
+     */
+    public function include_plugin($plugin_name)
+    {
+        return $this->api->load_plugin($plugin_name, true, false);
+    }
+
+    /**
      * Load local config file from plugins directory.
      * The loaded values are patched over the global configuration.
      *
