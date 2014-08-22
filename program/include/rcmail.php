@@ -145,8 +145,13 @@ class rcmail extends rcube
         $this->task      = $task;
         $this->comm_path = $this->url(array('task' => $this->task));
 
+        if (!empty($_REQUEST['_framed'])) {
+            $this->comm_path .= '&_framed=1';
+        }
+
         if ($this->output) {
             $this->output->set_env('task', $this->task);
+            $this->output->set_env('comm_path', $this->comm_path);
         }
     }
 
