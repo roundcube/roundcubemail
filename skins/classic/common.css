@@ -679,7 +679,7 @@ ul.treelist li div.treetoggle
 {
   position: absolute;
   left: 8px;
-  top: 1px;
+  top: 2px;
   width: 14px;
   height: 16px;
   cursor: pointer;
@@ -736,6 +736,7 @@ ul.treelist li a
   padding-top: 2px;
   padding-bottom: 2px;
   height: 16px;
+  line-height: 16px;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -782,17 +783,17 @@ ul.treelist li.droptarget
 
 .folderlist li.drafts a
 {
-  background-position: 5px -35px;
+  background-position: 5px -36px;
 }
 
 .folderlist li.sent a
 {
-  background-position: 5px -54px;
+  background-position: 5px -53px;
 }
 
 .folderlist li.junk a
 {
-  background-position: 5px -73px;
+  background-position: 5px -72px;
 }
 
 .folderlist li.trash a
@@ -815,7 +816,7 @@ ul.treelist li.droptarget
   padding-bottom: 2px;
   text-decoration: none;
   height: 15px;
-  background: url(images/icons/folders.png) 5px 0 no-repeat;
+  background: url(images/icons/folders.png) 5px 1px no-repeat;
 }
 
 .folderlist li.virtual > a
@@ -853,7 +854,7 @@ ul.treelist li.droptarget
 
 .folderlist li.mailbox ul li a {
   padding-left: 40px;  /* 24 + 1 x 16 */
-  background-position: 20px 0;  /* 4 + 1 x 16 */
+  background-position: 20px 1px;  /* 4 + 1 x 16 */
 }
 .folderlist li.mailbox ul li div.treetoggle {
   left: 23px !important;
@@ -861,7 +862,7 @@ ul.treelist li.droptarget
 
 .folderlist li.mailbox ul ul li.mailbox a {
   padding-left: 56px;  /* 2x */
-  background-position: 36px 0;
+  background-position: 36px 1px;
 }
 .folderlist li.mailbox ul ul li div.treetoggle {
   left: 39px !important;
@@ -869,7 +870,7 @@ ul.treelist li.droptarget
 
 .folderlist li.mailbox ul ul ul li.mailbox a {
   padding-left: 72px;  /* 3x */
-  background-position: 52px 0;
+  background-position: 52px 1px;
 }
 .folderlist li.mailbox ul ul ul li div.treetoggle {
   left: 55px !important;
@@ -877,7 +878,7 @@ ul.treelist li.droptarget
 
 .folderlist li.mailbox ul ul ul ul li.mailbox a {
   padding-left: 88px;  /* 4x */
-  background-position: 68px 0;
+  background-position: 68px 1px;
 }
 .folderlist li.mailbox ul ul ul ul li div.treetoggle {
   left: 71px !important;
@@ -893,17 +894,17 @@ ul.treelist li.droptarget
 
 .folderlist li.mailbox ul li.drafts a
 {
-  background-position: 21px -37px;
+  background-position: 21px -36px;
 }
 
 .folderlist li.mailbox ul li.sent a
 {
-  background-position: 21px -54px;
+  background-position: 21px -53px;
 }
 
 .folderlist li.mailbox ul li.junk a
 {
-  background-position: 21px -73px;
+  background-position: 21px -72px;
 }
 
 .folderlist li.mailbox ul li.trash a
