@@ -1071,4 +1071,34 @@ class rcube_utils
             return $path[0] == DIRECTORY_SEPARATOR;
         }
     }
+
+    /**
+     * Resolve relative URL
+     *
+     * @param string $url Relative URL
+     *
+     * @return string Absolute URL
+     */
+    public static function resolve_url($url)
+    {
+        // prepend protocol://hostname:port
+        if (!preg_match('|^https?://|', $url)) {
+            $schema       = 'http';
+            $default_port = 80;
+
+            if (self::https_check()) {
+                $schema       = 'https';
+                $default_port = 443;
+            }
+
+            $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']);
+            if ($_SERVER['SERVER_PORT'] != $default_port) {
+                $prefix .= ':' . $_SERVER['SERVER_PORT'];
+            }
+
+            $url = $prefix . ($url[0] == '/' ? '' : '/') . $url;
+        }
+
+        return $url;
+    }
 }

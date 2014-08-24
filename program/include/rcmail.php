@@ -827,26 +827,17 @@ class rcmail extends rcube
         }
 
         if ($absolute || $full) {
-            $prefix = '';
-
-            // prepend protocol://hostname:port
-            if ($full) {
-                $schema = 'http';
-                $default_port = 80;
-                if (rcube_utils::https_check()) {
-                    $schema = 'https';
-                    $default_port = 443;
-                }
-                $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']);
-                if ($_SERVER['SERVER_PORT'] != $default_port) {
-                  $prefix .= ':' . $_SERVER['SERVER_PORT'];
-                }
-            }
-
             // add base path to this Roundcube installation
             $base_path = preg_replace('![^/]+$!', '', strval($_SERVER['SCRIPT_NAME']));
             if ($base_path == '') $base_path = '/';
-            $prefix .= $base_path;
+            $prefix = $base_path;
+
+            // prepend protocol://hostname:port
+            if ($full) {
+                $prefix = rcube_utils::resolve_url($prefix);
+            }
+
+            $prefix = rtrim($prefix, '/') . '/';
         }
         else {
             $prefix = './';
