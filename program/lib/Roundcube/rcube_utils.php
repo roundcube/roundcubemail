@@ -119,17 +119,6 @@ class rcube_utils
                 return true;
             }
 
-            if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && version_compare(PHP_VERSION, '5.3.0', '<')) {
-                $lookup = array();
-                @exec("nslookup -type=MX " . escapeshellarg($domain_part) . " 2>&1", $lookup);
-                foreach ($lookup as $line) {
-                    if (strpos($line, 'MX preference')) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
             // find MX record(s)
             if (!function_exists('getmxrr') || getmxrr($domain_part, $mx_records)) {
                 return true;

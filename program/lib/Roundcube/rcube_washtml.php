@@ -378,7 +378,7 @@ class rcube_washtml
         $this->max_nesting_level = (int) @ini_get('xdebug.max_nesting_level');
 
         // Use optimizations if supported
-        if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+        if (PHP_VERSION_ID >= 50400) {
             @$node->loadHTML($html, LIBXML_PARSEHUGE | LIBXML_COMPACT);
         }
         else {
