@@ -1403,9 +1403,7 @@ function rcube_webmail()
 
     var url = this.get_task_url(task);
 
-    if (task == 'mail')
-      url += '&_mbox=INBOX';
-    else if (task == 'logout' && !this.env.server_error)
+    if (task == 'logout' && !this.env.server_error)
       this.clear_compose_data();
 
     this.redirect(url);
