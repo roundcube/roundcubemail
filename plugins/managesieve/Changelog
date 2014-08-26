@@ -1,3 +1,4 @@
+- Added simple API to manage vacation rule
 - Fix missing css/js scripts in filter form in mail task
 - Fix default vacation status (#1490019)
 - Make possible to set vacation start/end date and time

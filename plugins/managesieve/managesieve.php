@@ -37,7 +37,7 @@ class managesieve extends rcube_plugin
 
     function init()
     {
-        $this->rc = rcmail::get_instance();
+        $this->rc = rcube::get_instance();
 
         // register actions
         $this->register_action('plugin.managesieve', array($this, 'managesieve_actions'));
@@ -230,7 +230,7 @@ class managesieve extends rcube_plugin
     /**
      * Initializes engine object
      */
-    private function get_engine($type = null)
+    public function get_engine($type = null)
     {
         if (!$this->engine) {
             $this->load_config();
