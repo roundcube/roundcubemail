@@ -295,13 +295,14 @@ if (is_file($incfile = INSTALL_PATH . 'program/steps/'.$RCMAIL->task.'/func.inc'
 $redirects = 0; $incstep = null;
 while ($redirects < 5) {
     // execute a plugin action
-    if ($RCMAIL->plugins->is_plugin_task($RCMAIL->task)) {
-        if (!$RCMAIL->action) $RCMAIL->action = 'index';
-        $RCMAIL->plugins->exec_action($RCMAIL->task.'.'.$RCMAIL->action);
+    if (preg_match('/^plugin\./', $RCMAIL->action)) {
+        $RCMAIL->plugins->exec_action($RCMAIL->action);
         break;
     }
-    else if (preg_match('/^plugin\./', $RCMAIL->action)) {
-        $RCMAIL->plugins->exec_action($RCMAIL->action);
+    // execute action registered to a plugin task
+    else if ($RCMAIL->plugins->is_plugin_task($RCMAIL->task)) {
+        if (!$RCMAIL->action) $RCMAIL->action = 'index';
+        $RCMAIL->plugins->exec_action($RCMAIL->task.'.'.$RCMAIL->action);
         break;
     }
     // try to include the step file
