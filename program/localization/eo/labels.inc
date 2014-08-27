@@ -324,6 +324,7 @@ $labels['autosavedraft']  = 'Aŭtomate savu malneton';
 $labels['never']  = 'neniam';
 $labels['messagesdisplaying'] = 'Mesaĝoj vidigante';
 $labels['messagescomposition'] = 'Mesaĝo-verkado';
+$labels['savelocalstorage'] = "";
 $labels['folder'] = 'Dosierujo';
 $labels['folders'] = 'Dosierujoj';
 $labels['foldername'] = 'Dosierujo-nomo';

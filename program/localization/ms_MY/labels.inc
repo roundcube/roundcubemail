@@ -261,6 +261,7 @@ $labels['readwhendeleted'] = 'Tanda mesej sebagai dibaca ketika hapus';
 $labels['flagfordeletion'] = 'Tanda mesej untuk pembuangan (tidak delete terus)';
 $labels['autosavedraft']  = 'Simpan draf dengan automatik';
 $labels['never']  = 'tidak pernah';
+$labels['savelocalstorage'] = "";
 $labels['folder'] = 'Kabinet Fail';
 $labels['folders'] = 'Folder';
 $labels['foldername'] = 'Nama Kabinet Fail';

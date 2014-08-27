@@ -427,6 +427,7 @@ $labels['2231folding'] = 'Conforme ao RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Conforme ao RFC 2047 (outros)';
 $labels['force7bit'] = 'Usar MIME para codificar caracteres de 8 bits';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Opcións avanzadas';
 $labels['toggleadvancedoptions'] = 'Amosar opcións avanzadas';
 $labels['focusonnewmessage'] = 'Centrar a xanela do navegador en novas mensaxes';

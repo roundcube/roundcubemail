@@ -427,6 +427,7 @@ $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (övriga)';
 $labels['force7bit'] = 'Använd MIME-kodning för tecken med 8-bitar';
+$labels['savelocalstorage'] = "Spara lokalt (tillfälligt)";
 $labels['advancedoptions'] = 'Avancerade inställningar';
 $labels['toggleadvancedoptions'] = 'Växla avancerade inställningar';
 $labels['focusonnewmessage'] = 'Fokusera webbläsarens fönster vid nytt meddelande';

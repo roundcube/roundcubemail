@@ -409,6 +409,7 @@ $labels['2231folding'] = 'Kompletten RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (Microsoft Outlook)';
 $labels['2047folding'] = 'Kompletten RFC 2047 (anerer)';
 $labels['force7bit'] = 'MIME-Kodéierung fir 8-Bit-Zeeche benotzen';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Avancéiert Optiounen';
 $labels['focusonnewmessage'] = 'Browser-Fënster fokusséiere wann en neie Message ukënnt';
 $labels['checkallfolders'] = 'Nei Messagen an allen Dossieren opruffen';

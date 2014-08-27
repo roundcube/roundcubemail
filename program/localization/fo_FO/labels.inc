@@ -392,6 +392,7 @@ $labels['2231folding'] = 'Fult RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Fult RFC 2047 (other)';
 $labels['force7bit'] = 'Nýt MIME kodingar til 8-bit tekin';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Víðkaðir valmøguleikar';
 $labels['focusonnewmessage'] = 'Legg dent á kaga vindeyga tá ið nýtt boð verður stovna';
 $labels['checkallfolders'] = 'Kannað allar mappur fyri nýggj boð';

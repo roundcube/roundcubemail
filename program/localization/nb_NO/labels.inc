@@ -397,6 +397,7 @@ $labels['2231folding'] = 'Fullstendig RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Fullstendig RFC 2047 (andre)';
 $labels['force7bit'] = 'Bruk MIME-koding for 8-bit-tegn';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Avanserte alternativer';
 $labels['focusonnewmessage'] = 'Gi nettleservindu fokus ved nye meldinger';
 $labels['checkallfolders'] = 'Kontroller alle mapper for nye meldinger';

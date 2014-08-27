@@ -397,6 +397,7 @@ $labels['2231folding'] = 'RFC 2231 llawn (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 llawn (arall)';
 $labels['force7bit'] = 'Defnyddio amgodi MIME ar gyfer llythrennau 8-did';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Dewisiadau uwch';
 $labels['focusonnewmessage'] = 'Ffocysu\'r porwr ar y neges newydd';
 $labels['checkallfolders'] = 'Chwilio pob ffolder am negeseuon newydd';

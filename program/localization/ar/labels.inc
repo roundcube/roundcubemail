@@ -120,6 +120,7 @@ $labels['flagged'] = 'موسوم';
 $labels['unanswered'] = 'بلا رد';
 $labels['deleted'] = 'محذوف';
 $labels['undeleted'] = 'غير محذوفة';
+$labels['savelocalstorage'] = "";
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "";

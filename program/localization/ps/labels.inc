@@ -225,6 +225,7 @@ $labels['mimeparamfolding'] = 'د نښلول شوو نومونه';
 $labels['2231folding'] = 'بشپړ RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (نور)';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'پرمختللي لارې';
 $labels['focusonnewmessage'] = 'فوکاس براوسر کړکۍ په نوي استوزي کې';
 $labels['checkallfolders'] = 'په ټولو پوښيو کې نوي استوزي وګورئ';

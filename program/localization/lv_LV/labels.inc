@@ -418,6 +418,7 @@ $labels['2231folding'] = 'Pilns RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Pilns RFC 2047 (citi)';
 $labels['force7bit'] = 'Izmantot MIME kodējumu 8-bitu simboliem';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Paplašinātie iestatījumi';
 $labels['focusonnewmessage'] = 'Uzstādīt pārlūka fokusu uz jaunu vēstuli';
 $labels['checkallfolders'] = 'Meklēt visās mapēs jaunās vēstules';

@@ -138,6 +138,7 @@ $labels['always'] = 'ಯಾವಾಗಲೂ';
 $labels['everynminutes']  = 'ಪ್ರತಿ $n ನಿಮಿಷ (ಗಳು)';
 $labels['refreshinterval']  = 'ರಿಫ್ರೆಶ್ (ಹೊಸ ಸಂದೇಶಗಳನ್ನು, ಇತ್ಯಾದಿಗಳನ್ನು ಪರಿಶೀಲಿಸು)';
 $labels['immediately']  = 'ತತ್ಕ್ಷಣ ';
+$labels['savelocalstorage'] = "";
 $labels['mainoptions'] = 'ಮುಖ್ಯ ಆಯ್ಕೆಗಳು';
 $labels['section'] = 'ವಿಭಾಗ';
 $labels['newmessage'] = 'ಹೊಸ ಸಂದೇಶ';

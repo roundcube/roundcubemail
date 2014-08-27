@@ -427,6 +427,7 @@ $labels['2231folding'] = 'Full RFC 2231 (선더버드)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS 아웃룩)';
 $labels['2047folding'] = 'Full RFC 2047 (기타)';
 $labels['force7bit'] = '8-bit 문자에 MIME 인코딩 사용';
+$labels['savelocalstorage'] = "브라우저의 로컬 저장소에 저장 (임시)";
 $labels['advancedoptions'] = '고급 옵션';
 $labels['toggleadvancedoptions'] = '고급 옵션 표시/숨기기';
 $labels['focusonnewmessage'] = '새 메시지가 있을 경우 브라우저 창으로 포커스 이동';

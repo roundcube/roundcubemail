@@ -82,6 +82,7 @@ $labels['longdec']	= 'desimber';
 $labels['today'] = 'Hjoed';
 $labels['refresh']          = 'Ferfarskje';
 $labels['reply']            = 'Beäntwurdzje';
+$labels['savelocalstorage'] = "";
 $labels['folders'] = 'Mappen';
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";

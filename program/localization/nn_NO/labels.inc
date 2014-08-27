@@ -368,6 +368,7 @@ $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (other)';
 $labels['force7bit'] = 'Bruk MIME-enkoding for 8-bit characterer (æøå og slik)';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Avanserte val';
 $labels['focusonnewmessage'] = 'Fokuser nettlesarvindauge på ny epost';
 $labels['checkallfolders'] = 'Sjekk alle mappar for nye epostar';

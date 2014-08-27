@@ -357,6 +357,7 @@ $labels['2231folding'] = 'RFC 2231 ពេញ (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 ពេញ(other)';
 $labels['force7bit'] = 'ប្រើ MIME សំរាប់អក្សរទំហំ 8-bit';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'ការកំណត់ពឹស្តារ';
 $labels['focusonnewmessage'] = 'ផ្តោតលើវីនដូវដែលកំពុងសរសេរសំបុត្រថ្មី';
 $labels['checkallfolders'] = 'ពិនិត្យសំបុត្រថ្មីនៅគ្រប់ថតទាំងអស់';

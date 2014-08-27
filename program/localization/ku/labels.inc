@@ -160,6 +160,7 @@ $labels['htmlsignature'] = 'Şanenava HTML';
 $labels['previewpane'] = 'Panela berê nîşan bide';
 $labels['autosavedraft']  = 'Xweber hilîne';
 $labels['never']  = 'qet';
+$labels['savelocalstorage'] = "";
 $labels['folder'] = 'Peldank';
 $labels['folders'] = 'Peldank';
 $labels['foldername'] = 'Navê peldankê';

@@ -397,6 +397,7 @@ $labels['2231folding'] = 'RFC 2231 đầy đủ (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 đầy đủ (khác)';
 $labels['force7bit'] = 'Sử dụng MIME mã hóa cho ký tự 8-bit';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Tùy chọn tính năng cao hơn';
 $labels['focusonnewmessage'] = 'Tập trung khung cửa trình duyệt vào thư mới';
 $labels['checkallfolders'] = 'Kiểm tra thư mới trong tất cả thư mục';

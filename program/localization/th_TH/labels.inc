@@ -248,6 +248,7 @@ $labels['htmlsignature'] = 'ลายมือชื่อแบบ HTML';
 $labels['previewpane'] = 'แสดงหน้าต่างตัวอย่างแสดงผล';
 $labels['autosavedraft']  = 'บันทึกเป็นจดหมายร่างอัตโนมัติ';
 $labels['never']  = 'ไม่ใช้';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'ตัวเลือกขั้นสูง';
 $labels['newmessage'] = 'ข้อความใหม่';
 $labels['signatureoptions'] = 'ตัวเลือกสำหรับลายเซ็็นต์';

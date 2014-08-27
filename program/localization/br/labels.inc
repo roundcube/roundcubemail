@@ -253,6 +253,7 @@ $labels['always'] = 'atav';
 $labels['autosavedraft']  = 'Gwarediñ emgefre brouilhedoù';
 $labels['everynminutes']  = 'Bep $n munutoù';
 $labels['never']  = 'ebet';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Dibarzhioù araokaet';
 $labels['newmessage'] = 'Kemennadenn nevez';
 $labels['signatureoptions'] = 'Dibarzhioù sinadur';

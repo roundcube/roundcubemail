@@ -416,6 +416,7 @@ $labels['2231folding'] = 'Podle RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Podle RFC 2047 (ostatní)';
 $labels['force7bit'] = 'Použít kódování MIME pro 8-bitové znaky';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Pokročilá nastavení';
 $labels['focusonnewmessage'] = 'Aktivovat okno prohlížeče při příchozí zprávě';
 $labels['checkallfolders'] = 'Kontrolovat nové zprávy ve všech složkách';

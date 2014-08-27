@@ -173,6 +173,7 @@ $labels['htmlsignature'] = 'Mana clabhsúir HTML';
 $labels['previewpane'] = 'Taispeáin an pána réamhamharc';
 $labels['autosavedraft']  = 'Sábháil dréachta go huathoibríoch';
 $labels['never']  = 'riamh';
+$labels['savelocalstorage'] = "";
 $labels['folder'] = 'Fillteán';
 $labels['folders'] = 'Fillteán';
 $labels['foldername'] = 'Ainm fillteán';

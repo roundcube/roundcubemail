@@ -317,6 +317,7 @@ $labels['2231folding'] = 'संपूर्ण आर एफ सी 2231(थं
 $labels['miscfolding'] = 'आर एफ सी  2047/2231 (मायक्रोसॉफ़्ट आऊटलूक)';
 $labels['2047folding'] = 'संपूर्ण आर एफ सी 2047(ईतर)';
 $labels['force7bit'] = '8 अक्षरी एमआयएमई संक्षिप्‍तरूप वापरा';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'अधिक पर्याय';
 $labels['focusonnewmessage'] = 'ब्राऊझर खिडकी नवीन संदेशावर केंद्रित करा';
 $labels['checkallfolders'] = 'सर्व फोल्डरमधे नवीन संदेश शोधा';

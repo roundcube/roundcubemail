@@ -407,6 +407,7 @@ $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (سایر)';
 $labels['force7bit'] = 'از MIME encoding برای کارکترهای ۸-بیتی استفاده کن';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'گزینه‌های پیشرفته';
 $labels['focusonnewmessage'] = 'مشخص نمودن پیغام جدید';
 $labels['checkallfolders'] = 'همه پوشه‌ها را برای مشاهده پیغام‌های جدید بررسی کن';

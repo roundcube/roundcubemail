@@ -398,6 +398,7 @@ $labels['2231folding'] = 'Full RFC 2231 (μορφή Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (μορφή MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (άλλη μορφή)';
 $labels['force7bit'] = 'Να γίνεται χρήση της κωδικοποίησης MIME για τους χαρακτήρες 8-bit';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Προχωρημένες επιλογές';
 $labels['focusonnewmessage'] = 'Τα νέα μηνύματα να επιλέγονται αυτόματα';
 $labels['checkallfolders'] = 'Να γίνεται έλεγχος σε όλους τους φακέλους για νέα μηνύματα';

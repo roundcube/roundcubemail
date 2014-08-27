@@ -417,6 +417,7 @@ $labels['2231folding'] = 'Според RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Според RFC 2047 (други)';
 $labels['force7bit'] = 'Използване на MIME кодиране за 8-битови символи';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Разширени настройки';
 $labels['toggleadvancedoptions'] = 'Превключване на разширени опции';
 $labels['focusonnewmessage'] = 'Премигване на прозореца при ново писмо';

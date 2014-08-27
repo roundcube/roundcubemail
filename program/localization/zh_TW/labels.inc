@@ -402,6 +402,7 @@ $labels['2231folding'] = '完全 RFC 2231 模式（Thunderbird）';
 $labels['miscfolding'] = 'RFC 2047/2231 混合模式（MS Outlook）';
 $labels['2047folding'] = '完全 RFC 2047 模式（其他）';
 $labels['force7bit'] = '對 8 位元字元使用 MIME 編碼';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = '進階選項';
 $labels['focusonnewmessage'] = '收到新郵件時使瀏覽器獲得焦點';
 $labels['checkallfolders'] = '檢查所有資料夾中的新郵件';

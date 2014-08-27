@@ -427,6 +427,7 @@ $labels['2231folding'] = 'RFC 2231に完全準拠(Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231(MS Outlook)';
 $labels['2047folding'] = 'RFC 2047に完全準拠(その他)';
 $labels['force7bit'] = '8ビット文字列にMIMEエンコードを使用';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = '高度な設定';
 $labels['toggleadvancedoptions'] = '詳細なオプションの表示を切り替え';
 $labels['focusonnewmessage'] = '新しいメッセージが届いたらブラウザーをアクティブ';

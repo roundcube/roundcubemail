@@ -427,6 +427,7 @@ $labels['2231folding'] = '完整的 RFC 2231（Thunderbird）';
 $labels['miscfolding'] = 'RFC 2047/2232（MS Outlook）';
 $labels['2047folding'] = '完整的 RFC 2047（其它）';
 $labels['force7bit'] = '对 8 位字符使用 MIME 编码';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = '高级选项';
 $labels['toggleadvancedoptions'] = '切换高级选项';
 $labels['focusonnewmessage'] = '新邮件到达时将窗口提升为焦点窗口';

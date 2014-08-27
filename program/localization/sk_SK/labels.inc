@@ -427,6 +427,7 @@ $labels['2231folding'] = 'Úplné RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Úplné RFC 2047 (iné)';
 $labels['force7bit'] = 'Použiť kódovanie MIME pre 8-bitové znaky';
+$labels['savelocalstorage'] = "Uložiť v lokálnom úložisku prehliadača (dočasne)";
 $labels['advancedoptions'] = 'Rozšírené nastavenia';
 $labels['toggleadvancedoptions'] = 'Prepnúť pokročilé nastavenia';
 $labels['focusonnewmessage'] = 'Aktivovať okno prehliadača pri novej správe';

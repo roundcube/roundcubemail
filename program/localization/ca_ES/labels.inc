@@ -427,6 +427,7 @@ $labels['2231folding'] = 'Compleix RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Compleix RFC 2047 (un altre)';
 $labels['force7bit'] = 'Fes servir la codificació MIME per a caràcters de 8-bits';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Opcions avançades';
 $labels['toggleadvancedoptions'] = 'Commuta les opcions avançades';
 $labels['focusonnewmessage'] = 'Activa la finestra del navegador quan hi hagi un nou missatge';

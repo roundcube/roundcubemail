@@ -231,6 +231,7 @@ $labels['mimeparamfolding'] = 'Име на прикачените податот
 $labels['2231folding'] = 'Полн RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Полн RFC 2047 (друго)';
+$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Напредни можности';
 $labels['focusonnewmessage'] = 'Фокусирај го прозорецот на прелистувачот на новото писмо';
 $labels['checkallfolders'] = 'Провери ги сите папки за нови писма';
