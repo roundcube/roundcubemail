@@ -46,7 +46,7 @@ class rcube_plugin_api
     protected $actionmap = array();
     protected $objectsmap = array();
     protected $template_contents = array();
-    protected $active_hook = false;
+    protected $exec_stack = array();
 
     // Deprecated names of hooks, will be removed after 0.5-stable release
     protected $deprecated_hooks = array(
@@ -423,8 +423,10 @@ class rcube_plugin_api
             $args = array('arg' => $args);
         }
 
+        // TODO: avoid recusion by checking in_array($hook, $this->exec_stack) ?
+
         $args += array('abort' => false);
-        $this->active_hook = $hook;
+        array_push($this->exec_stack, $hook);
 
         foreach ((array)$this->handlers[$hook] as $callback) {
             $ret = call_user_func($callback, $args);
@@ -437,7 +439,7 @@ class rcube_plugin_api
             }
         }
 
-        $this->active_hook = false;
+        array_pop($this->exec_stack);
         return $args;
     }
 
@@ -573,7 +575,7 @@ class rcube_plugin_api
      */
     public function is_processing($hook = null)
     {
-        return $this->active_hook && (!$hook || $this->active_hook == $hook);
+        return count($this->exec_stack) > 0 && (!$hook || in_array($hook, $this->exec_stack));
     }
 
     /**
