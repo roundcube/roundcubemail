@@ -48,35 +48,7 @@ if (window.rcmail) {
     if (rcmail.env.action.startsWith('plugin.managesieve')) {
       if (rcmail.gui_objects.sieveform) {
         rcmail.enable_command('plugin.managesieve-save', true);
-
-        // small resize for header element
-        $('select[name="_header[]"]', rcmail.gui_objects.sieveform).each(function() {
-          if (this.value == '...') this.style.width = '40px';
-        });
-
-        // resize dialog window
-        if (rcmail.env.action == 'plugin.managesieve' && rcmail.env.task == 'mail') {
-          parent.rcmail.managesieve_dialog_resize(rcmail.gui_objects.sieveform);
-        }
-
-        $('input[type="text"]:first', rcmail.gui_objects.sieveform).focus();
-
-        // initialize smart list inputs
-        $('textarea[data-type="list"]', rcmail.gui_objects.sieveform).each(function() {
-          smart_field_init(this);
-        });
-
-        // enable date pickers on date fields
-        if ($.datepicker && rcmail.env.date_format) {
-          $.datepicker.setDefaults({
-            dateFormat: rcmail.env.date_format,
-            changeMonth: true,
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            onSelect: function(dateText) { $(this).focus().val(dateText); }
-          });
-          $('input.datepicker').datepicker();
-        }
+        sieve_form_init();
       }
       else {
         rcmail.enable_command('plugin.managesieve-add', 'plugin.managesieve-setadd', !rcmail.env.sieveconnerror);
@@ -856,6 +828,101 @@ rcube_webmail.prototype.managesieve_tip_register = function(tips)
     .bind('mouseleave', function(e) { tip.hide(); });
   }
 };
+
+// format time string
+function sieve_formattime(hour, minutes)
+{
+  var i, c, h, time = '', format = rcmail.env.time_format || 'H:i';
+
+  for (i=0; i<format.length; i++) {
+    c = format.charAt(i);
+    switch (c) {
+      case 'a': time += hour > 12 ? 'am' : 'pm'; break;
+      case 'A': time += hour > 12 ? 'AM' : 'PM'; break;
+      case 'g':
+      case 'h':
+        h = hour == 0 ? 12 : hour > 12 ? hour - 12 : hour;
+        time += (c == 'h' && hour < 10 ? '0' : '') + hour;
+        break;
+      case 'G': time += hour; break;
+      case 'H': time += (hour < 10 ? '0' : '') + hour; break;
+      case 'i': time += (minutes < 10 ? '0' : '') + minutes; break;
+      case 's': time += '00';
+      default: time += c;
+    }
+  }
+
+  return time;
+}
+
+function sieve_form_init()
+{
+  // small resize for header element
+  $('select[name="_header[]"]', rcmail.gui_objects.sieveform).each(function() {
+    if (this.value == '...') this.style.width = '40px';
+  });
+
+  // resize dialog window
+  if (rcmail.env.action == 'plugin.managesieve' && rcmail.env.task == 'mail') {
+    parent.rcmail.managesieve_dialog_resize(rcmail.gui_objects.sieveform);
+  }
+
+  $('input[type="text"]:first', rcmail.gui_objects.sieveform).focus();
+
+  // initialize smart list inputs
+  $('textarea[data-type="list"]', rcmail.gui_objects.sieveform).each(function() {
+    smart_field_init(this);
+  });
+
+  // enable date pickers on date fields
+  if ($.datepicker && rcmail.env.date_format) {
+    $.datepicker.setDefaults({
+      dateFormat: rcmail.env.date_format,
+      changeMonth: true,
+      showOtherMonths: true,
+      selectOtherMonths: true,
+      onSelect: function(dateText) { $(this).focus().val(dateText); }
+    });
+    $('input.datepicker').datepicker();
+  }
+
+  // configure drop-down menu on time input fields based on jquery UI autocomplete
+  $('#vacation_timefrom, #vacation_timeto')
+    .attr('autocomplete', "off")
+    .autocomplete({
+      delay: 100,
+      minLength: 1,
+      source: function(p, callback) {
+        var h, result = [];
+        for (h = 0; h < 24; h++)
+          result.push(sieve_formattime(h, 0));
+        result.push(sieve_formattime(23, 59));
+
+        return callback(result);
+      },
+      open: function(event, ui) {
+        // scroll to current time
+        var $this = $(this), val = $this.val(),
+          widget = $this.autocomplete('widget').css('width', '10em'),
+          menu = $this.data('ui-autocomplete').menu;
+
+        if (val && val.length)
+          widget.children().each(function() {
+            var li = $(this);
+            if (li.text().indexOf(val) == 0)
+              menu._scrollIntoView(li);
+          });
+      },
+      select: function(event, ui) {
+        $(this).val(ui.item.value);
+        return false;
+      }
+    })
+    .click(function() {  // show drop-down upon clicks
+      $(this).autocomplete('search', $(this).val() || ' ');
+    })
+}
+
 
 /*********************************************************/
 /*********           Mail UI methods             *********/
