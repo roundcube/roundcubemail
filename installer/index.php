@@ -3,9 +3,9 @@
 /*
  +-------------------------------------------------------------------------+
  | Roundcube Webmail setup tool                                            |
- | Version 0.9-git                                                         |
+ | Version 1.1-git                                                         |
  |                                                                         |
- | Copyright (C) 2009-2013, The Roundcube Dev Team                         |
+ | Copyright (C) 2009-2014, The Roundcube Dev Team                         |
  |                                                                         |
  | This program is free software: you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License (with exceptions   |
@@ -48,6 +48,11 @@ $include_path .= INSTALL_PATH . 'program/include' . PATH_SEPARATOR;
 $include_path .= ini_get('include_path');
 
 set_include_path($include_path);
+
+// include composer autoloader (if available)
+if (@file_exists(INSTALL_PATH . 'vendor/autoload.php')) {
+    require INSTALL_PATH . 'vendor/autoload.php';
+}
 
 require_once 'Roundcube/bootstrap.php';
 // deprecated aliases (to be removed)
