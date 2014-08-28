@@ -263,6 +263,14 @@ EOF;
             if (is_file($path)) {
                 return $skin_path . $file;
             }
+
+            $path = rtrim(RCUBE_INSTALL_PATH, '/');
+            $path .= '/' . $skin_path . $file;
+            $path = realpath($path);
+
+            if ($skin_path[0] != '/' && is_file($path)) {
+                return $path;
+            }
         }
 
         return false;
@@ -501,6 +509,10 @@ EOF;
                             . "' in $skin_path/templates. Please rename to '$realname'"),
                         true, false);
                 }
+            }
+
+            if (!is_readable($path) && $path[0] != '/' && is_readable(rtrim(RCUBE_INSTALL_PATH, '/') . '/' . $path)) {
+                $path = rtrim(RCUBE_INSTALL_PATH, '/') . '/' . $path;
             }
 
             if (is_readable($path)) {
