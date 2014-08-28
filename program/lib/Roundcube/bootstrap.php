@@ -58,7 +58,7 @@ define('RCUBE_VERSION', '1.1-git');
 define('RCUBE_CHARSET', 'UTF-8');
 
 if (!defined('RCUBE_LIB_DIR')) {
-    define('RCUBE_LIB_DIR', dirname(__FILE__).DIRECTORY_SEPARATOR);
+    define('RCUBE_LIB_DIR', dirname(__FILE__) . '/');
 }
 
 if (!defined('RCUBE_INSTALL_PATH')) {

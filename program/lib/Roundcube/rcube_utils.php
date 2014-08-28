@@ -1068,7 +1068,7 @@ class rcube_utils
             return (bool) preg_match('!^[a-z]:[\\\\/]!i', $path);
         }
         else {
-            return $path[0] == DIRECTORY_SEPARATOR;
+            return $path[0] == '/';
         }
     }
 

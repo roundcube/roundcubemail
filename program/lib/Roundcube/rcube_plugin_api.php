@@ -188,8 +188,7 @@ class rcube_plugin_api
             return true;
         }
 
-        $fn = $plugins_dir . DIRECTORY_SEPARATOR . $plugin_name
-            . DIRECTORY_SEPARATOR . $plugin_name . '.php';
+        $fn = "$plugins_dir/$plugin_name/$plugin_name.php";
 
         if (is_readable($fn)) {
             if (!class_exists($plugin_name, false)) {
@@ -279,7 +278,7 @@ class rcube_plugin_api
       );
 
       $dir = dir($this->dir);
-      $fn = unslashify($dir->path) . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
+      $fn = unslashify($dir->path) . "/$plugin_name/$plugin_name.php";
       $info = false;
 
       if (!class_exists($plugin_name, false)) {
