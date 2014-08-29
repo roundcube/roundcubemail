@@ -156,20 +156,22 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 $date = trim($$var . ' ' . $time);
 
                 if ($date && ($dt = rcube_utils::anytodatetime($date, $timezone))) {
-                    $vacation_tests[] = array(
-                        'test' => 'currentdate',
-                        'part' => 'date',
-                        'type' => 'value-' . ($var == 'date_from' ? 'ge' : 'le'),
-                        'zone' => $dt->format('O'),
-                        'arg'  => $dt->format('Y-m-d'),
-                    );
                     if ($time) {
                         $vacation_tests[] = array(
                             'test' => 'currentdate',
-                            'part' => 'time',
+                            'part' => 'iso8601',
                             'type' => 'value-' . ($var == 'date_from' ? 'ge' : 'le'),
                             'zone' => $dt->format('O'),
-                            'arg'  => $dt->format('H:i:s'),
+                            'arg'  => str_replace('+00:00', 'Z', strtoupper($dt->format('c'))),
+                        );
+                    }
+                    else {
+                        $vacation_tests[] = array(
+                            'test' => 'currentdate',
+                            'part' => 'date',
+                            'type' => 'value-' . ($var == 'date_from' ? 'ge' : 'le'),
+                            'zone' => $dt->format('O'),
+                            'arg'  => $dt->format('Y-m-d'),
                         );
                     }
                 }
@@ -333,24 +335,24 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $date_value  = array();
 
             foreach ((array) $this->vacation['tests'] as $test) {
-                if ($test['test'] == 'currentdate' && ($test['part'] == 'date' || $test['part'] == 'time')) {
+                if ($test['test'] == 'currentdate') {
                     $idx = $test['type'] == 'value-ge' ? 'from' : 'to';
-                    $date_value[$idx][$test['part']] = $test['arg'];
-                    if ($test['zone']) {
-                        $date_value[$idx]['zone'] = $test['zone'];
+
+                    if ($test['part'] == 'date') {
+                        $date_value[$idx]['date'] = $test['arg'];
+                    }
+                    else if ($test['part'] == 'iso8601') {
+                        $date_value[$idx]['datetime'] = $test['arg'];
                     }
                 }
             }
 
             foreach ($date_value as $idx => $value) {
-                $date = $value['date'] . ' '
-                    . ($value['time'] ? $value['time'] : ($idx == 'from' ? '00:00:00' : '23:59:59'))
-                    . ($value['zone'] ? ' ' . $value['zone'] : '');
+                $date = $value['datetime'] ?: $value['date'];
+                $date_value[$idx] = $this->rc->format_date($date, $date_format, false);
 
-                $date_value[$idx] = $this->rc->format_date($date, $date_format, !empty($value['time']) && !empty($value['zone']));
-
-                if (!empty($value['time'])) {
-                    $date_value['time_' . $idx] = $this->rc->format_date($date, $time_format, !empty($value['zone']));
+                if (!empty($value['datetime'])) {
+                    $date_value['time_' . $idx] = $this->rc->format_date($date, $time_format, true);
                 }
             }
         }
