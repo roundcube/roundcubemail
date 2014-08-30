@@ -57,6 +57,8 @@ class rcube_text2html
         'end'    => '</div>',
         // enables links replacement
         'links'  => true,
+        // string replacer class
+        'replacer' => 'rcube_string_replacer',
     );
 
 
@@ -141,7 +143,7 @@ class rcube_text2html
     {
         // make links and email-addresses clickable
         $attribs  = array('link_attribs' => array('rel' => 'noreferrer', 'target' => '_blank'));
-        $replacer = new rcmail_string_replacer($attribs);
+        $replacer = new $this->config['replacer']($attribs);
 
         if ($this->config['flowed']) {
             $flowed_char = 0x01;

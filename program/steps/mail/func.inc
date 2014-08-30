@@ -920,7 +920,7 @@ function rcmail_print_body($part, $p = array())
  */
 function rcmail_plain_body($body, $flowed = false)
 {
-    $options   = array('flowed' => $flowed, 'wrap' => !$flowed);
+    $options   = array('flowed' => $flowed, 'wrap' => !$flowed, 'replacer' => 'rcmail_string_replacer');
     $text2html = new rcube_text2html($body, false, $options);
     $body      = $text2html->get_html();
 
