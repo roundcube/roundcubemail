@@ -131,7 +131,7 @@ init: function()
   }
 
   if (this.parent_focus) {
-    this.list.parentNode.onclick = function(e) { me.focus(e); };
+    this.list.parentNode.onclick = function(e) { me.focus(); };
   }
 
   return this;
