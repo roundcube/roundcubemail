@@ -17,6 +17,6 @@
 */
 $labels['userinfo'] = 'Información d\'usuariu';
 $labels['created'] = 'Creáu';
-$labels['lastlogin'] = 'Cabera conexón';
-$labels['defaultidentity'] = 'Identidá predeterminada';
+$labels['lastlogin'] = 'Aniciu de sesión caberu';
+$labels['defaultidentity'] = 'Identidá por defeutu';
 ?>

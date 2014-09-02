@@ -90,8 +90,14 @@ if (!empty($book_types) && strlen($search)) {
 
                     // skip duplicates
                     if (!in_array($contact, $contacts)) {
-                        $contacts[]  = array('name' => $contact, 'type' => $sql_arr['_type']);
-                        $sort_keys[] = sprintf('%s %03d', $sql_arr['name'] , $idx++);
+                        $contact = array('name' => $contact, 'type' => $sql_arr['_type']);
+
+                        if (($display = rcube_addressbook::compose_search_name($sql_arr, $email, $name)) && $display != $contact['name']) {
+                            $contact['display'] = $display;
+                        }
+
+                        $contacts[]  = $contact;
+                        $sort_keys[] = sprintf('%s %03d', $contact['display'] ?: $name, $idx++);
 
                         if (count($contacts) >= $MAXNUM) {
                             break 2;
@@ -118,7 +124,13 @@ if (!empty($book_types) && strlen($search)) {
                 if ($group_prop['email']) {
                     $idx = 0;
                     foreach ((array)$group_prop['email'] as $email) {
-                        $contacts[]  = array('name' => format_email_recipient($email, $group['name']), 'type' => 'group');
+                        $contacts[]  = array(
+                            'name'   => format_email_recipient($email, $group['name']),
+                            'email'  => $email,
+                            'type'   => 'group',
+                            'id'     => $group['ID'],
+                            'source' => $id,
+                        );
                         $sort_keys[] = sprintf('%s %03d', $group['name'] , $idx++);
 
                         if (count($contacts) >= $MAXNUM) {

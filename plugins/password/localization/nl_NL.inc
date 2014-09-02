@@ -15,7 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Wachtwoord wijzigen';
+$labels['changepasswd']  = 'Wijzig wachtwoord';
 $labels['curpasswd']  = 'Huidig wachtwoord:';
 $labels['newpasswd']  = 'Nieuw wachtwoord:';
 $labels['confpasswd']  = 'Bevestig nieuw wachtwoord:';
@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Uw nieuwe wachtwoord kan niet worden opgeslagen.';
 $messages['passwordshort'] = 'Het wachtwoord moet minimaal $length tekens lang zijn.';
 $messages['passwordweak'] = 'Het wachtwoord moet minimaal één cijfer en één leesteken bevatten.';
 $messages['passwordforbidden'] = 'Het wachtwoord bevat tekens die niet toegestaan zijn.';
+$messages['firstloginchange'] = 'Dit is uw eerste aanmelding. Verander uw wachtwoord alstublieft.';
 ?>

@@ -172,9 +172,13 @@ class rcube
     public function get_dbh()
     {
         if (!$this->db) {
-            $config_all = $this->config->all();
-            $this->db = rcube_db::factory($config_all['db_dsnw'], $config_all['db_dsnr'], $config_all['db_persistent']);
-            $this->db->set_debug((bool)$config_all['sql_debug']);
+            $this->db = rcube_db::factory(
+                $this->config->get('db_dsnw'),
+                $this->config->get('db_dsnr'),
+                $this->config->get('db_persistent')
+            );
+
+            $this->db->set_debug((bool)$this->config->get('sql_debug'));
         }
 
         return $this->db;
@@ -357,15 +361,16 @@ class rcube
 
         // set class options
         $options = array(
-            'auth_type'   => $this->config->get("{$driver}_auth_type", 'check'),
-            'auth_cid'    => $this->config->get("{$driver}_auth_cid"),
-            'auth_pw'     => $this->config->get("{$driver}_auth_pw"),
-            'debug'       => (bool) $this->config->get("{$driver}_debug"),
-            'force_caps'  => (bool) $this->config->get("{$driver}_force_caps"),
-            'disabled_caps' => $this->config->get("{$driver}_disabled_caps"),
-            'timeout'     => (int) $this->config->get("{$driver}_timeout"),
-            'skip_deleted' => (bool) $this->config->get('skip_deleted'),
-            'driver'      => $driver,
+            'auth_type'      => $this->config->get("{$driver}_auth_type", 'check'),
+            'auth_cid'       => $this->config->get("{$driver}_auth_cid"),
+            'auth_pw'        => $this->config->get("{$driver}_auth_pw"),
+            'debug'          => (bool) $this->config->get("{$driver}_debug"),
+            'force_caps'     => (bool) $this->config->get("{$driver}_force_caps"),
+            'disabled_caps'  => $this->config->get("{$driver}_disabled_caps"),
+            'socket_options' => $this->config->get("{$driver}_conn_options"),
+            'timeout'        => (int) $this->config->get("{$driver}_timeout"),
+            'skip_deleted'   => (bool) $this->config->get('skip_deleted'),
+            'driver'         => $driver,
         );
 
         if (!empty($_SESSION['storage_host'])) {
@@ -384,8 +389,12 @@ class rcube
 
         $this->storage->set_options($options);
         $this->set_storage_prop();
-    }
 
+        // subscribe to 'storage_connected' hook for session logging
+        if ($this->config->get('imap_log_session', false)) {
+            $this->plugins->register_hook('storage_connected', array($this, 'storage_log_session'));
+        }
+    }
 
     /**
      * Set storage parameters.
@@ -451,6 +460,16 @@ class rcube
         }
     }
 
+
+    /**
+     * Callback for IMAP connection events to log session identifiers
+     */
+    public function storage_log_session($args)
+    {
+        if (!empty($args['session']) && session_id()) {
+            $this->write_log('imap_session', $args['session']);
+        }
+    }
 
     /**
      * Create session object and start the session.
@@ -824,7 +843,13 @@ class rcube
          */
         $clear = pack("a*H2", $clear, "80");
 
-        if (function_exists('mcrypt_module_open') &&
+        if (function_exists('openssl_encrypt')) {
+            $method = 'DES-EDE3-CBC';
+            $opts   = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
+            $iv     = $this->create_iv(openssl_cipher_iv_length($method));
+            $cipher = $iv . openssl_encrypt($clear, $method, $ckey, $opts, $iv);
+        }
+        else if (function_exists('mcrypt_module_open') &&
             ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, ""))
         ) {
             $iv = $this->create_iv(mcrypt_enc_get_iv_size($td));
@@ -845,7 +870,7 @@ class rcube
                 self::raise_error(array(
                     'code' => 500, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not perform encryption; make sure Mcrypt is installed or lib/des.inc is available"
+                    'message' => "Could not perform encryption; make sure OpenSSL or Mcrypt or lib/des.inc is available"
                     ), true, true);
             }
         }
@@ -871,7 +896,21 @@ class rcube
 
         $cipher = $base64 ? base64_decode($cipher) : $cipher;
 
-        if (function_exists('mcrypt_module_open') &&
+        if (function_exists('openssl_decrypt')) {
+            $method  = 'DES-EDE3-CBC';
+            $opts    = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
+            $iv_size = openssl_cipher_iv_length($method);
+            $iv      = substr($cipher, 0, $iv_size);
+
+            // session corruption? (#1485970)
+            if (strlen($iv) < $iv_size) {
+                return '';
+            }
+
+            $cipher = substr($cipher, $iv_size);
+            $clear  = openssl_decrypt($cipher, $method, $ckey, $opts, $iv);
+        }
+        else if (function_exists('mcrypt_module_open') &&
             ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, ""))
         ) {
             $iv_size = mcrypt_enc_get_iv_size($td);
@@ -1113,8 +1152,12 @@ class rcube
             $line = var_export($line, true);
         }
 
-        $date_format = self::$instance ? self::$instance->config->get('log_date_format') : null;
-        $log_driver  = self::$instance ? self::$instance->config->get('log_driver') : null;
+        $date_format = $log_driver = $session_key = null;
+        if (self::$instance) {
+            $date_format = self::$instance->config->get('log_date_format');
+            $log_driver  = self::$instance->config->get('log_driver');
+            $session_key = intval(self::$instance->config->get('log_session_id', 8));
+        }
 
         if (empty($date_format)) {
             $date_format = 'd-M-Y H:i:s O';
@@ -1130,6 +1173,11 @@ class rcube
             $date = $log['date'];
             if ($log['abort'])
                 return true;
+        }
+
+        // add session ID to the log
+        if ($session_key > 0 && ($sess = session_id())) {
+            $line = '<' . substr($sess, 0, $session_key) . '> ' . $line;
         }
 
         if ($log_driver == 'syslog') {

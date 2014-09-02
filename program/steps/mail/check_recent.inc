@@ -77,15 +77,16 @@ foreach ($a_mailboxes as $mbox_name) {
         if ($search_request && isset($_SESSION['search'])) {
             unset($search_request);  // only do this once
             $_SESSION['search'] = $RCMAIL->storage->refresh_search();
-            if ($_SESSION['search'][1]->multi)
+            if ($_SESSION['search'][1]->multi) {
                 $mbox_name = '';
+            }
         }
 
         if (!empty($_POST['_quota'])) {
-            $OUTPUT->command('set_quota', $RCMAIL->quota_content());
+            $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $mbox_name));
         }
 
-        $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
+        $OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS', true));
 
         // "No-list" mode, don't get messages
         if (empty($_POST['_list'])) {
@@ -146,7 +147,7 @@ foreach ($a_mailboxes as $mbox_name) {
 
     // set trash folder state
     if ($mbox_name === $trash) {
-        $OUTPUT->command('set_trash_count', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
+        $OUTPUT->command('set_trash_count', $RCMAIL->storage->count($mbox_name, 'EXISTS', true));
     }
 }
 

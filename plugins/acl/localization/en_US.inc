@@ -87,6 +87,11 @@ $labels['longaclfull'] = 'Full control including folder administration';
 $labels['longaclread'] = 'The folder can be opened for reading';
 $labels['longaclwrite'] = 'Messages can be marked, written or copied to the folder';
 $labels['longacldelete'] = 'Messages can be deleted';
+$labels['longaclother'] = 'Other access rights';
+
+$labels['ariasummaryacltable'] = 'List of access rights';
+$labels['arialabelaclactions'] = 'List actions';
+$labels['arialabelaclform'] = 'Access rights form';
 
 $messages['deleting'] = 'Deleting access rights...';
 $messages['saving'] = 'Saving access rights...';

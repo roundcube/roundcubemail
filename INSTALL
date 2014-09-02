@@ -15,7 +15,7 @@ REQUIREMENTS
    - PCRE, DOM, JSON, XML, Session, Sockets (required)
    - PHP Data Objects (PDO) with driver for either MySQL, PostgreSQL or SQLite (required)
    - Libiconv, Zip (recommended)
-   - Fileinfo, Mcrypt, mbstring (optional)
+   - OpenSSL, Fileinfo, Mcrypt, mbstring (optional)
 * PEAR packages distributed with Roundcube or external:
    - Mail_Mime 1.8.1 or newer
    - Mail_mimeDecode 1.5.5 or newer
@@ -35,7 +35,7 @@ REQUIREMENTS
    - magic_quotes_runtime disabled
    - magic_quotes_sybase disabled
    - register_globals disabled (PHP < 5.4)
-* PHP compiled with OpenSSL to connect to IMAPS and to use the spell checker
+* PHP compiled with OpenSSL to use secure (tls/ssl) connections and to use the spell checker
 * A MySQL (4.0.8 or newer), PostgreSQL, MS SQL Server (2005 or newer) database engine
   or SQLite support in PHP
 * One of the above databases with permission to create tables

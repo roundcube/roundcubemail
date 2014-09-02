@@ -81,7 +81,6 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     $OUTPUT->set_env('search_mods', $search_mods);
     $OUTPUT->set_env('address_sources', $js_list);
     $OUTPUT->set_env('writable_source', $writeable);
-    $OUTPUT->set_env('compose_extwin', $RCMAIL->config->get('compose_extwin',false));
 
     $OUTPUT->set_pagetitle($RCMAIL->gettext('addressbook'));
     $_SESSION['addressbooks_count'] = $count;
@@ -112,7 +111,7 @@ if ($undo = $_SESSION['contact_undo']) {
 // register UI objects
 $OUTPUT->add_handlers(array(
     'directorylist'       => 'rcmail_directory_list',
-//  'groupslist'          => 'rcmail_contact_groups',
+    'savedsearchlist'     => 'rcmail_savedsearch_list',
     'addresslist'         => 'rcmail_contacts_list',
     'addresslisttitle'    => 'rcmail_contacts_list_title',
     'addressframe'        => 'rcmail_contact_frame',
@@ -251,6 +250,28 @@ function rcmail_directory_list($attrib)
         $out .= '</li>';
     }
 
+    $OUTPUT->set_env('contactgroups', $jsdata);
+    $OUTPUT->set_env('collapsed_abooks', (string)$RCMAIL->config->get('collapsed_abooks',''));
+    $OUTPUT->add_gui_object('folderlist', $attrib['id']);
+    $OUTPUT->include_script('treelist.js');
+
+    // add some labels to client
+    $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting', 'addingmember', 'removingmember',
+        'newgroup', 'grouprename', 'searchsave', 'namex', 'save'
+    );
+
+    return html::tag('ul', $attrib, $out, html::$common_attrib);
+}
+
+
+function rcmail_savedsearch_list($attrib)
+{
+    global $RCMAIL, $OUTPUT;
+
+    if (!$attrib['id'])
+        $attrib['id'] = 'rcmsavedsearchlist';
+
+    $out = '';
     $line_templ = html::tag('li', array(
         'id' => 'rcmli%s', 'class' => '%s'),
         html::a(array('href' => '#', 'rel' => 'S%s',
@@ -263,26 +284,19 @@ function rcmail_directory_list($attrib)
         $js_id = rcube::JQ($id);
 
         // set class name(s)
-        $class_name = 'contactsearch';
-        if ($current === $id)
-            $class_name .= ' selected';
-        if ($source['class_name'])
-            $class_name .= ' ' . $source['class_name'];
+        $classes = array('contactsearch');
+        if (!empty($source['class_name']))
+            $classes[] = $source['class_name'];
 
         $out .= sprintf($line_templ,
             rcube_utils::html_identifier('S'.$id, true),
-            $class_name,
+            join(' ', $classes),
             $id,
-            $js_id, (!empty($source['name']) ? rcube::Q($source['name']) : rcube::Q($id)));
+            $js_id, (!empty($source['name']) ? rcube::Q($source['name']) : rcube::Q($id))
+        );
     }
 
-    $OUTPUT->set_env('contactgroups', $jsdata);
-    $OUTPUT->set_env('collapsed_abooks', (string)$RCMAIL->config->get('collapsed_abooks',''));
-    $OUTPUT->add_gui_object('folderlist', $attrib['id']);
-    $OUTPUT->include_script('treelist.js');
-
-    // add some labels to client
-    $OUTPUT->add_label('deletegroupconfirm', 'groupdeleting', 'addingmember', 'removingmember');
+    $OUTPUT->add_gui_object('savedsearchlist', $attrib['id']);
 
     return html::tag('ul', $attrib, $out, html::$common_attrib);
 }
@@ -395,7 +409,7 @@ function rcmail_js_contacts_list($result, $prefix='')
                         ), '&raquo;');
                     }
                     else
-                        $val = '&nbsp;';
+                        $val = '';
                     break;
 
                 default:
@@ -422,7 +436,7 @@ function rcmail_contacts_list_title($attrib)
     unset($attrib['name']);
 
     $OUTPUT->add_gui_object('addresslist_title', $attrib['id']);
-    $OUTPUT->add_label('contacts');
+    $OUTPUT->add_label('contacts','uponelevel');
 
     return html::tag($attrib['tag'], $attrib, $RCMAIL->gettext($attrib['label']), html::$common_attrib);
 }
@@ -518,7 +532,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
     foreach ($coltypes as $col => $prop) {
         if ($prop['subtypes']) {
             $subtype_names = array_map('rcmail_get_type_label', $prop['subtypes']);
-            $select_subtype = new html_select(array('name' => '_subtype_'.$col.'[]', 'class' => 'contactselectsubtype'));
+            $select_subtype = new html_select(array('name' => '_subtype_'.$col.'[]', 'class' => 'contactselectsubtype', 'title' => $prop['label'] . ' ' . $RCMAIL->gettext('type')));
             $select_subtype->add($subtype_names, $prop['subtypes']);
             $coltypes[$col]['subtypes_select'] = $select_subtype->show();
         }
@@ -607,7 +621,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 // prepare subtype selector in edit mode
                 if ($edit_mode && is_array($colprop['subtypes'])) {
                     $subtype_names = array_map('rcmail_get_type_label', $colprop['subtypes']);
-                    $select_subtype = new html_select(array('name' => '_subtype_'.$col.'[]', 'class' => 'contactselectsubtype'));
+                    $select_subtype = new html_select(array('name' => '_subtype_'.$col.'[]', 'class' => 'contactselectsubtype', 'title' => $colprop['label'] . ' ' . $RCMAIL->gettext('type')));
                     $select_subtype->add($subtype_names, $colprop['subtypes']);
                 }
                 else
@@ -648,6 +662,8 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 foreach ($values as $i => $val) {
                     if ($subtypes[$i])
                         $subtype = $subtypes[$i];
+
+                    $colprop['id'] = 'ff_' . $col . intval($coltypes[$field]['count']);
 
                     // render composite field
                     if ($colprop['type'] == 'composite') {
@@ -714,7 +730,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     // display row with label
                     if ($label) {
                         $rows .= html::div('row',
-                            html::div('contactfieldlabel label', $select_subtype ? $select_subtype->show($subtype) : rcube::Q($label)) .
+                            html::div('contactfieldlabel label', $select_subtype ? $select_subtype->show($subtype) : html::label($colprop['id'], rcube::Q($label))) .
                             html::div('contactfieldcontent '.$colprop['type'], $val));
                     }
                     else   // row without label
@@ -800,11 +816,15 @@ function rcmail_contact_photo($attrib)
         }
         $photo_img = $RCMAIL->url($url);
     }
-    else
+    else {
         $ff_value = '-del-'; // will disable delete-photo action
+    }
 
-    $img = html::img(array('src' => $photo_img, 'border' => 1, 'alt' => ''));
-    $content = html::div($attrib, $img);
+    $content = html::div($attrib, html::img(array(
+            'src'     => $photo_img,
+            'alt'     => $RCMAIL->gettext('contactphoto'),
+            'onerror' => 'this.src = rcmail.env.photo_placeholder',
+    )));
 
     if ($CONTACT_COLTYPES['photo'] && ($RCMAIL->action == 'edit' || $RCMAIL->action == 'add')) {
         $RCMAIL->output->add_gui_object('contactphoto', $attrib['id']);

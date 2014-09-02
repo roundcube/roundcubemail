@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Lösenordet kunde inte ändras.';
 $messages['passwordshort'] = 'Lösenordet måste vara minst $length tecken långt.';
 $messages['passwordweak'] = 'Lösenordet måste innehålla minst en siffra och ett specialtecken.';
 $messages['passwordforbidden'] = 'Lösenordet innehåller otillåtna tecken.';
+$messages['firstloginchange'] = 'Du loggar in för första gången. Vänligen ändra ditt lösenord.';
 ?>

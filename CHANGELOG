@@ -1,11 +1,39 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support contacts import in GMail CSV format
+- Added namespace filter in Folder Manager
+- Added folder searching in Folder Manager
+- Added config option/user preference to disable saving messages in localStorage (#1489979)
+- Added config option 'imap_log_session' to enable Roundcube <-> IMAP session ID logging
+- Added config option 'log_session_id' to control the lengh of the session identifer in logs
+- Implemented 'storage_connected' API hook after successful IMAP login (#1490025)
+- Intergrate Net_LDAP3 and rcube_ldap_generic classes
+- Add option (disabled_actions) to disable UI elements/actions (#1489638)
+- Support password encryption using openssl extension (#1489989)
+- Create/rename groups in UI dialogs (#1489951)
+- Added 'contact_search_name' option to define autocompletion entry format
+- Display quota information for current folder not INBOX only (#1487993)
+- Support images in HTML signatures (#1488676)
+- Display full quota information in popup (#1485769, #1486604)
+- Mail compose: Selecting contact inserts recipient to previously focused input - to/cc/bcc accordingly (#1489684)
+- Add option to set default message list mode - default_list_mode (#1487312)
+- Close "no subject" prompt with Enter key (#1489580)
+- Add config option to specify IMAP connection socket parameters - imap_conn_options (#1489948)
+- Password: Add option to force new users to change their password (#1486884)
+- Improve support for screen readers and assistive technology using WCAG 2.0 and WAI ARIA standards
+- Enable basic keyboard navigation throughout the UI (#1487845)
+- Select/scroll to previously selected message when returning from message page (#1489023)
+- Display a warning if popup window was blocked (#1489618)
+- Remove (was: ...) from message subject on reply (#1489375)
+- Update to TinyMCE 4.1 (#1489057)
+- Enable autolink plugin in TinyMCE (#1488845)
 - Support image operations with Imagick extension (#1489734)
 - Support upload progress with session.upload_progress and PECL uploadprogress module (#1488702)
 - Make identity name field optional (#1489510)
 - Utility script to remove user records from the local database
 - Plugin API: Added message_saved hook (#1489752)
+- Plugin API: Added imap_search_before hook
 - Support messages import from zip archives
 - Zipdownload: Added mbox format support (#1486069)
 - Drop support for IE6, move IE7/IE8 support to legacy_browser plugin
@@ -16,9 +44,51 @@ CHANGELOG Roundcube Webmail
 - Set In-Reply-To and References for forwarded messages (#1489593)
 - Removed redundant default_folders config option (#1489737)
 - Implemented IMAP SPECIAL-USE extension support [RFC6154] (#1487830)
+- Optimize some framed pages content for better performance (#1489792)
+- Improve text messages display and conversion to HTML (#1488937)
+- Don't remove links when html signature is converted to text (#1489621)
+- Fix mbox files import
+- Fix some mime-type to extension mapping checks in Installer (#1489983)
+- Fix errors when using localStorage in Safari's private browsing mode (#1489996)
+- Fix bug where $Forwarded flag was being set even if server didn't support it (#1490000)
+- Fix various iCloud vCard issues, added fallback for external photos (#1489993)
+- Fix invalid Content-Type header when send_format_flowed=false (#1489992)
+- Fix errors when adding/updating contacts in active search (#1490015)
+- Fix incorrect thumbnail rotation with GD and exif orientation data (#1490029)
+- Fix contacts list update after adding/deleting/moving a contact (#1490028, #1490033)
+- Fix handling of email addresses with quoted domain part (#1490040)
+- Fix comm_path update on task switch (#1490041)
+
+RELEASE 1.0.2
+-------------
+- Fix storing unsaved drafts in localStorage (#1489818)
+- Add configurable LDAP_OPT_DEREF option (#1489864)
+- Fix so when switching editor mode original version of signature is used (#1488849)
+- Fix unintentional draft autosave request if autosave is disabled (#1489882)
+- Fix malformed References: header in send/saved mail (#1489891)
+- Fix handling unicode characters in links (#1489898)
+- Fix incorrect handling of HTML comments in messages sanitization code (#1489904)
+- Fix so current page is reset on list-mode change (#1489907)
+- Fix so responses menu hides on click in classic skin (#1489915)
+- Fix unintentional line-height style modification in HTML messages (#1489917)
+- Fix broken normalize_string(), add support for ISO-8859-2 (#1489918)
+- Support csv contacts import in German localization (#1489920)
+- Fix so message list and counters are updated when a message is opened in new window (#1489919)
+- Fix malformed recipient name when composing a message by clicking on mailto link (#1489942)
+- Fix list reload after sending message in another window (#1489931)
+- Fix so address format errors are ignored when saving a draft (#1489954)
+- Fix incorrect label translation in return receipt (#1489963)
+- Fix security issue in delete-response action - allow only ajax request
+- Fix Delete button state after deleting identity/response (#1489972)
+- Fix bug where contacts with no email address were listed on compose addressbook (#1489970)
+- Fix images import from various vCard formats (#1489977)
+- Fix sorting messages by size on servers without SORT capability (#1489981)
+
+RELEASE 1.0.1
+-------------
 - Support 'error' and 'body_file' return attribs in 'message_before_send' hook (#1489595)
 - Apply user-specific replacements to group's base_dn property (#1489779)
-- Fix mbox files import
+- Fix missing email address when importing contacts from outlook csv (#1489830)
 - Fix bug where "With attachment" option in search filter wasn't selected after return from mail view (#1489774)
 - Fix "washing" of unicoded style attributes (#1489777)
 - Fix unintentional redirect from compose page in Webkit browsers (#1489789)

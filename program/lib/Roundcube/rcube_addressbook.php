@@ -557,6 +557,62 @@ abstract class rcube_addressbook
     }
 
     /**
+     * Build contact display name for autocomplete listing
+     *
+     * @param array  Hash array with contact data as key-value pairs
+     * @param string Optional email address
+     * @param string Optional name (self::compose_list_name() result)
+     * @param string Optional template to use (defaults to the 'contact_search_name' config option)
+     *
+     * @return string Display name
+     */
+    public static function compose_search_name($contact, $email = null, $name = null, $templ = null)
+    {
+        static $template;
+
+        if (empty($templ) && !isset($template)) {  // cache this
+            $template = rcube::get_instance()->config->get('contact_search_name');
+            if (empty($template)) {
+                $template = '{name} <{email}>';
+            }
+        }
+
+        $result = $templ ?: $template;
+
+        if (preg_match_all('/\{[a-z]+\}/', $result, $matches)) {
+            foreach ($matches[0] as $key) {
+                $key   = trim($key, '{}');
+                $value = '';
+
+                switch ($key) {
+                case 'name':
+                    $value = $name ?: self::compose_list_name($contact);
+                    break;
+
+                case 'email':
+                    $value = $email;
+                    break;
+                }
+
+                if (empty($value)) {
+                    $value = strpos($key, ':') ? $contact[$key] : self::get_col_values($key, $contact, true);
+                    if (is_array($value)) {
+                        $value = $value[0];
+                    }
+                }
+
+                $result = str_replace('{' . $key . '}', $value, $result);
+            }
+        }
+
+        $result = preg_replace('/\s+/', ' ', $result);
+        $result = preg_replace('/\s*(<>|\(\)|\[\])/', '', $result);
+        $result = trim($result, '/ ');
+
+        return $result;
+    }
+
+    /**
      * Create a unique key for sorting contacts
      */
     public static function compose_contact_key($contact, $sort_col)

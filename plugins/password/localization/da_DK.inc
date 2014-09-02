@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Skift adgangskode';
 $labels['curpasswd']  = 'Nuværende adgangskode:';
 $labels['newpasswd']  = 'Ny adgangskode:';
 $labels['confpasswd']  = 'Bekræft ny adgangskode:';

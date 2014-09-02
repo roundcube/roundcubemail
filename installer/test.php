@@ -210,7 +210,6 @@ if ($db_working) {
 
 <h3>Test filetype detection</h3>
 
-<p>
 <?php
 
 if ($errors = $RCI->check_mime_detection()) {
@@ -225,12 +224,9 @@ if ($errors = $RCI->check_mime_detection()) {
 }
 else {
   $RCI->pass('Fileinfo/mime_content_type configuration');
+  echo "<br/>";
 }
 
-?>
-</p>
-<p>
-<?php
 
 if ($errors = $RCI->check_mime_extensions()) {
   $RCI->fail('Mimetype to file extension mapping');
@@ -239,6 +235,7 @@ if ($errors = $RCI->check_mime_extensions()) {
 }
 else {
   $RCI->pass('Mimetype to file extension mapping');
+  echo "<br/>";
 }
 
 ?>

@@ -11,27 +11,26 @@
   background-color: #FFFFA6;
 }
 
+#folderlist-title a.iconbutton.search {
+  background: url(images/icons/glass.png) no-repeat 0 0;
+  cursor: pointer;
+  position: absolute;
+  right: 4px;
+  top: 2px;
+  width: 16px;
+  text-indent: 50000px;
+}
+
+.listsearchbox select {
+  width: 100%;
+  margin: 1px 0;
+}
+
 #identities-table,
-#subscription-table,
 #sections-table
 {
   width: 100%;
   table-layout: fixed;
-}
-
-#subscription-table input
-{
-  font: inherit;
-}
-
-#subscription-table tbody td,
-#identities-table tbody td,
-#sections-table tbody td
-{
-  cursor: default;
-  text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
-  height: 18px;
 }
 
 #identities-table tbody tr.readonly td
@@ -39,37 +38,24 @@
   font-style: italic;
 }
 
-#subscription-table tr.virtual td
+#subscription-table li.root
 {
-  color: #666;
-}
-
-#subscription-table tr.root td
-{
-  font-size: 10%;
+  font-size: 5%;
+  line-height: 5px;
   height: 5px;
+  padding: 2px;
 }
 
-#subscription-table tr.selected td
-{
-  color: #FFFFFF;
-  background-color: #CC3333;
+#subscription-table li input {
+  position: absolute;
+  right: 0;
+  top: 2px;
 }
 
-#subscription-table tr.droptarget td
-{
-  background-color: #FFFFA6;
-}
-
-#subscription-table td.name
-{
-  width: auto;
-}
-
-#subscription-table td.subscribed
-{
-  text-align: right;
-  padding-right: 12px;
+#subscription-table li a {
+  padding-right: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #folder-box,

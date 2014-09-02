@@ -77,6 +77,17 @@ foreach ($cids as $source => $cid) {
     }
 }
 
+if (!empty($_SESSION['contact_undo'])) {
+    $_SESSION['contact_undo']['ts'] = time();
+    $msg = html::span(null, $RCMAIL->gettext('contactdeleted'))
+        . ' ' . html::a(array('onclick' => rcmail_output::JS_OBJECT_NAME.".command('undo', '', this)"), $RCMAIL->gettext('undo'));
+
+    $OUTPUT->show_message($msg, 'confirmation', null, true, $undo_time);
+}
+else {
+    $OUTPUT->show_message('contactdeleted', 'confirmation');
+}
+
 $page = isset($_SESSION['page']) ? $_SESSION['page'] : 1;
 
 // update saved search after data changed
@@ -87,8 +98,13 @@ if (($records = rcmail_search_update(true)) !== false) {
     $result = new rcube_result_set($count, $first);
     $pages  = ceil((count($records) + $delcnt) / $PAGE_SIZE);
 
+    // last page and it's empty, display previous one
+    if ($result->count && $result->count <= ($PAGE_SIZE * ($page - 1))) {
+        $OUTPUT->command('list_page', 'prev');
+        $rowcount = $RCMAIL->gettext('loading');
+    }
     // get records from the next page to add to the list
-    if ($_GET['_from'] != 'show' && $pages > 1 && $page < $pages) {
+    else if ($pages > 1 && $page < $pages) {
         // sort the records
         ksort($records, SORT_LOCALE_STRING);
 
@@ -110,10 +126,15 @@ if (($records = rcmail_search_update(true)) !== false) {
 else {
     // count contacts for this user
     $result = $CONTACTS->count();
+    $pages  = ceil(($result->count + $delcnt) / $PAGE_SIZE);
 
+    // last page and it's empty, display previous one
+    if ($result->count && $result->count <= ($PAGE_SIZE * ($page - 1))) {
+        $OUTPUT->command('list_page', 'prev');
+        $rowcount = $RCMAIL->gettext('loading');
+    }
     // get records from the next page to add to the list
-    $pages = ceil(($result->count + $delcnt) / $PAGE_SIZE);
-    if ($_GET['_from'] != 'show' && $pages > 1 && $page < $pages) {
+    else if ($pages > 1 && $page < $pages) {
         $CONTACTS->set_page($page);
         $records = $CONTACTS->list_records(null, -$delcnt);
     }
@@ -121,18 +142,7 @@ else {
 
 // update message count display
 $OUTPUT->set_env('pagecount', ceil($result->count / $PAGE_SIZE));
-$OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result));
-
-if (!empty($_SESSION['contact_undo'])) {
-    $_SESSION['contact_undo']['ts'] = time();
-    $msg = html::span(null, $RCMAIL->gettext('contactdeleted'))
-        . ' ' . html::a(array('onclick' => rcmail_output::JS_OBJECT_NAME.".command('undo', '', this)"), $RCMAIL->gettext('undo'));
-
-    $OUTPUT->show_message($msg, 'confirmation', null, true, $undo_time);
-}
-else {
-    $OUTPUT->show_message('contactdeleted', 'confirmation');
-}
+$OUTPUT->command('set_rowcount', $rowcount ? $rowcount : rcmail_get_rowcount_text($result));
 
 // add new rows from next page (if any)
 if (!empty($records)) {

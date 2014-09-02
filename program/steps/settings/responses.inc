@@ -51,8 +51,8 @@ if (!empty($_POST['_insert'])) {
     $RCMAIL->output->send();
 }
 
-if ($RCMAIL->action == 'delete-response') {
-    if ($key = rcube_utils::get_input_value('_key', rcube_utils::INPUT_GPC)) {
+if ($RCMAIL->action == 'delete-response' && $RCMAIL->output->ajax_call) {
+    if ($key = rcube_utils::get_input_value('_key', rcube_utils::INPUT_POST)) {
         $responses = $RCMAIL->get_compose_responses(false, true);
         foreach ($responses as $i => $response) {
             if (empty($response['key']))
@@ -70,9 +70,7 @@ if ($RCMAIL->action == 'delete-response') {
         $RCMAIL->output->command('remove_response', $key);
     }
 
-    if ($RCMAIL->output->ajax_call) {
-        $RCMAIL->output->send();
-    }
+    $RCMAIL->output->send();
 }
 
 
@@ -95,7 +93,7 @@ function rcmail_responses_list($attrib)
 {
     global $RCMAIL, $OUTPUT;
 
-    $attrib += array('id' => 'rcmresponseslist', 'tagname' => 'table', 'cols' => 1);
+    $attrib += array('id' => 'rcmresponseslist', 'tagname' => 'table');
 
     $plugin = $RCMAIL->plugins->exec_hook('responses_list', array(
         'list' => $RCMAIL->get_compose_responses(true),

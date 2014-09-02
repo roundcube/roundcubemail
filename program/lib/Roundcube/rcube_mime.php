@@ -394,6 +394,7 @@ class rcube_mime
             }
 
             if ($address) {
+                $address      = self::fix_email($address);
                 $result[$key] = array('name' => $name, 'address' => $address);
             }
         }
@@ -480,15 +481,17 @@ class rcube_mime
     /**
      * Interpret a format=flowed message body according to RFC 2646
      *
-     * @param string  $text Raw body formatted as flowed text
+     * @param string $text Raw body formatted as flowed text
+     * @param string $mark Mark each flowed line with specified character
      *
      * @return string Interpreted text with unwrapped lines and stuffed space removed
      */
-    public static function unfold_flowed($text)
+    public static function unfold_flowed($text, $mark = null)
     {
         $text = preg_split('/\r?\n/', $text);
         $last = -1;
         $q_level = 0;
+        $marks = array();
 
         foreach ($text as $idx => $line) {
             if (preg_match('/^(>+)/', $line, $m)) {
@@ -508,6 +511,10 @@ class rcube_mime
                 ) {
                     $text[$last] .= $line;
                     unset($text[$idx]);
+
+                    if ($mark) {
+                        $marks[$last] = true;
+                    }
                 }
                 else {
                     $last = $idx;
@@ -520,7 +527,7 @@ class rcube_mime
                 }
                 else {
                     // remove space-stuffing
-                    $line = preg_replace('/^\s/', '', $line);
+                    $line = preg_replace('/^ /', '', $line);
 
                     if (isset($text[$last]) && $line
                         && $text[$last] != '-- '
@@ -528,6 +535,10 @@ class rcube_mime
                     ) {
                         $text[$last] .= $line;
                         unset($text[$idx]);
+
+                        if ($mark) {
+                            $marks[$last] = true;
+                        }
                     }
                     else {
                         $text[$idx] = $line;
@@ -536,6 +547,12 @@ class rcube_mime
                 }
             }
             $q_level = $q;
+        }
+
+        if (!empty($marks)) {
+            foreach (array_keys($marks) as $mk) {
+                $text[$mk] = $mark . $text[$mk];
+            }
         }
 
         return implode("\r\n", $text);
@@ -806,6 +823,7 @@ class rcube_mime
             $file_paths[] = '/etc/httpd2/mime.types';
             $file_paths[] = '/etc/apache/mime.types';
             $file_paths[] = '/etc/apache2/mime.types';
+            $file_paths[] = '/etc/nginx/mime.types';
             $file_paths[] = '/usr/local/etc/httpd/conf/mime.types';
             $file_paths[] = '/usr/local/etc/apache/conf/mime.types';
         }
@@ -889,4 +907,19 @@ class rcube_mime
         return 'image/' . $type;
     }
 
+    /**
+     * Try to fix invalid email addresses
+     */
+    public static function fix_email($email)
+    {
+        $parts = rcube_utils::explode_quoted_string('@', $email);
+        foreach ($parts as $idx => $part) {
+            // remove redundant quoting (#1490040)
+            if ($part[0] == '"' && preg_match('/^"([a-zA-Z0-9._+=-]+)"$/', $part, $m)) {
+                $parts[$idx] = $m[1];
+            }
+        }
+
+        return implode('@', $parts);
+    }
 }

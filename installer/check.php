@@ -28,10 +28,13 @@ $optional_php_exts = array(
 );
 
 $required_libs = array(
-    'PEAR'      => 'PEAR.php',
-    'Net_SMTP'  => 'Net/SMTP.php',
-    'Net_IDNA2' => 'Net/IDNA2.php',
-    'Mail_mime' => 'Mail/mime.php',
+    'PEAR'      => 'pear.php.net',
+    'Auth_SASL' => 'pear.php.net',
+    'Net_SMTP'  => 'pear.php.net',
+    'Net_IDNA2' => 'pear.php.net',
+    'Net_LDAP3' => 'git.kolab.org',
+    'Mail_mime' => 'pear.php.net',
+    'Mail_mimeDecode' => 'pear.php.net',
 );
 
 $ini_checks = array(
@@ -160,13 +163,13 @@ if (empty($found_db_driver)) {
 
 <?php
 
-foreach ($required_libs as $classname => $file) {
+foreach ($required_libs as $classname => $vendor) {
     @include_once $file;
     if (class_exists($classname)) {
         $RCI->pass($classname);
     }
     else {
-        $RCI->fail($classname, "Failed to load $file", $source_urls[$classname]);
+        $RCI->fail($classname, "Failed to load class $classname from $vendor", $source_urls[$classname]);
     }
     echo "<br />";
 }

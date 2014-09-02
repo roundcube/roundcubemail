@@ -189,7 +189,7 @@ class rcube_image
             }
             else if($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = imagecreatefromgif($this->image_file);
-                $type  = 'gid';
+                $type  = 'gif';
             }
             else if($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = imagecreatefrompng($this->image_file);
@@ -227,6 +227,24 @@ class rcube_image
 
                 imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $props['width'], $props['height']);
                 $image = $new_image;
+
+                // fix rotation of image if EXIF data exists and specifies rotation (GD strips the EXIF data)
+                if ($this->image_file && function_exists('exif_read_data')) {
+                    $exif = exif_read_data($this->image_file);
+                    if ($exif && $exif['Orientation']) {
+                        switch ($exif['Orientation']) {
+                            case 3:
+                                $image = imagerotate($image, 180, 0);
+                                break;
+                            case 6:
+                                $image = imagerotate($image, -90, 0);
+                                break;
+                            case 8:
+                                $image = imagerotate($image, 90, 0);
+                                break;
+                        }
+                    }
+                }
 
                 if ($props['gd_type'] == IMAGETYPE_JPEG) {
                     $result = imagejpeg($image, $filename, 75);

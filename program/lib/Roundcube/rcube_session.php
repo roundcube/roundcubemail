@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  | Copyright (C) 2011, Kolab Systems AG                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -46,6 +46,13 @@ class rcube_session
     private $logging = false;
     private $storage;
     private $memcache;
+
+    /**
+     * Blocks session data from being written to database.
+     * Can be used if write-race conditions are to be expected
+     * @var boolean
+     */
+    public $nowrite = false;
 
 
     /**
@@ -200,6 +207,9 @@ class rcube_session
         $now   = $this->db->now();
         $table = $this->db->table_name('session');
         $ts    = microtime(true);
+
+        if ($this->nowrite)
+            return true;
 
         // no session row in DB (db_read() returns false)
         if (!$this->key) {

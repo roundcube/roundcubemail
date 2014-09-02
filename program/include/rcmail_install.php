@@ -476,7 +476,7 @@ class rcmail_install
     $types = array(
       'application/zip'   => 'zip',
       'application/x-tar' => 'tar',
-      'application/java-archive' => 'jar',
+      'application/pdf'   => 'pdf',
       'image/gif'     => 'gif',
       'image/svg+xml' => 'svg',
     );
@@ -484,7 +484,7 @@ class rcmail_install
     $errors = array();
     foreach ($types as $mimetype => $expected) {
       $ext = rcube_mime::get_mime_extensions($mimetype);
-      if ($ext[0] != $expected) {
+      if (!in_array($expected, (array) $ext)) {
         $errors[] = array($mimetype, $ext, $expected);
       }
     }

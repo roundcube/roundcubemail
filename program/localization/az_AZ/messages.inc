@@ -135,7 +135,6 @@ $messages['importmessagesuccess'] = '$nr məktublar uğurla idxal edildi';
 $messages['importmessageerror'] = 'İdxal alınmadı! Yüklənilmiş fayl düzgün məktub və ya poçt faylı deyil';
 $messages['opnotpermitted'] = 'Əməliyyat qadağandır!';
 $messages['nofromaddress'] = 'Seçilmiş kimlikdə e-poçt ünvanları yoxdur';
-$messages['editorwarning'] = 'Adi mətn redaktoruna keçid, bütün mətn formatlarının itkisinə gətirəcək. Davam edilsin?';
 $messages['httpreceivedencrypterror'] = 'Serverdə qaçıımaz xəta baş verib. Təcili öz inzibatçınız ilə əlaqə qurun. <b>Sizin məktub göndərilməyə bilər.</b>';
 $messages['smtpconnerror'] = 'SMTP Error ($code): Serverlə bağlantı alınmadı';
 $messages['smtpautherror'] = 'SMTP Error ($code): İdentifikasiya xətası';

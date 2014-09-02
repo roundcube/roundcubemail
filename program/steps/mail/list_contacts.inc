@@ -110,7 +110,7 @@ else if (!empty($result) && $result->count > 0) {
             $keyname = $row['_type'] == 'group' ? 'contactgroup' : 'contact';
 
             $OUTPUT->command('add_contact_row', $row_id, array(
-                $keyname => html::span(array('title' => $email), rcube::Q($name ? $name : $email) .
+                $keyname => html::a(array('title' => $email), rcube::Q($name ? $name : $email) .
                     ($name && count($emails) > 1 ? '&nbsp;' . html::span('email', rcube::Q($email)) : '')
                 )), $classname);
         }

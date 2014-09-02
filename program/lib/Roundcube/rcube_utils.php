@@ -119,17 +119,6 @@ class rcube_utils
                 return true;
             }
 
-            if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && version_compare(PHP_VERSION, '5.3.0', '<')) {
-                $lookup = array();
-                @exec("nslookup -type=MX " . escapeshellarg($domain_part) . " 2>&1", $lookup);
-                foreach ($lookup as $line) {
-                    if (strpos($line, 'MX preference')) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
             // find MX record(s)
             if (!function_exists('getmxrr') || getmxrr($domain_part, $mx_records)) {
                 return true;
@@ -795,7 +784,7 @@ class rcube_utils
      *
      * @return object DateTime instance or false on failure
      */
-    public static function anytodatetime($date)
+    public static function anytodatetime($date, $timezone = null)
     {
         if (is_object($date) && is_a($date, 'DateTime')) {
             return $date;
@@ -807,7 +796,7 @@ class rcube_utils
         // try to parse string with DateTime first
         if (!empty($date)) {
             try {
-                $dt = new DateTime($date);
+                $dt = new DateTime($date, $timezone);
             }
             catch (Exception $e) {
                 // ignore
@@ -928,7 +917,7 @@ class rcube_utils
 
     /**
      * Normalize the given string for fulltext search.
-     * Currently only optimized for Latin-1 characters; to be extended
+     * Currently only optimized for ISO-8859-1 and ISO-8859-2 characters; to be extended
      *
      * @param string  Input string (UTF-8)
      * @param boolean True to return list of words as array
@@ -949,15 +938,32 @@ class rcube_utils
         // split by words
         $arr = self::tokenize_string($str);
 
+        // detect character set
+        if (utf8_encode(utf8_decode($str)) == $str) {
+            // ISO-8859-1 (or ASCII)
+            preg_match_all('/./u', 'äâàåáãæçéêëèïîìíñöôòøõóüûùúýÿ', $keys);
+            preg_match_all('/./',  'aaaaaaaceeeeiiiinoooooouuuuyy', $values);
+
+            $mapping = array_combine($keys[0], $values[0]);
+            $mapping = array_merge($mapping, array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u'));
+        }
+        else if (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-2'), 'ISO-8859-2', 'UTF-8') == $str) {
+            // ISO-8859-2
+            preg_match_all('/./u', 'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżý', $keys);
+            preg_match_all('/./',  'aaaaccceeeeiilllnnooorrsssttuuuuzzzy', $values);
+
+            $mapping = array_combine($keys[0], $values[0]);
+            $mapping = array_merge($mapping, array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u'));
+        }
+
         foreach ($arr as $i => $part) {
-            if (utf8_encode(utf8_decode($part)) == $part) {  // is latin-1 ?
-                $arr[$i] = utf8_encode(strtr(strtolower(strtr(utf8_decode($part),
-                    'ÇçäâàåéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ',
-                    'ccaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy')),
-                    array('ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u')));
+            $part = mb_strtolower($part);
+
+            if (!empty($mapping)) {
+                $part = strtr($part, $mapping);
             }
-            else
-                $arr[$i] = mb_strtolower($part);
+
+            $arr[$i] = $part;
         }
 
         return $as_array ? $arr : join(" ", $arr);
@@ -1039,7 +1045,6 @@ class rcube_utils
         }
     }
 
-
     /**
      * Find out if the string content means true or false
      *
@@ -1063,7 +1068,37 @@ class rcube_utils
             return (bool) preg_match('!^[a-z]:[\\\\/]!i', $path);
         }
         else {
-            return $path[0] == DIRECTORY_SEPARATOR;
+            return $path[0] == '/';
         }
+    }
+
+    /**
+     * Resolve relative URL
+     *
+     * @param string $url Relative URL
+     *
+     * @return string Absolute URL
+     */
+    public static function resolve_url($url)
+    {
+        // prepend protocol://hostname:port
+        if (!preg_match('|^https?://|', $url)) {
+            $schema       = 'http';
+            $default_port = 80;
+
+            if (self::https_check()) {
+                $schema       = 'https';
+                $default_port = 443;
+            }
+
+            $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']);
+            if ($_SERVER['SERVER_PORT'] != $default_port) {
+                $prefix .= ':' . $_SERVER['SERVER_PORT'];
+            }
+
+            $url = $prefix . ($url[0] == '/' ? '' : '/') . $url;
+        }
+
+        return $url;
     }
 }

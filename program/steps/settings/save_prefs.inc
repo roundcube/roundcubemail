@@ -90,6 +90,7 @@ case 'compose':
         'default_font_size'  => rcube_utils::get_input_value('_default_font_size', rcube_utils::INPUT_POST),
         'reply_all_mode'     => intval($_POST['_reply_all_mode']),
         'forward_attachment' => !empty($_POST['_forward_attachment']),
+        'compose_save_localstorage' => intval($_POST['_compose_save_localstorage']),
     );
 
     break;

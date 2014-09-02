@@ -152,6 +152,19 @@ abstract class rcube_storage
 
 
     /**
+     * Get connection/class option
+     *
+     * @param string $name Option name
+     *
+     * @param mixed Option value
+     */
+    public function get_option($name)
+    {
+        return $this->options[$name];
+    }
+
+
+    /**
      * Activate/deactivate debug mode.
      *
      * @param boolean $dbg True if conversation with the server should be logged
@@ -905,9 +918,11 @@ abstract class rcube_storage
     /**
      * Get mailbox quota information.
      *
+     * @param string $folder  Folder name
+     *
      * @return mixed Quota info or False if not supported
      */
-    abstract function get_quota();
+    abstract function get_quota($folder = null);
 
 
     /* -----------------------------------------

@@ -311,6 +311,9 @@
 
  Set $config['password_vpopmaild_port'] to the port of vpopmaild.
 
+ Set $config['password_vpopmaild_timeout'] to the timeout used for the TCP 
+ connection to vpopmaild (You may want to set it higher on busy servers).
+
 
  2.20. Plesk (Plesk RPC-API)
  ---------------------------

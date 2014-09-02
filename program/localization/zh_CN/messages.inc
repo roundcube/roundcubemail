@@ -133,7 +133,6 @@ $messages['importmessagesuccess'] = '成功导入 $nr 条信息';
 $messages['importmessageerror'] = '导入失败！文件无效';
 $messages['opnotpermitted'] = '不允许的操作!';
 $messages['nofromaddress'] = '选中的身份没有邮件地址。';
-$messages['editorwarning'] = '切换至纯文本编辑器将导致邮件正文中的所有文本格式失效，您确定要这样做吗？';
 $messages['httpreceivedencrypterror'] = '<b>您的邮件无法发送</b>，因为发生了一个严重的配置错误，请立即联系管理员。';
 $messages['smtpconnerror'] = 'SMTP 错误 ($code):连接服务器失败。';
 $messages['smtpautherror'] = 'SMTP 错误 ($code): 认证失败。';

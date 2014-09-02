@@ -29,4 +29,5 @@ $messages['internalerror'] = 'No se puedo guardar la nueva contraseña.';
 $messages['passwordshort'] = 'La contraseña debe tener al menos $length carácteres.';
 $messages['passwordweak'] = 'La contraseña debe incluir por lo menos un número y un signo de puntuación.';
 $messages['passwordforbidden'] = 'La contraseña contiene carácteres ilegales.';
+$messages['firstloginchange'] = 'Esta es la primera vez que ingresas. Por favor cambia tu contraseña.';
 ?>

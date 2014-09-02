@@ -127,8 +127,9 @@ if ($search_str) {
     }
     else if ($scope == 'sub') {
         $mboxes = $RCMAIL->storage->list_folders_subscribed($mbox, '*', 'mail');
-        if ($mbox != 'INBOX' && $mboxes[0] == 'INBOX')
+        if ($mbox != 'INBOX' && $mboxes[0] == 'INBOX') {
             array_shift($mboxes);
+        }
     }
 
     $result = $RCMAIL->storage->search($mboxes, $search_str, $imap_charset, $sort_column);
@@ -144,7 +145,7 @@ if ($search_str) {
     $_SESSION['last_text_search'] = $str;
 }
 $_SESSION['search_request'] = $search_request;
-$_SESSION['search_scope'] = $scope;
+$_SESSION['search_scope']   = $scope;
 
 
 // Get the headers
@@ -162,9 +163,11 @@ if (!empty($result_h)) {
 
     // remember last HIGHESTMODSEQ value (if supported)
     // we need it for flag updates in check-recent
-    $data = $RCMAIL->storage->folder_data($mbox_name);
-    if (!empty($data['HIGHESTMODSEQ'])) {
-        $_SESSION['list_mod_seq'] = $data['HIGHESTMODSEQ'];
+    if ($mbox !== null) {
+        $data = $RCMAIL->storage->folder_data($mbox);
+        if (!empty($data['HIGHESTMODSEQ'])) {
+            $_SESSION['list_mod_seq'] = $data['HIGHESTMODSEQ'];
+        }
     }
 }
 // handle IMAP errors (e.g. #1486905)
@@ -179,9 +182,12 @@ else if ($result->incomplete) {
 else {
     $OUTPUT->show_message('searchnomatch', 'notice');
     $OUTPUT->set_env('multifolder_listing', (bool)$result->multi);
-    if ($result->multi && $scope == 'all')
+    if ($result->multi && $scope == 'all') {
         $OUTPUT->command('select_folder', '');
+    }
 }
+
+$OUTPUT->set_pagetitle($RCMAIL->gettext(array('name' => 'searchfor', 'vars' => array('q' => $str))));
 
 // update message count display
 $OUTPUT->set_env('search_request', $search_str ? $search_request : '');
@@ -189,7 +195,11 @@ $OUTPUT->set_env('search_filter', $_SESSION['search_filter']);
 $OUTPUT->set_env('threading', $RCMAIL->storage->get_threading());
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', ceil($count/$RCMAIL->storage->get_pagesize()));
-$OUTPUT->set_env('exists', $RCMAIL->storage->count($mbox_name, 'EXISTS'));
+$OUTPUT->set_env('exists', $mbox === null ? 0 : $RCMAIL->storage->count($mbox, 'EXISTS'));
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count, 1), $mbox);
-$OUTPUT->set_pagetitle($RCMAIL->gettext(array('name' => 'searchfor', 'vars' => array('q' => $str))));
+
+if (!$result->incomplete) {
+    $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $result->multi ? 'INBOX' : $mbox));
+}
+
 $OUTPUT->send();

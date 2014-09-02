@@ -116,7 +116,7 @@ if (empty($version)) {
     $version = 2012080700;
 }
 
-$dir = $opts['dir'] . DIRECTORY_SEPARATOR . $DB->db_provider;
+$dir = $opts['dir'] . '/' . $DB->db_provider;
 if (!file_exists($dir)) {
     rcube::raise_error("DDL Upgrade files for " . $DB->db_provider . " driver not found.", false, true);
 }
@@ -133,7 +133,7 @@ sort($result, SORT_NUMERIC);
 
 foreach ($result as $v) {
     echo "Updating database schema ($v)... ";
-    $error = update_db_schema($opts['package'], $v, $dir . DIRECTORY_SEPARATOR . "$v.sql");
+    $error = update_db_schema($opts['package'], $v, "$dir/$v.sql");
 
     if ($error) {
         echo "[FAILED]\n";

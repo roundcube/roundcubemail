@@ -59,4 +59,8 @@ $labels['wednesday'] = 'ረቡዕ';
 $labels['thursday']  = 'ሓሙስ';
 $labels['friday']    = 'ዓርቢ ';
 $labels['saturday']  = 'ቀዳም';
+$labels['savelocalstorage'] = "";
+$labels['helplistkeyboardnavigation'] = "";
+$labels['helplistkeyboardnavmessages'] = "";
+$labels['helplistkeyboardnavcontacts'] = "";
 ?>

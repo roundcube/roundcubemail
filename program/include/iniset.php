@@ -54,19 +54,24 @@ if (set_include_path($include_path) === false) {
 // (does not work in safe mode)
 @set_time_limit(120);
 
+// include composer autoloader (if available)
+if (@file_exists(INSTALL_PATH . 'vendor/autoload.php')) {
+    require INSTALL_PATH . 'vendor/autoload.php';
+}
+
 // include Roundcube Framework
 require_once 'Roundcube/bootstrap.php';
 
 // register autoloader for rcmail app classes
 spl_autoload_register('rcmail_autoload');
 
-// include composer autoloader (if available)
-if (file_exists('vendor/autoload.php')) {
-    require 'vendor/autoload.php';
-}
-
 // backward compatybility (to be removed)
 require_once INSTALL_PATH . 'program/include/bc.php';
+
+// load the UTF-8 portablity layer from Patchwor
+if (!function_exists('iconv') || !function_exists('utf8_encode') || !extension_loaded('mbstring')) {
+    \Patchwork\Utf8\Bootup::initAll();
+}
 
 
 /**

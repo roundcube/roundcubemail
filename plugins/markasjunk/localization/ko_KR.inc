@@ -15,7 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-$labels['buttontext'] = '정크메일';
-$labels['buttontitle'] = '정크메일로 표시';
-$labels['reportedasjunk'] = '성공적으로, 정크메일이라 보고 됨';
+$labels['buttontext'] = '스팸';
+$labels['buttontitle'] = '스팸으로 표시';
+$labels['reportedasjunk'] = '스팸으로 성공적으로 보고함';
 ?>

@@ -58,7 +58,7 @@ define('RCUBE_VERSION', '1.1-git');
 define('RCUBE_CHARSET', 'UTF-8');
 
 if (!defined('RCUBE_LIB_DIR')) {
-    define('RCUBE_LIB_DIR', dirname(__FILE__).DIRECTORY_SEPARATOR);
+    define('RCUBE_LIB_DIR', dirname(__FILE__) . '/');
 }
 
 if (!defined('RCUBE_INSTALL_PATH')) {
@@ -464,16 +464,14 @@ function rcube_autoload($classname)
             '/Net_(.+)/',
             '/Auth_(.+)/',
             '/^html_.+/',
-            '/^rcube(.*)/',
-            '/^utf8$/',
+            '/^rcube(.*)/'
         ),
         array(
             'Mail/\\1',
             'Net/\\1',
             'Auth/\\1',
             'Roundcube/html',
-            'Roundcube/rcube\\1',
-            'utf8.class',
+            'Roundcube/rcube\\1'
         ),
         $classname
     );

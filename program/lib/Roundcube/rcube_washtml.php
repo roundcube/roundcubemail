@@ -95,6 +95,7 @@ class rcube_washtml
         'ins', 'label', 'legend', 'li', 'map', 'menu', 'nobr', 'ol', 'p', 'pre', 'q',
         's', 'samp', 'small', 'span', 'strike', 'strong', 'sub', 'sup', 'table',
         'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'u', 'ul', 'var', 'wbr', 'img',
+        'video', 'source',
         // form elements
         'button', 'input', 'textarea', 'select', 'option', 'optgroup'
     );
@@ -206,7 +207,7 @@ class rcube_washtml
                         $value .= ' ' . $val;
 
                         // #1488535: Fix size units, so width:800 would be changed to width:800px
-                        if (preg_match('/(left|right|top|bottom|width|height)/i', $cssid)
+                        if (preg_match('/^(left|right|top|bottom|width|height)/i', $cssid)
                             && preg_match('/^[0-9]+$/', $val)
                         ) {
                             $value .= 'px';
@@ -246,7 +247,10 @@ class rcube_washtml
                 $quot = strpos($style, '"') !== false ? "'" : '"';
                 $t .= ' style=' . $quot . $style . $quot;
             }
-            else if ($key == 'background' || ($key == 'src' && strtolower($node->tagName) == 'img')) { //check tagName anyway
+            else if ($key == 'background'
+                || ($key == 'src' && preg_match('/^(img|source)$/i', $node->tagName))
+                || ($key == 'poster' && strtolower($node->tagName) == 'video')
+            ) {
                 if (($src = $this->config['cid_map'][$value])
                     || ($src = $this->config['cid_map'][$this->config['base_url'].$value])
                 ) {
@@ -374,7 +378,7 @@ class rcube_washtml
         $this->max_nesting_level = (int) @ini_get('xdebug.max_nesting_level');
 
         // Use optimizations if supported
-        if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+        if (PHP_VERSION_ID >= 50400) {
             @$node->loadHTML($html, LIBXML_PARSEHUGE | LIBXML_COMPACT);
         }
         else {
@@ -456,7 +460,7 @@ class rcube_washtml
         // Remove invalid HTML comments (#1487759)
         // Don't remove valid conditional comments
         // Don't remove MSOutlook (<!-->) conditional comments (#1489004)
-        $html = preg_replace('/<!--[^->\[\n]+>/', '', $html);
+        $html = preg_replace('/<!--[^-<>\[\n]+>/', '', $html);
 
         // fix broken nested lists
         self::fix_broken_lists($html);

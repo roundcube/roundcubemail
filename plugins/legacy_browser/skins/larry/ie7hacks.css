@@ -37,6 +37,7 @@ input.button {
 a.iconbutton,
 a.deletebutton,
 .boxpagenav a.icon,
+a.button span.icon,
 .pagenav a.button span.inner,
 .boxfooter .listbutton .inner,
 .attachmentslist li a.delete,

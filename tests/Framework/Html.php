@@ -54,15 +54,6 @@ class Framework_Html extends PHPUnit_Framework_TestCase
             array(
                 array('data-test' => 'test'), null, ' data-test="test"',
             ),
-            array(
-                array('data-test' => 'test'), array('other'), '',
-            ),
-            array(
-                array('data-test' => 'test'), array('data-test'), ' data-test="test"',
-            ),
-            array(
-                array('data-test' => 'test'), array('data-*'), ' data-test="test"',
-            ),
         );
     }
 

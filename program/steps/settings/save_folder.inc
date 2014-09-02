@@ -24,12 +24,10 @@
 // init IMAP connection
 $STORAGE = $RCMAIL->get_storage();
 
-$name = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
-$old  = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
-$path = rcube_utils::get_input_value('_parent', rcube_utils::INPUT_POST, true);
-
+$name      = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
+$path      = rcube_utils::get_input_value('_parent', rcube_utils::INPUT_POST, true);
+$old_imap  = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
 $name_imap = rcube_charset::convert($name, RCUBE_CHARSET, 'UTF7-IMAP');
-$old_imap  = rcube_charset::convert($old, RCUBE_CHARSET, 'UTF7-IMAP');
 // $path is in UTF7-IMAP already
 
 $delimiter = $STORAGE->get_hierarchy_delimiter();
@@ -96,7 +94,7 @@ else {
 }
 
 // create a new mailbox
-if (!$error && !strlen($old)) {
+if (!$error && !strlen($old_imap)) {
     $folder['subscribe'] = true;
 
     $plugin = $RCMAIL->plugins->exec_hook('folder_create', array('record' => $folder));
@@ -115,15 +113,13 @@ if (!$error && !strlen($old)) {
         if (isset($_POST['_viewmode'])) {
             $a_threaded = (array) $RCMAIL->config->get('message_threading', array());
 
-            if ($_POST['_viewmode'])
-                $a_threaded[$folder['name']] = true;
-            else
-                unset($a_threaded[$folder['name']]);
+            $a_threaded[$folder['name']] = (bool) $_POST['_viewmode'];
 
             $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
         }
 
         rcmail_update_folder_row($folder['name'], null, $folder['subscribe'], $folder['class']);
+
         $OUTPUT->show_message('foldercreated', 'confirmation');
         // reset folder preview frame
         $OUTPUT->command('subscription_select');
@@ -167,19 +163,18 @@ else if (!$error) {
                     }
                     else if (preg_match($oldprefix, $key)) {
                         unset($a_threaded[$key]);
-                        $a_threaded[preg_replace($oldprefix, $folder['name'].$delimiter, $key)] = true;
+                        $a_threaded[preg_replace($oldprefix, $folder['name'].$delimiter, $key)] = $val;
                     }
                 }
             }
-            if ($_POST['_viewmode'])
-                $a_threaded[$folder['name']] = true;
-            else
-                unset($a_threaded[$folder['name']]);
+
+            $a_threaded[$folder['name']] = (bool) $_POST['_viewmode'];
 
             $RCMAIL->user->save_prefs(array('message_threading' => $a_threaded));
         }
 
         $OUTPUT->show_message('folderupdated', 'confirmation');
+        $OUTPUT->set_env('folder', $folder['name']);
 
         if ($rename) {
             // #1488692: update session

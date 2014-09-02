@@ -40,11 +40,13 @@
             <file>Framework/SpellcheckPspell.php</file>
             <file>Framework/Spellchecker.php</file>
             <file>Framework/StringReplacer.php</file>
+            <file>Framework/Text2Html.php</file>
             <file>Framework/User.php</file>
             <file>Framework/Utils.php</file>
             <file>Framework/VCard.php</file>
             <file>Framework/Washtml.php</file>
             <file>MailFunc.php</file>
+            <file>RcmailFunc.php</file>
         </testsuite>
         <testsuite name="Plugins Tests">
             <file>./../plugins/acl/tests/Acl.php</file>
@@ -66,6 +68,7 @@
             <file>./../plugins/managesieve/tests/Managesieve.php</file>
             <file>./../plugins/managesieve/tests/Parser.php</file>
             <file>./../plugins/managesieve/tests/Tokenizer.php</file>
+            <file>./../plugins/managesieve/tests/Vacation.php</file>
             <file>./../plugins/markasjunk/tests/Markasjunk.php</file>
             <file>./../plugins/new_user_dialog/tests/NewUserDialog.php</file>
             <file>./../plugins/new_user_identity/tests/NewUserIdentity.php</file>

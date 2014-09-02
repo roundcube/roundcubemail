@@ -24,7 +24,7 @@
 <div id="mailboxlist-container">
 <div id="mailboxlist-title" class="boxtitle"><roundcube:label name="mailboxlist" /></div>
 <div id="mailboxlist-content"  class="boxlistcontent">
-<roundcube:object name="mailboxlist" id="mailboxlist" class="treelist" folder_filter="mail" />
+  <roundcube:object name="mailboxlist" id="mailboxlist" class="treelist folderlist" folder_filter="mail" />
 </div>
 <div id="mailboxlist-footer" class="boxfooter">
   <roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_popup('mailboxmenu');return false" content=" " />
@@ -148,7 +148,7 @@
   </ul>
 </div>
 
-<div id="listmenu" class="popupmenu">
+<div id="listmenu" style="display: none">
 <roundcube:if condition="env:threads" />
 <fieldset class="thinbordered"><legend><roundcube:label name="listmode" /></legend>
   <ul class="toolbarmenu">
@@ -200,10 +200,6 @@
   </ul>
 </fieldset>
 <roundcube:endif />
-<div>
-  <roundcube:button command="menu-open" id="listmenucancel" type="input" class="button" label="cancel" />
-  <roundcube:button command="menu-save" id="listmenusave" type="input" class="button mainaction" label="save" />
-</div>
 </div>
 
 <roundcube:object name="messageimportform" id="upload-form" attachmentFieldSize="40" class="popupmenu" />
