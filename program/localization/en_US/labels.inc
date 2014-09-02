@@ -386,6 +386,7 @@ $labels['exportall']      = 'Export all';
 $labels['exportsel']      = 'Export selected';
 $labels['exportvcards']   = 'Export contacts in vCard format';
 $labels['newgroup']       = 'Create new group';
+$labels['addgroup']       = 'Add group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
