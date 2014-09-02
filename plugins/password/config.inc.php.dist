@@ -372,3 +372,24 @@ $config['password_smb_cmd'] = '/usr/bin/smbpasswd';
 // ---------------------
 // Gearman host (default: localhost)
 $config['password_gearman_host'] = 'localhost';
+
+
+
+// Plesk/PPA Driver options
+// --------------------
+// You need to allow RCP for IP of roundcube-server in Plesk/PPA Panel 
+
+// Plesk RCP Host
+$config['password_plesk_host'] = '10.0.0.5';
+
+// Plesk RPC Username
+$config['password_plesk_user'] = 'admin';
+
+// Plesk RPC Password
+$config['password_plesk_pass'] = 'password';
+
+// Plesk RPC Port
+$config['password_plesk_rpc_port'] = '8443';
+
+// Plesk RPC Path
+$config['password_plesk_rpc_path'] = 'enterprise/control/agent.php';
