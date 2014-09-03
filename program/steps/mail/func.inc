@@ -79,6 +79,8 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
 
         if (!empty($_SESSION['search_scope']))
             $OUTPUT->set_env('search_scope', $_SESSION['search_scope']);
+
+        rcmail_list_pagetitle();
     }
 
     $threading = (bool) $RCMAIL->storage->get_threading();
@@ -119,11 +121,6 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
             'flagged', 'unflagged', 'unread', 'deleted', 'replied', 'forwarded',
             'priority', 'withattachment', 'fileuploaderror');
     }
-
-    $pagetitle = $RCMAIL->localize_foldername($mbox_name, true);
-    $pagetitle = str_replace($delimiter, " \xC2\xBB ", $pagetitle);
-
-    $OUTPUT->set_pagetitle($pagetitle);
 }
 
 // register UI objects
@@ -215,6 +212,26 @@ function rcmail_init_env()
     $threading = isset($a_threading[$_SESSION['mbox']]) ? $a_threading[$_SESSION['mbox']] : $default_threading;
 
     $RCMAIL->storage->set_threading($threading);
+}
+
+/**
+ * Sets page title
+ */
+function rcmail_list_pagetitle()
+{
+    global $RCMAIL;
+
+    if ($RCMAIL->output->get_env('search_request')) {
+        $pagetitle = $RCMAIL->gettext('searchresult');
+    }
+    else {
+        $mbox_name = $RCMAIL->storage->get_folder();
+        $delimiter = $RCMAIL->storage->get_hierarchy_delimiter();
+        $pagetitle = $RCMAIL->localize_foldername($mbox_name, true);
+        $pagetitle = str_replace($delimiter, " \xC2\xBB ", $pagetitle);
+    }
+
+    $RCMAIL->output->set_pagetitle($pagetitle);
 }
 
 /**

@@ -81,6 +81,7 @@ if ($count = $RCMAIL->storage->count($mbox_name, $threading ? 'THREADS' : 'ALL',
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
     && $_SESSION['search_request'] == $_REQUEST['_search']
 ) {
+    $search_request = $_REQUEST['_search'];
     $_SESSION['search'] = $RCMAIL->storage->get_search_set();
 }
 // remove old search data
@@ -88,13 +89,12 @@ else if (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {
     $RCMAIL->session->remove('search');
 }
 
-// empty result? we'll skip UNSEEN counting in rcmail_send_unread_count()
-if (empty($search_request) && empty($a_headers)) {
-    $unseen = 0;
-}
+rcmail_list_pagetitle();
 
 // update mailboxlist
-rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']), $unseen);
+if (empty($search_request)) {
+    rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']), empty($a_headers) ? 0 : null);
+}
 
 // update message count display
 $pages  = ceil($count/$RCMAIL->storage->get_pagesize());
