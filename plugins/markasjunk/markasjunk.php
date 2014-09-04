@@ -56,16 +56,15 @@ class markasjunk extends rcube_plugin
   {
     $this->add_texts('localization');
 
-    $uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-    $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
-
     $rcmail  = rcmail::get_instance();
     $storage = $rcmail->get_storage();
 
-    $storage->unset_flag($uids, 'NONJUNK');
-    $storage->set_flag($uids, 'JUNK');
+    foreach (rcmail::get_uids() as $mbox => $uids) {
+      $storage->unset_flag($uids, 'NONJUNK', $mbox);
+      $storage->set_flag($uids, 'JUNK', $mbox);
+    }
 
-    if (($junk_mbox = $rcmail->config->get('junk_mbox')) && $mbox != $junk_mbox) {
+    if (($junk_mbox = $rcmail->config->get('junk_mbox'))) {
       $rcmail->output->command('move_messages', $junk_mbox);
     }
 

@@ -1,8 +1,20 @@
 /**
  * New Mail Notifier plugin script
  *
- * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
+ *
+ * @licstart  The following is the entire license notice for the
+ * JavaScript code in this file.
+ *
+ * Copyright (c) 2013, The Roundcube Dev Team
+ *
+ * The JavaScript code in this page is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in this file.
  */
 
 if (window.rcmail && rcmail.env.task == 'mail') {

@@ -56,6 +56,7 @@ class rcube_imap extends rcube_storage
      */
     protected $icache = array();
 
+    protected $plugins;
     protected $list_page = 1;
     protected $delimiter;
     protected $namespace;
@@ -82,6 +83,7 @@ class rcube_imap extends rcube_storage
     public function __construct()
     {
         $this->conn = new rcube_imap_generic();
+        $this->plugins = rcube::get_instance()->plugins;
 
         // Set namespace and delimiter from session,
         // so some methods would work before connection
@@ -110,13 +112,13 @@ class rcube_imap extends rcube_storage
     /**
      * Connect to an IMAP server
      *
-     * @param  string   $host    Host to connect
-     * @param  string   $user    Username for IMAP account
-     * @param  string   $pass    Password for IMAP account
-     * @param  integer  $port    Port to connect to
-     * @param  string   $use_ssl SSL schema (either ssl or tls) or null if plain connection
+     * @param string  $host    Host to connect
+     * @param string  $user    Username for IMAP account
+     * @param string  $pass    Password for IMAP account
+     * @param integer $port    Port to connect to
+     * @param string  $use_ssl SSL schema (either ssl or tls) or null if plain connection
      *
-     * @return boolean  TRUE on success, FALSE on failure
+     * @return boolean True on success, False on failure
      */
     public function connect($host, $user, $pass, $port=143, $use_ssl=null)
     {
@@ -147,7 +149,7 @@ class rcube_imap extends rcube_storage
 
         $attempt = 0;
         do {
-            $data = rcube::get_instance()->plugins->exec_hook('storage_connect',
+            $data = $this->plugins->exec_hook('storage_connect',
                 array_merge($this->options, array('host' => $host, 'user' => $user,
                     'attempt' => ++$attempt)));
 
@@ -170,8 +172,20 @@ class rcube_imap extends rcube_storage
         $this->connect_done = true;
 
         if ($this->conn->connected()) {
+            // check for session identifier
+            $session = null;
+            if (preg_match('/\s+SESSIONID=([^=\s]+)/', $this->conn->result, $m)) {
+                $session = $m[1];
+            }
+
             // get namespace and delimiter
             $this->set_env();
+
+            // trigger post-connect hook
+            $this->plugins->exec_hook('storage_connected', array(
+                'host' => $host, 'user' => $user, 'session' => $session
+            ));
+
             return true;
         }
         // write error log
@@ -332,6 +346,10 @@ class rcube_imap extends rcube_storage
         $this->search_sort_field = $set[3];
         $this->search_sorted     = $set[4];
         $this->search_threads    = is_a($this->search_set, 'rcube_result_thread');
+
+        if (is_a($this->search_set, 'rcube_result_multifolder')) {
+            $this->set_threading(false);
+        }
     }
 
 
@@ -757,7 +775,7 @@ class rcube_imap extends rcube_storage
         $page = $page ? $page : $this->list_page;
 
         // use saved message set
-        if ($this->search_string && $folder == $this->folder) {
+        if ($this->search_string) {
             return $this->list_search_messages($folder, $page, $slice);
         }
 
@@ -945,6 +963,75 @@ class rcube_imap extends rcube_storage
             return array();
         }
 
+        // gather messages from a multi-folder search
+        if ($this->search_set->multi) {
+            $page_size = $this->page_size;
+            $sort_field = $this->sort_field;
+            $search_set = $this->search_set;
+
+            // prepare paging
+            $cnt   = $search_set->count();
+            $from  = ($page-1) * $page_size;
+            $to    = $from + $page_size;
+            $slice_length = min($page_size, $cnt - $from);
+
+            // fetch resultset headers, sort and slice them
+            if (!empty($sort_field)) {
+                $this->sort_field = null;
+                $this->page_size = 1000;  // fetch up to 1000 matching messages per folder
+                $this->threading = false;
+
+                $a_msg_headers = array();
+                foreach ($search_set->sets as $resultset) {
+                    if (!$resultset->is_empty()) {
+                        $this->search_set = $resultset;
+                        $this->search_threads = $resultset instanceof rcube_result_thread;
+                        $a_msg_headers = array_merge($a_msg_headers, $this->list_search_messages($resultset->get_parameters('MAILBOX'), 1));
+                    }
+                }
+
+                // sort headers
+                if (!empty($a_msg_headers)) {
+                    $a_msg_headers = $this->conn->sortHeaders($a_msg_headers, $sort_field, $this->sort_order);
+                }
+
+                // store (sorted) message index
+                $search_set->set_message_index($a_msg_headers, $sort_field, $this->sort_order);
+
+                // only return the requested part of the set
+                $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $slice_length);
+            }
+            else {
+                if ($this->sort_order != $search_set->get_parameters('ORDER')) {
+                    $search_set->revert();
+                }
+
+                // slice resultset first...
+                $fetch = array();
+                foreach (array_slice($search_set->get(), $from, $slice_length) as $msg_id) {
+                    list($uid, $folder) = explode('-', $msg_id, 2);
+                    $fetch[$folder][] = $uid;
+                }
+
+                // ... and fetch the requested set of headers
+                $a_msg_headers = array();
+                foreach ($fetch as $folder => $a_index) {
+                    $a_msg_headers = array_merge($a_msg_headers, array_values($this->fetch_headers($folder, $a_index)));
+                }
+            }
+
+            if ($slice) {
+                $a_msg_headers = array_slice($a_msg_headers, -$slice, $slice);
+            }
+
+            // restore members
+            $this->sort_field = $sort_field;
+            $this->page_size = $page_size;
+            $this->search_set = $search_set;
+
+            return $a_msg_headers;
+        }
+
         // use saved messages from searching
         if ($this->threading) {
             return $this->list_search_thread_messages($folder, $page, $slice);
@@ -1111,6 +1198,7 @@ class rcube_imap extends rcube_storage
         }
 
         foreach ($headers as $h) {
+            $h->folder = $folder;
             $a_msg_headers[$h->uid] = $h;
         }
 
@@ -1234,8 +1322,13 @@ class rcube_imap extends rcube_storage
                 return new rcube_result_index($folder, '* SORT');
             }
 
+            if ($this->search_set instanceof rcube_result_multifolder) {
+                $index = $this->search_set;
+                $index->folder = $folder;
+                // TODO: handle changed sorting
+            }
             // search result is an index with the same sorting?
-            if (($this->search_set instanceof rcube_result_index)
+            else if (($this->search_set instanceof rcube_result_index)
                 && ((!$this->sort_field && !$this->search_sorted) ||
                     ($this->search_sorted && $this->search_sort_field == $this->sort_field))
             ) {
@@ -1410,26 +1503,75 @@ class rcube_imap extends rcube_storage
      * Invoke search request to IMAP server
      *
      * @param  string  $folder     Folder name to search in
-     * @param  string  $str        Search criteria
+     * @param  string  $search     Search criteria
      * @param  string  $charset    Search charset
      * @param  string  $sort_field Header field to sort by
      *
+     * @return rcube_result_index  Search result object
      * @todo: Search criteria should be provided in non-IMAP format, eg. array
      */
-    public function search($folder='', $str='ALL', $charset=NULL, $sort_field=NULL)
+    public function search($folder = '', $search = 'ALL', $charset = null, $sort_field = null)
     {
-        if (!$str) {
-            $str = 'ALL';
+        if (!$search) {
+            $search = 'ALL';
         }
 
-        if (!strlen($folder)) {
+        if ((is_array($folder) && empty($folder)) || (!is_array($folder) && !strlen($folder))) {
             $folder = $this->folder;
         }
 
-        $results = $this->search_index($folder, $str, $charset, $sort_field);
+        $plugin = $this->plugins->exec_hook('imap_search_before', array(
+            'folder'     => $folder,
+            'search'     => $search,
+            'charset'    => $charset,
+            'sort_field' => $sort_field,
+            'threading'  => $this->threading,
+        ));
 
-        $this->set_search_set(array($str, $results, $charset, $sort_field,
-            $this->threading || $this->search_sorted ? true : false));
+        $folder     = $plugin['folder'];
+        $search     = $plugin['search'];
+        $charset    = $plugin['charset'];
+        $sort_field = $plugin['sort_field'];
+        $results    = $plugin['result'];
+
+        // multi-folder search
+        if (!$results && is_array($folder) && count($folder) > 1 && $search != 'ALL') {
+            // connect IMAP to have all the required classes and settings loaded
+            $this->check_connection();
+
+            // disable threading
+            $this->threading = false;
+
+            $searcher = new rcube_imap_search($this->options, $this->conn);
+
+            // set limit to not exceed the client's request timeout
+            $searcher->set_timelimit(60);
+
+            // continue existing incomplete search
+            if (!empty($this->search_set) && $this->search_set->incomplete && $search == $this->search_string) {
+                $searcher->set_results($this->search_set);
+            }
+
+            // execute the search
+            $results = $searcher->exec(
+                $folder,
+                $search,
+                $charset ? $charset : $this->default_charset,
+                $sort_field && $this->get_capability('SORT') ? $sort_field : null,
+                $this->threading
+            );
+        }
+        else if (!$results) {
+            $folder  = is_array($folder) ? $folder[0] : $folder;
+            $search  = is_array($search) ? $search[$folder] : $search;
+            $results = $this->search_index($folder, $search, $charset, $sort_field);
+        }
+
+        $sorted = $this->threading || $this->search_sorted || $plugin['search_sorted'] ? true : false;
+
+        $this->set_search_set(array($search, $results, $charset, $sort_field, $sorted));
+
+        return $results;
     }
 
 
@@ -1443,19 +1585,26 @@ class rcube_imap extends rcube_storage
      */
     public function search_once($folder = null, $str = 'ALL')
     {
-        if (!$str) {
-            $str = 'ALL';
-        }
-
-        if (!strlen($folder)) {
-            $folder = $this->folder;
-        }
-
         if (!$this->check_connection()) {
             return new rcube_result_index();
         }
 
-        $index = $this->conn->search($folder, $str, true);
+        if (!$str) {
+            $str = 'ALL';
+        }
+
+        // multi-folder search
+        if (is_array($folder) && count($folder) > 1) {
+            $searcher = new rcube_imap_search($this->options, $this->conn);
+            $index = $searcher->exec($folder, $str, $this->default_charset);
+        }
+        else {
+            $folder = is_array($folder) ? $folder[0] : $folder;
+            if (!strlen($folder)) {
+                $folder = $this->folder;
+            }
+            $index = $this->conn->search($folder, $str, true);
+        }
 
         return $index;
     }
@@ -1500,7 +1649,7 @@ class rcube_imap extends rcube_storage
             // but I've seen that Courier doesn't support UTF-8)
             if ($threads->is_error() && $charset && $charset != 'US-ASCII') {
                 $threads = $this->conn->thread($folder, $this->threading,
-                    $this->convert_criteria($criteria, $charset), true, 'US-ASCII');
+                    self::convert_criteria($criteria, $charset), true, 'US-ASCII');
             }
 
             return $threads;
@@ -1514,7 +1663,7 @@ class rcube_imap extends rcube_storage
             // but I've seen Courier with disabled UTF-8 support)
             if ($messages->is_error() && $charset && $charset != 'US-ASCII') {
                 $messages = $this->conn->sort($folder, $sort_field,
-                    $this->convert_criteria($criteria, $charset), true, 'US-ASCII');
+                    self::convert_criteria($criteria, $charset), true, 'US-ASCII');
             }
 
             if (!$messages->is_error()) {
@@ -1529,7 +1678,7 @@ class rcube_imap extends rcube_storage
         // Error, try with US-ASCII (some servers may support only US-ASCII)
         if ($messages->is_error() && $charset && $charset != 'US-ASCII') {
             $messages = $this->conn->search($folder,
-                $this->convert_criteria($criteria, $charset), true);
+                self::convert_criteria($criteria, $charset), true);
         }
 
         $this->search_sorted = false;
@@ -1547,7 +1696,7 @@ class rcube_imap extends rcube_storage
      *
      * @return string  Search string
      */
-    protected function convert_criteria($str, $charset, $dest_charset='US-ASCII')
+    public static function convert_criteria($str, $charset, $dest_charset='US-ASCII')
     {
         // convert strings to US_ASCII
         if (preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, PREG_OFFSET_CAPTURE)) {
@@ -1556,12 +1705,15 @@ class rcube_imap extends rcube_storage
                 $string_offset = $m[1] + strlen($m[0]) + 4; // {}\r\n
                 $string = substr($str, $string_offset - 1, $m[0]);
                 $string = rcube_charset::convert($string, $charset, $dest_charset);
-                if ($string === false) {
+
+                if ($string === false || !strlen($string)) {
                     continue;
                 }
+
                 $res .= substr($str, $last, $m[1] - $last - 1) . rcube_imap_generic::escape($string);
                 $last = $m[0] + $string_offset - 1;
             }
+
             if ($last < strlen($str)) {
                 $res .= substr($str, $last, strlen($str)-$last);
             }
@@ -1583,10 +1735,28 @@ class rcube_imap extends rcube_storage
     public function refresh_search()
     {
         if (!empty($this->search_string)) {
-            $this->search('', $this->search_string, $this->search_charset, $this->search_sort_field);
+            $this->search(
+                is_object($this->search_set) ? $this->search_set->get_parameters('MAILBOX') : '',
+                $this->search_string,
+                $this->search_charset,
+                $this->search_sort_field
+            );
         }
 
         return $this->get_search_set();
+    }
+
+    /**
+     * Flag certain result subsets as 'incomplete'.
+     * For subsequent refresh_search() calls to only refresh the updated parts.
+     */
+    protected function set_search_dirty($folder)
+    {
+        if ($this->search_set && is_a($this->search_set, 'rcube_result_multifolder')) {
+            if ($subset = $this->search_set->get_set($folder)) {
+                $subset->incomplete = $this->search_set->incomplete = true;
+            }
+        }
     }
 
 
@@ -1601,6 +1771,11 @@ class rcube_imap extends rcube_storage
      */
     public function get_message_headers($uid, $folder = null, $force = false)
     {
+        // decode combined UID-folder identifier
+        if (preg_match('/^\d+-.+/', $uid)) {
+            list($uid, $folder) = explode('-', $uid, 2);
+        }
+
         if (!strlen($folder)) {
             $folder = $this->folder;
         }
@@ -1615,6 +1790,9 @@ class rcube_imap extends rcube_storage
         else {
             $headers = $this->conn->fetchHeader(
                 $folder, $uid, true, true, $this->get_fetch_headers());
+
+            if (is_object($headers))
+                $headers->folder = $folder;
         }
 
         return $headers;
@@ -1634,6 +1812,11 @@ class rcube_imap extends rcube_storage
     {
         if (!strlen($folder)) {
             $folder = $this->folder;
+        }
+
+        // decode combined UID-folder identifier
+        if (preg_match('/^\d+-.+/', $uid)) {
+            list($uid, $folder) = explode('-', $uid, 2);
         }
 
         // Check internal cache
@@ -1679,7 +1862,7 @@ class rcube_imap extends rcube_storage
             $this->struct_charset = $this->structure_charset($structure);
         }
 
-        $headers->ctype = strtolower($headers->ctype);
+        $headers->ctype = @strtolower($headers->ctype);
 
         // Here we can recognize malformed BODYSTRUCTURE and
         // 1. [@TODO] parse the message in other way to create our own message structure
@@ -2282,6 +2465,8 @@ class rcube_imap extends rcube_storage
                     $this->clear_message_cache($folder, $all_mode ? null : explode(',', $uids));
                 }
             }
+
+            $this->set_search_dirty($folder);
         }
 
         return $result;
@@ -2329,6 +2514,17 @@ class rcube_imap extends rcube_storage
         if ($saved) {
             // increase messagecount of the target folder
             $this->set_messagecount($folder, 'ALL', 1);
+
+            $this->plugins->exec_hook('message_saved', array(
+                    'folder'  => $folder,
+                    'message' => $message,
+                    'headers' => $headers,
+                    'is_file' => $is_file,
+                    'flags'   => $flags,
+                    'date'    => $date,
+                    'binary'  => $binary,
+                    'result'  => $saved,
+            ));
         }
 
         return $saved;
@@ -2365,19 +2561,7 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        // make sure folder exists
-        if ($to_mbox != 'INBOX' && !$this->folder_exists($to_mbox)) {
-            if (in_array($to_mbox, $this->default_folders)) {
-                if (!$this->create_folder($to_mbox, true)) {
-                    return false;
-                }
-            }
-            else {
-                return false;
-            }
-        }
-
-        $config = rcube::get_instance()->config;
+        $config   = rcube::get_instance()->config;
         $to_trash = $to_mbox == $config->get('trash_mbox');
 
         // flag messages as read before moving them
@@ -2392,6 +2576,9 @@ class rcube_imap extends rcube_storage
         if ($moved) {
             $this->clear_messagecount($from_mbox);
             $this->clear_messagecount($to_mbox);
+
+            $this->set_search_dirty($from_mbox);
+            $this->set_search_dirty($to_mbox);
         }
         // moving failed
         else if ($to_trash && $config->get('delete_always', false)) {
@@ -2408,8 +2595,8 @@ class rcube_imap extends rcube_storage
                 if ($this->search_threads || $all_mode) {
                     $this->refresh_search();
                 }
-                else {
-                    $this->search_set->filter(explode(',', $uids));
+                else if (!$this->search_set->incomplete) {
+                    $this->search_set->filter(explode(',', $uids), $this->folder);
                 }
             }
 
@@ -2446,18 +2633,6 @@ class rcube_imap extends rcube_storage
 
         if (!$this->check_connection()) {
             return false;
-        }
-
-        // make sure folder exists
-        if ($to_mbox != 'INBOX' && !$this->folder_exists($to_mbox)) {
-            if (in_array($to_mbox, $this->default_folders)) {
-                if (!$this->create_folder($to_mbox, true)) {
-                    return false;
-                }
-            }
-            else {
-                return false;
-            }
         }
 
         // copy messages
@@ -2508,13 +2683,15 @@ class rcube_imap extends rcube_storage
             // unset threads internal cache
             unset($this->icache['threads']);
 
+            $this->set_search_dirty($folder);
+
             // remove message ids from search set
             if ($this->search_set && $folder == $this->folder) {
                 // threads are too complicated to just remove messages from set
                 if ($this->search_threads || $all_mode) {
                     $this->refresh_search();
                 }
-                else {
+                else if (!$this->search_set->incomplete) {
                     $this->search_set->filter(explode(',', $uids));
                 }
             }
@@ -2614,7 +2791,7 @@ class rcube_imap extends rcube_storage
         }
 
         // Give plugins a chance to provide a list of folders
-        $data = rcube::get_instance()->plugins->exec_hook('storage_folders',
+        $data = $this->plugins->exec_hook('storage_folders',
             array('root' => $root, 'name' => $name, 'filter' => $filter, 'mode' => 'LSUB'));
 
         if (isset($data['folders'])) {
@@ -2746,7 +2923,7 @@ class rcube_imap extends rcube_storage
         }
 
         // Give plugins a chance to provide a list of folders
-        $data = rcube::get_instance()->plugins->exec_hook('storage_folders',
+        $data = $this->plugins->exec_hook('storage_folders',
             array('root' => $root, 'name' => $name, 'filter' => $filter, 'mode' => 'LIST'));
 
         if (isset($data['folders'])) {
@@ -2827,7 +3004,7 @@ class rcube_imap extends rcube_storage
      * @param array  $result  Reference to folders list
      * @param string $type    Listing type (ext-subscribed, subscribed or all)
      */
-    private function list_folders_update(&$result, $type = null)
+    protected function list_folders_update(&$result, $type = null)
     {
         $namespace = $this->get_namespace();
         $search    = array();
@@ -2904,14 +3081,15 @@ class rcube_imap extends rcube_storage
 
     /**
      * Get mailbox quota information
-     * added by Nuny
+     *
+     * @param string $folder Folder name
      *
      * @return mixed Quota info or False if not supported
      */
-    public function get_quota()
+    public function get_quota($folder = null)
     {
         if ($this->get_capability('QUOTA') && $this->check_connection()) {
-            return $this->conn->getQuota();
+            return $this->conn->getQuota($folder);
         }
 
         return false;
@@ -2975,16 +3153,27 @@ class rcube_imap extends rcube_storage
      *
      * @param string  $folder    New folder name
      * @param boolean $subscribe True if the new folder should be subscribed
+     * @param string  $type      Optional folder type (junk, trash, drafts, sent, archive)
      *
      * @return boolean True on success
      */
-    public function create_folder($folder, $subscribe=false)
+    public function create_folder($folder, $subscribe = false, $type = null)
     {
         if (!$this->check_connection()) {
             return false;
         }
 
-        $result = $this->conn->createFolder($folder);
+        $result = $this->conn->createFolder($folder, $type ? array("\\" . ucfirst($type)) : null);
+
+        // it's quite often situation that we're trying to create and subscribe
+        // a folder that already exist, but is unsubscribed
+        if (!$result) {
+            if ($this->get_response_code() == rcube_storage::ALREADYEXISTS
+                || preg_match('/already exists/i', $this->get_error_str())
+            ) {
+                $result = true;
+            }
+        }
 
         // try to subscribe it
         if ($result) {
@@ -3109,19 +3298,86 @@ class rcube_imap extends rcube_storage
 
 
     /**
-     * Create all folders specified as default
+     * Detect special folder associations stored in storage backend
      */
-    public function create_default_folders()
+    public function get_special_folders($forced = false)
     {
-        // create default folders if they do not exist
-        foreach ($this->default_folders as $folder) {
-            if (!$this->folder_exists($folder)) {
-                $this->create_folder($folder, true);
-            }
-            else if (!$this->folder_exists($folder, true)) {
-                $this->subscribe($folder);
+        $result = parent::get_special_folders();
+
+        if (isset($this->icache['special-use'])) {
+            return array_merge($result, $this->icache['special-use']);
+        }
+
+        if (!$forced || !$this->get_capability('SPECIAL-USE')) {
+            return $result;
+        }
+
+        if (!$this->check_connection()) {
+            return $result;
+        }
+
+        $types   = array_map(function($value) { return "\\" . ucfirst($value); }, rcube_storage::$folder_types);
+        $special = array();
+
+        // request \Subscribed flag in LIST response as performance improvement for folder_exists()
+        $folders = $this->conn->listMailboxes('', '*', array('SUBSCRIBED'), array('SPECIAL-USE'));
+
+        if (!empty($folders)) {
+            foreach ($folders as $folder) {
+                if ($flags = $this->conn->data['LIST'][$folder]) {
+                    foreach ($types as $type) {
+                        if (in_array($type, $flags)) {
+                            $type           = strtolower(substr($type, 1));
+                            $special[$type] = $folder;
+                        }
+                    }
+                }
             }
         }
+
+        $this->icache['special-use'] = $special;
+        unset($this->icache['special-folders']);
+
+        return array_merge($result, $special);
+    }
+
+
+    /**
+     * Set special folder associations stored in storage backend
+     */
+    public function set_special_folders($specials)
+    {
+        if (!$this->get_capability('SPECIAL-USE') || !$this->get_capability('METADATA')) {
+            return false;
+        }
+
+        if (!$this->check_connection()) {
+            return false;
+        }
+
+        $folders = $this->get_special_folders(true);
+        $old     = (array) $this->icache['special-use'];
+
+        foreach ($specials as $type => $folder) {
+            if (in_array($type, rcube_storage::$folder_types)) {
+                $old_folder = $old[$type];
+                if ($old_folder !== $folder) {
+                    // unset old-folder metadata
+                    if ($old_folder !== null) {
+                        $this->delete_metadata($old_folder, array('/private/specialuse'));
+                    }
+                    // set new folder metadata
+                    if ($folder) {
+                        $this->set_metadata($folder, array('/private/specialuse' => "\\" . ucfirst($type)));
+                    }
+                }
+            }
+        }
+
+        $this->icache['special-use'] = $specials;
+        unset($this->icache['special-folders']);
+
+        return true;
     }
 
 
@@ -3133,13 +3389,13 @@ class rcube_imap extends rcube_storage
      *
      * @return boolean TRUE or FALSE
      */
-    public function folder_exists($folder, $subscription=false)
+    public function folder_exists($folder, $subscription = false)
     {
         if ($folder == 'INBOX') {
             return true;
         }
 
-        $key  = $subscription ? 'subscribed' : 'existing';
+        $key = $subscription ? 'subscribed' : 'existing';
 
         if (is_array($this->icache[$key]) && in_array($folder, $this->icache[$key])) {
             return true;
@@ -3150,10 +3406,24 @@ class rcube_imap extends rcube_storage
         }
 
         if ($subscription) {
-            $a_folders = $this->conn->listSubscribed('', $folder);
+            // It's possible we already called LIST command, check LIST data
+            if (!empty($this->conn->data['LIST']) && !empty($this->conn->data['LIST'][$folder])
+                && in_array('\\Subscribed', $this->conn->data['LIST'][$folder])
+            ) {
+                $a_folders = array($folder);
+            }
+            else {
+                $a_folders = $this->conn->listSubscribed('', $folder);
+            }
         }
         else {
-            $a_folders = $this->conn->listMailboxes('', $folder);
+            // It's possible we already called LIST command, check LIST data
+            if (!empty($this->conn->data['LIST']) && isset($this->conn->data['LIST'][$folder])) {
+                $a_folders = array($folder);
+            }
+            else {
+                $a_folders = $this->conn->listMailboxes('', $folder);
+            }
         }
 
         if (is_array($a_folders) && in_array($folder, $a_folders)) {
@@ -3364,7 +3634,7 @@ class rcube_imap extends rcube_storage
         $options['name']       = $folder;
         $options['attributes'] = $this->folder_attributes($folder, true);
         $options['namespace']  = $this->folder_namespace($folder);
-        $options['special']    = in_array($folder, $this->default_folders);
+        $options['special']    = $this->is_special_folder($folder);
 
         // Set 'noselect' flag
         if (is_array($options['attributes'])) {
@@ -3682,7 +3952,9 @@ class rcube_imap extends rcube_storage
             // @TODO: Honor MAXSIZE and DEPTH options
             foreach ($queries as $attrib => $entry) {
                 if ($result = $this->conn->getAnnotation($folder, $entry, $attrib)) {
-                    $res = array_merge_recursive($res, $result);
+                    foreach ($result as $folder => $data) {
+                        $res[$folder] = array_merge((array) $res[$folder], $data);
+                    }
                 }
             }
         }
@@ -3899,58 +4171,80 @@ class rcube_imap extends rcube_storage
      */
     public function sort_folder_list($a_folders, $skip_default = false)
     {
-        $a_out = $a_defaults = $folders = array();
+        $specials  = array_merge(array('INBOX'), array_values($this->get_special_folders()));
+        $folders   = array();
 
-        $delimiter = $this->get_hierarchy_delimiter();
-
-        // find default folders and skip folders starting with '.'
+        // convert names to UTF-8 and skip folders starting with '.'
         foreach ($a_folders as $folder) {
-            if ($folder[0] == '.') {
+            if ($folder[0] != '.') {
+                // for better performance skip encoding conversion
+                // if the string does not look like UTF7-IMAP
+                $folders[$folder] = strpos($folder, '&') === false ? $folder : rcube_charset::convert($folder, 'UTF7-IMAP');
+            }
+        }
+
+        // sort folders
+        // asort($folders, SORT_LOCALE_STRING) is not properly sorting case sensitive names
+        uasort($folders, array($this, 'sort_folder_comparator'));
+
+        $folders = array_keys($folders);
+
+        if ($skip_default) {
+            return $folders;
+        }
+
+        // force the type of folder name variable (#1485527)
+        $folders  = array_map('strval', $folders);
+        $out      = array();
+
+        // finally we must put special folders on top and rebuild the list
+        // to move their subfolders where they belong...
+        $specials = array_unique(array_intersect($specials, $folders));
+        $folders  = array_merge($specials, array_diff($folders, $specials));
+
+        $this->sort_folder_specials(null, $folders, $specials, $out);
+
+        return $out;
+    }
+
+    /**
+     * Recursive function to put subfolders of special folders in place
+     */
+    protected function sort_folder_specials($folder, &$list, &$specials, &$out)
+    {
+        while (list($key, $name) = each($list)) {
+            if ($folder === null || strpos($name, $folder.$this->delimiter) === 0) {
+                $out[] = $name;
+                unset($list[$key]);
+
+                if (!empty($specials) && ($found = array_search($name, $specials)) !== false) {
+                    unset($specials[$found]);
+                    $this->sort_folder_specials($name, $list, $specials, $out);
+                }
+            }
+        }
+
+        reset($list);
+    }
+
+    /**
+     * Callback for uasort() that implements correct
+     * locale-aware case-sensitive sorting
+     */
+    protected function sort_folder_comparator($str1, $str2)
+    {
+        $path1 = explode($this->delimiter, $str1);
+        $path2 = explode($this->delimiter, $str2);
+
+        foreach ($path1 as $idx => $folder1) {
+            $folder2 = $path2[$idx];
+
+            if ($folder1 === $folder2) {
                 continue;
             }
 
-            if (!$skip_default && ($p = array_search($folder, $this->default_folders)) !== false && !$a_defaults[$p]) {
-                $a_defaults[$p] = $folder;
-            }
-            else {
-                $folders[$folder] = rcube_charset::convert($folder, 'UTF7-IMAP');
-            }
+            return strcoll($folder1, $folder2);
         }
-
-        // sort folders and place defaults on the top
-        asort($folders, SORT_LOCALE_STRING);
-        ksort($a_defaults);
-        $folders = array_merge($a_defaults, array_keys($folders));
-
-        // finally we must rebuild the list to move
-        // subfolders of default folders to their place...
-        // ...also do this for the rest of folders because
-        // asort() is not properly sorting case sensitive names
-        while (list($key, $folder) = each($folders)) {
-            // set the type of folder name variable (#1485527)
-            $a_out[] = (string) $folder;
-            unset($folders[$key]);
-            $this->rsort($folder, $delimiter, $folders, $a_out);
-        }
-
-        return $a_out;
-    }
-
-
-    /**
-     * Recursive method for sorting folders
-     */
-    protected function rsort($folder, $delimiter, &$list, &$out)
-    {
-        while (list($key, $name) = each($list)) {
-            if (strpos($name, $folder.$delimiter) === 0) {
-                // set the type of folder name variable (#1485527)
-                $out[] = (string) $name;
-                unset($list[$key]);
-                $this->rsort($name, $delimiter, $list, $out);
-            }
-        }
-        reset($list);
     }
 
 

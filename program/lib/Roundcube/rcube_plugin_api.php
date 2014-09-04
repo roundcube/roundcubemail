@@ -38,6 +38,7 @@ class rcube_plugin_api
     public $handlers              = array();
     public $allowed_prefs         = array();
     public $allowed_session_prefs = array();
+    public $active_plugins        = array();
 
     protected $plugins = array();
     protected $tasks = array();
@@ -45,7 +46,7 @@ class rcube_plugin_api
     protected $actionmap = array();
     protected $objectsmap = array();
     protected $template_contents = array();
-    protected $active_hook = false;
+    protected $exec_stack = array();
 
     // Deprecated names of hooks, will be removed after 0.5-stable release
     protected $deprecated_hooks = array(
@@ -169,10 +170,11 @@ class rcube_plugin_api
      *
      * @param string Plugin name
      * @param boolean Force loading of the plugin even if it doesn't match the filter
+     * @param boolean Require loading of the plugin, error if it doesn't exist
      *
      * @return boolean True on success, false if not loaded or failure
      */
-    public function load_plugin($plugin_name, $force = false)
+    public function load_plugin($plugin_name, $force = false, $require = true)
     {
         static $plugins_dir;
 
@@ -182,19 +184,22 @@ class rcube_plugin_api
         }
 
         // plugin already loaded
-        if ($this->plugins[$plugin_name] || class_exists($plugin_name, false)) {
+        if ($this->plugins[$plugin_name]) {
             return true;
         }
 
-        $fn = $plugins_dir . DIRECTORY_SEPARATOR . $plugin_name
-            . DIRECTORY_SEPARATOR . $plugin_name . '.php';
+        $fn = "$plugins_dir/$plugin_name/$plugin_name.php";
 
-        if (file_exists($fn)) {
-            include $fn;
+        if (is_readable($fn)) {
+            if (!class_exists($plugin_name, false)) {
+                include $fn;
+            }
 
             // instantiate class if exists
             if (class_exists($plugin_name, false)) {
                 $plugin = new $plugin_name($this);
+                $this->active_plugins[] = $plugin_name;
+
                 // check inheritance...
                 if (is_subclass_of($plugin, 'rcube_plugin')) {
                     // ... task, request type and framed mode
@@ -220,7 +225,7 @@ class rcube_plugin_api
                     true, false);
             }
         }
-        else {
+        elseif ($require) {
             rcube::raise_error(array('code' => 520, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Failed to load plugin file $fn"), true, false);
@@ -250,6 +255,9 @@ class rcube_plugin_api
         'GPL-3.0'    => 'http://www.gnu.org/licenses/gpl-3.0.html',
         'GPL-3.0+'   => 'http://www.gnu.org/licenses/gpl.html',
         'GPL-2.0+'   => 'http://www.gnu.org/licenses/gpl.html',
+        'AGPLv3'     => 'http://www.gnu.org/licenses/agpl.html',
+        'AGPLv3+'    => 'http://www.gnu.org/licenses/agpl.html',
+        'AGPL-3.0'   => 'http://www.gnu.org/licenses/agpl.html',
         'LGPL'       => 'http://www.gnu.org/licenses/lgpl.html',
         'LGPLv2'     => 'http://www.gnu.org/licenses/lgpl-2.0.html',
         'LGPLv2.1'   => 'http://www.gnu.org/licenses/lgpl-2.1.html',
@@ -270,11 +278,15 @@ class rcube_plugin_api
       );
 
       $dir = dir($this->dir);
-      $fn = unslashify($dir->path) . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
+      $fn = unslashify($dir->path) . "/$plugin_name/$plugin_name.php";
       $info = false;
 
-      if (!class_exists($plugin_name))
-        include($fn);
+      if (!class_exists($plugin_name, false)) {
+        if (is_readable($fn))
+          include($fn);
+        else
+          return false;
+      }
 
       if (class_exists($plugin_name))
         $info = $plugin_name::info();
@@ -282,12 +294,17 @@ class rcube_plugin_api
       // fall back to composer.json file
       if (!$info) {
         $composer = INSTALL_PATH . "/plugins/$plugin_name/composer.json";
-        if (file_exists($composer) && ($json = @json_decode(file_get_contents($composer), true))) {
+        if (is_readable($composer) && ($json = @json_decode(file_get_contents($composer), true))) {
           list($info['vendor'], $info['name']) = explode('/', $json['name']);
           $info['version'] = $json['version'];
           $info['license'] = $json['license'];
-          if ($license_uri = $license_uris[$info['license']])
-            $info['license_uri'] = $license_uri;
+          $info['uri'] = $json['homepage'];
+          $info['require'] = array_filter(array_keys((array)$json['require']), function($pname) {
+            if (strpos($pname, '/') == false)
+              return false;
+            list($vendor, $name) = explode('/', $pname);
+            return !($name == 'plugin-installer' || $vendor == 'pear-pear');
+          });
         }
 
         // read local composer.lock file (once)
@@ -311,7 +328,7 @@ class rcube_plugin_api
       // fall back to package.xml file
       if (!$info) {
         $package = INSTALL_PATH . "/plugins/$plugin_name/package.xml";
-        if (file_exists($package) && ($file = file_get_contents($package))) {
+        if (is_readable($package) && ($file = file_get_contents($package))) {
           $doc = new DOMDocument();
           $doc->loadXML($file);
           $xpath = new DOMXPath($doc);
@@ -335,9 +352,17 @@ class rcube_plugin_api
           $deps = $xpath->evaluate('//rc:package/rc:dependencies/rc:required/rc:package/rc:name');
           for ($i = 0; $i < $deps->length; $i++) {
             $dn = $deps->item($i)->nodeValue;
-            $info['requires'][] = $dn;
+            $info['require'][] = $dn;
           }
         }
+      }
+
+      // At least provide the name
+      if (!$info && class_exists($plugin_name)) {
+        $info = array('name' => $plugin_name, 'version' => '--');
+      }
+      else if ($info['license'] && empty($info['license_uri']) && ($license_uri = $license_uris[$info['license']])) {
+        $info['license_uri'] = $license_uri;
       }
 
       return $info;
@@ -397,8 +422,10 @@ class rcube_plugin_api
             $args = array('arg' => $args);
         }
 
+        // TODO: avoid recusion by checking in_array($hook, $this->exec_stack) ?
+
         $args += array('abort' => false);
-        $this->active_hook = $hook;
+        array_push($this->exec_stack, $hook);
 
         foreach ((array)$this->handlers[$hook] as $callback) {
             $ret = call_user_func($callback, $args);
@@ -411,7 +438,7 @@ class rcube_plugin_api
             }
         }
 
-        $this->active_hook = false;
+        array_pop($this->exec_stack);
         return $args;
     }
 
@@ -547,7 +574,7 @@ class rcube_plugin_api
      */
     public function is_processing($hook = null)
     {
-        return $this->active_hook && (!$hook || $this->active_hook == $hook);
+        return count($this->exec_stack) > 0 && (!$hook || in_array($hook, $this->exec_stack));
     }
 
     /**

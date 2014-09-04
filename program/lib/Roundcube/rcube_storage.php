@@ -35,9 +35,15 @@ abstract class rcube_storage
      */
     public $conn;
 
+    /**
+     * List of supported special folder types
+     *
+     * @var array
+     */
+    public static $folder_types = array('drafts', 'sent', 'junk', 'trash');
+
     protected $folder = 'INBOX';
     protected $default_charset = 'ISO-8859-1';
-    protected $default_folders = array('INBOX');
     protected $search_set;
     protected $options = array('auth_type' => 'check');
     protected $page_size = 10;
@@ -146,6 +152,19 @@ abstract class rcube_storage
 
 
     /**
+     * Get connection/class option
+     *
+     * @param string $name Option name
+     *
+     * @param mixed Option value
+     */
+    public function get_option($name)
+    {
+        return $this->options[$name];
+    }
+
+
+    /**
      * Activate/deactivate debug mode.
      *
      * @param boolean $dbg True if conversation with the server should be logged
@@ -163,24 +182,6 @@ abstract class rcube_storage
     public function set_charset($cs)
     {
         $this->default_charset = $cs;
-    }
-
-
-    /**
-     * This list of folders will be listed above all other folders
-     *
-     * @param  array $arr Indexed list of folder names
-     */
-    public function set_default_folders($arr)
-    {
-        if (is_array($arr)) {
-            $this->default_folders = $arr;
-
-            // add inbox if not included
-            if (!in_array('INBOX', $this->default_folders)) {
-                array_unshift($this->default_folders, 'INBOX');
-            }
-        }
     }
 
 
@@ -858,24 +859,70 @@ abstract class rcube_storage
      */
     public function create_default_folders()
     {
+        $rcube = rcube::get_instance();
+
         // create default folders if they do not exist
-        foreach ($this->default_folders as $folder) {
-            if (!$this->folder_exists($folder)) {
-                $this->create_folder($folder, true);
-            }
-            else if (!$this->folder_exists($folder, true)) {
-                $this->subscribe($folder);
+        foreach (self::$folder_types as $type) {
+            if ($folder = $rcube->config->get($type . '_mbox')) {
+                if (!$this->folder_exists($folder)) {
+                    $this->create_folder($folder, true, $type);
+                }
+                else if (!$this->folder_exists($folder, true)) {
+                    $this->subscribe($folder);
+                }
             }
         }
     }
 
 
     /**
+     * Check if specified folder is a special folder
+     */
+    public function is_special_folder($name)
+    {
+        return $name == 'INBOX' || in_array($name, $this->get_special_folders());
+    }
+
+
+    /**
+     * Return configured special folders
+     */
+    public function get_special_folders($forced = false)
+    {
+        // getting config might be expensive, store special folders in memory
+        if (!isset($this->icache['special-folders'])) {
+            $rcube = rcube::get_instance();
+            $this->icache['special-folders'] = array();
+
+            foreach (self::$folder_types as $type) {
+                if ($folder = $rcube->config->get($type . '_mbox')) {
+                    $this->icache['special-folders'][$type] = $folder;
+                }
+            }
+        }
+
+        return $this->icache['special-folders'];
+    }
+
+
+    /**
+     * Set special folder associations stored in backend
+     */
+    public function set_special_folders($specials)
+    {
+        // should be overriden by storage class if backend supports special folders (SPECIAL-USE)
+        unset($this->icache['special-folders']);
+    }
+
+
+    /**
      * Get mailbox quota information.
+     *
+     * @param string $folder  Folder name
      *
      * @return mixed Quota info or False if not supported
      */
-    abstract function get_quota();
+    abstract function get_quota($folder = null);
 
 
     /* -----------------------------------------

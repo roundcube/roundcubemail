@@ -50,7 +50,7 @@ function rcmail_plugins_list($attrib)
         $attrib['id'] = 'rcmpluginlist';
     }
 
-    $plugins     = array_filter((array) $RCMAIL->config->get('plugins'));
+    $plugins     = array_filter($RCMAIL->plugins->active_plugins);
     $plugin_info = array();
 
     foreach ($plugins as $name) {
@@ -61,8 +61,8 @@ function rcmail_plugins_list($attrib)
 
     // load info from required plugins, too
     foreach ($plugin_info as $name => $info) {
-        if (is_array($info['required']) && !empty($info['required'])) {
-            foreach ($info['required'] as $req_name) {
+        if (is_array($info['require']) && !empty($info['require'])) {
+            foreach ($info['require'] as $req_name) {
                 if (!isset($plugin_info[$req_name]) && ($req_info = $RCMAIL->plugins->get_info($req_name))) {
                     $plugin_info[$req_name] = $req_info;
                 }

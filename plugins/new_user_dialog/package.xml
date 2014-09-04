@@ -13,9 +13,9 @@
 		<email>roundcube@gmail.com</email>
 		<active>yes</active>
 	</lead>
-	<date>2013-05-09</date>
+	<date>2014-04-28</date>
 	<version>
-		<release>2.0</release>
+		<release>2.1</release>
 		<api>2.0</api>
 	</version>
 	<stability>

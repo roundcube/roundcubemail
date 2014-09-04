@@ -7,9 +7,7 @@
 <script type="text/javascript" src="/splitter.js"></script>
 <style type="text/css">
 #folder-manager { width: <roundcube:exp expression="!empty(cookie:folderviewsplitter) ? cookie:folderviewsplitter-5 : 295" />px; }
-#folder-box { left: <roundcube:exp expression="!empty(cookie:folderviewsplitter) ? cookie:folderviewsplitter+5 : 305" />px;
-    <roundcube:exp expression="browser:ie ? ('width:expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:folderviewsplitter) ? cookie:folderviewsplitter+5 : 305).')+\\'px\\');') : ''" />
-}
+#folder-box { left: <roundcube:exp expression="!empty(cookie:folderviewsplitter) ? cookie:folderviewsplitter+5 : 305" />px; }
 </style>
 </head>
 <body>
@@ -21,17 +19,28 @@
 <div id="mainscreen">
 
 <div id="folder-manager">
-<div id="folderlist-title" class="boxtitle"><span class="rightalign"><roundcube:label name="subscribed" /></span><roundcube:label name="folders" /></div>
+<div id="folderlist-title" class="boxtitle">
+    <roundcube:label name="folders" />
+    <a href="#folders" class="iconbutton search" title="<roundcube:label name='findfolders' />" tabindex="0"><roundcube:label name='findfolders' /></a>
+</div>
+<div class="listsearchbox">
+    <roundcube:object name="folderfilter" id="folderlist-filter" />
+    <div class="searchbox" role="search">
+        <input type="text" name="q" id="foldersearch" placeholder="<roundcube:label name='findfolders' />" />
+        <a class="iconbutton searchicon"></a>
+        <roundcube:button command="reset-foldersearch" id="folderlistsearch-reset" class="iconbutton reset" title="resetsearch" width="13" height="13" />
+    </div>
+</div>
 <div id="folderlist-content" class="boxlistcontent">
-    <roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table" noheader="true"
-        cellpadding="1" cellspacing="0" summary="Folder subscription table" class="records-table" />
+    <roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table"
+        summary="Folder subscription table" class="treelist folderlist" />
 </div>
 <div id="folderlist-footer" class="boxfooter">
     <roundcube:button command="create-folder" type="link" title="createfolder" class="buttonPas addgroup" classAct="button addgroup" content=" " />
     <roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_popup('mailboxmenu');return false" content=" " />
 
     <roundcube:if condition="env:quota" />
-    <img id="quotaimg" src="/images/quota.<roundcube:exp expression="browser:ie && browser:ver < 7 ? 'gif' : 'png'" />" alt="" width="102" height="16" />
+    <img id="quotaimg" src="/images/quota.png" alt="" width="102" height="16" />
     <div id="quota">
         <roundcube:object name="quotaDisplay" display="image" width="100" height="14" id="quotadisplay" />
     </div>

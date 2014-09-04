@@ -43,6 +43,7 @@
  2.17. Expect (expect)
  2.18. Samba (smb)
  2.19. Vpopmail daemon (vpopmaild)
+ 2.20. Plesk (Plesk RPC-API)
  3. Driver API
 
 
@@ -310,6 +311,30 @@
 
  Set $config['password_vpopmaild_port'] to the port of vpopmaild.
 
+ Set $config['password_vpopmaild_timeout'] to the timeout used for the TCP 
+ connection to vpopmaild (You may want to set it higher on busy servers).
+
+
+ 2.20. Plesk (Plesk RPC-API)
+ ---------------------------
+ 
+ Driver for changing Passwords via Plesk RPC-API. This Driver also works with
+ Parallels Plesk Automation (PPA).
+ 
+ You need to allow the IP of the Roundcube-Server for RPC-Calls in the Panel.
+ 
+ 
+ Set $config['password_plesk_host'] to the Hostname / IP where Plesk runs
+ 
+ Set your Admin or RPC User: $config['password_plesk_user']
+ 
+ Set the Password of the User: $config['password_plesk_pass']
+ 
+ Set $config['password_plesk_rpc_port']  for the RPC-Port. Usually its 8443
+ 
+ Set the RPC-Path in $config['password_plesk_rpc_path']. Normally this is: enterprise/control/agent.php;
+
+ 
 
  3. Driver API
  -------------

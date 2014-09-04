@@ -26,6 +26,8 @@
  */
 class rcube_result_thread
 {
+    public $incomplete = false;
+
     protected $raw_data;
     protected $mailbox;
     protected $meta = array();

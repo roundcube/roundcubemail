@@ -10,9 +10,7 @@
 <script type="text/javascript" src="/splitter.js"></script>
 <style type="text/css">
 #compose-contacts { width: <roundcube:exp expression="!empty(cookie:composesplitterv1) ? cookie:composesplitterv1-5 : 195" />px; }
-#compose-container { left: <roundcube:exp expression="!empty(cookie:composesplitterv1) ? cookie:composesplitterv1+5 : 205" />px;
-<roundcube:exp expression="browser:ie ? ('width: expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:composesplitterv1) ? cookie:composesplitterv1+5 : 200).')+\\'px\\');') : ''" />
-}
+#compose-container { left: <roundcube:exp expression="!empty(cookie:composesplitterv1) ? cookie:composesplitterv1+5 : 205" />px; }
 </style>
 </head>
 <roundcube:if condition="env:extwin" />
@@ -52,7 +50,7 @@
 <div id="compose-contacts">
 <div class="boxtitle"><roundcube:label name="contacts" /></div>
 <div class="boxlistcontent">
-    <div id="quicksearchbar">
+    <div class="searchbox">
         <img id="searchmenulink" src="/images/icons/glass.png" width="16" height="16" />
         <roundcube:object name="searchform" id="quicksearchbox" form="true" tabindex="13" />
         <roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" width="13" height="13" />
@@ -204,8 +202,8 @@
         <li><label class="comment"><roundcube:label name="insertresponse" /></label></li>
         <roundcube:object name="responseslist" id="responseslist" tagname="ul" itemclass="active" />
         <li><label class="comment"><roundcube:label name="manageresponses" /></label></li>
-        <li><roundcube:button command="save-response" type="link" label="savenewresponse" classAct="active" unselectable="on" /></li>
-        <li><roundcube:button command="responses" type="link" label="editresponses" classAct="active" /></li>
+        <roundcube:button command="save-response" type="link-menuitem" label="newresponse" classAct="active" unselectable="on" />
+        <roundcube:button command="responses" type="link-menuitem" label="editresponses" classAct="active" />
     </ul>
 </div>
 

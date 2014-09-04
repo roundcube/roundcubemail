@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,6 @@ $messages['sessionerror'] = 'ستاسې ناسته ناباوري يا له مي
 $messages['storageerror'] = 'له ای ميپ سرور سره پيوستون په بري سره ترسره نه شو';
 $messages['nomessagesfound'] = 'ليکبکس کې هېڅ استوزي ونه مونده';
 $messages['loggedout'] = 'تاسې له ناستې څخه په بشپړه توګه وويستل شوئ الله په امان';
-$messages['mailboxempty'] = 'ليکبکس تش دی';
 $messages['loading'] = 'د کار په حال کې';
 $messages['loadingdata'] = 'اومتوک د کار په حال کې';
 $messages['checkingmail'] = 'نوي استوزي ګوري';
@@ -81,5 +80,4 @@ $messages['importwait'] = 'نقلوي...صبر وکړئ';
 $messages['importconfirm'] = '<b>په بشپړه توګه نقل شو $اړيکلوري داخل شول, $شته تيرشوي انټاير څخه تيرشول</b>:<p><em>$نومونه</em></p>';
 $messages['opnotpermitted'] = 'چار اجازه نه لري';
 $messages['nofromaddress'] = 'په ټاکل شوي پيژندنه کې برېښناليک پتې له لاسه ورکړي';
-$messages['editorwarning'] = 'که د متن بڼو له منځه تللو ګواښ وي نو د متن سمون پرانيزئ. غواړئ چې دوام ورکړئ';
 ?>

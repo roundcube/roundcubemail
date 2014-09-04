@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Promijeni zaporku';
 $labels['curpasswd']  = 'Važeća zaporka:';
 $labels['newpasswd']  = 'Nova zaporka:';
 $labels['confpasswd']  = 'Potvrda nove zaporke:';

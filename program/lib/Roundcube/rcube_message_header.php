@@ -167,6 +167,13 @@ class rcube_message_header
     public $mdn_to;
 
     /**
+     * IMAP folder this message is stored in
+     *
+     * @var string
+     */
+    public $folder;
+
+    /**
      * Other message headers
      *
      * @var array
@@ -189,6 +196,8 @@ class rcube_message_header
         'reply-to'  => 'replyto',
         'cc'        => 'cc',
         'bcc'       => 'bcc',
+        'mbox'      => 'folder',
+        'folder'    => 'folder',
         'content-transfer-encoding' => 'encoding',
         'in-reply-to'               => 'in_reply_to',
         'content-type'              => 'ctype',
@@ -216,8 +225,16 @@ class rcube_message_header
         }
 
         if ($decode) {
-            $value = rcube_mime::decode_header($value, $this->charset);
-            $value = rcube_charset::clean($value);
+            if (is_array($value)) {
+                foreach ($value as $key => $val) {
+                    $value[$key] = rcube_mime::decode_header($val, $this->charset);
+                    $value[$key] = rcube_charset::clean($val);
+                }
+            }
+            else {
+                $value = rcube_mime::decode_header($value, $this->charset);
+                $value = rcube_charset::clean($value);
+            }
         }
 
         return $value;

@@ -20,10 +20,14 @@ body.extwin
   margin: 10px;
 }
 
-select, input, textarea
+select, input, textarea, button
 {
-  font-size: 12px;
+  font-size: inherit;
   font-family: inherit;
+}
+
+html.mozilla select {
+  padding: 2px 1px;
 }
 
 th
@@ -53,6 +57,13 @@ a.tab
   width: 80px;
   display: block;
   text-align: center;
+}
+
+a.disabled
+{
+  color: #999;
+  text-decoration: none;
+  cursor: default;
 }
 
 hr
@@ -275,6 +286,13 @@ body > #message div.loading,
   background: url(images/display/loading.gif) 6px 3px no-repeat;
   background-color: #EBEBEB;
   border: 1px solid #CCCCCC;
+}
+
+body > #message div.voice
+{
+  position: absolute;
+  top: -1000px;
+  clip: rect(0 0 0 0);
 }
 
 body > #message a
@@ -539,6 +557,7 @@ body.iframe .boxtitle
 .popupmenu li a.active:visited
 {
   color: #333;
+  cursor: pointer;
 }
 
 .popupmenu li a.active:hover,
@@ -598,8 +617,13 @@ img.uploading
   height: 16px;
 }
 
+.popup label > input {
+  margin-left: 10px;
+}
+
 /***** common table settings ******/
 
+table.records-table thead tr th,
 table.records-table thead tr td
 {
   height: 20px;
@@ -610,6 +634,7 @@ table.records-table thead tr td
   background: url(images/listheader.gif) top left repeat-x #CCC;
   font-size: 11px;
   font-weight: bold;
+  text-align: left;
 }
 
 table.records-table tbody tr td
@@ -620,7 +645,8 @@ table.records-table tbody tr td
   white-space: nowrap;
   border-bottom: 1px solid #EBEBEB;
   overflow: hidden;
-  text-align: left;  
+  text-align: left;
+  outline: none;
 }
 
 table.records-table tr
@@ -652,12 +678,21 @@ ul.treelist li
 ul.treelist li div.treetoggle
 {
   position: absolute;
-  left: 8px !important;
-  left: -16px;
-  top: 1px;
+  left: 8px;
+  top: 2px;
   width: 14px;
   height: 16px;
   cursor: pointer;
+}
+
+ul.treelist ul li div.treetoggle
+{
+  left: 25px;
+}
+
+ul.treelist ul ul li div.treetoggle
+{
+  left: 42px;
 }
 
 ul.treelist li div.collapsed
@@ -670,21 +705,240 @@ ul.treelist li div.expanded
   background: url(images/icons/expanded.png) bottom right no-repeat;
 }
 
+ul.treelist,
+ul.treelist li ul
+{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF;
+}
+
+ul.treelist li ul
+{
+  border-top: 1px solid #EBEBEB;
+}
+
+ul.treelist li
+{
+  display: block;
+  font-size: 11px;
+  border-bottom: 1px solid #EBEBEB;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+ul.treelist li a
+{
+  cursor: default;
+  display: block;
+  padding-left: 25px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  height: 16px;
+  line-height: 16px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+ul.treelist li ul li a
+{
+  padding-left: 45px;
+}
+
+ul.treelist ul ul li a
+{
+  padding-left: 65px;
+}
+
+ul.treelist li ul li:last-child
+{
+  border-bottom: 0;
+}
+
+ul.treelist li.selected > a,
+ul.treelist li.selected > div a
+{
+  color: #FFF;
+  font-weight: bold;
+  background-color: #929292;
+}
+
+ul.treelist li.droptarget
+{
+  background-color: #FFFFA6;
+}
+
+/***** folders list *****/
+
+.folderlist li ul li:last-child
+{
+  border-bottom: 0 none;
+}
+
+.folderlist li.inbox a
+{
+  background-position: 5px -18px;
+}
+
+.folderlist li.drafts a
+{
+  background-position: 5px -36px;
+}
+
+.folderlist li.sent a
+{
+  background-position: 5px -53px;
+}
+
+.folderlist li.junk a
+{
+  background-position: 5px -72px;
+}
+
+.folderlist li.trash a
+{
+  background-position: 5px -180px;
+}
+
+.folderlist li.trash.empty a
+{
+  background-position: 5px -90px;
+}
+
+.folderlist li a
+{
+  cursor: default;
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  text-decoration: none;
+  height: 15px;
+  background: url(images/icons/folders.png) 5px 1px no-repeat;
+}
+
+.folderlist li.virtual > a
+{
+  color: #666;
+}
+
+.folderlist li.selected,
+.folderlist li.droptarget li.selected
+{
+  background-color: #929292;
+}
+
+.folderlist li.selected > a,
+.folderlist li.droptarget li.selected a
+{
+  color: #FFF;
+  font-weight: bold;
+}
+
+.folderlist li.droptarget
+{
+  background-color: #FFFFA6;
+}
+
+/* styles for nested folders */
+.folderlist ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #EBEBEB;
+  background-color: #FFF;
+  font-weight: normal;
+}
+
+.folderlist li.mailbox ul li a {
+  padding-left: 40px;  /* 24 + 1 x 16 */
+  background-position: 20px 1px;  /* 4 + 1 x 16 */
+}
+.folderlist li.mailbox ul li div.treetoggle {
+  left: 23px !important;
+}
+
+.folderlist li.mailbox ul ul li.mailbox a {
+  padding-left: 56px;  /* 2x */
+  background-position: 36px 1px;
+}
+.folderlist li.mailbox ul ul li div.treetoggle {
+  left: 39px !important;
+}
+
+.folderlist li.mailbox ul ul ul li.mailbox a {
+  padding-left: 72px;  /* 3x */
+  background-position: 52px 1px;
+}
+.folderlist li.mailbox ul ul ul li div.treetoggle {
+  left: 55px !important;
+}
+
+.folderlist li.mailbox ul ul ul ul li.mailbox a {
+  padding-left: 88px;  /* 4x */
+  background-position: 68px 1px;
+}
+.folderlist li.mailbox ul ul ul ul li div.treetoggle {
+  left: 71px !important;
+}
+
+/* indent folders on levels > 4 */
+.folderlist li.mailbox ul ul ul ul ul li {
+  padding-left: 16px;
+}
+.folderlist li.mailbox ul ul ul ul ul li div.treetoggle {
+  left: 87px !important;
+}
+
+.folderlist li.mailbox ul li.drafts a
+{
+  background-position: 21px -36px;
+}
+
+.folderlist li.mailbox ul li.sent a
+{
+  background-position: 21px -53px;
+}
+
+.folderlist li.mailbox ul li.junk a
+{
+  background-position: 21px -72px;
+}
+
+.folderlist li.mailbox ul li.trash a
+{
+  background-position: 21px -180px;
+}
+
+.folderlist li.mailbox ul li.trash.empty a
+{
+  background-position: 21px -90px;
+}
+
 
 /***** mac-style quicksearch field *****/
 
+div.searchbox,
 #quicksearchbar
 {
-  position: absolute;
-  top: 55px;
-  right: 10px;
+  position: relative;
   width: 190px;
   height: 20px;
   text-align: right;
   background: url(images/searchfield.gif) top left no-repeat;
 }
 
-#searchreset
+#quicksearchbar
+{
+  position: absolute;
+  top: 55px;
+  right: 10px;
+}
+
+#searchreset,
+div.searchbox a.searchreset
 {
   position: absolute;
   top: 3px;
@@ -692,11 +946,33 @@ ul.treelist li div.expanded
   text-decoration: none;
 }
 
-#searchmenulink
+#searchmenulink,
+div.searchbox a.searchmenu,
+div.searchbox a.searchicon
 {
  position: absolute;
  top: 3px;
  right: 168px;
+}
+
+div.searchbox a.searchreset
+{
+  display: block;
+  width: 14px;
+  height: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: 50000px;
+  background: url(images/icons/reset.gif) top left no-repeat;
+}
+
+div.searchbox a.searchicon
+{
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  background: url(images/icons/glass.png) top left no-repeat;
 }
 
 #quicksearchbar img
@@ -704,7 +980,8 @@ ul.treelist li div.expanded
   vertical-align: middle;
 }
 
-#quicksearchbox
+#quicksearchbox,
+div.searchbox > input
 {
   position: absolute;
   top: 2px;
@@ -734,6 +1011,25 @@ ul.treelist li div.expanded
   width: 97%;
 }
 
+.listsearchbox
+{
+  border-bottom: solid 1px #ddd;
+  padding: 2px 4px 1px;
+  display: none;
+  background-color: #f2f2f2;
+}
+
+.listsearchbox a.iconbutton.reset
+{
+  background: url(images/icons/reset.gif) no-repeat 0 0;
+  width: 13px;
+  height: 13px;
+  text-indent: 50000px;
+  position: absolute;
+  top: 3px;
+  left: 165px;
+  overflow: hidden;
+}
 
 /***** roundcube webmail pre-defined classes *****/
 
@@ -866,11 +1162,6 @@ a.rcmContactAddress:hover
 	font-weight: bold;
 }
 
-#console
-{
-  opacity: 0.8;
-}
-
 .disabled,
 a.disabled
 {
@@ -882,6 +1173,10 @@ font.bold
   font-weight: bold;
 }
 
+.formbuttons
+{
+  text-align: center;
+}
 
 /***** onclick menu list *****/
 
@@ -1115,3 +1410,68 @@ fieldset.tabbed
 .quota_text_high { color: white; }
 .quota_text_mid { color: #666; }
 .quota_text_low { color: #666; }
+
+table.quota-info {
+	border-spacing: 0;
+	border-collapse: collapse;
+	table-layout: fixed;
+	margin: 2px;
+}
+
+table.quota-info td,
+table.quota-info th {
+	border: 1px solid #999;
+	padding: 2px 3px;
+	text-align: center;
+	min-width: 80px;
+	color: #333;
+	font-size: 11px;
+}
+
+table.quota-info th {
+	font-weight: bold;
+	background-color: #ddd;
+}
+
+table.quota-info td.name {
+	text-align: left;
+}
+
+table.quota-info td.root {
+	font-style: italic;
+}
+
+/********** TinyMCE styles **********/
+.mce-btn-small button
+{
+  height: 22px;
+}
+
+.mce-btn-small i
+{
+  line-height: 16px !important;
+  vertical-align: text-top !important;
+}
+
+.mce-combobox button
+{
+    padding: 6px 8px !important;
+}
+
+.mce-tinymce,
+.mce-panel.mce-toolbar-grp
+{
+  border: 0 !important;
+}
+
+#image-selector-form.droptarget {
+  background: url(images/filedrop.png) center bottom no-repeat;
+}
+
+#image-selector-form.droptarget.hover
+{
+  background-color: #F0F0EE;
+  box-shadow: 0 0 5px 0 #999;
+  -moz-box-shadow: 0 0 5px 0 #999;
+  -o-box-shadow: 0 0 5px 0 #999;
+}

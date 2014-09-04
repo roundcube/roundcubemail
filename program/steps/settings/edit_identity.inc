@@ -52,9 +52,9 @@ else {
 $OUTPUT->include_script('list.js');
 $OUTPUT->add_handler('identityform', 'rcube_identity_form');
 $OUTPUT->set_env('identities_level', IDENTITIES_LEVEL);
-$OUTPUT->add_label('deleteidentityconfirm');
+$OUTPUT->add_label('deleteidentityconfirm', 'uploading');
 
-$OUTPUT->set_pagetitle($RCMAIL->gettext(($RCMAIL->action == 'add-identity' ? 'newidentity' : 'edititem')));
+$OUTPUT->set_pagetitle($RCMAIL->gettext(($RCMAIL->action == 'add-identity' ? 'addidentity' : 'editidentity')));
 
 if ($RCMAIL->action == 'add-identity' && $OUTPUT->template_exists('identityadd')) {
     $OUTPUT->send('identityadd');
@@ -71,7 +71,7 @@ function rcube_identity_form($attrib)
     $RCMAIL->html_editor('identity');
 
     // add some labels to client
-    $OUTPUT->add_label('noemailwarning', 'nonamewarning', 'converting', 'editorwarning');
+    $OUTPUT->add_label('noemailwarning', 'converting', 'editorwarning');
 
     $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
     $t_rows = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 6;
@@ -96,7 +96,7 @@ function rcube_identity_form($attrib)
                     'spellcheck' => true),
                 'html_signature' => array('type' => 'checkbox',
                     'label'   => $RCMAIL->gettext('htmlsignature'),
-                    'onclick' => 'return rcmail_toggle_editor(this, \'rcmfd_signature\');'),
+                    'onclick' => 'return rcmail.command(\'toggle-editor\', {id: \'rcmfd_signature\', html: this.checked}, \'\', event)'),
         ))
     );
 
@@ -175,6 +175,16 @@ function rcube_identity_form($attrib)
     }
 
     $out .= $form_end;
+
+    // add image upload form
+    $max_filesize   = $RCMAIL->upload_init($RCMAIL->config->get('identity_image_size', 64) * 1024);
+    $upload_form_id = 'identityImageUpload';
+
+    $out .= '<form id="' . $upload_form_id . '" style="display: none">'
+        . html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))))
+        . '</form>';
+
+    $RCMAIL->output->add_gui_object('uploadform', $upload_form_id);
 
     return $out;
 }

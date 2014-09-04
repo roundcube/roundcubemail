@@ -13,5 +13,5 @@ if header :matches "Subject" "*"
 if address :matches "from" "*"
 {
 	set "from_addr" "${1}";
-	notify :message "${from_addr}${env_from}: ${subject}" :method "sms:1234567890";
+	notify :method "sms" :options "1234567890" :message "${from_addr}${env_from}: ${subject}";
 }

@@ -31,7 +31,6 @@ class rcube_db
     protected $db_dsnr;               // DSN for read operations
     protected $db_connected = false;  // Already connected ?
     protected $db_mode;               // Connection mode
-    protected $db_table_dsn_map = array();
     protected $dbh;                   // Connection handle
     protected $dbhs = array();
     protected $table_connections = array();
@@ -100,12 +99,15 @@ class rcube_db
         $this->db_dsnw  = $db_dsnw;
         $this->db_dsnr  = $db_dsnr;
         $this->db_pconn = $pconn;
-        $this->db_dsnw_noread = rcube::get_instance()->config->get('db_dsnw_noread', false);
 
         $this->db_dsnw_array = self::parse_dsn($db_dsnw);
         $this->db_dsnr_array = self::parse_dsn($db_dsnr);
 
-        $this->db_table_dsn_map = array_map(array($this, 'table_name'), rcube::get_instance()->config->get('db_table_dsn', array()));
+        $config = rcube::get_instance()->config;
+
+        $this->options['table_prefix']  = $config->get('db_prefix');
+        $this->options['dsnw_noread']   = $config->get('db_dsnw_noread', false);
+        $this->options['table_dsn_map'] = array_map(array($this, 'table_name'), $config->get('db_table_dsn', array()));
     }
 
     /**
@@ -206,7 +208,7 @@ class rcube_db
         // Already connected
         if ($this->db_connected) {
             // connected to db with the same or "higher" mode (if allowed)
-            if ($this->db_mode == $mode || $this->db_mode == 'w' && !$force && !$this->db_dsnw_noread) {
+            if ($this->db_mode == $mode || $this->db_mode == 'w' && !$force && !$this->options['dsnw_noread']) {
                 return;
             }
         }
@@ -241,14 +243,14 @@ class rcube_db
                 $table = $m[2];
 
                 // always use direct mapping
-                if ($this->db_table_dsn_map[$table]) {
-                    $mode = $this->db_table_dsn_map[$table];
+                if ($this->options['table_dsn_map'][$table]) {
+                    $mode = $this->options['table_dsn_map'][$table];
                     break;  // primary table rules
                 }
                 else if ($mode == 'r') {
                     // connected to db with the same or "higher" mode for this table
                     $db_mode = $this->table_connections[$table];
-                    if ($db_mode == 'w' && !$this->db_dsnw_noread) {
+                    if ($db_mode == 'w' && !$this->options['dsnw_noread']) {
                         $mode = $db_mode;
                     }
                 }
@@ -920,14 +922,8 @@ class rcube_db
      */
     public function table_name($table)
     {
-        static $rcube;
-
-        if (!$rcube) {
-            $rcube = rcube::get_instance();
-        }
-
         // add prefix to the table name if configured
-        if (($prefix = $rcube->config->get('db_prefix')) && strpos($table, $prefix) !== 0) {
+        if (($prefix = $this->options['table_prefix']) && strpos($table, $prefix) !== 0) {
             return $prefix . $table;
         }
 
@@ -953,7 +949,7 @@ class rcube_db
      */
     public function set_table_dsn($table, $mode)
     {
-        $this->db_table_dsn_map[$this->table_name($table)] = $mode;
+        $this->options['table_dsn_map'][$this->table_name($table)] = $mode;
     }
 
     /**
@@ -1128,5 +1124,62 @@ class rcube_db
         $result = array();
 
         return $result;
+    }
+
+    /**
+     * Execute the given SQL script
+     *
+     * @param string SQL queries to execute
+     *
+     * @return boolen True on success, False on error
+     */
+    public function exec_script($sql)
+    {
+        $sql  = $this->fix_table_names($sql);
+        $buff = '';
+
+        foreach (explode("\n", $sql) as $line) {
+            if (preg_match('/^--/', $line) || trim($line) == '')
+                continue;
+
+            $buff .= $line . "\n";
+            if (preg_match('/(;|^GO)$/', trim($line))) {
+                $this->query($buff);
+                $buff = '';
+                if ($this->db_error) {
+                    break;
+                }
+            }
+        }
+
+        return !$this->db_error;
+    }
+
+    /**
+     * Parse SQL file and fix table names according to table prefix
+     */
+    protected function fix_table_names($sql)
+    {
+        if (!$this->options['table_prefix']) {
+            return $sql;
+        }
+
+        $sql = preg_replace_callback(
+            '/((TABLE|TRUNCATE|(?<!ON )UPDATE|INSERT INTO|FROM'
+            . '| ON(?! (DELETE|UPDATE))|REFERENCES|CONSTRAINT|FOREIGN KEY|INDEX)'
+            . '\s+(IF (NOT )?EXISTS )?[`"]*)([^`"\( \r\n]+)/',
+            array($this, 'fix_table_names_callback'),
+            $sql
+        );
+
+        return $sql;
+    }
+
+    /**
+     * Preg_replace callback for fix_table_names()
+     */
+    protected function fix_table_names_callback($matches)
+    {
+        return $matches[1] . $this->options['table_prefix'] . $matches[count($matches)-1];
     }
 }

@@ -226,7 +226,18 @@ class rcube_spellchecker
             else {
                 $word = mb_substr($this->content, $item[1], $item[2], RCUBE_CHARSET);
             }
-            $result[$word] = is_array($item[4]) ? implode("\t", $item[4]) : $item[4];
+
+            if (is_array($item[4])) {
+                $suggestions = $item[4];
+            }
+            else if (empty($item[4])) {
+                $suggestions = array();
+            }
+            else {
+                $suggestions = explode("\t", $item[4]);
+            }
+
+            $result[$word] = $suggestions;
         }
 
         return $result;
@@ -262,7 +273,7 @@ class rcube_spellchecker
     public function is_exception($word)
     {
         // Contain only symbols (e.g. "+9,0", "2:2")
-        if (!$word || preg_match('/^[0-9@#$%^&_+~*=:;?!,.-]+$/', $word))
+        if (!$word || preg_match('/^[0-9@#$%^&_+~*<>=:;?!,.-]+$/', $word))
             return true;
 
         // Contain symbols (e.g. "g@@gle"), all symbols excluding separators

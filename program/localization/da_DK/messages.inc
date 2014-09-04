@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,7 +22,9 @@ $messages['sessionerror'] = 'Din session er ugyldig eller udløbet.';
 $messages['storageerror'] = 'Forbindelse til e-mailserveren fejlede.';
 $messages['servererror'] = 'Server fejl!';
 $messages['servererrormsg'] = 'Server fejl: $msg';
+$messages['connerror'] = 'Forbindelsesfejl (kunne ikke oprette forbindelse til server)!';
 $messages['dberror'] = 'Database fejl!';
+$messages['windowopenerror'] = 'Popup-vinduet blev blokeret!';
 $messages['requesttimedout'] = 'Forespørgselstiden udløb';
 $messages['errorreadonly'] = 'Kunne ikke udføre den ønskede handling. Mappen er skrivebeskyttet.';
 $messages['errornoperm'] = 'Kunne ikke udføre den ønskede handling. Adgang nægtet.';
@@ -33,6 +35,7 @@ $messages['invalidhost'] = 'Ugyldigt servernavn.';
 $messages['nomessagesfound'] = 'Der blev ikke fundet nogen beskeder i denne postkasse.';
 $messages['loggedout'] = 'Du er nu logget af webmail. Farvel så længe!';
 $messages['mailboxempty'] = 'Postkassen er tom.';
+$messages['nomessages'] = 'Ingen beskeder';
 $messages['refreshing'] = 'Opdaterer...';
 $messages['loading'] = 'Indlæser...';
 $messages['uploading'] = 'Uploader fil...';
@@ -91,6 +94,7 @@ $messages['contactsearchsuccessful'] = 'Fandt $nr kontakter.';
 $messages['searchnomatch'] = 'Søgningen fandt ingen beskeder.';
 $messages['searching'] = 'Søger...';
 $messages['checking'] = 'Tjekker...';
+$messages['stillsearching'] = 'Søger stadig...';
 $messages['nospellerrors'] = 'Ingen stavefejl fundet.';
 $messages['folderdeleted'] = 'Mappen er slettet.';
 $messages['foldersubscribed'] = 'Mappe-abonnement oprettet.';
@@ -134,7 +138,7 @@ $messages['importmessagesuccess'] = 'Importerede $nr beskeder';
 $messages['importmessageerror'] = 'Import mislykkedes! Den uploadede fil er ikke en gyldig besked eller mailbox-fil';
 $messages['opnotpermitted'] = 'Handlingen er ikke tilladt!';
 $messages['nofromaddress'] = 'Der mangler en e-mailadresse i den valgte identitet.';
-$messages['editorwarning'] = 'Al formatering af teksten forsvinder, hvis der skiftes til ren tekst. Vil du fortsætte?';
+$messages['editorwarning'] = 'Al formatering af teksten kan forsvinde, hvis der skiftes editor Vil du fortsætte?';
 $messages['httpreceivedencrypterror'] = 'Der er opstået en fatal konfigurationsfejl. Kontakt venligst din system-administrator med det samme. <b>Din besked kunne ikke afsendes.</b>';
 $messages['smtpconnerror'] = 'SMTP fejl ($code): Forbindelsen til serveren afbrudt';
 $messages['smtpautherror'] = 'SMTP fejl ($code): Autenticering fejlede';

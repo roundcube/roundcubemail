@@ -61,7 +61,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
         $this->assertRegExp('/<style [^>]+>/', $html2, "Allow styles in safe mode");
         $this->assertRegExp('#src="http://evilsite.net/mailings/ex3.jpg"#', $html2, "Allow external images in HTML (safe mode)");
         $this->assertRegExp("#url\('?http://evilsite.net/newsletter/image/bg/bg-64.jpg'?\)#", $html2, "Allow external images in CSS (safe mode)");
-        $css = '<link rel="stylesheet" .+_u=tmp-[a-z0-9]+\.css.+_action=modcss';
+        $css = '<link rel="stylesheet" .+_action=modcss.+_u=tmp-[a-z0-9]+\.css';
         $this->assertRegExp('#'.$css.'#Ui', $html2, "Filter (anonymized) external styleseehts with utils/modcss.inc");
     }
 

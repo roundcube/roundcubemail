@@ -1,0 +1,211 @@
+/**
+ * Roundcube webmail CSS hacks for IE 7
+ *
+ * Copyright (c) 2012, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original autors in the README file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/* #1488618 */
+#mainscreen {
+  height: expression((parseInt(document.documentElement.clientHeight)-108)+'px');
+}
+#mainscreen.offset {
+  height: expression((parseInt(document.documentElement.clientHeight)-150)+'px');
+}
+
+.minimal #mainscreen {
+  height: expression((parseInt(document.documentElement.clientHeight)-82)+'px');
+}
+
+.minimal #mainscreen.offset {
+  height: expression((parseInt(document.documentElement.clientHeight)-120)+'px');
+}
+
+#messagepartframe {
+	height: expression((parseInt(this.parentNode.offsetHeight)-1)+'px');
+}
+
+input.button {
+	display: inline;
+	font-size: 90%;
+}
+
+a.iconbutton,
+a.deletebutton,
+.boxpagenav a.icon,
+a.button span.icon,
+.pagenav a.button span.inner,
+.boxfooter .listbutton .inner,
+.attachmentslist li a.delete,
+.attachmentslist li a.cancelupload,
+#contacts-table td.action a,
+.previewheader .iconlink,
+.minimal #taskbar .button-inner,
+#preferences-details fieldset.advanced .advanced-toggle {
+	/* workaround for text-indent which also offsets the background image */
+	text-indent: 0;
+	font-size: 0;
+	line-height: 0;
+	overflow: hidden;
+	text-align: right;
+	text-decoration: none;
+}
+
+.boxpagenav a.icon {
+	color: #bbd3da;
+}
+
+.pagenav a.button,
+.pagenav a.button span.inner,
+.previewheader .iconlink,
+#uploadform a.iconlink {
+	display: inline;
+}
+
+.pagenavbuttons {
+	top: 4px;
+}
+
+.dropbutton .dropbuttontip {
+	right: -2px;
+}
+
+#login-form .box-inner form {
+	margin: 0;
+}
+
+#login-form #message div {
+	float: left;
+	display: block;
+	width: 200px;
+	margin-left: 130px;
+	white-space: nowrap;
+	text-align: left;
+}
+
+#messageheader.previewheader .iconlink {
+	color: #fff;
+	height: 14px;
+}
+
+#uploadform a.iconlink {
+	text-indent: 0px;
+}
+
+.boxfooter .countdisplay {
+	top: -12px;
+}
+
+ul.toolbarmenu li a {
+	width: 140px;
+}
+
+#threadselectmenu li a {
+	width: 160px;
+}
+
+#messagemenu li a {
+	width: 170px;
+}
+
+#rcmKSearchpane {
+	width: 400px;
+}
+#rcmKSearchpane ul li {
+	width: 380px;
+	text-overflow: ellipsis;
+}
+
+
+table.listing,
+table.records-table {
+	display: block;
+	width: auto;
+	border-collapse: expression('separate', cellSpacing = '0');
+}
+
+.records-table tbody td span {
+	white-space: nowrap;
+}
+
+table.listing {
+	width: 100%;
+}
+
+ul.toolbarmenu li label {
+	margin: 0;
+	padding: 3px 8px;
+}
+
+.searchbox input {
+	padding-top: 4px;
+	padding-bottom: 2px;
+}
+
+#messagelistfooter #listcontrols,
+#messagelistfooter #listselectors,
+#messagelistfooter #countcontrols,
+.pagenav .countdisplay {
+	display: inline;
+}
+
+#messagelistfooter #countcontrols {
+	position: relative;
+	top: -4px;
+}
+
+#messagecontframe,
+#preferences-frame {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+#composeoptionstoggle {
+	display: inline;
+	top: 3px;
+}
+
+.propform {
+	margin: 0;
+}
+
+.propform fieldset legend {
+	color: #333;
+	margin-left: -5px;
+	padding-left: 0;
+}
+
+.contactfieldgroup legend {
+	margin-left: -14px;
+}
+
+.contactfieldcontent .contactfieldbutton {
+	top: -6px;
+}
+
+.tabsbar {
+	height: 15px;
+	padding-bottom: 15px;
+}
+
+.tabsbar .tablink {
+	padding: 0 1px 0 0;
+}
+
+.minimal #topline {
+	width: 100%;
+	height: 18px;
+	box-sizing: border-box;
+}
+
+.minimal #taskbar a:hover .tooltip {
+	right: 34px;
+	top: 1px;
+}

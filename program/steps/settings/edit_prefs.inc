@@ -51,6 +51,10 @@ function rcmail_user_prefs_form($attrib)
 
     $out = $form_start;
 
+    if(!empty($SECTIONS[$CURR_SECTION]['header'])) {
+        $out .= html::div(array('id' => 'preferences-header', 'class' =>'boxcontent'), $SECTIONS[$CURR_SECTION]['header']);
+    }
+
     foreach ($SECTIONS[$CURR_SECTION]['blocks'] as $class => $block) {
         if (!empty($block['options'])) {
             $table = new html_table(array('cols' => 2));

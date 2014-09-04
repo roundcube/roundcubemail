@@ -100,17 +100,12 @@ div.message-part a
   color: #0000CC;
 }
 
-div.message-part pre,
-div.message-htmlpart pre,
 div.message-part div.pre
 {
   margin: 0;
   padding: 0;
   font-family: monospace;
-  white-space: -moz-pre-wrap !important;
-  white-space: pre-wrap !important;
-  white-space: pre;
-  word-wrap: break-word; /* IE (and Safari) */
+  font-size: 12px;
 }
 
 div.message-part blockquote
@@ -119,8 +114,8 @@ div.message-part blockquote
   border-left: 2px solid blue;
   border-right: 2px solid blue;
   background-color: #F6F6F6;
-  margin: 2px 0px;
-  padding: 1px 8px 1px 10px;
+  margin: 2px 0;
+  padding: 0 0.4em;
 }
 
 div.message-part blockquote blockquote
@@ -164,4 +159,3 @@ p.image-attachment .attachment-links
 {
   display: none;
 }
-

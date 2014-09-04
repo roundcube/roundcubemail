@@ -8,14 +8,10 @@
 <style type="text/css">
 <roundcube:if condition="config:preview_pane == true" />
 #mailcontframe { height: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter-5 : 195" />px; }
-#mailpreviewframe { top: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 205" />px;
-<roundcube:exp expression="browser:ie ? ('height: expression((parseInt(this.parentNode.offsetHeight)-'.(!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+25 : 245).')+\\'px\\');') : ''" />
-}
+#mailpreviewframe { top: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 205" />px; }
 <roundcube:endif />
 #mailleftcontainer { width: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv-5 : 160" />px; }
-#mailrightcontainer { left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 170" />px;
-<roundcube:exp expression="browser:ie ? ('width: expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 165).')+\\'px\\');') : ''" />
-}
+#mailrightcontainer { left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 170" />px; }
 </style>
 </head>
 <body>
@@ -28,13 +24,13 @@
 <div id="mailboxlist-container">
 <div id="mailboxlist-title" class="boxtitle"><roundcube:label name="mailboxlist" /></div>
 <div id="mailboxlist-content"  class="boxlistcontent">
-<roundcube:object name="mailboxlist" id="mailboxlist" class="treelist" folder_filter="mail" />
+  <roundcube:object name="mailboxlist" id="mailboxlist" class="treelist folderlist" folder_filter="mail" />
 </div>
 <div id="mailboxlist-footer" class="boxfooter">
   <roundcube:button name="mailboxmenulink" id="mailboxmenulink" type="link" title="folderactions" class="button groupactions" onclick="rcmail_ui.show_popup('mailboxmenu');return false" content=" " />
 
 <roundcube:if condition="env:quota" />
-<img id="quotaimg" src="/images/quota.<roundcube:exp expression="browser:ie && browser:ver < 7 ? 'gif' : 'png'" />" alt="" width="102" height="16" />
+<img id="quotaimg" src="/images/quota.png" alt="" width="102" height="16" />
 <div id="quota">
   <roundcube:object name="quotaDisplay" display="image" width="100" height="14" id="quotadisplay" />
 </div>
@@ -118,6 +114,10 @@
     <li><label><input type="checkbox" name="s_mods[]" value="bcc" id="s_mod_bcc" onclick="rcmail_ui.set_searchmod(this)" /> <span><roundcube:label name="bcc" /></span></label></li>
     <li><label><input type="checkbox" name="s_mods[]" value="body" id="s_mod_body" onclick="rcmail_ui.set_searchmod(this)" /> <span><roundcube:label name="body" /></span></label></li>
     <li><label><input type="checkbox" name="s_mods[]" value="text" id="s_mod_text" onclick="rcmail_ui.set_searchmod(this)" /> <span><roundcube:label name="msgtext" /></span></label></li>
+    <li><label class="comment"><roundcube:label name="searchscope" /></label></li>
+    <li><label><input type="radio" name="s_scope" value="base" id="s_scope_base" onclick="rcmail.set_searchscope(this.value)" /> <span><roundcube:label name="currentfolder" /></span></label></li>
+    <li><label><input type="radio" name="s_scope" value="sub" id="s_scope_sub" onclick="rcmail.set_searchscope(this.value)" /> <span><roundcube:label name="subfolders" /></span></label></li>
+    <li><label><input type="radio" name="s_scope" value="all" id="s_scope_all" onclick="rcmail.set_searchscope(this.value)" /> <span><roundcube:label name="allfolders" /></span></label></li>
   </ul>
 </div>
 
@@ -142,13 +142,13 @@
   <ul>
     <li><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
     <li><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
-    <li class="separator_below"><roundcube:button name="messageimport" type="link" class="active" label="importmessages" id="uploadformlink" onclick="rcmail_ui.show_popup('uploadform', true); return false" /></li>
+    <li class="separator_below"><roundcube:button command="import-messages" name="messageimport" type="link" classAct="active" label="importmessages" id="uploadformlink" onclick="if(rcmail.command_enabled('import-messages'))rcmail_ui.show_popup('uploadform', true); return false" /></li>
     <li><roundcube:button command="folders" task="settings" type="link" label="managefolders" classAct="active" /></li>
     <roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
   </ul>
 </div>
 
-<div id="listmenu" class="popupmenu">
+<div id="listmenu" style="display: none">
 <roundcube:if condition="env:threads" />
 <fieldset class="thinbordered"><legend><roundcube:label name="listmode" /></legend>
   <ul class="toolbarmenu">
@@ -200,10 +200,6 @@
   </ul>
 </fieldset>
 <roundcube:endif />
-<div>
-  <roundcube:button command="menu-open" id="listmenucancel" type="input" class="button" label="cancel" />
-  <roundcube:button command="menu-save" id="listmenusave" type="input" class="button mainaction" label="save" />
-</div>
 </div>
 
 <roundcube:object name="messageimportform" id="upload-form" attachmentFieldSize="40" class="popupmenu" />

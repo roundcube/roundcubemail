@@ -5,7 +5,7 @@
  | program/steps/mail/list.inc                                           |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2007, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -20,7 +20,7 @@
 */
 
 if (!$OUTPUT->ajax_call) {
-  return;
+    return;
 }
 
 $save_arr      = array();
@@ -28,27 +28,28 @@ $dont_override = (array) $RCMAIL->config->get('dont_override');
 
 // is there a sort type for this request?
 if ($sort = rcube_utils::get_input_value('_sort', rcube_utils::INPUT_GET)) {
-  // yes, so set the sort vars
-  list($sort_col, $sort_order) = explode('_', $sort);
+    // yes, so set the sort vars
+    list($sort_col, $sort_order) = explode('_', $sort);
 
-  // set session vars for sort (so next page and task switch know how to sort)
-  if (!in_array('message_sort_col', $dont_override)) {
-    $_SESSION['sort_col'] = $save_arr['message_sort_col'] = $sort_col;
-  }
-  if (!in_array('message_sort_order', $dont_override)) {
-    $_SESSION['sort_order'] = $save_arr['message_sort_order'] = $sort_order;
-  }
+    // set session vars for sort (so next page and task switch know how to sort)
+    if (!in_array('message_sort_col', $dont_override)) {
+        $_SESSION['sort_col'] = $save_arr['message_sort_col'] = $sort_col;
+    }
+    if (!in_array('message_sort_order', $dont_override)) {
+        $_SESSION['sort_order'] = $save_arr['message_sort_order'] = $sort_order;
+    }
 }
 
 // is there a set of columns for this request?
 if ($cols = rcube_utils::get_input_value('_cols', rcube_utils::INPUT_GET)) {
-  if (!in_array('list_cols', $dont_override)) {
-    $save_arr['list_cols'] = explode(',', $cols);
-  }
+    $_SESSION['list_attrib']['columns'] = explode(',', $cols);
+    if (!in_array('list_cols', $dont_override)) {
+        $save_arr['list_cols'] = explode(',', $cols);
+    }
 }
 
 if (!empty($save_arr)) {
-  $RCMAIL->user->save_prefs($save_arr);
+    $RCMAIL->user->save_prefs($save_arr);
 }
 
 $mbox_name = $RCMAIL->storage->get_folder();
@@ -59,75 +60,94 @@ $RCMAIL->storage->folder_sync($mbox_name);
 
 // initialize searching result if search_filter is used
 if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
-  $search_request = md5($mbox_name.$_SESSION['search_filter']);
-  $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCUBE_CHARSET, rcmail_sort_column());
-  $_SESSION['search'] = $RCMAIL->storage->get_search_set();
-  $_SESSION['search_request'] = $search_request;
-  $OUTPUT->set_env('search_request', $search_request);
+    $search_request = md5($mbox_name.$_SESSION['search_scope'].$_SESSION['search_filter']);
+    $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCUBE_CHARSET, rcmail_sort_column());
+
+    $_SESSION['search']         = $RCMAIL->storage->get_search_set();
+    $_SESSION['search_request'] = $search_request;
+
+    $OUTPUT->set_env('search_request', $search_request);
+    $OUTPUT->set_env('search_filter', $_SESSION['search_filter']);
+
+    $multifolder = is_a($_SESSION['search'][1], 'rcube_result_multifolder');
 }
 
 // fetch message headers
-if ($count = $RCMAIL->storage->count($mbox_name, $threading ? 'THREADS' : 'ALL', !empty($_REQUEST['_refresh'])))
-  $a_headers = $RCMAIL->storage->list_messages($mbox_name, NULL, rcmail_sort_column(), rcmail_sort_order());
+if ($count = $RCMAIL->storage->count($mbox_name, $threading ? 'THREADS' : 'ALL', !empty($_REQUEST['_refresh']))) {
+    $a_headers = $RCMAIL->storage->list_messages($mbox_name, NULL, rcmail_sort_column(), rcmail_sort_order());
+}
 
 // update search set (possible change of threading mode)
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
     && $_SESSION['search_request'] == $_REQUEST['_search']
 ) {
-  $_SESSION['search'] = $RCMAIL->storage->get_search_set();
+    $search_request = $_REQUEST['_search'];
+    $_SESSION['search'] = $RCMAIL->storage->get_search_set();
 }
 // remove old search data
 else if (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {
-  $RCMAIL->session->remove('search');
+    $RCMAIL->session->remove('search');
 }
 
-// empty result? we'll skip UNSEEN counting in rcmail_send_unread_count()
-if (empty($search_request) && empty($a_headers)) {
-    $unseen = 0;
-}
+rcmail_list_pagetitle();
 
 // update mailboxlist
-rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']), $unseen);
+if (empty($search_request)) {
+    rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']), empty($a_headers) ? 0 : null);
+}
 
 // update message count display
 $pages  = ceil($count/$RCMAIL->storage->get_pagesize());
-$exists = $RCMAIL->storage->count($mbox_name, 'EXISTS');
+$page   = $count ? $RCMAIL->storage->get_page() : 1;
+$exists = $RCMAIL->storage->count($mbox_name, 'EXISTS', true);
 
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', $pages);
 $OUTPUT->set_env('threading', $threading);
-$OUTPUT->set_env('current_page', $count ? $RCMAIL->storage->get_page() : 1);
+$OUTPUT->set_env('current_page', $page);
 $OUTPUT->set_env('exists', $exists);
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count), $mbox_name);
 
-// add message rows
-rcmail_js_message_list($a_headers, FALSE, $cols);
-if (isset($a_headers) && count($a_headers)) {
-  if ($search_request) {
-    $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
-  }
+// remove old message rows if commanded by the client
+if (!empty($_REQUEST['_clear'])) {
+    $OUTPUT->command('clear_message_list');
+}
 
-  // remember last HIGHESTMODSEQ value (if supported)
-  // we need it for flag updates in check-recent
-  $data = $RCMAIL->storage->folder_data($mbox_name);
-  if (!empty($data['HIGHESTMODSEQ'])) {
-    $_SESSION['list_mod_seq'] = $data['HIGHESTMODSEQ'];
-  }
+// add message rows
+rcmail_js_message_list($a_headers, false, $cols);
+
+if (isset($a_headers) && count($a_headers)) {
+    if ($search_request) {
+        $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $count));
+    }
+
+    // remember last HIGHESTMODSEQ value (if supported)
+    // we need it for flag updates in check-recent
+    $data = $RCMAIL->storage->folder_data($mbox_name);
+    if (!empty($data['HIGHESTMODSEQ'])) {
+        $_SESSION['list_mod_seq'] = $data['HIGHESTMODSEQ'];
+    }
 }
 else {
-  // handle IMAP errors (e.g. #1486905)
-  if ($err_code = $RCMAIL->storage->get_error_code()) {
-    $RCMAIL->display_server_error();
-  }
-  else if ($search_request)
-    $OUTPUT->show_message('searchnomatch', 'notice');
-  else
-    $OUTPUT->show_message('nomessagesfound', 'notice');
+    // handle IMAP errors (e.g. #1486905)
+    if ($err_code = $RCMAIL->storage->get_error_code()) {
+        $RCMAIL->display_server_error();
+    }
+    else if ($search_request) {
+        $OUTPUT->show_message('searchnomatch', 'notice');
+    }
+    else {
+        $OUTPUT->show_message('nomessagesfound', 'notice');
+    }
 }
 
 // set trash folder state
 if ($mbox_name === $RCMAIL->config->get('trash_mbox')) {
     $OUTPUT->command('set_trash_count', $exists);
+}
+
+if ($page == 1) {
+    $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $multifolder ? 'INBOX' : $mbox_name));
 }
 
 // send response

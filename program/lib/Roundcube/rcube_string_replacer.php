@@ -42,7 +42,7 @@ class rcube_string_replacer
         // Support unicode/punycode in top-level domain part
         $utf_domain = '[^?&@"\'\\/()<>\s\r\t\n]+\\.?([^\\x00-\\x2f\\x3b-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-zA-Z0-9]{2,})';
         $url1       = '.:;,';
-        $url2       = 'a-zA-Z0-9%=#$@+?|!&\\/_~\\[\\]\\(\\){}\*-';
+        $url2       = 'a-zA-Z0-9%=#$@+?|!&\\/_~\\[\\]\\(\\){}\*\x80-\xFE-';
 
         $this->link_pattern = "/([\w]+:\/\/|\W[Ww][Ww][Ww]\.|^[Ww][Ww][Ww]\.)($utf_domain([$url1]*[$url2]+)*)/";
         $this->mailto_pattern = "/("

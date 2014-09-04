@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -30,7 +30,6 @@ $messages['invalidrequest'] = 'Eg forstår ingen ting! Ingen data lagra.';
 $messages['invalidhost'] = 'Ugyldig tenarnamn.';
 $messages['nomessagesfound'] = 'Ingen meldingar i denne postkassa.';
 $messages['loggedout'] = 'Du har avslutta økta. Ha det bra!';
-$messages['mailboxempty'] = 'Postkassa er tom.';
 $messages['refreshing'] = 'Oppdaterer …';
 $messages['loading'] = 'Hentar …';
 $messages['uploading'] = 'Lastar opp fil …';
@@ -120,7 +119,6 @@ $messages['importconfirm'] = '<b>Importerte $inserted kontaktar</b>';
 $messages['importconfirmskipped'] = '<b>Hoppa over $skipped oppføringar som fanst frå før</b>';
 $messages['opnotpermitted'] = 'Ulovleg operasjon.';
 $messages['nofromaddress'] = 'Manglar e-postadresse i denne identiteten.';
-$messages['editorwarning'] = 'Å byta til rein tekst vil fjerna all tekstformateringa. Vil du halda fram?';
 $messages['httpreceivedencrypterror'] = 'En uopprettelig feil oppstod knytta til innstillingane. Kontakt systemansvarleg umiddelbart. <b>Meldinga kunne ikkje sendast.</b>';
 $messages['smtpconnerror'] = 'SMTP-feil ($code): Tilkopling til tenar feila.';
 $messages['smtpautherror'] = 'SMTP-feil ($code): Autentisering feila.';

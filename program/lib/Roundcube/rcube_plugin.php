@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -94,7 +94,15 @@ abstract class rcube_plugin
     /**
      * Provide information about this
      *
-     * @return array Meta information about a plugin or false if not implemented
+     * @return array Meta information about a plugin or false if not implemented:
+     * As hash array with the following keys:
+     *      name: The plugin name
+     *    vendor: Name of the plugin developer
+     *   version: Plugin version name
+     *   license: License name (short form according to http://spdx.org/licenses/)
+     *       uri: The URL to the plugin homepage or source repository
+     *   src_uri: Direct download URL to the source code of this plugin
+     *   require: List of plugins required for this one (as array of plugin names)
      */
     public static function info()
     {
@@ -110,6 +118,17 @@ abstract class rcube_plugin
     public function require_plugin($plugin_name)
     {
         return $this->api->load_plugin($plugin_name, true);
+    }
+
+    /**
+     * Attempt to load the given plugin which is optional for the current plugin
+     *
+     * @param string Plugin name
+     * @return boolean True on success, false on failure
+     */
+    public function include_plugin($plugin_name)
+    {
+        return $this->api->load_plugin($plugin_name, true, false);
     }
 
     /**
@@ -394,7 +413,11 @@ abstract class rcube_plugin
     public function local_skin_path()
     {
         $rcube = rcube::get_instance();
-        foreach (array($rcube->config->get('skin'), 'larry') as $skin) {
+        $skins = array_keys((array)$rcube->output->skins);
+        if (empty($skins)) {
+            $skins = array($rcube->config->get('skin'));
+        }
+        foreach ($skins as $skin) {
             $skin_path = 'skins/' . $skin;
             if (is_dir(realpath(slashify($this->home) . $skin_path))) {
                 break;

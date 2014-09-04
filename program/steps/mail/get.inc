@@ -221,7 +221,7 @@ else if (strlen($part_id)) {
         // TIFF to JPEG conversion, if needed
         $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
         if (!empty($_REQUEST['_embed']) && !$tiff_support
-            && $RCMAIL->config->get('im_convert_path')
+            && rcube_image::is_convertable('image/tiff')
             && rcmail_part_image_type($part) == 'image/tiff'
         ) {
             $tiff2jpeg = true;
@@ -293,9 +293,7 @@ else if (strlen($part_id)) {
 
             $filename = rcmail_attachment_name($part);
 
-            if ($browser->ie && $browser->ver < 7)
-                $filename = rawurlencode(abbreviate_string($filename, 55));
-            else if ($browser->ie)
+            if ($browser->ie)
                 $filename = rawurlencode($filename);
             else
                 $filename = addcslashes($filename, '"');
@@ -356,7 +354,7 @@ else if (strlen($part_id)) {
             }
             // send part as-it-is
             else {
-                if ($part->body) {
+                if ($part->body && empty($plugin['download'])) {
                     header("Content-Length: " . strlen($part->body));
                     echo $part->body;
                     $sent = true;

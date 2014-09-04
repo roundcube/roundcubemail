@@ -115,7 +115,7 @@ body.iframe
   padding: 20px 10px 10px 10px;
 }
 
-legend, label
+#filter-form legend, #filter-form label
 {
   color: #666666;
 }
@@ -409,4 +409,22 @@ body.iframe.mail
 body.iframe.mail #filter-form
 {
   padding: 10px 5px 5px 5px;
+}
+
+#vacationform .listarea {
+  max-height: 75px;
+}
+
+#vacationform .listelement,
+#vacationform .listelement .reset {
+  height: 18px;
+}
+
+#vacationform .listelement .reset {
+  background-position: -1px 1px;
+}
+
+#vacationform .listelement input {
+  vertical-align: top;
+  border: 0;
 }

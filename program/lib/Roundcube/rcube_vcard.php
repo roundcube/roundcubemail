@@ -110,7 +110,7 @@ class rcube_vcard
     public function load($vcard, $charset = RCUBE_CHARSET, $detect = false)
     {
         self::$values_decoded = false;
-        $this->raw = self::vcard_decode($vcard);
+        $this->raw = self::vcard_decode(self::cleanup($vcard));
 
         // resolve charset parameters
         if ($charset == null) {
@@ -148,6 +148,11 @@ class rcube_vcard
             $tmp = $this->email[0];
             $this->email[0] = $this->email[$pref_index];
             $this->email[$pref_index] = $tmp;
+        }
+
+        // fix broken vcards from Outlook that only supply ORG but not the required N or FN properties
+        if (!strlen(trim($this->displayname . $this->surname . $this->firstname)) && strlen($this->organization)) {
+            $this->displayname = $this->organization;
         }
     }
 
@@ -491,7 +496,7 @@ class rcube_vcard
 
             if (preg_match('/^END:VCARD$/i', $line)) {
                 // parse vcard
-                $obj = new rcube_vcard(self::cleanup($vcard_block), $charset, true, self::$fieldmap);
+                $obj = new rcube_vcard($vcard_block, $charset, true, self::$fieldmap);
                 // FN and N is required by vCard format (RFC 2426)
                 // on import we can be less restrictive, let's addressbook decide
                 if (!empty($obj->displayname) || !empty($obj->surname) || !empty($obj->firstname) || !empty($obj->email)) {
@@ -527,9 +532,9 @@ class rcube_vcard
         // Cleanup
         $vcard = preg_replace(array(
                 // convert special types (like Skype) to normal type='skype' classes with this simple regex ;)
-                '/item(\d+)\.(TEL|EMAIL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w-() ]*)(?:>!\$_)?./s',
-                '/^item\d*\.X-AB.*$/m',  // remove cruft like item1.X-AB*
-                '/^item\d*\./m',         // remove item1.ADR instead of ADR
+                '/item(\d+)\.(TEL|EMAIL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w-() ]*)(?:>!\$_)?./si',
+                '/^item\d*\.X-AB.*$/mi',  // remove cruft like item1.X-AB*
+                '/^item\d*\./mi',         // remove item1.ADR instead of ADR
                 '/\n+/',                 // remove empty lines
                 '/^(N:[^;\R]*)$/m',      // if N doesn't have any semicolons, add some
             ),
@@ -589,29 +594,34 @@ class rcube_vcard
     private static function vcard_decode($vcard)
     {
         // Perform RFC2425 line unfolding and split lines
-        $vcard = preg_replace(array("/\r/", "/\n\s+/"), '', $vcard);
-        $lines = explode("\n", $vcard);
-        $data  = array();
+        $vcard  = preg_replace(array("/\r/", "/\n\s+/"), '', $vcard);
+        $lines  = explode("\n", $vcard);
+        $result = array();
 
         for ($i=0; $i < count($lines); $i++) {
-            if (!preg_match('/^([^:]+):(.+)$/', $lines[$i], $line))
+            if (!($pos = strpos($lines[$i], ':'))) {
                 continue;
+            }
 
-            if (preg_match('/^(BEGIN|END)$/i', $line[1]))
+            $prefix = substr($lines[$i], 0, $pos);
+            $data   = substr($lines[$i], $pos+1);
+
+            if (preg_match('/^(BEGIN|END)$/i', $prefix)) {
                 continue;
+            }
 
             // convert 2.1-style "EMAIL;internet;home:" to 3.0-style "EMAIL;TYPE=internet;TYPE=home:"
-            if ($data['VERSION'][0] == "2.1"
-                && preg_match('/^([^;]+);([^:]+)/', $line[1], $regs2)
+            if ($result['VERSION'][0] == "2.1"
+                && preg_match('/^([^;]+);([^:]+)/', $prefix, $regs2)
                 && !preg_match('/^TYPE=/i', $regs2[2])
             ) {
-                $line[1] = $regs2[1];
+                $prefix = $regs2[1];
                 foreach (explode(';', $regs2[2]) as $prop) {
-                    $line[1] .= ';' . (strpos($prop, '=') ? $prop : 'TYPE='.$prop);
+                    $prefix .= ';' . (strpos($prop, '=') ? $prop : 'TYPE='.$prop);
                 }
             }
 
-            if (preg_match_all('/([^\\;]+);?/', $line[1], $regs2)) {
+            if (preg_match_all('/([^\\;]+);?/', $prefix, $regs2)) {
                 $entry = array();
                 $field = strtoupper($regs2[1][0]);
                 $enc   = null;
@@ -624,10 +634,10 @@ class rcube_vcard
                             // add next line(s) to value string if QP line end detected
                             if ($value == 'QUOTED-PRINTABLE') {
                                 while (preg_match('/=$/', $lines[$i])) {
-                                    $line[2] .= "\n" . $lines[++$i];
+                                    $data .= "\n" . $lines[++$i];
                                 }
                             }
-                            $enc = $value;
+                            $enc = $value == 'BASE64' ? 'B' : $value;
                         }
                         else {
                             $lc_key = strtolower($key);
@@ -647,20 +657,30 @@ class rcube_vcard
                         // should we use vCard 3.0 instead?
                         // $entry['base64'] = true;
                     }
-                    $line[2] = self::decode_value($line[2], $enc ? $enc : 'base64');
+
+                    $data = self::decode_value($data, $enc ? $enc : 'base64');
+                }
+                else if ($field == 'PHOTO') {
+                    // vCard 4.0 data URI, "PHOTO:data:image/jpeg;base64,..."
+                    if (preg_match('/^data:[a-z\/_-]+;base64,/i', $data, $m)) {
+                        $entry['encoding'] = $enc = 'B';
+                        $data = substr($data, strlen($m[0]));
+                        $data = self::decode_value($data, 'base64');
+                    }
                 }
 
                 if ($enc != 'B' && empty($entry['base64'])) {
-                    $line[2] = self::vcard_unquote($line[2]);
+                    $data = self::vcard_unquote($data);
                 }
 
-                $entry = array_merge($entry, (array) $line[2]);
-                $data[$field][] = $entry;
+                $entry = array_merge($entry, (array) $data);
+                $result[$field][] = $entry;
             }
         }
 
-        unset($data['VERSION']);
-        return $data;
+        unset($result['VERSION']);
+
+        return $result;
     }
 
     /**

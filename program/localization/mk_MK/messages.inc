@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -23,7 +23,6 @@ $messages['servererror'] = 'Грешка во серверот!';
 $messages['invalidrequest'] = 'Неважечко барање! Податоците не се зачувани.';
 $messages['nomessagesfound'] = 'Немате писма во ова сандаче';
 $messages['loggedout'] = 'Успешно се одјавивте. Ви благодариме и довидување!';
-$messages['mailboxempty'] = 'Поштенското сандаче е празно.';
 $messages['loading'] = 'Вчитувам...';
 $messages['uploading'] = 'Ја подигам податотеката...';
 $messages['loadingdata'] = 'Ги вчитувам податоците...';
@@ -86,7 +85,6 @@ $messages['importwait'] = 'Убезувам,, почекајте...';
 $messages['importconfirm'] = '<b>Успешно се увезени $inserted имиња, $skipped веќе постојат и се прескокнати</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Операцијата не е дозволена';
 $messages['nofromaddress'] = 'Не е внесена е-пошта во одберениот идентитет';
-$messages['editorwarning'] = 'Префрлањето на уредникот на обичен текст ќе резултира со губење на целото форматирање на текстот. Дали сакате да продолжите?';
 $messages['httpreceivedencrypterror'] = 'Се појави фатална конфигурациска грешка. Веднаш контактирајте го администраторот. <b>Вашето писмо не мож.</b>';
 $messages['smtpconnerror'] = 'SMTP грешка ($code): Не успеав да се поврзам со серверот';
 $messages['smtpautherror'] = 'SMTP грешка: Не успееа потврдувањето';

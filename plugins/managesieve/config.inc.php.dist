@@ -28,6 +28,18 @@ $config['managesieve_auth_pw'] = null;
 // Note: tls:// prefix in managesieve_host is also supported
 $config['managesieve_usetls'] = false;
 
+// Connection scket context options
+// See http://php.net/manual/en/context.ssl.php
+// The example below enables server certificate validation
+//$config['imap_conn_options'] = array(
+//  'ssl'         => array(
+//     'verify_peer'  => true,
+//     'verify_depth' => 3,
+//     'cafile'       => '/etc/openssl/certs/ca.crt',
+//   ),
+// );
+$config['managesieve_conn_options'] = null;
+
 // default contents of filters script (eg. default spam filter)
 $config['managesieve_default'] = '/etc/dovecot/sieve/global';
 
@@ -68,4 +80,11 @@ $config['managesieve_filename_exceptions'] = array();
 // If not empty, user will need to select domain from a list
 $config['managesieve_domains'] = array();
 
-?>
+// Enables separate management interface for vacation responses (out-of-office)
+// 0 - no separate section (default),
+// 1 - add Vacation section,
+// 2 - add Vacation section, but hide Filters section
+$config['managesieve_vacation'] = 0;
+
+// Supported methods of notify extension. Default: 'mailto'
+$config['managesieve_notify_methods'] = array('mailto');

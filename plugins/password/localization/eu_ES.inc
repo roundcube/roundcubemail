@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Ezin izan da pasahitz berria gorde.';
 $messages['passwordshort'] = 'Gutxienez $length karakteretakoa izan behar du pasahitzak.';
 $messages['passwordweak'] = 'Gutxienez zenbaki bat eta puntuazio karaktere bat izan behar du pasahitzak.';
 $messages['passwordforbidden'] = 'Galarazitako karaktereak daude pasahitzean.';
+$messages['firstloginchange'] = 'Zure lehenengo sarrera da. Pasahitza aldatu mesedez.';
 ?>

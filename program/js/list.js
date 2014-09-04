@@ -1,21 +1,35 @@
-/*
- +-----------------------------------------------------------------------+
- | Roundcube List Widget                                                 |
- |                                                                       |
- | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
- |                                                                       |
- | Licensed under the GNU General Public License version 3 or            |
- | any later version with exceptions for skins & plugins.                |
- | See the README file for a full license statement.                     |
- |                                                                       |
- +-----------------------------------------------------------------------+
- | Authors: Thomas Bruederli <roundcube@gmail.com>                       |
- |          Charles McNulty <charles@charlesmcnulty.com>                 |
- +-----------------------------------------------------------------------+
- | Requires: common.js                                                   |
- +-----------------------------------------------------------------------+
-*/
+/**
+ * Roundcube List Widget
+ *
+ * This file is part of the Roundcube Webmail client
+ *
+ * @licstart  The following is the entire license notice for the
+ * JavaScript code in this file.
+ *
+ * Copyright (c) 2005-2014, The Roundcube Dev Team
+ *
+ * The JavaScript code in this page is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in this file.
+ *
+ * @author Thomas Bruederli <roundcube@gmail.com>
+ * @author Charles McNulty <charles@charlesmcnulty.com>
+ *
+ * @requires jquery.js, common.js
+ */
 
 
 /**
@@ -37,7 +51,7 @@ function rcube_list_widget(list, p)
   this.rowcount = 0;
   this.colcount = 0;
 
-  this.subject_col = -1;
+  this.subject_col = 0;
   this.modkey = 0;
   this.multiselect = false;
   this.multiexpand = false;
@@ -46,12 +60,14 @@ function rcube_list_widget(list, p)
   this.column_movable = false;
   this.keyboard = false;
   this.toggleselect = false;
+  this.aria_listbox = false;
+  this.parent_focus = true;
 
   this.drag_active = false;
   this.col_drag_active = false;
   this.column_fixed = null;
-  this.last_selected = 0;
-  this.shift_start = 0;
+  this.last_selected = null;
+  this.shift_start = null;
   this.focused = false;
   this.drag_mouse_start = null;
   this.dblclick_time = 500; // default value on MS Windows is 500
@@ -61,6 +77,9 @@ function rcube_list_widget(list, p)
   if (p && typeof p === 'object')
     for (var n in p)
       this[n] = p[n];
+
+  // register this instance
+  rcube_list_widget._instances.push(this);
 };
 
 
@@ -80,6 +99,14 @@ init: function()
     this.tbody = this.list;
   }
 
+  if ($(this.list).attr('role') == 'listbox') {
+    this.aria_listbox = true;
+    if (this.multiselect)
+      $(this.list).attr('aria-multiselectable', 'true');
+  }
+
+  var me = this;
+
   if (this.tbody) {
     this.rows = {};
     this.rowcount = 0;
@@ -94,8 +121,17 @@ init: function()
     this.frame = this.list.parentNode;
 
     // set body events
-    if (this.keyboard)
+    if (this.keyboard) {
       rcube_event.add_listener({event:'keydown', object:this, method:'key_press'});
+
+      // allow the table element to receive focus.
+      $(this.list).attr('tabindex', '0')
+        .on('focus', function(e){ me.focus(e); });
+    }
+  }
+
+  if (this.parent_focus) {
+    this.list.parentNode.onclick = function(e) { me.focus(); };
   }
 
   return this;
@@ -107,11 +143,11 @@ init: function()
  */
 init_row: function(row)
 {
+  row.uid = this.get_row_uid(row);
+
   // make references in internal array and set event handlers
-  if (row && String(row.id).match(this.id_regexp)) {
-    var self = this,
-      uid = RegExp.$1;
-    row.uid = uid;
+  if (row && row.uid) {
+    var self = this, uid = row.uid;
     this.rows[uid] = {uid:uid, id:row.id, obj:row};
 
     // set eventhandlers to table row
@@ -140,6 +176,15 @@ init_row: function(row)
       }, false);
     }
 
+    // label the list row with the subject col as descriptive label
+    if (this.aria_listbox) {
+      var lbl_id = 'l:' + row.id;
+      $(row)
+        .attr('role', 'option')
+        .attr('aria-labelledby', lbl_id)
+        .find(this.col_tagname()).eq(this.subject_col).attr('id', lbl_id);
+    }
+
     if (document.all)
       row.onselectstart = function() { return false; };
 
@@ -161,7 +206,7 @@ init_header: function()
 
     if (this.fixed_header) {  // copy (modified) fixed header back to the actual table
       $(this.list.tHead).replaceWith($(this.fixed_header).find('thead').clone());
-      $(this.list.tHead).find('tr td').attr('style', '');  // remove fixed widths
+      $(this.list.tHead).find('th,td').attr('style', '').find('a').attr('tabindex', '-1');  // remove fixed widths
     }
     else if (!bw.touch && this.list.className.indexOf('fixedheader') >= 0) {
       this.init_fixed_header();
@@ -188,6 +233,7 @@ init_fixed_header: function()
   if (!this.fixed_header) {
     this.fixed_header = $('<table>')
       .attr('class', this.list.className + ' fixedcopy')
+      .attr('role', 'presentation')
       .css({ position:'fixed' })
       .append(clone)
       .append('<tbody></tbody>');
@@ -205,6 +251,12 @@ init_fixed_header: function()
   else {
     $(this.fixed_header).find('thead').replaceWith(clone);
   }
+
+  // avoid scrolling header links being focused
+  $(this.list.tHead).find('a.sortcol').attr('tabindex', '-1');
+
+  // set tabindex to fixed header sort links
+  clone.find('a.sortcol').attr('tabindex', '0');
 
   this.thead = clone.get(0);
   this.resize();
@@ -248,6 +300,7 @@ clear: function(sel)
 
   this.rows = {};
   this.rowcount = 0;
+  this.last_selected = null;
 
   if (sel)
     this.clear_selection();
@@ -299,12 +352,15 @@ insert_row: function(row, before)
     if (row.id) domrow.id = row.id;
     if (row.className) domrow.className = row.className;
     if (row.style) $.extend(domrow.style, row.style);
+    if (row.uid) $(domrow).data('uid', String(row.uid)); // #1489906
 
-    for (var domcell, col, i=0; row.cols && i < row.cols.length; i++) {
+    for (var e, domcell, col, i=0; row.cols && i < row.cols.length; i++) {
       col = row.cols[i];
       domcell = document.createElement(this.col_tagname());
       if (col.className) domcell.className = col.className;
       if (col.innerHTML) domcell.innerHTML = col.innerHTML;
+      for (e in col.events)
+        domcell['on' + e] = col.events[e];
       domrow.appendChild(domcell);
     }
 
@@ -353,39 +409,80 @@ update_row: function(id, cols, newid, select)
  */
 focus: function(e)
 {
-  var n, id;
+  if (this.focused)
+    return;
+
   this.focused = true;
 
-  for (n in this.selection) {
-    id = this.selection[n];
-    if (this.rows[id] && this.rows[id].obj) {
-      $(this.rows[id].obj).addClass('selected').removeClass('unfocused');
-    }
+  if (e)
+    rcube_event.cancel(e);
+
+  var focus_elem = null;
+
+  if (this.last_selected && this.rows[this.last_selected]) {
+    focus_elem = $(this.rows[this.last_selected].obj).find(this.col_tagname()).eq(this.subject_col).attr('tabindex', '0');
   }
 
   // Un-focus already focused elements (#1487123, #1487316, #1488600, #1488620)
-  // It looks that window.focus() does the job for all browsers, but not Firefox (#1489058)
-  $('iframe,:focus:not(body)').blur();
-  window.focus();
+  if (focus_elem && focus_elem.length) {
+    // We now fix this by explicitly assigning focus to a dedicated link element
+    this.focus_noscroll(focus_elem);
+  }
+  else {
+    // It looks that window.focus() does the job for all browsers, but not Firefox (#1489058)
+    $('iframe,:focus:not(body)').blur();
+    window.focus();
+  }
 
-  if (e || (e = window.event))
-    rcube_event.cancel(e);
+  $(this.list).addClass('focus').removeAttr('tabindex');
+
+  // set internal focus pointer to first row
+  if (!this.last_selected)
+    this.select_first(CONTROL_KEY);
 },
 
 
 /**
  * remove focus from the list
  */
-blur: function()
+blur: function(e)
 {
-  var n, id;
   this.focused = false;
-  for (n in this.selection) {
-    id = this.selection[n];
-    if (this.rows[id] && this.rows[id].obj) {
-      $(this.rows[id].obj).removeClass('selected focused').addClass('unfocused');
-    }
+
+  // avoid the table getting focus right again
+  var me = this;
+  setTimeout(function(){
+    $(me.list).removeClass('focus').attr('tabindex', '0');
+  }, 20);
+
+  if (this.last_selected && this.rows[this.last_selected]) {
+    $(this.rows[this.last_selected].obj)
+      .find(this.col_tagname()).eq(this.subject_col).removeAttr('tabindex');
   }
+},
+
+/**
+ * Focus the given element without scrolling the list container
+ */
+focus_noscroll: function(elem)
+{
+  var y = this.frame.scrollTop || this.frame.scrollY;
+  elem.focus();
+  this.frame.scrollTop = y;
+},
+
+
+/**
+ * Set/unset the given column as hidden
+ */
+hide_column: function(col, hide)
+{
+  var method = hide ? 'addClass' : 'removeClass';
+
+  if (this.fixed_header)
+    $(this.row_tagname()+' '+this.col_tagname()+'.'+col, this.fixed_header)[method]('hidden');
+
+  $(this.row_tagname()+' '+this.col_tagname()+'.'+col, this.list)[method]('hidden');
 },
 
 
@@ -491,6 +588,8 @@ click_row: function(e, id)
   }
 
   this.rows[id].clicked = now;
+  this.focus();
+
   return false;
 },
 
@@ -583,7 +682,7 @@ expand: function(row)
     row.expanded = true;
     depth = row.depth;
     new_row = row.obj.nextSibling;
-    this.update_expando(row.uid, true);
+    this.update_expando(row.id, true);
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
   }
   else {
@@ -633,7 +732,7 @@ collapse_all: function(row)
     row.expanded = false;
     depth = row.depth;
     new_row = row.obj.nextSibling;
-    this.update_expando(row.uid);
+    this.update_expando(row.id);
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
 
     // don't collapse sub-root tree in multiexpand mode 
@@ -655,7 +754,7 @@ collapse_all: function(row)
           $(new_row).css('display', 'none');
         if (r.has_children && r.expanded) {
           r.expanded = false;
-          this.update_expando(r.uid, false);
+          this.update_expando(r.id, false);
           this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
         }
       }
@@ -677,7 +776,7 @@ expand_all: function(row)
     row.expanded = true;
     depth = row.depth;
     new_row = row.obj.nextSibling;
-    this.update_expando(row.uid, true);
+    this.update_expando(row.id, true);
     this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
   }
   else {
@@ -694,7 +793,7 @@ expand_all: function(row)
         $(new_row).css('display', '');
         if (r.has_children && !r.expanded) {
           r.expanded = true;
-          this.update_expando(r.uid, true);
+          this.update_expando(r.id, true);
           this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
         }
       }
@@ -708,13 +807,26 @@ expand_all: function(row)
 },
 
 
-update_expando: function(uid, expanded)
+update_expando: function(id, expanded)
 {
-  var expando = document.getElementById('rcmexpando' + uid);
+  var expando = document.getElementById('rcmexpando' + id);
   if (expando)
     expando.className = expanded ? 'expanded' : 'collapsed';
 },
 
+get_row_uid: function(row)
+{
+  if (row && row.uid)
+    return row.uid;
+
+  var uid;
+  if (row && (uid = $(row).data('uid')))
+    row.uid = uid;
+  else if (row && String(row.id).match(this.id_regexp))
+    row.uid = RegExp.$1;
+
+  return row.uid;
+},
 
 /**
  * get first/next/previous/last rows that are not hidden
@@ -750,11 +862,11 @@ get_prev_row: function()
 get_first_row: function()
 {
   if (this.rowcount) {
-    var i, len, rows = this.tbody.childNodes;
+    var i, uid, rows = this.tbody.childNodes;
 
-    for (i=0, len=rows.length-1; i<len; i++)
-      if (rows[i].id && String(rows[i].id).match(this.id_regexp) && this.rows[RegExp.$1] != null)
-        return RegExp.$1;
+    for (i=0; i<rows.length; i++)
+      if (rows[i].id && (uid = this.get_row_uid(rows[i])))
+        return uid;
   }
 
   return null;
@@ -763,11 +875,11 @@ get_first_row: function()
 get_last_row: function()
 {
   if (this.rowcount) {
-    var i, rows = this.tbody.childNodes;
+    var i, uid, rows = this.tbody.childNodes;
 
     for (i=rows.length-1; i>=0; i--)
-      if (rows[i].id && String(rows[i].id).match(this.id_regexp) && this.rows[RegExp.$1] != null)
-        return RegExp.$1;
+      if (rows[i].id && (uid = this.get_row_uid(rows[i])))
+        return uid;
   }
 
   return null;
@@ -795,9 +907,10 @@ get_cell: function(row, index)
  */
 select_row: function(id, mod_key, with_mouse)
 {
-  var select_before = this.selection.join(',');
+  var select_before = this.selection.join(','),
+    in_selection_before = this.in_selection(id);
 
-  if (!this.multiselect)
+  if (!this.multiselect && with_mouse)
     mod_key = 0;
 
   if (!this.shift_start)
@@ -833,20 +946,26 @@ select_row: function(id, mod_key, with_mouse)
     this.multi_selecting = true;
   }
 
-  // trigger event if selection changed
-  if (this.selection.join(',') != select_before)
-    this.triggerEvent('select');
-
-  if (this.last_selected != 0 && this.rows[this.last_selected])
-    $(this.rows[this.last_selected].obj).removeClass('focused');
+  if (this.last_selected && this.rows[this.last_selected]) {
+    $(this.rows[this.last_selected].obj).removeClass('focused')
+      .find(this.col_tagname()).eq(this.subject_col).removeAttr('tabindex');
+  }
 
   // unselect if toggleselect is active and the same row was clicked again
-  if (this.toggleselect && this.last_selected == id) {
+  if (this.toggleselect && in_selection_before && !mod_key) {
     this.clear_selection();
-    id = null;
   }
-  else
+  // trigger event if selection changed
+  else if (this.selection.join(',') != select_before) {
+    this.triggerEvent('select');
+  }
+
+  if (this.rows[id]) {
     $(this.rows[id].obj).addClass('focused');
+    // set cursor focus to link inside selected row
+    if (this.focused)
+      this.focus_noscroll($(this.rows[id].obj).find(this.col_tagname()).eq(this.subject_col).attr('tabindex', '0'));
+  }
 
   if (!this.selection.length)
     this.shift_start = null;
@@ -994,7 +1113,7 @@ select_all: function(filter)
       this.highlight_row(n, true, true);
     }
     else {
-      $(this.rows[n].obj).removeClass('selected').removeClass('unfocused');
+      $(this.rows[n].obj).removeClass('selected').removeAttr('aria-selected');
     }
   }
 
@@ -1035,7 +1154,7 @@ invert_selection: function()
 /**
  * Unselect selected row(s)
  */
-clear_selection: function(id)
+clear_selection: function(id, no_event)
 {
   var n, num_select = this.selection.length;
 
@@ -1051,14 +1170,16 @@ clear_selection: function(id)
   else {
     for (n in this.selection)
       if (this.rows[this.selection[n]]) {
-        $(this.rows[this.selection[n]].obj).removeClass('selected').removeClass('unfocused');
+        $(this.rows[this.selection[n]].obj).removeClass('selected').removeAttr('aria-selected');
       }
 
     this.selection = [];
   }
 
-  if (num_select && !this.selection.length)
+  if (num_select && !this.selection.length && !no_event) {
     this.triggerEvent('select');
+    this.last_selected = null;
+  }
 },
 
 
@@ -1110,15 +1231,15 @@ highlight_row: function(id, multiple, norecur)
 
   if (!multiple) {
     if (this.selection.length > 1 || !this.in_selection(id)) {
-      this.clear_selection();
+      this.clear_selection(null, true);
       this.selection[0] = id;
-      $(this.rows[id].obj).addClass('selected');
+      $(this.rows[id].obj).addClass('selected').attr('aria-selected', 'true');
     }
   }
   else {
     if (!this.in_selection(id)) { // select row
       this.selection.push(id);
-      $(this.rows[id].obj).addClass('selected');
+      $(this.rows[id].obj).addClass('selected').attr('aria-selected', 'true');
       if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, true);
     }
@@ -1128,7 +1249,7 @@ highlight_row: function(id, multiple, norecur)
         a_post = this.selection.slice(p+1, this.selection.length);
 
       this.selection = a_pre.concat(a_post);
-      $(this.rows[id].obj).removeClass('selected').removeClass('unfocused');
+      $(this.rows[id].obj).removeClass('selected').removeAttr('aria-selected');
       if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, false);
     }
@@ -1208,6 +1329,14 @@ key_press: function(e)
 
       return rcube_event.cancel(e);
 
+    case 9: // Tab
+      this.blur();
+      break;
+
+    case 13: // Enter
+      if (!this.selection.length)
+        this.select_row(this.last_selected, mod_key, false);
+
     default:
       this.key_pressed = keyCode;
       this.modkey = mod_key;
@@ -1261,14 +1390,22 @@ use_arrow_key: function(keyCode, mod_key)
         this.collapse(selected_row);
     }
 
-    this.update_expando(selected_row.uid, selected_row.expanded);
+    this.update_expando(selected_row.id, selected_row.expanded);
 
     return false;
   }
 
   if (new_row) {
+    // simulate ctr-key if no rows are selected
+    if (!mod_key && !this.selection.length)
+      mod_key = CONTROL_KEY;
+
     this.select_row(new_row.uid, mod_key, false);
     this.scrollto(new_row.uid);
+  }
+  else if (!new_row && !selected_row) {
+    // select the first row if none selected yet
+    this.select_first(CONTROL_KEY);
   }
 
   return false;
@@ -1280,7 +1417,8 @@ use_arrow_key: function(keyCode, mod_key)
  */
 scrollto: function(id)
 {
-  var row = this.rows[id].obj;
+  var row = this.rows[id] ? this.rows[id].obj : null;
+
   if (row && this.frame) {
     var scroll_to = Number(row.offsetTop),
       head_offset = 0;
@@ -1340,10 +1478,7 @@ drag_mouse_move: function(e)
 
     // get selected rows (in display order), don't use this.selection here
     $(this.row_tagname() + '.selected', this.tbody).each(function() {
-      if (!String(this.id).match(self.id_regexp))
-        return;
-
-      var uid = RegExp.$1, row = self.rows[uid];
+      var uid = self.get_row_uid(this), row = self.rows[uid];
 
       if (!row || $.inArray(uid, selection) > -1)
         return;
@@ -1372,7 +1507,11 @@ drag_mouse_move: function(e)
 
       $('> ' + self.col_tagname(), self.rows[uid].obj).each(function(n, cell) {
         if (self.subject_col < 0 || (self.subject_col >= 0 && self.subject_col == n)) {
-          var subject = $(cell).text();
+          // remove elements marked with "skip-on-drag" class
+          cell = $(cell).clone();
+          $(cell).find('.skip-on-drag').remove();
+
+          var subject = cell.text();
 
           if (subject) {
             // remove leading spaces
@@ -1667,3 +1806,6 @@ column_replace: function(from, to)
 rcube_list_widget.prototype.addEventListener = rcube_event_engine.prototype.addEventListener;
 rcube_list_widget.prototype.removeEventListener = rcube_event_engine.prototype.removeEventListener;
 rcube_list_widget.prototype.triggerEvent = rcube_event_engine.prototype.triggerEvent;
+
+// static
+rcube_list_widget._instances = [];

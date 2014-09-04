@@ -267,7 +267,10 @@ class rcube_user
             "SELECT * FROM ".$this->db->table_name('identities').
             " WHERE del <> 1 AND user_id = ?".
             ($sql_add ? " ".$sql_add : "").
-            " ORDER BY ".$this->db->quote_identifier('standard')." DESC, name ASC, identity_id ASC",
+            " ORDER BY ". $this->db->quote_identifier('standard') . " DESC, "
+                . $this->db->quote_identifier('name') . " ASC, "
+                . $this->db->quote_identifier('email') . " ASC, "
+                . $this->db->quote_identifier('identity_id') . " ASC",
             $this->ID);
 
         while ($sql_arr = $this->db->fetch_assoc($sql_result)) {

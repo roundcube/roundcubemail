@@ -4,13 +4,50 @@
     "license": "GPL-3.0+",
     "repositories": [
         {
+            "type": "pear",
+            "url": "http://pear.php.net/"
+        },
+        {
             "type": "composer",
             "url": "http://plugins.roundcube.net/"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:roundcube/sample-plugin.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git://git.kolab.org/git/pear/Net_LDAP3"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "Net_SMTP",
+                "version": "dev-master",
+                "source": {
+                    "url": "http://github.com/pear/Net_SMTP",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
         }
     ],
     "require": {
-        "php": ">=5.3.0",
-        "roundcube/plugin-installer": ">=0.1.3"
+        "php": ">=5.3.7",
+        "roundcube/plugin-installer": ">=0.1.3",
+        "pear/mail_mime": ">=1.8.9",
+        "pear/mail_mime-decode": ">=1.5.5",
+        "pear/net_smtp": "dev-master",
+        "pear-pear.php.net/auth_sasl": ">=1.0.6",
+        "pear-pear.php.net/net_idna2": ">=0.1.1",
+        "pear-pear.php.net/net_sieve": ">=1.3.2",
+        "pear-pear.php.net/net_ldap2": ">=2.0.12",
+        "kolab/Net_LDAP3": "dev-master",
+        "patchwork/utf8": "1.2.x"
+    },
+    "require-dev": {
+        "pear-pear.php.net/crypt_gpg": "*",
+        "phpunit/phpunit": "*"
     },
     "minimum-stability": "dev"
 }

@@ -27,8 +27,8 @@ an IMAP library derived from [IlohaMail][iloha] the [TinyMCE][tinymce] rich
 text editor, [Googiespell][googiespell] library for spell checking or
 the [WASHTML][washtml] sanitizer by Frederic Motte.
 
-The current default skin uses icons designed by Stephen Horlander and [Kevin 
-Gerich][kmgerich] for Mozilla.org.
+The current default skin 'Larry' was kindly created by FLINT / Büro für
+Gestaltung, Berne, Switzerland.
 
 
 INSTALLATION

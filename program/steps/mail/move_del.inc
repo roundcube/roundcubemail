@@ -5,7 +5,7 @@
  | program/steps/mail/move_del.inc                                       |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -27,18 +27,30 @@ if (!$OUTPUT->ajax_call)
 $threading = (bool) $RCMAIL->storage->get_threading();
 $old_count = $RCMAIL->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
 $old_pages = ceil($old_count / $RCMAIL->storage->get_pagesize());
+$sources   = array();
 
 $trash  = $RCMAIL->config->get('trash_mbox');
 
 // move messages
 if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
-    $count  = sizeof(explode(',', ($uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))));
     $target = rcube_utils::get_input_value('_target_mbox', rcube_utils::INPUT_POST, true);
-    $mbox   = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
+    $trash  = $RCMAIL->config->get('trash_mbox');
 
-    $moved = $RCMAIL->storage->move_message($uids, $target, $mbox);
+    $success = true;
+    foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
+        if ($mbox === $target) {
+            $count += count($uids);
+        }
+        else if ($RCMAIL->storage->move_message($uids, $target, $mbox)) {
+            $count += count($uids);
+            $sources[] = $mbox;
+        }
+        else {
+            $success = false;
+        }
+    }
 
-    if (!$moved) {
+    if (!$success) {
         // send error message
         if ($_POST['_from'] != 'show')
             $OUTPUT->command('list_mailbox');
@@ -47,17 +59,24 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
         exit;
     }
     else {
-      $OUTPUT->show_message('messagemoved', 'confirmation');
+        $OUTPUT->show_message('messagemoved', 'confirmation');
     }
 
-    $addrows = true;
+    if (!empty($_POST['_refresh'])) {
+        // FIXME: send updated message rows instead of releading the entire list
+        $OUTPUT->command('refresh_list');
+    }
+    else {
+        $addrows = true;
+    }
 }
 // delete messages 
-else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
-    $count = sizeof(explode(',', ($uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))));
-    $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST, true);
-
-    $del = $RCMAIL->storage->delete_message($uids, $mbox);
+else if ($RCMAIL->action == 'delete' && !empty($_POST['_uid'])) {
+    foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
+        $del      += (int)$RCMAIL->storage->delete_message($uids, $mbox);
+        $count    += count($uids);
+        $sources[] = $mbox;
+    }
 
     if (!$del) {
         // send error message
@@ -68,7 +87,7 @@ else if ($RCMAIL->action=='delete' && !empty($_POST['_uid'])) {
         exit;
     }
     else {
-      $OUTPUT->show_message('messagedeleted', 'confirmation');
+        $OUTPUT->show_message('messagedeleted', 'confirmation');
     }
 
     $addrows = true;
@@ -130,7 +149,7 @@ else {
     rcmail_send_unread_count($target, true);
   }
 
-  $OUTPUT->command('set_quota', $RCMAIL->quota_content());
+  $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $multifolder ? $sources[0] : 'INBOX'));
   $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($msg_count), $mbox);
 
   if ($threading) {
@@ -150,7 +169,7 @@ else {
       $OUTPUT->command('set_trash_count', $exists);
   }
   else if ($target !== null && $target === $trash) {
-      $OUTPUT->command('set_trash_count', $RCMAIL->storage->count($trash, 'EXISTS'));
+      $OUTPUT->command('set_trash_count', $RCMAIL->storage->count($trash, 'EXISTS', true));
   }
 }
 

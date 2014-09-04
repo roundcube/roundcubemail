@@ -45,6 +45,8 @@ if (!file_exists($opts['dir'])) {
 $RC = rcube::get_instance();
 $DB = rcube_db::factory($RC->config->get('db_dsnw'));
 
+$DB->set_debug((bool)$RC->config->get('sql_debug'));
+
 // Connect to database
 $DB->db_connect('w');
 if (!$DB->is_connected()) {
@@ -114,7 +116,7 @@ if (empty($version)) {
     $version = 2012080700;
 }
 
-$dir = $opts['dir'] . DIRECTORY_SEPARATOR . $DB->db_provider;
+$dir = $opts['dir'] . '/' . $DB->db_provider;
 if (!file_exists($dir)) {
     rcube::raise_error("DDL Upgrade files for " . $DB->db_provider . " driver not found.", false, true);
 }
@@ -131,7 +133,7 @@ sort($result, SORT_NUMERIC);
 
 foreach ($result as $v) {
     echo "Updating database schema ($v)... ";
-    $error = update_db_schema($opts['package'], $v, $dir . DIRECTORY_SEPARATOR . "$v.sql");
+    $error = update_db_schema($opts['package'], $v, "$dir/$v.sql");
 
     if ($error) {
         echo "[FAILED]\n";
@@ -146,20 +148,9 @@ function update_db_schema($package, $version, $file)
     global $DB;
 
     // read DDL file
-    if ($lines = file($file)) {
-        $sql = '';
-        foreach ($lines as $line) {
-            if (preg_match('/^--/', $line) || trim($line) == '')
-                continue;
-
-            $sql .= $line . "\n";
-            if (preg_match('/(;|^GO)$/', trim($line))) {
-                @$DB->query(fix_table_names($sql));
-                $sql = '';
-                if ($error = $DB->is_error()) {
-                    return $error;
-                }
-            }
+    if ($sql = file_get_contents($file)) {
+        if (!$DB->exec_script($sql)) {
+            return $DB->is_error();
         }
     }
 
@@ -183,53 +174,6 @@ function update_db_schema($package, $version, $file)
     }
 
     return $DB->is_error();
-}
-
-function fix_table_names($sql)
-{
-    global $DB, $RC, $dir;
-    static $tables;
-    static $sequences;
-
-    $prefix = $RC->config->get('db_prefix');
-    $engine = $DB->db_provider;
-
-    if (empty($prefix)) {
-        return $sql;
-    }
-
-    if ($tables === null) {
-        $tables    = array();
-        $sequences = array();
-
-        // read complete schema (initial) file
-        $filename = "$dir/../$engine.initial.sql";
-        $schema    = @file_get_contents($filename);
-
-        // find table names
-        if (preg_match_all('/CREATE TABLE (\[dbo\]\.|IF NOT EXISTS )?[`"\[\]]*([^`"\[\] \r\n]+)/i', $schema, $matches)) {
-            foreach ($matches[2] as $table) {
-                $tables[$table] = $prefix . $table;
-            }
-        }
-        // find sequence names
-        if ($engine == 'postgres' && preg_match_all('/CREATE SEQUENCE (IF NOT EXISTS )?"?([^" \n\r]+)/i', $schema, $matches)) {
-            foreach ($matches[2] as $sequence) {
-                $sequences[$sequence] = $prefix . $sequence;
-            }
-        }
-    }
-
-    // replace table names
-    foreach ($tables as $table => $real_table) {
-        $sql = preg_replace("/([^a-zA-Z0-9_])$table([^a-zA-Z0-9_])/", "\\1$real_table\\2", $sql);
-    }
-    // replace sequence names
-    foreach ($sequences as $sequence => $real_sequence) {
-        $sql = preg_replace("/([^a-zA-Z0-9_])$sequence([^a-zA-Z0-9_])/", "\\1$real_sequence\\2", $sql);
-    }
-
-    return $sql;
 }
 
 ?>

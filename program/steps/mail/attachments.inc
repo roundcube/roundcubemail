@@ -38,7 +38,7 @@ if (!$COMPOSE) {
 
 
 // remove an attachment
-if ($RCMAIL->action=='remove-attachment') {
+if ($RCMAIL->action == 'remove-attachment') {
     $id = 'undefined';
 
     if (preg_match('/^rcmfile(\w+)$/', $_POST['_file'], $regs)) {
@@ -60,32 +60,14 @@ if ($RCMAIL->action=='remove-attachment') {
     exit;
 }
 
-if ($RCMAIL->action=='display-attachment') {
+if ($RCMAIL->action == 'display-attachment') {
     $id = 'undefined';
 
     if (preg_match('/^rcmfile(\w+)$/', $_GET['_file'], $regs)) {
         $id = $regs[1];
     }
 
-    if ($attachment = $COMPOSE['attachments'][$id]) {
-        $attachment = $RCMAIL->plugins->exec_hook('attachment_display', $attachment);
-    }
-
-    if ($attachment['status']) {
-        if (empty($attachment['size'])) {
-            $attachment['size'] = $attachment['data'] ? strlen($attachment['data']) : @filesize($attachment['path']);
-        }
-
-        header('Content-Type: ' . $attachment['mimetype']);
-        header('Content-Length: ' . $attachment['size']);
-
-        if ($attachment['data']) {
-            echo $attachment['data'];
-        }
-        else if ($attachment['path']) {
-            readfile($attachment['path']);
-        }
-    }
+    $RCMAIL->display_uploaded_file($COMPOSE['attachments'][$id]);
 
     exit;
 }
@@ -139,6 +121,7 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
                 'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", rcmail_output::JS_OBJECT_NAME, $id),
                 'title'   => $RCMAIL->gettext('delete'),
                 'class'   => 'delete',
+                'aria-label' => $RCMAIL->gettext('delete') . ' ' . $attachment['name'],
             ), $button);
 
             $content .= rcube::Q($attachment['name']);

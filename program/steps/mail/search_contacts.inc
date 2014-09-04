@@ -87,7 +87,7 @@ if (!empty($result) && $result->count > 0) {
             $row_id = $row['ID'].'-'.$i;
             $jsresult[$row_id] = format_email_recipient($email, $name);
             $OUTPUT->command('add_contact_row', $row_id, array(
-                'contact' => html::span(array('title' => $email), rcube::Q($name ? $name : $email) .
+                'contact' => html::a(array('title' => $email), rcube::Q($name ? $name : $email) .
                     ($name && count($emails) > 1 ? '&nbsp;' . html::span('email', rcube::Q($email)) : '')
                 )), 'person');
         }

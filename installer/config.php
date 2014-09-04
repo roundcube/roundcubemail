@@ -1,6 +1,6 @@
 <?php
 
-if (!class_exists('rcube_install') || !is_object($RCI)) {
+if (!class_exists('rcmail_install', false) || !is_object($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
 }
 
@@ -152,15 +152,18 @@ echo $check_spell->show(intval($RCI->getprop('enable_spellcheck')), array('value
 <?php
 $select_spell = new html_select(array('name' => '_spellcheck_engine', 'id' => "cfgspellcheckengine"));
 if (extension_loaded('pspell'))
-  $select_spell->add('pspell', 'pspell');
+  $select_spell->add('Pspell', 'pspell');
+if (extension_loaded('enchant'))
+  $select_spell->add('Enchant', 'enchant');
 $select_spell->add('Googie', 'googie');
+$select_spell->add('ATD', 'atd');
 
 echo $select_spell->show($RCI->is_post ? $_POST['_spellcheck_engine'] : 'pspell');
 
 ?>
 <label for="cfgspellcheckengine">Which spell checker to use</label><br />
 
-<p class="hint">GoogieSpell implies that the message content will be sent to Google in order to check the spelling.</p>
+<p class="hint">Googie implies that the message content will be sent to external server to check the spelling.</p>
 </dd>
 
 <dt class="propname">identities_level</dt>
@@ -172,6 +175,7 @@ $input_ilevel->add('many identities with possibility to edit all params', 0);
 $input_ilevel->add('many identities with possibility to edit all params but not email address', 1);
 $input_ilevel->add('one identity with possibility to edit all params', 2);
 $input_ilevel->add('one identity with possibility to edit all params but not email address', 3);
+$input_ilevel->add('one identity with possibility to edit only signature', 4);
 echo $input_ilevel->show($RCI->getprop('identities_level'), 0);
 
 ?>
@@ -197,9 +201,6 @@ echo '<label for="cfgdebug1">Log errors</label><br />';
 
 echo $check_debug->show(($value & 4) ? 4 : 0, array('value' => 4, 'id' => 'cfgdebug4'));
 echo '<label for="cfgdebug4">Print errors (to the browser)</label><br />';
-
-echo $check_debug->show(($value & 8) ? 8 : 0, array('value' => 8, 'id' => 'cfgdebug8'));
-echo '<label for="cfgdebug8">Verbose display (enables debug console)</label><br />';
 
 ?>
 </dd>

@@ -6,22 +6,22 @@
  * Plugin that adds a new button to the mailbox toolbar
  * to move messages to a (user selectable) archive folder.
  *
- * @version 2.1
+ * @version 2.3
  * @license GNU GPLv3+
  * @author Andre Rodier, Thomas Bruederli, Aleksander Machniak
  */
 class archive extends rcube_plugin
 {
-  public $task = 'mail|settings';
-
   function init()
   {
     $rcmail = rcmail::get_instance();
 
-    // There is no "Archived flags"
-    // $GLOBALS['IMAP_FLAGS']['ARCHIVED'] = 'Archive';
+    // register special folder type
+    rcube_storage::$folder_types[] = 'archive';
+
     if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show')
-        && ($archive_folder = $rcmail->config->get('archive_mbox'))) {
+        && ($archive_folder = $rcmail->config->get('archive_mbox'))
+    ) {
       $skin_path = $this->local_skin_path();
       if (is_file($this->home . "/$skin_path/archive.css"))
         $this->include_stylesheet("$skin_path/archive.css");
@@ -48,12 +48,6 @@ class archive extends rcube_plugin
       // set env variables for client
       $rcmail->output->set_env('archive_folder', $archive_folder);
       $rcmail->output->set_env('archive_type', $rcmail->config->get('archive_type',''));
-
-      // add archive folder to the list of default mailboxes
-      if (($default_folders = $rcmail->config->get('default_folders')) && !in_array($archive_folder, $default_folders)) {
-        $default_folders[] = $archive_folder;
-        $rcmail->config->set('default_folders', $default_folders);
-      }
     }
     else if ($rcmail->task == 'mail') {
       // handler for ajax request
@@ -99,7 +93,7 @@ class archive extends rcube_plugin
         return true;
       } else if (!empty($item['folders']))
         if ($this->_mod_folder_name($list[$idx]['folders'], $folder, $new_name))
-        return true;
+          return true;
     }
     return false;
   }
@@ -117,8 +111,7 @@ class archive extends rcube_plugin
     $delimiter      = $storage->get_hierarchy_delimiter();
     $archive_folder = $rcmail->config->get('archive_mbox');
     $archive_type   = $rcmail->config->get('archive_type', '');
-
-    $storage->set_folder(($current_mbox = rcube_utils::get_input_value('_mbox', RCUBE_INPUT_POST)));
+    $current_mbox   = rcube_utils::get_input_value('_mbox', RCUBE_INPUT_POST);
 
     $result  = array('reload' => false, 'update' => false, 'errors' => array());
     $folders = array();
@@ -127,84 +120,88 @@ class archive extends rcube_plugin
 
     if ($uids == '*') {
       $index = $storage->index(null, rcmail_sort_column(), rcmail_sort_order());
-      $uids  = $index->get();
+      $messageset = array($current_mbox => $index->get());
     }
     else {
-      $uids = explode(',', $uids);
+      $messageset = rcmail::get_uids();
     }
 
-    foreach ($uids as $uid) {
-      if (!$archive_folder || !($message = $rcmail->storage->get_message($uid))) {
-        continue;
-      }
+    foreach ($messageset as $mbox => $uids) {
+      $storage->set_folder(($current_mbox = $mbox));
 
-      $subfolder = null;
-      switch ($archive_type) {
-        case 'year':
-          $subfolder = $rcmail->format_date($message->timestamp, 'Y');
-          break;
-
-        case 'month':
-          $subfolder = $rcmail->format_date($message->timestamp, 'Y') . $delimiter . $rcmail->format_date($message->timestamp, 'm');
-          break;
-
-        case 'folder':
-          $subfolder = $current_mbox;
-          break;
-
-        case 'sender':
-          $from = $message->get('from');
-          if (preg_match('/[\b<](.+@.+)[\b>]/i', $from, $m)) {
-            $subfolder = $m[1];
-          }
-          else {
-            $subfolder = $this->gettext('unkownsender');
-          }
-
-          // replace reserved characters in folder name
-          $repl = $delimiter == '-' ? '_' : '-';
-          $replacements[$delimiter] = $repl;
-          $replacements['.'] = $repl;  // some IMAP server do not allow . characters
-          $subfolder = strtr($subfolder, $replacements);
-          break;
-
-        default:
-          $subfolder = '';
-          break;
-      }
-
-      // compose full folder path
-      $folder = $archive_folder . ($subfolder ? $delimiter . $subfolder : '');
-
-      // create archive subfolder if it doesn't yet exist
-      // we'll create all folders in the path
-      if (!in_array($folder, $folders)) {
-        if (empty($list)) {
-          $list = $storage->list_folders('', $archive_folder . '*', 'mail', null, true);
+      foreach ($uids as $uid) {
+        if (!$archive_folder || !($message = $rcmail->storage->get_message($uid))) {
+          continue;
         }
-        $path = explode($delimiter, $folder);
 
-        for ($i=0; $i<count($path); $i++) {
-          $_folder = implode($delimiter, array_slice($path, 0, $i+1));
-          if (!in_array($_folder, $list)) {
-            if ($storage->create_folder($_folder, true)) {
-              $result['reload'] = true;
-              $list[] = $_folder;
+        $subfolder = null;
+        switch ($archive_type) {
+          case 'year':
+            $subfolder = $rcmail->format_date($message->timestamp, 'Y');
+            break;
+
+          case 'month':
+            $subfolder = $rcmail->format_date($message->timestamp, 'Y') . $delimiter . $rcmail->format_date($message->timestamp, 'm');
+            break;
+
+          case 'folder':
+            $subfolder = $current_mbox;
+            break;
+
+          case 'sender':
+            $from = $message->get('from');
+            if (preg_match('/[\b<](.+@.+)[\b>]/i', $from, $m)) {
+              $subfolder = $m[1];
+            }
+            else {
+              $subfolder = $this->gettext('unkownsender');
+            }
+
+            // replace reserved characters in folder name
+            $repl = $delimiter == '-' ? '_' : '-';
+            $replacements[$delimiter] = $repl;
+            $replacements['.'] = $repl;  // some IMAP server do not allow . characters
+            $subfolder = strtr($subfolder, $replacements);
+            break;
+
+          default:
+            $subfolder = '';
+            break;
+        }
+
+        // compose full folder path
+        $folder = $archive_folder . ($subfolder ? $delimiter . $subfolder : '');
+
+        // create archive subfolder if it doesn't yet exist
+        // we'll create all folders in the path
+        if (!in_array($folder, $folders)) {
+          if (empty($list)) {
+            $list = $storage->list_folders('', $archive_folder . '*', 'mail', null, true);
+          }
+          $path = explode($delimiter, $folder);
+
+          for ($i=0; $i<count($path); $i++) {
+            $_folder = implode($delimiter, array_slice($path, 0, $i+1));
+            if (!in_array($_folder, $list)) {
+              if ($storage->create_folder($_folder, true)) {
+                $result['reload'] = true;
+                $list[] = $_folder;
+              }
             }
           }
+
+          $folders[] = $folder;
         }
 
-        $folders[] = $folder;
-      }
-
-      // move message to target folder
-      if ($storage->move_message(array($uid), $folder)) {
-        $result['update'] = true;
-      }
-      else {
-        $result['errors'][] = $uid;
-      }
-    }  // end for
+        // move message to target folder
+        if ($storage->move_message(array($uid), $folder)) {
+          $result['update'] = true;
+        }
+        else {
+          $result['errors'][] = $uid;
+        }
+      }  // end for
+    }
 
     // send response
     if ($result['errors']) {
@@ -286,7 +283,6 @@ class archive extends rcube_plugin
   function save_prefs($args)
   {
     if ($args['section'] == 'folders') {
-      $args['prefs']['archive_mbox'] = rcube_utils::get_input_value('_archive_mbox', rcube_utils::INPUT_POST);
       $args['prefs']['archive_type'] = rcube_utils::get_input_value('_archive_type', rcube_utils::INPUT_POST);
       return $args;
     }

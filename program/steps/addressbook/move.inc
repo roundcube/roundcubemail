@@ -97,9 +97,9 @@ foreach ($cids as $source => $source_cids) {
             }
         }
         else {
-            $record = $result->first();
-            $ids[] = $record['ID'];
-            $errormsg = empty($a_record['email']) ? 'contactnameexists' : 'contactexists';
+            $record   = $result->first();
+            $ids[]    = $record['ID'];
+            $errormsg = empty($email) ? 'contactnameexists' : 'contactexists';
         }
     }
 
@@ -142,10 +142,6 @@ foreach ($cids as $source => $source_cids) {
 }
 
 if (!$deleted || $deleted != $all) {
-    // update saved search after data changed
-    if ($deleted) {
-        rcmail_search_update();
-    }
     $OUTPUT->command('list_contacts');
 }
 else {
@@ -157,8 +153,13 @@ else {
         $result = new rcube_result_set($count, $first);
         $pages  = ceil((count($records) + $delcnt) / $PAGE_SIZE);
 
+        // last page and it's empty, display previous one
+        if ($result->count && $result->count <= ($PAGE_SIZE * ($page - 1))) {
+            $OUTPUT->command('list_page', 'prev');
+            $rowcount = $RCMAIL->gettext('loading');
+        }
         // get records from the next page to add to the list
-        if ($_GET['_from'] != 'show' && $pages > 1 && $page < $pages) {
+        else if ($pages > 1 && $page < $pages) {
             // sort the records
             ksort($records, SORT_LOCALE_STRING);
 
@@ -180,10 +181,15 @@ else {
     else {
         // count contacts for this user
         $result = $CONTACTS->count();
-        // get records from the next page to add to the list
-        $pages = ceil(($result->count + $deleted) / $PAGE_SIZE);
+        $pages  = ceil(($result->count + $deleted) / $PAGE_SIZE);
 
-        if ($_GET['_from'] != 'show' && $pages > 1 && $page < $pages) {
+        // last page and it's empty, display previous one
+        if ($result->count && $result->count <= ($PAGE_SIZE * ($page - 1))) {
+            $OUTPUT->command('list_page', 'prev');
+            $rowcount = $RCMAIL->gettext('loading');
+        }
+        // get records from the next page to add to the list
+        else if ($pages > 1 && $page < $pages) {
             $CONTACTS->set_page($page);
             $records = $CONTACTS->list_records(null, -$deleted);
         }
@@ -191,7 +197,7 @@ else {
 
     // update message count display
     $OUTPUT->set_env('pagecount', ceil($result->count / $PAGE_SIZE));
-    $OUTPUT->command('set_rowcount', rcmail_get_rowcount_text($result));
+    $OUTPUT->command('set_rowcount', $rowcount ? $rowcount : rcmail_get_rowcount_text($result));
 
     // add new rows from next page (if any)
     if (!empty($records)) {

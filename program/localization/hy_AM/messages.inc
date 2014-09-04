@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -29,7 +29,6 @@ $messages['errornoperm'] = 'Գործողության կատարման իրավո
 $messages['invalidrequest'] = 'Սխալ հարցում, ապարդյուն։';
 $messages['nomessagesfound'] = 'Այս փոստարկղում նամակներ չկան';
 $messages['loggedout'] = 'Դուք բարեհաջող ավարտեցիք աշխատանքը։ Ցտեսություն…';
-$messages['mailboxempty'] = 'Փոստարկղը դատարկ է';
 $messages['loading'] = 'Բեռնում...';
 $messages['uploading'] = 'Ֆայլի վերբեռնում…';
 $messages['uploadingmany'] = 'Վերբեռնվում են ֆայլերը…';
@@ -116,7 +115,6 @@ $messages['importconfirm'] = '$inserted նոր ներկրված հասցեներ
 $messages['importconfirmskipped'] = '<b>Բաց թողնվեց $skipped առկա գրառում</b>';
 $messages['opnotpermitted'] = 'Գործողությունը անթույլատրելի է։';
 $messages['nofromaddress'] = 'Նշված անձը հասցե չունի։';
-$messages['editorwarning'] = 'Դեպի պարզ տեքստի խմբագրիչ անցման դեպքում կկորի տեքստի ձևավորումը։ Շարունակե՞լ։';
 $messages['httpreceivedencrypterror'] = 'Համակարգի լարքի սխալ։ Դիմեք համակարգը սպասարկող անձնակազմին։ <b>Ձեր նամակը ուղարկված չէ։</b>';
 $messages['smtpconnerror'] = 'SMTP սխալ ($code)` Սերվերի հետ կապը ձախողվեց։';
 $messages['smtpautherror'] = 'SMTP սխալ ($code)` Նույնականացումը ձախողվեց։';

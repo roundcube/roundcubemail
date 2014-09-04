@@ -13,6 +13,11 @@
             <file>Framework/ContentFilter.php</file>
             <file>Framework/Csv2vcard.php</file>
             <file>Framework/DB.php</file>
+            <file>Framework/DBMssql.php</file>
+            <file>Framework/DBMysql.php</file>
+            <file>Framework/DBPgsql.php</file>
+            <file>Framework/DBSqlite.php</file>
+            <file>Framework/DBSqlsrv.php</file>
             <file>Framework/Enriched.php</file>
             <file>Framework/Html.php</file>
             <file>Framework/Html2text.php</file>
@@ -35,11 +40,13 @@
             <file>Framework/SpellcheckPspell.php</file>
             <file>Framework/Spellchecker.php</file>
             <file>Framework/StringReplacer.php</file>
+            <file>Framework/Text2Html.php</file>
             <file>Framework/User.php</file>
             <file>Framework/Utils.php</file>
             <file>Framework/VCard.php</file>
             <file>Framework/Washtml.php</file>
             <file>MailFunc.php</file>
+            <file>RcmailFunc.php</file>
         </testsuite>
         <testsuite name="Plugins Tests">
             <file>./../plugins/acl/tests/Acl.php</file>
@@ -57,9 +64,11 @@
             <file>./../plugins/http_authentication/tests/HttpAuthentication.php</file>
             <file>./../plugins/identity_select/tests/IdentitySelect.php</file>
             <file>./../plugins/jqueryui/tests/Jqueryui.php</file>
+            <file>./../plugins/legacy_browser/tests/LegacyBrowser.php</file>
             <file>./../plugins/managesieve/tests/Managesieve.php</file>
             <file>./../plugins/managesieve/tests/Parser.php</file>
             <file>./../plugins/managesieve/tests/Tokenizer.php</file>
+            <file>./../plugins/managesieve/tests/Vacation.php</file>
             <file>./../plugins/markasjunk/tests/Markasjunk.php</file>
             <file>./../plugins/new_user_dialog/tests/NewUserDialog.php</file>
             <file>./../plugins/new_user_identity/tests/NewUserIdentity.php</file>

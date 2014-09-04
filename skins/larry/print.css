@@ -91,16 +91,11 @@ div.message-part a {
 	color: #00c;
 }
 
-div.message-part pre,
-div.message-htmlpart pre,
 div.message-part div.pre {
 	margin: 0;
 	padding: 0;
 	font-family: monospace;
-	white-space: -moz-pre-wrap !important;
-	white-space: pre-wrap !important;
-	white-space: pre;
-	word-wrap: break-word; /* IE (and Safari) */
+	font-size: 12px;
 }
 
 div.message-part blockquote {
@@ -108,8 +103,8 @@ div.message-part blockquote {
 	border-left: 2px solid blue;
 	border-right: 2px solid blue;
 	background-color: #F6F6F6;
-	margin: 0.5em 0em 0.5em 0em;
-	padding: 0.25em 1em 0.25em 1em;
+	margin: 2px 0;
+	padding: 0 0.4em;
 }
 
 div.message-part blockquote blockquote {

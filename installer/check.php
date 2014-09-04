@@ -1,6 +1,6 @@
 <?php
 
-if (!class_exists('rcube_install') || !is_object($RCI)) {
+if (!class_exists('rcmail_install', false) || !is_object($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
 }
 
@@ -28,10 +28,13 @@ $optional_php_exts = array(
 );
 
 $required_libs = array(
-    'PEAR'      => 'PEAR.php',
-    'Net_SMTP'  => 'Net/SMTP.php',
-    'Net_IDNA2' => 'Net/IDNA2.php',
-    'Mail_mime' => 'Mail/mime.php',
+    'PEAR'      => 'pear.php.net',
+    'Auth_SASL' => 'pear.php.net',
+    'Net_SMTP'  => 'pear.php.net',
+    'Net_IDNA2' => 'pear.php.net',
+    'Net_LDAP3' => 'git.kolab.org',
+    'Mail_mime' => 'pear.php.net',
+    'Mail_mimeDecode' => 'pear.php.net',
 );
 
 $ini_checks = array(
@@ -83,7 +86,7 @@ echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . 
 <h3>Checking PHP version</h3>
 <?php
 
-define('MIN_PHP_VERSION', '5.2.1');
+define('MIN_PHP_VERSION', '5.3.7');
 if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
     $RCI->pass('Version', 'PHP ' . PHP_VERSION . ' detected');
 } else {
@@ -138,14 +141,8 @@ foreach ($optional_php_exts as $name => $ext) {
 $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
 foreach ($RCI->supported_dbs as $database => $ext) {
     if (extension_loaded($ext)) {
-        // MySQL driver requires PHP >= 5.3 (#1488875)
-        if ($ext == 'pdo_mysql' && version_compare(PHP_VERSION, '5.3.0', '<')) {
-            $RCI->fail($database, 'PHP >= 5.3 required', null, true);
-        }
-        else {
-            $RCI->pass($database);
-            $found_db_driver = true;
-        }
+        $RCI->pass($database);
+        $found_db_driver = true;
     }
     else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
@@ -166,13 +163,13 @@ if (empty($found_db_driver)) {
 
 <?php
 
-foreach ($required_libs as $classname => $file) {
+foreach ($required_libs as $classname => $vendor) {
     @include_once $file;
     if (class_exists($classname)) {
         $RCI->pass($classname);
     }
     else {
-        $RCI->fail($classname, "Failed to load $file", $source_urls[$classname]);
+        $RCI->fail($classname, "Failed to load class $classname from $vendor", $source_urls[$classname]);
     }
     echo "<br />";
 }

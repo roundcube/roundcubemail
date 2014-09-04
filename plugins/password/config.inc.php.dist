@@ -35,6 +35,9 @@ $config['password_hosts'] = null;
 // for upgrading the stored passwords after the encryption scheme has changed.
 $config['password_force_save'] = false;
 
+// Enables forcing new users to change their password at their first login.
+$config['password_force_new_user'] = false;
+
 
 // SQL Driver options
 // ------------------
@@ -256,6 +259,9 @@ $config['password_vpopmaild_host'] = 'localhost';
 // TCP port used for vpopmaild connections
 $config['password_vpopmaild_port'] = 89;
 
+// Timout used for the connection to vpopmaild (in seconds)
+$config['password_vpopmaild_timeout'] = 10;
+
 
 // cPanel Driver options
 // --------------------------
@@ -361,3 +367,29 @@ $config['password_expect_params'] = '';
 $config['password_smb_host'] = 'localhost';
 // Location of smbpasswd binary
 $config['password_smb_cmd'] = '/usr/bin/smbpasswd';
+
+// gearman driver options
+// ---------------------
+// Gearman host (default: localhost)
+$config['password_gearman_host'] = 'localhost';
+
+
+
+// Plesk/PPA Driver options
+// --------------------
+// You need to allow RCP for IP of roundcube-server in Plesk/PPA Panel 
+
+// Plesk RCP Host
+$config['password_plesk_host'] = '10.0.0.5';
+
+// Plesk RPC Username
+$config['password_plesk_user'] = 'admin';
+
+// Plesk RPC Password
+$config['password_plesk_pass'] = 'password';
+
+// Plesk RPC Port
+$config['password_plesk_rpc_port'] = '8443';
+
+// Plesk RPC Path
+$config['password_plesk_rpc_path'] = 'enterprise/control/agent.php';

@@ -77,7 +77,7 @@ $mailto  = rcmail_email_input_format(rcube_utils::get_input_value('_to', rcube_u
 $mailcc  = rcmail_email_input_format(rcube_utils::get_input_value('_cc', rcube_utils::INPUT_POST, TRUE, $message_charset), true);
 $mailbcc = rcmail_email_input_format(rcube_utils::get_input_value('_bcc', rcube_utils::INPUT_POST, TRUE, $message_charset), true);
 
-if ($EMAIL_FORMAT_ERROR) {
+if ($EMAIL_FORMAT_ERROR && !$savedraft) {
     $OUTPUT->show_message('emailformaterror', 'error', array('email' => $EMAIL_FORMAT_ERROR));
     $OUTPUT->send('iframe');
 }
@@ -201,7 +201,7 @@ if (!empty($headers['Reply-To'])) {
     $headers['Mail-Reply-To'] = $headers['Reply-To'];
 }
 if ($hdr = rcube_utils::get_input_value('_followupto', rcube_utils::INPUT_POST, TRUE, $message_charset)) {
-    $headers['Mail-Followup-To'] = rcmail_email_input_format();
+    $headers['Mail-Followup-To'] = rcmail_email_input_format($hdr);
 }
 
 // remember reply/forward UIDs in special headers
@@ -273,20 +273,31 @@ if ($isHtml) {
     }
 
     // append doctype and html/body wrappers
-    $message_body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">'
-        . "\r\n<html><body" . (!empty($bstyle) ? " style='" . implode($bstyle, '; ') . "'" : '') . ">\r\n"
-        . $message_body;
+    $bstyle       = !empty($bstyle) ? (" style='" . implode($bstyle, '; ') . "'") : '';
+    $message_body = '<html><head>'
+        . '<meta http-equiv="Content-Type" content="text/html; charset=' . $message_charset . '" /></head>'
+        . "<body" . $bstyle . ">\r\n" . $message_body;
 }
 
 if (!$savedraft) {
     if ($isHtml) {
-        // remove signature's div ID
-        $message_body = preg_replace('/\s*id="_rc_sig"/', '', $message_body);
+        $b_style   = 'padding: 0 0.4em; border-left: #1010ff 2px solid; margin: 0';
+        $pre_style = 'margin: 0; padding: 0; font-family: monospace';
 
-        // add inline css for blockquotes
-        $bstyle       = 'padding-left:5px; border-left:#1010ff 2px solid; margin-left:5px';
-        $message_body = preg_replace('/<blockquote>/',
-            '<blockquote type="cite" style="'.$bstyle.'">', $message_body);
+        $message_body = preg_replace(
+            array(
+                // remove signature's div ID
+                '/\s*id="_rc_sig"/',
+                // add inline css for blockquotes and container
+                '/<blockquote>/',
+                '/<div class="pre">/'
+            ),
+            array(
+                '',
+                '<blockquote type="cite" style="'.$b_style.'">',
+                '<div class="pre" style="'.$pre_style.'">'
+            ),
+            $message_body);
     }
 
     // Check spelling before send
@@ -300,10 +311,16 @@ if (!$savedraft) {
         $COMPOSE['spell_checked'] = true;
 
         if (!$spell_result) {
-            $result = $isHtml ? $spellchecker->get_words() : $spellchecker->get_xml();
+            if ($isHtml) {
+                $result['words']      = $spellchecker->get();
+                $result['dictionary'] = (bool) $RCMAIL->config->get('spellcheck_dictionary');
+            }
+            else {
+                $result = $spellchecker->get_xml();
+            }
 
             $OUTPUT->show_message('mispellingsfound', 'error');
-            $OUTPUT->command('spellcheck_resume', $isHtml, $result);
+            $OUTPUT->command('spellcheck_resume', $result);
             $OUTPUT->send('iframe');
         }
     }
@@ -411,7 +428,7 @@ if (is_array($COMPOSE['attachments'])) {
         $attachment = $RCMAIL->plugins->exec_hook('attachment_get', $attachment);
 
         if ($isHtml) {
-            $dispurl      = '/\ssrc\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile'
+            $dispurl      = '/\s(poster|src)\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile'
                 . preg_quote($attachment['id']) . '[\s\'"]*/';
             $message_body = $MAIL_MIME->getHTMLBody();
             $is_inline    = preg_match($dispurl, $message_body);
@@ -432,7 +449,7 @@ if (is_array($COMPOSE['attachments'])) {
                 $cid .= '@localhost';
             }
 
-            $message_body = preg_replace($dispurl, ' src="cid:' . $cid . '" ', $message_body);
+            $message_body = preg_replace($dispurl, ' \\1="cid:' . $cid . '" ', $message_body);
 
             $MAIL_MIME->setHTMLBody($message_body);
 
@@ -467,15 +484,11 @@ if (preg_match('/[^\x00-\x7F]/', $MAIL_MIME->getTXTBody())) {
     $transfer_encoding = $RCMAIL->config->get('force_7bit') ? 'quoted-printable' : '8bit';
 }
 else {
-    $text_charset      = '';
+    $text_charset      = 'US-ASCII';
     $transfer_encoding = '7bit';
 }
 
 if ($flowed) {
-    if (!$text_charset) {
-        $text_charset = 'US-ASCII';
-    }
-
     $text_charset .= ";\r\n format=flowed";
 }
 
@@ -534,10 +547,16 @@ if (!$savedraft) {
     }
 
     // set replied/forwarded flag
-    if ($COMPOSE['reply_uid'])
-        $RCMAIL->storage->set_flag($COMPOSE['reply_uid'], 'ANSWERED', $COMPOSE['mailbox']);
-    else if ($COMPOSE['forward_uid'])
-        $RCMAIL->storage->set_flag($COMPOSE['forward_uid'], 'FORWARDED', $COMPOSE['mailbox']);
+    if ($COMPOSE['reply_uid']) {
+        foreach (rcmail::get_uids($COMPOSE['reply_uid'], $COMPOSE['mailbox']) as $mbox => $uids) {
+            $RCMAIL->storage->set_flag($uids, 'ANSWERED', $mbox);
+        }
+    }
+    else if ($COMPOSE['forward_uid']) {
+        foreach (rcmail::get_uids($COMPOSE['forward_uid'], $COMPOSE['mailbox']) as $mbox => $uids) {
+            $RCMAIL->storage->set_flag($uids, 'FORWARDED', $mbox);
+        }
+    }
 }
 
 // Determine which folder to save message
@@ -722,11 +741,11 @@ function rcmail_get_identity($id)
 
 /**
  * go from this:
- * <img src="http[s]://.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
+ * <img src="http[s]://.../tinymce/plugins/emoticons/img/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
  *
  * to this:
  *
- * <img src="/path/on/server/.../tiny_mce/plugins/emotions/images/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
+ * <img src="/path/on/server/.../tinymce/plugins/emoticons/img/smiley-cool.gif" border="0" alt="Cool" title="Cool" />
  */
 function rcmail_fix_emoticon_paths($mime_message)
 {
@@ -737,7 +756,7 @@ function rcmail_fix_emoticon_paths($mime_message)
     // remove any null-byte characters before parsing
     $body = preg_replace('/\x00/', '', $body);
 
-    $searchstr = 'program/js/tiny_mce/plugins/emotions/img/';
+    $searchstr = 'program/js/tinymce/plugins/emoticons/img/';
     $offset = 0;
 
     // keep track of added images, so they're only added once
@@ -906,7 +925,8 @@ function rcmail_generic_message_footer($isHtml)
         if (!preg_match('/\.(php|ini|conf)$/', $file) && strpos($file, '/etc/') === false) {
             $footer = file_get_contents($file);
             if ($isHtml && !$html_footer) {
-                $footer = '<pre>' . $footer . '</pre>';
+                $t2h    = new rcube_text2html($footer, false);
+                $footer = $t2h->get_html();
             }
             return $footer;
         }

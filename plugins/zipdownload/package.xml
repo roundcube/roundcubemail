@@ -6,7 +6,8 @@
 	<name>zipdownload</name>
 	<channel>pear.roundcube.net</channel>
 	<summary>Download multiple attachments or messages in one zip file</summary>
-	<description>Adds an option to download all attachments to a message in one zip file, when a message has multiple attachments. Also allows the download of a selection of messages in one zip file and the download of entire folders.</description>
+	<description>Adds an option to download all attachments to a message in one zip file, when a message has multiple attachments.
+	Also allows the download of a selection of messages in one zip file. Supports mbox and maildir formats.</description>
 	<lead>
 		<name>Philip Weir</name>
 		<user>JohnDoh</user>
@@ -19,11 +20,17 @@
 		<email>roundcube@gmail.com</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-09-20</date>
-	<time>19:16:00</time>
+	<lead>
+		<name>Aleksander Machniak</name>
+		<user>alec</user>
+		<email>alec@alec.pl</email>
+		<active>yes</active>
+	</lead>
+	<date>2014-04-18</date>
+	<time>09:00:00</time>
 	<version>
-		<release>2.0</release>
-		<api>2.0</api>
+		<release>3.0</release>
+		<api>3.0</api>
 	</version>
 	<stability>
 		<release>stable</release>

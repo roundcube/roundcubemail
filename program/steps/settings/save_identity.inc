@@ -26,8 +26,8 @@ $a_boolean_cols = array('standard', 'html_signature');
 $updated = $default_id = false;
 
 // check input
-if (IDENTITIES_LEVEL != 4 && (empty($_POST['_name']) || (empty($_POST['_email']) && IDENTITIES_LEVEL != 1 && IDENTITIES_LEVEL != 3))) {
-    $OUTPUT->show_message('formincomplete', 'warning');
+if (empty($_POST['_email']) && (IDENTITIES_LEVEL == 0 || IDENTITIES_LEVEL == 2)) {
+    $OUTPUT->show_message('noemailwarning', 'warning');
     $RCMAIL->overwrite_action('edit-identity');
     return;
 }
@@ -79,8 +79,11 @@ foreach ($email_checks as $email) {
     }
 }
 
-// XSS protection in HTML signature (#1489251)
 if (!empty($save_data['signature']) && !empty($save_data['html_signature'])) {
+    // replace uploaded images with data URIs
+    $save_data['signature'] = rcmail_attach_images($save_data['signature']);
+
+    // XSS protection in HTML signature (#1489251)
     $save_data['signature'] = rcmail_wash_html($save_data['signature']);
 
     // clear POST data of signature, we want to use safe content
@@ -189,6 +192,35 @@ else {
     $RCMAIL->overwrite_action('identities');
 }
 
+
+/**
+ * Attach uploaded images into signature as data URIs
+ */
+function rcmail_attach_images($html)
+{
+    global $RCMAIL;
+
+    $offset = 0;
+    $regexp = '/\s(poster|src)\s*=\s*[\'"]*\S+upload-display\S+file=rcmfile([0-9]+)[\s\'"]*/';
+
+    while (preg_match($regexp, $html, $matches, 0, $offset)) {
+        $file_id  = $matches[2];
+        $data_uri = ' ';
+
+        if ($file_id && ($file = $_SESSION['identity']['files'][$file_id])) {
+            $file = $RCMAIL->plugins->exec_hook('attachment_get', $file);
+
+            $data_uri .= 'src="data:' . $file['mimetype'] . ';base64,';
+            $data_uri .= base64_encode($file['data'] ? $file['data'] : file_get_contents($file['path']));
+            $data_uri .= '" ';
+        }
+
+        $html    = str_replace($matches[0], $data_uri, $html);
+        $offset += strlen($data_uri) - strlen($matches[0]) + 1;
+    }
+
+    return $html;
+}
 
 /**
  * Sanity checks/cleanups on HTML body of signature

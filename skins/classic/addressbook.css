@@ -116,13 +116,6 @@
   overflow: hidden;
 }
 
-#directorylistbox input
-{
-  margin: 0 0 0 20px;
-  font-size: 11px;
-  width: 90%;
-}
-
 #addresslist
 {
   position: absolute;
@@ -144,29 +137,8 @@
   width: 280px;
 }
 
-#directorylist,
-#directorylist li ul
-{
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  background-color: #FFFFFF;
-}
-
-#directorylist li ul
-{
-  border-top: 1px solid #EBEBEB;
-}
-
-#directorylist li
-{
-  display: block;
-  font-size: 11px;
-  border-bottom: 1px solid #EBEBEB;
-  white-space: nowrap;
-}
-
-#directorylist li a
+#directorylist li a,
+#savedsearchlist li a
 {
   cursor: default;
   display: block;
@@ -176,39 +148,52 @@
   height: 16px;
   text-decoration: none;
   white-space: nowrap;
-  background: url(images/icons/folders.png) 5px -108px no-repeat;
+  background-image: url(images/icons/folders.png);
+  background-position: 5px -108px;
+  background-repeat: no-repeat;
 }
 
-#directorylist li ul li a
+#directorylist ul li a
 {
   padding-left: 45px;
+  background-position: 22px -108px;
 }
 
-#directorylist li ul li:last-child
+#directorylist ul ul li a
 {
-  border-bottom: 0;
+  padding-left: 62px;
+  background-position: 39px -108px;
+}
+
+#directorylist ul ul ul li a
+{
+  padding-left: 79px;
+  background-position: 39px -108px;
 }
 
 #directorylist li.contactgroup a
 {
+  background-position: 5px -143px;
+}
+
+#directorylist ul li.contactgroup a
+{
   background-position: 22px -143px;
 }
 
-#directorylist li.contactsearch a
+#directorylist ul ul li.contactgroup a
+{
+  background-position: 39px -143px;
+}
+
+#directorylist ul ul ul li.contactgroup a
+{
+  background-position: 56px -143px;
+}
+
+#savedsearchlist li.contactsearch a
 {
   background-position: 6px -162px;
-}
-
-#directorylist li.selected > a
-{
-  color: #FFF;
-  font-weight: bold;
-  background-color: #929292;
-}
-
-#directorylist li.droptarget
-{
-  background-color: #FFFFA6;
 }
 
 #contacts-table
@@ -314,6 +299,11 @@ body.iframe,
 	margin-bottom: 1em;
 	border: 0;
 	padding: 0;
+}
+
+#contacthead > legend
+{
+	display: none;
 }
 
 #contacthead .names span.namefield,

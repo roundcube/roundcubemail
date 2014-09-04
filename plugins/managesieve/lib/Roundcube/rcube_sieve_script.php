@@ -38,7 +38,7 @@ class rcube_sieve_script
         'imap4flags',               // RFC5232
         'include',                  // draft-ietf-sieve-include-12
         'index',                    // RFC5260
-        'notify',                   // draft-ietf-sieve-notify-00
+        'notify',                   // draft-martin-sieve-notify-01,
         'regex',                    // draft-ietf-sieve-regex-01
         'reject',                   // RFC5429
         'relational',               // RFC3431
@@ -411,38 +411,38 @@ class rcube_sieve_script
                         array_push($exts, $notify);
                         $action_script .= 'notify';
 
-                        // Here we support only 00 version of notify draft, there
-                        // were a couple regressions in 00 to 04 changelog, we use
-                        // the version used by Cyrus
+                        $method = $action['method'];
+                        unset($action['method']);
+                        $action['options'] = (array) $action['options'];
+
+                        // Here we support draft-martin-sieve-notify-01 used by Cyrus
                         if ($notify == 'notify') {
                             switch ($action['importance']) {
                                 case 1: $action_script .= " :high"; break;
-                                case 2: $action_script .= " :normal"; break;
+                                //case 2: $action_script .= " :normal"; break;
                                 case 3: $action_script .= " :low"; break;
-
                             }
+
+                            // Old-draft way: :method "mailto" :options "email@address"
+                            if (!empty($method)) {
+                                $parts = explode(':', $method, 2);
+                                $action['method'] = $parts[0];
+                                array_unshift($action['options'], $parts[1]);
+                            }
+
                             unset($action['importance']);
+                            unset($action['from']);
+                            unset($method);
                         }
 
-                        foreach (array('from', 'importance', 'options', 'message') as $n_tag) {
+                        foreach (array('id', 'importance', 'method', 'options', 'from', 'message') as $n_tag) {
                             if (!empty($action[$n_tag])) {
                                 $action_script .= " :$n_tag " . self::escape_string($action[$n_tag]);
                             }
                         }
 
-                        if (!empty($action['address'])) {
-                            $method = 'mailto:' . $action['address'];
-                            if (!empty($action['body'])) {
-                                $method .= '?body=' . rawurlencode($action['body']);
-                            }
-                        }
-                        else {
-                            $method = $action['method'];
-                        }
-
-                        // method is optional in notify extension
                         if (!empty($method)) {
-                            $action_script .= ($notify == 'notify' ? " :method " : " ") . self::escape_string($method);
+                            $action_script .= ' ' . self::escape_string($method);
                         }
 
                         break;
@@ -849,13 +849,11 @@ class rcube_sieve_script
             case 'notify':
                 $action     = array('type' => 'notify');
                 $priorities = array('high' => 1, 'normal' => 2, 'low' => 3);
-                $vargs      = array('from', 'importance', 'options', 'message', 'method');
+                $vargs      = array('from', 'id', 'importance', 'options', 'message', 'method');
                 $args       = array_keys($priorities);
                 $action    += $this->action_arguments($tokens, $args, $vargs);
 
-                // Here we support only 00 version of notify draft, there
-                // were a couple regressions in 00 to 04 changelog, we use
-                // the version used by Cyrus
+                // Here we'll convert draft-martin-sieve-notify-01 into RFC 5435
                 if (!isset($action['importance'])) {
                     foreach ($priorities as $key => $val) {
                         if (isset($action[$key])) {
@@ -865,29 +863,19 @@ class rcube_sieve_script
                     }
                 }
 
-                // unnamed parameter is a :method in enotify extension
-                if (!isset($action['method'])) {
-                    $action['method'] = array_pop($tokens);
-                }
+                $action['options'] = (array) $action['options'];
 
-                $method_components = parse_url($action['method']);
-                if ($method_components['scheme'] == 'mailto') {
-                    $action['address'] = $method_components['path'];
-                    $method_params = array();
-                    if (array_key_exists('query', $method_components)) {
-                        parse_str($method_components['query'], $method_params);
-                    }
-                    $method_params = array_change_key_case($method_params, CASE_LOWER);
-                    // magic_quotes_gpc and magic_quotes_sybase affect the output of parse_str
-                    if (ini_get('magic_quotes_gpc') || ini_get('magic_quotes_sybase')) {
-                        array_map('stripslashes', $method_params);
-                    }
-                    $action['body'] = (array_key_exists('body', $method_params)) ? $method_params['body'] : '';
+                // Old-draft way: :method "mailto" :options "email@address"
+                if (!empty($action['method']) && !empty($action['options'])) {
+                    $action['method'] .= ':' . array_shift($action['options']);
+                }
+                // unnamed parameter is a :method in enotify extension
+                else if (!isset($action['method'])) {
+                    $action['method'] = array_pop($tokens);
                 }
 
                 $result[] = $action;
                 break;
-
             }
 
             if ($separator == $end)

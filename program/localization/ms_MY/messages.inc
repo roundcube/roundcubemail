@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,6 @@ $messages['sessionerror'] = 'Sesi anda tidak sah atau telah tamat';
 $messages['storageerror'] = 'Sambungan ke pelayan IMAP gagal';
 $messages['nomessagesfound'] = 'Tiada mesej dijumpai dalam kotak mel ini';
 $messages['loggedout'] = 'Sesi anda telah tamat. Selamat tinggal!';
-$messages['mailboxempty'] = 'Kotak mail kosong';
 $messages['loading'] = 'Memuat...';
 $messages['loadingdata'] = 'Memuat data...';
 $messages['checkingmail'] = 'Menyemak mesej baru...';

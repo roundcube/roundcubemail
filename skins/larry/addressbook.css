@@ -14,7 +14,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 220px;
+	width: 200px;
 	bottom: 0;
 	z-index: 2;
 }
@@ -22,7 +22,7 @@
 #addressview-right {
 	position: absolute;
 	top: 0;
-	left: 232px;
+	left: 212px;
 	right: 0;
 	bottom: 0;
 	z-index: 3;
@@ -39,7 +39,7 @@
 
 #directorylistbox {
 	position: absolute;
-	top: 42px;
+	top: 0;
 	left: 0;
 	width: 100%;
 	bottom: 0;
@@ -47,16 +47,16 @@
 
 #addresslist {
 	position: absolute;
-	top: 42px;
+	top: 0;
 	left: 0;
-	width: 280px;
+	width: 260px;
 	bottom: 0;
 }
 
 #contacts-box {
 	position: absolute;
-	top: 42px;
-	left: 292px;
+	top: 0;
+	left: 272px;
 	right: 0;
 	bottom: 0;
 }
@@ -66,12 +66,12 @@
 }
 
 #directorylist li a,
+.treelist li.contactsearch a,
 #contacts-table .contact td.name {
 	background-image: url(images/listicons.png);
 	background-position: -100px 0;
 	background-repeat: no-repeat;
 	overflow: hidden;
-	padding-left: 36px;
 	text-overflow: ellipsis;
 }
 
@@ -79,52 +79,66 @@
 	background-position: 6px -766px;
 }
 
+#directorylist ul li.addressbook a {
+	background-position: 32px -766px;
+}
+
+#directorylist ul ul li.addressbook a {
+	background-position: 58px -766px;
+}
+
 #directorylist li.addressbook.selected > a {
+	background-color: transparent;
 	background-position: 6px -791px;
 }
 
-#directorylist li.addressbook ul li:last-child {
-	border-bottom: 0;
+#directorylist ul li.addressbook.selected > a {
+	background-position: 32px -791px;
 }
 
-#directorylist li.addressbook ul.groups {
-	margin: 0;
-	padding: 0;
-}
-
-#directorylist li.addressbook ul.groups li {
-	width: 100%;
+#directorylist ul ul li.addressbook.selected > a {
+	background-position: 58px -791px;
 }
 
 #directorylist li.contactgroup a {
-	padding-left: 62px;
+	background-position: 6px -1555px;
+}
+
+#directorylist ul li.contactgroup a {
 	background-position: 32px -1555px;
+}
+
+#directorylist ul ul li.contactgroup a {
+	background-position: 58px -1555px;
+}
+
+#directorylist ul ul ul li.contactgroup a {
+	background-position: 84px -1555px;
 }
 
 #directorylist li.contactgroup.selected a {
 	background-position: 32px -1579px;
 }
 
-#directorylist li.contactgroup input {
-	margin-left: 36px;
+#directorylist ul ul li.contactgroup.selected a {
+	background-position: 58px -1579px;
 }
 
-#directorylist li.contactsearch a {
+#directorylist ul ul ul li.contactgroup.selected a {
+	background-position: 84px -1579px;
+}
+
+.treelist li.contactsearch a {
 	background-position: 6px -1651px;
 }
 
-#directorylist li.contactsearch.selected a {
+.treelist li.contactsearch.selected a {
 	background-position: 6px -1675px;
-}
-
-#directorylist li.contactsearch input {
-	margin-left: 8px;
 }
 
 #directorylist li.addressbook div.collapsed,
 #directorylist li.addressbook div.expanded {
 	top: 15px;
-	left: 20px;
 }
 
 #contacts-table .contact.readonly td {
@@ -149,56 +163,25 @@
 	background: url(images/listicons.png) -2px -1180px no-repeat;
 }
 
-/* This padding-left should be equal to the focused border-left + the focused padding-left */
-#contacts-table thead tr td:first-child,
-#contacts-table tbody tr td:first-child {
-	border-left: 0;
-	padding-left: 36px;
-}
-
-/* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
-#contacts-table tbody tr.focused > td:first-child {
-	border-left: 2px solid #b0ccd7;
-	padding-left: 34px;
-}
-
-#contacts-table tbody tr.selected.focused > td:first-child {
-	border-left-color: #9ec2d0;
-}
-
 #contacts-table .contact td.name {
-	background-position: 6px -1603px;
-}
-
-#contacts-table .contact.focused td.name {
 	background-position: 4px -1603px;
 }
 
-#contacts-table .contact.selected td.name,
-#contacts-table .contact.unfocused td.name {
-	background-position: 6px -1627px;
-	font-weight: bold;
-}
-
-#contacts-table .contact.selected.focused td.name {
+#contacts-table .contact.selected td.name {
 	background-position: 4px -1627px;
+	font-weight: bold;
 }
 
 #contacts-table .group td.name {
-	background-position: 6px -1555px;
-}
-
-#contacts-table .group.focused td.name {
 	background-position: 4px -1555px;
 }
 
-#contacts-table .group.selected td.name,
-#contacts-table .group.unfocused td.name {
-	background-position: 6px -1579px;
+#contacts-table .group.selected td.name {
+	background-position: 4px -1579px;
 	font-weight: bold;
 }
 
-#contacts-table .group.selected.focused td.name {
+#contacts-table.focus .group.selected.focused td.name {
 	background-position: 4px -1579px;
 }
 
@@ -243,6 +226,8 @@
 	float: left;
 	margin: 0 18px 20px 0;
 	width: 112px;
+	border: 0;
+	padding: 0;
 }
 
 #contactpic {
@@ -265,9 +250,7 @@
 #contactpic.droptarget.hover {
 	background-color: #d9ecf4;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
-	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
-	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 }
 
 #contactpic.droptarget.active img {
@@ -278,12 +261,20 @@
 	opacity: 0.05;
 }
 
+#contactphoto .formlinks a[aria-disabled='true'] {
+	visibility: hidden;
+}
+
 #contacthead {
 	border: 0;
 	margin: 0 16em 1em 0;
 	padding: 0;
 	line-height: 1.5em;
 	font-size: 12px;
+}
+
+#contacthead > legend {
+	display: none;
 }
 
 form #contacthead {

@@ -1,26 +1,27 @@
-# AddDefaultCharset	UTF-8
+# AddDefaultCharset UTF-8
 AddType text/x-component .htc
 
 <IfModule mod_php5.c>
-php_flag	display_errors	Off
-php_flag	log_errors	On
-# php_value	error_log	logs/errors
+php_flag    display_errors  Off
+php_flag    log_errors      On
+# php_value    error_log    logs/errors
 
-php_value	upload_max_filesize	5M
-php_value	post_max_size		6M
-php_value	memory_limit		64M
+php_value   upload_max_filesize   5M
+php_value   post_max_size         6M
+php_value   memory_limit          64M
 
-php_flag	zlib.output_compression		Off
-php_flag	magic_quotes_gpc		Off
-php_flag	magic_quotes_runtime		Off
-php_flag	zend.ze1_compatibility_mode	Off
-php_flag 	suhosin.session.encrypt 	Off
+php_flag    register_globals            Off
+php_flag    zlib.output_compression     Off
+php_flag    magic_quotes_gpc            Off
+php_flag    magic_quotes_runtime        Off
+php_flag    zend.ze1_compatibility_mode Off
+php_flag    suhosin.session.encrypt     Off
 
-#php_value	session.cookie_path		/
-php_flag	session.auto_start	Off
-php_value	session.gc_maxlifetime	21600
-php_value	session.gc_divisor	500
-php_value	session.gc_probability	1
+#php_value   session.cookie_path     /
+php_flag    session.auto_start       Off
+php_value   session.gc_maxlifetime   21600
+php_value   session.gc_divisor       500
+php_value   session.gc_probability   1
 </IfModule>
 
 <IfModule mod_rewrite.c>

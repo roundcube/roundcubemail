@@ -49,7 +49,7 @@ $mode   = (int) $RCMAIL->config->get('addressbook_search_mode');
 $single = (bool) $RCMAIL->config->get('autocomplete_single');
 $search = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC, true);
 $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
-$sid    = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
+$reqid  = rcube_utils::get_input_value('_reqid', rcube_utils::INPUT_GPC);
 
 if (strlen($source)) {
     $book_types = array($source);
@@ -90,8 +90,14 @@ if (!empty($book_types) && strlen($search)) {
 
                     // skip duplicates
                     if (!in_array($contact, $contacts)) {
+                        $contact = array('name' => $contact, 'type' => $sql_arr['_type']);
+
+                        if (($display = rcube_addressbook::compose_search_name($sql_arr, $email, $name)) && $display != $contact['name']) {
+                            $contact['display'] = $display;
+                        }
+
                         $contacts[]  = $contact;
-                        $sort_keys[] = sprintf('%s %03d', $sql_arr['name'] , $idx++);
+                        $sort_keys[] = sprintf('%s %03d', $contact['display'] ?: $name, $idx++);
 
                         if (count($contacts) >= $MAXNUM) {
                             break 2;
@@ -118,7 +124,13 @@ if (!empty($book_types) && strlen($search)) {
                 if ($group_prop['email']) {
                     $idx = 0;
                     foreach ((array)$group_prop['email'] as $email) {
-                        $contacts[]  = format_email_recipient($email, $group['name']);
+                        $contacts[]  = array(
+                            'name'   => format_email_recipient($email, $group['name']),
+                            'email'  => $email,
+                            'type'   => 'group',
+                            'id'     => $group['ID'],
+                            'source' => $id,
+                        );
                         $sort_keys[] = sprintf('%s %03d', $group['name'] , $idx++);
 
                         if (count($contacts) >= $MAXNUM) {
@@ -131,6 +143,7 @@ if (!empty($book_types) && strlen($search)) {
                     $sort_keys[] = $group['name'];
                     $contacts[]  = array(
                         'name'   => $group['name'] . ' (' . intval($result->count) . ')',
+                        'type'   => 'group',
                         'id'     => $group['ID'],
                         'source' => $id
                     );
@@ -154,5 +167,5 @@ if (!empty($book_types) && strlen($search)) {
     }
 }
 
-$OUTPUT->command('ksearch_query_results', $contacts, $search, $sid);
+$OUTPUT->command('ksearch_query_results', $contacts, $search, $reqid);
 $OUTPUT->send();

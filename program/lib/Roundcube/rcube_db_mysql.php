@@ -38,13 +38,6 @@ class rcube_db_mysql extends rcube_db
      */
     public function __construct($db_dsnw, $db_dsnr = '', $pconn = false)
     {
-        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-            rcube::raise_error(array('code' => 600, 'type' => 'db',
-                'line' => __LINE__, 'file' => __FILE__,
-                'message' => "MySQL driver requires PHP >= 5.3, current version is " . PHP_VERSION),
-                true, true);
-        }
-
         parent::__construct($db_dsnw, $db_dsnr, $pconn);
 
         // SQL identifiers quoting

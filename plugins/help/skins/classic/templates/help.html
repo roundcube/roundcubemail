@@ -16,11 +16,11 @@ function help_init_settings_tabs()
 </script>
 </head>
 <roundcube:if condition="env:extwin" />
-<body class="extwin">
+<body class="extwin helpwin">
 <roundcube:object name="message" id="message" />
 <roundcube:button name="close" type="link" label="close" class="closelink" onclick="self.close()" />
 <roundcube:else />
-<body>
+<body class="helpwin">
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
 <roundcube:endif />

@@ -32,7 +32,11 @@ $SOURCE_ID = $source;
 if ($cid && ($record = $CONTACTS->get_record($cid, true))) {
     $OUTPUT->set_env('readonly', $CONTACTS->readonly || $record['readonly']);
     $OUTPUT->set_env('cid', $record['ID']);
-    $OUTPUT->set_env('compose_extwin', $RCMAIL->config->get('compose_extwin',false));
+
+    // remember current search request ID (if in search mode)
+    if ($search = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GET)) {
+        $OUTPUT->set_env('search_request', $search);
+    }
 }
 
 // get address book name (for display)
@@ -60,6 +64,7 @@ function rcmail_contact_head($attrib)
 
     $form = array(
         'head' => array(  // section 'head' is magic!
+            'name' => $RCMAIL->gettext('contactnameandorg'),
             'content' => array(
                 'prefix' => array('type' => 'text'),
                 'firstname' => array('type' => 'text'),

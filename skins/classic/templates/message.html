@@ -7,9 +7,7 @@
 <script type="text/javascript" src="/functions.js"></script>
 <style type="text/css">
 #mailboxlist-container { width: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv-5 : 170" />px; }
-#messageframe { left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 180" />px;
-<roundcube:exp expression="browser:ie ? ('width: expression((parseInt(this.parentNode.offsetWidth)-'.(!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 180).')+\\'px\\');') : ''" />
-}
+#messageframe { left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 180" />px; }
 </style>
 </head>
 <roundcube:if condition="env:extwin" />
@@ -30,7 +28,7 @@
 <div id="mailboxlist-container">
 <div id="mailboxlist-title" class="boxtitle"><roundcube:label name="mailboxlist" /></div>
 <div class="boxlistcontent">
-    <roundcube:object name="mailboxlist" id="mailboxlist" class="treelist" folder_filter="mail" />
+    <roundcube:object name="mailboxlist" id="mailboxlist" class="treelist folderlist" folder_filter="mail" />
 </div>
 <div class="boxfooter"></div>
 </div>

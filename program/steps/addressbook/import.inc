@@ -308,10 +308,11 @@ function rcmail_import_buttons($attrib)
         $out = $OUTPUT->button(array('command' => 'list', 'prop' => $target, 'label' => 'done') + $attrib);
     }
     else {
-        $out = $OUTPUT->button(array('command' => 'list', 'label' => 'cancel') + $attrib);
-        $out .= '&nbsp;';
+        $cancel = $OUTPUT->button(array('command' => 'list', 'label' => 'cancel') + $attrib);
         $attrib['class'] = trim($attrib['class'] . ' mainaction');
-        $out .= $OUTPUT->button(array('command' => 'import', 'label' => 'import') + $attrib);
+        $out  = $OUTPUT->button(array('command' => 'import', 'label' => 'import') + $attrib);
+        $out .= '&nbsp;';
+        $out .= $cancel;
     }
 
     return $out;

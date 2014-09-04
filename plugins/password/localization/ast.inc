@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Camudar contraseña';
 $labels['curpasswd']  = 'Contraseña actual:';
 $labels['newpasswd']  = 'Contraseña nueva:';
 $labels['confpasswd']  = 'Confirmar contraseña:';
@@ -28,5 +27,6 @@ $messages['connecterror'] = 'Nun pudo guardase la contraseña nueva. Fallu de co
 $messages['internalerror'] = 'Nun pudo guardase la contraseña nueva. ';
 $messages['passwordshort'] = 'La contraseña tien de tener polo menos $length caráuteres.';
 $messages['passwordweak'] = 'La contraseña tien de tener polo menos un númberu y un signu de puntuación.';
-$messages['passwordforbidden'] = 'La contraseña que s\'introduxo contién caráuteres non permitíos.';
+$messages['passwordforbidden'] = 'La contraseña contien caráuteres prohibíos.';
+$messages['firstloginchange'] = 'Esti ye\'l to primer aniciu sesión. Por favor, camuda la to contraseña.';
 ?>

@@ -16,17 +16,21 @@
 
 <div id="mainscreen">
 
+<h1 class="voice"><roundcube:label name="messageopenerror" /></h1>
+
 <!-- toolbar -->
-<div id="messagetoolbar" class="fullwidth">
-	<div id="mailtoolbar" class="toolbar">
-		<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
-	</div>
+<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+<div id="messagetoolbar" class="toolbar fullwidth" role="toolbar" aria-labelledby="aria-label-toolbar">
+	<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
 </div>
+
+<div id="mainscreencontent">
 
 <div id="mailview-left">
 
 <!-- folders list -->
-<div id="mailboxcontainer" class="uibox listbox">
+<div id="mailboxcontainer" class="uibox listbox" role="navigation" aria-labelledby="aria-label-folderlist">
+<h2 id="aria-label-folderlist" class="voice"><roundcube:label name="arialabelfolderlist" /></h2>
 <div class="scroller">
 	<roundcube:object name="mailboxlist" id="mailboxlist" class="treelist listing" folder_filter="mail" unreadwrap="%s" />
 </div>
@@ -34,11 +38,13 @@
 
 </div>
 
-<div id="mailview-right" class="offset uibox">
+<div id="mailview-right" class="uibox">
 
 <div id="messagecontent" class="watermark"></div>
 
 </div><!-- end mailview-right -->
+
+</div><!-- end mainscreencontent -->
 
 </div><!-- end mainscreen -->
 

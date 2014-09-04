@@ -53,6 +53,16 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $washed = $washer->wash($html);
 
         $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>test</p>', $washed, "HTML invalid comments (#1487759)");
+
+        $html   = "<p>para1</p><!-- comment --><p>para2</p>";
+        $washed = $washer->wash($html);
+
+        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>para1</p><!-- node type 8 --><p>para2</p>', $washed, "HTML comments - simple comment");
+
+        $html   = "<p>para1</p><!-- <hr> comment --><p>para2</p>";
+        $washed = $washer->wash($html);
+
+        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>para1</p><!-- node type 8 --><p>para2</p>', $washed, "HTML comments - tags inside (#1489904)");
     }
 
     /**
@@ -124,4 +134,53 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Test color style handling (#1489697)
+     */
+    function test_color_style()
+    {
+        $html = "<p style=\"font-size: 10px; color: rgb(241, 245, 218)\">a</p>";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|color: rgb\(241, 245, 218\)|', $washed, "Color style (#1489697)");
+        $this->assertRegExp('|font-size: 10px|', $washed, "Font-size style");
+    }
+
+    /**
+     * Test handling of unicode chars in style (#1489777)
+     */
+    function test_style_unicode()
+    {
+        $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+            <body><span style='font-family:\"新細明體\",\"serif\";color:red'>test</span></body></html>";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|style=\'font-family: "新細明體","serif"; color: red\'|', $washed, "Unicode chars in style attribute - quoted (#1489697)");
+
+        $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+            <body><span style='font-family:新細明體;color:red'>test</span></body></html>";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|style="font-family: 新細明體; color: red"|', $washed, "Unicode chars in style attribute (#1489697)");
+    }
+
+    /**
+     * Test style item fixes
+     */
+    function test_style_wash()
+    {
+        $html = "<p style=\"line-height: 1; height: 10\">a</p>";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|line-height: 1;|', $washed, "Untouched line-height (#1489917)");
+        $this->assertRegExp('|; height: 10px|', $washed, "Fixed height units");
+    }
 }
