@@ -1,12 +1,12 @@
-ALTER TABLE [dbo].[cache] ADD COLUMN [expires] [datetime] NULL
+ALTER TABLE [dbo].[cache] ADD [expires] [datetime] NULL
 GO
-ALTER TABLE [dbo].[cache_shared] ADD COLUMN [expires] [datetime] NULL
+ALTER TABLE [dbo].[cache_shared] ADD [expires] [datetime] NULL
 GO
-ALTER TABLE [dbo].[cache_index] ADD COLUMN [expires] [datetime] NULL
+ALTER TABLE [dbo].[cache_index] ADD [expires] [datetime] NULL
 GO
-ALTER TABLE [dbo].[cache_thread] ADD COLUMN [expires] [datetime] NULL
+ALTER TABLE [dbo].[cache_thread] ADD [expires] [datetime] NULL
 GO
-ALTER TABLE [dbo].[cache_messages] ADD COLUMN [expires] [datetime] NULL
+ALTER TABLE [dbo].[cache_messages] ADD [expires] [datetime] NULL
 GO
 
 UPDATE [dbo].[cache] SET [expires] = DATEADD(second, 604800, [created])
