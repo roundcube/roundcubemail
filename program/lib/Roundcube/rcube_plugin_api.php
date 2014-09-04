@@ -626,6 +626,16 @@ class rcube_plugin_api
     }
 
     /**
+     * Returns loaded plugin
+     *
+     * @return rcube_plugin Plugin instance
+     */
+    public function get_plugin($name)
+    {
+        return $this->plugins[$name];
+    }
+
+    /**
      * Callback for template_container hooks
      *
      * @param array $attrib
