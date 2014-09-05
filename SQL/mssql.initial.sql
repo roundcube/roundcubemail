@@ -280,7 +280,7 @@ ALTER TABLE [dbo].[contactgroups] ADD
 	CONSTRAINT [CK_contactgroups_del] CHECK ([del] = '1' or [del] = '0')
 GO
 
-CREATE INDEX [IX_contactgroups_user_id] ON [dbo].[contacts]([user_id]) ON [PRIMARY]
+CREATE INDEX [IX_contactgroups_user_id] ON [dbo].[contactgroups]([user_id]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[contactgroupmembers] ADD 
