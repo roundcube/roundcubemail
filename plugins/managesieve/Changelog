@@ -2,6 +2,7 @@
 - Fix missing css/js scripts in filter form in mail task
 - Fix default vacation status (#1490019)
 - Make possible to set vacation start/end date and time
+- Fix compatibility with contextmenu plugin
 
 * version 8.0 [2014-07-16]
 -----------------------------------------------------------
