@@ -1291,7 +1291,7 @@ class rcube_imap extends rcube_storage
     public function index_direct($folder, $sort_field = null, $sort_order = null, $search = null)
     {
         if (!empty($search)) {
-            $search = $this->search_set->get_compressed();
+            $search = $search->get_compressed();
         }
 
         // use message index sort as default sorting
