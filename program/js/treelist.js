@@ -477,7 +477,7 @@ function rcube_treelist_widget(node, p)
    */
   function update_dom(node)
   {
-    var li = id2dom(node.id);
+    var li = id2dom(node.id, true);
     li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
     li.children('ul').first()[(node.collapsed ? 'hide' : 'show')]();
     li.children('div.treetoggle').removeClass('collapsed expanded').addClass(node.collapsed ? 'collapsed' : 'expanded');
@@ -698,7 +698,8 @@ function rcube_treelist_widget(node, p)
         node.childlistclass = sublist.attr('class');
       }
       if (node.children.length) {
-        node.collapsed = sublist.css('display') == 'none';
+        if (node.collapsed === undefined)
+          node.collapsed = sublist.css('display') == 'none';
 
         // apply saved state
         state = get_state(node.id, node.collapsed);
