@@ -13,10 +13,6 @@
         },
         {
             "type": "vcs",
-            "url": "git@github.com:roundcube/sample-plugin.git"
-        },
-        {
-            "type": "vcs",
             "url": "git://git.kolab.org/git/pear/Net_LDAP3"
         },
         {
