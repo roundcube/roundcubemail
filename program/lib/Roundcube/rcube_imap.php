@@ -3682,7 +3682,9 @@ class rcube_imap extends rcube_storage
             // @TODO: Honor MAXSIZE and DEPTH options
             foreach ($queries as $attrib => $entry) {
                 if ($result = $this->conn->getAnnotation($folder, $entry, $attrib)) {
-                    $res = array_merge_recursive($res, $result);
+                    foreach ($result as $folder => $data) {
+                        $res[$folder] = array_merge((array) $res[$folder], $data);
+                    }
                 }
             }
         }
