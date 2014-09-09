@@ -6902,7 +6902,7 @@ function rcube_webmail()
       // truncate stack down to the one containing the ref link
       for (var i = this.menu_stack.length - 1; stack && i >= 0; i--) {
         if (!$(ref).parents('#'+this.menu_stack[i]).length)
-          this.hide_menu(this.menu_stack[i]);
+          this.hide_menu(this.menu_stack[i], event);
       }
       if (stack && this.menu_stack.length) {
         obj.data('parent', $.last(this.menu_stack));
