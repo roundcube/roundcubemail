@@ -1660,7 +1660,7 @@ function rcube_webmail()
         }
         skip = obj.data('parent');
       }
-    }, 10);
+    }, 10, e);
   };
 
   // global keypress event handler
