@@ -56,7 +56,7 @@ foreach (array('contacts','contactgroups','identities') as $table) {
         && ($table == 'contacts' || $table == 'contactgroups')
     ) {
         $pk = $primary_keys[$table];
-        $memberstable = get_table_name('contactgroupmembers');
+        $memberstable = $db->table_name('contactgroupmembers');
 
         $db->query(
             "DELETE FROM $memberstable".
