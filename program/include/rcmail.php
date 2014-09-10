@@ -116,11 +116,13 @@ class rcmail extends rcube
             $_SESSION['task'] = $this->task;
         }
 
-        // init output class
-        if (!empty($_REQUEST['_remote']))
+        // init output class (not in CLI mode)
+        if (!empty($_REQUEST['_remote'])) {
             $GLOBALS['OUTPUT'] = $this->json_init();
-        else
+        }
+        else if ($_SERVER['REMOTE_ADDR']) {
             $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
+        }
 
         // load plugins
         $this->plugins->init($this, $this->task);

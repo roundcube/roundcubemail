@@ -25,7 +25,7 @@ require_once INSTALL_PATH.'program/include/clisetup.php';
 ini_set('memory_limit', -1);
 
 // connect to DB
-$RCMAIL = rcmail::get_instance();
+$RCMAIL = rcube::get_instance();
 
 $db = $RCMAIL->get_dbh();
 $db->db_connect('w');

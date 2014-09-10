@@ -47,7 +47,7 @@ $pref_name  = trim($args[0]);
 $pref_value = $args['delete'] ? null : trim($args[1]);
 
 // connect to DB
-$rcmail = rcmail::get_instance();
+$rcmail = rcube::get_instance();
 
 $db = $rcmail->get_dbh();
 $db->db_connect('w');

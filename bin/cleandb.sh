@@ -30,7 +30,7 @@ $primary_keys = array(
 );
 
 // connect to DB
-$RCMAIL = rcmail::get_instance();
+$RCMAIL = rcube::get_instance();
 $db = $RCMAIL->get_dbh();
 $db->db_connect('w');
 
