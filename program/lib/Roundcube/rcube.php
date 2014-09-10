@@ -1280,6 +1280,9 @@ class rcube
 
             exit(1);
         }
+        else if ($cli) {
+            fwrite(STDERR, 'ERROR: ' . $arg['message']);
+        }
     }
 
 
