@@ -25,6 +25,7 @@ $optional_php_exts = array(
     'Mcrypt'    => 'mcrypt',
     'Intl'      => 'intl',
     'Exif'      => 'exif',
+    'LDAP'      => 'ldap',
 );
 
 $required_libs = array(
@@ -32,9 +33,12 @@ $required_libs = array(
     'Auth_SASL' => 'pear.php.net',
     'Net_SMTP'  => 'pear.php.net',
     'Net_IDNA2' => 'pear.php.net',
-    'Net_LDAP3' => 'git.kolab.org',
     'Mail_mime' => 'pear.php.net',
     'Mail_mimeDecode' => 'pear.php.net',
+);
+
+$optional_libs = array(
+    'Net_LDAP3' => 'git.kolab.org',
 );
 
 $ini_checks = array(
@@ -68,6 +72,7 @@ $source_urls = array(
     'Intl'      => 'http://www.php.net/manual/en/book.intl.php',
     'Exif'      => 'http://www.php.net/manual/en/book.exif.php',
     'PDO'       => 'http://www.php.net/manual/en/book.pdo.php',
+    'LDAP'      => 'http://www.php.net/manual/en/book.ldap.php',
     'pdo_mysql'   => 'http://www.php.net/manual/en/ref.pdo-mysql.php',
     'pdo_pgsql'   => 'http://www.php.net/manual/en/ref.pdo-pgsql.php',
     'pdo_sqlite'  => 'http://www.php.net/manual/en/ref.pdo-sqlite.php',
@@ -77,7 +82,9 @@ $source_urls = array(
     'PEAR'      => 'http://pear.php.net',
     'Net_SMTP'  => 'http://pear.php.net/package/Net_SMTP',
     'Mail_mime' => 'http://pear.php.net/package/Mail_mime',
+    'Mail_mimeDecode' => 'http://pear.php.net/package/Mail_mimeDecode',
     'Net_IDNA2' => 'http://pear.php.net/package/Net_IDNA2',
+    'Net_LDAP3' => 'http://git.kolab.org/pear/Net_LDAP3',
 );
 
 echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . '" />';
@@ -164,7 +171,6 @@ if (empty($found_db_driver)) {
 <?php
 
 foreach ($required_libs as $classname => $vendor) {
-    @include_once $file;
     if (class_exists($classname)) {
         $RCI->pass($classname);
     }
@@ -174,6 +180,15 @@ foreach ($required_libs as $classname => $vendor) {
     echo "<br />";
 }
 
+foreach ($optional_libs as $classname => $vendor) {
+    if (class_exists($classname)) {
+        $RCI->pass($classname);
+    }
+    else {
+        $RCI->na($classname, "Recommended to install $classname from $vendor", $source_urls[$classname]);
+    }
+    echo "<br />";
+}
 
 ?>
 
