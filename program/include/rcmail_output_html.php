@@ -491,9 +491,10 @@ EOF;
 
             // fallback to deprecated template names
             if (!is_readable($path) && $this->deprecated_templates[$realname]) {
-                $path = "$skin_path/templates/" . $this->deprecated_templates[$realname] . ".html";
+                // Try an old path
+                $tpath = "$skin_path/templates/" . $this->deprecated_templates[$realname] . ".html";
 
-                if (is_readable($path)) {
+                if (is_readable($tpath)) {
                     rcube::raise_error(array(
                         'code' => 502, 'type' => 'php',
                         'file' => __FILE__, 'line' => __LINE__,
