@@ -458,6 +458,10 @@ function rcube_treelist_widget(node, p)
       node.deleted = true;
       delete indexbyid[id];
 
+      if (search_active) {
+        id2dom(id, false).remove();
+      }
+
       return true;
     }
 
