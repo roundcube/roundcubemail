@@ -26,22 +26,27 @@ if (!$RCMAIL->config->get('devel_mode')) {
 }
 
 // @TODO: transaction here (if supported by DB) would be a good thing
-$res = $RCMAIL->db->query("DELETE FROM cache");
+$res = $RCMAIL->db->query("DELETE FROM " . $RCMAIL->db->table_name('cache', true));
 if ($err = $RCMAIL->db->is_error($res)) {
     exit($err);
 }
 
-$res = $RCMAIL->db->query("DELETE FROM cache_messages");
+$res = $RCMAIL->db->query("DELETE FROM " . $RCMAIL->db->table_name('cache_shared', true));
 if ($err = $RCMAIL->db->is_error($res)) {
     exit($err);
 }
 
-$res = $RCMAIL->db->query("DELETE FROM cache_index");
+$res = $RCMAIL->db->query("DELETE FROM " . $RCMAIL->db->table_name('cache_messages', true));
 if ($err = $RCMAIL->db->is_error($res)) {
     exit($err);
 }
 
-$res = $RCMAIL->db->query("DELETE FROM cache_thread");
+$res = $RCMAIL->db->query("DELETE FROM " . $RCMAIL->db->table_name('cache_index', true));
+if ($err = $RCMAIL->db->is_error($res)) {
+    exit($err);
+}
+
+$res = $RCMAIL->db->query("DELETE FROM " . $RCMAIL->db->table_name('cache_thread', true));
 if ($err = $RCMAIL->db->is_error($res)) {
     exit($err);
 }
