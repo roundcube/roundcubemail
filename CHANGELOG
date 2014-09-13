@@ -60,6 +60,7 @@ CHANGELOG Roundcube Webmail
 - Fix handling of email addresses with quoted domain part (#1490040)
 - Fix comm_path update on task switch (#1490041)
 - Fix error in MSSQL update script 2013061000.sql (#1490061)
+- Fix validation of email addresses with IDNA domains (#1490067)
 
 RELEASE 1.0.2
 -------------
