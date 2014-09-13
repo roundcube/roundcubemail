@@ -4689,7 +4689,7 @@ function rcube_webmail()
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
 
-    var n, id, sid, contact, writable = false,
+    var n, id, sid, contact, writable = true,
       source = this.env.source ? this.env.address_sources[this.env.source] : null;
 
     // we don't have dblclick handler here, so use 200 instead of this.dblclick_time
@@ -4716,12 +4716,12 @@ function rcube_webmail()
         if (!source) {
           sid = String(list.selection[n]).replace(/^[^-]+-/, '');
           if (sid && this.env.address_sources[sid]) {
-            writable = writable || (!this.env.address_sources[sid].readonly && !contact.readonly);
+            writable = writable && (!this.env.address_sources[sid].readonly && !contact.readonly);
             this.env.selection_sources.push(sid);
           }
         }
         else {
-          writable = writable || (!source.readonly && !contact.readonly);
+          writable = writable && (!source.readonly && !contact.readonly);
         }
 
         if (contact._type != 'group')
