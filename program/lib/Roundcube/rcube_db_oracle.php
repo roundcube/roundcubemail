@@ -141,7 +141,7 @@ class rcube_db_oracle extends rcube_db
     {
         if ($interval) {
             $interval = intval($interval);
-            return "current_timestamp + INTERVAL $interval SECOND";
+            return "current_timestamp + INTERVAL '$interval' SECOND";
         }
 
         return "current_timestamp";

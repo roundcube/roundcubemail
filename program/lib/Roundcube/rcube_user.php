@@ -341,7 +341,7 @@ class rcube_user
             $insert_cols[]   = $this->db->quote_identifier($col);
             $insert_values[] = $value;
         }
-        $insert_cols[]   = 'user_id';
+        $insert_cols[]   = $this->db->quote_identifier('user_id');
         $insert_values[] = $this->ID;
 
         $sql = "INSERT INTO ".$this->db->table_name('identities', true).
