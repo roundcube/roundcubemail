@@ -536,7 +536,8 @@ function rcube_mail_ui()
 //    $('#composeformbuttons')[(btns ? 'show' : 'hide')]();
 
     var abooks = $('#directorylist');
-    $('#compose-contacts .scroller').css('top', abooks.position().top + abooks.outerHeight());
+    if (abooks.length)
+      $('#compose-contacts .scroller').css('top', abooks.position().top + abooks.outerHeight());
   }
 
 
