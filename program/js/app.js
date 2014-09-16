@@ -2482,7 +2482,7 @@ function rcube_webmail()
   // expand all threads with unread children
   this.expand_unread = function()
   {
-    var r, tbody = this.gui_objects.messagelist.tBodies[0],
+    var r, tbody = this.message_list.tbody,
       new_row = tbody.firstChild;
 
     while (new_row) {
