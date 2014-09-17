@@ -130,6 +130,20 @@ class rcube_db
             return $this->dbh;
         }
 
+        // connect to database
+        if ($dbh = $this->conn_create($dsn)) {
+            $this->dbh          = $dbh;
+            $this->dbhs[$mode]  = $dbh;
+            $this->db_mode      = $mode;
+            $this->db_connected = true;
+        }
+    }
+
+    /**
+     * Create PDO connection
+     */
+    protected function conn_create($dsn)
+    {
         // Get database specific connection options
         $dsn_string  = $this->dsn_string($dsn);
         $dsn_options = $this->dsn_options($dsn);
@@ -151,6 +165,8 @@ class rcube_db
 
             // don't throw exceptions or warnings
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+
+            $this->conn_configure($dsn, $dbh);
         }
         catch (Exception $e) {
             $this->db_error     = true;
@@ -163,11 +179,7 @@ class rcube_db
             return null;
         }
 
-        $this->dbh          = $dbh;
-        $this->dbhs[$mode]  = $dbh;
-        $this->db_mode      = $mode;
-        $this->db_connected = true;
-        $this->conn_configure($dsn, $dbh);
+        return $dbh;
     }
 
     /**
@@ -442,8 +454,16 @@ class rcube_db
         // log query
         $this->debug($query);
 
+        return $this->query_execute($query);
+    }
+
+    /**
+     * Query execution
+     */
+    protected function query_execute($query)
+    {
         // destroy reference to previous result, required for SQLite driver (#1488874)
-        $this->last_result = null;
+        $this->last_result  = null;
         $this->db_error_msg = null;
 
         // send query
@@ -453,9 +473,7 @@ class rcube_db
             $result = $this->handle_error($query);
         }
 
-        $this->last_result = $result;
-
-        return $result;
+        return $this->last_result = $result;
     }
 
     /**
