@@ -870,16 +870,16 @@ class rcmail_output_html extends rcmail_output
                     $attrib['name'] = $this->eval_expression($attrib['expression']);
 
                 if ($attrib['name'] || $attrib['command']) {
-                    // @FIXME: 'noshow' is useless, remove?
-                    if ($attrib['noshow']) {
-                        return '';
-                    }
-
                     $vars = $attrib + array('product' => $this->config->get('product_name'));
                     unset($vars['name'], $vars['command']);
 
                     $label   = $this->app->gettext($attrib + array('vars' => $vars));
                     $quoting = !empty($attrib['quoting']) ? strtolower($attrib['quoting']) : (rcube_utils::get_boolean((string)$attrib['html']) ? 'no' : '');
+
+                    // 'noshow' can be used in skins to define new labels
+                    if ($attrib['noshow']) {
+                        return '';
+                    }
 
                     switch ($quoting) {
                         case 'no':
