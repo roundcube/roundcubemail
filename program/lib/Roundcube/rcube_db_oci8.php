@@ -110,8 +110,9 @@ class rcube_db_oci8 extends rcube_db
 
         // prepare query
         $result = oci_parse($this->dbh, $query);
+        $mode   = $this->in_transaction ? OCI_NO_AUTO_COMMIT : OCI_COMMIT_ON_SUCCESS;
 
-        if (!@oci_execute($result, OCI_COMMIT_ON_SUCCESS)) { // OCI_NO_AUTO_COMMIT
+        if (!@oci_execute($result, $mode)) {
             $result = $this->handle_error($query, $result);
         }
 
@@ -458,5 +459,76 @@ class rcube_db_oci8 extends rcube_db
         }
 
         return !$this->db_error;
+    }
+
+    /**
+     * Start transaction
+     *
+     * @return bool True on success, False on failure
+     */
+    public function startTransaction()
+    {
+        $this->db_connect('w', true);
+
+        // check connection before proceeding
+        if (!$this->is_connected()) {
+            return $this->last_result = false;
+        }
+
+        $this->debug('BEGIN TRANSACTION');
+
+        return $this->last_result = $this->in_transaction = true;
+    }
+
+    /**
+     * Commit transaction
+     *
+     * @return bool True on success, False on failure
+     */
+    public function endTransaction()
+    {
+        $this->db_connect('w', true);
+
+        // check connection before proceeding
+        if (!$this->is_connected()) {
+            return $this->last_result = false;
+        }
+
+        $this->debug('COMMIT TRANSACTION');
+
+        if ($result = @oci_commit($this->dbh)) {
+            $this->in_transaction = true;
+        }
+        else {
+            $this->handle_error('COMMIT');
+        }
+
+        return $this->last_result = $result;
+    }
+
+    /**
+     * Rollback transaction
+     *
+     * @return bool True on success, False on failure
+     */
+    public function rollbackTransaction()
+    {
+        $this->db_connect('w', true);
+
+        // check connection before proceeding
+        if (!$this->is_connected()) {
+            return $this->last_result = false;
+        }
+
+        $this->debug('ROLLBACK TRANSACTION');
+
+        if ($result = @oci_rollback($this->dbh)) {
+            $this->in_transaction = false;
+        }
+        else {
+            $this->handle_error('ROLLBACK');
+        }
+
+        return $this->last_result = $this->dbh->rollBack();
     }
 }

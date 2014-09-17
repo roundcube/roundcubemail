@@ -555,7 +555,9 @@ class rcube_db
     public function affected_rows($result = null)
     {
         if ($result || ($result === null && ($result = $this->last_result))) {
-            return $result->rowCount();
+            if ($result !== true) {
+                return $result->rowCount();
+            }
         }
 
         return 0;
@@ -571,7 +573,7 @@ class rcube_db
      */
     public function num_rows($result = null)
     {
-        if ($result || ($result === null && ($result = $this->last_result))) {
+        if (($result || ($result === null && ($result = $this->last_result))) && $result !== true) {
             // repeat query with SELECT COUNT(*) ...
             if (preg_match('/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/ims', $result->queryString, $m)) {
                 $query = $this->dbh->query('SELECT COUNT(*) FROM ' . $m[1], PDO::FETCH_NUM);
@@ -647,7 +649,9 @@ class rcube_db
     protected function _fetch_row($result, $mode)
     {
         if ($result || ($result === null && ($result = $this->last_result))) {
-            return $result->fetch($mode);
+            if ($result !== true) {
+                return $result->fetch($mode);
+            }
         }
 
         return false;
@@ -714,6 +718,63 @@ class rcube_db
         }
 
         return array();
+    }
+
+    /**
+     * Start transaction
+     *
+     * @return bool True on success, False on failure
+     */
+    public function startTransaction()
+    {
+        $this->db_connect('w', true);
+
+        // check connection before proceeding
+        if (!$this->is_connected()) {
+            return $this->last_result = false;
+        }
+
+        $this->debug('BEGIN TRANSACTION');
+
+        return $this->last_result = $this->dbh->beginTransaction();
+    }
+
+    /**
+     * Commit transaction
+     *
+     * @return bool True on success, False on failure
+     */
+    public function endTransaction()
+    {
+        $this->db_connect('w', true);
+
+        // check connection before proceeding
+        if (!$this->is_connected()) {
+            return $this->last_result = false;
+        }
+
+        $this->debug('COMMIT TRANSACTION');
+
+        return $this->last_result = $this->dbh->commit();
+    }
+
+    /**
+     * Rollback transaction
+     *
+     * @return bool True on success, False on failure
+     */
+    public function rollbackTransaction()
+    {
+        $this->db_connect('w', true);
+
+        // check connection before proceeding
+        if (!$this->is_connected()) {
+            return $this->last_result = false;
+        }
+
+        $this->debug('ROLLBACK TRANSACTION');
+
+        return $this->last_result = $this->dbh->rollBack();
     }
 
     /**
