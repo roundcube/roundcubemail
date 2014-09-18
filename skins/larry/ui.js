@@ -1260,8 +1260,8 @@ function rcube_splitter(p)
   this.resize = function()
   {
     if (this.horizontal) {
-      this.p1.css('height', Math.floor(this.pos - this.p1pos.top - this.halfsize) + 'px');
-      this.p2.css('top', Math.ceil(this.pos + this.halfsize + 2) + 'px');
+      this.p1.css('height', Math.floor(this.pos - this.p1pos.top - Math.floor(this.halfsize)) + 'px');
+      this.p2.css('top', Math.ceil(this.pos + Math.ceil(this.halfsize) + 2) + 'px');
       this.handle.css('top', Math.round(this.pos - this.halfsize + this.offset)+'px');
       if (bw.ie) {
         var new_height = parseInt(this.p2.parent().outerHeight(), 10) - parseInt(this.p2.css('top'), 10) - (bw.ie8 ? 2 : 0);
@@ -1269,8 +1269,8 @@ function rcube_splitter(p)
       }
     }
     else {
-      this.p1.css('width', Math.floor(this.pos - this.p1pos.left - this.halfsize) + 'px');
-      this.p2.css('left', Math.ceil(this.pos + this.halfsize) + 'px');
+      this.p1.css('width', Math.floor(this.pos - this.p1pos.left - Math.floor(this.halfsize)) + 'px');
+      this.p2.css('left', Math.ceil(this.pos + Math.ceil(this.halfsize)) + 'px');
       this.handle.css('left', Math.round(this.pos - this.halfsize + this.offset + 3)+'px');
       if (bw.ie) {
         var new_width = parseInt(this.p2.parent().outerWidth(), 10) - parseInt(this.p2.css('left'), 10) ;
@@ -1353,13 +1353,13 @@ function rcube_splitter(p)
 
     if (me.horizontal) {
       if (((pos.y - me.halfsize) > me.p1pos.top) && ((pos.y + me.halfsize) < (me.p2pos.top + me.p2.outerHeight()))) {
-        me.pos = Math.max(me.min, pos.y - me.offset);
+        me.pos = Math.max(me.min, pos.y - Math.max(0, me.offset));
         me.resize();
       }
     }
     else {
       if (((pos.x - me.halfsize) > me.p1pos.left) && ((pos.x + me.halfsize) < (me.p2pos.left + me.p2.outerWidth()))) {
-        me.pos = Math.max(me.min, pos.x - me.offset);
+        me.pos = Math.max(me.min, pos.x - Math.max(0, me.offset));
         me.resize();
       }
     }
