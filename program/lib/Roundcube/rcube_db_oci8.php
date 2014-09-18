@@ -100,19 +100,84 @@ class rcube_db_oci8 extends rcube_db
     }
 
     /**
-     * Execute the query
+     * Execute a SQL query with limits
+     *
+     * @param string $query   SQL query to execute
+     * @param int    $offset  Offset for LIMIT statement
+     * @param int    $numrows Number of rows for LIMIT statement
+     * @param array  $params  Values to be inserted in query
+     *
+     * @return PDOStatement|bool Query handle or False on error
      */
-    protected function query_execute($query)
+    protected function _query($query, $offset, $numrows, $params)
     {
+        $query = ltrim($query);
+
+        $this->db_connect($this->dsn_select($query), true);
+
+        // check connection before proceeding
+        if (!$this->is_connected()) {
+            return $this->last_result = false;
+        }
+
+        if ($numrows || $offset) {
+            $query = $this->set_limit($query, $numrows, $offset);
+        }
+
+        // replace self::DEFAULT_QUOTE with driver-specific quoting
+        $query = $this->query_parse($query);
+
+        // Because in Roundcube we mostly use queries that are
+        // executed only once, we will not use prepared queries
+        $pos  = 0;
+        $idx  = 0;
+        $args = array();
+
+        if (count($params)) {
+            while ($pos = strpos($query, '?', $pos)) {
+                if ($query[$pos+1] == '?') {  // skip escaped '?'
+                    $pos += 2;
+                }
+                else {
+                    $val = $this->quote($params[$idx++]);
+
+                    // long strings are not allowed inline, need to be parametrized
+                    if (strlen($val) > 4000) {
+                        $key = ':param' . (count($args) + 1);
+                        $args[$key] = $params[$idx-1];
+                        $val = $key;
+                    }
+
+                    unset($params[$idx-1]);
+                    $query = substr_replace($query, $val, $pos, 1);
+                    $pos += strlen($val);
+                }
+            }
+        }
+
+        // replace escaped '?' back to normal, see self::quote()
+        $query = str_replace('??', '?', $query);
+        $query = rtrim($query, " \t\n\r\0\x0B;");
+
+        // log query
+        $this->debug($query);
+
         // destroy reference to previous result
         $this->last_result  = null;
         $this->db_error_msg = null;
 
         // prepare query
-        $result = oci_parse($this->dbh, $query);
+        $result = @oci_parse($this->dbh, $query);
         $mode   = $this->in_transaction ? OCI_NO_AUTO_COMMIT : OCI_COMMIT_ON_SUCCESS;
 
-        if (!@oci_execute($result, $mode)) {
+        if ($result) {
+            foreach ($args as $param => $arg) {
+                oci_bind_by_name($result, $param, $args[$param], -1, SQLT_LNG);
+            }
+        }
+
+        // execute query
+        if (!$result || !@oci_execute($result, $mode)) {
             $result = $this->handle_error($query, $result);
         }
 
