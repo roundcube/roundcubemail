@@ -70,6 +70,7 @@ class rcube_db
             'dblib'   => 'mssql',
             'mysqli'  => 'mysql',
             'oci'     => 'oracle',
+            'oci8'    => 'oracle',
         );
 
         $driver = isset($driver_map[$driver]) ? $driver_map[$driver] : $driver;
