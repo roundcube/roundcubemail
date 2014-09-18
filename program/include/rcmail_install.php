@@ -55,6 +55,7 @@ class rcmail_install
     'SQLite (v2)'         => 'pdo_sqlite2',
     'SQL Server (SQLSRV)' => 'pdo_sqlsrv',
     'SQL Server (DBLIB)'  => 'pdo_dblib',
+    'Oracle'              => 'oci8',
   );
 
 
