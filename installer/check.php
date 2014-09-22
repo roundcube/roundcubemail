@@ -71,6 +71,7 @@ $source_urls = array(
     'DOM'       => 'http://www.php.net/manual/en/book.dom.php',
     'Intl'      => 'http://www.php.net/manual/en/book.intl.php',
     'Exif'      => 'http://www.php.net/manual/en/book.exif.php',
+    'oci8'      => 'http://www.php.net/manual/en/book.oci8.php',
     'PDO'       => 'http://www.php.net/manual/en/book.pdo.php',
     'LDAP'      => 'http://www.php.net/manual/en/book.ldap.php',
     'pdo_mysql'   => 'http://www.php.net/manual/en/ref.pdo-mysql.php',
