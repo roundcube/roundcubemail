@@ -103,6 +103,8 @@ class rcube_session
                 array($this, 'db_write'),
                 array($this, 'db_destroy'),
                 array($this, 'gc'));
+
+            $this->table_name = $this->db->table_name('session', true);
         }
     }
 
@@ -175,9 +177,8 @@ class rcube_session
     public function db_read($key)
     {
         $sql_result = $this->db->query(
-            "SELECT vars, ip, changed, " . $this->db->now() . " AS ts"
-            . " FROM " . $this->db->table_name('session')
-            . " WHERE sess_id = ?", $key);
+            "SELECT `vars`, `ip`, `changed`, " . $this->db->now() . " AS ts"
+            . " FROM {$this->table_name} WHERE `sess_id` = ?", $key);
 
         if ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
             $this->time_diff = time() - strtotime($sql_arr['ts']);
@@ -204,9 +205,8 @@ class rcube_session
      */
     public function db_write($key, $vars)
     {
-        $now   = $this->db->now();
-        $table = $this->db->table_name('session');
-        $ts    = microtime(true);
+        $now = $this->db->now();
+        $ts  = microtime(true);
 
         if ($this->nowrite)
             return true;
@@ -227,17 +227,18 @@ class rcube_session
             $newvars = $this->_fixvars($vars, $oldvars);
 
             if ($newvars !== $oldvars) {
-                $this->db->query("UPDATE $table "
-                    . "SET changed = $now, vars = ? WHERE sess_id = ?",
+                $this->db->query("UPDATE {$this->table_name} "
+                    . "SET `changed` = $now, `vars` = ? WHERE `sess_id` = ?",
                     base64_encode($newvars), $key);
             }
             else if ($ts - $this->changed + $this->time_diff > $this->lifetime / 2) {
-                $this->db->query("UPDATE $table SET changed = $now"
-                    . " WHERE sess_id = ?", $key);
+                $this->db->query("UPDATE {$this->table_name} SET `changed` = $now"
+                    . " WHERE `sess_id` = ?", $key);
             }
         }
         else {
-            $this->db->query("INSERT INTO $table (sess_id, vars, ip, created, changed)"
+            $this->db->query("INSERT INTO {$this->table_name}"
+                . " (`sess_id`, `vars`, `ip`, `created`, `changed`)"
                 . " VALUES (?, ?, ?, $now, $now)",
                 $key, base64_encode($vars), (string)$this->ip);
         }
@@ -290,8 +291,7 @@ class rcube_session
     public function db_destroy($key)
     {
         if ($key) {
-            $this->db->query(sprintf("DELETE FROM %s WHERE sess_id = ?",
-                $this->db->table_name('session')), $key);
+            $this->db->query("DELETE FROM {$this->table_name} WHERE `sess_id` = ?", $key);
         }
 
         return true;
@@ -407,8 +407,8 @@ class rcube_session
         if ($this->gc_enabled) {
             // just delete all expired sessions
             if ($this->storage == 'db') {
-                $this->db->query("DELETE FROM " . $this->db->table_name('session')
-                    . " WHERE changed < " . $this->db->now(-$this->gc_enabled));
+                $this->db->query("DELETE FROM {$this->table_name}"
+                    . " WHERE `changed` < " . $this->db->now(-$this->gc_enabled));
             }
 
             foreach ($this->gc_handlers as $fct) {

@@ -48,7 +48,7 @@ $threshold = date('Y-m-d 00:00:00', time() - $days * 86400);
 
 foreach (array('contacts','contactgroups','identities') as $table) {
 
-    $sqltable = $db->table_name($table);
+    $sqltable = $db->table_name($table, true);
 
     // also delete linked records
     // could be skipped for databases which respect foreign key constraints
@@ -59,10 +59,10 @@ foreach (array('contacts','contactgroups','identities') as $table) {
         $memberstable = $db->table_name('contactgroupmembers');
 
         $db->query(
-            "DELETE FROM $memberstable".
-            " WHERE $pk IN (".
-                "SELECT $pk FROM $sqltable".
-                " WHERE del=1 AND changed < ?".
+            "DELETE FROM " . $db->quote_identifier($memberstable).
+            " WHERE `$pk` IN (".
+                "SELECT `$pk` FROM $sqltable".
+                " WHERE `del` = 1 AND `changed` < ?".
             ")",
             $threshold);
 
@@ -70,7 +70,7 @@ foreach (array('contacts','contactgroups','identities') as $table) {
     }
 
     // delete outdated records
-    $db->query("DELETE FROM $sqltable WHERE del=1 AND changed < ?", $threshold);
+    $db->query("DELETE FROM $sqltable WHERE `del` = 1 AND `changed` < ?", $threshold);
 
     echo $db->affected_rows() . " records deleted from '$table'\n";
 }

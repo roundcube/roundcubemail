@@ -50,6 +50,7 @@ class rcube_db
     );
 
     const DEBUG_LINE_LENGTH = 4096;
+    const DEFAULT_QUOTE     = '`';
 
     /**
      * Factory, returns driver-specific instance of the class
@@ -238,8 +239,12 @@ class rcube_db
         // Read or write ?
         $mode = preg_match('/^(select|show|set)/i', $query) ? 'r' : 'w';
 
+        $start = '[' . $this->options['identifier_start'] . self::DEFAULT_QUOTE . ']';
+        $end   = '[' . $this->options['identifier_end']   . self::DEFAULT_QUOTE . ']';
+        $regex = '/(?:^|\s)(from|update|into|join)\s+'.$start.'?([a-z0-9._]+)'.$end.'?\s+/i';
+
         // find tables involved in this query
-        if (preg_match_all('/(?:^|\s)(from|update|into|join)\s+'.$this->options['identifier_start'].'?([a-z0-9._]+)'.$this->options['identifier_end'].'?\s+/i', $query, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all($regex, $query, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $m) {
                 $table = $m[2];
 
@@ -408,6 +413,9 @@ class rcube_db
             $query = $this->set_limit($query, $numrows, $offset);
         }
 
+        // replace self::DEFAULT_QUOTE with driver-specific quoting
+        $query = $this->query_parse($query);
+
         // Because in Roundcube we mostly use queries that are
         // executed only once, we will not use prepared queries
         $pos = 0;
@@ -431,6 +439,7 @@ class rcube_db
         $query = str_replace('??', '?', $query);
         $query = rtrim($query, " \t\n\r\0\x0B;");
 
+        // log query
         $this->debug($query);
 
         // destroy reference to previous result, required for SQLite driver (#1488874)
@@ -447,6 +456,51 @@ class rcube_db
         $this->last_result = $result;
 
         return $result;
+    }
+
+    /**
+     * Parse SQL query and replace identifier quoting
+     *
+     * @param string $query SQL query
+     *
+     * @return string SQL query
+     */
+    protected function query_parse($query)
+    {
+        $start = $this->options['identifier_start'];
+        $end   = $this->options['identifier_end'];
+        $quote = self::DEFAULT_QUOTE;
+
+        if ($start == $quote) {
+            return $query;
+        }
+
+        $pos = 0;
+        $in  = false;
+
+        while ($pos = strpos($query, $quote, $pos)) {
+            if ($query[$pos+1] == $quote) {  // skip escaped quote
+                $pos += 2;
+            }
+            else {
+                if ($in) {
+                    $q  = $end;
+                    $in = false;
+                }
+                else {
+                    $q  = $start;
+                    $in = true;
+                }
+
+                $query = substr_replace($query, $q, $pos, 1);
+                $pos++;
+            }
+        }
+
+        // replace escaped quote back to normal, see self::quote()
+        $query = str_replace($quote.$quote, $quote, $query);
+
+        return $query;
     }
 
     /**
@@ -677,8 +731,13 @@ class rcube_db
                 'bool'    => PDO::PARAM_BOOL,
                 'integer' => PDO::PARAM_INT,
             );
+
             $type = isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
-            return strtr($this->dbh->quote($input, $type), array('?' => '??'));  // escape ?
+
+            return strtr($this->dbh->quote($input, $type),
+                // escape ? and `
+                array('?' => '??', self::DEFAULT_QUOTE => self::DEFAULT_QUOTE.self::DEFAULT_QUOTE)
+            );
         }
 
         return 'NULL';
@@ -917,15 +976,20 @@ class rcube_db
     /**
      * Return correct name for a specific database table
      *
-     * @param string $table Table name
+     * @param string $table  Table name
+     * @param bool   $quoted Quote table identifier
      *
      * @return string Translated table name
      */
-    public function table_name($table)
+    public function table_name($table, $quoted = false)
     {
         // add prefix to the table name if configured
         if (($prefix = $this->options['table_prefix']) && strpos($table, $prefix) !== 0) {
-            return $prefix . $table;
+            $table = $prefix . $table;
+        }
+
+        if ($quoted) {
+            $table = $this->quote_identifier($table);
         }
 
         return $table;

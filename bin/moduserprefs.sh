@@ -58,10 +58,10 @@ if (!$db->is_connected() || $db->is_error())
 $query = '1=1';
 
 if ($args['user'])
-	$query = 'user_id=' . intval($args['user']);
+	$query = '`user_id` = ' . intval($args['user']);
 
 // iterate over all users
-$sql_result = $db->query("SELECT * FROM " . $db->table_name('users') . " WHERE $query");
+$sql_result = $db->query("SELECT * FROM " . $db->table_name('users', true) . " WHERE $query");
 while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
 	echo "Updating prefs for user " . $sql_arr['user_id'] . "...";
 

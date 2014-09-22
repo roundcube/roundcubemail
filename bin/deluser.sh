@@ -91,7 +91,7 @@ if ($plugin['abort']) {
 // deleting the user record should be sufficient due to ON DELETE CASCADE foreign key references
 // but not all database backends actually support this so let's do it by hand
 foreach (array('identities','contacts','contactgroups','dictionaries','cache','cache_index','cache_messages','cache_thread','searches','users') as $table) {
-    $db->query('DELETE FROM ' . $db->table_name($table) . ' WHERE user_id=?', $user->ID);
+    $db->query('DELETE FROM ' . $db->table_name($table, true) . ' WHERE `user_id` = ?', $user->ID);
 }
 
 if ($db->is_error()) {
