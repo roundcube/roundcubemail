@@ -571,7 +571,6 @@ class rcube_imap_cache
             ." WHERE `user_id` = ?"
                 ." AND `mailbox` = ?"
                 .(!empty($uids) ? " AND `uid` IN (".$this->db->array2list($uids, 'integer').")" : "")
-                ." AND (`flags` & $idx) ".($enabled ? "= 0" : "= $idx"),
                 ." AND " . sprintf($binary_check, $idx) . ($enabled ? " = 0" : " = $idx"),
             $this->userid, $mailbox);
     }
