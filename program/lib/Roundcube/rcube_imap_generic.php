@@ -3219,8 +3219,8 @@ class rcube_imap_generic
                         }
                     }
                     else if (isset($mbox)) {
-                        if ($data[$i+1] !== null)
-                            $result[$mbox][$data[$i]] = $data[++$i];
+                        if ($data[++$i] !== null)
+                            $result[$mbox][$data[$i-1]] = $data[$i];
                         unset($data[$i]);
                         unset($data[$i-1]);
                     }
