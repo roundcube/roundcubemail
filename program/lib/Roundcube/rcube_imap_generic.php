@@ -3199,9 +3199,9 @@ class rcube_imap_generic
                 for ($i=0; $i<$size; $i++) {
                     if (isset($mbox) && is_array($data[$i])) {
                         $size_sub = count($data[$i]);
-                        for ($x=0; $x<$size_sub; $x++) {
+                        for ($x=0; $x<$size_sub; $x+=2) {
                             if ($data[$i][$x+1] !== null)
-                                $result[$mbox][$data[$i][$x]] = $data[$i][++$x];
+                                $result[$mbox][$data[$i][$x]] = $data[$i][$x+1];
                         }
                         unset($data[$i]);
                     }
