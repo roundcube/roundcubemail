@@ -69,6 +69,7 @@ if (empty($args['host'])) {
 // connect to DB
 $db = $rcmail->get_dbh();
 $db->db_connect('w');
+$transaction = false;
 
 if (!$db->is_connected() || $db->is_error()) {
     _die("No DB connection\n" . $db->is_error());
@@ -81,23 +82,44 @@ if (!$user) {
     die("User not found.\n");
 }
 
+// inform plugins about approaching user deletion
+$plugin = $rcmail->plugins->exec_hook('user_delete_prepare', array('user' => $user, 'username' => $username, 'host' => $args['host']));
+
 // let plugins cleanup their own user-related data
-$plugin = $rcmail->plugins->exec_hook('user_delete', array('user' => $user, 'username' => $username, 'host' => $args['host']));
+if (!$plugin['abort']) {
+    $transaction = $db->startTransaction();
+    $plugin = $rcmail->plugins->exec_hook('user_delete', $plugin);
+}
 
 if ($plugin['abort']) {
+    if ($transaction) {
+        $db->rollbackTransaction();
+    }
     _die("User deletion aborted by plugin");
 }
 
 // deleting the user record should be sufficient due to ON DELETE CASCADE foreign key references
 // but not all database backends actually support this so let's do it by hand
-foreach (array('identities','contacts','contactgroups','dictionaries','cache','cache_index','cache_messages','cache_thread','searches','users') as $table) {
+foreach (array('identities','contacts','contactgroups','dictionary','cache','cache_index','cache_messages','cache_thread','searches','users') as $table) {
     $db->query('DELETE FROM ' . $db->table_name($table, true) . ' WHERE `user_id` = ?', $user->ID);
 }
 
 if ($db->is_error()) {
+    $rcmail->plugins->exec_hook('user_delete_rollback', $plugin);
     _die("DB error occurred: " . $db->is_error());
 }
 else {
-    echo "Successfully deleted user $user->ID\n";
+    // inform plugins about executed user deletion
+    $plugin = $rcmail->plugins->exec_hook('user_delete_commit', $plugin);
+
+    if ($plugin['abort']) {
+        unset($plugin['abort']);
+        $db->rollbackTransaction();
+        $rcmail->plugins->exec_hook('user_delete_rollback', $plugin);
+    }
+    else {
+        $db->endTransaction();
+        echo "Successfully deleted user $user->ID\n";
+    }
 }
 
