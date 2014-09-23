@@ -5,7 +5,7 @@
  | program/include/clisetup.php                                          |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2010-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2010-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -27,3 +27,6 @@ require_once INSTALL_PATH . 'program/include/iniset.php';
 
 // Unset max. execution time limit, set to 120 seconds in iniset.php
 @set_time_limit(0);
+
+$rcmail = rcmail::get_instance();
+$rcmail->output = new rcmail_output_cli();
