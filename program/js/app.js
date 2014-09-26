@@ -3617,11 +3617,15 @@ function rcube_webmail()
   this.toggle_editor = function(props, obj, e)
   {
     // @todo: this should work also with many editors on page
-    var result = this.editor.toggle(props.html);
+    var result = this.editor.toggle(props.html, props.noconvert || false);
+
+    // satisfy the expectations of aftertoggle-editor event subscribers
+    props.mode = props.html ? 'html' : 'plain';
 
     if (!result && e) {
       // fix selector value if operation failed
-      $(e.target).filter('select').val(props.html ? 'plain' : 'html');
+      props.mode = props.html ? 'plain' : 'html';
+      $(e.target).filter('select').val(props.mode);
     }
 
     if (result) {
@@ -3924,7 +3928,7 @@ function rcube_webmail()
 
       // initialize HTML editor
       if ((formdata._is_html == '1' && !html_mode) || (formdata._is_html != '1' && html_mode)) {
-        this.command('toggle-editor', {id: this.env.composebody, html: !html_mode});
+        this.command('toggle-editor', {id: this.env.composebody, html: !html_mode, noconvert: true});
       }
     }
   };
