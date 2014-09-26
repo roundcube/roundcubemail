@@ -1805,17 +1805,17 @@ class rcmail extends rcube
             $lang = 'en';
         }
 
-        $script = json_encode(array(
+        $script = array(
             'mode'       => $mode,
             'lang'       => $lang,
             'skin_path'  => $this->output->get_skin_path(),
             'spellcheck' => intval($this->config->get('enable_spellcheck')),
             'spelldict'  => intval($this->config->get('spellcheck_dictionary'))
-        ));
+        );
 
         $this->output->include_script('tiny_mce/tiny_mce.js');
         $this->output->include_script('editor.js');
-        $this->output->add_script("rcmail_editor_init($script)", 'docready');
+        $this->output->set_env('html_editor_init', $script);
     }
 
     /**

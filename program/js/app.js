@@ -187,6 +187,11 @@ function rcube_webmail()
     if (this.env.permaurl)
       this.enable_command('permaurl', 'extwin', true);
 
+    // initialize html editor
+    if (this.env.html_editor_init && window.rcmail_editor_init) {
+      rcmail_editor_init(this.env.html_editor_init);
+    }
+
     switch (this.task) {
 
       case 'mail':
