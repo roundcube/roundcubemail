@@ -3866,6 +3866,16 @@ function rcube_webmail()
     if (!show_sig)
       show_sig = this.env.show_sig;
 
+    var id = obj.options[obj.selectedIndex].value;
+
+    // enable manual signature insert
+    if (this.env.signatures && this.env.signatures[id]) {
+      this.enable_command('insert-sig', true);
+      this.env.compose_commands.push('insert-sig');
+    }
+    else
+      this.enable_command('insert-sig', false);
+
     // first function execution
     if (!this.env.identities_initialized) {
       this.env.identities_initialized = true;
@@ -3876,7 +3886,6 @@ function rcube_webmail()
     }
 
     var cursor_pos, p = -1,
-      id = obj.options[obj.selectedIndex].value,
       input_message = $("[name='_message']"),
       message = input_message.val(),
       is_html = ($("input[name='_is_html']").val() == '1'),
@@ -3916,14 +3925,6 @@ function rcube_webmail()
       if (old_val || new_val)
         input.val(input_val).change();
     });
-
-    // enable manual signature insert
-    if (this.env.signatures && this.env.signatures[id]) {
-      this.enable_command('insert-sig', true);
-      this.env.compose_commands.push('insert-sig');
-    }
-    else
-      this.enable_command('insert-sig', false);
 
     if (!is_html) {
       // remove the 'old' signature
