@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.0.3
+-------------
+- Fix insert-signature command in external compose window if opened from inline compose screen (#1490074)
 - Initialize HTML editor before restoring a message from localStorage (#1490016)
 - Add 'sig_max_lines' config option to default config file (#1490071)
 - Add option to specify IMAP connection socket parameters - imap_conn_options (#1489948)
