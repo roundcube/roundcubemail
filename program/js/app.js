@@ -3965,6 +3965,19 @@ function rcube_webmail()
     if (!show_sig)
       show_sig = this.env.show_sig;
 
+    var id = obj.options[obj.selectedIndex].value,
+      sig = this.env.identity,
+      delim = this.env.recipients_separator,
+      rx_delim = RegExp.escape(delim);
+
+    // enable manual signature insert
+    if (this.env.signatures && this.env.signatures[id]) {
+      this.enable_command('insert-sig', true);
+      this.env.compose_commands.push('insert-sig');
+    }
+    else
+      this.enable_command('insert-sig', false);
+
     // first function execution
     if (!this.env.identities_initialized) {
       this.env.identities_initialized = true;
@@ -3973,11 +3986,6 @@ function rcube_webmail()
       if (this.env.opened_extwin)
         return;
     }
-
-    var id = obj.options[obj.selectedIndex].value,
-      sig = this.env.identity,
-      delim = this.env.recipients_separator,
-      rx_delim = RegExp.escape(delim);
 
     // update reply-to/bcc fields with addresses defined in identities
     $.each(['replyto', 'bcc'], function() {
@@ -4011,14 +4019,6 @@ function rcube_webmail()
       if (old_val || new_val)
         input.val(input_val).change();
     });
-
-    // enable manual signature insert
-    if (this.env.signatures && this.env.signatures[id]) {
-      this.enable_command('insert-sig', true);
-      this.env.compose_commands.push('insert-sig');
-    }
-    else
-      this.enable_command('insert-sig', false);
 
     this.editor.change_signature(id, show_sig);
     this.env.identity = id;
