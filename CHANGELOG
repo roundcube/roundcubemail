@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Initialize HTML editor before restoring a message from localStorage (#1490016)
+- Add 'sig_max_lines' config option to default config file (#1490071)
 - Add option to specify IMAP connection socket parameters - imap_conn_options (#1489948)
 - Add option to set default message list mode - default_list_mode (#1487312)
 - Enable contextmenu plugin for TinyMCE editor (#1487014)
