@@ -968,7 +968,7 @@ class rcube_sieve_engine
 
                     $this->form['actions'][$i]['reason']    = str_replace("\r\n", "\n", $reason);
                     $this->form['actions'][$i]['subject']   = $subject[$idx];
-                    $this->form['actions'][$i]['addresses'] = array_shift($addresses);
+                    $this->form['actions'][$i]['addresses'] = array_pop($addresses);
                     $this->form['actions'][$i][$interval_type] = $intervals[$idx];
 // @TODO: vacation :mime, :from, :handle
 
