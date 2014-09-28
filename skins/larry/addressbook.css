@@ -1,14 +1,14 @@
 /**
- * Roundcube webmail styles for the Address Book section
- *
- * Copyright (c) 2012, The Roundcube Dev Team
- * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
- *
- * The contents are subject to the Creative Commons Attribution-ShareAlike
- * License. It is allowed to copy, distribute, transmit and to adapt the work
- * by keeping credits to the original autors in the README file.
- * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
- */
+* Roundcube webmail styles for the Address Book section
+*
+* Copyright (c) 2012, The Roundcube Dev Team
+* Screendesign by FLINT / Bï¿½ro fï¿½r Gestaltung, bueroflint.com
+*
+* The contents are subject to the Creative Commons Attribution-ShareAlike
+* License. It is allowed to copy, distribute, transmit and to adapt the work
+* by keeping credits to the original autors in the README file.
+* See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+*/
 
 #addressview-left {
 	position: absolute;
@@ -316,11 +316,12 @@ form #contacthead {
 	border: 0;
 	border-radius: 5px;
 	background: #f7f7f7;
-	background: -moz-linear-gradient(top, #f7f7f7 0%, #eee 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(100%,#eee));
-	background: -o-linear-gradient(top, #f7f7f7 0%, #eee 100%);
-	background: -ms-linear-gradient(top, #f7f7f7 0%, #eee 100%);
-	background: linear-gradient(top, #f7f7f7 0%, #eee 100%);
+	background: -moz-linear-gradient(top, #f7f7f7 0%, #eeeeee 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(100%,#eeeeee));
+	background: -webkit-linear-gradient(top, #f7f7f7 0%,#eeeeee 100%);
+	background: -o-linear-gradient(top, #f7f7f7 0%,#eeeeee 100%);
+	background: -ms-linear-gradient(top, #f7f7f7 0%,#eeeeee 100%);
+	background: linear-gradient(to bottom, #f7f7f7 0%,#eeeeee 100%);
 	margin: 0 0 12px 0;
 	padding: 8px;
 }
@@ -337,7 +338,7 @@ form #contacthead {
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f0f0), color-stop(100%,#d6d6d6));
 	background: -o-linear-gradient(top, #f0f0f0 0%, #d6d6d6 100%);
 	background: -ms-linear-gradient(top, #f0f0f0 0%, #d6d6d6 100%);
-	background: linear-gradient(top, #f0f0f0 0%, #d6d6d6 100%);
+	background: linear-gradient(to bottom, #f0f0f0 0%, #d6d6d6 100%);
 	border-bottom: 1px solid #cfcfcf;
 	border-radius: 5px 5px 0 0;
 }
@@ -414,5 +415,5 @@ a.deletebutton {
 
 #import-box p,
 #import-box .propform {
-  max-width: 50em;
+	max-width: 50em;
 }
