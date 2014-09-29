@@ -738,6 +738,9 @@ function smart_field_init(field)
 
   if (field.attr('disabled'))
     area.hide();
+  // disable the original field anyway, we don't want it in POST
+  else
+    field.prop('disabled', true);
 
   field.after(area);
 
