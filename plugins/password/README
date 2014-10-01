@@ -339,7 +339,7 @@
  3. Driver API
  -------------
 
- Driver file (<driver_name>.php) must define 'password_save' function with
+ Driver file (<driver_name>.php) must define 'save' function with
  two arguments. First - current password, second - new password. Function
  should return PASSWORD_SUCCESS on success or any of PASSWORD_CONNECT_ERROR,
  PASSWORD_CRYPT_ERROR, PASSWORD_ERROR when driver was unable to change password.
