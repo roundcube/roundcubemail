@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix setting flags on servers with no PERMANENTFLAGS response (#1490087)
+
 RELEASE 1.0.3
 -------------
 - Fix insert-signature command in external compose window if opened from inline compose screen (#1490074)
