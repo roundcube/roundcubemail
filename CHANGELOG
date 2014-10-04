@@ -49,6 +49,7 @@ CHANGELOG Roundcube Webmail
 - Don't remove links when html signature is converted to text (#1489621)
 - Fix page title when using search filter (#1490023)
 - Fix mbox files import
+- Fix setting flags on servers with no PERMANENTFLAGS response (#1490087)
 
 RELEASE 1.0.3
 -------------
