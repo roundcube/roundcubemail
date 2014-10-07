@@ -1802,7 +1802,7 @@ class rcmail extends rcube
             $error = 'errorreadonly';
         }
         else if ($res_code == rcube_storage::OVERQUOTA) {
-            $error = 'errorroverquota';
+            $error = 'erroroverquota';
         }
         else if ($err_code && ($err_str = $this->storage->get_error_str())) {
             // try to detect access rights problem and display appropriate message
