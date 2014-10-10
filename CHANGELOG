@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix setting flags on servers with no PERMANENTFLAGS response (#1490087)
+- Fix regression in SHAA password generation in ldap driver of password plugin (#1490094)
 
 RELEASE 1.0.3
 -------------

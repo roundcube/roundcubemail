@@ -263,7 +263,7 @@ class rcube_ldap_password
 
             if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
                 $salt     = mhash_keygen_s2k(MHASH_SHA1, $password_clear, $salt, 4);
-                $password = mhash(MHASH_MD5, $password_clear . $salt);
+                $password = mhash(MHASH_SHA1, $password_clear . $salt);
             }
             else if (function_exists('sha1')) {
                 $salt     = substr(pack("H*", sha1($salt . $password_clear)), 0, 4);
