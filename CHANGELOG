@@ -50,6 +50,7 @@ CHANGELOG Roundcube Webmail
 - Fix page title when using search filter (#1490023)
 - Fix mbox files import
 - Fix setting flags on servers with no PERMANENTFLAGS response (#1490087)
+- Fix regression in SHAA password generation in ldap driver of password plugin (#1490094)
 
 RELEASE 1.0.3
 -------------
