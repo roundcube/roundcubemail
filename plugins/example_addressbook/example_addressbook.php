@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__) . '/example_addressbook_backend.php');
+require_once(__DIR__ . '/example_addressbook_backend.php');
 
 /**
  * Sample plugin to add a new address book

@@ -5,7 +5,7 @@ class Parser extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../lib/Roundcube/rcube_sieve_script.php';
+        include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_script.php';
     }
 
     /**
@@ -34,7 +34,7 @@ class Parser extends PHPUnit_Framework_TestCase
      */
     function data_parser()
     {
-        $dir_path = realpath(dirname(__FILE__) . '/src');
+        $dir_path = realpath(__DIR__ . '/src');
         $dir      = opendir($dir_path);
         $result   = array();
 

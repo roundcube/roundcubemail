@@ -5,7 +5,7 @@ class IdentitySelect_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../identity_select.php';
+        include_once __DIR__ . '/../identity_select.php';
     }
 
     /**

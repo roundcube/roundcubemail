@@ -5,7 +5,7 @@ class Zipdownload_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../zipdownload.php';
+        include_once __DIR__ . '/../zipdownload.php';
     }
 
     /**

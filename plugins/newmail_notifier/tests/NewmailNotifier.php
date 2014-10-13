@@ -5,7 +5,7 @@ class NewmailNotifier_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../newmail_notifier.php';
+        include_once __DIR__ . '/../newmail_notifier.php';
     }
 
     /**
