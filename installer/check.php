@@ -44,7 +44,6 @@ $optional_libs = array(
 $ini_checks = array(
     'file_uploads'                  => 1,
     'session.auto_start'            => 0,
-    'zend.ze1_compatibility_mode'   => 0,
     'mbstring.func_overload'        => 0,
     'suhosin.session.encrypt'       => 0,
     'magic_quotes_runtime'          => 0,

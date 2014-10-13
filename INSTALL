@@ -29,7 +29,6 @@ REQUIREMENTS
    - memory_limit > 16MB (increase as suitable to support large attachments)
    - file_uploads enabled (for attachment upload features)
    - session.auto_start disabled
-   - zend.ze1_compatibility_mode disabled
    - suhosin.session.encrypt disabled
    - mbstring.func_overload disabled
    - magic_quotes_runtime disabled
