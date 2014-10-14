@@ -157,7 +157,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
             RCMAIL::ERROR_INVALID_HOST     => 'invalidhost',
         );
 
-        $error_message = !is_numeric($auth['error']) ? $auth['error'] : ($error_labels[$error_code] ?: 'loginfailed');
+        $error_message = !empty($auth['error']) && !is_numeric($auth['error']) ? $auth['error'] : ($error_labels[$error_code] ?: 'loginfailed');
 
         $OUTPUT->show_message($error_message, 'warning');
 
