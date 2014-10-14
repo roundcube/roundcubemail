@@ -78,7 +78,20 @@ class rcube_ldap_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $crypted_pass = self::hash_password($passwd, $rcmail->config->get('password_ldap_encodage'));
+        $encodage = $rcmail->config->get('password_ldap_encodage');
+
+        // Support multiple userPassword values where desired.
+        // multiple encodings can be specified separated by '+' (e.g. "cram-md5+ssha")
+        $encodages = explode('+',$encodage);
+        $crypted_pass = array();
+
+        foreach($encodages as $enc) {
+            $cpw = self::hash_password($passwd, $enc);
+            if(!empty($cpw)) {
+                $crypted_pass[] = $cpw;
+            }
+        }
+
         $force        = $rcmail->config->get('password_ldap_force_replace');
         $pwattr       = $rcmail->config->get('password_ldap_pwattr');
         $lchattr      = $rcmail->config->get('password_ldap_lchattr');
@@ -93,7 +106,7 @@ class rcube_ldap_password
         }
 
         // Crypt new password
-        if (!$crypted_pass) {
+        if (empty($crypted_pass)) {
             return PASSWORD_CRYPT_ERROR;
         }
 
@@ -297,6 +310,7 @@ class rcube_ldap_password
             }
             break;
 
+
         case 'smd5':
             mt_srand((double) microtime() * 1000000);
             $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
@@ -330,6 +344,11 @@ class rcube_ldap_password
 
         case 'ad':
             $crypted_password = rcube_charset::convert('"' . $password_clear . '"', RCUBE_CHARSET, 'UTF-16LE');
+            break;
+
+        case 'cram-md5':
+            require_once(dirname(__FILE__).'/../helpers/dovecot_hmacmd5.php');
+			return dovecot_hmacmd5($password_clear);
             break;
 
         case 'clear':
