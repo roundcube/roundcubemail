@@ -7830,13 +7830,15 @@ function rcube_webmail()
   // and return the message uid
   this.get_single_uid = function()
   {
-    return this.env.uid ? this.env.uid : (this.message_list ? this.message_list.get_single_selection() : null);
+    var result = ref.triggerEvent('get_single_uid');
+    return result ? result : this.env.uid ? this.env.uid : (this.message_list ? this.message_list.get_single_selection() : null);
   };
 
   // same as above but for contacts
   this.get_single_cid = function()
   {
-    return this.env.cid ? this.env.cid : (this.contact_list ? this.contact_list.get_single_selection() : null);
+    var result = ref.triggerEvent('get_single_cid');
+    return result ? result : this.env.cid ? this.env.cid : (this.contact_list ? this.contact_list.get_single_selection() : null);
   };
 
   // get the IMP mailbox of the message with the given UID
