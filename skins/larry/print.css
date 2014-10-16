@@ -15,7 +15,7 @@ body {
 	margin: 2mm;
 }
 
-body, td, th, span, div, p {
+body, td, th, div, p {
 	font-size: 9pt;
 	color: #000;
 }
