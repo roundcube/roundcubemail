@@ -348,7 +348,7 @@ class rcube_ldap_password
 
         case 'cram-md5':
             require_once(dirname(__FILE__).'/../helpers/dovecot_hmacmd5.php');
-			return dovecot_hmacmd5($password_clear);
+            return dovecot_hmacmd5($password_clear);
             break;
 
         case 'clear':
