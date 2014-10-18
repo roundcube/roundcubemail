@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Fix setting flags on servers with no PERMANENTFLAGS response (#1490087)
 - Fix regression in SHAA password generation in ldap driver of password plugin (#1490094)
 - Fix displaying of HTML messages with absolutely positioned elements in Larry skin (#1490103)
+- Fix font style display issue in HTML messages with styled <span> elements (#1490101)
 
 RELEASE 1.0.3
 -------------
