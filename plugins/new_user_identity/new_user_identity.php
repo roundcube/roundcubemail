@@ -36,42 +36,33 @@ class new_user_identity extends rcube_plugin
     {
         if ($this->init_ldap($args['host'])) {
             $results = $this->ldap->search('*', $args['user'], true);
+
             if (count($results->records) == 1) {
                 $user_name  = is_array($results->records[0]['name']) ? $results->records[0]['name'][0] : $results->records[0]['name'];
                 $user_email = is_array($results->records[0]['email']) ? $results->records[0]['email'][0] : $results->records[0]['email'];
 
-                $args['user_name'] = $user_name;
+                $args['user_name']  = $user_name;
+                $args['email_list'] = array();
+
                 if (!$args['user_email'] && strpos($user_email, '@')) {
                     $args['user_email'] = rcube_utils::idn_to_ascii($user_email);
                 }
 
-                $args['email_list'] = array();
-                $i=0;
-                $keys = array_keys( $results[0] );
-
-                foreach ( $keys as $key ) {
-                    if (!preg_match( '/^email($|:)/', $key )) {
+                foreach (array_keys($results[0]) as $key) {
+                    if (!preg_match('/^email($|:)/', $key)) {
                         continue;
                     }
 
-                    if (is_array($results->records[0][$key])) {
-                        foreach($results->records[0][$key] as $alias) {
-                            if(strpos($alias, '@')) {
-                                $args['email_list'][$i++] = rcube_idn_to_ascii($alias);
-                            }
+                    foreach ((array) $results->records[0][$key] as $alias) {
+                        if (strpos($alias, '@')) {
+                            $args['email_list'][] = rcube_utils::idn_to_ascii($alias);
                         }
                     }
-                    else {
-                        $alias = $results->records[0][$key];
-                        if (strpos($alias, '@')) {
-                            $args['email_list'][$i++] = rcube_idn_to_ascii($alias);
-                        }
-
-                   }
                 }
 
             }
         }
+
         return $args;
     }
 
