@@ -38,7 +38,8 @@ class rcube_ldap_password
         // Building user DN
         if ($userDN = $rcmail->config->get('password_ldap_userDN_mask')) {
             $userDN = self::substitute_vars($userDN);
-        } else {
+        }
+        else {
             $userDN = $this->search_userdn($rcmail);
         }
 
@@ -78,26 +79,25 @@ class rcube_ldap_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $encodage = $rcmail->config->get('password_ldap_encodage');
-
-        // Support multiple userPassword values where desired.
-        // multiple encodings can be specified separated by '+' (e.g. "cram-md5+ssha")
-        $encodages = explode('+',$encodage);
-        $crypted_pass = array();
-
-        foreach($encodages as $enc) {
-            $cpw = self::hash_password($passwd, $enc);
-            if(!empty($cpw)) {
-                $crypted_pass[] = $cpw;
-            }
-        }
-
         $force        = $rcmail->config->get('password_ldap_force_replace');
         $pwattr       = $rcmail->config->get('password_ldap_pwattr');
         $lchattr      = $rcmail->config->get('password_ldap_lchattr');
         $smbpwattr    = $rcmail->config->get('password_ldap_samba_pwattr');
         $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
         $samba        = $rcmail->config->get('password_ldap_samba');
+        $encodage     = $rcmail->config->get('password_ldap_encodage');
+
+        // Support multiple userPassword values where desired.
+        // multiple encodings can be specified separated by '+' (e.g. "cram-md5+ssha")
+        $encodages    = explode('+', $encodage);
+        $crypted_pass = array();
+
+        foreach ($encodages as $enc) {
+            $cpw = self::hash_password($passwd, $enc);
+            if (!empty($cpw)) {
+                $crypted_pass[] = $cpw;
+            }
+        }
 
         // Support password_ldap_samba option for backward compat.
         if ($samba && !$smbpwattr) {
@@ -347,7 +347,7 @@ class rcube_ldap_password
             break;
 
         case 'cram-md5':
-            require_once(dirname(__FILE__).'/../helpers/dovecot_hmacmd5.php');
+            require_once __DIR__ . '/../helpers/dovecot_hmacmd5.php';
             return dovecot_hmacmd5($password_clear);
             break;
 
