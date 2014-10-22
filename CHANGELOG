@@ -56,6 +56,7 @@ CHANGELOG Roundcube Webmail
 - Fix displaying of HTML messages with absolutely positioned elements in Larry skin (#1490103)
 - Fix font style display issue in HTML messages with styled <span> elements (#1490101)
 - Fix download of attachments that are part of TNEF message (#1490091)
+- Fix handling of uuencoded messages if messages_cache is enabled (#1490108)
 
 RELEASE 1.0.3
 -------------

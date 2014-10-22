@@ -899,13 +899,6 @@ class rcube_message
                 break;
             }
 
-            // update message content-type
-            if ($part->mimetype != 'multipart/mixed') {
-                $part->ctype_primary   = 'multipart';
-                $part->ctype_secondary = 'mixed';
-                $part->mimetype        = $part->ctype_primary . '/' . $part->ctype_secondary;
-            }
-
             $endpos    = $m[0][1];
             $begin_len = strlen($matches[0][0]);
             $end_len   = strlen($m[0][0]);
@@ -916,6 +909,8 @@ class rcube_message
 
             // remove attachment body from the message body
             $part->body = substr_replace($part->body, '', $startpos, $endpos + $end_len - $startpos);
+            // mark body as modified so it will not be cached by rcube_imap_cache
+            $part->body_modified = true;
 
             // add attachments to the structure
             $uupart = new rcube_message_part;
