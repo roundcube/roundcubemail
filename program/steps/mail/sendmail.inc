@@ -469,7 +469,8 @@ if (is_array($COMPOSE['attachments'])) {
                 $attachment['data'] ? false : true,
                 $ctype == 'message/rfc822' ? '8bit' : 'base64',
                 'attachment',
-                '', '', '',
+                $attachment['charset'],
+                '', '',
                 $folding ? 'quoted-printable' : NULL,
                 $folding == 2 ? 'quoted-printable' : NULL,
                 '', RCUBE_CHARSET

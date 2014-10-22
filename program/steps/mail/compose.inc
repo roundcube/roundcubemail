@@ -1377,6 +1377,7 @@ function rcmail_save_attachment(&$message, $pid)
         'data'       => $data,
         'path'       => $path,
         'size'       => $path ? filesize($path) : strlen($data),
+        'charset'    => $part->charset,
     );
 
     $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
