@@ -769,16 +769,12 @@ class rcube_message
         $uu_regexp = '/begin [0-7]{3,4} ([^\n]+)\n/s';
 
         if (preg_match_all($uu_regexp, $part->body, $matches, PREG_SET_ORDER)) {
-            // update message content-type
-            $part->ctype_primary   = 'multipart';
-            $part->ctype_secondary = 'mixed';
-            $part->mimetype        = $part->ctype_primary . '/' . $part->ctype_secondary;
             $uu_endstring = "`\nend\n";
 
             // add attachments to the structure
             foreach ($matches as $pid => $att) {
                 $startpos = strpos($part->body, $att[1]) + strlen($att[1]) + 1; // "\n"
-                $endpos = strpos($part->body, $uu_endstring);
+                $endpos   = strpos($part->body, $uu_endstring);
                 $filebody = substr($part->body, $startpos, $endpos-$startpos);
 
                 // remove attachments bodies from the message body
@@ -802,6 +798,8 @@ class rcube_message
 
             // remove attachments bodies from the message body
             $part->body = preg_replace($uu_regexp, '', $part->body);
+            // mark body as modified so it will not be cached by rcube_imap_cache
+            $part->body_modified = true;
         }
 
         return $parts;

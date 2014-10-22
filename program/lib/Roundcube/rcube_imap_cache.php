@@ -1235,12 +1235,14 @@ class rcube_imap_cache
     private function message_object_prepare(&$msg, &$size = 0)
     {
         // Remove body too big
-        if ($msg->body && ($length = strlen($msg->body))) {
-            $size += $length;
+        if (isset($msg->body)) {
+            $length = strlen($msg->body);
 
-            if ($size > $this->threshold * 1024) {
-                $size -= $length;
+            if ($msg->body_modified || $size + $length > $this->threshold * 1024) {
                 unset($msg->body);
+            }
+            else {
+                $size += $length;
             }
         }
 
