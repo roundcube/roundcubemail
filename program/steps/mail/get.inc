@@ -356,7 +356,8 @@ else if (strlen($part_id)) {
             }
             // send part as-it-is
             else {
-                if ($part->body && empty($plugin['download'])) {
+                // here we trust attachments from TNEF/uuencode message are untouched (#1490091)
+                if ($part->body && (!is_numeric($part->mime_id) || empty($plugin['download']))) {
                     header("Content-Length: " . strlen($part->body));
                     echo $part->body;
                     $sent = true;
