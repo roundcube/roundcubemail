@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2010, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -60,6 +60,8 @@ class rcube_message
     public $subject = '';
     public $sender = null;
     public $is_safe = false;
+
+    const BODY_MAX_SIZE = 1048576; // 1MB
 
 
     /**
@@ -176,6 +178,7 @@ class rcube_message
      * @param boolean  $formatted         Enables formatting of text/* parts bodies
      *
      * @return string Part content
+     * @deprecated
      */
     public function get_part_content($mime_id, $fp = null, $skip_charset_conv = false, $max_bytes = 0, $formatted = true)
     {
@@ -194,6 +197,125 @@ class rcube_message
             return $this->storage->get_message_part($this->uid, $mime_id, $part,
                 NULL, $fp, $skip_charset_conv, $max_bytes, $formatted);
         }
+    }
+
+
+    /**
+     * Get content of a specific part of this message
+     *
+     * @param string  $mime_id   Part ID
+     * @param boolean $formatted Enables formatting of text/* parts bodies
+     * @param int     $max_bytes Only return/read this number of bytes
+     * @param mixed   $mode      NULL to return a string, -1 to print body
+     *                           or file pointer to save the body into
+     *
+     * @return string|bool Part content or operation status
+     */
+    public function get_part_body($mime_id, $formatted = false, $max_bytes = 0, $mode = null)
+    {
+        if (!($part = $this->mime_parts[$mime_id])) {
+            return;
+        }
+
+        // only text parts can be formatted
+        $formatted = $formatted && $part->ctype_primary == 'text';
+
+        // part body not fetched yet... save in memory if it's small enough
+        if ($part->body === null && is_numeric($mime_id) && $part->size < self::BODY_MAX_SIZE) {
+            // Warning: body here should be always unformatted
+            $part->body = $this->storage->get_message_part($this->uid, $mime_id, $part,
+                null, null, true, 0, false);
+        }
+
+        // body stored in message structure (winmail/inline-uuencode)
+        if ($part->body !== null || $part->encoding == 'stream') {
+            $body = $part->body;
+
+            if ($formatted && $body) {
+                $body = self::format_part_body($body, $part, $this->headers->charset);
+            }
+
+            if ($max_bytes && strlen($body) > $max_bytes) {
+                $body = substr($body, 0, $max_bytes);
+            }
+
+            if (is_resource($mode)) {
+                if ($body !== false) {
+                    fwrite($mode, $body);
+                    rewind($mode);
+                }
+
+                return $body !== false;
+            }
+
+            if ($mode === -1) {
+                if ($body !== false) {
+                    print($body);
+                }
+
+                return $body !== false;
+            }
+
+            return $body;
+        }
+
+        // get the body from IMAP
+        $this->storage->set_folder($this->folder);
+
+        $body = $this->storage->get_message_part($this->uid, $mime_id, $part,
+            $mode === -1, is_resource($mode) ? $mode : null, !$formatted, $max_bytes, $formatted);
+
+        if (!$mode && $body && $formatted) {
+            $body = self::format_part_body($body, $part, $this->headers->charset);
+        }
+
+        if (is_resource($mode)) {
+            rewind($mode);
+            return $body !== false;
+        }
+
+        return $body;
+    }
+
+
+    /**
+     * Format text message part for display
+     *
+     * @param string             $body            Part body
+     * @param rcube_message_part $part            Part object
+     * @param string             $default_charset Fallback charset if part charset is not specified
+     *
+     * @return string Formatted body
+     */
+    public static function format_part_body($body, $part, $default_charset = null)
+    {
+        // remove useless characters
+        $body = preg_replace('/[\t\r\0\x0B]+\n/', "\n", $body);
+
+        // remove NULL characters if any (#1486189)
+        if (strpos($body, "\x00") !== false) {
+            $body = str_replace("\x00", '', $body);
+        }
+
+        // detect charset...
+        if (!$part->charset || strtoupper($part->charset) == 'US-ASCII') {
+            // try to extract charset information from HTML meta tag (#1488125)
+            if ($part->ctype_secondary == 'html' && preg_match('/<meta[^>]+charset=([a-z0-9-_]+)/i', $body, $m)) {
+                $part->charset = strtoupper($m[1]);
+            }
+            else if ($default_charset) {
+                $part->charset = $default_charset;
+            }
+            else {
+                $rcube         = rcube::get_instance();
+                $part->charset = $rcube->config->get('default_charset', RCUBE_CHARSET);
+            }
+        }
+
+        // ..convert charset encoding
+        $body = rcube_charset::convert($body, $part->charset);
+
+        return $body;
     }
 
 
@@ -293,7 +415,7 @@ class rcube_message
         // check all message parts
         foreach ($this->mime_parts as $pid => $part) {
             if ($part->mimetype == 'text/html') {
-                return $this->get_part_content($pid);
+                return $this->get_part_body($pid, true);
             }
         }
     }
@@ -314,10 +436,10 @@ class rcube_message
         // check all message parts
         foreach ($this->mime_parts as $mime_id => $part) {
             if ($part->mimetype == 'text/plain') {
-                return $this->get_part_content($mime_id);
+                return $this->get_part_body($mime_id, true);
             }
             else if ($part->mimetype == 'text/html') {
-                $out = $this->get_part_content($mime_id);
+                $out = $this->get_part_body($mime_id, true);
 
                 // create instance of html2text class
                 $txt = new rcube_html2text($out);
@@ -371,7 +493,7 @@ class rcube_message
 
             // parse headers from message/rfc822 part
             if (!isset($structure->headers['subject']) && !isset($structure->headers['from'])) {
-                list($headers, ) = explode("\r\n\r\n", $this->get_part_content($structure->mime_id, null, true, 32768));
+                list($headers, ) = explode("\r\n\r\n", $this->get_part_body($structure->mime_id, false, 32768));
                 $structure->headers = rcube_mime::parse_headers($headers);
             }
         }
@@ -725,15 +847,13 @@ class rcube_message
      */
     function tnef_decode(&$part)
     {
-        // @TODO: attachment may be huge, hadle it via file
-        if (!isset($part->body)) {
-            $this->storage->set_folder($this->folder);
-            $part->body = $this->storage->get_message_part($this->uid, $part->mime_id, $part);
-        }
+        // @TODO: attachment may be huge, handle body via file
+        $body     = $this->get_part_body($part->mime_id);
+        $tnef     = new tnef_decoder;
+        $tnef_arr = $tnef->decompress($body);
+        $parts    = array();
 
-        $parts = array();
-        $tnef = new tnef_decoder;
-        $tnef_arr = $tnef->decompress($part->body);
+        unset($body);
 
         foreach ($tnef_arr as $pid => $winatt) {
             $tpart = new rcube_message_part;
@@ -763,50 +883,54 @@ class rcube_message
      */
     function uu_decode(&$part)
     {
-        // @TODO: messages may be huge, hadle body via file
-        if (!isset($part->body)) {
-            $this->storage->set_folder($this->folder);
-            $part->body = $this->storage->get_message_part($this->uid, $part->mime_id, $part);
-        }
+        // @TODO: messages may be huge, handle body via file
+        $part->body = $this->get_part_body($part->mime_id);
+        $parts      = array();
+        $pid        = 0;
 
-        $parts = array();
         // FIXME: line length is max.65?
-        $uu_regexp = '/begin [0-7]{3,4} ([^\n]+)\n/s';
+        $uu_regexp_begin = '/begin [0-7]{3,4} ([^\r\n]+)\r?\n/s';
+        $uu_regexp_end   = '/`\r?\nend((\r?\n)|($))/s';
 
-        if (preg_match_all($uu_regexp, $part->body, $matches, PREG_SET_ORDER)) {
-            // update message content-type
-            $part->ctype_primary   = 'multipart';
-            $part->ctype_secondary = 'mixed';
-            $part->mimetype        = $part->ctype_primary . '/' . $part->ctype_secondary;
-            $uu_endstring = "`\nend\n";
+        while (preg_match($uu_regexp_begin, $part->body, $matches, PREG_OFFSET_CAPTURE)) {
+            $startpos = $matches[0][1];
 
-            // add attachments to the structure
-            foreach ($matches as $pid => $att) {
-                $startpos = strpos($part->body, $att[1]) + strlen($att[1]) + 1; // "\n"
-                $endpos = strpos($part->body, $uu_endstring);
-                $filebody = substr($part->body, $startpos, $endpos-$startpos);
-
-                // remove attachments bodies from the message body
-                $part->body = substr_replace($part->body, "", $startpos, $endpos+strlen($uu_endstring)-$startpos);
-
-                $uupart = new rcube_message_part;
-
-                $uupart->filename = trim($att[1]);
-                $uupart->encoding = 'stream';
-                $uupart->body     = convert_uudecode($filebody);
-                $uupart->size     = strlen($uupart->body);
-                $uupart->mime_id  = 'uu.' . $part->mime_id . '.' . $pid;
-
-                $ctype = rcube_mime::file_content_type($uupart->body, $uupart->filename, 'application/octet-stream', true);
-                $uupart->mimetype = $ctype;
-                list($uupart->ctype_primary, $uupart->ctype_secondary) = explode('/', $ctype);
-
-                $parts[] = $uupart;
-                unset($matches[$pid]);
+            if (!preg_match($uu_regexp_end, $part->body, $m, PREG_OFFSET_CAPTURE, $startpos)) {
+                break;
             }
 
-            // remove attachments bodies from the message body
-            $part->body = preg_replace($uu_regexp, '', $part->body);
+            // update message content-type
+            if ($part->mimetype != 'multipart/mixed') {
+                $part->ctype_primary   = 'multipart';
+                $part->ctype_secondary = 'mixed';
+                $part->mimetype        = $part->ctype_primary . '/' . $part->ctype_secondary;
+            }
+
+            $endpos    = $m[0][1];
+            $begin_len = strlen($matches[0][0]);
+            $end_len   = strlen($m[0][0]);
+
+            // extract attachment body
+            $filebody = substr($part->body, $startpos + $begin_len, $endpos - $startpos - $begin_len - 1);
+            $filebody = str_replace("\r\n", "\n", $filebody);
+
+            // remove attachment body from the message body
+            $part->body = substr_replace($part->body, '', $startpos, $endpos + $end_len - $startpos);
+
+            // add attachments to the structure
+            $uupart = new rcube_message_part;
+            $uupart->filename = trim($matches[1][0]);
+            $uupart->encoding = 'stream';
+            $uupart->body     = convert_uudecode($filebody);
+            $uupart->size     = strlen($uupart->body);
+            $uupart->mime_id  = 'uu.' . $part->mime_id . '.' . $pid;
+
+            $ctype = rcube_mime::file_content_type($uupart->body, $uupart->filename, 'application/octet-stream', true);
+            $uupart->mimetype = $ctype;
+            list($uupart->ctype_primary, $uupart->ctype_secondary) = explode('/', $ctype);
+
+            $parts[] = $uupart;
+            $pid++;
         }
 
         return $parts;

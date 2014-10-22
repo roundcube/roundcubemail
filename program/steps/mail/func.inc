@@ -864,17 +864,19 @@ function rcmail_wash_html($html, $p, $cid_replaces)
  * Convert the given message part to proper HTML
  * which can be displayed the message view
  *
- * @param object rcube_message_part Message part
- * @param array  Display parameters array 
+ * @param string             Message part body
+ * @param rcube_message_part Message part
+ * @param array              Display parameters array
+ *
  * @return string Formatted HTML string
  */
-function rcmail_print_body($part, $p = array())
+function rcmail_print_body($body, $part, $p = array())
 {
     global $RCMAIL;
 
     // trigger plugin hook
     $data = $RCMAIL->plugins->exec_hook('message_part_before',
-        array('type' => $part->ctype_secondary, 'body' => $part->body, 'id' => $part->mime_id)
+        array('type' => $part->ctype_secondary, 'body' => $body, 'id' => $part->mime_id)
             + $p + array('safe' => false, 'plain' => false, 'inline_html' => true));
 
     // convert html to text/plain
@@ -900,7 +902,7 @@ function rcmail_print_body($part, $p = array())
     }
     else {
         // assert plaintext
-        $body = $part->body;
+        $body = $data['body'];
         $part->ctype_secondary = $data['type'] = 'plain';
     }
 
@@ -1072,8 +1074,10 @@ function rcmail_message_headers($attrib, $headers=null)
         }
         else if ($hkey == 'subject' && empty($value))
             $header_value = $RCMAIL->gettext('nosubject');
-        else
+        else {
+            $value        = is_array($value) ? implode(' ', $value) : $value;
             $header_value = trim(rcube_mime::decode_header($value, $headers['charset']));
+        }
 
         $output_headers[$hkey] = array(
             'title' => $header_title,
@@ -1204,18 +1208,12 @@ function rcmail_message_body($attrib)
                     continue;
                 }
 
-                if (empty($part->ctype_parameters) || empty($part->ctype_parameters['charset'])) {
-                    $part->ctype_parameters['charset'] = $MESSAGE->headers->charset;
-                }
-
-                // fetch part if not available
-                if (!isset($part->body)) {
-                    $part->body = $MESSAGE->get_part_content($part->mime_id);
-                }
+                // fetch part body
+                $body = $MESSAGE->get_part_body($part->mime_id, true);
 
                 // extract headers from message/rfc822 parts
                 if ($part->mimetype == 'message/rfc822') {
-                    $msgpart = rcube_mime::parse_message($part->body);
+                    $msgpart = rcube_mime::parse_message($body);
                     if (!empty($msgpart->headers)) {
                         $part = $msgpart;
                         $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
@@ -1223,14 +1221,14 @@ function rcmail_message_body($attrib)
                 }
 
                 // message is cached but not exists (#1485443), or other error
-                if ($part->body === false) {
+                if ($body === false) {
                     rcmail_message_error($MESSAGE->uid);
                 }
 
                 $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
                     array('part' => $part, 'prefix' => ''));
 
-                $body = rcmail_print_body($part, array('safe' => $safe_mode, 'plain' => !$RCMAIL->config->get('prefer_html')));
+                $body = rcmail_print_body($body, $part, array('safe' => $safe_mode, 'plain' => !$RCMAIL->config->get('prefer_html')));
 
                 if ($part->ctype_secondary == 'html') {
                     $body     = rcmail_html4inline($body, $attrib['id'], 'rcmBody', $attrs, $safe_mode);

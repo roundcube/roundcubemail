@@ -802,21 +802,13 @@ function rcmail_compose_part_body($part, $isHtml = false)
         return '';
     }
 
-    if (empty($part->ctype_parameters) || empty($part->ctype_parameters['charset'])) {
-        $part->ctype_parameters['charset'] = $MESSAGE->headers->charset;
-    }
-
     // fetch part if not available
-    if (!isset($part->body)) {
-        $part->body = $MESSAGE->get_part_content($part->mime_id);
-    }
+    $body = $MESSAGE->get_part_body($part->mime_id, true);
 
     // message is cached but not exists (#1485443), or other error
-    if ($part->body === false) {
+    if ($body === false) {
         return '';
     }
-
-    $body = $part->body;
 
     if ($isHtml) {
         if ($part->ctype_secondary == 'html') {
@@ -1363,7 +1355,7 @@ function rcmail_save_attachment(&$message, $pid)
         $path     = tempnam($temp_dir, 'rcmAttmnt');
 
         if ($fp = fopen($path, 'w')) {
-            $message->get_part_content($pid, $fp, true, 0, false);
+            $message->get_part_body($pid, false, 0, $fp);
             fclose($fp);
         }
         else {
@@ -1371,7 +1363,7 @@ function rcmail_save_attachment(&$message, $pid)
         }
     }
     else {
-        $data = $message->get_part_content($pid, null, true, 0, false);
+        $data = $message->get_part_body($pid);
     }
 
     $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
