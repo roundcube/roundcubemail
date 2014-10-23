@@ -2570,6 +2570,7 @@ class rcube_imap_generic
         }
 
         $initiated = false;
+        $binary    = true;
 
         do {
             if (!$initiated) {
@@ -2591,16 +2592,16 @@ class rcube_imap_generic
                 }
 
                 // Use BINARY extension when possible (and safe)
-                $binary     = !$binary_err && $mode && preg_match('/^[0-9.]+$/', $part) && $this->hasCapability('BINARY');
+                $binary     = $binary && $mode && preg_match('/^[0-9.]+$/', $part) && $this->hasCapability('BINARY');
                 $fetch_mode = $binary ? 'BINARY' : 'BODY';
                 $partial    = $max_bytes ? sprintf('<0.%d>', $max_bytes) : '';
 
                 // format request
-                $key        = $this->nextTag();
-                $request    = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part]$partial)";
-                $result     = false;
-                $found      = false;
-                $initiated  = true;
+                $key       = $this->nextTag();
+                $request   = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part]$partial)";
+                $result    = false;
+                $found     = false;
+                $initiated = true;
 
                 // send request
                 if (!$this->putLine($request)) {
@@ -2616,14 +2617,14 @@ class rcube_imap_generic
 
             $line = trim($this->readLine(1024));
 
-            // handle UNKNOWN-CTE response - RFC 3516, try standard BODY request instead of BINARY
-            if ($binary && preg_match('/^' . $key . ' NO \[UNKNOWN-CTE\]/i', $line)) {
-                $initiated = false;
-                continue;
-            }
-
             if (!$line) {
                 break;
+            }
+
+            // handle UNKNOWN-CTE response - RFC 3516, try again with standard BODY request
+            if ($binary && !$found && preg_match('/^' . $key . ' NO \[UNKNOWN-CTE\]/i', $line)) {
+                $binary = $initiated = false;
+                continue;
             }
 
             // skip irrelevant untagged responses (we have a result already)
