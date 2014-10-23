@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix download of attachments that are part of TNEF message (#1490091)
 - Fix handling of uuencoded messages if messages_cache is enabled (#1490108)
 - Fix handling of base64-encoded attachments with extra spaces (#1490111)
+- Fix handling of UNKNOWN-CTE response, try do decode content client-side (#1490046)
 
 RELEASE 1.0.3
 -------------
