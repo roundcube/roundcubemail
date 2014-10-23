@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Fix font style display issue in HTML messages with styled <span> elements (#1490101)
 - Fix download of attachments that are part of TNEF message (#1490091)
 - Fix handling of uuencoded messages if messages_cache is enabled (#1490108)
+- Fix handling of base64-encoded attachments with extra spaces (#1490111)
 
 RELEASE 1.0.3
 -------------
