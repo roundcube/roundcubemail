@@ -2530,7 +2530,6 @@ class rcube_imap_generic
             return false;
         }
 
-        $initiated = false;
         $binary    = true;
 
         do {
@@ -2693,7 +2692,7 @@ class rcube_imap_generic
                     }
                 }
             }
-        } while (!$this->startsWith($line, $key, true));
+        } while (!$this->startsWith($line, $key, true) || !$initiated);
 
         if ($result !== false) {
             if ($file) {
