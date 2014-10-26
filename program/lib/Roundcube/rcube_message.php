@@ -858,7 +858,7 @@ class rcube_message
         foreach ($tnef_arr as $pid => $winatt) {
             $tpart = new rcube_message_part;
 
-            $tpart->filename        = trim($winatt['name']);
+            $tpart->filename        = $this->fix_attachment_name(trim($winatt['name']), $part);
             $tpart->encoding        = 'stream';
             $tpart->ctype_primary   = trim(strtolower($winatt['type']));
             $tpart->ctype_secondary = trim(strtolower($winatt['subtype']));
@@ -931,6 +931,61 @@ class rcube_message
         return $parts;
     }
 
+    /**
+     * Fix attachment name encoding if needed/possible
+     */
+    protected function fix_attachment_name($name, $part)
+    {
+        if ($name == rcube_charset::clean($name)) {
+            return $name;
+        }
+
+        // find charset from part or its parent(s)
+        if ($part->charset) {
+            $charsets[] = $part->charset;
+        }
+        else {
+            // check first part (common case)
+            $n = strpos($part->mime_id, '.') ? preg_replace('/\.[0-9]+$/', '', $part->mime_id) . '.1' : 1;
+            if (($_part = $this->mime_parts[$n]) && $_part->charset) {
+                $charsets[] = $_part->charset;
+            }
+
+            // check parents' charset
+            $items = explode('.', $part->mime_id);
+            for ($i = count($items)-1; $i > 0; $i--) {
+                $last   = array_pop($items);
+                $parent = $this->mime_parts[join('.', $items)];
+
+                if ($parent && $parent->charset) {
+                    $charsets[] = $parent->charset;
+                }
+            }
+        }
+
+        if ($this->headers->charset) {
+            $charsets[] = $this->headers->charset;
+        }
+
+        if (empty($charsets)) {
+            $rcube      = rcube::get_instance();
+            $charsets[] = rcube_charset::detect($name, $rcube->config->get('default_charset', RCUBE_CHARSET));
+        }
+
+        foreach (array_unique($charsets) as $charset) {
+            $_name = rcube_charset::convert($name, $charset);
+
+            if ($_name == rcube_charset::clean($_name)) {
+                if (!$part->charset) {
+                    $part->charset = $charset;
+                }
+
+                return $_name;
+            }
+        }
+
+        return $name;
+    }
 
     /**
      * Deprecated methods (to be removed)
