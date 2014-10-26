@@ -49,7 +49,7 @@ class rcube_plesk_password
      * @param string $newpass New password
      * @returns int PASSWORD_SUCCESS|PASSWORD_ERROR
      */
-    function save($currpass, $newpass)\
+    function save($currpass, $newpass)
     {
         // get config
         $rcmail = rcmail::get_instance();
