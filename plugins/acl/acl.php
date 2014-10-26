@@ -114,14 +114,16 @@ class acl extends rcube_plugin
             }
 
             if ($this->rc->config->get('acl_groups')) {
-                $prefix = $this->rc->config->get('acl_group_prefix');
-                $result = $this->ldap->list_groups($search, $mode);
+                $prefix      = $this->rc->config->get('acl_group_prefix');
+                $group_field = $this->rc->config->get('acl_group_field') ? $this->rc->config->get('acl_group_field') : 'name';
+                $result      = $this->ldap->list_groups($search, $mode);
 
                 foreach ($result as $record) {
-                    $group = $record['name'];
+                    $group    = $record['name'];
+                    $group_id = is_array($record[$group_field]) ? $record[$group_field][0] : $record[$group_field];
 
                     if ($group) {
-                        $users[] = array('name' => ($prefix ? $prefix : '')  . $group, 'display' => $group);
+                        $users[] = array('name' => ($prefix ? $prefix : '')  . $group_id, 'display' => $group);
                         $keys[]  = $group;
                     }
                 }
