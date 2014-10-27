@@ -31,7 +31,7 @@ $config['managesieve_usetls'] = false;
 // Connection scket context options
 // See http://php.net/manual/en/context.ssl.php
 // The example below enables server certificate validation
-//$config['imap_conn_options'] = array(
+//$config['managesieve_conn_options'] = array(
 //  'ssl'         => array(
 //     'verify_peer'  => true,
 //     'verify_depth' => 3,
