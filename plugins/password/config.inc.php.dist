@@ -18,6 +18,11 @@ $config['password_minimum_length'] = 0;
 // Change to false to remove this check.
 $config['password_require_nonalpha'] = false;
 
+// Require the password to not have some characters
+// Example: Dont allow umlauts for clients like k9 on android
+// set empty (i.e. '') to disable the check
+$rcmail_config['password_disallowed_chars'] = 'ÜÖÄüöä§';
+
 // Enables logging of password changes into logs/password
 $config['password_log'] = false;
 
