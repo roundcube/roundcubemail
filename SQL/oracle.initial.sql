@@ -20,7 +20,7 @@ BEFORE INSERT ON "users" FOR EACH ROW
 BEGIN
     :NEW."user_id" := "users_seq".nextval;
 END;
-
+/
 
 CREATE TABLE "session" (
     "sess_id" varchar(128) NOT NULL PRIMARY KEY,
@@ -60,7 +60,7 @@ BEFORE INSERT ON "identities" FOR EACH ROW
 BEGIN
     :NEW."identity_id" := "identities_seq".nextval;
 END;
-
+/
 
 CREATE TABLE "contacts" (
     "contact_id" integer PRIMARY KEY,
@@ -86,7 +86,7 @@ BEFORE INSERT ON "contacts" FOR EACH ROW
 BEGIN
     :NEW."contact_id" := "contacts_seq".nextval;
 END;
-
+/
 
 CREATE TABLE "contactgroups" (
     "contactgroup_id" integer PRIMARY KEY,
@@ -107,7 +107,7 @@ BEFORE INSERT ON "contactgroups" FOR EACH ROW
 BEGIN
     :NEW."contactgroup_id" := "contactgroups_seq".nextval;
 END;
-
+/
 
 CREATE TABLE "contactgroupmembers" (
     "contactgroup_id" integer NOT NULL
@@ -211,7 +211,7 @@ BEFORE INSERT ON "searches" FOR EACH ROW
 BEGIN
     :NEW."search_id" := "searches_seq".nextval;
 END;
-
+/
 
 CREATE TABLE "system" (
     "name" varchar(64) NOT NULL PRIMARY KEY,

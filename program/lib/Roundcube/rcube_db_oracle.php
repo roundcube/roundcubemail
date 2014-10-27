@@ -500,7 +500,7 @@ class rcube_db_oracle extends rcube_db
 
         foreach (explode("\n", $sql) as $line) {
             $tok = strtolower(trim($line));
-            if (preg_match('/^--/', $line) || $tok == '') {
+            if (preg_match('/^--/', $line) || $tok == '' || $tok == '/') {
                 continue;
             }
 
