@@ -40,7 +40,7 @@ function rcube_text_editor(config, id)
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
       theme: 'modern',
       language: config.lang,
-      content_css: 'program/js/tinymce/roundcube/content.css?v1',
+      content_css: 'program/js/tinymce/roundcube/content.css?v2',
       menubar: false,
       statusbar: false,
       toolbar_items_size: 'small',

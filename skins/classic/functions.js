@@ -547,12 +547,13 @@ init_compose_form: function()
 resize_compose_body: function()
 {
   var div = $('#compose-div .boxlistcontent'),
-    w = div.width() - 2, h = div.height(),
+    w = div.width() - 6,
+    h = div.height() - 2,
     x = bw.ie || bw.opera ? 4 : 0;
 
-  $('#compose-body_ifr').width(w+3).height(h-2 - $('div.mce-toolbar').height());
+  $('#compose-body_ifr').width(w + 6).height(h - 1 - $('div.mce-toolbar').height());
   $('#compose-body').width(w-x).height(h);
-  $('#googie_edit_layer').height(h);
+  $('#googie_edit_layer').width(w).height(h);
 },
 
 resize_compose_body_ev: function()

@@ -1305,13 +1305,13 @@ div.message-partheaders .headers-table td.header {
 	width: 99%;
 	border: 0;
 	border-radius: 0 0 0 4px;
-	padding: 8px 0 8px 8px;
+	padding: 4px;
 	resize: none;
 	font-family: monospace;
 	font-size: 9pt;
 	outline: none;
-	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
-	-webkit-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.2);
+	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
+	-webkit-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
 }
 
 #composebody:active,
