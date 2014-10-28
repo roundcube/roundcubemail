@@ -263,15 +263,16 @@ class rcube_message
         $this->storage->set_folder($this->folder);
 
         $body = $this->storage->get_message_part($this->uid, $mime_id, $part,
-            $mode === -1, is_resource($mode) ? $mode : null, !$formatted, $max_bytes, $formatted);
-
-        if (!$mode && $body && $formatted) {
-            $body = self::format_part_body($body, $part, $this->headers->charset);
-        }
+            $mode === -1, is_resource($mode) ? $mode : null,
+            !($mode && $formatted), $max_bytes, $mode && $formatted);
 
         if (is_resource($mode)) {
             rewind($mode);
             return $body !== false;
+        }
+
+        if (!$mode && $body && $formatted) {
+            $body = self::format_part_body($body, $part, $this->headers->charset);
         }
 
         return $body;
