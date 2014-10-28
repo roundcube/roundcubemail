@@ -18,7 +18,13 @@ class new_user_identity extends rcube_plugin
 
     function init()
     {
+        $rcmail = rcmail::get_instance();
+        $this->load_config();
+
         $this->add_hook('user_create', array($this, 'lookup_user_name'));
+        if ($rcmail->config->get('new_user_identity_onlogin')) {
+            $this->add_hook('login_after', array($this, 'login_after'));
+        }
     }
 
     function lookup_user_name($args)
@@ -52,6 +58,35 @@ class new_user_identity extends rcube_plugin
             }
         }
 
+        return $args;
+    }
+
+    function login_after($args)
+    {
+        $rcmail = rcmail::get_instance();
+
+        $identities   = $rcmail->user->list_identities();
+        $ldap_entery  = $this->lookup_user_name(array('user' => $rcmail->user->data['username'],
+            'host' => $rcmail->user->data['mail_host']));
+
+        foreach ($ldap_entery['email_list'] as $email)
+        {
+            foreach($identities as $identity) {
+                if ($identity['email'] == $email ) {
+                    continue 2;
+                }
+            }
+
+            $plugin = $rcmail->plugins->exec_hook('identity_create', array(
+                'login' => true,
+                'record' => array('user_id' => $rcmail->user->ID, 'standard' => 0,
+                    'email' => $email, 'name' => $ldap_entery['user_name']),
+            ));
+
+            if (!$plugin['abort'] && $plugin['record']['email']) {
+                $rcmail->user->insert_identity($plugin['record']);
+            }
+        }
         return $args;
     }
 
