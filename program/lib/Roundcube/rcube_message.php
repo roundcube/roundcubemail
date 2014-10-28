@@ -222,6 +222,7 @@ class rcube_message
 
         // part body not fetched yet... save in memory if it's small enough
         if ($part->body === null && is_numeric($mime_id) && $part->size < self::BODY_MAX_SIZE) {
+            $this->storage->set_folder($this->folder);
             // Warning: body here should be always unformatted
             $part->body = $this->storage->get_message_part($this->uid, $mime_id, $part,
                 null, null, true, 0, false);
