@@ -3354,10 +3354,25 @@ function rcube_webmail()
 
     if (!html_mode) {
       this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
-      // add signature according to selected identity
-      // if we have HTML editor, signature is added in callback
-      if (input_from.prop('type') == 'select-one') {
-        this.change_identity(input_from[0]);
+      if (this.env.top_posting) {
+        this.set_caret_pos(input_message, 0);
+        if (input_from.prop('type') == 'select-one') {
+          // add signature according to selected identity
+          // if we have HTML editor, signature is added in callback
+          this.change_identity(input_from[0]);
+        }
+      }
+      else {
+        if ($(input_message).val().length > 0) {
+          // add newline so the cursor is below reply
+          $(input_message).val($(input_message).val() + "\n");
+        }
+        this.set_caret_pos(input_message, $(input_message).val().length);
+        if (input_from.prop('type') == 'select-one') {
+          this.change_identity(input_from[0]);
+        }
+        // scroll to bottom of textarea (including sig)
+        $(input_message).scrollTop($(input_message)[0].scrollHeight);
       }
     }
 
