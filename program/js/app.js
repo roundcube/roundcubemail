@@ -3652,7 +3652,7 @@ function rcube_webmail()
   this.save_response = function()
   {
     // show dialog to enter a name and to modify the text to be saved
-    var buttons = {}, text = this.editor.get_content(true, true),
+    var buttons = {}, text = this.editor.get_content({selection: true, format: 'text', nosig: true}),
       html = '<form class="propform">' +
       '<div class="prop block"><label>' + this.get_label('responsename') + '</label>' +
       '<input type="text" name="name" id="ffresponsename" size="40" /></div>' +
@@ -3840,7 +3840,7 @@ function rcube_webmail()
       if (val = $('[name="_' + hash_fields[i] + '"]').val())
         str += val + ':';
 
-    str += this.editor.get_content();
+    str += this.editor.get_content({refresh: false});
 
     if (this.env.attachments)
       for (id in this.env.attachments)

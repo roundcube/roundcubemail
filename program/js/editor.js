@@ -391,29 +391,33 @@ function rcube_text_editor(config, id)
   };
 
   // get selected text (if no selection returns all text) from the editor
-  this.get_content = function(selected, plain)
+  this.get_content = function(args)
   {
-    // apply spellcheck changes if spell checker is active
-    this.spellcheck_stop();
+    var sigstart, ed = this.editor, text = '', strip = false,
+      defaults = {refresh: true, selection: false, nosig: false, format: 'html'};
 
-    var sigstart, ed = this.editor,
-      format = plain ? 'text' : 'html',
-      text = '', strip = false;
+    args = $.extend(defaults, args);
+
+    // apply spellcheck changes if spell checker is active
+    if (args.refresh) {
+      this.spellcheck_stop();
+    }
 
     // get selected text from tinymce editor
     if (ed) {
       ed.getWin().focus(); // correct focus in IE & Chrome
-      if (selected)
-        text = ed.selection.getContent({format: format});
+      if (args.selection)
+        text = ed.selection.getContent({format: args.format});
 
       if (!text) {
-        text = ed.getContent({format: format});
-        strip = true;
+        text = ed.getContent({format: args.format});
+        // @todo: strip signature in html mode
+        strip = args.format == 'text';
       }
     }
     // get selected text from compose textarea
     else if (ed = rcube_find_object(this.id)) {
-      if (selected && $(ed).is(':focus')) {
+      if (args.selection && $(ed).is(':focus')) {
         text = rcmail.get_input_selection(ed).text;
       }
 
@@ -424,7 +428,8 @@ function rcube_text_editor(config, id)
     }
 
     // strip off signature
-    if (strip) {
+    // @todo: make this optional
+    if (strip && args.nosig) {
       sigstart = text.indexOf('-- \n');
       if (sigstart > 0) {
         text = text.substring(0, sigstart);
