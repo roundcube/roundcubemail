@@ -986,6 +986,8 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
         )
     ));
 
+    $reply_mode = intval($RCMAIL->config->get('reply_mode'));
+
     if (!$bodyIsHtml) {
         $body = preg_replace('/\r?\n/', "\n", $body);
         $body = trim($body, "\n");
@@ -994,10 +996,13 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
         $body = rcmail_wrap_and_quote($body, $LINE_LENGTH);
 
         $prefix .= "\n";
-        $suffix = '';
 
-        if (intval($RCMAIL->config->get('reply_mode')) > 0) { // top-posting
+        if ($reply_mode > 0) { // top-posting
             $prefix = "\n\n\n" . $prefix;
+            $suffix = '';
+        }
+        else {
+            $suffix = "\n";
         }
     }
     else {
@@ -1012,7 +1017,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
         $prefix = '<p>' . rcube::Q($prefix) . "</p>\n";
         $prefix .= '<blockquote>';
 
-        if (intval($RCMAIL->config->get('reply_mode')) > 0) { // top-posting
+        if ($reply_mode > 0) { // top-posting
             $prefix = '<br>' . $prefix;
             $suffix = '</blockquote>';
         }

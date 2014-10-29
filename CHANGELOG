@@ -60,6 +60,7 @@ CHANGELOG Roundcube Webmail
 - Fix handling of base64-encoded attachments with extra spaces (#1490111)
 - Fix handling of UNKNOWN-CTE response, try do decode content client-side (#1490046)
 - Fix bug where creating subfolders in shared folders wasn't possible without ACL extension (#1490113)
+- Fix reply scrolling issue with text mode and start message below the quote (#1490114)
 
 RELEASE 1.0.3
 -------------

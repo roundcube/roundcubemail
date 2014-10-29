@@ -3319,7 +3319,7 @@ function rcube_webmail()
     if (!this.gui_objects.messageform)
       return false;
 
-    var i, input_from = $("[name='_from']"),
+    var i, pos, input_from = $("[name='_from']"),
       input_to = $("[name='_to']"),
       input_subject = $("input[name='_subject']"),
       input_message = $("[name='_message']").get(0),
@@ -3353,11 +3353,18 @@ function rcube_webmail()
     }
 
     if (!html_mode) {
-      this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
+      pos = this.env.top_posting ? 0 : input_message.value.length;
+      this.set_caret_pos(input_message, pos);
+
       // add signature according to selected identity
       // if we have HTML editor, signature is added in callback
       if (input_from.prop('type') == 'select-one') {
         this.change_identity(input_from[0]);
+      }
+
+      // scroll to the bottom of the textarea (#1490114)
+      if (pos) {
+        $(input_message).scrollTop(input_message.scrollHeight);
       }
     }
 
