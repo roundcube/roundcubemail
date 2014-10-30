@@ -67,21 +67,27 @@ class new_user_identity extends rcube_plugin
             return $args;
         }
 
-        $identities  = $this->rc->user->list_identities();
-        $ldap_entry  = $this->lookup_user_name(array('user' => $this->rc->user->data['username'],
-            'host' => $this->rc->user->data['mail_host']));
+        $identities = $this->rc->user->list_identities();
+        $ldap_entry = $this->lookup_user_name(array(
+                'user' => $this->rc->user->data['username'],
+                'host' => $this->rc->user->data['mail_host'],
+        ));
 
-        foreach ($ldap_entry['email_list'] as $email) {
-            foreach($identities as $identity) {
+        foreach ((array) $ldap_entry['email_list'] as $email) {
+            foreach ($identities as $identity) {
                 if ($identity['email'] == $email ) {
                     continue 2;
                 }
             }
 
             $plugin = $this->rc->plugins->exec_hook('identity_create', array(
-                'login' => true,
-                'record' => array('user_id' => $this->rc->user->ID, 'standard' => 0,
-                    'email' => $email, 'name' => $ldap_entry['user_name']),
+                'login'  => true,
+                'record' => array(
+                    'user_id'  => $this->rc->user->ID,
+                    'standard' => 0,
+                    'email'    => $email,
+                    'name'     => $ldap_entry['user_name']
+                ),
             ));
 
             if (!$plugin['abort'] && $plugin['record']['email']) {

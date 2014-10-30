@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "Populates a new user's default identity from LDAP on their first visit.",
     "license": "GNU GPLv3+",
-    "version": "1.0.7",
+    "version": "1.1",
     "authors": [
         {
             "name": "Aleksander Machniak",
