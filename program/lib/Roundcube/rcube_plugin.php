@@ -422,7 +422,7 @@ abstract class rcube_plugin
         $rcube = rcube::get_instance();
         $skins = array_keys((array)$rcube->output->skins);
         if (empty($skins)) {
-            $skins = (array) $rcube->config->get('skin', 'larry');
+            $skins = (array) $rcube->config->get('skin');
         }
         foreach ($skins as $skin) {
             $skin_path = 'skins/' . $skin;
