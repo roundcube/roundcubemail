@@ -143,7 +143,7 @@ abstract class rcube_plugin
     public function load_config($fname = 'config.inc.php')
     {
         if (in_array($fname, $this->loaded_config)) {
-            return;
+            return true;
         }
 
         $this->loaded_config[] = $fname;
