@@ -1452,6 +1452,9 @@ function rcmail_compose_subject($attrib)
     if (isset($_POST['_subject'])) {
         $subject = rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, TRUE);
     }
+    else if (!empty($COMPOSE['param']['subject'])) {
+        $subject = $COMPOSE['param']['subject'];
+    }
     // create a reply-subject
     else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
         if (preg_match('/^re:/i', $MESSAGE->subject))
@@ -1472,9 +1475,6 @@ function rcmail_compose_subject($attrib)
     // creeate a draft-subject
     else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
         $subject = $MESSAGE->subject;
-    }
-    else if (!empty($COMPOSE['param']['subject'])) {
-        $subject = $COMPOSE['param']['subject'];
     }
 
     $out = $form_start ? "$form_start\n" : '';
