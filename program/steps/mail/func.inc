@@ -1187,7 +1187,7 @@ function rcmail_message_body($attrib)
                 else if (!rcube_utils::mem_check($part->size * 10)) {
                     $out .= html::span('part-notice', $RCMAIL->gettext('messagetoobig'). ' '
                         . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id
-                            .'&_mbox='. urlencode($RCMAIL->storage->get_folder()), $RCMAIL->gettext('download')));
+                            .'&_mbox='. urlencode($MESSAGE->folder), $RCMAIL->gettext('download')));
                     continue;
                 }
 
@@ -1244,7 +1244,7 @@ function rcmail_message_body($attrib)
         if (!rcube_utils::mem_check(strlen($MESSAGE->body) * 10)) {
             $out .= html::span('part-notice', $RCMAIL->gettext('messagetoobig'). ' '
                 . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part=0'
-                    .'&_mbox='. urlencode($RCMAIL->storage->get_folder()), $RCMAIL->gettext('download')));
+                    .'&_mbox='. urlencode($MESSAGE->folder), $RCMAIL->gettext('download')));
         }
         else {
             $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
