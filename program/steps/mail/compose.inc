@@ -78,7 +78,7 @@ if (!is_array($COMPOSE)) {
 
 // add some labels to client
 $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning', 'cancel',
-    'nobodywarning', 'notsentwarning', 'notuploadedwarning', 'savingmessage', 'sendingmessage', 
+    'nobodywarning', 'notsentwarning', 'notuploadedwarning', 'savingmessage', 'sendingmessage',
     'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
     'fileuploaderror', 'sendmessage', 'newresponse', 'responsename', 'responsetext', 'save',
     'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore', 'ignore',
@@ -1475,6 +1475,9 @@ function rcmail_compose_subject($attrib)
     }
     else if (!empty($COMPOSE['param']['subject'])) {
         $subject = $COMPOSE['param']['subject'];
+    }
+    if (!empty($COMPOSE['param']['override-subject'])) {
+        $subject = $COMPOSE['param']['override-subject'];
     }
 
     $out = $form_start ? "$form_start\n" : '';
