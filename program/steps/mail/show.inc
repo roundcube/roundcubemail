@@ -270,14 +270,13 @@ function rcmail_remote_objects_msg()
 
 function rcmail_message_buttons()
 {
-    global $RCMAIL;
+    global $RCMAIL, $MESSAGE;
 
-    $mbox  = $RCMAIL->storage->get_folder();
     $delim = $RCMAIL->storage->get_hierarchy_delimiter();
     $dbox  = $RCMAIL->config->get('drafts_mbox');
 
     // the message is not a draft
-    if ($mbox != $dbox && strpos($mbox, $dbox.$delim) !== 0) {
+    if ($MESSAGE->folder != $dbox && strpos($MESSAGE->folder, $dbox.$delim) !== 0) {
         return '';
     }
 
