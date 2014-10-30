@@ -94,6 +94,103 @@ class rcube_config
 
 
     /**
+     * @brief Guess the type the string may fit into.
+     *
+     * Look inside the string to determine what type might be best as a container.
+     *
+     * @param $value The value to inspect
+     *
+     * @return The guess at the type.
+     */
+    private function guess_type($value) {
+        $_ = 'string';
+    
+        // array requires hint to be passed.
+    
+        if (preg_match('/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/', $value) !== False) {
+            $_ = 'double';
+        } else if (preg_match('/^\d+$/', $value) !== False) {
+            $_ = 'integer';
+        } else if (preg_match('/(t(rue)?)|(f(alse)?)/i', $value) !== False) {
+            $_ = 'boolean';
+        }
+    
+        return $_;
+    }
+    
+
+    /**
+     * @brief Parse environment variable into PHP type.
+     *
+     * Perform an appropriate parsing of the string to create the desired PHP type.
+     *
+     * @param $string String to parse into PHP type
+     * @param $type Type of value to return
+     *
+     * @return Appropriately typed interpretation of $string.
+     */
+    private function parse_env($string, $type) {
+        console("parse $string into $type");
+    
+        $_ = $string;
+    
+        switch ($type) {
+        case 'boolean':
+            $_ = (boolean) $_;
+            break;
+        case 'integer':
+            $_ = (integer) $_;
+            break;
+        case 'double':
+            $_ = (double) $_;
+            break;
+        case 'string':
+            break;
+        case 'array':
+            $_ = json_decode($_, true);
+            break;
+        case 'object':
+            $_ = json_decode($_, false);
+            break;
+        case 'resource':
+        case 'NULL':
+        default:
+            $_ = $this->parse_env($_, $this->guess_type($_));
+        }
+    
+        return $_;
+    }
+    
+
+    /**
+     * @brief Get environment variable value.
+     *
+     * Retrieve an environment variable's value or if it's not found, return the
+     * provided default value.
+     *
+     * @param $varname Environment variable name
+     * @param $default_value Default value to return if necessary
+     * @param $type Type of value to return
+     *
+     * @return Value of the environment variable or default if not found.
+     */
+    private function getenv_default($varname, $default_value, $type = null) {
+        $_ = getenv($varname);
+    
+        if ($_ === False) {
+            $_ = $default_value;
+        } else {
+            if (is_null($type)) {
+                $type = gettype($default_value);
+            }
+            $_ = $this->parse_env($_, $type);
+        }
+    
+        return $_;
+    }
+
+
+    /**
      * Load config from local config file
      *
      * @todo Remove global $CONFIG
@@ -294,6 +391,8 @@ class rcube_config
                 $result = explode(',', $result);
         }
 
+        $result = $this->getenv_default('ROUNDCUBE_' . strtoupper($name), $result)
+
         $plugin = $rcube->plugins->exec_hook('config_get', array(
             'name' => $name, 'default' => $def, 'result' => $result));
 
@@ -360,9 +459,14 @@ class rcube_config
      */
     public function all()
     {
+        $props = $this->prop;
+
+	foreach ($props as $prop_name => $prop_value)
+            $props[$prop_name] = $this->getenv_default('ROUNDCUBE_' . strtoupper($prop_name), $prop_value);
+
         $rcube  = rcube::get_instance();
         $plugin = $rcube->plugins->exec_hook('config_get', array(
-            'name' => '*', 'result' => $this->prop));
+            'name' => '*', 'result' => $props));
 
         return $plugin['result'];
     }
