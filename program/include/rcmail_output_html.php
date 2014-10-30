@@ -187,6 +187,8 @@ EOF;
             $valid = !$skin;
         }
 
+        $skin_path = rtrim($skin_path, '/');
+
         $this->config->set('skin_path', $skin_path);
         $this->base_path = $skin_path;
 
