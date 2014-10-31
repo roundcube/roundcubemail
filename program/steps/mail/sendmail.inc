@@ -61,7 +61,6 @@ if (!$savedraft) {
 
 
 /****** compose message ********/
-
 if (empty($COMPOSE['param']['message-id'])) {
     $COMPOSE['param']['message-id'] = $RCMAIL->gen_message_id();
 }
