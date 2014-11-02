@@ -498,7 +498,7 @@ class rcube_imap_cache
         }
 
         $this->db->set_option('ignore_key_errors', true);
-
+console($msg);
         // insert new record
         $res = $this->db->query(
             "INSERT INTO {$this->messages_table}"
