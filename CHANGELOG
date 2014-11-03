@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix skin path handling in plugin context (#1488967)
+- Prevent memory exhaustion on image resizing with GD on Windows (#1489937)
+- Add plugin hook for database table name lookups as requested in #1489837
 - Added Oracle database support
 - Support contacts import in GMail CSV format
 - Added namespace filter in Folder Manager
