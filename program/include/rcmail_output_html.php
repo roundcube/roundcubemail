@@ -462,6 +462,8 @@ EOF;
     {
         $plugin   = false;
         $realname = $name;
+        $plugin_skin_paths = array();
+
         $this->template_name = $realname;
 
         $temp = explode('.', $name, 2);
@@ -471,7 +473,6 @@ EOF;
             $skin_dir = $plugin . '/skins/' . $this->config->get('skin');
 
             // apply skin search escalation list to plugin directory
-            $plugin_skin_paths = array();
             foreach ($this->skin_paths as $skin_path) {
                 $plugin_skin_paths[] = $this->app->plugins->url . $plugin . '/' . $skin_path;
             }
@@ -482,7 +483,7 @@ EOF;
                 $plugin_skin_paths[] = $this->app->plugins->url . $skin_dir;
             }
 
-            // add plugin skin paths to search list
+            // prepend plugin skin paths to search list
             $this->skin_paths = array_merge($plugin_skin_paths, $this->skin_paths);
         }
 
@@ -525,6 +526,8 @@ EOF;
                 'file' => __FILE__,
                 'message' => 'Error loading template for '.$realname
                 ), true, $write);
+
+            $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
             return false;
         }
 
@@ -548,6 +551,9 @@ EOF;
         // make sure all <form> tags have a valid request token
         $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
         $this->footer = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $this->footer);
+
+        // remove plugin skin paths from current context
+        $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
 
         if (!$write) {
             return $output;
