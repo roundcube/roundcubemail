@@ -225,7 +225,7 @@ function rcmail_list_pagetitle()
         $pagetitle = $RCMAIL->gettext('searchresult');
     }
     else {
-        $mbox_name = $RCMAIL->storage->get_folder();
+        $mbox_name = $RCMAIL->output->get_env('mailbox') ?: $RCMAIL->storage->get_folder();
         $delimiter = $RCMAIL->storage->get_hierarchy_delimiter();
         $pagetitle = $RCMAIL->localize_foldername($mbox_name, true);
         $pagetitle = str_replace($delimiter, " \xC2\xBB ", $pagetitle);
@@ -267,7 +267,7 @@ function rcmail_message_list_smart_column_name()
     global $RCMAIL;
 
     $delim       = $RCMAIL->storage->get_hierarchy_delimiter();
-    $mbox        = $RCMAIL->storage->get_folder();
+    $mbox        = $RCMAIL->output->get_env('mailbox') ?: $RCMAIL->storage->get_folder();
     $sent_mbox   = $RCMAIL->config->get('sent_mbox');
     $drafts_mbox = $RCMAIL->config->get('drafts_mbox');
 
@@ -414,7 +414,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         $head_replace = true;
     }
 
-    $mbox = $RCMAIL->storage->get_folder();
+    $mbox = $RCMAIL->output->get_env('mailbox') ?: $RCMAIL->storage->get_folder();
 
     // make sure 'threads' and 'subject' columns are present
     if (!in_array('subject', $a_show_cols))
@@ -711,7 +711,7 @@ function rcmail_mailbox_name_display($attrib)
 function rcmail_get_mailbox_name_text()
 {
     global $RCMAIL;
-    return $RCMAIL->localize_foldername($RCMAIL->storage->get_folder());
+    return $RCMAIL->localize_foldername($RCMAIL->output->get_env('mailbox') ?: $RCMAIL->storage->get_folder());
 }
 
 function rcmail_send_unread_count($mbox_name, $force=false, $count=null, $mark='')
