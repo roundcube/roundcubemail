@@ -1063,6 +1063,10 @@ class rcube_db
      */
     public function table_name($table, $quoted = false)
     {
+        // let plugins alter the table name (#1489837)
+        $plugin = rcube::get_instance()->plugins->exec_hook('db_table_name', array('table' => $table));
+        $table = $plugin['table'];
+
         // add prefix to the table name if configured
         if (($prefix = $this->options['table_prefix']) && strpos($table, $prefix) !== 0) {
             $table = $prefix . $table;
