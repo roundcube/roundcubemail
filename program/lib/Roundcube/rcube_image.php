@@ -59,11 +59,13 @@ class rcube_image
             $height  = $imsize[1];
             $gd_type = $imsize['2'];
             $type    = image_type_to_extension($imsize['2'], false);
+            $channels = $imsize['channels'];
         }
 
         // use ImageMagick
         if (!$type && ($data = $this->identify())) {
             list($type, $width, $height) = $data;
+            $channels = null;
         }
 
         if ($type) {
@@ -72,8 +74,11 @@ class rcube_image
                 'gd_type' => $gd_type,
                 'width'   => $width,
                 'height'  => $height,
+                'channels' => $channels,
             );
         }
+
+        return null;
     }
 
     /**
@@ -179,6 +184,11 @@ class rcube_image
                 @chmod($filename, 0600);
                 return $type;
             }
+        }
+
+        // do we have enough memory? (#1489937)
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
+            return false;
         }
 
         // use GD extension
@@ -327,6 +337,12 @@ class rcube_image
         // use GD extension (TIFF isn't supported)
         $props = $this->props();
 
+        // do we have enough memory? (#1489937)
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
+            return false;
+        }
+
+
         if ($props['gd_type']) {
             if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
                 $image = imagecreatefromjpeg($this->image_file);
@@ -405,5 +421,23 @@ class rcube_image
             }
             catch (Exception $e) {}
         }
+    }
+
+    /**
+     * Check if we have enough memory to load specified image
+     */
+    private function mem_check($props)
+    {
+        // image size is unknown, we can't calculate required memory
+        if (!$props['width']) {
+            return true;
+        }
+
+        // channels: CMYK - 4, RGB - 3
+        $multip = ($props['channels'] ?: 3) + 1;
+
+        // calculate image size in memory (in bytes)
+        $size = $props['width'] * $props['height'] * $multip;
+        return rcube_utils::mem_check($size);
     }
 }
