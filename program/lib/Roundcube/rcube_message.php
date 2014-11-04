@@ -851,7 +851,7 @@ class rcube_message
     {
         // @TODO: attachment may be huge, handle body via file
         $body     = $this->get_part_body($part->mime_id);
-        $tnef     = new tnef_decoder;
+        $tnef     = new rcube_tnef_decoder;
         $tnef_arr = $tnef->decompress($body);
         $parts    = array();
 
