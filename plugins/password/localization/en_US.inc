@@ -34,5 +34,6 @@ $messages['passwordshort'] = 'Password must be at least $length characters long.
 $messages['passwordweak'] = 'Password must include at least one number and one punctuation character.';
 $messages['passwordforbidden'] = 'Password contains forbidden characters.';
 $messages['firstloginchange'] = 'This is your first login. Please change your password.';
+$messages['passwordinvalid'] = 'Invalid password.';
 
 ?>

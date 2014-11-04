@@ -18,6 +18,37 @@ $config['password_minimum_length'] = 0;
 // Change to false to remove this check.
 $config['password_require_nonalpha'] = false;
 
+// Define your own function to validate new password
+// This function must accept as parameter the new password and return
+// True if this password is correct, False instead.
+//
+// Exemple :
+//
+// function myValidationPassword($pwd) {
+//    $regexes= array (
+//                          '/[A-Z]/',
+//                          '/[a-z]/',
+//                          '/[0-9]/',
+//                          '/[^A-Za-z0-9]/',
+//                    );
+//    $valid=0;
+//    foreach($regexes as $regex) {
+//      if (preg_match($regex,$value)) $valid++;
+//    }
+//    return ($valid>=3);
+// }
+// $config['password_check_function'] = 'myValidationPassword';
+//
+// You could define your function in this file. Be careful about
+// PHP syntax !
+// Set this parameter to False to disable this check or put the name
+// of your function (as string) to enable it.
+$config['password_check_function'] = false;
+
+// Define the error message in case of password invalidate by your
+// function specify by parameter $config['password_check_function'].
+$config['password_check_function_invalid_message'] = "Invalid password";
+
 // Enables logging of password changes into logs/password
 $config['password_log'] = false;
 

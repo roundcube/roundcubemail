@@ -112,6 +112,8 @@ class password extends rcube_plugin
         $confirm = $rcmail->config->get('password_confirm_current');
         $required_length = intval($rcmail->config->get('password_minimum_length'));
         $check_strength  = $rcmail->config->get('password_require_nonalpha');
+        $check_function  = $rcmail->config->get('password_check_function');
+        $check_function_invalid_message = $rcmail->config->get('password_check_function_invalid_message');
 
         if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd'])) {
             $rcmail->output->command('display_message', $this->gettext('nopassword'), 'error');
@@ -155,6 +157,12 @@ class password extends rcube_plugin
             else if ($check_strength && (!preg_match("/[0-9]/", $newpwd) || !preg_match("/[^A-Za-z0-9]/", $newpwd))) {
                 $rcmail->output->command('display_message', $this->gettext('passwordweak'), 'error');
             }
+            else if (is_callable($check_function) && !$this -> check_password_with_user_function($check_function,$newpwd)) {
+                if (!$check_function_invalid_message) {
+                    $check_function_invalid_message=$this->gettext('passwordinvalid');
+                }
+                $rcmail->output->command('display_message', $check_function_invalid_message, 'error');
+            }
             // password is the same as the old one, do nothing, return success
             else if ($sespwd == $newpwd && !$rcmail->config->get('password_force_save')) {
                 $rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
@@ -183,6 +191,17 @@ class password extends rcube_plugin
 
         $rcmail->overwrite_action('plugin.password');
         $rcmail->output->send('plugin');
+    }
+
+    function check_password_with_user_function($function,$password) {
+        try {
+            return (bool)call_user_func($function,$password);
+        }
+        catch (Exception $e) {
+            rcube::write_log('password', sprintf('Error checking new password using user fonction %s : %s',
+                $function,$e));
+            return false;
+        }
     }
 
     function password_form()

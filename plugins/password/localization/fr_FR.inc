@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Impossible d\'enregistrer le nouveau mot de passe.
 $messages['passwordshort'] = 'Le mot de passe doit être composé d\'au moins $length caractères.';
 $messages['passwordweak'] = 'Le mot de passe doit contenir au moins un chiffre et un signe de ponctuation.';
 $messages['passwordforbidden'] = 'Le mot de passe contient des caractères interdits.';
+$messages['passwordinvalid'] = 'Le mot de passe est invalide.';
 ?>
