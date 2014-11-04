@@ -112,6 +112,7 @@ EOF;
 if ($rcmail->output && $rcmail->output->template_exists('error')) {
     $rcmail->output->reset();
     $rcmail->output->set_env('server_error', $ERROR_CODE);
+    $rcmail->output->set_env('comm_path', $rcmail->comm_path);
     $rcmail->output->send('error');
 }
 

@@ -1,22 +1,33 @@
 <?php
+
+/*
+ +-----------------------------------------------------------------------+
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2002-2010, The Horde Project (http://www.horde.org/)    |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
+ |                                                                       |
+ | PURPOSE:                                                              |
+ |   MS-TNEF format decoder                                              |
+ +-----------------------------------------------------------------------+
+ | Author: Jan Schneider <jan@horde.org>                                 |
+ | Author: Michael Slusarz <slusarz@horde.org>                           |
+ +-----------------------------------------------------------------------+
+*/
+
 /**
- * The Horde's class allows MS-TNEF data to be displayed.
- *
- * The TNEF rendering is based on code by:
+ * MS-TNEF format decoder based on code by:
  *   Graham Norbury <gnorbury@bondcar.com>
  * Original design by:
  *   Thomas Boll <tb@boll.ch>, Mark Simpson <damned@world.std.com>
  *
- * Copyright 2002-2010 The Horde Project (http://www.horde.org/)
- *
- * See the enclosed file COPYING for license information (LGPL). If you
- * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
- *
- * @author  Jan Schneider <jan@horde.org>
- * @author  Michael Slusarz <slusarz@horde.org>
- * @package Horde_Compress
+ * @package    Framework
+ * @subpackage Storage
  */
-class tnef_decoder
+class rcube_tnef_decoder
 {
     const SIGNATURE = 0x223e9f78;
     const LVL_MESSAGE = 0x01;
@@ -327,5 +338,4 @@ class tnef_decoder
             $this->_decodeAttribute($data, $attribute);
         }
     }
-
 }

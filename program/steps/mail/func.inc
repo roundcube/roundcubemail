@@ -225,7 +225,7 @@ function rcmail_list_pagetitle()
         $pagetitle = $RCMAIL->gettext('searchresult');
     }
     else {
-        $mbox_name = $RCMAIL->storage->get_folder();
+        $mbox_name = $RCMAIL->output->get_env('mailbox') ?: $RCMAIL->storage->get_folder();
         $delimiter = $RCMAIL->storage->get_hierarchy_delimiter();
         $pagetitle = $RCMAIL->localize_foldername($mbox_name, true);
         $pagetitle = str_replace($delimiter, " \xC2\xBB ", $pagetitle);
@@ -267,7 +267,7 @@ function rcmail_message_list_smart_column_name()
     global $RCMAIL;
 
     $delim       = $RCMAIL->storage->get_hierarchy_delimiter();
-    $mbox        = $RCMAIL->storage->get_folder();
+    $mbox        = $RCMAIL->output->get_env('mailbox') ?: $RCMAIL->storage->get_folder();
     $sent_mbox   = $RCMAIL->config->get('sent_mbox');
     $drafts_mbox = $RCMAIL->config->get('drafts_mbox');
 
@@ -414,7 +414,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         $head_replace = true;
     }
 
-    $mbox = $RCMAIL->storage->get_folder();
+    $mbox = $RCMAIL->output->get_env('mailbox') ?: $RCMAIL->storage->get_folder();
 
     // make sure 'threads' and 'subject' columns are present
     if (!in_array('subject', $a_show_cols))
@@ -652,14 +652,6 @@ function rcmail_messagecontent_frame($attrib)
     if (empty($attrib['id']))
         $attrib['id'] = 'rcmailcontentwindow';
 
-    $attrib['name'] = $attrib['id'];
-
-    if ($RCMAIL->config->get('preview_pane')) {
-        $OUTPUT->set_env('contentframe', $attrib['id']);
-    }
-
-    $OUTPUT->set_env('blankpage', $attrib['src'] ? $OUTPUT->abs_url($attrib['src']) : 'program/resources/blank.gif');
-
     return $OUTPUT->frame($attrib, true);
 }
 
@@ -719,7 +711,7 @@ function rcmail_mailbox_name_display($attrib)
 function rcmail_get_mailbox_name_text()
 {
     global $RCMAIL;
-    return $RCMAIL->localize_foldername($RCMAIL->storage->get_folder());
+    return $RCMAIL->localize_foldername($RCMAIL->output->get_env('mailbox') ?: $RCMAIL->storage->get_folder());
 }
 
 function rcmail_send_unread_count($mbox_name, $force=false, $count=null, $mark='')
@@ -872,17 +864,19 @@ function rcmail_wash_html($html, $p, $cid_replaces)
  * Convert the given message part to proper HTML
  * which can be displayed the message view
  *
- * @param object rcube_message_part Message part
- * @param array  Display parameters array 
+ * @param string             Message part body
+ * @param rcube_message_part Message part
+ * @param array              Display parameters array
+ *
  * @return string Formatted HTML string
  */
-function rcmail_print_body($part, $p = array())
+function rcmail_print_body($body, $part, $p = array())
 {
     global $RCMAIL;
 
     // trigger plugin hook
     $data = $RCMAIL->plugins->exec_hook('message_part_before',
-        array('type' => $part->ctype_secondary, 'body' => $part->body, 'id' => $part->mime_id)
+        array('type' => $part->ctype_secondary, 'body' => $body, 'id' => $part->mime_id)
             + $p + array('safe' => false, 'plain' => false, 'inline_html' => true));
 
     // convert html to text/plain
@@ -908,7 +902,7 @@ function rcmail_print_body($part, $p = array())
     }
     else {
         // assert plaintext
-        $body = $part->body;
+        $body = $data['body'];
         $part->ctype_secondary = $data['type'] = 'plain';
     }
 
@@ -1080,8 +1074,10 @@ function rcmail_message_headers($attrib, $headers=null)
         }
         else if ($hkey == 'subject' && empty($value))
             $header_value = $RCMAIL->gettext('nosubject');
-        else
+        else {
+            $value        = is_array($value) ? implode(' ', $value) : $value;
             $header_value = trim(rcube_mime::decode_header($value, $headers['charset']));
+        }
 
         $output_headers[$hkey] = array(
             'title' => $header_title,
@@ -1208,22 +1204,16 @@ function rcmail_message_body($attrib)
                 else if (!rcube_utils::mem_check($part->size * 10)) {
                     $out .= html::span('part-notice', $RCMAIL->gettext('messagetoobig'). ' '
                         . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id
-                            .'&_mbox='. urlencode($RCMAIL->storage->get_folder()), $RCMAIL->gettext('download')));
+                            .'&_mbox='. urlencode($MESSAGE->folder), $RCMAIL->gettext('download')));
                     continue;
                 }
 
-                if (empty($part->ctype_parameters) || empty($part->ctype_parameters['charset'])) {
-                    $part->ctype_parameters['charset'] = $MESSAGE->headers->charset;
-                }
-
-                // fetch part if not available
-                if (!isset($part->body)) {
-                    $part->body = $MESSAGE->get_part_content($part->mime_id);
-                }
+                // fetch part body
+                $body = $MESSAGE->get_part_body($part->mime_id, true);
 
                 // extract headers from message/rfc822 parts
                 if ($part->mimetype == 'message/rfc822') {
-                    $msgpart = rcube_mime::parse_message($part->body);
+                    $msgpart = rcube_mime::parse_message($body);
                     if (!empty($msgpart->headers)) {
                         $part = $msgpart;
                         $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
@@ -1231,14 +1221,14 @@ function rcmail_message_body($attrib)
                 }
 
                 // message is cached but not exists (#1485443), or other error
-                if ($part->body === false) {
+                if ($body === false) {
                     rcmail_message_error($MESSAGE->uid);
                 }
 
                 $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
                     array('part' => $part, 'prefix' => ''));
 
-                $body = rcmail_print_body($part, array('safe' => $safe_mode, 'plain' => !$RCMAIL->config->get('prefer_html')));
+                $body = rcmail_print_body($body, $part, array('safe' => $safe_mode, 'plain' => !$RCMAIL->config->get('prefer_html')));
 
                 if ($part->ctype_secondary == 'html') {
                     $body     = rcmail_html4inline($body, $attrib['id'], 'rcmBody', $attrs, $safe_mode);
@@ -1265,7 +1255,7 @@ function rcmail_message_body($attrib)
         if (!rcube_utils::mem_check(strlen($MESSAGE->body) * 10)) {
             $out .= html::span('part-notice', $RCMAIL->gettext('messagetoobig'). ' '
                 . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part=0'
-                    .'&_mbox='. urlencode($RCMAIL->storage->get_folder()), $RCMAIL->gettext('download')));
+                    .'&_mbox='. urlencode($MESSAGE->folder), $RCMAIL->gettext('download')));
         }
         else {
             $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',

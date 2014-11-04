@@ -22,9 +22,9 @@
 if (php_sapi_name() != 'cli')
   die("Not in shell mode (php-cli)");
 
-if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
+if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
-define('TESTS_DIR', dirname(__FILE__) . '/');
+define('TESTS_DIR', __DIR__ . '/');
 
 if (@is_dir(TESTS_DIR . 'config')) {
     define('RCUBE_CONFIG_DIR', TESTS_DIR . 'config');

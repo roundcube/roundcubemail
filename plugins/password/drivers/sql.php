@@ -8,6 +8,20 @@
  * @version 2.0
  * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  *
+ * Copyright (C) 2005-2013, The Roundcube Dev Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
 class rcube_sql_password
@@ -16,19 +30,13 @@ class rcube_sql_password
     {
         $rcmail = rcmail::get_instance();
 
-        if (!($sql = $rcmail->config->get('password_query')))
+        if (!($sql = $rcmail->config->get('password_query'))) {
             $sql = 'SELECT update_passwd(%c, %u)';
+        }
 
         if ($dsn = $rcmail->config->get('password_db_dsn')) {
-            // #1486067: enable new_link option
-            if (is_array($dsn) && empty($dsn['new_link']))
-                $dsn['new_link'] = true;
-            else if (!is_array($dsn) && !preg_match('/\?new_link=true/', $dsn))
-                $dsn .= '?new_link=true';
-
             $db = rcube_db::factory($dsn, '', false);
             $db->set_debug((bool)$rcmail->config->get('sql_debug'));
-            $db->db_connect('w');
         }
         else {
             $db = $rcmail->get_dbh();
@@ -42,16 +50,14 @@ class rcube_sql_password
         if (strpos($sql, '%c') !== FALSE) {
             $salt = '';
 
-            if (!($crypt_hash = $rcmail->config->get('password_crypt_hash')))
-            {
+            if (!($crypt_hash = $rcmail->config->get('password_crypt_hash'))) {
                 if (CRYPT_MD5)
                     $crypt_hash = 'md5';
                 else if (CRYPT_STD_DES)
                     $crypt_hash = 'des';
             }
 
-            switch ($crypt_hash)
-            {
+            switch ($crypt_hash) {
             case 'md5':
                 $len = 8;
                 $salt_hashindicator = '$1$';
@@ -128,8 +134,9 @@ class rcube_sql_password
                 return PASSWORD_ERROR;
             }
 
-            if (!($hash_algo = strtolower($rcmail->config->get('password_hash_algorithm'))))
+            if (!($hash_algo = strtolower($rcmail->config->get('password_hash_algorithm')))) {
                 $hash_algo = 'sha1';
+            }
 
             $hash_passwd = hash($hash_algo, $passwd);
             $hash_curpass = hash($hash_algo, $curpass);
@@ -185,9 +192,11 @@ class rcube_sql_password
 
         if (!$db->is_error()) {
             if (strtolower(substr(trim($sql),0,6)) == 'select') {
-                if ($db->fetch_array($res))
+                if ($db->fetch_array($res)) {
                     return PASSWORD_SUCCESS;
-            } else {
+                }
+            }
+            else {
                 // This is the good case: 1 row updated
                 if ($db->affected_rows($res) == 1)
                     return PASSWORD_SUCCESS;

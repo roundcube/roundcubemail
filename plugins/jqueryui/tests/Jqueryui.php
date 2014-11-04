@@ -5,7 +5,7 @@ class Jqueryui_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../jqueryui.php';
+        include_once __DIR__ . '/../jqueryui.php';
     }
 
     /**

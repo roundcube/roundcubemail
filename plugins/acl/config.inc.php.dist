@@ -23,6 +23,9 @@ $config['acl_groups'] = false;
 // Prefix added to the group name to build IMAP ACL identifier
 $config['acl_group_prefix'] = 'group:';
 
+// The LDAP attribute (or field name) which will be used as ACL group identifier
+$config['acl_group_field'] = 'name';
+
 // Include the following 'special' access control subjects in the ACL dialog;
 // Defaults to array('anyone', 'anonymous') (not when set to an empty array)
 // Example: array('anyone') to exclude 'anonymous'.

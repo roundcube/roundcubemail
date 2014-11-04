@@ -618,12 +618,13 @@ $config['enable_spellcheck'] = true;
 $config['spellcheck_dictionary'] = false;
 
 // Set the spell checking engine. Possible values:
-// - 'googie'  - the default
+// - 'googie'  - the default (also used for connecting to Nox Spell Server, see 'spellcheck_uri' setting)
 // - 'pspell'  - requires the PHP Pspell module and aspell installed
 // - 'enchant' - requires the PHP Enchant module
 // - 'atd'     - install your own After the Deadline server or check with the people at http://www.afterthedeadline.com before using their API
-// Since Google shut down their public spell checking service, you need to 
-// connect to a Nox Spell Server when using 'googie' here. Therefore specify the 'spellcheck_uri'
+// Since Google shut down their public spell checking service, the default settings
+// connect to http://spell.roundcube.net which is a hosted service provided by Roundcube.
+// You can connect to any other googie-compliant service by setting 'spellcheck_uri' accordingly.
 $config['spellcheck_engine'] = 'googie';
 
 // For locally installed Nox Spell Server or After the Deadline services,
@@ -649,6 +650,10 @@ $config['spellcheck_ignore_syms'] = false;
 
 // Use this char/string to separate recipients when composing a new message
 $config['recipients_separator'] = ',';
+
+// Number of lines at the end of a message considered to contain the signature.
+// Increase this value if signatures are not properly detected and colored
+$config['sig_max_lines'] = 15;
 
 // don't let users set pagesize to more than this value if set
 $config['max_pagesize'] = 200;

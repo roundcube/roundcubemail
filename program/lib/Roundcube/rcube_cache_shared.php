@@ -72,7 +72,7 @@ class rcube_cache_shared
         else {
             $this->type  = 'db';
             $this->db    = $rcube->get_dbh();
-            $this->table = $this->db->table_name('cache_shared');
+            $this->table = $this->db->table_name('cache_shared', true);
         }
 
         // convert ttl string to seconds
@@ -193,9 +193,9 @@ class rcube_cache_shared
     {
         if ($this->type == 'db' && $this->db && $this->ttl) {
             $this->db->query(
-                "DELETE FROM " . $this->table
-                . " WHERE cache_key LIKE ?"
-                . " AND expires < " . $this->db->now(),
+                "DELETE FROM {$this->table}"
+                . " WHERE `cache_key` LIKE ?"
+                . " AND `expires` < " . $this->db->now(),
                 $this->prefix . '.%');
         }
     }
@@ -209,7 +209,7 @@ class rcube_cache_shared
         $rcube = rcube::get_instance();
         $db    = $rcube->get_dbh();
 
-        $db->query("DELETE FROM " . $db->table_name('cache_shared') . " WHERE expires < " . $db->now());
+        $db->query("DELETE FROM " . $db->table_name('cache_shared', true) . " WHERE `expires` < " . $db->now());
     }
 
 
@@ -278,12 +278,12 @@ class rcube_cache_shared
         }
         else {
             $sql_result = $this->db->limitquery(
-                "SELECT data, cache_key".
-                " FROM " . $this->table .
-                " WHERE cache_key = ?".
+                "SELECT `data`, `cache_key`".
+                " FROM {$this->table}" .
+                " WHERE `cache_key` = ?".
                 // for better performance we allow more records for one key
                 // get the newer one
-                " ORDER BY created DESC",
+                " ORDER BY `created` DESC",
                 0, 1, $this->prefix . '.' . $key);
 
             if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
@@ -331,18 +331,18 @@ class rcube_cache_shared
 
         // Remove NULL rows (here we don't need to check if the record exist)
         if ($data == 'N;') {
-            $this->db->query("DELETE FROM " . $this->table . " WHERE cache_key = ?", $key);
+            $this->db->query("DELETE FROM {$this->table} WHERE `cache_key` = ?", $key);
             return true;
         }
 
         // update existing cache record
         if ($key_exists) {
             $result = $this->db->query(
-                "UPDATE " . $this->table .
-                " SET created = " . $this->db->now() .
-                    ", expires = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL') .
-                    ", data = ?".
-                " WHERE cache_key = ?",
+                "UPDATE {$this->table}" .
+                " SET `created` = " . $this->db->now() .
+                    ", `expires` = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL') .
+                    ", `data` = ?".
+                " WHERE `cache_key` = ?",
                 $data, $key);
         }
         // add new cache record
@@ -350,8 +350,8 @@ class rcube_cache_shared
             // for better performance we allow more records for one key
             // so, no need to check if record exist (see rcube_cache::read_record())
             $result = $this->db->query(
-                "INSERT INTO ".$this->table.
-                " (created, expires, cache_key, data)".
+                "INSERT INTO {$this->table}".
+                " (`created`, `expires`, `cache_key`, `data`)".
                 " VALUES (".$this->db->now().", " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL') . ", ?, ?)",
                 $key, $data);
         }
@@ -401,15 +401,15 @@ class rcube_cache_shared
 
         // Remove all keys (in specified cache)
         if ($key === null) {
-            $where = " WHERE cache_key LIKE " . $this->db->quote($this->prefix.'.%');
+            $where = " WHERE `cache_key` LIKE " . $this->db->quote($this->prefix.'.%');
         }
         // Remove keys by name prefix
         else if ($prefix_mode) {
-            $where = " WHERE cache_key LIKE " . $this->db->quote($this->prefix.'.'.$key.'%');
+            $where = " WHERE `cache_key` LIKE " . $this->db->quote($this->prefix.'.'.$key.'%');
         }
         // Remove one key by name
         else {
-            $where = " WHERE cache_key = " . $this->db->quote($this->prefix.'.'.$key);
+            $where = " WHERE `cache_key` = " . $this->db->quote($this->prefix.'.'.$key);
         }
 
         $this->db->query("DELETE FROM " . $this->table . $where);

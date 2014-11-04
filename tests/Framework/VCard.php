@@ -10,7 +10,7 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
 
     function _srcpath($fn)
     {
-        return realpath(dirname(__FILE__) . '/../src/' . $fn);
+        return realpath(__DIR__ . '/../src/' . $fn);
     }
 
     function test_parse_one()

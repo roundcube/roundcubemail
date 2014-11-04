@@ -5,7 +5,7 @@ class AdditionalMessageHeaders_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../additional_message_headers.php';
+        include_once __DIR__ . '/../additional_message_headers.php';
     }
 
     /**

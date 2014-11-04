@@ -1660,7 +1660,7 @@ function rcube_webmail()
         }
         skip = obj.data('parent');
       }
-    }, 10);
+    }, 10, e);
   };
 
   // global keypress event handler
@@ -2482,7 +2482,7 @@ function rcube_webmail()
   // expand all threads with unread children
   this.expand_unread = function()
   {
-    var r, tbody = this.gui_objects.messagelist.tBodies[0],
+    var r, tbody = this.message_list.tbody,
       new_row = tbody.firstChild;
 
     while (new_row) {
@@ -3319,7 +3319,7 @@ function rcube_webmail()
     if (!this.gui_objects.messageform)
       return false;
 
-    var i, input_from = $("[name='_from']"),
+    var i, pos, input_from = $("[name='_from']"),
       input_to = $("[name='_to']"),
       input_subject = $("input[name='_subject']"),
       input_message = $("[name='_message']").get(0),
@@ -3353,11 +3353,18 @@ function rcube_webmail()
     }
 
     if (!html_mode) {
-      this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
+      pos = this.env.top_posting ? 0 : input_message.value.length;
+      this.set_caret_pos(input_message, pos);
+
       // add signature according to selected identity
       // if we have HTML editor, signature is added in callback
       if (input_from.prop('type') == 'select-one') {
         this.change_identity(input_from[0]);
+      }
+
+      // scroll to the bottom of the textarea (#1490114)
+      if (pos) {
+        $(input_message).scrollTop(input_message.scrollHeight);
       }
     }
 
@@ -3617,11 +3624,15 @@ function rcube_webmail()
   this.toggle_editor = function(props, obj, e)
   {
     // @todo: this should work also with many editors on page
-    var result = this.editor.toggle(props.html);
+    var result = this.editor.toggle(props.html, props.noconvert || false);
+
+    // satisfy the expectations of aftertoggle-editor event subscribers
+    props.mode = props.html ? 'html' : 'plain';
 
     if (!result && e) {
       // fix selector value if operation failed
-      $(e.target).filter('select').val(props.html ? 'plain' : 'html');
+      props.mode = props.html ? 'plain' : 'html';
+      $(e.target).filter('select').val(props.mode);
     }
 
     if (result) {
@@ -3648,7 +3659,7 @@ function rcube_webmail()
   this.save_response = function()
   {
     // show dialog to enter a name and to modify the text to be saved
-    var buttons = {}, text = this.editor.get_content(true, true),
+    var buttons = {}, text = this.editor.get_content({selection: true, format: 'text', nosig: true}),
       html = '<form class="propform">' +
       '<div class="prop block"><label>' + this.get_label('responsename') + '</label>' +
       '<input type="text" name="name" id="ffresponsename" size="40" /></div>' +
@@ -3836,7 +3847,7 @@ function rcube_webmail()
       if (val = $('[name="_' + hash_fields[i] + '"]').val())
         str += val + ':';
 
-    str += this.editor.get_content();
+    str += this.editor.get_content({refresh: false});
 
     if (this.env.attachments)
       for (id in this.env.attachments)
@@ -3924,7 +3935,7 @@ function rcube_webmail()
 
       // initialize HTML editor
       if ((formdata._is_html == '1' && !html_mode) || (formdata._is_html != '1' && html_mode)) {
-        this.command('toggle-editor', {id: this.env.composebody, html: !html_mode});
+        this.command('toggle-editor', {id: this.env.composebody, html: !html_mode, noconvert: true});
       }
     }
   };
@@ -3961,6 +3972,19 @@ function rcube_webmail()
     if (!show_sig)
       show_sig = this.env.show_sig;
 
+    var id = obj.options[obj.selectedIndex].value,
+      sig = this.env.identity,
+      delim = this.env.recipients_separator,
+      rx_delim = RegExp.escape(delim);
+
+    // enable manual signature insert
+    if (this.env.signatures && this.env.signatures[id]) {
+      this.enable_command('insert-sig', true);
+      this.env.compose_commands.push('insert-sig');
+    }
+    else
+      this.enable_command('insert-sig', false);
+
     // first function execution
     if (!this.env.identities_initialized) {
       this.env.identities_initialized = true;
@@ -3969,11 +3993,6 @@ function rcube_webmail()
       if (this.env.opened_extwin)
         return;
     }
-
-    var id = obj.options[obj.selectedIndex].value,
-      sig = this.env.identity,
-      delim = this.env.recipients_separator,
-      rx_delim = RegExp.escape(delim);
 
     // update reply-to/bcc fields with addresses defined in identities
     $.each(['replyto', 'bcc'], function() {
@@ -4007,14 +4026,6 @@ function rcube_webmail()
       if (old_val || new_val)
         input.val(input_val).change();
     });
-
-    // enable manual signature insert
-    if (this.env.signatures && this.env.signatures[id]) {
-      this.enable_command('insert-sig', true);
-      this.env.compose_commands.push('insert-sig');
-    }
-    else
-      this.enable_command('insert-sig', false);
 
     this.editor.change_signature(id, show_sig);
     this.env.identity = id;
@@ -6902,7 +6913,7 @@ function rcube_webmail()
       // truncate stack down to the one containing the ref link
       for (var i = this.menu_stack.length - 1; stack && i >= 0; i--) {
         if (!$(ref).parents('#'+this.menu_stack[i]).length)
-          this.hide_menu(this.menu_stack[i]);
+          this.hide_menu(this.menu_stack[i], event);
       }
       if (stack && this.menu_stack.length) {
         obj.data('parent', $.last(this.menu_stack));
@@ -7826,13 +7837,17 @@ function rcube_webmail()
   // and return the message uid
   this.get_single_uid = function()
   {
-    return this.env.uid ? this.env.uid : (this.message_list ? this.message_list.get_single_selection() : null);
+    var uid = this.env.uid || (this.message_list ? this.message_list.get_single_selection() : null);
+    var result = ref.triggerEvent('get_single_uid', { uid: uid });
+    return result || uid;
   };
 
   // same as above but for contacts
   this.get_single_cid = function()
   {
-    return this.env.cid ? this.env.cid : (this.contact_list ? this.contact_list.get_single_selection() : null);
+    var cid = this.env.cid || (this.contact_list ? this.contact_list.get_single_selection() : null);
+    var result = ref.triggerEvent('get_single_cid', { cid: cid });
+    return result || cid;
   };
 
   // get the IMP mailbox of the message with the given UID

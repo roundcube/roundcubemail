@@ -5,7 +5,7 @@ class Userinfo_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../userinfo.php';
+        include_once __DIR__ . '/../userinfo.php';
     }
 
     /**

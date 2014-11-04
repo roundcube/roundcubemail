@@ -5,8 +5,8 @@
  *
  * Engine part of Managesieve plugin implementing UI and backend access.
  *
- * Copyright (C) 2008-2013, The Roundcube Dev Team
- * Copyright (C) 2011-2013, Kolab Systems AG
+ * Copyright (C) 2008-2014, The Roundcube Dev Team
+ * Copyright (C) 2011-2014, Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1177,16 +1177,7 @@ class rcube_sieve_engine
 
     function filter_frame($attrib)
     {
-        if (!$attrib['id'])
-            $attrib['id'] = 'rcmfilterframe';
-
-        $attrib['name'] = $attrib['id'];
-
-        $this->rc->output->set_env('contentframe', $attrib['name']);
-        $this->rc->output->set_env('blankpage', $attrib['src'] ?
-        $this->rc->output->abs_url($attrib['src']) : 'program/resources/blank.gif');
-
-        return $this->rc->output->frame($attrib);
+        return $this->rc->output->frame($attrib, true);
     }
 
     function filterset_form($attrib)

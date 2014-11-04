@@ -469,7 +469,8 @@ if (is_array($COMPOSE['attachments'])) {
                 $attachment['data'] ? false : true,
                 $ctype == 'message/rfc822' ? '8bit' : 'base64',
                 'attachment',
-                '', '', '',
+                $attachment['charset'],
+                '', '',
                 $folding ? 'quoted-printable' : NULL,
                 $folding == 2 ? 'quoted-printable' : NULL,
                 '', RCUBE_CHARSET
@@ -566,7 +567,7 @@ if ($savedraft) {
 else if (!$RCMAIL->config->get('no_save_sent_messages')) {
     $store_target = rcube_utils::get_input_value('_store_target', rcube_utils::INPUT_POST);
     if (!strlen($store_target)) {
-        $sore_target = $RCMAIL->config->get('sent_mbox');
+        $store_target = $RCMAIL->config->get('sent_mbox');
     }
 }
 

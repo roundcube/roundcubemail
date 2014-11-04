@@ -50,6 +50,7 @@ class rcube_db
     );
 
     const DEBUG_LINE_LENGTH = 4096;
+    const DEFAULT_QUOTE     = '`';
 
     /**
      * Factory, returns driver-specific instance of the class
@@ -68,6 +69,8 @@ class rcube_db
             'sybase'  => 'mssql',
             'dblib'   => 'mssql',
             'mysqli'  => 'mysql',
+            'oci'     => 'oracle',
+            'oci8'    => 'oracle',
         );
 
         $driver = isset($driver_map[$driver]) ? $driver_map[$driver] : $driver;
@@ -128,6 +131,20 @@ class rcube_db
             return $this->dbh;
         }
 
+        // connect to database
+        if ($dbh = $this->conn_create($dsn)) {
+            $this->dbh          = $dbh;
+            $this->dbhs[$mode]  = $dbh;
+            $this->db_mode      = $mode;
+            $this->db_connected = true;
+        }
+    }
+
+    /**
+     * Create PDO connection
+     */
+    protected function conn_create($dsn)
+    {
         // Get database specific connection options
         $dsn_string  = $this->dsn_string($dsn);
         $dsn_options = $this->dsn_options($dsn);
@@ -149,6 +166,8 @@ class rcube_db
 
             // don't throw exceptions or warnings
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+
+            $this->conn_configure($dsn, $dbh);
         }
         catch (Exception $e) {
             $this->db_error     = true;
@@ -161,11 +180,7 @@ class rcube_db
             return null;
         }
 
-        $this->dbh          = $dbh;
-        $this->dbhs[$mode]  = $dbh;
-        $this->db_mode      = $mode;
-        $this->db_connected = true;
-        $this->conn_configure($dsn, $dbh);
+        return $dbh;
     }
 
     /**
@@ -237,8 +252,12 @@ class rcube_db
         // Read or write ?
         $mode = preg_match('/^(select|show|set)/i', $query) ? 'r' : 'w';
 
+        $start = '[' . $this->options['identifier_start'] . self::DEFAULT_QUOTE . ']';
+        $end   = '[' . $this->options['identifier_end']   . self::DEFAULT_QUOTE . ']';
+        $regex = '/(?:^|\s)(from|update|into|join)\s+'.$start.'?([a-z0-9._]+)'.$end.'?\s+/i';
+
         // find tables involved in this query
-        if (preg_match_all('/(?:^|\s)(from|update|into|join)\s+'.$this->options['identifier_start'].'?([a-z0-9._]+)'.$this->options['identifier_end'].'?\s+/i', $query, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all($regex, $query, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $m) {
                 $table = $m[2];
 
@@ -407,6 +426,9 @@ class rcube_db
             $query = $this->set_limit($query, $numrows, $offset);
         }
 
+        // replace self::DEFAULT_QUOTE with driver-specific quoting
+        $query = $this->query_parse($query);
+
         // Because in Roundcube we mostly use queries that are
         // executed only once, we will not use prepared queries
         $pos = 0;
@@ -430,10 +452,19 @@ class rcube_db
         $query = str_replace('??', '?', $query);
         $query = rtrim($query, " \t\n\r\0\x0B;");
 
+        // log query
         $this->debug($query);
 
+        return $this->query_execute($query);
+    }
+
+    /**
+     * Query execution
+     */
+    protected function query_execute($query)
+    {
         // destroy reference to previous result, required for SQLite driver (#1488874)
-        $this->last_result = null;
+        $this->last_result  = null;
         $this->db_error_msg = null;
 
         // send query
@@ -443,9 +474,52 @@ class rcube_db
             $result = $this->handle_error($query);
         }
 
-        $this->last_result = $result;
+        return $this->last_result = $result;
+    }
 
-        return $result;
+    /**
+     * Parse SQL query and replace identifier quoting
+     *
+     * @param string $query SQL query
+     *
+     * @return string SQL query
+     */
+    protected function query_parse($query)
+    {
+        $start = $this->options['identifier_start'];
+        $end   = $this->options['identifier_end'];
+        $quote = self::DEFAULT_QUOTE;
+
+        if ($start == $quote) {
+            return $query;
+        }
+
+        $pos = 0;
+        $in  = false;
+
+        while ($pos = strpos($query, $quote, $pos)) {
+            if ($query[$pos+1] == $quote) {  // skip escaped quote
+                $pos += 2;
+            }
+            else {
+                if ($in) {
+                    $q  = $end;
+                    $in = false;
+                }
+                else {
+                    $q  = $start;
+                    $in = true;
+                }
+
+                $query = substr_replace($query, $q, $pos, 1);
+                $pos++;
+            }
+        }
+
+        // replace escaped quote back to normal, see self::quote()
+        $query = str_replace($quote.$quote, $quote, $query);
+
+        return $query;
     }
 
     /**
@@ -482,7 +556,9 @@ class rcube_db
     public function affected_rows($result = null)
     {
         if ($result || ($result === null && ($result = $this->last_result))) {
-            return $result->rowCount();
+            if ($result !== true) {
+                return $result->rowCount();
+            }
         }
 
         return 0;
@@ -498,7 +574,7 @@ class rcube_db
      */
     public function num_rows($result = null)
     {
-        if ($result || ($result === null && ($result = $this->last_result))) {
+        if (($result || ($result === null && ($result = $this->last_result))) && $result !== true) {
             // repeat query with SELECT COUNT(*) ...
             if (preg_match('/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/ims', $result->queryString, $m)) {
                 $query = $this->dbh->query('SELECT COUNT(*) FROM ' . $m[1], PDO::FETCH_NUM);
@@ -574,7 +650,9 @@ class rcube_db
     protected function _fetch_row($result, $mode)
     {
         if ($result || ($result === null && ($result = $this->last_result))) {
-            return $result->fetch($mode);
+            if ($result !== true) {
+                return $result->fetch($mode);
+            }
         }
 
         return false;
@@ -644,6 +722,63 @@ class rcube_db
     }
 
     /**
+     * Start transaction
+     *
+     * @return bool True on success, False on failure
+     */
+    public function startTransaction()
+    {
+        $this->db_connect('w', true);
+
+        // check connection before proceeding
+        if (!$this->is_connected()) {
+            return $this->last_result = false;
+        }
+
+        $this->debug('BEGIN TRANSACTION');
+
+        return $this->last_result = $this->dbh->beginTransaction();
+    }
+
+    /**
+     * Commit transaction
+     *
+     * @return bool True on success, False on failure
+     */
+    public function endTransaction()
+    {
+        $this->db_connect('w', true);
+
+        // check connection before proceeding
+        if (!$this->is_connected()) {
+            return $this->last_result = false;
+        }
+
+        $this->debug('COMMIT TRANSACTION');
+
+        return $this->last_result = $this->dbh->commit();
+    }
+
+    /**
+     * Rollback transaction
+     *
+     * @return bool True on success, False on failure
+     */
+    public function rollbackTransaction()
+    {
+        $this->db_connect('w', true);
+
+        // check connection before proceeding
+        if (!$this->is_connected()) {
+            return $this->last_result = false;
+        }
+
+        $this->debug('ROLLBACK TRANSACTION');
+
+        return $this->last_result = $this->dbh->rollBack();
+    }
+
+    /**
      * Formats input so it can be safely used in a query
      *
      * @param mixed  $input Value to quote
@@ -676,8 +811,13 @@ class rcube_db
                 'bool'    => PDO::PARAM_BOOL,
                 'integer' => PDO::PARAM_INT,
             );
+
             $type = isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
-            return strtr($this->dbh->quote($input, $type), array('?' => '??'));  // escape ?
+
+            return strtr($this->dbh->quote($input, $type),
+                // escape ? and `
+                array('?' => '??', self::DEFAULT_QUOTE => self::DEFAULT_QUOTE.self::DEFAULT_QUOTE)
+            );
         }
 
         return 'NULL';
@@ -916,15 +1056,24 @@ class rcube_db
     /**
      * Return correct name for a specific database table
      *
-     * @param string $table Table name
+     * @param string $table  Table name
+     * @param bool   $quoted Quote table identifier
      *
      * @return string Translated table name
      */
-    public function table_name($table)
+    public function table_name($table, $quoted = false)
     {
+        // let plugins alter the table name (#1489837)
+        $plugin = rcube::get_instance()->plugins->exec_hook('db_table_name', array('table' => $table));
+        $table = $plugin['table'];
+
         // add prefix to the table name if configured
         if (($prefix = $this->options['table_prefix']) && strpos($table, $prefix) !== 0) {
-            return $prefix . $table;
+            $table = $prefix . $table;
+        }
+
+        if ($quoted) {
+            $table = $this->quote_identifier($table);
         }
 
         return $table;

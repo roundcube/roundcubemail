@@ -802,21 +802,13 @@ function rcmail_compose_part_body($part, $isHtml = false)
         return '';
     }
 
-    if (empty($part->ctype_parameters) || empty($part->ctype_parameters['charset'])) {
-        $part->ctype_parameters['charset'] = $MESSAGE->headers->charset;
-    }
-
     // fetch part if not available
-    if (!isset($part->body)) {
-        $part->body = $MESSAGE->get_part_content($part->mime_id);
-    }
+    $body = $MESSAGE->get_part_body($part->mime_id, true);
 
     // message is cached but not exists (#1485443), or other error
-    if ($part->body === false) {
+    if ($body === false) {
         return '';
     }
-
-    $body = $part->body;
 
     if ($isHtml) {
         if ($part->ctype_secondary == 'html') {
@@ -994,6 +986,8 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
         )
     ));
 
+    $reply_mode = intval($RCMAIL->config->get('reply_mode'));
+
     if (!$bodyIsHtml) {
         $body = preg_replace('/\r?\n/', "\n", $body);
         $body = trim($body, "\n");
@@ -1002,10 +996,13 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
         $body = rcmail_wrap_and_quote($body, $LINE_LENGTH);
 
         $prefix .= "\n";
-        $suffix = '';
 
-        if (intval($RCMAIL->config->get('reply_mode')) > 0) { // top-posting
+        if ($reply_mode > 0) { // top-posting
             $prefix = "\n\n\n" . $prefix;
+            $suffix = '';
+        }
+        else {
+            $suffix = "\n";
         }
     }
     else {
@@ -1020,7 +1017,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
         $prefix = '<p>' . rcube::Q($prefix) . "</p>\n";
         $prefix .= '<blockquote>';
 
-        if (intval($RCMAIL->config->get('reply_mode')) > 0) { // top-posting
+        if ($reply_mode > 0) { // top-posting
             $prefix = '<br>' . $prefix;
             $suffix = '</blockquote>';
         }
@@ -1363,7 +1360,7 @@ function rcmail_save_attachment(&$message, $pid)
         $path     = tempnam($temp_dir, 'rcmAttmnt');
 
         if ($fp = fopen($path, 'w')) {
-            $message->get_part_content($pid, $fp, true, 0, false);
+            $message->get_part_body($pid, false, 0, $fp);
             fclose($fp);
         }
         else {
@@ -1371,7 +1368,7 @@ function rcmail_save_attachment(&$message, $pid)
         }
     }
     else {
-        $data = $message->get_part_content($pid, null, true, 0, false);
+        $data = $message->get_part_body($pid);
     }
 
     $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
@@ -1385,6 +1382,7 @@ function rcmail_save_attachment(&$message, $pid)
         'data'       => $data,
         'path'       => $path,
         'size'       => $path ? filesize($path) : strlen($data),
+        'charset'    => $part->charset,
     );
 
     $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
@@ -1454,6 +1452,9 @@ function rcmail_compose_subject($attrib)
     if (isset($_POST['_subject'])) {
         $subject = rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, TRUE);
     }
+    else if (!empty($COMPOSE['param']['subject'])) {
+        $subject = $COMPOSE['param']['subject'];
+    }
     // create a reply-subject
     else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
         if (preg_match('/^re:/i', $MESSAGE->subject))
@@ -1474,9 +1475,6 @@ function rcmail_compose_subject($attrib)
     // creeate a draft-subject
     else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
         $subject = $MESSAGE->subject;
-    }
-    else if (!empty($COMPOSE['param']['subject'])) {
-        $subject = $COMPOSE['param']['subject'];
     }
 
     $out = $form_start ? "$form_start\n" : '';

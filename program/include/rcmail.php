@@ -106,21 +106,23 @@ class rcmail extends rcube
         // reset some session parameters when changing task
         if ($this->task != 'utils') {
             // we reset list page when switching to another task
-            // but only to the main task interface - empty action (#1489076)
+            // but only to the main task interface - empty action (#1489076, #1490116)
             // this will prevent from unintentional page reset on cross-task requests
             if ($this->session && $_SESSION['task'] != $this->task && empty($this->action)) {
                 $this->session->remove('page');
-            }
 
-            // set current task to session
-            $_SESSION['task'] = $this->task;
+                // set current task to session
+                $_SESSION['task'] = $this->task;
+            }
         }
 
-        // init output class
-        if (!empty($_REQUEST['_remote']))
+        // init output class (not in CLI mode)
+        if (!empty($_REQUEST['_remote'])) {
             $GLOBALS['OUTPUT'] = $this->json_init();
-        else
+        }
+        else if ($_SERVER['REMOTE_ADDR']) {
             $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
+        }
 
         // load plugins
         $this->plugins->init($this, $this->task);
@@ -1800,7 +1802,7 @@ class rcmail extends rcube
             $error = 'errorreadonly';
         }
         else if ($res_code == rcube_storage::OVERQUOTA) {
-            $error = 'errorroverquota';
+            $error = 'erroroverquota';
         }
         else if ($err_code && ($err_str = $this->storage->get_error_str())) {
             // try to detect access rights problem and display appropriate message

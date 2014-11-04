@@ -306,10 +306,10 @@ class password extends rcube_plugin
         switch ($result) {
             case PASSWORD_SUCCESS:
                 return;
-            case PASSWORD_CRYPT_ERROR;
+            case PASSWORD_CRYPT_ERROR:
                 $reason = $this->gettext('crypterror');
                 break;
-            case PASSWORD_CONNECT_ERROR;
+            case PASSWORD_CONNECT_ERROR:
                 $reason = $this->gettext('connecterror');
                 break;
             case PASSWORD_ERROR:

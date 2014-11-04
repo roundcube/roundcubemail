@@ -5,7 +5,7 @@ class SquirrelmailUsercopy_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../squirrelmail_usercopy.php';
+        include_once __DIR__ . '/../squirrelmail_usercopy.php';
     }
 
     /**

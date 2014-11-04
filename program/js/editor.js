@@ -40,7 +40,7 @@ function rcube_text_editor(config, id)
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
       theme: 'modern',
       language: config.lang,
-      content_css: 'program/js/tinymce/roundcube/content.css?v1',
+      content_css: 'program/js/tinymce/roundcube/content.css?v2',
       menubar: false,
       statusbar: false,
       toolbar_items_size: 'small',
@@ -194,7 +194,7 @@ function rcube_text_editor(config, id)
   };
 
   // switch html/plain mode
-  this.toggle = function(ishtml)
+  this.toggle = function(ishtml, noconvert)
   {
     var curr, content, result,
       // these non-printable chars are not removed on text2html and html2text
@@ -214,8 +214,7 @@ function rcube_text_editor(config, id)
       if (is_sig)
         content = content.replace(signature.text, sig_mark);
 
-      // convert to html
-      result = rcmail.plain2html(content, function(data) {
+      var init_editor = function(data) {
         // replace signature mark with html version of the signature
         if (is_sig)
           data = data.replace(sig_mark, '<div id="_rc_sig">' + signature.html + '</div>');
@@ -231,7 +230,16 @@ function rcube_text_editor(config, id)
             ref.tabindex(true);
           }
         }, 500);
-      });
+      };
+
+      // convert to html
+      if (!noconvert) {
+        result = rcmail.plain2html(content, init_editor);
+      }
+      else {
+        init_editor(content);
+        result = true;
+      }
     }
     else if (this.editor) {
       if (is_sig) {
@@ -250,8 +258,7 @@ function rcube_text_editor(config, id)
       // get html content
       content = this.editor.getContent();
 
-      // convert html to text
-      result = rcmail.html2plain(content, function(data) {
+      var init_plaintext = function(data) {
         tinymce.execCommand('mceRemoveEditor', false, ref.id);
         ref.editor = null;
 
@@ -260,7 +267,16 @@ function rcube_text_editor(config, id)
           data = data.replace(sig_mark, "\n" + signature.text);
 
         input.val(data).focus();
-      });
+      };
+
+      // convert html to text
+      if (!noconvert) {
+        result = rcmail.html2plain(content, init_plaintext);
+      }
+      else {
+        init_plaintext(input.val());
+        result = true;
+      }
 
       // bring back current signature
       if (!result && curr)
@@ -375,29 +391,33 @@ function rcube_text_editor(config, id)
   };
 
   // get selected text (if no selection returns all text) from the editor
-  this.get_content = function(selected, plain)
+  this.get_content = function(args)
   {
-    // apply spellcheck changes if spell checker is active
-    this.spellcheck_stop();
+    var sigstart, ed = this.editor, text = '', strip = false,
+      defaults = {refresh: true, selection: false, nosig: false, format: 'html'};
 
-    var sigstart, ed = this.editor,
-      format = plain ? 'text' : 'html',
-      text = '', strip = false;
+    args = $.extend(defaults, args);
+
+    // apply spellcheck changes if spell checker is active
+    if (args.refresh) {
+      this.spellcheck_stop();
+    }
 
     // get selected text from tinymce editor
     if (ed) {
       ed.getWin().focus(); // correct focus in IE & Chrome
-      if (selected)
-        text = ed.selection.getContent({format: format});
+      if (args.selection)
+        text = ed.selection.getContent({format: args.format});
 
       if (!text) {
-        text = ed.getContent({format: format});
-        strip = true;
+        text = ed.getContent({format: args.format});
+        // @todo: strip signature in html mode
+        strip = args.format == 'text';
       }
     }
     // get selected text from compose textarea
     else if (ed = rcube_find_object(this.id)) {
-      if (selected && $(ed).is(':focus')) {
+      if (args.selection && $(ed).is(':focus')) {
         text = rcmail.get_input_selection(ed).text;
       }
 
@@ -408,7 +428,8 @@ function rcube_text_editor(config, id)
     }
 
     // strip off signature
-    if (strip) {
+    // @todo: make this optional
+    if (strip && args.nosig) {
       sigstart = text.indexOf('-- \n');
       if (sigstart > 0) {
         text = text.substring(0, sigstart);

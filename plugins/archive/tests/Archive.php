@@ -5,7 +5,7 @@ class Archive_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../archive.php';
+        include_once __DIR__ . '/../archive.php';
     }
 
     /**

@@ -1384,7 +1384,7 @@ class rcube_imap extends rcube_storage
     public function index_direct($folder, $sort_field = null, $sort_order = null, $search = null)
     {
         if (!empty($search)) {
-            $search = $this->search_set->get_compressed();
+            $search = $search->get_compressed();
         }
 
         // use message index sort as default sorting
@@ -3952,8 +3952,8 @@ class rcube_imap extends rcube_storage
             // @TODO: Honor MAXSIZE and DEPTH options
             foreach ($queries as $attrib => $entry) {
                 if ($result = $this->conn->getAnnotation($folder, $entry, $attrib)) {
-                    foreach ($result as $folder => $data) {
-                        $res[$folder] = array_merge((array) $res[$folder], $data);
+                    foreach ($result as $fldr => $data) {
+                        $res[$fldr] = array_merge((array) $res[$fldr], $data);
                     }
                 }
             }

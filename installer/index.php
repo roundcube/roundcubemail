@@ -39,7 +39,7 @@
 ini_set('error_reporting', E_ALL &~ (E_NOTICE | E_STRICT));
 ini_set('display_errors', 1);
 
-define('INSTALL_PATH', realpath(dirname(__FILE__) . '/../').'/');
+define('INSTALL_PATH', realpath(__DIR__ . '/../').'/');
 define('RCUBE_INSTALL_PATH', INSTALL_PATH);
 define('RCUBE_CONFIG_DIR', INSTALL_PATH . 'config/');
 

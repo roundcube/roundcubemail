@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
 require INSTALL_PATH.'program/include/clisetup.php';
 
@@ -30,7 +30,7 @@ $primary_keys = array(
 );
 
 // connect to DB
-$RCMAIL = rcmail::get_instance();
+$RCMAIL = rcube::get_instance();
 $db = $RCMAIL->get_dbh();
 $db->db_connect('w');
 
@@ -48,7 +48,7 @@ $threshold = date('Y-m-d 00:00:00', time() - $days * 86400);
 
 foreach (array('contacts','contactgroups','identities') as $table) {
 
-    $sqltable = $db->table_name($table);
+    $sqltable = $db->table_name($table, true);
 
     // also delete linked records
     // could be skipped for databases which respect foreign key constraints
@@ -56,13 +56,13 @@ foreach (array('contacts','contactgroups','identities') as $table) {
         && ($table == 'contacts' || $table == 'contactgroups')
     ) {
         $pk = $primary_keys[$table];
-        $memberstable = get_table_name('contactgroupmembers');
+        $memberstable = $db->table_name('contactgroupmembers');
 
         $db->query(
-            "DELETE FROM $memberstable".
-            " WHERE $pk IN (".
-                "SELECT $pk FROM $sqltable".
-                " WHERE del=1 AND changed < ?".
+            "DELETE FROM " . $db->quote_identifier($memberstable).
+            " WHERE `$pk` IN (".
+                "SELECT `$pk` FROM $sqltable".
+                " WHERE `del` = 1 AND `changed` < ?".
             ")",
             $threshold);
 
@@ -70,7 +70,7 @@ foreach (array('contacts','contactgroups','identities') as $table) {
     }
 
     // delete outdated records
-    $db->query("DELETE FROM $sqltable WHERE del=1 AND changed < ?", $threshold);
+    $db->query("DELETE FROM $sqltable WHERE `del` = 1 AND `changed` < ?", $threshold);
 
     echo $db->affected_rows() . " records deleted from '$table'\n";
 }

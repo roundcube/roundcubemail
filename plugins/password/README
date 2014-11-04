@@ -317,31 +317,25 @@
 
  2.20. Plesk (Plesk RPC-API)
  ---------------------------
- 
+
  Driver for changing Passwords via Plesk RPC-API. This Driver also works with
  Parallels Plesk Automation (PPA).
- 
- You need to allow the IP of the Roundcube-Server for RPC-Calls in the Panel.
- 
- 
- Set $config['password_plesk_host'] to the Hostname / IP where Plesk runs
- 
- Set your Admin or RPC User: $config['password_plesk_user']
- 
- Set the Password of the User: $config['password_plesk_pass']
- 
- Set $config['password_plesk_rpc_port']  for the RPC-Port. Usually its 8443
- 
- Set the RPC-Path in $config['password_plesk_rpc_path']. Normally this is: enterprise/control/agent.php;
 
- 
+ You need to allow the IP of the Roundcube-Server for RPC-Calls in the Panel.
+
+ Set $config['password_plesk_host'] to the Hostname / IP where Plesk runs
+ Set your Admin or RPC User: $config['password_plesk_user']
+ Set the Password of the User: $config['password_plesk_pass']
+ Set $config['password_plesk_rpc_port']  for the RPC-Port. Usually its 8443
+ Set the RPC-Path in $config['password_plesk_rpc_path']. Normally this is: enterprise/control/agent.php.
+
 
  3. Driver API
  -------------
 
- Driver file (<driver_name>.php) must define 'password_save' function with
- two arguments. First - current password, second - new password. Function
- should return PASSWORD_SUCCESS on success or any of PASSWORD_CONNECT_ERROR,
+ Driver file (<driver_name>.php) must define rcube_<driver_name>_password class
+ with public save() method that has two arguments. First - current password, second - new password.
+ This method should return PASSWORD_SUCCESS on success or any of PASSWORD_CONNECT_ERROR,
  PASSWORD_CRYPT_ERROR, PASSWORD_ERROR when driver was unable to change password.
  Extended result (as a hash-array with 'message' and 'code' items) can be returned
  too. See existing drivers in drivers/ directory for examples.

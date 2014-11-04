@@ -1,9 +1,14 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix skin path handling in plugin context (#1488967)
+- Prevent memory exhaustion on image resizing with GD on Windows (#1489937)
+- Add plugin hook for database table name lookups as requested in #1489837
+- Added Oracle database support
 - Support contacts import in GMail CSV format
 - Added namespace filter in Folder Manager
 - Added folder searching in Folder Manager
+- Fix restoring draft messages from localStorage if editor mode differs (#1490016)
 - Added config option/user preference to disable saving messages in localStorage (#1489979)
 - Added config option 'imap_log_session' to enable Roundcube <-> IMAP session ID logging
 - Added config option 'log_session_id' to control the lengh of the session identifer in logs
@@ -17,9 +22,7 @@ CHANGELOG Roundcube Webmail
 - Support images in HTML signatures (#1488676)
 - Display full quota information in popup (#1485769, #1486604)
 - Mail compose: Selecting contact inserts recipient to previously focused input - to/cc/bcc accordingly (#1489684)
-- Add option to set default message list mode - default_list_mode (#1487312)
 - Close "no subject" prompt with Enter key (#1489580)
-- Add config option to specify IMAP connection socket parameters - imap_conn_options (#1489948)
 - Password: Add option to force new users to change their password (#1486884)
 - Improve support for screen readers and assistive technology using WCAG 2.0 and WAI ARIA standards
 - Enable basic keyboard navigation throughout the UI (#1487845)
@@ -49,6 +52,28 @@ CHANGELOG Roundcube Webmail
 - Don't remove links when html signature is converted to text (#1489621)
 - Fix page title when using search filter (#1490023)
 - Fix mbox files import
+- Fix so attachment charset is set in headers of forward/draft message (#1490109)
+- Fix bug where wrong charset could be used for text attachment preview page (#1490106)
+- Fix setting flags on servers with no PERMANENTFLAGS response (#1490087)
+- Fix regression in SHAA password generation in ldap driver of password plugin (#1490094)
+- Fix displaying of HTML messages with absolutely positioned elements in Larry skin (#1490103)
+- Fix font style display issue in HTML messages with styled <span> elements (#1490101)
+- Fix download of attachments that are part of TNEF message (#1490091)
+- Fix handling of uuencoded messages if messages_cache is enabled (#1490108)
+- Fix handling of base64-encoded attachments with extra spaces (#1490111)
+- Fix handling of UNKNOWN-CTE response, try do decode content client-side (#1490046)
+- Fix bug where creating subfolders in shared folders wasn't possible without ACL extension (#1490113)
+- Fix reply scrolling issue with text mode and start message below the quote (#1490114)
+- Fix possible issues in skin/skin_path config handling (#1490125)
+
+RELEASE 1.0.3
+-------------
+- Initialize HTML editor before restoring a message from localStorage (#1490016)
+- Add 'sig_max_lines' config option to default config file (#1490071)
+- Add config option to specify IMAP connection socket parameters - imap_conn_options (#1489948)
+- Add option to set default message list mode - default_list_mode (#1487312)
+- Enable contextmenu plugin for TinyMCE editor (#1487014)
+- Fix insert-signature command in external compose window if opened from inline compose screen (#1490074)
 - Fix some mime-type to extension mapping checks in Installer (#1489983)
 - Fix errors when using localStorage in Safari's private browsing mode (#1489996)
 - Fix bug where $Forwarded flag was being set even if server didn't support it (#1490000)
@@ -60,6 +85,7 @@ CHANGELOG Roundcube Webmail
 - Fix handling of email addresses with quoted domain part (#1490040)
 - Fix comm_path update on task switch (#1490041)
 - Fix error in MSSQL update script 2013061000.sql (#1490061)
+- Fix validation of email addresses with IDNA domains (#1490067)
 
 RELEASE 1.0.2
 -------------

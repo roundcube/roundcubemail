@@ -5,7 +5,7 @@ class ExampleAddressbook_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../example_addressbook.php';
+        include_once __DIR__ . '/../example_addressbook.php';
     }
 
     /**

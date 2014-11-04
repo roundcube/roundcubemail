@@ -71,6 +71,7 @@ abstract class rcube_plugin
     protected $home;
     protected $urlbase;
     private $mytask;
+    private $loaded_config = array();
 
 
     /**
@@ -141,6 +142,12 @@ abstract class rcube_plugin
      */
     public function load_config($fname = 'config.inc.php')
     {
+        if (in_array($fname, $this->loaded_config)) {
+            return true;
+        }
+
+        $this->loaded_config[] = $fname;
+
         $fpath = $this->home.'/'.$fname;
         $rcube = rcube::get_instance();
 
@@ -415,7 +422,7 @@ abstract class rcube_plugin
         $rcube = rcube::get_instance();
         $skins = array_keys((array)$rcube->output->skins);
         if (empty($skins)) {
-            $skins = array($rcube->config->get('skin'));
+            $skins = (array) $rcube->config->get('skin');
         }
         foreach ($skins as $skin) {
             $skin_path = 'skins/' . $skin;

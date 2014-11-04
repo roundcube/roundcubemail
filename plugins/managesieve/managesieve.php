@@ -51,7 +51,9 @@ class managesieve extends rcube_plugin
         }
         else if ($this->rc->task == 'mail') {
             // register message hook
-            $this->add_hook('message_headers_output', array($this, 'mail_headers'));
+            if ($this->rc->action == 'show') {
+                $this->add_hook('message_headers_output', array($this, 'mail_headers'));
+            }
 
             // inject Create Filter popup stuff
             if (empty($this->rc->action) || $this->rc->action == 'show'
@@ -83,14 +85,10 @@ class managesieve extends rcube_plugin
         // include styles
         $skin_path = $this->local_skin_path();
         if ($this->rc->task == 'settings' || $sieve_action) {
-            if (is_file($this->home . "/$skin_path/managesieve.css")) {
-                $this->include_stylesheet("$skin_path/managesieve.css");
-            }
+            $this->include_stylesheet("$skin_path/managesieve.css");
         }
         else {
-            if (is_file($this->home . "/$skin_path/managesieve_mail.css")) {
-                $this->include_stylesheet("$skin_path/managesieve_mail.css");
-            }
+            $this->include_stylesheet("$skin_path/managesieve_mail.css");
         }
 
         $this->ui_initialized = true;
@@ -192,9 +190,10 @@ class managesieve extends rcube_plugin
     function managesieve_actions()
     {
         // handle fetching email headers for the new filter form
-        if ($uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GPC)) {
-            $mailbox = $this->rc->get_storage()->get_folder();
-            $message = new rcube_message($uid, $mailbox);
+        if ($uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST)) {
+            $uids    = rcmail::get_uids();
+            $mailbox = key($uids);
+            $message = new rcube_message($uids[$mailbox][0], $mailbox);
             $headers = $this->parse_headers($message->headers);
 
             $this->rc->output->set_env('sieve_headers', $headers);

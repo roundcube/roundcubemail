@@ -842,6 +842,7 @@ class rcube
          * upon decryption; see http://php.net/mcrypt_generic#68082
          */
         $clear = pack("a*H2", $clear, "80");
+        $ckey  = $this->config->get_crypto_key($key);
 
         if (function_exists('openssl_encrypt')) {
             $method = 'DES-EDE3-CBC';
@@ -853,7 +854,7 @@ class rcube
             ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, ""))
         ) {
             $iv = $this->create_iv(mcrypt_enc_get_iv_size($td));
-            mcrypt_generic_init($td, $this->config->get_crypto_key($key), $iv);
+            mcrypt_generic_init($td, $ckey, $iv);
             $cipher = $iv . mcrypt_generic($td, $clear);
             mcrypt_generic_deinit($td);
             mcrypt_module_close($td);
@@ -864,7 +865,7 @@ class rcube
             if (function_exists('des')) {
                 $des_iv_size = 8;
                 $iv = $this->create_iv($des_iv_size);
-                $cipher = $iv . des($this->config->get_crypto_key($key), $clear, 1, 1, $iv);
+                $cipher = $iv . des($ckey, $clear, 1, 1, $iv);
             }
             else {
                 self::raise_error(array(
@@ -895,6 +896,7 @@ class rcube
         }
 
         $cipher = $base64 ? base64_decode($cipher) : $cipher;
+        $ckey   = $this->config->get_crypto_key($key);
 
         if (function_exists('openssl_decrypt')) {
             $method  = 'DES-EDE3-CBC';
@@ -914,7 +916,7 @@ class rcube
             ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, ""))
         ) {
             $iv_size = mcrypt_enc_get_iv_size($td);
-            $iv = substr($cipher, 0, $iv_size);
+            $iv      = substr($cipher, 0, $iv_size);
 
             // session corruption? (#1485970)
             if (strlen($iv) < $iv_size) {
@@ -922,7 +924,7 @@ class rcube
             }
 
             $cipher = substr($cipher, $iv_size);
-            mcrypt_generic_init($td, $this->config->get_crypto_key($key), $iv);
+            mcrypt_generic_init($td, $ckey, $iv);
             $clear = mdecrypt_generic($td, $cipher);
             mcrypt_generic_deinit($td);
             mcrypt_module_close($td);
@@ -932,15 +934,15 @@ class rcube
 
             if (function_exists('des')) {
                 $des_iv_size = 8;
-                $iv = substr($cipher, 0, $des_iv_size);
+                $iv     = substr($cipher, 0, $des_iv_size);
                 $cipher = substr($cipher, $des_iv_size);
-                $clear = des($this->config->get_crypto_key($key), $cipher, 0, 1, $iv);
+                $clear  = des($ckey, $cipher, 0, 1, $iv);
             }
             else {
                 self::raise_error(array(
                     'code' => 500, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not perform decryption; make sure Mcrypt is installed or lib/des.inc is available"
+                    'message' => "Could not perform decryption; make sure OpenSSL or Mcrypt or lib/des.inc is available"
                     ), true, true);
             }
         }
@@ -1279,6 +1281,9 @@ class rcube
             }
 
             exit(1);
+        }
+        else if ($cli) {
+            fwrite(STDERR, 'ERROR: ' . $arg['message']);
         }
     }
 

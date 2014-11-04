@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
 require_once INSTALL_PATH.'program/include/clisetup.php';
 
@@ -47,7 +47,7 @@ $pref_name  = trim($args[0]);
 $pref_value = $args['delete'] ? null : trim($args[1]);
 
 // connect to DB
-$rcmail = rcmail::get_instance();
+$rcmail = rcube::get_instance();
 
 $db = $rcmail->get_dbh();
 $db->db_connect('w');
@@ -58,10 +58,10 @@ if (!$db->is_connected() || $db->is_error())
 $query = '1=1';
 
 if ($args['user'])
-	$query = 'user_id=' . intval($args['user']);
+	$query = '`user_id` = ' . intval($args['user']);
 
 // iterate over all users
-$sql_result = $db->query("SELECT * FROM " . $db->table_name('users') . " WHERE $query");
+$sql_result = $db->query("SELECT * FROM " . $db->table_name('users', true) . " WHERE $query");
 while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
 	echo "Updating prefs for user " . $sql_arr['user_id'] . "...";
 

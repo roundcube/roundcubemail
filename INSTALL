@@ -29,7 +29,6 @@ REQUIREMENTS
    - memory_limit > 16MB (increase as suitable to support large attachments)
    - file_uploads enabled (for attachment upload features)
    - session.auto_start disabled
-   - zend.ze1_compatibility_mode disabled
    - suhosin.session.encrypt disabled
    - mbstring.func_overload disabled
    - magic_quotes_runtime disabled
@@ -40,22 +39,26 @@ REQUIREMENTS
   or SQLite support in PHP
 * One of the above databases with permission to create tables
 * An SMTP server (recommended) or PHP configured for mail delivery
+* Composer installed either locally or globally
 
 
 INSTALLATION
 ============
 
 1. Decompress and put this folder somewhere inside your document root
-2. Make sure that the following directories (and the files within)
+2. Install dependencies using composer:
+   - get composer from https://getcomposer.org/download/
+   - rename the composer.json-dist file into composer.json
+   - run `php composer.phar install`
+3. Make sure that the following directories (and the files within)
    are writable by the webserver
    - /temp
    - /logs
-3. Create a new database and a database user for Roundcube (see DATABASE SETUP)
-4. Point your browser to http://url-to-roundcube/installer/
-5. Follow the instructions of the install script (or see MANUAL CONFIGURATION)
-6. After creating and testing the configuration, remove the installer directory
-7. Check Known Issues section of this file
-8. Done!
+4. Create a new database and a database user for Roundcube (see DATABASE SETUP)
+5. Point your browser to http://url-to-roundcube/installer/
+6. Follow the instructions of the install script (or see MANUAL CONFIGURATION)
+7. After creating and testing the configuration, remove the installer directory
+8. Check Known Issues section of this file
 
 
 CONFIGURATION HINTS

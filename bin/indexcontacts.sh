@@ -19,13 +19,13 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
 require_once INSTALL_PATH.'program/include/clisetup.php';
 ini_set('memory_limit', -1);
 
 // connect to DB
-$RCMAIL = rcmail::get_instance();
+$RCMAIL = rcube::get_instance();
 
 $db = $RCMAIL->get_dbh();
 $db->db_connect('w');
@@ -35,7 +35,7 @@ if (!$db->is_connected() || $db->is_error()) {
 }
 
 // iterate over all users
-$sql_result = $db->query("SELECT user_id FROM " . $db->table_name('users') . " ORDER BY user_id");
+$sql_result = $db->query("SELECT `user_id` FROM " . $db->table_name('users', true) . " ORDER BY `user_id`");
 while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
     echo "Indexing contacts for user " . $sql_arr['user_id'] . "...";
 

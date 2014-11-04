@@ -95,7 +95,7 @@ class enigma_driver_phpssl extends enigma_driver
 
         $fh = fopen($msg_file, "w");
         if ($struct->mime_id) {
-            $message->get_part_content($struct->mime_id, $fh, true, 0, false);
+            $message->get_part_body($struct->mime_id, false, 0, $fh);
         }
         else {
             $this->rc->storage->get_raw_body($message->uid, $fh);

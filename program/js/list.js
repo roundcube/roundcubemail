@@ -150,9 +150,9 @@ init_row: function(row)
     var self = this, uid = row.uid;
     this.rows[uid] = {uid:uid, id:row.id, obj:row};
 
-    // set eventhandlers to table row
+    // set eventhandlers to table row (only left-button-clicks in mouseup)
     row.onmousedown = function(e){ return self.drag_row(e, this.uid); };
-    row.onmouseup = function(e){ return self.click_row(e, this.uid); };
+    row.onmouseup = function(e){ if (e.which == 1) return self.click_row(e, this.uid); };
 
     if (bw.touch) {
       row.addEventListener('touchstart', function(e) {

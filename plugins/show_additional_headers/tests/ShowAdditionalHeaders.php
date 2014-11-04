@@ -5,7 +5,7 @@ class ShowAdditionalHeaders_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../show_additional_headers.php';
+        include_once __DIR__ . '/../show_additional_headers.php';
     }
 
     /**

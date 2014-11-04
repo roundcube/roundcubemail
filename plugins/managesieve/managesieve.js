@@ -736,6 +736,9 @@ function smart_field_init(field)
 
   if (field.attr('disabled'))
     area.hide();
+  // disable the original field anyway, we don't want it in POST
+  else
+    field.prop('disabled', true);
 
   field.after(area);
 
@@ -930,7 +933,7 @@ function sieve_form_init()
 
 rcube_webmail.prototype.managesieve_create = function(force)
 {
-  if (!force && this.env.action != 'show' && !$('#'+this.env.contentframe).is(':visible')) {
+  if (!force && this.env.action != 'show') {
     var uid = this.message_list.get_single_selection(),
       lock = this.set_busy(true, 'loading');
 
