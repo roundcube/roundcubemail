@@ -992,6 +992,7 @@ div.message-partheaders .headers-table td.header {
 #messagebody p.image-attachment {
 	position: relative;
 	padding: 1em;
+	margin-bottom: 0;
 	border-top: 1px solid #ccc;
 }
 
