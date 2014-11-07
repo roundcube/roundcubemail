@@ -654,36 +654,47 @@ class rcube_charset
         if ($string[0] == "\0" && $string[1] != "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-16BE';
         if ($string[0] != "\0" && $string[1] == "\0" && $string[2] != "\0" && $string[3] == "\0") return 'UTF-16LE';
 
-        if (function_exists('mb_detect_encoding')) {
-            if (empty($language)) {
-                $rcube    = rcube::get_instance();
-                $language = $rcube->get_user_language();
+        if (empty($language)) {
+            $rcube    = rcube::get_instance();
+            $language = $rcube->get_user_language();
+        }
+
+        // Prioritize charsets according to current language (#1485669)
+        switch ($language) {
+        case 'ja_JP':
+            $prio = array('ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS', 'SJIS-win');
+            break;
+
+        case 'zh_CN':
+        case 'zh_TW':
+            $prio = array('UTF-8', 'BIG-5', 'GB2312', 'EUC-TW');
+            break;
+
+        case 'ko_KR':
+            $prio = array('UTF-8', 'EUC-KR', 'ISO-2022-KR');
+            break;
+
+        case 'ru_RU':
+            $prio = array('UTF-8', 'WINDOWS-1251', 'KOI8-R');
+            break;
+
+        case 'tr_TR':
+            $prio = array('UTF-8', 'ISO-8859-9', 'WINDOWS-1254');
+            break;
+        }
+
+        // mb_detect_encoding() is not reliable for some charsets (#1490135)
+        // use mb_check_encoding() to make charset priority lists really working
+        if ($prio && function_exists('mb_check_encoding')) {
+            foreach ($prio as $encoding) {
+                if (mb_check_encoding($string, $encoding)) {
+                    return $encoding;
+                }
             }
+        }
 
-            // Prioritize charsets according to current language (#1485669)
-            switch ($language) {
-            case 'ja_JP':
-                $prio = array('ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS', 'SJIS-win');
-                break;
-
-            case 'zh_CN':
-            case 'zh_TW':
-                $prio = array('UTF-8', 'BIG-5', 'GB2312', 'EUC-TW');
-                break;
-
-            case 'ko_KR':
-                $prio = array('UTF-8', 'EUC-KR', 'ISO-2022-KR');
-                break;
-
-            case 'ru_RU':
-                $prio = array('UTF-8', 'WINDOWS-1251', 'KOI8-R');
-                break;
-
-            case 'tr_TR':
-                $prio = array('UTF-8', 'ISO-8859-9', 'WINDOWS-1254');
-                break;
-
-            default:
+        if (function_exists('mb_detect_encoding')) {
+            if (!$prio) {
                 $prio = array('UTF-8', 'SJIS', 'GB2312',
                     'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
                     'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9',
@@ -695,7 +706,9 @@ class rcube_charset
 
             $encodings = array_unique(array_merge($prio, mb_list_encodings()));
 
-            return mb_detect_encoding($string, $encodings);
+            if ($encoding = mb_detect_encoding($string, $encodings)) {
+                return $encoding;
+            }
         }
 
         // No match, check for UTF-8

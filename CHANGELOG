@@ -52,6 +52,7 @@ CHANGELOG Roundcube Webmail
 - Don't remove links when html signature is converted to text (#1489621)
 - Fix page title when using search filter (#1490023)
 - Fix mbox files import
+- Fix some character sets detection (#1490135)
 - Fix so attachment charset is set in headers of forward/draft message (#1490109)
 - Fix bug where wrong charset could be used for text attachment preview page (#1490106)
 - Fix setting flags on servers with no PERMANENTFLAGS response (#1490087)
