@@ -116,6 +116,9 @@ class rcube_sql_password
                 }
                 if (!$rcmail->config->get('password_dovecotpw_with_method'))
                     $newpass = trim(str_replace('{' . $method . '}', '', $newpass));
+                if ($method == 'BLF-CRYPT') {
+                    $newpass = trim(str_replace('{' . $method . '}', '{CRYPT}', $newpass));
+                }
                 unlink($tmpfile);
             }
             $sql = str_replace('%D', $db->quote($newpass), $sql);
