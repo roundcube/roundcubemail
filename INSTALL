@@ -39,7 +39,7 @@ REQUIREMENTS
   or SQLite support in PHP
 * One of the above databases with permission to create tables
 * An SMTP server (recommended) or PHP configured for mail delivery
-* Composer installed either locally or globally
+* Composer installed either locally or globally (https://getcomposer.org)
 
 
 INSTALLATION
@@ -49,7 +49,7 @@ INSTALLATION
 2. Install dependencies using composer:
    - get composer from https://getcomposer.org/download/
    - rename the composer.json-dist file into composer.json
-   - run `php composer.phar install`
+   - run `php composer.phar install --no-dev`
 3. Make sure that the following directories (and the files within)
    are writable by the webserver
    - /temp

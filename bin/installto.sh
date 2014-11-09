@@ -5,7 +5,7 @@
  | bin/installto.sh                                                      |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Copyright (C) 2014, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -50,7 +50,7 @@ if (strtolower($input) == 'y') {
       break;
     }
   }
-  foreach (array('index.php','.htaccess','config/defaults.inc.php','CHANGELOG','README.md','UPGRADING','LICENSE') as $file) {
+  foreach (array('index.php','.htaccess','config/defaults.inc.php','composer.json-dist','CHANGELOG','README.md','UPGRADING','LICENSE') as $file) {
     if (!system("rsync -av " . INSTALL_PATH . "$file $target_dir/$file")) {
       $err = true;
       break;
