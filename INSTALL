@@ -39,7 +39,7 @@ REQUIREMENTS
   or SQLite support in PHP
 * One of the above databases with permission to create tables
 * An SMTP server (recommended) or PHP configured for mail delivery
-* Composer installed either locally or globally
+* Composer installed either locally or globally (https://getcomposer.org)
 
 
 INSTALLATION
