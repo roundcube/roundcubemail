@@ -30,7 +30,7 @@
     ],
     "require": {
         "php": ">=5.3.7",
-        "roundcube/plugin-installer": ">=0.1.3",
+        "roundcube/plugin-installer": ">=0.1.5",
         "pear/mail_mime": ">=1.8.9",
         "pear/mail_mime-decode": ">=1.5.5",
         "pear/net_smtp": "dev-master",
