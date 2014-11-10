@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/markasjunk/localization/<lang>.inc                            |
+ | plugins/zipdownload/localization/<lang>.inc                           |
  |                                                                       |
- | Localization file of the Roundcube Webmail Mark-As-Junk plugin        |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ | Localization file of the Roundcube Webmail Zipdownload plugin         |
+ | Copyright (C) 2012-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,8 +13,10 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-$labels['buttontitle'] = 'nawnişani bka ba şkaw';
-$labels['reportedasjunk'] = 'ba gşti raport kra';
-?>
+$labels['downloadall'] = 'داگرتنی هەموو هاوپێچەکان';
+$labels['download'] = 'داگرتن...';
+$labels['downloadmbox'] = 'Mbox format (.zip)';
+$labels['downloadmaildir'] = 'Maildir format (.zip)';
+$labels['downloademl'] = 'Source (.eml)';

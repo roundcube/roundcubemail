@@ -15,14 +15,14 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-$labels['basic'] = 'Yeni mesajlarda web tarayıcı bildirimlerini göster';
-$labels['desktop'] = 'Yeni mesajlarda masa üstü bildirimlerini göster';
-$labels['sound'] = 'Yeni mesajlarda müzik çal';
-$labels['test'] = 'Deneme';
-$labels['title'] = 'Yeni E-posta!';
-$labels['body'] = 'Yeni bir mesaj aldınız';
-$labels['testbody'] = 'Bu bir test bildirimidir.';
-$labels['desktopdisabled'] = 'Web tarayıcınızda masaüstü bildirimi iptal edildi';
-$labels['desktopunsupported'] = 'Web tarayıcınız masaüstü bildirimleri desteklemiyor';
-$labels['desktoptimeout'] = 'Masaüstü bildirimini kapat';
+$labels['basic'] = 'Agahdariyên gerokê li ser peyama nû bide nîşan';
+$labels['desktop'] = 'Agahdariyên sermasê li ser peyama nû bide nîşan';
+$labels['sound'] = 'Deng li ser peyameke nû veke';
+$labels['test'] = 'Test';
+$labels['title'] = 'Emaila Nû!';
+$labels['body'] = 'Peyameke te ya nû heye.';
+$labels['testbody'] = 'Ev agahdariyeke testê ye.';
+$labels['desktopdisabled'] = 'Agahdariyên sermasê di geroka te de girtî ne. ';
+$labels['desktopunsupported'] = 'Geroka te bi agahdariyên sermasê re ne ahengdar e.';
+$labels['desktoptimeout'] = 'Ahahadariya sermasê bigire';
 ?>
