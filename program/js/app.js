@@ -3439,6 +3439,8 @@ function rcube_webmail()
     }
     else if (this.html2plain(tinyMCE.get(props.id).getContent(), props.id))
       tinyMCE.execCommand('mceRemoveControl', false, props.id);
+    else
+      return false;
 
     return true;
   };

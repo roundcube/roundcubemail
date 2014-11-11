@@ -61,6 +61,7 @@ RELEASE 1.0.2
 - Fix bug where contacts with no email address were listed on compose addressbook (#1489970)
 - Fix images import from various vCard formats (#1489977)
 - Fix sorting messages by size on servers without SORT capability (#1489981)
+- Fix bug where cancelling switch from HTML to plain text didn't set editor type selector properly (#1490141)
 
 RELEASE 1.0.1
 -------------
