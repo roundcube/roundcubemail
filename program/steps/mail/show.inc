@@ -178,7 +178,7 @@ else
 
 // mark message as read
 if (!empty($set_seen_flag)) {
-    if ($RCMAIL->storage->set_flag($MESSAGE->uid, 'SEEN')) {
+    if ($RCMAIL->storage->set_flag($MESSAGE->uid, 'SEEN', $mbox_name)) {
         if ($count = rcmail_get_unseen_count($mbox_name)) {
             rcmail_set_unseen_count($mbox_name, $count - 1);
         }
