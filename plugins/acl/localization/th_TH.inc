@@ -18,7 +18,6 @@
 $labels['sharing'] = 'การแชร์ข้อมูล';
 $labels['myrights'] = 'สิทธิ์การเข้าใช้';
 $labels['username'] = 'ผู้ใช้งาน:';
-$labels['advanced'] = 'โหมดขั้นสูง';
 $labels['newuser'] = 'เพิ่มรายการ';
 $labels['anyone'] = 'ผู้ใช้งานทั้งหมด (ใครก็ได้)';
 $labels['anonymous'] = 'ผู้เยี่ยมชม (คนแปลกหน้า)';

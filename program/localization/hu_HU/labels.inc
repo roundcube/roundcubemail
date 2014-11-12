@@ -291,7 +291,6 @@ $labels['assistant'] = 'Asszisztens';
 $labels['spouse'] = 'Házastárs';
 $labels['allfields'] = 'Összes mező';
 $labels['search'] = 'Keresés';
-$labels['searchfor'] = 'A következő keresése "$q"';
 $labels['advsearch'] = 'Részletes keresés';
 $labels['advanced'] = 'Haladó';
 $labels['other'] = 'Egyéb';

@@ -273,7 +273,6 @@ $labels['assistant'] = 'Assistent';
 $labels['spouse'] = 'Ektefelle';
 $labels['allfields'] = 'Alle felter';
 $labels['search'] = 'Søk';
-$labels['searchfor'] = 'Søk for "$q"';
 $labels['advsearch'] = 'Avansert søk';
 $labels['advanced'] = 'Avansert';
 $labels['other'] = 'Annet';

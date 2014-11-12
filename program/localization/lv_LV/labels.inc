@@ -285,7 +285,6 @@ $labels['assistant'] = 'Asistents';
 $labels['spouse'] = 'Laulātais';
 $labels['allfields'] = 'Visi lauki';
 $labels['search'] = 'Meklēt';
-$labels['searchfor'] = 'Meklēt pēc "$q"';
 $labels['advsearch'] = 'Paplašinātā meklēšana';
 $labels['advanced'] = 'Paplašinātie iestatījumi';
 $labels['other'] = 'Cits';

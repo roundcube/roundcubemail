@@ -288,7 +288,6 @@ $labels['assistant'] = 'Асістэнт';
 $labels['spouse'] = 'Жонка';
 $labels['allfields'] = 'Усе палі';
 $labels['search'] = 'Пошук';
-$labels['searchfor'] = 'Шукаць "$q"';
 $labels['advsearch'] = 'Пашыраны пошук';
 $labels['advanced'] = 'Дадаткова';
 $labels['other'] = 'Іншае';

@@ -20,6 +20,7 @@ $labels['myrights'] = 'Giriş hüququ';
 $labels['username'] = 'İstifadəçi:';
 $labels['advanced'] = 'Ekspert rejimi';
 $labels['newuser'] = 'Sahə əlavə et';
+$labels['editperms'] = 'Cavabları redaktə et';
 $labels['actions'] = 'Giriş hüququ ilə hərəkət...';
 $labels['anyone'] = 'Bütün istifadəçilər (istənilən)';
 $labels['anonymous'] = 'Qonaqlar (anonimlər)';

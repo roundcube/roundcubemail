@@ -24,6 +24,7 @@ $messages['servererror'] = 'Σφάλμα του εξυπηρετητή!';
 $messages['servererrormsg'] = 'Σφάλμα εξυπηρετητή: $msg';
 $messages['connerror'] = 'Σφάλμα σύνδεσης (Αποτυχία πρόσβασης στον διακομιστή)!';
 $messages['dberror'] = 'Σφάλμα βάσης δεδομένων!';
+$messages['windowopenerror'] = 'Το αναδυόμενο παράθυρο αποκλείστηκε!';
 $messages['requesttimedout'] = 'Το αίτημα εξέπνευσε χρονικά';
 $messages['errorreadonly'] = 'Η διαδικασία δεν μπορεί να ολοκληρωθεί. Ο φάκελος είναι μόνο για ανάγνωση.';
 $messages['errornoperm'] = 'Η διαδικασία δεν μπορεί να ολοκληρωθεί. Άρνηση πρόσβασης.';

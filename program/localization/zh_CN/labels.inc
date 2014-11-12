@@ -293,7 +293,6 @@ $labels['assistant'] = '助理';
 $labels['spouse'] = '配偶';
 $labels['allfields'] = '所有栏目';
 $labels['search'] = '查询';
-$labels['searchfor'] = '查找"$q"';
 $labels['advsearch'] = '高级查询';
 $labels['advanced'] = '高级选项';
 $labels['other'] = '其他';

@@ -273,7 +273,6 @@ $labels['assistant'] = 'Assistant';
 $labels['spouse'] = 'Spouse';
 $labels['allfields'] = 'All fields';
 $labels['search'] = 'Search';
-$labels['searchfor'] = 'Search for "$q"';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';

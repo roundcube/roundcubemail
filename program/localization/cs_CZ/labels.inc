@@ -288,7 +288,6 @@ $labels['assistant'] = 'Asistent';
 $labels['spouse'] = 'Manžel/ka';
 $labels['allfields'] = 'Všechny položky';
 $labels['search'] = 'Hledat';
-$labels['searchfor'] = 'Hledat "$q"';
 $labels['advsearch'] = 'Pokročilé vyhledávání';
 $labels['advanced'] = 'Pokročilé';
 $labels['other'] = 'Ostatní';

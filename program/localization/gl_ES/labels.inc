@@ -293,7 +293,6 @@ $labels['assistant'] = 'Asistente';
 $labels['spouse'] = 'Parella';
 $labels['allfields'] = 'Todos os campos';
 $labels['search'] = 'Procurar';
-$labels['searchfor'] = 'Procurar  "$1"';
 $labels['advsearch'] = 'Procura avanzada';
 $labels['advanced'] = 'Avanzado';
 $labels['other'] = 'Outro';

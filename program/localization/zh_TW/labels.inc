@@ -278,7 +278,6 @@ $labels['assistant'] = '助理';
 $labels['spouse'] = '配偶';
 $labels['allfields'] = '所有欄位';
 $labels['search'] = '搜尋';
-$labels['searchfor'] = '搜尋 "$q"';
 $labels['advsearch'] = '進階搜尋';
 $labels['advanced'] = '進階';
 $labels['other'] = '其他';

@@ -293,7 +293,6 @@ $labels['assistant'] = 'Padėjėjo(-os)';
 $labels['spouse'] = 'Sutuoktinis';
 $labels['allfields'] = 'Visi laukai';
 $labels['search'] = 'Paieška';
-$labels['searchfor'] = 'Ieškoti "$q"';
 $labels['advsearch'] = 'Išplėstinė paieška';
 $labels['advanced'] = 'Išsamiau';
 $labels['other'] = 'Kitas';

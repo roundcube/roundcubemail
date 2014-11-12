@@ -273,7 +273,6 @@ $labels['assistant'] = 'Asisten';
 $labels['spouse'] = 'Suami/Istri';
 $labels['allfields'] = 'Semua isian';
 $labels['search'] = 'Cari';
-$labels['searchfor'] = 'Cari untuk "$q"';
 $labels['advsearch'] = 'Pencarian Lebih Lanjut';
 $labels['advanced'] = 'Tingkat lanjut';
 $labels['other'] = 'Lainnya';

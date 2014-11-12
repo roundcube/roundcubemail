@@ -286,7 +286,6 @@ $labels['assistant'] = 'Асистент';
 $labels['spouse'] = 'Съпруг(а)';
 $labels['allfields'] = 'Всички полета';
 $labels['search'] = 'Търсене';
-$labels['searchfor'] = 'Търси за "$q"';
 $labels['advsearch'] = 'Разширено търсене';
 $labels['advanced'] = 'Търси';
 $labels['other'] = 'Други';

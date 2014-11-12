@@ -272,7 +272,6 @@ $labels['assistant'] = 'Asistent';
 $labels['spouse'] = 'Suprug/a';
 $labels['allfields'] = 'Sva polja';
 $labels['search'] = 'Pretraga';
-$labels['searchfor'] = 'Pretraži za "$q"';
 $labels['advsearch'] = 'Napredna pretraga';
 $labels['advanced'] = 'Napredno';
 $labels['other'] = 'Ostalo';

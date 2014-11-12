@@ -292,7 +292,6 @@ $labels['assistant'] = 'Assistent';
 $labels['spouse'] = 'Abikaasa';
 $labels['allfields'] = 'Kõik väljad';
 $labels['search'] = 'Otsi';
-$labels['searchfor'] = 'Otsi "$q"';
 $labels['advsearch'] = 'Täpsem otsing';
 $labels['advanced'] = 'Edasijõudnutele';
 $labels['other'] = 'Muu';

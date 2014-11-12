@@ -285,7 +285,6 @@ $labels['assistant'] = 'Assistent';
 $labels['spouse'] = 'Liewenspartner';
 $labels['allfields'] = 'All d\'Felder';
 $labels['search'] = 'Sichen';
-$labels['searchfor'] = 'No "$q" sichen';
 $labels['advsearch'] = 'Avancéiert Sich';
 $labels['advanced'] = 'Avancéiert';
 $labels['other'] = 'Aneres';

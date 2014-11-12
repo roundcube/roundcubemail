@@ -272,7 +272,6 @@ $labels['assistant'] = 'المساعد';
 $labels['spouse'] = 'زوجة';
 $labels['allfields'] = 'جميع الحقول';
 $labels['search'] = 'بحث';
-$labels['searchfor'] = 'بحث عن "$q"';
 $labels['advsearch'] = 'بحث متقدم';
 $labels['advanced'] = 'مُتقدم';
 $labels['other'] = 'آخر';

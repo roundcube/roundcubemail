@@ -16,17 +16,18 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 $labels['changepasswd']  = 'Changer le mot de passe';
-$labels['curpasswd']  = 'Mot de passe actuel:';
-$labels['newpasswd']  = 'Nouveau mot de passe:';
-$labels['confpasswd']  = 'Confirmez le nouveau mot de passe:';
+$labels['curpasswd']  = 'Mot de passe actuel :';
+$labels['newpasswd']  = 'Nouveau mot de passe :';
+$labels['confpasswd']  = 'Confirmer le nouveau mot de passe :';
 $messages['nopassword'] = 'Veuillez saisir le nouveau mot de passe.';
 $messages['nocurpassword'] = 'Veuillez saisir le mot de passe actuel.';
-$messages['passwordincorrect'] = 'Mot de passe actuel incorrect.';
-$messages['passwordinconsistency'] = 'Les nouveaux mots de passe ne correspondent pas, veuillez réessayer.';
-$messages['crypterror'] = 'Impossible d\'enregistrer le nouveau mot de passe. Fonction de cryptage manquante.';
-$messages['connecterror'] = 'Impossible d\'enregistrer le nouveau mot de passe. Erreur de connexion au serveur.';
+$messages['passwordincorrect'] = 'Le mot de passe actuel est erroné.';
+$messages['passwordinconsistency'] = 'Les mots de passe ne correspondent pas, veuillez ressayer.';
+$messages['crypterror'] = 'Impossible d\'enregistrer le nouveau mot de passe. La fonction de chiffrement est manquante.';
+$messages['connecterror'] = 'Impossible d\'enregistrer le nouveau mot de passe. Erreur de connexion.';
 $messages['internalerror'] = 'Impossible d\'enregistrer le nouveau mot de passe.';
-$messages['passwordshort'] = 'Le mot de passe doit être composé d\'au moins $length caractères.';
-$messages['passwordweak'] = 'Le mot de passe doit contenir au moins un chiffre et un signe de ponctuation.';
+$messages['passwordshort'] = 'Le mot de passe doit comporter au moins $length caractères.';
+$messages['passwordweak'] = 'Le mot de passe doit comporter au moins un chiffre et un signe de ponctuation.';
 $messages['passwordforbidden'] = 'Le mot de passe contient des caractères interdits.';
+$messages['firstloginchange'] = 'Ceci est votre première connexion. Veuillez changer votre mot de passe.';
 ?>

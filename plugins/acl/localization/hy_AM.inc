@@ -18,7 +18,6 @@
 $labels['sharing'] = 'Կիսվել';
 $labels['myrights'] = 'Մուտքի իրավունքներ';
 $labels['username'] = 'Օգտատեր`';
-$labels['advanced'] = 'Ընդլայնված տարբերակ';
 $labels['newuser'] = 'Ավելացնել գրառում';
 $labels['actions'] = 'Մուտքի իրավունքների գործողություններ…';
 $labels['anyone'] = 'Բոլոր օգտվողները (ցանկացած)';

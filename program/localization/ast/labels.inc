@@ -290,7 +290,6 @@ $labels['assistant'] = 'Auxiliar';
 $labels['spouse'] = 'Casáu con';
 $labels['allfields'] = 'Tolos campos';
 $labels['search'] = 'Guetar';
-$labels['searchfor'] = 'Guetar por "$q"';
 $labels['advsearch'] = 'Gueta avanzada';
 $labels['advanced'] = 'Avanzáu';
 $labels['other'] = 'Otru';
