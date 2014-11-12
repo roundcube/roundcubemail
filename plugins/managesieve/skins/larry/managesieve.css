@@ -309,19 +309,10 @@ a.button.disabled
   max-width: 280px;
 }
 
-html.mozilla #filter-form select
-{
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-
 /* revert larry style button */
 #filter-form input.button
 {
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 2px;
+  padding: 4px 12px;
 }
 
 fieldset
