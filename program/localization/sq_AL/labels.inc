@@ -160,7 +160,6 @@ $labels['htmlsignature'] = 'Nënshkrimi HTML';
 $labels['previewpane'] = 'Shiko si duket';
 $labels['autosavedraft']  = 'Ruaje automatikisht si draft';
 $labels['never']  = 'kurrë';
-$labels['savelocalstorage'] = "";
 $labels['folder'] = 'Kutia';
 $labels['folders'] = 'Kutitë';
 $labels['foldername'] = 'Emër kutie';
@@ -172,7 +171,4 @@ $labels['managefolders'] = 'Sistemo kutitë';
 $labels['sortby'] = 'Rradhit sipas';
 $labels['sortasc']  = 'Rradhitje rritëse';
 $labels['sortdesc'] = 'Rradhitje zbritëse';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

@@ -17,4 +17,3 @@
 */
 $messages['forgotattachment'] = "താങ്കൾ ഒരു ഫയൽ ചേർക്കാൻ മറന്നുപോയി";
 $messages['reminderoption'] = "ചേർക്കാൻ മറന്നുപോയ ഫയലുകളെ പറ്റി ഓർമ്മപ്പെടുത്തുക";
-$messages['keywords'] = "";

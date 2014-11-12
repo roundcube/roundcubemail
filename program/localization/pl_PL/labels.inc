@@ -427,7 +427,6 @@ $labels['2231folding'] = 'RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 (przestarzałe)';
 $labels['force7bit'] = 'Używaj kodowania MIME dla znaków 8-bitowych';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Opcje zaawansowane';
 $labels['toggleadvancedoptions'] = 'Pokaż/ukryj opcje zaawansowane';
 $labels['focusonnewmessage'] = 'Informuj przeglądarkę o nowej wiadomości';

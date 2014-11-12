@@ -424,7 +424,6 @@ $labels['2231folding'] = 'RFC 2231 completu (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 completu (otros)';
 $labels['force7bit'] = 'Usar codificación MIME pa caráuteres de 8 bits';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Opciones avanzaes';
 $labels['toggleadvancedoptions'] = 'Camudar opciones avanzaes';
 $labels['focusonnewmessage'] = 'Enfocar la ventana de restolación en mensaxes nuevos';
@@ -557,7 +556,5 @@ $labels['arialabelpreferencesform'] = 'Formulariu de preferencies';
 $labels['arialabelidentityeditfrom'] = 'Formulariu d\'edición d\'identidá';
 $labels['arialabelresonseeditfrom'] = 'Formulariu d\'edición de rempuesta';
 $labels['helplistnavigation'] = 'Restolación de tecláu de llista';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abrir el contautu esbilláu/enfocáu.";
 ?>

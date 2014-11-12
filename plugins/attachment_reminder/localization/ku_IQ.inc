@@ -17,4 +17,3 @@
 */
 $messages['forgotattachment'] = "ئایا لەبیرت کرد پەڕگەیەک هاوپێچ بکەی؟";
 $messages['reminderoption'] = "بیرهێنانەوە دەربارەی هاوپێچە لەبیرکراوەکان";
-$messages['keywords'] = "";

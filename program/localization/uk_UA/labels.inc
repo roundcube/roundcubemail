@@ -380,7 +380,6 @@ $labels['2231folding'] = 'Повний RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 (інші поштові клієнти)';
 $labels['force7bit'] = 'Використовувати MIME кодування для 8-бітних символів';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Додаткові параметри';
 $labels['focusonnewmessage'] = 'Фокусувати вікно браузера при новому листі';
 $labels['checkallfolders'] = 'Перевіряти нові листи у всіх папках';
@@ -473,7 +472,4 @@ $labels['vietnamese'] = 'В\'єтнамське';
 $labels['japanese'] = 'Японське';
 $labels['korean'] = 'Корейське';
 $labels['chinese'] = 'Китайське';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

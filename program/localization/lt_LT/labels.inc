@@ -427,7 +427,6 @@ $labels['2231folding'] = 'visiškas RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'visiškas RFC 2047 (kitos programos)';
 $labels['force7bit'] = 'Naudoti MIME kodavimą 8 bitų simboliams';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Papildomos nuostatos';
 $labels['toggleadvancedoptions'] = 'Rodyti/slėpti papildomus nustatymus';
 $labels['focusonnewmessage'] = 'Fokusuoti naršyklės langą gavus naują laišką';

@@ -16,5 +16,3 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
 $messages['forgotattachment'] = "ನೀವು ಫೈಲ್ ಅಟ್ಯಾಚ್ ಮಾಡಲು ಮರೆತಿರುವಿರಾ?";
-$messages['reminderoption'] = "";
-$messages['keywords'] = "";

@@ -527,7 +527,5 @@ $labels['arialabelattachmentpreview'] = 'Liitteen esikatselu';
 $labels['arialabelabookgroupoptions'] = 'Osoitekirjan/ryhmän valinnat';
 $labels['arialabelidentityeditfrom'] = 'Henkilöyden muokkauslomake';
 $labels['arialabelsearchterms'] = 'Hakuehdot';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "Enter: avaa valittu/kohdistettu yhteystieto.";
 ?>

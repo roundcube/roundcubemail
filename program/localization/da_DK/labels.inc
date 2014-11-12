@@ -411,7 +411,6 @@ $labels['2231folding'] = 'Fuld RFC 2231 understøttelse (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 understøttelse (MS Outlook)';
 $labels['2047folding'] = 'Fuld RFC 2047 understøttelse (andre)';
 $labels['force7bit'] = 'Brug MIME indkodning for 8-bits tegn';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Avancerede indstillinger';
 $labels['toggleadvancedoptions'] = 'Skift avancerede indstillinger';
 $labels['focusonnewmessage'] = 'Fokusér browservindue når der kommer nye beskeder';
@@ -513,7 +512,4 @@ $labels['arialabelmailsearchform'] = 'E-mail søgeform';
 $labels['arialabelcontactsearchform'] = 'Kontakt søgeform';
 $labels['arialabelmailquicksearchbox'] = 'E-mail søgeinput';
 $labels['arialabelquicksearchbox'] = 'Søge input';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

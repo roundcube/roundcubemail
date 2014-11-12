@@ -253,7 +253,6 @@ $labels['always'] = 'atav';
 $labels['autosavedraft']  = 'Gwarediñ emgefre brouilhedoù';
 $labels['everynminutes']  = 'Bep $n munutoù';
 $labels['never']  = 'ebet';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Dibarzhioù araokaet';
 $labels['newmessage'] = 'Kemennadenn nevez';
 $labels['signatureoptions'] = 'Dibarzhioù sinadur';
@@ -276,7 +275,4 @@ $labels['license'] = 'Aotre-implijout';
 $labels['celtic'] = 'Keltieg';
 $labels['japanese'] = 'Japaneg';
 $labels['chinese'] = 'Sinaeg';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

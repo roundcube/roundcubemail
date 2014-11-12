@@ -245,7 +245,6 @@ $labels['everynminutes']  = 'cata $n minuta(s)';
 $labels['never']  = 'nunquam';
 $labels['messagesdisplaying'] = 'Inviar me_ssages';
 $labels['mimeparamfolding'] = 'Nomines de attachamento';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Optiones avantiate';
 $labels['mainoptions'] = 'Optiones principal';
 $labels['section'] = 'Section';
@@ -280,7 +279,4 @@ $labels['english'] = 'Anglese';
 $labels['japanese'] = 'Japonese';
 $labels['korean'] = 'Coreano';
 $labels['chinese'] = 'Chinese';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

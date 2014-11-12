@@ -427,7 +427,6 @@ $labels['2231folding'] = 'vollständig RFC 2231 kompatibel (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 kompatibel (Microsoft Outlook)';
 $labels['2047folding'] = 'vollständig RFC 2047 kompatibel (andere)';
 $labels['force7bit'] = 'MIME-Kodierung für 8-bit Zeichen';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Erweiterte Einstellungen';
 $labels['toggleadvancedoptions'] = 'Erweiterte Optionen auswählen';
 $labels['focusonnewmessage'] = 'Fokussiere Browserfenster bei neuen Nachrichten';
@@ -559,7 +558,5 @@ $labels['arialabelpreferencesform'] = 'Einstellungsformular';
 $labels['arialabelidentityeditfrom'] = 'Identität Bearbeitungsformular';
 $labels['arialabelresonseeditfrom'] = 'Antwort Bearbeitungsformular';
 $labels['helplistnavigation'] = 'Tastaturnavigation auflisten';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Ausgewählten Kontakt öffnen.";
 ?>

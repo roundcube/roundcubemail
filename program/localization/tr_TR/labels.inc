@@ -427,7 +427,6 @@ $labels['2231folding'] = 'Tam RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Tam RFC 2047 (diğer)';
 $labels['force7bit'] = '8 bitlik karakterler için MIME kodlaması kullan';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Gelişmiş seçenekler';
 $labels['toggleadvancedoptions'] = 'İleri seviye seçeneklerini göster/gizle';
 $labels['focusonnewmessage'] = 'Yeni posta geldiğinde web tarayıcı penceresine odaklan.';

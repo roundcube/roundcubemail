@@ -428,7 +428,6 @@ $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (beste batzuk)';
 $labels['force7bit'] = 'Erabili MIME kodeketa 8 bitekok karakterentzat';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Aukera aurreratuak';
 $labels['toggleadvancedoptions'] = 'Toggle aukera aurreratuak';
 $labels['focusonnewmessage'] = 'Fokatu leihoa mezu berrian';

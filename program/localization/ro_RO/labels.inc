@@ -392,7 +392,6 @@ $labels['2231folding'] = 'RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 (Altele)';
 $labels['force7bit'] = 'Foloseşte encodarea MIME pentru caracterele cu 8 biţi';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Opţiuni avansate';
 $labels['focusonnewmessage'] = 'Focalizare pe fereastra browser-ului la mesaje noi';
 $labels['checkallfolders'] = 'Verifică toate dosarele pentru mesaje noi';
@@ -487,7 +486,4 @@ $labels['vietnamese'] = 'Vietnamez';
 $labels['japanese'] = 'Japonez';
 $labels['korean'] = 'Coreean';
 $labels['chinese'] = 'Chinezesc';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

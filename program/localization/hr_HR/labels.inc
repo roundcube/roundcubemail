@@ -396,7 +396,6 @@ $labels['2231folding'] = 'Prema RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Prema RFC 2047 (ostali)';
 $labels['force7bit'] = 'Koristi MIME kodiranje za 8-bitne znakove';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Napredne postavke';
 $labels['focusonnewmessage'] = 'Fokusiraj prozor preglednika pri primitku nove poruke';
 $labels['checkallfolders'] = 'Provjeri nove poruke u svim mapama';
@@ -491,7 +490,4 @@ $labels['vietnamese'] = 'Vijetnamski';
 $labels['japanese'] = 'Japanski';
 $labels['korean'] = 'Korejski';
 $labels['chinese'] = 'Kineski';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

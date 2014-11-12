@@ -427,7 +427,6 @@ $labels['2231folding'] = '完整的 RFC 2231（Thunderbird）';
 $labels['miscfolding'] = 'RFC 2047/2232（MS Outlook）';
 $labels['2047folding'] = '完整的 RFC 2047（其它）';
 $labels['force7bit'] = '对 8 位字符使用 MIME 编码';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = '高级选项';
 $labels['toggleadvancedoptions'] = '切换高级选项';
 $labels['focusonnewmessage'] = '新邮件到达时将窗口提升为焦点窗口';
@@ -561,7 +560,5 @@ $labels['arialabelpreferencesform'] = '偏好设置表单';
 $labels['arialabelidentityeditfrom'] = '标识编辑表单';
 $labels['arialabelresonseeditfrom'] = '回复编辑表单';
 $labels['helplistnavigation'] = '列表键盘导航';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "回车：打开选中的联系人";
 ?>

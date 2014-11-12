@@ -420,7 +420,6 @@ $labels['2231folding'] = 'RFC 2231 (только для новейших про�
 $labels['miscfolding'] = 'RFC 2047/2231  (наибольшая совместимость)';
 $labels['2047folding'] = 'RFC 2047  (для старых программ)';
 $labels['force7bit'] = 'Использовать MIME для 8-битных символов';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Дополнительные настройки';
 $labels['focusonnewmessage'] = 'Фокусировать окно браузера при новом сообщении';
 $labels['checkallfolders'] = 'Проверять новые сообщения во всех папках';
@@ -527,7 +526,4 @@ $labels['arialabelmoremessageactions'] = 'Дополнительные дейс�
 $labels['arialabelmarkmessagesas'] = 'Отметить выделенные сообщения как...';
 $labels['arialabelattachmentpreview'] = 'Предпросмотр вложений';
 $labels['arialabelcontactexportoptions'] = 'Параметры экспорта контактов';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

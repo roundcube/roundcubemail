@@ -92,8 +92,4 @@ $labels['typehome']   = 'ماڵ';
 $labels['typework']   = 'کار';
 $labels['typemobile']  = 'مۆبایل';
 $labels['typemain']  = 'سەرەکی';
-$labels['savelocalstorage'] = "";
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

@@ -396,7 +396,6 @@ $labels['2231folding'] = 'RFC 2231 بأكملها (ثندربيرد)';
 $labels['miscfolding'] = 'RFC 2047/2231 (ميكروسوفت آوتلوك)';
 $labels['2047folding'] = 'RFC 2047 بأكملها (غيرها)';
 $labels['force7bit'] = 'استخدام ترميز MIME للحروف ذات الثمانيةبتّات';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'خيارات متقدّمة';
 $labels['focusonnewmessage'] = 'التركيز على نافذة المتصفح عند وجود رسالةجديدة';
 $labels['checkallfolders'] = 'التحقق من وجود رسائل جديدة في جميعالمجلدات';
@@ -491,7 +490,4 @@ $labels['vietnamese'] = 'الفيتنامية';
 $labels['japanese'] = 'اليابانية';
 $labels['korean'] = 'الكورية';
 $labels['chinese'] = 'الصينية';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

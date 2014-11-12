@@ -397,7 +397,6 @@ $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (other)';
 $labels['force7bit'] = 'Gunakan MIME encoding untuk karakter 8-bit';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Pilihan lanjut';
 $labels['focusonnewmessage'] = 'Pusatkan jendela broswer saat ada pesan baru';
 $labels['checkallfolders'] = 'Periksa semua folder untuk pesan baru';
@@ -492,7 +491,4 @@ $labels['vietnamese'] = 'Vietnam';
 $labels['japanese'] = 'Jepang';
 $labels['korean'] = 'Korea';
 $labels['chinese'] = 'Cina';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

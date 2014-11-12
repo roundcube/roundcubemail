@@ -225,7 +225,6 @@ $labels['mimeparamfolding'] = 'نام های ضمیمه ها';
 $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (دیگر ها)';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'انتخاب های پیشرفته';
 $labels['focusonnewmessage'] = 'فوکس دادن پینجره مرورگر به پیام جدید';
 $labels['checkallfolders'] = 'تمام پوشه ها را بخاطر پیام های جدید بررسی کنید';
@@ -245,7 +244,4 @@ $labels['B'] = 'بایت';
 $labels['KB'] = 'کیلو بایت';
 $labels['MB'] = 'میگا بایت';
 $labels['GB'] = 'گیگا بایت';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

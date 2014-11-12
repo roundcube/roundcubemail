@@ -173,7 +173,6 @@ $labels['htmlsignature'] = 'Mana clabhsúir HTML';
 $labels['previewpane'] = 'Taispeáin an pána réamhamharc';
 $labels['autosavedraft']  = 'Sábháil dréachta go huathoibríoch';
 $labels['never']  = 'riamh';
-$labels['savelocalstorage'] = "";
 $labels['folder'] = 'Fillteán';
 $labels['folders'] = 'Fillteán';
 $labels['foldername'] = 'Ainm fillteán';
@@ -184,7 +183,4 @@ $labels['managefolders'] = 'Stiúir na fillteán';
 $labels['sortby'] = 'Sórtáil trí';
 $labels['sortasc']  = 'Sórtáil in ord méadaitheach';
 $labels['sortdesc'] = 'Sórtáil in ord neartaitheach';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

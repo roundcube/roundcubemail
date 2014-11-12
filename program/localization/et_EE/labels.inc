@@ -426,7 +426,6 @@ $labels['2231folding'] = 'Täielik RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Täielik RFC 2047 (muu)';
 $labels['force7bit'] = '8-bitiste märkide puhul kasuta MIME kodeerimist';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Lisaseadistused';
 $labels['toggleadvancedoptions'] = 'Näita lisaseadistusi';
 $labels['focusonnewmessage'] = 'Fookusta brauseri aken uue kirja korral';

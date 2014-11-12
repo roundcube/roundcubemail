@@ -172,7 +172,6 @@ $labels['htmlsignature'] = 'ऐच-टी-ऐम-एल (HTML) दस्तख�
 $labels['previewpane'] = 'झलक पट्टी दिखाऐं';
 $labels['autosavedraft']  = 'ड्राफ़ट अपने आप सहेजते जाऐं';
 $labels['never']  = 'कभी नहाीं';
-$labels['savelocalstorage'] = "";
 $labels['folder'] = 'फ़ोल्डर';
 $labels['folders'] = 'फ़ोल्डर';
 $labels['foldername'] = 'फ़ोल्डर नाम';
@@ -183,7 +182,4 @@ $labels['managefolders'] = 'फ़ोलडर को व्यवस्थि�
 $labels['sortby'] = 'ऐसे तय करें';
 $labels['sortasc']  = 'पहले से आखीरी तय करें';
 $labels['sortdesc'] = 'आखीरी से पहले तय करें';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

@@ -418,7 +418,6 @@ $labels['2231folding'] = 'Поўны RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Поўны RFC 2047 (інш.)';
 $labels['force7bit'] = 'Ужываць MIME-кадзіроўку для 8-бітных знакаў';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Дадатковыя параметры';
 $labels['focusonnewmessage'] = 'Актываваць акно браўзера пры новым паведамленні';
 $labels['checkallfolders'] = 'Правяраць усе папкі на новыя паведамленні';
@@ -513,7 +512,4 @@ $labels['vietnamese'] = 'в\'етнамская';
 $labels['japanese'] = 'японская';
 $labels['korean'] = 'карэйская';
 $labels['chinese'] = 'кітайская';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

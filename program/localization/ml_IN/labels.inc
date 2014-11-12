@@ -237,7 +237,6 @@ $labels['2231folding'] = 'Full RFC 2231 (തണ്ടര്‍ബേട് )';
 $labels['miscfolding'] = 'Full RFC 2231 ( മൈക്രൊസൊഫ്റ്റ് ഔട്ട്ലൂക്കു് )';
 $labels['2047folding'] = 'Full RFC 2047 (മറ്റുള്ളവ)';
 $labels['force7bit'] = '8-bit അക്ഷരങ്ങള്‍ക്കു "MIME encoding" ഉപയോഗിക്കുക';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'വിപുലീക്രിതമായ ക്രമീകരണങ്ങള്‍';
 $labels['defaultfont'] = 'HTML സന്ദേശത്തിന്റെ തനതായ ലിപി';
 $labels['section'] = 'വിഭാഗം';
@@ -273,7 +272,4 @@ $labels['vietnamese'] = 'വിയറ്റ്നാമീസ്';
 $labels['japanese'] = 'ജാപ്പനീസ്';
 $labels['korean'] = 'കൊറിയന്‍';
 $labels['chinese'] = 'ചൈനീസ്‌';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

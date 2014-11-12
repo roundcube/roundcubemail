@@ -429,7 +429,6 @@ $labels['2231folding'] = 'תאימות מלאה 2231 תאנדרבירד';
 $labels['miscfolding'] = 'תאימות 2047/2231 אאוטלוק';
 $labels['2047folding'] = 'תאימות מלאה 2047 אחרים';
 $labels['force7bit'] = 'קידוד MIME עבור תווים בעלי 8 ביטים';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'הגדרות נוספות';
 $labels['toggleadvancedoptions'] = 'בחירה בין הגדרות בסיסיות או מתקדמות';
 $labels['focusonnewmessage'] = 'מיקוד הסמן על החלון עם ההודעה החדשה';

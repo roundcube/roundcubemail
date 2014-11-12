@@ -399,7 +399,6 @@ $labels['2231folding'] = 'Vollständig RFC 2231 kompatibel (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 kompatibel (Microsoft Outlook)';
 $labels['2047folding'] = 'Vollständig RFC 2047 kompatibel (andere)';
 $labels['force7bit'] = 'MIME-Kodierung für 8-bit Zeichen';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Erweiterte Einstellungen';
 $labels['focusonnewmessage'] = 'Fokussiere Browserfenster bei neuen Nachrichten';
 $labels['checkallfolders'] = 'Alle Ordner auf neue Nachrichten prüfen';
@@ -494,7 +493,4 @@ $labels['vietnamese'] = 'Vietnamesisch';
 $labels['japanese'] = 'Japanisch';
 $labels['korean'] = 'Koreanisch';
 $labels['chinese'] = 'Chinesisch';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

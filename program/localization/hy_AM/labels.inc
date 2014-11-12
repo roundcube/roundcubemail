@@ -373,7 +373,6 @@ $labels['2231folding'] = 'Կատարյալ RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Կատարյալ RFC 2047 (այլ)';
 $labels['force7bit'] = 'օգտագործել MIME գրանշում 8 բիթանոց նիշերի համար';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Հավելյալ կարգավորումներ';
 $labels['focusonnewmessage'] = 'Առաջ բերել պատուհանը նոր նամակ ստանալիս';
 $labels['checkallfolders'] = 'Ստուգել բոլոր դարակները նոր նամակների համար';
@@ -464,7 +463,4 @@ $labels['vietnamese'] = 'Վիետնամական';
 $labels['japanese'] = 'Ճապոնական';
 $labels['korean'] = 'Կորեական';
 $labels['chinese'] = 'Չինական';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

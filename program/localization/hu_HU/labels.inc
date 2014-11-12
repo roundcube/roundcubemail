@@ -422,7 +422,6 @@ $labels['2231folding'] = 'Teljes RFC 2231 ( pl. Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (egyéb)';
 $labels['force7bit'] = 'MIME kódolás használata 8 bites karakterekhez';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Haladó beállítások';
 $labels['toggleadvancedoptions'] = 'Haladó beállítások kapcsolása';
 $labels['focusonnewmessage'] = 'Beérkező új üzenet ablakának fókuszba hozása';
@@ -518,7 +517,4 @@ $labels['vietnamese'] = 'Vietnámi';
 $labels['japanese'] = 'Japán';
 $labels['korean'] = 'Koreai';
 $labels['chinese'] = 'Kínai';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

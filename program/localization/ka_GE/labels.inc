@@ -290,7 +290,6 @@ $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (other)';
 $labels['force7bit'] = 'MIME კოდირების გამოყენება 8 ბიტიანი სიმბოლოებისთვის';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'დამატებითი პარამეტრები';
 $labels['focusonnewmessage'] = 'ფოკუსირება ახალ შეტყობინებებზე';
 $labels['checkallfolders'] = 'შეამოწმე ყველა საქაღალდე ახალ შეტყობინებაზე';
@@ -348,7 +347,4 @@ $labels['vietnamese'] = 'ვიეტნამური';
 $labels['japanese'] = 'იაპონური';
 $labels['korean'] = 'კორეული';
 $labels['chinese'] = 'ჩინური';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>
