@@ -234,13 +234,14 @@ class rcmail_install
       else if (is_numeric($value)) {
         $value = intval($value);
       }
-			else if ($prop == 'plugins') { // 
-				$value = array();
-				foreach(array_keys($_POST) as $key) {
-					if (preg_match('/^_plugins_*/', $key))
-						array_push($value, $_POST[$key]);
-				}
-			}
+      else if ($prop == 'plugins') {
+        $value = array();
+        foreach(array_keys($_POST) as $key)
+        {
+          if (preg_match('/^_plugins_*/', $key))
+            array_push($value, $_POST[$key]);
+        }
+      }
 
       // skip this property
       if (($value == $this->defaults[$prop]) && !in_array($prop, $this->local_config)
@@ -566,6 +567,34 @@ class rcmail_install
   }
 
   /**
+  * Return a list with available subfolders of the plugins directory
+  * (with their associated description in composer.json)
+  */
+  function list_plugins() 
+  {
+    $plugins = array();
+    $plugin_dir = INSTALL_PATH . 'plugins/';
+
+    foreach (glob($plugin_dir . '*') as $path) 
+    {
+
+      if (is_dir($path) && file_exists($path.'/composer.json')) 
+      {
+        $file_json = json_decode(file_get_contents($path.'/composer.json'));
+        $plugin_desc = $file_json->description;
+      }
+      else
+      {
+        $plugin_desc = 'N/A';
+      }
+
+      $plugins[] = array('name' => substr($path, strlen($plugin_dir)), 'desc' => $plugin_desc);
+    }
+
+    return $plugins;
+  }
+
+  /**
    * Display OK status
    *
    * @param string Test name
@@ -779,27 +808,6 @@ class rcmail_install
 
     return $out;
   }
-
-	/**
-	 * Return a list with available plugins & their description in plugins directory 
-	 */
-	function list_plugins() 
-	{
-		$plugins = array();
-		$plugin_dir = INSTALL_PATH . 'plugins/';
-		foreach (glob($plugin_dir . '*') as $path) {
-			if (is_dir($path) && is_readable($path)) {
-				if(file_exists($path.'/composer.json')) {
-					$file_json = json_decode(file_get_contents($path.'/composer.json'));
-					$plugin_desc = $file_json->description;
-				}
-				else
-				$plugin_desc = 'N/A';
-				$plugins[] = array('name' => substr($path, strlen($plugin_dir)), 'desc' => $plugin_desc);
-			}
-		}
-		return $plugins;
-	}
 
 }
 

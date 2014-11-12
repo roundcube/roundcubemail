@@ -678,7 +678,8 @@ echo $select_param_folding->show(strval($RCI->getprop('mime_param_folding')));
 
 <?php
 $plugins = $RCI->list_plugins();
-foreach($plugins as $p) {
+foreach($plugins as $p) 
+{
 	$p_check = new html_checkbox(array('name' => '_plugins_'.$p['name'], 'id' => 'cfgplugin_'.$p['name']));
 	echo '<dt class="propname">'.$p['name'].'</dt><dd>';
 	echo $p_check->show(0, array('value' => $p['name']));
@@ -688,7 +689,7 @@ foreach($plugins as $p) {
 ?>
 </dl>
 
-<p class="hint">Before enabling any plugin, check their dependencies</p>
+<p class="hint">Please consider checking dependencies of enabled plugins</p>
 </fieldset>
 
 <?php
