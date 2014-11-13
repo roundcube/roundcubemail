@@ -1381,6 +1381,10 @@ div.hide-headers
   border: 1px solid #999;
 }
 
+#compose-body-div .mce-tinymce {
+  border: 0 !important;
+}
+
 #compose-div .boxlistcontent
 {
   bottom: 23px;
