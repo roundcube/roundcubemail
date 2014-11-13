@@ -1458,6 +1458,11 @@ table.quota-info td.root {
     padding: 6px 8px !important;
 }
 
+.mce-tinymce
+{
+  border-radius: 0 !important;
+{
+
 .mce-panel.mce-toolbar-grp
 {
   border: 0 !important;
