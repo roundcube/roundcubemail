@@ -1138,14 +1138,11 @@ function rcube_mail_ui()
    */
   function show_about(elem)
   {
-    var frame = $('<iframe>').attr('id', 'aboutframe')
-      .attr('src', rcmail.url('settings/about'))
-      .attr('frameborder', '0')
-      .appendTo(document.body);
+    var frame = $('<iframe>').attr({id: 'aboutframe', src: rcmail.url('settings/about'), frameborder: '0'});
+      h = Math.floor($(window).height() * 0.75),
+      buttons = {},
+      supportln = $('#supportlink');
 
-    var h = Math.floor($(window).height() * 0.75);
-    var buttons = {};
-    var supportln = $('#supportlink');
     if (supportln.length && (env.supporturl = supportln.attr('href')))
       buttons[supportln.html()] = function(e){ env.supporturl.indexOf('mailto:') < 0 ? window.open(env.supporturl) : location.href = env.supporturl };
 
