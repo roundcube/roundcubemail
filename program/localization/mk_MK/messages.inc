@@ -15,11 +15,16 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+$messages['errortitle']  = 'Настана грешка!';
 $messages['loginfailed']  = 'Најавата не успеа';
 $messages['cookiesdisabled'] = 'Вашиот прелистувач не прифаќа колачиња';
 $messages['sessionerror'] = 'Сесијата е неважечка или е истечена';
 $messages['storageerror'] = 'Поврзувањето со IMAP не успеа';
 $messages['servererror'] = 'Грешка во серверот!';
+$messages['servererrormsg'] = 'Грешка со серверот: $msg';
+$messages['connerror'] = 'Грешка со конекција (Неуспешно конектирање со серверот)!';
+$messages['dberror'] = 'Грешка со датабазата!';
+$messages['windowopenerror'] = 'Popup прозорецот беше блокиран!';
 $messages['invalidrequest'] = 'Неважечко барање! Податоците не се зачувани.';
 $messages['nomessagesfound'] = 'Немате писма во ова сандаче';
 $messages['loggedout'] = 'Успешно се одјавивте. Ви благодариме и довидување!';
@@ -85,7 +90,6 @@ $messages['importwait'] = 'Убезувам,, почекајте...';
 $messages['importconfirm'] = '<b>Успешно се увезени $inserted имиња, $skipped веќе постојат и се прескокнати</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'Операцијата не е дозволена';
 $messages['nofromaddress'] = 'Не е внесена е-пошта во одберениот идентитет';
-$messages['editorwarning'] = 'Префрлањето на уредникот на обичен текст ќе резултира со губење на целото форматирање на текстот. Дали сакате да продолжите?';
 $messages['httpreceivedencrypterror'] = 'Се појави фатална конфигурациска грешка. Веднаш контактирајте го администраторот. <b>Вашето писмо не мож.</b>';
 $messages['smtpconnerror'] = 'SMTP грешка ($code): Не успеав да се поврзам со серверот';
 $messages['smtpautherror'] = 'SMTP грешка: Не успееа потврдувањето';

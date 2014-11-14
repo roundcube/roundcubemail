@@ -15,6 +15,5 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-$messages['forgotattachment'] = "";
-$messages['reminderoption'] = "";
-$messages['keywords'] = "";
+$messages['forgotattachment'] = "താങ്കൾ ഒരു ഫയൽ ചേർക്കാൻ മറന്നുപോയി";
+$messages['reminderoption'] = "ചേർക്കാൻ മറന്നുപോയ ഫയലുകളെ പറ്റി ഓർമ്മപ്പെടുത്തുക";

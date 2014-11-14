@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-$messages['forgotattachment'] = "";
-$messages['reminderoption'] = "";
-$messages['keywords'] = "";
+$messages['forgotattachment'] = "¿Escaecisti axuntar un ficheru?";
+$messages['reminderoption'] = "Recordar alrodiu d'axuntos escaecíos";
+$messages['keywords'] = "axuntu,ficheru,axuntar,axuntáu,axuntando,axuntao,axuntada,CV,carta de presentación";

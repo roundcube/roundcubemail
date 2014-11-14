@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Uuden salasanan tallennus epäonnistui.';
 $messages['passwordshort'] = 'Salasanassa täytyy olla vähintään $length merkkiä.';
 $messages['passwordweak'] = 'Salasanan täytyy sisältää vähintään yksi numero ja yksi välimerkki.';
 $messages['passwordforbidden'] = 'Salasana sisältää virheellisiä merkkejä.';
+$messages['firstloginchange'] = 'Tämä on ensimmäinen kirjautumiskertasi. Vaihda salasanasi.';
 ?>

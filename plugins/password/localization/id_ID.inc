@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Ubah Sandi';
 $labels['curpasswd']  = 'Sandi saat ini:';
 $labels['newpasswd']  = 'Sandi Baru:';
 $labels['confpasswd']  = 'Konfirmasi Sandi Baru:';

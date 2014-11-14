@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-$messages['forgotattachment'] = "";
-$messages['reminderoption'] = "";
-$messages['keywords'] = "";
+$messages['forgotattachment'] = "Te ji bîr kir da pelekê pêve bikî?";
+$messages['reminderoption'] = "Pêvekên jibîrkirî bi bîr bixe";
+$messages['keywords'] = "pêvek, pel, pêve bike, pêvekirî, pêve dike, rapêçandî, CV, tîpa bergê";
