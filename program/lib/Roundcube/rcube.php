@@ -1458,7 +1458,7 @@ class rcube
         // send thru SMTP server using custom SMTP library
         if ($this->config->get('smtp_server')) {
             // generate list of recipients
-            $a_recipients = array($mailto);
+            $a_recipients = (array) $mailto;
 
             if (strlen($headers['Cc']))
                 $a_recipients[] = $headers['Cc'];
@@ -1558,19 +1558,24 @@ class rcube
             // remove MDN headers after sending
             unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
 
-            // get all recipients
-            if ($headers['Cc'])
-                $mailto .= $headers['Cc'];
-            if ($headers['Bcc'])
-                $mailto .= $headers['Bcc'];
-            if (preg_match_all('/<([^@]+@[^>]+)>/', $mailto, $m))
-                $mailto = implode(', ', array_unique($m[1]));
-
             if ($this->config->get('smtp_log')) {
+                // get all recipient addresses
+                if (is_array($mailto)) {
+                    $mailto = implode(',', $mailto);
+                }
+                if ($headers['Cc']) {
+                    $mailto .= ',' . $headers['Cc'];
+                }
+                if ($headers['Bcc']) {
+                    $mailto .= ',' . $headers['Bcc'];
+                }
+
+                $mailto = rcube_mime::decode_address_list($mailto, null, false, null, true);
+
                 self::write_log('sendmail', sprintf("User %s [%s]; Message for %s; %s",
                     $this->user->get_username(),
-                    $_SERVER['REMOTE_ADDR'],
-                    $mailto,
+                    rcube_utils::remote_addr(),
+                    implode(', ', $mailto),
                     !empty($response) ? join('; ', $response) : ''));
             }
         }
