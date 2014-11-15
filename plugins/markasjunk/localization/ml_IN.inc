@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-$labels['buttontitle'] = 'സ്പാം ആയി അടയാളപ്പെടുത്തുക';
-$labels['reportedasjunk'] = 'സ്പാം ആയി അടയാളപ്പെടുത്തി';
+$labels['buttontext'] = 'ചവർ';
+$labels['buttontitle'] = 'ചവർ ആയി അടയാളപ്പെടുത്തുക';
+$labels['reportedasjunk'] = 'ചവർ ആയി അടയാളപ്പെടുത്തി';
 ?>

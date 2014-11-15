@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Impossible d\'enregistrer le nouveau mot de passe.
 $messages['passwordshort'] = 'Le mot de passe doit comporter au moins $length caractères.';
 $messages['passwordweak'] = 'Le mot de passe doit comporter au moins un chiffre et un signe de ponctuation.';
 $messages['passwordforbidden'] = 'Le mot de passe contient des caractères interdits.';
+$messages['firstloginchange'] = 'Ceci est votre première connexion. Veuillez changer votre mot de passe.';
 ?>

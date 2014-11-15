@@ -82,5 +82,5 @@ $labels['longdec']	= 'desimber';
 $labels['today'] = 'Hjoed';
 $labels['refresh']          = 'Ferfarskje';
 $labels['reply']            = 'Beäntwurdzje';
-$labels['folders']  = 'Mappen';
+$labels['folders'] = 'Mappen';
 ?>

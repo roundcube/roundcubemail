@@ -77,6 +77,7 @@ $labels['longaclfull'] = 'Plný přístup včetně správy složky';
 $labels['longaclread'] = 'Složka může být otevřena pro čtení';
 $labels['longaclwrite'] = 'Zpráva může být označena, napsána nebo zkopírována do složky';
 $labels['longacldelete'] = 'Zprávy mohou být smazány';
+$labels['ariasummaryacltable'] = 'Seznam oprávnění';
 $messages['deleting'] = 'Odstraňuji přístupová práva...';
 $messages['saving'] = 'Ukládám přístupová práva...';
 $messages['updatesuccess'] = 'Přístupová práva byla úspěšně změněna';

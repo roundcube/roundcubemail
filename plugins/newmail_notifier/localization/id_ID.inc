@@ -24,4 +24,5 @@ $labels['body'] = 'Anda telah menerima sebuah pesan baru.';
 $labels['testbody'] = 'Ini adalah percobaan pemberitahuan.';
 $labels['desktopdisabled'] = 'Pemberitahuan di desktop dimatikan pada peramban Anda.';
 $labels['desktopunsupported'] = 'Peramban Anda tidak mendukung pemberitahuan pada desktop';
+$labels['desktoptimeout'] = 'Tutup pemberitahuan pada desktop';
 ?>
