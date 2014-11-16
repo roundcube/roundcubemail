@@ -1732,7 +1732,6 @@ function rcmail_store_target_selection($attrib)
         'noselection'   => '- ' . $RCMAIL->gettext('dontsave') . ' -',
         'folder_filter' => 'mail',
         'folder_rights' => 'w',
-        'realnames' => $RCMAIL->config->get('show_real_foldernames'),
     )));
 
     return $select->show(isset($_POST['_store_target']) ? $_POST['_store_target'] : $COMPOSE['param']['sent_mbox'], $attrib);
