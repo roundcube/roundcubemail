@@ -269,7 +269,6 @@ function rcmail_subscription_form($attrib)
 
     // create list of available folders
     foreach ($list_folders as $i => $folder) {
-        $idx        = $i + 1;
         $sub_key    = array_search($folder['id'], $a_subscribed);
         $subscribed = $sub_key !== false;
         $protected  = $protect_default && isset($special_folders[$folder['id']]);

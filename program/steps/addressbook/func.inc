@@ -279,8 +279,8 @@ function rcmail_savedsearch_list($attrib)
 
     // Saved searches
     $sources = $RCMAIL->user->list_searches(rcube_user::SEARCH_ADDRESSBOOK);
-    foreach ($sources as $j => $source) {
-        $id = $source['id'];
+    foreach ($sources as $source) {
+        $id    = $source['id'];
         $js_id = rcube::JQ($id);
 
         // set class name(s)

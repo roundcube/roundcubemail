@@ -1309,7 +1309,6 @@ function rcmail_write_forward_attachments()
         }
         else {
             $data = $storage->get_raw_body($message->uid);
-            $curr_mem += $message->size;
         }
 
         $attachment = array(

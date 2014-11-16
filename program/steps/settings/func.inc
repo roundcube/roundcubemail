@@ -890,7 +890,7 @@ function rcmail_user_prefs($current = null)
                 $select_default_font->add('', '');
 
                 $fonts = rcmail::font_defs();
-                foreach ($fonts as $fname => $font) {
+                foreach (array_keys($fonts) as $fname) {
                     $select_default_font->add($fname, $fname);
                 }
 
@@ -1360,7 +1360,7 @@ function rcmail_settings_tabs($attrib)
     $tagname = $attrib['tagname'];
     $tabs    = array();
 
-    foreach ($plugin['actions'] as $k => $action) {
+    foreach ($plugin['actions'] as $action) {
         if (!$action['command'] && !$action['href'] && $action['action']) {
             $action['href'] = $RCMAIL->url(array('_action' => $action['action']));
         }

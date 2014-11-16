@@ -324,7 +324,7 @@ function rcmail_import_buttons($attrib)
 function rcmail_import_group_id($group_name, $CONTACTS, $create, &$import_groups)
 {
     $group_id = 0;
-    foreach ($import_groups as $key => $group) {
+    foreach ($import_groups as $group) {
         if (strtolower($group['name']) == strtolower($group_name)) {
             $group_id = $group['ID'];
             break;

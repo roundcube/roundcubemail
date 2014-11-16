@@ -647,7 +647,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
  */
 function rcmail_messagecontent_frame($attrib)
 {
-    global $OUTPUT, $RCMAIL;
+    global $OUTPUT;
 
     if (empty($attrib['id']))
         $attrib['id'] = 'rcmailcontentwindow';
@@ -1138,7 +1138,7 @@ function rcmail_localized_priority($value)
 /**
  * return block to show full message headers
  */
-function rcmail_message_full_headers($attrib, $headers=NULL)
+function rcmail_message_full_headers($attrib)
 {
     global $OUTPUT, $RCMAIL;
 
@@ -2051,7 +2051,7 @@ function rcmail_search_filter($attrib)
     return $out;
 }
 
-function rcmail_message_error($uid=null)
+function rcmail_message_error()
 {
     global $RCMAIL;
 
