@@ -175,7 +175,6 @@ class rcube_charset
         static $iconv_options   = null;
         static $mbstring_list   = null;
         static $mbstring_sch    = null;
-        static $conv            = null;
 
         $to   = empty($to) ? RCUBE_CHARSET : $to;
         $from = self::parse_charset($from);

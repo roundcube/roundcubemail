@@ -290,7 +290,7 @@ class rcmail_install
     $out = $seen = array();
 
     // iterate over the current configuration
-    foreach ($this->config as $prop => $value) {
+    foreach (array_keys($this->config) as $prop) {
       if ($replacement = $this->replaced_config[$prop]) {
         $out['replaced'][] = array('prop' => $prop, 'replacement' => $replacement);
         $seen[$replacement] = true;

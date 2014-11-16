@@ -33,7 +33,7 @@ class rcube_content_filter extends php_user_filter
         return true;
     }
 
-    function filter($in, $out, &$consumed, $closing)
+    function filter($in, $out, &$consumed)
     {
         while ($bucket = stream_bucket_make_writeable($in)) {
             $this->buffer .= $bucket->data;

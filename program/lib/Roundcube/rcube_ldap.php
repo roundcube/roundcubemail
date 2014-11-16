@@ -64,7 +64,6 @@ class rcube_ldap extends rcube_addressbook
 
     private $base_dn        = '';
     private $groups_base_dn = '';
-    private $group_url;
     private $group_data;
     private $group_search_cache;
     private $cache;
@@ -775,7 +774,7 @@ class rcube_ldap extends rcube_addressbook
 
             // get all entries of this page and post-filter those that really match the query
             $search = mb_strtolower($value);
-            foreach ($ldap_data as $i => $entry) {
+            foreach ($ldap_data as $entry) {
                 $rec = $this->_ldap2result($entry);
                 foreach ($fields as $f) {
                     foreach ((array)$rec[$f] as $val) {
@@ -1531,7 +1530,6 @@ class rcube_ldap extends rcube_addressbook
         return $ldap_data;
     }
 
-
     /**
      * Returns unified attribute name (resolving aliases)
      */
@@ -1563,17 +1561,6 @@ class rcube_ldap extends rcube_addressbook
     }
 
     /**
-     * Prints debug info to the log
-     */
-    private function _debug($str)
-    {
-        if ($this->debug) {
-            rcube::write_log('ldap', $str);
-        }
-    }
-
-
-    /**
      * Activate/deactivate debug mode
      *
      * @param boolean $dbg True if LDAP commands should be logged
@@ -1586,7 +1573,6 @@ class rcube_ldap extends rcube_addressbook
             $this->ldap->config_set('debug', $dbg);
         }
     }
-
 
     /**
      * Setter for the current group
@@ -1990,7 +1976,7 @@ class rcube_ldap extends rcube_addressbook
         $filter = strtr("(|(member=$contact_dn)(uniqueMember=$contact_dn)$add_filter)", array('\\' => '\\\\'));
 
         $ldap_data = $this->ldap->search($base_dn, $filter, 'sub', array('dn', $name_attr));
-        if ($res === false) {
+        if ($ldap_data === false) {
             return array();
         }
 

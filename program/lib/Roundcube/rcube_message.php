@@ -550,12 +550,6 @@ class rcube_message
         else if ($mimetype == 'multipart/alternative'
             && is_array($structure->parts) && count($structure->parts) > 1
         ) {
-            $plain_part   = null;
-            $html_part    = null;
-            $print_part   = null;
-            $related_part = null;
-            $attach_part  = null;
-
             // get html/plaintext parts, other add to attachments list
             foreach ($structure->parts as $p => $sub_part) {
                 $sub_mimetype = $sub_part->mimetype;
