@@ -911,9 +911,9 @@ function rcube_treelist_widget(node, p)
    * When dragging starts, compute absolute bounding boxes of the list and it's items
    * for faster comparisons while mouse is moving
    */
-  function drag_start()
+  function drag_start(force)
   {
-    if (drag_active)
+    if (!force && drag_active)
       return;
 
     drag_active = true;
@@ -1054,7 +1054,7 @@ function rcube_treelist_widget(node, p)
           autoexpand_item = id;
           autoexpand_timer = setTimeout(function() {
             expand(autoexpand_item);
-            drag_start();  // re-calculate item coords
+            drag_start(true);  // re-calculate item coords
             autoexpand_item = null;
             if (ui_droppable)
               $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null);
