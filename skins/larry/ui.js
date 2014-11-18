@@ -411,6 +411,7 @@ function rcube_mail_ui()
       if (me.message_timer) {
         window.clearTimeout(me.message_timer);
       }
+
       if (!me.messagedialog) {
         me.messagedialog = $('<div>').addClass('popupdialog').hide();
       }
@@ -421,7 +422,7 @@ function rcube_mail_ui()
           me.messagedialog.is(':visible') && me.messagedialog.dialog('destroy').hide();
         };
 
-      if (me.messagedialog.is(':visible'))
+      if (me.messagedialog.is(':visible') && me.messagedialog.text() != msg)
         msg = me.messagedialog.html() + '<p>' + p.message + '</p>';
 
       me.messagedialog.html(msg)
