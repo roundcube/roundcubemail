@@ -556,7 +556,7 @@ function rcube_webmail()
 
     // show message
     if (this.pending_message)
-      this.display_message(this.pending_message[0], this.pending_message[1], this.pending_message[2]);
+      this.display_message.apply(this, this.pending_message);
 
     // init treelist widget
     if (this.gui_objects.folderlist && window.rcube_treelist_widget) {
@@ -6347,7 +6347,7 @@ function rcube_webmail()
   };
 
   // display a system message, list of types in common.css (below #message definition)
-  this.display_message = function(msg, type, timeout)
+  this.display_message = function(msg, type, timeout, key)
   {
     // pass command to parent window
     if (this.is_framed())
@@ -6356,18 +6356,34 @@ function rcube_webmail()
     if (!this.gui_objects.message) {
       // save message in order to display after page loaded
       if (type != 'loading')
-        this.pending_message = [msg, type, timeout];
+        this.pending_message = [msg, type, timeout, key];
       return 1;
     }
 
-    type = type ? type : 'notice';
+    if (!type)
+      type = 'notice';
 
-    var key = this.html_identifier(msg),
-      date = new Date(),
+    if (!key)
+      key = this.html_identifier(msg);
+
+    var date = new Date(),
       id = type + date.getTime();
 
-    if (!timeout)
-      timeout = this.message_time * (type == 'error' || type == 'warning' ? 2 : 1);
+    if (!timeout) {
+      switch (type) {
+        case 'error':
+        case 'warning':
+          timeout = this.message_time * 2;
+          break;
+
+        case 'uploading':
+          timeout = 0;
+          break;
+
+        default:
+          timeout = this.message_time;
+      }
+    }
 
     if (type == 'loading') {
       key = 'loading';
@@ -6400,7 +6416,7 @@ function rcube_webmail()
     if (type == 'loading') {
       this.messages[key].labels = [{'id': id, 'msg': msg}];
     }
-    else {
+    else if (type != 'uploading') {
       obj.click(function() { return ref.hide_message(obj); })
         .attr('role', 'alert');
     }
@@ -6409,6 +6425,7 @@ function rcube_webmail()
 
     if (timeout > 0)
       setTimeout(function() { ref.hide_message(id, type != 'loading'); }, timeout);
+
     return id;
   };
 
@@ -6485,6 +6502,35 @@ function rcube_webmail()
           this.hide_message_object(m[k].obj);
 
     this.messages = {};
+  };
+
+  // display uploading message with progress indicator
+  // data should contain: name, total, current, percent, text
+  this.display_progress = function(data)
+  {
+    if (!data || !data.name)
+      return;
+
+    var msg = this.messages['progress' + data.name];
+
+    if (!data.label)
+      data.label = this.get_label('uploadingmany');
+
+    if (!msg) {
+      if (!data.percent || data.percent < 100)
+        this.display_message(data.label, 'uploading', 0, 'progress' + data.name);
+      return;
+    }
+
+    if (!data.total || data.percent >= 100) {
+      this.hide_message(msg.obj);
+      return;
+    }
+
+    if (data.text)
+      data.label += ' ' + data.text;
+
+    msg.obj.text(data.label);
   };
 
   // open a jquery UI dialog with the given content

@@ -439,7 +439,7 @@ class rcmail extends rcube
 
         // add some basic labels to client
         $this->output->add_label('loading', 'servererror', 'connerror', 'requesttimedout',
-            'refreshing', 'windowopenerror');
+            'refreshing', 'windowopenerror', 'uploadingmany');
 
         return $this->output;
     }

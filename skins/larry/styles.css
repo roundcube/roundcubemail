@@ -530,6 +530,7 @@ a.iconlink.upload {
 /*** message bar ***/
 
 #message div.loading,
+#message div.uploading,
 #message div.warning,
 #message div.error,
 #message div.notice,
@@ -670,10 +671,12 @@ a.iconlink.upload {
 	background-position: 0 -25px;
 }
 
+#messagestack div.uploading,
 #messagestack div.loading {
 	color: #ddd;
 }
 
+#messagestack div.uploading:after,
 #messagestack div.loading:after {
 	top: 4px;
 	left: 6px;

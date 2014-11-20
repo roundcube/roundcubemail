@@ -281,6 +281,7 @@ body > #message div.confirmation,
 }
 
 body > #message div.loading,
+body > #message div.uploading,
 #message-objects div.loading
 {
   background: url(images/display/loading.gif) 6px 3px no-repeat;
