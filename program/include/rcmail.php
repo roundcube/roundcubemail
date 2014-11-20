@@ -1958,13 +1958,32 @@ class rcmail extends rcube
         }
 
         if (!empty($params['total'])) {
-            $params['percent'] = round($status['current']/$status['total']*100);
+            $total = $this->show_bytes($params['total'], $unit);
+            switch ($unit) {
+            case 'GB':
+                $gb      = $params['current']/1073741824;
+                $current = sprintf($gb >= 10 ? "%d" : "%.1f", $gb);
+                break;
+            case 'MB':
+                $mb      = $params['current']/1048576;
+                $current = sprintf($mb >= 10 ? "%d" : "%.1f", $mb);
+                break;
+            case 'KB':
+                $current = round($params['current']/1024);
+                break;
+            case 'B':
+            default:
+                $current = $params['current'];
+                break;
+            }
+
+            $params['percent'] = round($params['current']/$params['total']*100);
             $params['text']    = $this->gettext(array(
                 'name' => 'uploadprogress',
                 'vars' => array(
                     'percent' => $params['percent'] . '%',
-                    'current' => $this->show_bytes($params['current']),
-                    'total'   => $this->show_bytes($params['total'])
+                    'current' => $current,
+                    'total'   => $total
                 )
             ));
         }
@@ -2150,25 +2169,30 @@ class rcmail extends rcube
     /**
      * Create a human readable string for a number of bytes
      *
-     * @param int Number of bytes
+     * @param int    Number of bytes
+     * @param string Size unit
      *
      * @return string Byte string
      */
-    public function show_bytes($bytes)
+    public function show_bytes($bytes, &$unit = null)
     {
         if ($bytes >= 1073741824) {
-            $gb  = $bytes/1073741824;
-            $str = sprintf($gb>=10 ? "%d " : "%.1f ", $gb) . $this->gettext('GB');
+            $unit = 'GB';
+            $gb   = $bytes/1073741824;
+            $str  = sprintf($gb >= 10 ? "%d " : "%.1f ", $gb) . $this->gettext($unit);
         }
         else if ($bytes >= 1048576) {
-            $mb  = $bytes/1048576;
-            $str = sprintf($mb>=10 ? "%d " : "%.1f ", $mb) . $this->gettext('MB');
+            $unit = 'MB';
+            $mb   = $bytes/1048576;
+            $str  = sprintf($mb >= 10 ? "%d " : "%.1f ", $mb) . $this->gettext($unit);
         }
         else if ($bytes >= 1024) {
-            $str = sprintf("%d ",  round($bytes/1024)) . $this->gettext('KB');
+            $unit = 'KB';
+            $str  = sprintf("%d ",  round($bytes/1024)) . $this->gettext($unit);
         }
         else {
-            $str = sprintf('%d ', $bytes) . $this->gettext('B');
+            $unit = 'B';
+            $str  = sprintf('%d ', $bytes) . $this->gettext();
         }
 
         return $str;
