@@ -12,7 +12,7 @@ REQUIREMENTS
 * The Apache, Lighttpd, Cherokee or Hiawatha web server
 * .htaccess support allowing overrides for DirectoryIndex
 * PHP Version 5.3.7 or greater including
-   - PCRE, DOM, JSON, XML, Session, Sockets (required)
+   - PCRE, DOM, JSON, Session, Sockets (required)
    - PHP Data Objects (PDO) with driver for either MySQL, PostgreSQL or SQLite (required)
    - Libiconv, Zip (recommended)
    - OpenSSL, Fileinfo, Mcrypt, mbstring (optional)

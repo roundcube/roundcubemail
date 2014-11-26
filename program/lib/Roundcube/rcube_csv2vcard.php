@@ -302,6 +302,7 @@ class rcube_csv2vcard
             'Value' => array(
                 'home' => 'email:home',
                 'work' => 'email:work',
+                '*'    => 'email:other',
             ),
         ),
         'Phone' => array(
@@ -567,8 +568,19 @@ class rcube_csv2vcard
 
             foreach ($item as $item_key => $item_idx) {
                 $value = $data[$item_idx];
-                if ($value !== null && $value !== '' && ($data_idx = $this->gmail_label_map[$key][$item_key][$type])) {
-                    $contact[$data_idx] = $value;
+                if ($value !== null && $value !== '') {
+                    foreach (array($type, '*') as $_type) {
+                        if ($data_idx = $this->gmail_label_map[$key][$item_key][$_type]) {
+                            if (!empty($contact[$data_idx])) {
+                                $contact[$data_idx]   = (array) $contact[$data_idx];
+                                $contact[$data_idx][] = $value;
+                            }
+                            else {
+                                $contact[$data_idx] = $value;
+                            }
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -624,7 +636,14 @@ class rcube_csv2vcard
         $vcard = new rcube_vcard();
         foreach ($contact as $name => $value) {
             $name = explode(':', $name);
-            $vcard->set($name[0], $value, $name[1]);
+            if (is_array($value) && $name[0] != 'address') {
+                foreach ((array) $value as $val) {
+                    $vcard->set($name[0], $val, $name[1]);
+                }
+            }
+            else {
+                $vcard->set($name[0], $value, $name[1]);
+            }
         }
 
         // add to the list
