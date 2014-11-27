@@ -797,7 +797,7 @@ class rcube_utils
         // try to parse string with DateTime first
         if (!empty($date)) {
             try {
-                $dt = new DateTime($date, $timezone);
+                $dt = $timezone ? new DateTime($date, $timezone) : new DateTime($date);
             }
             catch (Exception $e) {
                 // ignore
