@@ -240,9 +240,11 @@ class rcube_user
     /**
      * Return a list of all user emails (from identities)
      *
+     * @param bool Return only default identity
+     *
      * @return array List of emails (identity_id, name, email)
      */
-    function list_emails()
+    function list_emails($default = false)
     {
         if ($this->emails === null) {
             $this->emails = array();
@@ -259,7 +261,7 @@ class rcube_user
             }
         }
 
-        return $this->emails;
+        return $default ? $this->emails[0] : $this->emails;
     }
 
     /**
