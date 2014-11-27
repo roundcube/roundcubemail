@@ -67,7 +67,7 @@ class new_user_identity extends rcube_plugin
             return $args;
         }
 
-        $identities = $this->rc->user->list_identities();
+        $identities = $this->rc->user->list_emails();
         $ldap_entry = $this->lookup_user_name(array(
                 'user' => $this->rc->user->data['username'],
                 'host' => $this->rc->user->data['mail_host'],
@@ -75,7 +75,7 @@ class new_user_identity extends rcube_plugin
 
         foreach ((array) $ldap_entry['email_list'] as $email) {
             foreach ($identities as $identity) {
-                if ($identity['email'] == $email ) {
+                if ($identity['email'] == $email) {
                     continue 2;
                 }
             }

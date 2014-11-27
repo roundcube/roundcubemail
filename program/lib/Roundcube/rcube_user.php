@@ -51,6 +51,14 @@ class rcube_user
      */
     private $identities = array();
 
+    /**
+     * Internal emails cache
+     *
+     * @var array
+     */
+    private $emails;
+
+
     const SEARCH_ADDRESSBOOK = 1;
     const SEARCH_MAIL = 2;
 
@@ -78,7 +86,6 @@ class rcube_user
             $this->language = $sql_arr['language'];
         }
     }
-
 
     /**
      * Build a user name string (as e-mail address)
@@ -118,7 +125,6 @@ class rcube_user
         return false;
     }
 
-
     /**
      * Get the preferences saved for this user
      *
@@ -153,7 +159,6 @@ class rcube_user
 
         return $prefs;
     }
-
 
     /**
      * Write the given user prefs to the user's record
@@ -233,6 +238,31 @@ class rcube_user
     }
 
     /**
+     * Return a list of all user emails (from identities)
+     *
+     * @return array List of emails (identity_id, name, email)
+     */
+    function list_emails()
+    {
+        if ($this->emails === null) {
+            $this->emails = array();
+
+            $sql_result = $this->db->query(
+                "SELECT `identity_id`, `name`, `email`"
+                ." FROM " . $this->db->table_name('identities', true)
+                ." WHERE `user_id` = ? AND `del` <> 1"
+                ." ORDER BY `standard` DESC, `name` ASC, `email` ASC, `identity_id` ASC",
+                $this->ID);
+
+            while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
+                $this->emails[] = $sql_arr;
+            }
+        }
+
+        return $this->emails;
+    }
+
+    /**
      * Get default identity of this user
      *
      * @param  int   $id Identity ID. If empty, the default identity is returned
@@ -249,7 +279,6 @@ class rcube_user
 
         return $this->identities[$id];
     }
-
 
     /**
      * Return a list of all identities linked with this user
@@ -286,7 +315,6 @@ class rcube_user
         return $result;
     }
 
-
     /**
      * Update a specific identity record
      *
@@ -317,11 +345,12 @@ class rcube_user
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $query_params));
 
+        // clear the cache
         $this->identities = array();
+        $this->emails     = null;
 
         return $this->db->affected_rows();
     }
-
 
     /**
      * Create a new identity record linked with this user
@@ -351,11 +380,12 @@ class rcube_user
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $insert_values));
 
+        // clear the cache
         $this->identities = array();
+        $this->emails     = null;
 
         return $this->db->insert_id('identities');
     }
-
 
     /**
      * Mark the given identity as deleted
@@ -387,11 +417,12 @@ class rcube_user
             $this->ID,
             $iid);
 
+        // clear the cache
         $this->identities = array();
+        $this->emails     = null;
 
         return $this->db->affected_rows();
     }
-
 
     /**
      * Make this identity the default one for this user
@@ -412,7 +443,6 @@ class rcube_user
         }
     }
 
-
     /**
      * Update user's last_login timestamp
      */
@@ -427,7 +457,6 @@ class rcube_user
         }
     }
 
-
     /**
      * Clear the saved object state
      */
@@ -436,7 +465,6 @@ class rcube_user
         $this->ID = null;
         $this->data = null;
     }
-
 
     /**
      * Find a user record matching the given name and host
@@ -472,7 +500,6 @@ class rcube_user
         else
             return false;
     }
-
 
     /**
      * Create a new user record and return a rcube_user instance
@@ -587,7 +614,6 @@ class rcube_user
         return $user_id ? $user_instance : false;
     }
 
-
     /**
      * Resolve username using a virtuser plugins
      *
@@ -602,7 +628,6 @@ class rcube_user
 
         return $plugin['user'];
     }
-
 
     /**
      * Resolve e-mail address from virtuser plugins
@@ -621,7 +646,6 @@ class rcube_user
 
         return empty($plugin['email']) ? NULL : $plugin['email'];
     }
-
 
     /**
      * Return a list of saved searches linked with this user
@@ -654,7 +678,6 @@ class rcube_user
 
         return $result;
     }
-
 
     /**
      * Return saved search data.
@@ -690,7 +713,6 @@ class rcube_user
         return null;
     }
 
-
     /**
      * Deletes given saved search record
      *
@@ -711,7 +733,6 @@ class rcube_user
 
         return $this->db->affected_rows();
     }
-
 
     /**
      * Create a new saved search record linked with this user
