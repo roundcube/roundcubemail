@@ -145,19 +145,19 @@ html.mozilla #mailboxlist > li:first-child {
 	border-radius: 4px 4px 0 0;
 }
 
-#mailboxlist li.mailbox.unread > a {
+.folderlist li.mailbox.unread > a {
 	padding-right: 36px;
 }
 
-#mailboxlist li.unread {
+.folderlist li.unread {
 	font-weight: bold;
 }
 
-#mailboxlist li.recent > a {
+.folderlist li.recent > a {
 	color: #017cb4;
 }
 
-#mailboxlist li.mailbox .unreadcount {
+.folderlist li.mailbox .unreadcount {
 	position: absolute;
 	top: 3px;
 	right: 6px;
@@ -179,7 +179,7 @@ html.mozilla #mailboxlist > li:first-child {
 	text-shadow: none;
 }
 
-#mailboxlist li.mailbox.selected > a .unreadcount {
+.folderlist li.mailbox.selected > a .unreadcount {
 	background: #005d76;
 	background: -moz-linear-gradient(top, #005d76 0%, #004558 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#005d76), color-stop(100%,#004558));
@@ -190,7 +190,7 @@ html.mozilla #mailboxlist > li:first-child {
 	-webkit-box-shadow: inset 0 1px 1px 0 #003645;
 }
 
-#mailboxlist li.mailbox.recent > a .unreadcount {
+.folderlist li.mailbox.recent > a .unreadcount {
 	background: #017cb4;
 	background: -moz-linear-gradient(top, #017cb4 0%, #006ca4 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#017cb4), color-stop(100%,#006ca4));
