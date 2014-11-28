@@ -2192,7 +2192,7 @@ class rcmail extends rcube
         }
         else {
             $unit = 'B';
-            $str  = sprintf('%d ', $bytes) . $this->gettext();
+            $str  = sprintf('%d ', $bytes) . $this->gettext($unit);
         }
 
         return $str;
