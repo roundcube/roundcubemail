@@ -52,9 +52,9 @@ class rcube_csv2vcard
         'company'               => 'organization',
         //'company_main_phone'    => '',
         'department'            => 'department',
-        //'email_2_address'       => '', //@TODO
+        'email_2_address'       => 'email:other',
         //'email_2_type'          => '',
-        //'email_3_address'       => '', //@TODO
+        'email_3_address'       => 'email:other',
         //'email_3_type'          => '',
         'email_address'         => 'email:pref',
         //'email_type'            => '',
@@ -186,9 +186,9 @@ class rcube_csv2vcard
         //'company_main_phone' => "Company Main Phone",
         'department'        => "Department",
         //'directory_server'  => "Directory Server",
-        //'email_2_address'   => "E-mail 2 Address",
+        'email_2_address'   => "E-mail 2 Address",
         //'email_2_type'      => "E-mail 2 Type",
-        //'email_3_address'   => "E-mail 3 Address",
+        'email_3_address'   => "E-mail 3 Address",
         //'email_3_type'      => "E-mail 3 Type",
         'email_address'     => "E-mail Address",
         //'email_type'        => "E-mail Type",
@@ -554,7 +554,13 @@ class rcube_csv2vcard
         foreach ($this->map as $idx => $name) {
             $value = $data[$idx];
             if ($value !== null && $value !== '') {
-                $contact[$name] = $value;
+                if (!empty($contact[$name])) {
+                    $contact[$name]   = (array) $contact[$name];
+                    $contact[$name][] = $value;
+                }
+                else {
+                   $contact[$name] = $value;
+                }
             }
         }
 
