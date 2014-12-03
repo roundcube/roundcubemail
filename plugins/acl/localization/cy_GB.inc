@@ -20,6 +20,7 @@ $labels['myrights'] = 'Hawliau Mynediad';
 $labels['username'] = 'Defnyddiwr:';
 $labels['advanced'] = 'Modd uwch';
 $labels['newuser'] = 'Ychwanegu cofnod';
+$labels['editperms'] = 'Golygu hawliau';
 $labels['actions'] = 'Gweithredoedd hawl mynediad...';
 $labels['anyone'] = 'Pob defnyddiwr (unrhywun)';
 $labels['anonymous'] = 'Gwestai (anhysbys)';

@@ -12,20 +12,6 @@
  * method hashPassword based on code from the phpLDAPadmin development team (http://phpldapadmin.sourceforge.net/).
  * method randomSalt based on code from the phpLDAPadmin development team (http://phpldapadmin.sourceforge.net/).
  *
- * Copyright (C) 2005-2014, The Roundcube Dev Team
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
 class rcube_ldap_password
@@ -38,8 +24,7 @@ class rcube_ldap_password
         // Building user DN
         if ($userDN = $rcmail->config->get('password_ldap_userDN_mask')) {
             $userDN = self::substitute_vars($userDN);
-        }
-        else {
+        } else {
             $userDN = $this->search_userdn($rcmail);
         }
 
@@ -79,25 +64,13 @@ class rcube_ldap_password
             return PASSWORD_CONNECT_ERROR;
         }
 
+        $crypted_pass = self::hash_password($passwd, $rcmail->config->get('password_ldap_encodage'));
         $force        = $rcmail->config->get('password_ldap_force_replace');
         $pwattr       = $rcmail->config->get('password_ldap_pwattr');
         $lchattr      = $rcmail->config->get('password_ldap_lchattr');
         $smbpwattr    = $rcmail->config->get('password_ldap_samba_pwattr');
         $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
         $samba        = $rcmail->config->get('password_ldap_samba');
-        $encodage     = $rcmail->config->get('password_ldap_encodage');
-
-        // Support multiple userPassword values where desired.
-        // multiple encodings can be specified separated by '+' (e.g. "cram-md5+ssha")
-        $encodages    = explode('+', $encodage);
-        $crypted_pass = array();
-
-        foreach ($encodages as $enc) {
-            $cpw = self::hash_password($passwd, $enc);
-            if (!empty($cpw)) {
-                $crypted_pass[] = $cpw;
-            }
-        }
 
         // Support password_ldap_samba option for backward compat.
         if ($samba && !$smbpwattr) {
@@ -106,7 +79,7 @@ class rcube_ldap_password
         }
 
         // Crypt new password
-        if (empty($crypted_pass)) {
+        if (!$crypted_pass) {
             return PASSWORD_CRYPT_ERROR;
         }
 
@@ -290,7 +263,7 @@ class rcube_ldap_password
 
             if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
                 $salt     = mhash_keygen_s2k(MHASH_SHA1, $password_clear, $salt, 4);
-                $password = mhash(MHASH_SHA1, $password_clear . $salt);
+                $password = mhash(MHASH_MD5, $password_clear . $salt);
             }
             else if (function_exists('sha1')) {
                 $salt     = substr(pack("H*", sha1($salt . $password_clear)), 0, 4);
@@ -309,7 +282,6 @@ class rcube_ldap_password
                 return false;
             }
             break;
-
 
         case 'smd5':
             mt_srand((double) microtime() * 1000000);
@@ -346,11 +318,6 @@ class rcube_ldap_password
             $crypted_password = rcube_charset::convert('"' . $password_clear . '"', RCUBE_CHARSET, 'UTF-16LE');
             break;
 
-        case 'cram-md5':
-            require_once __DIR__ . '/../helpers/dovecot_hmacmd5.php';
-            return dovecot_hmacmd5($password_clear);
-            break;
-
         case 'clear':
         default:
             $crypted_password = $password_clear;
@@ -377,4 +344,5 @@ class rcube_ldap_password
 
         return $str;
     }
+
 }

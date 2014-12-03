@@ -18,8 +18,9 @@
 $labels['sharing'] = 'Delen';
 $labels['myrights'] = 'Toegangsrechten';
 $labels['username'] = 'Gebruiker:';
-$labels['advanced'] = 'geavanceerde modus';
+$labels['advanced'] = 'Geavanceerde modus';
 $labels['newuser'] = 'Item toevoegen';
+$labels['editperms'] = 'Rechten bewerken';
 $labels['actions'] = 'Toegangsrechtenopties...';
 $labels['anyone'] = 'Alle gebruikers (iedereen)';
 $labels['anonymous'] = 'Gasten (anoniem)';

@@ -18,7 +18,6 @@
 $labels['sharing'] = 'Berbagi';
 $labels['myrights'] = 'Hak Akses';
 $labels['username'] = 'Pengguna:';
-$labels['advanced'] = 'mode canggih';
 $labels['newuser'] = 'Tambahkan entri';
 $labels['actions'] = 'Aksi hak akses...';
 $labels['anyone'] = 'Semua pengguna (siapa saja)';

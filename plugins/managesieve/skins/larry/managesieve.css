@@ -306,7 +306,6 @@ a.button.disabled
   font-size: 11px;
   padding: 1px;
   vertical-align: middle;
-  max-width: 280px;
 }
 
 html.mozilla #filter-form select
@@ -335,7 +334,9 @@ fieldset
   border: 1px solid #B2B2B2;
   border-radius: 4px;
   box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
+  -moz-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
   -webkit-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
+  -o-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
   margin: 0;
   padding: 2px;
   display: inline-block;
@@ -416,13 +417,11 @@ body.iframe.mail #filter-form
 
 
 /* vacation form */
-#settings-sections .vacation a {
-  background-image: url(images/vacation_icons.png);
-	background-repeat: no-repeat;
-	background-position: 7px 1px;
+#settings-sections span.vacation a {
+  background: url(images/vacation_icons.png) no-repeat 7px 1px;
 }
 
-#settings-sections .vacation.selected a {
+#settings-sections span.vacation.selected a {
   background-position: 7px -23px;
 }
 
@@ -452,8 +451,4 @@ body.iframe.mail #filter-form
   vertical-align: top;
   border: 0;
   box-shadow: none;
-}
-
-#vacationform td.vacation {
-  white-space: nowrap;
 }

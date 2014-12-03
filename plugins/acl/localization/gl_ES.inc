@@ -18,7 +18,6 @@
 $labels['sharing'] = 'Compartindo';
 $labels['myrights'] = 'Permisos de acceso';
 $labels['username'] = 'Utente:';
-$labels['advanced'] = 'Modo avanzado';
 $labels['newuser'] = 'Engadir entrada';
 $labels['actions'] = 'Accións sobre os Permisos de acceso...';
 $labels['anyone'] = 'Todas as persoas usuarias (calquera)';

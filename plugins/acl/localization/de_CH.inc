@@ -18,8 +18,9 @@
 $labels['sharing'] = 'Freigabe';
 $labels['myrights'] = 'Zugriffsrechte';
 $labels['username'] = 'Benutzer:';
-$labels['advanced'] = 'erweiterter Modus';
+$labels['advanced'] = 'Expertenmodus';
 $labels['newuser'] = 'Eintrag hinzufügen';
+$labels['editperms'] = 'Zugriffsrechte bearbeiten';
 $labels['actions'] = 'Zugriffsrechte Aktionen...';
 $labels['anyone'] = 'Alle Benutzer (anyone)';
 $labels['anonymous'] = 'Gäste (anonymous)';

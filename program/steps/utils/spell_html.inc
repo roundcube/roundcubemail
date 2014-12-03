@@ -19,27 +19,30 @@
  +-----------------------------------------------------------------------+
 */
 
+// read input data
+$data = file_get_contents('php://input');
 
-$method = rcube_utils::get_input_value('method', rcube_utils::INPUT_POST);
-$lang   = rcube_utils::get_input_value('lang', rcube_utils::INPUT_POST);
+// Decode JSON input
+$request = json_decode($data, true);
 $result = array();
+
+$lang = $request['params'][0];
+$data = $request['params'][1];
+$data = implode("\n", (array) $data);
+
+$result['id'] = $request['id'];
 
 $spellchecker = new rcube_spellchecker($lang);
 
-if ($method == 'addToDictionary') {
-    $data = rcube_utils::get_input_value('word', rcube_utils::INPUT_POST);
-
+if ($request['method'] == 'checkWords') {
+    $result['result'] = empty($data) ? array() : $spellchecker->get_words($data);
+}
+else if ($request['method'] == 'getSuggestions') {
+    $result['result'] = $spellchecker->get_suggestions($data);
+}
+else if ($request['method'] == 'learnWord') {
     $spellchecker->add_word($data);
     $result['result'] = true;
-}
-else {
-    $data = rcube_utils::get_input_value('text', rcube_utils::INPUT_POST, true);
-    $data = html_entity_decode($data, ENT_QUOTES, RCUBE_CHARSET);
-
-    if ($data && !$spellchecker->check($data)) {
-        $result['words']      = $spellchecker->get();
-        $result['dictionary'] = (bool) $RCMAIL->config->get('spellcheck_dictionary');
-    }
 }
 
 if ($error = $spellchecker->error()) {
@@ -48,11 +51,12 @@ if ($error = $spellchecker->error()) {
         'message' => sprintf("Spell check engine error: " . $error)),
         true, false);
 
-    echo json_encode(array('error' => $error));
+    echo '{"error":{"errstr":"' . addslashes($error) . '","errfile":"","errline":null,"errcontext":"","level":"FATAL"}}';
     exit;
 }
 
 // send output
-header("Content-Type: application/json; charset=".RCUBE_CHARSET);
+header("Content-Type: text/xml; charset=".RCUBE_CHARSET);
 echo json_encode($result);
 exit;
+

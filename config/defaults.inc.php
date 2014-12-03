@@ -56,7 +56,7 @@ $config['db_table_dsn'] = array(
 // LOGGING/DEBUGGING
 // ----------------------------------
 
-// system error reporting, sum of: 1 = log; 4 = show
+// system error reporting, sum of: 1 = log; 4 = show, 8 = trace
 $config['debug_level'] = 1;
 
 // log driver:  'syslog' or 'file'.
@@ -65,10 +65,6 @@ $config['log_driver'] = 'file';
 // date format for log entries
 // (read http://php.net/manual/en/function.date.php for all format characters)  
 $config['log_date_format'] = 'd-M-Y H:i:s O';
-
-// length of the session ID to prepend each log line with
-// set to 0 to avoid session IDs being logged.
-$config['log_session_id'] = 8;
 
 // Syslog ident string to use, if using the 'syslog' log driver.
 $config['syslog_id'] = 'roundcube';
@@ -185,10 +181,6 @@ $config['imap_force_ns'] = false;
 // Note: Because the list is cached, re-login is required after change.
 $config['imap_disabled_caps'] = array();
 
-// Log IMAP session identifers after each IMAP login.
-// This is used to relate IMAP session with Roundcube user sessions
-$config['imap_log_session'] = false;
-
 // Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache'.
 $config['imap_cache'] = null;
 
@@ -292,9 +284,6 @@ $config['enable_installer'] = false;
 
 // don't allow these settings to be overriden by the user
 $config['dont_override'] = array();
-
-// List of disabled UI elements/actions
-$config['disabled_actions'] = array();
 
 // define which settings should be listed under the 'advanced' block
 // which is hidden by default
@@ -492,10 +481,6 @@ $config['mdn_use_from'] = false;
 // 4 - one identity with possibility to edit only signature
 $config['identities_level'] = 0;
 
-// Maximum size of uploaded image in kilobytes
-// Images (in html signatures) are stored in database as data URIs
-$config['identity_image_size'] = 64;
-
 // Mimetypes supported by the browser.
 // attachments of these types will open in a preview window
 // either a comma-separated list or an array: 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,application/pdf'
@@ -511,10 +496,10 @@ $config['mime_magic'] = null;
 // download it from http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
 $config['mime_types'] = null;
 
-// path to imagemagick identify binary (if not set we'll use Imagick or GD extensions)
+// path to imagemagick identify binary
 $config['im_identify_path'] = null;
 
-// path to imagemagick convert binary (if not set we'll use Imagick or GD extensions)
+// path to imagemagick convert binary
 $config['im_convert_path'] = null;
 
 // Size of thumbnails from image attachments displayed below the message content.
@@ -596,14 +581,19 @@ $config['sent_mbox'] = 'Sent';
 // NOTE: Use folder names with namespace prefix (INBOX. on Courier-IMAP)
 $config['trash_mbox'] = 'Trash';
 
+// display these folders separately in the mailbox list.
+// these folders will also be displayed with localized names
+// NOTE: Use folder names with namespace prefix (INBOX. on Courier-IMAP)
+$config['default_folders'] = array('INBOX', 'Drafts', 'Sent', 'Junk', 'Trash');
+
+// Disable localization of the default folder names listed above
+$config['show_real_foldernames'] = false;
+
 // automatically create the above listed default folders on first login
 $config['create_default_folders'] = false;
 
 // protect the default folders from renames, deletes, and subscription changes
 $config['protect_default_folders'] = true;
-
-// Disable localization of the default folder names listed above
-$config['show_real_foldernames'] = false;
 
 // if in your system 0 quota means no limit set this option to true 
 $config['quota_zero_as_unlimited'] = false;
@@ -618,13 +608,12 @@ $config['enable_spellcheck'] = true;
 $config['spellcheck_dictionary'] = false;
 
 // Set the spell checking engine. Possible values:
-// - 'googie'  - the default (also used for connecting to Nox Spell Server, see 'spellcheck_uri' setting)
+// - 'googie'  - the default
 // - 'pspell'  - requires the PHP Pspell module and aspell installed
 // - 'enchant' - requires the PHP Enchant module
 // - 'atd'     - install your own After the Deadline server or check with the people at http://www.afterthedeadline.com before using their API
-// Since Google shut down their public spell checking service, the default settings
-// connect to http://spell.roundcube.net which is a hosted service provided by Roundcube.
-// You can connect to any other googie-compliant service by setting 'spellcheck_uri' accordingly.
+// Since Google shut down their public spell checking service, you need to 
+// connect to a Nox Spell Server when using 'googie' here. Therefore specify the 'spellcheck_uri'
 $config['spellcheck_engine'] = 'googie';
 
 // For locally installed Nox Spell Server or After the Deadline services,
@@ -893,11 +882,6 @@ $config['address_template'] = '{street}<br/>{locality} {zipcode}<br/>{country} {
 // Note: For LDAP sources fuzzy_search must be enabled to use 'partial' or 'prefix' mode
 $config['addressbook_search_mode'] = 0;
 
-// Template of contact entry on the autocompletion list.
-// You can use contact fields as: name, email, organization, department, etc.
-// See program/steps/addressbook/func.inc for a list
-$config['contact_search_name'] = '{name} <{email}>';
-
 // ----------------------------------
 // USER PREFERENCES
 // ----------------------------------
@@ -951,10 +935,6 @@ $config['compose_extwin'] = false;
 // compose html formatted messages by default
 // 0 - never, 1 - always, 2 - on reply to HTML message, 3 - on forward or reply to HTML message
 $config['htmleditor'] = 0;
-
-// save copies of compose messages in the browser's local storage
-// for recovery in case of browser crashes and session timeout.
-$config['compose_save_localstorage'] = true;
 
 // show pretty dates as standard
 $config['prettydate'] = true;
@@ -1037,7 +1017,7 @@ $config['force_7bit'] = false;
 // Defaults of the search field configuration.
 // The array can contain a per-folder list of header fields which should be considered when searching
 // The entry with key '*' stands for all folders which do not have a specific list set.
-// Please note that folder names should to be in sync with $config['*_mbox'] options
+// Please note that folder names should to be in sync with $config['default_folders']
 $config['search_mods'] = null;  // Example: array('*' => array('subject'=>1, 'from'=>1), 'Sent' => array('subject'=>1, 'to'=>1));
 
 // Defaults of the addressbook search field configuration.

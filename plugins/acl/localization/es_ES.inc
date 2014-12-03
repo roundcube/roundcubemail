@@ -20,6 +20,7 @@ $labels['myrights'] = 'Permisos de acceso';
 $labels['username'] = 'Usuario:';
 $labels['advanced'] = 'Modo avanzado';
 $labels['newuser'] = 'Añadir una entrada';
+$labels['editperms'] = 'Editar permisos';
 $labels['actions'] = 'Acciones sobre los permisos de acceso…';
 $labels['anyone'] = 'Todos los usuarios (cualquiera)';
 $labels['anonymous'] = 'Invitados (anónimo)';

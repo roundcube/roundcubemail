@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-$labels['downloadall'] = 'Λυψη ολων των συννημενων';
-$labels['downloadfolder'] = 'Λυψη φακελου';
+$labels['downloadall'] = 'Λήψη όλων των συνημμένων';
+$labels['downloadfolder'] = 'Λήψη φακέλου';
 ?>

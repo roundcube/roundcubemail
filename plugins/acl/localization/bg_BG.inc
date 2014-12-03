@@ -18,8 +18,9 @@
 $labels['sharing'] = 'Споделяне';
 $labels['myrights'] = 'Права за достъп';
 $labels['username'] = 'Потребител:';
-$labels['advanced'] = 'разширен режим';
+$labels['advanced'] = 'Разширен режим';
 $labels['newuser'] = 'Добавяне на запис';
+$labels['editperms'] = 'Редакция на права';
 $labels['actions'] = 'Действия на права за достъп...';
 $labels['anyone'] = 'Всички потребители (който и да е)';
 $labels['anonymous'] = 'Гости (анонимни)';

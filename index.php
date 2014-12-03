@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |
- | Version 1.1-git                                                         |
+ | Version 1.0.3                                                           |
  |                                                                         |
  | Copyright (C) 2005-2014, The Roundcube Dev Team                         |
  |                                                                         |
@@ -44,7 +44,6 @@ $RCMAIL = rcmail::get_instance($GLOBALS['env']);
 
 // Make the whole PHP output non-cacheable (#1487797)
 $RCMAIL->output->nocacheing_headers();
-$RCMAIL->output->common_headers();
 
 // turn on output buffering
 ob_start();
@@ -147,7 +146,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
             $error_code = RCMAIL::ERROR_INVALID_REQUEST;
         }
         else {
-            $error_code = is_numeric($auth['error']) ? $auth['error'] : $RCMAIL->login_error();
+            $error_code = $auth['error'] ? $auth['error'] : $RCMAIL->login_error();
         }
 
         $error_labels = array(
@@ -157,7 +156,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
             RCMAIL::ERROR_INVALID_HOST     => 'invalidhost',
         );
 
-        $error_message = !empty($auth['error']) && !is_numeric($auth['error']) ? $auth['error'] : ($error_labels[$error_code] ?: 'loginfailed');
+        $error_message = $error_labels[$error_code] ? $error_labels[$error_code] : 'loginfailed';
 
         $OUTPUT->show_message($error_message, 'warning');
 
@@ -189,7 +188,7 @@ else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])
 }
 
 // check session and auth cookie
-else if ($RCMAIL->task != 'login' && $_SESSION['user_id']) {
+else if ($RCMAIL->task != 'login' && $_SESSION['user_id'] && $RCMAIL->action != 'send') {
     if (!$RCMAIL->session->check_auth()) {
         $RCMAIL->kill_session();
         $session_error = true;
@@ -260,14 +259,6 @@ else {
                 'message' => "Referer check failed"), true, true);
         }
     }
-
-    // check access to disabled actions
-    $disabled_actions = (array) $RCMAIL->config->get('disabled_actions');
-    if (in_array($RCMAIL->task . '.' . ($RCMAIL->action ?: 'index'), $disabled_actions)) {
-        rcube::raise_error(array(
-            'code' => 403, 'type' => 'php',
-            'message' => "Action disabled"), true, true);
-    }
 }
 
 // we're ready, user is authenticated and the request is safe
@@ -295,14 +286,13 @@ if (is_file($incfile = INSTALL_PATH . 'program/steps/'.$RCMAIL->task.'/func.inc'
 $redirects = 0; $incstep = null;
 while ($redirects < 5) {
     // execute a plugin action
-    if (preg_match('/^plugin\./', $RCMAIL->action)) {
-        $RCMAIL->plugins->exec_action($RCMAIL->action);
-        break;
-    }
-    // execute action registered to a plugin task
-    else if ($RCMAIL->plugins->is_plugin_task($RCMAIL->task)) {
+    if ($RCMAIL->plugins->is_plugin_task($RCMAIL->task)) {
         if (!$RCMAIL->action) $RCMAIL->action = 'index';
         $RCMAIL->plugins->exec_action($RCMAIL->task.'.'.$RCMAIL->action);
+        break;
+    }
+    else if (preg_match('/^plugin\./', $RCMAIL->action)) {
+        $RCMAIL->plugins->exec_action($RCMAIL->action);
         break;
     }
     // try to include the step file

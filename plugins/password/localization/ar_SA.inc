@@ -23,7 +23,10 @@ $messages['nopassword'] = 'من فضلك أدخل كلمة مرور جديدة';
 $messages['nocurpassword'] = 'من فضلك أدخل كلمة المرور الحالية';
 $messages['passwordincorrect'] = 'كلمة المرور الحالية غير صحيحة';
 $messages['passwordinconsistency'] = 'كلمة المرور غير مطابقة, أعد المحاولة';
+$messages['crypterror'] = 'تعذر حفظ كلمة المرور الجديدة. دالة التشفير مفقودة.';
 $messages['connecterror'] = 'تعذر حفظ كلمة المرور الجديدة. خطأ في الإتصال';
 $messages['internalerror'] = 'تعذر حفظ كلمة المرور الجديدة';
+$messages['passwordshort'] = 'كلمة المرور يجب ان تحتوي على الاقل $length احرف.';
+$messages['passwordweak'] = 'كلمة المرور يجب ان تتضمن على الاقل رقم و علامة ترميز.';
 $messages['passwordforbidden'] = 'كلمة المرور تحتوي حروفاً ممنوعة';
 ?>

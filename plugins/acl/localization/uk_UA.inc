@@ -17,7 +17,6 @@
 */
 $labels['myrights'] = 'Права доступу';
 $labels['username'] = 'Користувач:';
-$labels['advanced'] = 'розширений режим';
 $labels['anyone'] = 'Всі користувачі (кожен)';
 $labels['anonymous'] = 'Гості (аноніми)';
 $labels['aclc'] = 'Створити підтеки';

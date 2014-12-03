@@ -15,14 +15,14 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-$labels['basic'] = 'Afficher une notification dans le navigateur à réception d\'un nouveau message';
-$labels['desktop'] = 'Afficher une notification sur le bureau à réception d\'un nouveau message';
-$labels['sound'] = 'Jouer un son à réception d\'un nouveau message';
-$labels['test'] = 'Tester';
-$labels['title'] = 'Nouveau message !';
-$labels['body'] = 'Vous avez reçu un nouveau message';
-$labels['testbody'] = 'Test de notification';
-$labels['desktopdisabled'] = 'Les notifications sur le bureau sont désactivées dans votre navigateur';
-$labels['desktopunsupported'] = 'Votre navigateur ne supporte pas les notifications sur le bureau';
-$labels['desktoptimeout'] = 'Fermer les notifications de bureau';
+$labels['basic'] = 'Afficher les notifications du navigateur pour les nouveaux messages';
+$labels['desktop'] = 'Afficher les notifications du navigateur pour les nouveaux messages';
+$labels['sound'] = 'Jouer un pour les nouveaux messages';
+$labels['test'] = 'Test';
+$labels['title'] = 'Nouveau courriel';
+$labels['body'] = 'Vous avez reçu un nouveau courriel.';
+$labels['testbody'] = 'Ceci est une notification de test.';
+$labels['desktopdisabled'] = 'Les notifications du bureau sont désactivées dans votre navigateur.';
+$labels['desktopunsupported'] = 'Votre navigateur ne prend pas en charge les notifications du bureau.';
+$labels['desktoptimeout'] = 'Fermer la notification du bureau';
 ?>

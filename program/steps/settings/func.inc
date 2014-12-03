@@ -45,7 +45,6 @@ $RCMAIL->register_action_map(array(
     'save-response' => 'edit_response.inc',
     'delete-response' => 'responses.inc',
     'delete-identity' => 'identities.inc',
-    'upload-display'  => 'upload.inc',
 ));
 
 
@@ -345,10 +344,9 @@ function rcmail_user_prefs($current = null)
                         if (is_array($meta) && $meta['name']) {
                             $skinname     = $meta['name'];
                             $author_link  = $meta['url'] ? html::a(array('href' => $meta['url'], 'target' => '_blank'), rcube::Q($meta['author'])) : rcube::Q($meta['author']);
-                            $license_link = $meta['license-url'] ? html::a(array('href' => $meta['license-url'], 'target' => '_blank', 'tabindex' => '-1'), rcube::Q($meta['license'])) : rcube::Q($meta['license']);
+                            $license_link = $meta['license-url'] ? html::a(array('href' => $meta['license-url'], 'target' => '_blank'), rcube::Q($meta['license'])) : rcube::Q($meta['license']);
                         }
 
-                        $skinnames[] = mb_strtolower($skinname);
                         $blocks['skin']['options'][$skin]['content'] = html::label(array('class' => 'skinselection'),
                             html::span('skinitem', $input->show($config['skin'], array('value' => $skin, 'id' => $field_id.$skin))) .
                             html::span('skinitem', html::img(array('src' => $thumbnail, 'class' => 'skinthumbnail', 'alt' => $skin, 'width' => 64, 'height' => 64))) .
@@ -357,7 +355,6 @@ function rcmail_user_prefs($current = null)
                                 html::span('skinlicense', $license_link ? $RCMAIL->gettext('license').':&nbsp;' . $license_link : ''))
                         );
                     }
-                    array_multisort($blocks['skin']['options'], SORT_ASC, SORT_STRING, $skinnames);
                 }
             }
 
@@ -918,20 +915,6 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
-            if (!isset($no_override['compose_save_localstorage'])) {
-                if (!$current) {
-                    continue 2;
-                }
-
-                $field_id = 'rcmfd_compose_save_localstorage';
-                $input    = new html_checkbox(array('name' => '_compose_save_localstorage', 'id' => $field_id, 'value' => 1));
-
-                $blocks['advanced']['options']['compose_save_localstorage'] = array(
-                    'title'    => html::label($field_id, rcube::Q($RCMAIL->gettext('savelocalstorage'))),
-                    'content'  => $input->show($config['compose_save_localstorage']?1:0),
-                );
-            }
-
         break;
 
         // Addressbook config
@@ -1062,10 +1045,10 @@ function rcmail_user_prefs($current = null)
                     'folder_filter' => 'mail',
                     'folder_rights' => 'w',
                 ));
-
-                // #1486114, #1488279, #1489219
-                $onchange = "if ($(this).val() == 'INBOX') $(this).val('')";
             }
+
+            // #1486114, #1488279, #1489219
+            $onchange = "if ($(this).val() == 'INBOX') $(this).val('')";
 
             if (!isset($no_override['drafts_mbox'])) {
                 if (!$current) {
@@ -1313,23 +1296,26 @@ function rcmail_update_folder_row($name, $oldname=null, $subscribe=false, $class
 {
     global $RCMAIL, $OUTPUT;
 
+    $default_folders = (array) $RCMAIL->config->get('default_folders');
     $protect_folders = $RCMAIL->config->get('protect_default_folders');
-    $storage         = $RCMAIL->get_storage();
-    $delimiter       = $storage->get_hierarchy_delimiter();
 
+    $storage      = $RCMAIL->get_storage();
+    $delimiter    = $storage->get_hierarchy_delimiter();
     $name_utf8    = rcube_charset::convert($name, 'UTF7-IMAP');
-    $protected    = $protect_folders && $storage->is_special_folder($name);
+    $protected    = $protect_folders && in_array($name, $default_folders);
+
     $foldersplit  = explode($delimiter, $storage->mod_folder($name));
     $level        = count($foldersplit) - 1;
-    $display_name = $protected ? $RCMAIL->localize_foldername($name) : rcube_charset::convert($foldersplit[$level], 'UTF7-IMAP');
-    $class_name   = trim($class_name . ' mailbox');
+    $display_name = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level)
+        . rcube::Q($protected ? $RCMAIL->localize_foldername($name) : rcube_charset::convert($foldersplit[$level], 'UTF7-IMAP'));
 
     if ($oldname === null) {
-        $OUTPUT->command('add_folder_row', $name, $name_utf8, $display_name, $protected, $subscribe,
-            $class_name);
+        $OUTPUT->command('add_folder_row', $name_utf8, $display_name, $protected, $subscribe,
+            false, $class_name);
     }
     else {
-        $OUTPUT->command('replace_folder_row', $oldname, $name, $name_utf8, $display_name, $protected, $class_name);
+        $OUTPUT->command('replace_folder_row', rcube_charset::convert($oldname, 'UTF7-IMAP'),
+            $name_utf8, $display_name, $protected, $class_name);
     }
 }
 
@@ -1347,7 +1333,7 @@ function rcmail_settings_tabs($attrib)
         array('command' => 'preferences', 'type' => 'link', 'label' => 'preferences', 'title' => 'editpreferences'),
         array('command' => 'folders',     'type' => 'link', 'label' => 'folders',     'title' => 'managefolders'),
         array('command' => 'identities',  'type' => 'link', 'label' => 'identities',  'title' => 'manageidentities'),
-        array('command' => 'responses',   'type' => 'link', 'label' => 'responses',   'title' => 'manageresponses'),
+        array('command' => 'responses',   'type' => 'link', 'label' => 'responses',   'title' => 'editresponses'),
     );
 
     // get all identites from DB and define list of cols to be displayed

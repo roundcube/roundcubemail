@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-$labels['downloadall'] = 'ទាញយក ឯកសារភ្ជាប់ទាំងអស់';
-$labels['downloadfolder'] = 'ទាញយក ថតឯកសារ';
+$labels['downloadall'] = 'ទាញ​យក​ឯកសារ​ភ្ជាប់​ទាំងអស់';
+$labels['downloadfolder'] = 'ទាញ​យក​ថត​ឯកសារ';
 ?>

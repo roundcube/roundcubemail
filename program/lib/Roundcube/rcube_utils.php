@@ -120,6 +120,17 @@ class rcube_utils
                 return true;
             }
 
+            if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && version_compare(PHP_VERSION, '5.3.0', '<')) {
+                $lookup = array();
+                @exec("nslookup -type=MX " . escapeshellarg($domain_part) . " 2>&1", $lookup);
+                foreach ($lookup as $line) {
+                    if (strpos($line, 'MX preference')) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
             // find MX record(s)
             if (!function_exists('getmxrr') || getmxrr($domain_part, $mx_records)) {
                 return true;
@@ -785,7 +796,7 @@ class rcube_utils
      *
      * @return object DateTime instance or false on failure
      */
-    public static function anytodatetime($date, $timezone = null)
+    public static function anytodatetime($date)
     {
         if (is_object($date) && is_a($date, 'DateTime')) {
             return $date;
@@ -797,7 +808,7 @@ class rcube_utils
         // try to parse string with DateTime first
         if (!empty($date)) {
             try {
-                $dt = new DateTime($date, $timezone);
+                $dt = new DateTime($date);
             }
             catch (Exception $e) {
                 // ignore
@@ -1069,37 +1080,7 @@ class rcube_utils
             return (bool) preg_match('!^[a-z]:[\\\\/]!i', $path);
         }
         else {
-            return $path[0] == '/';
+            return $path[0] == DIRECTORY_SEPARATOR;
         }
-    }
-
-    /**
-     * Resolve relative URL
-     *
-     * @param string $url Relative URL
-     *
-     * @return string Absolute URL
-     */
-    public static function resolve_url($url)
-    {
-        // prepend protocol://hostname:port
-        if (!preg_match('|^https?://|', $url)) {
-            $schema       = 'http';
-            $default_port = 80;
-
-            if (self::https_check()) {
-                $schema       = 'https';
-                $default_port = 443;
-            }
-
-            $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']);
-            if ($_SERVER['SERVER_PORT'] != $default_port) {
-                $prefix .= ':' . $_SERVER['SERVER_PORT'];
-            }
-
-            $url = $prefix . ($url[0] == '/' ? '' : '/') . $url;
-        }
-
-        return $url;
     }
 }

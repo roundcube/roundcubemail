@@ -59,13 +59,11 @@ class rcube_image
             $height  = $imsize[1];
             $gd_type = $imsize['2'];
             $type    = image_type_to_extension($imsize['2'], false);
-            $channels = $imsize['channels'];
         }
 
         // use ImageMagick
         if (!$type && ($data = $this->identify())) {
             list($type, $width, $height) = $data;
-            $channels = null;
         }
 
         if ($type) {
@@ -74,11 +72,8 @@ class rcube_image
                 'gd_type' => $gd_type,
                 'width'   => $width,
                 'height'  => $height,
-                'channels' => $channels,
             );
         }
-
-        return null;
     }
 
     /**
@@ -107,10 +102,10 @@ class rcube_image
         }
 
         // use Imagemagick
-        if ($convert || class_exists('Imagick', false)) {
-            $p['out'] = $filename;
-            $p['in']  = $this->image_file;
-            $type     = $props['type'];
+        if ($convert) {
+            $p['out']  = $filename;
+            $p['in']   = $this->image_file;
+            $type      = $props['type'];
 
             if (!$type && ($data = $this->identify())) {
                 $type = $data[0];
@@ -134,49 +129,26 @@ class rcube_image
                 $result = ($this->image_file == $filename || copy($this->image_file, $filename)) ? '' : false;
             }
             else {
+                if ($scale >= 1) {
+                    $width  = $props['width'];
+                    $height = $props['height'];
+                }
+                else {
+                    $width  = intval($props['width']  * $scale);
+                    $height = intval($props['height'] * $scale);
+                }
+
                 $valid_types = "bmp,eps,gif,jp2,jpg,png,svg,tif";
 
+                $p += array(
+                    'type'    => $type,
+                    'quality' => 75,
+                    'size'    => $width . 'x' . $height,
+                );
+
                 if (in_array($type, explode(',', $valid_types))) { // Valid type?
-                    if ($scale >= 1) {
-                        $width  = $props['width'];
-                        $height = $props['height'];
-                    }
-                    else {
-                        $width  = intval($props['width']  * $scale);
-                        $height = intval($props['height'] * $scale);
-                    }
-
-                    // use ImageMagick in command line
-                    if ($convert) {
-                        $p += array(
-                            'type'    => $type,
-                            'quality' => 75,
-                            'size'    => $width . 'x' . $height,
-                        );
-
-                        $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace sRGB -strip'
-                            . ' -quality {quality} -resize {size} {intype}:{in} {type}:{out}', $p);
-                    }
-                    // use PHP's Imagick class
-                    else {
-                        try {
-                            $image = new Imagick($this->image_file);
-                            $image = $image->flattenImages();
-
-                            $image->setImageColorspace(Imagick::COLORSPACE_SRGB);
-                            $image->setImageCompressionQuality(75);
-                            $image->setImageFormat($type);
-                            $image->stripImage();
-                            $image->scaleImage($width, $height);
-
-                            if ($image->writeImage($filename)) {
-                                $result = '';
-                            }
-                        }
-                        catch (Exception $e) {
-                            rcube::raise_error($e, true, false);
-                        }
-                    }
+                    $result = rcube::exec($convert . ' 2>&1 -flatten -auto-orient -colorspace sRGB -strip'
+                        . ' -quality {quality} -resize {size} {intype}:{in} {type}:{out}', $p);
                 }
             }
 
@@ -184,11 +156,6 @@ class rcube_image
                 @chmod($filename, 0600);
                 return $type;
             }
-        }
-
-        // do we have enough memory? (#1489937)
-        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
-            return false;
         }
 
         // use GD extension
@@ -239,7 +206,7 @@ class rcube_image
                 $image = $new_image;
 
                 // fix rotation of image if EXIF data exists and specifies rotation (GD strips the EXIF data)
-                if ($this->image_file && $type == 'jpg' && function_exists('exif_read_data')) {
+                if ($this->image_file && function_exists('exif_read_data')) {
                     $exif = exif_read_data($this->image_file);
                     if ($exif && $exif['Orientation']) {
                         switch ($exif['Orientation']) {
@@ -300,7 +267,7 @@ class rcube_image
             }
         }
 
-        // use ImageMagick in command line
+        // use ImageMagick
         if ($convert) {
             $p['in']   = $this->image_file;
             $p['out']  = $filename;
@@ -309,39 +276,13 @@ class rcube_image
             $result = rcube::exec($convert . ' 2>&1 -colorspace sRGB -strip -quality 75 {in} {type}:{out}', $p);
 
             if ($result === '') {
-                chmod($filename, 0600);
+                @chmod($filename, 0600);
                 return true;
-            }
-        }
-
-        // use PHP's Imagick class
-        if (class_exists('Imagick', false)) {
-            try {
-                $image = new Imagick($this->image_file);
-
-                $image->setImageColorspace(Imagick::COLORSPACE_SRGB);
-                $image->setImageCompressionQuality(75);
-                $image->setImageFormat(self::$extensions[$type]);
-                $image->stripImage();
-
-                if ($image->writeImage($filename)) {
-                    @chmod($filename, 0600);
-                    return true;
-                }
-            }
-            catch (Exception $e) {
-                rcube::raise_error($e, true, false);
             }
         }
 
         // use GD extension (TIFF isn't supported)
         $props = $this->props();
-
-        // do we have enough memory? (#1489937)
-        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
-            return false;
-        }
-
 
         if ($props['gd_type']) {
             if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
@@ -379,26 +320,12 @@ class rcube_image
     }
 
     /**
-     * Checks if image format conversion is supported
-     *
-     * @return boolean True if specified format can be converted to another format
-     */
-    public static function is_convertable($mimetype = null)
-    {
-        $rcube = rcube::get_instance();
-
-        // @TODO: check if specified mimetype is really supported
-        return class_exists('Imagick', false) || $rcube->config->get('im_convert_path');
-    }
-
-    /**
-     * ImageMagick based image properties read.
+     * Identify command handler.
      */
     private function identify()
     {
         $rcube = rcube::get_instance();
 
-        // use ImageMagick in command line
         if ($cmd = $rcube->config->get('im_identify_path')) {
             $args = array('in' => $this->image_file, 'format' => "%m %[fx:w] %[fx:h]");
             $id   = rcube::exec($cmd. ' 2>/dev/null -format {format} {in}', $args);
@@ -407,37 +334,6 @@ class rcube_image
                 return explode(' ', strtolower($id));
             }
         }
-
-        // use PHP's Imagick class
-        if (class_exists('Imagick', false)) {
-            try {
-                $image = new Imagick($this->image_file);
-
-                return array(
-                    strtolower($image->getImageFormat()),
-                    $image->getImageWidth(),
-                    $image->getImageHeight(),
-                );
-            }
-            catch (Exception $e) {}
-        }
     }
 
-    /**
-     * Check if we have enough memory to load specified image
-     */
-    private function mem_check($props)
-    {
-        // image size is unknown, we can't calculate required memory
-        if (!$props['width']) {
-            return true;
-        }
-
-        // channels: CMYK - 4, RGB - 3
-        $multip = ($props['channels'] ?: 3) + 1;
-
-        // calculate image size in memory (in bytes)
-        $size = $props['width'] * $props['height'] * $multip;
-        return rcube_utils::mem_check($size);
-    }
 }

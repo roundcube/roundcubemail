@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-$messages['forgotattachment'] = "Μήπως ξεχάσετε να επισυνάψετε ένα αρχείο; ";
-$messages['reminderoption'] = "Μήπως ξεχάσετε να επισυνάψετε ένα αρχείο; ";
-$messages['keywords'] = "συνημμένο, αρχείο, συννημενο, επισυναψη, επισυνάπτοντας, κλειστό, βιογραφικό σημείωμα, συνοδευτική επιστολή";
+$messages['forgotattachment'] = "Μήπως ξεχάσετε να επισυνάψετε αρχείο; ";
+$messages['reminderoption'] = "Υπενθύμιση για συνημμένα";
+$messages['keywords'] = "συνημμένο, αρχείο, επισύναψη, συνημμένο, επισυνάπτοντας, εσωκλείοντας, βιογραφικό σημείωμα, συνοδευτική επιστολή";
