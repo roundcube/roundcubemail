@@ -2028,7 +2028,7 @@ function rcube_webmail()
     }
     if (flags.forwarded) {
       status_class += ' forwarded';
-      status_label += this.get_label('replied') + ' ';
+      status_label += this.get_label('forwarded') + ' ';
     }
 
     // update selection
