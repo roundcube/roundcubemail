@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Fix import of multiple contact email addresses from Outlook-csv format (#1490169)
 - Fix drag-n-drop to folders expanded while dragging (#1490157)
 - Fix import of multiple contact groups from Google-csv format (#1490159)
+- Fix import of contacts with multiple email addresses from Google-csv format (#1490178)
 
 RELEASE 1.1-beta
 ----------------

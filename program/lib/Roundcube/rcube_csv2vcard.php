@@ -577,9 +577,10 @@ class rcube_csv2vcard
                 if ($value !== null && $value !== '') {
                     foreach (array($type, '*') as $_type) {
                         if ($data_idx = $this->gmail_label_map[$key][$item_key][$_type]) {
+                            $value = explode(' ::: ', $value);
+
                             if (!empty($contact[$data_idx])) {
-                                $contact[$data_idx]   = (array) $contact[$data_idx];
-                                $contact[$data_idx][] = $value;
+                                $contact[$data_idx]   = array_merge((array) $contact[$data_idx], $value);
                             }
                             else {
                                 $contact[$data_idx] = $value;
