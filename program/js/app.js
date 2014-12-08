@@ -630,8 +630,9 @@ function rcube_webmail()
     if (obj && obj.blur && !(event && rcube_event.is_keyboard(event)))
       obj.blur();
 
-    // do nothing if interface is locked by other command (with exception for searching reset)
-    if (this.busy && !(command == 'reset-search' && this.last_command == 'search'))
+    // do nothing if interface is locked by another command
+    // with exception for searching reset and menu
+    if (this.busy && !(command == 'reset-search' && this.last_command == 'search') && !command.match(/^menu-/))
       return false;
 
     // let the browser handle this click (shift/ctrl usually opens the link in a new window/tab)
