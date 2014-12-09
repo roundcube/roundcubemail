@@ -60,8 +60,10 @@ class rcube_sql_password
                 $len = 2;
                 break;
             case 'blowfish':
-                $len = 22;
-                $salt_hashindicator = '$2a$';
+                $cost = (int) $rcmail->config->get('password_blowfish_cost');
+                $cost = $cost < 4 || $cost > 31 ? 12 : $cost;
+                $len  = 22;
+                $salt_hashindicator = sprintf('$2a$%02d$', $cost);
                 break;
             case 'sha256':
                 $len = 16;

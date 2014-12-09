@@ -92,6 +92,11 @@ $config['password_hash_algorithm'] = 'sha1';
 // as hex string or in base64 encoded format.
 $config['password_hash_base64'] = false;
 
+// Iteration count parameter for Blowfish-based hashing algo.
+// It must be between 4 and 31. Default: 12.
+// Be aware, the higher the value, the longer it takes to generate the password hashes.
+$config['password_blowfish_cost'] = 12;
+
 
 // Poppassd Driver options
 // -----------------------

@@ -232,8 +232,12 @@ class rcube_ldap_password
                 return false;
             }
 
-            /* Hardcoded to second blowfish version and set number of rounds */
-            $crypted_password = '{CRYPT}' . crypt($password_clear, '$2a$12$' . self::random_salt(13));
+            $rcmail = rcmail::get_instance();
+            $cost   = (int) $rcmail->config->get('password_blowfish_cost');
+            $cost   = $cost < 4 || $cost > 31 ? 12 : $cost;
+            $prefix = sprintf('$2a$%02d$', $cost);
+
+            $crypted_password = '{CRYPT}' . crypt($password_clear, $prefix . self::random_salt(22));
             break;
 
         case 'md5':
