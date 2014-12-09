@@ -2,7 +2,7 @@
     "name": "roundcube/Attachment Reminder",
     "type": "roundcube-plugin",
     "description": "This Roundcube plugin reminds the user to attach a file if the composed message text indicates that there should be any.",
-    "license": "GNU GPLv3+",
+    "license": "GPLv3+",
     "version": "1.1",
     "authors": [
         {

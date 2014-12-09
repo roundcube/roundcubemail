@@ -2,7 +2,7 @@
     "name": "roundcube/virtuser_query",
     "type": "roundcube-plugin",
     "description": "Plugin adds possibility to resolve user email/login according to lookup tables in SQL database.",
-    "license": "GNU GPLv3+",
+    "license": "GPLv3+",
     "version": "2.0",
     "authors": [
         {

@@ -2,7 +2,7 @@
     "name": "roundcube/subscriptions_option",
     "type": "roundcube-plugin",
     "description": "A plugin which can enable or disable the use of imap subscriptions. It includes a toggle on the settings page under \"Server Settings\". The preference can also be locked.",
-    "license": "GNU GPLv3+",
+    "license": "GPLv3+",
     "version": "1.3",
     "authors": [
         {

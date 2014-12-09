@@ -2,7 +2,7 @@
     "name": "roundcube/acl",
     "type": "roundcube-plugin",
     "description": "IMAP Folders Access Control Lists Management (RFC4314, RFC2086).",
-    "license": "GNU GPLv3+",
+    "license": "GPLv3+",
     "version": "1.5",
     "authors": [
         {
