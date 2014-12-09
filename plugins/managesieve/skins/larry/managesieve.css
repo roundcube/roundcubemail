@@ -312,7 +312,7 @@ a.button.disabled
 /* revert larry style button */
 #filter-form input.button
 {
-  padding: 4px 12px;
+  padding: inherit;
 }
 
 fieldset
