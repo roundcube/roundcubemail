@@ -1,3 +1,5 @@
+* version 8.1 [2014-12-09]
+-----------------------------------------------------------
 - Added simple API to manage vacation rule
 - Fix missing css/js scripts in filter form in mail task
 - Fix default vacation status (#1490019)
