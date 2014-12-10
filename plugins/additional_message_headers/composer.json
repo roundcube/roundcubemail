@@ -2,7 +2,7 @@
     "name": "roundcube/additional_message_headers",
     "type": "roundcube-plugin",
     "description": "Very simple plugin which will add additional headers to or remove them from outgoing messages.",
-    "license": "GNU GPL v2",
+    "license": "GPLv2",
     "version": "1.2.0",
     "authors": [
         {
