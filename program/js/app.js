@@ -3427,6 +3427,7 @@ function rcube_webmail()
           this.get_label('restoremessage'),
           [{
             text: this.get_label('restore'),
+            'class': 'mainaction',
             click: function(){
               ref.restore_compose_form(key, html_mode);
               ref.remove_compose_data(key);  // remove old copy
@@ -3436,6 +3437,7 @@ function rcube_webmail()
           },
           {
             text: this.get_label('delete'),
+            'class': 'delete',
             click: function(){
               ref.remove_compose_data(key);
               $(this).dialog('close');
@@ -3688,7 +3690,7 @@ function rcube_webmail()
       $(this).dialog('close');
     };
 
-    this.show_popup_dialog(html, this.gettext('newresponse'), buttons);
+    this.show_popup_dialog(html, this.gettext('newresponse'), buttons, {button_classes: ['mainaction']});
 
     $('#ffresponsetext').val(text);
     $('#ffresponsename').select();
@@ -5174,6 +5176,7 @@ function rcube_webmail()
     this.show_popup_dialog(content, this.get_label('newgroup'),
       [{
         text: this.get_label('save'),
+        'class': 'mainaction',
         click: function() {
           var name;
 
@@ -5201,6 +5204,7 @@ function rcube_webmail()
     this.show_popup_dialog(content, this.get_label('grouprename'),
       [{
         text: this.get_label('save'),
+        'class': 'mainaction',
         click: function() {
           var name;
 
@@ -5564,6 +5568,7 @@ function rcube_webmail()
     this.show_popup_dialog(content, this.get_label('searchsave'),
       [{
         text: this.get_label('save'),
+        'class': 'mainaction',
         click: function() {
           var name;
 
@@ -6565,6 +6570,11 @@ function rcube_webmail()
     popup.dialog('option', {
       height: Math.min(h - 40, height + 75 + (buttons ? 50 : 0)),
       width: Math.min(w - 20, width + 36)
+    });
+
+    // assign special classes to dialog buttons
+    $.each(options.button_classes || [], function(i, v) {
+      if (v) $($('.ui-dialog-buttonpane button.ui-button', popup.parent()).get(i)).addClass(v);
     });
 
     return popup;
