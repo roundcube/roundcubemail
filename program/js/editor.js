@@ -38,9 +38,10 @@ function rcube_text_editor(config, id)
   var ref = this,
     conf = {
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
+      cache_suffix: 's=4010700',
       theme: 'modern',
       language: config.lang,
-      content_css: 'program/js/tinymce/roundcube/content.css?v2',
+      content_css: 'program/js/tinymce/roundcube/content.css',
       menubar: false,
       statusbar: false,
       toolbar_items_size: 'small',
