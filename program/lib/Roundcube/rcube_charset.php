@@ -273,7 +273,7 @@ class rcube_charset
                 return utf8_encode($str);
             }
             else  {
-                user_error("No suitable function found for UTF-8 encoding", E_USER_WARNING);
+                trigger_error("No suitable function found for UTF-8 encoding");
             }
         }
 
@@ -289,7 +289,7 @@ class rcube_charset
                 return utf8_decode($str);
             }
             else {
-                user_error("No suitable function found for UTF-8 decoding", E_USER_WARNING);
+                trigger_error("No suitable function found for UTF-8 decoding");
             }
         }
 
