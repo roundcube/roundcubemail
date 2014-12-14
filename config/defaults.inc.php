@@ -318,11 +318,13 @@ $config['auto_create_user'] = true;
 // Enables possibility to log in using email address from user identities
 $config['user_aliases'] = false;
 
-// use this folder to store log files (must be writeable for apache user)
+// use this folder to store log files
+// must be writeable for the user who runs PHP process (Apache user if mod_php is being used)
 // This is used by the 'file' log driver.
 $config['log_dir'] = RCUBE_INSTALL_PATH . 'logs/';
 
-// use this folder to store temp files (must be writeable for apache user)
+// use this folder to store temp files
+// must be writeable for the user who runs PHP process (Apache user if mod_php is being used)
 $config['temp_dir'] = RCUBE_INSTALL_PATH . 'temp/';
 
 // expire files in temp_dir after 48 hours
