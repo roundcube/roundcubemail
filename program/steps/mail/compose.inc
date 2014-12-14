@@ -131,8 +131,10 @@ else if ($msg_uid = $COMPOSE['param']['uid']) {
     $compose_mode = RCUBE_COMPOSE_EDIT;
 }
 
-$COMPOSE['mode'] = $compose_mode;
-$OUTPUT->set_env('compose_mode', $compose_mode);
+if ($compose_mode) {
+    $COMPOSE['mode'] = $compose_mode;
+    $OUTPUT->set_env('compose_mode', $compose_mode);
+}
 
 if ($compose_mode == RCUBE_COMPOSE_EDIT || $compose_mode == RCUBE_COMPOSE_DRAFT) {
     // don't add signature in draft/edit mode, we'll also not remove the old-one
