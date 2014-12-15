@@ -493,7 +493,7 @@ table.messagelist.fixedcopy {
 .messagelist tr td.status span.unread,
 .messagelist tr td.subject span.unread,
 .messagelist tr td.status span.unread:hover {
-	background-position: 0 -1017px;
+	background-position: 0 -1017px !important;
 }
 
 .messagelist thead tr th.status span.status {
