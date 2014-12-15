@@ -879,13 +879,13 @@ function rcmail_search_update($return = false)
  *
  * @return array List of contact IDs per-source
  */
-function rcmail_get_cids($filter = null)
+function rcmail_get_cids($filter = null, $request_type = rcube_utils::INPUT_GPC)
 {
     // contact ID (or comma-separated list of IDs) is provided in two
     // forms. If _source is an empty string then the ID is a string
     // containing contact ID and source name in form: <ID>-<SOURCE>
 
-    $cid    = rcube_utils::get_input_value('_cid', rcube_utils::INPUT_GPC);
+    $cid    = rcube_utils::get_input_value('_cid', $request_type);
     $source = (string) rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
 
     if (is_array($cid)) {

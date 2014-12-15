@@ -1336,8 +1336,10 @@ function rcube_webmail()
     var url = this.get_task_url(task);
     if (task == 'mail')
       url += '&_mbox=INBOX';
-    else if (task == 'logout' && !this.env.server_error)
+    else if (task == 'logout' && !this.env.server_error) {
+      url += '&_token=' + this.env.request_token;
       this.clear_compose_data();
+    }
 
     this.redirect(url);
   };
@@ -1347,7 +1349,10 @@ function rcube_webmail()
     if (!url)
       url = this.env.comm_path;
 
-    return url.replace(/_task=[a-z0-9_-]+/i, '_task='+task);
+    if (url.match(/[?&]_task=[a-zA-Z0-9_-]+/))
+        return url.replace(/_task=[a-zA-Z0-9_-]+/, '_task=' + task);
+    else
+        return url.replace(/\?.*$/, '') + '?_task=' + task;
   };
 
   this.reload = function(delay)

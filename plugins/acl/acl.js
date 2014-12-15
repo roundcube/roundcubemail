@@ -62,8 +62,11 @@ rcube_webmail.prototype.acl_delete = function()
     var users = this.acl_get_usernames();
 
     if (users && users.length && confirm(this.get_label('acl.deleteconfirm'))) {
-        this.http_request('settings/plugin.acl', '_act=delete&_user='+urlencode(users.join(','))
-            + '&_mbox='+urlencode(this.env.mailbox),
+        this.http_post('settings/plugin.acl', {
+                _act: 'delete',
+                _user: users.join(','),
+                _mbox: this.env.mailbox
+            },
             this.set_busy(true, 'acl.deleting'));
     }
 }
@@ -71,7 +74,7 @@ rcube_webmail.prototype.acl_delete = function()
 // Save ACL data
 rcube_webmail.prototype.acl_save = function()
 {
-    var user = $('#acluser', this.acl_form).val(), rights = '', type;
+    var data, type, rights = '', user = $('#acluser', this.acl_form).val();
 
     $((this.env.acl_advanced ? '#advancedrights :checkbox' : '#simplerights :checkbox'), this.acl_form).map(function() {
         if (this.checked)
@@ -92,12 +95,18 @@ rcube_webmail.prototype.acl_save = function()
         return;
     }
 
-    this.http_request('settings/plugin.acl', '_act=save'
-        + '&_user='+urlencode(user)
-        + '&_acl=' +rights
-        + '&_mbox='+urlencode(this.env.mailbox)
-        + (this.acl_id ? '&_old='+this.acl_id : ''),
-        this.set_busy(true, 'acl.saving'));
+    data = {
+        _act: 'save',
+        _user: user,
+        _acl: rights,
+        _mbox: this.env.mailbox
+    }
+
+    if (this.acl_id) {
+        data._old = this.acl_id;
+    }
+
+    this.http_post('settings/plugin.acl', data, this.set_busy(true, 'acl.saving'));
 }
 
 // Cancel/Hide form

@@ -18,6 +18,7 @@ CHANGELOG Roundcube Webmail
 - Fix possible issues in skin/skin_path config handling (#1490125)
 - Fix lack of delimiter for recipient addresses in smtp_log (#1490150)
 - Fix generation of Blowfish-based password hashes (#1490184)
+- Fix bugs where CSRF attacks were still possible on some requests
 
 RELEASE 1.0.3
 -------------

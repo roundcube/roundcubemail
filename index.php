@@ -172,6 +172,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
 // end session (after optional referer check)
 else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])
+    && $RCMAIL->check_request(rcube_utils::INPUT_GET)
     && (!$RCMAIL->config->get('referer_check') || rcube_utils::check_referer())
 ) {
     $userdata = array(
