@@ -1494,15 +1494,14 @@ function rcmail_compose_attachment_list($attrib)
     if (!$attrib['id'])
         $attrib['id'] = 'rcmAttachmentList';
 
-    $out       = "\n";
-    $jslist    = array();
-    $button    = '';
-    $skin_path = $RCMAIL->config->get('skin_path');
+    $out    = "\n";
+    $jslist = array();
+    $button = '';
 
     if (is_array($COMPOSE['attachments'])) {
         if ($attrib['deleteicon']) {
             $button = html::img(array(
-                'src' => $skin_path . $attrib['deleteicon'],
+                'src' => $RCMAIL->output->abs_url($attrib['deleteicon'], true),
                 'alt' => $RCMAIL->gettext('delete')
             ));
         }
@@ -1541,13 +1540,13 @@ function rcmail_compose_attachment_list($attrib)
     }
 
     if ($attrib['deleteicon'])
-        $COMPOSE['deleteicon'] = $skin_path . $attrib['deleteicon'];
+        $COMPOSE['deleteicon'] = $RCMAIL->output->abs_url($attrib['deleteicon'], true);
     else if (rcube_utils::get_boolean($attrib['textbuttons']))
         $COMPOSE['textbuttons'] = true;
     if ($attrib['cancelicon'])
-        $OUTPUT->set_env('cancelicon', $skin_path . $attrib['cancelicon']);
+        $OUTPUT->set_env('cancelicon', $RCMAIL->output->abs_url($attrib['cancelicon'], true));
     if ($attrib['loadingicon'])
-        $OUTPUT->set_env('loadingicon', $skin_path . $attrib['loadingicon']);
+        $OUTPUT->set_env('loadingicon', $RCMAIL->output->abs_url($attrib['loadingicon'], true));
 
     $OUTPUT->set_env('attachments', $jslist);
     $OUTPUT->add_gui_object('attachmentlist', $attrib['id']);

@@ -357,8 +357,6 @@ function rcmail_message_list($attrib)
     if (!in_array('threads', $a_show_cols))
         array_unshift($a_show_cols, 'threads');
 
-    $_SESSION['skin_path'] = $RCMAIL->config->get('skin_path');
-
     // set client env
     $OUTPUT->add_gui_object('messagelist', $attrib['id']);
     $OUTPUT->set_env('autoexpand_threads', intval($RCMAIL->config->get('autoexpand_threads')));
@@ -543,8 +541,6 @@ function rcmail_message_list_head($attrib, $a_show_cols)
 {
     global $RCMAIL;
 
-    $skin_path = $_SESSION['skin_path'];
-
     // check to see if we have some settings for sorting
     $sort_col   = $_SESSION['sort_col'];
     $sort_order = $_SESSION['sort_order'];
@@ -566,7 +562,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', this, event)";
         $inner   = $RCMAIL->gettext('listoptions');
         if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
-            $inner = html::img(array('src' => $skin_path . $attrib['optionsmenuicon'], 'alt' => $RCMAIL->gettext('listoptions')));
+            $inner = html::img(array('src' => $RCMAIL->output->abs_url($attrib['optionsmenuicon'], true), 'alt' => $RCMAIL->gettext('listoptions')));
         }
         $list_menu = html::a(array(
             'href' => '#list-options',
@@ -1623,7 +1619,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
                             rcmail_output::JS_OBJECT_NAME, rcube::JQ($string)),
                     ),
                     html::img(array(
-                        'src' => $RCMAIL->config->get('skin_path') . $addicon,
+                        'src' => $RCMAIL->output->abs_url($addicon, true),
                         'alt' => "Add contact",
                 )));
             }
