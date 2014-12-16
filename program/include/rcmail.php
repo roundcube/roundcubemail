@@ -867,14 +867,6 @@ class rcmail extends rcube
      */
     public function request_security_check($mode = rcube_utils::INPUT_POST)
     {
-        // don't check for valid request tokens in these actions
-        // @TODO: get rid of this
-        $request_check_whitelist = array('spell'=>1, 'spell_html'=>1);
-
-        if ($request_check_whitelist[$this->action]) {
-            return;
-        }
-
         // check request token
         if (!$this->check_request($mode)) {
             self::raise_error(array(
