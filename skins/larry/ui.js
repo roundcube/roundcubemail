@@ -149,7 +149,12 @@ function rcube_mail_ui()
         rcmail.addEventListener('enable-command', enable_command)
           .addEventListener('aftershow-headers', function() { layout_messageview(); })
           .addEventListener('afterhide-headers', function() { layout_messageview(); });
-        $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(); return false });
+        $('#previewheaderstoggle').click(function(e) {
+            toggle_preview_headers();
+            if (this.blur && !rcube_event.is_keyboard(e))
+                this.blur();
+            return false;
+        });
 
         // add menu link for each attachment
         $('#attachment-list > li').each(function() {
