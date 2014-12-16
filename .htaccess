@@ -30,7 +30,7 @@ RewriteRule ^favicon\.ico$ skins/larry/images/favicon.ico
 # security rules:
 # - deny access to files not containing a dot or starting with a dot
 #   in all locations except installer directory
-RewriteRule ^(?!installer)(\.?[^\.]+)$ - [F]
+RewriteRule ^(?!installer|[a-f0-9]{16})(\.?[^\.]+)$ - [F]
 # - deny access to some locations
 RewriteRule ^/?(\.git|\.tx|SQL|bin|config|logs|temp|tests|program\/(include|lib|localization|steps)) - [F]
 # - deny access to some documentation files

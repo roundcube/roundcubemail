@@ -90,9 +90,9 @@ $RCMAIL->action = $startup['action'];
 
 // try to log in
 if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
-    $request_valid = $_SESSION['temp'] && $RCMAIL->check_request(rcube_utils::INPUT_POST, 'login');
+    $request_valid = $_SESSION['temp'] && $RCMAIL->check_request();
 
-    // purge the session in case of new login when a session already exists 
+    // purge the session in case of new login when a session already exists
     $RCMAIL->kill_session();
 
     $auth = $RCMAIL->plugins->exec_hook('authenticate', array(
@@ -140,7 +140,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
         unset($redir['abort'], $redir['_err']);
 
         // send redirect
-        $OUTPUT->redirect($redir);
+        $OUTPUT->redirect($redir, 0, true);
     }
     else {
         if (!$auth['valid']) {
@@ -171,10 +171,10 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     }
 }
 
-// end session (after optional referer check)
-else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])
-    && (!$RCMAIL->config->get('referer_check') || rcube_utils::check_referer())
-) {
+// end session
+else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
+    $RCMAIL->request_security_check($mode = rcube_utils::INPUT_GET);
+
     $userdata = array(
         'user' => $_SESSION['username'],
         'host' => $_SESSION['storage_host'],
@@ -234,32 +234,9 @@ if (empty($RCMAIL->user->ID)) {
 
     $OUTPUT->send($plugin['task']);
 }
-// CSRF prevention
 else {
-    // don't check for valid request tokens in these actions
-    $request_check_whitelist = array('login'=>1, 'spell'=>1, 'spell_html'=>1);
-
-    if (!$request_check_whitelist[$RCMAIL->action]) {
-        // check client X-header to verify request origin
-        if ($OUTPUT->ajax_call) {
-            if (rcube_utils::request_header('X-Roundcube-Request') != $RCMAIL->get_request_token()) {
-                header('HTTP/1.1 403 Forbidden');
-                die("Invalid Request");
-            }
-        }
-        // check request token in POST form submissions
-        else if (!empty($_POST) && !$RCMAIL->check_request()) {
-            $OUTPUT->show_message('invalidrequest', 'error');
-            $OUTPUT->send($RCMAIL->task);
-        }
-
-        // check referer if configured
-        if ($RCMAIL->config->get('referer_check') && !rcube_utils::check_referer()) {
-            raise_error(array(
-                'code' => 403, 'type' => 'php',
-                'message' => "Referer check failed"), true, true);
-        }
-    }
+    // CSRF prevention
+    $RCMAIL->request_security_check();
 
     // check access to disabled actions
     $disabled_actions = (array) $RCMAIL->config->get('disabled_actions');

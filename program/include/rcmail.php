@@ -760,49 +760,16 @@ class rcmail extends rcube
     }
 
     /**
-     * Generate a unique token to be used in a form request
-     *
-     * @return string The request token
-     */
-    public function get_request_token()
-    {
-        $sess_id = $_COOKIE[ini_get('session.name')];
-
-        if (!$sess_id) {
-            $sess_id = session_id();
-        }
-
-        $plugin = $this->plugins->exec_hook('request_token', array(
-            'value' => md5('RT' . $this->get_user_id() . $this->config->get('des_key') . $sess_id)));
-
-        return $plugin['value'];
-    }
-
-    /**
-     * Check if the current request contains a valid token
-     *
-     * @param int Request method
-     *
-     * @return boolean True if request token is valid false if not
-     */
-    public function check_request($mode = rcube_utils::INPUT_POST)
-    {
-        $token   = rcube_utils::get_input_value('_token', $mode);
-        $sess_id = $_COOKIE[ini_get('session.name')];
-
-        return !empty($sess_id) && $token == $this->get_request_token();
-    }
-
-    /**
      * Build a valid URL to this instance of Roundcube
      *
      * @param mixed   Either a string with the action or url parameters as key-value pairs
      * @param boolean Build an URL absolute to document root
      * @param boolean Create fully qualified URL including http(s):// and hostname
+     * @param bool    Return absolute URL in secure location
      *
      * @return string Valid application URL
      */
-    public function url($p, $absolute = false, $full = false)
+    public function url($p, $absolute = false, $full = false, $secure = false)
     {
         if (!is_array($p)) {
             if (strpos($p, 'http') === 0) {
@@ -828,9 +795,23 @@ class rcmail extends rcube
             }
         }
 
+        $base_path = strval($_SERVER['REDIRECT_SCRIPT_URL'] ?: $_SERVER['SCRIPT_NAME']);
+        $base_path = preg_replace('![^/]+$!', '', $base_path);
+
+        if ($secure && ($token = $this->get_secure_url_token(true))) {
+            // add token to the url
+            $url = $token . '/' . $url;
+
+            // remove old token from the path
+            $base_path = rtrim($base_path, '/');
+            $base_path = preg_replace('/\/[a-f0-9]{' . strlen($token) . '}$/', '', $base_path);
+
+            // this need to be full url to make redirects work
+            $absolute = true;
+        }
+
         if ($absolute || $full) {
             // add base path to this Roundcube installation
-            $base_path = preg_replace('![^/]+$!', '', strval($_SERVER['SCRIPT_NAME']));
             if ($base_path == '') $base_path = '/';
             $prefix = $base_path;
 
@@ -876,6 +857,36 @@ class rcmail extends rcube
                 self::print_timer(RCMAIL_START, $log);
             else
                 self::console($log);
+        }
+    }
+
+    /**
+     * CSRF attack prevention code
+     *
+     * @param int Request mode
+     */
+    public function request_security_check($mode = rcube_utils::INPUT_POST)
+    {
+        // don't check for valid request tokens in these actions
+        // @TODO: get rid of this
+        $request_check_whitelist = array('spell'=>1, 'spell_html'=>1);
+
+        if ($request_check_whitelist[$this->action]) {
+            return;
+        }
+
+        // check request token
+        if (!$this->check_request($mode)) {
+            self::raise_error(array(
+                'code' => 403, 'type' => 'php',
+                'message' => "Request security check failed"), false, true);
+        }
+
+        // check referer if configured
+        if ($this->config->get('referer_check') && !rcube_utils::check_referer()) {
+            self::raise_error(array(
+                'code' => 403, 'type' => 'php',
+                'message' => "Referer check failed"), true, true);
         }
     }
 

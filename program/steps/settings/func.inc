@@ -334,13 +334,10 @@ function rcmail_user_prefs($current = null)
                     $input    = new html_radiobutton(array('name'=>'_skin'));
 
                     foreach ($skins as $skin) {
-                        $thumbnail = "./skins/$skin/thumbnail.png";
-                        if (!is_file($thumbnail))
-                            $thumbnail = './program/resources/blank.gif';
-
+                        $thumbnail   = "skins/$skin/thumbnail.png";
                         $skinname    = ucfirst($skin);
                         $author_link = $license_link = '';
-                        $meta        = @json_decode(@file_get_contents("./skins/$skin/meta.json"), true);
+                        $meta        = @json_decode(@file_get_contents(INSTALL_PATH . "skins/$skin/meta.json"), true);
 
                         if (is_array($meta) && $meta['name']) {
                             $skinname     = $meta['name'];
@@ -348,10 +345,19 @@ function rcmail_user_prefs($current = null)
                             $license_link = $meta['license-url'] ? html::a(array('href' => $meta['license-url'], 'target' => '_blank', 'tabindex' => '-1'), rcube::Q($meta['license'])) : rcube::Q($meta['license']);
                         }
 
+                        $img = html::img(array(
+                                'src'     => $thumbnail,
+                                'class'   => 'skinthumbnail',
+                                'alt'     => $skin,
+                                'width'   => 64,
+                                'height'  => 64,
+                                'onerror' => "this.src = rcmail.assets_path('program/resources/blank.gif')",
+                        ));
+
                         $skinnames[] = mb_strtolower($skinname);
                         $blocks['skin']['options'][$skin]['content'] = html::label(array('class' => 'skinselection'),
                             html::span('skinitem', $input->show($config['skin'], array('value' => $skin, 'id' => $field_id.$skin))) .
-                            html::span('skinitem', html::img(array('src' => $thumbnail, 'class' => 'skinthumbnail', 'alt' => $skin, 'width' => 64, 'height' => 64))) .
+                            html::span('skinitem', $img) .
                             html::span('skinitem', html::span('skinname', rcube::Q($skinname)) . html::br() .
                                 html::span('skinauthor', $author_link ? 'by ' . $author_link : '') . html::br() .
                                 html::span('skinlicense', $license_link ? $RCMAIL->gettext('license').':&nbsp;' . $license_link : ''))

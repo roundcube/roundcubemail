@@ -534,6 +534,28 @@ $config['email_dns_check'] = false;
 // Note: useful when SMTP server stores sent mail in user mailbox
 $config['no_save_sent_messages'] = false;
 
+// Improve system security by using special URL with security token.
+// This can be set to a number defining token length. Default: 16.
+// Warning: This requires http server configuration. Sample:
+//    RewriteRule ^/roundcubemail/[a-f0-9]{16}/(.*) /roundcubemail/$1 [PT]
+//    Alias /roundcubemail /var/www/roundcubemail/
+// Note: Use assets_path to not prevent the browser from caching assets
+$config['use_secure_urls'] = false;
+
+// Allows to define separate server/path for image/js/css files
+// Warning: If the domain is different cross-domain access to some
+// resources need to be allowed
+// Sample:
+//    <FilesMatch ".(eot|ttf|woff)">
+//    Header set Access-Control-Allow-Origin "*"
+//    </FilesMatch>
+$config['assets_path'] = '';
+
+// While assets_path is for the browser, assets_dir informs
+// PHP code about the location of asset files in filesystem
+$config['assets_dir'] = '';
+
+
 // ----------------------------------
 // PLUGINS
 // ----------------------------------

@@ -1,11 +1,14 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improve system security by using optional special URL with security token - use_secure_urls
+- Allow to define separate server/path for image/js/css files - assets_url/assets_dir
 - Fix import of multiple contact email addresses from Outlook-csv format (#1490169)
 - Fix drag-n-drop to folders expanded while dragging (#1490157)
 - Fix import of multiple contact groups from Google-csv format (#1490159)
 - Fix import of contacts with multiple email addresses from Google-csv format (#1490178)
 - Fix generation of Blowfish-based password hashes (#1490184)
+- Fix bugs where CSRF attacks were still possible on some requests
 
 RELEASE 1.1-beta
 ----------------

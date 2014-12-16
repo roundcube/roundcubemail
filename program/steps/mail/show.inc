@@ -341,20 +341,20 @@ function rcmail_message_contactphoto($attrib)
 {
     global $RCMAIL, $MESSAGE;
 
-    $placeholder = $attrib['placeholder'] ? $RCMAIL->config->get('skin_path') . $attrib['placeholder'] : null;
+    $placeholder = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : null;
+    $placeholder = $RCMAIL->output->asset_url($placeholder ? $placeholder : 'program/resources/blank.gif');
 
     if ($MESSAGE->sender) {
         $photo_img = $RCMAIL->url(array(
             '_task'   => 'addressbook',
             '_action' => 'photo',
             '_email'  => $MESSAGE->sender['mailto'],
-            '_alt'    => $placeholder,
         ));
 
-        $attrib['onerror'] = "this.src = '" . ($placeholder ? $placeholder : 'program/resources/blank.gif') . "'";
+        $attrib['onerror'] = "this.src = '$placeholder'";
     }
     else {
-        $photo_img = $placeholder ? $placeholder : 'program/resources/blank.gif';
+        $photo_img = $placeholder;
     }
 
     return html::img(array('src' => $photo_img, 'alt' => $RCMAIL->gettext('contactphoto')) + $attrib);

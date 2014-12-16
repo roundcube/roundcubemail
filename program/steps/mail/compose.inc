@@ -951,7 +951,7 @@ function rcmail_compose_body($attrib)
             "googie.setCurrentLanguage('%s');\n".
             "googie.setDecoration(false);\n".
             "googie.decorateTextarea('%s');\n",
-            $RCMAIL->output->get_skin_path(),
+            $RCMAIL->output->asset_url($RCMAIL->output->get_skin_path()),
             $RCMAIL->url(array('_task' => 'utils', '_action' => 'spell', '_remote' => 1)),
                 !empty($dictionary) ? 'true' : 'false',
             rcube::JQ(rcube::Q($RCMAIL->gettext('checkspelling'))),

@@ -28,8 +28,14 @@
  */
 class rcube
 {
-    const INIT_WITH_DB = 1;
+    // Init options
+    const INIT_WITH_DB      = 1;
     const INIT_WITH_PLUGINS = 2;
+
+    // Request status
+    const REQUEST_VALID       = 0;
+    const REQUEST_ERROR_URL   = 1;
+    const REQUEST_ERROR_TOKEN = 2;
 
     /**
      * Singleton instace of rcube
@@ -101,6 +107,12 @@ class rcube
      */
     public $user;
 
+    /**
+     * Request status
+     *
+     * @var int
+     */
+    public $request_status = 0;
 
     /* private/protected vars */
     protected $texts;
@@ -974,6 +986,104 @@ class rcube
         }
 
         return $iv;
+    }
+
+
+    /**
+     * Returns session token for secure URLs
+     *
+     * @param bool $generate Generate token if not exists in session yet
+     *
+     * @return string|bool Token string, False when disabled
+     */
+    public function get_secure_url_token($generate = false)
+    {
+        if ($len = $this->config->get('use_secure_urls')) {
+            if (empty($_SESSION['secure_token']) && $generate) {
+                // generate x characters long token
+                $length = $len > 1 ? $len : 16;
+                $token  = openssl_random_pseudo_bytes($length / 2);
+                $token  = bin2hex($token);
+
+                $plugin = $this->plugins->exec_hook('secure_token',
+                    array('value' => $token, 'length' => $length));
+
+                $_SESSION['secure_token'] = $plugin['value'];
+            }
+
+            return $_SESSION['secure_token'];
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Generate a unique token to be used in a form request
+     *
+     * @return string The request token
+     */
+    public function get_request_token()
+    {
+        $sess_id = $_COOKIE[ini_get('session.name')];
+        if (!$sess_id) {
+            $sess_id = session_id();
+        }
+
+        $plugin = $this->plugins->exec_hook('request_token', array(
+            'value' => md5('RT' . $this->get_user_id() . $this->config->get('des_key') . $sess_id)));
+
+        return $plugin['value'];
+    }
+
+
+    /**
+     * Check if the current request contains a valid token.
+     * Empty requests aren't checked until use_secure_urls is set.
+     *
+     * @param int Request method
+     *
+     * @return boolean True if request token is valid false if not
+     */
+    public function check_request($mode = rcube_utils::INPUT_POST)
+    {
+        // check secure token in URL if enabled
+        if ($token = $this->get_secure_url_token()) {
+            foreach (explode('/', preg_replace('/[?#&].*$/', '', $_SERVER['REQUEST_URI'])) as $tok) {
+                if ($tok == $token) {
+                    return true;
+                }
+            }
+
+            $this->request_status = self::REQUEST_ERROR_URL;
+
+            return false;
+        }
+
+        $sess_tok = $this->get_request_token();
+
+        // ajax requests
+        if (rcube_utils::request_header('X-Roundcube-Request') == $sess_tok) {
+            return true;
+        }
+
+        // skip empty requests
+        if (($mode == rcube_utils::INPUT_POST && empty($_POST))
+            || ($mode == rcube_utils::INPUT_GET && empty($_GET))
+        ) {
+            return true;
+        }
+
+        // default method of securing requests
+        $token   = rcube_utils::get_input_value('_token', $mode);
+        $sess_id = $_COOKIE[ini_get('session.name')];
+
+        if (empty($sess_id) || $token != $sess_tok) {
+            $this->request_status = self::REQUEST_ERROR_TOKEN;
+            return false;
+        }
+
+        return true;
     }
 
 

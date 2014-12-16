@@ -50,9 +50,17 @@ else if ($ERROR_CODE == 401) {
 
 // forbidden due to request check
 else if ($ERROR_CODE == 403) {
+    if ($_SERVER['REQUEST_METHOD'] == 'GET' && $rcmail->request_status == rcube::REQUEST_ERROR_URL) {
+        parse_str($_SERVER['QUERY_STRING'], $url);
+        $url = $rcmail->url($url, true, false, true);
+        $add = "<br /><a href=\"$url\">Click here to try again.<a/>";
+    }
+    else {
+        $add = "Please contact your server-administrator.";
+    }
+
     $__error_title = "REQUEST CHECK FAILED";
-    $__error_text  = "Access to this service was denied due to failing security checks!<br />\n"
-        . "Please contact your server-administrator.";
+    $__error_text  = "Access to this service was denied due to failing security checks!<br />\n$add";
 }
 
 // failed request (wrong step in URL)

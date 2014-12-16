@@ -20,10 +20,11 @@
 */
 
 // process ajax requests only
-if (!$OUTPUT->ajax_call)
+if (!$OUTPUT->ajax_call) {
     return;
+}
 
-$cids   = rcmail_get_cids();
+$cids   = rcmail_get_cids(null, rcube_utils::INPUT_POST);
 $delcnt = 0;
 
 // remove previous deletes

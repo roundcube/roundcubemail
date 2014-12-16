@@ -181,6 +181,11 @@ class rcmail_output_json extends rcmail_output
      */
     public function raise_error($code, $message)
     {
+        if ($code == 403) {
+            header('HTTP/1.1 403 Forbidden');
+            die("Invalid Request");
+        }
+
         $this->show_message("Application Error ($code): $message", 'error');
         $this->remote_response();
         exit;

@@ -58,7 +58,6 @@ function rcube_webmail()
     request_timeout: 180,  // seconds
     draft_autosave: 0,     // seconds
     comm_path: './',
-    blankpage: 'program/resources/blank.gif',
     recipients_separator: ',',
     recipients_delimiter: ', ',
     popup_width: 1150,
@@ -162,6 +161,9 @@ function rcube_webmail()
       this.goto_url('error', '_code=0x199');
       return;
     }
+
+    if (!this.env.blankpage)
+      this.env.blankpage = this.assets_path('program/resources/blank.gif');
 
     // find all registered gui containers
     for (n in this.gui_containers)
@@ -1406,8 +1408,10 @@ function rcube_webmail()
 
     if (task == 'mail')
       url += '&_mbox=INBOX';
-    else if (task == 'logout' && !this.env.server_error)
+    else if (task == 'logout' && !this.env.server_error) {
+      url += '&_token=' + this.env.request_token;
       this.clear_compose_data();
+    }
 
     this.redirect(url);
   };
@@ -1417,7 +1421,10 @@ function rcube_webmail()
     if (!url)
       url = this.env.comm_path;
 
-    return url.replace(/_task=[a-z0-9_-]+/i, '_task='+task);
+    if (url.match(/[?&]_task=[a-zA-Z0-9_-]+/))
+        return url.replace(/_task=[a-zA-Z0-9_-]+/, '_task=' + task);
+    else
+        return url.replace(/\?.*$/, '') + '?_task=' + task;
   };
 
   this.reload = function(delay)
@@ -8039,7 +8046,7 @@ function rcube_webmail()
 
     img.onload = function() { ref.env.browser_capabilities.tif = 1; };
     img.onerror = function() { ref.env.browser_capabilities.tif = 0; };
-    img.src = 'program/resources/blank.tif';
+    img.src = this.assets_path('program/resources/blank.tif');
   };
 
   this.pdf_support_check = function()
@@ -8094,6 +8101,15 @@ function rcube_webmail()
     }
 
     return 0;
+  };
+
+  this.assets_path = function(path)
+  {
+    if (this.env.assets_path && !path.startsWith(this.env.assets_path)) {
+      path = this.env.assets_path + path;
+    }
+
+    return path;
   };
 
   // Cookie setter

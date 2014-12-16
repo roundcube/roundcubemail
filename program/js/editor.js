@@ -36,12 +36,13 @@
 function rcube_text_editor(config, id)
 {
   var ref = this,
+    abs_url = location.href.replace(/[?#].*$/, '').replace(/\/$/, ''),
     conf = {
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
       cache_suffix: 's=4010700',
       theme: 'modern',
       language: config.lang,
-      content_css: 'program/js/tinymce/roundcube/content.css',
+      content_css: rcmail.assets_path('program/js/tinymce/roundcube/content.css'),
       menubar: false,
       statusbar: false,
       toolbar_items_size: 'small',
@@ -83,7 +84,7 @@ function rcube_text_editor(config, id)
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
         + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
         + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',
-      spellchecker_rpc_url: '../../../../../?_task=utils&_action=spell_html&_remote=1',
+      spellchecker_rpc_url: abs_url + '/?_task=utils&_action=spell_html&_remote=1',
       spellchecker_language: rcmail.env.spell_lang,
       accessibility_focus: false,
       file_browser_callback: function(name, url, type, win) { ref.file_browser_callback(name, url, type); },
