@@ -1085,18 +1085,6 @@ a.iconlink.upload {
 	overflow: auto;
 }
 
-.readtext {
-	width: 42em;
-	padding: 12px;
-	font-size: 12px;
-}
-
-.readtext > h1,
-.readtext > h2,
-.readtext > h3 {
-	margin-top: 0;
-}
-
 .watermark {
 	background-image: url(images/watermark.jpg);
 	background-position: center;
