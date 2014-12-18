@@ -44,7 +44,7 @@
         "phpunit/phpunit": "*"
     },
     "suggest": {
-        "pear-pear.php.net/net_ldap2": "Version >=2.0.12 required for connecting to LDAP address books",
+        "pear-pear.php.net/net_ldap2": ">=2.0.12 required for connecting to LDAP address books",
         "kolab/Net_LDAP3": "dev-master required for connecting to LDAP address books"
     },
     "minimum-stability": "dev"
