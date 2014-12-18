@@ -196,7 +196,7 @@ if ($RCI->configured) {
     }
 
     // write updated composer.json back to disk
-    if (0&&$comsposer_json && is_writeable(INSTALL_PATH . 'composer.json')) {
+    if ($comsposer_json && is_writeable(INSTALL_PATH . 'composer.json')) {
       $success &= (bool)file_put_contents(INSTALL_PATH . 'composer.json', $comsposer_json);
     }
     else {
