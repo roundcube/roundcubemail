@@ -1215,7 +1215,8 @@ function rcube_webmail()
 
       // reset quicksearch
       case 'reset-search':
-        var n, s = this.env.search_request || this.env.qsearch;
+        var n, s = this.env.search_request || this.env.qsearch,
+            ss = this.gui_objects.qsearchbox && this.gui_objects.qsearchbox.value != '';
 
         this.reset_qsearch();
         this.select_all_mode = false;
@@ -1224,7 +1225,7 @@ function rcube_webmail()
           if (this.contact_list)
             this.list_contacts_clear();
         }
-        else if (s && this.env.mailbox) {
+        else if (s && ss && this.env.mailbox) {
           this.list_mailbox(this.env.mailbox, 1);
         }
         else if (s && this.task == 'addressbook') {
