@@ -765,9 +765,9 @@ class rcube_ldap extends rcube_addressbook
         if ($this->prop['vlv_search'] && $this->ready && join(',', (array)$fields) == join(',', $list_fields)) {
             $this->result = new rcube_result_set(0);
 
-            $search_suffix = $this->prop['fuzzy_search'] && $mode != 1 ? '*' : '';
+            $this->ldap->config_set('fuzzy_search', intval($this->prop['fuzzy_search'] && $mode != 1));
             $ldap_data = $this->ldap->search($this->base_dn, $this->prop['filter'], $this->prop['scope'], $this->prop['attributes'],
-                array('search' => $value . $search_suffix /*, 'sort' => $this->prop['sort'] */));
+                array('search' => $value /*, 'sort' => $this->prop['sort'] */));
             if ($ldap_data === false) {
                 return $this->result;
             }
