@@ -44,7 +44,11 @@ $input = trim(fgets(STDIN));
 if (strtolower($input) == 'y') {
   $err = false;
   echo "Copying files to target location...";
-  foreach (array('program','installer','bin','SQL','plugins','skins') as $dir) {
+  $dirs = array('program','installer','bin','SQL','plugins','skins');
+  if (is_dir(INSTALL_PATH . 'vendor') && !is_file(INSTALL_PATH . 'composer.json')) {
+    $dirs[] = 'vendor';
+  }
+  foreach ($dirs as $dir) {
     if (!system("rsync -avC " . INSTALL_PATH . "$dir/* $target_dir/$dir/")) {
       $err = true;
       break;
