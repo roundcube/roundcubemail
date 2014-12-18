@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.0.4
+-------------
 - Disable TinyMCE contextmenu plugin as there are more cons than pros in using it (#1490118)
 - Fix bug where show_real_foldernames setting wasn't honored on compose page (#1490153)
 - Fix issue where Archive folder wasn't protected in Folder Manager (#1490154)
