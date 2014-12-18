@@ -574,6 +574,7 @@ function rcube_webmail()
       this.treelist
         .addEventListener('collapse', function(node) { ref.folder_collapsed(node) })
         .addEventListener('expand', function(node) { ref.folder_collapsed(node) })
+        .addEventListener('beforeselect', function(node) { return !ref.busy; })
         .addEventListener('select', function(node) { ref.triggerEvent('selectfolder', { folder:node.id, prefix:'rcmli' }) });
     }
 

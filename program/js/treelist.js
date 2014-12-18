@@ -248,6 +248,11 @@ function rcube_treelist_widget(node, p)
    */
   function select(id)
   {
+    // allow subscribes to prevent selection change
+    if (me.triggerEvent('beforeselect', indexbyid[id]) === false) {
+      return;
+    }
+
     if (selection) {
       id2dom(selection, true).removeClass('selected').removeAttr('aria-selected');
       if (search_active)
