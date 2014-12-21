@@ -671,6 +671,27 @@ echo $select_param_folding->show(strval($RCI->getprop('mime_param_folding')));
 <p class="hint"><span class="userconf">*</span>&nbsp; These settings are defaults for the user preferences</p>
 </fieldset>
 
+
+<fieldset>
+<legend>Plugins</legend>
+<dl class="configblock" id="cgfblockdisplay">
+
+<?php
+$plugins = $RCI->list_plugins();
+foreach($plugins as $p) 
+{
+	$p_check = new html_checkbox(array('name' => '_plugins_'.$p['name'], 'id' => 'cfgplugin_'.$p['name']));
+	echo '<dt class="propname">'.$p['name'].'</dt><dd>';
+	echo $p_check->show(0, array('value' => $p['name']));
+	echo '<label for="cfgplugin_'.$p['name'].'">'.$p['desc'].'</label><br/></dd>';
+}
+
+?>
+</dl>
+
+<p class="hint">Please consider checking dependencies of enabled plugins</p>
+</fieldset>
+
 <?php
 
 echo '<p><input type="submit" name="submit" value="' . ($RCI->configured ? 'UPDATE' : 'CREATE') . ' CONFIG" ' . ($RCI->failures ? 'disabled' : '') . ' /></p>';
