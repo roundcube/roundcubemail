@@ -241,7 +241,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         );
 
         foreach ($input as $idx => $value) {
-            $this->assertFalse(get_boolean($value), "Invalid result for $idx test item");
+            $this->assertFalse(rcube_utils::get_boolean($value), "Invalid result for $idx test item");
         }
 
         $input = array(
@@ -249,7 +249,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         );
 
         foreach ($input as $idx => $value) {
-            $this->assertTrue(get_boolean($value), "Invalid result for $idx test item");
+            $this->assertTrue(rcube_utils::get_boolean($value), "Invalid result for $idx test item");
         }
     }
 
