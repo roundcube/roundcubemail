@@ -6563,14 +6563,16 @@ function rcube_webmail()
     else
       popup.html(content);
 
-    popup.dialog($.extend({
+    options = $.extend({
         title: title,
         buttons: buttons,
         modal: true,
         resizable: true,
         width: 500,
         close: function(event, ui) { $(this).remove(); }
-      }, options || {}));
+      }, options || {});
+
+    popup.dialog(options);
 
     // resize and center popup
     var win = $(window), w = win.width(), h = win.height(),
