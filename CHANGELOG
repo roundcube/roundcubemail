@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where some valid text in a message was handled as uuencoded attachment
+
 RELEASE 1.0.4
 -------------
 - Disable TinyMCE contextmenu plugin as there are more cons than pros in using it (#1490118)
