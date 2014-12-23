@@ -765,24 +765,43 @@ class rcube_message
         }
 
         $parts = array();
-        // FIXME: line length is max.65?
-        $uu_regexp = '/begin [0-7]{3,4} ([^\n]+)\n/s';
+        
+        // uuencode regexp
+        $uu_regexp = '/^(begin [0-7]{3,4} ([^\n]+)\n)(([\x21-\x60]{0,65}\n){0,2})([\x21-\x60]{0,65}|`\nend)\s*\n/sm';
 
         if (preg_match_all($uu_regexp, $part->body, $matches, PREG_SET_ORDER)) {
             $uu_endstring = "`\nend\n";
 
             // add attachments to the structure
             foreach ($matches as $pid => $att) {
-                $startpos = strpos($part->body, $att[1]) + strlen($att[1]) + 1; // "\n"
+                // make sure we're looking at a uuencoded file, and not a false positive
+                $uu_lines = explode("\n", $att[3]);
+                foreach ($uu_lines as $uu_line) {
+                    if ( strlen($uu_line) == 0 ) {
+                        continue;
+                    }
+                    $line_len = (ord(substr($uu_line, 0, 1)) - 32) & 0x3F;
+                    $max_code_len = floor( ($line_len+2)/3 ) * 4;
+                    $min_code_len = ceil( $line_len/3 * 4);
+                    if ( strlen($uu_line)-1 < $min_code_len
+                         or strlen($uu_line)-1 > $max_code_len )
+                    {
+                        // illegal uuencode, break out of 'foreach $matches' loop
+                        break 2;
+                    }
+                }
+
+                $startpos = strpos($part->body, $att[0]) + strlen($att[1]);
                 $endpos   = strpos($part->body, $uu_endstring);
                 $filebody = substr($part->body, $startpos, $endpos-$startpos);
 
                 // remove attachments bodies from the message body
-                $part->body = substr_replace($part->body, "", $startpos, $endpos+strlen($uu_endstring)-$startpos);
-
+                $uu_startpos = $startpos - strlen($att[1]);
+                $part->body = substr_replace($part->body, "", $uu_startpos, $endpos+strlen($uu_endstring)-$uu_startpos);
+                
                 $uupart = new rcube_message_part;
 
-                $uupart->filename = trim($att[1]);
+                $uupart->filename = trim($att[2]);
                 $uupart->encoding = 'stream';
                 $uupart->body     = convert_uudecode($filebody);
                 $uupart->size     = strlen($uupart->body);
@@ -796,8 +815,6 @@ class rcube_message
                 unset($matches[$pid]);
             }
 
-            // remove attachments bodies from the message body
-            $part->body = preg_replace($uu_regexp, '', $part->body);
             // mark body as modified so it will not be cached by rcube_imap_cache
             $part->body_modified = true;
         }
