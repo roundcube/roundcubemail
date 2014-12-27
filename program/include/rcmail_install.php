@@ -578,17 +578,18 @@ class rcmail_install
     foreach (glob($plugin_dir . '*') as $path) 
     {
 
-      if (is_dir($path) && file_exists($path.'/composer.json')) 
+      if (is_dir($path) && is_readable($path.'/composer.json'))
       {
         $file_json = json_decode(file_get_contents($path.'/composer.json'));
-        $plugin_desc = $file_json->description;
+        $plugin_desc = $file_json->description ?: 'N/A';
       }
       else
       {
         $plugin_desc = 'N/A';
       }
 
-      $plugins[] = array('name' => substr($path, strlen($plugin_dir)), 'desc' => $plugin_desc);
+      $name = substr($path, strlen($plugin_dir));
+      $plugins[] = array('name' => $name, 'desc' => $plugin_desc, 'enabled' => in_array($name, $this->config['plugins']));
     }
 
     return $plugins;
