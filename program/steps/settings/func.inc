@@ -219,7 +219,7 @@ function rcmail_user_prefs($current = null)
                 foreach (DateTimeZone::listIdentifiers() as $i => $tzs) {
                     try {
                         $tz      = new DateTimeZone($tzs);
-                        $date    = new DateTime('2012-12-21', $tz);
+                        $date    = new DateTime(date('Y') . '-12-21', $tz);
                         $offset  = $date->format('Z') + 45000;
                         $sortkey = sprintf('%06d.%s', $offset, $tzs);
                         $zones[$sortkey] = array($tzs, $date->format('P'));
