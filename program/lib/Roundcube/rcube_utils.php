@@ -912,14 +912,21 @@ class rcube_utils
      * Split the given string into word tokens
      *
      * @param string Input to tokenize
+     * @param integer Minimum length of a single token
      * @return array List of tokens
      */
-    public static function tokenize_string($str)
+    public static function tokenize_string($str, $minlen = 2)
     {
-        return explode(" ", preg_replace(
-            array('/[\s;\/+-]+/i', '/(\d)[-.\s]+(\d)/', '/\s\w{1,3}\s/u'),
-            array(' ', '\\1\\2', ' '),
-            $str));
+        $expr = array('/[\s;\/+-]+/ui', '/(\d)[-.\s]+(\d)/u');
+        $repl = array(' ', '\\1\\2');
+
+        if ($minlen > 1) {
+            $minlen--;
+            $expr[] = "/(^|\s+)\w{1,$minlen}(\s+|$)/u";
+            $repl[] = ' ';
+        }
+
+        return array_filter(explode(" ", preg_replace($expr, $repl, $str)));
     }
 
     /**
@@ -928,10 +935,11 @@ class rcube_utils
      *
      * @param string  Input string (UTF-8)
      * @param boolean True to return list of words as array
+     * @param integer Minimum length of tokens
      *
      * @return mixed  Normalized string or a list of normalized tokens
      */
-    public static function normalize_string($str, $as_array = false)
+    public static function normalize_string($str, $as_array = false, $minlen = 2)
     {
         // replace 4-byte unicode characters with '?' character,
         // these are not supported in default utf-8 charset on mysql,
@@ -943,7 +951,7 @@ class rcube_utils
             . ')/', '?', $str);
 
         // split by words
-        $arr = self::tokenize_string($str);
+        $arr = self::tokenize_string($str, $minlen);
 
         // detect character set
         if (utf8_encode(utf8_decode($str)) == $str) {

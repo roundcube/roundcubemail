@@ -344,6 +344,25 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * rcube:utils::tokenize_string()
+     */
+    function test_tokenize_string()
+    {
+        $test = array(
+            ''        => array(),
+            'abc d'   => array('abc'),
+            'abc de'  => array('abc','de'),
+            'äàé;êöü-xyz' => array('äàé','êöü','xyz'),
+            '日期格式' => array('日期格式'),
+        );
+
+        foreach ($test as $input => $output) {
+            $result = rcube_utils::tokenize_string($input);
+            $this->assertSame($output, $result);
+        }
+    }
+
+    /**
      * rcube:utils::normalize_string()
      */
     function test_normalize_string()
@@ -353,15 +372,18 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             'abc def' => 'abc def',
             'ÇçäâàåæéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ' => 'ccaaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy',
             'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżýĄŚŻŹĆ' => 'aaaaccceeeeiilllnnooorrsssttuuuuzzzyaszzc',
-            'ß'  => 'ss',
-            'ae' => 'a',
-            'oe' => 'o',
-            'ue' => 'u',
+            'ß'   => '',
+            'ßs'  => 'sss',
+            'Xae' => 'xa',
+            'Xoe' => 'xo',
+            'Xue' => 'xu',
+            '项目' => '项目',
+            '日'   => '',  // FIXME: this should not be stripped although minlen = 2
         );
 
         foreach ($test as $input => $output) {
             $result = rcube_utils::normalize_string($input);
-            $this->assertSame($output, $result);
+            $this->assertSame($output, $result, "Error normalizing '$input'");
         }
     }
 
