@@ -278,6 +278,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $test = array(
             '1' => 1,
             '' => 0,
+            'abc-555' => 0,
             '2013-04-22' => 1366581600,
             '2013/04/22' => 1366581600,
             '2013.04.22' => 1366581600,
@@ -286,6 +287,8 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             '22.04.2013' => 1366581600,
             '22.4.2013'  => 1366581600,
             '20130422'   => 1366581600,
+            '2013/06/21 12:00:00 UTC' => 1371816000,
+            '2013/06/21 12:00:00 Europe/Berlin' => 1371808800,
         );
 
         foreach ($test as $datetime => $ts) {
@@ -316,7 +319,27 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime);
-            $this->assertSame($ts, $result ? $result->format('Y-m-d') : '', "Error parsing date: $datetime");
+            $this->assertSame($ts, $result ? $result->format('Y-m-d') : false, "Error parsing date: $datetime");
+        }
+    }
+
+    /**
+     * rcube:utils::anytodatetime()
+     */
+    function test_anytodatetime_timezone()
+    {
+        $tz = new DateTimeZone('Europe/Helsinki');
+        $test = array(
+            'Jan 1st 2014 +0800' => '2013-12-31 18:00',  // result in target timezone
+            'Jan 1st 14 45:42'   => '2014-01-01 00:00',  // force fallback to rcube_utils::strtotime()
+            'Jan 1st 2014 UK'    => '2014-01-01 00:00',
+            'Invalid date'       => false,
+        );
+
+        foreach ($test as $datetime => $ts) {
+            $result = rcube_utils::anytodatetime($datetime, $tz);
+            if ($result) $result->setTimezone($tz);  // move to target timezone for comparison
+            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i') : false, "Error parsing date: $datetime");
         }
     }
 

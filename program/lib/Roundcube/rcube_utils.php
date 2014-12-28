@@ -752,12 +752,14 @@ class rcube_utils
      * Improved equivalent to strtotime()
      *
      * @param string $date  Date string
+     * @param object DateTimeZone to use for DateTime object
      *
      * @return int Unix timestamp
      */
-    public static function strtotime($date)
+    public static function strtotime($date, $timezone = null)
     {
         $date = self::clean_datestr($date);
+        $tzname = $timezone ? ' ' . $timezone->getName() : '';
 
         // unix timestamp
         if (is_numeric($date)) {
@@ -766,7 +768,7 @@ class rcube_utils
 
         // if date parsing fails, we have a date in non-rfc format.
         // remove token from the end and try again
-        while ((($ts = @strtotime($date)) === false) || ($ts < 0)) {
+        while ((($ts = @strtotime($date . $tzname)) === false) || ($ts < 0)) {
             $d = explode(' ', $date);
             array_pop($d);
             if (!$d) {
@@ -782,6 +784,7 @@ class rcube_utils
      * Date parsing function that turns the given value into a DateTime object
      *
      * @param string $date  Date string
+     * @param object DateTimeZone to use for DateTime object
      *
      * @return object DateTime instance or false on failure
      */
@@ -805,9 +808,12 @@ class rcube_utils
         }
 
         // try our advanced strtotime() method
-        if (!$dt && ($timestamp = self::strtotime($date))) {
+        if (!$dt && ($timestamp = self::strtotime($date, $timezone))) {
             try {
                 $dt = new DateTime("@".$timestamp);
+                if ($timezone) {
+                    $dt->setTimezone($timezone);
+                }
             }
             catch (Exception $e) {
                 // ignore
