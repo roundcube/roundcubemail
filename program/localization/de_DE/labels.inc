@@ -221,6 +221,7 @@ $labels['resumeediting'] = 'Bearbeitung fortsetzen';
 $labels['revertto']      = 'Zurück zu';
 $labels['restore'] = 'Wiederherstellen';
 $labels['restoremessage'] = 'Nachricht wiederherstellen?';
+$labels['ignore'] = 'Ignorieren';
 $labels['responses'] = 'Schnellantworten';
 $labels['insertresponse'] = 'Schnellantwort hinzufügen';
 $labels['manageresponses'] = 'Schnellantworten verwalten';
@@ -406,7 +407,7 @@ $labels['askuser'] = 'immer fragen';
 $labels['autosend'] = 'Lesebestätigung automatisch senden';
 $labels['autosendknown'] = 'Lesebestätigung nur an meine Kontakte senden';
 $labels['autosendknownignore'] = 'für bekannte Absender, sonst ignorieren';
-$labels['ignore'] = 'ignorieren';
+$labels['ignorerequest'] = 'Anforderung ignorieren';
 $labels['readwhendeleted'] = 'Beim Löschen als gelesen markieren';
 $labels['flagfordeletion'] = 'Als gelöscht markieren anstatt in den Papierkorb verschieben';
 $labels['skipdeleted'] = 'Zeige keine gelöschten Nachrichten an';
@@ -573,5 +574,8 @@ $labels['helplistkeyboardnavigation'] = "Pfeil hoch/runter: Zeilenfokus/Zeilense
 Leerzeichen: Selektiere ausgewählte Zeile
 Shift + Pfeil hoch/runter: Wähle weitere Zeilen oberhalb/unterhalb
 Strg + Leerzeichen: Gewählte Zeile zur/von der Auswahl hinzufügen/entfernen";
+$labels['helplistkeyboardnavmessages'] = "Pfeil rechts/links: Nachricht im Thread erweitern/einklappen (nur im Threadmodus)
+Enter: Öffne die ausgewählte/fokussierte Nachricht
+Rücktaste: Verschiebe gewählte Nachricht in den Mülleimer";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Ausgewählten Kontakt öffnen.";
 ?>

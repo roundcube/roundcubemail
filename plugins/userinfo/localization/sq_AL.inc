@@ -2,9 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/vcard_attachments/localization/<lang>.inc                     |
+ | plugins/userinfo/localization/<lang>.inc                              |
  |                                                                       |
- | Localization file of the Roundcube Webmail Vcard Attachments plugin   |
+ | Localization file of the Roundcube Webmail Userinfo plugin            |
  | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -13,8 +13,9 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
-$labels['addvcardmsg'] = 'افزودن vCard به دفترچه نشانی';
-$labels['vcardsavefailed'] = 'ناتوان در ذخیره vCard';
+$labels['userinfo'] = 'Informacionet e përdoruesit';
+$labels['created'] = 'Krijuar';
+$labels['lastlogin'] = 'Hyrja e fundit';
 ?>

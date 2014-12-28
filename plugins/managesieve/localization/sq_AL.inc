@@ -2,9 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/vcard_attachments/localization/<lang>.inc                     |
+ | plugins/managesieve/localization/<lang>.inc                           |
  |                                                                       |
- | Localization file of the Roundcube Webmail Vcard Attachments plugin   |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
  | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -13,8 +13,14 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-$labels['addvcardmsg'] = 'افزودن vCard به دفترچه نشانی';
-$labels['vcardsavefailed'] = 'ناتوان در ذخیره vCard';
+$labels['moveup'] = 'Lëviz lartë';
+$labels['movedown'] = 'Lëviz poshtë';
+$labels['filterany'] = 'të gjitha mesazhet';
+$labels['messagemoveto'] = 'Zhvendose mesazhin te';
+$labels['add'] = 'Shto';
+$labels['del'] = 'Fshije';
+$labels['vacationdays'] = 'Sa shpesh dërgon mesazhe (në ditë):';
+$labels['active'] = 'aktiv';
 ?>

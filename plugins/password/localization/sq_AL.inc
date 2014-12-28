@@ -2,9 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/vcard_attachments/localization/<lang>.inc                     |
+ | plugins/password/localization/<lang>.inc                              |
  |                                                                       |
- | Localization file of the Roundcube Webmail Vcard Attachments plugin   |
+ | Localization file of the Roundcube Webmail Password plugin            |
  | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -13,8 +13,12 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['addvcardmsg'] = 'افزودن vCard به دفترچه نشانی';
-$labels['vcardsavefailed'] = 'ناتوان در ذخیره vCard';
+$labels['changepasswd']  = 'Ndrysho fjalëkalimin';
+$labels['newpasswd']  = 'Fjalëkalimi i ri:';
+$labels['confpasswd']  = 'Konfirmo fjalëkalimin e ri:';
+$messages['nopassword'] = 'Ju lutem shkruani fjalëkalimin e ri.';
+$messages['nocurpassword'] = 'Ju lutem shkruani fjalëkalimin e tanishëm.';
+$messages['passwordincorrect'] = 'Fjalëkalimi i tanishëm nuk është i saktë.';
 ?>
