@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix bug where some valid text in a message was handled as uuencoded attachment
+- Fix wrong icon for download button in classic skin
 
 RELEASE 1.0.4
 -------------
