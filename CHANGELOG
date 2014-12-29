@@ -13,6 +13,8 @@ CHANGELOG Roundcube Webmail
 - Fix import of contacts with multiple email addresses from Google-csv format (#1490178)
 - Fix bugs where CSRF attacks were still possible on some requests
 - Fix some rcube_utils::anytodatetime() corner cases with timezone mismatches (#1490163)
+- Improve move-to and contact-export button in classic skin (#1490166)
+- Fix wrong icon for download button in classic skin
 
 RELEASE 1.1-beta
 ----------------
