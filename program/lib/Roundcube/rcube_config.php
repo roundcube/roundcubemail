@@ -102,22 +102,25 @@ class rcube_config
      *
      * @return The guess at the type.
      */
-    private function guess_type($value) {
+    private function guess_type($value)
+    {
         $_ = 'string';
-    
+
         // array requires hint to be passed.
-    
-        if (preg_match('/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/', $value) !== False) {
+
+        if (preg_match('/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/', $value) !== false) {
             $_ = 'double';
-        } else if (preg_match('/^\d+$/', $value) !== False) {
+        }
+        else if (preg_match('/^\d+$/', $value) !== false) {
             $_ = 'integer';
-        } else if (preg_match('/(t(rue)?)|(f(alse)?)/i', $value) !== False) {
+        }
+        else if (preg_match('/(t(rue)?)|(f(alse)?)/i', $value) !== false) {
             $_ = 'boolean';
         }
-    
+
         return $_;
     }
-    
+
 
     /**
      * @brief Parse environment variable into PHP type.
@@ -129,11 +132,10 @@ class rcube_config
      *
      * @return Appropriately typed interpretation of $string.
      */
-    private function parse_env($string, $type) {
-        console("parse $string into $type");
-    
+    private function parse_env($string, $type)
+    {
         $_ = $string;
-    
+
         switch ($type) {
         case 'boolean':
             $_ = (boolean) $_;
@@ -160,7 +162,7 @@ class rcube_config
     
         return $_;
     }
-    
+
 
     /**
      * @brief Get environment variable value.
@@ -174,12 +176,14 @@ class rcube_config
      *
      * @return Value of the environment variable or default if not found.
      */
-    private function getenv_default($varname, $default_value, $type = null) {
+    private function getenv_default($varname, $default_value, $type = null)
+    {
         $_ = getenv($varname);
     
-        if ($_ === False) {
+        if ($_ === false) {
             $_ = $default_value;
-        } else {
+        }
+        else {
             if (is_null($type)) {
                 $type = gettype($default_value);
             }
@@ -377,6 +381,8 @@ class rcube_config
             $result = $def;
         }
 
+        $result = $this->getenv_default('ROUNDCUBE_' . strtoupper($name), $result);
+
         $rcube = rcube::get_instance();
 
         if ($name == 'timezone') {
@@ -390,8 +396,6 @@ class rcube_config
             if ($result && is_string($result))
                 $result = explode(',', $result);
         }
-
-        $result = $this->getenv_default('ROUNDCUBE_' . strtoupper($name), $result)
 
         $plugin = $rcube->plugins->exec_hook('config_get', array(
             'name' => $name, 'default' => $def, 'result' => $result));
