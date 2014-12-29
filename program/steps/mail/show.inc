@@ -199,11 +199,10 @@ function rcmail_message_attachments($attrib)
     if (sizeof($MESSAGE->attachments)) {
         foreach ($MESSAGE->attachments as $attach_prop) {
             $filename = rcmail_attachment_name($attach_prop, true);
-            $size = '';
+            $filesize = $RCMAIL->message_part_size($attach_prop);
 
             if ($PRINT_MODE) {
-                $size = $RCMAIL->message_part_size($attach_prop);
-                $ol .= html::tag('li', null, rcube::Q(sprintf("%s (%s)", $filename, $size)));
+                $ol .= html::tag('li', null, rcube::Q(sprintf("%s (%s)", $filename, $filesize)));
             }
             else {
                 if ($attrib['maxlength'] && mb_strlen($filename) > $attrib['maxlength']) {
@@ -215,7 +214,7 @@ function rcmail_message_attachments($attrib)
                 }
 
                 if ($attach_prop->size) {
-                    $size = ' ' . html::span('attachment-size', '(' . $RCMAIL->show_bytes($attach_prop->size) . ')');
+                    $size = ' ' . html::span('attachment-size', '(' . rcube::Q($filesize) . ')');
                 }
 
                 $mimetype = rcmail_fix_mimetype($attach_prop->mimetype);
