@@ -72,7 +72,18 @@ class rcube_smtp
             'smtp_auth_callbacks' => array(),
         ));
 
-        $smtp_host = rcube_utils::parse_host($CONFIG['smtp_server']);
+        $smtp_user = str_replace('%u', $rcube->get_user_name(), $CONFIG['smtp_user']);
+        $smtp_pass = str_replace('%p', $rcube->get_user_password(), $CONFIG['smtp_pass']);
+        $smtp_auth_type = empty($CONFIG['smtp_auth_type']) ? NULL : $CONFIG['smtp_auth_type'];
+
+        if (!empty($CONFIG['smtp_auth_cid'])) {
+            $smtp_authz = $smtp_user;
+            $smtp_user  = $CONFIG['smtp_auth_cid'];
+            $smtp_pass  = $CONFIG['smtp_auth_pw'];
+        }
+
+        // provide $smtp_user to provide %s variable in smtp_server setting
+        $smtp_host = rcube_utils::parse_host($CONFIG['smtp_server'], '', $smtp_user);
         // when called from Installer it's possible to have empty $smtp_host here
         if (!$smtp_host) $smtp_host = 'localhost';
         $smtp_port     = is_numeric($CONFIG['smtp_port']) ? $CONFIG['smtp_port'] : 25;
@@ -138,16 +149,6 @@ class rcube_smtp
             && ($timeout = ini_get('default_socket_timeout'))
         ) {
             $this->conn->setTimeout($timeout);
-        }
-
-        $smtp_user = str_replace('%u', $rcube->get_user_name(), $CONFIG['smtp_user']);
-        $smtp_pass = str_replace('%p', $rcube->get_user_password(), $CONFIG['smtp_pass']);
-        $smtp_auth_type = empty($CONFIG['smtp_auth_type']) ? NULL : $CONFIG['smtp_auth_type'];
-
-        if (!empty($CONFIG['smtp_auth_cid'])) {
-            $smtp_authz = $smtp_user;
-            $smtp_user  = $CONFIG['smtp_auth_cid'];
-            $smtp_pass  = $CONFIG['smtp_auth_pw'];
         }
 
         // attempt to authenticate to the SMTP server
