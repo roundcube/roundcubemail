@@ -541,8 +541,10 @@ if ($savedraft) {
     $store_target = $drafts_mbox;
 }
 else if (!$RCMAIL->config->get('no_save_sent_messages')) {
-    $store_target = rcube_utils::get_input_value('_store_target', rcube_utils::INPUT_POST);
-    if (!strlen($store_target)) {
+    if (isset($_POST['_store_target'])) {
+        $store_target = rcube_utils::get_input_value('_store_target', rcube_utils::INPUT_POST);
+    }
+    else {
         $store_target = $RCMAIL->config->get('sent_mbox');
     }
 }

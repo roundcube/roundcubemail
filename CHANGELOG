@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Fix bug where some valid text in a message was handled as uuencoded attachment
 - Fix wrong icon for download button in classic skin
+- Fix bug where sent message was saved in Sent folder even if disabled by user (#1490208)
 
 RELEASE 1.0.4
 -------------
