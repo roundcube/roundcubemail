@@ -15,6 +15,7 @@ CHANGELOG Roundcube Webmail
 - Fix some rcube_utils::anytodatetime() corner cases with timezone mismatches (#1490163)
 - Improve move-to and contact-export button in classic skin (#1490166)
 - Fix wrong icon for download button in classic skin
+- Fix bug where sent message was saved in Sent folder even if disabled by user (#1490208)
 
 RELEASE 1.1-beta
 ----------------
