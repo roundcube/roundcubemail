@@ -296,10 +296,14 @@ $labels['spouse'] = 'Супруг';
 $labels['allfields'] = 'Все поля';
 $labels['search'] = 'Поиск';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['searchfor'] = 'Поиск "$q"';
 =======
 $labels['searchresult'] = 'Результаты поиска';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Результаты поиска';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Расширенный поиск';
 $labels['advanced'] = 'Дополнительно';
 $labels['other'] = 'Другое';
@@ -344,10 +348,14 @@ $labels['exportsel']      = 'Экспортировать выделенные';
 $labels['exportvcards']   = 'Экспортировать контакты в формате vCard';
 <<<<<<< HEAD
 $labels['newgroup']       = 'Создать новую группу';
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = 'Создать новую группу';
 $labels['addgroup']       = 'Добавить группу';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Добавить группу';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Переименовать группу';
 $labels['groupdelete']    = 'Удалить группу';
 $labels['groupremoveselected'] = 'Удалить выбранные контакты из группы';
@@ -442,7 +450,6 @@ $labels['2231folding'] = 'RFC 2231 (только для новейших про�
 $labels['miscfolding'] = 'RFC 2047/2231  (наибольшая совместимость)';
 $labels['2047folding'] = 'RFC 2047  (для старых программ)';
 $labels['force7bit'] = 'Использовать MIME для 8-битных символов';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Дополнительные настройки';
 $labels['focusonnewmessage'] = 'Фокусировать окно браузера при новом сообщении';
 $labels['checkallfolders'] = 'Проверять новые сообщения во всех папках';
@@ -506,11 +513,17 @@ $labels['personalfolder'] = 'Приватный каталог';
 $labels['otherfolder'] = 'Каталог другого пользователя';
 $labels['sharedfolder'] = 'Совместный каталог';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $labels['findfolders'] = 'Найти папки';
 $labels['namespace.personal'] = 'Персональные';
 $labels['namespace.other'] = 'Других пользователей';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['findfolders'] = 'Найти папки';
+$labels['namespace.personal'] = 'Персональные';
+$labels['namespace.other'] = 'Других пользователей';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['sortby'] = 'Сортировать по';
 $labels['sortasc']  = 'Возрастанию';
 $labels['sortdesc'] = 'Убыванию';
@@ -549,9 +562,13 @@ $labels['arialabelcontactsearchform'] = 'Форма поиска контакт�
 $labels['arialabelmailpreviewframe'] = 'Предпросмотр сообщений';
 $labels['arialabelmailimportdialog'] = 'Диалог импорта сообщения';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $labels['arialabelmessagebody'] = 'Тело сообщения';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['arialabelmessagebody'] = 'Тело сообщения';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['arialabelcontactquicksearch'] = 'Форма поиска контактов';
 $labels['arialabelmessageheaders'] = 'Заголовки сообщений';
 $labels['arialabelforwardingoptions'] = 'Опции пересылки';
@@ -560,9 +577,12 @@ $labels['arialabelmarkmessagesas'] = 'Отметить выделенные со
 $labels['arialabelattachmentpreview'] = 'Предпросмотр вложений';
 $labels['arialabelcontactexportoptions'] = 'Параметры экспорта контактов';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "";
 =======
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

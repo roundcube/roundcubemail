@@ -221,6 +221,7 @@ $labels['resumeediting'] = '이어서 편집';
 $labels['revertto']      = '돌아가기';
 $labels['restore'] = '복구';
 $labels['restoremessage'] = '메시지를 복구할까요?';
+$labels['ignore'] = '무시';
 $labels['responses'] = '응답';
 $labels['insertresponse'] = '응답 삽입';
 $labels['manageresponses'] = '응답 관리';
@@ -233,7 +234,7 @@ $labels['responsetext'] = '응답 텍스트';
 $labels['attach'] = '첨부';
 $labels['attachments'] = '첨부파일';
 $labels['upload'] = '업로드';
-$labels['uploadprogress'] = '$percent (전체 $total 중 $current)';
+$labels['uploadprogress'] = '$percent ($total 중 $current)';
 $labels['close']  = '닫기';
 $labels['messageoptions']  = '메시지 옵션...';
 $labels['togglecomposeoptions'] = '구성 옵션 표시/숨기기';
@@ -336,7 +337,11 @@ $labels['export']         = '내보내기';
 $labels['exportall']      = '모두 내보내기';
 $labels['exportsel']      = '선택한 항목 내보내기';
 $labels['exportvcards']   = '연락처를 vCard 형식으로 내보내기';
+<<<<<<< HEAD
 $labels['newcontactgroup']       = '새 그룹 생성';
+=======
+$labels['newgroup']       = '새 그룹 생성';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['addgroup']       = '그룹 추가';
 $labels['grouprename']    = '그룹명 변경';
 $labels['groupdelete']    = '그룹 삭제';
@@ -406,7 +411,7 @@ $labels['askuser'] = '사용자에게 물어봄';
 $labels['autosend'] = '읽음 확인 요청';
 $labels['autosendknown'] = '내 연락처에 읽음 확인을 요청하고, 내 연락처가 아닐 경우 물어봄';
 $labels['autosendknownignore'] = '내 연락처에 읽음 확인을 요청하고, 내 연락처가 아닐 경우 무시함';
-$labels['ignore'] = '무시';
+$labels['ignorerequest'] = '요청 무시';
 $labels['readwhendeleted'] = '삭제 시 메시지를 읽음으로 표시';
 $labels['flagfordeletion'] = '삭제 대신 삭제 대상 메시지에 깃발 추가';
 $labels['skipdeleted'] = '삭제된 메시지 숨기기';

@@ -289,7 +289,6 @@ $labels['assistant'] = 'Asistents';
 $labels['spouse'] = 'Laulātais';
 $labels['allfields'] = 'Visi lauki';
 $labels['search'] = 'Meklēt';
-$labels['searchfor'] = 'Meklēt pēc "$q"';
 $labels['advsearch'] = 'Paplašinātā meklēšana';
 $labels['advanced'] = 'Paplašinātie iestatījumi';
 $labels['other'] = 'Cits';
@@ -430,7 +429,6 @@ $labels['2231folding'] = 'Pilns RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Pilns RFC 2047 (citi)';
 $labels['force7bit'] = 'Izmantot MIME kodējumu 8-bitu simboliem';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Paplašinātie iestatījumi';
 $labels['focusonnewmessage'] = 'Uzstādīt pārlūka fokusu uz jaunu vēstuli';
 $labels['checkallfolders'] = 'Meklēt visās mapēs jaunās vēstules';
@@ -534,9 +532,12 @@ $labels['arialabelmarkmessagesas'] = 'Atzīmēt norādītās vēstules kā ...';
 $labels['arialabelattachmentuploadform'] = 'Pielikuma augšupielādes forma';
 $labels['arialabelattachmentpreview'] = 'Pielikuma priekšskats';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "";
 =======
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

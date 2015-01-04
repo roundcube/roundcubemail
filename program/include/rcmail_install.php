@@ -234,6 +234,14 @@ class rcmail_install
       else if (is_numeric($value)) {
         $value = intval($value);
       }
+      else if ($prop == 'plugins') {
+        $value = array();
+        foreach(array_keys($_POST) as $key)
+        {
+          if (preg_match('/^_plugins_*/', $key))
+            array_push($value, $_POST[$key]);
+        }
+      }
 
       // skip this property
       if (($value == $this->defaults[$prop]) && !in_array($prop, $this->local_config)
@@ -290,7 +298,7 @@ class rcmail_install
     $out = $seen = array();
 
     // iterate over the current configuration
-    foreach ($this->config as $prop => $value) {
+    foreach (array_keys($this->config) as $prop) {
       if ($replacement = $this->replaced_config[$prop]) {
         $out['replaced'][] = array('prop' => $prop, 'replacement' => $replacement);
         $seen[$replacement] = true;
@@ -556,6 +564,35 @@ class rcmail_install
       }
     }
     return $skins;
+  }
+
+  /**
+  * Return a list with available subfolders of the plugins directory
+  * (with their associated description in composer.json)
+  */
+  function list_plugins() 
+  {
+    $plugins = array();
+    $plugin_dir = INSTALL_PATH . 'plugins/';
+
+    foreach (glob($plugin_dir . '*') as $path) 
+    {
+
+      if (is_dir($path) && is_readable($path.'/composer.json'))
+      {
+        $file_json = json_decode(file_get_contents($path.'/composer.json'));
+        $plugin_desc = $file_json->description ?: 'N/A';
+      }
+      else
+      {
+        $plugin_desc = 'N/A';
+      }
+
+      $name = substr($path, strlen($plugin_dir));
+      $plugins[] = array('name' => $name, 'desc' => $plugin_desc, 'enabled' => in_array($name, $this->config['plugins']));
+    }
+
+    return $plugins;
   }
 
   /**

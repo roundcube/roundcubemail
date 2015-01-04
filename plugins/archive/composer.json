@@ -2,7 +2,7 @@
     "name": "roundcube/archive",
     "type": "roundcube-plugin",
     "description": "This adds a button to move the selected messages to an archive folder. The folder (and the optional structure of subfolders) can be selected in the settings panel.",
-    "license": "GNU GPLv3+",
+    "license": "GPLv3+",
     "version": "2.3",
     "authors": [
         {

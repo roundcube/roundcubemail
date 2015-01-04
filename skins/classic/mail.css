@@ -173,11 +173,11 @@
 }
 
 #messagetoolbar a.download {
-  background-position: -480px 0;
+  background-position: -514px 0;
 }
 
 #messagetoolbar a.downloadSel {
-  background-position: -480px -32px;
+  background-position: -514px -32px;
 }
 
 #messagetoolbar a.responses {
@@ -1379,6 +1379,10 @@ div.hide-headers
   bottom: 0;
   right: 175px;
   border: 1px solid #999;
+}
+
+#compose-body-div .mce-tinymce {
+  border: 0 !important;
 }
 
 #compose-div .boxlistcontent

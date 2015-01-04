@@ -294,7 +294,6 @@ $labels['assistant'] = 'Auxiliar';
 $labels['spouse'] = 'Casáu con';
 $labels['allfields'] = 'Tolos campos';
 $labels['search'] = 'Guetar';
-$labels['searchfor'] = 'Guetar por "$q"';
 $labels['advsearch'] = 'Gueta avanzada';
 $labels['advanced'] = 'Avanzáu';
 $labels['other'] = 'Otru';
@@ -436,7 +435,6 @@ $labels['2231folding'] = 'RFC 2231 completu (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 completu (otros)';
 $labels['force7bit'] = 'Usar codificación MIME pa caráuteres de 8 bits';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Opciones avanzaes';
 $labels['toggleadvancedoptions'] = 'Camudar opciones avanzaes';
 $labels['focusonnewmessage'] = 'Enfocar la ventana de restolación en mensaxes nuevos';
@@ -570,9 +568,12 @@ $labels['arialabelidentityeditfrom'] = 'Formulariu d\'edición d\'identidá';
 $labels['arialabelresonseeditfrom'] = 'Formulariu d\'edición de rempuesta';
 $labels['helplistnavigation'] = 'Restolación de tecláu de llista';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 =======
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abrir el contautu esbilláu/enfocáu.";
 ?>

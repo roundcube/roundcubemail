@@ -237,7 +237,7 @@ $labels['responsetext'] = 'גוף התגובה';
 $labels['attach'] = 'צירוף';
 $labels['attachments'] = 'צרופות';
 $labels['upload'] = 'העלאה';
-$labels['uploadprogress'] = '( $total  מתוך  $current )  $percent';
+$labels['uploadprogress'] = '$percent ($current מתוך $total)';
 $labels['close']  = 'סגירה';
 $labels['messageoptions']  = 'אפשרויות הודעה...';
 $labels['togglecomposeoptions'] = 'בחירה בין הגדרות בסיסיות או מתקדמות של יצירת הודעה';
@@ -298,10 +298,14 @@ $labels['spouse'] = 'בן/בת זוג';
 $labels['allfields'] = 'כל השדות';
 $labels['search'] = 'חיפוש';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['searchfor'] = 'חיפוש של "q$"';
 =======
 $labels['searchresult'] = 'תוצאת חיפוש';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'תוצאת חיפוש';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'חיםוש מתקדם';
 $labels['advanced'] = 'מתקדם';
 $labels['other'] = 'אחר';
@@ -346,10 +350,14 @@ $labels['exportsel']      = 'צוא של רשומות נבחרות';
 $labels['exportvcards']   = 'ייצוא אנשי קשר בפורמט  vCard';
 <<<<<<< HEAD
 $labels['newgroup']       = 'הוסף קבוצה חדשה';
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = 'הוסף קבוצה חדשה';
 $labels['addgroup']       = 'הוספת קבוצה';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'הוספת קבוצה';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'שינוי שם קבוצה';
 $labels['groupdelete']    = 'מחיקת קבוצה';
 $labels['groupremoveselected'] = 'אנשי הקשר שנבחרו יוסרו מהקבוצה';
@@ -424,7 +432,6 @@ $labels['askuser'] = 'שאל את המשתמש';
 $labels['autosend'] = 'שליחה אוטומטית';
 $labels['autosendknown'] = 'משלוח אישור קבלה רק לאנשי הקשר שלי';
 $labels['autosendknownignore'] = 'משלוח אישור קבלה לאנשי הקשר שלי בלבד ולהתעלם מאחרים';
-$labels['ignore'] = 'התעלם';
 $labels['readwhendeleted'] = 'סימון הודעה כנקראה לאחר מחיקה';
 $labels['flagfordeletion'] = 'סימון הודעה כמחוקה במקום מחיקה';
 $labels['skipdeleted'] = 'הסתרת הודעות שנמחקו';
@@ -447,10 +454,14 @@ $labels['miscfolding'] = 'תאימות 2047/2231 אאוטלוק';
 $labels['2047folding'] = 'תאימות מלאה 2047 אחרים';
 $labels['force7bit'] = 'קידוד MIME עבור תווים בעלי 8 ביטים';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
 =======
 $labels['savelocalstorage'] = "שמירה באיחסון מקומי של הדפדפן (ארעית)";
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['savelocalstorage'] = "שמירה באיחסון מקומי של הדפדפן (ארעית)";
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advancedoptions'] = 'הגדרות נוספות';
 $labels['toggleadvancedoptions'] = 'בחירה בין הגדרות בסיסיות או מתקדמות';
 $labels['focusonnewmessage'] = 'מיקוד הסמן על החלון עם ההודעה החדשה';

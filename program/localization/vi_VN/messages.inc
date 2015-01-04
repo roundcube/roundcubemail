@@ -139,9 +139,13 @@ $messages['importmessageerror'] = 'Nhập dữ liệu bị lỗi. Tệp tin vừ
 $messages['opnotpermitted'] = 'Thao tác không được cho phép!';
 $messages['nofromaddress'] = 'Địa chỉ email mất ở trong nhận dạng đã chọn';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $messages['editorwarning'] = 'Việc chuyển công cụ soạn thảo có thể làm mất định dạng dữ liệu. Bạn có muốn tiếp tục không?';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$messages['editorwarning'] = 'Việc chuyển công cụ soạn thảo có thể làm mất định dạng dữ liệu. Bạn có muốn tiếp tục không?';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $messages['httpreceivedencrypterror'] = 'Xuất hiện một lỗi cấu hình  tai hại. Hãy liên hệ với người quản trị ngay. <b> Thư của bạn không thể gửi được </b>';
 $messages['smtpconnerror'] = 'Lỗi SMTP ($code): Kết nỗi tới máy chủ bị lỗi.';
 $messages['smtpautherror'] = 'Lỗi SMTP ($code): Xác thực thất bại.';

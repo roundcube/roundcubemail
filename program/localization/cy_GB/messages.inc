@@ -139,9 +139,13 @@ $messages['importmessageerror'] = 'Methwyd mewnforio! Nid yw\'r ffeil a lwythwyd
 $messages['opnotpermitted'] = 'Ni chaniateir y weithred!';
 $messages['nofromaddress'] = 'Cyfeiriad e-bost ar goll yn y personoliaeth a ddewiswyd';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $messages['editorwarning'] = 'Fe allai newid math y golygydd testun olygu byddwch yn colli unrhyw arddulliau yn eich testun? Hoffech chi barhau?';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$messages['editorwarning'] = 'Fe allai newid math y golygydd testun olygu byddwch yn colli unrhyw arddulliau yn eich testun? Hoffech chi barhau?';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $messages['httpreceivedencrypterror'] = 'Fe gafwyd gwall angheuol yn y ffurfweddiad. Cysylltwch â\'ch gweinyddwr ar unwaith. <b>Nid oedd yn bosib dangos eich neges.</b>';
 $messages['smtpconnerror'] = 'Gwall SMTP ($code): Methwyd cysylltu a\'r gweinydd';
 $messages['smtpautherror'] = 'Gwall SMTP ($code): Methwyd dilysu\'r cyfrif';

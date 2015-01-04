@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -1108,7 +1108,8 @@ class rcube_imap_generic
             // folder name with spaces. Let's try to handle this situation
             if (!is_array($items) && ($pos = strpos($response, '(')) !== false) {
                 $response = substr($response, $pos);
-                $items = $this->tokenizeResponse($response, 1);
+                $items    = $this->tokenizeResponse($response, 1);
+
                 if (!is_array($items)) {
                     return $result;
                 }
@@ -1665,7 +1666,6 @@ class rcube_imap_generic
         $encoding  = $encoding ? trim($encoding) : 'US-ASCII';
         $algorithm = $algorithm ? trim($algorithm) : 'REFERENCES';
         $criteria  = $criteria ? 'ALL '.trim($criteria) : 'ALL';
-        $data      = '';
 
         list($code, $response) = $this->execute($return_uid ? 'UID THREAD' : 'THREAD',
             array($algorithm, $encoding, $criteria));

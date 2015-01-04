@@ -763,12 +763,14 @@ class rcube_utils
      * Improved equivalent to strtotime()
      *
      * @param string $date  Date string
+     * @param object DateTimeZone to use for DateTime object
      *
      * @return int Unix timestamp
      */
-    public static function strtotime($date)
+    public static function strtotime($date, $timezone = null)
     {
         $date = self::clean_datestr($date);
+        $tzname = $timezone ? ' ' . $timezone->getName() : '';
 
         // unix timestamp
         if (is_numeric($date)) {
@@ -777,7 +779,7 @@ class rcube_utils
 
         // if date parsing fails, we have a date in non-rfc format.
         // remove token from the end and try again
-        while ((($ts = @strtotime($date)) === false) || ($ts < 0)) {
+        while ((($ts = @strtotime($date . $tzname)) === false) || ($ts < 0)) {
             $d = explode(' ', $date);
             array_pop($d);
             if (!$d) {
@@ -793,6 +795,7 @@ class rcube_utils
      * Date parsing function that turns the given value into a DateTime object
      *
      * @param string $date  Date string
+     * @param object DateTimeZone to use for DateTime object
      *
      * @return object DateTime instance or false on failure
      */
@@ -808,7 +811,11 @@ class rcube_utils
         // try to parse string with DateTime first
         if (!empty($date)) {
             try {
+<<<<<<< HEAD
                 $dt = new DateTime($date);
+=======
+                $dt = $timezone ? new DateTime($date, $timezone) : new DateTime($date);
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
             }
             catch (Exception $e) {
                 // ignore
@@ -816,9 +823,12 @@ class rcube_utils
         }
 
         // try our advanced strtotime() method
-        if (!$dt && ($timestamp = self::strtotime($date))) {
+        if (!$dt && ($timestamp = self::strtotime($date, $timezone))) {
             try {
                 $dt = new DateTime("@".$timestamp);
+                if ($timezone) {
+                    $dt->setTimezone($timezone);
+                }
             }
             catch (Exception $e) {
                 // ignore
@@ -917,14 +927,21 @@ class rcube_utils
      * Split the given string into word tokens
      *
      * @param string Input to tokenize
+     * @param integer Minimum length of a single token
      * @return array List of tokens
      */
-    public static function tokenize_string($str)
+    public static function tokenize_string($str, $minlen = 2)
     {
-        return explode(" ", preg_replace(
-            array('/[\s;\/+-]+/i', '/(\d)[-.\s]+(\d)/', '/\s\w{1,3}\s/u'),
-            array(' ', '\\1\\2', ' '),
-            $str));
+        $expr = array('/[\s;\/+-]+/ui', '/(\d)[-.\s]+(\d)/u');
+        $repl = array(' ', '\\1\\2');
+
+        if ($minlen > 1) {
+            $minlen--;
+            $expr[] = "/(^|\s+)\w{1,$minlen}(\s+|$)/u";
+            $repl[] = ' ';
+        }
+
+        return array_filter(explode(" ", preg_replace($expr, $repl, $str)));
     }
 
     /**
@@ -933,10 +950,11 @@ class rcube_utils
      *
      * @param string  Input string (UTF-8)
      * @param boolean True to return list of words as array
+     * @param integer Minimum length of tokens
      *
      * @return mixed  Normalized string or a list of normalized tokens
      */
-    public static function normalize_string($str, $as_array = false)
+    public static function normalize_string($str, $as_array = false, $minlen = 2)
     {
         // replace 4-byte unicode characters with '?' character,
         // these are not supported in default utf-8 charset on mysql,
@@ -948,7 +966,7 @@ class rcube_utils
             . ')/', '?', $str);
 
         // split by words
-        $arr = self::tokenize_string($str);
+        $arr = self::tokenize_string($str, $minlen);
 
         // detect character set
         if (utf8_encode(utf8_decode($str)) == $str) {

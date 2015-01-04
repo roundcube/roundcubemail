@@ -138,7 +138,6 @@ $labels['always'] = 'ಯಾವಾಗಲೂ';
 $labels['everynminutes']  = 'ಪ್ರತಿ $n ನಿಮಿಷ (ಗಳು)';
 $labels['refreshinterval']  = 'ರಿಫ್ರೆಶ್ (ಹೊಸ ಸಂದೇಶಗಳನ್ನು, ಇತ್ಯಾದಿಗಳನ್ನು ಪರಿಶೀಲಿಸು)';
 $labels['immediately']  = 'ತತ್ಕ್ಷಣ ';
-$labels['savelocalstorage'] = "";
 $labels['mainoptions'] = 'ಮುಖ್ಯ ಆಯ್ಕೆಗಳು';
 $labels['section'] = 'ವಿಭಾಗ';
 $labels['newmessage'] = 'ಹೊಸ ಸಂದೇಶ';
@@ -163,7 +162,4 @@ $labels['GB'] = 'GB';
 $labels['english'] = 'ಇಂಗ್ಲೀಷ್';
 $labels['westerneuropean'] = 'ಪಾಶ್ಚಾತ್ಯ ಯುರೋಪಿಯನ್';
 $labels['easterneuropean'] = 'ಪೂರ್ವ ಯುರೋಪಿಯನ್';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

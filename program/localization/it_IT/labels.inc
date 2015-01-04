@@ -19,7 +19,7 @@ $labels['welcome']   = 'Benvenuto in $product';
 $labels['username']  = 'E-mail';
 $labels['password']  = 'Password';
 $labels['server']    = 'Server';
-$labels['login']     = 'Entra';
+$labels['login']     = 'Accedi';
 $labels['logout']   = 'Esci';
 $labels['mail']     = 'E-Mail';
 $labels['settings'] = 'Impostazioni';
@@ -101,7 +101,7 @@ $labels['longdec']	= 'Dicembre';
 $labels['today'] = 'Oggi';
 $labels['refresh']          = 'Aggiorna';
 $labels['checkmail']        = 'Controlla nuovi messaggi';
-$labels['compose']          = 'Scrivi un messaggio';
+$labels['compose']          = 'Nuova mail';
 $labels['writenewmessage']  = 'Scrivi un nuovo messaggio';
 $labels['reply']            = 'Rispondi';
 $labels['replytomessage']   = 'Rispondi al mittente';
@@ -128,7 +128,7 @@ $labels['markunread']       = 'Non letti';
 $labels['markflagged']      = 'Contrassegnato';
 $labels['markunflagged']    = 'Non contrassegnato';
 $labels['moreactions']      = 'Altre operazioni...';
-$labels['more']             = 'Di più';
+$labels['more']             = 'Azioni';
 $labels['back']             = 'Indietro';
 $labels['options']          = 'Opzioni';
 $labels['first'] = 'Primo';
@@ -201,7 +201,7 @@ $labels['changeformattext'] = 'Visualizza nel formato testo semplice';
 $labels['changeformathtml'] = 'Visualizza nel formato HTML';
 $labels['editasnew']      = 'Modifica come nuovo';
 $labels['send']           = 'Invia';
-$labels['sendmessage']    = 'Invia il messaggio adesso';
+$labels['sendmessage']    = 'Invia messaggio';
 $labels['savemessage']    = 'Salva come bozza';
 $labels['addattachment']  = 'Allega un file';
 $labels['charset']        = 'Set di caratteri';
@@ -221,6 +221,7 @@ $labels['resumeediting'] = 'Torna al messaggio';
 $labels['revertto']      = 'Ripristina';
 $labels['restore'] = 'Ripristina';
 $labels['restoremessage'] = 'Ripristinare il messaggio?';
+$labels['ignore'] = 'Ignorare';
 $labels['responses'] = 'Risposte';
 $labels['insertresponse'] = 'Inserisci una risposta';
 $labels['manageresponses'] = 'Gestione risposte';
@@ -237,7 +238,6 @@ $labels['responsetext'] = 'Testo della Risposta';
 $labels['attach'] = 'Allega';
 $labels['attachments'] = 'Allegati';
 $labels['upload'] = 'Aggiungi';
-$labels['uploadprogress'] = '$percent ($current di $total)';
 $labels['close']  = 'Chiudi';
 $labels['messageoptions']  = 'Opzioni messaggi...';
 $labels['togglecomposeoptions'] = 'Passa alla impostazioni di composizione';
@@ -262,7 +262,7 @@ $labels['addcc'] = 'Aggiungi Cc';
 $labels['addbcc'] = 'Aggiungi Bcc';
 $labels['addreplyto'] = 'Aggiungi Rispondi a';
 $labels['addfollowupto'] = 'Aggiungi Followup-To';
-$labels['mdnrequest'] = 'Il mittente ha richiesto di ricevere una notifica dell\'avvenuta lettura del messaggio. Si desidera inviare tale notifica?';
+$labels['mdnrequest'] = 'Il mittente ha richiesto di ricevere una notifica dell\'avvenuta lettura del messaggio. Intendi inviare tale notifica?';
 $labels['receiptread'] = 'Ricevuta di ritorno (letto)';
 $labels['yourmessage'] = 'Questa è la ricevuta di ritorno del messaggio inviato';
 $labels['receiptnote'] = 'Nota: questa Ricevuta di ritorno attesta solamente che il messaggio è stato visualizzato nel computer del destinatario. Non c\'è pertanto alcuna garanzia che il destinatario abbia letto o compreso il suo contenuto.';
@@ -298,10 +298,14 @@ $labels['spouse'] = 'Coniuge';
 $labels['allfields'] = 'Tutti i campi';
 $labels['search'] = 'Ricerca';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['searchfor'] = 'Cercare "$q"';
 =======
 $labels['searchresult'] = 'Risultati ricerca';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Risultati ricerca';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Ricerca avanzata';
 $labels['advanced'] = 'Opzioni avanzate';
 $labels['other'] = 'Altro';
@@ -346,10 +350,14 @@ $labels['exportsel']      = 'Esporta selezionati';
 $labels['exportvcards']   = 'Esporta i contatti in formato vCard';
 <<<<<<< HEAD
 $labels['newgroup']       = 'Crea un nuovo gruppo';
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = 'Crea un nuovo gruppo';
 $labels['addgroup']       = 'Aggiungi gruppo';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Aggiungi gruppo';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Rinomina il gruppo';
 $labels['groupdelete']    = 'Cancella il gruppo';
 $labels['groupremoveselected'] = 'Rimuovi i contatti selezionati dal gruppo';
@@ -404,7 +412,7 @@ $labels['pagesize']  = 'Righe per pagina';
 $labels['signature'] = 'Firma';
 $labels['dstactive']  = 'Gestione ora legale';
 $labels['showinextwin'] = 'Apri il messaggio in una nuova finestra';
-$labels['composeextwin'] = 'Crea messaggio in una nuova finestra';
+$labels['composeextwin'] = 'Componi in una nuova finestra';
 $labels['htmleditor'] = 'Scrivi i messaggi in HTML';
 $labels['htmlonreply'] = 'solo in risposta a messaggi HTML';
 $labels['htmlonreplyandforward'] = 'su inoltro o risposta a messaggi HTML';
@@ -422,7 +430,7 @@ $labels['askuser'] = 'chiedi conferma';
 $labels['autosend'] = 'invia';
 $labels['autosendknown'] = 'invia notifica ai miei contatti, altrimenti chiedi conferma';
 $labels['autosendknownignore'] = 'invia notifica ai miei contatti, altrimenti ignora';
-$labels['ignore'] = 'ignora';
+$labels['ignorerequest'] = 'ignorare la richiesta';
 $labels['readwhendeleted'] = 'Marca il messaggio come letto prima di eliminarlo';
 $labels['flagfordeletion'] = 'Marca il messaggio come eliminato invece di eliminarlo';
 $labels['skipdeleted'] = 'Non mostrare i messaggi marcati come eliminati';
@@ -445,10 +453,14 @@ $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 completo (altri)';
 $labels['force7bit'] = 'Usa la codifica MIME per i caratteri a 8-bit';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
 =======
 $labels['savelocalstorage'] = "Salva nell'archiviazione locale del browser (temporaneamente)";
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['savelocalstorage'] = "Salva nell'archiviazione locale del browser (temporaneamente)";
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advancedoptions'] = 'Opzioni avanzate';
 $labels['toggleadvancedoptions'] = 'Passa alle impostazioni avanzate';
 $labels['focusonnewmessage'] = 'Attiva la finestra del browser all\'arrivo di un nuovo messaggio';
@@ -578,7 +590,7 @@ $labels['arialabelreplyalloptions'] = 'Opzione rispondi a tutti';
 $labels['arialabelmoremessageactions'] = 'Altre azioni del messaggio';
 $labels['arialabelmarkmessagesas'] = 'Contrassegna messaggi selezionati come';
 $labels['arialabelcomposeoptions'] = 'Impostazioni composizione';
-$labels['arialabelresponsesmenu'] = 'Menu di rispose nascoste';
+$labels['arialabelresponsesmenu'] = 'Menu risposte predefinite';
 $labels['arialabelattachmentuploadform'] = 'Allegato caricato da';
 $labels['arialabelattachmentpreview'] = 'Anteprima allegato';
 $labels['ariasummarycomposecontacts'] = 'Elenco dei contatti e gruppi per selezionare come destinatari';

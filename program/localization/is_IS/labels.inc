@@ -346,7 +346,6 @@ $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (annað)';
 $labels['force7bit'] = 'Nota MIME kóðun fyrir 8-bita stafi';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Ítarlegir valkostir';
 $labels['focusonnewmessage'] = 'Láta glugga beinast að nýju skeyti';
 $labels['checkallfolders'] = 'Athuga ný skeyti í öllum möppum';
@@ -429,7 +428,4 @@ $labels['vietnamese'] = 'Víetnamskt';
 $labels['japanese'] = 'Japanskt';
 $labels['korean'] = 'Kóreska';
 $labels['chinese'] = 'Kínverska';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

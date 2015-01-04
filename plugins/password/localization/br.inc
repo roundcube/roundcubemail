@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+$labels['changepasswd']  = 'Kemmañ ar ger-tremen';
 $labels['curpasswd']  = 'Ger-tremen bremañ :';
 $labels['newpasswd']  = 'Ger-tremen nevez :';
 $labels['confpasswd']  = 'Kadarnaat ar ger-tremen :';

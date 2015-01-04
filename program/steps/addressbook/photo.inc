@@ -90,6 +90,12 @@ if (!$cid && $email) {
     $RCMAIL->output->future_expire_header(86400);
 }
 
-header('Content-Type: ' . rcube_mime::image_content_type($data));
-echo $data ? $data : file_get_contents('program/resources/blank.gif');
+if ($data) {
+    header('Content-Type: ' . rcube_mime::image_content_type($data));
+    echo $data;
+}
+else {
+    header('Content-Type: image/gif');
+    echo base64_decode(rcmail_output::BLANK_GIF);
+}
 exit;

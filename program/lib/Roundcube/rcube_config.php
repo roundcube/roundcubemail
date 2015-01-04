@@ -3,7 +3,7 @@
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -26,11 +26,12 @@ class rcube_config
 {
     const DEFAULT_SKIN = 'larry';
 
-    private $env = '';
-    private $paths = array();
-    private $prop = array();
-    private $errors = array();
+    private $env       = '';
+    private $paths     = array();
+    private $prop      = array();
+    private $errors    = array();
     private $userprefs = array();
+
 
     /**
      * Renamed options
@@ -39,7 +40,6 @@ class rcube_config
      */
     private $legacy_props = array(
         // new name => old name
-        'default_folders'      => 'default_imap_folders',
         'mail_pagesize'        => 'pagesize',
         'addressbook_pagesize' => 'pagesize',
         'reply_mode'           => 'top_posting',
@@ -48,7 +48,6 @@ class rcube_config
         'messages_cache_ttl'   => 'message_cache_lifetime',
         'redundant_attachments_cache_ttl' => 'redundant_attachments_memcache_ttl',
     );
-
 
     /**
      * Object constructor
@@ -93,6 +92,104 @@ class rcube_config
         $this->set('contactlist_fields', array('name', 'firstname', 'surname', 'email'));
     }
 
+    /**
+     * @brief Guess the type the string may fit into.
+     *
+     * Look inside the string to determine what type might be best as a container.
+     *
+     * @param $value The value to inspect
+     *
+     * @return The guess at the type.
+     */
+    private function guess_type($value)
+    {
+        $_ = 'string';
+
+        // array requires hint to be passed.
+
+        if (preg_match('/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/', $value) !== false) {
+            $_ = 'double';
+        }
+        else if (preg_match('/^\d+$/', $value) !== false) {
+            $_ = 'integer';
+        }
+        else if (preg_match('/(t(rue)?)|(f(alse)?)/i', $value) !== false) {
+            $_ = 'boolean';
+        }
+
+        return $_;
+    }
+
+    /**
+     * @brief Parse environment variable into PHP type.
+     *
+     * Perform an appropriate parsing of the string to create the desired PHP type.
+     *
+     * @param $string String to parse into PHP type
+     * @param $type Type of value to return
+     *
+     * @return Appropriately typed interpretation of $string.
+     */
+    private function parse_env($string, $type)
+    {
+        $_ = $string;
+
+        switch ($type) {
+        case 'boolean':
+            $_ = (boolean) $_;
+            break;
+        case 'integer':
+            $_ = (integer) $_;
+            break;
+        case 'double':
+            $_ = (double) $_;
+            break;
+        case 'string':
+            break;
+        case 'array':
+            $_ = json_decode($_, true);
+            break;
+        case 'object':
+            $_ = json_decode($_, false);
+            break;
+        case 'resource':
+        case 'NULL':
+        default:
+            $_ = $this->parse_env($_, $this->guess_type($_));
+        }
+
+        return $_;
+    }
+
+    /**
+     * @brief Get environment variable value.
+     *
+     * Retrieve an environment variable's value or if it's not found, return the
+     * provided default value.
+     *
+     * @param $varname Environment variable name
+     * @param $default_value Default value to return if necessary
+     * @param $type Type of value to return
+     *
+     * @return Value of the environment variable or default if not found.
+     */
+    private function getenv_default($varname, $default_value, $type = null)
+    {
+        $_ = getenv($varname);
+
+        if ($_ === false) {
+            $_ = $default_value;
+        }
+        else {
+            if (is_null($type)) {
+                $type = gettype($default_value);
+            }
+
+            $_ = $this->parse_env($_, $type);
+        }
+
+        return $_;
+    }
 
     /**
      * Load config from local config file
@@ -140,12 +237,9 @@ class rcube_config
         $this->prop['temp_dir'] = $this->prop['temp_dir'] ? realpath(unslashify($this->prop['temp_dir'])) : RCUBE_INSTALL_PATH . 'temp';
 
         // fix default imap folders encoding
-        foreach (array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder)
+        foreach (array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder) {
             $this->prop[$folder] = rcube_charset::convert($this->prop[$folder], RCUBE_CHARSET, 'UTF7-IMAP');
-
-        if (!empty($this->prop['default_folders']))
-            foreach ($this->prop['default_folders'] as $n => $folder)
-                $this->prop['default_folders'][$n] = rcube_charset::convert($folder, RCUBE_CHARSET, 'UTF7-IMAP');
+        }
 
         // set PHP error logging according to config
         if ($this->prop['debug_level'] & 1) {
@@ -285,6 +379,8 @@ class rcube_config
             $result = $def;
         }
 
+        $result = $this->getenv_default('ROUNDCUBE_' . strtoupper($name), $result);
+
         $rcube = rcube::get_instance();
 
         if ($name == 'timezone') {
@@ -305,7 +401,6 @@ class rcube_config
         return $plugin['result'];
     }
 
-
     /**
      * Setter for a config parameter
      *
@@ -317,7 +412,6 @@ class rcube_config
         $this->prop[$name] = $value;
     }
 
-
     /**
      * Override config options with the given values (eg. user prefs)
      *
@@ -328,7 +422,6 @@ class rcube_config
         $prefs = $this->fix_legacy_props($prefs);
         $this->prop = array_merge($this->prop, $prefs, $this->userprefs);
     }
-
 
     /**
      * Merge the given prefs over the current config
@@ -357,7 +450,6 @@ class rcube_config
         $this->prop      = array_merge($this->prop, $prefs);
     }
 
-
     /**
      * Getter for all config options
      *
@@ -365,9 +457,15 @@ class rcube_config
      */
     public function all()
     {
+        $props = $this->prop;
+
+        foreach ($props as $prop_name => $prop_value) {
+            $props[$prop_name] = $this->getenv_default('ROUNDCUBE_' . strtoupper($prop_name), $prop_value);
+        }
+
         $rcube  = rcube::get_instance();
         $plugin = $rcube->plugins->exec_hook('config_get', array(
-            'name' => '*', 'result' => $this->prop));
+            'name' => '*', 'result' => $props));
 
         return $plugin['result'];
     }
@@ -380,16 +478,16 @@ class rcube_config
      */
     public function get_timezone()
     {
-      if ($tz = $this->get('timezone')) {
-        try {
-          $tz = new DateTimeZone($tz);
-          return $tz->getOffset(new DateTime('now')) / 3600;
+        if ($tz = $this->get('timezone')) {
+            try {
+                $tz = new DateTimeZone($tz);
+                return $tz->getOffset(new DateTime('now')) / 3600;
+            }
+            catch (Exception $e) {
+            }
         }
-        catch (Exception $e) {
-        }
-      }
 
-      return 0;
+        return 0;
     }
 
     /**
@@ -423,7 +521,6 @@ class rcube_config
         return $key;
     }
 
-
     /**
      * Try to autodetect operating system and find the correct line endings
      *
@@ -434,14 +531,16 @@ class rcube_config
         // use the configured delimiter for headers
         if (!empty($this->prop['mail_header_delimiter'])) {
             $delim = $this->prop['mail_header_delimiter'];
-            if ($delim == "\n" || $delim == "\r\n")
+            if ($delim == "\n" || $delim == "\r\n") {
                 return $delim;
-            else
+            }
+            else {
                 rcube::raise_error(array(
                     'code' => 500, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Invalid mail_header_delimiter setting"
                 ), true, false);
+            }
         }
 
         $php_os = strtolower(substr(PHP_OS, 0, 3));
@@ -454,7 +553,6 @@ class rcube_config
 
         return "\n";
     }
-
 
     /**
      * Return the mail domain configured for the given host
@@ -482,7 +580,6 @@ class rcube_config
         return $domain;
     }
 
-
     /**
      * Getter for error state
      *
@@ -492,7 +589,6 @@ class rcube_config
     {
         return empty($this->errors) ? false : join("\n", $this->errors);
     }
-
 
     /**
      * Internal getter for client's (browser) timezone identifier

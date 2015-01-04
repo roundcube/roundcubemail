@@ -80,11 +80,23 @@ $labels['longaclfull'] = 'کنترل کامل شما مدیریت پوشه';
 $labels['longaclread'] = 'پوشه می‌تواند برای خواندن باز شود';
 $labels['longaclwrite'] = 'پیغام‌ها می‌توانند علامتگذاری، نوشته و یا کپی شوند در پوشه';
 $labels['longacldelete'] = 'پیغام‌ها می‌توانند حذف شوند';
+<<<<<<< HEAD
 $messages['deleting'] = 'حذف کردن حقوق دسترسی...';
 $messages['saving'] = 'ذخیره حقوق دسترسی...';
 $messages['updatesuccess'] = 'حقوق دسترسی با موفقیت تغییر کردند';
 $messages['deletesuccess'] = 'حقوق دسترسی با موفقیت حذف شدند';
 $messages['createsuccess'] = 'حقوق دسترسی با موفقیت اضافه شدند';
+=======
+$labels['longaclother'] = 'قوانین دسترسی دیگر';
+$labels['ariasummaryacltable'] = 'فهرست قوانین دسترسی';
+$labels['arialabelaclactions'] = 'فهرست کنش‌ها';
+$labels['arialabelaclform'] = 'فرم قوانین دسترسی';
+$messages['deleting'] = 'حذف کردن حقوق دسترسی...';
+$messages['saving'] = 'ذخیره حقوق دسترسی...';
+$messages['updatesuccess'] = 'حقوق دسترسی با کام‌یابی تغییر کردند';
+$messages['deletesuccess'] = 'حقوق دسترسی با کام‌یابی حذف شدند';
+$messages['createsuccess'] = 'حقوق دسترسی با کام‌یابی اضافه شدند';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $messages['updateerror'] = 'ناتوانی در روزآمد کردن حقوق دسترسی';
 $messages['deleteerror'] = 'ناتوانی در حذف حقوق دسترسی';
 $messages['createerror'] = 'ناتوانی در اضافه کردن حقوق دسترسی';

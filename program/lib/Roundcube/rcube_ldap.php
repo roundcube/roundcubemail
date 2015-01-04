@@ -64,7 +64,12 @@ class rcube_ldap extends rcube_addressbook
 
     private $base_dn        = '';
     private $groups_base_dn = '';
+<<<<<<< HEAD
     private $group_url;
+=======
+    private $group_data;
+    private $group_search_cache;
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
     private $cache;
 
 
@@ -766,16 +771,16 @@ class rcube_ldap extends rcube_addressbook
         if ($this->prop['vlv_search'] && $this->ready && join(',', (array)$fields) == join(',', $list_fields)) {
             $this->result = new rcube_result_set(0);
 
-            $search_suffix = $this->prop['fuzzy_search'] && $mode != 1 ? '*' : '';
+            $this->ldap->config_set('fuzzy_search', intval($this->prop['fuzzy_search'] && $mode != 1));
             $ldap_data = $this->ldap->search($this->base_dn, $this->prop['filter'], $this->prop['scope'], $this->prop['attributes'],
-                array('search' => $value . $search_suffix /*, 'sort' => $this->prop['sort'] */));
+                array('search' => $value /*, 'sort' => $this->prop['sort'] */));
             if ($ldap_data === false) {
                 return $this->result;
             }
 
             // get all entries of this page and post-filter those that really match the query
             $search = mb_strtolower($value);
-            foreach ($ldap_data as $i => $entry) {
+            foreach ($ldap_data as $entry) {
                 $rec = $this->_ldap2result($entry);
                 foreach ($fields as $f) {
                     foreach ((array)$rec[$f] as $val) {
@@ -1505,7 +1510,6 @@ class rcube_ldap extends rcube_addressbook
         return $ldap_data;
     }
 
-
     /**
      * Returns unified attribute name (resolving aliases)
      */
@@ -1537,17 +1541,6 @@ class rcube_ldap extends rcube_addressbook
     }
 
     /**
-     * Prints debug info to the log
-     */
-    private function _debug($str)
-    {
-        if ($this->debug) {
-            rcube::write_log('ldap', $str);
-        }
-    }
-
-
-    /**
      * Activate/deactivate debug mode
      *
      * @param boolean $dbg True if LDAP commands should be logged
@@ -1560,7 +1553,6 @@ class rcube_ldap extends rcube_addressbook
             $this->ldap->set_debug($dbg);
         }
     }
-
 
     /**
      * Setter for the current group
@@ -1938,7 +1930,7 @@ class rcube_ldap extends rcube_addressbook
         $filter = strtr("(|(member=$contact_dn)(uniqueMember=$contact_dn)$add_filter)", array('\\' => '\\\\'));
 
         $ldap_data = $this->ldap->search($base_dn, $filter, 'sub', array('dn', $name_attr));
-        if ($res === false) {
+        if ($ldap_data === false) {
             return array();
         }
 

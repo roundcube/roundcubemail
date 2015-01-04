@@ -30,6 +30,14 @@ $current   = $RCMAIL->storage->get_folder();
 $check_all = $RCMAIL->action != 'refresh' || (bool)$RCMAIL->config->get('check_all_folders');
 $page      = $RCMAIL->storage->get_page();
 $page_size = $RCMAIL->storage->get_pagesize();
+<<<<<<< HEAD
+=======
+
+$search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
+if ($search_request && $_SESSION['search_request'] != $search_request) {
+    $search_request = null;
+}
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 
 // list of folders to check
 if ($check_all) {

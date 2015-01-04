@@ -909,7 +909,7 @@ class rcube_contacts extends rcube_addressbook
             $name, $gid, $this->user_id
         );
 
-        return $this->db->affected_rows() ? $name : false;
+        return $this->db->affected_rows($sql_result) ? $name : false;
     }
 
 
@@ -983,7 +983,7 @@ class rcube_contacts extends rcube_addressbook
             $group_id
         );
 
-        return $this->db->affected_rows();
+        return $this->db->affected_rows($sql_result);
     }
 
 

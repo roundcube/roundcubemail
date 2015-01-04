@@ -17,6 +17,7 @@
 // Initialize HTML editor
 function rcmail_editor_init(config)
 {
+<<<<<<< HEAD
   var ret, conf = {
       mode: 'textareas',
       editor_selector: 'mce_editor',
@@ -28,6 +29,19 @@ function rcmail_editor_init(config)
       theme_advanced_toolbar_align: 'left',
       theme_advanced_buttons3: '',
       theme_advanced_statusbar_location: 'none',
+=======
+  var ref = this,
+    abs_url = location.href.replace(/[?#].*$/, '').replace(/\/$/, ''),
+    conf = {
+      selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
+      cache_suffix: 's=4010700',
+      theme: 'modern',
+      language: config.lang,
+      content_css: rcmail.assets_path('program/js/tinymce/roundcube/content.css'),
+      menubar: false,
+      statusbar: false,
+      toolbar_items_size: 'small',
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
       extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
       relative_urls: false,
       remove_script_host: false,
@@ -45,12 +59,22 @@ function rcmail_editor_init(config)
     });
   else { // mail compose
     $.extend(conf, {
+<<<<<<< HEAD
       plugins: 'paste,emotions,media,nonbreaking,table,searchreplace,visualchars,directionality,inlinepopups,tabfocus' + (config.spellcheck ? ',spellchecker' : ''),
       theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,ltr,rtl,blockquote,|,forecolor,backcolor,fontselect,fontsizeselect',
       theme_advanced_buttons2: 'link,unlink,table,|,emotions,charmap,image,media,|,code,search,undo,redo',
       spellchecker_languages: (rcmail.env.spellcheck_langs ? rcmail.env.spellcheck_langs : 'Dansk=da,Deutsch=de,+English=en,Espanol=es,Francais=fr,Italiano=it,Nederlands=nl,Polski=pl,Portugues=pt,Suomi=fi,Svenska=sv'),
       spellchecker_rpc_url: '?_task=utils&_action=spell_html&_remote=1',
       spellchecker_enable_learn_rpc: config.spelldict,
+=======
+      plugins: 'autolink charmap code colorpicker directionality emoticons link image media nonbreaking'
+        + ' paste table tabfocus textcolor searchreplace' + (config.spellcheck ? ' spellchecker' : ''),
+      toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
+        + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
+        + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',
+      spellchecker_rpc_url: abs_url + '/?_task=utils&_action=spell_html&_remote=1',
+      spellchecker_language: rcmail.env.spell_lang,
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
       accessibility_focus: false,
       oninit: 'rcmail_editor_callback'
     });

@@ -16,6 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['curpasswd']  = 'Առկա գաղտնաբառը`';
 $labels['newpasswd']  = 'Նոր գաղտնաբառը`';
 =======
@@ -23,6 +24,11 @@ $labels['changepasswd']  = 'Փոխել գաղտնաբառը';
 $labels['curpasswd']  = 'Ներկա գաղտնաբառ`';
 $labels['newpasswd']  = 'Նոր գաղտնաբառ`';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['changepasswd']  = 'Փոխել գաղտնաբառը';
+$labels['curpasswd']  = 'Ներկա գաղտնաբառ`';
+$labels['newpasswd']  = 'Նոր գաղտնաբառ`';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['confpasswd']  = 'Կրկնեք նոր գաղտնաբառը`';
 $messages['nopassword'] = 'Ներմուցեք նոր գաղտնաբառը։';
 $messages['nocurpassword'] = 'Ներմուցեք առկա գաղտնաբառը։';

@@ -178,11 +178,16 @@ $labels['always'] = 'riamh';
 $labels['autosavedraft']  = 'Sábháil dréachta go huathoibríoch';
 $labels['never']  = 'riamh';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
 =======
 $labels['immediately']  = 'láithreach';
 $labels['afternseconds']  = 'tar éis $n soicindí';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['immediately']  = 'láithreach';
+$labels['afternseconds']  = 'tar éis $n soicindí';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['folder'] = 'Fillteán';
 $labels['folders'] = 'Fillteán';
 $labels['foldername'] = 'Ainm fillteán';
@@ -193,7 +198,4 @@ $labels['managefolders'] = 'Stiúir na fillteán';
 $labels['sortby'] = 'Sórtáil trí';
 $labels['sortasc']  = 'Sórtáil in ord méadaitheach';
 $labels['sortdesc'] = 'Sórtáil in ord neartaitheach';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

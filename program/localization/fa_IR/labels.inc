@@ -142,6 +142,7 @@ $labels['currpage'] = 'صفحه جاری';
 $labels['isread'] = 'خوانده شده';
 $labels['unread'] = 'خوانده‌نشده';
 $labels['flagged'] = 'پرچم‌دار';
+$labels['unflagged'] = 'بدون پرچم';
 $labels['unanswered'] = 'پاسخ داده نشده';
 $labels['withattachment'] = 'با پیوست';
 $labels['deleted'] = 'حذف شده';
@@ -178,6 +179,10 @@ $labels['importmessages'] = 'وارد کردن پیغام‌ها';
 $labels['quota'] = 'فضای استفاده شده';
 $labels['unknown']  = 'ناشناخته';
 $labels['unlimited']  = 'نامحدود';
+<<<<<<< HEAD
+=======
+$labels['quotatype'] = 'نوع سهمیه';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['quotatotal'] = 'محدود کردن';
 $labels['quotaused'] = 'استفاده شده';
 $labels['quotastorage'] = 'فضای دیسک';
@@ -188,6 +193,8 @@ $labels['msgtext']  = 'کل پیغام';
 $labels['body']  = 'بدنه';
 $labels['type'] = 'نوع';
 $labels['namex'] = 'نام';
+$labels['searchscope'] = 'حوزه';
+$labels['currentfolder'] = 'پوشه جاری';
 $labels['allfolders'] = 'همه پوشه‌ها';
 $labels['openinextwin'] = 'باز کردن در پنجره‌ی جدید';
 $labels['emlsave'] = 'بارگیری (.eml)';
@@ -205,9 +212,13 @@ $labels['dsn']            = 'اعلام وضعیت دریافت';
 $labels['mailreplyintro'] = 'در $date، $sender نوشته است:';
 $labels['originalmessage'] = 'پیغام اصلی';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $labels['selectimage']    = 'انتخاب تصویر';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['selectimage']    = 'انتخاب تصویر';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['addimage']       = 'افزودن تصویر';
 $labels['addmedia']       = 'افزودن رسانه';
 $labels['editidents']    = 'ویرایش شناسه‌ها';
@@ -228,7 +239,6 @@ $labels['responsetext'] = 'متن پاسخ';
 $labels['attach'] = 'پیوست کردن';
 $labels['attachments'] = 'پیوست‌ها';
 $labels['upload'] = 'بارگذاری';
-$labels['uploadprogress'] = '$percent ($current از$total)';
 $labels['close']  = 'بستن';
 $labels['messageoptions']  = 'گزینه‌های پیغام...';
 $labels['low']     = 'کم';
@@ -330,10 +340,14 @@ $labels['exportsel']      = 'خارج کردن انتخاب شده‌ها';
 $labels['exportvcards']   = 'صدور اطلاعات تماس‌ها با فرمت vCard';
 <<<<<<< HEAD
 $labels['newgroup']       = 'ایجاد گروه جدید';
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = 'ایجاد گروه جدید';
 $labels['addgroup']       = 'افزودن گروه';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'افزودن گروه';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'تغییر نام گروه';
 $labels['groupdelete']    = 'حذف گروه';
 $labels['groupremoveselected'] = 'حذف نشانی‌های انتخاب شده از گروه';
@@ -355,7 +369,7 @@ $labels['importreplace'] = 'جایگیزینی کامل دفتر نشانی';
 $labels['importgroups'] = 'وارد کردن وظایف گروه';
 $labels['importgroupsall'] = 'همه (ایجاد گروه‌ها در صورت نیاز)';
 $labels['importgroupsexisting'] = 'فقط برای گروه‌های موجود';
-$labels['importdesc'] = 'شما می‌توانید تماس‌ها را از یک دفتر نشانی موجود بارگذاری نمایید.<br/> هم اکنون ما وارد کردن آدرس‌ها را از <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> یا قالب داده CVS (جدا شده با کاما) پشتیبانی می‌کنیم.';
+$labels['importdesc'] = 'شما می‌توانید تماس‌ها را از یک دفتر نشانی موجود بارگذاری نمایید.<br/> هم اکنون ما وارد کردن نشانی‌ها را از <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> یا قالب داده CVS (جدا شده با کاما) پشتیبانی می‌کنیم.';
 $labels['done'] = 'انجام شد';
 $labels['settingsfor'] = 'تنظیمات برای';
 $labels['about'] = 'درباره';
@@ -364,6 +378,7 @@ $labels['userpreferences'] = 'ترجیحات کاربر';
 $labels['editpreferences'] = 'ویرایش ترجیحات کاربر';
 $labels['identities'] = 'شناسه‌ها';
 $labels['addidentity'] = 'افزودن هویت';
+$labels['editidentity'] = 'ویرایش شناسه';
 $labels['preferhtml'] = 'HTML نمایش';
 $labels['defaultcharset'] = 'مجموعه نمایه پیش‌فرض';
 $labels['htmlmessage'] = 'HTML پیغام';
@@ -385,7 +400,7 @@ $labels['htmleditor'] = 'HTML ‌نوشتن پیغام‌های';
 $labels['htmlonreply'] = 'فقط در پاسخ به پیغام HTML';
 $labels['htmlonreplyandforward'] = 'در بازگردانی یا پاسخ به پیغام‌های HTML';
 $labels['htmlsignature'] = 'HTML امضای';
-$labels['showemail'] = 'نمایش آدرس پست الکترونیک با نام نمایشی';
+$labels['showemail'] = 'نمایش نشانی رایانامه با نام نمایشی';
 $labels['previewpane'] = 'نمایش قاب پیش‌نمایش';
 $labels['skin'] = 'پوسته ظاهری';
 $labels['logoutclear'] = 'تمیز کردن زباله دان هنگام برون‌رفت';
@@ -398,7 +413,6 @@ $labels['askuser'] = 'پرسش از کاربر';
 $labels['autosend'] = 'ارسال رسید';
 $labels['autosendknown'] = 'ارسال رسید به تماس‌های من، در غیر این صورت سوال کن';
 $labels['autosendknownignore'] = 'ارسال رسید به تماس‌های من، درغیر این صورت چشم‌پوشی کن';
-$labels['ignore'] = 'نادیده‌گیری';
 $labels['readwhendeleted'] = 'در هنگام پاک کردن، پیغام را به عنوان خوانده شده علامت بزن';
 $labels['flagfordeletion'] = 'پیغام را به جای پاک کردن، با پرچم نشانه‌گذاری کن';
 $labels['skipdeleted'] = 'پیغام‌های حذف شده را نمایش نده';
@@ -420,7 +434,6 @@ $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (سایر)';
 $labels['force7bit'] = 'از MIME encoding برای کارکترهای ۸-بیتی استفاده کن';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'گزینه‌های پیشرفته';
 $labels['focusonnewmessage'] = 'مشخص نمودن پیغام جدید';
 $labels['checkallfolders'] = 'همه پوشه‌ها را برای مشاهده پیغام‌های جدید بررسی کن';
@@ -446,8 +459,8 @@ $labels['afternseconds']  = 'بعد از $s ثانیه';
 $labels['reqmdn'] = 'درخواست همیشگی رسید برگشت';
 $labels['reqdsn'] = 'درخواست همیشگی تذکر وضعیت تحویل';
 $labels['replysamefolder'] = 'پاسخ‌ها را در پوشه‌ای پیغام‌هایی که باید پاسخ داده شود گرفته بده.';
-$labels['defaultabook'] = 'دفترچه آدرس پیش‌فرض';
-$labels['autocompletesingle'] = 'رد کردن نشانی‌های پست الکترونیک دیگر در تکمیل خودکار';
+$labels['defaultabook'] = 'دفترچه نشانی پیش‌فرض';
+$labels['autocompletesingle'] = 'رد کردن نشانی‌های رایانامه دیگر در تکمیل خودکار';
 $labels['listnamedisplay'] = 'فهرست تماس‌ها به عنوان';
 $labels['spellcheckbeforesend'] = 'بررسی املایی قبل از ارسال پیغام';
 $labels['spellcheckoptions'] = 'گزینه‌های بررسی املاء';
@@ -484,9 +497,13 @@ $labels['personalfolder'] = 'پوشه خصوصی';
 $labels['otherfolder'] = 'پوشه کاربران دیگر';
 $labels['sharedfolder'] = 'پوشه عمومی';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $labels['namespace.personal'] = 'شخصی';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['namespace.personal'] = 'شخصی';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['sortby'] = 'مرتب‌سازی بر اساس';
 $labels['sortasc']  = 'مرتب‌سازی صعودی';
 $labels['sortdesc'] = 'مرتب‌سازی نزولی';
@@ -519,12 +536,39 @@ $labels['vietnamese'] = 'ویتنامی';
 $labels['japanese'] = 'ژاپنی';
 $labels['korean'] = 'کره‌ای';
 $labels['chinese'] = 'چینی';
+$labels['arialabeltopnav'] = 'کنترل پنجره';
 $labels['arialabelactivetask'] = 'وظیفه فعال';
+$labels['arialabelmessagessearchfilter'] = 'پالایه فهرست‌گیری رایانامه';
+$labels['arialabelmailsearchform'] = 'فرم جستجوی پیغام رایانامه';
+$labels['arialabelmailquicksearchbox'] = 'ورودی جستجوی رایانامه';
+$labels['arialabelquicksearchbox'] = 'وردوی جستجو';
+$labels['arialabelfoldersearchfilter'] = 'پالایه فهرست‌گیری پوشه';
+$labels['arialabelfolderlist'] = 'انتخاب پوشه رایانامه';
+$labels['arialabelmessagelist'] = 'فهرست‌گیری پیغام‌های رایانامه';
+$labels['arialabelmailpreviewframe'] = 'پیش‌نمایش پیغام';
+$labels['arialabelmessagenav'] = 'ناوبری پیغام';
 $labels['arialabelmessagebody'] = 'بدنه پیغام';
+<<<<<<< HEAD
 <<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "";
 =======
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['arialabelmessageactions'] = 'کنش‌های پیغام';
+$labels['arialabelcontactquicksearch'] = 'فرم جستجوی تماس‌ها';
+$labels['arialabelcontactsearchbox'] = 'ورودی جستجوی تماس';
+$labels['arialabelmessageheaders'] = 'سربرگ‌های پیغام';
+$labels['arialabelforwardingoptions'] = 'گزینه‌های بازگردانی';
+$labels['arialabelreplyalloptions'] = 'گزینه‌های پاسخ به همه';
+$labels['arialabelcomposeoptions'] = 'گزینه‌های انشاء';
+$labels['arialabelattachmentuploadform'] = 'فرم بارگذاری پیوست';
+$labels['arialabelattachmentpreview'] = 'پیش‌نمایش پیوست';
+$labels['arialabelabookgroupoptions'] = 'گزینه‌های دفترنشانی/گروه';
+$labels['arialabelpreferencesform'] = 'فرم تنظیمات';
+$labels['arialabelidentityeditfrom'] = 'فرم ویرایش هویت';
+$labels['arialabelresonseeditfrom'] = 'فرم ویرایش واکنش‌گرا';
+$labels['arialabelsearchterms'] = 'شرایط جستجو';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

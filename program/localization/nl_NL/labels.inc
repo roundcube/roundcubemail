@@ -221,6 +221,7 @@ $labels['resumeediting'] = 'Doorgaan met opstellen';
 $labels['revertto']      = 'Terugwijzigen in';
 $labels['restore'] = 'Herstellen';
 $labels['restoremessage'] = 'Bericht herstellen?';
+$labels['ignore'] = 'Negeren';
 $labels['responses'] = 'Reacties';
 $labels['insertresponse'] = 'Reactie invoegen';
 $labels['manageresponses'] = 'Reacties beheren';
@@ -298,10 +299,14 @@ $labels['spouse'] = 'Echtgenoot';
 $labels['allfields'] = 'Alle velden';
 $labels['search'] = 'Zoeken';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['searchfor'] = 'Zoek naar "$q"';
 =======
 $labels['searchresult'] = 'Zoekresultaat';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Zoekresultaat';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Geavanceerd zoeken';
 $labels['advanced'] = 'Geavanceerd';
 $labels['other'] = 'Anders';
@@ -346,10 +351,14 @@ $labels['exportsel']      = 'Selectie exporteren';
 $labels['exportvcards']   = 'Exporteer contactpersonen in vCard-formaat';
 <<<<<<< HEAD
 $labels['newgroup']       = 'Nieuwe groep maken';
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = 'Nieuwe groep maken';
 $labels['addgroup']       = 'Groep toevoegen';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Groep toevoegen';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Groep hernoemen';
 $labels['groupdelete']    = 'Groep verwijderen';
 $labels['groupremoveselected'] = 'Verwijder geselecteerde contactpersonen van groep';
@@ -422,7 +431,7 @@ $labels['askuser'] = 'altijd aan mij vragen';
 $labels['autosend'] = 'stuur automatisch';
 $labels['autosendknown'] = 'stuur automatisch naar mijn contactpersonen,  anders vragen';
 $labels['autosendknownignore'] = 'stuur automatisch naar mijn contactpersonen,  anders negeren';
-$labels['ignore'] = 'negeren';
+$labels['ignorerequest'] = 'negeer verzoek';
 $labels['readwhendeleted'] = 'Bericht na verwijderen als gelezen markeren';
 $labels['flagfordeletion'] = 'Bericht niet verwijderen maar als \'te verwijderen\' markeren';
 $labels['skipdeleted'] = 'Verwijderde berichten niet tonen';

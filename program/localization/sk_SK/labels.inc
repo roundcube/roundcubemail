@@ -221,6 +221,7 @@ $labels['resumeediting'] = 'Pokračovať v úpravách';
 $labels['revertto']      = 'Vrátiť sa na';
 $labels['restore'] = 'Obnoviť';
 $labels['restoremessage'] = 'Obnoviť správu?';
+$labels['ignore'] = 'Ignorovať';
 $labels['responses'] = 'Odpovede';
 $labels['insertresponse'] = 'Vložiť odpoveď';
 $labels['manageresponses'] = 'Spravovať odpovede';
@@ -298,10 +299,14 @@ $labels['spouse'] = 'Partner/ka';
 $labels['allfields'] = 'Všetky polia';
 $labels['search'] = 'Hľadať';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['searchfor'] = 'Hľadať "$q"';
 =======
 $labels['searchresult'] = 'Výsledok vyhľadávania';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Výsledok vyhľadávania';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Rozšírené vyhľadávanie';
 $labels['advanced'] = 'Rozšírené';
 $labels['other'] = 'Ostatné';
@@ -346,10 +351,14 @@ $labels['exportsel']      = 'Exportovať vybrané';
 $labels['exportvcards']   = 'Exportovať kontakty vo formáte vCard';
 <<<<<<< HEAD
 $labels['newgroup']       = 'Vytvoriť novú skupinu';
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = 'Vytvoriť novú skupinu';
 $labels['addgroup']       = 'Pridať skupinu';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Pridať skupinu';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Premenovať skupinu';
 $labels['groupdelete']    = 'Vymazať skupinu';
 $labels['groupremoveselected'] = 'Odstrániť vybrané kontakty zo skupiny';
@@ -422,7 +431,7 @@ $labels['askuser'] = 'opýtať sa používateľa';
 $labels['autosend'] = 'odoslať potvrdenie';
 $labels['autosendknown'] = 'odoslať potvrdenie iba mojim kontaktom';
 $labels['autosendknownignore'] = 'odoslať potvrdenie známym odosielateľom, inak ignorovať';
-$labels['ignore'] = 'ignorovať';
+$labels['ignorerequest'] = 'ignorovať požiadavku';
 $labels['readwhendeleted'] = 'Označiť správu ako prečítanú pri jej vymazávaní';
 $labels['flagfordeletion'] = 'Namiesto vymazania správy ju iba označiť ako vymazanú';
 $labels['skipdeleted'] = 'Nezobrazovať vymazané správy';

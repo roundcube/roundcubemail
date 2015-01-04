@@ -257,8 +257,8 @@ function rcmail_directory_list($attrib)
 
     // Saved searches
     $sources = $RCMAIL->user->list_searches(rcube_user::SEARCH_ADDRESSBOOK);
-    foreach ($sources as $j => $source) {
-        $id = $source['id'];
+    foreach ($sources as $source) {
+        $id    = $source['id'];
         $js_id = rcube::JQ($id);
 
         // set class name(s)
@@ -768,11 +768,12 @@ function rcmail_contact_photo($attrib)
     if ($result = $CONTACTS->get_result())
         $record = $result->first();
 
-    $photo_img = $attrib['placeholder'] ? $RCMAIL->output->get_skin_file($attrib['placeholder']) : 'program/resources/blank.gif';
+    $photo_img = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : 'program/resources/blank.gif';
     if ($record['_type'] == 'group' && $attrib['placeholdergroup'])
-        $photo_img = $RCMAIL->output->get_skin_file($attrib['placeholdergroup']);
+        $photo_img = $RCMAIL->output->abs_url($attrib['placeholdergroup'], true);
 
-    $RCMAIL->output->set_env('photo_placeholder', $photo_img);
+    $RCMAIL->output->set_env('photo_placeholder', $RCMAIL->output->asset_url($photo_img));
+
     unset($attrib['placeholder']);
 
     $plugin = $RCMAIL->plugins->exec_hook('contact_photo', array('record' => $record, 'data' => $record['photo']));

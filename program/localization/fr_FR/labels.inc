@@ -221,6 +221,7 @@ $labels['resumeediting'] = 'Retourner à l\'édition';
 $labels['revertto']      = 'Revenir à';
 $labels['restore'] = 'Restaurer';
 $labels['restoremessage'] = 'Restaurer le message ?';
+$labels['ignore'] = 'Ignorer';
 $labels['responses'] = 'Réponses';
 $labels['insertresponse'] = 'Insérer une réponse';
 $labels['manageresponses'] = 'Gérer les réponses';
@@ -233,7 +234,7 @@ $labels['responsetext'] = 'Texte de la réponse';
 $labels['attach'] = 'Joindre';
 $labels['attachments'] = 'Fichiers joints';
 $labels['upload'] = 'Téléverser';
-$labels['uploadprogress'] = '$percent ($current sur $total)';
+$labels['uploadprogress'] = '$percent ($current de $total)';
 $labels['close']  = 'Fermer';
 $labels['messageoptions']  = 'Options du message...';
 $labels['togglecomposeoptions'] = 'Activer/désactiver les options de rédaction';
@@ -336,7 +337,11 @@ $labels['export']         = 'Exporter';
 $labels['exportall']      = 'Tout exporter';
 $labels['exportsel']      = 'Exporter la sélection';
 $labels['exportvcards']   = 'Exporter les contacts au format vCard';
+<<<<<<< HEAD
 $labels['newcontactgroup']       = 'Créer un nouveau groupe';
+=======
+$labels['newgroup']       = 'Créer un nouveau groupe';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['addgroup']       = 'Ajouter un groupe';
 $labels['grouprename']    = 'Renommer le groupe';
 $labels['groupdelete']    = 'Supprimer le groupe';
@@ -406,7 +411,7 @@ $labels['askuser'] = 'me demander';
 $labels['autosend'] = 'envoyer l\'accusé';
 $labels['autosendknown'] = 'envoyer un accusé de réception à mes contacts, autrement me demander';
 $labels['autosendknownignore'] = 'envoyer un accusé à mes contacts, sinon ignorer';
-$labels['ignore'] = 'ignorer';
+$labels['ignorerequest'] = 'ignorer la demande';
 $labels['readwhendeleted'] = 'Marquer le message comme lu à la suppression';
 $labels['flagfordeletion'] = 'Signaler le message pour la suppression au lieu de le supprimer';
 $labels['skipdeleted'] = 'Ne pas montrer les messages supprimés';

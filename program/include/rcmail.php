@@ -439,7 +439,12 @@ class rcmail extends rcube
         $this->output->set_env('compose_extwin', $this->config->get('compose_extwin',false));
 
         // add some basic labels to client
+<<<<<<< HEAD
         $this->output->add_label('loading', 'servererror', 'connerror', 'requesttimedout', 'refreshing');
+=======
+        $this->output->add_label('loading', 'servererror', 'connerror', 'requesttimedout',
+            'refreshing', 'windowopenerror', 'uploadingmany');
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 
         return $this->output;
     }
@@ -760,47 +765,24 @@ class rcmail extends rcube
     }
 
     /**
-     * Generate a unique token to be used in a form request
-     *
-     * @return string The request token
-     */
-    public function get_request_token()
-    {
-        $sess_id = $_COOKIE[ini_get('session.name')];
-
-        if (!$sess_id) {
-            $sess_id = session_id();
-        }
-
-        $plugin = $this->plugins->exec_hook('request_token', array(
-            'value' => md5('RT' . $this->get_user_id() . $this->config->get('des_key') . $sess_id)));
-
-        return $plugin['value'];
-    }
-
-    /**
-     * Check if the current request contains a valid token
-     *
-     * @param int Request method
-     *
-     * @return boolean True if request token is valid false if not
-     */
-    public function check_request($mode = rcube_utils::INPUT_POST)
-    {
-        $token   = rcube_utils::get_input_value('_token', $mode);
-        $sess_id = $_COOKIE[ini_get('session.name')];
-
-        return !empty($sess_id) && $token == $this->get_request_token();
-    }
-
-    /**
      * Build a valid URL to this instance of Roundcube
      *
+<<<<<<< HEAD
      * @param mixed Either a string with the action or url parameters as key-value pairs
      *
      * @return string Valid application URL
      */
     public function url($p)
+=======
+     * @param mixed   Either a string with the action or url parameters as key-value pairs
+     * @param boolean Build an URL absolute to document root
+     * @param boolean Create fully qualified URL including http(s):// and hostname
+     * @param bool    Return absolute URL in secure location
+     *
+     * @return string Valid application URL
+     */
+    public function url($p, $absolute = false, $full = false, $secure = false)
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
     {
         if (!is_array($p)) {
             if (strpos($p, 'http') === 0) {
@@ -825,7 +807,42 @@ class rcmail extends rcube
             }
         }
 
+<<<<<<< HEAD
         return $url;
+=======
+        $base_path = strval($_SERVER['REDIRECT_SCRIPT_URL'] ?: $_SERVER['SCRIPT_NAME']);
+        $base_path = preg_replace('![^/]+$!', '', $base_path);
+
+        if ($secure && ($token = $this->get_secure_url_token(true))) {
+            // add token to the url
+            $url = $token . '/' . $url;
+
+            // remove old token from the path
+            $base_path = rtrim($base_path, '/');
+            $base_path = preg_replace('/\/[a-f0-9]{' . strlen($token) . '}$/', '', $base_path);
+
+            // this need to be full url to make redirects work
+            $absolute = true;
+        }
+
+        if ($absolute || $full) {
+            // add base path to this Roundcube installation
+            if ($base_path == '') $base_path = '/';
+            $prefix = $base_path;
+
+            // prepend protocol://hostname:port
+            if ($full) {
+                $prefix = rcube_utils::resolve_url($prefix);
+            }
+
+            $prefix = rtrim($prefix, '/') . '/';
+        }
+        else {
+            $prefix = './';
+        }
+
+        return $prefix . $url;
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
     }
 
     /**
@@ -856,6 +873,28 @@ class rcmail extends rcube
                 self::print_timer(RCMAIL_START, $log);
             else
                 self::console($log);
+        }
+    }
+
+    /**
+     * CSRF attack prevention code
+     *
+     * @param int Request mode
+     */
+    public function request_security_check($mode = rcube_utils::INPUT_POST)
+    {
+        // check request token
+        if (!$this->check_request($mode)) {
+            self::raise_error(array(
+                'code' => 403, 'type' => 'php',
+                'message' => "Request security check failed"), false, true);
+        }
+
+        // check referer if configured
+        if ($this->config->get('referer_check') && !rcube_utils::check_referer()) {
+            self::raise_error(array(
+                'code' => 403, 'type' => 'php',
+                'message' => "Referer check failed"), true, true);
         }
     }
 
@@ -1876,12 +1915,54 @@ class rcmail extends rcube
             }
         }
 
+<<<<<<< HEAD
         if (isset($params['percent']))
             $params['text'] = $this->gettext(array('name' => 'uploadprogress', 'vars' => array(
                 'percent' => $params['percent'] . '%',
                 'current' => $this->show_bytes($params['current']),
                 'total'   => $this->show_bytes($params['total'])
         )));
+=======
+        if (!isset($status) && filter_var(ini_get('session.upload_progress.enabled'), FILTER_VALIDATE_BOOLEAN)
+            && ini_get('session.upload_progress.name')
+        ) {
+            $key = ini_get('session.upload_progress.prefix') . $params['name'];
+
+            $params['total']   = $_SESSION[$key]['content_length'];
+            $params['current'] = $_SESSION[$key]['bytes_processed'];
+        }
+
+        if (!empty($params['total'])) {
+            $total = $this->show_bytes($params['total'], $unit);
+            switch ($unit) {
+            case 'GB':
+                $gb      = $params['current']/1073741824;
+                $current = sprintf($gb >= 10 ? "%d" : "%.1f", $gb);
+                break;
+            case 'MB':
+                $mb      = $params['current']/1048576;
+                $current = sprintf($mb >= 10 ? "%d" : "%.1f", $mb);
+                break;
+            case 'KB':
+                $current = round($params['current']/1024);
+                break;
+            case 'B':
+            default:
+                $current = $params['current'];
+                break;
+            }
+
+            $params['percent'] = round($params['current']/$params['total']*100);
+            $params['text']    = $this->gettext(array(
+                'name' => 'uploadprogress',
+                'vars' => array(
+                    'percent' => $params['percent'] . '%',
+                    'current' => $current,
+                    'total'   => $total
+                )
+            ));
+        }
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 
         $this->output->command('upload_progress_update', $params);
         $this->output->send();
@@ -1978,25 +2059,30 @@ class rcmail extends rcube
     /**
      * Create a human readable string for a number of bytes
      *
-     * @param int Number of bytes
+     * @param int    Number of bytes
+     * @param string Size unit
      *
      * @return string Byte string
      */
-    public function show_bytes($bytes)
+    public function show_bytes($bytes, &$unit = null)
     {
         if ($bytes >= 1073741824) {
-            $gb  = $bytes/1073741824;
-            $str = sprintf($gb>=10 ? "%d " : "%.1f ", $gb) . $this->gettext('GB');
+            $unit = 'GB';
+            $gb   = $bytes/1073741824;
+            $str  = sprintf($gb >= 10 ? "%d " : "%.1f ", $gb) . $this->gettext($unit);
         }
         else if ($bytes >= 1048576) {
-            $mb  = $bytes/1048576;
-            $str = sprintf($mb>=10 ? "%d " : "%.1f ", $mb) . $this->gettext('MB');
+            $unit = 'MB';
+            $mb   = $bytes/1048576;
+            $str  = sprintf($mb >= 10 ? "%d " : "%.1f ", $mb) . $this->gettext($unit);
         }
         else if ($bytes >= 1024) {
-            $str = sprintf("%d ",  round($bytes/1024)) . $this->gettext('KB');
+            $unit = 'KB';
+            $str  = sprintf("%d ",  round($bytes/1024)) . $this->gettext($unit);
         }
         else {
-            $str = sprintf('%d ', $bytes) . $this->gettext('B');
+            $unit = 'B';
+            $str  = sprintf('%d ', $bytes) . $this->gettext($unit);
         }
 
         return $str;

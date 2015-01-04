@@ -231,7 +231,6 @@ $labels['mimeparamfolding'] = 'இணைப்பு பெயர்கள்';
 $labels['2231folding'] = 'முழு RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'முழு RFC 2047 (மற்ற)';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'மேம்பட்ட விருப்பங்கள்';
 $labels['focusonnewmessage'] = 'உலாவி சாளரத்தை புது செய்திக்காக கவனி';
 $labels['checkallfolders'] = 'புது செய்திகளுக்காக எல்லா அடைவுகளையும் சரிபார்';
@@ -265,7 +264,4 @@ $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

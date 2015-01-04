@@ -16,9 +16,13 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $labels['changepasswd']  = 'Change password';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['changepasswd']  = 'Change password';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['curpasswd']  = 'Current Password:';
 $labels['newpasswd']  = 'New Password:';
 $labels['confpasswd']  = 'Confirm New Password:';

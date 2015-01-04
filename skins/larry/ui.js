@@ -146,7 +146,12 @@ function rcube_mail_ui()
         rcmail.addEventListener('enable-command', enable_command)
           .addEventListener('aftershow-headers', function() { layout_messageview(); })
           .addEventListener('afterhide-headers', function() { layout_messageview(); });
-        $('#previewheaderstoggle').click(function(e){ toggle_preview_headers(); return false });
+        $('#previewheaderstoggle').click(function(e) {
+            toggle_preview_headers();
+            if (this.blur && !rcube_event.is_keyboard(e))
+                this.blur();
+            return false;
+        });
 
         // add menu link for each attachment
         $('#attachment-list > li').each(function() {
@@ -442,6 +447,7 @@ function rcube_mail_ui()
       if (me.message_timer) {
         window.clearTimeout(me.message_timer);
       }
+
       if (!me.messagedialog) {
         me.messagedialog = $('<div>').addClass('popupdialog').hide();
       }
@@ -452,7 +458,7 @@ function rcube_mail_ui()
           me.messagedialog.is(':visible') && me.messagedialog.dialog('destroy').hide();
         };
 
-      if (me.messagedialog.is(':visible'))
+      if (me.messagedialog.is(':visible') && me.messagedialog.text() != msg)
         msg = me.messagedialog.html() + '<p>' + p.message + '</p>';
 
       me.messagedialog.html(msg)
@@ -1122,14 +1128,11 @@ function rcube_mail_ui()
    */
   function show_about(elem)
   {
-    var frame = $('<iframe>').attr('id', 'aboutframe')
-      .attr('src', rcmail.url('settings/about'))
-      .attr('frameborder', '0')
-      .appendTo(document.body);
+    var frame = $('<iframe>').attr({id: 'aboutframe', src: rcmail.url('settings/about'), frameborder: '0'});
+      h = Math.floor($(window).height() * 0.75),
+      buttons = {},
+      supportln = $('#supportlink');
 
-    var h = Math.floor($(window).height() * 0.75);
-    var buttons = {};
-    var supportln = $('#supportlink');
     if (supportln.length && (env.supporturl = supportln.attr('href')))
       buttons[supportln.html()] = function(e){ env.supporturl.indexOf('mailto:') < 0 ? window.open(env.supporturl) : location.href = env.supporturl };
 

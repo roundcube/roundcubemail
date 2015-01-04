@@ -217,7 +217,11 @@ $labels['restoremessage'] = 'Επαναφορά μηνύματος;';
 $labels['responses'] = 'Απαντήσεις';
 $labels['insertresponse'] = 'Εισάγετε μια απάντηση';
 $labels['manageresponses'] = 'Διαχείριση απαντήσεων';
+<<<<<<< HEAD
 $labels['savenewresponse'] = 'Δημιουργία νέας απάντησης';
+=======
+$labels['newresponse'] = 'Δημιουργία νέας απάντησης';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['addresponse'] = 'Προσθήκη απάντησης';
 $labels['editresponse'] = 'Μεταβολή απάντησης';
 $labels['editresponses'] = 'Μεταβολή απαντήσεων';
@@ -329,7 +333,11 @@ $labels['export']         = 'Εξαγωγή';
 $labels['exportall']      = 'Εξαγωγή όλων';
 $labels['exportsel']      = 'Εξαγωγή επιλεγμένων';
 $labels['exportvcards']   = 'Εξαγωγή επαφών σε vCard';
+<<<<<<< HEAD
 $labels['newcontactgroup']       = 'Δημιουργία νέας ομάδας';
+=======
+$labels['newgroup']       = 'Δημιουργία νέας ομάδας';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['addgroup']       = 'Προσθήκη ομάδας';
 $labels['grouprename']    = 'Μετονομασία ομάδας';
 $labels['groupdelete']    = 'Διαγραφή ομάδας';
@@ -364,7 +372,11 @@ $labels['identities'] = 'Ταυτότητες';
 $labels['manageidentities'] = 'Διαχείριση ταυτοτήτων';
 $labels['newidentity'] = 'Δημιουργία νέας ταυτότητας';
 $labels['addidentity'] = 'Προσθήκη ταυτότητας';
+<<<<<<< HEAD
 $labels['edititem'] = 'Επεξεργασία ταυτότητας';
+=======
+$labels['editidentity'] = 'Επεξεργασία ταυτότητας';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['preferhtml'] = 'Προβολή σε HTML';
 $labels['defaultcharset'] = 'Προεπιλεγμένη κωδικοποίηση χαρακτήρων';
 $labels['htmlmessage'] = 'Μήνυμα σε μορφή HTML';

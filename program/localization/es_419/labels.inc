@@ -298,10 +298,14 @@ $labels['spouse'] = 'Cónyuge';
 $labels['allfields'] = 'Todos los campos';
 $labels['search'] = 'Buscar';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['searchfor'] = 'Buscar por "$q"';
 =======
 $labels['searchresult'] = 'Resultado de búsqueda';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Resultado de búsqueda';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Búsqueda avanzada';
 $labels['advanced'] = 'Avanzada';
 $labels['other'] = 'Otro';
@@ -346,10 +350,14 @@ $labels['exportsel']      = 'Exportar lo seleccionado';
 $labels['exportvcards']   = 'Exportar contactos en formato vCard';
 <<<<<<< HEAD
 $labels['newgroup']       = 'Crear grupo nuevo';
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = 'Crear grupo nuevo';
 $labels['addgroup']       = 'Agregar grupo';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Agregar grupo';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Renombrar grupo';
 $labels['groupdelete']    = 'Eliminar grupo';
 $labels['groupremoveselected'] = 'Eliminar contactos seleccionados del grupo';

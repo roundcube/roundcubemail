@@ -124,9 +124,7 @@ class rcube_imap_search_job /* extends Stackable */
     private $charset;
     private $sort_field;
     private $threading;
-    private $searchset;
     private $result;
-    private $pagesize = 100;
 
     public function __construct($folder, $str, $charset = null, $sort_field = null, $threading=false)
     {

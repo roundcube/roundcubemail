@@ -20,10 +20,10 @@ $labels['username']  = 'Kullanıcı Adı';
 $labels['password']  = 'Parola';
 $labels['server']    = 'Sunucu';
 $labels['login']     = 'Oturum Aç';
-$labels['logout']   = 'Oturumu Kapat';
+$labels['logout']   = 'Kapat';
 $labels['mail']     = 'E-Posta';
-$labels['settings'] = 'Kişisel Ayarlar';
-$labels['addressbook'] = 'Adres Defteri';
+$labels['settings'] = 'Ayarlar';
+$labels['addressbook'] = 'Adresler';
 $labels['inbox']  = 'Gelen';
 $labels['drafts'] = 'Taslaklar';
 $labels['sent']   = 'Giden';
@@ -67,7 +67,7 @@ $labels['wed'] = 'Çrş';
 $labels['thu'] = 'Per';
 $labels['fri'] = 'Cum';
 $labels['sat'] = 'Cts';
-$labels['sunday']    = 'Paz';
+$labels['sunday']    = 'Pazar';
 $labels['monday']    = 'Pazartesi';
 $labels['tuesday']   = 'Salı';
 $labels['wednesday'] = 'Çarşamba';
@@ -90,7 +90,7 @@ $labels['longjan']	= 'Ocak';
 $labels['longfeb']	= 'Şubat';
 $labels['longmar']	= 'Mart';
 $labels['longapr']	= 'Nisan';
-$labels['longmay']	= 'May';
+$labels['longmay']	= 'Mayıs';
 $labels['longjun']	= 'Haziran';
 $labels['longjul']	= 'Temmuz';
 $labels['longaug']	= 'Ağustos';
@@ -114,11 +114,11 @@ $labels['forwardattachment'] = 'Eklenti Olarak İlet';
 $labels['forwardmessage']   = 'Postayı İlet';
 $labels['deletemessage']    = 'Postayı Sil';
 $labels['movemessagetotrash'] = 'Postayı Çöpe Taşı';
-$labels['printmessage']     = 'Bu Postayı Yazdır';
-$labels['previousmessage']  = 'Önceki Postayı Göster';
-$labels['firstmessage']     = 'İlk Postayı Göster';
-$labels['nextmessage']      = 'Sonraki Postayı Göster';
-$labels['lastmessage']      = 'Son Postayı Göster';
+$labels['printmessage']     = 'Postayı Yazdır';
+$labels['previousmessage']  = 'Önceki Posta';
+$labels['firstmessage']     = 'İlk Posta';
+$labels['nextmessage']      = 'Sonraki Posta';
+$labels['lastmessage']      = 'Son Posta';
 $labels['backtolist']       = 'Posta Listesine Dön';
 $labels['viewsource']       = 'Kaynağı Göster';
 $labels['mark']             = 'İşaretle';
@@ -142,11 +142,11 @@ $labels['currpage'] = 'Şimdiki sayfa';
 $labels['isread'] = 'Oku';
 $labels['unread'] = 'Okunmamışları';
 $labels['flagged'] = 'İşaretlenmişleri';
-$labels['unflagged'] = 'İşaretlenmedi';
+$labels['unflagged'] = 'İşaretlenmemişleri';
 $labels['unanswered'] = 'Yanıtlanmamışları';
 $labels['withattachment'] = 'Eklenti ile';
-$labels['deleted'] = 'Silinmişleri';
-$labels['undeleted'] = 'Silinmemiş';
+$labels['deleted'] = 'Silindi';
+$labels['undeleted'] = 'Silinmedi';
 $labels['replied'] = 'Cevaplandı';
 $labels['forwarded'] = 'Yönlendirildi';
 $labels['invert'] = 'Seçimi Tersine Çevir';
@@ -193,6 +193,7 @@ $labels['type'] = 'Tip';
 $labels['namex'] = 'Ad';
 $labels['searchscope'] = 'Kapsam';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['currentfolder'] = 'Mevcut dizin';
 $labels['subfolders'] = 'Bu ve alt dizinler';
 $labels['allfolders'] = 'Tüm dizinler';
@@ -201,6 +202,11 @@ $labels['currentfolder'] = 'Mevcut klasör';
 $labels['subfolders'] = 'Bu ve alt klasörler';
 $labels['allfolders'] = 'Tüm klasörler';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['currentfolder'] = 'Mevcut klasör';
+$labels['subfolders'] = 'Bu ve alt klasörler';
+$labels['allfolders'] = 'Tüm klasörler';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['openinextwin'] = 'Yeni pencerede aç';
 $labels['emlsave'] = 'İndir (.eml)';
 $labels['changeformattext'] = 'Düz yazı formatında göster';
@@ -227,6 +233,7 @@ $labels['resumeediting'] = 'Düzenlemeye devam et';
 $labels['revertto']      = 'Geri çevir:';
 $labels['restore'] = 'Geri yükle';
 $labels['restoremessage'] = 'Mesajı geri yükle?';
+$labels['ignore'] = 'Gözardı et';
 $labels['responses'] = 'Yanıtlar';
 $labels['insertresponse'] = 'Yanıt ekle';
 $labels['manageresponses'] = 'Yanıtları yönet';
@@ -243,7 +250,7 @@ $labels['responsetext'] = 'Yanıt metni';
 $labels['attach'] = 'Ekle';
 $labels['attachments'] = 'Ekler';
 $labels['upload'] = 'Yükle';
-$labels['uploadprogress'] = '$percent ($current / $total)';
+$labels['uploadprogress'] = '$percent($current of $total)';
 $labels['close']  = 'Kapat';
 $labels['messageoptions']  = 'İleti seçenekleri...';
 $labels['togglecomposeoptions'] = 'Kompozisyon seçeneklerini göster/gizle';
@@ -304,10 +311,14 @@ $labels['spouse'] = 'Eş';
 $labels['allfields'] = 'Tüm alanlar';
 $labels['search'] = 'Ara';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['searchfor'] = '"$q" için arama';
 =======
 $labels['searchresult'] = 'Arama sonucu';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Arama sonucu';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Gelişmiş ara';
 $labels['advanced'] = 'Gelişmiş';
 $labels['other'] = 'Diğer';
@@ -327,12 +338,12 @@ $labels['typeblog'] = 'Günlük';
 $labels['typeprofile'] = 'Profil';
 $labels['addfield'] = 'Alan ekle...';
 $labels['addcontact'] = 'Kişi ekle';
-$labels['editcontact'] = 'Kişiyi düzenle';
+$labels['editcontact'] = 'Düzenle';
 $labels['contacts'] = 'Kişiler';
-$labels['contactproperties'] = 'Kişi özellikleri';
+$labels['contactproperties'] = 'Özellikler';
 $labels['contactnameandorg'] = 'İsim ve Kuruluş';
 $labels['personalinfo'] = 'Kişisel bilgiler';
-$labels['contactphoto'] = 'Kişi fotografı';
+$labels['contactphoto'] = 'Fotoğraf';
 $labels['edit']   = 'Düzenle';
 $labels['cancel'] = 'İptal';
 $labels['save']   = 'Kaydet';
@@ -352,10 +363,14 @@ $labels['exportsel']      = 'Seçileni dışa aktar';
 $labels['exportvcards']   = 'vCard olarak dışa aktar';
 <<<<<<< HEAD
 $labels['newgroup']       = 'Yeni grup oluştur';
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = 'Yeni grup oluştur';
 $labels['addgroup']       = 'Grup ekle';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Grup ekle';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Grubu yeniden adlandır';
 $labels['groupdelete']    = 'Grubu sil';
 $labels['groupremoveselected'] = 'Seçili kişileri gruptan sil';
@@ -428,7 +443,7 @@ $labels['askuser'] = 'kullanıcıya sor';
 $labels['autosend'] = 'otomatik olarak gönder';
 $labels['autosendknown'] = 'adres defterimdekilere alındı onayı gönder, diğerlerini bana sor';
 $labels['autosendknownignore'] = 'adres defterimdekilere alındı onayı gönder, diğerlerini gözardı et';
-$labels['ignore'] = 'gözardı et';
+$labels['ignorerequest'] = 'görmezden gel';
 $labels['readwhendeleted'] = 'Silinen postaları okunmuş olarak işaretle';
 $labels['flagfordeletion'] = 'Postaları silmek yerine silinecek olarak işaretle';
 $labels['skipdeleted'] = 'Silinmiş postaları gösterme';
@@ -451,10 +466,14 @@ $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Tam RFC 2047 (diğer)';
 $labels['force7bit'] = '8 bitlik karakterler için MIME kodlaması kullan';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
 =======
 $labels['savelocalstorage'] = "Tarayıcının yerel disk alanına kaydet(geçiçi olarak)";
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['savelocalstorage'] = "Tarayıcının yerel disk alanına kaydet(geçiçi olarak)";
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advancedoptions'] = 'Gelişmiş seçenekler';
 $labels['toggleadvancedoptions'] = 'İleri seviye seçeneklerini göster/gizle';
 $labels['focusonnewmessage'] = 'Yeni posta geldiğinde web tarayıcı penceresine odaklan.';
@@ -501,6 +520,7 @@ $labels['replyalllist'] = 'Sadece postalama listesindekileri yanıtla (eğer var
 $labels['folder'] = 'Klasör';
 $labels['folders'] = 'Klasörler';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['foldername'] = 'Klasör Adı';
 $labels['subscribed'] = 'Abonelik';
 $labels['messagecount'] = 'Postalar';
@@ -515,6 +535,14 @@ $labels['create'] = 'Oluştur';
 $labels['createfolder'] = 'Yeni klasör oluştur';
 $labels['managefolders'] = 'Klasörleri düzenle';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['foldername'] = 'Klasör adı';
+$labels['subscribed'] = 'Abonelik';
+$labels['messagecount'] = 'Postalar';
+$labels['create'] = 'Oluştur';
+$labels['createfolder'] = 'Yeni klasör oluştur';
+$labels['managefolders'] = 'Klasörleri düzenle';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['specialfolders'] = 'Özel Klasörler';
 $labels['properties'] = 'Özellikler';
 $labels['folderproperties'] = 'Klasör özellikleri';
@@ -528,16 +556,22 @@ $labels['personalfolder'] = 'Kişisel Klasör';
 $labels['otherfolder'] = 'Diğer Kullanıcıların Klasörü';
 $labels['sharedfolder'] = 'Genel Klasör';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['namespace.personal'] = 'Kişisel';
 =======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['findfolders'] = 'Klasörleri bul';
 $labels['namespace.personal'] = 'Kişisel';
 $labels['namespace.other'] = 'Diğer kullanıcılar';
 $labels['namespace.shared'] = 'Paylaşılan';
+<<<<<<< HEAD
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['sortby'] = 'Sırala';
-$labels['sortasc']  = 'Artarak';
-$labels['sortdesc'] = 'Azalarak';
+$labels['sortasc']  = 'Artan';
+$labels['sortdesc'] = 'Azalan';
 $labels['undo'] = 'Geri al';
 $labels['installedplugins'] = 'Yüklü eklentiler';
 $labels['plugin'] = 'Eklenti';
@@ -577,10 +611,15 @@ $labels['arialabelcontactsearchform'] = 'Kişiler arama formu';
 $labels['arialabelmailquicksearchbox'] = 'E-posta arama girdisi';
 $labels['arialabelquicksearchbox'] = 'Arama girdisi';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $labels['arialabelfoldersearchfilter'] = 'Klasör listeleme filtresi';
 $labels['arialabelfoldersearchform'] = 'Klasör arama formu';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['arialabelfoldersearchfilter'] = 'Klasör listeleme filtresi';
+$labels['arialabelfoldersearchform'] = 'Klasör arama formu';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['arialabelfolderlist'] = 'E-posta klasör seçimi';
 $labels['arialabelmessagelist'] = 'E-posta mesajları listelemesi';
 $labels['arialabelmailpreviewframe'] = 'Mesaj önizleme';
@@ -610,9 +649,13 @@ $labels['arialabelpreferencesform'] = 'Tercihler formu';
 $labels['arialabelidentityeditfrom'] = 'Kimlik düzenleme formu';
 $labels['arialabelresonseeditfrom'] = 'Yanıt düzenleme formu';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $labels['arialabelsearchterms'] = 'Arama maddeleri';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['arialabelsearchterms'] = 'Arama maddeleri';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['helplistnavigation'] = 'Klavye gezinimi listele';
 $labels['helplistkeyboardnavigation'] = "Yukarı / aşağı oklar: odak / seçim satırı taşımak.
 Boşluk: odaklanan satırı seç.

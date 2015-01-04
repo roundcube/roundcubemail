@@ -345,3 +345,23 @@ img.skinthumbnail {
 	padding-left: 1em;
 	font-style: italic;
 }
+
+#pluginlist {
+	table-layout: auto;
+}
+
+#pluginlist th.version {
+	width: 1%;
+}
+
+.readtext {
+	width: 45em;
+	padding: 12px;
+	font-size: 12px;
+}
+
+.readtext > h1,
+.readtext > h2,
+.readtext > h3 {
+	margin-top: 0;
+}

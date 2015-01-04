@@ -256,6 +256,7 @@ $labels['revertto']      = 'Revert to';
 
 $labels['restore'] = 'Restore';
 $labels['restoremessage'] = 'Restore message?';
+$labels['ignore'] = 'Ignore';
 
 $labels['responses'] = 'Responses';
 $labels['insertresponse'] = 'Insert a response';
@@ -270,7 +271,7 @@ $labels['responsetext'] = 'Response Text';
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';
-$labels['uploadprogress'] = '$percent ($current from $total)';
+$labels['uploadprogress'] = '$percent ($current of $total)';
 $labels['close']  = 'Close';
 $labels['messageoptions']  = 'Message options...';
 $labels['togglecomposeoptions'] = 'Toggle composition options';
@@ -463,7 +464,7 @@ $labels['askuser'] = 'ask me';
 $labels['autosend'] = 'send receipt';
 $labels['autosendknown'] = 'send receipt to my contacts, otherwise ask me';
 $labels['autosendknownignore'] = 'send receipt to my contacts, otherwise ignore';
-$labels['ignore'] = 'ignore';
+$labels['ignorerequest'] = 'ignore request';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
 $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
 $labels['skipdeleted'] = 'Do not show deleted messages';

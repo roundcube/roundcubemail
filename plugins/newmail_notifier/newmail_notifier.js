@@ -58,12 +58,13 @@ function newmail_notifier_stop(prop)
 // Basic notification: window.focus and favicon change
 function newmail_notifier_basic()
 {
-    var w = rcmail.is_framed() ? window.parent : window;
+    var w = rcmail.is_framed() ? window.parent : window,
+        path = rcmail.assets_path('plugins/newmail_notifier');
 
     w.focus();
 
     // we cannot simply change a href attribute, we must to replace the link element (at least in FF)
-    var link = $('<link rel="shortcut icon" href="plugins/newmail_notifier/favicon.ico"/>'),
+    var link = $('<link rel="shortcut icon">').attr('href', path + '/favicon.ico'),
         oldlink = $('link[rel="shortcut icon"]', w.document);
 
     if (!rcmail.env.favicon_href)
@@ -75,7 +76,7 @@ function newmail_notifier_basic()
     // Add IE icon overlay if we're pinned to Taskbar
     try {
         if (window.external.msIsSiteMode()) {
-            window.external.msSiteModeSetIconOverlay('plugins/newmail_notifier/overlay.ico', rcmail.gettext('title', 'newmail_notifier'));
+            window.external.msSiteModeSetIconOverlay(path + '/overlay.ico', rcmail.gettext('title', 'newmail_notifier'));
         }
     } catch(e) {}
 }
@@ -83,7 +84,7 @@ function newmail_notifier_basic()
 // Sound notification
 function newmail_notifier_sound()
 {
-    var elem, src = 'plugins/newmail_notifier/sound',
+    var elem, src = rcmail.assets_path('plugins/newmail_notifier/sound'),
         plugin = navigator.mimeTypes ? navigator.mimeTypes['audio/mp3'] : {};
 
     // Internet Explorer does not support wav files,
@@ -93,7 +94,7 @@ function newmail_notifier_sound()
 
     // HTML5
     try {
-        elem = $('<audio src="' + src + '" />');
+        elem = $('<audio>').attr('src', src);
         elem.get(0).play();
     }
     // old method
@@ -108,7 +109,9 @@ function newmail_notifier_sound()
 // - Require Chrome or Firefox latest version (22+) / 21.0 or older with a plugin
 function newmail_notifier_desktop(body)
 {
-    var timeout = rcmail.env.newmail_notifier_timeout || 10;
+    var timeout = rcmail.env.newmail_notifier_timeout || 10,
+        icon = rcmail.assets_path('plugins/newmail_notifier/mail.png');
+
 
     // As of 17 June 2013, Chrome/Chromium does not implement Notification.permission correctly that
     // it gives 'undefined' until an object has been created:
@@ -120,7 +123,7 @@ function newmail_notifier_desktop(body)
                 lang: "",
                 body: body,
                 tag: "newmail_notifier",
-                icon: "plugins/newmail_notifier/mail.png"
+                icon: icon
             });
             popup.onclick = function() {
                 this.close();
@@ -135,7 +138,7 @@ function newmail_notifier_desktop(body)
         if (dn && !dn.checkPermission()) {
             if (rcmail.newmail_popup)
                 rcmail.newmail_popup.cancel();
-            var popup = window.webkitNotifications.createNotification('plugins/newmail_notifier/mail.png',
+            var popup = window.webkitNotifications.createNotification(icon,
                 rcmail.gettext('title', 'newmail_notifier'), body);
             popup.onclick = function() {
                 this.cancel();

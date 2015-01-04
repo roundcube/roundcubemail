@@ -328,7 +328,6 @@ $labels['mimeparamfolding'] = 'имена прилога';
 $labels['2231folding'] = 'Full RFC 2231 (тхундербирд )';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (други)';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Напредне опције';
 $labels['focusonnewmessage'] = 'Фокусирати прозор претраживача на новој поруци';
 $labels['checkallfolders'] = 'Проверите све фасцикле за нове поруке';
@@ -410,7 +409,4 @@ $labels['vietnamese'] = 'Вијетнамски';
 $labels['japanese'] = 'Јапански';
 $labels['korean'] = 'Кореански';
 $labels['chinese'] = 'Кинески';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

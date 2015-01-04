@@ -131,18 +131,24 @@ $labels['moreactions']      = 'Lisää toimintoja...';
 $labels['more']             = 'Lisää';
 $labels['back']             = 'Takaisin';
 $labels['options']          = 'Asetukset';
+$labels['first'] = 'Ensimmäinen';
+$labels['last'] = 'Viimeinen';
 $labels['previous'] = 'Edellinen';
 $labels['next'] = 'Seuraava';
 $labels['select'] = 'Valitse';
 $labels['all'] = 'Kaikki';
 $labels['none'] = 'Ei mikään';
 $labels['currpage'] = 'Nykyinen sivu';
+$labels['isread'] = 'Lue';
 $labels['unread'] = 'Lukemattomat';
 $labels['flagged'] = 'Korostettu';
+$labels['unflagged'] = 'Ei merkitty';
 $labels['unanswered'] = 'Vastaamaton';
 $labels['withattachment'] = 'Liitteen kera';
 $labels['deleted'] = 'Poistettu';
 $labels['undeleted'] = 'Ei poistettu';
+$labels['replied'] = 'Vastattu';
+$labels['forwarded'] = 'Välitetty';
 $labels['invert'] = 'Käännä';
 $labels['filter'] = 'Suodin';
 $labels['list'] = 'Listaus';
@@ -215,7 +221,9 @@ $labels['resumeediting'] = 'Jatka muokkausta';
 $labels['revertto']      = 'Muuta takaisin';
 $labels['restore'] = 'Palauta';
 $labels['restoremessage'] = 'Palautetaanko viesti?';
+$labels['ignore'] = 'Jätä huomiotta';
 $labels['responses'] = 'Vastaukset';
+$labels['insertresponse'] = 'Lisää vastaus';
 $labels['manageresponses'] = 'Hallitse vastauksia';
 <<<<<<< HEAD
 $labels['newresponse'] = 'Luo uusi vastaus';
@@ -230,9 +238,10 @@ $labels['responsetext'] = 'Vastausteksti';
 $labels['attach'] = 'Liitä';
 $labels['attachments'] = 'Liitetiedostot';
 $labels['upload'] = 'Lisää';
-$labels['uploadprogress'] = '$percent ($current, yhteensä $total)';
+$labels['uploadprogress'] = '$percent ($current/$total)';
 $labels['close']  = 'Sulje';
 $labels['messageoptions']  = 'Viestin asetukset...';
+$labels['togglecomposeoptions'] = 'Vaihda kirjoitusvalintoja';
 $labels['low']     = 'Matala';
 $labels['lowest']  = 'Matalin';
 $labels['normal']  = 'Normaali';
@@ -289,7 +298,7 @@ $labels['assistant'] = 'Avustaja';
 $labels['spouse'] = 'Puoliso';
 $labels['allfields'] = 'Kaikki kentät';
 $labels['search'] = 'Haku';
-$labels['searchfor'] = 'Etsi "$q"';
+$labels['searchresult'] = 'Haun tulos';
 $labels['advsearch'] = 'Tarkennettu haku';
 $labels['advanced'] = 'Lisäasetukset';
 $labels['other'] = 'Muu';
@@ -314,6 +323,7 @@ $labels['contacts'] = 'Yhteystiedot';
 $labels['contactproperties'] = 'Yhteystiedon ominaisuudet';
 $labels['contactnameandorg'] = 'Nimi ja organisaatio';
 $labels['personalinfo'] = 'Henkilökohtaiset tiedot';
+$labels['contactphoto'] = 'Yhteyshenkilön kuva';
 $labels['edit']   = 'Muokkaa';
 $labels['cancel'] = 'Peruuta';
 $labels['save']   = 'Tallenna';
@@ -333,10 +343,14 @@ $labels['exportsel']      = 'Vie valitut';
 $labels['exportvcards']   = 'Vie yhteystiedot vCard-muodossa';
 <<<<<<< HEAD
 $labels['newgroup']       = 'Luo uusi ryhmä';
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = 'Luo uusi ryhmä';
 $labels['addgroup']       = 'Lisää ryhmä';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Lisää ryhmä';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Nimeä ryhmä uudelleen';
 $labels['groupdelete']    = 'Poista ryhmä';
 $labels['groupremoveselected'] = 'Poista valitut yhteystiedot ryhmästä';
@@ -378,6 +392,7 @@ $labels['edititem'] = 'Muokkaa henkilöyttä';
 $labels['preferhtml'] = 'Käytä HTML:aa';
 $labels['defaultcharset'] = 'Oletusmerkistökoodaus';
 $labels['htmlmessage'] = 'HTML-viesti';
+$labels['messagepart'] = 'Osa';
 $labels['digitalsig'] = 'Digitaalinen allekirjoitus';
 $labels['dateformat'] = 'Päiväyksen muoto';
 $labels['timeformat'] = 'Ajan muoto';
@@ -408,7 +423,7 @@ $labels['askuser'] = 'kysy käyttäjältä';
 $labels['autosend'] = 'lähetä automaattisesti';
 $labels['autosendknown'] = 'Lähetä kuittaus kontaktilistassa oleville, kysy muulloin';
 $labels['autosendknownignore'] = 'Lähetä kuittaus vain kontaktilistassa oleville';
-$labels['ignore'] = 'jätä huomiotta';
+$labels['ignorerequest'] = 'Hylkää pyyntö';
 $labels['readwhendeleted'] = 'Merkitse poistettavat viestit luetuiksi';
 $labels['flagfordeletion'] = 'Poistamisen sijaan merkitse viestit poistettavaksi';
 $labels['skipdeleted'] = 'Älä näytä poistettuja viestejä';
@@ -432,6 +447,7 @@ $labels['2047folding'] = 'Täysin RFC 2047:n mukainen (muut)';
 $labels['force7bit'] = 'Käytä MIME-koodausta 8-bittisille merkeille';
 $labels['savelocalstorage'] = "Tallenna selaimen paikalliseen tallennustilaan (väliaikaisesti)";
 $labels['advancedoptions'] = 'Lisäasetukset';
+$labels['toggleadvancedoptions'] = 'Vaihda edistyneemmät valinnat';
 $labels['focusonnewmessage'] = 'Tarkenna selainikkuna uuteen viestiin';
 $labels['checkallfolders'] = 'Tarkista kaikki kansiot uusien viestien varalta';
 $labels['displaynext'] = 'Viestin siirron tai poiston jälkeen, näytä seuraava viesti';
@@ -468,6 +484,7 @@ $labels['addtodict'] = 'Lisää sanakirjaan';
 $labels['mailtoprotohandler'] = 'Rekisteröi mailto:-linkkien protokollakäsitteljä';
 $labels['standardwindows'] = 'Käsittele popup-ikkunoita tavallisina ikkunoina';
 $labels['forwardmode'] = 'Viestin välitys';
+$labels['inline'] = 'rivissä';
 $labels['asattachment'] = 'liitteenä';
 $labels['replyallmode'] = 'Oletustoiminto [Vastaa kaikille]-painikkeelle';
 $labels['replyalldefault'] = 'vastaa kaikille';
@@ -528,23 +545,61 @@ $labels['vietnamese'] = 'Vietnamilainen';
 $labels['japanese'] = 'Japanilainen';
 $labels['korean'] = 'Korealainen';
 $labels['chinese'] = 'Kiinalainen';
+$labels['arialabeltopnav'] = 'Ikkunan hallinta';
+$labels['arialabeltasknav'] = 'Sovelluksen tehtävät';
 $labels['arialabeltoolbar'] = 'Sovelluksen työkalupalkki';
+$labels['arialabelactivetask'] = 'Aktiivinen tehtävä';
+$labels['arialabelmessagessearchfilter'] = 'Sähköpostin listaussuodatin';
+$labels['arialabelmailsearchform'] = 'Sähköpostiviestin hakulomake';
+$labels['arialabelcontactsearchform'] = 'Yhteyshenkilöiden hakulomake';
+$labels['arialabelmailquicksearchbox'] = 'Sähköpostihaun syöttö';
+$labels['arialabelquicksearchbox'] = 'Haun syöttö';
+$labels['arialabelfoldersearchfilter'] = 'Kansion listaussuodatin';
+$labels['arialabelfoldersearchform'] = 'Kansion hakulomake';
+$labels['arialabelfolderlist'] = 'Sähköpostin kansion valinta';
+$labels['arialabelmessagelist'] = 'Sähköpostiviestien listaus';
 $labels['arialabelmailpreviewframe'] = 'Viestin esikatselu';
+$labels['arialabelmailboxmenu'] = 'Kansion toimintovalikko';
+$labels['arialabellistselectmenu'] = 'Listaa valintavalikko';
+$labels['arialabelthreadselectmenu'] = 'Keskusteluiden listausvalikko';
+$labels['arialabelmessagelistoptions'] = 'Viestilista ja järjestelyvalinnat';
+$labels['arialabelmailimportdialog'] = 'Viestintuonti';
+$labels['arialabelmessagenav'] = 'Viestien navigointi';
 $labels['arialabelmessagebody'] = 'Viestin runko';
 $labels['arialabelmessageactions'] = 'Viestitoiminnot';
+$labels['arialabelcontactquicksearch'] = 'Yhteyshenkilöiden hakulomake';
+$labels['arialabelcontactsearchbox'] = 'Yhteyshenkilön hakusyöte';
 $labels['arialabelmessageheaders'] = 'Viestin otsakkeet';
+$labels['arialabelforwardingoptions'] = 'Uudelleenohjausvalinnat';
 $labels['arialabelreplyalloptions'] = 'Vastaa kaikille -valinnat';
 $labels['arialabelmoremessageactions'] = 'Lisää viestitoimintoja';
 $labels['arialabelmarkmessagesas'] = 'Merkitse valitut viestit...';
+$labels['arialabelcomposeoptions'] = 'Kirjoitusvalinnat';
+$labels['arialabelresponsesmenu'] = 'Valmiit vastaukset -valikko';
 $labels['arialabelattachmentuploadform'] = 'Liitteen lähetyslomake';
 $labels['arialabelattachmentpreview'] = 'Liitteen esikatselu';
+$labels['ariasummarycomposecontacts'] = 'Luettelo yhteyshenkilöistä ja ryhmistä, jotka voi valita vastaanottajaksi';
+$labels['arialabelcontactexportoptions'] = 'Yhteyshenkilön vientivalinnat';
 $labels['arialabelabookgroupoptions'] = 'Osoitekirjan/ryhmän valinnat';
+$labels['arialabelpreferencesform'] = 'Asetukset -lomake';
 $labels['arialabelidentityeditfrom'] = 'Henkilöyden muokkauslomake';
+$labels['arialabelresonseeditfrom'] = 'Vastauksen muokkauslomake';
 $labels['arialabelsearchterms'] = 'Hakuehdot';
+<<<<<<< HEAD
 <<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 =======
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['helplistnavigation'] = 'Luetteloi näppäimistönavigointi';
+$labels['helplistkeyboardnavigation'] = "Nuolet ylös/alas: Siirrä kohdistettua riviä/valintaa.
+Välilyönti: Valitse kohdistettu rivi.
+Shift + ylös/alas: Valitse lisää rivejä yläpuolelta/alapuolelta.
+Ctrl + välilyönti: Lisää kohdistettu rivi valintaan/poista valinnasta.";
+$labels['helplistkeyboardnavmessages'] = "Nuolinäppäimet oikealle/vasemmalle: Laajenna/kutista viestikeskustelut (vain keskustelu-tilassa).
+Entteri/rivinvaihto: Avaa valittu/kohdistettu viesti.
+Delete/poista: Siirrä valitut viestit roskakoriin.";
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['helplistkeyboardnavcontacts'] = "Enter: avaa valittu/kohdistettu yhteystieto.";
 ?>

@@ -2,7 +2,7 @@
     "name": "roundcube/debug_logger",
     "type": "roundcube-plugin",
     "description": "Enhanced logging for debugging purposes. It is not recommened to be enabled on production systems without testing because of the somewhat increased memory, cpu and disk i/o overhead.",
-    "license": "GNU GPLv2",
+    "license": "GPLv2",
     "version": "1.0",
     "authors": [
         {

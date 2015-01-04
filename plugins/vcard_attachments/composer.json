@@ -2,7 +2,7 @@
     "name": "roundcube/vcard_attachments",
     "type": "roundcube-plugin",
     "description": "This plugin detects vCard attachments/bodies and shows a button(s) to add them to address book",
-    "license": "GNU GPLv3+",
+    "license": "GPLv3+",
     "version": "3.2",
     "authors": [
         {

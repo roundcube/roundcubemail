@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2011-2014, Kolab Systems AG                             |
@@ -171,7 +171,7 @@ class rcube_db_oracle extends rcube_db
         $mode   = $this->in_transaction ? OCI_NO_AUTO_COMMIT : OCI_COMMIT_ON_SUCCESS;
 
         if ($result) {
-            foreach ($args as $param => $arg) {
+            foreach (array_keys($args) as $param) {
                 oci_bind_by_name($result, $param, $args[$param], -1, SQLT_LNG);
             }
         }
@@ -587,7 +587,7 @@ class rcube_db_oracle extends rcube_db
 
         $this->debug('ROLLBACK TRANSACTION');
 
-        if ($result = @oci_rollback($this->dbh)) {
+        if (@oci_rollback($this->dbh)) {
             $this->in_transaction = false;
         }
         else {

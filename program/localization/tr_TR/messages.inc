@@ -96,12 +96,21 @@ $messages['searching'] = 'Aranıyor...';
 $messages['checking'] = 'Denetleniyor...';
 $messages['stillsearching'] = 'Hala arıyor...';
 $messages['nospellerrors'] = 'Yazım hatası bulunamadı.';
+<<<<<<< HEAD
 $messages['folderdeleted'] = 'Klasör başarıyla silindi.';
 $messages['foldersubscribed'] = 'Klasöre başarıyla abone olundu.';
 $messages['folderunsubscribed'] = 'Klasör aboneliği başarıyla kaldırıldı.';
 $messages['folderpurged'] = 'Klasör başarıyla boşaltıldı.';
 $messages['folderexpunged'] = 'Klasör başarıyla boşaltıldı.';
 $messages['deletedsuccessfully'] = 'Başarıyla silindi.';
+=======
+$messages['folderdeleted'] = 'Klasör silindi.';
+$messages['foldersubscribed'] = 'Klasöre abone olundu.';
+$messages['folderunsubscribed'] = 'Klasör aboneliği kaldırıldı.';
+$messages['folderpurged'] = 'Klasör boşaltıldı.';
+$messages['folderexpunged'] = 'Klasör sıkıştırıldı';
+$messages['deletedsuccessfully'] = 'Silindi.';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $messages['converting'] = 'Postanın biçimlendirmesi kaldırılıyor...';
 $messages['messageopenerror'] = 'Sunucudan posta yüklenemedi.';
 $messages['fileuploaderror'] = 'Dosya yükleme başarısız.';

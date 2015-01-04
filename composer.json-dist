@@ -30,7 +30,7 @@
     ],
     "require": {
         "php": ">=5.3.7",
-        "roundcube/plugin-installer": ">=0.1.3",
+        "roundcube/plugin-installer": ">=0.1.5",
         "pear/mail_mime": ">=1.8.9",
         "pear/mail_mime-decode": ">=1.5.5",
         "pear/net_smtp": "dev-master",
@@ -44,7 +44,7 @@
         "phpunit/phpunit": "*"
     },
     "suggest": {
-        "pear-pear.php.net/net_ldap2": "Version >=2.0.12 required for connecting to LDAP address books",
+        "pear-pear.php.net/net_ldap2": ">=2.0.12 required for connecting to LDAP address books",
         "kolab/Net_LDAP3": "dev-master required for connecting to LDAP address books"
     },
     "minimum-stability": "dev"

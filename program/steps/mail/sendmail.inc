@@ -428,8 +428,7 @@ if (is_array($COMPOSE['attachments'])) {
         $attachment = $RCMAIL->plugins->exec_hook('attachment_get', $attachment);
 
         if ($isHtml) {
-            $dispurl      = '/\s(poster|src)\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile'
-                . preg_quote($attachment['id']) . '[\s\'"]*/';
+            $dispurl      = '/[\'"]\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\'"]/';
             $message_body = $MAIL_MIME->getHTMLBody();
             $is_inline    = preg_match($dispurl, $message_body);
         }
@@ -449,7 +448,7 @@ if (is_array($COMPOSE['attachments'])) {
                 $cid .= '@localhost';
             }
 
-            $message_body = preg_replace($dispurl, ' \\1="cid:' . $cid . '" ', $message_body);
+            $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
 
             $MAIL_MIME->setHTMLBody($message_body);
 
@@ -565,8 +564,10 @@ if ($savedraft) {
     $store_target = $drafts_mbox;
 }
 else if (!$RCMAIL->config->get('no_save_sent_messages')) {
-    $store_target = rcube_utils::get_input_value('_store_target', rcube_utils::INPUT_POST);
-    if (!strlen($store_target)) {
+    if (isset($_POST['_store_target'])) {
+        $store_target = rcube_utils::get_input_value('_store_target', rcube_utils::INPUT_POST);
+    }
+    else {
         $store_target = $RCMAIL->config->get('sent_mbox');
     }
 }

@@ -5,7 +5,7 @@
  | bin/update.sh                                                         |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2010-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2010-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -160,6 +160,60 @@ if ($RCI->configured) {
       . " --dir=" . INSTALL_PATH . "SQL", $res);
 
     $success = !$res;
+  }
+
+  // update composer dependencies
+  if (is_file(INSTALL_PATH . 'composer.json') && is_readable(INSTALL_PATH . 'composer.json-dist')) {
+    $composer_data = json_decode(file_get_contents(INSTALL_PATH . 'composer.json'), true);
+    $composer_template = json_decode(file_get_contents(INSTALL_PATH . 'composer.json-dist'), true);
+    $comsposer_json = null;
+
+    // update the require section with the new dependencies
+    if (is_array($composer_data['require']) && is_array($composer_template['require'])) {
+      $composer_data['require'] = array_merge($composer_data['require'], $composer_template['require']);
+      /* TO BE ADDED LATER
+      $old_packages = array();
+      for ($old_packages as $pkg) {
+        if (array_key_exists($composer_data['require'], $pkg)) {
+          unset($composer_data['require'][$pkg]);
+        }
+      }
+      */
+    }
+
+    // use the JSON encoder from the Composer package
+    if (is_file('composer.phar')) {
+      include 'phar://composer.phar/src/Composer/Json/JsonFile.php';
+      $comsposer_json = \Composer\Json\JsonFile::encode($composer_data);
+    }
+    // PHP 5.4's json_encode() does the job, too
+    else if (defined('JSON_PRETTY_PRINT')) {
+      $comsposer_json = json_encode($composer_data, JSON_PRETTY_PRINT & JSON_UNESCAPED_SLASHES);
+    }
+    else {
+      $success = false;
+      $comsposer_json = null;
+    }
+
+    // write updated composer.json back to disk
+    if ($comsposer_json && is_writeable(INSTALL_PATH . 'composer.json')) {
+      $success &= (bool)file_put_contents(INSTALL_PATH . 'composer.json', $comsposer_json);
+    }
+    else {
+      echo "WARNING: unable to update composer.json!\n";
+      echo "Please replace the 'require' section in your composer.json with the following:\n";
+
+      $require_json = '';
+      foreach ($composer_data['require'] as $pkg => $ver) {
+        $require_json .= sprintf('        "%s": "%s",'."\n", $pkg, $ver);
+      }
+
+      echo '    "require": {'."\n";
+      echo rtrim($require_json, ",\n");
+      echo "\n    }\n\n";
+    }
+
+    echo "NOTE: Update dependencies by running `php composer.phar update --no-dev`\n";
   }
 
   // index contacts for fulltext searching

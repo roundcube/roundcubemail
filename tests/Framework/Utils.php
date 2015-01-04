@@ -241,7 +241,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         );
 
         foreach ($input as $idx => $value) {
-            $this->assertFalse(get_boolean($value), "Invalid result for $idx test item");
+            $this->assertFalse(rcube_utils::get_boolean($value), "Invalid result for $idx test item");
         }
 
         $input = array(
@@ -249,7 +249,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         );
 
         foreach ($input as $idx => $value) {
-            $this->assertTrue(get_boolean($value), "Invalid result for $idx test item");
+            $this->assertTrue(rcube_utils::get_boolean($value), "Invalid result for $idx test item");
         }
     }
 
@@ -278,6 +278,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $test = array(
             '1' => 1,
             '' => 0,
+            'abc-555' => 0,
             '2013-04-22' => 1366581600,
             '2013/04/22' => 1366581600,
             '2013.04.22' => 1366581600,
@@ -286,6 +287,8 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             '22.04.2013' => 1366581600,
             '22.4.2013'  => 1366581600,
             '20130422'   => 1366581600,
+            '2013/06/21 12:00:00 UTC' => 1371816000,
+            '2013/06/21 12:00:00 Europe/Berlin' => 1371808800,
         );
 
         foreach ($test as $datetime => $ts) {
@@ -316,7 +319,46 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime);
-            $this->assertSame($ts, $result ? $result->format('Y-m-d') : '', "Error parsing date: $datetime");
+            $this->assertSame($ts, $result ? $result->format('Y-m-d') : false, "Error parsing date: $datetime");
+        }
+    }
+
+    /**
+     * rcube:utils::anytodatetime()
+     */
+    function test_anytodatetime_timezone()
+    {
+        $tz = new DateTimeZone('Europe/Helsinki');
+        $test = array(
+            'Jan 1st 2014 +0800' => '2013-12-31 18:00',  // result in target timezone
+            'Jan 1st 14 45:42'   => '2014-01-01 00:00',  // force fallback to rcube_utils::strtotime()
+            'Jan 1st 2014 UK'    => '2014-01-01 00:00',
+            'Invalid date'       => false,
+        );
+
+        foreach ($test as $datetime => $ts) {
+            $result = rcube_utils::anytodatetime($datetime, $tz);
+            if ($result) $result->setTimezone($tz);  // move to target timezone for comparison
+            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i') : false, "Error parsing date: $datetime");
+        }
+    }
+
+    /**
+     * rcube:utils::tokenize_string()
+     */
+    function test_tokenize_string()
+    {
+        $test = array(
+            ''        => array(),
+            'abc d'   => array('abc'),
+            'abc de'  => array('abc','de'),
+            'äàé;êöü-xyz' => array('äàé','êöü','xyz'),
+            '日期格式' => array('日期格式'),
+        );
+
+        foreach ($test as $input => $output) {
+            $result = rcube_utils::tokenize_string($input);
+            $this->assertSame($output, $result);
         }
     }
 
@@ -330,15 +372,18 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             'abc def' => 'abc def',
             'ÇçäâàåæéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ' => 'ccaaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy',
             'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżýĄŚŻŹĆ' => 'aaaaccceeeeiilllnnooorrsssttuuuuzzzyaszzc',
-            'ß'  => 'ss',
-            'ae' => 'a',
-            'oe' => 'o',
-            'ue' => 'u',
+            'ß'   => '',
+            'ßs'  => 'sss',
+            'Xae' => 'xa',
+            'Xoe' => 'xo',
+            'Xue' => 'xu',
+            '项目' => '项目',
+            '日'   => '',  // FIXME: this should not be stripped although minlen = 2
         );
 
         foreach ($test as $input => $output) {
             $result = rcube_utils::normalize_string($input);
-            $this->assertSame($output, $result);
+            $this->assertSame($output, $result, "Error normalizing '$input'");
         }
     }
 

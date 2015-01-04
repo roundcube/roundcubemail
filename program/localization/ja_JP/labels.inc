@@ -298,10 +298,14 @@ $labels['spouse'] = '配偶者';
 $labels['allfields'] = 'すべての項目';
 $labels['search'] = '検索';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['searchfor'] = '"$q"を検索';
 =======
 $labels['searchresult'] = '検索の結果';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = '検索の結果';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = '高度な検索';
 $labels['advanced'] = '高度';
 $labels['other'] = 'その他';
@@ -346,10 +350,14 @@ $labels['exportsel']      = '選択した連絡先をエクスポート';
 $labels['exportvcards']   = 'vCard形式でエクスポート';
 <<<<<<< HEAD
 $labels['newgroup']       = '新しいグループを作成';
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = '新しいグループを作成';
 $labels['addgroup']       = 'グループを追加';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'グループを追加';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'グループ名を変更';
 $labels['groupdelete']    = 'グループを削除';
 $labels['groupremoveselected'] = '選択した連絡先をグループから削除';
@@ -445,10 +453,14 @@ $labels['miscfolding'] = 'RFC 2047/2231(MS Outlook)';
 $labels['2047folding'] = 'RFC 2047に完全準拠(その他)';
 $labels['force7bit'] = '8ビット文字列にMIMEエンコードを使用';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
 =======
 $labels['savelocalstorage'] = "ブラウザのローカルストレージに(一時的に)保存";
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['savelocalstorage'] = "ブラウザのローカルストレージに(一時的に)保存";
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advancedoptions'] = '高度な設定';
 $labels['toggleadvancedoptions'] = '詳細なオプションの表示を切り替え';
 $labels['focusonnewmessage'] = '新しいメッセージが届いたらブラウザーをアクティブ';
@@ -513,12 +525,18 @@ $labels['personalfolder'] = '個人フォルダー';
 $labels['otherfolder'] = '他のユーザーのフォルダー';
 $labels['sharedfolder'] = '公開フォルダー';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['findfolders'] = 'フォルダーを探す';
 $labels['namespace.personal'] = '個人';
 $labels['namespace.other'] = '他のユーザー';
 $labels['namespace.shared'] = '共有した';
+<<<<<<< HEAD
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['sortby'] = '並べ替え';
 $labels['sortasc']  = '昇順で並べ替え';
 $labels['sortdesc'] = '降順で並べ替え';
@@ -553,10 +571,13 @@ $labels['korean'] = '韓国語';
 $labels['chinese'] = '中国語';
 $labels['arialabeltopnav'] = 'ウィンドウ制御';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "";
 =======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['arialabeltasknav'] = 'アプリケーションのタスク';
 $labels['arialabeltoolbar'] = 'アプリケーションのツールバー';
 $labels['arialabelactivetask'] = '活動中のタスク';
@@ -586,5 +607,8 @@ $labels['arialabelreplyalloptions'] = '全員に返信のオプション';
 $labels['arialabelmoremessageactions'] = 'さらにメッセージを操作';
 $labels['arialabelmarkmessagesas'] = '選択したメッセージに次のマーク...';
 $labels['arialabelcomposeoptions'] = '作成のオプション';
+<<<<<<< HEAD
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

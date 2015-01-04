@@ -2,7 +2,7 @@
     "name": "roundcube/userinfo",
     "type": "roundcube-plugin",
     "description": "Sample plugin that adds a new tab to the settings section to display some information about the current user.",
-    "license": "GNU GPLv3+",
+    "license": "GPLv3+",
     "version": "1.0",
     "authors": [
         {

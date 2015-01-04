@@ -408,7 +408,7 @@ if (!extension_loaded('mbstring'))
 
 if (!function_exists('idn_to_utf8'))
 {
-    function idn_to_utf8($domain, $flags=null)
+    function idn_to_utf8($domain)
     {
         static $idn, $loaded;
 
@@ -430,7 +430,7 @@ if (!function_exists('idn_to_utf8'))
 
 if (!function_exists('idn_to_ascii'))
 {
-    function idn_to_ascii($domain, $flags=null)
+    function idn_to_ascii($domain)
     {
         static $idn, $loaded;
 

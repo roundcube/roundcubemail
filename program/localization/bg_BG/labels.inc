@@ -286,7 +286,6 @@ $labels['assistant'] = 'Асистент';
 $labels['spouse'] = 'Съпруг(а)';
 $labels['allfields'] = 'Всички полета';
 $labels['search'] = 'Търсене';
-$labels['searchfor'] = 'Търси за "$q"';
 $labels['advsearch'] = 'Разширено търсене';
 $labels['advanced'] = 'Търси';
 $labels['other'] = 'Други';
@@ -417,7 +416,6 @@ $labels['2231folding'] = 'Според RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Според RFC 2047 (други)';
 $labels['force7bit'] = 'Използване на MIME кодиране за 8-битови символи';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Разширени настройки';
 $labels['toggleadvancedoptions'] = 'Превключване на разширени опции';
 $labels['focusonnewmessage'] = 'Премигване на прозореца при ново писмо';
@@ -536,9 +534,12 @@ $labels['arialabelcontactquicksearch'] = 'Форма за търсене на к
 $labels['arialabelcontactsearchbox'] = 'Поле за търсене на контакт';
 $labels['arialabelmessageheaders'] = 'Заглавни блокове на писмо';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "";
 =======
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

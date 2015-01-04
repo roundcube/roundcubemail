@@ -17,9 +17,15 @@
 */
 $labels['downloadall'] = 'Laadi alla kõik manused';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['download'] = 'lae arvutisse';
 $labels['downloadmbox'] = 'Mbox vorming (.zip)';
 $labels['downloadmaildir'] = 'Maildir vorming (.zip)';
 $labels['downloademl'] = 'Lähtetekst (.eml)';
+<<<<<<< HEAD
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71

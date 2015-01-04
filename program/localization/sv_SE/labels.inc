@@ -221,6 +221,7 @@ $labels['resumeediting'] = 'Återuppta redigering';
 $labels['revertto']      = 'Återgå till';
 $labels['restore'] = 'Återskapa';
 $labels['restoremessage'] = 'Återskapa meddelande?';
+$labels['ignore'] = 'Ignorera';
 $labels['responses'] = 'Responser';
 $labels['insertresponse'] = 'Infoga respons';
 $labels['manageresponses'] = 'Hantera responser';
@@ -298,10 +299,14 @@ $labels['spouse'] = 'Make/Maka';
 $labels['allfields'] = 'Alla fält';
 $labels['search'] = 'Sök';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['searchfor'] = 'Sök efter "$q"';
 =======
 $labels['searchresult'] = 'Sökresultat';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Sökresultat';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Avancerad sökning';
 $labels['advanced'] = 'Avancerad';
 $labels['other'] = 'Annat';
@@ -346,10 +351,14 @@ $labels['exportsel']      = 'Exportera markerade';
 $labels['exportvcards']   = 'Exportera kontakter';
 <<<<<<< HEAD
 $labels['newgroup']       = 'Ny grupp';
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = 'Ny grupp';
 $labels['addgroup']       = 'Lägg till grupp';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Lägg till grupp';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Ändra gruppnamn';
 $labels['groupdelete']    = 'Ta bort grupp';
 $labels['groupremoveselected'] = 'Ta bort markerade kontakter från gruppen';
@@ -422,7 +431,7 @@ $labels['askuser'] = 'Fråga';
 $labels['autosend'] = 'Automatiskt';
 $labels['autosendknown'] = 'Skicka kvitto till mina kontakter, fråga för övriga';
 $labels['autosendknownignore'] = 'Skicka kvitto till mina kontakter, ignorera övriga';
-$labels['ignore'] = 'Ignorera';
+$labels['ignorerequest'] = 'ignorera begäran';
 $labels['readwhendeleted'] = 'Märk meddelande som läst vid borttagning';
 $labels['flagfordeletion'] = 'Flagga meddelande för borttagning istället för att ta bort direkt';
 $labels['skipdeleted'] = 'Visa inte borttagna meddelanden';

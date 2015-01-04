@@ -297,7 +297,6 @@ $labels['assistant'] = '助理';
 $labels['spouse'] = '配偶';
 $labels['allfields'] = '所有栏目';
 $labels['search'] = '查询';
-$labels['searchfor'] = '查找"$q"';
 $labels['advsearch'] = '高级查询';
 $labels['advanced'] = '高级选项';
 $labels['other'] = '其他';
@@ -439,7 +438,6 @@ $labels['2231folding'] = '完整的 RFC 2231（Thunderbird）';
 $labels['miscfolding'] = 'RFC 2047/2232（MS Outlook）';
 $labels['2047folding'] = '完整的 RFC 2047（其它）';
 $labels['force7bit'] = '对 8 位字符使用 MIME 编码';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = '高级选项';
 $labels['toggleadvancedoptions'] = '切换高级选项';
 $labels['focusonnewmessage'] = '新邮件到达时将窗口提升为焦点窗口';
@@ -574,9 +572,12 @@ $labels['arialabelidentityeditfrom'] = '标识编辑表单';
 $labels['arialabelresonseeditfrom'] = '回复编辑表单';
 $labels['helplistnavigation'] = '列表键盘导航';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 =======
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['helplistkeyboardnavcontacts'] = "回车：打开选中的联系人";
 ?>

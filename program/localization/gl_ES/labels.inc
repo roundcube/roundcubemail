@@ -297,7 +297,6 @@ $labels['assistant'] = 'Asistente';
 $labels['spouse'] = 'Parella';
 $labels['allfields'] = 'Todos os campos';
 $labels['search'] = 'Procurar';
-$labels['searchfor'] = 'Procurar  "$1"';
 $labels['advsearch'] = 'Procura avanzada';
 $labels['advanced'] = 'Avanzado';
 $labels['other'] = 'Outro';
@@ -439,7 +438,6 @@ $labels['2231folding'] = 'Conforme ao RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Conforme ao RFC 2047 (outros)';
 $labels['force7bit'] = 'Usar MIME para codificar caracteres de 8 bits';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Opcións avanzadas';
 $labels['toggleadvancedoptions'] = 'Amosar opcións avanzadas';
 $labels['focusonnewmessage'] = 'Centrar a xanela do navegador en novas mensaxes';
@@ -565,9 +563,12 @@ $labels['arialabelidentityeditfrom'] = 'Formulario de edición de identidade';
 $labels['arialabelresonseeditfrom'] = 'Formulario de edición de resposta';
 $labels['helplistnavigation'] = 'Navegación pola lista con teclado';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 =======
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abrir o contacto seleccionado.";
 ?>

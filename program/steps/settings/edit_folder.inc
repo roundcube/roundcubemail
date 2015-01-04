@@ -294,6 +294,8 @@ function rcmail_folder_form($attrib)
 
 function rcmail_get_form_part($form, $attrib = array())
 {
+    global $RCMAIL;
+
     $content = '';
 
     if (is_array($form['content']) && !empty($form['content'])) {

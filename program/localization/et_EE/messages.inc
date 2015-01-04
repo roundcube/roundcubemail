@@ -138,6 +138,7 @@ $messages['importmessagesuccess'] = '$nr kirja edukalt imporditud';
 $messages['importmessageerror'] = 'Import nurjus! Laaditud fail ei ole kirja ega postkasti fail';
 $messages['opnotpermitted'] = 'Tegevus pole lubatud!';
 $messages['nofromaddress'] = 'Valitud identiteedil puudub e-posti aadress';
+$messages['editorwarning'] = 'Klaarteksti redaktorile lülitamine kaotab kogu teksti vorminduse. Soovid jätkata?';
 $messages['httpreceivedencrypterror'] = 'Viga seadistustes. Võta kohe oma süsteemiadministraatoriga ühendust. <b>Sinu kirja polnud võimalik ära saata.</b>';
 $messages['smtpconnerror'] = 'SMTP tõrge ($code): serveriga ühendumine nurjus';
 $messages['smtpautherror'] = 'SMTP tõrge ($code): autentimine nurjus';

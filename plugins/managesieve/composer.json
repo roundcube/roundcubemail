@@ -2,8 +2,8 @@
     "name": "roundcube/managesieve",
     "type": "roundcube-plugin",
     "description": "Adds a possibility to manage Sieve scripts (incoming mail filters). It's clickable interface which operates on text scripts and communicates with server using managesieve protocol. Adds Filters tab in Settings.",
-    "license": "GNU GPLv3+",
-    "version": "7.2",
+    "license": "GPLv3+",
+    "version": "8.1",
     "authors": [
         {
             "name": "Aleksander Machniak",

@@ -11,8 +11,13 @@ REQUIREMENTS
 
 * The Apache, Lighttpd, Cherokee or Hiawatha web server
 * .htaccess support allowing overrides for DirectoryIndex
+<<<<<<< HEAD
 * PHP Version 5.2.1 or greater including
    - PCRE, DOM, JSON, XML, Session, Sockets (required)
+=======
+* PHP Version 5.3.7 or greater including
+   - PCRE, DOM, JSON, Session, Sockets (required)
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
    - PHP Data Objects (PDO) with driver for either MySQL, PostgreSQL or SQLite (required)
      Note: MySQL database driver requires PHP 5.3.7 or newer.
    - Libiconv, Zip (recommended)
@@ -41,13 +46,28 @@ REQUIREMENTS
   or SQLite support in PHP
 * One of the above databases with permission to create tables
 * An SMTP server (recommended) or PHP configured for mail delivery
+<<<<<<< HEAD
+=======
+* Composer installed either locally or globally (https://getcomposer.org)
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 
 
 INSTALLATION
 ============
 
 1. Decompress and put this folder somewhere inside your document root
+<<<<<<< HEAD
 2. Make sure that the following directories (and the files within)
+=======
+2. Install dependencies using composer:
+   - get composer from https://getcomposer.org/download/
+   - rename the composer.json-dist file into composer.json
+   - if you want to use LDAP address books, enable the LDAP libraries in your
+     composer.json file by moving the items from "suggest" to the "require"
+     section (remove the explanation texts after the version!).
+   - run `php composer.phar install --no-dev`
+3. Make sure that the following directories (and the files within)
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
    are writable by the webserver
    - /temp
    - /logs

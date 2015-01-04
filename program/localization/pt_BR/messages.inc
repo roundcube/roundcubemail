@@ -23,10 +23,14 @@ $messages['storageerror'] = 'Falha na conexão com o servidor. Verifique se info
 $messages['servererror'] = 'Erro no Servidor!';
 $messages['servererrormsg'] = 'Erro no Servidor: $msg';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $messages['connerror'] = 'Erro de conexão (Falha na comunicação com o servidor!)';
 =======
 $messages['connerror'] = 'Erro de conexão (Falha na comunicação com o servidor)!';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$messages['connerror'] = 'Erro de conexão (Falha na comunicação com o servidor)!';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $messages['dberror'] = 'Erro no banco de dados!';
 $messages['windowopenerror'] = 'A janela popup foi bloqueada!';
 $messages['requesttimedout'] = 'Tempo da requisição esgotado';

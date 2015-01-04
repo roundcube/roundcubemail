@@ -2,7 +2,7 @@
     "name": "roundcube/hide_blockquote",
     "type": "roundcube-plugin",
     "description": "This allows to hide long blocks of cited text in messages.",
-    "license": "GNU GPLv3+",
+    "license": "GPLv3+",
     "version": "1.0",
     "authors": [
         {

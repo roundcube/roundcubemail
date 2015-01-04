@@ -316,8 +316,6 @@ function rcmail_message_list($attrib)
     if (!in_array('threads', $a_show_cols))
         array_unshift($a_show_cols, 'threads');
 
-    $_SESSION['skin_path'] = $RCMAIL->config->get('skin_path');
-
     // set client env
     $OUTPUT->add_gui_object('messagelist', $attrib['id']);
     $OUTPUT->set_env('autoexpand_threads', intval($RCMAIL->config->get('autoexpand_threads')));
@@ -474,8 +472,6 @@ function rcmail_message_list_head($attrib, $a_show_cols)
 {
     global $RCMAIL;
 
-    $skin_path = $_SESSION['skin_path'];
-
     // check to see if we have some settings for sorting
     $sort_col   = $_SESSION['sort_col'];
     $sort_order = $_SESSION['sort_order'];
@@ -494,6 +490,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
     if (!empty($attrib['optionsmenuicon'])) {
+<<<<<<< HEAD
         $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu')";
         if ($attrib['optionsmenuicon'] === true || $attrib['optionsmenuicon'] == 'true')
             $list_menu = html::div(array('onclick' => $onclick, 'class' => 'listmenu',
@@ -502,6 +499,21 @@ function rcmail_message_list_head($attrib, $a_show_cols)
             $list_menu = html::a(array('href' => '#', 'onclick' => $onclick),
                 html::img(array('src' => $skin_path . $attrib['optionsmenuicon'],
                     'id' => 'listmenulink', 'title' => $RCMAIL->gettext('listoptions'))));
+=======
+        $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', this, event)";
+        $inner   = $RCMAIL->gettext('listoptions');
+        if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
+            $inner = html::img(array('src' => $RCMAIL->output->abs_url($attrib['optionsmenuicon'], true), 'alt' => $RCMAIL->gettext('listoptions')));
+        }
+        $list_menu = html::a(array(
+            'href' => '#list-options',
+            'onclick' => $onclick,
+            'class' => 'listmenu',
+            'id' => 'listmenulink',
+            'title' => $RCMAIL->gettext('listoptions'),
+            'tabindex' => '0',
+        ), $inner);
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
     }
     else {
         $list_menu = '';
@@ -562,7 +574,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
  */
 function rcmail_messagecontent_frame($attrib)
 {
-    global $OUTPUT, $RCMAIL;
+    global $OUTPUT;
 
     if (empty($attrib['id']))
         $attrib['id'] = 'rcmailcontentwindow';
@@ -1121,7 +1133,7 @@ function rcmail_localized_priority($value)
 /**
  * return block to show full message headers
  */
-function rcmail_message_full_headers($attrib, $headers=NULL)
+function rcmail_message_full_headers($attrib)
 {
     global $OUTPUT, $RCMAIL;
 
@@ -1614,7 +1626,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
                             rcmail_output::JS_OBJECT_NAME, rcube::JQ($string)),
                     ),
                     html::img(array(
-                        'src' => $RCMAIL->config->get('skin_path') . $addicon,
+                        'src' => $RCMAIL->output->abs_url($addicon, true),
                         'alt' => "Add contact",
                 )));
             }
@@ -2038,7 +2050,7 @@ function rcmail_search_filter($attrib)
     return $out;
 }
 
-function rcmail_message_error($uid=null)
+function rcmail_message_error()
 {
     global $RCMAIL;
 

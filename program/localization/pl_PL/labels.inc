@@ -140,6 +140,7 @@ $labels['all'] = 'Wszystkie';
 $labels['none'] = 'Brak';
 $labels['currpage'] = 'Bieżąca strona';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['isread'] = 'Przeczytana';
 $labels['unread'] = 'Nieprzeczytane';
 $labels['flagged'] = 'Oznaczone';
@@ -150,16 +151,26 @@ $labels['unread'] = 'Nieprzeczytane';
 $labels['flagged'] = 'Oznaczone';
 $labels['unflagged'] = 'Nieoznaczone';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['isread'] = 'Przeczytane';
+$labels['unread'] = 'Nieprzeczytane';
+$labels['flagged'] = 'Oznaczone';
+$labels['unflagged'] = 'Nieoznaczone';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['unanswered'] = 'Bez odpowiedzi';
 $labels['withattachment'] = 'Z załącznikiem';
 $labels['deleted'] = 'Usunięte';
 $labels['undeleted'] = 'Nieusunięte';
 $labels['replied'] = 'Odpowiedziana';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['forwarded'] = 'Przekazana';
 =======
 $labels['forwarded'] = 'Przekazane';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['forwarded'] = 'Przekazane';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['invert'] = 'Odwróć';
 $labels['filter'] = 'Filtr';
 $labels['list'] = 'Lista';
@@ -309,10 +320,14 @@ $labels['spouse'] = 'Małżonek';
 $labels['allfields'] = 'Wszystkie pola';
 $labels['search'] = 'Szukaj';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['searchfor'] = 'Wyszukiwanie frazy "$q"';
 =======
 $labels['searchresult'] = 'Wyniki wyszukiwania';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Wyniki wyszukiwania';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Wyszukiwanie zaawansowane';
 $labels['advanced'] = 'Zaawansowane';
 $labels['other'] = 'Inne';
@@ -357,10 +372,14 @@ $labels['exportsel']      = 'Eksportuj zaznaczone';
 $labels['exportvcards']   = 'Eksport kontaktów w formacie vCard';
 <<<<<<< HEAD
 $labels['newgroup']       = 'Utwórz nową grupę';
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = 'Utwórz nową grupę';
 $labels['addgroup']       = 'Dodaj grupę';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Dodaj grupę';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Zmień nazwę grupy';
 $labels['groupdelete']    = 'Usuń grupę';
 $labels['groupremoveselected'] = 'Usuń wybrane kontakty z grupy';
@@ -456,10 +475,14 @@ $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 (przestarzałe)';
 $labels['force7bit'] = 'Używaj kodowania MIME dla znaków 8-bitowych';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
 =======
 $labels['savelocalstorage'] = "Zapisz w lokalnej bazie przeglądarki (tymczasowo)";
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['savelocalstorage'] = "Zapisz w lokalnej bazie przeglądarki (tymczasowo)";
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advancedoptions'] = 'Opcje zaawansowane';
 $labels['toggleadvancedoptions'] = 'Pokaż/ukryj opcje zaawansowane';
 $labels['focusonnewmessage'] = 'Informuj przeglądarkę o nowej wiadomości';

@@ -18,6 +18,7 @@
 <<<<<<< HEAD:plugins/hide_blockquote/localization/br.inc
 $labels['hide'] = 'Kuzhat';
 $labels['show'] = 'Diskouez';
+<<<<<<< HEAD
 =======
 $labels['changepasswd']  = 'Şîfreyê biguherîne';
 $labels['curpasswd']  = 'Şîfreya niha:';
@@ -35,4 +36,7 @@ $messages['passwordweak'] = 'Divê di şîfreyê de herî kêm hejmarek û karak
 $messages['passwordforbidden'] = 'Şîfre karakterên qedexe dihewîne.';
 $messages['firstloginchange'] = 'Ev têketina te ya yekemîn e. Ji kerema xwe şîfreya xwe biguherîne.';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d:plugins/password/localization/ku.inc
+=======
+$labels['quotelimit'] = 'Kuzhat ar meneg pa\'z\'eo re uhel niver a linennnoù eus';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

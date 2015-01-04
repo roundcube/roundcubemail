@@ -130,8 +130,10 @@ else if ($msg_uid = $COMPOSE['param']['uid']) {
     $compose_mode = RCUBE_COMPOSE_EDIT;
 }
 
-$COMPOSE['mode'] = $compose_mode;
-$OUTPUT->set_env('compose_mode', $compose_mode);
+if ($compose_mode) {
+    $COMPOSE['mode'] = $compose_mode;
+    $OUTPUT->set_env('compose_mode', $compose_mode);
+}
 
 if ($compose_mode == RCUBE_COMPOSE_EDIT || $compose_mode == RCUBE_COMPOSE_DRAFT) {
     // don't add signature in draft/edit mode, we'll also not remove the old-one
@@ -949,9 +951,14 @@ function rcmail_compose_body($attrib)
             "googie.setLanguages(%s);\n".
             "googie.setCurrentLanguage('%s');\n".
             "googie.setDecoration(false);\n".
+<<<<<<< HEAD
             "googie.decorateTextarea('%s');\n".
             "%s.set_env('spellcheck', googie);",
             $RCMAIL->output->get_skin_path(),
+=======
+            "googie.decorateTextarea('%s');\n",
+            $RCMAIL->output->asset_url($RCMAIL->output->get_skin_path()),
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
             $RCMAIL->url(array('_task' => 'utils', '_action' => 'spell', '_remote' => 1)),
                 !empty($dictionary) ? 'true' : 'false',
             rcube::JQ(rcube::Q($RCMAIL->gettext('checkspelling'))),
@@ -1311,7 +1318,6 @@ function rcmail_write_forward_attachments()
         }
         else {
             $data = $storage->get_raw_body($message->uid);
-            $curr_mem += $message->size;
         }
 
         $attachment = array(
@@ -1479,15 +1485,14 @@ function rcmail_compose_attachment_list($attrib)
     if (!$attrib['id'])
         $attrib['id'] = 'rcmAttachmentList';
 
-    $out       = "\n";
-    $jslist    = array();
-    $button    = '';
-    $skin_path = $RCMAIL->config->get('skin_path');
+    $out    = "\n";
+    $jslist = array();
+    $button = '';
 
     if (is_array($COMPOSE['attachments'])) {
         if ($attrib['deleteicon']) {
             $button = html::img(array(
-                'src' => $skin_path . $attrib['deleteicon'],
+                'src' => $RCMAIL->output->abs_url($attrib['deleteicon'], true),
                 'alt' => $RCMAIL->gettext('delete')
             ));
         }
@@ -1524,13 +1529,13 @@ function rcmail_compose_attachment_list($attrib)
     }
 
     if ($attrib['deleteicon'])
-        $COMPOSE['deleteicon'] = $skin_path . $attrib['deleteicon'];
+        $COMPOSE['deleteicon'] = $RCMAIL->output->abs_url($attrib['deleteicon'], true);
     else if (rcube_utils::get_boolean($attrib['textbuttons']))
         $COMPOSE['textbuttons'] = true;
     if ($attrib['cancelicon'])
-        $OUTPUT->set_env('cancelicon', $skin_path . $attrib['cancelicon']);
+        $OUTPUT->set_env('cancelicon', $RCMAIL->output->abs_url($attrib['cancelicon'], true));
     if ($attrib['loadingicon'])
-        $OUTPUT->set_env('loadingicon', $skin_path . $attrib['loadingicon']);
+        $OUTPUT->set_env('loadingicon', $RCMAIL->output->abs_url($attrib['loadingicon'], true));
 
     $OUTPUT->set_env('attachments', $jslist);
     $OUTPUT->add_gui_object('attachmentlist', $attrib['id']);

@@ -324,7 +324,6 @@ $labels['autosavedraft']  = 'Aŭtomate savu malneton';
 $labels['never']  = 'neniam';
 $labels['messagesdisplaying'] = 'Mesaĝoj vidigante';
 $labels['messagescomposition'] = 'Mesaĝo-verkado';
-$labels['savelocalstorage'] = "";
 $labels['folder'] = 'Dosierujo';
 $labels['folders'] = 'Dosierujoj';
 $labels['foldername'] = 'Dosierujo-nomo';
@@ -336,7 +335,4 @@ $labels['managefolders'] = 'Administru dosierujon';
 $labels['sortby'] = 'Ordigu per';
 $labels['sortasc']  = 'Ordigu kreskante';
 $labels['sortdesc'] = 'Ordigu malkreskante';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

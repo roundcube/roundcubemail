@@ -213,10 +213,15 @@ $labels['originalmessage'] = 'Mensagem original';
 $labels['selectimage']    = 'Selecionar imagem';
 $labels['addimage']       = 'Adicionar imagem';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $labels['selectmedia']    = 'Selecionar vídeo';
 $labels['addmedia']       = 'Adicionar vídeo';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['selectmedia']    = 'Selecionar vídeo';
+$labels['addmedia']       = 'Adicionar vídeo';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['editidents']    = 'Editar identidades';
 $labels['spellcheck']    = 'Revisar';
 $labels['checkspelling'] = 'Verificar ortografia';
@@ -224,9 +229,11 @@ $labels['resumeediting'] = 'Continuar a edição';
 $labels['revertto']      = 'Reverter para';
 $labels['restore'] = 'Restaurar';
 $labels['restoremessage'] = 'Restaurar mensagem?';
+$labels['ignore'] = 'Ignorar';
 $labels['responses'] = 'Respostas';
 $labels['insertresponse'] = 'Inserir uma resposta';
 $labels['manageresponses'] = 'Gerenciar respostas';
+<<<<<<< HEAD
 <<<<<<< HEAD
 $labels['newresponse'] = 'Criar nova resposta';
 $labels['editresponse'] = 'Editar resposta';
@@ -237,6 +244,12 @@ $labels['addresponse'] = 'Adicionar resposta pré-configurada';
 $labels['editresponse'] = 'Editar resposta pré-configurada';
 $labels['editresponses'] = 'Editar respostas pré-configuradas';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['newresponse'] = 'Criar nova resposta pré-configurada';
+$labels['addresponse'] = 'Adicionar resposta pré-configurada';
+$labels['editresponse'] = 'Editar resposta pré-configurada';
+$labels['editresponses'] = 'Editar respostas pré-configuradas';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['responsename'] = 'Nome';
 $labels['responsetext'] = 'Texto da resposta pré-configurada';
 $labels['attach'] = 'Anexar';
@@ -303,10 +316,14 @@ $labels['spouse'] = 'Cônjuge';
 $labels['allfields'] = 'Todos os campos';
 $labels['search'] = 'Pesquisar';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['searchfor'] = 'Procurar por "$q"';
 =======
 $labels['searchresult'] = 'Resultado da pesquisa';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Resultado da pesquisa';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Pesquisa Avançada';
 $labels['advanced'] = 'Avançado';
 $labels['other'] = 'Outro';
@@ -326,9 +343,13 @@ $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Perfil';
 $labels['addfield'] = 'Adicionar campo...';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $labels['addcontact'] = 'Adicionar contato';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addcontact'] = 'Adicionar contato';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['editcontact'] = 'Editar contato';
 $labels['contacts'] = 'Contatos';
 $labels['contactproperties'] = 'Propriedades do contato';
@@ -344,9 +365,13 @@ $labels['addphoto'] = 'Adicionar';
 $labels['replacephoto'] = 'Substituir';
 $labels['uploadphoto'] = 'Enviar foto';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $labels['newcontact']     = 'Adicionar novo contato';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['newcontact']     = 'Adicionar novo contato';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['deletecontact']  = 'Exclui os contatos selecionados';
 $labels['composeto']      = 'Compor mensagem para';
 $labels['contactsfromto'] = 'Contatos $from - $to de $count';
@@ -356,10 +381,15 @@ $labels['exportall']      = 'Exportar todos';
 $labels['exportsel']      = 'Exportar selecionados';
 $labels['exportvcards']   = 'Exportar os contatos em formato vCard';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $labels['newcontactgroup']       = 'Criar novo grupo';
 $labels['addgroup']       = 'Adicionar grupo';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['newgroup']       = 'Criar novo grupo';
+$labels['addgroup']       = 'Adicionar grupo';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Renomear grupo';
 $labels['groupdelete']    = 'Excluir grupo';
 $labels['groupremoveselected'] = 'Remover os contatos selecionados do grupo';
@@ -391,12 +421,19 @@ $labels['userpreferences'] = 'Preferências do usuário';
 $labels['editpreferences'] = 'Editar preferências do usuário';
 $labels['identities'] = 'Identidades';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 $labels['manageidentities'] = 'Gerenciar identidades';
 $labels['newidentity'] = 'Criar nova identidade';
 $labels['addidentity'] = 'Adicionar identidade';
 $labels['edititem'] = 'Editar identidade';
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['manageidentities'] = 'Gerenciar identidades';
+$labels['newidentity'] = 'Criar nova identidade';
+$labels['addidentity'] = 'Adicionar identidade';
+$labels['editidentity'] = 'Editar identidade';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['preferhtml'] = 'Exibir em HTML';
 $labels['defaultcharset'] = 'Conjunto padrão de caracteres';
 $labels['htmlmessage'] = 'Mensagem HTML';
@@ -431,7 +468,7 @@ $labels['askuser'] = 'solicite minha confirmação';
 $labels['autosend'] = 'enviar confirmação';
 $labels['autosendknown'] = 'enviar confirmação para os meus contatos, caso contrário, pergunte-me';
 $labels['autosendknownignore'] = 'enviar confirmação para os meus contatos, caso contrário, ignore';
-$labels['ignore'] = 'ignorar';
+$labels['ignorerequest'] = 'ignorar solicitação';
 $labels['readwhendeleted'] = 'Marcar a mensagem como lida ao excluir';
 $labels['flagfordeletion'] = 'Marcar a mensagem para exclusão ao invés de excluir';
 $labels['skipdeleted'] = 'Não exibir mensagens excluídas';
@@ -454,10 +491,14 @@ $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 Integral (outro)';
 $labels['force7bit'] = 'Usar codificação MIME para caracteres 8-bit';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
 =======
 $labels['savelocalstorage'] = "Salvar no armazenamento local do navegador (temporariamente)";
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['savelocalstorage'] = "Salvar no armazenamento local do navegador (temporariamente)";
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advancedoptions'] = 'Opções avançadas';
 $labels['toggleadvancedoptions'] = 'Ativar opções avançadas';
 $labels['focusonnewmessage'] = 'Focar janela do navegador ao receber nova mensagem';
@@ -522,12 +563,18 @@ $labels['personalfolder'] = 'Pasta Particular';
 $labels['otherfolder'] = 'Pasta de outro Usuário';
 $labels['sharedfolder'] = 'Pasta Pública';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['findfolders'] = 'Pesquisar pastas';
 $labels['namespace.personal'] = 'Pessoal';
 $labels['namespace.other'] = 'Outros usuários';
 $labels['namespace.shared'] = 'Compartilhada';
+<<<<<<< HEAD
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['sortby'] = 'Ordenar por';
 $labels['sortasc']  = 'Ascendente';
 $labels['sortdesc'] = 'Descendente';
@@ -561,10 +608,13 @@ $labels['japanese'] = 'Japonês';
 $labels['korean'] = 'Coreano';
 $labels['chinese'] = 'Chinês';
 <<<<<<< HEAD
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "";
 =======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['arialabeltopnav'] = 'Controle da janela';
 $labels['arialabeltasknav'] = 'Tarefas do sistema';
 $labels['arialabeltoolbar'] = 'Barra de ferramentas do sistema';
@@ -614,5 +664,8 @@ $labels['helplistkeyboardnavmessages'] = "Setas para direita/esquerda: expande/r
 Enter: Abre a mensagem selecionada/em foco.
 Delete: Move a mensagem selecionada para a Lixeira.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abre o contato selecionado";
+<<<<<<< HEAD
 >>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

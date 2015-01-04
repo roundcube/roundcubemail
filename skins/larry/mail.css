@@ -154,10 +154,11 @@ a.iconbutton.threadmode.selected {
 	background-position: 6px 3px;
 }
 
-#mailboxlist li.mailbox.unread > a {
+.folderlist li.mailbox.unread > a {
 	padding-right: 36px;
 }
 
+<<<<<<< HEAD
 #mailboxlist li.mailbox.selected > a {
 	background-position: 6px -21px;
 }
@@ -350,6 +351,17 @@ a.iconbutton.threadmode.selected {
 }
 
 #mailboxlist li.mailbox .unreadcount {
+=======
+.folderlist li.unread {
+	font-weight: bold;
+}
+
+.folderlist li.recent > a {
+	color: #017cb4;
+}
+
+.folderlist li.mailbox .unreadcount {
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 	position: absolute;
 	top: 3px;
 	right: 6px;
@@ -372,7 +384,7 @@ a.iconbutton.threadmode.selected {
 	text-shadow: none;
 }
 
-#mailboxlist li.mailbox.selected > a .unreadcount {
+.folderlist li.mailbox.selected > a .unreadcount {
 	background: #005d76;
 	background: -moz-linear-gradient(top, #005d76 0%, #004558 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#005d76), color-stop(100%,#004558));
@@ -385,7 +397,7 @@ a.iconbutton.threadmode.selected {
 	-moz-box-shadow: inset 0 1px 1px 0 #003645;
 }
 
-#mailboxlist li.mailbox.recent > a .unreadcount {
+.folderlist li.mailbox.recent > a .unreadcount {
 	background: #017cb4;
 	background: -moz-linear-gradient(top, #017cb4 0%, #006ca4 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#017cb4), color-stop(100%,#006ca4));
@@ -689,7 +701,11 @@ table.messagelist.fixedcopy {
 .messagelist tr td.status span.unread,
 .messagelist tr td.subject span.unread,
 .messagelist tr td.status span.unread:hover {
+<<<<<<< HEAD
 	background-position: 0 -1016px;
+=======
+	background-position: 0 -1017px !important;
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 }
 
 .messagelist thead tr td.status span.status {
@@ -1174,6 +1190,7 @@ div.message-partheaders .headers-table td.header {
 #messagebody p.image-attachment {
 	position: relative;
 	padding: 1em;
+	margin-bottom: 0;
 	border-top: 1px solid #ccc;
 }
 

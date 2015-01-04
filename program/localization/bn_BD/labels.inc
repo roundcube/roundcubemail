@@ -225,7 +225,6 @@ $labels['mimeparamfolding'] = 'জুড়ে দেওয়া জিনিষে�
 $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (other)';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'জটিল বিষয়';
 $labels['focusonnewmessage'] = 'নতুন মেইল এলেই তা হাইলাইট হয়ে যাবে';
 $labels['checkallfolders'] = 'সবগুলো মেইলবক্সে নতুন চিঠি খোজা হবে';
@@ -245,7 +244,4 @@ $labels['B'] = 'বাইট';
 $labels['KB'] = 'কিলোবাইট';
 $labels['MB'] = 'মেগাবাইট';
 $labels['GB'] = 'গিগাবাইট';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>
