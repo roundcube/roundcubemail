@@ -100,6 +100,11 @@ $messages['importwait'] = 'در حال وارد کردن لطفا صبر کنی�
 $messages['importconfirm'] = '<b>Successfully imported $inserted contacts, $skipped existing entries skipped</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'اجازه این عملکرد را ندارید';
 $messages['nofromaddress'] = 'بخش ایمیل آدرس در شناخت نامه انتخاب شده مفقود است.';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $messages['smtperror'] = 'خطای SMTP: $msg';
 $messages['contactrestored'] = 'دفتر نشانی(ها) با موفقیت بازیابی شد.';
 $messages['groupdeleted'] = 'گروه با موفقیت حذف شد.';
@@ -111,4 +116,8 @@ $messages['messagecopied'] = 'پیام(ها) با موفقیت کپی شدند.'
 $messages['messagemarked'] = 'پیام(ها) با موفقیت نشانه گذاری شدند.';
 $messages['namecannotbeempty'] = 'نام نمی تواند خالی باشد.';
 $messages['nametoolong'] = 'نام بسیار طولانی است.';
+<<<<<<< HEAD
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

@@ -225,7 +225,11 @@ $labels['ignore'] = 'Ignorare';
 $labels['responses'] = 'Risposte';
 $labels['insertresponse'] = 'Inserisci una risposta';
 $labels['manageresponses'] = 'Gestione risposte';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Crea una nuova risposta';
+=======
+$labels['savenewresponse'] = 'Crea una nuova risposta';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Aggiungi risposta';
 $labels['editresponse'] = 'Modifica risposta';
 $labels['editresponses'] = 'Modifica risposte';
@@ -293,7 +297,15 @@ $labels['assistant'] = 'Assistente';
 $labels['spouse'] = 'Coniuge';
 $labels['allfields'] = 'Tutti i campi';
 $labels['search'] = 'Ricerca';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['searchfor'] = 'Cercare "$q"';
+=======
 $labels['searchresult'] = 'Risultati ricerca';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Risultati ricerca';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Ricerca avanzata';
 $labels['advanced'] = 'Opzioni avanzate';
 $labels['other'] = 'Altro';
@@ -336,8 +348,16 @@ $labels['export']         = 'Esporta';
 $labels['exportall']      = 'Esporta tutto';
 $labels['exportsel']      = 'Esporta selezionati';
 $labels['exportvcards']   = 'Esporta i contatti in formato vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Crea un nuovo gruppo';
+<<<<<<< HEAD
+=======
+$labels['newcontactgroup']       = 'Crea un nuovo gruppo';
 $labels['addgroup']       = 'Aggiungi gruppo';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Aggiungi gruppo';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Rinomina il gruppo';
 $labels['groupdelete']    = 'Cancella il gruppo';
 $labels['groupremoveselected'] = 'Rimuovi i contatti selezionati dal gruppo';
@@ -371,7 +391,11 @@ $labels['identities'] = 'Identità';
 $labels['manageidentities'] = 'Gestisci identità';
 $labels['newidentity'] = 'Crea una nuova identità';
 $labels['addidentity'] = 'Aggiungi identità';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Modifica identità';
+=======
+$labels['edititem'] = 'Modifica identità';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Mostra HTML';
 $labels['defaultcharset'] = 'Set di caratteri predefinito';
 $labels['htmlmessage'] = 'Messaggio HTML';
@@ -428,7 +452,15 @@ $labels['2231folding'] = 'RFC 2231 completo (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 completo (altri)';
 $labels['force7bit'] = 'Usa la codifica MIME per i caratteri a 8-bit';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['savelocalstorage'] = "";
+=======
 $labels['savelocalstorage'] = "Salva nell'archiviazione locale del browser (temporaneamente)";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['savelocalstorage'] = "Salva nell'archiviazione locale del browser (temporaneamente)";
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advancedoptions'] = 'Opzioni avanzate';
 $labels['toggleadvancedoptions'] = 'Passa alle impostazioni avanzate';
 $labels['focusonnewmessage'] = 'Attiva la finestra del browser all\'arrivo di un nuovo messaggio';

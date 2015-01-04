@@ -139,10 +139,24 @@ $labels['select'] = 'Elija';
 $labels['all'] = 'Todos';
 $labels['none'] = 'Ninguno';
 $labels['currpage'] = 'Página actual';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['isread'] = 'Leer';
+$labels['unread'] = 'Sin leer';
+$labels['flagged'] = 'Señalado';
+$labels['unflagged'] = 'No Marcado';
+=======
 $labels['isread'] = 'Leído';
 $labels['unread'] = 'Sin leer';
 $labels['flagged'] = 'Marcado';
 $labels['unflagged'] = 'No marcado';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['isread'] = 'Leído';
+$labels['unread'] = 'Sin leer';
+$labels['flagged'] = 'Marcado';
+$labels['unflagged'] = 'No marcado';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['unanswered'] = 'Sin respuesta';
 $labels['withattachment'] = 'Con adjunto';
 $labels['deleted'] = 'Eliminado';
@@ -210,9 +224,21 @@ $labels['returnreceipt']  = 'Acuse de recibo';
 $labels['dsn']            = 'Notificación de estado de la entrega';
 $labels['mailreplyintro'] = 'El $date, $sender escribió:';
 $labels['originalmessage'] = 'Mensaje original';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['selectimage']    = 'Seleccione una imagen';
+$labels['addimage']       = 'Añadir imagen';
+$labels['selectmedia']    = 'Seleccione la película';
+=======
 $labels['selectimage']    = 'Elegir una imagen';
 $labels['addimage']       = 'Añadir una imagen';
 $labels['selectmedia']    = 'Seleccionar película';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['selectimage']    = 'Elegir una imagen';
+$labels['addimage']       = 'Añadir una imagen';
+$labels['selectmedia']    = 'Seleccionar película';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['addmedia']       = 'Añadir película';
 $labels['editidents']    = 'Editar identidades';
 $labels['spellcheck']    = 'Corrector ortográfico';
@@ -225,7 +251,11 @@ $labels['ignore'] = 'Ignorar';
 $labels['responses'] = 'Respuestas';
 $labels['insertresponse'] = 'Insertar una respuesta';
 $labels['manageresponses'] = 'Gestionar respuestas';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Crear nueva respuesta';
+=======
+$labels['savenewresponse'] = 'Crear nueva respuesta';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Añadir respuesta';
 $labels['editresponse'] = 'Editar respuesta';
 $labels['editresponses'] = 'Editar respuestas';
@@ -294,7 +324,15 @@ $labels['assistant'] = 'Auxiliar';
 $labels['spouse'] = 'Cónyuge';
 $labels['allfields'] = 'Todos los campos';
 $labels['search'] = 'Buscar';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['searchfor'] = 'Buscar "$q"';
+=======
 $labels['searchresult'] = 'Resultado de búsqueda';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Resultado de búsqueda';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Búsqueda avanzada';
 $labels['advanced'] = 'Avanzadas';
 $labels['other'] = 'Otro';
@@ -317,7 +355,15 @@ $labels['addcontact'] = 'Añadir contacto';
 $labels['editcontact'] = 'Editar contacto';
 $labels['contacts'] = 'Contactos';
 $labels['contactproperties'] = 'Propiedades del contacto';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['contactnameandorg'] = 'Nombre y Organización';
+=======
 $labels['contactnameandorg'] = 'Nombre y organización';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['contactnameandorg'] = 'Nombre y organización';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['personalinfo'] = 'Información personal';
 $labels['contactphoto'] = 'Foto del contacto';
 $labels['edit']   = 'Editar';
@@ -337,8 +383,16 @@ $labels['export']         = 'Exportar';
 $labels['exportall']      = 'Exportar todo';
 $labels['exportsel']      = 'Exportar lo seleccionado';
 $labels['exportvcards']   = 'Exportar contactos en formato vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Crear nuevo grupo';
+<<<<<<< HEAD
+=======
+$labels['newcontactgroup']       = 'Crear nuevo grupo';
 $labels['addgroup']       = 'Añadir grupo';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Añadir grupo';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Renombrar grupo';
 $labels['groupdelete']    = 'Borrar grupo';
 $labels['groupremoveselected'] = 'Eliminar los contactos seleccionados del grupo';
@@ -372,8 +426,17 @@ $labels['identities'] = 'Identidades';
 $labels['manageidentities'] = 'Administrar identidades';
 $labels['newidentity'] = 'Create new identity';
 $labels['addidentity'] = 'Añadir identidad';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Editar identidad';
+<<<<<<< HEAD
+$labels['preferhtml'] = 'Prefiero HTML';
+=======
+$labels['edititem'] = 'Editar identidad';
 $labels['preferhtml'] = 'Mostrar HTML';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['preferhtml'] = 'Mostrar HTML';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['defaultcharset'] = 'Juego de caracteres predeterminado';
 $labels['htmlmessage'] = 'Mensaje HTML';
 $labels['messagepart'] = 'Parte';

@@ -108,19 +108,30 @@ $labels['varupperfirst'] = 'حرف اول بزرگ';
 $labels['varquotewildcard'] = 'نقل قول کاراکترهای خاص';
 $labels['varlength'] = 'طول';
 $labels['notify'] = 'ارسال تذکر';
+<<<<<<< HEAD
+=======
 $labels['notifytarget'] = 'مقصد آگاه‌سازی:';
 $labels['notifymessage'] = 'متن آگاه‌سازی (تختیاری):';
 $labels['notifyoptions'] = 'گزینه‌های آگاه‌سازی (اختیاری):';
 $labels['notifyfrom'] = 'فرستنده آگاه‌سازی (اختیاری):';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['notifyimportance'] = 'اهمیت:';
 $labels['notifyimportancelow'] = 'کم';
 $labels['notifyimportancenormal'] = 'معمولی';
 $labels['notifyimportancehigh'] = 'زیاد';
+<<<<<<< HEAD
+$labels['notifymethodmailto'] = 'پست الکترونیکی';
+$labels['notifymethodtel'] = 'تلفن';
+$labels['notifymethodsms'] = 'پیامک';
+$labels['filtercreate'] = 'ایجاد صافی';
+$labels['usedata'] = 'استفاده از داده ذیل در صافی:';
+=======
 $labels['notifymethodmailto'] = 'رایانامه';
 $labels['notifymethodtel'] = 'تلفن';
 $labels['notifymethodsms'] = 'پیامک';
 $labels['filtercreate'] = 'ایجاد پالایه';
 $labels['usedata'] = 'استفاده از داده ذیل در پالایه:';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['nextstep'] = 'مرحله بعدی';
 $labels['...'] = '...';
 $labels['currdate'] = 'تاریخ جاری';
@@ -165,6 +176,16 @@ $labels['vacation.reply'] = 'پاسخ به یغام';
 $labels['vacation.advanced'] = 'تنظیمات پیشرفته';
 $labels['vacation.subject'] = 'موضوع';
 $labels['vacation.body'] = 'بدنه';
+<<<<<<< HEAD
+$labels['vacation.status'] = 'وضعیت';
+$labels['vacation.on'] = 'روشن';
+$labels['vacation.off'] = 'خاموش';
+$labels['vacation.addresses'] = 'آدرس‌های دیگر من';
+$labels['vacation.interval'] = 'فاصله پاسخ';
+$labels['vacation.after'] = 'قرار دادن قانون مسافرت بعد از';
+$labels['vacation.saving'] = 'ذخیره داده‌ها...';
+$labels['vacation.keep'] = 'نگه داشتن';
+=======
 $labels['vacation.start'] = 'شروع تعطیلی';
 $labels['vacation.end'] = 'پایان تعطیلی';
 $labels['vacation.status'] = 'وضعیت';
@@ -186,6 +207,7 @@ $labels['ariasummaryfilterslist'] = 'فهرست پالایه‌ها';
 $labels['ariasummaryfiltersetslist'] = 'فهرست مجموعه پالایه‌ها';
 $labels['filterstitle'] = 'ویرایش پالایه‌های پست ورودی';
 $labels['vacationtitle'] = 'ویرایش نقش بیرون از دفتر';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $messages['filterunknownerror'] = 'خطای سرور نامعلوم.';
 $messages['filterconnerror'] = 'ناتوانی در اتصال به سرور.';
 $messages['filterdeleteerror'] = 'ناتوانی در حذف پالایه. خطای سرور رخ داد.';
@@ -219,6 +241,10 @@ $messages['setexist'] = 'مجموعه در حال حاضر موجود است.';
 $messages['nodata'] = 'حداقل باید یک موقعیت باید انتخاب شود.';
 $messages['invaliddateformat'] = 'قالب تاریخ اشتباه';
 $messages['saveerror'] = 'ناتوانی در ذخیره اطلاعات. خطای سرور رخ داد.';
+<<<<<<< HEAD
+$messages['vacationsaved'] = 'اطلاعات مسافرت با موفقیت ذخیره شد.';
+=======
 $messages['vacationsaved'] = 'اطلاعات مسافرت با کام‌یابی ذخیره شد.';
 $messages['emptyvacationbody'] = 'متن پیغام تعطیلی لازم است!';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

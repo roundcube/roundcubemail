@@ -224,7 +224,11 @@ $labels['restoremessage'] = '¿Restaurar mensaje?';
 $labels['responses'] = 'Respuestas';
 $labels['insertresponse'] = 'Insertar una respuesta';
 $labels['manageresponses'] = 'Administrar respuestas';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Crear nueva respuesta';
+=======
+$labels['savenewresponse'] = 'Crear nueva respuesta';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Agregar respuesta';
 $labels['editresponse'] = 'Editar respuesta';
 $labels['editresponses'] = 'Editar respuestas';
@@ -293,7 +297,15 @@ $labels['assistant'] = 'Asistente';
 $labels['spouse'] = 'Cónyuge';
 $labels['allfields'] = 'Todos los campos';
 $labels['search'] = 'Buscar';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['searchfor'] = 'Buscar por "$q"';
+=======
 $labels['searchresult'] = 'Resultado de búsqueda';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Resultado de búsqueda';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Búsqueda avanzada';
 $labels['advanced'] = 'Avanzada';
 $labels['other'] = 'Otro';
@@ -336,8 +348,16 @@ $labels['export']         = 'Exportar';
 $labels['exportall']      = 'Exportar todo';
 $labels['exportsel']      = 'Exportar lo seleccionado';
 $labels['exportvcards']   = 'Exportar contactos en formato vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Crear grupo nuevo';
+<<<<<<< HEAD
+=======
+$labels['newcontactgroup']       = 'Crear grupo nuevo';
 $labels['addgroup']       = 'Agregar grupo';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Agregar grupo';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Renombrar grupo';
 $labels['groupdelete']    = 'Eliminar grupo';
 $labels['groupremoveselected'] = 'Eliminar contactos seleccionados del grupo';
@@ -371,7 +391,11 @@ $labels['identities'] = 'Identidades';
 $labels['manageidentities'] = 'Administrar identidades';
 $labels['newidentity'] = 'Crear nueva identidad';
 $labels['addidentity'] = 'Agregar identidad';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Editar identidad';
+=======
+$labels['edititem'] = 'Editar identidad';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Mostrar HTML ';
 $labels['defaultcharset'] = 'Caracteres predeterminados';
 $labels['htmlmessage'] = 'Mensaje HTML ';

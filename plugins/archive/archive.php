@@ -15,13 +15,26 @@ class archive extends rcube_plugin
   function init()
   {
     $rcmail = rcmail::get_instance();
+    $archive_folder = $rcmail->config->get('archive_mbox');
 
+    // add archive folder to the list of default mailboxes
+    if (($default_folders = $rcmail->config->get('default_folders')) && !in_array($archive_folder, $default_folders)) {
+      $default_folders[] = $archive_folder;
+      $rcmail->config->set('default_folders', $default_folders);
+    }
+
+<<<<<<< HEAD
     // register special folder type
     rcube_storage::$folder_types[] = 'archive';
 
     if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show')
         && ($archive_folder = $rcmail->config->get('archive_mbox'))
     ) {
+=======
+    // There is no "Archived flags"
+    // $GLOBALS['IMAP_FLAGS']['ARCHIVED'] = 'Archive';
+    if ($archive_folder && $rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show')) {
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
       $skin_path = $this->local_skin_path();
       if (is_file($this->home . "/$skin_path/archive.css"))
         $this->include_stylesheet("$skin_path/archive.css");

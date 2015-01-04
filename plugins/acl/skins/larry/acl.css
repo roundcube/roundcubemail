@@ -26,39 +26,44 @@
   border: none;
 }
 
-#acltable th,
 #acltable td
 {
   white-space: nowrap;
   text-align: center;
 }
 
-#acltable thead tr th
+#acltable thead tr td
 {
+  border-left: #BBD3DA dotted 1px;
   font-size: 11px;
   font-weight: bold;
+  width: auto;
 }
 
 #acltable tbody td
 {
+  border-bottom: #DDDDDD 1px solid;
   text-align: center;
   height: 16px;
   cursor: default;
 }
 
-#acltable thead tr > .user
+#acltable thead td.user
 {
   width: 30%;
-  border-left: none;
 }
 
-#acltable.advanced thead tr > .user {
-  width: 25%;
+#acltable.advanced thead td.user {
+	width: 25%;
 }
 
 #acltable tbody td.user
 {
   text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  border-left: none;
 }
 
 #acltable tbody td.partial

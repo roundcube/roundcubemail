@@ -58,7 +58,11 @@ $labels['vacationaddr'] = 'Nire helbide elektroniko osagarria(k):';
 $labels['vacationdays'] = 'Zenbatero bidali mezuak (egunak)';
 $labels['vacationinterval'] = 'Zenbatero bidali mezuak:';
 $labels['vacationreason'] = 'Mezuaren gorputza (oporrak direla medio):';
+<<<<<<< HEAD
+$labels['vacationsubject'] = 'Mezuaren izenburua:';
+=======
 $labels['vacationsubject'] = 'Mezuaren gaia:';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['days'] = 'egun';
 $labels['seconds'] = 'segundo';
 $labels['rulestop'] = 'Gelditu arauak ebaluatzen';
@@ -165,8 +169,11 @@ $labels['vacation.reply'] = 'Erantzun mezua';
 $labels['vacation.advanced'] = 'Ezarpen aurreratuak';
 $labels['vacation.subject'] = 'Gaia';
 $labels['vacation.body'] = 'Gorputza';
+<<<<<<< HEAD
+=======
 $labels['vacation.start'] = 'Oporraldiaren hasiera';
 $labels['vacation.end'] = 'Oporraldiaren bukaera';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['vacation.status'] = 'Egoera';
 $labels['vacation.on'] = 'Piztuta';
 $labels['vacation.off'] = 'Itzalita';
@@ -220,5 +227,8 @@ $messages['nodata'] = 'Gutxienez posizio bat hautatu behar da!';
 $messages['invaliddateformat'] = 'Dataren edo dataren zati baten formatua ez da baliozkoa ';
 $messages['saveerror'] = 'Ezin dira datuak gorde. Errorea gertatu da zerbitzarian.';
 $messages['vacationsaved'] = 'Oporren data ongi gorde da.';
+<<<<<<< HEAD
+=======
 $messages['emptyvacationbody'] = 'Beharrezkoa da oporraldiko mezua jartzea!';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

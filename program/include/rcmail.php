@@ -5,8 +5,8 @@
  | program/include/rcmail.php                                            |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2014, Kolab Systems AG                             |
+ | Copyright (C) 2008-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2011-2013, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -25,7 +25,7 @@
  * Application class of Roundcube Webmail
  * implemented as singleton
  *
- * @package Webmail
+ * @package Core
  */
 class rcmail extends rcube
 {
@@ -106,23 +106,21 @@ class rcmail extends rcube
         // reset some session parameters when changing task
         if ($this->task != 'utils') {
             // we reset list page when switching to another task
-            // but only to the main task interface - empty action (#1489076, #1490116)
+            // but only to the main task interface - empty action (#1489076)
             // this will prevent from unintentional page reset on cross-task requests
             if ($this->session && $_SESSION['task'] != $this->task && empty($this->action)) {
                 $this->session->remove('page');
-
-                // set current task to session
-                $_SESSION['task'] = $this->task;
             }
+
+            // set current task to session
+            $_SESSION['task'] = $this->task;
         }
 
-        // init output class (not in CLI mode)
-        if (!empty($_REQUEST['_remote'])) {
+        // init output class
+        if (!empty($_REQUEST['_remote']))
             $GLOBALS['OUTPUT'] = $this->json_init();
-        }
-        else if ($_SERVER['REMOTE_ADDR']) {
+        else
             $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
-        }
 
         // load plugins
         $this->plugins->init($this, $this->task);
@@ -141,8 +139,6 @@ class rcmail extends rcube
 
         if ($this->user && $this->user->ID)
             $task = !$task ? 'mail' : $task;
-        else if (php_sapi_name() == 'cli')
-            $task = 'cli';
         else
             $task = 'login';
 
@@ -166,7 +162,12 @@ class rcmail extends rcube
      */
     public function set_user($user)
     {
-        parent::set_user($user);
+        if (is_object($user)) {
+            $this->user = $user;
+
+            // overwrite config with user preferences
+            $this->config->set_user_prefs((array)$this->user->get_prefs());
+        }
 
         $lang = $this->language_prop($this->config->get('language', $_SESSION['language']));
         $_SESSION['language'] = $this->user->language = $lang;
@@ -175,7 +176,7 @@ class rcmail extends rcube
         setlocale(LC_ALL, $lang . '.utf8', $lang . '.UTF-8', 'en_US.utf8', 'en_US.UTF-8');
 
         // workaround for http://bugs.php.net/bug.php?id=18556
-        if (PHP_VERSION_ID < 50500 && in_array($lang, array('tr_TR', 'ku', 'az_AZ'))) {
+        if (version_compare(PHP_VERSION, '5.5.0', '<') && in_array($lang, array('tr_TR', 'ku', 'az_AZ'))) {
             setlocale(LC_CTYPE, 'en_US.utf8', 'en_US.UTF-8');
         }
     }
@@ -438,8 +439,12 @@ class rcmail extends rcube
         $this->output->set_env('compose_extwin', $this->config->get('compose_extwin',false));
 
         // add some basic labels to client
+<<<<<<< HEAD
+        $this->output->add_label('loading', 'servererror', 'connerror', 'requesttimedout', 'refreshing');
+=======
         $this->output->add_label('loading', 'servererror', 'connerror', 'requesttimedout',
             'refreshing', 'windowopenerror', 'uploadingmany');
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 
         return $this->output;
     }
@@ -645,8 +650,10 @@ class rcmail extends rcube
             // fix some old settings according to namespace prefix
             $this->fix_namespace_settings($user);
 
-            // set/create special folders
-            $this->set_special_folders();
+            // create default folders on login
+            if ($this->config->get('create_default_folders')) {
+                $storage->create_default_folders();
+            }
 
             // clear all mailboxes related cache(s)
             $storage->clear_cache('mailboxes', true);
@@ -740,16 +747,14 @@ class rcmail extends rcube
      */
     public function logout_actions()
     {
-        $storage        = $this->get_storage();
-        $logout_expunge = $this->config->get('logout_expunge');
-        $logout_purge   = $this->config->get('logout_purge');
-        $trash_mbox     = $this->config->get('trash_mbox');
+        $config  = $this->config->all();
+        $storage = $this->get_storage();
 
-        if ($logout_purge && !empty($trash_mbox)) {
-            $storage->clear_folder($trash_mbox);
+        if ($config['logout_purge'] && !empty($config['trash_mbox'])) {
+            $storage->clear_folder($config['trash_mbox']);
         }
 
-        if ($logout_expunge) {
+        if ($config['logout_expunge']) {
             $storage->expunge_folder('INBOX');
         }
 
@@ -762,6 +767,13 @@ class rcmail extends rcube
     /**
      * Build a valid URL to this instance of Roundcube
      *
+<<<<<<< HEAD
+     * @param mixed Either a string with the action or url parameters as key-value pairs
+     *
+     * @return string Valid application URL
+     */
+    public function url($p)
+=======
      * @param mixed   Either a string with the action or url parameters as key-value pairs
      * @param boolean Build an URL absolute to document root
      * @param boolean Create fully qualified URL including http(s):// and hostname
@@ -770,6 +782,7 @@ class rcmail extends rcube
      * @return string Valid application URL
      */
     public function url($p, $absolute = false, $full = false, $secure = false)
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
     {
         if (!is_array($p)) {
             if (strpos($p, 'http') === 0) {
@@ -779,15 +792,14 @@ class rcmail extends rcube
             $p = array('_action' => @func_get_arg(0));
         }
 
-        $pre = array();
-        $task = $p['_task'] ?: ($p['task'] ?: $this->task);
-        $pre['_task'] = $task;
-        unset($p['task'], $p['_task']);
+        $task = $p['_task'] ? $p['_task'] : ($p['task'] ? $p['task'] : $this->task);
+        $p['_task'] = $task;
+        unset($p['task']);
 
-        $url  = $this->filename;
+        $url  = './' . $this->filename;
         $delm = '?';
 
-        foreach (array_merge($pre, $p) as $key => $val) {
+        foreach (array_reverse($p) as $key => $val) {
             if ($val !== '' && $val !== null) {
                 $par  = $key[0] == '_' ? $key : '_'.$key;
                 $url .= $delm.urlencode($par).'='.urlencode($val);
@@ -795,6 +807,9 @@ class rcmail extends rcube
             }
         }
 
+<<<<<<< HEAD
+        return $url;
+=======
         $base_path = strval($_SERVER['REDIRECT_SCRIPT_URL'] ?: $_SERVER['SCRIPT_NAME']);
         $base_path = preg_replace('![^/]+$!', '', $base_path);
 
@@ -827,6 +842,7 @@ class rcmail extends rcube
         }
 
         return $prefix . $url;
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
     }
 
     /**
@@ -842,7 +858,7 @@ class rcmail extends rcube
         }
 
         // write performance stats to logs/console
-        if ($this->config->get('devel_mode') || $this->config->get('performance_stats')) {
+        if ($this->config->get('devel_mode')) {
             // make sure logged numbers use unified format
             setlocale(LC_NUMERIC, 'en_US.utf8', 'en_US.UTF-8', 'en_US', 'C');
 
@@ -922,15 +938,12 @@ class rcmail extends rcube
         $prefix     = $this->storage->get_namespace('prefix');
         $prefix_len = strlen($prefix);
 
-        if (!$prefix_len) {
+        if (!$prefix_len)
             return;
-        }
 
-        if ($this->config->get('namespace_fixed')) {
+        $prefs = $this->config->all();
+        if (!empty($prefs['namespace_fixed']))
             return;
-        }
-
-        $prefs = array();
 
         // Build namespace prefix regexp
         $ns     = $this->storage->get_namespace();
@@ -950,16 +963,24 @@ class rcmail extends rcube
         // Fix preferences
         $opts = array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox', 'archive_mbox');
         foreach ($opts as $opt) {
-            if ($value = $this->config->get($opt)) {
+            if ($value = $prefs[$opt]) {
                 if ($value != 'INBOX' && !preg_match($regexp, $value)) {
                     $prefs[$opt] = $prefix.$value;
                 }
             }
         }
 
-        if (($search_mods = $this->config->get('search_mods')) && !empty($search_mods)) {
+        if (!empty($prefs['default_folders'])) {
+            foreach ($prefs['default_folders'] as $idx => $name) {
+                if ($name != 'INBOX' && !preg_match($regexp, $name)) {
+                    $prefs['default_folders'][$idx] = $prefix.$name;
+                }
+            }
+        }
+
+        if (!empty($prefs['search_mods'])) {
             $folders = array();
-            foreach ($search_mods as $idx => $value) {
+            foreach ($prefs['search_mods'] as $idx => $value) {
                 if ($idx != 'INBOX' && $idx != '*' && !preg_match($regexp, $idx)) {
                     $idx = $prefix.$idx;
                 }
@@ -969,9 +990,9 @@ class rcmail extends rcube
             $prefs['search_mods'] = $folders;
         }
 
-        if (($threading = $this->config->get('message_threading')) && !empty($threading)) {
+        if (!empty($prefs['message_threading'])) {
             $folders = array();
-            foreach ($threading as $idx => $value) {
+            foreach ($prefs['message_threading'] as $idx => $value) {
                 if ($idx != 'INBOX' && !preg_match($regexp, $idx)) {
                     $idx = $prefix.$idx;
                 }
@@ -981,8 +1002,8 @@ class rcmail extends rcube
             $prefs['message_threading'] = $folders;
         }
 
-        if ($collapsed = $this->config->get('collapsed_folders')) {
-            $folders     = explode('&&', $collapsed);
+        if (!empty($prefs['collapsed_folders'])) {
+            $folders     = explode('&&', $prefs['collapsed_folders']);
             $count       = count($folders);
             $folders_str = '';
 
@@ -1115,17 +1136,14 @@ class rcmail extends rcube
         }
         else {
             foreach ($table_data as $row_data) {
-                $class = !empty($row_data['class']) ? $row_data['class'] : null;
-                if (!empty($attrib['rowclass']))
-                    $class = trim($class . ' ' . $attrib['rowclass']);
+                $class = !empty($row_data['class']) ? $row_data['class'] : '';
                 $rowid = 'rcmrow' . rcube_utils::html_identifier($row_data[$id_col]);
 
                 $table->add_row(array('id' => $rowid, 'class' => $class));
 
                 // format each col
                 foreach ($a_show_cols as $col) {
-                    $val = is_array($row_data[$col]) ? $row_data[$col][0] : $row_data[$col];
-                    $table->add($col, empty($attrib['ishtml']) ? $this->Q($val) : $val);
+                    $table->add($col, $this->Q(is_array($row_data[$col]) ? $row_data[$col][0] : $row_data[$col]));
                 }
             }
         }
@@ -1187,11 +1205,11 @@ class rcmail extends rcube
             $week_limit  = mktime(0, 0, 0, $now_date['mon'], $now_date['mday']-6, $now_date['year']);
             $pretty_date = $this->config->get('prettydate');
 
-            if ($pretty_date && $timestamp > $today_limit && $timestamp <= $now) {
+            if ($pretty_date && $timestamp > $today_limit && $timestamp < $now) {
                 $format = $this->config->get('date_today', $this->config->get('time_format', 'H:i'));
                 $today  = true;
             }
-            else if ($pretty_date && $timestamp > $week_limit && $timestamp <= $now) {
+            else if ($pretty_date && $timestamp > $week_limit && $timestamp < $now) {
                 $format = $this->config->get('date_short', 'D H:i');
             }
             else {
@@ -1532,7 +1550,7 @@ class rcmail extends rcube
             $html_name = $this->Q($foldername) . ($unread ? html::span('unreadcount', sprintf($attrib['unreadwrap'], $unread)) : '');
             $link_attrib = $folder['virtual'] ? array() : array(
                 'href' => $this->url(array('_mbox' => $folder['id'])),
-                'onclick' => sprintf("return %s.command('list','%s',this,event)", rcmail_output::JS_OBJECT_NAME, $js_name),
+                'onclick' => sprintf("return %s.command('list','%s',this)", rcmail_output::JS_OBJECT_NAME, $js_name),
                 'rel' => $folder['id'],
                 'title' => $title,
             );
@@ -1672,13 +1690,14 @@ class rcmail extends rcube
     public function localize_folderpath($path)
     {
         $protect_folders = $this->config->get('protect_default_folders');
+        $default_folders = (array) $this->config->get('default_folders');
         $delimiter       = $this->storage->get_hierarchy_delimiter();
         $path            = explode($delimiter, $path);
         $result          = array();
 
         foreach ($path as $idx => $dir) {
             $directory = implode($delimiter, array_slice($path, 0, $idx+1));
-            if ($protect_folders && $this->storage->is_special_folder($directory)) {
+            if ($protect_folders && in_array($directory, $default_folders)) {
                 unset($result);
                 $result[] = $this->localize_foldername($directory);
             }
@@ -1711,14 +1730,13 @@ class rcmail extends rcube
     }
 
 
-    public function quota_content($attrib = null, $folder = null)
+    public function quota_content($attrib = null)
     {
-        $quota = $this->storage->get_quota($folder);
+        $quota = $this->storage->get_quota();
         $quota = $this->plugins->exec_hook('quota', $quota);
 
         $quota_result = (array) $quota;
-        $quota_result['type']   = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
-        $quota_result['folder'] = $folder !== null && $folder !== '' ? $folder : 'INBOX';
+        $quota_result['type'] = isset($_SESSION['quota_display']) ? $_SESSION['quota_display'] : '';
 
         if ($quota['total'] > 0) {
             if (!isset($quota['percent'])) {
@@ -1735,51 +1753,13 @@ class rcmail extends rcube
                 $quota_result['width'] = $attrib['width'];
             }
             if ($attrib['height']) {
-                $quota_result['height'] = $attrib['height'];
-            }
-
-            // build a table of quota types/roots info
-            if (($root_cnt = count($quota_result['all'])) > 1 || count($quota_result['all'][key($quota_result['all'])]) > 1) {
-                $table = new html_table(array('cols' => 3, 'class' => 'quota-info'));
-
-                $table->add_header(null, self::Q($this->gettext('quotatype')));
-                $table->add_header(null, self::Q($this->gettext('quotatotal')));
-                $table->add_header(null, self::Q($this->gettext('quotaused')));
-
-                foreach ($quota_result['all'] as $root => $data) {
-                    if ($root_cnt > 1 && $root) {
-                        $table->add(array('colspan' => 3, 'class' => 'root'), self::Q($root));
-                    }
-
-                    if ($storage = $data['storage']) {
-                        $percent = min(100, round(($storage['used']/max(1,$storage['total']))*100));
-
-                        $table->add('name', self::Q($this->gettext('quotastorage')));
-                        $table->add(null, $this->show_bytes($storage['total'] * 1024));
-                        $table->add(null, sprintf('%s (%.0f%%)', $this->show_bytes($storage['used'] * 1024), $percent));
-                    }
-                    if ($message = $data['message']) {
-                        $percent = min(100, round(($message['used']/max(1,$message['total']))*100));
-
-                        $table->add('name', self::Q($this->gettext('quotamessage')));
-                        $table->add(null, intval($message['total']));
-                        $table->add(null, sprintf('%d (%.0f%%)', $message['used'], $percent));
-                    }
-                }
-
-                $quota_result['table'] = $table->show();
+                $quota_result['height']	= $attrib['height'];
             }
         }
         else {
             $unlimited               = $this->config->get('quota_zero_as_unlimited');
             $quota_result['title']   = $this->gettext($unlimited ? 'unlimited' : 'unknown');
             $quota_result['percent'] = 0;
-        }
-
-        // cleanup
-        unset($quota_result['abort']);
-        if (empty($quota_result['table'])) {
-            unset($quota_result['all']);
         }
 
         return $quota_result;
@@ -1805,7 +1785,7 @@ class rcmail extends rcube
             $error = 'errorreadonly';
         }
         else if ($res_code == rcube_storage::OVERQUOTA) {
-            $error = 'erroroverquota';
+            $error = 'errorroverquota';
         }
         else if ($err_code && ($err_str = $this->storage->get_error_str())) {
             // try to detect access rights problem and display appropriate message
@@ -1851,24 +1831,21 @@ class rcmail extends rcube
             return;
         }
 
-        $lang_codes = array($_SESSION['language']);
+        $lang = strtolower($_SESSION['language']);
 
-        if ($pos = strpos($_SESSION['language'], '_')) {
-            $lang_codes[] = substr($_SESSION['language'], 0, $pos);
+        // TinyMCE uses two-letter lang codes, with exception of Chinese
+        if (strpos($lang, 'zh_') === 0) {
+            $lang = str_replace('_', '-', $lang);
+        }
+        else {
+            $lang = substr($lang, 0, 2);
         }
 
-        foreach ($lang_codes as $code) {
-            if (file_exists(INSTALL_PATH . 'program/js/tinymce/langs/'.$code.'.js')) {
-                $lang = $code;
-                break;
-            }
-        }
-
-        if (empty($lang)) {
+        if (!file_exists(INSTALL_PATH . 'program/js/tiny_mce/langs/'.$lang.'.js')) {
             $lang = 'en';
         }
 
-        $config = array(
+        $script = array(
             'mode'       => $mode,
             'lang'       => $lang,
             'skin_path'  => $this->output->get_skin_path(),
@@ -1876,11 +1853,9 @@ class rcmail extends rcube
             'spelldict'  => intval($this->config->get('spellcheck_dictionary'))
         );
 
-        $this->output->add_label('selectimage', 'addimage', 'selectmedia', 'addmedia');
-        $this->output->set_env('editor_config', $config);
-        $this->output->include_css('program/js/tinymce/roundcube/browser.css');
-        $this->output->include_script('tinymce/tinymce.min.js');
+        $this->output->include_script('tiny_mce/tiny_mce.js');
         $this->output->include_script('editor.js');
+        $this->output->set_env('html_editor_init', $script);
     }
 
     /**
@@ -1912,8 +1887,8 @@ class rcmail extends rcube
         );
 
         foreach ($emoticons as $idx => $file) {
-            // <img title="Cry" src="http://.../program/js/tinymce/plugins/emoticons/img/smiley-cry.gif" border="0" alt="Cry" />
-            $search[]  = '/<img title="[a-z ]+" src="https?:\/\/[a-z0-9_.\/-]+\/tinymce\/plugins\/emoticons\/img\/'.$file.'.gif"[^>]+\/>/i';
+            // <img title="Cry" src="http://.../program/js/tiny_mce/plugins/emotions/img/smiley-cry.gif" border="0" alt="Cry" />
+            $search[]  = '/<img title="[a-z ]+" src="https?:\/\/[a-z0-9_.\/-]+\/tiny_mce\/plugins\/emotions\/img\/'.$file.'.gif"[^>]+\/>/i';
             $replace[] = $idx;
         }
 
@@ -1925,32 +1900,29 @@ class rcmail extends rcube
      */
     public function upload_progress()
     {
+        $prefix = ini_get('apc.rfc1867_prefix');
         $params = array(
             'action' => $this->action,
-            'name'   => rcube_utils::get_input_value('_progress', rcube_utils::INPUT_GET),
+            'name' => rcube_utils::get_input_value('_progress', rcube_utils::INPUT_GET),
         );
 
-        if (function_exists('uploadprogress_get_info')) {
-            $status = uploadprogress_get_info($params['name']);
-
-            if (!empty($status)) {
-                $params['current'] = $status['bytes_uploaded'];
-                $params['total']   = $status['bytes_total'];
-            }
-        }
-
-        if (!isset($status) && filter_var(ini_get('apc.rfc1867'), FILTER_VALIDATE_BOOLEAN)
-            && ini_get('apc.rfc1867_name')
-        ) {
-            $prefix = ini_get('apc.rfc1867_prefix');
+        if (function_exists('apc_fetch')) {
             $status = apc_fetch($prefix . $params['name']);
 
             if (!empty($status)) {
-                $params['current'] = $status['current'];
-                $params['total']   = $status['total'];
+                $status['percent'] = round($status['current']/$status['total']*100);
+                $params = array_merge($status, $params);
             }
         }
 
+<<<<<<< HEAD
+        if (isset($params['percent']))
+            $params['text'] = $this->gettext(array('name' => 'uploadprogress', 'vars' => array(
+                'percent' => $params['percent'] . '%',
+                'current' => $this->show_bytes($params['current']),
+                'total'   => $this->show_bytes($params['total'])
+        )));
+=======
         if (!isset($status) && filter_var(ini_get('session.upload_progress.enabled'), FILTER_VALIDATE_BOOLEAN)
             && ini_get('session.upload_progress.name')
         ) {
@@ -1990,6 +1962,7 @@ class rcmail extends rcube
                 )
             ));
         }
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 
         $this->output->command('upload_progress_update', $params);
         $this->output->send();
@@ -1997,24 +1970,13 @@ class rcmail extends rcube
 
     /**
      * Initializes file uploading interface.
-     *
-     * @param $int Optional maximum file size in bytes
      */
-    public function upload_init($max_size = null)
+    public function upload_init()
     {
         // Enable upload progress bar
-        if ($seconds = $this->config->get('upload_progress')) {
-            if (function_exists('uploadprogress_get_info')) {
-                $field_name = 'UPLOAD_IDENTIFIER';
-            }
-            if (!$field_name && filter_var(ini_get('apc.rfc1867'), FILTER_VALIDATE_BOOLEAN)) {
-                $field_name = ini_get('apc.rfc1867_name');
-            }
-            if (!$field_name && filter_var(ini_get('session.upload_progress.enabled'), FILTER_VALIDATE_BOOLEAN)) {
-                $field_name = ini_get('session.upload_progress.name');
-            }
-
-            if ($field_name) {
+        $rfc1867 = filter_var(ini_get('apc.rfc1867'), FILTER_VALIDATE_BOOLEAN);
+        if ($rfc1867 && ($seconds = $this->config->get('upload_progress'))) {
+            if ($field_name = ini_get('apc.rfc1867_name')) {
                 $this->output->set_env('upload_progress_name', $field_name);
                 $this->output->set_env('upload_progress_time', (int) $seconds);
             }
@@ -2028,87 +1990,12 @@ class rcmail extends rcube
             $max_filesize = $max_postsize;
         }
 
-        if ($max_size && $max_size < $max_filesize) {
-            $max_filesize = $max_size;
-        }
-
         $this->output->set_env('max_filesize', $max_filesize);
         $max_filesize = $this->show_bytes($max_filesize);
         $this->output->set_env('filesizeerror', $this->gettext(array(
             'name' => 'filesizeerror', 'vars' => array('size' => $max_filesize))));
 
         return $max_filesize;
-    }
-
-    /**
-     * Outputs uploaded file content (with image thumbnails support
-     *
-     * @param array $file Upload file data
-     */
-    public function display_uploaded_file($file)
-    {
-        if (empty($file)) {
-            return;
-        }
-
-        $file = $this->plugins->exec_hook('attachment_display', $file);
-
-        if ($file['status']) {
-            if (empty($file['size'])) {
-                $file['size'] = $file['data'] ? strlen($file['data']) : @filesize($file['path']);
-            }
-
-            // generate image thumbnail for file browser in HTML editor
-            if (!empty($_GET['_thumbnail'])) {
-                $temp_dir       = $this->config->get('temp_dir');
-                $thumbnail_size = 80;
-                list(,$ext)     = explode('/', $file['mimetype']);
-                $mimetype       = $file['mimetype'];
-                $file_ident     = $file['id'] . ':' . $file['mimetype'] . ':' . $file['size'];
-                $cache_basename = $temp_dir . '/' . md5($file_ident . ':' . $this->user->ID . ':' . $thumbnail_size);
-                $cache_file     = $cache_basename . '.' . $ext;
-
-                // render thumbnail image if not done yet
-                if (!is_file($cache_file)) {
-                    if (!$file['path']) {
-                        $orig_name = $filename = $cache_basename . '.orig.' . $ext;
-                        file_put_contents($orig_name, $file['data']);
-                    }
-                    else {
-                        $filename = $file['path'];
-                    }
-
-                    $image = new rcube_image($filename);
-                    if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
-                        $mimetype = 'image/' . $imgtype;
-
-                        if ($orig_name) {
-                            unlink($orig_name);
-                        }
-                    }
-                }
-
-                if (is_file($cache_file)) {
-                    // cache for 1h
-                    $this->output->future_expire_header(3600);
-                    header('Content-Type: ' . $mimetype);
-                    header('Content-Length: ' . filesize($cache_file));
-
-                    readfile($cache_file);
-                    exit;
-                }
-            }
-
-            header('Content-Type: ' . $file['mimetype']);
-            header('Content-Length: ' . $file['size']);
-
-            if ($file['data']) {
-                echo $file['data'];
-            }
-            else if ($file['path']) {
-                readfile($file['path']);
-            }
-        }
     }
 
     /**
@@ -2223,65 +2110,6 @@ class rcmail extends rcube
         }
 
         return $size;
-    }
-
-    /**
-     * Returns message UID(s) and IMAP folder(s) from GET/POST data
-     *
-     * @param string UID value to decode
-     * @param string Default mailbox value (if not encoded in UIDs)
-     * @param bool   Will be set to True if multi-folder request
-     *
-     * @return array  List of message UIDs per folder
-     */
-    public static function get_uids($uids = null, $mbox = null, &$is_multifolder = false)
-    {
-        // message UID (or comma-separated list of IDs) is provided in
-        // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
-
-        $_uid  = $uids ?: rcube_utils::get_input_value('_uid', RCUBE_INPUT_GPC);
-        $_mbox = $mbox ?: (string)rcube_utils::get_input_value('_mbox', RCUBE_INPUT_GPC);
-
-        // already a hash array
-        if (is_array($_uid) && !isset($_uid[0])) {
-            return $_uid;
-        }
-
-        $result = array();
-
-        // special case: *
-        if ($_uid == '*' && is_object($_SESSION['search'][1]) && $_SESSION['search'][1]->multi) {
-            $is_multifolder = true;
-            // extract the full list of UIDs per folder from the search set
-            foreach ($_SESSION['search'][1]->sets as $subset) {
-                $mbox = $subset->get_parameters('MAILBOX');
-                $result[$mbox] = $subset->get();
-            }
-        }
-        else {
-            if (is_string($_uid))
-                $_uid = explode(',', $_uid);
-
-            // create a per-folder UIDs array
-            foreach ((array)$_uid as $uid) {
-                list($uid, $mbox) = explode('-', $uid, 2);
-                if (!strlen($mbox)) {
-                    $mbox = $_mbox;
-                }
-                else {
-                    $is_multifolder = true;
-                }
-
-                if ($uid == '*') {
-                    $result[$mbox] = $uid;
-                }
-                else {
-                    $result[$mbox][] = $uid;
-                }
-            }
-        }
-
-        return $result;
     }
 
 

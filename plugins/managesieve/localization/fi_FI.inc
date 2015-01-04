@@ -157,10 +157,36 @@ $labels['vacation.reply'] = 'Vastausviesti';
 $labels['vacation.advanced'] = 'Lisäasetukset';
 $labels['vacation.subject'] = 'Aihe';
 $labels['vacation.body'] = 'Sisältö';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['vacation.dates'] = 'Loma-aika';
+$labels['vacation.from'] = 'Lähettäjä:';
+$labels['vacation.to'] = 'Vastaanottaja:';
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['vacation.status'] = 'Tila';
 $labels['vacation.on'] = 'Päällä';
 $labels['vacation.off'] = 'Pois';
 $labels['vacation.saving'] = 'Tallennetaan tietoja...';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+$labels['vacation.action'] = 'Toiminto saapuvalle viestille';
+$labels['vacation.keep'] = 'Säilytä';
+$labels['vacation.discard'] = 'Hylkää';
+$labels['vacation.redirect'] = 'Ohjaa uudelleen osoitteeseen';
+$labels['vacation.copy'] = 'Lähetä kopio osoitteeseen';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
+$messages['filterunknownerror'] = 'Tuntematon palvelinvirhe.';
+$messages['filterconnerror'] = 'Yhteys palvelimeen epäonnistui.';
+$messages['filterdeleted'] = 'Suodatin poistettu onnistuneesti.';
+$messages['filtersaved'] = 'Suodatin tallennettu onnistuneesti.';
+$messages['filtersaveerror'] = 'Suodattimen tallennus epäonnistui palvelinvirheen vuoksi.';
+$messages['filterdeleteconfirm'] = 'Haluatko varmasti poistaa valitun suodattimen?';
+<<<<<<< HEAD
+=======
 $labels['vacation.action'] = 'Toiminto saapuvalle viestille';
 $labels['vacation.keep'] = 'Säilytä';
 $labels['vacation.discard'] = 'Hylkää';
@@ -173,6 +199,10 @@ $messages['filtersaved'] = 'Suodatin tallennettu onnistuneesti.';
 $messages['filtersaveerror'] = 'Suodattimen tallennus epäonnistui palvelinvirheen vuoksi.';
 $messages['filterdeleteconfirm'] = 'Haluatko varmasti poistaa valitun suodattimen?';
 $messages['forbiddenchars'] = 'Virheellisiä merkkejä kentässä.';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$messages['forbiddenchars'] = 'Virheellisiä merkkejä kentässä.';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $messages['cannotbeempty'] = 'Kenttä ei voi olla tyhjä.';
 $messages['ruleexist'] = 'Suodatin samalla nimellä on jo olemassa.';
 $messages['moved'] = 'Suodatin siirretty onnistuneesti.';

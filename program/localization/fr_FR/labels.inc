@@ -225,7 +225,7 @@ $labels['ignore'] = 'Ignorer';
 $labels['responses'] = 'Réponses';
 $labels['insertresponse'] = 'Insérer une réponse';
 $labels['manageresponses'] = 'Gérer les réponses';
-$labels['newresponse'] = 'Créer une nouvelle réponse';
+$labels['savenewresponse'] = 'Créer une nouvelle réponse';
 $labels['addresponse'] = 'Ajouter une réponse';
 $labels['editresponse'] = 'Éditer la réponse';
 $labels['editresponses'] = 'Éditer les réponses';
@@ -337,7 +337,11 @@ $labels['export']         = 'Exporter';
 $labels['exportall']      = 'Tout exporter';
 $labels['exportsel']      = 'Exporter la sélection';
 $labels['exportvcards']   = 'Exporter les contacts au format vCard';
+<<<<<<< HEAD
+$labels['newcontactgroup']       = 'Créer un nouveau groupe';
+=======
 $labels['newgroup']       = 'Créer un nouveau groupe';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['addgroup']       = 'Ajouter un groupe';
 $labels['grouprename']    = 'Renommer le groupe';
 $labels['groupdelete']    = 'Supprimer le groupe';
@@ -372,7 +376,7 @@ $labels['identities'] = 'Identités';
 $labels['manageidentities'] = 'Gérer les identités';
 $labels['newidentity'] = 'Créer une nouvelle identité';
 $labels['addidentity'] = 'Ajouter une identité';
-$labels['editidentity'] = 'Modifier l\'identité';
+$labels['edititem'] = 'Modifier l\'identité';
 $labels['preferhtml'] = 'Afficher en HTML';
 $labels['defaultcharset'] = 'Jeu de caractère par défaut';
 $labels['htmlmessage'] = 'Message en HTML';

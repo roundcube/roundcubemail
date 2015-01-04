@@ -82,5 +82,17 @@ $labels['longdec']	= 'desimber';
 $labels['today'] = 'Hjoed';
 $labels['refresh']          = 'Ferfarskje';
 $labels['reply']            = 'Beäntwurdzje';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['savelocalstorage'] = "";
 $labels['folders'] = 'Mappen';
+$labels['helplistkeyboardnavigation'] = "";
+$labels['helplistkeyboardnavmessages'] = "";
+$labels['helplistkeyboardnavcontacts'] = "";
+=======
+$labels['folders'] = 'Mappen';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['folders'] = 'Mappen';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

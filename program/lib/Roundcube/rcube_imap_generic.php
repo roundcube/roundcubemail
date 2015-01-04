@@ -50,17 +50,17 @@ class rcube_imap_generic
 
     public static $mupdate;
 
-    protected $fp;
-    protected $host;
-    protected $logged = false;
-    protected $capability = array();
-    protected $capability_readed = false;
-    protected $prefs;
-    protected $cmd_tag;
-    protected $cmd_num = 0;
-    protected $resourceid;
-    protected $_debug = false;
-    protected $_debug_handler = false;
+    private $fp;
+    private $host;
+    private $logged = false;
+    private $capability = array();
+    private $capability_readed = false;
+    private $prefs;
+    private $cmd_tag;
+    private $cmd_num = 0;
+    private $resourceid;
+    private $_debug = false;
+    private $_debug_handler = false;
 
     const ERROR_OK = 0;
     const ERROR_NO = -1;
@@ -352,7 +352,7 @@ class rcube_imap_generic
      *
      * @return bool True if connection is closed
      */
-    protected function eof()
+    private function eof()
     {
         if (!is_resource($this->fp)) {
             return true;
@@ -375,7 +375,7 @@ class rcube_imap_generic
     /**
      * Closes connection stream.
      */
-    protected function closeSocket()
+    private function closeSocket()
     {
         @fclose($this->fp);
         $this->fp = null;
@@ -421,7 +421,7 @@ class rcube_imap_generic
         return false;
     }
 
-    protected function hasCapability($name)
+    private function hasCapability($name)
     {
         if (empty($this->capability) || $name == '') {
             return false;
@@ -865,7 +865,7 @@ class rcube_imap_generic
 
         if (!$this->fp) {
             $this->setError(self::ERROR_BAD, sprintf("Could not connect to %s:%d: %s",
-                $host, $this->prefs['port'], $errstr ?: "Unknown reason"));
+                $host, $this->prefs['port'], $errstr ? $errstr : "Unknown reason"));
 
             return false;
         }
@@ -1217,20 +1217,13 @@ class rcube_imap_generic
      * Folder creation (CREATE)
      *
      * @param string $mailbox Mailbox name
-     * @param array  $types    Optional folder types (RFC 6154)
      *
      * @return bool True on success, False on error
      */
-    function createFolder($mailbox, $types = null)
+    function createFolder($mailbox)
     {
-        $args = array($this->escape($mailbox));
-
-        // RFC 6154: CREATE-SPECIAL-USE
-        if (!empty($types) && $this->getCapability('CREATE-SPECIAL-USE')) {
-            $args[] = '(USE (' . implode(' ', $types) . '))';
-        }
-
-        $result = $this->execute('CREATE', $args, self::COMMAND_NORESPONSE);
+        $result = $this->execute('CREATE', array($this->escape($mailbox)),
+            self::COMMAND_NORESPONSE);
 
         return ($result == self::ERROR_OK);
     }
@@ -1294,15 +1287,15 @@ class rcube_imap_generic
      *
      * @param string $ref         Reference name
      * @param string $mailbox     Mailbox name
-     * @param array  $return_opts (see self::_listMailboxes)
+     * @param array  $status_opts (see self::_listMailboxes)
      * @param array  $select_opts (see self::_listMailboxes)
      *
-     * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
-     *                    is requested, False on error.
+     * @return array List of mailboxes or hash of options if $status_opts argument
+     *               is non-empty.
      */
-    function listMailboxes($ref, $mailbox, $return_opts=array(), $select_opts=array())
+    function listMailboxes($ref, $mailbox, $status_opts=array(), $select_opts=array())
     {
-        return $this->_listMailboxes($ref, $mailbox, false, $return_opts, $select_opts);
+        return $this->_listMailboxes($ref, $mailbox, false, $status_opts, $select_opts);
     }
 
     /**
@@ -1310,14 +1303,14 @@ class rcube_imap_generic
      *
      * @param string $ref         Reference name
      * @param string $mailbox     Mailbox name
-     * @param array  $return_opts (see self::_listMailboxes)
+     * @param array  $status_opts (see self::_listMailboxes)
      *
-     * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
-     *                    is requested, False on error.
+     * @return array List of mailboxes or hash of options if $status_opts argument
+     *               is non-empty.
      */
-    function listSubscribed($ref, $mailbox, $return_opts=array())
+    function listSubscribed($ref, $mailbox, $status_opts=array())
     {
-        return $this->_listMailboxes($ref, $mailbox, true, $return_opts, NULL);
+        return $this->_listMailboxes($ref, $mailbox, true, $status_opts, NULL);
     }
 
     /**
@@ -1326,25 +1319,22 @@ class rcube_imap_generic
      * @param string $ref         Reference name
      * @param string $mailbox     Mailbox name
      * @param bool   $subscribed  Enables returning subscribed mailboxes only
-     * @param array  $return_opts List of RETURN options (RFC5819: LIST-STATUS, RFC5258: LIST-EXTENDED)
-     *                            Possible: MESSAGES, RECENT, UIDNEXT, UIDVALIDITY, UNSEEN,
-     *                                      MYRIGHTS, SUBSCRIBED, CHILDREN
+     * @param array  $status_opts List of STATUS options (RFC5819: LIST-STATUS)
+     *                            Possible: MESSAGES, RECENT, UIDNEXT, UIDVALIDITY, UNSEEN
      * @param array  $select_opts List of selection options (RFC5258: LIST-EXTENDED)
-     *                            Possible: SUBSCRIBED, RECURSIVEMATCH, REMOTE,
-     *                                      SPECIAL-USE (RFC6154)
+     *                            Possible: SUBSCRIBED, RECURSIVEMATCH, REMOTE
      *
-     * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
-     *                    is requested, False on error.
+     * @return array List of mailboxes or hash of options if $status_ops argument
+     *               is non-empty.
      */
-    protected function _listMailboxes($ref, $mailbox, $subscribed=false,
-        $return_opts=array(), $select_opts=array())
+    private function _listMailboxes($ref, $mailbox, $subscribed=false,
+        $status_opts=array(), $select_opts=array())
     {
         if (!strlen($mailbox)) {
             $mailbox = '*';
         }
 
         $args = array();
-        $rets = array();
 
         if (!empty($select_opts) && $this->getCapability('LIST-EXTENDED')) {
             $select_opts = (array) $select_opts;
@@ -1355,29 +1345,11 @@ class rcube_imap_generic
         $args[] = $this->escape($ref);
         $args[] = $this->escape($mailbox);
 
-        if (!empty($return_opts) && $this->getCapability('LIST-EXTENDED')) {
-            $ext_opts    = array('SUBSCRIBED', 'CHILDREN');
-            $rets        = array_intersect($return_opts, $ext_opts);
-            $return_opts = array_diff($return_opts, $rets);
-        }
+        if (!empty($status_opts) && $this->getCapability('LIST-STATUS')) {
+            $status_opts = (array) $status_opts;
+            $lstatus = true;
 
-        if (!empty($return_opts) && $this->getCapability('LIST-STATUS')) {
-            $lstatus     = true;
-            $status_opts = array('MESSAGES', 'RECENT', 'UIDNEXT', 'UIDVALIDITY', 'UNSEEN');
-            $opts        = array_diff($return_opts, $status_opts);
-            $status_opts = array_diff($return_opts, $opts);
-
-            if (!empty($status_opts)) {
-                $rets[] = 'STATUS (' . implode(' ', $status_opts) . ')';
-            }
-
-            if (!empty($opts)) {
-                $rets = array_merge($rets, $opts);
-            }
-        }
-
-        if (!empty($rets)) {
-            $args[] = 'RETURN (' . implode(' ', $rets) . ')';
+            $args[] = 'RETURN (STATUS (' . implode(' ', $status_opts) . '))';
         }
 
         list($code, $response) = $this->execute($subscribed ? 'LSUB' : 'LIST', $args);
@@ -1397,10 +1369,9 @@ class rcube_imap_generic
                 $line = substr($response, $last, $pos - $last);
                 $last = $pos + 2;
 
-                if (!preg_match('/^\* (LIST|LSUB|STATUS|MYRIGHTS) /i', $line, $m)) {
+                if (!preg_match('/^\* (LIST|LSUB|STATUS) /i', $line, $m)) {
                     continue;
                 }
-
                 $cmd  = strtoupper($m[1]);
                 $line = substr($line, strlen($m[0]));
 
@@ -1431,20 +1402,13 @@ class rcube_imap_generic
                                 $this->data['LIST'][$mailbox], $opts));
                     }
                 }
-                else if ($lstatus) {
-                    // * STATUS <mailbox> (<result>)
-                    if ($cmd == 'STATUS') {
-                        list($mailbox, $status) = $this->tokenizeResponse($line, 2);
+                // * STATUS <mailbox> (<result>)
+                else if ($cmd == 'STATUS') {
+                    list($mailbox, $status) = $this->tokenizeResponse($line, 2);
 
-                        for ($i=0, $len=count($status); $i<$len; $i += 2) {
-                            list($name, $value) = $this->tokenizeResponse($status, 2);
-                            $folders[$mailbox][$name] = $value;
-                        }
-                    }
-                    // * MYRIGHTS <mailbox> <acl>
-                    else if ($cmd == 'MYRIGHTS') {
-                        list($mailbox, $acl)  = $this->tokenizeResponse($line, 2);
-                        $folders[$mailbox]['MYRIGHTS'] = $acl;
+                    for ($i=0, $len=count($status); $i<$len; $i += 2) {
+                        list($name, $value) = $this->tokenizeResponse($status, 2);
+                        $folders[$mailbox][$name] = $value;
                     }
                 }
             }
@@ -1631,23 +1595,23 @@ class rcube_imap_generic
      *
      * @param string $mailbox    Mailbox name
      * @param string $field      Field to sort by (ARRIVAL, CC, DATE, FROM, SIZE, SUBJECT, TO)
-     * @param string $criteria   Searching criteria
+     * @param string $add        Searching criteria
      * @param bool   $return_uid Enables UID SORT usage
      * @param string $encoding   Character set
      *
      * @return rcube_result_index Response data
      */
-    function sort($mailbox, $field = 'ARRIVAL', $criteria = '', $return_uid = false, $encoding = 'US-ASCII')
+    function sort($mailbox, $field, $add='', $return_uid=false, $encoding = 'US-ASCII')
     {
-        $old_sel   = $this->selected;
-        $supported = array('ARRIVAL', 'CC', 'DATE', 'FROM', 'SIZE', 'SUBJECT', 'TO');
-        $field     = strtoupper($field);
-
+        $field = strtoupper($field);
         if ($field == 'INTERNALDATE') {
             $field = 'ARRIVAL';
         }
 
-        if (!in_array($field, $supported)) {
+        $fields = array('ARRIVAL' => 1,'CC' => 1,'DATE' => 1,
+            'FROM' => 1, 'SIZE' => 1, 'SUBJECT' => 1, 'TO' => 1);
+
+        if (!$fields[$field]) {
             return new rcube_result_index($mailbox);
         }
 
@@ -1655,21 +1619,18 @@ class rcube_imap_generic
             return new rcube_result_index($mailbox);
         }
 
-        // return empty result when folder is empty and we're just after SELECT
-        if ($old_sel != $mailbox && !$this->data['EXISTS']) {
-            return new rcube_result_index($mailbox, '* SORT');
-        }
-
         // RFC 5957: SORT=DISPLAY
         if (($field == 'FROM' || $field == 'TO') && $this->getCapability('SORT=DISPLAY')) {
             $field = 'DISPLAY' . $field;
         }
 
-        $encoding = $encoding ? trim($encoding) : 'US-ASCII';
-        $criteria = $criteria ? 'ALL ' . trim($criteria) : 'ALL';
+        // message IDs
+        if (!empty($add)) {
+            $add = $this->compressMessageSet($add);
+        }
 
         list($code, $response) = $this->execute($return_uid ? 'UID SORT' : 'SORT',
-            array("($field)", $encoding, $criteria));
+            array("($field)", $encoding, !empty($add) ? $add : 'ALL'));
 
         if ($code != self::ERROR_OK) {
             $response = null;
@@ -1699,7 +1660,7 @@ class rcube_imap_generic
 
         // return empty result when folder is empty and we're just after SELECT
         if ($old_sel != $mailbox && !$this->data['EXISTS']) {
-            return new rcube_result_thread($mailbox, '* THREAD');
+            return new rcube_result_thread($mailbox);
         }
 
         $encoding  = $encoding ? trim($encoding) : 'US-ASCII';
@@ -2026,7 +1987,7 @@ class rcube_imap_generic
      *
      * @return bool True on success, False on failure
      */
-    protected function modFlag($mailbox, $messages, $flag, $mod = '+')
+    private function modFlag($mailbox, $messages, $flag, $mod = '+')
     {
         if (!$this->select($mailbox)) {
             return false;
@@ -2901,64 +2862,57 @@ class rcube_imap_generic
     /**
      * Returns QUOTA information
      *
-     * @param string $mailbox Mailbox name
-     *
      * @return array Quota information
      */
-    function getQuota($mailbox = null)
+    function getQuota()
     {
-        if ($mailbox === null || $mailbox === '') {
-            $mailbox = 'INBOX';
-        }
+        /*
+         * GETQUOTAROOT "INBOX"
+         * QUOTAROOT INBOX user/rchijiiwa1
+         * QUOTA user/rchijiiwa1 (STORAGE 654 9765)
+         * OK Completed
+         */
+        $result      = false;
+        $quota_lines = array();
+        $key         = $this->nextTag();
+        $command     = $key . ' GETQUOTAROOT INBOX';
 
-        // a0001 GETQUOTAROOT INBOX
-        // * QUOTAROOT INBOX user/sample
-        // * QUOTA user/sample (STORAGE 654 9765)
-        // a0001 OK Completed
-
-        list($code, $response) = $this->execute('GETQUOTAROOT', array($this->escape($mailbox)));
-
-        $result   = false;
-        $min_free = PHP_INT_MAX;
-        $all      = array();
-
-        if ($code == self::ERROR_OK) {
-            foreach (explode("\n", $response) as $line) {
+        // get line(s) containing quota info
+        if ($this->putLine($command)) {
+            do {
+                $line = rtrim($this->readLine(5000));
                 if (preg_match('/^\* QUOTA /', $line)) {
-                    list(, , $quota_root) = $this->tokenizeResponse($line, 3);
-
-                    while ($line) {
-                        list($type, $used, $total) = $this->tokenizeResponse($line, 1);
-                        $type = strtolower($type);
-
-                        if ($type && $total) {
-                            $all[$quota_root][$type]['used']  = intval($used);
-                            $all[$quota_root][$type]['total'] = intval($total);
-                        }
-                    }
-
-                    if (empty($all[$quota_root]['storage'])) {
-                        continue;
-                    }
-
-                    $used  = $all[$quota_root]['storage']['used'];
-                    $total = $all[$quota_root]['storage']['total'];
-                    $free  = $total - $used;
-
-                    // calculate lowest available space from all storage quotas
-                    if ($free < $min_free) {
-                        $min_free          = $free;
-                        $result['used']    = $used;
-                        $result['total']   = $total;
-                        $result['percent'] = min(100, round(($used/max(1,$total))*100));
-                        $result['free']    = 100 - $result['percent'];
-                    }
+                    $quota_lines[] = $line;
                 }
-            }
+            } while (!$this->startsWith($line, $key, true, true));
+        }
+        else {
+            $this->setError(self::ERROR_COMMAND, "Unable to send command: $command");
         }
 
-        if (!empty($result)) {
-            $result['all'] = $all;
+        // return false if not found, parse if found
+        $min_free = PHP_INT_MAX;
+        foreach ($quota_lines as $key => $quota_line) {
+            $quota_line   = str_replace(array('(', ')'), '', $quota_line);
+            $parts        = explode(' ', $quota_line);
+            $storage_part = array_search('STORAGE', $parts);
+
+            if (!$storage_part) {
+                continue;
+            }
+
+            $used  = intval($parts[$storage_part+1]);
+            $total = intval($parts[$storage_part+2]);
+            $free  = $total - $used;
+
+            // return lowest available space from all quotas
+            if ($free < $min_free) {
+                $min_free          = $free;
+                $result['used']    = $used;
+                $result['total']   = $total;
+                $result['percent'] = min(100, round(($used/max(1,$total))*100));
+                $result['free']    = 100 - $result['percent'];
+            }
         }
 
         return $result;
@@ -3216,9 +3170,8 @@ class rcube_imap_generic
                 for ($i=0; $i<$size; $i++) {
                     if (isset($mbox) && is_array($data[$i])) {
                         $size_sub = count($data[$i]);
-                        for ($x=0; $x<$size_sub; $x+=2) {
-                            if ($data[$i][$x+1] !== null)
-                                $result[$mbox][$data[$i][$x]] = $data[$i][$x+1];
+                        for ($x=0; $x<$size_sub; $x++) {
+                            $result[$mbox][$data[$i][$x]] = $data[$i][++$x];
                         }
                         unset($data[$i]);
                     }
@@ -3236,8 +3189,7 @@ class rcube_imap_generic
                         }
                     }
                     else if (isset($mbox)) {
-                        if ($data[++$i] !== null)
-                            $result[$mbox][$data[$i-1]] = $data[$i];
+                        $result[$mbox][$data[$i]] = $data[++$i];
                         unset($data[$i]);
                         unset($data[$i-1]);
                     }
@@ -3382,10 +3334,10 @@ class rcube_imap_generic
                         for ($x=0, $len=count($attribs); $x<$len;) {
                             $attr  = $attribs[$x++];
                             $value = $attribs[$x++];
-                            if ($attr == 'value.priv' && $value !== null) {
+                            if ($attr == 'value.priv') {
                                 $result[$mbox]['/private' . $entry] = $value;
                             }
-                            else if ($attr == 'value.shared' && $value !== null) {
+                            else if ($attr == 'value.shared') {
                                 $result[$mbox]['/shared' . $entry] = $value;
                             }
                         }
@@ -3755,7 +3707,7 @@ class rcube_imap_generic
         return $result;
     }
 
-    protected function _xor($string, $string2)
+    private function _xor($string, $string2)
     {
         $result = '';
         $size   = strlen($string);
@@ -3774,7 +3726,7 @@ class rcube_imap_generic
      *
      * @return string Space-separated list of flags
      */
-    protected function flagsToStr($flags)
+    private function flagsToStr($flags)
     {
         foreach ((array)$flags as $idx => $flag) {
             if ($flag = $this->flags[strtoupper($flag)]) {
@@ -3826,7 +3778,7 @@ class rcube_imap_generic
     /**
      * CAPABILITY response parser
      */
-    protected function parseCapability($str, $trusted=false)
+    private function parseCapability($str, $trusted=false)
     {
         $str = preg_replace('/^\* CAPABILITY /i', '', $str);
 
@@ -3903,7 +3855,7 @@ class rcube_imap_generic
      *
      * @since 0.5-stable
      */
-    protected function debug($message)
+    private function debug($message)
     {
         if (($len = strlen($message)) > self::DEBUG_LINE_LENGTH) {
             $diff    = $len - self::DEBUG_LINE_LENGTH;

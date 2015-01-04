@@ -903,6 +903,7 @@ class rcube_message
             $filebody = substr($part->body, $startpos + $begin_len, $endpos - $startpos - $begin_len - 1);
             $filebody = str_replace("\r\n", "\n", $filebody);
 
+<<<<<<< HEAD
             // remove attachment body from the message body
             $part->body = substr_replace($part->body, '', $startpos, $endpos + $end_len - $startpos);
             // mark body as modified so it will not be cached by rcube_imap_cache
@@ -923,6 +924,16 @@ class rcube_message
             $parts[] = $uupart;
             $pid++;
         }
+=======
+        if (preg_match_all($uu_regexp, $part->body, $matches, PREG_SET_ORDER)) {
+            $uu_endstring = "`\nend\n";
+
+            // add attachments to the structure
+            foreach ($matches as $pid => $att) {
+                $startpos = strpos($part->body, $att[1]) + strlen($att[1]) + 1; // "\n"
+                $endpos   = strpos($part->body, $uu_endstring);
+                $filebody = substr($part->body, $startpos, $endpos-$startpos);
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 
         return $parts;
     }
@@ -959,8 +970,15 @@ class rcube_message
             }
         }
 
+<<<<<<< HEAD
         if ($this->headers->charset) {
             $charsets[] = $this->headers->charset;
+=======
+            // remove attachments bodies from the message body
+            $part->body = preg_replace($uu_regexp, '', $part->body);
+            // mark body as modified so it will not be cached by rcube_imap_cache
+            $part->body_modified = true;
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
         }
 
         if (empty($charsets)) {

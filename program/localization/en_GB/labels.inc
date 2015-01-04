@@ -224,8 +224,16 @@ $labels['restoremessage'] = 'Restore message?';
 $labels['responses'] = 'Responses';
 $labels['insertresponse'] = 'Insert a response';
 $labels['manageresponses'] = 'Manage responses';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+$labels['savenewresponse'] = 'Create new response';
+$labels['addresponse'] = 'Add response';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
 $labels['newresponse'] = 'Create new response';
 $labels['addresponse'] = 'Add response';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['editresponse'] = 'Edit response';
 $labels['editresponses'] = 'Edit responses';
 $labels['responsename'] = 'Name';
@@ -293,7 +301,15 @@ $labels['assistant'] = 'Assistant';
 $labels['spouse'] = 'Spouse';
 $labels['allfields'] = 'All fields';
 $labels['search'] = 'Search';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['searchfor'] = 'Search for "$q"';
+=======
 $labels['searchresult'] = 'Search result';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Search result';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
@@ -312,7 +328,14 @@ $labels['typehomepage']  = 'Home Page';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profile';
 $labels['addfield'] = 'Add field...';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 $labels['addcontact'] = 'Add contact';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addcontact'] = 'Add contact';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['editcontact'] = 'Edit contact';
 $labels['contacts'] = 'Contacts';
 $labels['contactproperties'] = 'Contact properties';
@@ -327,7 +350,14 @@ $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';
 $labels['uploadphoto'] = 'Upload photo';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 $labels['newcontact']     = 'Create new contact';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['newcontact']     = 'Create new contact';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['deletecontact']  = 'Delete selected contacts';
 $labels['composeto']      = 'Compose mail to';
 $labels['contactsfromto'] = 'Contacts $from to $to of $count';
@@ -336,8 +366,16 @@ $labels['export']         = 'Export';
 $labels['exportall']      = 'Export all';
 $labels['exportsel']      = 'Export selected';
 $labels['exportvcards']   = 'Export contacts in vCard format';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+$labels['newcontactgroup']       = 'Create new group';
+$labels['addgroup']       = 'Add group';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
 $labels['newgroup']       = 'Create new group';
 $labels['addgroup']       = 'Add group';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
@@ -368,10 +406,20 @@ $labels['preferences'] = 'Preferences';
 $labels['userpreferences'] = 'User preferences';
 $labels['editpreferences'] = 'Edit user preferences';
 $labels['identities'] = 'Identities';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+$labels['manageidentities'] = 'Manage identities';
+$labels['newidentity'] = 'Create new identity';
+$labels['addidentity'] = 'Add identity';
+$labels['edititem'] = 'Edit identity';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
 $labels['manageidentities'] = 'Manage identities';
 $labels['newidentity'] = 'Create new identity';
 $labels['addidentity'] = 'Add identity';
 $labels['editidentity'] = 'Edit identity';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['preferhtml'] = 'Display HTML';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'HTML Message';
@@ -428,7 +476,15 @@ $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (other)';
 $labels['force7bit'] = 'Use MIME encoding for 8-bit characters';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['savelocalstorage'] = "";
+=======
 $labels['savelocalstorage'] = "Save in the browser's local storage (temporarily)";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['savelocalstorage'] = "Save in the browser's local storage (temporarily)";
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advancedoptions'] = 'Advanced options';
 $labels['toggleadvancedoptions'] = 'Toggle advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
@@ -492,10 +548,19 @@ $labels['foldertype'] = 'Folder Type';
 $labels['personalfolder'] = 'Private Folder';
 $labels['otherfolder'] = 'Other User\'s Folder';
 $labels['sharedfolder'] = 'Public Folder';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['findfolders'] = 'Find folders';
 $labels['namespace.personal'] = 'Personal';
 $labels['namespace.other'] = 'Other users';
 $labels['namespace.shared'] = 'Shared';
+<<<<<<< HEAD
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['sortby'] = 'Sort by';
 $labels['sortasc']  = 'Sort ascending';
 $labels['sortdesc'] = 'Sort descending';
@@ -528,6 +593,14 @@ $labels['vietnamese'] = 'Vietnamese';
 $labels['japanese'] = 'Japanese';
 $labels['korean'] = 'Korean';
 $labels['chinese'] = 'Chinese';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['helplistkeyboardnavigation'] = "";
+$labels['helplistkeyboardnavmessages'] = "";
+$labels['helplistkeyboardnavcontacts'] = "";
+=======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['arialabeltopnav'] = 'Window control';
 $labels['arialabeltasknav'] = 'Application tasks';
 $labels['arialabeltoolbar'] = 'Application toolbar';
@@ -577,4 +650,8 @@ $labels['helplistkeyboardnavmessages'] = "Arrows right/left: expand/collapse mes
 Enter: Open the selected/focused message.
 Delete: Move selected messages to Trash.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Open the selected/focused contact.";
+<<<<<<< HEAD
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

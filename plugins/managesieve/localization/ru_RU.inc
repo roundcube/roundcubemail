@@ -165,8 +165,19 @@ $labels['vacation.reply'] = 'Ответное сообщение';
 $labels['vacation.advanced'] = 'Дополнительные настройки';
 $labels['vacation.subject'] = 'Тема';
 $labels['vacation.body'] = 'Тело письма';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['vacation.dates'] = 'Время отпуска';
+$labels['vacation.from'] = 'От:';
+$labels['vacation.to'] = 'Кому:';
+=======
 $labels['vacation.start'] = 'Начало отпуска';
 $labels['vacation.end'] = 'Конец отпуска';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['vacation.start'] = 'Начало отпуска';
+$labels['vacation.end'] = 'Конец отпуска';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['vacation.status'] = 'Состояние';
 $labels['vacation.on'] = 'Вкл.';
 $labels['vacation.off'] = 'Выкл.';

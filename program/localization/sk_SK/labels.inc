@@ -225,7 +225,11 @@ $labels['ignore'] = 'Ignorovať';
 $labels['responses'] = 'Odpovede';
 $labels['insertresponse'] = 'Vložiť odpoveď';
 $labels['manageresponses'] = 'Spravovať odpovede';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Vytvoriť novú odpoveď';
+=======
+$labels['savenewresponse'] = 'Vytvoriť novú odpoveď';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Pridať odpoveď';
 $labels['editresponse'] = 'Upraviť odpoveď';
 $labels['editresponses'] = 'Upraviť odpovede';
@@ -294,7 +298,15 @@ $labels['assistant'] = 'Asistent';
 $labels['spouse'] = 'Partner/ka';
 $labels['allfields'] = 'Všetky polia';
 $labels['search'] = 'Hľadať';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['searchfor'] = 'Hľadať "$q"';
+=======
 $labels['searchresult'] = 'Výsledok vyhľadávania';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Výsledok vyhľadávania';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Rozšírené vyhľadávanie';
 $labels['advanced'] = 'Rozšírené';
 $labels['other'] = 'Ostatné';
@@ -337,8 +349,16 @@ $labels['export']         = 'Exportovať';
 $labels['exportall']      = 'Exportovať všetko';
 $labels['exportsel']      = 'Exportovať vybrané';
 $labels['exportvcards']   = 'Exportovať kontakty vo formáte vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Vytvoriť novú skupinu';
+<<<<<<< HEAD
+=======
+$labels['newcontactgroup']       = 'Vytvoriť novú skupinu';
 $labels['addgroup']       = 'Pridať skupinu';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Pridať skupinu';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Premenovať skupinu';
 $labels['groupdelete']    = 'Vymazať skupinu';
 $labels['groupremoveselected'] = 'Odstrániť vybrané kontakty zo skupiny';
@@ -372,7 +392,11 @@ $labels['identities'] = 'Identity';
 $labels['manageidentities'] = 'Spravovať identity';
 $labels['newidentity'] = 'Vytvoriť novú identitu';
 $labels['addidentity'] = 'Pridať identitu';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Upraviť identitu';
+=======
+$labels['edititem'] = 'Upraviť identitu';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Zobraziť HTML';
 $labels['defaultcharset'] = 'Predvolené kódovanie';
 $labels['htmlmessage'] = 'HTML správa';

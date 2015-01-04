@@ -138,7 +138,14 @@ $messages['importmessagesuccess'] = 'Successfully imported $nr messages';
 $messages['importmessageerror'] = 'Import failed! The uploaded file is not a valid message or mailbox file';
 $messages['opnotpermitted'] = 'Operation not permitted!';
 $messages['nofromaddress'] = 'Missing e-mail address in selected identity.';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 $messages['editorwarning'] = 'Switching editor type may cause text formatting to be lost. Do you wish to continue?';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$messages['editorwarning'] = 'Switching editor type may cause text formatting to be lost. Do you wish to continue?';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $messages['httpreceivedencrypterror'] = 'A fatal configuration error occurred. Contact your administrator immediately. <b>Your message can not be sent.</b>';
 $messages['smtpconnerror'] = 'SMTP Error ($code): Connection to server failed.';
 $messages['smtpautherror'] = 'SMTP Error ($code): Authentication failed.';

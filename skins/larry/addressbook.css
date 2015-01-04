@@ -395,10 +395,11 @@ a.deletebutton {
 	left: 5px;
 	top: -3px;
 	display: inline-block;
-	width: 24px;
+	width: 16px;
 	height: 18px;
 	text-decoration: none;
 	text-indent: -5000px;
+	overflow: hidden;
 	background: url(images/buttons.png) -7px -377px no-repeat;
 }
 

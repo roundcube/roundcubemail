@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+<<<<<<< HEAD
+=======
 - Update jQuery to version 2.1.3
 - Improve system security by using optional special URL with security token - use_secure_urls
 - Allow to define separate server/path for image/js/css files - assets_url/assets_dir
@@ -74,6 +76,7 @@ RELEASE 1.1-beta
 - Fix so attachment charset is set in headers of forward/draft message (#1490109)
 - Fix bug where wrong charset could be used for text attachment preview page (#1490106)
 
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 RELEASE 1.0.4
 -------------
 - Disable TinyMCE contextmenu plugin as there are more cons than pros in using it (#1490118)
@@ -97,12 +100,12 @@ RELEASE 1.0.4
 
 RELEASE 1.0.3
 -------------
+- Fix insert-signature command in external compose window if opened from inline compose screen (#1490074)
 - Initialize HTML editor before restoring a message from localStorage (#1490016)
 - Add 'sig_max_lines' config option to default config file (#1490071)
-- Add config option to specify IMAP connection socket parameters - imap_conn_options (#1489948)
+- Add option to specify IMAP connection socket parameters - imap_conn_options (#1489948)
 - Add option to set default message list mode - default_list_mode (#1487312)
 - Enable contextmenu plugin for TinyMCE editor (#1487014)
-- Fix insert-signature command in external compose window if opened from inline compose screen (#1490074)
 - Fix some mime-type to extension mapping checks in Installer (#1489983)
 - Fix errors when using localStorage in Safari's private browsing mode (#1489996)
 - Fix bug where $Forwarded flag was being set even if server didn't support it (#1490000)
@@ -119,8 +122,9 @@ RELEASE 1.0.3
 RELEASE 1.0.2
 -------------
 - Fix storing unsaved drafts in localStorage (#1489818)
+- Fix redundant horizontal scrollbar in HTML editor (#1489950)
+- Fix PHP error in Preferences when default_folders was in dont_override (#1489940)
 - Add configurable LDAP_OPT_DEREF option (#1489864)
-- Fix so when switching editor mode original version of signature is used (#1488849)
 - Fix unintentional draft autosave request if autosave is disabled (#1489882)
 - Fix malformed References: header in send/saved mail (#1489891)
 - Fix handling unicode characters in links (#1489898)
@@ -140,6 +144,7 @@ RELEASE 1.0.2
 - Fix bug where contacts with no email address were listed on compose addressbook (#1489970)
 - Fix images import from various vCard formats (#1489977)
 - Fix sorting messages by size on servers without SORT capability (#1489981)
+- Fix bug where cancelling switch from HTML to plain text didn't set editor type selector properly (#1490141)
 
 RELEASE 1.0.1
 -------------
@@ -168,10 +173,10 @@ RELEASE 1.0.1
 
 RELEASE 1.0.0
 -------------
-- Added toolbar button to move message in message view
 - Fix style of disabled protocol handler link on IE (#1489569)
 - Fix message import dialog when no file is selected (#1489685)
 - Fix opening compose screen in new window after saving as draft (#1489643)
+- Added toolbar button to move message in message view
 - Fix directories check in Installer on Windows (#1489576)
 - Fix issue when default_addressbook option is set to integer value (#1489407)
 - Fix Opera > 15 detection (#1489562)

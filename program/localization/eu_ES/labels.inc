@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'Leheneratu mezua?';
 $labels['responses'] = 'Erantzunak';
 $labels['insertresponse'] = 'Txertatu erantzun bat';
 $labels['manageresponses'] = 'Kudeatu erantzunak';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Sortu erantzun berria';
+=======
+$labels['savenewresponse'] = 'Sortu erantzun berria';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Gehitu erantzuna';
 $labels['editresponse'] = 'Editatu erantzuna';
 $labels['editresponses'] = 'Editatu erantzunak';
@@ -336,8 +340,15 @@ $labels['export']         = 'Esportatu';
 $labels['exportall']      = 'Esportatu dena';
 $labels['exportsel']      = 'Esportatu hautaketa';
 $labels['exportvcards']   = 'Esportatu kontaktuak vCard formatuan';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Sortu talde berria';
+<<<<<<< HEAD
+=======
+$labels['newcontactgroup']       = 'Sortu talde berria';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
 $labels['addgroup']       = 'Gehitu taldea';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Berrizendatu taldea';
 $labels['groupdelete']    = 'Ezabatu taldea';
 $labels['groupremoveselected'] = 'Ezabatu taldetik hautatutako kontaktuak';
@@ -371,8 +382,16 @@ $labels['identities'] = 'Identitateak';
 $labels['manageidentities'] = 'Kudeatu identitateak';
 $labels['newidentity'] = 'Sortu identitate berria';
 $labels['addidentity'] = 'Gehitu identitatea';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Editatu identitatea';
+<<<<<<< HEAD
+=======
+$labels['edititem'] = 'Editatu identitatea';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+$labels['preferhtml'] = 'HTML nahiago';
+=======
 $labels['preferhtml'] = 'Bistaratu HTML';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['defaultcharset'] = 'Lehenetsitako karaktere-jokoa';
 $labels['htmlmessage'] = 'HTML mezua';
 $labels['messagepart'] = 'Zatia';
@@ -577,5 +596,13 @@ $labels['helplistkeyboardnavmessages'] = "Gezia eskuin/ezker: zabaldu/tolestu me
 Sartu: Ireki hautatutako/fokatutako mezua.
 Ezabatu: Eraman hautatutako mezuak zakarrontzira.
 ";
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['helplistkeyboardnavcontacts'] = "Sartu: Irekin hautatutako/fokatutako kontaktua.";
+=======
 $labels['helplistkeyboardnavcontacts'] = "Sartu: Ireki hautatutako/fokatutako kontaktua.";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['helplistkeyboardnavcontacts'] = "Sartu: Ireki hautatutako/fokatutako kontaktua.";
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

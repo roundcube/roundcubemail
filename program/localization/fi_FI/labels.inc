@@ -225,7 +225,11 @@ $labels['ignore'] = 'Jätä huomiotta';
 $labels['responses'] = 'Vastaukset';
 $labels['insertresponse'] = 'Lisää vastaus';
 $labels['manageresponses'] = 'Hallitse vastauksia';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Luo uusi vastaus';
+=======
+$labels['savenewresponse'] = 'Luo uusi vastaus';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Lisää vastaus';
 $labels['editresponse'] = 'Muokkaa vastausta';
 $labels['editresponses'] = 'Muokkaa vastauksia';
@@ -337,8 +341,16 @@ $labels['export']         = 'Vie (export)';
 $labels['exportall']      = 'Vie kaikki';
 $labels['exportsel']      = 'Vie valitut';
 $labels['exportvcards']   = 'Vie yhteystiedot vCard-muodossa';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Luo uusi ryhmä';
+<<<<<<< HEAD
+=======
+$labels['newcontactgroup']       = 'Luo uusi ryhmä';
 $labels['addgroup']       = 'Lisää ryhmä';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Lisää ryhmä';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Nimeä ryhmä uudelleen';
 $labels['groupdelete']    = 'Poista ryhmä';
 $labels['groupremoveselected'] = 'Poista valitut yhteystiedot ryhmästä';
@@ -372,7 +384,11 @@ $labels['identities'] = 'Identiteetit';
 $labels['manageidentities'] = 'Hallitse henkilöyksiä';
 $labels['newidentity'] = 'Luo uusi henkilöys';
 $labels['addidentity'] = 'Lisää henkilöys';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Muokkaa henkilöyttä';
+=======
+$labels['edititem'] = 'Muokkaa henkilöyttä';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Käytä HTML:aa';
 $labels['defaultcharset'] = 'Oletusmerkistökoodaus';
 $labels['htmlmessage'] = 'HTML-viesti';
@@ -569,6 +585,13 @@ $labels['arialabelpreferencesform'] = 'Asetukset -lomake';
 $labels['arialabelidentityeditfrom'] = 'Henkilöyden muokkauslomake';
 $labels['arialabelresonseeditfrom'] = 'Vastauksen muokkauslomake';
 $labels['arialabelsearchterms'] = 'Hakuehdot';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['helplistkeyboardnavigation'] = "";
+$labels['helplistkeyboardnavmessages'] = "";
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
 $labels['helplistnavigation'] = 'Luetteloi näppäimistönavigointi';
 $labels['helplistkeyboardnavigation'] = "Nuolet ylös/alas: Siirrä kohdistettua riviä/valintaa.
 Välilyönti: Valitse kohdistettu rivi.
@@ -577,5 +600,6 @@ Ctrl + välilyönti: Lisää kohdistettu rivi valintaan/poista valinnasta.";
 $labels['helplistkeyboardnavmessages'] = "Nuolinäppäimet oikealle/vasemmalle: Laajenna/kutista viestikeskustelut (vain keskustelu-tilassa).
 Entteri/rivinvaihto: Avaa valittu/kohdistettu viesti.
 Delete/poista: Siirrä valitut viestit roskakoriin.";
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['helplistkeyboardnavcontacts'] = "Enter: avaa valittu/kohdistettu yhteystieto.";
 ?>

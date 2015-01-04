@@ -179,7 +179,10 @@ $labels['importmessages'] = 'وارد کردن پیغام‌ها';
 $labels['quota'] = 'فضای استفاده شده';
 $labels['unknown']  = 'ناشناخته';
 $labels['unlimited']  = 'نامحدود';
+<<<<<<< HEAD
+=======
 $labels['quotatype'] = 'نوع سهمیه';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['quotatotal'] = 'محدود کردن';
 $labels['quotaused'] = 'استفاده شده';
 $labels['quotastorage'] = 'فضای دیسک';
@@ -208,7 +211,14 @@ $labels['returnreceipt']  = 'رسید دریافت';
 $labels['dsn']            = 'اعلام وضعیت دریافت';
 $labels['mailreplyintro'] = 'در $date، $sender نوشته است:';
 $labels['originalmessage'] = 'پیغام اصلی';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 $labels['selectimage']    = 'انتخاب تصویر';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['selectimage']    = 'انتخاب تصویر';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['addimage']       = 'افزودن تصویر';
 $labels['addmedia']       = 'افزودن رسانه';
 $labels['editidents']    = 'ویرایش شناسه‌ها';
@@ -328,8 +338,16 @@ $labels['export']         = 'صدور';
 $labels['exportall']      = 'خارج کردن همه';
 $labels['exportsel']      = 'خارج کردن انتخاب شده‌ها';
 $labels['exportvcards']   = 'صدور اطلاعات تماس‌ها با فرمت vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'ایجاد گروه جدید';
+<<<<<<< HEAD
+=======
+$labels['newcontactgroup']       = 'ایجاد گروه جدید';
 $labels['addgroup']       = 'افزودن گروه';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'افزودن گروه';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'تغییر نام گروه';
 $labels['groupdelete']    = 'حذف گروه';
 $labels['groupremoveselected'] = 'حذف نشانی‌های انتخاب شده از گروه';
@@ -478,7 +496,14 @@ $labels['foldertype'] = 'نوع پوشه';
 $labels['personalfolder'] = 'پوشه خصوصی';
 $labels['otherfolder'] = 'پوشه کاربران دیگر';
 $labels['sharedfolder'] = 'پوشه عمومی';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 $labels['namespace.personal'] = 'شخصی';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['namespace.personal'] = 'شخصی';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['sortby'] = 'مرتب‌سازی بر اساس';
 $labels['sortasc']  = 'مرتب‌سازی صعودی';
 $labels['sortdesc'] = 'مرتب‌سازی نزولی';
@@ -523,6 +548,14 @@ $labels['arialabelmessagelist'] = 'فهرست‌گیری پیغام‌های ر�
 $labels['arialabelmailpreviewframe'] = 'پیش‌نمایش پیغام';
 $labels['arialabelmessagenav'] = 'ناوبری پیغام';
 $labels['arialabelmessagebody'] = 'بدنه پیغام';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['helplistkeyboardnavigation'] = "";
+$labels['helplistkeyboardnavmessages'] = "";
+$labels['helplistkeyboardnavcontacts'] = "";
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
 $labels['arialabelmessageactions'] = 'کنش‌های پیغام';
 $labels['arialabelcontactquicksearch'] = 'فرم جستجوی تماس‌ها';
 $labels['arialabelcontactsearchbox'] = 'ورودی جستجوی تماس';
@@ -537,4 +570,5 @@ $labels['arialabelpreferencesform'] = 'فرم تنظیمات';
 $labels['arialabelidentityeditfrom'] = 'فرم ویرایش هویت';
 $labels['arialabelresonseeditfrom'] = 'فرم ویرایش واکنش‌گرا';
 $labels['arialabelsearchterms'] = 'شرایط جستجو';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

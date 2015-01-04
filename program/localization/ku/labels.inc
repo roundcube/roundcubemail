@@ -215,6 +215,11 @@ $labels['nickname']     = 'Nûçik';
 $labels['department']   = 'Beş';
 $labels['gender']       = 'Zayend';
 $labels['email']        = 'E-Peyam';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['phone']        = 'Telefon';
 $labels['address']      = 'Navnîşan';
 $labels['street']       = 'Kolan';
@@ -246,6 +251,10 @@ $labels['typeassistant']  = 'Alîkar';
 $labels['typehomepage']  = 'Malper';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Berg';
+<<<<<<< HEAD
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['editcontact'] = 'Têkiliyê serast bike';
 $labels['contactnameandorg'] = 'Nav û rêxistin';
 $labels['personalinfo'] = 'Agahiyên kesane';
@@ -253,16 +262,29 @@ $labels['edit']   = 'Serast bike';
 $labels['cancel'] = 'Betal';
 $labels['save']   = 'Tomar bike';
 $labels['delete'] = 'Jê Bibe';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['rename'] = 'Dîsa navek lê bike';
 $labels['addphoto'] = 'Tev bike';
 $labels['replacephoto'] = 'Dîsa bi cih bike';
 $labels['uploadphoto'] = 'Fotoyek bar bike';
+<<<<<<< HEAD
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['deletecontact']  = 'Têkiliyên hilbijartî jê bibe';
 $labels['composeto']      = 'Ji têkiliya hilbijartî re peyam bişîne';
 $labels['contactsfromto'] = 'Têkiliyên $count ên di navbera $from - $to de';
 $labels['print']          = 'çap bike';
 $labels['export']         = 'Derxe';
+<<<<<<< HEAD
+$labels['newcontactgroup']       = 'Komeke nû çêke';
+=======
 $labels['newgroup']       = 'Komeke nû çêke';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['addgroup']       = 'Komek tev bike';
 $labels['grouprename']    = 'Dîsa navekî li komê bike';
 $labels['groupdelete']    = 'Komê rake';
@@ -304,7 +326,15 @@ $labels['always'] = 'Her tim';
 $labels['autosavedraft']  = 'Xweber hilîne';
 $labels['everynminutes']  = 'Her $n saniye(yan)';
 $labels['never']  = 'qet';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['savelocalstorage'] = "";
+=======
 $labels['immediately']  = 'a niha';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['immediately']  = 'a niha';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['folder'] = 'Peldank';
 $labels['folders'] = 'Peldank';
 $labels['foldername'] = 'Navê peldankê';

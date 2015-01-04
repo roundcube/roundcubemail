@@ -29,5 +29,8 @@ $messages['internalerror'] = 'گذرواژه جدید نتوانست ذخیره 
 $messages['passwordshort'] = 'گذرواژه باید حداقل $length کاراکتر طول داشته باشد.';
 $messages['passwordweak'] = 'گذرواژه باید شامل حداقل یک عدد و یک کاراکتر نشانه‌ای باشد.';
 $messages['passwordforbidden'] = 'گذرواژه شامل کاراکترهای غیرمجاز است.';
+<<<<<<< HEAD
+=======
 $messages['firstloginchange'] = 'این اولین ورود شما است، لطفا گذرواژه خود را تغییر دهید.';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

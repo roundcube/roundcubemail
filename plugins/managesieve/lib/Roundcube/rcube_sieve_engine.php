@@ -5,8 +5,8 @@
  *
  * Engine part of Managesieve plugin implementing UI and backend access.
  *
- * Copyright (C) 2008-2014, The Roundcube Dev Team
- * Copyright (C) 2011-2014, Kolab Systems AG
+ * Copyright (C) 2008-2013, The Roundcube Dev Team
+ * Copyright (C) 2011-2013, Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ class rcube_sieve_engine
      */
     function __construct($plugin)
     {
-        $this->rc     = rcube::get_instance();
+        $this->rc     = rcmail::get_instance();
         $this->plugin = $plugin;
     }
 
@@ -91,11 +91,54 @@ class rcube_sieve_engine
             'filtersetform'  => array($this, 'filterset_form'),
         ));
 
-        // connect to managesieve server
-        $error = $this->connect($_SESSION['username'], $this->rc->decrypt($_SESSION['password']));
+        // Get connection parameters
+        $host = $this->rc->config->get('managesieve_host', 'localhost');
+        $port = $this->rc->config->get('managesieve_port');
+        $tls  = $this->rc->config->get('managesieve_usetls', false);
 
-        // load current/active script
-        if (!$error) {
+        $host = rcube_utils::parse_host($host);
+        $host = rcube_utils::idn_to_ascii($host);
+
+        // remove tls:// prefix, set TLS flag
+        if (($host = preg_replace('|^tls://|i', '', $host, 1, $cnt)) && $cnt) {
+            $tls = true;
+        }
+
+        if (empty($port)) {
+            $port = getservbyname('sieve', 'tcp');
+            if (empty($port)) {
+                $port = self::PORT;
+            }
+        }
+
+        $plugin = $this->rc->plugins->exec_hook('managesieve_connect', array(
+            'user'      => $_SESSION['username'],
+            'password'  => $this->rc->decrypt($_SESSION['password']),
+            'host'      => $host,
+            'port'      => $port,
+            'usetls'    => $tls,
+            'auth_type' => $this->rc->config->get('managesieve_auth_type'),
+            'disabled'  => $this->rc->config->get('managesieve_disabled_extensions'),
+            'debug'     => $this->rc->config->get('managesieve_debug', false),
+            'auth_cid'  => $this->rc->config->get('managesieve_auth_cid'),
+            'auth_pw'   => $this->rc->config->get('managesieve_auth_pw'),
+        ));
+
+        // try to connect to managesieve server and to fetch the script
+        $this->sieve = new rcube_sieve(
+            $plugin['user'],
+            $plugin['password'],
+            $plugin['host'],
+            $plugin['port'],
+            $plugin['auth_type'],
+            $plugin['usetls'],
+            $plugin['disabled'],
+            $plugin['debug'],
+            $plugin['auth_cid'],
+            $plugin['auth_pw']
+        );
+
+        if (!($error = $this->sieve->error())) {
             // Get list of scripts
             $list = $this->list_scripts();
 
@@ -113,14 +156,46 @@ class rcube_sieve_engine
                 }
             }
 
-            $error = $this->load_script($script_name);
+            if ($script_name === null || $script_name === '') {
+                // get (first) active script
+                if (!empty($this->active[0])) {
+                    $script_name = $this->active[0];
+                }
+                else if ($list) {
+                    $script_name = $list[0];
+                }
+                // create a new (initial) script
+                else {
+                    // if script not exists build default script contents
+                    $script_file = $this->rc->config->get('managesieve_default');
+                    $script_name = $this->rc->config->get('managesieve_script_name');
+
+                    if (empty($script_name))
+                        $script_name = 'roundcube';
+
+                    if ($script_file && is_readable($script_file))
+                        $content = file_get_contents($script_file);
+
+                    // add script and set it active
+                    if ($this->sieve->save_script($script_name, $content)) {
+                        $this->activate_script($script_name);
+                        $this->list[] = $script_name;
+                    }
+                }
+            }
+
+            if ($script_name) {
+                $this->sieve->load($script_name);
+            }
+
+            $error = $this->sieve->error();
         }
 
         // finally set script objects
         if ($error) {
             switch ($error) {
-                case rcube_sieve::ERROR_CONNECTION:
-                case rcube_sieve::ERROR_LOGIN:
+                case SIEVE_ERROR_CONNECTION:
+                case SIEVE_ERROR_LOGIN:
                     $this->rc->output->show_message('managesieve.filterconnerror', 'error');
                     rcube::raise_error(array('code' => 403, 'type' => 'php',
                         'file' => __FILE__, 'line' => __LINE__,
@@ -151,120 +226,6 @@ class rcube_sieve_engine
         return $error;
     }
 
-    /**
-     * Connect to configured managesieve server
-     *
-     * @param string $username User login
-     * @param string $password User password
-     *
-     * @return int Connection status: 0 on success, >0 on failure
-     */
-    public function connect($username, $password)
-    {
-        // Get connection parameters
-        $host = $this->rc->config->get('managesieve_host', 'localhost');
-        $port = $this->rc->config->get('managesieve_port');
-        $tls  = $this->rc->config->get('managesieve_usetls', false);
-
-        $host = rcube_utils::parse_host($host);
-        $host = rcube_utils::idn_to_ascii($host);
-
-        // remove tls:// prefix, set TLS flag
-        if (($host = preg_replace('|^tls://|i', '', $host, 1, $cnt)) && $cnt) {
-            $tls = true;
-        }
-
-        if (empty($port)) {
-            $port = getservbyname('sieve', 'tcp');
-            if (empty($port)) {
-                $port = self::PORT;
-            }
-        }
-
-        $plugin = $this->rc->plugins->exec_hook('managesieve_connect', array(
-            'user'      => $username,
-            'password'  => $password,
-            'host'      => $host,
-            'port'      => $port,
-            'usetls'    => $tls,
-            'auth_type' => $this->rc->config->get('managesieve_auth_type'),
-            'disabled'  => $this->rc->config->get('managesieve_disabled_extensions'),
-            'debug'     => $this->rc->config->get('managesieve_debug', false),
-            'auth_cid'  => $this->rc->config->get('managesieve_auth_cid'),
-            'auth_pw'   => $this->rc->config->get('managesieve_auth_pw'),
-            'socket_options' => $this->rc->config->get('managesieve_conn_options'),
-        ));
-
-        // try to connect to managesieve server and to fetch the script
-        $this->sieve = new rcube_sieve(
-            $plugin['user'],
-            $plugin['password'],
-            $plugin['host'],
-            $plugin['port'],
-            $plugin['auth_type'],
-            $plugin['usetls'],
-            $plugin['disabled'],
-            $plugin['debug'],
-            $plugin['auth_cid'],
-            $plugin['auth_pw'],
-            $plugin['socket_options']
-        );
-
-        return $this->sieve->error();
-    }
-
-    /**
-     * Load specified (or active) script
-     *
-     * @param string $script_name Optional script name
-     *
-     * @return int Connection status: 0 on success, >0 on failure
-     */
-    public function load_script($script_name = null)
-    {
-        // Get list of scripts
-        $list = $this->list_scripts();
-
-        if ($script_name === null || $script_name === '') {
-            // get (first) active script
-            if (!empty($this->active[0])) {
-               $script_name = $this->active[0];
-            }
-            else if ($list) {
-                $script_name = $list[0];
-            }
-            // create a new (initial) script
-            else {
-                // if script not exists build default script contents
-                $script_file = $this->rc->config->get('managesieve_default');
-                $script_name = $this->rc->config->get('managesieve_script_name');
-
-                if (empty($script_name)) {
-                    $script_name = 'roundcube';
-                }
-
-                if ($script_file && is_readable($script_file)) {
-                    $content = file_get_contents($script_file);
-                }
-
-                // add script and set it active
-                if ($this->sieve->save_script($script_name, $content)) {
-                    $this->activate_script($script_name);
-                    $this->list[] = $script_name;
-                }
-            }
-        }
-
-        if ($script_name) {
-            $this->sieve->load($script_name);
-        }
-
-        return $this->sieve->error();
-    }
-
-    /**
-     * User interface actions handler
-     */
     function actions()
     {
         $error = $this->start();
@@ -401,13 +362,14 @@ class rcube_sieve_engine
                 header("Content-Type: application/octet-stream");
                 header("Content-Length: ".strlen($script));
 
-                if ($browser->ie) {
+                if ($browser->ie)
                     header("Content-Type: application/force-download");
+                if ($browser->ie && $browser->ver < 7)
+                    $filename = rawurlencode(abbreviate_string($script_name, 55));
+                else if ($browser->ie)
                     $filename = rawurlencode($script_name);
-                }
-                else {
+                else
                     $filename = addcslashes($script_name, '\\"');
-                }
 
                 header("Content-Disposition: attachment; filename=\"$filename.txt\"");
                 echo $script;
@@ -1177,7 +1139,16 @@ class rcube_sieve_engine
 
     function filter_frame($attrib)
     {
-        return $this->rc->output->frame($attrib, true);
+        if (!$attrib['id'])
+            $attrib['id'] = 'rcmfilterframe';
+
+        $attrib['name'] = $attrib['id'];
+
+        $this->rc->output->set_env('contentframe', $attrib['name']);
+        $this->rc->output->set_env('blankpage', $attrib['src'] ?
+        $this->rc->output->abs_url($attrib['src']) : 'program/resources/blank.gif');
+
+        return $this->rc->output->frame($attrib);
     }
 
     function filterset_form($attrib)

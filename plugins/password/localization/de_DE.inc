@@ -29,5 +29,13 @@ $messages['internalerror'] = 'Neues Passwort nicht gespeichert';
 $messages['passwordshort'] = 'Passwort muss mindestens $length Zeichen lang sein.';
 $messages['passwordweak'] = 'Passwort muss mindestens eine Zahl und ein Sonderzeichen enthalten.';
 $messages['passwordforbidden'] = 'Passwort enthält unzulässige Zeichen.';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$messages['firstloginchange'] = 'Dies ist Ihr erster Login. Bitte ändern Sie ihr Passwort.';
+=======
 $messages['firstloginchange'] = 'Dies ist Ihr erster Login. Bitte ändern Sie Ihr Passwort.';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$messages['firstloginchange'] = 'Dies ist Ihr erster Login. Bitte ändern Sie Ihr Passwort.';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

@@ -225,7 +225,7 @@ $labels['ignore'] = '무시';
 $labels['responses'] = '응답';
 $labels['insertresponse'] = '응답 삽입';
 $labels['manageresponses'] = '응답 관리';
-$labels['newresponse'] = '새 응답 생성';
+$labels['savenewresponse'] = '새 응답 생성';
 $labels['addresponse'] = '응답 추가';
 $labels['editresponse'] = '응답 편집';
 $labels['editresponses'] = '응답 편집';
@@ -337,7 +337,11 @@ $labels['export']         = '내보내기';
 $labels['exportall']      = '모두 내보내기';
 $labels['exportsel']      = '선택한 항목 내보내기';
 $labels['exportvcards']   = '연락처를 vCard 형식으로 내보내기';
+<<<<<<< HEAD
+$labels['newcontactgroup']       = '새 그룹 생성';
+=======
 $labels['newgroup']       = '새 그룹 생성';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['addgroup']       = '그룹 추가';
 $labels['grouprename']    = '그룹명 변경';
 $labels['groupdelete']    = '그룹 삭제';
@@ -372,7 +376,7 @@ $labels['identities'] = '신원';
 $labels['manageidentities'] = '신원 관리';
 $labels['newidentity'] = '새로운 신원 생성';
 $labels['addidentity'] = '신원 추가';
-$labels['editidentity'] = '신원 편집';
+$labels['edititem'] = '신원 편집';
 $labels['preferhtml'] = 'HTML 표시';
 $labels['defaultcharset'] = '기본 인코딩';
 $labels['htmlmessage'] = 'HTML 메시지';

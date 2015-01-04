@@ -15,7 +15,14 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 $labels['changepasswd']  = 'Ændre adgangskode ';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['changepasswd']  = 'Ændre adgangskode ';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['curpasswd']  = 'Nuværende adgangskode:';
 $labels['newpasswd']  = 'Ny adgangskode:';
 $labels['confpasswd']  = 'Bekræft ny adgangskode:';

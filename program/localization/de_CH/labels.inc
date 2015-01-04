@@ -212,8 +212,16 @@ $labels['mailreplyintro'] = 'Am $date, schrieb $sender:';
 $labels['originalmessage'] = 'Originalnachricht';
 $labels['selectimage']    = 'Bild auswählen';
 $labels['addimage']       = 'Bild hinzufügen';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 $labels['selectmedia']    = 'Video auswählen';
 $labels['addmedia']       = 'Video hinzufügen';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['selectmedia']    = 'Video auswählen';
+$labels['addmedia']       = 'Video hinzufügen';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['editidents']    = 'Absender bearbeiten';
 $labels['spellcheck']    = 'Rechtschreibung';
 $labels['checkspelling'] = 'Rechtschreibung prüfen';
@@ -224,8 +232,16 @@ $labels['restoremessage'] = 'Nachricht wiederherstellen?';
 $labels['responses'] = 'Antworten';
 $labels['insertresponse'] = 'Antwort einfügen';
 $labels['manageresponses'] = 'Antworten verwalten';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+$labels['savenewresponse'] = 'Neue Antwort erstellen';
+$labels['addresponse'] = 'Antwort hinzufügen';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
 $labels['newresponse'] = 'Neue Antwort erstellen';
 $labels['addresponse'] = 'Antwort hinzufügen';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['editresponse'] = 'Antwort bearbeiten';
 $labels['editresponses'] = 'Antworten bearbeiten';
 $labels['responsename'] = 'Name';
@@ -293,7 +309,15 @@ $labels['assistant'] = 'Assistent';
 $labels['spouse'] = 'Partner/in';
 $labels['allfields'] = 'Alle Felder';
 $labels['search'] = 'Suche';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['searchfor'] = 'Suche nach "$q"';
+=======
 $labels['searchresult'] = 'Suchresultat';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Suchresultat';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Erweiterte Suche';
 $labels['advanced'] = 'Erweitert';
 $labels['other'] = 'Andere';
@@ -336,8 +360,16 @@ $labels['export']         = 'Exportieren';
 $labels['exportall']      = 'Alle exportieren';
 $labels['exportsel']      = 'Ausgewählte exportieren';
 $labels['exportvcards']   = 'Kontakte im vCard-Format exportieren';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+$labels['newcontactgroup']       = 'Neue Addressgruppe erstellen';
+$labels['addgroup']       = 'Gruppe hinzufügen';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
 $labels['newgroup']       = 'Neue Addressgruppe erstellen';
 $labels['addgroup']       = 'Gruppe hinzufügen';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Gruppe umbenennen';
 $labels['groupdelete']    = 'Gruppe löschen';
 $labels['groupremoveselected'] = 'Gewählte Kontakte aus Gruppe entfernen';
@@ -368,10 +400,20 @@ $labels['preferences'] = 'Einstellungen';
 $labels['userpreferences'] = 'Benutzereinstellungen';
 $labels['editpreferences'] = 'Einstellungen bearbeiten';
 $labels['identities'] = 'Absender';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+$labels['manageidentities'] = 'Absender verwalten';
+$labels['newidentity'] = 'Neuen Absender erfassen';
+$labels['addidentity'] = 'Absender hinzufügen';
+$labels['edititem'] = 'Absender bearbeiten';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
 $labels['manageidentities'] = 'Absender verwalten';
 $labels['newidentity'] = 'Neuen Absender erfassen';
 $labels['addidentity'] = 'Absender hinzufügen';
 $labels['editidentity'] = 'Absender bearbeiten';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['preferhtml'] = 'HTML bevorzugen';
 $labels['defaultcharset'] = 'Standard-Zeichensatz';
 $labels['htmlmessage'] = 'HTML Nachricht';
@@ -428,7 +470,15 @@ $labels['2231folding'] = 'Vollständig RFC 2231 kompatibel (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 kompatibel (Microsoft Outlook)';
 $labels['2047folding'] = 'Vollständig RFC 2047 kompatibel (andere)';
 $labels['force7bit'] = 'MIME-Kodierung für 8-bit Zeichen';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['savelocalstorage'] = "";
+=======
 $labels['savelocalstorage'] = "Im Browser speichern (temporär)";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['savelocalstorage'] = "Im Browser speichern (temporär)";
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advancedoptions'] = 'Erweiterte Einstellungen';
 $labels['toggleadvancedoptions'] = 'Erweiterte Einstellungen ein-/ausblenden';
 $labels['focusonnewmessage'] = 'Fokussiere Browserfenster bei neuen Nachrichten';
@@ -492,10 +542,19 @@ $labels['foldertype'] = 'Ordnertyp';
 $labels['personalfolder'] = 'Privater Ordner';
 $labels['otherfolder'] = 'Order eines anderen Benutzers';
 $labels['sharedfolder'] = 'Öffentlicher Ordner';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['findfolders'] = 'Ordner suchen';
 $labels['namespace.personal'] = 'Persönlich';
 $labels['namespace.other'] = 'Andere Benutzer';
 $labels['namespace.shared'] = 'Freigegeben';
+<<<<<<< HEAD
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['sortby'] = 'Sortieren nach';
 $labels['sortasc']  = 'aufsteigend sortieren';
 $labels['sortdesc'] = 'absteigend sortieren';
@@ -528,6 +587,14 @@ $labels['vietnamese'] = 'Vietnamesisch';
 $labels['japanese'] = 'Japanisch';
 $labels['korean'] = 'Koreanisch';
 $labels['chinese'] = 'Chinesisch';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['helplistkeyboardnavigation'] = "";
+$labels['helplistkeyboardnavmessages'] = "";
+$labels['helplistkeyboardnavcontacts'] = "";
+=======
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['arialabeltopnav'] = 'Fensterkontrolle';
 $labels['arialabeltasknav'] = 'Anwendungsbereiche';
 $labels['arialabeltoolbar'] = 'Funktionsleiste';
@@ -577,4 +644,8 @@ $labels['helplistkeyboardnavmessages'] = "Pfeiltasten Rechts/Links: Konversation
 Eingabe: Ausgewählte/fokussierte Nachricht öffnen.
 Löschen: Ausgewählte Nachricht in den Papierkorb verschieben resp. löschen.";
 $labels['helplistkeyboardnavcontacts'] = "Eingabe: Ausgewählten Kontakt öffnen.";
+<<<<<<< HEAD
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

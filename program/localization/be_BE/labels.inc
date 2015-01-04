@@ -219,7 +219,11 @@ $labels['restoremessage'] = 'Аднавіць паведамленне?';
 $labels['responses'] = 'Адказы';
 $labels['insertresponse'] = 'Уставіць адказ';
 $labels['manageresponses'] = 'Кіраваць адказамі';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Стварыць новы адказ';
+=======
+$labels['savenewresponse'] = 'Стварыць новы адказ';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Дадаць адказ';
 $labels['editresponse'] = 'Рэдагаваць адказ';
 $labels['editresponses'] = 'Рэдагаваць адказы';
@@ -330,7 +334,11 @@ $labels['export']         = 'Экспарт';
 $labels['exportall']      = 'Экспартаваць усё';
 $labels['exportsel']      = 'Экспартаваць абранае';
 $labels['exportvcards']   = 'Экспартаваць кантакты ў фармаце vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Стварыць новую групу';
+=======
+$labels['newcontactgroup']       = 'Стварыць новую групу';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Пераназваць групу';
 $labels['groupdelete']    = 'Выдаліць групу';
 $labels['groupremoveselected'] = 'Выдаліць абраных кантакаў з групы';

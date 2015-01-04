@@ -223,7 +223,11 @@ $labels['restoremessage'] = 'Восстановить сообщение?';
 $labels['responses'] = 'Ответы';
 $labels['insertresponse'] = 'Вставить ответ';
 $labels['manageresponses'] = 'Управление ответами';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Создать новый ответ';
+=======
+$labels['savenewresponse'] = 'Создать новый ответ';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Добавить ответ';
 $labels['editresponse'] = 'Редактировать ответ';
 $labels['editresponses'] = 'Редактировать ответы';
@@ -291,7 +295,15 @@ $labels['assistant'] = 'Помощник';
 $labels['spouse'] = 'Супруг';
 $labels['allfields'] = 'Все поля';
 $labels['search'] = 'Поиск';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['searchfor'] = 'Поиск "$q"';
+=======
 $labels['searchresult'] = 'Результаты поиска';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['searchresult'] = 'Результаты поиска';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['advsearch'] = 'Расширенный поиск';
 $labels['advanced'] = 'Дополнительно';
 $labels['other'] = 'Другое';
@@ -334,8 +346,16 @@ $labels['export']         = 'Экспорт';
 $labels['exportall']      = 'Экспортировать все';
 $labels['exportsel']      = 'Экспортировать выделенные';
 $labels['exportvcards']   = 'Экспортировать контакты в формате vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Создать новую группу';
+<<<<<<< HEAD
+=======
+$labels['newcontactgroup']       = 'Создать новую группу';
 $labels['addgroup']       = 'Добавить группу';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['addgroup']       = 'Добавить группу';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['grouprename']    = 'Переименовать группу';
 $labels['groupdelete']    = 'Удалить группу';
 $labels['groupremoveselected'] = 'Удалить выбранные контакты из группы';
@@ -369,7 +389,11 @@ $labels['identities'] = 'Профили';
 $labels['manageidentities'] = 'Управление профилями';
 $labels['newidentity'] = 'Создать новый профиль';
 $labels['addidentity'] = 'Добавить профиль';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Изменить профиль';
+=======
+$labels['edititem'] = 'Изменить профиль';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Предпочитать HTML';
 $labels['defaultcharset'] = 'Набор символов по-умолчанию';
 $labels['htmlmessage'] = 'Сообщение HTML';
@@ -488,9 +512,18 @@ $labels['foldertype'] = 'Тип каталога';
 $labels['personalfolder'] = 'Приватный каталог';
 $labels['otherfolder'] = 'Каталог другого пользователя';
 $labels['sharedfolder'] = 'Совместный каталог';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 $labels['findfolders'] = 'Найти папки';
 $labels['namespace.personal'] = 'Персональные';
 $labels['namespace.other'] = 'Других пользователей';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['findfolders'] = 'Найти папки';
+$labels['namespace.personal'] = 'Персональные';
+$labels['namespace.other'] = 'Других пользователей';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['sortby'] = 'Сортировать по';
 $labels['sortasc']  = 'Возрастанию';
 $labels['sortdesc'] = 'Убыванию';
@@ -528,7 +561,14 @@ $labels['arialabelactivetask'] = 'Активная задача';
 $labels['arialabelcontactsearchform'] = 'Форма поиска контактов';
 $labels['arialabelmailpreviewframe'] = 'Предпросмотр сообщений';
 $labels['arialabelmailimportdialog'] = 'Диалог импорта сообщения';
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 $labels['arialabelmessagebody'] = 'Тело сообщения';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+$labels['arialabelmessagebody'] = 'Тело сообщения';
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['arialabelcontactquicksearch'] = 'Форма поиска контактов';
 $labels['arialabelmessageheaders'] = 'Заголовки сообщений';
 $labels['arialabelforwardingoptions'] = 'Опции пересылки';
@@ -536,4 +576,13 @@ $labels['arialabelmoremessageactions'] = 'Дополнительные дейс�
 $labels['arialabelmarkmessagesas'] = 'Отметить выделенные сообщения как...';
 $labels['arialabelattachmentpreview'] = 'Предпросмотр вложений';
 $labels['arialabelcontactexportoptions'] = 'Параметры экспорта контактов';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['helplistkeyboardnavigation'] = "";
+$labels['helplistkeyboardnavmessages'] = "";
+$labels['helplistkeyboardnavcontacts'] = "";
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 ?>

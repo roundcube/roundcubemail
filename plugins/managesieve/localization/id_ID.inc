@@ -165,6 +165,15 @@ $labels['vacation.reply'] = 'Balas pesan';
 $labels['vacation.advanced'] = 'Pengaturan Lanjutan';
 $labels['vacation.subject'] = 'Judul';
 $labels['vacation.body'] = 'Isi';
+<<<<<<< HEAD
+<<<<<<< HEAD
+$labels['vacation.dates'] = 'Waktu Liburan';
+$labels['vacation.from'] = 'Pengirim:';
+$labels['vacation.to'] = 'Kepada:';
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
+=======
+>>>>>>> b0289b5475cd51c5cfd068e184bf652f00ebef71
 $labels['vacation.status'] = 'Status';
 $labels['vacation.on'] = 'Nyala';
 $labels['vacation.off'] = 'Mati';
