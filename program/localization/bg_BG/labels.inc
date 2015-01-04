@@ -535,7 +535,10 @@ $labels['arialabelmessageactions'] = 'Действия за писмо';
 $labels['arialabelcontactquicksearch'] = 'Форма за търсене на контакти';
 $labels['arialabelcontactsearchbox'] = 'Поле за търсене на контакт';
 $labels['arialabelmessageheaders'] = 'Заглавни блокове на писмо';
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "";
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 ?>

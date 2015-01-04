@@ -24,6 +24,7 @@ $messages['servererror'] = 'Serverfehler!';
 $messages['servererrormsg'] = 'Serverfehler: $msg';
 $messages['connerror'] = 'Verbindungsfehler (Server nicht erreichbar)!';
 $messages['dberror'] = 'Datenbankfehler!';
+$messages['windowopenerror'] = 'Das Popup-Fenster wurde blockiert!';
 $messages['requesttimedout'] = 'Zeitlimit überschritten';
 $messages['errorreadonly'] = 'Die Aktion kann nicht ausgeführt werden. Der Ordner ist schreibgeschützt.';
 $messages['errornoperm'] = 'Die Aktion kann nicht ausgeführt werden. Zugriff verweigert.';

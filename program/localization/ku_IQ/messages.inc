@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/attachment_reminder/localization/<lang>.inc                   |
+ | localization/<lang>/messages.inc                                      |
  |                                                                       |
- | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Localization file of the Roundcube Webmail client                     |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,8 +13,8 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
-$messages['forgotattachment'] = "";
-$messages['reminderoption'] = "";
-$messages['keywords'] = "";
+$messages['errortitle']  = 'هەڵەیەک ڕوویدا!';
+$messages['loginfailed']  = 'چوونەژوورەوە سەرکەوتوو نەبوو.';
+?>

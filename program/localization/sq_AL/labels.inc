@@ -160,7 +160,10 @@ $labels['htmlsignature'] = 'Nënshkrimi HTML';
 $labels['previewpane'] = 'Shiko si duket';
 $labels['autosavedraft']  = 'Ruaje automatikisht si draft';
 $labels['never']  = 'kurrë';
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['folder'] = 'Kutia';
 $labels['folders'] = 'Kutitë';
 $labels['foldername'] = 'Emër kutie';

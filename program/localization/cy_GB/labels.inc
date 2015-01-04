@@ -131,16 +131,24 @@ $labels['moreactions']      = 'Mwy o weithredoedd...';
 $labels['more']             = 'Mwy';
 $labels['back']             = 'Yn ôl';
 $labels['options']          = 'Dewisiadau';
+$labels['first'] = 'Cyntaf';
+$labels['last'] = 'Olaf';
+$labels['previous'] = 'Blaenorol';
+$labels['next'] = 'Nesaf';
 $labels['select'] = 'Dewis';
 $labels['all'] = 'Popeth';
 $labels['none'] = 'Dim';
 $labels['currpage'] = 'Tudalen gyfredol';
+$labels['isread'] = 'Darllenwyd';
 $labels['unread'] = 'Heb eu darllen';
 $labels['flagged'] = 'Nodwyd';
+$labels['unflagged'] = 'Heb eu Fflagio';
 $labels['unanswered'] = 'Heb ei ateb';
 $labels['withattachment'] = 'Gyda atodiad';
 $labels['deleted'] = 'Dilewyd';
 $labels['undeleted'] = 'Heb ei ddileu';
+$labels['replied'] = 'Ymatebwyd';
+$labels['forwarded'] = 'Anfonwyd ymlaen';
 $labels['invert'] = 'Gwrth-droi';
 $labels['filter'] = 'Hidlo';
 $labels['list'] = 'Rhestr';
@@ -171,6 +179,11 @@ $labels['importmessages'] = 'Mewnforio negeseuon';
 $labels['quota'] = 'Defnydd';
 $labels['unknown']  = 'anhysbys';
 $labels['unlimited']  = 'diderfyn';
+$labels['quotatype'] = 'Math Cwota';
+$labels['quotatotal'] = 'Cyfyngiad';
+$labels['quotaused'] = 'Defnyddiwyd';
+$labels['quotastorage'] = 'Gofod disg';
+$labels['quotamessage'] = 'Nifer negeseuon';
 $labels['quicksearch']  = 'Chwiliad cyflym';
 $labels['resetsearch']  = 'Ail-osod chwiliad';
 $labels['searchmod']  = 'Addasyddion chwilio';
@@ -197,6 +210,10 @@ $labels['returnreceipt']  = 'Cadarnhau derbyn';
 $labels['dsn']            = 'Hysbysiad statws danfon';
 $labels['mailreplyintro'] = 'Ar $date, ysgrifennodd $sender:';
 $labels['originalmessage'] = 'Neges Wreiddiol';
+$labels['selectimage']    = 'Dewiswch lun';
+$labels['addimage']       = 'Ychwanegwch lun';
+$labels['selectmedia']    = 'Dewiswch fideo';
+$labels['addmedia']       = 'Ychwanegwch fideo';
 $labels['editidents']    = 'Golygu personoliaethau';
 $labels['spellcheck']    = 'Sillafu';
 $labels['checkspelling'] = 'Gwirio sillafu';
@@ -207,6 +224,11 @@ $labels['restoremessage'] = 'Adfer neges?';
 $labels['responses'] = 'Ymatebion';
 $labels['insertresponse'] = 'Mewnosod ymateb';
 $labels['manageresponses'] = 'Rheoli ymatebion';
+<<<<<<< HEAD
+=======
+$labels['savenewresponse'] = 'Cadw ymateb newydd';
+$labels['addresponse'] = 'Ychwanegu ymateb';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['editresponse'] = 'Golygu ymateb';
 $labels['editresponses'] = 'Golygu ymatebion';
 $labels['responsename'] = 'Enw';
@@ -217,6 +239,7 @@ $labels['upload'] = 'Llwytho fyny';
 $labels['uploadprogress'] = '$percent ($current o $total)';
 $labels['close']  = 'Cau';
 $labels['messageoptions']  = 'Dewisiadau neges...';
+$labels['togglecomposeoptions'] = 'Newid dewisiadau ysgrifennu';
 $labels['low']     = 'Isel';
 $labels['lowest']  = 'Isaf';
 $labels['normal']  = 'Cyffredin';
@@ -273,7 +296,11 @@ $labels['assistant'] = 'Cynorthwyydd';
 $labels['spouse'] = 'Cymar';
 $labels['allfields'] = 'Pob maes';
 $labels['search'] = 'Chwilio';
+<<<<<<< HEAD
 $labels['searchfor'] = 'Chwilio am "$q"';
+=======
+$labels['searchresult'] = 'Canlyniadau chwilio';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advsearch'] = 'Chwilio Uwch';
 $labels['advanced'] = 'Uwch';
 $labels['other'] = 'Arall';
@@ -292,10 +319,16 @@ $labels['typehomepage']  = 'Gwefan';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Proffil';
 $labels['addfield'] = 'Ychwanegu maes...';
+<<<<<<< HEAD
+=======
+$labels['addcontact'] = 'Ychwanegu cyswllt';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['editcontact'] = 'Golygu cyswllt';
 $labels['contacts'] = 'Cysylltiadau';
 $labels['contactproperties'] = 'Nodweddion cyswllt';
+$labels['contactnameandorg'] = 'Enw a Corff';
 $labels['personalinfo'] = 'Gwybodaeth bersonol';
+$labels['contactphoto'] = 'Llun cyswllt';
 $labels['edit']   = 'Golygu';
 $labels['cancel'] = 'Canslo';
 $labels['save']   = 'Cadw';
@@ -304,6 +337,10 @@ $labels['rename'] = 'Ail-enwi';
 $labels['addphoto'] = 'Ychwanegu';
 $labels['replacephoto'] = 'Amnewid';
 $labels['uploadphoto'] = 'Llwytho fyny llun';
+<<<<<<< HEAD
+=======
+$labels['newcontact']     = 'Creu cyswllt newydd';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['deletecontact']  = 'Dileu y cysylltiadau a ddewiswyd';
 $labels['composeto']      = 'Ysgrifennu neges at';
 $labels['contactsfromto'] = 'Cysylltiadau $from i $to o $count';
@@ -312,9 +349,15 @@ $labels['export']         = 'Allforio';
 $labels['exportall']      = 'Allforio popeth';
 $labels['exportsel']      = 'Allforio dewiswyd';
 $labels['exportvcards']   = 'Allforio cysylltiadau mewn fformat vCard';
+<<<<<<< HEAD
+=======
+$labels['newcontactgroup']       = 'Creu grŵp newydd';
+$labels['addgroup']       = 'Ychwanegu grŵp';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Ail-enwi grŵp';
 $labels['groupdelete']    = 'Dileu grŵp';
 $labels['groupremoveselected'] = 'Dileu y cysylltiadau dewiswyd o\'r grŵp';
+$labels['uponelevel']     = 'Fyny un lefel';
 $labels['previouspage']   = 'Dangos y set flaenorol';
 $labels['firstpage']      = 'Dangos y set gyntaf';
 $labels['nextpage']       = 'Dangos y set nesaf';
@@ -341,6 +384,13 @@ $labels['preferences'] = 'Dewisiadau';
 $labels['userpreferences'] = 'Dewisiadau\'r defnyddiwr';
 $labels['editpreferences'] = 'Golygu dewisiadau\'r defnyddiwr';
 $labels['identities'] = 'Personoliaethau';
+<<<<<<< HEAD
+=======
+$labels['manageidentities'] = 'Rheoli personoliaethau';
+$labels['newidentity'] = 'Creu personoliaeth newydd';
+$labels['addidentity'] = 'Ychwanegu personoliaeth';
+$labels['edititem'] = 'Golygu personoliaeth';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Dangos HTML';
 $labels['defaultcharset'] = 'Set Nodau Diofyn';
 $labels['htmlmessage'] = 'Neges HTML';
@@ -397,8 +447,13 @@ $labels['2231folding'] = 'RFC 2231 llawn (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 llawn (arall)';
 $labels['force7bit'] = 'Defnyddio amgodi MIME ar gyfer llythrennau 8-did';
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
+=======
+$labels['savelocalstorage'] = "Cadw yn storfa leol y porwr (dros dro)";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advancedoptions'] = 'Dewisiadau uwch';
+$labels['toggleadvancedoptions'] = 'Newid dewisiadau uwch';
 $labels['focusonnewmessage'] = 'Ffocysu\'r porwr ar y neges newydd';
 $labels['checkallfolders'] = 'Chwilio pob ffolder am negeseuon newydd';
 $labels['displaynext'] = 'Ar ôl dileu/symud neges dangos y neges nesaf';
@@ -460,6 +515,13 @@ $labels['foldertype'] = 'Math Ffolder';
 $labels['personalfolder'] = 'Ffolder Preifat';
 $labels['otherfolder'] = 'Ffolder Defnyddiwr Arall';
 $labels['sharedfolder'] = 'Ffolder Cyhoeddus';
+<<<<<<< HEAD
+=======
+$labels['findfolders'] = 'Canfod ffolderi';
+$labels['namespace.personal'] = 'Persono';
+$labels['namespace.other'] = 'Defnyddwyr arall';
+$labels['namespace.shared'] = 'Rhannwyd';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['sortby'] = 'Trefnu yn ôl';
 $labels['sortasc']  = 'Trefn esgynnol';
 $labels['sortdesc'] = 'Trefn ddisgynnol';
@@ -492,7 +554,59 @@ $labels['vietnamese'] = 'Fietnamaidd';
 $labels['japanese'] = 'Japaneaidd';
 $labels['korean'] = 'Corëeg';
 $labels['chinese'] = 'Tsieineaidd';
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "";
+=======
+$labels['arialabeltopnav'] = 'Rheolaeth ffenest';
+$labels['arialabeltasknav'] = 'Tasgiau rhaglen';
+$labels['arialabeltoolbar'] = 'Bar offer y rhaglen';
+$labels['arialabelactivetask'] = 'Tasg gweithredol';
+$labels['arialabelmessagessearchfilter'] = 'Hidlydd rhestr ebost';
+$labels['arialabelmailsearchform'] = 'Ffurflen chwilio neges ebost';
+$labels['arialabelcontactsearchform'] = 'Ffurflen chwilio cysylltiadau';
+$labels['arialabelmailquicksearchbox'] = 'Mewnbwn chwilio ebost';
+$labels['arialabelquicksearchbox'] = 'Mewnbwn chwilio';
+$labels['arialabelfoldersearchfilter'] = 'Hidlydd rhestr ffolderi';
+$labels['arialabelfoldersearchform'] = 'Ffurflen chwilio ffolderi';
+$labels['arialabelfolderlist'] = 'Dewis ffolderi ebost';
+$labels['arialabelmessagelist'] = 'Rhestr Negeseuon Ebost';
+$labels['arialabelmailpreviewframe'] = 'Rhagolwg neges';
+$labels['arialabelmailboxmenu'] = 'Bwydlen gweithrediadau ffolder';
+$labels['arialabellistselectmenu'] = 'Bwydlen dewis rhestr';
+$labels['arialabelthreadselectmenu'] = 'Bwydlen rhestr edefynnau';
+$labels['arialabelmessagelistoptions'] = 'Dewisiadau dangos a trefnu rhestr negeseuon';
+$labels['arialabelmailimportdialog'] = 'Deialog mewnforio negeseuon';
+$labels['arialabelmessagenav'] = 'Llywio neges';
+$labels['arialabelmessagebody'] = 'Corff Neges';
+$labels['arialabelmessageactions'] = 'Gweithrediadau neges';
+$labels['arialabelcontactquicksearch'] = 'Ffurflen chwilio cysylltiadau';
+$labels['arialabelcontactsearchbox'] = 'Mewnbwn chwilio cyswllt';
+$labels['arialabelmessageheaders'] = 'Pennynau neges';
+$labels['arialabelforwardingoptions'] = 'Dewisiadau anfon ymlaen';
+$labels['arialabelreplyalloptions'] = 'Dewisiadau ymateb i bawb';
+$labels['arialabelmoremessageactions'] = 'Mwy o weithrediadau neges';
+$labels['arialabelmarkmessagesas'] = 'Nodi y negeseuon dewiswyd fel...';
+$labels['arialabelcomposeoptions'] = 'Dewisiadau ysgrifennu';
+$labels['arialabelresponsesmenu'] = 'Bwydlen ymatebion parod';
+$labels['arialabelattachmentuploadform'] = 'Ffurflen uwchlwytho atodiad';
+$labels['arialabelattachmentpreview'] = 'Rhagolwg atodiad';
+$labels['ariasummarycomposecontacts'] = 'Rhestr o gysylltiadau a grwpiau i ddewis fel derbynwyr';
+$labels['arialabelcontactexportoptions'] = 'Dewisiadau allforio cysylltiadau';
+$labels['arialabelabookgroupoptions'] = 'Dewisiadau grŵp/llyfr cyfeiriadau';
+$labels['arialabelpreferencesform'] = 'Ffurflen dewisiadau';
+$labels['arialabelidentityeditfrom'] = 'Ffurflen golygu personoliaeth';
+$labels['arialabelresonseeditfrom'] = 'Ffurflen golygu ymateb';
+$labels['arialabelsearchterms'] = 'Chwilio termau';
+$labels['helplistnavigation'] = 'Rhestru llywio bysellfwrdd';
+$labels['helplistkeyboardnavigation'] = "Saeth fyny/lawr: Symud dewis/ffocws dan sylw.
+Bwlch: Dewis rhes dan sylw.
+Shift + fyny/lawr; Dewis rhes ychwanegol uwchben/islaw.
+Ctrl + Bwlch: Ychwanegu rhes dan sylw i'r dewis/dileu o'r dewis.";
+$labels['helplistkeyboardnavmessages'] = "Saeth dde/chwith: ehangu/crebachu edefyn neges (yn modd edefynnau yn unig).
+Enter: Agor y neges dewiswyd/dan sylw.
+Delete: Symud y negeseuon dewiswyd i'r Sbwriel.";
+$labels['helplistkeyboardnavcontacts'] = "Enter: Agor y cyswllt dewiswyd/dan sylw.";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 ?>

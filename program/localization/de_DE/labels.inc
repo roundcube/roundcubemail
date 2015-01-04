@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'Nachricht wiederherstellen?';
 $labels['responses'] = 'Schnellantworten';
 $labels['insertresponse'] = 'Schnellantwort hinzufügen';
 $labels['manageresponses'] = 'Schnellantworten verwalten';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Neue Antwort erstellen';
+=======
+$labels['savenewresponse'] = 'Neue Antwort erstellen';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Antwort hinzufügen';
 $labels['editresponse'] = 'Schnellantwort bearbeiten';
 $labels['editresponses'] = 'Schnellantworten bearbeiten';
@@ -293,7 +297,11 @@ $labels['assistant'] = 'Assistenz';
 $labels['spouse'] = 'Partner/in';
 $labels['allfields'] = 'Alle Felder';
 $labels['search'] = 'Suche';
+<<<<<<< HEAD
 $labels['searchfor'] = 'Suche nach "$q"';
+=======
+$labels['searchresult'] = 'Suchergebnis';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advsearch'] = 'Detaillierte Suche';
 $labels['advanced'] = 'Erweitert';
 $labels['other'] = 'Andere';
@@ -336,7 +344,12 @@ $labels['export']         = 'Exportieren';
 $labels['exportall']      = 'Alles exportieren';
 $labels['exportsel']      = 'Auswahl exportieren';
 $labels['exportvcards']   = 'Kontakte im vCard-Format exportieren';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Neue Gruppe erstellen';
+=======
+$labels['newcontactgroup']       = 'Neue Gruppe erstellen';
+$labels['addgroup']       = 'Gruppe hinzufügen';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Gruppe umbenennen';
 $labels['groupdelete']    = 'Gruppe löschen';
 $labels['groupremoveselected'] = 'Gewählte Kontakte aus Gruppe entfernen';
@@ -370,7 +383,11 @@ $labels['identities'] = 'Identitäten';
 $labels['manageidentities'] = 'Identitäten verwalten';
 $labels['newidentity'] = 'Neue Identität erstellen';
 $labels['addidentity'] = 'Identität hinzufügen';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Identität bearbeiten';
+=======
+$labels['edititem'] = 'Identität bearbeiten';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'HTML anzeigen';
 $labels['defaultcharset'] = 'Standard Zeichensatz';
 $labels['htmlmessage'] = 'HTML-Nachricht';
@@ -427,7 +444,11 @@ $labels['2231folding'] = 'vollständig RFC 2231 kompatibel (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 kompatibel (Microsoft Outlook)';
 $labels['2047folding'] = 'vollständig RFC 2047 kompatibel (andere)';
 $labels['force7bit'] = 'MIME-Kodierung für 8-bit Zeichen';
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
+=======
+$labels['savelocalstorage'] = "Vorübergehend lokal im Browser speichern";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advancedoptions'] = 'Erweiterte Einstellungen';
 $labels['toggleadvancedoptions'] = 'Erweiterte Optionen auswählen';
 $labels['focusonnewmessage'] = 'Fokussiere Browserfenster bei neuen Nachrichten';
@@ -491,6 +512,13 @@ $labels['foldertype'] = 'Ordnertyp';
 $labels['personalfolder'] = 'Privater Ordner';
 $labels['otherfolder'] = 'Ordner eines anderen Benutzers';
 $labels['sharedfolder'] = 'Öffentlicher Ordner';
+<<<<<<< HEAD
+=======
+$labels['findfolders'] = 'Suche Ordner';
+$labels['namespace.personal'] = 'Persönlich';
+$labels['namespace.other'] = 'Andere Benutzer';
+$labels['namespace.shared'] = 'Geteilt';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['sortby'] = 'Sortieren nach';
 $labels['sortasc']  = 'Aufsteigend sortieren';
 $labels['sortdesc'] = 'Absteigend sortieren';
@@ -532,6 +560,11 @@ $labels['arialabelmailsearchform'] = 'Suchmaske für E-Mails';
 $labels['arialabelcontactsearchform'] = 'Suchmaske für Kontakte';
 $labels['arialabelmailquicksearchbox'] = 'Eingabe für E-Mailsuche';
 $labels['arialabelquicksearchbox'] = 'Eingabe für Suche';
+<<<<<<< HEAD
+=======
+$labels['arialabelfoldersearchfilter'] = 'Ordnerauflistungsfilter';
+$labels['arialabelfoldersearchform'] = 'Ordnersuchfeld';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['arialabelfolderlist'] = 'E-Mailordnerauswahl';
 $labels['arialabelmessagelist'] = 'Liste der E-Mailnachrichten';
 $labels['arialabelmailpreviewframe'] = 'Vorschau der Nachricht';
@@ -550,6 +583,11 @@ $labels['arialabelforwardingoptions'] = 'Weiterleitungsoptionen';
 $labels['arialabelreplyalloptions'] = 'Allen antworten-Optionen';
 $labels['arialabelmoremessageactions'] = 'Weitere Nachrichtenaktionen';
 $labels['arialabelmarkmessagesas'] = 'Ausgewählte Nachricht markieren als...';
+<<<<<<< HEAD
+=======
+$labels['arialabelcomposeoptions'] = 'Erstellungsoptionen';
+$labels['arialabelresponsesmenu'] = 'Schnellantworten Menü';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['arialabelattachmentuploadform'] = 'Anhang Hochladeformular';
 $labels['arialabelattachmentpreview'] = 'Anhangvorschau';
 $labels['ariasummarycomposecontacts'] = 'Liste von Kontakten und Gruppen als Empfänger';
@@ -558,8 +596,20 @@ $labels['arialabelabookgroupoptions'] = 'Adressbuch/Gruppen-Optionen';
 $labels['arialabelpreferencesform'] = 'Einstellungsformular';
 $labels['arialabelidentityeditfrom'] = 'Identität Bearbeitungsformular';
 $labels['arialabelresonseeditfrom'] = 'Antwort Bearbeitungsformular';
+<<<<<<< HEAD
 $labels['helplistnavigation'] = 'Tastaturnavigation auflisten';
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
+=======
+$labels['arialabelsearchterms'] = 'Suchbegriffe';
+$labels['helplistnavigation'] = 'Tastaturnavigation auflisten';
+$labels['helplistkeyboardnavigation'] = "Pfeil hoch/runter: Zeilenfokus/Zeilenselektion verschieben
+Leerzeichen: Selektiere ausgewählte Zeile
+Shift + Pfeil hoch/runter: Wähle weitere Zeilen oberhalb/unterhalb
+Strg + Leerzeichen: Gewählte Zeile zur/von der Auswahl hinzufügen/entfernen";
+$labels['helplistkeyboardnavmessages'] = "Pfeil rechts/links: Nachricht im Thread erweitern/einklappen (nur im Threadmodus)
+Enter: Öffne die ausgewählte/fokussierte Nachricht
+Rücktaste: Verschiebe gewählte Nachricht in den Mülleimer";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['helplistkeyboardnavcontacts'] = "Enter: Ausgewählten Kontakt öffnen.";
 ?>

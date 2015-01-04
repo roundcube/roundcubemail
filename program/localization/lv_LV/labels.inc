@@ -217,7 +217,11 @@ $labels['restoremessage'] = 'Atjaunot vēstuli?';
 $labels['responses'] = 'Atbildes';
 $labels['insertresponse'] = 'Ievietot atbildi';
 $labels['manageresponses'] = 'Pārvaldīt atbildes';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Izveidot jaunu atbildi';
+=======
+$labels['savenewresponse'] = 'Izveidot jaunu atbildi';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Pievienot atbildi';
 $labels['editresponse'] = 'Rediģēt atbildi';
 $labels['editresponses'] = 'Rediģēt atbildes';
@@ -328,7 +332,11 @@ $labels['export']         = 'Eksportēt';
 $labels['exportall']      = 'Eksportēt visu';
 $labels['exportsel']      = 'Eksportēt atzīmēto';
 $labels['exportvcards']   = 'Eksportēt kontaktus vCard formātā';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Izveidot jaunu grupu';
+=======
+$labels['newcontactgroup']       = 'Izveidot jaunu grupu';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Pārdēvēt grupu';
 $labels['groupdelete']    = 'Izdzēst grupu';
 $labels['groupremoveselected'] = 'Dzēst atzīmētos kontaktus no grupas';
@@ -361,7 +369,11 @@ $labels['identities'] = 'Identitātes';
 $labels['manageidentities'] = 'Rediģēt identitātes';
 $labels['newidentity'] = 'Izveidot jaunu identitāti';
 $labels['addidentity'] = 'Pievienot identitāti';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Rediģēt identitāti';
+=======
+$labels['edititem'] = 'Rediģēt identitāti';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Rādīt HTML formatētās vēstules';
 $labels['defaultcharset'] = 'Noklusētā rakstzīmju kopa';
 $labels['htmlmessage'] = 'HTML formatēta vēstule';
@@ -521,7 +533,10 @@ $labels['arialabelmoremessageactions'] = 'Citas darbības ar vēstulēm';
 $labels['arialabelmarkmessagesas'] = 'Atzīmēt norādītās vēstules kā ...';
 $labels['arialabelattachmentuploadform'] = 'Pielikuma augšupielādes forma';
 $labels['arialabelattachmentpreview'] = 'Pielikuma priekšskats';
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "";
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 ?>

@@ -134,7 +134,6 @@ function rcmail_folder_form($attrib)
         $select = $RCMAIL->folder_selector(array(
             'name'        => '_parent',
             'noselection' => '---',
-            'realnames'   => false,
             'maxlength'   => 150,
             'unsubscribed' => true,
             'skip_noinferiors' => true,

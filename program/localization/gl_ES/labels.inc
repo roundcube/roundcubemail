@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'Restaurar mensaxe?';
 $labels['responses'] = 'Respostas';
 $labels['insertresponse'] = 'Inserir unha resposta';
 $labels['manageresponses'] = 'Xestionar respostas';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Crear nova resposta';
+=======
+$labels['savenewresponse'] = 'Crear nova resposta';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Engadir resposta';
 $labels['editresponse'] = 'Editar resposta ';
 $labels['editresponses'] = 'Editar respostas';
@@ -336,7 +340,11 @@ $labels['export']         = 'Exportar';
 $labels['exportall']      = 'Exportar todas';
 $labels['exportsel']      = 'Exportar as seleccionadas';
 $labels['exportvcards']   = 'Exportar os contactos en formato vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Crear novo grupo';
+=======
+$labels['newcontactgroup']       = 'Crear novo grupo';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Mudar o nome do grupo';
 $labels['groupdelete']    = 'Borrar o grupo';
 $labels['groupremoveselected'] = 'Eliminar do grupo os contactos seleccionados';
@@ -370,7 +378,11 @@ $labels['identities'] = 'Identidades';
 $labels['manageidentities'] = 'Administrar identidades';
 $labels['newidentity'] = 'Crear identidade nova';
 $labels['addidentity'] = 'Engadir identidad';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Editar identidade';
+=======
+$labels['edititem'] = 'Editar identidade';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Prefiro HTML';
 $labels['defaultcharset'] = 'Xogo de caracteres por omisión';
 $labels['htmlmessage'] = 'Mensaxe HTML';
@@ -552,7 +564,10 @@ $labels['arialabelpreferencesform'] = 'Formulario de preferencias';
 $labels['arialabelidentityeditfrom'] = 'Formulario de edición de identidade';
 $labels['arialabelresonseeditfrom'] = 'Formulario de edición de resposta';
 $labels['helplistnavigation'] = 'Navegación pola lista con teclado';
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abrir o contacto seleccionado.";
 ?>

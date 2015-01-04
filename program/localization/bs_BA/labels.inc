@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'Vratiti poruku?';
 $labels['responses'] = 'Odgovori';
 $labels['insertresponse'] = 'Umetni odgovor';
 $labels['manageresponses'] = 'Upravljaj odgovorima';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Kreiraj novi odgovor';
+=======
+$labels['savenewresponse'] = 'Kreiraj novi odgovor';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Dodaj odgovor';
 $labels['editresponse'] = 'Uredi odgovor';
 $labels['editresponses'] = 'Uredi odgovore';
@@ -293,7 +297,11 @@ $labels['assistant'] = 'Pomoćnik';
 $labels['spouse'] = 'Supružnik';
 $labels['allfields'] = 'Sva polja';
 $labels['search'] = 'Pretraga';
+<<<<<<< HEAD
 $labels['searchfor'] = 'Traži "$q"';
+=======
+$labels['searchresult'] = 'Rezultati pretrage';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advsearch'] = 'Napredna pretraga';
 $labels['advanced'] = 'Napredno';
 $labels['other'] = 'Ostalo';
@@ -336,7 +344,12 @@ $labels['export']         = 'Izvoz';
 $labels['exportall']      = 'Izvezi sve';
 $labels['exportsel']      = 'Izvezi označeno';
 $labels['exportvcards']   = 'Izvezi kontakte u vCard formatu';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Kreiraj novu grupu';
+=======
+$labels['newcontactgroup']       = 'Kreiraj novu grupu';
+$labels['addgroup']       = 'Dodaj grupu';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Preimenuj grupu';
 $labels['groupdelete']    = 'Obriši grupu';
 $labels['groupremoveselected'] = 'Ukloni odabrane kontakte iz grupe';
@@ -370,7 +383,11 @@ $labels['identities'] = 'Identiteti';
 $labels['manageidentities'] = 'Upravljanje identitetima';
 $labels['newidentity'] = 'Kreiraj novi identitet';
 $labels['addidentity'] = 'Dodaj identitet';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Uredi identitet';
+=======
+$labels['edititem'] = 'Uredi identitet';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Prikaži HTML';
 $labels['defaultcharset'] = 'Glavni skup znakova';
 $labels['htmlmessage'] = 'HTML poruke';

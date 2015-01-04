@@ -74,9 +74,9 @@ $labels['wednesday'] = 'Środa';
 $labels['thursday']  = 'Czwartek';
 $labels['friday']    = 'Piątek';
 $labels['saturday']  = 'Sobota';
-$labels['jan']	= 'sty';
-$labels['feb']	= 'lut';
-$labels['mar']	= 'mar';
+$labels['jan']	= 'Sty';
+$labels['feb']	= 'Lut';
+$labels['mar']	= 'Mar';
 $labels['apr']	= 'Kwi';
 $labels['may']	= 'Maj';
 $labels['jun']	= 'Cze';
@@ -90,7 +90,7 @@ $labels['longjan']	= 'styczeń';
 $labels['longfeb']	= 'luty';
 $labels['longmar']	= 'marzec';
 $labels['longapr']	= 'kwiecień';
-$labels['longmay']	= 'Maj';
+$labels['longmay']	= 'maj';
 $labels['longjun']	= 'czerwiec';
 $labels['longjul']	= 'lipiec';
 $labels['longaug']	= 'sierpień';
@@ -139,16 +139,27 @@ $labels['select'] = 'Zaznacz';
 $labels['all'] = 'Wszystkie';
 $labels['none'] = 'Brak';
 $labels['currpage'] = 'Bieżąca strona';
+<<<<<<< HEAD
 $labels['isread'] = 'Przeczytana';
 $labels['unread'] = 'Nieprzeczytane';
 $labels['flagged'] = 'Oznaczone';
 $labels['unflagged'] = 'Nie oznaczona';
+=======
+$labels['isread'] = 'Przeczytane';
+$labels['unread'] = 'Nieprzeczytane';
+$labels['flagged'] = 'Oznaczone';
+$labels['unflagged'] = 'Nieoznaczone';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['unanswered'] = 'Bez odpowiedzi';
 $labels['withattachment'] = 'Z załącznikiem';
 $labels['deleted'] = 'Usunięte';
 $labels['undeleted'] = 'Nieusunięte';
 $labels['replied'] = 'Odpowiedziana';
+<<<<<<< HEAD
 $labels['forwarded'] = 'Przekazana';
+=======
+$labels['forwarded'] = 'Przekazane';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['invert'] = 'Odwróć';
 $labels['filter'] = 'Filtr';
 $labels['list'] = 'Lista';
@@ -224,7 +235,11 @@ $labels['restoremessage'] = 'Przyrócić wiadomość?';
 $labels['responses'] = 'Odpowiedzi';
 $labels['insertresponse'] = 'Wstaw odpowiedź';
 $labels['manageresponses'] = 'Zarządzaj odpowiedziami';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Utwórz nową odpowiedź';
+=======
+$labels['savenewresponse'] = 'Utwórz nową odpowiedź';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Dodaj odpowiedź';
 $labels['editresponse'] = 'Edytuj odpowiedź';
 $labels['editresponses'] = 'Edytuj odpowiedzi';
@@ -293,7 +308,11 @@ $labels['assistant'] = 'Asystent';
 $labels['spouse'] = 'Małżonek';
 $labels['allfields'] = 'Wszystkie pola';
 $labels['search'] = 'Szukaj';
+<<<<<<< HEAD
 $labels['searchfor'] = 'Wyszukiwanie frazy "$q"';
+=======
+$labels['searchresult'] = 'Wyniki wyszukiwania';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advsearch'] = 'Wyszukiwanie zaawansowane';
 $labels['advanced'] = 'Zaawansowane';
 $labels['other'] = 'Inne';
@@ -336,7 +355,12 @@ $labels['export']         = 'Eksportuj';
 $labels['exportall']      = 'Eksportuj wszystkie';
 $labels['exportsel']      = 'Eksportuj zaznaczone';
 $labels['exportvcards']   = 'Eksport kontaktów w formacie vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Utwórz nową grupę';
+=======
+$labels['newcontactgroup']       = 'Utwórz nową grupę';
+$labels['addgroup']       = 'Dodaj grupę';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Zmień nazwę grupy';
 $labels['groupdelete']    = 'Usuń grupę';
 $labels['groupremoveselected'] = 'Usuń wybrane kontakty z grupy';
@@ -359,7 +383,7 @@ $labels['importreplace'] = 'Zastąp całą książkę adresową';
 $labels['importgroups'] = 'Importuj powiązania z grupami';
 $labels['importgroupsall'] = 'Wszystkie (utwórz grupy jeśli potrzeba)';
 $labels['importgroupsexisting'] = 'Tylko do isniejących grup';
-$labels['importdesc'] = 'Import kontaktów z isniejącej książki adresowej.<br/>Obecnie obsługiwany jest import w formacie <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> lub CSV (pola oddzielone przecinkiem).';
+$labels['importdesc'] = 'Import kontaktów z istniejącej książki adresowej.<br/>Obecnie obsługiwany jest import w formacie <a href="http://en.wikipedia.org/wiki/VCard">vCard</a> lub CSV (pola oddzielone przecinkiem).';
 $labels['done'] = 'Wykonane';
 $labels['settingsfor'] = 'Ustawienia dla';
 $labels['about'] = 'O programie';
@@ -370,7 +394,11 @@ $labels['identities'] = 'Tożsamości';
 $labels['manageidentities'] = 'Zarządzaj tożsamościami';
 $labels['newidentity'] = 'Utwórz nową tożsamość';
 $labels['addidentity'] = 'Dodaj tożsamość';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Edytuj tożsamości';
+=======
+$labels['edititem'] = 'Edytuj tożsamości';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Domyślny HTML';
 $labels['defaultcharset'] = 'Domyślny zestaw znaków';
 $labels['htmlmessage'] = 'Wiadomość HTML';
@@ -427,7 +455,11 @@ $labels['2231folding'] = 'RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 (przestarzałe)';
 $labels['force7bit'] = 'Używaj kodowania MIME dla znaków 8-bitowych';
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
+=======
+$labels['savelocalstorage'] = "Zapisz w lokalnej bazie przeglądarki (tymczasowo)";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advancedoptions'] = 'Opcje zaawansowane';
 $labels['toggleadvancedoptions'] = 'Pokaż/ukryj opcje zaawansowane';
 $labels['focusonnewmessage'] = 'Informuj przeglądarkę o nowej wiadomości';

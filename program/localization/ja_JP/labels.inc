@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'メッセージを回復しますか?';
 $labels['responses'] = '回答';
 $labels['insertresponse'] = '回答を挿入';
 $labels['manageresponses'] = '回答を管理';
+<<<<<<< HEAD
 $labels['newresponse'] = '新しい回答を作成';
+=======
+$labels['savenewresponse'] = '新しい回答を作成';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = '回答を追加';
 $labels['editresponse'] = '回答を編集';
 $labels['editresponses'] = '回答を編集';
@@ -293,7 +297,11 @@ $labels['assistant'] = 'アシスタント';
 $labels['spouse'] = '配偶者';
 $labels['allfields'] = 'すべての項目';
 $labels['search'] = '検索';
+<<<<<<< HEAD
 $labels['searchfor'] = '"$q"を検索';
+=======
+$labels['searchresult'] = '検索の結果';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advsearch'] = '高度な検索';
 $labels['advanced'] = '高度';
 $labels['other'] = 'その他';
@@ -336,7 +344,12 @@ $labels['export']         = 'エクスポート';
 $labels['exportall']      = 'すべてエクスポート';
 $labels['exportsel']      = '選択した連絡先をエクスポート';
 $labels['exportvcards']   = 'vCard形式でエクスポート';
+<<<<<<< HEAD
 $labels['newgroup']       = '新しいグループを作成';
+=======
+$labels['newcontactgroup']       = '新しいグループを作成';
+$labels['addgroup']       = 'グループを追加';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'グループ名を変更';
 $labels['groupdelete']    = 'グループを削除';
 $labels['groupremoveselected'] = '選択した連絡先をグループから削除';
@@ -370,7 +383,11 @@ $labels['identities'] = '識別情報';
 $labels['manageidentities'] = '識別情報を管理';
 $labels['newidentity'] = '新しい識別情報を作成';
 $labels['addidentity'] = '識別情報を追加';
+<<<<<<< HEAD
 $labels['editidentity'] = '識別情報を編集';
+=======
+$labels['edititem'] = '識別情報を編集';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'HTMLを表示';
 $labels['defaultcharset'] = '初期設定の文字セット';
 $labels['htmlmessage'] = 'HTMLメッセージ';
@@ -427,7 +444,11 @@ $labels['2231folding'] = 'RFC 2231に完全準拠(Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231(MS Outlook)';
 $labels['2047folding'] = 'RFC 2047に完全準拠(その他)';
 $labels['force7bit'] = '8ビット文字列にMIMEエンコードを使用';
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
+=======
+$labels['savelocalstorage'] = "ブラウザのローカルストレージに(一時的に)保存";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advancedoptions'] = '高度な設定';
 $labels['toggleadvancedoptions'] = '詳細なオプションの表示を切り替え';
 $labels['focusonnewmessage'] = '新しいメッセージが届いたらブラウザーをアクティブ';
@@ -491,6 +512,13 @@ $labels['foldertype'] = 'フォルダーの種類';
 $labels['personalfolder'] = '個人フォルダー';
 $labels['otherfolder'] = '他のユーザーのフォルダー';
 $labels['sharedfolder'] = '公開フォルダー';
+<<<<<<< HEAD
+=======
+$labels['findfolders'] = 'フォルダーを探す';
+$labels['namespace.personal'] = '個人';
+$labels['namespace.other'] = '他のユーザー';
+$labels['namespace.shared'] = '共有した';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['sortby'] = '並べ替え';
 $labels['sortasc']  = '昇順で並べ替え';
 $labels['sortdesc'] = '降順で並べ替え';
@@ -524,7 +552,39 @@ $labels['japanese'] = '日本語';
 $labels['korean'] = '韓国語';
 $labels['chinese'] = '中国語';
 $labels['arialabeltopnav'] = 'ウィンドウ制御';
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "";
+=======
+$labels['arialabeltasknav'] = 'アプリケーションのタスク';
+$labels['arialabeltoolbar'] = 'アプリケーションのツールバー';
+$labels['arialabelactivetask'] = '活動中のタスク';
+$labels['arialabelmessagessearchfilter'] = '電子メールの一覧のフィルター';
+$labels['arialabelmailsearchform'] = '電子メールの検索欄';
+$labels['arialabelcontactsearchform'] = '連絡先の検索欄';
+$labels['arialabelmailquicksearchbox'] = '電子メールの検索を入力';
+$labels['arialabelquicksearchbox'] = '検索を入力';
+$labels['arialabelfoldersearchfilter'] = 'フォルダーの一覧のフィルター';
+$labels['arialabelfoldersearchform'] = 'フォルダーの検索欄';
+$labels['arialabelfolderlist'] = '電子メールのフォルダーの選択';
+$labels['arialabelmessagelist'] = '電子メールのメッセージの一覧';
+$labels['arialabelmailpreviewframe'] = 'メッセージのプレビュー';
+$labels['arialabelmailboxmenu'] = 'フォルダーの操作メニュー';
+$labels['arialabellistselectmenu'] = '一覧の選択メニュー';
+$labels['arialabelthreadselectmenu'] = 'スレッドの一覧メニュー';
+$labels['arialabelmessagelistoptions'] = 'メッセージの一覧の表示と並べ替えのオプション';
+$labels['arialabelmailimportdialog'] = 'メッセージを取り込むダイアログ';
+$labels['arialabelmessagenav'] = 'メッセージのナビゲーション';
+$labels['arialabelmessagebody'] = 'メッセージの本文';
+$labels['arialabelmessageactions'] = 'メッセージの操作';
+$labels['arialabelcontactquicksearch'] = '連絡先の検索欄';
+$labels['arialabelcontactsearchbox'] = '連絡先を入力';
+$labels['arialabelmessageheaders'] = 'メッセージのヘッダー';
+$labels['arialabelforwardingoptions'] = '転送のオプション';
+$labels['arialabelreplyalloptions'] = '全員に返信のオプション';
+$labels['arialabelmoremessageactions'] = 'さらにメッセージを操作';
+$labels['arialabelmarkmessagesas'] = '選択したメッセージに次のマーク...';
+$labels['arialabelcomposeoptions'] = '作成のオプション';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 ?>

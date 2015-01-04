@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/attachment_reminder/localization/<lang>.inc                   |
+ | plugins/zipdownload/localization/<lang>.inc                           |
  |                                                                       |
- | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Localization file of the Roundcube Webmail Zipdownload plugin         |
+ | Copyright (C) 2012-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,8 +13,10 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-$messages['forgotattachment'] = "";
-$messages['reminderoption'] = "";
-$messages['keywords'] = "";
+$labels['downloadall'] = 'Hemû pêvekan daxîne';
+$labels['download'] = 'Daxîne...';
+$labels['downloadmbox'] = 'Mbox format (.zip)';
+$labels['downloadmaildir'] = 'Maildir format (.zip)';
+$labels['downloademl'] = 'Çavkanî (.eml)';

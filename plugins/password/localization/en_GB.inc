@@ -15,6 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+<<<<<<< HEAD
+=======
+$labels['changepasswd']  = 'Change password';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['curpasswd']  = 'Current Password:';
 $labels['newpasswd']  = 'New Password:';
 $labels['confpasswd']  = 'Confirm New Password:';
@@ -28,4 +32,5 @@ $messages['internalerror'] = 'New password could not be saved.';
 $messages['passwordshort'] = 'Password must be at least $length characters long.';
 $messages['passwordweak'] = 'Password must include at least one number and one symbol.';
 $messages['passwordforbidden'] = 'Password contains forbidden characters.';
+$messages['firstloginchange'] = 'This is your first login. Please change your password.';
 ?>

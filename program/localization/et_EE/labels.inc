@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'Taasta kiri?';
 $labels['responses'] = 'Vastused';
 $labels['insertresponse'] = 'Lisa vastus';
 $labels['manageresponses'] = 'Halda vastuseid';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Loo uus vastus';
+=======
+$labels['savenewresponse'] = 'Loo uus vastus';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Lisa vastus';
 $labels['editresponse'] = 'Muuda vastust';
 $labels['editresponses'] = 'Muuda vastuseid';
@@ -335,7 +339,11 @@ $labels['export']         = 'Ekspordi';
 $labels['exportall']      = 'Ekspordi kõik';
 $labels['exportsel']      = 'Ekspordi valitud';
 $labels['exportvcards']   = 'Ekspordi kontaktid vCardi formaadis';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Loo uus grupp';
+=======
+$labels['newcontactgroup']       = 'Loo uus grupp';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Nimeta grupp ümber';
 $labels['groupdelete']    = 'Kustuta grupp';
 $labels['groupremoveselected'] = 'Eemalda valitud kontaktid grupist';
@@ -369,7 +377,11 @@ $labels['identities'] = 'Identiteedid';
 $labels['manageidentities'] = 'Halda identiteete';
 $labels['newidentity'] = 'Loo uus identiteet';
 $labels['addidentity'] = 'Lisa identiteet';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Muuda identiteeti';
+=======
+$labels['edititem'] = 'Muuda identiteeti';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Eelista HTMLi';
 $labels['defaultcharset'] = 'Vaikimisi märgistik';
 $labels['htmlmessage'] = 'HTML kirjad';

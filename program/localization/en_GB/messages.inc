@@ -24,6 +24,7 @@ $messages['servererror'] = 'Server Error!';
 $messages['servererrormsg'] = 'Server Error: $msg';
 $messages['connerror'] = 'Connection Error (Failed to reach the server)!';
 $messages['dberror'] = 'Database Error!';
+$messages['windowopenerror'] = 'The popup window was blocked!';
 $messages['requesttimedout'] = 'Request timed out';
 $messages['errorreadonly'] = 'Unable to perform operation. Folder is read-only.';
 $messages['errornoperm'] = 'Unable to perform operation. Permission denied.';
@@ -137,6 +138,10 @@ $messages['importmessagesuccess'] = 'Successfully imported $nr messages';
 $messages['importmessageerror'] = 'Import failed! The uploaded file is not a valid message or mailbox file';
 $messages['opnotpermitted'] = 'Operation not permitted!';
 $messages['nofromaddress'] = 'Missing e-mail address in selected identity.';
+<<<<<<< HEAD
+=======
+$messages['editorwarning'] = 'Switching editor type may cause text formatting to be lost. Do you wish to continue?';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $messages['httpreceivedencrypterror'] = 'A fatal configuration error occurred. Contact your administrator immediately. <b>Your message can not be sent.</b>';
 $messages['smtpconnerror'] = 'SMTP Error ($code): Connection to server failed.';
 $messages['smtpautherror'] = 'SMTP Error ($code): Authentication failed.';

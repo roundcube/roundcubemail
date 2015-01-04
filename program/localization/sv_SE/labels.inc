@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'Återskapa meddelande?';
 $labels['responses'] = 'Responser';
 $labels['insertresponse'] = 'Infoga respons';
 $labels['manageresponses'] = 'Hantera responser';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Ny respons';
+=======
+$labels['savenewresponse'] = 'Ny respons';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Lägg till respons';
 $labels['editresponse'] = 'Ändra respons';
 $labels['editresponses'] = 'Ändra responser';
@@ -293,7 +297,11 @@ $labels['assistant'] = 'Assistent';
 $labels['spouse'] = 'Make/Maka';
 $labels['allfields'] = 'Alla fält';
 $labels['search'] = 'Sök';
+<<<<<<< HEAD
 $labels['searchfor'] = 'Sök efter "$q"';
+=======
+$labels['searchresult'] = 'Sökresultat';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advsearch'] = 'Avancerad sökning';
 $labels['advanced'] = 'Avancerad';
 $labels['other'] = 'Annat';
@@ -336,7 +344,12 @@ $labels['export']         = 'Exportera';
 $labels['exportall']      = 'Exportera alla';
 $labels['exportsel']      = 'Exportera markerade';
 $labels['exportvcards']   = 'Exportera kontakter';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Ny grupp';
+=======
+$labels['newcontactgroup']       = 'Ny grupp';
+$labels['addgroup']       = 'Lägg till grupp';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Ändra gruppnamn';
 $labels['groupdelete']    = 'Ta bort grupp';
 $labels['groupremoveselected'] = 'Ta bort markerade kontakter från gruppen';
@@ -370,7 +383,11 @@ $labels['identities'] = 'Identiteter';
 $labels['manageidentities'] = 'Hantera identiteter';
 $labels['newidentity'] = 'Ny identitet';
 $labels['addidentity'] = 'Lägg till identitet';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Ändra identitet';
+=======
+$labels['edititem'] = 'Ändra identitet';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Visa meddelanden i HTML-format';
 $labels['defaultcharset'] = 'Förvald teckenkodning';
 $labels['htmlmessage'] = 'HTML-meddelande';

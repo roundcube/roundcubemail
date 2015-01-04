@@ -153,11 +153,11 @@ $labels['invert'] = 'Alderantzizkatu';
 $labels['filter'] = 'Iragazkia';
 $labels['list'] = 'Zerrenda';
 $labels['threads'] = 'Hariak';
-$labels['expand-all'] = 'Irekin denak';
+$labels['expand-all'] = 'Ireki denak';
 $labels['expand-unread'] = 'Ireki irakurri gabeak';
 $labels['collapse-all'] = 'Tolestu guztiak';
 $labels['threaded'] = 'Harian';
-$labels['autoexpand_threads'] = 'Irekin mezu-hariak';
+$labels['autoexpand_threads'] = 'Ireki mezu-hariak';
 $labels['do_expand'] = 'hari guztiak';
 $labels['expand_only_unread'] = 'soilik irakurri gabeko mezuak dutenak';
 $labels['fromto'] = 'Nork/Nori';
@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'Leheneratu mezua?';
 $labels['responses'] = 'Erantzunak';
 $labels['insertresponse'] = 'Txertatu erantzun bat';
 $labels['manageresponses'] = 'Kudeatu erantzunak';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Sortu erantzun berria';
+=======
+$labels['savenewresponse'] = 'Sortu erantzun berria';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Gehitu erantzuna';
 $labels['editresponse'] = 'Editatu erantzuna';
 $labels['editresponses'] = 'Editatu erantzunak';
@@ -336,7 +340,11 @@ $labels['export']         = 'Esportatu';
 $labels['exportall']      = 'Esportatu dena';
 $labels['exportsel']      = 'Esportatu hautaketa';
 $labels['exportvcards']   = 'Esportatu kontaktuak vCard formatuan';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Sortu talde berria';
+=======
+$labels['newcontactgroup']       = 'Sortu talde berria';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Berrizendatu taldea';
 $labels['groupdelete']    = 'Ezabatu taldea';
 $labels['groupremoveselected'] = 'Ezabatu taldetik hautatutako kontaktuak';
@@ -370,7 +378,11 @@ $labels['identities'] = 'Identitateak';
 $labels['manageidentities'] = 'Kudeatu identitateak';
 $labels['newidentity'] = 'Sortu identitate berria';
 $labels['addidentity'] = 'Gehitu identitatea';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Editatu identitatea';
+=======
+$labels['edititem'] = 'Editatu identitatea';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'HTML nahiago';
 $labels['defaultcharset'] = 'Lehenetsitako karaktere-jokoa';
 $labels['htmlmessage'] = 'HTML mezua';
@@ -570,5 +582,9 @@ $labels['helplistkeyboardnavmessages'] = "Gezia eskuin/ezker: zabaldu/tolestu me
 Sartu: Ireki hautatutako/fokatutako mezua.
 Ezabatu: Eraman hautatutako mezuak zakarrontzira.
 ";
+<<<<<<< HEAD
 $labels['helplistkeyboardnavcontacts'] = "Sartu: Irekin hautatutako/fokatutako kontaktua.";
+=======
+$labels['helplistkeyboardnavcontacts'] = "Sartu: Ireki hautatutako/fokatutako kontaktua.";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 ?>

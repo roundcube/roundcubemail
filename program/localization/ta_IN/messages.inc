@@ -25,6 +25,7 @@ $messages['servererrormsg'] = 'சேவையக பிழை: $msg';
 $messages['invalidrequest'] = 'செல்லாத வேண்டுகோள்! எந்த தரவும் சேமிக்கப்படவில்லை.';
 $messages['nomessagesfound'] = 'இந்த தபால் பெட்டியில் எந்த தரவும் சேமிக்கப்படவில்லை';
 $messages['loggedout'] = 'நீங்கள் அமர்வை வெற்றிகரமாக முடித்தீர்கள். வணக்கம்';
+$messages['mailboxempty'] = 'தபால் பெட்டி காலியாக உள்ளது';
 $messages['loading'] = 'ஏற்றுகிறது...';
 $messages['uploading'] = 'கோப்பை ஏற்றுகிறது...';
 $messages['loadingdata'] = 'தரவை ஏற்றுகிறது...';

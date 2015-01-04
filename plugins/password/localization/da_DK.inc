@@ -15,6 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+<<<<<<< HEAD
+=======
+$labels['changepasswd']  = 'Ændre adgangskode ';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['curpasswd']  = 'Nuværende adgangskode:';
 $labels['newpasswd']  = 'Ny adgangskode:';
 $labels['confpasswd']  = 'Bekræft ny adgangskode:';
@@ -28,4 +32,5 @@ $messages['internalerror'] = 'Kunne ikke gemme den nye adgangskode.';
 $messages['passwordshort'] = 'Adgangskoden skal være mindst $length tegn lang.';
 $messages['passwordweak'] = 'Adgangskoden skal indeholde mindst et tal og et tegnsætningstegn (-.,)';
 $messages['passwordforbidden'] = 'Adgangskoden indeholder forbudte tegn.';
+$messages['firstloginchange'] = 'Dette er første gang du logger ind, ændre venligst din adgangskode';
 ?>

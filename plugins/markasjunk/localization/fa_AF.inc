@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/attachment_reminder/localization/<lang>.inc                   |
+ | plugins/markasjunk/localization/<lang>.inc                            |
  |                                                                       |
- | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Localization file of the Roundcube Webmail Mark-As-Junk plugin        |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,8 +13,9 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-$messages['forgotattachment'] = "";
-$messages['reminderoption'] = "";
-$messages['keywords'] = "";
+$labels['buttontext'] = 'هرزنامه';
+$labels['buttontitle'] = 'نشانه گذاری به عنوان هرزنامه';
+$labels['reportedasjunk'] = 'با موفقبت به عنوان هرزنامه گزارش شد';
+?>

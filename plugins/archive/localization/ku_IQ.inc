@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/attachment_reminder/localization/<lang>.inc                   |
+ | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
  | Copyright (C) 2013, The Roundcube Dev Team                            |
@@ -13,8 +13,10 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-$messages['forgotattachment'] = "";
-$messages['reminderoption'] = "";
-$messages['keywords'] = "";
+$labels['buttontext'] = 'ئەرشیف';
+$labels['archivefolder'] = 'ئەرشیف';
+$labels['settingstitle'] = 'ئەرشیف';
+$labels['unkownsender'] = 'نەناسراو';
+?>

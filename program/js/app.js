@@ -1336,8 +1336,10 @@ function rcube_webmail()
     var url = this.get_task_url(task);
     if (task == 'mail')
       url += '&_mbox=INBOX';
-    else if (task == 'logout' && !this.env.server_error)
+    else if (task == 'logout' && !this.env.server_error) {
+      url += '&_token=' + this.env.request_token;
       this.clear_compose_data();
+    }
 
     this.redirect(url);
   };
@@ -1347,7 +1349,10 @@ function rcube_webmail()
     if (!url)
       url = this.env.comm_path;
 
-    return url.replace(/_task=[a-z0-9_-]+/i, '_task='+task);
+    if (url.match(/[?&]_task=[a-zA-Z0-9_-]+/))
+        return url.replace(/_task=[a-zA-Z0-9_-]+/, '_task=' + task);
+    else
+        return url.replace(/\?.*$/, '') + '?_task=' + task;
   };
 
   this.reload = function(delay)
@@ -3128,7 +3133,7 @@ function rcube_webmail()
     if (!this.gui_objects.messageform)
       return false;
 
-    var input_from = $("[name='_from']"),
+    var i, pos, input_from = $("[name='_from']"),
       input_to = $("[name='_to']"),
       input_subject = $("input[name='_subject']"),
       input_message = $("[name='_message']").get(0),
@@ -3157,16 +3162,23 @@ function rcube_webmail()
 
     // init live search events
     this.init_address_input_events(input_to, ac_props);
-    for (var i in ac_fields) {
+    for (i in ac_fields) {
       this.init_address_input_events($("[name='_"+ac_fields[i]+"']"), ac_props);
     }
 
     if (!html_mode) {
-      this.set_caret_pos(input_message, this.env.top_posting ? 0 : $(input_message).val().length);
+      pos = this.env.top_posting ? 0 : input_message.value.length;
+      this.set_caret_pos(input_message, pos);
+
       // add signature according to selected identity
       // if we have HTML editor, signature is added in callback
       if (input_from.prop('type') == 'select-one') {
         this.change_identity(input_from[0]);
+      }
+
+      // scroll to the bottom of the textarea (#1490114)
+      if (pos) {
+        $(input_message).scrollTop(input_message.scrollHeight);
       }
     }
 
@@ -3432,6 +3444,8 @@ function rcube_webmail()
     }
     else if (this.html2plain(tinyMCE.get(props.id).getContent(), props.id))
       tinyMCE.execCommand('mceRemoveControl', false, props.id);
+    else
+      return false;
 
     return true;
   };

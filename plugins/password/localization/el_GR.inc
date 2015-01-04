@@ -15,6 +15,10 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+<<<<<<< HEAD
+=======
+$labels['changepasswd']  = 'Αλλαγή συνθηματικού';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['curpasswd']  = 'Τρεχων κωδικος προσβασης:';
 $labels['newpasswd']  = 'Νεος κωδικος προσβασης:';
 $labels['confpasswd']  = 'Επιβεβαιωση κωδικου προσβασης:';
@@ -28,4 +32,5 @@ $messages['internalerror'] = 'Δεν μπορεσε να αποθηκεύθει 
 $messages['passwordshort'] = 'Ο κωδικός πρόσβασης πρέπει να είναι τουλάχιστον $μήκος χαρακτήρων.';
 $messages['passwordweak'] = 'Ο κωδικός πρόσβασης πρέπει να περιλαμβάνει τουλάχιστον έναν αριθμό και ένα σημείο στίξης. ';
 $messages['passwordforbidden'] = 'Ο κωδικός πρόσβασης περιέχει μη επιτρεπτούς χαρακτήρες. ';
+$messages['firstloginchange'] = 'Αυτή είναι η πρώτη σας είσοδος. Παρακαλώ αλλάξτε το συνθηματικό σας.';
 ?>

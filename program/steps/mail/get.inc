@@ -247,7 +247,7 @@ else if (strlen($part_id)) {
             if (!rcube_utils::mem_check($part->size * 10)) {
                 $out = '<body>' . $RCMAIL->gettext('messagetoobig'). ' '
                     . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id
-                        .'&_mbox='. urlencode($RCMAIL->storage->get_folder()), $RCMAIL->gettext('download')) . '</body></html>';
+                        .'&_mbox='. urlencode($MESSAGE->folder), $RCMAIL->gettext('download')) . '</body></html>';
             }
             else {
                 // get part body if not available
@@ -356,7 +356,8 @@ else if (strlen($part_id)) {
             }
             // send part as-it-is
             else {
-                if ($part->body && empty($plugin['download'])) {
+                // here we trust attachments from TNEF/uuencode message are untouched (#1490091)
+                if ($part->body && (!is_numeric($part->mime_id) || empty($plugin['download']))) {
                     header("Content-Length: " . strlen($part->body));
                     echo $part->body;
                     $sent = true;

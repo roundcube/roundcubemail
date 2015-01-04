@@ -16,3 +16,10 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 $labels['downloadall'] = 'Pellgargañ an holl stagadennoù';
+<<<<<<< HEAD
+=======
+$labels['download'] = 'Pellgargañ…';
+$labels['downloadmbox'] = 'Mentrezh Mbox (.zip)';
+$labels['downloadmaildir'] = 'Mentrezh Maildir (.zip)';
+$labels['downloademl'] = 'Tarzh (.eml)';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d

@@ -217,7 +217,11 @@ $labels['restore'] = 'Palauta';
 $labels['restoremessage'] = 'Palautetaanko viesti?';
 $labels['responses'] = 'Vastaukset';
 $labels['manageresponses'] = 'Hallitse vastauksia';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Luo uusi vastaus';
+=======
+$labels['savenewresponse'] = 'Luo uusi vastaus';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Lisää vastaus';
 $labels['editresponse'] = 'Muokkaa vastausta';
 $labels['editresponses'] = 'Muokkaa vastauksia';
@@ -327,7 +331,12 @@ $labels['export']         = 'Vie (export)';
 $labels['exportall']      = 'Vie kaikki';
 $labels['exportsel']      = 'Vie valitut';
 $labels['exportvcards']   = 'Vie yhteystiedot vCard-muodossa';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Luo uusi ryhmä';
+=======
+$labels['newcontactgroup']       = 'Luo uusi ryhmä';
+$labels['addgroup']       = 'Lisää ryhmä';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Nimeä ryhmä uudelleen';
 $labels['groupdelete']    = 'Poista ryhmä';
 $labels['groupremoveselected'] = 'Poista valitut yhteystiedot ryhmästä';
@@ -338,6 +347,7 @@ $labels['nextpage']       = 'Näytä seuraava luettelo';
 $labels['lastpage']       = 'Näytä viimeinen luettelo';
 $labels['group'] = 'Ryhmä';
 $labels['groups'] = 'Ryhmät';
+$labels['listgroup'] = 'Listaa ryhmän jäsenet';
 $labels['personaladrbook'] = 'Henkilökohtaiset osoitteet';
 $labels['searchsave'] = 'Tallenna haku';
 $labels['searchdelete'] = 'Poista haku';
@@ -360,7 +370,11 @@ $labels['identities'] = 'Identiteetit';
 $labels['manageidentities'] = 'Hallitse henkilöyksiä';
 $labels['newidentity'] = 'Luo uusi henkilöys';
 $labels['addidentity'] = 'Lisää henkilöys';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Muokkaa henkilöyttä';
+=======
+$labels['edititem'] = 'Muokkaa henkilöyttä';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Käytä HTML:aa';
 $labels['defaultcharset'] = 'Oletusmerkistökoodaus';
 $labels['htmlmessage'] = 'HTML-viesti';
@@ -527,7 +541,10 @@ $labels['arialabelattachmentpreview'] = 'Liitteen esikatselu';
 $labels['arialabelabookgroupoptions'] = 'Osoitekirjan/ryhmän valinnat';
 $labels['arialabelidentityeditfrom'] = 'Henkilöyden muokkauslomake';
 $labels['arialabelsearchterms'] = 'Hakuehdot';
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['helplistkeyboardnavcontacts'] = "Enter: avaa valittu/kohdistettu yhteystieto.";
 ?>

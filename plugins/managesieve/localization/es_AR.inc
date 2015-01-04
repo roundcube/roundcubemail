@@ -165,9 +165,14 @@ $labels['vacation.reply'] = 'Responder mensaje';
 $labels['vacation.advanced'] = 'Opciones avanzdas';
 $labels['vacation.subject'] = 'Asunto';
 $labels['vacation.body'] = 'Cuerpo';
+<<<<<<< HEAD
 $labels['vacation.dates'] = 'Período de vacaciones';
 $labels['vacation.from'] = 'De:';
 $labels['vacation.to'] = 'Para:';
+=======
+$labels['vacation.start'] = 'Inicio de vacaciones';
+$labels['vacation.end'] = 'Final de vacaciones';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['vacation.status'] = 'Estado';
 $labels['vacation.on'] = 'On';
 $labels['vacation.off'] = 'Off';

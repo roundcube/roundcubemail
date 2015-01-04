@@ -206,7 +206,7 @@ class rcube_image
                 $image = $new_image;
 
                 // fix rotation of image if EXIF data exists and specifies rotation (GD strips the EXIF data)
-                if ($this->image_file && function_exists('exif_read_data')) {
+                if ($this->image_file && $type == 'jpg' && function_exists('exif_read_data')) {
                     $exif = exif_read_data($this->image_file);
                     if ($exif && $exif['Orientation']) {
                         switch ($exif['Orientation']) {

@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-$labels['identitydialogtitle'] = '발신인의 신원을 완성하시기 바랍니다.';
+$labels['identitydialogtitle'] = '발송자의 신원을 완성해주세요.';
 $labels['identitydialoghint'] = '이 상자는 최초로 로그인할 때만 나타납니다.';
 ?>

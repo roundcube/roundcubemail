@@ -90,18 +90,37 @@ $labels['vacation.reply'] = 'Vastausviesti';
 $labels['vacation.advanced'] = 'Lisäasetukset';
 $labels['vacation.subject'] = 'Aihe';
 $labels['vacation.body'] = 'Sisältö';
+<<<<<<< HEAD
 $labels['vacation.dates'] = 'Loma-aika';
 $labels['vacation.from'] = 'Lähettäjä:';
 $labels['vacation.to'] = 'Vastaanottaja:';
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['vacation.status'] = 'Tila';
 $labels['vacation.on'] = 'Päällä';
 $labels['vacation.off'] = 'Pois';
 $labels['vacation.saving'] = 'Tallennetaan tietoja...';
+<<<<<<< HEAD
 $messages['filterunknownerror'] = 'Tuntematon palvelinvirhe.';
 $messages['filterconnerror'] = 'Yhteys palvelimeen epäonnistui.';
 $messages['filterdeleted'] = 'Suodatin poistettu onnistuneesti.';
 $messages['filterdeleteconfirm'] = 'Haluatko varmasti poistaa valitun suodattimen?';
+=======
+$labels['vacation.action'] = 'Toiminto saapuvalle viestille';
+$labels['vacation.keep'] = 'Säilytä';
+$labels['vacation.discard'] = 'Hylkää';
+$labels['vacation.redirect'] = 'Ohjaa uudelleen osoitteeseen';
+$labels['vacation.copy'] = 'Lähetä kopio osoitteeseen';
+$messages['filterunknownerror'] = 'Tuntematon palvelinvirhe.';
+$messages['filterconnerror'] = 'Yhteys palvelimeen epäonnistui.';
+$messages['filterdeleted'] = 'Suodatin poistettu onnistuneesti.';
+$messages['filtersaved'] = 'Suodatin tallennettu onnistuneesti.';
+$messages['filtersaveerror'] = 'Suodattimen tallennus epäonnistui palvelinvirheen vuoksi.';
+$messages['filterdeleteconfirm'] = 'Haluatko varmasti poistaa valitun suodattimen?';
+$messages['forbiddenchars'] = 'Virheellisiä merkkejä kentässä.';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $messages['cannotbeempty'] = 'Kenttä ei voi olla tyhjä.';
+$messages['ruleexist'] = 'Suodatin samalla nimellä on jo olemassa.';
 $messages['moved'] = 'Suodatin siirretty onnistuneesti.';
 $messages['nametoolong'] = 'Nimi on liian pitkä.';
 $messages['saveerror'] = 'Tietojen tallennus epäonnistui palvelinvirheen vuoksi.';

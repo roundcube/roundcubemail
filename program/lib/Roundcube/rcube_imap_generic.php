@@ -865,7 +865,7 @@ class rcube_imap_generic
 
         if (!$this->fp) {
             $this->setError(self::ERROR_BAD, sprintf("Could not connect to %s:%d: %s",
-                $host, $this->prefs['port'], $errstr ?: "Unknown reason"));
+                $host, $this->prefs['port'], $errstr ? $errstr : "Unknown reason"));
 
             return false;
         }
@@ -2002,8 +2002,14 @@ class rcube_imap_generic
             $flag = $this->flags[strtoupper($flag)];
         }
 
-        if (!$flag || (!in_array($flag, (array) $this->data['PERMANENTFLAGS'])
-            && !in_array('\\*', (array) $this->data['PERMANENTFLAGS']))
+        if (!$flag) {
+            return false;
+        }
+
+        // if PERMANENTFLAGS is not specified all flags are allowed
+        if (!empty($this->data['PERMANENTFLAGS'])
+            && !in_array($flag, (array) $this->data['PERMANENTFLAGS'])
+            && !in_array('\\*', (array) $this->data['PERMANENTFLAGS'])
         ) {
             return false;
         }
@@ -2524,50 +2530,61 @@ class rcube_imap_generic
             return false;
         }
 
-        switch ($encoding) {
-        case 'base64':
-            $mode = 1;
-            break;
-        case 'quoted-printable':
-            $mode = 2;
-            break;
-        case 'x-uuencode':
-        case 'x-uue':
-        case 'uue':
-        case 'uuencode':
-            $mode = 3;
-            break;
-        default:
-            $mode = 0;
-        }
-
-        // Use BINARY extension when possible (and safe)
-        $binary     = $mode && preg_match('/^[0-9.]+$/', $part) && $this->hasCapability('BINARY');
-        $fetch_mode = $binary ? 'BINARY' : 'BODY';
-        $partial    = $max_bytes ? sprintf('<0.%d>', $max_bytes) : '';
-
-        // format request
-        $key     = $this->nextTag();
-        $request = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part]$partial)";
-        $result  = false;
-        $found   = false;
-
-        // send request
-        if (!$this->putLine($request)) {
-            $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");
-            return false;
-        }
-
-        if ($binary) {
-            // WARNING: Use $formatted argument with care, this may break binary data stream
-            $mode = -1;
-        }
+        $binary    = true;
 
         do {
+            if (!$initiated) {
+                switch ($encoding) {
+                case 'base64':
+                    $mode = 1;
+                    break;
+                case 'quoted-printable':
+                    $mode = 2;
+                    break;
+                case 'x-uuencode':
+                case 'x-uue':
+                case 'uue':
+                case 'uuencode':
+                    $mode = 3;
+                    break;
+                default:
+                    $mode = 0;
+                }
+
+                // Use BINARY extension when possible (and safe)
+                $binary     = $binary && $mode && preg_match('/^[0-9.]+$/', $part) && $this->hasCapability('BINARY');
+                $fetch_mode = $binary ? 'BINARY' : 'BODY';
+                $partial    = $max_bytes ? sprintf('<0.%d>', $max_bytes) : '';
+
+                // format request
+                $key       = $this->nextTag();
+                $request   = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part]$partial)";
+                $result    = false;
+                $found     = false;
+                $initiated = true;
+
+                // send request
+                if (!$this->putLine($request)) {
+                    $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");
+                    return false;
+                }
+
+                if ($binary) {
+                    // WARNING: Use $formatted argument with care, this may break binary data stream
+                    $mode = -1;
+                }
+            }
+
             $line = trim($this->readLine(1024));
 
             if (!$line) {
                 break;
+            }
+
+            // handle UNKNOWN-CTE response - RFC 3516, try again with standard BODY request
+            if ($binary && !$found && preg_match('/^' . $key . ' NO \[UNKNOWN-CTE\]/i', $line)) {
+                $binary = $initiated = false;
+                continue;
             }
 
             // skip irrelevant untagged responses (we have a result already)
@@ -2630,7 +2647,7 @@ class rcube_imap_generic
 
                     // BASE64
                     if ($mode == 1) {
-                        $line = rtrim($line, "\t\r\n\0\x0B");
+                        $line = preg_replace('|[^a-zA-Z0-9+=/]|', '', $line);
                         // create chunks with proper length for base64 decoding
                         $line = $prev.$line;
                         $length = strlen($line);
@@ -2675,7 +2692,7 @@ class rcube_imap_generic
                     }
                 }
             }
-        } while (!$this->startsWith($line, $key, true));
+        } while (!$this->startsWith($line, $key, true) || !$initiated);
 
         if ($result !== false) {
             if ($file) {

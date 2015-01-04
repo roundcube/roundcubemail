@@ -46,6 +46,8 @@ $labels['copy']     = 'Cóipeáil';
 $labels['move']     = 'Bog';
 $labels['moveto']   = 'bog go...';
 $labels['download'] = 'síos-luchtú';
+$labels['open']     = 'Oscail';
+$labels['showattachment'] = 'Taispeáin';
 $labels['filename'] = 'Comhad';
 $labels['filesize'] = 'Toirt';
 $labels['addtoaddressbook'] = 'Sábháil i mo leabhair seoltaí';
@@ -161,6 +163,7 @@ $labels['editpreferences'] = 'Athraigh tosaíocht pearsanta';
 $labels['identities'] = 'Céannachtaí';
 $labels['preferhtml'] = 'Taispeáin an HTML';
 $labels['htmlmessage'] = 'Teachtaireacht HTML';
+$labels['messagepart'] = 'Cuid';
 $labels['prettydate'] = 'Dátaí Dheas';
 $labels['setdefault']  = 'Socraigh an réamhshocraithe';
 $labels['language']  = 'Teanga';
@@ -171,9 +174,15 @@ $labels['dstactive']  = 'Laethúil um shamhradh';
 $labels['htmleditor'] = 'Scríobh teachtaireachta HTML';
 $labels['htmlsignature'] = 'Mana clabhsúir HTML';
 $labels['previewpane'] = 'Taispeáin an pána réamhamharc';
+$labels['always'] = 'riamh';
 $labels['autosavedraft']  = 'Sábháil dréachta go huathoibríoch';
 $labels['never']  = 'riamh';
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
+=======
+$labels['immediately']  = 'láithreach';
+$labels['afternseconds']  = 'tar éis $n soicindí';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['folder'] = 'Fillteán';
 $labels['folders'] = 'Fillteán';
 $labels['foldername'] = 'Ainm fillteán';

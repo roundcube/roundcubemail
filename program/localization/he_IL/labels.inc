@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'לשחזר הודעה?';
 $labels['responses'] = 'תגובות';
 $labels['insertresponse'] = 'הכנסת תגובה';
 $labels['manageresponses'] = 'ניהול תגובות';
+<<<<<<< HEAD
 $labels['newresponse'] = 'צור מענה חדש';
+=======
+$labels['savenewresponse'] = 'צור מענה חדש';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'הוסף מענה';
 $labels['editresponse'] = 'עריכת תגובה';
 $labels['editresponses'] = 'עריכת תגובות';
@@ -293,7 +297,11 @@ $labels['assistant'] = 'עוזר/ת';
 $labels['spouse'] = 'בן/בת זוג';
 $labels['allfields'] = 'כל השדות';
 $labels['search'] = 'חיפוש';
+<<<<<<< HEAD
 $labels['searchfor'] = 'חיפוש של "q$"';
+=======
+$labels['searchresult'] = 'תוצאת חיפוש';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advsearch'] = 'חיםוש מתקדם';
 $labels['advanced'] = 'מתקדם';
 $labels['other'] = 'אחר';
@@ -336,7 +344,12 @@ $labels['export']         = 'ייצוא';
 $labels['exportall']      = 'יצוא של כל הרשומות';
 $labels['exportsel']      = 'צוא של רשומות נבחרות';
 $labels['exportvcards']   = 'ייצוא אנשי קשר בפורמט  vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'הוסף קבוצה חדשה';
+=======
+$labels['newcontactgroup']       = 'הוסף קבוצה חדשה';
+$labels['addgroup']       = 'הוספת קבוצה';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'שינוי שם קבוצה';
 $labels['groupdelete']    = 'מחיקת קבוצה';
 $labels['groupremoveselected'] = 'אנשי הקשר שנבחרו יוסרו מהקבוצה';
@@ -372,7 +385,11 @@ $labels['identities'] = 'זהויות';
 $labels['manageidentities'] = 'נהל זהויות';
 $labels['newidentity'] = 'צור זהות חדשה';
 $labels['addidentity'] = 'הוסף זהות';
+<<<<<<< HEAD
 $labels['editidentity'] = 'ערוך זהות';
+=======
+$labels['edititem'] = 'ערוך זהות';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'הצגת HTML';
 $labels['defaultcharset'] = 'ברירת מחדל של תווים';
 $labels['htmlmessage'] = 'תוכן HTML';
@@ -429,7 +446,11 @@ $labels['2231folding'] = 'תאימות מלאה 2231 תאנדרבירד';
 $labels['miscfolding'] = 'תאימות 2047/2231 אאוטלוק';
 $labels['2047folding'] = 'תאימות מלאה 2047 אחרים';
 $labels['force7bit'] = 'קידוד MIME עבור תווים בעלי 8 ביטים';
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
+=======
+$labels['savelocalstorage'] = "שמירה באיחסון מקומי של הדפדפן (ארעית)";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advancedoptions'] = 'הגדרות נוספות';
 $labels['toggleadvancedoptions'] = 'בחירה בין הגדרות בסיסיות או מתקדמות';
 $labels['focusonnewmessage'] = 'מיקוד הסמן על החלון עם ההודעה החדשה';

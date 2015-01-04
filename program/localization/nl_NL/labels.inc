@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'Bericht herstellen?';
 $labels['responses'] = 'Reacties';
 $labels['insertresponse'] = 'Reactie invoegen';
 $labels['manageresponses'] = 'Reacties beheren';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Nieuw antwoord aanmaken';
+=======
+$labels['savenewresponse'] = 'Nieuw antwoord aanmaken';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Antwoord toevoegen';
 $labels['editresponse'] = 'Bewerk reactie';
 $labels['editresponses'] = 'Bewerk reactie';
@@ -293,7 +297,11 @@ $labels['assistant'] = 'Assistent';
 $labels['spouse'] = 'Echtgenoot';
 $labels['allfields'] = 'Alle velden';
 $labels['search'] = 'Zoeken';
+<<<<<<< HEAD
 $labels['searchfor'] = 'Zoek naar "$q"';
+=======
+$labels['searchresult'] = 'Zoekresultaat';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advsearch'] = 'Geavanceerd zoeken';
 $labels['advanced'] = 'Geavanceerd';
 $labels['other'] = 'Anders';
@@ -336,7 +344,12 @@ $labels['export']         = 'Exporteren';
 $labels['exportall']      = 'Alles exporteren';
 $labels['exportsel']      = 'Selectie exporteren';
 $labels['exportvcards']   = 'Exporteer contactpersonen in vCard-formaat';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Nieuwe groep maken';
+=======
+$labels['newcontactgroup']       = 'Nieuwe groep maken';
+$labels['addgroup']       = 'Groep toevoegen';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Groep hernoemen';
 $labels['groupdelete']    = 'Groep verwijderen';
 $labels['groupremoveselected'] = 'Verwijder geselecteerde contactpersonen van groep';
@@ -370,7 +383,11 @@ $labels['identities'] = 'Identiteiten';
 $labels['manageidentities'] = 'Identiteiten beheren';
 $labels['newidentity'] = 'Nieuwe identiteit';
 $labels['addidentity'] = 'Identiteit toevoegen';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Identiteit bewerken';
+=======
+$labels['edititem'] = 'Identiteit bewerken';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Toon berichten in HTML-opmaak';
 $labels['defaultcharset'] = 'Standaard tekenset';
 $labels['htmlmessage'] = 'HTML-bericht';

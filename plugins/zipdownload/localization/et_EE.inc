@@ -16,3 +16,10 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 $labels['downloadall'] = 'Laadi alla kõik manused';
+<<<<<<< HEAD
+=======
+$labels['download'] = 'lae arvutisse';
+$labels['downloadmbox'] = 'Mbox vorming (.zip)';
+$labels['downloadmaildir'] = 'Maildir vorming (.zip)';
+$labels['downloademl'] = 'Lähtetekst (.eml)';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d

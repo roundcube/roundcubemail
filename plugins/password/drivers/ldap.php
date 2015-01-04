@@ -232,8 +232,12 @@ class rcube_ldap_password
                 return false;
             }
 
-            /* Hardcoded to second blowfish version and set number of rounds */
-            $crypted_password = '{CRYPT}' . crypt($password_clear, '$2a$12$' . self::random_salt(13));
+            $rcmail = rcmail::get_instance();
+            $cost   = (int) $rcmail->config->get('password_blowfish_cost');
+            $cost   = $cost < 4 || $cost > 31 ? 12 : $cost;
+            $prefix = sprintf('$2a$%02d$', $cost);
+
+            $crypted_password = '{CRYPT}' . crypt($password_clear, $prefix . self::random_salt(22));
             break;
 
         case 'md5':
@@ -263,7 +267,7 @@ class rcube_ldap_password
 
             if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
                 $salt     = mhash_keygen_s2k(MHASH_SHA1, $password_clear, $salt, 4);
-                $password = mhash(MHASH_MD5, $password_clear . $salt);
+                $password = mhash(MHASH_SHA1, $password_clear . $salt);
             }
             else if (function_exists('sha1')) {
                 $salt     = substr(pack("H*", sha1($salt . $password_clear)), 0, 4);

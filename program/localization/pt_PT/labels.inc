@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'Restaurar mensagem?';
 $labels['responses'] = 'Respostas';
 $labels['insertresponse'] = 'Insira uma resposta';
 $labels['manageresponses'] = 'Gerir respostas';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Criar nova resposta';
+=======
+$labels['savenewresponse'] = 'Criar nova resposta';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Adicionar resposta';
 $labels['editresponse'] = 'Editar resposta';
 $labels['editresponses'] = 'Editar respostas';
@@ -293,7 +297,11 @@ $labels['assistant'] = 'Assistente';
 $labels['spouse'] = 'Cônjuge';
 $labels['allfields'] = 'Todos os campos';
 $labels['search'] = 'Pesquisar';
+<<<<<<< HEAD
 $labels['searchfor'] = 'Procurar por "$q"';
+=======
+$labels['searchresult'] = 'Resultado da pesquisa';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advsearch'] = 'Pesquisa avançada';
 $labels['advanced'] = 'Pesquisa avançada';
 $labels['other'] = 'Outro';
@@ -336,7 +344,12 @@ $labels['export']         = 'Exportar';
 $labels['exportall']      = 'Exportar todos';
 $labels['exportsel']      = 'Exportar selecionados';
 $labels['exportvcards']   = 'Exportar contactos no formato vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Criar novo grupo';
+=======
+$labels['newcontactgroup']       = 'Criar novo grupo';
+$labels['addgroup']       = 'Adicionar grupo';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Renomear grupo';
 $labels['groupdelete']    = 'Eliminar grupo';
 $labels['groupremoveselected'] = 'Remover o(s) contacto(s) seleccionado(s) do grupo';
@@ -370,7 +383,11 @@ $labels['identities'] = 'Identidades';
 $labels['manageidentities'] = 'Gerir identidades';
 $labels['newidentity'] = 'Criar nova identidade';
 $labels['addidentity'] = 'Adicionar identidade';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Editar identidade';
+=======
+$labels['edititem'] = 'Editar identidade';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Mostrar mensagens em HTML';
 $labels['defaultcharset'] = 'Conjunto de caracteres predefinido';
 $labels['htmlmessage'] = 'Mensagem em HTML';

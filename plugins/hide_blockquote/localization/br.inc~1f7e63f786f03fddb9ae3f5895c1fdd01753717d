@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/attachment_reminder/localization/<lang>.inc                   |
+ | plugins/hide_blockquote/localization/<lang>.inc                       |
  |                                                                       |
- | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Localization file of the Roundcube Webmail Hide-Blockquote plugin     |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,8 +13,9 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-$messages['forgotattachment'] = "";
-$messages['reminderoption'] = "";
-$messages['keywords'] = "";
+$labels['hide'] = 'Kuzhat';
+$labels['show'] = 'Diskouez';
+$labels['quotelimit'] = 'Kuzhat ar meneg pa\'z\'eo re uhel niver a linennnoù eus';
+?>

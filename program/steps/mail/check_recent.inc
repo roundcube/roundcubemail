@@ -28,6 +28,8 @@ if (empty($_POST['_folderlist']) && empty($_POST['_list'])) {
 $trash     = $RCMAIL->config->get('trash_mbox');
 $current   = $RCMAIL->storage->get_folder();
 $check_all = $RCMAIL->action != 'refresh' || (bool)$RCMAIL->config->get('check_all_folders');
+$page      = $RCMAIL->storage->get_page();
+$page_size = $RCMAIL->storage->get_pagesize();
 
 // list of folders to check
 if ($check_all) {
@@ -88,8 +90,6 @@ foreach ($a_mailboxes as $mbox_name) {
         // did a refresh but only in list mode
         $list_mode = $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL';
         $all_count = $RCMAIL->storage->count($mbox_name, $list_mode, $list_mode == 'THREADS', false);
-        $page      = $RCMAIL->storage->get_page();
-        $page_size = $RCMAIL->storage->get_pagesize();
 
         // check current page if we're not on the first page
         if ($all_count && $page > 1) {

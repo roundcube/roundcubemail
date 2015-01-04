@@ -179,6 +179,8 @@ $labels['importmessages'] = 'Importer beskeder';
 $labels['quota'] = 'Diskforbrug';
 $labels['unknown']  = 'ukendt';
 $labels['unlimited']  = 'ubegrænset';
+$labels['quotaused'] = 'Brugt';
+$labels['quotastorage'] = 'Disk plads';
 $labels['quicksearch']  = 'Hurtigsøg';
 $labels['resetsearch']  = 'Nulstil søgning';
 $labels['searchmod']  = 'Søgeparametre';
@@ -218,6 +220,11 @@ $labels['restoremessage'] = 'Gendan besked';
 $labels['responses'] = 'Svar';
 $labels['insertresponse'] = 'Indsæt et svar';
 $labels['manageresponses'] = 'Administrer svar';
+<<<<<<< HEAD
+=======
+$labels['savenewresponse'] = 'Opret ny svar';
+$labels['addresponse'] = 'Tilføj svar';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['editresponse'] = 'Rediger svar';
 $labels['editresponses'] = 'Rediger svar';
 $labels['responsename'] = 'Navn';
@@ -284,7 +291,11 @@ $labels['assistant'] = 'Assistent';
 $labels['spouse'] = 'Ægtefælle/partner';
 $labels['allfields'] = 'Alle felter';
 $labels['search'] = 'Søg';
+<<<<<<< HEAD
 $labels['searchfor'] = 'Søg efter "$q"';
+=======
+$labels['searchresult'] = 'Søgeresultat ';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advsearch'] = 'Avanceret søg';
 $labels['advanced'] = 'Avanceret';
 $labels['other'] = 'Andet';
@@ -303,6 +314,10 @@ $labels['typehomepage']  = 'Hjemmeside';
 $labels['typeblog'] = 'Blog';
 $labels['typeprofile'] = 'Profil';
 $labels['addfield'] = 'Tilføj felt...';
+<<<<<<< HEAD
+=======
+$labels['addcontact'] = 'Tilføj kontakt';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['editcontact'] = 'Redigér kontakt';
 $labels['contacts'] = 'Kontakter';
 $labels['contactproperties'] = 'Kontaktegenskaber';
@@ -317,6 +332,10 @@ $labels['rename'] = 'Omdøb';
 $labels['addphoto'] = 'Tilføj';
 $labels['replacephoto'] = 'Erstat';
 $labels['uploadphoto'] = 'Overfør billede';
+<<<<<<< HEAD
+=======
+$labels['newcontact']     = 'Opret ny kontakt';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['deletecontact']  = 'Slet valgte kontakter';
 $labels['composeto']      = 'Skriv besked til';
 $labels['contactsfromto'] = 'Kontakter $from til $to af $count';
@@ -325,6 +344,11 @@ $labels['export']         = 'Eksportér';
 $labels['exportall']      = 'Eksporter alt';
 $labels['exportsel']      = 'Eksporter udvalgte';
 $labels['exportvcards']   = 'Eksportér kontakter i vCard format';
+<<<<<<< HEAD
+=======
+$labels['newcontactgroup']       = 'Opret gruppe';
+$labels['addgroup']       = 'Tilføj gruppe';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Omdøb gruppe';
 $labels['groupdelete']    = 'Slet gruppe';
 $labels['groupremoveselected'] = 'Fjern markerede kontakter fra gruppen';
@@ -355,6 +379,13 @@ $labels['preferences'] = 'Indstillinger';
 $labels['userpreferences'] = 'Brugerindstillinger';
 $labels['editpreferences'] = 'Redigér brugerindstillinger';
 $labels['identities'] = 'Identiteter';
+<<<<<<< HEAD
+=======
+$labels['manageidentities'] = 'Administrer identiteter ';
+$labels['newidentity'] = 'Opret ny identitet ';
+$labels['addidentity'] = 'Tilføj identitet';
+$labels['edititem'] = 'Rediger identitet';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Vis HTML';
 $labels['defaultcharset'] = 'Standard tegnkodning';
 $labels['htmlmessage'] = 'HTML-besked';
@@ -411,7 +442,11 @@ $labels['2231folding'] = 'Fuld RFC 2231 understøttelse (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 understøttelse (MS Outlook)';
 $labels['2047folding'] = 'Fuld RFC 2047 understøttelse (andre)';
 $labels['force7bit'] = 'Brug MIME indkodning for 8-bits tegn';
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
+=======
+$labels['savelocalstorage'] = " ";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advancedoptions'] = 'Avancerede indstillinger';
 $labels['toggleadvancedoptions'] = 'Skift avancerede indstillinger';
 $labels['focusonnewmessage'] = 'Fokusér browservindue når der kommer nye beskeder';
@@ -475,6 +510,13 @@ $labels['foldertype'] = 'Mappetype';
 $labels['personalfolder'] = 'Privat mappe';
 $labels['otherfolder'] = 'Anden brugers mappe';
 $labels['sharedfolder'] = 'Offentlig mappe';
+<<<<<<< HEAD
+=======
+$labels['findfolders'] = 'Find mapper';
+$labels['namespace.personal'] = 'Personlig';
+$labels['namespace.other'] = 'Andre brugere';
+$labels['namespace.shared'] = 'Del';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['sortby'] = 'Sortér efter';
 $labels['sortasc']  = 'Ældste først';
 $labels['sortdesc'] = 'Nyeste først';
@@ -508,12 +550,20 @@ $labels['japanese'] = 'Japansk';
 $labels['korean'] = 'Koreansk';
 $labels['chinese'] = 'Kinesisk';
 $labels['arialabeltopnav'] = 'Vindueskontrol';
+<<<<<<< HEAD
+=======
+$labels['arialabeltasknav'] = 'Application opgaver';
+$labels['arialabelactivetask'] = 'Aktiv opgave';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['arialabelmessagessearchfilter'] = 'E-mail filter';
 $labels['arialabelmailsearchform'] = 'E-mail søgeform';
 $labels['arialabelcontactsearchform'] = 'Kontakt søgeform';
 $labels['arialabelmailquicksearchbox'] = 'E-mail søgeinput';
 $labels['arialabelquicksearchbox'] = 'Søge input';
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "";
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 ?>

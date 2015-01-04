@@ -224,7 +224,11 @@ $labels['restoremessage'] = '是否恢复信息？';
 $labels['responses'] = '回复';
 $labels['insertresponse'] = '插入回复';
 $labels['manageresponses'] = '管理回复';
+<<<<<<< HEAD
 $labels['newresponse'] = '创建新回复';
+=======
+$labels['savenewresponse'] = '创建新回复';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = '添加回复';
 $labels['editresponse'] = '编辑回复';
 $labels['editresponses'] = '编辑回复';
@@ -336,7 +340,11 @@ $labels['export']         = '导出';
 $labels['exportall']      = '导出全部';
 $labels['exportsel']      = '导出选中';
 $labels['exportvcards']   = '导出联系人为 vCard 格式';
+<<<<<<< HEAD
 $labels['newgroup']       = '创建新组';
+=======
+$labels['newcontactgroup']       = '创建新组';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = '重命名群组';
 $labels['groupdelete']    = '删除群组';
 $labels['groupremoveselected'] = '删除选中';
@@ -370,7 +378,11 @@ $labels['identities'] = '发件人身份';
 $labels['manageidentities'] = '管理身份';
 $labels['newidentity'] = '创建新身份';
 $labels['addidentity'] = '添加身份';
+<<<<<<< HEAD
 $labels['editidentity'] = '编辑身份';
+=======
+$labels['edititem'] = '编辑身份';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = '以 HTML 格式显示';
 $labels['defaultcharset'] = '默认字符集';
 $labels['htmlmessage'] = 'HTML 邮件';
@@ -561,7 +573,10 @@ $labels['arialabelpreferencesform'] = '偏好设置表单';
 $labels['arialabelidentityeditfrom'] = '标识编辑表单';
 $labels['arialabelresonseeditfrom'] = '回复编辑表单';
 $labels['helplistnavigation'] = '列表键盘导航';
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['helplistkeyboardnavcontacts'] = "回车：打开选中的联系人";
 ?>

@@ -221,7 +221,11 @@ $labels['restoremessage'] = '¿Restaurar mensaxe?';
 $labels['responses'] = 'Rempuestes';
 $labels['insertresponse'] = 'Inxertar una rempuesta';
 $labels['manageresponses'] = 'Alministrar rempuestes';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Crear resmpuesta nueva';
+=======
+$labels['savenewresponse'] = 'Crear resmpuesta nueva';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Amestar rempuesta';
 $labels['editresponse'] = 'Editar rempuesta';
 $labels['editresponses'] = 'Editar rempuestes';
@@ -333,7 +337,11 @@ $labels['export']         = 'Esportar';
 $labels['exportall']      = 'Esportar too';
 $labels['exportsel']      = 'Esportar lo esbillao';
 $labels['exportvcards']   = 'Esportar contautos en formatu vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Crear grupu nuevu';
+=======
+$labels['newcontactgroup']       = 'Crear grupu nuevu';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Renomar grupu';
 $labels['groupdelete']    = 'Desaniciar grupu';
 $labels['groupremoveselected'] = 'Desaniciar los contautos esbillaos del grupu';
@@ -367,7 +375,11 @@ $labels['identities'] = 'Identidaes';
 $labels['manageidentities'] = 'Almisnitrar identidaes';
 $labels['newidentity'] = 'Crear identidá nueva';
 $labels['addidentity'] = 'Amestar identidça';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Editar identidá';
+=======
+$labels['edititem'] = 'Editar identidá';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Amosar HTML';
 $labels['defaultcharset'] = 'Xuegu de caráuteres predetermináu';
 $labels['htmlmessage'] = 'Mensaxe HTML';
@@ -557,7 +569,10 @@ $labels['arialabelpreferencesform'] = 'Formulariu de preferencies';
 $labels['arialabelidentityeditfrom'] = 'Formulariu d\'edición d\'identidá';
 $labels['arialabelresonseeditfrom'] = 'Formulariu d\'edición de rempuesta';
 $labels['helplistnavigation'] = 'Restolación de tecláu de llista';
+<<<<<<< HEAD
 $labels['helplistkeyboardnavigation'] = "";
 $labels['helplistkeyboardnavmessages'] = "";
+=======
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abrir el contautu esbilláu/enfocáu.";
 ?>

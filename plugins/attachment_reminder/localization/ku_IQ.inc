@@ -15,6 +15,5 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-$messages['forgotattachment'] = "";
-$messages['reminderoption'] = "";
-$messages['keywords'] = "";
+$messages['forgotattachment'] = "ئایا لەبیرت کرد پەڕگەیەک هاوپێچ بکەی؟";
+$messages['reminderoption'] = "بیرهێنانەوە دەربارەی هاوپێچە لەبیرکراوەکان";

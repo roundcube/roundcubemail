@@ -223,7 +223,11 @@ $labels['restoremessage'] = 'Üzenet visszaállítás';
 $labels['responses'] = 'Válaszok';
 $labels['insertresponse'] = 'Egy válasz beillesztése';
 $labels['manageresponses'] = 'Válaszok kezelése';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Új válasz létrehozása';
+=======
+$labels['savenewresponse'] = 'Új válasz létrehozása';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Válasz hozzáadása';
 $labels['editresponse'] = 'Válasz szerkesztése';
 $labels['editresponses'] = 'Válaszok szerkesztése';

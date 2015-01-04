@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'Recupera el missatge?';
 $labels['responses'] = 'Respostes';
 $labels['insertresponse'] = 'Introduïu una resposta';
 $labels['manageresponses'] = 'Gestiona respostes';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Crea una nova resposta';
+=======
+$labels['savenewresponse'] = 'Crea una nova resposta';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Afegeix una resposta';
 $labels['editresponse'] = 'Edita la resposta';
 $labels['editresponses'] = 'Edita respostes';
@@ -293,7 +297,11 @@ $labels['assistant'] = 'Assistent';
 $labels['spouse'] = 'Cònjuge';
 $labels['allfields'] = 'Tots els camps';
 $labels['search'] = 'Cerca';
+<<<<<<< HEAD
 $labels['searchfor'] = 'Cerca "$q"';
+=======
+$labels['searchresult'] = 'Resultat de la cerca';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advsearch'] = 'Cerca Avançada';
 $labels['advanced'] = 'Paràmetres avançats';
 $labels['other'] = 'Un altre';
@@ -336,7 +344,12 @@ $labels['export']         = 'Exporta';
 $labels['exportall']      = 'Exporta\'ls tots';
 $labels['exportsel']      = 'Exporta els seleccionats';
 $labels['exportvcards']   = 'Exporta contactes en format vCard';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Crea un grup nou';
+=======
+$labels['newcontactgroup']       = 'Crea un grup nou';
+$labels['addgroup']       = 'Afegeix un grup';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Reanomena el grup';
 $labels['groupdelete']    = 'Suprimeix el grup';
 $labels['groupremoveselected'] = 'Suprimeix els contactes seleccionats del grup';
@@ -370,7 +383,11 @@ $labels['identities'] = 'Identitats';
 $labels['manageidentities'] = 'Gestiona les identitats';
 $labels['newidentity'] = 'Crea una nova identitat';
 $labels['addidentity'] = 'Afegeix una identitat';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Edita la identitat';
+=======
+$labels['edititem'] = 'Edita la identitat';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Mostra HTML';
 $labels['defaultcharset'] = 'Joc de caràcters per defecte';
 $labels['htmlmessage'] = 'Missatge HTML';
@@ -427,7 +444,11 @@ $labels['2231folding'] = 'Compleix RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Compleix RFC 2047 (un altre)';
 $labels['force7bit'] = 'Fes servir la codificació MIME per a caràcters de 8-bits';
+<<<<<<< HEAD
 $labels['savelocalstorage'] = "";
+=======
+$labels['savelocalstorage'] = "Desa-ho (temporalment) a l'espai local del navegador";
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['advancedoptions'] = 'Opcions avançades';
 $labels['toggleadvancedoptions'] = 'Commuta les opcions avançades';
 $labels['focusonnewmessage'] = 'Activa la finestra del navegador quan hi hagi un nou missatge';
@@ -491,6 +512,13 @@ $labels['foldertype'] = 'Tipus de Carpeta';
 $labels['personalfolder'] = 'Carpeta privada';
 $labels['otherfolder'] = 'Carpeta d\'un altre usuari';
 $labels['sharedfolder'] = 'Carpeta pública';
+<<<<<<< HEAD
+=======
+$labels['findfolders'] = 'Cerca carpetes';
+$labels['namespace.personal'] = 'Personal';
+$labels['namespace.other'] = 'Altres usuaris';
+$labels['namespace.shared'] = 'Compartit';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['sortby'] = 'Ordena per';
 $labels['sortasc']  = 'Ordena ascendentment';
 $labels['sortdesc'] = 'Ordena descendentment';
@@ -532,6 +560,11 @@ $labels['arialabelmailsearchform'] = 'Formulari de cerca de correus electrònics
 $labels['arialabelcontactsearchform'] = 'Formulari de cerca de contactes';
 $labels['arialabelmailquicksearchbox'] = 'Entrada per la cerca de correus electrònics';
 $labels['arialabelquicksearchbox'] = 'Entrada de cerca';
+<<<<<<< HEAD
+=======
+$labels['arialabelfoldersearchfilter'] = 'Filtre de llistat de carpetes';
+$labels['arialabelfoldersearchform'] = 'Formulari de cerca de carpetes';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['arialabelfolderlist'] = 'Selecció de carpeta de correu electrònic';
 $labels['arialabelmessagelist'] = 'Llistat de missatges de correu electrònic';
 $labels['arialabelmailpreviewframe'] = 'Previsualitza el missatge';
@@ -560,6 +593,10 @@ $labels['arialabelabookgroupoptions'] = 'Opcions de llibreta d\'adreces/grup';
 $labels['arialabelpreferencesform'] = 'Formulari de preferències';
 $labels['arialabelidentityeditfrom'] = 'Formulari d\'edició d\'identitats';
 $labels['arialabelresonseeditfrom'] = 'Formulari d\'edició de respostes';
+<<<<<<< HEAD
+=======
+$labels['arialabelsearchterms'] = 'Cerca termes';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['helplistnavigation'] = 'Llista la navegació per teclat';
 $labels['helplistkeyboardnavigation'] = "Fletxes amunt/avall: Mou la fila seleccionada/activa.
 Espai: Selecciona la fila activa.

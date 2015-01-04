@@ -224,7 +224,11 @@ $labels['restoremessage'] = 'Atkurti pranešimus?';
 $labels['responses'] = 'Atsakymai';
 $labels['insertresponse'] = 'Įterpti atsakymą';
 $labels['manageresponses'] = 'Tvarkyti atsakymus';
+<<<<<<< HEAD
 $labels['newresponse'] = 'Kurti naują atsakymą';
+=======
+$labels['savenewresponse'] = 'Kurti naują atsakymą';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['addresponse'] = 'Pridėti atsakymą';
 $labels['editresponse'] = 'Taisyti atsakymą';
 $labels['editresponses'] = 'Taisyti atsakymus';
@@ -336,7 +340,11 @@ $labels['export']         = 'Eksportuoti';
 $labels['exportall']      = 'Eksportuoti visus';
 $labels['exportsel']      = 'Eksportuoti pažymėtus';
 $labels['exportvcards']   = 'Eksportuoti adresatus  „vCard“ formatu';
+<<<<<<< HEAD
 $labels['newgroup']       = 'Kurti naują grupę';
+=======
+$labels['newcontactgroup']       = 'Kurti naują grupę';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['grouprename']    = 'Pervardinti grupę';
 $labels['groupdelete']    = 'Pašalinti grupę';
 $labels['groupremoveselected'] = 'Pašalinti pažymėtus adresatus iš grupės';
@@ -370,7 +378,11 @@ $labels['identities'] = 'Tapatybės';
 $labels['manageidentities'] = 'Tvarkyti tapatybes';
 $labels['newidentity'] = 'Sukurti naują tapatybę';
 $labels['addidentity'] = 'Pridėti tapatybę';
+<<<<<<< HEAD
 $labels['editidentity'] = 'Tvarkyti tapatybę';
+=======
+$labels['edititem'] = 'Tvarkyti tapatybę';
+>>>>>>> 1f7e63f786f03fddb9ae3f5895c1fdd01753717d
 $labels['preferhtml'] = 'Rodyti HTML';
 $labels['defaultcharset'] = 'Numatytoji koduotė';
 $labels['htmlmessage'] = 'HTML laiškas';

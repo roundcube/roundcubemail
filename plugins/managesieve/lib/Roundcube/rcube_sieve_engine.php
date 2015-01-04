@@ -310,7 +310,7 @@ class rcube_sieve_engine
                 }
             }
             else if ($action == 'setact' && !$error) {
-                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
+                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST, true);
                 $result = $this->activate_script($script_name);
                 $kep14  = $this->rc->config->get('managesieve_kolab_master');
 
@@ -324,7 +324,7 @@ class rcube_sieve_engine
                 }
             }
             else if ($action == 'deact' && !$error) {
-                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
+                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST, true);
                 $result = $this->deactivate_script($script_name);
 
                 if ($result === true) {
@@ -337,7 +337,7 @@ class rcube_sieve_engine
                 }
             }
             else if ($action == 'setdel' && !$error) {
-                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
+                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST, true);
                 $result = $this->remove_script($script_name);
 
                 if ($result === true) {
@@ -381,14 +381,14 @@ class rcube_sieve_engine
                 $this->rc->output->command('managesieve_updatelist', 'list', array('list' => $result));
             }
             else if ($action == 'ruleadd') {
-                $rid = rcube_utils::get_input_value('_rid', rcube_utils::INPUT_GPC);
+                $rid = rcube_utils::get_input_value('_rid', rcube_utils::INPUT_POST);
                 $id = $this->genid();
                 $content = $this->rule_div($fid, $id, false);
 
                 $this->rc->output->command('managesieve_rulefill', $content, $id, $rid);
             }
             else if ($action == 'actionadd') {
-                $aid = rcube_utils::get_input_value('_aid', rcube_utils::INPUT_GPC);
+                $aid = rcube_utils::get_input_value('_aid', rcube_utils::INPUT_POST);
                 $id = $this->genid();
                 $content = $this->action_div($fid, $id, false);
 

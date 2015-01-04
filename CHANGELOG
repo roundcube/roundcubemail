@@ -1,6 +1,27 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.0.4
+-------------
+- Disable TinyMCE contextmenu plugin as there are more cons than pros in using it (#1490118)
+- Fix bug where show_real_foldernames setting wasn't honored on compose page (#1490153)
+- Fix issue where Archive folder wasn't protected in Folder Manager (#1490154)
+- Fix compatibility with PHP 5.2. in rcube_imap_generic (#1490115)
+- Fix setting flags on servers with no PERMANENTFLAGS response (#1490087)
+- Fix regression in SHAA password generation in ldap driver of password plugin (#1490094)
+- Fix displaying of HTML messages with absolutely positioned elements in Larry skin (#1490103)
+- Fix font style display issue in HTML messages with styled <span> elements (#1490101)
+- Fix download of attachments that are part of TNEF message (#1490091)
+- Fix handling of uuencoded messages if messages_cache is enabled (#1490108)
+- Fix handling of base64-encoded attachments with extra spaces (#1490111)
+- Fix handling of UNKNOWN-CTE response, try do decode content client-side (#1490046)
+- Fix bug where creating subfolders in shared folders wasn't possible without ACL extension (#1490113)
+- Fix reply scrolling issue with text mode and start message below the quote (#1490114)
+- Fix possible issues in skin/skin_path config handling (#1490125)
+- Fix lack of delimiter for recipient addresses in smtp_log (#1490150)
+- Fix generation of Blowfish-based password hashes (#1490184)
+- Fix bugs where CSRF attacks were still possible on some requests
+
 RELEASE 1.0.3
 -------------
 - Fix insert-signature command in external compose window if opened from inline compose screen (#1490074)
@@ -47,6 +68,7 @@ RELEASE 1.0.2
 - Fix bug where contacts with no email address were listed on compose addressbook (#1489970)
 - Fix images import from various vCard formats (#1489977)
 - Fix sorting messages by size on servers without SORT capability (#1489981)
+- Fix bug where cancelling switch from HTML to plain text didn't set editor type selector properly (#1490141)
 
 RELEASE 1.0.1
 -------------

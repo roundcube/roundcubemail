@@ -1036,7 +1036,6 @@ div.hide-headers {
 #messagecontent .leftcol,
 #messagepreview .leftcol {
 	margin-right: 252px;
-	overflow-x: auto;
 }
 
 #messagecontent .rightcol,
