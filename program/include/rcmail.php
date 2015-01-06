@@ -93,6 +93,10 @@ class rcmail extends rcube
             $this->filename = $basename;
         }
 
+        // load all configured plugins
+        $this->plugins->load_plugins((array)$this->config->get('plugins', array()),
+                                     array('filesystem_attachments', 'jqueryui'));
+
         // start session
         $this->session_init();
 
@@ -124,10 +128,8 @@ class rcmail extends rcube
             $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
         }
 
-        // load plugins
+        // run init method on all the plugins
         $this->plugins->init($this, $this->task);
-        $this->plugins->load_plugins((array)$this->config->get('plugins', array()),
-            array('filesystem_attachments', 'jqueryui'));
     }
 
     /**

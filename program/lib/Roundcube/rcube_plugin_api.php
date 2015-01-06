@@ -34,6 +34,8 @@ class rcube_plugin_api
     public $dir;
     public $url = 'plugins/';
     public $task = '';
+    public $initialized = false;
+
     public $output;
     public $handlers              = array();
     public $allowed_prefs         = array();
@@ -117,12 +119,20 @@ class rcube_plugin_api
     {
         $this->task   = $task;
         $this->output = $app->output;
-
         // register an internal hook
         $this->register_hook('template_container', array($this, 'template_container_hook'));
-
         // maybe also register a shudown function which triggers
         // shutdown functions of all plugin objects
+
+        foreach ($this->plugins as $plugin) {
+            // ... task, request type and framed mode
+            if (!$this->filter($plugin)) {
+                $plugin->init();
+            }
+        }
+
+        // we have finished initializing all plugins
+        $this->initialized = true;
     }
 
     /**
@@ -203,13 +213,21 @@ class rcube_plugin_api
                 // check inheritance...
                 if (is_subclass_of($plugin, 'rcube_plugin')) {
                     // ... task, request type and framed mode
-                    if (($force || !$plugin->task || preg_match('/^('.$plugin->task.')$/i', $this->task))
-                        && (!$plugin->noajax || (is_object($this->output) && $this->output->type == 'html'))
-                        && (!$plugin->noframe || empty($_REQUEST['_framed']))
-                    ) {
-                        $plugin->init();
-                        $this->plugins[$plugin_name] = $plugin;
+
+                    // call onload method on plugin if it exists.
+                    // this is useful if you want to be called early in the boot process
+                    if (method_exists($plugin, 'onload')) {
+                        $plugin->onload();
                     }
+
+                    // init a plugin only if $force is set or if we're called after initialization
+                    if (($force || $this->initialized)
+                        && !$this->filter($plugin))
+                    {
+                        $plugin->init();
+                    }
+
+                    $this->plugins[$plugin_name] = $plugin;
 
                     if (!empty($plugin->allowed_prefs)) {
                         $this->allowed_prefs = array_merge($this->allowed_prefs, $plugin->allowed_prefs);
@@ -232,6 +250,19 @@ class rcube_plugin_api
         }
 
         return false;
+    }
+
+    /**
+     * check if we should prevent this plugin from initialising
+     *
+     * @param $plugin
+     * @return bool
+     */
+    private function filter($plugin)
+    {
+        return (($plugin->noajax  && !(is_object($this->output) && $this->output->type == 'html') )
+             || ($plugin->task && !preg_match('/^('.$plugin->task.')$/i', $this->task))
+             || ($plugin->noframe && !empty($_REQUEST['_framed']))) ? true : false;
     }
 
     /**
