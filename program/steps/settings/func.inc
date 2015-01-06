@@ -1236,7 +1236,7 @@ function rcmail_user_prefs($current = null)
 
         // create output
         foreach ($data['blocks'] as $key => $block) {
-            if (!empty($block['content']) || !empty($block['options'])) {
+            if (isset($block['content']) || isset($block['options'])) {
                 $found = true;
             }
             // move some options to the 'advanced' block as configured by admin
