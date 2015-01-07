@@ -353,6 +353,7 @@ rcube_webmail.prototype.acl_init_form = function(id)
         id ? this.gettext('acl.editperms') : this.gettext('acl.newuser'),
         buttons,
         {
+            button_classes: ['mainaction'],
             modal: true,
             closeOnEscape: true,
             close: function(e, ui) {
