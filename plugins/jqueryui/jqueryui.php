@@ -108,6 +108,27 @@ class jqueryui extends rcube_plugin
         $rcube->output->set_env('mscolors', self::get_color_values());
     }
 
+    public static function tagedit()
+    {
+        if (in_array('tagedit', self::$features)) {
+            return;
+        }
+
+        self::$features[] = 'tagedit';
+
+        $script   = 'plugins/jqueryui/js/jquery.tagedit.js';
+        $rcube    = rcube::get_instance();
+        $ui_theme = self::$ui_theme;
+        $css      = "plugins/jqueryui/themes/$ui_theme/tagedit.css";
+
+        if (!file_exists(INSTALL_PATH . $css)) {
+            $css = "plugins/jqueryui/themes/larry/tagedit.css";
+        }
+
+        $rcube->output->include_css($css);
+        $rcube->output->add_header(html::tag('script', array('type' => "text/javascript", 'src' => $script)));
+    }
+
     /**
      * Return a (limited) list of color values to be used for calendar and category coloring
      *
