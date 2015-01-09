@@ -4774,6 +4774,9 @@ function rcube_webmail()
     if (!src)
       src = this.env.source;
 
+    if (refresh)
+      group = this.env.group;
+
     if (page && this.current_page == page && src == this.env.source && group == this.env.group)
       return false;
 
