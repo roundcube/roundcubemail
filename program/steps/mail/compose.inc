@@ -419,7 +419,8 @@ $OUTPUT->add_handlers(array(
     'filedroparea'          => 'compose_file_drop_area',
     'priorityselector'      => 'rcmail_priority_selector',
     'editorselector'        => 'rcmail_editor_selector',
-    'receiptcheckbox'       => 'rcmail_receipt_checkbox',
+    'receiptcheckbox'       => 'rcmail_mdn_checkbox', // deprecated
+    'mdncheckbox'           => 'rcmail_mdn_checkbox',
     'dsncheckbox'           => 'rcmail_dsn_checkbox',
     'storetarget'           => 'rcmail_store_target_selection',
     'addressbooks'          => 'rcmail_addressbook_list',
@@ -1642,7 +1643,7 @@ function rcmail_priority_selector($attrib)
 }
 
 
-function rcmail_receipt_checkbox($attrib)
+function rcmail_mdn_checkbox($attrib)
 {
     global $RCMAIL, $MESSAGE, $compose_mode;
 
@@ -1652,13 +1653,13 @@ function rcmail_receipt_checkbox($attrib)
     if (!isset($attrib['id']))
         $attrib['id'] = 'receipt';
 
-    $attrib['name']  = '_receipt';
+    $attrib['name']  = '_mdn';
     $attrib['value'] = '1';
 
     $checkbox = new html_checkbox($attrib);
 
-    if (isset($_POST['_receipt']))
-        $mdn_default = $_POST['_receipt'];
+    if (isset($_POST['_mdn']))
+        $mdn_default = $_POST['_mdn'];
     else if (in_array($compose_mode, array(RCUBE_COMPOSE_DRAFT, RCUBE_COMPOSE_EDIT)))
         $mdn_default = (bool) $MESSAGE->headers->mdn_to;
     else

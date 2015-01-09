@@ -144,7 +144,7 @@ if ($RCMAIL->config->get('http_received_header')) {
         $http_header .= $nldlm . ' via ';
     }
 
-    $host = $_SERVER['REMOTE_ADDR'];
+    $host     = $_SERVER['REMOTE_ADDR'];
     $hostname = gethostbyaddr($host);
 
     if ($encrypt) {
@@ -171,7 +171,7 @@ if ($RCMAIL->config->get('http_received_header')) {
 
 $headers['Date'] = $RCMAIL->user_date();
 $headers['From'] = rcube_charset::convert($from_string, RCUBE_CHARSET, $message_charset);
-$headers['To'] = $mailto;
+$headers['To']   = $mailto;
 
 // additional recipients
 if (!empty($mailcc)) {
@@ -187,6 +187,10 @@ if (($max_recipients = (int) $RCMAIL->config->get('max_recipients')) > 0) {
         $OUTPUT->send('iframe');
     }
 }
+
+$dont_override = (array) $RCMAIL->config->get('dont_override');
+$mdn_enabled   = in_array('mdn_default', $dont_override) ? $RCMAIL->config->get('mdn_default') : !empty($_POST['_mdn']);
+$dsn_enabled   = in_array('dsn_default', $dont_override) ? $RCMAIL->config->get('dsn_default') : !empty($_POST['_dsn']);
 
 // add subject
 $headers['Subject'] = trim(rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, TRUE, $message_charset));
@@ -228,7 +232,7 @@ if (!empty($_POST['_priority'])) {
     }
 }
 
-if (!empty($_POST['_receipt'])) {
+if ($mdn_enabled) {
     $headers['Return-Receipt-To']           = $from_string;
     $headers['Disposition-Notification-To'] = $from_string;
 }
@@ -520,9 +524,7 @@ if (!$savedraft) {
     }
 
     // Handle Delivery Status Notification request
-    if (!empty($_POST['_dsn'])) {
-        $smtp_opts['dsn'] = true;
-    }
+    $smtp_opts['dsn'] = $dsn_enabled;
 
     $sent = $RCMAIL->deliver_message($MAIL_MIME, $from, $mailto,
         $smtp_error, $mailbody_file, $smtp_opts);
