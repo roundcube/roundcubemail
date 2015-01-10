@@ -219,7 +219,7 @@ init_header: function()
         if (this.column_fixed == r)
           continue;
         col = this.thead.rows[0].cells[r];
-        col.onmousedown = function(e){ return p.drag_column(e, this); };
+        col.onmousedown = function(e) { return p.drag_column(e, this); };
         this.colcount++;
       }
     }
@@ -240,8 +240,8 @@ init_fixed_header: function()
     $(this.list).before(this.fixed_header);
 
     var me = this;
-    $(window).resize(function(){ me.resize() });
-    $(window).scroll(function(){
+    $(window).resize(function() { me.resize(); });
+    $(window).scroll(function() {
       var w = $(window);
       me.fixed_header.css('marginLeft', (-w.scrollLeft()) + 'px');
       if (!bw.webkit)
@@ -270,14 +270,14 @@ resize: function()
     var column_widths = [];
 
     // get column widths from original thead
-    $(this.tbody).parent().find('thead tr td').each(function(index) {
+    $(this.tbody).parent().find('thead th,thead td').each(function(index) {
       column_widths[index] = $(this).width();
     });
 
     // apply fixed widths to fixed table header
     $(this.thead).parent().width($(this.tbody).parent().width());
-    $(this.thead).find('tr td').each(function(index) {
-      $(this).css('width', column_widths[index]);
+    $(this.thead).find('th,td').each(function(index) {
+      $(this).width(column_widths[index]);
     });
 
     $(window).scroll();
