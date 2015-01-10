@@ -8066,7 +8066,7 @@ function rcube_webmail()
     if (plugin && plugin.enabledPlugin)
         return 1;
 
-    if (window.ActiveXObject) {
+    if ('ActiveXObject' in window) {
       try {
         if (plugin = new ActiveXObject("AcroPDF.PDF"))
           return 1;
@@ -8099,7 +8099,7 @@ function rcube_webmail()
     if (plugin && plugin.enabledPlugin)
         return 1;
 
-    if (window.ActiveXObject) {
+    if ('ActiveXObject' in window) {
       try {
         if (plugin = new ActiveXObject("ShockwaveFlash.ShockwaveFlash"))
           return 1;
