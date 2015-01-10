@@ -93,7 +93,7 @@ function roundcube_browser()
   this.xmlhttp_test = function()
   {
     var activeX_test = new Function("try{var o=new ActiveXObject('Microsoft.XMLHTTP');return true;}catch(err){return false;}");
-    this.xmlhttp = (window.XMLHttpRequest || (window.ActiveXObject && activeX_test()));
+    this.xmlhttp = window.XMLHttpRequest || (('ActiveXObject' in window) && activeX_test());
     return this.xmlhttp;
   };
 
