@@ -8183,7 +8183,7 @@ rcube_webmail.long_subject_title = function(elem, indent)
   if (!elem.title) {
     var $elem = $(elem);
     if ($elem.width() + (indent || 0) * 15 > $elem.parent().width())
-      elem.title = $elem.text();
+      elem.title = rcube_webmail.subject_text(elem);
   }
 };
 
@@ -8200,8 +8200,15 @@ rcube_webmail.long_subject_title_ex = function(elem)
 
     tmp.remove();
     if (w + $('span.branch', $elem).width() * 15 > $elem.width())
-      elem.title = txt;
+      elem.title = rcube_webmail.subject_text(elem);
   }
+};
+
+rcube_webmail.subject_text = function(elem)
+{
+  var t = $(elem).clone();
+  t.find('.skip-on-drag').remove();
+  return t.text();
 };
 
 rcube_webmail.prototype.get_cookie = getCookie;
