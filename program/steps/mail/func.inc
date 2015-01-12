@@ -815,7 +815,7 @@ function rcmail_wash_html($html, $p, $cid_replaces)
     $wash_opts = array(
         'show_washed'   => false,
         'allow_remote'  => $p['safe'],
-        'blocked_src'   => "./program/resources/blocked.gif",
+        'blocked_src'   => 'program/resources/blocked.gif',
         'charset'       => RCUBE_CHARSET,
         'cid_map'       => $cid_replaces,
         'html_elements' => array('body'),

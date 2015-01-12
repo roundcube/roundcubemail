@@ -2284,6 +2284,29 @@ class rcmail extends rcube
         return $result;
     }
 
+    /**
+     * Get resource file content (with assets_dir support)
+     *
+     * @param string $name File name
+     */
+    public function get_resource_content($name)
+    {
+        if (!strpos($name, '/')) {
+            $name = "program/resources/$name";
+        }
+
+        $assets_dir = $this->config->get('assets_dir');
+
+        if ($assets_dir) {
+            $path = slashify($assets_dir) . $name;
+            if (@file_exists($path)) {
+                $name = $path;
+            }
+        }
+
+        return file_get_contents($name, false);
+    }
+
 
     /************************************************************************
      *********          Deprecated methods (to be removed)          *********

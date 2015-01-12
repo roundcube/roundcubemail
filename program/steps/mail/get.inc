@@ -183,10 +183,12 @@ else if (strlen($part_id)) {
                 // send blocked.gif for expected images
                 if (empty($_REQUEST['_mimewarning']) && strpos($mimetype, 'image/') === 0) {
                     // Do not cache. Failure might be the result of a misconfiguration, thus real content should be returned once fixed. 
+                    $content = $RCMAIL->get_resource_content('blocked.gif');
                     $OUTPUT->nocacheing_headers();
                     header("Content-Type: image/gif");
                     header("Content-Transfer-Encoding: binary");
-                    readfile(INSTALL_PATH . 'program/resources/blocked.gif');
+                    header("Content-Length: " . strlen($content));
+                    echo $content;
                 }
                 else {  // html warning with a button to load the file anyway
                     $OUTPUT = new rcmail_html_page();

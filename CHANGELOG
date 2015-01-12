@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix blocked.gif image usage with assets_dir set
 - Fix bug where max_group_members was ignored when adding a new contact (#1490214)
 - Hide MDN and DSN options in compose if disabled by admin (#1490221)
 - Fix checks based on window.ActiveXObject in IE > 10

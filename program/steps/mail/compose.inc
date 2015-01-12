@@ -781,12 +781,13 @@ function rcmail_prepare_message_body()
     unset($plugin);
 
     // add blocked.gif attachment (#1486516)
-    if ($isHtml && preg_match('#<img src="\./program/resources/blocked\.gif"#', $body)) {
-        if ($attachment = rcmail_save_image('program/resources/blocked.gif', 'image/gif')) {
+    if ($isHtml && preg_match('#<img src="program/resources/blocked\.gif"#', $body)) {
+        $content = $RCMAIL->get_resource_content('blocked.gif');
+        if ($content && ($attachment = rcmail_save_image('blocked.gif', 'image/gif', $content))) {
             $COMPOSE['attachments'][$attachment['id']] = $attachment;
             $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
                 $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
-            $body = preg_replace('#\./program/resources/blocked\.gif#', $url, $body);
+            $body = preg_replace('#program/resources/blocked\.gif#', $url, $body);
         }
     }
 
@@ -1400,18 +1401,31 @@ function rcmail_save_attachment(&$message, $pid)
     return false;
 }
 
-function rcmail_save_image($path, $mimetype='')
+function rcmail_save_image($path, $mimetype = '', $data = null)
 {
     global $COMPOSE;
 
     // handle attachments in memory
-    $data = file_get_contents($path);
+    if (empty($data)) {
+        $data    = file_get_contents($path);
+        $is_file = true;
+    }
+
     $name = rcmail_basename($path);
+
+    if (empty($mimetype)) {
+        if ($is_file) {
+            $mimetype = rcube_mime::file_content_type($path, $name);
+        }
+        else {
+            $mimetype = rcube_mime::file_content_type($data, $name, 'application/octet-stream', true);
+        }
+    }
 
     $attachment = array(
         'group'    => $COMPOSE['id'],
         'name'     => $name,
-        'mimetype' => $mimetype ? $mimetype : rcube_mime::file_content_type($path, $name),
+        'mimetype' => $mimetype,
         'data'     => $data,
         'size'     => strlen($data),
     );
