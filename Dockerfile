@@ -20,7 +20,7 @@ RUN a2enmod headers
 RUN a2enmod ssl
 
 RUN apt-get install -qq php5 php-pear php5-mysql php5-pgsql php5-sqlite
-RUN pear install mail_mime mail_mimedecode net_smtp2-beta net_idna2-beta auth_sasl2-beta net_sieve crypt_gpg
+RUN pear install mail_mime mail_mimedecode net_smtp net_idna2-beta auth_sasl net_sieve crypt_gpg
 
 RUN rm -rf /var/www
 ADD . /var/www
