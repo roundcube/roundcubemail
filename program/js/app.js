@@ -3669,14 +3669,13 @@ function rcube_webmail()
 
   this.set_draft_id = function(id)
   {
-    var rc;
-
     if (id && id != this.env.draft_id) {
-      if (rc = this.opener()) {
-        // refresh the drafts folder in opener window
-        if (rc.env.task == 'mail' && rc.env.action == '' && rc.env.mailbox == this.env.drafts_mailbox)
-          rc.command('checkmail');
-      }
+      var filter = {task: 'mail', action: ''},
+        rc = this.opener(false, filter) || this.opener(true, filter);
+
+      // refresh the drafts folder in the opener window
+      if (rc && rc.env.mailbox == this.env.drafts_mailbox)
+        rc.command('checkmail');
 
       this.env.draft_id = id;
       $("input[name='_draft_saveid']").val(id);
@@ -7457,12 +7456,24 @@ function rcube_webmail()
   };
 
   // get window.opener.rcmail if available
-  this.opener = function()
+  this.opener = function(deep, filter)
   {
+    var i, win = window.opener;
+
     // catch Error: Permission denied to access property rcmail
     try {
-      if (window.opener && !opener.closed && opener.rcmail)
-        return opener.rcmail;
+      if (win && !win.closed) {
+        // try parent of the opener window, e.g. preview frame
+        if (deep && (!win.rcmail || win.rcmail.env.framed) && win.parent && win.parent.rcmail)
+          win = win.parent;
+
+        if (win.rcmail && filter)
+          for (i in filter)
+            if (win.rcmail.env[i] != filter[i])
+              return;
+
+        return win.rcmail;
+      }
     }
     catch (e) {}
   };
