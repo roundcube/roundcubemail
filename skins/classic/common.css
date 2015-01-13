@@ -156,6 +156,11 @@ img
   color: #999999;
 }
 
+.voice
+{
+  display: none;
+}
+
 /* fixes vertical alignment of checkboxes and labels */
 label input,
 label span
