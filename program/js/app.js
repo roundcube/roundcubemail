@@ -5798,6 +5798,9 @@ function rcube_webmail()
         // on the list when dragging starts (and stops), this is slow, but
         // I didn't find a method to check droptarget on over event
         accept: function(node) {
+          if (!$(node).is('.mailbox'))
+            return false;
+
           var source_folder = ref.folder_id2name($(node).attr('id')),
             dest_folder = ref.folder_id2name(this.id),
             source = ref.env.subscriptionrows[source_folder],
@@ -5818,7 +5821,7 @@ function rcube_webmail()
 
   this.folder_id2name = function(id)
   {
-    return ref.html_identifier_decode(id.replace(/^rcmli/, ''));
+    return id ? ref.html_identifier_decode(id.replace(/^rcmli/, '')) : null;
   };
 
   this.subscription_select = function(id)
