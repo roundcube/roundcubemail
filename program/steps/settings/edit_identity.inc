@@ -109,6 +109,11 @@ function rcube_identity_form($attrib)
         $IDENTITY_RECORD['signature'] = htmlspecialchars($IDENTITY_RECORD['signature'], ENT_NOQUOTES, RCUBE_CHARSET);
     }
 
+    // hide "default" checkbox if only one identity is allowed
+    if (IDENTITIES_LEVEL > 1) {
+        unset($form['addressing']['content']['standard']);
+    }
+
     // disable some field according to access level
     if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3) {
         $form['addressing']['content']['email']['disabled'] = true;

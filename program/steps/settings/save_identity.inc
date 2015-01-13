@@ -49,6 +49,11 @@ foreach ($a_boolean_cols as $col) {
     }
 }
 
+// make the identity a "default" if only one identity is allowed
+if (IDENTITIES_LEVEL > 1) {
+    $save_data['standard'] = 1;
+}
+
 // unset email address if user has no rights to change it
 if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3) {
     unset($save_data['email']);
