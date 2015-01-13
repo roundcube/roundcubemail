@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix wrong icon for download button in classic skin
 - Fix bug where sent message was saved in Sent folder even if disabled by user (#1490208)
 - Fix checks based on window.ActiveXObject in IE > 10
+- Fix XSS issue in style attribute handling (#1490227)
 
 RELEASE 1.0.4
 -------------

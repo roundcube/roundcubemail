@@ -243,8 +243,8 @@ class rcube_washtml
                 $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
             }
             else if ($key == 'style' && ($style = $this->wash_style($value))) {
-                $quot = strpos($style, '"') !== false ? "'" : '"';
-                $t .= ' style=' . $quot . $style . $quot;
+                // replace double quotes to prevent syntax error and XSS issues (#1490227)
+                $t .= ' style="' . str_replace('"', '&quot;', $style) . '"';
             }
             else if ($key == 'background' || ($key == 'src' && strtolower($node->tagName) == 'img')) { //check tagName anyway
                 if (($src = $this->config['cid_map'][$value])
