@@ -1270,7 +1270,7 @@ class rcube_sieve_engine
         $out .= $hiddenfields->show();
 
         // 'any' flag
-        if ((!isset($this->form) && empty($scr['tests']) && !empty($src))
+        if ((!isset($this->form) && empty($scr['tests']) && !empty($scr))
             || (sizeof($scr['tests']) == 1 && $scr['tests'][0]['test'] == 'true' && !$scr['tests'][0]['not'])
         ) {
             $any = true;
@@ -1335,7 +1335,7 @@ class rcube_sieve_engine
         $out .= sprintf("%s<label for=\"%s\">%s</label>\n",
             $input_join, $field_id, rcube::Q($this->plugin->gettext('filterany')));
 
-        $rows_num = isset($scr) ? sizeof($scr['tests']) : 1;
+        $rows_num = !empty($scr['tests']) ? sizeof($scr['tests']) : 1;
 
         $out .= '<div id="rules"'.($any ? ' style="display: none"' : '').'>';
         for ($x=0; $x<$rows_num; $x++)
@@ -1466,30 +1466,25 @@ class rcube_sieve_engine
             $select_op->add(rcube::Q($this->plugin->gettext('valuenotequals')), 'value-ne');
         }
 
+        $test   = self::rule_test($rule);
+        $target = '';
+
         // target(s) input
         if (in_array($rule['test'], array('header', 'address', 'envelope'))) {
-            $test   = ($rule['not'] ? 'not' : '').($rule['type'] ? $rule['type'] : 'is');
             $target = $rule['arg2'];
         }
         else if (in_array($rule['test'], array('body', 'date', 'currentdate'))) {
-            $test   = ($rule['not'] ? 'not' : '').($rule['type'] ? $rule['type'] : 'is');
             $target = $rule['arg'];
         }
         else if ($rule['test'] == 'size') {
-            $test   = '';
-            $target = '';
             if (preg_match('/^([0-9]+)(K|M|G)?$/', $rule['arg'], $matches)) {
                 $sizetarget = $matches[1];
-                $sizeitem = $matches[2];
+                $sizeitem   = $matches[2];
             }
             else {
                 $sizetarget = $rule['arg'];
-                $sizeitem = $rule['item'];
+                $sizeitem   = $rule['item'];
             }
-        }
-        else {
-            $test   = ($rule['not'] ? 'not' : '').$rule['test'];
-            $target =  '';
         }
 
         // (current)date part select
@@ -1638,6 +1633,43 @@ class rcube_sieve_engine
         $out .= $div ? "</div>\n" : '';
 
         return $out;
+    }
+
+    private static function rule_test(&$rule)
+    {
+        // first modify value/count tests with 'not' keyword
+        // we'll revert the meaning of operators
+        if ($rule['not'] && preg_match('/^(count|value)-([gteqnl]{2})/', $rule['type'], $m)) {
+            $rule['not'] = false;
+
+            switch ($m[2]) {
+            case 'gt': $rule['type'] = $m[1] . '-le'; break;
+            case 'ge': $rule['type'] = $m[1] . '-lt'; break;
+            case 'lt': $rule['type'] = $m[1] . '-ge'; break;
+            case 'le': $rule['type'] = $m[1] . '-gt'; break;
+            case 'eq': $rule['type'] = $m[1] . '-ne'; break;
+            case 'ne': $rule['type'] = $m[1] . '-eq'; break;
+            }
+        }
+        else if ($rule['not'] && $rule['test'] == 'size') {
+            $rule['not']  = false;
+            $rule['type'] = $rule['type'] == 'over' ? 'under' : 'over';
+        }
+
+        $set = array('header', 'address', 'envelope', 'body', 'date', 'currentdate');
+
+        // build test string supported by select element
+        if ($rule['size']) {
+            $test = $rule['type'];
+        }
+        else if (in_array($rule['test'], $set)) {
+            $test = ($rule['not'] ? 'not' : '') . ($rule['type'] ? $rule['type'] : 'is');
+        }
+        else {
+            $test = ($rule['not'] ? 'not' : '') . $rule['test'];
+        }
+
+        return $test;
     }
 
     function action_div($fid, $id, $div=true)

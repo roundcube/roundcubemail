@@ -622,6 +622,7 @@ class rcube_sieve_script
 
         $disabled = false;
         $join     = false;
+        $join_not = false;
 
         // disabled rule (false + comment): if false # .....
         if (preg_match('/^\s*false\s+#/i', $content)) {
@@ -650,15 +651,22 @@ class rcube_sieve_script
                 $not = false;
             }
 
+            // we support "not allof" as a negation of allof sub-tests
+            if ($join_not) {
+                $not = !$not;
+            }
+
             switch ($token) {
             case 'allof':
-                $join = true;
+                $join     = true;
+                $join_not = $not;
                 break;
+
             case 'anyof':
                 break;
 
             case 'size':
-                $test = array('test' => 'size', 'not'  => $not);
+                $test = array('test' => 'size', 'not' => $not);
 
                 $test['arg'] = array_pop($tokens);
 
@@ -740,16 +748,16 @@ class rcube_sieve_script
                 break;
 
             case 'exists':
-                $tests[] = array('test' => 'exists', 'not'  => $not,
+                $tests[] = array('test' => 'exists', 'not' => $not,
                     'arg'  => array_pop($tokens));
                 break;
 
             case 'true':
-                $tests[] = array('test' => 'true', 'not'  => $not);
+                $tests[] = array('test' => 'true', 'not' => $not);
                 break;
 
             case 'false':
-                $tests[] = array('test' => 'true', 'not'  => !$not);
+                $tests[] = array('test' => 'true', 'not' => !$not);
                 break;
             }
 
