@@ -227,7 +227,7 @@ class rcube_sieve_engine
 
         if ($script_name === null || $script_name === '') {
             // get (first) active script
-            if (!empty($this->active[0])) {
+            if (!empty($this->active)) {
                $script_name = $this->active[0];
             }
             else if ($list) {
@@ -2078,7 +2078,6 @@ class rcube_sieve_engine
 
         // Handle active script(s) and list of scripts according to Kolab's KEP:14
         if ($this->rc->config->get('managesieve_kolab_master')) {
-
             // Skip protected names
             foreach ((array)$this->list as $idx => $name) {
                 $_name = strtoupper($name);
@@ -2138,6 +2137,11 @@ class rcube_sieve_engine
             if (!empty($exceptions)) {
                 $this->list = array_diff($this->list, (array)$exceptions);
             }
+        }
+
+        // reindex
+        if (!empty($this->list)) {
+            $this->list = array_values($this->list);
         }
 
         return $this->list;
