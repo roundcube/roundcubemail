@@ -1,3 +1,5 @@
+* version 8.2 [2015-01-14]
+-----------------------------------------------------------
 - Fix bug where actions without if/elseif/else in sieve scripts were skipped
 - Support "not allof" test as a negation of all sub-tests
 - Fix bug where vacation rule was saved to wrong script if managesieve_kolab_master=true
