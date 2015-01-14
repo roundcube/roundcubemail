@@ -1270,8 +1270,11 @@ class rcube_sieve_engine
         $out .= $hiddenfields->show();
 
         // 'any' flag
-        if (sizeof($scr['tests']) == 1 && $scr['tests'][0]['test'] == 'true' && !$scr['tests'][0]['not'])
+        if ((!isset($this->form) && empty($scr['tests']) && !empty($src))
+            || (sizeof($scr['tests']) == 1 && $scr['tests'][0]['test'] == 'true' && !$scr['tests'][0]['not'])
+        ) {
             $any = true;
+        }
 
         // filter name input
         $field_id = '_name';
@@ -2282,7 +2285,7 @@ class rcube_sieve_engine
         $i      = 1;
 
         foreach ($this->script as $idx => $filter) {
-            if ($filter['type'] != 'if') {
+            if (empty($filter['actions'])) {
                 continue;
             }
             $fname = $filter['name'] ? $filter['name'] : "#$i";

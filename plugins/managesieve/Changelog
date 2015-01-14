@@ -1,3 +1,5 @@
+- Fix bug where actions without if/elseif/else in sieve scripts were skipped
+
 * version 8.1 [2014-12-09]
 -----------------------------------------------------------
 - Added simple API to manage vacation rule
