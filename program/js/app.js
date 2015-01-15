@@ -1055,12 +1055,9 @@ function rcube_webmail()
         url = {};
 
         if (this.task == 'mail') {
-          url._mbox = this.env.mailbox;
+          url = {_mbox: this.env.mailbox, _search: this.env.search_request};
           if (props)
             url._to = props;
-          // also send search request so we can go back to search result after message is sent
-          if (this.env.search_request)
-            url._search = this.env.search_request;
         }
         // modify url if we're in addressbook
         else if (this.task == 'addressbook') {
@@ -1155,7 +1152,7 @@ function rcube_webmail()
       case 'reply-list':
       case 'reply':
         if (uid = this.get_single_uid()) {
-          url = {_reply_uid: uid, _mbox: this.get_message_mailbox(uid)};
+          url = {_reply_uid: uid, _mbox: this.get_message_mailbox(uid), _search: this.env.search_request};
           if (command == 'reply-all')
             // do reply-list, when list is detected and popup menu wasn't used
             url._all = (!props && this.env.reply_all_mode == 1 && this.commands['reply-list'] ? 'list' : 'all');
