@@ -1205,7 +1205,7 @@ function rcmail_message_body($attrib)
                 }
 
                 // fetch part body
-                $body = $MESSAGE->get_part_body($part->mime_id, true);
+                $body = $part->mime_id ? $MESSAGE->get_part_body($part->mime_id, true) : $part->body;
 
                 // extract headers from message/rfc822 parts
                 if ($part->mimetype == 'message/rfc822') {
