@@ -118,7 +118,7 @@ init_row: function(row)
     row.onmousedown = function(e){ return self.drag_row(e, this.uid); };
     row.onmouseup = function(e){ return self.click_row(e, this.uid); };
 
-    if (bw.touch) {
+    if (bw.touch && row.addEventListener) {
       row.addEventListener('touchstart', function(e) {
         if (e.touches.length == 1) {
           self.touchmoved = false;
