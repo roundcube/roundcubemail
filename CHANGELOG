@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where Drafts list wasn't updated on draft-save action in new window (#1490225)
 - Fix so "set as default" option is hidden if identities_level > 1 (#1490226)
 - Fix bug where search was reset after returning from compose visited for reply
+- Fix javascript error in "IE 8.0/Tablet PC" browser (#1490210)
 
 RELEASE 1.1-rc
 --------------

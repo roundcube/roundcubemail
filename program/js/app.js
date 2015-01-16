@@ -1954,7 +1954,7 @@ function rcube_webmail()
     // attach events
     $.each(fn, function(i, f) {
       row[i].onclick = function(e) { f(e); return rcube_event.cancel(e); };
-      if (bw.touch) {
+      if (bw.touch && row[i].addEventListener) {
         row[i].addEventListener('touchend', function(e) {
           if (e.changedTouches.length == 1) {
             f(e);
