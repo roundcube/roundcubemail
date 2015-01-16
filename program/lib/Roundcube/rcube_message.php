@@ -627,8 +627,19 @@ class rcube_message
             $p->ctype_secondary = 'plain';
             $p->mimetype        = 'text/plain';
             $p->realtype        = 'multipart/encrypted';
+            $p->mime_id         = $structure->mime_id;
 
             $this->parts[] = $p;
+
+            // add encrypted payload part as attachment
+            if (is_array($structure->parts)) {
+                for ($i=0; $i < count($structure->parts); $i++) {
+                    $subpart = $structure->parts[$i];
+                    if ($subpart->mimetype == 'application/octet-stream' || !empty($subpart->filename)) {
+                        $this->attachments[] = $subpart;
+                    }
+                }
+            }
         }
         // this is an S/MIME ecrypted message -> create a plaintext body with the according message
         else if ($mimetype == 'application/pkcs7-mime') {
@@ -638,8 +649,13 @@ class rcube_message
             $p->ctype_secondary = 'plain';
             $p->mimetype        = 'text/plain';
             $p->realtype        = 'application/pkcs7-mime';
+            $p->mime_id         = $structure->mime_id;
 
             $this->parts[] = $p;
+
+            if (!empty($structure->filename)) {
+                $this->attachments[] = $structure;
+            }
         }
         // message contains multiple parts
         else if (is_array($structure->parts) && !empty($structure->parts)) {
