@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Fix so "set as default" option is hidden if identities_level > 1 (#1490226)
 - Fix bug where search was reset after returning from compose visited for reply
 - Fix javascript error in "IE 8.0/Tablet PC" browser (#1490210)
+- Fix bug where Reply-To address was ignored on reply to messages sent by self (#1490233)
 
 RELEASE 1.1-rc
 --------------

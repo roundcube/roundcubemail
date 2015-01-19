@@ -322,13 +322,18 @@ foreach ($parts as $header) {
                 $fvalue = $mailfollowup;
             else if ($mailreplyto)
                 $fvalue = $mailreplyto;
-            else if (!empty($MESSAGE->headers->replyto))
-                $fvalue = $MESSAGE->headers->replyto;
+            else if (!empty($MESSAGE->headers->replyto)) {
+                $fvalue  = $MESSAGE->headers->replyto;
+                $replyto = true;
+            }
             else if (!empty($MESSAGE->headers->from))
                 $fvalue = $MESSAGE->headers->from;
 
             // Reply to message sent by yourself (#1487074, #1489230)
-            if (!empty($ident) && in_array($ident['ident'], array($fvalue, $MESSAGE->headers->from))) {
+            // Reply-To address need to be unset (#1490233)
+            if (!empty($ident) && empty($replyto)
+                && in_array($ident['ident'], array($fvalue, $MESSAGE->headers->from))
+            ) {
                 $fvalue = $MESSAGE->headers->to;
             }
         }
