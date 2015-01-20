@@ -108,7 +108,7 @@ RELEASE 1.0.4
 - Fix possible issues in skin/skin_path config handling (#1490125)
 - Fix lack of delimiter for recipient addresses in smtp_log (#1490150)
 - Fix generation of Blowfish-based password hashes (#1490184)
-- Fix bugs where CSRF attacks were still possible on some requests
+- Fix bugs where CSRF attacks were still possible on some requests [CVE-2014-9587]
 
 RELEASE 1.0.3
 -------------
