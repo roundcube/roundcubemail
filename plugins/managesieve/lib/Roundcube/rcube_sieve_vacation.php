@@ -24,6 +24,8 @@
 class rcube_sieve_vacation extends rcube_sieve_engine
 {
     protected $error;
+    protected $script_name;
+    protected $vacation = array();
 
     function actions()
     {
@@ -34,6 +36,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $this->vacation_rule();
             $this->vacation_post();
         }
+
         $this->plugin->add_label('vacation.saving');
         $this->rc->output->add_handlers(array(
             'vacationform' => array($this, 'vacation_form'),
@@ -43,15 +46,90 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $this->rc->output->send('managesieve.vacation');
     }
 
+    /**
+     * Find and load sieve script with/for vacation rule
+     *
+     * @return int Connection status: 0 on success, >0 on failure
+     */
+    protected function load_script()
+    {
+        if ($this->script_name !== null) {
+            return 0;
+        }
+
+        $list     = $this->list_scripts();
+        $master   = $this->rc->config->get('managesieve_kolab_master');
+        $included = array();
+
+        $this->script_name = false;
+
+        // first try the active script(s)...
+        if (!empty($this->active)) {
+            // Note: there can be more than one active script on KEP:14-enabled server
+            foreach ($this->active as $script) {
+                if ($this->sieve->load($script)) {
+                    foreach ($this->sieve->script->as_array() as $rule) {
+                        if (!empty($rule['actions'])) {
+                            if ($rule['actions'][0]['type'] == 'vacation') {
+                                $this->script_name = $script;
+                                return 0;
+                            }
+                            else if (empty($master) && $rule['actions'][0]['type'] == 'include') {
+                                $included[] = $rule['actions'][0]['target'];
+                            }
+                        }
+                    }
+                }
+            }
+
+            // ...else try scripts included in active script (not for KEP:14)
+            foreach ($included as $script) {
+                if ($this->sieve->load($script)) {
+                    foreach ($this->sieve->script->as_array() as $rule) {
+                        if (!empty($rule['actions']) && $rule['actions'][0]['type'] == 'vacation') {
+                            $this->script_name = $script;
+                            return 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        // try all other scripts
+        if (!empty($list)) {
+            // else try included scripts
+            foreach (array_diff($list, $included, $this->active) as $script) {
+                if ($this->sieve->load($script)) {
+                    foreach ($this->sieve->script->as_array() as $rule) {
+                        if (!empty($rule['actions']) && $rule['actions'][0]['type'] == 'vacation') {
+                            $this->script_name = $script;
+                            return 0;
+                        }
+                    }
+                }
+            }
+
+            // none of the scripts contains existing vacation rule
+            // use any (first) active or just existing script (in that order)
+            if (!empty($this->active)) {
+                $this->sieve->load($this->script_name = $this->active[0]);
+            }
+            else {
+                $this->sieve->load($this->script_name = $list[0]);
+            }
+        }
+
+        return $this->sieve->error();
+    }
+
     private function vacation_rule()
     {
-        $this->vacation = array();
-
-        if (empty($this->active)) {
+        if ($this->script_name === null || !$this->sieve->load($this->script_name)) {
             return;
         }
 
-        $list = array();
+        $list   = array();
+        $active = in_array($this->script_name, $this->active);
 
         // find (first) vacation rule
         foreach ($this->script as $idx => $rule) {
@@ -68,14 +146,14 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
                 $this->vacation = array_merge($rule['actions'][0], array(
                         'idx'      => $idx,
-                        'disabled' => $rule['disabled'],
+                        'disabled' => $rule['disabled'] || !$active,
                         'name'     => $rule['name'],
                         'tests'    => $rule['tests'],
                         'action'   => $action ?: 'keep',
                         'target'   => $target,
                 ));
             }
-            else {
+            else if ($active) {
                 $list[$idx] = $rule['name'];
             }
         }
@@ -202,8 +280,6 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $vacation_tests = $this->rc->config->get('managesieve_vacation_test', array(array('test' => 'true')));
         }
 
-        // @TODO: handle situation when there's no active script
-
         if (!$error) {
             $rule               = $this->vacation;
             $rule['type']       = 'if';
@@ -212,6 +288,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $rule['tests']      = $vacation_tests;
             $rule['join']       = $date_extension ? count($vacation_tests) > 1 : false;
             $rule['actions']    = array($vacation_action);
+            $rule['after']      = $after;
 
             if ($action && $action != 'keep') {
                 $rule['actions'][] = array(
@@ -221,40 +298,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 );
             }
 
-            // reset original vacation rule
-            if (isset($this->vacation['idx'])) {
-                $this->script[$this->vacation['idx']] = null;
-            }
-
-            // re-order rules if needed
-            if (isset($after) && $after !== '') {
-                // add at target position
-                if ($after >= count($this->script) - 1) {
-                    $this->script[] = $rule;
-                }
-                else {
-                    $script = array();
-
-                    foreach ($this->script as $idx => $r) {
-                        if ($r) {
-                            $script[] = $r;
-                        }
-
-                        if ($idx == $after) {
-                            $script[] = $rule;
-                        }
-                    }
-
-                    $this->script = $script;
-                }
-            }
-            else {
-                array_unshift($this->script, $rule);
-            }
-
-            $this->sieve->script->content = array_values(array_filter($this->script));
-
-            if ($this->save_script()) {
+            if ($this->save_vacation_script($rule)) {
                 $this->rc->output->show_message('managesieve.vacationsaved', 'confirmation');
                 $this->rc->output->send();
             }
@@ -507,6 +551,87 @@ class rcube_sieve_vacation extends rcube_sieve_engine
     }
 
     /**
+     * Saves vacation script (adding some variables)
+     */
+    protected function save_vacation_script($rule)
+    {
+        // if script does not exist create a new one
+        if ($this->script_name === null) {
+            $this->script_name = $this->rc->config->get('managesieve_script_name');
+            if (empty($this->script_name)) {
+                $this->script_name = 'roundcube';
+            }
+
+            $this->script = array($rule);
+            $script_active = false;
+        }
+        // if script exists
+        else {
+            $script_active = in_array($this->script_name, $this->active);
+
+            // re-order rules if needed
+            if (isset($rule['after']) && $rule['after'] !== '') {
+                // reset original vacation rule
+                if (isset($this->vacation['idx'])) {
+                    $this->script[$this->vacation['idx']] = null;
+                }
+
+                // add at target position
+                if ($rule['after'] >= count($this->script) - 1) {
+                    $this->script[] = $rule;
+                }
+                else {
+                    $script = array();
+
+                    foreach ($this->script as $idx => $r) {
+                        if ($r) {
+                            $script[] = $r;
+                        }
+
+                        if ($idx == $rule['after']) {
+                            $script[] = $rule;
+                        }
+                    }
+
+                    $this->script = $script;
+                }
+
+                $this->script = array_values(array_filter($this->script));
+            }
+            // update original vacation rule if it exists
+            else if (isset($this->vacation['idx'])) {
+                $this->script[$this->vacation['idx']] = $rule;
+            }
+            // otherwise put vacation rule on top
+            else {
+                array_unshift($this->script, $rule);
+            }
+
+            // if the script was not active, we need to de-activate
+            // all rules except the vacation rule, but only if it is not disabled
+            if (!$script_active && !$rule['disabled']) {
+                foreach ($this->script as $idx => $r) {
+                    if (empty($r['actions']) || $r['actions'][0]['type'] != 'vacation') {
+                        $this->script[$idx]['disabled'] = true;
+                    }
+                }
+            }
+        }
+
+        $this->sieve->script->content = $this->script;
+
+        // save the script
+        $saved = $this->save_script($this->script_name);
+
+        // activate the script
+        if ($saved && !$script_active && !$rule['disabled']) {
+            $this->activate_script($this->script_name);
+        }
+
+        return $saved;
+    }
+
+    /**
      * API: get vacation rule
      *
      * @return array Vacation rule information
@@ -684,8 +809,6 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $vacation_tests = $this->rc->config->get('managesieve_vacation_test', array(array('test' => 'true')));
         }
 
-        // @TODO: handle situation when there's no active script
-
         $rule             = $this->vacation;
         $rule['type']     = 'if';
         $rule['name']     = $rule['name'] ?: 'Out-of-Office';
@@ -702,16 +825,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             );
         }
 
-        // reset original vacation rule
-        if (isset($this->vacation['idx'])) {
-            $this->script[$this->vacation['idx']] = null;
-        }
-
-        array_unshift($this->script, $rule);
-
-        $this->sieve->script->content = array_values(array_filter($this->script));
-
-        return $this->save_script();
+        return $this->save_vacation_script($rule);
     }
 
     /**
