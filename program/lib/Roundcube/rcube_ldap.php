@@ -116,13 +116,14 @@ class rcube_ldap extends rcube_addressbook
 
         // fieldmap property is given
         if (is_array($p['fieldmap'])) {
+            $p['fieldmap'] = array_filter($p['fieldmap']);
             foreach ($p['fieldmap'] as $rf => $lf)
                 $this->fieldmap[$rf] = $this->_attr_name(strtolower($lf));
         }
         else if (!empty($p)) {
             // read deprecated *_field properties to remain backwards compatible
             foreach ($p as $prop => $value)
-                if (preg_match('/^(.+)_field$/', $prop, $matches))
+                if (!empty($value) && preg_match('/^(.+)_field$/', $prop, $matches))
                     $this->fieldmap[$matches[1]] = $this->_attr_name(strtolower($value));
         }
 

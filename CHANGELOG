@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Fix so "set as default" option is hidden if identities_level > 1 (#1490226)
 - Fix bug where search was reset after returning from compose visited for reply
 - Fix javascript error in "IE 8.0/Tablet PC" browser (#1490210)
+- Fix bug where empty fieldmap config entries caused empty results of ldap search (#1490229)
 
 RELEASE 1.0.4
 -------------
