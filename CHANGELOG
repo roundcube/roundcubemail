@@ -12,6 +12,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where search was reset after returning from compose visited for reply
 - Fix javascript error in "IE 8.0/Tablet PC" browser (#1490210)
 - Fix bug where Reply-To address was ignored on reply to messages sent by self (#1490233)
+- Fix bug where empty fieldmap config entries caused empty results of ldap search (#1490229)
 
 RELEASE 1.1-rc
 --------------
