@@ -220,7 +220,7 @@ class rcube_sieve_engine
      *
      * @return int Connection status: 0 on success, >0 on failure
      */
-    public function load_script($script_name = null)
+    protected function load_script($script_name = null)
     {
         // Get list of scripts
         $list = $this->list_scripts();
