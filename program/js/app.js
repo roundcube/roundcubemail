@@ -2484,6 +2484,16 @@ function rcube_webmail()
         selection.push(selected[i]);
 
     this.message_list.selection = selection;
+
+    // reset preview frame, if currently previewed message is not selected (has been removed)
+    try {
+      var win = this.get_frame_window(this.env.contentframe),
+        id = win.rcmail.env.uid;
+
+      if (id && $.inArray(id, selection) < 0)
+        this.show_contentframe(false);
+    }
+    catch (e) {};
   };
 
   // expand all threads with unread children
@@ -3971,7 +3981,6 @@ function rcube_webmail()
     this.local_storage_remove_item('compose.index');
   };
 
-
   this.change_identity = function(obj, show_sig)
   {
     if (!obj || !obj.options)
@@ -4340,6 +4349,7 @@ function rcube_webmail()
       (this.env.search_request && (this.env.search_scope || 'base') != 'base');
   };
 
+  // action executed after mail is sent
   this.sent_successfully = function(type, msg, folders)
   {
     this.display_message(msg, type);
@@ -4348,11 +4358,13 @@ function rcube_webmail()
     if (this.env.extwin) {
       this.lock_form(this.gui_objects.messageform);
 
-      var rc = this.opener();
+      var filter = {task: 'mail', action: ''},
+        rc = this.opener(false, filter) || this.opener(true, filter);
+
       if (rc) {
         rc.display_message(msg, type);
         // refresh the folder where sent message was saved or replied message comes from
-        if (folders && rc.env.task == 'mail' && rc.env.action == '' && $.inArray(rc.env.mailbox, folders) >= 0) {
+        if (folders && $.inArray(rc.env.mailbox, folders) >= 0) {
           rc.command('checkmail');
         }
       }

@@ -53,13 +53,14 @@ if (!is_array($COMPOSE)) {
     }
 
     $COMPOSE_ID = uniqid(mt_rand());
+    $params     = rcube_utils::request2param(rcube_utils::INPUT_GET, 'task|action', true);
+
     $_SESSION['compose_data_'.$COMPOSE_ID] = array(
         'id'      => $COMPOSE_ID,
-        'param'   => rcube_utils::request2param(rcube_utils::INPUT_GET, 'task|action', true),
-        'mailbox' => $RCMAIL->storage->get_folder(),
+        'param'   => $params,
+        'mailbox' => $params['mbox'] ?: $RCMAIL->storage->get_folder(),
     );
     $COMPOSE =& $_SESSION['compose_data_'.$COMPOSE_ID];
-
     rcmail_process_compose_params($COMPOSE);
 
     // check if folder for saving sent messages exists and is subscribed (#1486802)

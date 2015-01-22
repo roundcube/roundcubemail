@@ -686,7 +686,7 @@ if ($savedraft) {
 else {
     $folders = array();
 
-    if ($COMPOSE['mode'] == 'reply' || $COMPOSE['mode'] == 'forward') {
+    if (in_array($COMPOSE['mode'], array('reply', 'forward', 'draft'))) {
         $folders[] = $COMPOSE['mailbox'];
     }
 
