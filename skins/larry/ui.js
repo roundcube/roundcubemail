@@ -277,21 +277,22 @@ function rcube_mail_ui()
           orientation:'v', relative:true, start:266, min:180, size:12 }).init();
       }
       else if (rcmail.env.action == 'edit-prefs') {
-        $('<a href="#toggle"></a>')
+        var legend = $('#preferences-details fieldset.advanced legend'),
+          toggle = $('<a href="#toggle"></a>')
             .text(env.toggleoptions)
             .attr('title', env.toggleoptions)
-            .addClass('advanced-toggle')
-            .appendTo('#preferences-details fieldset.advanced legend');
+            .addClass('advanced-toggle');
 
-          $('#preferences-details fieldset.advanced legend').click(function(e){
-            var collapsed = $(this).hasClass('collapsed'),
-              toggle = $('.advanced-toggle', this).html(collapsed ? '&#9650;' : '&#9660;');
-            $(this)
-              .toggleClass('collapsed')
-              .closest('fieldset').children('.propform').toggle()
-          }).addClass('collapsed')
-          // this magically fixes incorrect position of toggle link created above in Firefox 3.6
-          .parents('form').css('display', 'inline');
+        legend.click(function(e) {
+          toggle.html($(this).hasClass('collapsed') ? '&#9650;' : '&#9660;');
+
+          $(this).toggleClass('collapsed')
+            .closest('fieldset').children('.propform').toggle()
+        }).append(toggle).addClass('collapsed')
+
+        // this magically fixes incorrect position of toggle link created above in Firefox 3.6
+        if (bw.mz)
+          legend.parents('form').css('display', 'inline');
       }
     }
     /***  addressbook task  ***/
