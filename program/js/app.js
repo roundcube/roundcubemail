@@ -5173,10 +5173,10 @@ function rcube_webmail()
         dateFormat: this.env.date_format,
         changeMonth: true,
         changeYear: true,
-        yearRange: '-100:+10',
+        yearRange: '-120:+10',
         showOtherMonths: true,
         selectOtherMonths: true,
-        onSelect: function(dateText) { $(this).focus().val(dateText) }
+//        onSelect: function(dateText) { $(this).focus().val(dateText); }
       });
       $('input.datepicker').datepicker();
     }

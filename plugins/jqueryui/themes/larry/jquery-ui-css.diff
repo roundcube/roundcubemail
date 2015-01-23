@@ -538,10 +538,10 @@
 +	        appearance: none;
 +}
 +.mozilla .ui-datepicker .ui-datepicker-title select {
-+	background-position: right -17px;
++	background-position: right -14px;
 +	text-indent: 0.01px;
 +	text-overflow: '';
-+	padding-right: 0;
++	padding-right: 10px;
 +}
 +.ui-datepicker .ui-datepicker-month:focus,
 +.ui-datepicker .ui-datepicker-year:focus {
