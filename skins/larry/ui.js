@@ -290,6 +290,8 @@ function rcube_mail_ui()
               .toggleClass('collapsed')
               .closest('fieldset').children('.propform').toggle()
           }).addClass('collapsed')
+          // this magically fixes incorrect position of toggle link created above in Firefox 3.6
+          .parents('form').css('display', 'inline');
       }
     }
     /***  addressbook task  ***/
