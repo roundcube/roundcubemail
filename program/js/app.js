@@ -5175,7 +5175,7 @@ function rcube_webmail()
         changeYear: true,
         yearRange: '-120:+10',
         showOtherMonths: true,
-        selectOtherMonths: true,
+        selectOtherMonths: true
 //        onSelect: function(dateText) { $(this).focus().val(dateText); }
       });
       $('input.datepicker').datepicker();
