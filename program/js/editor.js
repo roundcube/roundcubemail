@@ -213,8 +213,10 @@ function rcube_text_editor(config, id)
       content = input.val();
 
       // replace current text signature with temp mark
-      if (is_sig)
-        content = content.replace(signature.text, sig_mark);
+      if (is_sig) {
+        content = content.replace(/\r\n/, "\n");
+        content = content.replace(signature.text.replace(/\r\n/, "\n"), sig_mark);
+      }
 
       var init_editor = function(data) {
         // replace signature mark with html version of the signature

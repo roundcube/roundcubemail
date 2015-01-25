@@ -16,6 +16,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where drafts list wasn't refreshed after draft message was sent from another window (#1490238)
 - Fix keyboard navigation and css in datepicker widget across many Firefox versions
 - Fix false warning when opening attached text/plain files (#1490241)
+- Fix bug where signature could have been inserted twice after plain-to-html switch (#1490239)
 
 RELEASE 1.1-rc
 --------------
