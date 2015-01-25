@@ -150,21 +150,21 @@ else if (strlen($part_id)) {
 
                 // accept text/plain with any extension
                 if ($real_mimetype == 'text/plain' && $real_mimetype == $mimetype) {
-                    $file_extension = 'txt';
-                }
-
-                // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
-                if ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0) {
-                    $real_mimetype = $mimetype;
-                }
-
-                // get valid file extensions
-                $extensions      = rcube_mime::get_mime_extensions($real_mimetype);
-                $valid_extension = (!$file_extension || in_array($file_extension, (array)$extensions));
-
-                // ignore filename extension if mimeclass matches (#1489029)
-                if (!empty($_REQUEST['_mimeclass']) && $real_ctype_primary == $_REQUEST['_mimeclass']) {
                     $valid_extension = true;
+                }
+                // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
+                else if ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0) {
+                    $real_mimetype   = $mimetype;
+                    $valid_extension = true;
+                }
+                // ignore filename extension if mimeclass matches (#1489029)
+                else if (!empty($_REQUEST['_mimeclass']) && $real_ctype_primary == $_REQUEST['_mimeclass']) {
+                    $valid_extension = true;
+                }
+                else {
+                    // get valid file extensions
+                    $extensions      = rcube_mime::get_mime_extensions($real_mimetype);
+                    $valid_extension = (!$file_extension || in_array($file_extension, (array)$extensions));
                 }
 
                 // fix mimetype for images wrongly declared as octet-stream

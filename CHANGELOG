@@ -15,6 +15,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where empty fieldmap config entries caused empty results of ldap search (#1490229)
 - Fix bug where drafts list wasn't refreshed after draft message was sent from another window (#1490238)
 - Fix keyboard navigation and css in datepicker widget across many Firefox versions
+- Fix false warning when opening attached text/plain files (#1490241)
 
 RELEASE 1.1-rc
 --------------
