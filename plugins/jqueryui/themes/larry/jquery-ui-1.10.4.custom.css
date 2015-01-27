@@ -1451,7 +1451,7 @@ body .ui-tooltip {
 	        appearance: none;
 }
 
-@supports (-moz-appearance:none) and (mask-type:alpha) and (not (will-change:auto)) {
+@supports (-moz-appearance:none) and (mask-type:alpha) {
 	.mozilla .ui-datepicker .ui-datepicker-title select {
 		background-image: url("images/ui-icons-datepicker.png");
 		background-position: right -14px;
