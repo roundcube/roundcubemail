@@ -3081,3 +3081,7 @@ ul.toolbarmenu li span.copy {
 	line-height: 16px !important;
 	vertical-align: text-top !important;
 }
+
+_:not(), _:-moz-handler-blocked, .mozilla .mce-btn-small i {
+	line-height: 20px !important;
+}
