@@ -243,8 +243,9 @@ class rcube_smtp
         if (PEAR::isError($this->conn->mailFrom($from, $from_params))) {
             $err = $this->conn->getResponse();
             $this->error = array('label' => 'smtpfromerror', 'vars' => array(
-                'from' => $from, 'code' => $this->conn->_code, 'msg' => $err[1]));
-            $this->response[] = "Failed to set sender '$from'";
+                'from' => $from, 'code' => $err[0], 'msg' => $err[1]));
+            $this->response[] = "Failed to set sender '$from'. "
+                . $err[1] . ' (Code: ' . $err[0] . ')';
             $this->reset();
             return false;
         }
@@ -262,8 +263,9 @@ class rcube_smtp
             if (PEAR::isError($this->conn->rcptTo($recipient, $recipient_params))) {
                 $err = $this->conn->getResponse();
                 $this->error = array('label' => 'smtptoerror', 'vars' => array(
-                    'to' => $recipient, 'code' => $this->conn->_code, 'msg' => $err[1]));
-                $this->response[] = "Failed to add recipient '$recipient'";
+                    'to' => $recipient, 'code' => $err[0], 'msg' => $err[1]));
+                $this->response[] = "Failed to add recipient '$recipient'. "
+                    . $err[1] . ' (Code: ' . $err[0] . ')';
                 $this->reset();
                 return false;
             }
@@ -286,7 +288,7 @@ class rcube_smtp
         }
 
         // Send the message's headers and the body as SMTP data.
-        if (PEAR::isError($result = $this->conn->data($data, $text_headers))) {
+        if (PEAR::isError($this->conn->data($data, $text_headers))) {
             $err = $this->conn->getResponse();
             if (!in_array($err[0], array(354, 250, 221))) {
                 $msg = sprintf('[%d] %s', $err[0], $err[1]);
@@ -296,7 +298,7 @@ class rcube_smtp
             }
 
             $this->error = array('label' => 'smtperror', 'vars' => array('msg' => $msg));
-            $this->response[] = "Failed to send data";
+            $this->response[] = "Failed to send data. " . $msg;
             $this->reset();
             return false;
         }

@@ -1706,7 +1706,7 @@ class rcube
             if (!$sent) {
                 self::raise_error(array('code' => 800, 'type' => 'smtp',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "SMTP error: ".join("\n", $response)), TRUE, FALSE);
+                    'message' => join("\n", $response)), true, false);
             }
         }
         // send mail using PHP's mail() function
