@@ -376,11 +376,19 @@ class rcube_plugin_api
     {
         $callback_id = array_search($callback, $this->handlers[$hook]);
         if ($callback_id !== false) {
-            unset($this->handlers[$hook][$callback_id]);
+            // remove the hook if it's not actually executed
+            if (!in_array($hook, $this->exec_stack)) {
+                unset($this->handlers[$hook][$callback_id]);
 
-            // renumber the handlers array otherwise the exec_hook loop will fail
-            $tmp = array_values($this->handlers[$hook]);
-            $this->handlers[$hook] = $tmp;
+                // renumber the handlers array otherwise the exec_hook loop will fail
+                $tmp = array_values($this->handlers[$hook]);
+                $this->handlers[$hook] = $tmp;
+            }
+            // don't remove the hook during it's exection, which breaks the
+            // exec_hook() for-loop
+            else {
+                $this->handlers[$hook][$callback_id] = false;
+            }
         }
     }
 
@@ -406,6 +414,12 @@ class rcube_plugin_api
 
         // Use for loop here, so handlers added in the hook will be executed too
         for ($i = 0; $i < count($this->handlers[$hook]); $i++) {
+            // skip unregistered hooks
+            if ($this->handlers[$hook][$i] === false) {
+                continue;
+            }
+
+            // execute hook
             $ret = call_user_func($this->handlers[$hook][$i], $args);
             if ($ret && is_array($ret)) {
                 $args = $ret + $args;
@@ -417,6 +431,22 @@ class rcube_plugin_api
         }
 
         array_pop($this->exec_stack);
+
+        // cleanup handlers if hooks have been unregistered mid-flight
+        if (!in_array($hook,$this->exec_stack)) {
+            $renumber = false;
+            foreach ($this->handlers[$hook] AS $i => $value) {
+                if ($value === false) {
+                    unset($this->handlers[$hook][$i]);
+                    $renumber = true;
+                }
+            }
+
+            if ($renumber) {
+                $tmp = array_values($this->handlers[$hook]);
+                $this->handlers[$hook] = $tmp;
+            }
+        }
         return $args;
     }
 
