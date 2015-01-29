@@ -400,8 +400,9 @@ class rcube_plugin_api
         $args += array('abort' => false);
         array_push($this->exec_stack, $hook);
 
-        foreach ((array)$this->handlers[$hook] as $callback) {
-            $ret = call_user_func($callback, $args);
+        // Use for loop here, so handlers added in the hook will be executed too
+        for ($i = 0; $i < count($this->handlers[$hook]); $i++) {
+            $ret = call_user_func($this->handlers[$hook][$i], $args);
             if ($ret && is_array($ret)) {
                 $args = $ret + $args;
             }
