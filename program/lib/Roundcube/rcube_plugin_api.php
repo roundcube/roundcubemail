@@ -377,6 +377,10 @@ class rcube_plugin_api
         $callback_id = array_search($callback, $this->handlers[$hook]);
         if ($callback_id !== false) {
             unset($this->handlers[$hook][$callback_id]);
+
+            // renumber the handlers array otherwise the exec_hook loop will fail
+            $tmp = array_values($this->handlers[$hook]);
+            $this->handlers[$hook] = $tmp;
         }
     }
 
