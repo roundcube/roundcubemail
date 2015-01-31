@@ -48,6 +48,7 @@ class rcube_plugin_api
     protected $template_contents = array();
     protected $exec_stack        = array();
     protected $deprecated_hooks  = array();
+    protected $cleanup_hooks     = array();
 
 
     /**
@@ -388,6 +389,7 @@ class rcube_plugin_api
             // exec_hook() for-loop
             else {
                 $this->handlers[$hook][$callback_id] = false;
+                $this->cleanup_hooks[$hook] = true;
             }
         }
     }
@@ -433,7 +435,7 @@ class rcube_plugin_api
         array_pop($this->exec_stack);
 
         // cleanup handlers if hooks have been unregistered mid-flight
-        if (!in_array($hook,$this->exec_stack)) {
+        if (isset($this->cleanup_hooks[$hook]) && !in_array($hook,$this->exec_stack)) {
             $renumber = false;
             foreach ($this->handlers[$hook] AS $i => $value) {
                 if ($value === false) {
@@ -446,6 +448,8 @@ class rcube_plugin_api
                 $tmp = array_values($this->handlers[$hook]);
                 $this->handlers[$hook] = $tmp;
             }
+
+            unset($this->cleanup_hooks[$hook]);
         }
         return $args;
     }
