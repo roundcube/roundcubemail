@@ -124,7 +124,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
     private function vacation_rule()
     {
-        if ($this->script_name === null || !$this->sieve->load($this->script_name)) {
+        if ($this->script_name === false || $this->script_name === null || !$this->sieve->load($this->script_name)) {
             return;
         }
 
@@ -556,7 +556,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
     protected function save_vacation_script($rule)
     {
         // if script does not exist create a new one
-        if ($this->script_name === null) {
+        if ($this->script_name === null || $this->script_name === false) {
             $this->script_name = $this->rc->config->get('managesieve_script_name');
             if (empty($this->script_name)) {
                 $this->script_name = 'roundcube';

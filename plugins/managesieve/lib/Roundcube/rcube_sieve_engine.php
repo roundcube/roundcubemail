@@ -2105,7 +2105,10 @@ class rcube_sieve_engine
                     foreach ($rules['actions'] as $action) {
                         if ($action['type'] == 'include' && empty($action['global'])) {
                             $name = preg_replace($filename_regex, '', $action['target']);
-                            $this->active[] = $name;
+                            // make sure the script exist
+                            if (in_array($name, $this->list)) {
+                                $this->active[] = $name;
+                            }
                         }
                     }
                 }
