@@ -233,8 +233,14 @@ class rcube_config
             $this->prop['skin'] = self::DEFAULT_SKIN;
 
         // fix paths
-        $this->prop['log_dir'] = $this->prop['log_dir'] ? realpath(unslashify($this->prop['log_dir'])) : RCUBE_INSTALL_PATH . 'logs';
-        $this->prop['temp_dir'] = $this->prop['temp_dir'] ? realpath(unslashify($this->prop['temp_dir'])) : RCUBE_INSTALL_PATH . 'temp';
+        foreach (array('log_dir' => 'logs', 'temp_dir' => 'temp') as $key => $dir) {
+            foreach (array($this->prop[$key], '../' . $this->prop[$key], RCUBE_INSTALL_PATH . $dir) as $path) {
+                if ($path && ($realpath = realpath(unslashify($path)))) {
+                    $this->prop[$key] = $realpath;
+                    break;
+                }
+            }
+        }
 
         // fix default imap folders encoding
         foreach (array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder) {

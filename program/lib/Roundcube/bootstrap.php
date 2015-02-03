@@ -490,8 +490,11 @@ function rcube_autoload($classname)
  */
 function rcube_pear_error($err)
 {
-    error_log(sprintf("%s (%s): %s",
-        $err->getMessage(),
-        $err->getCode(),
-        $err->getUserinfo()), 0);
+    $msg = sprintf("ERROR: %s (%s)", $err->getMessage(), $err->getCode());
+
+    if ($info = $err->getUserinfo()) {
+        $msg .= ': ' . $info;
+    }
+
+    error_log($msg, 0);
 }
