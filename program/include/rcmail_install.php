@@ -234,10 +234,9 @@ class rcmail_install
       else if (is_numeric($value)) {
         $value = intval($value);
       }
-      else if ($prop == 'plugins') {
+      else if ($prop == 'plugins' && !empty($_POST['submit'])) {
         $value = array();
-        foreach(array_keys($_POST) as $key)
-        {
+        foreach (array_keys($_POST) as $key) {
           if (preg_match('/^_plugins_*/', $key))
             array_push($value, $_POST[$key]);
         }
