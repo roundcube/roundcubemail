@@ -68,7 +68,7 @@ spl_autoload_register('rcmail_autoload');
 // backward compatybility (to be removed)
 require_once INSTALL_PATH . 'program/include/bc.php';
 
-// load the UTF-8 portablity layer from Patchwor
+// load the UTF-8 portablity layer from Patchwork
 if (!function_exists('iconv') || !function_exists('utf8_encode') || !extension_loaded('mbstring')) {
     \Patchwork\Utf8\Bootup::initAll();
 }

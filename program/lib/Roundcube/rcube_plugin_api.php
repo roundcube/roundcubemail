@@ -397,7 +397,7 @@ class rcube_plugin_api
             $args = array('arg' => $args);
         }
 
-        // TODO: avoid recusion by checking in_array($hook, $this->exec_stack) ?
+        // TODO: avoid recursion by checking in_array($hook, $this->exec_stack) ?
 
         $args += array('abort' => false);
         array_push($this->exec_stack, $hook);
