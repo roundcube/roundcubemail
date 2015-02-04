@@ -399,6 +399,11 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         $head_replace = true;
     }
 
+    // get name of smart From/To column in folder context
+    if (array_search('fromto', $a_show_cols) !== false) {
+        $smart_col = rcmail_message_list_smart_column_name();
+    }
+
     $search_set  = $RCMAIL->storage->get_search_set();
     $multifolder = $search_set && $search_set[1]->multi;
 
@@ -433,11 +438,6 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $a_headers   = $plugin['messages'];
 
     $thead = $head_replace ? rcmail_message_list_head($_SESSION['list_attrib'], $a_show_cols) : NULL;
-
-    // get name of smart From/To column in folder context
-    if (array_search('fromto', $a_show_cols) !== false) {
-        $smart_col = rcmail_message_list_smart_column_name();
-    }
 
     $OUTPUT->command('set_message_coltypes', $a_show_cols, $thead, $smart_col);
 
