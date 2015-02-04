@@ -374,9 +374,11 @@ class rcube_plugin_api
      */
     public function unregister_hook($hook, $callback)
     {
-        $callback_id = array_search($callback, $this->handlers[$hook]);
+        $callback_id = array_search($callback, (array) $this->handlers[$hook]);
         if ($callback_id !== false) {
-            unset($this->handlers[$hook][$callback_id]);
+            // array_splice() removes the element and re-indexes keys
+            // that is required by the 'for' loop in exec_hook() below
+            array_splice($this->handlers[$hook], $callback_id, 1);
         }
     }
 
