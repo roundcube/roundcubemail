@@ -35,10 +35,23 @@ class rcube_dbmail_password
     function save($currpass, $newpass)
     {
         $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
-        $username = escapeshellcmd($_SESSION['username']);
+        $username = escapeshellarg($_SESSION['username']);
+        $password = escapeshellarg($newpass);
         $args     = rcmail::get_instance()->config->get('password_dbmail_args', '');
+        $command  = "$curdir/chgdbmailusers -c $username -w $password $args";
 
-        exec("$curdir/chgdbmailusers -c $username -w $newpass $args", $output, $returnvalue);
+        if (strlen($command) > 1024) {
+            rcube::raise_error(array(
+                'code' => 600,
+                'type' => 'php',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Password plugin: The command is too long."
+                ), true, false);
+
+            return PASSWORD_ERROR;
+        }
+
+        exec($command, $output, $returnvalue);
 
         if ($returnvalue == 0) {
             return PASSWORD_SUCCESS;
