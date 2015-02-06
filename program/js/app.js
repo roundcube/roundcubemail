@@ -8159,15 +8159,16 @@ function rcube_webmail()
   // wrapper for localStorage.getItem(key)
   this.local_storage_get_item = function(key, deflt, encrypted)
   {
-    var item;
+    var item, result;
 
     // TODO: add encryption
     try {
       item = localStorage.getItem(this.get_local_storage_prefix() + key);
+      result = JSON.parse(item);
     }
     catch (e) { }
 
-    return item !== null ? JSON.parse(item) : (deflt || null);
+    return result || deflt || null;
   };
 
   // wrapper for localStorage.setItem(key, data)

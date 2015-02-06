@@ -20,6 +20,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where signature could have been inserted twice after plain-to-html switch (#1490239)
 - Fix security issue in DBMail driver of password plugin (#1490261)
 - Enable FollowSymLinks option in .htaccess file which is required by rewrite rules (#1490255)
+- Fix so JSON.parse() errors on localStorage items are ignored (#1490249)
 
 RELEASE 1.1-rc
 --------------
