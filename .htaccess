@@ -24,6 +24,7 @@ php_value   session.gc_probability   1
 </IfModule>
 
 <IfModule mod_rewrite.c>
+Options +FollowSymLinks
 RewriteEngine On
 RewriteRule ^favicon\.ico$ skins/larry/images/favicon.ico
 
