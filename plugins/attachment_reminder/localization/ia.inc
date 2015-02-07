@@ -2,10 +2,10 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/userinfo/localization/<lang>.inc                              |
+ | plugins/attachment_reminder/localization/<lang>.inc                   |
  |                                                                       |
- | Localization file of the Roundcube Webmail Userinfo plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ | Localization file of the Roundcube Webmail Archive plugin             |
+ | Copyright (C) 2013, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,10 +13,8 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-$labels['userinfo'] = 'Información de usuario';
-$labels['created'] = 'Creado';
-$labels['lastlogin'] = 'Último Ingreso';
-$labels['defaultidentity'] = 'Identidad predeterminada';
-?>
+$messages['forgotattachment'] = "Ha vos oblidate de attachar un file?";
+$messages['reminderoption'] = "Rememorar de attachamentos oblidate";
+$messages['keywords'] = "attachamento,file,attachar,attachate,attachante,annexo,annexe,annexate,CV,curriculo de vita";

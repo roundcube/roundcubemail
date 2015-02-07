@@ -2,9 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/userinfo/localization/<lang>.inc                              |
+ | plugins/new_user_dialog/localization/<lang>.inc                       |
  |                                                                       |
- | Localization file of the Roundcube Webmail Userinfo plugin            |
+ | Localization file of the Roundcube Webmail New User Dialog plugin     |
  | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -13,10 +13,8 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-$labels['userinfo'] = 'Información de usuario';
-$labels['created'] = 'Creado';
-$labels['lastlogin'] = 'Último Ingreso';
-$labels['defaultidentity'] = 'Identidad predeterminada';
+$labels['identitydialogtitle'] = 'Per favor, completa vostre identitate de expeditor';
+$labels['identitydialoghint'] = 'Iste quadro solmente appare un vice al prime apertura de session.';
 ?>

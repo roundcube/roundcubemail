@@ -15,9 +15,9 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-$labels['basic'] = 'Afficher les notifications du navigateur pour les nouveaux messages';
-$labels['desktop'] = 'Afficher les notifications du navigateur pour les nouveaux messages';
-$labels['sound'] = 'Jouer un pour les nouveaux messages';
+$labels['basic'] = 'Afficher les notifications du navigateur pour les nouveaux courriels';
+$labels['desktop'] = 'Afficher les notifications du navigateur pour les nouveaux courriels';
+$labels['sound'] = 'Jouer le son pour les nouveaux courriels';
 $labels['test'] = 'Test';
 $labels['title'] = 'Nouveau courriel';
 $labels['body'] = 'Vous avez reçu un nouveau courriel.';

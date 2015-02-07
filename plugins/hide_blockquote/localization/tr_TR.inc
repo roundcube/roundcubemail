@@ -17,5 +17,5 @@
 */
 $labels['hide'] = 'Gizle';
 $labels['show'] = 'Göster';
-$labels['quotelimit'] = 'Satır sayısı şu satır sayısındna fazla ile alıntıları gizle:';
+$labels['quotelimit'] = 'Satır sayısı şu satır sayısından fazla ise alıntıları gizle:';
 ?>

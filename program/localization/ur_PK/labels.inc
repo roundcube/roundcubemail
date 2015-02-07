@@ -16,9 +16,18 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 $labels['welcome']   = ' $product میں خوش آمدید';
+$labels['username']  = 'صارف';
+$labels['password']  = 'پاسورڈ';
 $labels['server']    = 'سَروَر';
+$labels['logout']   = 'لاگ آؤٹ';
 $labels['mail']     = 'میل';
 $labels['settings'] = 'ترتیبات';
+$labels['addressbook'] = 'ایڈریس بک';
+$labels['inbox']  = 'ان باکس';
+$labels['drafts'] = 'ڈرافٹ';
+$labels['subject'] = 'مضمون';
+$labels['from']    = 'از';
+$labels['sender']  = 'بھیجنے والا';
 $labels['download'] = 'ڈاؤن لوڈ';
 $labels['showanyway'] = 'جیسا بھی ہے ظاہر کر دیں';
 $labels['markread']         = 'جیسے پڑھ لیا ہو';

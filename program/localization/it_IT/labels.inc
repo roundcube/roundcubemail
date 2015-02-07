@@ -234,6 +234,7 @@ $labels['responsetext'] = 'Testo della Risposta';
 $labels['attach'] = 'Allega';
 $labels['attachments'] = 'Allegati';
 $labels['upload'] = 'Aggiungi';
+$labels['uploadprogress'] = '$percent ($current su $total)';
 $labels['close']  = 'Chiudi';
 $labels['messageoptions']  = 'Opzioni messaggi...';
 $labels['togglecomposeoptions'] = 'Passa alla impostazioni di composizione';

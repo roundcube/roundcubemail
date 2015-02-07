@@ -2,9 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/userinfo/localization/<lang>.inc                              |
+ | plugins/help/localization/<lang>.inc                                  |
  |                                                                       |
- | Localization file of the Roundcube Webmail Userinfo plugin            |
+ | Localization file of the Roundcube Webmail Help plugin                |
  | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -13,10 +13,9 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-help/
 */
-$labels['userinfo'] = 'Información de usuario';
-$labels['created'] = 'Creado';
-$labels['lastlogin'] = 'Último Ingreso';
-$labels['defaultidentity'] = 'Identidad predeterminada';
+$labels['help'] = 'Adjuta';
+$labels['about'] = 'A proposito';
+$labels['license'] = 'Licentia';
 ?>

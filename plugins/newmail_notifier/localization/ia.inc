@@ -15,8 +15,14 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-$labels['basic'] = 'Monstrar notificationes de navigator in cata nove message';
-$labels['test'] = 'Prova';
-$labels['title'] = 'Nove message!';
-$labels['testbody'] = 'Iste es un notification de prova.';
+$labels['basic'] = 'Presentar notificationes de navigator quando un nove message arriva';
+$labels['desktop'] = 'Presentar notificationes de scriptorio quando un nove message arriva';
+$labels['sound'] = 'Facer sonar un sono quando un nove message arriva';
+$labels['test'] = 'Test';
+$labels['title'] = 'Nove e-mail!';
+$labels['body'] = 'Vos ha recipite un nove message.';
+$labels['testbody'] = 'Iste es un notification de test.';
+$labels['desktopdisabled'] = 'Le notificationes de scriptorio ha essite disactivate in vostre navigator.';
+$labels['desktopunsupported'] = 'Vostre navigator non supporta le notificationes de scriptorio.';
+$labels['desktoptimeout'] = 'Clauder notification de scriptorio';
 ?>
