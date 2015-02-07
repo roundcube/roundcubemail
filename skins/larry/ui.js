@@ -1,5 +1,3 @@
-// @license http://creativecommons.org/publicdomain/zero/1.0/legalcode CC0
-
 /**
  * Roundcube functions for default skin interface
  *
@@ -9,6 +7,8 @@
  * License. It is allowed to copy, distribute, transmit and to adapt the work
  * by keeping credits to the original autors in the README file.
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ *
+ * @license magnet:?xt=urn:btih:90dc5c0be029de84e523b9b3922520e79e0e6f08&dn=cc0.txt CC0-1.0
  */
 
 function rcube_mail_ui()
