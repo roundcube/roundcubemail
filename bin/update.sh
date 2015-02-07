@@ -181,6 +181,27 @@ if ($RCI->configured) {
       */
     }
 
+    // update the repositories section with the new dependencies
+    if (is_array($composer_template['repositories'])) {
+      if (!is_array($composer_data['repositories'])) {
+        $composer_data['repositories'] = array();
+      }
+
+      foreach ($composer_template['repositories'] as $repo) {
+        $rkey = $repo['type'] . $repo['url'] . $repo['package']['name'];
+        $existing = false;
+        foreach ($composer_data['repositories'] as $_repo) {
+          if ($rkey == $_repo['type'] . $_repo['url'] . $_repo['package']['name']) {
+            $existing = true;
+            break;
+          }
+        }
+        if (!$existing) {
+          $composer_data['repositories'][] = $repo;
+        }
+      }
+    }
+
     // use the JSON encoder from the Composer package
     if (is_file('composer.phar')) {
       include 'phar://composer.phar/src/Composer/Json/JsonFile.php';
