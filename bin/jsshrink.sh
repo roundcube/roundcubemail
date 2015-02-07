@@ -9,7 +9,9 @@ CLOSURE_COMPILER_URL='http://dl.google.com/closure-compiler/compiler-20131014.zi
 
 do_shrink() {
 	rm -f "$2"
-	java -jar $JAR_DIR/compiler.jar --compilation_level=SIMPLE_OPTIMIZATIONS --js="$1" --js_output_file="$2" --language_in="$3"
+	# copy the first comment block with license information for LibreJS
+	grep -q '@lic' $1 && sed -n '/\/\*/,/\*\// { p; /\*\//q; }' $1 > $2
+	java -jar $JAR_DIR/compiler.jar --compilation_level=SIMPLE_OPTIMIZATIONS --js="$1" --language_in="$3" >> $2
 }
 
 if [ ! -d "$JS_DIR" ]; then
