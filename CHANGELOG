@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.1.0
+-------------
 - Make SMTP error log more verbose - include server response and error code
 - Fix download options menu (added by zipdownload plugin) in classic skin (#1490228)
 - Fix blocked.gif image usage with assets_dir set
