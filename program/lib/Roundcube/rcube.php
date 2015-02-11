@@ -215,7 +215,10 @@ class rcube
             $this->mc_available = 0;
 
             // add all configured hosts to pool
-            $pconnect = $this->config->get('memcache_pconnect', true);
+            $pconnect       = $this->config->get('memcache_pconnect', true);
+            $timeout        = $this->config->get('memcache_timeout', 1);
+            $retry_interval = $this->config->get('memcache_retry_interval', 15);
+
             foreach ($this->config->get('memcache_hosts', array()) as $host) {
                 if (substr($host, 0, 7) != 'unix://') {
                     list($host, $port) = explode(':', $host);
@@ -226,7 +229,7 @@ class rcube
                 }
 
                 $this->mc_available += intval($this->memcache->addServer(
-                    $host, $port, $pconnect, 1, 1, 15, false, array($this, 'memcache_failure')));
+                    $host, $port, $pconnect, 1, $timeout, $retry_interval, false, array($this, 'memcache_failure')));
             }
 
             // test connection and failover (will result in $this->mc_available == 0 on complete failure)
