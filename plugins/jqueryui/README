@@ -24,7 +24,7 @@ Some jquery-ui modules provide localization. One example is the datepicker modul
 If you want to load localization for a specific module, then set up config.inc.php.
 Check the config.inc.php.dist file on how to set this up for the datepicker module.
 
-As of version 1.8.6 this plugin also supports other themes. If you're a theme
+As of version 1.8.6 this plugin also supports other skins. If you're a theme
 developer and would like a different default theme to be used for your RC theme
 then let me know and we can set things up.
 

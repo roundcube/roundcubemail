@@ -3,7 +3,7 @@
 /**
  * jQuery UI
  *
- * Provide the jQuery UI library with according themes.
+ * Provide the jQuery UI library with according skins.
  *
  * @version 1.10.4
  * @author Cor Bosman <roundcube@wa.ter.net>
@@ -33,11 +33,11 @@ class jqueryui extends rcube_plugin
 
         self::$ui_theme = $ui_theme;
 
-        if (file_exists($this->home . "/themes/$ui_theme/jquery-ui-$this->version.custom.css")) {
-            $this->include_stylesheet("themes/$ui_theme/jquery-ui-$this->version.custom.css");
+        if (file_exists($this->home . "/skins/$ui_theme/jquery-ui-$this->version.custom.css")) {
+            $this->include_stylesheet("skins/$ui_theme/jquery-ui-$this->version.custom.css");
         }
         else {
-            $this->include_stylesheet("themes/larry/jquery-ui-$this->version.custom.css");
+            $this->include_stylesheet("skins/larry/jquery-ui-$this->version.custom.css");
         }
 
         if ($ui_theme == 'larry') {
@@ -96,10 +96,10 @@ class jqueryui extends rcube_plugin
         $ui_theme = self::$ui_theme;
         $rcube    = rcube::get_instance();
         $script   = 'plugins/jqueryui/js/jquery.miniColors.min.js';
-        $css      = "plugins/jqueryui/themes/$ui_theme/jquery.miniColors.css";
+        $css      = "plugins/jqueryui/skins/$ui_theme/jquery.miniColors.css";
 
         if (!file_exists(INSTALL_PATH . $css)) {
-            $css = "plugins/jqueryui/themes/larry/jquery.miniColors.css";
+            $css = "plugins/jqueryui/skins/larry/jquery.miniColors.css";
         }
 
         $rcube->output->include_css($css);
@@ -119,10 +119,10 @@ class jqueryui extends rcube_plugin
         $script   = 'plugins/jqueryui/js/jquery.tagedit.js';
         $rcube    = rcube::get_instance();
         $ui_theme = self::$ui_theme;
-        $css      = "plugins/jqueryui/themes/$ui_theme/tagedit.css";
+        $css      = "plugins/jqueryui/skins/$ui_theme/tagedit.css";
 
         if (!file_exists(INSTALL_PATH . $css)) {
-            $css = "plugins/jqueryui/themes/larry/tagedit.css";
+            $css = "plugins/jqueryui/skins/larry/tagedit.css";
         }
 
         $rcube->output->include_css($css);
