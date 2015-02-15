@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix refreshing of drafts list when sending a message which was saved in meantime (#1490238)
+
 RELEASE 1.1.0
 -------------
 - Make SMTP error log more verbose - include server response and error code

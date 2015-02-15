@@ -684,10 +684,15 @@ if ($savedraft) {
     $OUTPUT->command('auto_save_start');
 }
 else {
+    // Collect folders which could contain the composed message,
+    // we'll refresh the list if currently opened folder is one of them (#1490238)
     $folders = array();
 
     if (in_array($COMPOSE['mode'], array('reply', 'forward', 'draft'))) {
         $folders[] = $COMPOSE['mailbox'];
+    }
+    if (!empty($COMPOSE['param']['draft_uid']) && $drafts_mbox) {
+        $folders[] = $drafts_mbox;
     }
 
     rcmail_compose_cleanup($COMPOSE_ID);
