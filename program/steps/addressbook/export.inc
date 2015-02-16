@@ -133,12 +133,13 @@ function prepare_for_export(&$record, $source = null)
 
         foreach ($record as $key => $values) {
             list($field, $section) = explode(':', $key);
-            // avoid casting DateTime objects to array
+            // avoid unwanted casting of DateTime objects to an array
             // (same as in rcube_contacts::convert_save_data())
             if (is_object($values) && is_a($values, 'DateTime')) {
-                $values = array(0 => $values);
+                $values = array($values);
             }
-            foreach ($values as $value) {
+
+            foreach ((array) $values as $value) {
                 if (is_array($value) || is_a($value, 'DateTime') || @strlen($value)) {
                     $vcard->set($field, $value, strtoupper($section));
                 }
