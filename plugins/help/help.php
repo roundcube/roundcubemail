@@ -82,8 +82,14 @@ class help extends rcube_plugin
     function tablink($attrib)
     {
         $rcmail = rcmail::get_instance();
+
         $attrib['name'] = 'helplink' . $attrib['action'];
         $attrib['href'] = $rcmail->url(array('_action' => $attrib['action'], '_extwin' => !empty($_REQUEST['_extwin']) ? 1 : null));
+
+        // title might be already translated here, so revert to it's initial value
+        // so button() will translate it correctly
+        $attrib['title'] = $attrib['label'];
+
         return $rcmail->output->button($attrib);
     }
 
