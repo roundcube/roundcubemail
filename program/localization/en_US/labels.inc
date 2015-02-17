@@ -343,6 +343,7 @@ $labels['searchresult'] = 'Search result';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
+$labels['printcontact'] = 'Print contact';
 
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
