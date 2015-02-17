@@ -326,10 +326,7 @@ function rcube_webmail()
           this.enable_command('download', 'print', true);
         // show printing dialog
         else if (this.env.action == 'print' && this.env.uid) {
-          if (bw.safari)
-            setTimeout('window.print()', 10);
-          else
-            window.print();
+          this.print_dialog();
         }
 
         // get unread count for each mailbox
@@ -439,6 +436,9 @@ function rcube_webmail()
           this.enable_command('save', true);
           if (this.env.action == 'add' || this.env.action == 'edit' || this.env.action == 'search')
               this.init_contact_form();
+        }
+        else if (this.env.action == 'print') {
+          this.print_dialog();
         }
 
         break;
@@ -1176,7 +1176,15 @@ function rcube_webmail()
         break;
 
       case 'print':
-        if (this.env.action == 'get') {
+        if (this.task == 'addressbook') {
+          if (uid = this.contact_list.get_single_selection()) {
+            url = '&_action=print&_cid=' + uid;
+            if (this.env.source)
+              url += '&_source=' + urlencode(this.env.source);
+            this.open_window(this.env.comm_path + url, true, true);
+          }
+        }
+        else if (this.env.action == 'get') {
           this.gui_objects.messagepartframe.contentWindow.print();
         }
         else if (uid = this.get_single_uid()) {
@@ -4721,6 +4729,7 @@ function rcube_webmail()
       clearTimeout(this.preview_timer);
 
     var n, id, sid, contact, writable = false,
+      selected = list.selection.length,
       source = this.env.source ? this.env.address_sources[this.env.source] : null;
 
     // we don't have dblclick handler here, so use 200 instead of this.dblclick_time
@@ -4729,7 +4738,7 @@ function rcube_webmail()
     else if (this.env.contentframe)
       this.show_contentframe(false);
 
-    if (list.selection.length) {
+    if (selected) {
       list.draggable = false;
 
       // no source = search result, we'll need to detect if any of
@@ -4764,11 +4773,12 @@ function rcube_webmail()
 
     // if a group is currently selected, and there is at least one contact selected
     // thend we can enable the group-remove-selected command
-    this.enable_command('group-remove-selected', this.env.group && list.selection.length > 0 && writable);
-    this.enable_command('compose', this.env.group || list.selection.length > 0);
-    this.enable_command('export-selected', 'copy', list.selection.length > 0);
+    this.enable_command('group-remove-selected', this.env.group && selected && writable);
+    this.enable_command('compose', this.env.group || selected);
+    this.enable_command('print', selected == 1);
+    this.enable_command('export-selected', 'copy', selected > 0);
     this.enable_command('edit', id && writable);
-    this.enable_command('delete', 'move', list.selection.length > 0 && writable);
+    this.enable_command('delete', 'move', selected && writable);
 
     return false;
   };
@@ -4881,8 +4891,8 @@ function rcube_webmail()
     this.contact_list.data = {};
     this.contact_list.clear(true);
     this.show_contentframe(false);
-    this.enable_command('delete', 'move', 'copy', false);
-    this.enable_command('compose', this.env.group ? true : false);
+    this.enable_command('delete', 'move', 'copy', 'print', false);
+    this.enable_command('compose', this.env.group);
   };
 
   this.set_group_prop = function(prop)
@@ -4922,7 +4932,7 @@ function rcube_webmail()
         this.contact_list.clear_selection();
 
       this.enable_command('compose', rec && rec.email);
-      this.enable_command('export-selected', rec && rec._type != 'group');
+      this.enable_command('export-selected', 'print', rec && rec._type != 'group');
     }
     else if (framed)
       return false;
@@ -7365,7 +7375,7 @@ function rcube_webmail()
           this.enable_command('compose', (uid && this.contact_list.rows[uid]));
           this.enable_command('delete', 'edit', writable);
           this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
-          this.enable_command('export-selected', false);
+          this.enable_command('export-selected', 'print', false);
         }
 
       case 'move':
@@ -8197,6 +8207,14 @@ function rcube_webmail()
     catch (e) {
       return false;
     }
+  };
+
+  this.print_dialog = function()
+  {
+    if (bw.safari)
+      setTimeout('window.print()', 10);
+    else
+      window.print();
   };
 }  // end object rcube_webmail
 

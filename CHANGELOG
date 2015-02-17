@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add possibility to print contact information (of a single contact)
 - Fix refreshing of drafts list when sending a message which was saved in meantime (#1490238)
 
 RELEASE 1.1.0
