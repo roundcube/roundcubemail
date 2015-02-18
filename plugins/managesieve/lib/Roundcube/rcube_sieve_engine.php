@@ -2344,11 +2344,11 @@ class rcube_sieve_engine
      */
     protected function init_script()
     {
-        $this->script = $this->sieve->script->as_array();
-
-        if (!$this->script) {
+        if (!$this->sieve->script) {
             return;
         }
+
+        $this->script = $this->sieve->script->as_array();
 
         $headers    = array();
         $exceptions = array('date', 'currentdate', 'size', 'body');
