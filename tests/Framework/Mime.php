@@ -156,6 +156,21 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test format=flowed unfolding (#1490284)
+     */
+    function test_unfold_flowed2()
+    {
+        $flowed   = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
+                    ."> \r\n"
+                    ."Sed ut perspiciatis unde omnis iste natus error \r\nsit voluptatem";
+        $unfolded = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
+                    ."> \r\n"
+                    ."Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
+
+        $this->assertEquals($unfolded, rcube_mime::unfold_flowed($flowed), "Test correct unfolding of quoted lines [2]");
+    }
+
+    /**
      * Test wordwrap()
      */
     function test_wordwrap()
