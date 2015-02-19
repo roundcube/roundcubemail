@@ -1959,9 +1959,16 @@ function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'r
 // Fixes some content-type names
 function rcmail_fix_mimetype($name)
 {
+    $map = array(
+        'image/x-ms-bmp' => 'image/bmp', // #1490282
+    );
+
+    if ($alias = $map[strtolower($name)]) {
+        $name = $alias;
+    }
     // Some versions of Outlook create garbage Content-Type:
     // application/pdf.A520491B_3BF7_494D_8855_7FAC2C6C0608
-    if (preg_match('/^application\/pdf.+/', $name)) {
+    else if (preg_match('/^application\/pdf.+/', $name)) {
         $name = 'application/pdf';
     }
     // treat image/pjpeg (image/pjpg, image/jpg) as image/jpeg (#1489097)
