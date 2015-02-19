@@ -374,9 +374,14 @@ $config['session_auth_name'] = null;
 // Session path. Defaults to PHP session.cookie_path setting.
 $config['session_path'] = null;
 
-// Backend to use for session storage. Can either be 'db' (default), 'memcache' or 'php'
+// Backend to use for session storage. Can either be 'db' (default), 'redis', 'memcache', or 'php'
+//
 // If set to 'memcache', a list of servers need to be specified in 'memcache_hosts'
 // Make sure the Memcache extension (http://pecl.php.net/package/memcache) version >= 2.0.0 is installed
+//
+// If set to 'redis', a server needs to be specified in 'redis_hosts'
+// Make sure the Redis extension (http://pecl.php.net/package/redis) version >= 2.0.0 is installed
+//
 // Setting this value to 'php' will use the default session save handler configured in PHP
 $config['session_storage'] = 'db';
 
@@ -396,6 +401,13 @@ $config['memcache_timeout'] = 1;
 // Setting this parameter to -1 disables automatic retry.
 // See http://php.net/manual/en/memcache.addserver.php
 $config['memcache_retry_interval'] = 15;
+
+// use this for accessing redis
+// currently only one host is supported. cluster support may come in a future release.
+// you can pass 4 fields, host, port, database and password.
+// unset fields will be set to the default values host=127.0.0.1, port=6379, database=0, password=  (empty)
+
+$config['redis_hosts'] = null; // e.g. array( 'localhost:6379' );  array( '192.168.1.1:6379:1:secret' );
 
 // check client IP in session authorization
 $config['ip_check'] = false;

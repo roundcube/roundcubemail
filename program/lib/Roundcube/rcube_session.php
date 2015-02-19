@@ -19,33 +19,30 @@
 */
 
 /**
- * Class to provide database supported session storage
+ * Abstract class to provide database supported session storage
  *
  * @package    Framework
  * @subpackage Core
  * @author     Thomas Bruederli <roundcube@gmail.com>
  * @author     Aleksander Machniak <alec@alec.pl>
  */
-class rcube_session
+abstract class rcube_session
 {
-    private $db;
-    private $ip;
-    private $start;
-    private $changed;
-    private $time_diff = 0;
-    private $reloaded = false;
-    private $appends = array();
-    private $unsets = array();
-    private $gc_handlers = array();
-    private $cookiename = 'roundcube_sessauth';
-    private $vars;
-    private $key;
-    private $now;
-    private $secret = '';
-    private $ip_check = false;
-    private $logging = false;
-    private $storage;
-    private $memcache;
+    protected $key;
+    protected $ip;
+    protected $changed;
+    protected $start;
+    protected $time_diff = 0;
+    protected $reloaded = false;
+    protected $appends = array();
+    protected $unsets = array();
+    protected $gc_handlers = array();
+    protected $cookiename = 'roundcube_sessauth';
+    protected $vars;
+    protected $now;
+    protected $secret = '';
+    protected $ip_check = false;
+    protected $logging = false;
 
     /**
      * Blocks session data from being written to database.
@@ -53,14 +50,31 @@ class rcube_session
      * @var boolean
      */
     public $nowrite = false;
+    
+    /**
+     * register session handler
+     */
+    public function register_session_handler()
+    {
+        ini_set('session.serialize_handler', 'php');
+
+        // set custom functions for PHP session management
+        session_set_save_handler(
+            array($this, 'open'),
+            array($this, 'close'),
+            array($this, 'read'),
+            array($this, 'sess_write'),
+            array($this, 'destroy'),
+            array($this, 'gc')
+        );
+    }
 
 
     /**
-     * Default constructor
+     * Wrapper for session_start()
      */
-    public function __construct($db, $config)
+    public function start($config)
     {
-        $this->db      = $db;
         $this->start   = microtime(true);
         $this->ip      = rcube_utils::remote_addr();
         $this->logging = $config->get('log_session', false);
@@ -68,83 +82,43 @@ class rcube_session
         $lifetime = $config->get('session_lifetime', 1) * 60;
         $this->set_lifetime($lifetime);
 
-        // use memcache backend
-        $this->storage = $config->get('session_storage', 'db');
-        if ($this->storage == 'memcache') {
-            $this->memcache = rcube::get_instance()->get_memcache();
-
-            // set custom functions for PHP session management if memcache is available
-            if ($this->memcache) {
-                ini_set('session.serialize_handler', 'php');
-
-                session_set_save_handler(
-                    array($this, 'open'),
-                    array($this, 'close'),
-                    array($this, 'mc_read'),
-                    array($this, 'mc_write'),
-                    array($this, 'mc_destroy'),
-                    array($this, 'gc'));
-            }
-            else {
-                rcube::raise_error(array('code' => 604, 'type' => 'db',
-                    'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Failed to connect to memcached. Please check configuration"),
-                true, true);
-            }
-        }
-        else if ($this->storage != 'php') {
-            ini_set('session.serialize_handler', 'php');
-
-            // set custom functions for PHP session management
-            session_set_save_handler(
-                array($this, 'open'),
-                array($this, 'close'),
-                array($this, 'db_read'),
-                array($this, 'db_write'),
-                array($this, 'db_destroy'),
-                array($this, 'gc'));
-
-            $this->table_name = $this->db->table_name('session', true);
-        }
-    }
-
-
-    /**
-     * Wrapper for session_start()
-     */
-    public function start()
-    {
         session_start();
-
-        // copy some session properties to object vars
-        if ($this->storage == 'php') {
-            $this->key     = session_id();
-            $this->ip      = $_SESSION['__IP'];
-            $this->changed = $_SESSION['__MTIME'];
-        }
     }
 
-
-    public function open($save_path, $session_name)
-    {
-        return true;
-    }
-
-
-    public function close()
-    {
-        return true;
-    }
+    /**
+     * Abstract methods should be implemented by driver classes
+     */
+    abstract function open($save_path, $session_name);
+    abstract function close();
+    abstract function destroy($key);
+    abstract function read($key);
+    abstract function write($key, $vars);
+    abstract function update($key, $newvars, $oldvars);
 
 
     /**
-     * Delete session data for the given key
+     * session write handler. This calls the implementation methods for write/update after some initial checks.
      *
-     * @param string Session ID
+     * @param $key
+     * @param $vars
+     * @return bool
      */
-    public function destroy($key)
+    public function sess_write($key, $vars)
     {
-        return $this->memcache ? $this->mc_destroy($key) : $this->db_destroy($key);
+        if ($this->nowrite)
+            return true;
+
+        // check cache
+        $oldvars = $this->get_cache($key);
+
+        // if there are cached vars, update store, else insert new data
+        if ($oldvars !== null) {
+            $newvars = $this->_fixvars($vars, $oldvars);
+            return $this->update($key, $newvars, $oldvars);
+        }
+        else {
+            return $this->write($key, $vars);
+        }
     }
 
 
@@ -153,11 +127,6 @@ class rcube_session
      */
     public function write_close()
     {
-        if ($this->storage == 'php') {
-            $_SESSION['__IP'] = $this->ip;
-            $_SESSION['__MTIME'] = time();
-        }
-
         session_write_close();
 
         // write_close() is called on script shutdown, see rcube::shutdown()
@@ -166,91 +135,10 @@ class rcube_session
         $this->gc_shutdown();
     }
 
-
-    /**
-     * Read session data from database
-     *
-     * @param string Session ID
-     *
-     * @return string Session vars
-     */
-    public function db_read($key)
-    {
-        $sql_result = $this->db->query(
-            "SELECT `vars`, `ip`, `changed`, " . $this->db->now() . " AS ts"
-            . " FROM {$this->table_name} WHERE `sess_id` = ?", $key);
-
-        if ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
-            $this->time_diff = time() - strtotime($sql_arr['ts']);
-            $this->changed   = strtotime($sql_arr['changed']);
-            $this->ip        = $sql_arr['ip'];
-            $this->vars      = base64_decode($sql_arr['vars']);
-            $this->key       = $key;
-
-            return !empty($this->vars) ? (string) $this->vars : '';
-        }
-
-        return null;
-    }
-
-
-    /**
-     * Save session data.
-     * handler for session_read()
-     *
-     * @param string Session ID
-     * @param string Serialized session vars
-     *
-     * @return boolean True on success
-     */
-    public function db_write($key, $vars)
-    {
-        $now = $this->db->now();
-        $ts  = microtime(true);
-
-        if ($this->nowrite)
-            return true;
-
-        // no session row in DB (db_read() returns false)
-        if (!$this->key) {
-            $oldvars = null;
-        }
-        // use internal data from read() for fast requests (up to 0.5 sec.)
-        else if ($key == $this->key && (!$this->vars || $ts - $this->start < 0.5)) {
-            $oldvars = $this->vars;
-        }
-        else { // else read data again from DB
-            $oldvars = $this->db_read($key);
-        }
-
-        if ($oldvars !== null) {
-            $newvars = $this->_fixvars($vars, $oldvars);
-
-            if ($newvars !== $oldvars) {
-                $this->db->query("UPDATE {$this->table_name} "
-                    . "SET `changed` = $now, `vars` = ? WHERE `sess_id` = ?",
-                    base64_encode($newvars), $key);
-            }
-            else if ($ts - $this->changed + $this->time_diff > $this->lifetime / 2) {
-                $this->db->query("UPDATE {$this->table_name} SET `changed` = $now"
-                    . " WHERE `sess_id` = ?", $key);
-            }
-        }
-        else {
-            $this->db->query("INSERT INTO {$this->table_name}"
-                . " (`sess_id`, `vars`, `ip`, `created`, `changed`)"
-                . " VALUES (?, ?, ?, $now, $now)",
-                $key, base64_encode($vars), (string)$this->ip);
-        }
-
-        return true;
-    }
-
-
     /**
      * Merge vars with old vars and apply unsets
      */
-    private function _fixvars($vars, $oldvars)
+    protected function _fixvars($vars, $oldvars)
     {
         if ($oldvars !== null) {
             $a_oldvars = $this->unserialize($oldvars);
@@ -280,97 +168,6 @@ class rcube_session
         return $newvars;
     }
 
-
-    /**
-     * Handler for session_destroy()
-     *
-     * @param string Session ID
-     *
-     * @return boolean True on success
-     */
-    public function db_destroy($key)
-    {
-        if ($key) {
-            $this->db->query("DELETE FROM {$this->table_name} WHERE `sess_id` = ?", $key);
-        }
-
-        return true;
-    }
-
-
-    /**
-     * Read session data from memcache
-     *
-     * @param string Session ID
-     * @return string Session vars
-     */
-    public function mc_read($key)
-    {
-        if ($value = $this->memcache->get($key)) {
-            $arr = unserialize($value);
-            $this->changed = $arr['changed'];
-            $this->ip      = $arr['ip'];
-            $this->vars    = $arr['vars'];
-            $this->key     = $key;
-
-            return !empty($this->vars) ? (string) $this->vars : '';
-        }
-
-        return null;
-    }
-
-
-    /**
-     * Save session data.
-     * handler for session_read()
-     *
-     * @param string Session ID
-     * @param string Serialized session vars
-     *
-     * @return boolean True on success
-     */
-    public function mc_write($key, $vars)
-    {
-        $ts = microtime(true);
-
-        // no session data in cache (mc_read() returns false)
-        if (!$this->key)
-            $oldvars = null;
-        // use internal data for fast requests (up to 0.5 sec.)
-        else if ($key == $this->key && (!$this->vars || $ts - $this->start < 0.5))
-            $oldvars = $this->vars;
-        else // else read data again
-            $oldvars = $this->mc_read($key);
-
-        $newvars = $oldvars !== null ? $this->_fixvars($vars, $oldvars) : $vars;
-
-        if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
-            return $this->memcache->set($key, serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars)),
-                MEMCACHE_COMPRESSED, $this->lifetime + 60);
-        }
-
-        return true;
-    }
-
-
-    /**
-     * Handler for session_destroy() with memcache backend
-     *
-     * @param string Session ID
-     *
-     * @return boolean True on success
-     */
-    public function mc_destroy($key)
-    {
-        if ($key) {
-            // #1488592: use 2nd argument
-            $this->memcache->delete($key, 0);
-        }
-
-        return true;
-    }
-
-
     /**
      * Execute registered garbage collector routines
      */
@@ -380,7 +177,6 @@ class rcube_session
         // see rcube::shutdown() and rcube_session::write_close()
         return $this->gc_enabled = $maxlifetime;
     }
-
 
     /**
      * Register additional garbage collector functions
@@ -422,6 +218,7 @@ class rcube_session
      * Generate and set new session id
      *
      * @param boolean $destroy If enabled the current session will be destroyed
+     * @return bool
      */
     public function regenerate_id($destroy=true)
     {
@@ -431,6 +228,28 @@ class rcube_session
         $this->key  = session_id();
 
         return true;
+    }
+
+    /**
+     * see if we have vars of this key already cached, and if so, return them.
+     *
+     * @param $key
+     * @return null|array
+     */
+    protected function get_cache($key)
+    {
+        // no session data in cache (read() returns false)
+        if (!$this->key) {
+            $cache = null;
+        }
+        // use internal data for fast requests (up to 0.5 sec.)
+        else if ($key == $this->key && (!$this->vars || $ts - $this->start < 0.5)) {
+            $cache = $this->vars;
+        }
+        else { // else read data again
+            $cache = $this->read($key);
+        }
+        return $cache;
     }
 
 
@@ -523,10 +342,9 @@ class rcube_session
             $node[$k] = $value;
         }
 
-        if ($this->key && $this->memcache)
-            $data = $this->mc_read($this->key);
-        else if ($this->key)
-            $data = $this->db_read($this->key);
+        if($this->key) {
+            $data = $this->read($this->key);
+        }
 
         if ($data) {
             session_decode($data);
@@ -553,7 +371,7 @@ class rcube_session
      * Returns a reference to the node in data array referenced by the given path.
      * e.g. ['compose','attachments'] will return $_SESSION['compose']['attachments']
      */
-    private function &get_node($path, &$data_arr)
+    protected function &get_node($path, &$data_arr)
     {
         $node = &$data_arr;
         if (!empty($path)) {
@@ -570,7 +388,7 @@ class rcube_session
     /**
      * Serialize session data
      */
-    private function serialize($vars)
+    protected function serialize($vars)
     {
         $data = '';
         if (is_array($vars)) {
@@ -589,7 +407,7 @@ class rcube_session
      * Unserialize session data
      * http://www.php.net/manual/en/function.session-decode.php#56106
      */
-    private function unserialize($str)
+    protected function unserialize($str)
     {
         $str    = (string)$str;
         $endptr = strlen($str);
@@ -788,6 +606,7 @@ class rcube_session
      * Create session cookie from session data
      *
      * @param int Time slot to use
+     * @return string
      */
     function _mkcookie($timeslot)
     {
