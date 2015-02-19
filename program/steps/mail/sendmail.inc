@@ -765,8 +765,10 @@ function rcmail_fix_emoticon_paths($mime_message)
     // remove any null-byte characters before parsing
     $body = preg_replace('/\x00/', '', $body);
 
-    $searchstr = 'program/js/tinymce/plugins/emoticons/img/';
-    $offset = 0;
+    $searchstr  = 'program/js/tinymce/plugins/emoticons/img/';
+    $assets_dir = $RCMAIL->config->get('assets_dir');
+    $path       = ($assets_dir ?: INSTALL_PATH) . '/' . $searchstr;
+    $offset     = 0;
 
     // keep track of added images, so they're only added once
     $included_images = array();
@@ -779,12 +781,14 @@ function rcmail_fix_emoticon_paths($mime_message)
 
                 // sanitize image name so resulting attachment doesn't leave images dir
                 $image_name = preg_replace('/[^a-zA-Z0-9_\.\-]/i', '', $image_name);
-                $img_file   = INSTALL_PATH . '/' . $searchstr . $image_name;
+                $img_file   = $path . $image_name;
 
-                if (! in_array($image_name, $included_images)) {
+                if (!in_array($image_name, $included_images)) {
                     // add the image to the MIME message
-                    if (!$mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name)) {
+                    $res = $mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name);
+                    if (PEAR::isError($res)) {
                         $RCMAIL->output->show_message("emoticonerror", 'error');
+                        continue;
                     }
 
                     array_push($included_images, $image_name);

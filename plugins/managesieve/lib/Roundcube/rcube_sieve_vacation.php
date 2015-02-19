@@ -562,60 +562,72 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 $this->script_name = 'roundcube';
             }
 
-            $this->script = array($rule);
-            $script_active = false;
+            // use default script contents
+            if (!$this->rc->config->get('managesieve_kolab_master')) {
+                $script_file = $this->rc->config->get('managesieve_default');
+                if ($script_file && is_readable($script_file)) {
+                    $content = file_get_contents($script_file);
+                }
+            }
+
+            // create and load script
+            if ($this->sieve->save_script($this->script_name, $content)) {
+                $this->sieve->load($this->script_name);
+            }
         }
-        // if script exists
-        else {
-            $script_active = in_array($this->script_name, $this->active);
 
-            // re-order rules if needed
-            if (isset($rule['after']) && $rule['after'] !== '') {
-                // reset original vacation rule
-                if (isset($this->vacation['idx'])) {
-                    $this->script[$this->vacation['idx']] = null;
-                }
+        $script_active = in_array($this->script_name, $this->active);
 
-                // add at target position
-                if ($rule['after'] >= count($this->script) - 1) {
-                    $this->script[] = $rule;
-                }
-                else {
-                    $script = array();
-
-                    foreach ($this->script as $idx => $r) {
-                        if ($r) {
-                            $script[] = $r;
-                        }
-
-                        if ($idx == $rule['after']) {
-                            $script[] = $rule;
-                        }
-                    }
-
-                    $this->script = $script;
-                }
-
-                $this->script = array_values(array_filter($this->script));
+        // re-order rules if needed
+        if (isset($rule['after']) && $rule['after'] !== '') {
+            // reset original vacation rule
+            if (isset($this->vacation['idx'])) {
+                $this->script[$this->vacation['idx']] = null;
             }
-            // update original vacation rule if it exists
-            else if (isset($this->vacation['idx'])) {
-                $this->script[$this->vacation['idx']] = $rule;
+
+            // add at target position
+            if ($rule['after'] >= count($this->script) - 1) {
+                $this->script[] = $rule;
             }
-            // otherwise put vacation rule on top
             else {
-                array_unshift($this->script, $rule);
-            }
+                $script = array();
 
-            // if the script was not active, we need to de-activate
-            // all rules except the vacation rule, but only if it is not disabled
-            if (!$script_active && !$rule['disabled']) {
                 foreach ($this->script as $idx => $r) {
-                    if (empty($r['actions']) || $r['actions'][0]['type'] != 'vacation') {
-                        $this->script[$idx]['disabled'] = true;
+                    if ($r) {
+                        $script[] = $r;
+                    }
+
+                    if ($idx == $rule['after']) {
+                        $script[] = $rule;
                     }
                 }
+
+                $this->script = $script;
             }
+
+            $this->script = array_values(array_filter($this->script));
+        }
+        // update original vacation rule if it exists
+        else if (isset($this->vacation['idx'])) {
+            $this->script[$this->vacation['idx']] = $rule;
+        }
+        // otherwise put vacation rule on top
+        else {
+            array_unshift($this->script, $rule);
+        }
+
+        // if the script was not active, we need to de-activate
+        // all rules except the vacation rule, but only if it is not disabled
+        if (!$script_active && !$rule['disabled']) {
+            foreach ($this->script as $idx => $r) {
+                if (empty($r['actions']) || $r['actions'][0]['type'] != 'vacation') {
+                    $this->script[$idx]['disabled'] = true;
+                }
+            }
+        }
+
+        if (!$this->sieve->script) {
+            return false;
         }
 
         $this->sieve->script->content = $this->script;

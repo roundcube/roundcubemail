@@ -1,3 +1,5 @@
+- Fix PHP fatal error when visiting Vacation interface and there's no sieve script yet
+
 * version 8.2 [2015-01-14]
 -----------------------------------------------------------
 - Fix bug where actions without if/elseif/else in sieve scripts were skipped
