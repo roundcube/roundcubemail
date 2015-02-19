@@ -520,7 +520,7 @@ class rcube_mime
                     // remove space-stuffing
                     $line = preg_replace('/^ /', '', $line);
 
-                    if (isset($text[$last]) && $line
+                    if (isset($text[$last]) && $line && !$q_level
                         && $text[$last] != '-- '
                         && $text[$last][strlen($text[$last])-1] == ' '
                     ) {
