@@ -138,7 +138,7 @@ else if (strlen($part_id)) {
             $file_extension = strtolower(pathinfo($part->filename, PATHINFO_EXTENSION));
 
             // 1. compare filename suffix with expected suffix derived from mimetype
-            $valid = $file_extension && in_array($file_extension, (array)$extensions) || !empty($_REQUEST['_mimeclass']);
+            $valid = $file_extension && in_array($file_extension, (array)$extensions) || empty($extensions) || !empty($_REQUEST['_mimeclass']);
 
             // 2. detect the real mimetype of the attachment part and compare it with the stated mimetype and filename extension
             if ($valid || !$file_extension || $mimetype == 'application/octet-stream' || stripos($mimetype, 'text/') === 0) {
@@ -164,7 +164,7 @@ else if (strlen($part_id)) {
                 else {
                     // get valid file extensions
                     $extensions      = rcube_mime::get_mime_extensions($real_mimetype);
-                    $valid_extension = (!$file_extension || in_array($file_extension, (array)$extensions));
+                    $valid_extension = !$file_extension || in_array($file_extension, (array)$extensions);
                 }
 
                 // fix mimetype for images wrongly declared as octet-stream
@@ -172,7 +172,10 @@ else if (strlen($part_id)) {
                     $mimetype = $real_mimetype;
                 }
 
-                $valid = ($real_mimetype == $mimetype && $valid_extension);
+                // "fix" real mimetype the same way the original is before comparison
+                $real_mimetype = rcmail_fix_mimetype($real_mimetype);
+
+                $valid = $real_mimetype == $mimetype && $valid_extension;
             }
             else {
                 $real_mimetype = $mimetype;

@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Fix saving/sending emoticon images when assets_dir is set
 - Fix PHP fatal error when visiting Vacation interface and there's no sieve script yet
 - Fix setting max packet size for DB caches and check packet size also in shared cache
+- Fix needless security warning on BMP attachments display (#1490282)
 
 RELEASE 1.1.0
 -------------
