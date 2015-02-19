@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: Add special onload() method to execute plugin actions before startup (session and GUI initialization)
 - Add possibility to print contact information (of a single contact)
 - Fix refreshing of drafts list when sending a message which was saved in meantime (#1490238)
+- Fix setting max packet size for DB caches and check packet size also in shared cache
 
 RELEASE 1.1.0
 -------------
