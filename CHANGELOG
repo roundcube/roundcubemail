@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Make SMTP error log more verbose - include server response and error code
 - Fix security issue in DBMail driver of password plugin (#1490261)
+- Fix handling of some improper constructs in format=flowed text as per the RFC3676[4.5] (#1490284)
 
 RELEASE 1.0.5
 -------------
