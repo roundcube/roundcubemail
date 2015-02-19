@@ -44,6 +44,7 @@ class rcube_cache_shared
     private $cache         = array();
     private $cache_changes = array();
     private $cache_sums    = array();
+    private $max_packet    = -1;
 
 
     /**
@@ -312,13 +313,19 @@ class rcube_cache_shared
      * Writes single cache record into DB.
      *
      * @param string $key  Cache key name
-     * @param mxied  $data Serialized cache data 
+     * @param mixed  $data Serialized cache data
      *
      * @param boolean True on success, False on failure
      */
     private function write_record($key, $data)
     {
         if (!$this->db) {
+            return false;
+        }
+
+        // don't attempt to write too big data sets
+        if (strlen($data) > $this->max_packet_size()) {
+            trigger_error("rcube_cache: max_packet_size ($this->max_packet) exceeded for key $key. Tried to write " . strlen($data) . " bytes", E_USER_WARNING);
             return false;
         }
 
@@ -577,5 +584,31 @@ class rcube_cache_shared
         }
 
         return $this->packed ? @unserialize($data) : $data;
+    }
+
+    /**
+     * Determine the maximum size for cache data to be written
+     */
+    private function max_packet_size()
+    {
+        if ($this->max_packet < 0) {
+            $this->max_packet = 2097152; // default/max is 2 MB
+
+            if ($this->type == 'db') {
+                $value = $this->db->get_variable('max_allowed_packet', 1048500);
+                $this->max_packet = min($value, $this->max_packet) - 2000;
+            }
+            else if ($this->type == 'memcache') {
+                $stats = $this->db->getStats();
+                $remaining = $stats['limit_maxbytes'] - $stats['bytes'];
+                $this->max_packet = min($remaining / 5, $this->max_packet);
+            }
+            else if ($this->type == 'apc' && function_exists('apc_sma_info')) {
+                $stats = apc_sma_info();
+                $this->max_packet = min($stats['avail_mem'] / 5, $this->max_packet);
+            }
+        }
+
+        return $this->max_packet;
     }
 }
