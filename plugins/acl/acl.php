@@ -123,7 +123,7 @@ class acl extends rcube_plugin
                     $group_id = is_array($record[$group_field]) ? $record[$group_field][0] : $record[$group_field];
 
                     if ($group) {
-                        $users[] = array('name' => ($prefix ? $prefix : '') . $group_id, 'display' => $group);
+                        $users[] = array('name' => ($prefix ? $prefix : '') . $group_id, 'display' => $group, 'type' => 'group');
                         $keys[]  = $group;
                     }
                 }
