@@ -153,14 +153,17 @@ function rcube_text_editor(config, id)
         window.setTimeout(function() {
           window.focus(); // for WebKit (#1486674)
           fe.focus();
+          rcmail.env.compose_focus_elem = null;
         }, 10);
       }
     }
 
-    // set tabIndex and set focus to element that was focused before
-    this.tabindex(fe && fe.id == this.id);
-    // Trigger resize (needed for proper editor resizing in some browsers)
-    window.setTimeout(function() { $(window).resize(); }, 100);
+    window.setTimeout(function() {
+      // set tabIndex and set focus to element that was focused before
+      ref.tabindex(fe && fe.id == ref.id);
+      // Trigger resize (needed for proper editor resizing in some browsers)
+      $(window).resize();
+    }, 100);
   };
 
   // set tabIndex on tinymce editor
@@ -168,20 +171,19 @@ function rcube_text_editor(config, id)
   {
     if (rcmail.env.task == 'mail' && this.editor) {
       var textarea = this.editor.getElement(),
+        body = this.editor.getBody(),
         node = this.editor.getContentAreaContainer().childNodes[0];
 
       if (textarea && node)
         node.tabIndex = textarea.tabIndex;
-      if (focus)
-        this.editor.getBody().focus();
 
       // find :prev and :next elements to get focus when tabbing away
       if (textarea.tabIndex > 0) {
         var x = null,
-          editor = this.editor,
           tabfocus_elements = [':prev',':next'],
           el = tinymce.DOM.select('*[tabindex='+textarea.tabIndex+']:not(iframe)');
-        tinymce.each(el, function(e, i) { if (e.id == editor.id) { x = i; return false; } });
+
+        tinymce.each(el, function(e, i) { if (e.id == ref.id) { x = i; return false; } });
         if (x !== null) {
           if (el[x-1] && el[x-1].id) {
             tabfocus_elements[0] = el[x-1].id;
@@ -189,9 +191,16 @@ function rcube_text_editor(config, id)
           if (el[x+1] && el[x+1].id) {
             tabfocus_elements[1] = el[x+1].id;
           }
-          editor.settings.tabfocus_elements = tabfocus_elements.join(',');
+          this.editor.settings.tabfocus_elements = tabfocus_elements.join(',');
         }
       }
+
+      // ContentEditable reset fixes invisible cursor issue in Firefox < 25
+      if (bw.mz && bw.vendver < 25)
+        $(body).prop('contenteditable', false).prop('contenteditable', true);
+
+      if (focus)
+        body.focus();
     }
   };
 
@@ -228,10 +237,13 @@ function rcube_text_editor(config, id)
 
         setTimeout(function() {
           if (ref.editor) {
+            var body = $(ref.editor.getBody());
             if (rcmail.env.default_font)
-              $(ref.editor.getBody()).css('font-family', rcmail.env.default_font);
+              body.css('font-family', rcmail.env.default_font);
             // #1486593
             ref.tabindex(true);
+            // put cursor on start of the compose body
+            ref.editor.selection.setCursorLocation(body.children().first().get(0));
           }
         }, 500);
       };
@@ -271,6 +283,7 @@ function rcube_text_editor(config, id)
           data = data.replace(sig_mark, "\n" + signature.text);
 
         input.val(data).focus();
+        rcmail.set_caret_pos(input.get(0), 0);
       };
 
       // convert html to text
@@ -446,7 +459,7 @@ function rcube_text_editor(config, id)
   // change user signature text
   this.change_signature = function(id, show_sig)
   {
-    var cursor_pos, p = -1,
+    var position_element, cursor_pos, p = -1,
       input_message = $('#' + this.id),
       message = input_message.val(),
       sig = rcmail.env.identity;
@@ -461,6 +474,7 @@ function rcube_text_editor(config, id)
         if (p >= 0)
           message = message.substring(0, p) + message.substring(p+sig.length, message.length);
       }
+
       // add the new signature string
       if (show_sig && rcmail.env.signatures && rcmail.env.signatures[id]) {
         sig = rcmail.env.signatures[id].text;
@@ -526,12 +540,22 @@ function rcube_text_editor(config, id)
         }
         else {
           body.appendChild(sigElem);
+          position_element = $(sigElem).prev();
         }
       }
 
       if (rcmail.env.signatures[id]) {
         sigElem.innerHTML = rcmail.env.signatures[id].html;
       }
+    }
+    else if (!rcmail.env.top_posting) {
+      position_element = $(this.editor.getBody()).children().last();
+    }
+
+    // put cursor before signature and scroll the window
+    if (this.editor && position_element && position_element.length) {
+      this.editor.selection.setCursorLocation(position_element.get(0));
+      this.editor.getWin().scroll(0, position_element.offset().top);
     }
   };
 
