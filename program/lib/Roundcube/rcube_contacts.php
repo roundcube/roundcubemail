@@ -714,6 +714,11 @@ class rcube_contacts extends rcube_addressbook
         // copy values into vcard object
         $vcard = new rcube_vcard($record['vcard'] ? $record['vcard'] : $save_data['vcard'], RCUBE_CHARSET, false, $this->vcard_fieldmap);
         $vcard->reset();
+
+        // don't store groups in vCard (#1490277)
+        $vcard->set('groups', null);
+        unset($save_data['groups']);
+
         foreach ($save_data as $key => $values) {
             list($field, $section) = explode(':', $key);
             $fulltext = in_array($field, $this->fulltext_cols);
