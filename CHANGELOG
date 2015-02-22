@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Fix handling of some improper constructs in format=flowed text as per the RFC3676[4.5] (#1490284)
 - Fix performance of rcube_db_mysql::get_variable()
 - Fix missing or not up-to-date CATEGORIES entry in vCard export (#1490277)
+- Fix fatal errors on systems without mbstring extension or mb_regex_encoding() function (#1490280)
 
 RELEASE 1.1.0
 -------------
