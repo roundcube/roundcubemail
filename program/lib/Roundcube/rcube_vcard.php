@@ -393,6 +393,10 @@ class rcube_vcard
                     $this->raw[$tag][$index]['type'] = explode(',', ($typemap[$type_uc] ? $typemap[$type_uc] : $type));
                 }
             }
+            else {
+                unset($this->raw[$tag]);
+            }
+
             break;
         }
     }

@@ -8,6 +8,8 @@ CHANGELOG Roundcube Webmail
 - Fix setting max packet size for DB caches and check packet size also in shared cache
 - Fix needless security warning on BMP attachments display (#1490282)
 - Fix handling of some improper constructs in format=flowed text as per the RFC3676[4.5] (#1490284)
+- Fix performance of rcube_db_mysql::get_variable()
+- Fix missing or not up-to-date CATEGORIES entry in vCard export (#1490277)
 
 RELEASE 1.1.0
 -------------

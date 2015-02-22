@@ -121,14 +121,11 @@ exit;
  */
 function prepare_for_export(&$record, $source = null)
 {
-    $groups = $source && $source->groups && $source->export_groups ? $source->get_record_groups($record['ID']) : null;
+    $groups   = $source && $source->groups && $source->export_groups ? $source->get_record_groups($record['ID']) : null;
+    $fieldmap = $source ? $source->vcard_map : null;
 
     if (empty($record['vcard'])) {
-        $vcard = new rcube_vcard();
-        if ($source) {
-            $vcard->extend_fieldmap($source->vcard_map);
-        }
-        $vcard->load($record['vcard']);
+        $vcard = new rcube_vcard($record['vcard'], RCUBE_CHARSET, false, $fieldmap);
         $vcard->reset();
 
         foreach ($record as $key => $values) {
@@ -151,11 +148,19 @@ function prepare_for_export(&$record, $source = null)
             $vcard->set('groups', join(',', $groups), null);
         }
 
-        $record['vcard'] = $vcard->export(true);
+        $record['vcard'] = $vcard->export();
     }
     // patch categories to alread existing vcard block
-    else if ($record['vcard'] && !empty($groups) && !strpos($record['vcard'], 'CATEGORIES:')) {
-        $vgroups = 'CATEGORIES:' . rcube_vcard::vcard_quote(join(',', $groups));
-        $record['vcard'] = str_replace('END:VCARD', $vgroups . rcube_vcard::$eol . 'END:VCARD', $record['vcard']);
+    else if ($record['vcard']) {
+        $vcard = new rcube_vcard($record['vcard'], RCUBE_CHARSET, false, $fieldmap);
+
+        // unset CATEGORIES entry, it might be not up-to-date (#1490277)
+        $vcard->set('groups', null);
+        $record['vcard'] = $vcard->export();
+
+        if (!empty($groups)) {
+            $vgroups = 'CATEGORIES:' . rcube_vcard::vcard_quote($groups, ',');
+            $record['vcard'] = str_replace('END:VCARD', $vgroups . rcube_vcard::$eol . 'END:VCARD', $record['vcard']);
+        }
     }
 }
