@@ -164,7 +164,7 @@ else if (strlen($part_id)) {
                 else {
                     // get valid file extensions
                     $extensions      = rcube_mime::get_mime_extensions($real_mimetype);
-                    $valid_extension = !$file_extension || in_array($file_extension, (array)$extensions);
+                    $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array)$extensions);
                 }
 
                 // fix mimetype for images wrongly declared as octet-stream
