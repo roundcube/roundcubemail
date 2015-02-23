@@ -557,8 +557,10 @@ function rcube_webmail()
     this.env.lastrefresh = new Date();
 
     // show message
-    if (this.pending_message)
+    if (this.pending_message) {
+      this.init_messagestack();
       this.display_message.apply(this, this.pending_message);
+    }
 
     // init treelist widget
     if (this.gui_objects.folderlist && window.rcube_treelist_widget) {
@@ -613,6 +615,14 @@ function rcube_webmail()
     // start keep-alive and refresh intervals
     this.start_refresh();
     this.start_keepalive();
+  };
+
+ this.init_messagestack = function() {
+      this.gui_objects.message = $('#messagestack');
+      if (!this.gui_objects.message.length) {
+        this.gui_objects.message = $('<div id="messagestack">');
+        $('body').append(this.gui_objects.message);
+      }
   };
 
   this.log = function(msg)
@@ -6389,8 +6399,10 @@ function rcube_webmail()
   this.display_message = function(msg, type, timeout, key)
   {
     // pass command to parent window
-    if (this.is_framed())
+    if (this.is_framed()) {
+      parent.rcmail.init_messagestack();
       return parent.rcmail.display_message(msg, type, timeout);
+    }
 
     if (!this.gui_objects.message) {
       // save message in order to display after page loaded
