@@ -43,6 +43,7 @@ class rcube_plugin_api
     public $active_plugins        = array();
 
     protected $plugins           = array();
+    protected $plugins_initialized = array();
     protected $tasks             = array();
     protected $actions           = array();
     protected $actionmap         = array();
@@ -96,6 +97,7 @@ class rcube_plugin_api
             // ... task, request type and framed mode
             if (!$this->filter($plugin)) {
                 $plugin->init();
+                $this->plugins_initialized[$plugin->ID] = $plugin;
             }
         }
 
@@ -130,7 +132,7 @@ class rcube_plugin_api
 
             // load required core plugin if no derivate was found
             if (!$loaded) {
-                $loaded = $this->load_plugin($plugin_name);
+                $loaded = $this->load_plugin($plugin_name, true);
             }
 
             // trigger fatal error if still not loaded
@@ -146,7 +148,7 @@ class rcube_plugin_api
     /**
      * Load the specified plugin
      *
-     * @param string Plugin name
+     * @param string  Plugin name
      * @param boolean Force loading of the plugin even if it doesn't match the filter
      * @param boolean Require loading of the plugin, error if it doesn't exist
      *
@@ -161,63 +163,62 @@ class rcube_plugin_api
             $plugins_dir = unslashify($dir->path);
         }
 
-        // plugin already loaded
-        if ($this->plugins[$plugin_name]) {
-            return true;
-        }
+        // plugin already loaded?
+        if (!$this->plugins[$plugin_name]) {
+            $fn = "$plugins_dir/$plugin_name/$plugin_name.php";
 
-        $fn = "$plugins_dir/$plugin_name/$plugin_name.php";
+            if (!is_readable($fn)) {
+                if ($require) {
+                    rcube::raise_error(array('code' => 520, 'type' => 'php',
+                        'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Failed to load plugin file $fn"), true, false);
+                }
 
-        if (is_readable($fn)) {
+                return false;
+            }
+
             if (!class_exists($plugin_name, false)) {
                 include $fn;
             }
 
             // instantiate class if exists
-            if (class_exists($plugin_name, false)) {
-                $plugin = new $plugin_name($this);
-                $this->active_plugins[] = $plugin_name;
-
-                // check inheritance...
-                if (is_subclass_of($plugin, 'rcube_plugin')) {
-                    // ... task, request type and framed mode
-
-                    // call onload method on plugin if it exists.
-                    // this is useful if you want to be called early in the boot process
-                    if (method_exists($plugin, 'onload')) {
-                        $plugin->onload();
-                    }
-
-                    // init a plugin only if $force is set or if we're called after initialization
-                    if (($force || $this->initialized)
-                        && !$this->filter($plugin))
-                    {
-                        $plugin->init();
-                    }
-
-                    $this->plugins[$plugin_name] = $plugin;
-
-                    if (!empty($plugin->allowed_prefs)) {
-                        $this->allowed_prefs = array_merge($this->allowed_prefs, $plugin->allowed_prefs);
-                    }
-
-                    return true;
-                }
-            }
-            else {
+            if (!class_exists($plugin_name, false)) {
                 rcube::raise_error(array('code' => 520, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
                     'message' => "No plugin class $plugin_name found in $fn"),
                     true, false);
+
+                return false;
+            }
+
+            $plugin = new $plugin_name($this);
+            $this->active_plugins[] = $plugin_name;
+
+            // check inheritance...
+            if (is_subclass_of($plugin, 'rcube_plugin')) {
+                // call onload method on plugin if it exists.
+                // this is useful if you want to be called early in the boot process
+                if (method_exists($plugin, 'onload')) {
+                    $plugin->onload();
+                }
+
+                if (!empty($plugin->allowed_prefs)) {
+                    $this->allowed_prefs = array_merge($this->allowed_prefs, $plugin->allowed_prefs);
+                }
+
+                $this->plugins[$plugin_name] = $plugin;
             }
         }
-        else if ($require) {
-            rcube::raise_error(array('code' => 520, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Failed to load plugin file $fn"), true, false);
+
+        if ($plugin = $this->plugins[$plugin_name]) {
+            // init a plugin only if $force is set or if we're called after initialization
+            if (($force || $this->initialized) && !$this->plugins_initialized[$plugin_name] && !$this->filter($plugin)) {
+                $plugin->init();
+                $this->plugins_initialized[$plugin_name] = $plugin;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -228,9 +229,9 @@ class rcube_plugin_api
      */
     private function filter($plugin)
     {
-        return (($plugin->noajax  && !(is_object($this->output) && $this->output->type == 'html') )
+        return ($plugin->noajax  && !(is_object($this->output) && $this->output->type == 'html'))
              || ($plugin->task && !preg_match('/^('.$plugin->task.')$/i', $this->task))
-             || ($plugin->noframe && !empty($_REQUEST['_framed']))) ? true : false;
+             || ($plugin->noframe && !empty($_REQUEST['_framed']));
     }
 
     /**
