@@ -366,6 +366,12 @@ function rcube_treelist_widget(node, p)
 
     indexbyid[node.id] = node;
 
+    // set new reference to node.html after insert
+    // will otherwise vanish in Firefox 3.6
+    if (typeof node.html == 'object') {
+        indexbyid[node.id].html = id2dom(node.id, true).children();
+    }
+
     if (sort) {
       resort_node(li, typeof sort == 'string' ? '[class~="' + sort + '"]' : '');
     }
