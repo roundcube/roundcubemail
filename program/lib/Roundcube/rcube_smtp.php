@@ -288,7 +288,8 @@ class rcube_smtp
         }
 
         // Send the message's headers and the body as SMTP data.
-        if (PEAR::isError($this->conn->data($data, $text_headers))) {
+        $result = $this->conn->data($data, $text_headers);
+        if (PEAR::isError($result)) {
             $err = $this->conn->getResponse();
             if (!in_array($err[0], array(354, 250, 221))) {
                 $msg = sprintf('[%d] %s', $err[0], $err[1]);
