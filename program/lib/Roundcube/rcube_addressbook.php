@@ -544,13 +544,20 @@ abstract class rcube_addressbook
 
         $fn = trim($fn, ', ');
 
-        // fallback to display name
-        if (empty($fn) && $contact['name'])
-            $fn = $contact['name'];
-
-        // fallback to email address
-        if (empty($fn) && ($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
-            return $email[0];
+        // fallbacks...
+        if ($fn === '') {
+            // ... display name
+            if (!empty($contact['name'])) {
+                $fn = $contact['name'];
+            }
+            // ... organization
+            else if (!empty($contact['organization'])) {
+                $fn = $contact['organization'];
+            }
+            // ... email address
+            else if (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
+                $fn = $email[0];
+            }
         }
 
         return $fn;
