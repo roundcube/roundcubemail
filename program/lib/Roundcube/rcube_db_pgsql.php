@@ -139,8 +139,10 @@ class rcube_db_pgsql extends rcube_db
         // There's a known case when max_allowed_packet is queried
         // PostgreSQL doesn't have such limit, return immediately
         if ($varname == 'max_allowed_packet') {
-            return $default;
+            return rcube::get_instance()->config->get('db_' . $varname, $default);
         }
+
+        $this->variables[$varname] = rcube::get_instance()->config->get('db_' . $varname);
 
         if (!isset($this->variables)) {
             $this->variables = array();

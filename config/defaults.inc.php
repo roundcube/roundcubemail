@@ -51,6 +51,12 @@ $config['db_table_dsn'] = array(
 //    'cache_messages' => 'r',
 );
 
+// It is possible to specify database variable values e.g. some limits here.
+// Use them if your server is not MySQL or for better performance.
+// For example Roundcube uses max_allowed_packet value (in bytes)
+// which limits query size for database cache operations.
+$config['db_max_allowed_packet'] = 23423440;
+
 
 // ----------------------------------
 // LOGGING/DEBUGGING
