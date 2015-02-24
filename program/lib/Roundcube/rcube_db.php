@@ -357,7 +357,7 @@ class rcube_db
     public function get_variable($varname, $default = null)
     {
         // to be implemented by driver class
-        return $default;
+        return rcube::get_instance()->config->get('db_' . $varname, $default);
     }
 
     /**

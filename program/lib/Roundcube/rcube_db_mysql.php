@@ -167,6 +167,12 @@ class rcube_db_mysql extends rcube_db
             return $this->variables[$varname];
         }
 
+        // configured value has higher prio
+        $conf_value = rcube::get_instance()->config->get('db_' . $varname);
+        if ($conf_value !== null) {
+            return $this->variables[$varname] = $conf_value;
+        }
+
         $result = $this->query('SHOW VARIABLES LIKE ?', $varname);
 
         while ($row = $this->fetch_array($result)) {
