@@ -15,6 +15,7 @@ CHANGELOG Roundcube Webmail
 - Fix fatal errors on systems without mbstring extension or mb_regex_encoding() function (#1490280)
 - Fix cursor position on reply below the quote in HTML mode (#1490263)
 - Fix so "over quota" errors are displayed also in message compose page
+- Fix duplicate entries supression in autocomplete result (#1490290)
 
 RELEASE 1.1.0
 -------------
