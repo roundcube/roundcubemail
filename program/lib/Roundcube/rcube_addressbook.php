@@ -594,6 +594,13 @@ abstract class rcube_addressbook
                 switch ($key) {
                 case 'name':
                     $value = $name ?: self::compose_list_name($contact);
+
+                    // If name(s) are undefined compose_list_name() may return an email address
+                    // here we prevent from returning the same name and email
+                    if ($name === $email && strpos($result, '{email}') !== false) {
+                        $value = '';
+                    }
+
                     break;
 
                 case 'email':
