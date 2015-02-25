@@ -88,16 +88,18 @@ if (!empty($book_types) && strlen($search)) {
                         continue;
                     }
 
+                    $index = $contact;
+
                     // skip duplicates
-                    if (!in_array($contact, $contacts)) {
+                    if (empty($contacts[$index])) {
                         $contact = array('name' => $contact, 'type' => $sql_arr['_type']);
 
                         if (($display = rcube_addressbook::compose_search_name($sql_arr, $email, $name)) && $display != $contact['name']) {
                             $contact['display'] = $display;
                         }
 
-                        $contacts[]  = $contact;
-                        $sort_keys[] = sprintf('%s %03d', $contact['display'] ?: $name, $idx++);
+                        $contacts[$index]  = $contact;
+                        $sort_keys[$index] = sprintf('%s %03d', $contact['display'] ?: $name, $idx++);
 
                         if (count($contacts) >= $MAXNUM) {
                             break 2;
@@ -124,32 +126,38 @@ if (!empty($book_types) && strlen($search)) {
                 if ($group_prop['email']) {
                     $idx = 0;
                     foreach ((array)$group_prop['email'] as $email) {
-                        $contacts[]  = array(
-                            'name'   => format_email_recipient($email, $group['name']),
-                            'email'  => $email,
-                            'type'   => 'group',
-                            'id'     => $group['ID'],
-                            'source' => $id,
-                        );
-                        $sort_keys[] = sprintf('%s %03d', $group['name'] , $idx++);
+                        $index = format_email_recipient($email, $group['name']);
 
-                        if (count($contacts) >= $MAXNUM) {
-                            break 2;
+                        if (empty($contacts[$index])) {
+                            $sort_keys[$index] = sprintf('%s %03d', $group['name'] , $idx++);
+                            $contacts[$index]  = array(
+                                'name'   => $index,
+                                'email'  => $email,
+                                'type'   => 'group',
+                                'id'     => $group['ID'],
+                                'source' => $id,
+                            );
+
+                            if (count($contacts) >= $MAXNUM) {
+                                break 2;
+                            }
                         }
                     }
                 }
                 // show group with count
                 else if (($result = $abook->count()) && $result->count) {
-                    $sort_keys[] = $group['name'];
-                    $contacts[]  = array(
-                        'name'   => $group['name'] . ' (' . intval($result->count) . ')',
-                        'type'   => 'group',
-                        'id'     => $group['ID'],
-                        'source' => $id
-                    );
+                    if (empty($contacts[$group['name']])) {
+                        $sort_keys[$group['name']] = $group['name'];
+                        $contacts[$group['name']]  = array(
+                            'name'   => $group['name'] . ' (' . intval($result->count) . ')',
+                            'type'   => 'group',
+                            'id'     => $group['ID'],
+                            'source' => $id
+                        );
 
-                    if (count($contacts) >= $MAXNUM) {
-                        break;
+                        if (count($contacts) >= $MAXNUM) {
+                            break;
+                        }
                     }
                 }
             }
