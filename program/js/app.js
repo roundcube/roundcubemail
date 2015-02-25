@@ -654,7 +654,7 @@ function rcube_webmail()
 
     // check input before leaving compose step
     if (this.task == 'mail' && this.env.action == 'compose' && $.inArray(command, this.env.compose_commands) < 0 && !this.env.server_error) {
-      if (this.cmp_hash != this.compose_field_hash() && !confirm(this.get_label('notsentwarning')))
+      if (!this.env.is_sent && this.cmp_hash != this.compose_field_hash() && !confirm(this.get_label('notsentwarning')))
         return false;
 
       // remove copy from local storage if compose screen is left intentionally
@@ -1115,7 +1115,7 @@ function rcube_webmail()
         break;
 
       case 'send':
-        if (!props.nocheck && !this.check_compose_input(command))
+        if (!props.nocheck && !this.env.is_sent && !this.check_compose_input(command))
           break;
 
         // Reset the auto-save timer
@@ -3489,15 +3489,35 @@ function rcube_webmail()
       .attr({ 'autocomplete': 'off', 'aria-autocomplete': 'list', 'aria-expanded': 'false', 'role': 'combobox' });
   };
 
-  this.submit_messageform = function(draft)
+  this.submit_messageform = function(draft, saveonly)
   {
     var form = this.gui_objects.messageform;
 
     if (!form)
       return;
 
+    // the message has been sent but not saved, ask the user what to do
+    if (!saveonly && this.env.is_sent) {
+      return this.show_popup_dialog(this.get_label('messageissent'), '',
+        [{
+          text: this.get_label('save'),
+          'class': 'mainaction',
+          click: function() {
+            ref.submit_messageform(false, true);
+            $(this).dialog('close');
+          }
+        },
+        {
+          text: this.get_label('cancel'),
+          click: function() {
+            $(this).dialog('close');
+          }
+        }]
+      );
+    }
+
     // all checks passed, send message
-    var msgid = this.set_busy(true, draft ? 'savingmessage' : 'sendingmessage'),
+    var msgid = this.set_busy(true, draft || saveonly ? 'savingmessage' : 'sendingmessage'),
       lang = this.spellcheck_lang(),
       files = [];
 
@@ -3510,6 +3530,10 @@ function rcube_webmail()
     form.action = this.add_url(form.action, '_unlock', msgid);
     form.action = this.add_url(form.action, '_lang', lang);
     form.action = this.add_url(form.action, '_framed', 1);
+
+    if (saveonly) {
+      form.action = this.add_url(form.action, '_saveonly', 1);
+    }
 
     // register timer to notify about connection timeout
     this.submit_timer = setTimeout(function(){
@@ -4358,13 +4382,14 @@ function rcube_webmail()
   };
 
   // action executed after mail is sent
-  this.sent_successfully = function(type, msg, folders)
+  this.sent_successfully = function(type, msg, folders, save_error)
   {
     this.display_message(msg, type);
     this.compose_skip_unsavedcheck = true;
 
     if (this.env.extwin) {
-      this.lock_form(this.gui_objects.messageform);
+      if (!save_error)
+        this.lock_form(this.gui_objects.messageform);
 
       var filter = {task: 'mail', action: ''},
         rc = this.opener(false, filter) || this.opener(true, filter);
@@ -4377,12 +4402,16 @@ function rcube_webmail()
         }
       }
 
-      setTimeout(function() { window.close(); }, 1000);
+      if (!save_error)
+        setTimeout(function() { window.close(); }, 1000);
     }
-    else {
+    else if (!save_error) {
       // before redirect we need to wait some time for Chrome (#1486177)
       setTimeout(function() { ref.list_mailbox(); }, 500);
     }
+
+    if (save_error)
+      this.env.is_sent = true;
   };
 
 
