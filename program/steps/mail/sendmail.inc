@@ -635,7 +635,8 @@ if ($store_target) {
             'message' => "Could not save message in $store_target"), true, false);
 
         if ($savedraft) {
-            $OUTPUT->show_message('errorsaving', 'error');
+            $RCMAIL->display_server_error('errorsaving');
+
             // start the auto-save timer again
             $OUTPUT->command('auto_save_start');
             $OUTPUT->send('iframe');
@@ -699,7 +700,7 @@ else {
     $OUTPUT->command('remove_compose_data', $COMPOSE_ID);
 
     if ($store_folder && !$saved) {
-        $OUTPUT->command('sent_successfully', 'error', $RCMAIL->gettext('errorsavingsent'), $folders);
+        $RCMAIL->display_server_error('errorsavingsent', null, null, array('prefix' => true));
     }
     else if ($store_folder) {
         $folders[] = $store_target;
