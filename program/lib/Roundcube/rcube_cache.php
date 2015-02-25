@@ -605,8 +605,10 @@ class rcube_cache
             $this->max_packet = 2097152; // default/max is 2 MB
 
             if ($this->type == 'db') {
-                $value = $this->db->get_variable('max_allowed_packet', $this->max_packet);
-                $this->max_packet = max($value, $this->max_packet) - 2000;
+                if ($value = $this->db->get_variable('max_allowed_packet', $this->max_packet)) {
+                    $this->max_packet = $value;
+                }
+                $this->max_packet -= 2000;
             }
             else if ($this->type == 'memcache') {
                 $stats = $this->db->getStats();
