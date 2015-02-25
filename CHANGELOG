@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Fix missing or not up-to-date CATEGORIES entry in vCard export (#1490277)
 - Fix fatal errors on systems without mbstring extension or mb_regex_encoding() function (#1490280)
 - Fix cursor position on reply below the quote in HTML mode (#1490263)
+- Fix so "over quota" errors are displayed also in message compose page
 
 RELEASE 1.1.0
 -------------

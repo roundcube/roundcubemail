@@ -1793,8 +1793,9 @@ class rcmail extends rcube
      * @param string $fallback       Fallback message label
      * @param array  $fallback_args  Fallback message label arguments
      * @param string $suffix         Message label suffix
+     * @param array  $params         Additional parameters (type, prefix)
      */
-    public function display_server_error($fallback = null, $fallback_args = null, $suffix = '')
+    public function display_server_error($fallback = null, $fallback_args = null, $suffix = '', $params = array())
     {
         $err_code = $this->storage->get_error_code();
         $res_code = $this->storage->get_response_code();
@@ -1815,8 +1816,8 @@ class rcmail extends rcube
                 $error = 'errornoperm';
             }
             // try to detect full mailbox problem and display appropriate message
-            // there can be e.g. "Quota exceeded" or "quotum would exceed"
-            else if (stripos($err_str, 'quot') !== false && stripos($err_str, 'exceed') !== false) {
+            // there can be e.g. "Quota exceeded" / "quotum would exceed" / "Over quota"
+            else if (stripos($err_str, 'quot') !== false && preg_match('/exceed|over/i', $err_str)) {
                 $error = 'erroroverquota';
             }
             else {
@@ -1830,13 +1831,21 @@ class rcmail extends rcube
         else if ($fallback) {
             $error = $fallback;
             $args  = $fallback_args;
+            $params['prefix'] = false;
         }
 
         if ($error) {
             if ($suffix && $this->text_exists($error . $suffix)) {
                 $error .= $suffix;
             }
-            $this->output->show_message($error, 'error', $args);
+
+            $msg = $this->gettext(array('name' => $error, 'vars' => $args));
+
+            if ($params['prefix'] && $fallback) {
+                $msg = $this->gettext(array('name' => $fallback, 'vars' => $fallback_args)) . ' ' . $msg;
+            }
+
+            $this->output->show_message($msg, $params['type'] ?: 'error');
         }
     }
 
