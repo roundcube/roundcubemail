@@ -517,7 +517,7 @@ if (function_exists('mb_encode_mimeheader')) {
 $MAIL_MIME->headers($headers);
 
 // Begin SMTP Delivery Block
-if (!$savedraft) {
+if (!$savedraft && !$saveonly) {
     // check 'From' address (identity may be incomplete)
     if (empty($from)) {
         $OUTPUT->show_message('nofromaddress', 'error');
