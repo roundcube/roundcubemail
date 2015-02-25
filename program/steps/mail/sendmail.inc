@@ -24,7 +24,8 @@
 $OUTPUT->reset();
 $OUTPUT->framed = TRUE;
 
-$savedraft      = !empty($_POST['_draft']) ? true : false;
+$saveonly       = !empty($_GET['_saveonly']);
+$savedraft      = !empty($_POST['_draft']) && !$saveonly;
 $sendmail_delay = (int) $RCMAIL->config->get('sendmail_delay');
 $drafts_mbox    = $RCMAIL->config->get('drafts_mbox');
 
@@ -689,24 +690,36 @@ else {
     // we'll refresh the list if currently opened folder is one of them (#1490238)
     $folders = array();
 
-    if (in_array($COMPOSE['mode'], array('reply', 'forward', 'draft'))) {
-        $folders[] = $COMPOSE['mailbox'];
+    if (!$saveonly) {
+        if (in_array($COMPOSE['mode'], array('reply', 'forward', 'draft'))) {
+            $folders[] = $COMPOSE['mailbox'];
+        }
+        if (!empty($COMPOSE['param']['draft_uid']) && $drafts_mbox) {
+            $folders[] = $drafts_mbox;
+        }
     }
-    if (!empty($COMPOSE['param']['draft_uid']) && $drafts_mbox) {
-        $folders[] = $drafts_mbox;
-    }
-
-    rcmail_compose_cleanup($COMPOSE_ID);
-    $OUTPUT->command('remove_compose_data', $COMPOSE_ID);
 
     if ($store_folder && !$saved) {
-        $RCMAIL->display_server_error('errorsavingsent', null, null, array('prefix' => true));
+        $params = $saveonly ? null : array('prefix' => true);
+        $RCMAIL->display_server_error('errorsavingsent', null, null, $params);
+        if ($saveonly) {
+            $OUTPUT->send('iframe');
+        }
+
+        $save_error = true;
     }
-    else if ($store_folder) {
-        $folders[] = $store_target;
+    else {
+        rcmail_compose_cleanup($COMPOSE_ID);
+        $OUTPUT->command('remove_compose_data', $COMPOSE_ID);
+
+        if ($store_folder) {
+            $folders[] = $store_target;
+        }
     }
 
-    $OUTPUT->command('sent_successfully', 'confirmation', $RCMAIL->gettext('messagesent'), $folders);
+    $msg = $RCMAIL->gettext($saveonly ? 'successfullysaved' : 'messagesent');
+
+    $OUTPUT->command('sent_successfully', 'confirmation', $msg, $folders, $save_error);
 }
 
 $OUTPUT->send('iframe');

@@ -179,5 +179,6 @@ $messages['parentnotwritable'] = 'Unable to create/move folder into selected par
 $messages['messagetoobig'] = 'The message part is too big to process it.';
 $messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
+$messages['messageissent'] = 'The message was already sent, but not saved yet. Do you want to save it now?';
 
 ?>
