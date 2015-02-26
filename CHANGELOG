@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Plugin API: Add special onload() method to execute plugin actions before startup (session and GUI initialization)
+- Password plugin: Added 'kpasswd' driver by Peter Allgeyer
 - Add possibility to print contact information (of a single contact)
 - Add possibility to configure max_allowed_packet value for all database engines (#1490283)
 - Improved handling of storage errors after message is sent

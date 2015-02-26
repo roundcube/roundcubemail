@@ -44,6 +44,7 @@
  2.18. Samba (smb)
  2.19. Vpopmail daemon (vpopmaild)
  2.20. Plesk (Plesk RPC-API)
+ 2.21. Kpasswd
  3. Driver API
 
 
@@ -301,6 +302,7 @@
  Driver to change Samba user password via the 'smbpasswd' command.
  See config.inc.php.dist file for configuration description.
 
+
  2.19. Vpopmail daemon (vpopmaild)
  -----------------------------------
 
@@ -328,6 +330,13 @@
  Set the Password of the User: $config['password_plesk_pass']
  Set $config['password_plesk_rpc_port']  for the RPC-Port. Usually its 8443
  Set the RPC-Path in $config['password_plesk_rpc_path']. Normally this is: enterprise/control/agent.php.
+
+
+ 2.21.  Kpasswd
+ -----------------------------------
+
+ Driver to change the password in Kerberos environments via the 'kpasswd' command.
+ See config.inc.php.dist file for configuration description.
 
 
  3. Driver API
