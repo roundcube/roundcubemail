@@ -75,7 +75,7 @@ class rcube_ldap_password
         $ldap = Net_LDAP2::connect($ldapConfig);
 
         // Checking for connection error
-        if (PEAR::isError($ldap)) {
+        if (is_a($ldap, 'PEAR_Error')) {
             return PASSWORD_CONNECT_ERROR;
         }
 
@@ -176,7 +176,7 @@ class rcube_ldap_password
 
         $ldap = Net_LDAP2::connect($ldapConfig);
 
-        if (PEAR::isError($ldap)) {
+        if (is_a($ldap, 'PEAR_Error')) {
             return '';
         }
 
@@ -189,7 +189,7 @@ class rcube_ldap_password
 
         $result = $ldap->search($base, $filter, $options);
         $ldap->done();
-        if (PEAR::isError($result) || ($result->count() != 1)) {
+        if (is_a($result, 'PEAR_Error') || ($result->count() != 1)) {
             return '';
         }
 

@@ -1681,15 +1681,18 @@ class rcube
 
             if ($message->getParam('delay_file_io')) {
                 // use common temp dir
-                $temp_dir = $this->config->get('temp_dir');
-                $body_file = tempnam($temp_dir, 'rcmMsg');
-                if (PEAR::isError($mime_result = $message->saveMessageBody($body_file))) {
+                $temp_dir    = $this->config->get('temp_dir');
+                $body_file   = tempnam($temp_dir, 'rcmMsg');
+                $mime_result = $message->saveMessageBody($body_file);
+
+                if (is_a($mime_result, 'PEAR_Error')) {
                     self::raise_error(array('code' => 650, 'type' => 'php',
                         'file' => __FILE__, 'line' => __LINE__,
                         'message' => "Could not create message: ".$mime_result->getMessage()),
-                        TRUE, FALSE);
+                        true, false);
                     return false;
                 }
+
                 $msg_body = fopen($body_file, 'r');
             }
             else {
@@ -1732,11 +1735,11 @@ class rcube
 
             $msg_body = $message->get();
 
-            if (PEAR::isError($msg_body)) {
+            if (is_a($msg_body, 'PEAR_Error')) {
                 self::raise_error(array('code' => 650, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Could not create message: ".$msg_body->getMessage()),
-                    TRUE, FALSE);
+                    true, false);
             }
             else {
                 $delim   = $this->config->header_delimiter();
