@@ -601,8 +601,9 @@ if ($store_target) {
             else {
                 $temp_dir      = $RCMAIL->config->get('temp_dir');
                 $mailbody_file = tempnam($temp_dir, 'rcmMsg');
+                $msg           = $MAIL_MIME->saveMessageBody($mailbody_file);
 
-                if (!PEAR::isError($msg = $MAIL_MIME->saveMessageBody($mailbody_file))) {
+                if (!is_a($msg, 'PEAR_Error')) {
                     $msg = $mailbody_file;
                 }
             }
@@ -612,7 +613,7 @@ if ($store_target) {
             $headers = '';
         }
 
-        if (PEAR::isError($msg)) {
+        if (is_a($msg, 'PEAR_Error')) {
             rcube::raise_error(array('code' => 650, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Could not create message: ".$msg->getMessage()),
@@ -800,7 +801,7 @@ function rcmail_fix_emoticon_paths($mime_message)
                 if (!in_array($image_name, $included_images)) {
                     // add the image to the MIME message
                     $res = $mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name);
-                    if (PEAR::isError($res)) {
+                    if (is_a($res, 'PEAR_Error')) {
                         $RCMAIL->output->show_message("emoticonerror", 'error');
                         continue;
                     }

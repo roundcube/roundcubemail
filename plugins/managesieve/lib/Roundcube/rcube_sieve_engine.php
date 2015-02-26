@@ -390,10 +390,11 @@ class rcube_sieve_engine
             }
             else if ($action == 'setget') {
                 $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
-                $script = $this->sieve->get_script($script_name);
+                $script      = $this->sieve->get_script($script_name);
 
-                if (PEAR::isError($script))
+                if (is_a($script, 'PEAR_Error')) {
                     exit;
+                }
 
                 $browser = new rcube_browser;
 

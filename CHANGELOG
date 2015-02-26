@@ -16,6 +16,7 @@ CHANGELOG Roundcube Webmail
 - Fix cursor position on reply below the quote in HTML mode (#1490263)
 - Fix so "over quota" errors are displayed also in message compose page
 - Fix duplicate entries supression in autocomplete result (#1490290)
+- Fix "Non-static method PEAR::isError() should not be called statically" errors (#1490281)
 
 RELEASE 1.1.0
 -------------

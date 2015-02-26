@@ -126,7 +126,7 @@ class rcube_smtp
         // try to connect to server and exit on failure
         $result = $this->conn->connect($CONFIG['smtp_timeout']);
 
-        if (PEAR::isError($result)) {
+        if (is_a($result, 'PEAR_Error')) {
             $this->response[] = "Connection failed: ".$result->getMessage();
             $this->error = array('label' => 'smtpconnerror', 'vars' => array('code' => $this->conn->_code));
             $this->conn  = null;
@@ -159,7 +159,7 @@ class rcube_smtp
 
             $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, $use_tls, $smtp_authz);
 
-            if (PEAR::isError($result)) {
+            if (is_a($result, 'PEAR_Error')) {
                 $this->error = array('label' => 'smtpautherror', 'vars' => array('code' => $this->conn->_code));
                 $this->response[] .= 'Authentication failure: ' . $result->getMessage() . ' (Code: ' . $result->getCode() . ')';
                 $this->reset();
@@ -240,7 +240,8 @@ class rcube_smtp
         }
 
         // set From: address
-        if (PEAR::isError($this->conn->mailFrom($from, $from_params))) {
+        $result = $this->conn->mailFrom($from, $from_params);
+        if (is_a($result, 'PEAR_Error')) {
             $err = $this->conn->getResponse();
             $this->error = array('label' => 'smtpfromerror', 'vars' => array(
                 'from' => $from, 'code' => $err[0], 'msg' => $err[1]));
@@ -252,7 +253,7 @@ class rcube_smtp
 
         // prepare list of recipients
         $recipients = $this->_parse_rfc822($recipients);
-        if (PEAR::isError($recipients)) {
+        if (is_a($recipients, 'PEAR_Error')) {
             $this->error = array('label' => 'smtprecipientserror');
             $this->reset();
             return false;
@@ -260,7 +261,8 @@ class rcube_smtp
 
         // set mail recipients
         foreach ($recipients as $recipient) {
-            if (PEAR::isError($this->conn->rcptTo($recipient, $recipient_params))) {
+            $result = $this->conn->rcptTo($recipient, $recipient_params);
+            if (is_a($result, 'PEAR_Error')) {
                 $err = $this->conn->getResponse();
                 $this->error = array('label' => 'smtptoerror', 'vars' => array(
                     'to' => $recipient, 'code' => $err[0], 'msg' => $err[1]));
@@ -289,7 +291,7 @@ class rcube_smtp
 
         // Send the message's headers and the body as SMTP data.
         $result = $this->conn->data($data, $text_headers);
-        if (PEAR::isError($result)) {
+        if (is_a($result, 'PEAR_Error')) {
             $err = $this->conn->getResponse();
             if (!in_array($err[0], array(354, 250, 221))) {
                 $msg = sprintf('[%d] %s', $err[0], $err[1]);

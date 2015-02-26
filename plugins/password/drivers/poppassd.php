@@ -42,7 +42,7 @@ class rcube_poppassd_password
         $poppassd = new Net_Socket();
 
         $result = $poppassd->connect($rcmail->config->get('password_pop_host'), $rcmail->config->get('password_pop_port'), null);
-        if (PEAR::isError($result)) {
+        if (is_a($result, 'PEAR_Error')) {
             return $this->format_error_result(PASSWORD_CONNECT_ERROR, $result->getMessage());
         }
         else {
