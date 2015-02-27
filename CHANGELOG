@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix security issue in DBMail driver of password plugin (#1490261)
 - Fix handling of some improper constructs in format=flowed text as per the RFC3676[4.5] (#1490284)
 - Fix missing or not up-to-date CATEGORIES entry in vCard export (#1490277)
+- Fix duplicate entry on timezones list in rcube_config::timezone_name_from_abbr() (#1490293)
 
 RELEASE 1.0.5
 -------------
