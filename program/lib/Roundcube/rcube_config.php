@@ -683,7 +683,6 @@ class rcube_config
              '180' => "Europe/Moscow",
              '210' => "Asia/Tehran",
              '240' => "Asia/Dubai",
-             '300' => "Asia/Karachi",
              '270' => "Asia/Kabul",
              '300' => "Asia/Karachi",
              '330' => "Asia/Kolkata",

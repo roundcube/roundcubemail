@@ -20,6 +20,7 @@ CHANGELOG Roundcube Webmail
 - Fix duplicate entries supression in autocomplete result (#1490290)
 - Fix "Non-static method PEAR::isError() should not be called statically" errors (#1490281)
 - Fix parsing invalid HTML messages with BOM after <!DOCTYPE> (#1490291)
+- Fix duplicate entry on timezones list in rcube_config::timezone_name_from_abbr() (#1490293)
 
 RELEASE 1.1.0
 -------------
