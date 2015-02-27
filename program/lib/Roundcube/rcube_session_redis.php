@@ -13,8 +13,6 @@
  | PURPOSE:                                                              |
  |   Provide database supported session management                       |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- | Author: Aleksander Machniak <alec@alec.pl>                            |
  | Author: Cor Bosman <cor@roundcu.be>                                   |
  +-----------------------------------------------------------------------+
 */
@@ -30,12 +28,17 @@ class rcube_session_redis extends rcube_session {
 
     private $redis;
 
-    public function __construct()
+    /**
+     * @param Object $config
+     */
+    public function __construct($config)
     {
+        parent::__construct($config);
+
         // instantiate Redis object
         $this->redis = new Redis();
 
-        if (! $this->redis) {
+        if (!$this->redis) {
             rcube::raise_error(array('code' => 604, 'type' => 'session',
                                    'line' => __LINE__, 'file' => __FILE__,
                                    'message' => "Failed to find Redis. Make sure php-redis is included"),
@@ -43,10 +46,10 @@ class rcube_session_redis extends rcube_session {
         }
 
         // get config instance
-        $hosts = rcube::get_instance()->config->get('redis_hosts', array());
+        $hosts = $this->config->get('redis_hosts', array('localhost'));
 
         // host config is wrong
-        if (!is_array($hosts) || empty($hosts) ) {
+        if (!is_array($hosts) || empty($hosts)) {
             rcube::raise_error(array('code' => 604, 'type' => 'session',
                                    'line' => __LINE__, 'file' => __FILE__,
                                    'message' => "Redis host not configured"),
@@ -61,9 +64,9 @@ class rcube_session_redis extends rcube_session {
                                true, true);
         }
 
-        foreach($hosts as $config) {
+        foreach ($hosts as $host) {
             // explode individual fields
-            list($host, $port, $database, $password) = array_pad(explode(':', $config, 4), 4, null);
+            list($host, $port, $database, $password) = array_pad(explode(':', $host, 4), 4, null);
 
             // set default values if not set
             $host = ($host !== null) ? $host : '127.0.0.1';
@@ -115,7 +118,6 @@ class rcube_session_redis extends rcube_session {
 
         // register sessions handler
         $this->register_session_handler();
-
     }
 
     /**

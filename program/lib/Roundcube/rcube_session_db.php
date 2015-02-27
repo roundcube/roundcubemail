@@ -33,8 +33,13 @@ class rcube_session_db extends rcube_session
     private $db;
     private $table_name;
 
-    public function __construct()
+    /**
+     * @param Object $config
+     */
+    public function __construct($config)
     {
+        parent::__construct($config);
+
         // get db instance
         $this->db      = rcube::get_instance()->get_dbh();
 

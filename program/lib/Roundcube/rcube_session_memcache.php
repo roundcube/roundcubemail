@@ -15,7 +15,7 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
- | Author: Cor Bosman <cor@roundcu.be>                                   |
+ | Author: Cor Bosman <cor@roundcu.bet>                                   |
  +-----------------------------------------------------------------------+
 */
 
@@ -32,11 +32,16 @@ class rcube_session_memcache extends rcube_session
 {
     private $memcache;
 
-    public function __construct()
+    /**
+     * @param Object $config
+     */
+    public function __construct($config)
     {
+        parent::__construct($config);
+
         $this->memcache = rcube::get_instance()->get_memcache();
 
-        if(! $this->memcache) {
+        if (!$this->memcache) {
             rcube::raise_error(array('code' => 604, 'type' => 'db',
                                    'line' => __LINE__, 'file' => __FILE__,
                                    'message' => "Failed to connect to memcached. Please check configuration"),
@@ -45,7 +50,6 @@ class rcube_session_memcache extends rcube_session
 
         // register sessions handler
         $this->register_session_handler();
-
     }
 
     /**

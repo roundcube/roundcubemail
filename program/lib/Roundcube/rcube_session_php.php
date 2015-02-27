@@ -30,7 +30,6 @@
  */
 class rcube_session_php extends rcube_session {
 
-
     /**
      * native php sessions don't need a save handler
      * we do need to define abstract function implementations but they are not used.
@@ -43,6 +42,13 @@ class rcube_session_php extends rcube_session {
     public function write($key, $vars) {}
     public function update($key, $newvars, $oldvars) {}
 
+    /**
+     * @param Object $config
+     */
+    public function __construct($config)
+    {
+        parent::__construct($config);
+    }
 
     /**
      * Wrapper for session_write_close()
@@ -58,9 +64,9 @@ class rcube_session_php extends rcube_session {
     /**
      * Wrapper for session_start()
      */
-    public function start($config)
+    public function start()
     {
-        parent::start($config);
+        parent::start();
 
         $this->key     = session_id();
         $this->ip      = $_SESSION['__IP'];

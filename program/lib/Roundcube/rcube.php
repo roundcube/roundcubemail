@@ -521,48 +521,17 @@ class rcube
         ini_set('session.use_only_cookies', 1);
         ini_set('session.cookie_httponly', 1);
 
-        // use database for storing session data
-        $storage = $this->config->get('session_storage', 'db');
-        $this->session = $this->get_session($storage);
+        // get storage driver from config
+        // $storage = $this->config->get('session_storage', 'db');
 
-        // register default gc handler
-        $this->session->register_gc_handler(array($this, 'gc'));
-
-        $this->session->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
-        $this->session->set_ip_check($this->config->get('ip_check'));
-
-        if ($this->config->get('session_auth_name')) {
-            $this->session->set_cookiename($this->config->get('session_auth_name'));
-        }
+        // get session driver instance
+        $this->session = rcube_session::factory($this->config);
 
         // start PHP session (if not in CLI mode)
         if ($_SERVER['REMOTE_ADDR']) {
-            $this->session->start($this->config);
+            $this->session->start();
         }
     }
-
-    /**
-     * get an rcube_session instance
-     *
-     * @return rcube_session
-     */
-    private function get_session($storage)
-    {
-        // class name for this storage
-        $class = "rcube_session_" . $storage;
-
-        // try to instantiate class
-        if(class_exists($class)) {
-            return new $class();
-        }
-
-        // no storage found, raise error
-        rcube::raise_error(array('code' => 604, 'type' => 'session',
-                               'line' => __LINE__, 'file' => __FILE__,
-                               'message' => "Failed to find session driver. Check session_storage config option"),
-                           true, true);
-    }
-
 
     /**
      * Garbage collector - cache/temp cleaner

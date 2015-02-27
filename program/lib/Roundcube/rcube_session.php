@@ -15,6 +15,7 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
+ | Author: Cor Bosman <cor@roundcu.be>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -43,6 +44,7 @@ abstract class rcube_session
     protected $secret = '';
     protected $ip_check = false;
     protected $logging = false;
+    protected $config;
 
     /**
      * Blocks session data from being written to database.
@@ -50,7 +52,55 @@ abstract class rcube_session
      * @var boolean
      */
     public $nowrite = false;
-    
+
+    /**
+     * Factory, returns driver-specific instance of the class
+     *
+     * @param object $config
+     * @return Object rcube_session
+     */
+    public static function factory($config)
+    {
+        // get session storage driver
+        $storage = $config->get('session_storage', 'db');
+
+        // class name for this storage
+        $class = "rcube_session_" . $storage;
+
+        // try to instantiate class
+        if (class_exists($class)) {
+            return new $class($config);
+        }
+
+        // no storage found, raise error
+        rcube::raise_error(array('code' => 604, 'type' => 'session',
+                               'line' => __LINE__, 'file' => __FILE__,
+                               'message' => "Failed to find session driver. Check session_storage config option"),
+                           true, true);
+    }
+
+    /**
+     * @param Object $config
+     */
+    public function __construct($config)
+    {
+        $this->config = $config;
+
+        // register default gc handler
+        $this->register_gc_handler(array($this, 'gc'));
+
+        // set secret
+        $this->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
+
+        // set ip check
+        $this->set_ip_check($this->config->get('ip_check'));
+
+        // set cookie name
+        if ($this->config->get('session_auth_name')) {
+            $this->set_cookiename($this->config->get('session_auth_name'));
+        }
+    }
+
     /**
      * register session handler
      */
@@ -73,13 +123,13 @@ abstract class rcube_session
     /**
      * Wrapper for session_start()
      */
-    public function start($config)
+    public function start()
     {
         $this->start   = microtime(true);
         $this->ip      = rcube_utils::remote_addr();
-        $this->logging = $config->get('log_session', false);
+        $this->logging = $this->config->get('log_session', false);
 
-        $lifetime = $config->get('session_lifetime', 1) * 60;
+        $lifetime = $this->config->get('session_lifetime', 1) * 60;
         $this->set_lifetime($lifetime);
 
         session_start();
@@ -105,8 +155,9 @@ abstract class rcube_session
      */
     public function sess_write($key, $vars)
     {
-        if ($this->nowrite)
+        if ($this->nowrite) {
             return true;
+        }
 
         // check cache
         $oldvars = $this->get_cache($key);
@@ -201,12 +252,6 @@ abstract class rcube_session
     protected function gc_shutdown()
     {
         if ($this->gc_enabled) {
-            // just delete all expired sessions
-            if ($this->storage == 'db') {
-                $this->db->query("DELETE FROM {$this->table_name}"
-                    . " WHERE `changed` < " . $this->db->now(-$this->gc_enabled));
-            }
-
             foreach ($this->gc_handlers as $fct) {
                 call_user_func($fct);
             }
