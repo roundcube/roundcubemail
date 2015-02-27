@@ -17,6 +17,7 @@ CHANGELOG Roundcube Webmail
 - Fix so "over quota" errors are displayed also in message compose page
 - Fix duplicate entries supression in autocomplete result (#1490290)
 - Fix "Non-static method PEAR::isError() should not be called statically" errors (#1490281)
+- Fix parsing invalid HTML messages with BOM after <!DOCTYPE> (#1490291)
 
 RELEASE 1.1.0
 -------------
