@@ -520,10 +520,7 @@ class rcube
         ini_set('session.use_cookies', 1);
         ini_set('session.use_only_cookies', 1);
         ini_set('session.cookie_httponly', 1);
-
-        // get storage driver from config
-        // $storage = $this->config->get('session_storage', 'db');
-
+        
         // get session driver instance
         $this->session = rcube_session::factory($this->config);
 
