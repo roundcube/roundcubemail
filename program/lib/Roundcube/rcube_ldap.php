@@ -698,8 +698,9 @@ class rcube_ldap extends rcube_addressbook
 
         for ($i=0; $i < $entry['memberurl']['count']; $i++) {
             // extract components from url
-            if (!preg_match('!ldap:///([^\?]+)\?\?(\w+)\?(.*)$!', $entry['memberurl'][$i], $m))
+            if (!preg_match('!ldap://[^/]*/([^\?]+)\?\?(\w+)\?(.*)$!', $entry['memberurl'][$i], $m)) {
                 continue;
+            }
 
             // add search filter if any
             $filter = $this->filter ? '(&(' . $m[3] . ')(' . $this->filter . '))' : $m[3];
