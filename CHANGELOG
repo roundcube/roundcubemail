@@ -6,7 +6,7 @@ CHANGELOG Roundcube Webmail
 - Improved handling of storage errors after message is sent
 - Fix refreshing of drafts list when sending a message which was saved in meantime (#1490238)
 - Fix saving/sending emoticon images when assets_dir is set
-- Fix PHP fatal error when visiting Vacation interface and there's no sieve script yet
+- Fix PHP fatal error when visiting Vacation interface and there's no sieve script yet (#1490292)
 - Fix setting max packet size for DB caches and check packet size also in shared cache
 - Fix needless security warning on BMP attachments display (#1490282)
 - Fix handling of some improper constructs in format=flowed text as per the RFC3676[4.5] (#1490284)
