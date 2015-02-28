@@ -33,6 +33,12 @@
   table-layout: fixed;
 }
 
+#identities-table tbody tr td,
+#sections-table tbody tr td
+{
+  cursor: default;
+}
+
 #identities-table tbody tr.readonly td
 {
   font-style: italic;
