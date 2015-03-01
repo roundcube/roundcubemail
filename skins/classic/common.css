@@ -260,6 +260,7 @@ body > #message div
 
 body > #message div.notice,
 body > #messagebody .part-notice,
+body > #mainscreen #messagebody .part-notice,
 #message-objects div.notice
 {
   background: url(images/display/icons.png) 6px 3px no-repeat;
