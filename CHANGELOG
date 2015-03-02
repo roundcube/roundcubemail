@@ -22,6 +22,7 @@ CHANGELOG Roundcube Webmail
 - Fix "Non-static method PEAR::isError() should not be called statically" errors (#1490281)
 - Fix parsing invalid HTML messages with BOM after <!DOCTYPE> (#1490291)
 - Fix duplicate entry on timezones list in rcube_config::timezone_name_from_abbr() (#1490293)
+- Fix so localized folder name is displayed in multi-folder search result (#1490243)
 
 RELEASE 1.1.0
 -------------

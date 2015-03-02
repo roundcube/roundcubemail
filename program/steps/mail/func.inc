@@ -399,6 +399,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         $head_replace = true;
     }
 
+    $delimiter   = $RCMAIL->storage->get_hierarchy_delimiter();
     $search_set  = $RCMAIL->storage->get_search_set();
     $multifolder = $search_set && $search_set[1]->multi;
 
@@ -489,8 +490,16 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
                 $cont = show_bytes($header->$col);
             else if ($col == 'date')
                 $cont = $RCMAIL->format_date($header->date);
-            else if ($col == 'folder')
-                $cont = rcube::Q(rcube_charset::convert($header->folder, 'UTF7-IMAP'));
+            else if ($col == 'folder') {
+                if ($last_folder !== $header->folder) {
+                    $last_folder      = $header->folder;
+                    $last_folder_name = rcube_charset::convert($last_folder, 'UTF7-IMAP');
+                    $last_folder_name = $RCMAIL->localize_foldername($last_folder_name, true);
+                    $last_folder_name = str_replace($delimiter, " \xC2\xBB ", $last_folder_name);
+                }
+
+                $cont = rcube::Q($last_folder_name);
+            }
             else
                 $cont = rcube::Q($header->$col);
 
