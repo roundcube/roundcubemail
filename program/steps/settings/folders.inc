@@ -265,7 +265,7 @@ function rcmail_subscription_form($attrib)
 
     $js_folders = array();
     $folders    = array();
-    $collapsed  = $RCMAIL->config->get('collapsed_folders');
+    $collapsed  = (string) $RCMAIL->config->get('collapsed_folders');
 
     // create list of available folders
     foreach ($list_folders as $i => $folder) {

@@ -23,6 +23,7 @@ CHANGELOG Roundcube Webmail
 - Fix parsing invalid HTML messages with BOM after <!DOCTYPE> (#1490291)
 - Fix duplicate entry on timezones list in rcube_config::timezone_name_from_abbr() (#1490293)
 - Fix so localized folder name is displayed in multi-folder search result (#1490243)
+- Fix javascript error after creating a folder which is a subfolder of another one (#1490297)
 
 RELEASE 1.1.0
 -------------
