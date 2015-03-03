@@ -320,28 +320,8 @@ class rcube_contacts extends rcube_addressbook
                 $where[] = 'c.' . $this->primary_key.' IN ('.$ids.')';
                 continue;
             }
-            // fulltext search in all fields
-            else if ($col == '*') {
-                $words = array();
-                foreach (explode($WS, rcube_utils::normalize_string($value)) as $word) {
-                    switch ($mode) {
-                    case 1: // strict
-                        $words[] = '(' . $this->db->ilike('words', $word . '%')
-                            . ' OR ' . $this->db->ilike('words', '%' . $WS . $word . $WS . '%')
-                            . ' OR ' . $this->db->ilike('words', '%' . $WS . $word) . ')';
-                        break;
-                    case 2: // prefix
-                        $words[] = '(' . $this->db->ilike('words', $word . '%')
-                            . ' OR ' . $this->db->ilike('words', '%' . $WS . $word . '%') . ')';
-                        break;
-                    default: // partial
-                        $words[] = $this->db->ilike('words', '%' . $word . '%');
-                    }
-                }
-                $where[] = '(' . join(' AND ', $words) . ')';
-            }
-            else {
-                $val = is_array($value) ? $value[$idx] : $value;
+            else if (is_array($value)) {
+                $val = $value[$idx];
                 // table column
                 if (in_array($col, $this->table_cols)) {
                     switch ($mode) {
@@ -362,26 +342,17 @@ class rcube_contacts extends rcube_addressbook
                 // vCard field
                 else {
                     if (in_array($col, $this->fulltext_cols)) {
-                        foreach (rcube_utils::normalize_string($val, true) as $word) {
-                            switch ($mode) {
-                            case 1: // strict
-                                $words[] = '(' . $this->db->ilike('words', $word . $WS . '%')
-                                    . ' OR ' . $this->db->ilike('words', '%' . $AS . $word . $WS .'%')
-                                    . ' OR ' . $this->db->ilike('words', '%' . $AS . $word) . ')';
-                                break;
-                            case 2: // prefix
-                                $words[] = '(' . $this->db->ilike('words', $word . '%')
-                                    . ' OR ' . $this->db->ilike('words', $AS . $word . '%') . ')';
-                                break;
-                            default: // partial
-                                $words[] = $this->db->ilike('words', '%' . $word . '%');
-                            }
-                        }
-                        $where[] = '(' . join(' AND ', $words) . ')';
+                        $where[] = $this->fulltext_sql_where($val, $mode, 'words');
                     }
-                    if (is_array($value))
-                        $post_search[$col] = mb_strtolower($val);
+                    $post_search[$col] = mb_strtolower($val);
                 }
+            }
+            // fulltext search in all fields
+            else if ($col == '*') {
+                $where[] = $this->fulltext_sql_where($value, $mode, 'words');
+            }
+            else {
+                $where[] = $this->fulltext_sql_where($value, $mode, $col, 'OR');
             }
         }
 
@@ -391,7 +362,7 @@ class rcube_contacts extends rcube_addressbook
 
         if (!empty($where)) {
             // use AND operator for advanced searches
-            $where = join(is_array($value) ? ' AND ' : ' OR ', $where);
+            $where = join(is_array($value) || $fields[0] != '*' ? ' AND ' : ' OR ', $where);
         }
 
         if (!empty($and_where))
@@ -460,6 +431,33 @@ class rcube_contacts extends rcube_addressbook
         return $this->result;
     }
 
+    /**
+     * Helper method to compose SQL where statements for fulltext searching
+     */
+    private function fulltext_sql_where($value, $mode, $col = 'words', $bool = 'AND')
+    {
+        $WS = ' ';
+        $AS = $col == 'words' ? $WS : self::SEPARATOR;
+
+        $where = array();
+        foreach (rcube_utils::normalize_string($value, true) as $word) {
+            switch ($mode) {
+            case 1: // strict
+                $where[] = '(' . $this->db->ilike($col, $word . '%')
+                    . ' OR ' . $this->db->ilike($col, '%' . $WS . $word . $WS . '%')
+                    . ' OR ' . $this->db->ilike($col, '%' . $WS . $word) . ')';
+                break;
+            case 2: // prefix
+                $where[] = '(' . $this->db->ilike($col, $word . '%')
+                    . ' OR ' . $this->db->ilike($col, '%' . $AS . $word . '%') . ')';
+                break;
+            default: // partial
+                $where[] = $this->db->ilike($col, '%' . $word . '%');
+            }
+        }
+
+        return '(' . join(" $bool ", $where) . ')';
+    }
 
     /**
      * Count number of available contacts in database
