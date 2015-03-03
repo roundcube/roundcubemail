@@ -6,7 +6,7 @@
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2014, The Roundcube Dev Team                       |
- | Copyright (C) 2012-2014, Kolab Systems AG                             |
+ | Copyright (C) 2012-2015, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -315,6 +315,46 @@ class rcube_ldap_generic extends Net_LDAP3
         }
 
         return $rec;
+    }
+
+    /**
+     * Compose an LDAP filter string matching all words from the search string
+     * in the given list of attributes.
+     *
+     * @param string  $value    Search value
+     * @param mixed   $attrs    List of LDAP attributes to search
+     * @param int     $mode     Matching mode:
+     *                          0 - partial (*abc*),
+     *                          1 - strict (=),
+     *                          2 - prefix (abc*)
+     * @return string LDAP filter
+     */
+    public static function fulltext_search_filter($value, $attributes, $mode = 1)
+    {
+        if (empty($attributes)) {
+            $attributes = array('cn');
+        }
+
+        $groups = array();
+        $words = rcube_utils::tokenize_string($value, 1);
+
+        // set wildcards
+        $wp = $ws = '';
+        if ($mode != 1) {
+            $ws = '*';
+            $wp = !$mode ? '*' : '';
+        }
+
+        // search each word in all listed attributes
+        foreach ($words as $word) {
+            $parts = array();
+            foreach ($attributes as $attr) {
+                $parts[] = "($attr=$wp" . self::quote_string($word) . "$ws)";
+            }
+            $groups[] = '(|' . join('', $parts) . ')';
+        }
+
+        return empty($groups) ? '' : '(&' . join('', $groups) . ')';
     }
 }
 
