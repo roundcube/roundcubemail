@@ -792,33 +792,24 @@ class rcube_ldap extends rcube_addressbook
             return $this->result;
         }
 
-        // use AND operator for advanced searches
-        $filter = is_array($value) ? '(&' : '(|';
-        // set wildcards
-        $wp = $ws = '';
-        if (!empty($this->prop['fuzzy_search']) && $mode != 1) {
-            $ws = '*';
-            if (!$mode) {
-                $wp = '*';
-            }
-        }
+        // advanced per-attribute search
+        if (is_array($value)) {
+            // use AND operator for advanced searches
+            $filter = '(&';
 
-        if ($fields == '*') {
-            // search_fields are required for fulltext search
-            if (empty($this->prop['search_fields'])) {
-                $this->set_error(self::ERROR_SEARCH, 'nofulltextsearch');
-                $this->result = new rcube_result_set();
-                return $this->result;
-            }
-            if (is_array($this->prop['search_fields'])) {
-                foreach ($this->prop['search_fields'] as $field) {
-                    $filter .= "($field=$wp" . rcube_ldap_generic::quote_string($value) . "$ws)";
+            // set wildcards
+            $wp = $ws = '';
+            if (!empty($this->prop['fuzzy_search']) && $mode != 1) {
+                $ws = '*';
+                if (!$mode) {
+                    $wp = '*';
                 }
             }
-        }
-        else {
+
             foreach ((array)$fields as $idx => $field) {
-                $val = is_array($value) ? $value[$idx] : $value;
+                $val = $value[$idx];
+                if (!strlen($val))
+                    continue;
                 if ($attrs = $this->_map_field($field)) {
                     if (count($attrs) > 1)
                         $filter .= '(|';
@@ -828,8 +819,33 @@ class rcube_ldap extends rcube_addressbook
                         $filter .= ')';
                 }
             }
+
+            $filter .= ')';
         }
-        $filter .= ')';
+        else {
+            if ($fields == '*') {
+                // search_fields are required for fulltext search
+                if (empty($this->prop['search_fields'])) {
+                    $this->set_error(self::ERROR_SEARCH, 'nofulltextsearch');
+                    $this->result = new rcube_result_set();
+                    return $this->result;
+                }
+                $attributes = (array)$this->prop['search_fields'];
+            }
+            else {
+                // map address book fields into ldap attributes
+                $me = $this;
+                $attributes = array();
+                array_walk($fields, function($field) use ($me, &$attributes) {
+                    if ($this->coltypes[$field] && ($attrs = (array)$this->coltypes[$field]['attributes'])) {
+                        $attributes = array_merge($attributes, $attrs);
+                    }
+                });
+            }
+
+            // compose a full-text-like search filter
+            $filter = rcube_ldap_generic::fulltext_search_filter($value, $attributes, $mode);
+        }
 
         // add required (non empty) fields filter
         $req_filter = '';
