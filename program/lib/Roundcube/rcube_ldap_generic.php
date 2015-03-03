@@ -336,7 +336,8 @@ class rcube_ldap_generic extends Net_LDAP3
         }
 
         $groups = array();
-        $words = rcube_utils::tokenize_string($value, 1);
+        $value = str_replace('*', '', $value);
+        $words = $mode == 0 ? rcube_utils::tokenize_string($value, 1) : array($value);
 
         // set wildcards
         $wp = $ws = '';
@@ -354,7 +355,7 @@ class rcube_ldap_generic extends Net_LDAP3
             $groups[] = '(|' . join('', $parts) . ')';
         }
 
-        return empty($groups) ? '' : '(&' . join('', $groups) . ')';
+        return count($groups) > 1 ? '(&' . join('', $groups) . ')' : join('', $groups);
     }
 }
 
