@@ -302,8 +302,6 @@ class rcube_contacts extends rcube_addressbook
      */
     function search($fields, $value, $mode=0, $select=true, $nocount=false, $required=array())
     {
-        if (!is_array($fields))
-            $fields = array($fields);
         if (!is_array($required) && !empty($required))
             $required = array($required);
 
@@ -312,16 +310,19 @@ class rcube_contacts extends rcube_addressbook
         $WS = ' ';
         $AS = self::SEPARATOR;
 
-        foreach ($fields as $idx => $col) {
-            // direct ID search
-            if ($col == 'ID' || $col == $this->primary_key) {
-                $ids     = !is_array($value) ? explode(self::SEPARATOR, $value) : $value;
-                $ids     = $this->db->array2list($ids, 'integer');
-                $where[] = 'c.' . $this->primary_key.' IN ('.$ids.')';
-                continue;
-            }
-            else if (is_array($value)) {
+        // direct ID search
+        if ($fields == 'ID' || $fields == $this->primary_key) {
+            $ids     = !is_array($value) ? explode(self::SEPARATOR, $value) : $value;
+            $ids     = $this->db->array2list($ids, 'integer');
+            $where[] = 'c.' . $this->primary_key.' IN ('.$ids.')';
+        }
+        else if (is_array($value)) {
+            foreach ((array)$fields as $idx => $col) {
                 $val = $value[$idx];
+
+                if (!strlen($val))
+                    continue;
+
                 // table column
                 if (in_array($col, $this->table_cols)) {
                     switch ($mode) {
@@ -347,12 +348,19 @@ class rcube_contacts extends rcube_addressbook
                     $post_search[$col] = mb_strtolower($val);
                 }
             }
-            // fulltext search in all fields
-            else if ($col == '*') {
-                $where[] = $this->fulltext_sql_where($value, $mode, 'words');
-            }
-            else {
-                $where[] = $this->fulltext_sql_where($value, $mode, $col, 'OR');
+        }
+        // fulltext search in all fields
+        else if ($fields == '*') {
+            $where[] = $this->fulltext_sql_where($value, $mode, 'words');
+        }
+        else {
+            // require each word in to be present in one of the fields
+            foreach (rcube_utils::normalize_string($value, true) as $word) {
+                $groups = array();
+                foreach ((array)$fields as $idx => $col) {
+                    $groups[] = $this->fulltext_sql_where($word, $mode, $col);
+                }
+                $where[] = '(' . join(' OR ', $groups) . ')';
             }
         }
 
@@ -362,7 +370,7 @@ class rcube_contacts extends rcube_addressbook
 
         if (!empty($where)) {
             // use AND operator for advanced searches
-            $where = join(is_array($value) || $fields[0] != '*' ? ' AND ' : ' OR ', $where);
+            $where = join(" AND ", $where);
         }
 
         if (!empty($and_where))
