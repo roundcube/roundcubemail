@@ -355,7 +355,7 @@ class rcube_contacts extends rcube_addressbook
         }
         else {
             // require each word in to be present in one of the fields
-            foreach (rcube_utils::normalize_string($value, true) as $word) {
+            foreach (rcube_utils::tokenize_string($value, 1) as $word) {
                 $groups = array();
                 foreach ((array)$fields as $idx => $col) {
                     $groups[] = $this->fulltext_sql_where($word, $mode, $col);
@@ -446,9 +446,10 @@ class rcube_contacts extends rcube_addressbook
     {
         $WS = ' ';
         $AS = $col == 'words' ? $WS : self::SEPARATOR;
+        $words = $col == 'words' ? rcube_utils::normalize_string($value, true) : array($value);
 
         $where = array();
-        foreach (rcube_utils::normalize_string($value, true) as $word) {
+        foreach ($words as $word) {
             switch ($mode) {
             case 1: // strict
                 $where[] = '(' . $this->db->ilike($col, $word . '%')
