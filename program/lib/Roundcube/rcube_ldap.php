@@ -834,10 +834,10 @@ class rcube_ldap extends rcube_addressbook
             }
             else {
                 // map address book fields into ldap attributes
-                $me = $this;
+                $me         = $this;
                 $attributes = array();
                 array_walk($fields, function($field) use ($me, &$attributes) {
-                    if ($this->coltypes[$field] && ($attrs = (array)$this->coltypes[$field]['attributes'])) {
+                    if ($me->coltypes[$field] && ($attrs = (array)$me->coltypes[$field]['attributes'])) {
                         $attributes = array_merge($attributes, $attrs);
                     }
                 });
