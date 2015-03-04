@@ -505,14 +505,6 @@ $MAIL_MIME->setParam('head_charset', $message_charset);
 $MAIL_MIME->setParam('html_charset', $message_charset);
 $MAIL_MIME->setParam('text_charset', $text_charset);
 
-// encoding subject header with mb_encode provides better results with asian characters
-if (function_exists('mb_encode_mimeheader')) {
-    mb_internal_encoding($message_charset);
-    $headers['Subject'] = mb_encode_mimeheader($headers['Subject'],
-        $message_charset, 'Q', "\r\n", 8);
-    mb_internal_encoding(RCUBE_CHARSET);
-}
-
 // pass headers to message object
 $MAIL_MIME->headers($headers);
 
