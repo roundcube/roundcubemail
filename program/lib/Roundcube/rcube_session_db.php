@@ -41,7 +41,7 @@ class rcube_session_db extends rcube_session
         parent::__construct($config);
 
         // get db instance
-        $this->db      = rcube::get_instance()->get_dbh();
+        $this->db = rcube::get_instance()->get_dbh();
 
         // session table name
         $this->table_name = $this->db->table_name('session', true);

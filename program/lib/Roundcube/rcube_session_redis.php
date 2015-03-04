@@ -4,14 +4,13 @@
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
- | Copyright (C) 2011, Kolab Systems AG                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Provide database supported session management                       |
+ |   Provide redis supported session management                       |
  +-----------------------------------------------------------------------+
  | Author: Cor Bosman <cor@roundcu.be>                                   |
  +-----------------------------------------------------------------------+
