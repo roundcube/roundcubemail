@@ -21,6 +21,7 @@ CHANGELOG Roundcube Webmail
 - Fix duplicate entry on timezones list in rcube_config::timezone_name_from_abbr() (#1490293)
 - Fix so localized folder name is displayed in multi-folder search result (#1490243)
 - Fix javascript error after creating a folder which is a subfolder of another one (#1490297)
+- Fix bug where subject of sent/saved message was removed if mbstring wasn't installed (#1490295)
 
 RELEASE 1.1.0
 -------------
