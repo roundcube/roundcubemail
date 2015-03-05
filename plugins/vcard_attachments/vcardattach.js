@@ -28,7 +28,8 @@ function plugin_vcard_insertrow(data)
   var ctype = data.row.ctype;
 
   if (ctype == 'text/vcard' || ctype == 'text/x-vcard' || ctype == 'text/directory') {
-    $('#rcmrow'+data.uid+' > td.attachment').html('<img src="'+rcmail.env.vcard_icon+'" alt="" />');
+    $('#rcmrow' + rcmail.html_identifier(data.uid, true) + ' > td.attachment')
+      .html('<img src="' + rcmail.env.vcard_icon + '" alt="" />');
   }
 }
 
