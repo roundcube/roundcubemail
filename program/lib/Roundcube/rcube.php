@@ -521,23 +521,14 @@ class rcube
         ini_set('session.use_only_cookies', 1);
         ini_set('session.cookie_httponly', 1);
 
-        // use database for storing session data
-        $this->session = new rcube_session($this->get_dbh(), $this->config);
-
-        $this->session->register_gc_handler(array($this, 'gc'));
-        $this->session->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
-        $this->session->set_ip_check($this->config->get('ip_check'));
-
-        if ($this->config->get('session_auth_name')) {
-            $this->session->set_cookiename($this->config->get('session_auth_name'));
-        }
+        // get session driver instance
+        $this->session = rcube_session::factory($this->config);
 
         // start PHP session (if not in CLI mode)
         if ($_SERVER['REMOTE_ADDR']) {
             $this->session->start();
         }
     }
-
 
     /**
      * Garbage collector - cache/temp cleaner
