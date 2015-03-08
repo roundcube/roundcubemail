@@ -492,22 +492,24 @@ abstract class rcube_storage
     /**
      * Returns the whole message source as string (or saves to a file)
      *
-     * @param int      $uid Message UID
-     * @param resource $fp  File pointer to save the message
+     * @param int      $uid  Message UID
+     * @param resource $fp   File pointer to save the message
+     * @param string   $part Optional message part ID
      *
      * @return string Message source string
      */
-    abstract function get_raw_body($uid, $fp = null);
+    abstract function get_raw_body($uid, $fp = null, $part = null);
 
 
     /**
      * Returns the message headers as string
      *
-     * @param int $uid  Message UID
+     * @param int    $uid  Message UID
+     * @param string $part Optional message part ID
      *
      * @return string Message headers string
      */
-    abstract function get_raw_headers($uid);
+    abstract function get_raw_headers($uid, $part = null);
 
 
     /**

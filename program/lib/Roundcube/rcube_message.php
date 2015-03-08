@@ -53,13 +53,13 @@ class rcube_message
     public $uid;
     public $folder;
     public $headers;
-    public $parts = array();
-    public $mime_parts = array();
+    public $sender;
+    public $parts        = array();
+    public $mime_parts   = array();
     public $inline_parts = array();
-    public $attachments = array();
-    public $subject = '';
-    public $sender = null;
-    public $is_safe = false;
+    public $attachments  = array();
+    public $subject      = '';
+    public $is_safe      = false;
 
     const BODY_MAX_SIZE = 1048576; // 1MB
 
@@ -216,6 +216,10 @@ class rcube_message
         if (!($part = $this->mime_parts[$mime_id])) {
             return;
         }
+
+        // allow plugins to modify part body
+        $plugin = $this->app->plugins->exec_hook('message_part_body',
+            array('object' => $this, 'part' => $part));
 
         // only text parts can be formatted
         $formatted = $formatted && $part->ctype_primary == 'text';
@@ -499,8 +503,9 @@ class rcube_message
                 $structure->headers = rcube_mime::parse_headers($headers);
             }
         }
-        else
+        else {
             $mimetype = $structure->mimetype;
+        }
 
         // show message headers
         if ($recursive && is_array($structure->headers) &&
@@ -516,11 +521,15 @@ class rcube_message
             array('object' => $this, 'structure' => $structure,
                 'mimetype' => $mimetype, 'recursive' => $recursive));
 
-        if ($plugin['abort'])
+        if ($plugin['abort']) {
             return;
+        }
 
         $structure = $plugin['structure'];
-        list($message_ctype_primary, $message_ctype_secondary) = explode('/', $plugin['mimetype']);
+        $mimetype  = $plugin['mimetype'];
+        $recursive = $plugin['recursive'];
+
+        list($message_ctype_primary, $message_ctype_secondary) = explode('/', $mimetype);
 
         // print body if message doesn't have multiple parts
         if ($message_ctype_primary == 'text' && !$recursive) {
@@ -673,7 +682,7 @@ class rcube_message
                 }
                 else {
                     $part_mimetype = $part_orig_mimetype = $mail_part->mimetype;
-                  }
+                }
 
                 // multipart/alternative
                 if ($primary_type == 'multipart') {

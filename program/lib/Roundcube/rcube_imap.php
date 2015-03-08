@@ -1957,6 +1957,16 @@ class rcube_imap extends rcube_storage
             for ($i=1; $i<count($part); $i++) {
                 if (!is_array($part[$i])) {
                     $struct->ctype_secondary = strtolower($part[$i]);
+
+                    // read content type parameters
+                    if (is_array($part[$i+1])) {
+                        $struct->ctype_parameters = array();
+                        for ($j=0; $j<count($part[$i+1]); $j+=2) {
+                            $param = strtolower($part[$i+1][$j]);
+                            $struct->ctype_parameters[$param] = $part[$i+1][$j+1];
+                        }
+                    }
+
                     break;
                 }
             }
@@ -2364,36 +2374,38 @@ class rcube_imap extends rcube_storage
     /**
      * Returns the whole message source as string (or saves to a file)
      *
-     * @param int      $uid Message UID
-     * @param resource $fp  File pointer to save the message
+     * @param int      $uid  Message UID
+     * @param resource $fp   File pointer to save the message
+     * @param string   $part Optional message part ID
      *
      * @return string Message source string
      */
-    public function get_raw_body($uid, $fp=null)
+    public function get_raw_body($uid, $fp=null, $part = null)
     {
         if (!$this->check_connection()) {
             return null;
         }
 
         return $this->conn->handlePartBody($this->folder, $uid,
-            true, null, null, false, $fp);
+            true, $part, null, false, $fp);
     }
 
 
     /**
      * Returns the message headers as string
      *
-     * @param int $uid  Message UID
+     * @param int    $uid  Message UID
+     * @param string $part Optional message part ID
      *
      * @return string Message headers string
      */
-    public function get_raw_headers($uid)
+    public function get_raw_headers($uid, $part = null)
     {
         if (!$this->check_connection()) {
             return null;
         }
 
-        return $this->conn->fetchPartHeader($this->folder, $uid, true);
+        return $this->conn->fetchPartHeader($this->folder, $uid, true, $part);
     }
 
 
