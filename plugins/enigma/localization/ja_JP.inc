@@ -2,7 +2,7 @@
 
 
 
-$labels['enigmasettings'] = 'Enigma: 設定';
+$labels['enigmasettings'] = 'Enigma';
 $labels['enigmacerts'] = 'Enigma: 証明書 (S/MIME)';
 $labels['enigmakeys'] = 'Enigma: 鍵 (PGP)';
 $labels['keysfromto'] = '鍵の一覧 $from ～ $to (合計: $count )';

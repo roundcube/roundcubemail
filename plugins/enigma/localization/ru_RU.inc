@@ -16,7 +16,7 @@
 @version 2010-12-23
 
 */
-$labels['enigmasettings'] = 'Enigma: Настройки';
+$labels['enigma'] = 'Enigma';
 $labels['enigmacerts'] = 'Enigma: Сертификаты (S/MIME)';
 $labels['enigmakeys'] = 'Enigma: Ключи (PGP)';
 $labels['keysfromto'] = 'Ключи от $from к $to в количестве $count';

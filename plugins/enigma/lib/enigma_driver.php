@@ -44,8 +44,11 @@ abstract class enigma_driver
 
     /**
      * Decryption..
+     *
+     * @param string Encrypted message
+     * @param array  List of key-password mapping
      */
-    abstract function decrypt($text, $key, $passwd);
+    abstract function decrypt($text, $keys = array());
 
     /**
      * Signing.
@@ -80,7 +83,7 @@ abstract class enigma_driver
      * @return mixed Array of enigma_key objects or enigma_error
      */
     abstract function list_keys($pattern='');
-    
+
     /**
      * Single key information.
      *
@@ -98,9 +101,9 @@ abstract class enigma_driver
      * @return mixed Key (enigma_key) object or enigma_error
      */
     abstract function gen_key($data);
-    
+
     /**
      * Key deletion.
      */
-    abstract function del_key($keyid);
+    abstract function delete_key($keyid);
 }

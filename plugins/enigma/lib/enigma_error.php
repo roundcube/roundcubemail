@@ -37,11 +37,12 @@ class enigma_error
     const E_EXPIRED = 6;
     const E_UNVERIFIED = 7;
 
+
     function __construct($code = null, $message = '', $data = array())
     {
-        $this->code = $code;
+        $this->code    = $code;
         $this->message = $message;
-        $this->data = $data;
+        $this->data    = $data;
     }
 
     function getCode()
@@ -56,9 +57,11 @@ class enigma_error
 
     function getData($name)
     {
-        if ($name)
+        if ($name) {
             return $this->data[$name];
-        else
+        }
+        else {
             return $this->data;
+        }
     }
 }

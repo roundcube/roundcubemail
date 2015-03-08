@@ -25,12 +25,12 @@ class enigma_key
 {
     public $id;
     public $name;
-    public $users = array();
+    public $users   = array();
     public $subkeys = array();
 
     const TYPE_UNKNOWN = 0;
     const TYPE_KEYPAIR = 1;
-    const TYPE_PUBLIC = 2;
+    const TYPE_PUBLIC  = 2;
 
     /**
      * Keys list sorting callback for usort()
@@ -55,7 +55,7 @@ class enigma_key
 
     /**
      * Returns true if all user IDs are revoked
-     */    
+     */
     function is_revoked()
     {
         foreach ($this->subkeys as $subkey)
@@ -67,7 +67,7 @@ class enigma_key
 
     /**
      * Returns true if any user ID is valid
-     */    
+     */
     function is_valid()
     {
         foreach ($this->users as $user)
@@ -76,18 +76,18 @@ class enigma_key
 
         return false;
     }
-    
+
     /**
      * Returns true if any of subkeys is not expired
-     */    
+     */
     function is_expired()
     {
         $now = time();
-        
+
         foreach ($this->subkeys as $subkey)
             if (!$subkey->expires || $subkey->expires > $now)
                 return true;
-    
+
         return false;
     }
 
@@ -101,7 +101,7 @@ class enigma_key
     static function format_id($id)
     {
         // E.g. 04622F2089E037A5 => 89E037A5
-        
+
         return substr($id, -8);
     }
 
@@ -114,15 +114,18 @@ class enigma_key
      */
     static function format_fingerprint($fingerprint)
     {
-        if (!$fingerprint)
+        if (!$fingerprint) {
             return '';
-    
+        }
+
         $result = '';
         for ($i=0; $i<40; $i++) {
-            if ($i % 4 == 0)
+            if ($i % 4 == 0) {
                 $result .= ' ';
+            }
             $result .= $fingerprint[$i];
         }
+
         return $result;
     }
 

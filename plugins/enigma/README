@@ -4,33 +4,52 @@ THIS IS NOT EVEN AN "ALPHA" STATE. USE ONLY FOR DEVELOPMENT!!!!!!!
 
 WARNING: Don't use with gnupg-2.x!
 
-Enigma Plugin Status:
+Plugin Status:
 
-* DONE:
++ PGP: signed messages verification
++ PGP: messages decryption
++ PGP: keys management UI (keys import and delete)
++ Handling of PGP keys attached to incoming messages
 
-- PGP signed messages verification
-- Handling of PGP keys files attached to incoming messages
-- PGP encrypted messages decryption (started)
-- PGP keys management UI (started)
-- S/MIME signatures verification (started)
+TODO (must have):
 
-* TODO (must have):
-
-- Parsing of decrypted messages into array (see rcube_mime_struct) and then into rcube_message_part structure
-  (create core class rcube_mime_parser or take over PEAR::Mail_mimeDecode package and improve it)
-- Sending encrypted/signed messages (probably some changes in core will be needed)
+- Fix issues with enabled messages_cache
+- PGP: Sending of encrypted/signed messages
 - Per-Identity settings (including keys/certs)
-- Handling big messages with temp files (including changes in Roundcube core)
-- Performance improvements (some caching, code review)
-- better (and more) icons
+- Test/Make working with gnupg-2.x
+- Keys export to file
+- Disable Reply/Forward options when viewing encrypted messages
+  until they are decrypted successfully
+- Handling of replying/forwarding of encrypted messages
+- Add composer.json file
+- Performance improvements:
+   - cache decrypted message key id in cache so we can skip
+     decryption if we have no password in session
+   - cache sig verification status to not verify on every msg preview (optional)
 
-* TODO (later):
+TODO (later):
 
-- Keys generation
-- Certs generation
-- Keys/Certs info in Contacts details page (+ split Contact details page into tabs)
-- Key server support
-- S/MIME signed messages verification
-- S/MIME encrypted messages decryption
-- Handling of S/MIME certs files attached to incoming messages
-- SSL (S/MIME) Certs management
+- Handling of big messages with temp files
+- Server-side keys generation (warning: no-entropy issue, max_execution_time issue)
+- Client-side keys generation (with OpenPGP.js?)
+- Key info in contact details page (optional)
+- Extended key management:
+   - disable,
+   - revoke,
+   - change expiration date, change passphrase, add photo,
+   - manage user IDs
+- Generate revocation certs
+- Search filter to see invalid/expired keys
+- Key server(s) support (search, import, upload, refresh)
+- Attaching public keys to email
+- Mark keys as trusted/untrasted, display appropriate message in verify/decrypt status
+- User-preferences to disable signature verification, decrypting, encrypting or all enigma features
+- Change attachment icon on messages list for encrypted messages (like vcard_attachment plugin does)
+
+- S/MIME: Certs generation
+- S/MIME: Certs management
+- S/MIME: signed messages verification
+- S/MIME: encrypted messages decryption
+- S/MIME: Sending signed/encrypted messages
+- S/MIME: Handling of certs attached to incoming messages
+- S/MIME: Certificate info in Contacts details page (optional)

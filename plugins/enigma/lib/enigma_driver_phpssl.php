@@ -24,7 +24,6 @@
 class enigma_driver_phpssl extends enigma_driver
 {
     private $rc;
-    //private $gpg;
     private $homedir;
     private $user;
 
@@ -78,7 +77,7 @@ class enigma_driver_phpssl extends enigma_driver
     {
     }
 
-    function decrypt($text, $key, $passwd)
+    function decrypt($text, $keys = array())
     {
     }
 
@@ -145,15 +144,15 @@ class enigma_driver_phpssl extends enigma_driver
     {
     }
 
-    public function del_key($keyid)
+    public function delete_key($keyid)
     {
     }
 
-    public function del_privkey($keyid)
+    public function delete_privkey($keyid)
     {
     }
 
-    public function del_pubkey($keyid)
+    public function delete_pubkey($keyid)
     {
     }
 

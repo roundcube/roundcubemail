@@ -35,9 +35,11 @@ class enigma_engine
     private $pgp_driver;
     private $smime_driver;
 
-    public $decryptions = array();
-    public $signatures = array();
+    public $decryptions  = array();
+    public $signatures   = array();
     public $signed_parts = array();
+
+    const PASSWORD_TIME = 120;
 
 
     /**
@@ -45,9 +47,11 @@ class enigma_engine
      */
     function __construct($enigma)
     {
-        $rcmail = rcmail::get_instance();
-        $this->rc = $rcmail;    
+        $this->rc     = rcmail::get_instance();
         $this->enigma = $enigma;
+
+        // this will remove passwords from session after some time
+        $this->get_passwords();
     }
 
     /**
@@ -55,10 +59,11 @@ class enigma_engine
      */
     function load_pgp_driver()
     {
-        if ($this->pgp_driver)
+        if ($this->pgp_driver) {
             return;
+        }
 
-        $driver = 'enigma_driver_' . $this->rc->config->get('enigma_pgp_driver', 'gnupg');
+        $driver   = 'enigma_driver_' . $this->rc->config->get('enigma_pgp_driver', 'gnupg');
         $username = $this->rc->user->get_username();
 
         // Load driver
@@ -89,10 +94,11 @@ class enigma_engine
      */
     function load_smime_driver()
     {
-        if ($this->smime_driver)
+        if ($this->smime_driver) {
             return;
+        }
 
-        $driver = 'enigma_driver_' . $this->rc->config->get('enigma_smime_driver', 'phpssl');
+        $driver   = 'enigma_driver_' . $this->rc->config->get('enigma_smime_driver', 'phpssl');
         $username = $this->rc->user->get_username();
 
         // Load driver
@@ -119,6 +125,58 @@ class enigma_engine
     }
 
     /**
+     * Handler for message_part_structure hook.
+     * Called for every part of the message.
+     *
+     * @param array Original parameters
+     *
+     * @return array Modified parameters
+     */
+    function part_structure($p)
+    {
+        if ($p['mimetype'] == 'text/plain' || $p['mimetype'] == 'application/pgp') {
+            $this->parse_plain($p);
+        }
+        else if ($p['mimetype'] == 'multipart/signed') {
+            $this->parse_signed($p);
+        }
+        else if ($p['mimetype'] == 'multipart/encrypted') {
+            $this->parse_encrypted($p);
+        }
+        else if ($p['mimetype'] == 'application/pkcs7-mime') {
+            $this->parse_encrypted($p);
+        }
+
+        return $p;
+    }
+
+    /**
+     * Handler for message_part_body hook.
+     *
+     * @param array Original parameters
+     *
+     * @return array Modified parameters
+     */
+    function part_body($p)
+    {
+        // encrypted attachment, see parse_plain_encrypted()
+        if ($p['part']->need_decryption && $p['part']->body === null) {
+            $storage = $this->rc->get_storage();
+            $body    = $storage->get_message_part($p['object']->uid, $p['part']->mime_id, $p['part'], null, null, true, 0, false);
+            $result  = $this->pgp_decrypt($body);
+
+            // @TODO: what to do on error?
+            if ($result === true) {
+                $p['part']->body = $body;
+                $p['part']->size = strlen($body);
+                $p['part']->body_modified = true;
+            }
+        }
+
+        return $p;
+    }
+
+    /**
      * Handler for plain/text message.
      *
      * @param array Reference to hook's parameters
@@ -127,17 +185,22 @@ class enigma_engine
     {
         $part = $p['structure'];
 
-        // Get message body from IMAP server
-        $this->set_part_body($part, $p['object']->uid);
+        // exit, if we're already inside a decrypted message
+        if ($part->encrypted) {
+            return;
+        }
 
-        // @TODO: big message body can be a file resource
+        // Get message body from IMAP server
+        $body = $this->get_part_body($p['object'], $part->mime_id);
+
+        // @TODO: big message body could be a file resource
         // PGP signed message
-        if (preg_match('/^-----BEGIN PGP SIGNED MESSAGE-----/', $part->body)) {
-            $this->parse_plain_signed($p);
+        if (preg_match('/^-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
+            $this->parse_plain_signed($p, $body);
         }
         // PGP encrypted message
-        else if (preg_match('/^-----BEGIN PGP MESSAGE-----/', $part->body)) {
-            $this->parse_plain_encrypted($p);
+        else if (preg_match('/^-----BEGIN PGP MESSAGE-----/', $body)) {
+            $this->parse_plain_encrypted($p, $body);
         }
     }
 
@@ -154,13 +217,16 @@ class enigma_engine
         if ($struct->parts[1] && $struct->parts[1]->mimetype == 'application/pkcs7-signature') {
             $this->parse_smime_signed($p);
         }
-        // PGP/MIME:
+        // PGP/MIME: RFC3156
         // The multipart/signed body MUST consist of exactly two parts.
         // The first part contains the signed data in MIME canonical format,
         // including a set of appropriate content headers describing the data.
         // The second body MUST contain the PGP digital signature.  It MUST be
         // labeled with a content type of "application/pgp-signature".
-        else if ($struct->parts[1] && $struct->parts[1]->mimetype == 'application/pgp-signature') {
+        else if ($struct->ctype_parameters['protocol'] == 'application/pgp-signature'
+            && count($struct->parts) == 2
+            && $struct->parts[1] && $struct->parts[1]->mimetype == 'application/pgp-signature'
+        ) {
             $this->parse_pgp_signed($p);
         }
     }
@@ -178,14 +244,16 @@ class enigma_engine
         if ($struct->mimetype == 'application/pkcs7-mime') {
             $this->parse_smime_encrypted($p);
         }
-        // PGP/MIME:
-        // The multipart/encrypted MUST consist of exactly two parts.  The first
+        // PGP/MIME: RFC3156
+        // The multipart/encrypted MUST consist of exactly two parts. The first
         // MIME body part must have a content type of "application/pgp-encrypted".
         // This body contains the control information.
         // The second MIME body part MUST contain the actual encrypted data.  It
         // must be labeled with a content type of "application/octet-stream".
-        else if ($struct->parts[0] && $struct->parts[0]->mimetype == 'application/pgp-encrypted' &&
-            $struct->parts[1] && $struct->parts[1]->mimetype == 'application/octet-stream'
+        else if ($struct->ctype_parameters['protocol'] == 'application/pgp-encrypted'
+            && count($struct->parts) == 2
+            && $struct->parts[0] && $struct->parts[0]->mimetype == 'application/pgp-encrypted'
+            && $struct->parts[1] && $struct->parts[1]->mimetype == 'application/octet-stream'
         ) {
             $this->parse_pgp_encrypted($p);
         }
@@ -195,16 +263,17 @@ class enigma_engine
      * Handler for plain signed message.
      * Excludes message and signature bodies and verifies signature.
      *
-     * @param array Reference to hook's parameters
+     * @param array  Reference to hook's parameters
+     * @param string Message (part) body
      */
-    private function parse_plain_signed(&$p)
+    private function parse_plain_signed(&$p, $body)
     {
         $this->load_pgp_driver();
         $part = $p['structure'];
 
         // Verify signature
         if ($this->rc->action == 'show' || $this->rc->action == 'preview') {
-            $sig = $this->pgp_verify($part->body);
+            $sig = $this->pgp_verify($body);
         }
 
         // @TODO: Handle big bodies using (temp) files
@@ -213,10 +282,12 @@ class enigma_engine
         $fh = fopen('php://memory', 'br+');
         // @TODO: fopen/fwrite errors handling
         if ($fh) {
-            fwrite($fh, $part->body);
+            fwrite($fh, $body);
             rewind($fh);
         }
-        $part->body = null;
+
+        $body = $part->body = null;
+        $part->body_modified = true;
 
         // Extract body (and signature?)
         while (!feof($fh)) {
@@ -248,7 +319,7 @@ class enigma_engine
      * Handler for PGP/MIME signed message.
      * Verifies signature.
      *
-     * @param array Reference to hook's parameters
+     * @param array  Reference to hook's parameters
      */
     private function parse_pgp_signed(&$p)
     {
@@ -261,11 +332,13 @@ class enigma_engine
             $sig_part = $struct->parts[1];
 
             // Get bodies
-            $this->set_part_body($msg_part, $p['object']->uid);
-            $this->set_part_body($sig_part, $p['object']->uid);
+            // Note: The first part body need to be full part body with headers
+            //       it also cannot be decoded
+            $msg_body = $this->get_part_body($p['object'], $msg_part->mime_id, true);
+            $sig_body = $this->get_part_body($p['object'], $sig_part->mime_id);
 
             // Verify
-            $sig = $this->pgp_verify($msg_part->body, $sig_part->body);
+            $sig = $this->pgp_verify($msg_body, $sig_body);
 
             // Store signature data for display
             $this->signatures[$struct->mime_id] = $sig;
@@ -275,10 +348,11 @@ class enigma_engine
                 foreach ($msg_part->parts as $part)
                     $this->signed_parts[$part->mime_id] = $struct->mime_id;
             }
-            else
+            else {
                 $this->signed_parts[$msg_part->mime_id] = $struct->mime_id;
+            }
 
-            // Remove signature file from attachments list
+            // Remove signature file from attachments list (?)
             unset($struct->parts[1]);
         }
     }
@@ -291,6 +365,8 @@ class enigma_engine
      */
     private function parse_smime_signed(&$p)
     {
+        return; // @TODO
+
         // Verify signature
         if ($this->rc->action == 'show' || $this->rc->action == 'preview') {
             $this->load_smime_driver();
@@ -321,25 +397,55 @@ class enigma_engine
     /**
      * Handler for plain encrypted message.
      *
-     * @param array Reference to hook's parameters
+     * @param array  Reference to hook's parameters
+     * @param string Message (part) body
      */
-    private function parse_plain_encrypted(&$p)
+    private function parse_plain_encrypted(&$p, $body)
     {
         $this->load_pgp_driver();
         $part = $p['structure'];
 
-        // Get body
-        $this->set_part_body($part, $p['object']->uid);
-
         // Decrypt
-        $result = $this->pgp_decrypt($part->body);
+        $result = $this->pgp_decrypt($body);
 
         // Store decryption status
         $this->decryptions[$part->mime_id] = $result;
 
         // Parse decrypted message
         if ($result === true) {
-            // @TODO
+            $part->body          = $body;
+            $part->body_modified = true;
+            $part->encrypted     = true;
+
+            // Encrypted plain message may contain encrypted attachments
+            // in such case attachments have .pgp extension and application/octet-stream.
+            // This is what happens when you select "Encrypt each attachment separately
+            // and send the message using inline PGP" in Thunderbird's Enigmail.
+
+            // find parent part ID
+            if (strpos($part->mime_id, '.')) {
+                $items = explode('.', $part->mime_id);
+                array_pop($items);
+                $parent = implode('.', $items);
+            }
+            else {
+                $parent = 0;
+            }
+
+            if ($p['object']->mime_parts[$parent]) {
+                foreach ((array)$p['object']->mime_parts[$parent]->parts as $p) {
+                    if ($p->disposition == 'attachment' && $p->mimetype == 'application/octet-stream'
+                        && preg_match('/^(.*)\.pgp$/i', $p->filename, $m)
+                    ) {
+                        // modify filename
+                        $p->filename = $m[1];
+                        // flag the part, it will be decrypted when needed
+                        $p->need_decryption = true;
+                        // disable caching
+                        $p->body_modified = true;
+                    }
+                }
+            }
         }
     }
 
@@ -351,22 +457,32 @@ class enigma_engine
     private function parse_pgp_encrypted(&$p)
     {
         $this->load_pgp_driver();
+
         $struct = $p['structure'];
-        $part = $struct->parts[1];
-        
+        $part   = $struct->parts[1];
+
         // Get body
-        $this->set_part_body($part, $p['object']->uid);
+        $body = $this->get_part_body($p['object'], $part->mime_id);
 
         // Decrypt
-        $result = $this->pgp_decrypt($part->body);
+        $result = $this->pgp_decrypt($body);
 
-        $this->decryptions[$part->mime_id] = $result;
-//print_r($part);
-        // Parse decrypted message
         if ($result === true) {
-            // @TODO
+            // Parse decrypted message
+            $struct = $this->parse_body($body);
+
+            // Modify original message structure
+            $this->modify_structure($p, $struct);
+
+            // Attach the decryption message to all parts
+            $this->decryptions[$struct->mime_id] = $result;
+            foreach ((array) $struct->parts as $sp) {
+                $this->decryptions[$sp->mime_id] = $result;
+            }
         }
         else {
+            $this->decryptions[$part->mime_id] = $result;
+
             // Make sure decryption status message will be displayed
             $part->type = 'content';
             $p['object']->parts[] = $part;
@@ -418,8 +534,8 @@ class enigma_engine
     {
         // @TODO: Handle big bodies using (temp) files
         // @TODO: caching of verification result
-        $key = ''; $pass = ''; // @TODO
-        $result = $this->pgp_driver->decrypt($msg_body, $key, $pass);
+        $keys   = $this->get_passwords();
+        $result = $this->pgp_driver->decrypt($msg_body, $keys);
 
         if ($result instanceof enigma_error) {
             $err_code = $result->getCode();
@@ -432,7 +548,8 @@ class enigma_engine
             return $result;
         }
 
-//        $msg_body = $result;
+        $msg_body = $result;
+
         return true;
     }
 
@@ -443,7 +560,7 @@ class enigma_engine
      *
      * @return mixed Array of keys or enigma_error
      */
-    function list_keys($pattern='')
+    function list_keys($pattern = '')
     {
         $this->load_pgp_driver();
         $result = $this->pgp_driver->list_keys($pattern);
@@ -470,7 +587,7 @@ class enigma_engine
     {
         $this->load_pgp_driver();
         $result = $this->pgp_driver->get_key($keyid);
-    
+
         if ($result instanceof enigma_error) {
             rcube::raise_error(array(
                 'code' => 600, 'type' => 'php',
@@ -478,7 +595,30 @@ class enigma_engine
                 'message' => "Enigma plugin: " . $result->getMessage()
                 ), true, false);
         }
-        
+
+        return $result;
+    }
+
+    /**
+     * PGP key delete.
+     *
+     * @param string Key ID
+     *
+     * @return enigma_error|bool True on success
+     */
+    function delete_key($keyid)
+    {
+        $this->load_pgp_driver();
+        $result = $this->pgp_driver->delete_key($keyid);
+
+        if ($result instanceof enigma_error) {
+            rcube::raise_error(array(
+                'code' => 600, 'type' => 'php',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Enigma plugin: " . $result->getMessage()
+                ), true, false);
+        }
+
         return $result;
     }
 
@@ -535,20 +675,162 @@ class enigma_engine
         $this->rc->output->send();
     }
 
-    /**
-     * Checks if specified message part contains body data.
-     * If body is not set it will be fetched from IMAP server.
-     *
-     * @param rcube_message_part Message part object
-     * @param integer            Message UID
-     */
-    private function set_part_body($part, $uid)
+    function password_handler()
     {
-        // @TODO: Create such function in core
-        // @TODO: Handle big bodies using file handles
-        if (!isset($part->body)) {
-            $part->body = $this->rc->storage->get_message_part(
-                $uid, $part->mime_id, $part);
+        $keyid  = rcube_utils::get_input_value('_keyid', rcube_utils::INPUT_POST);
+        $passwd = rcube_utils::get_input_value('_passwd', rcube_utils::INPUT_POST, true);
+
+        if ($keyid && $passwd !== null && strlen($passwd)) {
+            $this->save_password($keyid, $passwd);
         }
+    }
+
+    function save_password($keyid, $password)
+    {
+        // we store passwords in session for specified time
+        if ($config = $_SESSION['enigma_pass']) {
+            $config = $this->rc->decrypt($config);
+            $config = @unserialize($config);
+        }
+
+        $config[$keyid] = array($password, time());
+
+        $_SESSION['enigma_pass'] = $this->rc->encrypt(serialize($config));
+    }
+
+    function get_passwords()
+    {
+        if ($config = $_SESSION['enigma_pass']) {
+            $config = $this->rc->decrypt($config);
+            $config = @unserialize($config);
+        }
+
+        $threshold = time() - self::PASSWORD_TIME;
+        $keys      = array();
+
+        // delete expired passwords
+        foreach ((array) $config as $key => $value) {
+            if ($value[1] < $threshold) {
+                unset($config[$key]);
+                $modified = true;
+            }
+            else {
+                $keys[$key] = $value[0];
+            }
+        }
+
+        if ($modified) {
+            $_SESSION['enigma_pass'] = $this->rc->encrypt(serialize($config));
+        }
+
+        return $keys;
+    }
+
+    /**
+     * Get message part body.
+     *
+     * @param rcube_message Message object
+     * @param string        Message part ID
+     * @param bool          Return raw body with headers
+     */
+    private function get_part_body($msg, $part_id, $full = false)
+    {
+        // @TODO: Handle big bodies using file handles
+        if ($full) {
+            $storage = $this->rc->get_storage();
+            $body    = $storage->get_raw_headers($msg->uid, $part_id);
+            $body   .= $storage->get_raw_body($msg->uid, null, $part_id);
+        }
+        else {
+            $body = $msg->get_part_body($part_id, false);
+        }
+
+        return $body;
+    }
+
+    /**
+     * Parse decrypted message body into structure
+     *
+     * @param string Message body
+     *
+     * @return array Message structure
+     */
+    private function parse_body(&$body)
+    {
+        // Mail_mimeDecode need \r\n end-line, but gpg may return \n
+        $body = preg_replace('/\r?\n/', "\r\n", $body);
+
+        // parse the body into structure
+        $struct = rcube_mime::parse_message($body);
+
+        return $struct;
+    }
+
+    /**
+     * Replace message encrypted structure with decrypted message structure
+     *
+     * @param array
+     * @param rcube_message_part
+     */
+    private function modify_structure(&$p, $struct)
+    {
+        // modify mime_parts property of the message object
+        $old_id = $p['structure']->mime_id;
+        foreach (array_keys($p['object']->mime_parts) as $idx) {
+            if (!$old_id || $idx == $old_id || strpos($idx, $old_id . '.') === 0) {
+                unset($p['object']->mime_parts[$idx]);
+            }
+        }
+
+        // modify the new structure to be correctly handled by Roundcube
+        $this->modify_structure_part($struct, $p['object'], $old_id);
+
+        // replace old structure with the new one
+        $p['structure'] = $struct;
+        $p['mimetype']  = $struct->mimetype;
+    }
+
+    /**
+     * Modify decrypted message part
+     *
+     * @param rcube_message_part
+     * @param rcube_message
+     */
+    private function modify_structure_part($part, $msg, $old_id)
+    {
+        // never cache the body
+        $part->body_modified = true;
+        $part->encoding      = 'stream';
+
+        // Cache the fact it was decrypted
+        $part->encrypted = true;
+
+        // modify part identifier
+        if ($old_id) {
+            $part->mime_id = !$part->mime_id ? $old_id : ($old_id . '.' . $part->mime_id);
+        }
+
+        $msg->mime_parts[$part->mime_id] = $part;
+
+        // modify sub-parts
+        foreach ((array) $part->parts as $p) {
+            $this->modify_structure_part($p, $msg, $old_id);
+        }
+    }
+
+    /**
+     * Checks if specified message part is a PGP-key or S/MIME cert data
+     *
+     * @param rcube_message_part Part object
+     *
+     * @return boolean True if part is a key/cert
+     */
+    public function is_keys_part($part)
+    {
+        // @TODO: S/MIME
+        return (
+            // Content-Type: application/pgp-keys
+            $part->mimetype == 'application/pgp-keys'
+        );
     }
 }

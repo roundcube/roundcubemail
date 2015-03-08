@@ -50,15 +50,49 @@ div.enigmawarning,
   color: #333333;
 }
 
+p.enigmaattachment
+{
+  margin: 0.5em 1em;
+  border: 1px solid #999;
+  border-radius: 4px;
+  width: auto;
+}
+
+p.enigmaattachment a
+{
+  display: block;
+  background: url(key_add.png) 10px center no-repeat;
+  padding: 1em 0.5em 1em 50px;
+}
+
+
+/***** E-mail Compose Page *****/
+
+#messagetoolbar a.button.enigma {
+  text-indent: -5000px;
+  background: url(enigma.png) 0 0 no-repeat;
+}
+
 /***** Keys/Certs Management *****/
+
+#mainscreen.enigma
+{
+  top: 80px;
+}
 
 div.enigmascreen
 {
   position: absolute;
-  top: 65px;
-  right: 10px;
-  bottom: 10px;
-  left: 10px;
+  top: 40px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.enigma #quicksearchbar
+{
+  top: 10px;
+  right: 0;
 }
 
 #enigmacontent-box
@@ -111,7 +145,7 @@ div.enigmascreen
 #keystoolbar
 {
   position: absolute;
-  top: 30px;
+  top: 0;
   left: 10px;
   height: 35px;
 }
@@ -145,14 +179,6 @@ div.enigmascreen
 
 #keystoolbar a.create {
   background-position: 0 0;
-}
-
-#keystoolbar a.deleteSel {
-  background-position: -32px -32px;
-}
-
-#keystoolbar a.delete {
-  background-position: -32px 0;
 }
 
 #keystoolbar a.importSel {

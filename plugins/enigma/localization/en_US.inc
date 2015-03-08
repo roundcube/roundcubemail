@@ -1,7 +1,7 @@
 <?php
 
 $labels = array();
-$labels['enigmasettings'] = 'Enigma Settings';
+$labels['enigma'] = 'Enigma';
 $labels['enigmacerts'] = 'S/MIME Certificates';
 $labels['enigmakeys'] = 'PGP Keys';
 $labels['keysfromto'] = 'Keys $from to $to of $count';
@@ -21,10 +21,10 @@ $labels['keyattimport'] = 'Import key(s)';
 $labels['createkeys'] = 'Create a new key pair';
 $labels['importkeys'] = 'Import key(s)';
 $labels['exportkeys'] = 'Export key(s)';
-$labels['deletekeys'] = 'Delete key(s)';
 $labels['keyactions'] = 'Key actions...';
-$labels['keydisable'] = 'Disable key';
-$labels['keyrevoke'] = 'Revoke key';
+$labels['keyremove'] = 'Remove';
+$labels['keydisable'] = 'Disable';
+$labels['keyrevoke'] = 'Revoke';
 $labels['keysend'] = 'Send public key in a message';
 $labels['keychpass'] = 'Change password';
 
@@ -32,6 +32,9 @@ $labels['securityoptions'] = 'Message security options...';
 $labels['identdefault'] = 'Use settings of selected identity';
 $labels['encryptmsg'] = 'Encrypt this message';
 $labels['signmsg'] = 'Digitally sign this message';
+
+$labels['enterkeypasstitle'] = 'Enter key passphrase';
+$labels['enterkeypass'] = 'A passphrase is needed to unlock the secret key ($keyid) for user: $user.';
 
 $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';
@@ -48,7 +51,10 @@ $messages['keyopenerror'] = 'Unable to get key information! Internal error.';
 $messages['keylisterror'] = 'Unable to list keys! Internal error.';
 $messages['keysimportfailed'] = 'Unable to import key(s)! Internal error.';
 $messages['keysimportsuccess'] = 'Key(s) imported successfully. Imported: $new, unchanged: $old.';
-$messages['keyconfirmdelete'] = 'Are you sure, you want to delete selected key(s)?';
+$messages['keyremoving'] = 'Removing key(s)...';
+$messages['keyremoveconfirm'] = 'Are you sure, you want to delete selected key(s)?';
+$messages['keyremovesuccess'] = 'Key(s) deleted successfulyl';
+$messages['keyremoveerror'] = 'Unable to delete selected key(s).';
 $messages['keyimporttext'] = 'You can import private and public key(s) or revocation signatures in ASCII-Armor format.';
 
 ?>
