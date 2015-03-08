@@ -24,6 +24,7 @@ CHANGELOG Roundcube Webmail
 - Fix javascript error after creating a folder which is a subfolder of another one (#1490297)
 - Fix bug where subject of sent/saved message was removed if mbstring wasn't installed (#1490295)
 - Fix missing vcard_attachment icon on messages list (#1490303)
+- Fix storing signatures with big images in MySQL database (#1490306)
 
 RELEASE 1.1.0
 -------------
