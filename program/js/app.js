@@ -774,7 +774,7 @@ function rcube_webmail()
 
       case 'list':
         if (props && props != '') {
-          this.reset_qsearch();
+          this.reset_qsearch(true);
         }
         if (this.env.action == 'compose' && this.env.extwin) {
           window.close();
@@ -1224,7 +1224,7 @@ function rcube_webmail()
         var n, s = this.env.search_request || this.env.qsearch,
             ss = this.gui_objects.qsearchbox && this.gui_objects.qsearchbox.value != '';
 
-        this.reset_qsearch();
+        this.reset_qsearch(true);
         this.select_all_mode = false;
 
         if (s && this.env.action == 'compose') {
@@ -2420,12 +2420,7 @@ function rcube_webmail()
       this.env.current_page = page;
       this.env.search_scope = 'base';
       this.select_all_mode = false;
-
-      // reset search filter
-      this.filter_disabled = true;
-      if (this.gui_objects.search_filter)
-        $(this.gui_objects.search_filter).val('ALL').change();
-      this.filter_disabled = false;
+      this.reset_search_filter();
     }
     // also send search request to get the right messages
     else if (this.env.search_request)
@@ -4341,14 +4336,28 @@ function rcube_webmail()
     return url;
   };
 
+  // reset search filter
+  this.reset_search_filter = function()
+  {
+    this.filter_disabled = true;
+    if (this.gui_objects.search_filter)
+      $(this.gui_objects.search_filter).val('ALL').change();
+    this.filter_disabled = false;
+  };
+
   // reset quick-search form
-  this.reset_qsearch = function()
+  this.reset_qsearch = function(all)
   {
     if (this.gui_objects.qsearchbox)
       this.gui_objects.qsearchbox.value = '';
 
     if (this.env.qsearch)
       this.abort_request(this.env.qsearch);
+
+    if (all) {
+      this.env.search_scope = 'base';
+      this.reset_search_filter();
+    }
 
     this.env.qsearch = null;
     this.env.search_request = null;
