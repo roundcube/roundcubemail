@@ -2378,6 +2378,9 @@ function rcube_webmail()
   // list messages of a specific mailbox using filter
   this.filter_mailbox = function(filter)
   {
+    if (this.filter_disabled)
+      return;
+
     var lock = this.set_busy(true, 'searching');
 
     this.clear_message_list();
@@ -2411,16 +2414,22 @@ function rcube_webmail()
     if (sort)
       url._sort = sort;
 
-    // also send search request to get the right messages
-    if (this.env.search_request)
-      url._search = this.env.search_request;
-
-    // set page=1 if changeing to another mailbox
+    // folder change, reset page, search scope, etc.
     if (this.env.mailbox != mbox) {
       page = 1;
       this.env.current_page = page;
+      this.env.search_scope = 'base';
       this.select_all_mode = false;
+
+      // reset search filter
+      this.filter_disabled = true;
+      if (this.gui_objects.search_filter)
+        $(this.gui_objects.search_filter).val('ALL').change();
+      this.filter_disabled = false;
     }
+    // also send search request to get the right messages
+    else if (this.env.search_request)
+      url._search = this.env.search_request;
 
     if (!update_only) {
       // unselect selected messages and clear the list and message data
