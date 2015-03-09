@@ -7287,22 +7287,32 @@ function rcube_webmail()
   };
 
   // send a http request to the server
-  this.http_request = function(action, query, lock)
+  this.http_request = function(action, data, lock)
   {
-    var url = this.url(action, query);
+    if (typeof data !== 'object')
+      data = rcube_parse_query(data);
+
+    data._remote = 1;
+    data._unlock = lock ? lock : 0;
 
     // trigger plugin hook
-    var result = this.triggerEvent('request'+action, query);
+    var result = this.triggerEvent('request' + action, data);
 
-    if (result !== undefined) {
-      // abort if one the handlers returned false
-      if (result === false)
-        return false;
-      else
-        url = this.url(action, result);
+    // abort if one of the handlers returned false
+    if (result === false) {
+      if (data._unlock)
+        this.set_busy(false, null, data._unlock);
+      return false;
+    }
+    else if (result !== undefined) {
+      data = result;
+      if (data._action) {
+        action = data._action;
+        delete data._action;
+      }
     }
 
-    url += '&_remote=1';
+    var url = this.url(action, data);
 
     // send request
     this.log('HTTP GET: ' + url);
@@ -7311,33 +7321,39 @@ function rcube_webmail()
     this.start_keepalive();
 
     return $.ajax({
-      type: 'GET', url: url, data: { _unlock:(lock?lock:0) }, dataType: 'json',
-      success: function(data){ ref.http_response(data); },
+      type: 'GET', url: url, dataType: 'json',
+      success: function(data) { ref.http_response(data); },
       error: function(o, status, err) { ref.http_error(o, status, err, lock, action); }
     });
   };
 
   // send a http POST request to the server
-  this.http_post = function(action, postdata, lock)
+  this.http_post = function(action, data, lock)
   {
-    var url = this.url(action);
+    if (typeof data !== 'object')
+      data = rcube_parse_query(data);
 
-    if (postdata && typeof postdata === 'object') {
-      postdata._remote = 1;
-      postdata._unlock = (lock ? lock : 0);
-    }
-    else
-      postdata += (postdata ? '&' : '') + '_remote=1' + (lock ? '&_unlock='+lock : '');
+    data._remote = 1;
+    data._unlock = lock ? lock : 0;
 
     // trigger plugin hook
-    var result = this.triggerEvent('request'+action, postdata);
-    if (result !== undefined) {
-      // abort if one of the handlers returned false
-      if (result === false)
-        return false;
-      else
-        postdata = result;
+    var result = this.triggerEvent('request'+action, data);
+
+    // abort if one of the handlers returned false
+    if (result === false) {
+      if (data._unlock)
+        this.set_busy(false, null, data._unlock);
+      return false;
     }
+    else if (result !== undefined) {
+      data = result;
+      if (data._action) {
+        action = data._action;
+        delete data._action;
+      }
+    }
+
+    var url = this.url(action);
 
     // send request
     this.log('HTTP POST: ' + url);
@@ -7346,7 +7362,7 @@ function rcube_webmail()
     this.start_keepalive();
 
     return $.ajax({
-      type: 'POST', url: url, data: postdata, dataType: 'json',
+      type: 'POST', url: url, data: data, dataType: 'json',
       success: function(data){ ref.http_response(data); },
       error: function(o, status, err) { ref.http_error(o, status, err, lock, action); }
     });
