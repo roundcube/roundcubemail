@@ -654,6 +654,34 @@ jQuery.fn.placeholder = function(text) {
   });
 };
 
+// function to parse query string into an object
+rcube_parse_query = function(query)
+{
+  if (!query)
+    return {};
+
+  var params = {}, e, k, v,
+    re = /([^&=]+)=?([^&]*)/g,
+    decodeRE = /\+/g, // Regex for replacing addition symbol with a space
+    decode = function (str) { return decodeURIComponent(str.replace(decodeRE, ' ')); };
+
+  query = query.replace(/\?/, '');
+
+  while (e = re.exec(query)) {
+    k = decode(e[1]);
+    v = decode(e[2]);
+
+    if (k.substring(k.length - 2) === '[]') {
+      k = k.substring(0, k.length - 2);
+      (params[k] || (params[k] = [])).push(v);
+    }
+    else
+      params[k] = v;
+  }
+
+  return params;
+};
+
 
 // This code was written by Tyler Akins and has been placed in the
 // public domain.  It would be nice if you left this header intact.
