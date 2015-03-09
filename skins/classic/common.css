@@ -1268,6 +1268,17 @@ ul.toolbarmenu li.separator_above
   margin: 1px 4px 1px;
 }
 
+#searchmenu ul.toolbarmenu li label
+{
+  padding: 2px 0;
+  color: black;
+}
+
+#searchmenu ul.toolbarmenu li label.comment
+{
+  color: #999;
+}
+
 
 /*** folder selector ***/
 
