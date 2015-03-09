@@ -86,9 +86,6 @@ abstract class rcube_session
     {
         $this->config = $config;
 
-        // register default gc handler
-        $this->register_gc_handler(array($this, 'gc'));
-
         // set secret
         $this->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
 

@@ -168,6 +168,7 @@ class rcube_session_db extends rcube_session
         // just clean all old sessions when this GC is called
         $this->db->query("DELETE FROM " . $this->db->table_name('session')
                          . " WHERE changed < " . $this->db->now(-$this->gc_enabled));
+        $this->log("Session GC (DB): remove records < " . date('Y-m-d H:i:s', time() - $this->gc_enabled) . '; rows = ' . intval($this->db->affected_rows()));
     }
 
 }

@@ -523,6 +523,7 @@ class rcube
 
         // get session driver instance
         $this->session = rcube_session::factory($this->config);
+        $this->session->register_gc_handler(array($this, 'gc'));
 
         // start PHP session (if not in CLI mode)
         if ($_SERVER['REMOTE_ADDR']) {
