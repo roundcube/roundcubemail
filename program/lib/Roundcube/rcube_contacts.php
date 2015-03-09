@@ -305,7 +305,7 @@ class rcube_contacts extends rcube_addressbook
         if (!is_array($required) && !empty($required))
             $required = array($required);
 
-        $where = $and_where = array();
+        $where = $and_where = $post_search = array();
         $mode = intval($mode);
         $WS = ' ';
         $AS = self::SEPARATOR;
@@ -367,6 +367,7 @@ class rcube_contacts extends rcube_addressbook
         foreach (array_intersect($required, $this->table_cols) as $col) {
             $and_where[] = $this->db->quote_identifier($col).' <> '.$this->db->quote('');
         }
+        $required = array_diff($required, $this->table_cols);
 
         if (!empty($where)) {
             // use AND operator for advanced searches
@@ -378,7 +379,7 @@ class rcube_contacts extends rcube_addressbook
 
         // Post-searching in vCard data fields
         // we will search in all records and then build a where clause for their IDs
-        if (!empty($post_search)) {
+        if (!empty($post_search) || !empty($required)) {
             $ids = array(0);
             // build key name regexp
             $regexp = '/^(' . implode(array_keys($post_search), '|') . ')(?:.*)$/';
@@ -387,7 +388,7 @@ class rcube_contacts extends rcube_addressbook
                 $this->set_search_set($where);
 
             // count result pages
-            $cnt   = $this->count();
+            $cnt   = $this->count()->count;
             $pages = ceil($cnt / $this->page_size);
             $scnt  = count($post_search);
 
@@ -397,14 +398,33 @@ class rcube_contacts extends rcube_addressbook
                 while ($row = $this->result->next()) {
                     $id    = $row[$this->primary_key];
                     $found = array();
-                    foreach (preg_grep($regexp, array_keys($row)) as $col) {
-                        $pos     = strpos($col, ':');
-                        $colname = $pos ? substr($col, 0, $pos) : $col;
-                        $search  = $post_search[$colname];
-                        foreach ((array)$row[$col] as $value) {
-                            if ($this->compare_search_value($colname, $value, $search, $mode)) {
-                                $found[$colname] = true;
-                                break 2;
+                    if (!empty($post_search)) {
+                        foreach (preg_grep($regexp, array_keys($row)) as $col) {
+                            $pos     = strpos($col, ':');
+                            $colname = $pos ? substr($col, 0, $pos) : $col;
+                            $search  = $post_search[$colname];
+                            foreach ((array)$row[$col] as $value) {
+                                if ($this->compare_search_value($colname, $value, $search, $mode)) {
+                                    $found[$colname] = true;
+                                    break 2;
+                                }
+                            }
+                        }
+                    }
+                    // check if required fields are present
+                    if (!empty($required)) {
+                        foreach ($required as $req) {
+                            $hit = false;
+                            foreach ($row as $c => $values) {
+                                if ($c === $req || strpos($c, $req.':') === 0) {
+                                    if ((is_string($row[$c]) && strlen($row[$c])) || !empty($row[$c])) {
+                                        $hit = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!$hit) {
+                                continue 2;
                             }
                         }
                     }
@@ -465,7 +485,7 @@ class rcube_contacts extends rcube_addressbook
             }
         }
 
-        return '(' . join(" $bool ", $where) . ')';
+        return count($where) ? '(' . join(" $bool ", $where) . ')' : '';
     }
 
     /**
