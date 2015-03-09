@@ -26,6 +26,7 @@ CHANGELOG Roundcube Webmail
 - Fix missing vcard_attachment icon on messages list (#1490303)
 - Fix storing signatures with big images in MySQL database (#1490306)
 - Fix Opera browser detection in javascript (#1490307)
+- Fix so search filter, scope and fields are reset on folder change
 
 RELEASE 1.1.0
 -------------

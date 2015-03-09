@@ -64,17 +64,6 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     $mbox_name = $RCMAIL->storage->get_folder();
 
     if (empty($RCMAIL->action)) {
-        // initialize searching result if search_filter is used
-        if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
-            $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCUBE_CHARSET, rcmail_sort_column());
-
-            $search_request             = md5($mbox_name.$_SESSION['search_filter']);
-            $_SESSION['search']         = $RCMAIL->storage->get_search_set();
-            $_SESSION['search_request'] = $search_request;
-
-            $OUTPUT->set_env('search_request', $search_request);
-        }
-
         $OUTPUT->set_env('search_mods', rcmail_search_mods());
 
         if (!empty($_SESSION['search_scope']))
@@ -2056,7 +2045,7 @@ function rcmail_search_filter($attrib)
     $select_filter->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('low'), 'HEADER X-PRIORITY 4');
     $select_filter->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('lowest'), 'HEADER X-PRIORITY 5');
 
-    $out = $select_filter->show($_SESSION['search_filter']);
+    $out = $select_filter->show($_REQUEST['_search'] ? $_SESSION['search_filter'] : 'ALL');
 
     $RCMAIL->output->add_gui_object('search_filter', $attrib['id']);
 
