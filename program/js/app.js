@@ -7291,9 +7291,12 @@ function rcube_webmail()
   {
     var url = this.url(action, query);
 
+    if(lock)
+        query._lock=lock;
+          
     // trigger plugin hook
     var result = this.triggerEvent('request'+action, query);
-
+  
     if (result !== undefined) {
       // abort if one the handlers returned false
       if (result === false)
