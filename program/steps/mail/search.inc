@@ -126,10 +126,11 @@ $_SESSION['search_request'] = $search_request;
 
 // Get the headers
 $result_h = $RCMAIL->storage->list_messages($mbox, 1, $sort_column, rcmail_sort_order());
-$count    = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
 
 // Make sure we got the headers
 if (!empty($result_h)) {
+    $count = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
+
     rcmail_js_message_list($result_h);
     if ($search_str) {
         $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $RCMAIL->storage->count(NULL, 'ALL')));
@@ -145,8 +146,10 @@ if (!empty($result_h)) {
 // handle IMAP errors (e.g. #1486905)
 else  if ($err_code = $RCMAIL->storage->get_error_code()) {
     $RCMAIL->display_server_error();
+    $count = 0;
 }
 else {
+    $count = 0;
     $OUTPUT->show_message('searchnomatch', 'notice');
 }
 
