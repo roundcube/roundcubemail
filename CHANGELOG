@@ -4,7 +4,7 @@ CHANGELOG Roundcube Webmail
 - Add possibility to print contact information (of a single contact)
 - Add possibility to configure max_allowed_packet value for all database engines (#1490283)
 - Improved handling of storage errors after message is sent
-- Update to TinyMCE 4.1.8
+- Update to TinyMCE 4.1.9
 - Unified request* event arguments handling, added support for _unlock and _action parameters
 - Fix refreshing of drafts list when sending a message which was saved in meantime (#1490238)
 - Fix saving/sending emoticon images when assets_dir is set
