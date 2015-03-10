@@ -151,12 +151,14 @@ $_SESSION['search_scope']   = $scope;
 // Get the headers
 if (!$result->incomplete) {
     $result_h = $RCMAIL->storage->list_messages($mbox, 1, $sort_column, rcmail_sort_order());
-    $count    = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
 }
 
 // Make sure we got the headers
 if (!empty($result_h)) {
+    $count = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
+
     rcmail_js_message_list($result_h, false);
+
     if ($search_str) {
         $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $RCMAIL->storage->count(NULL, 'ALL')));
     }
@@ -172,6 +174,7 @@ if (!empty($result_h)) {
 }
 // handle IMAP errors (e.g. #1486905)
 else if ($err_code = $RCMAIL->storage->get_error_code()) {
+    $count = 0;
     $RCMAIL->display_server_error();
 }
 // advice the client to re-send the (cross-folder) search request
@@ -180,6 +183,7 @@ else if ($result->incomplete) {
     $OUTPUT->command('continue_search', $search_request);
 }
 else {
+    $count = 0;
     $OUTPUT->show_message('searchnomatch', 'notice');
     $OUTPUT->set_env('multifolder_listing', (bool)$result->multi);
     if ($result->multi && $scope == 'all') {
