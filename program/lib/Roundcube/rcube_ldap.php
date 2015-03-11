@@ -288,7 +288,12 @@ class rcube_ldap extends rcube_addressbook
                 else
                     $d = $this->mail_domain;
 
-                $dc = 'dc='.strtr($d, array('.' => ',dc=')); // hierarchal domain string
+                if (method_exists($this->ldap, 'domain_root_dn')) {
+                    $this->ldap->bind($this->prop['search_bind_dn'], $this->prop['search_bind_pw']);
+                    $dc = $this->ldap->domain_root_dn($d);
+                } else {
+                    $dc = 'dc='.strtr($d, array('.' => ',dc=')); // hierarchal domain string
+                }
 
                 $replaces = array('%dn' => '', '%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
 
