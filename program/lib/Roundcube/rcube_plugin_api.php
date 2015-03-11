@@ -212,7 +212,7 @@ class rcube_plugin_api
 
         if ($plugin = $this->plugins[$plugin_name]) {
             // init a plugin only if $force is set or if we're called after initialization
-            if (($force || $this->initialized) && !$this->plugins_initialized[$plugin_name] && !$this->filter($plugin)) {
+            if (($force || $this->initialized) && !$this->plugins_initialized[$plugin_name] && ($force || !$this->filter($plugin))) {
                 $plugin->init();
                 $this->plugins_initialized[$plugin_name] = $plugin;
             }
