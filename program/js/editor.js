@@ -134,6 +134,15 @@ function rcube_text_editor(config, id)
       return;
     }
 
+    var area = $('#' + this.id),
+      height = $('div.mce-toolbar-grp:first', area.parent()).height();
+
+    // the editor might be still not fully loaded, making the editing area
+    // inaccessible, wait and try again (#1490310)
+    if (height > 200 || height > area.height()) {
+      return setTimeout(function () { ref.init_callback(event); }, 300);
+    }
+
     var css = {},
       elem = rcube_find_object('_from'),
       fe = rcmail.env.compose_focus_elem;
@@ -154,21 +163,16 @@ function rcube_text_editor(config, id)
 
       // Focus previously focused element
       if (fe && fe.id != this.id) {
-        // use setTimeout() for IE9 (#1488541)
-        window.setTimeout(function() {
-          window.focus(); // for WebKit (#1486674)
-          fe.focus();
-          rcmail.env.compose_focus_elem = null;
-        }, 10);
+        window.focus(); // for WebKit (#1486674)
+        fe.focus();
+        rcmail.env.compose_focus_elem = null;
       }
     }
 
-    window.setTimeout(function() {
-      // set tabIndex and set focus to element that was focused before
-      ref.tabindex(fe && fe.id == ref.id);
-      // Trigger resize (needed for proper editor resizing in some browsers)
-      $(window).resize();
-    }, 100);
+    // set tabIndex and set focus to element that was focused before
+    ref.tabindex(fe && fe.id == ref.id);
+    // Trigger resize (needed for proper editor resizing in some browsers)
+    $(window).resize();
   };
 
   // set tabIndex on tinymce editor
@@ -240,17 +244,13 @@ function rcube_text_editor(config, id)
         input.val(data);
         tinymce.execCommand('mceAddEditor', false, ref.id);
 
-        setTimeout(function() {
-          if (ref.editor) {
-            var body = $(ref.editor.getBody());
-            if (rcmail.env.default_font)
-              body.css('font-family', rcmail.env.default_font);
-            // #1486593
-            ref.tabindex(true);
-            // put cursor on start of the compose body
-            ref.editor.selection.setCursorLocation(body.children().first().get(0));
-          }
-        }, 500);
+        if (ref.editor) {
+          var body = $(ref.editor.getBody());
+          // #1486593
+          ref.tabindex(true);
+          // put cursor on start of the compose body
+          ref.editor.selection.setCursorLocation(body.children().first().get(0));
+        }
       };
 
       // convert to html
