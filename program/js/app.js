@@ -894,7 +894,7 @@ function rcube_webmail()
           else {
             // reload form
             if (props == 'reload') {
-              form.action += '?_reload=1';
+              form.action += '&_reload=1';
             }
             else if (this.task == 'settings' && (this.env.identities_level % 2) == 0  &&
               (input = $("input[name='_email']", form)) && input.length && !rcube_check_email(input.val())
