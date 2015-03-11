@@ -65,6 +65,15 @@ function rcube_text_editor(config, id)
     }
   }
 
+  // secure spellchecker requests with Roundcube token
+  // Note: must be registered only once (#1490311)
+  if (!tinymce.registered_request_token) {
+    tinymce.registered_request_token = true;
+    tinymce.util.XHR.on('beforeSend', function(e) {
+      e.xhr.setRequestHeader('X-Roundcube-Request', rcmail.env.request_token);
+    });
+  }
+
   // minimal editor
   if (config.mode == 'identity') {
     $.extend(conf, {
@@ -106,10 +115,6 @@ function rcube_text_editor(config, id)
     });
     ed.on('keypress', function() {
       rcmail.compose_type_activity++;
-    });
-    // secure spellchecker requests with Roundcube token
-    tinymce.util.XHR.on('beforeSend', function(e) {
-      e.xhr.setRequestHeader('X-Roundcube-Request', rcmail.env.request_token);
     });
   };
 

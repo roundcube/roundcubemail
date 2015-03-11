@@ -33,6 +33,7 @@ CHANGELOG Roundcube Webmail
 - Fix Opera browser detection in javascript (#1490307)
 - Fix so search filter, scope and fields are reset on folder change
 - Fix rows count when messages search fails (#1490266)
+- Fix bug where spellchecking in HTML editor do not work after switching editor type more than once (#1490311)
 
 RELEASE 1.1.0
 -------------
