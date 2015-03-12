@@ -22,7 +22,9 @@
 
 // show loading page
 if (!empty($_GET['_preload'])) {
-    $url = preg_replace('/([&?]+)_preload=/', '\\1_mimewarning=1&_embed=', $_SERVER['REQUEST_URI']);
+    $_get = $_GET + array('_mimewarning' => 1, '_embed' => 1);
+    unset($_get['_preload']);
+    $url = $RCMAIL->url($_get);
     $message = $RCMAIL->gettext('loadingdata');
 
     header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
