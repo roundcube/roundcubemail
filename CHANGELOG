@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- ACL: Allow other plugins to adjust the list of permissions and groups to edit
 - Add possibility to print contact information (of a single contact)
 - Add possibility to configure max_allowed_packet value for all database engines (#1490283)
 - Improved handling of storage errors after message is sent
