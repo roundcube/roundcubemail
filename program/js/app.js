@@ -3349,7 +3349,7 @@ function rcube_webmail()
     if (!this.gui_objects.messageform)
       return false;
 
-    var i, pos, input_from = $("[name='_from']"),
+    var i, elem, pos, input_from = $("[name='_from']"),
       input_to = $("[name='_to']"),
       input_subject = $("input[name='_subject']"),
       input_message = $("[name='_message']").get(0),
@@ -3403,11 +3403,14 @@ function rcube_webmail()
       this.compose_restore_dialog(0, html_mode)
 
     if (input_to.val() == '')
-      input_to.focus();
+      elem = input_to;
     else if (input_subject.val() == '')
-      input_subject.focus();
+      elem = input_subject;
     else if (input_message)
-      input_message.focus();
+      elem = input_message;
+
+    // focus first empty element (need to be visible on IE8)
+    $(elem).filter(':visible').focus();
 
     this.env.compose_focus_elem = document.activeElement;
 

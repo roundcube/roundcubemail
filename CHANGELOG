@@ -40,6 +40,7 @@ CHANGELOG Roundcube Webmail
 - Fix backtick character handling in sql queries (#1490312)
 - Fix redirct URL for attachments loaded in an iframe when behind proxy (#1490191)
 - Fix menu container references to point to the actual <ul> element (#1490313)
+- Fix javascripts errors in IE8 - lack of Event.which, focusing a hidden element (#1490318)
 
 RELEASE 1.1.0
 -------------
