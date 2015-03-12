@@ -31,6 +31,7 @@ CHANGELOG Roundcube Webmail
 - Fix rows count when messages search fails (#1490266)
 - Fix bug where spellchecking in HTML editor do not work after switching editor type more than once (#1490311)
 - Fix bug where TinyMCE area height was too small on slow network connection (#1490310)
+- Fix backtick character handling in sql queries (#1490312)
 
 RELEASE 1.1.0
 -------------
