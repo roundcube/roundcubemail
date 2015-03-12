@@ -289,7 +289,6 @@ class rcube_ldap_password
             break;
 
         case 'ssha':
-            mt_srand((double) microtime() * 1000000);
             $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
 
             if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
@@ -316,7 +315,6 @@ class rcube_ldap_password
 
 
         case 'smd5':
-            mt_srand((double) microtime() * 1000000);
             $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
 
             if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
@@ -373,7 +371,6 @@ class rcube_ldap_password
     {
         $possible = '0123456789' . 'abcdefghijklmnopqrstuvwxyz' . 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' . './';
         $str = '';
-        // mt_srand((double)microtime() * 1000000);
 
         while (strlen($str) < $length) {
             $str .= substr($possible, (rand() % strlen($possible)), 1);

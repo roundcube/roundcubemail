@@ -242,7 +242,6 @@ class rcube_user
 
         // generate a random hash and store it in user prefs
         if (empty($prefs['client_hash'])) {
-            mt_srand((double)microtime() * 1000000);
             $prefs['client_hash'] = md5($this->data['username'] . mt_rand() . $this->data['mail_host']);
             $this->save_prefs(array('client_hash' => $prefs['client_hash']));
         }
