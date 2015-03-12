@@ -1,4 +1,7 @@
+* version 8.3 [2015-03-12]
+-----------------------------------------------------------
 - Fix PHP fatal error when visiting Vacation interface and there's no sieve script yet
+- Fix handling of header test with one-element array as header name
 
 * version 8.2 [2015-01-14]
 -----------------------------------------------------------
