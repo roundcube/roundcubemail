@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Improved handling of storage errors after message is sent
 - Update to TinyMCE 4.1.9
 - Unified request* event arguments handling, added support for _unlock and _action parameters
+- Security: Generate random hash for the per-user local storage prefix (#1490279)
 - Fix refreshing of drafts list when sending a message which was saved in meantime (#1490238)
 - Fix saving/sending emoticon images when assets_dir is set
 - Fix PHP fatal error when visiting Vacation interface and there's no sieve script yet (#1490292)
