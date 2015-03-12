@@ -29,6 +29,7 @@ class rcube_user
     public $ID;
     public $data;
     public $language;
+    public $prefs;
 
     /**
      * Holds database connection.
@@ -132,10 +133,14 @@ class rcube_user
      */
     function get_prefs()
     {
-        $prefs = array();
+        if (isset($this->prefs)) {
+            return $this->prefs;
+        }
+
+        $this->prefs = array();
 
         if (!empty($this->language))
-            $prefs['language'] = $this->language;
+            $this->prefs['language'] = $this->language;
 
         if ($this->ID) {
             // Preferences from session (write-master is unavailable)
@@ -153,11 +158,11 @@ class rcube_user
             }
 
             if ($this->data['preferences']) {
-                $prefs += (array)unserialize($this->data['preferences']);
+                $this->prefs += (array)unserialize($this->data['preferences']);
             }
         }
 
-        return $prefs;
+        return $this->prefs;
     }
 
     /**
@@ -183,7 +188,7 @@ class rcube_user
         $config       = $this->rc->config;
 
         // merge (partial) prefs array with existing settings
-        $save_prefs = $a_user_prefs + $old_prefs;
+        $this->prefs = $save_prefs = $a_user_prefs + $old_prefs;
         unset($save_prefs['language']);
 
         // don't save prefs with default values if they haven't been changed yet
@@ -229,12 +234,20 @@ class rcube_user
     }
 
     /**
-     * Generate a unique hash to identify this user which
+     * Generate a unique hash to identify this user whith
      */
     function get_hash()
     {
-        $key = substr($this->rc->config->get('des_key'), 1, 4);
-        return md5($this->data['user_id'] . $key . $this->data['username'] . '@' . $this->data['mail_host']);
+        $prefs = $this->get_prefs();
+
+        // generate a random hash and store it in user prefs
+        if (empty($prefs['client_hash'])) {
+            mt_srand((double)microtime() * 1000000);
+            $prefs['client_hash'] = md5($this->data['username'] . mt_rand() . $this->data['mail_host']);
+            $this->save_prefs(array('client_hash' => $prefs['client_hash']));
+        }
+
+        return $prefs['client_hash'];
     }
 
     /**
