@@ -334,7 +334,7 @@ function rcube_treelist_widget(node, p)
 
       // re-render the entire subtree
       if (parent_node.children.length == 1) {
-        render_node(parent_node, parent_li.parent(), parent_li);
+        render_node(parent_node, null, parent_li);
         li = id2dom(node.id);
       }
       else {
