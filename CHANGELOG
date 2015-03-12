@@ -34,6 +34,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where spellchecking in HTML editor do not work after switching editor type more than once (#1490311)
 - Fix bug where TinyMCE area height was too small on slow network connection (#1490310)
 - Fix backtick character handling in sql queries (#1490312)
+- Fix redirct URL for attachments loaded in an iframe when behind proxy (#1490191)
 
 RELEASE 1.1.0
 -------------
