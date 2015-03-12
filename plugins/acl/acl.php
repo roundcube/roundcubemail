@@ -251,6 +251,11 @@ class acl extends rcube_plugin
         // Get supported rights
         $supported = $this->rights_supported();
 
+        // give plugins the opportunity to adjust this list
+        $data = $this->rc->plugins->exec_hook('acl_rights_supported',
+            array('rights' => $supported, 'folder' => $this->mbox, 'labels' => array()));
+        $supported = $data['rights'];
+
         // depending on server capability either use 'te' or 'd' for deleting msgs
         $deleteright = implode(array_intersect(str_split('ted'), $supported));
 
@@ -281,18 +286,22 @@ class acl extends rcube_plugin
             'other' => preg_replace('/[lrswi'.$deleteright.']/', '', implode($supported)),
         );
 
-        foreach ($items as $key => $val) {
+        // give plugins the opportunity to adjust this list
+        $data = $this->rc->plugins->exec_hook('acl_rights_simple',
+            array('rights' => $items, 'folder' => $this->mbox, 'labels' => array(), 'titles' => array()));
+
+        foreach ($data['rights'] as $key => $val) {
             $id = "acl$key";
             $ul .= html::tag('li', null,
                 $input->show('', array(
                     'name' => "acl[$val]", 'value' => $val, 'id' => $id))
-                . html::label(array('for' => $id, 'title' => $this->gettext('longacl'.$key)),
-                    $this->gettext('acl'.$key)));
+                . html::label(array('for' => $id, 'title' => $data['titles'][$key] ?: $this->gettext('longacl'.$key)),
+                    $data['labels'][$key] ?: $this->gettext('acl'.$key)));
         }
 
         $out .= "\n" . html::tag('ul', $attrib, $ul, html::$common_attrib);
 
-        $this->rc->output->set_env('acl_items', $items);
+        $this->rc->output->set_env('acl_items', $data['rights']);
 
         return $out;
     }
@@ -379,6 +388,11 @@ class acl extends rcube_plugin
         // Get supported rights and build column names
         $supported = $this->rights_supported();
 
+        // give plugins the opportunity to adjust this list
+        $data = $this->rc->plugins->exec_hook('acl_rights_supported',
+            array('rights' => $supported, 'folder' => $this->mbox, 'labels' => array()));
+        $supported = $data['rights'];
+
         // depending on server capability either use 'te' or 'd' for deleting msgs
         $deleteright = implode(array_intersect(str_split('ted'), $supported));
 
@@ -398,6 +412,11 @@ class acl extends rcube_plugin
                 'delete' => $deleteright,
                 'other' => preg_replace('/[lrswi'.$deleteright.']/', '', implode($supported)),
             );
+
+            // give plugins the opportunity to adjust this list
+            $data = $this->rc->plugins->exec_hook('acl_rights_simple',
+                array('rights' => $items, 'folder' => $this->mbox, 'labels' => array()));
+            $items = $data['rights'];
         }
 
         // Create the table
@@ -407,7 +426,7 @@ class acl extends rcube_plugin
         // Create table header
         $table->add_header('user', $this->gettext('identifier'));
         foreach (array_keys($items) as $key) {
-            $label = $this->gettext('shortacl'.$key);
+            $label = $data['labels'][$key] ?: $this->gettext('shortacl'.$key);
             $table->add_header(array('class' => 'acl'.$key, 'title' => $label), $label);
         }
 
