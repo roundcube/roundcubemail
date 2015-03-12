@@ -155,9 +155,14 @@ class rcube_db_oracle extends rcube_db
             }
         }
 
-        // replace escaped '?' back to normal, see self::quote()
-        $query = str_replace('??', '?', $query);
         $query = rtrim($query, " \t\n\r\0\x0B;");
+
+        // replace escaped '?' and quotes back to normal, see self::quote()
+        $query = str_replace(
+            array('??', self::DEFAULT_QUOTE.self::DEFAULT_QUOTE),
+            array('?', self::DEFAULT_QUOTE),
+            $query
+        );
 
         // log query
         $this->debug($query);
