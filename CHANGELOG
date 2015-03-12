@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- ACL: Allow other plugins to adjust the list of permissions and groups to edit
 - Plugin API: Added message_part_body hook
 - Add initdb.sh to create database from initial.sql script with prefix support (#1490188)
 - Plugin API: Add special onload() method to execute plugin actions before startup (session and GUI initialization)
