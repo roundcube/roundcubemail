@@ -347,12 +347,9 @@ rcube_webmail.prototype.acl_init_form = function(id)
     buttons[this.gettext('save')] = function(e) { me.command('acl-save'); };
     buttons[this.gettext('cancel')] = function(e) { me.command('acl-cancel'); };
 
-    var popup_wrapper = $('<div style="width:480px; min-height:280px"></div>');
-    this.acl_form.appendTo(popup_wrapper).show();
-
     // display it as popup
     this.acl_popup = this.show_popup_dialog(
-        popup_wrapper,
+        this.acl_form.show(),
         id ? this.gettext('acl.editperms') : this.gettext('acl.newuser'),
         buttons,
         {
