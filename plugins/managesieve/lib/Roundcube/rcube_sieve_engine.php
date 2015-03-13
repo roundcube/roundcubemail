@@ -122,9 +122,6 @@ class rcube_sieve_engine
                 case rcube_sieve::ERROR_CONNECTION:
                 case rcube_sieve::ERROR_LOGIN:
                     $this->rc->output->show_message('managesieve.filterconnerror', 'error');
-                    rcube::raise_error(array('code' => 403, 'type' => 'php',
-                        'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Unable to connect to managesieve on $host:$port"), true, false);
                     break;
 
                 default:
@@ -210,7 +207,18 @@ class rcube_sieve_engine
             $plugin['socket_options']
         );
 
-        return $this->sieve->error();
+        $error = $this->sieve->error();
+
+        if ($error) {
+            rcube::raise_error(array(
+                    'code'    => 403,
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                    'message' => "Unable to connect to managesieve on $host:$port"
+                ), true, false);
+        }
+
+        return $error;
     }
 
     /**
