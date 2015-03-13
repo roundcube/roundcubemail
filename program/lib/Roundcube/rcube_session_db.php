@@ -143,7 +143,8 @@ class rcube_session_db extends rcube_session
      */
     public function update($key, $newvars, $oldvars)
     {
-        $now        = $this->db->now();
+        $now = $this->db->now();
+        $ts  = microtime(true);
 
         // if new and old data are not the same, update data
         // else update expire timestamp only when certain conditions are met
