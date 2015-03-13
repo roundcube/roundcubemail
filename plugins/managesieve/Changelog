@@ -2,6 +2,7 @@
 -----------------------------------------------------------
 - Fix PHP fatal error when visiting Vacation interface and there's no sieve script yet
 - Fix handling of header test with one-element array as header name
+- Fix missing host:port in connection error message
 
 * version 8.2 [2015-01-14]
 -----------------------------------------------------------
