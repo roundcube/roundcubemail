@@ -6728,6 +6728,9 @@ function rcube_webmail()
 
     this.env.listcols = listcols;
 
+    if (!this.env.coltypes)
+      this.env.coltypes = {};
+
     // replace old column headers
     if (thead) {
       if (repl) {
