@@ -2231,6 +2231,11 @@ a.iconbutton:focus,
 	background: url(images/quota.png) -100px 0 no-repeat;
 }
 
+#quotadisplay.p90,
+#quotadisplay.p100 {
+    color: #e03221;
+}
+
 table.quota-info {
 	border-spacing: 0;
 	border-collapse: collapse;

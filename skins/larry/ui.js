@@ -532,6 +532,7 @@ function rcube_mail_ui()
       y -= step;
 
     element.css('background-position', '0 -' + y + 'px');
+    element.attr('class', 'countdisplay p' + (Math.round(p.percent / 10) * 10));
 
     if (p.table) {
       if (!menu.length)
