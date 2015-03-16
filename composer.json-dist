@@ -32,7 +32,7 @@
         "php": ">=5.3.7",
         "roundcube/plugin-installer": ">=0.1.5",
         "pear/mail_mime": ">=1.8.9",
-        "pear/mail_mime-decode": ">=1.5.5",
+        "pear/mail_mime-decode": "~1.5.5",
         "pear/net_smtp": "dev-master",
         "pear-pear.php.net/auth_sasl": ">=1.0.6",
         "pear-pear.php.net/net_idna2": ">=0.1.1",
