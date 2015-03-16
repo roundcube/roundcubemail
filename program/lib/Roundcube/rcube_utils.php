@@ -985,6 +985,28 @@ class rcube_utils
     }
 
     /**
+     * Compare two strings for matching words (order not relevant)
+     *
+     * @param string Haystack
+     * @param string Needle
+     * @return boolen True if match, False otherwise
+     */
+    public static function words_match($haystack, $needle)
+    {
+        $a_needle = self::tokenize_string($needle, 1);
+        $haystack = join(" ", self::tokenize_string($haystack, 1));
+
+        $hits = 0;
+        foreach ($a_needle as $w) {
+            if (stripos($haystack, $w) !== false) {
+                $hits++;
+            }
+        }
+
+        return $hits >= count($a_needle);
+    }
+
+    /**
      * Parse commandline arguments into a hash array
      *
      * @param array $aliases Argument alias names
