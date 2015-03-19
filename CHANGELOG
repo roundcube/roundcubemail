@@ -1,11 +1,14 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- ACL: Allow other plugins to adjust the list of permissions and groups to edit
-- Plugin API: Added message_part_body hook
-- Add initdb.sh to create database from initial.sql script with prefix support (#1490188)
-- Plugin API: Add special onload() method to execute plugin actions before startup (session and GUI initialization)
 - Password plugin: Added 'kpasswd' driver by Peter Allgeyer
+- Add initdb.sh to create database from initial.sql script with prefix support (#1490188)
+- Plugin API: Added message_part_body hook
+- Plugin API: Add special onload() method to execute plugin actions before startup (session and GUI initialization)
+
+RELEASE 1.1.1
+-------------
+- ACL: Allow other plugins to adjust the list of permissions and groups to edit
 - Add possibility to print contact information (of a single contact)
 - Add possibility to configure max_allowed_packet value for all database engines (#1490283)
 - Improved handling of storage errors after message is sent
