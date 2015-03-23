@@ -5,7 +5,7 @@
  | program/steps/utils/error.inc                                         |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -43,37 +43,33 @@ EOF;
 
 // authorization error
 else if ($ERROR_CODE == 401) {
-    $__error_title = "AUTHORIZATION FAILED";
-    $__error_text  = "Could not verify that you are authorized to access this service!<br />\n"
-        . "Please contact your server-administrator.";
+    $__error_title = strtoupper($rcmail->gettext('errauthorizationfailed'));
+    $__error_text  = nl2br($rcmail->gettext('errunauthorizedexplain') . "\n" .
+                        $rcmail->gettext('errcontactserveradmin'));
 }
 
 // forbidden due to request check
 else if ($ERROR_CODE == 403) {
     if ($_SERVER['REQUEST_METHOD'] == 'GET' && $rcmail->request_status == rcube::REQUEST_ERROR_URL) {
-        parse_str($_SERVER['QUERY_STRING'], $url);
-        $url = $rcmail->url($url, true, false, true);
-        $add = "<br /><a href=\"$url\">Click here to try again.<a/>";
+        $url = $rcmail->url($_GET, true, false, true);
+        $add = html::a($url, $rcmail->gettext('clicktoresumesession'));
     }
     else {
-        $add = "Please contact your server-administrator.";
+        $add = $rcmail->gettext('errcontactserveradmin');
     }
 
-    $__error_title = "REQUEST CHECK FAILED";
-    $__error_text  = "Access to this service was denied due to failing security checks!<br />\n$add";
+    $__error_title = strtoupper($rcmail->gettext('errrequestcheckfailed'));
+    $__error_text  = nl2br($rcmail->gettext('errcsrfprotectionexplain')) . '<p>' . $add . '</p>';
 }
 
 // failed request (wrong step in URL)
 else if ($ERROR_CODE == 404) {
     $request_url   = htmlentities($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-    $__error_title = "REQUEST FAILED/FILE NOT FOUND";
-    $__error_text  = <<<EOF
-The requested page was not found!<br />
-Please contact your server-administrator.
+    $__error_title = strtoupper($rcmail->gettext('errnotfound'));
+    $__error_text  = nl2br($rcmail->gettext('errnotfoundexplain') . "\n" .
+                        $rcmail->gettext('errcontactserveradmin'));
 
-<p><i>Failed request:</i><br />
-http://$request_url</p>
-EOF;
+    $__error_text .= '<p><i>' . $rcmail->gettext('errfailedrequest') . ":</i><br />\n<tt>//$request_url</tt></p>";
 }
 
 // database connection error
@@ -101,6 +97,20 @@ else {
     }
 }
 
+// inform plugins
+if ($rcmail && $rcmail->plugins) {
+    $plugin = $rcmail->plugins->exec_hook('error_page', array(
+        'code' => $ERROR_CODE,
+        'title' => $__error_title,
+        'text' => $__error_text,
+    ));
+
+    if (!empty($plugin['title']))
+        $__error_title = $plugin['title'];
+    if (!empty($plugin['text']))
+        $__error_text = $plugin['text'];
+}
+
 $HTTP_ERR_CODE = $ERROR_CODE && $ERROR_CODE < 600 ? $ERROR_CODE : 500;
 
 // Ajax request
@@ -113,7 +123,7 @@ if ($rcmail->output && $rcmail->output->type == 'js') {
 $__page_content = <<<EOF
 <div>
 <h3 class="error-title">$__error_title</h3>
-<p class="error-text">$__error_text</p>
+<div class="error-text">$__error_text</div>
 </div>
 EOF;
 

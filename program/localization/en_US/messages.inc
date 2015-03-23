@@ -180,5 +180,14 @@ $messages['messagetoobig'] = 'The message part is too big to process it.';
 $messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
 $messages['messageissent'] = 'The message was already sent, but not saved yet. Do you want to save it now?';
+$messages['errnotfound'] = 'File Not Found';
+$messages['errnotfoundexplain'] = 'The requested resource was not found!';
+$messages['errfailedrequest'] = 'Failed request';
+$messages['errauthorizationfailed'] = 'Authorization Failed';
+$messages['errunauthorizedexplain'] = 'Could not verify that you are authorized to access this service!';
+$messages['errrequestcheckfailed'] = 'Request Check Failed';
+$messages['errcsrfprotectionexplain'] = "For your protection, access to this resource is secured against CSRF.\nYou probably didn't log out before leaving the web application.\n\nHuman interaction is now required to continue.";
+$messages['errcontactserveradmin'] = 'Please contact your server-administrator.';
+$messages['clicktoresumesession'] = 'Click here to resume your previous session';
 
 ?>

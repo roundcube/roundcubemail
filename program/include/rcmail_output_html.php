@@ -584,7 +584,7 @@ EOF;
         // read template file
         if (!$path || ($templ = @file_get_contents($path)) === false) {
             rcube::raise_error(array(
-                'code' => 501,
+                'code' => 404,
                 'type' => 'php',
                 'line' => __LINE__,
                 'file' => __FILE__,
