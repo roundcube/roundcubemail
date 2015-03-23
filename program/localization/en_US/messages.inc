@@ -186,7 +186,7 @@ $messages['errfailedrequest'] = 'Failed request';
 $messages['errauthorizationfailed'] = 'Authorization Failed';
 $messages['errunauthorizedexplain'] = 'Could not verify that you are authorized to access this service!';
 $messages['errrequestcheckfailed'] = 'Request Check Failed';
-$messages['errcsrfprotectionexplain'] = "For your protection, access to this resource is secured against CSRF.\nYou probably didn't log out before leaving the web application.\n\nHuman interaction is now required to continue.";
+$messages['errcsrfprotectionexplain'] = "For your protection, access to this resource is secured against CSRF.\nIf you see this, you probably didn't log out before leaving the web application.\n\nHuman interaction is now required to continue.";
 $messages['errcontactserveradmin'] = 'Please contact your server-administrator.';
 $messages['clicktoresumesession'] = 'Click here to resume your previous session';
 
