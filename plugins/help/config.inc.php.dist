@@ -33,3 +33,5 @@ $config['help_license_url'] = null;
 // Determine whether to open the help in a new window
 $config['help_open_extwin'] = false;
 
+// URL to additional information about CSRF protection
+$config['help_csrf_info'] = null;
