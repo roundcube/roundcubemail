@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Add initdb.sh to create database from initial.sql script with prefix support (#1490188)
 - Plugin API: Added message_part_body hook
 - Plugin API: Add special onload() method to execute plugin actions before startup (session and GUI initialization)
+- Fix handling of %-encoded entities in mailto: URLs (#1490346)
 
 RELEASE 1.1.1
 -------------
