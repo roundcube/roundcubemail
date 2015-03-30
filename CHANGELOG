@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix handling of %-encoded entities in mailto: URLs (#1490346)
+
 RELEASE 1.1.1
 -------------
 - ACL: Allow other plugins to adjust the list of permissions and groups to edit
