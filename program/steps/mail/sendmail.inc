@@ -113,6 +113,12 @@ else if ($from_string = rcmail_email_input_format($from)) {
         $from = null;
 }
 
+// check 'From' address (identity may be incomplete)
+if (!$savedraft && !$saveonly && empty($from)) {
+    $OUTPUT->show_message('nofromaddress', 'error');
+    $OUTPUT->send('iframe');
+}
+
 if (!$from_string && $from) {
     $from_string = $from;
 }
@@ -508,14 +514,12 @@ $MAIL_MIME->setParam('text_charset', $text_charset);
 // pass headers to message object
 $MAIL_MIME->headers($headers);
 
+// This hook allows to modify the message before send or save action
+$plugin    = $RCMAIL->plugins->exec_hook('message_ready', array('message' => $MAIL_MIME));
+$MAIL_MIME = $plugin['message'];
+
 // Begin SMTP Delivery Block
 if (!$savedraft && !$saveonly) {
-    // check 'From' address (identity may be incomplete)
-    if (empty($from)) {
-        $OUTPUT->show_message('nofromaddress', 'error');
-        $OUTPUT->send('iframe');
-    }
-
     // Handle Delivery Status Notification request
     $smtp_opts['dsn'] = $dsn_enabled;
 
