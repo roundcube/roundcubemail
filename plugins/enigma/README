@@ -15,7 +15,6 @@ Plugin Status:
 TODO (must have):
 
 - Fix issues with enabled messages_cache
-- PGP: Handling of signed inside encrypted message
 - Make working with gnupg-2.x
 - Keys export to file
 - Disable Reply/Forward options when viewing encrypted messages

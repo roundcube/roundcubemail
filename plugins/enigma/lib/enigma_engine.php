@@ -585,6 +585,11 @@ class enigma_engine
             $part->body_modified = true;
             $part->encrypted     = true;
 
+            // PGP signed inside? verify signature
+            if (preg_match('/^-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
+                $this->parse_plain_signed($p, $body);
+            }
+
             // Encrypted plain message may contain encrypted attachments
             // in such case attachments have .pgp extension and application/octet-stream.
             // This is what happens when you select "Encrypt each attachment separately
