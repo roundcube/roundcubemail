@@ -211,6 +211,11 @@ class zipdownload extends rcube_plugin
             $imap->set_folder($mbox);
             $path = $folders ? str_replace($imap->get_hierarchy_delimiter(), '/', $mbox) . '/' : '';
 
+            if ($uids === '*') {
+                $index = $imap->index($mbox, null, null, true);
+                $uids  = $index->get();
+            }
+
             foreach ($uids as $uid) {
                 $headers = $imap->get_message_headers($uid);
 
