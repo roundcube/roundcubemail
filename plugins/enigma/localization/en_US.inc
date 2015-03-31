@@ -1,7 +1,7 @@
 <?php
 
 $labels = array();
-$labels['enigma'] = 'Enigma';
+$labels['encryption'] = 'Encryption';
 $labels['enigmacerts'] = 'S/MIME Certificates';
 $labels['enigmakeys'] = 'PGP Keys';
 $labels['keysfromto'] = 'Keys $from to $to of $count';
@@ -18,6 +18,9 @@ $labels['typekeypair'] = 'key pair';
 $labels['keyattfound'] = 'This message contains attached PGP key(s).';
 $labels['keyattimport'] = 'Import key(s)';
 
+$labels['signdefault'] = 'Sign all messages by default';
+$labels['encryptdefault'] = 'Encrypt all messages by default';
+
 $labels['createkeys'] = 'Create a new key pair';
 $labels['importkeys'] = 'Import key(s)';
 $labels['exportkeys'] = 'Export key(s)';
@@ -28,7 +31,7 @@ $labels['keyrevoke'] = 'Revoke';
 $labels['keysend'] = 'Send public key in a message';
 $labels['keychpass'] = 'Change password';
 
-$labels['securityoptions'] = 'Message security options...';
+$labels['encryptionoptions'] = 'Encryption options...';
 $labels['identdefault'] = 'Use settings of selected identity';
 $labels['encryptmsg'] = 'Encrypt this message';
 $labels['signmsg'] = 'Digitally sign this message';
@@ -46,6 +49,11 @@ $messages['decryptok'] = 'Message decrypted.';
 $messages['decrypterror'] = 'Decryption failed.';
 $messages['decryptnokey'] = 'Decryption failed. Private key not found. Key ID: $keyid.';
 $messages['decryptbadpass'] = 'Decryption failed. Bad password.';
+$messages['signerror'] = 'Signing failed.';
+$messages['signnokey'] = 'Signing failed. Private key not found.';
+$messages['signbadpass'] = 'Signing failed. Bad password.';
+$messages['encrypterror'] = 'Encryption failed.';
+$messages['encryptnokey'] = 'Encryption failed. Public key not found for $email.';
 $messages['nokeysfound'] = 'No keys found';
 $messages['keyopenerror'] = 'Unable to get key information! Internal error.';
 $messages['keylisterror'] = 'Unable to list keys! Internal error.';

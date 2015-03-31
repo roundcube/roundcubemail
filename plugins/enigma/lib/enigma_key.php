@@ -3,18 +3,11 @@
  +-------------------------------------------------------------------------+
  | Key class for the Enigma Plugin                                         |
  |                                                                         |
- | This program is free software; you can redistribute it and/or modify    |
- | it under the terms of the GNU General Public License version 2          |
- | as published by the Free Software Foundation.                           |
+ | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
  |                                                                         |
- | This program is distributed in the hope that it will be useful,         |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of          |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           |
- | GNU General Public License for more details.                            |
- |                                                                         |
- | You should have received a copy of the GNU General Public License along |
- | with this program; if not, write to the Free Software Foundation, Inc., |
- | 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.             |
+ | Licensed under the GNU General Public License version 3 or              |
+ | any later version with exceptions for skins & plugins.                  |
+ | See the README file for a full license statement.                       |
  |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
@@ -31,6 +24,9 @@ class enigma_key
     const TYPE_UNKNOWN = 0;
     const TYPE_KEYPAIR = 1;
     const TYPE_PUBLIC  = 2;
+
+    const CAN_SIGN    = 1;
+    const CAN_ENCRYPT = 2;
 
     /**
      * Keys list sorting callback for usort()
@@ -89,6 +85,28 @@ class enigma_key
                 return true;
 
         return false;
+    }
+
+    /**
+     * Get key ID by user email
+     */
+    function find_subkey($email, $mode)
+    {
+        $now = time();
+
+        foreach ($this->users as $user) {
+            if ($user->email === $email && $user->valid && !$user->revoked) {
+                foreach ($this->subkeys as $subkey) {
+                    if (!$subkey->revoked && (!$subkey->expires || $subkey->expires > $now)) {
+                        if (($mode == self::CAN_ENCRYPT && $subkey->can_encrypt)
+                            || ($mode == self::CAN_SIGN && $subkey->has_private)
+                        ) {
+                            return $subkey;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**

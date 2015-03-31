@@ -12,3 +12,9 @@ $config['enigma_smime_driver'] = 'phpssl';
 // Keys directory for all users. Default 'enigma/home'.
 // Must be writeable by PHP process
 $config['enigma_pgp_homedir'] = null;
+
+// Enable signing all messages by default
+$config['enigma_sign_all'] = false;
+
+// Enable encrypting all messages by default
+$config['enigma_encrypt_all'] = false;

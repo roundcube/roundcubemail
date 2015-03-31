@@ -65,9 +65,14 @@ p.enigmaattachment a {
 /***** E-mail Compose Page *****/
 
 #messagetoolbar a.button.enigma {
-  text-indent: -5000px;
   background: url(enigma_icons.png) center -122px no-repeat;
 }
+
+#enigmamenu {
+  color: white;
+  padding: 2px 5px;
+}
+
 
 /***** Keys/Certs Management *****/
 
@@ -80,6 +85,18 @@ p.enigmaattachment a {
 #settings-sections .enigma.keys.selected a {
   background-image: url(enigma_icons.png);
   background-position: 7px -368px;
+  background-repeat: no-repeat;
+}
+
+#sections-table #rcmrowenigma .section {
+  background-image: url(enigma_icons.png);
+  background-position: 5px -297px;
+  background-repeat: no-repeat;
+}
+
+#sections-table #rcmrowenigma.selected .section {
+  background-image: url(enigma_icons.png);
+  background-position: 5px -321px;
   background-repeat: no-repeat;
 }
 

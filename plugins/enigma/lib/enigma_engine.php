@@ -3,23 +3,15 @@
  +-------------------------------------------------------------------------+
  | Engine of the Enigma Plugin                                             |
  |                                                                         |
- | This program is free software; you can redistribute it and/or modify    |
- | it under the terms of the GNU General Public License version 2          |
- | as published by the Free Software Foundation.                           |
+ | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
  |                                                                         |
- | This program is distributed in the hope that it will be useful,         |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of          |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           |
- | GNU General Public License for more details.                            |
- |                                                                         |
- | You should have received a copy of the GNU General Public License along |
- | with this program; if not, write to the Free Software Foundation, Inc., |
- | 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.             |
+ | Licensed under the GNU General Public License version 3 or              |
+ | any later version with exceptions for skins & plugins.                  |
+ | See the README file for a full license statement.                       |
  |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
  +-------------------------------------------------------------------------+
-
 */
 
 /*
@@ -40,6 +32,13 @@ class enigma_engine
     public $signed_parts = array();
 
     const PASSWORD_TIME = 120;
+
+    const SIGN_MODE_BODY     = 1;
+    const SIGN_MODE_SEPARATE = 2;
+    const SIGN_MODE_MIME     = 3;
+
+    const ENCRYPT_MODE_BODY = 1;
+    const ENCRYPT_MODE_MIME = 2;
 
 
     /**
@@ -121,6 +120,175 @@ class enigma_engine
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Enigma plugin: ".$result->getMessage()
             ), true, true);
+        }
+    }
+
+    /**
+     * Handler for message signing
+     *
+     * @param Mail_mime Original message
+     * @param int       Encryption mode
+     *
+     * @return enigma_error On error returns error object
+     */
+    function sign_message(&$message, $mode = null)
+    {
+        $mime = new enigma_mime_message($message, enigma_mime_message::PGP_SIGNED);
+        $from = $mime->getFromAddress();
+
+        // find private key
+        $key = $this->find_key($from, true);
+
+        if (empty($key)) {
+            return new enigma_error(enigma_error::E_KEYNOTFOUND);
+        }
+
+        // check if we have password for this key
+        $passwords = $this->get_passwords();
+        $pass      = $passwords[$key->id];
+
+        if ($pass === null) {
+            // ask for password
+            $error = array('missing' => array($key->id => $key->name));
+            return new enigma_error(enigma_error::E_BADPASS, '', $error);
+        }
+
+        // select mode
+        switch ($mode) {
+        case self::SIGN_MODE_BODY:
+            $pgp_mode = Crypt_GPG::SIGN_MODE_CLEAR;
+            break;
+
+        case self::SIGN_MODE_MIME:
+            $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
+            break;
+/*
+        case self::SIGN_MODE_SEPARATE:
+            $pgp_mode = Crypt_GPG::SIGN_MODE_NORMAL;
+            break;
+*/
+        default:
+            if ($mime->isMultipart()) {
+                $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
+            }
+            else {
+                $pgp_mode = Crypt_GPG::SIGN_MODE_CLEAR;
+            }
+        }
+
+        // get message body
+        if ($pgp_mode == Crypt_GPG::SIGN_MODE_CLEAR) {
+            // in this mode we'll replace text part
+            // with the one containing signature
+            $body = $message->getTXTBody();
+        }
+        else {
+            // here we'll build PGP/MIME message
+            $body = $mime->getOrigBody();
+        }
+
+        // sign the body
+        $result = $this->pgp_sign($body, $key->id, $pass, $pgp_mode);
+
+        if ($result !== true) {
+            if ($result->getCode() == enigma_error::E_BADPASS) {
+                // ask for password
+                $error = array('missing' => array($key->id => $key->name));
+                return new enigma_error(enigma_error::E_BADPASS, '', $error);
+            }
+
+            return $result;
+        }
+
+        // replace message body
+        if ($pgp_mode == Crypt_GPG::SIGN_MODE_CLEAR) {
+            $message->setTXTBody($body);
+        }
+        else {
+            $mime->addPGPSignature($body);
+            $message = $mime;
+        }
+    }
+
+    /**
+     * Handler for message encryption
+     *
+     * @param Mail_mime Original message
+     * @param int       Encryption mode
+     * @param bool      Is draft-save action - use only sender's key for encryption
+     *
+     * @return enigma_error On error returns error object
+     */
+    function encrypt_message(&$message, $mode = null, $is_draft = false)
+    {
+        $mime = new enigma_mime_message($message, enigma_mime_message::PGP_ENCRYPTED);
+
+        // always use sender's key
+        $recipients = array($mime->getFromAddress());
+
+        // if it's not a draft we add all recipients' keys
+        if (!$is_draft) {
+            $recipients = array_merge($recipients, $mime->getRecipients());
+        }
+
+        if (empty($recipients)) {
+            return new enigma_error(enigma_error::E_KEYNOTFOUND);
+        }
+
+        $recipients = array_unique($recipients);
+
+        // find recipient public keys
+        foreach ((array) $recipients as $email) {
+            $key = $this->find_key($email);
+
+            if (empty($key)) {
+                return new enigma_error(enigma_error::E_KEYNOTFOUND, '', array(
+                    'missing' => $email
+                ));
+            }
+
+            $keys[] = $key->id;
+        }
+
+        // select mode
+        switch ($mode) {
+        case self::ENCRYPT_MODE_BODY:
+            $encrypt_mode = $mode;
+            break;
+
+        case self::ENCRYPT_MODE_MIME:
+            $encrypt_mode = $mode;
+            break;
+
+        default:
+            $encrypt_mode = $mime->isMultipart() ? self::ENCRYPT_MODE_MIME : self::ENCRYPT_MODE_BODY;
+        }
+
+        // get message body
+        if ($encrypt_mode == self::ENCRYPT_MODE_BODY) {
+            // in this mode we'll replace text part
+            // with the one containing encrypted message
+            $body = $message->getTXTBody();
+        }
+        else {
+            // here we'll build PGP/MIME message
+            $body = $mime->getOrigBody();
+        }
+
+        // sign the body
+        $result = $this->pgp_encrypt($body, $keys);
+
+        if ($result !== true) {
+            return $result;
+        }
+
+        // replace message body
+        if ($encrypt_mode == self::ENCRYPT_MODE_BODY) {
+            $message->setTXTBody($body);
+        }
+        else {
+            $mime->setPGPEncryptedBody($body);
+            $message = $mime;
         }
     }
 
@@ -510,7 +678,6 @@ class enigma_engine
     private function pgp_verify(&$msg_body, $sig_body=null)
     {
         // @TODO: Handle big bodies using (temp) files
-        // @TODO: caching of verification result
         $sig = $this->pgp_driver->verify($msg_body, $sig_body);
 
         if (($sig instanceof enigma_error) && $sig->getCode() != enigma_error::E_KEYNOTFOUND)
@@ -533,9 +700,68 @@ class enigma_engine
     private function pgp_decrypt(&$msg_body)
     {
         // @TODO: Handle big bodies using (temp) files
-        // @TODO: caching of verification result
         $keys   = $this->get_passwords();
         $result = $this->pgp_driver->decrypt($msg_body, $keys);
+
+        if ($result instanceof enigma_error) {
+            $err_code = $result->getCode();
+            if (!in_array($err_code, array(enigma_error::E_KEYNOTFOUND, enigma_error::E_BADPASS)))
+                rcube::raise_error(array(
+                    'code' => 600, 'type' => 'php',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Enigma plugin: " . $result->getMessage()
+                    ), true, false);
+            return $result;
+        }
+
+        $msg_body = $result;
+
+        return true;
+    }
+
+    /**
+     * PGP message signing
+     *
+     * @param mixed  Message body
+     * @param string Key ID
+     * @param string Key passphrase
+     * @param int    Signing mode
+     *
+     * @return mixed True or enigma_error
+     */
+    private function pgp_sign(&$msg_body, $keyid, $password, $mode = null)
+    {
+        // @TODO: Handle big bodies using (temp) files
+        $result = $this->pgp_driver->sign($msg_body, $keyid, $password, $mode);
+
+        if ($result instanceof enigma_error) {
+            $err_code = $result->getCode();
+            if (!in_array($err_code, array(enigma_error::E_KEYNOTFOUND, enigma_error::E_BADPASS)))
+                rcube::raise_error(array(
+                    'code' => 600, 'type' => 'php',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Enigma plugin: " . $result->getMessage()
+                    ), true, false);
+            return $result;
+        }
+
+        $msg_body = $result;
+
+        return true;
+    }
+
+    /**
+     * PGP message encrypting
+     *
+     * @param mixed Message body
+     * @param array Keys
+     *
+     * @return mixed True or enigma_error
+     */
+    private function pgp_encrypt(&$msg_body, $keys)
+    {
+        // @TODO: Handle big bodies using (temp) files
+        $result = $this->pgp_driver->encrypt($msg_body, $keys);
 
         if ($result instanceof enigma_error) {
             $err_code = $result->getCode();
@@ -574,6 +800,39 @@ class enigma_engine
         }
 
         return $result;
+    }
+
+    /**
+     * Find PGP private/public key
+     *
+     * @param string E-mail address
+     * @param bool   Need a key for signing?
+     *
+     * @return enigma_key The key
+     */
+    function find_key($email, $can_sign = false)
+    {
+        $this->load_pgp_driver();
+        $result = $this->pgp_driver->list_keys($email);
+
+        if ($result instanceof enigma_error) {
+            rcube::raise_error(array(
+                'code' => 600, 'type' => 'php',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Enigma plugin: " . $result->getMessage()
+                ), true, false);
+
+            return;
+        }
+
+        $mode = $can_sign ? enigma_key::CAN_SIGN : enigma_key::CAN_ENCRYPT;
+
+        // check key validity and type
+        foreach ($result as $key) {
+            if ($keyid = $key->find_subkey($email, $mode)) {
+                return $key;
+            }
+        }
     }
 
     /**

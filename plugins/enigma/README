@@ -6,26 +6,25 @@ WARNING: Don't use with gnupg-2.x!
 
 Plugin Status:
 
-+ PGP: signed messages verification
++ PGP: signatures verification
 + PGP: messages decryption
++ PGP: Sending of encrypted/signed messages
 + PGP: keys management UI (keys import and delete)
 + Handling of PGP keys attached to incoming messages
 
 TODO (must have):
 
 - Fix issues with enabled messages_cache
-- PGP: Sending of encrypted/signed messages
-- Per-Identity settings (including keys/certs)
-- Test/Make working with gnupg-2.x
+- PGP: Handling of signed inside encrypted message
+- Make working with gnupg-2.x
 - Keys export to file
 - Disable Reply/Forward options when viewing encrypted messages
   until they are decrypted successfully
-- Handling of replying/forwarding of encrypted messages
+- Handling of replying/forwarding of encrypted/signed messages
 - Add composer.json file
 - Performance improvements:
-   - cache decrypted message key id in cache so we can skip
-     decryption if we have no password in session
-   - cache sig verification status to not verify on every msg preview (optional)
+   - cache decrypted message key id so we can skip decryption if we have no password in session
+   - cache (last or successful only?) sig verification status to not verify on every msg preview (optional)
 
 TODO (later):
 
@@ -45,6 +44,8 @@ TODO (later):
 - Mark keys as trusted/untrasted, display appropriate message in verify/decrypt status
 - User-preferences to disable signature verification, decrypting, encrypting or all enigma features
 - Change attachment icon on messages list for encrypted messages (like vcard_attachment plugin does)
+- Support for multi-server installations (store keys in sql database?)
+- Per-Identity settings (including keys/certs)
 
 - S/MIME: Certs generation
 - S/MIME: Certs management
