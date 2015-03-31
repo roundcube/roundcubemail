@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Fix handling of %-encoded entities in mailto: URLs (#1490346)
 - Fix zipped messages downloads after selecting all messages in a folder (#1490339)
+- Fix vpopmaild driver of password plugin
 
 RELEASE 1.1.1
 -------------
