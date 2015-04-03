@@ -48,8 +48,6 @@ class rcube_imap_generic
         '*'        => '\\*',
     );
 
-    public static $mupdate;
-
     protected $fp;
     protected $host;
     protected $logged = false;
@@ -3271,11 +3269,6 @@ class rcube_imap_generic
         }
 
         foreach ($data as $entry) {
-            // Workaround cyrus-murder bug, the entry[2] string needs to be escaped
-            if (self::$mupdate) {
-                $entry[2] = addcslashes($entry[2], '\\"');
-            }
-
             // ANNOTATEMORE drafts before version 08 require quoted parameters
             $entries[] = sprintf('%s (%s %s)', $this->escape($entry[0], true),
                 $this->escape($entry[1], true), $this->escape($entry[2], true));
@@ -3838,10 +3831,6 @@ class rcube_imap_generic
 
         if (!isset($this->prefs['literal+']) && in_array('LITERAL+', $this->capability)) {
             $this->prefs['literal+'] = true;
-        }
-
-        if (preg_match('/(\[| )MUPDATE=.*/', $str)) {
-            self::$mupdate = true;
         }
 
         if ($trusted) {
