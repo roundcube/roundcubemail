@@ -24,6 +24,7 @@ class enigma extends rcube_plugin
     public $task = 'mail|settings';
     public $rc;
     public $engine;
+    public $ui;
 
     private $env_loaded  = false;
 
@@ -68,7 +69,6 @@ class enigma extends rcube_plugin
             $this->add_hook('preferences_save', array($this, 'preferences_save'));
 
             // register handler for keys/certs management
-//            $this->register_action('plugin.enigma', array($this, 'preferences_ui'));
             $this->register_action('plugin.enigmakeys', array($this, 'preferences_ui'));
 //            $this->register_action('plugin.enigmacerts', array($this, 'preferences_ui'));
 
