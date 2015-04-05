@@ -27,9 +27,11 @@ class enigma_engine
     private $pgp_driver;
     private $smime_driver;
 
-    public $decryptions  = array();
-    public $signatures   = array();
-    public $signed_parts = array();
+    public $decryptions     = array();
+    public $signatures      = array();
+    public $signed_parts    = array();
+    public $encrypted_parts = array();
+
 
     const PASSWORD_TIME = 120;
 
@@ -329,6 +331,8 @@ class enigma_engine
     {
         // encrypted attachment, see parse_plain_encrypted()
         if ($p['part']->need_decryption && $p['part']->body === null) {
+            $this->load_pgp_driver();
+
             $storage = $this->rc->get_storage();
             $body    = $storage->get_message_part($p['object']->uid, $p['part']->mime_id, $p['part'], null, null, true, 0, false);
             $result  = $this->pgp_decrypt($body);
@@ -354,7 +358,7 @@ class enigma_engine
         $part = $p['structure'];
 
         // exit, if we're already inside a decrypted message
-        if ($part->encrypted) {
+        if (in_array($part->mime_id, $this->encrypted_parts)) {
             return;
         }
 
@@ -519,9 +523,6 @@ class enigma_engine
             else {
                 $this->signed_parts[$msg_part->mime_id] = $struct->mime_id;
             }
-
-            // Remove signature file from attachments list (?)
-            unset($struct->parts[1]);
         }
     }
 
@@ -556,9 +557,6 @@ class enigma_engine
             else {
                 $this->signed_parts[$msg_part->mime_id] = $struct->mime_id;
             }
-
-            // Remove signature file from attachments list
-            unset($struct->parts[1]);
         }
     }
 
@@ -579,11 +577,23 @@ class enigma_engine
         // Store decryption status
         $this->decryptions[$part->mime_id] = $result;
 
+        // find parent part ID
+        if (strpos($part->mime_id, '.')) {
+            $items = explode('.', $part->mime_id);
+            array_pop($items);
+            $parent = implode('.', $items);
+        }
+        else {
+            $parent = 0;
+        }
+
         // Parse decrypted message
         if ($result === true) {
             $part->body          = $body;
             $part->body_modified = true;
-            $part->encrypted     = true;
+
+            // Remember it was decrypted
+            $this->encrypted_parts[] = $part->mime_id;
 
             // PGP signed inside? verify signature
             if (preg_match('/^-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
@@ -591,19 +601,9 @@ class enigma_engine
             }
 
             // Encrypted plain message may contain encrypted attachments
-            // in such case attachments have .pgp extension and application/octet-stream.
+            // in such case attachments have .pgp extension and type application/octet-stream.
             // This is what happens when you select "Encrypt each attachment separately
             // and send the message using inline PGP" in Thunderbird's Enigmail.
-
-            // find parent part ID
-            if (strpos($part->mime_id, '.')) {
-                $items = explode('.', $part->mime_id);
-                array_pop($items);
-                $parent = implode('.', $items);
-            }
-            else {
-                $parent = 0;
-            }
 
             if ($p['object']->mime_parts[$parent]) {
                 foreach ((array)$p['object']->mime_parts[$parent]->parts as $p) {
@@ -617,6 +617,19 @@ class enigma_engine
                         // disable caching
                         $p->body_modified = true;
                     }
+                }
+            }
+        }
+        // decryption failed, but the message may have already
+        // been cached with the modified parts (see above),
+        // let's bring the original state back
+        else if ($p['object']->mime_parts[$parent]) {
+            foreach ((array)$p['object']->mime_parts[$parent]->parts as $p) {
+                if ($p->need_decryption && !preg_match('/^(.*)\.pgp$/i', $p->filename, $m)) {
+                    // modify filename
+                    $p->filename .= '.pgp';
+                    // flag the part, it will be decrypted when needed
+                    unset($p->need_decryption);
                 }
             }
         }
@@ -1066,13 +1079,13 @@ class enigma_engine
         $part->body_modified = true;
         $part->encoding      = 'stream';
 
-        // Cache the fact it was decrypted
-        $part->encrypted = true;
-
         // modify part identifier
         if ($old_id) {
             $part->mime_id = !$part->mime_id ? $old_id : ($old_id . '.' . $part->mime_id);
         }
+
+        // Cache the fact it was decrypted
+        $this->encrypted_parts[] = $part->mime_id;
 
         $msg->mime_parts[$part->mime_id] = $part;
 
