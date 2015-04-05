@@ -72,6 +72,9 @@ $config['password_query'] = 'SELECT update_passwd(%c, %u)';
 // your operating system supports the other hash functions.
 $config['password_crypt_hash'] = 'md5';
 
+// Enables use of password with crypt method prefix in %D, e.g. {MD5}$1$LUiMYWqx$fEkg/ggr/L6Mb2X7be4i1/
+$config['password_with_scheme'] = false;
+
 // By default domains in variables are using unicode.
 // Enable this option to use punycoded names
 $config['password_idn_ascii'] = false;
