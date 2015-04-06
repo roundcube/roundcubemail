@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Fix vpopmaild driver of password plugin
 - Fix PHP warning: Non-static method PEAR::setErrorHandling() should not be called statically (#1490343)
 - Fix tables listing routine on mysql and postgres so it skips system or other database tables and views (#1490337)
+- Fix message list header in classic skin on window resize in Internet Explorer (#1490213)
 
 RELEASE 1.1.1
 -------------
