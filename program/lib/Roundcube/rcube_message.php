@@ -791,6 +791,14 @@ class rcube_message
                 else if ($mail_part->mimetype == 'message/rfc822') {
                     $this->parse_structure($mail_part);
                 }
+                // calendar part not marked as attachment (#1490325)
+                else if ($part_mimetype == 'text/calendar') {
+                    if (!$mail_part->filename) {
+                        $mail_part->filename = 'calendar.ics';
+                    }
+
+                    $this->attachments[] = $mail_part;
+                }
             }
 
             // if this was a related part try to resolve references
