@@ -61,23 +61,28 @@ class rcube_sql_password
             case 'md5':
                 $len = 8;
                 $salt_hashindicator = '$1$';
+                $password_scheme = 'MD5'
                 break;
             case 'des':
                 $len = 2;
+                $password_scheme = 'LANMAN'
                 break;
             case 'blowfish':
                 $cost = (int) $rcmail->config->get('password_blowfish_cost');
                 $cost = $cost < 4 || $cost > 31 ? 12 : $cost;
                 $len  = 22;
                 $salt_hashindicator = sprintf('$2a$%02d$', $cost);
+                $password_scheme = 'BLF-CRYPT';
                 break;
             case 'sha256':
                 $len = 16;
                 $salt_hashindicator = '$5$';
+                $password_scheme = 'SHA256-CRYPT'
                 break;
             case 'sha512':
                 $len = 16;
                 $salt_hashindicator = '$6$';
+                $password_scheme = 'SHA512-CRYPT';
                 break;
             default:
                 return PASSWORD_CRYPT_ERROR;
@@ -89,7 +94,12 @@ class rcube_sql_password
                 $salt .= $seedchars[rand(0, 63)];
             }
 
-            $sql = str_replace('%c',  $db->quote(crypt($passwd, $salt_hashindicator ? $salt_hashindicator .$salt.'$' : $salt)), $sql);
+            if $rcmail->config->get('password_scheme')
+                $password_scheme = '{' . $password_scheme . '}'
+            else
+                $password_scheme = ''
+
+            $sql = str_replace('%c',  $db->quote($password_scheme . crypt($passwd, $salt_hashindicator ? $salt_hashindicator .$salt.'$' : $salt)), $sql);
         }
 
         // dovecotpw
