@@ -691,14 +691,11 @@ class rcube_db
     {
         // get tables if not cached
         if ($this->tables === null) {
-            $q = $this->query('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES ORDER BY TABLE_NAME');
+            $q = $this->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
+                . " WHERE TABLE_TYPE = 'BASE TABLE'"
+                . " ORDER BY TABLE_NAME");
 
-            if ($q) {
-                $this->tables = $q->fetchAll(PDO::FETCH_COLUMN, 0);
-            }
-            else {
-                $this->tables = array();
-            }
+            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : array();
         }
 
         return $this->tables;
