@@ -81,7 +81,7 @@ else if ($_GET['_thumb']) {
         list(,$ext)     = explode('/', $part->mimetype);
         $mimetype       = $part->mimetype;
         $file_ident     = $MESSAGE->headers->messageID . ':' . $part->mime_id . ':' . $part->size . ':' . $part->mimetype;
-        $cache_basename = $temp_dir . '/' . md5($file_ident . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size);
+        $cache_basename = INSTALL_PATH . '/' . $temp_dir . '/' . md5($file_ident . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size);
         $cache_file     = $cache_basename . '.' . $ext;
 
         // render thumbnail image if not done yet
