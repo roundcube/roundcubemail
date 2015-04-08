@@ -13,6 +13,7 @@ CHANGELOG Roundcube Webmail
 - Fix tables listing routine on mysql and postgres so it skips system or other database tables and views (#1490337)
 - Fix message list header in classic skin on window resize in Internet Explorer (#1490213)
 - Fix so text/calendar parts are listed as attachments even if not marked as such (#1490325)
+- Fix so unrecognized TNEF attachments are displayed on the list of attachments (#1490351)
 
 RELEASE 1.1.1
 -------------

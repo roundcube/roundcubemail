@@ -739,10 +739,19 @@ class rcube_message
                 }
                 // part is Microsoft Outlook TNEF (winmail.dat)
                 else if ($part_mimetype == 'application/ms-tnef') {
-                    foreach ((array)$this->tnef_decode($mail_part) as $tpart) {
+                    $tnef_parts = (array) $this->tnef_decode($mail_part);
+                    foreach ($tnef_parts as $tpart) {
                         $this->mime_parts[$tpart->mime_id] = $tpart;
                         $this->attachments[] = $tpart;
                     }
+
+                    // add winmail.dat to the list if it's content is unknown
+                    if (empty($tnef_parts) && !empty($mail_part->filename)) {
+                        $this->mime_parts[$mail_part->mime_id] = $mail_part;
+                        $this->attachments[] = $mail_part;
+                    }
+
+                    $tnef_parts = null;
                 }
                 // part is a file/attachment
                 else if (preg_match('/^(inline|attach)/', $mail_part->disposition) ||
