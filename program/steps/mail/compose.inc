@@ -628,21 +628,17 @@ function rcmail_compose_header_from($attrib)
                 $text = $html = $sql_arr['signature'];
 
                 if ($sql_arr['html_signature']) {
-                    $h2t  = new rcube_html2text($sql_arr['signature'], false, true);
+                    $h2t  = new rcube_html2text($html, false, true);
                     $text = trim($h2t->get_text());
                 }
                 else {
-                    $html = htmlentities($html, ENT_NOQUOTES, RCUBE_CHARSET);
+                    $t2h  = new rcube_text2html($text, false);
+                    $html = $t2h->get_html();
                 }
 
                 if (!preg_match('/^--[ -]\r?\n/m', $text)) {
                     $text = $separator . "\n" . $text;
                     $html = $separator . "<br>" . $html;
-                }
-
-                if (!$sql_arr['html_signature']) {
-                    $t2h  = new rcube_text2html($sql_arr['signature'], false);
-                    $html = $t2h->get_html();
                 }
 
                 $a_signatures[$identity_id]['text'] = $text;
