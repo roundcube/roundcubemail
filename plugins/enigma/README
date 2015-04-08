@@ -1,5 +1,6 @@
----------------------------------------------------------------------------
-This plugin adds support for viewing and sending of signed and/or encrypted
+Enigma Plugin for Roundcube
+
+This plugin adds support for viewing and sending of signed and encrypted
 messages in PGP (RFC 2440) and PGP/MIME (RFC 3156) format.
 
 The plugin uses gpg binary on the server and stores all keys
@@ -8,13 +9,11 @@ Encryption/decryption is done server-side. So, this plugin
 is for users that trust the server.
 
 WARNING! The plugin is in very early state. See below for a list
-of missing features and known bugs/limitations.
----------------------------------------------------------------------------
+of missing features and known issues.
 
-WARNING: Don't use with gnupg-2.x!
 
 Implemented features:
-
+---------------------
 + PGP: signatures verification
 + PGP: messages decryption
 + PGP: Sending of encrypted/signed messages
@@ -22,8 +21,7 @@ Implemented features:
 + Handling of PGP keys attached to incoming messages
 
 TODO (must have):
-
-- Make working with gnupg-2.x
+-----------------
 - Keys export to file
 - Disable Reply/Forward options when viewing encrypted messages
   until they are decrypted successfully
@@ -31,7 +29,7 @@ TODO (must have):
 - Client-side keys generation (with OpenPGP.js?)
 
 TODO (later):
-
+-------------
 - Handling of big messages with temp files
 - Server-side keys generation (warning: no-entropy issue, max_execution_time issue)
 - Key info in contact details page (optional)
@@ -52,7 +50,6 @@ TODO (later):
 - Performance improvements:
    - cache decrypted message key id so we can skip decryption if we have no password in session
    - cache (last or successful only?) sig verification status to not verify on every msg preview (optional)
-
 - S/MIME: Certs generation
 - S/MIME: Certs management
 - S/MIME: signed messages verification
@@ -60,3 +57,10 @@ TODO (later):
 - S/MIME: Sending signed/encrypted messages
 - S/MIME: Handling of certs attached to incoming messages
 - S/MIME: Certificate info in Contacts details page (optional)
+
+Known issues:
+-------------
+1. There are Crypt_GPG issues when using gnupg >= 2.0
+   - http://pear.php.net/bugs/bug.php?id=19914
+   - http://pear.php.net/bugs/bug.php?id=20453
+   - http://pear.php.net/bugs/bug.php?id=20527
