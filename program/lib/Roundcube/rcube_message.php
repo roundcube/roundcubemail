@@ -750,8 +750,6 @@ class rcube_message
                         $this->mime_parts[$mail_part->mime_id] = $mail_part;
                         $this->attachments[] = $mail_part;
                     }
-
-                    $tnef_parts = null;
                 }
                 // part is a file/attachment
                 else if (preg_match('/^(inline|attach)/', $mail_part->disposition) ||
