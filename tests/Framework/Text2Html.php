@@ -41,7 +41,7 @@ class Framework_Text2Html extends PHPUnit_Framework_TestCase
         $data[] = array(">aaaa \n>aaaa", "<blockquote>aaaa_<br>aaaa</blockquote>", $options);
         $data[] = array(">aaaa\n>aaaa", "<blockquote>aaaa<br>aaaa</blockquote>", $options);
         $data[] = array(">aaaa \n>bbbb\ncccc dddd", "<blockquote>aaaa_<br>bbbb</blockquote>cccc_dddd", $options);
-        $data[] = array("aaaa-bbbb/cccc", "aaaa-&#8288;bbbb/&#8288;cccc", $options);
+        $data[] = array("aaaa-bbbb/cccc", "aaaa\xEF\xBB\xBF-\xEF\xBB\xBFbbbb\xEF\xBB\xBF/cccc", $options);
 
         $options['flowed'] = true;
 
