@@ -46,6 +46,11 @@ class rc_html2text extends PHPUnit_Framework_TestCase
                 'in'    => chr(0x002).chr(0x003),
                 'out'   => chr(0x002).chr(0x003),
             ),
+            7 => array(
+                'title' => 'Remove spaces after <br>',
+                'in'    => 'test<br>  test',
+                'out'   => "test\ntest",
+            ),
         );
     }
 
