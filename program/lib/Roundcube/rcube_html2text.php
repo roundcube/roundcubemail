@@ -142,7 +142,7 @@ class rcube_html2text
         '/<script[^>]*>.*?<\/script>/i',         // <script>s -- which strip_tags supposedly has problems with
         '/<style[^>]*>.*?<\/style>/i',           // <style>s -- which strip_tags supposedly has problems with
         '/<p[^>]*>/i',                           // <P>
-        '/<br[^>]*>/i',                          // <br>
+        '/<br[^>]*>\s*/i',                       // <br>
         '/<i[^>]*>(.*?)<\/i>/i',                 // <i>
         '/<em[^>]*>(.*?)<\/em>/i',               // <em>
         '/(<ul[^>]*>|<\/ul>)/i',                 // <ul> and </ul>
