@@ -9,6 +9,7 @@ CHANGELOG Roundcube Webmail
 - Fix message list header in classic skin on window resize in Internet Explorer (#1490213)
 - Fix so text/calendar parts are listed as attachments even if not marked as such (#1490325)
 - Fix lack of signature separator for plain text signatures in html mode (#1490352)
+- Fix font artifact in Google Chrome on Windows (#1490353)
 
 RELEASE 1.1.1
 -------------

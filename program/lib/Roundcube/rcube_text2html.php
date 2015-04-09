@@ -45,18 +45,22 @@ class rcube_text2html
      */
     protected $config = array(
         // non-breaking space
-        'space'  => "\xC2\xA0",
+        'space' => "\xC2\xA0",
+        // word-joiner (zero-width no-break space)
+        // 'wordjoiner' => "\xEF\xBB\xBF", // U+2060
+        // use deprecated U+FEFF character because of webkit issue with displaying U+2060 (#1490353)
+        'wordjoiner' => "\xEF\xBB\xBF", // U+FEFF
         // enables format=flowed parser
         'flowed' => false,
         // enables wrapping for non-flowed text
-        'wrap'   => true,
+        'wrap' => true,
         // line-break tag
-        'break'  => "<br>\n",
+        'break' => "<br>\n",
         // prefix and suffix (wrapper element)
-        'begin'  => '<div class="pre">',
-        'end'    => '</div>',
+        'begin' => '<div class="pre">',
+        'end'   => '</div>',
         // enables links replacement
-        'links'  => true,
+        'links' => true,
         // string replacer class
         'replacer' => 'rcube_string_replacer',
     );
@@ -278,6 +282,7 @@ class rcube_text2html
         $text = strtr($text, $table);
 
         $nbsp = $this->config['space'];
+        $nobr = $this->config['wordjoiner'];
 
         // replace some whitespace characters
         $text = str_replace(array("\r", "\t"), array('', '    '), $text);
@@ -299,9 +304,15 @@ class rcube_text2html
 
             $text = $copy;
         }
+        // make the whole line non-breakable
         else {
-            // make the whole line non-breakable
-            $text = str_replace(array(' ', '-', '/'), array($nbsp, '-&#8288;', '/&#8288;'), $text);
+            $repl = array(
+                ' ' => $nbsp,
+                '-' => $nobr . '-' . $nobr,
+                '/' => $nobr . '/',
+            );
+
+            $text = str_replace(array_keys($repl), array_values($repl), $text);
         }
 
         return $text;
