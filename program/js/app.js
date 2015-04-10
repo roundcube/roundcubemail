@@ -1440,7 +1440,7 @@ function rcube_webmail()
     else if (delay)
       setTimeout(function() { ref.reload(); }, delay);
     else if (window.location)
-      location.href = this.env.comm_path + (this.env.action ? '&_action='+this.env.action : '');
+      location.href = this.url('', {_extwin: this.env.extwin});
   };
 
   // Add variable to GET string, replace old value if exists
@@ -7222,7 +7222,7 @@ function rcube_webmail()
   // compose a valid url with the given parameters
   this.url = function(action, query)
   {
-    var querystring = typeof query === 'string' ? '&' + query : '';
+    var querystring = typeof query === 'string' ? query : '';
 
     if (typeof action !== 'string')
       query = action;
@@ -7234,12 +7234,12 @@ function rcube_webmail()
     else if (this.env.action)
       query._action = this.env.action;
 
-    var base = this.env.comm_path, k, param = {};
+    var url = this.env.comm_path, k, param = {};
 
     // overwrite task name
     if (action && action.match(/([a-z0-9_-]+)\/([a-z0-9-_.]+)/)) {
       query._action = RegExp.$2;
-      base = base.replace(/\_task=[a-z0-9_-]+/, '_task='+RegExp.$1);
+      url = url.replace(/\_task=[a-z0-9_-]+/, '_task=' + RegExp.$1);
     }
 
     // remove undefined values
@@ -7248,7 +7248,13 @@ function rcube_webmail()
         param[k] = query[k];
     }
 
-    return base + (base.indexOf('?') > -1 ? '&' : '?') + $.param(param) + querystring;
+    if (param = $.param(param))
+      url += (url.indexOf('?') > -1 ? '&' : '?') + param;
+
+    if (querystring)
+      url += (url.indexOf('?') > -1 ? '&' : '?') + querystring;
+
+    return url;
   };
 
   this.redirect = function(url, lock)
