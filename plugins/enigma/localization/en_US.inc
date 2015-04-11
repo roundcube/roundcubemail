@@ -18,8 +18,13 @@ $labels['typekeypair'] = 'key pair';
 $labels['keyattfound'] = 'This message contains attached PGP key(s).';
 $labels['keyattimport'] = 'Import key(s)';
 
+$labels['supportsignatures'] = 'Enable message signatures verification';
+$labels['supportdecryption'] = 'Enable message decryption';
 $labels['signdefault'] = 'Sign all messages by default';
 $labels['encryptdefault'] = 'Encrypt all messages by default';
+$labels['passwordtime'] = 'Keep private key passwords for';
+$labels['nminutes'] = '$m minute(s)';
+$labels['wholesession'] = 'the whole session';
 
 $labels['createkeys'] = 'Create a new key pair';
 $labels['importkeys'] = 'Import key(s)';
@@ -32,7 +37,6 @@ $labels['keysend'] = 'Send public key in a message';
 $labels['keychpass'] = 'Change password';
 
 $labels['encryptionoptions'] = 'Encryption options...';
-$labels['identdefault'] = 'Use settings of selected identity';
 $labels['encryptmsg'] = 'Encrypt this message';
 $labels['signmsg'] = 'Digitally sign this message';
 

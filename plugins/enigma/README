@@ -19,6 +19,7 @@ Implemented features:
 + PGP: Sending of encrypted/signed messages
 + PGP: keys management UI (keys import and delete)
 + Handling of PGP keys attached to incoming messages
++ User preferences to disable plugin features
 
 TODO (must have):
 -----------------
@@ -43,7 +44,6 @@ TODO (later):
 - Key server(s) support (search, import, upload, refresh)
 - Attaching public keys to email
 - Mark keys as trusted/untrasted, display appropriate message in verify/decrypt status
-- User-preferences to disable signature verification, decrypting, encrypting or all enigma features
 - Change attachment icon on messages list for encrypted messages (like vcard_attachment plugin does)
 - Support for multi-server installations (store keys in sql database?)
 - Per-Identity settings (including keys/certs)

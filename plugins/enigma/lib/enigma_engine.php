@@ -26,14 +26,12 @@ class enigma_engine
     private $enigma;
     private $pgp_driver;
     private $smime_driver;
+    private $password_time;
 
     public $decryptions     = array();
     public $signatures      = array();
     public $signed_parts    = array();
     public $encrypted_parts = array();
-
-
-    const PASSWORD_TIME = 120;
 
     const SIGN_MODE_BODY     = 1;
     const SIGN_MODE_SEPARATE = 2;
@@ -51,8 +49,12 @@ class enigma_engine
         $this->rc     = rcmail::get_instance();
         $this->enigma = $enigma;
 
+        $this->password_time = $this->rc->config->get('enigma_password_time');
+
         // this will remove passwords from session after some time
-        $this->get_passwords();
+        if ($this->password_time) {
+            $this->get_passwords();
+        }
     }
 
     /**
@@ -445,7 +447,9 @@ class enigma_engine
 
         // Verify signature
         if ($this->rc->action == 'show' || $this->rc->action == 'preview') {
-            $sig = $this->pgp_verify($body);
+            if ($this->rc->config->get('enigma_signatures', true)) {
+                $sig = $this->pgp_verify($body);
+            }
         }
 
         // @TODO: Handle big bodies using (temp) files
@@ -495,6 +499,10 @@ class enigma_engine
      */
     private function parse_pgp_signed(&$p)
     {
+        if (!$this->rc->config->get('enigma_signatures', true)) {
+            return;
+        }
+
         // Verify signature
         if ($this->rc->action == 'show' || $this->rc->action == 'preview') {
             $this->load_pgp_driver();
@@ -536,6 +544,10 @@ class enigma_engine
     {
         return; // @TODO
 
+        if (!$this->rc->config->get('enigma_signatures', true)) {
+            return;
+        }
+
         // Verify signature
         if ($this->rc->action == 'show' || $this->rc->action == 'preview') {
             $this->load_smime_driver();
@@ -568,6 +580,10 @@ class enigma_engine
      */
     private function parse_plain_encrypted(&$p, $body)
     {
+        if (!$this->rc->config->get('enigma_decryption', true)) {
+            return;
+        }
+
         $this->load_pgp_driver();
         $part = $p['structure'];
 
@@ -642,6 +658,10 @@ class enigma_engine
      */
     private function parse_pgp_encrypted(&$p)
     {
+        if (!$this->rc->config->get('enigma_decryption', true)) {
+            return;
+        }
+
         $this->load_pgp_driver();
 
         $struct = $p['structure'];
@@ -682,6 +702,10 @@ class enigma_engine
      */
     private function parse_smime_encrypted(&$p)
     {
+        if (!$this->rc->config->get('enigma_decryption', true)) {
+            return;
+        }
+
 //        $this->load_smime_driver();
     }
 
@@ -982,12 +1006,12 @@ class enigma_engine
             $config = @unserialize($config);
         }
 
-        $threshold = time() - self::PASSWORD_TIME;
+        $threshold = time() - $this->password_time;
         $keys      = array();
 
         // delete expired passwords
         foreach ((array) $config as $key => $value) {
-            if ($value[1] < $threshold) {
+            if ($pass_time && $value[1] < $threshold) {
                 unset($config[$key]);
                 $modified = true;
             }

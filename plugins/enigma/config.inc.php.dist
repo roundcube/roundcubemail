@@ -13,8 +13,18 @@ $config['enigma_smime_driver'] = 'phpssl';
 // Must be writeable by PHP process
 $config['enigma_pgp_homedir'] = null;
 
+// Enables signatures verification feature.
+$config['enigma_signatures'] = true;
+
+// Enables messages decryption feature.
+$config['enigma_decryption'] = true;
+
 // Enable signing all messages by default
 $config['enigma_sign_all'] = false;
 
 // Enable encrypting all messages by default
 $config['enigma_encrypt_all'] = false;
+
+// Default for how long to store private key passwords (in minutes).
+// When set to 0 passwords will be stored for the whole session.
+$config['enigma_password_time'] = 5;

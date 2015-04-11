@@ -234,6 +234,44 @@ class enigma extends rcube_plugin
 
         $p['blocks']['main']['name'] = $this->gettext('mainoptions');
 
+        if (!isset($no_override['enigma_signatures'])) {
+            if (!$p['current']) {
+                $p['blocks']['main']['content'] = true;
+                return $p;
+            }
+
+            $field_id = 'rcmfd_enigma_signatures';
+            $input    = new html_checkbox(array(
+                    'name'  => '_enigma_signatures',
+                    'id'    => $field_id,
+                    'value' => 1,
+            ));
+
+            $p['blocks']['main']['options']['enigma_signatures'] = array(
+                'title'   => html::label($field_id, $this->gettext('supportsignatures')),
+                'content' => $input->show(intval($this->rc->config->get('enigma_signatures'))),
+            );
+        }
+
+        if (!isset($no_override['enigma_decryption'])) {
+            if (!$p['current']) {
+                $p['blocks']['main']['content'] = true;
+                return $p;
+            }
+
+            $field_id = 'rcmfd_enigma_decryption';
+            $input    = new html_checkbox(array(
+                    'name'  => '_enigma_decryption',
+                    'id'    => $field_id,
+                    'value' => 1,
+            ));
+
+            $p['blocks']['main']['options']['enigma_decryption'] = array(
+                'title'   => html::label($field_id, $this->gettext('supportdecryption')),
+                'content' => $input->show(intval($this->rc->config->get('enigma_decryption'))),
+            );
+        }
+
         if (!isset($no_override['enigma_sign_all'])) {
             if (!$p['current']) {
                 $p['blocks']['main']['content'] = true;
@@ -272,6 +310,27 @@ class enigma extends rcube_plugin
             );
         }
 
+        if (!isset($no_override['enigma_password_time'])) {
+            if (!$p['current']) {
+                $p['blocks']['main']['content'] = true;
+                return $p;
+            }
+
+            $field_id = 'rcmfd_enigma_password_time';
+            $select   = new html_select(array('name' => '_enigma_password_time', 'id' => $field_id));
+
+            foreach (array(1, 5, 10, 15, 30) as $m) {
+                $label = $this->gettext(array('name' => 'nminutes', 'vars' => array('m' => $m)));
+                $select->add($label, $m);
+            }
+            $select->add($this->gettext('wholesession'), 0);
+
+            $p['blocks']['main']['options']['enigma_password_time'] = array(
+                'title'   => html::label($field_id, $this->gettext('passwordtime')),
+                'content' => $select->show(intval($this->rc->config->get('enigma_password_time'))),
+            );
+        }
+
         return $p;
     }
 
@@ -287,8 +346,11 @@ class enigma extends rcube_plugin
     {
         if ($p['section'] == 'enigma') {
             $p['prefs'] = array(
-                'enigma_sign_all'    => intval(rcube_utils::get_input_value('_enigma_sign_all', rcube_utils::INPUT_POST)),
-                'enigma_encrypt_all' => intval(rcube_utils::get_input_value('_enigma_encrypt_all', rcube_utils::INPUT_POST)),
+                'enigma_signatures' => (bool) rcube_utils::get_input_value('_enigma_signatures', rcube_utils::INPUT_POST),
+                'enigma_decryption' => (bool) rcube_utils::get_input_value('_enigma_decryption', rcube_utils::INPUT_POST),
+                'enigma_sign_all'      => intval(rcube_utils::get_input_value('_enigma_sign_all', rcube_utils::INPUT_POST)),
+                'enigma_encrypt_all'   => intval(rcube_utils::get_input_value('_enigma_encrypt_all', rcube_utils::INPUT_POST)),
+                'enigma_password_time' => intval(rcube_utils::get_input_value('_enigma_password_time', rcube_utils::INPUT_POST)),
             );
         }
 
