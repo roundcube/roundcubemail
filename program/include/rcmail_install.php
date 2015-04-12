@@ -773,12 +773,8 @@ class rcmail_install
    */
   function update_db($version)
   {
-    system(INSTALL_PATH . "bin/updatedb.sh --package=roundcube"
-      . " --version=" . escapeshellarg($version)
-      . " --dir=" . INSTALL_PATH . "SQL"
-      . " 2>&1", $result);
-
-    return !$result;
+    return rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $version,
+        array('quiet' => true));
   }
 
 

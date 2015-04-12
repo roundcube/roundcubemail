@@ -5,7 +5,7 @@
  | bin/moduserprefs.sh                                                   |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -46,37 +46,6 @@ else if (empty($args[0]) || (!isset($args[1]) && !$args['delete'])) {
 $pref_name  = trim($args[0]);
 $pref_value = $args['delete'] ? null : trim($args[1]);
 
-// connect to DB
-$rcmail = rcube::get_instance();
-
-$db = $rcmail->get_dbh();
-$db->db_connect('w');
-
-if (!$db->is_connected() || $db->is_error())
-	die("No DB connection\n" . $db->is_error());
-
-$query = '1=1';
-
-if ($args['user'])
-	$query = '`user_id` = ' . intval($args['user']);
-
-// iterate over all users
-$sql_result = $db->query("SELECT * FROM " . $db->table_name('users', true) . " WHERE $query");
-while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
-	echo "Updating prefs for user " . $sql_arr['user_id'] . "...";
-
-	$user = new rcube_user($sql_arr['user_id'], $sql_arr);
-	$prefs = $old_prefs = $user->get_prefs();
-
-	$prefs[$pref_name] = $pref_value;
-
-	if ($prefs != $old_prefs) {
-		$user->save_prefs($prefs);
-		echo "saved.\n";
-	}
-	else {
-		echo "nothing changed.\n";
-	}
-}
+rcmail_utils::mod_pref($pref_name, $pref_value, $args['user']);
 
 ?>

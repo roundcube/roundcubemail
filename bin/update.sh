@@ -156,10 +156,8 @@ if ($RCI->configured) {
   // check database schema
   if ($RCI->config['db_dsnw']) {
     echo "Executing database schema update.\n";
-    system("php " . INSTALL_PATH . "bin/updatedb.sh --package=roundcube --version=" . $opts['version']
-      . " --dir=" . INSTALL_PATH . "SQL", $res);
-
-    $success = !$res;
+    $success = rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $opts['version'],
+        array('errors' => true));
   }
 
   // update composer dependencies
@@ -239,7 +237,7 @@ if ($RCI->configured) {
 
   // index contacts for fulltext searching
   if ($opts['version'] && version_compare(version_parse($opts['version']), '0.6.0', '<')) {
-    system("php " . INSTALL_PATH . 'bin/indexcontacts.sh');
+    rcmail_utils::indexcontacts();
   }
 
   if ($success) {

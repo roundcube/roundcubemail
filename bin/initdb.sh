@@ -37,39 +37,6 @@ if (!file_exists($opts['dir'])) {
     rcube::raise_error("Specified database schema directory doesn't exist.", false, true);
 }
 
-$RC = rcube::get_instance();
-$DB = rcube_db::factory($RC->config->get('db_dsnw'));
-
-$DB->set_debug((bool)$RC->config->get('sql_debug'));
-
-// Connect to database
-$DB->db_connect('w');
-if (!$DB->is_connected()) {
-    rcube::raise_error("Error connecting to database: " . $DB->is_error(), false, true);
-}
-
-$file = $opts['dir'] . '/' . $DB->db_provider . '.initial.sql';
-if (!file_exists($file)) {
-    rcube::raise_error("DDL file $file not found", false, true);
-}
-
-echo "Creating database schema... ";
-
-if ($sql = file_get_contents($file)) {
-    if (!$DB->exec_script($sql)) {
-        $error = $DB->is_error();
-    }
-}
-else {
-    $error = "Unable to read file $file or it is empty";
-}
-
-if ($error) {
-    echo "[FAILED]\n";
-    rcube::raise_error($error, false, true);
-}
-else {
-    echo "[OK]\n";
-}
+rcmail_utils::db_init($opts['dir']);
 
 ?>
