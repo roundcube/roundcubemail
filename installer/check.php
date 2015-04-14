@@ -84,7 +84,7 @@ $source_urls = array(
     'Mail_mime' => 'http://pear.php.net/package/Mail_mime',
     'Mail_mimeDecode' => 'http://pear.php.net/package/Mail_mimeDecode',
     'Net_IDNA2' => 'http://pear.php.net/package/Net_IDNA2',
-    'Net_LDAP3' => 'http://git.kolab.org/pear/Net_LDAP3',
+    'Net_LDAP3' => 'https://git.kolab.org/diffusion/PNL',
 );
 
 echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . '" />';
