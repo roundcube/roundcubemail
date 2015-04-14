@@ -1,3 +1,5 @@
+- Add option to define default vacation interval
+
 * version 8.3 [2015-03-12]
 -----------------------------------------------------------
 - Fix PHP fatal error when visiting Vacation interface and there's no sieve script yet
