@@ -1784,7 +1784,7 @@ class rcube_sieve_engine
                 $this->error_class($id, 'action', 'addresses', 'action_addresses'), 30);
         $out .= '<br /><span class="label">' . rcube::Q($this->plugin->gettext($vsec ? 'vacationinterval' : 'vacationdays')) . '</span><br />'
             .'<input type="text" name="_action_interval['.$id.']" id="action_interval'.$id.'" '
-            .'value="' .rcube::Q(isset($action['seconds']) ? $action['seconds'] : $action['days'], 'strict', false) . '" size="2" '
+            .'value="' .rcube::Q(rcube_sieve_vacation::vacation_interval($action), 'strict', false) . '" size="2" '
             . $this->error_class($id, 'action', 'interval', 'action_interval') .' />';
         if ($vsec) {
             $out .= '&nbsp;<label><input type="radio" name="_action_interval_type['.$id.']" value="days"'

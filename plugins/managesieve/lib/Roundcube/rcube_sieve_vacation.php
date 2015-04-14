@@ -357,7 +357,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             }
         }
 
-        $interval_txt = $interval->show(isset($this->vacation['seconds']) ? $this->vacation['seconds'] : $this->vacation['days']);
+        $interval_txt = $interval->show(self::vacation_interval($this->vacation));
         if ($seconds_extension) {
             $interval_select = new html_select(array('name' => 'vacation_interval_type'));
             $interval_select->add($this->plugin->gettext('days'), 'days');
@@ -548,6 +548,36 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         return $result;
+    }
+
+    /**
+     * Get current vacation interval
+     */
+    public static function vacation_interval(&$vacation)
+    {
+        $rcube = rcube::get_instance();
+
+        if (isset($vacation['seconds'])) {
+            $interval = $vacation['seconds'];
+        }
+        else if (isset($vacation['days'])) {
+            $interval = $vacation['days'];
+        }
+        else if ($interval_cfg = $rcube->config->get('managesieve_vacation_interval')) {
+            if (preg_match('/^([0-9]+)s$/', $interval_cfg, $m)) {
+                if ($seconds_extension) {
+                    $vacation['seconds'] = ($interval = intval($m[1])) ? $interval : null;
+                }
+                else {
+                    $vacation['days'] = $interval = ceil(intval($m[1])/86400);
+                }
+            }
+            else {
+                $vacation['days'] = $interval = intval($interval_cfg);
+            }
+        }
+
+        return $interval ? $interval : '';
     }
 
     /**
