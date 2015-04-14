@@ -23,7 +23,7 @@ class jqueryui extends rcube_plugin
         $rcmail = rcmail::get_instance();
 
         // the plugin might have been force-loaded so do some sanity check first
-        if ($rcmail->output->type != 'html') {
+        if ($rcmail->output->type != 'html' || self::$ui_theme) {
           return;
         }
 
