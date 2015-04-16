@@ -91,6 +91,7 @@ $OUTPUT->set_env('compose_id', $COMPOSE['id']);
 $OUTPUT->set_env('session_id', session_id());
 $OUTPUT->set_env('mailbox', $RCMAIL->storage->get_folder());
 $OUTPUT->set_env('top_posting', intval($RCMAIL->config->get('reply_mode')) > 0);
+$OUTPUT->set_env('sig_below', $RCMAIL->config->get('sig_below'));
 $OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_separator', ',')));
 $OUTPUT->set_env('save_localstorage', (bool)$RCMAIL->config->get('compose_save_localstorage'));
 $OUTPUT->set_env('is_sent', false);
@@ -612,8 +613,10 @@ function rcmail_compose_header_from($attrib)
     if (count($MESSAGE->identities)) {
         $a_signatures = array();
         $identities   = array();
-        $separator    = intval($RCMAIL->config->get('reply_mode')) > 0
-            && ($compose_mode == RCUBE_COMPOSE_REPLY || $compose_mode == RCUBE_COMPOSE_FORWARD) ? '---' : '-- ';
+        $top_posting  = intval($RCMAIL->config->get('reply_mode')) > 0
+            && !$RCMAIL->config->get('sig_below')
+            && ($compose_mode == RCUBE_COMPOSE_REPLY || $compose_mode == RCUBE_COMPOSE_FORWARD);
+        $separator = $top_posting ? '---' : '-- ';
 
         $field_attrib['onchange'] = rcmail_output::JS_OBJECT_NAME.".change_identity(this)";
         $select_from = new html_select($field_attrib);

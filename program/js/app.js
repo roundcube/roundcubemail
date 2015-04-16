@@ -3384,13 +3384,15 @@ function rcube_webmail()
 
     if (!html_mode) {
       pos = this.env.top_posting ? 0 : input_message.value.length;
-      this.set_caret_pos(input_message, pos);
 
       // add signature according to selected identity
-      // if we have HTML editor, signature is added in callback
+      // if we have HTML editor, signature is added in a callback
       if (input_from.prop('type') == 'select-one') {
         this.change_identity(input_from[0]);
       }
+
+      // set initial cursor position
+      this.set_caret_pos(input_message, pos);
 
       // scroll to the bottom of the textarea (#1490114)
       if (pos) {

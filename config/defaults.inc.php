@@ -1074,6 +1074,11 @@ $config['strip_existing_sig'] = true;
 // 3 - Forwards and Replies only
 $config['show_sig'] = 1;
 
+// By default the signature is placed depending on cursor position (reply_mode).
+// Sometimes it might be convenient to start the reply on top but keep
+// the signature below the quoted text (sig_below = true).
+$config['sig_below'] = false;
+
 // Use MIME encoding (quoted-printable) for 8bit characters in message body
 $config['force_7bit'] = false;
 

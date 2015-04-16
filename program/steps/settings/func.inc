@@ -845,6 +845,20 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
+            if (!isset($no_override['sig_below'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_sig_below';
+                $input    = new html_checkbox(array('name' => '_sig_below', 'id' => $field_id, 'value' => 1));
+
+                $blocks['sig']['options']['sig_below'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('sigbelow'))),
+                    'content' => $input->show($RCMAIL->config->get('sig_below') ? 1 : 0),
+                );
+            }
+
             if (!isset($no_override['strip_existing_sig'])) {
                 if (!$current) {
                     continue 2;
