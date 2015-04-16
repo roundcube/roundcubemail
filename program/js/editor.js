@@ -485,32 +485,37 @@ function rcube_text_editor(config, id)
         sig = rcmail.env.signatures[id].text;
         sig = sig.replace(/\r\n/g, '\n');
 
-        if (rcmail.env.top_posting) {
-          if (p >= 0) { // in place of removed signature
-            message = message.substring(0, p) + sig + message.substring(p, message.length);
-            cursor_pos = p - 1;
-          }
-          else if (!message) { // empty message
-            cursor_pos = 0;
-            message = '\n\n' + sig;
-          }
-          else if (pos = rcmail.get_caret_pos(input_message.get(0))) { // at cursor position
+        // in place of removed signature
+        if (p >= 0) {
+          message = message.substring(0, p) + sig + message.substring(p, message.length);
+          cursor_pos = p - 1;
+        }
+        // empty message
+        else if (!message) {
+          message = '\n\n' + sig;
+          cursor_pos = 0;
+        }
+        else if (rcmail.env.top_posting && !rcmail.env.sig_below) {
+          // at cursor position
+          if (pos = rcmail.get_caret_pos(input_message.get(0))) {
             message = message.substring(0, pos) + '\n' + sig + '\n\n' + message.substring(pos, message.length);
             cursor_pos = pos;
           }
-          else { // on top
-            cursor_pos = 0;
+          // on top
+          else {
             message = '\n\n' + sig + '\n\n' + message.replace(/^[\r\n]+/, '');
+            cursor_pos = 0;
           }
         }
         else {
           message = message.replace(/[\r\n]+$/, '');
-          cursor_pos = !rcmail.env.top_posting && message.length ? message.length+1 : 0;
+          cursor_pos = !rcmail.env.top_posting && message.length ? message.length + 1 : 0;
           message += '\n\n' + sig;
         }
       }
-      else
+      else {
         cursor_pos = rcmail.env.top_posting ? 0 : message.length;
+      }
 
       input_message.val(message);
 
@@ -528,24 +533,18 @@ function rcube_text_editor(config, id)
         sigElem = doc.createElement('div');
         sigElem.setAttribute('id', '_rc_sig');
 
-        if (rcmail.env.top_posting) {
-          // if no existing sig and top posting then insert at caret pos
+        if (rcmail.env.top_posting && !rcmail.env.sig_below) {
           this.editor.getWin().focus(); // correct focus in IE & Chrome
 
           var node = this.editor.selection.getNode();
-          if (node.nodeName == 'BODY') {
-            // no real focus, insert at start
-            body.insertBefore(sigElem, body.firstChild);
-            body.insertBefore(doc.createElement('br'), body.firstChild);
-          }
-          else {
-            body.insertBefore(sigElem, node.nextSibling);
-            body.insertBefore(doc.createElement('br'), node.nextSibling);
-          }
+
+          // insert at start or at cursor position if found
+          body.insertBefore(sigElem, node.nodeName == 'BODY' ? body.firstChild : node.nextSibling);
+          body.insertBefore(doc.createElement('p'), sigElem);
         }
         else {
           body.appendChild(sigElem);
-          position_element = $(sigElem).prev();
+          position_element = rcmail.env.top_posting ? body.firstChild : $(sigElem).prev();
         }
       }
 

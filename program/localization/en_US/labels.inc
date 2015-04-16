@@ -509,6 +509,7 @@ $labels['autoaddsignature'] = 'Automatically add signature';
 $labels['newmessageonly'] = 'new message only';
 $labels['replyandforwardonly'] = 'replies and forwards only';
 $labels['insertsignature'] = 'Insert signature';
+$labels['sigbelow'] = 'Place signature below the quoted message';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'after $n seconds';
 $labels['reqmdn'] = 'Always request a return receipt';
