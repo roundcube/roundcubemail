@@ -7507,7 +7507,7 @@ function rcube_webmail()
           this.enable_command('import-messages', !is_multifolder);
           this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount && !is_multifolder);
 
-          if ((response.action == 'list' || response.action == 'search') && this.message_list) {
+          if (this.message_list) {
             var list = this.message_list, uid = this.env.list_uid;
 
             // highlight message row when we're back from message page
@@ -7520,12 +7520,14 @@ function rcube_webmail()
               delete this.env.list_uid;
             }
 
-            this.enable_command('set-listmode', this.env.threads && !is_multifolder);
-            if (list.rowcount > 0)
-              list.focus();
-            this.msglist_select(list);
-            this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:list.rowcount });
+            if (response.action == 'list' || response.action == 'search') {
+              this.enable_command('set-listmode', this.env.threads && !is_multifolder);
+              if (list.rowcount > 0)
+                list.focus();
+              this.msglist_select(list);
+            }
 
+            this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:list.rowcount });
           }
         }
         else if (this.task == 'addressbook') {
