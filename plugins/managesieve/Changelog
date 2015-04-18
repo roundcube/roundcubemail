@@ -1,4 +1,6 @@
 - Add option to define default vacation interval
+- Fix missing position idicator in Larry skin when dragging a filter
+- Fix incorrect filter data after filter delete (#1490356)
 
 * version 8.3 [2015-03-12]
 -----------------------------------------------------------
