@@ -226,7 +226,6 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
   this.set_busy(true);
 
   switch (action) {
-
     // Delete filter row
     case 'del':
       var id = o.id, list = this.filters_list;
@@ -250,8 +249,10 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
         $(this).unbind();
 
         // update row id
-        if (rowid > id)
-          $(this).attr('id', 'rcmrow' + (rowid-1));
+        if (rowid > id) {
+          this.uid = rowid - 1;
+          $(this).attr('id', 'rcmrow' + this.uid);
+        }
       });
       list.init();
 
