@@ -20,6 +20,7 @@ CHANGELOG Roundcube Webmail
 - Fix font artifact in Google Chrome on Windows (#1490353)
 - Fix bug where forced extwin page reload could exit from the extwin mode (#1490350)
 - Fix bug where some unrelated attachments in multipart/related message were not listed (#1490355)
+- Fix mouseup event handling when dragging a list record (#1490359)
 
 RELEASE 1.1.1
 -------------
