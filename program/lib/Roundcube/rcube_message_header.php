@@ -227,7 +227,7 @@ class rcube_message_header
         if ($decode) {
             if (is_array($value)) {
                 foreach ($value as $key => $val) {
-                    $value[$key] = rcube_mime::decode_header($val, $this->charset);
+                    $val         = rcube_mime::decode_header($val, $this->charset);
                     $value[$key] = rcube_charset::clean($val);
                 }
             }
