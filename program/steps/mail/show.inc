@@ -185,8 +185,12 @@ if (!empty($set_seen_flag)) {
     }
 }
 
-exit;
+// Save preview_pane preference, if not set yet (#1490362)
+if ($RCMAIL->action == 'preview' && !$RCMAIL->config->get('preview_pane')) {
+    $RCMAIL->user->save_prefs(array('preview_pane' => true));
+}
 
+exit;
 
 
 function rcmail_message_attachments($attrib)
