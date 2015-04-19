@@ -7500,34 +7500,36 @@ function rcube_webmail()
         this.env.qsearch = null;
       case 'list':
         if (this.task == 'mail') {
-          var is_multifolder = this.is_multifolder_listing();
+          var is_multifolder = this.is_multifolder_listing(),
+            list = this.message_list,
+            uid = this.env.list_uid;
+
           this.enable_command('show', 'select-all', 'select-none', this.env.messagecount > 0);
           this.enable_command('expunge', this.env.exists && !is_multifolder);
           this.enable_command('purge', this.purge_mailbox_test() && !is_multifolder);
           this.enable_command('import-messages', !is_multifolder);
           this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount && !is_multifolder);
 
-          if (this.message_list) {
-            var list = this.message_list, uid = this.env.list_uid;
-
-            // highlight message row when we're back from message page
-            if (uid) {
-              if (!list.rows[uid])
-                uid += '-' + this.env.mailbox;
-              if (list.rows[uid]) {
-                list.select(uid);
-              }
-              delete this.env.list_uid;
-            }
-
+          if (list) {
             if (response.action == 'list' || response.action == 'search') {
+              // highlight message row when we're back from message page
+              if (uid) {
+                if (!list.rows[uid])
+                  uid += '-' + this.env.mailbox;
+                if (list.rows[uid]) {
+                  list.select(uid);
+                }
+                delete this.env.list_uid;
+              }
+
               this.enable_command('set-listmode', this.env.threads && !is_multifolder);
               if (list.rowcount > 0)
                 list.focus();
               this.msglist_select(list);
             }
 
-            this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:list.rowcount });
+            if (response.action != 'getunread')
+              this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:list.rowcount });
           }
         }
         else if (this.task == 'addressbook') {
