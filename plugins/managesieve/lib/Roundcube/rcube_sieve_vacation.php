@@ -329,14 +329,23 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             'noclose' => true
             ) + $attrib);
 
+        $auto_addr = $this->rc->config->get('managesieve_vacation_addresses_init');
+        $addresses = !$auto_addr || count($this->vacation) > 1 ? (array) $this->vacation['addresses'] : $this->user_emails();
+
         // form elements
         $subject   = new html_inputfield(array('name' => 'vacation_subject', 'id' => 'vacation_subject', 'size' => 50));
         $reason    = new html_textarea(array('name' => 'vacation_reason', 'id' => 'vacation_reason', 'cols' => 60, 'rows' => 8));
         $interval  = new html_inputfield(array('name' => 'vacation_interval', 'id' => 'vacation_interval', 'size' => 5));
         $addresses = '<textarea name="vacation_addresses" id="vacation_addresses" data-type="list" data-size="30" style="display: none">'
-            . rcube::Q(implode("\n", (array) $this->vacation['addresses']), 'strict', false) . '</textarea>';
+            . rcube::Q(implode("\n", $addresses), 'strict', false) . '</textarea>';
         $status    = new html_select(array('name' => 'vacation_status', 'id' => 'vacation_status'));
         $action    = new html_select(array('name' => 'vacation_action', 'id' => 'vacation_action', 'onchange' => 'vacation_action_select()'));
+        $addresses_link = new html_inputfield(array(
+                'type'    => 'button',
+                'href'    => '#',
+                'class' => 'button',
+                'onclick' => rcmail_output::JS_OBJECT_NAME . '.managesieve_vacation_addresses()'
+            ));
 
         $status->add($this->plugin->gettext('vacation.on'), 'on');
         $status->add($this->plugin->gettext('vacation.off'), 'off');
@@ -461,7 +470,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $table = new html_table(array('cols' => 2));
 
         $table->add('title', html::label('vacation_addresses', $this->plugin->gettext('vacation.addresses')));
-        $table->add(null, $addresses);
+        $table->add(null, $addresses . $addresses_link->show($this->plugin->gettext('filladdresses')));
         $table->add('title', html::label('vacation_interval', $this->plugin->gettext('vacation.interval')));
         $table->add(null, $interval_txt);
 

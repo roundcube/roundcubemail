@@ -219,6 +219,11 @@ td.rowtargets div.adv span.label
   min-width: 65px;
 }
 
+td.rowtargets div a
+{
+  margin-left: 10px;
+}
+
 html.mozilla #filter-form select
 {
   padding-top: 3px;
@@ -338,6 +343,7 @@ a.button.disabled
   display: inline-block;
   max-height: 67px;
   overflow-y: auto;
+  vertical-align: middle;
 }
 
 td.rowtargets > span.listarea
@@ -427,4 +433,8 @@ body.iframe.mail #filter-form
 #vacationform .listelement input {
   vertical-align: top;
   border: 0;
+}
+
+#vacationform input.button {
+  margin-left: 10px;
 }
