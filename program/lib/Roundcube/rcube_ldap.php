@@ -283,12 +283,21 @@ class rcube_ldap extends rcube_addressbook
                 }
 
                 // Get the pieces needed for variable replacement.
-                if ($fu = $rcube->get_user_email())
+                if ($fu = $rcube->get_user_email()) {
                     list($u, $d) = explode('@', $fu);
-                else
+                }
+                else {
                     $d = $this->mail_domain;
+                }
 
                 $dc = 'dc='.strtr($d, array('.' => ',dc=')); // hierarchal domain string
+
+                // resolve $dc through LDAP
+                if (!empty($this->prop['domain_filter']) && !empty($this->prop['search_bind_dn']) &&
+                        method_exists($this->ldap, 'domain_root_dn')) {
+                    $this->ldap->bind($this->prop['search_bind_dn'], $this->prop['search_bind_pw']);
+                    $dc = $this->ldap->domain_root_dn($d);
+                }
 
                 $replaces = array('%dn' => '', '%dc' => $dc, '%d' => $d, '%fu' => $fu, '%u' => $u);
 

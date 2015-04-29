@@ -798,6 +798,10 @@ $config['ldap_public']['Verisign'] = array(
   // DN and password to bind as before searching for bind DN, if anonymous search is not allowed
   'search_bind_dn' => '',
   'search_bind_pw' => '',
+  // Base DN and filter used for resolving the user's domain root DN which feeds the %dc variables
+  // Leave empty to skip this lookup and derive the root DN from the username domain
+  'domain_base_dn' => '',
+  'domain_filter'  => '',
   // Optional map of replacement strings => attributes used when binding for an individual address book
   'search_bind_attrib' => array(),  // e.g. array('%udc' => 'ou')
   // Default for %dn variable if search doesn't return DN value
