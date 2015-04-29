@@ -3287,27 +3287,24 @@ function rcube_webmail()
         $(this).keydown();
       })
       // keyboard navigation
-      .on('keydown keyup', function(e) {
+      .on('keydown keyup click', function(e) {
         var current, selector = $('#pagejump-selector'),
           ul = $('ul', selector),
           list = $('li', ul),
           height = ul.height(),
           p = parseInt(this.value);
 
+        if (e.which != 27 && e.which != 9 && e.which != 13 && !selector.is(':visible'))
+          return ref.show_menu('pagejump-selector', true, e);
+
         if (e.type == 'keydown') {
           // arrow-down
           if (e.which == 40) {
-            if (!selector.is(':visible'))
-              return ref.show_menu('pagejump-selector', true, e);
-
             if (list.length > p)
               this.value = (p += 1);
           }
           // arrow-up
           else if (e.which == 38) {
-            if (!selector.is(':visible'))
-              return ref.show_menu('pagejump-selector', true, e);
-
             if (p > 1 && list.length > p - 1)
               this.value = (p -= 1);
           }
