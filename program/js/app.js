@@ -3255,6 +3255,91 @@ function rcube_webmail()
     this.set_alttext('delete', label);
   };
 
+  // Initialize input element for list page jump
+  this.init_pagejumper = function(element)
+  {
+    $(element).addClass('rcpagejumper')
+      .on('focus', function(e) {
+        // create and display popup with page selection
+        var i, html = '';
+
+        for (i = 1; i <= ref.env.pagecount; i++)
+          html += '<li>' + i + '</li>';
+
+        html = '<ul class="toolbarmenu">' + html + '</ul>';
+
+        if (!ref.pagejump) {
+          ref.pagejump = $('<div id="pagejump-selector" class="popupmenu"></div>')
+            .appendTo(document.body)
+            .on('click', 'li', function() {
+              if (!ref.busy)
+                $(element).val($(this).text()).change();
+            });
+        }
+
+        if (ref.pagejump.data('count') != i)
+          ref.pagejump.html(html);
+
+        ref.pagejump.attr('rel', '#' + this.id).data('count', i);
+
+        // display page selector
+        ref.show_menu('pagejump-selector', true, e);
+        $(this).keydown();
+      })
+      // keyboard navigation
+      .on('keydown keyup', function(e) {
+        var current, selector = $('#pagejump-selector'),
+          ul = $('ul', selector),
+          list = $('li', ul),
+          height = ul.height(),
+          p = parseInt(this.value);
+
+        if (e.type == 'keydown') {
+          // arrow-down
+          if (e.which == 40) {
+            if (!selector.is(':visible'))
+              return ref.show_menu('pagejump-selector', true, e);
+
+            if (list.length > p)
+              this.value = (p += 1);
+          }
+          // arrow-up
+          else if (e.which == 38) {
+            if (!selector.is(':visible'))
+              return ref.show_menu('pagejump-selector', true, e);
+
+            if (p > 1 && list.length > p - 1)
+              this.value = (p -= 1);
+          }
+          // enter
+          else if (e.which == 13) {
+            return $(this).change();
+          }
+        }
+
+        $('li.selected', ul).removeClass('selected');
+
+        if ((current = $(list[p - 1])).length) {
+          current.addClass('selected');
+          $('#pagejump-selector').scrollTop(((ul.height() / list.length) * (p - 1)) - selector.height() / 2);
+        }
+      })
+      .on('change', function(e) {
+        // go to specified page
+        var p = parseInt(this.value);
+        if (p && p != ref.env.current_page && !ref.busy) {
+          ref.hide_menu('pagejump-selector');
+          ref.list_page(p);
+        }
+      });
+  };
+
+  // Update page-jumper state on list updates
+  this.update_pagejumper = function()
+  {
+    $('input.rcpagejumper').val(this.env.current_page).prop('disabled', this.env.pagecount < 2);
+  };
+
   /*********************************************************/
   /*********       mailbox folders methods         *********/
   /*********************************************************/
@@ -6673,6 +6758,8 @@ function rcube_webmail()
   {
     this.enable_command('nextpage', 'lastpage', this.env.pagecount > this.env.current_page);
     this.enable_command('previouspage', 'firstpage', this.env.current_page > 1);
+
+    this.update_pagejumper();
   };
 
   // mark a mailbox as selected and set environment variable

@@ -481,6 +481,22 @@ body.iframe .boxtitle
   background-position: -33px -11px;
 }
 
+#rcmcountdisplay
+{
+  float: left;
+  margin-right: 10px;
+}
+
+#countcontrols #pagejumper
+{
+  margin: 0 5px;
+  float: right;
+  text-align: center;
+  padding: 0;
+  cursor: default;
+  font-size: 10px;
+}
+
 .splitter
 {
   user-select: none;
@@ -1120,7 +1136,8 @@ a.rcmContactAddress:hover
   cursor: pointer;
 }
 
-#rcmKSearchpane ul li.selected
+#rcmKSearchpane ul li.selected,
+#pagejump-selector ul li.selected
 {
   color: #ffffff;
   background-color: #CC3333;
@@ -1277,6 +1294,19 @@ ul.toolbarmenu li.separator_above
 #searchmenu ul.toolbarmenu li label.comment
 {
   color: #999;
+}
+
+#pagejump-selector
+{
+  max-height: 250px;
+  overflow-x: hidden;
+}
+
+#pagejump-selector ul li
+{
+  min-width: 45px;
+  padding: 2px 5px;
+  cursor: default;
 }
 
 

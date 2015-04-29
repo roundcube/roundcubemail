@@ -1027,6 +1027,8 @@ function rcube_init_mail_ui()
           .addEventListener('afterimport-messages', function(){ rcmail_ui.show_popup('uploadform', false); });
       }
 
+      rcmail.init_pagejumper('#pagejumper');
+
       // fix message list header on window resize (#1490213)
       if (bw.ie && rcmail.message_list)
         $(window).resize(function() {

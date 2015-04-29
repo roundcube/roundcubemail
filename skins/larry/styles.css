@@ -430,6 +430,14 @@ a.button.delete span.icon {
 	top: -2px;
 }
 
+.pagenav .pagejumper {
+	text-align: center;
+	background: #f8f8f8;
+	padding: 3px 0;
+	background: linear-gradient(to bottom, #dddddd 0%, #f8f8f8 100%);
+	cursor: default;
+}
+
 a.iconbutton {
 	display: inline-block;
 	width: 20px;
@@ -2340,6 +2348,7 @@ ul.toolbarmenu li a.active {
 ul.toolbarmenu li a.active:hover,
 ul.toolbarmenu li a.active:focus,
 #rcmKSearchpane ul li.selected,
+#pagejump-selector ul li.selected,
 select.decorated option:hover,
 select.decorated option[selected='selected'] {
 	background-color: #00aad6;
@@ -2455,6 +2464,17 @@ ul.toolbarmenu li span.move {
 
 ul.toolbarmenu li span.copy {
 	background-position: 0 -2150px;
+}
+
+#pagejump-selector {
+	max-height: 250px;
+	overflow-x: hidden;
+}
+
+#pagejump-selector ul li {
+	min-width: 45px;
+	padding: 2px 5px;
+	cursor: default;
 }
 
 #snippetslist {

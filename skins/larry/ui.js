@@ -231,6 +231,8 @@ function rcube_mail_ui()
         if (previewframe)
           mailviewsplit.init();
 
+        rcmail.init_pagejumper('#pagejumper');
+
         rcmail.addEventListener('setquota', update_quota)
           .addEventListener('enable-command', enable_command)
           .addEventListener('afterimport-messages', show_uploadform);
