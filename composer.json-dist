@@ -9,7 +9,7 @@
         },
         {
             "type": "composer",
-            "url": "http://plugins.roundcube.net/"
+            "url": "https://plugins.roundcube.net/"
         },
         {
             "type": "vcs",
@@ -21,7 +21,7 @@
                 "name": "Net_SMTP",
                 "version": "dev-master",
                 "source": {
-                    "url": "http://github.com/pear/Net_SMTP",
+                    "url": "https://github.com/pear/Net_SMTP",
                     "type": "git",
                     "reference": "master"
                 }
