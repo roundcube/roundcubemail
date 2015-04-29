@@ -3315,6 +3315,10 @@ function rcube_webmail()
           else if (e.which == 13) {
             return $(this).change();
           }
+          // esc, tab
+          else if (e.which == 27 || e.which == 9) {
+            return $(element).val(ref.env.current_page);
+          }
         }
 
         $('li.selected', ul).removeClass('selected');
