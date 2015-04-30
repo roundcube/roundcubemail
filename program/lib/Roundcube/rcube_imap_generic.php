@@ -1145,7 +1145,7 @@ class rcube_imap_generic
         }
 
         // Clear internal status cache
-        unset($this->data['STATUS:'.$mailbox]);
+        $this->clear_status_cache($mailbox);
 
         if (!empty($messages) && $messages != '*' && $this->hasCapability('UIDPLUS')) {
             $messages = self::compressMessageSet($messages);
@@ -1460,13 +1460,9 @@ class rcube_imap_generic
      *
      * @return int Number of messages, False on error
      */
-    function countMessages($mailbox, $refresh = false)
+    function countMessages($mailbox)
     {
-        if ($refresh) {
-            $this->selected = null;
-        }
-
-        if ($this->selected === $mailbox) {
+        if ($this->selected === $mailbox && isset($this->data['EXISTS'])) {
             return $this->data['EXISTS'];
         }
 
@@ -1494,14 +1490,20 @@ class rcube_imap_generic
      */
     function countRecent($mailbox)
     {
-        if (!strlen($mailbox)) {
-            $mailbox = 'INBOX';
+        if ($this->selected === $mailbox && isset($this->data['RECENT'])) {
+            return $this->data['RECENT'];
         }
 
-        $this->select($mailbox);
+        // Check internal cache
+        $cache = $this->data['STATUS:'.$mailbox];
+        if (!empty($cache) && isset($cache['RECENT'])) {
+            return (int) $cache['RECENT'];
+        }
 
-        if ($this->selected === $mailbox) {
-            return $this->data['RECENT'];
+        // Try STATUS (should be faster than SELECT)
+        $counts = $this->status($mailbox, array('RECENT'));
+        if (is_array($counts)) {
+            return (int) $counts['RECENT'];
         }
 
         return false;
@@ -2122,7 +2124,7 @@ class rcube_imap_generic
 
             // Clear internal status cache
             unset($this->data['STATUS:'.$to]);
-            unset($this->data['STATUS:'.$from]);
+            $this->clear_status_cache($from);
 
             $result = $this->execute('UID MOVE', array(
                 $this->compressMessageSet($messages), $this->escape($to)),
@@ -3758,6 +3760,17 @@ class rcube_imap_generic
         }
 
         return $result;
+    }
+
+    /**
+     * Clear internal status cache
+     */
+    protected function clear_status_cache($mailbox)
+    {
+        unset($this->data['STATUS:' . $mailbox]);
+        unset($this->data['EXISTS']);
+        unset($this->data['RECENT']);
+        unset($this->data['UNSEEN']);
     }
 
     /**
