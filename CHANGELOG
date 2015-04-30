@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix missing or not up-to-date CATEGORIES entry in vCard export (#1490277)
 - Fix duplicate entry on timezones list in rcube_config::timezone_name_from_abbr() (#1490293)
 - Fix handling of %-encoded entities in mailto: URLs (#1490346)
+- Fix bug where messages count was not updated after message move/delete with skip_deleted=false (#1490372)
 
 RELEASE 1.0.5
 -------------
