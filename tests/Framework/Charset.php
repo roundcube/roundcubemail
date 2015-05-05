@@ -15,7 +15,9 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
     {
         return array(
             array('', ''),
-            array("\xC1", ''),
+            array("\xC1", ""),
+            array("сим\xD0вол", "символ"),
+            array("Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν", "Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν"),
         );
     }
 
