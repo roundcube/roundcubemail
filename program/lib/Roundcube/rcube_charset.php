@@ -789,30 +789,29 @@ class rcube_charset
 
             // 1-byte character
             if ($ord <= 0x7F) {
-                if ($seq) {
+                if ($seq !== '') {
                     $out .= preg_match($regexp, $seq) ? $seq : '';
+                    $seq = '';
                 }
-                $seq = '';
+
                 $out .= $chr;
             }
-            // first (or second) byte of multibyte sequence
+            // first byte of multibyte sequence
             else if ($ord >= 0xC0) {
-                if (strlen($seq) > 1) {
+                if ($seq !== '') {
                     $out .= preg_match($regexp, $seq) ? $seq : '';
                     $seq = '';
                 }
-                else if ($seq && ord($seq) < 0xC0) {
-                    $seq = '';
-                }
-                $seq .= $chr;
+
+                $seq = $chr;
             }
             // next byte of multibyte sequence
-            else if ($seq) {
+            else if ($seq !== '') {
                 $seq .= $chr;
             }
         }
 
-        if ($seq) {
+        if ($seq !== '') {
             $out .= preg_match($regexp, $seq) ? $seq : '';
         }
 
