@@ -753,7 +753,7 @@ class rcube_charset
 
         // iconv/mbstring are much faster (especially with long strings)
         if (function_exists('mb_convert_encoding')) {
-            $msch = mb_substitute_character('none');
+            $msch = mb_substitute_character();
             mb_substitute_character('none');
             $res = mb_convert_encoding($input, 'UTF-8', 'UTF-8');
             mb_substitute_character($msch);
