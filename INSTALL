@@ -169,6 +169,12 @@ rewrite rules. In order to properly secure your installation, please enable
 mod_rewrite for Apache webserver and double check access to the above listed
 directories and their contents is denied.
 
+NOTE: In Apache 2.4, support for .htaccess files has been disabled by
+default. Therefore you first need to enable this in your Apache main or
+virtual host config by with:
+
+ AllowOverride all
+
 
 UPGRADING
 =========
