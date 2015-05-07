@@ -343,7 +343,6 @@ function rcmail_message_contactphoto($attrib)
             '_task'   => 'addressbook',
             '_action' => 'photo',
             '_email'  => $MESSAGE->sender['mailto'],
-            '_alt'    => $placeholder,
         ));
 
         $attrib['onerror'] = "this.src = '" . ($placeholder ? $placeholder : 'program/resources/blank.gif') . "'";
