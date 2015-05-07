@@ -37,10 +37,10 @@ $config = array(
 
 // check these additional ini settings if not called via CLI
 if (php_sapi_name() != 'cli') {
-    $config += array(
+    $config = array_merge($config, array(
         'suhosin.session.encrypt' => false,
         'file_uploads'            => true,
-    );
+    ));
 }
 
 foreach ($config as $optname => $optval) {
