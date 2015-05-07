@@ -24,7 +24,7 @@ if (php_sapi_name() != 'cli')
 
 if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/../../') . '/' );
 
-define('TESTS_DIR', __DIR__ . '/');
+define('TESTS_DIR', realpath(__DIR__ . '/../') . '/');
 
 if (@is_dir(TESTS_DIR . 'config')) {
     define('RCUBE_CONFIG_DIR', TESTS_DIR . 'config');
@@ -77,7 +77,7 @@ class bootstrap
         if ($dsn['scheme'] == 'mysql' || $dsn['scheme'] == 'mysqli') {
             system(sprintf('cat %s %s | mysql -h %s -u %s --password=%s %s',
                 realpath(INSTALL_PATH . '/SQL/mysql.initial.sql'),
-                realpath(TESTS_DIR . '/Selenium/data/mysql.sql'),
+                realpath(TESTS_DIR . 'Selenium/data/mysql.sql'),
                 escapeshellarg($dsn['host']),
                 escapeshellarg($dsn['user']),
                 escapeshellarg($dsn['pass']),
@@ -94,7 +94,43 @@ class bootstrap
         if (!TESTS_USER)
             return false;
 
-        // TBD.
+        $rcmail = rcmail::get_instance();
+        $imap = $rcmail->get_storage();
+
+        $imap_host = $rcmail->config->get('default_host');
+        $a_host = parse_url($args['host']);
+        if ($a_host['host']) {
+            $imap_host = $a_host['host'];
+            $imap_ssl = isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'));
+            $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : 143);
+        }
+        else {
+            $imap_port = 143;
+            $imap_ssl = false;
+        }
+
+        if (!$imap->connect($imap_host, TESTS_USER, TESTS_PASS, $imap_port, $imap_ssl)) {
+            die("IMAP error: unable to authenticate with user " . TESTS_USER);
+        }
+
+        // create Archive mailbox
+        $folders = $imap->list_folders();
+        if (!in_array('Archive', $folders)) {
+            $imap->create_folder('Archive', true);
+        }
+        else {
+            $imap->delete_message('*', 'Archive');
+        }
+
+        // empty Inbox
+        $imap->delete_message('*', 'INBOX');
+
+        // import email messages
+        foreach (glob(TESTS_DIR . 'Selenium/data/mail/*.eml') as $f) {
+            $imap->save_message('INBOX', file_get_contents($f));
+        }
+
+        $imap->close();
     }
 }
 
@@ -118,8 +154,11 @@ class Selenium_Test extends PHPUnit_Extensions_Selenium2TestCase
 
     protected function login()
     {
-        $this->go('mail');
+        $this->go('mail', null, true);
+    }
 
+    protected function do_login()
+    {
         $user_input = $this->byCssSelector('form input[name="_user"]');
         $pass_input = $this->byCssSelector('form input[name="_pass"]');
         $submit     = $this->byCssSelector('form input[type="submit"]');
@@ -134,16 +173,21 @@ class Selenium_Test extends PHPUnit_Extensions_Selenium2TestCase
         sleep(TESTS_SLEEP);
     }
 
-    protected function go($task = 'mail', $action = null)
+    protected function go($task = 'mail', $action = null, $login = true)
     {
         $this->url(TESTS_URL . '?_task=' . $task);
 
         // wait for interface load (initial ajax requests, etc.)
         sleep(TESTS_SLEEP);
 
+        // check if we have a valid session
+        $env = $this->get_env();
+        if ($login && $env['task'] == 'login') {
+            $this->do_login();
+        }
+
         if ($action) {
             $this->click_button($action);
-
             sleep(TESTS_SLEEP);
         }
     }
@@ -151,7 +195,7 @@ class Selenium_Test extends PHPUnit_Extensions_Selenium2TestCase
     protected function get_env()
     {
         return $this->execute(array(
-            'script' => 'return rcmail.env;',
+            'script' => 'return window.rcmail ? rcmail.env : {};',
             'args' => array(),
         ));
     }
@@ -225,10 +269,15 @@ class Selenium_Test extends PHPUnit_Extensions_Selenium2TestCase
 
         // get response
         $response = $this->execute(array(
-            'script' => "return window.test_ajax_response_object['$action'];",
+            'script' => "return window.test_ajax_response_object ? test_ajax_response_object['$action'] : {};",
             'args' => array(),
         ));
 
         return $response;
+    }
+
+    protected function assertHasClass($classname, $element)
+    {
+        $this->assertContains($classname, $element->attribute('class'));
     }
 }
