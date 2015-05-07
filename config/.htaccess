@@ -1,0 +1,2 @@
+# deny webserver access to this directory
+Deny from all

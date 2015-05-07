@@ -153,6 +153,23 @@ increase the allowed size of file attachments, for example:
 	php_value       upload_max_filesize     2M
 
 
+SECURE YOUR INSTALLATION
+========================
+
+Access through the webserver to the following directories should be denied:
+
+  /config
+  /temp
+  /logs
+
+Roundcube uses .htaccess files to protect these directories, so be sure to
+allow override of the Limit directives to get them taken into account. The
+package also ships a .htaccess file in the root directory which defines some
+rewrite rules. In order to properly secure your installation, please enable
+mod_rewrite for Apache webserver and double check access to the above listed
+directories and their contents is denied.
+
+
 UPGRADING
 =========
 
