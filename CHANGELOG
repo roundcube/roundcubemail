@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Implemented memcache_debug and apc_debug options for cache operations tracking
 - Installer: Remove system() function use (#1490139)
 - Password plugin: Added 'kpasswd' driver by Peter Allgeyer
 - Add initdb.sh to create database from initial.sql script with prefix support (#1490188)

@@ -42,10 +42,13 @@ class rcube_cache
     private $ttl;
     private $packed;
     private $index;
+    private $debug;
     private $cache         = array();
     private $cache_changes = array();
     private $cache_sums    = array();
     private $max_packet    = -1;
+
+    const DEBUG_LINE_LENGTH = 4096;
 
 
     /**
@@ -65,12 +68,14 @@ class rcube_cache
         $type  = strtolower($type);
 
         if ($type == 'memcache') {
-            $this->type = 'memcache';
-            $this->db   = $rcube->get_memcache();
+            $this->type  = 'memcache';
+            $this->db    = $rcube->get_memcache();
+            $this->debug = $rcube->config->get('memcache_debug');
         }
         else if ($type == 'apc') {
-            $this->type = 'apc';
-            $this->db   = function_exists('apc_exists'); // APC 3.1.4 required
+            $this->type  = 'apc';
+            $this->db    = function_exists('apc_exists'); // APC 3.1.4 required
+            $this->debug = $rcube->config->get('apc_debug');
         }
         else {
             $this->type  = 'db';
@@ -261,10 +266,20 @@ class rcube_cache
 
         if ($this->type != 'db') {
             if ($this->type == 'memcache') {
-                $data = $this->db->get($this->ckey($key));
+                $ckey = $this->ckey($key);
+                $data = $this->db->get($ckey);
+
+                if ($this->debug) {
+                    $this->debug('get', $ckey, $data);
+                }
             }
             else if ($this->type == 'apc') {
-                $data = apc_fetch($this->ckey($key));
+                $ckey = $this->ckey($key);
+                $data = apc_fetch($ckey);
+
+                if ($this->debug) {
+                    $this->debug('fetch', $ckey, $data);
+                }
             }
 
             if ($data) {
@@ -451,11 +466,19 @@ class rcube_cache
             $result = $this->db->replace($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
             if (!$result)
                 $result = $this->db->set($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
+
+            if ($this->debug) {
+                $this->debug('set', $key, $data, $result);
+            }
         }
         else if ($this->type == 'apc') {
             if (apc_exists($key))
                 apc_delete($key);
             $result = apc_store($key, $data, $this->ttl);
+
+            if ($this->debug) {
+                $this->debug('store', $key, $data, $result);
+            }
         }
 
         // Update index
@@ -479,11 +502,21 @@ class rcube_cache
     private function delete_record($key, $index=true)
     {
         if ($this->type == 'memcache') {
+            $ckey = $this->ckey($key);
             // #1488592: use 2nd argument
-            $this->db->delete($this->ckey($key), 0);
+            $result = $this->db->delete($ckey, 0);
+
+            if ($this->debug) {
+                $this->debug('delete', $ckey, null, $result);
+            }
         }
         else {
-            apc_delete($this->ckey($key));
+            $ckey   = $this->ckey($key);
+            $result = apc_delete($ckey);
+
+            if ($this->debug) {
+                $this->debug('delete', $ckey, null, $result);
+            }
         }
 
         if ($index) {
@@ -539,9 +572,17 @@ class rcube_cache
         $index_key = $this->ikey();
         if ($this->type == 'memcache') {
             $data = $this->db->get($index_key);
+
+            if ($this->debug) {
+                $this->debug('get', $index_key, $data);
+            }
         }
         else if ($this->type == 'apc') {
             $data = apc_fetch($index_key);
+
+            if ($this->debug) {
+                $this->debug('fetch', $index_key, $data);
+            }
         }
 
         $this->index = $data ? unserialize($data) : array();
@@ -622,5 +663,28 @@ class rcube_cache
         }
 
         return $this->max_packet;
+    }
+
+    /**
+     * Write memcache/apc debug info to the log
+     */
+    private function debug($type, $key, $data = null, $result = null)
+    {
+        $line = strtoupper($type) . ' ' . $key;
+
+        if ($data !== null) {
+            $line .= ' ' . ($this->packed ? $data : serialize($data));
+
+            if (($len = strlen($line)) > self::DEBUG_LINE_LENGTH) {
+                $diff = $len - self::DEBUG_LINE_LENGTH;
+                $line = substr($line, 0, self::DEBUG_LINE_LENGTH) . "... [truncated $diff bytes]";
+            }
+        }
+
+        if ($result !== null) {
+            $line .= ' [' . ($result ? 'TRUE' : 'FALSE') . ']';
+        }
+
+        rcube::write_log($this->type, $line);
     }
 }

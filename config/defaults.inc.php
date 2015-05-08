@@ -108,6 +108,13 @@ $config['ldap_debug'] = false;
 // Log SMTP conversation to <log_dir>/smtp or to syslog
 $config['smtp_debug'] = false;
 
+// Log Memcache conversation to <log_dir>/memcache or to syslog
+$config['memcache_debug'] = false;
+
+// Log APC conversation to <log_dir>/apc or to syslog
+$config['apc_debug'] = false;
+
+
 // ----------------------------------
 // IMAP
 // ----------------------------------
