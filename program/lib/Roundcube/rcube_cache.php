@@ -403,7 +403,13 @@ class rcube_cache
             }
             // Remove keys by name prefix
             else if ($prefix_mode) {
-                foreach ($this->index as $k) {
+                // handle data inconsistency: it may happen that index
+                // contains not all existing cache entries, here we could
+                // handle at least these that were used before the index was read
+                $index = array_merge($this->index, array_keys($this->cache));
+                $index = array_unique($index);
+
+                foreach ($index as $k) {
                     if (strpos($k, $key) === 0) {
                         $this->delete_record($k);
                     }
