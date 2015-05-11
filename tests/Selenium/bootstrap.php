@@ -54,6 +54,8 @@ PHPUnit_Extensions_Selenium2TestCase::shareSession(true);
  */
 class bootstrap
 {
+    static $imap_ready = null;
+
     /**
      * Wipe and re-initialize (mysql) database
      */
@@ -91,8 +93,12 @@ class bootstrap
      */
     public static function init_imap()
     {
-        if (!TESTS_USER)
+        if (!TESTS_USER) {
             return false;
+        }
+        else if (self::$imap_ready !== null) {
+            return self::$imap_ready;
+        }
 
         $rcmail = rcmail::get_instance();
         $imap = $rcmail->get_storage();
@@ -110,27 +116,62 @@ class bootstrap
         }
 
         if (!$imap->connect($imap_host, TESTS_USER, TESTS_PASS, $imap_port, $imap_ssl)) {
+            self::$imap_ready = false;
             die("IMAP error: unable to authenticate with user " . TESTS_USER);
         }
 
-        // create Archive mailbox
+        self::$imap_ready = true;
+
+        self::purge_mailbox('INBOX');
+        self::ensure_mailbox('Archive', true);
+
+        return self::$imap_ready;
+    }
+
+    /**
+     * Import the given file into IMAP
+     */
+    public static function import_message($filename, $mailbox = 'INBOX')
+    {
+        if (!self::init_imap()) {
+            die(__METHOD__ . ': IMAP connection unavailable');
+        }
+
+        $imap = rcmail::get_instance()->get_storage();
+        $imap->save_message($mailbox, file_get_contents($filename));
+    }
+
+    /**
+     * Delete all messages from the given mailbox
+     */
+    public static function purge_mailbox($mailbox)
+    {
+        if (!self::init_imap()) {
+            die(__METHOD__ . ': IMAP connection unavailable');
+        }
+
+        $imap = rcmail::get_instance()->get_storage();
+        $imap->delete_message('*', $mailbox);
+    }
+
+    /**
+     * Make sure the given mailbox exists in IMAP
+     */
+    public static function ensure_mailbox($mailbox, $empty = false)
+    {
+        if (!self::init_imap()) {
+            die(__METHOD__ . ': IMAP connection unavailable');
+        }
+
+        $imap = rcmail::get_instance()->get_storage();
+
         $folders = $imap->list_folders();
-        if (!in_array('Archive', $folders)) {
-            $imap->create_folder('Archive', true);
+        if (!in_array($mailbox, $folders)) {
+            $imap->create_folder($mailbox, true);
         }
-        else {
-            $imap->delete_message('*', 'Archive');
+        else if ($empty) {
+            $imap->delete_message('*', $mailbox);
         }
-
-        // empty Inbox
-        $imap->delete_message('*', 'INBOX');
-
-        // import email messages
-        foreach (glob(TESTS_DIR . 'Selenium/data/mail/*.eml') as $f) {
-            $imap->save_message('INBOX', file_get_contents($f));
-        }
-
-        $imap->close();
     }
 }
 

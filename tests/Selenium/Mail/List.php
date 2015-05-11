@@ -2,6 +2,19 @@
 
 class Selenium_Mail_List extends Selenium_Test
 {
+    protected function setUp()
+    {
+        parent::setUp();
+
+        bootstrap::init_imap();
+        bootstrap::purge_mailbox('INBOX');
+
+        // import email messages
+        foreach (glob(TESTS_DIR . 'Selenium/data/mail/list_00.eml') as $f) {
+            bootstrap::import_message($f, 'INBOX');
+        }
+    }
+
     public function testList()
     {
         $this->go('mail');
