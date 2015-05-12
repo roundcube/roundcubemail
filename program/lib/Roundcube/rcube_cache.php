@@ -265,7 +265,15 @@ class rcube_cache
         }
 
         if ($this->type != 'db') {
-            if ($this->type == 'memcache') {
+            $this->load_index();
+
+            // Consistency check (#1490390)
+            if (!in_array($key, $this->index)) {
+                // we always check if the key exist in the index
+                // to have data in consistent state. Keeping the index consistent
+                // is needed for keys delete operation when we delete all keys or by prefix.
+            }
+            else if ($this->type == 'memcache') {
                 $ckey = $this->ckey($key);
                 $data = $this->db->get($ckey);
 
@@ -418,13 +426,7 @@ class rcube_cache
             }
             // Remove keys by name prefix
             else if ($prefix_mode) {
-                // handle data inconsistency: it may happen that index
-                // contains not all existing cache entries, here we could
-                // handle at least these that were used before the index was read
-                $index = array_merge($this->index, array_keys($this->cache));
-                $index = array_unique($index);
-
-                foreach ($index as $k) {
+                foreach ($this->index as $k) {
                     if (strpos($k, $key) === 0) {
                         $this->delete_record($k);
                     }
@@ -460,13 +462,12 @@ class rcube_cache
     /**
      * Adds entry into memcache/apc DB.
      *
-     * @param string  $key   Cache key name
-     * @param mxied   $data  Serialized cache data
-     * @param bollean $index Enables immediate index update
+     * @param string $key  Cache key name
+     * @param mixed  $data Serialized cache data
      *
      * @param boolean True on success, False on failure
      */
-    private function add_record($key, $data, $index=false)
+    private function add_record($key, $data)
     {
         if ($this->type == 'memcache') {
             $result = $this->db->replace($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
@@ -484,17 +485,6 @@ class rcube_cache
 
             if ($this->debug) {
                 $this->debug('store', $key, $data, $result);
-            }
-        }
-
-        // Update index
-        if ($index && $result) {
-            $this->load_index();
-
-            if (array_search($key, $this->index) === false) {
-                $this->index[] = $key;
-                $data = serialize($this->index);
-                $this->add_record($this->ikey(), $data);
             }
         }
 
