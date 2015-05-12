@@ -17,6 +17,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where preview_pane setting wasn't always saved into user preferences (#1490362)
 - Fix bug where messages count was not updated after message move/delete with skip_deleted=false (#1490372)
 - Fix security issue in contact photo handling (#1490379)
+- Fix possible memcache/apc cache data consistency issues (#1490390)
 
 RELEASE 1.1.1
 -------------
