@@ -43,6 +43,7 @@ class rcube_cache
     private $packed;
     private $index;
     private $debug;
+    private $index_changed = false;
     private $cache         = array();
     private $cache_changes = array();
     private $cache_sums    = array();
@@ -118,7 +119,6 @@ class rcube_cache
     function set($key, $data)
     {
         $this->cache[$key]         = $data;
-        $this->cache_changed       = true;
         $this->cache_changes[$key] = true;
     }
 
@@ -167,7 +167,6 @@ class rcube_cache
         // Remove all keys
         if ($key === null) {
             $this->cache         = array();
-            $this->cache_changed = false;
             $this->cache_changes = array();
             $this->cache_sums    = array();
         }
@@ -227,10 +226,6 @@ class rcube_cache
      */
     function close()
     {
-        if (!$this->cache_changed) {
-            return;
-        }
-
         foreach ($this->cache as $key => $data) {
             // The key has been used
             if ($this->cache_changes[$key]) {
@@ -244,7 +239,9 @@ class rcube_cache
             }
         }
 
-        $this->write_index();
+        if ($this->index_changed) {
+            $this->write_index();
+        }
     }
 
 
@@ -486,6 +483,10 @@ class rcube_cache
             }
         }
 
+        if ($result) {
+            $this->index_changed = true;
+        }
+
         return $result;
     }
 
@@ -511,6 +512,10 @@ class rcube_cache
             if ($this->debug) {
                 $this->debug('delete', $ckey, null, $result);
             }
+        }
+
+        if ($result) {
+            $this->index_changed = true;
         }
 
         if ($index) {
