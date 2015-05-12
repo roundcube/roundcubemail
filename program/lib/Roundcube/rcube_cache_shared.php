@@ -655,7 +655,7 @@ class rcube_cache_shared
      */
     private function debug($type, $key, $data = null, $result = null)
     {
-        $line = strtoupper($type) . ' ' . $key;
+        $line = '[' . (++$this->debug_count) . '] ' . strtoupper($type) . ' ' . $key;
 
         if ($data !== null) {
             $line .= ' ' . ($this->packed ? $data : serialize($data));
