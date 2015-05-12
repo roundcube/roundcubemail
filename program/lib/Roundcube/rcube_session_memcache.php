@@ -15,7 +15,7 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
- | Author: Cor Bosman <cor@roundcu.bet>                                   |
+ | Author: Cor Bosman <cor@roundcu.bet>                                  |
  +-----------------------------------------------------------------------+
 */
 
@@ -31,6 +31,7 @@
 class rcube_session_memcache extends rcube_session
 {
     private $memcache;
+    private $debug;
 
     /**
      * @param Object $config
@@ -40,12 +41,14 @@ class rcube_session_memcache extends rcube_session
         parent::__construct($config);
 
         $this->memcache = rcube::get_instance()->get_memcache();
+        $this->debug    = $config->get('memcache_debug');
 
         if (!$this->memcache) {
-            rcube::raise_error(array('code' => 604, 'type' => 'db',
-                                   'line' => __LINE__, 'file' => __FILE__,
-                                   'message' => "Failed to connect to memcached. Please check configuration"),
-                               true, true);
+            rcube::raise_error(array(
+                    'code' => 604, 'type' => 'db',
+                    'line' => __LINE__, 'file' => __FILE__,
+                    'message' => "Failed to connect to memcached. Please check configuration"),
+                true, true);
         }
 
         // register sessions handler
@@ -80,7 +83,11 @@ class rcube_session_memcache extends rcube_session
     {
         if ($key) {
             // #1488592: use 2nd argument
-            $this->memcache->delete($key, 0);
+            $result = $this->memcache->delete($key, 0);
+
+            if ($this->debug) {
+                $this->debug('delete', $key, null, $result);
+            }
         }
 
         return true;
@@ -101,32 +108,42 @@ class rcube_session_memcache extends rcube_session
             $this->ip      = $arr['ip'];
             $this->vars    = $arr['vars'];
             $this->key     = $key;
-
-            return !empty($this->vars) ? (string) $this->vars : '';
         }
 
-        return null;
+        if ($this->debug) {
+            $this->debug('get', $key, $value);
+        }
+
+        return $this->vars ?: '';
     }
 
     /**
-     * write data to memcache storage
+     * Write data to memcache storage
      *
      * @param $key
      * @param $vars
+     *
      * @return bool
      */
     public function write($key, $vars)
     {
-        return $this->memcache->set($key, serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars)),
-                                    MEMCACHE_COMPRESSED, $this->lifetime + 60);
+        $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars));
+        $result = $this->memcache->set($key, $data, MEMCACHE_COMPRESSED, $this->lifetime + 60);
+
+        if ($this->debug) {
+            $this->debug('set', $key, $data, $result);
+        }
+
+        return $result;
     }
 
     /**
-     * update memcache session data
+     * Update memcache session data
      *
      * @param $key
      * @param $newvars
      * @param $oldvars
+     *
      * @return bool
      */
     public function update($key, $newvars, $oldvars)
@@ -134,11 +151,30 @@ class rcube_session_memcache extends rcube_session
         $ts = microtime(true);
 
         if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
-            return $this->memcache->set($key, serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars)),
-                                        MEMCACHE_COMPRESSED, $this->lifetime + 60);
+            $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars));
+            $result = $this->memcache->set($key, $data, MEMCACHE_COMPRESSED, $this->lifetime + 60);
+
+            if ($this->debug) {
+                $this->debug('set', $key, $data, $result);
+            }
+
+            return $result;
         }
 
         return true;
     }
 
+    /**
+     * Write memcache debug info to the log
+     */
+    protected function debug($type, $key, $data = null, $result = null)
+    {
+        $line = strtoupper($type) . ' ' . $key;
+
+        if ($data !== null) {
+            $line .= ' ' . $data;
+        }
+
+        rcube::debug($this->type, $line, $result);
+    }
 }

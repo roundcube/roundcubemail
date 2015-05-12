@@ -37,6 +37,8 @@ class rcube
     const REQUEST_ERROR_URL   = 1;
     const REQUEST_ERROR_TOKEN = 2;
 
+    const DEBUG_LINE_LENGTH = 4096;
+
     /**
      * Singleton instace of rcube
      *
@@ -1449,6 +1451,32 @@ class rcube
             print '<br />';
             flush();
         }
+    }
+
+
+    /**
+     * Write debug info to the log
+     *
+     * @param string Engine type - file name (memcache, apc)
+     * @param string Data string to log
+     * @param bool   Operation result
+     */
+    public static function debug($engine, $data, $result = null)
+    {
+        static $debug_counter;
+
+        $line = '[' . (++$debug_counter[$engine]) . '] ' . $data;
+
+        if (($len = strlen($line)) > self::DEBUG_LINE_LENGTH) {
+            $diff = $len - self::DEBUG_LINE_LENGTH;
+            $line = substr($line, 0, self::DEBUG_LINE_LENGTH) . "... [truncated $diff bytes]";
+        }
+
+        if ($result !== null) {
+            $line .= ' [' . ($result ? 'TRUE' : 'FALSE') . ']';
+        }
+
+        self::write_log($engine, $line);
     }
 
 

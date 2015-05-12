@@ -48,8 +48,6 @@ class rcube_cache
     private $cache_sums    = array();
     private $max_packet    = -1;
 
-    const DEBUG_LINE_LENGTH = 4096;
-
 
     /**
      * Object constructor.
@@ -666,21 +664,12 @@ class rcube_cache
      */
     private function debug($type, $key, $data = null, $result = null)
     {
-        $line = '[' . (++$this->debug_count) . '] ' . strtoupper($type) . ' ' . $key;
+        $line = strtoupper($type) . ' ' . $key;
 
         if ($data !== null) {
             $line .= ' ' . ($this->packed ? $data : serialize($data));
-
-            if (($len = strlen($line)) > self::DEBUG_LINE_LENGTH) {
-                $diff = $len - self::DEBUG_LINE_LENGTH;
-                $line = substr($line, 0, self::DEBUG_LINE_LENGTH) . "... [truncated $diff bytes]";
-            }
         }
 
-        if ($result !== null) {
-            $line .= ' [' . ($result ? 'TRUE' : 'FALSE') . ']';
-        }
-
-        rcube::write_log($this->type, $line);
+        rcube::debug($this->type, $line, $result);
     }
 }
