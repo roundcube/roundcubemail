@@ -62,29 +62,31 @@ class bootstrap
     public static function init_db()
     {
         $rcmail = rcmail::get_instance();
+        $dsn = rcube_db::parse_dsn($rcmail->config->get('db_dsnw'));
 
-        // drop all existing tables first
-        $db = $rcmail->get_dbh();
-        $db->query("SET FOREIGN_KEY_CHECKS=0");
-        $sql_res = $db->query("SHOW TABLES");
-        while ($sql_arr = $db->fetch_array($sql_res)) {
-            $table = reset($sql_arr);
-            $db->query("DROP TABLE $table");
-        }
+        if ($dsn['phptype'] == 'mysql' || $dsn['phptype'] == 'mysqli') {
+            // drop all existing tables first
+            $db = $rcmail->get_dbh();
+            $db->query("SET FOREIGN_KEY_CHECKS=0");
+            $sql_res = $db->query("SHOW TABLES");
+            while ($sql_arr = $db->fetch_array($sql_res)) {
+                $table = reset($sql_arr);
+                $db->query("DROP TABLE $table");
+            }
 
-        // init database with schema
-        $dsn = parse_url($rcmail->config->get('db_dsnw'));
-        $db_name = trim($dsn['path'], '/');
-
-        if ($dsn['scheme'] == 'mysql' || $dsn['scheme'] == 'mysqli') {
+            // init database with schema
             system(sprintf('cat %s %s | mysql -h %s -u %s --password=%s %s',
                 realpath(INSTALL_PATH . '/SQL/mysql.initial.sql'),
                 realpath(TESTS_DIR . 'Selenium/data/mysql.sql'),
                 escapeshellarg($dsn['host']),
                 escapeshellarg($dsn['user']),
                 escapeshellarg($dsn['pass']),
-                escapeshellarg($db_name)
+                escapeshellarg($dsn['database'])
             ));
+        }
+        else if ($dsn['phptype'] == 'sqlite') {
+            // delete database file -- will be re-initialized on first access
+            system(sprintf('rm -f %s', escapeshellarg($dsn['database'])));
         }
     }
 
