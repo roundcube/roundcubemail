@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Fix handling of %-encoded entities in mailto: URLs (#1490346)
 - Fix bug where messages count was not updated after message move/delete with skip_deleted=false (#1490372)
 - Fix security issue in contact photo handling (#1490379)
+- Fix bug where database_attachments_cache setting was not working
 
 RELEASE 1.0.5
 -------------
