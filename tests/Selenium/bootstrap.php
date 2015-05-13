@@ -78,9 +78,9 @@ class bootstrap
             system(sprintf('cat %s %s | mysql -h %s -u %s --password=%s %s',
                 realpath(INSTALL_PATH . '/SQL/mysql.initial.sql'),
                 realpath(TESTS_DIR . 'Selenium/data/mysql.sql'),
-                escapeshellarg($dsn['host']),
-                escapeshellarg($dsn['user']),
-                escapeshellarg($dsn['pass']),
+                escapeshellarg($dsn['hostspec']),
+                escapeshellarg($dsn['username']),
+                escapeshellarg($dsn['password']),
                 escapeshellarg($dsn['database'])
             ));
         }
