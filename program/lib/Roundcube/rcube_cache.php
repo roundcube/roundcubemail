@@ -164,7 +164,7 @@ class rcube_cache
         // Remove all keys
         if ($key === null) {
             $this->cache         = array();
-            $this->cache_changed = false;
+            $this->cache_changed = true;
             $this->cache_changes = array();
             $this->cache_sums    = array();
         }
@@ -344,7 +344,15 @@ class rcube_cache
         }
 
         if ($this->type == 'memcache' || $this->type == 'apc') {
-            return $this->add_record($this->ckey($key), $data);
+            $result = $this->add_record($this->ckey($key), $data);
+
+            // make sure index will be updated
+            if ($result && !array_key_exists($key, $this->cache_sums)) {
+                $this->cache_changed    = true;
+                $this->cache_sums[$key] = true;
+            }
+
+            return $result;
         }
 
         $key_exists = array_key_exists($key, $this->cache_sums);
@@ -507,10 +515,15 @@ class rcube_cache
 
         // Make sure index contains new keys
         foreach ($this->cache as $key => $value) {
-            if ($value !== null) {
-                if (array_search($key, $this->index) === false) {
-                    $this->index[] = $key;
-                }
+            if ($value !== null && !in_array($key, $this->index)) {
+                $this->index[] = $key;
+            }
+        }
+
+        // new keys added using self::write()
+        foreach ($this->cache_sums as $key => $value) {
+            if ($value === true && !in_array($key, $this->index)) {
+                $this->index[] = $key;
             }
         }
 
