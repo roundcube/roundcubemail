@@ -102,14 +102,31 @@ class bootstrap
             return self::$imap_ready;
         }
 
+        self::connect_imap(TESTS_USER, TESTS_PASS);
+        self::purge_mailbox('INBOX');
+        self::ensure_mailbox('Archive', true);
+
+        return self::$imap_ready;
+    }
+
+    /**
+     * Authenticate to IMAP with the given credentials
+     */
+    public static function connect_imap($username, $password, $host = null)
+    {
         $rcmail = rcmail::get_instance();
         $imap = $rcmail->get_storage();
 
-        $imap_host = $rcmail->config->get('default_host');
-        $a_host = parse_url($args['host']);
+        if ($imap->is_connected()) {
+            $imap->close();
+            self::$imap_ready = false;
+        }
+
+        $imap_host = $host ?: $rcmail->config->get('default_host');
+        $a_host = parse_url($imap_host);
         if ($a_host['host']) {
             $imap_host = $a_host['host'];
-            $imap_ssl = isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'));
+            $imap_ssl  = isset($a_host['scheme']) && in_array($a_host['scheme'], array('ssl','imaps','tls'));
             $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : 143);
         }
         else {
@@ -117,17 +134,11 @@ class bootstrap
             $imap_ssl = false;
         }
 
-        if (!$imap->connect($imap_host, TESTS_USER, TESTS_PASS, $imap_port, $imap_ssl)) {
-            self::$imap_ready = false;
+        if (!$imap->connect($imap_host, $username, $password, $imap_port, $imap_ssl)) {
             die("IMAP error: unable to authenticate with user " . TESTS_USER);
         }
 
         self::$imap_ready = true;
-
-        self::purge_mailbox('INBOX');
-        self::ensure_mailbox('Archive', true);
-
-        return self::$imap_ready;
     }
 
     /**
@@ -185,9 +196,12 @@ class bootstrap
  */
 class Selenium_Test extends PHPUnit_Extensions_Selenium2TestCase
 {
+    protected $login_data = null;
+
     protected function setUp()
     {
         $this->setBrowser(TESTS_BROWSER);
+        $this->login_data = array(TESTS_USER, TESTS_PASS);
 
         // Set root to our index.html, for better performance
         // See https://github.com/sebastianbergmann/phpunit-selenium/issues/217
@@ -195,8 +209,12 @@ class Selenium_Test extends PHPUnit_Extensions_Selenium2TestCase
         $this->setBrowserUrl($baseurl . '/tests/Selenium');
     }
 
-    protected function login()
+    protected function login($username = null, $password = null)
     {
+        if (!empty($username)) {
+            $this->login_data = array($username, $password);
+        }
+
         $this->go('mail', null, true);
     }
 
@@ -206,8 +224,8 @@ class Selenium_Test extends PHPUnit_Extensions_Selenium2TestCase
         $pass_input = $this->byCssSelector('form input[name="_pass"]');
         $submit     = $this->byCssSelector('form input[type="submit"]');
 
-        $user_input->value(TESTS_USER);
-        $pass_input->value(TESTS_PASS);
+        $user_input->value($this->login_data[0]);
+        $pass_input->value($this->login_data[1]);
 
         // submit login form
         $submit->click();
