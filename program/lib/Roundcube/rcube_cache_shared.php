@@ -349,8 +349,16 @@ class rcube_cache_shared
             $result = $this->add_record($this->ckey($key), $data);
 
             // make sure index will be updated
-            if ($result && !array_key_exists($key, $this->cache_sums)) {
-                $this->cache_sums[$key] = true;
+            if ($result) {
+                if (!array_key_exists($key, $this->cache_sums)) {
+                    $this->cache_sums[$key] = true;
+                }
+
+                $this->load_index();
+
+                if (!$this->index_changed && !in_array($key, $this->index)) {
+                    $this->index_changed = true;
+                }
             }
 
             return $result;
@@ -409,22 +417,29 @@ class rcube_cache_shared
             // Remove all keys
             if ($key === null) {
                 foreach ($this->index as $key) {
-                    $this->delete_record($key, false);
+                    $this->delete_record($this->ckey($key));
                 }
+
                 $this->index = array();
             }
             // Remove keys by name prefix
             else if ($prefix_mode) {
-                foreach ($this->index as $k) {
+                foreach ($this->index as $idx => $k) {
                     if (strpos($k, $key) === 0) {
-                        $this->delete_record($k);
+                        $this->delete_record($this->ckey($k));
+                        unset($this->index[$idx]);
                     }
                 }
             }
             // Remove one key by name
             else {
-                $this->delete_record($key);
+                $this->delete_record($this->ckey($key));
+                if (($idx = array_search($key, $this->index)) !== false) {
+                    unset($this->index[$idx]);
+                }
             }
+
+            $this->index_changed = true;
 
             return;
         }
@@ -475,21 +490,19 @@ class rcube_cache_shared
             $this->debug('set', $key, $data, $result);
         }
 
-        if ($result) {
-            $this->index_changed = true;
-        }
-
         return $result;
     }
 
 
     /**
      * Deletes entry from memcache/apc DB.
+     *
+     * @param string $key Cache key name
+     *
+     * @param boolean True on success, False on failure
      */
-    private function delete_record($key, $index=true)
+    private function delete_record($key)
     {
-        $ckey = $this->ckey($key);
-
         if ($this->type == 'memcache') {
             // #1488592: use 2nd argument
             $result = $this->db->delete($ckey, 0);
@@ -502,15 +515,7 @@ class rcube_cache_shared
             $this->debug('delete', $ckey, null, $result);
         }
 
-        if ($result) {
-            $this->index_changed = true;
-        }
-
-        if ($index) {
-            if (($idx = array_search($key, $this->index)) !== false) {
-                unset($this->index[$idx]);
-            }
-        }
+        return $result;
     }
 
 
