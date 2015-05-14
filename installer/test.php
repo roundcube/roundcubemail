@@ -427,6 +427,7 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
   $imap->set_options(array(
     'auth_type' => $RCI->getprop('imap_auth_type'),
     'debug'     => $RCI->getprop('imap_debug'),
+    'socket_options' => $RCI->getprop('imap_conn_options'),
   ));
 
   if ($imap->connect($imap_host, $imap_user, $_POST['_pass'], $imap_port, $imap_ssl)) {
