@@ -263,20 +263,18 @@ class rcube_cache_shared
                 // to have data in consistent state. Keeping the index consistent
                 // is needed for keys delete operation when we delete all keys or by prefix.
             }
-            else if ($this->type == 'memcache') {
+            else {
                 $ckey = $this->ckey($key);
-                $data = $this->db->get($ckey);
+
+                if ($this->type == 'memcache') {
+                    $data = $this->db->get($ckey);
+                }
+                else if ($this->type == 'apc') {
+                    $data = apc_fetch($ckey);
+                }
 
                 if ($this->debug) {
                     $this->debug('get', $ckey, $data);
-                }
-            }
-            else if ($this->type == 'apc') {
-                $ckey = $this->ckey($key);
-                $data = apc_fetch($ckey);
-
-                if ($this->debug) {
-                    $this->debug('fetch', $ckey, $data);
                 }
             }
 
@@ -460,22 +458,21 @@ class rcube_cache_shared
     {
         if ($this->type == 'memcache') {
             $result = $this->db->replace($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
+
             if (!$result) {
                 $result = $this->db->set($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
-            }
-            if ($this->debug) {
-                $this->debug('set', $key, $data, $result);
             }
         }
         else if ($this->type == 'apc') {
             if (apc_exists($key)) {
                 apc_delete($key);
             }
-            $result = apc_store($key, $data, $this->ttl);
 
-            if ($this->debug) {
-                $this->debug('store', $key, $data, $result);
-            }
+            $result = apc_store($key, $data, $this->ttl);
+        }
+
+        if ($this->debug) {
+            $this->debug('set', $key, $data, $result);
         }
 
         if ($result) {
@@ -491,22 +488,18 @@ class rcube_cache_shared
      */
     private function delete_record($key, $index=true)
     {
+        $ckey = $this->ckey($key);
+
         if ($this->type == 'memcache') {
-            $ckey = $this->ckey($key);
             // #1488592: use 2nd argument
             $result = $this->db->delete($ckey, 0);
-
-            if ($this->debug) {
-                $this->debug('delete', $ckey, null, $result);
-            }
         }
         else {
-            $ckey   = $this->ckey($key);
             $result = apc_delete($ckey);
+        }
 
-            if ($this->debug) {
-                $this->debug('delete', $ckey, null, $result);
-            }
+        if ($this->debug) {
+            $this->debug('delete', $ckey, null, $result);
         }
 
         if ($result) {
@@ -526,11 +519,7 @@ class rcube_cache_shared
      */
     private function write_index()
     {
-        if (!$this->db) {
-            return;
-        }
-
-        if ($this->type == 'db') {
+        if (!$this->db || $this->type == 'db') {
             return;
         }
 
@@ -560,7 +549,7 @@ class rcube_cache_shared
      */
     private function load_index()
     {
-        if (!$this->db) {
+        if (!$this->db || $this->type == 'db') {
             return;
         }
 
@@ -572,17 +561,13 @@ class rcube_cache_shared
 
         if ($this->type == 'memcache') {
             $data = $this->db->get($index_key);
-
-            if ($this->debug) {
-                $this->debug('get', $index_key, $data);
-            }
         }
         else if ($this->type == 'apc') {
             $data = apc_fetch($index_key);
+        }
 
-            if ($this->debug) {
-                $this->debug('fetch', $index_key, $data);
-            }
+        if ($this->debug) {
+            $this->debug('get', $index_key, $data);
         }
 
         $this->index = $data ? unserialize($data) : array();
