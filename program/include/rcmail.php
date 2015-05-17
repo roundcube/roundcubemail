@@ -2073,16 +2073,15 @@ class rcmail extends rcube
             if (!empty($_GET['_thumbnail'])) {
                 $temp_dir       = $this->config->get('temp_dir');
                 $thumbnail_size = 80;
-                list(,$ext)     = explode('/', $file['mimetype']);
                 $mimetype       = $file['mimetype'];
                 $file_ident     = $file['id'] . ':' . $file['mimetype'] . ':' . $file['size'];
                 $cache_basename = $temp_dir . '/' . md5($file_ident . ':' . $this->user->ID . ':' . $thumbnail_size);
-                $cache_file     = $cache_basename . '.' . $ext;
+                $cache_file     = $cache_basename . '.thumb';
 
                 // render thumbnail image if not done yet
                 if (!is_file($cache_file)) {
                     if (!$file['path']) {
-                        $orig_name = $filename = $cache_basename . '.orig.' . $ext;
+                        $orig_name = $filename = $cache_basename . '.tmp';
                         file_put_contents($orig_name, $file['data']);
                     }
                     else {
