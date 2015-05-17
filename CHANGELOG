@@ -19,6 +19,7 @@ CHANGELOG Roundcube Webmail
 - Fix security issue in contact photo handling (#1490379)
 - Fix possible memcache/apc cache data consistency issues (#1490390)
 - Fix bug where imap_conn_options were ignored in IMAP connection test (#1490392)
+- Fix bug where some files could have "executable" extension when stored in temp folder (#1490377)
 
 RELEASE 1.1.1
 -------------
