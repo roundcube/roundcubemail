@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where messages count was not updated after message move/delete with skip_deleted=false (#1490372)
 - Fix security issue in contact photo handling (#1490379)
 - Fix bug where database_attachments_cache setting was not working
+- Fix attached file path unsetting in database_attachments plugin (#1490393)
 
 RELEASE 1.0.5
 -------------
