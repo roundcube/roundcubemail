@@ -128,7 +128,7 @@ class redundant_attachments extends filesystem_attachments
 
         $data = $args['path'] ? file_get_contents($args['path']) : $args['data'];
 
-        unset($args['data']);
+        $args['data'] = null;
 
         $key  = $this->_key($args);
         $data = base64_encode($data);
