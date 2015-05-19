@@ -77,6 +77,8 @@ class rcube_sieve
         if (!empty($auth_cid)) {
             $authz    = $username;
             $username = $auth_cid;
+        }
+        if (!empty($auth_pw)) {
             $password = $auth_pw;
         }
 
