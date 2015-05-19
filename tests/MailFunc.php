@@ -110,6 +110,8 @@ class MailFunc extends PHPUnit_Framework_TestCase
 
     /**
      * Test washtml class on non-unicode characters (#1487813)
+     * @iconv
+     * @mbstring
      */
     function test_washtml_utf8()
     {
