@@ -43,9 +43,9 @@ class database_attachments extends filesystem_attachments
         $status = $cache->write($key, $data);
 
         if ($status) {
-            $args['id'] = $key;
+            $args['id']     = $key;
             $args['status'] = true;
-            unset($args['path']);
+            $args['path']   = null;
         }
 
         return $args;

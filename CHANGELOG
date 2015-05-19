@@ -20,6 +20,7 @@ CHANGELOG Roundcube Webmail
 - Fix possible memcache/apc cache data consistency issues (#1490390)
 - Fix bug where imap_conn_options were ignored in IMAP connection test (#1490392)
 - Fix bug where some files could have "executable" extension when stored in temp folder (#1490377)
+- Fix attached file path unsetting in database_attachments plugin (#1490393)
 
 RELEASE 1.1.1
 -------------
