@@ -46,10 +46,6 @@ class rcube_text2html
     protected $config = array(
         // non-breaking space
         'space' => "\xC2\xA0",
-        // word-joiner (zero-width no-break space)
-        // 'wordjoiner' => "\xEF\xBB\xBF", // U+2060
-        // use deprecated U+FEFF character because of webkit issue with displaying U+2060 (#1490353)
-        'wordjoiner' => "\xEF\xBB\xBF", // U+FEFF
         // enables format=flowed parser
         'flowed' => false,
         // enables wrapping for non-flowed text
@@ -63,6 +59,9 @@ class rcube_text2html
         'links' => true,
         // string replacer class
         'replacer' => 'rcube_string_replacer',
+        // prefix and suffix of unwrappable line
+        'nobr_start' => '<span style="white-space:nowrap">',
+        'nobr_end'   => '</span>',
     );
 
 
@@ -281,11 +280,10 @@ class rcube_text2html
         // replace HTML special characters
         $text = strtr($text, $table);
 
-        $nbsp = $this->config['space'];
-        $nobr = $this->config['wordjoiner'];
-
         // replace some whitespace characters
         $text = str_replace(array("\r", "\t"), array('', '    '), $text);
+
+        $nbsp = $this->config['space'];
 
         // replace spaces with non-breaking spaces
         if ($is_flowed) {
@@ -304,15 +302,13 @@ class rcube_text2html
 
             $text = $copy;
         }
-        // make the whole line non-breakable
-        else {
-            $repl = array(
-                ' ' => $nbsp,
-                '-' => $nobr . '-' . $nobr,
-                '/' => $nobr . '/',
-            );
-
-            $text = str_replace(array_keys($repl), array_values($repl), $text);
+        // make the whole line non-breakable if needed
+        else if ($text !== '' && preg_match('/[^a-zA-Z0-9_]/', $text)) {
+            // use non-breakable spaces to correctly display
+            // trailing/leading spaces and multi-space inside
+            $text = str_replace(' ', $nbsp, $text);
+            // wrap in nobr element, so it's not wrapped on e.g. - or /
+            $text = $this->config['nobr_start'] . $text .  $this->config['nobr_end'];
         }
 
         return $text;
