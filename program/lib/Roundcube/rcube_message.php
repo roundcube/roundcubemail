@@ -103,12 +103,12 @@ class rcube_message
 
         $this->set_safe((intval($_GET['_safe']) || $_SESSION['safe_messages'][$this->folder.':'.$uid]));
         $this->opt = array(
-            'safe' => $this->is_safe,
+            'safe'        => $this->is_safe,
             'prefer_html' => $this->app->config->get('prefer_html'),
-            'get_url' => $this->app->url(array(
-                'action' => 'get',
-                'mbox'   => $this->storage->get_folder(),
-                'uid'    => $uid))
+            'get_url'     => $this->app->url(array(
+                    'action' => 'get',
+                    'mbox'   => $this->folder,
+                    'uid'    => $uid))
         );
 
         if (!empty($this->headers->structure)) {
@@ -1038,5 +1038,4 @@ class rcube_message
     {
         return rcube_mime::format_flowed($text, $length);
     }
-
 }
