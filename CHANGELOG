@@ -12,6 +12,7 @@ CHANGELOG Roundcube Webmail
 - Fix security issue in contact photo handling (#1490379)
 - Fix bug where database_attachments_cache setting was not working
 - Fix attached file path unsetting in database_attachments plugin (#1490393)
+- Fix issues when using moduserprefs.sh without --user argument (#1490399)
 
 RELEASE 1.0.5
 -------------
