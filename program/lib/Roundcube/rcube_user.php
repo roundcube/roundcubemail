@@ -169,9 +169,11 @@ class rcube_user
      * Write the given user prefs to the user's record
      *
      * @param array $a_user_prefs User prefs to save
+     * @param bool  $no_session   Simplified language/preferences handling
+     *
      * @return boolean True on success, False on failure
      */
-    function save_prefs($a_user_prefs)
+    function save_prefs($a_user_prefs, $no_session = false)
     {
         if (!$this->ID)
             return false;
@@ -198,32 +200,39 @@ class rcube_user
         }
 
         $save_prefs = serialize($save_prefs);
+        if (!$no_session) {
+            $this->language = $_SESSION['language'];
+        }
 
         $this->db->query(
             "UPDATE ".$this->db->table_name('users', true).
             " SET `preferences` = ?, `language` = ?".
             " WHERE `user_id` = ?",
             $save_prefs,
-            $_SESSION['language'],
+            $this->language,
             $this->ID);
-
-        $this->language = $_SESSION['language'];
 
         // Update success
         if ($this->db->affected_rows() !== false) {
-            $config->set_user_prefs($a_user_prefs);
             $this->data['preferences'] = $save_prefs;
 
-            if (isset($_SESSION['preferences'])) {
-                $this->rc->session->remove('preferences');
-                $this->rc->session->remove('preferences_time');
+            if (!$no_session) {
+                $config->set_user_prefs($a_user_prefs);
+
+                if (isset($_SESSION['preferences'])) {
+                    $this->rc->session->remove('preferences');
+                    $this->rc->session->remove('preferences_time');
+                }
             }
+
             return true;
         }
         // Update error, but we are using replication (we have read-only DB connection)
         // and we are storing session not in the SQL database
         // we can store preferences in session and try to write later (see get_prefs())
-        else if ($this->db->is_replicated() && $config->get('session_storage', 'db') != 'db') {
+        else if (!$no_session && $this->db->is_replicated()
+            && $config->get('session_storage', 'db') != 'db'
+        ) {
             $_SESSION['preferences'] = $save_prefs;
             $_SESSION['preferences_time'] = time();
             $config->set_user_prefs($a_user_prefs);

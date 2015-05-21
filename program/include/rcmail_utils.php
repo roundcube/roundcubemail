@@ -351,7 +351,7 @@ class rcmail_utils
             $prefs[$name] = $value;
 
             if ($prefs != $old_prefs) {
-                $user->save_prefs($prefs);
+                $user->save_prefs($prefs, true);
                 echo "saved.\n";
             }
             else {
