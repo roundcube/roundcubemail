@@ -295,7 +295,7 @@ $config['password_ximss_port'] = 11024;
 
 // chpasswd Driver options
 // ---------------------
-// Command to use
+// Command to use (see "Sudo setup" in README)
 $config['password_chpasswd_cmd'] = 'sudo /usr/sbin/chpasswd 2> /dev/null';
 
 
@@ -337,9 +337,8 @@ $config['password_virtualmin_format'] = 0;
 
 // pw_usermod Driver options
 // --------------------------
-// Use comma delimited exlist to disable password change for users
-// Add the following line to visudo to tighten security:
-// www  ALL=NOPASSWORD: /usr/sbin/pw
+// Use comma delimited exlist to disable password change for users.
+// See "Sudo setup" in README file.
 $config['password_pw_usermod_cmd'] = 'sudo /usr/sbin/pw usermod -h 0 -n';
 
 
