@@ -71,7 +71,7 @@ while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
 	$prefs[$pref_name] = $pref_value;
 
 	if ($prefs != $old_prefs) {
-		$user->save_prefs($prefs);
+		$user->save_prefs($prefs, true);
 		echo "saved.\n";
 	}
 	else {
