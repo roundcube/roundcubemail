@@ -9,6 +9,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: Added message_ready hook
 - Plugin API: Add special onload() method to execute plugin actions before startup (session and GUI initialization)
 - Implemented UI element to jump to specified page of the messages list (#1485235)
+- Add new plugin hook 'identity_create_after' providing the ID of the inserted identity (#1490358)
 - Add option to place signature at bottom of the quoted text even in top-posting mode [sig_below]
 - Fix handling of %-encoded entities in mailto: URLs (#1490346)
 - Fix zipped messages downloads after selecting all messages in a folder (#1490339)
