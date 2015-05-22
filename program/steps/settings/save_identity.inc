@@ -159,6 +159,8 @@ else if (IDENTITIES_LEVEL < 2) {
         $insert_id = $plugin['result'];
 
     if ($insert_id) {
+        $RCMAIL->plugins->exec_hook('identity_create_after', array('id' => $insert_id, 'record' => $save_data));
+
         $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
 
         $_GET['_iid'] = $insert_id;
