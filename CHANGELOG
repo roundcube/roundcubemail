@@ -25,6 +25,7 @@ RELEASE 1.1.2
 - Fix bug where some files could have "executable" extension when stored in temp folder (#1490377)
 - Fix attached file path unsetting in database_attachments plugin (#1490393)
 - Fix issues when using moduserprefs.sh without --user argument (#1490399)
+- Fix potential info disclosure issue by protecting directory access (#1490378)
 
 RELEASE 1.1.1
 -------------
