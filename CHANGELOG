@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.1.2
+-------------
 - Add new plugin hook 'identity_create_after' providing the ID of the inserted identity (#1490358)
 - Add option to place signature at bottom of the quoted text even in top-posting mode [sig_below]
 - Fix handling of %-encoded entities in mailto: URLs (#1490346)
