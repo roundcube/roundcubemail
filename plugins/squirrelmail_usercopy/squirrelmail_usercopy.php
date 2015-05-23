@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Copy a new users identity and settings from a nearby Squirrelmail installation
+ * Copy a new users identities and contacts from a nearby Squirrelmail installation
  *
- * @version 1.4
+ * @version 1.5
  * @author Thomas Bruederli, Johannes Hessellund, pommi, Thomas Lueder
  */
 class squirrelmail_usercopy extends rcube_plugin
@@ -93,14 +93,39 @@ class squirrelmail_usercopy extends rcube_plugin
             }
 
             // copy address book
-            $contacts = $rcmail->get_address_book(null, true);
-            if ($contacts && count($this->abook)) {
+            $contacts  = $rcmail->get_address_book(null, true);
+            $addresses = array();
+            $groups    = array();
+
+            if ($contacts && !empty($this->abook)) {
                 foreach ($this->abook as $rec) {
-                    // #1487096 handle multi-address and/or too long items
-                    $rec['email'] = array_shift(explode(';', $rec['email']));
-                    if (rcube_utils::check_email(rcube_utils::idn_to_ascii($rec['email']))) {
-                        $rec['email'] = rcube_utils::idn_to_utf8($rec['email']);
-                        $contacts->insert($rec, true);
+                    // #1487096: handle multi-address and/or too long items
+                    // #1487858: convert multi-address contacts into groups
+                    $emails   = preg_split('/[;,]/', $rec['email'], -1, PREG_SPLIT_NO_EMPTY);
+                    $group_id = null;
+
+                    // create group for addresses
+                    if (count($emails) > 1) {
+                        if (!($group_id = $groups[$rec['name']])) {
+                            if ($group = $contacts->create_group($rec['name'])) {
+                                $group_id = $group['id'];
+                                $groups[$rec['name']] = $group_id;
+                            }
+                        }
+                    }
+
+                    // create contacts
+                    foreach ($emails as $email) {
+                        if (!($contact_id = $addresses[$email]) && rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
+                            $rec['email'] = rcube_utils::idn_to_utf8($email);
+                            if ($contact_id = $contacts->insert($rec, true)) {
+                                $addresses[$email] = $contact_id;
+                            }
+                        }
+
+                        if ($group_id && $contact_id) {
+                            $contacts->add_to_group($group_id, array($contact_id));
+                        }
                     }
                 }
             }
