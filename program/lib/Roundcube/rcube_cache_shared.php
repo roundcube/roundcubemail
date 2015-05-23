@@ -464,7 +464,7 @@ class rcube_cache_shared
     /**
      * Adds entry into memcache/apc DB.
      *
-     * @param string $key  Cache key name
+     * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
      * @param boolean True on success, False on failure
@@ -497,7 +497,7 @@ class rcube_cache_shared
     /**
      * Deletes entry from memcache/apc DB.
      *
-     * @param string $key Cache key name
+     * @param string $key Cache internal key name
      *
      * @param boolean True on success, False on failure
      */
@@ -505,14 +505,14 @@ class rcube_cache_shared
     {
         if ($this->type == 'memcache') {
             // #1488592: use 2nd argument
-            $result = $this->db->delete($ckey, 0);
+            $result = $this->db->delete($key, 0);
         }
         else {
-            $result = apc_delete($ckey);
+            $result = apc_delete($key);
         }
 
         if ($this->debug) {
-            $this->debug('delete', $ckey, null, $result);
+            $this->debug('delete', $key, null, $result);
         }
 
         return $result;
