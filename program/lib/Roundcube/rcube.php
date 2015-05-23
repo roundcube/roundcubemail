@@ -1005,8 +1005,7 @@ class rcube
             if (empty($_SESSION['secure_token']) && $generate) {
                 // generate x characters long token
                 $length = $len > 1 ? $len : 16;
-                $token  = openssl_random_pseudo_bytes($length / 2);
-                $token  = bin2hex($token);
+                $token  = rcube_utils::random_bytes($length);
 
                 $plugin = $this->plugins->exec_hook('secure_token',
                     array('value' => $token, 'length' => $length));

@@ -163,7 +163,7 @@ class rcmail_install
     $value = $this->config[$name];
 
     if ($name == 'des_key' && !$this->configured && !isset($_REQUEST["_$name"]))
-      $value = self::random_key(24);
+      $value = rcube_utils::random_bytes(24);
 
     return $value !== null && $value !== '' ? $value : $default;
   }
@@ -193,7 +193,7 @@ class rcmail_install
 
       // generate new encryption key, never use the default value
       if ($prop == 'des_key' && $value == $this->defaults[$prop])
-        $value = $this->random_key(24);
+        $value = rcube_utils::random_bytes(24);
 
       // convert some form data
       if ($prop == 'debug_level' && !$is_default) {
@@ -789,25 +789,4 @@ class rcmail_install
   {
       $this->last_error = $p;
   }
-
-
-  /**
-   * Generarte a ramdom string to be used as encryption key
-   *
-   * @param int Key length
-   * @return string The generated random string
-   * @static
-   */
-  function random_key($length)
-  {
-    $alpha = 'ABCDEFGHIJKLMNOPQERSTUVXYZabcdefghijklmnopqrtsuvwxyz0123456789+*%&?!$-_=';
-    $out = '';
-
-    for ($i=0; $i < $length; $i++)
-      $out .= $alpha{rand(0, strlen($alpha)-1)};
-
-    return $out;
-  }
-
 }
-

@@ -1138,4 +1138,34 @@ class rcube_utils
 
         return $url;
     }
+
+    /**
+     * Generate a ramdom string
+     *
+     * @param int String length
+     *
+     * @return string The generated random string
+     */
+    public static function random_bytes($length)
+    {
+        if (function_exists('openssl_random_pseudo_bytes')) {
+            $random = openssl_random_pseudo_bytes(ceil($length / 2));
+            $random = bin2hex($random);
+
+            // if the length wasn't even...
+            if ($length < strlen($random)) {
+                $random = substr($random, 0, $length);
+            }
+        }
+        else {
+            $alpha  = 'ABCDEFGHIJKLMNOPQERSTUVXYZabcdefghijklmnopqrtsuvwxyz0123456789+*%&?!$-_=';
+            $random = '';
+
+            for ($i = 0; $i < $length; $i++) {
+                $random .= $alpha[rand(0, strlen($alpha)-1)];
+            }
+        }
+
+        return $random;
+    }
 }
