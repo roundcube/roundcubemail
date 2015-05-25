@@ -327,8 +327,9 @@ class rcmail_utils
      * @param string Option name
      * @param string Option value
      * @param int    Optional user identifier
+     * @param string Optional value type (bool, int, string)
      */
-    public static function mod_pref($name, $value, $userid = null)
+    public static function mod_pref($name, $value, $userid = null, $type = 'string')
     {
         $db = self::db();
 
@@ -337,6 +338,15 @@ class rcmail_utils
         }
         else {
             $query = '1=1';
+        }
+
+        $type = strtolower($type);
+
+        if ($type == 'bool' || $type == 'boolean') {
+            $value = rcube_utils::get_boolean($value);
+        }
+        else if ($type == 'int' || $type == 'integer') {
+            $value = (int) $value;
         }
 
         // iterate over all users
