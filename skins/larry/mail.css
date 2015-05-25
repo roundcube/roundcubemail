@@ -881,6 +881,10 @@ div.hide-headers {
 	margin: 8px;
 }
 
+#messagebody.mailvelope > iframe {
+	width: 99% !important;
+}
+
 #message-objects div,
 #messagebody span.part-notice {
 	margin: 8px;
@@ -1296,6 +1300,11 @@ div.message-partheaders .headers-table td.header {
 
 #composebodycontainer.buttons {
 	bottom: 42px;
+}
+
+#composebodycontainer.mailvelope > iframe[scrolling='no'] {
+	position: relative;
+	top: -12px;
 }
 
 #composebody {

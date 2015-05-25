@@ -376,6 +376,8 @@ function rcube_webmail()
           this.http_post(postact, postdata);
         }
 
+        this.check_mailvelope(this.env.action);
+
         // detect browser capabilities
         if (!this.is_framed() && !this.env.extwin)
           this.browser_capabilities_check();
@@ -3341,6 +3343,141 @@ function rcube_webmail()
     $('input.rcpagejumper').val(this.env.current_page).prop('disabled', this.env.pagecount < 2);
   };
 
+  // check for mailvelope API
+  this.check_mailvelope = function(action)
+  {
+    if (typeof window.mailvelope !== 'undefined') {
+      this.mailvelope_init(action);
+    }
+    else {
+      $(window).on('mailvelope', function() {
+        ref.mailvelope_init(action);
+      });
+    }
+  };
+
+  // 
+  this.mailvelope_init = function(action)
+  {
+    if (this.env.browser_capabilities)
+      this.env.browser_capabilities['pgpmime'] = 1;
+
+    var keyring = this.get_local_storage_prefix();
+
+    mailvelope.getKeyring(keyring).then(function(kr) {
+      ref.mailvelope_keyring = kr;
+    }, function(err) {
+      // attempt to create a new keyring for this app/user
+      mailvelope.createKeyring(keyring).then(function(kr) {
+        ref.mailvelope_keyring = kr;
+        keyring = keyring.identifier;
+      }, function(err) {
+        console.error(err)
+      });
+    });
+
+    if (action == 'show' || action == 'preview') {
+      // decrypt text body
+      if (this.env.is_pgp_content && window.mailvelope) {
+        var data = $(this.env.is_pgp_content).text();
+        ref.mailvelope_display_container(this.env.is_pgp_content, data, keyring);
+      }
+      // load pgp/mime message and pass it to the mailvelope display container
+      else if (this.env.pgp_mime_part && window.mailvelope) {
+        var msgid = this.display_message(this.get_label('loadingdata'), 'loading'),
+          selector = this.env.pgp_mime_container;
+
+        $.ajax({
+          type: 'GET',
+          url: this.url('get', { '_mbox': this.env.mailbox, '_uid': this.env.uid, '_part': this.env.pgp_mime_part }),
+          error: function(o, status, err) {
+            ref.hide_message(msgkey);
+            ref.http_error(o, status, err, lock);
+          },
+          success: function(data) {
+            ref.mailvelope_display_container(selector, data, keyring, msgid);
+          }
+        });
+      }
+    }
+    else if (action == 'compose' && window.mailvelope) {
+      this.enable_command('compose-encrypted', true);
+    }
+  };
+
+  // handler for the 'compose-encrypt' command
+  this.compose_encrypted = function(props)
+  {
+    var container = $('#' + this.env.composebody).parent();
+    mailvelope.createEditorContainer('#' + container.attr('id'), keyring).then(function(editor) {
+      ref.mailvelope_editor = editor;
+      container.addClass('mailvelope');
+      $('#' + ref.env.composebody).hide();
+    });
+  };
+
+  // callback to replace the message body with the full armored
+  this.mailvelope_submit_messageform = function(draft, saveonly)
+  {
+    // get recipients
+    var recipients = [];
+    $.each(['to', 'cc', 'bcc'], function(i,field) {
+      var pos, rcpt, val = $.trim($('[name="_' + field + '"]').val());
+      while (val.length && rcube_check_email(val, true)) {
+        rcpt = RegExp.$2
+        recipients.push(rcpt);
+        val = val.substr(val.indexOf(rcpt) + rcpt.length + 1).replace(/^\s*,\s*/, '');
+        console.log('*', val)
+      }
+    });
+
+    // check if we have keys for all recipients
+    var isvalid = recipients.length > 0;
+    ref.mailvelope_keyring.validKeyForAddress(recipients).then(function(status) {
+      $.each(status, function(k,v) {
+        console.log('validate', k, v)
+        if (!v) {
+          isvalid = false;
+          alert("No key found for "+k)
+        }
+      });
+
+      if (!isvalid) {
+        if (!recipients.length)
+          alert(ref.get_label('norecipientwarning'));
+        return false;
+      }
+
+      ref.mailvelope_editor.encrypt(recipients).then(function(armored) {
+        console.log('encrypted message', armored);
+        var form = this.gui_objects.messageform;
+
+        // all checks passed, send message
+        // var msgid = ref.set_busy(true, draft || saveonly ? 'savingmessage' : 'sendingmessage')
+
+      }, function(err) {
+        console.log(err)
+      });
+    });
+
+    return false;
+  };
+
+  // wrapper for the mailvelope.createDisplayContainer API call
+  this.mailvelope_display_container = function(selector, data, keyring, msgid)
+  {
+    mailvelope.createDisplayContainer(selector, data, keyring, {}).then(function() {
+      $(selector).addClass('mailvelope').find('.message-part, .part-notice').hide();
+      ref.hide_message(msgid);
+      setTimeout(function() { $(window).resize(); }, 10);
+    }, function(err) {
+      console.error(err)
+      ref.hide_message(msgid);
+      ref.display_message('Message decryption failed: ' + err.message, 'error')
+    });
+  };
+
+
   /*********************************************************/
   /*********       mailbox folders methods         *********/
   /*********************************************************/
@@ -3610,6 +3747,10 @@ function rcube_webmail()
           }
         }]
       );
+    }
+
+    if (this.mailvelope_editor) {
+      return this.mailvelope_submit_messageform(draft, saveonly);
     }
 
     // all checks passed, send message

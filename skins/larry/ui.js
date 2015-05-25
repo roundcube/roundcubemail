@@ -468,6 +468,14 @@ function rcube_mail_ui()
       $('div.rightcol').hide().attr('aria-hidden', 'true');
       $('div.leftcol').css('margin-right', '0');
     }
+
+    var mvlpe = $('#messagebody.mailvelope');
+    if (mvlpe.length) {
+      var h = $('#messagecontent').length ?
+        $('#messagecontent').height() - 16 :
+        $(window).height() - mvlpe.offset().top - 10;
+      mvlpe.height(h);
+    }
   }
 
 

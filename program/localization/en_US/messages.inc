@@ -56,6 +56,7 @@ $messages['contactexists'] = 'A contact with the same e-mail address already exi
 $messages['contactnameexists'] = 'A contact with the same name already exists.';
 $messages['blockedimages'] = 'To protect your privacy, remote images are blocked in this message.';
 $messages['encryptedmessage'] = 'This is an encrypted message and can not be displayed. Sorry!';
+$messages['externalmessagedecryption'] = 'This is an encrypted message and can be decrypted with your browser extension.';
 $messages['nocontactsfound'] = 'No contacts found.';
 $messages['contactnotfound'] = 'The requested contact was not found.';
 $messages['contactsearchonly'] = 'Enter some search terms to find contacts';
