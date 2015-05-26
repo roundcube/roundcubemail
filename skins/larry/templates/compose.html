@@ -33,6 +33,7 @@
 	<roundcube:button name="addattachment" type="link" class="button attach" label="attach" title="addattachment" onclick="UI.show_uploadform(event);return false" aria-haspopup="true" aria-expanded="false"tabindex="2" />
 	<roundcube:button command="insert-sig" type="link" class="button insertsig disabled" classAct="button insertsig" label="signature" title="insertsignature" tabindex="2" />
 	<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="UI.toggle_popup('responsesmenu',event);return false" tabindex="2" aria-haspopup="true" aria-expanded="false" aria-owns="textresponsesmenu"><roundcube:label name="responses" /></a>
+	<roundcube:button command="compose-encrypted" type="link" class="button encrypt hidden" classAct="button encrypt" classSel="button encrypt selected" label="encrypt" title="encryptmessage" tabindex="2" />
 	<roundcube:container name="toolbar" id="compose-toolbar" />
 </div>
 

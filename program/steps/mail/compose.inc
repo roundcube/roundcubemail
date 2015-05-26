@@ -83,7 +83,7 @@ $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubj
     'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
     'fileuploaderror', 'sendmessage', 'newresponse', 'responsename', 'responsetext', 'save',
     'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore', 'ignore',
-    'selectimportfile', 'messageissent');
+    'selectimportfile', 'messageissent', 'nopubkeyfor');
 
 $OUTPUT->set_pagetitle($RCMAIL->gettext('compose'));
 

@@ -279,7 +279,7 @@ function rcube_webmail()
           this.env.address_group_stack = [];
           this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel',
             'toggle-editor', 'list-adresses', 'pushgroup', 'search', 'reset-search', 'extwin',
-            'insert-response', 'save-response', 'menu-open', 'menu-close'];
+            'insert-response', 'save-response', 'menu-open', 'menu-close', 'compose-encrypted'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
@@ -3366,13 +3366,13 @@ function rcube_webmail()
 
     mailvelope.getKeyring(keyring).then(function(kr) {
       ref.mailvelope_keyring = kr;
-    }, function(err) {
+    }).catch(function(err) {
       // attempt to create a new keyring for this app/user
       mailvelope.createKeyring(keyring).then(function(kr) {
         ref.mailvelope_keyring = kr;
         keyring = keyring.identifier;
-      }, function(err) {
-        console.error(err)
+      }).catch(function(err) {
+        console.error(err);
       });
     });
 
@@ -3409,11 +3409,27 @@ function rcube_webmail()
   this.compose_encrypted = function(props)
   {
     var container = $('#' + this.env.composebody).parent();
-    mailvelope.createEditorContainer('#' + container.attr('id'), keyring).then(function(editor) {
-      ref.mailvelope_editor = editor;
-      container.addClass('mailvelope');
-      $('#' + ref.env.composebody).hide();
-    });
+
+    // remove Mailvelope editor if active
+    if (ref.mailvelope_editor) {
+      ref.mailvelope_editor = null;
+      ref.set_button('compose-encrypted', 'act');
+      container.removeClass('mailvelope')
+        .find('iframe:not([aria-hidden=true])').remove();
+      $('#' + ref.env.composebody).show();
+    }
+    // embed Mailvelope editor container
+    else {
+      var options = { predefinedText: $('#' + this.env.composebody).val() };
+      mailvelope.createEditorContainer('#' + container.attr('id'), ref.mailvelope_keyring.identifier, options).then(function(editor) {
+        ref.mailvelope_editor = editor;
+        ref.set_button('compose-encrypted', 'sel');
+        container.addClass('mailvelope');
+        $('#' + ref.env.composebody).hide();
+      }).catch(function(err) {
+        console.error(err);
+      });
+    }
   };
 
   // callback to replace the message body with the full armored
@@ -3427,7 +3443,6 @@ function rcube_webmail()
         rcpt = RegExp.$2
         recipients.push(rcpt);
         val = val.substr(val.indexOf(rcpt) + rcpt.length + 1).replace(/^\s*,\s*/, '');
-        console.log('*', val)
       }
     });
 
@@ -3435,29 +3450,32 @@ function rcube_webmail()
     var isvalid = recipients.length > 0;
     ref.mailvelope_keyring.validKeyForAddress(recipients).then(function(status) {
       $.each(status, function(k,v) {
-        console.log('validate', k, v)
-        if (!v) {
+        if (v === false) {
           isvalid = false;
-          alert("No key found for "+k)
+          alert(ref.get_label('nopubkeyfor').replace('$email', k));
         }
       });
 
       if (!isvalid) {
-        if (!recipients.length)
+        if (!recipients.length) {
           alert(ref.get_label('norecipientwarning'));
+          $("[name='_to']").focus();
+        }
         return false;
       }
 
       ref.mailvelope_editor.encrypt(recipients).then(function(armored) {
         console.log('encrypted message', armored);
-        var form = this.gui_objects.messageform;
+        var form = ref.gui_objects.messageform;
 
         // all checks passed, send message
         // var msgid = ref.set_busy(true, draft || saveonly ? 'savingmessage' : 'sendingmessage')
 
-      }, function(err) {
-        console.log(err)
+      }).catch(function(err) {
+        console.log(err);
       });
+    }).catch(function(err) {
+      console.error(err);
     });
 
     return false;
@@ -3466,12 +3484,12 @@ function rcube_webmail()
   // wrapper for the mailvelope.createDisplayContainer API call
   this.mailvelope_display_container = function(selector, data, keyring, msgid)
   {
-    mailvelope.createDisplayContainer(selector, data, keyring, {}).then(function() {
+    mailvelope.createDisplayContainer(selector, data, keyring, { showExternalContent: this.env.safemode }).then(function() {
       $(selector).addClass('mailvelope').find('.message-part, .part-notice').hide();
       ref.hide_message(msgid);
       setTimeout(function() { $(window).resize(); }, 10);
-    }, function(err) {
-      console.error(err)
+    }).catch(function(err) {
+      console.error(err);
       ref.hide_message(msgid);
       ref.display_message('Message decryption failed: ' + err.message, 'error')
     });

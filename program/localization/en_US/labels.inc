@@ -247,6 +247,8 @@ $labels['selectimage']    = 'Select image';
 $labels['addimage']       = 'Add image';
 $labels['selectmedia']    = 'Select movie';
 $labels['addmedia']       = 'Add movie';
+$labels['encrypt']        = 'Encrypt';
+$labels['encryptmessage'] = 'Encrypt message';
 
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';

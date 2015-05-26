@@ -2008,6 +2008,14 @@ ul.proplist li {
 	opacity: 0.4;
 }
 
+.toolbar a.button.selected {
+	color: #1978a1;
+}
+
+.toolbar a.button.hidden {
+	display: none;
+}
+
 .dropbutton {
 	display: inline-block;
 	position: relative;
