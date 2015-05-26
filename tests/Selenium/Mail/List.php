@@ -42,7 +42,7 @@ class Selenium_Mail_List extends Selenium_Test
         $this->assertHasClass('unread', $row);
 
         $subject = $this->byCssSelector('.messagelist tbody tr:first-child td.subject');
-        $this->assertEquals('Lines', $subject->text());
+        $this->assertEquals('Lines', $this->getText($subject));
 
         $icon = $this->byCssSelector('.messagelist tbody tr:first-child td.status span');
         $this->assertHasClass('unread', $icon);
