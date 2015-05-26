@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -180,6 +180,7 @@ $labels['quota'] = 'Helyfoglalás';
 $labels['unknown']  = 'ismeretlen';
 $labels['unlimited']  = 'korlátlan';
 $labels['quotatype'] = 'Kvóta típus';
+$labels['quotatotal'] = 'Limit';
 $labels['quotaused'] = 'Használt';
 $labels['quotastorage'] = 'Lemez méret';
 $labels['quotamessage'] = 'Üzenet darab';
@@ -296,6 +297,7 @@ $labels['searchresult'] = 'Keresés eredménye';
 $labels['advsearch'] = 'Részletes keresés';
 $labels['advanced'] = 'Haladó';
 $labels['other'] = 'Egyéb';
+$labels['printcontact'] = 'A kapcsolat nyomtatása';
 $labels['typehome']   = 'Otthon';
 $labels['typework']   = 'Munkahely';
 $labels['typeother']  = 'Egyéb';
@@ -427,6 +429,7 @@ $labels['2231folding'] = 'Teljes RFC 2231 ( pl. Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (egyéb)';
 $labels['force7bit'] = 'MIME kódolás használata 8 bites karakterekhez';
+$labels['savelocalstorage'] = "Mentse a böngésző helyi adattárolóba (ideiglenes)";
 $labels['advancedoptions'] = 'Haladó beállítások';
 $labels['toggleadvancedoptions'] = 'Haladó beállítások kapcsolása';
 $labels['focusonnewmessage'] = 'Beérkező új üzenet ablakának fókuszba hozása';
@@ -526,5 +529,12 @@ $labels['vietnamese'] = 'Vietnámi';
 $labels['japanese'] = 'Japán';
 $labels['korean'] = 'Koreai';
 $labels['chinese'] = 'Kínai';
+$labels['arialabeltoolbar'] = 'Alkamazás eszközsor';
 $labels['arialabelactivetask'] = 'Aktiv feladat';
+$labels['arialabelmessagessearchfilter'] = 'Email lista szűrő';
+$labels['arialabelmailsearchform'] = 'Email üzenet kereső űrlap';
+$labels['arialabelcontactsearchform'] = 'Kapcsolat kereső űrlap';
+$labels['arialabelforwardingoptions'] = 'Továbbítási beállítások';
+$labels['arialabelreplyalloptions'] = 'Válasz mindenkinek beállítások';
+$labels['arialabelattachmentpreview'] = 'Csatolmány előnézet';
 ?>

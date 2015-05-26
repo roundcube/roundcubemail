@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,14 @@ $messages['parentnotwritable'] = 'Kansiota ei voitu siirtää tai luoda valittuu
 $messages['messagetoobig'] = 'Viestiosa on liian suuri prosessoitavaksi.';
 $messages['attachmentvalidationerror'] = 'Varoitus! Tämä liitetiedosto on epäilyttävä, koska se ei vastaa ilmoitettua tiedostotyyppiä. Jos et luoda lähettäjään, älä avaa liitetiedostoa välttääksesi mahdollista vahingollista aineistoa.<br/><br/><em>Odotettu: $expected; löydetty: $detected</em>';
 $messages['noscriptwarning'] = 'Varoitus: Tämä verkkopohjainen sähköpostipalvelu vaatii Javascriptin toimiakseen. Ota Javascript käyttöön selaimesi asetuksista.';
+$messages['messageissent'] = 'Viesti lähetettiin jo, mutta sitä ei vielä tallennettu. Haluatko tallentaa sen nyt?';
+$messages['errnotfound'] = 'Tiedostoa ei löytynyt';
+$messages['errnotfoundexplain'] = 'Pyydettyä resurssia ei löytynyt!';
+$messages['errfailedrequest'] = 'Pyyntö epäonnistui';
+$messages['errauthorizationfailed'] = 'Valtuutus epäonnistui';
+$messages['errunauthorizedexplain'] = 'Tämän palvelun käyttöön vaadittavan valtuutuksen tarkistaminen epäonnistui!';
+$messages['errrequestcheckfailed'] = 'Pyyntötarkistus epäonnistui';
+$messages['errcsrfprotectionexplain'] = "Turvallisuutesi vuoksi tämän resurssin käyttö on suojattu CSRF:ää vastaan.\nJos näet tämän viestin, et luultavasti kirjautunut ulos, ennen kuin poistuit verkkosovelluksesta.\n\nVuorovaikutustasi tarvitaan nyt, jotta voit jatkaa.";
+$messages['errcontactserveradmin'] = 'Ota yhteys palvelimen ylläpitäjään.';
+$messages['clicktoresumesession'] = 'Napsauta tästä palauttaaksesi edellisen istuntosi';
 ?>

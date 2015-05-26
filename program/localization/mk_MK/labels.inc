@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -214,7 +214,6 @@ $labels['mailboxview'] = 'Приказ на поштенското сандач�
 $labels['mdnrequests'] = 'Известувања за праќачот';
 $labels['askuser'] = 'прашај го корисникот';
 $labels['autosend'] = 'испрати автоматски';
-$labels['ignore'] = 'игнорирај';
 $labels['readwhendeleted'] = 'Обележи го писмото како прочитано при бришење';
 $labels['flagfordeletion'] = 'Обележи го писмото за бришење наместо да го избришеш';
 $labels['skipdeleted'] = 'Не ги прикажувај избришаните писма';

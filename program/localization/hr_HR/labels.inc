@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -213,7 +213,6 @@ $labels['responsetext'] = 'Tekst odgovora';
 $labels['attach'] = 'Priloži';
 $labels['attachments'] = 'Privitci (Attachments)';
 $labels['upload'] = 'Dodaj';
-$labels['uploadprogress'] = '$percent ($current od $total)';
 $labels['close']  = 'Zatvori';
 $labels['messageoptions']  = 'Postavke poruka...';
 $labels['low']     = 'Nizak';
@@ -373,7 +372,6 @@ $labels['askuser'] = 'pitaj me';
 $labels['autosend'] = 'pošalji potvrdu';
 $labels['autosendknown'] = 'pošalji potvrdu ako je pošiljatelj u mom imeniku, u suprotnom me pitaj';
 $labels['autosendknownignore'] = 'pošalji potvrdu ako je pošiljatelj u mom imeniku, u suprotnom zanemari';
-$labels['ignore'] = 'zanemari';
 $labels['readwhendeleted'] = 'Označi poruku kao pročitanu pri brisanju';
 $labels['flagfordeletion'] = 'Označi poruku za brisanje umjesto brisanja';
 $labels['skipdeleted'] = 'Ne prikazuj obrisane poruke';

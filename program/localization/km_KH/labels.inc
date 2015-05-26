@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -194,7 +194,6 @@ $labels['revertto']      = 'ត្រលប់ទៅ';
 $labels['attach'] = 'ភ្ជាប់';
 $labels['attachments'] = 'ឯកសារភ្ជាប់';
 $labels['upload'] = 'ភ្ជាប់ឯកសារ';
-$labels['uploadprogress'] = '$percent ($current ពី $total)';
 $labels['close']  = 'បិទ';
 $labels['messageoptions']  = 'កំណត់ជំរើសរបស់សំបុត្រ';
 $labels['low']     = 'ទាប';
@@ -337,7 +336,6 @@ $labels['askuser'] = 'សួរអ្នកប្រើ';
 $labels['autosend'] = 'ផ្ញើស្វ័យប្រវត្តិ';
 $labels['autosendknown'] = 'បញ្ជូនអត្ថបទប្រាប់អ្នកផ្ញើទៅកាន់អាសយដ្ឋានទាក់ទងរបស់ខ្ញុំឬក៏សួរខ្ញុំ';
 $labels['autosendknownignore'] = 'បញ្ជូនអត្ថបទប្រាប់អ្នកផ្ញើទៅកាន់អាសយដ្ឋានទាក់ទងរបស់ខ្ញុំឬមិនបាច់ធ្វើអ្វីទាំងអស់';
-$labels['ignore'] = 'ទុកចោល';
 $labels['readwhendeleted'] = 'កំណត់សំបុត្រថាបានអាននៅពេលលុបសំបុត្រនោះ';
 $labels['flagfordeletion'] = 'កំណត់សញ្ញាផ្កាយអោយសំបុត្រថាបានលុបដោយមិនចាំបាច់លុបជាក់ស្តែង';
 $labels['skipdeleted'] = 'មិនបង្ហាញសំបុត្រដែលបានលុប';

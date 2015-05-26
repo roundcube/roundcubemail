@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -214,7 +214,6 @@ $labels['responsetext'] = 'Teks respon';
 $labels['attach'] = 'Lampirkan';
 $labels['attachments'] = 'Sisipan';
 $labels['upload'] = 'Unggah';
-$labels['uploadprogress'] = '$percent ($current dari $total)';
 $labels['close']  = 'Tutup';
 $labels['messageoptions']  = 'Pilihan pesan...';
 $labels['low']     = 'Rendah';
@@ -374,7 +373,6 @@ $labels['askuser'] = 'tanya pengguna';
 $labels['autosend'] = 'kirim otomatis';
 $labels['autosendknown'] = 'kirim tanda terima kepada kontak saya, selain itu tanyai saya';
 $labels['autosendknownignore'] = 'kirim tanda terima kepada kontak saya, selain acuhkan';
-$labels['ignore'] = 'acuhkan';
 $labels['readwhendeleted'] = 'Tandai pesan sebagai terbaca saat dihapus';
 $labels['flagfordeletion'] = 'Tandai pesan untuk penghapusan daripada dihapus';
 $labels['skipdeleted'] = 'Jangan tampilkan pesan terhapus';

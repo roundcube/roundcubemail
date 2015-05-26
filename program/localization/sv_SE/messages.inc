@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,14 @@ $messages['parentnotwritable'] = 'Katalogen kunde inte skapas eller flyttas. Åt
 $messages['messagetoobig'] = 'Meddelandet är alltför stort att behandla.';
 $messages['attachmentvalidationerror'] = 'VARNING! Bilagan misstänks vara av annan typ än vad som anges i meddelandet. Om du inte litar på avsändaren ska du inte öppna bilagan.<br/><br/><em>Angiven typ: $expected; funnen typ: $detected</em>';
 $messages['noscriptwarning'] = 'Varning: Denna webbmailtjänst fungerar inte utan Javascript! Aktivera Javascript i webbläsarens inställningar.';
+$messages['messageissent'] = 'Meddelandet är skickat men har inte sparats ännu. Vill du spara meddelandet nu?';
+$messages['errnotfound'] = 'Filen hittades inte';
+$messages['errnotfoundexplain'] = 'Efterfrågad resurs hittades inte!';
+$messages['errfailedrequest'] = 'Begäran misslyckades';
+$messages['errauthorizationfailed'] = 'Autentiseringen misslyckades';
+$messages['errunauthorizedexplain'] = 'Din behörighet till den här tjänsten kunde inte bekräftas!';
+$messages['errrequestcheckfailed'] = 'Kontroll av begäran misslyckades';
+$messages['errcsrfprotectionexplain'] = "Åtkomst till den här resursen är skyddad mot CSRF.\nDetta visas därför att utloggning från tjänsten inte gjordes korrekt.\n\nEn aktiv handling krävs nu för att fortsätta.";
+$messages['errcontactserveradmin'] = 'Kontakta administratören.';
+$messages['clicktoresumesession'] = 'Klicka här för att återuppta föregående session';
 ?>

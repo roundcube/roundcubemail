@@ -54,7 +54,6 @@ $labels['add'] = 'Pievienot';
 $labels['del'] = 'Dzēst';
 $labels['sender'] = 'Sūtītājs';
 $labels['recipient'] = 'Saņēmējs';
-$labels['vacationaddr'] = 'Mana(s) papildus e-pasta adrese(s):';
 $labels['vacationdays'] = 'Cik bieži sūtī ziņojumus (dienās):';
 $labels['vacationinterval'] = 'Cik bieži sūtīt vēstules:';
 $labels['vacationreason'] = 'Atvaļinājuma paziņojuma teksts:';

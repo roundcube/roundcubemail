@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,14 @@ $messages['parentnotwritable'] = '選択した親フォルダーに作成また�
 $messages['messagetoobig'] = 'その処理をするにはメッセージ部分が大きすぎます。';
 $messages['attachmentvalidationerror'] = '警告!  この添付ファイルはメッセージの宣言と一致しない種類という理由のため疑わしいです。送信者を信頼できないなら、悪意のある内容を含んでいるかもしれないのでブラウザーで開いてはなりません。<br/><br/><em>予測した種類: $expected; 発見した種類: $found</em>';
 $messages['noscriptwarning'] = '警告: このウェブメールサービスにはJavascriptが必要です!  使用するにはJavascriptをブラウザーの設定で有効にしてください。';
+$messages['messageissent'] = '既にメッセージを送信しましたが、まだ保存していません。今すぐ保存しますか?';
+$messages['errnotfound'] = 'ファイルが見つかりません';
+$messages['errnotfoundexplain'] = '要求したリソースはみつかりませんでした!';
+$messages['errfailedrequest'] = 'リクエストに失敗';
+$messages['errauthorizationfailed'] = '認証に失敗';
+$messages['errunauthorizedexplain'] = 'このサーバーへのアクセスを認可されていることを検証できませんでした!';
+$messages['errrequestcheckfailed'] = 'リクエストの検査に失敗';
+$messages['errcsrfprotectionexplain'] = "安全確保のため、このリソースへのアクセスはCSRFに対して保護しています。\nこのメッセージを見た場合は、おそらくウェブ・アプリケーションを終える前にログアウトしていなかったのでしょう。\n続けるには人的な対処が必要です。";
+$messages['errcontactserveradmin'] = 'システム管理者に連絡してください。';
+$messages['clicktoresumesession'] = 'ここをクリックすると以前のセッションを回復します。';
 ?>

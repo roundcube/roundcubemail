@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,14 @@ $messages['parentnotwritable'] = 'Sem permissão para criar/mover a pasta dentro
 $messages['messagetoobig'] = 'A mensagem é muito grande para ser processada.';
 $messages['attachmentvalidationerror'] = 'ATENÇÃO! Este anexo é suspeito porque seu tipo não combina com o tipo declarado na mensagem. Se você não confia no remetente, não deveria abri-lo no navegador porque pode conter conteúdo malicioso.<br/><br/><em>Esperado: $expected; encontrado: $detected</em>';
 $messages['noscriptwarning'] = 'Aviso: Este webmail utiliza Javascript, habilite-o nas configurações de seu navegador.';
+$messages['messageissent'] = 'A mensagem já foi enviada, mas ainda não foi salva. Deseja salvar agora?';
+$messages['errnotfound'] = 'Arquivo não encontrado';
+$messages['errnotfoundexplain'] = 'O recurso solicitado não foi encontrado!';
+$messages['errfailedrequest'] = 'Requisição falhou';
+$messages['errauthorizationfailed'] = 'Autorização Falhou';
+$messages['errunauthorizedexplain'] = 'Não é possível verificar se você está autorizado a acessar este serviço!';
+$messages['errrequestcheckfailed'] = 'Falha na verificação da requisição';
+$messages['errcsrfprotectionexplain'] = "Para sua proteção, o acesso a este serviço está seguro contra CSFR.\nSe você está vendo isto, provavelmente não utilizou a opção de sair antes de encerrar a utilização.\n\nSerá necessária interação humana para continuar.";
+$messages['errcontactserveradmin'] = 'Por favor contate o administrador do servidor.';
+$messages['clicktoresumesession'] = 'Clique aqui para continuar sua sessão anterior';
 ?>

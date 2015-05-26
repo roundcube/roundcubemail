@@ -50,7 +50,6 @@ $labels['add'] = 'Додати';
 $labels['del'] = 'Видалити';
 $labels['sender'] = 'Відправник';
 $labels['recipient'] = 'Отримувач';
-$labels['vacationaddr'] = 'Додаткова адреса(и):';
 $labels['vacationdays'] = 'Як часто повторювати (у днях):';
 $labels['vacationreason'] = 'Текст повідомлення:';
 $labels['vacationsubject'] = 'Тема листа:';

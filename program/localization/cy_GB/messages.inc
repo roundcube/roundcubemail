@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,14 @@ $messages['parentnotwritable'] = 'Methwyd creu/symud ffolder i\'r ffolder rhiant
 $messages['messagetoobig'] = 'Mae darn y neges yn rhy fawr i\'w brosesu.';
 $messages['attachmentvalidationerror'] = 'RHYBUDD! Mae\'r atodiad yn amheus oherwydd nid yw ei fath yn gymharu\'r gyda\'r math ddatganwyd yn y neges. Os nad ydych yn ymddiried yn y danfonwr, ni ddylech agor hwn yn y porwr oherwydd fe all gynnwys ffeil maleisus.<br></br><em>Disgwylwyd:$expected;canfuwyd:$detected</em>';
 $messages['noscriptwarning'] = 'Rhybudd: Mae\'r gwasanaeth gwebost angen Javascript i weithio! Er mwyn ei ddefnyddio, galluogwch Javascript yng ngosodiadau eich porwr.';
+$messages['messageissent'] = 'Mae\'r neges wedi ei anfon, ond heb ei gadw eto. Hoffech chi ei gadw nawr?';
+$messages['errnotfound'] = 'Ni Ganfuwyd y Ffeil';
+$messages['errnotfoundexplain'] = 'Ni gafwyd hyd i\'r adnodd ofynnwyd amdano';
+$messages['errfailedrequest'] = 'Methodd y cais';
+$messages['errauthorizationfailed'] = 'Methiant Awdurdodi';
+$messages['errunauthorizedexplain'] = 'Methwyd gwirio eich bod wedi\'ch awdurdodi i gael mynediad i\'r gwasanaeth!';
+$messages['errrequestcheckfailed'] = 'Methiant Gwiriad Cais';
+$messages['errcsrfprotectionexplain'] = "Er eich diogelwch, mae mynediad i'r adnodd hwn wedi ei ddiogelu yn erbyn CSRF.\nOs ydych yn gweld hwn, mae'n debyg na wnaethoch chi allgofnodi cyn gadael yr ap gwe.\n\nMae'n rhaid gwirio nawr cyn parhau.";
+$messages['errcontactserveradmin'] = 'Cysylltwch a rheolwr eich gweinydd.';
+$messages['clicktoresumesession'] = 'Cliciwch yma i ail-ddechrau eich sesiwn blaenorol';
 ?>

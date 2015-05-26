@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -406,7 +406,6 @@ $labels['askuser'] = 'preguntar al usuario';
 $labels['autosend'] = 'enviar automáticamente';
 $labels['autosendknown'] = 'enviar acuse de recibo a mis contactos, sino preguntarme';
 $labels['autosendknownignore'] = 'enviar acuse de recibo a mis contactos, sino ignorar';
-$labels['ignore'] = 'ignorar';
 $labels['readwhendeleted'] = 'Marcar el mensage como leído al borrarlo';
 $labels['flagfordeletion'] = 'Marcar el mensage para borrarse en vez de borrarlo';
 $labels['skipdeleted'] = 'No mostrar mensajes eliminados';

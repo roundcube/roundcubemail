@@ -54,7 +54,6 @@ $labels['add'] = 'Engadir';
 $labels['del'] = 'Eliminar';
 $labels['sender'] = 'Remite';
 $labels['recipient'] = 'Persoa destinataria';
-$labels['vacationaddr'] = 'O(s) meu(s) outro (s) enderezo(s) de correo:';
 $labels['vacationdays'] = 'Cada canto enviar mensaxes (en días):';
 $labels['vacationinterval'] = 'Con que frecuencia se van enviar mensaxes:';
 $labels['vacationreason'] = 'Corpo da mensaxe (por vacacións):';

@@ -18,4 +18,5 @@
 $labels['help'] = 'Yardım';
 $labels['about'] = 'Hakkında';
 $labels['license'] = 'Lisans';
+$labels['csrfinfo'] = 'Sizi koruma ve CSRF hakkında daha fazla bilgi.';
 ?>

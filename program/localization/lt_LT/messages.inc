@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,13 @@ $messages['parentnotwritable'] = 'Nepavyko sukurti arba perkelti aplanko į pari
 $messages['messagetoobig'] = 'Laiško dalis yra per didelė, kad galėtų būti apdorota.';
 $messages['attachmentvalidationerror'] = 'Dėmesio! Šis priedas yra įtartinas, nes jo tipas nesutampa su deklaruotu laiške. Jeigu nepasitikite šiuo siuntėju, šio priedo atverti naršyklėje nepatartina, nes jis gali būti kenksmingas.<br/><br/><em>Tikėtasi: $expected; aptikta: $detected</em>';
 $messages['noscriptwarning'] = 'Dėmesio: šiai saityno el. pašto sistemai veikti būtini „JavaScript“ scenarijai! Norėdami ja naudotis, įjunkite „JavaScript“ savo naršyklės nuostatose.';
+$messages['messageissent'] = 'Laiškas jau buvo išsiųstas, bet dar neišsaugotas. Ar norite jį išsaugoti?';
+$messages['errnotfound'] = 'Failas nerastas';
+$messages['errnotfoundexplain'] = 'Ieškomas šaltinis nerastas';
+$messages['errfailedrequest'] = 'Nesėkminga užklausa';
+$messages['errauthorizationfailed'] = 'Autorizacija nepavyko';
+$messages['errunauthorizedexplain'] = 'Nepavyko patvirtinti ar jums leista naudotis šia paslauga.';
+$messages['errrequestcheckfailed'] = 'Patikrinimas nepavyko';
+$messages['errcontactserveradmin'] = 'Susisiekite su serverio administratoriumi.';
+$messages['clicktoresumesession'] = 'Spauskite čia, tam kad tęstumėte ankstesnę sesiją';
 ?>

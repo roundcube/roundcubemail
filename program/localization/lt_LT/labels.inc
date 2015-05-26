@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -221,6 +221,7 @@ $labels['resumeediting'] = 'Tęsti redagavimą';
 $labels['revertto']      = 'Atstatyti į';
 $labels['restore'] = 'Atkurti';
 $labels['restoremessage'] = 'Atkurti pranešimus?';
+$labels['ignore'] = 'Ignoruoti';
 $labels['responses'] = 'Atsakymai';
 $labels['insertresponse'] = 'Įterpti atsakymą';
 $labels['manageresponses'] = 'Tvarkyti atsakymus';
@@ -293,9 +294,11 @@ $labels['assistant'] = 'Padėjėjo(-os)';
 $labels['spouse'] = 'Sutuoktinis';
 $labels['allfields'] = 'Visi laukai';
 $labels['search'] = 'Paieška';
+$labels['searchresult'] = 'Paieškos rezultatas';
 $labels['advsearch'] = 'Išplėstinė paieška';
 $labels['advanced'] = 'Išsamiau';
 $labels['other'] = 'Kitas';
+$labels['printcontact'] = 'Spausdinti kontakto duomenis';
 $labels['typehome']   = 'Namų';
 $labels['typework']   = 'Darbo';
 $labels['typeother']  = 'Kitas';
@@ -336,6 +339,7 @@ $labels['exportall']      = 'Eksportuoti visus';
 $labels['exportsel']      = 'Eksportuoti pažymėtus';
 $labels['exportvcards']   = 'Eksportuoti adresatus  „vCard“ formatu';
 $labels['newgroup']       = 'Kurti naują grupę';
+$labels['addgroup']       = 'Pridėti grupę';
 $labels['grouprename']    = 'Pervardinti grupę';
 $labels['groupdelete']    = 'Pašalinti grupę';
 $labels['groupremoveselected'] = 'Pašalinti pažymėtus adresatus iš grupės';
@@ -404,7 +408,7 @@ $labels['askuser'] = 'visuomet klausti, ar siųsti patvirtinimą';
 $labels['autosend'] = 'visuomet siųsti patvirtinimą automatiškai';
 $labels['autosendknown'] = 'automatiškai siųsti patvirtinimą adresų knygoje esantiems adresatams, kitu atveju klausti';
 $labels['autosendknownignore'] = 'automatiškai siųsti patvirtinimą adresų knygoje esantiems adresatams, kitu atveju nesiųsti';
-$labels['ignore'] = 'niekada nesiųsti patvirtinimo';
+$labels['ignorerequest'] = 'Ignoruoti prašymą';
 $labels['readwhendeleted'] = 'Pažymėti laišką kaip skaitytą prieš šalinant';
 $labels['flagfordeletion'] = 'Pažymėti laišką šalinimui užuot šalinus';
 $labels['skipdeleted'] = 'Nerodyti pašalintų laiškų';
@@ -426,6 +430,7 @@ $labels['2231folding'] = 'visiškas RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'visiškas RFC 2047 (kitos programos)';
 $labels['force7bit'] = 'Naudoti MIME kodavimą 8 bitų simboliams';
+$labels['savelocalstorage'] = "Išsaugoti naršyklės laikinoje saugykloje (keše)";
 $labels['advancedoptions'] = 'Papildomos nuostatos';
 $labels['toggleadvancedoptions'] = 'Rodyti/slėpti papildomus nustatymus';
 $labels['focusonnewmessage'] = 'Fokusuoti naršyklės langą gavus naują laišką';

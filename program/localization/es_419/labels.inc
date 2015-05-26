@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -233,7 +233,6 @@ $labels['responsetext'] = 'Texto de respuesta';
 $labels['attach'] = 'Adjuntar';
 $labels['attachments'] = 'Archivos adjuntos';
 $labels['upload'] = 'Subir';
-$labels['uploadprogress'] = '$percent ($current de $total)';
 $labels['close']  = 'Cerrar';
 $labels['messageoptions']  = 'Opciones de mensaje...';
 $labels['togglecomposeoptions'] = 'Cambiar opciones de escritura';
@@ -406,7 +405,6 @@ $labels['askuser'] = 'preguntarme';
 $labels['autosend'] = 'enviar confirmación de recepción';
 $labels['autosendknown'] = 'enviar confirmación de recepción a mis contactos; de lo contrario, preguntarme';
 $labels['autosendknownignore'] = 'enviar confirmación de recepción a mis contactos; de lo contrario, ignorar';
-$labels['ignore'] = 'ignorar';
 $labels['readwhendeleted'] = 'Marcar mensaje como leído al eliminarlo ';
 $labels['flagfordeletion'] = 'Marcar el mensaje para eliminación en lugar de eliminarlo';
 $labels['skipdeleted'] = 'No mostrar mensajes eliminados';

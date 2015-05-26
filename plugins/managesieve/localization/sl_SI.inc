@@ -54,7 +54,6 @@ $labels['add'] = 'Dodaj';
 $labels['del'] = 'Izbriši';
 $labels['sender'] = 'Pošiljatelj';
 $labels['recipient'] = 'Prejemnik';
-$labels['vacationaddr'] = 'Moji dodatni e-naslovi';
 $labels['vacationdays'] = 'Kako pogosto naj bodo sporočila poslana (v dnevih):';
 $labels['vacationinterval'] = 'Sporočila pošlji na:';
 $labels['vacationreason'] = 'Vsebina sporočila (vzrok za odsotnost):';

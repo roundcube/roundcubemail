@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,14 @@ $messages['parentnotwritable'] = 'Niet in staat om map aan te maken of verplaats
 $messages['messagetoobig'] = 'Het bericht is te groot om te verwerken.';
 $messages['attachmentvalidationerror'] = 'WAARSCHUWING! Deze bijlage is verdacht omdat het bestandstype niet overeen komt met het bestandstype dat gespecificeerd is in het bericht. Open deze bijlage niet in uw browser als u de afzender niet vertrouwt, aangezien deze bijlage kwaadaardige inhoud kan bevatten.<br /><br /><em>Verwacht: $expected; gevonden: $detected</em>';
 $messages['noscriptwarning'] = 'Waarschuwing: deze webmailapplicatie vereist Javascript! U dient Javascript in te schakelen in uw browserinstellingen wanneer u gebruik wilt maken van deze applicatie.';
+$messages['messageissent'] = 'Het bericht was al verzonden, maar nog niet opgeslagen. Wilt u nu opslaan?';
+$messages['errnotfound'] = 'Bestand niet gevonden';
+$messages['errnotfoundexplain'] = 'De opgevraagde bron werd niet gevonden!';
+$messages['errfailedrequest'] = 'Mislukt verzoek';
+$messages['errauthorizationfailed'] = 'Autoriseren mislukt';
+$messages['errunauthorizedexplain'] = 'Kon niet verifiëren dat u geautoriseerd bent voor toegang tot deze dienst!';
+$messages['errrequestcheckfailed'] = 'Controle verzoek mislukt';
+$messages['errcsrfprotectionexplain'] = "Om u te beschermen, is toegang tot deze bron beveiligd tegen CSRF.\nWanneer u dit ziet, heeft u waarschijnlijk niet uitgelogd voordat u de webapplicatie verliet.\n\nMenselijke interactie is nu vereist om door te gaan.";
+$messages['errcontactserveradmin'] = 'Neem alstublieft contact op met uw systeembeheerder.';
+$messages['clicktoresumesession'] = 'Klik hier om uw vorige sessie te hervatten';
 ?>

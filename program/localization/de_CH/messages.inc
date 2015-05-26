@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,14 @@ $messages['parentnotwritable'] = 'Konnte den Ordner nicht erstellen/verschieben.
 $messages['messagetoobig'] = 'Die Nachricht ist zu gross und kann nicht verarbeitet werden.';
 $messages['attachmentvalidationerror'] = 'WARNUNG! Dieser Anhang ist verdächtig, da sein Dateityp nicht dem entspricht, was in der Nachricht angegeben wird. Wenn Sie dem Absender nicht vertrauen, sollten Sie diesen Anhang nicht im Browser öffnen, da er Ihrem Computer Schaden zuführen könnte. <br/><br/><em>Erwartet: $expected; gefunden: $detected</em>';
 $messages['noscriptwarning'] = 'Achtung! Dieser Webmail-Service erfordert Javascript. Um ihn zu benutzten aktivieren Sie Javascript in ihren Browser-Einstellungen.';
+$messages['messageissent'] = 'Die Nachricht wurde bereits gesendet, aber noch nicht gespeichert. Jetzt speichern?';
+$messages['errnotfound'] = 'Datei nicht gefunden';
+$messages['errnotfoundexplain'] = 'Die angeforderte Ressource wurde nicht gefunden!';
+$messages['errfailedrequest'] = 'Anfrage fehlgeschlagen';
+$messages['errauthorizationfailed'] = 'Autorisierung fehlgeschlagen';
+$messages['errunauthorizedexplain'] = 'Es konnte nicht bestätigt werden, dass Sie berechtigt sind, auf diesen Dienst zuzugreifen!';
+$messages['errrequestcheckfailed'] = 'Anfrageprüfung fehlgeschlagen';
+$messages['errcsrfprotectionexplain'] = "Zu Ihrer Sicherheit wird der Zugriff auf diese Ressource gegen CSRF geschützt.\nWenn Sie dies sehen, haben Sie sich wahrscheinlich vor dem Verlassen der Anwendung nicht abgemeldet.\n\nUm fortzufahren ist eine menschliche Interaktion erforderlich.";
+$messages['errcontactserveradmin'] = 'Bitte kontaktieren Sie Ihren Server-Administrator.';
+$messages['clicktoresumesession'] = 'Klicken Sie hier, um Ihre vorherige Sitzung fortzusetzen';
 ?>

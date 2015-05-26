@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -214,7 +214,6 @@ $labels['mailboxview'] = 'அஞ்சல் பெட்டி காட்ச�
 $labels['mdnrequests'] = 'அனுப்புனர் அறிவிப்புகள்';
 $labels['askuser'] = 'பயனரை கேள்';
 $labels['autosend'] = 'தானாக அனுப்பு';
-$labels['ignore'] = 'தவிர்';
 $labels['readwhendeleted'] = 'செய்தியை நீக்கும் போது படித்ததாக குறி';
 $labels['flagfordeletion'] = 'நீக்குவதற்கு பதிலாக நீக்குவதாக நட்சத்திரமிடு';
 $labels['skipdeleted'] = 'நீக்கிய செய்திகளை காட்டாதே';

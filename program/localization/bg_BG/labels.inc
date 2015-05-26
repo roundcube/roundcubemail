@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -179,6 +179,11 @@ $labels['importmessages'] = 'Импорт на писма';
 $labels['quota'] = 'Използвано място';
 $labels['unknown']  = 'няма информация';
 $labels['unlimited']  = 'без ограничение';
+$labels['quotatype'] = 'Тип квота';
+$labels['quotatotal'] = 'Лимит';
+$labels['quotaused'] = 'Използвано';
+$labels['quotastorage'] = 'Дисково пространство';
+$labels['quotamessage'] = 'Брой писма';
 $labels['quicksearch']  = 'Бързо търсене';
 $labels['resetsearch']  = 'Изчисти филтър и покажи всичко';
 $labels['searchmod']  = 'Филтър по';
@@ -216,9 +221,12 @@ $labels['resumeediting'] = 'Продължи черновата';
 $labels['revertto']      = 'Върни се към';
 $labels['restore'] = 'Възстанови';
 $labels['restoremessage'] = 'Възстановяване на съобщението?';
+$labels['ignore'] = 'Игнорирай';
 $labels['responses'] = 'Отговори';
 $labels['insertresponse'] = 'Вмъкване на отговори';
 $labels['manageresponses'] = 'Настройка на отговори';
+$labels['newresponse'] = 'Създай нов отговор';
+$labels['addresponse'] = 'Добавяне на отговор';
 $labels['editresponse'] = 'Редакция на отговор';
 $labels['editresponses'] = 'Редакция на отговори';
 $labels['responsename'] = 'Име';
@@ -286,9 +294,11 @@ $labels['assistant'] = 'Асистент';
 $labels['spouse'] = 'Съпруг(а)';
 $labels['allfields'] = 'Всички полета';
 $labels['search'] = 'Търсене';
+$labels['searchresult'] = 'Резултат от търсене';
 $labels['advsearch'] = 'Разширено търсене';
 $labels['advanced'] = 'Търси';
 $labels['other'] = 'Други';
+$labels['printcontact'] = 'Печат на контакт';
 $labels['typehome']   = 'Домашен';
 $labels['typework']   = 'Служебен';
 $labels['typeother']  = 'Друг';
@@ -319,7 +329,7 @@ $labels['rename'] = 'Преименувай';
 $labels['addphoto'] = 'Добави';
 $labels['replacephoto'] = 'Замени';
 $labels['uploadphoto'] = 'Качване на снимка';
-$labels['newcontact']     = 'Създаване нов контакт';
+$labels['newcontact']     = 'Създай нов контакт';
 $labels['deletecontact']  = 'Изтрий избраните контакти';
 $labels['composeto']      = 'Напиши писмо до';
 $labels['contactsfromto'] = 'Контакти $from до $to от $count';
@@ -328,6 +338,8 @@ $labels['export']         = 'Експорт';
 $labels['exportall']      = 'Експортиране на всичко';
 $labels['exportsel']      = 'Експортиране на избраното';
 $labels['exportvcards']   = 'Експорт във vCard формат';
+$labels['newgroup']       = 'Създай нова група';
+$labels['addgroup']       = 'Добави група';
 $labels['grouprename']    = 'Преименувай групата';
 $labels['groupdelete']    = 'Изтрий групата';
 $labels['groupremoveselected'] = 'Премахни избраните контакти от групата';
@@ -360,6 +372,8 @@ $labels['editpreferences'] = 'Редактирай потребителскит�
 $labels['identities'] = 'Самоличности';
 $labels['manageidentities'] = 'Управление самоличности';
 $labels['newidentity'] = 'Създай нова самоличност';
+$labels['addidentity'] = 'Добави самоличност';
+$labels['editidentity'] = 'Редактирай самоличност';
 $labels['preferhtml'] = 'Покажи първо HTML версия';
 $labels['defaultcharset'] = 'Кодова таблица по подразбиране';
 $labels['htmlmessage'] = 'HTML писмо';
@@ -394,7 +408,7 @@ $labels['askuser'] = 'задай въпрос';
 $labels['autosend'] = 'изпрати автоматично винаги';
 $labels['autosendknown'] = 'изпрати автоматично само на моите контакти, иначе задай въпрос';
 $labels['autosendknownignore'] = 'изпрати автоматично само на моите контакти, иначе отхвърли';
-$labels['ignore'] = 'отхвърли';
+$labels['ignorerequest'] = 'игнорирай искането';
 $labels['readwhendeleted'] = 'Маркирай като прочетено при изтриване';
 $labels['flagfordeletion'] = 'Отбележи писмото за изтриване';
 $labels['skipdeleted'] = 'Не показвай изтритите писма';
@@ -416,6 +430,7 @@ $labels['2231folding'] = 'Според RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Според RFC 2047 (други)';
 $labels['force7bit'] = 'Използване на MIME кодиране за 8-битови символи';
+$labels['savelocalstorage'] = "Запазване в локално хранилище на баузъра (временно)";
 $labels['advancedoptions'] = 'Разширени настройки';
 $labels['toggleadvancedoptions'] = 'Превключване на разширени опции';
 $labels['focusonnewmessage'] = 'Премигване на прозореца при ново писмо';
@@ -479,6 +494,10 @@ $labels['foldertype'] = 'Вид на папката';
 $labels['personalfolder'] = 'Лична папка';
 $labels['otherfolder'] = 'Папка на друг потребител';
 $labels['sharedfolder'] = 'Публична папка';
+$labels['findfolders'] = 'Търсене на папки';
+$labels['namespace.personal'] = 'Лична';
+$labels['namespace.other'] = 'Други потребители';
+$labels['namespace.shared'] = 'Споделена';
 $labels['sortby'] = 'Сортирай по';
 $labels['sortasc']  = 'Сортирай нарастващо';
 $labels['sortdesc'] = 'Сортирай намаляващо';
@@ -514,11 +533,14 @@ $labels['chinese'] = 'Китайски';
 $labels['arialabeltopnav'] = 'Контрол на прозорците';
 $labels['arialabeltasknav'] = 'Задачи на приложението';
 $labels['arialabeltoolbar'] = 'Ленти с инструменти';
+$labels['arialabelactivetask'] = 'Активна задача';
 $labels['arialabelmessagessearchfilter'] = 'Филтър на списък с писма';
 $labels['arialabelmailsearchform'] = 'Форма за търсене на писма';
 $labels['arialabelcontactsearchform'] = 'Форма за търсене на контакти';
 $labels['arialabelmailquicksearchbox'] = 'Поле за търсене на писма';
 $labels['arialabelquicksearchbox'] = 'Поле за търсене';
+$labels['arialabelfoldersearchfilter'] = 'Филтър за списък папки';
+$labels['arialabelfoldersearchform'] = 'Форма за търсене в папки';
 $labels['arialabelfolderlist'] = 'Избор на папка с писма';
 $labels['arialabelmessagelist'] = 'Списък с писма';
 $labels['arialabelmailpreviewframe'] = 'Преглед на писмо';
@@ -533,4 +555,28 @@ $labels['arialabelmessageactions'] = 'Действия за писмо';
 $labels['arialabelcontactquicksearch'] = 'Форма за търсене на контакти';
 $labels['arialabelcontactsearchbox'] = 'Поле за търсене на контакт';
 $labels['arialabelmessageheaders'] = 'Заглавни блокове на писмо';
+$labels['arialabelforwardingoptions'] = 'Настройки за препращане';
+$labels['arialabelreplyalloptions'] = 'Настройки за отговор към всички';
+$labels['arialabelmoremessageactions'] = 'Още действия с писмо';
+$labels['arialabelmarkmessagesas'] = 'Маркирай избраните писма като...';
+$labels['arialabelcomposeoptions'] = 'Настройки за създаване';
+$labels['arialabelresponsesmenu'] = 'Меню с готови отговори';
+$labels['arialabelattachmentuploadform'] = 'Форма за качване на прикрепени файлове';
+$labels['arialabelattachmentpreview'] = 'Преглед на прикрепени файлове';
+$labels['ariasummarycomposecontacts'] = 'Списък с контакти и групи за избор като получатели';
+$labels['arialabelcontactexportoptions'] = 'Настройки за експорт на контакти';
+$labels['arialabelabookgroupoptions'] = 'Настройки на адресна книга/групи';
+$labels['arialabelpreferencesform'] = 'Форма с предпочитания';
+$labels['arialabelidentityeditfrom'] = 'Форма редакция на самоличност';
+$labels['arialabelresonseeditfrom'] = 'Форма редакция на отговор';
+$labels['arialabelsearchterms'] = 'Търсене за';
+$labels['helplistnavigation'] = 'Списък за клавиатурна навигация';
+$labels['helplistkeyboardnavigation'] = "Стрелки нагоре/надолу: Премества фокус/избран ред.
+Интервал: Избор на фокусиран ред.
+Shift + нагоре/надолу: Добавяне към избраните на реда отгоре/отдолу.
+Ctrl + Интервал: Добавяне на фокусирания ред към избраните/премахване от избраните.";
+$labels['helplistkeyboardnavmessages'] = "Стрелки надясно/наляво: Разпъване/сгъване на писмата на кореспонденцията (само в изглед по кореспонденции).
+Enter: Отваряне на избраното/фокусираното писмо.
+Delete: Премества избраните писва в Кошче.";
+$labels['helplistkeyboardnavcontacts'] = "Enter: Отваряне на избрания/фокусирания контакт.";
 ?>

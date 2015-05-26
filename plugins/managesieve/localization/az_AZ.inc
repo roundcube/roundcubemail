@@ -54,7 +54,6 @@ $labels['add'] = 'Əlavə et';
 $labels['del'] = 'Sil';
 $labels['sender'] = 'Göndərən';
 $labels['recipient'] = 'Qəbul edən';
-$labels['vacationaddr'] = 'Mənim əlavə e-poçt ünvan(lar)ım: ';
 $labels['vacationdays'] = 'Məktub neçə müddətdən bir göndərilsin (gündə):';
 $labels['vacationinterval'] = 'Məktublar nə qədər sıx göndərilsin:';
 $labels['vacationreason'] = 'Məktubun mətni (səbəb yoxdur):';

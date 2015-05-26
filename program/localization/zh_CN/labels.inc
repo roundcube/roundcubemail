@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -233,7 +233,6 @@ $labels['responsetext'] = '以文本形式回复';
 $labels['attach'] = '附加';
 $labels['attachments'] = '附件';
 $labels['upload'] = '上传';
-$labels['uploadprogress'] = '$percent ($current / $total)';
 $labels['close']  = '关闭';
 $labels['messageoptions']  = '邮件选项...';
 $labels['togglecomposeoptions'] = '切换布局选项';
@@ -404,7 +403,6 @@ $labels['askuser'] = '询问用户';
 $labels['autosend'] = '自动发送';
 $labels['autosendknown'] = '对我的联系人发送回执，否则询问';
 $labels['autosendknownignore'] = '对我的联系人发送回执，否则忽略';
-$labels['ignore'] = '忽略';
 $labels['readwhendeleted'] = '删除后标记为已读';
 $labels['flagfordeletion'] = '标记邮件为已删除而不是实际删除';
 $labels['skipdeleted'] = '不显示标记为已删除的邮件';

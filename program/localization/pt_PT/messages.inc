@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,14 @@ $messages['parentnotwritable'] = 'Não é possível criar/mover esta pasta para 
 $messages['messagetoobig'] = 'A mensagem é demasiado grande para ser processada.';
 $messages['attachmentvalidationerror'] = 'ATENÇÃO! Este anexo é suspeito porque o seu tipo não coincide com o tipo declarado na mensagem. Se não confiar no remetente, não o deve abrir no navegador, pois pode ter conteúdos maliciosos.<br/><br/><em>Esperado: $expected; Encontrado: $detected</em>';
 $messages['noscriptwarning'] = 'Aviso: Este serviço de webmail utiliza Javascript! Para o poder utilizar, active o Javascript nas definições do seu navegador.';
+$messages['messageissent'] = 'A mensagem já foi enviada, mas ainda não foi guardada. Deseja guardá-la agora?';
+$messages['errnotfound'] = 'Ficheiro não encontrado';
+$messages['errnotfoundexplain'] = 'O recurso solicitado não foi encontrado!';
+$messages['errfailedrequest'] = 'A solicitação falhou';
+$messages['errauthorizationfailed'] = 'Falha na autorização';
+$messages['errunauthorizedexplain'] = 'Não foi possível verificar se está autorizado a aceder a este serviço!';
+$messages['errrequestcheckfailed'] = 'Falha na verificação da solicitação ';
+$messages['errcsrfprotectionexplain'] = "Para sua protecção, o acesso a este recurso está protegido contra CSRF.\nlf Se está a ver isto, provavelmente não fez logout antes de sair da aplicação web.\n\nAgora, é necessária interacção humana para continuar.";
+$messages['errcontactserveradmin'] = 'Por favor, contacte o administrador do servidor.';
+$messages['clicktoresumesession'] = 'Clique aqui para retomar a sua sessão anterior';
 ?>

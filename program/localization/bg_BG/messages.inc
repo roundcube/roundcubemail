@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,14 @@ $messages['parentnotwritable'] = 'Неуспешно създаването/пр
 $messages['messagetoobig'] = 'Писмото е прекалено голямо, за да бъде обработено.';
 $messages['attachmentvalidationerror'] = 'ВНИМАНИЕ! Прикаченият файл е опасен, защото типът му не съвпада с този, който е деклариран в писмото.<br/><br/><em>Очакван тип: $expected; открит тип: $detected</em>';
 $messages['noscriptwarning'] = 'ВНИМАНИЕ! Тази пощенска услуга изисква JavaScript за да функционира коректно. Моля включете поддръжката на JavaScript в настройките на текущия браузър.';
+$messages['messageissent'] = 'Писмото беше изпратено, но все още не е запазено. Желаете ли да го запазите сега?';
+$messages['errnotfound'] = 'Файлът не е намерен';
+$messages['errnotfoundexplain'] = 'Търсеният ресурс не е намерен';
+$messages['errfailedrequest'] = 'Грешка при обръщение';
+$messages['errauthorizationfailed'] = 'Грешка при установяване на права';
+$messages['errunauthorizedexplain'] = 'Невъзможно установяване на права за достъп до тази услуга!';
+$messages['errrequestcheckfailed'] = 'Грешка при проверка на обръщение';
+$messages['errcsrfprotectionexplain'] = "С цел повишаване нивото на сигурност достъпът да този ресурс е защитен против CSRF.\nАко виждате това съобщение, значи верятно не сте излезлнали от системата преди да напуснете страницата на самото приложение.\n\nЗа да продължите от по-нататък се изисква човешка намеса.";
+$messages['errcontactserveradmin'] = 'Моля свържете се с администратор на сървъра.';
+$messages['clicktoresumesession'] = 'Щракнете тук за да възстановите предишната си сесия.';
 ?>

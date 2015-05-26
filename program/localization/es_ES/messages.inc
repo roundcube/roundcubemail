@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,14 @@ $messages['parentnotwritable'] = 'No se pudo crear/mover la carpeta a la carpeta
 $messages['messagetoobig'] = 'Esta parte del mensaje es demasiado grande para ser procesado.';
 $messages['attachmentvalidationerror'] = '¡ATENCIÓN! Este adjunto es sospechoso porque su tipo no coincide con el tipo declarado en el mensaje. Si no confía en su remitente, no debería abrirlo en su navegador porque podría tener contenido malicioso.<br/<br/> <em>Esperado: $expected; encontrado: $detected</em>';
 $messages['noscriptwarning'] = 'Advertencia: ¡Este servicio de webmail necesita Javascript! Para poder usarlo habilite el soporte de Javascript en su navegador, por favor.';
+$messages['messageissent'] = 'El mensaje se ha enviado, pero aún no se ha guardado. ¿Quieres guardarlo ahora?';
+$messages['errnotfound'] = 'Archivo no encontrado';
+$messages['errnotfoundexplain'] = '¡No se ha encontrado el recurso solicitado!';
+$messages['errfailedrequest'] = 'Ha fallado la petición';
+$messages['errauthorizationfailed'] = 'Ha fallado la autorización';
+$messages['errunauthorizedexplain'] = '¡No se ha podido comprobar que usted esté autorizado a acceder a este servicio!';
+$messages['errrequestcheckfailed'] = 'Ha fallado la solicitud de comprobación';
+$messages['errcsrfprotectionexplain'] = "Por su seguridad, se ha protegido el acceso a este recurso contra CSRF.\nSi lee esto probablemente no ha cerrado la sesión antes de dejar la aplicación web.\n\nAhora hace falta interacción humana para continuar.";
+$messages['errcontactserveradmin'] = 'Por favor, póngase en contacto con el administrador de su servidor.';
+$messages['clicktoresumesession'] = 'Haga clic aquí para reanudar la sesión anterior';
 ?>

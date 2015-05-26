@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -36,7 +36,7 @@ $messages['nomessagesfound'] = 'Aucun courriel trouvé dans cette boîte de cour
 $messages['loggedout'] = 'Vous avez correctement terminé cette session. Au revoir !';
 $messages['mailboxempty'] = 'La boîte de courriel est vide';
 $messages['nomessages'] = 'Aucun courriel';
-$messages['refreshing'] = 'Rafraîchissement...';
+$messages['refreshing'] = 'Actualisation...';
 $messages['loading'] = 'Chargement...';
 $messages['uploading'] = 'Téléversement du fichier...';
 $messages['uploadingmany'] = 'Téléversement des fichiers...';
@@ -120,8 +120,8 @@ $messages['deletingmessage'] = 'Suppression du/des courriel(s)...';
 $messages['markingmessage'] = 'Marquage du/des courriel(s)...';
 $messages['addingmember'] = 'Ajout des contacts au groupe...';
 $messages['removingmember'] = 'Suppression des contacts du groupe...';
-$messages['receiptsent'] = 'L\'accusé de lecture a été avec succès.';
-$messages['errorsendingreceipt'] = 'Impossible d\'envoyer l\'accusé de lecture.';
+$messages['receiptsent'] = 'Un avis de lecture a été envoyé avec succès.';
+$messages['errorsendingreceipt'] = 'Impossible d\'envoyer l\'avis.';
 $messages['deleteidentityconfirm'] = 'Voulez-vous vraiment supprimer cette identité ?';
 $messages['nodeletelastidentity'] = 'Vous ne pouvez pas effacer cette identité, c\'est votre dernière.';
 $messages['forbiddencharacter'] = 'Le nom du dossier contient un caractère interdit.';
@@ -174,7 +174,17 @@ $messages['foldercreated'] = 'Dossier créé avec succès.';
 $messages['invalidimageformat'] = 'N\'est pas un format d\'image valide.';
 $messages['mispellingsfound'] = 'Fautes d\'orthographe détectées dans le courriel.';
 $messages['parentnotwritable'] = 'Impossible de créer/déplacer le dossier dans le dossier parent choisi. Aucun droit d\'accès.';
-$messages['messagetoobig'] = 'La partie message est trop grosse pour être traité.';
+$messages['messagetoobig'] = 'La partie message est trop grosse pour être traitée.';
 $messages['attachmentvalidationerror'] = 'AVERTISSEMENT ! Cette pièce jointe est suspecte car son type ne correspond pas au type déclaré dans le courriel. Si vous ne faites pas confiance à l\'expéditeur, vous ne devriez pas l\'ouvrir dans le navigateur car son contenu peut être malveillant.<br/><br/><em>Attendu : $expected ; trouvé : $detected</em>';
 $messages['noscriptwarning'] = 'Avertissement : Ce service de courriel Web exige Javascript ! Afin de l\'utiliser, veuillez activer Javascript dans les paramètres de votre navigateur.';
+$messages['messageissent'] = 'Le courriel a déjà été envoyé, mais n\'a pas encore été enregistré. Voulez-vous le faire maintenant ?';
+$messages['errnotfound'] = 'Ficher introuvable';
+$messages['errnotfoundexplain'] = 'La ressource demandée n\'a pas été trouvée !';
+$messages['errfailedrequest'] = 'Échec de la demande';
+$messages['errauthorizationfailed'] = 'Échec d’autorisation';
+$messages['errunauthorizedexplain'] = 'Impossible de vérifier que vous êtes autorisé à accéder à ce service !';
+$messages['errrequestcheckfailed'] = 'Échec de vérification de la demande';
+$messages['errcsrfprotectionexplain'] = "Pour votre protection, l'accès à cette ressource est protégé contre les attaques CSFR.\nSi vous voyez ceci, vous ne vous êtes probablement pas déconnecté avant de quitter l'application Web.\n\nUne interaction humaine est maintenant exigé afin de continuer.";
+$messages['errcontactserveradmin'] = 'Veuillez contacter l\'administrateur de votre serveur.';
+$messages['clicktoresumesession'] = 'Cliquez ici afin de reprendre votre session précédente.';
 ?>

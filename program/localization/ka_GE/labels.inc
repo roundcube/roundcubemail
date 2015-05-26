@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -271,7 +271,6 @@ $labels['mailboxview'] = 'საფოსტო ყუთის ჩვენე�
 $labels['mdnrequests'] = 'მგზავნელის შეტყობინებები';
 $labels['askuser'] = 'ჰკითხე მომხმარებელს';
 $labels['autosend'] = 'გაგზავნე ავტომატურად';
-$labels['ignore'] = 'იგნორირება';
 $labels['readwhendeleted'] = 'მონიშნე გზავნილი წაკითხულად წაშლის დროს';
 $labels['flagfordeletion'] = 'აღნიშნეთ გზავნილები როგორც წასაშლელი წაშლის ნაცვლად';
 $labels['skipdeleted'] = 'არ გამოაჩინო წაშლილი გზავნილები';

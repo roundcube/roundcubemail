@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -226,7 +226,6 @@ $labels['responsetext'] = 'Atbildes teksts';
 $labels['attach'] = 'Pievienot';
 $labels['attachments'] = 'Pielikumi';
 $labels['upload'] = 'Augšupielādēt';
-$labels['uploadprogress'] = '$percent ($current no $total)';
 $labels['close']  = 'Aizvērt';
 $labels['messageoptions']  = 'Vēstuļu iestatījumi...';
 $labels['low']     = 'Zema';
@@ -395,7 +394,6 @@ $labels['askuser'] = 'jautāt man vai sūtīt';
 $labels['autosend'] = 'sūtīt automātiski';
 $labels['autosendknown'] = 'automātiski sūtīt ja pieprasītājs ir manos kontaktos, par citiem jautāt';
 $labels['autosendknownignore'] = 'automātiski sūtīt ja pieprasītājs ir manos kontaktos, citiem ignorēt un nesūtīt';
-$labels['ignore'] = 'ignorēt un nesūtīt';
 $labels['readwhendeleted'] = 'Dzēšot vēstules tās atzīmēt kā izlasītas';
 $labels['flagfordeletion'] = 'Dzēšot vēstules tās nedzēst, bet marķēt kā dzēšamas';
 $labels['skipdeleted'] = 'Nerādīt dzēstās vēstules';

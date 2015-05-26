@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -229,7 +229,6 @@ $labels['signature'] = 'ഒപ്പ്';
 $labels['htmleditor'] = 'HTML സന്ദേശങ്ങള്‍ രചിക്കുക';
 $labels['serversettings'] = 'സേവകന്റെ ക്രമീകരണങ്ങള്‍';
 $labels['askuser'] = 'എന്നൊടു ചോദിക്കുക';
-$labels['ignore'] = 'അവഗണിക്കുക';
 $labels['always'] = 'എപ്പോഴും';
 $labels['never']  = 'ഒരിക്കലുമില്ല';
 $labels['immediately']  = 'ഉടനടി';

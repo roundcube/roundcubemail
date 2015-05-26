@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -208,7 +208,6 @@ $labels['mailboxview'] = 'ليکبکس ښکار کړه';
 $labels['mdnrequests'] = 'د استوونکي خبرتياوې';
 $labels['askuser'] = 'له کاروونکي څخه وپوښته';
 $labels['autosend'] = 'په خپلواکه توګه واستوه';
-$labels['ignore'] = 'لرې کړه';
 $labels['readwhendeleted'] = 'په ړنګ شوو کې استوزي د لوستل شوي  په توګه په نښه کړه';
 $labels['flagfordeletion'] = 'استوزه د ړنګ شوي پرځای بېکاره کړه';
 $labels['skipdeleted'] = 'ړنګ شوي استوزي مه ښکاره کوه';

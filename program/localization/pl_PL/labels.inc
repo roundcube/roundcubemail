@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -221,6 +221,7 @@ $labels['resumeediting'] = 'Zakończ sprawdzanie pisowni';
 $labels['revertto']      = 'Powróć do';
 $labels['restore'] = 'Przywróć';
 $labels['restoremessage'] = 'Przyrócić wiadomość?';
+$labels['ignore'] = 'Ignoruj';
 $labels['responses'] = 'Odpowiedzi';
 $labels['insertresponse'] = 'Wstaw odpowiedź';
 $labels['manageresponses'] = 'Zarządzaj odpowiedziami';
@@ -406,7 +407,7 @@ $labels['askuser'] = 'pytaj mnie';
 $labels['autosend'] = 'wyślij potwierdzenie';
 $labels['autosendknown'] = 'wyślij potwierdzenie tylko do moich kontaktów, pytaj o pozostałe';
 $labels['autosendknownignore'] = 'wyślij potwierdzenie tylko do moich kontaktów, pozostałe ignoruj';
-$labels['ignore'] = 'Ignoruj';
+$labels['ignorerequest'] = 'ignoruj żądanie';
 $labels['readwhendeleted'] = 'Podczas usuwania oznacz wiadomość jako przeczytaną';
 $labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwać';
 $labels['skipdeleted'] = 'Ukryj wiadomości oznaczone do usunięcia';

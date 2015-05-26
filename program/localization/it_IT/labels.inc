@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,7 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 $labels['welcome']   = 'Benvenuto in $product';
-$labels['username']  = 'E-mail';
+$labels['username']  = 'Nome Utente';
 $labels['password']  = 'Password';
 $labels['server']    = 'Server';
 $labels['login']     = 'Accedi';
@@ -35,7 +35,7 @@ $labels['from']    = 'Mittente';
 $labels['sender']  = 'Mittente';
 $labels['to']      = 'Destinatario';
 $labels['cc']      = 'Cc';
-$labels['bcc']     = 'Bcc';
+$labels['bcc']     = 'Ccn';
 $labels['replyto'] = 'Rispondi a';
 $labels['followupto'] = 'Followup-To';
 $labels['date']    = 'Data';
@@ -298,6 +298,7 @@ $labels['searchresult'] = 'Risultati ricerca';
 $labels['advsearch'] = 'Ricerca avanzata';
 $labels['advanced'] = 'Opzioni avanzate';
 $labels['other'] = 'Altro';
+$labels['printcontact'] = 'Stampa contatto';
 $labels['typehome']   = 'Casa';
 $labels['typework']   = 'Lavoro';
 $labels['typeother']  = 'Altro';

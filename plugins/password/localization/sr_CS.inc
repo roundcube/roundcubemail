@@ -15,17 +15,19 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+$labels['changepasswd']  = 'Измени лозинку';
 $labels['curpasswd']  = 'Тренутна лозинка:';
 $labels['newpasswd']  = 'Нова лозинка:';
-$labels['confpasswd']  = 'Поновите лозинку:';
-$messages['nopassword'] = 'Молимо унесите нову лозинку.';
-$messages['nocurpassword'] = 'Молимо унесите тренутну лозинку.';
+$labels['confpasswd']  = 'Потврдите нову лозинку:';
+$messages['nopassword'] = 'Унесите нову лозинку.';
+$messages['nocurpassword'] = 'Унесите тренутну лозинку.';
 $messages['passwordincorrect'] = 'Тренутна лозинка је нетачна.';
-$messages['passwordinconsistency'] = 'Лозинке се не поклапају, молимо покушајте поново.';
-$messages['crypterror'] = 'Није могуће сачувати нову лозинку. Недостаје функција за кодирање.';
-$messages['connecterror'] = 'Није могуће сачувати нову лозинку. Грешка у Вези.';
+$messages['passwordinconsistency'] = 'Лозинке се не поклапају. Покушајте поново.';
+$messages['crypterror'] = 'Није могуће сачувати нову лозинку. Недостаје функција за шифровање.';
+$messages['connecterror'] = 'Није могуће сачувати нову лозинку. Грешка везе.';
 $messages['internalerror'] = 'Није могуће сачувати нову лозинку.';
 $messages['passwordshort'] = 'Лозинка мора имати најмање $lenght знакова.';
-$messages['passwordweak'] = 'Лозинка мора да садржи најмање један број и један интерпункцијски знак.';
+$messages['passwordweak'] = 'Лозинка мора да садржи најмање један број и један знак интерпункције.';
 $messages['passwordforbidden'] = 'Лозинка садржи недозвољене знакове.';
+$messages['firstloginchange'] = 'Ово је ваше прво пријављивање. Измените лозинку.';
 ?>

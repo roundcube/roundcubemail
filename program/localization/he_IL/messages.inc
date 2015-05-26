@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,17 @@ $messages['parentnotwritable'] = 'לא ניתן ליצור/להעביר תיקי
 $messages['messagetoobig'] = 'ההודעה גדולה מעבר ליכולת העיבוד של התוכנה';
 $messages['attachmentvalidationerror'] = 'זהירות ! הצרופה חשודה כי אינה מהסוג שצוין בהודעה. אם לא ניתן לבטוח בשולח אזי להמנע מלפתוח את הקובץ בדפדפן כי הקובץ יכול להכיל קוד זדוני.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'זהירות! תוכנה זו דורשת שימוש בג\'אווהסקריפט! כדי להשתמש בכלי, יש לבחור באפשרות זו בהגדרות הדפדפן.';
+$messages['messageissent'] = 'ההודעה נשלחה אבל לא נשמרה עדיין. האם לשמור אותה כעת?';
+$messages['errnotfound'] = 'הקובץ לא נמצא';
+$messages['errnotfoundexplain'] = 'המשאב המבוקש לא נמצא!';
+$messages['errfailedrequest'] = 'הבקשה נכשלה';
+$messages['errauthorizationfailed'] = 'הרשאה נכשלה';
+$messages['errunauthorizedexplain'] = 'לא ניתו לאשר את הרשאתך לגישה לשירות זה';
+$messages['errrequestcheckfailed'] = 'בדיקת הבקשה נכשלה';
+$messages['errcsrfprotectionexplain'] = "להגנתך, הגישה למשאב זה מאובטחת כנגד CRSF.
+אם הודעה זו מופיעה, זה משום שקרוב לודאי לא היתה יציאה מסודרת לפני
+סגירת היישום בדפדפן. 
+כעת נדרשת פעולה ידנית כדי להמשיך.";
+$messages['errcontactserveradmin'] = 'נא לפנות למנהל השרת';
+$messages['clicktoresumesession'] = 'יש ללחוץ כאן כדי להמשיך מהמצב הקודם';
 ?>

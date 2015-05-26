@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -230,7 +230,6 @@ $labels['responsetext'] = 'Testu de la rempuesta';
 $labels['attach'] = 'Axuntar';
 $labels['attachments'] = 'Axuntos';
 $labels['upload'] = 'Xubir';
-$labels['uploadprogress'] = '$percent ($current de $total)';
 $labels['close']  = 'Zarrar';
 $labels['messageoptions']  = 'Opciones de mensaxe...';
 $labels['togglecomposeoptions'] = 'Camudar opciones de composición';
@@ -401,7 +400,6 @@ $labels['askuser'] = 'entrúgame';
 $labels['autosend'] = 'unviar recibu';
 $labels['autosendknown'] = 'unviar recibu a los mios contautos, d\'otramiente entrúgame';
 $labels['autosendknownignore'] = 'unviar recibu a los mios contautos, d\'otramiente inorar';
-$labels['ignore'] = 'inorar';
 $labels['readwhendeleted'] = 'Conseñar el mensaxe como lleíu al desanicialu';
 $labels['flagfordeletion'] = 'Conseñar el mensaxe pal desaniu en cuantes de desanicialu';
 $labels['skipdeleted'] = 'Nun amosar los mensaxes desaniciaos';

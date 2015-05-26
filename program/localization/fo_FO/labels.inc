@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -210,7 +210,6 @@ $labels['responsetext'] = 'Svar tekstur';
 $labels['attach'] = 'Viðheft';
 $labels['attachments'] = 'Viðheftingar';
 $labels['upload'] = 'Uppsend';
-$labels['uploadprogress'] = '$percent ($currently av $total)';
 $labels['close']  = 'Lat aftur';
 $labels['messageoptions']  = 'Boð valmøguleikar...';
 $labels['low']     = 'Lágt';
@@ -370,7 +369,6 @@ $labels['askuser'] = 'spyr me';
 $labels['autosend'] = 'send kvittan';
 $labels['autosendknown'] = 'send kvittan til mínir persónar, annars spyr me';
 $labels['autosendknownignore'] = 'send kvittan til mínir persónar, annars skúgv til vigs';
-$labels['ignore'] = 'skúgv til vigs';
 $labels['readwhendeleted'] = 'Merk boði sum lisið á striking';
 $labels['flagfordeletion'] = 'Viðmerk boði til strikingar ístaðin fyri at strika';
 $labels['skipdeleted'] = 'Vís ikki strika boð';

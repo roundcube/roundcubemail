@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -190,7 +190,6 @@ $labels['revertto']      = 'Ongedaan maken';
 $labels['attach'] = 'Bijvoegen';
 $labels['attachments'] = 'Bijlagen';
 $labels['upload'] = 'Uploaden';
-$labels['uploadprogress'] = '$percent ($current van $total)';
 $labels['close']  = 'Sluiten';
 $labels['messageoptions']  = 'Opties voor bericht...';
 $labels['low']     = 'Laag';
@@ -278,7 +277,6 @@ $labels['askuser'] = 'vraag de gebruiker';
 $labels['autosend'] = 'stuur automatisch';
 $labels['autosendknown'] = 'stuur ontvangstbevestiging naar mijn contactpersonen, anders vraag mij';
 $labels['autosendknownignore'] = 'stuur ontvangstbevestiging naar mijn contactpersonen, anders negeer';
-$labels['ignore'] = 'negeer';
 $labels['readwhendeleted'] = 'Bericht na verwijderen als gelezen markeren';
 $labels['flagfordeletion'] = 'Bericht niet verwijderen maar als verwijderd markeren';
 $labels['skipdeleted'] = 'Verwijderde berichten niet tonen';

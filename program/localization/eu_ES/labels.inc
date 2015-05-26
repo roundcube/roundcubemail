@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -15,7 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-$labels['welcome']   = 'Ongi etorri $product';
+$labels['welcome']   = 'Ongi etorri $product-ra';
 $labels['username']  = 'Erabiltzailea';
 $labels['password']  = 'Pasahitza';
 $labels['server']    = 'Zerbitzaria';
@@ -354,7 +354,7 @@ $labels['personaladrbook'] = 'Helbide pertsonalak';
 $labels['searchsave'] = 'Gorde bilaketa';
 $labels['searchdelete'] = 'Ezabatu bilaketa';
 $labels['import'] = 'Inportatu';
-$labels['importcontacts'] = 'Inportatu kontaktoak';
+$labels['importcontacts'] = 'Inportatu kontaktuak';
 $labels['importfromfile'] = 'Inportatu fitxategi honetatik:';
 $labels['importtarget'] = 'Gehitu kontaktuak hona:';
 $labels['importreplace'] = 'Ordezkatu helbide-liburu osoa';

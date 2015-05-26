@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -298,6 +298,7 @@ $labels['searchresult'] = 'Suchresultat';
 $labels['advsearch'] = 'Erweiterte Suche';
 $labels['advanced'] = 'Erweitert';
 $labels['other'] = 'Andere';
+$labels['printcontact'] = 'Kontakt drucken';
 $labels['typehome']   = 'Zuhause';
 $labels['typework']   = 'Arbeit';
 $labels['typeother']  = 'Andere';

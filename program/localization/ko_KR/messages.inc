@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -178,4 +178,5 @@ $messages['parentnotwritable'] = '선택한 상위 폴더로 폴더를 생성/�
 $messages['messagetoobig'] = '메시지 부분이 처리하기에는 너무 큽니다.';
 $messages['attachmentvalidationerror'] = '경고! 이 첨부파일의 유형이 메시지에서 보고한 유형과 일치하지 않기 때문에 의심됩니다. 발송자를 신뢰할 수 없을 경우, 메시지가 악성 코드를 포함할 수도 있기 때문에 브라우저에서 열지 않는 것이 좋습니다. <br/><br/><em> 예상한 유형: $expected; 발견한 유형: $detected</ em>';
 $messages['noscriptwarning'] = '경고: 이 웹메일 서비스는 자바스크립트가 필요합니다! 이 기능을 사용하려면 브라우저 설정에서 자바스크립트를 활성화해주세요.';
+$messages['messageissent'] = '메시지를 이미 보냈으나, 아직 저장되지 않았습니다. 지금 저장하시겠습니까?';
 ?>

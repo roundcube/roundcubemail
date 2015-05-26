@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -298,6 +298,7 @@ $labels['searchresult'] = 'Результаты поиска';
 $labels['advsearch'] = 'Расширенный поиск';
 $labels['advanced'] = 'Дополнительно';
 $labels['other'] = 'Другое';
+$labels['printcontact'] = 'Печатать контакт';
 $labels['typehome']   = 'Дом';
 $labels['typework']   = 'Работа';
 $labels['typeother']  = 'Другое';
@@ -496,6 +497,7 @@ $labels['sharedfolder'] = 'Совместный каталог';
 $labels['findfolders'] = 'Найти папки';
 $labels['namespace.personal'] = 'Персональные';
 $labels['namespace.other'] = 'Других пользователей';
+$labels['namespace.shared'] = 'Общие';
 $labels['sortby'] = 'Сортировать по';
 $labels['sortasc']  = 'Возрастанию';
 $labels['sortdesc'] = 'Убыванию';
@@ -544,7 +546,7 @@ $labels['arialabelmessagelist'] = 'Перечень сообщений эл.по
 $labels['arialabelmailpreviewframe'] = 'Предпросмотр сообщений';
 $labels['arialabelmailboxmenu'] = 'Меню действий над папкой';
 $labels['arialabellistselectmenu'] = 'Меню выделения списка';
-$labels['arialabelthreadselectmenu'] = 'Меню списка тем';
+$labels['arialabelthreadselectmenu'] = 'Меню списка обсуждений';
 $labels['arialabelmessagelistoptions'] = 'Параметры отображение списка сообщений и упорядочивания';
 $labels['arialabelmailimportdialog'] = 'Диалог импорта сообщения';
 $labels['arialabelmessagenav'] = 'Навигация по сообщениям';
@@ -558,7 +560,23 @@ $labels['arialabelreplyalloptions'] = 'Параметры ответа всем'
 $labels['arialabelmoremessageactions'] = 'Дополнительные действия с сообщением';
 $labels['arialabelmarkmessagesas'] = 'Отметить выделенные сообщения как...';
 $labels['arialabelcomposeoptions'] = 'Параметры создания';
+$labels['arialabelresponsesmenu'] = 'Меню заранее подготовленных ответов';
 $labels['arialabelattachmentuploadform'] = 'Форма выгрузки вложения';
 $labels['arialabelattachmentpreview'] = 'Предпросмотр вложений';
+$labels['ariasummarycomposecontacts'] = 'Список контактов и групп для выбора в качестве получателей';
 $labels['arialabelcontactexportoptions'] = 'Параметры экспорта контактов';
+$labels['arialabelabookgroupoptions'] = 'Параметры адресной книги/группы';
+$labels['arialabelpreferencesform'] = 'Форма настроек';
+$labels['arialabelidentityeditfrom'] = 'Форма редактирования личных данных';
+$labels['arialabelresonseeditfrom'] = 'Форма редактирования ответа';
+$labels['arialabelsearchterms'] = 'Поисковый запросы';
+$labels['helplistnavigation'] = 'Клавиши навигации по списку';
+$labels['helplistkeyboardnavigation'] = "Стрелки вверх/вниз: Перемещает фокус по строкам/выделение.
+Пробел: Выделяет строку на которой находится фокус.
+Shift + вверх/вниз: Выделяет дополнительную строку выше/ниже.
+Ctrl + пробел: Добавляет/удаляет строку на которой находится фокус в/из выделения.";
+$labels['helplistkeyboardnavmessages'] = "Стрелки вправо/влево: раскрыть/свернуть сообщения обсуждения (только в режиме просмотра обсуждений).
+Enter: Открыть выделенное сообщение.
+Delete: Переместить выбранные сообщения в Корзину.";
+$labels['helplistkeyboardnavcontacts'] = "Enter: Открыть выбранный контакт.";
 ?>

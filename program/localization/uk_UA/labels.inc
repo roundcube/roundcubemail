@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -202,7 +202,6 @@ $labels['responsename'] = 'Ім’я';
 $labels['attach'] = 'Вкласти';
 $labels['attachments'] = 'Вкладені файли';
 $labels['upload'] = 'Вкласти';
-$labels['uploadprogress'] = '$percent ($current з $total)';
 $labels['close']  = 'Закрити';
 $labels['messageoptions']  = 'Налаштування листів';
 $labels['low']     = 'Низький';
@@ -358,7 +357,6 @@ $labels['askuser'] = 'запитати користувача';
 $labels['autosend'] = 'відправляти автоматично';
 $labels['autosendknown'] = 'відправити повідомлення моим контактам, в іншому випадку запитати мене';
 $labels['autosendknownignore'] = 'відправити повідомлення моим контактам, в іншому випадку ігнорувати';
-$labels['ignore'] = 'ігнорувати';
 $labels['readwhendeleted'] = 'Позначати як прочитане при видаленні';
 $labels['flagfordeletion'] = 'Позначати для видалення замість видалення';
 $labels['skipdeleted'] = 'Не показувати видалені листи';
