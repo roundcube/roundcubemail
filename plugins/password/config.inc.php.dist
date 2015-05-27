@@ -27,8 +27,7 @@ $config['password_login_exceptions'] = null;
 
 // Array of hosts that support password changing. Default is NULL.
 // Listed hosts will feature a Password option in Settings; others will not.
-// Example:
-//$config['password_hosts'] = array('mail.example.com', 'mail2.example.org');
+// Example: array('mail.example.com', 'mail2.example.org');
 $config['password_hosts'] = null;
 
 // Enables saving the new password even if it matches the old password. Useful
@@ -37,6 +36,30 @@ $config['password_force_save'] = false;
 
 // Enables forcing new users to change their password at their first login.
 $config['password_force_new_user'] = false;
+
+// Default password hashing/crypting algorithm.
+// Possible options: des-crypt, ext-des-crypt, md5-crypt, blowfish-crypt,
+// sha256-crypt, sha512-crypt, md5, sha, smd5, ssha, samba, ad, dovecot, clear.
+// For details see password::hash_password() method.
+$config['password_algorithm'] = 'clear';
+
+// Password prefix (e.g. {CRYPT}, {SHA}) for passwords generated
+// using password_algorithm above. Default: empty.
+$config['password_algorithm_prefix'] = '';
+
+// Path for dovecotpw/doveadm-pw (if not in $PATH)
+// Used for password_algorithm = 'dovecot'.
+// $config['password_dovecotpw'] = '/usr/local/sbin/dovecotpw';
+
+// Dovecot method (dovecotpw -s 'method')
+// Used for password_algorithm = 'dovecot'.
+$config['password_dovecotpw_method'] = 'CRAM-MD5';
+
+// Iteration count parameter for Blowfish-based hashing algo.
+// It must be between 4 and 31. Default: 12.
+// Be aware, the higher the value, the longer it takes to generate the password hashes.
+$config['password_blowfish_cost'] = 12;
+
 
 
 // SQL Driver options
@@ -48,44 +71,42 @@ $config['password_db_dsn'] = '';
 // The SQL query used to change the password.
 // The query can contain the following macros that will be expanded as follows:
 //      %p is replaced with the plaintext new password
-//      %c is replaced with the crypt version of the new password, MD5 if available
-//         otherwise DES. More hash function can be enabled using the password_crypt_hash 
-//         configuration parameter.
-//      %D is replaced with the dovecotpw-crypted version of the new password
-//      %o is replaced with the password before the change
-//      %n is replaced with the hashed version of the new password
-//      %q is replaced with the hashed password before the change
+//      %P is replaced with the crypted/hashed new password
+//         according to configured password_method
+//      %o is replaced with the old (current) password
+//      %O is replaced with the crypted/hashed old (current) password
+//         according to configured password_method
 //      %h is replaced with the imap host (from the session info)
 //      %u is replaced with the username (from the session info)
 //      %l is replaced with the local part of the username
 //         (in case the username is an email address)
 //      %d is replaced with the domain part of the username
 //         (in case the username is an email address)
+// Deprecated macros:
+//      %c is replaced with the crypt version of the new password, MD5 if available
+//         otherwise DES. More hash function can be enabled using the password_crypt_hash
+//         configuration parameter.
+//      %D is replaced with the dovecotpw-crypted version of the new password
+//      %n is replaced with the hashed version of the new password
+//      %q is replaced with the hashed password before the change
 // Escaping of macros is handled by this module.
 // Default: "SELECT update_passwd(%c, %u)"
 $config['password_query'] = 'SELECT update_passwd(%c, %u)';
 
-// By default the crypt() function which is used to create the '%c' 
-// parameter uses the md5 algorithm. To use different algorithms 
-// you can choose between: des, md5, blowfish, sha256, sha512.
-// Before using other hash functions than des or md5 please make sure
-// your operating system supports the other hash functions.
+// By default the crypt() function which is used to create the %c
+// parameter uses the md5 algorithm (deprecated, use %P).
+// You can choose between: des, md5, blowfish, sha256, sha512.
 $config['password_crypt_hash'] = 'md5';
 
 // By default domains in variables are using unicode.
 // Enable this option to use punycoded names
 $config['password_idn_ascii'] = false;
 
-// Path for dovecotpw (if not in $PATH)
-// $config['password_dovecotpw'] = '/usr/local/sbin/dovecotpw';
-
-// Dovecot method (dovecotpw -s 'method')
-$config['password_dovecotpw_method'] = 'CRAM-MD5';
-
 // Enables use of password with crypt method prefix in %D, e.g. {MD5}$1$LUiMYWqx$fEkg/ggr/L6Mb2X7be4i1/
+// when using the %D macro (deprecated, use %P)
 $config['password_dovecotpw_with_method'] = false;
 
-// Using a password hash for %n and %q variables.
+// Using a password hash for %n and %q variables (deprecated, use %P).
 // Determine which hashing algorithm should be used to generate
 // the hashed new and current password for using them within the
 // SQL query. Requires PHP's 'hash' extension.
@@ -94,11 +115,6 @@ $config['password_hash_algorithm'] = 'sha1';
 // You can also decide whether the hash should be provided
 // as hex string or in base64 encoded format.
 $config['password_hash_base64'] = false;
-
-// Iteration count parameter for Blowfish-based hashing algo.
-// It must be between 4 and 31. Default: 12.
-// Be aware, the higher the value, the longer it takes to generate the password hashes.
-$config['password_blowfish_cost'] = 12;
 
 
 // Poppassd Driver options
@@ -210,8 +226,7 @@ $config['password_ldap_search_filter'] = '(uid=%login)';
 // LDAP password hash type
 // Standard LDAP encryption type which must be one of: crypt,
 // ext_des, md5crypt, blowfish, md5, sha, smd5, ssha, ad, cram-md5 (dovecot style) or clear.
-// Please note that most encodage types require external libraries
-// to be included in your PHP installation, see function hashPassword in drivers/ldap.php for more info.
+// Set to 'default' if you want to use method specified in password_algorithm option above.
 // Multiple password Values can be generated by concatenating encodings with a +. E.g. 'cram-md5+crypt'
 // Default: 'crypt'.
 $config['password_ldap_encodage'] = 'crypt';
@@ -315,9 +330,9 @@ $config['xmail_port'] = 6017;
 $config['hmailserver_remote_dcom'] = false;
 // Windows credentials
 $config['hmailserver_server'] = array(
-    'Server' => 'localhost', // hostname or ip address
-    'Username' => 'administrator', // windows username
-    'Password' => 'password' // windows user password
+    'Server'   => 'localhost',      // hostname or ip address
+    'Username' => 'administrator',  // windows username
+    'Password' => 'password'        // windows user password
 );
 
 
@@ -377,7 +392,6 @@ $config['password_smb_cmd'] = '/usr/bin/smbpasswd';
 // ---------------------
 // Gearman host (default: localhost)
 $config['password_gearman_host'] = 'localhost';
-
 
 
 // Plesk/PPA Driver options

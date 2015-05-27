@@ -187,5 +187,5 @@ function md5_oneround($s, $io) {
 
 function dovecot_hmacmd5 ($s) {
 	if (strlen($s) > 64) $s=pack("H*", md5($s));
-	return "{CRAM-MD5}" . md5_oneround($s, 0) . md5_oneround($s, 1);
+	return md5_oneround($s, 0) . md5_oneround($s, 1);
 }

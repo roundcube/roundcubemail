@@ -111,7 +111,7 @@ class rcube_ldap_simple_password
         $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
         $samba        = $rcmail->config->get('password_ldap_samba');
         $pass_mode    = $rcmail->config->get('password_ldap_encodage');
-        $crypted_pass = rcube_ldap_password::hash_password($passwd, $pass_mode);
+        $crypted_pass = password::hash_password($passwd, $pass_mode);
 
         // Support password_ldap_samba option for backward compat.
         if ($samba && !$smbpwattr) {
@@ -125,7 +125,7 @@ class rcube_ldap_simple_password
         }
 
         // Crypt new Samba password
-        if ($smbpwattr && !($samba_pass = rcube_ldap_password::hash_password($passwd, 'samba'))) {
+        if ($smbpwattr && !($samba_pass = password::hash_password($passwd, 'samba'))) {
             return PASSWORD_CRYPT_ERROR;
         }
 

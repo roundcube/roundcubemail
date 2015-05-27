@@ -367,4 +367,270 @@ class password extends rcube_plugin
 
         return true;
     }
+
+    /**
+     * Hashes a password and returns the hash based on the specified method
+     *
+     * Parts of the code originally from the phpLDAPadmin development team
+     * http://phpldapadmin.sourceforge.net/
+     *
+     * @param string      Clear password
+     * @param string      Hashing method
+     * @param bool|string Prefix string or TRUE to add a default prefix
+     *
+     * @return string Hashed password
+     */
+    static function hash_password($password, $method = '', $prefixed = true)
+    {
+        $method = strtolower($method);
+        $rcmail = rcmail::get_instance();
+
+        if (empty($method) || $method == 'default') {
+            $method   = $rcmail->config->get('password_algorithm');
+            $prefixed = $rcmail->config->get('password_algorithm_prefix');
+            $default  = true;
+        }
+        else if ($method == 'crypt') { // deprecated
+            if (!($method = $rcmail->config->get('password_crypt_hash'))) {
+                $method = 'md5';
+            }
+
+            if (!strpos($method, '-crypt')) {
+                $method .= '-crypt';
+            }
+        }
+
+        switch ($method) {
+        case 'des':
+        case 'des-crypt':
+            $crypted = crypt($password, self::random_salt(2));
+            $prefix  = '{CRYPT}';
+            break;
+
+        case 'ext_des': // for BC
+        case 'ext-des-crypt':
+            $crypted = crypt($password, '_' . self::random_salt(8));
+            $prefix  = '{CRYPT}';
+            break;
+
+        case 'md5crypt': // for BC
+        case 'md5-crypt':
+            $crypted = crypt($password, '$1$' . self::random_salt(9));
+            $prefix  = '{CRYPT}';
+            break;
+
+        case 'sha256-crypt':
+            $crypted = crypt($password, '$5$' . self::random_salt(16));
+            $prefix  = '{CRYPT}';
+            break;
+
+        case 'sha512-crypt':
+            $crypted = crypt($password, '$6$' . self::random_salt(16));
+            $prefix  = '{CRYPT}';
+            break;
+
+        case 'blowfish': // for BC
+        case 'blowfish-crypt':
+            $cost   = (int) $rcmail->config->get('password_blowfish_cost');
+            $cost   = $cost < 4 || $cost > 31 ? 12 : $cost;
+            $prefix = sprintf('$2a$%02d$', $cost);
+
+            $crypted = crypt($password, $prefix . self::random_salt(22));
+            $prefix  = '{CRYPT}';
+            break;
+
+        case 'md5':
+            $crypted = base64_encode(pack('H*', md5($password)));
+            $prefix  = '{MD5}';
+            break;
+
+        case 'sha':
+            if (function_exists('sha1')) {
+                $crypted = pack('H*', sha1($password));
+            }
+            else if (function_exists('hash')) {
+                $crypted = hash('sha1', $password, true);
+            }
+            else if (function_exists('mhash')) {
+                $crypted = mhash(MHASH_SHA1, $password);
+            }
+            else {
+                rcube::raise_error(array(
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Your PHP install does not have the mhash()/hash() nor sha1() function"
+                ), true, true);
+            }
+
+            $crypted = base64_encode($crypted);
+            $prefix = '{SHA}';
+            break;
+
+        case 'ssha':
+            $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
+
+            if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
+                $salt    = mhash_keygen_s2k(MHASH_SHA1, $password, $salt, 4);
+                $crypted = mhash(MHASH_SHA1, $password . $salt);
+            }
+            else if (function_exists('sha1')) {
+                $salt    = substr(pack("H*", sha1($salt . $password)), 0, 4);
+                $crypted = sha1($password . $salt, true);
+            }
+            else if (function_exists('hash')) {
+                $salt    = substr(pack("H*", hash('sha1', $salt . $password)), 0, 4);
+                $crypted = hash('sha1', $password . $salt, true);
+            }
+            else {
+                rcube::raise_error(array(
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Your PHP install does not have the mhash()/hash() nor sha1() function"
+                ), true, true);
+            }
+
+            $crypted = base64_encode($crypted . $salt);
+            $prefix  = '{SSHA}';
+            break;
+
+        case 'smd5':
+            $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
+
+            if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
+                $salt    = mhash_keygen_s2k(MHASH_MD5, $password, $salt, 4);
+                $crypted = mhash(MHASH_MD5, $password . $salt);
+            }
+            else if (function_exists('hash')) {
+                $salt    = substr(pack("H*", hash('md5', $salt . $password)), 0, 4);
+                $crypted = hash('md5', $password . $salt, true);
+            }
+            else {
+                $salt    = substr(pack("H*", md5($salt . $password)), 0, 4);
+                $crypted = md5($password . $salt, true);
+            }
+
+            $crypted = base64_encode($crypted . $salt);
+            $prefix  = '{SMD5}';
+            break;
+
+        case 'samba':
+            if (function_exists('hash')) {
+                $crypted = hash('md4', rcube_charset::convert($password, RCUBE_CHARSET, 'UTF-16LE'));
+                $crypted = strtoupper($crypted_password);
+            }
+            else {
+                rcube::raise_error(array(
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Your PHP install does not have hash() function"
+                ), true, true);
+            }
+            break;
+
+        case 'ad':
+            $crypted = rcube_charset::convert('"' . $password . '"', RCUBE_CHARSET, 'UTF-16LE');
+            break;
+
+        case 'cram-md5': // deprecated
+            require_once __DIR__ . '/../helpers/dovecot_hmacmd5.php';
+            $crypted = dovecot_hmacmd5($password);
+            $prefix  = '{CRAM-MD5}';
+            break;
+
+        case 'dovecot':
+            if (!($dovecotpw = $rcmail->config->get('password_dovecotpw'))) {
+                $dovecotpw = 'dovecotpw';
+            }
+            if (!($method = $rcmail->config->get('password_dovecotpw_method'))) {
+                $method = 'CRAM-MD5';
+            }
+
+            // use common temp dir
+            $tmp_dir = $rcmail->config->get('temp_dir');
+            $tmpfile = tempnam($tmp_dir, 'roundcube-');
+
+            $pipe = popen("$dovecotpw -s '$method' > '$tmpfile'", "w");
+            if (!$pipe) {
+                unlink($tmpfile);
+                return false;
+            }
+            else {
+                fwrite($pipe, $passwd . "\n", 1+strlen($passwd)); usleep(1000);
+                fwrite($pipe, $passwd . "\n", 1+strlen($passwd));
+                pclose($pipe);
+
+                $crypted = trim(file_get_contents($tmpfile), "\n");
+                unlink($tmpfile);
+
+                if (!preg_match('/^\{' . $method . '\}/', $newpass)) {
+                    return false;
+                }
+
+                if (!$default) {
+                    $prefixed = (bool) $rcmail->config->get('password_dovecotpw_with_method');
+                }
+
+                if (!$prefixed) {
+                    $crypted = trim(str_replace('{' . $method . '}', '', $crypted));
+                }
+
+                $prefixed = false;
+            }
+
+            break;
+
+        case 'hash': // deprecated
+            if (!extension_loaded('hash')) {
+                rcube::raise_error(array(
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: 'hash' extension not loaded!"
+                ), true, true);
+            }
+
+            if (!($hash_algo = strtolower($rcmail->config->get('password_hash_algorithm')))) {
+                $hash_algo = 'sha1';
+            }
+
+            $crypted = hash($hash_algo, $password);
+
+            if ($rcmail->config->get('password_hash_base64')) {
+                $crypted = base64_encode(pack('H*', $crypted));
+            }
+
+            break;
+
+        case 'clear':
+            $crypted = $password;
+        }
+
+        if ($crypted === null || $crypted === false) {
+            return false;
+        }
+
+        if ($prefixed && $prefixed !== true) {
+            $prefix   = $prefixed;
+            $prefixed = true;
+        }
+
+        if ($prefixed === true && $prefix) {
+            $crypted = $prefix . $crypted;
+        }
+
+        return $crypted;
+    }
+
+    /**
+     * Used to generate a random salt for crypt-style passwords
+     *
+     * Code originaly from the phpLDAPadmin development team
+     * http://phpldapadmin.sourceforge.net/
+     */
+    static function random_salt($length)
+    {
+        $possible = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ./';
+        $str      = '';
+
+        while (strlen($str) < $length) {
+            $str .= substr($possible, (rand() % strlen($possible)), 1);
+        }
+
+        return $str;
+    }
 }

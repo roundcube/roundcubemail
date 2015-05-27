@@ -46,110 +46,70 @@ class rcube_sql_password
             return PASSWORD_ERROR;
         }
 
-        // crypted password
-        if (strpos($sql, '%c') !== FALSE) {
-            $salt = '';
+        // new password - default hash method
+        if (strpos($sql, '%P') !== false) {
+            $password = password::hash_password($passwd);
 
-            if (!($crypt_hash = $rcmail->config->get('password_crypt_hash'))) {
-                if (CRYPT_MD5)
-                    $crypt_hash = 'md5';
-                else if (CRYPT_STD_DES)
-                    $crypt_hash = 'des';
-            }
-
-            switch ($crypt_hash) {
-            case 'md5':
-                $len = 8;
-                $salt_hashindicator = '$1$';
-                break;
-            case 'des':
-                $len = 2;
-                break;
-            case 'blowfish':
-                $cost = (int) $rcmail->config->get('password_blowfish_cost');
-                $cost = $cost < 4 || $cost > 31 ? 12 : $cost;
-                $len  = 22;
-                $salt_hashindicator = sprintf('$2a$%02d$', $cost);
-                break;
-            case 'sha256':
-                $len = 16;
-                $salt_hashindicator = '$5$';
-                break;
-            case 'sha512':
-                $len = 16;
-                $salt_hashindicator = '$6$';
-                break;
-            default:
+            if ($password === false) {
                 return PASSWORD_CRYPT_ERROR;
             }
 
-            //Restrict the character set used as salt (#1488136)
-            $seedchars = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-            for ($i = 0; $i < $len ; $i++) {
-                $salt .= $seedchars[rand(0, 63)];
-            }
-
-            $sql = str_replace('%c',  $db->quote(crypt($passwd, $salt_hashindicator ? $salt_hashindicator .$salt.'$' : $salt)), $sql);
+            $sql = str_replace('%P',  $db->quote($password), $sql);
         }
 
-        // dovecotpw
-        if (strpos($sql, '%D') !== FALSE) {
-            if (!($dovecotpw = $rcmail->config->get('password_dovecotpw')))
-                $dovecotpw = 'dovecotpw';
-            if (!($method = $rcmail->config->get('password_dovecotpw_method')))
-                $method = 'CRAM-MD5';
+        // old password - default hash method
+        if (strpos($sql, '%O') !== false) {
+            $password = password::hash_password($curpass);
 
-            // use common temp dir
-            $tmp_dir = $rcmail->config->get('temp_dir');
-            $tmpfile = tempnam($tmp_dir, 'roundcube-');
-
-            $pipe = popen("$dovecotpw -s '$method' > '$tmpfile'", "w");
-            if (!$pipe) {
-                unlink($tmpfile);
+            if ($password === false) {
                 return PASSWORD_CRYPT_ERROR;
             }
-            else {
-                fwrite($pipe, $passwd . "\n", 1+strlen($passwd)); usleep(1000);
-                fwrite($pipe, $passwd . "\n", 1+strlen($passwd));
-                pclose($pipe);
-                $newpass = trim(file_get_contents($tmpfile), "\n");
-                if (!preg_match('/^\{' . $method . '\}/', $newpass)) {
-                    return PASSWORD_CRYPT_ERROR;
-                }
-                if (!$rcmail->config->get('password_dovecotpw_with_method'))
-                    $newpass = trim(str_replace('{' . $method . '}', '', $newpass));
-                unlink($tmpfile);
-            }
-            $sql = str_replace('%D', $db->quote($newpass), $sql);
+
+            $sql = str_replace('%O',  $db->quote($password), $sql);
         }
 
-        // hashed passwords
-        if (preg_match('/%[n|q]/', $sql)) {
-            if (!extension_loaded('hash')) {
-                rcube::raise_error(array(
-                    'code' => 600,
-                    'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: 'hash' extension not loaded!"
-                ), true, false);
+        // crypted password (deprecated, use %P)
+        if (strpos($sql, '%c') !== false) {
+            $password = password::hash_password($passwd, 'crypt', false);
 
-                return PASSWORD_ERROR;
+            if ($password === false) {
+                return PASSWORD_CRYPT_ERROR;
             }
 
-            if (!($hash_algo = strtolower($rcmail->config->get('password_hash_algorithm')))) {
-                $hash_algo = 'sha1';
+            $sql = str_replace('%c',  $db->quote($password), $sql);
+        }
+
+        // dovecotpw (deprecated, use %P)
+        if (strpos($sql, '%D') !== false) {
+            $password = password::hash_password($passwd, 'dovecot', false);
+
+            if ($password === false) {
+                return PASSWORD_CRYPT_ERROR;
             }
 
-            $hash_passwd = hash($hash_algo, $passwd);
-            $hash_curpass = hash($hash_algo, $curpass);
+            $sql = str_replace('%D', $db->quote($password), $sql);
+        }
 
-            if ($rcmail->config->get('password_hash_base64')) {
-                $hash_passwd = base64_encode(pack('H*', $hash_passwd));
-                $hash_curpass = base64_encode(pack('H*', $hash_curpass));
+        // hashed passwords (deprecated, use %P)
+        if (strpos($sql, '%n') !== false) {
+            $password = password::hash_password($passwd, 'hash', false);
+
+            if ($password === false) {
+                return PASSWORD_CRYPT_ERROR;
             }
 
-            $sql = str_replace('%n', $db->quote($hash_passwd, 'text'), $sql);
-            $sql = str_replace('%q', $db->quote($hash_curpass, 'text'), $sql);
+            $sql = str_replace('%n', $db->quote($password, 'text'), $sql);
+        }
+
+        // hashed passwords (deprecated, use %P)
+        if (strpos($sql, '%q') !== false) {
+            $password = password::hash_password($curpass, 'hash', false);
+
+            if ($password === false) {
+                return PASSWORD_CRYPT_ERROR;
+            }
+
+            $sql = str_replace('%q', $db->quote($password, 'text'), $sql);
         }
 
         // Handle clear text passwords securely (#1487034)

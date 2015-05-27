@@ -93,8 +93,7 @@ class rcube_ldap_password
         $crypted_pass = array();
 
         foreach ($encodages as $enc) {
-            $cpw = self::hash_password($passwd, $enc);
-            if (!empty($cpw)) {
+            if ($cpw = password::hash_password($passwd, $enc)) {
                 $crypted_pass[] = $cpw;
             }
         }
@@ -111,7 +110,7 @@ class rcube_ldap_password
         }
 
         // Crypt new samba password
-        if ($smbpwattr && !($samba_pass = self::hash_password($passwd, 'samba'))) {
+        if ($smbpwattr && !($samba_pass = password::hash_password($passwd, 'samba'))) {
             return PASSWORD_CRYPT_ERROR;
         }
 
@@ -215,165 +214,6 @@ class rcube_ldap_password
             $str = str_replace('%dc', $dc, $str);
             $str = str_replace('%domain', $parts[1], $str);
             $str = str_replace('%d', $parts[1], $str);
-        }
-
-        return $str;
-    }
-
-    /**
-     * Code originaly from the phpLDAPadmin development team
-     * http://phpldapadmin.sourceforge.net/
-     *
-     * Hashes a password and returns the hash based on the specified enc_type
-     */
-    static function hash_password($password_clear, $encodage_type)
-    {
-        $encodage_type = strtolower($encodage_type);
-        switch ($encodage_type) {
-        case 'crypt':
-            $crypted_password = '{CRYPT}' . crypt($password_clear, self::random_salt(2));
-            break;
-
-        case 'ext_des':
-            /* Extended DES crypt. see OpenBSD crypt man page */
-            if (!defined('CRYPT_EXT_DES') || CRYPT_EXT_DES == 0) {
-                /* Your system crypt library does not support extended DES encryption */
-                return false;
-            }
-
-            $crypted_password = '{CRYPT}' . crypt($password_clear, '_' . self::random_salt(8));
-            break;
-
-        case 'md5crypt':
-            if (!defined('CRYPT_MD5') || CRYPT_MD5 == 0) {
-                /* Your system crypt library does not support md5crypt encryption */
-                return false;
-            }
-
-            $crypted_password = '{CRYPT}' . crypt($password_clear, '$1$' . self::random_salt(9));
-            break;
-
-        case 'blowfish':
-            if (!defined('CRYPT_BLOWFISH') || CRYPT_BLOWFISH == 0) {
-                /* Your system crypt library does not support blowfish encryption */
-                return false;
-            }
-
-            $rcmail = rcmail::get_instance();
-            $cost   = (int) $rcmail->config->get('password_blowfish_cost');
-            $cost   = $cost < 4 || $cost > 31 ? 12 : $cost;
-            $prefix = sprintf('$2a$%02d$', $cost);
-
-            $crypted_password = '{CRYPT}' . crypt($password_clear, $prefix . self::random_salt(22));
-            break;
-
-        case 'md5':
-            $crypted_password = '{MD5}' . base64_encode(pack('H*', md5($password_clear)));
-            break;
-
-        case 'sha':
-            if (function_exists('sha1')) {
-                /* Use PHP 4.3.0+ sha1 function, if it is available */
-                $crypted_password = '{SHA}' . base64_encode(pack('H*', sha1($password_clear)));
-            }
-            else if (function_exists('hash')) {
-                $crypted_password = '{SHA}' . base64_encode(hash('sha1', $password_clear, true));
-            }
-            else if (function_exists('mhash')) {
-                $crypted_password = '{SHA}' . base64_encode(mhash(MHASH_SHA1, $password_clear));
-            }
-            else {
-                /* Your PHP install does not have the mhash()/hash() nor sha1() function */
-                return false;
-            }
-            break;
-
-        case 'ssha':
-            $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
-
-            if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
-                $salt     = mhash_keygen_s2k(MHASH_SHA1, $password_clear, $salt, 4);
-                $password = mhash(MHASH_SHA1, $password_clear . $salt);
-            }
-            else if (function_exists('sha1')) {
-                $salt     = substr(pack("H*", sha1($salt . $password_clear)), 0, 4);
-                $password = sha1($password_clear . $salt, true);
-            }
-            else if (function_exists('hash')) {
-                $salt     = substr(pack("H*", hash('sha1', $salt . $password_clear)), 0, 4);
-                $password = hash('sha1', $password_clear . $salt, true);
-            }
-
-            if ($password) {
-                $crypted_password = '{SSHA}' . base64_encode($password . $salt);
-            }
-            else {
-                /* Your PHP install does not have the mhash()/hash() nor sha1() function */
-                return false;
-            }
-            break;
-
-
-        case 'smd5':
-            $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
-
-            if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
-                $salt     = mhash_keygen_s2k(MHASH_MD5, $password_clear, $salt, 4);
-                $password = mhash(MHASH_MD5, $password_clear . $salt);
-            }
-            else if (function_exists('hash')) {
-                $salt     = substr(pack("H*", hash('md5', $salt . $password_clear)), 0, 4);
-                $password = hash('md5', $password_clear . $salt, true);
-            }
-            else {
-                $salt     = substr(pack("H*", md5($salt . $password_clear)), 0, 4);
-                $password = md5($password_clear . $salt, true);
-            }
-
-            $crypted_password = '{SMD5}' . base64_encode($password . $salt);
-            break;
-
-        case 'samba':
-            if (function_exists('hash')) {
-                $crypted_password = hash('md4', rcube_charset::convert($password_clear, RCUBE_CHARSET, 'UTF-16LE'));
-                $crypted_password = strtoupper($crypted_password);
-            }
-            else {
-                /* Your PHP install does not have the hash() function */
-                return false;
-            }
-            break;
-
-        case 'ad':
-            $crypted_password = rcube_charset::convert('"' . $password_clear . '"', RCUBE_CHARSET, 'UTF-16LE');
-            break;
-
-        case 'cram-md5':
-            require_once __DIR__ . '/../helpers/dovecot_hmacmd5.php';
-            return dovecot_hmacmd5($password_clear);
-            break;
-
-        case 'clear':
-        default:
-            $crypted_password = $password_clear;
-        }
-
-        return $crypted_password;
-    }
-
-    /**
-     * Code originaly from the phpLDAPadmin development team
-     * http://phpldapadmin.sourceforge.net/
-     *
-     * Used to generate a random salt for crypt-style passwords
-     */
-    static function random_salt($length)
-    {
-        $possible = '0123456789' . 'abcdefghijklmnopqrstuvwxyz' . 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' . './';
-        $str = '';
-
-        while (strlen($str) < $length) {
-            $str .= substr($possible, (rand() % strlen($possible)), 1);
         }
 
         return $str;
