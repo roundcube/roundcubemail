@@ -99,8 +99,9 @@ if (!preg_match($regexp, $path)) {
 spl_autoload_register('rcube_autoload');
 
 // set PEAR error handling (will also load the PEAR main class)
-@PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
-
+if (class_exists('PEAR')) {
+    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
+}
 
 
 /**
