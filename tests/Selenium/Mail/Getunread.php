@@ -32,6 +32,6 @@ class Selenium_Mail_Getunread extends Selenium_Test
         $this->assertHasClass('unread', $li);
 
         $badge = $this->byCssSelector('.folderlist li.inbox span.unreadcount');
-        $this->assertEquals(strval($this->msgcount), $badge->text());
+        $this->assertEquals(strval($this->msgcount), $this->getText($badge));
     }
 }

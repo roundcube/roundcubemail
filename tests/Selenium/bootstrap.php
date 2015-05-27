@@ -337,6 +337,11 @@ class Selenium_Test extends PHPUnit_Extensions_Selenium2TestCase
         return $response;
     }
 
+    protected function getText($element)
+    {
+        return $element->text() ?: $element->attribute('textContent');
+    }
+
     protected function assertHasClass($classname, $element)
     {
         $this->assertContains($classname, $element->attribute('class'));
