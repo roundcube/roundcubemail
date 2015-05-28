@@ -36,8 +36,6 @@ class emoticons extends rcube_plugin
 
         // map of emoticon replacements
         $map = array(
-            '/:\)/'             => $this->img_tag('smiley-smile.gif',       ':)'    ),
-            '/:-\)/'            => $this->img_tag('smiley-smile.gif',       ':-)'   ),
             '/(?<!mailto):D/'   => $this->img_tag('smiley-laughing.gif',    ':D'    ),
             '/:-D/'             => $this->img_tag('smiley-laughing.gif',    ':-D'   ),
             '/:\(/'             => $this->img_tag('smiley-frown.gif',       ':('    ),
@@ -54,8 +52,10 @@ class emoticons extends rcube_plugin
             '/(?<!mailto):-@/i' => $this->img_tag('smiley-yell.gif',        ':-@'   ),
             '/O:\)/i'           => $this->img_tag('smiley-innocent.gif',    'O:)'   ),
             '/O:-\)/i'          => $this->img_tag('smiley-innocent.gif',    'O:-)'  ),
-            '/(?<!mailto):$/'   => $this->img_tag('smiley-embarassed.gif',  ':$'    ),
-            '/(?<!mailto):-$/'  => $this->img_tag('smiley-embarassed.gif',  ':-$'   ),
+            '/(?<!O):\)/'       => $this->img_tag('smiley-smile.gif',       ':)'    ),
+            '/(?<!O):-\)/'      => $this->img_tag('smiley-smile.gif',       ':-)'   ),
+            '/(?<!mailto):\$/'  => $this->img_tag('smiley-embarassed.gif',  ':$'    ),
+            '/(?<!mailto):-\$/' => $this->img_tag('smiley-embarassed.gif',  ':-$'   ),
             '/(?<!mailto):\*/i'  => $this->img_tag('smiley-kiss.gif',       ':*'    ),
             '/(?<!mailto):-\*/i' => $this->img_tag('smiley-kiss.gif',       ':-*'   ),
             '/(?<!mailto):S/i'  => $this->img_tag('smiley-undecided.gif',   ':S'    ),
