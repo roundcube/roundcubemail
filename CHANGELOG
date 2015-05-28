@@ -11,7 +11,6 @@ CHANGELOG Roundcube Webmail
 - Plugin API: Add special onload() method to execute plugin actions before startup (session and GUI initialization)
 - Implemented UI element to jump to specified page of the messages list (#1485235)
 - Fix so unrecognized TNEF attachments are displayed on the list of attachments (#1490351)
-- Installer: Use openssl_random_pseudo_bytes() (if available) to generate des_key (#1490402)
 
 RELEASE 1.1.2
 -------------
@@ -39,6 +38,7 @@ RELEASE 1.1.2
 - Fix issues when using moduserprefs.sh without --user argument (#1490399)
 - Fix potential info disclosure issue by protecting directory access (#1490378)
 - Fix blank image in html_signature when saving identity changes (#1490412)
+- Installer: Use openssl_random_pseudo_bytes() (if available) to generate des_key (#1490402)
 
 RELEASE 1.1.1
 -------------
