@@ -208,7 +208,7 @@ function rcmail_attach_images($html)
     global $RCMAIL;
 
     $offset = 0;
-    $regexp = '/\s(poster|src)\s*=\s*[\'"]*\S+upload-display\S+file=rcmfile([0-9]+)[\s\'"]*/';
+    $regexp = '/\s(poster|src)\s*=\s*[\'"]*\S+upload-display\S+file=rcmfile(\w+)[\s\'"]*/';
 
     while (preg_match($regexp, $html, $matches, 0, $offset)) {
         $file_id  = $matches[2];

@@ -26,6 +26,7 @@ RELEASE 1.1.2
 - Fix attached file path unsetting in database_attachments plugin (#1490393)
 - Fix issues when using moduserprefs.sh without --user argument (#1490399)
 - Fix potential info disclosure issue by protecting directory access (#1490378)
+- Fix blank image in html_signature when saving identity changes (#1490412)
 
 RELEASE 1.1.1
 -------------
