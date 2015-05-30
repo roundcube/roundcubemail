@@ -1820,7 +1820,7 @@ class rcmail extends rcube
             }
             else {
                 $error = 'servererrormsg';
-                $args  = array('msg' => $err_str);
+                $args  = array('msg' => rcube::Q($err_str));
             }
         }
         else if ($err_code < 0) {
