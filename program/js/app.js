@@ -3347,17 +3347,17 @@ function rcube_webmail()
   this.check_mailvelope = function(action)
   {
     if (typeof window.mailvelope !== 'undefined') {
-      this.mailvelope_init(action);
+      this.mailvelope_load(action);
     }
     else {
       $(window).on('mailvelope', function() {
-        ref.mailvelope_init(action);
+        ref.mailvelope_load(action);
       });
     }
   };
 
   // 
-  this.mailvelope_init = function(action)
+  this.mailvelope_load = function(action)
   {
     if (this.env.browser_capabilities)
       this.env.browser_capabilities['pgpmime'] = 1;
@@ -3366,16 +3366,21 @@ function rcube_webmail()
 
     mailvelope.getKeyring(keyring).then(function(kr) {
       ref.mailvelope_keyring = kr;
+      ref.mailvelope_init(action, kr);
     }).catch(function(err) {
       // attempt to create a new keyring for this app/user
       mailvelope.createKeyring(keyring).then(function(kr) {
         ref.mailvelope_keyring = kr;
-        keyring = keyring.identifier;
+        ref.mailvelope_init(action, kr);
       }).catch(function(err) {
         console.error(err);
       });
     });
+  };
 
+  // 
+  this.mailvelope_init = function(action, keyring)
+  {
     if (action == 'show' || action == 'preview') {
       // decrypt text body
       if (this.env.is_pgp_content && window.mailvelope) {
@@ -3413,17 +3418,22 @@ function rcube_webmail()
     // remove Mailvelope editor if active
     if (ref.mailvelope_editor) {
       ref.mailvelope_editor = null;
+      ref.compose_skip_unsavedcheck = false;
       ref.set_button('compose-encrypted', 'act');
+
       container.removeClass('mailvelope')
         .find('iframe:not([aria-hidden=true])').remove();
       $('#' + ref.env.composebody).show();
+      $("[name='_pgpmime']").remove();
     }
     // embed Mailvelope editor container
     else {
       var options = { predefinedText: $('#' + this.env.composebody).val() };
-      mailvelope.createEditorContainer('#' + container.attr('id'), ref.mailvelope_keyring.identifier, options).then(function(editor) {
+      mailvelope.createEditorContainer('#' + container.attr('id'), ref.mailvelope_keyring, options).then(function(editor) {
         ref.mailvelope_editor = editor;
+        ref.compose_skip_unsavedcheck = true;
         ref.set_button('compose-encrypted', 'sel');
+
         container.addClass('mailvelope');
         $('#' + ref.env.composebody).hide();
       }).catch(function(err) {
@@ -3464,19 +3474,65 @@ function rcube_webmail()
         return false;
       }
 
-      ref.mailvelope_editor.encrypt(recipients).then(function(armored) {
-        console.log('encrypted message', armored);
-        var form = ref.gui_objects.messageform;
+      // add sender identity to recipients to be able to decrypt our very own message
+      var senders = [], selected_sender = ref.env.identities[$("[name='_from'] option:selected").val()];
+      $.each(ref.env.identities, function(k, sender) {
+        senders.push(sender.email);
+      });
 
-        // all checks passed, send message
-        // var msgid = ref.set_busy(true, draft || saveonly ? 'savingmessage' : 'sendingmessage')
+      ref.mailvelope_keyring.validKeyForAddress(senders).then(function(status) {
+        valid_sender = null;
+        $.each(status, function(k,v) {
+          if (v !== false) {
+            valid_sender = k;
+            if (valid_sender == selected_sender) {
+              return false;  // break
+            }
+          }
+        });
+
+        if (!valid_sender) {
+          if (!confirm(ref.get_label('nopubkeyforsender'))) {
+            return false;
+          }
+        }
+
+        recipients.push(valid_sender);
+
+        ref.mailvelope_editor.encrypt(recipients).then(function(armored) {
+          // all checks passed, send message
+          var form = ref.gui_objects.messageform,
+            hidden = $("[name='_pgpmime']", form),
+            msgid = ref.set_busy(true, draft || saveonly ? 'savingmessage' : 'sendingmessage')
+
+          form.target = 'savetarget';
+          form._draft.value = draft ? '1' : '';
+          form.action = ref.add_url(form.action, '_unlock', msgid);
+          form.action = ref.add_url(form.action, '_framed', 1);
+
+          if (saveonly) {
+            form.action = ref.add_url(form.action, '_saveonly', 1);
+          }
+
+          // send pgp conent via hidden field
+          if (!hidden.length) {
+            hidden = $('<input type="hidden" name="_pgpmime">').appendTo(form);
+          }
+          hidden.val(armored);
+
+          form.submit();
+
+        }).catch(function(err) {
+          console.log(err);
+        });  // mailvelope_editor.encrypt()
 
       }).catch(function(err) {
-        console.log(err);
-      });
+        console.error(err);
+      });  // mailvelope_keyring.validKeyForAddress(senders)
+
     }).catch(function(err) {
       console.error(err);
-    });
+    });  // mailvelope_keyring.validKeyForAddress(recipients)
 
     return false;
   };
@@ -3767,6 +3823,7 @@ function rcube_webmail()
       );
     }
 
+    // delegate sending to Mailvelope routine
     if (this.mailvelope_editor) {
       return this.mailvelope_submit_messageform(draft, saveonly);
     }
@@ -4088,7 +4145,7 @@ function rcube_webmail()
 
       // reset history of hidden iframe used for saving draft (#1489643)
       // but don't do this on timer-triggered draft-autosaving (#1489789)
-      if (window.frames['savetarget'] && window.frames['savetarget'].history && !this.draft_autosave_submit) {
+      if (window.frames['savetarget'] && window.frames['savetarget'].history && !this.draft_autosave_submit && !this.mailvelope_editor) {
         window.frames['savetarget'].history.back();
       }
 
@@ -4157,6 +4214,11 @@ function rcube_webmail()
     if (this.env.attachments)
       for (id in this.env.attachments)
         str += id;
+
+    // we can't detect changes in the Mailvelope editor so assume it changed
+    if (this.mailvelope_editor) {
+      str += ';' + new Date().getTime();
+    }
 
     if (save)
       this.cmp_hash = str;

@@ -273,6 +273,18 @@ $isHtml = (bool) rcube_utils::get_input_value('_is_html', rcube_utils::INPUT_POS
 // fetch message body
 $message_body = rcube_utils::get_input_value('_message', rcube_utils::INPUT_POST, TRUE, $message_charset);
 
+if (isset($_POST['_pgpmime'])) {
+    $pgp_mime = rcube_utils::get_input_value('_pgpmime', rcube_utils::INPUT_POST);
+    $message_body = 'This is an OpenPGP/MIME encrypted message (RFC 2440 and 3156)';
+    $isHtml = false;
+
+    // clear unencrypted attachments
+    foreach ($COMPOSE['attachments'] as $attach) {
+        $RCMAIL->plugins->exec_hook('attachment_delete', $attach);
+    }
+    $COMPOSE['attachments'] = array();
+}
+
 if ($isHtml) {
     $bstyle = array();
 
@@ -501,6 +513,43 @@ else {
 
 if ($flowed) {
     $text_charset .= ";\r\n format=flowed";
+}
+
+// compose PGP/Mime message
+if ($pgp_mime) {
+    $MAIL_MIME->addAttachment(
+        'Version: 1',
+        'application/pgp-encrypted',
+        'version.txt',  // required by Mail_mime::addAttachment()
+        false,
+        '8bit',
+        '',    // $disposition
+        '',    // $charset
+        '',    // $language
+        '',    // $location
+        null,  // $n_encoding
+        null,  // $f_encoding
+        'PGP/MIME version identification'
+    );
+
+    // patch filename out of the version part
+    foreach ($MAIL_MIME->_parts as $_i => $_part) {
+        if ($_part['c_type'] == 'application/pgp-encrypted') {
+            $MAIL_MIME->_parts[$_i]['name'] = '';
+            break;
+        }
+    }
+
+    $MAIL_MIME->addAttachment(
+        $pgp_mime,
+        'application/octet-stream',
+        'encrypted.asc',
+        false,
+        '8bit',
+        'inline'
+    );
+
+    $MAIL_MIME->setContentType('multipart/encrypted', array('protocol' => "application/pgp-encrypted"));
 }
 
 // encoding settings for mail composing

@@ -58,6 +58,7 @@ $messages['blockedimages'] = 'To protect your privacy, remote images are blocked
 $messages['encryptedmessage'] = 'This is an encrypted message and can not be displayed. Sorry!';
 $messages['externalmessagedecryption'] = 'This is an encrypted message and can be decrypted with your browser extension.';
 $messages['nopubkeyfor'] = 'No valid public key found for $email';
+$messages['nopubkeyforsender'] = 'No valid public key found for your sender identity. Do you want to encrypt the message for the recipients only?';
 $messages['nocontactsfound'] = 'No contacts found.';
 $messages['contactnotfound'] = 'The requested contact was not found.';
 $messages['contactsearchonly'] = 'Enter some search terms to find contacts';

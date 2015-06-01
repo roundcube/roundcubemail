@@ -83,7 +83,7 @@ $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubj
     'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
     'fileuploaderror', 'sendmessage', 'newresponse', 'responsename', 'responsetext', 'save',
     'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore', 'ignore',
-    'selectimportfile', 'messageissent', 'nopubkeyfor');
+    'selectimportfile', 'messageissent', 'nopubkeyfor', 'nopubkeyforsender');
 
 $OUTPUT->set_pagetitle($RCMAIL->gettext('compose'));
 
@@ -655,6 +655,8 @@ function rcmail_compose_header_from($attrib)
             if (!empty($sql_arr['bcc'])) {
                 $identities[$identity_id]['bcc'] = $sql_arr['bcc'];
             }
+
+            $identities[$identity_id]['email'] = $sql_arr['email'];
         }
 
         $out = $select_from->show($MESSAGE->compose['from']);
