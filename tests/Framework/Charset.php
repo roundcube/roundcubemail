@@ -18,7 +18,6 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
         return array(
             array('', ''),
             array("\xC1", ""),
-            array("сим\xD0вол", "символ"),
             array("Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν", "Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν"),
         );
     }
@@ -29,6 +28,16 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
     function test_clean($input, $output)
     {
         $this->assertEquals($output, rcube_charset::clean($input));
+    }
+
+    /**
+     * Just check for faulty byte-sequence, regardless of the actual cleaning results
+     */
+    function test_clean_2()
+    {
+        $bogus = "сим\xD0вол";
+        $this->assertRegExp('/\xD0\xD0/', $bogus);
+        $this->assertNotRegExp('/\xD0\xD0/', rcube_charset::clean($bogus));
     }
 
     /**
