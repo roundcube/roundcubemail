@@ -5,7 +5,7 @@
  | bin/update.sh                                                         |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2010-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2010-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -188,18 +188,24 @@ if ($RCI->configured) {
       }
 
       foreach ($composer_template['repositories'] as $repo) {
-        $rkey = $repo['type'] . $repo['url'] . $repo['package']['name'];
+        $rkey = $repo['type'] . preg_replace('/^https?:/', '', $repo['url']) . $repo['package']['name'];
         $existing = false;
-        foreach ($composer_data['repositories'] as $_repo) {
-          if ($rkey == $_repo['type'] . $_repo['url'] . $_repo['package']['name']) {
+        foreach ($composer_data['repositories'] as $k =>  $_repo) {
+          if ($rkey == $_repo['type'] . preg_replace('/^https?:/', '', $_repo['url']) . $_repo['package']['name']) {
             $existing = true;
             break;
+          }
+          // remove old repos
+          else if (strpos($_repo['url'], 'git://git.kolab.org') === 0) {
+              unset($composer_data['repositories'][$k]);
           }
         }
         if (!$existing) {
           $composer_data['repositories'][] = $repo;
         }
       }
+
+      $composer_data['repositories'] = array_values($composer_data['repositories']);
     }
 
     // use the JSON encoder from the Composer package
@@ -209,7 +215,7 @@ if ($RCI->configured) {
     }
     // PHP 5.4's json_encode() does the job, too
     else if (defined('JSON_PRETTY_PRINT')) {
-      $comsposer_json = json_encode($composer_data, JSON_PRETTY_PRINT & JSON_UNESCAPED_SLASHES);
+      $comsposer_json = json_encode($composer_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
     else {
       $success = false;
