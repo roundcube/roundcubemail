@@ -279,7 +279,7 @@ function rcube_webmail()
           this.env.address_group_stack = [];
           this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel',
             'toggle-editor', 'list-adresses', 'pushgroup', 'search', 'reset-search', 'extwin',
-            'insert-response', 'save-response', 'menu-open', 'menu-close', 'compose-encrypted'];
+            'insert-response', 'save-response', 'menu-open', 'menu-close'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
@@ -3405,6 +3405,8 @@ function rcube_webmail()
       }
     }
     else if (action == 'compose' && window.mailvelope) {
+      this.env.compose_commands.push('compose-encrypted');
+
       if (this.env.pgp_mime_message) {
         // fetch PGP/Mime part and open load into Mailvelope editor
         var lock = this.set_busy(true, this.get_label('loadingdata'));
