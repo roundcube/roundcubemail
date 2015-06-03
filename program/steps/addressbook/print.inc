@@ -97,7 +97,7 @@ function rcmail_contact_details($attrib)
                 'address'      => array(),
                 'website'      => array(),
                 'im'           => array(),
-                'groups' => array('value' => 'sdfsdfs', 'label' => $RCMAIL->gettext('groups')),
+                'groups'       => array(),
             ),
         ),
         'personal' => array(
