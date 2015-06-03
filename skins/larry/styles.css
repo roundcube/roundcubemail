@@ -2160,6 +2160,14 @@ ul.proplist li {
 	background-position: center -1932px;
 }
 
+.toolbar a.button.encrypt {
+	background-position: center -2025px;
+}
+
+.toolbar a.button.encrypt.selected {
+	background-position: center -2065px;
+}
+
 a.menuselector {
 	display: inline-block;
 	border: 1px solid #ababab;

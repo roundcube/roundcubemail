@@ -3396,8 +3396,7 @@ function rcube_webmail()
           type: 'GET',
           url: this.url('get', { '_mbox': this.env.mailbox, '_uid': this.env.uid, '_part': this.env.pgp_mime_part }),
           error: function(o, status, err) {
-            ref.hide_message(msgkey);
-            ref.http_error(o, status, err, lock);
+            ref.http_error(o, status, err, msgid);
           },
           success: function(data) {
             ref.mailvelope_display_container(selector, data, keyring, msgid);
@@ -3406,11 +3405,31 @@ function rcube_webmail()
       }
     }
     else if (action == 'compose' && window.mailvelope) {
-      this.enable_command('compose-encrypted', true);
+      if (this.env.pgp_mime_message) {
+        // fetch PGP/Mime part and open load into Mailvelope editor
+        var lock = this.set_busy(true, this.get_label('loadingdata'));
+        $.ajax({
+          type: 'GET',
+          url: this.url('get', this.env.pgp_mime_message),
+          error: function(o, status, err) {
+            ref.http_error(o, status, err, lock);
+            ref.enable_command('compose-encrypted', true);
+          },
+          success: function(data) {
+            ref.set_busy(false, null, lock);
+            ref.compose_encrypted({ quotedMail: data });
+            ref.enable_command('compose-encrypted', true);
+          }
+        });
+      }
+      else {
+        // enable encrypted compose toggle
+        this.enable_command('compose-encrypted', true);
+      }
     }
   };
 
-  // handler for the 'compose-encrypt' command
+  // handler for the 'compose-encrypted' command
   this.compose_encrypted = function(props)
   {
     var container = $('#' + this.env.composebody).parent();
@@ -3429,6 +3448,14 @@ function rcube_webmail()
     // embed Mailvelope editor container
     else {
       var options = { predefinedText: $('#' + this.env.composebody).val() };
+      if (props.quotedMail) {
+        options = { quotedMail: props.quotedMail, quotedMailIndent: false };
+      }
+      if (this.env.compose_mode == 'reply') {
+        options.quotedMailIndent = true;
+        options.quotedMailHeader = this.env.compose_reply_header;
+      }
+
       mailvelope.createEditorContainer('#' + container.attr('id'), ref.mailvelope_keyring, options).then(function(editor) {
         ref.mailvelope_editor = editor;
         ref.compose_skip_unsavedcheck = true;
@@ -3436,6 +3463,15 @@ function rcube_webmail()
 
         container.addClass('mailvelope');
         $('#' + ref.env.composebody).hide();
+
+        // notify user about loosing attachments
+        if (ref.env.attachments && !$.isEmptyObject(ref.env.attachments)) {
+          alert(ref.get_label('encryptnoattachments'));
+
+          $.each(ref.env.attachments, function(name, attach) {
+            ref.remove_from_attachment_list(name);
+          });
+        }
       }).catch(function(err) {
         console.error(err);
       });

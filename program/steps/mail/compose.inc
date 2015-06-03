@@ -83,7 +83,8 @@ $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubj
     'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
     'fileuploaderror', 'sendmessage', 'newresponse', 'responsename', 'responsetext', 'save',
     'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore', 'ignore',
-    'selectimportfile', 'messageissent', 'nopubkeyfor', 'nopubkeyforsender');
+    'selectimportfile', 'messageissent', 'loadingdata', 'nopubkeyfor', 'nopubkeyforsender',
+    'encryptnoattachments');
 
 $OUTPUT->set_pagetitle($RCMAIL->gettext('compose'));
 
@@ -749,6 +750,21 @@ function rcmail_prepare_message_body()
             }
 
             foreach ($MESSAGE->parts as $part) {
+                if ($part->realtype == 'multipart/encrypted') {
+                    // find the encrypted message payload part
+                    foreach ($MESSAGE->mime_parts as $mime_id => $mpart) {
+                        if ($mpart->mimetype == 'application/octet-stream' || !empty($mpart->filename)) {
+                            $RCMAIL->output->set_env('pgp_mime_message', array(
+                                '_mbox' => $RCMAIL->storage->get_folder(), '_uid' => $MESSAGE->uid, '_part' => $mime_id,
+                            ));
+                            $RCMAIL->output->set_env('compose_mode', $compose_mode);
+                            $MESSAGE->pgp_mime = true;
+                            break;
+                        }
+                    }
+                    continue;
+                }
+
                 // skip no-content and attachment parts (#1488557)
                 if ($part->type != 'content' || !$part->size || $MESSAGE->is_attachment($part)) {
                     continue;
@@ -771,14 +787,21 @@ function rcmail_prepare_message_body()
         }
 
         // compose reply-body
-        if ($compose_mode == RCUBE_COMPOSE_REPLY)
+        if ($compose_mode == RCUBE_COMPOSE_REPLY) {
             $body = rcmail_create_reply_body($body, $isHtml);
+
+            if ($MESSAGE->pgp_mime) {
+                $RCMAIL->output->set_env('compose_reply_header', rcmail_get_reply_header($MESSAGE));
+            }
+        }
         // forward message body inline
-        else if ($compose_mode == RCUBE_COMPOSE_FORWARD)
+        else if ($compose_mode == RCUBE_COMPOSE_FORWARD) {
             $body = rcmail_create_forward_body($body, $isHtml);
+        }
         // load draft message body
-        else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT)
+        else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
             $body = rcmail_create_draft_body($body, $isHtml);
+        }
     }
     else { // new message
         $isHtml = rcmail_compose_editor_mode();
@@ -808,7 +831,7 @@ function rcmail_prepare_message_body()
 
 function rcmail_compose_part_body($part, $isHtml = false)
 {
-    global $RCMAIL, $MESSAGE, $LINE_LENGTH, $compose_mode;
+    global $RCMAIL, $COMPOSE, $MESSAGE, $LINE_LENGTH, $compose_mode;
 
     // Check if we have enough memory to handle the message in it
     // #1487424: we need up to 10x more memory than the body
@@ -822,6 +845,14 @@ function rcmail_compose_part_body($part, $isHtml = false)
     // message is cached but not exists (#1485443), or other error
     if ($body === false) {
         return '';
+    }
+
+    // register this part as pgp encrypted
+    if (strpos($body, 'BEGIN PGP MESSAGE') !== false) {
+        $MESSAGE->pgp_mime = true;
+        $RCMAIL->output->set_env('pgp_mime_message', array(
+            '_mbox' => $RCMAIL->storage->get_folder(), '_uid' => $MESSAGE->uid, '_part' => $part->mime_id,
+        ));
     }
 
     if ($isHtml) {
@@ -990,16 +1021,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
 {
     global $RCMAIL, $MESSAGE, $LINE_LENGTH;
 
-    // build reply prefix
-    $from = array_pop(rcube_mime::decode_address_list($MESSAGE->get_header('from'), 1, false, $MESSAGE->headers->charset));
-    $prefix = $RCMAIL->gettext(array(
-        'name' => 'mailreplyintro',
-        'vars' => array(
-            'date'   => $RCMAIL->format_date($MESSAGE->headers->date, $RCMAIL->config->get('date_long')),
-            'sender' => $from['name'] ? $from['name'] : rcube_utils::idn_to_utf8($from['mailto']),
-        )
-    ));
-
+    $prefix = rcmail_get_reply_header($MESSAGE);
     $reply_mode = intval($RCMAIL->config->get('reply_mode'));
 
     if (!$bodyIsHtml) {
@@ -1043,6 +1065,19 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     return $prefix . $body . $suffix;
 }
 
+function rcmail_get_reply_header($message)
+{
+    global $RCMAIL;
+
+    $from = array_pop(rcube_mime::decode_address_list($message->get_header('from'), 1, false, $message->headers->charset));
+    return $RCMAIL->gettext(array(
+        'name' => 'mailreplyintro',
+        'vars' => array(
+            'date'   => $RCMAIL->format_date($message->headers->date, $RCMAIL->config->get('date_long')),
+            'sender' => $from['name'] ?: rcube_utils::idn_to_utf8($from['mailto']),
+        )
+    ));
+}
 
 function rcmail_create_forward_body($body, $bodyIsHtml)
 {
@@ -1170,6 +1205,10 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
     $cid_map  = array();
     $messages = array();
 
+    if ($message->pgp_mime) {
+        return $cid_map;
+    }
+
     foreach ((array)$message->mime_parts as $pid => $part) {
         if ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename) {
             // skip parts that aren't valid attachments
@@ -1236,6 +1275,11 @@ function rcmail_write_inline_attachments(&$message)
     global $RCMAIL, $COMPOSE;
 
     $cid_map = array();
+
+    if ($message->pgp_mime) {
+        return $cid_map;
+    }
+
     foreach ((array)$message->mime_parts as $pid => $part) {
         if (($part->content_id || $part->content_location) && $part->filename) {
             if ($attachment = rcmail_save_attachment($message, $pid)) {
@@ -1262,6 +1306,10 @@ function rcmail_write_forward_attachments()
     $storage = $RCMAIL->get_storage();
     $names   = array();
     $refs    = array();
+
+    if ($MESSAGE->pgp_mime) {
+        return;
+    }
 
     $loaded_attachments = array();
     foreach ((array)$COMPOSE['attachments'] as $attachment) {

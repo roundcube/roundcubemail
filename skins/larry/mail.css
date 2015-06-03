@@ -1302,6 +1302,11 @@ div.message-partheaders .headers-table td.header {
 	bottom: 42px;
 }
 
+#composebodycontainer.mailvelope {
+	right: 0;
+	z-index: 10;
+}
+
 #composebodycontainer.mailvelope > iframe[scrolling='no'] {
 	position: relative;
 	top: -12px;
