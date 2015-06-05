@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix "Importing..." message does not hide on error (#1490422)
+
 RELEASE 1.1.2
 -------------
 - Add new plugin hook 'identity_create_after' providing the ID of the inserted identity (#1490358)

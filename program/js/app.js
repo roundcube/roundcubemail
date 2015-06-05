@@ -1268,7 +1268,7 @@ function rcube_webmail()
 
         $('input[name="_unlock"]', form).val(importlock);
 
-        if (!(flag = this.upload_file(form, 'import'))) {
+        if (!(flag = this.upload_file(form, 'import', importlock))) {
           this.set_busy(false, null, importlock);
           if (flag !== false)
             alert(this.get_label('selectimportfile'));
@@ -4093,7 +4093,7 @@ function rcube_webmail()
   };
 
   // upload (attachment) file
-  this.upload_file = function(form, action)
+  this.upload_file = function(form, action, lock)
   {
     if (!form)
       return;
@@ -4135,6 +4135,9 @@ function rcube_webmail()
           if (!content.match(/display_message/))
             ref.display_message(ref.get_label('fileuploaderror'), 'error');
           ref.remove_from_attachment_list(e.data.ts);
+
+          if (lock)
+            ref.set_busy(false, null, lock);
         }
         // Opera hack: handle double onload
         if (bw.opera)
