@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix SQL error on logout when using session_storage=php (#1490421)
+
 RELEASE 1.0.6
 -------------
 - Make SMTP error log more verbose - include server response and error code
