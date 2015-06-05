@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix "Importing..." message does not hide on error (#1490422)
+- Fix SQL error on logout when using session_storage=php (#1490421)
 
 RELEASE 1.1.2
 -------------

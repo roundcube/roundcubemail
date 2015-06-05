@@ -144,7 +144,15 @@ class rcube_session
      */
     public function destroy($key)
     {
-        return $this->memcache ? $this->mc_destroy($key) : $this->db_destroy($key);
+        if ($this->storage == 'memcache' && $this->memcache) {
+            return $this->mc_destroy($key);
+        }
+        else if ($this->storage == 'db') {
+            return $this->db_destroy($key);
+        }
+        else {
+            return true;
+        }
     }
 
 
