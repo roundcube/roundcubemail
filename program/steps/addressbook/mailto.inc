@@ -19,9 +19,9 @@
  +-----------------------------------------------------------------------+
 */
 
-$cids       = rcmail_get_cids();
-$mailto     = array();
-$recipients = null;
+$cids    = rcmail_get_cids();
+$mailto  = array();
+$sources = array();
 
 foreach ($cids as $source => $cid) {
     $CONTACTS = $RCMAIL->get_address_book($source);
@@ -29,15 +29,15 @@ foreach ($cids as $source => $cid) {
     if ($CONTACTS->ready) {
         $CONTACTS->set_page(1);
         $CONTACTS->set_pagesize(count($cid) + 2); // +2 to skip counting query
-        $recipients = $CONTACTS->search($CONTACTS->primary_key, $cid, 0, true, true, 'email');
+        $sources[] = $CONTACTS->search($CONTACTS->primary_key, $cid, 0, true, true, 'email');
     }
 }
 
 if (!empty($_REQUEST['_gid']) && isset($_REQUEST['_source'])) {
-    $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
+    $source   = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
     $CONTACTS = $RCMAIL->get_address_book($source);
 
-    $group_id = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC);
+    $group_id   = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC);
     $group_data = $CONTACTS->get_group($group_id);
 
     // group has an email address assigned: use that
@@ -48,20 +48,23 @@ if (!empty($_REQUEST['_gid']) && isset($_REQUEST['_source'])) {
         $CONTACTS->set_group($group_id);
         $CONTACTS->set_page(1);
         $CONTACTS->set_pagesize(200); // limit somehow
-        $recipients = $CONTACTS->list_records();
+        $sources[] = $CONTACTS->list_records();
     }
 }
 
-if ($recipients) {
-    while (is_object($recipients) && ($rec = $recipients->iterate())) {
+foreach ($sources as $source) {
+    while (is_object($source) && ($rec = $source->iterate())) {
         $emails = $CONTACTS->get_col_values('email', $rec, true);
-        $mailto[] = format_email_recipient($emails[0], $rec['name']);
+
+        if (!empty($emails)) {
+            $mailto[] = format_email_recipient($emails[0], $rec['name']);
+        }
     }
 }
 
 if (!empty($mailto)) {
     $mailto_str = join(', ', $mailto);
-    $mailto_id = substr(md5($mailto_str), 0, 16);
+    $mailto_id  = substr(md5($mailto_str), 0, 16);
     $_SESSION['mailto'][$mailto_id] = urlencode($mailto_str);
     $OUTPUT->command('open_compose_step', array('_mailto' => $mailto_id));
 }
