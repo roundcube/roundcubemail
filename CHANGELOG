@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Fix "Importing..." message does not hide on error (#1490422)
 - Fix SQL error on logout when using session_storage=php (#1490421)
 - Update to jQuery 2.1.4 (#1490406)
+- Fix Compose action in addressbook for results from multiple addressbooks (#1490413)
 
 RELEASE 1.1.2
 -------------
