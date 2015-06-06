@@ -58,6 +58,7 @@
 #filtersetslist tbody tr.disabled td
 {
   color: #87A3AA;
+	text-decoration: line-through;
 }
 
 #filtersetslist tbody td
