@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
@@ -92,7 +92,6 @@ class rcube_session_memcache extends rcube_session
 
         return true;
     }
-
 
     /**
      * Read session data from memcache

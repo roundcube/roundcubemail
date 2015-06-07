@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
@@ -394,7 +394,9 @@ class rcube_csv2vcard
     }
 
     /**
+     * Import contacts from CSV file
      *
+     * @param string $csv Content of the CSV file
      */
     public function import($csv)
     {
@@ -457,6 +459,8 @@ class rcube_csv2vcard
     }
 
     /**
+     * Export vCards
+     *
      * @return array rcube_vcard List of vcards
      */
     public function export()

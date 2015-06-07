@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -127,6 +127,13 @@ class rcube_enriched
         return $body;
     }
 
+    /**
+     * Converts Enriched text into HTML format
+     *
+     * @param string $body Enriched text
+     *
+     * @return string HTML text
+     */
     public static function to_html($body)
     {
         $body = str_replace('<<','&lt;',$body);

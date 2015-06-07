@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
@@ -15,7 +15,7 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
- | Author: Cor Bosman <cor@roundcu.be>                            |
+ | Author: Cor Bosman <cor@roundcu.be>                                   |
  +-----------------------------------------------------------------------+
 */
 
@@ -29,22 +29,22 @@
  */
 abstract class rcube_session
 {
+    protected $config;
     protected $key;
     protected $ip;
     protected $changed;
     protected $start;
-    protected $time_diff = 0;
-    protected $reloaded = false;
-    protected $appends = array();
-    protected $unsets = array();
-    protected $gc_handlers = array();
-    protected $cookiename = 'roundcube_sessauth';
     protected $vars;
     protected $now;
-    protected $secret = '';
-    protected $ip_check = false;
-    protected $logging = false;
-    protected $config;
+    protected $time_diff    = 0;
+    protected $reloaded     = false;
+    protected $appends      = array();
+    protected $unsets       = array();
+    protected $gc_handlers  = array();
+    protected $cookiename   = 'roundcube_sessauth';
+    protected $secret       = '';
+    protected $ip_check     = false;
+    protected $logging      = false;
 
     /**
      * Blocks session data from being written to database.
@@ -116,7 +116,6 @@ abstract class rcube_session
         );
     }
 
-
     /**
      * Wrapper for session_start()
      */
@@ -142,12 +141,12 @@ abstract class rcube_session
     abstract function write($key, $vars);
     abstract function update($key, $newvars, $oldvars);
 
-
     /**
      * session write handler. This calls the implementation methods for write/update after some initial checks.
      *
      * @param $key
      * @param $vars
+     *
      * @return bool
      */
     public function sess_write($key, $vars)
@@ -168,7 +167,6 @@ abstract class rcube_session
             return $this->write($key, $vars);
         }
     }
-
 
     /**
      * Wrapper for session_write_close()
@@ -242,7 +240,6 @@ abstract class rcube_session
         $this->gc_handlers[] = $func;
     }
 
-
     /**
      * Garbage collector handler to run on script shutdown
      */
@@ -254,7 +251,6 @@ abstract class rcube_session
             }
         }
     }
-
 
     /**
      * Generate and set new session id
@@ -294,7 +290,6 @@ abstract class rcube_session
         return $cache;
     }
 
-
     /**
      * Append the given value to the certain node in the session data array
      *
@@ -328,7 +323,6 @@ abstract class rcube_session
             unset($this->unsets[$path]);
     }
 
-
     /**
      * Unset a session variable
      *
@@ -356,18 +350,16 @@ abstract class rcube_session
         return true;
     }
 
-
     /**
      * Kill this session
      */
     public function kill()
     {
         $this->vars = null;
-        $this->ip = rcube_utils::remote_addr(); // update IP (might have changed)
+        $this->ip   = rcube_utils::remote_addr(); // update IP (might have changed)
         $this->destroy(session_id());
         rcube_utils::setcookie($this->cookiename, '-del-', time() - 60);
     }
-
 
     /**
      * Re-read session data from storage backend
@@ -443,7 +435,6 @@ abstract class rcube_session
 
         return $data;
     }
-
 
     /**
      * Unserialize session data
@@ -543,7 +534,6 @@ abstract class rcube_session
         return unserialize( 'a:' . $items . ':{' . $serialized . '}' );
     }
 
-
     /**
      * Setter for session lifetime
      */
@@ -556,7 +546,6 @@ abstract class rcube_session
         $this->now = $now - ($now % ($this->lifetime / 2));
     }
 
-
     /**
      * Getter for remote IP saved with this session
      */
@@ -564,7 +553,6 @@ abstract class rcube_session
     {
         return $this->ip;
     }
-
 
     /**
      * Setter for cookie encryption secret
@@ -574,7 +562,6 @@ abstract class rcube_session
         $this->secret = $secret;
     }
 
-
     /**
      * Enable/disable IP check
      */
@@ -582,7 +569,6 @@ abstract class rcube_session
     {
         $this->ip_check = $check;
     }
-
 
     /**
      * Setter for the cookie name used for session cookie
@@ -593,7 +579,6 @@ abstract class rcube_session
             $this->cookiename = $cookiename;
         }
     }
-
 
     /**
      * Check session authentication cookie
@@ -632,7 +617,6 @@ abstract class rcube_session
         return $result;
     }
 
-
     /**
      * Set session authentication cookie
      */
@@ -642,7 +626,6 @@ abstract class rcube_session
         rcube_utils::setcookie($this->cookiename, $this->cookie, 0);
         $_COOKIE[$this->cookiename] = $this->cookie;
     }
-
 
     /**
      * Create session cookie from session data

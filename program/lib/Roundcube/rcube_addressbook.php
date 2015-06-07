@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
@@ -16,7 +16,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
 /**
  * Abstract skeleton of an address book/repository
  *
@@ -26,27 +25,32 @@
 abstract class rcube_addressbook
 {
     /** constants for error reporting **/
-    const ERROR_READ_ONLY = 1;
+    const ERROR_READ_ONLY     = 1;
     const ERROR_NO_CONNECTION = 2;
-    const ERROR_VALIDATE = 3;
-    const ERROR_SAVING = 4;
-    const ERROR_SEARCH = 5;
+    const ERROR_VALIDATE      = 3;
+    const ERROR_SAVING        = 4;
+    const ERROR_SEARCH        = 5;
 
     /** public properties (mandatory) */
     public $primary_key;
-    public $groups = false;
+    public $groups        = false;
     public $export_groups = true;
-    public $readonly = true;
-    public $searchonly = false;
-    public $undelete = false;
-    public $ready = false;
-    public $group_id = null;
-    public $list_page = 1;
-    public $page_size = 10;
-    public $sort_col = 'name';
-    public $sort_order = 'ASC';
-    public $coltypes = array('name' => array('limit'=>1), 'firstname' => array('limit'=>1), 'surname' => array('limit'=>1), 'email' => array('limit'=>1));
-    public $date_cols = array();
+    public $readonly      = true;
+    public $searchonly    = false;
+    public $undelete      = false;
+    public $ready         = false;
+    public $group_id      = null;
+    public $list_page     = 1;
+    public $page_size     = 10;
+    public $sort_col      = 'name';
+    public $sort_order    = 'ASC';
+    public $date_cols     = array();
+    public $coltypes      = array(
+        'name'      => array('limit'=>1),
+        'firstname' => array('limit'=>1),
+        'surname'   => array('limit'=>1),
+        'email'     => array('limit'=>1)
+    );
 
     protected $error;
 
@@ -685,6 +689,4 @@ abstract class rcube_addressbook
 
         return false;
     }
-
 }
-

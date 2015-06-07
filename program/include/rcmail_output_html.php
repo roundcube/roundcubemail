@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcmail_output_html.php                                |
  |                                                                       |
@@ -18,7 +18,6 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Class to create HTML page output using a skin template
@@ -2035,5 +2034,4 @@ EOF;
 
         return $content;
     }
-
 }

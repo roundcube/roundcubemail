@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |
  | Version 1.2-git                                                         |
@@ -62,12 +62,12 @@ if ($err_str = $RCMAIL->db->is_error()) {
     rcmail::raise_error(array(
         'code' => 603,
         'type' => 'db',
-        'message' => $err_str), FALSE, TRUE);
+        'message' => $err_str), false, true);
 }
 
 // error steps
 if ($RCMAIL->action == 'error' && !empty($_GET['_code'])) {
-    rcmail::raise_error(array('code' => hexdec($_GET['_code'])), FALSE, TRUE);
+    rcmail::raise_error(array('code' => hexdec($_GET['_code'])), false, true);
 }
 
 // check if https is required (for login) and redirect if necessary

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -26,7 +26,7 @@
  */
 class rcube_smtp
 {
-    private $conn = null;
+    private $conn;
     private $response;
     private $error;
     private $anonymize_log = 0;
@@ -330,7 +330,6 @@ class rcube_smtp
             $this->conn = null;
         }
     }
-
 
     /**
      * This is our own debug handler for the SMTP connection

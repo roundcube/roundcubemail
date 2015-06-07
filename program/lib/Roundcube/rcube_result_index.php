@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
@@ -45,7 +45,6 @@ class rcube_result_index
         $this->mailbox = $mailbox;
         $this->init($data);
     }
-
 
     /**
      * Initializes object with SORT command response
@@ -127,7 +126,6 @@ class rcube_result_index
         $this->raw_data = $data;
     }
 
-
     /**
      * Checks the result from IMAP command
      *
@@ -138,7 +136,6 @@ class rcube_result_index
         return $this->raw_data === null ? true : false;
     }
 
-
     /**
      * Checks if the result is empty
      *
@@ -148,7 +145,6 @@ class rcube_result_index
     {
         return empty($this->raw_data) ? true : false;
     }
-
 
     /**
      * Returns number of elements in the result
@@ -171,7 +167,6 @@ class rcube_result_index
         return $this->meta['count'];
     }
 
-
     /**
      * Returns number of elements in the result.
      * Alias for count() for compatibility with rcube_result_thread
@@ -182,7 +177,6 @@ class rcube_result_index
     {
         return $this->count();
     }
-
 
     /**
      * Returns maximal message identifier in the result
@@ -198,7 +192,6 @@ class rcube_result_index
         return $this->meta['max'];
     }
 
-
     /**
      * Returns minimal message identifier in the result
      *
@@ -213,13 +206,11 @@ class rcube_result_index
         return $this->meta['min'];
     }
 
-
     /**
      * Slices data set.
      *
      * @param $offset Offset (as for PHP's array_slice())
      * @param $length Number of elements (as for PHP's array_slice())
-     *
      */
     public function slice($offset, $length)
     {
@@ -230,7 +221,6 @@ class rcube_result_index
         $this->meta['count'] = count($data);
         $this->raw_data      = implode(self::SEPARATOR_ELEMENT, $data);
     }
-
 
     /**
      * Filters data set. Removes elements not listed in $ids list.
@@ -246,7 +236,6 @@ class rcube_result_index
         $this->meta['count'] = count($data);
         $this->raw_data      = implode(self::SEPARATOR_ELEMENT, $data);
     }
-
 
     /**
      * Reverts order of elements in the result
@@ -266,7 +255,6 @@ class rcube_result_index
 
         $this->meta['pos'] = array();
     }
-
 
     /**
      * Check if the given message ID exists in the object
@@ -307,7 +295,6 @@ class rcube_result_index
         return false;
     }
 
-
     /**
      * Return all messages in the result.
      *
@@ -322,7 +309,6 @@ class rcube_result_index
         return explode(self::SEPARATOR_ELEMENT, $this->raw_data);
     }
 
-
     /**
      * Return all messages in the result.
      *
@@ -336,7 +322,6 @@ class rcube_result_index
 
         return rcube_imap_generic::compressMessageSet($this->get());
     }
-
 
     /**
      * Return result element at specified index
@@ -397,7 +382,6 @@ class rcube_result_index
         return $data[$index];
     }
 
-
     /**
      * Returns response parameters, e.g. ESEARCH's MIN/MAX/COUNT/ALL/MODSEQ
      * or internal data e.g. MAILBOX, ORDER
@@ -418,7 +402,6 @@ class rcube_result_index
 
         return $params;
     }
-
 
     /**
      * Returns length of internal data representation

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -199,6 +199,4 @@ class rcube_spellcheck_atd extends rcube_spellcheck_engine
 
         return $result;
     }
-
 }
-

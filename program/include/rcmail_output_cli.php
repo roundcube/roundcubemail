@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcmail_output_cli.php                                 |
  |                                                                       |
@@ -85,5 +85,4 @@ class rcmail_output_cli extends rcmail_output
     {
         // NOP
     }
-
 }

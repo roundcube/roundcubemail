@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2011-2013, Kolab Systems AG                             |
@@ -137,7 +137,6 @@ class rcube_spellchecker
         return $this->found() == 0;
     }
 
-
     /**
      * Number of mispellings found (after check)
      *
@@ -147,7 +146,6 @@ class rcube_spellchecker
     {
         return count($this->matches);
     }
-
 
     /**
      * Returns suggestions for the specified word
@@ -164,7 +162,6 @@ class rcube_spellchecker
 
         return array();
     }
-
 
     /**
      * Returns misspelled words
@@ -187,7 +184,6 @@ class rcube_spellchecker
         return array();
     }
 
-
     /**
      * Returns checking result in XML (Googiespell) format
      *
@@ -208,7 +204,6 @@ class rcube_spellchecker
 
         return $out;
     }
-
 
     /**
      * Returns checking result (misspelled words with suggestions)
@@ -243,7 +238,6 @@ class rcube_spellchecker
         return $result;
     }
 
-
     /**
      * Returns error message
      *
@@ -254,13 +248,11 @@ class rcube_spellchecker
         return $this->error ? $this->error : ($this->backend ? $this->backend->error() : false);
     }
 
-
     private function html2text($text)
     {
         $h2t = new rcube_html2text($text, false, true, 0);
         return $h2t->get_text();
     }
-
 
     /**
      * Check if the specified word is an exception accoring to 
@@ -300,7 +292,6 @@ class rcube_spellchecker
         return false;
     }
 
-
     /**
      * Add a word to dictionary
      *
@@ -324,7 +315,6 @@ class rcube_spellchecker
         }
     }
 
-
     /**
      * Remove a word from dictionary
      *
@@ -339,7 +329,6 @@ class rcube_spellchecker
             $this->update_dict();
         }
     }
-
 
     /**
      * Update dictionary row in DB
@@ -382,7 +371,6 @@ class rcube_spellchecker
                 $plugin['userid'], $plugin['language'], implode(' ', $plugin['dictionary']));
         }
     }
-
 
     /**
      * Get dictionary from DB

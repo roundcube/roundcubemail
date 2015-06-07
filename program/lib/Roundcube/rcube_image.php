@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -41,6 +41,11 @@ class rcube_image
     );
 
 
+    /**
+     * Class constructor
+     *
+     * @param string $filename Image file name/path
+     */
     function __construct($filename)
     {
         $this->image_file = $filename;

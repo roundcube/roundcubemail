@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -77,7 +77,6 @@ class rcube_charset
     {
         throw new ErrorException($errstr, 0, $errno);
     }
-
 
     /**
      * Parse and validate charset name string (see #1485758).
@@ -158,7 +157,6 @@ class rcube_charset
 
         return $result;
     }
-
 
     /**
      * Convert a string from one charset to another.
@@ -297,13 +295,12 @@ class rcube_charset
         return $str;
     }
 
-
     /**
      * Converts string from standard UTF-7 (RFC 2152) to UTF-8.
      *
-     * @param  string  Input string (UTF-7)
+     * @param string $str Input string (UTF-7)
      *
-     * @return string  Converted string (UTF-8)
+     * @return string Converted string (UTF-8)
      */
     public static function utf7_to_utf8($str)
     {
@@ -357,13 +354,12 @@ class rcube_charset
         return $res;
     }
 
-
     /**
      * Converts string from UTF-16 to UTF-8 (helper for utf-7 to utf-8 conversion)
      *
-     * @param  string  Input string
+     * @param string $str Input string
      *
-     * @return string  The converted string
+     * @return string The converted string
      */
     public static function utf16_to_utf8($str)
     {
@@ -388,7 +384,6 @@ class rcube_charset
 
         return $dec;
     }
-
 
     /**
      * Convert the data ($str) from RFC 2060's UTF-7 to UTF-8.
@@ -497,7 +492,6 @@ class rcube_charset
 
         return $p;
     }
-
 
     /**
      * Convert the data ($str) from UTF-8 to RFC 2060's UTF-7.
@@ -629,7 +623,6 @@ class rcube_charset
         return $p;
     }
 
-
     /**
      * A method to guess character set of a string.
      *
@@ -729,7 +722,6 @@ class rcube_charset
         return $failover;
     }
 
-
     /**
      * Removes non-unicode characters from input.
      *
@@ -817,5 +809,4 @@ class rcube_charset
 
         return $out;
     }
-
 }

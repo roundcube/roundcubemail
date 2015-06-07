@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
@@ -239,10 +239,9 @@ class rcube_ldap extends rcube_addressbook
         $this->_connect();
     }
 
-
     /**
-    * Establish a connection to the LDAP server
-    */
+     * Establish a connection to the LDAP server
+     */
     private function _connect()
     {
         $rcube = rcube::get_instance();
@@ -439,7 +438,6 @@ class rcube_ldap extends rcube_addressbook
         return $this->ready;
     }
 
-
     /**
      * Close connection to LDAP server
      */
@@ -450,7 +448,6 @@ class rcube_ldap extends rcube_addressbook
         }
     }
 
-
     /**
      * Returns address book name
      *
@@ -460,7 +457,6 @@ class rcube_ldap extends rcube_addressbook
     {
         return $this->prop['name'];
     }
-
 
     /**
      * Set internal list page
@@ -484,7 +480,6 @@ class rcube_ldap extends rcube_addressbook
         $this->ldap->set_vlv_page($this->list_page, $this->page_size);
     }
 
-
     /**
      * Set internal sort settings
      *
@@ -497,7 +492,6 @@ class rcube_ldap extends rcube_addressbook
             $this->sort_col = $this->coltypes[$sort_col]['attributes'][0];
     }
 
-
     /**
      * Save a search string for future listings
      *
@@ -507,7 +501,6 @@ class rcube_ldap extends rcube_addressbook
     {
         $this->filter = $filter;
     }
-
 
     /**
      * Getter for saved search properties
@@ -519,7 +512,6 @@ class rcube_ldap extends rcube_addressbook
         return $this->filter;
     }
 
-
     /**
      * Reset all saved results and search parameters
      */
@@ -530,14 +522,13 @@ class rcube_ldap extends rcube_addressbook
         $this->filter = '';
     }
 
-
     /**
      * List the current set of contact records
      *
-     * @param  array  List of cols to show
-     * @param  int    Only return this number of records
+     * @param array List of cols to show
+     * @param int   Only return this number of records
      *
-     * @return array  Indexed list of contact records, each a hash array
+     * @return array Indexed list of contact records, each a hash array
      */
     function list_records($cols=null, $subset=0)
     {
@@ -736,7 +727,6 @@ class rcube_ldap extends rcube_addressbook
         return strcmp($a[$this->sort_col][0], $b[$this->sort_col][0]);
     }
 
-
     /**
      * Search contacts
      *
@@ -892,7 +882,6 @@ class rcube_ldap extends rcube_addressbook
         return $this->result;
     }
 
-
     /**
      * Count number of available contacts in database
      *
@@ -920,7 +909,6 @@ class rcube_ldap extends rcube_addressbook
 
         return new rcube_result_set($count, ($this->list_page-1) * $this->page_size);
     }
-
 
     /**
      * Return the last result set
@@ -989,7 +977,6 @@ class rcube_ldap extends rcube_addressbook
 
         return $err;
     }
-
 
     /**
      * Check the given data before saving.
@@ -1062,7 +1049,6 @@ class rcube_ldap extends rcube_addressbook
         return true;
     }
 
-
     /**
      * Create a new contact record
      *
@@ -1131,7 +1117,6 @@ class rcube_ldap extends rcube_addressbook
 
         return $dn;
     }
-
 
     /**
      * Update a specific contact record
@@ -1314,7 +1299,6 @@ class rcube_ldap extends rcube_addressbook
         return $newdn ? $newdn : true;
     }
 
-
     /**
      * Mark one or more contact records as deleted
      *
@@ -1363,7 +1347,6 @@ class rcube_ldap extends rcube_addressbook
 
         return count($ids);
     }
-
 
     /**
      * Remove all contact records
@@ -1433,7 +1416,6 @@ class rcube_ldap extends rcube_addressbook
         }
     }
 
-
     /**
      * Converts LDAP entry into an array
      */
@@ -1492,7 +1474,6 @@ class rcube_ldap extends rcube_addressbook
         return $out;
     }
 
-
     /**
      * Return LDAP attribute(s) for the given field
      */
@@ -1500,7 +1481,6 @@ class rcube_ldap extends rcube_addressbook
     {
         return (array)$this->coltypes[$field]['attributes'];
     }
-
 
     /**
      * Convert a record data set into LDAP field attributes
@@ -2043,7 +2023,6 @@ class rcube_ldap extends rcube_addressbook
         return $default;
     }
 
-
     /**
      * HTML-safe DN string encoding
      *
@@ -2070,5 +2049,4 @@ class rcube_ldap extends rcube_addressbook
         $str = str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT);
         return base64_decode($str);
     }
-
 }

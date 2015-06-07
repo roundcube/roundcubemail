@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2007-2009, The Roundcube Dev Team                       |
@@ -65,4 +65,3 @@ class rcube_browser
         $this->imgdata  = !$this->ie;
     }
 }
-

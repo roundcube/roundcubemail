@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -29,27 +29,44 @@ class rcube_base_replacer
     private $base_url;
 
 
+    /**
+     * Class constructor
+     *
+     * @param string $base Base URL
+     */
     public function __construct($base)
     {
         $this->base_url = $base;
     }
 
-
+    /**
+     * Replace callback
+     *
+     * @param array $matches Matching entries
+     *
+     * @return string Replaced text with absolute URL
+     */
     public function callback($matches)
     {
         return $matches[1] . '="' . self::absolute_url($matches[3], $this->base_url) . '"';
     }
 
-
+    /**
+     * Convert base URLs to absolute ones
+     *
+     * @param string $body Text body
+     *
+     * @return string Replaced text
+     */
     public function replace($body)
     {
-        return preg_replace_callback(array(
+        $regexp = array(
             '/(src|background|href)=(["\']?)([^"\'\s>]+)(\2|\s|>)/i',
             '/(url\s*\()(["\']?)([^"\'\)\s]+)(\2)\)/i',
-        ),
-        array($this, 'callback'), $body);
-    }
+        );
 
+        return preg_replace_callback($regexp, array($this, 'callback'), $body);
+    }
 
     /**
      * Convert paths like ../xxx to an absolute path using a base url

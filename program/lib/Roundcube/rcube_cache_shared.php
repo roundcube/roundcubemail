@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2011-2013, The Roundcube Dev Team                       |
@@ -17,7 +17,6 @@
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Interface class for accessing Roundcube shared cache
@@ -89,7 +88,6 @@ class rcube_cache_shared
         $this->prefix    = $prefix;
     }
 
-
     /**
      * Returns cached value.
      *
@@ -106,7 +104,6 @@ class rcube_cache_shared
         return $this->cache[$key];
     }
 
-
     /**
      * Sets (add/update) value in cache.
      *
@@ -118,7 +115,6 @@ class rcube_cache_shared
         $this->cache[$key]         = $data;
         $this->cache_changes[$key] = true;
     }
-
 
     /**
      * Returns cached value without storing it in internal memory.
@@ -136,7 +132,6 @@ class rcube_cache_shared
         return $this->read_record($key, true);
     }
 
-
     /**
      * Sets (add/update) value in cache and immediately saves
      * it in the backend, no internal memory will be used.
@@ -150,7 +145,6 @@ class rcube_cache_shared
     {
         return $this->write_record($key, $this->serialize($data));
     }
-
 
     /**
      * Clears the cache.
@@ -188,7 +182,6 @@ class rcube_cache_shared
         $this->remove_record($key, $prefix_mode);
     }
 
-
     /**
      * Remove cache records older than ttl
      */
@@ -203,7 +196,6 @@ class rcube_cache_shared
         }
     }
 
-
     /**
      * Remove expired records of all caches
      */
@@ -214,7 +206,6 @@ class rcube_cache_shared
 
         $db->query("DELETE FROM " . $db->table_name('cache_shared', true) . " WHERE `expires` < " . $db->now());
     }
-
 
     /**
      * Writes the cache back to the DB.
@@ -238,7 +229,6 @@ class rcube_cache_shared
             $this->write_index();
         }
     }
-
 
     /**
      * Reads cache entry.
@@ -324,7 +314,6 @@ class rcube_cache_shared
         return $this->cache[$key];
     }
 
-
     /**
      * Writes single cache record into DB.
      *
@@ -397,7 +386,6 @@ class rcube_cache_shared
         return $this->db->affected_rows($result);
     }
 
-
     /**
      * Deletes the cache record(s).
      *
@@ -460,7 +448,6 @@ class rcube_cache_shared
         $this->db->query("DELETE FROM " . $this->table . $where);
     }
 
-
     /**
      * Adds entry into memcache/apc DB.
      *
@@ -493,7 +480,6 @@ class rcube_cache_shared
         return $result;
     }
 
-
     /**
      * Deletes entry from memcache/apc DB.
      *
@@ -517,7 +503,6 @@ class rcube_cache_shared
 
         return $result;
     }
-
 
     /**
      * Writes the index entry into memcache/apc DB.
@@ -548,7 +533,6 @@ class rcube_cache_shared
         $this->add_record($this->ikey(), $data);
     }
 
-
     /**
      * Gets the index entry from memcache/apc DB.
      */
@@ -578,7 +562,6 @@ class rcube_cache_shared
         $this->index = $data ? unserialize($data) : array();
     }
 
-
     /**
      * Creates cache key name (for memcache and apc)
      *
@@ -590,7 +573,6 @@ class rcube_cache_shared
     {
         return $this->prefix . ':' . $key;
     }
-
 
     /**
      * Creates index cache key name (for memcache and apc)

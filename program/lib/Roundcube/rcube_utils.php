@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
@@ -134,7 +134,6 @@ class rcube_utils
         return false;
     }
 
-
     /**
      * Validates IPv4 or IPv6 address
      *
@@ -179,7 +178,6 @@ class rcube_utils
         return @inet_pton($ip) !== false;
     }
 
-
     /**
      * Check whether the HTTP referer matches the current request
      *
@@ -191,7 +189,6 @@ class rcube_utils
         $referer = parse_url(self::request_header('Referer'));
         return $referer['host'] == self::request_header('Host') && $referer['path'] == $uri['path'];
     }
-
 
     /**
      * Replacing specials characters to a specific encoding type
@@ -283,7 +280,6 @@ class rcube_utils
         return $str;
     }
 
-
     /**
      * Read input value and convert it for internal use
      * Performs stripslashes() and charset conversion if necessary
@@ -323,7 +319,6 @@ class rcube_utils
 
         return self::parse_input_value($value, $allow_html, $charset);
     }
-
 
     /**
      * Parse/validate input value. See self::get_input_value()
@@ -375,7 +370,6 @@ class rcube_utils
         return $value;
     }
 
-
     /**
      * Convert array of request parameters (prefixed with _)
      * to a regular array with non-prefixed keys.
@@ -401,7 +395,6 @@ class rcube_utils
         return $out;
     }
 
-
     /**
      * Convert the given string into a valid HTML identifier
      * Same functionality as done in app.js with rcube_webmail.html_identifier()
@@ -415,7 +408,6 @@ class rcube_utils
             return asciiwords($str, true, '_');
         }
     }
-
 
     /**
      * Replace all css definitions with #container [def]
@@ -493,7 +485,6 @@ class rcube_utils
         return $source;
     }
 
-
     /**
      * Generate CSS classes from mimetype and filename extension
      *
@@ -524,7 +515,6 @@ class rcube_utils
         return join(" ", $classes);
     }
 
-
     /**
      * Decode escaped entities used by known XSS exploits.
      * See http://downloads.securityfocus.com/vulnerabilities/exploits/26800.eml for examples
@@ -543,7 +533,6 @@ class rcube_utils
         return $out;
     }
 
-
     /**
      * preg_replace_callback callback for xss_entity_decode
      *
@@ -555,7 +544,6 @@ class rcube_utils
     {
         return chr(hexdec($matches[1]));
     }
-
 
     /**
      * Check if we can process not exceeding memory_limit
@@ -571,7 +559,6 @@ class rcube_utils
 
         return $mem_limit > 0 && $memory + $need > $mem_limit ? false : true;
     }
-
 
     /**
      * Check if working in SSL mode
@@ -600,7 +587,6 @@ class rcube_utils
 
         return false;
     }
-
 
     /**
      * Replaces hostname variables.
@@ -639,7 +625,6 @@ class rcube_utils
         return str_replace(array('%n', '%t', '%d', '%h', '%z', '%s'), array($n, $t, $d, $h, $z, $s[2]), $name);
     }
 
-
     /**
      * Returns remote IP address and forwarded addresses if found
      *
@@ -664,7 +649,6 @@ class rcube_utils
 
         return $address;
     }
-
 
     /**
      * Returns the real remote IP address
@@ -746,7 +730,6 @@ class rcube_utils
 
         return $result;
     }
-
 
     /**
      * Improved equivalent to strtotime()
@@ -878,7 +861,6 @@ class rcube_utils
         return self::idn_convert($str, true);
     }
 
-
     /*
      * Idn_to_ascii wrapper.
      * Intl/Idn modules version of this function doesn't work with e-mail address
@@ -888,8 +870,7 @@ class rcube_utils
         return self::idn_convert($str, false);
     }
 
-
-    public static function idn_convert($input, $is_utf=false)
+    public static function idn_convert($input, $is_utf = false)
     {
         if ($at = strpos($input, '@')) {
             $user   = substr($input, 0, $at);

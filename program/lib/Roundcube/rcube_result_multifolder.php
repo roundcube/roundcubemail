@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
@@ -46,7 +46,6 @@ class rcube_result_multifolder
         $this->folders = $folders;
         $this->meta    = array('count' => 0);
     }
-
 
     /**
      * Initializes object with SORT command response
@@ -103,7 +102,6 @@ class rcube_result_multifolder
         return false;
     }
 
-
     /**
      * Checks if the result is empty
      *
@@ -113,7 +111,6 @@ class rcube_result_multifolder
     {
         return empty($this->sets) || $this->meta['count'] == 0;
     }
-
 
     /**
      * Returns number of elements in the result
@@ -125,7 +122,6 @@ class rcube_result_multifolder
         return $this->meta['count'];
     }
 
-
     /**
      * Returns number of elements in the result.
      * Alias for count() for compatibility with rcube_result_thread
@@ -136,7 +132,6 @@ class rcube_result_multifolder
     {
         return $this->count();
     }
-
 
     /**
      * Reverts order of elements in the result
@@ -159,7 +154,6 @@ class rcube_result_multifolder
         }
     }
 
-
     /**
      * Check if the given message ID exists in the object
      *
@@ -177,7 +171,6 @@ class rcube_result_multifolder
 
         return array_search($msgid, $this->index);
     }
-
 
     /**
      * Filters data set. Removes elements listed in $ids list.
@@ -232,7 +225,6 @@ class rcube_result_multifolder
         return $this->index;
     }
 
-
     /**
      * Return all messages in the result.
      *
@@ -242,7 +234,6 @@ class rcube_result_multifolder
     {
         return '';
     }
-
 
     /**
      * Return result element at specified index
@@ -259,7 +250,6 @@ class rcube_result_multifolder
             default:      return $this->index[$idx];
         }
     }
-
 
     /**
      * Returns response parameters, e.g. ESEARCH's MIN/MAX/COUNT/ALL/MODSEQ
@@ -333,5 +323,4 @@ class rcube_result_multifolder
             }
         }
     }
-
 }

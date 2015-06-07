@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
@@ -73,5 +73,4 @@ class rcube_session_php extends rcube_session {
         $this->changed = $_SESSION['__MTIME'];
 
     }
-
 }

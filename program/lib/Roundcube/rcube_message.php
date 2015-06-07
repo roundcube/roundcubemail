@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
@@ -123,7 +123,6 @@ class rcube_message
         $this->app->plugins->exec_hook('message_load', array('object' => $this));
     }
 
-
     /**
      * Return a (decoded) message header
      *
@@ -140,7 +139,6 @@ class rcube_message
         return $this->headers->get($name, !$raw);
     }
 
-
     /**
      * Set is_safe var and session data
      *
@@ -150,7 +148,6 @@ class rcube_message
     {
         $_SESSION['safe_messages'][$this->folder.':'.$this->uid] = $this->is_safe = $safe;
     }
-
 
     /**
      * Compose a valid URL for getting a message part
@@ -166,7 +163,6 @@ class rcube_message
         else
             return false;
     }
-
 
     /**
      * Get content of a specific part of this message
@@ -198,7 +194,6 @@ class rcube_message
                 NULL, $fp, $skip_charset_conv, $max_bytes, $formatted);
         }
     }
-
 
     /**
      * Get content of a specific part of this message
@@ -283,7 +278,6 @@ class rcube_message
         return $body;
     }
 
-
     /**
      * Format text message part for display
      *
@@ -323,7 +317,6 @@ class rcube_message
 
         return $body;
     }
-
 
     /**
      * Determine if the message contains a HTML part. This must to be
@@ -370,7 +363,6 @@ class rcube_message
         return false;
     }
 
-
     /**
      * Determine if the message contains a text/plain part. This must to be
      * a real part not an attachment (or its part)
@@ -410,7 +402,6 @@ class rcube_message
         return false;
     }
 
-
     /**
      * Return the first HTML part of this message
      *
@@ -425,7 +416,6 @@ class rcube_message
             }
         }
     }
-
 
     /**
      * Return the first text part of this message
@@ -457,7 +447,6 @@ class rcube_message
         return null;
     }
 
-
     /**
      * Checks if part of the message is an attachment (or part of it)
      *
@@ -482,7 +471,6 @@ class rcube_message
 
         return false;
     }
-
 
     /**
      * Read the message structure returend by the IMAP server
@@ -860,7 +848,6 @@ class rcube_message
         }
     }
 
-
     /**
      * Fill aflat array with references to all parts, indexed by part numbers
      *
@@ -875,7 +862,6 @@ class rcube_message
             for ($i=0; $i<count($part->parts); $i++)
                 $this->get_mime_numbers($part->parts[$i]);
     }
-
 
     /**
      * Decode a Microsoft Outlook TNEF part (winmail.dat)
@@ -911,7 +897,6 @@ class rcube_message
 
         return $parts;
     }
-
 
     /**
      * Parse message body for UUencoded attachments bodies

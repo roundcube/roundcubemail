@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
@@ -10,7 +10,7 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Provide redis supported session management                       |
+ |   Provide redis supported session management                          |
  +-----------------------------------------------------------------------+
  | Author: Cor Bosman <cor@roundcu.be>                                   |
  +-----------------------------------------------------------------------+
@@ -152,7 +152,6 @@ class rcube_session_redis extends rcube_session {
         return true;
     }
 
-
     /**
      * read data from redis store
      *
@@ -170,10 +169,7 @@ class rcube_session_redis extends rcube_session {
 
             return !empty($this->vars) ? (string) $this->vars : '';
         }
-
-        return null;
     }
-
 
     /**
      * write data to redis store
@@ -188,12 +184,12 @@ class rcube_session_redis extends rcube_session {
         $ts = microtime(true);
 
         if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
-            $this->redis->setex($key, $this->lifetime + 60, serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars)));
+            $data = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars));
+            $this->redis->setex($key, $this->lifetime + 60, $data);
         }
 
         return true;
     }
-
 
     /**
      * write data to redis store
@@ -204,8 +200,8 @@ class rcube_session_redis extends rcube_session {
      */
     public function write($key, $vars)
     {
-        return $this->redis->setex($key, $this->lifetime + 60, serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars)));
+        $data = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars));
+
+        return $this->redis->setex($key, $this->lifetime + 60, $data);
     }
-
-
 }

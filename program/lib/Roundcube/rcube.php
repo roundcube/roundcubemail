@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
@@ -17,7 +17,6 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Base class of the Roundcube Framework
@@ -140,7 +139,6 @@ class rcube
         return self::$instance;
     }
 
-
     /**
      * Private constructor
      */
@@ -152,7 +150,6 @@ class rcube
 
         register_shutdown_function(array($this, 'shutdown'));
     }
-
 
     /**
      * Initial startup function
@@ -177,7 +174,6 @@ class rcube
         }
     }
 
-
     /**
      * Get the current database connection
      *
@@ -197,7 +193,6 @@ class rcube
 
         return $this->db;
     }
-
 
     /**
      * Get global handle for memcache access
@@ -245,7 +240,6 @@ class rcube
         return $this->memcache;
     }
 
-
     /**
      * Callback for memcache failure
      */
@@ -263,7 +257,6 @@ class rcube
                 true, false);
         }
     }
-
 
     /**
      * Initialize and get cache object
@@ -283,7 +276,6 @@ class rcube
 
         return $this->caches[$name];
     }
-
 
     /**
      * Initialize and get shared cache object
@@ -317,11 +309,10 @@ class rcube
         return $this->caches[$shared_name];
     }
 
-
     /**
      * Create SMTP object and connect to server
      *
-     * @param boolean True if connection should be established
+     * @param boolean $connect True if connection should be established
      */
     public function smtp_init($connect = false)
     {
@@ -331,7 +322,6 @@ class rcube
             $this->smtp->connect();
         }
     }
-
 
     /**
      * Initialize and get storage object
@@ -347,7 +337,6 @@ class rcube
 
         return $this->storage;
     }
-
 
     /**
      * Initialize storage object
@@ -447,7 +436,6 @@ class rcube
         }
     }
 
-
     /**
      * Set special folders type association.
      * This must be done AFTER connecting to the server!
@@ -476,7 +464,6 @@ class rcube
             $storage->create_default_folders();
         }
     }
-
 
     /**
      * Callback for IMAP connection events to log session identifiers
@@ -545,7 +532,6 @@ class rcube
         $this->gc_temp();
     }
 
-
     /**
      * Garbage collector function for temp files.
      * Remove temp files older than two days
@@ -577,7 +563,6 @@ class rcube
         }
     }
 
-
     /**
      * Runs garbage collector with probability based on
      * session settings. This is intended for environments
@@ -595,7 +580,6 @@ class rcube
             }
         }
     }
-
 
     /**
      * Get localized text in the desired language
@@ -653,7 +637,6 @@ class rcube
         return strtr($text, array('\n' => "\n"));
     }
 
-
     /**
      * Check if the given text label exists
      *
@@ -692,7 +675,6 @@ class rcube
 
         return false;
     }
-
 
     /**
      * Load a localization package
@@ -748,11 +730,10 @@ class rcube
         }
     }
 
-
     /**
      * Check the given string and return a valid language code
      *
-     * @param string Language code
+     * @param string $lang Language code
      *
      * @return string Valid language code
      */
@@ -799,7 +780,6 @@ class rcube
         return $lang;
     }
 
-
     /**
      * Read directory program/localization and return a list of available languages
      *
@@ -829,13 +809,12 @@ class rcube
         return $sa_languages;
     }
 
-
     /**
      * Encrypt using 3DES
      *
-     * @param string $clear clear text input
-     * @param string $key encryption key to retrieve from the configuration, defaults to 'des_key'
-     * @param boolean $base64 whether or not to base64_encode() the result before returning
+     * @param string  $clear  Clear text input
+     * @param string  $key    Encryption key to retrieve from the configuration, defaults to 'des_key'
+     * @param boolean $base64 Whether or not to base64_encode() the result before returning
      *
      * @return string encrypted text
      */
@@ -845,11 +824,9 @@ class rcube
             return '';
         }
 
-        /*-
-         * Add a single canary byte to the end of the clear text, which
-         * will help find out how much of padding will need to be removed
-         * upon decryption; see http://php.net/mcrypt_generic#68082
-         */
+        // Add a single canary byte to the end of the clear text, which
+        // will help find out how much of padding will need to be removed
+        // upon decryption; see http://php.net/mcrypt_generic#68082.
         $clear = pack("a*H2", $clear, "80");
         $ckey  = $this->config->get_crypto_key($key);
 
@@ -888,13 +865,12 @@ class rcube
         return $base64 ? base64_encode($cipher) : $cipher;
     }
 
-
     /**
      * Decrypt 3DES-encrypted string
      *
-     * @param string $cipher encrypted text
-     * @param string $key encryption key to retrieve from the configuration, defaults to 'des_key'
-     * @param boolean $base64 whether or not input is base64-encoded
+     * @param string  $cipher Encrypted text
+     * @param string  $key    Encryption key to retrieve from the configuration, defaults to 'des_key'
+     * @param boolean $base64 Whether or not input is base64-encoded
      *
      * @return string decrypted text
      */
@@ -956,20 +932,17 @@ class rcube
             }
         }
 
-        /*-
-         * Trim PHP's padding and the canary byte; see note in
-         * rcube::encrypt() and http://php.net/mcrypt_generic#68082
-         */
+        // Trim PHP's padding and the canary byte; see note in
+        // rcube::encrypt() and http://php.net/mcrypt_generic#68082
         $clear = substr(rtrim($clear, "\0"), 0, -1);
 
         return $clear;
     }
 
-
     /**
      * Generates encryption initialization vector (IV)
      *
-     * @param int Vector size
+     * @param int $size Vector size
      *
      * @return string Vector string
      */
@@ -984,7 +957,6 @@ class rcube
 
         return $iv;
     }
-
 
     /**
      * Returns session token for secure URLs
@@ -1013,7 +985,6 @@ class rcube
         return false;
     }
 
-
     /**
      * Generate a unique token to be used in a form request
      *
@@ -1032,12 +1003,11 @@ class rcube
         return $plugin['value'];
     }
 
-
     /**
      * Check if the current request contains a valid token.
      * Empty requests aren't checked until use_secure_urls is set.
      *
-     * @param int Request method
+     * @param int $mode Request method
      *
      * @return boolean True if request token is valid false if not
      */
@@ -1082,11 +1052,11 @@ class rcube
         return true;
     }
 
-
     /**
      * Build a valid URL to this instance of Roundcube
      *
-     * @param mixed Either a string with the action or url parameters as key-value pairs
+     * @param mixed $p Either a string with the action or url parameters as key-value pairs
+     *
      * @return string Valid application URL
      */
     public function url($p)
@@ -1094,7 +1064,6 @@ class rcube
         // STUB: should be overloaded by the application
         return '';
     }
-
 
     /**
      * Function to be executed in script shutdown
@@ -1129,7 +1098,6 @@ class rcube
         }
     }
 
-
     /**
      * Registers shutdown function to be executed on shutdown.
      * The functions will be executed before destroying any
@@ -1142,7 +1110,6 @@ class rcube
         $this->shutdown_functions[] = $function;
     }
 
-
     /**
      * Quote a given string.
      * Shortcut function for rcube_utils::rep_specialchars_output()
@@ -1153,7 +1120,6 @@ class rcube
     {
         return rcube_utils::rep_specialchars_output($str, 'html', $mode, $newlines);
     }
-
 
     /**
      * Quote a given string for javascript output.
@@ -1166,12 +1132,11 @@ class rcube
         return rcube_utils::rep_specialchars_output($str, 'js');
     }
 
-
     /**
      * Construct shell command, execute it and return output as string.
      * Keywords {keyword} are replaced with arguments
      *
-     * @param $cmd Format string with {keywords} to be replaced
+     * @param $cmd    Format string with {keywords} to be replaced
      * @param $values (zero, one or more arrays can be passed)
      *
      * @return output of command. shell errors not detectable
@@ -1219,7 +1184,6 @@ class rcube
         return (string)shell_exec($cmd);
     }
 
-
     /**
      * Print or write debug messages
      *
@@ -1230,12 +1194,13 @@ class rcube
         $args = func_get_args();
 
         if (class_exists('rcube', false)) {
-            $rcube = self::get_instance();
+            $rcube  = self::get_instance();
             $plugin = $rcube->plugins->exec_hook('console', array('args' => $args));
             if ($plugin['abort']) {
                 return;
             }
-           $args = $plugin['args'];
+
+            $args = $plugin['args'];
         }
 
         $msg = array();
@@ -1246,13 +1211,12 @@ class rcube
         self::write_log('console', join(";\n", $msg));
     }
 
-
     /**
      * Append a line to a logfile in the logs directory.
      * Date will be added automatically to the line.
      *
-     * @param $name name of log file
-     * @param line Line to append
+     * @param string $name Name of the log file
+     * @param mixed  $line Line to append
      */
     public static function write_log($name, $line)
     {
@@ -1330,18 +1294,17 @@ class rcube
         return false;
     }
 
-
     /**
      * Throw system error (and show error page).
      *
-     * @param array Named parameters
+     * @param array $arg Named parameters
      *      - code:    Error code (required)
      *      - type:    Error type [php|db|imap|javascript] (required)
      *      - message: Error message
      *      - file:    File where error occurred
      *      - line:    Line where error occurred
-     * @param boolean True to log the error
-     * @param boolean Terminate script execution
+     * @param boolean $log       True to log the error
+     * @param boolean $terminate Terminate script execution
      */
     public static function raise_error($arg = array(), $log = false, $terminate = false)
     {
@@ -1393,11 +1356,10 @@ class rcube
         }
     }
 
-
     /**
      * Report error according to configured debug_level
      *
-     * @param array Named parameters
+     * @param array $arg_arr Named parameters
      * @see self::raise_error()
      */
     public static function log_bug($arg_arr)
@@ -1452,13 +1414,12 @@ class rcube
         }
     }
 
-
     /**
      * Write debug info to the log
      *
-     * @param string Engine type - file name (memcache, apc)
-     * @param string Data string to log
-     * @param bool   Operation result
+     * @param string $engine Engine type - file name (memcache, apc)
+     * @param string $data   Data string to log
+     * @param bool   $result Operation result
      */
     public static function debug($engine, $data, $result = null)
     {
@@ -1478,7 +1439,6 @@ class rcube
         self::write_log($engine, $line);
     }
 
-
     /**
      * Returns current time (with microseconds).
      *
@@ -1489,13 +1449,12 @@ class rcube
         return microtime(true);
     }
 
-
     /**
      * Logs time difference according to provided timer
      *
-     * @param float  $timer  Timer (self::timer() result)
-     * @param string $label  Log line prefix
-     * @param string $dest   Log file name
+     * @param float  $timer Timer (self::timer() result)
+     * @param string $label Log line prefix
+     * @param string $dest  Log file name
      *
      * @see self::timer()
      */
@@ -1546,7 +1505,6 @@ class rcube
         return null;
     }
 
-
     /**
      * Getter for logged user name.
      *
@@ -1562,7 +1520,6 @@ class rcube
         }
     }
 
-
     /**
      * Getter for logged user email (derived from user name not identity).
      *
@@ -1574,7 +1531,6 @@ class rcube
             return $this->user->get_username('mail');
         }
     }
-
 
     /**
      * Getter for logged user password.
@@ -1644,13 +1600,13 @@ class rcube
     /**
      * Send the given message using the configured method.
      *
-     * @param object $message    Reference to Mail_MIME object
-     * @param string $from       Sender address string
-     * @param array  $mailto     Array of recipient address strings
-     * @param array  $error      SMTP error array (reference)
-     * @param string $body_file  Location of file with saved message body (reference),
-     *                           used when delay_file_io is enabled
-     * @param array  $options    SMTP options (e.g. DSN request)
+     * @param object $message   Reference to Mail_MIME object
+     * @param string $from      Sender address string
+     * @param array  $mailto    Array of recipient address strings
+     * @param array  $error     SMTP error array (reference)
+     * @param string $body_file Location of file with saved message body (reference),
+     *                          used when delay_file_io is enabled
+     * @param array  $options   SMTP options (e.g. DSN request)
      *
      * @return boolean Send status.
      */
@@ -1821,14 +1777,13 @@ class rcube
 
         return $sent;
     }
-
 }
 
 
 /**
  * Lightweight plugin API class serving as a dummy if plugins are not enabled
  *
- * @package Framework
+ * @package    Framework
  * @subpackage Core
  */
 class rcube_dummy_plugin_api

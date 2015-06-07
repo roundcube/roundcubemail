@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
@@ -16,7 +16,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
 /**
  * Class for HTML code creation
  *
@@ -26,7 +25,7 @@
 class html
 {
     protected $tagname;
-    protected $attrib = array();
+    protected $attrib  = array();
     protected $allowed = array();
     protected $content;
 
@@ -66,13 +65,15 @@ class html
      * @param string $tagname Tag name
      * @param array  $attrib  Tag attributes as key/value pairs
      * @param string $content Optinal Tag content (creates a container tag)
-     * @param array  $allowed_attrib List with allowed attributes, omit to allow all
+     * @param array  $allowed List with allowed attributes, omit to allow all
+     *
      * @return string The XHTML tag
      */
-    public static function tag($tagname, $attrib = array(), $content = null, $allowed_attrib = null)
+    public static function tag($tagname, $attrib = array(), $content = null, $allowed = null)
     {
-        if (is_string($attrib))
+        if (is_string($attrib)) {
             $attrib = array('class' => $attrib);
+        }
 
         $inline_tags = array('a','span','img');
         $suffix = $attrib['nl'] || ($content && $attrib['nl'] !== false && !in_array($tagname, $inline_tags)) ? "\n" : '';
@@ -81,15 +82,17 @@ class html
         if (isset($content) || in_array($tagname, self::$containers)) {
             $suffix = $attrib['noclose'] ? $suffix : '</' . $tagname . '>' . $suffix;
             unset($attrib['noclose'], $attrib['nl']);
-            return '<' . $tagname  . self::attrib_string($attrib, $allowed_attrib) . '>' . $content . $suffix;
+            return '<' . $tagname  . self::attrib_string($attrib, $allowed) . '>' . $content . $suffix;
         }
         else {
-            return '<' . $tagname  . self::attrib_string($attrib, $allowed_attrib) . '>' . $suffix;
+            return '<' . $tagname  . self::attrib_string($attrib, $allowed) . '>' . $suffix;
         }
     }
 
     /**
+     * Return DOCTYPE tag of specified type
      *
+     * @param string $type Document type (html5, xhtml, 'xhtml-trans, xhtml-strict)
      */
     public static function doctype($type)
     {
@@ -113,6 +116,7 @@ class html
      *
      * @param mixed  $attr Hash array with tag attributes or string with class name
      * @param string $cont Div content
+     *
      * @return string HTML code
      * @see html::tag()
      */
@@ -121,6 +125,7 @@ class html
         if (is_string($attr)) {
             $attr = array('class' => $attr);
         }
+
         return self::tag('div', $attr, $cont, array_merge(self::$common_attrib, array('onclick')));
     }
 
@@ -129,6 +134,7 @@ class html
      *
      * @param mixed  $attr Hash array with tag attributes or string with class name
      * @param string $cont Paragraph content
+     *
      * @return string HTML code
      * @see html::tag()
      */
@@ -137,6 +143,7 @@ class html
         if (is_string($attr)) {
             $attr = array('class' => $attr);
         }
+
         return self::tag('p', $attr, $cont, self::$common_attrib);
     }
 
@@ -144,6 +151,7 @@ class html
      * Derrived method to create <img />
      *
      * @param mixed $attr Hash array with tag attributes or string with image source (src)
+     *
      * @return string HTML code
      * @see html::tag()
      */
@@ -152,6 +160,7 @@ class html
         if (is_string($attr)) {
             $attr = array('src' => $attr);
         }
+
         return self::tag('img', $attr + array('alt' => ''), null, array_merge(self::$common_attrib,
             array('src','alt','width','height','border','usemap','onclick','onerror')));
     }
@@ -161,6 +170,7 @@ class html
      *
      * @param mixed  $attr Hash array with tag attributes or string with link location (href)
      * @param string $cont Link content
+     *
      * @return string HTML code
      * @see html::tag()
      */
@@ -169,6 +179,7 @@ class html
         if (is_string($attr)) {
             $attr = array('href' => $attr);
         }
+
         return self::tag('a', $attr, $cont, array_merge(self::$common_attrib,
             array('href','target','name','rel','onclick','onmouseover','onmouseout','onmousedown','onmouseup')));
     }
@@ -178,6 +189,7 @@ class html
      *
      * @param mixed  $attr Hash array with tag attributes or string with class name
      * @param string $cont Tag content
+     *
      * @return string HTML code
      * @see html::tag()
      */
@@ -186,6 +198,7 @@ class html
         if (is_string($attr)) {
             $attr = array('class' => $attr);
         }
+
         return self::tag('span', $attr, $cont, self::$common_attrib);
     }
 
@@ -194,6 +207,7 @@ class html
      *
      * @param mixed  $attr Hash array with tag attributes or string with 'for' attrib
      * @param string $cont Tag content
+     *
      * @return string HTML code
      * @see html::tag()
      */
@@ -202,6 +216,7 @@ class html
         if (is_string($attr)) {
             $attr = array('for' => $attr);
         }
+
         return self::tag('label', $attr, $cont, array_merge(self::$common_attrib, array('for')));
     }
 
@@ -209,6 +224,7 @@ class html
      * Derrived method to create <iframe></iframe>
      *
      * @param mixed $attr Hash array with tag attributes or string with frame source (src)
+     *
      * @return string HTML code
      * @see html::tag()
      */
@@ -217,6 +233,7 @@ class html
         if (is_string($attr)) {
             $attr = array('src' => $attr);
         }
+
         return self::tag('iframe', $attr, $cont, array_merge(self::$common_attrib,
             array('src','name','width','height','border','frameborder','onload','allowfullscreen')));
     }
@@ -224,8 +241,9 @@ class html
     /**
      * Derrived method to create <script> tags
      *
-     * @param mixed $attr Hash array with tag attributes or string with script source (src)
+     * @param mixed  $attr Hash array with tag attributes or string with script source (src)
      * @param string $cont Javascript code to be placed as tag content
+     *
      * @return string HTML code
      * @see html::tag()
      */
@@ -248,6 +266,8 @@ class html
     /**
      * Derrived method for line breaks
      *
+     * @param array $attrib  Associative arry with tag attributes
+     *
      * @return string HTML code
      * @see html::tag()
      */
@@ -259,8 +279,9 @@ class html
     /**
      * Create string with attributes
      *
-     * @param array $attrib Associative arry with tag attributes
+     * @param array $attrib  Associative arry with tag attributes
      * @param array $allowed List of allowed attributes
+     *
      * @return string Valid attribute string
      */
     public static function attrib_string($attrib = array(), $allowed = null)
@@ -315,6 +336,7 @@ class html
      * Convert a HTML attribute string attributes to an associative array (name => value)
      *
      * @param string Input string
+     *
      * @return array Key-value pairs of parsed attributes
      */
     public static function parse_attrib_string($str)
@@ -366,7 +388,7 @@ class html
 class html_inputfield extends html
 {
     protected $tagname = 'input';
-    protected $type = 'text';
+    protected $type    = 'text';
     protected $allowed = array(
         'type','name','value','size','tabindex','autocapitalize','required',
         'autocomplete','checked','onchange','onclick','disabled','readonly',
@@ -393,8 +415,9 @@ class html_inputfield extends html
     /**
      * Compose input tag
      *
-     * @param string $value Field value
+     * @param string $value  Field value
      * @param array  $attrib Additional attributes to override
+     *
      * @return string HTML output
      */
     public function show($value = null, $attrib = null)
@@ -410,6 +433,7 @@ class html_inputfield extends html
         }
         // set type
         $this->attrib['type'] = $this->type;
+
         return parent::show();
     }
 }
@@ -434,9 +458,9 @@ class html_passwordfield extends html_inputfield
 class html_hiddenfield extends html
 {
     protected $tagname = 'input';
-    protected $type = 'hidden';
-    protected $fields_arr = array();
+    protected $type    = 'hidden';
     protected $allowed = array('type','name','value','onchange','disabled','readonly');
+    protected $fields_arr = array();
 
     /**
      * Constructor
@@ -471,6 +495,7 @@ class html_hiddenfield extends html
         foreach ($this->fields_arr as $attrib) {
             $out .= self::tag($this->tagname, array('type' => $this->type) + $attrib);
         }
+
         return $out;
     }
 }
@@ -490,6 +515,7 @@ class html_radiobutton extends html_inputfield
      *
      * @param string $value  Value of the checked field
      * @param array  $attrib Additional attributes to override
+     *
      * @return string HTML output
      */
     public function show($value = '', $attrib = null)
@@ -521,6 +547,7 @@ class html_checkbox extends html_inputfield
      *
      * @param string $value  Value of the checked field
      * @param array  $attrib Additional attributes to override
+     *
      * @return string HTML output
      */
     public function show($value = '', $attrib = null)
@@ -554,6 +581,7 @@ class html_textarea extends html
      *
      * @param string $value  Textbox value
      * @param array  $attrib Additional attributes to override
+     *
      * @return string HTML output
      */
     public function show($value = '', $attrib = null)
@@ -633,6 +661,7 @@ class html_select extends html
      *
      * @param string $select Value of the selection option
      * @param array  $attrib Additional attributes to override
+     *
      * @return string HTML output
      */
     public function show($select = array(), $attrib = null)
@@ -675,8 +704,8 @@ class html_table extends html
     protected $allowed = array('id','class','style','width','summary',
         'cellpadding','cellspacing','border');
 
-    private $header = array();
-    private $rows = array();
+    private $header   = array();
+    private $rows     = array();
     private $rowindex = 0;
     private $colindex = 0;
 
@@ -776,7 +805,7 @@ class html_table extends html
         $this->colindex = 0;
         $this->rows[$this->rowindex] = new stdClass;
         $this->rows[$this->rowindex]->attrib = $attr;
-        $this->rows[$this->rowindex]->cells = array();
+        $this->rows[$this->rowindex]->cells  = array();
     }
 
     /**
@@ -823,6 +852,7 @@ class html_table extends html
      * Build HTML output of the table data
      *
      * @param array $attrib Table attributes
+     *
      * @return string The final table HTML code
      */
     public function show($attrib = null)
@@ -910,5 +940,4 @@ class html_table extends html
         static $col_tagnames = array('table' => 'td', '*' => 'span');
         return $col_tagnames[$this->tagname] ?: $col_tagnames['*'];
     }
-
 }

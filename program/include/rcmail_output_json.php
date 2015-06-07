@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcmail_output_json.php                                |
  |                                                                       |
@@ -19,7 +19,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
 /**
  * View class to produce JSON responses
  *
@@ -28,12 +27,12 @@
  */
 class rcmail_output_json extends rcmail_output
 {
-    protected $texts = array();
-    protected $commands = array();
+    protected $texts     = array();
+    protected $commands  = array();
     protected $callbacks = array();
-    protected $message = null;
+    protected $message   = null;
 
-    public $type = 'js';
+    public $type      = 'js';
     public $ajax_call = true;
 
 
@@ -49,9 +48,8 @@ class rcmail_output_json extends rcmail_output
         else
             $name = $this->config->get('product_name');
 
-        $this->command('set_pagetitle', empty($name) ? $title : $name.' :: '.$title);
+        $this->command('set_pagetitle', empty($name) ? $title : $name . ' :: ' . $title);
     }
-
 
     /**
      * Register a template object handler
@@ -64,7 +62,6 @@ class rcmail_output_json extends rcmail_output
         // ignore
     }
 
-
     /**
      * Register a list of template object handlers
      *
@@ -74,7 +71,6 @@ class rcmail_output_json extends rcmail_output
     {
         // ignore
     }
-
 
     /**
      * Call a client method
@@ -92,7 +88,6 @@ class rcmail_output_json extends rcmail_output
           $this->commands[] = $cmd;
     }
 
-
     /**
      * Add a localized label to the client environment
      */
@@ -106,7 +101,6 @@ class rcmail_output_json extends rcmail_output
             $this->texts[$name] = $this->app->gettext($name);
         }
     }
-
 
     /**
      * Invoke display_message command
@@ -135,17 +129,15 @@ class rcmail_output_json extends rcmail_output
         }
     }
 
-
     /**
      * Delete all stored env variables and commands
      */
     public function reset()
     {
         parent::reset();
-        $this->texts = array();
+        $this->texts    = array();
         $this->commands = array();
     }
-
 
     /**
      * Redirect to a certain url
@@ -162,7 +154,6 @@ class rcmail_output_json extends rcmail_output
         exit;
     }
 
-
     /**
      * Send an AJAX response to the client.
      */
@@ -171,7 +162,6 @@ class rcmail_output_json extends rcmail_output
         $this->remote_response();
         exit;
     }
-
 
     /**
      * Show error page and terminate script execution
@@ -190,7 +180,6 @@ class rcmail_output_json extends rcmail_output
         $this->remote_response();
         exit;
     }
-
 
     /**
      * Send an AJAX response with executable JS code
@@ -241,7 +230,6 @@ class rcmail_output_json extends rcmail_output
 
         echo self::json_serialize($response);
     }
-
 
     /**
      * Return executable javascript code for all registered commands
