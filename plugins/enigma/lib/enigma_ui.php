@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  +-------------------------------------------------------------------------+
  | User Interface for the Enigma Plugin                                    |
  |                                                                         |
@@ -131,9 +132,10 @@ class enigma_ui
     /**
      * Initializes key password prompt
      *
-     * @param enigma_error Error object with key info
+     * @param enigma_error $status Error object with key info
+     * @param array        $params Optional prompt parameters
      */
-    function password_prompt($status)
+    function password_prompt($status, $params = array())
     {
         $data = $status->getData('missing');
 
@@ -142,6 +144,10 @@ class enigma_ui
         }
 
         $data = array('keyid' => key($data), 'user' => $data[key($data)]);
+
+        if (!empty($params)) {
+            $data = array_merge($params, $data);
+        }
 
         if ($this->rc->action == 'send') {
             $this->rc->output->command('enigma_password_request', $data);
@@ -337,23 +343,28 @@ class enigma_ui
      */
     function tpl_key_data($attrib)
     {
-        $out = '';
+        $out   = '';
         $table = new html_table(array('cols' => 2)); 
 
         // Key user ID
         $table->add('title', $this->enigma->gettext('keyuserid'));
         $table->add(null, rcube::Q($this->data->name));
+
         // Key ID
         $table->add('title', $this->enigma->gettext('keyid'));
         $table->add(null, $this->data->subkeys[0]->get_short_id());
+
         // Key type
         $keytype = $this->data->get_type();
-        if ($keytype == enigma_key::TYPE_KEYPAIR)
+        if ($keytype == enigma_key::TYPE_KEYPAIR) {
             $type = $this->enigma->gettext('typekeypair');
-        else if ($keytype == enigma_key::TYPE_PUBLIC)
+        }
+        else if ($keytype == enigma_key::TYPE_PUBLIC) {
             $type = $this->enigma->gettext('typepublickey');
+        }
         $table->add('title', $this->enigma->gettext('keytype'));
         $table->add(null, $type);
+
         // Key fingerprint
         $table->add('title', $this->enigma->gettext('fingerprint'));
         $table->add(null, $this->data->subkeys[0]->get_fingerprint());
@@ -476,6 +487,9 @@ class enigma_ui
         $this->rc->output->send();
     }
 
+    /**
+     * Init compose UI (add task button and the menu)
+     */
     private function compose_ui()
     {
         $this->add_css();
@@ -493,12 +507,6 @@ class enigma_ui
             'height'   => 32
             ), 'toolbar');
 
-        // Options menu contents
-        $this->enigma->add_hook('render_page', array($this, 'compose_menu'));
-    }
-
-    function compose_menu($p)
-    {
         $menu  = new html_table(array('cols' => 2));
         $chbox = new html_checkbox(array('value' => 1));
 
@@ -512,12 +520,10 @@ class enigma_ui
         $menu->add(null, $chbox->show($this->rc->config->get('enigma_encrypt_all') ? 1 : 0,
             array('name' => '_enigma_encrypt', 'id' => 'enigmaencryptopt')));
 
-        $menu = html::div(array('id' => 'enigmamenu', 'class' => 'popupmenu'),
-            $menu->show());
+        $menu = html::div(array('id' => 'enigmamenu', 'class' => 'popupmenu'), $menu->show());
 
-        $p['content'] .= $menu;
-
-        return $p;
+        // Options menu contents
+        $this->rc->output->add_footer($menu);
     }
 
     /**
@@ -646,7 +652,7 @@ class enigma_ui
     {
         $engine = $this->enigma->load_engine();
 
-        // handle attachments vcard attachments
+        // handle keys/certs in attachments
         foreach ((array) $p['object']->attachments as $attachment) {
             if ($engine->is_keys_part($attachment)) {
                 $this->keys_parts[] = $attachment->mime_id;
@@ -746,4 +752,45 @@ class enigma_ui
         return $p;
     }
 
+    /**
+     * Handler for message_compose_body hook
+     * Display error when the message cannot be encrypted
+     * and provide a way to try again with a password.
+     */
+    function message_compose($p)
+    {
+        $engine = $this->enigma->load_engine();
+
+        // skip: message has no signed/encoded content
+        if (!$this->enigma->engine) {
+            return $p;
+        }
+
+        $engine = $this->enigma->engine;
+
+        // Decryption status
+        foreach ($engine->decryptions as $status) {
+            if ($status instanceof enigma_error) {
+                $code = $status->getCode();
+
+                if ($code == enigma_error::E_KEYNOTFOUND) {
+                    $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($status->getData('id')),
+                        $this->enigma->gettext('decryptnokey')));
+                }
+                else if ($code == enigma_error::E_BADPASS) {
+                    $this->password_prompt($status, array('compose-init' => true));
+                    return $p;
+                }
+                else {
+                    $msg = rcube::Q($this->enigma->gettext('decrypterror'));
+                }
+            }
+        }
+
+        if ($msg) {
+            $this->rc->output->show_message($msg, 'error');
+        }
+
+        return $p;
+    }
 }

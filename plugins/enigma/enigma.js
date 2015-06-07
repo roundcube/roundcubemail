@@ -41,10 +41,9 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
                 e.stopPropagation();
             });
         }
-        else if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
-            if (rcmail.env.enigma_password_request) {
-                rcmail.enigma_password_request(rcmail.env.enigma_password_request);
-            }
+
+        if (rcmail.env.enigma_password_request) {
+            rcmail.enigma_password_request(rcmail.env.enigma_password_request);
         }
     }
 });
@@ -324,15 +323,16 @@ rcube_webmail.prototype.enigma_password_request = function(data)
             click: function(e) {
                 e.stopPropagation();
 
-                var jq = ref.is_framed() ? window.parent.$ : $,
-                    pass = myprompt_input.val();
+                var jq = ref.is_framed() ? window.parent.$ : $;
 
-                if (!pass) {
+                data.password = myprompt_input.val();
+
+                if (!data.password) {
                     myprompt_input.focus();
                     return;
                 }
 
-                ref.enigma_password_submit(data.key, pass);
+                ref.enigma_password_submit(data);
                 jq(this).remove();
             }
         },
@@ -352,34 +352,37 @@ rcube_webmail.prototype.enigma_password_request = function(data)
 }
 
 // submit entered password
-rcube_webmail.prototype.enigma_password_submit = function(keyid, password)
+rcube_webmail.prototype.enigma_password_submit = function(data)
 {
-    if (this.env.action == 'compose') {
-        return this.enigma_password_compose_submit(keyid, password);
+    if (this.env.action == 'compose' && !data['compose-init']) {
+        return this.enigma_password_compose_submit(data);
     }
+
+    var lock = this.set_busy(true, 'loading');
 
     // message preview
     var form = $('<form>').attr({method: 'post', action: location.href, style: 'display:none'})
-        .append($('<input>').attr({type: 'hidden', name: '_keyid', value: keyid}))
-        .append($('<input>').attr({type: 'hidden', name: '_passwd', value: password}))
+        .append($('<input>').attr({type: 'hidden', name: '_keyid', value: data.key}))
+        .append($('<input>').attr({type: 'hidden', name: '_passwd', value: data.password}))
         .append($('<input>').attr({type: 'hidden', name: '_token', value: this.env.request_token}))
+        .append($('<input>').attr({type: 'hidden', name: '_unlock', value: lock}))
         .appendTo(document.body);
 
     form.submit();
 }
 
 // submit entered password - in mail compose page
-rcube_webmail.prototype.enigma_password_compose_submit = function(keyid, password)
+rcube_webmail.prototype.enigma_password_compose_submit = function(data)
 {
     var form = this.gui_objects.messageform;
 
     if (!$('input[name="_keyid"]', form).length) {
-        $(form).append($('<input>').attr({type: 'hidden', name: '_keyid', value: keyid}))
-            .append($('<input>').attr({type: 'hidden', name: '_passwd', value: password}));
+        $(form).append($('<input>').attr({type: 'hidden', name: '_keyid', value: data.key}))
+            .append($('<input>').attr({type: 'hidden', name: '_passwd', value: data.password}));
     }
     else {
-        $('input[name="_keyid"]', form).val(keyid);
-        $('input[name="_passwd"]', form).val(password);
+        $('input[name="_keyid"]', form).val(data.key);
+        $('input[name="_passwd"]', form).val(data.password);
     }
 
     this.submit_messageform(this.env.last_action == 'savedraft');

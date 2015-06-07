@@ -24,9 +24,6 @@ Implemented features:
 TODO (must have):
 -----------------
 - Keys export to file
-- Disable Reply/Forward options when viewing encrypted messages
-  until they are decrypted successfully
-- Handling of replying/forwarding of encrypted/signed messages
 - Client-side keys generation (with OpenPGP.js?)
 
 TODO (later):

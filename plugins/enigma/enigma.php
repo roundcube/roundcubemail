@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  +-------------------------------------------------------------------------+
  | Enigma Plugin for Roundcube                                             |
  |                                                                         |
@@ -14,11 +15,10 @@
  +-------------------------------------------------------------------------+
 */
 
-/*
-    This class contains only hooks and action handlers.
-    Most plugin logic is placed in enigma_engine and enigma_ui classes.
-*/
-
+/**
+ * This class contains only hooks and action handlers.
+ * Most plugin logic is placed in enigma_engine and enigma_ui classes.
+ */
 class enigma extends rcube_plugin
 {
     public $task = 'mail|settings';
@@ -26,7 +26,7 @@ class enigma extends rcube_plugin
     public $engine;
     public $ui;
 
-    private $env_loaded  = false;
+    private $env_loaded = false;
 
 
     /**
@@ -51,6 +51,8 @@ class enigma extends rcube_plugin
             }
             // message composing
             else if ($this->rc->action == 'compose') {
+                $this->add_hook('message_compose_body', array($this, 'message_compose'));
+
                 $this->load_ui();
                 $this->ui->init();
             }
@@ -435,6 +437,16 @@ class enigma extends rcube_plugin
         $this->load_ui();
 
         return $this->ui->message_ready($p);
+    }
+
+    /**
+     * Handle message_compose_body hook
+     */
+    function message_compose($p)
+    {
+        $this->load_ui();
+
+        return $this->ui->message_compose($p);
     }
 
     /**

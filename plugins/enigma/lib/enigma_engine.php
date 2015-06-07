@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  +-------------------------------------------------------------------------+
  | Engine of the Enigma Plugin                                             |
  |                                                                         |
@@ -14,12 +15,13 @@
  +-------------------------------------------------------------------------+
 */
 
-/*
-    RFC2440: OpenPGP Message Format
-    RFC3156: MIME Security with OpenPGP
-    RFC3851: S/MIME
-*/
-
+/**
+ * Enigma plugin engine.
+ *
+ * RFC2440: OpenPGP Message Format
+ * RFC3156: MIME Security with OpenPGP
+ * RFC3851: S/MIME
+ */
 class enigma_engine
 {
     private $rc;
@@ -49,7 +51,7 @@ class enigma_engine
         $this->rc     = rcmail::get_instance();
         $this->enigma = $enigma;
 
-        $this->password_time = $this->rc->config->get('enigma_password_time');
+        $this->password_time = $this->rc->config->get('enigma_password_time') * 60;
 
         // this will remove passwords from session after some time
         if ($this->password_time) {
@@ -485,7 +487,7 @@ class enigma_engine
         // Store signature data for display
         if (!empty($sig)) {
             $this->signed_parts[$part->mime_id] = $part->mime_id;
-            $this->signatures[$part->mime_id] = $sig;
+            $this->signatures[$part->mime_id]   = $sig;
         }
 
         fclose($fh);
@@ -495,7 +497,7 @@ class enigma_engine
      * Handler for PGP/MIME signed message.
      * Verifies signature.
      *
-     * @param array  Reference to hook's parameters
+     * @param array Reference to hook's parameters
      */
     private function parse_pgp_signed(&$p)
     {
@@ -503,34 +505,35 @@ class enigma_engine
             return;
         }
 
-        // Verify signature
-        if ($this->rc->action == 'show' || $this->rc->action == 'preview') {
-            $this->load_pgp_driver();
-            $struct = $p['structure'];
+        if ($this->rc->action != 'show' && $this->rc->action != 'preview') {
+            return;
+        }
 
-            $msg_part = $struct->parts[0];
-            $sig_part = $struct->parts[1];
+        $this->load_pgp_driver();
+        $struct = $p['structure'];
 
-            // Get bodies
-            // Note: The first part body need to be full part body with headers
-            //       it also cannot be decoded
-            $msg_body = $this->get_part_body($p['object'], $msg_part->mime_id, true);
-            $sig_body = $this->get_part_body($p['object'], $sig_part->mime_id);
+        $msg_part = $struct->parts[0];
+        $sig_part = $struct->parts[1];
 
-            // Verify
-            $sig = $this->pgp_verify($msg_body, $sig_body);
+        // Get bodies
+        // Note: The first part body need to be full part body with headers
+        //       it also cannot be decoded
+        $msg_body = $this->get_part_body($p['object'], $msg_part->mime_id, true);
+        $sig_body = $this->get_part_body($p['object'], $sig_part->mime_id);
 
-            // Store signature data for display
-            $this->signatures[$struct->mime_id] = $sig;
+        // Verify
+        $sig = $this->pgp_verify($msg_body, $sig_body);
 
-            // Message can be multipart (assign signature to each subpart)
-            if (!empty($msg_part->parts)) {
-                foreach ($msg_part->parts as $part)
-                    $this->signed_parts[$part->mime_id] = $struct->mime_id;
-            }
-            else {
-                $this->signed_parts[$msg_part->mime_id] = $struct->mime_id;
-            }
+        // Store signature data for display
+        $this->signatures[$struct->mime_id] = $sig;
+
+        // Message can be multipart (assign signature to each subpart)
+        if (!empty($msg_part->parts)) {
+            foreach ($msg_part->parts as $part)
+                $this->signed_parts[$part->mime_id] = $struct->mime_id;
+        }
+        else {
+            $this->signed_parts[$msg_part->mime_id] = $struct->mime_id;
         }
     }
 
@@ -976,6 +979,9 @@ class enigma_engine
         $this->rc->output->send();
     }
 
+    /**
+     * Registers password for specified key/cert sent by the password prompt.
+     */
     function password_handler()
     {
         $keyid  = rcube_utils::get_input_value('_keyid', rcube_utils::INPUT_POST);
@@ -986,6 +992,9 @@ class enigma_engine
         }
     }
 
+    /**
+     * Saves key/cert password in user session
+     */
     function save_password($keyid, $password)
     {
         // we store passwords in session for specified time
@@ -999,6 +1008,9 @@ class enigma_engine
         $_SESSION['enigma_pass'] = $this->rc->encrypt(serialize($config));
     }
 
+    /**
+     * Returns currently stored passwords
+     */
     function get_passwords()
     {
         if ($config = $_SESSION['enigma_pass']) {
@@ -1011,7 +1023,7 @@ class enigma_engine
 
         // delete expired passwords
         foreach ((array) $config as $key => $value) {
-            if ($pass_time && $value[1] < $threshold) {
+            if ($threshold && $value[1] < $threshold) {
                 unset($config[$key]);
                 $modified = true;
             }
