@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix compatibility with PHP 5.3 in rcube_ldap class (#1490424)
 - Fix "Importing..." message does not hide on error (#1490422)
 - Fix SQL error on logout when using session_storage=php (#1490421)
 - Update to jQuery 2.1.4 (#1490406)
