@@ -2233,35 +2233,38 @@ function rcube_webmail()
       return;
 
     var win, target = window,
-      action = preview ? 'preview': 'show',
-      url = '&_action='+action+'&_uid='+id+'&_mbox='+urlencode(this.get_message_mailbox(id));
+      url = {
+        _uid: id,
+        _mbox: this.get_message_mailbox(id),
+        // add browser capabilities, so we can properly handle attachments
+        _caps: this.browser_capabilities()
+      };
 
     if (preview && (win = this.get_frame_window(this.env.contentframe))) {
       target = win;
-      url += '&_framed=1';
+      url._framed = 1;
     }
 
     if (safe)
-      url += '&_safe=1';
+      url._safe = 1;
 
     // also send search request to get the right messages
     if (this.env.search_request)
-      url += '&_search='+this.env.search_request;
-
-    // add browser capabilities, so we can properly handle attachments
-    url += '&_caps='+urlencode(this.browser_capabilities());
+      url._search = this.env.search_request;
 
     if (this.env.extwin)
-      url += '&_extwin=1';
+      url._extwin = 1;
+
+    url = this.url(preview ? 'preview': 'show', url);
 
     if (preview && String(target.location.href).indexOf(url) >= 0) {
       this.show_contentframe(true);
     }
     else {
       if (!preview && this.env.message_extwin && !this.env.extwin)
-        this.open_window(this.env.comm_path+url, true);
+        this.open_window(url, true);
       else
-        this.location_href(this.env.comm_path+url, target, true);
+        this.location_href(url, target, true);
 
       // mark as read and change mbox unread counter
       if (preview && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read > 0) {
