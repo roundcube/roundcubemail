@@ -161,12 +161,17 @@ function rcmail_init_env()
     if (!strlen($mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC, true))) {
         $mbox = strlen($_SESSION['mbox']) ? $_SESSION['mbox'] : 'INBOX';
     }
-    if (!($page = intval($_GET['_page']))) {
-        $page = $_SESSION['page'] ? $_SESSION['page'] : 1;
+
+    if ($RCMAIL->action == 'list') {
+        if (!($page = intval($_GET['_page']))) {
+            $page = $_SESSION['page'] ? $_SESSION['page'] : 1;
+        }
+
+        $_SESSION['page'] = $page;
     }
 
     $RCMAIL->storage->set_folder($_SESSION['mbox'] = $mbox);
-    $RCMAIL->storage->set_page($_SESSION['page'] = $page);
+    $RCMAIL->storage->set_page($_SESSION['page']);
 
     // set default sort col/order to session
     if (!isset($_SESSION['sort_col'])) {
