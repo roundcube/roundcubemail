@@ -2234,7 +2234,7 @@ function rcube_webmail()
 
     var win, target = window,
       url = {
-        _uid: id,
+        _uid: String(id).split('-')[0],
         _mbox: this.get_message_mailbox(id),
         // add browser capabilities, so we can properly handle attachments
         _caps: this.browser_capabilities()
