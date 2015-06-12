@@ -47,11 +47,12 @@ $config['password_algorithm'] = 'clear';
 // using password_algorithm above. Default: empty.
 $config['password_algorithm_prefix'] = '';
 
-// Path for dovecotpw/doveadm-pw (if not in $PATH)
+// Path for dovecotpw/doveadm-pw (if not in the $PATH).
 // Used for password_algorithm = 'dovecot'.
-// $config['password_dovecotpw'] = '/usr/local/sbin/dovecotpw';
+// $config['password_dovecotpw'] = '/usr/local/sbin/doveadm pw'; // for dovecot-2.x
+$config['password_dovecotpw'] = '/usr/local/sbin/dovecotpw'; // for dovecot-1.x
 
-// Dovecot method (dovecotpw -s 'method')
+// Dovecot password scheme.
 // Used for password_algorithm = 'dovecot'.
 $config['password_dovecotpw_method'] = 'CRAM-MD5';
 
