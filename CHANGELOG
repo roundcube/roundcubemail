@@ -15,6 +15,7 @@ CHANGELOG Roundcube Webmail
 - Fix Compose action in addressbook for results from multiple addressbooks (#1490413)
 - Fix bug where some messages in multi-folder search couldn't be opened (#1490426)
 - Fix unintentional messages list page change on page switch in compose addressbook (#1490427)
+- Fix race-condition in saving user preferences and loading plugin config (#1490431)
 
 RELEASE 1.1.2
 -------------

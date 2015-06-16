@@ -195,8 +195,9 @@ class rcube_user
 
         // don't save prefs with default values if they haven't been changed yet
         foreach ($a_user_prefs as $key => $value) {
-            if ($value === null || (!isset($old_prefs[$key]) && ($value == $config->get($key))))
+            if ($value === null || (!isset($old_prefs[$key]) && ($value == $config->get($key)))) {
                 unset($save_prefs[$key]);
+            }
         }
 
         $save_prefs = serialize($save_prefs);
@@ -217,7 +218,7 @@ class rcube_user
             $this->data['preferences'] = $save_prefs;
 
             if (!$no_session) {
-                $config->set_user_prefs($a_user_prefs);
+                $config->set_user_prefs($this->prefs);
 
                 if (isset($_SESSION['preferences'])) {
                     $this->rc->session->remove('preferences');
@@ -235,7 +236,7 @@ class rcube_user
         ) {
             $_SESSION['preferences'] = $save_prefs;
             $_SESSION['preferences_time'] = time();
-            $config->set_user_prefs($a_user_prefs);
+            $config->set_user_prefs($this->prefs);
             $this->data['preferences'] = $save_prefs;
         }
 
