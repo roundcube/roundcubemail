@@ -16,6 +16,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where some messages in multi-folder search couldn't be opened (#1490426)
 - Fix unintentional messages list page change on page switch in compose addressbook (#1490427)
 - Fix race-condition in saving user preferences and loading plugin config (#1490431)
+- Fix so plain text signature field uses monospace font (#1490435)
 
 RELEASE 1.1.2
 -------------
