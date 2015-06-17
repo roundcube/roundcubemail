@@ -113,4 +113,29 @@ EOF;
 
         $this->assertContains('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoating on invalid html');
     }
+
+    function test_links()
+    {
+        $html     = '<a href="http://test.com">content</a>';
+        $expected = 'content [1]
+
+Links:
+------
+[1] http://test.com
+';
+
+        $ht = new rcube_html2text($html, false, true);
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Links list');
+
+        // href == content (#1490434)
+        $html     = '<a href="http://test.com">http://test.com</a>';
+        $expected = 'http://test.com';
+
+        $ht = new rcube_html2text($html, false, true);
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Skip link with href == content');
+    }
 }

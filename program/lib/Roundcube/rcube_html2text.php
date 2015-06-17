@@ -509,7 +509,7 @@ class rcube_html2text
      * @param string $link URL of the link
      * @param string $display Part of the text to associate number with
      */
-    protected function _build_link_list( $link, $display )
+    protected function _build_link_list($link, $display)
     {
         if (!$this->_do_links || empty($link)) {
             return $display;
@@ -517,6 +517,11 @@ class rcube_html2text
 
         // Ignored link types
         if (preg_match('!^(javascript:|mailto:|#)!i', $link)) {
+            return $display;
+        }
+
+        // skip links with href == content (#1490434)
+        if ($link === $display) {
             return $display;
         }
 
