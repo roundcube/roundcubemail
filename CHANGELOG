@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix SQL error on logout when using session_storage=php (#1490421)
+- Fix so plain text signature field uses monospace font (#1490435)
 
 RELEASE 1.0.6
 -------------
