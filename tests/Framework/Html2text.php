@@ -51,6 +51,11 @@ class rc_html2text extends PHPUnit_Framework_TestCase
                 'in'    => 'test<br>  test',
                 'out'   => "test\ntest",
             ),
+            8 => array(
+                'title' => '&nbsp; handling test',
+                'in'    => '<div>eye: &nbsp;&nbsp;test<br /> tes: &nbsp;&nbsp;test</div>',
+                'out'   => "eye:   test\ntes:   test",
+            ),
         );
     }
 
