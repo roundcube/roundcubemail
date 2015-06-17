@@ -334,6 +334,7 @@ img.skinthumbnail {
 #rcmfd_signature {
 	width: 99%;
 	min-width: 390px;
+	font-family: monospace;
 }
 
 #rcmfd_signature_toolbar1 td,
