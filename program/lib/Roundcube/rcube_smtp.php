@@ -208,11 +208,6 @@ class rcube_smtp
         else if (is_string($headers)) {
             $text_headers = $headers;
         }
-        else {
-            $this->reset();
-            $this->response[] = "Invalid message headers";
-            return false;
-        }
 
         // exit if no from address is given
         if (!isset($from)) {
@@ -275,8 +270,11 @@ class rcube_smtp
 
         if (is_resource($body)) {
             // file handle
-            $data         = $body;
-            $text_headers = preg_replace('/[\r\n]+$/', '', $text_headers);
+            $data = $body;
+
+            if ($text_headers) {
+                $text_headers = preg_replace('/[\r\n]+$/', '', $text_headers);
+            }
         }
         else {
             // Concatenate headers and body so it can be passed by reference to SMTP_CONN->data
