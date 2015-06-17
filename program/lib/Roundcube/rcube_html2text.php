@@ -216,7 +216,7 @@ class rcube_html2text
      * @see $ent_search
      */
     protected $ent_replace = array(
-        ' ',                                    // Non-breaking space
+        "\xC2\xA0",                             // Non-breaking space
         '"',                                    // Double quotes
         "'",                                    // Single quotes
         '>',

@@ -18,6 +18,7 @@ CHANGELOG Roundcube Webmail
 - Fix race-condition in saving user preferences and loading plugin config (#1490431)
 - Fix so plain text signature field uses monospace font (#1490435)
 - Fix so links with href == content aren't added to links list on html to text conversion (#1490434)
+- Fix handling of non-break spaces in html to text conversion (#1490436)
 
 RELEASE 1.1.2
 -------------
