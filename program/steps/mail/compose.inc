@@ -332,12 +332,17 @@ foreach ($parts as $header) {
             else if (!empty($MESSAGE->headers->from))
                 $fvalue = $MESSAGE->headers->from;
 
-            // Reply to message sent by yourself (#1487074, #1489230)
+            // Reply to message sent by yourself (#1487074, #1489230, #1490439)
             // Reply-To address need to be unset (#1490233)
-            if (!empty($ident) && empty($replyto)
-                && in_array($ident['ident'], array($fvalue, $MESSAGE->headers->from))
-            ) {
-                $fvalue = $MESSAGE->headers->to;
+            if (!empty($ident) && empty($replyto)) {
+                foreach (array($fvalue, $MESSAGE->headers->from) as $sender) {
+                    $senders = rcube_mime::decode_address_list($sender, null, false, $charset, true);
+
+                    if (in_array($ident['email_ascii'], $senders)) {
+                        $fvalue = $MESSAGE->headers->to;
+                        break;
+                    }
+                }
             }
         }
         // add recipient of original message if reply to all
