@@ -14,18 +14,6 @@
         {
             "type": "vcs",
             "url": "https://git.kolab.org/diffusion/PNL/php-net_ldap.git"
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "Net_SMTP",
-                "version": "dev-master",
-                "source": {
-                    "url": "https://github.com/pear/Net_SMTP",
-                    "type": "git",
-                    "reference": "master"
-                }
-            }
         }
     ],
     "require": {
