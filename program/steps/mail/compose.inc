@@ -522,7 +522,7 @@ function rcmail_compose_header_from($attrib)
             }
         }
 
-        $out = $select_from->show(rcmail_compose_header_value('from'));
+        $out = $select_from->show($MESSAGE->compose['from']);
 
         // add signatures to client
         $OUTPUT->set_env('signatures', $a_signatures);
@@ -532,7 +532,7 @@ function rcmail_compose_header_from($attrib)
     else {
         $field_attrib['class'] = 'from_address';
         $input_from = new html_inputfield($field_attrib);
-        $out = $input_from->show(rcmail_compose_header_value('from'));
+        $out = $input_from->show($MESSAGE->compose['from']);
     }
 
     return $out;
