@@ -63,7 +63,7 @@ class redundant_attachments extends filesystem_attachments
             return;
         }
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = rcube::get_instance();
 
         // load configuration
         $this->load_config();

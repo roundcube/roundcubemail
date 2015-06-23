@@ -322,11 +322,12 @@ class rcube_message
      * Determine if the message contains a HTML part. This must to be
      * a real part not an attachment (or its part)
      *
-     * @param bool $enriched Enables checking for text/enriched parts too
+     * @param bool               $enriched Enables checking for text/enriched parts too
+     * @param rcube_message_part &$part    Reference to the part if found
      *
      * @return bool True if a HTML is available, False if not
      */
-    function has_html_part($enriched = false)
+    public function has_html_part($enriched = false, &$part = null)
     {
         // check all message parts
         foreach ($this->mime_parts as $part) {
@@ -360,6 +361,8 @@ class rcube_message
             }
         }
 
+        $part = null;
+
         return false;
     }
 
@@ -367,9 +370,11 @@ class rcube_message
      * Determine if the message contains a text/plain part. This must to be
      * a real part not an attachment (or its part)
      *
+     * @param rcube_message_part &$part Reference to the part if found
+     *
      * @return bool True if a plain text part is available, False if not
      */
-    function has_text_part()
+    public function has_text_part(&$part = null)
     {
         // check all message parts
         foreach ($this->mime_parts as $part) {
@@ -399,52 +404,58 @@ class rcube_message
             }
         }
 
+        $part = null;
+
         return false;
     }
 
     /**
      * Return the first HTML part of this message
      *
+     * @param rcube_message_part &$part    Reference to the part if found
+     * @param bool               $enriched Enables checking for text/enriched parts too
+     *
      * @return string HTML message part content
      */
-    function first_html_part()
+    public function first_html_part(&$part = null, $enriched = false)
     {
-        // check all message parts
-        foreach ($this->mime_parts as $pid => $part) {
-            if ($part->mimetype == 'text/html') {
-                return $this->get_part_body($pid, true);
+        if ($this->has_html_part($enriched, $part)) {
+            $body = $this->get_part_body($part->mime_id, true);
+
+            if ($part->mimetype == 'text/enriched') {
+                $body = rcube_enriched::to_html($body);
             }
+
+            return $body;
         }
     }
 
     /**
-     * Return the first text part of this message
+     * Return the first text part of this message.
+     * If there's no text/plain part but $strict=true and text/html part
+     * exists, it will be returned in text/plain format.
      *
-     * @param rcube_message_part $part Reference to the part if found
+     * @param rcube_message_part &$part  Reference to the part if found
+     * @param bool               $strict Check only text/plain parts
+     *
      * @return string Plain text message/part content
      */
-    function first_text_part(&$part=null)
+    public function first_text_part(&$part = null, $strict = false)
     {
         // no message structure, return complete body
-        if (empty($this->parts))
+        if (empty($this->parts)) {
             return $this->body;
-
-        // check all message parts
-        foreach ($this->mime_parts as $mime_id => $part) {
-            if ($part->mimetype == 'text/plain') {
-                return $this->get_part_body($mime_id, true);
-            }
-            else if ($part->mimetype == 'text/html') {
-                $out = $this->get_part_body($mime_id, true);
-
-                // create instance of html2text class
-                $txt = new rcube_html2text($out);
-                return $txt->get_text();
-            }
         }
 
-        $part = null;
-        return null;
+        if ($this->has_text_part($part)) {
+            return $this->get_part_body($part->mime_id, true);
+        }
+
+        if (!$strict && ($body = $this->first_html_part($part, true))) {
+            // create instance of html2text class
+            $h2t  = new rcube_html2text($body);
+            return $h2t->get_text();
+        }
     }
 
     /**
