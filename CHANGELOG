@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: Added message_ready hook
 - Plugin API: Add special onload() method to execute plugin actions before startup (session and GUI initialization)
 - Implemented UI element to jump to specified page of the messages list (#1485235)
+- Fix so microseconds macro (u) in log_date_format works (#1490446)
 - Fix so unrecognized TNEF attachments are displayed on the list of attachments (#1490351)
 - Fix "Importing..." message does not hide on error (#1490422)
 - Fix Compose action in addressbook for results from multiple addressbooks (#1490413)
