@@ -1277,11 +1277,7 @@ class rcube
             $session_key = intval(self::$instance->config->get('log_session_id', 8));
         }
 
-        if (empty($date_format)) {
-            $date_format = 'd-M-Y H:i:s O';
-        }
-
-        $date = date($date_format);
+        $date = rcube_utils::date_format($date_format);
 
         // trigger logging hook
         if (is_object(self::$instance) && is_object(self::$instance->plugins)) {
