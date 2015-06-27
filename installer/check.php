@@ -34,7 +34,6 @@ $required_libs = array(
     'Net_SMTP'  => 'pear.php.net',
     'Net_IDNA2' => 'pear.php.net',
     'Mail_mime' => 'pear.php.net',
-    'Mail_mimeDecode' => 'pear.php.net',
 );
 
 $optional_libs = array(
@@ -82,7 +81,6 @@ $source_urls = array(
     'PEAR'      => 'http://pear.php.net',
     'Net_SMTP'  => 'http://pear.php.net/package/Net_SMTP',
     'Mail_mime' => 'http://pear.php.net/package/Mail_mime',
-    'Mail_mimeDecode' => 'http://pear.php.net/package/Mail_mimeDecode',
     'Net_IDNA2' => 'http://pear.php.net/package/Net_IDNA2',
     'Net_LDAP3' => 'https://git.kolab.org/diffusion/PNL',
 );

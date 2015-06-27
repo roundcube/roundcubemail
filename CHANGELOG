@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Get rid of Mail_mimeDecode package dependency (#1490416)
 - Add --config and --type options to moduserprefs.sh script (#1490051)
 - Implemented memcache_debug and apc_debug options
 - Installer: Remove system() function use (#1490139)

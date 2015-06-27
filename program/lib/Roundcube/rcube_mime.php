@@ -61,61 +61,24 @@ class rcube_mime
      * Parse the given raw message source and return a structure
      * of rcube_message_part objects.
      *
-     * It makes use of the PEAR:Mail_mimeDecode library
+     * It makes use of the rcube_mime_decode library
      *
-     * @param string  The message source
+     * @param string $raw_body The message source
+     *
      * @return object rcube_message_part The message structure
      */
     public static function parse_message($raw_body)
     {
-        $mime = new Mail_mimeDecode($raw_body);
-        $struct = $mime->decode(array('include_bodies' => true, 'decode_bodies' => true));
-        return self::structure_part($struct);
-    }
+        $conf = array(
+            'include_bodies'  => true,
+            'decode_bodies'   => true,
+            'decode_headers'  => false,
+            'default_charset' => self::get_charset(),
+        );
 
-    /**
-     * Recursive method to convert a Mail_mimeDecode part into a rcube_message_part object
-     *
-     * @param object  A message part struct
-     * @param int     Part count
-     * @param string  Parent MIME ID
-     *
-     * @return object rcube_message_part
-     */
-    private static function structure_part($part, $count=0, $parent='')
-    {
-        $struct = new rcube_message_part;
-        $struct->mime_id          = $part->mime_id ?: (empty($parent) ? (string)$count : "$parent.$count");
-        $struct->headers          = $part->headers;
-        $struct->mimetype         = $part->ctype_primary . '/' . $part->ctype_secondary;
-        $struct->ctype_primary    = $part->ctype_primary;
-        $struct->ctype_secondary  = $part->ctype_secondary;
-        $struct->ctype_parameters = $part->ctype_parameters;
+        $mime = new rcube_mime_decode($conf);
 
-        if ($part->headers['content-transfer-encoding']) {
-            $struct->encoding = $part->headers['content-transfer-encoding'];
-        }
-
-        if ($part->ctype_parameters['charset']) {
-            $struct->charset = $part->ctype_parameters['charset'];
-        }
-
-        $part_charset = $struct->charset ?: self::get_charset();
-
-        // determine filename
-        if (($filename = $part->d_parameters['filename']) || ($filename = $part->ctype_parameters['name'])) {
-            $struct->filename = rcube_mime::decode_mime_string($filename, $part_charset);
-        }
-
-        $struct->body        = $part->body;
-        $struct->size        = strlen($part->body);
-        $struct->disposition = $part->disposition;
-
-        foreach ((array)$part->parts as $child_part) {
-            $struct->parts[] = self::structure_part($child_part, ++$count, $struct->mime_id);
-        }
-
-        return $struct;
+        return $mime->decode($raw_body);
     }
 
     /**
