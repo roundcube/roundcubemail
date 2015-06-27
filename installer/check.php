@@ -28,10 +28,10 @@ $optional_php_exts = array(
 );
 
 $required_libs = array(
-    'PEAR'      => 'PEAR.php',
-    'Net_SMTP'  => 'Net/SMTP.php',
-    'Net_IDNA2' => 'Net/IDNA2.php',
-    'Mail_mime' => 'Mail/mime.php',
+    'PEAR'      => 'pear.php.net',
+    'Net_SMTP'  => 'pear.php.net',
+    'Net_IDNA2' => 'pear.php.net',
+    'Mail_mime' => 'pear.php.net',
 );
 
 $ini_checks = array(
