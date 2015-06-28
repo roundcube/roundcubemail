@@ -827,40 +827,12 @@ class rcube
         // Add a single canary byte to the end of the clear text, which
         // will help find out how much of padding will need to be removed
         // upon decryption; see http://php.net/mcrypt_generic#68082.
-        $clear = pack("a*H2", $clear, "80");
-        $ckey  = $this->config->get_crypto_key($key);
-
-        if (function_exists('openssl_encrypt')) {
-            $method = 'DES-EDE3-CBC';
-            $opts   = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
-            $iv     = $this->create_iv(openssl_cipher_iv_length($method));
-            $cipher = $iv . openssl_encrypt($clear, $method, $ckey, $opts, $iv);
-        }
-        else if (function_exists('mcrypt_module_open') &&
-            ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, ""))
-        ) {
-            $iv = $this->create_iv(mcrypt_enc_get_iv_size($td));
-            mcrypt_generic_init($td, $ckey, $iv);
-            $cipher = $iv . mcrypt_generic($td, $clear);
-            mcrypt_generic_deinit($td);
-            mcrypt_module_close($td);
-        }
-        else {
-            @include_once 'des.inc';
-
-            if (function_exists('des')) {
-                $des_iv_size = 8;
-                $iv = $this->create_iv($des_iv_size);
-                $cipher = $iv . des($ckey, $clear, 1, 1, $iv);
-            }
-            else {
-                self::raise_error(array(
-                    'code' => 500, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not perform encryption; make sure OpenSSL or Mcrypt or lib/des.inc is available"
-                    ), true, true);
-            }
-        }
+        $clear  = pack("a*H2", $clear, "80");
+        $ckey   = $this->config->get_crypto_key($key);
+        $method = 'DES-EDE3-CBC';
+        $opts   = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
+        $iv     = rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
+        $cipher = $iv . openssl_encrypt($clear, $method, $ckey, $opts, $iv);
 
         return $base64 ? base64_encode($cipher) : $cipher;
     }
@@ -883,79 +855,24 @@ class rcube
         $cipher = $base64 ? base64_decode($cipher) : $cipher;
         $ckey   = $this->config->get_crypto_key($key);
 
-        if (function_exists('openssl_decrypt')) {
-            $method  = 'DES-EDE3-CBC';
-            $opts    = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
-            $iv_size = openssl_cipher_iv_length($method);
-            $iv      = substr($cipher, 0, $iv_size);
+        $method  = 'DES-EDE3-CBC';
+        $opts    = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
+        $iv_size = openssl_cipher_iv_length($method);
+        $iv      = substr($cipher, 0, $iv_size);
 
-            // session corruption? (#1485970)
-            if (strlen($iv) < $iv_size) {
-                return '';
-            }
-
-            $cipher = substr($cipher, $iv_size);
-            $clear  = openssl_decrypt($cipher, $method, $ckey, $opts, $iv);
+        // session corruption? (#1485970)
+        if (strlen($iv) < $iv_size) {
+            return '';
         }
-        else if (function_exists('mcrypt_module_open') &&
-            ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, ""))
-        ) {
-            $iv_size = mcrypt_enc_get_iv_size($td);
-            $iv      = substr($cipher, 0, $iv_size);
 
-            // session corruption? (#1485970)
-            if (strlen($iv) < $iv_size) {
-                return '';
-            }
-
-            $cipher = substr($cipher, $iv_size);
-            mcrypt_generic_init($td, $ckey, $iv);
-            $clear = mdecrypt_generic($td, $cipher);
-            mcrypt_generic_deinit($td);
-            mcrypt_module_close($td);
-        }
-        else {
-            @include_once 'des.inc';
-
-            if (function_exists('des')) {
-                $des_iv_size = 8;
-                $iv     = substr($cipher, 0, $des_iv_size);
-                $cipher = substr($cipher, $des_iv_size);
-                $clear  = des($ckey, $cipher, 0, 1, $iv);
-            }
-            else {
-                self::raise_error(array(
-                    'code' => 500, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not perform decryption; make sure OpenSSL or Mcrypt or lib/des.inc is available"
-                    ), true, true);
-            }
-        }
+        $cipher = substr($cipher, $iv_size);
+        $clear  = openssl_decrypt($cipher, $method, $ckey, $opts, $iv);
 
         // Trim PHP's padding and the canary byte; see note in
         // rcube::encrypt() and http://php.net/mcrypt_generic#68082
         $clear = substr(rtrim($clear, "\0"), 0, -1);
 
         return $clear;
-    }
-
-    /**
-     * Generates encryption initialization vector (IV)
-     *
-     * @param int $size Vector size
-     *
-     * @return string Vector string
-     */
-    private function create_iv($size)
-    {
-        // mcrypt_create_iv() can be slow when system lacks entrophy
-        // we'll generate IV vector manually
-        $iv = '';
-        for ($i = 0; $i < $size; $i++) {
-            $iv .= chr(mt_rand(0, 255));
-        }
-
-        return $iv;
     }
 
     /**

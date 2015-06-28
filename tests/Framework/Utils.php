@@ -426,6 +426,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     function test_random_bytes()
     {
         $this->assertSame(15, strlen(rcube_utils::random_bytes(15)));
+        $this->assertSame(15, strlen(rcube_utils::random_bytes(15, true)));
         $this->assertSame(1, strlen(rcube_utils::random_bytes(1)));
         $this->assertSame(0, strlen(rcube_utils::random_bytes(0)));
         $this->assertSame(0, strlen(rcube_utils::random_bytes(-1)));

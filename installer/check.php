@@ -15,14 +15,13 @@ $required_php_exts = array(
     'XML'       => 'xml',
     'JSON'      => 'json',
     'PDO'       => 'PDO',
+    'Multibyte' => 'mbstring',
+    'OpenSSL'   => 'openssl',
 );
 
 $optional_php_exts = array(
     'FileInfo'  => 'fileinfo',
     'Libiconv'  => 'iconv',
-    'Multibyte' => 'mbstring',
-    'OpenSSL'   => 'openssl',
-    'Mcrypt'    => 'mcrypt',
     'Intl'      => 'intl',
     'Exif'      => 'exif',
     'LDAP'      => 'ldap',
@@ -63,7 +62,6 @@ $source_urls = array(
     'FileInfo'  => 'http://www.php.net/manual/en/book.fileinfo.php',
     'Libiconv'  => 'http://www.php.net/manual/en/book.iconv.php',
     'Multibyte' => 'http://www.php.net/manual/en/book.mbstring.php',
-    'Mcrypt'    => 'http://www.php.net/manual/en/book.mcrypt.php',
     'OpenSSL'   => 'http://www.php.net/manual/en/book.openssl.php',
     'JSON'      => 'http://www.php.net/manual/en/book.json.php',
     'DOM'       => 'http://www.php.net/manual/en/book.dom.php',

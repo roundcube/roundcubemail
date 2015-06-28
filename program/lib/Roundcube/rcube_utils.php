@@ -1123,28 +1123,25 @@ class rcube_utils
     /**
      * Generate a ramdom string
      *
-     * @param int String length
+     * @param int  $length String length
+     * @param bool $raw    Return RAW data instead of hex
      *
      * @return string The generated random string
      */
-    public static function random_bytes($length)
+    public static function random_bytes($length, $raw = false)
     {
-        if (function_exists('openssl_random_pseudo_bytes')) {
-            $random = openssl_random_pseudo_bytes(ceil($length / 2));
-            $random = bin2hex($random);
+        $rlen   = $raw ? $length : ceil($length / 2);
+        $random = openssl_random_pseudo_bytes($rlen);
 
-            // if the length wasn't even...
-            if ($length < strlen($random)) {
-                $random = substr($random, 0, $length);
-            }
+        if ($raw) {
+            return $random;
         }
-        else {
-            $alpha  = 'ABCDEFGHIJKLMNOPQERSTUVXYZabcdefghijklmnopqrtsuvwxyz0123456789+*%&?!$-_=';
-            $random = '';
 
-            for ($i = 0; $i < $length; $i++) {
-                $random .= $alpha[rand(0, strlen($alpha)-1)];
-            }
+        $random = bin2hex($random);
+
+        // if the length wasn't even...
+        if ($length < strlen($random)) {
+            $random = substr($random, 0, $length);
         }
 
         return $random;

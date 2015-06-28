@@ -567,7 +567,7 @@ class rcube_mime
         // Note: Never try to use iconv instead of mbstring functions here
         //       Iconv's substr/strlen are 100x slower (#1489113)
 
-        if ($charset && $charset != RCUBE_CHARSET && function_exists('mb_internal_encoding')) {
+        if ($charset && $charset != RCUBE_CHARSET) {
             mb_internal_encoding($charset);
         }
 
@@ -661,7 +661,7 @@ class rcube_mime
             }
         }
 
-        if ($charset && $charset != RCUBE_CHARSET && function_exists('mb_internal_encoding')) {
+        if ($charset && $charset != RCUBE_CHARSET) {
             mb_internal_encoding(RCUBE_CHARSET);
         }
 

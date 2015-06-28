@@ -23,8 +23,7 @@
         "pear-pear.php.net/net_idna2": ">=0.1.1",
         "pear-pear.php.net/net_sieve": ">=1.3.2",
         "pear/mail_mime": ">=1.8.9",
-        "pear/net_smtp": "dev-master",
-        "patchwork/utf8": "1.2.x"
+        "pear/net_smtp": "dev-master"
     },
     "require-dev": {
         "pear-pear.php.net/crypt_gpg": "*",

@@ -356,42 +356,6 @@ function version_parse($version)
 }
 
 /**
- * mbstring replacement functions
- */
-if (!extension_loaded('mbstring'))
-{
-    function mb_strlen($str)
-    {
-        return strlen($str);
-    }
-
-    function mb_strtolower($str)
-    {
-        return strtolower($str);
-    }
-
-    function mb_strtoupper($str)
-    {
-        return strtoupper($str);
-    }
-
-    function mb_substr($str, $start, $len=null)
-    {
-        return substr($str, $start, $len);
-    }
-
-    function mb_strpos($haystack, $needle, $offset=0)
-    {
-        return strpos($haystack, $needle, $offset);
-    }
-
-    function mb_strrpos($haystack, $needle, $offset=0)
-    {
-        return strrpos($haystack, $needle, $offset);
-    }
-}
-
-/**
  * intl replacement functions
  */
 
