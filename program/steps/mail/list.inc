@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/mail/list.inc                                           |
  |                                                                       |
@@ -58,20 +58,6 @@ $threading = (bool) $RCMAIL->storage->get_threading();
 // Synchronize mailbox cache, handle flag changes
 $RCMAIL->storage->folder_sync($mbox_name);
 
-// initialize searching result if search_filter is used
-if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
-    $search_request = md5($mbox_name.$_SESSION['search_scope'].$_SESSION['search_filter']);
-    $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCUBE_CHARSET, rcmail_sort_column());
-
-    $_SESSION['search']         = $RCMAIL->storage->get_search_set();
-    $_SESSION['search_request'] = $search_request;
-
-    $OUTPUT->set_env('search_request', $search_request);
-    $OUTPUT->set_env('search_filter', $_SESSION['search_filter']);
-
-    $multifolder = is_a($_SESSION['search'][1], 'rcube_result_multifolder');
-}
-
 // fetch message headers
 if ($count = $RCMAIL->storage->count($mbox_name, $threading ? 'THREADS' : 'ALL', !empty($_REQUEST['_refresh']))) {
     $a_headers = $RCMAIL->storage->list_messages($mbox_name, NULL, rcmail_sort_column(), rcmail_sort_order());
@@ -81,6 +67,7 @@ if ($count = $RCMAIL->storage->count($mbox_name, $threading ? 'THREADS' : 'ALL',
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
     && $_SESSION['search_request'] == $_REQUEST['_search']
 ) {
+    $search_request = $_REQUEST['_search'];
     $_SESSION['search'] = $RCMAIL->storage->get_search_set();
 }
 // remove old search data
@@ -88,13 +75,12 @@ else if (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {
     $RCMAIL->session->remove('search');
 }
 
-// empty result? we'll skip UNSEEN counting in rcmail_send_unread_count()
-if (empty($search_request) && empty($a_headers)) {
-    $unseen = 0;
-}
+rcmail_list_pagetitle();
 
 // update mailboxlist
-rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']), $unseen);
+if (empty($search_request)) {
+    rcmail_send_unread_count($mbox_name, !empty($_REQUEST['_refresh']), empty($a_headers) ? 0 : null);
+}
 
 // update message count display
 $pages  = ceil($count/$RCMAIL->storage->get_pagesize());

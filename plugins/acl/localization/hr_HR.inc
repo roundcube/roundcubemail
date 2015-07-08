@@ -18,7 +18,6 @@
 $labels['sharing'] = 'Dijeljenje';
 $labels['myrights'] = 'Prava pristupa';
 $labels['username'] = 'Korisnik:';
-$labels['advanced'] = 'Napredni način';
 $labels['newuser'] = 'Dodaj unos/pravilo';
 $labels['actions'] = 'Akcije prava pristupa...';
 $labels['anyone'] = 'Svi korisnici (anyone)';

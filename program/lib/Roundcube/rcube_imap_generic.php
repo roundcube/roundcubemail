@@ -48,8 +48,6 @@ class rcube_imap_generic
         '*'        => '\\*',
     );
 
-    public static $mupdate;
-
     protected $fp;
     protected $host;
     protected $logged = false;
@@ -1108,7 +1106,8 @@ class rcube_imap_generic
             // folder name with spaces. Let's try to handle this situation
             if (!is_array($items) && ($pos = strpos($response, '(')) !== false) {
                 $response = substr($response, $pos);
-                $items = $this->tokenizeResponse($response, 1);
+                $items    = $this->tokenizeResponse($response, 1);
+
                 if (!is_array($items)) {
                     return $result;
                 }
@@ -1146,7 +1145,7 @@ class rcube_imap_generic
         }
 
         // Clear internal status cache
-        unset($this->data['STATUS:'.$mailbox]);
+        $this->clear_status_cache($mailbox);
 
         if (!empty($messages) && $messages != '*' && $this->hasCapability('UIDPLUS')) {
             $messages = self::compressMessageSet($messages);
@@ -1461,13 +1460,9 @@ class rcube_imap_generic
      *
      * @return int Number of messages, False on error
      */
-    function countMessages($mailbox, $refresh = false)
+    function countMessages($mailbox)
     {
-        if ($refresh) {
-            $this->selected = null;
-        }
-
-        if ($this->selected === $mailbox) {
+        if ($this->selected === $mailbox && isset($this->data['EXISTS'])) {
             return $this->data['EXISTS'];
         }
 
@@ -1495,14 +1490,20 @@ class rcube_imap_generic
      */
     function countRecent($mailbox)
     {
-        if (!strlen($mailbox)) {
-            $mailbox = 'INBOX';
+        if ($this->selected === $mailbox && isset($this->data['RECENT'])) {
+            return $this->data['RECENT'];
         }
 
-        $this->select($mailbox);
+        // Check internal cache
+        $cache = $this->data['STATUS:'.$mailbox];
+        if (!empty($cache) && isset($cache['RECENT'])) {
+            return (int) $cache['RECENT'];
+        }
 
-        if ($this->selected === $mailbox) {
-            return $this->data['RECENT'];
+        // Try STATUS (should be faster than SELECT)
+        $counts = $this->status($mailbox, array('RECENT'));
+        if (is_array($counts)) {
+            return (int) $counts['RECENT'];
         }
 
         return false;
@@ -1704,7 +1705,6 @@ class rcube_imap_generic
         $encoding  = $encoding ? trim($encoding) : 'US-ASCII';
         $algorithm = $algorithm ? trim($algorithm) : 'REFERENCES';
         $criteria  = $criteria ? 'ALL '.trim($criteria) : 'ALL';
-        $data      = '';
 
         list($code, $response) = $this->execute($return_uid ? 'UID THREAD' : 'THREAD',
             array($algorithm, $encoding, $criteria));
@@ -2041,8 +2041,14 @@ class rcube_imap_generic
             $flag = $this->flags[strtoupper($flag)];
         }
 
-        if (!$flag || !in_array($flag, (array) $this->data['PERMANENTFLAGS'])
-            || !in_array('\\*', (array) $this->data['PERMANENTFLAGS'])
+        if (!$flag) {
+            return false;
+        }
+
+        // if PERMANENTFLAGS is not specified all flags are allowed
+        if (!empty($this->data['PERMANENTFLAGS'])
+            && !in_array($flag, (array) $this->data['PERMANENTFLAGS'])
+            && !in_array('\\*', (array) $this->data['PERMANENTFLAGS'])
         ) {
             return false;
         }
@@ -2118,7 +2124,7 @@ class rcube_imap_generic
 
             // Clear internal status cache
             unset($this->data['STATUS:'.$to]);
-            unset($this->data['STATUS:'.$from]);
+            $this->clear_status_cache($from);
 
             $result = $this->execute('UID MOVE', array(
                 $this->compressMessageSet($messages), $this->escape($to)),
@@ -2563,50 +2569,61 @@ class rcube_imap_generic
             return false;
         }
 
-        switch ($encoding) {
-        case 'base64':
-            $mode = 1;
-            break;
-        case 'quoted-printable':
-            $mode = 2;
-            break;
-        case 'x-uuencode':
-        case 'x-uue':
-        case 'uue':
-        case 'uuencode':
-            $mode = 3;
-            break;
-        default:
-            $mode = 0;
-        }
-
-        // Use BINARY extension when possible (and safe)
-        $binary     = $mode && preg_match('/^[0-9.]+$/', $part) && $this->hasCapability('BINARY');
-        $fetch_mode = $binary ? 'BINARY' : 'BODY';
-        $partial    = $max_bytes ? sprintf('<0.%d>', $max_bytes) : '';
-
-        // format request
-        $key     = $this->nextTag();
-        $request = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part]$partial)";
-        $result  = false;
-        $found   = false;
-
-        // send request
-        if (!$this->putLine($request)) {
-            $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");
-            return false;
-        }
-
-        if ($binary) {
-            // WARNING: Use $formatted argument with care, this may break binary data stream
-            $mode = -1;
-        }
+        $binary    = true;
 
         do {
+            if (!$initiated) {
+                switch ($encoding) {
+                case 'base64':
+                    $mode = 1;
+                    break;
+                case 'quoted-printable':
+                    $mode = 2;
+                    break;
+                case 'x-uuencode':
+                case 'x-uue':
+                case 'uue':
+                case 'uuencode':
+                    $mode = 3;
+                    break;
+                default:
+                    $mode = 0;
+                }
+
+                // Use BINARY extension when possible (and safe)
+                $binary     = $binary && $mode && preg_match('/^[0-9.]+$/', $part) && $this->hasCapability('BINARY');
+                $fetch_mode = $binary ? 'BINARY' : 'BODY';
+                $partial    = $max_bytes ? sprintf('<0.%d>', $max_bytes) : '';
+
+                // format request
+                $key       = $this->nextTag();
+                $request   = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part]$partial)";
+                $result    = false;
+                $found     = false;
+                $initiated = true;
+
+                // send request
+                if (!$this->putLine($request)) {
+                    $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");
+                    return false;
+                }
+
+                if ($binary) {
+                    // WARNING: Use $formatted argument with care, this may break binary data stream
+                    $mode = -1;
+                }
+            }
+
             $line = trim($this->readLine(1024));
 
             if (!$line) {
                 break;
+            }
+
+            // handle UNKNOWN-CTE response - RFC 3516, try again with standard BODY request
+            if ($binary && !$found && preg_match('/^' . $key . ' NO \[UNKNOWN-CTE\]/i', $line)) {
+                $binary = $initiated = false;
+                continue;
             }
 
             // skip irrelevant untagged responses (we have a result already)
@@ -2669,7 +2686,7 @@ class rcube_imap_generic
 
                     // BASE64
                     if ($mode == 1) {
-                        $line = rtrim($line, "\t\r\n\0\x0B");
+                        $line = preg_replace('|[^a-zA-Z0-9+=/]|', '', $line);
                         // create chunks with proper length for base64 decoding
                         $line = $prev.$line;
                         $length = strlen($line);
@@ -2714,7 +2731,7 @@ class rcube_imap_generic
                     }
                 }
             }
-        } while (!$this->startsWith($line, $key, true));
+        } while (!$this->startsWith($line, $key, true) || !$initiated);
 
         if ($result !== false) {
             if ($file) {
@@ -3199,9 +3216,9 @@ class rcube_imap_generic
                 for ($i=0; $i<$size; $i++) {
                     if (isset($mbox) && is_array($data[$i])) {
                         $size_sub = count($data[$i]);
-                        for ($x=0; $x<$size_sub; $x++) {
+                        for ($x=0; $x<$size_sub; $x+=2) {
                             if ($data[$i][$x+1] !== null)
-                                $result[$mbox][$data[$i][$x]] = $data[$i][++$x];
+                                $result[$mbox][$data[$i][$x]] = $data[$i][$x+1];
                         }
                         unset($data[$i]);
                     }
@@ -3219,8 +3236,8 @@ class rcube_imap_generic
                         }
                     }
                     else if (isset($mbox)) {
-                        if ($data[$i+1] !== null)
-                            $result[$mbox][$data[$i]] = $data[++$i];
+                        if ($data[++$i] !== null)
+                            $result[$mbox][$data[$i-1]] = $data[$i];
                         unset($data[$i]);
                         unset($data[$i-1]);
                     }
@@ -3254,11 +3271,6 @@ class rcube_imap_generic
         }
 
         foreach ($data as $entry) {
-            // Workaround cyrus-murder bug, the entry[2] string needs to be escaped
-            if (self::$mupdate) {
-                $entry[2] = addcslashes($entry[2], '\\"');
-            }
-
             // ANNOTATEMORE drafts before version 08 require quoted parameters
             $entries[] = sprintf('%s (%s %s)', $this->escape($entry[0], true),
                 $this->escape($entry[1], true), $this->escape($entry[2], true));
@@ -3751,6 +3763,17 @@ class rcube_imap_generic
     }
 
     /**
+     * Clear internal status cache
+     */
+    protected function clear_status_cache($mailbox)
+    {
+        unset($this->data['STATUS:' . $mailbox]);
+        unset($this->data['EXISTS']);
+        unset($this->data['RECENT']);
+        unset($this->data['UNSEEN']);
+    }
+
+    /**
      * Converts flags array into string for inclusion in IMAP command
      *
      * @param array $flags Flags (see self::flags)
@@ -3821,10 +3844,6 @@ class rcube_imap_generic
 
         if (!isset($this->prefs['literal+']) && in_array('LITERAL+', $this->capability)) {
             $this->prefs['literal+'] = true;
-        }
-
-        if (preg_match('/(\[| )MUPDATE=.*/', $str)) {
-            self::$mupdate = true;
         }
 
         if ($trusted) {

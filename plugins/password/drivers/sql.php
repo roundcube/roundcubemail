@@ -8,6 +8,20 @@
  * @version 2.0
  * @author Aleksander 'A.L.E.C' Machniak <alec@alec.pl>
  *
+ * Copyright (C) 2005-2013, The Roundcube Dev Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
 class rcube_sql_password
@@ -16,19 +30,13 @@ class rcube_sql_password
     {
         $rcmail = rcmail::get_instance();
 
-        if (!($sql = $rcmail->config->get('password_query')))
+        if (!($sql = $rcmail->config->get('password_query'))) {
             $sql = 'SELECT update_passwd(%c, %u)';
+        }
 
         if ($dsn = $rcmail->config->get('password_db_dsn')) {
-            // #1486067: enable new_link option
-            if (is_array($dsn) && empty($dsn['new_link']))
-                $dsn['new_link'] = true;
-            else if (!is_array($dsn) && !preg_match('/\?new_link=true/', $dsn))
-                $dsn .= '?new_link=true';
-
             $db = rcube_db::factory($dsn, '', false);
             $db->set_debug((bool)$rcmail->config->get('sql_debug'));
-            $db->db_connect('w');
         }
         else {
             $db = $rcmail->get_dbh();
@@ -38,109 +46,70 @@ class rcube_sql_password
             return PASSWORD_ERROR;
         }
 
-        // crypted password
-        if (strpos($sql, '%c') !== FALSE) {
-            $salt = '';
+        // new password - default hash method
+        if (strpos($sql, '%P') !== false) {
+            $password = password::hash_password($passwd);
 
-            if (!($crypt_hash = $rcmail->config->get('password_crypt_hash')))
-            {
-                if (CRYPT_MD5)
-                    $crypt_hash = 'md5';
-                else if (CRYPT_STD_DES)
-                    $crypt_hash = 'des';
-            }
-
-            switch ($crypt_hash)
-            {
-            case 'md5':
-                $len = 8;
-                $salt_hashindicator = '$1$';
-                break;
-            case 'des':
-                $len = 2;
-                break;
-            case 'blowfish':
-                $len = 22;
-                $salt_hashindicator = '$2a$';
-                break;
-            case 'sha256':
-                $len = 16;
-                $salt_hashindicator = '$5$';
-                break;
-            case 'sha512':
-                $len = 16;
-                $salt_hashindicator = '$6$';
-                break;
-            default:
+            if ($password === false) {
                 return PASSWORD_CRYPT_ERROR;
             }
 
-            //Restrict the character set used as salt (#1488136)
-            $seedchars = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-            for ($i = 0; $i < $len ; $i++) {
-                $salt .= $seedchars[rand(0, 63)];
-            }
-
-            $sql = str_replace('%c',  $db->quote(crypt($passwd, $salt_hashindicator ? $salt_hashindicator .$salt.'$' : $salt)), $sql);
+            $sql = str_replace('%P',  $db->quote($password), $sql);
         }
 
-        // dovecotpw
-        if (strpos($sql, '%D') !== FALSE) {
-            if (!($dovecotpw = $rcmail->config->get('password_dovecotpw')))
-                $dovecotpw = 'dovecotpw';
-            if (!($method = $rcmail->config->get('password_dovecotpw_method')))
-                $method = 'CRAM-MD5';
+        // old password - default hash method
+        if (strpos($sql, '%O') !== false) {
+            $password = password::hash_password($curpass);
 
-            // use common temp dir
-            $tmp_dir = $rcmail->config->get('temp_dir');
-            $tmpfile = tempnam($tmp_dir, 'roundcube-');
-
-            $pipe = popen("$dovecotpw -s '$method' > '$tmpfile'", "w");
-            if (!$pipe) {
-                unlink($tmpfile);
+            if ($password === false) {
                 return PASSWORD_CRYPT_ERROR;
             }
-            else {
-                fwrite($pipe, $passwd . "\n", 1+strlen($passwd)); usleep(1000);
-                fwrite($pipe, $passwd . "\n", 1+strlen($passwd));
-                pclose($pipe);
-                $newpass = trim(file_get_contents($tmpfile), "\n");
-                if (!preg_match('/^\{' . $method . '\}/', $newpass)) {
-                    return PASSWORD_CRYPT_ERROR;
-                }
-                if (!$rcmail->config->get('password_dovecotpw_with_method'))
-                    $newpass = trim(str_replace('{' . $method . '}', '', $newpass));
-                unlink($tmpfile);
-            }
-            $sql = str_replace('%D', $db->quote($newpass), $sql);
+
+            $sql = str_replace('%O',  $db->quote($password), $sql);
         }
 
-        // hashed passwords
-        if (preg_match('/%[n|q]/', $sql)) {
-            if (!extension_loaded('hash')) {
-                rcube::raise_error(array(
-                    'code' => 600,
-                    'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: 'hash' extension not loaded!"
-                ), true, false);
+        // crypted password (deprecated, use %P)
+        if (strpos($sql, '%c') !== false) {
+            $password = password::hash_password($passwd, 'crypt', false);
 
-                return PASSWORD_ERROR;
+            if ($password === false) {
+                return PASSWORD_CRYPT_ERROR;
             }
 
-            if (!($hash_algo = strtolower($rcmail->config->get('password_hash_algorithm'))))
-                $hash_algo = 'sha1';
+            $sql = str_replace('%c',  $db->quote($password), $sql);
+        }
 
-            $hash_passwd = hash($hash_algo, $passwd);
-            $hash_curpass = hash($hash_algo, $curpass);
+        // dovecotpw (deprecated, use %P)
+        if (strpos($sql, '%D') !== false) {
+            $password = password::hash_password($passwd, 'dovecot', false);
 
-            if ($rcmail->config->get('password_hash_base64')) {
-                $hash_passwd = base64_encode(pack('H*', $hash_passwd));
-                $hash_curpass = base64_encode(pack('H*', $hash_curpass));
+            if ($password === false) {
+                return PASSWORD_CRYPT_ERROR;
             }
 
-            $sql = str_replace('%n', $db->quote($hash_passwd, 'text'), $sql);
-            $sql = str_replace('%q', $db->quote($hash_curpass, 'text'), $sql);
+            $sql = str_replace('%D', $db->quote($password), $sql);
+        }
+
+        // hashed passwords (deprecated, use %P)
+        if (strpos($sql, '%n') !== false) {
+            $password = password::hash_password($passwd, 'hash', false);
+
+            if ($password === false) {
+                return PASSWORD_CRYPT_ERROR;
+            }
+
+            $sql = str_replace('%n', $db->quote($password, 'text'), $sql);
+        }
+
+        // hashed passwords (deprecated, use %P)
+        if (strpos($sql, '%q') !== false) {
+            $password = password::hash_password($curpass, 'hash', false);
+
+            if ($password === false) {
+                return PASSWORD_CRYPT_ERROR;
+            }
+
+            $sql = str_replace('%q', $db->quote($password, 'text'), $sql);
         }
 
         // Handle clear text passwords securely (#1487034)
@@ -185,9 +154,11 @@ class rcube_sql_password
 
         if (!$db->is_error()) {
             if (strtolower(substr(trim($sql),0,6)) == 'select') {
-                if ($db->fetch_array($res))
+                if ($db->fetch_array($res)) {
                     return PASSWORD_SUCCESS;
-            } else {
+                }
+            }
+            else {
                 // This is the good case: 1 row updated
                 if ($db->affected_rows($res) == 1)
                     return PASSWORD_SUCCESS;

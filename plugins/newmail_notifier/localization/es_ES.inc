@@ -15,14 +15,14 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-$labels['basic'] = 'Mostrar notificaciones del navegador cuando llegue un nuevo mensaje';
-$labels['desktop'] = 'Mostrar notificaciones del escritorio cuando llegue un nuevo mensaje';
-$labels['sound'] = 'Reproducir sonido cuando llegue un nuevo mensaje';
+$labels['basic'] = 'Mostrar notificaciones del navegador al recibir un nuevo mensaje';
+$labels['desktop'] = 'Mostrar notificaciones de escritorio al recibir un nuevo mensaje';
+$labels['sound'] = 'Reproducir sonido al recibir un nuevo mensaje';
 $labels['test'] = 'Prueba';
 $labels['title'] = '¡Mensaje nuevo!';
-$labels['body'] = 'Has recibido un mensaje nuevo.';
-$labels['testbody'] = 'Esta es una notificación de pruebas.';
-$labels['desktopdisabled'] = 'Las notificaciones de escritorio están deshabilitadas en tu navegador.';
-$labels['desktopunsupported'] = 'Tu navegador no soporta notificaciones de escritorio.';
+$labels['body'] = 'Ha recibido un mensaje nuevo.';
+$labels['testbody'] = 'Esta es una notificación de prueba.';
+$labels['desktopdisabled'] = 'Las notificaciones de escritorio están deshabilitadas en su navegador.';
+$labels['desktopunsupported'] = 'Su navegador no soporta notificaciones de escritorio.';
 $labels['desktoptimeout'] = 'Cerrar notificación de escritorio';
 ?>

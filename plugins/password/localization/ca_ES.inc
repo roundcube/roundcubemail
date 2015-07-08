@@ -29,4 +29,5 @@ $messages['internalerror'] = 'No s\'ha pogut desar la nova contrasenya.';
 $messages['passwordshort'] = 'La nova contrasenya ha de tenir com a mínim $length caràcters.';
 $messages['passwordweak'] = 'La nova contrasenya ha d\'incloure com a mínim un nombre i un caràcter de puntuació.';
 $messages['passwordforbidden'] = 'La contrasenya conté caràcters no permesos.';
+$messages['firstloginchange'] = 'Aquest és el vostre primer accés. Si us plau, canvieu-vos la contrasenya.';
 ?>

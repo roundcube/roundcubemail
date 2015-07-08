@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/settings/folders.inc                                    |
  |                                                                       |
@@ -181,8 +181,9 @@ $OUTPUT->add_label('deletefolderconfirm', 'purgefolderconfirm', 'folderdeleting'
 
 // register UI objects
 $OUTPUT->add_handlers(array(
-    'foldersubscription' => 'rcube_subscription_form',
+    'foldersubscription' => 'rcmail_subscription_form',
     'folderframe'        => 'rcmail_folder_frame',
+    'folderfilter'       => 'rcmail_folder_filter',
     'quotadisplay'       => array($RCMAIL, 'quota_display'),
 ));
 
@@ -190,7 +191,7 @@ $OUTPUT->send('folders');
 
 
 // build table with all folders listed by server
-function rcube_subscription_form($attrib)
+function rcmail_subscription_form($attrib)
 {
     global $RCMAIL, $OUTPUT;
 
@@ -264,11 +265,10 @@ function rcube_subscription_form($attrib)
 
     $js_folders = array();
     $folders    = array();
-    $collapsed  = $RCMAIL->config->get('collapsed_folders');
+    $collapsed  = (string) $RCMAIL->config->get('collapsed_folders');
 
     // create list of available folders
     foreach ($list_folders as $i => $folder) {
-        $idx        = $i + 1;
         $sub_key    = array_search($folder['id'], $a_subscribed);
         $subscribed = $sub_key !== false;
         $protected  = $protect_default && isset($special_folders[$folder['id']]);
@@ -422,6 +422,50 @@ function rcmail_folder_frame($attrib)
     }
 
     return $OUTPUT->frame($attrib, true);
+}
+
+function rcmail_folder_filter($attrib)
+{
+    global $RCMAIL;
+
+    $storage   = $RCMAIL->get_storage();
+    $namespace = $storage->get_namespace();
+
+    if (empty($namespace['personal']) && empty($namespace['shared']) && empty($namespace['other'])) {
+        return '';
+    }
+
+    if (!$attrib['id']) {
+        $attrib['id'] = 'rcmfolderfilter';
+    }
+
+    $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . '.folder_filter(this.value)';
+
+    $roots  = array();
+    $select = new html_select($attrib);
+    $select->add($RCMAIL->gettext('all'), '---');
+
+    foreach (array_keys($namespace) as $type) {
+        foreach ((array)$namespace[$type] as $ns) {
+            $root  = rtrim($ns[0], $ns[1]);
+            $label = $RCMAIL->gettext('namespace.' . $type);
+
+            if (count($namespace[$type]) > 1) {
+                $label .= ' (' . rcube_charset::convert($root, 'UTF7-IMAP', RCUBE_CHARSET) . ')';
+            }
+
+            $select->add($label, $root);
+
+            if (strlen($root)) {
+                $roots[] = $root;
+            }
+        }
+    }
+
+    $RCMAIL->output->add_gui_object('foldersfilter', $attrib['id']);
+    $RCMAIL->output->set_env('ns_roots', $roots);
+
+    return $select->show();
 }
 
 function rcmail_rename_folder($oldname, $newname)

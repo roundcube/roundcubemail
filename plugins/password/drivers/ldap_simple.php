@@ -9,6 +9,22 @@
  *
  * @version 2.0
  * @author Wout Decre <wout@canodus.be>
+ * @author Aleksander Machniak <machniak@kolabsys.com>
+ *
+ * Copyright (C) 2005-2014, The Roundcube Dev Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
 class rcube_ldap_simple_password
@@ -95,7 +111,7 @@ class rcube_ldap_simple_password
         $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
         $samba        = $rcmail->config->get('password_ldap_samba');
         $pass_mode    = $rcmail->config->get('password_ldap_encodage');
-        $crypted_pass = rcube_ldap_password::hash_password($passwd, $pass_mode);
+        $crypted_pass = password::hash_password($passwd, $pass_mode);
 
         // Support password_ldap_samba option for backward compat.
         if ($samba && !$smbpwattr) {
@@ -109,7 +125,7 @@ class rcube_ldap_simple_password
         }
 
         // Crypt new Samba password
-        if ($smbpwattr && !($samba_pass = rcube_ldap_password::hash_password($passwd, 'samba'))) {
+        if ($smbpwattr && !($samba_pass = password::hash_password($passwd, 'samba'))) {
             return PASSWORD_CRYPT_ERROR;
         }
 
@@ -219,5 +235,4 @@ class rcube_ldap_simple_password
             rcube::write_log('ldap', $str);
         }
     }
-
 }

@@ -66,8 +66,8 @@ class debug_logger extends rcube_plugin
 {
     function init()
     {
-        require_once(dirname(__FILE__).'/runlog/runlog.php');
-        $this->runlog = new runlog(); 
+        require_once(__DIR__ . '/runlog/runlog.php');
+        $this->runlog = new runlog();
 
         if(!rcmail::get_instance()->config->get('log_dir')){
             rcmail::get_instance()->config->set('log_dir',INSTALL_PATH.'logs');
@@ -83,10 +83,10 @@ class debug_logger extends rcube_plugin
         $action = rcmail::get_instance()->action;
         $task = rcmail::get_instance()->task;
         if($action){
-               $start_string .= "Action: ".$action.". "; 
+               $start_string .= "Action: ".$action.". ";
         }
         if($task){
-               $start_string .= "Task: ".$task.". "; 
+               $start_string .= "Task: ".$task.". ";
         }
         $this->runlog->start($start_string);
 

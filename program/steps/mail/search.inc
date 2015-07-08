@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | steps/mail/search.inc                                                 |
  |                                                                       |
@@ -151,12 +151,14 @@ $_SESSION['search_scope']   = $scope;
 // Get the headers
 if (!$result->incomplete) {
     $result_h = $RCMAIL->storage->list_messages($mbox, 1, $sort_column, rcmail_sort_order());
-    $count    = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
 }
 
 // Make sure we got the headers
 if (!empty($result_h)) {
+    $count = $RCMAIL->storage->count($mbox, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
+
     rcmail_js_message_list($result_h, false);
+
     if ($search_str) {
         $OUTPUT->show_message('searchsuccessful', 'confirmation', array('nr' => $RCMAIL->storage->count(NULL, 'ALL')));
     }
@@ -172,6 +174,7 @@ if (!empty($result_h)) {
 }
 // handle IMAP errors (e.g. #1486905)
 else if ($err_code = $RCMAIL->storage->get_error_code()) {
+    $count = 0;
     $RCMAIL->display_server_error();
 }
 // advice the client to re-send the (cross-folder) search request
@@ -180,14 +183,13 @@ else if ($result->incomplete) {
     $OUTPUT->command('continue_search', $search_request);
 }
 else {
+    $count = 0;
     $OUTPUT->show_message('searchnomatch', 'notice');
     $OUTPUT->set_env('multifolder_listing', (bool)$result->multi);
     if ($result->multi && $scope == 'all') {
         $OUTPUT->command('select_folder', '');
     }
 }
-
-$OUTPUT->set_pagetitle($RCMAIL->gettext(array('name' => 'searchfor', 'vars' => array('q' => $str))));
 
 // update message count display
 $OUTPUT->set_env('search_request', $search_str ? $search_request : '');
@@ -197,6 +199,13 @@ $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', ceil($count/$RCMAIL->storage->get_pagesize()));
 $OUTPUT->set_env('exists', $mbox === null ? 0 : $RCMAIL->storage->count($mbox, 'EXISTS'));
 $OUTPUT->command('set_rowcount', rcmail_get_messagecount_text($count, 1), $mbox);
+
+rcmail_list_pagetitle();
+
+// update unseen messages count
+if (empty($search_str)) {
+    rcmail_send_unread_count($mbox, false, empty($result_h) ? 0 : null);
+}
 
 if (!$result->incomplete) {
     $OUTPUT->command('set_quota', $RCMAIL->quota_content(null, $result->multi ? 'INBOX' : $mbox));

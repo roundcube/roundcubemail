@@ -119,7 +119,6 @@ $messages['importconfirm'] = '<b>Er zijn $inserted contactpersonen succesvol ge√
 $messages['importconfirmskipped'] = '<b>$skipped bestaande contactpersonen overgeslagen</b>';
 $messages['opnotpermitted'] = 'Deze actie is niet toegestaan!';
 $messages['nofromaddress'] = 'De geselecteerde identiteit bevat geen emailadres.';
-$messages['editorwarning'] = 'Door het overschakelen naar de platte tekst editor gaat alle opmaak verloren. Weet u zeker dat u verder wilt gaan?';
 $messages['httpreceivedencrypterror'] = 'Er is een fatale fout opgetreden. Neem direct contact op met uw systeembeheerder. <b>Uw bericht kon niet worden verzonden.</b>';
 $messages['smtpconnerror'] = 'SMTP Fout ($code): Verbinding met server mislukt.';
 $messages['smtpautherror'] = 'SMTP Fout ($code): Authenticatie mislukt.';

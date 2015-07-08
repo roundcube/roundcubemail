@@ -20,6 +20,7 @@ $labels['myrights'] = 'Pravice dostopa';
 $labels['username'] = 'Uporabnik:';
 $labels['advanced'] = 'Napredni način';
 $labels['newuser'] = 'Dodaj vnos';
+$labels['editperms'] = 'Uredi pravice';
 $labels['actions'] = 'Nastavitve pravic dostopa';
 $labels['anyone'] = 'Vsi uporabniki';
 $labels['anonymous'] = 'Gosti';

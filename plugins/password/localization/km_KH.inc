@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'ប្ដូរ​ពាក្យ​សម្ងាត់';
 $labels['curpasswd']  = 'ពាក្យ​សម្ងាត់​បច្ចុប្បន្ន៖';
 $labels['newpasswd']  = 'ពាក្យ​សម្ងាត់​ថ្មី៖';
 $labels['confpasswd']  = 'បញ្ជាក់​ពាក្យ​សម្ងាត់​ថ្មី៖';

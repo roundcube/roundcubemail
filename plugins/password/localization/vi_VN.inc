@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Thay đổi mật khẩu';
 $labels['curpasswd']  = 'Mật khẩu hiện tại';
 $labels['newpasswd']  = 'Mật khẩu mới:';
 $labels['confpasswd']  = 'Xác nhận mật khẩu mới';

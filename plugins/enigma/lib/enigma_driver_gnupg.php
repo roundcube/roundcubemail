@@ -1,20 +1,14 @@
 <?php
-/*
+
+/**
  +-------------------------------------------------------------------------+
  | GnuPG (PGP) driver for the Enigma Plugin                                |
  |                                                                         |
- | This program is free software; you can redistribute it and/or modify    |
- | it under the terms of the GNU General Public License version 2          |
- | as published by the Free Software Foundation.                           |
+ | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
  |                                                                         |
- | This program is distributed in the hope that it will be useful,         |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of          |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           |
- | GNU General Public License for more details.                            |
- |                                                                         |
- | You should have received a copy of the GNU General Public License along |
- | with this program; if not, write to the Free Software Foundation, Inc., |
- | 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.             |
+ | Licensed under the GNU General Public License version 3 or              |
+ | any later version with exceptions for skins & plugins.                  |
+ | See the README file for a full license statement.                       |
  |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
@@ -30,10 +24,10 @@ class enigma_driver_gnupg extends enigma_driver
     private $homedir;
     private $user;
 
+
     function __construct($user)
     {
-        $rcmail = rcmail::get_instance();
-        $this->rc = $rcmail;
+        $this->rc   = rcmail::get_instance();
         $this->user = $user;
     }
 
@@ -45,7 +39,7 @@ class enigma_driver_gnupg extends enigma_driver
      */
     function init()
     {
-        $homedir = $this->rc->config->get('enigma_pgp_homedir', INSTALL_PATH . '/plugins/enigma/home');
+        $homedir = $this->rc->config->get('enigma_pgp_homedir', INSTALL_PATH . 'plugins/enigma/home');
 
         if (!$homedir)
             return new enigma_error(enigma_error::E_INTERNAL,
@@ -78,7 +72,8 @@ class enigma_driver_gnupg extends enigma_driver
         try {
             $this->gpg = new Crypt_GPG(array(
                 'homedir'   => $this->homedir,
-//                'debug'     => true,
+                // 'binary'    => '/usr/bin/gpg2',
+                // 'debug'     => true,
           ));
         }
         catch (Exception $e) {
@@ -86,21 +81,40 @@ class enigma_driver_gnupg extends enigma_driver
         }
     }
 
+    /**
+     * Encrypt a message
+     *
+     * @param string The message
+     * @param array  List of keys
+     */
     function encrypt($text, $keys)
     {
-/*
-        foreach ($keys as $key) {
-            $this->gpg->addEncryptKey($key);
+        try {
+            foreach ($keys as $key) {
+                $this->gpg->addEncryptKey($key);
+            }
+
+            $dec = $this->gpg->encrypt($text, true);
+            return $dec;
         }
-        $enc = $this->gpg->encrypt($text);
-        return $enc;
-*/
+        catch (Exception $e) {
+            return $this->get_error_from_exception($e);
+        }
     }
 
-    function decrypt($text, $key, $passwd)
+    /**
+     * Decrypt a message
+     *
+     * @param string Encrypted message
+     * @param array  List of key-password mapping
+     */
+    function decrypt($text, $keys = array())
     {
-//        $this->gpg->addDecryptKey($key, $passwd);
         try {
+            foreach ($keys as $key => $password) {
+                $this->gpg->addDecryptKey($key, $password);
+            }
+
             $dec = $this->gpg->decrypt($text);
             return $dec;
         }
@@ -109,13 +123,15 @@ class enigma_driver_gnupg extends enigma_driver
         }
     }
 
-    function sign($text, $key, $passwd)
+    function sign($text, $key, $passwd, $mode = null)
     {
-/*
-        $this->gpg->addSignKey($key, $passwd);
-        $signed = $this->gpg->sign($text, Crypt_GPG::SIGN_MODE_DETACHED);
-        return $signed;
-*/
+        try {
+            $this->gpg->addSignKey($key, $passwd);
+            return $this->gpg->sign($text, $mode, CRYPT_GPG::ARMOR_ASCII, true);
+        }
+        catch (Exception $e) {
+            return $this->get_error_from_exception($e);
+        }
     }
 
     function verify($text, $signature)
@@ -147,12 +163,12 @@ class enigma_driver_gnupg extends enigma_driver
         try {
             $keys = $this->gpg->getKeys($pattern);
             $result = array();
-//print_r($keys);
+
             foreach ($keys as $idx => $key) {
                 $result[] = $this->parse_key($key);
                 unset($keys[$idx]);
             }
-//print_r($result);
+
             return $result;
         }
         catch (Exception $e) {
@@ -175,12 +191,20 @@ class enigma_driver_gnupg extends enigma_driver
     {
     }
 
-    public function del_key($keyid)
+    public function delete_key($keyid)
     {
-//        $this->get_key($keyid);
+        // delete public key
+        $result = $this->delete_pubkey($keyid);
+
+        // if not found, delete private key
+        if ($result !== true && $result->getCode() == enigma_error::E_KEYNOTFOUND) {
+            $result = $this->delete_privkey($keyid);
+        }
+
+        return $result;
     }
 
-    public function del_privkey($keyid)
+    public function delete_privkey($keyid)
     {
         try {
             $this->gpg->deletePrivateKey($keyid);
@@ -191,7 +215,7 @@ class enigma_driver_gnupg extends enigma_driver
         }
     }
 
-    public function del_pubkey($keyid)
+    public function delete_pubkey($keyid)
     {
         try {
             $this->gpg->deletePublicKey($keyid);

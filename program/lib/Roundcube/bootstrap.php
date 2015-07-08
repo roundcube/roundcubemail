@@ -1,9 +1,9 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,7 +16,6 @@
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Roundcube Framework Initialization
@@ -54,11 +53,11 @@ foreach ($config as $optname => $optval) {
 }
 
 // framework constants
-define('RCUBE_VERSION', '1.1-git');
+define('RCUBE_VERSION', '1.2-git');
 define('RCUBE_CHARSET', 'UTF-8');
 
 if (!defined('RCUBE_LIB_DIR')) {
-    define('RCUBE_LIB_DIR', dirname(__FILE__).DIRECTORY_SEPARATOR);
+    define('RCUBE_LIB_DIR', __DIR__ . '/');
 }
 
 if (!defined('RCUBE_INSTALL_PATH')) {
@@ -78,9 +77,11 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 }
 
 // set internal encoding for mbstring extension
-if (extension_loaded('mbstring')) {
+if (function_exists('mb_internal_encoding')) {
     mb_internal_encoding(RCUBE_CHARSET);
-    @mb_regex_encoding(RCUBE_CHARSET);
+}
+if (function_exists('mb_regex_encoding')) {
+    mb_regex_encoding(RCUBE_CHARSET);
 }
 
 // make sure the Roundcube lib directory is in the include_path
@@ -97,8 +98,9 @@ if (!preg_match($regexp, $path)) {
 spl_autoload_register('rcube_autoload');
 
 // set PEAR error handling (will also load the PEAR main class)
-PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
-
+if (class_exists('PEAR')) {
+    @PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
+}
 
 
 /**
@@ -120,7 +122,6 @@ function in_array_nocase($needle, $haystack)
 
     return false;
 }
-
 
 /**
  * Parse a human readable string for a number of bytes.
@@ -156,7 +157,6 @@ function parse_bytes($str)
     return floatval($bytes);
 }
 
-
 /**
  * Make sure the string ends with a slash
  */
@@ -165,7 +165,6 @@ function slashify($str)
   return unslashify($str).'/';
 }
 
-
 /**
  * Remove slashes at the end of the string
  */
@@ -173,7 +172,6 @@ function unslashify($str)
 {
   return preg_replace('/\/+$/', '', $str);
 }
-
 
 /**
  * Returns number of seconds for a specified offset string.
@@ -207,7 +205,6 @@ function get_offset_sec($str)
     return $amount;
 }
 
-
 /**
  * Create a unix timestamp with a specified offset from now.
  *
@@ -220,7 +217,6 @@ function get_offset_time($offset_str, $factor=1)
 {
     return time() + get_offset_sec($offset_str) * $factor;
 }
-
 
 /**
  * Truncate string if it is longer than the allowed length.
@@ -252,7 +248,6 @@ function abbreviate_string($str, $maxlength, $placeholder='...', $ending=false)
     return $str;
 }
 
-
 /**
  * Get all keys from array (recursive).
  *
@@ -276,7 +271,6 @@ function array_keys_recursive($array)
     return $keys;
 }
 
-
 /**
  * Remove all non-ascii and non-word chars except ., -, _
  */
@@ -285,7 +279,6 @@ function asciiwords($str, $css_id = false, $replace_with = '')
     $allowed = 'a-z0-9\_\-' . (!$css_id ? '\.' : '');
     return preg_replace("/[^$allowed]/i", $replace_with, $str);
 }
-
 
 /**
  * Check if a string contains only ascii characters
@@ -300,7 +293,6 @@ function is_ascii($str, $control_chars = true)
     $regexp = $control_chars ? '/[^\x00-\x7F]/' : '/[^\x20-\x7E]/';
     return preg_match($regexp, $str) ? false : true;
 }
-
 
 /**
  * Compose a valid representation of name and e-mail address
@@ -326,7 +318,6 @@ function format_email_recipient($email, $name = '')
     return $email;
 }
 
-
 /**
  * Format e-mail address
  *
@@ -349,7 +340,6 @@ function format_email($email)
     return $email;
 }
 
-
 /**
  * Fix version number so it can be used correctly in version_compare()
  *
@@ -365,50 +355,13 @@ function version_parse($version)
         $version);
 }
 
-
-/**
- * mbstring replacement functions
- */
-if (!extension_loaded('mbstring'))
-{
-    function mb_strlen($str)
-    {
-        return strlen($str);
-    }
-
-    function mb_strtolower($str)
-    {
-        return strtolower($str);
-    }
-
-    function mb_strtoupper($str)
-    {
-        return strtoupper($str);
-    }
-
-    function mb_substr($str, $start, $len=null)
-    {
-        return substr($str, $start, $len);
-    }
-
-    function mb_strpos($haystack, $needle, $offset=0)
-    {
-        return strpos($haystack, $needle, $offset);
-    }
-
-    function mb_strrpos($haystack, $needle, $offset=0)
-    {
-        return strrpos($haystack, $needle, $offset);
-    }
-}
-
 /**
  * intl replacement functions
  */
 
 if (!function_exists('idn_to_utf8'))
 {
-    function idn_to_utf8($domain, $flags=null)
+    function idn_to_utf8($domain)
     {
         static $idn, $loaded;
 
@@ -430,7 +383,7 @@ if (!function_exists('idn_to_utf8'))
 
 if (!function_exists('idn_to_ascii'))
 {
-    function idn_to_ascii($domain, $flags=null)
+    function idn_to_ascii($domain)
     {
         static $idn, $loaded;
 
@@ -464,16 +417,14 @@ function rcube_autoload($classname)
             '/Net_(.+)/',
             '/Auth_(.+)/',
             '/^html_.+/',
-            '/^rcube(.*)/',
-            '/^utf8$/',
+            '/^rcube(.*)/'
         ),
         array(
             'Mail/\\1',
             'Net/\\1',
             'Auth/\\1',
             'Roundcube/html',
-            'Roundcube/rcube\\1',
-            'utf8.class',
+            'Roundcube/rcube\\1'
         ),
         $classname
     );
@@ -492,8 +443,11 @@ function rcube_autoload($classname)
  */
 function rcube_pear_error($err)
 {
-    error_log(sprintf("%s (%s): %s",
-        $err->getMessage(),
-        $err->getCode(),
-        $err->getUserinfo()), 0);
+    $msg = sprintf("ERROR: %s (%s)", $err->getMessage(), $err->getCode());
+
+    if ($info = $err->getUserinfo()) {
+        $msg .= ': ' . $info;
+    }
+
+    error_log($msg, 0);
 }

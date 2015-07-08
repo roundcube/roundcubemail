@@ -46,6 +46,7 @@
             <file>Framework/VCard.php</file>
             <file>Framework/Washtml.php</file>
             <file>MailFunc.php</file>
+            <file>RcmailFunc.php</file>
         </testsuite>
         <testsuite name="Plugins Tests">
             <file>./../plugins/acl/tests/Acl.php</file>

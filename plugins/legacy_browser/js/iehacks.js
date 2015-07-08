@@ -102,7 +102,7 @@ rcube_webmail.prototype.get_input_selection = function(obj)
 rcube_webmail.prototype.async_upload_form_frame = function(name)
 {
   document.body.insertAdjacentHTML('BeforeEnd', '<iframe name="' + name + '"'
-    + ' src="program/resources/blank.gif" style="width:0; height:0; visibility:hidden"></iframe>');
+    + ' src="' + rcmail.assets_path('program/resources/blank.gif') + '" style="width:0; height:0; visibility:hidden"></iframe>');
 
   return $('iframe[name="' + name + '"]');
 };

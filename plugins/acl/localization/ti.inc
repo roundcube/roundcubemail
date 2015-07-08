@@ -18,7 +18,6 @@
 $labels['sharing'] = 'ንኻልእ';
 $labels['myrights'] = 'መሰላት በዓል ዋና';
 $labels['username'] = 'በዓል ዋና';
-$labels['advanced'] = 'ዝማዕበለ አሰራርሓ';
 $labels['newuser'] = 'እታዎ ክውስኽ';
 $labels['actions'] = 'ንጥፈታት መብት ተጠቃማይነት';
 $labels['anyone'] = 'ኩሉም በዓልቲ ዋናታት(ዝኾነ ሰብ)';

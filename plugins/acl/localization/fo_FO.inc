@@ -18,8 +18,9 @@
 $labels['sharing'] = 'Deiling';
 $labels['myrights'] = 'Atgongdar-rættindi';
 $labels['username'] = 'Brúkari:';
-$labels['advanced'] = 'Framkomin støða';
+$labels['advanced'] = 'Víðkað útgáva';
 $labels['newuser'] = 'Legg inn';
+$labels['editperms'] = 'Broyt atgonguloyvi';
 $labels['actions'] = 'Stillingar til atgongu-rættindi';
 $labels['anyone'] = 'Allir brúkarir (øll)';
 $labels['anonymous'] = 'Gestir (dulnevnd)';

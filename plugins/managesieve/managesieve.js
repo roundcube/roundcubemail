@@ -48,35 +48,7 @@ if (window.rcmail) {
     if (rcmail.env.action.startsWith('plugin.managesieve')) {
       if (rcmail.gui_objects.sieveform) {
         rcmail.enable_command('plugin.managesieve-save', true);
-
-        // small resize for header element
-        $('select[name="_header[]"]', rcmail.gui_objects.sieveform).each(function() {
-          if (this.value == '...') this.style.width = '40px';
-        });
-
-        // resize dialog window
-        if (rcmail.env.action == 'plugin.managesieve' && rcmail.env.task == 'mail') {
-          parent.rcmail.managesieve_dialog_resize(rcmail.gui_objects.sieveform);
-        }
-
-        $('input[type="text"]:first', rcmail.gui_objects.sieveform).focus();
-
-        // initialize smart list inputs
-        $('textarea[data-type="list"]', rcmail.gui_objects.sieveform).each(function() {
-          smart_field_init(this);
-        });
-
-        // enable date pickers on date fields
-        if ($.datepicker && rcmail.env.date_format) {
-          $.datepicker.setDefaults({
-            dateFormat: rcmail.env.date_format,
-            changeMonth: true,
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            onSelect: function(dateText) { $(this).focus().val(dateText); }
-          });
-          $('input.datepicker').datepicker();
-        }
+        sieve_form_init();
       }
       else {
         rcmail.enable_command('plugin.managesieve-add', 'plugin.managesieve-setadd', !rcmail.env.sieveconnerror);
@@ -254,7 +226,6 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
   this.set_busy(true);
 
   switch (action) {
-
     // Delete filter row
     case 'del':
       var id = o.id, list = this.filters_list;
@@ -278,8 +249,10 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
         $(this).unbind();
 
         // update row id
-        if (rowid > id)
-          $(this).attr('id', 'rcmrow' + (rowid-1));
+        if (rowid > id) {
+          this.uid = rowid - 1;
+          $(this).attr('id', 'rcmrow' + this.uid);
+        }
       });
       list.init();
 
@@ -608,6 +581,20 @@ rcube_webmail.prototype.managesieve_formbuttons = function(div)
   }
 };
 
+// update vacation addresses field with user identities
+rcube_webmail.prototype.managesieve_vacation_addresses = function(id)
+{
+  var lock = this.set_busy(true, 'loading');
+  this.http_post('plugin.managesieve-action', {_act: 'addresses', _aid: id}, lock);
+};
+
+// update vacation addresses field with user identities
+rcube_webmail.prototype.managesieve_vacation_addresses_update = function(id, addresses)
+{
+  var field = $('#vacation_addresses,#action_addresses' + (id || ''));
+  smart_field_reset(field.get(0), addresses);
+};
+
 function rule_header_select(id)
 {
   var obj = document.getElementById('header' + id),
@@ -764,6 +751,9 @@ function smart_field_init(field)
 
   if (field.attr('disabled'))
     area.hide();
+  // disable the original field anyway, we don't want it in POST
+  else
+    field.prop('disabled', true);
 
   field.after(area);
 
@@ -826,6 +816,21 @@ function smart_field_row(value, name, idx, size)
   return elem;
 }
 
+// Reset and fill the smart list input with new data
+function smart_field_reset(field, data)
+{
+  var id = field.id + '_list',
+    list = data.length ? data : [''];
+    area = $('#' + id);
+
+  area.empty();
+
+  // add input rows
+  $.each(list, function(i, v) {
+    area.append(smart_field_row(v, field.name, i, $(field).data('size')));
+  });
+}
+
 // Register onmouse(leave/enter) events for tips on specified form element
 rcube_webmail.prototype.managesieve_tip_register = function(tips)
 {
@@ -857,13 +862,108 @@ rcube_webmail.prototype.managesieve_tip_register = function(tips)
   }
 };
 
+// format time string
+function sieve_formattime(hour, minutes)
+{
+  var i, c, h, time = '', format = rcmail.env.time_format || 'H:i';
+
+  for (i=0; i<format.length; i++) {
+    c = format.charAt(i);
+    switch (c) {
+      case 'a': time += hour > 12 ? 'am' : 'pm'; break;
+      case 'A': time += hour > 12 ? 'AM' : 'PM'; break;
+      case 'g':
+      case 'h':
+        h = hour == 0 ? 12 : hour > 12 ? hour - 12 : hour;
+        time += (c == 'h' && hour < 10 ? '0' : '') + hour;
+        break;
+      case 'G': time += hour; break;
+      case 'H': time += (hour < 10 ? '0' : '') + hour; break;
+      case 'i': time += (minutes < 10 ? '0' : '') + minutes; break;
+      case 's': time += '00';
+      default: time += c;
+    }
+  }
+
+  return time;
+}
+
+function sieve_form_init()
+{
+  // small resize for header element
+  $('select[name="_header[]"]', rcmail.gui_objects.sieveform).each(function() {
+    if (this.value == '...') this.style.width = '40px';
+  });
+
+  // resize dialog window
+  if (rcmail.env.action == 'plugin.managesieve' && rcmail.env.task == 'mail') {
+    parent.rcmail.managesieve_dialog_resize(rcmail.gui_objects.sieveform);
+  }
+
+  $('input[type="text"]:first', rcmail.gui_objects.sieveform).focus();
+
+  // initialize smart list inputs
+  $('textarea[data-type="list"]', rcmail.gui_objects.sieveform).each(function() {
+    smart_field_init(this);
+  });
+
+  // enable date pickers on date fields
+  if ($.datepicker && rcmail.env.date_format) {
+    $.datepicker.setDefaults({
+      dateFormat: rcmail.env.date_format,
+      changeMonth: true,
+      showOtherMonths: true,
+      selectOtherMonths: true,
+      onSelect: function(dateText) { $(this).focus().val(dateText); }
+    });
+    $('input.datepicker').datepicker();
+  }
+
+  // configure drop-down menu on time input fields based on jquery UI autocomplete
+  $('#vacation_timefrom, #vacation_timeto')
+    .attr('autocomplete', "off")
+    .autocomplete({
+      delay: 100,
+      minLength: 1,
+      source: function(p, callback) {
+        var h, result = [];
+        for (h = 0; h < 24; h++)
+          result.push(sieve_formattime(h, 0));
+        result.push(sieve_formattime(23, 59));
+
+        return callback(result);
+      },
+      open: function(event, ui) {
+        // scroll to current time
+        var $this = $(this), val = $this.val(),
+          widget = $this.autocomplete('widget').css('width', '10em'),
+          menu = $this.data('ui-autocomplete').menu;
+
+        if (val && val.length)
+          widget.children().each(function() {
+            var li = $(this);
+            if (li.text().indexOf(val) == 0)
+              menu._scrollIntoView(li);
+          });
+      },
+      select: function(event, ui) {
+        $(this).val(ui.item.value);
+        return false;
+      }
+    })
+    .click(function() {  // show drop-down upon clicks
+      $(this).autocomplete('search', $(this).val() || ' ');
+    })
+}
+
+
 /*********************************************************/
 /*********           Mail UI methods             *********/
 /*********************************************************/
 
 rcube_webmail.prototype.managesieve_create = function(force)
 {
-  if (!force && this.env.action != 'show' && !$('#'+this.env.contentframe).is(':visible')) {
+  if (!force && this.env.action != 'show') {
     var uid = this.message_list.get_single_selection(),
       lock = this.set_busy(true, 'loading');
 

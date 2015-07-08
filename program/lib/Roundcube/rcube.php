@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
@@ -18,7 +18,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
 /**
  * Base class of the Roundcube Framework
  * implemented as singleton
@@ -28,8 +27,16 @@
  */
 class rcube
 {
-    const INIT_WITH_DB = 1;
+    // Init options
+    const INIT_WITH_DB      = 1;
     const INIT_WITH_PLUGINS = 2;
+
+    // Request status
+    const REQUEST_VALID       = 0;
+    const REQUEST_ERROR_URL   = 1;
+    const REQUEST_ERROR_TOKEN = 2;
+
+    const DEBUG_LINE_LENGTH = 4096;
 
     /**
      * Singleton instace of rcube
@@ -101,6 +108,12 @@ class rcube
      */
     public $user;
 
+    /**
+     * Request status
+     *
+     * @var int
+     */
+    public $request_status = 0;
 
     /* private/protected vars */
     protected $texts;
@@ -126,7 +139,6 @@ class rcube
         return self::$instance;
     }
 
-
     /**
      * Private constructor
      */
@@ -138,7 +150,6 @@ class rcube
 
         register_shutdown_function(array($this, 'shutdown'));
     }
-
 
     /**
      * Initial startup function
@@ -163,7 +174,6 @@ class rcube
         }
     }
 
-
     /**
      * Get the current database connection
      *
@@ -184,7 +194,6 @@ class rcube
         return $this->db;
     }
 
-
     /**
      * Get global handle for memcache access
      *
@@ -203,7 +212,10 @@ class rcube
             $this->mc_available = 0;
 
             // add all configured hosts to pool
-            $pconnect = $this->config->get('memcache_pconnect', true);
+            $pconnect       = $this->config->get('memcache_pconnect', true);
+            $timeout        = $this->config->get('memcache_timeout', 1);
+            $retry_interval = $this->config->get('memcache_retry_interval', 15);
+
             foreach ($this->config->get('memcache_hosts', array()) as $host) {
                 if (substr($host, 0, 7) != 'unix://') {
                     list($host, $port) = explode(':', $host);
@@ -214,7 +226,7 @@ class rcube
                 }
 
                 $this->mc_available += intval($this->memcache->addServer(
-                    $host, $port, $pconnect, 1, 1, 15, false, array($this, 'memcache_failure')));
+                    $host, $port, $pconnect, 1, $timeout, $retry_interval, false, array($this, 'memcache_failure')));
             }
 
             // test connection and failover (will result in $this->mc_available == 0 on complete failure)
@@ -227,7 +239,6 @@ class rcube
 
         return $this->memcache;
     }
-
 
     /**
      * Callback for memcache failure
@@ -247,7 +258,6 @@ class rcube
         }
     }
 
-
     /**
      * Initialize and get cache object
      *
@@ -266,7 +276,6 @@ class rcube
 
         return $this->caches[$name];
     }
-
 
     /**
      * Initialize and get shared cache object
@@ -300,11 +309,10 @@ class rcube
         return $this->caches[$shared_name];
     }
 
-
     /**
      * Create SMTP object and connect to server
      *
-     * @param boolean True if connection should be established
+     * @param boolean $connect True if connection should be established
      */
     public function smtp_init($connect = false)
     {
@@ -314,7 +322,6 @@ class rcube
             $this->smtp->connect();
         }
     }
-
 
     /**
      * Initialize and get storage object
@@ -330,7 +337,6 @@ class rcube
 
         return $this->storage;
     }
-
 
     /**
      * Initialize storage object
@@ -430,7 +436,6 @@ class rcube
         }
     }
 
-
     /**
      * Set special folders type association.
      * This must be done AFTER connecting to the server!
@@ -459,7 +464,6 @@ class rcube
             $storage->create_default_folders();
         }
     }
-
 
     /**
      * Callback for IMAP connection events to log session identifiers
@@ -506,23 +510,15 @@ class rcube
         ini_set('session.use_only_cookies', 1);
         ini_set('session.cookie_httponly', 1);
 
-        // use database for storing session data
-        $this->session = new rcube_session($this->get_dbh(), $this->config);
-
+        // get session driver instance
+        $this->session = rcube_session::factory($this->config);
         $this->session->register_gc_handler(array($this, 'gc'));
-        $this->session->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
-        $this->session->set_ip_check($this->config->get('ip_check'));
-
-        if ($this->config->get('session_auth_name')) {
-            $this->session->set_cookiename($this->config->get('session_auth_name'));
-        }
 
         // start PHP session (if not in CLI mode)
         if ($_SERVER['REMOTE_ADDR']) {
             $this->session->start();
         }
     }
-
 
     /**
      * Garbage collector - cache/temp cleaner
@@ -535,7 +531,6 @@ class rcube
 
         $this->gc_temp();
     }
-
 
     /**
      * Garbage collector function for temp files.
@@ -568,7 +563,6 @@ class rcube
         }
     }
 
-
     /**
      * Runs garbage collector with probability based on
      * session settings. This is intended for environments
@@ -586,7 +580,6 @@ class rcube
             }
         }
     }
-
 
     /**
      * Get localized text in the desired language
@@ -644,7 +637,6 @@ class rcube
         return strtr($text, array('\n' => "\n"));
     }
 
-
     /**
      * Check if the given text label exists
      *
@@ -683,7 +675,6 @@ class rcube
 
         return false;
     }
-
 
     /**
      * Load a localization package
@@ -739,11 +730,10 @@ class rcube
         }
     }
 
-
     /**
      * Check the given string and return a valid language code
      *
-     * @param string Language code
+     * @param string $lang Language code
      *
      * @return string Valid language code
      */
@@ -790,7 +780,6 @@ class rcube
         return $lang;
     }
 
-
     /**
      * Read directory program/localization and return a list of available languages
      *
@@ -820,13 +809,12 @@ class rcube
         return $sa_languages;
     }
 
-
     /**
      * Encrypt using 3DES
      *
-     * @param string $clear clear text input
-     * @param string $key encryption key to retrieve from the configuration, defaults to 'des_key'
-     * @param boolean $base64 whether or not to base64_encode() the result before returning
+     * @param string  $clear  Clear text input
+     * @param string  $key    Encryption key to retrieve from the configuration, defaults to 'des_key'
+     * @param boolean $base64 Whether or not to base64_encode() the result before returning
      *
      * @return string encrypted text
      */
@@ -836,55 +824,25 @@ class rcube
             return '';
         }
 
-        /*-
-         * Add a single canary byte to the end of the clear text, which
-         * will help find out how much of padding will need to be removed
-         * upon decryption; see http://php.net/mcrypt_generic#68082
-         */
-        $clear = pack("a*H2", $clear, "80");
-
-        if (function_exists('openssl_encrypt')) {
-            $method = 'DES-EDE3-CBC';
-            $opts   = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
-            $iv     = $this->create_iv(openssl_cipher_iv_length($method));
-            $cipher = $iv . openssl_encrypt($clear, $method, $ckey, $opts, $iv);
-        }
-        else if (function_exists('mcrypt_module_open') &&
-            ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, ""))
-        ) {
-            $iv = $this->create_iv(mcrypt_enc_get_iv_size($td));
-            mcrypt_generic_init($td, $this->config->get_crypto_key($key), $iv);
-            $cipher = $iv . mcrypt_generic($td, $clear);
-            mcrypt_generic_deinit($td);
-            mcrypt_module_close($td);
-        }
-        else {
-            @include_once 'des.inc';
-
-            if (function_exists('des')) {
-                $des_iv_size = 8;
-                $iv = $this->create_iv($des_iv_size);
-                $cipher = $iv . des($this->config->get_crypto_key($key), $clear, 1, 1, $iv);
-            }
-            else {
-                self::raise_error(array(
-                    'code' => 500, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not perform encryption; make sure OpenSSL or Mcrypt or lib/des.inc is available"
-                    ), true, true);
-            }
-        }
+        // Add a single canary byte to the end of the clear text, which
+        // will help find out how much of padding will need to be removed
+        // upon decryption; see http://php.net/mcrypt_generic#68082.
+        $clear  = pack("a*H2", $clear, "80");
+        $ckey   = $this->config->get_crypto_key($key);
+        $method = 'DES-EDE3-CBC';
+        $opts   = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
+        $iv     = rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
+        $cipher = $iv . openssl_encrypt($clear, $method, $ckey, $opts, $iv);
 
         return $base64 ? base64_encode($cipher) : $cipher;
     }
 
-
     /**
      * Decrypt 3DES-encrypted string
      *
-     * @param string $cipher encrypted text
-     * @param string $key encryption key to retrieve from the configuration, defaults to 'des_key'
-     * @param boolean $base64 whether or not input is base64-encoded
+     * @param string  $cipher Encrypted text
+     * @param string  $key    Encryption key to retrieve from the configuration, defaults to 'des_key'
+     * @param boolean $base64 Whether or not input is base64-encoded
      *
      * @return string decrypted text
      */
@@ -895,90 +853,127 @@ class rcube
         }
 
         $cipher = $base64 ? base64_decode($cipher) : $cipher;
+        $ckey   = $this->config->get_crypto_key($key);
 
-        if (function_exists('openssl_decrypt')) {
-            $method  = 'DES-EDE3-CBC';
-            $opts    = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
-            $iv_size = openssl_cipher_iv_length($method);
-            $iv      = substr($cipher, 0, $iv_size);
+        $method  = 'DES-EDE3-CBC';
+        $opts    = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
+        $iv_size = openssl_cipher_iv_length($method);
+        $iv      = substr($cipher, 0, $iv_size);
 
-            // session corruption? (#1485970)
-            if (strlen($iv) < $iv_size) {
-                return '';
-            }
-
-            $cipher = substr($cipher, $iv_size);
-            $clear  = openssl_decrypt($cipher, $method, $ckey, $opts, $iv);
-        }
-        else if (function_exists('mcrypt_module_open') &&
-            ($td = mcrypt_module_open(MCRYPT_TripleDES, "", MCRYPT_MODE_CBC, ""))
-        ) {
-            $iv_size = mcrypt_enc_get_iv_size($td);
-            $iv = substr($cipher, 0, $iv_size);
-
-            // session corruption? (#1485970)
-            if (strlen($iv) < $iv_size) {
-                return '';
-            }
-
-            $cipher = substr($cipher, $iv_size);
-            mcrypt_generic_init($td, $this->config->get_crypto_key($key), $iv);
-            $clear = mdecrypt_generic($td, $cipher);
-            mcrypt_generic_deinit($td);
-            mcrypt_module_close($td);
-        }
-        else {
-            @include_once 'des.inc';
-
-            if (function_exists('des')) {
-                $des_iv_size = 8;
-                $iv = substr($cipher, 0, $des_iv_size);
-                $cipher = substr($cipher, $des_iv_size);
-                $clear = des($this->config->get_crypto_key($key), $cipher, 0, 1, $iv);
-            }
-            else {
-                self::raise_error(array(
-                    'code' => 500, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not perform decryption; make sure Mcrypt is installed or lib/des.inc is available"
-                    ), true, true);
-            }
+        // session corruption? (#1485970)
+        if (strlen($iv) < $iv_size) {
+            return '';
         }
 
-        /*-
-         * Trim PHP's padding and the canary byte; see note in
-         * rcube::encrypt() and http://php.net/mcrypt_generic#68082
-         */
+        $cipher = substr($cipher, $iv_size);
+        $clear  = openssl_decrypt($cipher, $method, $ckey, $opts, $iv);
+
+        // Trim PHP's padding and the canary byte; see note in
+        // rcube::encrypt() and http://php.net/mcrypt_generic#68082
         $clear = substr(rtrim($clear, "\0"), 0, -1);
 
         return $clear;
     }
 
-
     /**
-     * Generates encryption initialization vector (IV)
+     * Returns session token for secure URLs
      *
-     * @param int Vector size
+     * @param bool $generate Generate token if not exists in session yet
      *
-     * @return string Vector string
+     * @return string|bool Token string, False when disabled
      */
-    private function create_iv($size)
+    public function get_secure_url_token($generate = false)
     {
-        // mcrypt_create_iv() can be slow when system lacks entrophy
-        // we'll generate IV vector manually
-        $iv = '';
-        for ($i = 0; $i < $size; $i++) {
-            $iv .= chr(mt_rand(0, 255));
+        if ($len = $this->config->get('use_secure_urls')) {
+            if (empty($_SESSION['secure_token']) && $generate) {
+                // generate x characters long token
+                $length = $len > 1 ? $len : 16;
+                $token  = rcube_utils::random_bytes($length);
+
+                $plugin = $this->plugins->exec_hook('secure_token',
+                    array('value' => $token, 'length' => $length));
+
+                $_SESSION['secure_token'] = $plugin['value'];
+            }
+
+            return $_SESSION['secure_token'];
         }
 
-        return $iv;
+        return false;
     }
 
+    /**
+     * Generate a unique token to be used in a form request
+     *
+     * @return string The request token
+     */
+    public function get_request_token()
+    {
+        $sess_id = $_COOKIE[ini_get('session.name')];
+        if (!$sess_id) {
+            $sess_id = session_id();
+        }
+
+        $plugin = $this->plugins->exec_hook('request_token', array(
+            'value' => md5('RT' . $this->get_user_id() . $this->config->get('des_key') . $sess_id)));
+
+        return $plugin['value'];
+    }
+
+    /**
+     * Check if the current request contains a valid token.
+     * Empty requests aren't checked until use_secure_urls is set.
+     *
+     * @param int $mode Request method
+     *
+     * @return boolean True if request token is valid false if not
+     */
+    public function check_request($mode = rcube_utils::INPUT_POST)
+    {
+        // check secure token in URL if enabled
+        if ($token = $this->get_secure_url_token()) {
+            foreach (explode('/', preg_replace('/[?#&].*$/', '', $_SERVER['REQUEST_URI'])) as $tok) {
+                if ($tok == $token) {
+                    return true;
+                }
+            }
+
+            $this->request_status = self::REQUEST_ERROR_URL;
+
+            return false;
+        }
+
+        $sess_tok = $this->get_request_token();
+
+        // ajax requests
+        if (rcube_utils::request_header('X-Roundcube-Request') == $sess_tok) {
+            return true;
+        }
+
+        // skip empty requests
+        if (($mode == rcube_utils::INPUT_POST && empty($_POST))
+            || ($mode == rcube_utils::INPUT_GET && empty($_GET))
+        ) {
+            return true;
+        }
+
+        // default method of securing requests
+        $token   = rcube_utils::get_input_value('_token', $mode);
+        $sess_id = $_COOKIE[ini_get('session.name')];
+
+        if (empty($sess_id) || $token != $sess_tok) {
+            $this->request_status = self::REQUEST_ERROR_TOKEN;
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * Build a valid URL to this instance of Roundcube
      *
-     * @param mixed Either a string with the action or url parameters as key-value pairs
+     * @param mixed $p Either a string with the action or url parameters as key-value pairs
+     *
      * @return string Valid application URL
      */
     public function url($p)
@@ -986,7 +981,6 @@ class rcube
         // STUB: should be overloaded by the application
         return '';
     }
-
 
     /**
      * Function to be executed in script shutdown
@@ -1021,7 +1015,6 @@ class rcube
         }
     }
 
-
     /**
      * Registers shutdown function to be executed on shutdown.
      * The functions will be executed before destroying any
@@ -1034,7 +1027,6 @@ class rcube
         $this->shutdown_functions[] = $function;
     }
 
-
     /**
      * Quote a given string.
      * Shortcut function for rcube_utils::rep_specialchars_output()
@@ -1045,7 +1037,6 @@ class rcube
     {
         return rcube_utils::rep_specialchars_output($str, 'html', $mode, $newlines);
     }
-
 
     /**
      * Quote a given string for javascript output.
@@ -1058,12 +1049,11 @@ class rcube
         return rcube_utils::rep_specialchars_output($str, 'js');
     }
 
-
     /**
      * Construct shell command, execute it and return output as string.
      * Keywords {keyword} are replaced with arguments
      *
-     * @param $cmd Format string with {keywords} to be replaced
+     * @param $cmd    Format string with {keywords} to be replaced
      * @param $values (zero, one or more arrays can be passed)
      *
      * @return output of command. shell errors not detectable
@@ -1111,7 +1101,6 @@ class rcube
         return (string)shell_exec($cmd);
     }
 
-
     /**
      * Print or write debug messages
      *
@@ -1122,12 +1111,13 @@ class rcube
         $args = func_get_args();
 
         if (class_exists('rcube', false)) {
-            $rcube = self::get_instance();
+            $rcube  = self::get_instance();
             $plugin = $rcube->plugins->exec_hook('console', array('args' => $args));
             if ($plugin['abort']) {
                 return;
             }
-           $args = $plugin['args'];
+
+            $args = $plugin['args'];
         }
 
         $msg = array();
@@ -1138,13 +1128,12 @@ class rcube
         self::write_log('console', join(";\n", $msg));
     }
 
-
     /**
      * Append a line to a logfile in the logs directory.
      * Date will be added automatically to the line.
      *
-     * @param $name name of log file
-     * @param line Line to append
+     * @param string $name Name of the log file
+     * @param mixed  $line Line to append
      */
     public static function write_log($name, $line)
     {
@@ -1159,11 +1148,7 @@ class rcube
             $session_key = intval(self::$instance->config->get('log_session_id', 8));
         }
 
-        if (empty($date_format)) {
-            $date_format = 'd-M-Y H:i:s O';
-        }
-
-        $date = date($date_format);
+        $date = rcube_utils::date_format($date_format);
 
         // trigger logging hook
         if (is_object(self::$instance) && is_object(self::$instance->plugins)) {
@@ -1222,18 +1207,17 @@ class rcube
         return false;
     }
 
-
     /**
      * Throw system error (and show error page).
      *
-     * @param array Named parameters
+     * @param array $arg Named parameters
      *      - code:    Error code (required)
      *      - type:    Error type [php|db|imap|javascript] (required)
      *      - message: Error message
      *      - file:    File where error occurred
      *      - line:    Line where error occurred
-     * @param boolean True to log the error
-     * @param boolean Terminate script execution
+     * @param boolean $log       True to log the error
+     * @param boolean $terminate Terminate script execution
      */
     public static function raise_error($arg = array(), $log = false, $terminate = false)
     {
@@ -1280,13 +1264,15 @@ class rcube
 
             exit(1);
         }
+        else if ($cli) {
+            fwrite(STDERR, 'ERROR: ' . $arg['message']);
+        }
     }
-
 
     /**
      * Report error according to configured debug_level
      *
-     * @param array Named parameters
+     * @param array $arg_arr Named parameters
      * @see self::raise_error()
      */
     public static function log_bug($arg_arr)
@@ -1341,6 +1327,30 @@ class rcube
         }
     }
 
+    /**
+     * Write debug info to the log
+     *
+     * @param string $engine Engine type - file name (memcache, apc)
+     * @param string $data   Data string to log
+     * @param bool   $result Operation result
+     */
+    public static function debug($engine, $data, $result = null)
+    {
+        static $debug_counter;
+
+        $line = '[' . (++$debug_counter[$engine]) . '] ' . $data;
+
+        if (($len = strlen($line)) > self::DEBUG_LINE_LENGTH) {
+            $diff = $len - self::DEBUG_LINE_LENGTH;
+            $line = substr($line, 0, self::DEBUG_LINE_LENGTH) . "... [truncated $diff bytes]";
+        }
+
+        if ($result !== null) {
+            $line .= ' [' . ($result ? 'TRUE' : 'FALSE') . ']';
+        }
+
+        self::write_log($engine, $line);
+    }
 
     /**
      * Returns current time (with microseconds).
@@ -1352,13 +1362,12 @@ class rcube
         return microtime(true);
     }
 
-
     /**
      * Logs time difference according to provided timer
      *
-     * @param float  $timer  Timer (self::timer() result)
-     * @param string $label  Log line prefix
-     * @param string $dest   Log file name
+     * @param float  $timer Timer (self::timer() result)
+     * @param string $label Log line prefix
+     * @param string $dest  Log file name
      *
      * @see self::timer()
      */
@@ -1409,7 +1418,6 @@ class rcube
         return null;
     }
 
-
     /**
      * Getter for logged user name.
      *
@@ -1425,7 +1433,6 @@ class rcube
         }
     }
 
-
     /**
      * Getter for logged user email (derived from user name not identity).
      *
@@ -1437,7 +1444,6 @@ class rcube
             return $this->user->get_username('mail');
         }
     }
-
 
     /**
      * Getter for logged user password.
@@ -1507,13 +1513,13 @@ class rcube
     /**
      * Send the given message using the configured method.
      *
-     * @param object $message    Reference to Mail_MIME object
-     * @param string $from       Sender address string
-     * @param array  $mailto     Array of recipient address strings
-     * @param array  $error      SMTP error array (reference)
-     * @param string $body_file  Location of file with saved message body (reference),
-     *                           used when delay_file_io is enabled
-     * @param array  $options    SMTP options (e.g. DSN request)
+     * @param object $message   Reference to Mail_MIME object
+     * @param string $from      Sender address string
+     * @param array  $mailto    Array of recipient address strings
+     * @param array  $error     SMTP error array (reference)
+     * @param string $body_file Location of file with saved message body (reference),
+     *                          used when delay_file_io is enabled
+     * @param array  $options   SMTP options (e.g. DSN request)
      *
      * @return boolean Send status.
      */
@@ -1546,7 +1552,7 @@ class rcube
         // send thru SMTP server using custom SMTP library
         if ($this->config->get('smtp_server')) {
             // generate list of recipients
-            $a_recipients = array($mailto);
+            $a_recipients = (array) $mailto;
 
             if (strlen($headers['Cc']))
                 $a_recipients[] = $headers['Cc'];
@@ -1563,15 +1569,18 @@ class rcube
 
             if ($message->getParam('delay_file_io')) {
                 // use common temp dir
-                $temp_dir = $this->config->get('temp_dir');
-                $body_file = tempnam($temp_dir, 'rcmMsg');
-                if (PEAR::isError($mime_result = $message->saveMessageBody($body_file))) {
+                $temp_dir    = $this->config->get('temp_dir');
+                $body_file   = tempnam($temp_dir, 'rcmMsg');
+                $mime_result = $message->saveMessageBody($body_file);
+
+                if (is_a($mime_result, 'PEAR_Error')) {
                     self::raise_error(array('code' => 650, 'type' => 'php',
                         'file' => __FILE__, 'line' => __LINE__,
                         'message' => "Could not create message: ".$mime_result->getMessage()),
-                        TRUE, FALSE);
+                        true, false);
                     return false;
                 }
+
                 $msg_body = fopen($body_file, 'r');
             }
             else {
@@ -1591,7 +1600,7 @@ class rcube
             if (!$sent) {
                 self::raise_error(array('code' => 800, 'type' => 'smtp',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "SMTP error: ".join("\n", $response)), TRUE, FALSE);
+                    'message' => join("\n", $response)), true, false);
             }
         }
         // send mail using PHP's mail() function
@@ -1614,11 +1623,11 @@ class rcube
 
             $msg_body = $message->get();
 
-            if (PEAR::isError($msg_body)) {
+            if (is_a($msg_body, 'PEAR_Error')) {
                 self::raise_error(array('code' => 650, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Could not create message: ".$msg_body->getMessage()),
-                    TRUE, FALSE);
+                    true, false);
             }
             else {
                 $delim   = $this->config->header_delimiter();
@@ -1646,19 +1655,24 @@ class rcube
             // remove MDN headers after sending
             unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
 
-            // get all recipients
-            if ($headers['Cc'])
-                $mailto .= $headers['Cc'];
-            if ($headers['Bcc'])
-                $mailto .= $headers['Bcc'];
-            if (preg_match_all('/<([^@]+@[^>]+)>/', $mailto, $m))
-                $mailto = implode(', ', array_unique($m[1]));
-
             if ($this->config->get('smtp_log')) {
+                // get all recipient addresses
+                if (is_array($mailto)) {
+                    $mailto = implode(',', $mailto);
+                }
+                if ($headers['Cc']) {
+                    $mailto .= ',' . $headers['Cc'];
+                }
+                if ($headers['Bcc']) {
+                    $mailto .= ',' . $headers['Bcc'];
+                }
+
+                $mailto = rcube_mime::decode_address_list($mailto, null, false, null, true);
+
                 self::write_log('sendmail', sprintf("User %s [%s]; Message for %s; %s",
                     $this->user->get_username(),
-                    $_SERVER['REMOTE_ADDR'],
-                    $mailto,
+                    rcube_utils::remote_addr(),
+                    implode(', ', $mailto),
                     !empty($response) ? join('; ', $response) : ''));
             }
         }
@@ -1676,14 +1690,13 @@ class rcube
 
         return $sent;
     }
-
 }
 
 
 /**
  * Lightweight plugin API class serving as a dummy if plugins are not enabled
  *
- * @package Framework
+ * @package    Framework
  * @subpackage Core
  */
 class rcube_dummy_plugin_api

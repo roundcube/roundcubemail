@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/settings/save_identity.inc                              |
  |                                                                       |
@@ -47,6 +47,11 @@ foreach ($a_boolean_cols as $col) {
     if (!isset($_POST[$fname])) {
         $save_data[$col] = 0;
     }
+}
+
+// make the identity a "default" if only one identity is allowed
+if (IDENTITIES_LEVEL > 1) {
+    $save_data['standard'] = 1;
 }
 
 // unset email address if user has no rights to change it
@@ -154,6 +159,8 @@ else if (IDENTITIES_LEVEL < 2) {
         $insert_id = $plugin['result'];
 
     if ($insert_id) {
+        $RCMAIL->plugins->exec_hook('identity_create_after', array('id' => $insert_id, 'record' => $save_data));
+
         $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
 
         $_GET['_iid'] = $insert_id;
@@ -201,7 +208,7 @@ function rcmail_attach_images($html)
     global $RCMAIL;
 
     $offset = 0;
-    $regexp = '/\s(poster|src)\s*=\s*[\'"]*\S+upload-display\S+file=rcmfile([0-9]+)[\s\'"]*/';
+    $regexp = '/\s(poster|src)\s*=\s*[\'"]*\S+upload-display\S+file=rcmfile(\w+)[\s\'"]*/';
 
     while (preg_match($regexp, $html, $matches, 0, $offset)) {
         $file_id  = $matches[2];

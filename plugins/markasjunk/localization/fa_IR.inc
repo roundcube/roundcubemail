@@ -17,5 +17,5 @@
 */
 $labels['buttontext'] = 'بنجل';
 $labels['buttontitle'] = 'علامت گذاری به عنوان بنجل';
-$labels['reportedasjunk'] = 'با موفقیت به عنوان بنجل گزارش شد';
+$labels['reportedasjunk'] = 'با کام‌یابی به عنوان بنجل گزارش شد';
 ?>

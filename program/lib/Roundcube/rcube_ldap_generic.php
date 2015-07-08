@@ -1,12 +1,12 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | Roundcube/rcube_ldap_generic.php                                      |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2014, The Roundcube Dev Team                       |
- | Copyright (C) 2012-2014, Kolab Systems AG                             |
+ | Copyright (C) 2012-2015, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -32,6 +32,7 @@ class rcube_ldap_generic extends Net_LDAP3
     /** private properties */
     protected $cache = null;
     protected $attributes = array('dn');
+    protected $error;
 
     function __construct($config = null)
     {
@@ -88,9 +89,20 @@ class rcube_ldap_generic extends Net_LDAP3
 
         case LOG_ERR:
         case LOG_WARNING:
+            $this->error = $msg;
             rcube::raise_error($msg, true, false);
             break;
         }
+    }
+
+    /**
+     * Returns the last LDAP error occurred
+     *
+     * @return mixed Error message string or null if no error occured
+     */
+    function get_error()
+    {
+        return $this->error;
     }
 
     /**
@@ -151,7 +163,7 @@ class rcube_ldap_generic extends Net_LDAP3
         $this->_debug("C: Replace $dn: ".print_r($entry, true));
 
         if (!ldap_mod_replace($this->conn, $dn, $entry)) {
-            $this->_debug("S: ".ldap_error($this->conn));
+            $this->_error("ldap_mod_replace() failed with " . ldap_error($this->conn));
             return false;
         }
 
@@ -169,7 +181,7 @@ class rcube_ldap_generic extends Net_LDAP3
         $this->_debug("C: Add $dn: ".print_r($entry, true));
 
         if (!ldap_mod_add($this->conn, $dn, $entry)) {
-            $this->_debug("S: ".ldap_error($this->conn));
+            $this->_error("ldap_mod_add() failed with " . ldap_error($this->conn));
             return false;
         }
 
@@ -187,7 +199,7 @@ class rcube_ldap_generic extends Net_LDAP3
         $this->_debug("C: Delete $dn: ".print_r($entry, true));
 
         if (!ldap_mod_del($this->conn, $dn, $entry)) {
-            $this->_debug("S: ".ldap_error($this->conn));
+            $this->_error("ldap_mod_del() failed with " . ldap_error($this->conn));
             return false;
         }
 
@@ -205,7 +217,7 @@ class rcube_ldap_generic extends Net_LDAP3
         $this->_debug("C: Rename $dn to $newrdn");
 
         if (!ldap_rename($this->conn, $dn, $newrdn, $newparent, $deleteoldrdn)) {
-            $this->_debug("S: ".ldap_error($this->conn));
+            $this->_error("ldap_rename() failed with " . ldap_error($this->conn));
             return false;
         }
 
@@ -228,7 +240,7 @@ class rcube_ldap_generic extends Net_LDAP3
             $list = ldap_get_entries($this->conn, $result);
 
             if ($list === false) {
-                $this->_debug("S: ".ldap_error($this->conn));
+                $this->_error("ldap_get_entries() failed with " . ldap_error($this->conn));
                 return array();
             }
 
@@ -238,7 +250,7 @@ class rcube_ldap_generic extends Net_LDAP3
             $this->_debug("S: $count record(s)");
         }
         else {
-            $this->_debug("S: ".ldap_error($this->conn));
+            $this->_error("ldap_list() failed with " . ldap_error($this->conn));
         }
 
         return $list;
@@ -257,7 +269,7 @@ class rcube_ldap_generic extends Net_LDAP3
         if ($this->conn && $dn) {
             $result = @ldap_read($this->conn, $dn, $filter, $attributes, 0, (int)$this->config['sizelimit'], (int)$this->config['timelimit']);
             if ($result === false) {
-                $this->_debug("S: ".ldap_error($this->conn));
+                $this->_error("ldap_read() failed with " . ldap_error($this->conn));
                 return false;
             }
 
@@ -303,6 +315,47 @@ class rcube_ldap_generic extends Net_LDAP3
         }
 
         return $rec;
+    }
+
+    /**
+     * Compose an LDAP filter string matching all words from the search string
+     * in the given list of attributes.
+     *
+     * @param string  $value    Search value
+     * @param mixed   $attrs    List of LDAP attributes to search
+     * @param int     $mode     Matching mode:
+     *                          0 - partial (*abc*),
+     *                          1 - strict (=),
+     *                          2 - prefix (abc*)
+     * @return string LDAP filter
+     */
+    public static function fulltext_search_filter($value, $attributes, $mode = 1)
+    {
+        if (empty($attributes)) {
+            $attributes = array('cn');
+        }
+
+        $groups = array();
+        $value = str_replace('*', '', $value);
+        $words = $mode == 0 ? rcube_utils::tokenize_string($value, 1) : array($value);
+
+        // set wildcards
+        $wp = $ws = '';
+        if ($mode != 1) {
+            $ws = '*';
+            $wp = !$mode ? '*' : '';
+        }
+
+        // search each word in all listed attributes
+        foreach ($words as $word) {
+            $parts = array();
+            foreach ($attributes as $attr) {
+                $parts[] = "($attr=$wp" . self::quote_string($word) . "$ws)";
+            }
+            $groups[] = '(|' . join('', $parts) . ')';
+        }
+
+        return count($groups) > 1 ? '(&' . join('', $groups) . ')' : join('', $groups);
     }
 }
 

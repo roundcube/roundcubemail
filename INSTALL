@@ -12,13 +12,11 @@ REQUIREMENTS
 * The Apache, Lighttpd, Cherokee or Hiawatha web server
 * .htaccess support allowing overrides for DirectoryIndex
 * PHP Version 5.3.7 or greater including
-   - PCRE, DOM, JSON, XML, Session, Sockets (required)
+   - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring (required)
    - PHP Data Objects (PDO) with driver for either MySQL, PostgreSQL or SQLite (required)
-   - Libiconv, Zip (recommended)
-   - OpenSSL, Fileinfo, Mcrypt, mbstring (optional)
+   - Libiconv, Zip, Fileinfo (recommended)
 * PEAR packages distributed with Roundcube or external:
    - Mail_Mime 1.8.1 or newer
-   - Mail_mimeDecode 1.5.5 or newer
    - Net_SMTP (latest from https://github.com/pear/Net_SMTP/)
    - Net_IDNA2 0.1.1 or newer
    - Auth_SASL 1.0.6 or newer
@@ -29,7 +27,6 @@ REQUIREMENTS
    - memory_limit > 16MB (increase as suitable to support large attachments)
    - file_uploads enabled (for attachment upload features)
    - session.auto_start disabled
-   - zend.ze1_compatibility_mode disabled
    - suhosin.session.encrypt disabled
    - mbstring.func_overload disabled
    - magic_quotes_runtime disabled
@@ -40,22 +37,29 @@ REQUIREMENTS
   or SQLite support in PHP
 * One of the above databases with permission to create tables
 * An SMTP server (recommended) or PHP configured for mail delivery
+* Composer installed either locally or globally (https://getcomposer.org)
 
 
 INSTALLATION
 ============
 
 1. Decompress and put this folder somewhere inside your document root
-2. Make sure that the following directories (and the files within)
+2. Install dependencies using composer:
+   - get composer from https://getcomposer.org/download/
+   - rename the composer.json-dist file into composer.json
+   - if you want to use LDAP address books, enable the LDAP libraries in your
+     composer.json file by moving the items from "suggest" to the "require"
+     section (remove the explanation texts after the version!).
+   - run `php composer.phar install --no-dev`
+3. Make sure that the following directories (and the files within)
    are writable by the webserver
    - /temp
    - /logs
-3. Create a new database and a database user for Roundcube (see DATABASE SETUP)
-4. Point your browser to http://url-to-roundcube/installer/
-5. Follow the instructions of the install script (or see MANUAL CONFIGURATION)
-6. After creating and testing the configuration, remove the installer directory
-7. Check Known Issues section of this file
-8. Done!
+4. Create a new database and a database user for Roundcube (see DATABASE SETUP)
+5. Point your browser to http://url-to-roundcube/installer/
+6. Follow the instructions of the install script (or see MANUAL CONFIGURATION)
+7. After creating and testing the configuration, remove the installer directory
+8. Check Known Issues section of this file
 
 
 CONFIGURATION HINTS
@@ -145,6 +149,29 @@ guidance.
 You can also modify the default .htaccess file. This is necessary to
 increase the allowed size of file attachments, for example:
 	php_value       upload_max_filesize     2M
+
+
+SECURE YOUR INSTALLATION
+========================
+
+Access through the webserver to the following directories should be denied:
+
+  /config
+  /temp
+  /logs
+
+Roundcube uses .htaccess files to protect these directories, so be sure to
+allow override of the Limit directives to get them taken into account. The
+package also ships a .htaccess file in the root directory which defines some
+rewrite rules. In order to properly secure your installation, please enable
+mod_rewrite for Apache webserver and double check access to the above listed
+directories and their contents is denied.
+
+NOTE: In Apache 2.4, support for .htaccess files has been disabled by
+default. Therefore you first need to enable this in your Apache main or
+virtual host config by with:
+
+ AllowOverride all
 
 
 UPGRADING

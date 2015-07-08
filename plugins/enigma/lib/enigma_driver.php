@@ -1,20 +1,14 @@
 <?php
-/*
+
+/**
  +-------------------------------------------------------------------------+
  | Abstract driver for the Enigma Plugin                                   |
  |                                                                         |
- | This program is free software; you can redistribute it and/or modify    |
- | it under the terms of the GNU General Public License version 2          |
- | as published by the Free Software Foundation.                           |
+ | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
  |                                                                         |
- | This program is distributed in the hope that it will be useful,         |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of          |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           |
- | GNU General Public License for more details.                            |
- |                                                                         |
- | You should have received a copy of the GNU General Public License along |
- | with this program; if not, write to the Free Software Foundation, Inc., |
- | 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.             |
+ | Licensed under the GNU General Public License version 3 or              |
+ | any later version with exceptions for skins & plugins.                  |
+ | See the README file for a full license statement.                       |
  |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
@@ -44,13 +38,16 @@ abstract class enigma_driver
 
     /**
      * Decryption..
+     *
+     * @param string Encrypted message
+     * @param array  List of key-password mapping
      */
-    abstract function decrypt($text, $key, $passwd);
+    abstract function decrypt($text, $keys = array());
 
     /**
      * Signing.
      */
-    abstract function sign($text, $key, $passwd);
+    abstract function sign($text, $key, $passwd, $mode = null);
 
     /**
      * Signature verification.
@@ -80,7 +77,7 @@ abstract class enigma_driver
      * @return mixed Array of enigma_key objects or enigma_error
      */
     abstract function list_keys($pattern='');
-    
+
     /**
      * Single key information.
      *
@@ -98,9 +95,9 @@ abstract class enigma_driver
      * @return mixed Key (enigma_key) object or enigma_error
      */
     abstract function gen_key($data);
-    
+
     /**
      * Key deletion.
      */
-    abstract function del_key($keyid);
+    abstract function delete_key($keyid);
 }

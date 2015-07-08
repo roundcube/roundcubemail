@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -93,12 +93,10 @@ abstract class rcube_storage
      */
     abstract function connect($host, $user, $pass, $port = 143, $use_ssl = null);
 
-
     /**
      * Close connection. Usually done on script shutdown
      */
     abstract function close();
-
 
     /**
      * Checks connection state.
@@ -107,14 +105,12 @@ abstract class rcube_storage
      */
     abstract function is_connected();
 
-
     /**
      * Check connection state, connect if not connected.
      *
      * @return bool Connection state.
      */
     abstract function check_connection();
-
 
     /**
      * Returns code of last error
@@ -123,7 +119,6 @@ abstract class rcube_storage
      */
     abstract function get_error_code();
 
-
     /**
      * Returns message of last error
      *
@@ -131,14 +126,12 @@ abstract class rcube_storage
      */
     abstract function get_error_str();
 
-
     /**
      * Returns code of last command response
      *
      * @return int Response code (class constant)
      */
     abstract function get_response_code();
-
 
     /**
      * Set connection and class options
@@ -149,7 +142,6 @@ abstract class rcube_storage
     {
         $this->options = array_merge($this->options, (array)$opt);
     }
-
 
     /**
      * Get connection/class option
@@ -163,14 +155,12 @@ abstract class rcube_storage
         return $this->options[$name];
     }
 
-
     /**
      * Activate/deactivate debug mode.
      *
      * @param boolean $dbg True if conversation with the server should be logged
      */
     abstract function set_debug($dbg = true);
-
 
     /**
      * Set default message charset.
@@ -183,7 +173,6 @@ abstract class rcube_storage
     {
         $this->default_charset = $cs;
     }
-
 
     /**
      * Set internal folder reference.
@@ -200,7 +189,6 @@ abstract class rcube_storage
         $this->folder = $folder;
     }
 
-
     /**
      * Returns the currently used folder name
      *
@@ -210,7 +198,6 @@ abstract class rcube_storage
     {
         return $this->folder;
     }
-
 
     /**
      * Set internal list page number.
@@ -222,7 +209,6 @@ abstract class rcube_storage
         $this->list_page = (int) $page;
     }
 
-
     /**
      * Gets internal list page number.
      *
@@ -232,7 +218,6 @@ abstract class rcube_storage
     {
         return $this->list_page;
     }
-
 
     /**
      * Set internal page size
@@ -244,7 +229,6 @@ abstract class rcube_storage
         $this->page_size = (int) $size;
     }
 
-
     /**
      * Get internal page size
      *
@@ -255,7 +239,6 @@ abstract class rcube_storage
         return $this->page_size;
     }
 
-
     /**
      * Save a search result for future message listing methods.
      *
@@ -263,14 +246,12 @@ abstract class rcube_storage
      */
     abstract function set_search_set($set);
 
-
     /**
      * Return the saved search set.
      *
      * @return array Search set in driver specific format, NULL if search wasn't initialized
      */
     abstract function get_search_set();
-
 
     /**
      * Returns the storage server's (IMAP) capability
@@ -280,7 +261,6 @@ abstract class rcube_storage
      * @return  mixed   Capability value or TRUE if supported, FALSE if not
      */
     abstract function get_capability($cap);
-
 
     /**
      * Sets threading flag to the best supported THREAD algorithm.
@@ -304,7 +284,6 @@ abstract class rcube_storage
         return $this->threading;
     }
 
-
     /**
      * Get current threading flag.
      *
@@ -314,7 +293,6 @@ abstract class rcube_storage
     {
         return $this->threading;
     }
-
 
     /**
      * Checks the PERMANENTFLAGS capability of the current folder
@@ -326,7 +304,6 @@ abstract class rcube_storage
      */
     abstract function check_permflag($flag);
 
-
     /**
      * Returns the delimiter that is used by the server
      * for folder hierarchy separation.
@@ -334,7 +311,6 @@ abstract class rcube_storage
      * @return  string  Delimiter string
      */
     abstract function get_hierarchy_delimiter();
-
 
     /**
      * Get namespace
@@ -344,7 +320,6 @@ abstract class rcube_storage
      * @return  array  Namespace data
      */
     abstract function get_namespace($name = null);
-
 
     /**
      * Get messages count for a specific folder.
@@ -359,7 +334,6 @@ abstract class rcube_storage
      */
     abstract function count($folder = null, $mode = 'ALL', $force = false, $status = true);
 
-
     /**
      * Public method for listing message flags
      *
@@ -370,7 +344,6 @@ abstract class rcube_storage
      * @return array Indexed array with message flags
      */
     abstract function list_flags($folder, $uids, $mod_seq = null);
-
 
     /**
      * Public method for listing headers.
@@ -385,7 +358,6 @@ abstract class rcube_storage
      */
     abstract function list_messages($folder = null, $page = null, $sort_field = null, $sort_order = null, $slice = 0);
 
-
     /**
      * Return sorted list of message UIDs
      *
@@ -396,7 +368,6 @@ abstract class rcube_storage
      * @return rcube_result_index|rcube_result_thread List of messages (UIDs)
      */
     abstract function index($folder = null, $sort_field = null, $sort_order = null);
-
 
     /**
      * Invoke search request to the server.
@@ -410,7 +381,6 @@ abstract class rcube_storage
      */
     abstract function search($folder = null, $str = 'ALL', $charset = null, $sort_field = null);
 
-
     /**
      * Direct (real and simple) search request (without result sorting and caching).
      *
@@ -420,7 +390,6 @@ abstract class rcube_storage
      * @return rcube_result_index  Search result (UIDs)
      */
     abstract function search_once($folder = null, $str = 'ALL');
-
 
     /**
      * Refresh saved search set
@@ -436,7 +405,7 @@ abstract class rcube_storage
 
     /**
      * Fetch message headers and body structure from the server and build
-     * an object structure similar to the one generated by PEAR::Mail_mimeDecode
+     * an object structure.
      *
      * @param int     $uid     Message UID to fetch
      * @param string  $folder  Folder to read from
@@ -444,7 +413,6 @@ abstract class rcube_storage
      * @return object rcube_message_header Message data
      */
     abstract function get_message($uid, $folder = null);
-
 
     /**
      * Return message headers object of a specific message
@@ -456,7 +424,6 @@ abstract class rcube_storage
      * @return rcube_message_header Message headers
      */
     abstract function get_message_headers($uid, $folder = null, $force = false);
-
 
     /**
      * Fetch message body of a specific message from the server
@@ -471,7 +438,6 @@ abstract class rcube_storage
      * @return string Message/part body if not printed
      */
     abstract function get_message_part($uid, $part = 1, $o_part = null, $print = null, $fp = null, $skip_charset_conv = false);
-
 
     /**
      * Fetch message body of a specific message from the server
@@ -488,27 +454,26 @@ abstract class rcube_storage
             $headers->charset ? $headers->charset : $this->default_charset);
     }
 
-
     /**
      * Returns the whole message source as string (or saves to a file)
      *
-     * @param int      $uid Message UID
-     * @param resource $fp  File pointer to save the message
+     * @param int      $uid  Message UID
+     * @param resource $fp   File pointer to save the message
+     * @param string   $part Optional message part ID
      *
      * @return string Message source string
      */
-    abstract function get_raw_body($uid, $fp = null);
-
+    abstract function get_raw_body($uid, $fp = null, $part = null);
 
     /**
      * Returns the message headers as string
      *
-     * @param int $uid  Message UID
+     * @param int    $uid  Message UID
+     * @param string $part Optional message part ID
      *
      * @return string Message headers string
      */
-    abstract function get_raw_headers($uid);
-
+    abstract function get_raw_headers($uid, $part = null);
 
     /**
      * Sends the whole message source to stdout
@@ -517,7 +482,6 @@ abstract class rcube_storage
      * @param bool $formatted Enables line-ending formatting
      */
     abstract function print_raw_body($uid, $formatted = true);
-
 
     /**
      * Set message flag to one or several messages
@@ -530,7 +494,6 @@ abstract class rcube_storage
      * @return bool  Operation status
      */
     abstract function set_flag($uids, $flag, $folder = null, $skip_cache = false);
-
 
     /**
      * Remove message flag for one or several messages
@@ -547,7 +510,6 @@ abstract class rcube_storage
         return $this->set_flag($uids, 'UN'.$flag, $folder);
     }
 
-
     /**
      * Append a mail message (source) to a specific folder.
      *
@@ -563,7 +525,6 @@ abstract class rcube_storage
      */
     abstract function save_message($folder, &$message, $headers = '', $is_file = false, $flags = array(), $date = null);
 
-
     /**
      * Move message(s) from one folder to another.
      *
@@ -574,7 +535,6 @@ abstract class rcube_storage
      * @return boolean True on success, False on error
      */
     abstract function move_message($uids, $to, $from = null);
-
 
     /**
      * Copy message(s) from one mailbox to another.
@@ -587,7 +547,6 @@ abstract class rcube_storage
      */
     abstract function copy_message($uids, $to, $from = null);
 
-
     /**
      * Mark message(s) as deleted and expunge.
      *
@@ -597,7 +556,6 @@ abstract class rcube_storage
      * @return boolean True on success, False on error
      */
     abstract function delete_message($uids, $folder = null);
-
 
     /**
      * Expunge message(s) and clear the cache.
@@ -609,7 +567,6 @@ abstract class rcube_storage
      * @return boolean True on success, False on error
      */
     abstract function expunge_message($uids, $folder = null, $clear_cache = true);
-
 
     /**
      * Parse message UIDs input
@@ -664,7 +621,6 @@ abstract class rcube_storage
      */
     abstract function list_folders_subscribed($root = '', $name = '*', $filter = null, $rights = null, $skip_sort = false);
 
-
     /**
      * Get a list of all folders available on the server.
      *
@@ -678,7 +634,6 @@ abstract class rcube_storage
      */
     abstract function list_folders($root = '', $name = '*', $filter = null, $rights = null, $skip_sort = false);
 
-
     /**
      * Subscribe to a specific folder(s)
      *
@@ -688,7 +643,6 @@ abstract class rcube_storage
      */
     abstract function subscribe($folders);
 
-
     /**
      * Unsubscribe folder(s)
      *
@@ -697,7 +651,6 @@ abstract class rcube_storage
      * @return boolean True on success
      */
     abstract function unsubscribe($folders);
-
 
     /**
      * Create a new folder on the server.
@@ -709,7 +662,6 @@ abstract class rcube_storage
      */
     abstract function create_folder($folder, $subscribe = false);
 
-
     /**
      * Set a new name to an existing folder
      *
@@ -720,7 +672,6 @@ abstract class rcube_storage
      */
     abstract function rename_folder($folder, $new_name);
 
-
     /**
      * Remove a folder from the server.
      *
@@ -729,7 +680,6 @@ abstract class rcube_storage
      * @return boolean True on success, False on error
      */
     abstract function delete_folder($folder);
-
 
     /**
      * Send expunge command and clear the cache.
@@ -744,7 +694,6 @@ abstract class rcube_storage
         return $this->expunge_message('*', $folder, $clear_cache);
     }
 
-
     /**
      * Remove all messages in a folder..
      *
@@ -757,7 +706,6 @@ abstract class rcube_storage
         return $this->delete_message('*', $folder);
     }
 
-
     /**
      * Checks if folder exists and is subscribed
      *
@@ -768,7 +716,6 @@ abstract class rcube_storage
      */
     abstract function folder_exists($folder, $subscription = false);
 
-
     /**
      * Get folder size (size of all messages in a folder)
      *
@@ -778,7 +725,6 @@ abstract class rcube_storage
      */
     abstract function folder_size($folder);
 
-
     /**
      * Returns the namespace where the folder is in
      *
@@ -787,7 +733,6 @@ abstract class rcube_storage
      * @return string One of 'personal', 'other' or 'shared'
      */
     abstract function folder_namespace($folder);
-
 
     /**
      * Gets folder attributes (from LIST response, e.g. \Noselect, \Noinferiors).
@@ -799,7 +744,6 @@ abstract class rcube_storage
      */
     abstract function folder_attributes($folder, $force = false);
 
-
     /**
      * Gets connection (and current folder) data: UIDVALIDITY, EXISTS, RECENT,
      * PERMANENTFLAGS, UIDNEXT, UNSEEN
@@ -810,7 +754,6 @@ abstract class rcube_storage
      */
     abstract function folder_data($folder);
 
-
     /**
      * Returns extended information about the folder.
      *
@@ -819,7 +762,6 @@ abstract class rcube_storage
      * @return array Data
      */
     abstract function folder_info($folder);
-
 
     /**
      * Returns current status of a folder (compared to the last time use)
@@ -831,14 +773,12 @@ abstract class rcube_storage
      */
     abstract function folder_status($folder = null, &$diff = array());
 
-
     /**
      * Synchronizes messages cache.
      *
      * @param string $folder Folder name
      */
     abstract function folder_sync($folder);
-
 
     /**
      * Modify folder name according to namespace.
@@ -852,7 +792,6 @@ abstract class rcube_storage
      * @return string Folder name
      */
     abstract function mod_folder($folder, $mode = 'out');
-
 
     /**
      * Create all folders specified as default
@@ -874,7 +813,6 @@ abstract class rcube_storage
         }
     }
 
-
     /**
      * Check if specified folder is a special folder
      */
@@ -882,7 +820,6 @@ abstract class rcube_storage
     {
         return $name == 'INBOX' || in_array($name, $this->get_special_folders());
     }
-
 
     /**
      * Return configured special folders
@@ -904,7 +841,6 @@ abstract class rcube_storage
         return $this->icache['special-folders'];
     }
 
-
     /**
      * Set special folder associations stored in backend
      */
@@ -913,7 +849,6 @@ abstract class rcube_storage
         // should be overriden by storage class if backend supports special folders (SPECIAL-USE)
         unset($this->icache['special-folders']);
     }
-
 
     /**
      * Get mailbox quota information.
@@ -940,7 +875,6 @@ abstract class rcube_storage
      */
     abstract function set_acl($folder, $user, $acl);
 
-
     /**
      * Removes any <identifier,rights> pair for the
      * specified user from the ACL for the specified
@@ -953,7 +887,6 @@ abstract class rcube_storage
      */
     abstract function delete_acl($folder, $user);
 
-
     /**
      * Returns the access control list for a folder (GETACL).
      *
@@ -962,7 +895,6 @@ abstract class rcube_storage
      * @return array User-rights array on success, NULL on error
      */
     abstract function get_acl($folder);
-
 
     /**
      * Returns information about what rights can be granted to the
@@ -975,7 +907,6 @@ abstract class rcube_storage
      */
     abstract function list_rights($folder, $user);
 
-
     /**
      * Returns the set of rights that the current user has to a folder (MYRIGHTS).
      *
@@ -984,7 +915,6 @@ abstract class rcube_storage
      * @return array MYRIGHTS response on success, NULL on error
      */
     abstract function my_rights($folder);
-
 
     /**
      * Sets metadata/annotations (SETMETADATA/SETANNOTATION)
@@ -996,7 +926,6 @@ abstract class rcube_storage
      */
     abstract function set_metadata($folder, $entries);
 
-
     /**
      * Unsets metadata/annotations (SETMETADATA/SETANNOTATION)
      *
@@ -1006,7 +935,6 @@ abstract class rcube_storage
      * @return boolean True on success, False on failure
      */
     abstract function delete_metadata($folder, $entries);
-
 
     /**
      * Returns folder metadata/annotations (GETMETADATA/GETANNOTATION).
@@ -1018,7 +946,6 @@ abstract class rcube_storage
      * @return array Metadata entry-value hash array on success, NULL on error
      */
     abstract function get_metadata($folder, $entries, $options = array());
-
 
     /* -----------------------------------------
      *   Cache related functions
@@ -1033,7 +960,6 @@ abstract class rcube_storage
      */
     abstract function clear_cache($key = null, $prefix_mode = false);
 
-
     /**
      * Returns cached value
      *
@@ -1043,10 +969,8 @@ abstract class rcube_storage
      */
     abstract function get_cache($key);
 
-
     /**
      * Delete outdated cache entries
      */
     abstract function cache_gc();
-
-}  // end class rcube_storage
+}

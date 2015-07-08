@@ -65,7 +65,7 @@ class vcard_attachments extends rcube_plugin
         $attach_script = false;
 
         foreach ($this->vcard_parts as $part) {
-            $vcards = rcube_vcard::import($this->message->get_part_content($part, null, true));
+            $vcards = rcube_vcard::import($this->message->get_part_body($part, true));
 
             // successfully parsed vcards?
             if (empty($vcards)) {

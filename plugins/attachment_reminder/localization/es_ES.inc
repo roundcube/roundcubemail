@@ -17,4 +17,4 @@
 */
 $messages['forgotattachment'] = "¿Olvidó adjuntar un fichero al mensaje?";
 $messages['reminderoption'] = "Recordatorio sobre adjuntos olvidados";
-$messages['keywords'] = "adjunto";
+$messages['keywords'] = "adjunto, archivo, adjuntar, unido, adjuntando, cerrado, CV, carta de presentación";

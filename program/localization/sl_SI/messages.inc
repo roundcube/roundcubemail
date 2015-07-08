@@ -135,7 +135,6 @@ $messages['importmessagesuccess'] = 'Upešno ste uvozili $nr sporočil.';
 $messages['importmessageerror'] = 'Uvoz je spodletel. Naložena datoteka ni veljavno sporočilo ali poštna datoteka';
 $messages['opnotpermitted'] = 'Operacija ni dovoljena.';
 $messages['nofromaddress'] = 'V izbrani identiteti manjka elektronski naslov.';
-$messages['editorwarning'] = 'Preklop v splošen urejevalnik onemogoča uporabo izbranih nastavitev oblikovanja. Želite nadaljevati?';
 $messages['httpreceivedencrypterror'] = 'Prišlo je do večje napake v konfiguraciji.Obrnite se na skrbnika sistema.  <b>Sporočila ni bilo mogoče poslati.</b>';
 $messages['smtpconnerror'] = 'Napaka pri pošiljanju ($code): Povezava s strežnikom je spodletela';
 $messages['smtpautherror'] = 'Napaka pri pošiljanju($code): Avtentikacija je spodletela';

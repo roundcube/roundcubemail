@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/settings/edit_folder.inc                                |
  |                                                                       |
@@ -261,7 +261,7 @@ function rcmail_folder_form($attrib)
     $out = "$form_start\n";
 
     // Create form output
-    foreach ($form as $tab) {
+    foreach ($form as $idx => $tab) {
         if (!empty($tab['fieldsets']) && is_array($tab['fieldsets'])) {
             $content = '';
             foreach ($tab['fieldsets'] as $fieldset) {
@@ -276,7 +276,7 @@ function rcmail_folder_form($attrib)
             $content = rcmail_get_form_part($tab, $attrib);
         }
 
-        if ($content && sizeof($form) > 1) {
+        if ($idx != 'props') {
             $out .= html::tag('fieldset', null, html::tag('legend', null, rcube::Q($tab['name'])) . $content) ."\n";
         }
         else {
@@ -287,6 +287,7 @@ function rcmail_folder_form($attrib)
     $out .= "\n$form_end";
 
     $RCMAIL->output->set_env('messagecount', (int) $msgcount);
+    $RCMAIL->output->set_env('folder', $mbox);
 
     if ($mbox !== null && empty($_POST)) {
         $RCMAIL->output->command('parent.set_quota', $RCMAIL->quota_content(null, $mbox));
@@ -297,6 +298,8 @@ function rcmail_folder_form($attrib)
 
 function rcmail_get_form_part($form, $attrib = array())
 {
+    global $RCMAIL;
+
     $content = '';
 
     if (is_array($form['content']) && !empty($form['content'])) {

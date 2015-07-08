@@ -119,7 +119,6 @@ $messages['importconfirm'] = '<b>Importerte $inserted kontaktar</b>';
 $messages['importconfirmskipped'] = '<b>Hoppa over $skipped oppføringar som fanst frå før</b>';
 $messages['opnotpermitted'] = 'Ulovleg operasjon.';
 $messages['nofromaddress'] = 'Manglar e-postadresse i denne identiteten.';
-$messages['editorwarning'] = 'Å byta til rein tekst vil fjerna all tekstformateringa. Vil du halda fram?';
 $messages['httpreceivedencrypterror'] = 'En uopprettelig feil oppstod knytta til innstillingane. Kontakt systemansvarleg umiddelbart. <b>Meldinga kunne ikkje sendast.</b>';
 $messages['smtpconnerror'] = 'SMTP-feil ($code): Tilkopling til tenar feila.';
 $messages['smtpautherror'] = 'SMTP-feil ($code): Autentisering feila.';

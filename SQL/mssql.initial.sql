@@ -280,7 +280,7 @@ ALTER TABLE [dbo].[contactgroups] ADD
 	CONSTRAINT [CK_contactgroups_del] CHECK ([del] = '1' or [del] = '0')
 GO
 
-CREATE INDEX [IX_contactgroups_user_id] ON [dbo].[contacts]([user_id]) ON [PRIMARY]
+CREATE INDEX [IX_contactgroups_user_id] ON [dbo].[contactgroups]([user_id]) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[contactgroupmembers] ADD 
@@ -393,6 +393,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
-INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2014042900')
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2015030800')
 GO
 

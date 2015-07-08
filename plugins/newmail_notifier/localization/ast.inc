@@ -15,14 +15,14 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-$labels['basic'] = 'Amosar notificaciones del navegador cuando aporte un mensaxe nuevu';
-$labels['desktop'] = 'Amosar notificaciones del escritoriu cuando aporte un mensaxe nuevu';
-$labels['sound'] = 'Reproducir soníu cuando aporte un mensaxe nuevu';
+$labels['basic'] = 'Amosar notificaciones del restolador nun mensaxe nuevu';
+$labels['desktop'] = 'Amosar notificaciones d\'escritoriu nun mensaxe nuevu';
+$labels['sound'] = 'Reproducir el soníu nun mensaxe nuevu';
 $labels['test'] = 'Prueba';
 $labels['title'] = '¡Mensaxe nuevu!';
 $labels['body'] = 'Recibisti un mensaxe nuevu';
-$labels['testbody'] = 'Esta ye una notificación de pruebes';
-$labels['desktopdisabled'] = 'Les notificaciones d\'escritoriu tán deshabilitaes nel to navegador.';
-$labels['desktopunsupported'] = 'El to navegador nun sofita notificaciones d\'escritoriu.';
+$labels['testbody'] = 'Esta ye una notificación de prueba';
+$labels['desktopdisabled'] = 'Les notificaciones d\'escritoriu tán deshabilitaes nel to restolador.';
+$labels['desktopunsupported'] = 'El to restolador nun sofita notificaciones d\'escritoriu.';
 $labels['desktoptimeout'] = 'Zarrar notificación d\'escritoriu';
 ?>

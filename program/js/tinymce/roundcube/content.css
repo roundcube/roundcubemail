@@ -7,9 +7,7 @@ body, td, pre {
 
 body {
 	background-color: #FFFFFF;
-	margin-left: 4px;
-	margin-right: 4px;
-	margin-top: 2px;
+	margin: 4px;
 }
 
 div.pre {

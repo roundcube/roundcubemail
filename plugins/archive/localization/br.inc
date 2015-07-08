@@ -19,4 +19,5 @@ $labels['buttontext'] = 'Diell';
 $labels['buttontitle'] = 'Dielliñ ar gemenadenn-mañ';
 $labels['archived'] = 'Diellet gant berzh';
 $labels['archivefolder'] = 'Diell';
+$labels['unkownsender'] = 'dianav';
 ?>

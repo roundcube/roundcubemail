@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/addressbook/save.inc                                    |
  |                                                                       |
@@ -148,6 +148,15 @@ if (!empty($cid)) {
         $result = $plugin['result'];
 
     if ($result) {
+        // show confirmation
+        $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
+
+        // in search mode, just reload the list (#1490015)
+        if ($_REQUEST['_search']) {
+            $OUTPUT->command('parent.command', 'list');
+            $OUTPUT->send('iframe');
+        }
+
         // LDAP DN change
         if (is_string($result) && strlen($result)>1) {
             $newcid = $result;
@@ -172,8 +181,6 @@ if (!empty($cid)) {
         // update the changed col in list
         $OUTPUT->command('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source, $record);
 
-        // show confirmation
-        $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
         $RCMAIL->overwrite_action('show');
     }
     else {
@@ -219,38 +226,24 @@ else {
             $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array(
                 'group_id' => $CONTACTS->group_id, 'ids' => $insert_id, 'source' => $source));
 
-            $counts = $CONTACTS->count();
-
             if (!$plugin['abort']) {
-                if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($counts->count + 1 > $maxnum))
-                    $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
-
-                $CONTACTS->add_to_group($plugin['group_id'], $plugin['ids']);
+                if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($CONTACTS->count()->count + 1 > $maxnum)) {
+                    // @FIXME: should we remove the contact?
+                    $msgtext = $RCMAIL->gettext(array('name' => 'maxgroupmembersreached', 'vars' => array('max' => $maxnum)));
+                    $OUTPUT->command('parent.display_message', $msgtext, 'warning');
+                }
+                else {
+                    $CONTACTS->add_to_group($plugin['group_id'], $plugin['ids']);
+                }
             }
-        }
-        else {
-            $counts = $CONTACTS->count();
-        }
-
-        if ((string)$source === (string)$orig_source) {
-            // add contact row or jump to the page where it should appear
-            $CONTACTS->reset();
-            $result = $CONTACTS->search($CONTACTS->primary_key, $insert_id);
-
-            rcmail_js_contacts_list($result, 'parent.');
-            $OUTPUT->command('parent.contact_list.select', rcube_utils::html_identifier($insert_id));
-
-            // update record count display
-            $CONTACTS->reset();
-            $OUTPUT->command('parent.set_rowcount', rcmail_get_rowcount_text($counts));
-        }
-        else {
-            // re-set iframe
-            $OUTPUT->command('parent.show_contentframe');
         }
 
         // show confirmation
         $OUTPUT->show_message('successfullysaved', 'confirmation', null, false);
+
+        $OUTPUT->command('parent.set_rowcount', $RCMAIL->gettext('loading'));
+        $OUTPUT->command('parent.list_contacts');
+
         $OUTPUT->send('iframe');
     }
     else {

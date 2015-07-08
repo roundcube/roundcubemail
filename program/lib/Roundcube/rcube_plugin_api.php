@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
@@ -34,53 +34,24 @@ class rcube_plugin_api
     public $dir;
     public $url = 'plugins/';
     public $task = '';
+    public $initialized = false;
+
     public $output;
     public $handlers              = array();
     public $allowed_prefs         = array();
     public $allowed_session_prefs = array();
     public $active_plugins        = array();
 
-    protected $plugins = array();
-    protected $tasks = array();
-    protected $actions = array();
-    protected $actionmap = array();
-    protected $objectsmap = array();
+    protected $plugins           = array();
+    protected $plugins_initialized = array();
+    protected $tasks             = array();
+    protected $actions           = array();
+    protected $actionmap         = array();
+    protected $objectsmap        = array();
     protected $template_contents = array();
-    protected $active_hook = false;
+    protected $exec_stack        = array();
+    protected $deprecated_hooks  = array();
 
-    // Deprecated names of hooks, will be removed after 0.5-stable release
-    protected $deprecated_hooks = array(
-        'create_user'       => 'user_create',
-        'kill_session'      => 'session_destroy',
-        'upload_attachment' => 'attachment_upload',
-        'save_attachment'   => 'attachment_save',
-        'get_attachment'    => 'attachment_get',
-        'cleanup_attachments' => 'attachments_cleanup',
-        'display_attachment' => 'attachment_display',
-        'remove_attachment' => 'attachment_delete',
-        'outgoing_message_headers' => 'message_outgoing_headers',
-        'outgoing_message_body' => 'message_outgoing_body',
-        'address_sources'   => 'addressbooks_list',
-        'get_address_book'  => 'addressbook_get',
-        'create_contact'    => 'contact_create',
-        'save_contact'      => 'contact_update',
-        'contact_save'      => 'contact_update',
-        'delete_contact'    => 'contact_delete',
-        'manage_folders'    => 'folders_list',
-        'list_mailboxes'    => 'mailboxes_list',
-        'save_preferences'  => 'preferences_save',
-        'user_preferences'  => 'preferences_list',
-        'list_prefs_sections' => 'preferences_sections_list',
-        'list_identities'   => 'identities_list',
-        'create_identity'   => 'identity_create',
-        'delete_identity'   => 'identity_delete',
-        'save_identity'     => 'identity_update',
-        'identity_save'     => 'identity_update',
-        // to be removed after 0.8
-        'imap_init'         => 'storage_init',
-        'mailboxes_list'    => 'storage_folders',
-        'imap_connect'      => 'storage_connect',
-    );
 
     /**
      * This implements the 'singleton' design pattern
@@ -117,12 +88,21 @@ class rcube_plugin_api
     {
         $this->task   = $task;
         $this->output = $app->output;
-
         // register an internal hook
         $this->register_hook('template_container', array($this, 'template_container_hook'));
-
         // maybe also register a shudown function which triggers
         // shutdown functions of all plugin objects
+
+        foreach ($this->plugins as $plugin) {
+            // ... task, request type and framed mode
+            if (!$this->plugins_initialized[$plugin_name] && !$this->filter($plugin)) {
+                $plugin->init();
+                $this->plugins_initialized[$plugin->ID] = $plugin;
+            }
+        }
+
+        // we have finished initializing all plugins
+        $this->initialized = true;
     }
 
     /**
@@ -168,12 +148,13 @@ class rcube_plugin_api
     /**
      * Load the specified plugin
      *
-     * @param string Plugin name
+     * @param string  Plugin name
      * @param boolean Force loading of the plugin even if it doesn't match the filter
+     * @param boolean Require loading of the plugin, error if it doesn't exist
      *
      * @return boolean True on success, false if not loaded or failure
      */
-    public function load_plugin($plugin_name, $force = false)
+    public function load_plugin($plugin_name, $force = false, $require = true)
     {
         static $plugins_dir;
 
@@ -182,56 +163,75 @@ class rcube_plugin_api
             $plugins_dir = unslashify($dir->path);
         }
 
-        // plugin already loaded
-        if ($this->plugins[$plugin_name]) {
-            return true;
-        }
+        // plugin already loaded?
+        if (!$this->plugins[$plugin_name]) {
+            $fn = "$plugins_dir/$plugin_name/$plugin_name.php";
 
-        $fn = $plugins_dir . DIRECTORY_SEPARATOR . $plugin_name
-            . DIRECTORY_SEPARATOR . $plugin_name . '.php';
+            if (!is_readable($fn)) {
+                if ($require) {
+                    rcube::raise_error(array('code' => 520, 'type' => 'php',
+                        'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Failed to load plugin file $fn"), true, false);
+                }
 
-        if (is_readable($fn)) {
+                return false;
+            }
+
             if (!class_exists($plugin_name, false)) {
                 include $fn;
             }
 
             // instantiate class if exists
-            if (class_exists($plugin_name, false)) {
-                $plugin = new $plugin_name($this);
-                $this->active_plugins[] = $plugin_name;
-
-                // check inheritance...
-                if (is_subclass_of($plugin, 'rcube_plugin')) {
-                    // ... task, request type and framed mode
-                    if (($force || !$plugin->task || preg_match('/^('.$plugin->task.')$/i', $this->task))
-                        && (!$plugin->noajax || (is_object($this->output) && $this->output->type == 'html'))
-                        && (!$plugin->noframe || empty($_REQUEST['_framed']))
-                    ) {
-                        $plugin->init();
-                        $this->plugins[$plugin_name] = $plugin;
-                    }
-
-                    if (!empty($plugin->allowed_prefs)) {
-                        $this->allowed_prefs = array_merge($this->allowed_prefs, $plugin->allowed_prefs);
-                    }
-
-                    return true;
-                }
-            }
-            else {
+            if (!class_exists($plugin_name, false)) {
                 rcube::raise_error(array('code' => 520, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
                     'message' => "No plugin class $plugin_name found in $fn"),
                     true, false);
+
+                return false;
+            }
+
+            $plugin = new $plugin_name($this);
+            $this->active_plugins[] = $plugin_name;
+
+            // check inheritance...
+            if (is_subclass_of($plugin, 'rcube_plugin')) {
+                // call onload method on plugin if it exists.
+                // this is useful if you want to be called early in the boot process
+                if (method_exists($plugin, 'onload')) {
+                    $plugin->onload();
+                }
+
+                if (!empty($plugin->allowed_prefs)) {
+                    $this->allowed_prefs = array_merge($this->allowed_prefs, $plugin->allowed_prefs);
+                }
+
+                $this->plugins[$plugin_name] = $plugin;
             }
         }
-        else {
-            rcube::raise_error(array('code' => 520, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Failed to load plugin file $fn"), true, false);
+
+        if ($plugin = $this->plugins[$plugin_name]) {
+            // init a plugin only if $force is set or if we're called after initialization
+            if (($force || $this->initialized) && !$this->plugins_initialized[$plugin_name] && ($force || !$this->filter($plugin))) {
+                $plugin->init();
+                $this->plugins_initialized[$plugin_name] = $plugin;
+            }
         }
 
-        return false;
+        return true;
+    }
+
+    /**
+     * check if we should prevent this plugin from initialising
+     *
+     * @param $plugin
+     * @return bool
+     */
+    private function filter($plugin)
+    {
+        return ($plugin->noajax  && !(is_object($this->output) && $this->output->type == 'html'))
+             || ($plugin->task && !preg_match('/^('.$plugin->task.')$/i', $this->task))
+             || ($plugin->noframe && !empty($_REQUEST['_framed']));
     }
 
     /**
@@ -243,129 +243,134 @@ class rcube_plugin_api
      */
     public function get_info($plugin_name)
     {
-      static $composer_lock, $license_uris = array(
-        'Apache'     => 'http://www.apache.org/licenses/LICENSE-2.0.html',
-        'Apache-2'   => 'http://www.apache.org/licenses/LICENSE-2.0.html',
-        'Apache-1'   => 'http://www.apache.org/licenses/LICENSE-1.0',
-        'Apache-1.1' => 'http://www.apache.org/licenses/LICENSE-1.1',
-        'GPL'        => 'http://www.gnu.org/licenses/gpl.html',
-        'GPLv2'      => 'http://www.gnu.org/licenses/gpl-2.0.html',
-        'GPL-2.0'    => 'http://www.gnu.org/licenses/gpl-2.0.html',
-        'GPLv3'      => 'http://www.gnu.org/licenses/gpl-3.0.html',
-        'GPL-3.0'    => 'http://www.gnu.org/licenses/gpl-3.0.html',
-        'GPL-3.0+'   => 'http://www.gnu.org/licenses/gpl.html',
-        'GPL-2.0+'   => 'http://www.gnu.org/licenses/gpl.html',
-        'AGPLv3'     => 'http://www.gnu.org/licenses/agpl.html',
-        'AGPLv3+'    => 'http://www.gnu.org/licenses/agpl.html',
-        'AGPL-3.0'   => 'http://www.gnu.org/licenses/agpl.html',
-        'LGPL'       => 'http://www.gnu.org/licenses/lgpl.html',
-        'LGPLv2'     => 'http://www.gnu.org/licenses/lgpl-2.0.html',
-        'LGPLv2.1'   => 'http://www.gnu.org/licenses/lgpl-2.1.html',
-        'LGPLv3'     => 'http://www.gnu.org/licenses/lgpl.html',
-        'LGPL-2.0'   => 'http://www.gnu.org/licenses/lgpl-2.0.html',
-        'LGPL-2.1'   => 'http://www.gnu.org/licenses/lgpl-2.1.html',
-        'LGPL-3.0'   => 'http://www.gnu.org/licenses/lgpl.html',
-        'LGPL-3.0+'  => 'http://www.gnu.org/licenses/lgpl.html',
-        'BSD'          => 'http://opensource.org/licenses/bsd-license.html',
-        'BSD-2-Clause' => 'http://opensource.org/licenses/BSD-2-Clause',
-        'BSD-3-Clause' => 'http://opensource.org/licenses/BSD-3-Clause',
-        'FreeBSD'      => 'http://opensource.org/licenses/BSD-2-Clause',
-        'MIT'          => 'http://www.opensource.org/licenses/mit-license.php',
-        'PHP'          => 'http://opensource.org/licenses/PHP-3.0',
-        'PHP-3'        => 'http://www.php.net/license/3_01.txt',
-        'PHP-3.0'      => 'http://www.php.net/license/3_0.txt',
-        'PHP-3.01'     => 'http://www.php.net/license/3_01.txt',
-      );
+        static $composer_lock, $license_uris = array(
+            'Apache'       => 'http://www.apache.org/licenses/LICENSE-2.0.html',
+            'Apache-2'     => 'http://www.apache.org/licenses/LICENSE-2.0.html',
+            'Apache-1'     => 'http://www.apache.org/licenses/LICENSE-1.0',
+            'Apache-1.1'   => 'http://www.apache.org/licenses/LICENSE-1.1',
+            'GPL'          => 'http://www.gnu.org/licenses/gpl.html',
+            'GPLv2'        => 'http://www.gnu.org/licenses/gpl-2.0.html',
+            'GPL-2.0'      => 'http://www.gnu.org/licenses/gpl-2.0.html',
+            'GPLv3'        => 'http://www.gnu.org/licenses/gpl-3.0.html',
+            'GPLv3+'       => 'http://www.gnu.org/licenses/gpl-3.0.html',
+            'GPL-3.0'      => 'http://www.gnu.org/licenses/gpl-3.0.html',
+            'GPL-3.0+'     => 'http://www.gnu.org/licenses/gpl.html',
+            'GPL-2.0+'     => 'http://www.gnu.org/licenses/gpl.html',
+            'AGPLv3'       => 'http://www.gnu.org/licenses/agpl.html',
+            'AGPLv3+'      => 'http://www.gnu.org/licenses/agpl.html',
+            'AGPL-3.0'     => 'http://www.gnu.org/licenses/agpl.html',
+            'LGPL'         => 'http://www.gnu.org/licenses/lgpl.html',
+            'LGPLv2'       => 'http://www.gnu.org/licenses/lgpl-2.0.html',
+            'LGPLv2.1'     => 'http://www.gnu.org/licenses/lgpl-2.1.html',
+            'LGPLv3'       => 'http://www.gnu.org/licenses/lgpl.html',
+            'LGPL-2.0'     => 'http://www.gnu.org/licenses/lgpl-2.0.html',
+            'LGPL-2.1'     => 'http://www.gnu.org/licenses/lgpl-2.1.html',
+            'LGPL-3.0'     => 'http://www.gnu.org/licenses/lgpl.html',
+            'LGPL-3.0+'    => 'http://www.gnu.org/licenses/lgpl.html',
+            'BSD'          => 'http://opensource.org/licenses/bsd-license.html',
+            'BSD-2-Clause' => 'http://opensource.org/licenses/BSD-2-Clause',
+            'BSD-3-Clause' => 'http://opensource.org/licenses/BSD-3-Clause',
+            'FreeBSD'      => 'http://opensource.org/licenses/BSD-2-Clause',
+            'MIT'          => 'http://www.opensource.org/licenses/mit-license.php',
+            'PHP'          => 'http://opensource.org/licenses/PHP-3.0',
+            'PHP-3'        => 'http://www.php.net/license/3_01.txt',
+            'PHP-3.0'      => 'http://www.php.net/license/3_0.txt',
+            'PHP-3.01'     => 'http://www.php.net/license/3_01.txt',
+        );
 
-      $dir = dir($this->dir);
-      $fn = unslashify($dir->path) . DIRECTORY_SEPARATOR . $plugin_name . DIRECTORY_SEPARATOR . $plugin_name . '.php';
-      $info = false;
+        $dir  = dir($this->dir);
+        $fn   = unslashify($dir->path) . "/$plugin_name/$plugin_name.php";
+        $info = false;
 
-      if (!class_exists($plugin_name, false)) {
-        if (is_readable($fn))
-          include($fn);
-        else
-          return false;
-      }
-
-      if (class_exists($plugin_name))
-        $info = $plugin_name::info();
-
-      // fall back to composer.json file
-      if (!$info) {
-        $composer = INSTALL_PATH . "/plugins/$plugin_name/composer.json";
-        if (is_readable($composer) && ($json = @json_decode(file_get_contents($composer), true))) {
-          list($info['vendor'], $info['name']) = explode('/', $json['name']);
-          $info['version'] = $json['version'];
-          $info['license'] = $json['license'];
-          $info['uri'] = $json['homepage'];
-          $info['require'] = array_filter(array_keys((array)$json['require']), function($pname) {
-            if (strpos($pname, '/') == false)
-              return false;
-            list($vendor, $name) = explode('/', $pname);
-            return !($name == 'plugin-installer' || $vendor == 'pear-pear');
-          });
-        }
-
-        // read local composer.lock file (once)
-        if (!isset($composer_lock)) {
-          $composer_lock = @json_decode(@file_get_contents(INSTALL_PATH . "/composer.lock"), true);
-          if ($composer_lock['packages']) {
-            foreach ($composer_lock['packages'] as $i => $package) {
-              $composer_lock['installed'][$package['name']] = $package;
+        if (!class_exists($plugin_name, false)) {
+            if (is_readable($fn)) {
+                include($fn);
             }
-          }
+            else {
+                return false;
+            }
         }
 
-        // load additional information from local composer.lock file
-        if ($lock = $composer_lock['installed'][$json['name']]) {
-          $info['version'] = $lock['version'];
-          $info['uri']     = $lock['homepage'] ? $lock['homepage'] : $lock['source']['uri'];
-          $info['src_uri'] = $lock['dist']['uri'] ? $lock['dist']['uri'] : $lock['source']['uri'];
+        if (class_exists($plugin_name)) {
+            $info = $plugin_name::info();
         }
-      }
 
-      // fall back to package.xml file
-      if (!$info) {
-        $package = INSTALL_PATH . "/plugins/$plugin_name/package.xml";
-        if (is_readable($package) && ($file = file_get_contents($package))) {
-          $doc = new DOMDocument();
-          $doc->loadXML($file);
-          $xpath = new DOMXPath($doc);
-          $xpath->registerNamespace('rc', "http://pear.php.net/dtd/package-2.0");
+        // fall back to composer.json file
+        if (!$info) {
+            $composer = INSTALL_PATH . "/plugins/$plugin_name/composer.json";
+            if (is_readable($composer) && ($json = @json_decode(file_get_contents($composer), true))) {
+                list($info['vendor'], $info['name']) = explode('/', $json['name']);
+                $info['version'] = $json['version'];
+                $info['license'] = $json['license'];
+                $info['uri']     = $json['homepage'];
+                $info['require'] = array_filter(array_keys((array)$json['require']), function($pname) {
+                    if (strpos($pname, '/') == false) {
+                        return false;
+                    }
+                    list($vendor, $name) = explode('/', $pname);
+                    return !($name == 'plugin-installer' || $vendor == 'pear-pear');
+                });
+            }
 
-          // XPaths of plugin metadata elements
-          $metadata = array(
-            'name'    => 'string(//rc:package/rc:name)',
-            'version' => 'string(//rc:package/rc:version/rc:release)',
-            'license' => 'string(//rc:package/rc:license)',
-            'license_uri' => 'string(//rc:package/rc:license/@uri)',
-            'src_uri' => 'string(//rc:package/rc:srcuri)',
-            'uri' => 'string(//rc:package/rc:uri)',
-          );
+            // read local composer.lock file (once)
+            if (!isset($composer_lock)) {
+                $composer_lock = @json_decode(@file_get_contents(INSTALL_PATH . "/composer.lock"), true);
+                if ($composer_lock['packages']) {
+                    foreach ($composer_lock['packages'] as $i => $package) {
+                        $composer_lock['installed'][$package['name']] = $package;
+                    }
+                }
+            }
 
-          foreach ($metadata as $key => $path) {
-            $info[$key] = $xpath->evaluate($path);
-          }
-
-          // dependent required plugins (can be used, but not included in config)
-          $deps = $xpath->evaluate('//rc:package/rc:dependencies/rc:required/rc:package/rc:name');
-          for ($i = 0; $i < $deps->length; $i++) {
-            $dn = $deps->item($i)->nodeValue;
-            $info['require'][] = $dn;
-          }
+            // load additional information from local composer.lock file
+            if ($lock = $composer_lock['installed'][$json['name']]) {
+                $info['version'] = $lock['version'];
+                $info['uri']     = $lock['homepage'] ? $lock['homepage'] : $lock['source']['uri'];
+                $info['src_uri'] = $lock['dist']['uri'] ? $lock['dist']['uri'] : $lock['source']['uri'];
+            }
         }
-      }
 
-      // At least provide the name
-      if (!$info && class_exists($plugin_name)) {
-        $info = array('name' => $plugin_name, 'version' => '--');
-      }
-      else if ($info['license'] && empty($info['license_uri']) && ($license_uri = $license_uris[$info['license']])) {
-        $info['license_uri'] = $license_uri;
-      }
+        // fall back to package.xml file
+        if (!$info) {
+            $package = INSTALL_PATH . "/plugins/$plugin_name/package.xml";
+            if (is_readable($package) && ($file = file_get_contents($package))) {
+                $doc = new DOMDocument();
+                $doc->loadXML($file);
+                $xpath = new DOMXPath($doc);
+                $xpath->registerNamespace('rc', "http://pear.php.net/dtd/package-2.0");
 
-      return $info;
+                // XPaths of plugin metadata elements
+                $metadata = array(
+                    'name'    => 'string(//rc:package/rc:name)',
+                    'version' => 'string(//rc:package/rc:version/rc:release)',
+                    'license' => 'string(//rc:package/rc:license)',
+                    'license_uri' => 'string(//rc:package/rc:license/@uri)',
+                    'src_uri' => 'string(//rc:package/rc:srcuri)',
+                    'uri'     => 'string(//rc:package/rc:uri)',
+                );
+
+                foreach ($metadata as $key => $path) {
+                    $info[$key] = $xpath->evaluate($path);
+                }
+
+                // dependent required plugins (can be used, but not included in config)
+                $deps = $xpath->evaluate('//rc:package/rc:dependencies/rc:required/rc:package/rc:name');
+                for ($i = 0; $i < $deps->length; $i++) {
+                    $dn = $deps->item($i)->nodeValue;
+                    $info['require'][] = $dn;
+                }
+            }
+        }
+
+        // At least provide the name
+        if (!$info && class_exists($plugin_name)) {
+            $info = array('name' => $plugin_name, 'version' => '--');
+        }
+        else if ($info['license'] && empty($info['license_uri']) && ($license_uri = $license_uris[$info['license']])) {
+            $info['license_uri'] = $license_uri;
+        }
+
+        return $info;
     }
 
     /**
@@ -401,9 +406,11 @@ class rcube_plugin_api
      */
     public function unregister_hook($hook, $callback)
     {
-        $callback_id = array_search($callback, $this->handlers[$hook]);
+        $callback_id = array_search($callback, (array) $this->handlers[$hook]);
         if ($callback_id !== false) {
-            unset($this->handlers[$hook][$callback_id]);
+            // array_splice() removes the element and re-indexes keys
+            // that is required by the 'for' loop in exec_hook() below
+            array_splice($this->handlers[$hook], $callback_id, 1);
         }
     }
 
@@ -422,11 +429,14 @@ class rcube_plugin_api
             $args = array('arg' => $args);
         }
 
-        $args += array('abort' => false);
-        $this->active_hook = $hook;
+        // TODO: avoid recursion by checking in_array($hook, $this->exec_stack) ?
 
-        foreach ((array)$this->handlers[$hook] as $callback) {
-            $ret = call_user_func($callback, $args);
+        $args += array('abort' => false);
+        array_push($this->exec_stack, $hook);
+
+        // Use for loop here, so handlers added in the hook will be executed too
+        for ($i = 0; $i < count($this->handlers[$hook]); $i++) {
+            $ret = call_user_func($this->handlers[$hook][$i], $args);
             if ($ret && is_array($ret)) {
                 $args = $ret + $args;
             }
@@ -436,7 +446,7 @@ class rcube_plugin_api
             }
         }
 
-        $this->active_hook = false;
+        array_pop($this->exec_stack);
         return $args;
     }
 
@@ -572,7 +582,7 @@ class rcube_plugin_api
      */
     public function is_processing($hook = null)
     {
-        return $this->active_hook && (!$hook || $this->active_hook == $hook);
+        return count($this->exec_stack) > 0 && (!$hook || in_array($hook, $this->exec_stack));
     }
 
     /**
@@ -621,6 +631,16 @@ class rcube_plugin_api
     public function loaded_plugins()
     {
         return array_keys($this->plugins);
+    }
+
+    /**
+     * Returns loaded plugin
+     *
+     * @return rcube_plugin Plugin instance
+     */
+    public function get_plugin($name)
+    {
+        return $this->plugins[$name];
     }
 
     /**

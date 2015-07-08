@@ -1,7 +1,7 @@
 <?php
 
 $labels = array();
-$labels['enigmasettings'] = 'Enigma Settings';
+$labels['encryption'] = 'Encryption';
 $labels['enigmacerts'] = 'S/MIME Certificates';
 $labels['enigmakeys'] = 'PGP Keys';
 $labels['keysfromto'] = 'Keys $from to $to of $count';
@@ -18,20 +18,30 @@ $labels['typekeypair'] = 'key pair';
 $labels['keyattfound'] = 'This message contains attached PGP key(s).';
 $labels['keyattimport'] = 'Import key(s)';
 
+$labels['supportsignatures'] = 'Enable message signatures verification';
+$labels['supportdecryption'] = 'Enable message decryption';
+$labels['signdefault'] = 'Sign all messages by default';
+$labels['encryptdefault'] = 'Encrypt all messages by default';
+$labels['passwordtime'] = 'Keep private key passwords for';
+$labels['nminutes'] = '$m minute(s)';
+$labels['wholesession'] = 'the whole session';
+
 $labels['createkeys'] = 'Create a new key pair';
 $labels['importkeys'] = 'Import key(s)';
 $labels['exportkeys'] = 'Export key(s)';
-$labels['deletekeys'] = 'Delete key(s)';
 $labels['keyactions'] = 'Key actions...';
-$labels['keydisable'] = 'Disable key';
-$labels['keyrevoke'] = 'Revoke key';
+$labels['keyremove'] = 'Remove';
+$labels['keydisable'] = 'Disable';
+$labels['keyrevoke'] = 'Revoke';
 $labels['keysend'] = 'Send public key in a message';
 $labels['keychpass'] = 'Change password';
 
-$labels['securityoptions'] = 'Message security options...';
-$labels['identdefault'] = 'Use settings of selected identity';
+$labels['encryptionoptions'] = 'Encryption options...';
 $labels['encryptmsg'] = 'Encrypt this message';
 $labels['signmsg'] = 'Digitally sign this message';
+
+$labels['enterkeypasstitle'] = 'Enter key passphrase';
+$labels['enterkeypass'] = 'A passphrase is needed to unlock the secret key ($keyid) for user: $user.';
 
 $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';
@@ -43,12 +53,20 @@ $messages['decryptok'] = 'Message decrypted.';
 $messages['decrypterror'] = 'Decryption failed.';
 $messages['decryptnokey'] = 'Decryption failed. Private key not found. Key ID: $keyid.';
 $messages['decryptbadpass'] = 'Decryption failed. Bad password.';
+$messages['signerror'] = 'Signing failed.';
+$messages['signnokey'] = 'Signing failed. Private key not found.';
+$messages['signbadpass'] = 'Signing failed. Bad password.';
+$messages['encrypterror'] = 'Encryption failed.';
+$messages['encryptnokey'] = 'Encryption failed. Public key not found for $email.';
 $messages['nokeysfound'] = 'No keys found';
 $messages['keyopenerror'] = 'Unable to get key information! Internal error.';
 $messages['keylisterror'] = 'Unable to list keys! Internal error.';
 $messages['keysimportfailed'] = 'Unable to import key(s)! Internal error.';
 $messages['keysimportsuccess'] = 'Key(s) imported successfully. Imported: $new, unchanged: $old.';
-$messages['keyconfirmdelete'] = 'Are you sure, you want to delete selected key(s)?';
+$messages['keyremoving'] = 'Removing key(s)...';
+$messages['keyremoveconfirm'] = 'Are you sure, you want to delete selected key(s)?';
+$messages['keyremovesuccess'] = 'Key(s) deleted successfulyl';
+$messages['keyremoveerror'] = 'Unable to delete selected key(s).';
 $messages['keyimporttext'] = 'You can import private and public key(s) or revocation signatures in ASCII-Armor format.';
 
 ?>

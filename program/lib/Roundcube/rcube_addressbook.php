@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2006-2013, The Roundcube Dev Team                       |
@@ -16,7 +16,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
 /**
  * Abstract skeleton of an address book/repository
  *
@@ -26,27 +25,32 @@
 abstract class rcube_addressbook
 {
     /** constants for error reporting **/
-    const ERROR_READ_ONLY = 1;
+    const ERROR_READ_ONLY     = 1;
     const ERROR_NO_CONNECTION = 2;
-    const ERROR_VALIDATE = 3;
-    const ERROR_SAVING = 4;
-    const ERROR_SEARCH = 5;
+    const ERROR_VALIDATE      = 3;
+    const ERROR_SAVING        = 4;
+    const ERROR_SEARCH        = 5;
 
     /** public properties (mandatory) */
     public $primary_key;
-    public $groups = false;
+    public $groups        = false;
     public $export_groups = true;
-    public $readonly = true;
-    public $searchonly = false;
-    public $undelete = false;
-    public $ready = false;
-    public $group_id = null;
-    public $list_page = 1;
-    public $page_size = 10;
-    public $sort_col = 'name';
-    public $sort_order = 'ASC';
-    public $coltypes = array('name' => array('limit'=>1), 'firstname' => array('limit'=>1), 'surname' => array('limit'=>1), 'email' => array('limit'=>1));
-    public $date_cols = array();
+    public $readonly      = true;
+    public $searchonly    = false;
+    public $undelete      = false;
+    public $ready         = false;
+    public $group_id      = null;
+    public $list_page     = 1;
+    public $page_size     = 10;
+    public $sort_col      = 'name';
+    public $sort_order    = 'ASC';
+    public $date_cols     = array();
+    public $coltypes      = array(
+        'name'      => array('limit'=>1),
+        'firstname' => array('limit'=>1),
+        'surname'   => array('limit'=>1),
+        'email'     => array('limit'=>1)
+    );
 
     protected $error;
 
@@ -544,13 +548,20 @@ abstract class rcube_addressbook
 
         $fn = trim($fn, ', ');
 
-        // fallback to display name
-        if (empty($fn) && $contact['name'])
-            $fn = $contact['name'];
-
-        // fallback to email address
-        if (empty($fn) && ($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
-            return $email[0];
+        // fallbacks...
+        if ($fn === '') {
+            // ... display name
+            if (!empty($contact['name'])) {
+                $fn = $contact['name'];
+            }
+            // ... organization
+            else if (!empty($contact['organization'])) {
+                $fn = $contact['organization'];
+            }
+            // ... email address
+            else if (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
+                $fn = $email[0];
+            }
         }
 
         return $fn;
@@ -562,21 +573,22 @@ abstract class rcube_addressbook
      * @param array  Hash array with contact data as key-value pairs
      * @param string Optional email address
      * @param string Optional name (self::compose_list_name() result)
+     * @param string Optional template to use (defaults to the 'contact_search_name' config option)
      *
      * @return string Display name
      */
-    public static function compose_search_name($contact, $email = null, $name = null)
+    public static function compose_search_name($contact, $email = null, $name = null, $templ = null)
     {
         static $template;
 
-        if (!isset($template)) {  // cache this
+        if (empty($templ) && !isset($template)) {  // cache this
             $template = rcube::get_instance()->config->get('contact_search_name');
             if (empty($template)) {
                 $template = '{name} <{email}>';
             }
         }
 
-        $result = $template;
+        $result = $templ ?: $template;
 
         if (preg_match_all('/\{[a-z]+\}/', $result, $matches)) {
             foreach ($matches[0] as $key) {
@@ -586,6 +598,13 @@ abstract class rcube_addressbook
                 switch ($key) {
                 case 'name':
                     $value = $name ?: self::compose_list_name($contact);
+
+                    // If name(s) are undefined compose_list_name() may return an email address
+                    // here we prevent from returning the same name and email
+                    if ($name === $email && strpos($result, '{email}') !== false) {
+                        $value = '';
+                    }
+
                     break;
 
                 case 'email':
@@ -605,7 +624,8 @@ abstract class rcube_addressbook
         }
 
         $result = preg_replace('/\s+/', ' ', $result);
-        $result = trim($result);
+        $result = preg_replace('/\s*(<>|\(\)|\[\])/', '', $result);
+        $result = trim($result, '/ ');
 
         return $result;
     }
@@ -669,6 +689,4 @@ abstract class rcube_addressbook
 
         return false;
     }
-
 }
-

@@ -312,7 +312,9 @@ this.prepare = function(ignore, no_indicator)
     this.ignore = ignore;
     this.hideLangWindow();
 
-    if ($(this.text_area).val() == '' || ignore) {
+    var area = $(this.text_area);
+
+    if (area.val() == '' || ignore) {
         if (!this.custom_no_spelling_error)
             this.flashNoSpellingErrorState();
         else
@@ -321,7 +323,7 @@ this.prepare = function(ignore, no_indicator)
         return;
     }
 
-    this.createEditLayer(this.text_area.offsetWidth, this.text_area.offsetHeight);
+    this.createEditLayer(area.width(), area.height());
     this.createErrorWindow();
     $('body').append(this.error_window);
 
@@ -331,7 +333,7 @@ this.prepare = function(ignore, no_indicator)
     if (this.main_controller)
         $(this.spell_span).unbind('click');
 
-    this.orginal_text = $(this.text_area).val();
+    this.orginal_text = area.val();
 };
 
 this.parseResult = function(r_text)
@@ -674,10 +676,10 @@ this.createEditLayer = function(width, height)
 {
     this.edit_layer = document.createElement('div');
     $(this.edit_layer).addClass('googie_edit_layer').attr('id', 'googie_edit_layer')
-        .width('auto').height(height);
+        .width(width).height(height);
 
     if (this.text_area.nodeName.toLowerCase() != 'input' || $(this.text_area).val() == '') {
-        $(this.edit_layer).css('overflow', 'auto').height(height-4);
+        $(this.edit_layer).css('overflow', 'auto');
     } else {
         $(this.edit_layer).css('overflow', 'hidden');
     }

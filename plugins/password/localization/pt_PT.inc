@@ -15,18 +15,19 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Alterar password';
-$labels['curpasswd']  = 'Password atual:';
-$labels['newpasswd']  = 'Nova password:';
-$labels['confpasswd']  = 'Confirmar password:';
-$messages['nopassword'] = 'Introduza a nova password.';
-$messages['nocurpassword'] = 'Introduza a password actual.';
-$messages['passwordincorrect'] = 'Password actual errada.';
-$messages['passwordinconsistency'] = 'Password\'s não combinam, tente novamente..';
-$messages['crypterror'] = 'Não foi possível gravar a nova password. Função de criptografica inexistente.';
-$messages['connecterror'] = 'Não foi possível gravar a nova password. Erro de ligação.';
-$messages['internalerror'] = 'Não foi possível gravar a nova password.';
+$labels['changepasswd']  = 'Alterar palavra-passe';
+$labels['curpasswd']  = 'Palavra-passe actual:';
+$labels['newpasswd']  = 'Nova palavra-passe:';
+$labels['confpasswd']  = 'Confirmar palavra-passe:';
+$messages['nopassword'] = 'Introduza a nova palavra-passe.';
+$messages['nocurpassword'] = 'Introduza a palavra-passe actual.';
+$messages['passwordincorrect'] = 'Palavra-passe actual incorrecta.';
+$messages['passwordinconsistency'] = 'As palavras-passe não combinam, tente novamente.';
+$messages['crypterror'] = 'Não foi possível gravar a nova palavra-passe. Função de criptografia inexistente.';
+$messages['connecterror'] = 'Não foi possível gravar a nova palavra-passe. Erro de ligação.';
+$messages['internalerror'] = 'Não foi possível gravar a nova palavra-passe.';
 $messages['passwordshort'] = 'A palavra-passe deve ter pelo menos $length caracteres';
 $messages['passwordweak'] = 'A palavra-passe deve incluir pelo menos um numero e um sinal de pontuação.';
 $messages['passwordforbidden'] = 'A palavra-passe contém caracteres não suportados.';
+$messages['firstloginchange'] = 'Este é o seu primeiro acesso. Por favor, altere a sua palavra-passe.';
 ?>

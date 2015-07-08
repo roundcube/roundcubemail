@@ -1,10 +1,10 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2012, Kolab Systems AG                             |
+ | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2011-2014, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -39,7 +39,6 @@ class rcube_mime
         self::$default_charset = $default_charset;
     }
 
-
     /**
      * Returns message/object character set name
      *
@@ -58,67 +57,29 @@ class rcube_mime
         return RCUBE_CHARSET;
     }
 
-
     /**
      * Parse the given raw message source and return a structure
      * of rcube_message_part objects.
      *
-     * It makes use of the PEAR:Mail_mimeDecode library
+     * It makes use of the rcube_mime_decode library
      *
-     * @param string  The message source
+     * @param string $raw_body The message source
+     *
      * @return object rcube_message_part The message structure
      */
     public static function parse_message($raw_body)
     {
-        $mime = new Mail_mimeDecode($raw_body);
-        $struct = $mime->decode(array('include_bodies' => true, 'decode_bodies' => true));
-        return self::structure_part($struct);
+        $conf = array(
+            'include_bodies'  => true,
+            'decode_bodies'   => true,
+            'decode_headers'  => false,
+            'default_charset' => self::get_charset(),
+        );
+
+        $mime = new rcube_mime_decode($conf);
+
+        return $mime->decode($raw_body);
     }
-
-
-    /**
-     * Recursive method to convert a Mail_mimeDecode part into a rcube_message_part object
-     *
-     * @param object  A message part struct
-     * @param int     Part count
-     * @param string  Parent MIME ID
-     *
-     * @return object rcube_message_part
-     */
-    private static function structure_part($part, $count=0, $parent='')
-    {
-        $struct = new rcube_message_part;
-        $struct->mime_id = $part->mime_id ? $part->mime_id : (empty($parent) ? (string)$count : "$parent.$count");
-        $struct->headers = $part->headers;
-        $struct->ctype_primary = $part->ctype_primary;
-        $struct->ctype_secondary = $part->ctype_secondary;
-        $struct->mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
-        $struct->ctype_parameters = $part->ctype_parameters;
-
-        if ($part->headers['content-transfer-encoding'])
-            $struct->encoding = $part->headers['content-transfer-encoding'];
-        if ($part->ctype_parameters['charset'])
-            $struct->charset = $part->ctype_parameters['charset'];
-
-        $part_charset = $struct->charset ? $struct->charset : self::get_charset();
-
-        // determine filename
-        if (($filename = $part->d_parameters['filename']) || ($filename = $part->ctype_parameters['name'])) {
-            $struct->filename = rcube_mime::decode_mime_string($filename, $part_charset);
-        }
-
-        // copy part body and convert it to UTF-8 if necessary
-        $struct->body = $part->ctype_primary == 'text' || !$part->ctype_parameters['charset'] ? rcube_charset::convert($part->body, $part_charset) : $part->body;
-        $struct->size = strlen($part->body);
-        $struct->disposition = $part->disposition;
-
-        foreach ((array)$part->parts as $child_part) {
-            $struct->parts[] = self::structure_part($child_part, ++$count, $struct->mime_id);
-        }
-
-        return $struct;
-    }
-
 
     /**
      * Split an address list into a structured array list
@@ -169,7 +130,6 @@ class rcube_mime
         return $out;
     }
 
-
     /**
      * Decode a message header value
      *
@@ -184,7 +144,6 @@ class rcube_mime
 
         return $str;
     }
-
 
     /**
      * Decode a mime-encoded string to internal charset
@@ -282,12 +241,12 @@ class rcube_mime
         return rcube_charset::convert($input, $default_charset);
     }
 
-
     /**
      * Decode a mime part
      *
      * @param string $input    Input string
      * @param string $encoding Part encoding
+     *
      * @return string Decoded string
      */
     public static function decode($input, $encoding = '7bit')
@@ -308,10 +267,8 @@ class rcube_mime
         }
     }
 
-
     /**
      * Split RFC822 header string into an associative array
-     * @access private
      */
     public static function parse_headers($headers)
     {
@@ -331,7 +288,6 @@ class rcube_mime
 
         return $a_headers;
     }
-
 
     /**
      * @access private
@@ -394,13 +350,13 @@ class rcube_mime
             }
 
             if ($address) {
+                $address      = self::fix_email($address);
                 $result[$key] = array('name' => $name, 'address' => $address);
             }
         }
 
         return $result;
     }
-
 
     /**
      * Explodes header (e.g. address-list) string into array of strings
@@ -476,7 +432,6 @@ class rcube_mime
         return $result;
     }
 
-
     /**
      * Interpret a format=flowed message body according to RFC 2646
      *
@@ -487,10 +442,10 @@ class rcube_mime
      */
     public static function unfold_flowed($text, $mark = null)
     {
-        $text = preg_split('/\r?\n/', $text);
-        $last = -1;
+        $text    = preg_split('/\r?\n/', $text);
+        $last    = -1;
         $q_level = 0;
-        $marks = array();
+        $marks   = array();
 
         foreach ($text as $idx => $line) {
             if (preg_match('/^(>+)/', $line, $m)) {
@@ -528,7 +483,7 @@ class rcube_mime
                     // remove space-stuffing
                     $line = preg_replace('/^ /', '', $line);
 
-                    if (isset($text[$last]) && $line
+                    if (isset($text[$last]) && $line && !$q_level
                         && $text[$last] != '-- '
                         && $text[$last][strlen($text[$last])-1] == ' '
                     ) {
@@ -557,12 +512,11 @@ class rcube_mime
         return implode("\r\n", $text);
     }
 
-
     /**
      * Wrap the given text to comply with RFC 2646
      *
-     * @param string $text Text to wrap
-     * @param int $length Length
+     * @param string $text    Text to wrap
+     * @param int    $length  Length
      * @param string $charset Character encoding of $text
      *
      * @return string Wrapped text
@@ -595,7 +549,6 @@ class rcube_mime
         return implode("\r\n", $text);
     }
 
-
     /**
      * Improved wordwrap function with multibyte support.
      * The code is based on Zend_Text_MultiByte::wordWrap().
@@ -614,7 +567,7 @@ class rcube_mime
         // Note: Never try to use iconv instead of mbstring functions here
         //       Iconv's substr/strlen are 100x slower (#1489113)
 
-        if ($charset && $charset != RCUBE_CHARSET && function_exists('mb_internal_encoding')) {
+        if ($charset && $charset != RCUBE_CHARSET) {
             mb_internal_encoding($charset);
         }
 
@@ -708,13 +661,12 @@ class rcube_mime
             }
         }
 
-        if ($charset && $charset != RCUBE_CHARSET && function_exists('mb_internal_encoding')) {
+        if ($charset && $charset != RCUBE_CHARSET) {
             mb_internal_encoding(RCUBE_CHARSET);
         }
 
         return implode($break, $result);
     }
-
 
     /**
      * A method to guess the mime_type of an attachment.
@@ -734,8 +686,8 @@ class rcube_mime
     {
         static $mime_ext = array();
 
-        $mime_type = null;
-        $config = rcube::get_instance()->config;
+        $mime_type  = null;
+        $config     = rcube::get_instance()->config;
         $mime_magic = $config->get('mime_magic');
 
         if (!$skip_suffix && empty($mime_ext)) {
@@ -789,12 +741,13 @@ class rcube_mime
         return $mime_type;
     }
 
-
     /**
      * Get mimetype => file extension mapping
      *
-     * @param string  Mime-Type to get extensions for
-     * @return array  List of extensions matching the given mimetype or a hash array with ext -> mimetype mappings if $mimetype is not given
+     * @param string Mime-Type to get extensions for
+     *
+     * @return array List of extensions matching the given mimetype or a hash array
+     *               with ext -> mimetype mappings if $mimetype is not given
      */
     public static function get_mime_extensions($mimetype = null)
     {
@@ -887,7 +840,6 @@ class rcube_mime
         return $mimetype ? $mime_types[$mimetype] : $mime_extensions;
     }
 
-
     /**
      * Detect image type of the given binary data by checking magic numbers.
      *
@@ -906,4 +858,19 @@ class rcube_mime
         return 'image/' . $type;
     }
 
+    /**
+     * Try to fix invalid email addresses
+     */
+    public static function fix_email($email)
+    {
+        $parts = rcube_utils::explode_quoted_string('@', $email);
+        foreach ($parts as $idx => $part) {
+            // remove redundant quoting (#1490040)
+            if ($part[0] == '"' && preg_match('/^"([a-zA-Z0-9._+=-]+)"$/', $part, $m)) {
+                $parts[$idx] = $m[1];
+            }
+        }
+
+        return implode('@', $parts);
+    }
 }

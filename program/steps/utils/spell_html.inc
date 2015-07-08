@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/utils/spell_html.inc                                    |
  |                                                                       |
@@ -18,7 +18,6 @@
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 $method = rcube_utils::get_input_value('method', rcube_utils::INPUT_POST);
 $lang   = rcube_utils::get_input_value('lang', rcube_utils::INPUT_POST);

@@ -5,7 +5,7 @@ class SubscriptionsOption_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../subscriptions_option.php';
+        include_once __DIR__ . '/../subscriptions_option.php';
     }
 
     /**

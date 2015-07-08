@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Impossibile salvare la nuova password.';
 $messages['passwordshort'] = 'La password deve essere lunga almeno $length caratteri.';
 $messages['passwordweak'] = 'La password deve includere almeno una cifra decimale e un simbolo di punteggiatura.';
 $messages['passwordforbidden'] = 'La password contiene caratteri proibiti.';
+$messages['firstloginchange'] = 'Questo è il tuo primo accesso. Si prega di cambiare la propria password.';
 ?>

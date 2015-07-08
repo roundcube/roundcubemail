@@ -21,6 +21,12 @@ class jqueryui extends rcube_plugin
     public function init()
     {
         $rcmail = rcmail::get_instance();
+
+        // the plugin might have been force-loaded so do some sanity check first
+        if ($rcmail->output->type != 'html' || self::$ui_theme) {
+          return;
+        }
+
         $this->load_config();
 
         // include UI scripts
@@ -106,6 +112,27 @@ class jqueryui extends rcube_plugin
         $rcube->output->add_header(html::tag('script', array('type' => "text/javascript", 'src' => $script)));
         $rcube->output->add_script('$("input.colors").miniColors({colorValues: rcmail.env.mscolors})', 'docready');
         $rcube->output->set_env('mscolors', self::get_color_values());
+    }
+
+    public static function tagedit()
+    {
+        if (in_array('tagedit', self::$features)) {
+            return;
+        }
+
+        self::$features[] = 'tagedit';
+
+        $script   = 'plugins/jqueryui/js/jquery.tagedit.js';
+        $rcube    = rcube::get_instance();
+        $ui_theme = self::$ui_theme;
+        $css      = "plugins/jqueryui/themes/$ui_theme/tagedit.css";
+
+        if (!file_exists(INSTALL_PATH . $css)) {
+            $css = "plugins/jqueryui/themes/larry/tagedit.css";
+        }
+
+        $rcube->output->include_css($css);
+        $rcube->output->add_header(html::tag('script', array('type' => "text/javascript", 'src' => $script)));
     }
 
     /**

@@ -1,0 +1,23 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<link rel="stylesheet" type="text/css" href="/this/enigma.css" />
+</head>
+<body class="iframe">
+
+<h1 class="boxtitle"><roundcube:label name="enigma.importkeys" /></h1>
+
+<div id="import-form" class="boxcontent">
+    <roundcube:object name="importform" />
+    <br>
+    <div class="formbuttons">
+        <roundcube:button command="plugin.enigma-import" type="input" class="button mainaction" label="import" />
+    </div>
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>

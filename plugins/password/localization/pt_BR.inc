@@ -15,7 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Alterar senha';
+$labels['changepasswd']  = 'Alterar a senha';
 $labels['curpasswd']  = 'Senha atual:';
 $labels['newpasswd']  = 'Nova senha:';
 $labels['confpasswd']  = 'Confirmar nova senha:';
@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Não foi possível gravar a nova senha.';
 $messages['passwordshort'] = 'A senha precisa ter ao menos $length caracteres.';
 $messages['passwordweak'] = 'A senha precisa conter ao menos um número e um caractere de pontuação.';
 $messages['passwordforbidden'] = 'A senha contém caracteres proibidos.';
+$messages['firstloginchange'] = 'Este é o seu primeiro acesso. Por favor altere sua senha.';
 ?>

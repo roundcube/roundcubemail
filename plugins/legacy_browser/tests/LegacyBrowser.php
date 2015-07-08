@@ -5,7 +5,7 @@ class Legacy_Browser_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../legacy_browser.php';
+        include_once __DIR__ . '/../legacy_browser.php';
     }
 
     /**

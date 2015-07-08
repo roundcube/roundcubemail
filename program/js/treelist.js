@@ -46,6 +46,8 @@ function rcube_treelist_widget(node, p)
     scroll_speed: 20,
     save_state: false,
     keyboard: true,
+    tabexit: true,
+    parent_focus: false,
     check_droptarget: function(node) { return !node.virtual; }
   }, p || {});
 
@@ -94,6 +96,7 @@ function rcube_treelist_widget(node, p)
   this.get_node = get_node;
   this.get_selection = get_selection;
   this.is_search = is_search;
+  this.reset_search = reset_search;
 
   /////// startup code (constructor)
 
@@ -185,6 +188,17 @@ function rcube_treelist_widget(node, p)
   $(document.body)
     .bind('keydown', keypress);
 
+  // catch focus when clicking the list container area
+  if (p.parent_focus) {
+    container.parent(':not(body)').click(function(e) {
+      if (!has_focus && selection) {
+        $(get_item(selection)).find(':focusable').first().focus();
+      }
+      else if (!has_focus) {
+        container.children('li:has(:focusable)').first().find(':focusable').first().focus();
+      }
+    });
+  }
 
   /////// private methods
 
@@ -234,6 +248,11 @@ function rcube_treelist_widget(node, p)
    */
   function select(id)
   {
+    // allow subscribes to prevent selection change
+    if (me.triggerEvent('beforeselect', indexbyid[id]) === false) {
+      return;
+    }
+
     if (selection) {
       id2dom(selection, true).removeClass('selected').removeAttr('aria-selected');
       if (search_active)
@@ -315,7 +334,7 @@ function rcube_treelist_widget(node, p)
 
       // re-render the entire subtree
       if (parent_node.children.length == 1) {
-        render_node(parent_node, parent_li.parent(), parent_li);
+        render_node(parent_node, null, parent_li);
         li = id2dom(node.id);
       }
       else {
@@ -346,6 +365,12 @@ function rcube_treelist_widget(node, p)
     }
 
     indexbyid[node.id] = node;
+
+    // set new reference to node.html after insert
+    // will otherwise vanish in Firefox 3.6
+    if (typeof node.html == 'object') {
+        indexbyid[node.id].html = id2dom(node.id, true).children();
+    }
 
     if (sort) {
       resort_node(li, typeof sort == 'string' ? '[class~="' + sort + '"]' : '');
@@ -444,6 +469,10 @@ function rcube_treelist_widget(node, p)
       node.deleted = true;
       delete indexbyid[id];
 
+      if (search_active) {
+        id2dom(id, false).remove();
+      }
+
       return true;
     }
 
@@ -463,7 +492,7 @@ function rcube_treelist_widget(node, p)
    */
   function update_dom(node)
   {
-    var li = id2dom(node.id);
+    var li = id2dom(node.id, true);
     li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
     li.children('ul').first()[(node.collapsed ? 'hide' : 'show')]();
     li.children('div.treetoggle').removeClass('collapsed expanded').addClass(node.collapsed ? 'collapsed' : 'expanded');
@@ -521,11 +550,17 @@ function rcube_treelist_widget(node, p)
         var li, sli;
         if (!node.virtual && !node.deleted && String(node.text).toLowerCase().indexOf(q) >= 0 && hits.indexOf(node.id) < 0) {
           li = id2dom(node.id);
+
+          // skip already filtered nodes
+          if (li.data('filtered'))
+            return;
+
           sli = $('<li>')
             .attr('id', li.attr('id') + '--xsR')
             .attr('class', li.attr('class'))
             .addClass('searchresult__')
-            .append(li.children().first().clone(true, true))
+            // append all elements like links and inputs, but not sub-trees
+            .append(li.children(':not(div.treetoggle,ul)').clone(true, true))
             .appendTo(container);
             hits.push(node.id);
         }
@@ -564,7 +599,7 @@ function rcube_treelist_widget(node, p)
       searchfield.val('');
 
     $(container).children('li.searchresult__').remove();
-    $(container).children('li').show();
+    $(container).children('li').filter(function() { return !$(this).data('filtered'); }).show();
 
     search_active = false;
 
@@ -678,7 +713,8 @@ function rcube_treelist_widget(node, p)
         node.childlistclass = sublist.attr('class');
       }
       if (node.children.length) {
-        node.collapsed = sublist.css('display') == 'none';
+        if (node.collapsed === undefined)
+          node.collapsed = sublist.css('display') == 'none';
 
         // apply saved state
         state = get_state(node.id, node.collapsed);
@@ -803,7 +839,7 @@ function rcube_treelist_widget(node, p)
     var target = e.target || {},
       keyCode = rcube_event.get_keycode(e);
 
-    if (!has_focus || target.nodeName == 'INPUT' || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
+    if (!has_focus || target.nodeName == 'INPUT' && keyCode != 38 && keyCode != 40 || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
       return true;
 
     switch (keyCode) {
@@ -829,7 +865,7 @@ function rcube_treelist_widget(node, p)
         return false;
 
       case 9:  // Tab
-        if (p.keyboard) {
+        if (p.keyboard && p.tabexit) {
           // jump to last/first item to move focus away from the treelist widget by tab
           var limit = rcube_event.get_modifier(e) == SHIFT_KEY ? 'first' : 'last';
           focus_noscroll(container.find('li[role=treeitem]:has(a)')[limit]().find('a:'+limit));
@@ -886,9 +922,9 @@ function rcube_treelist_widget(node, p)
    * When dragging starts, compute absolute bounding boxes of the list and it's items
    * for faster comparisons while mouse is moving
    */
-  function drag_start()
+  function drag_start(force)
   {
-    if (drag_active)
+    if (!force && drag_active)
       return;
 
     drag_active = true;
@@ -1029,7 +1065,7 @@ function rcube_treelist_widget(node, p)
           autoexpand_item = id;
           autoexpand_timer = setTimeout(function() {
             expand(autoexpand_item);
-            drag_start();  // re-calculate item coords
+            drag_start(true);  // re-calculate item coords
             autoexpand_item = null;
             if (ui_droppable)
               $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null);

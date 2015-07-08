@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
 require INSTALL_PATH.'program/include/clisetup.php';
 

@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Nové heslo nemožno uložiť.';
 $messages['passwordshort'] = 'Heslo musí mať najmenej $length znakov.';
 $messages['passwordweak'] = 'Heslo musí obsahovať aspoň jedno číslo a jedno interpunkčné znamienko.';
 $messages['passwordforbidden'] = 'Heslo obsahuje nepovolené znaky.';
+$messages['firstloginchange'] = 'Prihlásili ste sa po prvýkrát. Prosím zmeňte si prístupové heslo.';
 ?>

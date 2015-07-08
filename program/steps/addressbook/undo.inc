@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/addressbook/undo.inc                                    |
  |                                                                       |
@@ -44,9 +44,6 @@ foreach ((array)$undo['data'] as $source => $cid) {
         $delcnt += $restored;
     }
 }
-
-// update saved search after data changed
-rcmail_search_update();
 
 $RCMAIL->session->remove('contact_undo');
 

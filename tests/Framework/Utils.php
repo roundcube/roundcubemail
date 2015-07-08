@@ -29,6 +29,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             array('email@domain.name', '.name is valid Top Level Domain name'),
             array('email@domain.co.jp', 'Dot in Top Level Domain name also considered valid (use co.jp as example here)'),
             array('firstname-lastname@domain.com', 'Dash in address field is valid'),
+            array('test@xn--e1aaa0cbbbcacac.xn--p1ai', 'IDNA domain'),
         );
     }
 
@@ -240,7 +241,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         );
 
         foreach ($input as $idx => $value) {
-            $this->assertFalse(get_boolean($value), "Invalid result for $idx test item");
+            $this->assertFalse(rcube_utils::get_boolean($value), "Invalid result for $idx test item");
         }
 
         $input = array(
@@ -248,7 +249,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         );
 
         foreach ($input as $idx => $value) {
-            $this->assertTrue(get_boolean($value), "Invalid result for $idx test item");
+            $this->assertTrue(rcube_utils::get_boolean($value), "Invalid result for $idx test item");
         }
     }
 
@@ -274,17 +275,23 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
      */
     function test_strtotime()
     {
+        // this test depends on system timezone if not set
+        date_default_timezone_set('UTC');
+
         $test = array(
             '1' => 1,
             '' => 0,
-            '2013-04-22' => 1366581600,
-            '2013/04/22' => 1366581600,
-            '2013.04.22' => 1366581600,
-            '22-04-2013' => 1366581600,
-            '22/04/2013' => 1366581600,
-            '22.04.2013' => 1366581600,
-            '22.4.2013'  => 1366581600,
-            '20130422'   => 1366581600,
+            'abc-555' => 0,
+            '2013-04-22' => 1366588800,
+            '2013/04/22' => 1366588800,
+            '2013.04.22' => 1366588800,
+            '22-04-2013' => 1366588800,
+            '22/04/2013' => 1366588800,
+            '22.04.2013' => 1366588800,
+            '22.4.2013'  => 1366588800,
+            '20130422'   => 1366588800,
+            '2013/06/21 12:00:00 UTC' => 1371816000,
+            '2013/06/21 12:00:00 Europe/Berlin' => 1371808800,
         );
 
         foreach ($test as $datetime => $ts) {
@@ -315,7 +322,46 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime);
-            $this->assertSame($ts, $result ? $result->format('Y-m-d') : '', "Error parsing date: $datetime");
+            $this->assertSame($ts, $result ? $result->format('Y-m-d') : false, "Error parsing date: $datetime");
+        }
+    }
+
+    /**
+     * rcube:utils::anytodatetime()
+     */
+    function test_anytodatetime_timezone()
+    {
+        $tz = new DateTimeZone('Europe/Helsinki');
+        $test = array(
+            'Jan 1st 2014 +0800' => '2013-12-31 18:00',  // result in target timezone
+            'Jan 1st 14 45:42'   => '2014-01-01 00:00',  // force fallback to rcube_utils::strtotime()
+            'Jan 1st 2014 UK'    => '2014-01-01 00:00',
+            'Invalid date'       => false,
+        );
+
+        foreach ($test as $datetime => $ts) {
+            $result = rcube_utils::anytodatetime($datetime, $tz);
+            if ($result) $result->setTimezone($tz);  // move to target timezone for comparison
+            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i') : false, "Error parsing date: $datetime");
+        }
+    }
+
+    /**
+     * rcube:utils::tokenize_string()
+     */
+    function test_tokenize_string()
+    {
+        $test = array(
+            ''        => array(),
+            'abc d'   => array('abc'),
+            'abc de'  => array('abc','de'),
+            'äàé;êöü-xyz' => array('äàé','êöü','xyz'),
+            '日期格式' => array('日期格式'),
+        );
+
+        foreach ($test as $input => $output) {
+            $result = rcube_utils::tokenize_string($input);
+            $this->assertSame($output, $result);
         }
     }
 
@@ -329,15 +375,22 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             'abc def' => 'abc def',
             'ÇçäâàåæéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ' => 'ccaaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy',
             'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżýĄŚŻŹĆ' => 'aaaaccceeeeiilllnnooorrsssttuuuuzzzyaszzc',
-            'ß'  => 'ss',
-            'ae' => 'a',
-            'oe' => 'o',
-            'ue' => 'u',
+            'ßs'  => 'sss',
+            'Xae' => 'xa',
+            'Xoe' => 'xo',
+            'Xue' => 'xu',
+            '项目' => '项目',
         );
+
+        // this test fails on PHP 5.3.3
+        if (PHP_VERSION_ID > 50303) {
+            $test['ß']  = '';
+            $test['日'] = '';
+        }
 
         foreach ($test as $input => $output) {
             $result = rcube_utils::normalize_string($input);
-            $this->assertSame($output, $result);
+            $this->assertSame($output, $result, "Error normalizing '$input'");
         }
     }
 
@@ -365,5 +418,17 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             $result = rcube_utils::is_absolute_path($input);
             $this->assertSame($output, $result);
         }
+    }
+
+    /**
+     * rcube:utils::random_bytes()
+     */
+    function test_random_bytes()
+    {
+        $this->assertSame(15, strlen(rcube_utils::random_bytes(15)));
+        $this->assertSame(15, strlen(rcube_utils::random_bytes(15, true)));
+        $this->assertSame(1, strlen(rcube_utils::random_bytes(1)));
+        $this->assertSame(0, strlen(rcube_utils::random_bytes(0)));
+        $this->assertSame(0, strlen(rcube_utils::random_bytes(-1)));
     }
 }

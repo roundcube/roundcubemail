@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 ini_set('memory_limit', -1);
 
 require_once INSTALL_PATH.'program/include/clisetup.php';

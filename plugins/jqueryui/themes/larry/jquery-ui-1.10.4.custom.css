@@ -1442,21 +1442,23 @@ body .ui-tooltip {
 	display: none;
 }
 .ie10 .ui-datepicker .ui-datepicker-title select,
-.webkit .ui-datepicker .ui-datepicker-title select,
-.mozilla .ui-datepicker .ui-datepicker-title select {
+.webkit .ui-datepicker .ui-datepicker-title select {
 	background-image: url("images/ui-icons-datepicker.png");
 	background-position: right -18px;
 	background-repeat: no-repeat;
-	padding-right: 14px;
+	padding-right: 16px;
 	-webkit-appearance: none;
-	   -moz-appearance: none;
 	        appearance: none;
 }
-.mozilla .ui-datepicker .ui-datepicker-title select {
-	background-position: right -17px;
-	text-indent: 0.01px;
-	text-overflow: '';
-	padding-right: 0;
+
+@supports (-moz-appearance:none) and (mask-type:alpha) {
+	.mozilla .ui-datepicker .ui-datepicker-title select {
+		background-image: url("images/ui-icons-datepicker.png");
+		background-position: right -14px;
+		background-repeat: no-repeat;
+		padding-right: 16px;
+		-moz-appearance: none;
+	}
 }
 .ui-datepicker .ui-datepicker-month:focus,
 .ui-datepicker .ui-datepicker-year:focus {

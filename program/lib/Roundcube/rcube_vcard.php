@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
@@ -393,6 +393,10 @@ class rcube_vcard
                     $this->raw[$tag][$index]['type'] = explode(',', ($typemap[$type_uc] ? $typemap[$type_uc] : $type));
                 }
             }
+            else {
+                unset($this->raw[$tag]);
+            }
+
             break;
         }
     }
@@ -414,9 +418,10 @@ class rcube_vcard
      * Find index with the '$type' attribute
      *
      * @param string Field name
+     *
      * @return int Field index having $type set
      */
-    private function get_type_index($field, $type = 'pref')
+    private function get_type_index($field)
     {
         $result = 0;
         if ($this->raw[$field]) {

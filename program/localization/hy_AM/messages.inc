@@ -115,7 +115,6 @@ $messages['importconfirm'] = '$inserted նոր ներկրված հասցեներ
 $messages['importconfirmskipped'] = '<b>Բաց թողնվեց $skipped առկա գրառում</b>';
 $messages['opnotpermitted'] = 'Գործողությունը անթույլատրելի է։';
 $messages['nofromaddress'] = 'Նշված անձը հասցե չունի։';
-$messages['editorwarning'] = 'Դեպի պարզ տեքստի խմբագրիչ անցման դեպքում կկորի տեքստի ձևավորումը։ Շարունակե՞լ։';
 $messages['httpreceivedencrypterror'] = 'Համակարգի լարքի սխալ։ Դիմեք համակարգը սպասարկող անձնակազմին։ <b>Ձեր նամակը ուղարկված չէ։</b>';
 $messages['smtpconnerror'] = 'SMTP սխալ ($code)` Սերվերի հետ կապը ձախողվեց։';
 $messages['smtpautherror'] = 'SMTP սխալ ($code)` Նույնականացումը ձախողվեց։';

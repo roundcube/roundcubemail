@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Nie udało się zapisać nowego hasła.';
 $messages['passwordshort'] = 'Hasło musi posiadać co najmniej $length znaków.';
 $messages['passwordweak'] = 'Hasło musi zawierać co najmniej jedną cyfrę i znak interpunkcyjny.';
 $messages['passwordforbidden'] = 'Hasło zawiera niedozwolone znaki.';
+$messages['firstloginchange'] = 'To jest twoje pierwsze logowanie. Proszę zmień hasło.';
 ?>

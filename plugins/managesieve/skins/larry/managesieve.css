@@ -58,6 +58,7 @@
 #filtersetslist tbody tr.disabled td
 {
   color: #87A3AA;
+	text-decoration: line-through;
 }
 
 #filtersetslist tbody td
@@ -67,13 +68,13 @@
 
 #filterslist tbody tr.filtermoveup td
 {
-  border-top: 2px dotted #555;
+  border-top: 2px dotted #555 !important;
   padding-top: 5px;
 }
 
 #filterslist tbody tr.filtermovedown td
 {
-  border-bottom: 2px dotted #555;
+  border-bottom: 2px dotted #555 !important;
   padding-bottom: 4px;
 }
 
@@ -194,6 +195,10 @@ td.rowtargets div.adv span.label
   min-width: 70px;
 }
 
+td.rowtargets div a {
+  margin-left: 10px;
+}
+
 input.disabled, input.disabled:hover
 {
   color: #999999;
@@ -309,19 +314,10 @@ a.button.disabled
   max-width: 280px;
 }
 
-html.mozilla #filter-form select
-{
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-
 /* revert larry style button */
 #filter-form input.button
 {
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 2px;
+  padding: 4px 12px;
 }
 
 fieldset
@@ -341,6 +337,7 @@ fieldset
   display: inline-block;
   max-height: 59px;
   overflow-y: auto;
+  vertical-align: middle;
 }
 
 td.rowtargets > span.listarea
@@ -456,4 +453,8 @@ body.iframe.mail #filter-form
 
 #vacationform td.vacation {
   white-space: nowrap;
+}
+
+#vacationform input.button {
+  margin-left: 10px;
 }

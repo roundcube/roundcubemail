@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-$labels['addvcardmsg'] = '주소록에 vCard를 추가';
-$labels['vcardsavefailed'] = 'vCard 저장이 불가능함';
+$labels['addvcardmsg'] = '주소록에 vCard 추가';
+$labels['vcardsavefailed'] = 'vCard를 저장할 수 없음';
 ?>

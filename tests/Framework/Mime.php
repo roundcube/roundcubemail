@@ -44,6 +44,8 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
             23 => '=?UTF-8?B?IlRlc3QsVGVzdCI=?= <test@domain.tld>',
             // invalid, but we do our best to parse correctly
             24 => '"email@test.com" <>',
+            // valid with redundant quoting (#1490040)
+            25 => '"user"@"domain.tld"',
         );
 
         $results = array(
@@ -73,6 +75,7 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
             22 => array(1, 'John Doe @ SomeBusinessName', 'MAILER-DAEMON'),
             23 => array(1, 'Test,Test', 'test@domain.tld'),
             24 => array(1, '', 'email@test.com'),
+            25 => array(1, '', 'user@domain.tld'),
         );
 
         foreach ($headers as $idx => $header) {
@@ -153,6 +156,21 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test format=flowed unfolding (#1490284)
+     */
+    function test_unfold_flowed2()
+    {
+        $flowed   = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
+                    ."> \r\n"
+                    ."Sed ut perspiciatis unde omnis iste natus error \r\nsit voluptatem";
+        $unfolded = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
+                    ."> \r\n"
+                    ."Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
+
+        $this->assertEquals($unfolded, rcube_mime::unfold_flowed($flowed), "Test correct unfolding of quoted lines [2]");
+    }
+
+    /**
      * Test wordwrap()
      */
     function test_wordwrap()
@@ -213,4 +231,36 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Test parse_message()
+     */
+    function test_parse_message()
+    {
+        $file   = file_get_contents(__DIR__ . '/../src/html.msg');
+        $result = rcube_mime::parse_message($file);
+
+        $this->assertInstanceOf('rcube_message_part', $result);
+        $this->assertSame('multipart/alternative', $result->mimetype);
+        $this->assertSame('1.0', $result->headers['mime-version']);
+        $this->assertSame('=_68eeaf4ab95b5312965e45c33362338e', $result->ctype_parameters['boundary']);
+        $this->assertSame('1',              $result->parts[0]->mime_id);
+        $this->assertSame(12,               $result->parts[0]->size);
+        $this->assertSame('text/plain',     $result->parts[0]->mimetype);
+        $this->assertSame("this is test",   $result->parts[0]->body);
+        $this->assertSame('2',              $result->parts[1]->mime_id);
+        $this->assertSame(0,                $result->parts[1]->size);
+        $this->assertSame('multipart/related', $result->parts[1]->mimetype);
+        $this->assertCount(2,               $result->parts[1]->parts);
+        $this->assertSame('2.1',            $result->parts[1]->parts[0]->mime_id);
+        $this->assertSame(257,              $result->parts[1]->parts[0]->size);
+        $this->assertSame('text/html',      $result->parts[1]->parts[0]->mimetype);
+        $this->assertSame('UTF-8',          $result->parts[1]->parts[0]->charset);
+        $this->assertRegExp('/<html>/',     $result->parts[1]->parts[0]->body);
+        $this->assertSame('2.2',            $result->parts[1]->parts[1]->mime_id);
+        $this->assertSame(793,              $result->parts[1]->parts[1]->size);
+        $this->assertSame('image/jpeg',     $result->parts[1]->parts[1]->mimetype);
+        $this->assertSame('base64',          $result->parts[1]->parts[1]->encoding);
+        $this->assertSame('inline',          $result->parts[1]->parts[1]->disposition);
+        $this->assertSame('photo-mini.jpg', $result->parts[1]->parts[1]->filename);
+    }
 }

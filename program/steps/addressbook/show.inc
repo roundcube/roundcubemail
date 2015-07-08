@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/addressbook/show.inc                                    |
  |                                                                       |
@@ -32,6 +32,11 @@ $SOURCE_ID = $source;
 if ($cid && ($record = $CONTACTS->get_record($cid, true))) {
     $OUTPUT->set_env('readonly', $CONTACTS->readonly || $record['readonly']);
     $OUTPUT->set_env('cid', $record['ID']);
+
+    // remember current search request ID (if in search mode)
+    if ($search = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GET)) {
+        $OUTPUT->set_env('search_request', $search);
+    }
 }
 
 // get address book name (for display)
@@ -61,11 +66,16 @@ function rcmail_contact_head($attrib)
         'head' => array(  // section 'head' is magic!
             'name' => $RCMAIL->gettext('contactnameandorg'),
             'content' => array(
-                'prefix' => array('type' => 'text'),
-                'firstname' => array('type' => 'text'),
-                'middlename' => array('type' => 'text'),
-                'surname' => array('type' => 'text'),
-                'suffix' => array('type' => 'text'),
+                'prefix'       => array('type' => 'text'),
+                'firstname'    => array('type' => 'text'),
+                'middlename'   => array('type' => 'text'),
+                'surname'      => array('type' => 'text'),
+                'suffix'       => array('type' => 'text'),
+                'name'         => array('type' => 'text'),
+                'nickname'     => array('type' => 'text'),
+                'organization' => array('type' => 'text'),
+                'department'   => array('type' => 'text'),
+                'jobtitle'     => array('type' => 'text'),
             ),
         ),
     );

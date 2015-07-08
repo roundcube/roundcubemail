@@ -159,7 +159,7 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $washer = new rcube_washtml;
         $washed = $washer->wash($html);
 
-        $this->assertRegExp('|style=\'font-family: "新細明體","serif"; color: red\'|', $washed, "Unicode chars in style attribute - quoted (#1489697)");
+        $this->assertRegExp('|style="font-family: \&quot;新細明體\&quot;,\&quot;serif\&quot;; color: red"|', $washed, "Unicode chars in style attribute - quoted (#1489697)");
 
         $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
             <body><span style='font-family:新細明體;color:red'>test</span></body></html>";
@@ -182,5 +182,27 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
 
         $this->assertRegExp('|line-height: 1;|', $washed, "Untouched line-height (#1489917)");
         $this->assertRegExp('|; height: 10px|', $washed, "Fixed height units");
+    }
+
+    /**
+     * Test invalid style cleanup - XSS prevention (#1490227)
+     */
+    function test_style_wash_xss()
+    {
+        $html = "<img style=aaa:'\"/onerror=alert(1)//'>";
+        $exp  = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertTrue(strpos($washed, $exp) !== false, "Style quotes XSS issue (#1490227)");
+
+        $html = "<img style=aaa:'&quot;/onerror=alert(1)//'>";
+        $exp  = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertTrue(strpos($washed, $exp) !== false, "Style quotes XSS issue (#1490227)");
     }
 }

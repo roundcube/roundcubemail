@@ -24,4 +24,5 @@ $labels['body'] = 'Has recibido correo nuevo';
 $labels['testbody'] = 'Esta es una notificación de prueba';
 $labels['desktopdisabled'] = 'Las notificaciones en escritorio están deshabilitadas en tu navegador';
 $labels['desktopunsupported'] = 'Tu navegador no soporta notificaciones en escritorio';
+$labels['desktoptimeout'] = 'Cerrar notificación de escritorio';
 ?>

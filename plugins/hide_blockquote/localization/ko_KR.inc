@@ -16,6 +16,6 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
 $labels['hide'] = '숨기기';
-$labels['show'] = '보이기';
-$labels['quotelimit'] = '라인 개수가 정해진 개수보다 클 때 인용구 감추기';
+$labels['show'] = '표시';
+$labels['quotelimit'] = '행 개수가 다음보다 많을 때 인용구를 숨김:';
 ?>

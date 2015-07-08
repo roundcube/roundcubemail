@@ -547,12 +547,13 @@ init_compose_form: function()
 resize_compose_body: function()
 {
   var div = $('#compose-div .boxlistcontent'),
-    w = div.width() - 2, h = div.height(),
+    w = div.width() - 6,
+    h = div.height() - 2,
     x = bw.ie || bw.opera ? 4 : 0;
 
-  $('#compose-body_ifr').width(w+3).height(h-2 - $('div.mce-toolbar').height());
+  $('#compose-body_ifr').width(w + 6).height(h - 1 - $('div.mce-toolbar').height());
   $('#compose-body').width(w-x).height(h);
-  $('#googie_edit_layer').height(h);
+  $('#googie_edit_layer').width(w).height(h);
 },
 
 resize_compose_body_ev: function()
@@ -636,6 +637,37 @@ enable_command: function(p)
     var label = rcmail.gettext(p.status ? 'replylist' : 'replyall');
     $('a.button.replyAll').attr('title', label);
   }
+},
+
+folder_search_init: function(container)
+{
+  // animation to unfold list search box
+  $('.boxtitle a.search', container).click(function(e) {
+    var title = $('.boxtitle', container),
+      box = $('.listsearchbox', container),
+      dir = box.is(':visible') ? -1 : 1,
+      height = 24 + ($('select', box).length ? 24 : 0);
+
+    box.slideToggle({
+      duration: 160,
+      progress: function(animation, progress) {
+        if (dir < 0) progress = 1 - progress;
+          $('.boxlistcontent', container).css('top', (title.outerHeight() + height * progress) + 'px');
+      },
+      complete: function() {
+        box.toggleClass('expanded');
+        if (box.is(':visible')) {
+          box.find('input[type=text]').focus();
+        }
+        else {
+          $('a.reset', box).click();
+        }
+        // TODO: save state in cookie
+      }
+    });
+
+    return false;
+  });
 }
 
 };
@@ -995,6 +1027,14 @@ function rcube_init_mail_ui()
           .addEventListener('afterimport-messages', function(){ rcmail_ui.show_popup('uploadform', false); });
       }
 
+      rcmail.init_pagejumper('#pagejumper');
+
+      // fix message list header on window resize (#1490213)
+      if (bw.ie && rcmail.message_list)
+        $(window).resize(function() {
+          setTimeout(function() { rcmail.message_list.resize(); }, 10);
+        });
+
       if (rcmail.env.action == 'compose')
         rcmail_ui.init_compose_form();
       else if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
@@ -1011,6 +1051,11 @@ function rcube_init_mail_ui()
     else if (rcmail.env.task == 'addressbook') {
       rcmail.addEventListener('afterupload-photo', function(){ rcmail_ui.show_popup('uploadform', false); })
         .gui_object('dragmenu', 'dragmenu');
+    }
+    else if (rcmail.env.task == 'settings') {
+      if (rcmail.env.action == 'folders') {
+        rcmail_ui.folder_search_init($('#folder-manager'));
+      }
     }
   });
 }

@@ -63,7 +63,7 @@ class redundant_attachments extends filesystem_attachments
             return;
         }
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = rcube::get_instance();
 
         // load configuration
         $this->load_config();
@@ -128,7 +128,7 @@ class redundant_attachments extends filesystem_attachments
 
         $data = $args['path'] ? file_get_contents($args['path']) : $args['data'];
 
-        unset($args['data']);
+        $args['data'] = null;
 
         $key  = $this->_key($args);
         $data = base64_encode($data);

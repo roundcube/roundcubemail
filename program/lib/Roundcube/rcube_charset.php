@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -77,7 +77,6 @@ class rcube_charset
     {
         throw new ErrorException($errstr, 0, $errno);
     }
-
 
     /**
      * Parse and validate charset name string (see #1485758).
@@ -159,7 +158,6 @@ class rcube_charset
         return $result;
     }
 
-
     /**
      * Convert a string from one charset to another.
      * Uses mbstring and iconv functions if possible
@@ -175,7 +173,6 @@ class rcube_charset
         static $iconv_options   = null;
         static $mbstring_list   = null;
         static $mbstring_sch    = null;
-        static $conv            = null;
 
         $to   = empty($to) ? RCUBE_CHARSET : $to;
         $from = self::parse_charset($from);
@@ -273,17 +270,8 @@ class rcube_charset
             else if ($from == 'ISO-8859-1' && function_exists('utf8_encode')) {
                 return utf8_encode($str);
             }
-            else if (class_exists('utf8')) {
-                if (!$conv) {
-                    $conv = new utf8($from);
-                }
-                else {
-                    $conv->loadCharset($from);
-                }
-
-                if ($_str = $conv->strToUtf8($str)) {
-                    return $_str;
-                }
+            else  {
+                trigger_error("No suitable function found for UTF-8 encoding");
             }
         }
 
@@ -298,17 +286,8 @@ class rcube_charset
             else if ($to == 'ISO-8859-1' && function_exists('utf8_decode')) {
                 return utf8_decode($str);
             }
-            else if (class_exists('utf8')) {
-                if (!$conv) {
-                    $conv = new utf8($to);
-                }
-                else {
-                    $conv->loadCharset($from);
-                }
-
-                if ($_str = $conv->strToUtf8($str)) {
-                    return $_str;
-                }
+            else {
+                trigger_error("No suitable function found for UTF-8 decoding");
             }
         }
 
@@ -316,13 +295,12 @@ class rcube_charset
         return $str;
     }
 
-
     /**
      * Converts string from standard UTF-7 (RFC 2152) to UTF-8.
      *
-     * @param  string  Input string (UTF-7)
+     * @param string $str Input string (UTF-7)
      *
-     * @return string  Converted string (UTF-8)
+     * @return string Converted string (UTF-8)
      */
     public static function utf7_to_utf8($str)
     {
@@ -376,13 +354,12 @@ class rcube_charset
         return $res;
     }
 
-
     /**
      * Converts string from UTF-16 to UTF-8 (helper for utf-7 to utf-8 conversion)
      *
-     * @param  string  Input string
+     * @param string $str Input string
      *
-     * @return string  The converted string
+     * @return string The converted string
      */
     public static function utf16_to_utf8($str)
     {
@@ -407,7 +384,6 @@ class rcube_charset
 
         return $dec;
     }
-
 
     /**
      * Convert the data ($str) from RFC 2060's UTF-7 to UTF-8.
@@ -516,7 +492,6 @@ class rcube_charset
 
         return $p;
     }
-
 
     /**
      * Convert the data ($str) from UTF-8 to RFC 2060's UTF-7.
@@ -648,7 +623,6 @@ class rcube_charset
         return $p;
     }
 
-
     /**
      * A method to guess character set of a string.
      *
@@ -672,36 +646,47 @@ class rcube_charset
         if ($string[0] == "\0" && $string[1] != "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-16BE';
         if ($string[0] != "\0" && $string[1] == "\0" && $string[2] != "\0" && $string[3] == "\0") return 'UTF-16LE';
 
-        if (function_exists('mb_detect_encoding')) {
-            if (empty($language)) {
-                $rcube    = rcube::get_instance();
-                $language = $rcube->get_user_language();
+        if (empty($language)) {
+            $rcube    = rcube::get_instance();
+            $language = $rcube->get_user_language();
+        }
+
+        // Prioritize charsets according to current language (#1485669)
+        switch ($language) {
+        case 'ja_JP':
+            $prio = array('ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS', 'SJIS-win');
+            break;
+
+        case 'zh_CN':
+        case 'zh_TW':
+            $prio = array('UTF-8', 'BIG-5', 'GB2312', 'EUC-TW');
+            break;
+
+        case 'ko_KR':
+            $prio = array('UTF-8', 'EUC-KR', 'ISO-2022-KR');
+            break;
+
+        case 'ru_RU':
+            $prio = array('UTF-8', 'WINDOWS-1251', 'KOI8-R');
+            break;
+
+        case 'tr_TR':
+            $prio = array('UTF-8', 'ISO-8859-9', 'WINDOWS-1254');
+            break;
+        }
+
+        // mb_detect_encoding() is not reliable for some charsets (#1490135)
+        // use mb_check_encoding() to make charset priority lists really working
+        if ($prio && function_exists('mb_check_encoding')) {
+            foreach ($prio as $encoding) {
+                if (mb_check_encoding($string, $encoding)) {
+                    return $encoding;
+                }
             }
+        }
 
-            // Prioritize charsets according to current language (#1485669)
-            switch ($language) {
-            case 'ja_JP':
-                $prio = array('ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS', 'SJIS-win');
-                break;
-
-            case 'zh_CN':
-            case 'zh_TW':
-                $prio = array('UTF-8', 'BIG-5', 'GB2312', 'EUC-TW');
-                break;
-
-            case 'ko_KR':
-                $prio = array('UTF-8', 'EUC-KR', 'ISO-2022-KR');
-                break;
-
-            case 'ru_RU':
-                $prio = array('UTF-8', 'WINDOWS-1251', 'KOI8-R');
-                break;
-
-            case 'tr_TR':
-                $prio = array('UTF-8', 'ISO-8859-9', 'WINDOWS-1254');
-                break;
-
-            default:
+        if (function_exists('mb_detect_encoding')) {
+            if (!$prio) {
                 $prio = array('UTF-8', 'SJIS', 'GB2312',
                     'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4',
                     'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9',
@@ -713,7 +698,9 @@ class rcube_charset
 
             $encodings = array_unique(array_merge($prio, mb_list_encodings()));
 
-            return mb_detect_encoding($string, $encodings);
+            if ($encoding = mb_detect_encoding($string, $encodings)) {
+                return $encoding;
+            }
         }
 
         // No match, check for UTF-8
@@ -734,7 +721,6 @@ class rcube_charset
 
         return $failover;
     }
-
 
     /**
      * Removes non-unicode characters from input.
@@ -759,7 +745,7 @@ class rcube_charset
 
         // iconv/mbstring are much faster (especially with long strings)
         if (function_exists('mb_convert_encoding')) {
-            $msch = mb_substitute_character('none');
+            $msch = mb_substitute_character();
             mb_substitute_character('none');
             $res = mb_convert_encoding($input, 'UTF-8', 'UTF-8');
             mb_substitute_character($msch);
@@ -795,34 +781,32 @@ class rcube_charset
 
             // 1-byte character
             if ($ord <= 0x7F) {
-                if ($seq) {
+                if ($seq !== '') {
                     $out .= preg_match($regexp, $seq) ? $seq : '';
+                    $seq = '';
                 }
-                $seq = '';
+
                 $out .= $chr;
             }
-            // first (or second) byte of multibyte sequence
+            // first byte of multibyte sequence
             else if ($ord >= 0xC0) {
-                if (strlen($seq) > 1) {
+                if ($seq !== '') {
                     $out .= preg_match($regexp, $seq) ? $seq : '';
                     $seq = '';
                 }
-                else if ($seq && ord($seq) < 0xC0) {
-                    $seq = '';
-                }
-                $seq .= $chr;
+
+                $seq = $chr;
             }
             // next byte of multibyte sequence
-            else if ($seq) {
+            else if ($seq !== '') {
                 $seq .= $chr;
             }
         }
 
-        if ($seq) {
+        if ($seq !== '') {
             $out .= preg_match($regexp, $seq) ? $seq : '';
         }
 
         return $out;
     }
-
 }

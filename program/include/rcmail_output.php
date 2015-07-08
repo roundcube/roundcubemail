@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcmail_output.php                                     |
  |                                                                       |
@@ -28,12 +28,13 @@
 abstract class rcmail_output extends rcube_output
 {
     const JS_OBJECT_NAME = 'rcmail';
+    const BLANK_GIF      = 'R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7';
 
-    public $type = 'html';
+    public $type      = 'html';
     public $ajax_call = false;
-    public $framed = false;
+    public $framed    = false;
 
-    protected $pagetitle = '';
+    protected $pagetitle       = '';
     protected $object_handlers = array();
 
 
@@ -45,7 +46,6 @@ abstract class rcmail_output extends rcube_output
         parent::__construct();
     }
 
-
     /**
      * Setter for page title
      *
@@ -56,7 +56,6 @@ abstract class rcmail_output extends rcube_output
         $this->pagetitle = $title;
     }
 
-
     /**
      * Getter for the current skin path property
      */
@@ -64,7 +63,6 @@ abstract class rcmail_output extends rcube_output
     {
         return $this->config->get('skin_path');
     }
-
 
     /**
      * Delete all stored env variables and commands
@@ -77,7 +75,6 @@ abstract class rcmail_output extends rcube_output
         $this->pagetitle = '';
     }
 
-
     /**
      * Call a client method
      *
@@ -86,12 +83,10 @@ abstract class rcmail_output extends rcube_output
      */
     abstract function command();
 
-
     /**
      * Add a localized label to the client environment
      */
     abstract function add_label();
-
 
     /**
      * Register a template object handler
@@ -105,7 +100,6 @@ abstract class rcmail_output extends rcube_output
         $this->object_handlers[$obj] = $func;
     }
 
-
     /**
      * Register a list of template object handlers
      *
@@ -116,5 +110,4 @@ abstract class rcmail_output extends rcube_output
     {
         $this->object_handlers = array_merge($this->object_handlers, $arr);
     }
-
 }

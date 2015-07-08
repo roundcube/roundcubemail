@@ -5,7 +5,7 @@ class VirtuserQuery_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../virtuser_query.php';
+        include_once __DIR__ . '/../virtuser_query.php';
     }
 
     /**

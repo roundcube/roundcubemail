@@ -17,4 +17,3 @@
 */
 $messages['forgotattachment'] = "Ви забули прикріпити файл?";
 $messages['reminderoption'] = "Нагадати про забуте вкладення";
-$messages['keywords'] = "";

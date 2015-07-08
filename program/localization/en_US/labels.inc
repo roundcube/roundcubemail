@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -256,6 +256,7 @@ $labels['revertto']      = 'Revert to';
 
 $labels['restore'] = 'Restore';
 $labels['restoremessage'] = 'Restore message?';
+$labels['ignore'] = 'Ignore';
 
 $labels['responses'] = 'Responses';
 $labels['insertresponse'] = 'Insert a response';
@@ -270,7 +271,7 @@ $labels['responsetext'] = 'Response Text';
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';
-$labels['uploadprogress'] = '$percent ($current from $total)';
+$labels['uploadprogress'] = '$percent ($current of $total)';
 $labels['close']  = 'Close';
 $labels['messageoptions']  = 'Message options...';
 $labels['togglecomposeoptions'] = 'Toggle composition options';
@@ -338,10 +339,11 @@ $labels['assistant'] = 'Assistant';
 $labels['spouse'] = 'Spouse';
 $labels['allfields'] = 'All fields';
 $labels['search'] = 'Search';
-$labels['searchfor'] = 'Search for "$q"';
+$labels['searchresult'] = 'Search result';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
+$labels['printcontact'] = 'Print contact';
 
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
@@ -386,6 +388,7 @@ $labels['exportall']      = 'Export all';
 $labels['exportsel']      = 'Export selected';
 $labels['exportvcards']   = 'Export contacts in vCard format';
 $labels['newgroup']       = 'Create new group';
+$labels['addgroup']       = 'Add group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
@@ -462,7 +465,7 @@ $labels['askuser'] = 'ask me';
 $labels['autosend'] = 'send receipt';
 $labels['autosendknown'] = 'send receipt to my contacts, otherwise ask me';
 $labels['autosendknownignore'] = 'send receipt to my contacts, otherwise ignore';
-$labels['ignore'] = 'ignore';
+$labels['ignorerequest'] = 'ignore request';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
 $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
 $labels['skipdeleted'] = 'Do not show deleted messages';
@@ -484,6 +487,7 @@ $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (other)';
 $labels['force7bit'] = 'Use MIME encoding for 8-bit characters';
+$labels['savelocalstorage'] = "Save in the browser's local storage (temporarily)";
 $labels['advancedoptions'] = 'Advanced options';
 $labels['toggleadvancedoptions'] = 'Toggle advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
@@ -505,6 +509,7 @@ $labels['autoaddsignature'] = 'Automatically add signature';
 $labels['newmessageonly'] = 'new message only';
 $labels['replyandforwardonly'] = 'replies and forwards only';
 $labels['insertsignature'] = 'Insert signature';
+$labels['sigbelow'] = 'Place signature below the quoted message';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'after $n seconds';
 $labels['reqmdn'] = 'Always request a return receipt';
@@ -528,14 +533,14 @@ $labels['replyallmode'] = 'Default action of [Reply all] button';
 $labels['replyalldefault'] = 'reply to all';
 $labels['replyalllist'] = 'reply to mailing list only (if found)';
 
-$labels['folder']  = 'Folder';
-$labels['folders']  = 'Folders';
-$labels['foldername']  = 'Folder name';
-$labels['subscribed']  = 'Subscribed';
+$labels['folder'] = 'Folder';
+$labels['folders'] = 'Folders';
+$labels['foldername'] = 'Folder name';
+$labels['subscribed'] = 'Subscribed';
 $labels['messagecount'] = 'Messages';
-$labels['create']  = 'Create';
-$labels['createfolder']  = 'Create new folder';
-$labels['managefolders']  = 'Manage folders';
+$labels['create'] = 'Create';
+$labels['createfolder'] = 'Create new folder';
+$labels['managefolders'] = 'Manage folders';
 $labels['specialfolders'] = 'Special Folders';
 $labels['properties'] = 'Properties';
 $labels['folderproperties'] = 'Folder properties';
@@ -545,9 +550,13 @@ $labels['info'] = 'Information';
 $labels['getfoldersize'] = 'Click to get folder size';
 $labels['changesubscription'] = 'Click to change subscription';
 $labels['foldertype'] = 'Folder Type';
-$labels['personalfolder']  = 'Private Folder';
-$labels['otherfolder']  = 'Other User\'s Folder';
-$labels['sharedfolder']  = 'Public Folder';
+$labels['personalfolder'] = 'Private Folder';
+$labels['otherfolder'] = 'Other User\'s Folder';
+$labels['sharedfolder'] = 'Public Folder';
+$labels['findfolders'] = 'Find folders';
+$labels['namespace.personal'] = 'Personal';
+$labels['namespace.other'] = 'Other users';
+$labels['namespace.shared'] = 'Shared';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc']  = 'Sort ascending';
@@ -597,6 +606,8 @@ $labels['arialabelmailsearchform'] = 'Email message search form';
 $labels['arialabelcontactsearchform'] = 'Contacts search form';
 $labels['arialabelmailquicksearchbox'] = 'Email search input';
 $labels['arialabelquicksearchbox'] = 'Search input';
+$labels['arialabelfoldersearchfilter'] = 'Folder listing filter';
+$labels['arialabelfoldersearchform'] = 'Folder search form';
 $labels['arialabelfolderlist'] = 'Email folder selection';
 $labels['arialabelmessagelist'] = 'Email Messages Listing';
 $labels['arialabelmailpreviewframe'] = 'Message preview';
@@ -625,6 +636,7 @@ $labels['arialabelabookgroupoptions'] = 'Addressbook/group options';
 $labels['arialabelpreferencesform'] = 'Preferences form';
 $labels['arialabelidentityeditfrom'] = 'Identity edit form';
 $labels['arialabelresonseeditfrom'] = 'Response edit form';
+$labels['arialabelsearchterms'] = 'Search terms';
 
 $labels['helplistnavigation'] = 'List keyboard navigation';
 $labels['helplistkeyboardnavigation'] = "Arrows up/down: Move row focus/selection.

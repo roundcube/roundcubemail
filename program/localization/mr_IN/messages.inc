@@ -99,7 +99,6 @@ $messages['importwait'] = 'आयात करत आहे, कृपया व
 $messages['importconfirm'] = '<b>$inserted पत्ते यशस्वीरित्या आयात केल, $skipped आधिच असलेल्या नोंदी केल्या नाहीत</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'ही क्रिया करण्यास परवानगी नाही.';
 $messages['nofromaddress'] = 'निवडलेल्या खात्यात इमेल पत्ता दिलेला नाही.';
-$messages['editorwarning'] = 'टेक्स्ट संपादन निवडल्यास संदेशाचे दृष्य स्वरुप बदलून जाईल. तुम्हाला असेच करायचे आहे ना?';
 $messages['httpreceivedencrypterror'] = 'हानीकारक चूक झाली. व्‍यवस्‍थापकाशी तात्‍काळ संपर्क साधा. <b> तुमचा संदेश पाठवला नाही </b>';
 $messages['smtpconnerror'] = 'SMTP चूक ($code): सर्व्‍हरशी संपर्क साधता येत नाही';
 $messages['smtpautherror'] = 'SMTP चूक ($code): ओळख पटवता येत नाही';

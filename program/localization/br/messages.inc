@@ -16,16 +16,19 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 $messages['errortitle']  = 'Degouezhet ez eus bet ur fazi !';
-$messages['loginfailed']  = 'C\'hwitadenn war kennaskañ';
-$messages['cookiesdisabled'] = 'N\'eus ket c\'hoant toupinoù Hor merder';
+$messages['loginfailed']  = 'Kennaskañ c\'hwitet';
+$messages['cookiesdisabled'] = 'Nac\'h a ra ho merdeer an toupinoù';
 $messages['sessionerror'] = 'Didalvoudek pe echuet eo hoc\'h estez.';
 $messages['storageerror'] = 'C\'hwitadenn war kennaskañ ouzh an dafariad mirout';
 $messages['servererror'] = 'Fazi dafariad !';
 $messages['servererrormsg'] = 'Fazi dafariad : $msg';
 $messages['dberror'] = 'Fazi stlennvon !';
-$messages['nomessagesfound'] = 'Kemennadoù ebet er voest lizhiri';
+$messages['nomessagesfound'] = 'Kemennad ebet er voest lizhiri';
 $messages['loggedout'] = 'Digevreet hoc\'h eus mat. Kenavo !';
+$messages['refreshing'] = 'O freskaat...';
 $messages['loading'] = 'O kargañ...';
+$messages['uploading'] = 'O kargañ ar restr...';
+$messages['uploadingmany'] = 'O kargañ ar restroù...';
 $messages['loadingdata'] = 'O kargañ roadennoù...';
 $messages['checkingmail'] = 'O Gwiriañ kemennadoù nevez...';
 $messages['sendingmessage'] = 'O kas ar c\'hemennad...';
@@ -69,4 +72,6 @@ $messages['fileuploaderror'] = 'Fazi o treuzkas ar restr';
 $messages['filesizeerror'] = 'Re vras eo ar restr treuzkaset $size';
 $messages['sourceisreadonly'] = 'Lenn hepken eo an tarzh chomlec\'h se';
 $messages['errorsavingcontact'] = 'Ne c\'haller ket gwarediñ chomlec\'h darempred';
+$messages['movingcontact'] = 'O fiñval an darempred(où)';
+$messages['contactdelerror'] = 'N\'eus ket bet gellet dilemel an darempred(où)';
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -41,6 +41,11 @@ class rcube_image
     );
 
 
+    /**
+     * Class constructor
+     *
+     * @param string $filename Image file name/path
+     */
     function __construct($filename)
     {
         $this->image_file = $filename;
@@ -59,11 +64,13 @@ class rcube_image
             $height  = $imsize[1];
             $gd_type = $imsize['2'];
             $type    = image_type_to_extension($imsize['2'], false);
+            $channels = $imsize['channels'];
         }
 
         // use ImageMagick
         if (!$type && ($data = $this->identify())) {
             list($type, $width, $height) = $data;
+            $channels = null;
         }
 
         if ($type) {
@@ -72,8 +79,11 @@ class rcube_image
                 'gd_type' => $gd_type,
                 'width'   => $width,
                 'height'  => $height,
+                'channels' => $channels,
             );
         }
+
+        return null;
     }
 
     /**
@@ -181,6 +191,11 @@ class rcube_image
             }
         }
 
+        // do we have enough memory? (#1489937)
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
+            return false;
+        }
+
         // use GD extension
         if ($props['gd_type']) {
             if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
@@ -189,7 +204,7 @@ class rcube_image
             }
             else if($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = imagecreatefromgif($this->image_file);
-                $type  = 'gid';
+                $type  = 'gif';
             }
             else if($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = imagecreatefrompng($this->image_file);
@@ -227,6 +242,24 @@ class rcube_image
 
                 imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $props['width'], $props['height']);
                 $image = $new_image;
+
+                // fix rotation of image if EXIF data exists and specifies rotation (GD strips the EXIF data)
+                if ($this->image_file && $type == 'jpg' && function_exists('exif_read_data')) {
+                    $exif = exif_read_data($this->image_file);
+                    if ($exif && $exif['Orientation']) {
+                        switch ($exif['Orientation']) {
+                            case 3:
+                                $image = imagerotate($image, 180, 0);
+                                break;
+                            case 6:
+                                $image = imagerotate($image, -90, 0);
+                                break;
+                            case 8:
+                                $image = imagerotate($image, 90, 0);
+                                break;
+                        }
+                    }
+                }
 
                 if ($props['gd_type'] == IMAGETYPE_JPEG) {
                     $result = imagejpeg($image, $filename, 75);
@@ -309,6 +342,12 @@ class rcube_image
         // use GD extension (TIFF isn't supported)
         $props = $this->props();
 
+        // do we have enough memory? (#1489937)
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
+            return false;
+        }
+
+
         if ($props['gd_type']) {
             if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
                 $image = imagecreatefromjpeg($this->image_file);
@@ -387,5 +426,23 @@ class rcube_image
             }
             catch (Exception $e) {}
         }
+    }
+
+    /**
+     * Check if we have enough memory to load specified image
+     */
+    private function mem_check($props)
+    {
+        // image size is unknown, we can't calculate required memory
+        if (!$props['width']) {
+            return true;
+        }
+
+        // channels: CMYK - 4, RGB - 3
+        $multip = ($props['channels'] ?: 3) + 1;
+
+        // calculate image size in memory (in bytes)
+        $size = $props['width'] * $props['height'] * $multip;
+        return rcube_utils::mem_check($size);
     }
 }

@@ -39,8 +39,6 @@ function roundcube_browser()
 {
   var n = navigator;
 
-  this.ver = parseFloat(n.appVersion);
-  this.appver = n.appVersion;
   this.agent = n.userAgent;
   this.agent_lc = n.userAgent.toLowerCase();
   this.name = n.appName;
@@ -64,19 +62,20 @@ function roundcube_browser()
   this.ie = (document.all && !window.opera) || (this.win && this.agent_lc.indexOf('trident/') > 0);
 
   if (this.ie) {
-    this.ie7 = this.appver.indexOf('MSIE 7') > 0;
-    this.ie8 = this.appver.indexOf('MSIE 8') > 0;
-    this.ie9 = this.appver.indexOf('MSIE 9') > 0;
+    this.ie7 = n.appVersion.indexOf('MSIE 7') > 0;
+    this.ie8 = n.appVersion.indexOf('MSIE 8') > 0;
+    this.ie9 = n.appVersion.indexOf('MSIE 9') > 0;
   }
   else if (window.opera) {
-    this.opera = true;
+    this.opera = true; // Opera < 15
     this.vendver = opera.version();
   }
   else {
     this.chrome = this.agent_lc.indexOf('chrome') > 0;
-    this.safari = !this.chrome && (this.webkit || this.agent_lc.indexOf('safari') > 0);
+    this.opera = this.webkit && this.agent.indexOf(' OPR/') > 0; // Opera >= 15
+    this.safari = !this.chrome && !this.opera && (this.webkit || this.agent_lc.indexOf('safari') > 0);
     this.konq = this.agent_lc.indexOf('konqueror') > 0;
-    this.mz = this.dom && !this.chrome && !this.safari && !this.konq && this.agent.indexOf('Mozilla') >= 0;
+    this.mz = this.dom && !this.chrome && !this.safari && !this.konq && !this.opera && this.agent.indexOf('Mozilla') >= 0;
     this.iphone = this.safari && (this.agent_lc.indexOf('iphone') > 0 || this.agent_lc.indexOf('ipod') > 0);
     this.ipad = this.safari && this.agent_lc.indexOf('ipad') > 0;
   }
@@ -103,7 +102,7 @@ function roundcube_browser()
   this.xmlhttp_test = function()
   {
     var activeX_test = new Function("try{var o=new ActiveXObject('Microsoft.XMLHTTP');return true;}catch(err){return false;}");
-    this.xmlhttp = (window.XMLHttpRequest || (window.ActiveXObject && activeX_test()));
+    this.xmlhttp = window.XMLHttpRequest || (('ActiveXObject' in window) && activeX_test());
     return this.xmlhttp;
   };
 
@@ -653,6 +652,34 @@ jQuery.fn.placeholder = function(text) {
         elem.blur();
     }
   });
+};
+
+// function to parse query string into an object
+rcube_parse_query = function(query)
+{
+  if (!query)
+    return {};
+
+  var params = {}, e, k, v,
+    re = /([^&=]+)=?([^&]*)/g,
+    decodeRE = /\+/g, // Regex for replacing addition symbol with a space
+    decode = function (str) { return decodeURIComponent(str.replace(decodeRE, ' ')); };
+
+  query = query.replace(/\?/, '');
+
+  while (e = re.exec(query)) {
+    k = decode(e[1]);
+    v = decode(e[2]);
+
+    if (k.substring(k.length - 2) === '[]') {
+      k = k.substring(0, k.length - 2);
+      (params[k] || (params[k] = [])).push(v);
+    }
+    else
+      params[k] = v;
+  }
+
+  return params;
 };
 
 

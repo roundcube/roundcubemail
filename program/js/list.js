@@ -131,7 +131,7 @@ init: function()
   }
 
   if (this.parent_focus) {
-    this.list.parentNode.onclick = function(e) { me.focus(e); };
+    this.list.parentNode.onclick = function(e) { me.focus(); };
   }
 
   return this;
@@ -150,11 +150,16 @@ init_row: function(row)
     var self = this, uid = row.uid;
     this.rows[uid] = {uid:uid, id:row.id, obj:row};
 
-    // set eventhandlers to table row
-    row.onmousedown = function(e){ return self.drag_row(e, this.uid); };
-    row.onmouseup = function(e){ return self.click_row(e, this.uid); };
+    // set eventhandlers to table row (only left-button-clicks in mouseup)
+    $(row).mousedown(function(e) { return self.drag_row(e, this.uid); })
+      .mouseup(function(e) {
+        if (e.which == 1 && !self.drag_active)
+          return self.click_row(e, this.uid);
+        else
+          return true;
+      });
 
-    if (bw.touch) {
+    if (bw.touch && row.addEventListener) {
       row.addEventListener('touchstart', function(e) {
         if (e.touches.length == 1) {
           self.touchmoved = false;
@@ -219,7 +224,7 @@ init_header: function()
         if (this.column_fixed == r)
           continue;
         col = this.thead.rows[0].cells[r];
-        col.onmousedown = function(e){ return p.drag_column(e, this); };
+        col.onmousedown = function(e) { return p.drag_column(e, this); };
         this.colcount++;
       }
     }
@@ -240,8 +245,8 @@ init_fixed_header: function()
     $(this.list).before(this.fixed_header);
 
     var me = this;
-    $(window).resize(function(){ me.resize() });
-    $(window).scroll(function(){
+    $(window).resize(function() { me.resize(); });
+    $(window).scroll(function() {
       var w = $(window);
       me.fixed_header.css('marginLeft', (-w.scrollLeft()) + 'px');
       if (!bw.webkit)
@@ -270,14 +275,14 @@ resize: function()
     var column_widths = [];
 
     // get column widths from original thead
-    $(this.tbody).parent().find('thead tr td').each(function(index) {
+    $(this.tbody).parent().find('thead th,thead td').each(function(index) {
       column_widths[index] = $(this).width();
     });
 
     // apply fixed widths to fixed table header
     $(this.thead).parent().width($(this.tbody).parent().width());
-    $(this.thead).find('tr td').each(function(index) {
-      $(this).css('width', column_widths[index]);
+    $(this.thead).find('th,td').each(function(index) {
+      $(this).width(column_widths[index]);
     });
 
     $(window).scroll();
@@ -1417,7 +1422,8 @@ use_arrow_key: function(keyCode, mod_key)
  */
 scrollto: function(id)
 {
-  var row = this.rows[id].obj;
+  var row = this.rows[id] ? this.rows[id].obj : null;
+
   if (row && this.frame) {
     var scroll_to = Number(row.offsetTop),
       head_offset = 0;

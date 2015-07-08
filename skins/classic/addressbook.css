@@ -43,6 +43,16 @@
   background-position: -32px -32px;
 }
 
+#abooktoolbar a.print {
+  background: url(images/mail_toolbar.png) 0 0 no-repeat transparent;
+  background-position: -256px 0;
+}
+
+#abooktoolbar a.printSel {
+  background: url(images/mail_toolbar.png) 0 0 no-repeat transparent;
+  background-position: -256px -32px;
+}
+
 #abooktoolbar a.delete {
   background-position: -64px 0;
 }

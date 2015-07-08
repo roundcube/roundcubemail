@@ -8,10 +8,7 @@
 }
 
 .googie_edit_layer {
-	position: relative;
-	top: 1px;
-	left: 1px;
-  padding: 8px;
+  padding: 4px;
   font-size: 9pt;
   font-family: monospace;
   background-color: #fff;
@@ -26,7 +23,7 @@
   width: 100%;
   margin: 0;
   padding: 0;
-	border-spacing: 0;
+  border-spacing: 0;
 }
 
 .googie_list td {

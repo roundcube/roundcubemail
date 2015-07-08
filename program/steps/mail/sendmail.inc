@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/mail/sendmail.inc                                       |
  |                                                                       |
@@ -24,7 +24,8 @@
 $OUTPUT->reset();
 $OUTPUT->framed = TRUE;
 
-$savedraft      = !empty($_POST['_draft']) ? true : false;
+$saveonly       = !empty($_GET['_saveonly']);
+$savedraft      = !empty($_POST['_draft']) && !$saveonly;
 $sendmail_delay = (int) $RCMAIL->config->get('sendmail_delay');
 $drafts_mbox    = $RCMAIL->config->get('drafts_mbox');
 
@@ -112,6 +113,12 @@ else if ($from_string = rcmail_email_input_format($from)) {
         $from = null;
 }
 
+// check 'From' address (identity may be incomplete)
+if (!$savedraft && !$saveonly && empty($from)) {
+    $OUTPUT->show_message('nofromaddress', 'error');
+    $OUTPUT->send('iframe');
+}
+
 if (!$from_string && $from) {
     $from_string = $from;
 }
@@ -144,7 +151,7 @@ if ($RCMAIL->config->get('http_received_header')) {
         $http_header .= $nldlm . ' via ';
     }
 
-    $host = $_SERVER['REMOTE_ADDR'];
+    $host     = $_SERVER['REMOTE_ADDR'];
     $hostname = gethostbyaddr($host);
 
     if ($encrypt) {
@@ -171,7 +178,7 @@ if ($RCMAIL->config->get('http_received_header')) {
 
 $headers['Date'] = $RCMAIL->user_date();
 $headers['From'] = rcube_charset::convert($from_string, RCUBE_CHARSET, $message_charset);
-$headers['To'] = $mailto;
+$headers['To']   = $mailto;
 
 // additional recipients
 if (!empty($mailcc)) {
@@ -187,6 +194,10 @@ if (($max_recipients = (int) $RCMAIL->config->get('max_recipients')) > 0) {
         $OUTPUT->send('iframe');
     }
 }
+
+$dont_override = (array) $RCMAIL->config->get('dont_override');
+$mdn_enabled   = in_array('mdn_default', $dont_override) ? $RCMAIL->config->get('mdn_default') : !empty($_POST['_mdn']);
+$dsn_enabled   = in_array('dsn_default', $dont_override) ? $RCMAIL->config->get('dsn_default') : !empty($_POST['_dsn']);
 
 // add subject
 $headers['Subject'] = trim(rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, TRUE, $message_charset));
@@ -228,7 +239,7 @@ if (!empty($_POST['_priority'])) {
     }
 }
 
-if (!empty($_POST['_receipt'])) {
+if ($mdn_enabled) {
     $headers['Return-Receipt-To']           = $from_string;
     $headers['Disposition-Notification-To'] = $from_string;
 }
@@ -428,8 +439,7 @@ if (is_array($COMPOSE['attachments'])) {
         $attachment = $RCMAIL->plugins->exec_hook('attachment_get', $attachment);
 
         if ($isHtml) {
-            $dispurl      = '/\s(poster|src)\s*=\s*[\'"]*\S+display-attachment\S+file=rcmfile'
-                . preg_quote($attachment['id']) . '[\s\'"]*/';
+            $dispurl      = '/[\'"]\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\'"]/';
             $message_body = $MAIL_MIME->getHTMLBody();
             $is_inline    = preg_match($dispurl, $message_body);
         }
@@ -449,7 +459,7 @@ if (is_array($COMPOSE['attachments'])) {
                 $cid .= '@localhost';
             }
 
-            $message_body = preg_replace($dispurl, ' \\1="cid:' . $cid . '" ', $message_body);
+            $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
 
             $MAIL_MIME->setHTMLBody($message_body);
 
@@ -469,7 +479,8 @@ if (is_array($COMPOSE['attachments'])) {
                 $attachment['data'] ? false : true,
                 $ctype == 'message/rfc822' ? '8bit' : 'base64',
                 'attachment',
-                '', '', '',
+                $attachment['charset'],
+                '', '',
                 $folding ? 'quoted-printable' : NULL,
                 $folding == 2 ? 'quoted-printable' : NULL,
                 '', RCUBE_CHARSET
@@ -500,29 +511,17 @@ $MAIL_MIME->setParam('head_charset', $message_charset);
 $MAIL_MIME->setParam('html_charset', $message_charset);
 $MAIL_MIME->setParam('text_charset', $text_charset);
 
-// encoding subject header with mb_encode provides better results with asian characters
-if (function_exists('mb_encode_mimeheader')) {
-    mb_internal_encoding($message_charset);
-    $headers['Subject'] = mb_encode_mimeheader($headers['Subject'],
-        $message_charset, 'Q', "\r\n", 8);
-    mb_internal_encoding(RCUBE_CHARSET);
-}
-
 // pass headers to message object
 $MAIL_MIME->headers($headers);
 
-// Begin SMTP Delivery Block
-if (!$savedraft) {
-    // check 'From' address (identity may be incomplete)
-    if (empty($from)) {
-        $OUTPUT->show_message('nofromaddress', 'error');
-        $OUTPUT->send('iframe');
-    }
+// This hook allows to modify the message before send or save action
+$plugin    = $RCMAIL->plugins->exec_hook('message_ready', array('message' => $MAIL_MIME));
+$MAIL_MIME = $plugin['message'];
 
+// Begin SMTP Delivery Block
+if (!$savedraft && !$saveonly) {
     // Handle Delivery Status Notification request
-    if (!empty($_POST['_dsn'])) {
-        $smtp_opts['dsn'] = true;
-    }
+    $smtp_opts['dsn'] = $dsn_enabled;
 
     $sent = $RCMAIL->deliver_message($MAIL_MIME, $from, $mailto,
         $smtp_error, $mailbody_file, $smtp_opts);
@@ -564,9 +563,11 @@ if ($savedraft) {
     $store_target = $drafts_mbox;
 }
 else if (!$RCMAIL->config->get('no_save_sent_messages')) {
-    $store_target = rcube_utils::get_input_value('_store_target', rcube_utils::INPUT_POST);
-    if (!strlen($store_target)) {
-        $sore_target = $RCMAIL->config->get('sent_mbox');
+    if (isset($_POST['_store_target'])) {
+        $store_target = rcube_utils::get_input_value('_store_target', rcube_utils::INPUT_POST);
+    }
+    else {
+        $store_target = $RCMAIL->config->get('sent_mbox');
     }
 }
 
@@ -596,8 +597,9 @@ if ($store_target) {
             else {
                 $temp_dir      = $RCMAIL->config->get('temp_dir');
                 $mailbody_file = tempnam($temp_dir, 'rcmMsg');
+                $msg           = $MAIL_MIME->saveMessageBody($mailbody_file);
 
-                if (!PEAR::isError($msg = $MAIL_MIME->saveMessageBody($mailbody_file))) {
+                if (!is_a($msg, 'PEAR_Error')) {
                     $msg = $mailbody_file;
                 }
             }
@@ -607,7 +609,7 @@ if ($store_target) {
             $headers = '';
         }
 
-        if (PEAR::isError($msg)) {
+        if (is_a($msg, 'PEAR_Error')) {
             rcube::raise_error(array('code' => 650, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Could not create message: ".$msg->getMessage()),
@@ -631,7 +633,8 @@ if ($store_target) {
             'message' => "Could not save message in $store_target"), true, false);
 
         if ($savedraft) {
-            $OUTPUT->show_message('errorsaving', 'error');
+            $RCMAIL->display_server_error('errorsaving');
+
             // start the auto-save timer again
             $OUTPUT->command('auto_save_start');
             $OUTPUT->send('iframe');
@@ -680,23 +683,40 @@ if ($savedraft) {
     $OUTPUT->command('auto_save_start');
 }
 else {
+    // Collect folders which could contain the composed message,
+    // we'll refresh the list if currently opened folder is one of them (#1490238)
     $folders = array();
 
-    if ($COMPOSE['mode'] == 'reply' || $COMPOSE['mode'] == 'forward') {
-        $folders[] = $COMPOSE['mailbox'];
+    if (!$saveonly) {
+        if (in_array($COMPOSE['mode'], array('reply', 'forward', 'draft'))) {
+            $folders[] = $COMPOSE['mailbox'];
+        }
+        if (!empty($COMPOSE['param']['draft_uid']) && $drafts_mbox) {
+            $folders[] = $drafts_mbox;
+        }
     }
-
-    rcmail_compose_cleanup($COMPOSE_ID);
-    $OUTPUT->command('remove_compose_data', $COMPOSE_ID);
 
     if ($store_folder && !$saved) {
-        $OUTPUT->command('sent_successfully', 'error', $RCMAIL->gettext('errorsavingsent'), $folders);
+        $params = $saveonly ? null : array('prefix' => true);
+        $RCMAIL->display_server_error('errorsavingsent', null, null, $params);
+        if ($saveonly) {
+            $OUTPUT->send('iframe');
+        }
+
+        $save_error = true;
     }
-    else if ($store_folder) {
-        $folders[] = $store_target;
+    else {
+        rcmail_compose_cleanup($COMPOSE_ID);
+        $OUTPUT->command('remove_compose_data', $COMPOSE_ID);
+
+        if ($store_folder) {
+            $folders[] = $store_target;
+        }
     }
 
-    $OUTPUT->command('sent_successfully', 'confirmation', $RCMAIL->gettext('messagesent'), $folders);
+    $msg = $RCMAIL->gettext($saveonly ? 'successfullysaved' : 'messagesent');
+
+    $OUTPUT->command('sent_successfully', 'confirmation', $msg, $folders, $save_error);
 }
 
 $OUTPUT->send('iframe');
@@ -756,8 +776,10 @@ function rcmail_fix_emoticon_paths($mime_message)
     // remove any null-byte characters before parsing
     $body = preg_replace('/\x00/', '', $body);
 
-    $searchstr = 'program/js/tinymce/plugins/emoticons/img/';
-    $offset = 0;
+    $searchstr  = 'program/js/tinymce/plugins/emoticons/img/';
+    $assets_dir = $RCMAIL->config->get('assets_dir');
+    $path       = ($assets_dir ?: INSTALL_PATH) . '/' . $searchstr;
+    $offset     = 0;
 
     // keep track of added images, so they're only added once
     $included_images = array();
@@ -770,12 +792,14 @@ function rcmail_fix_emoticon_paths($mime_message)
 
                 // sanitize image name so resulting attachment doesn't leave images dir
                 $image_name = preg_replace('/[^a-zA-Z0-9_\.\-]/i', '', $image_name);
-                $img_file   = INSTALL_PATH . '/' . $searchstr . $image_name;
+                $img_file   = $path . $image_name;
 
-                if (! in_array($image_name, $included_images)) {
+                if (!in_array($image_name, $included_images)) {
                     // add the image to the MIME message
-                    if (!$mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name)) {
+                    $res = $mime_message->addHTMLImage($img_file, 'image/gif', '', true, $image_name);
+                    if (is_a($res, 'PEAR_Error')) {
                         $RCMAIL->output->show_message("emoticonerror", 'error');
+                        continue;
                     }
 
                     array_push($included_images, $image_name);

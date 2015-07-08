@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Non foi posíbel gardar o contrasinal novo.';
 $messages['passwordshort'] = 'O contrasinal debe ter polo menos $length caracteres.';
 $messages['passwordweak'] = 'O contrasinal debe incluir polo menos un número e un signo de puntuación.';
 $messages['passwordforbidden'] = 'O contrasinal contén caracteres non permitidos.';
+$messages['firstloginchange'] = 'É a primeira vez que se conecta. Por favor, troque o seu contrasinal.';
 ?>

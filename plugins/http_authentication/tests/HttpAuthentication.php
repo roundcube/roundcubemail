@@ -5,7 +5,7 @@ class HttpAuthentication_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../http_authentication.php';
+        include_once __DIR__ . '/../http_authentication.php';
     }
 
     /**

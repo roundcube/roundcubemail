@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Не могу сохранить новый пар
 $messages['passwordshort'] = 'Длина пароля должна быть как минимум $length символов.';
 $messages['passwordweak'] = 'Пароль должен включать в себя как минимум одну цифру и один знак пунктуации.';
 $messages['passwordforbidden'] = 'Пароль содержит недопустимые символы.';
+$messages['firstloginchange'] = 'Вы выполнили вход впервые. Измените ваш пароль.';
 ?>

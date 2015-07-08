@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-$messages['forgotattachment'] = "Bir dosya eklemeyi unuttunuz mu?";
-$messages['reminderoption'] = "Unutulan dosya eklemelerini hatırlat";
-$messages['keywords'] = "ekleme,dosya,ek,eklenildi,ekleniliyor,konuldu,CV,kapak mektubu";
+$messages['forgotattachment'] = "Dosya eklemeyi mi unuttunuz?";
+$messages['reminderoption'] = "Dosya ek(ler)i unutulduysa hatırlat.";
+$messages['keywords'] = "ekleme,dosya,ek,eklenildi,ekleniliyor,ekteki,CV,mektup";

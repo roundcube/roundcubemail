@@ -139,8 +139,10 @@ class rcube_db_pgsql extends rcube_db
         // There's a known case when max_allowed_packet is queried
         // PostgreSQL doesn't have such limit, return immediately
         if ($varname == 'max_allowed_packet') {
-            return $default;
+            return rcube::get_instance()->config->get('db_' . $varname, $default);
         }
+
+        $this->variables[$varname] = rcube::get_instance()->config->get('db_' . $varname);
 
         if (!isset($this->variables)) {
             $this->variables = array();
@@ -153,6 +155,25 @@ class rcube_db_pgsql extends rcube_db
         }
 
         return isset($this->variables[$varname]) ? $this->variables[$varname] : $default;
+    }
+
+    /**
+     * Returns list of tables in a database
+     *
+     * @return array List of all tables of the current database
+     */
+    public function list_tables()
+    {
+        // get tables if not cached
+        if ($this->tables === null) {
+            $q = $this->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
+                . " WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA NOT IN ('pg_catalog', 'information_schema')"
+                . " ORDER BY TABLE_NAME");
+
+            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : array();
+        }
+
+        return $this->tables;
     }
 
     /**

@@ -43,9 +43,9 @@ class database_attachments extends filesystem_attachments
         $status = $cache->write($key, $data);
 
         if ($status) {
-            $args['id'] = $key;
+            $args['id']     = $key;
             $args['status'] = true;
-            unset($args['path']);
+            $args['path']   = null;
         }
 
         return $args;
@@ -155,7 +155,7 @@ class database_attachments extends filesystem_attachments
             $type   = $rcmail->config->get('database_attachments_cache', 'db');
 
             // Init SQL cache (disable cache data serialization)
-            $this->cache = $rcmail->get_cache($this->prefix, 'db', $ttl, false);
+            $this->cache = $rcmail->get_cache($this->prefix, $type, $ttl, false);
         }
 
         return $this->cache;

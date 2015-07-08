@@ -1,0 +1,27 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Prefix Firstname Middle Lastname Suffix
+N:Lastname;Firstname;Middle;Prefix;Suffix
+NICKNAME:nick
+BDAY;VALUE=date:1975-12-12
+NOTE:note"note
+CATEGORIES:My Contacts,Test
+EMAIL;TYPE=INTERNET;TYPE=HOME:home@aaa.pl
+EMAIL;TYPE=INTERNET;TYPE=WORK:work@email.pl
+EMAIL;TYPE=INTERNET;TYPE=OTHER:unknown@email.com
+EMAIL;TYPE=INTERNET;TYPE=OTHER:other@email.com
+TEL;TYPE=pager:pager
+TEL;TYPE=pref:mainphone
+TEL;TYPE=home:homephone
+TEL;TYPE=homefax:homefax
+TEL;TYPE=cell:mobile
+TEL;TYPE=work:workphone
+TEL;TYPE=workfax:workfax
+X-SPOUSE:spouse
+URL;TYPE=profile:test.com
+URL;TYPE=homepage:home.page.com
+ORG:company
+TITLE:jobtitle
+ADR;TYPE=home:;;home_street;home_city;home_state;home_zip;home_country
+ADR;TYPE=work:;;work_street;work_city;;work_zip;work_country
+END:VCARD

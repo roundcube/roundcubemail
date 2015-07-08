@@ -17,15 +17,15 @@
 */
 $labels['buttontext'] = 'Archivo';
 $labels['buttontitle'] = 'Archivar este mensaje';
-$labels['archived'] = 'Mensaje Archivado';
-$labels['archivedreload'] = 'Archivado con éxito. Recargue la página para ver las nuevas carpetas de archivo.';
-$labels['archiveerror'] = 'No se ha podido archivar algunos mensajes';
+$labels['archived'] = 'Archivado correctamente';
+$labels['archivedreload'] = 'Archivado correctamente. Recargue la página para ver las nuevas carpetas de archivo.';
+$labels['archiveerror'] = 'No se pudo archivar algunos mensajes';
 $labels['archivefolder'] = 'Archivo';
 $labels['settingstitle'] = 'Archivo';
 $labels['archivetype'] = 'Dividir el archivo por';
 $labels['archivetypeyear'] = 'Año (p.ej. Archivo/2012)';
 $labels['archivetypemonth'] = 'Mes (p.ej. Archivo/2012/06)';
 $labels['archivetypefolder'] = 'Bandeja original';
-$labels['archivetypesender'] = 'Email del remitente';
+$labels['archivetypesender'] = 'Correo electrónico del remitente';
 $labels['unkownsender'] = 'desconocido';
 ?>

@@ -1,20 +1,14 @@
 <?php
-/*
+
+/**
  +-------------------------------------------------------------------------+
- | S/MIME driver for the Enigma Plugin                                |
+ | S/MIME driver for the Enigma Plugin                                     |
  |                                                                         |
- | This program is free software; you can redistribute it and/or modify    |
- | it under the terms of the GNU General Public License version 2          |
- | as published by the Free Software Foundation.                           |
+ | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
  |                                                                         |
- | This program is distributed in the hope that it will be useful,         |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of          |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           |
- | GNU General Public License for more details.                            |
- |                                                                         |
- | You should have received a copy of the GNU General Public License along |
- | with this program; if not, write to the Free Software Foundation, Inc., |
- | 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.             |
+ | Licensed under the GNU General Public License version 3 or              |
+ | any later version with exceptions for skins & plugins.                  |
+ | See the README file for a full license statement.                       |
  |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
@@ -24,7 +18,6 @@
 class enigma_driver_phpssl extends enigma_driver
 {
     private $rc;
-    //private $gpg;
     private $homedir;
     private $user;
 
@@ -78,11 +71,11 @@ class enigma_driver_phpssl extends enigma_driver
     {
     }
 
-    function decrypt($text, $key, $passwd)
+    function decrypt($text, $keys = array())
     {
     }
 
-    function sign($text, $key, $passwd)
+    function sign($text, $key, $passwd, $mode = null)
     {
     }
 
@@ -95,7 +88,7 @@ class enigma_driver_phpssl extends enigma_driver
 
         $fh = fopen($msg_file, "w");
         if ($struct->mime_id) {
-            $message->get_part_content($struct->mime_id, $fh, true, 0, false);
+            $message->get_part_body($struct->mime_id, false, 0, $fh);
         }
         else {
             $this->rc->storage->get_raw_body($message->uid, $fh);
@@ -145,15 +138,15 @@ class enigma_driver_phpssl extends enigma_driver
     {
     }
 
-    public function del_key($keyid)
+    public function delete_key($keyid)
     {
     }
 
-    public function del_privkey($keyid)
+    public function delete_privkey($keyid)
     {
     }
 
-    public function del_pubkey($keyid)
+    public function delete_pubkey($keyid)
     {
     }
 

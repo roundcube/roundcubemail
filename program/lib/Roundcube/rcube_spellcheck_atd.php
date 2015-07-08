@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -127,7 +127,7 @@ class rcube_spellcheck_atd extends rcube_spellcheck_engine
             $result = new SimpleXMLElement($response);
         }
         catch (Exception $e) {
-            $thid->error = "Unexpected response from server: " . $store;
+            $this->error = "Unexpected response from server: " . $response;
             return array();
         }
 
@@ -199,6 +199,4 @@ class rcube_spellcheck_atd extends rcube_spellcheck_engine
 
         return $result;
     }
-
 }
-

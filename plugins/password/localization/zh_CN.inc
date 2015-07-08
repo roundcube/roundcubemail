@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = '修改密码';
 $labels['curpasswd']  = '当前密码：';
 $labels['newpasswd']  = '新密码：';
 $labels['confpasswd']  = '确认新密码：';

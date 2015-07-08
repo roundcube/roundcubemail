@@ -15,14 +15,7 @@
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
-// This is a list of CSV column names specified in CSV file header
-// These must be original texts used in Outlook/Thunderbird exported csv files
-// Encoding UTF-8
-
 $map = array();
-
-// MS Outlook 2010
 $map['anniversary'] = "Anniversary";
 $map['assistants_name'] = "Assistant's Name";
 $map['assistants_phone'] = "Assistant's Phone";
@@ -69,8 +62,6 @@ $map['spouse'] = "Spouse";
 $map['suffix'] = "Suffix";
 $map['title'] = "Title";
 $map['web_page'] = "Web Page";
-
-// Thunderbird
 $map['birth_day'] = "Giorno di nascita";
 $map['birth_month'] = "Mese di nascita";
 $map['birth_year'] = "Anno di nascita";
@@ -91,8 +82,6 @@ $map['work_phone'] = "Telefono lavoro";
 $map['work_address'] = "Indirizzo di lavoro 2";
 $map['work_country'] = "Nazione di lavoro";
 $map['work_zipcode'] = "CAP di lavoro";
-
-// Atmail
 $map['date_of_birth'] = "Date of Birth";
 $map['email'] = "Email";
 $map['home_mobile'] = "Home Mobile";

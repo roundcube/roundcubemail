@@ -15,29 +15,33 @@ $required_php_exts = array(
     'XML'       => 'xml',
     'JSON'      => 'json',
     'PDO'       => 'PDO',
+    'Multibyte' => 'mbstring',
+    'OpenSSL'   => 'openssl',
 );
 
 $optional_php_exts = array(
     'FileInfo'  => 'fileinfo',
     'Libiconv'  => 'iconv',
-    'Multibyte' => 'mbstring',
-    'OpenSSL'   => 'openssl',
-    'Mcrypt'    => 'mcrypt',
     'Intl'      => 'intl',
     'Exif'      => 'exif',
+    'LDAP'      => 'ldap',
 );
 
 $required_libs = array(
-    'PEAR'      => 'PEAR.php',
-    'Net_SMTP'  => 'Net/SMTP.php',
-    'Net_IDNA2' => 'Net/IDNA2.php',
-    'Mail_mime' => 'Mail/mime.php',
+    'PEAR'      => 'pear.php.net',
+    'Auth_SASL' => 'pear.php.net',
+    'Net_SMTP'  => 'pear.php.net',
+    'Net_IDNA2' => 'pear.php.net',
+    'Mail_mime' => 'pear.php.net',
+);
+
+$optional_libs = array(
+    'Net_LDAP3' => 'git.kolab.org',
 );
 
 $ini_checks = array(
     'file_uploads'                  => 1,
     'session.auto_start'            => 0,
-    'zend.ze1_compatibility_mode'   => 0,
     'mbstring.func_overload'        => 0,
     'suhosin.session.encrypt'       => 0,
     'magic_quotes_runtime'          => 0,
@@ -58,13 +62,14 @@ $source_urls = array(
     'FileInfo'  => 'http://www.php.net/manual/en/book.fileinfo.php',
     'Libiconv'  => 'http://www.php.net/manual/en/book.iconv.php',
     'Multibyte' => 'http://www.php.net/manual/en/book.mbstring.php',
-    'Mcrypt'    => 'http://www.php.net/manual/en/book.mcrypt.php',
     'OpenSSL'   => 'http://www.php.net/manual/en/book.openssl.php',
     'JSON'      => 'http://www.php.net/manual/en/book.json.php',
     'DOM'       => 'http://www.php.net/manual/en/book.dom.php',
     'Intl'      => 'http://www.php.net/manual/en/book.intl.php',
     'Exif'      => 'http://www.php.net/manual/en/book.exif.php',
+    'oci8'      => 'http://www.php.net/manual/en/book.oci8.php',
     'PDO'       => 'http://www.php.net/manual/en/book.pdo.php',
+    'LDAP'      => 'http://www.php.net/manual/en/book.ldap.php',
     'pdo_mysql'   => 'http://www.php.net/manual/en/ref.pdo-mysql.php',
     'pdo_pgsql'   => 'http://www.php.net/manual/en/ref.pdo-pgsql.php',
     'pdo_sqlite'  => 'http://www.php.net/manual/en/ref.pdo-sqlite.php',
@@ -75,6 +80,7 @@ $source_urls = array(
     'Net_SMTP'  => 'http://pear.php.net/package/Net_SMTP',
     'Mail_mime' => 'http://pear.php.net/package/Mail_mime',
     'Net_IDNA2' => 'http://pear.php.net/package/Net_IDNA2',
+    'Net_LDAP3' => 'https://git.kolab.org/diffusion/PNL',
 );
 
 echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . '" />';
@@ -160,17 +166,25 @@ if (empty($found_db_driver)) {
 
 <?php
 
-foreach ($required_libs as $classname => $file) {
-    @include_once $file;
+foreach ($required_libs as $classname => $vendor) {
     if (class_exists($classname)) {
         $RCI->pass($classname);
     }
     else {
-        $RCI->fail($classname, "Failed to load $file", $source_urls[$classname]);
+        $RCI->fail($classname, "Failed to load class $classname from $vendor", $source_urls[$classname]);
     }
     echo "<br />";
 }
 
+foreach ($optional_libs as $classname => $vendor) {
+    if (class_exists($classname)) {
+        $RCI->pass($classname);
+    }
+    else {
+        $RCI->na($classname, "Recommended to install $classname from $vendor", $source_urls[$classname]);
+    }
+    echo "<br />";
+}
 
 ?>
 

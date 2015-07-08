@@ -5,7 +5,7 @@ class NewUserDialog_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../new_user_dialog.php';
+        include_once __DIR__ . '/../new_user_dialog.php';
     }
 
     /**

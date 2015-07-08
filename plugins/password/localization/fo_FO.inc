@@ -15,7 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
-$labels['changepasswd']  = 'Broyt loyniorð';
 $labels['curpasswd']  = 'Nú verandi loyniorð:';
 $labels['newpasswd']  = 'Nýtt loyniorð:';
 $labels['confpasswd']  = 'Endurtak nýggja loyniorð:';

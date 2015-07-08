@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-$messages['forgotattachment'] = "Apakah anda lupa menambahkan attachment?";
-$messages['reminderoption'] = "Pengingat attachment yang terlupakan";
+$messages['forgotattachment'] = "Apakah anda lupa melampirkan sebuah file?";
+$messages['reminderoption'] = "Ingatkan tentang lampiran yang terlupakan";
 $messages['keywords'] = "attachment,file,attach,attached,attaching,enclosed,CV,cover letter";

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
@@ -71,6 +71,7 @@ abstract class rcube_plugin
     protected $home;
     protected $urlbase;
     private $mytask;
+    private $loaded_config = array();
 
 
     /**
@@ -121,6 +122,17 @@ abstract class rcube_plugin
     }
 
     /**
+     * Attempt to load the given plugin which is optional for the current plugin
+     *
+     * @param string Plugin name
+     * @return boolean True on success, false on failure
+     */
+    public function include_plugin($plugin_name)
+    {
+        return $this->api->load_plugin($plugin_name, true, false);
+    }
+
+    /**
      * Load local config file from plugins directory.
      * The loaded values are patched over the global configuration.
      *
@@ -130,6 +142,12 @@ abstract class rcube_plugin
      */
     public function load_config($fname = 'config.inc.php')
     {
+        if (in_array($fname, $this->loaded_config)) {
+            return true;
+        }
+
+        $this->loaded_config[] = $fname;
+
         $fpath = $this->home.'/'.$fname;
         $rcube = rcube::get_instance();
 
@@ -404,7 +422,7 @@ abstract class rcube_plugin
         $rcube = rcube::get_instance();
         $skins = array_keys((array)$rcube->output->skins);
         if (empty($skins)) {
-            $skins = array($rcube->config->get('skin'));
+            $skins = (array) $rcube->config->get('skin');
         }
         foreach ($skins as $skin) {
             $skin_path = 'skins/' . $skin;

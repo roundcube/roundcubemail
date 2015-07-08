@@ -16,7 +16,7 @@
 main(int argc, char *argv[])
 {
   int cnt,rc,cc;
-  char cmnd[255];
+  char cmnd[1024];
 
   strcpy(cmnd, CMD);
 

@@ -46,6 +46,16 @@ class rc_html2text extends PHPUnit_Framework_TestCase
                 'in'    => chr(0x002).chr(0x003),
                 'out'   => chr(0x002).chr(0x003),
             ),
+            7 => array(
+                'title' => 'Remove spaces after <br>',
+                'in'    => 'test<br>  test',
+                'out'   => "test\ntest",
+            ),
+            8 => array(
+                'title' => '&nbsp; handling test',
+                'in'    => '<div>eye: &nbsp;&nbsp;test<br /> tes: &nbsp;&nbsp;test</div>',
+                'out'   => "eye:   test\ntes:   test",
+            ),
         );
     }
 
@@ -107,5 +117,30 @@ EOF;
         $res = $ht->get_text();
 
         $this->assertContains('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoating on invalid html');
+    }
+
+    function test_links()
+    {
+        $html     = '<a href="http://test.com">content</a>';
+        $expected = 'content [1]
+
+Links:
+------
+[1] http://test.com
+';
+
+        $ht = new rcube_html2text($html, false, true);
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Links list');
+
+        // href == content (#1490434)
+        $html     = '<a href="http://test.com">http://test.com</a>';
+        $expected = 'http://test.com';
+
+        $ht = new rcube_html2text($html, false, true);
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Skip link with href == content');
     }
 }

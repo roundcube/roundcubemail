@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -56,11 +56,6 @@ class rcube_message_part
      */
     public $mimetype = 'text/plain';
 
-    public $disposition = '';
-    public $filename = '';
-    public $encoding = '8bit';
-    public $charset = '';
-
     /**
      * Part size in bytes
      *
@@ -75,6 +70,10 @@ class rcube_message_part
      */
     public $headers = array();
 
+    public $disposition  = '';
+    public $filename     = '';
+    public $encoding     = '8bit';
+    public $charset      = '';
     public $d_parameters = array();
     public $ctype_parameters = array();
 
@@ -92,5 +91,4 @@ class rcube_message_part
             }
         }
     }
-
 }

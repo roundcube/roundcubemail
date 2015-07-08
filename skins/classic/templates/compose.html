@@ -174,11 +174,13 @@
 
 <div id="composeoptionsmenu" class="popupmenu">
     <table>
+    <roundcube:if condition="!in_array('mdn_default', (array)config:dont_override)" />
     <tr>
         <td><label for="rcmcomposereceipt"><roundcube:label name="returnreceipt" />:</label></td>
-        <td><roundcube:object name="receiptCheckBox" form="form" id="rcmcomposereceipt" /></td>
+        <td><roundcube:object name="mdnCheckBox" form="form" id="rcmcomposereceipt" /></td>
     </tr>
-    <roundcube:if condition="config:smtp_server != ''" />
+    <roundcube:endif />
+    <roundcube:if condition="config:smtp_server != '' and !in_array('dsn_default', (array)config:dont_override)" />
     <tr>
         <td><label for="rcmcomposedsn"><roundcube:label name="dsn" />:</label></td>
         <td><roundcube:object name="dsnCheckBox" form="form" id="rcmcomposedsn" /></td>

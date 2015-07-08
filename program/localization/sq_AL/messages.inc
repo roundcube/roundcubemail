@@ -15,10 +15,14 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+$messages['errortitle']  = 'Një problem është paraqitur!';
 $messages['loginfailed']  = 'Hyrja dështoi';
 $messages['cookiesdisabled'] = 'Shfletuesi juaj nuk i pranon sheqerkat';
 $messages['sessionerror'] = 'Sesioni juaj është i pavlefshëm ose i ka kaluar afati';
 $messages['storageerror'] = 'Lidhja me serverin IMAP dështoi';
+$messages['servererror'] = 'Problem me Serverin!';
+$messages['dberror'] = 'Problem me bazën e të dhënave!';
+$messages['erroroverquotadelete'] = 'Nuk ka hapësirë të lirë. Përdote SHIFT+DEL që të e fshish një mesazh.';
 $messages['nomessagesfound'] = 'Nuk ka mesazhe në këtë kuti postare';
 $messages['loggedout'] = 'Sesionin e mbyllët me sukses. Mirupafshim!';
 $messages['loading'] = 'Po ngarkohet...';
@@ -31,6 +35,7 @@ $messages['messagesaved'] = 'Mesazhi u ruajt te kutia Drafte';
 $messages['successfullysaved'] = 'U ruajt me sukses';
 $messages['addedsuccessfully'] = 'Kontakti u shtua me sukses në librin e adresave';
 $messages['contactexists'] = 'Këtë adresë e-mail e ka një kontakt tjetër';
+$messages['contactnameexists'] = 'Një kontakt me emrin e njëjtë tashmë ekziston.';
 $messages['blockedimages'] = 'Për të mbrojtur fshehtësinë tuaj, imazhet e largëta të këtij mesazhi janë bllokuar.';
 $messages['encryptedmessage'] = 'Ky është një mesazh i koduar dhe nuk mund te shfaqet. Më vjen keq!';
 $messages['nocontactsfound'] = 'Nuk ka kontakte';

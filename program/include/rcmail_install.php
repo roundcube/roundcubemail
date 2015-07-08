@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | rcmail_install.php                                                    |
  |                                                                       |
@@ -13,13 +13,12 @@
  +-----------------------------------------------------------------------+
 */
 
-
 /**
  * Class to control the installation process of the Roundcube Webmail package
  *
  * @category Install
  * @package  Roundcube
- * @author Thomas Bruederli
+ * @author   Thomas Bruederli
  */
 class rcmail_install
 {
@@ -55,6 +54,7 @@ class rcmail_install
     'SQLite (v2)'         => 'pdo_sqlite2',
     'SQL Server (SQLSRV)' => 'pdo_sqlsrv',
     'SQL Server (DBLIB)'  => 'pdo_dblib',
+    'Oracle'              => 'oci8',
   );
 
 
@@ -162,7 +162,7 @@ class rcmail_install
     $value = $this->config[$name];
 
     if ($name == 'des_key' && !$this->configured && !isset($_REQUEST["_$name"]))
-      $value = self::random_key(24);
+      $value = rcube_utils::random_bytes(24);
 
     return $value !== null && $value !== '' ? $value : $default;
   }
@@ -192,7 +192,7 @@ class rcmail_install
 
       // generate new encryption key, never use the default value
       if ($prop == 'des_key' && $value == $this->defaults[$prop])
-        $value = $this->random_key(24);
+        $value = rcube_utils::random_bytes(24);
 
       // convert some form data
       if ($prop == 'debug_level' && !$is_default) {
@@ -232,6 +232,13 @@ class rcmail_install
       }
       else if (is_numeric($value)) {
         $value = intval($value);
+      }
+      else if ($prop == 'plugins' && !empty($_POST['submit'])) {
+        $value = array();
+        foreach (array_keys($_POST) as $key) {
+          if (preg_match('/^_plugins_*/', $key))
+            array_push($value, $_POST[$key]);
+        }
       }
 
       // skip this property
@@ -289,7 +296,7 @@ class rcmail_install
     $out = $seen = array();
 
     // iterate over the current configuration
-    foreach ($this->config as $prop => $value) {
+    foreach (array_keys($this->config) as $prop) {
       if ($replacement = $this->replaced_config[$prop]) {
         $out['replaced'][] = array('prop' => $prop, 'replacement' => $replacement);
         $seen[$replacement] = true;
@@ -558,6 +565,35 @@ class rcmail_install
   }
 
   /**
+  * Return a list with available subfolders of the plugins directory
+  * (with their associated description in composer.json)
+  */
+  function list_plugins() 
+  {
+    $plugins = array();
+    $plugin_dir = INSTALL_PATH . 'plugins/';
+
+    foreach (glob($plugin_dir . '*') as $path) 
+    {
+
+      if (is_dir($path) && is_readable($path.'/composer.json'))
+      {
+        $file_json = json_decode(file_get_contents($path.'/composer.json'));
+        $plugin_desc = $file_json->description ?: 'N/A';
+      }
+      else
+      {
+        $plugin_desc = 'N/A';
+      }
+
+      $name = substr($path, strlen($plugin_dir));
+      $plugins[] = array('name' => $name, 'desc' => $plugin_desc, 'enabled' => in_array($name, $this->config['plugins']));
+    }
+
+    return $plugins;
+  }
+
+  /**
    * Display OK status
    *
    * @param string Test name
@@ -736,12 +772,8 @@ class rcmail_install
    */
   function update_db($version)
   {
-    system(INSTALL_PATH . "bin/updatedb.sh --package=roundcube"
-      . " --version=" . escapeshellarg($version)
-      . " --dir=" . INSTALL_PATH . "SQL"
-      . " 2>&1", $result);
-
-    return !$result;
+    return rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $version,
+        array('quiet' => true));
   }
 
 
@@ -752,25 +784,4 @@ class rcmail_install
   {
       $this->last_error = $p;
   }
-
-
-  /**
-   * Generarte a ramdom string to be used as encryption key
-   *
-   * @param int Key length
-   * @return string The generated random string
-   * @static
-   */
-  function random_key($length)
-  {
-    $alpha = 'ABCDEFGHIJKLMNOPQERSTUVXYZabcdefghijklmnopqrtsuvwxyz0123456789+*%&?!$-_=';
-    $out = '';
-
-    for ($i=0; $i < $length; $i++)
-      $out .= $alpha{rand(0, strlen($alpha)-1)};
-
-    return $out;
-  }
-
 }
-

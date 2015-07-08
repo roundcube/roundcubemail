@@ -1,0 +1,19 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<link rel="stylesheet" type="text/css" href="/this/enigma.css" />
+</head>
+<body class="iframe">
+
+<h1 class="boxtitle"><roundcube:object name="keyname" part="name" /></h1>
+
+<div id="key-details" class="boxcontent propform">
+    <roundcube:object name="keydata" class="propform" />
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>

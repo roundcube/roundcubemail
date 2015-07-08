@@ -34,6 +34,7 @@ class help extends rcube_plugin
         $this->register_action('license', array($this, 'action'));
 
         $this->add_hook('startup', array($this, 'startup'));
+        $this->add_hook('error_page', array($this, 'error_page'));
     }
 
     function startup($args)
@@ -82,8 +83,14 @@ class help extends rcube_plugin
     function tablink($attrib)
     {
         $rcmail = rcmail::get_instance();
+
         $attrib['name'] = 'helplink' . $attrib['action'];
         $attrib['href'] = $rcmail->url(array('_action' => $attrib['action'], '_extwin' => !empty($_REQUEST['_extwin']) ? 1 : null));
+
+        // title might be already translated here, so revert to it's initial value
+        // so button() will translate it correctly
+        $attrib['title'] = $attrib['label'];
+
         return $rcmail->output->button($attrib);
     }
 
@@ -134,6 +141,16 @@ class help extends rcube_plugin
         return $rcmail->output->frame($attrib);
     }
 
+    function error_page($args)
+    {
+        $rcmail = rcmail::get_instance();
+
+        if ($args['code'] == 403 && $rcmail->request_status == rcube::REQUEST_ERROR_URL && ($url = $rcmail->config->get('help_csrf_info'))) {
+            $args['text'] .= '<p>' . html::a(array('href' => $url, 'target' => '_blank'), $this->gettext('csrfinfo')) . '</p>';
+        }
+
+        return $args;
+    }
 
     private function resolve_language($path)
     {

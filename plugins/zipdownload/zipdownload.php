@@ -144,20 +144,14 @@ class zipdownload extends rcube_plugin
                 }
             }
 
-            $disp_name = $this->_convert_filename($filename);
+            $disp_name   = $this->_convert_filename($filename);
+            $tmpfn       = tempnam($temp_dir, 'zipattach');
+            $tmpfp       = fopen($tmpfn, 'w');
+            $tempfiles[] = $tmpfn;
 
-            if ($part->body) {
-                $orig_message_raw = $part->body;
-                $zip->addFromString($disp_name, $orig_message_raw);
-            }
-            else {
-                $tmpfn = tempnam($temp_dir, 'zipattach');
-                $tmpfp = fopen($tmpfn, 'w');
-                $imap->get_message_part($message->uid, $part->mime_id, $part, null, $tmpfp, true);
-                $tempfiles[] = $tmpfn;
-                fclose($tmpfp);
-                $zip->addFile($tmpfn, $disp_name);
-            }
+            $message->get_part_body($part->mime_id, false, 0, $tmpfp);
+            $zip->addFile($tmpfn, $disp_name);
+            fclose($tmpfp);
         }
 
         $zip->close();
@@ -216,6 +210,11 @@ class zipdownload extends rcube_plugin
         foreach ($messageset as $mbox => $uids) {
             $imap->set_folder($mbox);
             $path = $folders ? str_replace($imap->get_hierarchy_delimiter(), '/', $mbox) . '/' : '';
+
+            if ($uids === '*') {
+                $index = $imap->index($mbox, null, null, true);
+                $uids  = $index->get();
+            }
 
             foreach ($uids as $uid) {
                 $headers = $imap->get_message_headers($uid);

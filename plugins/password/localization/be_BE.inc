@@ -29,4 +29,5 @@ $messages['internalerror'] = 'Не ўдалося захаваць новы па
 $messages['passwordshort'] = 'Пароль мусіць быць мінімум $length знакаў.';
 $messages['passwordweak'] = 'Пароль мусіць утрымліваць мінімум адну лічбу і адзін знак пунктуацыі.';
 $messages['passwordforbidden'] = 'Пароль утрымлівае забароненыя знакі.';
+$messages['firstloginchange'] = 'Гэта ваш першы ўваход. Трэба змяніць пароль.';
 ?>

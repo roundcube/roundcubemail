@@ -4,6 +4,8 @@
  * Test class to test rcube_db_sqlsrv class
  *
  * @package Tests
+ * @group database
+ * @group sqlrsv
  */
 class Framework_DBSqlsrv extends PHPUnit_Framework_TestCase
 {

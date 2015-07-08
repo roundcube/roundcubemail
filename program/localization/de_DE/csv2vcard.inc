@@ -15,14 +15,7 @@
 | Author: Aleksander Machniak <alec@alec.pl>                            |
 +-----------------------------------------------------------------------+
 */
-
-// This is a list of CSV column names specified in CSV file header
-// These must be original texts used in Outlook/Thunderbird exported csv files
-// Encoding UTF-8
-
 $map = array();
-
-// MS Outlook 2010
 $map['anniversary'] = "Jahrestag";
 $map['assistants_name'] = "Name Assistent";
 $map['assistants_phone'] = "Telefon Assistent";
@@ -40,6 +33,8 @@ $map['categories'] = "Kategorien";
 $map['company'] = "Firma";
 $map['department'] = "Abteilung";
 $map['email_address'] = "E-Mail-Adresse";
+$map['email_2_address'] = "E-Mail 2: Adresse";
+$map['email_3_address'] = "E-Mail 3: Adresse";
 $map['first_name'] = "Vorname";
 $map['gender'] = "Geschlecht";
 $map['home_city'] = "Ort privat";
@@ -69,8 +64,6 @@ $map['spouse'] = "Spouse";
 $map['suffix'] = "Suffix";
 $map['title'] = "Title";
 $map['web_page'] = "Webseite";
-
-// Thunderbird
 $map['birth_day'] = "Geburtstag";
 $map['birth_month'] = "Geburtsmonat";
 $map['birth_year'] = "Geburtsjahr";
@@ -91,8 +84,6 @@ $map['work_phone'] = "Tel. dienstlich";
 $map['work_address'] = "Dienstlich: Adresse";
 $map['work_country'] = "Dienstlich: Land";
 $map['work_zipcode'] = "Dienstlich: PLZ";
-
-// Atmail
 $map['date_of_birth'] = "Date of Birth";
 $map['email'] = "Email";
 $map['home_mobile'] = "Home Mobile";

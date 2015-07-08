@@ -18,7 +18,6 @@
 $labels['sharing'] = 'Dalīšanās';
 $labels['myrights'] = 'Piekļuves tiesības';
 $labels['username'] = 'Lietotājs:';
-$labels['advanced'] = 'paplašinātais režīms';
 $labels['newuser'] = 'Pievienot ierakstu';
 $labels['actions'] = 'Darbības ar piekļuves tiesībām...';
 $labels['anyone'] = 'Visi lietotāji (ikviens)';

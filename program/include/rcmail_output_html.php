@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcmail_output_html.php                                |
  |                                                                       |
@@ -18,7 +18,6 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Class to create HTML page output using a skin template
@@ -45,6 +44,8 @@ class rcmail_output_html extends rcmail_output
     protected $footer = '';
     protected $body = '';
     protected $base_path = '';
+    protected $assets_path;
+    protected $assets_dir = RCUBE_INSTALL_PATH;
     protected $devel_mode = false;
 
     // deprecated names of templates used before 0.5
@@ -79,6 +80,8 @@ class rcmail_output_html extends rcmail_output
         $skin = $this->config->get('skin');
         $this->set_skin($skin);
         $this->set_env('skin', $skin);
+
+        $this->set_assets_path($this->config->get('assets_path'), $this->config->get('assets_dir'));
 
         if (!empty($_REQUEST['_extwin']))
             $this->set_env('extwin', 1);
@@ -145,6 +148,55 @@ EOF;
     }
 
     /**
+     * Parse and set assets path
+     *
+     * @param string Assets path (relative or absolute URL)
+     */
+    public function set_assets_path($path, $fs_dir = null)
+    {
+        if (empty($path)) {
+            return;
+        }
+
+        $path = rtrim($path, '/') . '/';
+
+        // handle relative assets path
+        if (!preg_match('|^https?://|', $path) && $path[0] != '/') {
+            // save the path to search for asset files later
+            $this->assets_dir = $path;
+
+            $base = preg_replace('/[?#&].*$/', '', $_SERVER['REQUEST_URI']);
+            $base = rtrim($base, '/');
+
+            // remove url token if exists
+            if ($len = intval($this->config->get('use_secure_urls'))) {
+                $_base  = explode('/', $base);
+                $last   = count($_base) - 1;
+                $length = $len > 1 ? $len : 16; // as in rcube::get_secure_url_token()
+
+                // we can't use real token here because it
+                // does not exists in unauthenticated state,
+                // hope this will not produce false-positive matches
+                if ($last > -1 && preg_match('/^[a-f0-9]{' . $length . '}$/', $_base[$last])) {
+                    $path = '../' . $path;
+                }
+            }
+        }
+
+        // set filesystem path for assets
+        if ($fs_dir) {
+            if ($fs_dir[0] != '/') {
+                $fs_dir = realpath(RCUBE_INSTALL_PATH . $fs_dir);
+            }
+            // ensure the path ends with a slash
+            $this->assets_dir = rtrim($fs_dir, '/') . '/';
+        }
+
+        $this->assets_path = $path;
+        $this->set_env('assets_path', $path);
+    }
+
+    /**
      * Getter for the current page title
      *
      * @return string The page title
@@ -186,6 +238,8 @@ EOF;
             }
             $valid = !$skin;
         }
+
+        $skin_path = rtrim($skin_path, '/');
 
         $this->config->set('skin_path', $skin_path);
         $this->base_path = $skin_path;
@@ -249,6 +303,7 @@ EOF;
      * @param string File name/path to resolve (starting with /)
      * @param string Reference to the base path of the matching skin
      * @param string Additional path to search in
+     *
      * @return mixed Relative path to the requested file or False if not found
      */
     public function get_skin_file($file, &$skin_path = null, $add_path = null)
@@ -259,9 +314,18 @@ EOF;
         }
 
         foreach ($skin_paths as $skin_path) {
-            $path = realpath($skin_path . $file);
-            if (is_file($path)) {
+            $path = realpath(RCUBE_INSTALL_PATH . $skin_path . $file);
+
+            if ($path && is_file($path)) {
                 return $skin_path . $file;
+            }
+
+            if ($this->assets_dir != RCUBE_INSTALL_PATH) {
+                $path = realpath($this->assets_dir . $skin_path . $file);
+
+                if ($path && is_file($path)) {
+                    return $skin_path . $file;
+                }
             }
         }
 
@@ -367,14 +431,15 @@ EOF;
     /**
      * Redirect to a certain url
      *
-     * @param mixed $p     Either a string with the action or url parameters as key-value pairs
-     * @param int   $delay Delay in seconds
+     * @param mixed $p      Either a string with the action or url parameters as key-value pairs
+     * @param int   $delay  Delay in seconds
+     * @param bool  $secure Redirect to secure location (see rcmail::url())
      */
-    public function redirect($p = array(), $delay = 1)
+    public function redirect($p = array(), $delay = 1, $secure = false)
     {
         if ($this->env['extwin'])
             $p['extwin'] = 1;
-        $location = $this->app->url($p);
+        $location = $this->app->url($p, false, false, $secure);
         header('Location: ' . $location);
         exit;
     }
@@ -460,6 +525,8 @@ EOF;
     {
         $plugin   = false;
         $realname = $name;
+        $plugin_skin_paths = array();
+
         $this->template_name = $realname;
 
         $temp = explode('.', $name, 2);
@@ -469,7 +536,6 @@ EOF;
             $skin_dir = $plugin . '/skins/' . $this->config->get('skin');
 
             // apply skin search escalation list to plugin directory
-            $plugin_skin_paths = array();
             foreach ($this->skin_paths as $skin_path) {
                 $plugin_skin_paths[] = $this->app->plugins->url . $plugin . '/' . $skin_path;
             }
@@ -480,18 +546,18 @@ EOF;
                 $plugin_skin_paths[] = $this->app->plugins->url . $skin_dir;
             }
 
-            // add plugin skin paths to search list
+            // prepend plugin skin paths to search list
             $this->skin_paths = array_merge($plugin_skin_paths, $this->skin_paths);
         }
 
         // find skin template
         $path = false;
         foreach ($this->skin_paths as $skin_path) {
-            $path = "$skin_path/templates/$name.html";
+            $path = RCUBE_INSTALL_PATH . "$skin_path/templates/$name.html";
 
             // fallback to deprecated template names
             if (!is_readable($path) && $this->deprecated_templates[$realname]) {
-                $path = "$skin_path/templates/" . $this->deprecated_templates[$realname] . ".html";
+                $path = RCUBE_INSTALL_PATH . "$skin_path/templates/" . $this->deprecated_templates[$realname] . ".html";
 
                 if (is_readable($path)) {
                     rcube::raise_error(array(
@@ -517,12 +583,14 @@ EOF;
         // read template file
         if (!$path || ($templ = @file_get_contents($path)) === false) {
             rcube::raise_error(array(
-                'code' => 501,
+                'code' => 404,
                 'type' => 'php',
                 'line' => __LINE__,
                 'file' => __FILE__,
                 'message' => 'Error loading template for '.$realname
                 ), true, $write);
+
+            $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
             return false;
         }
 
@@ -546,6 +614,9 @@ EOF;
         // make sure all <form> tags have a valid request token
         $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
         $this->footer = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $this->footer);
+
+        // remove plugin skin paths from current context
+        $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
 
         if (!$write) {
             return $output;
@@ -659,6 +730,21 @@ EOF;
         exit;
     }
 
+    /**
+     * Modify path by adding URL prefix if configured
+     */
+    public function asset_url($path)
+    {
+        // iframe content can't be in a different domain
+        // @TODO: check if assests are on a different domain
+
+        if (!$this->assets_path || in_array($path[0], array('?', '/', '.')) || strpos($path, '://')) {
+            return $path;
+        }
+
+        return $this->assets_path . $path;
+    }
+
 
     /*****  Template parsing methods  *****/
 
@@ -696,7 +782,7 @@ EOF;
     }
 
     /**
-     * Callback function for preg_replace_callback in write()
+     * Callback function for preg_replace_callback in fix_paths()
      *
      * @return string Parsed string
      */
@@ -719,6 +805,28 @@ EOF;
     }
 
     /**
+     * Correct paths of asset files according to assets_path
+     */
+    protected function fix_assets_paths($output)
+    {
+        return preg_replace_callback(
+            '!(src|href|background)=(["\']?)([a-z0-9/_.?=-]+)(["\'\s>])!i',
+            array($this, 'assets_callback'), $output);
+    }
+
+    /**
+     * Callback function for preg_replace_callback in fix_assets_paths()
+     *
+     * @return string Parsed string
+     */
+    protected function assets_callback($matches)
+    {
+        $file = $this->asset_url($matches[3]);
+
+        return $matches[1] . '=' . $matches[2] . $file . $matches[4];
+    }
+
+    /**
      * Modify file by adding mtime indicator
      */
     protected function file_mod($file)
@@ -729,12 +837,12 @@ EOF;
         // use minified file if exists (not in development mode)
         if (!$this->devel_mode && !preg_match('/\.min\.' . $ext . '$/', $file)) {
             $minified_file = substr($file, 0, strlen($ext) * -1) . 'min.' . $ext;
-            if ($fs = @filemtime($minified_file)) {
+            if ($fs = @filemtime($this->assets_dir . $minified_file)) {
                 return $minified_file . '?s=' . $fs;
             }
         }
 
-        if ($fs = @filemtime($file)) {
+        if ($fs = @filemtime($this->assets_dir . $file)) {
             $file .= '?s=' . $fs;
         }
 
@@ -927,16 +1035,16 @@ EOF;
                     $attrib['name'] = $this->eval_expression($attrib['expression']);
 
                 if ($attrib['name'] || $attrib['command']) {
-                    // @FIXME: 'noshow' is useless, remove?
-                    if ($attrib['noshow']) {
-                        return '';
-                    }
-
                     $vars = $attrib + array('product' => $this->config->get('product_name'));
                     unset($vars['name'], $vars['command']);
 
                     $label   = $this->app->gettext($attrib + array('vars' => $vars));
                     $quoting = !empty($attrib['quoting']) ? strtolower($attrib['quoting']) : (rcube_utils::get_boolean((string)$attrib['html']) ? 'no' : '');
+
+                    // 'noshow' can be used in skins to define new labels
+                    if ($attrib['noshow']) {
+                        return '';
+                    }
 
                     switch ($quoting) {
                         case 'no':
@@ -961,7 +1069,7 @@ EOF;
                 if (!empty($attrib['skin_path'])) $attrib['skinpath'] = $attrib['skin_path'];
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
                     $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
-                    $path = realpath($path);
+                    $path = realpath(RCUBE_INSTALL_PATH . $path);
                 }
 
                 if (is_readable($path)) {
@@ -1513,6 +1621,10 @@ EOF;
 
         $output = $this->parse_with_globals($this->fix_paths($output));
 
+        if ($this->assets_path) {
+            $output = $this->fix_assets_paths($output);
+        }
+
         // trigger hook with final HTML content to be sent
         $hook = $this->app->plugins->exec_hook("send_page", array('content' => $output));
         if (!$hook['abort']) {
@@ -1541,12 +1653,12 @@ EOF;
         }
 
         $attrib['name'] = $attrib['id'];
-        $attrib['src'] = $attrib['src'] ? $this->abs_url($attrib['src'], true) : 'program/resources/blank.gif';
+        $attrib['src']  = $attrib['src'] ? $this->abs_url($attrib['src'], true) : 'program/resources/blank.gif';
 
         // register as 'contentframe' object
         if ($is_contentframe || $attrib['contentframe']) {
             $this->set_env('contentframe', $attrib['contentframe'] ? $attrib['contentframe'] : $attrib['name']);
-            $this->set_env('blankpage', $attrib['src']);
+            $this->set_env('blankpage', $this->asset_url($attrib['src']));
         }
 
         return html::iframe($attrib);
@@ -1758,9 +1870,11 @@ EOF;
     {
         $images = preg_split('/[\s\t\n,]+/', $attrib['images'], -1, PREG_SPLIT_NO_EMPTY);
         $images = array_map(array($this, 'abs_url'), $images);
+        $images = array_map(array($this, 'asset_url'), $images);
 
-        if (empty($images) || $this->app->task == 'logout')
+        if (empty($images) || $_REQUEST['_task'] == 'logout') {
             return;
+        }
 
         $this->add_script('var images = ' . self::json_serialize($images) .';
             for (var i=0; i<images.length; i++) {
@@ -1920,5 +2034,4 @@ EOF;
 
         return $content;
     }
-
 }

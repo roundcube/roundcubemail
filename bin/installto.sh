@@ -5,7 +5,7 @@
  | bin/installto.sh                                                      |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2012, The Roundcube Dev Team                            |
+ | Copyright (C) 2014, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
@@ -44,13 +44,17 @@ $input = trim(fgets(STDIN));
 if (strtolower($input) == 'y') {
   $err = false;
   echo "Copying files to target location...";
-  foreach (array('program','installer','bin','SQL','plugins','skins') as $dir) {
+  $dirs = array('program','installer','bin','SQL','plugins','skins');
+  if (is_dir(INSTALL_PATH . 'vendor') && !is_file(INSTALL_PATH . 'composer.json')) {
+    $dirs[] = 'vendor';
+  }
+  foreach ($dirs as $dir) {
     if (!system("rsync -avC " . INSTALL_PATH . "$dir/* $target_dir/$dir/")) {
       $err = true;
       break;
     }
   }
-  foreach (array('index.php','.htaccess','config/defaults.inc.php','CHANGELOG','README.md','UPGRADING','LICENSE') as $file) {
+  foreach (array('index.php','.htaccess','config/defaults.inc.php','composer.json-dist','CHANGELOG','README.md','UPGRADING','LICENSE','INSTALL') as $file) {
     if (!system("rsync -av " . INSTALL_PATH . "$file $target_dir/$file")) {
       $err = true;
       break;

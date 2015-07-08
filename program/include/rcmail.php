@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcmail.php                                            |
  |                                                                       |
@@ -93,6 +93,10 @@ class rcmail extends rcube
             $this->filename = $basename;
         }
 
+        // load all configured plugins
+        $this->plugins->load_plugins((array)$this->config->get('plugins', array()),
+                                     array('filesystem_attachments', 'jqueryui'));
+
         // start session
         $this->session_init();
 
@@ -106,26 +110,26 @@ class rcmail extends rcube
         // reset some session parameters when changing task
         if ($this->task != 'utils') {
             // we reset list page when switching to another task
-            // but only to the main task interface - empty action (#1489076)
+            // but only to the main task interface - empty action (#1489076, #1490116)
             // this will prevent from unintentional page reset on cross-task requests
             if ($this->session && $_SESSION['task'] != $this->task && empty($this->action)) {
                 $this->session->remove('page');
-            }
 
-            // set current task to session
-            $_SESSION['task'] = $this->task;
+                // set current task to session
+                $_SESSION['task'] = $this->task;
+            }
         }
 
-        // init output class
-        if (!empty($_REQUEST['_remote']))
+        // init output class (not in CLI mode)
+        if (!empty($_REQUEST['_remote'])) {
             $GLOBALS['OUTPUT'] = $this->json_init();
-        else
+        }
+        else if ($_SERVER['REMOTE_ADDR']) {
             $GLOBALS['OUTPUT'] = $this->load_gui(!empty($_REQUEST['_framed']));
+        }
 
-        // load plugins
+        // run init method on all the plugins
         $this->plugins->init($this, $this->task);
-        $this->plugins->load_plugins((array)$this->config->get('plugins', array()),
-            array('filesystem_attachments', 'jqueryui'));
     }
 
     /**
@@ -147,8 +151,13 @@ class rcmail extends rcube
         $this->task      = $task;
         $this->comm_path = $this->url(array('task' => $this->task));
 
+        if (!empty($_REQUEST['_framed'])) {
+            $this->comm_path .= '&_framed=1';
+        }
+
         if ($this->output) {
             $this->output->set_env('task', $this->task);
+            $this->output->set_env('comm_path', $this->comm_path);
         }
     }
 
@@ -168,7 +177,7 @@ class rcmail extends rcube
         setlocale(LC_ALL, $lang . '.utf8', $lang . '.UTF-8', 'en_US.utf8', 'en_US.UTF-8');
 
         // workaround for http://bugs.php.net/bug.php?id=18556
-        if (version_compare(PHP_VERSION, '5.5.0', '<') && in_array($lang, array('tr_TR', 'ku', 'az_AZ'))) {
+        if (PHP_VERSION_ID < 50500 && in_array($lang, array('tr_TR', 'ku', 'az_AZ'))) {
             setlocale(LC_CTYPE, 'en_US.utf8', 'en_US.UTF-8');
         }
     }
@@ -432,7 +441,7 @@ class rcmail extends rcube
 
         // add some basic labels to client
         $this->output->add_label('loading', 'servererror', 'connerror', 'requesttimedout',
-            'refreshing', 'windowopenerror');
+            'refreshing', 'windowopenerror', 'uploadingmany');
 
         return $this->output;
     }
@@ -753,47 +762,16 @@ class rcmail extends rcube
     }
 
     /**
-     * Generate a unique token to be used in a form request
-     *
-     * @return string The request token
-     */
-    public function get_request_token()
-    {
-        $sess_id = $_COOKIE[ini_get('session.name')];
-
-        if (!$sess_id) {
-            $sess_id = session_id();
-        }
-
-        $plugin = $this->plugins->exec_hook('request_token', array(
-            'value' => md5('RT' . $this->get_user_id() . $this->config->get('des_key') . $sess_id)));
-
-        return $plugin['value'];
-    }
-
-    /**
-     * Check if the current request contains a valid token
-     *
-     * @param int Request method
-     *
-     * @return boolean True if request token is valid false if not
-     */
-    public function check_request($mode = rcube_utils::INPUT_POST)
-    {
-        $token   = rcube_utils::get_input_value('_token', $mode);
-        $sess_id = $_COOKIE[ini_get('session.name')];
-
-        return !empty($sess_id) && $token == $this->get_request_token();
-    }
-
-    /**
      * Build a valid URL to this instance of Roundcube
      *
-     * @param mixed Either a string with the action or url parameters as key-value pairs
+     * @param mixed   Either a string with the action or url parameters as key-value pairs
+     * @param boolean Build an URL absolute to document root
+     * @param boolean Create fully qualified URL including http(s):// and hostname
+     * @param bool    Return absolute URL in secure location
      *
      * @return string Valid application URL
      */
-    public function url($p)
+    public function url($p, $absolute = false, $full = false, $secure = false)
     {
         if (!is_array($p)) {
             if (strpos($p, 'http') === 0) {
@@ -803,14 +781,15 @@ class rcmail extends rcube
             $p = array('_action' => @func_get_arg(0));
         }
 
-        $task = $p['_task'] ? $p['_task'] : ($p['task'] ? $p['task'] : $this->task);
-        $p['_task'] = $task;
-        unset($p['task']);
+        $pre = array();
+        $task = $p['_task'] ?: ($p['task'] ?: $this->task);
+        $pre['_task'] = $task;
+        unset($p['task'], $p['_task']);
 
-        $url  = './' . $this->filename;
+        $url  = $this->filename;
         $delm = '?';
 
-        foreach (array_reverse($p) as $key => $val) {
+        foreach (array_merge($pre, $p) as $key => $val) {
             if ($val !== '' && $val !== null) {
                 $par  = $key[0] == '_' ? $key : '_'.$key;
                 $url .= $delm.urlencode($par).'='.urlencode($val);
@@ -818,7 +797,38 @@ class rcmail extends rcube
             }
         }
 
-        return $url;
+        $base_path = strval($_SERVER['REDIRECT_SCRIPT_URL'] ?: $_SERVER['SCRIPT_NAME']);
+        $base_path = preg_replace('![^/]+$!', '', $base_path);
+
+        if ($secure && ($token = $this->get_secure_url_token(true))) {
+            // add token to the url
+            $url = $token . '/' . $url;
+
+            // remove old token from the path
+            $base_path = rtrim($base_path, '/');
+            $base_path = preg_replace('/\/[a-f0-9]{' . strlen($token) . '}$/', '', $base_path);
+
+            // this need to be full url to make redirects work
+            $absolute = true;
+        }
+
+        if ($absolute || $full) {
+            // add base path to this Roundcube installation
+            if ($base_path == '') $base_path = '/';
+            $prefix = $base_path;
+
+            // prepend protocol://hostname:port
+            if ($full) {
+                $prefix = rcube_utils::resolve_url($prefix);
+            }
+
+            $prefix = rtrim($prefix, '/') . '/';
+        }
+        else {
+            $prefix = './';
+        }
+
+        return $prefix . $url;
     }
 
     /**
@@ -849,6 +859,28 @@ class rcmail extends rcube
                 self::print_timer(RCMAIL_START, $log);
             else
                 self::console($log);
+        }
+    }
+
+    /**
+     * CSRF attack prevention code
+     *
+     * @param int Request mode
+     */
+    public function request_security_check($mode = rcube_utils::INPUT_POST)
+    {
+        // check request token
+        if (!$this->check_request($mode)) {
+            self::raise_error(array(
+                'code' => 403, 'type' => 'php',
+                'message' => "Request security check failed"), false, true);
+        }
+
+        // check referer if configured
+        if ($this->config->get('referer_check') && !rcube_utils::check_referer()) {
+            self::raise_error(array(
+                'code' => 403, 'type' => 'php',
+                'message' => "Referer check failed"), true, true);
         }
     }
 
@@ -1761,8 +1793,9 @@ class rcmail extends rcube
      * @param string $fallback       Fallback message label
      * @param array  $fallback_args  Fallback message label arguments
      * @param string $suffix         Message label suffix
+     * @param array  $params         Additional parameters (type, prefix)
      */
-    public function display_server_error($fallback = null, $fallback_args = null, $suffix = '')
+    public function display_server_error($fallback = null, $fallback_args = null, $suffix = '', $params = array())
     {
         $err_code = $this->storage->get_error_code();
         $res_code = $this->storage->get_response_code();
@@ -1775,7 +1808,7 @@ class rcmail extends rcube
             $error = 'errorreadonly';
         }
         else if ($res_code == rcube_storage::OVERQUOTA) {
-            $error = 'errorroverquota';
+            $error = 'erroroverquota';
         }
         else if ($err_code && ($err_str = $this->storage->get_error_str())) {
             // try to detect access rights problem and display appropriate message
@@ -1783,13 +1816,13 @@ class rcmail extends rcube
                 $error = 'errornoperm';
             }
             // try to detect full mailbox problem and display appropriate message
-            // there can be e.g. "Quota exceeded" or "quotum would exceed"
-            else if (stripos($err_str, 'quot') !== false && stripos($err_str, 'exceed') !== false) {
+            // there can be e.g. "Quota exceeded" / "quotum would exceed" / "Over quota"
+            else if (stripos($err_str, 'quot') !== false && preg_match('/exceed|over/i', $err_str)) {
                 $error = 'erroroverquota';
             }
             else {
                 $error = 'servererrormsg';
-                $args  = array('msg' => $err_str);
+                $args  = array('msg' => rcube::Q($err_str));
             }
         }
         else if ($err_code < 0) {
@@ -1798,13 +1831,21 @@ class rcmail extends rcube
         else if ($fallback) {
             $error = $fallback;
             $args  = $fallback_args;
+            $params['prefix'] = false;
         }
 
         if ($error) {
             if ($suffix && $this->text_exists($error . $suffix)) {
                 $error .= $suffix;
             }
-            $this->output->show_message($error, 'error', $args);
+
+            $msg = $this->gettext(array('name' => $error, 'vars' => $args));
+
+            if ($params['prefix'] && $fallback) {
+                $msg = $this->gettext(array('name' => $fallback, 'vars' => $fallback_args)) . ' ' . $msg;
+            }
+
+            $this->output->show_message($msg, $params['type'] ?: 'error');
         }
     }
 
@@ -1931,13 +1972,32 @@ class rcmail extends rcube
         }
 
         if (!empty($params['total'])) {
-            $params['percent'] = round($status['current']/$status['total']*100);
+            $total = $this->show_bytes($params['total'], $unit);
+            switch ($unit) {
+            case 'GB':
+                $gb      = $params['current']/1073741824;
+                $current = sprintf($gb >= 10 ? "%d" : "%.1f", $gb);
+                break;
+            case 'MB':
+                $mb      = $params['current']/1048576;
+                $current = sprintf($mb >= 10 ? "%d" : "%.1f", $mb);
+                break;
+            case 'KB':
+                $current = round($params['current']/1024);
+                break;
+            case 'B':
+            default:
+                $current = $params['current'];
+                break;
+            }
+
+            $params['percent'] = round($params['current']/$params['total']*100);
             $params['text']    = $this->gettext(array(
                 'name' => 'uploadprogress',
                 'vars' => array(
                     'percent' => $params['percent'] . '%',
-                    'current' => $this->show_bytes($params['current']),
-                    'total'   => $this->show_bytes($params['total'])
+                    'current' => $current,
+                    'total'   => $total
                 )
             ));
         }
@@ -2013,16 +2073,15 @@ class rcmail extends rcube
             if (!empty($_GET['_thumbnail'])) {
                 $temp_dir       = $this->config->get('temp_dir');
                 $thumbnail_size = 80;
-                list(,$ext)     = explode('/', $file['mimetype']);
                 $mimetype       = $file['mimetype'];
                 $file_ident     = $file['id'] . ':' . $file['mimetype'] . ':' . $file['size'];
                 $cache_basename = $temp_dir . '/' . md5($file_ident . ':' . $this->user->ID . ':' . $thumbnail_size);
-                $cache_file     = $cache_basename . '.' . $ext;
+                $cache_file     = $cache_basename . '.thumb';
 
                 // render thumbnail image if not done yet
                 if (!is_file($cache_file)) {
                     if (!$file['path']) {
-                        $orig_name = $filename = $cache_basename . '.orig.' . $ext;
+                        $orig_name = $filename = $cache_basename . '.tmp';
                         file_put_contents($orig_name, $file['data']);
                     }
                     else {
@@ -2123,25 +2182,30 @@ class rcmail extends rcube
     /**
      * Create a human readable string for a number of bytes
      *
-     * @param int Number of bytes
+     * @param int    Number of bytes
+     * @param string Size unit
      *
      * @return string Byte string
      */
-    public function show_bytes($bytes)
+    public function show_bytes($bytes, &$unit = null)
     {
         if ($bytes >= 1073741824) {
-            $gb  = $bytes/1073741824;
-            $str = sprintf($gb>=10 ? "%d " : "%.1f ", $gb) . $this->gettext('GB');
+            $unit = 'GB';
+            $gb   = $bytes/1073741824;
+            $str  = sprintf($gb >= 10 ? "%d " : "%.1f ", $gb) . $this->gettext($unit);
         }
         else if ($bytes >= 1048576) {
-            $mb  = $bytes/1048576;
-            $str = sprintf($mb>=10 ? "%d " : "%.1f ", $mb) . $this->gettext('MB');
+            $unit = 'MB';
+            $mb   = $bytes/1048576;
+            $str  = sprintf($mb >= 10 ? "%d " : "%.1f ", $mb) . $this->gettext($unit);
         }
         else if ($bytes >= 1024) {
-            $str = sprintf("%d ",  round($bytes/1024)) . $this->gettext('KB');
+            $unit = 'KB';
+            $str  = sprintf("%d ",  round($bytes/1024)) . $this->gettext($unit);
         }
         else {
-            $str = sprintf('%d ', $bytes) . $this->gettext('B');
+            $unit = 'B';
+            $str  = sprintf('%d ', $bytes) . $this->gettext($unit);
         }
 
         return $str;
@@ -2228,6 +2292,29 @@ class rcmail extends rcube
         }
 
         return $result;
+    }
+
+    /**
+     * Get resource file content (with assets_dir support)
+     *
+     * @param string $name File name
+     */
+    public function get_resource_content($name)
+    {
+        if (!strpos($name, '/')) {
+            $name = "program/resources/$name";
+        }
+
+        $assets_dir = $this->config->get('assets_dir');
+
+        if ($assets_dir) {
+            $path = slashify($assets_dir) . $name;
+            if (@file_exists($path)) {
+                $name = $path;
+            }
+        }
+
+        return file_get_contents($name, false);
     }
 
 

@@ -5,7 +5,7 @@ class Help_Plugin extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../help.php';
+        include_once __DIR__ . '/../help.php';
     }
 
     /**

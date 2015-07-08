@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/settings/edit_identity.inc                              |
  |                                                                       |
@@ -107,6 +107,11 @@ function rcube_identity_form($attrib)
 
         // Correctly handle HTML entities in HTML editor (#1488483)
         $IDENTITY_RECORD['signature'] = htmlspecialchars($IDENTITY_RECORD['signature'], ENT_NOQUOTES, RCUBE_CHARSET);
+    }
+
+    // hide "default" checkbox if only one identity is allowed
+    if (IDENTITIES_LEVEL > 1) {
+        unset($form['addressing']['content']['standard']);
     }
 
     // disable some field according to access level

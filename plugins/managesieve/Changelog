@@ -1,5 +1,30 @@
+* version 8.4 [2015-04-20]
+-----------------------------------------------------------
+- Add option to prepopulate vacation addresses on form init (#1490030)
+- Add option to define default vacation interval
+- Fix missing position idicator in Larry skin when dragging a filter
+- Fix incorrect filter data after filter delete (#1490356)
+
+* version 8.3 [2015-03-12]
+-----------------------------------------------------------
+- Fix PHP fatal error when visiting Vacation interface and there's no sieve script yet
+- Fix handling of header test with one-element array as header name
+- Fix missing host:port in connection error message
+
+* version 8.2 [2015-01-14]
+-----------------------------------------------------------
+- Fix bug where actions without if/elseif/else in sieve scripts were skipped
+- Support "not allof" test as a negation of all sub-tests
+- Fix bug where vacation rule was saved to wrong script if managesieve_kolab_master=true
+- Improve procedure of script selection to write a vacation rule
+
+* version 8.1 [2014-12-09]
+-----------------------------------------------------------
+- Added simple API to manage vacation rule
 - Fix missing css/js scripts in filter form in mail task
 - Fix default vacation status (#1490019)
+- Make possible to set vacation start/end date and time
+- Fix compatibility with contextmenu plugin
 
 * version 8.0 [2014-07-16]
 -----------------------------------------------------------

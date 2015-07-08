@@ -20,5 +20,6 @@ $labels = array();
 $labels['help'] = 'Help';
 $labels['about'] = 'About';
 $labels['license'] = 'License';
+$labels['csrfinfo'] = 'Read more about CSRF and how we protect you';
 
 ?>

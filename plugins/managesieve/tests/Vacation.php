@@ -5,8 +5,8 @@ class Managesieve_Vacation extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        include_once dirname(__FILE__) . '/../lib/Roundcube/rcube_sieve_engine.php';
-        include_once dirname(__FILE__) . '/../lib/Roundcube/rcube_sieve_vacation.php';
+        include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_engine.php';
+        include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_vacation.php';
     }
 
     /**

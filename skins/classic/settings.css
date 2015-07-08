@@ -11,11 +11,32 @@
   background-color: #FFFFA6;
 }
 
+#folderlist-title a.iconbutton.search {
+  background: url(images/icons/glass.png) no-repeat 0 0;
+  cursor: pointer;
+  position: absolute;
+  right: 4px;
+  top: 2px;
+  width: 16px;
+  text-indent: 50000px;
+}
+
+.listsearchbox select {
+  width: 100%;
+  margin: 1px 0;
+}
+
 #identities-table,
 #sections-table
 {
   width: 100%;
   table-layout: fixed;
+}
+
+#identities-table tbody tr td,
+#sections-table tbody tr td
+{
+  cursor: default;
 }
 
 #identities-table tbody tr.readonly td

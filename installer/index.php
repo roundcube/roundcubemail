@@ -1,11 +1,11 @@
 <?php
 
-/*
+/**
  +-------------------------------------------------------------------------+
  | Roundcube Webmail setup tool                                            |
- | Version 0.9-git                                                         |
+ | Version 1.2-git                                                         |
  |                                                                         |
- | Copyright (C) 2009-2013, The Roundcube Dev Team                         |
+ | Copyright (C) 2009-2015, The Roundcube Dev Team                         |
  |                                                                         |
  | This program is free software: you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License (with exceptions   |
@@ -39,7 +39,7 @@
 ini_set('error_reporting', E_ALL &~ (E_NOTICE | E_STRICT));
 ini_set('display_errors', 1);
 
-define('INSTALL_PATH', realpath(dirname(__FILE__) . '/../').'/');
+define('INSTALL_PATH', realpath(__DIR__ . '/../').'/');
 define('RCUBE_INSTALL_PATH', INSTALL_PATH);
 define('RCUBE_CONFIG_DIR', INSTALL_PATH . 'config/');
 
@@ -48,6 +48,11 @@ $include_path .= INSTALL_PATH . 'program/include' . PATH_SEPARATOR;
 $include_path .= ini_get('include_path');
 
 set_include_path($include_path);
+
+// include composer autoloader (if available)
+if (@file_exists(INSTALL_PATH . 'vendor/autoload.php')) {
+    require INSTALL_PATH . 'vendor/autoload.php';
+}
 
 require_once 'Roundcube/bootstrap.php';
 // deprecated aliases (to be removed)
