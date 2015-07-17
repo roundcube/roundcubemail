@@ -1008,7 +1008,7 @@ function rcube_init_mail_ui()
       update_quota(rcmail.env.quota_content);
     rcmail.addEventListener('setquota', update_quota);
 
-    $('iframe').load(iframe_events)
+    $('iframe').on('load', iframe_events)
       .contents().mouseup(function(e) { rcmail_ui.body_mouseup(e); });
 
     if (rcmail.env.task == 'mail') {

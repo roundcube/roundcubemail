@@ -592,7 +592,7 @@ function rcube_webmail()
       .bind('mouseup', body_mouseup)
       .bind('keydown', function(e){ return ref.doc_keypress(e); });
 
-    $('iframe').load(function(e) {
+    $('iframe').on('load', function(e) {
         try { $(this.contentDocument || this.contentWindow).on('mouseup', body_mouseup);  }
         catch (e) {/* catch possible "Permission denied" error in IE */ }
       })
@@ -3967,7 +3967,7 @@ function rcube_webmail()
         }
       }, 5000);
 
-      $(window).unload(function() {
+      $(window).on('unload', function() {
         // remove copy from local storage if compose screen is left after warning
         if (!ref.env.server_error)
           ref.remove_compose_data(ref.env.compose_id);
