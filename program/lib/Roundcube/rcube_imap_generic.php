@@ -2438,7 +2438,16 @@ class rcube_imap_generic
         return false;
     }
 
-    function sortHeaders($a, $field, $flag)
+    /**
+     * Sort messages by specified header field
+     *
+     * @param array  $messages Array of rcube_message_header objects
+     * @param string $field    Name of the property to sort by
+     * @param string $flag     Sorting order (ASC|DESC)
+     *
+     * @return array Sorted input array
+     */
+    public static function sortHeaders($messages, $field, $flag)
     {
         if (empty($field)) {
             $field = 'uid';
@@ -2447,57 +2456,65 @@ class rcube_imap_generic
             $field = strtolower($field);
         }
 
-        if ($field == 'date' || $field == 'internaldate') {
-            $field = 'timestamp';
-        }
-
         if (empty($flag)) {
             $flag = 'ASC';
-        } else {
+        }
+        else {
             $flag = strtoupper($flag);
         }
 
-        $c = count($a);
-        if ($c > 0) {
-            // Strategy:
-            // First, we'll create an "index" array.
-            // Then, we'll use sort() on that array,
-            // and use that to sort the main array.
+        // Strategy: First, we'll create an "index" array.
+        // Then, we'll use sort() on that array, and use that to sort the main array.
 
-            // create "index" array
-            $index = array();
-            reset($a);
-            while (list($key, $val) = each($a)) {
-                if ($field == 'timestamp') {
-                    $data = $this->strToTime($val->date);
-                    if (!$data) {
-                        $data = $val->timestamp;
-                    }
-                } else {
-                    $data = $val->$field;
-                    if (is_string($data)) {
-                        $data = str_replace('"', '', $data);
-                        if ($field == 'subject') {
-                            $data = preg_replace('/^(Re: \s*|Fwd:\s*|Fw:\s*)+/i', '', $data);
-                        }
-                        $data = strtoupper($data);
-                    }
+        $index  = array();
+        $result = array();
+
+        reset($messages);
+
+        while (list($key, $headers) = each($messages)) {
+            $value = null;
+
+            switch ($field) {
+            case 'arrival':
+                $field = 'internaldate';
+            case 'date':
+            case 'internaldate':
+            case 'timestamp':
+                $value = self::strToTime($headers->$field);
+                if (!$value && $field != 'timestamp') {
+                    $value = $headers->timestamp;
                 }
-                $index[$key] = $data;
+
+                break;
+
+            default:
+                // @TODO: decode header value, convert to UTF-8
+                $value = $headers->$field;
+                if (is_string($value)) {
+                    $value = str_replace('"', '', $value);
+                    if ($field == 'subject') {
+                        $value = preg_replace('/^(Re:\s*|Fwd:\s*|Fw:\s*)+/i', '', $value);
+                    }
+
+                    $data = strtoupper($value);
+                }
             }
 
+            $index[$key] = $value;
+        }
+
+        if (!empty($index)) {
             // sort index
             if ($flag == 'ASC') {
                 asort($index);
-            } else {
+            }
+            else {
                 arsort($index);
             }
 
             // form new array based on index
-            $result = array();
-            reset($index);
             while (list($key, $val) = each($index)) {
-                $result[$key] = $a[$key];
+                $result[$key] = $messages[$key];
             }
         }
 

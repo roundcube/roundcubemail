@@ -13,6 +13,7 @@ CHANGELOG Roundcube Webmail
 - Fix so links with href == content aren't added to links list on html to text conversion (#1490434)
 - Fix handling of non-break spaces in html to text conversion (#1490436)
 - Fix self-reply detection issues (#1490439)
+- Fix multi-folder search result sorting by arrival date (#1490450)
 
 RELEASE 1.1.2
 -------------
