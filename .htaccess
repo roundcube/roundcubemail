@@ -17,6 +17,7 @@ php_flag    magic_quotes_runtime        Off
 php_flag    suhosin.session.encrypt     Off
 
 #php_value   session.cookie_path     /
+#php_value   session.hash_function   sha256
 php_flag    session.auto_start       Off
 php_value   session.gc_maxlifetime   21600
 php_value   session.gc_divisor       500

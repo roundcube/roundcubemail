@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support more secure hashing algorithms for auth cookie - configurable by PHP's session.hash_function (#1490403)
 - Require Mbstring and OpenSSL extensions (#1490415)
 - Get rid of Mail_mimeDecode package dependency (#1490416)
 - Add --config and --type options to moduserprefs.sh script (#1490051)
