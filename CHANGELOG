@@ -25,6 +25,7 @@ CHANGELOG Roundcube Webmail
 - Fix handling of non-break spaces in html to text conversion (#1490436)
 - Fix self-reply detection issues (#1490439)
 - Fix multi-folder search result sorting by arrival date (#1490450)
+- Fix so *-request@ addresses in Sender: header are also ignored on reply-all (#1490452)
 
 RELEASE 1.1.2
 -------------
