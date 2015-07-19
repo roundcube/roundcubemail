@@ -697,7 +697,7 @@ function rcmail_compose_header_value($header)
 
 function rcmail_compose_editor_mode()
 {
-    global $RCMAIL;
+    global $RCMAIL, $COMPOSE;
     static $useHtml;
 
     if ($useHtml !== null) {
