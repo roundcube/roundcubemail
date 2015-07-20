@@ -17,7 +17,7 @@ CHANGELOG Roundcube Webmail
 - Fix so unrecognized TNEF attachments are displayed on the list of attachments (#1490351)
 - Fix "Importing..." message does not hide on error (#1490422)
 - Fix Compose action in addressbook for results from multiple addressbooks (#1490413)
-- Fix bug where some messages in multi-folder search couldn't be opened (#1490426)
+- Fix bug where some messages in multi-folder search couldn't be viewed/printed/downloaded (#1490426)
 - Fix unintentional messages list page change on page switch in compose addressbook (#1490427)
 - Fix race-condition in saving user preferences and loading plugin config (#1490431)
 - Fix so plain text signature field uses monospace font (#1490435)
