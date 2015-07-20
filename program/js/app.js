@@ -762,7 +762,7 @@ function rcube_webmail()
 
       case 'open':
         if (uid = this.get_single_uid()) {
-          obj.href = this.url('show', {_mbox: this.get_message_mailbox(uid), _uid: uid});
+          obj.href = this.url('show', this.params_from_uid(uid));
           return true;
         }
         break;
@@ -1188,8 +1188,8 @@ function rcube_webmail()
           this.gui_objects.messagepartframe.contentWindow.print();
         }
         else if (uid = this.get_single_uid()) {
-          url = '&_action=print&_uid='+uid+'&_mbox='+urlencode(this.get_message_mailbox(uid))+(this.env.safemode ? '&_safe=1' : '');
-          if (this.open_window(this.env.comm_path + url, true, true)) {
+          url = this.url('print', this.params_from_uid(uid, {_safe: this.env.safemode ? 1 : 0}));
+          if (this.open_window(url, true, true)) {
             if (this.env.action != 'show')
               this.mark_message('read', uid);
           }
@@ -1198,7 +1198,7 @@ function rcube_webmail()
 
       case 'viewsource':
         if (uid = this.get_single_uid())
-          this.open_window(this.env.comm_path+'&_action=viewsource&_uid='+uid+'&_mbox='+urlencode(this.env.mailbox), true, true);
+          this.open_window(this.url('viewsource', this.params_from_uid(uid)), true, true);
         break;
 
       case 'download':
@@ -1206,7 +1206,7 @@ function rcube_webmail()
           location.href = location.href.replace(/_frame=/, '_download=');
         }
         else if (uid = this.get_single_uid()) {
-          this.goto_url('viewsource', { _uid: uid, _mbox: this.get_message_mailbox(uid), _save: 1 });
+          this.goto_url('viewsource', this.params_from_uid(uid, {_save: 1}));
         }
         break;
 
@@ -2233,12 +2233,7 @@ function rcube_webmail()
       return;
 
     var win, target = window,
-      url = {
-        _uid: id,
-        _mbox: this.get_message_mailbox(id),
-        // add browser capabilities, so we can properly handle attachments
-        _caps: this.browser_capabilities()
-      };
+      url = this.params_from_uid(id, {_caps: this.browser_capabilities()});
 
     if (preview && (win = this.get_frame_window(this.env.contentframe))) {
       target = win;
@@ -8047,6 +8042,18 @@ function rcube_webmail()
   {
     var msg = this.env.messages ? this.env.messages[uid] : {};
     return msg.mbox || this.env.mailbox;
+  };
+
+  // build request parameters from single message id (maybe with mailbox name)
+  this.params_from_uid = function(uid, params)
+  {
+    if (!params)
+      params = {};
+
+    params._uid = String(uid).split('-')[0];
+    params._mbox = this.get_message_mailbox(uid);
+
+    return params;
   };
 
   // gets cursor position

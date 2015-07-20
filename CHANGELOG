@@ -6,7 +6,7 @@ CHANGELOG Roundcube Webmail
 - Fix SQL error on logout when using session_storage=php (#1490421)
 - Update to jQuery 2.1.4 (#1490406)
 - Fix Compose action in addressbook for results from multiple addressbooks (#1490413)
-- Fix bug where some messages in multi-folder search couldn't be opened (#1490426)
+- Fix bug where some messages in multi-folder search couldn't be viewed/printed/downloaded (#1490426)
 - Fix unintentional messages list page change on page switch in compose addressbook (#1490427)
 - Fix race-condition in saving user preferences and loading plugin config (#1490431)
 - Fix so plain text signature field uses monospace font (#1490435)
