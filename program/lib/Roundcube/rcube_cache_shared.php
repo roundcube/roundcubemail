@@ -237,6 +237,9 @@ class rcube_cache_shared
         }
 
         $this->write_index();
+
+        // reset internal cache index, thanks to this we can force index reload
+        $this->index = null;
     }
 
 
