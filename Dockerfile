@@ -4,7 +4,7 @@ MAINTAINER Alex Brandt <alunduil@alunduil.com>
 EXPOSE 80 443
 
 RUN apt-get -qq update
-RUN apt-get install -qq apache2-mpm-event
+RUN apt-get install -qq apache2-mpm-event ca-certificates
 
 RUN sed -e 's|/var/www/html|/var/www/public_html|' -e 's@\(Log \+\)[^ ]\+@\1"|/bin/cat"@' -i /etc/apache2/sites-available/000-default.conf
 RUN a2ensite 000-default
