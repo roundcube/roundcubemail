@@ -127,9 +127,12 @@ class rcube_smtp
         $result = $this->conn->connect($CONFIG['smtp_timeout']);
 
         if (is_a($result, 'PEAR_Error')) {
-            $this->response[] = "Connection failed: ".$result->getMessage();
-            $this->error = array('label' => 'smtpconnerror', 'vars' => array('code' => $this->conn->_code));
+            $this->response[] = "Connection failed: " . $result->getMessage();
+
+            list($code,) = $this->conn->getResponse();
+            $this->error = array('label' => 'smtpconnerror', 'vars' => array('code' => $code));
             $this->conn  = null;
+
             return false;
         }
 
@@ -160,10 +163,14 @@ class rcube_smtp
             $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, $use_tls, $smtp_authz);
 
             if (is_a($result, 'PEAR_Error')) {
-                $this->error = array('label' => 'smtpautherror', 'vars' => array('code' => $this->conn->_code));
-                $this->response[] .= 'Authentication failure: ' . $result->getMessage() . ' (Code: ' . $result->getCode() . ')';
+                list($code,) = $this->conn->getResponse();
+                $this->error = array('label' => 'smtpautherror', 'vars' => array('code' => $code));
+                $this->response[] = 'Authentication failure: ' . $result->getMessage()
+                    . ' (Code: ' . $result->getCode() . ')';
+
                 $this->reset();
                 $this->disconnect();
+
                 return false;
             }
         }
