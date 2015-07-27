@@ -16,6 +16,13 @@
  */
 
 window.rcmail && rcmail.addEventListener('init', function(evt) {
+    if (rcmail.env.password_disabled) {
+        $('#password-form input').prop('disabled', true);
+        // reload page after ca. 3 minutes
+        rcmail.reload(3 * 60 * 1000 - 2000);
+        return;
+    }
+
     // register command handler
     rcmail.register_command('plugin.password-save', function() {
         var input_curpasswd = rcube_find_object('_curpasswd'),

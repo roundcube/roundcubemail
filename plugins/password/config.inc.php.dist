@@ -61,6 +61,11 @@ $config['password_dovecotpw_method'] = 'CRAM-MD5';
 // Be aware, the higher the value, the longer it takes to generate the password hashes.
 $config['password_blowfish_cost'] = 12;
 
+// This option temporarily disables the password change functionality.
+// Use it when the users database server is in maintenance mode or sth like that.
+// You can set it to TRUE/FALSE or a text describing the reason
+// which will replace the default.
+$config['password_disabled'] = false;
 
 
 // SQL Driver options

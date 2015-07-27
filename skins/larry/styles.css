@@ -1686,6 +1686,15 @@ body.iframe .footerleft.floating:before,
 	padding: 10px;
 }
 
+.boxcontent .boxwarning {
+	margin: 0 0 10px;
+	display: block;
+	color: #960;
+	border: 1px solid #ffdf0e;
+	background: url(images/messages.png) #fef893 5px -85px no-repeat;
+	padding: 6px 12px 6px 30px;
+}
+
 .contentbox .scroller {
 	position: absolute;
 	top: 34px;

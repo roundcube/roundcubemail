@@ -356,6 +356,16 @@ body.iframe .boxtitle
   background-color: #F2F2F2;
 }
 
+.boxcontent .boxwarning
+{
+  margin: 0 0 10px;
+  display: block;
+  min-height: 22px;
+  background: url(images/display/icons.png) #EF9398 6px -95px no-repeat;
+  border: 1px solid #DC5757;
+  padding: 8px 10px 8px 46px;
+}
+
 .boxcontent table td.title
 {
   color: #666;

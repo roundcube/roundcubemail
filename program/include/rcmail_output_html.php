@@ -1257,7 +1257,6 @@ EOF;
             return '';
         }
 
-
         // try to find out the button type
         if ($attrib['type']) {
             $attrib['type'] = strtolower($attrib['type']);

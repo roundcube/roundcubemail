@@ -6,7 +6,7 @@
  * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  *
- * Copyright (C) 2005-2013, The Roundcube Dev Team
+ * Copyright (C) 2005-2015, The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,10 +63,6 @@ class password extends rcube_plugin
 
             $this->register_action('plugin.password', array($this, 'password_init'));
             $this->register_action('plugin.password-save', array($this, 'password_save'));
-
-            if (strpos($rcmail->action, 'plugin.password') === 0) {
-                $this->include_script('password.js');
-            }
         }
         else if ($rcmail->config->get('password_force_new_user')) {
             $this->add_hook('user_create', array($this, 'user_create'));
@@ -109,7 +105,8 @@ class password extends rcube_plugin
         $rcmail = rcmail::get_instance();
         $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
 
-        $confirm = $rcmail->config->get('password_confirm_current');
+        $form_disabled   = $rcmail->config->get('password_disabled');
+        $confirm         = $rcmail->config->get('password_confirm_current');
         $required_length = intval($rcmail->config->get('password_minimum_length'));
         $check_strength  = $rcmail->config->get('password_require_nonalpha');
 
@@ -196,15 +193,22 @@ class password extends rcube_plugin
             'password.passwordinconsistency'
         );
 
+        $form_disabled = $rcmail->config->get('password_disabled');
+
         $rcmail->output->set_env('product_name', $rcmail->config->get('product_name'));
+        $rcmail->output->set_env('password_disabled', !empty($form_disabled));
 
         $table = new html_table(array('cols' => 2));
 
         if ($rcmail->config->get('password_confirm_current')) {
             // show current password selection
             $field_id = 'curpasswd';
-            $input_curpasswd = new html_passwordfield(array('name' => '_curpasswd', 'id' => $field_id,
-                'size' => 20, 'autocomplete' => 'off'));
+            $input_curpasswd = new html_passwordfield(array(
+                    'name'         => '_curpasswd',
+                    'id'           => $field_id,
+                    'size'         => 20,
+                    'autocomplete' => 'off',
+            ));
 
             $table->add('title', html::label($field_id, rcube::Q($this->gettext('curpasswd'))));
             $table->add(null, $input_curpasswd->show());
@@ -212,16 +216,24 @@ class password extends rcube_plugin
 
         // show new password selection
         $field_id = 'newpasswd';
-        $input_newpasswd = new html_passwordfield(array('name' => '_newpasswd', 'id' => $field_id,
-            'size' => 20, 'autocomplete' => 'off'));
+        $input_newpasswd = new html_passwordfield(array(
+                'name'         => '_newpasswd',
+                'id'           => $field_id,
+                'size'         => 20,
+                'autocomplete' => 'off',
+        ));
 
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('newpasswd'))));
         $table->add(null, $input_newpasswd->show());
 
         // show confirm password selection
         $field_id = 'confpasswd';
-        $input_confpasswd = new html_passwordfield(array('name' => '_confpasswd', 'id' => $field_id,
-            'size' => 20, 'autocomplete' => 'off'));
+        $input_confpasswd = new html_passwordfield(array(
+                'name'         => '_confpasswd',
+                'id'           => $field_id,
+                'size'         => 20,
+                'autocomplete' => 'off',
+        ));
 
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('confpasswd'))));
         $table->add(null, $input_confpasswd->show());
@@ -244,19 +256,26 @@ class password extends rcube_plugin
             $rules = html::tag('ul', array('id' => 'ruleslist'), $rules);
         }
 
+        if ($form_disabled) {
+            $disabled_msg = is_string($form_disabled) ? $form_disabled : $this->gettext('disablednotice');
+            $disabled_msg = html::div(array('class' => 'boxwarning', 'id' => 'password-notice'), $disabled_msg);
+        }
+
+        $submit_button = $rcmail->output->button(array(
+                'command' => 'plugin.password-save',
+                'type'    => 'input',
+                'class'   => 'button mainaction',
+                'label'   => 'save',
+        ));
+
         $out = html::div(array('class' => 'box'),
-            html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changepasswd')) .
-            html::div(array('class' => 'boxcontent'), $table->show() .
-            $rules .
-            html::p(null,
-                $rcmail->output->button(array(
-                    'command' => 'plugin.password-save',
-                    'type'    => 'input',
-                    'class'   => 'button mainaction',
-                    'label'   => 'save'
-            )))));
+            html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changepasswd'))
+            . html::div(array('class' => 'boxcontent'),
+                $disabled_msg . $table->show() . $rules . html::p(null, $submit_button)));
 
         $rcmail->output->add_gui_object('passform', 'password-form');
+
+        $this->include_script('password.js');
 
         return $rcmail->output->form_tag(array(
             'id'     => 'password-form',
