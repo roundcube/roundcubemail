@@ -123,11 +123,6 @@ class rcube_vcard
             $this->raw = self::charset_convert($this->raw, $detected_charset);
         }
 
-        // consider FN empty if the same as the primary e-mail address
-        if ($this->raw['FN'][0][0] == $this->raw['EMAIL'][0][0]) {
-            $this->raw['FN'][0][0] = '';
-        }
-
         // find well-known address fields
         $this->displayname  = $this->raw['FN'][0][0];
         $this->surname      = $this->raw['N'][0][0];
