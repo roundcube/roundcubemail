@@ -616,24 +616,24 @@ if ($store_target) {
             $OUTPUT->send('iframe');
         }
     }
-
-    // delete previous saved draft
-    if ($saved && ($old_id = rcube_utils::get_input_value('_draft_saveid', rcube_utils::INPUT_POST))) {
-        $deleted = $RCMAIL->storage->delete_message($old_id, $drafts_mbox);
-
-        // raise error if deletion of old draft failed
-        if (!$deleted) {
-            rcube::raise_error(array('code' => 800, 'type' => 'imap',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Could not delete message from $drafts_mbox"), true, false);
-        }
-    }
 }
 // remove temp file
 else if ($mailbody_file) {
     unlink($mailbody_file);
 }
 
+// delete previous saved draft
+$old_id = rcube_utils::get_input_value('_draft_saveid', rcube_utils::INPUT_POST);
+if ($old_id && ($sent || $saved)) {
+    $deleted = $RCMAIL->storage->delete_message($old_id, $drafts_mbox);
+
+    // raise error if deletion of old draft failed
+    if (!$deleted) {
+        rcube::raise_error(array('code' => 800, 'type' => 'imap',
+            'file' => __FILE__, 'line' => __LINE__,
+            'message' => "Could not delete message from $drafts_mbox"), true, false);
+    }
+}
 
 if ($savedraft) {
     // remember new draft-uid ($saved could be an UID or true/false here)

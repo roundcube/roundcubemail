@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Fix SQL error on logout when using session_storage=php (#1490421)
 - Fix so plain text signature field uses monospace font (#1490435)
+- Fix draft removal after a message is sent and storing sent message is disabled (#1490467)
 
 RELEASE 1.0.6
 -------------
