@@ -104,19 +104,29 @@ spl_autoload_register('rcube_autoload');
 
 
 /**
- * Similar function as in_array() but case-insensitive
+ * Similar function as in_array() but case-insensitive with multibyte support.
  *
- * @param string $needle    Needle value
- * @param array  $heystack  Array to search in
+ * @param string $needle   Needle value
+ * @param array  $heystack Array to search in
  *
  * @return boolean True if found, False if not
  */
 function in_array_nocase($needle, $haystack)
 {
-    $needle = mb_strtolower($needle);
-    foreach ((array)$haystack as $value) {
-        if ($needle === mb_strtolower($value)) {
-            return true;
+    // use much faster method for ascii
+    if (is_ascii($needle)) {
+        foreach ((array) $haystack as $value) {
+            if (strcasecmp($value, $needle) === 0) {
+                return true;
+            }
+        }
+    }
+    else {
+        $needle = mb_strtolower($needle);
+        foreach ((array) $haystack as $value) {
+            if ($needle === mb_strtolower($value)) {
+                return true;
+            }
         }
     }
 

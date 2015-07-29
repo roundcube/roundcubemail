@@ -2871,7 +2871,7 @@ class rcube_imap extends rcube_storage
             if (is_array($a_folders) && $name == '*' && !empty($this->conn->data['LIST'])) {
                 foreach ($a_folders as $idx => $folder) {
                     if (($opts = $this->conn->data['LIST'][$folder])
-                        && in_array('\\NonExistent', $opts)
+                        && in_array_nocase('\\NonExistent', $opts)
                     ) {
                         $this->conn->unsubscribe($folder);
                         unset($a_folders[$idx]);
@@ -3408,7 +3408,7 @@ class rcube_imap extends rcube_storage
         if ($subscription) {
             // It's possible we already called LIST command, check LIST data
             if (!empty($this->conn->data['LIST']) && !empty($this->conn->data['LIST'][$folder])
-                && in_array('\\Subscribed', $this->conn->data['LIST'][$folder])
+                && in_array_nocase('\\Subscribed', $this->conn->data['LIST'][$folder])
             ) {
                 $a_folders = array($folder);
             }

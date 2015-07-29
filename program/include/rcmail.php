@@ -1584,7 +1584,7 @@ class rcmail extends rcube
             // skip folders in which it isn't possible to create subfolders
             if (!empty($opts['skip_noinferiors'])) {
                 $attrs = $this->storage->folder_attributes($folder['id']);
-                if ($attrs && in_array('\\Noinferiors', $attrs)) {
+                if ($attrs && in_array_nocase('\\Noinferiors', $attrs)) {
                     continue;
                 }
             }
