@@ -28,6 +28,7 @@ CHANGELOG Roundcube Webmail
 - Fix multi-folder search result sorting by arrival date (#1490450)
 - Fix so *-request@ addresses in Sender: header are also ignored on reply-all (#1490452)
 - Update to TinyMCE 4.1.10 (#1490405)
+- Fix draft removal after a message is sent and storing sent message is disabled (#1490467)
 
 RELEASE 1.1.2
 -------------
