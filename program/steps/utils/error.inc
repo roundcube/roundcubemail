@@ -72,6 +72,15 @@ else if ($ERROR_CODE == 404) {
     $__error_text .= '<p><i>' . $rcmail->gettext('errfailedrequest') . ":</i><br />\n<tt>//$request_url</tt></p>";
 }
 
+// invalid compose ID
+else if ($ERROR_CODE == 450 && $_SERVER['REQUEST_METHOD'] == 'GET' && $rcmail->action == 'compose') {
+    $url = $rcmail->url('compose');
+
+    $__error_title = strtoupper($rcmail->gettext('errcomposesession'));
+    $__error_text  = nl2br($rcmail->gettext('errcomposesessionexplain'))
+        . '<p>' . html::a($url, $rcmail->gettext('clicktocompose')) . '</p>';
+}
+
 // database connection error
 else if ($ERROR_CODE == 601) {
     $__error_title = "CONFIGURATION ERROR";

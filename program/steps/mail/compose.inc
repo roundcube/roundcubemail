@@ -47,9 +47,11 @@ while ($COMPOSE_ID && !is_array($COMPOSE) && $RCMAIL->db->is_replicated() && $re
 if (!is_array($COMPOSE)) {
     // Infinite redirect prevention in case of broken session (#1487028)
     if ($COMPOSE_ID) {
-        rcube::raise_error(array('code' => 500, 'type' => 'php',
-            'file' => __FILE__, 'line' => __LINE__,
-            'message' => "Invalid compose ID"), true, true);
+        // if we know the message with specified ID was already sent
+        // we can ignore the error and compose a new message (#1490009)
+        if ($COMPOSE_ID != $_SESSION['last_compose_session']) {
+            rcube::raise_error(array('code' => 450), false, true);
+        }
     }
 
     $COMPOSE_ID = uniqid(mt_rand());

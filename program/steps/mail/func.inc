@@ -1754,20 +1754,6 @@ function rcmail_draftinfo_decode($str)
 }
 
 /**
- * clear message composing settings
- */
-function rcmail_compose_cleanup($id)
-{
-    if (!isset($_SESSION['compose_data_'.$id])) {
-        return;
-    }
-
-    $rcmail = rcmail::get_instance();
-    $rcmail->plugins->exec_hook('attachments_cleanup', array('group' => $id));
-    $rcmail->session->remove('compose_data_'.$id);
-}
-
-/**
  * Send the MDN response
  *
  * @param mixed $message    Original message object (rcube_message) or UID

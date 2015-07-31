@@ -958,3 +958,19 @@ function rcmail_generic_message_footer($isHtml)
 
     return false;
 }
+
+/**
+ * clear message composing settings
+ */
+function rcmail_compose_cleanup($id)
+{
+    if (!isset($_SESSION['compose_data_'.$id])) {
+        return;
+    }
+
+    $rcmail = rcmail::get_instance();
+    $rcmail->plugins->exec_hook('attachments_cleanup', array('group' => $id));
+    $rcmail->session->remove('compose_data_'.$id);
+
+    $_SESSION['last_compose_session'] = $id;
+}

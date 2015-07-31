@@ -33,6 +33,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where new messages weren't added to the list in search mode
 - Fix wrong positioning of message list header on page scroll in Webkit browsers (#1490035)
 - Fix some javascript errors in rare situations (#1490441)
+- Fix error when using back button after sending an email (#1490009)
 
 RELEASE 1.1.2
 -------------
