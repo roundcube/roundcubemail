@@ -3488,7 +3488,7 @@ function rcube_webmail()
     $.each(['to', 'cc', 'bcc'], function(i,field) {
       var pos, rcpt, val = $.trim($('[name="_' + field + '"]').val());
       while (val.length && rcube_check_email(val, true)) {
-        rcpt = RegExp.$2
+        rcpt = RegExp.$2;
         recipients.push(rcpt);
         val = val.substr(val.indexOf(rcpt) + rcpt.length + 1).replace(/^\s*,\s*/, '');
       }
@@ -3497,12 +3497,48 @@ function rcube_webmail()
     // check if we have keys for all recipients
     var isvalid = recipients.length > 0;
     ref.mailvelope_keyring.validKeyForAddress(recipients).then(function(status) {
+      var missing_keys = [];
       $.each(status, function(k,v) {
         if (v === false) {
           isvalid = false;
-          alert(ref.get_label('nopubkeyfor').replace('$email', k));
+          missing_keys.push(k);
         }
       });
+
+      // list recipients with missing keys
+      if (!isvalid && missing_keys.length) {
+        // load publickey.js
+        if (!$('script#publickeyjs').length) {
+          $('<script>')
+            .attr('id', 'publickeyjs')
+            .attr('src', ref.assets_path('program/js/publickey.js'))
+            .appendTo(document.body);
+        }
+
+        // display dialog with missing keys
+        ref.show_popup_dialog(
+          ref.get_label('nopubkeyfor').replace('$email', missing_keys.join(', ')) +
+          '<p>' + ref.get_label('searchpubkeyservers') + '</p>',
+          ref.get_label('encryptedsendialog'),
+          [{
+            text: ref.get_label('search'),
+            'class': 'mainaction',
+            click: function() {
+              var $dialog = $(this);
+              ref.mailvelope_search_pubkeys(missing_keys, function() {
+                $dialog.dialog('close')
+              });
+            }
+          },
+          {
+            text: ref.get_label('cancel'),
+            click: function(){
+              $(this).dialog('close');
+            }
+          }]
+        );
+        return false;
+      }
 
       if (!isvalid) {
         if (!recipients.length) {
@@ -3587,6 +3623,161 @@ function rcube_webmail()
       ref.hide_message(msgid);
       ref.display_message('Message decryption failed: ' + err.message, 'error')
     });
+  };
+
+  // subroutine to query keyservers for public keys
+  this.mailvelope_search_pubkeys = function(emails, resolve)
+  {
+    // query with publickey.js
+    var deferreds = [],
+      pk = new PublicKey(),
+      lock = ref.display_message(ref.get_label('loading'), 'loading');
+
+    $.each(emails, function(i, email) {
+      var d = $.Deferred();
+      pk.search(email, function(results, errorCode) {
+        if (errorCode !== null) {
+          // rejecting would make all fail
+          // d.reject(email);
+          d.resolve([email]);
+        }
+        else {
+          d.resolve([email].concat(results));
+        }
+      });
+      deferreds.push(d);
+    });
+
+    $.when.apply($, deferreds).then(function() {
+      var missing_keys = [],
+        key_selection = [];
+
+      // alanyze results of all queries
+      $.each(arguments, function(i, result) {
+        var email = result.shift();
+        if (!result.length) {
+          missing_keys.push(email);
+        }
+        else {
+          key_selection = key_selection.concat(result);
+        }
+      });
+
+      ref.hide_message(lock);
+      resolve(true);
+
+      // show key import dialog
+      if (key_selection.length) {
+        ref.mailvelope_key_import_dialog(key_selection);
+      }
+      // some keys could not be found
+      if (missing_keys.length) {
+        ref.display_message(ref.get_label('nopubkeyfor').replace('$email', missing_keys.join(', ')), 'warning');
+      }
+    }, function() {
+      console.error('Pubkey lookup failed with', arguments);
+      ref.hide_message(lock);
+      ref.display_message('pubkeysearcherror', 'error');
+      resolve(false);
+    });
+  };
+
+  // list the given public keys in a dialog with options to import
+  // them into the local Maivelope keyring
+  this.mailvelope_key_import_dialog = function(candidates)
+  {
+    var ul = $('<div>').addClass('listing mailvelopekeyimport');
+    $.each(candidates, function(i, keyrec) {
+      var li = $('<div>').addClass('key');
+      if (keyrec.revoked)  li.addClass('revoked');
+      if (keyrec.disabled) li.addClass('disabled');
+      if (keyrec.expired)  li.addClass('expired');
+
+      li.append($('<label>').addClass('keyid').text(ref.get_label('keyid')));
+      li.append($('<a>').text(keyrec.keyid.substr(-8).toUpperCase())
+        .attr('href', keyrec.info)
+        .attr('target', '_blank')
+        .attr('tabindex', '-1'));
+
+      li.append($('<label>').addClass('keylen').text(ref.get_label('keylength')));
+      li.append($('<span>').text(keyrec.keylen));
+
+      if (keyrec.expirationdate) {
+        li.append($('<label>').addClass('keyexpired').text(ref.get_label('keyexpired')));
+        li.append($('<span>').text(new Date(keyrec.expirationdate * 1000).toDateString()));
+      }
+
+      if (keyrec.revoked) {
+        li.append($('<span>').addClass('keyrevoked').text(ref.get_label('keyrevoked')));
+      }
+
+      var ul_ = $('<ul>').addClass('uids');
+      $.each(keyrec.uids, function(j, uid) {
+        var li_ = $('<li>').addClass('uid');
+        if (uid.revoked)  li_.addClass('revoked');
+        if (uid.disabled) li_.addClass('disabled');
+        if (uid.expired)  li_.addClass('expired');
+
+        ul_.append(li_.text(uid.uid));
+      });
+
+      li.append(ul_);
+      li.append($('<input>')
+        .attr('type', 'button')
+        .attr('rel', keyrec.keyid)
+        .attr('value', ref.get_label('import'))
+        .addClass('button importkey')
+        .prop('disabled', keyrec.revoked || keyrec.disabled || keyrec.expired));
+
+      ul.append(li);
+    });
+
+    // display dialog with missing keys
+    ref.show_popup_dialog(
+      $('<div>')
+        .append($('<p>').html(ref.get_label('encryptpubkeysfound')))
+        .append(ul),
+      ref.get_label('importpubkeys'),
+      [{
+        text: ref.get_label('close'),
+        click: function(){
+          $(this).dialog('close');
+        }
+      }]
+    );
+
+    // delegate handler for import button clicks
+    ul.on('click', 'input.button.importkey', function() {
+      var btn = $(this),
+        keyid = btn.attr('rel'),
+        pk = new PublicKey(),
+        lock = ref.display_message(ref.get_label('loading'), 'loading');
+
+        // fetch from keyserver and import to Mailvelope keyring
+        pk.get(keyid, function(armored, errorCode) {
+          ref.hide_message(lock);
+
+          if (errorCode) {
+            ref.display_message('Failed to get key from keyserver', 'error');
+            return;
+          }
+
+          // import to keyring
+          ref.mailvelope_keyring.importPublicKey(armored).then(function(status) {
+            if (status === 'REJECTED') {
+              // alert(ref.get_label('Key import was rejected'));
+            }
+            else {
+              btn.closest('.key').fadeOut();
+              ref.display_message(ref.get_label('Public key $key successfully imported into your key ring')
+                .replace('$key', keyid.substr(-8).toUpperCase()), 'confirmation');
+            }
+          }).catch(function(err) {
+            console.log(err);
+          });
+        });
+    });
+
   };
 
 

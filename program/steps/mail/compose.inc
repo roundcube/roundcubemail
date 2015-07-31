@@ -84,7 +84,9 @@ $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubj
     'fileuploaderror', 'sendmessage', 'newresponse', 'responsename', 'responsetext', 'save',
     'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore', 'ignore',
     'selectimportfile', 'messageissent', 'loadingdata', 'nopubkeyfor', 'nopubkeyforsender',
-    'encryptnoattachments');
+    'encryptnoattachments','encryptedsendialog','searchpubkeyservers', 'importpubkeys',
+    'encryptpubkeysfound',  'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
+    'keyrevoked');
 
 $OUTPUT->set_pagetitle($RCMAIL->gettext('compose'));
 

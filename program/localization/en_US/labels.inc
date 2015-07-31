@@ -249,6 +249,12 @@ $labels['selectmedia']    = 'Select movie';
 $labels['addmedia']       = 'Add movie';
 $labels['encrypt']        = 'Encrypt';
 $labels['encryptmessage'] = 'Encrypt message';
+$labels['importpubkeys']  = 'Import public keys';
+$labels['encryptedsendialog'] = 'Sending encrypted message';
+$labels['keyid']          = 'Key ID';
+$labels['keylength']      = 'Bits';
+$labels['keyexpired']     = 'Expired';
+$labels['keyrevoked']     = 'Revoked';
 
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
