@@ -131,7 +131,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
             // prevent redirect to compose with specified ID (#1488226)
             if ($query['_action'] == 'compose' && !empty($query['_id'])) {
-                $query = array();
+                $query = array('_action' => 'compose');
             }
         }
 

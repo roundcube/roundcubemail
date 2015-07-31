@@ -189,5 +189,6 @@ $messages['errrequestcheckfailed'] = 'Request Check Failed';
 $messages['errcsrfprotectionexplain'] = "For your protection, access to this resource is secured against CSRF.\nIf you see this, you probably didn't log out before leaving the web application.\n\nHuman interaction is now required to continue.";
 $messages['errcontactserveradmin'] = 'Please contact your server-administrator.';
 $messages['clicktoresumesession'] = 'Click here to resume your previous session';
-
-?>
+$messages['errcomposesession'] = 'Compose session error';
+$messages['errcomposesessionexplain'] = 'Requested compose session not found.';
+$messages['clicktocompose'] = 'Click here to compose a new message';
