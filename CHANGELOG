@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix so E_DEPRECATED errors from PEAR libs are ignored by error_reporting change (#1490281)
 - Fix compatibility with PHP 5.3 in rcube_ldap class (#1490424)
 - Fix "Importing..." message does not hide on error (#1490422)
 - Fix SQL error on logout when using session_storage=php (#1490421)
@@ -19,7 +20,7 @@ CHANGELOG Roundcube Webmail
 - Fix draft removal after a message is sent and storing sent message is disabled (#1490467)
 - Fix so imap folder attribute comparisons are case-insensitive (#1490466)
 - Fix bug where new messages weren't added to the list in search mode
-- Fix so E_DEPRECATED errors from PEAR libs are ignored by error_reporting change (#1490281)
+- Fix wrong positioning of message list header on page scroll in Webkit browsers (#1490035)
 
 RELEASE 1.1.2
 -------------

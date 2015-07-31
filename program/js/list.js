@@ -248,9 +248,10 @@ init_fixed_header: function()
     $(window).resize(function() { me.resize(); });
     $(window).scroll(function() {
       var w = $(window);
-      me.fixed_header.css('marginLeft', (-w.scrollLeft()) + 'px');
-      if (!bw.webkit)
-        me.fixed_header.css('marginTop', (-w.scrollTop()) + 'px');
+      me.fixed_header.css({
+        marginLeft: -w.scrollLeft() + 'px',
+        marginTop: -w.scrollTop() + 'px'
+      });
     });
   }
   else {
