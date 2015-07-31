@@ -562,27 +562,30 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * protected method for getting nr of messages
+     * Protected method for getting number of messages
      *
-     * @param string  $folder  Folder name
-     * @param string  $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
-     * @param boolean $force   Force reading from server and update cache
-     * @param boolean $status  Enables storing folder status info (max UID/count),
-     *                         required for folder_status()
+     * @param string  $folder    Folder name
+     * @param string  $mode      Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
+     * @param boolean $force     Force reading from server and update cache
+     * @param boolean $status    Enables storing folder status info (max UID/count),
+     *                           required for folder_status()
+     * @param boolean $no_search Ignore current search result
      *
      * @return int Number of messages
      * @see rcube_imap::count()
      */
-    protected function countmessages($folder, $mode='ALL', $force=false, $status=true)
+    protected function countmessages($folder, $mode = 'ALL', $force = false, $status = true, $no_search = false)
     {
         $mode = strtoupper($mode);
 
-        // count search set, assume search set is always up-to-date (don't check $force flag)
-        if ($this->search_string && $folder == $this->folder && ($mode == 'ALL' || $mode == 'THREADS')) {
+        // Count search set, assume search set is always up-to-date (don't check $force flag)
+        // @TODO: this could be handled in more reliable way, e.g. a separate method
+        //        maybe in rcube_imap_search
+        if (!$no_search && $this->search_string && $folder == $this->folder) {
             if ($mode == 'ALL') {
                 return $this->search_set->count_messages();
             }
-            else {
+            else if ($mode == 'THREADS') {
                 return $this->search_set->count();
             }
         }
@@ -1200,7 +1203,7 @@ class rcube_imap extends rcube_storage
         $old = $this->get_folder_stats($folder);
 
         // refresh message count -> will update
-        $this->countmessages($folder, 'ALL', true);
+        $this->countmessages($folder, 'ALL', true, true, true);
 
         $result = 0;
 
