@@ -19,6 +19,7 @@ CHANGELOG Roundcube Webmail
 - Fix draft removal after a message is sent and storing sent message is disabled (#1490467)
 - Fix so imap folder attribute comparisons are case-insensitive (#1490466)
 - Fix bug where new messages weren't added to the list in search mode
+- Fix so E_DEPRECATED errors from PEAR libs are ignored by error_reporting change (#1490281)
 
 RELEASE 1.1.2
 -------------
