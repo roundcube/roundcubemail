@@ -32,6 +32,7 @@ CHANGELOG Roundcube Webmail
 - Fix so imap folder attribute comparisons are case-insensitive (#1490466)
 - Fix bug where new messages weren't added to the list in search mode
 - Fix wrong positioning of message list header on page scroll in Webkit browsers (#1490035)
+- Fix some javascript errors in rare situations (#1490441)
 
 RELEASE 1.1.2
 -------------

@@ -565,6 +565,10 @@ drag_row: function(e, id)
  */
 click_row: function(e, id)
 {
+  // sanity check
+  if (!id || !this.rows[id])
+    return false;
+
   // don't do anything (another action processed before)
   if (!this.is_event_target(e))
     return true;
