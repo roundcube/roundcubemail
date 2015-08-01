@@ -297,16 +297,22 @@ if (!$savedraft) {
 
         $message_body = preg_replace(
             array(
+                // remove empty signature div
+                '/<div id="_rc_sig">(&nbsp;)?<\/div>[\s\r\n]*$/',
                 // remove signature's div ID
                 '/\s*id="_rc_sig"/',
                 // add inline css for blockquotes and container
                 '/<blockquote>/',
-                '/<div class="pre">/'
+                '/<div class="pre">/',
+                // convert TinyMCE's new-line sequences (#1490463)
+                '/<p>&nbsp;<\/p>/',
             ),
             array(
                 '',
+                '',
                 '<blockquote type="cite" style="'.$b_style.'">',
-                '<div class="pre" style="'.$pre_style.'">'
+                '<div class="pre" style="'.$pre_style.'">',
+                '<p><br /></p>',
             ),
             $message_body);
     }

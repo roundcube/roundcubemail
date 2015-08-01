@@ -1145,8 +1145,24 @@ function rcmail_create_draft_body($body, $bodyIsHtml)
     if ($bodyIsHtml) {
         $body = rcmail_wash_html($body, array('safe' => 1), $cid_map);
 
-        // remove comments (produced by washtml)
-        $body = preg_replace('/<!--[^>]+-->/', '', $body);
+        // cleanup
+        $body = preg_replace(array(
+                // remove comments (produced by washtml)
+                '/<!--[^>]+-->/',
+                // remove <body> tags
+                '/<body([^>]*)>/i',
+                '/<\/body>/i',
+                // convert TinyMCE's empty-line sequence (#1490463)
+                '/<p>\xC2\xA0<\/p>/',
+            ),
+            array(
+                '',
+                '',
+                '',
+                '<p><br /></p>',
+            ),
+            $body
+        );
 
         // replace cid with href in inline images links
         if (!empty($cid_map)) {
