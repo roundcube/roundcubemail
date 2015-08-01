@@ -34,6 +34,7 @@ CHANGELOG Roundcube Webmail
 - Fix wrong positioning of message list header on page scroll in Webkit browsers (#1490035)
 - Fix some javascript errors in rare situations (#1490441)
 - Fix error when using back button after sending an email (#1490009)
+- Fix removing signature when switching to identity with an empty sig in HTML mode (#1490470)
 
 RELEASE 1.1.2
 -------------

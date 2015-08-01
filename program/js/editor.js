@@ -548,9 +548,7 @@ function rcube_text_editor(config, id)
         }
       }
 
-      if (rcmail.env.signatures[id]) {
-        sigElem.innerHTML = rcmail.env.signatures[id].html;
-      }
+      sigElem.innerHTML = rcmail.env.signatures[id] ? rcmail.env.signatures[id].html : '';
     }
     else if (!rcmail.env.top_posting) {
       position_element = $(this.editor.getBody()).children().last();
