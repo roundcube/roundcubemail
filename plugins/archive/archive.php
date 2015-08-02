@@ -111,12 +111,12 @@ class archive extends rcube_plugin
     $delimiter      = $storage->get_hierarchy_delimiter();
     $archive_folder = $rcmail->config->get('archive_mbox');
     $archive_type   = $rcmail->config->get('archive_type', '');
-    $current_mbox   = rcube_utils::get_input_value('_mbox', RCUBE_INPUT_POST);
+    $current_mbox   = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
 
     $result  = array('reload' => false, 'update' => false, 'errors' => array());
     $folders = array();
-    $uids    = rcube_utils::get_input_value('_uid', RCUBE_INPUT_POST);
-    $search_request = get_input_value('_search', RCUBE_INPUT_GPC);
+    $uids    = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
+    $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
 
     if ($uids == '*') {
       $index = $storage->index(null, rcmail_sort_column(), rcmail_sort_order());
@@ -220,7 +220,7 @@ class archive extends rcube_plugin
     }
 
     if ($_POST['_from'] == 'show' && !empty($result['update'])) {
-      if ($next = get_input_value('_next_uid', RCUBE_INPUT_GPC)) {
+      if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC)) {
         $rcmail->output->command('show_message', $next);
       }
       else {

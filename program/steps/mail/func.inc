@@ -37,7 +37,7 @@ if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
 }
 
 // remove mbox part from _uid
-if (($_uid  = rcube_utils::get_input_value('_uid', RCUBE_INPUT_GPC)) && !is_array($_uid) && preg_match('/^\d+-.+/', $_uid)) {
+if (($_uid  = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GPC)) && !is_array($_uid) && preg_match('/^\d+-.+/', $_uid)) {
   list($_uid, $mbox) = explode('-', $_uid, 2);
   if (isset($_GET['_uid']))  $_GET['_uid']  = $_uid;
   if (isset($_POST['_uid'])) $_POST['_uid'] = $_uid;
@@ -481,7 +481,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
                 $cont = rcube::Q($cont);
             }
             else if ($col == 'size')
-                $cont = show_bytes($header->$col);
+                $cont = $RCMAIL->show_bytes($header->$col);
             else if ($col == 'date')
                 $cont = $RCMAIL->format_date($header->date);
             else if ($col == 'folder') {
