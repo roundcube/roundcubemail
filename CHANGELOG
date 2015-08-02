@@ -24,6 +24,7 @@ CHANGELOG Roundcube Webmail
 - Fix some javascript errors in rare situations (#1490441)
 - Fix error when using back button after sending an email (#1490009)
 - Fix removing signature when switching to identity with an empty sig in HTML mode (#1490470)
+- Disable links list generation on html-to-text conversion of identities or composed message (#1490437)
 
 RELEASE 1.1.2
 -------------
