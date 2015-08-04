@@ -3,7 +3,9 @@
 	<h2 id="aria-label-topnav" class="voice"><roundcube:label name="arialabeltopnav" /></h2>
 	<div class="topleft">
 		<roundcube:container name="topline-left" id="topline-left" />
-		<roundcube:button name="about" type="link" label="about" class="about-link" onclick="UI.show_about(this);return false" condition="!env:extwin" />
+		<roundcube:if condition="template:name != 'error'" />
+			<roundcube:button name="about" type="link" label="about" class="about-link" onclick="UI.show_about(this);return false" condition="!env:extwin" />
+		<roundcube:endif />
 		<roundcube:if condition="config:support_url" />
 		<a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link" id="supportlink"><roundcube:label name="support" /></a>
 		<roundcube:endif />
@@ -19,7 +21,6 @@
 	<roundcube:endif />
 	</div>
 </div>
-
 <roundcube:if condition="!env:extwin &amp;&amp; !env:framed" />
 <div id="topnav">
 	<h2 id="aria-label-tasknav" class="voice"><roundcube:label name="arialabeltasknav" /></h2>
