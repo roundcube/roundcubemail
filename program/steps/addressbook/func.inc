@@ -371,19 +371,21 @@ function rcmail_js_contacts_list($result, $prefix='')
 {
     global $OUTPUT, $RCMAIL;
 
-    if (empty($result) || $result->count == 0)
+    if (empty($result) || $result->count == 0) {
         return;
+    }
 
     // define list of cols to be displayed
     $a_show_cols = array('name','action');
 
     while ($row = $result->next()) {
-        $row['CID'] = $row['ID'];
-        $row['email'] = reset(rcube_addressbook::get_col_values('email', $row, true));
+        $emails       = rcube_addressbook::get_col_values('email', $row, true);
+        $row['CID']   = $row['ID'];
+        $row['email'] = reset($emails);
 
-        $source_id = $OUTPUT->get_env('source');
+        $source_id  = $OUTPUT->get_env('source');
         $a_row_cols = array();
-        $classes = array($row['_type'] ? $row['_type'] : 'person');
+        $classes    = array($row['_type'] ? $row['_type'] : 'person');
 
         // build contact ID with source ID
         if (isset($row['sourceid'])) {

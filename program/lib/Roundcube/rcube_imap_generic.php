@@ -690,7 +690,8 @@ class rcube_imap_generic
         list($code, $response) = $this->execute('NAMESPACE');
 
         if ($code == self::ERROR_OK && preg_match('/^\* NAMESPACE /', $response)) {
-            $data = $this->tokenizeResponse(substr($response, 11));
+            $response = substr($response, 11);
+            $data     = $this->tokenizeResponse($response);
         }
 
         if (!is_array($data)) {

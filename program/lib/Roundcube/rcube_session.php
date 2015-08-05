@@ -40,6 +40,7 @@ abstract class rcube_session
     protected $reloaded     = false;
     protected $appends      = array();
     protected $unsets       = array();
+    protected $gc_enabled   = 0;
     protected $gc_handlers  = array();
     protected $cookiename   = 'roundcube_sessauth';
     protected $secret       = '';

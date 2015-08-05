@@ -96,8 +96,7 @@ class rcube_message
             return;
         }
 
-        $this->mime = new rcube_mime($this->headers->charset);
-
+        $this->mime    = new rcube_mime($this->headers->charset);
         $this->subject = $this->headers->get('subject');
         list(, $this->sender) = each($this->mime->decode_address_list($this->headers->from, 1));
 

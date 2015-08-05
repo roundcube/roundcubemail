@@ -253,8 +253,8 @@ class rcube_utils
             $js_rep_table["'"]  = "\\'";
             $js_rep_table["\\"] = "\\\\";
             // Unicode line and paragraph separators (#1486310)
-            $js_rep_table[chr(hexdec(E2)).chr(hexdec(80)).chr(hexdec(A8))] = '&#8232;';
-            $js_rep_table[chr(hexdec(E2)).chr(hexdec(80)).chr(hexdec(A9))] = '&#8233;';
+            $js_rep_table[chr(hexdec('E2')).chr(hexdec('80')).chr(hexdec('A8'))] = '&#8232;';
+            $js_rep_table[chr(hexdec('E2')).chr(hexdec('80')).chr(hexdec('A9'))] = '&#8233;';
         }
 
         // encode for javascript use

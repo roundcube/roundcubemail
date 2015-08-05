@@ -262,11 +262,14 @@ EOF;
         $meta = @file_get_contents(RCUBE_INSTALL_PATH . $skin_path . '/meta.json');
         $meta = @json_decode($meta, true);
 
-        $meta['path'] = $skin_path;
-        $skin_id = end(explode('/', $skin_path));
+        $meta['path']  = $skin_path;
+        $path_elements = explode('/', $skin_path);
+        $skin_id       = end($path_elements);
+
         if (!$meta['name']) {
             $meta['name'] = $skin_id;
         }
+
         $this->skins[$skin_id] = $meta;
 
         if ($meta['extends']) {
@@ -956,7 +959,7 @@ EOF;
                 "rcube_utils::get_input_value('\\1', rcube_utils::INPUT_GPC)",
                 "\$_COOKIE['\\1']",
                 "\$browser->{'\\1'}",
-                $this->template_name,
+                "'" . $this->template_name . "'",
             ),
             $expression
         );

@@ -413,7 +413,7 @@ class rcube_result_thread
      */
     public function get_parameters($param=null)
     {
-        $params = $this->params;
+        $params = array();
         $params['MAILBOX'] = $this->mailbox;
         $params['ORDER']   = $this->order;
 
