@@ -552,14 +552,12 @@ class rcube_imap_generic
                 $this->putLine($reply, true, true);
                 $line = trim($this->readReply());
 
-                if ($line[0] == '+') {
-                    $challenge = substr($line, 2);
-                }
-                else {
+                if ($line[0] != '+') {
                     return $this->parseResult($line);
                 }
 
                 // check response
+                $challenge = substr($line, 2);
                 $challenge = base64_decode($challenge);
                 if (strpos($challenge, 'rspauth=') === false) {
                     $this->setError(self::ERROR_BAD,
@@ -571,6 +569,66 @@ class rcube_imap_generic
             }
 
             $line = $this->readReply();
+            $result = $this->parseResult($line);
+        }
+        elseif ($type == 'GSSAPI') {
+            if (!extension_loaded('krb5')) {
+                $this->setError(self::ERROR_BYE,
+                    "The krb5 extension is required for GSSAPI authentication");
+                return self::ERROR_BAD;
+            }
+
+            if (empty($this->prefs['gssapi_cn'])) {
+                $this->setError(self::ERROR_BYE,
+                    "The gssapi_cn parameter is required for GSSAPI authentication");
+                return self::ERROR_BAD;
+            }
+
+            if (empty($this->prefs['gssapi_context'])) {
+                $this->setError(self::ERROR_BYE,
+                    "The gssapi_context parameter is required for GSSAPI authentication");
+                return self::ERROR_BAD;
+            }
+
+            putenv('KRB5CCNAME=' . $this->prefs['gssapi_cn']);
+
+            try {
+                $ccache = new KRB5CCache();
+                $ccache->open($this->prefs['gssapi_cn']);
+                $gssapicontext = new GSSAPIContext();
+                $gssapicontext->acquireCredentials($ccache);
+
+                $token   = '';
+                $success = $gssapicontext->initSecContext($this->prefs['gssapi_context'], null, null, null, $token);
+                $token   = base64_encode($token);
+            }
+            catch (Exception $e) {
+                trigger_error($e->getMessage(), E_USER_WARNING);
+                $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
+                return self::ERROR_BAD;
+            }
+
+            $this->putLine($this->nextTag() . " AUTHENTICATE GSSAPI " . $token);
+            $line = trim($this->readReply());
+
+            if ($line[0] != '+') {
+                return $this->parseResult($line);
+            }
+
+            try {
+                $challenge = base64_decode(substr($line, 2));
+                $gssapicontext->unwrap($challenge, $challenge);
+                $gssapicontext->wrap($challenge, $challenge, true);
+            }
+            catch (Exception $e) {
+                trigger_error($e->getMessage(), E_USER_WARNING);
+                $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
+                return self::ERROR_BAD;
+            }
+
+            $this->putLine(base64_encode($challenge));
+
+            $line   = $this->readReply();
             $result = $this->parseResult($line);
         }
         else { // PLAIN
@@ -738,7 +796,7 @@ class rcube_imap_generic
             return false;
         }
 
-        if (empty($password)) {
+        if (empty($password) && empty($options['gssapi_cn'])) {
             $this->setError(self::ERROR_NO, "Empty password");
             return false;
         }
@@ -774,7 +832,8 @@ class rcube_imap_generic
             }
 
             // Use best (for security) supported authentication method
-            foreach (array('DIGEST-MD5', 'CRAM-MD5', 'CRAM_MD5', 'PLAIN', 'LOGIN') as $auth_method) {
+            $all_methods = array('GSSAPI', 'DIGEST-MD5', 'CRAM-MD5', 'CRAM_MD5', 'PLAIN', 'LOGIN');
+            foreach ($all_methods as $auth_method) {
                 if (in_array($auth_method, $auth_methods)) {
                     break;
                 }
@@ -803,6 +862,7 @@ class rcube_imap_generic
             case 'CRAM-MD5':
             case 'DIGEST-MD5':
             case 'PLAIN':
+            case 'GSSAPI':
                 $result = $this->authenticate($user, $password, $auth_method);
                 break;
             case 'LOGIN':

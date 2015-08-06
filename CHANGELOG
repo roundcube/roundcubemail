@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added GSSAPI/Kerberos authentication plugin - krb_authentication
 - Password: Allow temporarily disabling the plugin functionality with a notice
 - Support more secure hashing algorithms for auth cookie - configurable by PHP's session.hash_function (#1490403)
 - Require Mbstring and OpenSSL extensions (#1490415)
