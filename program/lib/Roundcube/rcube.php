@@ -1559,12 +1559,8 @@ class rcube
             if (strlen($headers['Bcc']))
                 $a_recipients[] = $headers['Bcc'];
 
-            // clean Bcc from header for recipients
-            $send_headers = $headers;
-            unset($send_headers['Bcc']);
-            // here too, it because txtHeaders() below use $message->_headers not only $send_headers
-            unset($message->_headers['Bcc']);
-
+            // remove Bcc header and get the whole head of the message as string
+            $send_headers = array('Bcc' => null);
             $smtp_headers = $message->txtHeaders($send_headers, true);
 
             if ($message->getParam('delay_file_io')) {
@@ -1606,13 +1602,9 @@ class rcube
         // send mail using PHP's mail() function
         else {
             // unset some headers because they will be added by the mail() function
-            $headers_enc = $message->headers($headers);
-            $headers_php = $message->_headers;
-            unset($headers_php['To'], $headers_php['Subject']);
-
-            // reset stored headers and overwrite
-            $message->_headers = array();
-            $header_str = $message->txtHeaders($headers_php);
+            $headers_enc = $headers;
+            $headers_res = array('To' => null, 'Subject' => null);
+            $header_str  = $message->txtHeaders($headers_res, true);
 
             // #1485779
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
@@ -1685,8 +1677,7 @@ class rcube
             fclose($msg_body);
         }
 
-        $message->_headers = array();
-        $message->headers($headers);
+        $message->headers($headers, true);
 
         return $sent;
     }
