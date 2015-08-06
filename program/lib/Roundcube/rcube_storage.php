@@ -47,6 +47,7 @@ abstract class rcube_storage
     protected $search_set;
     protected $options = array('auth_type' => 'check');
     protected $page_size = 10;
+    protected $list_page = 1;
     protected $threading = false;
 
     /**
@@ -219,7 +220,9 @@ abstract class rcube_storage
      */
     public function set_page($page)
     {
-        $this->list_page = (int) $page;
+        if ($page = intval($page)) {
+            $this->list_page = $page;
+        }
     }
 
 

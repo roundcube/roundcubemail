@@ -57,7 +57,6 @@ class rcube_imap extends rcube_storage
     protected $icache = array();
 
     protected $plugins;
-    protected $list_page = 1;
     protected $delimiter;
     protected $namespace;
     protected $sort_field = '';
