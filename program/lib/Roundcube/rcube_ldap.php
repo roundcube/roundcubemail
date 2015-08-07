@@ -1947,7 +1947,7 @@ class rcube_ldap extends rcube_addressbook
         $new_entry   = array(
             'objectClass' => $this->prop['groups']['object_classes'],
             $name_attr    => $group_name,
-            $member_attr  => '',
+            $member_attr  => array(''),
         );
 
         if (!$this->ldap->add_entry($new_dn, $new_entry)) {
