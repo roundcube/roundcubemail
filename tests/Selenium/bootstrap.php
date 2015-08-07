@@ -38,7 +38,7 @@ if (set_include_path($include_path) === false) {
     die("Fatal error: ini_set/set_include_path does not work.");
 }
 
-$rcmail = rcmail::get_instance('test');
+$rcmail = rcmail::get_instance(0, 'test');
 
 define('TESTS_URL',     $rcmail->config->get('tests_url'));
 define('TESTS_BROWSER', $rcmail->config->get('tests_browser', 'firefox'));

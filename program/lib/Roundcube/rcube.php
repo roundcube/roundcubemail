@@ -124,8 +124,8 @@ class rcube
     /**
      * This implements the 'singleton' design pattern
      *
-     * @param integer Options to initialize with this instance. See rcube::INIT_WITH_* constants
-     * @param string Environment name to run (e.g. live, dev, test)
+     * @param integer $mode Options to initialize with this instance. See rcube::INIT_WITH_* constants
+     * @param string  $env  Environment name to run (e.g. live, dev, test)
      *
      * @return rcube The one and only instance
      */

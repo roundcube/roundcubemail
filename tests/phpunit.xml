@@ -15,6 +15,7 @@
             <file>Framework/DB.php</file>
             <file>Framework/DBMssql.php</file>
             <file>Framework/DBMysql.php</file>
+            <file>Framework/DBOracle.php</file>
             <file>Framework/DBPgsql.php</file>
             <file>Framework/DBSqlite.php</file>
             <file>Framework/DBSqlsrv.php</file>
@@ -24,13 +25,16 @@
             <file>Framework/Imap.php</file>
             <file>Framework/ImapCache.php</file>
             <file>Framework/ImapGeneric.php</file>
+            <file>Framework/ImapSearch.php</file>
             <file>Framework/Image.php</file>
+            <file>Framework/Ldap.php</file>
             <file>Framework/LdapGeneric.php</file>
             <file>Framework/MessageHeader.php</file>
             <file>Framework/MessagePart.php</file>
             <file>Framework/Mime.php</file>
             <file>Framework/Rcube.php</file>
             <file>Framework/ResultIndex.php</file>
+            <file>Framework/ResultMultifolder.php</file>
             <file>Framework/ResultSet.php</file>
             <file>Framework/ResultThread.php</file>
             <file>Framework/Smtp.php</file>

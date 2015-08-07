@@ -37,7 +37,7 @@ function _die($msg, $usage=false)
     exit(1);
 }
 
-$rcmail = rcmail::get_instance();
+$rcmail = rcube::get_instance();
 
 // get arguments
 $args     = rcube_utils::get_opt(array('h' => 'host'));
