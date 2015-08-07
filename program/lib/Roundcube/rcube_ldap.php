@@ -1051,11 +1051,14 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Create a new contact record
      *
-     * @param array    Hash array with save data
+     * @param array Associative array with save data
+     *  Keys:   Field name with optional section in the form FIELD:SECTION
+     *  Values: Field value. Can be either a string or an array of strings for multiple values
+     * @param boolean True to check for duplicates first
      *
-     * @return encoded record ID on success, False on error
+     * @return mixed The created record ID on success, False on error
      */
-    function insert($save_cols)
+    function insert($save_cols, $check = false)
     {
         // Map out the column names to their LDAP ones to build the new entry.
         $newentry = $this->_map_data($save_cols);

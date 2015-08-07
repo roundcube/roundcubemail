@@ -49,9 +49,11 @@ class rcube_sieve_vacation extends rcube_sieve_engine
     /**
      * Find and load sieve script with/for vacation rule
      *
+     * @param string $script_name Optional script name
+     *
      * @return int Connection status: 0 on success, >0 on failure
      */
-    protected function load_script()
+    protected function load_script($script_name = null)
     {
         if ($this->script_name !== null) {
             return 0;

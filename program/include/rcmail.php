@@ -65,11 +65,12 @@ class rcmail extends rcube
     /**
      * This implements the 'singleton' design pattern
      *
-     * @param string Environment name to run (e.g. live, dev, test)
+     * @param integer $mode Ignored rcube::get_instance() argument
+     * @param string  $env  Environment name to run (e.g. live, dev, test)
      *
      * @return rcmail The one and only instance
      */
-    static function get_instance($env = '')
+    static function get_instance($mode = 0, $env = '')
     {
         if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
             self::$instance = new rcmail($env);
@@ -94,8 +95,9 @@ class rcmail extends rcube
         }
 
         // load all configured plugins
-        $this->plugins->load_plugins((array)$this->config->get('plugins', array()),
-                                     array('filesystem_attachments', 'jqueryui'));
+        $plugins          = (array) $this->config->get('plugins', array());
+        $required_plugins = array('filesystem_attachments', 'jqueryui');
+        $this->plugins->load_plugins($plugins, $required_plugins);
 
         // start session
         $this->session_init();
