@@ -150,6 +150,7 @@ $rcube_language_aliases = array(
   'ml' => 'ml_IN',
   'ml_ML' => 'ml_IN',
   'pl' => 'pl_PL',
+  'tr' => 'tr_TR',
   'tw' => 'zh_TW',
   'si' => 'si_LK',
   'sl' => 'sl_SI',
