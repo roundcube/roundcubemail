@@ -174,6 +174,9 @@ class rcube_washtml
     {
         $result = array();
 
+        // Remove unwanted white-space characters so regular expressions below work better
+        $style = preg_replace('/[\n\r\s\t]+/', ' ', $style);
+
         foreach (explode(';', $style) as $declaration) {
             if (preg_match('/^\s*([a-z\-]+)\s*:\s*(.*)\s*$/i', $declaration, $match)) {
                 $cssid = $match[1];
