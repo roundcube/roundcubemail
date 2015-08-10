@@ -3,9 +3,6 @@
 window.rcmail && rcmail.addEventListener('init', function(evt) {
     if (rcmail.env.task == 'settings') {
         rcmail.register_command('plugin.enigma', function() { rcmail.goto_url('plugin.enigma') }, true);
-        rcmail.register_command('plugin.enigma-key-import', function() { rcmail.enigma_key_import() }, true);
-//        rcmail.register_command('plugin.enigma-key-export', function() { rcmail.enigma_key_export() }, true);
-        rcmail.register_command('plugin.enigma-key-delete', function(props) { return rcmail.enigma_key_delete(); });
 
         if (rcmail.gui_objects.keyslist) {
             rcmail.keys_list = new rcube_list_widget(rcmail.gui_objects.keyslist,
@@ -28,7 +25,11 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             rcmail.register_command('search', function(props) {return rcmail.enigma_search(props); }, true);
             rcmail.register_command('reset-search', function(props) {return rcmail.enigma_search_reset(props); }, true);
             rcmail.register_command('plugin.enigma-import', function() { rcmail.enigma_import(); }, true);
-//            rcmail.register_command('plugin.enigma-export', function() { rcmail.enigma_export(); }, true);
+//            rcmail.register_command('plugin.enigma-export', function() { rcmail.enigma_key_export(); }, true);
+            rcmail.register_command('plugin.enigma-key-import', function() { rcmail.enigma_key_import() }, true);
+            rcmail.register_command('plugin.enigma-key-delete', function(props) { return rcmail.enigma_key_delete(); });
+            rcmail.register_command('plugin.enigma-key-create', function(props) { return rcmail.enigma_key_create(); }, true);
+            rcmail.register_command('plugin.enigma-key-save', function(props) { return rcmail.enigma_key_create_save(); }, true);
         }
     }
     else if (rcmail.env.task == 'mail') {
@@ -57,6 +58,65 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
 rcube_webmail.prototype.enigma_key_import = function()
 {
     this.enigma_loadframe('&_action=plugin.enigmakeys&_a=import');
+};
+
+// Display key(s) generation form
+rcube_webmail.prototype.enigma_key_create = function()
+{
+    this.enigma_loadframe('&_action=plugin.enigmakeys&_a=create');
+};
+
+// Generate key(s) and submit them
+rcube_webmail.prototype.enigma_key_create_save = function()
+{
+    var options, lock,
+        user = $('#key-ident > option').filter(':selected').text(),
+        password = $('#key-pass').val(),
+        confirm = $('#key-pass-confirm').val(),
+        size = $('#key-size').val();
+
+    // validate the form
+    if (!password || !confirm)
+        return alert(this.gettext('enigma.formerror'));
+
+    if (password != confirm)
+        return alert(this.gettext('enigma.passwordsdiffer'));
+
+    if (user.match(/^<[^>]+>$/))
+        return alert(this.gettext('enigma.nonameident'));
+
+    // generate keys
+    // use OpenPGP.js if browser supports required features
+    if (window.openpgp && window.crypto && (window.crypto.getRandomValues || window.crypto.subtle)) {
+        lock = this.set_busy(true, 'enigma.keygenerating');
+        options = {
+            numBits: size,
+            userId: user,
+            passphrase: password
+        };
+
+        openpgp.generateKeyPair(options).then(function(keypair) {
+            // success
+            post = {_a: 'import', _keys: keypair.privateKeyArmored};
+
+            // send request to server
+            rcmail.http_post('plugin.enigmakeys', post, lock);
+        }).catch(function(error) {
+            // failure
+            rcmail.set_busy(false, null, lock);
+            rcmail.display_message(rcmail.gettext('enigma.keygenerateerror'), 'error');
+        });
+    }
+    // generate keys on the server
+    else {
+        // @TODO
+    }
+};
+
+// Action executed after successful key generation and import
+rcube_webmail.prototype.enigma_key_create_success = function()
+{
+    parent.rcmail.enigma_list(1);
 };
 
 // Delete key(s)
@@ -130,8 +190,8 @@ rcube_webmail.prototype.enigma_loadframe = function(url)
             return;
         }
 
-        this.set_busy(true);
-        frm.location.href = this.env.comm_path + '&_framed=1' + url;
+        this.env.frame_lock = this.set_busy(true, 'loading');
+        frm.location.href = this.env.comm_path + '&_framed=1&' + url;
     }
 };
 

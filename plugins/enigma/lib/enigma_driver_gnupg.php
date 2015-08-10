@@ -180,8 +180,9 @@ class enigma_driver_gnupg extends enigma_driver
     {
         $list = $this->list_keys($keyid);
 
-        if (is_array($list))
-            return array_shift($list);
+        if (is_array($list)) {
+            return $list[key($list)];
+        }
 
         // error
         return $list;
@@ -196,9 +197,25 @@ class enigma_driver_gnupg extends enigma_driver
         // delete public key
         $result = $this->delete_pubkey($keyid);
 
-        // if not found, delete private key
-        if ($result !== true && $result->getCode() == enigma_error::E_KEYNOTFOUND) {
-            $result = $this->delete_privkey($keyid);
+        // error handling
+        if ($result !== true) {
+            $code = $result->getCode();
+
+            // if not found, delete private key
+            if ($code == enigma_error::E_KEYNOTFOUND) {
+                $result = $this->delete_privkey($keyid);
+            }
+            // need to delete private key first
+            else if ($code == enigma_error::E_DELKEY) {
+                $key = $this->get_key($keyid);
+                for ($i = count($key->subkeys) - 1; $i >= 0; $i--) {
+                    $type = $key->subkeys[$i]->can_encrypt ? 'priv' : 'pub';
+                    $result = $this->{'delete_' . $type . 'key'}($key->subkeys[$i]->id);
+                    if ($result !== true) {
+                        return $result;
+                    }
+                }
+            }
         }
 
         return $result;
@@ -307,17 +324,17 @@ class enigma_driver_gnupg extends enigma_driver
         $ekey->name = trim($ekey->users[0]->name . ' <' . $ekey->users[0]->email . '>');
 
         foreach ($key->getSubKeys() as $idx => $subkey) {
-                $skey = new enigma_subkey();
-                $skey->id          = $subkey->getId();
-                $skey->revoked     = $subkey->isRevoked();
-                $skey->created     = $subkey->getCreationDate();
-                $skey->expires     = $subkey->getExpirationDate();
-                $skey->fingerprint = $subkey->getFingerprint();
-                $skey->has_private = $subkey->hasPrivate();
-                $skey->can_sign    = $subkey->canSign();
-                $skey->can_encrypt = $subkey->canEncrypt();
+            $skey = new enigma_subkey();
+            $skey->id          = $subkey->getId();
+            $skey->revoked     = $subkey->isRevoked();
+            $skey->created     = $subkey->getCreationDate();
+            $skey->expires     = $subkey->getExpirationDate();
+            $skey->fingerprint = $subkey->getFingerprint();
+            $skey->has_private = $subkey->hasPrivate();
+            $skey->can_sign    = $subkey->canSign();
+            $skey->can_encrypt = $subkey->canEncrypt();
 
-                $ekey->subkeys[$idx] = $skey;
+            $ekey->subkeys[$idx] = $skey;
         };
 
         $ekey->id = $ekey->subkeys[0]->id;

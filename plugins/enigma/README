@@ -24,7 +24,6 @@ Implemented features:
 TODO (must have):
 -----------------
 - Keys export to file
-- Client-side keys generation (with OpenPGP.js?)
 
 TODO (later):
 -------------

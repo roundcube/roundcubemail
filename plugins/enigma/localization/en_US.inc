@@ -1,5 +1,21 @@
 <?php
 
+/**
+ +-----------------------------------------------------------------------+
+ | plugins/enigma/localization/<lang>.inc                                |
+ |                                                                       |
+ | Localization file of the Roundcube Webmail ACL plugin                 |
+ | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+*/
+
 $labels = array();
 $labels['encryption'] = 'Encryption';
 $labels['enigmacerts'] = 'S/MIME Certificates';
@@ -36,6 +52,14 @@ $labels['keyrevoke'] = 'Revoke';
 $labels['keysend'] = 'Send public key in a message';
 $labels['keychpass'] = 'Change password';
 
+$labels['newkeyident'] = 'Identity:';
+$labels['newkeypass'] = 'Password:';
+$labels['newkeypassconfirm'] = 'Confirm password:';
+$labels['newkeysize'] = 'Key size:';
+$labels['key2048'] = '2048 bits - default';
+$labels['key4096'] = '4096 bits - more secure';
+$labels['keygenerating'] = 'Generating keys...';
+
 $labels['encryptionoptions'] = 'Encryption options...';
 $labels['encryptmsg'] = 'Encrypt this message';
 $labels['signmsg'] = 'Digitally sign this message';
@@ -68,5 +92,11 @@ $messages['keyremoveconfirm'] = 'Are you sure, you want to delete selected key(s
 $messages['keyremovesuccess'] = 'Key(s) deleted successfulyl';
 $messages['keyremoveerror'] = 'Unable to delete selected key(s).';
 $messages['keyimporttext'] = 'You can import private and public key(s) or revocation signatures in ASCII-Armor format.';
+
+$messages['formerror'] = 'Please, fill the form. All fields are required!';
+$messages['passwordsdiffer'] = 'Passwords do not match!';
+$messages['nonameident'] = 'Idenity must have a user name defined!';
+$messages['keygenerateerror'] = 'Failed to generate a key pair';
+$messages['keygeneratesuccess'] = 'A key pair generated and imported successfully.';
 
 ?>

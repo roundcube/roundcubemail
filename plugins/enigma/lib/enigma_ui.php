@@ -59,6 +59,10 @@ class enigma_ui
                     $this->key_import();
                     break;
 
+                case 'create':
+                    $this->key_create();
+                    break;
+
                 case 'search':
                 case 'list':
                     $this->key_list();
@@ -393,12 +397,27 @@ class enigma_ui
     }
 
     /**
-     * Key import page handler
+     * Key import (page) handler
      */
     private function key_import()
     {
         // Import process
-        if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'])) {
+        if ($data = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_POST)) {
+            // Import from generation form (ajax request)
+            $this->enigma->load_engine();
+            $result = $this->enigma->engine->import_key($data);
+
+            if (is_array($result)) {
+                $this->rc->output->command('enigma_key_create_success');
+                $this->rc->output->show_message('enigma.keygeneratesuccess', 'confirmation');
+            }
+            else {
+                $this->rc->output->show_message('enigma.keysimportfailed', 'error');
+            }
+
+            $this->rc->output->send();
+        }
+        else if ($_FILES['_file']['tmp_name'] && is_uploaded_file($_FILES['_file']['tmp_name'])) {
             $this->enigma->load_engine();
             $result = $this->enigma->engine->import_key($_FILES['_file']['tmp_name'], true);
 
@@ -407,8 +426,9 @@ class enigma_ui
                 if ($result['imported']) {
                     $this->rc->output->command('parent.enigma_list', 1);
                 }
-                else
+                else {
                     $this->rc->output->command('parent.enigma_loadframe');
+                }
 
                 $this->rc->output->show_message('enigma.keysimportsuccess', 'confirmation',
                     array('new' => $result['imported'], 'old' => $result['unchanged']));
@@ -461,6 +481,66 @@ class enigma_ui
             $form);
 
         return $out;
+    }
+
+    /**
+     * Key generation page handler
+     */
+    private function key_create()
+    {
+        $this->enigma->include_script('openpgp.min.js');
+
+        $this->rc->output->add_handlers(array(
+            'keyform' => array($this, 'tpl_key_create_form'),
+        ));
+
+        $this->rc->output->set_pagetitle($this->enigma->gettext('keygenerate'));
+        $this->rc->output->send('enigma.keycreate');
+    }
+
+    /**
+     * Template object for key generation form
+     */
+    function tpl_key_create_form($attrib)
+    {
+        $attrib += array('id' => 'rcmKeyCreateForm');
+        $table  = new html_table(array('cols' => 2));
+
+        // get user's identities
+        $identities = $this->rc->user->list_identities(null, true);
+
+        // Identity
+        $select = new html_select(array('name' => 'identity', 'id' => 'key-ident'));
+        foreach ((array) $identities as $idx => $ident) {
+            $name = empty($ident['name']) ? ('<' . $ident['email'] . '>') : $ident['ident'];
+            $select->add($name, $idx);
+        }
+
+        $table->add('title', html::label('key-name', rcube::Q($this->enigma->gettext('newkeyident'))));
+        $table->add(null, $select->show(0));
+
+        // Key size
+        $select = new html_select(array('name' => 'size', 'id' => 'key-size'));
+        $select->add($this->enigma->gettext('key2048'), '2048');
+        $select->add($this->enigma->gettext('key4096'), '4096');
+
+        $table->add('title', html::label('key-size', rcube::Q($this->enigma->gettext('newkeysize'))));
+        $table->add(null, $select->show());
+
+        // Password and confirm password
+        $table->add('title', html::label('key-pass', rcube::Q($this->enigma->gettext('newkeypass'))));
+        $table->add(null, rcube_output::get_edit_field('password', '',
+            array('id' => 'key-pass', 'size' => $attrib['size'], 'required' => true), 'password'));
+
+        $table->add('title', html::label('key-pass-confirm', rcube::Q($this->enigma->gettext('newkeypassconfirm'))));
+        $table->add(null, rcube_output::get_edit_field('password-confirm', '',
+            array('id' => 'key-pass-confirm', 'size' => $attrib['size'], 'required' => true), 'password'));
+
+        $this->rc->output->add_gui_object('keyform', $attrib['id']);
+        $this->rc->output->add_label('enigma.keygenerating', 'enigma.formerror',
+            'enigma.passwordsdiffer', 'enigma.keygenerateerror', 'enigma.nonameident');
+
+        return $this->rc->output->form_tag(array(), $table->show($attrib));
     }
 
     /**
