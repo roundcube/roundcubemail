@@ -49,20 +49,16 @@ class rcube_cpanel_password
         $this->xmlapi->set_output('json');
         $this->xmlapi->set_debug(0);
 
-        if ($this->setPassword($_SESSION['username'], $newpass)) {
-            return PASSWORD_SUCCESS;
-        }
-        else {
-            return PASSWORD_ERROR;
-        }
+        return $this->setPassword($_SESSION['username'], $newpass);
     }
 
     /**
      * Change email account password
      *
-     * Returns true on success or false on failure.
-     * @param string $password email account password
-     * @return bool
+     * @param string $address  Email address/username
+     * @param string $password Email account password
+     *
+     * @return int|array Operation status
      */
     function setPassword($address, $password)
     {
@@ -75,13 +71,21 @@ class rcube_cpanel_password
 
         $data['password'] = $password;
 
-        $query = $this->xmlapi->api2_query($this->cuser, 'Email', 'passwdpop', $data);
-        $query = json_decode($query, true);
+        $query  = $this->xmlapi->api2_query($this->cuser, 'Email', 'passwdpop', $data);
+        $query  = json_decode($query, true);
+        $result = $query['cpanelresult']['data'][0];
 
-        if ($query['cpanelresult']['data'][0]['result'] == 1) {
-            return true;
+        if ($result['result'] == 1) {
+            return PASSWORD_SUCCESS;
         }
 
-        return false;
+        if ($result['reason']) {
+            return array(
+                'code'    => PASSWORD_ERROR,
+                'message' => $result['reason'],
+            );
+        }
+
+        return PASSWORD_ERROR;
     }
 }
