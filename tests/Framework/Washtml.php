@@ -182,6 +182,14 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
 
         $this->assertRegExp('|line-height: 1;|', $washed, "Untouched line-height (#1489917)");
         $this->assertRegExp('|; height: 10px|', $washed, "Fixed height units");
+
+        $html     = "<div style=\"padding: 0px\n   20px;border:1px solid #000;\"></div>";
+        $expected = "<div style=\"padding: 0px 20px; border: 1px solid #000\"></div>";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertTrue(strpos($washed, $expected) !== false, "White-space and new-line characters handling");
     }
 
     /**
