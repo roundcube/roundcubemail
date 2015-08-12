@@ -7524,7 +7524,7 @@ function rcube_webmail()
               }
 
               this.enable_command('set-listmode', this.env.threads && !is_multifolder);
-              if (list.rowcount > 0)
+              if (list.rowcount > 0 && !$(document.activeElement).is('input,textarea'))
                 list.focus();
               this.msglist_select(list);
             }
@@ -7540,7 +7540,7 @@ function rcube_webmail()
             this.enable_command('search-create', this.env.source == '');
             this.enable_command('search-delete', this.env.search_id);
             this.update_group_commands();
-            if (this.contact_list.rowcount > 0)
+            if (this.contact_list.rowcount > 0 && !$(document.activeElement).is('input,textarea'))
               this.contact_list.focus();
             this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
           }
