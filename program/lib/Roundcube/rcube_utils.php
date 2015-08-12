@@ -156,7 +156,7 @@ class rcube_utils
                 $length = strlen($part);
                 if (!$length) {
                     // there can be only one ::
-                    if ($found_empty) {
+                    if ($found_empty && $idx > 2) {
                         return false;
                     }
                     $found_empty = true;
