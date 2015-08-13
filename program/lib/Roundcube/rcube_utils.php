@@ -143,39 +143,7 @@ class rcube_utils
      */
     public static function check_ip($ip)
     {
-        // IPv6, but there's no build-in IPv6 support
-        if (strpos($ip, ':') !== false && !defined('AF_INET6')) {
-            $parts = explode(':', $ip);
-            $count = count($parts);
-
-            if ($count > 8 || $count < 2) {
-                return false;
-            }
-
-            foreach ($parts as $idx => $part) {
-                $length = strlen($part);
-                if (!$length) {
-                    // there can be only one ::
-                    if ($found_empty && $idx > 2) {
-                        return false;
-                    }
-                    $found_empty = true;
-                }
-                // last part can be an IPv4 address
-                else if ($idx == $count - 1) {
-                    if (!preg_match('/^[0-9a-f]{1,4}$/i', $part)) {
-                        return @inet_pton($part) !== false;
-                    }
-                }
-                else if (!preg_match('/^[0-9a-f]{1,4}$/i', $part)) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        return @inet_pton($ip) !== false;
+        return filter_var($ip, FILTER_VALIDATE_IP) !== false;
     }
 
     /**

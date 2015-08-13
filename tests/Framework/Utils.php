@@ -95,6 +95,8 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             array('::1'),
             array('::1.2.3.4'),
             array('2001:2d12:c4fe:5afe::1'),
+            array('2001::'),
+            array('2001::1'),
         );
     }
 
@@ -110,7 +112,10 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             array('1.1.1.1.1'),
             array('::1.2.3.260'),
             array('::1.0'),
+            array(':::1'),
+            array('2001:::1'),
             array('2001::c4fe:5afe::1'),
+            array(':c4fe:5afe:1'),
         );
     }
 
