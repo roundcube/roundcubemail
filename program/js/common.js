@@ -695,8 +695,13 @@ var Base64 = (function () {
      * @param {String} input The string to encode in base64.
      */
     encode: function (input) {
-      if (typeof(window.btoa) === 'function')
-        return btoa(input);
+      if (typeof(window.btoa) === 'function') {
+        // it may fail on unicode characters, the fallback can handle them
+        try {
+          return btoa(input);
+        }
+        catch (e) {};
+      }
 
       var chr1, chr2, chr3, enc1, enc2, enc3, enc4, i = 0, output = '', len = input.length;
 
@@ -728,8 +733,13 @@ var Base64 = (function () {
      * @param {String} input The string to decode.
      */
     decode: function (input) {
-      if (typeof(window.atob) === 'function')
-         return atob(input);
+      if (typeof(window.atob) === 'function') {
+        // it may fail on unicode characters, the fallback can handle them
+        try {
+          return atob(input);
+        }
+        catch (e) {};
+      }
 
       var chr1, chr2, chr3, enc1, enc2, enc3, enc4, len, i = 0, output = '';
 
