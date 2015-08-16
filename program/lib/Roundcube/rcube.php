@@ -1671,8 +1671,7 @@ class rcube
                 $a_recipients[] = $headers['Bcc'];
 
             // remove Bcc header and get the whole head of the message as string
-            $send_headers = array('Bcc' => null);
-            $smtp_headers = $message->txtHeaders($send_headers, true);
+            $smtp_headers = $this->message_head($message, array('Bcc'));
 
             if ($message->getParam('delay_file_io')) {
                 // use common temp dir
@@ -1712,15 +1711,13 @@ class rcube
         }
         // send mail using PHP's mail() function
         else {
-            // unset some headers because they will be added by the mail() function
-            $headers_enc = $headers;
-            $headers_res = array('To' => null, 'Subject' => null);
-            $header_str  = $message->txtHeaders($headers_res, true);
+            // unset To,Subject headers because they will be added by the mail() function
+            $header_str = $this->message_head($message, array('To', 'Subject'));
 
             // #1485779
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                if (preg_match_all('/<([^@]+@[^>]+)>/', $headers_enc['To'], $m)) {
-                    $headers_enc['To'] = implode(', ', $m[1]);
+                if (preg_match_all('/<([^@]+@[^>]+)>/', $headers['To'], $m)) {
+                    $headers['To'] = implode(', ', $m[1]);
                 }
             }
 
@@ -1734,8 +1731,8 @@ class rcube
             }
             else {
                 $delim   = $this->config->header_delimiter();
-                $to      = $headers_enc['To'];
-                $subject = $headers_enc['Subject'];
+                $to      = $headers['To'];
+                $subject = $headers['Subject'];
                 $header_str = rtrim($header_str);
 
                 if ($delim != "\r\n") {
@@ -1793,6 +1790,27 @@ class rcube
         return $sent;
     }
 
+    /**
+     * Return message headers as a string
+     */
+    protected function message_head($message, $unset = array())
+    {
+        // Mail_mime >= 1.9.0
+        if (method_exists($message, 'isMultipart')) {
+            foreach ($unset as $header) {
+                $headers[$header] = null;
+            }
+        }
+        else {
+            $headers = $message->headers();
+            foreach ($unset as $header) {
+                unset($headers[$header]);
+            }
+            $message->_headers = array();
+        }
+
+        return $message->txtHeaders($headers, true);
+    }
 }
 
 
