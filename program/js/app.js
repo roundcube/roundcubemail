@@ -1615,8 +1615,8 @@ function rcube_webmail()
 
       // select the folder if one of its childs is currently selected
       // don't select if it's virtual (#1488346)
-      if (!node.virtual && this.env.mailbox && this.env.mailbox.startsWith(name + this.env.delimiter))
-        this.command('list', name);
+      if (!node.virtual && this.env.mailbox && this.env.mailbox.startsWith(node.id + this.env.delimiter))
+        this.command('list', node.id);
     }
     else {
       var reg = new RegExp('&'+urlencode(node.id)+'&');
