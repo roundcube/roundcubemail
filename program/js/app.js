@@ -653,7 +653,9 @@ function rcube_webmail()
     }
 
     // check input before leaving compose step
-    if (this.task == 'mail' && this.env.action == 'compose' && $.inArray(command, this.env.compose_commands) < 0 && !this.env.server_error) {
+    if (this.task == 'mail' && this.env.action == 'compose' && !this.env.server_error && command != 'save-pref'
+      && $.inArray(command, this.env.compose_commands) < 0
+    ) {
       if (!this.env.is_sent && this.cmp_hash != this.compose_field_hash() && !confirm(this.get_label('notsentwarning')))
         return false;
 
