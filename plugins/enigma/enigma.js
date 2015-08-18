@@ -97,7 +97,7 @@ rcube_webmail.prototype.enigma_key_create_save = function()
 
         openpgp.generateKeyPair(options).then(function(keypair) {
             // success
-            post = {_a: 'import', _keys: keypair.privateKeyArmored};
+            var post = {_a: 'import', _keys: keypair.privateKeyArmored};
 
             // send request to server
             rcmail.http_post('plugin.enigmakeys', post, lock);
@@ -108,8 +108,13 @@ rcube_webmail.prototype.enigma_key_create_save = function()
         });
     }
     // generate keys on the server
+    else if (rcmail.env.enigma_keygen_server) {
+        lock = this.set_busy(true, 'enigma.keygenerating');
+        options = {_a: 'generate', _user: user, _password: password, _size: size};
+        rcmail.http_post('plugin.enigmakeys', options, lock);
+    }
     else {
-        // @TODO
+        rcmail.display_message(rcmail.gettext('enigma.keygennosupport'), 'error');
     }
 };
 

@@ -59,6 +59,10 @@ class enigma_ui
                     $this->key_import();
                     break;
 
+                case 'generate':
+                    $this->key_generate();
+                    break;
+
                 case 'create':
                     $this->key_create();
                     break;
@@ -484,6 +488,45 @@ class enigma_ui
     }
 
     /**
+     * Server-side key pair generation handler
+     */
+    private function key_generate()
+    {
+        $user = rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST, true);
+        $pass = rcube_utils::get_input_value('_password', rcube_utils::INPUT_POST, true);
+        $size = (int) rcube_utils::get_input_value('_size', rcube_utils::INPUT_POST);
+
+        if ($size > 4096) {
+            $size = 4096;
+        }
+
+        $ident = rcube_mime::decode_address_list($user, 1, false);
+
+        if (empty($ident)) {
+            $this->rc->output->show_message('enigma.keygenerateerror', 'error');
+            $this->rc->output->send();
+        }
+
+        $this->enigma->load_engine();
+        $result = $this->enigma->engine->generate_key(array(
+            'user'     => $ident[1]['name'],
+            'email'    => $ident[1]['mailto'],
+            'password' => $pass,
+            'size'     => $size,
+        ));
+
+        if ($result instanceof enigma_key) {
+            $this->rc->output->command('enigma_key_create_success');
+            $this->rc->output->show_message('enigma.keygeneratesuccess', 'confirmation');
+        }
+        else {
+            $this->rc->output->show_message('enigma.keygenerateerror', 'error');
+        }
+
+        $this->rc->output->send();
+    }
+
+    /**
      * Key generation page handler
      */
     private function key_create()
@@ -493,6 +536,8 @@ class enigma_ui
         $this->rc->output->add_handlers(array(
             'keyform' => array($this, 'tpl_key_create_form'),
         ));
+
+        $this->rc->output->set_env('enigma_keygen_server', $this->rc->config->get('enigma_keygen_server'));
 
         $this->rc->output->set_pagetitle($this->enigma->gettext('keygenerate'));
         $this->rc->output->send('enigma.keycreate');
@@ -538,7 +583,8 @@ class enigma_ui
 
         $this->rc->output->add_gui_object('keyform', $attrib['id']);
         $this->rc->output->add_label('enigma.keygenerating', 'enigma.formerror',
-            'enigma.passwordsdiffer', 'enigma.keygenerateerror', 'enigma.nonameident');
+            'enigma.passwordsdiffer', 'enigma.keygenerateerror', 'enigma.nonameident',
+            'enigma.keygennosupport');
 
         return $this->rc->output->form_tag(array(), $table->show($attrib));
     }

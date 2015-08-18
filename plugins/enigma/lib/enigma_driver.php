@@ -67,7 +67,7 @@ abstract class enigma_driver
      *
      * @return mixed Import status array or enigma_error
      */
-    abstract function import($content, $isfile=false);
+    abstract function import($content, $isfile = false);
 
     /**
      * Keys listing.
@@ -76,7 +76,7 @@ abstract class enigma_driver
      *
      * @return mixed Array of enigma_key objects or enigma_error
      */
-    abstract function list_keys($pattern='');
+    abstract function list_keys($pattern = '');
 
     /**
      * Single key information.
@@ -90,7 +90,7 @@ abstract class enigma_driver
     /**
      * Key pair generation.
      *
-     * @param array Key/User data
+     * @param array Key/User data (name, email, password, size)
      *
      * @return mixed Key (enigma_key) object or enigma_error
      */

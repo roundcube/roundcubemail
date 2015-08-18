@@ -98,5 +98,6 @@ $messages['passwordsdiffer'] = 'Passwords do not match!';
 $messages['nonameident'] = 'Idenity must have a user name defined!';
 $messages['keygenerateerror'] = 'Failed to generate a key pair';
 $messages['keygeneratesuccess'] = 'A key pair generated and imported successfully.';
+$messages['keygennosupport'] = 'Your web browser does not support cryptography. Unable to generate a key pair!';
 
 ?>

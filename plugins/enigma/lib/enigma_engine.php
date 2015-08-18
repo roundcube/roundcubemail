@@ -927,6 +927,29 @@ class enigma_engine
     }
 
     /**
+     * PGP keys pair generation.
+     *
+     * @param array Key pair parameters
+     *
+     * @return mixed enigma_key or enigma_error
+     */
+    function generate_key($data)
+    {
+        $this->load_pgp_driver();
+        $result = $this->pgp_driver->gen_key($data);
+
+        if ($result instanceof enigma_error) {
+            rcube::raise_error(array(
+                'code' => 600, 'type' => 'php',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Enigma plugin: " . $result->getMessage()
+                ), true, false);
+        }
+
+        return $result;
+    }
+
+    /**
      * PGP keys/certs importing.
      *
      * @param mixed   Import file name or content

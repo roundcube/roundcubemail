@@ -188,8 +188,32 @@ class enigma_driver_gnupg extends enigma_driver
         return $list;
     }
 
+    /**
+     * Key pair generation.
+     *
+     * @param array Key/User data (user, email, password, size)
+     *
+     * @return mixed Key (enigma_key) object or enigma_error
+     */
     public function gen_key($data)
     {
+        try {
+            $keygen = new Crypt_GPG_KeyGenerator(array(
+                    'homedir' => $this->homedir,
+                    // 'binary'  => '/usr/bin/gpg2',
+                    // 'debug'   => true,
+            ));
+
+            $key = $keygen
+                ->setExpirationDate(0)
+                ->setPassphrase($data['password'])
+                ->generateKey($data['user'], $data['email']);
+
+            return $this->parse_key($key);
+        }
+        catch (Exception $e) {
+            return $this->get_error_from_exception($e);
+        }
     }
 
     public function delete_key($keyid)
@@ -263,12 +287,15 @@ class enigma_driver_gnupg extends enigma_driver
             $data['bad']     = $e->getBadPassphrases();
             $data['missing'] = $e->getMissingPassphrases();
         }
-        else if ($e instanceof Crypt_GPG_NoDataException)
+        else if ($e instanceof Crypt_GPG_NoDataException) {
             $error = enigma_error::E_NODATA;
-        else if ($e instanceof Crypt_GPG_DeletePrivateKeyException)
+        }
+        else if ($e instanceof Crypt_GPG_DeletePrivateKeyException) {
             $error = enigma_error::E_DELKEY;
-        else
+        }
+        else {
             $error = enigma_error::E_INTERNAL;
+        }
 
         $msg = $e->getMessage();
 

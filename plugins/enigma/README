@@ -17,7 +17,8 @@ Implemented features:
 + PGP: signatures verification
 + PGP: messages decryption
 + PGP: Sending of encrypted/signed messages
-+ PGP: keys management UI (keys import and delete)
++ PGP: keys management UI (key import, delete)
++ PGP: key generation (client- or server-side)
 + Handling of PGP keys attached to incoming messages
 + User preferences to disable plugin features
 
@@ -28,7 +29,6 @@ TODO (must have):
 TODO (later):
 -------------
 - Handling of big messages with temp files
-- Server-side keys generation (warning: no-entropy issue, max_execution_time issue)
 - Key info in contact details page (optional)
 - Extended key management:
    - disable,
