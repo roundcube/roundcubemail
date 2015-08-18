@@ -1499,6 +1499,27 @@ function rcmail_basename($filename)
     }
 }
 
+/**
+ * Creates reply subject by removing common subject
+ * prefixes/suffixes from the original message subject
+ */
+function rcmail_reply_subject($subject)
+{
+    $subject = trim($subject);
+
+    // replace Re:, Re[x]:, Re-x (#1490497)
+    $prefix = '/^(re:|re\[\d\]:|re-\d:)\s*/i';
+    do {
+        $subject = preg_replace($prefix, '', $subject, -1, $count);
+    }
+    while ($count);
+
+    // replace (was: ...) (#1489375)
+    $subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
+
+    return 'Re: ' . $subject;
+}
+
 function rcmail_compose_subject($attrib)
 {
     global $MESSAGE, $COMPOSE;
@@ -1521,13 +1542,7 @@ function rcmail_compose_subject($attrib)
     }
     // create a reply-subject
     else if ($COMPOSE['mode'] == RCUBE_COMPOSE_REPLY) {
-        if (preg_match('/^re:/i', $MESSAGE->subject))
-            $subject = $MESSAGE->subject;
-        else
-            $subject = 'Re: '.$MESSAGE->subject;
-
-        // replace (was: ...) (#1489375)
-        $subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
+        $subject = rcmail_reply_subject($MESSAGE->subject);
     }
     // create a forward-subject
     else if ($COMPOSE['mode'] == RCUBE_COMPOSE_FORWARD) {
@@ -1547,7 +1562,6 @@ function rcmail_compose_subject($attrib)
 
     return $out;
 }
-
 
 function rcmail_compose_attachment_list($attrib)
 {
