@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Get rid of Mail_mimeDecode package dependency (#1490416)
+- Fix compatibility with Net_SMTP > 1.6.3 and Mail_Mime >= 1.9.0
 - Fix SQL error on logout when using session_storage=php (#1490421)
 - Fix so plain text signature field uses monospace font (#1490435)
 - Fix draft removal after a message is sent and storing sent message is disabled (#1490467)
