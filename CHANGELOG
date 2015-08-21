@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix closing of nested menus (#1490443)
 - Fix so E_DEPRECATED errors from PEAR libs are ignored by error_reporting change (#1490281)
 - Fix compatibility with PHP 5.3 in rcube_ldap class (#1490424)
 - Get rid of Mail_mimeDecode package dependency (#1490416)
