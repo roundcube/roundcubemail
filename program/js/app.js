@@ -7063,7 +7063,7 @@ function rcube_webmail()
     if (show) {
       // truncate stack down to the one containing the ref link
       for (var i = this.menu_stack.length - 1; stack && i >= 0; i--) {
-        if (!$(ref).parents('#'+this.menu_stack[i]).length)
+        if (!$(ref).parents('#'+this.menu_stack[i]).length && $(event.target).parent().attr('role') != 'menuitem')
           this.hide_menu(this.menu_stack[i], event);
       }
       if (stack && this.menu_stack.length) {
