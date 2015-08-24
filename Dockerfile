@@ -1,4 +1,4 @@
-FROM debian:8.0
+FROM debian:jessie
 MAINTAINER Alex Brandt <alunduil@alunduil.com>
 
 EXPOSE 80 443
@@ -7,13 +7,12 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install Requirements
 RUN apt-get update && \
-    apt-get install apache2-mpm-event ca-certificates && \
-    apt-get install php5 php-pear php5-mysql php5-pgsql php5-sqlite && \
+    apt-get install -y apache2-mpm-event ca-certificates && \
+    apt-get install -y php5 php-pear php5-mysql php5-pgsql php5-sqlite && \
     # Install Pear Requirements
     pear install mail_mime mail_mimedecode net_smtp net_idna2-beta auth_sasl net_sieve crypt_gpg && \
     # Cleanup
     rm -rf /var/lib/apt/lists/*
-
 
 # Host Configuration
 RUN sed -e 's|/var/www/html|/var/www/public_html|' -e 's@\(Log \+\)[^ ]\+@\1"|/bin/cat"@' -i /etc/apache2/sites-available/000-default.conf && \
