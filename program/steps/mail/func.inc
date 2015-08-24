@@ -1172,7 +1172,8 @@ function rcmail_message_body($attrib)
         $attrib['id'] = 'rcmailMsgBody';
 
     $safe_mode = $MESSAGE->is_safe || intval($_GET['_safe']);
-    $out = '';
+    $out       = '';
+    $part_no   = 0;
 
     $header_attrib = array();
     foreach ($attrib as $attr => $value) {
@@ -1230,9 +1231,10 @@ function rcmail_message_body($attrib)
                 $body = rcmail_print_body($body, $part, array('safe' => $safe_mode, 'plain' => !$RCMAIL->config->get('prefer_html')));
 
                 if ($part->ctype_secondary == 'html') {
-                    $body     = rcmail_html4inline($body, $attrib['id'], 'rcmBody', $attrs, $safe_mode);
-                    $div_attr = array('class' => 'message-htmlpart');
-                    $style    = array();
+                    $container_id = 'message-htmlpart' . (++$part_no);
+                    $body         = rcmail_html4inline($body, $container_id, 'rcmBody', $attrs, $safe_mode);
+                    $div_attr     = array('class' => 'message-htmlpart', 'id' => $container_id);
+                    $style        = array();
 
                     if (!empty($attrs)) {
                         foreach ($attrs as $a_idx => $a_val)
@@ -1373,10 +1375,10 @@ function rcmail_part_image_type($part)
 /**
  * modify a HTML message that it can be displayed inside a HTML page
  */
-function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null, $allow_remote=false)
+function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=null, $allow_remote=false)
 {
     $last_style_pos = 0;
-    $cont_id        = $container_id.($body_id ? ' div.'.$body_id : '');
+    $cont_id        = $container_id . ($body_class ? ' div.'.$body_class : '');
 
     // find STYLE tags
     while (($pos = stripos($body, '<style', $last_style_pos)) && ($pos2 = stripos($body, '</style>', $pos))) {
@@ -1420,7 +1422,7 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
             '<!--\\1-->',
             '&lt;?',
             '?&gt;',
-            '<div class="'.$body_id.'"\\1>',
+            '<div class="' . $body_class . '"\\1>',
             '</div>',
         ),
         $body);
@@ -1428,7 +1430,7 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
     $attributes = array();
 
     // Handle body attributes that doesn't play nicely with div elements
-    $regexp = '/<div class="' . preg_quote($body_id, '/') . '"([^>]*)/';
+    $regexp = '/<div class="' . preg_quote($body_class, '/') . '"([^>]*)/';
     if (preg_match($regexp, $body, $m)) {
         $attrs = $m[0];
 
@@ -1465,7 +1467,7 @@ function rcmail_html4inline($body, $container_id, $body_id='', &$attributes=null
     // make sure there's 'rcmBody' div, we need it for proper css modification
     // its name is hardcoded in rcmail_message_body() also
     else {
-        $body = '<div class="' . $body_id . '">' . $body . '</div>';
+        $body = '<div class="' . $body_class . '">' . $body . '</div>';
     }
 
     return $body;
