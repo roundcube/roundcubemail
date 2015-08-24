@@ -31,9 +31,7 @@ RUN sed -e 's|/var/www/html|/var/www/public_html|' -e 's@\(Log \+\)[^ ]\+@\1"|/b
 ADD . /var/www
 
 # App Configuration
-RUN echo -e '<?php\n$config = array();\n' > /var/www/config/config.inc.php && \
-    rm -rf /var/www/installer && \
+RUN echo '<?php\n$config = array();\n' > /var/www/config/config.inc.php && \
     . /etc/apache2/envvars && chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/temp /var/www/logs
 
-ENTRYPOINT [ "/usr/sbin/apache2ctl", "-D", "FOREGROUND" ]
-CMD [ "-k", "start" ]
+CMD [ "/usr/sbin/apache2ctl", "-D", "FOREGROUND", "-k", "start" ]
