@@ -33,7 +33,7 @@ ADD . /var/www
 # App Configuration
 RUN echo -e '<?php\n$config = array();\n' > /var/www/config/config.inc.php && \
     rm -rf /var/www/installer && \
-    source /etc/apache2/envvars && chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/temp /var/www/logs
+    . /etc/apache2/envvars && chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/temp /var/www/logs
 
 ENTRYPOINT [ "/usr/sbin/apache2ctl", "-D", "FOREGROUND" ]
 CMD [ "-k", "start" ]
