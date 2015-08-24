@@ -3,32 +3,38 @@ MAINTAINER Alex Brandt <alunduil@alunduil.com>
 
 EXPOSE 80 443
 
-RUN apt-get -qq update
-RUN apt-get install -qq apache2-mpm-event ca-certificates
+ENV DEBIAN_FRONTEND noninteractive
 
-RUN sed -e 's|/var/www/html|/var/www/public_html|' -e 's@\(Log \+\)[^ ]\+@\1"|/bin/cat"@' -i /etc/apache2/sites-available/000-default.conf
-RUN a2ensite 000-default
+# Install Requirements
+RUN apt-get update && \
+    apt-get install apache2-mpm-event ca-certificates && \
+    apt-get install php5 php-pear php5-mysql php5-pgsql php5-sqlite && \
+    # Install Pear Requirements
+    pear install mail_mime mail_mimedecode net_smtp net_idna2-beta auth_sasl net_sieve crypt_gpg && \
+    # Cleanup
+    rm -rf /var/lib/apt/lists/*
 
-RUN sed -e 's|/var/www/html|/var/www/public_html|' -e 's@\(Log \+\)[^ ]\+@\1"|/bin/cat"@' -i /etc/apache2/sites-available/default-ssl.conf
-RUN sed -e '/SSLCertificateKeyFile/s|ssl-cert-snakeoil.key|ssl-cert.key|' -e '/SSLCertificateFile/s|ssl-cert-snakeoil.pem|ssl-cert.pem|' -i /etc/apache2/sites-available/default-ssl.conf
-RUN ln -snf ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-cert.pem
-RUN ln -snf ssl-cert-snakeoil.key /etc/ssl/private/ssl-cert.key
-RUN a2ensite default-ssl
 
-RUN a2enmod expires
-RUN a2enmod headers
-RUN a2enmod ssl
+# Host Configuration
+RUN sed -e 's|/var/www/html|/var/www/public_html|' -e 's@\(Log \+\)[^ ]\+@\1"|/bin/cat"@' -i /etc/apache2/sites-available/000-default.conf && \
+    a2ensite 000-default && \
+    sed -e 's|/var/www/html|/var/www/public_html|' -e 's@\(Log \+\)[^ ]\+@\1"|/bin/cat"@' -i /etc/apache2/sites-available/default-ssl.conf && \
+    sed -e '/SSLCertificateKeyFile/s|ssl-cert-snakeoil.key|ssl-cert.key|' -e '/SSLCertificateFile/s|ssl-cert-snakeoil.pem|ssl-cert.pem|' -i /etc/apache2/sites-available/default-ssl.conf && \
+    ln -snf ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-cert.pem && \
+    ln -snf ssl-cert-snakeoil.key /etc/ssl/private/ssl-cert.key && \
+    a2ensite default-ssl && \
+    a2enmod expires && \
+    a2enmod headers && \
+    a2enmod ssl && \
+    rm -rf /var/www/*
 
-RUN apt-get install -qq php5 php-pear php5-mysql php5-pgsql php5-sqlite
-RUN pear install mail_mime mail_mimedecode net_smtp net_idna2-beta auth_sasl net_sieve crypt_gpg
-
-RUN rm -rf /var/www
+# Add Code
 ADD . /var/www
 
-RUN echo -e '<?php\n$config = array();\n' > /var/www/config/config.inc.php
-RUN rm -rf /var/www/installer
-
-RUN . /etc/apache2/envvars && chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/temp /var/www/logs
+# App Configuration
+RUN echo -e '<?php\n$config = array();\n' > /var/www/config/config.inc.php && \
+    rm -rf /var/www/installer && \
+    source /etc/apache2/envvars && chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/temp /var/www/logs
 
 ENTRYPOINT [ "/usr/sbin/apache2ctl", "-D", "FOREGROUND" ]
 CMD [ "-k", "start" ]
