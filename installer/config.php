@@ -85,7 +85,7 @@ echo $input_support->show($RCI->getprop('support_url'));
 
 ?>
 <div>Provide an URL where a user can get support for this Roundcube installation.<br/>PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!</div>
-<p class="hint">Enter an absolute URL (inculding http://) to a support page/form or a mailto: link.</p>
+<p class="hint">Enter an absolute URL (including http://) to a support page/form or a mailto: link.</p>
 </dd>
 
 <dt class="propname">skin_logo</dt>
