@@ -153,8 +153,9 @@ class rcube_utils
      */
     public static function check_referer()
     {
-        $uri = parse_url($_SERVER['REQUEST_URI']);
+        $uri     = parse_url($_SERVER['REQUEST_URI']);
         $referer = parse_url(self::request_header('Referer'));
+
         return $referer['host'] == self::request_header('Host') && $referer['path'] == $uri['path'];
     }
 
@@ -163,7 +164,7 @@ class rcube_utils
      *
      * @param  string  Input string
      * @param  string  Encoding type: text|html|xml|js|url
-     * @param  string  Replace mode for tags: show|replace|remove
+     * @param  string  Replace mode for tags: show|remove|strict
      * @param  boolean Convert newlines
      *
      * @return string  The quoted string
@@ -171,8 +172,8 @@ class rcube_utils
     public static function rep_specialchars_output($str, $enctype = '', $mode = '', $newlines = true)
     {
         static $html_encode_arr = false;
-        static $js_rep_table = false;
-        static $xml_rep_table = false;
+        static $js_rep_table    = false;
+        static $xml_rep_table   = false;
 
         if (!is_string($str)) {
             $str = strval($str);
@@ -187,8 +188,11 @@ class rcube_utils
 
             $encode_arr = $html_encode_arr;
 
-            // don't replace quotes and html tags
-            if ($mode == 'show' || $mode == '') {
+            if ($mode == 'remove') {
+                $str = strip_tags($str);
+            }
+            else if ($mode != 'strict') {
+                // don't replace quotes and html tags
                 $ltpos = strpos($str, '<');
                 if ($ltpos !== false && strpos($str, '>', $ltpos) !== false) {
                     unset($encode_arr['"']);
@@ -196,9 +200,6 @@ class rcube_utils
                     unset($encode_arr['>']);
                     unset($encode_arr['&']);
                 }
-            }
-            else if ($mode == 'remove') {
-                $str = strip_tags($str);
             }
 
             $out = strtr($str, $encode_arr);
@@ -232,7 +233,7 @@ class rcube_utils
 
         // encode for plaintext
         if ($enctype == 'text') {
-            return str_replace("\r\n", "\n", $mode=='remove' ? strip_tags($str) : $str);
+            return str_replace("\r\n", "\n", $mode == 'remove' ? strip_tags($str) : $str);
         }
 
         if ($enctype == 'url') {
