@@ -4,11 +4,6 @@ if (!class_exists('rcmail_install', false) || !is_object($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
 }
 
-?>
-<form action="index.php" method="post">
-<input type="hidden" name="_step" value="2" />
-<?php
-
 // register these boolean fields
 $RCI->bool_config_props = array(
   'ip_check' => 1,
@@ -36,10 +31,20 @@ if (!empty($_POST['submit'])) {
      echo '</p>';
   }
   else {
+    if (($dir = sys_get_temp_dir()) && @is_writable($dir)) {
+      echo '<iframe name="getconfig" style="display:none"></iframe>';
+      echo '<form id="getconfig_form" action="index.php" method="get" target="getconfig" style="display:none">';
+      echo '<input name="_getconfig" value="2" /></form>';
+
+      $button_txt  = html::quote('Save in ' . $dir);
+      $save_button = '&nbsp;<input type="button" onclick="document.getElementById(\'getconfig_form\').submit()" value="' . $button_txt . '" />';
+    }
+
     echo '<p class="notice">Copy or download the following configuration and save it';
     echo ' as <tt><b>config.inc.php</b></tt> within the <tt>'.RCUBE_CONFIG_DIR.'</tt> directory of your Roundcube installation.<br/>';
     echo ' Make sure that there are no characters outside the <tt>&lt;?php ?&gt;</tt> brackets when saving the file.';
     echo '&nbsp;<input type="button" onclick="location.href=\'index.php?_getconfig=1\'" value="Download" />';
+    echo $save_button;
 
     if ($RCI->legacy_config) {
        echo '<br/><br/>Afterwards, please <b>remove</b> the old configuration files <tt>main.inc.php</tt> and <tt>db.inc.php</tt> from the config directory.';
@@ -61,6 +66,9 @@ if (!empty($_POST['submit'])) {
 }
 
 ?>
+<form action="index.php" method="post">
+<input type="hidden" name="_step" value="2" />
+
 <fieldset>
 <legend>General configuration</legend>
 <dl class="configblock">

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Installer: Add button to save generated config file in system temp directory (#1488149)
 - Remove common subject prefixes Re:, Re[x]:, Re-x: on reply (#1490497)
 - Added GSSAPI/Kerberos authentication plugin - krb_authentication
 - Password: Allow temporarily disabling the plugin functionality with a notice

@@ -66,7 +66,13 @@ $RCI->load_config();
 
 if (isset($_GET['_getconfig'])) {
   $filename = 'config.inc.php';
-  if (!empty($_SESSION['config'])) {
+  if (!empty($_SESSION['config']) && $_GET['_getconfig'] == 2) {
+    $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $filename;
+    @unlink($path);
+    file_put_contents($path, $_SESSION['config']);
+    exit;
+  }
+  else if (!empty($_SESSION['config'])) {
     header('Content-type: text/plain');
     header('Content-Disposition: attachment; filename="'.$filename.'"');
     echo $_SESSION['config'];
