@@ -3,6 +3,8 @@ MAINTAINER Alex Brandt <alunduil@alunduil.com>
 
 EXPOSE 80 443
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get -qq update
 RUN apt-get install -qq apache2-mpm-event ca-certificates
 
@@ -25,7 +27,7 @@ RUN pear install mail_mime mail_mimedecode net_smtp net_idna2-beta auth_sasl net
 RUN rm -rf /var/www
 ADD . /var/www
 
-RUN echo -e '<?php\n$config = array();\n' > /var/www/config/config.inc.php
+RUN echo '<?php\n$config = array();\n' > /var/www/config/config.inc.php
 RUN rm -rf /var/www/installer
 
 RUN . /etc/apache2/envvars && chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/temp /var/www/logs
