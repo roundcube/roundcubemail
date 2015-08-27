@@ -871,6 +871,10 @@ div.hide-headers {
 	z-index: 1;
 }
 
+#messagecontent .rightcol {
+	margin-top: 8px;
+}
+
 #messagebody {
 	position: relative;
 	margin: 8px;
