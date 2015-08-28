@@ -44,6 +44,7 @@ CHANGELOG Roundcube Webmail
 - Fix "washing" of style elements wrapped into many lines
 - Fix so input field (e.g. search box) does not loose focus on list load (#1490455)
 - Fix so css of one html part does not apply to other text parts on message display (#1490505)
+- Fix handling of plus character in mailto: links (#1490510)
 
 RELEASE 1.1.2
 -------------
