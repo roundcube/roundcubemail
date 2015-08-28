@@ -461,7 +461,8 @@ function rcmail_process_compose_params(&$COMPOSE)
         // #1486037: remove "mailto:" prefix
         $COMPOSE['param']['to'] = preg_replace('/^mailto:/i', '', $mailto[0]);
         // #1490346: decode the recipient address
-        $COMPOSE['param']['to'] = urldecode($COMPOSE['param']['to']);
+        // #1490510: use raw encoding for correct "+" character handling as specified in RFC6068
+        $COMPOSE['param']['to'] = rawurldecode($COMPOSE['param']['to']);
 
         // Supported case-insensitive tokens in mailto URL
         $url_tokens = array('to', 'cc', 'bcc', 'reply-to', 'in-reply-to', 'references', 'subject', 'body');
