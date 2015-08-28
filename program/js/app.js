@@ -3681,7 +3681,7 @@ function rcube_webmail()
       var oldval = input.val(), rx = new RegExp(RegExp.escape(delim) + '\\s*$');
       if (oldval && !rx.test(oldval))
         oldval += delim + ' ';
-      input.val(oldval + recipients.join(delim + ' ') + delim + ' ');
+      input.val(oldval + recipients.join(delim + ' ') + delim + ' ').change();
       this.triggerEvent('add-recipient', { field:field, recipients:recipients });
     }
 
