@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option to enable HTML editor always, except when replying to plain text messages (#1489365)
 - Emoticons: Added option to switch on/off emoticons in compose editor (#1485732)
 - Emoticons: Added option to switch on/off emoticons in plain text messages
 - Emoticons: All emoticons-related functionality is handled by the plugin now

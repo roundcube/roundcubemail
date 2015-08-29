@@ -1015,7 +1015,11 @@ $config['message_extwin'] = false;
 $config['compose_extwin'] = false;
 
 // compose html formatted messages by default
-// 0 - never, 1 - always, 2 - on reply to HTML message, 3 - on forward or reply to HTML message
+//  0 - never,
+//  1 - always,
+//  2 - on reply to HTML message,
+//  3 - on forward or reply to HTML message
+//  4 - always, except when replying to plain text message
 $config['htmleditor'] = 0;
 
 // save copies of compose messages in the browser's local storage

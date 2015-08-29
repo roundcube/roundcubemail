@@ -716,13 +716,14 @@ function rcmail_compose_editor_mode()
         $useHtml = rcmail_message_is_html();
     }
     else if ($compose_mode == RCUBE_COMPOSE_REPLY) {
-        $useHtml = ($html_editor == 1 || ($html_editor >= 2 && rcmail_message_is_html()));
+        $useHtml = $html_editor == 1 || ($html_editor >= 2 && rcmail_message_is_html());
     }
     else if ($compose_mode == RCUBE_COMPOSE_FORWARD) {
-        $useHtml = ($html_editor == 1 || ($html_editor == 3 && rcmail_message_is_html()));
+        $useHtml = $html_editor == 1 || $html_editor == 4
+            || ($html_editor == 3 && rcmail_message_is_html());
     }
     else {
-        $useHtml = ($html_editor == 1);
+        $useHtml = $html_editor == 1 || $html_editor == 4;
     }
 
     return $useHtml;

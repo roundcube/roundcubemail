@@ -672,9 +672,10 @@ function rcmail_user_prefs($current = null)
                 $select   = new html_select(array('name' => '_htmleditor', 'id' => $field_id));
 
                 $select->add($RCMAIL->gettext('never'), 0);
-                $select->add($RCMAIL->gettext('always'), 1);
                 $select->add($RCMAIL->gettext('htmlonreply'), 2);
                 $select->add($RCMAIL->gettext('htmlonreplyandforward'), 3);
+                $select->add($RCMAIL->gettext('always'), 1);
+                $select->add($RCMAIL->gettext('alwaysbutplain'), 4);
 
                 $blocks['main']['options']['htmleditor'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('htmleditor'))),
