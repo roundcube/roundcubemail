@@ -106,7 +106,7 @@ function rcube_text_editor(config, id)
   $.each(config.disabled_plugins || [], function() {
     conf.plugins = conf.plugins.replace(this, '');
   });
-  $.each(config.disabled_plugins || [], function() {
+  $.each(config.disabled_buttons || [], function() {
     conf.toolbar = conf.toolbar.replace(this, '');
   });
   conf.toolbar = conf.toolbar.replace(/\|\s+\|/g, '|');
