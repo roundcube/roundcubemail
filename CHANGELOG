@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Emoticons: Added option to switch on/off emoticons in compose editor (#1485732)
+- Emoticons: Added option to switch on/off emoticons in plain text messages
+- Emoticons: All emoticons-related functionality is handled by the plugin now
 - Installer: Add button to save generated config file in system temp directory (#1488149)
 - Remove common subject prefixes Re:, Re[x]:, Re-x: on reply (#1490497)
 - Added GSSAPI/Kerberos authentication plugin - krb_authentication
@@ -13,6 +16,8 @@ CHANGELOG Roundcube Webmail
 - Installer: Remove system() function use (#1490139)
 - Password plugin: Added 'kpasswd' driver by Peter Allgeyer
 - Add initdb.sh to create database from initial.sql script with prefix support (#1490188)
+- Plugin API: Added disabled_plugins an disabled_buttons options in html_editor hook
+- Plugin API: Added html2text hook
 - Plugin API: Added message_part_body hook
 - Plugin API: Added message_ready hook
 - Plugin API: Add special onload() method to execute plugin actions before startup (session and GUI initialization)

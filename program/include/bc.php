@@ -220,11 +220,6 @@ function rcube_html_editor($mode='')
     rcmail::get_instance()->html_editor($mode);
 }
 
-function rcmail_replace_emoticons($html)
-{
-    return rcmail::get_instance()->replace_emoticons($html);
-}
-
 function rcmail_deliver_message(&$message, $from, $mailto, &$smtp_error, &$body_file=null, $smtp_opts=null)
 {
     return rcmail::get_instance()->deliver_message($message, $from, $mailto, $smtp_error, $body_file, $smtp_opts);

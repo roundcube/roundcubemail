@@ -89,7 +89,7 @@ function rcube_text_editor(config, id)
   else {
     $.extend(conf, {
       plugins: 'autolink charmap code colorpicker directionality emoticons link image media nonbreaking'
-        + ' paste table tabfocus textcolor searchreplace' + (config.spellcheck ? ' spellchecker' : ''),
+        + ' paste table tabfocus textcolor searchreplace spellchecker',
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
         + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
         + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',
@@ -101,6 +101,15 @@ function rcube_text_editor(config, id)
       file_browser_callback_types: 'image media'
     });
   }
+
+  // disable TinyMCE plugins/buttons from Roundcube plugin
+  $.each(config.disabled_plugins || [], function() {
+    conf.plugins = conf.plugins.replace(this, '');
+  });
+  $.each(config.disabled_plugins || [], function() {
+    conf.toolbar = conf.toolbar.replace(this, '');
+  });
+  conf.toolbar = conf.toolbar.replace(/\|\s+\|/g, '|');
 
   // support external configuration settings e.g. from skin
   if (window.rcmail_editor_settings)

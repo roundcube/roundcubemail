@@ -60,6 +60,7 @@
             <file>./../plugins/database_attachments/tests/DatabaseAttachments.php</file>
             <file>./../plugins/debug_logger/tests/DebugLogger.php</file>
             <file>./../plugins/emoticons/tests/Emoticons.php</file>
+            <file>./../plugins/emoticons/tests/EmoticonsEngine.php</file>
             <file>./../plugins/enigma/tests/Enigma.php</file>
             <file>./../plugins/example_addressbook/tests/ExampleAddressbook.php</file>
             <file>./../plugins/filesystem_attachments/tests/FilesystemAttachments.php</file>

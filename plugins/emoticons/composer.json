@@ -1,9 +1,9 @@
 {
     "name": "roundcube/emoticons",
     "type": "roundcube-plugin",
-    "description": "Sample plugin to replace emoticons in plain text message body with real icons.",
+    "description": "Plugin that adds emoticons support.",
     "license": "GPLv3+",
-    "version": "1.4",
+    "version": "2.0",
     "authors": [
         {
             "name": "Thomas Bruederli",

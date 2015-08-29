@@ -26,15 +26,11 @@ if (get_magic_quotes_gpc() || get_magic_quotes_runtime()) {
     $html = stripslashes($html);
 }
 
-// Replace emoticon images with its text representation
-$html = $RCMAIL->replace_emoticons($html);
+$params['links'] = (bool) rcube_utils::get_input_value('_do_links', rcube_utils::INPUT_GET);
+$params['width'] = (int) rcube_utils::get_input_value('_width', rcube_utils::INPUT_GET);
 
-$do_links = (bool) rcube_utils::get_input_value('_do_links', rcube_utils::INPUT_GET);
-$width    = (int) rcube_utils::get_input_value('_width', rcube_utils::INPUT_GET);
+$text = $RCMAIL->html2text($html, $params);
 
-// Convert to text
-$converter = new rcube_html2text($html, false, $do_links, $width);
-
-header('Content-Type: text/plain; charset=UTF-8');
-print rtrim($converter->get_text());
+header('Content-Type: text/plain; charset=' . RCUBE_CHARSET);
+print $text;
 exit;
