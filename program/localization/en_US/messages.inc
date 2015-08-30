@@ -171,6 +171,7 @@ $messages['autocompletechars'] = 'Enter at least $min characters for autocomplet
 $messages['autocompletemore'] = 'More matching entries found. Please type more characters.';
 $messages['namecannotbeempty'] = 'Name cannot be empty.';
 $messages['nametoolong'] = 'Name is too long.';
+$messages['namedotforbidden'] = 'Folder name cannot start with a dot.';
 $messages['folderupdated'] = 'Folder updated successfully.';
 $messages['foldercreated'] = 'Folder created successfully.';
 $messages['invalidimageformat'] = 'Not a valid image format.';

@@ -42,6 +42,9 @@ else if (!strlen($name)) {
 else if (mb_strlen($name) > 128) {
     $error = $RCMAIL->gettext('nametoolong');
 }
+else if ($name[0] == '.' && $RCMAIL->config->get('imap_skip_hidden_folders')) {
+    $error = $RCMAIL->gettext('namedotforbidden');
+}
 else {
     // these characters are problematic e.g. when used in LIST/LSUB
     foreach (array($delimiter, '%', '*') as $char) {

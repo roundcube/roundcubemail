@@ -2806,42 +2806,47 @@ class rcube_imap extends rcube_storage
         $list_extended = !$config->get('imap_force_lsub') && $this->get_capability('LIST-EXTENDED');
         if ($list_extended) {
             // This will also set folder options, LSUB doesn't do that
-            $a_folders = $this->conn->listMailboxes($root, $name,
+            $result = $this->conn->listMailboxes($root, $name,
                 NULL, array('SUBSCRIBED'));
         }
         else {
             // retrieve list of folders from IMAP server using LSUB
-            $a_folders = $this->conn->listSubscribed($root, $name);
+            $result = $this->conn->listSubscribed($root, $name);
         }
 
-        if (!is_array($a_folders)) {
+        if (!is_array($result)) {
             return array();
         }
 
         // #1486796: some server configurations doesn't return folders in all namespaces
         if ($root == '' && $name == '*' && $config->get('imap_force_ns')) {
-            $this->list_folders_update($a_folders, ($list_extended ? 'ext-' : '') . 'subscribed');
+            $this->list_folders_update($result, ($list_extended ? 'ext-' : '') . 'subscribed');
+        }
+
+        // Remove hidden folders
+        if ($config->get('imap_skip_hidden_folders')) {
+            $result = array_filter($result, function($v) { return $v[0] != '.'; });
         }
 
         if ($list_extended) {
             // unsubscribe non-existent folders, remove from the list
-            if (is_array($a_folders) && $name == '*' && !empty($this->conn->data['LIST'])) {
-                foreach ($a_folders as $idx => $folder) {
+            if ($name == '*' && !empty($this->conn->data['LIST'])) {
+                foreach ($result as $idx => $folder) {
                     if (($opts = $this->conn->data['LIST'][$folder])
                         && in_array_nocase('\\NonExistent', $opts)
                     ) {
                         $this->conn->unsubscribe($folder);
-                        unset($a_folders[$idx]);
+                        unset($result[$idx]);
                     }
                 }
             }
         }
         else {
             // unsubscribe non-existent folders, remove them from the list
-            if (is_array($a_folders) && !empty($a_folders) && $name == '*') {
+            if (!empty($result) && $name == '*') {
                 $existing    = $this->list_folders($root, $name);
-                $nonexisting = array_diff($a_folders, $existing);
-                $a_folders   = array_diff($a_folders, $nonexisting);
+                $nonexisting = array_diff($result, $existing);
+                $result      = array_diff($result, $nonexisting);
 
                 foreach ($nonexisting as $folder) {
                     $this->conn->unsubscribe($folder);
@@ -2849,7 +2854,7 @@ class rcube_imap extends rcube_storage
             }
         }
 
-        return $a_folders;
+        return $result;
     }
 
     /**
@@ -2946,6 +2951,11 @@ class rcube_imap extends rcube_storage
         // #1486796: some server configurations doesn't return folders in all namespaces
         if ($root == '' && $name == '*' && $config->get('imap_force_ns')) {
             $this->list_folders_update($result);
+        }
+
+        // Remove hidden folders
+        if ($config->get('imap_skip_hidden_folders')) {
+            $result = array_filter($result, function($v) { return $v[0] != '.'; });
         }
 
         return $result;
@@ -4094,13 +4104,11 @@ class rcube_imap extends rcube_storage
         $specials  = array_merge(array('INBOX'), array_values($this->get_special_folders()));
         $folders   = array();
 
-        // convert names to UTF-8 and skip folders starting with '.'
+        // convert names to UTF-8
         foreach ($a_folders as $folder) {
-            if ($folder[0] != '.') {
-                // for better performance skip encoding conversion
-                // if the string does not look like UTF7-IMAP
-                $folders[$folder] = strpos($folder, '&') === false ? $folder : rcube_charset::convert($folder, 'UTF7-IMAP');
-            }
+            // for better performance skip encoding conversion
+            // if the string does not look like UTF7-IMAP
+            $folders[$folder] = strpos($folder, '&') === false ? $folder : rcube_charset::convert($folder, 'UTF7-IMAP');
         }
 
         // sort folders

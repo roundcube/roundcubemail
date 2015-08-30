@@ -191,6 +191,11 @@ $config['imap_force_lsub'] = false;
 // Enable this option to force listing of folders in all namespaces
 $config['imap_force_ns'] = false;
 
+// Some servers return hidden folders (name starting witha dot)
+// from user home directory. IMAP RFC does not forbid that.
+// Enable this option to hide them and disable possibility to create such.
+$config['imap_skip_hidden_folders'] = false;
+
 // List of disabled imap extensions.
 // Use if your IMAP server has broken implementation of some feature
 // and you can't remove it from CAPABILITY string on server-side.
