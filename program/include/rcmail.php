@@ -2305,7 +2305,7 @@ class rcmail extends rcube
      *
      * @return string Plain text
      */
-    public function html2text($html, $options)
+    public function html2text($html, $options = array())
     {
         $default_options = array(
             'links'   => true,
@@ -2314,7 +2314,7 @@ class rcmail extends rcube
             'charset' => RCUBE_CHARSET,
         );
 
-        $options = array_merge($default_options, $options);
+        $options = array_merge($default_options, (array) $options);
 
         // Plugins may want to modify HTML in another/additional way
         $options = $this->plugins->exec_hook('html2text', $options);

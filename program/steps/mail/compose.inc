@@ -499,7 +499,8 @@ function rcmail_compose_header_from($attrib)
                 $text = $html = $sql_arr['signature'];
 
                 if ($sql_arr['html_signature']) {
-                    $text = $RCMAIL->html2text($html);
+                    $text = $RCMAIL->html2text($html, array('links' => false));
+                    $text = trim($text);
                 }
                 else {
                     $t2h  = new rcube_text2html($text, false);
@@ -1058,7 +1059,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
             $suffix = '</blockquote>';
         }
         else {
-            $suffix = '</blockquote><p></p>';
+            $suffix = '</blockquote><p><br/></p>';
         }
     }
 
