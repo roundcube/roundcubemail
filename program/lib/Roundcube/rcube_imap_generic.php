@@ -3,7 +3,7 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  | Copyright (C) 2011-2012, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -50,22 +50,22 @@ class rcube_imap_generic
 
     protected $fp;
     protected $host;
-    protected $logged = false;
-    protected $capability = array();
-    protected $capability_readed = false;
     protected $prefs;
     protected $cmd_tag;
     protected $cmd_num = 0;
     protected $resourceid;
-    protected $_debug = false;
-    protected $_debug_handler = false;
+    protected $logged            = false;
+    protected $capability        = array();
+    protected $capability_readed = false;
+    protected $debug             = false;
+    protected $debug_handler     = false;
 
-    const ERROR_OK = 0;
-    const ERROR_NO = -1;
-    const ERROR_BAD = -2;
-    const ERROR_BYE = -3;
-    const ERROR_UNKNOWN = -4;
-    const ERROR_COMMAND = -5;
+    const ERROR_OK       = 0;
+    const ERROR_NO       = -1;
+    const ERROR_BAD      = -2;
+    const ERROR_BYE      = -3;
+    const ERROR_UNKNOWN  = -4;
+    const ERROR_COMMAND  = -5;
     const ERROR_READONLY = -6;
 
     const COMMAND_NORESPONSE = 1;
@@ -75,28 +75,23 @@ class rcube_imap_generic
 
     const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
 
-    /**
-     * Object constructor
-     */
-    function __construct()
-    {
-    }
 
     /**
      * Send simple (one line) command to the connection stream
      *
-     * @param string $string Command string
-     * @param bool   $endln  True if CRLF need to be added at the end of command
+     * @param string $string     Command string
+     * @param bool   $endln      True if CRLF need to be added at the end of command
      * @param bool   $anonymized Don't write the given data to log but a placeholder
      *
      * @param int Number of bytes sent, False on error
      */
-    function putLine($string, $endln=true, $anonymized=false)
+    function putLine($string, $endln = true, $anonymized = false)
     {
-        if (!$this->fp)
+        if (!$this->fp) {
             return false;
+        }
 
-        if ($this->_debug) {
+        if ($this->debug) {
             // anonymize the sent command for logging
             $cut = $endln ? 2 : 0;
             if ($anonymized && preg_match('/^(A\d+ (?:[A-Z]+ )+)(.+)/', $string, $m)) {
@@ -108,6 +103,7 @@ class rcube_imap_generic
             else {
                 $log = rtrim($string);
             }
+
             $this->debug('C: ' . $log);
         }
 
@@ -125,8 +121,8 @@ class rcube_imap_generic
      * Send command to the connection stream with Command Continuation
      * Requests (RFC3501 7.5) and LITERAL+ (RFC2088) support
      *
-     * @param string $string Command string
-     * @param bool   $endln  True if CRLF need to be added at the end of command
+     * @param string $string     Command string
+     * @param bool   $endln      True if CRLF need to be added at the end of command
      * @param bool   $anonymized Don't write the given data to log but a placeholder
      *
      * @return int|bool Number of bytes sent, False on error
@@ -151,23 +147,29 @@ class rcube_imap_generic
                     }
 
                     $bytes = $this->putLine($parts[$i].$parts[$i+1], false, $anonymized);
-                    if ($bytes === false)
+                    if ($bytes === false) {
                         return false;
+                    }
+
                     $res += $bytes;
 
                     // don't wait if server supports LITERAL+ capability
                     if (!$this->prefs['literal+']) {
                         $line = $this->readLine(1000);
                         // handle error in command
-                        if ($line[0] != '+')
+                        if ($line[0] != '+') {
                             return false;
+                        }
                     }
+
                     $i++;
                 }
                 else {
                     $bytes = $this->putLine($parts[$i], false, $anonymized);
-                    if ($bytes === false)
+                    if ($bytes === false) {
                         return false;
+                    }
+
                     $res += $bytes;
                 }
             }
@@ -178,11 +180,11 @@ class rcube_imap_generic
     /**
      * Reads line from the connection stream
      *
-     * @param int  $size  Buffer size
+     * @param int $size Buffer size
      *
      * @return string Line of text response
      */
-    function readLine($size=1024)
+    function readLine($size = 1024)
     {
         $line = '';
 
@@ -192,7 +194,7 @@ class rcube_imap_generic
 
         do {
             if ($this->eof()) {
-                return $line ? $line : NULL;
+                return $line ? $line : null;
             }
 
             $buffer = fgets($this->fp, $size);
@@ -201,9 +203,11 @@ class rcube_imap_generic
                 $this->closeSocket();
                 break;
             }
-            if ($this->_debug) {
+
+            if ($this->debug) {
                 $this->debug('S: '. rtrim($buffer));
             }
+
             $line .= $buffer;
         } while (substr($buffer, -1) != "\n");
 
@@ -229,8 +233,10 @@ class rcube_imap_generic
 
             while (strlen($out) < $bytes) {
                 $line = $this->readBytes($bytes);
-                if ($line === NULL)
+                if ($line === null) {
                     break;
+                }
+
                 $out .= $line;
             }
 
@@ -243,7 +249,7 @@ class rcube_imap_generic
     /**
      * Reads specified number of bytes from the connection stream
      *
-     * @param int  $bytes  Number of bytes to get
+     * @param int $bytes Number of bytes to get
      *
      * @return string Response text
      */
@@ -251,10 +257,10 @@ class rcube_imap_generic
     {
         $data = '';
         $len  = 0;
-        while ($len < $bytes && !$this->eof())
-        {
+
+        while ($len < $bytes && !$this->eof()) {
             $d = fread($this->fp, $bytes-$len);
-            if ($this->_debug) {
+            if ($this->debug) {
                 $this->debug('S: '. $d);
             }
             $data .= $d;
@@ -271,21 +277,23 @@ class rcube_imap_generic
     /**
      * Reads complete response to the IMAP command
      *
-     * @param array  $untagged  Will be filled with untagged response lines
+     * @param array $untagged Will be filled with untagged response lines
      *
      * @return string Response text
      */
-    function readReply(&$untagged=null)
+    function readReply(&$untagged = null)
     {
         do {
             $line = trim($this->readLine(1024));
             // store untagged response lines
-            if ($line[0] == '*')
+            if ($line[0] == '*') {
                 $untagged[] = $line;
+            }
         } while ($line[0] == '*');
 
-        if ($untagged)
+        if ($untagged) {
             $untagged = join("\n", $untagged);
+        }
 
         return $line;
     }
@@ -342,6 +350,7 @@ class rcube_imap_generic
 
             return $this->errornum;
         }
+
         return self::ERROR_UNKNOWN;
     }
 
@@ -382,7 +391,7 @@ class rcube_imap_generic
     /**
      * Error code/message setter.
      */
-    function setError($code, $msg='')
+    function setError($code, $msg = '')
     {
         $this->errornum = $code;
         $this->error    = $msg;
@@ -399,23 +408,27 @@ class rcube_imap_generic
      *
      * @return bool True any check is true or connection is closed.
      */
-    function startsWith($string, $match, $error=false, $nonempty=false)
+    function startsWith($string, $match, $error = false, $nonempty = false)
     {
         if (!$this->fp) {
             return true;
         }
+
         if (strncmp($string, $match, strlen($match)) == 0) {
             return true;
         }
+
         if ($error && preg_match('/^\* (BYE|BAD) /i', $string, $m)) {
             if (strtoupper($m[1]) == 'BYE') {
                 $this->closeSocket();
             }
             return true;
         }
+
         if ($nonempty && !strlen($string)) {
             return true;
         }
+
         return false;
     }
 
@@ -476,20 +489,20 @@ class rcube_imap_generic
 
     function clearCapability()
     {
-        $this->capability = array();
+        $this->capability        = array();
         $this->capability_readed = false;
     }
 
     /**
      * DIGEST-MD5/CRAM-MD5/PLAIN Authentication
      *
-     * @param string $user
-     * @param string $pass
+     * @param string $user Username
+     * @param string $pass Password
      * @param string $type Authentication type (PLAIN/CRAM-MD5/DIGEST-MD5)
      *
      * @return resource Connection resourse on success, error code on error
      */
-    function authenticate($user, $pass, $type='PLAIN')
+    function authenticate($user, $pass, $type = 'PLAIN')
     {
         if ($type == 'CRAM-MD5' || $type == 'DIGEST-MD5') {
             if ($type == 'DIGEST-MD5' && !class_exists('Auth_SASL')) {
@@ -726,8 +739,6 @@ class rcube_imap_generic
                 return ($this->prefs['delimiter'] = $delimiter);
             }
         }
-
-        return NULL;
     }
 
     /**
@@ -768,14 +779,14 @@ class rcube_imap_generic
     /**
      * Connects to IMAP server and authenticates.
      *
-     * @param string $host      Server hostname or IP
-     * @param string $user      User name
-     * @param string $password  Password
-     * @param array  $options   Connection and class options
+     * @param string $host     Server hostname or IP
+     * @param string $user     User name
+     * @param string $password Password
+     * @param array  $options  Connection and class options
      *
      * @return bool True on success, False on failure
      */
-    function connect($host, $user, $password, $options=null)
+    function connect($host, $user, $password, $options = null)
     {
         // configure
         $this->set_prefs($options);
@@ -935,7 +946,7 @@ class rcube_imap_generic
 
         $line = trim(fgets($this->fp, 8192));
 
-        if ($this->_debug) {
+        if ($this->debug) {
             // set connection identifier for debug output
             preg_match('/#([0-9]+)/', (string) $this->fp, $m);
             $this->resourceid = strtoupper(substr(md5($m[1].$this->user.microtime()), 0, 4));
@@ -1072,8 +1083,10 @@ class rcube_imap_generic
         //    3. an optional parenthesized list of known sequence ranges and their
         //       corresponding UIDs.
         if (!empty($qresync_data)) {
-            if (!empty($qresync_data[2]))
+            if (!empty($qresync_data[2])) {
                 $qresync_data[2] = self::compressMessageSet($qresync_data[2]);
+            }
+
             $params[] = array('QRESYNC', $qresync_data);
         }
 
@@ -1122,8 +1135,8 @@ class rcube_imap_generic
             }
 
             $this->data['READ-WRITE'] = $this->resultcode != 'READ-ONLY';
-
             $this->selected = $mailbox;
+
             return true;
         }
 
@@ -1141,7 +1154,7 @@ class rcube_imap_generic
      * @return array Status item-value hash
      * @since 0.5-beta
      */
-    function status($mailbox, $items=array())
+    function status($mailbox, $items = array())
     {
         if (!strlen($mailbox)) {
             return false;
@@ -1194,7 +1207,7 @@ class rcube_imap_generic
      *
      * @return boolean True on success, False on error
      */
-    function expunge($mailbox, $messages=NULL)
+    function expunge($mailbox, $messages = null)
     {
         if (!$this->select($mailbox)) {
             return false;
@@ -1232,7 +1245,7 @@ class rcube_imap_generic
      */
     function close()
     {
-        $result = $this->execute('CLOSE', NULL, self::COMMAND_NORESPONSE);
+        $result = $this->execute('CLOSE', null, self::COMMAND_NORESPONSE);
 
         if ($result == self::ERROR_OK) {
             $this->selected = null;
@@ -1374,9 +1387,9 @@ class rcube_imap_generic
      * @return array|bool List of mailboxes or hash of options if STATUS/MYROGHTS response
      *                    is requested, False on error.
      */
-    function listSubscribed($ref, $mailbox, $return_opts=array())
+    function listSubscribed($ref, $mailbox, $return_opts = array())
     {
-        return $this->_listMailboxes($ref, $mailbox, true, $return_opts, NULL);
+        return $this->_listMailboxes($ref, $mailbox, true, $return_opts, null);
     }
 
     /**
@@ -1943,7 +1956,7 @@ class rcube_imap_generic
 
             if (preg_match('/^\* ([0-9]+) FETCH/', $line, $m)) {
                 $id     = $m[1];
-                $flags  = NULL;
+                $flags  = null;
 
                 if ($return_uid) {
                     if (preg_match('/UID ([0-9]+)/', $line, $matches))
@@ -2282,7 +2295,7 @@ class rcube_imap_generic
 
                     while (strlen($out) < $bytes) {
                         $out = $this->readBytes($bytes);
-                        if ($out === NULL)
+                        if ($out === null)
                             break;
                         $line .= $out;
                     }
@@ -2634,14 +2647,14 @@ class rcube_imap_generic
         return $result;
     }
 
-    function fetchPartHeader($mailbox, $id, $is_uid=false, $part=NULL)
+    function fetchPartHeader($mailbox, $id, $is_uid = false, $part = null)
     {
         $part = empty($part) ? 'HEADER' : $part.'.MIME';
 
         return $this->handlePartBody($mailbox, $id, $is_uid, $part);
     }
 
-    function handlePartBody($mailbox, $id, $is_uid=false, $part='', $encoding=NULL, $print=NULL, $file=NULL, $formatted=false, $max_bytes=0)
+    function handlePartBody($mailbox, $id, $is_uid=false, $part='', $encoding=null, $print=null, $file=null, $formatted=false, $max_bytes=0)
     {
         if (!$this->select($mailbox)) {
             return false;
@@ -2750,7 +2763,7 @@ class rcube_imap_generic
                 else while ($bytes > 0) {
                     $line = $this->readLine(8192);
 
-                    if ($line === NULL) {
+                    if ($line === null) {
                         break;
                     }
 
@@ -3118,10 +3131,7 @@ class rcube_imap_generic
             }
 
             $this->setError(self::ERROR_COMMAND, "Incomplete ACL response");
-            return NULL;
         }
-
-        return NULL;
     }
 
     /**
@@ -3152,8 +3162,6 @@ class rcube_imap_generic
                 'optional' => explode(' ', $optional),
             );
         }
-
-        return NULL;
     }
 
     /**
@@ -3177,8 +3185,6 @@ class rcube_imap_generic
 
             return str_split($rights);
         }
-
-        return NULL;
     }
 
     /**
@@ -3231,7 +3237,7 @@ class rcube_imap_generic
         }
 
         foreach ($entries as $entry) {
-            $data[$entry] = NULL;
+            $data[$entry] = null;
         }
 
         return $this->setMetadata($mailbox, $data);
@@ -3327,8 +3333,6 @@ class rcube_imap_generic
 
             return $result;
         }
-
-        return NULL;
     }
 
     /**
@@ -3470,8 +3474,6 @@ class rcube_imap_generic
 
             return $result;
         }
-
-        return NULL;
     }
 
     /**
@@ -3715,7 +3717,7 @@ class rcube_imap_generic
                 // excluded chars: SP, CTL, ), DEL
                 // we do not exclude [ and ] (#1489223)
                 if (preg_match('/^([^\x00-\x20\x29\x7F]+)/', $str, $m)) {
-                    $result[] = $m[1] == 'NIL' ? NULL : $m[1];
+                    $result[] = $m[1] == 'NIL' ? null : $m[1];
                     $str = substr($str, strlen($m[1]));
                 }
                 break;
@@ -3972,8 +3974,8 @@ class rcube_imap_generic
      */
     function setDebug($debug, $handler = null)
     {
-        $this->_debug = $debug;
-        $this->_debug_handler = $handler;
+        $this->debug = $debug;
+        $this->debug_handler = $handler;
     }
 
     /**
@@ -3995,11 +3997,10 @@ class rcube_imap_generic
             $message = sprintf('[%s] %s', $this->resourceid, $message);
         }
 
-        if ($this->_debug_handler) {
-            call_user_func_array($this->_debug_handler, array(&$this, $message));
+        if ($this->debug_handler) {
+            call_user_func_array($this->debug_handler, array(&$this, $message));
         } else {
             echo "DEBUG: $message\n";
         }
     }
-
 }
