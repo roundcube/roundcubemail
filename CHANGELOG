@@ -33,6 +33,7 @@ CHANGELOG Roundcube Webmail
 - Fix handling of plus character in mailto: links (#1490510)
 - Fix so adding CC/BCC recipients from the sidebar unhides compose form fields in Classic skin (#1490472)
 - Fix so gc.sh script removes also expired sessions from sql database (#1490512)
+- Fix support for Mozilla-based browsers, e.g. Pale Moon (#1490517)
 
 RELEASE 1.1.2
 -------------
