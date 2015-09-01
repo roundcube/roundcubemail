@@ -46,6 +46,8 @@ SetOutputFilter DEFLATE
 <IfModule mod_headers.c>
 # replace 'append' with 'merge' for Apache version 2.2.9 and later
 #Header append Cache-Control public env=!NO_CACHE
+# for better privacy/security ask browsers to not set the Referer
+#Header set Content-Security-Policy "referrer no-referrer"
 </IfModule>
 
 <IfModule mod_expires.c>
