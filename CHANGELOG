@@ -53,6 +53,7 @@ CHANGELOG Roundcube Webmail
 - Fix so css of one html part does not apply to other text parts on message display (#1490505)
 - Fix handling of plus character in mailto: links (#1490510)
 - Fix so adding CC/BCC recipients from the sidebar unhides compose form fields in Classic skin (#1490472)
+- Fix so gc.sh script removes also expired sessions from sql database (#1490512)
 
 RELEASE 1.1.2
 -------------
