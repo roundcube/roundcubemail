@@ -165,6 +165,11 @@ $config['imap_auth_pw'] = null;
 // Otherwise it will be determined automatically
 $config['imap_delimiter'] = null;
 
+// If you know your imap's folder vendor, you can specify it here.
+// Otherwise it will be determined automatically. Use lower-case
+// identifiers, e.g. 'dovecot', 'cyrus', 'gmail', 'hmail', 'uw-imap'.
+$config['imap_vendor'] = null;
+
 // If IMAP server doesn't support NAMESPACE extension, but you're
 // using shared folders or personal root folder is non-empty, you'll need to
 // set these options. All can be strings or arrays of strings.

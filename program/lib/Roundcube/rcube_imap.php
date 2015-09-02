@@ -81,7 +81,7 @@ class rcube_imap extends rcube_storage
      */
     public function __construct()
     {
-        $this->conn = new rcube_imap_generic();
+        $this->conn    = new rcube_imap_generic();
         $this->plugins = rcube::get_instance()->plugins;
 
         // Set namespace and delimiter from session,
@@ -469,7 +469,7 @@ class rcube_imap extends rcube_storage
             return;
         }
 
-        $config = rcube::get_instance()->config;
+        $config         = rcube::get_instance()->config;
         $imap_personal  = $config->get('imap_ns_personal');
         $imap_other     = $config->get('imap_ns_other');
         $imap_shared    = $config->get('imap_ns_shared');
@@ -538,6 +538,52 @@ class rcube_imap extends rcube_storage
 
         $_SESSION['imap_namespace'] = $this->namespace;
         $_SESSION['imap_delimiter'] = $this->delimiter;
+    }
+
+    /**
+     * Returns IMAP server vendor name
+     *
+     * @return string Vendor name
+     * @since 1.2
+     */
+    public function get_vendor()
+    {
+        if ($_SESSION['imap_vendor'] !== null) {
+            return $_SESSION['imap_vendor'];
+        }
+
+        $config      = rcube::get_instance()->config;
+        $imap_vendor = $config->get('imap_vendor');
+
+        if ($imap_vendor) {
+            return $imap_vendor;
+        }
+
+        if (!$this->check_connection()) {
+            return;
+        }
+
+        if (($ident = $this->conn->data['ID']) === null) {
+            $ident = $this->conn->id(array(
+                    'name'    => 'Roundcube',
+                    'version' => RCUBE_VERSION,
+                    'php'     => PHP_VERSION,
+                    'os'      => PHP_OS,
+            ));
+        }
+
+        $vendor  = (string) (!empty($ident) ? $ident['name'] : '');
+        $ident   = strtolower($vendor . ' ' . $this->conn->data['GREETING']);
+        $vendors = array('cyrus', 'dovecot', 'uw-imap', 'gmail', 'hmail');
+
+        foreach ($vendors as $v) {
+            if (strpos($ident, $v) !== false) {
+                $vendor = $v;
+                break;
+            }
+        }
+
+        return $_SESSION['imap_vendor'] = $vendor;
     }
 
     /**

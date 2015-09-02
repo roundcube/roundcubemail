@@ -819,7 +819,7 @@ class rcube_imap_generic
 
         // Send ID info
         if (!empty($this->prefs['ident']) && $this->getCapability('ID')) {
-            $this->id($this->prefs['ident']);
+            $this->data['ID'] = $this->id($this->prefs['ident']);
         }
 
         $auth_method  = $this->prefs['auth_type'];
@@ -967,6 +967,8 @@ class rcube_imap_generic
             $this->closeConnection();
             return false;
         }
+
+        $this->data['GREETING'] = trim(preg_replace('/\[[^\]]+\]\s*/', '', $line));
 
         // RFC3501 [7.1] optional CAPABILITY response
         if (preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
@@ -1621,7 +1623,7 @@ class rcube_imap_generic
      * @return array Server identification information key/value hash
      * @since 0.6
      */
-    function id($items=array())
+    function id($items = array())
     {
         if (is_array($items) && !empty($items)) {
             foreach ($items as $key => $value) {
@@ -1633,7 +1635,6 @@ class rcube_imap_generic
         list($code, $response) = $this->execute('ID', array(
             !empty($args) ? '(' . implode(' ', (array) $args) . ')' : $this->escape(null)
         ));
-
 
         if ($code == self::ERROR_OK && preg_match('/\* ID /i', $response)) {
             $response = substr($response, 5); // remove prefix "* ID "
