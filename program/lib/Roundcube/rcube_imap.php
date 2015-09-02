@@ -2427,7 +2427,7 @@ class rcube_imap extends rcube_storage
      *
      * @param mixed   $uids       Message UIDs as array or comma-separated string, or '*'
      * @param string  $flag       Flag to set: SEEN, UNDELETED, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
-     * @param string  $folder    Folder name
+     * @param string  $folder     Folder name
      * @param boolean $skip_cache True to skip message cache clean up
      *
      * @return boolean  Operation status
@@ -3112,8 +3112,22 @@ class rcube_imap extends rcube_storage
      */
     public function folder_size($folder)
     {
+        if (!strlen($folder)) {
+            return false;
+        }
+
         if (!$this->check_connection()) {
             return 0;
+        }
+
+        // On Cyrus we can use special folder annotation, which should be much faster
+        if ($this->get_vendor() == 'cyrus') {
+            $idx    = '/shared/vendor/cmu/cyrus-imapd/size';
+            $result = $this->get_metadata($folder, $idx, array(), true);
+
+            if (!empty($result) && is_numeric($result[$folder][$idx])) {
+                return $result[$folder][$idx];
+            }
         }
 
         // @TODO: could we try to use QUOTA here?
@@ -3879,30 +3893,33 @@ class rcube_imap extends rcube_storage
     /**
      * Returns IMAP metadata/annotations (GETMETADATA/GETANNOTATION)
      *
-     * @param string $folder  Folder name (empty for server metadata)
-     * @param array  $entries Entries
-     * @param array  $options Command options (with MAXSIZE and DEPTH keys)
+     * @param string  $folder   Folder name (empty for server metadata)
+     * @param array   $entries  Entries
+     * @param array   $options  Command options (with MAXSIZE and DEPTH keys)
+     * @param bool    $force    Disables cache use
      *
      * @return array Metadata entry-value hash array on success, NULL on error
      * @since 0.5-beta
      */
-    public function get_metadata($folder, $entries, $options=array())
+    public function get_metadata($folder, $entries, $options = array(), $force = false)
     {
-        $entries = (array)$entries;
+        $entries = (array) $entries;
 
-        // create cache key
-        // @TODO: this is the simplest solution, but we do the same with folders list
-        //        maybe we should store data per-entry and merge on request
-        sort($options);
-        sort($entries);
-        $cache_key = 'mailboxes.metadata.' . $folder;
-        $cache_key .= '.' . md5(serialize($options).serialize($entries));
+        if (!$force) {
+            // create cache key
+            // @TODO: this is the simplest solution, but we do the same with folders list
+            //        maybe we should store data per-entry and merge on request
+            sort($options);
+            sort($entries);
+            $cache_key = 'mailboxes.metadata.' . $folder;
+            $cache_key .= '.' . md5(serialize($options).serialize($entries));
 
-        // get cached data
-        $cached_data = $this->get_cache($cache_key);
+            // get cached data
+            $cached_data = $this->get_cache($cache_key);
 
-        if (is_array($cached_data)) {
-            return $cached_data;
+            if (is_array($cached_data)) {
+                return $cached_data;
+            }
         }
 
         if (!$this->check_connection()) {
@@ -3941,7 +3958,10 @@ class rcube_imap extends rcube_storage
         }
 
         if (isset($res)) {
-            $this->update_cache($cache_key, $res);
+            if (!$force) {
+                $this->update_cache($cache_key, $res);
+            }
+
             return $res;
         }
 

@@ -945,10 +945,11 @@ abstract class rcube_storage
      * @param string $folder   Folder name (empty for server metadata)
      * @param array  $entries  Entries
      * @param array  $options  Command options (with MAXSIZE and DEPTH keys)
+     * @param bool   $force    Disables cache use
      *
      * @return array Metadata entry-value hash array on success, NULL on error
      */
-    abstract function get_metadata($folder, $entries, $options = array());
+    abstract function get_metadata($folder, $entries, $options = array(), $force = false);
 
     /* -----------------------------------------
      *   Cache related functions
