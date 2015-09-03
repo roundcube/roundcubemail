@@ -1116,6 +1116,9 @@ $config['show_sig'] = 1;
 // the signature below the quoted text (sig_below = true).
 $config['sig_below'] = false;
 
+// Enables adding of standard separator to the signature
+$config['sig_separator'] = true;
+
 // Use MIME encoding (quoted-printable) for 8bit characters in message body
 $config['force_7bit'] = false;
 

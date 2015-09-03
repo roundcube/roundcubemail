@@ -87,6 +87,7 @@ case 'compose':
         'reply_mode'         => isset($_POST['_reply_mode']) ? intval($_POST['_reply_mode']) : 0,
         'sig_below'          => isset($_POST['_sig_below']) ? true : false,
         'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
+        'sig_separator'      => isset($_POST['_sig_separator']) ? true : false,
         'default_font'       => rcube_utils::get_input_value('_default_font', rcube_utils::INPUT_POST),
         'default_font_size'  => rcube_utils::get_input_value('_default_font_size', rcube_utils::INPUT_POST),
         'reply_all_mode'     => intval($_POST['_reply_all_mode']),

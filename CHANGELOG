@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Make optional adding of standard signature separator - sig_separator (#1487768)
 - Optimize folder_size() on Cyrus IMAP by using special folder annotation (#1490514)
 - Make optional hidding of folders with name starting with a dot - imap_skip_hidden_folders (#1490468)
 - Add option to enable HTML editor always, except when replying to plain text messages (#1489365)

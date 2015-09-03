@@ -874,6 +874,20 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
+            if (!isset($no_override['sig_separator'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_sig_separator';
+                $input    = new html_checkbox(array('name' => '_sig_separator', 'id' => $field_id, 'value' => 1));
+
+                $blocks['sig']['options']['sig_separator'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('sigseparator'))),
+                    'content' => $input->show($RCMAIL->config->get('sig_separator') ? 1 : 0),
+                );
+            }
+
             if (!isset($no_override['forward_attachment'])) {
                 if (!$current) {
                     continue 2;

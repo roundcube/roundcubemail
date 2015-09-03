@@ -484,7 +484,9 @@ function rcmail_compose_header_from($attrib)
         $top_posting  = intval($RCMAIL->config->get('reply_mode')) > 0
             && !$RCMAIL->config->get('sig_below')
             && ($COMPOSE['mode'] == RCUBE_COMPOSE_REPLY || $COMPOSE['mode'] == RCUBE_COMPOSE_FORWARD);
-        $separator = $top_posting ? '---' : '-- ';
+
+        $separator     = $top_posting ? '---' : '-- ';
+        $add_separator = (bool) $RCMAIL->config->get('sig_separator');
 
         $field_attrib['onchange'] = rcmail_output::JS_OBJECT_NAME.".change_identity(this)";
         $select_from = new html_select($field_attrib);
@@ -500,15 +502,15 @@ function rcmail_compose_header_from($attrib)
 
                 if ($sql_arr['html_signature']) {
                     $text = $RCMAIL->html2text($html, array('links' => false));
-                    $text = trim($text);
+                    $text = trim($text, "\r\n");
                 }
                 else {
                     $t2h  = new rcube_text2html($text, false);
                     $html = $t2h->get_html();
                 }
 
-                if (!preg_match('/^--[ -]\r?\n/m', $text)) {
-                    $text = $separator . "\n" . $text;
+                if ($add_separator && !preg_match('/^--[ -]\r?\n/m', $text)) {
+                    $text = $separator . "\n" . ltrim($text, "\r\n");
                     $html = $separator . "<br>" . $html;
                 }
 
