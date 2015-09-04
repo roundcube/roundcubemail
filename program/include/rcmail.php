@@ -178,7 +178,7 @@ class rcmail extends rcube
         // Also strtoupper/strtolower and other methods are locale-aware
         // for these locales it is problematic (#1490519)
         if (in_array($lang, array('tr_TR', 'ku', 'az_AZ'))) {
-            setlocale(LC_CTYPE, 'en_US.utf8', 'en_US.UTF-8');
+            setlocale(LC_CTYPE, 'en_US.utf8', 'en_US.UTF-8', 'C');
         }
     }
 
