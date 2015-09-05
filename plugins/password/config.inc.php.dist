@@ -61,6 +61,12 @@ $config['password_dovecotpw_method'] = 'CRAM-MD5';
 // Be aware, the higher the value, the longer it takes to generate the password hashes.
 $config['password_blowfish_cost'] = 12;
 
+// Number of rounds for the sha256 and sha512 crypt hashing algorithms.
+// Must be at least 1000. If not set, then the number of rounds is left up
+// to the crypt() implementation. On glibc this defaults to 5000.
+// Be aware, the higher the value, the longer it takes to generate the password hashes.
+//$config['password_crypt_rounds'] = 50000;
+
 // This option temporarily disables the password change functionality.
 // Use it when the users database server is in maintenance mode or sth like that.
 // You can set it to TRUE/FALSE or a text describing the reason
