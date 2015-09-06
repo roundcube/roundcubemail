@@ -158,6 +158,16 @@ class enigma_driver_gnupg extends enigma_driver
         }
     }
 
+    public function export($keyid)
+    {
+        try {
+            return $this->gpg->exportPublicKey($keyid, true);
+        }
+        catch (Exception $e) {
+            return $this->get_error_from_exception($e);
+        }
+    }
+
     public function list_keys($pattern='')
     {
         try {

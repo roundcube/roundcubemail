@@ -24,9 +24,10 @@
 <div id="keystoolbar">
     <roundcube:button command="plugin.enigma-key-create" type="link" class="buttonPas create" classAct="button create" classSel="button createSel" title="enigma.createkeys" content=" " />
     <roundcube:button command="plugin.enigma-key-import" type="link" class="buttonPas import" classAct="button import" classSel="button importSel" title="enigma.importkeys" content=" " />
-<!--
+    <span class="dropbutton">
     <roundcube:button command="plugin.enigma-key-export" type="link" class="buttonPas export" classAct="button export" classSel="button exportSel" title="enigma.exportkeys" content=" " />
--->
+    <span id="exportmenulink" onclick="rcmail_ui.show_popup('exportmenu');return false"></span>
+    </span>
     <roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button keymenu" title="enigma.keyactions" onclick="rcmail_ui.show_popup('messagemenu');return false" content=" " />
 </div>
 
@@ -35,6 +36,7 @@
     <roundcube:object name="searchform" id="quicksearchbox" />
     <roundcube:button command="reset-search" id="searchreset" image="/images/icons/reset.gif" title="resetsearch" />
 </div>
+
 
 <div class="enigmascreen">
 
@@ -75,6 +77,13 @@
         <li class="separator_below"><roundcube:button class="sendlink" command="plugin.enigma-key-send" label="enigma.keysend" classAct="sendlink active" /></li>
         <li><roundcube:button class="chpasslink" command="plugin.enigma-key-chpass" label="enigma.keychpass" classAct="chpasslink active" /></li>
 -->
+    </ul>
+</div>
+
+<div id="exportmenu" class="popupmenu">
+    <ul>
+        <li><roundcube:button command="plugin.enigma-key-export" label="exportall" prop="sub" classAct="exportalllink active" class="exportalllink" /></li>
+        <li><roundcube:button command="plugin.enigma-key-export-selected" label="exportsel" prop="sub" classAct="exportsellink active" class="exportsellink" /></li>
     </ul>
 </div>
 

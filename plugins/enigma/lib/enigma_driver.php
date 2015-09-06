@@ -70,6 +70,15 @@ abstract class enigma_driver
     abstract function import($content, $isfile = false);
 
     /**
+     * Key/Cert export.
+     *
+     * @param string Key ID
+     *
+     * @return mixed Key content or enigma_error
+     */
+    abstract function export($key);
+
+    /**
      * Keys listing.
      *
      * @param string Optional pattern for key ID, user ID or fingerprint

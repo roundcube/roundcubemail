@@ -66,6 +66,7 @@ $labels['signmsg'] = 'Digitally sign this message';
 
 $labels['enterkeypasstitle'] = 'Enter key passphrase';
 $labels['enterkeypass'] = 'A passphrase is needed to unlock the secret key ($keyid) for user: $user.';
+$labels['arialabelkeyexportoptions'] = 'Keys export options';
 
 $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';

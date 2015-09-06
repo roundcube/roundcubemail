@@ -8,25 +8,19 @@ The plugin uses gpg binary on the server and stores all keys
 Encryption/decryption is done server-side. So, this plugin
 is for users that trust the server.
 
-WARNING! The plugin is in very early state. See below for a list
-of missing features and known issues.
-
 
 Implemented features:
 ---------------------
 + PGP: signatures verification
 + PGP: messages decryption
 + PGP: Sending of encrypted/signed messages
-+ PGP: keys management UI (key import, delete)
++ PGP: keys management UI (key import, export, delete)
 + PGP: key generation (client- or server-side)
 + Handling of PGP keys attached to incoming messages
 + User preferences to disable plugin features
 
-TODO (must have):
------------------
-- Keys export to file
 
-TODO (later):
+TODO:
 -------------
 - Handling of big messages with temp files
 - Key info in contact details page (optional)
@@ -35,6 +29,7 @@ TODO (later):
    - revoke,
    - change expiration date, change passphrase, add photo,
    - manage user IDs
+   - export private keys
 - Generate revocation certs
 - Search filter to see invalid/expired keys
 - Key server(s) support (search, import, upload, refresh)
@@ -53,10 +48,3 @@ TODO (later):
 - S/MIME: Sending signed/encrypted messages
 - S/MIME: Handling of certs attached to incoming messages
 - S/MIME: Certificate info in Contacts details page (optional)
-
-Known issues:
--------------
-1. There are Crypt_GPG issues when using gnupg >= 2.0
-   - http://pear.php.net/bugs/bug.php?id=19914
-   - http://pear.php.net/bugs/bug.php?id=20453
-   - http://pear.php.net/bugs/bug.php?id=20527

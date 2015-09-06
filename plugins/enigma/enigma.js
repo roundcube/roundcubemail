@@ -6,7 +6,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
 
         if (rcmail.gui_objects.keyslist) {
             rcmail.keys_list = new rcube_list_widget(rcmail.gui_objects.keyslist,
-                {multiselect:false, draggable:false, keyboard:false});
+                {multiselect:true, draggable:false, keyboard:false});
             rcmail.keys_list
                 .addEventListener('select', function(o) { rcmail.enigma_keylist_select(o); })
                 .addEventListener('keypress', function(o) { rcmail.enigma_keylist_keypress(o); })
@@ -25,11 +25,16 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             rcmail.register_command('search', function(props) {return rcmail.enigma_search(props); }, true);
             rcmail.register_command('reset-search', function(props) {return rcmail.enigma_search_reset(props); }, true);
             rcmail.register_command('plugin.enigma-import', function() { rcmail.enigma_import(); }, true);
-//            rcmail.register_command('plugin.enigma-export', function() { rcmail.enigma_key_export(); }, true);
-            rcmail.register_command('plugin.enigma-key-import', function() { rcmail.enigma_key_import() }, true);
-            rcmail.register_command('plugin.enigma-key-delete', function(props) { return rcmail.enigma_key_delete(); });
+            rcmail.register_command('plugin.enigma-key-export', function() { rcmail.enigma_export(); });
+            rcmail.register_command('plugin.enigma-key-export-selected', function() { rcmail.enigma_export(true); });
+            rcmail.register_command('plugin.enigma-key-import', function() { rcmail.enigma_key_import(); }, true);
+            rcmail.register_command('plugin.enigma-key-delete', function(props) { return rcmail.enigma_delete(); });
             rcmail.register_command('plugin.enigma-key-create', function(props) { return rcmail.enigma_key_create(); }, true);
             rcmail.register_command('plugin.enigma-key-save', function(props) { return rcmail.enigma_key_create_save(); }, true);
+
+            rcmail.addEventListener('responseafterplugin.enigmakeys', function() {
+                rcmail.enable_command('plugin.enigma-key-export', rcmail.env.rowcount > 0);
+            });
         }
     }
     else if (rcmail.env.task == 'mail') {
@@ -125,7 +130,7 @@ rcube_webmail.prototype.enigma_key_create_success = function()
 };
 
 // Delete key(s)
-rcube_webmail.prototype.enigma_key_delete = function()
+rcube_webmail.prototype.enigma_delete = function()
 {
     var keys = this.keys_list.get_selection();
 
@@ -137,6 +142,17 @@ rcube_webmail.prototype.enigma_key_delete = function()
 
     // send request to server
     this.http_post('plugin.enigmakeys', post, lock);
+};
+
+// Export key(s)
+rcube_webmail.prototype.enigma_export = function(selected)
+{
+    var keys = selected ? this.keys_list.get_selection().join(',') : '*';
+
+    if (!keys.length)
+        return;
+
+    this.goto_url('plugin.enigmakeys', {_a: 'export', _keys: keys});
 };
 
 // Submit key(s) import form
@@ -163,11 +179,13 @@ rcube_webmail.prototype.enigma_import = function()
 // list row selection handler
 rcube_webmail.prototype.enigma_keylist_select = function(list)
 {
-    var id;
-    if (id = list.get_single_selection())
-        this.enigma_loadframe('&_action=plugin.enigmakeys&_a=info&_id=' + id);
+    var id = list.get_single_selection(), url;
 
-    this.enable_command('plugin.enigma-key-delete', list.selection.length > 0);
+    if (id)
+        url = '&_action=plugin.enigmakeys&_a=info&_id=' + id;
+
+    this.enigma_loadframe(url);
+    this.enable_command('plugin.enigma-key-delete', 'plugin.enigma-key-export-selected', list.selection.length > 0);
 };
 
 rcube_webmail.prototype.enigma_keylist_keypress = function(list)
@@ -275,6 +293,8 @@ rcube_webmail.prototype.enigma_clear_list = function()
     this.enigma_loadframe();
     if (this.keys_list)
         this.keys_list.clear(true);
+
+    this.enable_command('plugin.enigma-key-delete', 'plugin.enigma-key-delete-selected', false);
 }
 
 // Adds a row to the list

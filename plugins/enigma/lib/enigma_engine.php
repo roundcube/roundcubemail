@@ -1003,6 +1003,37 @@ class enigma_engine
     }
 
     /**
+     * PGP keys/certs export..
+     *
+     * @param string   Key ID
+     * @param resource Optional output stream
+     *
+     * @return mixed Key content or enigma_error
+     */
+    function export_key($key, $fp = null)
+    {
+        $this->load_pgp_driver();
+        $result = $this->pgp_driver->export($key, $fp);
+
+        if ($result instanceof enigma_error) {
+            rcube::raise_error(array(
+                'code' => 600, 'type' => 'php',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Enigma plugin: " . $result->getMessage()
+                ), true, false);
+
+            return $result;
+        }
+
+        if ($fp) {
+            fwrite($fp, $result);
+        }
+        else {
+            return $result;
+        }
+    }
+
+    /**
      * Registers password for specified key/cert sent by the password prompt.
      */
     function password_handler()

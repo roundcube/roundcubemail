@@ -59,6 +59,10 @@ class enigma_ui
                     $this->key_import();
                     break;
 
+                case 'export':
+                    $this->key_export();
+                    break;
+
                 case 'generate':
                     $this->key_generate();
                     break;
@@ -260,6 +264,7 @@ class enigma_ui
             }
         }
 
+        $this->rc->output->set_env('rowcount', $size);
         $this->rc->output->set_env('search_request', $search);
         $this->rc->output->set_env('pagecount', ceil($listsize/$pagesize));
         $this->rc->output->set_env('current_page', $page);
@@ -398,6 +403,35 @@ class enigma_ui
                 $this->enigma->gettext('userids')) . $table->show($attrib));
 */
         return $out;
+    }
+
+    /**
+     * Key(s) export handler
+     */
+    private function key_export()
+    {
+        $keys   = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_GPC);
+        $engine = $this->enigma->load_engine();
+        $list   = $keys == '*' ? $engine->list_keys() : explode(',', $keys);
+
+        if (is_array($list)) {
+            $filename = 'export.pgp';
+            if (count($list) == 1) {
+                $filename = (is_object($list[0]) ? $list[0]->id : $list[0]) . '.pgp';
+            }
+
+            // send downlaod headers
+            header('Content-Type: application/pgp-keys');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+            if ($fp = fopen('php://output', 'w')) {
+                foreach ($list as $key) {
+                    $engine->export_key(is_object($key) ? $key->id : $key, $fp);
+                }
+            }
+        }
+
+        exit;
     }
 
     /**
@@ -594,12 +628,11 @@ class enigma_ui
      */
     private function key_delete()
     {
-        $keys = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_POST);
-
-        $this->enigma->load_engine();
+        $keys   = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_POST);
+        $engine = $this->enigma->load_engine();
 
         foreach ((array)$keys as $key) {
-            $res = $this->enigma->engine->delete_key($key);
+            $res = $engine->delete_key($key);
 
             if ($res !== true) {
                 $this->rc->output->show_message('enigma.keyremoveerror', 'error');
