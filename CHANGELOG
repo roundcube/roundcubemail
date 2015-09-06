@@ -58,6 +58,7 @@ CHANGELOG Roundcube Webmail
 - Fix so gc.sh script removes also expired sessions from sql database (#1490512)
 - Fix support for Mozilla-based browsers, e.g. Pale Moon (#1490517)
 - Fix various issues with Turkish (and similar) locales (#1490519)
+- Fix so In-Reply-To header is set also for MDN receipts (#1490523)
 
 RELEASE 1.1.2
 -------------

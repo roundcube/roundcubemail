@@ -1797,6 +1797,7 @@ function rcmail_send_mdn($message, &$smtp_error)
             'Message-ID' => $RCMAIL->gen_message_id(),
             'X-Sender'   => $identity['email'],
             'References' => trim($message->headers->references . ' ' . $message->headers->messageID),
+            'In-Reply-To' => $message->headers->messageID,
         );
 
         $report = "Final-Recipient: rfc822; {$identity['email']}\r\n"
@@ -1812,20 +1813,21 @@ function rcmail_send_mdn($message, &$smtp_error)
             $report .= "Reporting-UA: $agent\r\n";
         }
 
+        $to   = rcube_mime::decode_mime_string($message->headers->to, $message->headers->charset);
+        $date = $RCMAIL->format_date($message->headers->date, $RCMAIL->config->get('date_long'));
         $body = $RCMAIL->gettext("yourmessage") . "\r\n\r\n" .
-            "\t" . $RCMAIL->gettext("to") . ': ' . rcube_mime::decode_mime_string($message->headers->to, $message->headers->charset) . "\r\n" .
-            "\t" . $RCMAIL->gettext("subject") . ': ' . $message->subject . "\r\n" .
-            "\t" . $RCMAIL->gettext("date") . ': ' . $RCMAIL->format_date($message->headers->date, $RCMAIL->config->get('date_long')) . "\r\n" .
+            "\t" . $RCMAIL->gettext("to") . ": {$to}\r\n" .
+            "\t" . $RCMAIL->gettext("subject") . ": {$message->subject}\r\n" .
+            "\t" . $RCMAIL->gettext("date") . ": {$date}\r\n" .
             "\r\n" . $RCMAIL->gettext("receiptnote");
 
-        $compose->headers($headers);
+        $compose->headers(array_filter($headers));
         $compose->setContentType('multipart/report', array('report-type'=> 'disposition-notification'));
         $compose->setTXTBody(rcube_mime::wordwrap($body, 75, "\r\n"));
         $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 
-        if ($RCMAIL->config->get('mdn_use_from')) {
-            $options['mdn_use_from'] = true;
-        }
+        // SMTP options
+        $options = array('mdn_use_from' => (bool) $RCMAIL->config->get('mdn_use_from'));
 
         $sent = $RCMAIL->deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file, $options);
 
