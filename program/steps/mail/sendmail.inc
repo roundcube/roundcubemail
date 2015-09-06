@@ -128,52 +128,25 @@ $headers = array();
 
 // if configured, the Received headers goes to top, for good measure
 if ($RCMAIL->config->get('http_received_header')) {
-    $nldlm   = "\r\n\t";
-    $encrypt = $RCMAIL->config->get('http_received_header_encrypt');
-
-    // FROM/VIA
+    $nldlm       = "\r\n\t";
     $http_header = 'from ';
 
+    // FROM/VIA
     if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $hosts    = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'], 2);
-        $hostname = gethostbyaddr($hosts[0]);
-
-        if ($encrypt) {
-            $http_header .= rcmail_encrypt_header($hostname);
-            if ($host != $hostname)
-                $http_header .= ' ('. rcmail_encrypt_header($host) . ')';
-        }
-        else {
-            $http_header .= (($host != $hostname) ? $hostname : '[' . $host . ']');
-            if ($host != $hostname)
-                $http_header .= ' (['. $host .'])';
-        }
-        $http_header .= $nldlm . ' via ';
+        $hosts        = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'], 2);
+        $http_header .= rcmail_received_host($hosts[0]) . $nldlm . ' via ';
     }
 
-    $host     = $_SERVER['REMOTE_ADDR'];
-    $hostname = gethostbyaddr($host);
-
-    if ($encrypt) {
-        $http_header .= rcmail_encrypt_header($hostname);
-        if ($host != $hostname)
-            $http_header .= ' ('. rcmail_encrypt_header($host) . ')';
-    }
-    else {
-        $http_header .= (($host != $hostname) ? $hostname : '[' . $host . ']');
-        if ($host != $hostname)
-            $http_header .= ' (['. $host .'])';
-    }
+    $http_header .= rcmail_received_host($_SERVER['REMOTE_ADDR']);
 
     // BY
     $http_header .= $nldlm . 'by ' . $_SERVER['HTTP_HOST'];
 
     // WITH
-    $http_header .= $nldlm . 'with HTTP (' . $_SERVER['SERVER_PROTOCOL'] .
-      ' '.$_SERVER['REQUEST_METHOD'] . '); ' . date('r');
-    $http_header = wordwrap($http_header, 69, $nldlm);
+    $http_header .= $nldlm . 'with HTTP (' . $_SERVER['SERVER_PROTOCOL']
+        . ' ' . $_SERVER['REQUEST_METHOD'] . '); ' . date('r');
 
-    $headers['Received'] = $http_header;
+    $headers['Received'] = wordwrap($http_header, 69, $nldlm);
 }
 
 $headers['Date'] = $RCMAIL->user_date();
@@ -723,16 +696,33 @@ $OUTPUT->send('iframe');
 
 /****** message sending functions ********/
 
-// encrypt parts of the header
-function rcmail_encrypt_header($what)
+function rcmail_received_host($host)
+{
+    $hostname = gethostbyaddr($host);
+
+    $result = rcmail_encrypt_host($hostname);
+
+    if ($host != $hostname) {
+        $result .= ' (' . rcmail_encrypt_host($host) . ')';
+    }
+
+    return $result;
+}
+
+// encrypt host IP or hostname for Received header
+function rcmail_encrypt_host($host)
 {
     global $RCMAIL;
 
-    if (!$RCMAIL->config->get('http_received_header_encrypt')) {
-        return $what;
+    if ($RCMAIL->config->get('http_received_header_encrypt')) {
+        return $RCMAIL->encrypt($host);
     }
 
-    return $RCMAIL->encrypt($what);
+    if (!preg_match('/[^0-9:.]/', $host)) {
+        return "[$host]";
+    }
+
+    return $host;
 }
 
 // get identity record
