@@ -505,7 +505,7 @@ class rcube_config
     public function get_crypto_key($key)
     {
         // Bomb out if the requested key does not exist
-        if (!array_key_exists($key, $this->prop)) {
+        if (!array_key_exists($key, $this->prop) || empty($this->prop[$key])) {
             rcube::raise_error(array(
                 'code' => 500, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
@@ -513,18 +513,23 @@ class rcube_config
             ), true, true);
         }
 
-        $key = $this->prop[$key];
+        return $this->prop[$key];
+    }
 
-        // Bomb out if the configured key is not exactly 24 bytes long
-        if (strlen($key) != 24) {
-            rcube::raise_error(array(
-                'code' => 500, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Configured crypto key '$key' is not exactly 24 bytes long"
-            ), true, true);
+    /**
+     * Return configured crypto method.
+     *
+     * @return string Crypto method
+     */
+    public function get_crypto_method()
+    {
+        $method = $this->get('cipher_method');
+
+        if (empty($method)) {
+            $method = 'DES-EDE3-CBC';
         }
 
-        return $key;
+        return $method;
     }
 
     /**

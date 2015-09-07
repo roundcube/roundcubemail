@@ -446,10 +446,15 @@ $config['referer_check'] = false;
 // Possible values: sameorigin|deny. Set to false in order to disable sending them
 $config['x_frame_options'] = 'sameorigin';
 
-// this key is used to encrypt the users imap password which is stored
-// in the session record (and the client cookie if remember password is enabled).
-// please provide a string of exactly 24 chars.
+// This key is used for encrypting purposes, like storing of imap password
+// in the session. For historical reasons it's called DES_key, but it's used
+// with any configured cipher_method (see below).
 $config['des_key'] = 'rcmail-!24ByteDESkey*Str';
+
+// Encryption algorithm. You can use any method supported by openssl.
+// Default is set for backward compatibility to DES-EDE3-CBC,
+// but you can choose e.g. AES-256-CBC which we consider a better choice.
+$config['cipher_method'] = 'DES-EDE3-CBC';
 
 // Automatically add this domain to user names for login
 // Only for IMAP servers that require full e-mail addresses for login

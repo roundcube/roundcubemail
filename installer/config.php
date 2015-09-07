@@ -128,8 +128,7 @@ echo $input_deskey->show($RCI->getprop('des_key'));
 
 ?>
 <div>This key is used to encrypt the users imap password before storing in the session record</div>
-<p class="hint">It's a random generated string to ensure that every installation has its own key.
-If you enter it manually please provide a string of exactly 24 chars.</p>
+<p class="hint">It's a random generated string to ensure that every installation has its own key.</p>
 </dd>
 
 <dt class="propname">ip_check</dt>

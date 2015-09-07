@@ -810,26 +810,22 @@ class rcube
     }
 
     /**
-     * Encrypt using 3DES
+     * Encrypt a string
      *
      * @param string  $clear  Clear text input
      * @param string  $key    Encryption key to retrieve from the configuration, defaults to 'des_key'
      * @param boolean $base64 Whether or not to base64_encode() the result before returning
      *
-     * @return string encrypted text
+     * @return string Encrypted text
      */
     public function encrypt($clear, $key = 'des_key', $base64 = true)
     {
-        if (!$clear) {
+        if (!is_string($clear) || !strlen($clear)) {
             return '';
         }
 
-        // Add a single canary byte to the end of the clear text, which
-        // will help find out how much of padding will need to be removed
-        // upon decryption; see http://php.net/mcrypt_generic#68082.
-        $clear  = pack("a*H2", $clear, "80");
         $ckey   = $this->config->get_crypto_key($key);
-        $method = 'DES-EDE3-CBC';
+        $method = $this->config->get_crypto_method();
         $opts   = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
         $iv     = rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
         $cipher = $iv . openssl_encrypt($clear, $method, $ckey, $opts, $iv);
@@ -838,13 +834,13 @@ class rcube
     }
 
     /**
-     * Decrypt 3DES-encrypted string
+     * Decrypt a string
      *
      * @param string  $cipher Encrypted text
      * @param string  $key    Encryption key to retrieve from the configuration, defaults to 'des_key'
      * @param boolean $base64 Whether or not input is base64-encoded
      *
-     * @return string decrypted text
+     * @return string Decrypted text
      */
     public function decrypt($cipher, $key = 'des_key', $base64 = true)
     {
@@ -852,10 +848,9 @@ class rcube
             return '';
         }
 
-        $cipher = $base64 ? base64_decode($cipher) : $cipher;
-        $ckey   = $this->config->get_crypto_key($key);
-
-        $method  = 'DES-EDE3-CBC';
+        $cipher  = $base64 ? base64_decode($cipher) : $cipher;
+        $ckey    = $this->config->get_crypto_key($key);
+        $method  = $this->config->get_crypto_method();
         $opts    = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
         $iv_size = openssl_cipher_iv_length($method);
         $iv      = substr($cipher, 0, $iv_size);
@@ -867,10 +862,6 @@ class rcube
 
         $cipher = substr($cipher, $iv_size);
         $clear  = openssl_decrypt($cipher, $method, $ckey, $opts, $iv);
-
-        // Trim PHP's padding and the canary byte; see note in
-        // rcube::encrypt() and http://php.net/mcrypt_generic#68082
-        $clear = substr(rtrim($clear, "\0"), 0, -1);
 
         return $clear;
     }
