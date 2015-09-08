@@ -31,7 +31,7 @@ abstract class rcube_spellcheck_engine
     protected $lang;
     protected $error;
     protected $dictionary;
-    protected $separator = '/\w+:\/\/\S*|[\s\r\n\t\(\)\/\[\]{}<>\\"`]+|[:;?!,\.](?=\W|$)/';
+    protected $separator = '/\w+:\/\/\?S*|[\s\r\n\t\(\)\/\[\]{}<>\\"`]+|[:;?!,\.](?=\W|$)/';
 
     /**
      * Default constructor
