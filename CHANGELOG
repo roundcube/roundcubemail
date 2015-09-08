@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- PHP7 compatibility fixes (#1490416)
 - Security: Improve randomness of security tokens (#1490529)
 - Security: Use random security tokens instead of hashes based on encryption key (#1490404)
 - Security: Improved encrypt/decrypt methods with option to choose the cipher_method (#1489719)
