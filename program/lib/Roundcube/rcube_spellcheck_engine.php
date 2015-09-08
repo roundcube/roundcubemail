@@ -41,6 +41,15 @@ abstract class rcube_spellcheck_engine
         $this->dictionary = $dict;
         $this->lang = $lang;
     }
+    
+    /**
+     * Somewhat sloppy method of removing quoted reply text from checking
+     * @param   string  $text   Text content for sanitization/spellchecking
+     * @return  string  The sanitized $text
+     */
+    public function remove_quoted_reply($text){
+        return preg_replace('/(^\w.+:\n)?(^>.*(\n|$))+/', "", $text);
+    }
 
     /**
      * Return a list of languages supported by this backend
