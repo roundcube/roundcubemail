@@ -900,15 +900,14 @@ class rcube
      */
     public function get_request_token()
     {
-        $sess_id = $_COOKIE[ini_get('session.name')];
-        if (!$sess_id) {
-            $sess_id = session_id();
+        if (empty($_SESSION['request_token'])) {
+            $plugin = $this->plugins->exec_hook('request_token', array(
+                'value' => rcube_utils::random_bytes(32)));
+
+            $_SESSION['request_token'] = $plugin['value'];
         }
 
-        $plugin = $this->plugins->exec_hook('request_token', array(
-            'value' => md5('RT' . $this->get_user_id() . $this->config->get('des_key') . $sess_id)));
-
-        return $plugin['value'];
+        return $_SESSION['request_token'];
     }
 
     /**

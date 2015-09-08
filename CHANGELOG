@@ -1,7 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Improved encrypt/decrypt methods with option to choose the cipher_method (#1489719)
+- Security: Use random security tokens instead of hashes based on encryption key (#1490404)
+- Security: Improved encrypt/decrypt methods with option to choose the cipher_method (#1489719)
 - Make optional adding of standard signature separator - sig_separator (#1487768)
 - Optimize folder_size() on Cyrus IMAP by using special folder annotation (#1490514)
 - Make optional hidding of folders with name starting with a dot - imap_skip_hidden_folders (#1490468)
@@ -13,7 +14,6 @@ CHANGELOG Roundcube Webmail
 - Remove common subject prefixes Re:, Re[x]:, Re-x: on reply (#1490497)
 - Added GSSAPI/Kerberos authentication plugin - krb_authentication
 - Password: Allow temporarily disabling the plugin functionality with a notice
-- Support more secure hashing algorithms for auth cookie - configurable by PHP's session.hash_function (#1490403)
 - Require Mbstring and OpenSSL extensions (#1490415)
 - Get rid of Mail_mimeDecode package dependency (#1490416)
 - Add --config and --type options to moduserprefs.sh script (#1490051)
