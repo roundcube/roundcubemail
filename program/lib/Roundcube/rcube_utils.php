@@ -1090,30 +1090,80 @@ class rcube_utils
     }
 
     /**
-     * Generate a ramdom string
+     * Generate a random string
      *
      * @param int  $length String length
-     * @param bool $raw    Return RAW data instead of hex
+     * @param bool $raw    Return RAW data instead of ascii
      *
      * @return string The generated random string
      */
     public static function random_bytes($length, $raw = false)
     {
-        $rlen   = $raw ? $length : ceil($length / 2);
-        $random = openssl_random_pseudo_bytes($rlen);
+        // Use PHP7 true random generator
+        if (function_exists('random_bytes')) {
+            $random = @random_bytes($length);
+        }
+
+        if (!$random) {
+            $random = openssl_random_pseudo_bytes($length);
+        }
 
         if ($raw) {
             return $random;
         }
 
-        $random = bin2hex($random);
+        $random = self::bin2ascii($random);
 
-        // if the length wasn't even...
+        // truncate to the specified size...
         if ($length < strlen($random)) {
             $random = substr($random, 0, $length);
         }
 
         return $random;
+    }
+
+    /**
+     * Convert binary data into readable form (containing a-zA-Z0-9 characters)
+     *
+     * @param string $input Binary input
+     *
+     * @return string Readable output
+     */
+    public static function bin2ascii($input)
+    {
+        // Above method returns "hexits".
+        // Based on bin_to_readable() function in ext/session/session.c.
+        // Note: removed ",-" characters from hextab
+        $hextab = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $nbits  = 6; // can be 4, 5 or 6
+        $length = strlen($input);
+        $result = '';
+        $char   = 0;
+        $i      = 0;
+        $have   = 0;
+        $mask   = (1 << $nbits) - 1;
+
+        while (true) {
+            if ($have < $nbits) {
+                if ($i < $length) {
+                    $char |= ord($input[$i++]) << $have;
+                    $have += 8;
+                }
+                else if (!$have) {
+                    break;
+                }
+                else {
+                    $have = $nbits;
+                }
+            }
+
+            // consume nbits
+            $result .= $hextab[$char & $mask];
+            $char  >>= $nbits;
+            $have   -= $nbits;
+        }
+
+        return $result;
     }
 
     /**

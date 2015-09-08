@@ -810,7 +810,7 @@ class rcmail extends rcube
 
             // remove old token from the path
             $base_path = rtrim($base_path, '/');
-            $base_path = preg_replace('/\/[a-f0-9]{' . strlen($token) . '}$/', '', $base_path);
+            $base_path = preg_replace('/\/[a-zA-Z0-9]{' . strlen($token) . '}$/', '', $base_path);
 
             // this need to be full url to make redirects work
             $absolute = true;
