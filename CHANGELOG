@@ -37,6 +37,7 @@ CHANGELOG Roundcube Webmail
 - Fix various issues with Turkish (and similar) locales (#1490519)
 - Fix so In-Reply-To header is set also for MDN receipts (#1490523)
 - Fix missing HTTP_X_FORWARDED_FOR address in generated Received header
+- Fix XSS issue in drag-n-drop file uploads (#1490530)
 
 RELEASE 1.1.2
 -------------
