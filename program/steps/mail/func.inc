@@ -453,6 +453,8 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         }
     }
 
+    $sort_col = $_SESSION['sort_col'];
+
     // loop through message headers
     foreach ($a_headers as $header) {
         if (empty($header))
@@ -483,7 +485,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
             else if ($col == 'size')
                 $cont = $RCMAIL->show_bytes($header->$col);
             else if ($col == 'date')
-                $cont = $RCMAIL->format_date($header->date);
+                $cont = $RCMAIL->format_date($sort_col == 'arrival' ? $header->internaldate : $header->date);
             else if ($col == 'folder') {
                 if ($last_folder !== $header->folder) {
                     $last_folder      = $header->folder;
@@ -588,8 +590,9 @@ function rcmail_message_list_head($attrib, $a_show_cols)
     }
 
     foreach ($a_show_cols as $col) {
-        $label = '';
+        $label    = '';
         $sortable = false;
+        $rel_col  = $col == 'date' && $sort_col == 'arrival' ? 'arrival' : $col;
 
         // get column name
         switch ($col) {
@@ -607,11 +610,11 @@ function rcmail_message_list_head($attrib, $a_show_cols)
             $col_name = $list_menu;
             break;
         case 'fromto':
-            $label = $RCMAIL->gettext($smart_col);
+            $label    = $RCMAIL->gettext($smart_col);
             $col_name = rcube::Q($label);
             break;
         default:
-            $label = $RCMAIL->gettext($col);
+            $label    = $RCMAIL->gettext($col);
             $col_name = rcube::Q($label);
         }
 
@@ -621,7 +624,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
             $col_name = html::a(array(
                     'href'  => "./#sort",
                     'class' => 'sortcol',
-                    'rel'   => $col,
+                    'rel'   => $rel_col,
                     'title' => $RCMAIL->gettext('sortby')
                 ), $col_name);
         }
@@ -629,7 +632,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
             $col_name = '<span class="' . $col .'">' . $col_name . '</span>';
         }
 
-        $sort_class = $col == $sort_col && !$disabled_order ? " sorted$sort_order" : '';
+        $sort_class = $rel_col == $sort_col && !$disabled_order ? " sorted$sort_order" : '';
         $class_name = $col.$sort_class;
 
         // put it all together

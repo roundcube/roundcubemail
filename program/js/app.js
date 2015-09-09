@@ -2175,10 +2175,16 @@ function rcube_webmail()
 
   this.set_list_sorting = function(sort_col, sort_order)
   {
+    var sort_old = this.env.sort_col == 'arrival' ? 'date' : this.env.sort_col,
+      sort_new = sort_col == 'arrival' ? 'date' : sort_col;
+
     // set table header class
-    $('#rcm'+this.env.sort_col).removeClass('sorted'+(this.env.sort_order.toUpperCase()));
-    if (sort_col)
-      $('#rcm'+sort_col).addClass('sorted'+sort_order);
+    $('#rcm' + sort_old).removeClass('sorted' + this.env.sort_order.toUpperCase());
+    if (sort_new)
+      $('#rcm' + sort_new).addClass('sorted' + sort_order);
+
+    // if sorting by 'arrival' is selected, click on date column should not switch to 'date'
+    $('#rcmdate > a').prop('rel', sort_col == 'arrival' ? 'arrival' : 'date');
 
     this.env.sort_col = sort_col;
     this.env.sort_order = sort_order;

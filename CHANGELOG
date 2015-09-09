@@ -29,6 +29,7 @@ CHANGELOG Roundcube Webmail
 - Plugin API: Added message_ready hook
 - Plugin API: Add special onload() method to execute plugin actions before startup (session and GUI initialization)
 - Implemented UI element to jump to specified page of the messages list (#1485235)
+- Fix bug where clicking date column with 'arrival' sorting would switch to sorting by 'date' (#1490126)
 - Fix bug where message content could overlap attachments list in Larry skin (#1490479)
 - Fix closing of nested menus (#1490443)
 - Fix so microseconds macro (u) in log_date_format works (#1490446)
