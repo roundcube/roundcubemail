@@ -65,6 +65,7 @@ CHANGELOG Roundcube Webmail
 - Fix so In-Reply-To header is set also for MDN receipts (#1490523)
 - Fix missing HTTP_X_FORWARDED_FOR address in generated Received header
 - Fix XSS issue in drag-n-drop file uploads (#1490530)
+- Fix issue where Content-Length of some attachments could be set to wrong value causing browser errors (#1490482)
 
 RELEASE 1.1.2
 -------------
