@@ -510,8 +510,11 @@ function rcube_webmail()
         break;
 
       case 'login':
-        var input_user = $('#rcmloginuser');
-        input_user.bind('keyup', function(e){ return ref.login_user_keyup(e); });
+        var tz, tz_name, jstz = window.jstz,
+            input_user = $('#rcmloginuser'),
+            input_tz = $('#rcmlogintz');
+
+        input_user.bind('keyup', function(e) { return ref.login_user_keyup(e); });
 
         if (input_user.val() == '')
           input_user.focus();
@@ -519,14 +522,10 @@ function rcube_webmail()
           $('#rcmloginpwd').focus();
 
         // detect client timezone
-        if (window.jstz) {
-          var timezone = jstz.determine();
-          if (timezone.name())
-            $('#rcmlogintz').val(timezone.name());
-        }
-        else {
-          $('#rcmlogintz').val(new Date().getStdTimezoneOffset() / -60);
-        }
+        if (jstz && (tz = jstz.determine()))
+          tz_name = tz.name();
+
+        input_tz.val(tz_name ? tz_name : (new Date().getStdTimezoneOffset() / -60));
 
         // display 'loading' message on form submit, lock submit button
         $('form').submit(function () {
