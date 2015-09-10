@@ -1193,18 +1193,11 @@ function rcmail_message_body($attrib)
                 // unsupported (e.g. encrypted)
                 if ($part->realtype) {
                     if ($part->realtype == 'multipart/encrypted' || $part->realtype == 'application/pkcs7-mime') {
-                        if (!empty($_SESSION['browser_caps']['pgpmime']) && $part->realtype == 'multipart/encrypted') {
-                            // find the encrypted message payload part
-                            foreach ($MESSAGE->mime_parts as $mime_id => $mpart) {
-                                if ($mpart->mimetype == 'application/octet-stream' || !empty($mpart->filename)) {
-                                    $out .= html::span('part-notice', $RCMAIL->gettext('externalmessagedecryption'));
-                                    $OUTPUT->set_env('pgp_mime_part', $mime_id);
-                                    $OUTPUT->set_env('pgp_mime_container', '#' . $attrib['id']);
-                                    $OUTPUT->add_label('loadingdata');
-                                    $MESSAGE->encrypted_part = $mime_id;
-                                    break;
-                                }
-                            }
+                        if (!empty($_SESSION['browser_caps']['pgpmime']) && ($pgp_mime_part = $MESSAGE->get_multipart_encrypted_part())) {
+                            $out .= html::span('part-notice', $RCMAIL->gettext('externalmessagedecryption'));
+                            $OUTPUT->set_env('pgp_mime_part', $pgp_mime_part->mime_id);
+                            $OUTPUT->set_env('pgp_mime_container', '#' . $attrib['id']);
+                            $OUTPUT->add_label('loadingdata');
                         }
 
                         if (!$MESSAGE->encrypted_part) {

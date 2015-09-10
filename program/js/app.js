@@ -3481,6 +3481,7 @@ function rcube_webmail()
         }
       }).catch(function(err) {
         console.error(err);
+        console.log(options);
       });
     }
   };

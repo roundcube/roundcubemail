@@ -484,6 +484,28 @@ class rcube_message
     }
 
     /**
+     * In a multipart/encrypted encrypted message,
+     * find the encrypted message payload part.
+     *
+     * @return rcube_message_part
+     */
+    public function get_multipart_encrypted_part()
+    {
+        foreach ($this->mime_parts as $mime_id => $mpart) {
+            if ($mpart->mimetype == 'multipart/encrypted') {
+                $this->pgp_mime = true;
+            }
+            if ($this->pgp_mime && ($mpart->mimetype == 'application/octet-stream' ||
+                    (!empty($mpart->filename) && $mpart->filename != 'version.txt'))) {
+                $this->encrypted_part = $mime_id;
+                return $mpart;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Read the message structure returend by the IMAP server
      * and build flat lists of content parts and attachments
      *

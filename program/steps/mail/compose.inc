@@ -782,15 +782,13 @@ function rcmail_prepare_message_body()
             foreach ($MESSAGE->parts as $part) {
                 if ($part->realtype == 'multipart/encrypted') {
                     // find the encrypted message payload part
-                    foreach ($MESSAGE->mime_parts as $mime_id => $mpart) {
-                        if ($mpart->mimetype == 'application/octet-stream' || !empty($mpart->filename)) {
-                            $RCMAIL->output->set_env('pgp_mime_message', array(
-                                '_mbox' => $RCMAIL->storage->get_folder(), '_uid' => $MESSAGE->uid, '_part' => $mime_id,
-                            ));
-                            $RCMAIL->output->set_env('compose_mode', $compose_mode);
-                            $MESSAGE->pgp_mime = true;
-                            break;
-                        }
+                    if ($pgp_mime_part = $MESSAGE->get_multipart_encrypted_part()) {
+                        $RCMAIL->output->set_env('pgp_mime_message', array(
+                            '_mbox' => $RCMAIL->storage->get_folder(),
+                            '_uid'  => $MESSAGE->uid,
+                            '_part' => $pgp_mime_part->mime_id,
+                        ));
+                        $RCMAIL->output->set_env('compose_mode', $compose_mode);
                     }
                     continue;
                 }
@@ -1268,6 +1266,11 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
 
             // skip inline images when forwarding in text mode
             if ($part->content_id && $part->disposition == 'inline' && !$bodyIsHtml && $COMPOSE['mode'] == RCUBE_COMPOSE_FORWARD) {
+                continue;
+            }
+
+            // skip version.txt parts of multipart/encrypted messages
+            if ($message->pgp_mime && $part->mimetype == 'application/pgp-encrypted' && $part->filename == 'version.txt') {
                 continue;
             }
 
