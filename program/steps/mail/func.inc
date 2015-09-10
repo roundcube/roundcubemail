@@ -1193,7 +1193,23 @@ function rcmail_message_body($attrib)
                 // unsupported (e.g. encrypted)
                 if ($part->realtype) {
                     if ($part->realtype == 'multipart/encrypted' || $part->realtype == 'application/pkcs7-mime') {
-                        $out .= html::span('part-notice', $RCMAIL->gettext('encryptedmessage'));
+                        if (!empty($_SESSION['browser_caps']['pgpmime']) && $part->realtype == 'multipart/encrypted') {
+                            // find the encrypted message payload part
+                            foreach ($MESSAGE->mime_parts as $mime_id => $mpart) {
+                                if ($mpart->mimetype == 'application/octet-stream' || !empty($mpart->filename)) {
+                                    $out .= html::span('part-notice', $RCMAIL->gettext('externalmessagedecryption'));
+                                    $OUTPUT->set_env('pgp_mime_part', $mime_id);
+                                    $OUTPUT->set_env('pgp_mime_container', '#' . $attrib['id']);
+                                    $OUTPUT->add_label('loadingdata');
+                                    $MESSAGE->encrypted_part = $mime_id;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!$MESSAGE->encrypted_part) {
+                            $out .= html::span('part-notice', $RCMAIL->gettext('encryptedmessage'));
+                        }
                     }
                     continue;
                 }
@@ -1225,6 +1241,11 @@ function rcmail_message_body($attrib)
                 // message is cached but not exists (#1485443), or other error
                 if ($body === false) {
                     rcmail_message_error($MESSAGE->uid);
+                }
+
+                // check if the message body is PGP encrypted
+                if (strpos($body, 'BEGIN PGP MESSAGE') !== false) {
+                    $OUTPUT->set_env('is_pgp_content', '#' . $attrib['id']);
                 }
 
                 $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',

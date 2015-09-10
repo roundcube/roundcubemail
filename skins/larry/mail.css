@@ -880,6 +880,10 @@ div.hide-headers {
 	margin: 8px;
 }
 
+#messagebody.mailvelope > iframe {
+	width: 99% !important;
+}
+
 #message-objects div,
 #messagebody span.part-notice {
 	margin: 8px;
@@ -1297,6 +1301,16 @@ div.message-partheaders .headers-table td.header {
 	bottom: 42px;
 }
 
+#composebodycontainer.mailvelope {
+	right: 0;
+	z-index: 10;
+}
+
+#composebodycontainer.mailvelope > iframe[scrolling='no'] {
+	position: relative;
+	top: -12px;
+}
+
 #composebody {
 	position: absolute;
 	top: 0;
@@ -1382,4 +1396,57 @@ div.message-partheaders .headers-table td.header {
 
 #uploadform form div {
 	margin: 4px 0;
+}
+
+.mailvelopekeyimport div.key {
+	position: relative;
+	margin-bottom: 2px;
+	padding: 1em;
+	background-color: #ebebeb;
+}
+
+.mailvelopekeyimport div.key.revoked,
+.mailvelopekeyimport div.key.disabled {
+	color: #a0a0a0;
+}
+
+.mailvelopekeyimport div.key label {
+	display: inline-block;
+	margin-right: 0.5em;
+}
+
+.mailvelopekeyimport div.key label:after {
+	content: ":";
+}
+
+.mailvelopekeyimport div.key label + a,
+.mailvelopekeyimport div.key label + span {
+	display: inline-block;
+	margin-right: 2em;
+	white-space: nowrap;
+}
+
+.mailvelopekeyimport div.key label + a {
+	font-weight: bold;
+}
+
+.mailvelopekeyimport ul.uids {
+	margin: 1em 0 0 0;
+	padding: 0;
+}
+
+.mailvelopekeyimport li.uid {
+	border: 0;
+	padding: 0.3em;
+}
+
+.mailvelopekeyimport div.key input.button.importkey {
+	position: absolute;
+	top: 0.8em;
+	right: 0.8em;
+	padding: 4px 6px;
+}
+
+.mailvelopekeyimport div.key input.button[disabled] {
+	display: none;
 }

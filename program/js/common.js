@@ -448,7 +448,7 @@ function rcube_check_email(input, inline)
       ],
       icann_addr = 'mailtest\\x40('+icann_domains.join('|')+')',
       word = '('+atom+'|'+quoted_string+')',
-      delim = '[,;\s\n]',
+      delim = '[,;\\s\\n]',
       local_part = word+'(\\x2e'+word+')*',
       addr_spec = '(('+local_part+'\\x40'+domain+')|('+icann_addr+'))',
       reg1 = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', 'i') : new RegExp('^'+addr_spec+'$', 'i');

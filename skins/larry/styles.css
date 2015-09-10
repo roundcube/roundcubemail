@@ -2017,6 +2017,14 @@ ul.proplist li {
 	opacity: 0.4;
 }
 
+.toolbar a.button.selected {
+	color: #1978a1;
+}
+
+.toolbar a.button.hidden {
+	display: none;
+}
+
 .dropbutton {
 	display: inline-block;
 	position: relative;
@@ -2159,6 +2167,14 @@ ul.proplist li {
 
 .toolbar a.button.responses {
 	background-position: center -1932px;
+}
+
+.toolbar a.button.encrypt {
+	background-position: center -2025px;
+}
+
+.toolbar a.button.encrypt.selected {
+	background-position: center -2065px;
 }
 
 a.menuselector {
