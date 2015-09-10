@@ -363,9 +363,8 @@ else if (strlen($part_id)) {
                     $sent = true;
                 }
                 else if ($part->size) {
-                    if ($size = (int)$part->d_parameters['size']) {
-                        header("Content-Length: $size");
-                    }
+                    // Don't be tempted to set Content-Length to $part->d_parameters['size'] (#1490482)
+                    // RFC2183 says "The size parameter indicates an approximate size"
 
                     // 8th argument disables re-formatting of text/* parts (#1489267)
                     $sent = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, true, null, false, 0, false);
