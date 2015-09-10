@@ -361,9 +361,8 @@ else if (strlen($part_id)) {
                     $sent = true;
                 }
                 else if ($part->size) {
-                    if ($size = (int)$part->d_parameters['size']) {
-                        header("Content-Length: $size");
-                    }
+                    // Don't be tempted to set Content-Length to $part->d_parameters['size'] (#1490482)
+                    // RFC2183 says "The size parameter indicates an approximate size"
 
                     $sent = $MESSAGE->get_part_body($part->mime_id, false, 0, -1);
                 }
