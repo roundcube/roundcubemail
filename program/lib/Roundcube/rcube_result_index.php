@@ -30,9 +30,9 @@ class rcube_result_index
 
     protected $raw_data;
     protected $mailbox;
-    protected $meta = array();
+    protected $meta   = array();
     protected $params = array();
-    protected $order = 'ASC';
+    protected $order  = 'ASC';
 
     const SEPARATOR_ELEMENT = ' ';
 
@@ -40,9 +40,10 @@ class rcube_result_index
     /**
      * Object constructor.
      */
-    public function __construct($mailbox = null, $data = null)
+    public function __construct($mailbox = null, $data = null, $order = null)
     {
         $this->mailbox = $mailbox;
+        $this->order   = $order == 'DESC' ? 'DESC' : 'ASC';
         $this->init($data);
     }
 

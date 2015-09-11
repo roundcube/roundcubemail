@@ -984,7 +984,7 @@ class rcube_imap extends rcube_storage
 
         // gather messages from a multi-folder search
         if ($this->search_set->multi) {
-            $page_size = $this->page_size;
+            $page_size  = $this->page_size;
             $sort_field = $this->sort_field;
             $search_set = $this->search_set;
 
@@ -995,23 +995,26 @@ class rcube_imap extends rcube_storage
             $slice_length = min($page_size, $cnt - $from);
 
             // fetch resultset headers, sort and slice them
-            if (!empty($sort_field)) {
+            if (!empty($sort_field) && $search_set->get_parameters('SORT') != $sort_field) {
                 $this->sort_field = null;
-                $this->page_size = 1000;  // fetch up to 1000 matching messages per folder
-                $this->threading = false;
+                $this->page_size  = 1000;  // fetch up to 1000 matching messages per folder
+                $this->threading  = false;
 
                 $a_msg_headers = array();
                 foreach ($search_set->sets as $resultset) {
                     if (!$resultset->is_empty()) {
-                        $this->search_set = $resultset;
+                        $this->search_set     = $resultset;
                         $this->search_threads = $resultset instanceof rcube_result_thread;
-                        $a_msg_headers = array_merge($a_msg_headers, $this->list_search_messages($resultset->get_parameters('MAILBOX'), 1));
+
+                        $a_headers     =  $this->list_search_messages($resultset->get_parameters('MAILBOX'), 1);
+                        $a_msg_headers = array_merge($a_msg_headers, $a_headers);
+                        unset($a_headers);
                     }
                 }
 
                 // sort headers
                 if (!empty($a_msg_headers)) {
-                    $a_msg_headers = $this->conn->sortHeaders($a_msg_headers, $sort_field, $this->sort_order);
+                    $a_msg_headers = rcube_imap_generic::sortHeaders($a_msg_headers, $sort_field, $this->sort_order);
                 }
 
                 // store (sorted) message index
@@ -1045,7 +1048,7 @@ class rcube_imap extends rcube_storage
 
             // restore members
             $this->sort_field = $sort_field;
-            $this->page_size = $page_size;
+            $this->page_size  = $page_size;
             $this->search_set = $search_set;
 
             return $a_msg_headers;
@@ -1139,12 +1142,8 @@ class rcube_imap extends rcube_storage
                 return array();
             }
 
-            if (!$this->check_connection()) {
-                return array();
-            }
-
             // if not already sorted
-            $a_msg_headers = $this->conn->sortHeaders(
+            $a_msg_headers = rcube_imap_generic::sortHeaders(
                 $a_msg_headers, $this->sort_field, $this->sort_order);
 
             // only return the requested part of the set
