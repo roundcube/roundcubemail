@@ -627,7 +627,7 @@ h3.subject {
 
 .headers-table td {
 	color: #666;
-	padding: 2px 8px;
+	padding: 1px 8px;
 }
 
 .headers-table td.header,
@@ -652,7 +652,6 @@ h3.subject {
 
 .headers-table td.subject {
 	color: #333;
-	font-size: 110%;
 	font-weight: bold;
 }
 
@@ -963,6 +962,7 @@ div.message-partheaders .headers-table {
 div.message-partheaders .headers-table td.header-title {
 	width: auto;
 	padding-left: 0;
+	vertical-align: top;
 }
 
 div.message-partheaders .headers-table td.header {

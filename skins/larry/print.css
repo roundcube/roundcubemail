@@ -41,24 +41,22 @@ table.headers-table {
 
 table.headers-table tr td {
 	font-size: 9pt;
+	vertical-align: top;
 }
 
 table.headers-table td.header-title {
 	color: #666;
-	font-size: 85%;
 	padding-right: 4mm;
 	white-space: nowrap;
 }
 
 table.headers-table tr td.subject {
-	width: 90%;
 	font-weight: bold;
-	font-size: 120%;
 }
-	
+
 #attachment-list {
-	margin-top: 3mm;
-	padding-top: 3mm;
+	margin-top: 2mm;
+	padding-top: 2mm;
 	border-top: 1pt solid #ccc;
 }
 
@@ -76,13 +74,13 @@ table.headers-table tr td.subject {
 
 #messagebody {
 	position: relative;
-	margin-top: 5mm;
 	border-top: none;
 }
 
-div.message-part {
-	padding: 2mm;
-	margin-top: 5mm;
+div.message-part,
+div.message-htmlpart {
+	padding: 2mm 1mm;
+	margin-top: 2mm;
 	margin-bottom: 5mm;
 	border-top: 1pt solid #ccc;
 }
