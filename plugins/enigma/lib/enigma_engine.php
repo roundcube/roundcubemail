@@ -695,6 +695,10 @@ class enigma_engine
             // Make sure decryption status message will be displayed
             $part->type = 'content';
             $p['object']->parts[] = $part;
+
+            // don't show encrypted part on attachments list
+            // don't show "cannot display encrypted message" text
+            $p['abort'] = true;
         }
     }
 

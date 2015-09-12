@@ -960,13 +960,13 @@ div.message-partheaders .headers-table {
 }
 
 div.message-partheaders .headers-table td.header-title {
-	width: auto;
+	width: 1%;
 	padding-left: 0;
 	vertical-align: top;
 }
 
 div.message-partheaders .headers-table td.header {
-	width: 88%;
+	width: 99%;
 }
 
 #messagebody > hr {
