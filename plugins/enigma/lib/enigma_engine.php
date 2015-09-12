@@ -1075,8 +1075,10 @@ class enigma_engine
             $config = $this->rc->decrypt($config);
             $config = @unserialize($config);
         }
-
-        $threshold = time() - $this->password_time;
+        
+        if($this->password_time) {
+            $threshold = time() - $this->password_time;
+        }
         $keys      = array();
 
         // delete expired passwords
