@@ -33,11 +33,16 @@ abstract class enigma_driver
 
     /**
      * Encryption.
+     *
+     * @param string Message body
+     * @param array  List of key-password mapping
+     *
+     * @return mixed Encrypted message or enigma_error on failure
      */
     abstract function encrypt($text, $keys);
 
     /**
-     * Decryption..
+     * Decryption.
      *
      * @param string Encrypted message
      * @param array  List of key-password mapping
@@ -46,6 +51,13 @@ abstract class enigma_driver
 
     /**
      * Signing.
+     *
+     * @param string Message body
+     * @param string Key ID
+     * @param string Key password
+     * @param int    Signing mode (enigma_engine::SIGN_*)
+     *
+     * @return mixed True on success or enigma_error on failure
      */
     abstract function sign($text, $key, $passwd, $mode = null);
 
@@ -107,6 +119,10 @@ abstract class enigma_driver
 
     /**
      * Key deletion.
+     *
+     * @param string Key ID
+     *
+     * @return mixed True on success or enigma_error
      */
     abstract function delete_key($keyid);
 }

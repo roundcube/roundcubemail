@@ -724,11 +724,11 @@ class enigma_ui
                 $attrib['class'] = 'enigmaerror';
                 $code            = $status->getCode();
 
-                if ($code == enigma_error::E_KEYNOTFOUND) {
+                if ($code == enigma_error::KEYNOTFOUND) {
                     $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($status->getData('id')),
                         $this->enigma->gettext('decryptnokey')));
                 }
-                else if ($code == enigma_error::E_BADPASS) {
+                else if ($code == enigma_error::BADPASS) {
                     $msg = rcube::Q($this->enigma->gettext('decryptbadpass'));
                     $this->password_prompt($status);
                 }
@@ -756,7 +756,7 @@ class enigma_ui
             if ($sig instanceof enigma_signature) {
                 $sender = ($sig->name ? $sig->name . ' ' : '') . '<' . $sig->email . '>';
 
-                if ($sig->valid === enigma_error::E_UNVERIFIED) {
+                if ($sig->valid === enigma_error::UNVERIFIED) {
                     $attrib['class'] = 'enigmawarning';
                     $msg = str_replace('$sender', $sender, $this->enigma->gettext('sigunverified'));
                     $msg = str_replace('$keyid', $sig->id, $msg);
@@ -771,7 +771,7 @@ class enigma_ui
                     $msg = rcube::Q(str_replace('$sender', $sender, $this->enigma->gettext('siginvalid')));
                 }
             }
-            else if ($sig && $sig->getCode() == enigma_error::E_KEYNOTFOUND) {
+            else if ($sig && $sig->getCode() == enigma_error::KEYNOTFOUND) {
                 $attrib['class'] = 'enigmawarning';
                 $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($sig->getData('id')),
                     $this->enigma->gettext('signokey')));
@@ -890,11 +890,11 @@ class enigma_ui
         if ($mode && ($status instanceof enigma_error)) {
             $code = $status->getCode();
 
-            if ($code == enigma_error::E_KEYNOTFOUND) {
+            if ($code == enigma_error::KEYNOTFOUND) {
                 $vars = array('email' => $status->getData('missing'));
                 $msg  = 'enigma.' . $mode . 'nokey';
             }
-            else if ($code == enigma_error::E_BADPASS) {
+            else if ($code == enigma_error::BADPASS) {
                 $msg  = 'enigma.' . $mode . 'badpass';
                 $type = 'warning';
 
@@ -932,11 +932,11 @@ class enigma_ui
             if ($status instanceof enigma_error) {
                 $code = $status->getCode();
 
-                if ($code == enigma_error::E_KEYNOTFOUND) {
+                if ($code == enigma_error::KEYNOTFOUND) {
                     $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($status->getData('id')),
                         $this->enigma->gettext('decryptnokey')));
                 }
-                else if ($code == enigma_error::E_BADPASS) {
+                else if ($code == enigma_error::BADPASS) {
                     $this->password_prompt($status, array('compose-init' => true));
                     return $p;
                 }

@@ -22,14 +22,14 @@ class enigma_error
     private $data = array();
 
     // error codes
-    const E_OK          = 0;
-    const E_INTERNAL    = 1;
-    const E_NODATA      = 2;
-    const E_KEYNOTFOUND = 3;
-    const E_DELKEY      = 4;
-    const E_BADPASS     = 5;
-    const E_EXPIRED     = 6;
-    const E_UNVERIFIED  = 7;
+    const OK          = 0;
+    const INTERNAL    = 1;
+    const NODATA      = 2;
+    const KEYNOTFOUND = 3;
+    const DELKEY      = 4;
+    const BADPASS     = 5;
+    const EXPIRED     = 6;
+    const UNVERIFIED  = 7;
 
 
     function __construct($code = null, $message = '', $data = array())

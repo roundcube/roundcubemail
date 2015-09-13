@@ -146,7 +146,7 @@ class enigma_engine
         $key = $this->find_key($from, true);
 
         if (empty($key)) {
-            return new enigma_error(enigma_error::E_KEYNOTFOUND);
+            return new enigma_error(enigma_error::KEYNOTFOUND);
         }
 
         // check if we have password for this key
@@ -156,7 +156,7 @@ class enigma_engine
         if ($pass === null) {
             // ask for password
             $error = array('missing' => array($key->id => $key->name));
-            return new enigma_error(enigma_error::E_BADPASS, '', $error);
+            return new enigma_error(enigma_error::BADPASS, '', $error);
         }
 
         // select mode
@@ -197,10 +197,10 @@ class enigma_engine
         $result = $this->pgp_sign($body, $key->id, $pass, $pgp_mode);
 
         if ($result !== true) {
-            if ($result->getCode() == enigma_error::E_BADPASS) {
+            if ($result->getCode() == enigma_error::BADPASS) {
                 // ask for password
                 $error = array('missing' => array($key->id => $key->name));
-                return new enigma_error(enigma_error::E_BADPASS, '', $error);
+                return new enigma_error(enigma_error::BADPASS, '', $error);
             }
 
             return $result;
@@ -238,7 +238,7 @@ class enigma_engine
         }
 
         if (empty($recipients)) {
-            return new enigma_error(enigma_error::E_KEYNOTFOUND);
+            return new enigma_error(enigma_error::KEYNOTFOUND);
         }
 
         $recipients = array_unique($recipients);
@@ -248,7 +248,7 @@ class enigma_engine
             $key = $this->find_key($email);
 
             if (empty($key)) {
-                return new enigma_error(enigma_error::E_KEYNOTFOUND, '', array(
+                return new enigma_error(enigma_error::KEYNOTFOUND, '', array(
                     'missing' => $email
                 ));
             }
@@ -729,7 +729,7 @@ class enigma_engine
         // @TODO: Handle big bodies using (temp) files
         $sig = $this->pgp_driver->verify($msg_body, $sig_body);
 
-        if (($sig instanceof enigma_error) && $sig->getCode() != enigma_error::E_KEYNOTFOUND)
+        if (($sig instanceof enigma_error) && $sig->getCode() != enigma_error::KEYNOTFOUND)
             rcube::raise_error(array(
                 'code' => 600, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
@@ -754,7 +754,7 @@ class enigma_engine
 
         if ($result instanceof enigma_error) {
             $err_code = $result->getCode();
-            if (!in_array($err_code, array(enigma_error::E_KEYNOTFOUND, enigma_error::E_BADPASS)))
+            if (!in_array($err_code, array(enigma_error::KEYNOTFOUND, enigma_error::BADPASS)))
                 rcube::raise_error(array(
                     'code' => 600, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
@@ -785,7 +785,7 @@ class enigma_engine
 
         if ($result instanceof enigma_error) {
             $err_code = $result->getCode();
-            if (!in_array($err_code, array(enigma_error::E_KEYNOTFOUND, enigma_error::E_BADPASS)))
+            if (!in_array($err_code, array(enigma_error::KEYNOTFOUND, enigma_error::BADPASS)))
                 rcube::raise_error(array(
                     'code' => 600, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
@@ -814,7 +814,7 @@ class enigma_engine
 
         if ($result instanceof enigma_error) {
             $err_code = $result->getCode();
-            if (!in_array($err_code, array(enigma_error::E_KEYNOTFOUND, enigma_error::E_BADPASS)))
+            if (!in_array($err_code, array(enigma_error::KEYNOTFOUND, enigma_error::BADPASS)))
                 rcube::raise_error(array(
                     'code' => 600, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
@@ -1075,10 +1075,8 @@ class enigma_engine
             $config = $this->rc->decrypt($config);
             $config = @unserialize($config);
         }
-        
-        if($this->password_time) {
-            $threshold = time() - $this->password_time;
-        }
+
+        $threshold = $this->password_time ? time() - $this->password_time : 0;
         $keys      = array();
 
         // delete expired passwords

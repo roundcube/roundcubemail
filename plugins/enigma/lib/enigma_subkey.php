@@ -47,5 +47,4 @@ class enigma_subkey
     {
         return enigma_key::format_fingerprint($this->fingerprint);
     }
-
 }
