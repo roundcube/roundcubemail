@@ -252,9 +252,10 @@ if (isset($_POST['_pgpmime'])) {
     $isHtml = false;
 
     // clear unencrypted attachments
-    foreach ($COMPOSE['attachments'] as $attach) {
+    foreach ((array) $COMPOSE['attachments'] as $attach) {
         $RCMAIL->plugins->exec_hook('attachment_delete', $attach);
     }
+
     $COMPOSE['attachments'] = array();
 }
 
@@ -504,13 +505,7 @@ if ($pgp_mime) {
         'PGP/MIME version identification'
     );
 
-    // patch filename out of the version part
-    foreach ($MAIL_MIME->_parts as $_i => $_part) {
-        if ($_part['c_type'] == 'application/pgp-encrypted') {
-            $MAIL_MIME->_parts[$_i]['name'] = '';
-            break;
-        }
-    }
+    // @TODO: remove filename out of the version part, required Mail_Mime changes
 
     $MAIL_MIME->addAttachment(
         $pgp_mime,
