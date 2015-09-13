@@ -329,7 +329,7 @@ function rcmail_contact_exists($email)
         $CONTACTS = $RCMAIL->get_address_book(-1, true);
 
         if (is_object($CONTACTS)) {
-            $existing = $CONTACTS->search('email', $email, true, false);
+            $existing = $CONTACTS->search('email', $email, 1, false);
             if ($existing->count) {
                 return true;
             }

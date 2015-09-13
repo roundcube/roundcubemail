@@ -773,7 +773,7 @@ function rcmail_check_safe(&$message)
             // get default addressbook, like in addcontact.inc
             $CONTACTS = $RCMAIL->get_address_book(-1, true);
 
-            if ($CONTACTS) {
+            if ($CONTACTS && $message->sender['mailto']) {
                 $result = $CONTACTS->search('email', $message->sender['mailto'], 1, false);
                 if ($result->count) {
                     $message->set_safe(true);
