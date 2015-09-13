@@ -34,6 +34,7 @@ $labels['typekeypair'] = 'key pair';
 $labels['keyattfound'] = 'This message contains attached PGP key(s).';
 $labels['keyattimport'] = 'Import key(s)';
 
+$labels['supportencryption'] = 'Enable message encryption and signing';
 $labels['supportsignatures'] = 'Enable message signatures verification';
 $labels['supportdecryption'] = 'Enable message decryption';
 $labels['signdefault'] = 'Sign all messages by default';

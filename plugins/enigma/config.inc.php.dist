@@ -19,6 +19,9 @@ $config['enigma_signatures'] = true;
 // Enables messages decryption feature.
 $config['enigma_decryption'] = true;
 
+// Enables messages encryption and signing feature.
+$config['enigma_encryption'] = true;
+
 // Enable signing all messages by default
 $config['enigma_sign_all'] = false;
 

@@ -44,20 +44,25 @@ class enigma extends rcube_plugin
 
             $this->register_action('plugin.enigmaimport', array($this, 'import_file'));
 
+            // load the Enigma plugin configuration
+            $this->load_config();
+
+            $enabled = $this->rc->config->get('enigma_encryption', true);
+
             // message displaying
             if ($this->rc->action == 'show' || $this->rc->action == 'preview') {
                 $this->add_hook('message_load', array($this, 'message_load'));
                 $this->add_hook('template_object_messagebody', array($this, 'message_output'));
             }
             // message composing
-            else if ($this->rc->action == 'compose') {
+            else if ($enabled && $this->rc->action == 'compose') {
                 $this->add_hook('message_compose_body', array($this, 'message_compose'));
 
                 $this->load_ui();
                 $this->ui->init();
             }
             // message sending (and draft storing)
-            else if ($this->rc->action == 'send') {
+            else if ($enabled && $this->rc->action == 'send') {
                 $this->add_hook('message_ready', array($this, 'message_ready'));
             }
 
@@ -236,6 +241,25 @@ class enigma extends rcube_plugin
 
         $p['blocks']['main']['name'] = $this->gettext('mainoptions');
 
+        if (!isset($no_override['enigma_encryption'])) {
+            if (!$p['current']) {
+                $p['blocks']['main']['content'] = true;
+                return $p;
+            }
+
+            $field_id = 'rcmfd_enigma_encryption';
+            $input    = new html_checkbox(array(
+                    'name'  => '_enigma_encryption',
+                    'id'    => $field_id,
+                    'value' => 1,
+            ));
+
+            $p['blocks']['main']['options']['enigma_encryption'] = array(
+                'title'   => html::label($field_id, $this->gettext('supportencryption')),
+                'content' => $input->show(intval($this->rc->config->get('enigma_encryption'))),
+            );
+        }
+
         if (!isset($no_override['enigma_signatures'])) {
             if (!$p['current']) {
                 $p['blocks']['main']['content'] = true;
@@ -348,10 +372,11 @@ class enigma extends rcube_plugin
     {
         if ($p['section'] == 'enigma') {
             $p['prefs'] = array(
-                'enigma_signatures' => (bool) rcube_utils::get_input_value('_enigma_signatures', rcube_utils::INPUT_POST),
-                'enigma_decryption' => (bool) rcube_utils::get_input_value('_enigma_decryption', rcube_utils::INPUT_POST),
-                'enigma_sign_all'      => intval(rcube_utils::get_input_value('_enigma_sign_all', rcube_utils::INPUT_POST)),
-                'enigma_encrypt_all'   => intval(rcube_utils::get_input_value('_enigma_encrypt_all', rcube_utils::INPUT_POST)),
+                'enigma_signatures'    => (bool) rcube_utils::get_input_value('_enigma_signatures', rcube_utils::INPUT_POST),
+                'enigma_decryption'    => (bool) rcube_utils::get_input_value('_enigma_decryption', rcube_utils::INPUT_POST),
+                'enigma_encryption'    => (bool) rcube_utils::get_input_value('_enigma_encryption', rcube_utils::INPUT_POST),
+                'enigma_sign_all'      => (bool) rcube_utils::get_input_value('_enigma_sign_all', rcube_utils::INPUT_POST),
+                'enigma_encrypt_all'   => (bool) rcube_utils::get_input_value('_enigma_encrypt_all', rcube_utils::INPUT_POST),
                 'enigma_password_time' => intval(rcube_utils::get_input_value('_enigma_password_time', rcube_utils::INPUT_POST)),
             );
         }
