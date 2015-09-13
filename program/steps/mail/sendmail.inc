@@ -247,9 +247,9 @@ $isHtml = (bool) rcube_utils::get_input_value('_is_html', rcube_utils::INPUT_POS
 $message_body = rcube_utils::get_input_value('_message', rcube_utils::INPUT_POST, TRUE, $message_charset);
 
 if (isset($_POST['_pgpmime'])) {
-    $pgp_mime = rcube_utils::get_input_value('_pgpmime', rcube_utils::INPUT_POST);
-    $message_body = 'This is an OpenPGP/MIME encrypted message (RFC 2440 and 3156)';
-    $isHtml = false;
+    $pgp_mime     = rcube_utils::get_input_value('_pgpmime', rcube_utils::INPUT_POST);
+    $isHtml       = false;
+    $message_body = '';
 
     // clear unencrypted attachments
     foreach ((array) $COMPOSE['attachments'] as $attach) {
@@ -490,33 +490,19 @@ if ($flowed) {
 
 // compose PGP/Mime message
 if ($pgp_mime) {
-    $MAIL_MIME->addAttachment(
-        'Version: 1',
-        'application/pgp-encrypted',
-        'version.txt',  // required by Mail_mime::addAttachment()
-        false,
-        '8bit',
-        '',    // $disposition
-        '',    // $charset
-        '',    // $language
-        '',    // $location
-        null,  // $n_encoding
-        null,  // $f_encoding
-        'PGP/MIME version identification'
-    );
+    $MAIL_MIME->addAttachment(new Mail_mimePart('Version: 1', array(
+            'content_type' => 'application/pgp-encrypted',
+            'description'  => 'PGP/MIME version identification',
+    )));
 
-    // @TODO: remove filename out of the version part, required Mail_Mime changes
+    $MAIL_MIME->addAttachment(new Mail_mimePart($pgp_mime, array(
+            'content_type' => 'application/octet-stream',
+            'filename'     => 'encrypted.asc',
+            'disposition'  => 'inline',
+    )));
 
-    $MAIL_MIME->addAttachment(
-        $pgp_mime,
-        'application/octet-stream',
-        'encrypted.asc',
-        false,
-        '8bit',
-        'inline'
-    );
-
-    $MAIL_MIME->setContentType('multipart/encrypted', array('protocol' => "application/pgp-encrypted"));
+    $MAIL_MIME->setContentType('multipart/encrypted', array('protocol' => 'application/pgp-encrypted'));
+    $MAIL_MIME->setParam('preamble', 'This is an OpenPGP/MIME encrypted message (RFC 2440 and 3156)');
 }
 
 // encoding settings for mail composing
