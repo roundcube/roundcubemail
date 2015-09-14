@@ -281,7 +281,7 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Search contacts
      *
-     * @param mixed   $fields   The field name of array of field names to search in
+     * @param mixed   $fields   The field name or array of field names to search in
      * @param mixed   $value    Search value (or array of values when $fields is array)
      * @param int     $mode     Matching mode:
      *                          0 - partial (*abc*),
@@ -349,7 +349,8 @@ class rcube_contacts extends rcube_addressbook
         }
         else {
             // require each word in to be present in one of the fields
-            foreach (rcube_utils::tokenize_string($value, 1) as $word) {
+            $words = $mode == 1 ? array($value) : rcube_utils::tokenize_string($value, 1);
+            foreach ($words as $word) {
                 $groups = array();
                 foreach ((array)$fields as $idx => $col) {
                     $groups[] = $this->fulltext_sql_where($word, $mode, $col);
