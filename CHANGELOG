@@ -17,7 +17,6 @@ CHANGELOG Roundcube Webmail
 - Added GSSAPI/Kerberos authentication plugin - krb_authentication
 - Password: Allow temporarily disabling the plugin functionality with a notice
 - Require Mbstring and OpenSSL extensions (#1490415)
-- Get rid of Mail_mimeDecode package dependency (#1490416)
 - Add --config and --type options to moduserprefs.sh script (#1490051)
 - Implemented memcache_debug and apc_debug options
 - Installer: Remove system() function use (#1490139)
@@ -29,11 +28,26 @@ CHANGELOG Roundcube Webmail
 - Plugin API: Added message_ready hook
 - Plugin API: Add special onload() method to execute plugin actions before startup (session and GUI initialization)
 - Implemented UI element to jump to specified page of the messages list (#1485235)
+- Fix searching of contacts to allow remote images for known senders (#1490504)
 - Fix bug where clicking date column with 'arrival' sorting would switch to sorting by 'date' (#1490126)
 - Fix bug where message content could overlap attachments list in Larry skin (#1490479)
-- Fix closing of nested menus (#1490443)
 - Fix so microseconds macro (u) in log_date_format works (#1490446)
 - Fix so unrecognized TNEF attachments are displayed on the list of attachments (#1490351)
+- Fix handling of plus character in mailto: links (#1490510)
+- Fix so adding CC/BCC recipients from the sidebar unhides compose form fields in Classic skin (#1490472)
+- Fix so gc.sh script removes also expired sessions from sql database (#1490512)
+- Fix support for Mozilla-based browsers, e.g. Pale Moon (#1490517)
+- Fix various issues with Turkish (and similar) locales (#1490519)
+- Fix so In-Reply-To header is set also for MDN receipts (#1490523)
+- Fix missing HTTP_X_FORWARDED_FOR address in generated Received header
+- Fix issue where Content-Length of some attachments could be set to wrong value causing browser errors (#1490482)
+
+RELEASE 1.1.3
+-------------
+- Fix closing of nested menus (#1490443)
+- Fix so E_DEPRECATED errors from PEAR libs are ignored by error_reporting change (#1490281)
+- Fix compatibility with PHP 5.3 in rcube_ldap class (#1490424)
+- Get rid of Mail_mimeDecode package dependency (#1490416)
 - Fix "Importing..." message does not hide on error (#1490422)
 - Fix Compose action in addressbook for results from multiple addressbooks (#1490413)
 - Fix bug where some messages in multi-folder search couldn't be viewed/printed/downloaded (#1490426)
@@ -57,15 +71,7 @@ CHANGELOG Roundcube Webmail
 - Fix "washing" of style elements wrapped into many lines
 - Fix so input field (e.g. search box) does not loose focus on list load (#1490455)
 - Fix so css of one html part does not apply to other text parts on message display (#1490505)
-- Fix handling of plus character in mailto: links (#1490510)
-- Fix so adding CC/BCC recipients from the sidebar unhides compose form fields in Classic skin (#1490472)
-- Fix so gc.sh script removes also expired sessions from sql database (#1490512)
-- Fix support for Mozilla-based browsers, e.g. Pale Moon (#1490517)
-- Fix various issues with Turkish (and similar) locales (#1490519)
-- Fix so In-Reply-To header is set also for MDN receipts (#1490523)
-- Fix missing HTTP_X_FORWARDED_FOR address in generated Received header
 - Fix XSS issue in drag-n-drop file uploads (#1490530)
-- Fix issue where Content-Length of some attachments could be set to wrong value causing browser errors (#1490482)
 
 RELEASE 1.1.2
 -------------
