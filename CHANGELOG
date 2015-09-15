@@ -33,14 +33,6 @@ CHANGELOG Roundcube Webmail
 - Fix bug where message content could overlap attachments list in Larry skin (#1490479)
 - Fix so microseconds macro (u) in log_date_format works (#1490446)
 - Fix so unrecognized TNEF attachments are displayed on the list of attachments (#1490351)
-- Fix handling of plus character in mailto: links (#1490510)
-- Fix so adding CC/BCC recipients from the sidebar unhides compose form fields in Classic skin (#1490472)
-- Fix so gc.sh script removes also expired sessions from sql database (#1490512)
-- Fix support for Mozilla-based browsers, e.g. Pale Moon (#1490517)
-- Fix various issues with Turkish (and similar) locales (#1490519)
-- Fix so In-Reply-To header is set also for MDN receipts (#1490523)
-- Fix missing HTTP_X_FORWARDED_FOR address in generated Received header
-- Fix issue where Content-Length of some attachments could be set to wrong value causing browser errors (#1490482)
 
 RELEASE 1.1.3
 -------------
@@ -72,6 +64,14 @@ RELEASE 1.1.3
 - Fix so input field (e.g. search box) does not loose focus on list load (#1490455)
 - Fix so css of one html part does not apply to other text parts on message display (#1490505)
 - Fix XSS issue in drag-n-drop file uploads (#1490530)
+- Fix handling of plus character in mailto: links (#1490510)
+- Fix so adding CC/BCC recipients from the sidebar unhides compose form fields in Classic skin (#1490472)
+- Fix so gc.sh script removes also expired sessions from sql database (#1490512)
+- Fix support for Mozilla-based browsers, e.g. Pale Moon (#1490517)
+- Fix various issues with Turkish (and similar) locales (#1490519)
+- Fix so In-Reply-To header is set also for MDN receipts (#1490523)
+- Fix missing HTTP_X_FORWARDED_FOR address in generated Received header
+- Fix issue where Content-Length of some attachments could be set to wrong value causing browser errors (#1490482)
 
 RELEASE 1.1.2
 -------------
