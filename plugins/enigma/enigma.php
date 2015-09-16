@@ -50,7 +50,7 @@ class enigma extends rcube_plugin
             $enabled = $this->rc->config->get('enigma_encryption', true);
 
             // message displaying
-            if ($this->rc->action == 'show' || $this->rc->action == 'preview') {
+            if ($this->rc->action == 'show' || $this->rc->action == 'preview' || $this->rc->action == 'print') {
                 $this->add_hook('message_load', array($this, 'message_load'));
                 $this->add_hook('template_object_messagebody', array($this, 'message_output'));
             }

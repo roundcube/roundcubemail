@@ -444,14 +444,16 @@ class enigma_engine
      */
     private function parse_plain_signed(&$p, $body)
     {
+        if (!$this->rc->config->get('enigma_signatures', true)) {
+            return;
+        }
+
         $this->load_pgp_driver();
         $part = $p['structure'];
 
         // Verify signature
-        if ($this->rc->action == 'show' || $this->rc->action == 'preview') {
-            if ($this->rc->config->get('enigma_signatures', true)) {
-                $sig = $this->pgp_verify($body);
-            }
+        if ($this->rc->action == 'show' || $this->rc->action == 'preview' || $this->rc->action == 'print') {
+            $sig = $this->pgp_verify($body);
         }
 
         // @TODO: Handle big bodies using (temp) files
@@ -505,7 +507,7 @@ class enigma_engine
             return;
         }
 
-        if ($this->rc->action != 'show' && $this->rc->action != 'preview') {
+        if ($this->rc->action != 'show' && $this->rc->action != 'preview' && $this->rc->action != 'print') {
             return;
         }
 
@@ -552,7 +554,7 @@ class enigma_engine
         }
 
         // Verify signature
-        if ($this->rc->action == 'show' || $this->rc->action == 'preview') {
+        if ($this->rc->action == 'show' || $this->rc->action == 'preview' || $this->rc->action == 'print') {
             $this->load_smime_driver();
 
             $struct   = $p['structure'];
