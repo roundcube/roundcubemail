@@ -1,0 +1,6 @@
+<?php
+
+// Always check for these words to indicate a missing attachment
+$config['global_keywords'] = array('.doc', '.pdf');
+
+?>
