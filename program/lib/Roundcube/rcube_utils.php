@@ -1101,11 +1101,11 @@ class rcube_utils
     {
         // Use PHP7 true random generator
         if (function_exists('random_bytes')) {
-            // random_bytes() can throw an exception in some cases
+            // random_bytes() can throw an Error/TypeError/Exception in some cases
             try {
-                $random = @random_bytes($length);
+                $random = random_bytes($length);
             }
-            catch (Exception $e) {}
+            catch (Throwable $e) {}
         }
 
         if (!$random) {
