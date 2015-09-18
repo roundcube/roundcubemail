@@ -3451,6 +3451,10 @@ function rcube_webmail()
         .find('iframe:not([aria-hidden=true])').remove();
       $('#' + ref.env.composebody).show();
       $("[name='_pgpmime']").remove();
+
+      // disable commands that operate on the compose body
+      ref.enable_command('spellcheck', 'insert-sig', 'toggle-editor', 'insert-response', 'save-response', true);
+      ref.triggerEvent('compose-encrypted', { active:false });
     }
     // embed Mailvelope editor container
     else {
@@ -3470,6 +3474,10 @@ function rcube_webmail()
 
         container.addClass('mailvelope');
         $('#' + ref.env.composebody).hide();
+
+        // disable commands that operate on the compose body
+        ref.enable_command('spellcheck', 'insert-sig', 'toggle-editor', 'insert-response', 'save-response', false);
+        ref.triggerEvent('compose-encrypted', { active:true });
 
         // notify user about loosing attachments
         if (ref.env.attachments && !$.isEmptyObject(ref.env.attachments)) {

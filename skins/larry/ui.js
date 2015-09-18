@@ -174,10 +174,14 @@ function rcube_mail_ui()
       }
       else if (rcmail.env.action == 'compose') {
         rcmail.addEventListener('aftersend-attachment', show_uploadform)
-          .addEventListener('aftertoggle-editor', function(e){
+          .addEventListener('aftertoggle-editor', function(e) {
             window.setTimeout(function(){ layout_composeview() }, 200);
             if (e && e.mode)
               $("select[name='editorSelector']").val(e.mode);
+          })
+          .addEventListener('compose-encrypted', function(e) {
+            $("select[name='editorSelector']").prop('disabled', e.active);
+            $('a.button.attach, a.button.responses')[(e.active?'addClass':'removeClass')]('disabled');
           });
 
         // Show input elements with non-empty value
@@ -1022,6 +1026,10 @@ function rcube_mail_ui()
       $dialog.dialog('close');
       return;
     }
+
+    // do nothing if mailvelope editor is active
+    if (rcmail.mailvelope_editor)
+      return;
 
     // add icons to clone file input field
     if (rcmail.env.action == 'compose' && !$dialog.data('extended')) {
