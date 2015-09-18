@@ -37,7 +37,7 @@ class attachment_reminder extends rcube_plugin
 
         $this->load_config('config.inc.php.dist');
         $this->load_config('config.inc.php');
-        $rcmail->output->set_env('global_keywords', $rcmail->config->get('global_keywords'));
+        $rcmail->output->set_env('global_keywords', (array)$rcmail->config->get('global_keywords', array('.doc','.pdf')));
 
         if ($rcmail->task == 'mail' && $rcmail->action == 'compose') {
             if ($rcmail->config->get('attachment_reminder')) {
