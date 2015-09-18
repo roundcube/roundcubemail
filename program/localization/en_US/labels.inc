@@ -249,6 +249,7 @@ $labels['selectmedia']    = 'Select movie';
 $labels['addmedia']       = 'Add movie';
 $labels['encrypt']        = 'Encrypt';
 $labels['encryptmessage'] = 'Encrypt message';
+$labels['encryptmessagemailvelope'] = 'Encrypt message with Mailvelope';
 $labels['importpubkeys']  = 'Import public keys';
 $labels['encryptedsendialog'] = 'Sending encrypted message';
 $labels['keyid']          = 'Key ID';
