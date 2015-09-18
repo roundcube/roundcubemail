@@ -16,7 +16,7 @@ REQUIREMENTS
    - PHP Data Objects (PDO) with driver for either MySQL, PostgreSQL or SQLite (required)
    - Libiconv, Zip, Fileinfo (recommended)
 * PEAR packages distributed with Roundcube or external:
-   - Mail_Mime 1.9.0 or newer
+   - Mail_Mime 1.10.0 or newer
    - Net_SMTP (latest from https://github.com/pear/Net_SMTP/)
    - Net_IDNA2 0.1.1 or newer
    - Auth_SASL 1.0.6 or newer
