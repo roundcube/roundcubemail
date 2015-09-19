@@ -108,6 +108,8 @@ class rcube_session_db extends rcube_session
 
             return !empty($this->vars) ? (string) $this->vars : '';
         }
+
+        return '';
     }
 
     /**

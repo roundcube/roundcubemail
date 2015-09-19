@@ -157,7 +157,7 @@ abstract class rcube_session
         $oldvars = $this->get_cache($key);
 
         // if there are cached vars, update store, else insert new data
-        if ($oldvars !== null) {
+        if ($oldvars) {
             $newvars = $this->_fixvars($vars, $oldvars);
             return $this->update($key, $newvars, $oldvars);
         }
@@ -267,10 +267,11 @@ abstract class rcube_session
     }
 
     /**
-     * see if we have vars of this key already cached, and if so, return them.
+     * See if we have vars of this key already cached, and if so, return them.
      *
-     * @param $key
-     * @return null|array
+     * @param string $key Session ID
+     *
+     * @return string
      */
     protected function get_cache($key)
     {
@@ -285,6 +286,7 @@ abstract class rcube_session
         else { // else read data again
             $cache = $this->read($key);
         }
+
         return $cache;
     }
 
@@ -374,7 +376,7 @@ abstract class rcube_session
             $node[$k] = $value;
         }
 
-        if($this->key) {
+        if ($this->key) {
             $data = $this->read($this->key);
         }
 
