@@ -182,6 +182,7 @@ function rcube_mail_ui()
           .addEventListener('compose-encrypted', function(e) {
             $("select[name='editorSelector']").prop('disabled', e.active);
             $('a.button.attach, a.button.responses')[(e.active?'addClass':'removeClass')]('disabled');
+            $('#responseslist a.insertresponse')[(e.active?'removeClass':'addClass')]('active');
           });
 
         // Show input elements with non-empty value

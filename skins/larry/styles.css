@@ -2021,6 +2021,10 @@ ul.proplist li {
 	color: #1978a1;
 }
 
+.toolbar a.button.selected:focus {
+	color: #fff;
+}
+
 .toolbar a.button.hidden {
 	display: none;
 }

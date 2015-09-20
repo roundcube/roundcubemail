@@ -88,7 +88,7 @@ $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubj
     'selectimportfile', 'messageissent', 'loadingdata', 'nopubkeyfor', 'nopubkeyforsender',
     'encryptnoattachments','encryptedsendialog','searchpubkeyservers', 'importpubkeys',
     'encryptpubkeysfound',  'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
-    'keyrevoked');
+    'keyrevoked', 'keyimportsuccess', 'keyservererror');
 
 $OUTPUT->set_pagetitle($RCMAIL->gettext('compose'));
 
@@ -788,7 +788,6 @@ function rcmail_prepare_message_body()
                             '_uid'  => $MESSAGE->uid,
                             '_part' => $pgp_mime_part->mime_id,
                         ));
-                        $RCMAIL->output->set_env('compose_mode', $compose_mode);
                     }
                     continue;
                 }
@@ -876,7 +875,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
     }
 
     // register this part as pgp encrypted
-    if (strpos($body, 'BEGIN PGP MESSAGE') !== false) {
+    if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
         $MESSAGE->pgp_mime = true;
         $RCMAIL->output->set_env('pgp_mime_message', array(
             '_mbox' => $RCMAIL->storage->get_folder(), '_uid' => $MESSAGE->uid, '_part' => $part->mime_id,

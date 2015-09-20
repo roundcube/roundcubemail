@@ -879,10 +879,6 @@ div.hide-headers {
 	margin: 8px;
 }
 
-#messagebody.mailvelope > iframe {
-	width: 99% !important;
-}
-
 #message-objects div,
 #messagebody span.part-notice {
 	margin: 8px;

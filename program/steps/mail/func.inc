@@ -1237,8 +1237,8 @@ function rcmail_message_body($attrib)
                 }
 
                 // check if the message body is PGP encrypted
-                if (strpos($body, 'BEGIN PGP MESSAGE') !== false) {
-                    $OUTPUT->set_env('is_pgp_content', '#' . $attrib['id']);
+                if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
+                    $OUTPUT->set_env('is_pgp_content', '#message-part' . ($part_no + 1));
                 }
 
                 $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
@@ -1261,8 +1261,11 @@ function rcmail_message_body($attrib)
 
                     $out .= html::div($div_attr, $plugin['prefix'] . $body);
                 }
-                else
-                    $out .= html::div('message-part', $plugin['prefix'] . $body);
+                else {
+                    $container_id = 'message-part' . (++$part_no);
+                    $div_attr     = array('class' => 'message-part', 'id' => $container_id);
+                    $out .= html::div($div_attr, $plugin['prefix'] . $body);
+                }
             }
         }
     }

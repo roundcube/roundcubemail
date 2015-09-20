@@ -325,7 +325,9 @@ function rcube_webmail()
         else if (this.env.action == 'get')
           this.enable_command('download', 'print', true);
         // show printing dialog
-        else if (this.env.action == 'print' && this.env.uid) {
+        else if (this.env.action == 'print' && this.env.uid
+          && !this.env.is_pgp_content && !this.env.pgp_mime_part
+        ) {
           this.print_dialog();
         }
 
@@ -3361,13 +3363,13 @@ function rcube_webmail()
     }
   };
 
-  // 
+  // Load Mailvelope functionality (and initialize keyring if needed)
   this.mailvelope_load = function(action)
   {
     if (this.env.browser_capabilities)
       this.env.browser_capabilities['pgpmime'] = 1;
 
-    var keyring = this.get_local_storage_prefix();
+    var keyring = this.env.user_id;
 
     mailvelope.getKeyring(keyring).then(function(kr) {
       ref.mailvelope_keyring = kr;
@@ -3383,17 +3385,20 @@ function rcube_webmail()
     });
   };
 
-  // 
+  // Initializes Mailvelope editor or display container
   this.mailvelope_init = function(action, keyring)
   {
-    if (action == 'show' || action == 'preview') {
+    if (!window.mailvelope)
+      return;
+
+    if (action == 'show' || action == 'preview' || action == 'print') {
       // decrypt text body
-      if (this.env.is_pgp_content && window.mailvelope) {
+      if (this.env.is_pgp_content) {
         var data = $(this.env.is_pgp_content).text();
         ref.mailvelope_display_container(this.env.is_pgp_content, data, keyring);
       }
       // load pgp/mime message and pass it to the mailvelope display container
-      else if (this.env.pgp_mime_part && window.mailvelope) {
+      else if (this.env.pgp_mime_part) {
         var msgid = this.display_message(this.get_label('loadingdata'), 'loading'),
           selector = this.env.pgp_mime_container;
 
@@ -3409,21 +3414,32 @@ function rcube_webmail()
         });
       }
     }
-    else if (action == 'compose' && window.mailvelope) {
+    else if (action == 'compose') {
       this.env.compose_commands.push('compose-encrypted');
+      // display the toolbar button
+      $('#' + this.buttons['compose-encrypted'][0].id).show();
+
+      var is_html = $('input[name="_is_html"]').val() > 0;
 
       if (this.env.pgp_mime_message) {
         // fetch PGP/Mime part and open load into Mailvelope editor
         var lock = this.set_busy(true, this.get_label('loadingdata'));
+
         $.ajax({
           type: 'GET',
           url: this.url('get', this.env.pgp_mime_message),
           error: function(o, status, err) {
             ref.http_error(o, status, err, lock);
-            ref.enable_command('compose-encrypted', true);
+            ref.enable_command('compose-encrypted', !is_html);
           },
           success: function(data) {
             ref.set_busy(false, null, lock);
+
+            if (is_html) {
+              ref.command('toggle-editor', {html: false, noconvert: true});
+              $('#' + ref.env.composebody).val('');
+            }
+
             ref.compose_encrypted({ quotedMail: data });
             ref.enable_command('compose-encrypted', true);
           }
@@ -3431,7 +3447,7 @@ function rcube_webmail()
       }
       else {
         // enable encrypted compose toggle
-        this.enable_command('compose-encrypted', true);
+        this.enable_command('compose-encrypted', !is_html);
       }
     }
   };
@@ -3439,7 +3455,7 @@ function rcube_webmail()
   // handler for the 'compose-encrypted' command
   this.compose_encrypted = function(props)
   {
-    var container = $('#' + this.env.composebody).parent();
+    var options, container = $('#' + this.env.composebody).parent();
 
     // remove Mailvelope editor if active
     if (ref.mailvelope_editor) {
@@ -3458,10 +3474,16 @@ function rcube_webmail()
     }
     // embed Mailvelope editor container
     else {
-      var options = { predefinedText: $('#' + this.env.composebody).val() };
+      if (this.spellcheck_state())
+        this.editor.spellcheck_stop();
+
       if (props.quotedMail) {
         options = { quotedMail: props.quotedMail, quotedMailIndent: false };
       }
+      else {
+        options = { predefinedText: $('#' + this.env.composebody).val() };
+      }
+
       if (this.env.compose_mode == 'reply') {
         options.quotedMailIndent = true;
         options.quotedMailHeader = this.env.compose_reply_header;
@@ -3629,7 +3651,7 @@ function rcube_webmail()
   this.mailvelope_display_container = function(selector, data, keyring, msgid)
   {
     mailvelope.createDisplayContainer(selector, data, keyring, { showExternalContent: this.env.safemode }).then(function() {
-      $(selector).addClass('mailvelope').find('.message-part, .part-notice').hide();
+      $(selector).addClass('mailvelope').children().not('iframe').hide();
       ref.hide_message(msgid);
       setTimeout(function() { $(window).resize(); }, 10);
     }).catch(function(err) {
@@ -3772,7 +3794,7 @@ function rcube_webmail()
           ref.hide_message(lock);
 
           if (errorCode) {
-            ref.display_message('Failed to get key from keyserver', 'error');
+            ref.display_message(ref.get_label('keyservererror'), 'error');
             return;
           }
 
@@ -3782,9 +3804,9 @@ function rcube_webmail()
               // alert(ref.get_label('Key import was rejected'));
             }
             else {
+              var $key = keyid.substr(-8).toUpperCase();
               btn.closest('.key').fadeOut();
-              ref.display_message(ref.get_label('Public key $key successfully imported into your key ring')
-                .replace('$key', keyid.substr(-8).toUpperCase()), 'confirmation');
+              ref.display_message(ref.get_label('keyimportsuccess').replace('$key', $key), 'confirmation');
             }
           }).catch(function(err) {
             console.log(err);
@@ -4244,6 +4266,8 @@ function rcube_webmail()
     if (result) {
       // update internal format flag
       $("input[name='_is_html']").val(props.html ? 1 : 0);
+      // enable encrypted compose toggle
+      this.enable_command('compose-encrypted', !props.html);
     }
 
     return result;
