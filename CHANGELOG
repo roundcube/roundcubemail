@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- PGP encryption support via Mailvelope integration
+- PGP encryption support via Enigma plugin
 - PHP7 compatibility fixes (#1490416)
 - Security: Improve randomness of security tokens (#1490529)
 - Security: Use random security tokens instead of hashes based on encryption key (#1490404)
