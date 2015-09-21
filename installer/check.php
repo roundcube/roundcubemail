@@ -93,8 +93,14 @@ echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . 
 
 define('MIN_PHP_VERSION', '5.3.7');
 if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
-    $RCI->pass('Version', 'PHP ' . PHP_VERSION . ' detected');
-} else {
+    if (PHP_MAJOR_VERSION != 5) {
+        $RCI->fail('Version', 'PHP5 is required, ' . PHP_VERSION . ' detected');
+    }
+    else {
+        $RCI->pass('Version', 'PHP ' . PHP_VERSION . ' detected');
+    }
+}
+else {
     $RCI->fail('Version', 'PHP Version ' . MIN_PHP_VERSION . ' or greater is required ' . PHP_VERSION . ' detected');
 }
 ?>
