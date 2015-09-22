@@ -70,8 +70,8 @@ class rcube_charset
     /**
      * Catch an error and throw an exception.
      *
-     * @param  int    Level of the error
-     * @param  string Error message
+     * @param int    $errno  Level of the error
+     * @param string $errstr Error message
      */
     public static function error_handler($errno, $errstr)
     {
@@ -162,19 +162,19 @@ class rcube_charset
      * Convert a string from one charset to another.
      * Uses mbstring and iconv functions if possible
      *
-     * @param  string Input string
-     * @param  string Suspected charset of the input string
-     * @param  string Target charset to convert to; defaults to RCUBE_CHARSET
+     * @param string $str  Input string
+     * @param string $from Suspected charset of the input string
+     * @param string $to   Target charset to convert to; defaults to RCUBE_CHARSET
      *
      * @return string Converted string
      */
     public static function convert($str, $from, $to = null)
     {
-        static $iconv_options   = null;
-        static $mbstring_list   = null;
-        static $mbstring_sch    = null;
+        static $iconv_options = null;
+        static $mbstring_list = null;
+        static $mbstring_sch  = null;
 
-        $to   = empty($to) ? RCUBE_CHARSET : $to;
+        $to   = empty($to) ? RCUBE_CHARSET : strtoupper($to);
         $from = self::parse_charset($from);
 
         // It is a common case when UTF-16 charset is used with US-ASCII content (#1488654)
@@ -208,7 +208,8 @@ class rcube_charset
             set_error_handler(array('rcube_charset', 'error_handler'), E_NOTICE);
             try {
                 $out = iconv($from, $to . $iconv_options, $str);
-            } catch (ErrorException $e) {
+            }
+            catch (ErrorException $e) {
                 $out = false;
             }
             restore_error_handler();
@@ -242,15 +243,24 @@ class rcube_charset
 
             // return if encoding found, string matches encoding and convert succeeded
             if (in_array($mb_from, $mbstring_list) && in_array($mb_to, $mbstring_list)) {
-                if (mb_check_encoding($str, $mb_from)) {
-                    // Do the same as //IGNORE with iconv
-                    mb_substitute_character('none');
-                    $out = mb_convert_encoding($str, $mb_to, $mb_from);
-                    mb_substitute_character($mbstring_sch);
+                // Do the same as //IGNORE with iconv
+                mb_substitute_character('none');
 
-                    if ($out !== false) {
-                        return $out;
-                    }
+                // throw an exception if mbstring reports an illegal character in input
+                // using mb_check_encoding() is much slower
+                set_error_handler(array('rcube_charset', 'error_handler'), E_WARNING);
+                try {
+                    $out = mb_convert_encoding($str, $mb_to, $mb_from);
+                }
+                catch (ErrorException $e) {
+                    $out = false;
+                }
+                restore_error_handler();
+
+                mb_substitute_character($mbstring_sch);
+
+                if ($out !== false) {
+                    return $out;
                 }
             }
         }
