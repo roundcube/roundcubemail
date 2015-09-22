@@ -207,14 +207,14 @@ class rcube_charset
             // it means that input string has been truncated
             set_error_handler(array('rcube_charset', 'error_handler'), E_NOTICE);
             try {
-                $_iconv = iconv($from, $to . $iconv_options, $str);
+                $out = iconv($from, $to . $iconv_options, $str);
             } catch (ErrorException $e) {
-                $_iconv = false;
+                $out = false;
             }
             restore_error_handler();
 
-            if ($_iconv !== false) {
-                return $_iconv;
+            if ($out !== false) {
+                return $out;
             }
         }
 
@@ -258,20 +258,17 @@ class rcube_charset
         // convert charset using bundled classes/functions
         if ($to == 'UTF-8') {
             if ($from == 'UTF7-IMAP') {
-                if ($_str = self::utf7imap_to_utf8($str)) {
-                    return $_str;
+                if ($out = self::utf7imap_to_utf8($str)) {
+                    return $out;
                 }
             }
             else if ($from == 'UTF-7') {
-                if ($_str = self::utf7_to_utf8($str)) {
-                    return $_str;
+                if ($out = self::utf7_to_utf8($str)) {
+                    return $out;
                 }
             }
             else if ($from == 'ISO-8859-1' && function_exists('utf8_encode')) {
                 return utf8_encode($str);
-            }
-            else  {
-                trigger_error("No suitable function found for UTF-8 encoding");
             }
         }
 
@@ -279,16 +276,17 @@ class rcube_charset
         if ($from == 'UTF-8') {
             // @TODO: we need a function for UTF-7 (RFC2152) conversion
             if ($to == 'UTF7-IMAP' || $to == 'UTF-7') {
-                if ($_str = self::utf8_to_utf7imap($str)) {
-                    return $_str;
+                if ($out = self::utf8_to_utf7imap($str)) {
+                    return $out;
                 }
             }
             else if ($to == 'ISO-8859-1' && function_exists('utf8_decode')) {
                 return utf8_decode($str);
             }
-            else {
-                trigger_error("No suitable function found for UTF-8 decoding");
-            }
+        }
+
+        if (!isset($out)) {
+            trigger_error("No suitable function found for '$from' to '$to' conversion");
         }
 
         // return original string
