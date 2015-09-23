@@ -149,10 +149,6 @@ class rcube_db
         $dsn_string  = $this->dsn_string($dsn);
         $dsn_options = $this->dsn_options($dsn);
 
-        if ($this->db_pconn) {
-            $dsn_options[PDO::ATTR_PERSISTENT] = true;
-        }
-
         // Connect
         try {
             // with this check we skip fatal error on PDO object creation
@@ -1270,6 +1266,18 @@ class rcube_db
     protected function dsn_options($dsn)
     {
         $result = array();
+
+        if ($this->db_pconn) {
+            $result[PDO::ATTR_PERSISTENT] = true;
+        }
+
+        if (!empty($dsn['prefetch'])) {
+            $result[PDO::ATTR_PREFETCH] = (int) $dsn['prefetch'];
+        }
+
+        if (!empty($dsn['timeout'])) {
+            $result[PDO::ATTR_TIMEOUT] = (int) $dsn['timeout'];
+        }
 
         return $result;
     }
