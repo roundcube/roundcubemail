@@ -686,8 +686,6 @@ $config['show_real_foldernames'] = false;
 $config['quota_zero_as_unlimited'] = false;
 
 // Make use of the built-in spell checker. It is based on GoogieSpell.
-// Since Google only accepts connections over https your PHP installatation
-// requires to be compiled with Open SSL support
 $config['enable_spellcheck'] = true;
 
 // Enables spellchecker exceptions dictionary.

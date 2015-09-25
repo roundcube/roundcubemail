@@ -65,6 +65,9 @@ INSTALLATION
 CONFIGURATION HINTS
 ===================
 
+IMPORTANT! Read all comments in defaults.inc.php, understand them
+and configure your installation to be not surprised by default behaviour.
+
 Roundcube writes internal errors to the 'errors' log file located in the logs
 directory which can be configured in config/config.inc.php. If you want ordinary
 PHP errors to be logged there as well, enable the 'php_value error_log' line
