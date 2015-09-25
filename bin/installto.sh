@@ -60,6 +60,8 @@ if (strtolower($input) == 'y') {
       break;
     }
   }
+  // remove old (<1.0) .htaccess file
+  @unlink("$target_dir/program/.htaccess");
   echo "done.\n\n";
 
   if (is_dir("$target_dir/skins/default")) {
