@@ -83,6 +83,7 @@ DATABASE SETUP
 ==============
 
 Note: Database for Roundcube must use UTF-8 character set.
+Note: See defaults.inc.php file for examples of DSN configuration.
 
 * MySQL
 -------
