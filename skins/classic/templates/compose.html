@@ -39,6 +39,7 @@
     </span>
 <roundcube:endif />
     <a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="rcmail_ui.show_popup('responsesmenu');return false">&nbsp;</a>
+    <roundcube:button command="compose-encrypted" type="link" class="buttonPas encrypt disabled" classAct="button encrypt" classSel="button encrypt" title="encryptmessagemailvelope" content=" " style="display:none" />
     <roundcube:container name="toolbar" id="compose-toolbar" />
     <roundcube:button name="messageoptions" id="composemenulink" type="link" class="button messagemenu" title="messageoptions" onclick="rcmail_ui.show_popup('composemenu', true);return false" content=" " />
 </div>
@@ -135,7 +136,7 @@
     </div>
     <div id="compose-div">
         <div id="compose-body-div">
-            <div class="boxlistcontent" style="overflow: hidden; top: 0">
+            <div id="compose-body-parent" class="boxlistcontent" style="overflow: hidden; top: 0">
                 <roundcube:object name="composeBody" id="compose-body" form="form" cols="70" rows="20" tabindex="9" />
             </div>
             <div class="boxfooter">

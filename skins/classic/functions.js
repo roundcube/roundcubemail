@@ -193,6 +193,9 @@ uploadmenu: function(show)
     catch(e){}  // ignore errors
   }
 
+  if (rcmail.mailvelope_editor)
+    return;
+
   this.show_popupmenu('uploadmenu', show);
 
   if (!document.all && this.popups.uploadmenu.obj.is(':visible'))
@@ -1035,9 +1038,16 @@ function rcube_init_mail_ui()
           setTimeout(function() { rcmail.message_list.resize(); }, 10);
         });
 
-      if (rcmail.env.action == 'compose')
+      if (rcmail.env.action == 'compose') {
         rcmail_ui.init_compose_form();
-      else if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
+        rcmail.addEventListener('compose-encrypted', function(e) {
+          $("a.button.encrypt")[(e.active ? 'addClass' : 'removeClass')]('selected');
+          $("select[name='editorSelector']").prop('disabled', e.active);
+          $('a.button.attach, a.button.responses, a.button.attach, #uploadmenulink')[(e.active ? 'addClass' : 'removeClass')]('buttonPas disabled');
+          $('#responseslist a.insertresponse')[(e.active ? 'removeClass' : 'addClass')]('active');
+        });
+      }
+      else if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
         // add menu link for each attachment
         $('#attachment-list > li[id^="attach"]').each(function() {
           $(this).append($('<a class="drop"></a>').bind('click keypress', function(e) {
@@ -1047,6 +1057,16 @@ function rcube_init_mail_ui()
             }
           }));
         });
+
+        $(window).resize(function() {
+          var mvlpe = $('#messagebody.mailvelope');
+          if (mvlpe.length) {
+            var content = $('#messageframe'),
+              h = (content.length ? content.height() + content.offset().top - 25 : $(this).height()) - mvlpe.offset().top - 20;
+            mvlpe.height(h);
+          }
+        });
+      }
     }
     else if (rcmail.env.task == 'addressbook') {
       rcmail.addEventListener('afterupload-photo', function(){ rcmail_ui.show_popup('uploadform', false); })
