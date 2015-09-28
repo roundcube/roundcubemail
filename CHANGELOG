@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix so Installer requires PHP5
+- Make brute force attacks harder by re-generating security token on every failed login (#1490549)
 
 RELEASE 1.1.3
 -------------
