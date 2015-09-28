@@ -36,7 +36,7 @@ require_once(RCUBE_PLUGINS_DIR . 'filesystem_attachments/filesystem_attachments.
 class redundant_attachments extends filesystem_attachments
 {
     // A prefix for the cache key used in the session and in the key field of the cache table
-    private $prefix = "ATTACH";
+    const PREFIX = "ATTACH";
 
     // rcube_cache instance for SQL DB
     private $cache;
@@ -46,13 +46,6 @@ class redundant_attachments extends filesystem_attachments
 
     private $loaded;
 
-    /**
-     * Default constructor
-     */
-    function init()
-    {
-        parent::init();
-    }
 
     /**
      * Loads plugin configuration and initializes cache object(s)
@@ -68,15 +61,20 @@ class redundant_attachments extends filesystem_attachments
         // load configuration
         $this->load_config();
 
-        $ttl = 12 * 60 * 60; // 12 hours
-        $ttl = $rcmail->config->get('redundant_attachments_cache_ttl', $ttl);
+        $ttl    = 12 * 60 * 60; // 12 hours
+        $ttl    = $rcmail->config->get('redundant_attachments_cache_ttl', $ttl);
+        $prefix = self::PREFIX;
+
+        if ($id = session_id()) {
+            $prefix .= $id;
+        }
 
         // Init SQL cache (disable cache data serialization)
-        $this->cache = $rcmail->get_cache($this->prefix, 'db', $ttl, false);
+        $this->cache = $rcmail->get_cache($prefix, 'db', $ttl, false);
 
         // Init memcache (fallback) cache
         if ($rcmail->config->get('redundant_attachments_memcache')) {
-            $this->mem_cache = $rcmail->get_cache($this->prefix, 'memcache', $ttl, false);
+            $this->mem_cache = $rcmail->get_cache($prefix, 'memcache', $ttl, false);
         }
 
         $this->loaded = true;

@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Fix so Installer requires PHP5
 - Make brute force attacks harder by re-generating security token on every failed login (#1490549)
+- Fix so database_attachments::cleanup() does not remove attachments from other sessions (#1490542)
 
 RELEASE 1.1.3
 -------------
