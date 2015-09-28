@@ -35,6 +35,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where message content could overlap attachments list in Larry skin (#1490479)
 - Fix so microseconds macro (u) in log_date_format works (#1490446)
 - Fix so unrecognized TNEF attachments are displayed on the list of attachments (#1490351)
+- Fix so database_attachments::cleanup() does not remove attachments from other sessions (#1490542)
 
 RELEASE 1.1.3
 -------------

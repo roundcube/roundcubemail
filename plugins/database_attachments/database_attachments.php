@@ -22,7 +22,7 @@ class database_attachments extends filesystem_attachments
     protected $cache;
 
     // A prefix for the cache key used in the session and in the key field of the cache table
-    protected $prefix = "db_attach";
+    const PREFIX = "ATTACH";
 
     /**
      * Save a newly uploaded attachment
@@ -153,9 +153,16 @@ class database_attachments extends filesystem_attachments
             $ttl    = 12 * 60 * 60; // default: 12 hours
             $ttl    = $rcmail->config->get('database_attachments_cache_ttl', $ttl);
             $type   = $rcmail->config->get('database_attachments_cache', 'db');
+            $prefix = self::PREFIX;
+
+            // Add session identifier to the prefix to prevent from removing attachments
+            // in other sessions of the same user (#1490542)
+            if ($id = session_id()) {
+                $prefix .= $id;
+            }
 
             // Init SQL cache (disable cache data serialization)
-            $this->cache = $rcmail->get_cache($this->prefix, $type, $ttl, false);
+            $this->cache = $rcmail->get_cache($prefix, $type, $ttl, false);
         }
 
         return $this->cache;
