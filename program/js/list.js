@@ -114,7 +114,8 @@ init: function()
     var r, len, rows = this.tbody.childNodes;
 
     for (r=0, len=rows.length; r<len; r++) {
-      this.rowcount += this.init_row(rows[r]) ? 1 : 0;
+      if (rows[r].nodeType == 1)
+        this.rowcount += this.init_row(rows[r]) ? 1 : 0;
     }
 
     this.init_header();
@@ -150,8 +151,9 @@ init_row: function(row)
     var self = this, uid = row.uid;
     this.rows[uid] = {uid:uid, id:row.id, obj:row};
 
-    // set eventhandlers to table row (only left-button-clicks in mouseup)
-    $(row).mousedown(function(e) { return self.drag_row(e, this.uid); })
+    $(row).data('uid', uid)
+      // set eventhandlers to table row (only left-button-clicks in mouseup)
+      .mousedown(function(e) { return self.drag_row(e, this.uid); })
       .mouseup(function(e) {
         if (e.which == 1 && !self.drag_active)
           return self.click_row(e, this.uid);
@@ -355,10 +357,11 @@ insert_row: function(row, before)
   if (row.nodeName === undefined) {
     // for performance reasons use DOM instead of jQuery here
     var domrow = document.createElement(this.row_tagname());
+
     if (row.id) domrow.id = row.id;
+    if (row.uid) domrow.uid = row.uid;
     if (row.className) domrow.className = row.className;
     if (row.style) $.extend(domrow.style, row.style);
-    if (row.uid) $(domrow).data('uid', String(row.uid)); // #1489906
 
     for (var e, domcell, col, i=0; row.cols && i < row.cols.length; i++) {
       col = row.cols[i];
@@ -394,18 +397,22 @@ update_row: function(id, cols, newid, select)
   var row = this.rows[id];
   if (!row) return false;
 
-  var domrow = row.obj;
-  for (var domcell, col, i=0; cols && i < cols.length; i++) {
+  var i, domrow = row.obj;
+  for (i = 0; cols && i < cols.length; i++) {
     this.get_cell(domrow, i).html(cols[i]);
   }
 
   if (newid) {
     delete this.rows[id];
+    domrow.uid = newid;
     domrow.id = 'rcmrow' + newid;
     this.init_row(domrow);
 
     if (select)
       this.selection[0] = newid;
+
+    if (this.last_selected == id)
+      this.last_selected = newid;
   }
 },
 
@@ -826,14 +833,16 @@ update_expando: function(id, expanded)
 
 get_row_uid: function(row)
 {
-  if (row && row.uid)
-    return row.uid;
+  if (!row)
+    return;
 
-  var uid;
-  if (row && (uid = $(row).data('uid')))
-    row.uid = uid;
-  else if (row && String(row.id).match(this.id_regexp))
-    row.uid = RegExp.$1;
+  if (!row.uid) {
+    var uid = $(row).data('uid');
+    if (uid)
+      row.uid = uid;
+    else if (String(row.id).match(this.id_regexp))
+      row.uid = RegExp.$1;
+  }
 
   return row.uid;
 },
