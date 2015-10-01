@@ -1674,18 +1674,10 @@ class rcube
      */
     protected function message_head($message, $unset = array())
     {
-        // Mail_mime >= 1.9.0
-        if (method_exists($message, 'isMultipart')) {
-            foreach ($unset as $header) {
-                $headers[$header] = null;
-            }
-        }
-        else {
-            $headers = $message->headers();
-            foreach ($unset as $header) {
-                unset($headers[$header]);
-            }
-            $message->_headers = array();
+        // requires Mail_mime >= 1.9.0
+        $headers = array();
+        foreach ((array) $unset as $header) {
+            $headers[$header] = null;
         }
 
         return $message->txtHeaders($headers, true);
