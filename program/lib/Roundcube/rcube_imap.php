@@ -62,7 +62,6 @@ class rcube_imap extends rcube_storage
     protected $sort_field = '';
     protected $sort_order = 'DESC';
     protected $struct_charset;
-    protected $msg_headers = array();
     protected $search_set;
     protected $search_string = '';
     protected $search_charset = '';
