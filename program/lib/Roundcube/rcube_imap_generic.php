@@ -1095,6 +1095,8 @@ class rcube_imap_generic
         list($code, $response) = $this->execute('SELECT', $params);
 
         if ($code == self::ERROR_OK) {
+            $this->clear_mailbox_cache();
+
             $response = explode("\r\n", $response);
             foreach ($response as $line) {
                 if (preg_match('/^\* ([0-9]+) (EXISTS|RECENT)$/i', $line, $m)) {
@@ -2034,7 +2036,6 @@ class rcube_imap_generic
                 return (int) $arr[0];
             }
         }
-        return null;
     }
 
     /**
@@ -2055,14 +2056,20 @@ class rcube_imap_generic
             return null;
         }
 
+        if ($uid = $this->data['UID-MAP'][$id]) {
+            return $uid;
+        }
+
+        if (isset($this->data['EXISTS']) && $id > $this->data['EXISTS']) {
+            return null;
+        }
+
         $index = $this->search($mailbox, $id, true);
 
         if ($index->count() == 1) {
             $arr = $index->get();
-            return (int) $arr[0];
+            return $this->data['UID-MAP'][$id] = (int) $arr[0];
         }
-
-        return null;
     }
 
     /**
@@ -3849,9 +3856,27 @@ class rcube_imap_generic
     protected function clear_status_cache($mailbox)
     {
         unset($this->data['STATUS:' . $mailbox]);
-        unset($this->data['EXISTS']);
-        unset($this->data['RECENT']);
-        unset($this->data['UNSEEN']);
+
+        $keys = array('EXISTS', 'RECENT', 'UNSEEN', 'UID-MAP');
+
+        foreach ($keys as $key) {
+            unset($this->data[$key]);
+        }
+    }
+
+    /**
+     * Clear internal cache of the current mailbox
+     */
+    protected function clear_mailbox_cache()
+    {
+        $this->clear_status_cache($this->selected);
+
+        $keys = array('UIDNEXT', 'UIDVALIDITY', 'HIGHESTMODSEQ', 'NOMODSEQ',
+            'PERMANENTFLAGS', 'QRESYNC', 'VANISHED', 'READ-WRITE');
+
+        foreach ($keys as $key) {
+            unset($this->data[$key]);
+        }
     }
 
     /**

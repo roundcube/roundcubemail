@@ -986,7 +986,7 @@ class rcube_imap_cache
                 return false;
             }
             // ... and max UID
-            if ($object->max() != $this->imap->id2uid($mbox_data['EXISTS'], $mailbox, true)) {
+            if ($object->max() != $this->imap->id2uid($mbox_data['EXISTS'], $mailbox)) {
                 return false;
             }
         }

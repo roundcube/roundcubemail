@@ -62,7 +62,6 @@ class rcube_imap extends rcube_storage
     protected $sort_field = '';
     protected $sort_order = 'DESC';
     protected $struct_charset;
-    protected $uid_id_map = array();
     protected $msg_headers = array();
     protected $search_set;
     protected $search_string = '';
@@ -2682,7 +2681,6 @@ class rcube_imap extends rcube_storage
             // really deleted from the folder
             $this->expunge_message($uids, $folder, false);
             $this->clear_messagecount($folder);
-            unset($this->uid_id_map[$folder]);
 
             // unset threads internal cache
             unset($this->icache['threads']);
@@ -3963,8 +3961,6 @@ class rcube_imap extends rcube_storage
 
             return $res;
         }
-
-        return null;
     }
 
     /**
@@ -3985,7 +3981,6 @@ class rcube_imap extends rcube_storage
         }
 
         // @TODO: log error
-        return null;
     }
 
 
@@ -4254,19 +4249,11 @@ class rcube_imap extends rcube_storage
             $folder = $this->folder;
         }
 
-        if ($uid = array_search($id, (array)$this->uid_id_map[$folder])) {
-            return $uid;
-        }
-
         if (!$this->check_connection()) {
             return null;
         }
 
-        $uid = $this->conn->ID2UID($folder, $id);
-
-        $this->uid_id_map[$folder][$uid] = $id;
-
-        return $uid;
+        return $this->conn->ID2UID($folder, $id);
     }
 
     /**
