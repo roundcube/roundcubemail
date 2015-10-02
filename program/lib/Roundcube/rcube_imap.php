@@ -4274,22 +4274,16 @@ class rcube_imap extends rcube_storage
      */
     protected function change_subscription($folders, $mode)
     {
-        $updated = false;
+        $updated = 0;
+        $folders = (array) $folders;
 
         if (!empty($folders)) {
             if (!$this->check_connection()) {
                 return false;
             }
 
-            foreach ((array)$folders as $i => $folder) {
-                $folders[$i] = $folder;
-
-                if ($mode == 'subscribe') {
-                    $updated = $this->conn->subscribe($folder);
-                }
-                else if ($mode == 'unsubscribe') {
-                    $updated = $this->conn->unsubscribe($folder);
-                }
+            foreach ($folders as $folder) {
+                $updated += (int) $this->conn->{$mode}($folder);
             }
         }
 
@@ -4298,7 +4292,7 @@ class rcube_imap extends rcube_storage
             $this->clear_cache('mailboxes', true);
         }
 
-        return $updated;
+        return $updated == count($folders) ? true : false;
     }
 
     /**
