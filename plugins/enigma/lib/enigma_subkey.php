@@ -23,8 +23,9 @@ class enigma_subkey
     public $created;
     public $revoked;
     public $has_private;
-    public $can_sign;
-    public $can_encrypt;
+    public $algorithm;
+    public $length;
+    public $usage;
 
     /**
      * Converts internal ID to short ID
@@ -46,5 +47,32 @@ class enigma_subkey
     function get_fingerprint()
     {
         return enigma_key::format_fingerprint($this->fingerprint);
+    }
+
+    /**
+     * Returns human-readable name of the key's algorithm
+     *
+     * @return string Algorithm name
+     */
+    function get_algorithm()
+    {
+        // http://tools.ietf.org/html/rfc4880#section-9.1
+        switch ($this->algorithm) {
+        case 1:
+        case 2:
+        case 3:
+            return 'RSA';
+        case 16:
+        case 20:
+            return 'Elgamal';
+        case 17:
+            return 'DSA';
+        case 18:
+            return 'Elliptic Curve';
+        case 19:
+            return 'ECDSA';
+        case 21:
+            return 'Diffie-Hellman';
+        }
     }
 }

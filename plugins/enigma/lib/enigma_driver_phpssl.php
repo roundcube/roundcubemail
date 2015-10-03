@@ -183,8 +183,6 @@ class enigma_driver_phpssl extends enigma_driver
                 $skey->expires     = $subkey->getExpirationDate();
                 $skey->fingerprint = $subkey->getFingerprint();
                 $skey->has_private = $subkey->hasPrivate();
-                $skey->can_sign    = $subkey->canSign();
-                $skey->can_encrypt = $subkey->canEncrypt();
 
                 $ekey->subkeys[$idx] = $skey;
         };

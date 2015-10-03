@@ -28,6 +28,9 @@ class enigma_key
 
     const CAN_SIGN    = 1;
     const CAN_ENCRYPT = 2;
+    const CAN_CERTIFY = 4;
+    const CAN_AUTH    = 8;
+
 
     /**
      * Keys list sorting callback for usort()
@@ -99,9 +102,7 @@ class enigma_key
             if ($user->email === $email && $user->valid && !$user->revoked) {
                 foreach ($this->subkeys as $subkey) {
                     if (!$subkey->revoked && (!$subkey->expires || $subkey->expires > $now)) {
-                        if (($mode == self::CAN_ENCRYPT && $subkey->can_encrypt)
-                            || ($mode == self::CAN_SIGN && $subkey->has_private)
-                        ) {
+                        if ($subkey->usage & $mode) {
                             return $subkey;
                         }
                     }
@@ -147,5 +148,4 @@ class enigma_key
 
         return $result;
     }
-
 }

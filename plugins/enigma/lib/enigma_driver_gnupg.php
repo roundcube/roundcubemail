@@ -299,7 +299,7 @@ class enigma_driver_gnupg extends enigma_driver
             else if ($code == enigma_error::DELKEY) {
                 $key = $this->get_key($keyid);
                 for ($i = count($key->subkeys) - 1; $i >= 0; $i--) {
-                    $type = $key->subkeys[$i]->can_encrypt ? 'priv' : 'pub';
+                    $type = ($key->subkeys[$i]->usage & enigma_key::CAN_ENCRYPT) ? 'priv' : 'pub';
                     $result = $this->{'delete_' . $type . 'key'}($key->subkeys[$i]->id);
                     if ($result !== true) {
                         return $result;
@@ -423,6 +423,14 @@ class enigma_driver_gnupg extends enigma_driver
         $ekey->name = trim($ekey->users[0]->name . ' <' . $ekey->users[0]->email . '>');
 
         foreach ($key->getSubKeys() as $idx => $subkey) {
+            $usage = 0;
+            if ($subkey->canSign()) {
+                $usage += enigma_key::CAN_SIGN;
+            }
+            if ($subkey->canEncrypt()) {
+                $usage += enigma_key::CAN_ENCRYPT;
+            }
+
             $skey = new enigma_subkey();
             $skey->id          = $subkey->getId();
             $skey->revoked     = $subkey->isRevoked();
@@ -430,8 +438,9 @@ class enigma_driver_gnupg extends enigma_driver
             $skey->expires     = $subkey->getExpirationDate();
             $skey->fingerprint = $subkey->getFingerprint();
             $skey->has_private = $subkey->hasPrivate();
-            $skey->can_sign    = $subkey->canSign();
-            $skey->can_encrypt = $subkey->canEncrypt();
+            $skey->algorithm   = $subkey->getAlgorithm();
+            $skey->length      = $subkey->getLength();
+            $skey->usage       = $usage;
 
             $ekey->subkeys[$idx] = $skey;
         };

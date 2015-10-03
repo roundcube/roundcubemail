@@ -357,7 +357,7 @@ class enigma_ui
     function tpl_key_data($attrib)
     {
         $out   = '';
-        $table = new html_table(array('cols' => 2)); 
+        $table = new html_table(array('cols' => 2));
 
         // Key user ID
         $table->add('title', $this->enigma->gettext('keyuserid'));
@@ -385,23 +385,72 @@ class enigma_ui
         $out .= html::tag('fieldset', null,
             html::tag('legend', null,
                 $this->enigma->gettext('basicinfo')) . $table->show($attrib));
-/*
+
         // Subkeys
-        $table = new html_table(array('cols' => 6)); 
-        // Columns: Type, ID, Algorithm, Size, Created, Expires
+        $table = new html_table(array('cols' => 5, 'id' => 'enigmasubkeytable', 'class' => 'records-table'));
+
+        $table->add_header('id', $this->enigma->gettext('subkeyid'));
+        $table->add_header('algo', $this->enigma->gettext('subkeyalgo'));
+        $table->add_header('created', $this->enigma->gettext('subkeycreated'));
+        $table->add_header('expires', $this->enigma->gettext('subkeyexpires'));
+        $table->add_header('usage', $this->enigma->gettext('subkeyusage'));
+
+        $now         = time();
+        $date_format = $this->rc->config->get('date_format', 'Y-m-d');
+        $usage_map   = array(
+            enigma_key::CAN_ENCRYPT => $this->enigma->gettext('typeencrypt'),
+            enigma_key::CAN_SIGN    => $this->enigma->gettext('typesign'),
+            enigma_key::CAN_CERTIFY => $this->enigma->gettext('typecert'),
+            enigma_key::CAN_AUTH    => $this->enigma->gettext('typeauth'),
+        );
+
+        foreach ($this->data->subkeys as $subkey) {
+            $algo = $subkey->get_algorithm();
+            if ($algo && $subkey->length) {
+                $algo .= ' (' . $subkey->length . ')';
+            }
+
+            $usage = array();
+            foreach ($usage_map as $key => $text) {
+                if ($subkey->usage & $key) {
+                    $usage[] = $text;
+                }
+            }
+
+            $table->add('id', $subkey->get_short_id());
+            $table->add('algo', $algo);
+            $table->add('created', $subkey->created ? $this->rc->format_date($subkey->created, $date_format, false) : '');
+            $table->add('expires', $subkey->expires ? $this->rc->format_date($subkey->expires, $date_format, false) : $this->enigma->gettext('expiresnever'));
+            $table->add('usage', implode(',', $usage));
+            $table->set_row_attribs($subkey->revoked || ($subkey->expires && $subkey->expires < $now) ? 'deleted' : '');
+        }
 
         $out .= html::tag('fieldset', null,
-            html::tag('legend', null, 
-                $this->enigma->gettext('subkeys')) . $table->show($attrib));
+            html::tag('legend', null,
+                $this->enigma->gettext('subkeys')) . $table->show());
 
         // Additional user IDs
-        $table = new html_table(array('cols' => 2));
-        // Columns: User ID, Validity
+        $table = new html_table(array('cols' => 2, 'id' => 'enigmausertable', 'class' => 'records-table'));
+
+        $table->add_header('id', $this->enigma->gettext('userid'));
+        $table->add_header('valid', $this->enigma->gettext('uservalid'));
+
+        foreach ($this->data->users as $user) {
+            $username = $user->name;
+            if ($user->comment) {
+                $username .= ' (' . $user->comment . ')';
+            }
+            $username .= ' <' . $user->email . '>';
+
+            $table->add('id', rcube::Q(trim($username)));
+            $table->add('valid', $this->enigma->gettext($user->valid ? 'valid' : 'unknown'));
+            $table->set_row_attribs($user->revoked || !$user->valid ? 'deleted' : '');
+        }
 
         $out .= html::tag('fieldset', null,
-            html::tag('legend', null, 
-                $this->enigma->gettext('userids')) . $table->show($attrib));
-*/
+            html::tag('legend', null,
+                $this->enigma->gettext('userids')) . $table->show());
+
         return $out;
     }
 

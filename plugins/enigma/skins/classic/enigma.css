@@ -142,6 +142,15 @@ div.enigmascreen
   text-align: right;
 }
 
+#key-details table {
+  width: 100%;
+}
+
+#key-details table td,
+#key-details table th {
+  border: 0;
+}
+
 #keystoolbar
 {
   position: absolute;
