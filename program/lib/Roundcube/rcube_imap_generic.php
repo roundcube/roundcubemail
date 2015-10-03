@@ -85,7 +85,7 @@ class rcube_imap_generic
      *
      * @param int Number of bytes sent, False on error
      */
-    function putLine($string, $endln = true, $anonymized = false)
+    protected function putLine($string, $endln = true, $anonymized = false)
     {
         if (!$this->fp) {
             return false;
@@ -127,7 +127,7 @@ class rcube_imap_generic
      *
      * @return int|bool Number of bytes sent, False on error
      */
-    function putLineC($string, $endln=true, $anonymized=false)
+    protected function putLineC($string, $endln=true, $anonymized=false)
     {
         if (!$this->fp) {
             return false;
@@ -184,7 +184,7 @@ class rcube_imap_generic
      *
      * @return string Line of text response
      */
-    function readLine($size = 1024)
+    protected function readLine($size = 1024)
     {
         $line = '';
 
@@ -209,7 +209,8 @@ class rcube_imap_generic
             }
 
             $line .= $buffer;
-        } while (substr($buffer, -1) != "\n");
+        }
+        while (substr($buffer, -1) != "\n");
 
         return $line;
     }
@@ -223,7 +224,7 @@ class rcube_imap_generic
      *
      * @return string Line of text response
      */
-    function multLine($line, $escape = false)
+    protected function multLine($line, $escape = false)
     {
         $line = rtrim($line);
         if (preg_match('/\{([0-9]+)\}$/', $line, $m)) {
@@ -253,7 +254,7 @@ class rcube_imap_generic
      *
      * @return string Response text
      */
-    function readBytes($bytes)
+    protected function readBytes($bytes)
     {
         $data = '';
         $len  = 0;
@@ -281,7 +282,7 @@ class rcube_imap_generic
      *
      * @return string Response text
      */
-    function readReply(&$untagged = null)
+    protected function readReply(&$untagged = null)
     {
         do {
             $line = trim($this->readLine(1024));
@@ -289,7 +290,8 @@ class rcube_imap_generic
             if ($line[0] == '*') {
                 $untagged[] = $line;
             }
-        } while ($line[0] == '*');
+        }
+        while ($line[0] == '*');
 
         if ($untagged) {
             $untagged = join("\n", $untagged);
@@ -306,7 +308,7 @@ class rcube_imap_generic
      *
      * @return int Response status
      */
-    function parseResult($string, $err_prefix = '')
+    protected function parseResult($string, $err_prefix = '')
     {
         if (preg_match('/^[a-z0-9*]+ (OK|NO|BAD|BYE)(.*)$/i', trim($string), $matches)) {
             $res = strtoupper($matches[1]);
@@ -2681,7 +2683,7 @@ class rcube_imap_generic
                 while (preg_match('/^BODY\[([0-9\.]+)\.'.$type.'\]/', $line, $matches)) {
                     $line = substr($line, strlen($matches[0]));
                     $result[$matches[1]] = trim($this->multLine($line));
-                    $line = ltrim($this->readLine(1024));
+                    $line = $this->readLine(1024);
                 }
             }
         }
