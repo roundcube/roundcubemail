@@ -583,9 +583,10 @@ function rcube_treelist_widget(node, p)
     // search recursively in tree (to keep sorting order)
     search_tree(data);
     search_active = true;
-    last_search = q;
 
     me.triggerEvent('search', { query: q, last: last_search, count: hits.length, ids: hits, execute: enter||false });
+
+    last_search = q;
 
     return hits.count;
   }
