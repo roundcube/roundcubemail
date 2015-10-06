@@ -110,37 +110,43 @@ function rcube_treelist_widget(node, p)
   else
     update_data();
 
-  // register click handlers on list
-  container.on('click', 'div.treetoggle', function(e){
-    toggle(dom2id($(this).parent()));
-    e.stopPropagation();
-  });
-
-  container.on('click', 'li', function(e) {
-    // do not select record on checkbox/input click
-    if ($(e.target).is('input'))
-      return true;
-
-    var node = p.selectable ? indexbyid[dom2id($(this))] : null;
-    if (node && !node.virtual) {
-      select(node.id);
+  container.attr('role', 'tree')
+    .on('focusin', function(e) {
+      // TODO: only accept focus on virtual nodes from keyboard events
+      has_focus = true;
+    })
+    .on('focusout', function(e) {
+      has_focus = false;
+    })
+    // register click handlers on list
+    .on('click', 'div.treetoggle', function(e) {
+      toggle(dom2id($(this).parent()));
       e.stopPropagation();
-    }
-  });
+    })
+    .on('click', 'li', function(e) {
+      // do not select record on checkbox/input click
+      if ($(e.target).is('input'))
+        return true;
 
-  // mute clicks on virtual folder links (they need tabindex="0" in order to be selectable by keyboard)
-  container.on('mousedown', 'a', function(e) {
-    var link = $(e.target), node = indexbyid[dom2id(link.closest('li'))];
-    if (node && node.virtual && !link.attr('href')) {
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    }
-  });
+      var node = p.selectable ? indexbyid[dom2id($(this))] : null;
+      if (node && !node.virtual) {
+        select(node.id);
+        e.stopPropagation();
+      }
+    })
+    // mute clicks on virtual folder links (they need tabindex="0" in order to be selectable by keyboard)
+    .on('mousedown', 'a', function(e) {
+      var link = $(e.target), node = indexbyid[dom2id(link.closest('li'))];
+      if (node && node.virtual && !link.attr('href')) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    });
 
   // activate search function
   if (p.searchbox) {
-    searchfield = $(p.searchbox).on('keyup', function(e) {
+    searchfield = $(p.searchbox).off('keyup.treelist').on('keyup.treelist', function(e) {
       var key = rcube_event.get_keycode(e),
         mod = rcube_event.get_modifier(e);
 
@@ -169,24 +175,13 @@ function rcube_treelist_widget(node, p)
     }).attr('autocomplete', 'off');
 
     // find the reset button for this search field
-    searchfield.parent().find('a.reset').click(function(e) {
+    searchfield.parent().find('a.reset').off('click.treelist').on('click.treelist', function(e) {
       reset_search();
       return false;
     })
   }
 
-  container.on('focusin', function(e){
-      // TODO: only accept focus on virtual nodes from keyboard events
-      has_focus = true;
-    })
-    .on('focusout', function(e){
-      has_focus = false;
-    });
-
-  container.attr('role', 'tree');
-
-  $(document.body)
-    .bind('keydown', keypress);
+  $(document.body).on('keydown', keypress);
 
   // catch focus when clicking the list container area
   if (p.parent_focus) {
