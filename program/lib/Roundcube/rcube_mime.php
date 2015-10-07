@@ -133,8 +133,8 @@ class rcube_mime
     /**
      * Decode a message header value
      *
-     * @param string  $input         Header value
-     * @param string  $fallback      Fallback charset if none specified
+     * @param string  $input    Header value
+     * @param string  $fallback Fallback charset if none specified
      *
      * @return string Decoded string
      */
@@ -290,7 +290,7 @@ class rcube_mime
     }
 
     /**
-     * @access private
+     * E-mail address list parser
      */
     private static function parse_address_list($str, $decode = true, $fallback = null)
     {
@@ -671,9 +671,9 @@ class rcube_mime
     /**
      * A method to guess the mime_type of an attachment.
      *
-     * @param string $path      Path to the file or file contents
-     * @param string $name      File name (with suffix)
-     * @param string $failover  Mime type supplied for failover
+     * @param string  $path        Path to the file or file contents
+     * @param string  $name        File name (with suffix)
+     * @param string  $failover    Mime type supplied for failover
      * @param boolean $is_stream   Set to True if $path contains file contents
      * @param boolean $skip_suffix Set to True if the config/mimetypes.php mappig should be ignored
      *

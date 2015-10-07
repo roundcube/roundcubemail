@@ -58,7 +58,8 @@ class rcube_string_replacer
     /**
      * Add a string to the internal list
      *
-     * @param string String value 
+     * @param string String value
+     *
      * @return int Index of value for retrieval
      */
     public function add($str)
@@ -140,6 +141,7 @@ class rcube_string_replacer
      * Callback function used to build mailto: links around e-mail strings
      *
      * @param array Matches result from preg_replace_callback
+     *
      * @return int Index of saved string value
      */
     public function mailto_callback($matches)

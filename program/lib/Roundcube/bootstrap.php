@@ -138,7 +138,7 @@ function in_array_nocase($needle, $haystack)
 /**
  * Parse a human readable string for a number of bytes.
  *
- * @param string $str  Input string
+ * @param string $str Input string
  *
  * @return float Number of bytes
  */
@@ -188,7 +188,7 @@ function unslashify($str)
 /**
  * Returns number of seconds for a specified offset string.
  *
- * @param string $str  String representation of the offset (e.g. 20min, 5h, 2days, 1week)
+ * @param string $str String representation of the offset (e.g. 20min, 5h, 2days, 1week)
  *
  * @return int Number of seconds
  */
@@ -220,12 +220,12 @@ function get_offset_sec($str)
 /**
  * Create a unix timestamp with a specified offset from now.
  *
- * @param string $offset_str  String representation of the offset (e.g. 20min, 5h, 2days)
- * @param int    $factor      Factor to multiply with the offset
+ * @param string $offset_str String representation of the offset (e.g. 20min, 5h, 2days)
+ * @param int    $factor     Factor to multiply with the offset
  *
  * @return int Unix timestamp
  */
-function get_offset_time($offset_str, $factor=1)
+function get_offset_time($offset_str, $factor = 1)
 {
     return time() + get_offset_sec($offset_str) * $factor;
 }
@@ -241,7 +241,7 @@ function get_offset_time($offset_str, $factor=1)
  *
  * @return string Abbreviated string
  */
-function abbreviate_string($str, $maxlength, $placeholder='...', $ending=false)
+function abbreviate_string($str, $maxlength, $placeholder = '...', $ending = false)
 {
     $length = mb_strlen($str);
 
@@ -254,7 +254,9 @@ function abbreviate_string($str, $maxlength, $placeholder='...', $ending=false)
         $first_part_length  = floor(($maxlength - $placeholder_length)/2);
         $second_starting_location = $length - $maxlength + $first_part_length + $placeholder_length;
 
-        $str = mb_substr($str, 0, $first_part_length) . $placeholder . mb_substr($str, $second_starting_location);
+        $prefix = mb_substr($str, 0, $first_part_length);
+        $suffix = mb_substr($str, $second_starting_location);
+        $str    = $prefix . $placeholder . $suffix;
     }
 
     return $str;
@@ -263,7 +265,7 @@ function abbreviate_string($str, $maxlength, $placeholder='...', $ending=false)
 /**
  * Get all keys from array (recursive).
  *
- * @param array $array  Input array
+ * @param array $array Input array
  *
  * @return array List of array keys
  */
@@ -309,8 +311,8 @@ function is_ascii($str, $control_chars = true)
 /**
  * Compose a valid representation of name and e-mail address
  *
- * @param string $email  E-mail address
- * @param string $name   Person name
+ * @param string $email E-mail address
+ * @param string $name  Person name
  *
  * @return string Formatted string
  */
@@ -364,7 +366,8 @@ function version_parse($version)
     return str_replace(
         array('-stable', '-git'),
         array('.0', '.99'),
-        $version);
+        $version
+    );
 }
 
 /**
@@ -378,7 +381,7 @@ if (!function_exists('idn_to_utf8'))
         static $idn, $loaded;
 
         if (!$loaded) {
-            $idn = new Net_IDNA2();
+            $idn    = new Net_IDNA2();
             $loaded = true;
         }
 
@@ -389,6 +392,7 @@ if (!function_exists('idn_to_utf8'))
             catch (Exception $e) {
             }
         }
+
         return $domain;
     }
 }
@@ -400,7 +404,7 @@ if (!function_exists('idn_to_ascii'))
         static $idn, $loaded;
 
         if (!$loaded) {
-            $idn = new Net_IDNA2();
+            $idn    = new Net_IDNA2();
             $loaded = true;
         }
 
@@ -411,6 +415,7 @@ if (!function_exists('idn_to_ascii'))
             catch (Exception $e) {
             }
         }
+
         return $domain;
     }
 }

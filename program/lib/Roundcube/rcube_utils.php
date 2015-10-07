@@ -162,12 +162,12 @@ class rcube_utils
     /**
      * Replacing specials characters to a specific encoding type
      *
-     * @param  string  Input string
-     * @param  string  Encoding type: text|html|xml|js|url
-     * @param  string  Replace mode for tags: show|remove|strict
-     * @param  boolean Convert newlines
+     * @param string  Input string
+     * @param string  Encoding type: text|html|xml|js|url
+     * @param string  Replace mode for tags: show|remove|strict
+     * @param boolean Convert newlines
      *
-     * @return string  The quoted string
+     * @return string The quoted string
      */
     public static function rep_specialchars_output($str, $enctype = '', $mode = '', $newlines = true)
     {
@@ -253,16 +253,16 @@ class rcube_utils
      * Read input value and convert it for internal use
      * Performs stripslashes() and charset conversion if necessary
      *
-     * @param  string   Field name to read
-     * @param  int      Source to get value from (GPC)
-     * @param  boolean  Allow HTML tags in field value
-     * @param  string   Charset to convert into
+     * @param string  Field name to read
+     * @param int     Source to get value from (GPC)
+     * @param boolean Allow HTML tags in field value
+     * @param string  Charset to convert into
      *
-     * @return string   Field value or NULL if not available
+     * @return string Field value or NULL if not available
      */
-    public static function get_input_value($fname, $source, $allow_html=FALSE, $charset=NULL)
+    public static function get_input_value($fname, $source, $allow_html = false, $charset = null)
     {
-        $value = NULL;
+        $value = null;
 
         if ($source == self::INPUT_GET) {
             if (isset($_GET[$fname])) {
@@ -293,13 +293,13 @@ class rcube_utils
      * Parse/validate input value. See self::get_input_value()
      * Performs stripslashes() and charset conversion if necessary
      *
-     * @param  string   Input value
-     * @param  boolean  Allow HTML tags in field value
-     * @param  string   Charset to convert into
+     * @param string  Input value
+     * @param boolean Allow HTML tags in field value
+     * @param string  Charset to convert into
      *
-     * @return string   Parsed value
+     * @return string Parsed value
      */
-    public static function parse_input_value($value, $allow_html=FALSE, $charset=NULL)
+    public static function parse_input_value($value, $allow_html = false, $charset = null)
     {
         global $OUTPUT;
 
@@ -387,9 +387,9 @@ class rcube_utils
      *
      * @return string Modified CSS source
      */
-    public static function mod_css_styles($source, $container_id, $allow_remote=false)
+    public static function mod_css_styles($source, $container_id, $allow_remote = false)
     {
-        $last_pos = 0;
+        $last_pos     = 0;
         $replacements = new rcube_string_replacer;
 
         // ignore the whole block if evil styles are detected
@@ -457,8 +457,8 @@ class rcube_utils
     /**
      * Generate CSS classes from mimetype and filename extension
      *
-     * @param string $mimetype  Mimetype
-     * @param string $filename  Filename
+     * @param string $mimetype Mimetype
+     * @param string $filename Filename
      *
      * @return string CSS classes separated by space
      */
@@ -544,7 +544,8 @@ class rcube_utils
         }
         if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])
             && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https'
-            && in_array($_SERVER['REMOTE_ADDR'], rcube::get_instance()->config->get('proxy_whitelist', array()))) {
+            && in_array($_SERVER['REMOTE_ADDR'], rcube::get_instance()->config->get('proxy_whitelist', array()))
+        ) {
             return true;
         }
         if ($port && $_SERVER['SERVER_PORT'] == $port) {
@@ -581,7 +582,8 @@ class rcube_utils
         $h = $_SESSION['storage_host'] ? $_SESSION['storage_host'] : $host;
         // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
         $z = preg_replace('/^[^\.]+\./', '', $h);
-        // %s - domain name after the '@' from e-mail address provided at login screen. Returns FALSE if an invalid email is provided
+        // %s - domain name after the '@' from e-mail address provided at login screen.
+        //      Returns FALSE if an invalid email is provided
         if (strpos($name, '%s') !== false) {
             $user_email = self::get_input_value('_user', self::INPUT_POST);
             $user_email = self::idn_convert($user_email, true);
@@ -607,6 +609,7 @@ class rcube_utils
         if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
             $remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
         }
+
         // append the X-Forwarded-For header, if set
         if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -654,9 +657,9 @@ class rcube_utils
     /**
      * Read a specific HTTP request header.
      *
-     * @param  string $name Header name
+     * @param string $name Header name
      *
-     * @return mixed  Header value or null if not available
+     * @return mixed Header value or null if not available
      */
     public static function request_header($name)
     {
@@ -703,14 +706,14 @@ class rcube_utils
     /**
      * Improved equivalent to strtotime()
      *
-     * @param string $date  Date string
-     * @param object DateTimeZone to use for DateTime object
+     * @param string       $date     Date string
+     * @param DateTimeZone $timezone Timezone to use for DateTime object
      *
      * @return int Unix timestamp
      */
     public static function strtotime($date, $timezone = null)
     {
-        $date = self::clean_datestr($date);
+        $date   = self::clean_datestr($date);
         $tzname = $timezone ? ' ' . $timezone->getName() : '';
 
         // unix timestamp
@@ -735,14 +738,14 @@ class rcube_utils
     /**
      * Date parsing function that turns the given value into a DateTime object
      *
-     * @param string $date  Date string
-     * @param object DateTimeZone to use for DateTime object
+     * @param string       $date     Date string
+     * @param DateTimeZone $timezone Timezone to use for DateTime object
      *
-     * @return object DateTime instance or false on failure
+     * @return DateTime instance or false on failure
      */
     public static function anytodatetime($date, $timezone = null)
     {
-        if (is_object($date) && is_a($date, 'DateTime')) {
+        if ($date instanceof DateTime) {
             return $date;
         }
 
@@ -887,7 +890,7 @@ class rcube_utils
      * @param boolean True to return list of words as array
      * @param integer Minimum length of tokens
      *
-     * @return mixed  Normalized string or a list of normalized tokens
+     * @return mixed Normalized string or a list of normalized tokens
      */
     public static function normalize_string($str, $as_array = false, $minlen = 2)
     {
@@ -939,7 +942,8 @@ class rcube_utils
      *
      * @param string Haystack
      * @param string Needle
-     * @return boolen True if match, False otherwise
+     *
+     * @return boolean True if match, False otherwise
      */
     public static function words_match($haystack, $needle)
     {

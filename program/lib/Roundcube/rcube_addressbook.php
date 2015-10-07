@@ -150,7 +150,7 @@ abstract class rcube_addressbook
     /**
      * Setter for errors for internal use
      *
-     * @param int Error type (one of this class' error constants)
+     * @param int    Error type (one of this class' error constants)
      * @param string Error message (name of a text label)
      */
     protected function set_error($type, $message)
@@ -167,8 +167,7 @@ abstract class rcube_addressbook
     /**
      * Set internal list page
      *
-     * @param  number  Page number to list
-     * @access public
+     * @param number Page number to list
      */
     function set_page($page)
     {
@@ -178,8 +177,7 @@ abstract class rcube_addressbook
     /**
      * Set internal page size
      *
-     * @param  number  Number of messages to display on one page
-     * @access public
+     * @param number Number of messages to display on one page
      */
     function set_pagesize($size)
     {
@@ -206,8 +204,9 @@ abstract class rcube_addressbook
      * Check the given data before saving.
      * If input isn't valid, the message to display can be fetched using get_error()
      *
-     * @param array Assoziative array with data to save
+     * @param array   Assoziative array with data to save
      * @param boolean Attempt to fix/complete record automatically
+     *
      * @return boolean True if input is valid, False if not.
      */
     public function validate(&$save_data, $autofix = false)
@@ -296,10 +295,10 @@ abstract class rcube_addressbook
     /**
      * Mark one or more contact records as deleted
      *
-     * @param array  Record identifiers
-     * @param bool   Remove records irreversible (see self::undelete)
+     * @param array Record identifiers
+     * @param bool  Remove records irreversible (see self::undelete)
      */
-    function delete($ids, $force=true)
+    function delete($ids, $force = true)
     {
         /* empty for read-only address books */
     }
@@ -307,7 +306,7 @@ abstract class rcube_addressbook
     /**
      * Unmark delete flag on contact record(s)
      *
-     * @param array  Record identifiers
+     * @param array Record identifiers
      */
     function undelete($ids)
     {

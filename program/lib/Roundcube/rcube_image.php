@@ -90,9 +90,9 @@ class rcube_image
      * Resize image to a given size. Use only to shrink an image.
      * If an image is smaller than specified size it will be not resized.
      *
-     * @param int    $size      Max width/height size
-     * @param string $filename  Output filename
-     * @param boolean $browser_compat  Convert to image type displayable by any browser
+     * @param int     $size           Max width/height size
+     * @param string  $filename       Output filename
+     * @param boolean $browser_compat Convert to image type displayable by any browser
      *
      * @return mixed Output type on success, False on failure
      */
@@ -285,9 +285,9 @@ class rcube_image
     /**
      * Convert image to a given type
      *
-     * @param int    $type      Destination file type (see class constants)
-     * @param string $filename  Output filename (if empty, original file will be used
-     *                          and filename extension will be modified)
+     * @param int    $type     Destination file type (see class constants)
+     * @param string $filename Output filename (if empty, original file will be used
+     *                         and filename extension will be modified)
      *
      * @return bool True on success, False on failure
      */
