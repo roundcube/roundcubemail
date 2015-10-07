@@ -213,7 +213,9 @@ class rcmail extends rcube
         }
         else if ($id && $ldap_config[$id]) {
             $domain   = $this->config->mail_domain($_SESSION['storage_host']);
-            $contacts = new rcube_ldap($ldap_config[$id], $this->config->get('ldap_debug'), $domain);
+            $username_domain = $this->config->get('username_domain');
+            $domain   = is_array($username_domain) ? $username_domain[$domain] : $domain;
+	    $contacts = new rcube_ldap($ldap_config[$id], $this->config->get('ldap_debug'), $domain);
         }
         else if ($id === '0') {
             $contacts = new rcube_contacts($this->db, $this->get_user_id());
