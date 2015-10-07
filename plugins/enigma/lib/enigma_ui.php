@@ -398,10 +398,10 @@ class enigma_ui
         $now         = time();
         $date_format = $this->rc->config->get('date_format', 'Y-m-d');
         $usage_map   = array(
-            enigma_key::CAN_ENCRYPT => $this->enigma->gettext('typeencrypt'),
-            enigma_key::CAN_SIGN    => $this->enigma->gettext('typesign'),
-            enigma_key::CAN_CERTIFY => $this->enigma->gettext('typecert'),
-            enigma_key::CAN_AUTH    => $this->enigma->gettext('typeauth'),
+            enigma_key::CAN_ENCRYPT      => $this->enigma->gettext('typeencrypt'),
+            enigma_key::CAN_SIGN         => $this->enigma->gettext('typesign'),
+            enigma_key::CAN_CERTIFY      => $this->enigma->gettext('typecert'),
+            enigma_key::CAN_AUTHENTICATE => $this->enigma->gettext('typeauth'),
         );
 
         foreach ($this->data->subkeys as $subkey) {

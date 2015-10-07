@@ -26,10 +26,10 @@ class enigma_key
     const TYPE_KEYPAIR = 1;
     const TYPE_PUBLIC  = 2;
 
-    const CAN_SIGN    = 1;
-    const CAN_ENCRYPT = 2;
-    const CAN_CERTIFY = 4;
-    const CAN_AUTH    = 8;
+    const CAN_ENCRYPT      = 1;
+    const CAN_SIGN         = 2;
+    const CAN_CERTIFY      = 4;
+    const CAN_AUTHENTICATE = 8;
 
 
     /**

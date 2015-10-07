@@ -423,14 +423,6 @@ class enigma_driver_gnupg extends enigma_driver
         $ekey->name = trim($ekey->users[0]->name . ' <' . $ekey->users[0]->email . '>');
 
         foreach ($key->getSubKeys() as $idx => $subkey) {
-            $usage = 0;
-            if ($subkey->canSign()) {
-                $usage += enigma_key::CAN_SIGN;
-            }
-            if ($subkey->canEncrypt()) {
-                $usage += enigma_key::CAN_ENCRYPT;
-            }
-
             $skey = new enigma_subkey();
             $skey->id          = $subkey->getId();
             $skey->revoked     = $subkey->isRevoked();
@@ -440,7 +432,7 @@ class enigma_driver_gnupg extends enigma_driver
             $skey->has_private = $subkey->hasPrivate();
             $skey->algorithm   = $subkey->getAlgorithm();
             $skey->length      = $subkey->getLength();
-            $skey->usage       = $usage;
+            $skey->usage       = $subkey->usage();
 
             $ekey->subkeys[$idx] = $skey;
         };
