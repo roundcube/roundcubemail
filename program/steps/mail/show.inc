@@ -68,6 +68,7 @@ if ($uid) {
     $OUTPUT->set_env('safemode', $MESSAGE->is_safe);
     $OUTPUT->set_env('sender', $MESSAGE->sender['string']);
     $OUTPUT->set_env('mailbox', $mbox_name);
+    $OUTPUT->set_env('username', $RCMAIL->get_user_name());
     $OUTPUT->set_env('permaurl', $RCMAIL->url(array('_action' => 'show', '_uid' => $MESSAGE->uid, '_mbox' => $mbox_name)));
 
     if ($MESSAGE->headers->get('list-post', false)) {
@@ -240,6 +241,7 @@ function rcmail_message_attachments($attrib)
         $out = html::tag('ul', $attrib, $ol, html::$common_attrib);
 
         $RCMAIL->output->set_env('attachments', $attachments);
+        $RCMAIL->output->add_gui_object('attachments', $attrib['id']);
     }
 
     return $out;

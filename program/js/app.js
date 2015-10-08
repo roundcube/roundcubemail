@@ -6,8 +6,8 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (C) 2005-2014, The Roundcube Dev Team
- * Copyright (C) 2011-2014, Kolab Systems AG
+ * Copyright (C) 2005-2015, The Roundcube Dev Team
+ * Copyright (C) 2011-2015, Kolab Systems AG
  *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
@@ -274,6 +274,23 @@ function rcube_webmail()
             this.enable_command('compose', 'add-contact', false);
             parent.rcmail.show_contentframe(true);
           }
+
+          // initialize drag-n-drop on attachments, so they can e.g.
+          // be dropped into mail compose attachments in another window
+          if (this.gui_objects.attachments)
+            $('li > a', this.gui_objects.attachments).not('.drop').on('dragstart', function(e) {
+              var n, href = this.href, dt = e.originalEvent.dataTransfer;
+              if (dt) {
+                // inject username to the uri
+                href = href.replace(/^https?:\/\//, function(m) { return m + urlencode(ref.env.username) + '@'});
+                // cleanup the node to get filename without the size test
+                n = $(this).clone();
+                n.children().remove();
+
+                dt.setData('roundcube-uri', href);
+                dt.setData('roundcube-name', $.trim(n.text()));
+              }
+            });
         }
         else if (this.env.action == 'compose') {
           this.env.address_group_stack = [];
@@ -8410,15 +8427,32 @@ function rcube_webmail()
     this.file_drag_hover(e, false);
 
     // prepare multipart form data composition
-    var files = e.target.files || e.dataTransfer.files,
+    var uri, files = e.target.files || e.dataTransfer.files,
       formdata = window.FormData ? new FormData() : null,
       fieldname = (this.env.filedrop.fieldname || '_file') + (this.env.filedrop.single ? '' : '[]'),
       boundary = '------multipartformboundary' + (new Date).getTime(),
       dashdash = '--', crlf = '\r\n',
-      multipart = dashdash + boundary + crlf;
+      multipart = dashdash + boundary + crlf,
+      args = {_id: this.env.compose_id || this.env.cid || '', _remote: 1, _from: this.env.action};
 
-    if (!files || !files.length)
+    if (!files || !files.length) {
+      // Roundcube attachment, pass its uri to the backend and attach
+      if (uri = e.dataTransfer.getData('roundcube-uri')) {
+        var ts = new Date().getTime(),
+          // jQuery way to escape filename (#1490530)
+          content = $('<span>').text(e.dataTransfer.getData('roundcube-name') || this.gettext('attaching')).html();
+
+        args._uri = uri;
+        args._uploadid = ts;
+
+        // add to attachments list
+        if (!this.add2attachment_list(ts, {name: '', html: content, classname: 'uploading', complete: false}))
+          this.file_upload_id = this.set_busy(true, 'attaching');
+
+        this.http_post(this.env.filedrop.action || 'upload', args);
+      }
       return;
+    }
 
     // inline function to submit the files to the server
     var submit_data = function() {
@@ -8434,10 +8468,12 @@ function rcube_webmail()
       // complete multipart content and post request
       multipart += dashdash + boundary + dashdash + crlf;
 
+      args._uploadid = ts;
+
       $.ajax({
         type: 'POST',
         dataType: 'json',
-        url: ref.url(ref.env.filedrop.action || 'upload', {_id: ref.env.compose_id||ref.env.cid||'', _uploadid: ts, _remote: 1, _from: ref.env.action}),
+        url: ref.url(ref.env.filedrop.action || 'upload', args),
         contentType: formdata ? false : 'multipart/form-data; boundary=' + boundary,
         processData: false,
         timeout: 0, // disable default timeout set in ajaxSetup()

@@ -88,7 +88,7 @@ $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubj
     'selectimportfile', 'messageissent', 'loadingdata', 'nopubkeyfor', 'nopubkeyforsender',
     'encryptnoattachments','encryptedsendialog','searchpubkeyservers', 'importpubkeys',
     'encryptpubkeysfound',  'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
-    'keyrevoked', 'keyimportsuccess', 'keyservererror');
+    'keyrevoked', 'keyimportsuccess', 'keyservererror', 'attaching');
 
 $OUTPUT->set_pagetitle($RCMAIL->gettext('compose'));
 
@@ -1294,10 +1294,8 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
             }
 
             if (($attachment = $loaded_attachments[rcmail_attachment_name($part) . $part->mimetype])
-                || ($attachment = rcmail_save_attachment($message, $pid))
+                || ($attachment = rcmail_save_attachment($message, $pid, $COMPOSE['id']))
             ) {
-                $COMPOSE['attachments'][$attachment['id']] = $attachment;
-
                 if ($bodyIsHtml && ($part->content_id || $part->content_location)) {
                     $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
                         $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
@@ -1329,8 +1327,7 @@ function rcmail_write_inline_attachments(&$message)
 
     foreach ((array)$message->mime_parts as $pid => $part) {
         if (($part->content_id || $part->content_location) && $part->filename) {
-            if ($attachment = rcmail_save_attachment($message, $pid)) {
-                $COMPOSE['attachments'][$attachment['id']] = $attachment;
+            if ($attachment = rcmail_save_attachment($message, $pid, $COMPOSE['id'])) {
                 $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
                     $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
 
@@ -1398,46 +1395,11 @@ function rcmail_write_forward_attachments()
         $names[$name] = 1;
         $name .= '.eml';
 
-        $data = $path = null;
-
         if (!empty($loaded_attachments[$name . 'message/rfc822'])) {
             continue;
         }
 
-        // don't load too big attachments into memory
-        if (!rcube_utils::mem_check($message->size)) {
-            $temp_dir = unslashify($RCMAIL->config->get('temp_dir'));
-            $path     = tempnam($temp_dir, 'rcmAttmnt');
-            if ($fp = fopen($path, 'w')) {
-                $storage->get_raw_body($message->uid, $fp);
-                fclose($fp);
-            }
-            else {
-                return false;
-            }
-        }
-        else {
-            $data = $storage->get_raw_body($message->uid);
-        }
-
-        $attachment = array(
-            'group'    => $COMPOSE['id'],
-            'name'     => $name,
-            'mimetype' => 'message/rfc822',
-            'data'     => $data,
-            'path'     => $path,
-            'size'     => $path ? filesize($path) : strlen($data),
-        );
-
-        $attachment = $RCMAIL->plugins->exec_hook('attachment_save', $attachment);
-
-        if ($attachment['status']) {
-            unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
-            $COMPOSE['attachments'][$attachment['id']] = $attachment;
-        }
-        else if ($path) {
-            @unlink($path);
-        }
+        rcmail_save_attachment($message, null, $COMPOSE['id'], array('filename' => $name));
 
         if ($message->headers->messageID) {
             $refs[] = $message->headers->messageID;
@@ -1451,59 +1413,6 @@ function rcmail_write_forward_attachments()
     if (!empty($refs)) {
         $COMPOSE['references'] = implode(' ', $refs);
     }
-}
-
-
-function rcmail_save_attachment(&$message, $pid)
-{
-    global $COMPOSE;
-
-    $rcmail = rcmail::get_instance();
-    $part   = $message->mime_parts[$pid];
-    $data   = $path = null;
-
-    // don't load too big attachments into memory
-    if (!rcube_utils::mem_check($part->size)) {
-        $temp_dir = unslashify($rcmail->config->get('temp_dir'));
-        $path     = tempnam($temp_dir, 'rcmAttmnt');
-
-        if ($fp = fopen($path, 'w')) {
-            $message->get_part_body($pid, false, 0, $fp);
-            fclose($fp);
-        }
-        else {
-            return false;
-        }
-    }
-    else {
-        $data = $message->get_part_body($pid);
-    }
-
-    $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
-    $filename = rcmail_attachment_name($part);
-
-    $attachment = array(
-        'group'      => $COMPOSE['id'],
-        'name'       => $filename,
-        'mimetype'   => $mimetype,
-        'content_id' => $part->content_id,
-        'data'       => $data,
-        'path'       => $path,
-        'size'       => $path ? filesize($path) : strlen($data),
-        'charset'    => $part->charset,
-    );
-
-    $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
-
-    if ($attachment['status']) {
-        unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
-        return $attachment;
-    }
-    else if ($path) {
-        @unlink($path);
-    }
-
-    return false;
 }
 
 function rcmail_save_image($path, $mimetype = '', $data = null)

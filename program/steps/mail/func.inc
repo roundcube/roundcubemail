@@ -2199,3 +2199,77 @@ function rcmail_compose_contact_groups($abook, $source_id, $search = null, $sear
 
     return $jsresult;
 }
+
+function rcmail_save_attachment($message, $pid, $compose_id, $params = array())
+{
+    $rcmail  = rcmail::get_instance();
+    $storage = $rcmail->get_storage();
+
+    if ($pid) {
+        // attachment requested
+        $part     = $message->mime_parts[$pid];
+        $size     = $part->size;
+        $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
+        $filename = $params['filename'] ?: rcmail_attachment_name($part);
+    }
+    else {
+        // the whole message requested
+        $size = $message->size;
+        $mimetype = 'message/rfc822';
+        $filename = $params['filename'] ?: 'message_rfc822.eml';
+    }
+
+    // don't load too big attachments into memory
+    if (!rcube_utils::mem_check($size)) {
+        $temp_dir = unslashify($rcmail->config->get('temp_dir'));
+        $path     = tempnam($temp_dir, 'rcmAttmnt');
+
+        if ($fp = fopen($path, 'w')) {
+            if ($pid) {
+                // part body
+                $message->get_part_body($pid, false, 0, $fp);
+            }
+            else {
+                // complete message
+                $storage->get_raw_body($message->uid, $fp);
+            }
+
+            fclose($fp);
+        }
+        else {
+            return false;
+        }
+    }
+    else if ($pid) {
+        // part body
+        $data = $message->get_part_body($pid);
+    }
+    else {
+        // complete message
+        $data = $storage->get_raw_body($message->uid);
+    }
+
+    $attachment = array(
+        'group'      => $compose_id,
+        'name'       => $filename,
+        'mimetype'   => $mimetype,
+        'content_id' => $part ? $part->content_id : null,
+        'data'       => $data,
+        'path'       => $path,
+        'size'       => $path ? filesize($path) : strlen($data),
+        'charset'    => $part ? $part->charset : null,
+    );
+
+    $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
+
+    if ($attachment['status']) {
+        unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
+        $rcmail->session->append('compose_data_' . $compose_id . '.attachments', $attachment['id'], $attachment);
+        return $attachment;
+    }
+    else if ($path) {
+        @unlink($path);
+    }
+
+    return false;
+}
