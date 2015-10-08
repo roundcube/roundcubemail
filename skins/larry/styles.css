@@ -2408,6 +2408,12 @@ ul.toolbarmenu li label {
 ul.toolbarmenu li.separator label {
 	color: #bbb;
 	font-style: italic;
+	padding: 0 8px;
+	line-height: 17px;
+}
+
+ul.toolbarmenu li input {
+	margin: 0;
 }
 
 ul.toolbarmenu li a.icon {

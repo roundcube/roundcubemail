@@ -52,6 +52,8 @@
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="bcc" id="s_mod_bcc" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="bcc" /></span></label></li>
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="body" id="s_mod_body" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="body" /></span></label></li>
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="text" id="s_mod_text" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="msgtext" /></span></label></li>
+		<li role="separator" class="separator"><label><roundcube:label name="date" /></label></li>
+		<li role="menuitem"><roundcube:object name="searchinterval" id="s_interval" onchange="rcmail.set_searchinterval($(this).val())" /></li>
 		<li role="separator" class="separator"><label><roundcube:label name="searchscope" /></label></li>
 		<li role="menuitem"><label><input type="radio" name="s_scope" value="base" id="s_scope_base" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="currentfolder" /></span></label></li>
 		<li role="menuitem"><label><input type="radio" name="s_scope" value="sub" id="s_scope_sub" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="subfolders" /></span></label></li>

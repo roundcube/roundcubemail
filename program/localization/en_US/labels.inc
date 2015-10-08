@@ -225,6 +225,12 @@ $labels['searchscope'] = 'Scope';
 $labels['currentfolder'] = 'Current folder';
 $labels['subfolders'] = 'This and subfolders';
 $labels['allfolders'] = 'All folders';
+$labels['searchinterval-1W'] = 'older than a week';
+$labels['searchinterval-1M'] = 'older than a month';
+$labels['searchinterval-1Y'] = 'older than a year';
+$labels['searchinterval1W'] = 'younger than a week';
+$labels['searchinterval1M'] = 'younger than a month';
+$labels['searchinterval1Y'] = 'younger than a year';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';

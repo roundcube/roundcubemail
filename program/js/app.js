@@ -4896,6 +4896,9 @@ function rcube_webmail()
     if (filter)
       url._filter = filter;
 
+    if (this.gui_objects.search_interval)
+      url._interval = $(this.gui_objects.search_interval).val();
+
     if (search) {
       url._q = search;
 
@@ -4932,6 +4935,9 @@ function rcube_webmail()
     if (this.gui_objects.qsearchbox)
       this.gui_objects.qsearchbox.value = '';
 
+    if (this.gui_objects.search_interval)
+      $(this.gui_objects.search_interval).val('');
+
     if (this.env.qsearch)
       this.abort_request(this.env.qsearch);
 
@@ -4957,6 +4963,20 @@ function rcube_webmail()
       if (!this.qsearch(this.gui_objects.qsearchbox.value) && this.env.search_filter && this.env.search_filter != 'ALL')
         this.filter_mailbox(this.env.search_filter);
       if (scope != 'all')
+        this.select_folder(this.env.mailbox, '', true);
+    }
+  };
+
+  this.set_searchinterval = function(interval)
+  {
+    var old = this.env.search_interval;
+    this.env.search_interval = interval;
+
+    // re-send search query with new interval
+    if (interval != old && this.env.search_request) {
+      if (!this.qsearch(this.gui_objects.qsearchbox.value) && this.env.search_filter && this.env.search_filter != 'ALL')
+        this.filter_mailbox(this.env.search_filter);
+      if (interval)
         this.select_folder(this.env.mailbox, '', true);
     }
   };

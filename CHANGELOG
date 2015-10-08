@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Implemented mail messages searching with predefined date interval
 - PGP encryption support via Mailvelope integration
 - PGP encryption support via Enigma plugin
 - PHP7 compatibility fixes (#1490416)

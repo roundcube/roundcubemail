@@ -125,6 +125,7 @@ $OUTPUT->add_handlers(array(
     'messagecontentframe' => 'rcmail_messagecontent_frame',
     'messageimportform'   => 'rcmail_message_import_form',
     'searchfilter'        => 'rcmail_search_filter',
+    'searchinterval'      => 'rcmail_search_interval',
     'searchform'          => array($OUTPUT, 'search_form'),
 ));
 
@@ -2028,8 +2029,9 @@ function rcmail_search_filter($attrib)
 {
     global $RCMAIL;
 
-    if (!strlen($attrib['id']))
+    if (!strlen($attrib['id'])) {
         $attrib['id'] = 'rcmlistfilter';
+    }
 
     $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME.'.filter_mailbox(this.value)';
 
@@ -2043,27 +2045,45 @@ function rcmail_search_filter($attrib)
         $attachment .= ' HEADER Content-Type ' . rcube_imap_generic::escape($type);
     }
 
-    $select_filter = new html_select($attrib);
-    $select_filter->add($RCMAIL->gettext('all'), 'ALL');
-    $select_filter->add($RCMAIL->gettext('unread'), 'UNSEEN');
-    $select_filter->add($RCMAIL->gettext('flagged'), 'FLAGGED');
-    $select_filter->add($RCMAIL->gettext('unanswered'), 'UNANSWERED');
+    $select = new html_select($attrib);
+    $select->add($RCMAIL->gettext('all'), 'ALL');
+    $select->add($RCMAIL->gettext('unread'), 'UNSEEN');
+    $select->add($RCMAIL->gettext('flagged'), 'FLAGGED');
+    $select->add($RCMAIL->gettext('unanswered'), 'UNANSWERED');
     if (!$RCMAIL->config->get('skip_deleted')) {
-        $select_filter->add($RCMAIL->gettext('deleted'), 'DELETED');
-        $select_filter->add($RCMAIL->gettext('undeleted'), 'UNDELETED');
+        $select->add($RCMAIL->gettext('deleted'), 'DELETED');
+        $select->add($RCMAIL->gettext('undeleted'), 'UNDELETED');
     }
-    $select_filter->add($RCMAIL->gettext('withattachment'), $attachment);
-    $select_filter->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('highest'), 'HEADER X-PRIORITY 1');
-    $select_filter->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('high'), 'HEADER X-PRIORITY 2');
-    $select_filter->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('normal'), 'NOT HEADER X-PRIORITY 1 NOT HEADER X-PRIORITY 2 NOT HEADER X-PRIORITY 4 NOT HEADER X-PRIORITY 5');
-    $select_filter->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('low'), 'HEADER X-PRIORITY 4');
-    $select_filter->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('lowest'), 'HEADER X-PRIORITY 5');
-
-    $out = $select_filter->show($_REQUEST['_search'] ? $_SESSION['search_filter'] : 'ALL');
+    $select->add($RCMAIL->gettext('withattachment'), $attachment);
+    $select->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('highest'), 'HEADER X-PRIORITY 1');
+    $select->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('high'), 'HEADER X-PRIORITY 2');
+    $select->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('normal'), 'NOT HEADER X-PRIORITY 1 NOT HEADER X-PRIORITY 2 NOT HEADER X-PRIORITY 4 NOT HEADER X-PRIORITY 5');
+    $select->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('low'), 'HEADER X-PRIORITY 4');
+    $select->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('lowest'), 'HEADER X-PRIORITY 5');
 
     $RCMAIL->output->add_gui_object('search_filter', $attrib['id']);
 
-    return $out;
+    return $select->show($_REQUEST['_search'] ? $_SESSION['search_filter'] : 'ALL');
+}
+
+function rcmail_search_interval($attrib)
+{
+    global $RCMAIL;
+
+    if (!strlen($attrib['id'])) {
+        $attrib['id'] = 'rcmsearchinterval';
+    }
+
+    $select = new html_select($attrib);
+    $select->add('', '');
+
+    foreach (array('1W', '1M', '1Y', '-1W', '-1M', '-1Y') as $value) {
+        $select->add($RCMAIL->gettext('searchinterval' . $value), $value);
+    }
+
+    $RCMAIL->output->add_gui_object('search_interval', $attrib['id']);
+
+    return $select->show($_REQUEST['_search'] ? $_SESSION['search_interval'] : '');
 }
 
 function rcmail_message_error()

@@ -251,6 +251,9 @@ html.mozilla #mailboxlist > li:first-child {
 	background-position: -28px -458px;
 }
 
+#s_interval {
+	margin: 3px 8px;
+}
 
 /*** message list ***/
 

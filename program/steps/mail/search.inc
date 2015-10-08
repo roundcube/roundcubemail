@@ -38,16 +38,15 @@ $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GET, true);
 $filter  = rcube_utils::get_input_value('_filter', rcube_utils::INPUT_GET);
 $headers = rcube_utils::get_input_value('_headers', rcube_utils::INPUT_GET);
 $scope   = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET);
+$interval = rcube_utils::get_input_value('_interval', rcube_utils::INPUT_GET);
 $continue = rcube_utils::get_input_value('_continue', rcube_utils::INPUT_GET);
 $subject = array();
 
 $filter         = trim($filter);
-$search_request = md5($mbox.$scope.$filter.$str);
+$search_request = md5($mbox.$scope.$interval.$filter.$str);
 
 // add list filter string
 $search_str = $filter && $filter != 'ALL' ? $filter : '';
-
-$_SESSION['search_filter'] = $filter;
 
 // Check the search string for type of search
 if (preg_match("/^from:.*/i", $str)) {
@@ -102,6 +101,10 @@ else if (strlen(trim($str))) {
 
 $search = isset($srch) ? trim($srch) : trim($str);
 
+if ($search_interval = rcmail_search_interval_criteria($interval)) {
+    $search_str .= ' ' . $search_interval;
+}
+
 if (!empty($subject)) {
     $search_str .= str_repeat(' OR', count($subject)-1);
     foreach ($subject as $sub) {
@@ -144,9 +147,10 @@ if ($search_str) {
     $_SESSION['search'] = $RCMAIL->storage->get_search_set();
     $_SESSION['last_text_search'] = $str;
 }
-$_SESSION['search_request'] = $search_request;
-$_SESSION['search_scope']   = $scope;
-
+$_SESSION['search_request']  = $search_request;
+$_SESSION['search_scope']    = $scope;
+$_SESSION['search_interval'] = $interval;
+$_SESSION['search_filter']   = $filter;
 
 // Get the headers
 if (!$result->incomplete) {
@@ -212,3 +216,28 @@ if (!$result->incomplete) {
 }
 
 $OUTPUT->send();
+
+
+// Creates BEFORE/SINCE search criteria from the specified interval
+// Interval can be: 1W, 1M, 1Y, -1W, -1M, -1Y
+function rcmail_search_interval_criteria($interval)
+{
+    if (empty($interval)) {
+        return;
+    }
+
+    if ($interval[0] == '-') {
+        $search   = 'BEFORE';
+        $interval = substr($interval, 1);
+    }
+    else {
+        $search = 'SINCE';
+    }
+
+    $date     = new DateTime('now');
+    $interval = new DateInterval('P' . $interval);
+
+    $date->sub($interval);
+
+    return $search . ' ' . $date->format('j-M-Y');
+}
