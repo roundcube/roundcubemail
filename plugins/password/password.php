@@ -256,6 +256,7 @@ class password extends rcube_plugin
             $rules = html::tag('ul', array('id' => 'ruleslist'), $rules);
         }
 
+        $disabled_msg = '';
         if ($form_disabled) {
             $disabled_msg = is_string($form_disabled) ? $form_disabled : $this->gettext('disablednotice');
             $disabled_msg = html::div(array('class' => 'boxwarning', 'id' => 'password-notice'), $disabled_msg);
@@ -316,6 +317,7 @@ class password extends rcube_plugin
 
         $object = new $class;
         $result = $object->save($curpass, $passwd);
+        $message = '';
 
         if (is_array($result)) {
             $message = $result['message'];
@@ -403,6 +405,9 @@ class password extends rcube_plugin
     {
         $method = strtolower($method);
         $rcmail = rcmail::get_instance();
+        $prefix = '';
+        $crypted = '';
+        $default = false;
 
         if (empty($method) || $method == 'default') {
             $method   = $rcmail->config->get('password_algorithm');
@@ -547,7 +552,7 @@ class password extends rcube_plugin
         case 'samba':
             if (function_exists('hash')) {
                 $crypted = hash('md4', rcube_charset::convert($password, RCUBE_CHARSET, 'UTF-16LE'));
-                $crypted = strtoupper($crypted_password);
+                $crypted = strtoupper($crypted);
             }
             else {
                 rcube::raise_error(array(
@@ -585,14 +590,14 @@ class password extends rcube_plugin
                 return false;
             }
             else {
-                fwrite($pipe, $passwd . "\n", 1+strlen($passwd)); usleep(1000);
-                fwrite($pipe, $passwd . "\n", 1+strlen($passwd));
+                fwrite($pipe, $password . "\n", 1+strlen($password)); usleep(1000);
+                fwrite($pipe, $password . "\n", 1+strlen($password));
                 pclose($pipe);
 
                 $crypted = trim(file_get_contents($tmpfile), "\n");
                 unlink($tmpfile);
 
-                if (!preg_match('/^\{' . $method . '\}/', $newpass)) {
+                if (!preg_match('/^\{' . $method . '\}/', $crypted)) {
                     return false;
                 }
 
