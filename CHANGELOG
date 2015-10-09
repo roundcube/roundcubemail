@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Display attachment size in compose (#1484774)
 - Added possibility to drag-n-drop attachments from mail preview to compose window
 - Implemented mail messages searching with predefined date interval
 - PGP encryption support via Mailvelope integration

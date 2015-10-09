@@ -385,6 +385,7 @@ function rcmail_process_compose_params(&$COMPOSE)
                     'group'    => $COMPOSE_ID,
                     'name'     => $filename,
                     'mimetype' => rcube_mime::file_content_type($attach, $filename),
+                    'size'     => filesize($attach),
                     'path'     => $attach,
                 );
             }
@@ -1557,6 +1558,9 @@ function rcmail_compose_attachment_list($attrib)
                 continue;
             }
 
+            $content = sprintf('%s <span class="attachment-size">(%s)</span>',
+                rcube::Q($a_prop['name']), $RCMAIL->show_bytes($a_prop['size']));
+
             $out .= html::tag('li', array(
                     'id'          => 'rcmfile'.$id,
                     'class'       => rcube_utils::file2class($a_prop['mimetype'], $a_prop['name']),
@@ -1571,7 +1575,7 @@ function rcmail_compose_attachment_list($attrib)
                         'aria-label'   => $RCMAIL->gettext('delete') . ' ' . $a_prop['name'],
                     ),
                     $button
-                ) . rcube::Q($a_prop['name'])
+                ) . $content
             );
 
             $jslist['rcmfile'.$id] = array(

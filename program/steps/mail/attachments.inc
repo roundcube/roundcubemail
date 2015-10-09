@@ -203,7 +203,8 @@ function rcmail_attachment_success($attachment, $uploadid)
         'aria-label' => $RCMAIL->gettext('delete') . ' ' . $attachment['name'],
     ), $button);
 
-    $content .= rcube::Q($attachment['name']);
+    $content .= sprintf('%s <span class="attachment-size">(%s)</span>',
+        rcube::Q($attachment['name']), $RCMAIL->show_bytes($attachment['size']));
 
     $RCMAIL->output->command('add2attachment_list', "rcmfile$id", array(
         'html'      => $content,
