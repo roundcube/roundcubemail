@@ -38,6 +38,7 @@ class rcube_ldap extends rcube_addressbook
 
     // private properties
     protected $ldap;
+    protected $formats  = array();
     protected $prop     = array();
     protected $fieldmap = array();
     protected $filter   = '';
@@ -45,7 +46,7 @@ class rcube_ldap extends rcube_addressbook
     protected $result;
     protected $ldap_result;
     protected $mail_domain = '';
-    protected $debug = false;
+    protected $debug       = false;
 
     /**
      * Group objectclass (lowercase) to member attribute mapping
@@ -119,22 +120,38 @@ class rcube_ldap extends rcube_addressbook
         if (is_array($p['fieldmap'])) {
             $p['fieldmap'] = array_filter($p['fieldmap']);
             foreach ($p['fieldmap'] as $rf => $lf)
-                $this->fieldmap[$rf] = $this->_attr_name(strtolower($lf));
+                $this->fieldmap[$rf] = $this->_attr_name($lf);
         }
         else if (!empty($p)) {
             // read deprecated *_field properties to remain backwards compatible
             foreach ($p as $prop => $value)
                 if (!empty($value) && preg_match('/^(.+)_field$/', $prop, $matches))
-                    $this->fieldmap[$matches[1]] = $this->_attr_name(strtolower($value));
+                    $this->fieldmap[$matches[1]] = $this->_attr_name($value);
         }
 
         // use fieldmap to advertise supported coltypes to the application
         foreach ($this->fieldmap as $colv => $lfv) {
             list($col, $type) = explode(':', $colv);
-            list($lf, $limit, $delim) = explode(':', $lfv);
+            $params           = explode(':', $lfv);
 
-            if ($limit == '*') $limit = null;
-            else               $limit = max(1, intval($limit));
+            $lf    = array_shift($params);
+            $limit = 1;
+
+            foreach ($params as $idx => $param) {
+                // field format specification
+                if (preg_match('/^(date)\[(.+)\]$/i', $param, $m)) {
+                    $this->formats[$lf] = array('type' => strtolower($m[1]), 'format' => $m[2]);
+                }
+                // first argument is a limit
+                else if ($idx === 0) {
+                    if ($param == '*') $limit = null;
+                    else               $limit = max(1, intval($param));
+                }
+                // second is a composite field separator
+                else if ($idx === 1 && $param) {
+                    $this->coltypes[$col]['serialized'][$type] = $param;
+                }
+            }
 
             if (!is_array($this->coltypes[$col])) {
                 $subtypes = $type ? array($type) : null;
@@ -146,10 +163,7 @@ class rcube_ldap extends rcube_addressbook
                 $this->coltypes[$col]['limit'] += $limit;
             }
 
-            if ($delim)
-               $this->coltypes[$col]['serialized'][$type] = $delim;
-
-           $this->fieldmap[$colv] = $lf;
+            $this->fieldmap[$colv] = $lf;
         }
 
         // support for composite address
@@ -195,7 +209,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         foreach ($this->prop['required_fields'] as $key => $val) {
-            $this->prop['required_fields'][$key] = $this->_attr_name(strtolower($val));
+            $this->prop['required_fields'][$key] = $this->_attr_name($val);
         }
 
         // Build sub_fields filter
@@ -1536,6 +1550,20 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
+        foreach ($this->formats as $fld => $format) {
+            if (empty($ldap_data[$fld])) {
+                continue;
+            }
+
+            switch ($format['type']) {
+            case 'date':
+                if ($dt = rcube_utils::anytodatetime($ldap_data[$fld])) {
+                    $ldap_data[$fld] = $dt->format($format['format']);
+                }
+                break;
+            }
+        }
+
         return $ldap_data;
     }
 
@@ -1555,6 +1583,7 @@ class rcube_ldap extends rcube_addressbook
 
         list($name, $limit) = explode(':', $namev, 2);
         $suffix = $limit ? ':'.$limit : '';
+        $name   = strtolower($name);
 
         return (isset($aliases[$name]) ? $aliases[$name] : $name) . $suffix;
     }

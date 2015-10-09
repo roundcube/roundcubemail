@@ -853,8 +853,11 @@ $config['ldap_public']['Verisign'] = array(
   'required_fields' => array('cn', 'sn', 'mail'),
   'search_fields'   => array('mail', 'cn'),  // fields to search in
   // mapping of contact fields to directory attributes
-  //   for every attribute one can specify the number of values (limit) allowed.
-  //   default is 1, a wildcard * means unlimited
+  //   1. for every attribute one can specify the number of values (limit) allowed.
+  //      default is 1, a wildcard * means unlimited
+  //   2. another possible parameter is separator character for composite fields
+  //   3. it's possible to define field format for write operations, e.g. for date fields
+  //      example: 'birthday:date[YmdHis\\Z]'
   'fieldmap' => array(
     // Roundcube  => LDAP:limit
     'name'        => 'cn',
