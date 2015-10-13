@@ -401,11 +401,11 @@ show_attachmentmenu: function(elem, event)
 {
   var id = elem.parentNode.id.replace(/^attach/, '');
 
-  $('#attachmenuopen').unbind('click').attr('onclick', '').click(function(e) {
+  $('#attachmenuopen').off('click').attr('onclick', '').click(function(e) {
     return rcmail.command('open-attachment', id, this);
   });
 
-  $('#attachmenudownload').unbind('click').attr('onclick', '').click(function() {
+  $('#attachmenudownload').off('click').attr('onclick', '').click(function() {
     rcmail.command('download-attachment', id, this);
   });
 
@@ -1050,7 +1050,7 @@ function rcube_init_mail_ui()
       else if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
         // add menu link for each attachment
         $('#attachment-list > li[id^="attach"]').each(function() {
-          $(this).append($('<a class="drop"></a>').bind('click keypress', function(e) {
+          $(this).append($('<a class="drop"></a>').on('click keypress', function(e) {
             if (e.type != 'keypress' || e.which == 13) {
               rcmail_ui.show_attachmentmenu(this, e);
               return false;

@@ -246,7 +246,7 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
         var rowid = this.id.substr(6);
 
         // remove all attached events
-        $(this).unbind();
+        $(this).off();
 
         // update row id
         if (rowid > id) {
@@ -417,7 +417,7 @@ rcube_webmail.prototype.managesieve_dragend = function(e)
 rcube_webmail.prototype.managesieve_fixdragend = function(elem)
 {
   var p = this;
-  $(elem).bind('mouseup' + ((bw.iphone || bw.ipad) ? ' touchend' : ''), function(e) {
+  $(elem).on('mouseup' + ((bw.iphone || bw.ipad) ? ' touchend' : ''), function(e) {
     if (p.drag_active)
       p.filters_list.drag_mouse_up(e);
   });
@@ -837,10 +837,11 @@ rcube_webmail.prototype.managesieve_tip_register = function(tips)
   var n, framed = parent.rcmail,
     tip = framed ? parent.rcmail.env.ms_tip_layer : rcmail.env.ms_tip_layer;
 
-  for (var n in tips) {
+  for (n in tips) {
     $('#'+tips[n][0])
       .data('tip', tips[n][1])
-      .bind('mouseenter', function(e) {
+      .mouseleave(function(e) { tip.hide(); })
+      .mouseenter(function(e) {
         var elem = $(this),
           offset = elem.offset(),
           left = offset.left,
@@ -857,8 +858,7 @@ rcube_webmail.prototype.managesieve_tip_register = function(tips)
         top -= tip.height();
 
         tip.css({left: left, top: top, minWidth: (minwidth-2) + 'px'}).show();
-      })
-    .bind('mouseleave', function(e) { tip.hide(); });
+      });
   }
 };
 

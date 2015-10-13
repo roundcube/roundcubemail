@@ -115,7 +115,7 @@ function rcube_splitter(attrib)
     me.p2pos = me.relative ? $(me.p2).position() : $(me.p2).offset();
 
     // start listening to mousemove events
-    $(document).bind('mousemove.'+me.id, onDrag).bind('mouseup.'+me.id, onDragStop);
+    $(document).on('mousemove.' + me.id, onDrag).on('mouseup.' + me.id, onDragStop);
 
     // enable dragging above iframes
     $('iframe').each(function() {
@@ -181,7 +181,7 @@ function rcube_splitter(attrib)
       document.body.style.webkitUserSelect = 'auto';
 
     // cancel the listening for drag events
-    $(document).unbind('.' + me.id);
+    $(document).off('.' + me.id);
 
     // remove temp divs
     $('div.iframe-splitter-fix').remove();

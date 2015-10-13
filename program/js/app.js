@@ -77,7 +77,7 @@ function rcube_webmail()
   });
 
   // unload fix
-  $(window).bind('beforeunload', function() { ref.unload = true; });
+  $(window).on('beforeunload', function() { ref.unload = true; });
 
   // set environment variable(s)
   this.set_env = function(p, value)
@@ -321,8 +321,8 @@ function rcube_webmail()
           if (this.gui_objects.responseslist) {
             $('a.insertresponse', this.gui_objects.responseslist)
               .attr('unselectable', 'on')
-              .mousedown(function(e){ return rcube_event.cancel(e); })
-              .bind('mouseup keypress', function(e){
+              .mousedown(function(e) { return rcube_event.cancel(e); })
+              .on('mouseup keypress', function(e) {
                 if (e.type == 'mouseup' || rcube_event.get_keycode(e) == 13) {
                   ref.command('insert-response', $(this).attr('rel'));
                   $(document.body).trigger('mouseup');  // hides the menu
@@ -535,7 +535,7 @@ function rcube_webmail()
             input_user = $('#rcmloginuser'),
             input_tz = $('#rcmlogintz');
 
-        input_user.bind('keyup', function(e) { return ref.login_user_keyup(e); });
+        input_user.keyup(function(e) { return ref.login_user_keyup(e); });
 
         if (input_user.val() == '')
           input_user.focus();
@@ -600,17 +600,17 @@ function rcube_webmail()
 
     // activate html5 file drop feature (if browser supports it and if configured)
     if (this.gui_objects.filedrop && this.env.filedrop && ((window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.sendAsBinary) || window.FormData)) {
-      $(document.body).bind('dragover dragleave drop', function(e){ return ref.document_drag_hover(e, e.type == 'dragover'); });
+      $(document.body).on('dragover dragleave drop', function(e) { return ref.document_drag_hover(e, e.type == 'dragover'); });
       $(this.gui_objects.filedrop).addClass('droptarget')
-        .bind('dragover dragleave', function(e){ return ref.file_drag_hover(e, e.type == 'dragover'); })
-        .get(0).addEventListener('drop', function(e){ return ref.file_dropped(e); }, false);
+        .on('dragover dragleave', function(e) { return ref.file_drag_hover(e, e.type == 'dragover'); })
+        .get(0).addEventListener('drop', function(e) { return ref.file_dropped(e); }, false);
     }
 
     // catch document (and iframe) mouse clicks
     var body_mouseup = function(e){ return ref.doc_mouse_up(e); };
     $(document.body)
-      .bind('mouseup', body_mouseup)
-      .bind('keydown', function(e){ return ref.doc_keypress(e); });
+      .mouseup(body_mouseup)
+      .keydown(function(e){ return ref.doc_keypress(e); });
 
     $('iframe').on('load', function(e) {
         try { $(this.contentDocument || this.contentWindow).on('mouseup', body_mouseup);  }
@@ -2745,8 +2745,9 @@ function rcube_webmail()
             $('#'+r.id+' .leaf:first')
               .attr('id', 'rcmexpando' + r.id)
               .attr('class', (r.obj.style.display != 'none' ? 'expanded' : 'collapsed'))
-              .bind('mousedown', {uid: r.uid},
-                function(e) { return ref.expand_message_row(e, e.data.uid); });
+              .mousedown({uid: r.uid}, function(e) {
+                return ref.expand_message_row(e, e.data.uid);
+              });
 
             r.unread_children = 0;
             roots.push(r);
@@ -4354,10 +4355,10 @@ function rcube_webmail()
         .attr('tabindex', '0')
         .html(this.quote_html(response.name))
         .appendTo(li)
-        .mousedown(function(e){
+        .mousedown(function(e) {
           return rcube_event.cancel(e);
         })
-        .bind('mouseup keypress', function(e){
+        .on('mouseup keypress', function(e) {
           if (e.type == 'mouseup' || rcube_event.get_keycode(e) == 13) {
             ref.command('insert-response', $(this).attr('rel'));
             $(document.body).trigger('mouseup');  // hides the menu
@@ -4455,7 +4456,7 @@ function rcube_webmail()
     if (!this.local_save_timer && window.localStorage && this.env.save_localstorage) {
       // track typing activity and only save on changes
       this.compose_type_activity = this.compose_type_activity_last = 0;
-      $(document).bind('keypress', function(e){ ref.compose_type_activity++; });
+      $(document).keypress(function(e) { ref.compose_type_activity++; });
 
       this.local_save_timer = setInterval(function(){
         if (ref.compose_type_activity > ref.compose_type_activity_last) {
@@ -8386,7 +8387,7 @@ function rcube_webmail()
     }
 
     // handle upload errors by parsing iframe content in onload
-    frame.bind('load', {ts:ts}, onload);
+    frame.on('load', {ts:ts}, onload);
 
     $(form).attr({
         target: frame_name,

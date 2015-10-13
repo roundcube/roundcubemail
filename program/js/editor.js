@@ -661,7 +661,7 @@ function rcube_text_editor(config, id)
 
       rcmail.gui_objects.filedrop = $('#image-selector-form');
       rcmail.gui_objects.filedrop.addClass('droptarget')
-        .bind('dragover dragleave', function(e) {
+        .on('dragover dragleave', function(e) {
           e.preventDefault();
           e.stopPropagation();
           $(this)[(e.type == 'dragover' ? 'addClass' : 'removeClass')]('hover');

@@ -159,7 +159,7 @@ function rcube_mail_ui()
         // add menu link for each attachment
         $('#attachment-list > li').each(function() {
           $(this).append($('<a class="drop" tabindex="0" aria-haspopup="true">Show options</a>')
-              .bind('click keypress', function(e) {
+              .on('click keypress', function(e) {
                   if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
                       attachmentmenu(this, e);
                       return false;
@@ -818,11 +818,11 @@ function rcube_mail_ui()
   {
     var id = elem.parentNode.id.replace(/^attach/, '');
 
-    $('#attachmenuopen').unbind('click').attr('onclick', '').click(function(e) {
+    $('#attachmenuopen').off('click').attr('onclick', '').click(function(e) {
       return rcmail.command('open-attachment', id, this);
     });
 
-    $('#attachmenudownload').unbind('click').attr('onclick', '').click(function() {
+    $('#attachmenudownload').off('click').attr('onclick', '').click(function() {
       rcmail.command('download-attachment', id, this);
     });
 
@@ -843,7 +843,7 @@ function rcube_mail_ui()
         li = $('<li role="menuitem">');
         link = $('<a href="#'+k+'" tabindex="0"></a>').text(rcmail.env.spell_langs[k])
           .addClass('active').data('lang', k)
-          .bind('click keypress', function(e) {
+          .on('click keypress', function(e) {
               if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
                   rcmail.spellcheck_lang_set($(this).data('lang'));
                   rcmail.hide_menu('spellmenu', e);
@@ -1271,7 +1271,7 @@ function rcube_splitter(p)
       .attr('role', 'presentation')
       .addClass('splitter ' + (this.horizontal ? 'splitter-h' : 'splitter-v'))
       .appendTo(this.parent)
-      .bind('mousedown', onDragStart);
+      .mousedown(onDragStart);
 
     if (this.horizontal) {
       var top = this.p1pos.top + this.p1.outerHeight();
@@ -1352,7 +1352,7 @@ function rcube_splitter(p)
     me.drag_active = true;
 
     // start listening to mousemove events
-    $(document).bind('mousemove.'+this.id, onDrag).bind('mouseup.'+this.id, onDragStop);
+    $(document).on('mousemove.' + this.id, onDrag).on('mouseup.' + this.id, onDragStop);
 
     // enable dragging above iframes
     $('iframe').each(function(i, elem) {
@@ -1429,7 +1429,7 @@ function rcube_splitter(p)
       document.body.style.webkitUserSelect = 'auto';
 
     // cancel the listening for drag events
-    $(document).unbind('.'+me.id);
+    $(document).off('.' + me.id);
     me.drag_active = false;
 
     // remove temp divs

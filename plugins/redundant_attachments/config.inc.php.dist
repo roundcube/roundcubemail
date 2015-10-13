@@ -6,7 +6,7 @@
 // to use memcache as a fallback when write-master is unavailable.
 $config['redundant_attachments_memcache'] = false;
 
-// Attachment data expires after specied TTL time in seconds (max.2592000).
+// Attachment data expires after specified TTL time in seconds (max.2592000).
 // Default is 12 hours.
 $config['redundant_attachments_cache_ttl'] = 12 * 60 * 60;
 
