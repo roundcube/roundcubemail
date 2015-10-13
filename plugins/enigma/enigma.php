@@ -80,7 +80,10 @@ class enigma extends rcube_plugin
 //            $this->register_action('plugin.enigmacerts', array($this, 'preferences_ui'));
 
             $this->load_ui();
-            $this->ui->add_css();
+
+            if (empty($_REQUEST['_framed']) || strpos($this->rc->action, 'plugin.enigma') === 0) {
+                $this->ui->add_css();
+            }
         }
 
         $this->add_hook('refresh', array($this, 'refresh'));
