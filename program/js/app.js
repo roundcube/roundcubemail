@@ -2488,22 +2488,23 @@ function rcube_webmail()
   // removes messages that doesn't exists from list selection array
   this.update_selection = function()
   {
-    var selected = this.message_list.selection,
-      rows = this.message_list.rows,
+    var list = this.message_list,
+      selected = list.selection,
+      rows = list.rows,
       i, selection = [];
 
     for (i in selected)
       if (rows[selected[i]])
         selection.push(selected[i]);
 
-    this.message_list.selection = selection;
+    list.selection = selection;
 
     // reset preview frame, if currently previewed message is not selected (has been removed)
     try {
       var win = this.get_frame_window(this.env.contentframe),
         id = win.rcmail.env.uid;
 
-      if (id && $.inArray(id, selection) < 0)
+      if (id && !list.in_selection(id))
         this.show_contentframe(false);
     }
     catch (e) {};
