@@ -3435,8 +3435,6 @@ function rcube_webmail()
     }
     else if (action == 'compose') {
       this.env.compose_commands.push('compose-encrypted');
-      // display the toolbar button
-      $('#' + this.buttons['compose-encrypted'][0].id).show();
 
       var is_html = $('input[name="_is_html"]').val() > 0;
 

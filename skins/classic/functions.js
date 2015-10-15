@@ -640,6 +640,10 @@ enable_command: function(p)
     var label = rcmail.gettext(p.status ? 'replylist' : 'replyall');
     $('a.button.replyAll').attr('title', label);
   }
+  else if (p.command == 'compose-encrypted') {
+    // show the toolbar button for Mailvelope
+    $('#messagetoolbar > a.encrypt').show();
+  }
 },
 
 folder_search_init: function(container)

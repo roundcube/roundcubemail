@@ -136,6 +136,7 @@ function rcube_mail_ui()
       rcmail.addEventListener('menu-open', menu_toggle)
         .addEventListener('menu-close', menu_toggle)
         .addEventListener('menu-save', save_listoptions)
+        .addEventListener('enable-command', enable_command)
         .addEventListener('responseafterlist', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list', true) })
         .addEventListener('responseaftersearch', function(e){ switch_view_mode(rcmail.env.threading ? 'thread' : 'list', true) });
 
@@ -146,9 +147,9 @@ function rcube_mail_ui()
       }
 
       if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
-        rcmail.addEventListener('enable-command', enable_command)
-          .addEventListener('aftershow-headers', function() { layout_messageview(); })
+        rcmail.addEventListener('aftershow-headers', function() { layout_messageview(); })
           .addEventListener('afterhide-headers', function() { layout_messageview(); });
+
         $('#previewheaderstoggle').click(function(e) {
             toggle_preview_headers();
             if (this.blur && !rcube_event.is_keyboard(e))
@@ -238,7 +239,6 @@ function rcube_mail_ui()
         rcmail.init_pagejumper('#pagejumper');
 
         rcmail.addEventListener('setquota', update_quota)
-          .addEventListener('enable-command', enable_command)
           .addEventListener('afterimport-messages', show_uploadform);
       }
       else if (rcmail.env.action == 'get') {
@@ -600,6 +600,10 @@ function rcube_mail_ui()
         $('a.button.replyall').attr('title', label);
       else
         $('a.button.reply-all').text(label).attr('title', label);
+    }
+    else if (p.command == 'compose-encrypted') {
+      // show the toolbar button for Mailvelope
+      $('a.button.encrypt').show();
     }
   }
 
