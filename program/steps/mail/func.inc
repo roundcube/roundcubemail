@@ -948,6 +948,13 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
         break;
 
     case 'style':
+        // Crazy big styles may freeze the browser (#1490539)
+        // remove content with more than 5k lines
+        if (substr_count($content, "\n") > 5000) {
+            $out = '';
+            break;
+        }
+
         // decode all escaped entities and reduce to ascii strings
         $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', rcube_utils::xss_entity_decode($content));
 
