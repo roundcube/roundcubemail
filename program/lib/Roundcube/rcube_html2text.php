@@ -136,12 +136,15 @@ class rcube_html2text
      * @see $replace
      */
     protected $search = array(
-        "/\r/",                                  // Non-legal carriage return
-        "/[\n\t]+/",                             // Newlines and tabs
+        '/\r/',                                  // Non-legal carriage return
+        '/^.*<body[^>]*>\n*/i',                  // Anything before <body>
         '/<head[^>]*>.*?<\/head>/i',             // <head>
-        '/<script[^>]*>.*?<\/script>/i',         // <script>s -- which strip_tags supposedly has problems with
-        '/<style[^>]*>.*?<\/style>/i',           // <style>s -- which strip_tags supposedly has problems with
-        '/<p[^>]*>/i',                           // <P>
+        '/<script[^>]*>.*?<\/script>/i',         // <script>
+        '/<style[^>]*>.*?<\/style>/i',           // <style>
+        '/[\n\t]+/',                             // Newlines and tabs
+        '/<p[^>]*>/i',                           // <p>
+        '/<\/p>[\s\n\t]*<div[^>]*>/i',           // </p> before <div>
+        '/<br[^>]*>[\s\n\t]*<div[^>]*>/i',       // <br> before <div>
         '/<br[^>]*>\s*/i',                       // <br>
         '/<i[^>]*>(.*?)<\/i>/i',                 // <i>
         '/<em[^>]*>(.*?)<\/em>/i',               // <em>
@@ -164,11 +167,14 @@ class rcube_html2text
      */
     protected $replace = array(
         '',                                     // Non-legal carriage return
-        ' ',                                    // Newlines and tabs
+        '',                                     // Anything before <body>
         '',                                     // <head>
-        '',                                     // <script>s -- which strip_tags supposedly has problems with
-        '',                                     // <style>s -- which strip_tags supposedly has problems with
-        "\n\n",                                 // <P>
+        '',                                     // <script>
+        '',                                     // <style>
+        ' ',                                    // Newlines and tabs
+        "\n\n",                                 // <p>
+        "\n<div>",                              // </p> before <div>
+        '<div>',                                // <br> before <div>
         "\n",                                   // <br>
         '_\\1_',                                // <i>
         '_\\1_',                                // <em>
