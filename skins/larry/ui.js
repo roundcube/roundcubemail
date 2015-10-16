@@ -473,7 +473,7 @@ function rcube_mail_ui()
       $('div.leftcol').css('margin-right', '0');
     }
 
-    var mvlpe = $('#messagebody.mailvelope');
+    var mvlpe = $('#messagebody.mailvelope, #messagebody > .mailvelope');
     if (mvlpe.length) {
       var h = $('#messagecontent').length ?
         $('#messagecontent').height() - 16 :
