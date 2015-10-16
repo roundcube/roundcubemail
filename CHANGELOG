@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Remove backward compatibility "layer" of bc.php (#1490534)
 - Add possibility to define date format in write operations for ldap attributes (#1488741)
 - Display attachment size in compose (#1484774)
 - Added possibility to drag-n-drop attachments from mail preview to compose window
