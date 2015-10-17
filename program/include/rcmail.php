@@ -592,6 +592,8 @@ class rcmail extends rcube
 
         // try to log in
         if (!$storage->connect($host, $username, $pass, $port, $ssl)) {
+            // Wait a second to slow down brute-force attacks (#1490549)
+            sleep(1);
             return false;
         }
 
