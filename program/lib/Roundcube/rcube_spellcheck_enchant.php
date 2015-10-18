@@ -40,9 +40,10 @@ class rcube_spellcheck_enchant extends rcube_spellcheck_engine
         $this->init();
 
         $langs = array();
-        $dicts = enchant_broker_list_dicts($this->enchant_broker);
-        foreach ($dicts as $dict) {
-            $langs[] = preg_replace('/-.*$/', '', $dict['lang_tag']);
+        if ($dicts = enchant_broker_list_dicts($this->enchant_broker)) {
+            foreach ($dicts as $dict) {
+                $langs[] = preg_replace('/-.*$/', '', $dict['lang_tag']);
+            }
         }
 
         return array_unique($langs);
