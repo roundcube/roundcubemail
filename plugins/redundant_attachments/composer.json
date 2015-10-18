@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "This plugin provides a redundant storage for temporary uploaded attachment files. They are stored in both the database backend as well as on the local file system. It provides also memcache store as a fallback.",
     "license": "GPLv2",
-    "version": "1.0",
+    "version": "1.1",
     "authors": [
         {
             "name": "Aleksander Machniak",
