@@ -493,7 +493,7 @@ class rcmail extends rcube
      *
      * @return boolean True on success, False on failure
      */
-    function login($username, $pass, $host = null, $cookiecheck = false)
+    function login($username, $password, $host = null, $cookiecheck = false)
     {
         $this->login_error = null;
 
@@ -506,10 +506,22 @@ class rcmail extends rcube
             return false;
         }
 
+        $username_filter = $this->config->get('login_username_filter');
+        $username_maxlen = $this->config->get('login_username_maxlen', 1024);
+        $password_maxlen = $this->config->get('login_password_maxlen', 1024);
         $default_host    = $this->config->get('default_host');
         $default_port    = $this->config->get('default_port');
         $username_domain = $this->config->get('username_domain');
         $login_lc        = $this->config->get('login_lc', 2);
+
+        // check input for security (#1490500)
+        if (($username_maxlen && strlen($username) > $username_maxlen)
+            || ($username_filter && !preg_match($username_filter, $username))
+            || ($password_maxlen && strlen($password) > $password_maxlen)
+        ) {
+            $this->login_error = self::ERROR_INVALID_REQUEST;
+            return false;
+        }
 
         // host is validated in rcmail::autoselect_host(), so here
         // we'll only handle unset host (if possible)
@@ -595,7 +607,7 @@ class rcmail extends rcube
         $storage = $this->get_storage();
 
         // try to log in
-        if (!$storage->connect($host, $username, $pass, $port, $ssl)) {
+        if (!$storage->connect($host, $username, $password, $port, $ssl)) {
             // Wait a second to slow down brute-force attacks (#1490549)
             sleep(1);
             return false;
@@ -643,7 +655,7 @@ class rcmail extends rcube
             $_SESSION['storage_host'] = $host;
             $_SESSION['storage_port'] = $port;
             $_SESSION['storage_ssl']  = $ssl;
-            $_SESSION['password']     = $this->encrypt($pass);
+            $_SESSION['password']     = $this->encrypt($password);
             $_SESSION['login_time']   = time();
 
             if (isset($_REQUEST['_timezone']) && $_REQUEST['_timezone'] != '_default_') {
@@ -1069,6 +1081,12 @@ class rcmail extends rcube
 
         // failed login
         if ($failed_login) {
+            // don't fill the log with complete input, which could
+            // have been prepared by a hacker
+            if (strlen($user) > 256) {
+                $user = substr($user, 0, 256) . '...';
+            }
+
             $message = sprintf('Failed login for %s from %s in session %s (error: %d)',
                 $user, rcube_utils::remote_ip(), session_id(), $error_code);
         }

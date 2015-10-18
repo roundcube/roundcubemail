@@ -306,6 +306,7 @@ $config['ldap_cache'] = 'db';
 // Lifetime of LDAP cache. Possible units: s, m, h, d, w
 $config['ldap_cache_ttl'] = '10m';
 
+
 // ----------------------------------
 // SYSTEM
 // ----------------------------------
@@ -376,6 +377,14 @@ $config['login_autocomplete'] = 0;
 // Note: After enabling it all user records need to be updated, e.g. with query:
 //       UPDATE users SET username = LOWER(username);
 $config['login_lc'] = 2;
+
+// Maximum length (in bytes) of logon username and password.
+$config['login_username_maxlen'] = 1024;
+$config['login_password_maxlen'] = 1024;
+
+// Logon username filter. Regular expression for use with preg_match().
+// Example: '/^[a-z0-9_@.-]+$/'
+$config['login_username_filter'] = null;
 
 // Includes should be interpreted as PHP files
 $config['skin_include_php'] = false;
