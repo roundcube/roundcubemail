@@ -983,7 +983,7 @@ rcube_webmail.prototype.managesieve_create = function(force)
   }
 
   // build dialog window content
-  html = '<fieldset><legend>'+this.gettext('managesieve.usedata')+'</legend><ul>';
+  html = '<fieldset><legend>'+this.get_label('managesieve.usedata')+'</legend><ul>';
   for (i in this.env.sieve_headers)
     html += '<li><input type="checkbox" name="headers[]" id="sievehdr'+i+'" value="'+i+'" checked="checked" />'
       +'<label for="sievehdr'+i+'">'+this.env.sieve_headers[i][0]+':</label> '+this.env.sieve_headers[i][1]+'</li>';
@@ -992,11 +992,11 @@ rcube_webmail.prototype.managesieve_create = function(force)
   dialog.html(html);
 
   // [Next Step] button action
-  buttons[this.gettext('managesieve.nextstep')] = function () {
+  buttons[this.get_label('managesieve.nextstep')] = function () {
     // check if there's at least one checkbox checked
     var hdrs = $('input[name="headers[]"]:checked', dialog);
     if (!hdrs.length) {
-      alert(rcmail.gettext('managesieve.nodata'));
+      alert(rcmail.get_label('managesieve.nodata'));
       return;
     }
 
@@ -1016,7 +1016,7 @@ rcube_webmail.prototype.managesieve_create = function(force)
 
     // Change [Next Step] button with [Save] button
     buttons = {};
-    buttons[rcmail.gettext('save')] = function() {
+    buttons[rcmail.get_label('save')] = function() {
       var win = $('iframe', dialog).get(0).contentWindow;
       win.rcmail.managesieve_save();
     };
@@ -1028,7 +1028,7 @@ rcube_webmail.prototype.managesieve_create = function(force)
     modal: false,
     resizable: true,
     closeOnEscape: !bw.ie7,  // disable for performance reasons
-    title: this.gettext('managesieve.newfilter'),
+    title: this.get_label('managesieve.newfilter'),
     close: function() { rcmail.managesieve_dialog_close(); },
     buttons: buttons,
     minWidth: 600,

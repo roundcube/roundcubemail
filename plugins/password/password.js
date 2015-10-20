@@ -30,19 +30,19 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             input_confpasswd = rcube_find_object('_confpasswd');
 
       if (input_curpasswd && input_curpasswd.value == '') {
-          alert(rcmail.gettext('nocurpassword', 'password'));
+          alert(rcmail.get_label('nocurpassword', 'password'));
           input_curpasswd.focus();
       }
       else if (input_newpasswd && input_newpasswd.value == '') {
-          alert(rcmail.gettext('nopassword', 'password'));
+          alert(rcmail.get_label('nopassword', 'password'));
           input_newpasswd.focus();
       }
       else if (input_confpasswd && input_confpasswd.value == '') {
-          alert(rcmail.gettext('nopassword', 'password'));
+          alert(rcmail.get_label('nopassword', 'password'));
           input_confpasswd.focus();
       }
       else if (input_newpasswd && input_confpasswd && input_newpasswd.value != input_confpasswd.value) {
-          alert(rcmail.gettext('passwordinconsistency', 'password'));
+          alert(rcmail.get_label('passwordinconsistency', 'password'));
           input_newpasswd.focus();
       }
       else {

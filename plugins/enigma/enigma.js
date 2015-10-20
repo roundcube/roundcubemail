@@ -82,13 +82,13 @@ rcube_webmail.prototype.enigma_key_create_save = function()
 
     // validate the form
     if (!password || !confirm)
-        return alert(this.gettext('enigma.formerror'));
+        return alert(this.get_label('enigma.formerror'));
 
     if (password != confirm)
-        return alert(this.gettext('enigma.passwordsdiffer'));
+        return alert(this.get_label('enigma.passwordsdiffer'));
 
     if (user.match(/^<[^>]+>$/))
-        return alert(this.gettext('enigma.nonameident'));
+        return alert(this.get_label('enigma.nonameident'));
 
     // generate keys
     // use OpenPGP.js if browser supports required features
@@ -109,7 +109,7 @@ rcube_webmail.prototype.enigma_key_create_save = function()
         }).catch(function(error) {
             // failure
             rcmail.set_busy(false, null, lock);
-            rcmail.display_message(rcmail.gettext('enigma.keygenerateerror'), 'error');
+            rcmail.display_message(rcmail.get_label('enigma.keygenerateerror'), 'error');
         });
     }
     // generate keys on the server
@@ -119,7 +119,7 @@ rcube_webmail.prototype.enigma_key_create_save = function()
         rcmail.http_post('plugin.enigmakeys', options, lock);
     }
     else {
-        rcmail.display_message(rcmail.gettext('enigma.keygennosupport'), 'error');
+        rcmail.display_message(rcmail.get_label('enigma.keygennosupport'), 'error');
     }
 };
 

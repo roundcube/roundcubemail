@@ -591,7 +591,7 @@ function rcube_text_editor(config, id)
 
     // open image selector dialog
     dialog = this.editor.windowManager.open({
-      title: rcmail.gettext('select' + type),
+      title: rcmail.get_label('select' + type),
       width: 500,
       height: 300,
       html: '<div id="image-selector-list"><ul></ul></div>'
@@ -618,7 +618,7 @@ function rcube_text_editor(config, id)
       .text($('div.hint', rcmail.gui_objects.uploadform).text()));
 
     // init upload button
-    elem = $('#image-upload-button').append($('<span>').text(rcmail.gettext('add' + type)));
+    elem = $('#image-upload-button').append($('<span>').text(rcmail.get_label('add' + type)));
     cancel = elem.parents('.mce-panel').find('button:last').parent();
 
     // we need custom Tab key handlers, until we find out why

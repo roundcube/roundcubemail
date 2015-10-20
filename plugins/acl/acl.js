@@ -344,13 +344,13 @@ rcube_webmail.prototype.acl_init_form = function(id)
 
     var buttons = {}, me = this, body = document.body;
 
-    buttons[this.gettext('save')] = function(e) { me.command('acl-save'); };
-    buttons[this.gettext('cancel')] = function(e) { me.command('acl-cancel'); };
+    buttons[this.get_label('save')] = function(e) { me.command('acl-save'); };
+    buttons[this.get_label('cancel')] = function(e) { me.command('acl-cancel'); };
 
     // display it as popup
     this.acl_popup = this.show_popup_dialog(
         this.acl_form.show(),
-        id ? this.gettext('acl.editperms') : this.gettext('acl.newuser'),
+        id ? this.get_label('acl.editperms') : this.get_label('acl.newuser'),
         buttons,
         {
             button_classes: ['mainaction'],

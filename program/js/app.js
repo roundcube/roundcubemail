@@ -4314,7 +4314,7 @@ function rcube_webmail()
       '<textarea name="text" id="ffresponsetext" cols="40" rows="8"></textarea></div>' +
       '</form>';
 
-    buttons[this.gettext('save')] = function(e) {
+    buttons[this.get_label('save')] = function(e) {
       var name = $('#ffresponsename').val(),
         text = $('#ffresponsetext').val();
 
@@ -4330,11 +4330,11 @@ function rcube_webmail()
       $(this).dialog('close');
     };
 
-    buttons[this.gettext('cancel')] = function() {
+    buttons[this.get_label('cancel')] = function() {
       $(this).dialog('close');
     };
 
-    this.show_popup_dialog(html, this.gettext('newresponse'), buttons, {button_classes: ['mainaction']});
+    this.show_popup_dialog(html, this.get_label('newresponse'), buttons, {button_classes: ['mainaction']});
 
     $('#ffresponsetext').val(text);
     $('#ffresponsename').select();
@@ -5570,7 +5570,7 @@ function rcube_webmail()
       // add link to pop back to parent group
       if (this.env.address_group_stack.length > 1) {
         $('<a href="#list">...</a>')
-          .attr('title', this.gettext('uponelevel'))
+          .attr('title', this.get_label('uponelevel'))
           .addClass('poplink')
           .appendTo(boxtitle)
           .click(function(e){ return ref.command('popgroup','',this); });
@@ -8409,7 +8409,7 @@ function rcube_webmail()
       if (uri = e.dataTransfer.getData('roundcube-uri')) {
         var ts = new Date().getTime(),
           // jQuery way to escape filename (#1490530)
-          content = $('<span>').text(e.dataTransfer.getData('roundcube-name') || this.gettext('attaching')).html();
+          content = $('<span>').text(e.dataTransfer.getData('roundcube-name') || this.get_label('attaching')).html();
 
         args._uri = uri;
         args._uploadid = ts;

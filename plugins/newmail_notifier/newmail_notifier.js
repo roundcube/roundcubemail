@@ -18,13 +18,13 @@
  */
 
 if (window.rcmail && rcmail.env.task == 'mail') {
-    rcmail.addEventListener('plugin.newmail_notifier', newmail_notifier_run);
-    rcmail.addEventListener('actionbefore', newmail_notifier_stop);
-    rcmail.addEventListener('init', function() {
-        // bind to messages list select event, so favicon will be reverted on message preview too
-        if (rcmail.message_list)
-            rcmail.message_list.addEventListener('select', newmail_notifier_stop);
-    });
+    rcmail.addEventListener('plugin.newmail_notifier', newmail_notifier_run)
+        .addEventListener('actionbefore', newmail_notifier_stop)
+        .addEventListener('init', function() {
+            // bind to messages list select event, so favicon will be reverted on message preview too
+            if (rcmail.message_list)
+                rcmail.message_list.addEventListener('select', newmail_notifier_stop);
+        });
 }
 
 // Executes notification methods
@@ -35,7 +35,7 @@ function newmail_notifier_run(prop)
     if (prop.sound)
         newmail_notifier_sound();
     if (prop.desktop)
-        newmail_notifier_desktop(rcmail.gettext('body', 'newmail_notifier'));
+        newmail_notifier_desktop(rcmail.get_label('body', 'newmail_notifier'));
 }
 
 // Stops notification
@@ -76,7 +76,7 @@ function newmail_notifier_basic()
     // Add IE icon overlay if we're pinned to Taskbar
     try {
         if (window.external.msIsSiteMode()) {
-            window.external.msSiteModeSetIconOverlay(path + '/overlay.ico', rcmail.gettext('title', 'newmail_notifier'));
+            window.external.msSiteModeSetIconOverlay(path + '/overlay.ico', rcmail.get_label('title', 'newmail_notifier'));
         }
     } catch(e) {}
 }
@@ -118,7 +118,7 @@ function newmail_notifier_desktop(body)
     // https://code.google.com/p/chromium/issues/detail?id=163226
     try {
         if (Notification.permission == 'granted' || Notification.permission == undefined) {
-            var popup = new Notification(rcmail.gettext('title', 'newmail_notifier'), {
+            var popup = new Notification(rcmail.get_label('title', 'newmail_notifier'), {
                 dir: "auto",
                 lang: "",
                 body: body,
@@ -139,7 +139,7 @@ function newmail_notifier_desktop(body)
             if (rcmail.newmail_popup)
                 rcmail.newmail_popup.cancel();
             var popup = window.webkitNotifications.createNotification(icon,
-                rcmail.gettext('title', 'newmail_notifier'), body);
+                rcmail.get_label('title', 'newmail_notifier'), body);
             popup.onclick = function() {
                 this.cancel();
             }
@@ -154,7 +154,7 @@ function newmail_notifier_desktop(body)
 
 function newmail_notifier_test_desktop()
 {
-    var txt = rcmail.gettext('testbody', 'newmail_notifier');
+    var txt = rcmail.get_label('testbody', 'newmail_notifier');
 
     // W3C draft implementation (with fix for Chrome/Chromium)
     try {
@@ -171,12 +171,12 @@ function newmail_notifier_test_desktop()
             else
                 dn.requestPermission(function() {
                     if (!newmail_notifier_desktop(txt))
-                        rcmail.display_message(rcmail.gettext('desktopdisabled', 'newmail_notifier'), 'error');
+                        rcmail.display_message(rcmail.get_label('desktopdisabled', 'newmail_notifier'), 'error');
                 });
         }
         else
             // Everything fails, means the browser has no support
-            rcmail.display_message(rcmail.gettext('desktopunsupported', 'newmail_notifier'), 'error');
+            rcmail.display_message(rcmail.get_label('desktopunsupported', 'newmail_notifier'), 'error');
     }
 }
 
@@ -193,7 +193,7 @@ function newmail_notifier_test_sound()
 function newmail_notifier_desktop_authorize() {
         Notification.requestPermission(function(perm) {
                 if (perm == 'denied')
-                        rcmail.display_message(rcmail.gettext('desktopdisabled', 'newmail_notifier'), 'error');
+                        rcmail.display_message(rcmail.get_label('desktopdisabled', 'newmail_notifier'), 'error');
                 if (perm == 'granted')
                         newmail_notifier_test_desktop();  // Test again, which should show test message
         });
