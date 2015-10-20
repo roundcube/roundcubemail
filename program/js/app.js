@@ -7925,8 +7925,11 @@ function rcube_webmail()
   };
 
   // send a http request to the server
-  this.http_request = function(action, data, lock)
+  this.http_request = function(action, data, lock, type)
   {
+    if (type != 'POST')
+      type = 'GET';
+
     if (typeof data !== 'object')
       data = rcube_parse_query(data);
 
@@ -7950,60 +7953,26 @@ function rcube_webmail()
       }
     }
 
-    var url = this.url(action, data);
-
-    // send request
-    this.log('HTTP GET: ' + url);
+    var url = this.url(action);
 
     // reset keep-alive interval
     this.start_keepalive();
 
+    // send request
     return $.ajax({
-      type: 'GET', url: url, dataType: 'json',
+      type: type, url: url, data: data, dataType: 'json',
       success: function(data) { ref.http_response(data); },
       error: function(o, status, err) { ref.http_error(o, status, err, lock, action); }
     });
   };
 
+  // send a http GET request to the server
+  this.http_get = this.http_request;
+
   // send a http POST request to the server
   this.http_post = function(action, data, lock)
   {
-    if (typeof data !== 'object')
-      data = rcube_parse_query(data);
-
-    data._remote = 1;
-    data._unlock = lock ? lock : 0;
-
-    // trigger plugin hook
-    var result = this.triggerEvent('request'+action, data);
-
-    // abort if one of the handlers returned false
-    if (result === false) {
-      if (data._unlock)
-        this.set_busy(false, null, data._unlock);
-      return false;
-    }
-    else if (result !== undefined) {
-      data = result;
-      if (data._action) {
-        action = data._action;
-        delete data._action;
-      }
-    }
-
-    var url = this.url(action);
-
-    // send request
-    this.log('HTTP POST: ' + url);
-
-    // reset keep-alive interval
-    this.start_keepalive();
-
-    return $.ajax({
-      type: 'POST', url: url, data: data, dataType: 'json',
-      success: function(data){ ref.http_response(data); },
-      error: function(o, status, err) { ref.http_error(o, status, err, lock, action); }
-    });
+    return this.http_request(action, data, lock, 'POST');
   };
 
   // aborts ajax request
