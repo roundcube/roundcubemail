@@ -503,7 +503,7 @@ $config['sendmail_delay'] = 0;
 // Maximum number of recipients per message. Default: 0 (no limit)
 $config['max_recipients'] = 0; 
 
-// Maximum allowednumber of members of an address group. Default: 0 (no limit)
+// Maximum allowed number of members of an address group. Default: 0 (no limit)
 // If 'max_recipients' is set this value should be less or equal
 $config['max_group_members'] = 0; 
 
