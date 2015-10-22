@@ -1187,7 +1187,7 @@ class rcube_imap_generic
         list($code, $response) = $this->execute('STATUS', array($this->escape($mailbox),
             '(' . implode(' ', (array) $items) . ')'));
 
-        if ($code == self::ERROR_OK && preg_match('/\* STATUS /i', $response)) {
+        if ($code == self::ERROR_OK && preg_match('/^\* STATUS /i', $response)) {
             $result   = array();
             $response = substr($response, 9); // remove prefix "* STATUS "
 
@@ -1654,7 +1654,7 @@ class rcube_imap_generic
             !empty($args) ? '(' . implode(' ', (array) $args) . ')' : $this->escape(null)
         ));
 
-        if ($code == self::ERROR_OK && preg_match('/\* ID /i', $response)) {
+        if ($code == self::ERROR_OK && preg_match('/^\* ID /i', $response)) {
             $response = substr($response, 5); // remove prefix "* ID "
             $items    = $this->tokenizeResponse($response, 1);
             $result   = null;
@@ -1707,7 +1707,7 @@ class rcube_imap_generic
 
         list($code, $response) = $this->execute('ENABLE', $extension);
 
-        if ($code == self::ERROR_OK && preg_match('/\* ENABLED /i', $response)) {
+        if ($code == self::ERROR_OK && preg_match('/^\* ENABLED /i', $response)) {
             $response = substr($response, 10); // remove prefix "* ENABLED "
             $result   = (array) $this->tokenizeResponse($response);
 
