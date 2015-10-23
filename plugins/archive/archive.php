@@ -265,7 +265,7 @@ class archive extends rcube_plugin
       $archive_type->add($this->gettext('archivetypefolder'), 'folder');
 
       $args['blocks']['archive'] = array(
-        'name' => Q($this->gettext('settingstitle')),
+        'name' => rcube::Q($this->gettext('settingstitle')),
         'options' => array('archive_type' => array(
             'title' => $this->gettext('archivetype'),
             'content' => $archive_type->show($rcmail->config->get('archive_type'))

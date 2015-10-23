@@ -1293,9 +1293,9 @@ function rcmail_user_prefs($current = null)
 
         // allow plugins to add a header to each section
         $data = $RCMAIL->plugins->exec_hook('preferences_section_header',
-                                            array('section' => $sect['id'], 'header' => '', 'current' => $current));
+            array('section' => $sect['id'], 'header' => '', 'current' => $current));
 
-        if(!empty($data['header'])) {
+        if (!empty($data['header'])) {
             $sections[$idx]['header'] = $data['header'];
         }
     }

@@ -1606,7 +1606,7 @@ class rcube_sieve_engine
             $mout .= '<div id="rule_date_header_div' .$id. '" class="adv"'. ($rule['test'] != 'date' ? ' style="display:none"' : '') .'>';
             $mout .= '<span class="label">' . rcube::Q($this->plugin->gettext('dateheader')) . '</span>';
             $mout .= '<input type="text" name="_rule_date_header[]" id="rule_date_header'.$id
-                . '" value="'. Q($rule['test'] == 'date' ? $rule['header'] : '')
+                . '" value="'. rcube::Q($rule['test'] == 'date' ? $rule['header'] : '')
                 . '" size="15"' . $this->error_class($id, 'test', 'dateheader', 'rule_date_header') .' />';
             $mout .= '</div>';
         }
@@ -1782,7 +1782,7 @@ class rcube_sieve_engine
         $out .= '<span class="label">'. rcube::Q($this->plugin->gettext('vacationreason')) .'</span><br />'
             .'<textarea name="_action_reason['.$id.']" id="action_reason' .$id. '" '
             .'rows="3" cols="35" '. $this->error_class($id, 'action', 'reason', 'action_reason') . '>'
-            . Q($action['reason'], 'strict', false) . "</textarea>\n";
+            . rcube::Q($action['reason'], 'strict', false) . "</textarea>\n";
         $out .= '<br /><span class="label">' .rcube::Q($this->plugin->gettext('vacationsubject')) . '</span><br />'
             .'<input type="text" name="_action_subject['.$id.']" id="action_subject'.$id.'" '
             .'value="' . (is_array($action['subject']) ? rcube::Q(implode(', ', $action['subject']), 'strict', false) : $action['subject']) . '" size="35" '

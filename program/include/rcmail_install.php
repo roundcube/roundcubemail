@@ -601,7 +601,7 @@ class rcmail_install
    */
   function pass($name, $message = '')
   {
-    echo Q($name) . ':&nbsp; <span class="success">OK</span>';
+    echo rcube::Q($name) . ':&nbsp; <span class="success">OK</span>';
     $this->_showhint($message);
   }
 
@@ -620,7 +620,7 @@ class rcmail_install
       $this->failures++;
     }
 
-    echo Q($name) . ':&nbsp; <span class="fail">NOT OK</span>';
+    echo rcube::Q($name) . ':&nbsp; <span class="fail">NOT OK</span>';
     $this->_showhint($message, $url);
   }
 
@@ -634,7 +634,7 @@ class rcmail_install
    */
   function optfail($name, $message = '', $url = '')
   {
-    echo Q($name) . ':&nbsp; <span class="na">NOT OK</span>';
+    echo rcube::Q($name) . ':&nbsp; <span class="na">NOT OK</span>';
     $this->_showhint($message, $url);
   }
 
@@ -648,17 +648,17 @@ class rcmail_install
    */
   function na($name, $message = '', $url = '')
   {
-    echo Q($name) . ':&nbsp; <span class="na">NOT AVAILABLE</span>';
+    echo rcube::Q($name) . ':&nbsp; <span class="na">NOT AVAILABLE</span>';
     $this->_showhint($message, $url);
   }
 
 
   function _showhint($message, $url = '')
   {
-    $hint = Q($message);
+    $hint = rcube::Q($message);
 
     if ($url)
-      $hint .= ($hint ? '; ' : '') . 'See <a href="' . Q($url) . '" target="_blank">' . Q($url) . '</a>';
+      $hint .= ($hint ? '; ' : '') . 'See <a href="' . rcube::Q($url) . '" target="_blank">' . rcube::Q($url) . '</a>';
 
     if ($hint)
       echo '<span class="indent">(' . $hint . ')</span>';
