@@ -275,7 +275,7 @@ table.messagelist.fixedcopy {
 .messagelist tr > .flag,
 .messagelist tr > .priority {
 	width: 20px;
-	padding: 2px 3px !important;
+	padding: 3px 3px !important;
 }
 
 .messagelist tr > .threads {
