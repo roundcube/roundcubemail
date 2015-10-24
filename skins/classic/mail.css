@@ -627,7 +627,7 @@ table.messagelist.fixedcopy
 .messagelist tbody tr th,
 .messagelist tbody tr td
 {
-  height: 20px;
+  height: 22px;
   padding: 0;
   font-size: 11px;
   overflow: hidden;
