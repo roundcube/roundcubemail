@@ -276,7 +276,7 @@ function rcmail_import_confirm($attrib)
         )) . ($IMPORT_STATS->names ? ':' : '.'));
 
     if ($IMPORT_STATS->names) {
-        $content .= html::p('em', join(', ', array_map('Q', $IMPORT_STATS->names)));
+        $content .= html::p('em', join(', ', array_map(array('rcube', 'Q'), $IMPORT_STATS->names)));
     }
 
     if ($IMPORT_STATS->skipped) {
@@ -285,7 +285,7 @@ function rcmail_import_confirm($attrib)
                 'nr'   => $IMPORT_STATS->skipped,
                 'vars' => $vars,
             )) . ':')
-            . html::p('em', join(', ', array_map('Q', $IMPORT_STATS->skipped_names)));
+            . html::p('em', join(', ', array_map(array('rcube', 'Q'), $IMPORT_STATS->skipped_names)));
     }
 
     return html::div($attrib, $content);
