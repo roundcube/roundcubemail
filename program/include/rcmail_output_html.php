@@ -391,7 +391,7 @@ EOF;
         if ($override || !$this->message) {
             if ($this->app->text_exists($message)) {
                 if (!empty($vars))
-                    $vars = array_map('Q', $vars);
+                    $vars = array_map(array('rcube','Q'), $vars);
                 $msgtext = $this->app->gettext(array('name' => $message, 'vars' => $vars));
             }
             else
