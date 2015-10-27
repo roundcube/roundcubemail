@@ -3145,3 +3145,13 @@ ul.toolbarmenu li span.copy {
 _:not(), _:-moz-handler-blocked, .mozilla .mce-btn-small i {
 	line-height: 20px !important;
 }
+
+.mce-textbox {
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.mce-textbox:focus {
+	box-shadow: none;
+	outline: none;
+}
