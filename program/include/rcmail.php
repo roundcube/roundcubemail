@@ -1884,6 +1884,8 @@ class rcmail extends rcube
         $spelldict        = intval($this->config->get('spellcheck_dictionary'));
         $disabled_plugins = array();
         $disabled_buttons = array();
+        $extra_plugins    = array();
+        $extra_buttons    = array();
 
         if (!$spellcheck) {
             $disabled_plugins[] = 'spellchecker';
@@ -1893,6 +1895,8 @@ class rcmail extends rcube
                 'mode'             => $mode,
                 'disabled_plugins' => $disabled_plugins,
                 'disabled_buttons' => $disabled_buttons,
+                'extra_plugins' => $extra_plugins,
+                'extra_buttons' => $extra_buttons,
         ));
 
         if ($hook['abort']) {
@@ -1924,6 +1928,8 @@ class rcmail extends rcube
             'spelldict'  => $spelldict,
             'disabled_plugins' => $hook['disabled_plugins'],
             'disabled_buttons' => $hook['disabled_buttons'],
+            'extra_plugins'    => $hook['extra_plugins'],
+            'extra_buttons'    => $hook['extra_buttons'],
         );
 
         $this->output->add_label('selectimage', 'addimage', 'selectmedia', 'addmedia');

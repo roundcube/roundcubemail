@@ -88,11 +88,11 @@ function rcube_text_editor(config, id)
   // full-featured editor
   else {
     $.extend(conf, {
-      plugins: 'autolink charmap code colorpicker directionality emoticons link image media nonbreaking'
+      plugins: 'autolink charmap code colorpicker directionality link image media nonbreaking'
         + ' paste table tabfocus textcolor searchreplace spellchecker',
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
         + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
-        + ' | link unlink table | emoticons charmap image media | code searchreplace undo redo',
+        + ' | link unlink table | $extra charmap image media | code searchreplace undo redo',
       spellchecker_rpc_url: abs_url + '/?_task=utils&_action=spell_html&_remote=1',
       spellchecker_language: rcmail.env.spell_lang,
       accessibility_focus: false,
@@ -102,6 +102,16 @@ function rcube_text_editor(config, id)
     });
   }
 
+  // add TinyMCE plugins/buttons from Roundcube plugin
+  $.each(config.extra_plugins || [], function() {
+    if (conf.plugins.indexOf(this) < 0)
+      conf.plugins = conf.plugins + ' ' + this;
+  });
+  $.each(config.extra_buttons || [], function() {
+    if (conf.toolbar.indexOf(this) < 0)
+      conf.toolbar = conf.toolbar.replace('$extra', '$extra ' + this);
+  });
+
   // disable TinyMCE plugins/buttons from Roundcube plugin
   $.each(config.disabled_plugins || [], function() {
     conf.plugins = conf.plugins.replace(this, '');
@@ -109,7 +119,8 @@ function rcube_text_editor(config, id)
   $.each(config.disabled_buttons || [], function() {
     conf.toolbar = conf.toolbar.replace(this, '');
   });
-  conf.toolbar = conf.toolbar.replace(/\|\s+\|/g, '|');
+
+  conf.toolbar = conf.toolbar.replace('$extra', '').replace(/\|\s+\|/g, '|');
 
   // support external configuration settings e.g. from skin
   if (window.rcmail_editor_settings)

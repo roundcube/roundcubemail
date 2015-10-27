@@ -122,9 +122,9 @@ class emoticons extends rcube_plugin
 
         $this->load_config();
 
-        if (!$rcube->config->get('emoticons_compose', true)) {
-            $args['disabled_plugins'][] = 'emoticons';
-            $args['disabled_buttons'][] = 'emoticons';
+        if ($rcube->config->get('emoticons_compose', true)) {
+            $args['extra_plugins'][] = 'emoticons';
+            $args['extra_buttons'][] = 'emoticons';
         }
 
         return $args;
