@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix duplicate messages in list and wrong count after delete (#1490572)
 - Fix so Installer requires PHP5
 - Make brute force attacks harder by re-generating security token on every failed login (#1490549)
 - Slow down brute-force attacks by waiting for a second after failed login (#1490549)
