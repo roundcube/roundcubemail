@@ -527,20 +527,19 @@ function rcube_text_editor(config, id)
 
       // Append the signature as a div within the body
       if (!sigElem) {
-        var body = this.editor.getBody(),
-          doc = this.editor.getDoc();
+        var body = this.editor.getBody();
 
-        sigElem = doc.createElement('div');
-        sigElem.setAttribute('id', '_rc_sig');
+        sigElem = $('<div id="_rc_sig"></div>').get(0);
 
-        if (rcmail.env.top_posting && !rcmail.env.sig_below) {
+        // insert at start or at cursor position in top-posting mode
+        // (but not if the content is empty)
+        if (rcmail.env.top_posting && !rcmail.env.sig_below && (body.childNodes.length > 1 || $(body).text())) {
           this.editor.getWin().focus(); // correct focus in IE & Chrome
 
           var node = this.editor.selection.getNode();
 
-          // insert at start or at cursor position if found
-          body.insertBefore(sigElem, node.nodeName == 'BODY' ? body.firstChild : node.nextSibling);
-          body.insertBefore(doc.createElement('p'), sigElem);
+          $(sigElem).insertBefore(node.nodeName == 'BODY' ? body.firstChild : node.nextSibling);
+          $('<p>').append($('<br>')).insertBefore(sigElem);
         }
         else {
           body.appendChild(sigElem);
