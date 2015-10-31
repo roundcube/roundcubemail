@@ -352,7 +352,7 @@ function rcube_webmail()
         if (this.gui_objects.mailboxlist) {
           this.env.unread_counts = {};
           this.gui_objects.folderlist = this.gui_objects.mailboxlist;
-          this.http_request('getunread');
+          this.http_request('getunread', {_page: this.env.current_page});
         }
 
         // init address book widget

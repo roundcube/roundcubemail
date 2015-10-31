@@ -78,11 +78,12 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     // set current mailbox and some other vars in client environment
     $OUTPUT->set_env('mailbox', $mbox_name);
     $OUTPUT->set_env('pagesize', $RCMAIL->storage->get_pagesize());
+    $OUTPUT->set_env('current_page', max(1, $_SESSION['page']));
     $OUTPUT->set_env('delimiter', $delimiter);
     $OUTPUT->set_env('threading', $threading);
     $OUTPUT->set_env('threads', $threading || $RCMAIL->storage->get_capability('THREAD'));
     $OUTPUT->set_env('reply_all_mode', (int) $RCMAIL->config->get('reply_all_mode'));
-    $OUTPUT->set_env('preview_pane_mark_read', $RCMAIL->config->get('preview_pane_mark_read', 0));
+    $OUTPUT->set_env('preview_pane_mark_read', (int) $RCMAIL->config->get('preview_pane_mark_read'));
 
     if ($RCMAIL->storage->get_capability('QUOTA')) {
         $OUTPUT->set_env('quota', true);
@@ -163,7 +164,9 @@ function rcmail_init_env()
         $mbox = strlen($_SESSION['mbox']) ? $_SESSION['mbox'] : 'INBOX';
     }
 
-    if ($RCMAIL->action == 'list') {
+    // we handle 'page' argument on 'list' and 'getunread' to prevent from
+    // race condition and unintentional page overwrite in session
+    if ($RCMAIL->action == 'list' || $RCMAIL->action == 'getunread') {
         if (!($page = intval($_GET['_page']))) {
             $page = $_SESSION['page'] ? $_SESSION['page'] : 1;
         }
