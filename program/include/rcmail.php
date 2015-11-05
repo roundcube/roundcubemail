@@ -2358,26 +2358,6 @@ class rcmail extends rcube
         return $options['body'];
     }
 
-
-    /************************************************************************
-     *********          Deprecated methods (to be removed)          *********
-     ***********************************************************************/
-
-    public static function setcookie($name, $value, $exp = 0)
-    {
-        rcube_utils::setcookie($name, $value, $exp);
-    }
-
-    public function imap_connect()
-    {
-        return $this->storage_connect();
-    }
-
-    public function imap_init()
-    {
-        return $this->storage_init();
-    }
-
     /**
      * Connect to the mail storage server with stored session data
      *
