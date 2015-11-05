@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Add workaround for https://bugs.php.net/bug.php?id=70757 (#1490582)
+- Fix HTML sanitizer to skip <!-- node type X --> in output (#1490583)
 
 RELEASE 1.0.7
 -------------

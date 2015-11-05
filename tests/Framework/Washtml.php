@@ -47,7 +47,7 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $html   = "<!--[if gte mso 10]><p>p1</p><!--><p>p2</p>";
         $washed = $washer->wash($html);
 
-        $this->assertEquals('<!-- node type 8 --><!-- html ignored --><!-- body ignored --><p>p2</p>', $washed, "HTML conditional comments (#1489004)");
+        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>p2</p>', $washed, "HTML conditional comments (#1489004)");
 
         $html   = "<!--TestCommentInvalid><p>test</p>";
         $washed = $washer->wash($html);
@@ -57,12 +57,12 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $html   = "<p>para1</p><!-- comment --><p>para2</p>";
         $washed = $washer->wash($html);
 
-        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>para1</p><!-- node type 8 --><p>para2</p>', $washed, "HTML comments - simple comment");
+        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>para1</p><p>para2</p>', $washed, "HTML comments - simple comment");
 
         $html   = "<p>para1</p><!-- <hr> comment --><p>para2</p>";
         $washed = $washer->wash($html);
 
-        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>para1</p><!-- node type 8 --><p>para2</p>', $washed, "HTML comments - tags inside (#1489904)");
+        $this->assertEquals('<!-- html ignored --><!-- body ignored --><p>para1</p><p>para2</p>', $washed, "HTML comments - tags inside (#1489904)");
     }
 
     /**
