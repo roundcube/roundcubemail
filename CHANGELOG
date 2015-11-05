@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where HTML messages with invalid/excessive css styles couldn't be displayed (#1490539)
 - Fix redundant blank lines when using HTML and top posting (#1490576)
 - Fix redundant blank lines on start of text after html to text conversion (#1490577)
+- Fix HTML sanitizer to skip <!-- node type X --> in output (#1490583)
 
 RELEASE 1.1.3
 -------------
