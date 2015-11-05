@@ -943,7 +943,7 @@ function rcube_treelist_widget(node, p)
     for (var id in indexbyid) {
       li = id2dom(id);
       item = li.children().first().get(0);
-      if (height = item.offsetHeight) {
+      if (item && (height = item.offsetHeight)) {
         pos = $(item).offset();
         pos.top += list_scroll_top;
         item_coords[id] = {
