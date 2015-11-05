@@ -313,7 +313,7 @@ class rcube_washtml
         $dump = '';
 
         do {
-            switch($node->nodeType) {
+            switch ($node->nodeType) {
             case XML_ELEMENT_NODE: //Check element
                 $tagName = strtolower($node->tagName);
                 if ($callback = $this->handlers[$tagName]) {
@@ -345,14 +345,9 @@ class rcube_washtml
             case XML_HTML_DOCUMENT_NODE:
                 $dump .= $this->dumpHtml($node, $level);
                 break;
-
-            case XML_DOCUMENT_TYPE_NODE:
-                break;
-
-            default:
-                $dump .= '<!-- node type ' . $node->nodeType . ' -->';
             }
-        } while($node = $node->nextSibling);
+        }
+        while($node = $node->nextSibling);
 
         return $dump;
     }
