@@ -58,7 +58,7 @@ function rcube_mail_ui()
     }
 
     if (bw.tablet) {
-      $('#viewport').attr('content', "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
+      $('#viewport').attr('content', "width=device-width, initial-scale=1.0001, maximum-scale=1.0001, user-scalable=0");
     }
   }
 
