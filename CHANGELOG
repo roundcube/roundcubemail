@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add workaround for https://bugs.php.net/bug.php?id=70757 (#1490582)
+
 RELEASE 1.0.7
 -------------
 - Get rid of Mail_mimeDecode package dependency (#1490416)

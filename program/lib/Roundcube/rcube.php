@@ -464,8 +464,13 @@ class rcube
         // use database for storing session data
         $this->session = new rcube_session($this->get_dbh(), $this->config);
 
+        $path = $_SERVER['SCRIPT_NAME'];
+        if (strpos($path, '://')) {
+            $path = parse_url($path, PHP_URL_PATH); // #1490582
+        }
+
         $this->session->register_gc_handler(array($this, 'gc'));
-        $this->session->set_secret($this->config->get('des_key') . dirname($_SERVER['SCRIPT_NAME']));
+        $this->session->set_secret($this->config->get('des_key') . dirname($path));
         $this->session->set_ip_check($this->config->get('ip_check'));
 
         if ($this->config->get('session_auth_name')) {
