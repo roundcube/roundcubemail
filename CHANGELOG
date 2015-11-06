@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add workaround for https://bugs.php.net/bug.php?id=70757 (#1490582)
 - Fix duplicate messages in list and wrong count after delete (#1490572)
 - Fix so Installer requires PHP5
 - Make brute force attacks harder by re-generating security token on every failed login (#1490549)
