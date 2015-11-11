@@ -386,6 +386,10 @@ $config['login_password_maxlen'] = 1024;
 // Example: '/^[a-z0-9_@.-]+$/'
 $config['login_username_filter'] = null;
 
+// Brute-force attacks prevention.
+// The value specifies maximum number of failed logon attempts per minute.
+$config['login_rate_limit'] = 3;
+
 // Includes should be interpreted as PHP files
 $config['skin_include_php'] = false;
 

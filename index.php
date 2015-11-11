@@ -155,6 +155,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
             RCMAIL::ERROR_COOKIES_DISABLED => 'cookiesdisabled',
             RCMAIL::ERROR_INVALID_REQUEST  => 'invalidrequest',
             RCMAIL::ERROR_INVALID_HOST     => 'invalidhost',
+            RCMAIL::ERROR_RATE_LIMIT       => 'accountlocked',
         );
 
         $error_message = !empty($auth['error']) && !is_numeric($auth['error']) ? $auth['error'] : ($error_labels[$error_code] ?: 'loginfailed');

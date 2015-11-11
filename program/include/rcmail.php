@@ -60,6 +60,7 @@ class rcmail extends rcube
     const ERROR_INVALID_REQUEST  = 1;
     const ERROR_INVALID_HOST     = 2;
     const ERROR_COOKIES_DISABLED = 3;
+    const ERROR_RATE_LIMIT       = 4;
 
 
     /**
@@ -602,12 +603,22 @@ class rcmail extends rcube
         // user already registered -> overwrite username
         if ($user = rcube_user::query($username, $host)) {
             $username = $user->data['username'];
+
+            // Brute-force prevention
+            if ($user->is_locked()) {
+                $this->login_error = self::ERROR_RATE_LIMIT;
+                return false;
+            }
         }
 
         $storage = $this->get_storage();
 
         // try to log in
         if (!$storage->connect($host, $username, $password, $port, $ssl)) {
+            if ($user) {
+                $user->failed_login();
+            }
+
             // Wait a second to slow down brute-force attacks (#1490549)
             sleep(1);
             return false;

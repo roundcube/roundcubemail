@@ -482,11 +482,61 @@ class rcube_user
     }
 
     /**
+     * Update user's failed_login timestamp and counter
+     */
+    function failed_login()
+    {
+        if ($this->ID && ($rate = (int) $this->rc->config->get('login_rate_limit', 3))) {
+            if (empty($this->data['failed_login'])) {
+                $failed_login = new DateTime('now');
+                $counter      = 1;
+            }
+            else {
+                $failed_login = new DateTime($this->data['failed_login']);
+                $threshold    = new DateTime('- 60 seconds');
+
+                if ($failed_login < $threshold) {
+                    $failed_login = new DateTime('now');
+                    $counter      = 1;
+                }
+            }
+
+            $this->db->query(
+                "UPDATE " . $this->db->table_name('users', true)
+                    . " SET `failed_login` = " . $this->db->fromunixtime($failed_login->format('U'))
+                    . ", `failed_login_counter` = " . ($counter ?: "`failed_login_counter` + 1")
+                . " WHERE `user_id` = ?",
+                $this->ID);
+        }
+    }
+
+    /**
+     * Checks if the account is locked, e.g. as a result of brute-force prevention
+     */
+    function is_locked()
+    {
+        if (empty($this->data['failed_login'])) {
+            return false;
+        }
+
+        if ($rate = (int) $this->rc->config->get('login_rate_limit', 3)) {
+            $last_failed = new DateTime($this->data['failed_login']);
+            $threshold   = new DateTime('- 60 seconds');
+
+            if ($last_failed > $threshold && $this->data['failed_login_counter'] >= $rate) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Clear the saved object state
      */
     function reset()
     {
-        $this->ID = null;
+        $this->ID   = null;
         $this->data = null;
     }
 
@@ -519,10 +569,11 @@ class rcube_user
         }
 
         // user already registered -> overwrite username
-        if ($sql_arr)
+        if ($sql_arr) {
             return new rcube_user($sql_arr['user_id'], $sql_arr);
-        else
-            return false;
+        }
+
+        return false;
     }
 
     /**

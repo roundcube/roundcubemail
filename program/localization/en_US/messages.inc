@@ -24,6 +24,7 @@ $messages['sessionerror'] = 'Your session is invalid or expired.';
 $messages['storageerror'] = 'Connection to storage server failed.';
 $messages['servererror'] = 'Server Error!';
 $messages['servererrormsg'] = 'Server Error: $msg';
+$messages['accountlocked'] = 'Too many failed login attempts. Try again later.';
 $messages['connerror'] = 'Connection Error (Failed to reach the server)!';
 $messages['dberror'] = 'Database Error!';
 $messages['windowopenerror'] = 'The popup window was blocked!';

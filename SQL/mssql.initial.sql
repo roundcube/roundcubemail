@@ -103,6 +103,8 @@ CREATE TABLE [dbo].[users] (
 	[mail_host] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[created] [datetime] NOT NULL ,
 	[last_login] [datetime] NULL ,
+	[failed_login] [datetime] NULL ,
+	[failed_login_counter] [int] NULL ,
 	[language] [varchar] (5) COLLATE Latin1_General_CI_AI NULL ,
 	[preferences] [text] COLLATE Latin1_General_CI_AI NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
@@ -393,6 +395,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
-INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2015030800')
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2015111100')
 GO
 

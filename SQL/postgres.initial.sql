@@ -22,6 +22,8 @@ CREATE TABLE users (
     mail_host varchar(128) DEFAULT '' NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
     last_login timestamp with time zone DEFAULT NULL,
+    failed_login timestamp with time zone DEFAULT NULL,
+    failed_login_counter integer DEFAULT NULL,
     "language" varchar(5),
     preferences text DEFAULT ''::text NOT NULL,
     CONSTRAINT users_username_key UNIQUE (username, mail_host)
@@ -290,4 +292,4 @@ CREATE TABLE "system" (
     value text
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2015030800');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2015111100');
