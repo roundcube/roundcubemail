@@ -1532,7 +1532,7 @@ function rcmail_compose_subject($attrib)
 
 function rcmail_compose_attachment_list($attrib)
 {
-    global $RCMAIL, $OUTPUT, $COMPOSE;
+    global $RCMAIL, $OUTPUT, $COMPOSE, $MESSAGE;
 
     // add ID if not given
     if (!$attrib['id'])
@@ -1560,6 +1560,15 @@ function rcmail_compose_attachment_list($attrib)
 
             $content = sprintf('%s <span class="attachment-size">(%s)</span>',
                 rcube::Q($a_prop['name']), $RCMAIL->show_bytes($a_prop['size']));
+
+            if ($a_prop['pid']) {
+                $content = html::a(array(
+                        'href'  => $MESSAGE->get_part_url($a_prop['pid'], false) . '&_download=1',
+                        'style' => 'padding: 0;',
+                    ),
+                    $content
+                );
+            }
 
             $out .= html::tag('li', array(
                     'id'          => 'rcmfile'.$id,
