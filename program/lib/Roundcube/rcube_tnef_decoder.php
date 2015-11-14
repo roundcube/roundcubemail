@@ -234,7 +234,7 @@ class rcube_tnef_decoder
             case self::MAPI_UNICODE_STRING:
             case self::MAPI_BINARY:
             case self::MAPI_OBJECT:
-                $num_vals = ($have_mval) ? $num_mval : $this->_geti($data, 32);
+                $num_vals = $have_mval ? $num_mval : $this->_geti($data, 32);
                 for ($i = 0; $i < $num_vals; $i++) {
                     $length = $this->_geti($data, 32);
 

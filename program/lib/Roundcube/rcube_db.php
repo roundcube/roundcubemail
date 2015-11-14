@@ -1183,7 +1183,7 @@ class rcube_db
         }
 
         // process the different protocol options
-        $parsed['protocol'] = (!empty($proto)) ? $proto : 'tcp';
+        $parsed['protocol'] = $proto ?: 'tcp';
         $proto_opts = rawurldecode($proto_opts);
         if (strpos($proto_opts, ':') !== false) {
             list($proto_opts, $parsed['port']) = explode(':', $proto_opts);

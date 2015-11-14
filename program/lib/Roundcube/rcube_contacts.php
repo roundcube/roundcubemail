@@ -741,7 +741,7 @@ class rcube_contacts extends rcube_addressbook
         $words = '';
 
         // copy values into vcard object
-        $vcard = new rcube_vcard($record['vcard'] ? $record['vcard'] : $save_data['vcard'], RCUBE_CHARSET, false, $this->vcard_fieldmap);
+        $vcard = new rcube_vcard($record['vcard'] ?: $save_data['vcard'], RCUBE_CHARSET, false, $this->vcard_fieldmap);
         $vcard->reset();
 
         // don't store groups in vCard (#1490277)

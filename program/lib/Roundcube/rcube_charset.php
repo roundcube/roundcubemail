@@ -119,7 +119,7 @@ class rcube_charset
         }
         // ISO-8859
         else if (preg_match('/ISO8859([0-9]{0,2})/', $str, $m)) {
-            $iso = 'ISO-8859-' . ($m[1] ? $m[1] : 1);
+            $iso = 'ISO-8859-' . ($m[1] ?: 1);
             // some clients sends windows-1252 text as latin1,
             // it is safe to use windows-1252 for all latin1
             $result = $iso == 'ISO-8859-1' ? 'WINDOWS-1252' : $iso;
@@ -238,8 +238,8 @@ class rcube_charset
                 $aliases['US-ASCII'] = 'ASCII';
             }
 
-            $mb_from = $aliases[$from] ? $aliases[$from] : $from;
-            $mb_to   = $aliases[$to] ? $aliases[$to] : $to;
+            $mb_from = $aliases[$from] ?: $from;
+            $mb_to   = $aliases[$to] ?: $to;
 
             // return if encoding found, string matches encoding and convert succeeded
             if (in_array($mb_from, $mbstring_list) && in_array($mb_to, $mbstring_list)) {

@@ -155,7 +155,7 @@ class rcube_mime
      */
     public static function decode_mime_string($input, $fallback = null)
     {
-        $default_charset = !empty($fallback) ? $fallback : self::get_charset();
+        $default_charset = $fallback ?: self::get_charset();
 
         // rfc: all line breaks or other characters not found
         // in the Base64 Alphabet must be ignored by decoding software

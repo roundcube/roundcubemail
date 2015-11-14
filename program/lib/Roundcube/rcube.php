@@ -505,7 +505,7 @@ class rcube
         }
 
         ini_set('session.cookie_secure', $is_secure);
-        ini_set('session.name', $sess_name ? $sess_name : 'roundcube_sessid');
+        ini_set('session.name', $sess_name ?: 'roundcube_sessid');
         ini_set('session.use_cookies', 1);
         ini_set('session.use_only_cookies', 1);
         ini_set('session.cookie_httponly', 1);
@@ -601,7 +601,7 @@ class rcube
             $attrib = array('name' => $attrib);
         }
 
-        $name = $attrib['name'] ? $attrib['name'] : '';
+        $name = (string) $attrib['name'];
 
         // attrib contain text values: use them from now
         if (($setval = $attrib[strtolower($_SESSION['language'])]) || ($setval = $attrib['en_us'])) {
@@ -619,7 +619,7 @@ class rcube
         // replace vars in text
         if (is_array($attrib['vars'])) {
             foreach ($attrib['vars'] as $var_key => $var_value) {
-                $text = str_replace($var_key[0]!='$' ? '$'.$var_key : $var_key, $var_value, $text);
+                $text = str_replace($var_key[0] != '$' ? '$'.$var_key : $var_key, $var_value, $text);
             }
         }
 
@@ -685,7 +685,7 @@ class rcube
      */
     public function load_language($lang = null, $add = array(), $merge = array())
     {
-        $lang = $this->language_prop(($lang ? $lang : $_SESSION['language']));
+        $lang = $this->language_prop($lang ?: $_SESSION['language']);
 
         // load localized texts
         if (empty($this->texts) || $lang != $_SESSION['language']) {
@@ -1267,7 +1267,7 @@ class rcube
      */
     public static function log_bug($arg_arr)
     {
-        $program = strtoupper(!empty($arg_arr['type']) ? $arg_arr['type'] : 'php');
+        $program = strtoupper($arg_arr['type'] ?: 'php');
         $level   = self::get_instance()->config->get('debug_level');
 
         // disable errors for ajax requests, write to log instead (#1487831)

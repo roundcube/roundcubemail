@@ -285,8 +285,7 @@ class rcube_ldap extends rcube_addressbook
             $bind_dn   = $this->prop['bind_dn'];
 
             $this->base_dn        = $this->prop['base_dn'];
-            $this->groups_base_dn = ($this->prop['groups']['base_dn']) ?
-                $this->prop['groups']['base_dn'] : $this->base_dn;
+            $this->groups_base_dn = $this->prop['groups']['base_dn'] ?: $this->base_dn;
 
             // User specific access, generate the proper values to use.
             if ($this->prop['user_specific']) {
@@ -677,7 +676,7 @@ class rcube_ldap extends rcube_addressbook
         $attrib = array_merge($attrib, array_values($this->group_types));
         $attrib[] = 'memberURL';
 
-        $filter = $this->prop['groups']['member_filter'] ? $this->prop['groups']['member_filter'] : '(objectclass=*)';
+        $filter = $this->prop['groups']['member_filter'] ?: '(objectclass=*)';
 
         for ($i=0; $i < $entry[$attr]['count']; $i++) {
             if (empty($entry[$attr][$i]))
@@ -1312,7 +1311,7 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
-        return $newdn ? $newdn : true;
+        return $newdn ?: true;
     }
 
     /**
@@ -1372,7 +1371,7 @@ class rcube_ldap extends rcube_addressbook
     function delete_all($with_groups = false)
     {
         // searching for contact entries
-        $dn_list = $this->ldap->list_entries($this->base_dn, $this->prop['filter'] ? $this->prop['filter'] : '(objectclass=*)');
+        $dn_list = $this->ldap->list_entries($this->base_dn, $this->prop['filter'] ?: '(objectclass=*)');
 
         if (!empty($dn_list)) {
             foreach ($dn_list as $idx => $entry) {
@@ -1447,7 +1446,7 @@ class rcube_ldap extends rcube_addressbook
         if ($this->is_group_entry($rec)) {
             $out['_type'] = 'group';
             $out['readonly'] = true;
-            $fieldmap['name'] = $this->group_data['name_attr'] ? $this->group_data['name_attr'] : $this->prop['groups']['name_attr'];
+            $fieldmap['name'] = $this->group_data['name_attr'] ?: $this->prop['groups']['name_attr'];
         }
 
         // assign object type from object class mapping
@@ -1472,7 +1471,7 @@ class rcube_ldap extends rcube_addressbook
                 if ($col == 'email' && $this->mail_domain && !strpos($value, '@'))
                     $out[$rf][] = sprintf('%s@%s', $value, $this->mail_domain);
                 else if (in_array($col, array('street','zipcode','locality','country','region')))
-                    $out['address'.($subtype?':':'').$subtype][$i][$col] = $value;
+                    $out['address' . ($subtype ? ':' : '') . $subtype][$i][$col] = $value;
                 else if ($col == 'address' && strpos($value, '$') !== false)  // address data is represented as string separated with $
                     list($out[$rf][$i]['street'], $out[$rf][$i]['locality'], $out[$rf][$i]['zipcode'], $out[$rf][$i]['country']) = explode('$', $value);
                 else if ($rec[$lf]['count'] > 1)
@@ -1701,7 +1700,7 @@ class rcube_ldap extends rcube_addressbook
         $filter     = $this->prop['groups']['filter'];
         $scope      = $this->prop['groups']['scope'];
         $name_attr  = $this->prop['groups']['name_attr'];
-        $email_attr = $this->prop['groups']['email_attr'] ? $this->prop['groups']['email_attr'] : 'mail';
+        $email_attr = $this->prop['groups']['email_attr'] ?: 'mail';
         $sort_attrs = $this->prop['groups']['sort'] ? (array)$this->prop['groups']['sort'] : array($name_attr);
         $sort_attr  = $sort_attrs[0];
 
@@ -1849,11 +1848,11 @@ class rcube_ldap extends rcube_addressbook
         $new_dn      = 'cn=' . rcube_ldap_generic::quote_string($group_name, true) . ',' . $this->groups_base_dn;
         $new_gid     = self::dn_encode($new_dn);
         $member_attr = $this->get_group_member_attr();
-        $name_attr   = $this->prop['groups']['name_attr'] ? $this->prop['groups']['name_attr'] : 'cn';
+        $name_attr   = $this->prop['groups']['name_attr'] ?: 'cn';
         $new_entry   = array(
             'objectClass' => $this->prop['groups']['object_classes'],
-            $name_attr => $group_name,
-            $member_attr => '',
+            $name_attr    => $group_name,
+            $member_attr  => '',
         );
 
         if (!$this->ldap->add_entry($new_dn, $new_entry)) {
@@ -2005,7 +2004,7 @@ class rcube_ldap extends rcube_addressbook
 
         $base_dn     = $this->groups_base_dn;
         $contact_dn  = self::dn_decode($contact_id);
-        $name_attr   = $this->prop['groups']['name_attr'] ? $this->prop['groups']['name_attr'] : 'cn';
+        $name_attr   = $this->prop['groups']['name_attr'] ?: 'cn';
         $member_attr = $this->get_group_member_attr();
         $add_filter  = '';
 

@@ -59,10 +59,10 @@ class rcube_smtp
 
         // let plugins alter smtp connection config
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', array(
-            'smtp_server'    => $host ? $host : $rcube->config->get('smtp_server'),
-            'smtp_port'      => $port ? $port : $rcube->config->get('smtp_port', 25),
-            'smtp_user'      => $user ? $user : $rcube->config->get('smtp_user'),
-            'smtp_pass'      => $pass ? $pass : $rcube->config->get('smtp_pass'),
+            'smtp_server'    => $host ?: $rcube->config->get('smtp_server'),
+            'smtp_port'      => $port ?: $rcube->config->get('smtp_port', 25),
+            'smtp_user'      => $user ?: $rcube->config->get('smtp_user'),
+            'smtp_pass'      => $pass ?: $rcube->config->get('smtp_pass'),
             'smtp_auth_cid'  => $rcube->config->get('smtp_auth_cid'),
             'smtp_auth_pw'   => $rcube->config->get('smtp_auth_pw'),
             'smtp_auth_type' => $rcube->config->get('smtp_auth_type'),
@@ -145,7 +145,7 @@ class rcube_smtp
 
         $smtp_user = str_replace('%u', $rcube->get_user_name(), $CONFIG['smtp_user']);
         $smtp_pass = str_replace('%p', $rcube->get_user_password(), $CONFIG['smtp_pass']);
-        $smtp_auth_type = empty($CONFIG['smtp_auth_type']) ? NULL : $CONFIG['smtp_auth_type'];
+        $smtp_auth_type = $CONFIG['smtp_auth_type'] ?: null;
 
         if (!empty($CONFIG['smtp_auth_cid'])) {
             $smtp_authz = $smtp_user;

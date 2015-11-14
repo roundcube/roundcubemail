@@ -46,7 +46,7 @@ class rcube_spellchecker
     {
         $this->rc     = rcube::get_instance();
         $this->engine = $this->rc->config->get('spellcheck_engine', 'googie');
-        $this->lang   = $lang ? $lang : 'en';
+        $this->lang   = $lang ?: 'en';
 
         $this->options = array(
             'ignore_syms' => $this->rc->config->get('spellcheck_ignore_syms'),
@@ -245,7 +245,7 @@ class rcube_spellchecker
      */
     function error()
     {
-        return $this->error ? $this->error : ($this->backend ? $this->backend->error() : false);
+        return $this->error ?: ($this->backend ? $this->backend->error() : false);
     }
 
     private function html2text($text)

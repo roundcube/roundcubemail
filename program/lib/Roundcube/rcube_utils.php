@@ -469,7 +469,7 @@ class rcube_utils
 
         list($primary, $secondary) = explode('/', $mimetype);
 
-        $classes = array($primary ? $primary : 'unknown');
+        $classes = array($primary ?: 'unknown');
 
         if ($secondary) {
             $classes[] = $secondary;
@@ -579,7 +579,7 @@ class rcube_utils
         // %d - domain name without first part
         $d = preg_replace('/^[^\.]+\./', '', $_SERVER['HTTP_HOST']);
         // %h - IMAP host
-        $h = $_SESSION['storage_host'] ? $_SESSION['storage_host'] : $host;
+        $h = $_SESSION['storage_host'] ?: $host;
         // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
         $z = preg_replace('/^[^\.]+\./', '', $h);
         // %s - domain name after the '@' from e-mail address provided at login screen.

@@ -67,7 +67,7 @@ class rcube_spellcheck_atd extends rcube_spellcheck_engine
         if ($url) {
             $a_uri = parse_url($url);
             $ssl   = ($a_uri['scheme'] == 'https' || $a_uri['scheme'] == 'ssl');
-            $port  = $a_uri['port'] ? $a_uri['port'] : ($ssl ? 443 : 80);
+            $port  = $a_uri['port'] ?: ($ssl ? 443 : 80);
             $host  = ($ssl ? 'ssl://' : '') . $a_uri['host'];
             $path  = $a_uri['path'] . ($a_uri['query'] ? '?'.$a_uri['query'] : '') . $this->lang;
         }

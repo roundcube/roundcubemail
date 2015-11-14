@@ -196,7 +196,7 @@ class rcube_vcard
                         }
 
                         while ($k < count($raw['type']) && ($subtype == 'internet' || $subtype == 'pref')) {
-                            $subtype = $typemap[$raw['type'][++$k]] ? $typemap[$raw['type'][$k]] : strtolower($raw['type'][$k]);
+                            $subtype = $typemap[$raw['type'][++$k]] ?: strtolower($raw['type'][$k]);
                         }
                     }
 
@@ -207,7 +207,7 @@ class rcube_vcard
                                 && !in_array($k, array('pref','internet','voice','base64'))
                             ) {
                                 $k_uc    = strtoupper($k);
-                                $subtype = $typemap[$k_uc] ? $typemap[$k_uc] : $k;
+                                $subtype = $typemap[$k_uc] ?: $k;
                                 break;
                             }
                         }
@@ -385,7 +385,7 @@ class rcube_vcard
                 $this->raw[$tag][$index] = (array)$value;
                 if ($type) {
                     $typemap = array_flip($this->typemap);
-                    $this->raw[$tag][$index]['type'] = explode(',', ($typemap[$type_uc] ? $typemap[$type_uc] : $type));
+                    $this->raw[$tag][$index]['type'] = explode(',', $typemap[$type_uc] ?: $type);
                 }
             }
             else {
@@ -658,7 +658,7 @@ class rcube_vcard
                         // $entry['base64'] = true;
                     }
 
-                    $data = self::decode_value($data, $enc ? $enc : 'base64');
+                    $data = self::decode_value($data, $enc ?: 'base64');
                 }
                 else if ($field == 'PHOTO') {
                     // vCard 4.0 data URI, "PHOTO:data:image/jpeg;base64,..."

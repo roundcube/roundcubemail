@@ -539,7 +539,7 @@ abstract class rcube_addressbook
         else if ($compose_mode == 1)
             $fn = join(' ', array($contact['firstname'], $contact['middlename'], $contact['surname']));
         else if ($compose_mode == 0)
-            $fn = !empty($contact['name']) ? $contact['name'] : join(' ', array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix']));
+            $fn = $contact['name'] ?: join(' ', array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix']));
         else {
             $plugin = rcube::get_instance()->plugins->exec_hook('contact_listname', array('contact' => $contact));
             $fn     = $plugin['fn'];
