@@ -616,6 +616,7 @@ class rcube_sieve_engine
             $addresses      = rcube_utils::get_input_value('_action_addresses', rcube_utils::INPUT_POST, true);
             $intervals      = rcube_utils::get_input_value('_action_interval', rcube_utils::INPUT_POST);
             $interval_types = rcube_utils::get_input_value('_action_interval_type', rcube_utils::INPUT_POST);
+            $from           = rcube_utils::get_input_value('_action_from', rcube_utils::INPUT_POST);
             $subject        = rcube_utils::get_input_value('_action_subject', rcube_utils::INPUT_POST, true);
             $flags          = rcube_utils::get_input_value('_action_flags', rcube_utils::INPUT_POST);
             $varnames       = rcube_utils::get_input_value('_action_varname', rcube_utils::INPUT_POST);
@@ -981,10 +982,11 @@ class rcube_sieve_engine
                     $interval_type = $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
 
                     $this->form['actions'][$i]['reason']    = str_replace("\r\n", "\n", $reason);
+                    $this->form['actions'][$i]['from']      = $from[$idx];
                     $this->form['actions'][$i]['subject']   = $subject[$idx];
                     $this->form['actions'][$i]['addresses'] = array_shift($addresses);
                     $this->form['actions'][$i][$interval_type] = $intervals[$idx];
-// @TODO: vacation :mime, :from, :handle
+// @TODO: vacation :mime, :handle
 
                     foreach ((array)$this->form['actions'][$i]['addresses'] as $aidx => $address) {
                         $this->form['actions'][$i]['addresses'][$aidx] = $address = trim($address);
@@ -996,6 +998,10 @@ class rcube_sieve_engine
                             $this->errors['actions'][$i]['addresses'] = $this->plugin->gettext('noemailwarning');
                             break;
                         }
+                    }
+
+                    if (!empty($this->form['actions'][$i]['from']) && !rcube_utils::check_email($this->form['actions'][$i]['from'])) {
+                        $this->errors['actions'][$i]['from'] = $this->plugin->gettext('noemailwarning');
                     }
 
                     if ($this->form['actions'][$i]['reason'] == '')
@@ -1787,6 +1793,10 @@ class rcube_sieve_engine
             .'<input type="text" name="_action_subject['.$id.']" id="action_subject'.$id.'" '
             .'value="' . (is_array($action['subject']) ? rcube::Q(implode(', ', $action['subject']), 'strict', false) : $action['subject']) . '" size="35" '
             . $this->error_class($id, 'action', 'subject', 'action_subject') .' />';
+        $out .= '<br /><span class="label">' .rcube::Q($this->plugin->gettext('vacationfrom')) . '</span><br />'
+            .'<input type="text" name="_action_from['.$id.']" id="action_from'.$id.'" '
+            .'value="' . $action['from'] . '" size="35" '
+            . $this->error_class($id, 'action', 'from', 'action_from') .' />';
         $out .= '<br /><span class="label">' .rcube::Q($this->plugin->gettext('vacationaddr')) . '</span><br />'
             . $this->list_input($id, 'action_addresses', $addresses, true,
                 $this->error_class($id, 'action', 'addresses', 'action_addresses'), 30)
