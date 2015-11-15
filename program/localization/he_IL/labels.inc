@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -195,6 +195,12 @@ $labels['searchscope'] = 'היקף';
 $labels['currentfolder'] = 'תיקיה נוכחית';
 $labels['subfolders'] = 'תיקיה זו ותת תיקיות';
 $labels['allfolders'] = 'כל התיקיות';
+$labels['searchinterval-1W'] = 'יותר משבוע';
+$labels['searchinterval-1M'] = 'יותר מחודש';
+$labels['searchinterval-1Y'] = 'יותר משנה';
+$labels['searchinterval1W'] = 'פחות משבוע';
+$labels['searchinterval1M'] = 'פחות מחודש';
+$labels['searchinterval1Y'] = 'פחות משנה';
 $labels['openinextwin'] = 'פתיחה בחלון חדש';
 $labels['emlsave'] = 'הורדת הודעה בפורמט  EML';
 $labels['changeformattext'] = 'הצגה בפורמט לא מעוצב';
@@ -214,6 +220,15 @@ $labels['selectimage']    = 'בחר תמונה';
 $labels['addimage']       = 'הוסף תמונה';
 $labels['selectmedia']    = 'בחר סרטון';
 $labels['addmedia']       = 'הוסף סרטון';
+$labels['encrypt']        = 'הצפנה';
+$labels['encryptmessage'] = 'הצפנת הודעה';
+$labels['encryptmessagemailvelope'] = 'הצפנה באמצעות Mailvelope';
+$labels['importpubkeys']  = 'ייבוא מפתחות ציבוריים';
+$labels['encryptedsendialog'] = 'נשלחת הודעה מוצפנת';
+$labels['keyid']          = 'קוד זיהוי מפתח';
+$labels['keylength']      = 'סיביות';
+$labels['keyexpired']     = 'פג תוקף';
+$labels['keyrevoked']     = 'נשלל';
 $labels['editidents']    = 'עריכת זהויות';
 $labels['spellcheck']    = 'איות';
 $labels['checkspelling'] = 'בדיקת איות';
@@ -298,6 +313,7 @@ $labels['searchresult'] = 'תוצאת חיפוש';
 $labels['advsearch'] = 'חיםוש מתקדם';
 $labels['advanced'] = 'מתקדם';
 $labels['other'] = 'אחר';
+$labels['printcontact'] = 'הדפסת נתונים של איש קשר';
 $labels['typehome']   = 'בית';
 $labels['typework']   = 'עבודה';
 $labels['typeother']  = 'אחר';
@@ -418,6 +434,7 @@ $labels['deletejunk'] = 'מחיקה ישירה של הודעות זבל';
 $labels['showremoteimages'] = 'הצגת תמונות משרת מרוחק בגוף ההודעה';
 $labels['fromknownsenders'] = 'משולחים מוכרים';
 $labels['always'] = 'תמיד';
+$labels['alwaysbutplain'] = 'תמיד, למעט בעת מענה לטקסט פשוט';
 $labels['showinlineimages'] = 'הצגת תמונות מצורפות בתחתית ההודעה';
 $labels['autosavedraft']  = 'שמירה אוטומטית של טיוטה';
 $labels['everynminutes']  = 'כל $n דקות';
@@ -453,6 +470,8 @@ $labels['autoaddsignature'] = 'הוספה אוטומטית של חתימה';
 $labels['newmessageonly'] = 'הודעה חדשה בלבד';
 $labels['replyandforwardonly'] = 'מענה והעברת הודעה בלבד';
 $labels['insertsignature'] = 'שיבוץ חתימה';
+$labels['sigbelow'] = 'למקם חתימה מתחת להודעת המצוטטת';
+$labels['sigseparator'] = 'חובת שימוש במפריד תקני בחתימה';
 $labels['previewpanemarkread']  = 'סימון הודעה שנצפתה כנקראה';
 $labels['afternseconds']  = 'לאחר $n שניות';
 $labels['reqmdn'] = 'תמיד יש לדרוש אישור קבלה';

@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,15 +16,15 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 $messages['errortitle']  = 'Si è verificato un errore!';
-$messages['loginfailed']  = 'Impossibile accedere. Utente o password non corretti';
-$messages['cookiesdisabled'] = 'Il tuo browser non accetta i cookies';
-$messages['sessionerror'] = 'Sessione non valida o scaduta';
+$messages['loginfailed']  = 'Accesso fallito.';
+$messages['cookiesdisabled'] = 'Il tuo browser non accetta i cookies.';
+$messages['sessionerror'] = 'Sessione non valida o scaduta.';
 $messages['storageerror'] = 'Impossibile connettersi al server IMAP';
 $messages['servererror'] = 'Errore del server!';
 $messages['servererrormsg'] = 'Errore del server: $msg';
 $messages['connerror'] = 'Errore di connessione (impossibile raggiungere il server)!';
 $messages['dberror'] = 'Errore del database!';
-$messages['windowopenerror'] = 'Windows popup è stato bloccato!';
+$messages['windowopenerror'] = 'La finestra di popup è stata bloccata!';
 $messages['requesttimedout'] = 'Richiesta scaduta';
 $messages['errorreadonly'] = 'Impossibile eseguire l\'operazione. Cartella in sola lettura';
 $messages['errornoperm'] = 'Impossibile eseguire l\'operazione. Permesso negato';
@@ -39,6 +39,7 @@ $messages['nomessages'] = 'Non ci sono messaggi';
 $messages['refreshing'] = 'Aggiornamento...';
 $messages['loading'] = 'Caricamento...';
 $messages['uploading'] = 'Caricamento file...';
+$messages['attaching'] = 'Sto allegando il file...';
 $messages['uploadingmany'] = 'Caricamento file...';
 $messages['loadingdata'] = 'Caricamento dati...';
 $messages['checkingmail'] = 'Controllo nuovi messaggi...';
@@ -46,7 +47,7 @@ $messages['sendingmessage'] = 'Invio messaggio in corso...';
 $messages['messagesent'] = 'Messaggio inviato correttamente';
 $messages['savingmessage'] = 'Salvataggio messaggio...';
 $messages['messagesaved'] = 'Messaggio salvato in bozze';
-$messages['successfullysaved'] = 'Salvato correttamente';
+$messages['successfullysaved'] = 'Salvato correttamente.';
 $messages['savingresponse'] = 'Salvataggio della risposta...';
 $messages['deleteresponseconfirm'] = 'Sei sicuro di voler eliminare questa risposta?';
 $messages['addedsuccessfully'] = 'Contatto aggiunto alla rubrica';
@@ -54,6 +55,14 @@ $messages['contactexists'] = 'Esiste già un contatto con questo indirizzo e-mai
 $messages['contactnameexists'] = 'Esiste già un contatto con questo nome';
 $messages['blockedimages'] = 'Per proteggere la tua privacy, le immagini remote di questo messaggio sono state bloccate.';
 $messages['encryptedmessage'] = 'Questo messaggio é cifrato e non può essere visualizzato. Spiacenti!';
+$messages['externalmessagedecryption'] = 'Questo messaggio è cifrato e può essere decifrato attraverso un\'estensione del browser.';
+$messages['nopubkeyfor'] = 'Non è stata trovata una chiave pubblica valida per l\'indirizzo $email';
+$messages['nopubkeyforsender'] = 'Non è stata trovata una chiave pubblica valida per la tua identità mittente. Si desidera cifrare il messaggio solo per i destinatari?';
+$messages['encryptnoattachments'] = 'Gli allegati già caricati non possono essere cifrati. Si prega di aggiungerli di nuovo all\'editor di cifratura.';
+$messages['searchpubkeyservers'] = 'Si desidera effettuare una ricerca di server di chiavi pubbliche per le chiavi mancanti?';
+$messages['encryptpubkeysfound'] = 'Sono state trovate le seguenti chiavi pubbliche:';
+$messages['keyservererror'] = 'Non è stato possibile recuperare la chiave dal server delle chiavi.';
+$messages['keyimportsuccess'] = 'La chiave pubblica $key è stata importata correttamente nel tuo portachiavi.';
 $messages['nocontactsfound'] = 'Nessun contatto trovato';
 $messages['contactnotfound'] = 'Il contatto richiesto non è stato trovato';
 $messages['contactsearchonly'] = 'Inserisci dei termini per cercare i contatti';
@@ -104,6 +113,7 @@ $messages['folderexpunged'] = 'Cartella compattata correttamente';
 $messages['deletedsuccessfully'] = 'Eliminato con successo';
 $messages['converting'] = 'Rimozione della formattazione dal messaggio...';
 $messages['messageopenerror'] = 'Impossibile caricare il messaggio dal server';
+$messages['filelinkerror'] = 'L\'inserimento dell\'allegato è fallito.';
 $messages['fileuploaderror'] = 'Errore durante il caricamento del file';
 $messages['filesizeerror'] = 'Il file da caricare supera il limite massimo di $size';
 $messages['copysuccess'] = 'Copiati correttamente $nr contatti.';
@@ -169,6 +179,7 @@ $messages['autocompletechars'] = 'Inserisci almeno $min caratteri per l\'autocom
 $messages['autocompletemore'] = 'Più risultati ottenuti. Inserisci per favore più caratteri.';
 $messages['namecannotbeempty'] = 'Il nome non può essere vuoto';
 $messages['nametoolong'] = 'Nome troppo lungo';
+$messages['namedotforbidden'] = 'Il nome della cartella non puo\' iniziare con un punto';
 $messages['folderupdated'] = 'Cartella aggiornata correttamente';
 $messages['foldercreated'] = 'Cartella creata correttamente';
 $messages['invalidimageformat'] = 'Formato immagine non valido';
@@ -177,4 +188,16 @@ $messages['parentnotwritable'] = 'Impossibile creare o muovere la cartella: acce
 $messages['messagetoobig'] = 'La parte del messaggio è troppo grande per essere processata.';
 $messages['attachmentvalidationerror'] = 'ATTENZIONE! Questo allegato è sospetto poiché non rispetta il tipo dichiarato nel messaggio. Se non conosci il mittente, non dovresti aprire l\'allegato nel browser in quanto potrebbe contenere malware.<br/><br/><em>Atteso: $expected; rilevato: $detected</em>';
 $messages['noscriptwarning'] = 'Attenzione: questo servizio di webmail richiede Javascript! Per utilizzarlo abilita Javascript nelle impostazioni del tuo browser.';
-?>
+$messages['messageissent'] = 'Questo messaggio è stato già inviato, ma non ancora salvato. Vuoi salvarlo adesso?';
+$messages['errnotfound'] = 'File non trovato';
+$messages['errnotfoundexplain'] = 'La risorsa richiesta non è stata trovata!';
+$messages['errfailedrequest'] = 'Richiesta fallita';
+$messages['errauthorizationfailed'] = 'Autorizzazione fallita';
+$messages['errunauthorizedexplain'] = 'Non è stato possibile verificare la tua autorizzazione all\'accesso per questo servizio!';
+$messages['errrequestcheckfailed'] = 'Il controllo della richiesta è fallito';
+$messages['errcsrfprotectionexplain'] = "Per la tua sicurezza, l'accesso a questa risorsa è protetto contro CSRF.\nSe visualizzi questo messaggio, è probabile che non ti sia scollegato prima di lasciare l'applicazione web.\n\nE' richiesta un'azione di una persona per continuare.";
+$messages['errcontactserveradmin'] = 'Si prega di contattare l\'amministratore del server.';
+$messages['clicktoresumesession'] = 'Clicca qui per riprendere la tua sessione precedente.';
+$messages['errcomposesession'] = 'Errore di sessione di composizione';
+$messages['errcomposesessionexplain'] = 'Non è stato possibile trovare la sessione di composizione richiesta.';
+$messages['clicktocompose'] = 'Cliccare qui per comporre un nuovo messaggio';

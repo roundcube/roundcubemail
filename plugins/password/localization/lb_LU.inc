@@ -28,4 +28,3 @@ $messages['internalerror'] = 'Neit Passwuert konnt net gespäichert ginn.';
 $messages['passwordshort'] = 'D\'Passwuert muss mindestens $length Zeeche laang sinn.';
 $messages['passwordweak'] = 'D\'Passwuert muss mindestens eng Zuel an ee Sazzeechen enthalen.';
 $messages['passwordforbidden'] = 'D\'Passwuert enthält verbueden Zeechen.';
-?>

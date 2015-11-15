@@ -30,4 +30,3 @@ $messages['passwordshort'] = 'Slaptažodis turi būti sudarytas bent iš $length
 $messages['passwordweak'] = 'Slaptažodyje turi būti bent vienas skaitmuo ir vienas skyrybos ženklas.';
 $messages['passwordforbidden'] = 'Slaptažodyje rasta neleistinų simbolių.';
 $messages['firstloginchange'] = 'Tai yra pirmasis jūsų prisijungimas. Prašau, pasikeiskite savo slaptažodį.';
-?>

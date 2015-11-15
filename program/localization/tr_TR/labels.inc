@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -214,6 +214,15 @@ $labels['selectimage']    = 'Resim seç';
 $labels['addimage']       = 'Resim ekle';
 $labels['selectmedia']    = 'Video seç';
 $labels['addmedia']       = 'Video ekle';
+$labels['encrypt']        = 'Şifreleme';
+$labels['encryptmessage'] = 'Şifreleme mesajı';
+$labels['encryptmessagemailvelope'] = 'Mailvelope ile mesajlarınızı şifreleyin.';
+$labels['importpubkeys']  = 'Genel anahtarları içeri aktar';
+$labels['encryptedsendialog'] = 'Şifreli mesajı gönder';
+$labels['keyid']          = 'Kimlik Anahtarı';
+$labels['keylength']      = 'Bit';
+$labels['keyexpired']     = 'Süre doldu';
+$labels['keyrevoked']     = 'İptal Edilen';
 $labels['editidents']    = 'Kimlikleri düzenle';
 $labels['spellcheck']    = 'Yazım denetimi';
 $labels['checkspelling'] = 'Yazım denetimi yap';
@@ -298,6 +307,7 @@ $labels['searchresult'] = 'Arama sonucu';
 $labels['advsearch'] = 'Gelişmiş ara';
 $labels['advanced'] = 'Gelişmiş';
 $labels['other'] = 'Diğer';
+$labels['printcontact'] = 'Kişiyi yazdır';
 $labels['typehome']   = 'Ev';
 $labels['typework']   = 'İş';
 $labels['typeother']  = 'Diğer';
@@ -416,6 +426,7 @@ $labels['deletejunk'] = 'İstenmeyenler klasöründeki mesajları doğrudan sil'
 $labels['showremoteimages'] = 'Uzaktan yüklenen resimleri göster';
 $labels['fromknownsenders'] = 'bilinen göndericilerden';
 $labels['always'] = 'her zaman';
+$labels['alwaysbutplain'] = 'Herzaman-Düz Metin hariç-';
 $labels['showinlineimages'] = 'Postanın ekindeki resimleri postanın altında göster';
 $labels['autosavedraft']  = 'Taslağı otomatik kaydet:';
 $labels['everynminutes']  = 'her $n dakikada bir';
@@ -451,6 +462,8 @@ $labels['autoaddsignature'] = 'Otomatik olarak imza ekle';
 $labels['newmessageonly'] = 'sadece yeni postalarda';
 $labels['replyandforwardonly'] = 'sadece yanıtlar ve yönlendirmelerde';
 $labels['insertsignature'] = 'İmza ekle';
+$labels['sigbelow'] = 'Alıntı Mesajın altındaki yeri imzala';
+$labels['sigseparator'] = 'İmzalarken normal ayırıcıya zorla.';
 $labels['previewpanemarkread']  = 'Önzilemede görünen postaları okunmuş işaretle';
 $labels['afternseconds']  = '$n saniye sonra';
 $labels['reqmdn'] = 'Her zaman alındı onayı iste';

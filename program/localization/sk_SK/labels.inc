@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -195,6 +195,12 @@ $labels['searchscope'] = 'Rozsah';
 $labels['currentfolder'] = 'Aktuálny priečinok';
 $labels['subfolders'] = 'Tento a podpriečinky';
 $labels['allfolders'] = 'Všetky priečinky';
+$labels['searchinterval-1W'] = 'staršie ako týždeň';
+$labels['searchinterval-1M'] = 'staršie ako mesiac';
+$labels['searchinterval-1Y'] = 'staršie ako rok';
+$labels['searchinterval1W'] = 'nie staršie ako týždeň';
+$labels['searchinterval1M'] = 'nie staršie ako mesiac';
+$labels['searchinterval1Y'] = 'nie staršie ako rok';
 $labels['openinextwin'] = 'Otvoriť v novom okne';
 $labels['emlsave'] = 'Stiahnuť (.eml)';
 $labels['changeformattext'] = 'Zobraziť vo formáte čistého textu';
@@ -214,6 +220,15 @@ $labels['selectimage']    = 'Vybrať obrázok';
 $labels['addimage']       = 'Pridať obrázok';
 $labels['selectmedia']    = 'Vybrať film';
 $labels['addmedia']       = 'Pridať film';
+$labels['encrypt']        = 'Zašifrovať';
+$labels['encryptmessage'] = 'Zašifrovať správu';
+$labels['encryptmessagemailvelope'] = 'Zašifrovať správu pomocou Mailvelope';
+$labels['importpubkeys']  = 'Importovať verejné kľúče';
+$labels['encryptedsendialog'] = 'Odosielanie zašifrovanej správy';
+$labels['keyid']          = 'ID kľúča';
+$labels['keylength']      = 'Bity';
+$labels['keyexpired']     = 'Expirované';
+$labels['keyrevoked']     = 'Odvolané';
 $labels['editidents']    = 'Upraviť identitu odosielateľa';
 $labels['spellcheck']    = 'Pravopis';
 $labels['checkspelling'] = 'Skontrolovať pravopis';
@@ -298,6 +313,7 @@ $labels['searchresult'] = 'Výsledok vyhľadávania';
 $labels['advsearch'] = 'Rozšírené vyhľadávanie';
 $labels['advanced'] = 'Rozšírené';
 $labels['other'] = 'Ostatné';
+$labels['printcontact'] = 'Vytlačiť kontakt';
 $labels['typehome']   = 'Domov';
 $labels['typework']   = 'Práca';
 $labels['typeother']  = 'Iné';
@@ -416,6 +432,7 @@ $labels['deletejunk'] = 'Hneď vymazávať správy v priečinku Nevyžiadaná po
 $labels['showremoteimages'] = 'Zobrazovať obrázky uložené mimo správy';
 $labels['fromknownsenders'] = 'pri známych odosielateľoch';
 $labels['always'] = 'vždy';
+$labels['alwaysbutplain'] = 'vždy, okrem odpovedí na správy v čistom texte';
 $labels['showinlineimages'] = 'Zobrazovať priložené obrázky pod správou';
 $labels['autosavedraft']  = 'Automaticky uložiť koncept';
 $labels['everynminutes']  = 'každých $n minút';
@@ -451,6 +468,8 @@ $labels['autoaddsignature'] = 'Automaticky pridať podpis';
 $labels['newmessageonly'] = 'iba k novým správam';
 $labels['replyandforwardonly'] = 'iba k odpovediam a preposielaným správam';
 $labels['insertsignature'] = 'Vložiť podpis';
+$labels['sigbelow'] = 'Podpis umiestniť pod citovanú správu';
+$labels['sigseparator'] = 'Vynútiť si štandardné oddeľovače v podpisoch';
 $labels['previewpanemarkread']  = 'Označiť správu v náhľade ako prečítanú';
 $labels['afternseconds']  = 'po $n sekundách';
 $labels['reqmdn'] = 'Vždy vyžadovať potvrdenie o doručení';

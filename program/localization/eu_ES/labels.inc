@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -15,7 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-$labels['welcome']   = 'Ongi etorri $product';
+$labels['welcome']   = 'Ongi etorri $product-ra';
 $labels['username']  = 'Erabiltzailea';
 $labels['password']  = 'Pasahitza';
 $labels['server']    = 'Zerbitzaria';
@@ -214,6 +214,14 @@ $labels['selectimage']    = 'Hautatu irudia';
 $labels['addimage']       = 'Gehitu irudia';
 $labels['selectmedia']    = 'Hautatu bideoa';
 $labels['addmedia']       = 'Gehitu bideoa';
+$labels['encrypt']        = 'Zifratu';
+$labels['encryptmessage'] = 'Zifratu mezua';
+$labels['importpubkeys']  = 'Inportatu gako publikoak';
+$labels['encryptedsendialog'] = 'Zifratutako mezua bidaltzen';
+$labels['keyid']          = 'Gakoaren IDa';
+$labels['keylength']      = 'Bitak';
+$labels['keyexpired']     = 'Iraungita';
+$labels['keyrevoked']     = 'Errebokatuta';
 $labels['editidents']    = 'Editatu identitateak';
 $labels['spellcheck']    = 'Ortografia-egiaztatu';
 $labels['checkspelling'] = 'Egiaztaketa ortografikoa';
@@ -298,6 +306,7 @@ $labels['searchresult'] = 'Bilatu emaitza';
 $labels['advsearch'] = 'Bilaketa aurreratua';
 $labels['advanced'] = 'Aurreratua';
 $labels['other'] = 'Beste';
+$labels['printcontact'] = 'Inprimatu kontaktua';
 $labels['typehome']   = 'Etxekoa';
 $labels['typework']   = 'Lanekoa';
 $labels['typeother']  = 'Beste';
@@ -354,7 +363,7 @@ $labels['personaladrbook'] = 'Helbide pertsonalak';
 $labels['searchsave'] = 'Gorde bilaketa';
 $labels['searchdelete'] = 'Ezabatu bilaketa';
 $labels['import'] = 'Inportatu';
-$labels['importcontacts'] = 'Inportatu kontaktoak';
+$labels['importcontacts'] = 'Inportatu kontaktuak';
 $labels['importfromfile'] = 'Inportatu fitxategi honetatik:';
 $labels['importtarget'] = 'Gehitu kontaktuak hona:';
 $labels['importreplace'] = 'Ordezkatu helbide-liburu osoa';
@@ -417,6 +426,7 @@ zabor-mezuak';
 $labels['showremoteimages'] = 'Erakutsi konektatutako urrutiko irudiak';
 $labels['fromknownsenders'] = 'bidaltzaile ezagunengandik';
 $labels['always'] = 'beti';
+$labels['alwaysbutplain'] = 'beti, testu lauari erantzutean izan ezik';
 $labels['showinlineimages'] = 'Erakutsi erantzitako irudiak mezuaren azpian';
 $labels['autosavedraft']  = 'Zirriborroa automatikoki gorde';
 $labels['everynminutes']  = '$n minuturo';
@@ -452,6 +462,8 @@ $labels['autoaddsignature'] = 'Gehitu sinadura automatikoki';
 $labels['newmessageonly'] = 'bakarrik mezu berria';
 $labels['replyandforwardonly'] = 'bakarri erantzun eta birbidalketak';
 $labels['insertsignature'] = 'Txertatu sinadura';
+$labels['sigbelow'] = 'Sinadura aipamenaren azpian jarri';
+$labels['sigseparator'] = 'Behartu banatzaile estandarra sinaduretan';
 $labels['previewpanemarkread']  = 'Markatu ikusitako mezuak irakurrita bezala';
 $labels['afternseconds']  = '$n segundo eta gero';
 $labels['reqmdn'] = 'Eskatu beti jasotze-agiria';

@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -106,7 +106,7 @@ $labels['replytomessage']   = 'Պատասխանել նամակին';
 $labels['replytoallmessage'] = 'Պատասխանել բոլորին';
 $labels['replyall']         = 'Պատասխանել բոլորին';
 $labels['replylist']        = 'Պատասխանել ցուցակին';
-$labels['forward']          = 'Առաջ';
+$labels['forward']          = 'Փոխանցել';
 $labels['forwardinline']    = 'Փոխանցել նամակի մեջ';
 $labels['forwardattachment'] = 'Փոխանցել կցված';
 $labels['forwardmessage']   = 'Փոխանցել նամակը';
@@ -138,6 +138,7 @@ $labels['flagged'] = 'Նշված';
 $labels['unanswered'] = 'Անպատասխան';
 $labels['deleted'] = 'Ջնջված';
 $labels['undeleted'] = 'Ջնջված չէ';
+$labels['forwarded'] = 'Փոխանցված';
 $labels['invert'] = 'Փոխատեղել';
 $labels['filter'] = 'Զտիչ';
 $labels['list'] = 'Ցուցակ';
@@ -195,7 +196,6 @@ $labels['revertto']      = 'Վերականգնել';
 $labels['attach'] = 'Կցել';
 $labels['attachments'] = 'Կցումներ';
 $labels['upload'] = 'Բեռնել';
-$labels['uploadprogress'] = '$percent ($current $total-ից)';
 $labels['close']  = 'Փակել';
 $labels['messageoptions']  = 'Հաղորդագրության ընտրանքներ…';
 $labels['low']     = 'Ցածր';
@@ -351,7 +351,6 @@ $labels['askuser'] = 'Հարցնել օգտվողին';
 $labels['autosend'] = 'ուղարկել ավտոմատ';
 $labels['autosendknown'] = 'ուղարկել ստացական իմ կապորդներին, մնացած դեպքերում` հարցնել ինձ';
 $labels['autosendknownignore'] = 'ուղարկել ստացական իմ կապորդներին, մնացած դեպքերում` անտեսել';
-$labels['ignore'] = 'անտեսել';
 $labels['readwhendeleted'] = 'Ջնջելուց նշել նամակը որպես կարդացած';
 $labels['flagfordeletion'] = 'Ջնջելու փոխարեն նշել որպես ենթակա ջնջման';
 $labels['skipdeleted'] = 'Ցույց չ՛տալ ջնջված նամակները';
@@ -463,4 +462,5 @@ $labels['vietnamese'] = 'Վիետնամական';
 $labels['japanese'] = 'Ճապոնական';
 $labels['korean'] = 'Կորեական';
 $labels['chinese'] = 'Չինական';
+$labels['arialabelforwardingoptions'] = 'Փոխանցելու ընտրանքներ';
 ?>

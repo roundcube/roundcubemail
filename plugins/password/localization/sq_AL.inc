@@ -21,4 +21,3 @@ $labels['confpasswd']  = 'Konfirmo fjalëkalimin e ri:';
 $messages['nopassword'] = 'Ju lutem shkruani fjalëkalimin e ri.';
 $messages['nocurpassword'] = 'Ju lutem shkruani fjalëkalimin e tanishëm.';
 $messages['passwordincorrect'] = 'Fjalëkalimi i tanishëm nuk është i saktë.';
-?>

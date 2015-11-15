@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -195,6 +195,12 @@ $labels['searchscope'] = 'Zoekbereik';
 $labels['currentfolder'] = 'Huidige map';
 $labels['subfolders'] = 'Deze en onderliggende mappen';
 $labels['allfolders'] = 'Alle mappen';
+$labels['searchinterval-1W'] = 'ouder dan een week';
+$labels['searchinterval-1M'] = 'ouder dan een maand';
+$labels['searchinterval-1Y'] = 'ouder dan een jaar';
+$labels['searchinterval1W'] = 'nieuwer dan een week';
+$labels['searchinterval1M'] = 'nieuwer dan een maand';
+$labels['searchinterval1Y'] = 'jonger dan een jaar';
 $labels['openinextwin'] = 'Openen in een nieuw venster';
 $labels['emlsave'] = 'Opslaan (.eml)';
 $labels['changeformattext'] = 'Weergeven als platte tekst';
@@ -214,6 +220,15 @@ $labels['selectimage']    = 'Selecteer afbeelding';
 $labels['addimage']       = 'Afbeelding toevoegen';
 $labels['selectmedia']    = 'Video selecteren';
 $labels['addmedia']       = 'Film toevoegen';
+$labels['encrypt']        = 'Versleutel';
+$labels['encryptmessage'] = 'Versleutel bericht';
+$labels['encryptmessagemailvelope'] = 'Versleutel bericht met Mailvelope';
+$labels['importpubkeys']  = 'Publieke sleutels importeren';
+$labels['encryptedsendialog'] = 'Versleuteld bericht versturen';
+$labels['keyid']          = 'Sleutel ID';
+$labels['keylength']      = 'Bits';
+$labels['keyexpired']     = 'Verlopen';
+$labels['keyrevoked']     = 'Ingetrokken';
 $labels['editidents']    = 'Identiteiten bewerken';
 $labels['spellcheck']    = 'Spelling';
 $labels['checkspelling'] = 'Controleer spelling';
@@ -298,6 +313,7 @@ $labels['searchresult'] = 'Zoekresultaat';
 $labels['advsearch'] = 'Geavanceerd zoeken';
 $labels['advanced'] = 'Geavanceerd';
 $labels['other'] = 'Anders';
+$labels['printcontact'] = 'Contactpersoon printen';
 $labels['typehome']   = 'Thuis';
 $labels['typework']   = 'Werk';
 $labels['typeother']  = 'Anders';
@@ -416,6 +432,7 @@ $labels['deletejunk'] = 'Verwijder direct berichten in Spam';
 $labels['showremoteimages'] = 'Externe afbeeldingen weergeven';
 $labels['fromknownsenders'] = 'van bekende afzenders';
 $labels['always'] = 'altijd';
+$labels['alwaysbutplain'] = 'altijd, behalve bij antwoord in tekst zonder opmaak';
 $labels['showinlineimages'] = 'Bijgevoegde afbeeldingen onder het bericht weergeven';
 $labels['autosavedraft']  = 'Concept automatisch opslaan';
 $labels['everynminutes']  = 'iedere $n minuten';
@@ -451,6 +468,8 @@ $labels['autoaddsignature'] = 'Ondertekening automatisch toevoegen';
 $labels['newmessageonly'] = 'alleen bij nieuwe berichten';
 $labels['replyandforwardonly'] = 'alleen bij antwoorden en doorsturen';
 $labels['insertsignature'] = 'Ondertekening invoegen';
+$labels['sigbelow'] = 'Plaats ondertekening onder het geciteerde bericht';
+$labels['sigseparator'] = 'Forceer standaard scheidingsteken in ondertekeningen';
 $labels['previewpanemarkread']  = 'Markeer voorbeeldberichten als gelezen';
 $labels['afternseconds']  = 'na $n seconden';
 $labels['reqmdn'] = 'Vraag altijd een ontvangstbevestiging';

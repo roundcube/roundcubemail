@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -173,4 +173,3 @@ $messages['parentnotwritable'] = 'Kunne ikke opprette/flytte mappen i valgt over
 $messages['messagetoobig'] = 'Meldingsdelen er for stor til at den kan prosesseres.';
 $messages['attachmentvalidationerror'] = 'ADVARSEL! Dette vedlegget er mistenkelig fordi det er av en type som ikke passer med det som er deklarert i meldingen. Hvis du ikke stoler på avsenderen burde du ikke åpne det i nettleseren, fordi det kan ha skadelig innhold.<br/><br/><em>Forventet: $expected; fant: $detected</em>rnrnWARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'NB: Denne webmail-klienten krever Javascript! Skru på Javascript i nettleseren din for å kunne bruke den.';
-?>

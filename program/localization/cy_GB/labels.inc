@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -214,6 +214,15 @@ $labels['selectimage']    = 'Dewiswch lun';
 $labels['addimage']       = 'Ychwanegwch lun';
 $labels['selectmedia']    = 'Dewiswch fideo';
 $labels['addmedia']       = 'Ychwanegwch fideo';
+$labels['encrypt']        = 'Amgryptio';
+$labels['encryptmessage'] = 'Amgryptio neges';
+$labels['encryptmessagemailvelope'] = 'Amgryption neges gyda Mailvelope';
+$labels['importpubkeys']  = 'Mewnforio allweddi cyhoeddus';
+$labels['encryptedsendialog'] = 'Danfon neges wedi amgryptio';
+$labels['keyid']          = 'ID Allwedd';
+$labels['keylength']      = 'Didiau';
+$labels['keyexpired']     = 'Wedi darfod';
+$labels['keyrevoked']     = 'Wedi dirymu';
 $labels['editidents']    = 'Golygu personoliaethau';
 $labels['spellcheck']    = 'Sillafu';
 $labels['checkspelling'] = 'Gwirio sillafu';
@@ -298,6 +307,7 @@ $labels['searchresult'] = 'Canlyniadau chwilio';
 $labels['advsearch'] = 'Chwilio Uwch';
 $labels['advanced'] = 'Uwch';
 $labels['other'] = 'Arall';
+$labels['printcontact'] = 'Cyswllt argraffu';
 $labels['typehome']   = 'Cartref';
 $labels['typework']   = 'Gwaith';
 $labels['typeother']  = 'Arall';
@@ -416,6 +426,7 @@ $labels['deletejunk'] = 'Dileu negeseuon yn uniongyrchol yn Sbwriel';
 $labels['showremoteimages'] = 'Dangos lluniau o wefannau allanol';
 $labels['fromknownsenders'] = 'o ddanfonwyr hysbys';
 $labels['always'] = 'bob amser';
+$labels['alwaysbutplain'] = 'bob amser, heblaw pan yn ymateb i destun plaen';
 $labels['showinlineimages'] = 'Dangos lluniau atodol islaw\'r neges';
 $labels['autosavedraft']  = 'Cadw drafft yn awtomatig';
 $labels['everynminutes']  = 'bob $n munud';
@@ -451,6 +462,8 @@ $labels['autoaddsignature'] = 'Ychwanegu llofnod yn awtomatig';
 $labels['newmessageonly'] = 'negeseuon newydd yn unig';
 $labels['replyandforwardonly'] = 'atebion a danfon ymlaen yn unig';
 $labels['insertsignature'] = 'Mewnosod llofnod';
+$labels['sigbelow'] = 'Rhowch y llofnod o dan y neges wedi wreiddiol';
+$labels['sigseparator'] = 'Gorfodi gwahanwr safonol yn y llofnodion';
 $labels['previewpanemarkread']  = 'Nodi negeseuon rhagolwg fel darllenwyd';
 $labels['afternseconds']  = 'ar ôl $n eiliad';
 $labels['reqmdn'] = 'Bob amser gofyn am dderbynneb danfon';

@@ -15,6 +15,8 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+$labels['messagedelete'] = 'Berjocht fuortsmite';
+$labels['del'] = 'Fuortsmite';
 $labels['none'] = 'gjin';
 $labels['notifyimportance'] = 'Prioriteit:';
 $labels['notifymethodmailto'] = 'E-mail';

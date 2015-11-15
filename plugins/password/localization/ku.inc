@@ -30,4 +30,3 @@ $messages['passwordshort'] = 'Divê şîfre ji $length karakteran kêmtir nebe.'
 $messages['passwordweak'] = 'Divê di şîfreyê de herî kêm hejmarek û karakterekî xalbendiyê hebe.';
 $messages['passwordforbidden'] = 'Şîfre karakterên qedexe dihewîne.';
 $messages['firstloginchange'] = 'Ev têketina te ya yekemîn e. Ji kerema xwe şîfreya xwe biguherîne.';
-?>

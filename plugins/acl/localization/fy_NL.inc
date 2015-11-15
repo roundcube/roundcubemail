@@ -16,4 +16,8 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
 $labels['username'] = 'Brûker:';
+$labels['acldelete'] = 'Fuortsmite';
+$labels['shortacld'] = 'Fuortsmite';
+$labels['shortaclt'] = 'Fuortsmite';
+$labels['shortacldelete'] = 'Fuortsmite';
 ?>

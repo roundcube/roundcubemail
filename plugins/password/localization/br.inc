@@ -30,4 +30,3 @@ $messages['passwordshort'] = 'Ret eo d\'ar ger-tremen bezañ hiroc\'h eget $leng
 $messages['passwordweak'] = 'En ho ker-tremen e tle bezañ ur sifr hag un arouezenn boentaouiñ da nebeutañ';
 $messages['passwordforbidden'] = 'Arouezennoù difennet zo er ger-tremen.';
 $messages['firstloginchange'] = 'Emaoc\'h o kennaskañ evit ar wezh kentañ. Kemmañ ho ger-tremen mar plij.';
-?>

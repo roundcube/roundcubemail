@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,3 @@ $messages['parentnotwritable'] = 'Den Dossier konnt net am ausgewielten Dossier 
 $messages['messagetoobig'] = 'Den Messagen-Deel ass ze grouss fir verschafft ze ginn.';
 $messages['attachmentvalidationerror'] = 'WARNUNG! Dësen Unhank ass verdächteg well den tatsächlechen Typ vum Fichier net mam Typ deen am Message deklaréiert ass iwwertenee stëmmt. Falls du dem Ofsender net traus sollts du den Unhank net am Browser opmaache well e béisaartegen Inhalt enthaale kéint.<br/><br/><em>Erwaart: $expected; fonnt: $detected</em>';
 $messages['noscriptwarning'] = 'Warnung: Dëse Webmail brauch JavaScript! Fir de Service benotzen ze kënnen, aktivéier w.e.gl JavaScript an denge Browser-Astellungen.';
-?>

@@ -16,5 +16,5 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
 $labels['identitydialogtitle'] = 'Будь ласка, вкажіть Ваше ім’я';
-$labels['identitydialoghint'] = 'Це повідомлення відображається тільки під час першого заходу';
+$labels['identitydialoghint'] = 'Це повідомлення відображається тільки під час першого входження';
 ?>

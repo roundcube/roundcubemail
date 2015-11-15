@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -214,6 +214,15 @@ $labels['selectimage']    = 'Bild auswählen';
 $labels['addimage']       = 'Bild hinzufügen';
 $labels['selectmedia']    = 'Video auswählen';
 $labels['addmedia']       = 'Video hinzufügen';
+$labels['encrypt']        = 'Verschlüsseln';
+$labels['encryptmessage'] = 'Nachricht verschlüsseln';
+$labels['encryptmessagemailvelope'] = 'Nachricht verschlüsseln mit Mailvelope';
+$labels['importpubkeys']  = 'Öffentliche Schlüssel importieren';
+$labels['encryptedsendialog'] = 'Verschlüsselte Nachricht senden';
+$labels['keyid']          = 'Schlüsselkennung';
+$labels['keylength']      = 'Bits';
+$labels['keyexpired']     = 'Abgelaufen';
+$labels['keyrevoked']     = 'Widerrufen';
 $labels['editidents']    = 'Absender bearbeiten';
 $labels['spellcheck']    = 'Rechtschreibung';
 $labels['checkspelling'] = 'Rechtschreibung prüfen';
@@ -298,6 +307,7 @@ $labels['searchresult'] = 'Suchresultat';
 $labels['advsearch'] = 'Erweiterte Suche';
 $labels['advanced'] = 'Erweitert';
 $labels['other'] = 'Andere';
+$labels['printcontact'] = 'Kontakt drucken';
 $labels['typehome']   = 'Zuhause';
 $labels['typework']   = 'Arbeit';
 $labels['typeother']  = 'Andere';
@@ -416,6 +426,7 @@ $labels['deletejunk'] = 'Nachrichten in Spam direkt löschen';
 $labels['showremoteimages'] = 'Eingebettete Bilder vom Internet laden';
 $labels['fromknownsenders'] = 'bei bekannten Absendern';
 $labels['always'] = 'immer';
+$labels['alwaysbutplain'] = 'immer, ausser beim Antworten auf Klartext';
 $labels['showinlineimages'] = 'Angehängte Bilder unter der Nachricht anzeigen';
 $labels['autosavedraft']  = 'Entwurf autom. speichern';
 $labels['everynminutes']  = '$n Minute(n)';
@@ -451,6 +462,8 @@ $labels['autoaddsignature'] = 'Signatur automatisch einfügen';
 $labels['newmessageonly'] = 'nur bei neuen Nachrichten';
 $labels['replyandforwardonly'] = 'nur bei Antworten und Weiterleitungen';
 $labels['insertsignature'] = 'Signatur einfügen';
+$labels['sigbelow'] = 'Signatur unter der zitierten Nachricht platzieren';
+$labels['sigseparator'] = 'Standardtrennzeichen in Signaturen erzwingen';
 $labels['previewpanemarkread']  = 'Nachricht in Vorschau als gelesen markieren';
 $labels['afternseconds']  = 'nach $n Sekunden';
 $labels['reqmdn'] = 'Empfangsbestätigung (MSN) immer anfordern';

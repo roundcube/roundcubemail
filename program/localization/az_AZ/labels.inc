@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -210,7 +210,6 @@ $labels['responsetext'] = 'Cavab mətni';
 $labels['attach'] = 'Fayl əlavə et';
 $labels['attachments'] = 'Bərkidilmiş Fayllar';
 $labels['upload'] = 'Yüklə';
-$labels['uploadprogress'] = '$percent ($current cəmi: $total)';
 $labels['close']  = 'Bağla';
 $labels['messageoptions']  = 'Məktub xüsusiyyətləri...';
 $labels['low']     = 'Alçaq';
@@ -370,7 +369,6 @@ $labels['askuser'] = 'göndərilmə zamanı istifadəçidən soruş';
 $labels['autosend'] = 'avtomatik göndər';
 $labels['autosendknown'] = 'kontaktlarıma qəbz yolla. Əks halda soruş';
 $labels['autosendknownignore'] = 'kontaktlarıma qəbz yolla. Əks halda iqnor et';
-$labels['ignore'] = 'iqnor';
 $labels['readwhendeleted'] = 'Məktubu siləndə oxunmuş kimi qeyd et';
 $labels['flagfordeletion'] = 'Silmə əvəzi silinmə işarəsilə qeyd et';
 $labels['skipdeleted'] = 'Silinmiş məktubları göstərmə';

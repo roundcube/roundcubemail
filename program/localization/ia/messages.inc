@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -39,6 +39,7 @@ $messages['nomessages'] = 'Nulle message';
 $messages['refreshing'] = 'A refrescar...';
 $messages['loading'] = 'A cargar...';
 $messages['uploading'] = 'A incargar un file...';
+$messages['attaching'] = 'Attacha file...';
 $messages['uploadingmany'] = 'A incargar files...';
 $messages['loadingdata'] = 'A cargar datos...';
 $messages['checkingmail'] = 'A verificar si il ha nove messages...';
@@ -54,6 +55,9 @@ $messages['contactexists'] = 'Un contacto con le mesme adresse de e-mail jam exi
 $messages['contactnameexists'] = 'Un contacto con le mesme nomine jam existe.';
 $messages['blockedimages'] = 'Pro proteger vostre vita private, le imagines a distantia es blocate in iste message.';
 $messages['encryptedmessage'] = 'Iste message ha essite cryptate e non pote esser monstrate.';
+$messages['externalmessagedecryption'] = 'Isto es un message cryptate e pote esser decryptate con tu extension de navigator.';
+$messages['nopubkeyfor'] = 'Nulle clave public valide trovate pro $email';
+$messages['nopubkeyforsender'] = 'Nulle clave public valide ha essite trovate pro tu identitate de expeditor. Vole tu cryptar le message pro le destinatarios solmente?';
 $messages['nocontactsfound'] = 'Nulle contacto trovate.';
 $messages['contactnotfound'] = 'Le contacto requestate non ha essite trovate.';
 $messages['contactsearchonly'] = 'Entra parolas a cercar in contactos';
@@ -177,4 +181,3 @@ $messages['parentnotwritable'] = 'Impossibile crear/displaciar le dossier in le 
 $messages['messagetoobig'] = 'Le parte del message es troppo grande pro tractar lo.';
 $messages['attachmentvalidationerror'] = 'ATTENTION! Iste attachamento es suspecte perque su typo non corresponde al typo declarate in le message. Si vos non ha confidentia in le expeditor, vos non deberea aperir lo in le navigator perque illo pote haber contento nocive.<br/><br/><em>Expectate: $expected; trovate: $detected</em>';
 $messages['noscriptwarning'] = 'Attention: Iste servicio webmail require JavaScript. Pro usar lo, per favor activa JavaScript in le configuration de vostre navigator.';
-?>

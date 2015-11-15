@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -65,4 +65,3 @@ $messages['fileuploaderror'] = 'फाईल अपलोड हुन असफ
 $messages['filesizeerror'] = 'अपलोड गरिएको फाईल हद $size भन्दा ठूलो छ';
 $messages['sourceisreadonly'] = 'यो ठेगाना को श्रोत पढ्नको लागि मात्र उपलब्ध छ';
 $messages['errorsavingcontact'] = 'स्मपर्कको ठेगाना जोगाउन सकिएन';
-?>

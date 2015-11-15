@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -214,6 +214,14 @@ $labels['selectimage']    = 'Select image';
 $labels['addimage']       = 'Add image';
 $labels['selectmedia']    = 'Select movie';
 $labels['addmedia']       = 'Add movie';
+$labels['encrypt']        = 'Encrypt';
+$labels['encryptmessage'] = 'Encrypt message';
+$labels['importpubkeys']  = 'Import public keys';
+$labels['encryptedsendialog'] = 'Sending encrypted message';
+$labels['keyid']          = 'Key ID';
+$labels['keylength']      = 'Bits';
+$labels['keyexpired']     = 'Expired';
+$labels['keyrevoked']     = 'Revoked';
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
 $labels['checkspelling'] = 'Check spelling';
@@ -221,6 +229,7 @@ $labels['resumeediting'] = 'Resume editing';
 $labels['revertto']      = 'Revert to';
 $labels['restore'] = 'Restore';
 $labels['restoremessage'] = 'Restore message?';
+$labels['ignore'] = 'Ignore';
 $labels['responses'] = 'Responses';
 $labels['insertresponse'] = 'Insert a response';
 $labels['manageresponses'] = 'Manage responses';
@@ -233,7 +242,7 @@ $labels['responsetext'] = 'Response Text';
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';
-$labels['uploadprogress'] = '$percent ($current from $total)';
+$labels['uploadprogress'] = '$percent ($current of $total)';
 $labels['close']  = 'Close';
 $labels['messageoptions']  = 'Message options...';
 $labels['togglecomposeoptions'] = 'Toggle composition options';
@@ -297,6 +306,7 @@ $labels['searchresult'] = 'Search result';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
+$labels['printcontact'] = 'Print contact';
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
 $labels['typeother']  = 'Other';
@@ -406,7 +416,7 @@ $labels['askuser'] = 'ask each time';
 $labels['autosend'] = 'send automatically';
 $labels['autosendknown'] = 'send receipt to my contacts, otherwise ask';
 $labels['autosendknownignore'] = 'send receipt to my contacts, otherwise ignore';
-$labels['ignore'] = 'Ignore';
+$labels['ignorerequest'] = 'ignore request';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
 $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
 $labels['skipdeleted'] = 'Do not show deleted messages';
@@ -415,6 +425,7 @@ $labels['deletejunk'] = 'Directly delete messages in Junk';
 $labels['showremoteimages'] = 'Display remote inline images';
 $labels['fromknownsenders'] = 'from known senders';
 $labels['always'] = 'always';
+$labels['alwaysbutplain'] = 'always, except when replying to plain text';
 $labels['showinlineimages'] = 'Display attached images below the message';
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minute(s)';
@@ -450,6 +461,8 @@ $labels['autoaddsignature'] = 'Automatically add signature';
 $labels['newmessageonly'] = 'new message only';
 $labels['replyandforwardonly'] = 'replies and forwards only';
 $labels['insertsignature'] = 'Insert signature';
+$labels['sigbelow'] = 'Place signature below the quoted message';
+$labels['sigseparator'] = 'Force standard separator in signatures';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'after $n seconds';
 $labels['reqmdn'] = 'Always request a return receipt';

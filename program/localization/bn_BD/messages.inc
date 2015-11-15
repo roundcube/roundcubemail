@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -80,4 +80,3 @@ $messages['importwait'] = 'আমদানি করা হচ্ছে। এ�
 $messages['importconfirm'] = '<b>ঠিকমতো $inserted ঠিকানা আমদানি করা গেছে, $skipped ঠিকানা আগের থেকেই ছিলো বলে তাদের টা যা ছিলো তাই রাখা হয়েছে</b>:<p><em>$names</em></p>';
 $messages['opnotpermitted'] = 'এই কাজটা করার অনুমতি নাই আপনার';
 $messages['nofromaddress'] = 'বেছে নেওয়া যে পরিচিতিটা, তাতে ই-মেইল নেই';
-?>

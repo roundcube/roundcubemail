@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-$labels['identitydialogtitle'] = 'Моля попълнете Вашите данни за идентичност на подател';
+$labels['identitydialogtitle'] = 'Моля попълнете данни за Вашата самоличност като подател';
 $labels['identitydialoghint'] = 'Този диалог се появява само при първоначално регистриране.';
 ?>

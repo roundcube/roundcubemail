@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,6 +22,7 @@ $messages['sessionerror'] = 'Din inloggning är felaktig eller har gått ut';
 $messages['storageerror'] = 'Anslutning till lagringsservern misslyckades.';
 $messages['servererror'] = 'Serverfel!';
 $messages['servererrormsg'] = 'Serverfel: $msg';
+$messages['accountlocked'] = 'För många felaktiga inloggningar. Försök igen senare.';
 $messages['connerror'] = 'Anslutningsfel (misslyckades att kontakta servern)!';
 $messages['dberror'] = 'Databasfel!';
 $messages['windowopenerror'] = 'Popup-fönstret blockerades!';
@@ -39,6 +40,7 @@ $messages['nomessages'] = 'Inga meddelanden';
 $messages['refreshing'] = 'Uppdaterar...';
 $messages['loading'] = 'Laddar...';
 $messages['uploading'] = 'Överför fil...';
+$messages['attaching'] = 'Bifogar fil...';
 $messages['uploadingmany'] = 'Överför filer...';
 $messages['loadingdata'] = 'Laddar data...';
 $messages['checkingmail'] = 'Hämtar nya meddelanden...';
@@ -54,6 +56,14 @@ $messages['contactexists'] = 'En kontakt med den här adressen finns redan.';
 $messages['contactnameexists'] = 'En kontakt med det här namnet finns redan.';
 $messages['blockedimages'] = 'Externt länkade bilder i meddelandet har blockerats.';
 $messages['encryptedmessage'] = 'Meddelandet är krypterat och kan tyvärr inte visas.';
+$messages['externalmessagedecryption'] = 'Meddelandet är krypterat och kan visas med ett tillägg i webbläsaren.';
+$messages['nopubkeyfor'] = 'Ingen giltig offentlig nyckel hittades för $email';
+$messages['nopubkeyforsender'] = 'Ingen giltig offentlig nyckel hittades för din avsändaradress. Vill du kryptera meddelandet enbart för mottagaren?';
+$messages['encryptnoattachments'] = 'Redan uppladdade bilagor kan inte krypteras. Lägg till bilagorna i krypteringsredigeraren istället.';
+$messages['searchpubkeyservers'] = 'Ska saknade nycklar sökas i offentliga nyckelservrar?';
+$messages['encryptpubkeysfound'] = 'Följande offentliga nycklar hittades:';
+$messages['keyservererror'] = 'Nyckeln kunde inte hämtas från nyckelservern';
+$messages['keyimportsuccess'] = 'Offentlig nyckel $key är tillagd i din nyckelring';
 $messages['nocontactsfound'] = 'Inga kontakter hittades.';
 $messages['contactnotfound'] = 'Efterfrågad kontakt hittades inte.';
 $messages['contactsearchonly'] = 'Ange sökord för att hitta kontakter';
@@ -104,6 +114,7 @@ $messages['folderexpunged'] = 'Katalog rensad.';
 $messages['deletedsuccessfully'] = 'Borttaget.';
 $messages['converting'] = 'Tar bort formatering...';
 $messages['messageopenerror'] = 'Meddelandet kunde inte hämtas från servern.';
+$messages['filelinkerror'] = 'Filen kunde inte bifogas.';
 $messages['fileuploaderror'] = 'Filuppladdning misslyckades.';
 $messages['filesizeerror'] = 'Den uppladdade filens storlek överstiger högsta tillåtna $size.';
 $messages['copysuccess'] = '$nr kontakter har kopierats.';
@@ -169,6 +180,7 @@ $messages['autocompletechars'] = 'Ange minst $min tecken för automatisk komplet
 $messages['autocompletemore'] = 'Ytterligare passande poster funna. Skriv fler tecken.';
 $messages['namecannotbeempty'] = 'Namnet får inte vara tomt.';
 $messages['nametoolong'] = 'Namnet är för långt.';
+$messages['namedotforbidden'] = 'Katalognamnet kan inte inledas med en punkt.';
 $messages['folderupdated'] = 'Katalog uppdaterad.';
 $messages['foldercreated'] = 'Katalog skapad.';
 $messages['invalidimageformat'] = 'Ogiltigt bildfilsformat.';
@@ -177,4 +189,16 @@ $messages['parentnotwritable'] = 'Katalogen kunde inte skapas eller flyttas. Åt
 $messages['messagetoobig'] = 'Meddelandet är alltför stort att behandla.';
 $messages['attachmentvalidationerror'] = 'VARNING! Bilagan misstänks vara av annan typ än vad som anges i meddelandet. Om du inte litar på avsändaren ska du inte öppna bilagan.<br/><br/><em>Angiven typ: $expected; funnen typ: $detected</em>';
 $messages['noscriptwarning'] = 'Varning: Denna webbmailtjänst fungerar inte utan Javascript! Aktivera Javascript i webbläsarens inställningar.';
-?>
+$messages['messageissent'] = 'Meddelandet är skickat men har inte sparats ännu. Vill du spara meddelandet nu?';
+$messages['errnotfound'] = 'Filen hittades inte';
+$messages['errnotfoundexplain'] = 'Efterfrågad resurs hittades inte!';
+$messages['errfailedrequest'] = 'Begäran misslyckades';
+$messages['errauthorizationfailed'] = 'Autentiseringen misslyckades';
+$messages['errunauthorizedexplain'] = 'Din behörighet till den här tjänsten kunde inte bekräftas!';
+$messages['errrequestcheckfailed'] = 'Kontroll av begäran misslyckades';
+$messages['errcsrfprotectionexplain'] = "Åtkomst till den här resursen är skyddad mot CSRF.\nDetta visas därför att utloggning från tjänsten inte gjordes korrekt.\n\nEn aktiv handling krävs nu för att fortsätta.";
+$messages['errcontactserveradmin'] = 'Kontakta administratören.';
+$messages['clicktoresumesession'] = 'Klicka här för att återuppta föregående session';
+$messages['errcomposesession'] = 'Fel i påbörjat meddelande';
+$messages['errcomposesessionexplain'] = 'Det påbörjade meddelandet hittades inte.';
+$messages['clicktocompose'] = 'Klicka här för att skriva ett nytt meddelande';

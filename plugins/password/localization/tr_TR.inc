@@ -30,4 +30,4 @@ $messages['passwordshort'] = 'Parola en az $length karakterden oluşmalı.';
 $messages['passwordweak'] = 'Parola en az bir sayı ve bir noktalama işareti içermeli.';
 $messages['passwordforbidden'] = 'Parola uygunsuz karakter(ler) içeriyor.';
 $messages['firstloginchange'] = 'Bu ilk girişiniz. Parolanızı değiştiriniz.';
-?>
+$messages['disablednotice'] = 'Sistem bakımda olduğundan parolayı değiştiremezsiniz. Lüten daha sonra tekrar deneyiniz. Verdiğimiz rahatsızlıktan dolayı özür dileriz.';

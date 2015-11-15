@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -74,4 +74,3 @@ $messages['sourceisreadonly'] = 'Lenn hepken eo an tarzh chomlec\'h se';
 $messages['errorsavingcontact'] = 'Ne c\'haller ket gwarediñ chomlec\'h darempred';
 $messages['movingcontact'] = 'O fiñval an darempred(où)';
 $messages['contactdelerror'] = 'N\'eus ket bet gellet dilemel an darempred(où)';
-?>

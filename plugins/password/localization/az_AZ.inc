@@ -28,4 +28,3 @@ $messages['internalerror'] = 'Yeni şifrənin saxlanılması mümkün olmadı.';
 $messages['passwordshort'] = 'Yeni şifrə $length simvoldan uzun olmalıdır.';
 $messages['passwordweak'] = 'Şifrədə heç olmasa minimum bir rəqəm və simvol olmalıdır.';
 $messages['passwordforbidden'] = 'Şifrədə icazə verilməyən simvollar vardır.';
-?>

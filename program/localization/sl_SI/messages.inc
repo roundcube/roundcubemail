@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -173,4 +173,3 @@ $messages['parentnotwritable'] = 'Podmape v tej mapi ni bilo mogoče ustvariti/p
 $messages['messagetoobig'] = 'Sporočilo je preveliko za obdelavo.';
 $messages['attachmentvalidationerror'] = 'OPOZORILO! Priponka vsebuje sumljivo vsebino, saj tip priponke ne ustreza tipu, določenemu v sporočilu. Če ne zaupate pošiljatelju, priponke v brskalniku ne odpirajte, saj lahko vsebuje zlonamerno vsebino. <br/><br/><em>Pričakovano: $expected; Najdeno: $detected</em>';
 $messages['noscriptwarning'] = 'Opozorilo: Ta spletna stran zahteva Javascript! Za uporabo jo vključite v nastavitvah vašega brskalnika.';
-?>

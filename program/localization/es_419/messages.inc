@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,3 @@ $messages['parentnotwritable'] = 'No se puede mover/crear la carpeta en la carpe
 $messages['messagetoobig'] = 'La parte del mensaje es demasiado grande para ser procesada.';
 $messages['attachmentvalidationerror'] = '¡ATENCIÓN! Este archivo adjunto es sospechoso porque su tipo no coincide con el declarado en el mensaje. Si no confia el remitente, no debería abrirlo en su navegador porque podría tener contenido malicioso.<br/><br/><em>Esperado: $expected; encontrado: $detected</em>';
 $messages['noscriptwarning'] = 'Atención: ¡Este servicio de Webmail requiere Javascript! Para usarlo por favor habilite Javascript en las opciones de su navegador.';
-?>

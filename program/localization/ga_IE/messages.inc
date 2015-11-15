@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -65,4 +65,3 @@ $messages['fileuploaderror'] = 'Theip an suas-luchtú';
 $messages['filesizeerror'] = 'Beigh an comhad ró-mhor. Is ea $size uas-saghas chun admháil léite';
 $messages['sourceisreadonly'] = 'Tá an foinse seolaigh seo inléite amháin';
 $messages['errorsavingcontact'] = 'Theip mé, Níl an cumas agam an seolagh seo a sábháil';
-?>

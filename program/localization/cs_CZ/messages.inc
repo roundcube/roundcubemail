@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -74,8 +74,8 @@ $messages['contactdeleting'] = 'Mažu kontakty...';
 $messages['groupdeleting'] = 'Mažu skupinu...';
 $messages['folderdeleting'] = 'Odstraňuji složku...';
 $messages['foldermoving'] = 'Přesouvám složku...';
-$messages['foldersubscribing'] = 'Připojuji složku...';
-$messages['folderunsubscribing'] = 'Odpojuji složku...';
+$messages['foldersubscribing'] = 'Přihlašuji složku k odběru...';
+$messages['folderunsubscribing'] = 'Odhlašuji odběr složky...';
 $messages['formincomplete'] = 'Formulář nebyl korektně vyplněn';
 $messages['noemailwarning'] = 'Zadejte, prosím, platnou e-mailovou adresu';
 $messages['nonamewarning']  = 'Zadejte, prosím, jméno';
@@ -97,8 +97,8 @@ $messages['checking'] = 'Kontroluji...';
 $messages['stillsearching'] = 'Stále vyhledávám...';
 $messages['nospellerrors'] = 'Nebyly nalezeny žádné chyby';
 $messages['folderdeleted'] = 'Složka byla úspěšně vymazána';
-$messages['foldersubscribed'] = 'Složka byla úspěšně připojena';
-$messages['folderunsubscribed'] = 'Složka byla úspěšně odpojena';
+$messages['foldersubscribed'] = 'Složka byla úspěšně přihlášena k odběru';
+$messages['folderunsubscribed'] = 'Odběr složky byl úspěšně odhlášen';
 $messages['folderpurged'] = 'Složka byla úspěšně vyprázdněna';
 $messages['folderexpunged'] = 'Složka byla úspěšně zkomprimována';
 $messages['deletedsuccessfully'] = 'Úspěšně smazáno';
@@ -177,4 +177,13 @@ $messages['parentnotwritable'] = 'Nelze vytvořit/přesunout složku do vybrané
 $messages['messagetoobig'] = 'Část zprávy je příliš velká pro zpracování.';
 $messages['attachmentvalidationerror'] = 'Varování: Tato příloha je podezřelá, protože její typ se neshoduje s typem uvedeným ve zprávě. Pokud nedůvěřujete odesílateli, neměli byste přílohu otevírat v prohlížeči, protože může obsahovat škodlivý obsah.<br/><br/><em>Očekáváno: $expected; nalezeno: $detected</em>';
 $messages['noscriptwarning'] = 'Upozornění: Tato emailová aplikace vyžaduje Javascript! Prosím, zapněte Javascript v nastavení prohlížeče.';
-?>
+$messages['messageissent'] = 'Zpráva již byla odeslána, ovšem ještě nebyla uložena. Přejete si ji uložit nyní?';
+$messages['errnotfound'] = 'Soubor nebyl nalezen';
+$messages['errnotfoundexplain'] = 'Požadovaný objekt nebyl nalezen!';
+$messages['errfailedrequest'] = 'Požadavek zamítnut';
+$messages['errauthorizationfailed'] = 'Autorizace selhala';
+$messages['errunauthorizedexplain'] = 'Nemohu ověřit, že máte právo přistupovat k této službě!';
+$messages['errrequestcheckfailed'] = 'Stav Vašeho požadavku není možné ověřit.';
+$messages['errcsrfprotectionexplain'] = "Pro ochranu Vašeho účtu je přístup do této sekce dočasně zablokován.  Existuje důvodné podezření, že Váš účet byl napaden.\nPokud vidíte toto upozornění, nejspíše jste se neodhlásili před opuštěním této stránky.\n\nAbyste mohli pokračovat, je nutné kontaktovat pověřenou osobu.";
+$messages['errcontactserveradmin'] = 'Prosím, kontaktujte správce serveru.';
+$messages['clicktoresumesession'] = 'Klikněte sem pro obnovu Vašeho předchozího sezení.';

@@ -30,4 +30,4 @@ $messages['passwordshort'] = 'パスワードは少なくとも $length 文字�
 $messages['passwordweak'] = 'パスワードは少なくとも数字の 1 文字と記号の 1 文字を含んでいなければなりません。';
 $messages['passwordforbidden'] = 'パスワードに禁止された文字が含まれています。';
 $messages['firstloginchange'] = 'これは初めてのログインです。パスワードを変更してください。';
-?>
+$messages['disablednotice'] = 'このシステムは今は保守中で、現在のところパスワードの変更はできません。しばらくすれば、通常の状態に復帰するはずです。ご迷惑を掛けて申し訳ありません。';

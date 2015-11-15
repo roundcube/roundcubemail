@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -38,4 +38,3 @@ $messages['checkingmail'] = 'പുതിയ സന്ദേസങ്ങള്�
 $messages['sendingmessage'] = 'സന്ദേശം അയക്കുന്നു...';
 $messages['sendingfailed'] = 'സന്ദേശം അയക്കാന്‍ സാധിച്ചില്ല.';
 $messages['senttooquickly'] = 'സന്ദേശം അയക്കുന്നതിനു മുന്പു ദയവായ്  $sec കാത്തിരിക്കൂ';
-?>

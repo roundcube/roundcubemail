@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -174,4 +174,3 @@ $messages['parentnotwritable'] = 'Nije moguće stvoriti/pomaknuti mapu u odabran
 $messages['messagetoobig'] = 'Dio poruke je prevelik za obradu.';
 $messages['attachmentvalidationerror'] = 'UPOZORENJE! Ovaj privitak je sumnjiv jer vrsta privitka ne odgovara vrsti deklariranoj u poruci. Ako ne vjerujete pošiljatelju, ne biste trebali otvarati privitak u pregledniku jer može isti može sadržavati zloćudni kod.<br/><br/><em>Očekivano: $expected; pronađeno: $detected</em>';
 $messages['noscriptwarning'] = 'UPOZORENJE: Ovaj webmail servis zahtijeva Javascript!  Kako biste ga mogli koristiti, molimo omogućite Javascript u postavkama svog preglednika.';
-?>

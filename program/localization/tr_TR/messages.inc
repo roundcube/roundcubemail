@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -54,6 +54,14 @@ $messages['contactexists'] = 'Rehberde bu e-posta adresine sahip biri zaten var'
 $messages['contactnameexists'] = 'Rehberde bu ada sahip biri zaten var.';
 $messages['blockedimages'] = 'Kişisel gizliliğinizi korumak amacıyla postadaki resimler engellendi';
 $messages['encryptedmessage'] = 'Bu şifrelenmiş bir posta olduğu için gösterilemiyor. Özür dilerim!';
+$messages['externalmessagedecryption'] = 'Bu şifreli mesaj, tarayıcınızın eklentileri ile çözülebilir.';
+$messages['nopubkeyfor'] = '$email için geçerli bir genel anahtar bulunamadı';
+$messages['nopubkeyforsender'] = 'Gönderenin genel anahtar kimliği bulunamadı.Sadece alıcılar için şifrelenmesini istermisiniz?';
+$messages['encryptnoattachments'] = 'Yüklediğiniz ekler şifrelenmemiş. Şifreleme editörü ile yeniden deneyiniz.';
+$messages['searchpubkeyservers'] = 'Kayıp anahtarları anahtar sunucularında aramak ister misiniz?';
+$messages['encryptpubkeysfound'] = 'Aşağıdaki genel anahtarlar bulundu:';
+$messages['keyservererror'] = 'Sunucudan anahtar alınamadı.';
+$messages['keyimportsuccess'] = ' $anahtarı genel anahtar olarak alındı.';
 $messages['nocontactsfound'] = 'Kişi bulunamadı';
 $messages['contactnotfound'] = 'İstenen kişi bulunamadı';
 $messages['contactsearchonly'] = 'Kişi aramak için arama terimleri giriniz';
@@ -169,6 +177,7 @@ $messages['autocompletechars'] = 'otomatik tamamlama için en az $min karakter g
 $messages['autocompletemore'] = 'Fazla sayıda eşleşen öğe bulundu. Lütfen daha fazla karakter yazın.';
 $messages['namecannotbeempty'] = 'İsim alanı boş olamaz';
 $messages['nametoolong'] = 'İsim çok uzun';
+$messages['namedotforbidden'] = 'Klasör adı nokta işareti ile başlayamaz.';
 $messages['folderupdated'] = 'Klasör güncellendi';
 $messages['foldercreated'] = 'Klasör oluşturuldu';
 $messages['invalidimageformat'] = 'Geçerli bir resim biçimi değil.';
@@ -177,4 +186,16 @@ $messages['parentnotwritable'] = 'Klasör, seçilen üst klasöre taşınamıyor
 $messages['messagetoobig'] = 'Bu ileti parçası işlenemeyecek kadar büyük.';
 $messages['attachmentvalidationerror'] = 'UYARI! Bu eklenti mesajda belirtilenden farklı olduğu için şüpheli bulundu. Eğer göndericiye güvenmiyorsanız eki web tarayıcısında açmayın. Şüpheli içerik bulunabilir.';
 $messages['noscriptwarning'] = 'Uyarı: Bu e-posta servisi Javascript gerektirmektedir! Servisi kullanabilmek için lütfen web tarayıcınızın ayarlarından Javascript\'i etkinleştiriniz.';
-?>
+$messages['messageissent'] = 'Mesaj zaten gönderildi. Fakat kaydedilmedi. Şimdi kaydetmek ister misiniz?';
+$messages['errnotfound'] = 'Dosya bulunamadı.';
+$messages['errnotfoundexplain'] = 'İstenen kaynak bulunamadı!..';
+$messages['errfailedrequest'] = 'Başarısız istek.';
+$messages['errauthorizationfailed'] = 'Yetkilendirme başarısız.';
+$messages['errunauthorizedexplain'] = 'Bu hizmete erişme yetkiniz yok.';
+$messages['errrequestcheckfailed'] = 'Doğrulama başarısız.';
+$messages['errcsrfprotectionexplain'] = "Güvenliğiniz için, CSRF karşı bu kaynağa erişim sabitlenmiştir.\nlfBakınız web uygulaması muhtemelen düzgün kapatılmadı.\n\nŞimdi etkileşimi doğrulayıp devam edin.";
+$messages['errcontactserveradmin'] = 'Sunucu yöneticinize başvurun.';
+$messages['clicktoresumesession'] = 'Önceki oturuma devam etmek için tıklayınız.';
+$messages['errcomposesession'] = 'Oturum açma hatası';
+$messages['errcomposesessionexplain'] = 'Açılmak istenen oturum bulunamadı.';
+$messages['clicktocompose'] = 'Yeni bir ileti oluşturmak için buraya tıklayın.';

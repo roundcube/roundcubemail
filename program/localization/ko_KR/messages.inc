@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -54,8 +54,16 @@ $messages['contactexists'] = '연락처에 동일한 이메일 주소가 이미 
 $messages['contactnameexists'] = '연락처에 동일한 이름이 이미 존재합니다.';
 $messages['blockedimages'] = '개인 정보 보호를 위해, 이 메시지의 외부 이미지가 차단되었습니다.';
 $messages['encryptedmessage'] = '이것은 암호화된 메시지며 표시할 수 없습니다. 죄송합니다!';
+$messages['externalmessagedecryption'] = '이것은 암호화된 메시지이며 브라우저 확장 기능으로 해독할 수 있습니다.';
+$messages['nopubkeyfor'] = '$email에 대한 올바른 공개 키를 찾지 못함';
+$messages['nopubkeyforsender'] = '보내는 사람 신원에 대한 올바른 공개 키를 찾지 못했습니다. 받는 사람에 대한 메시지만 암호화하시겠습니까?';
+$messages['encryptnoattachments'] = '이미 첨부파일을 업로드하여 암호화할 수 없음. 암호화 편집기에 다시 추가해주세요.';
+$messages['searchpubkeyservers'] = '분실한 키에 대한 공개 키 서버를 검색하시겠습니까?';
+$messages['encryptpubkeysfound'] = '다음 공개 키가 발견되었습니다:';
+$messages['keyservererror'] = '키 서버로부터 키를 가져오지 못함';
+$messages['keyimportsuccess'] = '공개 키 $key을(를) 열쇠고리로 성공적으로 가져왔습니다.';
 $messages['nocontactsfound'] = '연락처를 발견하지 못했습니다.';
-$messages['contactnotfound'] = '요청한 연락처를 찾을 수 없었습니다.';
+$messages['contactnotfound'] = '요청한 연락처를 찾을 수 없습니다.';
 $messages['contactsearchonly'] = '연락처를 찾기 위해 일부 검색용어를 입력하세요.';
 $messages['sendingfailed'] = '메시지 발송을 실패했습니다.';
 $messages['senttooquickly'] = '이 메시지를 보내기 전에 $sec초 동안 기다려주세요.';
@@ -170,6 +178,7 @@ $messages['autocompletechars'] = '자동 완성을 위해 $min개 이상의 문�
 $messages['autocompletemore'] = '더 많은 일치하는 입력내용을 찾았습니다. 더 많은 문자를 입력해주세요.';
 $messages['namecannotbeempty'] = '이름을 비워둘 수 없습니다.';
 $messages['nametoolong'] = '이름이 너무 깁니다.';
+$messages['namedotforbidden'] = '폴더명은 마침표로 시작할 수 없습니다.';
 $messages['folderupdated'] = '폴더가 성공적으로 업데이트되었습니다.';
 $messages['foldercreated'] = '폴더가 성공적으로 생성되었습니다.';
 $messages['invalidimageformat'] = '올바른 이미지 형식이 아닙니다.';
@@ -178,4 +187,16 @@ $messages['parentnotwritable'] = '선택한 상위 폴더로 폴더를 생성/�
 $messages['messagetoobig'] = '메시지 부분이 처리하기에는 너무 큽니다.';
 $messages['attachmentvalidationerror'] = '경고! 이 첨부파일의 유형이 메시지에서 보고한 유형과 일치하지 않기 때문에 의심됩니다. 발송자를 신뢰할 수 없을 경우, 메시지가 악성 코드를 포함할 수도 있기 때문에 브라우저에서 열지 않는 것이 좋습니다. <br/><br/><em> 예상한 유형: $expected; 발견한 유형: $detected</ em>';
 $messages['noscriptwarning'] = '경고: 이 웹메일 서비스는 자바스크립트가 필요합니다! 이 기능을 사용하려면 브라우저 설정에서 자바스크립트를 활성화해주세요.';
-?>
+$messages['messageissent'] = '메시지를 이미 보냈으나, 아직 저장되지 않았습니다. 지금 저장하시겠습니까?';
+$messages['errnotfound'] = '파일을 찾을 수 없음';
+$messages['errnotfoundexplain'] = '요청한 리소스를 찾을 수 없습니다!';
+$messages['errfailedrequest'] = '실패한 요청';
+$messages['errauthorizationfailed'] = '인증을 실패함';
+$messages['errunauthorizedexplain'] = '이 서비스에 액세스 할 수있는 권한이 있는지 확인할 수 없습니다!';
+$messages['errrequestcheckfailed'] = '확인 요청을 실패함';
+$messages['errcsrfprotectionexplain'] = "보안을 위해 이 리소스에 대한 접근은 CSRF로부터 보호되었습니다.\n 이것이 표시된다면 웹 어플리케이션에서 나가기 전에 로그아웃을 하지 않았을 것입니다.\n\n계속하려면 이제 사용자와의 상호작용이 필요합니다.";
+$messages['errcontactserveradmin'] = '서버 관리자에게 문의해주세요';
+$messages['clicktoresumesession'] = '이전 세션을 다시 시작하려면 여기를 클릭하세요';
+$messages['errcomposesession'] = '세션 오류 작성';
+$messages['errcomposesessionexplain'] = '요청한 작성 세션을 찾을 수 없습니다.';
+$messages['clicktocompose'] = '새로운 메시지를 작성하려면 여기를 클릭하세요';

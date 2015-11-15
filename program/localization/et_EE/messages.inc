@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,3 @@ $messages['parentnotwritable'] = 'Kasuta loomine/liigutamine valitud kausta nurj
 $messages['messagetoobig'] = 'Kiri on töötlemiseks liiga suur.';
 $messages['attachmentvalidationerror'] = 'HOIATUS! See manus on kahtlane, sest selle tüüp ei ole vastavuses kirjas määratuga. Kui sa ei usalda kirja saatjat, siis ei tohiks seda brauseris avada, sest see võib sisaldada pahavara.<br/><br/><em>Oodati: $expected; leiti: $detected</em>';
 $messages['noscriptwarning'] = 'Hoiatus: see veebimaili teenus vajab Javascripti! Teenuse kasutamiseks luba Javascript oma brauseri seadetes.';
-?>

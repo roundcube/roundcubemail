@@ -30,4 +30,4 @@ $messages['passwordshort'] = 'Het wachtwoord moet minimaal $length tekens lang z
 $messages['passwordweak'] = 'Het wachtwoord moet minimaal één cijfer en één leesteken bevatten.';
 $messages['passwordforbidden'] = 'Het wachtwoord bevat tekens die niet toegestaan zijn.';
 $messages['firstloginchange'] = 'Dit is uw eerste aanmelding. Verander uw wachtwoord alstublieft.';
-?>
+$messages['disablednotice'] = 'Het systeem is momenteel in onderhoud en wachtwoord wijzigen is op dit moment dus niet mogelijk. Alles werkt binnenkort weer naar behoren. Onze excuses voor het ongemak.';

@@ -30,4 +30,4 @@ $messages['passwordshort'] = 'Le contrasigno debe haber al minus $length charact
 $messages['passwordweak'] = 'Le contrasigno debe includer al minus un numero e un character de punctuation.';
 $messages['passwordforbidden'] = 'Le contrasigno contine characteres interdicte.';
 $messages['firstloginchange'] = 'Iste es vostre prime session. Per favor, cambia vostre contrasigno.';
-?>
+$messages['disablednotice'] = 'Le systema es sub mantenentia e non es possibile cambiar le contrasigno in iste momento. Le systema retornara al functionamento normal bentosto. Nos offere nostre excusas pro omne inconveniente.';

@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -214,6 +214,15 @@ $labels['selectimage']    = '이미지 선택';
 $labels['addimage']       = '이미지 추가';
 $labels['selectmedia']    = '동영상 선택';
 $labels['addmedia']       = '동영상 추가';
+$labels['encrypt']        = '암호화';
+$labels['encryptmessage'] = '메시지 암호화';
+$labels['encryptmessagemailvelope'] = 'Mailvelope으로 메시지 암호화';
+$labels['importpubkeys']  = '공개 키 가져오기';
+$labels['encryptedsendialog'] = '암호화 메시지 보내기';
+$labels['keyid']          = '키 ID';
+$labels['keylength']      = '비트';
+$labels['keyexpired']     = '만료됨';
+$labels['keyrevoked']     = '해지됨';
 $labels['editidents']    = '신원 편집';
 $labels['spellcheck']    = '맞춤법';
 $labels['checkspelling'] = '맞춤법 검사';
@@ -298,6 +307,7 @@ $labels['searchresult'] = '검색 결과';
 $labels['advsearch'] = '고급 검색';
 $labels['advanced'] = '고급';
 $labels['other'] = '기타';
+$labels['printcontact'] = '연락처 인쇄';
 $labels['typehome']   = '자택';
 $labels['typework']   = '직장';
 $labels['typeother']  = '기타';
@@ -416,6 +426,7 @@ $labels['deletejunk'] = '스팸 메일함에 있는 메시지를 직접 삭제';
 $labels['showremoteimages'] = '본문에 원격 이미지 표시';
 $labels['fromknownsenders'] = '알려진 발송자로부터 받은 메시지만';
 $labels['always'] = '항상';
+$labels['alwaysbutplain'] = '항상, 일반 텍스트로 회신할 때 예외';
 $labels['showinlineimages'] = '메시지 하단에 첨부 이미지 표시';
 $labels['autosavedraft']  = '작성 중인 메시지를 자동으로 저장';
 $labels['everynminutes']  = '$n분 마다';
@@ -451,6 +462,8 @@ $labels['autoaddsignature'] = '서명을 자동으로 추가';
 $labels['newmessageonly'] = '새로운 메시지에만';
 $labels['replyandforwardonly'] = '회신 및 전달 시에만';
 $labels['insertsignature'] = '서명 삽입';
+$labels['sigbelow'] = '인용한 메시지 아래에 서명 표시';
+$labels['sigseparator'] = '서명에 표준 분리자 강제 적용';
 $labels['previewpanemarkread']  = '미리 본 메시지를 읽음으로 표시';
 $labels['afternseconds']  = '$n초 후';
 $labels['reqmdn'] = '읽음 확인을 항상 요청';

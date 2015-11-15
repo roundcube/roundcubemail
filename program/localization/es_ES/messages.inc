@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -39,6 +39,7 @@ $messages['nomessages'] = 'No hay mensajes';
 $messages['refreshing'] = 'Actualizando…';
 $messages['loading'] = 'Cargando...';
 $messages['uploading'] = 'Cargando archivo...';
+$messages['attaching'] = 'No se pudo adjuntar el archivo.';
 $messages['uploadingmany'] = 'Cargando archivos…';
 $messages['loadingdata'] = 'Cargando datos...';
 $messages['checkingmail'] = 'Verificando si hay nuevos mensajes...';
@@ -54,6 +55,14 @@ $messages['contactexists'] = 'Ya existe un contacto con esta dirección de corre
 $messages['contactnameexists'] = 'Ya existe un contacto con el mismo nombre.';
 $messages['blockedimages'] = 'Para proteger su privacidad, las imágenes externas de este mensaje han sido bloqueadas.';
 $messages['encryptedmessage'] = 'Este es un mensaje cifrado y no puede ser mostrado. ¡Lo sentimos!';
+$messages['externalmessagedecryption'] = 'Este es un mensaje cifrado y se puede descifrar con una extensión de tu navegador.';
+$messages['nopubkeyfor'] = 'No se ha encontrado una clave pública de $email';
+$messages['nopubkeyforsender'] = 'No se ha encontrado una clave pública de tu identidad como emisor. ¿Quieres cifrar el mensaje sólo para los destinatarios?';
+$messages['encryptnoattachments'] = 'Todavía no se pueden cifrar los adjuntos subidos. Por favor, añádelos luego en el editor de cifrado.';
+$messages['searchpubkeyservers'] = '¿Quieres buscar servidores de clave pública para las claves que faltan?';
+$messages['encryptpubkeysfound'] = 'Se han encontrado las siguientes claves públicas:';
+$messages['keyservererror'] = 'No se ha podido obtener la clave del servidor de claves';
+$messages['keyimportsuccess'] = 'La clave pública ¢key se ha importado correctamente a tu anillo de claves';
 $messages['nocontactsfound'] = 'No se encontraron contactos.';
 $messages['contactnotfound'] = 'El contacto solicitado no existe.';
 $messages['contactsearchonly'] = 'Ingrese algún criterio para buscar contactos';
@@ -169,6 +178,7 @@ $messages['autocompletechars'] = 'Introduce al menos $min caracteres para autoco
 $messages['autocompletemore'] = 'Se encontraron más coincidencias. Favor de ingresar más caracteres.';
 $messages['namecannotbeempty'] = 'El nombre no puede estar vacío.';
 $messages['nametoolong'] = 'El nombre es demasiado largo.';
+$messages['namedotforbidden'] = 'El nombre de la carpeta no puede empezar con un punto';
 $messages['folderupdated'] = 'Carpeta actualizada correctamente.';
 $messages['foldercreated'] = 'Carpeta creada correctamente.';
 $messages['invalidimageformat'] = 'No es un formato de imagen válido.';
@@ -177,4 +187,16 @@ $messages['parentnotwritable'] = 'No se pudo crear/mover la carpeta a la carpeta
 $messages['messagetoobig'] = 'Esta parte del mensaje es demasiado grande para ser procesado.';
 $messages['attachmentvalidationerror'] = '¡ATENCIÓN! Este adjunto es sospechoso porque su tipo no coincide con el tipo declarado en el mensaje. Si no confía en su remitente, no debería abrirlo en su navegador porque podría tener contenido malicioso.<br/<br/> <em>Esperado: $expected; encontrado: $detected</em>';
 $messages['noscriptwarning'] = 'Advertencia: ¡Este servicio de webmail necesita Javascript! Para poder usarlo habilite el soporte de Javascript en su navegador, por favor.';
-?>
+$messages['messageissent'] = 'El mensaje se ha enviado, pero aún no se ha guardado. ¿Quieres guardarlo ahora?';
+$messages['errnotfound'] = 'Archivo no encontrado';
+$messages['errnotfoundexplain'] = '¡No se ha encontrado el recurso solicitado!';
+$messages['errfailedrequest'] = 'Ha fallado la petición';
+$messages['errauthorizationfailed'] = 'Ha fallado la autorización';
+$messages['errunauthorizedexplain'] = '¡No se ha podido comprobar que usted esté autorizado a acceder a este servicio!';
+$messages['errrequestcheckfailed'] = 'Ha fallado la solicitud de comprobación';
+$messages['errcsrfprotectionexplain'] = "Por su seguridad, se ha protegido el acceso a este recurso contra CSRF.\nSi lee esto probablemente no ha cerrado la sesión antes de dejar la aplicación web.\n\nAhora hace falta interacción humana para continuar.";
+$messages['errcontactserveradmin'] = 'Por favor, póngase en contacto con el administrador de su servidor.';
+$messages['clicktoresumesession'] = 'Haga clic aquí para reanudar la sesión anterior';
+$messages['errcomposesession'] = 'Error de sesión de escritura';
+$messages['errcomposesessionexplain'] = 'No se ha encontrado la sesión de escritura requerida.';
+$messages['clicktocompose'] = 'Hacer clic aquí para escribir un nuevo mensaje';

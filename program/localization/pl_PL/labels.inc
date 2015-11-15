@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -193,8 +193,14 @@ $labels['type'] = 'Typ';
 $labels['namex'] = 'Nazwa';
 $labels['searchscope'] = 'Zakres';
 $labels['currentfolder'] = 'Bieżący folder';
-$labels['subfolders'] = 'Ten in podfoldery';
+$labels['subfolders'] = 'Ten i podfoldery';
 $labels['allfolders'] = 'Wszystkie foldery';
+$labels['searchinterval-1W'] = 'starsza niż tydzień';
+$labels['searchinterval-1M'] = 'starsza niż miesiąc';
+$labels['searchinterval-1Y'] = 'starsza niż rok';
+$labels['searchinterval1W'] = 'wcześniejsza niż tydzień';
+$labels['searchinterval1M'] = 'wcześniejsza niż miesiąc';
+$labels['searchinterval1Y'] = 'wcześniejsza niż rok';
 $labels['openinextwin'] = 'Otwórz w nowym oknie';
 $labels['emlsave'] = 'Pobierz (.eml)';
 $labels['changeformattext'] = 'Wyświetl w formacie tekstowym';
@@ -214,6 +220,15 @@ $labels['selectimage']    = 'Wybierz obraz';
 $labels['addimage']       = 'Dodaj obraz';
 $labels['selectmedia']    = 'Wybierz film';
 $labels['addmedia']       = 'Dodaj film';
+$labels['encrypt']        = 'Szyfrowanie';
+$labels['encryptmessage'] = 'Szyfruj wiadomość';
+$labels['encryptmessagemailvelope'] = 'Szyfruj wiadomość używając Mailvelope';
+$labels['importpubkeys']  = 'Importuj klucze publiczne';
+$labels['encryptedsendialog'] = 'Wysyłanie zaszyfrowanej wiadomości';
+$labels['keyid']          = 'ID Klucza';
+$labels['keylength']      = 'Bitów';
+$labels['keyexpired']     = 'Przedawniony';
+$labels['keyrevoked']     = 'Unieważniony';
 $labels['editidents']    = 'Edytuj tożsamości';
 $labels['spellcheck']    = 'Pisownia';
 $labels['checkspelling'] = 'Sprawdź pisownię';
@@ -221,6 +236,7 @@ $labels['resumeediting'] = 'Zakończ sprawdzanie pisowni';
 $labels['revertto']      = 'Powróć do';
 $labels['restore'] = 'Przywróć';
 $labels['restoremessage'] = 'Przyrócić wiadomość?';
+$labels['ignore'] = 'Ignoruj';
 $labels['responses'] = 'Odpowiedzi';
 $labels['insertresponse'] = 'Wstaw odpowiedź';
 $labels['manageresponses'] = 'Zarządzaj odpowiedziami';
@@ -237,8 +253,8 @@ $labels['uploadprogress'] = '$percent ($current z $total)';
 $labels['close']  = 'Zamknij';
 $labels['messageoptions']  = 'Opcje wiadomości...';
 $labels['togglecomposeoptions'] = 'Przestaw opcje kompozycji';
-$labels['low']     = 'Bardzo niski';
-$labels['lowest']  = 'Niski';
+$labels['low']     = 'Niski';
+$labels['lowest']  = 'Bardzo niski';
 $labels['normal']  = 'Normalny';
 $labels['high']    = 'Wysoki';
 $labels['highest'] = 'Bardzo wysoki';
@@ -297,6 +313,7 @@ $labels['searchresult'] = 'Wyniki wyszukiwania';
 $labels['advsearch'] = 'Wyszukiwanie zaawansowane';
 $labels['advanced'] = 'Zaawansowane';
 $labels['other'] = 'Inne';
+$labels['printcontact'] = 'Drukuj Kontakt';
 $labels['typehome']   = 'Dom';
 $labels['typework']   = 'Praca';
 $labels['typeother']  = 'Inne';
@@ -406,7 +423,7 @@ $labels['askuser'] = 'pytaj mnie';
 $labels['autosend'] = 'wyślij potwierdzenie';
 $labels['autosendknown'] = 'wyślij potwierdzenie tylko do moich kontaktów, pytaj o pozostałe';
 $labels['autosendknownignore'] = 'wyślij potwierdzenie tylko do moich kontaktów, pozostałe ignoruj';
-$labels['ignore'] = 'Ignoruj';
+$labels['ignorerequest'] = 'ignoruj żądanie';
 $labels['readwhendeleted'] = 'Podczas usuwania oznacz wiadomość jako przeczytaną';
 $labels['flagfordeletion'] = 'Oznacz wiadomość do usunięcia zamiast ją usuwać';
 $labels['skipdeleted'] = 'Ukryj wiadomości oznaczone do usunięcia';
@@ -415,6 +432,7 @@ $labels['deletejunk'] = 'Kasuj wiadomości bezpośrednio w folderze Spam';
 $labels['showremoteimages'] = 'Wyświetlaj obrazki w wiadomościach';
 $labels['fromknownsenders'] = 'od znanych nadawców';
 $labels['always'] = 'zawsze';
+$labels['alwaysbutplain'] = 'Zawsze, za wyjątkiem odpowiedzi na zwykły tekst.';
 $labels['showinlineimages'] = 'Wyświetlaj załączone obrazki pod treścią wiadomości';
 $labels['autosavedraft']  = 'Automatycznie zapisuj tworzoną wiadomość';
 $labels['everynminutes']  = 'co $n minut(y)';
@@ -450,6 +468,8 @@ $labels['autoaddsignature'] = 'Automatycznie wstaw podpis';
 $labels['newmessageonly'] = 'tylko dla nowych wiadomości';
 $labels['replyandforwardonly'] = 'tylko dla przekazywania i odpowiedzi';
 $labels['insertsignature'] = 'Wstaw podpis';
+$labels['sigbelow'] = 'Umieść podpis poniżej cytowanej wiadomości';
+$labels['sigseparator'] = 'Wymuś standardowy separator w podpisie';
 $labels['previewpanemarkread']  = 'Oznacz podglądane wiadomości jako przeczytane';
 $labels['afternseconds']  = 'po $n sekundach';
 $labels['reqmdn'] = 'Zawsze żądaj potwierdzenia odbioru';

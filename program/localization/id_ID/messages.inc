@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -175,4 +175,3 @@ $messages['parentnotwritable'] = 'Tidak bisa membuat/memindahkan map ke map indu
 $messages['messagetoobig'] = 'Pesan terlalu besar untuk diproses.';
 $messages['attachmentvalidationerror'] = 'PERINGATAN! Lampiran ini mencurigakan karena jenisnya tidak cocok dengan jenis yang dinyatakan di dalam pesan. Jika Anda tidak mempercayai pengirim, Anda tidak perlu membukanya di browser karena mungkin berisi konten berbahaya.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'Peringatan: Layanan ini membutuhkan Javascript! Untuk menggunakannya silahkan aktifkan Javascript di pengaturan browser Anda.';
-?>

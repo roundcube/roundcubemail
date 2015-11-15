@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -117,4 +117,3 @@ $messages['smtptoerror'] = 'SMTP грешка ($code): Не успеав да г
 $messages['smtprecipientserror'] = 'SMTP грешка: Не успеав да ја испарсирам листата на примачи';
 $messages['smtperror'] = 'SMTP Error: $msg';
 $messages['emailformaterror'] = 'Неправилна поштенска адреса: $email';
-?>

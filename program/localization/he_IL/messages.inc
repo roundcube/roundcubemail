@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -39,6 +39,7 @@ $messages['nomessages'] = 'אין הודעות';
 $messages['refreshing'] = 'מרענן...';
 $messages['loading'] = 'טעינה...';
 $messages['uploading'] = 'קובץ עולה...';
+$messages['attaching'] = 'הוספת צרופה...';
 $messages['uploadingmany'] = 'מעלה קבצים...';
 $messages['loadingdata'] = 'טעינת מידע...';
 $messages['checkingmail'] = 'בדיקת קיום הודעות חדשות...';
@@ -54,6 +55,14 @@ $messages['contactexists'] = 'קיים כבר איש קשר עם כתובת דו
 $messages['contactnameexists'] = 'קיים כבר איש קשר בעל אותו שם';
 $messages['blockedimages'] = 'תמונות משרת אחר נחסמו כדי לשמור על הפרטיות';
 $messages['encryptedmessage'] = 'זו הודעת מוצפנת ולא ניתן להציגה';
+$messages['externalmessagedecryption'] = 'זו הודעה מוצפנת שניתן לפענחה באמצעות תוסף לדפדפן';
+$messages['nopubkeyfor'] = 'לא נמצא מפתח ציבורי עבור email$';
+$messages['nopubkeyforsender'] = 'לא נמצא מפתח ציבורי תקין לשולח זה. האם ברצונך להצפין את ההודעה לנמענים בלבד?';
+$messages['encryptnoattachments'] = 'לא ניתן להצפין צרופות שכבר הועלו. נא להוסיפן מחדש בעורך ההצפנה.';
+$messages['searchpubkeyservers'] = 'האם ברצונך לחפש בשרתים של מפתחות ציבוריים אחר המפתחות החסרים?';
+$messages['encryptpubkeysfound'] = 'נמצאו המפתחות הציבוריים שלהלן';
+$messages['keyservererror'] = 'נכשלה השגה של המפתח משרת המפתחות';
+$messages['keyimportsuccess'] = 'מפתח ציבורי key$ יובא בהצלחה אל צרור המפתחות שלך';
 $messages['nocontactsfound'] = 'לא נמצאו אנשי קשר';
 $messages['contactnotfound'] = 'איש הקשר המבוקש לא נמצא';
 $messages['contactsearchonly'] = 'יש להקיש מפתחות חיפוש כדי למצוא אנשי קשר';
@@ -104,6 +113,7 @@ $messages['folderexpunged'] = 'התיק רוקן בהצלחה';
 $messages['deletedsuccessfully'] = 'המחיקה הסתיימה בהצלחה';
 $messages['converting'] = 'הסרת העיצוב מההודעה';
 $messages['messageopenerror'] = 'לא ניתן לטעון ההודעה מהשרת';
+$messages['filelinkerror'] = 'הצמדת הצרופה נכשלה';
 $messages['fileuploaderror'] = 'העלאת הקובץ נכשלה';
 $messages['filesizeerror'] = 'הקובץ לטעינה גדול מהגודל המקסימלי שהוא $size';
 $messages['copysuccess'] = '$nr אנשי קשר הועתקו בהצלחה';
@@ -169,6 +179,7 @@ $messages['autocompletechars'] = 'יש להקיש לפחות $min תווים ל�
 $messages['autocompletemore'] = 'נמצאו רשומות נוספות. נא להקיש תווים נוספים.';
 $messages['namecannotbeempty'] = 'השם אינו יכול להיות ריק';
 $messages['nametoolong'] = 'השם ארוך מדי';
+$messages['namedotforbidden'] = 'שם תיקיה אינו יכול להתחיל בנקודה';
 $messages['folderupdated'] = 'התיק עודכן בהצלחה';
 $messages['foldercreated'] = 'התיק נוצר בהצלחה';
 $messages['invalidimageformat'] = 'פורמט תמונה לא חוקי';
@@ -177,4 +188,19 @@ $messages['parentnotwritable'] = 'לא ניתן ליצור/להעביר תיקי
 $messages['messagetoobig'] = 'ההודעה גדולה מעבר ליכולת העיבוד של התוכנה';
 $messages['attachmentvalidationerror'] = 'זהירות ! הצרופה חשודה כי אינה מהסוג שצוין בהודעה. אם לא ניתן לבטוח בשולח אזי להמנע מלפתוח את הקובץ בדפדפן כי הקובץ יכול להכיל קוד זדוני.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'זהירות! תוכנה זו דורשת שימוש בג\'אווהסקריפט! כדי להשתמש בכלי, יש לבחור באפשרות זו בהגדרות הדפדפן.';
-?>
+$messages['messageissent'] = 'ההודעה נשלחה אבל לא נשמרה עדיין. האם לשמור אותה כעת?';
+$messages['errnotfound'] = 'הקובץ לא נמצא';
+$messages['errnotfoundexplain'] = 'המשאב המבוקש לא נמצא!';
+$messages['errfailedrequest'] = 'הבקשה נכשלה';
+$messages['errauthorizationfailed'] = 'הרשאה נכשלה';
+$messages['errunauthorizedexplain'] = 'לא ניתו לאשר את הרשאתך לגישה לשירות זה';
+$messages['errrequestcheckfailed'] = 'בדיקת הבקשה נכשלה';
+$messages['errcsrfprotectionexplain'] = "להגנתך, הגישה למשאב זה מאובטחת כנגד CRSF.
+אם הודעה זו מופיעה, זה משום שקרוב לודאי לא היתה יציאה מסודרת לפני
+סגירת היישום בדפדפן. 
+כעת נדרשת פעולה ידנית כדי להמשיך.";
+$messages['errcontactserveradmin'] = 'נא לפנות למנהל השרת';
+$messages['clicktoresumesession'] = 'יש ללחוץ כאן כדי להמשיך מהמצב הקודם';
+$messages['errcomposesession'] = 'שגיאה במהלך יצירת ההודעה';
+$messages['errcomposesessionexplain'] = 'תהליך יצירת ההודעה לא אותר';
+$messages['clicktocompose'] = 'יש להקיש כאן כדי ליצור הודעה חדשה';

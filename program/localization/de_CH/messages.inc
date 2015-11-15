@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -54,6 +54,12 @@ $messages['contactexists'] = 'Es existiert bereits ein Kontakt mit dieser E-Mail
 $messages['contactnameexists'] = 'Es existiert bereits ein Kontakt mit diesem Namen';
 $messages['blockedimages'] = 'Um Ihre Privatsphäre zur schützen, wurden externe Bilder blockiert.';
 $messages['encryptedmessage'] = 'Dies ist eine verschlüsselte Nachricht und kann leider nicht angezeigt werden.';
+$messages['externalmessagedecryption'] = 'Dies ist eine verschlüsselte Nachricht und kann mit Ihrer Browser-Erweiterung entschlüsselt werden.';
+$messages['nopubkeyfor'] = 'Kein gültiger öffentlicher Schlüssel für $email gefunden';
+$messages['nopubkeyforsender'] = 'Kein gültiger öffentlicher Schlüssel für Ihre Absenderidentität gefunden. Möchten Sie die Nachricht nur für die Empfänger verschlüsseln?';
+$messages['encryptnoattachments'] = 'Bereits hochgeladene Anhänge können nicht nachträglich verschlüsselt werden. Bitte fügen Sie sie erneut im Verschlüsselungs-Editor hinzu.';
+$messages['searchpubkeyservers'] = 'Möchten Sie öffentliche Schlüsselserver nach den fehlenden Schlüsseln durchsuchen?';
+$messages['encryptpubkeysfound'] = 'Die folgenden öffentlichen Schlüssel wurden gefunden:';
 $messages['nocontactsfound'] = 'Keine Kontakte gefunden';
 $messages['contactnotfound'] = 'Die gewählte Adresse wurde nicht gefunden';
 $messages['contactsearchonly'] = 'Geben Sie einen Suchbegriff ein, um Kontakte zu finden';
@@ -169,6 +175,7 @@ $messages['autocompletechars'] = 'Geben Sie mind. $min Zeichen für die Auto-Ver
 $messages['autocompletemore'] = 'Mehrere Treffer. Bitte geben Sie mehr Buchstaben ein.';
 $messages['namecannotbeempty'] = 'Der Name darf nicht leer sein.';
 $messages['nametoolong'] = 'Der Name ist zu lang.';
+$messages['namedotforbidden'] = 'Ordnername darf nicht mit einem Punkt beginnen.';
 $messages['folderupdated'] = 'Der Ordner wurde erfolgreich aktualisiert.';
 $messages['foldercreated'] = 'Der Ordner wurde erfolgreich erstellt.';
 $messages['invalidimageformat'] = 'Kein gültiges Bildformat.';
@@ -177,4 +184,16 @@ $messages['parentnotwritable'] = 'Konnte den Ordner nicht erstellen/verschieben.
 $messages['messagetoobig'] = 'Die Nachricht ist zu gross und kann nicht verarbeitet werden.';
 $messages['attachmentvalidationerror'] = 'WARNUNG! Dieser Anhang ist verdächtig, da sein Dateityp nicht dem entspricht, was in der Nachricht angegeben wird. Wenn Sie dem Absender nicht vertrauen, sollten Sie diesen Anhang nicht im Browser öffnen, da er Ihrem Computer Schaden zuführen könnte. <br/><br/><em>Erwartet: $expected; gefunden: $detected</em>';
 $messages['noscriptwarning'] = 'Achtung! Dieser Webmail-Service erfordert Javascript. Um ihn zu benutzten aktivieren Sie Javascript in ihren Browser-Einstellungen.';
-?>
+$messages['messageissent'] = 'Die Nachricht wurde bereits gesendet, aber noch nicht gespeichert. Jetzt speichern?';
+$messages['errnotfound'] = 'Datei nicht gefunden';
+$messages['errnotfoundexplain'] = 'Die angeforderte Ressource wurde nicht gefunden!';
+$messages['errfailedrequest'] = 'Anfrage fehlgeschlagen';
+$messages['errauthorizationfailed'] = 'Autorisierung fehlgeschlagen';
+$messages['errunauthorizedexplain'] = 'Es konnte nicht bestätigt werden, dass Sie berechtigt sind, auf diesen Dienst zuzugreifen!';
+$messages['errrequestcheckfailed'] = 'Anfrageprüfung fehlgeschlagen';
+$messages['errcsrfprotectionexplain'] = "Zu Ihrer Sicherheit wird der Zugriff auf diese Ressource gegen CSRF geschützt.\nWenn Sie dies sehen, haben Sie sich wahrscheinlich vor dem Verlassen der Anwendung nicht abgemeldet.\n\nUm fortzufahren ist eine menschliche Interaktion erforderlich.";
+$messages['errcontactserveradmin'] = 'Bitte kontaktieren Sie Ihren Server-Administrator.';
+$messages['clicktoresumesession'] = 'Klicken Sie hier, um Ihre vorherige Sitzung fortzusetzen';
+$messages['errcomposesession'] = 'Sitzungsfehler';
+$messages['errcomposesessionexplain'] = 'Sitzungsdaten für den Nachrichtenentwurf nicht gefunden.';
+$messages['clicktocompose'] = 'Klicken Sie hier, um eine neue Nachricht zu verfassen';

@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -195,6 +195,12 @@ $labels['searchscope'] = 'Ámbito';
 $labels['currentfolder'] = 'Carpeta actual';
 $labels['subfolders'] = 'Ésta y subcarpetas';
 $labels['allfolders'] = 'Todas las carpetas';
+$labels['searchinterval-1W'] = 'más antiguo que una semana';
+$labels['searchinterval-1M'] = 'más antiguo que un mes';
+$labels['searchinterval-1Y'] = 'más antiguo que un año';
+$labels['searchinterval1W'] = 'más reciente que una semana';
+$labels['searchinterval1M'] = 'más reciente que un mes';
+$labels['searchinterval1Y'] = 'más reciente que un mes';
 $labels['openinextwin'] = 'Abrir en nueva ventana';
 $labels['emlsave'] = 'Descargar (.eml)';
 $labels['changeformattext'] = 'Mostrar en formato de texto simple';
@@ -214,6 +220,15 @@ $labels['selectimage']    = 'Seleccionar imagen';
 $labels['addimage']       = 'Añadir imagen';
 $labels['selectmedia']    = 'Seleccionar película';
 $labels['addmedia']       = 'Añadir película';
+$labels['encrypt']        = 'Encriptar';
+$labels['encryptmessage'] = 'Encriptar mensaje';
+$labels['encryptmessagemailvelope'] = 'Cifrar mensaje con Malivelope';
+$labels['importpubkeys']  = 'Importar claves públicas';
+$labels['encryptedsendialog'] = 'Mandando mensaje encriptado';
+$labels['keyid']          = 'ID de la clave';
+$labels['keylength']      = 'Bits';
+$labels['keyexpired']     = 'Expirado';
+$labels['keyrevoked']     = 'Rechazado';
 $labels['editidents']    = 'Editar identidades';
 $labels['spellcheck']    = 'Corrector ortográfico';
 $labels['checkspelling'] = 'Revisar ortografía';
@@ -298,6 +313,7 @@ $labels['searchresult'] = 'Resultado de búsqueda';
 $labels['advsearch'] = 'Búsqueda avanzada';
 $labels['advanced'] = 'Avanzadas';
 $labels['other'] = 'Otro';
+$labels['printcontact'] = 'Imprimir contacto';
 $labels['typehome']   = 'Casa';
 $labels['typework']   = 'Trabajo';
 $labels['typeother']  = 'Otro';
@@ -416,6 +432,7 @@ $labels['deletejunk'] = 'Directamente eliminar mensajes en SPAM';
 $labels['showremoteimages'] = 'Mostrar las imágenes externas';
 $labels['fromknownsenders'] = 'de remitentes conocidos';
 $labels['always'] = 'siempre';
+$labels['alwaysbutplain'] = 'siempre, salvo cuando se responda a un texto llano';
 $labels['showinlineimages'] = 'Mostrar imágenes adjuntas debajo del mensaje';
 $labels['autosavedraft']  = 'Guardar borrador automáticamente';
 $labels['everynminutes']  = 'cada $n minuto(s)';
@@ -451,6 +468,8 @@ $labels['autoaddsignature'] = 'Añadir firma automáticamente';
 $labels['newmessageonly'] = 'solamente nuevo mensaje';
 $labels['replyandforwardonly'] = 'respuestas y reenvíos solamente';
 $labels['insertsignature'] = 'Insertar firma';
+$labels['sigbelow'] = 'Escribir la firma debajo del mensaje entrecomillado';
+$labels['sigseparator'] = 'Forzar el separador estándar en las firmas';
 $labels['previewpanemarkread']  = 'Marcar mensaje previsualizado como leído';
 $labels['afternseconds']  = 'después de $n segundos';
 $labels['reqmdn'] = 'Siempre solicitar confirmación de recibo';

@@ -30,4 +30,3 @@ $messages['passwordshort'] = 'Adgangskoden skal være mindst $length tegn lang.'
 $messages['passwordweak'] = 'Adgangskoden skal indeholde mindst et tal og et tegnsætningstegn (-.,)';
 $messages['passwordforbidden'] = 'Adgangskoden indeholder forbudte tegn.';
 $messages['firstloginchange'] = 'Dette er første gang du logger ind, ændre venligst din adgangskode';
-?>

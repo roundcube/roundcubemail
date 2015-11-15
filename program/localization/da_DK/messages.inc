@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,11 @@ $messages['parentnotwritable'] = 'Kan ikke oprette/flytte mappe ind i valgt mapp
 $messages['messagetoobig'] = 'Denne del af beskeden er for stor til at blive behandlet.';
 $messages['attachmentvalidationerror'] = 'ADVARSEL! Den vedhæftede fil er mistænkelig - Typen stemmer ikke overens med den oplyste type. Hvis du ikke har tillid til afsender, skal du ikke åbne filen da den kan indholde onsindet indhold. <br/><br/><em>Forventet: $expected; Fundet: $detected</em>';
 $messages['noscriptwarning'] = 'Advarsel: Denne webmailclient kræver Javascript! For at kunne bruge den slå venligst Javascripts til i din browserindstillinger.';
-?>
+$messages['messageissent'] = 'Beskeden er allerede sendt, men ikke gemt endnu. Vil du gemme den nu?';
+$messages['errnotfound'] = 'Filen blev ikke fundet';
+$messages['errnotfoundexplain'] = 'Den efterspurgte ressource blev ikke fundet!';
+$messages['errfailedrequest'] = 'Efterspørgslen fejlede';
+$messages['errauthorizationfailed'] = 'Godkendelse fejlede';
+$messages['errunauthorizedexplain'] = 'Kunne ikke verificere, at du har ret til adgang til denne service!';
+$messages['errcontactserveradmin'] = 'Kontakt venligst din serveradministrator.';
+$messages['clicktoresumesession'] = 'Klik her for at genoptage din tidligere session';

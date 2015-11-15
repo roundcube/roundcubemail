@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -60,13 +60,13 @@ $labels['showanyway'] = 'نمایش آن در هر صورت';
 $labels['filename'] = 'نام پرونده';
 $labels['filesize'] = 'اندازه پرونده';
 $labels['addtoaddressbook'] = 'افزودن به دفتر نشانی‌ها';
-$labels['sun'] = '۱ش';
-$labels['mon'] = '۲ش';
-$labels['tue'] = '۳ش';
-$labels['wed'] = '۴ش';
-$labels['thu'] = '۵ش';
-$labels['fri'] = 'جم';
-$labels['sat'] = 'ش';
+$labels['sun'] = 'یک‌شنبه';
+$labels['mon'] = 'دوشنبه';
+$labels['tue'] = 'سه‌شنبه';
+$labels['wed'] = 'چهارشنبه';
+$labels['thu'] = 'پنج‌شنبه';
+$labels['fri'] = 'جمعه';
+$labels['sat'] = 'شنبه';
 $labels['sunday']    = 'یک‌شنبه';
 $labels['monday']    = 'دوشنبه';
 $labels['tuesday']   = 'سه‌شنبه';

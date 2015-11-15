@@ -30,4 +30,3 @@ $messages['passwordshort'] = 'Tu contraseña debe tener una longitud mínima de 
 $messages['passwordweak'] = 'Tu nueva contraseña debe incluir al menos un número y un signo de puntuación.';
 $messages['passwordforbidden'] = 'La contraseña contiene caracteres inválidos.';
 $messages['firstloginchange'] = 'Este es tu primer inicio de sesión. Por favor, cambia tu contraseña.';
-?>

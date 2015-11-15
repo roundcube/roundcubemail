@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -39,6 +39,7 @@ $messages['nomessages'] = 'Brak wiadomości';
 $messages['refreshing'] = 'Odświeżanie...';
 $messages['loading'] = 'Ładowanie...';
 $messages['uploading'] = 'Zapisywanie pliku...';
+$messages['attaching'] = 'Dołączanie pliku...';
 $messages['uploadingmany'] = 'Zapisywanie plików...';
 $messages['loadingdata'] = 'Ładowanie danych...';
 $messages['checkingmail'] = 'Sprawdzanie nowych wiadomości...';
@@ -54,6 +55,14 @@ $messages['contactexists'] = 'Kontakt o podanym adresie e-mail już istnieje!';
 $messages['contactnameexists'] = 'Kontakt z podaną nazwą już istnieje!';
 $messages['blockedimages'] = 'Ze względów bezpieczeństwa zewnętrzne obrazki zostały zablokowane.';
 $messages['encryptedmessage'] = 'Przepraszamy, nie można wyświetlić zaszyfrowanej wiadomości!';
+$messages['externalmessagedecryption'] = 'Ta wiadomość jest zaszyfrowana i może zostać odszyfrowana za pomocą rozszerzenia przeglądarki.';
+$messages['nopubkeyfor'] = 'Nie znaleziono klucza publicznego w $email';
+$messages['nopubkeyforsender'] = 'Nie znaleziono klucza publicznego dla używanej tożsamości. Czy chcesz zaszyfrować wiadomość tylko dla adresatów?';
+$messages['encryptnoattachments'] = 'Załączniki, które zostały poprzednio przesłane na serwer nie mogą zostać zaszyfrowane. Należy przesłać je ponownie poprzez dodanie do edytora szyfrowania.';
+$messages['searchpubkeyservers'] = 'Czy wyszukać brakujące klucze na serwerach kluczy?';
+$messages['encryptpubkeysfound'] = 'Znaleziono następujące klucze:';
+$messages['keyservererror'] = 'Pobieranie klucza z serwera nie powiodło się';
+$messages['keyimportsuccess'] = 'Klucz $key został pomyślnie zaimportowany do bazy kluczy';
 $messages['nocontactsfound'] = 'Nie znaleziono kontaktu!';
 $messages['contactnotfound'] = 'Szukany kontakt nie został odnaleziony.';
 $messages['contactsearchonly'] = 'Użyj wyszukiwarki aby wyświetlić kontakty.';
@@ -104,6 +113,7 @@ $messages['folderexpunged'] = 'Folder został pomyślnie uporządkowany.';
 $messages['deletedsuccessfully'] = 'Usunięto.';
 $messages['converting'] = 'Konwertowanie tekstu...';
 $messages['messageopenerror'] = 'Nie można załadować wiadomości z serwera.';
+$messages['filelinkerror'] = 'Dołączanie pliku nie powiodło się.';
 $messages['fileuploaderror'] = 'Załączanie pliku nie powiodło się.';
 $messages['filesizeerror'] = 'Plik przekracza maksymalną wielkość $size.';
 $messages['copysuccess'] = 'Pomyślnie skopiowano $nr kontaktów.';
@@ -169,6 +179,7 @@ $messages['autocompletechars'] = 'Wprowadź co najmniej $min znak(ów) aby skorz
 $messages['autocompletemore'] = 'Znaleziono więcej pasujących wpisów. Wprowadź więcej znaków.';
 $messages['namecannotbeempty'] = 'Nazwa nie może być pusta.';
 $messages['nametoolong'] = 'Nazwa jest zbyt długa.';
+$messages['namedotforbidden'] = 'Nazwa folderu nie może rozpoczynać się od kropki.';
 $messages['folderupdated'] = 'Folder został pomyślnie zaktualizowany.';
 $messages['foldercreated'] = 'Folder został pomyślnie utworzony.';
 $messages['invalidimageformat'] = 'Niepoprawny format obrazka.';
@@ -177,4 +188,16 @@ $messages['parentnotwritable'] = 'Nie można utworzyć/przenieść folderu w wyb
 $messages['messagetoobig'] = 'Ta część wiadomości jest zbyt duża aby ją przetworzyć.';
 $messages['attachmentvalidationerror'] = 'UWAGA! Ten załącznik jest podejrzany ponieważ jego typ nie jest zgodny z typem zadeklarownym w wiadomości. Jeśli nie ufasz temu nadawcy nie powinieneś otwierać go w przeglądarce, gdyż może zawierać złośliwe oprogramowanie.<br/><br/><em>Zadeklarowany: $expected; wykryty: $detected</em>';
 $messages['noscriptwarning'] = 'Uwaga: Usługa wymaga Javascriptu! Aby z niej skorzystać proszę włączyć obsługę języka Javascript w ustawieniach przeglądarki.';
-?>
+$messages['messageissent'] = 'Wiadomość została już wysłana, jednak nie została zapisana. Czy chcesz ją zapisać teraz?';
+$messages['errnotfound'] = 'Nie znaleziono pliku';
+$messages['errnotfoundexplain'] = 'Żądany zasób nie został odnaleziony!';
+$messages['errfailedrequest'] = 'Błędne żądanie';
+$messages['errauthorizationfailed'] = 'Błąd autoryzacji';
+$messages['errunauthorizedexplain'] = 'Nie można zweryfikować czy jesteś upoważniony do dostępu dla tej usługi!';
+$messages['errrequestcheckfailed'] = 'Sprawdzanie żądania nie powiodło się';
+$messages['errcsrfprotectionexplain'] = "Dla twojego bezpieczeństwa, dostęp do tego zasobu jest dodatkowo zabezpieczony przez CSRF.\nJeśli widzisz ten komunikat, prawdopodobnie nie wylogowałeś się zamykając przeglądarkę. \n\n Wymagane są działania człowieka aby kontynuować.";
+$messages['errcontactserveradmin'] = 'Skontaktuj się z administratorem serwera.';
+$messages['clicktoresumesession'] = 'Naciśnij tutaj aby przywrócić poprzednią sesję';
+$messages['errcomposesession'] = 'Błąd sesji tworzenia';
+$messages['errcomposesessionexplain'] = 'Wywoływana sesja nie została odnaleziona';
+$messages['clicktocompose'] = 'Kliknij tutaj aby stworzyć nową wiadomość';

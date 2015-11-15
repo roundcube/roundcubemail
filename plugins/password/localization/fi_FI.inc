@@ -30,4 +30,4 @@ $messages['passwordshort'] = 'Salasanassa täytyy olla vähintään $length merk
 $messages['passwordweak'] = 'Salasanan täytyy sisältää vähintään yksi numero ja yksi välimerkki.';
 $messages['passwordforbidden'] = 'Salasana sisältää virheellisiä merkkejä.';
 $messages['firstloginchange'] = 'Tämä on ensimmäinen kirjautumiskertasi. Vaihda salasanasi.';
-?>
+$messages['disablednotice'] = 'Järjestelmä on parhaillaan huoltotilassa, joten salasanaa ei voi vaihtaa juuri nyt. Pahoittelemme aiheutunutta vaivaa. Kaiken pitäisi olla pian käytettävissä normaaliin tapaan.';

@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,12 @@ $messages['parentnotwritable'] = 'Nem sikerült a mappa létrehozása/áthelyez�
 $messages['messagetoobig'] = 'Az üzenetrész túl nagy a feldolgozáshoz.';
 $messages['attachmentvalidationerror'] = 'FIGYELEM! A csatalmány veszélyes lehet, mert a típusa nem egyezik az üzenetben beállított típussal. Amennyiben nem megbizható az üzenet küldője, ne nyissa meg a csatolmányt a böngészőben mert ártalmas lehet a tartalma.<br/><br/><em>Üzenetben beállított tipus: $expected; az érzékelt típus: $detected</em>';
 $messages['noscriptwarning'] = 'FIGYELEM: Ez webmail szolgáltatása igényli a Javascript futtatásának a lehetőségét! Amennyiben használni szeretné, engedélyezze a JavaScript futtatását a böngészőjének a beállatásaiban.';
-?>
+$messages['messageissent'] = 'Az üzenet már el lett küldve, de még nincs elmentve. El akarod menteni most?';
+$messages['errnotfound'] = 'File nem található';
+$messages['errnotfoundexplain'] = 'A kért erőforrás nem található!';
+$messages['errfailedrequest'] = 'Hibás kérés';
+$messages['errauthorizationfailed'] = 'Azonosítás sikertelen';
+$messages['errunauthorizedexplain'] = 'Nem sikerült ellenőrizni, hogy a szolgáltatás használata engdélyezett-e számodra';
+$messages['errcontactserveradmin'] = 'Vedd fel a kapcsolatot a rendszergazdádal.';
+$messages['clicktoresumesession'] = 'Kattints ide, hogy folytassad az elöző munkamenetedet';
+$messages['clicktocompose'] = 'Kattints ide új üzenet létrehozásához';

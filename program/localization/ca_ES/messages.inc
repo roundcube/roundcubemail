@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,3 @@ $messages['parentnotwritable'] = 'No s\'ha pogut crear/moure la carpeta dins de 
 $messages['messagetoobig'] = 'La part del missatge és massa gran per processar-la.';
 $messages['attachmentvalidationerror'] = 'ATENCIÓ! Aquest adjunt és sospitós perquè el seu tipus no coincideix amb el tipus declarat al missatge. Si no confieu en l\'emissor, no l\'hauríeu d\'obrir al navegador perquè pot contenir elements maliciosos. <br/><br/><em>S\'esperava: $expected; s\'ha trobat: $detected</em>';
 $messages['noscriptwarning'] = 'Atenció: Aquest client de correu necessita Javascript! Per a poder fer-lo servir heu d\'activar Javascript a les opcions del navegador.';
-?>

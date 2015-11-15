@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,7 +22,9 @@ $messages['sessionerror'] = '会话无效或已过期。';
 $messages['storageerror'] = '连接至 IMAP 服务器失败。';
 $messages['servererror'] = '服务器错误！';
 $messages['servererrormsg'] = '服务器错误：$msg';
+$messages['connerror'] = '连接错误(连接服务器失败)！';
 $messages['dberror'] = '数据库错误！';
+$messages['windowopenerror'] = '弹出窗口被屏蔽！';
 $messages['requesttimedout'] = '请求超时';
 $messages['errorreadonly'] = '无法完成操作。文件夹为只读。';
 $messages['errornoperm'] = '无法完成操作。没有权限。';
@@ -32,6 +34,8 @@ $messages['invalidrequest'] = '请求无效！未保存数据。';
 $messages['invalidhost'] = '无效的主机名。';
 $messages['nomessagesfound'] = '此邮件夹内无邮件。';
 $messages['loggedout'] = '您已成功注销，再见！';
+$messages['mailboxempty'] = '邮箱为空';
+$messages['nomessages'] = '无邮件';
 $messages['refreshing'] = '正在刷新...';
 $messages['loading'] = '正在载入...';
 $messages['uploading'] = '正在上传文件...';
@@ -90,6 +94,7 @@ $messages['contactsearchsuccessful'] = '共找到 $nr 位联系人。';
 $messages['searchnomatch'] = '未找到任何符合条件的邮件。';
 $messages['searching'] = '正在搜索...';
 $messages['checking'] = '正在检查...';
+$messages['stillsearching'] = '仍在搜索中……';
 $messages['nospellerrors'] = '未发现拼写错误。';
 $messages['folderdeleted'] = '删除文件夹成功。';
 $messages['foldersubscribed'] = '订阅文件夹成功。';
@@ -133,6 +138,7 @@ $messages['importmessagesuccess'] = '成功导入 $nr 条信息';
 $messages['importmessageerror'] = '导入失败！文件无效';
 $messages['opnotpermitted'] = '不允许的操作!';
 $messages['nofromaddress'] = '选中的身份没有邮件地址。';
+$messages['editorwarning'] = '切换编辑模式可能导致文本格式丢失。是否继续？';
 $messages['httpreceivedencrypterror'] = '<b>您的邮件无法发送</b>，因为发生了一个严重的配置错误，请立即联系管理员。';
 $messages['smtpconnerror'] = 'SMTP 错误 ($code):连接服务器失败。';
 $messages['smtpautherror'] = 'SMTP 错误 ($code): 认证失败。';
@@ -171,4 +177,13 @@ $messages['parentnotwritable'] = '无法创建/转移文件夹至指定的上级
 $messages['messagetoobig'] = '邮件过大无法处理。';
 $messages['attachmentvalidationerror'] = '警告！该附件很可疑，因为其自身的格式与邮件中声明的格式不符。如果您不信任发送人，则不应该在浏览器中打开该附件。<br/><br/><em>声明格式：$expected；实际格式：$detected</em>';
 $messages['noscriptwarning'] = '警告：本程序需要 Javascript 支持！请在浏览器设置中启用 Javascript。';
-?>
+$messages['messageissent'] = '邮件已发送，但尚未保存。是否现在保存？';
+$messages['errnotfound'] = '文件未找到';
+$messages['errnotfoundexplain'] = '请求资源未找到！';
+$messages['errfailedrequest'] = '请求失败';
+$messages['errauthorizationfailed'] = '授权失败';
+$messages['errunauthorizedexplain'] = '无法验证访问此服务的授权！';
+$messages['errrequestcheckfailed'] = '请求检查失败';
+$messages['errcsrfprotectionexplain'] = "访问此资源是保护你避免被CSRF攻击。\nlf 看到此信息，你可能在关闭web应用程序时并未登出服务。\n\n现在需要人机交互才能继续。";
+$messages['errcontactserveradmin'] = '请联系你的服务器管理员。';
+$messages['clicktoresumesession'] = '点击此处恢复你之前的会话';

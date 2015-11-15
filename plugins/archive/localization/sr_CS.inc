@@ -15,8 +15,17 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-$labels['buttontext'] = 'Arhiva';
-$labels['buttontitle'] = 'Arhivirati ovu poruku';
-$labels['archived'] = 'Uspěšno arhivirano';
-$labels['archivefolder'] = 'Arhiva';
+$labels['buttontext'] = 'Архивирај';
+$labels['buttontitle'] = 'Архивирај ову поруку';
+$labels['archived'] = 'Успешно архивирано';
+$labels['archivedreload'] = 'Успешно архивирано. Поново учитајте страну да видите нове архивиране фасцикле.';
+$labels['archiveerror'] = 'Неке поруке се нису могле архивирати';
+$labels['archivefolder'] = 'Архива';
+$labels['settingstitle'] = 'Архивирање';
+$labels['archivetype'] = 'Разврстај архиве по';
+$labels['archivetypeyear'] = 'години (нпр. Архива/2015)';
+$labels['archivetypemonth'] = 'месецу (нпр. Архива/2015/03)';
+$labels['archivetypefolder'] = 'изворној фасцикли';
+$labels['archivetypesender'] = 'адреси пошиљаоца';
+$labels['unkownsender'] = 'непознат';
 ?>

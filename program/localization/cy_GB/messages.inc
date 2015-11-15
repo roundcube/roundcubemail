@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -54,6 +54,12 @@ $messages['contactexists'] = 'Mae cyswllt gyda\'r cyfeiriad e-bost yma yn bodoli
 $messages['contactnameexists'] = 'Mae cyswllt gyda\'r un enw yn bodoli yn barod.';
 $messages['blockedimages'] = 'I amddiffyn eich preifatrwydd, fe ataliwyd lluniau allanol yn y neges yma.';
 $messages['encryptedmessage'] = 'Mae hon yn neges amgryptedig a felly ni ellir ei ddangos. Flin iawn!';
+$messages['externalmessagedecryption'] = 'Mae hon yn neges amgryptedig a gall ei ddadgryptio gyda estyniad eich porwr.';
+$messages['nopubkeyfor'] = 'Ni chafwyd hyd i allwedd cyhoeddus dilys ar gyfer $email';
+$messages['nopubkeyforsender'] = 'Ni chafwyd hyd i allwedd cyhoeddus dilys ar gyfer eich personoliaeth anfon. Ydych am amgryptio y neges ar gyfer y derbynwyr yn unig?';
+$messages['encryptnoattachments'] = 'Nid yw\'n bosib amgryptio atodiadau wedi uwchlwytho yn barod. Ychwanegwch nhw eto yn y golygydd amgryptio.';
+$messages['searchpubkeyservers'] = 'Hoffech chi chwilio y gweinyddwyr allweddi cyhoeddus ar gyfer yr allweddi sy ar goll?';
+$messages['encryptpubkeysfound'] = 'Cafwyd hyd i\'r allweddi cyhoeddus canlynol:';
 $messages['nocontactsfound'] = 'Ni gafwyd hyd i unrhyw gysylltiadau';
 $messages['contactnotfound'] = 'Ni gafwyd hyd i\'r cysylltiad gofynnwyd amdano';
 $messages['contactsearchonly'] = 'Rhowch dermau chwilio i ganfod cysylltiadau';
@@ -169,6 +175,7 @@ $messages['autocompletechars'] = 'Rhowch o leia $min llythyren ar gyfer awto-gwb
 $messages['autocompletemore'] = 'Canfuwyd mwy o gofnodion sy\'n cyfateb. Teipiwch fwy o lythrennau.';
 $messages['namecannotbeempty'] = 'Ni all yr enw fod yn wag';
 $messages['nametoolong'] = 'Mae\'r enw yn rhy hir';
+$messages['namedotforbidden'] = 'Ni all enw ffolder gychwyn gyda dot.';
 $messages['folderupdated'] = 'Diweddarwyd y ffolder yn llwyddiannus';
 $messages['foldercreated'] = 'Crëwyd y ffolder yn llwyddiannus';
 $messages['invalidimageformat'] = 'Ddim yn fformat llun dilys.';
@@ -177,4 +184,16 @@ $messages['parentnotwritable'] = 'Methwyd creu/symud ffolder i\'r ffolder rhiant
 $messages['messagetoobig'] = 'Mae darn y neges yn rhy fawr i\'w brosesu.';
 $messages['attachmentvalidationerror'] = 'RHYBUDD! Mae\'r atodiad yn amheus oherwydd nid yw ei fath yn gymharu\'r gyda\'r math ddatganwyd yn y neges. Os nad ydych yn ymddiried yn y danfonwr, ni ddylech agor hwn yn y porwr oherwydd fe all gynnwys ffeil maleisus.<br></br><em>Disgwylwyd:$expected;canfuwyd:$detected</em>';
 $messages['noscriptwarning'] = 'Rhybudd: Mae\'r gwasanaeth gwebost angen Javascript i weithio! Er mwyn ei ddefnyddio, galluogwch Javascript yng ngosodiadau eich porwr.';
-?>
+$messages['messageissent'] = 'Mae\'r neges wedi ei anfon, ond heb ei gadw eto. Hoffech chi ei gadw nawr?';
+$messages['errnotfound'] = 'Ni Ganfuwyd y Ffeil';
+$messages['errnotfoundexplain'] = 'Ni gafwyd hyd i\'r adnodd ofynnwyd amdano';
+$messages['errfailedrequest'] = 'Methodd y cais';
+$messages['errauthorizationfailed'] = 'Methiant Awdurdodi';
+$messages['errunauthorizedexplain'] = 'Methwyd gwirio eich bod wedi\'ch awdurdodi i gael mynediad i\'r gwasanaeth!';
+$messages['errrequestcheckfailed'] = 'Methiant Gwiriad Cais';
+$messages['errcsrfprotectionexplain'] = "Er eich diogelwch, mae mynediad i'r adnodd hwn wedi ei ddiogelu yn erbyn CSRF.\nOs ydych yn gweld hwn, mae'n debyg na wnaethoch chi allgofnodi cyn gadael yr ap gwe.\n\nMae'n rhaid gwirio nawr cyn parhau.";
+$messages['errcontactserveradmin'] = 'Cysylltwch a rheolwr eich gweinydd.';
+$messages['clicktoresumesession'] = 'Cliciwch yma i ail-ddechrau eich sesiwn blaenorol';
+$messages['errcomposesession'] = 'Gwall sesiwn ysgrifennu';
+$messages['errcomposesessionexplain'] = 'Ni gafwyd hyd i\'r sesiwn ysgrifennu gofynnwyd amdano';
+$messages['clicktocompose'] = 'Cliciwch yma i ysgrifennu neges newydd';

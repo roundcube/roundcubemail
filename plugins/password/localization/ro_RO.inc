@@ -30,4 +30,3 @@ $messages['passwordshort'] = 'Parola trebuie să aibă minim $length caractere.'
 $messages['passwordweak'] = 'Parola trebuie să conțina cel puțin un număr si un semn de punctuație.';
 $messages['passwordforbidden'] = 'Parola conține caractere nepermise.';
 $messages['firstloginchange'] = 'Aceasta este prima autentificare. Te rugăm să schimbi parola.';
-?>

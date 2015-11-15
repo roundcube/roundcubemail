@@ -28,4 +28,3 @@ $messages['internalerror'] = 'Nevarēja saglabāt jauno paroli.';
 $messages['passwordshort'] = 'Jaunajai parolei jābūt vismaz $length simbolu garai.';
 $messages['passwordweak'] = 'Jaunajai parolei jāsatur vismaz viens cipars un speciālais simbols.';
 $messages['passwordforbidden'] = 'Parole satur neatļautus simbolus.';
-?>

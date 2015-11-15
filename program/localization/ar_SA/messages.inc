@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -174,4 +174,3 @@ $messages['parentnotwritable'] = 'تعذر إنشاء/نقل المجلد إلى
 $messages['messagetoobig'] = 'جزء الرسالة أكبر بكثير مما يمكن معالجته.';
 $messages['attachmentvalidationerror'] = 'تحذير! المرفق ادناة مشكوك في امره بسبب ان نوع المرفق لا يتناسب مع نوع المرفق المصرح بة في هذه الرسالة.اذا كنت لا تثق في المرسل, يجب عليك ان لا تفتحة في المتصفح لأنها قد تحتوي على محتويات ضارة.<br/><br/><em>متوقع : $expected; موجود : $detected</em>';
 $messages['noscriptwarning'] = 'تحذير: خادم البريد الالكتروني هذا يتطلب جافاسكربت , يرجى تفعيل الـ جافاسكربت في اعدادت المتصفح الخاص بك لتتمكن من استخدامة.';
-?>

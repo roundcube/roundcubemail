@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -77,4 +77,3 @@ $messages['receiptsent'] = 'Sukcese sendis konfirmon';
 $messages['errorsendingreceipt'] = 'Ne povis sendi konfirmon';
 $messages['nodeletelastidentity'] = 'Vi ne povas forigi ĉi tiun identon, ĉar ĝi estas la lasta';
 $messages['forbiddencharacter'] = 'Dosierujo-nomo enhavas malpermesitan karaktron';
-?>

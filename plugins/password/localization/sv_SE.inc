@@ -30,4 +30,4 @@ $messages['passwordshort'] = 'Lösenordet måste vara minst $length tecken lång
 $messages['passwordweak'] = 'Lösenordet måste innehålla minst en siffra och ett specialtecken.';
 $messages['passwordforbidden'] = 'Lösenordet innehåller otillåtna tecken.';
 $messages['firstloginchange'] = 'Du loggar in för första gången. Vänligen ändra ditt lösenord.';
-?>
+$messages['disablednotice'] = 'Underhåll av systemet pågår och därför kan lösenord inte ändras för tillfället. Allt ska fungera normalt igen så snart som möjligt. Ursäkta den eventuella olägenheten underhållet orsakar.';

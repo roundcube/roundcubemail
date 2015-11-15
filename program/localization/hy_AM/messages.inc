@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -150,4 +150,3 @@ $messages['invalidimageformat'] = 'Պատկերի սխալ ձևաչափ։';
 $messages['mispellingsfound'] = 'Հաղորդագրության մեջ կան տառասխալներ։';
 $messages['parentnotwritable'] = 'Նշված պանակի մեջ պանակի ստեղծումը կամ տեղափոխումը անհնար է անբավարար իրավունքների պատճառով։';
 $messages['messagetoobig'] = 'Հաղորդագրության մասը չափազանց մեծ է սպասարկման համար։';
-?>

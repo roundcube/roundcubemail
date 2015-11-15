@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,5 @@ $messages['parentnotwritable'] = 'Δεν είναι δυνατή η δημιου
 $messages['messagetoobig'] = 'Το τμήμα μηνύματος είναι πολύ μεγάλο για επεξεργασία.';
 $messages['attachmentvalidationerror'] = 'ΠΡΟΕΙΔΟΠΟΊΗΣΗ! Αυτό το συνημμένο είναι ύποπτο, επειδή ο τύπος του δεν ταιριάζει με τον τύπο που δηλώνεται στο μήνυμα. Εάν δεν εμπιστεύεστε τον αποστολέα, δεν θα πρέπει να το ανοίξετε στο πρόγραμμα περιήγησης επειδή μπορεί να περιέχει κακόβουλο περιεχόμενο.<br/><br/><em>Αναμενόμενο: $expected, εντοπίστηκε: $detected</em> ';
 $messages['noscriptwarning'] = 'Προσοχή: Αυτή η υπηρεσία webmail απαιτεί Javascript! Για να την χρησιμοποιήσετε ενεργοποιήστε το JavaScript στις ρυθμίσεις του περιηγητή σας. ';
-?>
+$messages['errnotfound'] = 'Δεν βρέθηκε το αρχείο';
+$messages['errauthorizationfailed'] = 'Απέτυχε η πιστοποίηση';

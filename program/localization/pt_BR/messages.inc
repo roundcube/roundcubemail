@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,6 +22,7 @@ $messages['sessionerror'] = 'A sessão do seu navegador é inválida ou expirou'
 $messages['storageerror'] = 'Falha na conexão com o servidor. Verifique se informou os dados corretamente.';
 $messages['servererror'] = 'Erro no Servidor!';
 $messages['servererrormsg'] = 'Erro no Servidor: $msg';
+$messages['accountlocked'] = 'Muitas tentativas de login inválidas. Tente novamente depois.';
 $messages['connerror'] = 'Erro de conexão (Falha na comunicação com o servidor)!';
 $messages['dberror'] = 'Erro no banco de dados!';
 $messages['windowopenerror'] = 'A janela popup foi bloqueada!';
@@ -39,6 +40,7 @@ $messages['nomessages'] = 'Sem mensagens';
 $messages['refreshing'] = 'Atualizando...';
 $messages['loading'] = 'Carregando...';
 $messages['uploading'] = 'Enviando arquivo...';
+$messages['attaching'] = 'Anexando arquivo...';
 $messages['uploadingmany'] = 'Enviando arquivos...';
 $messages['loadingdata'] = 'Carregando dados...';
 $messages['checkingmail'] = 'Verificando se há novas mensagens...';
@@ -54,6 +56,14 @@ $messages['contactexists'] = 'Já existe um contato com esse mesmo e-mail.';
 $messages['contactnameexists'] = 'Já existe um contato com o mesmo nome.';
 $messages['blockedimages'] = 'Para proteger sua privacidade, as imagens remotas desta mensagem foram bloqueadas.';
 $messages['encryptedmessage'] = 'Esta é uma mensagem criptografada e não pode ser exibida. Desculpe.';
+$messages['externalmessagedecryption'] = 'Esta é uma mensagem criptografada e pode ser descriptografado com  extensão do seu navegador.';
+$messages['nopubkeyfor'] = 'Nenhuma chave publica encontrada para $email';
+$messages['nopubkeyforsender'] = 'Nenhuma chave pública válida encontrada para sua identidade. Você quer criptografar a mensagem apenas para os destinatários?';
+$messages['encryptnoattachments'] = 'Anexos já enviados não podem ser criptografados. Por favor adicione-os novamente no editor com criptografia.';
+$messages['searchpubkeyservers'] = 'Você deseja procurar as chaves faltantes nos servidores de chaves públicas?';
+$messages['encryptpubkeysfound'] = 'As seguintes chaves públicas foram localizadas:';
+$messages['keyservererror'] = 'Falha em obter a chave do servidor';
+$messages['keyimportsuccess'] = 'Chave pública $key importada com êxito em seu chaveiro';
 $messages['nocontactsfound'] = 'Nenhum contato encontrado.';
 $messages['contactnotfound'] = 'O contato solicitado não foi encontrado.';
 $messages['contactsearchonly'] = 'Informe os termos de pesquisa para localizar os contatos';
@@ -104,6 +114,7 @@ $messages['folderexpunged'] = 'Pasta compactada com sucesso';
 $messages['deletedsuccessfully'] = 'Excluído com sucesso';
 $messages['converting'] = 'Removendo formatação...';
 $messages['messageopenerror'] = 'Não foi possível carregar a mensagem do servidor';
+$messages['filelinkerror'] = 'Falha ao anexar o arquivo.';
 $messages['fileuploaderror'] = 'Falha ao enviar o arquivo';
 $messages['filesizeerror'] = 'O arquivo enviado excede o tamanho máximo de $size';
 $messages['copysuccess'] = '$nr contato(s) copiado(s) com sucesso.';
@@ -169,6 +180,7 @@ $messages['autocompletechars'] = 'Digite pelo menos $min caractere(s) para auto-
 $messages['autocompletemore'] = 'Mais registros foram encontrados. Por favor, digite mais caracteres.';
 $messages['namecannotbeempty'] = 'Nome não pode ser vazio';
 $messages['nametoolong'] = 'Nome é muito longo';
+$messages['namedotforbidden'] = 'Nome de pasta não pode começar com um ponto.';
 $messages['folderupdated'] = 'Pasta atualizada com sucesso';
 $messages['foldercreated'] = 'Pasta criada com sucesso';
 $messages['invalidimageformat'] = 'Formato de imagem inválido.';
@@ -177,4 +189,16 @@ $messages['parentnotwritable'] = 'Sem permissão para criar/mover a pasta dentro
 $messages['messagetoobig'] = 'A mensagem é muito grande para ser processada.';
 $messages['attachmentvalidationerror'] = 'ATENÇÃO! Este anexo é suspeito porque seu tipo não combina com o tipo declarado na mensagem. Se você não confia no remetente, não deveria abri-lo no navegador porque pode conter conteúdo malicioso.<br/><br/><em>Esperado: $expected; encontrado: $detected</em>';
 $messages['noscriptwarning'] = 'Aviso: Este webmail utiliza Javascript, habilite-o nas configurações de seu navegador.';
-?>
+$messages['messageissent'] = 'A mensagem já foi enviada, mas ainda não foi salva. Deseja salvar agora?';
+$messages['errnotfound'] = 'Arquivo não encontrado';
+$messages['errnotfoundexplain'] = 'O recurso solicitado não foi encontrado!';
+$messages['errfailedrequest'] = 'Requisição falhou';
+$messages['errauthorizationfailed'] = 'Autorização Falhou';
+$messages['errunauthorizedexplain'] = 'Não é possível verificar se você está autorizado a acessar este serviço!';
+$messages['errrequestcheckfailed'] = 'Falha na verificação da requisição';
+$messages['errcsrfprotectionexplain'] = "Para sua proteção, o acesso a este serviço está seguro contra CSFR.\nSe você está vendo isto, provavelmente não utilizou a opção de sair antes de encerrar a utilização.\n\nSerá necessária interação humana para continuar.";
+$messages['errcontactserveradmin'] = 'Por favor contate o administrador do servidor.';
+$messages['clicktoresumesession'] = 'Clique aqui para continuar sua sessão anterior';
+$messages['errcomposesession'] = 'Erro na sessão de composição';
+$messages['errcomposesessionexplain'] = 'A sessão de composição solicitada não foi encontrada.';
+$messages['clicktocompose'] = 'Clique aqui para compor uma nova mensagem';

@@ -30,4 +30,4 @@ $messages['passwordshort'] = 'A palavra-passe deve ter pelo menos $length caract
 $messages['passwordweak'] = 'A palavra-passe deve incluir pelo menos um numero e um sinal de pontuação.';
 $messages['passwordforbidden'] = 'A palavra-passe contém caracteres não suportados.';
 $messages['firstloginchange'] = 'Este é o seu primeiro acesso. Por favor, altere a sua palavra-passe.';
-?>
+$messages['disablednotice'] = 'O sistema está em manutenção e a alteração da password não é possível neste momento. Tudo deve volta ao normal em breve. Pedimos desculpas por qualquer inconveniente.';

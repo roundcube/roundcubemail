@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -195,6 +195,12 @@ $labels['searchscope'] = 'Omfattning';
 $labels['currentfolder'] = 'Nuvarande katalog';
 $labels['subfolders'] = 'Denna och underkataloger';
 $labels['allfolders'] = 'Samtliga kataloger';
+$labels['searchinterval-1W'] = 'äldre än en vecka';
+$labels['searchinterval-1M'] = 'äldre än en månad';
+$labels['searchinterval-1Y'] = 'äldre än ett år';
+$labels['searchinterval1W'] = 'nyare än en vecka';
+$labels['searchinterval1M'] = 'nyare än en månad';
+$labels['searchinterval1Y'] = 'nyare än ett år';
 $labels['openinextwin'] = 'Öppna i nytt fönster';
 $labels['emlsave'] = 'Spara (.eml)';
 $labels['changeformattext'] = 'Visa i text-format';
@@ -214,6 +220,15 @@ $labels['selectimage']    = 'Välj bild';
 $labels['addimage']       = 'Lägg till bild';
 $labels['selectmedia']    = 'Välj film';
 $labels['addmedia']       = 'Lägg till film';
+$labels['encrypt']        = 'Kryptera';
+$labels['encryptmessage'] = 'Kryptera meddelande';
+$labels['encryptmessagemailvelope'] = 'Kryptera meddelande med Mailvelope';
+$labels['importpubkeys']  = 'Importera offentliga nycklar';
+$labels['encryptedsendialog'] = 'Skickar krypterat meddelande';
+$labels['keyid']          = 'Nyckel-ID';
+$labels['keylength']      = 'Bitar';
+$labels['keyexpired']     = 'Utgången';
+$labels['keyrevoked']     = 'Upphävd';
 $labels['editidents']    = 'Ändra identiteter';
 $labels['spellcheck']    = 'Rättstava';
 $labels['checkspelling'] = 'Kontrollera stavning';
@@ -298,6 +313,7 @@ $labels['searchresult'] = 'Sökresultat';
 $labels['advsearch'] = 'Avancerad sökning';
 $labels['advanced'] = 'Avancerad';
 $labels['other'] = 'Annat';
+$labels['printcontact'] = 'Skriv ut kontakt';
 $labels['typehome']   = 'Hem';
 $labels['typework']   = 'Arbete';
 $labels['typeother']  = 'Annat';
@@ -416,6 +432,7 @@ $labels['deletejunk'] = 'Radera meddelanden i Skräp direkt';
 $labels['showremoteimages'] = 'Visa externt länkade bilder i meddelande';
 $labels['fromknownsenders'] = 'Från kända avsändare';
 $labels['always'] = 'Alltid';
+$labels['alwaysbutplain'] = 'alltid, utom vid svar på textmeddelande';
 $labels['showinlineimages'] = 'Visa bifogade bilder efter meddelande';
 $labels['autosavedraft']  = 'Spara utkast med automatiskt intervall';
 $labels['everynminutes']  = '$n min';
@@ -451,6 +468,8 @@ $labels['autoaddsignature'] = 'Infoga signatur automatiskt';
 $labels['newmessageonly'] = 'Vid nytt meddelande';
 $labels['replyandforwardonly'] = 'Vid svar och vidarebefordran';
 $labels['insertsignature'] = 'Infoga signatur';
+$labels['sigbelow'] = 'Placera signatur efter meddelandet';
+$labels['sigseparator'] = 'Använd alltid avdelare enligt standard i signaturer';
 $labels['previewpanemarkread']  = 'Märk meddelande som läst vid visning';
 $labels['afternseconds']  = 'Efter $n sekunder';
 $labels['reqmdn'] = 'Begär alltid mottagarkvitto';

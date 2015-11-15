@@ -28,4 +28,3 @@ $messages['internalerror'] = 'እቲ መሕለፊ ቃል ኣይተቐመጠን::
 $messages['passwordshort'] = 'ንውሓት መሕለፊ ቃል $length ፊዳላት ክኾን አለዎ::';
 $messages['passwordweak'] = 'መሕለፊ ቃል እንተውሓደ ሓደ ኣሃዝን ሓደ ስርዓተ ነጥብን ከጠቓልል አለዎ::';
 $messages['passwordforbidden'] = 'እቲ መሕለፊ ቃል ውጉዳት ፊዳላት አለውዎ::';
-?>

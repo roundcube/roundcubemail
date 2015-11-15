@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -195,6 +195,12 @@ $labels['searchscope'] = 'Rajaus';
 $labels['currentfolder'] = 'Nykyinen kansio';
 $labels['subfolders'] = 'Nykyinen kansio ja sen alikansiot';
 $labels['allfolders'] = 'Kaikki kansiot';
+$labels['searchinterval-1W'] = 'viikkoa vanhempi';
+$labels['searchinterval-1M'] = 'kuukautta vanhempi';
+$labels['searchinterval-1Y'] = 'vuotta vanhempi';
+$labels['searchinterval1W'] = 'viikkoa uudempi';
+$labels['searchinterval1M'] = 'kuukautta uudempi';
+$labels['searchinterval1Y'] = 'vuotta uudempi';
 $labels['openinextwin'] = 'Avaa uudessa ikkunassa';
 $labels['emlsave'] = 'Tallenna (.eml)';
 $labels['changeformattext'] = 'Näytä raakatekstimuodossa';
@@ -214,6 +220,15 @@ $labels['selectimage']    = 'Valitse kuva';
 $labels['addimage']       = 'Lisää kuva';
 $labels['selectmedia']    = 'Valitse elokuva';
 $labels['addmedia']       = 'Lisää elokuva';
+$labels['encrypt']        = 'Salaa';
+$labels['encryptmessage'] = 'Salaa viesti';
+$labels['encryptmessagemailvelope'] = 'Salaa viesti Mailvelopella';
+$labels['importpubkeys']  = 'Tuo julkiset avaimet';
+$labels['encryptedsendialog'] = 'Lähetetään salattua viestiä';
+$labels['keyid']          = 'Avaimen tunniste';
+$labels['keylength']      = 'Bittiä';
+$labels['keyexpired']     = 'Vanhentunut';
+$labels['keyrevoked']     = 'Kumottu';
 $labels['editidents']    = 'Muokkaa identiteettejä';
 $labels['spellcheck']    = 'Oikeinkirjoitus';
 $labels['checkspelling'] = 'Tarkista oikeinkirjoitus';
@@ -298,6 +313,7 @@ $labels['searchresult'] = 'Haun tulos';
 $labels['advsearch'] = 'Tarkennettu haku';
 $labels['advanced'] = 'Lisäasetukset';
 $labels['other'] = 'Muu';
+$labels['printcontact'] = 'Tulosta yhteystieto';
 $labels['typehome']   = 'Koti';
 $labels['typework']   = 'Työ';
 $labels['typeother']  = 'Muu';
@@ -416,6 +432,7 @@ $labels['deletejunk'] = 'Poista roskapostiviestit suoraan';
 $labels['showremoteimages'] = 'Näytä ulkopuoliset kuvat viestissä';
 $labels['fromknownsenders'] = 'tunnetuilta lähettäjiltä';
 $labels['always'] = 'aina';
+$labels['alwaysbutplain'] = 'aina, paitsi vastatessa "vain teksti"-viesteihin';
 $labels['showinlineimages'] = 'Näytä liitekuvat viestin jälkeen';
 $labels['autosavedraft']  = 'Tallenna luonnos automaattisesti';
 $labels['everynminutes']  = 'joka $n. minuutti';
@@ -451,6 +468,8 @@ $labels['autoaddsignature'] = 'Lisää allekirjoitus automaattisesti';
 $labels['newmessageonly'] = 'vain uuteen viestiin';
 $labels['replyandforwardonly'] = 'vain vastauksiin ja välityksiin';
 $labels['insertsignature'] = 'Lisää allekirjoitus';
+$labels['sigbelow'] = 'Aseta allekirjoitus lainatun viestin alapuolelle';
+$labels['sigseparator'] = 'Pakota standardi erotin allekirjoituksissa';
 $labels['previewpanemarkread']  = 'Merkitse esikatsellut viestit luetuiksi';
 $labels['afternseconds']  = '$n sekunnin jälkeen';
 $labels['reqmdn'] = 'Pyydä aina kuittausviestiä';

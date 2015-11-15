@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -62,4 +62,3 @@ $messages['converting'] = 'मेल से फ़ॉर्मैटिंग �
 $messages['messageopenerror'] = 'सर्वर से मेल लोड नहीं हो पाया';
 $messages['fileuploaderror'] = 'फ़ाईल अपलोड नहीं हो पाया';
 $messages['filesizeerror'] = 'अपलोड के लिये फ़ाईल हद $size से बड़ा है';
-?>

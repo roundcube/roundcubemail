@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -179,8 +179,11 @@ $labels['importmessages'] = 'Importer beskeder';
 $labels['quota'] = 'Diskforbrug';
 $labels['unknown']  = 'ukendt';
 $labels['unlimited']  = 'ubegrænset';
+$labels['quotatype'] = 'Kvotetype';
+$labels['quotatotal'] = 'Grænse';
 $labels['quotaused'] = 'Brugt';
 $labels['quotastorage'] = 'Disk plads';
+$labels['quotamessage'] = 'Beskeder';
 $labels['quicksearch']  = 'Hurtigsøg';
 $labels['resetsearch']  = 'Nulstil søgning';
 $labels['searchmod']  = 'Søgeparametre';
@@ -217,6 +220,7 @@ $labels['resumeediting'] = 'Genoptag redigering';
 $labels['revertto']      = 'Vend tilbage til';
 $labels['restore'] = 'Gendan';
 $labels['restoremessage'] = 'Gendan besked';
+$labels['ignore'] = 'Ignorer';
 $labels['responses'] = 'Svar';
 $labels['insertresponse'] = 'Indsæt et svar';
 $labels['manageresponses'] = 'Administrer svar';
@@ -232,6 +236,7 @@ $labels['upload'] = 'Overfør';
 $labels['uploadprogress'] = '$percent ($current af $total)';
 $labels['close']  = 'Luk';
 $labels['messageoptions']  = 'Beskedmuligheder...';
+$labels['togglecomposeoptions'] = 'Skift kompositions indstillinger';
 $labels['low']     = 'Lav';
 $labels['lowest']  = 'Lavest';
 $labels['normal']  = 'Normal';
@@ -292,6 +297,7 @@ $labels['searchresult'] = 'Søgeresultat ';
 $labels['advsearch'] = 'Avanceret søg';
 $labels['advanced'] = 'Avanceret';
 $labels['other'] = 'Andet';
+$labels['printcontact'] = 'Udskriv kontakt';
 $labels['typehome']   = 'Hjem';
 $labels['typework']   = 'Arbejde';
 $labels['typeother']  = 'Andet';
@@ -401,7 +407,7 @@ $labels['askuser'] = 'spørg mig';
 $labels['autosend'] = 'send automatisk';
 $labels['autosendknown'] = 'send automatisk til mine kontakter, ellers spørg mig';
 $labels['autosendknownignore'] = 'send automatisk til mine kontakter, ellers ignorér';
-$labels['ignore'] = 'ignorér';
+$labels['ignorerequest'] = 'ignorer efterspørgsel';
 $labels['readwhendeleted'] = 'Markér beskeden som læst ved sletning';
 $labels['flagfordeletion'] = 'Markér beskeden til sletning istedet for at slette';
 $labels['skipdeleted'] = 'Skjul slettede beskeder';
@@ -525,10 +531,18 @@ $labels['korean'] = 'Koreansk';
 $labels['chinese'] = 'Kinesisk';
 $labels['arialabeltopnav'] = 'Vindueskontrol';
 $labels['arialabeltasknav'] = 'Application opgaver';
+$labels['arialabeltoolbar'] = 'Program toolbar';
 $labels['arialabelactivetask'] = 'Aktiv opgave';
 $labels['arialabelmessagessearchfilter'] = 'E-mail filter';
 $labels['arialabelmailsearchform'] = 'E-mail søgeform';
 $labels['arialabelcontactsearchform'] = 'Kontakt søgeform';
 $labels['arialabelmailquicksearchbox'] = 'E-mail søgeinput';
 $labels['arialabelquicksearchbox'] = 'Søge input';
+$labels['arialabelfoldersearchfilter'] = 'Mappevisningsfilter';
+$labels['arialabelfoldersearchform'] = 'Mappe søgeform';
+$labels['arialabelfolderlist'] = 'E-mail mappe valg';
+$labels['arialabelmessagelist'] = 'E-mail Besked Visning';
+$labels['arialabelmailpreviewframe'] = 'Beskedvisning';
+$labels['arialabelmailboxmenu'] = 'Mappehandlingsmenu';
+$labels['arialabellistselectmenu'] = 'Listevalgsmenu';
 ?>

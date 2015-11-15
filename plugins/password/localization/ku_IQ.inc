@@ -27,4 +27,3 @@ $messages['connecterror'] = 'نەتوانرا تێپەڕەوشەی نوێ پاش
 $messages['internalerror'] = 'نەتوانرا تێپەڕەوشەی نوێ پاشەکەوت بکرێت.';
 $messages['passwordforbidden'] = 'تێپەڕەوشە نووسەی ڕێپێنەدراوی تێدایە.';
 $messages['firstloginchange'] = 'ئەمە یەکەم چوونەژوورەوەتە. تکایە تێپەڕەوشەکەت بگۆڕە.';
-?>

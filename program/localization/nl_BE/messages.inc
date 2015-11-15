@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -156,4 +156,3 @@ $messages['parentnotwritable'] = 'U heeft niet voldoende rechten een map te make
 $messages['messagetoobig'] = 'Dit deel van uw bericht is te groot om het te verwerken.';
 $messages['attachmentvalidationerror'] = 'OPGELET! Deze bijlage is verdacht omdat het aangetroffen bestandstype niet overeenkomt met het verwachte type. Indien u de afzender niet vertrouwd open deze bijlage in geen geval in uw browser aangezien deze schadelijk data kan bevatten.<br /><br /><em>Verwacht: $expected; Aangetroffen: $detected</em>';
 $messages['noscriptwarning'] = 'Opgelet: deze webmail service vereist JavaScript! Om deze service te kunnen gebruiken dient u JavaScript toe te staan in de instellingen van uw browser.';
-?>

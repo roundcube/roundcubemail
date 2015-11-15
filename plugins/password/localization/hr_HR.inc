@@ -28,4 +28,3 @@ $messages['internalerror'] = 'Nemoguće promijeniti zaporku.';
 $messages['passwordshort'] = 'Zaporka mora sadržavati barem $length znakova.';
 $messages['passwordweak'] = 'Zaporka mora sadržavati barem jedanu znamenku i jedan interpunkcijski znak.';
 $messages['passwordforbidden'] = 'Zaporka sadrži nedozvoljene znakove.';
-?>

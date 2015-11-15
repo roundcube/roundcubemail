@@ -30,4 +30,4 @@ $messages['passwordshort'] = '암호는 문자가 $length개 이상이어야 합
 $messages['passwordweak'] = '암호는 숫자 및 특수문자를 각각 한 개 이상 포함해야 합니다.';
 $messages['passwordforbidden'] = '암호가 금지된 문자을 포함하고 있습니다.';
 $messages['firstloginchange'] = '처음 로그인하셨습니다. 암호를 변경해주세요.';
-?>
+$messages['disablednotice'] = '시스템이 현재 유지보수 중이며 암호 변경이 일시적으로 불가능합니다. 모든 것이 조만간 정상화 될 예정입니다. 불편을 끼쳐드려 죄송합니다.';

@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -141,4 +141,3 @@ $messages['nametoolong'] = 'ឈ្មោះវែងពេក';
 $messages['folderupdated'] = 'ផ្លាស់ប្តូរថតបានដោយជោគជ័យ';
 $messages['foldercreated'] = 'បង្កើតថតបានដោយជោគជ័យ';
 $messages['invalidimageformat'] = 'ប្រភេទរូបភាពមិនត្រឹមត្រូវ';
-?>

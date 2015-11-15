@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -54,6 +54,12 @@ $messages['contactexists'] = 'A contact with this e-mail address already exists.
 $messages['contactnameexists'] = 'A contact with the same name already exists.';
 $messages['blockedimages'] = 'To protect your privacy, remote images are blocked in this message.';
 $messages['encryptedmessage'] = 'This is an encrypted message and can not be displayed. Sorry!';
+$messages['externalmessagedecryption'] = 'This is an encrypted message and can be decrypted with your browser extension.';
+$messages['nopubkeyfor'] = 'No valid public key found for $email';
+$messages['nopubkeyforsender'] = 'No valid public key found for your sender identity. Do you want to encrypt the message for the recipients only?';
+$messages['encryptnoattachments'] = 'Already uploaded attachments cannot be encrypted. Please re-add them in the encryption editor.';
+$messages['searchpubkeyservers'] = 'Do you want to search public key servers for the missing keys?';
+$messages['encryptpubkeysfound'] = 'The following public keys have been found:';
 $messages['nocontactsfound'] = 'No contacts found.';
 $messages['contactnotfound'] = 'The requested contact was not found.';
 $messages['contactsearchonly'] = 'Enter some search terms to find contacts';
@@ -169,6 +175,7 @@ $messages['autocompletechars'] = 'Enter at least $min characters for autocomplet
 $messages['autocompletemore'] = 'More matching entries found. Please type more characters.';
 $messages['namecannotbeempty'] = 'Name cannot be empty.';
 $messages['nametoolong'] = 'Name is too long.';
+$messages['namedotforbidden'] = 'Folder name cannot start with a dot.';
 $messages['folderupdated'] = 'Successfully updated folder.';
 $messages['foldercreated'] = 'Successfully created folder.';
 $messages['invalidimageformat'] = 'Not a valid image format.';
@@ -177,4 +184,16 @@ $messages['parentnotwritable'] = 'Unable to create/move folder into selected par
 $messages['messagetoobig'] = 'The message part is too big to process it.';
 $messages['attachmentvalidationerror'] = 'WARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser\'s settings.';
-?>
+$messages['messageissent'] = 'The message was already sent, but not yet saved. Do you want to save it now?';
+$messages['errnotfound'] = 'File Not Found';
+$messages['errnotfoundexplain'] = 'The requested resource was not found!';
+$messages['errfailedrequest'] = 'Failed request';
+$messages['errauthorizationfailed'] = 'Authorisation Failed';
+$messages['errunauthorizedexplain'] = 'Could not verify that you are authorised to access this service!';
+$messages['errrequestcheckfailed'] = 'Request Check Failed';
+$messages['errcsrfprotectionexplain'] = "For your protection, access to this resource is secured against CSRF.\nIf you see this, you probably didn't log out before leaving the web application.\n\nHuman interaction is now required to continue.";
+$messages['errcontactserveradmin'] = 'Please contact your server administrator.';
+$messages['clicktoresumesession'] = 'Click here to resume your previous session';
+$messages['errcomposesession'] = 'Compose session error';
+$messages['errcomposesessionexplain'] = 'Requested compose session not found.';
+$messages['clicktocompose'] = 'Click here to compose a new message';

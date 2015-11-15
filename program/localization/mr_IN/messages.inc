@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -109,4 +109,3 @@ $messages['smtperror'] = 'SMTP चूक : $msg';
 $messages['emailformaterror'] = 'अवैध ईमेल पत्‍ता : $email';
 $messages['toomanyrecipients'] = 'खूप जास्‍त प्राप्‍तकर्ते. प्राप्‍तकर्त्‍यांची संख्‍या $max पर्यंत कमी करा';
 $messages['maxgroupmembersreached'] = 'गट सभासद संख्‍या $max पेक्षा जास्‍त झाली आहे';
-?>

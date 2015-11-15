@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -177,4 +177,13 @@ $messages['parentnotwritable'] = 'Nije moguće kreirati/premjestiti folder u oda
 $messages['messagetoobig'] = 'Dio poruke je prevelik za procesiranje.';
 $messages['attachmentvalidationerror'] = 'UPOZORENJE! Ovaj prilog je sumnjiv zbog toga što se njegov tip ne poklapa s tipom navedenim u poruci. Ako nemate povjerenja u pošiljaova, ne biste trebali da otvarate ovaj prilog u vašem browseru jer bi on mogao da sadrži zlonamjerni sadržaj.<br/><br/><em>Očekivano: $expected; pronađeno: $detected</em>';
 $messages['noscriptwarning'] = 'Upozorenje! Ovom webmail servisu je potreban Javascript! Da biste ga mogli koristiti, prvo je potrebno da omogućite Javascript u postavkama vašeg browsera.';
-?>
+$messages['messageissent'] = 'Poruka je već poslana, ali nije sačuvana. Želite li sada da je sačuvate?';
+$messages['errnotfound'] = 'Fajl nije pronađen';
+$messages['errnotfoundexplain'] = 'Traženi resurs nije pronađen!';
+$messages['errfailedrequest'] = 'Neuspjeli zahtjev';
+$messages['errauthorizationfailed'] = 'Autorizacija neuspjela';
+$messages['errunauthorizedexplain'] = 'Nije moguće verificirani vašu dozvolu pristupa za ovaj servis!';
+$messages['errrequestcheckfailed'] = 'Provjera zahtjeva nije uspjela';
+$messages['errcsrfprotectionexplain'] = "Radi vaše zaštite, pristup ovom resursu je osiguran pomoću CSRF-a.\nAko vam je prikazana ova poruku, najvjerovatnije se niste odjavili prije napuštanja web aplikacije\n\nVaša akcija je sada neophodna za nastavak rada.";
+$messages['errcontactserveradmin'] = 'Molimo vas da kontaktirate administratora servera.';
+$messages['clicktoresumesession'] = 'Kliknite ovdje da nastavite rad u vašoj prethodnoj sesiji';

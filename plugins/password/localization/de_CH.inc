@@ -30,4 +30,4 @@ $messages['passwordshort'] = 'Passwort muss mindestens $length Zeichen lang sein
 $messages['passwordweak'] = 'Passwort muss mindestens eine Zahl und ein Sonderzeichen enthalten.';
 $messages['passwordforbidden'] = 'Passwort enthält unzulässige Zeichen.';
 $messages['firstloginchange'] = 'Dies ist Ihre erste Anmeldung. Bitte ändern Sie Ihr Passwort.';
-?>
+$messages['disablednotice'] = 'Das System befindet sich derzeit im Wartungszustand und eine Passwortänderung ist im Moment nicht möglich. Der normale Betrieb sollte bald wieder hergestellt sein. Wir bitten um Entschuldigung für die Unannehmlichkeiten.';

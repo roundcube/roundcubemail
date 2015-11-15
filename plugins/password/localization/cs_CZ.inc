@@ -30,4 +30,3 @@ $messages['passwordshort'] = 'Heslo musí mít alespoň $length znaků.';
 $messages['passwordweak'] = 'Heslo musí obsahovat alespoň jedno číslo a jedno interpuknční znaménko.';
 $messages['passwordforbidden'] = 'Heslo obsahuje nepovolené znaky.';
 $messages['firstloginchange'] = 'Vaše první přihlášení, změňte si prosím heslo.';
-?>

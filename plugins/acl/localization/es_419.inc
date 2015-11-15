@@ -16,10 +16,10 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
 $labels['sharing'] = 'Compartiendo';
-$labels['myrights'] = 'Derechos de acceso';
+$labels['myrights'] = 'Permisos de acceso';
 $labels['username'] = 'Usuario:';
 $labels['advanced'] = 'Modo avanzado';
-$labels['newuser'] = 'Agregar entrada';
+$labels['newuser'] = 'Añadir entrada';
 $labels['editperms'] = 'Editar permisos';
 $labels['actions'] = 'Acciones de derecho de acceso...';
 $labels['anyone'] = 'Todos los usuarios (cualquiera)';

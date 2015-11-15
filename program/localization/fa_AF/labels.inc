@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -237,7 +237,6 @@ $labels['mailboxview'] = 'طرز نمایش صندوق پستی';
 $labels['mdnrequests'] = 'آگاهی های ارسال کننده';
 $labels['askuser'] = 'از کاربر بپرسید';
 $labels['autosend'] = 'پیام را بطور خودکار روان کنید';
-$labels['ignore'] = 'رد کردن';
 $labels['readwhendeleted'] = 'در هنگام حفظ پیام را خوانده شده نشانی کنید';
 $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
 $labels['skipdeleted'] = 'پیام های حذف شده را نمایش ندهید';

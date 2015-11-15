@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -178,4 +178,3 @@ $messages['parentnotwritable'] = 'به دلیل نداشتن حق دسترسی،
 $messages['messagetoobig'] = 'بخش پیغام برای پردازش آن خیلی بزرگ است.';
 $messages['attachmentvalidationerror'] = 'هشدار! این پیوست مشکوک است زیرا نوع آن با نوعی که در پیغام اشاره شده مطابقت ندارد. اگر شما به فرستنده اطمینان ندارید، نباید آن را در مرورگر باز نمایید زیرا ممکن است که شامل محتوای مخرب باشد.<br><br><em>مورد انتظار: $expected; یافت شده: $detected</em>';
 $messages['noscriptwarning'] = 'هشدار: این برنامه به جاوااسکریپت نیاز دارد! برای استفاده از این برنامه لطفا جاوااسکریپت را در تنظیمات مرورگر خود فعال نمایید.';
-?>

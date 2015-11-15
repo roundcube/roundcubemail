@@ -28,4 +28,3 @@ $messages['internalerror'] = 'Kundi ikki goyma nýggja loyniorðið.';
 $messages['passwordshort'] = 'Loyniorði má hvørfall verða $length tekin langt.';
 $messages['passwordweak'] = 'Loyniorði má innihalda minst eitt nummar og eitt punktum tekin.';
 $messages['passwordforbidden'] = 'Loyniorð inniheldur ólóglig tekin.';
-?>

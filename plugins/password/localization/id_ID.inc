@@ -28,4 +28,3 @@ $messages['internalerror'] = 'Tidak dapat menyimpan sandi baru.';
 $messages['passwordshort'] = 'Panjang password minimal $length karakter';
 $messages['passwordweak'] = 'Sandi harus menyertakan setidaknya satu angka dan satu tanda baca.';
 $messages['passwordforbidden'] = 'Sandi mengandung karakter terlarang.';
-?>

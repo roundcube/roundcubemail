@@ -18,4 +18,5 @@
 $labels['help'] = '도움말';
 $labels['about'] = '정보';
 $labels['license'] = '라이선스';
+$labels['csrfinfo'] = 'CSRF 및 사용자 보호에 대해 더 많은 정보 확인';
 ?>

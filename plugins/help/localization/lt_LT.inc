@@ -18,4 +18,5 @@
 $labels['help'] = 'Žinynas';
 $labels['about'] = 'Apie';
 $labels['license'] = 'Licencija';
+$labels['csrfinfo'] = 'Išsamiau apie CSRF ir apie tai, kaip jie jus apsaugo.';
 ?>

@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -96,4 +96,3 @@ $messages['smtptoerror'] = 'SMTP பிழை ($code): "$to" பெறுனர�
 $messages['smtprecipientserror'] = 'SMTP பிழை : பெறுனர் பட்டியலை பிரிக்க முடியவில்லை';
 $messages['smtperror'] = 'SMTP பிழை: $msg';
 $messages['emailformaterror'] = 'தவறான மின்னஞ்சல் முகவரி: $email';
-?>

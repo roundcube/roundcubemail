@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -173,4 +173,3 @@ $messages['parentnotwritable'] = 'Kann ikki flyta/avrita mappu til valda mappu. 
 $messages['messagetoobig'] = 'Boðini eru ov stór til at handfara.';
 $messages['attachmentvalidationerror'] = 'ÁVARING! Hendan viðheftingin er undir illgruna av tí at viðheftingar slagið ikki samsvarar við slagið ið var nevnt í boðunum. Um tú ikki stólar uppá sendaran so burdi tú ikki opna viðheftingina í tínum kaga, tí at tað kann innihalda illviljað tilfar.<br/><br/><em>Væntað: $expected; Fann $detected</em>';
 $messages['noscriptwarning'] = 'Ávaring: Hendan webmail tænastan krevur Javascript! Um tú vilt nýta hana, so vinarliga tendra Javascript í tínum kaga.';
-?>

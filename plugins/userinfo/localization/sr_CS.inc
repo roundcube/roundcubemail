@@ -17,6 +17,6 @@
 */
 $labels['userinfo'] = 'Подаци о кориснику';
 $labels['created'] = 'Направљено';
-$labels['lastlogin'] = 'Последњи Логин';
+$labels['lastlogin'] = 'Последња пријава';
 $labels['defaultidentity'] = 'подразумевани идентитет';
 ?>

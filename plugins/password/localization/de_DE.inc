@@ -16,18 +16,18 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 $labels['changepasswd']  = 'Passwort ändern';
-$labels['curpasswd']  = 'Aktuelles Kennwort:';
-$labels['newpasswd']  = 'Neues Kennwort:';
-$labels['confpasswd']  = 'Neues Kennwort bestätigen:';
-$messages['nopassword'] = 'Bitte geben Sie ein neues Kennwort ein.';
-$messages['nocurpassword'] = 'Bitte geben Sie ihr aktuelles Kennwort ein.';
-$messages['passwordincorrect'] = 'Das aktuelle Kennwort ist falsch.';
-$messages['passwordinconsistency'] = 'Das neue Passwort und dessen Wiederholung stimmen nicht überein';
-$messages['crypterror'] = 'Neues Passwort nicht gespeichert: Verschlüsselungsfunktion fehlt';
-$messages['connecterror'] = 'Neues Passwort nicht gespeichert: Verbindungsfehler';
-$messages['internalerror'] = 'Neues Passwort nicht gespeichert';
+$labels['curpasswd']  = 'Aktuelles Passwort:';
+$labels['newpasswd']  = 'Neues Passwort:';
+$labels['confpasswd']  = 'Neues Passwort bestätigen:';
+$messages['nopassword'] = 'Bitte geben Sie ein neues Passwort ein.';
+$messages['nocurpassword'] = 'Bitte geben Sie Ihr aktuelles Passwort ein.';
+$messages['passwordincorrect'] = 'Aktuelles Passwort ist falsch.';
+$messages['passwordinconsistency'] = 'Passwörter stimmen nicht überein, bitte versuchen Sie es erneut.';
+$messages['crypterror'] = 'Neues Passwort konnte nicht gespeichert werden. Verschlüsselungsfunktion fehlt.';
+$messages['connecterror'] = 'Neues Passwort konnte nicht gespeichert werden. Verbindungsfehler.';
+$messages['internalerror'] = 'Neues Passwort konnte nicht gespeichert werden.';
 $messages['passwordshort'] = 'Passwort muss mindestens $length Zeichen lang sein.';
 $messages['passwordweak'] = 'Passwort muss mindestens eine Zahl und ein Sonderzeichen enthalten.';
 $messages['passwordforbidden'] = 'Passwort enthält unzulässige Zeichen.';
-$messages['firstloginchange'] = 'Dies ist Ihr erster Login. Bitte ändern Sie Ihr Passwort.';
-?>
+$messages['firstloginchange'] = 'Dies ist Ihre erste Anmeldung. Bitte ändern Sie Ihr Passwort.';
+$messages['disablednotice'] = 'Das System befindet sich derzeit im Wartungszustand und eine Passwortänderung ist im Moment nicht möglich. Alles sollte bald wieder normal sein. Wir bitten um Entschuldigung für die Unannehmlichkeiten.';

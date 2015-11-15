@@ -28,4 +28,3 @@ $messages['internalerror'] = '无法保存新密码。';
 $messages['passwordshort'] = '密码至少为 $length 位。';
 $messages['passwordweak'] = '密码必须至少包含一个数字和一个标点符号。';
 $messages['passwordforbidden'] = '密码包含禁止使用的字符。';
-?>

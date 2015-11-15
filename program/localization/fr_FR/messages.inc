@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,6 +22,7 @@ $messages['sessionerror'] = 'Votre session est invalide ou a expiré.';
 $messages['storageerror'] = 'Erreur de connexion au serveur de stockage.';
 $messages['servererror'] = 'Erreur de serveur !';
 $messages['servererrormsg'] = 'Erreur de serveur : $msg';
+$messages['accountlocked'] = 'Trop de tentatives de connexion échouées. Essayez à nouveau plus tard.';
 $messages['connerror'] = 'Erreur de connexion (n\'a pu atteindre le serveur) !';
 $messages['dberror'] = 'Erreur de base de données!';
 $messages['windowopenerror'] = 'La fenêtre contextuelle a été bloquée !';
@@ -36,9 +37,10 @@ $messages['nomessagesfound'] = 'Aucun courriel trouvé dans cette boîte de cour
 $messages['loggedout'] = 'Vous avez correctement terminé cette session. Au revoir !';
 $messages['mailboxempty'] = 'La boîte de courriel est vide';
 $messages['nomessages'] = 'Aucun courriel';
-$messages['refreshing'] = 'Rafraîchissement...';
+$messages['refreshing'] = 'Actualisation...';
 $messages['loading'] = 'Chargement...';
 $messages['uploading'] = 'Téléversement du fichier...';
+$messages['attaching'] = 'Ajout du fichier...';
 $messages['uploadingmany'] = 'Téléversement des fichiers...';
 $messages['loadingdata'] = 'Chargement des données...';
 $messages['checkingmail'] = 'Vérification des nouveaux courriels...';
@@ -54,6 +56,14 @@ $messages['contactexists'] = 'Un contact avec la même adresse courriel existe d
 $messages['contactnameexists'] = 'Un contact avec le même nom existe déjà.';
 $messages['blockedimages'] = 'Pour protéger votre confidentialité, les images distantes sont bloquées dans ce courriel.';
 $messages['encryptedmessage'] = 'Ce courriel est chiffré et ne peut pas être affiché. Désolé !';
+$messages['externalmessagedecryption'] = 'Ce message est chiffré et peut être déchiffré grâce au module complémentaire de votre navigateur.';
+$messages['nopubkeyfor'] = 'Aucune clef publique valide trouvée pour $email';
+$messages['nopubkeyforsender'] = 'Aucune clef publique valide trouvée pour votre identité d\'envoyeur. Voulez-vous chiffrer le message uniquement pour les destinataires ?';
+$messages['encryptnoattachments'] = 'Les pièces jointes déjà téléversées ne peuvent pas être chiffrées.  Veuillez les ajouter de nouveau dans l\'éditeur de chiffrement.';
+$messages['searchpubkeyservers'] = 'Voulez-vous chercher les clefs manquantes sur les serveurs de clefs publiques ?';
+$messages['encryptpubkeysfound'] = 'Les clefs publiques suivantes ont été trouvées :';
+$messages['keyservererror'] = 'Échec d\'obtention de la clef à partir du serveur de clefs';
+$messages['keyimportsuccess'] = 'La clef publique $key a été importée dans le trousseau avec succès';
 $messages['nocontactsfound'] = 'Aucun contact n\'a été trouvé.';
 $messages['contactnotfound'] = 'Le contact demandé n\'a pas été trouvé.';
 $messages['contactsearchonly'] = 'Saisir des termes d\'interrogation pour trouver des contacts.';
@@ -104,6 +114,7 @@ $messages['folderexpunged'] = 'Le dossier a été compacté avec succès.';
 $messages['deletedsuccessfully'] = 'Supprimé avec succès.';
 $messages['converting'] = 'Suppression de la mise en forme...';
 $messages['messageopenerror'] = 'Impossible de charger le courriel depuis le serveur.';
+$messages['filelinkerror'] = 'Échec lors de l\'ajout du fichier.';
 $messages['fileuploaderror'] = 'Échec lors du téléversement du fichier';
 $messages['filesizeerror'] = 'Le fichier téléversé dépasse la taille maximale de $size.';
 $messages['copysuccess'] = '$nr contacts copiés avec succès.';
@@ -120,8 +131,8 @@ $messages['deletingmessage'] = 'Suppression du/des courriel(s)...';
 $messages['markingmessage'] = 'Marquage du/des courriel(s)...';
 $messages['addingmember'] = 'Ajout des contacts au groupe...';
 $messages['removingmember'] = 'Suppression des contacts du groupe...';
-$messages['receiptsent'] = 'L\'accusé de lecture a été avec succès.';
-$messages['errorsendingreceipt'] = 'Impossible d\'envoyer l\'accusé de lecture.';
+$messages['receiptsent'] = 'Un avis de lecture a été envoyé avec succès.';
+$messages['errorsendingreceipt'] = 'Impossible d\'envoyer l\'avis.';
 $messages['deleteidentityconfirm'] = 'Voulez-vous vraiment supprimer cette identité ?';
 $messages['nodeletelastidentity'] = 'Vous ne pouvez pas effacer cette identité, c\'est votre dernière.';
 $messages['forbiddencharacter'] = 'Le nom du dossier contient un caractère interdit.';
@@ -169,12 +180,25 @@ $messages['autocompletechars'] = 'Saisir au moins $min caractères pour le rempl
 $messages['autocompletemore'] = 'Plusieurs entrées concordantes trouvées. Veuillez taper plus de caractères.';
 $messages['namecannotbeempty'] = 'Le nom ne peut pas être vide.';
 $messages['nametoolong'] = 'Le nom est trop long.';
+$messages['namedotforbidden'] = 'Un nom de dossier ne peut pas commencer par un point.';
 $messages['folderupdated'] = 'Dossier mis à jour avec succès.';
 $messages['foldercreated'] = 'Dossier créé avec succès.';
 $messages['invalidimageformat'] = 'N\'est pas un format d\'image valide.';
 $messages['mispellingsfound'] = 'Fautes d\'orthographe détectées dans le courriel.';
 $messages['parentnotwritable'] = 'Impossible de créer/déplacer le dossier dans le dossier parent choisi. Aucun droit d\'accès.';
-$messages['messagetoobig'] = 'La partie message est trop grosse pour être traité.';
+$messages['messagetoobig'] = 'La partie message est trop grosse pour être traitée.';
 $messages['attachmentvalidationerror'] = 'AVERTISSEMENT ! Cette pièce jointe est suspecte car son type ne correspond pas au type déclaré dans le courriel. Si vous ne faites pas confiance à l\'expéditeur, vous ne devriez pas l\'ouvrir dans le navigateur car son contenu peut être malveillant.<br/><br/><em>Attendu : $expected ; trouvé : $detected</em>';
 $messages['noscriptwarning'] = 'Avertissement : Ce service de courriel Web exige Javascript ! Afin de l\'utiliser, veuillez activer Javascript dans les paramètres de votre navigateur.';
-?>
+$messages['messageissent'] = 'Le courriel a déjà été envoyé, mais n\'a pas encore été enregistré. Voulez-vous le faire maintenant ?';
+$messages['errnotfound'] = 'Ficher introuvable';
+$messages['errnotfoundexplain'] = 'La ressource demandée n\'a pas été trouvée !';
+$messages['errfailedrequest'] = 'Échec de la demande';
+$messages['errauthorizationfailed'] = 'Échec d’autorisation';
+$messages['errunauthorizedexplain'] = 'Impossible de vérifier que vous êtes autorisé à accéder à ce service !';
+$messages['errrequestcheckfailed'] = 'Échec de vérification de la demande';
+$messages['errcsrfprotectionexplain'] = "Pour votre protection, l'accès à cette ressource est protégé contre les attaques CSFR.\nSi vous voyez ceci, vous ne vous êtes probablement pas déconnecté avant de quitter l'application Web.\n\nUne interaction humaine est maintenant exigé afin de continuer.";
+$messages['errcontactserveradmin'] = 'Veuillez contacter l\'administrateur de votre serveur.';
+$messages['clicktoresumesession'] = 'Cliquez ici afin de reprendre votre session précédente.';
+$messages['errcomposesession'] = 'Erreur de session de rédaction';
+$messages['errcomposesessionexplain'] = 'La session de rédaction demandée est introuvable.';
+$messages['clicktocompose'] = 'Cliquer ici pour rédiger un nouveau message';

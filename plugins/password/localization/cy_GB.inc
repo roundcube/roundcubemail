@@ -30,4 +30,4 @@ $messages['passwordshort'] = 'Rhaid i\'r cyfrinair fod o leia $length llythyren 
 $messages['passwordweak'] = 'Rhaid i\'r cyfrinair gynnwys o leia un rhif a un cymeriad atalnodi.';
 $messages['passwordforbidden'] = 'Mae\'r cyfrinair yn cynnwys llythrennau wedi gwahardd.';
 $messages['firstloginchange'] = 'Dyma eich mewngofnodiad cynta. Newidiwch eich cyfrinair.';
-?>
+$messages['disablednotice'] = 'Mae gwaith cynnal a chadw ar y system ar hyn o bryd a nid yw\'n bosib newid y cyfrinair ar hyn o bryd. Fe ddylai fod popeth nol i\'r arfer yn fuan. Rydym yn ymddiheuro am yr anghyfleustra.';

@@ -30,4 +30,3 @@ $messages['passwordshort'] = 'Parool peab olema vähemalt $length märki pikk.';
 $messages['passwordweak'] = 'Parool peab sisaldama vähemalt üht numbrit ja märki.';
 $messages['passwordforbidden'] = 'Parool sisaldab keelatud märki.';
 $messages['firstloginchange'] = 'See on sinu esimene sisselogimine, palun muuda oma parooli.';
-?>

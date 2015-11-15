@@ -29,4 +29,3 @@ $messages['passwordshort'] = 'La contraseña tien de tener polo menos $length ca
 $messages['passwordweak'] = 'La contraseña tien de tener polo menos un númberu y un signu de puntuación.';
 $messages['passwordforbidden'] = 'La contraseña contien caráuteres prohibíos.';
 $messages['firstloginchange'] = 'Esti ye\'l to primer aniciu sesión. Por favor, camuda la to contraseña.';
-?>

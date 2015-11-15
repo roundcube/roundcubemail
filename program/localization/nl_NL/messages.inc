@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -39,6 +39,7 @@ $messages['nomessages'] = 'Geen berichten';
 $messages['refreshing'] = 'Vernieuwen...';
 $messages['loading'] = 'Laden...';
 $messages['uploading'] = 'Bestand wordt geüpload...';
+$messages['attaching'] = 'Bestand aan het toevoegen...';
 $messages['uploadingmany'] = 'Bestanden worden geüpload...';
 $messages['loadingdata'] = 'Gegevens worden geladen...';
 $messages['checkingmail'] = 'Controleren op nieuwe berichten...';
@@ -54,6 +55,14 @@ $messages['contactexists'] = 'Er bestaat al een contactpersoon met dit e-mailadr
 $messages['contactnameexists'] = 'Er bestaat al een contactpersoon met deze naam.';
 $messages['blockedimages'] = 'Om uw privacy te beschermen zijn externe afbeeldingen geblokkeerd in dit bericht.';
 $messages['encryptedmessage'] = 'Dit is een versleuteld bericht en kan niet weergegeven worden. Excuses!';
+$messages['externalmessagedecryption'] = 'Dit is een versleuteld bericht en kan ontsleuteld worden met uw browserextensie.';
+$messages['nopubkeyfor'] = 'Geen geldige publieke sleutel gevonden voor $email';
+$messages['nopubkeyforsender'] = 'Geen geldige publieke sleutel gevonden voor uw afzenderidentiteit. Wilt u het bericht alleen voor de ontvangers versleutelen?';
+$messages['encryptnoattachments'] = 'Al geüploade bijlagen kunnen niet worden versleuteld. Voeg ze alstublieft opnieuw toe aan de versleutelingsbewerker.';
+$messages['searchpubkeyservers'] = 'Wilt u publieke sleutelservers doorzoeken voor de missende sleutels?';
+$messages['encryptpubkeysfound'] = 'The volgende publieke sleutels zijn gevonden:';
+$messages['keyservererror'] = 'Sleutel van keyserver ophalen is mislukt';
+$messages['keyimportsuccess'] = 'Publieke sleutel $key succesvol geïmporteerd in uw sleutelring';
 $messages['nocontactsfound'] = 'Geen contactpersonen gevonden.';
 $messages['contactnotfound'] = 'Opgevraagde contactpersoon niet gevonden.';
 $messages['contactsearchonly'] = 'Voer enkele zoektermen in om contactpersonen te zoeken';
@@ -104,6 +113,7 @@ $messages['folderexpunged'] = 'Map succesvol opgeschoond.';
 $messages['deletedsuccessfully'] = 'Met succes verwijderd.';
 $messages['converting'] = 'Opmaak van bericht verwijderen...';
 $messages['messageopenerror'] = 'Kan het bericht niet van de server laden.';
+$messages['filelinkerror'] = 'Bestand toevoegen mislukt.';
 $messages['fileuploaderror'] = 'Bestand uploaden mislukt.';
 $messages['filesizeerror'] = 'Het bestand overschrijdt de maximale grootte van $size.';
 $messages['copysuccess'] = '$nr contactpersonen succesvol gekopieerd.';
@@ -169,6 +179,7 @@ $messages['autocompletechars'] = 'Voer tenminste $min karakters in voor automati
 $messages['autocompletemore'] = 'Meerdere resultaten gevonden. Verfijn uw zoekopdracht.';
 $messages['namecannotbeempty'] = 'Naam kan niet leeg zijn.';
 $messages['nametoolong'] = 'Naam is te lang.';
+$messages['namedotforbidden'] = 'Mapnaam kan niet met een punt beginnen.';
 $messages['folderupdated'] = 'Map succesvol bijgewerkt.';
 $messages['foldercreated'] = 'Map succesvol aangemaakt.';
 $messages['invalidimageformat'] = 'Geen geldig afbeeldingsformaat.';
@@ -177,4 +188,16 @@ $messages['parentnotwritable'] = 'Niet in staat om map aan te maken of verplaats
 $messages['messagetoobig'] = 'Het bericht is te groot om te verwerken.';
 $messages['attachmentvalidationerror'] = 'WAARSCHUWING! Deze bijlage is verdacht omdat het bestandstype niet overeen komt met het bestandstype dat gespecificeerd is in het bericht. Open deze bijlage niet in uw browser als u de afzender niet vertrouwt, aangezien deze bijlage kwaadaardige inhoud kan bevatten.<br /><br /><em>Verwacht: $expected; gevonden: $detected</em>';
 $messages['noscriptwarning'] = 'Waarschuwing: deze webmailapplicatie vereist Javascript! U dient Javascript in te schakelen in uw browserinstellingen wanneer u gebruik wilt maken van deze applicatie.';
-?>
+$messages['messageissent'] = 'Het bericht was al verzonden, maar nog niet opgeslagen. Wilt u het nu opslaan?';
+$messages['errnotfound'] = 'Bestand niet gevonden';
+$messages['errnotfoundexplain'] = 'De opgevraagde bron werd niet gevonden!';
+$messages['errfailedrequest'] = 'Mislukt verzoek';
+$messages['errauthorizationfailed'] = 'Autoriseren mislukt';
+$messages['errunauthorizedexplain'] = 'Kon niet verifiëren dat u geautoriseerd bent voor toegang tot deze dienst!';
+$messages['errrequestcheckfailed'] = 'Controle verzoek mislukt';
+$messages['errcsrfprotectionexplain'] = "Om u te beschermen, is toegang tot deze bron beveiligd tegen CSRF.\nWanneer u dit ziet, heeft u waarschijnlijk niet uitgelogd voordat u de webapplicatie verliet.\n\nMenselijke interactie is nu vereist om door te gaan.";
+$messages['errcontactserveradmin'] = 'Neem alstublieft contact op met uw systeembeheerder.';
+$messages['clicktoresumesession'] = 'Klik hier om uw vorige sessie te hervatten';
+$messages['errcomposesession'] = 'Sessie opstellen fout';
+$messages['errcomposesessionexplain'] = 'Opgevraagde opstellingsessie niet gevonden.';
+$messages['clicktocompose'] = 'Klik hier om een nieuw bericht op te stellen';

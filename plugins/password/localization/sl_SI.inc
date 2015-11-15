@@ -28,4 +28,3 @@ $messages['internalerror'] = 'Novega gesla ni bilo mogoče shraniti.';
 $messages['passwordshort'] = 'Geslo mora vsebovati vsaj $length znakov';
 $messages['passwordweak'] = 'Geslo mora vključevati vsaj eno številko in ločilo.';
 $messages['passwordforbidden'] = 'Geslo vsebuje neveljavne znake.';
-?>

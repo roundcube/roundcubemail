@@ -28,4 +28,3 @@ $messages['internalerror'] = 'Nova pasvorto ne konserveblas.';
 $messages['passwordshort'] = 'Pasvorto longu almenaŭ $length signojn.';
 $messages['passwordweak'] = 'La pasvorto enhavu almenaŭ unu ciferon kaj unu interpunktan signon.';
 $messages['passwordforbidden'] = 'La pasvorto enhavas malpermesitajn signojn.';
-?>
