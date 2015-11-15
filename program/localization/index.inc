@@ -101,6 +101,7 @@ $rcube_languages = array(
   'ti'    => 'Tigrinya (ትግርኛ)',
   'th_TH' => 'Thai (ไทย)',
   'tr_TR' => 'Turkish (Türkçe)',
+  'tzl'   => 'Talossan',
   'uk_UA' => 'Ukrainian (Українська)',
   'ur_PK' => 'Urdu (اُردو)',
   'vi_VN' => 'Vietnamese (Tiếng Việt)',
