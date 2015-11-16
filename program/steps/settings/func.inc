@@ -500,11 +500,11 @@ function rcmail_user_prefs($current = null)
 
                 $field_id = 'rcmfd_mail_pagesize';
                 $input    = new html_inputfield(array('name' => '_mail_pagesize', 'id' => $field_id, 'size' => 5));
-                $size     = intval($config['mail_pagesize'] ? $config['mail_pagesize'] : $config['pagesize']);
+                $size     = intval($config['mail_pagesize'] ?: $config['pagesize']);
 
                 $blocks['main']['options']['pagesize'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('pagesize'))),
-                    'content' => $input->show($size ? $size : 50),
+                    'content' => $input->show($size ?: 50),
                 );
             }
 
@@ -1043,11 +1043,11 @@ function rcmail_user_prefs($current = null)
 
                 $field_id = 'rcmfd_addressbook_pagesize';
                 $input    = new html_inputfield(array('name' => '_addressbook_pagesize', 'id' => $field_id, 'size' => 5));
-                $size     = intval($config['addressbook_pagesize'] ? $config['addressbook_pagesize'] : $config['pagesize']);
+                $size     = intval($config['addressbook_pagesize'] ?: $config['pagesize']);
 
                 $blocks['main']['options']['pagesize'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('pagesize'))),
-                    'content' => $input->show($size ? $size : 50),
+                    'content' => $input->show($size ?: 50),
                 );
             }
 
@@ -1404,8 +1404,8 @@ function rcmail_settings_tabs($attrib)
         $button = $OUTPUT->button($action);
         $attr   = $attrib;
 
-        $cmd = $action['action'] ? $action['action'] : $action['command'];
-        $id  = $action['id'] ? $action['id'] : $cmd;
+        $cmd = $action['action'] ?: $action['command'];
+        $id  = $action['id'] ?: $cmd;
 
         if (!empty($id)) {
             $attr['id'] = preg_replace('/[^a-z0-9]/i', '', $attrib['idprefix'] . $id);

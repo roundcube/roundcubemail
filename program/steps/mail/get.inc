@@ -232,7 +232,7 @@ else if (strlen($part_id)) {
         list($ctype_primary, $ctype_secondary) = explode('/', $mimetype);
 
         if (!$plugin['download'] && $ctype_primary == 'text') {
-            header("Content-Type: text/$ctype_secondary; charset=" . ($part->charset ? $part->charset : RCUBE_CHARSET));
+            header("Content-Type: text/$ctype_secondary; charset=" . ($part->charset ?: RCUBE_CHARSET));
         }
         else {
             header("Content-Type: $mimetype");

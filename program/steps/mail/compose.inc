@@ -1826,8 +1826,8 @@ function get_form_tags($attrib)
         $form_start .= $hiddenfields->show();
     }
 
-    $form_end = ($MESSAGE_FORM && !strlen($attrib['form'])) ? '</form>' : '';
-    $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
+    $form_end  = ($MESSAGE_FORM && !strlen($attrib['form'])) ? '</form>' : '';
+    $form_name = $attrib['form'] ?: 'form';
 
     if (!$MESSAGE_FORM)
         $RCMAIL->output->add_gui_object('messageform', $form_name);
@@ -1864,7 +1864,7 @@ function rcmail_addressbook_list($attrib = array())
             rcube_utils::html_identifier($id,true),
             $class_name,
             $source['id'],
-            $js_id, (!empty($source['name']) ? $source['name'] : $id));
+            $js_id, ($source['name'] ?: $id));
     }
 
     $OUTPUT->add_gui_object('addressbookslist', $attrib['id']);

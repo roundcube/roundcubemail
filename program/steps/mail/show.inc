@@ -346,7 +346,7 @@ function rcmail_message_contactphoto($attrib)
     global $RCMAIL, $MESSAGE;
 
     $placeholder = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : null;
-    $placeholder = $RCMAIL->output->asset_url($placeholder ? $placeholder : 'program/resources/blank.gif');
+    $placeholder = $RCMAIL->output->asset_url($placeholder ?: 'program/resources/blank.gif');
 
     if ($MESSAGE->sender) {
         $photo_img = $RCMAIL->url(array(

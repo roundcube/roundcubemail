@@ -22,7 +22,7 @@
 if (!empty($_GET['_page']))
     $page = intval($_GET['_page']);
 else
-    $page = !empty($_SESSION['page']) ? $_SESSION['page'] : 1;
+    $page = $_SESSION['page'] ?: 1;
 
 $_SESSION['page'] = $page;
 

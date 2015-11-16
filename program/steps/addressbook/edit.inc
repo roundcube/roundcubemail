@@ -104,7 +104,7 @@ function rcmail_contact_edithead($attrib)
 
     // check if we have a valid result
     $record = rcmail_get_edit_record();
-    $i_size = !empty($attrib['size']) ? $attrib['size'] : 20;
+    $i_size = $attrib['size'] ?: 20;
 
     $form = array(
         'head' => array(
@@ -143,9 +143,9 @@ function rcmail_contact_editform($attrib)
     if (preg_match_all('/\{([a-z0-9]+)\}([^{]*)/i', $RCMAIL->config->get('address_template', ''), $templ, PREG_SET_ORDER))
       $RCMAIL->output->set_env('address_template', $templ);
 
-    $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
-    $t_rows = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 10;
-    $t_cols = !empty($attrib['textareacols']) ? $attrib['textareacols'] : 40;
+    $i_size = $attrib['size'] ?: 40;
+    $t_rows = $attrib['textarearows'] ?: 10;
+    $t_cols = $attrib['textareacols'] ?: 40;
 
     $form = array(
         'contact' => array(
@@ -270,7 +270,7 @@ function get_form_tags($attrib)
             'noclose' => true) + $attrib, $hiddenfields->show());
         $form_end = !strlen($attrib['form']) ? '</form>' : '';
 
-        $EDIT_FORM = !empty($attrib['form']) ? $attrib['form'] : 'form';
+        $EDIT_FORM = $attrib['form'] ?: 'form';
         $RCMAIL->output->add_gui_object('editform', $EDIT_FORM);
     }
 

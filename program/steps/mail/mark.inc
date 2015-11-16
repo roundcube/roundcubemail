@@ -40,7 +40,7 @@ $a_flags_map  = array(
 if (($_uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))
     && ($flag = rcube_utils::get_input_value('_flag', rcube_utils::INPUT_POST))
 ) {
-    $flag = $a_flags_map[$flag] ? $a_flags_map[$flag] : strtoupper($flag);
+    $flag = $a_flags_map[$flag] ?: strtoupper($flag);
 
     if ($flag == 'DELETED' && $skip_deleted && $_POST['_from'] != 'show') {
         // count messages before changing anything

@@ -24,13 +24,13 @@ ob_end_clean();
 // similar code as in program/steps/mail/get.inc
 if ($uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET)) {
     $headers = $RCMAIL->storage->get_message_headers($uid);
-    $charset = $headers->charset ? $headers->charset : $RCMAIL->config->get('default_charset');
+    $charset = $headers->charset ?: $RCMAIL->config->get('default_charset');
 
     header("Content-Type: text/plain; charset={$charset}");
 
     if (!empty($_GET['_save'])) {
         $subject  = rcube_mime::decode_header($headers->subject, $headers->charset);
-        $filename = ($subject ? $subject : $RCMAIL->config->get('product_name', 'email')) . '.eml';
+        $filename = ($subject ?: $RCMAIL->config->get('product_name', 'email')) . '.eml';
         $browser  = $RCMAIL->output->browser;
 
         if ($browser->ie)

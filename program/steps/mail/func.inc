@@ -168,7 +168,7 @@ function rcmail_init_env()
     // race condition and unintentional page overwrite in session
     if ($RCMAIL->action == 'list' || $RCMAIL->action == 'getunread') {
         if (!($page = intval($_GET['_page']))) {
-            $page = $_SESSION['page'] ? $_SESSION['page'] : 1;
+            $page = $_SESSION['page'] ?: 1;
         }
 
         $_SESSION['page'] = $page;
@@ -179,7 +179,7 @@ function rcmail_init_env()
 
     // set default sort col/order to session
     if (!isset($_SESSION['sort_col'])) {
-        $_SESSION['sort_col'] = $message_sort_col ? $message_sort_col : '';
+        $_SESSION['sort_col'] = $message_sort_col ?: '';
     }
     if (!isset($_SESSION['sort_order'])) {
         $_SESSION['sort_order'] = strtoupper($message_sort_order) == 'ASC' ? 'ASC' : 'DESC';
@@ -1634,7 +1634,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
                     $content = rcube::Q($name ? sprintf('%s <%s>', $name, $mailto) : $mailto);
                 }
                 else {
-                    $content = rcube::Q($name ? $name : $mailto);
+                    $content = rcube::Q($name ?: $mailto);
                     $attrs['title'] = $mailto;
                 }
 
@@ -1642,7 +1642,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
             }
             else {
                 $address = html::span(array('title' => $mailto, 'class' => "rcmContactAddress"),
-                    rcube::Q($name ? $name : $mailto));
+                    rcube::Q($name ?: $mailto));
             }
 
             if ($addicon && $_SESSION['writeable_abook']) {

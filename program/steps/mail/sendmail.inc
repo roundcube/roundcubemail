@@ -234,7 +234,7 @@ $data = $RCMAIL->plugins->exec_hook('message_outgoing_headers', array('headers' 
 
 // sending aborted by plugin
 if ($data['abort'] && !$savedraft) {
-    $OUTPUT->show_message($data['message'] ? $data['message'] : 'sendingfailed');
+    $OUTPUT->show_message($data['message'] ?: 'sendingfailed');
     $OUTPUT->send('iframe');
 }
 else {
@@ -455,7 +455,7 @@ if (is_array($COMPOSE['attachments'])) {
         }
         else {
             $ctype   = str_replace('image/pjpeg', 'image/jpeg', $attachment['mimetype']); // #1484914
-            $file    = $attachment['data'] ? $attachment['data'] : $attachment['path'];
+            $file    = $attachment['data'] ?: $attachment['path'];
             $folding = (int) $RCMAIL->config->get('mime_param_folding');
 
             $MAIL_MIME->addAttachment($file,
@@ -673,7 +673,7 @@ if ($savedraft) {
             array('msgid' => $message_id, 'uid' => $saved, 'folder' => $store_target));
 
         // display success
-        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'messagesaved', 'confirmation');
+        $OUTPUT->show_message($plugin['message'] ?: 'messagesaved', 'confirmation');
 
         // update "_draft_saveid" and the "cmp_hash" to prevent "Unsaved changes" warning
         $COMPOSE['param']['draft_uid'] = $plugin['uid'];

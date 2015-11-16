@@ -132,7 +132,7 @@ if (!$error && !strlen($old_imap)) {
     }
     else {
         // show error message
-        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
+        $OUTPUT->show_message($plugin['message'] ?: 'errorsaving', 'error', null, false);
     }
 }
 // update a mailbox
@@ -195,7 +195,7 @@ else if (!$error) {
     }
     else {
         // show error message
-        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
+        $OUTPUT->show_message($plugin['message'] ?: 'errorsaving', 'error', null, false);
     }
 }
 

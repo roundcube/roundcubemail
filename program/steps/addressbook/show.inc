@@ -94,7 +94,7 @@ function rcmail_contact_details($attrib)
         return false;
     }
 
-    $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
+    $i_size = $attrib['size'] ?: 40;
 
     $form = array(
         'contact' => array(

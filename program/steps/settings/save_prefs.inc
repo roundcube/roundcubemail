@@ -215,7 +215,7 @@ else
 if ($saved)
     $OUTPUT->show_message('successfullysaved', 'confirmation');
 else
-    $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error');
+    $OUTPUT->show_message($plugin['message'] ?: 'errorsaving', 'error');
 
 // display the form again
 $RCMAIL->overwrite_action('edit-prefs');

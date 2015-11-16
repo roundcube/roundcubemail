@@ -306,7 +306,7 @@ function rcmail_get_form_part($form, $attrib = array())
         $table = new html_table(array('cols' => 2));
         foreach ($form['content'] as $col => $colprop) {
             $colprop['id'] = '_'.$col;
-            $label = !empty($colprop['label']) ? $colprop['label'] : $RCMAIL->gettext($col);
+            $label = $colprop['label'] ?: $RCMAIL->gettext($col);
 
             $table->add('title', html::label($colprop['id'], rcube::Q($label)));
             $table->add(null, $colprop['value']);

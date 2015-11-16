@@ -143,7 +143,7 @@ else {
 
 // update message count display
 $OUTPUT->set_env('pagecount', ceil($result->count / $PAGE_SIZE));
-$OUTPUT->command('set_rowcount', $rowcount ? $rowcount : rcmail_get_rowcount_text($result));
+$OUTPUT->command('set_rowcount', $rowcount ?: rcmail_get_rowcount_text($result));
 
 // add new rows from next page (if any)
 if (!empty($records)) {

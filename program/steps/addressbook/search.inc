@@ -49,7 +49,7 @@ if ($RCMAIL->action == 'search-create') {
         $OUTPUT->command('insert_saved_search', rcube::Q($name), rcube::Q($result));
     }
     else
-        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'savedsearchcreateerror', 'error');
+        $OUTPUT->show_message($plugin['message'] ?: 'savedsearchcreateerror', 'error');
 
     $OUTPUT->send();
 }
@@ -72,7 +72,7 @@ if ($RCMAIL->action == 'search-delete') {
         $OUTPUT->set_env('pagecount', 0);
     }
     else
-        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'savedsearchdeleteerror', 'error');
+        $OUTPUT->show_message($plugin['message'] ?: 'savedsearchdeleteerror', 'error');
 
     $OUTPUT->send();
 }
@@ -253,7 +253,7 @@ function rcmail_contact_search_form($attrib)
 {
     global $RCMAIL, $CONTACT_COLTYPES;
 
-    $i_size = !empty($attrib['size']) ? $attrib['size'] : 30;
+    $i_size = $attrib['size'] ?: 30;
 
     $form = array(
         'main' => array(
@@ -298,7 +298,7 @@ function rcmail_contact_search_form($attrib)
         {
             $ftype    = $colprop['type'] == 'select' ? 'select' : 'text';
             $label    = isset($colprop['label']) ? $colprop['label'] : $RCMAIL->gettext($col);
-            $category = $colprop['category'] ? $colprop['category'] : 'other';
+            $category = $colprop['category'] ?: 'other';
 
             // load jquery UI datepicker for date fields 
             if ($colprop['type'] == 'date')

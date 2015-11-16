@@ -136,7 +136,7 @@ if (is_array($_FILES['_file'])) {
                 }
                 if ($existing && $existing->count) {
                     $IMPORT_STATS->skipped++;
-                    $IMPORT_STATS->skipped_names[] = $vcard->displayname ? $vcard->displayname : $email;
+                    $IMPORT_STATS->skipped_names[] = $vcard->displayname ?: $email;
                     continue;
                 }
             }
@@ -164,7 +164,7 @@ if (is_array($_FILES['_file'])) {
                 }
 
                 $IMPORT_STATS->inserted++;
-                $IMPORT_STATS->names[] = $a_record['name'] ? $a_record['name'] : $email;
+                $IMPORT_STATS->names[] = $a_record['name'] ?: $email;
             }
             else {
                 $IMPORT_STATS->errors++;
