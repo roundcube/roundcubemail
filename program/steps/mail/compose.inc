@@ -1532,7 +1532,7 @@ function rcmail_compose_subject($attrib)
 
 function rcmail_compose_attachment_list($attrib)
 {
-    global $RCMAIL, $OUTPUT, $COMPOSE, $MESSAGE;
+    global $RCMAIL, $OUTPUT, $COMPOSE;
 
     // add ID if not given
     if (!$attrib['id'])
@@ -1563,8 +1563,9 @@ function rcmail_compose_attachment_list($attrib)
 
             if ($a_prop['pid']) {
                 $content = html::a(array(
-                        'href'  => $MESSAGE->get_part_url($a_prop['pid'], false) . '&_download=1',
-                        'style' => 'padding: 0;',
+                        'href'    => '#',
+                        'onclick' => sprintf("return %s.command('download-attachment', '%s', this)", rcmail_output::JS_OBJECT_NAME, $a_prop['pid']),
+                        'style'   => 'padding: 0;',
                     ),
                     $content
                 );
