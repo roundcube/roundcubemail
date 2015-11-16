@@ -2,7 +2,7 @@
 PWD=`dirname "$0"`
 JS_DIR="$PWD/../program/js"
 JAR_DIR='/tmp'
-LANG_IN='ECMASCRIPT3'
+LANG_IN='ECMASCRIPT5'
 # latest version requires Java 7, we'll use an older one
 #CLOSURE_COMPILER_URL='http://dl.google.com/closure-compiler/compiler-latest.zip'
 CLOSURE_COMPILER_URL='http://dl.google.com/closure-compiler/compiler-20131014.zip'
