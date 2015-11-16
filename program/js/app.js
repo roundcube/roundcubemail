@@ -3393,12 +3393,12 @@ function rcube_webmail()
     mailvelope.getKeyring(keyring).then(function(kr) {
       ref.mailvelope_keyring = kr;
       ref.mailvelope_init(action, kr);
-    }).catch(function(err) {
+    }, function(err) {
       // attempt to create a new keyring for this app/user
       mailvelope.createKeyring(keyring).then(function(kr) {
         ref.mailvelope_keyring = kr;
         ref.mailvelope_init(action, kr);
-      }).catch(function(err) {
+      }, function(err) {
         console.error(err);
       });
     });
@@ -3526,7 +3526,7 @@ function rcube_webmail()
             ref.remove_from_attachment_list(name);
           });
         }
-      }).catch(function(err) {
+      }, function(err) {
         console.error(err);
         console.log(options);
       });
@@ -3649,15 +3649,15 @@ function rcube_webmail()
 
           form.submit();
 
-        }).catch(function(err) {
+        }, function(err) {
           console.log(err);
         });  // mailvelope_editor.encrypt()
 
-      }).catch(function(err) {
+      }, function(err) {
         console.error(err);
       });  // mailvelope_keyring.validKeyForAddress(senders)
 
-    }).catch(function(err) {
+    }, function(err) {
       console.error(err);
     });  // mailvelope_keyring.validKeyForAddress(recipients)
 
@@ -3671,7 +3671,7 @@ function rcube_webmail()
       $(selector).addClass('mailvelope').children().not('iframe').hide();
       ref.hide_message(msgid);
       setTimeout(function() { $(window).resize(); }, 10);
-    }).catch(function(err) {
+    }, function(err) {
       console.error(err);
       ref.hide_message(msgid);
       ref.display_message('Message decryption failed: ' + err.message, 'error')
@@ -3727,7 +3727,7 @@ function rcube_webmail()
       if (missing_keys.length) {
         ref.display_message(ref.get_label('nopubkeyfor').replace('$email', missing_keys.join(', ')), 'warning');
       }
-    }, function() {
+    }).fail(function() {
       console.error('Pubkey lookup failed with', arguments);
       ref.hide_message(lock);
       ref.display_message('pubkeysearcherror', 'error');
@@ -3825,7 +3825,7 @@ function rcube_webmail()
               btn.closest('.key').fadeOut();
               ref.display_message(ref.get_label('keyimportsuccess').replace('$key', $key), 'confirmation');
             }
-          }).catch(function(err) {
+          }, function(err) {
             console.log(err);
           });
         });

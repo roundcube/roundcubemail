@@ -6,7 +6,7 @@
     */
     var DEFAULT_KEYSERVERS = [
         "https://keys.fedoraproject.org/",
-        "https://keybase.io/",
+        "https://keybase.io/"
     ];
 
     /*
@@ -280,7 +280,7 @@
                                 "expirationdate": null,
                                 "revoked": false,
                                 "disabled": false,
-                                "expired": false,
+                                "expired": false
                             }]
                         };
 
@@ -292,7 +292,7 @@
                                 "expirationdate": null,
                                 "revoked": false,
                                 "disabled": false,
-                                "expired": false,
+                                "expired": false
                             });
                         }
 
@@ -306,7 +306,7 @@
                                 "expirationdate": null,
                                 "revoked": false,
                                 "disabled": false,
-                                "expired": false,
+                                "expired": false
                             });
                         }
 
@@ -320,7 +320,7 @@
                                 "expirationdate": null,
                                 "revoked": false,
                                 "disabled": false,
-                                "expired": false,
+                                "expired": false
                             });
                         }
 
@@ -334,7 +334,7 @@
                                 "expirationdate": null,
                                 "revoked": false,
                                 "disabled": false,
-                                "expired": false,
+                                "expired": false
                             });
                         }
 
@@ -348,7 +348,7 @@
                                 "expirationdate": null,
                                 "revoked": false,
                                 "disabled": false,
-                                "expired": false,
+                                "expired": false
                             });
                         }
 
@@ -362,7 +362,7 @@
                                 "expirationdate": null,
                                 "revoked": false,
                                 "disabled": false,
-                                "expired": false,
+                                "expired": false
                             });
                         }
 
@@ -375,7 +375,7 @@
                                     "expirationdate": null,
                                     "revoked": false,
                                     "disabled": false,
-                                    "expired": false,
+                                    "expired": false
                                 });
                             }
                         }
@@ -422,7 +422,7 @@
                                 "revoked": vals[6].indexOf("r") !== -1,
                                 "disabled": vals[6].indexOf("d") !== -1,
                                 "expired": vals[6].indexOf("e") !== -1,
-                                "uids": [],
+                                "uids": []
                             }
                         }
 
@@ -435,7 +435,7 @@
                                 "expirationdate": vals[3] === "" ? null : parseInt(vals[3]),
                                 "revoked": vals[4].indexOf("r") !== -1,
                                 "disabled": vals[4].indexOf("d") !== -1,
-                                "expired": vals[4].indexOf("e") !== -1,
+                                "expired": vals[4].indexOf("e") !== -1
                             });
                         }
                     }
