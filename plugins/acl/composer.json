@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "IMAP Folders Access Control Lists Management (RFC4314, RFC2086).",
     "license": "GPLv3+",
-    "version": "1.5",
+    "version": "1.6",
     "authors": [
         {
             "name": "Aleksander Machniak",
