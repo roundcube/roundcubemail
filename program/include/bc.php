@@ -37,6 +37,7 @@ define('RCMAIL_CHARSET',   RCUBE_CHARSET);
 
 function get_table_name($table)
 {
+    _deprecation_warning(__FUNCTION__);
     return rcmail::get_instance()->db->table_name($table);
 }
 
@@ -495,7 +496,7 @@ function _deprecation_warning($func)
     static $warnings = array();
 
     if (!$warnings[$func]++)  // only log once
-        rcmail::write_log('errors', "Warning: Call to deprecated function $func(); See bc.inc for replacements");
+        rcmail::write_log('errors', "Warning: Call to deprecated function $func(); See bc.inc for replacement");
 }
 
 class rcube_html_page extends rcmail_html_page
