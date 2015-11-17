@@ -39,6 +39,9 @@ if ($cid && ($record = $CONTACTS->get_record($cid, true))) {
     }
 }
 
+// configure environment to hide contact photos
+$OUTPUT->set_env('hide_contactphotos', $RCMAIL->config->get('hide_contactphotos'));
+
 // get address book name (for display)
 rcmail_set_sourcename($CONTACTS);
 

@@ -179,6 +179,7 @@ function rcmail_contact_source($source=null, $init_env=false, $writable=false)
     }
 
     $OUTPUT->set_env('photocol', is_array($CONTACT_COLTYPES['photo']));
+    $OUTPUT->set_env('hide_contactphotos', $RCMAIL->config->get('hide_contactphotos'));
 
     return $CONTACTS;
 }
@@ -835,19 +836,22 @@ function rcmail_contact_photo($attrib)
         }
     }
 
-    if ($plugin['url'])
-        $photo_img = $plugin['url'];
-    else if (preg_match('!^https?://!i', $record['photo']))
-        $photo_img = $record['photo'];
-    else if ($record['photo']) {
-        $url = array('_action' => 'photo', '_cid' => $record['ID'], '_source' => $SOURCE_ID);
-        if ($file_id) {
-            $url['_photo'] = $ff_value = $file_id;
+    // only process photo if it should be shown
+    if (!$RCMAIL->config->get('hide_contactphotos')) {
+
+        if ($plugin['url'])
+            $photo_img = $plugin['url'];
+        else if (preg_match('!^https?://!i', $record['photo']))
+            $photo_img = $record['photo'];
+        else if ($record['photo']) {
+            $url = array('_action' => 'photo', '_cid' => $record['ID'], '_source' => $SOURCE_ID);
+            if ($file_id) {
+                $url['_photo'] = $ff_value = $file_id;
+            }
+            $photo_img = $RCMAIL->url($url);
+        } else {
+            $ff_value = '-del-'; // will disable delete-photo action
         }
-        $photo_img = $RCMAIL->url($url);
-    }
-    else {
-        $ff_value = '-del-'; // will disable delete-photo action
     }
 
     $content = html::div($attrib, html::img(array(

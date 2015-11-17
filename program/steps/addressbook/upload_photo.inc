@@ -52,6 +52,11 @@ if ($filepath = $_FILES['_photo']['tmp_name']) {
             'mimetype' => 'image/' . $imageprop['type'],
             'group' => 'contact',
         ));
+
+        //since the user uploaded a photo, assume contact photos shall be shown
+        if($RCMAIL->config->get('hide_contactphotos')){
+            $RCMAIL->user->save_prefs(array('hide_contactphotos' => false));
+        }
     }
     else {
         $attachment['error'] = $RCMAIL->gettext('invalidimageformat');

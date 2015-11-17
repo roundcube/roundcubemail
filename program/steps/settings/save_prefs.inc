@@ -104,6 +104,7 @@ case 'addressbook':
         'addressbook_sort_col' => rcube_utils::get_input_value('_addressbook_sort_col', rcube_utils::INPUT_POST),
         'addressbook_name_listing' => intval(rcube_utils::get_input_value('_addressbook_name_listing', rcube_utils::INPUT_POST)),
         'addressbook_pagesize' => is_numeric($_POST['_addressbook_pagesize']) ? max(2, intval($_POST['_addressbook_pagesize'])) : $CONFIG['addressbook_pagesize'],
+        'hide_contactphotos'  => isset($_POST['_hide_contactphotos']) ? true : false,
     );
 
     break;

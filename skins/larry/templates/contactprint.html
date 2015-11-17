@@ -10,7 +10,9 @@
 <div id="header"><roundcube:object name="logo" src="/images/roundcube_logo.png" id="toplogo" border="0" alt="Logo" /></div>
 
 <div id="contact-details" class="boxcontent">
+	<roundcube:if condition="!env:hide_contactphotos" />
 	<div id="contactphoto"><roundcube:object name="contactphoto" id="contactpic" placeholder="/images/contactpic.png" placeholderGroup="/images/contactgroup.png" /></div>
+	<roundcube:endif />
 	<roundcube:object name="contacthead" id="contacthead" />
 	<br style="clear:both" />
 	<roundcube:object name="contactdetails" />

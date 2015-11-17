@@ -77,6 +77,7 @@ if ($uid) {
 
     // set environment
     $OUTPUT->set_env('delimiter', $RCMAIL->storage->get_hierarchy_delimiter());
+    $OUTPUT->set_env('hide_contactphotos', $RCMAIL->config->get('hide_contactphotos'));
 
     // set configuration
     $RCMAIL->set_env_config(array('delete_junk', 'flag_for_deletion', 'read_when_deleted',
@@ -348,7 +349,9 @@ function rcmail_message_contactphoto($attrib)
     $placeholder = $attrib['placeholder'] ? $RCMAIL->output->abs_url($attrib['placeholder'], true) : null;
     $placeholder = $RCMAIL->output->asset_url($placeholder ?: 'program/resources/blank.gif');
 
-    if ($MESSAGE->sender) {
+    $hide_contactphoto = $RCMAIL->config->get('hide_contactphotos');
+
+    if ($MESSAGE->sender && !$hide_contactphoto) {
         $photo_img = $RCMAIL->url(array(
             '_task'   => 'addressbook',
             '_action' => 'photo',
