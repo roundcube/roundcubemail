@@ -106,7 +106,7 @@ rcube_webmail.prototype.enigma_key_create_save = function()
 
             // send request to server
             rcmail.http_post('plugin.enigmakeys', post, lock);
-        }).catch(function(error) {
+        }, function(error) {
             // failure
             rcmail.set_busy(false, null, lock);
             rcmail.display_message(rcmail.get_label('enigma.keygenerateerror'), 'error');
