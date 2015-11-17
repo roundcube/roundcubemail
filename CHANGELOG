@@ -50,6 +50,7 @@ CHANGELOG Roundcube Webmail
 - Fix redundant blank lines when using HTML and top posting (#1490576)
 - Fix redundant blank lines on start of text after html to text conversion (#1490577)
 - Fix HTML sanitizer to skip <!-- node type X --> in output (#1490583)
+- Fix invalid LDAP query in ACL user autocompletion (#1490591)
 
 RELEASE 1.1.3
 -------------

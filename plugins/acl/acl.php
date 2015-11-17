@@ -739,7 +739,11 @@ class acl extends rcube_plugin
         $config['fieldmap']['uid']  = $uid_field;
 
         // search in UID and name fields
-        $config['search_fields']   = array_values($config['fieldmap']);
+        // $name_field can be in a form of <field>:<modifier> (#1490591)
+        $name_field = preg_replace('/:.*$/', '', $name_field);
+        $search     = array_unique(array($name_field, $uid_field));
+
+        $config['search_fields']   = $search;
         $config['required_fields'] = array($uid_field);
 
         // set search filter
