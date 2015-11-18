@@ -993,12 +993,18 @@ class rcube_utils
      */
     public static function words_match($haystack, $needle)
     {
-        $a_needle = self::tokenize_string($needle, 1);
-        $haystack = join(" ", self::tokenize_string($haystack, 1));
+        $a_needle  = self::tokenize_string($needle, 1);
+        $_haystack = join(" ", self::tokenize_string($haystack, 1));
+        $valid     = strlen($_haystack) > 0;
+        $hits      = 0;
 
-        $hits = 0;
         foreach ($a_needle as $w) {
-            if (stripos($haystack, $w) !== false) {
+            if ($valid) {
+                if (stripos($_haystack, $w) !== false) {
+                    $hits++;
+                }
+            }
+            else if (stripos($haystack, $w) !== false) {
                 $hits++;
             }
         }

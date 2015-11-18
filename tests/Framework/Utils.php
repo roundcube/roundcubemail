@@ -395,6 +395,29 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * rcube:utils::words_match()
+     */
+    function test_words_match()
+    {
+        $test = array(
+            array('', 'test', false),
+            array('test', 'test', true),
+            array('test', 'none', false),
+            array('test', 'test xyz', false),
+            array('test xyz', 'test xyz', true),
+            array('this is test', 'test', true),
+            // try some binary content
+            array('this is test ' . base64_decode('R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7'), 'test', true),
+            array('this is test ' . base64_decode('R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7'), 'none', false),
+        );
+
+        foreach ($test as $idx => $params) {
+            $result = rcube_utils::words_match($params[0], $params[1]);
+            $this->assertSame($params[2], $result, "words_match() at index $idx");
+        }
+    }
+
+    /**
      * rcube:utils::is_absolute_path()
      */
     function test_is_absolute_path()
