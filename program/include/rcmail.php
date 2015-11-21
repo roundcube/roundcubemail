@@ -1225,8 +1225,7 @@ class rcmail extends rcube
             $pretty_date = $this->config->get('prettydate');
 
             if ($pretty_date && $timestamp > $today_limit && $timestamp <= $now) {
-                $format = $this->config->get('date_today', $this->config->get('time_format', 'H:i'));
-                $today  = true;
+                $format = $this->config->get('date_today', '$ ' . $this->config->get('time_format', 'H:i'));
             }
             else if ($pretty_date && $timestamp > $week_limit && $timestamp <= $now) {
                 $format = $this->config->get('date_short', 'D H:i');
@@ -1238,59 +1237,49 @@ class rcmail extends rcube
 
         // strftime() format
         if (preg_match('/%[a-z]+/i', $format)) {
-            $format = strftime($format, $timestamp);
-            if ($stz) {
-                date_default_timezone_set($stz);
-            }
-            return $today ? ($this->gettext('today') . ' ' . $format) : $format;
+            $out = strftime($format, $timestamp);
         }
+        else {
+            // parse format string manually in order to provide localized weekday and month names
+            // an alternative would be to convert the date() format string to fit with strftime()
+            $out = '';
+            for ($i=0; $i<strlen($format); $i++) {
+                if ($format[$i] == "\\") {  // skip escape chars
+                    continue;
+                }
 
-        // parse format string manually in order to provide localized weekday and month names
-        // an alternative would be to convert the date() format string to fit with strftime()
-        $out = '';
-        for ($i=0; $i<strlen($format); $i++) {
-            if ($format[$i] == "\\") {  // skip escape chars
-                continue;
-            }
-
-            // write char "as-is"
-            if ($format[$i] == ' ' || $format[$i-1] == "\\") {
-                $out .= $format[$i];
-            }
-            // weekday (short)
-            else if ($format[$i] == 'D') {
-                $out .= $this->gettext(strtolower(date('D', $timestamp)));
-            }
-            // weekday long
-            else if ($format[$i] == 'l') {
-                $out .= $this->gettext(strtolower(date('l', $timestamp)));
-            }
-            // month name (short)
-            else if ($format[$i] == 'M') {
-                $out .= $this->gettext(strtolower(date('M', $timestamp)));
-            }
-            // month name (long)
-            else if ($format[$i] == 'F') {
-                $out .= $this->gettext('long'.strtolower(date('M', $timestamp)));
-            }
-            else if ($format[$i] == 'x') {
-                $out .= strftime('%x %X', $timestamp);
-            }
-            else {
-                $out .= date($format[$i], $timestamp);
+                // write char "as-is"
+                if ($format[$i] == ' ' || $format[$i-1] == "\\") {
+                    $out .= $format[$i];
+                }
+                // weekday (short)
+                else if ($format[$i] == 'D') {
+                    $out .= $this->gettext(strtolower(date('D', $timestamp)));
+                }
+                // weekday long
+                else if ($format[$i] == 'l') {
+                    $out .= $this->gettext(strtolower(date('l', $timestamp)));
+                }
+                // month name (short)
+                else if ($format[$i] == 'M') {
+                    $out .= $this->gettext(strtolower(date('M', $timestamp)));
+                }
+                // month name (long)
+                else if ($format[$i] == 'F') {
+                    $out .= $this->gettext('long'.strtolower(date('M', $timestamp)));
+                }
+                else if ($format[$i] == 'x') {
+                    $out .= strftime('%x %X', $timestamp);
+                }
+                else {
+                    $out .= date($format[$i], $timestamp);
+                }
             }
         }
 
-        if ($today) {
-            $label = $this->gettext('today');
-            // replcae $ character with "Today" label (#1486120)
-            if (strpos($out, '$') !== false) {
-                $out = preg_replace('/\$/', $label, $out, 1);
-            }
-            else {
-                $out = $label . ' ' . $out;
-            }
-        }
+        $label = $this->gettext('today');
+        // replcae $ character with "Today" label (#1486120)
+        $out = preg_replace('/\$/', $label, $out, 1);
 
         if ($stz) {
             date_default_timezone_set($stz);
