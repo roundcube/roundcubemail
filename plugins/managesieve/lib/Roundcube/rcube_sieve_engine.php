@@ -633,8 +633,8 @@ class rcube_sieve_engine
             foreach ($sizeitems as $item)
                 $items[] = $item;
 
-            $this->form['disabled'] = $_POST['_disabled'] ? true : false;
-            $this->form['join']     = $join=='allof' ? true : false;
+            $this->form['disabled'] = !empty($_POST['_disabled']);
+            $this->form['join']     = $join == 'allof';
             $this->form['name']     = $name;
             $this->form['tests']    = array();
             $this->form['actions']  = array();
@@ -1685,7 +1685,7 @@ class rcube_sieve_engine
             $test = $rule['type'];
         }
         else if (in_array($rule['test'], $set)) {
-            $test = ($rule['not'] ? 'not' : '') . ($rule['type'] ? $rule['type'] : 'is');
+            $test = ($rule['not'] ? 'not' : '') . ($rule['type'] ?: 'is');
         }
         else {
             $test = ($rule['not'] ? 'not' : '') . $rule['test'];
@@ -2358,7 +2358,7 @@ class rcube_sieve_engine
             if (empty($filter['actions'])) {
                 continue;
             }
-            $fname = $filter['name'] ? $filter['name'] : "#$i";
+            $fname = $filter['name'] ?: "#$i";
             $result[] = array(
                 'id'    => $idx,
                 'name'  => $fname,

@@ -156,7 +156,7 @@ class zipdownload extends rcube_plugin
 
         $zip->close();
 
-        $filename = ($message->subject ? $message->subject : 'roundcube') . '.zip';
+        $filename = ($message->subject ?: 'roundcube') . '.zip';
         $this->_deliver_zipfile($tmpfname, $filename);
 
         // delete temporary files from disk
@@ -247,7 +247,7 @@ class zipdownload extends rcube_plugin
                     $subject = $this->_convert_filename($subject);
                     $subject = substr($subject, 0, 16);
 
-                    $disp_name = ($subject ? $subject : 'message_rfc822') . ".eml";
+                    $disp_name = ($subject ?: 'message_rfc822') . ".eml";
                     $disp_name = $path . $uid . "_" . $disp_name;
 
                     $tmpfn = tempnam($temp_dir, 'zipmessage');

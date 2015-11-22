@@ -264,7 +264,7 @@ class enigma_mime_message extends Mail_mime
     {
         $this->checkParams();
 
-        $eol = !empty($this->build_params['eol']) ? $this->build_params['eol'] : "\r\n";
+        $eol = $this->build_params['eol'] ?: "\r\n";
 
         // multipart message: and boundary
         if (!empty($this->build_params['boundary'])) {

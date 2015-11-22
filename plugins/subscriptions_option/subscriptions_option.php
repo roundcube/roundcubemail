@@ -61,7 +61,7 @@ class subscriptions_option extends rcube_plugin
             $rcmail = rcmail::get_instance();
             $use_subscriptions = $rcmail->config->get('use_subscriptions');
 
-            $args['prefs']['use_subscriptions'] = isset($_POST['_use_subscriptions']) ? true : false;
+            $args['prefs']['use_subscriptions'] = isset($_POST['_use_subscriptions']);
 
             // if the use_subscriptions preference changes, flush the folder cache
             if (($use_subscriptions && !isset($_POST['_use_subscriptions'])) ||

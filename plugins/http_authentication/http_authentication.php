@@ -93,7 +93,7 @@ class http_authentication extends rcube_plugin
         // We'll set it back on startup (#1486553)
         rcmail::get_instance()->session->remove('password');
     }
-    
+
     function login($args)
     {
         // Redirect to the previous QUERY_STRING

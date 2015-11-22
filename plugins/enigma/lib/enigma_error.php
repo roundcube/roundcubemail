@@ -51,11 +51,6 @@ class enigma_error
 
     function getData($name)
     {
-        if ($name) {
-            return $this->data[$name];
-        }
-        else {
-            return $this->data;
-        }
+        return $name ? $this->data[$name] : $this->data;
     }
 }

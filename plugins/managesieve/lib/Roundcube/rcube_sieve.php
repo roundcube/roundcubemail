@@ -111,7 +111,7 @@ class rcube_sieve
      */
     public function error()
     {
-        return $this->error ? $this->error : false;
+        return $this->error ?: false;
     }
 
     /**

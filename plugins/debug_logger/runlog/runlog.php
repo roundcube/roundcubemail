@@ -130,7 +130,7 @@ class runlog {
         $this->debug_messages[] = $msg;
         $this->run_log[] = array(
                 'type'    => 'note',
-                'tag'     => $tag ? $tag:"text",
+                'tag'     => $tag ?: 'text',
                 'value'   => htmlentities($msg),
                 'time'    => microtime(true),
                 'parents' => $this->parent_stack,

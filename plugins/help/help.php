@@ -155,9 +155,10 @@ class help extends rcube_plugin
     private function resolve_language($path)
     {
         // resolve language placeholder
-        $rcmail = rcmail::get_instance();
+        $rcmail  = rcmail::get_instance();
         $langmap = $rcmail->config->get('help_language_map', array('*' => 'en_US'));
-        $lang = !empty($langmap[$_SESSION['language']]) ? $langmap[$_SESSION['language']] : $langmap['*'];
+        $lang    = $langmap[$_SESSION['language']] ?: $langmap['*'];
+
         return str_replace('%l', $lang, $path);
     }
 }

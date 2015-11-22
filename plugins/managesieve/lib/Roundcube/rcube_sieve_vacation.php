@@ -312,7 +312,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             }
         }
 
-        $this->rc->output->show_message($error ? $error : 'managesieve.saveerror', 'error');
+        $this->rc->output->show_message($error ?: 'managesieve.saveerror', 'error');
         $this->rc->output->send();
     }
 
@@ -327,7 +327,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $seconds_extension = in_array('vacation-seconds', $this->exts);
 
         // build FORM tag
-        $form_id = !empty($attrib['id']) ? $attrib['id'] : 'form';
+        $form_id = $attrib['id'] ?: 'form';
         $out     = $this->rc->output->request_form(array(
             'id'      => $form_id,
             'name'    => $form_id,
@@ -597,7 +597,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             }
         }
 
-        return $interval ? $interval : '';
+        return $interval ?: '';
     }
 
     /**

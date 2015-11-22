@@ -90,7 +90,7 @@ class redundant_attachments extends filesystem_attachments
      */
     private function _key($args)
     {
-        $uname = $args['path'] ? $args['path'] : $args['name'];
+        $uname = $args['path'] ?: $args['name'];
         return $args['group'] . md5(time() . $uname . $_SESSION['user_id']);
     }
 

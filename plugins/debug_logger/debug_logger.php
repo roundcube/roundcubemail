@@ -18,7 +18,7 @@
  * @version @package_version@
  * @author Ziba Scott
  * @website http://roundcube.net
- * 
+ *
  * Example:
  *
  * config.inc.php:
