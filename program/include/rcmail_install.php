@@ -522,7 +522,7 @@ class rcmail_install
 
     foreach ($default_hosts as $key => $name) {
       if (!empty($name))
-        $out[] = rcube_parse_host(is_numeric($key) ? $name : $key);
+        $out[] = rcube_utils::parse_host(is_numeric($key) ? $name : $key);
     }
 
     return $out;

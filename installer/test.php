@@ -246,7 +246,7 @@ else {
 <h3>Test SMTP config</h3>
 
 <p>
-Server: <?php echo rcube_parse_host($RCI->getprop('smtp_server', 'PHP mail()')); ?><br />
+Server: <?php echo rcube_utils::parse_host($RCI->getprop('smtp_server', 'PHP mail()')); ?><br />
 Port: <?php echo $RCI->getprop('smtp_port'); ?><br />
 
 <?php
@@ -310,7 +310,7 @@ if (isset($_POST['sendmail'])) {
       $send_headers = $mail_object->headers($headers);
 
       $SMTP = new rcube_smtp();
-      $SMTP->connect(rcube_parse_host($RCI->getprop('smtp_server')),
+      $SMTP->connect(rcube_utils::parse_host($RCI->getprop('smtp_server')),
         $RCI->getprop('smtp_port'), $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
 
       $status = $SMTP->send_mail($headers['From'], $headers['To'],
