@@ -1221,12 +1221,12 @@ function rcmail_message_body($attrib)
                 // extract headers from message/rfc822 parts
                 if ($part->mimetype == 'message/rfc822') {
                     $msgpart = rcube_mime::parse_message($body);
-                    if (!empty($msgpart->headers)) {
+                    $body    = rcube_message::format_part_body($msgpart->body, $msgpart);
+
+                    if (!empty($msgpart->headers) && !empty($body)) {
                         $part = $msgpart;
                         $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
                     }
-
-                    $body = $part->body;
                 }
 
                 // message is cached but not exists (#1485443), or other error
