@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.2-beta
+----------------
 - Update TinyMCE to version 4.2
 - Remove backward compatibility "layer" of bc.php (#1490534)
 - Add possibility to define date format in write operations for ldap attributes (#1488741)
