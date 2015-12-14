@@ -89,6 +89,9 @@ if ($data) {
     header('Content-Type: ' . rcube_mime::image_content_type($data));
     echo $data;
 }
+else if (!empty($_GET['_error'])) {
+    header('HTTP/1.0 404 Photo not found');
+}
 else {
     header('Content-Type: image/gif');
     echo base64_decode(rcmail_output::BLANK_GIF);
