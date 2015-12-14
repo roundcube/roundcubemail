@@ -1225,6 +1225,8 @@ function rcmail_message_body($attrib)
                         $part = $msgpart;
                         $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
                     }
+
+                    $body = $part->body;
                 }
 
                 // message is cached but not exists (#1485443), or other error
