@@ -1277,11 +1277,18 @@ class rcube
 
         // write error to local log file
         if (($level & 1) || !empty($arg_arr['fatal'])) {
+            $post_query = '';
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $post_query = '?_task='.urlencode($_POST['_task']).'&_action='.urlencode($_POST['_action']);
-            }
-            else {
-                $post_query = '';
+                foreach (array('_task', '_action') as $arg) {
+                    if ($_POST[$arg] && !$_GET[$arg]) {
+                        $post_query[$arg] = $_POST[$arg];
+                    }
+                }
+
+                if (!empty($post_query)) {
+                    $post_query = (strpos($_SERVER['REQUEST_URI'], '?') != false ? '&' : '?')
+                        . http_build_query($post_query);
+                }
             }
 
             $log_entry = sprintf("%s Error: %s%s (%s %s)",
