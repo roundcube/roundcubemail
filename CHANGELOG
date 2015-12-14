@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix regression in displaying contents of message/rfc822 parts (#1490606)
+
 RELEASE 1.2-beta
 ----------------
 - Update TinyMCE to version 4.2
