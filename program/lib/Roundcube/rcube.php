@@ -1287,7 +1287,7 @@ class rcube
 
                 if (!empty($post_query)) {
                     $post_query = (strpos($_SERVER['REQUEST_URI'], '?') != false ? '&' : '?')
-                        . http_build_query($post_query);
+                        . http_build_query($post_query, '', '&');
                 }
             }
 
