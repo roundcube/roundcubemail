@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Add workaround for https://bugs.php.net/bug.php?id=70757 (#1490582)
 - Fix HTML sanitizer to skip <!-- node type X --> in output (#1490583)
+- Fix charset encoding of message/rfc822 part bodies (#1490606)
 
 RELEASE 1.0.7
 -------------
