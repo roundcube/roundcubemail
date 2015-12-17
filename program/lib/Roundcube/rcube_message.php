@@ -677,24 +677,16 @@ class rcube_message
                 $mail_part      = &$structure->parts[$i];
                 $primary_type   = $mail_part->ctype_primary;
                 $secondary_type = $mail_part->ctype_secondary;
+                $part_mimetype  = $mail_part->mimetype;
 
-                // real content-type of message/rfc822
-                if ($mail_part->real_mimetype) {
-                    $part_orig_mimetype = $mail_part->mimetype;
-                    $part_mimetype = $mail_part->real_mimetype;
-                    list($primary_type, $secondary_type) = explode('/', $part_mimetype);
-                }
-                else {
-                    $part_mimetype = $part_orig_mimetype = $mail_part->mimetype;
-                  }
-
-                // multipart/alternative
-                if ($primary_type == 'multipart') {
+                // multipart/alternative or message/rfc822
+                if ($primary_type == 'multipart' || $part_mimetype == 'message/rfc822') {
                     $this->parse_structure($mail_part, true);
 
                     // list message/rfc822 as attachment as well (mostly .eml)
-                    if ($part_orig_mimetype == 'message/rfc822' && !empty($mail_part->filename))
+                    if ($primary_type == 'message' && !empty($mail_part->filename)) {
                         $this->attachments[] = $mail_part;
+                    }
                 }
                 // part text/[plain|html] or delivery status
                 else if ((($part_mimetype == 'text/plain' || $part_mimetype == 'text/html') && $mail_part->disposition != 'attachment') ||
@@ -705,8 +697,9 @@ class rcube_message
                         array('object' => $this, 'structure' => $mail_part,
                             'mimetype' => $part_mimetype, 'recursive' => true));
 
-                    if ($plugin['abort'])
+                    if ($plugin['abort']) {
                         continue;
+                    }
 
                     if ($part_mimetype == 'text/html' && $mail_part->size) {
                         $this->got_html_part = true;
@@ -728,14 +721,6 @@ class rcube_message
                     if (!empty($mail_part->filename)) {
                         $this->attachments[] = $mail_part;
                     }
-                }
-                // part message/*
-                else if ($primary_type == 'message') {
-                    $this->parse_structure($mail_part, true);
-
-                    // list as attachment as well (mostly .eml)
-                    if (!empty($mail_part->filename))
-                        $this->attachments[] = $mail_part;
                 }
                 // ignore "virtual" protocol parts
                 else if ($primary_type == 'protocol') {
@@ -760,21 +745,14 @@ class rcube_message
 
                     // part belongs to a related message and is linked
                     if (preg_match('/^multipart\/(related|relative)/', $mimetype)
-                        && ($mail_part->headers['content-id'] || $mail_part->headers['content-location'])) {
+                        && ($mail_part->headers['content-id'] || $mail_part->headers['content-location'])
+                    ) {
                         if ($mail_part->headers['content-id'])
                             $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
                         if ($mail_part->headers['content-location'])
                             $mail_part->content_location = $mail_part->headers['content-base'] . $mail_part->headers['content-location'];
 
                         $this->inline_parts[] = $mail_part;
-                    }
-                    // attachment encapsulated within message/rfc822 part needs further decoding (#1486743)
-                    else if ($part_orig_mimetype == 'message/rfc822') {
-                        $this->parse_structure($mail_part, true);
-
-                        // list as attachment as well (mostly .eml)
-                        if (!empty($mail_part->filename))
-                            $this->attachments[] = $mail_part;
                     }
                     // regular attachment with valid content type
                     // (content-type name regexp according to RFC4288.4.2)
@@ -790,10 +768,6 @@ class rcube_message
 
                         $this->attachments[] = $mail_part;
                     }
-                }
-                // attachment part as message/rfc822 (#1488026)
-                else if ($mail_part->mimetype == 'message/rfc822') {
-                    $this->parse_structure($mail_part);
                 }
                 // calendar part not marked as attachment (#1490325)
                 else if ($part_mimetype == 'text/calendar') {

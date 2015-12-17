@@ -15,6 +15,7 @@ CHANGELOG Roundcube Webmail
 - Fix HTML sanitizer to skip <!-- node type X --> in output (#1490583)
 - Fix invalid LDAP query in ACL user autocompletion (#1490591)
 - Fix regression in displaying contents of message/rfc822 parts (#1490606)
+- Fix handling of message/rfc822 attachments on replies and forwards (#1490607)
 
 RELEASE 1.1.3
 -------------
