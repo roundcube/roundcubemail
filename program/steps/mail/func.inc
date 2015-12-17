@@ -789,20 +789,15 @@ function rcmail_wash_html($html, $p, $cid_replaces)
  *
  * @param rcube_message_part Message part
  * @param array              Display parameters array
- * @param string             Part body
  * @return string Formatted HTML string
  */
-function rcmail_print_body($part, $p = array(), $body = null)
+function rcmail_print_body($part, $p = array())
 {
     global $RCMAIL;
 
-    if ($body === null) {
-        $body = $part->body;
-    }
-
     // trigger plugin hook
     $data = $RCMAIL->plugins->exec_hook('message_part_before',
-        array('type' => $part->ctype_secondary, 'body' => $body, 'id' => $part->mime_id)
+        array('type' => $part->ctype_secondary, 'body' => $part->body, 'id' => $part->mime_id)
             + $p + array('safe' => false, 'plain' => false, 'inline_html' => true));
 
     // convert html to text/plain
@@ -1205,28 +1200,15 @@ function rcmail_message_body($attrib)
                     $part->body = $MESSAGE->get_part_content($part->mime_id);
                 }
 
-                $body = $part->body;
-
-                // extract headers from message/rfc822 parts
-                if ($part->mimetype == 'message/rfc822') {
-                    $msgpart = rcube_mime::parse_message($part->body);
-                    $body    = rcube_charset::convert($msgpart->body, $msgpart->charset);
-
-                    if (!empty($msgpart->headers)) {
-                        $part = $msgpart;
-                        $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
-                    }
-                }
-
                 // message is cached but not exists (#1485443), or other error
-                if ($body === false) {
+                if ($part->body === false) {
                     rcmail_message_error($MESSAGE->uid);
                 }
 
                 $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
                     array('part' => $part, 'prefix' => ''));
 
-                $body = rcmail_print_body($part, array('safe' => $safe_mode, 'plain' => !$RCMAIL->config->get('prefer_html')), $body);
+                $body = rcmail_print_body($part, array('safe' => $safe_mode, 'plain' => !$RCMAIL->config->get('prefer_html')));
 
                 if ($part->ctype_secondary == 'html') {
                     $body     = rcmail_html4inline($body, $attrib['id'], 'rcmBody', $attrs, $safe_mode);
