@@ -16,6 +16,7 @@ CHANGELOG Roundcube Webmail
 - Fix invalid LDAP query in ACL user autocompletion (#1490591)
 - Fix regression in displaying contents of message/rfc822 parts (#1490606)
 - Fix handling of message/rfc822 attachments on replies and forwards (#1490607)
+- Fix PDF support detection in Firefox > 19 (#1490610)
 
 RELEASE 1.1.3
 -------------
