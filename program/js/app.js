@@ -7646,14 +7646,10 @@ function rcube_webmail()
     if (!this.env.browser_capabilities)
       this.env.browser_capabilities = {};
 
-    if (this.env.browser_capabilities.pdf === undefined)
-      this.env.browser_capabilities.pdf = this.pdf_support_check();
-
-    if (this.env.browser_capabilities.flash === undefined)
-      this.env.browser_capabilities.flash = this.flash_support_check();
-
-    if (this.env.browser_capabilities.tif === undefined)
-      this.tif_support_check();
+    $.each(['pdf', 'flash', 'tif'], function() {
+      if (ref.env.browser_capabilities[this] === undefined)
+        ref.env.browser_capabilities[this] = ref[this + '_support_check']();
+    });
   };
 
   // Returns browser capabilities string
@@ -7672,16 +7668,19 @@ function rcube_webmail()
 
   this.tif_support_check = function()
   {
-    var img = new Image();
+    window.setTimeout(function() {
+      var img = new Image();
+      img.onload = function() { ref.env.browser_capabilities.tif = 1; };
+      img.onerror = function() { ref.env.browser_capabilities.tif = 0; };
+      img.src = 'program/resources/blank.tif';
+    }, 10);
 
-    img.onload = function() { rcmail.env.browser_capabilities.tif = 1; };
-    img.onerror = function() { rcmail.env.browser_capabilities.tif = 0; };
-    img.src = 'program/resources/blank.tif';
+    return 0;
   };
 
   this.pdf_support_check = function()
   {
-    var plugin = navigator.mimeTypes ? navigator.mimeTypes["application/pdf"] : {},
+    var i, plugin = navigator.mimeTypes ? navigator.mimeTypes["application/pdf"] : {},
       plugins = navigator.plugins,
       len = plugins.length,
       regex = /Adobe Reader|PDF|Acrobat/i;
@@ -7711,6 +7710,14 @@ function rcube_webmail()
       else if (plugin.name && regex.test(plugin.name))
         return 1;
     }
+
+    window.setTimeout(function() {
+      $('<object>').css({position: 'absolute', left: '-10000px'})
+        .attr({data: 'program/resources/dummy.pdf', width: 1, height: 1, type: 'application/pdf'})
+        .load(function() { ref.env.browser_capabilities.pdf = 1; })
+        .error(function() { ref.env.browser_capabilities.pdf = 0; })
+        .appendTo($('body'));
+      }, 10);
 
     return 0;
   };

@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix HTML sanitizer to skip <!-- node type X --> in output (#1490583)
 - Fix charset encoding of message/rfc822 part bodies (#1490606)
 - Fix handling of message/rfc822 attachments on replies and forwards (#1490607)
+- Fix PDF support detection in Firefox > 19 (#1490610)
 
 RELEASE 1.0.7
 -------------
