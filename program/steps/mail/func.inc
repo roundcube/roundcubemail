@@ -1233,17 +1233,6 @@ function rcmail_message_body($attrib)
                 // fetch part body
                 $body = $MESSAGE->get_part_body($part->mime_id, true);
 
-                // extract headers from message/rfc822 parts
-                if ($part->mimetype == 'message/rfc822') {
-                    $msgpart = rcube_mime::parse_message($body);
-                    $body    = rcube_message::format_part_body($msgpart->body, $msgpart);
-
-                    if (!empty($msgpart->headers) && !empty($body)) {
-                        $part = $msgpart;
-                        $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
-                    }
-                }
-
                 // message is cached but not exists (#1485443), or other error
                 if ($body === false) {
                     rcmail_message_error($MESSAGE->uid);

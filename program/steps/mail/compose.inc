@@ -772,11 +772,9 @@ function rcmail_prepare_message_body()
 
         if (!empty($MESSAGE->parts)) {
             // collect IDs of message/rfc822 parts
-            if ($COMPOSE['mode'] == RCUBE_COMPOSE_EDIT || $COMPOSE['mode'] == RCUBE_COMPOSE_DRAFT) {
-                foreach ($MESSAGE->attachments as $part) {
-                    if ($part->mimetype == 'message/rfc822') {
-                        $messages[] = $part->mime_id;
-                    }
+            foreach ($MESSAGE->mime_parts as $part) {
+                if ($part->mimetype == 'message/rfc822') {
+                    $messages[] = $part->mime_id;
                 }
             }
 
@@ -798,7 +796,7 @@ function rcmail_prepare_message_body()
                     continue;
                 }
 
-                // skip all content parts inside the message/rfc822 part in DRAFT/EDIT mode
+                // skip all content parts inside the message/rfc822 part
                 foreach ($messages as $mimeid) {
                     if (strpos($part->mime_id, $mimeid . '.') === 0) {
                         continue 2;
@@ -1253,6 +1251,10 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
     }
 
     foreach ((array)$message->mime_parts as $pid => $part) {
+        if ($part->mimetype == 'message/rfc822') {
+            $messages[] = $part->mime_id;
+        }
+
         if ($part->disposition == 'attachment' || ($part->disposition == 'inline' && $bodyIsHtml) || $part->filename) {
             // skip parts that aren't valid attachments
             if ($part->ctype_primary == 'multipart' || $part->mimetype == 'application/ms-tnef') {
@@ -1274,23 +1276,10 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
                 continue;
             }
 
-            // skip message/rfc822 attachments on forwards (#1489214)
-            // Thunderbird when forwarding in inline mode displays such attachments
-            // and skips any attachments from inside of such part, this however
-            // skipped e.g. images used in HTML body or other attachments. So,
-            // better to skip .eml attachments but not their content (included files).
-            if ($part->mimetype == 'message/rfc822') {
-                if ($COMPOSE['mode'] == RCUBE_COMPOSE_FORWARD) {
-                    continue;
-                }
-                $messages[] = $part->mime_id;
-            }
-            else if ($COMPOSE['mode'] != RCUBE_COMPOSE_FORWARD) {
-                // skip attachments included in message/rfc822 attachment (#1486487)
-                foreach ($messages as $mimeid) {
-                    if (strpos($part->mime_id, $mimeid . '.') === 0) {
-                        continue 2;
-                    }
+            // skip attachments included in message/rfc822 attachment (#1486487, #1490607)
+            foreach ($messages as $mimeid) {
+                if (strpos($part->mime_id, $mimeid . '.') === 0) {
+                    continue 2;
                 }
             }
 
@@ -1320,14 +1309,26 @@ function rcmail_write_inline_attachments(&$message)
 {
     global $RCMAIL, $COMPOSE;
 
-    $cid_map = array();
+    $cid_map  = array();
+    $messages = array();
 
     if ($message->pgp_mime) {
         return $cid_map;
     }
 
     foreach ((array)$message->mime_parts as $pid => $part) {
+        if ($part->mimetype == 'message/rfc822') {
+            $messages[] = $part->mime_id;
+        }
+
         if (($part->content_id || $part->content_location) && $part->filename) {
+            // skip attachments included in message/rfc822 attachment (#1486487, #1490607)
+            foreach ($messages as $mimeid) {
+                if (strpos($part->mime_id, $mimeid . '.') === 0) {
+                    continue 2;
+                }
+            }
+
             if ($attachment = rcmail_save_attachment($message, $pid, $COMPOSE['id'])) {
                 $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
                     $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
