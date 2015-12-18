@@ -2278,14 +2278,11 @@ function rcmail_save_attachment($message, $pid, $compose_id, $params = array())
         // So, for now we'll do not use append() on 'compose' action (#1490608).
 
         if ($rcmail->action == 'compose') {
-            $_SESSION[$session_key]['attachments'][$attachment['id']] = $attachment;
+            $COMPOSE['attachments'][$attachment['id']] = $attachment;
         }
         else {
             $rcmail->session->append($session_key . '.attachments', $attachment['id'], $attachment);
         }
-
-        // Fix reference to compose session data after rcube_session::append()
-        $COMPOSE =& $_SESSION[$session_key];
 
         return $attachment;
     }
