@@ -2203,6 +2203,8 @@ function rcmail_compose_contact_groups($abook, $source_id, $search = null, $sear
 
 function rcmail_save_attachment($message, $pid, $compose_id, $params = array())
 {
+    global $COMPOSE;
+
     $rcmail  = rcmail::get_instance();
     $storage = $rcmail->get_storage();
 
@@ -2265,7 +2267,26 @@ function rcmail_save_attachment($message, $pid, $compose_id, $params = array())
 
     if ($attachment['status']) {
         unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
-        $rcmail->session->append('compose_data_' . $compose_id . '.attachments', $attachment['id'], $attachment);
+
+        $session_key = 'compose_data_' . $compose_id;
+
+        // rcube_session::append() replaces current session data with the old values
+        // (in rcube_session::reload()). This is a problem in 'compose' action, because before
+        // the first append() use we set some important data in the session.
+        // It also overwrites attachments list. Fixing reload() is not so simple if possible
+        // as we don't really know what has been added and what removed in meantime.
+        // So, for now we'll do not use append() on 'compose' action (#1490608).
+
+        if ($rcmail->action == 'compose') {
+            $_SESSION[$session_key]['attachments'][$attachment['id']] = $attachment;
+        }
+        else {
+            $rcmail->session->append($session_key . '.attachments', $attachment['id'], $attachment);
+        }
+
+        // Fix reference to compose session data after rcube_session::append()
+        $COMPOSE =& $_SESSION[$session_key];
+
         return $attachment;
     }
     else if ($path) {

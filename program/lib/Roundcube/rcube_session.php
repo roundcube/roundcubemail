@@ -293,6 +293,8 @@ abstract class rcube_session
     /**
      * Append the given value to the certain node in the session data array
      *
+     * Warning: Do not use if you already modified $_SESSION in the same request (#1490608)
+     *
      * @param string Path denoting the session variable where to append the value
      * @param string Key name under which to append the new value (use null for appending to an indexed list)
      * @param mixed  Value to append to the session data array
@@ -319,8 +321,9 @@ abstract class rcube_session
         $this->appends[] = $path;
 
         // when overwriting a previously unset variable
-        if ($this->unsets[$path])
+        if ($this->unsets[$path]) {
             unset($this->unsets[$path]);
+        }
     }
 
     /**
@@ -398,7 +401,6 @@ abstract class rcube_session
                 }
             }
         }
-
     }
 
     /**
