@@ -2268,8 +2268,6 @@ function rcmail_save_attachment($message, $pid, $compose_id, $params = array())
     if ($attachment['status']) {
         unset($attachment['data'], $attachment['status'], $attachment['content_id'], $attachment['abort']);
 
-        $session_key = 'compose_data_' . $compose_id;
-
         // rcube_session::append() replaces current session data with the old values
         // (in rcube_session::reload()). This is a problem in 'compose' action, because before
         // the first append() use we set some important data in the session.
@@ -2281,7 +2279,7 @@ function rcmail_save_attachment($message, $pid, $compose_id, $params = array())
             $COMPOSE['attachments'][$attachment['id']] = $attachment;
         }
         else {
-            $rcmail->session->append($session_key . '.attachments', $attachment['id'], $attachment);
+            $rcmail->session->append('compose_data_' . $compose_id . '.attachments', $attachment['id'], $attachment);
         }
 
         return $attachment;
