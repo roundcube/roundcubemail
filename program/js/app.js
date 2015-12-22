@@ -8377,7 +8377,7 @@ function rcube_webmail()
   // html5 file-drop API
   this.document_drag_hover = function(e, over)
   {
-    e.preventDefault();
+    // don't e.preventDefault() here to not block text dragging on the page (#1490619)
     $(this.gui_objects.filedrop)[(over?'addClass':'removeClass')]('active');
   };
 
