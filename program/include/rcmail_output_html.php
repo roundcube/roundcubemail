@@ -153,6 +153,17 @@ class rcmail_output_html extends rcmail_output
      */
     public function set_skin($skin)
     {
+        // Sanity check to prevent from path traversal vulnerability (#1490620)
+        if (strpos($skin, '/') !== false || strpos($skin, "\\") !== false) {
+            rcube::raise_error(array(
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                    'message' => 'Invalid skin name'
+                ), true, false);
+
+            return false;
+        }
+
         $valid = false;
         $path  = RCUBE_INSTALL_PATH . 'skins/';
 
