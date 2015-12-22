@@ -18,6 +18,7 @@ CHANGELOG Roundcube Webmail
 - Fix handling of message/rfc822 attachments on replies and forwards (#1490607)
 - Fix PDF support detection in Firefox > 19 (#1490610)
 - Fix path traversal vulnerability in setting a skin (#1490620)
+- Fix so drag-n-drop of text (e.g. recipient addresses) on compose page actually works (#1490619)
 
 RELEASE 1.1.3
 -------------
