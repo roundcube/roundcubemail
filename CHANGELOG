@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix PDF support detection in Firefox > 19 (#1490610)
 - Fix path traversal vulnerability in setting a skin (#1490620)
 - Fix so drag-n-drop of text (e.g. recipient addresses) on compose page actually works (#1490619)
+- Fix .htaccess rewrite rules to not block .well-known URIs (#1490615)
 
 RELEASE 1.0.7
 -------------
