@@ -9,6 +9,7 @@ RELEASE 1.1.4
 - Make brute force attacks harder by re-generating security token on every failed login (#1490549)
 - Slow down brute-force attacks by waiting for a second after failed login (#1490549)
 - Fix .htaccess rewrite rules to not block .well-known URIs (#1490615)
+- Fix mail view scaling on iOS (#1490551)
 - Fix so database_attachments::cleanup() does not remove attachments from other sessions (#1490542)
 - Fix responses list update issue after response name change (#1490555)
 - Fix bug where message preview was unintentionally reset on check-recent action (#1490563)
