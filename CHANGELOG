@@ -1,12 +1,14 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.0.8
+-------------
 - Add workaround for https://bugs.php.net/bug.php?id=70757 (#1490582)
 - Fix HTML sanitizer to skip <!-- node type X --> in output (#1490583)
 - Fix charset encoding of message/rfc822 part bodies (#1490606)
 - Fix handling of message/rfc822 attachments on replies and forwards (#1490607)
 - Fix PDF support detection in Firefox > 19 (#1490610)
-- Fix path traversal vulnerability in setting a skin (#1490620)
+- Fix path traversal vulnerability (CWE-22) in setting a skin (#1490620)
 - Fix so drag-n-drop of text (e.g. recipient addresses) on compose page actually works (#1490619)
 - Fix .htaccess rewrite rules to not block .well-known URIs (#1490615)
 
