@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix path traversal vulnerability in setting a skin (#1490620)
 - Fix so drag-n-drop of text (e.g. recipient addresses) on compose page actually works (#1490619)
 - Fix .htaccess rewrite rules to not block .well-known URIs (#1490615)
+- Fix mail view scaling on iOS (#1490551)
 
 RELEASE 1.2-beta
 ----------------

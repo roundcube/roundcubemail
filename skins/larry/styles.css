@@ -1,7 +1,7 @@
 /**
  * Roundcube webmail styles for skin "Larry"
  *
- * Copyright (c) 2012, The Roundcube Dev Team
+ * Copyright (c) 2012-2015, The Roundcube Dev Team
  * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
@@ -21,6 +21,11 @@ body {
 body.noscroll {
 	/* also avoids bounce effect in Chrome and Safari */
 	overflow: hidden;
+}
+
+.iphone body.noscroll {
+	/* revert on iPhone (#1490551) */
+	overflow: auto;
 }
 
 a {
