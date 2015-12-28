@@ -9,6 +9,7 @@ CHANGELOG Roundcube Webmail
 - Fix so drag-n-drop of text (e.g. recipient addresses) on compose page actually works (#1490619)
 - Fix .htaccess rewrite rules to not block .well-known URIs (#1490615)
 - Fix mail view scaling on iOS (#1490551)
+- Fix PHP7 warning "session_start(): Session callback expects true/false return value" (#1490624)
 
 RELEASE 1.2-beta
 ----------------

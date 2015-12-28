@@ -219,7 +219,9 @@ abstract class rcube_session
     {
         // move gc execution to the script shutdown function
         // see rcube::shutdown() and rcube_session::write_close()
-        return $this->gc_enabled = $maxlifetime;
+        $this->gc_enabled = $maxlifetime;
+
+        return true;
     }
 
     /**
