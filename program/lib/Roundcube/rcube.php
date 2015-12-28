@@ -1246,7 +1246,7 @@ class rcube
             $log_dir = RCUBE_INSTALL_PATH . 'logs';
         }
 
-        return file_put_contents("$log_dir/$name", $line, FILE_APPEND) !== false;
+        return file_put_contents("$log_dir/$name.log", $line, FILE_APPEND) !== false;
     }
 
     /**
