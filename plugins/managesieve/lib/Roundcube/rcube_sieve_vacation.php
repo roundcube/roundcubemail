@@ -338,7 +338,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             ) + $attrib);
 
         $auto_addr = $this->rc->config->get('managesieve_vacation_addresses_init');
-        $addresses = !$auto_addr || count($this->vacation) > 1 ? (array) $this->vacation['addresses'] : $this->user_emails();
+        $addresses = !$auto_addr || ( count($this->vacation) > 1 && !empty($this->vacation['addresses'])) ? (array) $this->vacation['addresses'] : $this->user_emails();
 
         // form elements
         $from      = new html_inputfield(array('name' => 'vacation_from', 'id' => 'vacation_from', 'size' => 50));
