@@ -999,6 +999,10 @@ class enigma_ui
             $this->rc->output->show_message($msg, 'error');
         }
 
+        // Check sign/ecrypt options for signed/encrypted drafts
+        $this->rc->output->set_env('enigma_force_encrypt', !empty($engine->decryptions));
+        $this->rc->output->set_env('enigma_force_sign', !empty($engine->signatures));
+
         return $p;
     }
 }

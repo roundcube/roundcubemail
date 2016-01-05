@@ -48,6 +48,11 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             });
         }
 
+        $.each(['encrypt', 'sign'], function() {
+            if (rcmail.env['enigma_force_' + this])
+                $('[name="_enigma_' + this + '"]').prop('checked', true);
+        });
+
         if (rcmail.env.enigma_password_request) {
             rcmail.enigma_password_request(rcmail.env.enigma_password_request);
         }
