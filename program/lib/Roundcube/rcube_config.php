@@ -103,21 +103,21 @@ class rcube_config
      */
     private function guess_type($value)
     {
-        $_ = 'string';
+        $type = 'string';
 
         // array requires hint to be passed.
 
         if (preg_match('/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/', $value) !== false) {
-            $_ = 'double';
+            $type = 'double';
         }
         else if (preg_match('/^\d+$/', $value) !== false) {
-            $_ = 'integer';
+            $type = 'integer';
         }
         else if (preg_match('/(t(rue)?)|(f(alse)?)/i', $value) !== false) {
-            $_ = 'boolean';
+            $type = 'boolean';
         }
 
-        return $_;
+        return $type;
     }
 
     /**
@@ -126,7 +126,7 @@ class rcube_config
      * Perform an appropriate parsing of the string to create the desired PHP type.
      *
      * @param $string String to parse into PHP type
-     * @param $type Type of value to return
+     * @param $type   Type of value to return
      *
      * @return Appropriately typed interpretation of $string.
      */
@@ -167,28 +167,24 @@ class rcube_config
      * Retrieve an environment variable's value or if it's not found, return the
      * provided default value.
      *
-     * @param $varname Environment variable name
+     * @param $varname       Environment variable name
      * @param $default_value Default value to return if necessary
-     * @param $type Type of value to return
+     * @param $type          Type of value to return
      *
      * @return Value of the environment variable or default if not found.
      */
     private function getenv_default($varname, $default_value, $type = null)
     {
-        $_ = getenv($varname);
+        $value = getenv($varname);
 
-        if ($_ === false) {
-            $_ = $default_value;
+        if ($value === false) {
+            $value = $default_value;
         }
         else {
-            if (is_null($type)) {
-                $type = gettype($default_value);
-            }
-
-            $_ = $this->parse_env($_, $type);
+            $value = $this->parse_env($value, $type ?: gettype($default_value));
         }
 
-        return $_;
+        return $value;
     }
 
     /**
@@ -206,8 +202,7 @@ class rcube_config
         // load main config file
         if (!$this->load_from_file('config.inc.php')) {
             // Old configuration files
-            if (!$this->load_from_file('main.inc.php') ||
-                !$this->load_from_file('db.inc.php')) {
+            if (!$this->load_from_file('main.inc.php') || !$this->load_from_file('db.inc.php')) {
                 $this->errors[] = 'config.inc.php was not found.';
             }
             else if (rand(1,100) == 10) {  // log warning on every 100th request (average)
@@ -229,8 +224,9 @@ class rcube_config
         }
 
         // larry is the new default skin :-)
-        if ($this->prop['skin'] == 'default')
+        if ($this->prop['skin'] == 'default') {
             $this->prop['skin'] = self::DEFAULT_SKIN;
+        }
 
         // fix paths
         foreach (array('log_dir' => 'logs', 'temp_dir' => 'temp') as $key => $dir) {
@@ -313,7 +309,7 @@ class rcube_config
 
         foreach ($this->resolve_paths($file) as $fpath) {
             if ($fpath && is_file($fpath) && is_readable($fpath)) {
-                // use output buffering, we don't need any output here 
+                // use output buffering, we don't need any output here
                 ob_start();
                 include($fpath);
                 ob_end_clean();
@@ -352,8 +348,9 @@ class rcube_config
             // check if <file>-env.ini exists
             if ($realpath && $use_env && !empty($this->env)) {
                 $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\\1', $realpath);
-                if (is_file($envfile))
+                if (is_file($envfile)) {
                     $realpath = $envfile;
+                }
             }
 
             if ($realpath) {
@@ -386,8 +383,7 @@ class rcube_config
         }
 
         $result = $this->getenv_default('ROUNDCUBE_' . strtoupper($name), $result);
-
-        $rcube = rcube::get_instance();
+        $rcube  = rcube::get_instance();
 
         if ($name == 'timezone') {
             if (empty($result) || $result == 'auto') {
@@ -395,10 +391,12 @@ class rcube_config
             }
         }
         else if ($name == 'client_mimetypes') {
-            if ($result == null && $def == null)
+            if (!$result && !$def) {
                 $result = 'text/plain,text/html,text/xml,image/jpeg,image/gif,image/png,image/bmp,image/tiff,application/x-javascript,application/pdf,application/x-shockwave-flash';
-            if ($result && is_string($result))
+            }
+            if ($result && is_string($result)) {
                 $result = explode(',', $result);
+            }
         }
 
         $plugin = $rcube->plugins->exec_hook('config_get', array(
@@ -500,6 +498,7 @@ class rcube_config
      * Return requested DES crypto key.
      *
      * @param string $key Crypto key name
+     *
      * @return string Crypto key
      */
     public function get_crypto_key($key)
@@ -523,13 +522,7 @@ class rcube_config
      */
     public function get_crypto_method()
     {
-        $method = $this->get('cipher_method');
-
-        if (empty($method)) {
-            $method = 'DES-EDE3-CBC';
-        }
-
-        return $method;
+        return $this->get('cipher_method') ?: 'DES-EDE3-CBC';
     }
 
     /**
@@ -577,8 +570,9 @@ class rcube_config
         $domain = $host;
 
         if (is_array($this->prop['mail_domain'])) {
-            if (isset($this->prop['mail_domain'][$host]))
+            if (isset($this->prop['mail_domain'][$host])) {
                 $domain = $this->prop['mail_domain'][$host];
+            }
         }
         else if (!empty($this->prop['mail_domain'])) {
             $domain = rcube_utils::parse_host($this->prop['mail_domain']);
