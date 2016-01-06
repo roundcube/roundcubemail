@@ -93,6 +93,11 @@ else if ($_GET['_thumb']) {
                     $mimetype = 'image/' . $imgtype;
                     unlink($orig_name);
                 }
+                else if (stripos($mimetype, 'image/svg') === 0) {
+                    $content = rcmail_svg_filter(file_get_contents($orig_name));
+                    file_put_contents($cache_file, $content);
+                    unlink($orig_name);
+                }
                 else {
                     rename($orig_name, $cache_file);
                 }
@@ -332,7 +337,7 @@ else if (strlen($part_id)) {
                 }
 
                 // convert image to jpeg and send it to the browser
-                if ($saved) {
+                if ($sent = $saved) {
                     $image = new rcube_image($file_path);
                     if ($image->convert(rcube_image::TYPE_JPG, $file_path)) {
                         header("Content-Length: " . filesize($file_path));
@@ -341,34 +346,8 @@ else if (strlen($part_id)) {
                     unlink($file_path);
                 }
             }
-            // do content filtering to avoid XSS through fake images
-            else if (!empty($_REQUEST['_embed']) && $browser->ie && $browser->ver <= 8) {
-                if ($part->body) {
-                    echo preg_match('/<(script|iframe|object)/i', $part->body) ? '' : $part->body;
-                    $sent = true;
-                }
-                else if ($part->size) {
-                    $stdout = fopen('php://output', 'w');
-                    stream_filter_register('rcube_content', 'rcube_content_filter') or die('Failed to register content filter');
-                    stream_filter_append($stdout, 'rcube_content');
-                    $sent = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $stdout);
-                }
-            }
-            // send part as-it-is
             else {
-                // here we trust attachments from TNEF/uuencode message are untouched (#1490091)
-                if ($part->body && (!is_numeric($part->mime_id) || empty($plugin['download']))) {
-                    header("Content-Length: " . strlen($part->body));
-                    echo $part->body;
-                    $sent = true;
-                }
-                else if ($part->size) {
-                    // Don't be tempted to set Content-Length to $part->d_parameters['size'] (#1490482)
-                    // RFC2183 says "The size parameter indicates an approximate size"
-
-                    // 8th argument disables re-formatting of text/* parts (#1489267)
-                    $sent = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, true, null, false, 0, false);
-                }
+                $sent = rcmail_message_part_output($part, $mimetype, $plugin['download']);
             }
 
             // check connection status
@@ -479,4 +458,74 @@ function rcmail_message_part_frame($attrib)
     $RCMAIL->output->add_gui_object('messagepartframe', $attrib['id']);
 
     return html::iframe($attrib);
+}
+
+/**
+ * Output attachment body with content filtering
+ */
+function rcmail_message_part_output($part, $mimetype, $download)
+{
+    global $MESSAGE, $RCMAIL;
+
+    if (!$part->size && !$part->body) {
+        return false;
+    }
+
+    $browser = $RCMAIL->output->browser;
+    $secure  = stripos($mimetype, 'image/') === false || $download;
+
+    // Remove <script> in SVG images
+    if (!$secure && stripos($mimetype, 'image/svg') === 0) {
+        if (!$part->body) {
+            $part->body = $MESSAGE->get_part_body($part->mime_id, false);
+            if (empty($part->body)) {
+                return false;
+            }
+        }
+
+        echo rcmail_svg_filter($part->body);
+        return true;
+    }
+
+    // Remove dangerous content in images for older IE (to be removed)
+    if (!$secure && $browser->ie && $browser->ver <= 8) {
+        if ($part->body) {
+            echo preg_match('/<(script|iframe|object)/i', $part->body) ? '' : $part->body;
+            return true;
+        }
+        else {
+            $stdout = fopen('php://output', 'w');
+            stream_filter_register('rcube_content', 'rcube_content_filter') or die('Failed to register content filter');
+            stream_filter_append($stdout, 'rcube_content');
+            return $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $stdout);
+        }
+    }
+
+    // here we trust attachments from TNEF/uuencode message are untouched (#1490091)
+    if ($part->body && (!is_numeric($part->mime_id) || empty($download))) {
+        header("Content-Length: " . strlen($part->body));
+        echo $part->body;
+        return true;
+    }
+
+    // Don't be tempted to set Content-Length to $part->d_parameters['size'] (#1490482)
+    // RFC2183 says "The size parameter indicates an approximate size"
+
+    // 8th argument disables re-formatting of text/* parts (#1489267)
+    return $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, true, null, false, 0, false);
+}
+
+/**
+ * Remove <script> in SVG images
+ */
+function rcmail_svg_filter($body)
+{
+    $dom = new DOMDocument;
+    $dom->loadXML($body);
+
+    foreach ($dom->getElementsByTagName('script') as $node) {
+        $node->parentNode->removeChild($node);
+    }
+
+    return $dom->saveXML() ?: '';
 }
