@@ -47,7 +47,7 @@ class rcube_smtp
      *
      * @return bool  Returns true on success, or false on error
      */
-    public function connect($host=null, $port=null, $user=null, $pass=null)
+    public function connect($host = null, $port = null, $user = null, $pass = null)
     {
         $rcube = rcube::get_instance();
 
@@ -61,8 +61,8 @@ class rcube_smtp
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', array(
             'smtp_server'    => $host ?: $rcube->config->get('smtp_server'),
             'smtp_port'      => $port ?: $rcube->config->get('smtp_port', 25),
-            'smtp_user'      => $user ?: $rcube->config->get('smtp_user'),
-            'smtp_pass'      => $pass ?: $rcube->config->get('smtp_pass'),
+            'smtp_user'      => $user !== null ? $user : $rcube->config->get('smtp_user'),
+            'smtp_pass'      => $pass !== null ? $pass : $rcube->config->get('smtp_pass'),
             'smtp_auth_cid'  => $rcube->config->get('smtp_auth_cid'),
             'smtp_auth_pw'   => $rcube->config->get('smtp_auth_pw'),
             'smtp_auth_type' => $rcube->config->get('smtp_auth_type'),
