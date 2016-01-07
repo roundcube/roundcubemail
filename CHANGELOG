@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enable use of TLSv1.1 and TLSv1.2 for IMAP (#1490640)
+
 RELEASE 1.0.8
 -------------
 - Add workaround for https://bugs.php.net/bug.php?id=70757 (#1490582)
