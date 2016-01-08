@@ -232,7 +232,7 @@ function rcube_mail_ui()
         $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : '').click(function(e) { switch_view_mode('thread'); return false; });
 
         mailviewsplit = new rcube_splitter({ id:'mailviewsplitter', p1:'#mailview-top', p2:'#mailview-bottom',
-          orientation:'h', relative:true, start:310, min:150, size:12, offset:4 });
+          orientation:'h', relative:true, start:276, min:150, size:12, offset:4 });
         if (previewframe)
           mailviewsplit.init();
 
