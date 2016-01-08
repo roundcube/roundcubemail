@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+
+- Fix missing language name in "Add to Dictionary" request in HTML mode (#1490634)
+
 RELEASE 1.1.4
 -------------
 - Add workaround for https://bugs.php.net/bug.php?id=70757 (#1490582)

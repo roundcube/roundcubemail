@@ -71,6 +71,9 @@ function rcube_text_editor(config, id)
     tinymce.registered_request_token = true;
     tinymce.util.XHR.on('beforeSend', function(e) {
       e.xhr.setRequestHeader('X-Roundcube-Request', rcmail.env.request_token);
+      // Fix missing lang parameter on addToDictionary request (#1490634)
+      if (e.settings && e.settings.data && /^method=addToDictionary/.test(e.settings.data) && !/&lang=/.test(e.settings.data))
+        e.settings.data += '&lang=' + ref.editor.plugins.spellchecker.getLanguage();
     });
   }
 
