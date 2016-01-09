@@ -515,12 +515,20 @@ function rcmail_message_part_output($body, $part, $mimetype, $download)
  */
 function rcmail_svg_filter($body)
 {
-    $dom = new DOMDocument;
-    $dom->loadXML($body);
+    // clean SVG with washhtml
+    $wash_opts = array(
+        'show_washed'   => false,
+        'allow_remote'  => false,
+        'charset'       => RCUBE_CHARSET,
+        'html_elements' => array('title'),
+//        'blocked_src'   => 'program/resources/blocked.gif',
+    );
 
-    foreach ($dom->getElementsByTagName('script') as $node) {
-        $node->parentNode->removeChild($node);
-    }
+    // initialize HTML washer
+    $washer = new rcube_washtml($wash_opts);
 
-    return $dom->saveXML() ?: '';
+    // allow CSS styles, will be sanitized by rcmail_washtml_callback()
+    $washer->add_callback('style', 'rcmail_washtml_callback');
+
+    return $washer->wash($body);
 }

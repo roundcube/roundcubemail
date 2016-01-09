@@ -97,7 +97,20 @@ class rcube_washtml
         'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'u', 'ul', 'var', 'wbr', 'img',
         'video', 'source',
         // form elements
-        'button', 'input', 'textarea', 'select', 'option', 'optgroup'
+        'button', 'input', 'textarea', 'select', 'option', 'optgroup',
+        // SVG
+        'svg', 'altglyph', 'altglyphdef', 'altglyphitem', 'animate', 'animatecolor',
+        'animatemotion', 'animatetransform', 'circle', 'clippath', 'defs', 'desc',
+        'ellipse', 'font', 'g', 'glyph', 'glyphref', 'hkern', 'image', 'line',
+        'lineargradient', 'marker', 'mask', 'mpath', 'path', 'pattern',
+        'polygon', 'polyline', 'radialgradient', 'rect', 'set', 'stop', 'switch', 'symbol',
+        'text', 'textpath', 'tref', 'tspan', 'use', 'view', 'vkern', 'filter',
+         // SVG Filters
+        'feblend', 'fecolormatrix', 'fecomponenttransfer', 'fecomposite',
+        'feconvolvematrix', 'fediffuselighting', 'fedisplacementmap',
+        'feflood', 'fefunca', 'fefuncb', 'fefuncg', 'fefuncr', 'fegaussianblur',
+        'feimage', 'femerge', 'femergenode', 'femorphology', 'feoffset',
+        'fespecularlighting', 'fetile', 'feturbulence',
     );
 
     /* Ignore these HTML tags and their content */
@@ -111,13 +124,52 @@ class rcube_washtml
         'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace',
         'cellborder', 'size', 'lang', 'dir', 'usemap', 'shape', 'media',
         // attributes of form elements
-        'type', 'rows', 'cols', 'disabled', 'readonly', 'checked', 'multiple', 'value'
+        'type', 'rows', 'cols', 'disabled', 'readonly', 'checked', 'multiple', 'value',
+        // SVG
+        'accent-height', 'accumulate', 'additivive', 'alignment-baseline',
+        'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseprofile',
+        'baseline-shift', 'begin', 'bias', 'by', 'clip', 'clip-path', 'clip-rule',
+        'color', 'color-interpolation', 'color-interpolation-filters', 'color-profile',
+        'color-rendering', 'cx', 'cy', 'd', 'dx', 'dy', 'diffuseconstant', 'direction',
+        'display', 'divisor', 'dur', 'edgemode', 'elevation', 'end', 'fill', 'fill-opacity',
+        'fill-rule', 'filter', 'flood-color', 'flood-opacity', 'font-family', 'font-size',
+        'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight',
+        'fx', 'fy', 'g1', 'g2', 'glyph-name', 'glyphref', 'gradientunits', 'gradienttransform',
+        'image-rendering', 'in', 'in2', 'k', 'k1', 'k2', 'k3', 'k4', 'kerning', 'keypoints',
+        'keysplines', 'keytimes', 'lengthadjust', 'letter-spacing', 'kernelmatrix',
+        'kernelunitlength', 'lighting-color', 'local', 'marker-end', 'marker-mid',
+        'marker-start', 'markerheight', 'markerunits', 'markerwidth', 'maskcontentunits',
+        'maskunits', 'max', 'mask', 'mode', 'min', 'numoctaves', 'offset', 'operator',
+        'opacity', 'order', 'orient', 'orientation', 'origin', 'overflow', 'paint-order',
+        'path', 'pathlength', 'patterncontentunits', 'patterntransform', 'patternunits',
+        'points', 'preservealpha', 'r', 'rx', 'ry', 'radius', 'refx', 'refy', 'repeatcount',
+        'repeatdur', 'restart', 'rotate', 'scale', 'seed', 'shape-rendering', 'specularconstant',
+        'specularexponent', 'spreadmethod', 'stddeviation', 'stitchtiles', 'stop-color',
+        'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap',
+        'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width',
+        'surfacescale', 'targetx', 'targety', 'transform', 'text-anchor', 'text-decoration',
+        'text-rendering', 'textlength', 'u1', 'u2', 'unicode', 'values', 'viewbox',
+        'visibility', 'vert-adv-y', 'version', 'vert-origin-x', 'vert-origin-y', 'word-spacing',
+        'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2',
+        'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan',
+        // XML
+        'xml:id', 'xlink:title'
     );
 
     /* Elements which could be empty and be returned in short form (<tag />) */
     static $void_elements = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr',
-        'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'
+        'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr',
+        // SVG
+        'altglyph', 'altglyphdef', 'altglyphitem', 'animate', 'animatecolor',
+        'animatemotion', 'animatetransform', 'circle', 'clippath', 'defs', 'desc',
+        'ellipse', 'font', 'g', 'glyph', 'glyphref', 'hkern', 'image', 'line',
+        'lineargradient', 'marker', 'mask', 'mpath', 'path', 'pattern',
+        'polygon', 'polyline', 'radialgradient', 'rect', 'set', 'stop', 'switch', 'symbol',
+        'text', 'textpath', 'tref', 'tspan', 'use', 'view', 'vkern', 'filter',
     );
+
+    /* Attributes that may contain insecure content */
+    static $insecure_attribs = array('href', 'to', 'from');
 
     /* State for linked objects in HTML */
     public $extlinks = false;
@@ -149,10 +201,11 @@ class rcube_washtml
      */
     public function __construct($p = array())
     {
-        $this->_html_elements   = array_flip((array)$p['html_elements']) + array_flip(self::$html_elements) ;
-        $this->_html_attribs    = array_flip((array)$p['html_attribs']) + array_flip(self::$html_attribs);
-        $this->_ignore_elements = array_flip((array)$p['ignore_elements']) + array_flip(self::$ignore_elements);
-        $this->_void_elements   = array_flip((array)$p['void_elements']) + array_flip(self::$void_elements);
+        $this->_html_elements    = array_flip((array)$p['html_elements']) + array_flip(self::$html_elements);
+        $this->_html_attribs     = array_flip((array)$p['html_attribs']) + array_flip(self::$html_attribs);
+        $this->_insecure_attribs = array_flip((array)$p['insecure_attribs']) + array_flip(self::$insecure_attribs);
+        $this->_ignore_elements  = array_flip((array)$p['ignore_elements']) + array_flip(self::$ignore_elements);
+        $this->_void_elements    = array_flip((array)$p['void_elements']) + array_flip(self::$void_elements);
 
         unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['void_elements']);
 
@@ -232,25 +285,26 @@ class rcube_washtml
      */
     private function wash_attribs($node)
     {
-        $t = '';
+        $t      = '';
         $washed = '';
 
-        foreach ($node->attributes as $key => $plop) {
-            $key   = strtolower($key);
-            $value = $node->getAttribute($key);
+        foreach ($node->attributes as $name => $attr) {
+            $key   = strtolower($name);
+            $value = $attr->nodeValue;
 
             if (isset($this->_html_attribs[$key]) ||
-                ($key == 'href' && ($value = trim($value))
+                (isset($this->_insecure_attribs[$key])
+                    && ($value = trim($value))
                     && !preg_match('!^(javascript|vbscript|data:text)!i', $value)
                     && preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $value))
             ) {
-                $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
+                $t .= ' ' . $attr->nodeName . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
             }
             else if ($key == 'style' && ($style = $this->wash_style($value))) {
                 // replace double quotes to prevent syntax error and XSS issues (#1490227)
                 $t .= ' style="' . str_replace('"', '&quot;', $style) . '"';
             }
-            else if ($key == 'background'
+            else if ($key == 'background' || $key == 'href'
                 || ($key == 'src' && preg_match('/^(img|source)$/i', $node->tagName))
                 || ($key == 'poster' && strtolower($node->tagName) == 'video')
             ) {
@@ -275,7 +329,7 @@ class rcube_washtml
                 }
             }
             else {
-                $washed .= ($washed ? ' ' : '') . $key;
+                $washed .= ($washed ? ' ' : '') . $attr->nodeName;
             }
         }
 
@@ -322,8 +376,25 @@ class rcube_washtml
                 }
                 else if (isset($this->_html_elements[$tagName])) {
                     $content = $this->dumpHtml($node, $level);
-                    $dump .= '<' . $tagName . $this->wash_attribs($node) .
-                        ($content === '' && isset($this->_void_elements[$tagName]) ? ' />' : ">$content</$tagName>");
+                    $dump .= '<' . $tagName;
+
+                    if ($tagName == 'svg') {
+                        $xpath = new DOMXPath($node->ownerDocument);
+                        foreach ($xpath->query('namespace::*') as $ns) {
+                            if ($ns->nodeName != 'xmlns:xml') {
+                                $dump .= ' ' . $ns->nodeName . '="' . $ns->nodeValue . '"';
+                            }
+                        }
+                    }
+
+                    $dump .= $this->wash_attribs($node);
+
+                    if ($content === '' && isset($this->_void_elements[$tagName])) {
+                        $dump .= ' />';
+                    }
+                    else {
+                        $dump .= ">$content</$tagName>";
+                    }
                 }
                 else if (isset($this->_ignore_elements[$tagName])) {
                     $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' not allowed -->';
@@ -375,13 +446,17 @@ class rcube_washtml
         // Detect max nesting level (for dumpHTML) (#1489110)
         $this->max_nesting_level = (int) @ini_get('xdebug.max_nesting_level');
 
+        // SVG need to be parsed as XML
+        $xml     = stripos($html, '<svg') !== false || stripos($html, '<?xml') !== false;
+        $method  = $xml ? 'loadXML' : 'loadHTML';
+        $options = 0;
+
         // Use optimizations if supported
         if (PHP_VERSION_ID >= 50400) {
-            @$node->loadHTML($html, LIBXML_PARSEHUGE | LIBXML_COMPACT);
+            $options = LIBXML_PARSEHUGE | LIBXML_COMPACT | LIBXML_NONET;
         }
-        else {
-            @$node->loadHTML($html);
-        }
+
+        @$node->{$method}($html, $options);
 
         return $this->dumpHtml($node);
     }
@@ -399,6 +474,8 @@ class rcube_washtml
      */
     private function cleanup($html)
     {
+        $html = trim($html);
+
         // special replacements (not properly handled by washtml class)
         $html_search = array(
             // space(s) between <NOBR>
@@ -420,17 +497,19 @@ class rcube_washtml
             '',
             '<html>',
         );
+
         $html = preg_replace($html_search, $html_replace, trim($html));
 
-        //-> Replace all of those weird MS Word quotes and other high characters
+        // Replace all of those weird MS Word quotes and other high characters
         $badwordchars = array(
             "\xe2\x80\x98", // left single quote
             "\xe2\x80\x99", // right single quote
             "\xe2\x80\x9c", // left double quote
             "\xe2\x80\x9d", // right double quote
             "\xe2\x80\x94", // em dash
-            "\xe2\x80\xa6" // elipses
+            "\xe2\x80\xa6"  // elipses
         );
+
         $fixedwordchars = array(
             "'",
             "'",
@@ -439,6 +518,7 @@ class rcube_washtml
             '&mdash;',
             '...'
         );
+
         $html = str_replace($badwordchars, $fixedwordchars, $html);
 
         // PCRE errors handling (#1486856), should we use something like for every preg_* use?
@@ -484,7 +564,7 @@ class rcube_washtml
         $tagname = $matches[2];
         $tagname = preg_replace(array(
             '/:.*$/',               // Microsoft's Smart Tags <st1:xxxx>
-            '/[^a-z0-9_\[\]\!-]/i', // forbidden characters
+            '/[^a-z0-9_\[\]\!?-]/i', // forbidden characters
         ), '', $tagname);
 
         // fix invalid closing tags - remove any attributes (#1489446)
