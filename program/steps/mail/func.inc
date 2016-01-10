@@ -989,10 +989,12 @@ function rcmail_message_headers($attrib, $headers=null)
     static $sa_attrib;
 
     // keep header table attrib
-    if (is_array($attrib) && !$sa_attrib && !$attrib['valueof'])
+    if (is_array($attrib) && !$sa_attrib && !$attrib['valueof']) {
         $sa_attrib = $attrib;
-    else if (!is_array($attrib) && is_array($sa_attrib))
+    }
+    else if (!is_array($attrib) && is_array($sa_attrib)) {
         $attrib = $sa_attrib;
+    }
 
     if (!isset($MESSAGE)) {
         return false;
@@ -1040,10 +1042,12 @@ function rcmail_message_headers($attrib, $headers=null)
         }
         else if ($hkey == 'priority') {
             if ($value) {
-                $header_value = html::span('prio' . $value, rcmail_localized_priority($value));
+                $header_value = html::span('prio' . $value, rcube::Q(rcmail_localized_priority($value)));
+                $ishtml       = true;
             }
-            else
+            else {
                 continue;
+            }
         }
         else if ($hkey == 'replyto') {
             if ($headers['replyto'] != $headers['from']) {
@@ -1051,8 +1055,9 @@ function rcmail_message_headers($attrib, $headers=null)
                     $attrib['addicon'], $headers['charset'], $header_title);
                 $ishtml = true;
             }
-            else
+            else {
                 continue;
+            }
         }
         else if ($hkey == 'mail-reply-to') {
             if ($headers['mail-replyto'] != $headers['reply-to']
@@ -1062,8 +1067,9 @@ function rcmail_message_headers($attrib, $headers=null)
                     $attrib['addicon'], $headers['charset'], $header_title);
                 $ishtml = true;
             }
-            else
+            else {
                 continue;
+            }
         }
         else if ($hkey == 'sender') {
             if ($headers['sender'] != $headers['from']) {
@@ -1071,8 +1077,9 @@ function rcmail_message_headers($attrib, $headers=null)
                     $attrib['addicon'], $headers['charset'], $header_title);
                 $ishtml = true;
             }
-            else
+            else {
                 continue;
+            }
         }
         else if ($hkey == 'mail-followup-to') {
             $header_value = rcmail_address_string($value, $attrib['max'], true,
@@ -1109,14 +1116,14 @@ function rcmail_message_headers($attrib, $headers=null)
 
     // single header value is requested
     if (!empty($attrib['valueof'])) {
-        return rcube::Q($plugin['output'][$attrib['valueof']]['value'], ($attrib['valueof'] == 'subject' ? 'strict' : 'show'));
+        return rcube::Q($plugin['output'][$attrib['valueof']]['value']);
     }
 
     // compose html table
     $table = new html_table(array('cols' => 2));
 
     foreach ($plugin['output'] as $hkey => $row) {
-        $val = $row['html'] ? $row['value'] : rcube::Q($row['value'], ($hkey == 'subject' ? 'strict' : 'show'));
+        $val = $row['html'] ? $row['value'] : rcube::Q($row['value']);
 
         $table->add(array('class' => 'header-title'), rcube::Q($row['title']));
         $table->add(array('class' => 'header '.$hkey), $val);
