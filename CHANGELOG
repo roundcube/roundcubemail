@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enable use of TLSv1.1 and TLSv1.2 for IMAP.
+- Save copy of original .htaccess file when using installto.sh script (1490623)
 - Fix regression where some message attachments could be missing on edit/forward (#1490608)
 - Fix regression in displaying contents of message/rfc822 parts (#1490606)
 - Fix handling of message/rfc822 attachments on replies and forwards (#1490607)
@@ -12,7 +14,6 @@ CHANGELOG Roundcube Webmail
 - Fix PHP7 warning "session_start(): Session callback expects true/false return value" (#1490624)
 - Fix XSS issue in SVG images handling (#1490625)
 - Fix missing language name in "Add to Dictionary" request in HTML mode (#1490634)
-- Enable use of TLSv1.1 and TLSv1.2 for IMAP.
 
 RELEASE 1.2-beta
 ----------------

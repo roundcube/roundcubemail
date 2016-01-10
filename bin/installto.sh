@@ -44,6 +44,12 @@ $input = trim(fgets(STDIN));
 if (strtolower($input) == 'y') {
   $err = false;
   echo "Copying files to target location...";
+
+  // Save a copy of original .htaccess file (#1490623)
+  if (file_exists("$target_dir/.htaccess")) {
+    $htaccess_copied = copy("$target_dir/.htaccess", "$target_dir/.htaccess.orig");
+  }
+
   $dirs = array('program','installer','bin','SQL','plugins','skins');
   if (is_dir(INSTALL_PATH . 'vendor') && !is_file(INSTALL_PATH . 'composer.json')) {
     $dirs[] = 'vendor';
@@ -60,9 +66,22 @@ if (strtolower($input) == 'y') {
       break;
     }
   }
+
   // remove old (<1.0) .htaccess file
   @unlink("$target_dir/program/.htaccess");
-  echo "done.\n\n";
+  echo "done.";
+
+  // Inform the user about .htaccess change
+  if (!empty($htaccess_copied)) {
+    if (file_get_contents("$target_dir/.htaccess") != file_get_contents("$target_dir/.htaccess.orig")) {
+      echo "\n!! Old .htaccess file saved as .htaccess.orig !!";
+    }
+    else {
+      @unlink("$target_dir/.htaccess.orig");
+    }
+  }
+
+  echo "\n\n";
 
   if (is_dir("$target_dir/skins/default")) {
       echo "Removing old default skin...";
