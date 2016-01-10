@@ -550,7 +550,7 @@ abstract class rcube_addressbook
         // fallbacks...
         if ($fn === '') {
             // ... display name
-            if (!empty($contact['name'])) {
+            if (!empty(trim($contact['name']))) {
                 $fn = $contact['name'];
             }
             // ... organization
