@@ -997,7 +997,18 @@ class rcube_imap_generic
                 return false;
             }
 
-            if (!stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+            if (isset($this->prefs['socket_options']['ssl']['crypto_method'])) {
+                $crypto_method = $this->prefs['socket_options']['ssl']['crypto_method'];
+            }
+            else {
+                // There is no flag to enable all TLS methods. Net_SMTP
+                // handles enabling TLS similarly.
+                $crypto_method = STREAM_CRYPTO_METHOD_TLS_CLIENT
+                    | @STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT
+                    | @STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+            }
+
+            if (!stream_socket_enable_crypto($this->fp, true, $crypto_method)) {
                 $this->setError(self::ERROR_BAD, "Unable to negotiate TLS");
                 $this->closeConnection();
                 return false;
