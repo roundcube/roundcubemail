@@ -122,6 +122,7 @@ class rcube_washtml
         'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border',
         'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace',
         'cellborder', 'size', 'lang', 'dir', 'usemap', 'shape', 'media',
+        'background', 'src', 'poster', 'href',
         // attributes of form elements
         'type', 'rows', 'cols', 'disabled', 'readonly', 'checked', 'multiple', 'value',
         // SVG
@@ -132,7 +133,7 @@ class rcube_washtml
         'color-rendering', 'cx', 'cy', 'd', 'dx', 'dy', 'diffuseconstant', 'direction',
         'display', 'divisor', 'dur', 'edgemode', 'elevation', 'end', 'fill', 'fill-opacity',
         'fill-rule', 'filter', 'flood-color', 'flood-opacity', 'font-family', 'font-size',
-        'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight',
+        'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'from',
         'fx', 'fy', 'g1', 'g2', 'glyph-name', 'glyphref', 'gradientunits', 'gradienttransform',
         'image-rendering', 'in', 'in2', 'k', 'k1', 'k2', 'k3', 'k4', 'kerning', 'keypoints',
         'keysplines', 'keytimes', 'lengthadjust', 'letter-spacing', 'kernelmatrix',
@@ -147,12 +148,12 @@ class rcube_washtml
         'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap',
         'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width',
         'surfacescale', 'targetx', 'targety', 'transform', 'text-anchor', 'text-decoration',
-        'text-rendering', 'textlength', 'u1', 'u2', 'unicode', 'values', 'viewbox',
+        'text-rendering', 'textlength', 'to', 'u1', 'u2', 'unicode', 'values', 'viewbox',
         'visibility', 'vert-adv-y', 'version', 'vert-origin-x', 'vert-origin-y', 'word-spacing',
         'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2',
         'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan',
         // XML
-        'xml:id', 'xlink:title'
+        'xml:id', 'xlink:title',
     );
 
     /* Elements which could be empty and be returned in short form (<tag />) */
@@ -166,9 +167,6 @@ class rcube_washtml
         'polygon', 'polyline', 'radialgradient', 'rect', 'set', 'stop', 'switch', 'symbol',
         'text', 'textpath', 'tref', 'tspan', 'use', 'view', 'vkern', 'filter',
     );
-
-    /* Attributes that may contain insecure content */
-    static $insecure_attribs = array('href', 'to', 'from');
 
     /* State for linked objects in HTML */
     public $extlinks = false;
@@ -200,11 +198,10 @@ class rcube_washtml
      */
     public function __construct($p = array())
     {
-        $this->_html_elements    = array_flip((array)$p['html_elements']) + array_flip(self::$html_elements);
-        $this->_html_attribs     = array_flip((array)$p['html_attribs']) + array_flip(self::$html_attribs);
-        $this->_insecure_attribs = array_flip((array)$p['insecure_attribs']) + array_flip(self::$insecure_attribs);
-        $this->_ignore_elements  = array_flip((array)$p['ignore_elements']) + array_flip(self::$ignore_elements);
-        $this->_void_elements    = array_flip((array)$p['void_elements']) + array_flip(self::$void_elements);
+        $this->_html_elements   = array_flip((array)$p['html_elements']) + array_flip(self::$html_elements);
+        $this->_html_attribs    = array_flip((array)$p['html_attribs']) + array_flip(self::$html_attribs);
+        $this->_ignore_elements = array_flip((array)$p['ignore_elements']) + array_flip(self::$ignore_elements);
+        $this->_void_elements   = array_flip((array)$p['void_elements']) + array_flip(self::$void_elements);
 
         unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['void_elements']);
 
@@ -281,55 +278,88 @@ class rcube_washtml
      */
     private function wash_attribs($node)
     {
-        $t      = '';
-        $washed = '';
+        $result = '';
+        $washed = array();
 
         foreach ($node->attributes as $name => $attr) {
             $key   = strtolower($name);
             $value = $attr->nodeValue;
 
-            if (isset($this->_html_attribs[$key]) ||
-                (isset($this->_insecure_attribs[$key])
-                    && ($value = trim($value))
-                    && !preg_match('!^(javascript|vbscript|data:text)!i', $value)
-                    && preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $value))
-            ) {
-                $t .= ' ' . $attr->nodeName . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
-            }
-            else if ($key == 'style' && ($style = $this->wash_style($value))) {
+            if ($key == 'style' && ($style = $this->wash_style($value))) {
                 // replace double quotes to prevent syntax error and XSS issues (#1490227)
-                $t .= ' style="' . str_replace('"', '&quot;', $style) . '"';
+                $result .= ' style="' . str_replace('"', '&quot;', $style) . '"';
             }
-            else if ($key == 'background' || $key == 'href'
-                || ($key == 'src' && preg_match('/^(img|source)$/i', $node->tagName))
-                || ($key == 'poster' && strtolower($node->tagName) == 'video')
-            ) {
-                if (($src = $this->config['cid_map'][$value])
-                    || ($src = $this->config['cid_map'][$this->config['base_url'].$value])
-                ) {
-                    $t .= ' ' . $key . '="' . htmlspecialchars($src, ENT_QUOTES) . '"';
-                }
-                else if (preg_match('/^(http|https|ftp):.+/i', $value)) {
-                    if ($this->config['allow_remote']) {
-                        $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
+            else if (isset($this->_html_attribs[$key])) {
+                $value = trim($value);
+                $out   = '';
+
+                if ($this->is_image($node->tagName, $key)) {
+                    if (($src = $this->config['cid_map'][$value])
+                        || ($src = $this->config['cid_map'][$this->config['base_url'].$value])
+                    ) {
+                        $out = $src;
                     }
-                    else {
-                        $this->extlinks = true;
-                        if ($this->config['blocked_src']) {
-                            $t .= ' ' . $key . '="' . htmlspecialchars($this->config['blocked_src'], ENT_QUOTES) . '"';
+                    else if (preg_match('/^(http|https|ftp):.+/i', $value)) {
+                        if ($this->config['allow_remote']) {
+                            $out = $value;
+                        }
+                        else {
+                            $this->extlinks = true;
+                            if ($this->config['blocked_src']) {
+                                $out = $this->config['blocked_src'];
+                            }
                         }
                     }
+                    else if (preg_match('/^data:image.+/i', $value)) { // RFC2397
+                        $out = $value;
+                    }
                 }
-                else if (preg_match('/^data:.+/i', $value)) { // RFC2397
-                    $t .= ' ' . $key . '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
+                else if ($this->is_link($node->tagName, $key)) {
+                    if (!preg_match('!^(javascript|vbscript|data:text)!i', $value)
+                        && preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $value)
+                    ) {
+                        $out = $value;
+                    }
+                }
+                else {
+                   $out = $value;
+                }
+
+                if ($out) {
+                    $result .= ' ' . $key . '="' . htmlspecialchars($out, ENT_QUOTES) . '"';
+                }
+                else if ($value) {
+                    $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES);
                 }
             }
             else {
-                $washed .= ($washed ? ' ' : '') . $attr->nodeName;
+                $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES);
             }
         }
 
-        return $t . ($washed && $this->config['show_washed'] ? ' x-washed="'.$washed.'"' : '');
+        if (!empty($washed) && $this->config['show_washed']) {
+            $result .= ' x-washed="' . implode(' ', $washed) . '"';
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check it the tag/attribute may contain an URI
+     */
+    private function is_link($tag, $attr)
+    {
+        return $tag == 'a' && $attr == 'href';
+    }
+
+    /**
+     * Check it the tag/attribute may contain an image URI
+     */
+    private function is_image($tag, $attr)
+    {
+        return $attr == 'background'
+            || ($attr == 'poster' && $tag == 'video')
+            || ($attr == 'src' && preg_match('/^(img|source)$/i', $tag));
     }
 
     /**
@@ -450,9 +480,11 @@ class rcube_washtml
         // Use optimizations if supported
         if (PHP_VERSION_ID >= 50400) {
             $options = LIBXML_PARSEHUGE | LIBXML_COMPACT | LIBXML_NONET;
+            @$node->{$method}($html, $options);
         }
-
-        @$node->{$method}($html, $options);
+        else {
+            @$node->{$method}($html);
+        }
 
         return $this->dumpHtml($node);
     }
