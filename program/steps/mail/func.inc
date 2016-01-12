@@ -1116,7 +1116,8 @@ function rcmail_message_headers($attrib, $headers=null)
 
     // single header value is requested
     if (!empty($attrib['valueof'])) {
-        return rcube::Q($plugin['output'][$attrib['valueof']]['value']);
+        $row = $plugin['output'][$attrib['valueof']];
+        return $row['html'] ? $row['value'] : rcube::Q($row['value']);
     }
 
     // compose html table
