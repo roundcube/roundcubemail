@@ -1,7 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Enable use of TLSv1.1 and TLSv1.2 for IMAP.
+- Enable use of TLSv1.1 and TLSv1.2 for IMAP (#1490640)
 - Save copy of original .htaccess file when using installto.sh script (1490623)
 - Fix regression where some message attachments could be missing on edit/forward (#1490608)
 - Fix regression in displaying contents of message/rfc822 parts (#1490606)
