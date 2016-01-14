@@ -3,7 +3,7 @@ CHANGELOG Roundcube Webmail
 
 
 - Fix missing language name in "Add to Dictionary" request in HTML mode (#1490634)
-- Enable use of TLSv1.1 and TLSv1.2 for IMAP.
+- Enable use of TLSv1.1 and TLSv1.2 for IMAP (#1490640)
 
 RELEASE 1.1.4
 -------------
