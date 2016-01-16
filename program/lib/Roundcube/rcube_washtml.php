@@ -99,8 +99,8 @@ class rcube_washtml
         // form elements
         'button', 'input', 'textarea', 'select', 'option', 'optgroup',
         // SVG
-        'svg', 'altglyph', 'altglyphdef', 'altglyphitem', 'animate', 'animatecolor',
-        'animatemotion', 'animatetransform', 'circle', 'clippath', 'defs', 'desc',
+        'svg', 'altglyph', 'altglyphdef', 'altglyphitem', 'animate',
+        'animatecolor', 'animatetransform', 'circle', 'clippath', 'defs', 'desc',
         'ellipse', 'font', 'g', 'glyph', 'glyphref', 'hkern', 'image', 'line',
         'lineargradient', 'marker', 'mask', 'mpath', 'path', 'pattern',
         'polygon', 'polyline', 'radialgradient', 'rect', 'set', 'stop', 'switch', 'symbol',
@@ -127,7 +127,7 @@ class rcube_washtml
         // attributes of form elements
         'type', 'rows', 'cols', 'disabled', 'readonly', 'checked', 'multiple', 'value',
         // SVG
-        'accent-height', 'accumulate', 'additivive', 'alignment-baseline',
+        'accent-height', 'accumulate', 'additive', 'alignment-baseline', 'alphabetic',
         'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseprofile',
         'baseline-shift', 'begin', 'bias', 'by', 'clip', 'clip-path', 'clip-rule',
         'color', 'color-interpolation', 'color-interpolation-filters', 'color-profile',
@@ -144,7 +144,7 @@ class rcube_washtml
         'opacity', 'order', 'orient', 'orientation', 'origin', 'overflow', 'paint-order',
         'path', 'pathlength', 'patterncontentunits', 'patterntransform', 'patternunits',
         'points', 'preservealpha', 'r', 'rx', 'ry', 'radius', 'refx', 'refy', 'repeatcount',
-        'repeatdur', 'restart', 'rotate', 'scale', 'seed', 'shape-rendering', 'specularconstant',
+        'repeatdur', 'restart', 'rotate', 'scale', 'seed', 'shape-rendering', 'show', 'specularconstant',
         'specularexponent', 'spreadmethod', 'stddeviation', 'stitchtiles', 'stop-color',
         'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap',
         'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width',
@@ -153,20 +153,11 @@ class rcube_washtml
         'visibility', 'vert-adv-y', 'version', 'vert-origin-x', 'vert-origin-y', 'word-spacing',
         'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2',
         'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan',
-        // XML
-        'xml:id', 'xlink:title',
     );
 
     /* Elements which could be empty and be returned in short form (<tag />) */
     static $void_elements = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr',
         'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr',
-        // SVG
-        'altglyph', 'altglyphdef', 'altglyphitem', 'animate', 'animatecolor',
-        'animatemotion', 'animatetransform', 'circle', 'clippath', 'defs', 'desc',
-        'ellipse', 'font', 'g', 'glyph', 'glyphref', 'hkern', 'image', 'line',
-        'lineargradient', 'marker', 'mask', 'mpath', 'path', 'pattern',
-        'polygon', 'polyline', 'radialgradient', 'rect', 'set', 'stop', 'switch', 'symbol',
-        'text', 'textpath', 'tref', 'tspan', 'use', 'view', 'vkern', 'filter',
     );
 
     /* State for linked objects in HTML */
@@ -192,6 +183,8 @@ class rcube_washtml
 
     /* Max nesting level */
     private $max_nesting_level;
+
+    private $is_xml = false;
 
 
     /**
@@ -236,22 +229,8 @@ class rcube_washtml
                 foreach ($this->explode_style($str) as $val) {
                     if (preg_match('/^url\(/i', $val)) {
                         if (preg_match('/^url\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $val, $match)) {
-                            $url = $match[1];
-                            if (($src = $this->config['cid_map'][$url])
-                                || ($src = $this->config['cid_map'][$this->config['base_url'].$url])
-                            ) {
-                                $value .= ' url('.htmlspecialchars($src, ENT_QUOTES) . ')';
-                            }
-                            else if (preg_match('!^(https?:)?//[a-z0-9/._+-]+$!i', $url, $m)) {
-                                if ($this->config['allow_remote']) {
-                                    $value .= ' url('.htmlspecialchars($m[0], ENT_QUOTES).')';
-                                }
-                                else {
-                                    $this->extlinks = true;
-                                }
-                            }
-                            else if (preg_match('/^data:.+/i', $url)) { // RFC2397
-                                $value .= ' url('.htmlspecialchars($url, ENT_QUOTES).')';
+                            if ($url = $this->wash_uri($match[1])) {
+                                $value .= ' url(' . htmlspecialchars($url, ENT_QUOTES) . ')';
                             }
                         }
                     }
@@ -295,42 +274,49 @@ class rcube_washtml
             }
             else if (isset($this->_html_attribs[$key])) {
                 $value = trim($value);
-                $out   = '';
+                $out   = null;
 
-                if ($this->is_image($node->tagName, $key)) {
-                    if (($src = $this->config['cid_map'][$value])
-                        || ($src = $this->config['cid_map'][$this->config['base_url'].$value])
-                    ) {
-                        $out = $src;
-                    }
-                    else if (preg_match('/^(http|https|ftp):.+/i', $value)) {
-                        if ($this->config['allow_remote']) {
-                            $out = $value;
-                        }
-                        else {
-                            $this->extlinks = true;
-                            if ($this->config['blocked_src']) {
-                                $out = $this->config['blocked_src'];
-                            }
-                        }
-                    }
-                    else if (preg_match('/^data:image.+/i', $value)) { // RFC2397
-                        $out = $value;
+                // in SVG to/from attribs may contain anything, including URIs
+                if ($key == 'to' || $key == 'from') {
+                    $key = strtolower($node->getAttribute('attributeName'));
+                    if ($key && !isset($this->_html_attribs[$key])) {
+                        $key = null;
                     }
                 }
-                else if ($this->is_link($node->tagName, $key)) {
+
+                if ($this->is_image_attribute($node->tagName, $key)) {
+                    $out = $this->wash_uri($value, true);
+                }
+                else if ($this->is_link_attribute($node->tagName, $key)) {
                     if (!preg_match('!^(javascript|vbscript|data:text)!i', $value)
                         && preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $value)
                     ) {
                         $out = $value;
                     }
                 }
-                else {
+                else if ($this->is_funciri_attribute($node->tagName, $key)) {
+                    if (preg_match('/^[a-z:]*url\(/i', $val)) {
+                        if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $value, $match)) {
+                            if ($url = $this->wash_uri($match[2])) {
+                                $result .= ' ' . $attr->nodeName . '="' . $match[1] . '(' . htmlspecialchars($url, ENT_QUOTES) . ')'
+                                     . substr($val, strlen($match[0])) . '"';
+                                continue;
+                            }
+                        }
+                        else {
+                            $out = $value;
+                        }
+                    }
+                    else {
+                        $out = $value;
+                    }
+                }
+                else if ($key) {
                    $out = $value;
                 }
 
-                if ($out) {
-                    $result .= ' ' . $key . '="' . htmlspecialchars($out, ENT_QUOTES) . '"';
+                if ($out !== null && $out !== '') {
+                    $result .= ' ' . $attr->nodeName . '="' . htmlspecialchars($out, ENT_QUOTES) . '"';
                 }
                 else if ($value) {
                     $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES);
@@ -349,9 +335,40 @@ class rcube_washtml
     }
 
     /**
+     * Wash URI value
+     */
+    private function wash_uri($uri, $blocked_source = false)
+    {
+        if (($src = $this->config['cid_map'][$uri])
+            || ($src = $this->config['cid_map'][$this->config['base_url'].$uri])
+        ) {
+            return $src;
+        }
+
+        // allow url(#id) used in SVG
+        if ($uri[0] == '#') {
+            return $uri;
+        }
+
+        if (preg_match('/^(http|https|ftp):.+/i', $uri)) {
+            if ($this->config['allow_remote']) {
+                return $uri;
+            }
+
+            $this->extlinks = true;
+            if ($blocked_source && $this->config['blocked_src']) {
+                return $this->config['blocked_src'];
+            }
+        }
+        else if (preg_match('/^data:image.+/i', $uri)) { // RFC2397
+            return $uri;
+        }
+    }
+
+    /**
      * Check it the tag/attribute may contain an URI
      */
-    private function is_link($tag, $attr)
+    private function is_link_attribute($tag, $attr)
     {
         return $tag == 'a' && $attr == 'href';
     }
@@ -359,11 +376,22 @@ class rcube_washtml
     /**
      * Check it the tag/attribute may contain an image URI
      */
-    private function is_image($tag, $attr)
+    private function is_image_attribute($tag, $attr)
     {
         return $attr == 'background'
+            || $attr == 'color-profile' // SVG
             || ($attr == 'poster' && $tag == 'video')
-            || ($attr == 'src' && preg_match('/^(img|source)$/i', $tag));
+            || ($attr == 'src' && preg_match('/^(img|source)$/i', $tag))
+            || ($tag == 'image' && $attr == 'href'); // SVG
+    }
+
+    /**
+     * Check it the tag/attribute may contain a FUNCIRI value
+     */
+    private function is_funciri_attribute($tag, $attr)
+    {
+        return in_array($attr, array('fill', 'filter', 'stroke', 'marker-start',
+            'marker-end', 'marker-mid', 'clip-path', 'mask', 'cursor'));
     }
 
     /**
@@ -406,7 +434,7 @@ class rcube_washtml
                 }
                 else if (isset($this->_html_elements[$tagName])) {
                     $content = $this->dumpHtml($node, $level);
-                    $dump .= '<' . $tagName;
+                    $dump .= '<' . $node->tagName;
 
                     if ($tagName == 'svg') {
                         $xpath = new DOMXPath($node->ownerDocument);
@@ -419,18 +447,18 @@ class rcube_washtml
 
                     $dump .= $this->wash_attribs($node);
 
-                    if ($content === '' && isset($this->_void_elements[$tagName])) {
+                    if ($content === '' && ($this->is_xml || isset($this->_void_elements[$tagName]))) {
                         $dump .= ' />';
                     }
                     else {
-                        $dump .= ">$content</$tagName>";
+                        $dump .= '>' . $content . '</' . $node->tagName . '>';
                     }
                 }
                 else if (isset($this->_ignore_elements[$tagName])) {
-                    $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' not allowed -->';
+                    $dump .= '<!-- ' . htmlspecialchars($node->tagName, ENT_QUOTES) . ' not allowed -->';
                 }
                 else {
-                    $dump .= '<!-- ' . htmlspecialchars($tagName, ENT_QUOTES) . ' ignored -->';
+                    $dump .= '<!-- ' . htmlspecialchars($node->tagName, ENT_QUOTES) . ' ignored -->';
                     $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
                 }
                 break;
@@ -477,9 +505,9 @@ class rcube_washtml
         $this->max_nesting_level = (int) @ini_get('xdebug.max_nesting_level');
 
         // SVG need to be parsed as XML
-        $xml     = stripos($html, '<svg') !== false || stripos($html, '<?xml') !== false;
-        $method  = $xml ? 'loadXML' : 'loadHTML';
-        $options = 0;
+        $this->is_xml = stripos($html, '<svg') !== false || stripos($html, '<?xml') !== false;
+        $method       = $this->is_xml ? 'loadXML' : 'loadHTML';
+        $options      = 0;
 
         // Use optimizations if supported
         if (PHP_VERSION_ID >= 50400) {
