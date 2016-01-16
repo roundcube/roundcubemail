@@ -213,4 +213,43 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(strpos($washed, $exp) !== false, "Style quotes XSS issue (#1490227)");
     }
+
+    /**
+     * Test SVG cleanup
+     */
+    function test_style_wash_svg()
+    {
+        $svg = '<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" viewBox="0 0 100 100">
+  <polygon id="triangle" points="0,0 0,50 50,0" fill="#009900" stroke="#004400" onmouseover="alert(1)" />
+  <text x="50" y="68" font-size="48" fill="#FFF" text-anchor="middle"><![CDATA[410]]></text>
+  <script type="text/javascript">
+    alert(document.cookie);
+  </script>
+  <text x="10" y="25" >An example text</text>
+  <a xlink:href="http://www.w.pl"><rect width="100%" height="100%" /></a>
+  <foreignObject xlink:href="data:text/xml,%3Cscript xmlns=\'http://www.w3.org/1999/xhtml\'%3Ealert(1)%3C/script%3E"/>
+  <set attributeName="onmouseover" to="alert(1)"/>
+  <animate attributeName="onunload" to="alert(1)"/>
+  <animate attributeName="xlink:href" begin="0" from="javascript:alert(1)" />
+</svg>';
+
+        $exp = '<svg xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" viewBox="0 0 100 100">
+  <polygon id="triangle" points="0,0 0,50 50,0" fill="#009900" stroke="#004400" x-washed="onmouseover" />
+  <text x="50" y="68" font-size="48" fill="#FFF" text-anchor="middle">410</text>
+  <!-- script not allowed -->
+  <text x="10" y="25">An example text</text>
+  <a xlink:href="http://www.w.pl"><rect width="100%" height="100%" /></a>
+  <!-- foreignObject ignored -->
+  <set attributeName="onmouseover" x-washed="to" />
+  <animate attributeName="onunload" x-washed="to" />
+  <animate attributeName="xlink:href" begin="0" x-washed="from" />
+</svg>';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($svg);
+
+        $this->assertSame($washed, $exp, "SVG content");
+    }
 }
