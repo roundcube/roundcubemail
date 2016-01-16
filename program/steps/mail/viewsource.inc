@@ -19,6 +19,10 @@
  +-----------------------------------------------------------------------+
 */
 
+if (!empty($_GET['_save'])) {
+    $RCMAIL->request_security_check(rcube_utils::INPUT_GET);
+}
+
 ob_end_clean();
 
 // similar code as in program/steps/mail/get.inc

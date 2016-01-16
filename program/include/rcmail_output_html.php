@@ -514,10 +514,10 @@ EOF;
         // write all javascript commands
         $this->add_script($commands, 'head_top');
 
-        // send clickjacking protection headers
+        // allow (legal) iframe content to be loaded
         $iframe = $this->framed || $this->env['framed'];
-        if (!headers_sent() && ($xframe = $this->app->config->get('x_frame_options', 'sameorigin'))) {
-            header('X-Frame-Options: ' . ($iframe && $xframe == 'deny' ? 'sameorigin' : $xframe));
+        if (!headers_sent() && $iframe && $this->app->config->get('x_frame_options', 'sameorigin') === 'deny') {
+            header('X-Frame-Options: sameorigin', true);
         }
 
         // call super method

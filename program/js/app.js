@@ -999,7 +999,7 @@ function rcube_webmail()
             break;
         }
 
-        this.goto_url('get', qstring+'&_download=1', false);
+        this.goto_url('get', qstring+'&_download=1', false, true);
         break;
 
       case 'select-all':
@@ -1205,10 +1205,10 @@ function rcube_webmail()
 
       case 'download':
         if (this.env.action == 'get') {
-          location.href = location.href.replace(/_frame=/, '_download=');
+          location.href = this.secure_url(location.href.replace(/_frame=/, '_download='));
         }
         else if (uid = this.get_single_uid()) {
-          this.goto_url('viewsource', this.params_from_uid(uid, {_save: 1}));
+          this.goto_url('viewsource', this.params_from_uid(uid, {_save: 1}), false, true);
         }
         break;
 
@@ -1296,13 +1296,13 @@ function rcube_webmail()
 
       case 'export':
         if (this.contact_list.rowcount > 0) {
-          this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _search: this.env.search_request });
+          this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _search: this.env.search_request }, false, true);
         }
         break;
 
       case 'export-selected':
         if (this.contact_list.rowcount > 0) {
-          this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _cid: this.contact_list.get_selection().join(',') });
+          this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _cid: this.contact_list.get_selection().join(',') }, false, true);
         }
         break;
 
@@ -1417,7 +1417,7 @@ function rcube_webmail()
     if (task == 'mail')
       url += '&_mbox=INBOX';
     else if (task == 'logout' && !this.env.server_error) {
-      url += '&_token=' + this.env.request_token;
+      url = this.secure_url(url);
       this.clear_compose_data();
     }
 
@@ -1465,6 +1465,12 @@ function rcube_webmail()
 
     return url + '?' + name + '=' + value;
   };
+
+  // append CSRF protection token to the given url
+  this.secure_url = function(url)
+  {
+    return this.add_url(url, '_token', this.env.request_token);
+  },
 
   this.is_framed = function()
   {
@@ -7282,9 +7288,11 @@ function rcube_webmail()
     }
   };
 
-  this.goto_url = function(action, query, lock)
+  this.goto_url = function(action, query, lock, secure)
   {
-    this.redirect(this.url(action, query), lock);
+    var url = this.url(action, query)
+    if (secure) url = this.secure_url(url);
+    this.redirect(url, lock);
   };
 
   this.location_href = function(url, target, frame)

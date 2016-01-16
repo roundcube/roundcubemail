@@ -105,10 +105,11 @@ class rcube_message
         $this->opt = array(
             'safe' => $this->is_safe,
             'prefer_html' => $this->app->config->get('prefer_html'),
-            'get_url' => $this->app->url(array(
-                'action' => 'get',
-                'mbox'   => $this->storage->get_folder(),
-                'uid'    => $uid))
+            'get_url'     => $this->app->url(array(
+                    'action' => 'get',
+                    'mbox'   => $this->storage->get_folder(),
+                    'uid'    => $uid),
+                false, false, true)
         );
 
         if (!empty($this->headers->structure)) {

@@ -21,6 +21,8 @@
  +-----------------------------------------------------------------------+
 */
 
+$RCMAIL->request_security_check(rcube_utils::INPUT_GET);
+
 // Use search result
 if (!empty($_REQUEST['_search']) && isset($_SESSION['search'][$_REQUEST['_search']])) {
     $sort_col = $RCMAIL->config->get('addressbook_sort_col', 'name');

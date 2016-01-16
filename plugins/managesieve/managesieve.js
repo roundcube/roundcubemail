@@ -181,7 +181,7 @@ rcube_webmail.prototype.managesieve_setget = function()
   var id = this.filtersets_list.get_single_selection(),
     script = this.env.filtersets[id];
 
-  location.href = this.env.comm_path+'&_action=plugin.managesieve-action&_act=setget&_set='+urlencode(script);
+  this.goto_url('plugin.managesieve-action', {_act: 'setget', _set: script}, false, true);
 };
 
 // Set activate/deactivate request

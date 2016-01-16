@@ -63,7 +63,7 @@ class zipdownload extends rcube_plugin
                 '_action' => 'plugin.zipdownload.attachments',
                 '_mbox'   => $rcmail->output->env['mailbox'],
                 '_uid'    => $rcmail->output->env['uid'],
-            ));
+            ), false, false, true);
 
             $link = html::a(array('href' => $href, 'class' => 'button zipdownload'),
                 rcube::Q($this->gettext('downloadall'))
@@ -120,6 +120,10 @@ class zipdownload extends rcube_plugin
     public function download_attachments()
     {
         $rcmail    = rcmail::get_instance();
+
+        // require CSRF protected request
+        $rcmail->request_security_check(rcube_utils::INPUT_GET);
+
         $imap      = $rcmail->get_storage();
         $temp_dir  = $rcmail->config->get('temp_dir');
         $tmpfname  = tempnam($temp_dir, 'zipdownload');
