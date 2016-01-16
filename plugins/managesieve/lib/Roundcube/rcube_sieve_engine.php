@@ -397,6 +397,8 @@ class rcube_sieve_engine
                 }
             }
             else if ($action == 'setget') {
+                $this->rc->request_security_check(rcube_utils::INPUT_GET);
+
                 $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
                 $script      = $this->sieve->get_script($script_name);
 

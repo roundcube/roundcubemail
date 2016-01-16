@@ -459,6 +459,8 @@ class enigma_ui
      */
     private function key_export()
     {
+        $this->rc->request_security_check(rcube_utils::INPUT_GET);
+
         $keys   = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_GPC);
         $engine = $this->enigma->load_engine();
         $list   = $keys == '*' ? $engine->list_keys() : explode(',', $keys);

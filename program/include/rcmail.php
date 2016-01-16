@@ -840,6 +840,8 @@ class rcmail extends rcube
             // this need to be full url to make redirects work
             $absolute = true;
         }
+        else if ($secure && ($token = $this->get_request_token()))
+            $url .= $delm . '_token=' . urlencode($token);
 
         if ($absolute || $full) {
             // add base path to this Roundcube installation

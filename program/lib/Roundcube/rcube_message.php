@@ -108,7 +108,8 @@ class rcube_message
             'get_url'     => $this->app->url(array(
                     'action' => 'get',
                     'mbox'   => $this->folder,
-                    'uid'    => $uid))
+                    'uid'    => $uid),
+                false, false, true)
         );
 
         if (!empty($this->headers->structure)) {

@@ -190,6 +190,11 @@ abstract class rcube_output
 
         // Request browser to disable DNS prefetching (CVE-2010-0464)
         header("X-DNS-Prefetch-Control: off");
+
+        // send CSRF and clickjacking protection headers
+        if ($xframe = $this->app->config->get('x_frame_options', 'sameorigin')) {
+            header('X-Frame-Options: ' . $xframe);
+        }
     }
 
     /**

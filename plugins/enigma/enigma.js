@@ -157,7 +157,7 @@ rcube_webmail.prototype.enigma_export = function(selected)
     if (!keys.length)
         return;
 
-    this.goto_url('plugin.enigmakeys', {_a: 'export', _keys: keys});
+    this.goto_url('plugin.enigmakeys', {_a: 'export', _keys: keys}, false, true);
 };
 
 // Submit key(s) import form

@@ -129,6 +129,10 @@ else if (strlen($part_id)) {
             exit;
         }
 
+        // require CSRF protected url for downloads
+        if ($plugin['download'])
+            $RCMAIL->request_security_check(rcube_utils::INPUT_GET);
+
         // overwrite modified vars from plugin
         $mimetype   = $plugin['mimetype'];
         $extensions = rcube_mime::get_mime_extensions($mimetype);

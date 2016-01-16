@@ -54,7 +54,7 @@ function rcmail_zipdownload(mode)
     // default .eml download of single message
     if (mode == 'eml') {
         var uid = rcmail.get_single_uid();
-        rcmail.goto_url('viewsource', rcmail.params_from_uid(uid, {_save: 1}));
+        rcmail.goto_url('viewsource', rcmail.params_from_uid(uid, {_save: 1}), false, true);
         return;
     }
 
