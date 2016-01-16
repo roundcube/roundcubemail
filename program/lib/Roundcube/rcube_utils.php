@@ -1164,7 +1164,7 @@ class rcube_utils
             }
         }
         else {
-            $alpha  = 'ABCDEFGHIJKLMNOPQERSTUVXYZabcdefghijklmnopqrtsuvwxyz0123456789+*%&?!$-_=';
+            $alpha  = 'ABCDEFGHIJKLMNOPQERSTUVXYZabcdefghijklmnopqrtsuvwxyz0123456789,*.:?!$-_=';
             $random = '';
 
             for ($i = 0; $i < $length; $i++) {
