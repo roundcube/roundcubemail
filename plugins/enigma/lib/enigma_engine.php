@@ -678,6 +678,10 @@ class enigma_engine
         // Decrypt
         $result = $this->pgp_decrypt($body);
 
+        // Stripping out the signature part because it is not managed yet
+        $body = preg_replace("/Content-Type: multipart\/signed;(.+?)Content-Type: multipart\//s","Content-Type: multipart/",$body);
+        $body = preg_replace("/^(.+)--=_(.+?)Content-Type: application\/pgp-signature;(.+)$/s","$1",$body);
+
         if ($result === true) {
             // Parse decrypted message
             $struct = $this->parse_body($body);
