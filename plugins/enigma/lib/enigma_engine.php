@@ -693,6 +693,7 @@ class enigma_engine
             $this->decryptions[$struct->mime_id] = $result;
             foreach ((array) $struct->parts as $sp) {
                 $this->decryptions[$sp->mime_id] = $result;
+                if  ($sp->mime_id == 2) { $this->decryptions['1.2'] = $result; } // We need to display the message even in case of attachments
             }
         }
         else {
