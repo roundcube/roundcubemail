@@ -371,11 +371,11 @@ class enigma_engine
 
         // @TODO: big message body could be a file resource
         // PGP signed message
-        if (preg_match('/^-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
+        if (preg_match('/-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
             $this->parse_plain_signed($p, $body);
         }
         // PGP encrypted message
-        else if (preg_match('/^-----BEGIN PGP MESSAGE-----/', $body)) {
+        else if (preg_match('/-----BEGIN PGP MESSAGE-----/', $body)) {
             $this->parse_plain_encrypted($p, $body);
         }
     }
@@ -475,7 +475,7 @@ class enigma_engine
 
             if ($part->body === null)
                 $part->body = '';
-            else if (preg_match('/^-----BEGIN PGP SIGNATURE-----/', $line))
+            else if (preg_match('/-----BEGIN PGP SIGNATURE-----/', $line))
                 break;
             else
                 $part->body .= $line;
@@ -617,7 +617,7 @@ class enigma_engine
             $this->encrypted_parts[] = $part->mime_id;
 
             // PGP signed inside? verify signature
-            if (preg_match('/^-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
+            if (preg_match('/-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
                 $this->parse_plain_signed($p, $body);
             }
 
