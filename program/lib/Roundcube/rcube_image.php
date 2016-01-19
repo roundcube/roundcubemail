@@ -232,6 +232,10 @@ class rcube_image
                 $height    = intval($props['height'] * $scale);
                 $new_image = imagecreatetruecolor($width, $height);
 
+                if ($new_image === false) {
+                    return false;
+                }
+
                 // Fix transparency of gif/png image
                 if ($props['gd_type'] != IMAGETYPE_JPEG) {
                     imagealphablending($new_image, false);
