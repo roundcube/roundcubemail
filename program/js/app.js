@@ -612,11 +612,14 @@ function rcube_webmail()
       .mouseup(body_mouseup)
       .keydown(function(e){ return ref.doc_keypress(e); });
 
-    $('iframe').on('load', function(e) {
-        try { $(this.contentDocument || this.contentWindow).on('mouseup', body_mouseup);  }
-        catch (e) {/* catch possible "Permission denied" error in IE */ }
-      })
-      .contents().on('mouseup', body_mouseup);
+  	$('iframe').each(function(){
+  		try{ //Catch possible 'Access is denied' error in IE)
+  			$(this).load(function(e) {
+  				try { $(this.contentDocument || this.contentWindow).on('mouseup', body_mouseup);  }
+  				catch (e) {/* catch possible "Permission denied" error in IE */ }
+  			}).contents().on('mouseup', body_mouseup);
+  		}catch(e){}
+  	});
 
     // trigger init event hook
     this.triggerEvent('init', { task:this.task, action:this.env.action });
