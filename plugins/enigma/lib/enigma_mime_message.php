@@ -142,6 +142,8 @@ class enigma_mime_message extends Mail_mime
     public function addPGPSignature($body)
     {
         $this->signature = $body;
+        // Reset Content-Type to be overwritten with valid boundary
+        unset($this->headers['Content-Type']);
     }
 
     /**
@@ -152,6 +154,8 @@ class enigma_mime_message extends Mail_mime
     public function setPGPEncryptedBody($body)
     {
         $this->encrypted = $body;
+        // Reset Content-Type to be overwritten with valid boundary
+        unset($this->headers['Content-Type']);
     }
 
     /**
@@ -177,13 +181,13 @@ class enigma_mime_message extends Mail_mime
         $this->checkParams();
 
         if ($this->type == self::PGP_SIGNED) {
-            $body   = "This is an OpenPGP/MIME signed message (RFC 4880 and 3156)";
             $params = array(
+                'preamble'     => "This is an OpenPGP/MIME signed message (RFC 4880 and 3156)",
                 'content_type' => "multipart/signed; micalg=pgp-sha1; protocol=\"application/pgp-signature\"",
                 'eol'          => $this->build_params['eol'],
             );
 
-            $message = new Mail_mimePart($body, $params);
+            $message = new Mail_mimePart('', $params);
 
             if (!empty($this->body)) {
                 $headers = $this->message->headers();
@@ -206,13 +210,13 @@ class enigma_mime_message extends Mail_mime
             }
         }
         else if ($this->type == self::PGP_ENCRYPTED) {
-            $body   = "This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)";
             $params = array(
+                'preamble'     => "This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)",
                 'content_type' => "multipart/encrypted; protocol=\"application/pgp-encrypted\"",
                 'eol'          => $this->build_params['eol'],
             );
 
-            $message = new Mail_mimePart($body, $params);
+            $message = new Mail_mimePart('', $params);
 
             $message->addSubpart('Version: 1', array(
                     'content_type' => 'application/pgp-encrypted',
