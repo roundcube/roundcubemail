@@ -501,7 +501,7 @@ class rcube_washtml
         $this->max_nesting_level = (int) @ini_get('xdebug.max_nesting_level');
 
         // SVG need to be parsed as XML
-        $this->is_xml = stripos($html, '<svg') !== false || stripos($html, '<?xml') !== false;
+        $this->is_xml = stripos($html, '<html') === false && stripos($html, '<svg') !== false;
         $method       = $this->is_xml ? 'loadXML' : 'loadHTML';
         $options      = 0;
 
