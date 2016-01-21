@@ -16,6 +16,7 @@ CHANGELOG Roundcube Webmail
 - Fix PHP7 warning "session_start(): Session callback expects true/false return value" (#1490624)
 - Fix XSS issue in SVG images handling (#1490625)
 - Fix missing language name in "Add to Dictionary" request in HTML mode (#1490634)
+- Fix (again) security issue in DBMail driver of password plugin [CVE-2015-2181] (#1490643)
 
 RELEASE 1.2-beta
 ----------------
