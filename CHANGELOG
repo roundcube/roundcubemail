@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enigma: Fix handling of encrypted + signed messages (#1490632)
+- Enigma: Fix invalid boundary use in signed messages structure
 - Enable use of TLSv1.1 and TLSv1.2 for IMAP (#1490640)
 - Save copy of original .htaccess file when using installto.sh script (1490623)
 - Fix regression where some message attachments could be missing on edit/forward (#1490608)

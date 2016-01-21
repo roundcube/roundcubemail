@@ -367,7 +367,7 @@ class enigma_engine
         }
 
         // Get message body from IMAP server
-        $body = $this->get_part_body($p['object'], $part->mime_id);
+        $body = $this->get_part_body($p['object'], $part);
 
         // @TODO: big message body could be a file resource
         // PGP signed message
@@ -520,8 +520,8 @@ class enigma_engine
         // Get bodies
         // Note: The first part body need to be full part body with headers
         //       it also cannot be decoded
-        $msg_body = $this->get_part_body($p['object'], $msg_part->mime_id, true);
-        $sig_body = $this->get_part_body($p['object'], $sig_part->mime_id);
+        $msg_body = $this->get_part_body($p['object'], $msg_part, true);
+        $sig_body = $this->get_part_body($p['object'], $sig_part);
 
         // Verify
         $sig = $this->pgp_verify($msg_body, $sig_body);
@@ -673,7 +673,7 @@ class enigma_engine
         $part   = $struct->parts[1];
 
         // Get body
-        $body = $this->get_part_body($p['object'], $part->mime_id);
+        $body = $this->get_part_body($p['object'], $part);
 
         // Decrypt
         $result = $this->pgp_decrypt($body);
@@ -681,6 +681,21 @@ class enigma_engine
         if ($result === true) {
             // Parse decrypted message
             $struct = $this->parse_body($body);
+
+            // If there's signed content verify the signature
+            if ($struct->mimetype == 'multipart/signed') {
+                // set signed part body
+                $body = $this->extract_signed_body($body, $struct->ctype_parameters['boundary']);
+
+                $struct->parts[0]->enigma_body = $body;
+                $struct->parts[1]->enigma_body = $struct->parts[1]->body;
+
+                $this->part_structure(array(
+                        'object'    => $p['object'],
+                        'structure' => $struct,
+                        'mimetype'  => $struct->mimetype
+                ));
+            }
 
             // Modify original message structure
             $this->modify_structure($p, $struct);
@@ -1102,20 +1117,27 @@ class enigma_engine
     /**
      * Get message part body.
      *
-     * @param rcube_message Message object
-     * @param string        Message part ID
-     * @param bool          Return raw body with headers
+     * @param rcube_message      Message object
+     * @param rcube_message_part Message part
+     * @param bool               Return raw body with headers
      */
-    private function get_part_body($msg, $part_id, $full = false)
+    private function get_part_body($msg, $part, $full = false)
     {
         // @TODO: Handle big bodies using file handles
-        if ($full) {
+
+        // $enigma_body is set if this is a part already extracted
+        // from encrypted message
+        if ($part->enigma_body) {
+            $body = $part->enigma_body;
+            unset($part->enigma_body);
+        }
+        else if ($full) {
             $storage = $this->rc->get_storage();
-            $body    = $storage->get_raw_headers($msg->uid, $part_id);
-            $body   .= $storage->get_raw_body($msg->uid, null, $part_id);
+            $body    = $storage->get_raw_headers($msg->uid, $part->mime_id);
+            $body   .= $storage->get_raw_body($msg->uid, null, $part->mime_id);
         }
         else {
-            $body = $msg->get_part_body($part_id, false);
+            $body = $msg->get_part_body($part->mime_id, false);
         }
 
         return $body;
@@ -1189,6 +1211,20 @@ class enigma_engine
         foreach ((array) $part->parts as $p) {
             $this->modify_structure_part($p, $msg, $old_id);
         }
+    }
+
+    /**
+     * Extracts body of the multipart/signed part
+     */
+    private function extract_signed_body($body, $boundary)
+    {
+        $boundary     = '--' . $boundary;
+        $boundary_len = strlen($boundary) + 2;
+        $start        = strpos($body, $boundary) + $boundary_len;
+        $end          = strpos($body, $boundary, $start);
+        $body         = substr($body, $start, $end - $start - 2);
+
+        return $body;
     }
 
     /**

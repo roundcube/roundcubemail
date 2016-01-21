@@ -756,15 +756,21 @@ class enigma_ui
             return $p;
         }
 
-        $engine  = $this->enigma->engine;
-        $part_id = $p['part']->mime_id;
+        $engine    = $this->enigma->engine;
+        $part_id   = $p['part']->mime_id;
+        $parent_id = preg_replace('/\.[0-9]+$/', '', $part_id);
 
         // Decryption status
-        if (isset($engine->decryptions[$part_id])) {
+        if (($status = $engine->decryptions[$part_id])
+            || ($parent_id !== '' && ($status = $engine->decryptions[$parent_id]))
+        ) {
             $attach_scripts = true;
 
-            // get decryption status
-            $status = $engine->decryptions[$part_id];
+            // show the message only once
+            unset($engine->decryptions[$part_id]);
+            if ($parent_id !== '') {
+                unset($engine->decryptions[$parent_id]);
+            }
 
             // display status info
             $attrib['id'] = 'enigma-message';

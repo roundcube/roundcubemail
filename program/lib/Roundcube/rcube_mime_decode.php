@@ -176,6 +176,8 @@ class rcube_mime_decode
             case 'multipart/alternative':
             case 'multipart/related':
             case 'multipart/mixed':
+            case 'multipart/signed':
+            case 'multipart/encrypted':
                 if (!isset($content_type['other']['boundary'])) {
                     return false;
                 }
