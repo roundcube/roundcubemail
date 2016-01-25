@@ -67,18 +67,18 @@ class rcube_mime_decode
     /**
      * Performs the decoding process.
      *
-     * @param string $input The input to decode
+     * @param string $input   The input to decode
+     * @param bool   $convert Convert result to rcube_message_part structure
      *
      * @return object|bool Decoded results or False on failure
      */
-    public function decode($input)
+    public function decode($input, $convert = true)
     {
         list($header, $body) = $this->splitBodyHeader($input);
 
-        // @TODO: Since this is a part of Roundcube Framework
-        // we should return rcube_message_part structure
+        $struct = $this->do_decode($header, $body);
 
-        if ($struct = $this->do_decode($header, $body)) {
+        if ($struct && $convert) {
             $struct = $this->structure_part($struct);
         }
 
@@ -194,7 +194,7 @@ class rcube_mime_decode
 
             case 'message/rfc822':
                 $obj = new rcube_mime_decode($this->params);
-                $return->parts[] = $obj->decode($body);
+                $return->parts[] = $obj->decode($body, false);
                 unset($obj);
                 break;
 

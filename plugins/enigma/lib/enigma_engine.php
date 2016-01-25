@@ -302,17 +302,18 @@ class enigma_engine
      * Handler for message_part_structure hook.
      * Called for every part of the message.
      *
-     * @param array Original parameters
+     * @param array  Original parameters
+     * @param string Part body (will be set if used internally)
      *
      * @return array Modified parameters
      */
-    function part_structure($p)
+    function part_structure($p, $body = null)
     {
         if ($p['mimetype'] == 'text/plain' || $p['mimetype'] == 'application/pgp') {
-            $this->parse_plain($p);
+            $this->parse_plain($p, $body);
         }
         else if ($p['mimetype'] == 'multipart/signed') {
-            $this->parse_signed($p);
+            $this->parse_signed($p, $body);
         }
         else if ($p['mimetype'] == 'multipart/encrypted') {
             $this->parse_encrypted($p);
@@ -355,9 +356,10 @@ class enigma_engine
     /**
      * Handler for plain/text message.
      *
-     * @param array Reference to hook's parameters
+     * @param array  Reference to hook's parameters
+     * @param string Part body (will be set if used internally)
      */
-    function parse_plain(&$p)
+    function parse_plain(&$p, $body = null)
     {
         $part = $p['structure'];
 
@@ -367,7 +369,9 @@ class enigma_engine
         }
 
         // Get message body from IMAP server
-        $body = $this->get_part_body($p['object'], $part);
+        if ($body === null) {
+            $body = $this->get_part_body($p['object'], $part);
+        }
 
         // @TODO: big message body could be a file resource
         // PGP signed message
@@ -383,15 +387,16 @@ class enigma_engine
     /**
      * Handler for multipart/signed message.
      *
-     * @param array Reference to hook's parameters
+     * @param array  Reference to hook's parameters
+     * @param string Part body (will be set if used internally)
      */
-    function parse_signed(&$p)
+    function parse_signed(&$p, $body = null)
     {
         $struct = $p['structure'];
 
         // S/MIME
         if ($struct->parts[1] && $struct->parts[1]->mimetype == 'application/pkcs7-signature') {
-            $this->parse_smime_signed($p);
+            $this->parse_smime_signed($p, $body);
         }
         // PGP/MIME: RFC3156
         // The multipart/signed body MUST consist of exactly two parts.
@@ -403,7 +408,7 @@ class enigma_engine
             && count($struct->parts) == 2
             && $struct->parts[1] && $struct->parts[1]->mimetype == 'application/pgp-signature'
         ) {
-            $this->parse_pgp_signed($p);
+            $this->parse_pgp_signed($p, $body);
         }
     }
 
@@ -499,9 +504,10 @@ class enigma_engine
      * Handler for PGP/MIME signed message.
      * Verifies signature.
      *
-     * @param array Reference to hook's parameters
+     * @param array  Reference to hook's parameters
+     * @param string Part body (will be set if used internally)
      */
-    private function parse_pgp_signed(&$p)
+    private function parse_pgp_signed(&$p, $body = null)
     {
         if (!$this->rc->config->get('enigma_signatures', true)) {
             return;
@@ -520,8 +526,14 @@ class enigma_engine
         // Get bodies
         // Note: The first part body need to be full part body with headers
         //       it also cannot be decoded
-        $msg_body = $this->get_part_body($p['object'], $msg_part, true);
-        $sig_body = $this->get_part_body($p['object'], $sig_part);
+        if ($body !== null) {
+            // set signed part body
+            list($msg_body, $sig_body) = $this->explode_signed_body($body, $struct->ctype_parameters['boundary']);
+        }
+        else {
+            $msg_body = $this->get_part_body($p['object'], $msg_part, true);
+            $sig_body = $this->get_part_body($p['object'], $sig_part);
+        }
 
         // Verify
         $sig = $this->pgp_verify($msg_body, $sig_body);
@@ -543,38 +555,16 @@ class enigma_engine
      * Handler for S/MIME signed message.
      * Verifies signature.
      *
-     * @param array Reference to hook's parameters
+     * @param array  Reference to hook's parameters
+     * @param string Part body (will be set if used internally)
      */
-    private function parse_smime_signed(&$p)
+    private function parse_smime_signed(&$p, $body = null)
     {
-        return; // @TODO
-
         if (!$this->rc->config->get('enigma_signatures', true)) {
             return;
         }
 
-        // Verify signature
-        if ($this->rc->action == 'show' || $this->rc->action == 'preview' || $this->rc->action == 'print') {
-            $this->load_smime_driver();
-
-            $struct   = $p['structure'];
-            $msg_part = $struct->parts[0];
-
-            // Verify
-            $sig = $this->smime_driver->verify($struct, $p['object']);
-
-            // Store signature data for display
-            $this->signatures[$struct->mime_id] = $sig;
-
-            // Message can be multipart (assign signature to each subpart)
-            if (!empty($msg_part->parts)) {
-                foreach ($msg_part->parts as $part)
-                    $this->signed_parts[$part->mime_id] = $struct->mime_id;
-            }
-            else {
-                $this->signed_parts[$msg_part->mime_id] = $struct->mime_id;
-            }
-        }
+        // @TODO
     }
 
     /**
@@ -682,23 +672,15 @@ class enigma_engine
             // Parse decrypted message
             $struct = $this->parse_body($body);
 
-            // If there's signed content verify the signature
-            if ($struct->mimetype == 'multipart/signed') {
-                // set signed part body
-                $body = $this->extract_signed_body($body, $struct->ctype_parameters['boundary']);
-
-                $struct->parts[0]->enigma_body = $body;
-                $struct->parts[1]->enigma_body = $struct->parts[1]->body;
-
-                $this->part_structure(array(
-                        'object'    => $p['object'],
-                        'structure' => $struct,
-                        'mimetype'  => $struct->mimetype
-                ));
-            }
-
             // Modify original message structure
             $this->modify_structure($p, $struct);
+
+            // Parse the structure (there may be encrypted/signed parts inside
+            $this->part_structure(array(
+                    'object'    => $p['object'],
+                    'structure' => $struct,
+                    'mimetype'  => $struct->mimetype
+                ), $body);
 
             // Attach the decryption message to all parts
             $this->decryptions[$struct->mime_id] = $result;
@@ -730,7 +712,7 @@ class enigma_engine
             return;
         }
 
-//        $this->load_smime_driver();
+        // @TODO
     }
 
     /**
@@ -1125,13 +1107,7 @@ class enigma_engine
     {
         // @TODO: Handle big bodies using file handles
 
-        // $enigma_body is set if this is a part already extracted
-        // from encrypted message
-        if ($part->enigma_body) {
-            $body = $part->enigma_body;
-            unset($part->enigma_body);
-        }
-        else if ($full) {
+        if ($full) {
             $storage = $this->rc->get_storage();
             $body    = $storage->get_raw_headers($msg->uid, $part->mime_id);
             $body   .= $storage->get_raw_body($msg->uid, null, $part->mime_id);
@@ -1171,6 +1147,7 @@ class enigma_engine
     {
         // modify mime_parts property of the message object
         $old_id = $p['structure']->mime_id;
+
         foreach (array_keys($p['object']->mime_parts) as $idx) {
             if (!$old_id || $idx == $old_id || strpos($idx, $old_id . '.') === 0) {
                 unset($p['object']->mime_parts[$idx]);
@@ -1214,17 +1191,30 @@ class enigma_engine
     }
 
     /**
-     * Extracts body of the multipart/signed part
+     * Extracts body and signature of multipart/signed message body
      */
-    private function extract_signed_body($body, $boundary)
+    private function explode_signed_body($body, $boundary)
     {
+        if (!$body) {
+            return array();
+        }
+
         $boundary     = '--' . $boundary;
         $boundary_len = strlen($boundary) + 2;
-        $start        = strpos($body, $boundary) + $boundary_len;
-        $end          = strpos($body, $boundary, $start);
-        $body         = substr($body, $start, $end - $start - 2);
 
-        return $body;
+        // Find boundaries
+        $start = strpos($body, $boundary) + $boundary_len;
+        $end   = strpos($body, $boundary, $start);
+
+        // Get signed body and signature
+        $sig  = substr($body, $end + $boundary_len);
+        $body = substr($body, $start, $end - $start - 2);
+
+        // Cleanup signature
+        $sig = substr($sig, strpos($sig, "\r\n\r\n") + 4);
+        $sig = substr($sig, 0, strpos($sig, $boundary));
+
+        return array($body, $sig);
     }
 
     /**
