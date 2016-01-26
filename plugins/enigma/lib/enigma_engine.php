@@ -198,7 +198,7 @@ class enigma_engine
         if ($result !== true) {
             if ($result->getCode() == enigma_error::BADPASS) {
                 // ask for password
-                $error = array('missing' => array($key->id => $key->name));
+                $error = array('bad' => array($key->id => $key->name));
                 return new enigma_error(enigma_error::BADPASS, '', $error);
             }
 

@@ -780,7 +780,9 @@ class enigma_ui
                         $this->enigma->gettext('decryptnokey')));
                 }
                 else if ($code == enigma_error::BADPASS) {
-                    $msg = rcube::Q($this->enigma->gettext('decryptbadpass'));
+                    $missing = $status->getData('missing');
+                    $label   = 'decrypt' . (!empty($missing) ? 'no' : 'bad') . 'pass';
+                    $msg     = rcube::Q($this->enigma->gettext($label));
                     $this->password_prompt($status);
                 }
                 else {
@@ -946,16 +948,16 @@ class enigma_ui
                 $msg  = 'enigma.' . $mode . 'nokey';
             }
             else if ($code == enigma_error::BADPASS) {
-                $msg  = 'enigma.' . $mode . 'badpass';
-                $type = 'warning';
-
                 $this->password_prompt($status);
             }
             else {
                 $msg = 'enigma.' . $mode . 'error';
             }
 
-            $this->rc->output->show_message($msg, $type ?: 'error', $vars);
+            if ($msg) {
+                $this->rc->output->show_message($msg, $type ?: 'error', $vars);
+            }
+
             $this->rc->output->send('iframe');
         }
 
