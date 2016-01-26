@@ -796,13 +796,13 @@ class enigma_ui
         }
 
         // Signature verification status
-        if (($found = $this->find_part_id($part_id, $engine->signed_parts)) !== null
-            && ($sig = $engine->signatures[$engine->signed_parts[$found]])
+        if (($found = $this->find_part_id($part_id, $engine->signatures)) !== null
+            && ($sig = $engine->signatures[$found])
         ) {
             $attach_scripts = true;
 
             // show the message only once
-            unset($engine->signatures[$engine->signed_parts[$part_id]]);
+            unset($engine->signatures[$found]);
 
             // display status info
             $attrib['id'] = 'enigma-message';

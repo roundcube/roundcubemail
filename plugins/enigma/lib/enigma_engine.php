@@ -32,7 +32,6 @@ class enigma_engine
 
     public $decryptions     = array();
     public $signatures      = array();
-    public $signed_parts    = array();
     public $encrypted_parts = array();
 
     const SIGN_MODE_BODY     = 1;
@@ -493,8 +492,7 @@ class enigma_engine
 
         // Store signature data for display
         if (!empty($sig)) {
-            $this->signed_parts[$part->mime_id] = $part->mime_id;
-            $this->signatures[$part->mime_id]   = $sig;
+            $this->signatures[$part->mime_id] = $sig;
         }
 
         fclose($fh);
@@ -540,15 +538,7 @@ class enigma_engine
 
         // Store signature data for display
         $this->signatures[$struct->mime_id] = $sig;
-
-        // Message can be multipart (assign signature to each subpart)
-        if (!empty($msg_part->parts)) {
-            foreach ($msg_part->parts as $part)
-                $this->signed_parts[$part->mime_id] = $struct->mime_id;
-        }
-        else {
-            $this->signed_parts[$msg_part->mime_id] = $struct->mime_id;
-        }
+        $this->signatures[$msg_part->mime_id] = $sig;
     }
 
     /**
