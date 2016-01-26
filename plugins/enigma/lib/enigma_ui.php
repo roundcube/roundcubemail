@@ -756,21 +756,17 @@ class enigma_ui
             return $p;
         }
 
-        $engine    = $this->enigma->engine;
-        $part_id   = $p['part']->mime_id;
-        $parent_id = preg_replace('/\.[0-9]+$/', '', $part_id);
+        $engine  = $this->enigma->engine;
+        $part_id = $p['part']->mime_id;
 
         // Decryption status
-        if (($status = $engine->decryptions[$part_id])
-            || ($parent_id !== '' && ($status = $engine->decryptions[$parent_id]))
+        if (($found = $this->find_part_id($part_id, $engine->decryptions)) !== null
+            && ($status = $engine->decryptions[$found])
         ) {
             $attach_scripts = true;
 
             // show the message only once
-            unset($engine->decryptions[$part_id]);
-            if ($parent_id !== '') {
-                unset($engine->decryptions[$parent_id]);
-            }
+            unset($engine->decryptions[$found]);
 
             // display status info
             $attrib['id'] = 'enigma-message';
@@ -800,10 +796,13 @@ class enigma_ui
         }
 
         // Signature verification status
-        if (isset($engine->signed_parts[$part_id])
-            && ($sig = $engine->signatures[$engine->signed_parts[$part_id]])
+        if (($found = $this->find_part_id($part_id, $engine->signed_parts)) !== null
+            && ($sig = $engine->signatures[$engine->signed_parts[$found]])
         ) {
             $attach_scripts = true;
+
+            // show the message only once
+            unset($engine->signatures[$engine->signed_parts[$part_id]]);
 
             // display status info
             $attrib['id'] = 'enigma-message';
@@ -844,9 +843,6 @@ class enigma_ui
 //            $msg .= '<br /><pre>'.$sig->body.'</pre>';
 
             $p['prefix'] .= html::div($attrib, $msg);
-
-            // Display each signature message only once
-            unset($engine->signatures[$engine->signed_parts[$part_id]]);
         }
 
         if ($attach_scripts) {
@@ -1010,5 +1006,22 @@ class enigma_ui
         $this->rc->output->set_env('enigma_force_sign', !empty($engine->signatures));
 
         return $p;
+    }
+
+    /**
+     * Check if the part or its parent exists in the array
+     * of decryptions/signatures. Returns found ID.
+     */
+    private function find_part_id($part_id, $data)
+    {
+        $ids   = explode('.', $part_id);
+        $i     = 0;
+        $count = count($ids);
+
+        while ($i < $count && strlen($part = implode('.', array_slice($ids, 0, ++$i)))) {
+            if (array_key_exists($part, $data)) {
+                return $part;
+            }
+        }
     }
 }
