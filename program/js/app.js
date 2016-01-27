@@ -8110,7 +8110,10 @@ function rcube_webmail()
               this.enable_command('set-listmode', this.env.threads && !is_multifolder);
               if (list.rowcount > 0 && !$(document.activeElement).is('input,textarea'))
                 list.focus();
-              this.msglist_select(list);
+
+              // trigger 'select' so all dependent actions update its state
+              // e.g. plugins use this event to activate buttons (#1490647)
+              list.triggerEvent('select');
             }
 
             if (response.action != 'getunread')
