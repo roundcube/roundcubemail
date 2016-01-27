@@ -7111,7 +7111,9 @@ function rcube_webmail()
           this.enable_command('expand-all', 'expand-unread', 'collapse-all', this.env.threading && this.env.messagecount);
 
           if ((response.action == 'list' || response.action == 'search') && this.message_list) {
-            this.msglist_select(this.message_list);
+            // trigger 'select' so all dependent actions update its state
+            // e.g. plugins use this event to activate buttons (#1490647)
+            this.message_list.triggerEvent('select');
             this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
           }
         }
