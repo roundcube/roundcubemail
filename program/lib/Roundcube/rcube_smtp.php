@@ -460,15 +460,19 @@ class rcube_smtp
         }
 
         $addresses  = array();
+        $recipients = preg_replace('/[\s\t]*\r?\n/', '', $recipients);
         $recipients = rcube_utils::explode_quoted_string(',', $recipients);
 
         reset($recipients);
         foreach ($recipients as $recipient) {
             $a = rcube_utils::explode_quoted_string(' ', $recipient);
             foreach ($a as $word) {
-                if (strpos($word, "@") > 0 && $word[strlen($word)-1] != '"') {
-                    $word = preg_replace('/^<|>$/', '', trim($word));
-                    if (in_array($word, $addresses) === false) {
+                $word = trim($word);
+                $len  = strlen($word);
+
+                if ($len && strpos($word, "@") > 0 && $word[$len-1] != '"') {
+                    $word = preg_replace('/^<|>$/', '', $word);
+                    if (!in_array($word, $addresses)) {
                         array_push($addresses, $word);
                     }
                 }
