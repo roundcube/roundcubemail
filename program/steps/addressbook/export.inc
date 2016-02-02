@@ -98,6 +98,14 @@ else {
     $result = $CONTACTS->list_records(null, 0, true);
 }
 
+// Give plugins a possibility to implement other output formats or modify the result
+$plugin = $RCMAIL->plugins->exec_hook('addressbook_export', array('result' => $result));
+$result = $plugin['result'];
+
+if ($plugin['abort']) {
+    exit;
+}
+
 // send downlaod headers
 header('Content-Type: text/x-vcard; charset='.RCUBE_CHARSET);
 header('Content-Disposition: attachment; filename="contacts.vcf"');
