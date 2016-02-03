@@ -88,7 +88,6 @@
 }
 
 #directorylist li.addressbook.selected > a {
-	background-color: transparent;
 	background-position: 6px -791px;
 }
 

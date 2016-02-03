@@ -1500,6 +1500,7 @@ class rcube
                 $host = preg_replace('/:[0-9]+$/', '', $host);
                 if ($host && preg_match('/\.[a-z]+$/i', $host)) {
                     $domain_part = $host;
+                    break;
                 }
             }
         }
