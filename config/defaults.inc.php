@@ -134,6 +134,10 @@ $config['apc_debug'] = false;
 //          required to match old user data records with the new host.
 $config['default_host'] = 'localhost';
 
+// Some hosts use pop. for both IMAP and POP, breaking the host auto-selection.
+// Set to True if you've got this case.
+$config['host_uses_pop_prefix'] = false;
+
 // TCP port used for IMAP connections
 $config['default_port'] = 143;
 

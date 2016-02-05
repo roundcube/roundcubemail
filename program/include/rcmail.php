@@ -711,8 +711,9 @@ class rcmail extends rcube
      */
     public function autoselect_host()
     {
-        $default_host = $this->config->get('default_host');
-        $host         = null;
+        $default_host   = $this->config->get('default_host');
+        $host_uses_pop_prefix = $this->config->get('host_uses_pop_prefix');
+        $host           = null;
 
         if (is_array($default_host)) {
             $post_host = rcube_utils::get_input_value('_host', rcube_utils::INPUT_POST);
@@ -749,6 +750,11 @@ class rcmail extends rcube
         }
         else {
             $host = rcube_utils::parse_host($default_host);
+        }
+
+        // check if the host is using pop. for both IMAP and POP
+        if ($host_uses_pop_prefix) {
+            $host = 'pop.'.$host;
         }
 
         return $host;
