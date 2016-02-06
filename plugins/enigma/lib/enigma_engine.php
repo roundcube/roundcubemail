@@ -186,6 +186,18 @@ class enigma_engine
             // in this mode we'll replace text part
             // with the one containing signature
             $body = $message->getTXTBody();
+
+            $text_charset = $message->getParam('text_charset');
+            $line_length  = $this->rc->config->get('line_length', 72);
+
+            // We can't use format=flowed for signed messages
+            if (strpos($text_charset, 'format=flowed')) {
+                list($charset, $params) = explode(';', $text_charset);
+                $body = rcube_mime::unfold_flowed($body);
+                $body = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
+
+                $text_charset = str_replace(";\r\n format=flowed", '', $text_charset);
+            }
         }
         else {
             // here we'll build PGP/MIME message
@@ -208,6 +220,7 @@ class enigma_engine
         // replace message body
         if ($pgp_mode == Crypt_GPG::SIGN_MODE_CLEAR) {
             $message->setTXTBody($body);
+            $message->setParam('text_charset', $text_charset);
         }
         else {
             $mime->addPGPSignature($body);

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enigma: Disable format=flowed for signed plain text messages (#1490646)
 - Enigma: Fix handling of encrypted + signed messages (#1490632)
 - Enigma: Fix invalid boundary use in signed messages structure
 - Enable use of TLSv1.1 and TLSv1.2 for IMAP (#1490640)
