@@ -339,6 +339,7 @@ class rcube_message
 
                 $level = explode('.', $part->mime_id);
                 $depth = count($level);
+                $last  = '';
 
                 // Check if the part belongs to higher-level's multipart part
                 // this can be alternative/related/signed/encrypted or mixed
@@ -348,9 +349,12 @@ class rcube_message
                         return true;
                     }
 
-                    $parent = $this->mime_parts[join('.', $level)];
+                    $parent    = $this->mime_parts[join('.', $level)];
+                    $max_delta = $depth - (1 + ($last == 'multipart/alternative' ? 1 : 0));
+                    $last      = $parent->mimetype;
+
                     if (!preg_match('/^multipart\/(alternative|related|signed|encrypted|mixed)$/', $parent->mimetype)
-                        || ($parent->mimetype == 'multipart/mixed' && $parent_depth < $depth - 1)) {
+                        || ($parent->mimetype == 'multipart/mixed' && $parent_depth < $max_delta)) {
                         continue 2;
                     }
                 }
