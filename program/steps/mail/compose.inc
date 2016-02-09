@@ -1562,6 +1562,16 @@ function rcmail_compose_attachment_list($attrib)
             $content = sprintf('%s <span class="attachment-size">(%s)</span>',
                 rcube::Q($a_prop['name']), $RCMAIL->show_bytes($a_prop['size']));
 
+            if ($a_prop['pid']) {
+                $content = html::a(array(
+                        'href'    => '#',
+                        'onclick' => sprintf("return %s.command('download-attachment', '%s', this)", rcmail_output::JS_OBJECT_NAME, $a_prop['pid']),
+                        'style'   => 'padding: 0;',
+                    ),
+                    $content
+                );
+            }
+
             $out .= html::tag('li', array(
                     'id'          => 'rcmfile'.$id,
                     'class'       => rcube_utils::file2class($a_prop['mimetype'], $a_prop['name']),

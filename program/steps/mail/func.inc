@@ -2269,6 +2269,7 @@ function rcmail_save_attachment($message, $pid, $compose_id, $params = array())
         'path'       => $path,
         'size'       => $path ? filesize($path) : strlen($data),
         'charset'    => $part ? $part->charset : null,
+        'pid'        => $pid,
     );
 
     $attachment = $rcmail->plugins->exec_hook('attachment_save', $attachment);
