@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "Very simple plugin which will add additional headers to or remove them from outgoing messages.",
     "license": "GPLv2",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "authors": [
         {
             "name": "Ziba Scott",
