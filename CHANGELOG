@@ -1,7 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-
+- Fix missing emoticons on html-to-text conversion
 - Fix random "access to this resource is secured against CSRF" message at logout (#1490641)
 - Fix missing language name in "Add to Dictionary" request in HTML mode (#1490634)
 - Enable use of TLSv1.1 and TLSv1.2 for IMAP (#1490640)

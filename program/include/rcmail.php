@@ -1926,7 +1926,8 @@ class rcmail extends rcube
 
         foreach ($emoticons as $idx => $file) {
             // <img title="Cry" src="http://.../program/js/tinymce/plugins/emoticons/img/smiley-cry.gif" border="0" alt="Cry" />
-            $search[]  = '/<img title="[a-z ]+" src="https?:\/\/[a-z0-9_.\/-]+\/tinymce\/plugins\/emoticons\/img\/'.$file.'.gif"[^>]+\/>/i';
+            $file      = preg_quote('program/js/tinymce/plugins/emoticons/img/' . $file . '.gif', '/');
+            $search[]  = '/<img (title="[a-z ]+" )?src="[^"]+' . $file . '"[^>]+\/>/i';
             $replace[] = $idx;
         }
 
