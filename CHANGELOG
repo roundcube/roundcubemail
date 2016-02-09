@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where Archive/Junk buttons were not active after page jump with select=all mode (#1490647)
 - Fix bug in long recipients list parsing for cases where recipient name contained @-char (#1490653)
 - Plugin API: Added addressbook_export hook
+- Fix additional_message_headers plugin compatibility with Mail_Mime >= 1.9 (#1490657)
 
 RELEASE 1.1.4
 -------------
