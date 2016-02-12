@@ -1850,7 +1850,7 @@ function rcmail_addressbook_list($attrib = array())
         'id' => 'rcmli%s', 'class' => '%s'),
         html::a(array('href' => '#list',
             'rel' => '%s',
-            'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('list-adresses','%s',this)"), '%s'));
+            'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('list-addresses','%s',this)"), '%s'));
 
     foreach ($RCMAIL->get_address_sources(false, true) as $j => $source) {
         $id = strval(strlen($source['id']) ? $source['id'] : $j);

@@ -295,7 +295,7 @@ function rcube_webmail()
         else if (this.env.action == 'compose') {
           this.env.address_group_stack = [];
           this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel',
-            'toggle-editor', 'list-adresses', 'pushgroup', 'search', 'reset-search', 'extwin',
+            'toggle-editor', 'list-addresses', 'pushgroup', 'search', 'reset-search', 'extwin',
             'insert-response', 'save-response', 'menu-open', 'menu-close'];
 
           if (this.env.drafts_mailbox)
@@ -381,7 +381,7 @@ function rcube_webmail()
 
         if (this.gui_objects.addressbookslist) {
           this.gui_objects.folderlist = this.gui_objects.addressbookslist;
-          this.enable_command('list-adresses', true);
+          this.enable_command('list-addresses', true);
         }
 
         // ask user to send MDN
@@ -581,7 +581,12 @@ function rcube_webmail()
       this.display_message.apply(this, this.pending_message);
 
     // init treelist widget
-    if (this.gui_objects.folderlist && window.rcube_treelist_widget) {
+    if (this.gui_objects.folderlist && window.rcube_treelist_widget
+      // some plugins may load rcube_treelist_widget and there's one case
+      // when this will cause problems - addressbook widget in compose,
+      // which already has been initialized using rcube_list_widget
+      && this.gui_objects.folderlist != this.gui_objects.addressbookslist
+    ) {
       this.treelist = new rcube_treelist_widget(this.gui_objects.folderlist, {
           selectable: true,
           id_prefix: 'rcmli',
@@ -1161,7 +1166,7 @@ function rcube_webmail()
         this.change_identity($("[name='_from']")[0], true);
         break;
 
-      case 'list-adresses':
+      case 'list-addresses':
         this.list_contacts(props);
         this.enable_command('add-recipient', false);
         break;
