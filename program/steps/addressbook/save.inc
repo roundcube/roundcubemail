@@ -164,9 +164,12 @@ if (!empty($cid)) {
             $_POST['_cid'] = $newcid;
         }
 
-        // define list of cols to be displayed
+        // refresh contact data for list update and 'show' action
+        $CONTACT_RECORD = $CONTACTS->get_record($newcid ?: $cid, true);
+
+        // Update contacts list
         $a_js_cols = array();
-        $record = $CONTACTS->get_record($newcid ?: $cid, true);
+        $record = $CONTACT_RECORD;
         $record['email'] = reset($CONTACTS->get_col_values('email', $record, true));
         $record['name']  = rcube_addressbook::compose_list_name($record);
 
