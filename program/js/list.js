@@ -1104,11 +1104,11 @@ _rowIndex: function(obj)
 /**
  * Check if given id is part of the current selection
  */
-in_selection: function(id)
+in_selection: function(id, index)
 {
   for (var n in this.selection)
     if (this.selection[n] == id)
-      return true;
+      return index ? n : true;
 
   return false;
 },
@@ -1256,18 +1256,19 @@ highlight_row: function(id, multiple, norecur)
     }
   }
   else {
-    if (!this.in_selection(id)) { // select row
+    var pre, post, p = this.in_selection(id, true);
+
+    if (p === false) { // select row
       this.selection.push(id);
       $(this.rows[id].obj).addClass('selected').attr('aria-selected', 'true');
       if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, true);
     }
     else { // unselect row
-      var p = $.inArray(id, this.selection),
-        a_pre = this.selection.slice(0, p),
-        a_post = this.selection.slice(p+1, this.selection.length);
+      pre = this.selection.slice(0, p);
+      post = this.selection.slice(p+1, this.selection.length);
 
-      this.selection = a_pre.concat(a_post);
+      this.selection = pre.concat(post);
       $(this.rows[id].obj).removeClass('selected').removeAttr('aria-selected');
       if (!norecur && !this.rows[id].expanded)
         this.highlight_children(id, false);
