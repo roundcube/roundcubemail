@@ -2941,7 +2941,21 @@ class rcube_imap_generic
 
         // a0001 GETQUOTAROOT INBOX
         // * QUOTAROOT INBOX user/sample
+        // a0001 OK No quota.
+
+        // a0001 GETQUOTAROOT INBOX
+        // * QUOTAROOT INBOX user/sample
         // * QUOTA user/sample (STORAGE 654 9765)
+        // a0001 OK Completed
+
+        // a0001 GETQUOTAROOT INBOX
+        // * QUOTAROOT INBOX user/sample
+        // * QUOTA user/sample (MESSAGE 10 50)
+        // a0001 OK Completed
+
+        // a0001 GETQUOTAROOT INBOX
+        // * QUOTAROOT INBOX user/sample
+        // * QUOTA user/sample (STORAGE 654 9765 MESSAGE 10 50)
         // a0001 OK Completed
 
         list($code, $response) = $this->execute('GETQUOTAROOT', array($this->escape($mailbox)));
@@ -2952,34 +2966,46 @@ class rcube_imap_generic
 
         if ($code == self::ERROR_OK) {
             foreach (explode("\n", $response) as $line) {
+                $continue = true;
                 if (preg_match('/^\* QUOTA /', $line)) {
                     list(, , $quota_root) = $this->tokenizeResponse($line, 3);
 
                     while ($line) {
-                        list($type, $used, $total) = $this->tokenizeResponse($line, 1);
-                        $type = strtolower($type);
-
-                        if ($type && $total) {
-                            $all[$quota_root][$type]['used']  = intval($used);
-                            $all[$quota_root][$type]['total'] = intval($total);
+                        if (is_array($quota_conf = $this->tokenizeResponse($line, 1))) {
+                            while ($quota_rule = array_shift($quota_conf)) {
+                                if ((count($quota_conf) >=2) && ($quota_rule === 'STORAGE' || $quota_rule === 'MESSAGE')) {
+                                    $used  = $all[$quota_root][strtolower($quota_rule)]['used']  = intval(array_shift($quota_conf));
+                                    $total = $all[$quota_root][strtolower($quota_rule)]['total'] = intval(array_shift($quota_conf));
+                                    if (($total - $used) < $min_free) {
+                                        $percent = $all[$quota_root][strtolower($quota_rule)]['percent'] = min(100, round(($used/max(1, $total))*100));
+                                        $free    = $all[$quota_root][strtolower($quota_rule)]['free']    = 100 - $percent;
+                                        $continue = false;
+                                    }
+                                }
+                            }
                         }
                     }
 
-                    if (empty($all[$quota_root]['storage'])) {
-                        continue;
+                    if ($continue) { continue; }
+
+                    $quota_rule = null;
+
+                    if ((!empty($all[$quota_root]['storage']) &&  empty($all[$quota_root]['message'])) ||
+                        (!empty($all[$quota_root]['storage']) && !empty($all[$quota_root]['message'])  && $all[$quota_root]['storage']['percent']>=$all[$quota_root]['message']['percent'])) {
+                        $quota_rule='storage';
                     }
 
-                    $used  = $all[$quota_root]['storage']['used'];
-                    $total = $all[$quota_root]['storage']['total'];
-                    $free  = $total - $used;
+                    if (( empty($all[$quota_root]['storage']) && !empty($all[$quota_root]['message'])) ||
+                        (!empty($all[$quota_root]['storage']) && !empty($all[$quota_root]['message'])  && $all[$quota_root]['storage']['percent']<=$all[$quota_root]['message']['percent'])) {
+                        $quota_rule='message';
+                    }
 
-                    // calculate lowest available space from all storage quotas
-                    if ($free < $min_free) {
-                        $min_free          = $free;
-                        $result['used']    = $used;
-                        $result['total']   = $total;
-                        $result['percent'] = min(100, round(($used/max(1,$total))*100));
-                        $result['free']    = 100 - $result['percent'];
+                    if (!empty($quota_rule)) {
+                        $result['rule']    = $quota_rule;
+                        $result['used']    = $all[$quota_root][$quota_rule]['used'];
+                        $result['total']   = $all[$quota_root][$quota_rule]['total'];
+                        $result['percent'] = $all[$quota_root][$quota_rule]['percent'];
+                        $result['free']    = $all[$quota_root][$quota_rule]['free'];
                     }
                 }
             }
