@@ -744,15 +744,15 @@ var Base64 = (function () {
      * @param {String} input The string to encode in base64.
      */
     encode: function (input) {
+      // encode UTF8 as btoa() may fail on some characters
+      input = utf8_encode(input);
+
       if (typeof(window.btoa) === 'function') {
-        // it may fail on unicode characters, the fallback can handle them
         try {
           return btoa(input);
         }
         catch (e) {};
       }
-
-      input = utf8_encode(input);
 
       var chr1, chr2, chr3, enc1, enc2, enc3, enc4, i = 0, output = '', len = input.length;
 
@@ -785,7 +785,6 @@ var Base64 = (function () {
      */
     decode: function (input) {
       if (typeof(window.atob) === 'function') {
-        // it may fail on unicode characters, the fallback can handle them
         try {
           return utf8_decode(atob(input));
         }
