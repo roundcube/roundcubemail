@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix a regression where some contact data was missing in export and PHP warnings were logged (Kolab #4522)
 - Enable use of TLSv1.1 and TLSv1.2 for IMAP (#1490640)
 - Fix XSS issue in SVG images handling (#1490625)
 - Fix (again) security issue in DBMail driver of password plugin [CVE-2015-2181] (#1490643)
