@@ -23,6 +23,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug in long recipients list parsing for cases where recipient name contained @-char (#1490653)
 - Plugin API: Added addressbook_export hook
 - Fix additional_message_headers plugin compatibility with Mail_Mime >= 1.9 (#1490657)
+- Hide DSN option in Preferences when smtp_server is not used (#1490666)
 
 RELEASE 1.2-beta
 ----------------
