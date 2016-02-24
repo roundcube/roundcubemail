@@ -513,10 +513,10 @@ function rcube_text_editor(config, id)
           message = message.substring(0, p) + sig + message.substring(p, message.length);
           cursor_pos = p - 1;
         }
-        // empty message
-        else if (!message) {
-          message = '\n\n' + sig;
-          cursor_pos = 0;
+        // empty message or new-message mode
+        else if (!message || !rcmail.env.compose_mode) {
+          cursor_pos = message.length;
+          message += '\n\n' + sig;
         }
         else if (rcmail.env.top_posting && !rcmail.env.sig_below) {
           // at cursor position
@@ -555,8 +555,10 @@ function rcube_text_editor(config, id)
         sigElem = $('<div id="_rc_sig"></div>').get(0);
 
         // insert at start or at cursor position in top-posting mode
-        // (but not if the content is empty)
-        if (rcmail.env.top_posting && !rcmail.env.sig_below && (body.childNodes.length > 1 || $(body).text())) {
+        // (but not if the content is empty and not in new-message mode)
+        if (rcmail.env.top_posting && !rcmail.env.sig_below
+          && rcmail.env.compose_mode && (body.childNodes.length > 1 || $(body).text())
+        ) {
           this.editor.getWin().focus(); // correct focus in IE & Chrome
 
           var node = this.editor.selection.getNode();
@@ -566,7 +568,7 @@ function rcube_text_editor(config, id)
         }
         else {
           body.appendChild(sigElem);
-          position_element = rcmail.env.top_posting ? body.firstChild : $(sigElem).prev();
+          position_element = rcmail.env.top_posting && rcmail.env.compose_mode ? body.firstChild : $(sigElem).prev();
         }
       }
 

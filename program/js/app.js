@@ -3967,7 +3967,7 @@ function rcube_webmail()
     }
 
     if (!html_mode) {
-      pos = this.env.top_posting ? 0 : input_message.value.length;
+      pos = this.env.top_posting && this.env.compose_mode ? 0 : input_message.value.length;
 
       // add signature according to selected identity
       // if we have HTML editor, signature is added in a callback

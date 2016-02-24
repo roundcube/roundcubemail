@@ -359,7 +359,12 @@ function rcmail_process_compose_params(&$COMPOSE)
 
     // clean HTML message body which can be submitted by URL
     if (!empty($COMPOSE['param']['body'])) {
-        $COMPOSE['param']['body'] = rcmail_wash_html($COMPOSE['param']['body'], array('safe' => false, 'inline_html' => true), array());
+        if ($COMPOSE['param']['html'] = strpos($COMPOSE['param']['body'], '<') !== false) {
+            $wash_params = array('safe' => false, 'inline_html' => true);
+            $COMPOSE['param']['body'] = rcmail_wash_html($COMPOSE['param']['body'], $wash_params, array());
+            $COMPOSE['param']['body'] = preg_replace('/<!--[^>\n]+>/', '', $COMPOSE['param']['body']);
+            $COMPOSE['param']['body'] = preg_replace('/<\/?body>/', '', $COMPOSE['param']['body']);
+        }
     }
 
     $RCMAIL = rcmail::get_instance();
@@ -718,7 +723,10 @@ function rcmail_compose_editor_mode()
     $html_editor  = intval($RCMAIL->config->get('htmleditor'));
     $compose_mode = $COMPOSE['mode'];
 
-    if (isset($_POST['_is_html'])) {
+    if (is_bool($COMPOSE['param']['html'])) {
+        $useHtml = $COMPOSE['param']['html'];
+    }
+    else if (isset($_POST['_is_html'])) {
         $useHtml = !empty($_POST['_is_html']);
     }
     else if ($compose_mode == RCUBE_COMPOSE_DRAFT || $compose_mode == RCUBE_COMPOSE_EDIT) {
