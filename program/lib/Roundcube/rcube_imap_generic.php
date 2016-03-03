@@ -3736,9 +3736,9 @@ class rcube_imap_generic
                 if (!is_numeric(($bytes = substr($str, 1, $epos - 1)))) {
                     // error
                 }
+
                 $result[] = $bytes ? substr($str, $epos + 3, $bytes) : '';
-                // Advance the string
-                $str = substr($str, $epos + 3 + $bytes);
+                $str      = substr($str, $epos + 3 + $bytes);
                 break;
 
             // Quoted string
@@ -3755,9 +3755,7 @@ class rcube_imap_generic
                         }
                     }
                 }
-                if ($str[$pos] != '"') {
-                    // error
-                }
+
                 // we need to strip slashes for a quoted string
                 $result[] = stripslashes(substr($str, 1, $pos - 1));
                 $str      = substr($str, $pos + 1);
@@ -3765,13 +3763,13 @@ class rcube_imap_generic
 
             // Parenthesized list
             case '(':
-                $str = substr($str, 1);
+                $str      = substr($str, 1);
                 $result[] = self::tokenizeResponse($str);
                 break;
+
             case ')':
                 $str = substr($str, 1);
                 return $result;
-                break;
 
             // String atom, number, astring, NIL, *, %
             default:
@@ -3784,7 +3782,7 @@ class rcube_imap_generic
                 // we do not exclude [ and ] (#1489223)
                 if (preg_match('/^([^\x00-\x20\x29\x7F]+)/', $str, $m)) {
                     $result[] = $m[1] == 'NIL' ? null : $m[1];
-                    $str = substr($str, strlen($m[1]));
+                    $str      = substr($str, strlen($m[1]));
                 }
                 break;
             }
