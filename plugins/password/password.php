@@ -98,15 +98,11 @@ class password extends rcube_plugin
         $rcmail->output->send('plugin');
     }
 
-    function password_save()
+    function is_password_ok_to_save($confirm)
     {
-        $this->register_handler('plugin.body', array($this, 'password_form'));
-
+        $pwd_save_ok = false;
         $rcmail = rcmail::get_instance();
-        $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
 
-        $form_disabled   = $rcmail->config->get('password_disabled');
-        $confirm         = $rcmail->config->get('password_confirm_current');
         $required_length = intval($rcmail->config->get('password_minimum_length'));
         $check_strength  = $rcmail->config->get('password_require_nonalpha');
 
@@ -156,9 +152,50 @@ class password extends rcube_plugin
             else if ($sespwd == $newpwd && !$rcmail->config->get('password_force_save')) {
                 $rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
             }
+            else {
+                $pwd_save_ok = true;
+            }
+        }
+        return $pwd_save_ok;
+    }
+
+    /* A password-reset plugin would likely use some code similar to
+       the following snippet. At resetting a password, no user is logged in.
+       So the caller of password_set() must ensure the correct identification
+       of the user, i.e. by username and imap_host, since this is the unique key
+       in the Roundcube users database table.
+    function snippet_reset_password($username, $imap_host, $newpwd, $conpwd)
+    {
+        $rcmail = rcmail::get_instance();
+        $_SESSION['username'] = $username;
+        $_SESSION['password'] = '';
+        $_SESSION['imap_host'] = $imap_host;
+        $_POST['_curpasswd'] = '';
+        $_POST['_newpasswd'] = $newpwd;
+        $_POST['_confpasswd'] = $conpwd;
+        $password_plugin = new password($this->api);
+        return $password_plugin->password_set(false);
+    }*/
+ 
+    function password_set($confirm = true)
+    {
+        /* Another plugin can use this method to (re)set the password of a user.
+           The caller must pass false as argument to avoid a check for the current password.
+           Depending on the used password driver, the information for identifying the
+           user must be set by the caller. For example, for the sql driver, the session
+           variables $_SESSION['username'] and $_SESSION['imap_host'] must be set.
+           Also, the $_POST['_curpasswd'], $_POST['_newpasswd'] and $_POST['_confpasswd'] must be set.
+        */
+        $save_success = false;
+        $rcmail = rcmail::get_instance();
+        if ($this->is_password_ok_to_save($confirm)) {
+            $sespwd = $rcmail->decrypt($_SESSION['password']);
+            $curpwd = $confirm ? rcube_utils::get_input_value('_curpasswd', rcube_utils::INPUT_POST, true, $charset) : $sespwd;
+            $newpwd = rcube_utils::get_input_value('_newpasswd', rcube_utils::INPUT_POST, true);
             // try to save the password
-            else if (!($res = $this->_save($curpwd, $newpwd))) {
+            if (!($res = $this->_save($curpwd, $newpwd))) {
                 $rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
+                $save_success = true;
 
                 // allow additional actions after password change (e.g. reset some backends)
                 $plugin = $rcmail->plugins->exec_hook('password_change', array(
@@ -177,6 +214,17 @@ class password extends rcube_plugin
                 $rcmail->output->command('display_message', $res, 'error');
             }
         }
+        return $save_success;
+    }
+
+    function password_save()
+    {
+        $this->register_handler('plugin.body', array($this, 'password_form'));
+
+        $rcmail = rcmail::get_instance();
+        $rcmail->output->set_pagetitle($this->gettext('changepasswd'));
+
+        $this->password_set($rcmail->config->get('password_confirm_current'));
 
         $rcmail->overwrite_action('plugin.password');
         $rcmail->output->send('plugin');
