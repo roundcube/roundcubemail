@@ -18,7 +18,8 @@ REQUIREMENTS
    - OpenSSL, Fileinfo, Mcrypt, mbstring (optional)
 * PEAR packages distributed with Roundcube or external:
    - Mail_Mime 1.9.0 or newer
-   - Net_SMTP (latest from https://github.com/pear/Net_SMTP/)
+   - Net_SMTP 1.7.1 or newer
+   - Net_Socket 1.0.12 or newer
    - Net_IDNA2 0.1.1 or newer
    - Auth_SASL 1.0.6 or newer
    - Net_Sieve 1.3.2 or newer (for managesieve plugin)
