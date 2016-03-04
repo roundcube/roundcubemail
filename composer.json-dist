@@ -23,6 +23,7 @@
     "require": {
         "php": ">=5.3.7",
         "roundcube/plugin-installer": "~0.1.6",
+        "pear-pear.php.net/net_socket": "~1.0.12",
         "pear-pear.php.net/auth_sasl": "~1.0.6",
         "pear-pear.php.net/net_idna2": "~0.1.1",
         "pear-pear.php.net/mail_mime": "~1.10.0",
