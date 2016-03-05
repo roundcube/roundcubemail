@@ -1,0 +1,1890 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"fetch",
+				"fetchComments"
+			],
+			[
+				"logge",
+				"loggedIn"
+			],
+			[
+				"s",
+				"spoof_proof"
+			],
+			[
+				"sq",
+				"squiggles"
+			],
+			[
+				"squi",
+				"squigglesText"
+			],
+			[
+				"rep",
+				"response"
+			],
+			[
+				"squiggle",
+				"squiggles_model"
+			],
+			[
+				"latest",
+				"latestSquiggles"
+			],
+			[
+				"squig",
+				"squiggles"
+			],
+			[
+				"Upda",
+				"updateSuccess"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"var",
+				"var_dump"
+			],
+			[
+				"user_displ",
+				"user_display_name"
+			],
+			[
+				"feature",
+				"featured_image"
+			],
+			[
+				"url",
+				"urlencode"
+			],
+			[
+				"text",
+				"text-decoration"
+			],
+			[
+				"text-",
+				"text-transform"
+			],
+			[
+				"border-",
+				"border-radius"
+			],
+			[
+				"html",
+				"htmlentities"
+			],
+			[
+				"search",
+				"searchQuery"
+			],
+			[
+				"max",
+				"max-height"
+			],
+			[
+				"parent",
+				"parentCategory"
+			],
+			[
+				"category",
+				"categoryParent"
+			],
+			[
+				"categ",
+				"categoryID"
+			],
+			[
+				"order_ids",
+				"order_ids_string"
+			],
+			[
+				"or",
+				"order_ids_string"
+			],
+			[
+				"pi",
+				"pickedUp"
+			],
+			[
+				"bookTitle",
+				"bookTitleShort"
+			],
+			[
+				"vri",
+				"verification_code"
+			],
+			[
+				"verification",
+				"verification_code"
+			],
+			[
+				"cus",
+				"customer"
+			],
+			[
+				"ordered",
+				"orderedBooks"
+			],
+			[
+				"activ",
+				"active_set"
+			],
+			[
+				"ac",
+				"active_set"
+			],
+			[
+				"eventSta",
+				"eventStartDate"
+			],
+			[
+				"up",
+				"upcomingEventsCount"
+			],
+			[
+				"alle",
+				"allEventsCount"
+			],
+			[
+				"cur",
+				"currentMonth"
+			],
+			[
+				"current",
+				"currentDateTime"
+			],
+			[
+				"allEvents",
+				"allEventsCount"
+			],
+			[
+				"upcoming",
+				"upcomingEvents"
+			],
+			[
+				"squigg",
+				"squiggles_model"
+			],
+			[
+				"sc",
+				"scrollTop"
+			],
+			[
+				"ar",
+				"arrival_times"
+			],
+			[
+				"remaini",
+				"remaining_times"
+			],
+			[
+				"process",
+				"processes"
+			],
+			[
+				"last",
+				"last_execution"
+			],
+			[
+				"remaing",
+				"remaining_times"
+			],
+			[
+				"all",
+				"all_executed"
+			],
+			[
+				"categor",
+				"categoryId"
+			],
+			[
+				"field",
+				"fieldsMissing"
+			],
+			[
+				"ex",
+				"expectedDeliveryDate"
+			],
+			[
+				"cat",
+				"categoryID"
+			],
+			[
+				"list-style",
+				"list-style-type"
+			],
+			[
+				"sub",
+				"subcategory"
+			],
+			[
+				"subc",
+				"subcategories"
+			],
+			[
+				"backgrou",
+				"background-color"
+			],
+			[
+				"entrance",
+				"entrancePrepBooks"
+			],
+			[
+				"featured",
+				"featuredBooks"
+			],
+			[
+				"str_re",
+				"str_replace"
+			],
+			[
+				"album_ca",
+				"album_category_id"
+			],
+			[
+				"gallery",
+				"gallery_model"
+			],
+			[
+				"exp",
+				"expiryDateString"
+			],
+			[
+				"ur",
+				"urlencode"
+			],
+			[
+				"post_publis",
+				"post_publish_date"
+			],
+			[
+				"eventEnd",
+				"eventEndDateString"
+			],
+			[
+				"news",
+				"news-this-week"
+			],
+			[
+				"sho",
+				"showLoader"
+			],
+			[
+				"vote",
+				"voteQuery"
+			],
+			[
+				"user_display",
+				"user_display_picture"
+			],
+			[
+				"user_actia",
+				"user_activation_key"
+			],
+			[
+				"Check",
+				"CheckPassword"
+			],
+			[
+				"show",
+				"showError"
+			],
+			[
+				"xhr",
+				"xhrRegisterOn"
+			],
+			[
+				"post_categ",
+				"post_categories"
+			],
+			[
+				"trending",
+				"trendingPosts"
+			],
+			[
+				"tre",
+				"trendingPosts"
+			],
+			[
+				"popular",
+				"popularPosts"
+			],
+			[
+				"witsDo",
+				"witsDomHistory"
+			],
+			[
+				"getCatego",
+				"getCategoriesInfo"
+			],
+			[
+				"DateTim",
+				"DateTimeZone"
+			],
+			[
+				"Date",
+				"DateTimeZone"
+			],
+			[
+				"setTime",
+				"setTimeZone"
+			],
+			[
+				"med",
+				"mediaID"
+			],
+			[
+				"res",
+				"response"
+			],
+			[
+				"Dat",
+				"DateTimeZone"
+			],
+			[
+				"POST_TYPE",
+				"POST_TYPE_VIDEO"
+			],
+			[
+				"POST_T",
+				"POST_TYPE_NORMAL"
+			],
+			[
+				"vide",
+				"videoSet"
+			],
+			[
+				"feat",
+				"featured"
+			],
+			[
+				"ca",
+				"categories"
+			],
+			[
+				"ini",
+				"initialize"
+			],
+			[
+				"publishDat",
+				"publishDateTime"
+			],
+			[
+				"publ",
+				"publishDateTime"
+			],
+			[
+				"pub",
+				"publishDateTime"
+			],
+			[
+				"json_",
+				"json_encode"
+			],
+			[
+				"slide",
+				"slideDown"
+			],
+			[
+				"lates",
+				"latestSquiggle"
+			],
+			[
+				"squ",
+				"squigglesHTML"
+			],
+			[
+				"side",
+				"sidebar_user_panel"
+			],
+			[
+				"SITE",
+				"SITE_ROOT_ADMIN"
+			],
+			[
+				"display",
+				"display-picture"
+			],
+			[
+				"pict",
+				"pictureUploaded"
+			],
+			[
+				"pic",
+				"pictureUploaded"
+			],
+			[
+				"file",
+				"fileuploadadd"
+			],
+			[
+				"checked",
+				"checkedSiblings"
+			],
+			[
+				"Inter",
+				"Internships"
+			],
+			[
+				"change",
+				"changeCommentStatus"
+			],
+			[
+				"bulk",
+				"bulkActionCheck"
+			],
+			[
+				"remove",
+				"removeAttr"
+			],
+			[
+				"chec",
+				"checkboxes"
+			],
+			[
+				"col",
+				"colHTML"
+			],
+			[
+				"comments",
+				"commentsApprove"
+			],
+			[
+				"succes",
+				"successMessageTimer"
+			],
+			[
+				"succ",
+				"successMessageTimer"
+			],
+			[
+				"update",
+				"updateSuccess"
+			],
+			[
+				"inlin",
+				"inline-block"
+			],
+			[
+				"ke",
+				"keyup"
+			],
+			[
+				"fea",
+				"featured-media"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"poll-ar",
+				"poll-article-body"
+			],
+			[
+				"co",
+				"console"
+			],
+			[
+				"featur",
+				"featured-image"
+			],
+			[
+				"image",
+				"imageUpload"
+			],
+			[
+				"is",
+				"isDate"
+			],
+			[
+				"ge",
+				"generateSlug"
+			],
+			[
+				"add",
+				"addslashes"
+			],
+			[
+				"squg",
+				"squigglesUpdating"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "program/steps/settings/identities.inc",
+			"settings":
+			{
+				"buffer_size": 2653,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "index.php",
+			"settings":
+			{
+				"buffer_size": 12412,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "program/lib/Roundcube/bootstrap.php",
+			"settings":
+			{
+				"buffer_size": 11860,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "program/include/rcmail.php",
+			"settings":
+			{
+				"buffer_size": 82333,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Roundcube.sublime-project",
+			"settings":
+			{
+				"buffer_size": 221,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 152.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"package Control instal",
+				"Package Control: Install Package"
+			],
+			[
+				"copy r",
+				"SublimeHighlight: copy to clipboard as RTF"
+			],
+			[
+				"sysc",
+				"Set Syntax: C"
+			],
+			[
+				"copy",
+				"SublimeHighlight: copy to clipboard as RTF"
+			],
+			[
+				"ssc",
+				"Set Syntax: C"
+			],
+			[
+				"high",
+				"SublimeHighlight: copy to clipboard as RTF"
+			],
+			[
+				"Package Contrl: In",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 408.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/localhost/roundcubemail"
+	],
+	"file_history":
+	[
+		"/D/localhost/roundcubemail/plugins/new_user_identity/new_user_identity.php",
+		"/D/localhost/roundcubemail/program/include/iniset.php",
+		"/D/localhost/roundcubemail/program/lib/Roundcube/bootstrap.php",
+		"/D/localhost/roundcubemail/program/steps/settings/func.inc",
+		"/D/localhost/roundcubemail/config/defaults.inc.php",
+		"/D/localhost/roundcubemail/config/config.inc.php",
+		"/D/localhost/roundcubemail/index.php",
+		"/D/localhost/roundcubemail/skins/larry/templates/settings.html",
+		"/D/localhost/roundcubemail/INSTALL",
+		"/D/localhost/roundcube/roundcubemail-1.1.4/INSTALL",
+		"/D/localhost/roundcube/index.php",
+		"/D/localhost/roundcube/config/config.inc.php",
+		"/D/localhost/adamantium/.git/COMMIT_EDITMSG",
+		"/D/localhost/nodejstest/main.js",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/d",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/10-important-interview-questions/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/10-important-interview-questions/134827 http_/www.geeksforgeeks.org/index459f.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/10-mistakes-people-tend-to-do-in-an-interview/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/10-mistakes-people-tend-to-do-in-an-interview/135612 http_/www.geeksforgeeks.org/indexb7d5.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/247-innovation-labs-interview-experience/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/247-innovation-labs-interview-experience/134735 http_/www.geeksforgeeks.org/indexacf3.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/247-innovation-labs-interview-experience-set-2/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/247-innovation-labs-interview-experience-set-2/135111 http_/www.geeksforgeeks.org/index23c6.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/3-way-quicksort/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/3-way-quicksort/135312 http_/www.geeksforgeeks.org/index3610.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/6-tips-to-prepare-behavioural-interview-questions/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/6-tips-to-prepare-behavioural-interview-questions/136312 http_/www.geeksforgeeks.org/index9b10.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/618/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/618/618 http_/geeksforgeeks.org/indexab36.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/8-queen-problem/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/8-queen-problem/605 http_/geeksforgeeks.org/index0acd.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-boolean-array-puzzle/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-boolean-array-puzzle/12758 http_/geeksforgeeks.org/indexfa36.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-boolean-matrix-question/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-boolean-matrix-question/14722 http_/www.geeksforgeeks.org/indexaa5e.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-c-puzzle/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-c-puzzle/135103 http_/www.geeksforgeeks.org/indexa335.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-c-puzzle-2/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-c-puzzle-2/136355 http_/www.geeksforgeeks.org/indexc19f.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-comma-operator-question/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-comma-operator-question/13971 http_/geeksforgeeks.org/indexbeab.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-data-structure-question/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-data-structure-question/114267 http_/www.geeksforgeeks.org/index7448.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-linked-list-with-next-and-arbit-pointer/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-linked-list-with-next-and-arbit-pointer/1155 http_/geeksforgeeks.org/indexc494.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-nested-loop-puzzle/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-nested-loop-puzzle/7754 http_/geeksforgeeks.org/indexdbab.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-pancake-sorting-question/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-pancake-sorting-question/115308 http_/www.geeksforgeeks.org/index8bc9.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-product-array-puzzle/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-product-array-puzzle/7527 http_/geeksforgeeks.org/indexa2a3.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/3042 http_/geeksforgeeks.org/indexc94e.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-program-to-check-if-strings-are-rotations-of-each-other-or-not/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-program-to-check-if-strings-are-rotations-of-each-other-or-not/429 http_/geeksforgeeks.org/indexedce.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-puzzle-on-cc-r-value-expressions/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-puzzle-on-cc-r-value-expressions/9321 http_/geeksforgeeks.org/index33d3.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-time-complexity-question/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/a-time-complexity-question/10243 http_/geeksforgeeks.org/index5950.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/about/index.html",
+		"/C/Users/DilipRaj/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/DilipRaj/AppData/Roaming/Sublime Text 3/Packages/User/JSON.sublime-settings",
+		"/C/Users/DilipRaj/AppData/Roaming/Sublime Text 3/Packages/User/Distraction Free.sublime-settings",
+		"/C/Users/DilipRaj/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/DilipRaj/AppData/Roaming/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/about/2 http_/geeksforgeeks.org/indexba53.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/about/contact-us/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/about/contact-us/29076 http_/www.geeksforgeeks.org/indexd684.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/about/interview-corner/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/about/job-vacancies-geeksforgeeks-urgent-requirement/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/about/job-vacancies-geeksforgeeks-urgent-requirement/135257 http_/www.geeksforgeeks.org/index42da.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/abstract-classes-in-java/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/abstract-classes-in-java/28058 http_/www.geeksforgeeks.org/index83f3.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-3-on-campus/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-3-on-campus/134666 http_/www.geeksforgeeks.org/index0c05.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-4-on-campus/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-4-on-campus/135204 http_/www.geeksforgeeks.org/index23e8.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-5-on-campus/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-5-on-campus/135229 http_/www.geeksforgeeks.org/index30aa.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-6-on-campus/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-6-on-campus/135311 http_/www.geeksforgeeks.org/indexef35.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-7-on-campus/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-7-on-campus/135543 http_/www.geeksforgeeks.org/index1ac1.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-8/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-8/135602 http_/www.geeksforgeeks.org/index806a.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-9-on-campus/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-experience-set-9-on-campus/135698 http_/www.geeksforgeeks.org/index21cd.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-set-1/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-set-1/130530 http_/www.geeksforgeeks.org/indexfea0.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-set-2-campus/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/accolite-interview-set-2-campus/132961 http_/www.geeksforgeeks.org/index4539.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/add-1-to-a-given-number/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/add-1-to-a-given-number/8198 http_/geeksforgeeks.org/index4544.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/add-greater-values-every-node-given-bst/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/add-greater-values-every-node-given-bst/122999 http_/www.geeksforgeeks.org/index852e.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/add-two-bit-strings/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/add-two-bit-strings/114535 http_/www.geeksforgeeks.org/indexce16.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/add-two-numbers-represented-by-linked-lists/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/add-two-numbers-represented-by-linked-lists/15194 http_/www.geeksforgeeks.org/index27c2.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/add-two-numbers-without-using-arithmetic-operators/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/add-two-numbers-without-using-arithmetic-operators/18324 http_/www.geeksforgeeks.org/index5f0c.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience/118828 http_/www.geeksforgeeks.org/index1afe.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-mts-1-1-5-years-experience/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-mts-1-1-5-years-experience/133719 http_/www.geeksforgeeks.org/indexec92.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-18-wbt-profile/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-18-wbt-profile/133086 http_/www.geeksforgeeks.org/index4494.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-19-mts/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-19-mts/133383 http_/www.geeksforgeeks.org/index9306.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-21-for-software-engineer-fresher/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-21-for-software-engineer-fresher/135145 http_/www.geeksforgeeks.org/indexc66c.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-22-on-campus/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-22-on-campus/135183 http_/www.geeksforgeeks.org/index5873.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-23-1-year-experienced/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-23-1-year-experienced/135213 http_/www.geeksforgeeks.org/index174f.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-24-on-campus-for-mts/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-24-on-campus-for-mts/135225 http_/www.geeksforgeeks.org/indexbcaa.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-25-on-campus-for-mts-1/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-25-on-campus-for-mts-1/135232 http_/www.geeksforgeeks.org/indexe896.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-26-on-campus-for-mts-1/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-26-on-campus-for-mts-1/135237 http_/www.geeksforgeeks.org/indexe8b8.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-27-on-campus-for-internship/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-27-on-campus-for-internship/135318 http_/www.geeksforgeeks.org/index6a37.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-28-for-mts-2/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-28-for-mts-2/135594 http_/www.geeksforgeeks.org/index1b9f.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-29-off-campus/index.html",
+		"/F/tutorials/Coding/Geeks for Geeks/www.geeksforgeeks.org/adobe-interview-experience-set-29-off-campus/135599 http_/www.geeksforgeeks.org/index3339.html"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 145.0,
+		"where_history":
+		[
+			"",
+			"*.php",
+			"",
+			"../../Geeks%20Quiz/geeksquiz.com",
+			"",
+			"*.php",
+			"*.js",
+			"",
+			"-D:\\localhost\\bookfount\\admin",
+			"",
+			"D:\\localhost\\bookfount\\admin",
+			"-D:\\localhost\\bookfount\\admin",
+			"D:\\localhost\\bookfount\\admin",
+			"",
+			"<open folders>,D:\\localhost\\adamantium\\back-end",
+			"<open folders>",
+			"",
+			"font-weight: 300",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"identity_create",
+			"exec_hook",
+			"exec_hoo",
+			"identities.inc",
+			"\n",
+			" \n",
+			" ",
+			".*:",
+			"database",
+			"RCMAIL",
+			"roundcubemail",
+			"password",
+			"\n",
+			"remember",
+			"http://geeksquiz.com",
+			"geeksquiz.com",
+			"buy",
+			"editAccountInfo.php",
+			"btn",
+			"sex",
+			"450",
+			"$_SESSION['disp",
+			"admin_logged",
+			"isLoggedIn",
+			"PAGE_CACHE_DURATION",
+			"view",
+			"setcookie(",
+			"$data['squiggles']",
+			"$this->squiggles_model->getSquiggles()",
+			"\n		$data['squiggles'] = $this->squiggles_model->getSquiggles();",
+			"\n		$this->load->model('squiggles_model');",
+			"\n		// Latest Squiggles\n		$latestSquiggles['squigglesContent'] = $this->squiggles_model->getLatestSquiggles()->squiggles_content;\n		$data['squiggles'] = $this->load->view( 'sidebar/squiggles', $latestSquiggles, TRUE );",
+			"echo $squiggles",
+			"squiggles",
+			"sidebar",
+			"squiggles",
+			"$squiggles",
+			"echo $squiggles",
+			"$squiggles",
+			"<div class=\"row hidden-md hidden-lg\">\n						<div class=\"col-sm-12\">\n							<?php echo $squiggles; ?>\n						</div>\n					</div>",
+			"<div class=\"col-md-12 col-sm-6 hidden-sm hidden-xs\">\n						<?php echo $squiggles; ?>\n					</div>",
+			"loading_fff",
+			"squiggles",
+			"$this->output->cache( 60 );",
+			"cache( 60",
+			"delete",
+			"is_ajax",
+			"callout-",
+			"setTimeout",
+			"$.get",
+			"data = {",
+			"data.add",
+			"data.dd",
+			"title",
+			"<!",
+			"base_url",
+			"index_page",
+			"index",
+			"confi",
+			"md5",
+			"placement-stat",
+			"pacement-stats",
+			"pacement-stats.php",
+			"-->",
+			"new array",
+			"site_root",
+			"FCPATH",
+			"xml_convert",
+			"20",
+			"onsale.php",
+			"sold",
+			"featured.php",
+			"name=\"description\"",
+			"description",
+			"keyword",
+			"meta",
+			"main",
+			"technical team",
+			"ordered",
+			"HEAD",
+			"all",
+			"paginate",
+			"<script src=\"<\\?php echo SITE_ROOT; \\?>js/bootstrap.js\"></script>",
+			"<script src=\"<?php echo SITE_ROOT; ?>js/bootstrap.js\"></script>",
+			"<script src=\"<\\?php echo SITE_ROOT; \\?>js\\/bootstrap.js\"></script>",
+			"name=\"q\"",
+			"Q",
+			"name=\"q\"",
+			"page",
+			"live",
+			"setdata",
+			"novemner",
+			"novenber",
+			"no",
+			"novenber",
+			"<<",
+			"footer",
+			"p ",
+			"post",
+			"input",
+			"search",
+			"73",
+			"error404",
+			"error",
+			"item",
+			"item-books",
+			"item",
+			"$month->year",
+			"$month->month",
+			"$placement_month",
+			"2015",
+			"notes",
+			"localhost",
+			"notes",
+			"$description",
+			"$descriptio",
+			"notes",
+			"$isbn",
+			"$notes",
+			"$book_id",
+			"$_GET",
+			"border-bottom",
+			"margin-top",
+			"marging-top",
+			"padding-top",
+			"active",
+			"</h2>",
+			"<h2>"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			",",
+			"",
+			",",
+			"../../../Geeks%20Quiz/geeksquiz.com",
+			"../../Geeks%20Quiz/geeksquiz.com",
+			"PAGE_CACHE_DURATION_LONG",
+			"",
+			"<div class=\"row hidden-md hidden-lg\">\n						<div class=\"col-sm-12 squiggles-wrapper\">\n							<div class=\"squiggles\">\n								<h3>Squiggles</h3>\n								<img src=\"<?php echo ASSETS_URL; ?>img/loading_squiggles.gif\" />\n							</div>\n						</div>\n					</div>",
+			"<div class=\"col-md-12 col-sm-6 hidden-sm hidden-xs squiggles-wrapper\">\n						<div class=\"squiggles\">\n							<h3>Squiggles</h3>\n							<img src=\"<?php echo ASSETS_URL; ?>img/loading_squiggles.gif\" />\n						</div>\n					</div>",
+			"loading_squiggles",
+			"$this->output->cache( PAGE_CACHE_DURATION );",
+			"sold",
+			"<script src=\"<?php echo SITE_ROOT; ?>js/bootstrap.js\"></script>\n  	<script src=\"<?php echo SITE_ROOT; ?>js/common.js\"></script>",
+			"$month['year']",
+			"$month['month']",
+			"$placement_months",
+			"$notes",
+			"",
+			"55",
+			"http://localhost/tsl3",
+			"$book",
+			"<?php echo ASSETS_URL; ?>img/",
+			"tsl3",
+			"REQUEST_URI",
+			"href=\"<?php echo SITE_ROOT; ?>fonts/",
+			"href=\"<?php echo SITE_ROOT; ?>images/",
+			"item/<?php echo $bookId; ?>/<?php echo $slug; ?>/\"",
+			"item/<?php echo $bookId; ?>/<?php echo $slug; ?>/",
+			"item/<?php echo $bookId; ?>/",
+			"category/$1\">",
+			"category/\">",
+			"category/$1/",
+			"<a href=\"<?php echo ADMIN_ROOT; ?>",
+			"<a href=\"<?php echo SITE_ROOT; ?>",
+			"<?php echo ADMIN_ROOT; ?>img/",
+			"<?php echo ADMIN_ROOT; ?>js/",
+			"<?php echo ADMIN_ROOT; ?>css/",
+			"<?php echo SITE_ROOT; ?>admin/",
+			"<img src=\"<?php echo SITE_ROOT; ?>",
+			"src=\"<?php echo SITE_ROOT; ?>js/",
+			"href=\"<?php echo SITE_ROOT; ?>css/",
+			"td",
+			"'/_treasherlocked/config/consts.php",
+			"/config/consts.php",
+			"http://www.treasherlocked.com/",
+			".com",
+			"2015",
+			"ts3",
+			"ORDER_STATUS_PENDING",
+			"selOrders",
+			"updateOrderStatus.php",
+			"#ffa329",
+			"BOOK_MAX_NO_OF_IMAGES",
+			".php",
+			"event",
+			"'/2.0/config/consts.php'",
+			"www.treasherlocked.com/2.0",
+			"http://www.treasherlocked.com/2.0/",
+			"$1,$1,''\\n",
+			"$1,$1\\n",
+			"$1,$1",
+			"",
+			"\\n",
+			"htmlAllEvents",
+			"htmlUpcomingEvents",
+			"Salary",
+			"and",
+			"experience",
+			"how_to_apply",
+			"%s",
+			"my_string",
+			"fork_id",
+			"pipe_status",
+			"numeric_value",
+			"count",
+			"",
+			"arrival_times",
+			"burst_times",
+			"remaining_times",
+			"longest_remaining_time",
+			"t",
+			"next_longest_process",
+			"#image-slider",
+			"$sellerName",
+			"\\$$1",
+			"\\$$1;",
+			"echo \\$$1;",
+			"customer",
+			"( isset( $1 ) ) ? $1 : ''",
+			"books.php",
+			"book.php",
+			"hide",
+			"show",
+			"col-sm-9",
+			"control-label col-sm-3",
+			"fa-location-arrow",
+			"poll",
+			"$poll",
+			"$customer",
+			"$book",
+			"books.php?catID=$1",
+			"maxlength=\"5000\"",
+			"$album",
+			"album",
+			"$album",
+			"album",
+			"albumID",
+			"$album",
+			"$albums",
+			"$gallery",
+			"ASSETS_URL_ADMIN",
+			"fd[READ]",
+			"fd[WRITE]",
+			"slider",
+			"nav .nav",
+			"",
+			"pictures\\[]",
+			"pictures\\[$1\\]\\['name'\\] = '$1.jpg';",
+			"pictures\\[$1\\]\\['name'] = '$1.jpg';",
+			"pictures\\[($1)\\]\\['name'] = '$1.jpg';",
+			"100%",
+			"95%",
+			"90%",
+			"src=\"img/photo-journalism/",
+			"<?php echo $current_url; ?>",
+			"",
+			"http://mondaymorning.nitrkl.ac.in",
+			"<?php echo ASSETS_URL; ?>img/social/"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "program/steps/settings/identities.inc",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2653,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								733,
+								733
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "index.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12412,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2762,
+								2762
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 545.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "program/lib/Roundcube/bootstrap.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11860,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11488,
+								11488
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 7858.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "program/include/rcmail.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 82333,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7657,
+								7666
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3648.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Roundcube.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 221,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								200,
+								200
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				2,
+				1
+			],
+			[
+				0,
+				1,
+				1,
+				2
+			],
+			[
+				1,
+				1,
+				2,
+				2
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.372932985205,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			0.387034277198,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.xdebug":
+	{
+		"height": 116.0
+	},
+	"pinned_build_system": "",
+	"project": "Roundcube.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"rcmail",
+				"program\\include\\rcmail.php"
+			],
+			[
+				"roundcube/boo",
+				"program\\lib\\Roundcube\\bootstrap.php"
+			],
+			[
+				"ini",
+				"program\\include\\iniset.php"
+			],
+			[
+				"inde",
+				"index.php"
+			],
+			[
+				"identi",
+				"program\\steps\\settings\\identities.inc"
+			],
+			[
+				"settings.",
+				"skins\\larry\\templates\\settings.html"
+			],
+			[
+				"boo",
+				"program\\lib\\Roundcube\\bootstrap.php"
+			],
+			[
+				"inise",
+				"program\\include\\iniset.php"
+			],
+			[
+				"indx",
+				"index.php"
+			],
+			[
+				"index",
+				"index.php"
+			],
+			[
+				"buy.",
+				"buy.php"
+			],
+			[
+				"item",
+				"item.php"
+			],
+			[
+				"search",
+				"search.php"
+			],
+			[
+				"header",
+				"includes\\templates\\header.php"
+			],
+			[
+				"head",
+				"admin\\components\\header.php"
+			],
+			[
+				"buy",
+				"buy.php"
+			],
+			[
+				"sell",
+				"sell.php"
+			],
+			[
+				"confi",
+				"config.php"
+			],
+			[
+				"check",
+				"includes\\check_signup.php"
+			],
+			[
+				"sign",
+				"sign_up.php"
+			],
+			[
+				"verify",
+				"verify.php"
+			],
+			[
+				"style",
+				"css\\style.css"
+			],
+			[
+				"sell.",
+				"sell.php"
+			],
+			[
+				"login",
+				"login.php"
+			],
+			[
+				"sig",
+				"sign_up.php"
+			],
+			[
+				"edit",
+				"editAccountInfo.php"
+			],
+			[
+				"conf",
+				"config.php"
+			],
+			[
+				"link",
+				"includes\\link.php"
+			],
+			[
+				"test",
+				"test.php"
+			],
+			[
+				"post-pho",
+				"application\\views\\post\\post-photojournalism.php"
+			],
+			[
+				"post-ana",
+				"application\\views\\post\\poll-analysis.php"
+			],
+			[
+				"con",
+				"application\\config\\constants.php"
+			],
+			[
+				"post-ph",
+				"application\\views\\post\\post-photojournalism.php"
+			],
+			[
+				"post-n",
+				"application\\views\\post\\post-normal.php"
+			],
+			[
+				"init",
+				"assets\\js\\init.js"
+			],
+			[
+				"comm",
+				"assets\\js\\comments.js"
+			],
+			[
+				"post-no",
+				"application\\views\\post\\post-normal.php"
+			],
+			[
+				"post",
+				"application\\controllers\\Post.php"
+			],
+			[
+				"home",
+				"application\\controllers\\Home.php"
+			],
+			[
+				"post.js",
+				"assets\\js\\post.js"
+			],
+			[
+				"post_mo",
+				"application\\models\\Post_model.php"
+			],
+			[
+				"post-",
+				"application\\views\\post\\post-normal.php"
+			],
+			[
+				"post.p",
+				"application\\controllers\\Post.php"
+			],
+			[
+				"sq",
+				"application\\controllers\\Squiggles.php"
+			],
+			[
+				"live",
+				"application\\controllers\\Live.php"
+			],
+			[
+				"hom",
+				"application\\views\\home\\home.php"
+			],
+			[
+				"archive-is",
+				"application\\views\\archive\\archive-issue-view.php"
+			],
+			[
+				"squ",
+				"application\\controllers\\Squiggles.php"
+			],
+			[
+				"post-nr",
+				"application\\views\\post\\post-normal.php"
+			],
+			[
+				"view/sq",
+				"application\\views\\sidebar\\squiggles.php"
+			],
+			[
+				"views/squi",
+				"application\\views\\admin\\squiggles.php"
+			],
+			[
+				"squi",
+				"application\\views\\sidebar\\squiggles.php"
+			],
+			[
+				"48",
+				"assets\\admin\\fonts\\sourcesans\\fpTVHK8qsXbIeTHTrnQH6Lpx497t94oDua8KfAL9f-E.woff2"
+			],
+			[
+				"s",
+				"application\\controllers\\Squiggles.php"
+			],
+			[
+				"cache_mo",
+				"application\\models\\Cache_model.php"
+			],
+			[
+				"cache",
+				"application\\controllers\\Cache.php"
+			],
+			[
+				"cache_m",
+				"application\\models\\Cache_model.php"
+			],
+			[
+				"cach",
+				"application\\controllers\\Cache.php"
+			],
+			[
+				"post-ad",
+				"application\\views\\admin\\post-add-new.php"
+			],
+			[
+				"squiggles.js",
+				"assets\\admin\\js\\squiggles.js"
+			],
+			[
+				"user",
+				"application\\models\\User.php"
+			],
+			[
+				"cahc",
+				"application\\controllers\\Cache.php"
+			],
+			[
+				"sidebar",
+				"application\\views\\admin\\templates\\sidebar_menu.php"
+			],
+			[
+				"views",
+				"application\\views\\admin\\squiggles.php"
+			],
+			[
+				"info",
+				"application\\controllers\\Info.php"
+			],
+			[
+				"ci",
+				"system\\core\\CodeIgniter.php"
+			],
+			[
+				"output",
+				"system\\core\\Output.php"
+			],
+			[
+				"page",
+				"application\\controllers\\Page.php"
+			],
+			[
+				"pol",
+				"application\\views\\poll\\poll.php"
+			],
+			[
+				"poll",
+				"application\\controllers\\Poll.php"
+			],
+			[
+				"inf",
+				"application\\controllers\\Info.php"
+			],
+			[
+				"gall",
+				"application\\controllers\\Gallery.php"
+			],
+			[
+				"eve",
+				"application\\controllers\\Event.php"
+			],
+			[
+				"sea",
+				"application\\controllers\\Search.php"
+			],
+			[
+				"user.php",
+				"application\\models\\User.php"
+			],
+			[
+				"home.php",
+				"application\\views\\home\\home.php"
+			],
+			[
+				"post-nor",
+				"application\\views\\post\\post-normal.php"
+			],
+			[
+				"ind",
+				"index.php"
+			],
+			[
+				"feed",
+				"application\\views\\rss\\feed.php"
+			],
+			[
+				"post_mod",
+				"application\\models\\Post_model.php"
+			],
+			[
+				"upload",
+				"application\\controllers\\Upload.php"
+			],
+			[
+				"cons",
+				"application\\config\\constants.php"
+			],
+			[
+				"archive_mo",
+				"application\\models\\Archive_model.php"
+			],
+			[
+				"archiv",
+				"application\\controllers\\Archive.php"
+			],
+			[
+				"issue",
+				"application\\views\\archive\\issue-archive.php"
+			],
+			[
+				"live_mod",
+				"application\\models\\Live_model.php"
+			],
+			[
+				"ons",
+				"onSale.php"
+			],
+			[
+				".hta",
+				".htaccess"
+			],
+			[
+				"featu",
+				"featured.php"
+			],
+			[
+				"define",
+				"application\\hooks\\define_urls.php"
+			],
+			[
+				"media.js",
+				"assets\\admin\\js\\post-media.js"
+			],
+			[
+				"defin",
+				"application\\hooks\\define_urls.php"
+			],
+			[
+				"define_u",
+				"application\\hooks\\define_urls.php"
+			],
+			[
+				"hook",
+				"application\\config\\hooks.php"
+			],
+			[
+				"const",
+				"application\\config\\constants.php"
+			],
+			[
+				"config",
+				"application\\config\\config.php"
+			],
+			[
+				"footer",
+				"application\\views\\templates\\footer.php"
+			],
+			[
+				"styl",
+				"assets\\css\\style.css"
+			],
+			[
+				"nav.",
+				"application\\views\\templates\\nav.php"
+			],
+			[
+				"hall",
+				"application\\views\\info\\hall-info.php"
+			],
+			[
+				"sear",
+				"search.php"
+			],
+			[
+				"my_",
+				"my_orders.php"
+			],
+			[
+				"mysq",
+				"includes\\libraries\\MysqliDb.php"
+			],
+			[
+				".h",
+				".htaccess"
+			],
+			[
+				"books",
+				"books.php"
+			],
+			[
+				"in",
+				"index.php"
+			],
+			[
+				"foo",
+				"includes\\templates\\footer.php"
+			],
+			[
+				"hea",
+				"includes\\templates\\header.php"
+			],
+			[
+				"mysql",
+				"includes\\libraries\\MysqliDb.php"
+			],
+			[
+				"conif",
+				"application\\config\\config.php"
+			],
+			[
+				"latest",
+				"application\\views\\live\\latest_live.php"
+			],
+			[
+				"live.php",
+				"application\\views\\live\\live.php"
+			],
+			[
+				"live.js",
+				"assets\\js\\live.js"
+			],
+			[
+				"author_mdo",
+				"application\\models\\Author_model.php"
+			],
+			[
+				"about",
+				"application\\views\\pages\\about.php"
+			],
+			[
+				"sty",
+				"css\\style.css"
+			],
+			[
+				"my_o",
+				"my_orders.php"
+			],
+			[
+				"my",
+				"my_ad.php"
+			],
+			[
+				"bo",
+				"books.php"
+			],
+			[
+				"other",
+				"other_items.php"
+			],
+			[
+				"error",
+				"includes\\html\\error404.php"
+			],
+			[
+				"searc",
+				"search.php"
+			],
+			[
+				"bok",
+				"books.php"
+			],
+			[
+				"book",
+				"books.php"
+			],
+			[
+				"cs",
+				"css\\style.css"
+			],
+			[
+				"boot",
+				"css\\bootstrap.css"
+			],
+			[
+				"st",
+				"css\\style.css"
+			],
+			[
+				"sell.js",
+				"js\\sell.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 400.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 400.0
+	},
+	"selected_group": 1,
+	"settings":
+	{
+		"xdebug":
+		{
+			"hide_conflict": false,
+			"restore_index":
+			{
+				"60":
+				{
+					"group": 0,
+					"index": 0
+				},
+				"65":
+				{
+					"group": 0,
+					"index": 1
+				},
+				"89":
+				{
+					"group": 0,
+					"index": 2
+				},
+				"97":
+				{
+					"group": 0,
+					"index": 3
+				}
+			},
+			"restore_layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						1,
+						1
+					]
+				],
+				"cols":
+				[
+					0.0,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					1.0
+				]
+			}
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 217.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

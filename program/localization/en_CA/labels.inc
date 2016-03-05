@@ -339,6 +339,9 @@ $labels['preferences'] = 'Preferences';
 $labels['userpreferences'] = 'User preferences';
 $labels['editpreferences'] = 'Edit user preferences';
 $labels['identities'] = 'Identities';
+
+$labels['Aliases'] = 'Aliases';
+
 $labels['preferhtml'] = 'Display HTML';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'HTML Message';

@@ -263,7 +263,6 @@ else if ($RCMAIL->action == 'save-pref') {
     include INSTALL_PATH . 'program/steps/utils/save_pref.inc';
 }
 
-
 // include task specific functions
 if (is_file($incfile = INSTALL_PATH . 'program/steps/'.$RCMAIL->task.'/func.inc')) {
     include_once $incfile;

@@ -324,6 +324,7 @@ $labels['receiptnote'] = 'Note: This receipt only acknowledges that the message 
 
 // address boook
 $labels['name']         = 'Display Name';
+$labels['alias']        = 'Alias';
 $labels['firstname']    = 'First Name';
 $labels['surname']      = 'Last Name';
 $labels['middlename']   = 'Middle Name';
@@ -445,6 +446,8 @@ $labels['manageidentities'] = 'Manage identities';
 $labels['newidentity'] = 'Create new identity';
 $labels['addidentity'] = 'Add identity';
 $labels['editidentity'] = 'Edit identity';
+
+$labels['aliases'] = 'Aliases';
 
 $labels['preferhtml'] = 'Display HTML';
 $labels['defaultcharset'] = 'Default Character Set';

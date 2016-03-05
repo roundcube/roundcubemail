@@ -382,6 +382,9 @@ $labels['manageidentities'] = 'Manage identities';
 $labels['newidentity'] = 'Create new identity';
 $labels['addidentity'] = 'Add identity';
 $labels['editidentity'] = 'Edit identity';
+
+$labels['Aliases'] = 'Aliases';
+
 $labels['preferhtml'] = 'Display HTML';
 $labels['defaultcharset'] = 'Default Character Set';
 $labels['htmlmessage'] = 'HTML Message';
