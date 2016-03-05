@@ -1,0 +1,88 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<meta name="Robots" content="noindex,nofollow" />
+<roundcube:include file="/includes/links.html" />
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,800,700,600,300' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<h1 class="voice"><roundcube:object name="productname" /> <roundcube:label name="login" /></h1>
+
+<div id="login-form">
+<div class="box-inner" role="main">
+<roundcube:object name="logo" src="/images/roundcube_logo.png" id="logo" />
+
+<roundcube:form name="form" method="post">
+<roundcube:object name="loginform" form="form" size="40" submit=true />
+</form>
+
+</div>
+
+<div class="box-bottom" role="complementary">
+	<roundcube:object name="message" id="message" />
+	<noscript>
+		<p class="noscriptwarning"><roundcube:label name="noscriptwarning" /></p>
+	</noscript>
+</div>
+
+<div id="bottomline" role="contentinfo">
+	<roundcube:object name="productname" /> <roundcube:object name="version" condition="config:display_version" />
+	<roundcube:if condition="config:support_url" />
+		&nbsp;&#9679;&nbsp; <a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link"><roundcube:label name="support" /></a>
+	<roundcube:endif />
+	<roundcube:container name="loginfooter" id="bottomline" />
+</div>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- sci-mail-login -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4559838995070559"
+     data-ad-slot="8999583449"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+</div>
+
+
+<!-- Piwik -->
+        <script type="text/javascript">
+        var _paq = _paq || [];
+         _paq.push(['trackPageView']);
+         _paq.push(['enableLinkTracking']);
+         (function() {
+        var u="https://www.scientillion.com/piwik/";
+         _paq.push(['setTrackerUrl', u+'piwik.php']);
+         _paq.push(['setSiteId', 1]);
+         var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+         g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+         })();
+</script>
+<noscript><p><img src="https://www.scientillion.com/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+
+<roundcube:include file="/includes/footer.html" />
+
+<roundcube:object name="preloader" images="
+  /images/ajaxloader.gif
+  /images/ajaxloader_dark.gif
+  /images/buttons.png
+  /images/addcontact.png
+  /images/filetypes.png
+  /images/listicons.png
+  /images/messages.png
+  /images/messages_dark.png
+  /images/quota.png
+  /images/selector.png
+  /images/splitter.png
+  /images/watermark.jpg
+" />
+
+
+</body>
+</html>

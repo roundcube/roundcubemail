@@ -1,0 +1,46 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,800,700,600,300' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="extwin noscroll">
+
+<roundcube:include file="/includes/header.html" />
+
+<div id="mainscreen">
+
+<h1 class="voice"><roundcube:label name="attachment" />: <roundcube:var name="env:filename" /></h1>
+
+<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+<div id="messagetoolbar" class="toolbar fullwidth" role="toolbar" aria-labelledby="aria-label-toolbar">
+	<roundcube:button command="download" type="link" class="button download disabled" classAct="button download" classSel="button download pressed" label="download" title="download" />
+	<roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" title="print" />
+	<roundcube:container name="toolbar" id="messagetoolbar" />
+</div>
+
+<div id="mainscreencontent">
+
+<div id="messagepartheader" class="uibox listbox" role="contentinfo" aria-labelledby="aria-label-contentinfo">
+	<h2 class="boxtitle" id="aria-label-contentinfo"><roundcube:label name="properties" /></h2>
+	<div class="scroller">
+		<roundcube:object name="messagePartControls" class="listing" />
+	</div>
+</div>
+
+<div id="messagepartcontainer" class="uibox" role="main" aria-labelledby="aria-label-messagepart">
+	<h2 id="aria-label-messagepart" class="voice"><roundcube:label name="arialabelattachmentpreview" /></h2>
+	<div class="iframebox">
+	<roundcube:object name="messagePartFrame" id="messagepartframe" frameborder="0" title="arialabelattachmentpreview" />
+	</div>
+</div>
+
+</div>
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>
