@@ -6,7 +6,7 @@
  * Plugin to allow the download of all message attachments in one zip file
  * and downloading of many messages in one go.
  *
- * @version 3.0
+ * @version 3.1
  * @requires php_zip extension (including ZipArchive class)
  * @author Philip Weir
  * @author Thomas Bruderli
@@ -119,7 +119,7 @@ class zipdownload extends rcube_plugin
      */
     public function download_attachments()
     {
-        $rcmail    = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         // require CSRF protected request
         $rcmail->request_security_check(rcube_utils::INPUT_GET);

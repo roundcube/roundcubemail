@@ -46,7 +46,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
         span.text(rcmail.get_label('zipdownload.download'));
         rcmail.env.download_link = link;
     });
-  });
+});
 
 
 function rcmail_zipdownload(mode)
