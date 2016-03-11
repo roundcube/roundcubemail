@@ -20,7 +20,7 @@ class rcube_kpasswd_password
     public function save($currpass, $newpass)
     {
         $bin      = rcmail::get_instance()->config->get('password_kpasswd_cmd', '/usr/bin/kpasswd');
-        $username = $_SESSION['username'];
+        $username = strtoupper($_SESSION['username']);
         $cmd      = $bin . ' "' . $username . '" 2>&1';
 
         $handle = popen($cmd, "w");
