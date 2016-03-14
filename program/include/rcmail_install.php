@@ -569,26 +569,30 @@ class rcmail_install
   * Return a list with available subfolders of the plugins directory
   * (with their associated description in composer.json)
   */
-  function list_plugins() 
+  function list_plugins()
   {
     $plugins = array();
     $plugin_dir = INSTALL_PATH . 'plugins/';
 
-    foreach (glob($plugin_dir . '*') as $path) 
-    {
+    foreach (glob($plugin_dir . '*') as $path) {
+      if (!is_dir($path)) {
+        continue;
+      }
 
-      if (is_dir($path) && is_readable($path.'/composer.json'))
-      {
-        $file_json = json_decode(file_get_contents($path.'/composer.json'));
+      if (is_readable($path.'/composer.json')) {
+        $file_json   = json_decode(file_get_contents($path.'/composer.json'));
         $plugin_desc = $file_json->description ?: 'N/A';
       }
-      else
-      {
+      else {
         $plugin_desc = 'N/A';
       }
 
-      $name = substr($path, strlen($plugin_dir));
-      $plugins[] = array('name' => $name, 'desc' => $plugin_desc, 'enabled' => in_array($name, $this->config['plugins']));
+      $name      = substr($path, strlen($plugin_dir));
+      $plugins[] = array(
+        'name'    => $name,
+        'desc'    => $plugin_desc,
+        'enabled' => in_array($name, (array) $this->config['plugins'])
+      );
     }
 
     return $plugins;
