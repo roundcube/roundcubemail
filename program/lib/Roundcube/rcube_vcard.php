@@ -742,9 +742,9 @@ class rcube_vcard
                         else if (is_bool($attrvalues)) {
                             // true means just a tag, not tag=value, as in PHOTO;BASE64:...
                             if ($attrvalues) {
-                                // vCard v3 uses ENCODING=B (#1489183)
+                                // vCard v3 uses ENCODING=b (#1489183)
                                 if ($attrname == 'base64') {
-                                    $attr .= ";ENCODING=B";
+                                    $attr .= ";ENCODING=b";
                                 }
                                 else {
                                     $attr .= strtoupper(";$attrname");
