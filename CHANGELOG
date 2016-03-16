@@ -13,6 +13,7 @@ CHANGELOG Roundcube Webmail
 - Fix additional_message_headers plugin compatibility with Mail_Mime >= 1.9 (#1490657)
 - Hide DSN option in Preferences when smtp_server is not used (#1490666)
 - Protect download urls against CSRF using unique request tokens (#1490642)
+- newmail_notifier: Refactor desktop notifications
 
 RELEASE 1.1.4
 -------------
