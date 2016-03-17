@@ -26,6 +26,7 @@ CHANGELOG Roundcube Webmail
 - Hide DSN option in Preferences when smtp_server is not used (#1490666)
 - Fix handling of body parameter in mail compose request
 - Protect download urls against CSRF using unique request tokens (#1490642)
+- newmail_notifier: Refactor desktop notifications
 
 RELEASE 1.2-beta
 ----------------

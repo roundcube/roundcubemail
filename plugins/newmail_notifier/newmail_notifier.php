@@ -4,16 +4,14 @@
  * New Mail Notifier plugin
  *
  * Supports three methods of notification:
- * 1. Basic - focus browser window and change favicon
- * 2. Sound - play wav file
- * 3. Desktop - display desktop notification (using webkitNotifications feature,
- *              supported by Chrome and Firefox with 'HTML5 Notifications' plugin)
+ * 1. Basic   - focus browser window and change favicon
+ * 2. Sound   - play wav file
+ * 3. Desktop - display desktop notification (using window.Notification API)
  *
  * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  *
- *
- * Copyright (C) 2011, Kolab Systems AG
+ * Copyright (C) 2011-2016, Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
