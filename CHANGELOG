@@ -27,6 +27,7 @@ CHANGELOG Roundcube Webmail
 - Fix handling of body parameter in mail compose request
 - Protect download urls against CSRF using unique request tokens (#1490642)
 - newmail_notifier: Refactor desktop notifications
+- Fix so contactlist_fields option can be set via config file
 
 RELEASE 1.2-beta
 ----------------
