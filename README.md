@@ -72,8 +72,8 @@ For more information visit [roundcube.net/contribute][contrib]
 
 CONTACT
 -------
-For any bug reports or feature requests please refer to the tracking system
-at [trac.roundcube.net][tracreport] or subscribe to our mailing list.
+For bug reports or feature requests please refer to the tracking system
+at [Github][githubissues] or subscribe to our mailing list.
 See [roundcube.net/support][support] for details.
 
 You're always welcome to send a message to the project admin:
@@ -90,4 +90,4 @@ hello(at)roundcube(dot)net
 [license]:      http://roundcube.net/license
 [contrib]:      http://roundcube.net/contribute
 [support]:      http://roundcube.net/support
-[tracreport]:   http://trac.roundcube.net/wiki/Howto_ReportIssues
+[githubissues]: https://github.com/roundcube/roundcubemail/issues
