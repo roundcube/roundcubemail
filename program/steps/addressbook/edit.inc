@@ -151,7 +151,7 @@ function rcmail_contact_editform($attrib)
         'contact' => array(
             'name'    => $RCMAIL->gettext('properties'),
             'content' => array(
-                'email' => array('size' => $i_size, 'visible' => true),
+                'email' => array('size' => $i_size, 'maxlength' => 254, 'visible' => true),
                 'phone' => array('size' => $i_size, 'visible' => true),
                 'address' => array('visible' => true),
                 'website' => array('size' => $i_size),
