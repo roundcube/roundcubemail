@@ -1985,7 +1985,9 @@ function rcmail_fix_mimetype($name)
         'image/x-ms-bmp' => 'image/bmp', // #1490282
     );
 
-    if ($alias = $map[strtolower($name)]) {
+    $name = strtolower($name);
+
+    if ($alias = $map[$name]) {
         $name = $alias;
     }
     // Some versions of Outlook create garbage Content-Type:

@@ -62,10 +62,17 @@ if (!empty($_GET['_frame'])) {
         'messagepartcontrols' => 'rcmail_message_part_controls',
     ));
 
+    $mimetype = $part ? rcmail_fix_mimetype($part->mimetype) : '';
+    if ($part_id && $mimetype == 'message/rfc822') {
+        $uid = preg_replace('/\.[0-9.]+/', '', $uid);
+        $uid .= '.' . $part_id;
+    }
+
     $OUTPUT->set_env('mailbox', $RCMAIL->storage->get_folder());
     $OUTPUT->set_env('uid', $uid);
     $OUTPUT->set_env('part', $part_id);
     $OUTPUT->set_env('filename', $filename);
+    $OUTPUT->set_env('mimetype', $mimetype);
 
     $OUTPUT->send('messagepart');
     exit;
@@ -449,12 +456,23 @@ function rcmail_message_part_controls($attrib)
  */
 function rcmail_message_part_frame($attrib)
 {
-    global $MESSAGE, $RCMAIL;
+    global $RCMAIL;
 
-    $part = $MESSAGE->mime_parts[asciiwords(rcube_utils::get_input_value('_part', rcube_utils::INPUT_GPC))];
-    $ctype_primary = strtolower($part->ctype_primary);
+    $mimetype = $RCMAIL->output->get_env('mimetype');
 
-    $attrib['src'] = './?' . str_replace('_frame=', ($ctype_primary=='text' ? '_embed=' : '_preload='), $_SERVER['QUERY_STRING']);
+    if ($mimetype == 'message/rfc822') {
+        $attrib['src'] = $RCMAIL->url(array(
+                'task'   => 'mail',
+                'action' => 'preview',
+                'uid'    => $RCMAIL->output->get_env('uid'),
+                'mbox'   => $RCMAIL->output->get_env('mailbox'),
+                'framed' => 1,
+        ));
+    }
+    else {
+        $frame_replace = strpos($mimetype, 'text/') === 0 ? '_embed=' : '_preload=';
+        $attrib['src'] = './?' . str_replace('_frame=', $frame_replace, $_SERVER['QUERY_STRING']);
+    }
 
     $RCMAIL->output->add_gui_object('messagepartframe', $attrib['id']);
 

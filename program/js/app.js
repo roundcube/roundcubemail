@@ -1211,13 +1211,13 @@ function rcube_webmail()
             this.open_window(this.env.comm_path + url, true, true);
           }
         }
-        else if (this.env.action == 'get') {
+        else if (this.env.action == 'get' && this.env.mimetype != 'message/rfc822') {
           this.gui_objects.messagepartframe.contentWindow.print();
         }
         else if (uid = this.get_single_uid()) {
           url = this.url('print', this.params_from_uid(uid, {_safe: this.env.safemode ? 1 : 0}));
           if (this.open_window(url, true, true)) {
-            if (this.env.action != 'show')
+            if (this.env.action != 'show' && this.env.action != 'get')
               this.mark_message('read', uid);
           }
         }

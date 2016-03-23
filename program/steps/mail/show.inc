@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-$PRINT_MODE = $RCMAIL->action == 'print' ? TRUE : FALSE;
+$PRINT_MODE = $RCMAIL->action == 'print' ? true : false;
 
 // Read browser capabilities and store them in session
 if ($caps = rcube_utils::get_input_value('_caps', rcube_utils::INPUT_GET)) {
@@ -31,7 +31,8 @@ if ($caps = rcube_utils::get_input_value('_caps', rcube_utils::INPUT_GET)) {
     $_SESSION['browser_caps'] = $browser_caps;
 }
 
-$uid       = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET);
+$msg_id    = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET);
+$uid       = preg_replace('/\.[0-9.]+$/', '', $msg_id);
 $mbox_name = $RCMAIL->storage->get_folder();
 
 // similar code as in program/steps/mail/get.inc
@@ -46,7 +47,7 @@ if ($uid) {
         $RCMAIL->config->set('prefer_html', $_SESSION['msg_formats'][$mbox_name.':'.$uid]);
     }
 
-    $MESSAGE = new rcube_message($uid, $mbox_name, intval($_GET['_safe']));
+    $MESSAGE = new rcube_message($msg_id, $mbox_name, intval($_GET['_safe']));
 
     // if message not found (wrong UID)...
     if (empty($MESSAGE->headers)) {
@@ -64,8 +65,9 @@ if ($uid) {
     $OUTPUT->set_pagetitle(abbreviate_string($MESSAGE->subject, 128, '...', true));
 
     // set message environment
-    $OUTPUT->set_env('uid', $MESSAGE->uid);
+    $OUTPUT->set_env('uid', $msg_id);
     $OUTPUT->set_env('safemode', $MESSAGE->is_safe);
+    $OUTPUT->set_env('no_preview_controls', $MESSAGE->context !== null);
     $OUTPUT->set_env('sender', $MESSAGE->sender['string']);
     $OUTPUT->set_env('mailbox', $mbox_name);
     $OUTPUT->set_env('username', $RCMAIL->get_user_name());
@@ -105,6 +107,9 @@ if ($uid) {
         if (!rcube_image::is_convertable('image/tiff')) {
             unset($mimetypes[$key]);
         }
+    }
+    if (!in_array('message/rfc822', $mimetypes)) {
+        $mimetypes[] = 'message/rfc822';
     }
 
     $OUTPUT->set_env('mimetypes', array_values($mimetypes));
@@ -146,6 +151,7 @@ if ($uid) {
     }
 
     if (empty($MESSAGE->headers->flags['SEEN'])
+        && $MESSAGE->context === null
         && ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($RCMAIL->config->get('preview_pane_mark_read')) == 0))
     ) {
         $RCMAIL->output->command('set_unread_message', $MESSAGE->uid, $mbox_name);
