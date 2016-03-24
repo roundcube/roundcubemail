@@ -339,13 +339,17 @@ class rcube_message
     {
         // check all message parts
         foreach ($this->mime_parts as $part) {
-            if (!$this->check_context($part)) {
-                continue;
-            }
-
             if ($part->mimetype == 'text/html' || ($enriched && $part->mimetype == 'text/enriched')) {
                 // Skip if part is an attachment, don't use is_attachment() here
                 if ($part->filename) {
+                    continue;
+                }
+
+                if (!$part->size) {
+                    continue;
+                }
+
+                if (!$this->check_context($part)) {
                     continue;
                 }
 
@@ -361,19 +365,22 @@ class rcube_message
                         return true;
                     }
 
-                    $parent    = $this->mime_parts[join('.', $level)];
-                    $max_delta = $depth - (1 + ($last == 'multipart/alternative' ? 1 : 0));
-                    $last      = $parent->mimetype;
+                    $parent = $this->mime_parts[join('.', $level)];
 
-                    if (!preg_match('/^multipart\/(alternative|related|signed|encrypted|mixed)$/', $parent->mimetype)
-                        || ($parent->mimetype == 'multipart/mixed' && $parent_depth < $max_delta)) {
+                    if (!$this->check_context($parent)) {
+                        return true;
+                    }
+
+                    $max_delta = $depth - (1 + ($last == 'multipart/alternative' ? 1 : 0));
+                    $last      = $parent->real_mimetype ?: $parent->mimetype;
+
+                    if (!preg_match('/^multipart\/(alternative|related|signed|encrypted|mixed)$/', $last)
+                        || ($last == 'multipart/mixed' && $parent_depth < $max_delta)) {
                         continue 2;
                     }
                 }
 
-                if ($part->size) {
-                    return true;
-                }
+                return true;
             }
         }
 
@@ -400,6 +407,10 @@ class rcube_message
                     continue;
                 }
 
+                if (!$part->size) {
+                    continue;
+                }
+
                 if (!$this->check_context($part)) {
                     continue;
                 }
@@ -413,14 +424,17 @@ class rcube_message
                     }
 
                     $parent = $this->mime_parts[join('.', $level)];
+
+                    if (!$this->check_context($parent)) {
+                        return true;
+                    }
+
                     if ($parent->mimetype != 'multipart/alternative' && $parent->mimetype != 'multipart/related') {
                         continue 2;
                     }
                 }
 
-                if ($part->size) {
-                    return true;
-                }
+                return true;
             }
         }
 
@@ -476,6 +490,26 @@ class rcube_message
             $h2t  = new rcube_html2text($body);
             return $h2t->get_text();
         }
+    }
+
+    /**
+     * Return message parts in current context
+     */
+    public function mime_parts()
+    {
+        if ($this->context === null) {
+            return $this->mime_parts;
+        }
+
+        $parts = array();
+
+        foreach ($this->mime_parts as $part_id => $part) {
+            if ($this->check_context($part)) {
+                $parts[$part_id] = $part;
+            }
+        }
+
+        return $parts;
     }
 
     /**

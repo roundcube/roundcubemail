@@ -5,7 +5,7 @@
  | program/steps/mail/compose.inc                                        |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -179,7 +179,7 @@ if (!empty($msg_uid) && empty($COMPOSE['as_attachment'])) {
     $MESSAGE = new rcube_message($msg_uid);
 
     // make sure message is marked as read
-    if ($MESSAGE->headers && empty($MESSAGE->headers->flags['SEEN'])) {
+    if ($MESSAGE->headers && $MESSAGE->context === null && empty($MESSAGE->headers->flags['SEEN'])) {
         $RCMAIL->storage->set_flag($msg_uid, 'SEEN');
     }
 
@@ -192,7 +192,7 @@ if (!empty($msg_uid) && empty($COMPOSE['as_attachment'])) {
     }
     else if ($compose_mode == RCUBE_COMPOSE_FORWARD || $compose_mode == RCUBE_COMPOSE_REPLY) {
         if ($compose_mode == RCUBE_COMPOSE_REPLY) {
-            $COMPOSE['reply_uid'] = $msg_uid;
+            $COMPOSE['reply_uid'] = $MESSAGE->context === null ? $msg_uid : null;
 
             if (!empty($COMPOSE['param']['all'])) {
                 $MESSAGE->reply_all = $COMPOSE['param']['all'];
@@ -780,7 +780,7 @@ function rcmail_prepare_message_body()
 
         if (!empty($MESSAGE->parts)) {
             // collect IDs of message/rfc822 parts
-            foreach ($MESSAGE->mime_parts as $part) {
+            foreach ($MESSAGE->mime_parts() as $part) {
                 if ($part->mimetype == 'message/rfc822') {
                     $messages[] = $part->mime_id;
                 }
@@ -1258,7 +1258,7 @@ function rcmail_write_compose_attachments(&$message, $bodyIsHtml)
         return $cid_map;
     }
 
-    foreach ((array)$message->mime_parts as $pid => $part) {
+    foreach ((array) $message->mime_parts() as $pid => $part) {
         if ($part->mimetype == 'message/rfc822') {
             $messages[] = $part->mime_id;
         }
@@ -1324,7 +1324,7 @@ function rcmail_write_inline_attachments(&$message)
         return $cid_map;
     }
 
-    foreach ((array)$message->mime_parts as $pid => $part) {
+    foreach ((array) $message->mime_parts() as $pid => $part) {
         if ($part->mimetype == 'message/rfc822') {
             $messages[] = $part->mime_id;
         }

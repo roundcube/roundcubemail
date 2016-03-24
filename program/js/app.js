@@ -339,8 +339,14 @@ function rcube_webmail()
           // init message compose form
           this.init_messageform();
         }
-        else if (this.env.action == 'get')
+        else if (this.env.action == 'get') {
           this.enable_command('download', 'print', true);
+          if (this.env.mimetype == 'message/rfc822') {
+            this.enable_command('reply', 'reply-all', 'forward', 'forward-inline', 'forward-attachment', true);
+            if (this.env.list_post)
+              this.enable_command('reply-list', true);
+          }
+        }
         // show printing dialog
         else if (this.env.action == 'print' && this.env.uid
           && !this.env.is_pgp_content && !this.env.pgp_mime_part

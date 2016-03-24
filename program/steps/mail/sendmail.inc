@@ -189,11 +189,17 @@ if ($hdr = rcube_utils::get_input_value('_followupto', rcube_utils::INPUT_POST, 
 }
 
 // remember reply/forward UIDs in special headers
-if (!empty($COMPOSE['reply_uid']) && $savedraft) {
-    $headers['X-Draft-Info'] = array('type' => 'reply', 'uid' => $COMPOSE['reply_uid']);
-}
-else if (!empty($COMPOSE['forward_uid']) && $savedraft) {
-    $headers['X-Draft-Info'] = array('type' => 'forward', 'uid' => rcube_imap_generic::compressMessageSet($COMPOSE['forward_uid']));
+if ($savedraft) {
+    // Note: We ignore <UID>.<PART> forwards/replies here
+    if (($uid = $COMPOSE['reply_uid']) && !preg_match('/^\d+[0-9.]+$/', $uid)) {
+        $headers['X-Draft-Info'] = array('type' => 'reply', 'uid' => $uid);
+    }
+    else if (!empty($COMPOSE['forward_uid'])
+        && ($uid = rcube_imap_generic::compressMessageSet($COMPOSE['forward_uid']))
+        && !preg_match('/^\d+[0-9.]+$/', $uid)
+    ) {
+        $headers['X-Draft-Info'] = array('type' => 'forward', 'uid' => $uid);
+    }
 }
 
 if (!empty($COMPOSE['reply_msgid'])) {
@@ -550,12 +556,18 @@ if (!$savedraft && !$saveonly) {
     // set replied/forwarded flag
     if ($COMPOSE['reply_uid']) {
         foreach (rcmail::get_uids($COMPOSE['reply_uid'], $COMPOSE['mailbox']) as $mbox => $uids) {
-            $RCMAIL->storage->set_flag($uids, 'ANSWERED', $mbox);
+            // skip <UID>.<PART> replies
+            if (!preg_match('/^\d+[0-9.]+$/', implode(',', (array) $uids))) {
+                $RCMAIL->storage->set_flag($uids, 'ANSWERED', $mbox);
+            }
         }
     }
     else if ($COMPOSE['forward_uid']) {
         foreach (rcmail::get_uids($COMPOSE['forward_uid'], $COMPOSE['mailbox']) as $mbox => $uids) {
-            $RCMAIL->storage->set_flag($uids, 'FORWARDED', $mbox);
+            // skip <UID>.<PART> forwards
+            if (!preg_match('/^\d+[0-9.]+$/', implode(',', (array) $uids))) {
+                $RCMAIL->storage->set_flag($uids, 'FORWARDED', $mbox);
+            }
         }
     }
 }

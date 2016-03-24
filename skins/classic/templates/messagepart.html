@@ -17,6 +17,18 @@
     <roundcube:button command="download" type="link" class="button download" classAct="button download" classSel="button downloadSel" title="download" content=" " />
     <roundcube:button command="print" type="link" class="button print" classAct="button print" classSel="button printSel" title="print" content=" " />
     <roundcube:container name="toolbar" id="messagetoolbar" />
+    <roundcube:if condition="env:mimetype == 'message/rfc822'" />
+    <span class="toolbarseparator">&nbsp;</span>
+    <roundcube:button command="reply" type="link" class="buttonPas reply" classAct="button reply" classSel="button replySel" title="replytomessage" content=" " />
+    <span class="dropbutton">
+        <roundcube:button command="reply-all" type="link" class="buttonPas replyAll" classAct="button replyAll" classSel="button replyAllSel" title="replytoallmessage" content=" " />
+        <span id="replyallmenulink" onclick="rcmail_ui.show_popup('replyallmenu');return false"></span>
+    </span>
+    <span class="dropbutton">
+        <roundcube:button command="forward" type="link" class="buttonPas forward" classAct="button forward" classSel="button forwardSel" title="forwardmessage" content=" " />
+        <span id="forwardmenulink" onclick="rcmail_ui.show_popup('forwardmenu');return false"></span>
+    </span>
+    <roundcube:endif />
 </div>
 
 <div id="mainscreen">
@@ -30,9 +42,29 @@
         <roundcube:object name="messagePartFrame" id="messagepartframe" width="100%" height="100%" />
     </div>
 </div>
+
+<roundcube:if condition="env:mimetype == 'message/rfc822'" />
+<div id="forwardmenu" class="popupmenu">
+    <ul id="forwardmenumenu">
+        <roundcube:button type="link-menuitem" command="forward-inline" label="forwardinline" prop="sub" classAct="forwardlink active" class="forwardlink" />
+        <roundcube:button type="link-menuitem" command="forward-attachment" label="forwardattachment" prop="sub" classAct="forwardattachmentlink active" class="forwardattachmentlink" />
+        <roundcube:container name="forwardmenu" id="forwardmenumenu" />
+    </ul>
+</div>
+
+<div id="replyallmenu" class="popupmenu">
+    <ul id="replyallmenumenu">
+        <roundcube:button type="link-menuitem" command="reply-all" label="replyall" prop="sub" classAct="replyalllink active" class="replyalllink" />
+        <roundcube:button type="link-menuitem" command="reply-list" label="replylist" prop="sub" classAct="replylistlink active" class="replylistlink" />
+        <roundcube:container name="replyallmenu" id="replyallmenumenu" />
+    </ul>
+</div>
+<roundcube:endif />
+
 <script type="text/javascript">
 var mailpartsplit = new rcube_splitter({id:'mailpartsplitter', p1: 'messagepartheader', p2: 'messagepartcontainer', orientation: 'v', relative: true, start: 165});
 rcmail.add_onload('mailpartsplit.init()');
+rcube_init_mail_ui();
 </script>
 
 </body>
