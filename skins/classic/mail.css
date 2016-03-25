@@ -220,7 +220,7 @@
 
 #messagemenu li a.sourcelink
 {
-  background-position: 7px -35px;
+  background-position: 7px -34px;
 }
 
 #messagemenu li a.openlink,
@@ -236,12 +236,12 @@
 
 #messagemenu li a.movelink
 {
-  background-position: 6px -161px;
+  background-position: 6px -160px;
 }
 
 #messagemenu li a.copylink
 {
-  background-position: 6px -143px;
+  background-position: 6px -142px;
 }
 
 #markmessagemenu li a,
@@ -541,6 +541,7 @@
   right: 4px;
   white-space: nowrap;
   font-size: 11px;
+  line-height: 14px;
 }
 
 #countcontrols a.button,

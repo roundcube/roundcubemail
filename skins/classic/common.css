@@ -325,7 +325,7 @@ body.extwin #closelink
 .boxtitle
 {
   height: 12px !important;
-  padding: 2px 10px 5px 5px;
+  padding: 3px 10px 4px 5px;
   border-bottom: 1px solid #999;
   color: #333;
   font-size: 11px;
@@ -571,9 +571,10 @@ body.iframe .boxtitle
 {
   display: block;
   color: #a0a0a0;
-  padding: 2px 16px 2px 10px;
+  padding: 3px 16px 3px 10px;
   text-decoration: none;
   min-height: 14px;
+  line-height: 14px;
   background: transparent;
 }
 
@@ -1233,9 +1234,10 @@ ul.toolbarmenu li a
 {
   display: block;
   color: #a0a0a0;
-  padding: 1px 12px 3px 28px;
+  padding: 3px 12px 3px 28px;
   text-decoration: none;
   min-height: 14px;
+  line-height: 14px;
 }
 
 ul.toolbarmenu li a.active,
