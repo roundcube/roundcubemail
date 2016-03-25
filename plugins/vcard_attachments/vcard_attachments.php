@@ -65,7 +65,7 @@ class vcard_attachments extends rcube_plugin
         $attach_script = false;
 
         foreach ($this->vcard_parts as $part) {
-            $vcards = rcube_vcard::import($this->message->get_part_body($part, true));
+            $vcards = rcube_vcard::import($this->message->get_part_content($part, null, true));
 
             // successfully parsed vcards?
             if (empty($vcards)) {
@@ -93,7 +93,7 @@ class vcard_attachments extends rcube_plugin
                         'title' => $this->gettext('addvcardmsg'),
                         ),
                         html::span(null, rcube::Q($display)))
-                    );
+                );
             }
 
             $attach_script = true;
@@ -119,12 +119,11 @@ class vcard_attachments extends rcube_plugin
         $mime_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_POST);
 
         $rcmail  = rcmail::get_instance();
-        $storage = $rcmail->get_storage();
-        $storage->set_folder($mbox);
+        $message = new rcube_message($uid, $mbox);
 
         if ($uid && $mime_id) {
             list($mime_id, $index) = explode(':', $mime_id);
-            $part = $storage->get_message_part($uid, $mime_id, null, null, null, true);
+            $part = $message->get_part_content($mime_id, null, true);
         }
 
         $error_msg = $this->gettext('vcardsavefailed');
