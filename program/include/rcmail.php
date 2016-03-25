@@ -2245,12 +2245,12 @@ class rcmail extends rcube
             $size = $this->show_bytes((int)$part->d_parameters['size']);
         }
         else {
-          $size = $part->size;
-          if ($part->encoding == 'base64') {
-            $size = $size / 1.33;
-          }
+            $size = $part->size;
+            if ($part->encoding == 'base64') {
+                $size = $size / 1.33;
+            }
 
-          $size = '~' . $this->show_bytes($size);
+            $size = '~' . $this->show_bytes($size);
         }
 
         return $size;
