@@ -416,8 +416,7 @@ class enigma_engine
         // including a set of appropriate content headers describing the data.
         // The second body MUST contain the PGP digital signature.  It MUST be
         // labeled with a content type of "application/pgp-signature".
-        else if ($struct->ctype_parameters['protocol'] == 'application/pgp-signature'
-            && count($struct->parts) == 2
+        else if (count($struct->parts) == 2
             && $struct->parts[1] && $struct->parts[1]->mimetype == 'application/pgp-signature'
         ) {
             $this->parse_pgp_signed($p, $body);
@@ -434,7 +433,7 @@ class enigma_engine
         $struct = $p['structure'];
 
         // S/MIME
-        if ($struct->mimetype == 'application/pkcs7-mime') {
+        if ($p['mimetype'] == 'application/pkcs7-mime') {
             $this->parse_smime_encrypted($p);
         }
         // PGP/MIME: RFC3156
@@ -443,8 +442,7 @@ class enigma_engine
         // This body contains the control information.
         // The second MIME body part MUST contain the actual encrypted data.  It
         // must be labeled with a content type of "application/octet-stream".
-        else if ($struct->ctype_parameters['protocol'] == 'application/pgp-encrypted'
-            && count($struct->parts) == 2
+        else if (count($struct->parts) == 2
             && $struct->parts[0] && $struct->parts[0]->mimetype == 'application/pgp-encrypted'
             && $struct->parts[1] && $struct->parts[1]->mimetype == 'application/octet-stream'
         ) {
@@ -676,7 +674,7 @@ class enigma_engine
             $struct = $this->parse_body($body);
 
             // Modify original message structure
-            $this->modify_structure($p, $struct);
+            $this->modify_structure($p, $struct, strlen($body));
 
             // Parse the structure (there may be encrypted/signed parts inside
             $this->part_structure(array(
@@ -1143,10 +1141,11 @@ class enigma_engine
     /**
      * Replace message encrypted structure with decrypted message structure
      *
-     * @param array
-     * @param rcube_message_part
+     * @param array              Hook arguments
+     * @param rcube_message_part Part structure
+     * @param int                Part size
      */
-    private function modify_structure(&$p, $struct)
+    private function modify_structure(&$p, $struct, $size = 0)
     {
         // modify mime_parts property of the message object
         $old_id = $p['structure']->mime_id;
@@ -1156,6 +1155,11 @@ class enigma_engine
                 unset($p['object']->mime_parts[$idx]);
             }
         }
+
+        // set some part params used by Roundcube core
+        $struct->headers  = array_merge($p['structure']->headers, $struct->headers);
+        $struct->size     = $size;
+        $struct->filename = $p['structure']->filename;
 
         // modify the new structure to be correctly handled by Roundcube
         $this->modify_structure_part($struct, $p['object'], $old_id);
@@ -1184,7 +1188,6 @@ class enigma_engine
 
         // Cache the fact it was decrypted
         $this->encrypted_parts[] = $part->mime_id;
-
         $msg->mime_parts[$part->mime_id] = $part;
 
         // modify sub-parts
