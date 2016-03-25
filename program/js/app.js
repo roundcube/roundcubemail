@@ -341,7 +341,7 @@ function rcube_webmail()
         }
         else if (this.env.action == 'get') {
           this.enable_command('download', 'print', true);
-          if (this.env.mimetype == 'message/rfc822') {
+          if (this.env.is_message) {
             this.enable_command('reply', 'reply-all', 'forward', 'forward-inline', 'forward-attachment', true);
             if (this.env.list_post)
               this.enable_command('reply-list', true);
@@ -1217,7 +1217,7 @@ function rcube_webmail()
             this.open_window(this.env.comm_path + url, true, true);
           }
         }
-        else if (this.env.action == 'get' && this.env.mimetype != 'message/rfc822') {
+        else if (this.env.action == 'get' && !this.env.is_message) {
           this.gui_objects.messagepartframe.contentWindow.print();
         }
         else if (uid = this.get_single_uid()) {

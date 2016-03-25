@@ -63,9 +63,14 @@ if (!empty($_GET['_frame'])) {
     ));
 
     $mimetype = $part ? rcmail_fix_mimetype($part->mimetype) : '';
-    if ($part_id && $mimetype == 'message/rfc822') {
+
+    // message/rfc822 preview (Note: handle also multipart/ parts, they can
+    // come from Enigma, which replaces message/rfc822 with real mimetype)
+    if ($part_id && ($mimetype == 'message/rfc822' || strpos($mimetype, 'multipart/') === 0)) {
         $uid = preg_replace('/\.[0-9.]+/', '', $uid);
         $uid .= '.' . $part_id;
+
+        $OUTPUT->set_env('is_message', true);
     }
 
     $OUTPUT->set_env('mailbox', $RCMAIL->storage->get_folder());
@@ -458,9 +463,8 @@ function rcmail_message_part_frame($attrib)
 {
     global $RCMAIL;
 
-    $mimetype = $RCMAIL->output->get_env('mimetype');
 
-    if ($mimetype == 'message/rfc822') {
+    if ($RCMAIL->output->get_env('is_message')) {
         $attrib['src'] = $RCMAIL->url(array(
                 'task'   => 'mail',
                 'action' => 'preview',
@@ -470,6 +474,7 @@ function rcmail_message_part_frame($attrib)
         ));
     }
     else {
+        $mimetype      = $RCMAIL->output->get_env('mimetype');
         $frame_replace = strpos($mimetype, 'text/') === 0 ? '_embed=' : '_preload=';
         $attrib['src'] = './?' . str_replace('_frame=', $frame_replace, $_SERVER['QUERY_STRING']);
     }

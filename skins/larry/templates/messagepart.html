@@ -17,7 +17,7 @@
 	<roundcube:button command="download" type="link" class="button download disabled" classAct="button download" classSel="button download pressed" label="download" title="download" />
 	<roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" title="print" />
 	<roundcube:container name="toolbar" id="messagetoolbar" />
-	<roundcube:if condition="env:mimetype == 'message/rfc822'" />
+	<roundcube:if condition="env:is_message" />
 	<span class="spacer"></span>
 	<roundcube:button command="reply" type="link" class="button reply disabled" classAct="button reply" classSel="button reply pressed" label="reply" title="replytomessage" />
 	<span class="dropbutton">
@@ -50,7 +50,7 @@
 </div>
 </div>
 
-<roundcube:if condition="env:mimetype == 'message/rfc822'" />
+<roundcube:if condition="env:is_message" />
 <div id="forwardmenu" class="popupmenu" aria-hidden="true">
 	<h3 id="aria-label-forwardmenu" class="voice"><roundcube:label name="arialabelforwardingoptions" /></h3>
 	<ul id="forwardmenu-menu" class="toolbarmenu" role="menu" aria-labelledby="aria-label-forwardmenu">
