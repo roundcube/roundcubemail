@@ -28,6 +28,7 @@
         <roundcube:button command="forward" type="link" class="buttonPas forward" classAct="button forward" classSel="button forwardSel" title="forwardmessage" content=" " />
         <span id="forwardmenulink" onclick="rcmail_ui.show_popup('forwardmenu');return false"></span>
     </span>
+    <roundcube:button name="messagemenulink" id="messagemenulink" type="link" class="button messagemenu" title="moreactions" onclick="rcmail_ui.show_popup('messagemenu');return false" content=" " />
     <roundcube:endif />
 </div>
 
@@ -58,6 +59,14 @@
         <roundcube:button type="link-menuitem" command="reply-list" label="replylist" prop="sub" classAct="replylistlink active" class="replylistlink" />
         <roundcube:container name="replyallmenu" id="replyallmenumenu" />
     </ul>
+</div>
+
+<div id="messagemenu" class="popupmenu">
+  <ul class="toolbarmenu" id="messagemenumenu">
+    <roundcube:button type="link-menuitem" class="editlink" command="edit" prop="new" label="editasnew" classAct="editlink active" />
+    <roundcube:button type="link-menuitem" class="sourcelink" command="viewsource" label="viewsource" classAct="sourcelink active" />
+    <roundcube:container name="messagemenu" id="messagemenumenu" />
+  </ul>
 </div>
 <roundcube:endif />
 

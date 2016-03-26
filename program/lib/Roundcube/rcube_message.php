@@ -176,7 +176,7 @@ class rcube_message
      * Get content of a specific part of this message
      *
      * @param string   $mime_id           Part MIME-ID
-     * @param resource $fp File           pointer to save the message part
+     * @param resource $fp                File pointer to save the message part
      * @param boolean  $skip_charset_conv Disables charset conversion
      * @param int      $max_bytes         Only read this number of bytes
      * @param boolean  $formatted         Enables formatting of text/* parts bodies

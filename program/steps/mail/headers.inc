@@ -22,7 +22,7 @@
 if ($uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST)) {
     if ($pos = strpos($uid, '.')) {
         $message = new rcube_message($uid);
-        $source  = $message->get_part_content(substr($uid, $pos + 1));
+        $source  = $message->get_part_body(substr($uid, $pos + 1));
         $source  = substr($source, 0, strpos($source, "\r\n\r\n"));
     }
     else {

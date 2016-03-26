@@ -342,7 +342,8 @@ function rcube_webmail()
         else if (this.env.action == 'get') {
           this.enable_command('download', 'print', true);
           if (this.env.is_message) {
-            this.enable_command('reply', 'reply-all', 'forward', 'forward-inline', 'forward-attachment', true);
+            this.enable_command('reply', 'reply-all', 'edit', 'viewsource',
+              'forward', 'forward-inline', 'forward-attachment', true);
             if (this.env.list_post)
               this.enable_command('reply-list', true);
           }
