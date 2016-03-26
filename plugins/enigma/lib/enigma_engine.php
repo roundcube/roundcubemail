@@ -387,11 +387,11 @@ class enigma_engine
 
         // @TODO: big message body could be a file resource
         // PGP signed message
-        if (preg_match('/^-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
+        if (preg_match('/-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
             $this->parse_plain_signed($p, $body);
         }
         // PGP encrypted message
-        else if (preg_match('/^-----BEGIN PGP MESSAGE-----/', $body)) {
+        else if (preg_match('/-----BEGIN PGP MESSAGE-----/', $body)) {
             $this->parse_plain_encrypted($p, $body);
         }
     }
@@ -490,7 +490,7 @@ class enigma_engine
 
             if ($part->body === null)
                 $part->body = '';
-            else if (preg_match('/^-----BEGIN PGP SIGNATURE-----/', $line))
+            else if (preg_match('/-----BEGIN PGP SIGNATURE-----/', $line))
                 break;
             else
                 $part->body .= $line;
@@ -608,7 +608,7 @@ class enigma_engine
             $this->encrypted_parts[] = $part->mime_id;
 
             // PGP signed inside? verify signature
-            if (preg_match('/^-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
+            if (preg_match('/-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
                 $this->parse_plain_signed($p, $body);
             }
 
@@ -669,6 +669,10 @@ class enigma_engine
         // Decrypt
         $result = $this->pgp_decrypt($body);
 
+        // Stripping out the signature part because it is not managed yet
+        $body = preg_replace("/Content-Type: multipart\/signed;(.+?)Content-Type: multipart\//s","Content-Type: multipart/",$body);
+        $body = preg_replace("/^(.+)--=_(.+?)Content-Type: application\/pgp-signature;(.+)$/s","$1",$body);
+
         if ($result === true) {
             // Parse decrypted message
             $struct = $this->parse_body($body);
@@ -687,6 +691,7 @@ class enigma_engine
             $this->decryptions[$struct->mime_id] = $result;
             foreach ((array) $struct->parts as $sp) {
                 $this->decryptions[$sp->mime_id] = $result;
+                if  ($sp->mime_id == 2) { $this->decryptions['1.2'] = $result; } // We need to display the message even in case of attachments
             }
         }
         else {
