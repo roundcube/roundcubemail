@@ -30,3 +30,4 @@ $messages['passwordshort'] = 'A jelszónak legalább $length karakter hosszunak 
 $messages['passwordweak'] = 'A jelszónak mindenképpen kell tartalmaznia egy számot és egy írásjelet.';
 $messages['passwordforbidden'] = 'A jelszó tiltott karaktert is tartalmaz.';
 $messages['firstloginchange'] = 'Ez az első belépésed. Változtass jelszót.';
+$messages['disablednotice'] = 'A rendszer jelenleg karbantartás alatt van és a jelszó módosítás nem lehetséges ebben a pillanatban. Minden visszaáll normálisra hamarosan. A  kellemetlenségért elnézést kérünk.';

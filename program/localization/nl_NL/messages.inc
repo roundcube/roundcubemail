@@ -22,6 +22,7 @@ $messages['sessionerror'] = 'Uw sessie is verlopen of ongeldig.';
 $messages['storageerror'] = 'Verbinding met IMAP-server mislukt.';
 $messages['servererror'] = 'Serverfout!';
 $messages['servererrormsg'] = 'Serverfout: $msg';
+$messages['accountlocked'] = 'Te veel mislukte inlogpogingen. Probeer het later nogmaals.';
 $messages['connerror'] = 'Verbindingsfout! (Kon de server niet bereiken)';
 $messages['dberror'] = 'Databasefout!';
 $messages['windowopenerror'] = 'Het popup-venster werd geblokkeerd!';

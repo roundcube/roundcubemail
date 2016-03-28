@@ -195,6 +195,12 @@ $labels['searchscope'] = 'Hatókör';
 $labels['currentfolder'] = 'Aktuális mappa';
 $labels['subfolders'] = 'Ez és az almappák';
 $labels['allfolders'] = 'Minden mappa';
+$labels['searchinterval-1W'] = 'egy hétnél régebbi';
+$labels['searchinterval-1M'] = 'egy hónapnál régebbi';
+$labels['searchinterval-1Y'] = 'több mint egy éves';
+$labels['searchinterval1W'] = 'egy hétnél korábbi';
+$labels['searchinterval1M'] = 'egy hónapnál korábbi';
+$labels['searchinterval1Y'] = 'egy évnél korábbi';
 $labels['openinextwin'] = 'Megnyitás új ablakban';
 $labels['emlsave'] = 'Letöltés (.eml)';
 $labels['changeformattext'] = 'Megjelenítés sima szöveges formátumban';
@@ -214,6 +220,15 @@ $labels['selectimage']    = 'Kép kijelőlés';
 $labels['addimage']       = 'Kép hozzáadás';
 $labels['selectmedia']    = 'Film kijelölés';
 $labels['addmedia']       = 'Film hozzáadás';
+$labels['encrypt']        = 'Titkosítás';
+$labels['encryptmessage'] = 'Üzenet titkosítása';
+$labels['encryptmessagemailvelope'] = 'Üzenet titkosítása Mailvelope-vel';
+$labels['importpubkeys']  = 'Nyilvános kulcsok importálása';
+$labels['encryptedsendialog'] = 'Titkosított üzenet küldése';
+$labels['keyid']          = 'Kulcs ID';
+$labels['keylength']      = 'Bitek';
+$labels['keyexpired']     = 'Lejárt';
+$labels['keyrevoked']     = 'Visszvont';
 $labels['editidents']    = 'Azonosítók szerkesztése';
 $labels['spellcheck']    = 'Helyesírás ellenőrzés';
 $labels['checkspelling'] = 'Helyesírás-ellenőrzés';
@@ -553,5 +568,11 @@ $labels['arialabelmessagebody'] = 'Üzenet főrész';
 $labels['arialabelmessageactions'] = 'Üzenet műveletek';
 $labels['arialabelforwardingoptions'] = 'Továbbítási beállítások';
 $labels['arialabelreplyalloptions'] = 'Válasz mindenkinek beállítások';
+$labels['arialabelresponsesmenu'] = 'Sablon válaszok menű';
 $labels['arialabelattachmentpreview'] = 'Csatolmány előnézet';
+$labels['arialabelsearchterms'] = 'Kereső kifejezések';
+$labels['helplistkeyboardnavigation'] = "Nyilak fel/le: A sor fokusz/kiválasztás mozgatása.
+Szóköz: A fokuszban lévő sor kiválasztása.
+Shift + fel/le: Több sor kiválasztása az aktállíis sor alatt/felett.
+Ctrl + Szóköz: A fokszban levő sor hozzáadása a szelekcióhoz vagy törlése abból.";
 ?>

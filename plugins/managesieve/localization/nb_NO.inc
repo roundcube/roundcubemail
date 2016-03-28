@@ -54,7 +54,6 @@ $labels['add'] = 'Legg til';
 $labels['del'] = 'Slett';
 $labels['sender'] = 'Avsender';
 $labels['recipient'] = 'Mottaker';
-$labels['vacationaddr'] = 'Tilleggs epost-adresse(r):';
 $labels['vacationdays'] = 'Periode mellom meldinger (i dager):';
 $labels['vacationinterval'] = 'Periode mellom meldinger:';
 $labels['vacationreason'] = 'Innhold (begrunnelse for fravær)';

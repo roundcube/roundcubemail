@@ -22,6 +22,7 @@ $messages['sessionerror'] = 'Ваша сессия устарела.';
 $messages['storageerror'] = 'Неудачное соединение с IMAP сервером';
 $messages['servererror'] = 'Ошибка сервера!';
 $messages['servererrormsg'] = 'Ошибка сервера: $msg';
+$messages['accountlocked'] = 'Слишком много неудачных попыток входа. Попробуйте позже.';
 $messages['connerror'] = 'Ошибка соединения (Сбой подключения к серверу)!';
 $messages['dberror'] = 'Ошибка базы данных!';
 $messages['windowopenerror'] = 'Всплывающее окно было заблокировано!';

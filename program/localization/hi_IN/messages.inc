@@ -15,10 +15,16 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+$messages['errortitle']  = 'एक त्रुटि पाई गई !';
 $messages['loginfailed']  = 'लॉगिन नहीं हो पाया';
 $messages['cookiesdisabled'] = 'आपका ब्राऊसर कुकी स्वीकार नहीं कर रहा है';
 $messages['sessionerror'] = 'सत्र समाप्त या अवैद्य';
 $messages['storageerror'] = 'आईमैप (IMAP) सर्वर से सम्पर्क नहीं हो पाया';
+$messages['servererror'] = 'सर्वर त्रुटि';
+$messages['dberror'] = 'डाटाबेस त्रुटि!';
+$messages['windowopenerror'] = 'पॉपप विंडो अवरुद्ध किया गया था !';
+$messages['requesttimedout'] = 'अनुरोध का समय समाप्त';
+$messages['errorreadonly'] = 'कार्य करने में असमर्थ । फ़ोल्डर केवल पढ़ने के लिए है।';
 $messages['nomessagesfound'] = 'इस मेलबॉक्स में कोई मेल नहीं है';
 $messages['loggedout'] = 'सत्र समाप्त. टा टा!';
 $messages['loading'] = 'लोड हो रहा है';

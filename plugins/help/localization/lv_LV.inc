@@ -18,4 +18,5 @@
 $labels['help'] = 'Palīdzība';
 $labels['about'] = 'Par';
 $labels['license'] = 'Licence';
+$labels['csrfinfo'] = 'Lasīt papildus par "vairāku vietņu pieprasījuma viltošanu" (CSRF) un kā no tā sevi aizsargāt.';
 ?>

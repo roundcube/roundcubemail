@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -214,7 +214,6 @@ $labels['responsetext'] = 'Svar tekst';
 $labels['attach'] = 'Legg ved';
 $labels['attachments'] = 'Vedlegg';
 $labels['upload'] = 'Last opp';
-$labels['uploadprogress'] = '$percent ($current fra $total)';
 $labels['close']  = 'Lukk';
 $labels['messageoptions']  = 'Meldingsalternativer...';
 $labels['low']     = 'Lav';
@@ -374,7 +373,6 @@ $labels['askuser'] = 'spør hver gang';
 $labels['autosend'] = 'send automatisk';
 $labels['autosendknown'] = 'send kvittering til kontaktene mine, ellers spør meg';
 $labels['autosendknownignore'] = 'send kvittering til kontaktene mine, ellers ignorer';
-$labels['ignore'] = 'ignorer';
 $labels['readwhendeleted'] = 'Merk melding som lest ved sletting';
 $labels['flagfordeletion'] = 'Flagg meldingen for sletting i stedet for å slette';
 $labels['skipdeleted'] = 'Ikke vis slettede meldinger';

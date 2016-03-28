@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -226,7 +226,6 @@ $labels['responsetext'] = 'Äntwert-Text';
 $labels['attach'] = 'Drunhänken';
 $labels['attachments'] = 'Unhäng';
 $labels['upload'] = 'Eroplueden';
-$labels['uploadprogress'] = '$percent ($current vun $total)';
 $labels['close']  = 'Zoumaachen';
 $labels['messageoptions']  = 'Message-Optiounen...';
 $labels['low']     = 'Niddreg';
@@ -386,7 +385,6 @@ $labels['askuser'] = 'mech froen';
 $labels['autosend'] = 'Bestätegung schécken';
 $labels['autosendknown'] = 'Bestätegung u meng Kontakter schécken, anerefalls nofroen';
 $labels['autosendknownignore'] = 'Bestätegung u meng Kontakter schécken, anerefalls ignoréieren';
-$labels['ignore'] = 'ignoréieren';
 $labels['readwhendeleted'] = 'Beim Läschen de Message als gelies markéieren';
 $labels['flagfordeletion'] = 'De Message als "läschbar" markéieren amplaz en ze läschen';
 $labels['skipdeleted'] = 'Geläschte Messagen net uweisen';

@@ -22,6 +22,7 @@ $messages['sessionerror'] = 'Błąd sesji bądź sesja wygasła!';
 $messages['storageerror'] = 'Błąd połączenia z serwerem!';
 $messages['servererror'] = 'Błąd serwera!';
 $messages['servererrormsg'] = 'Błąd serwera: $msg';
+$messages['accountlocked'] = 'Przekroczono maksymalną dozwoloną liczbę prób logowania. Proszę spróbować później.';
 $messages['connerror'] = 'Błąd połączenia (brak odpowiedzi serwera)!';
 $messages['dberror'] = 'Błąd bazy danych!';
 $messages['windowopenerror'] = 'Wyskakujące okno zostało zablokowane!';

@@ -22,6 +22,7 @@ $messages['sessionerror'] = 'Sessione non valida o scaduta.';
 $messages['storageerror'] = 'Impossibile connettersi al server IMAP';
 $messages['servererror'] = 'Errore del server!';
 $messages['servererrormsg'] = 'Errore del server: $msg';
+$messages['accountlocked'] = 'Troppi tentativi di accesso falliti. Tenta di nuovo più tardi.';
 $messages['connerror'] = 'Errore di connessione (impossibile raggiungere il server)!';
 $messages['dberror'] = 'Errore del database!';
 $messages['windowopenerror'] = 'La finestra di popup è stata bloccata!';

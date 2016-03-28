@@ -31,7 +31,6 @@ $labels['messagedelete'] = 'Peyamê jê bibe';
 $labels['add'] = 'Tev bike';
 $labels['del'] = 'Jê bibe';
 $labels['sender'] = 'Şandyar';
-$labels['vacationaddr'] = 'Navnîşanên e-mailên min ên din:';
 $labels['vacationsubject'] = 'Mijara peyamê:';
 $labels['days'] = 'roj';
 $labels['seconds'] = 'saniye';
@@ -86,5 +85,4 @@ $labels['vacation.advanced'] = 'Mihengên pêşketî';
 $labels['vacation.subject'] = 'Mijar';
 $labels['vacation.status'] = 'Rewş';
 $labels['vacation.on'] = 'Vekirî';
-$labels['vacation.addresses'] = 'Navnîşanên min ên din';
 ?>

@@ -17,5 +17,5 @@
 */
 $labels['hide'] = 'Skjul';
 $labels['show'] = 'Vis';
-$labels['quotelimit'] = 'Skjul citat antallet af linjer er højere end';
+$labels['quotelimit'] = 'Skjul citat når antallet af linjer er højere end';
 ?>

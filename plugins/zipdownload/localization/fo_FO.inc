@@ -16,3 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 $labels['downloadall'] = 'Heinta allar viðheftingar';
+$labels['download'] = 'Heinta...';
+$labels['downloadmbox'] = 'Mbox týpa (.zip)';
+$labels['downloadmaildir'] = 'Teldupost mappu format (.zip)';
+$labels['downloademl'] = 'Kelda (.eml)';

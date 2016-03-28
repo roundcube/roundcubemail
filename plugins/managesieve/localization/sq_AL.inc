@@ -21,6 +21,7 @@ $labels['filterany'] = 'të gjitha mesazhet';
 $labels['messagemoveto'] = 'Zhvendose mesazhin te';
 $labels['add'] = 'Shto';
 $labels['del'] = 'Fshije';
+$labels['sender'] = 'Dërguesi';
 $labels['vacationdays'] = 'Sa shpesh dërgon mesazhe (në ditë):';
 $labels['active'] = 'aktiv';
 ?>

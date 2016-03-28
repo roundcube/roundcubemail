@@ -54,7 +54,6 @@ $labels['add'] = 'Дадаць';
 $labels['del'] = 'Выдаліць';
 $labels['sender'] = 'Ад каго';
 $labels['recipient'] = 'Каму';
-$labels['vacationaddr'] = 'Дадатковы(я) адрасы эл. пошты:';
 $labels['vacationdays'] = 'Як часта дасылаць паведамленні (у днях):';
 $labels['vacationinterval'] = 'Як часта дасылаць паведамленні:';
 $labels['vacationreason'] = 'Цела паведамлення (прычына вакацый):';
