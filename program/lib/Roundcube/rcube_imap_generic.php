@@ -107,7 +107,11 @@ class rcube_imap_generic
             $this->debug('C: ' . $log);
         }
 
-        $res = fwrite($this->fp, $string . ($endln ? "\r\n" : ''));
+        if ($endln) {
+            $string .= "\r\n";
+        }
+
+        $res = fwrite($this->fp, $string);
 
         if ($res === false) {
             @fclose($this->fp);
@@ -174,6 +178,7 @@ class rcube_imap_generic
                 }
             }
         }
+
         return $res;
     }
 
@@ -3465,6 +3470,7 @@ class rcube_imap_generic
         if (!is_array($entries)) {
             $entries = array($entries);
         }
+
         // create entries string
         // ANNOTATEMORE drafts before version 08 require quoted parameters
         foreach ($entries as $idx => $name) {
@@ -3475,7 +3481,8 @@ class rcube_imap_generic
         if (!is_array($attribs)) {
             $attribs = array($attribs);
         }
-        // create entries string
+
+        // create attributes string
         foreach ($attribs as $idx => $name) {
             $attribs[$idx] = $this->escape($name, true);
         }
