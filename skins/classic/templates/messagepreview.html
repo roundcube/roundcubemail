@@ -16,7 +16,7 @@
     <roundcube:if condition="env:optional_format=='html'" />
       <roundcube:button command="change-format" prop="html" image="/images/icons/html.png" width="15" height="15" title="changeformathtml" id="changeformathtml" />
     <roundcube:endif />
-    <roundcube:if condition="env:no_preview_controls == false">
+    <roundcube:if condition="!env:message_context">
       <roundcube:button command="extwin" image="/images/icons/extwin.png" width="15" height="15" title="openinextwin" id="openextwinlink" />
     <roundcube:endif />
   </div>

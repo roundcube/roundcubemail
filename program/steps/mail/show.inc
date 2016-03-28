@@ -67,7 +67,7 @@ if ($uid) {
     // set message environment
     $OUTPUT->set_env('uid', $msg_id);
     $OUTPUT->set_env('safemode', $MESSAGE->is_safe);
-    $OUTPUT->set_env('no_preview_controls', $MESSAGE->context !== null);
+    $OUTPUT->set_env('message_context', $MESSAGE->context);
     $OUTPUT->set_env('sender', $MESSAGE->sender['string']);
     $OUTPUT->set_env('mailbox', $mbox_name);
     $OUTPUT->set_env('username', $RCMAIL->get_user_name());
@@ -126,6 +126,7 @@ if ($uid) {
 
     // check for unset disposition notification
     if ($MESSAGE->headers->mdn_to
+        && $MESSAGE->context === null
         && empty($MESSAGE->headers->flags['MDNSENT'])
         && empty($MESSAGE->headers->flags['SEEN'])
         && ($RCMAIL->storage->check_permflag('MDNSENT') || $RCMAIL->storage->check_permflag('*'))
