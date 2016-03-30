@@ -85,6 +85,7 @@ $labels['arialabelkeyexportoptions'] = 'Keys export options';
 
 $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';
+$messages['sigvalidpartial'] = 'Verified signature from $sender, but part of the body was not signed.';
 $messages['siginvalid'] = 'Invalid signature from $sender.';
 $messages['sigunverified'] = 'Unverified signature. Certificate not verified. Certificate ID: $keyid.';
 $messages['signokey'] = 'Unverified signature. Public key not found. Key ID: $keyid.';
@@ -94,6 +95,7 @@ $messages['decrypterror'] = 'Decryption failed.';
 $messages['decryptnokey'] = 'Decryption failed. Private key not found. Key ID: $keyid.';
 $messages['decryptbadpass'] = 'Decryption failed. Bad password.';
 $messages['decryptnopass'] = 'Decryption failed. Key password required.';
+$messages['decryptpartial'] = 'Message decrypted, but part of the body was not encrypted.';
 $messages['signerror'] = 'Signing failed.';
 $messages['signnokey'] = 'Signing failed. Private key not found.';
 $messages['signbadpass'] = 'Signing failed. Bad password.';

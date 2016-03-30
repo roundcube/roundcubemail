@@ -25,4 +25,8 @@ class enigma_signature
     public $name;
     public $comment;
     public $email;
+
+    // Set it to true if signature is valid, but part of the message
+    // was out of the signed block
+    public $partial;
 }

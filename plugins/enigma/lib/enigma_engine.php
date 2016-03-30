@@ -4,7 +4,7 @@
  +-------------------------------------------------------------------------+
  | Engine of the Enigma Plugin                                             |
  |                                                                         |
- | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
+ | Copyright (C) 2010-2016 The Roundcube Dev Team                          |
  |                                                                         |
  | Licensed under the GNU General Public License version 3 or              |
  | any later version with exceptions for skins & plugins.                  |
@@ -33,6 +33,8 @@ class enigma_engine
     public $decryptions     = array();
     public $signatures      = array();
     public $encrypted_parts = array();
+
+    const ENCRYPTED_PARTIALLY = 100;
 
     const SIGN_MODE_BODY     = 1;
     const SIGN_MODE_SEPARATE = 2;
@@ -385,14 +387,74 @@ class enigma_engine
             $body = $this->get_part_body($p['object'], $part);
         }
 
-        // @TODO: big message body could be a file resource
-        // PGP signed message
-        if (preg_match('/^-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
-            $this->parse_plain_signed($p, $body);
+        // In this way we can use fgets on string as on file handle
+        // Don't use php://temp for security (body may come from an encrypted part)
+        $fd = fopen('php://memory', 'r+');
+        if (!$fd) {
+            return;
         }
-        // PGP encrypted message
-        else if (preg_match('/^-----BEGIN PGP MESSAGE-----/', $body)) {
-            $this->parse_plain_encrypted($p, $body);
+
+        fwrite($fd, $body);
+        rewind($fd);
+
+        $body   = '';
+        $prefix = '';
+        $mode   = '';
+        $tokens = array(
+            'BEGIN PGP SIGNED MESSAGE' => 'signed-start',
+            'END PGP SIGNATURE'        => 'signed-end',
+            'BEGIN PGP MESSAGE'        => 'encrypted-start',
+            'END PGP MESSAGE'          => 'encrypted-end',
+        );
+        $regexp = '/^-----(' . implode('|', array_keys($tokens)) . ')-----[\r\n]*/';
+
+        while (($line = fgets($fd)) !== false) {
+            if ($line[0] === '-' && $line[4] === '-' && preg_match($regexp, $line, $m)) {
+                switch ($tokens[$m[1]]) {
+                case 'signed-start':
+                    $body = $line;
+                    $mode = 'signed';
+                    break;
+
+                case 'signed-end':
+                    if ($mode === 'signed') {
+                        $body .= $line;
+                    }
+                    break 2; // ignore anything after this line
+
+                case 'encrypted-start':
+                    $body = $line;
+                    $mode = 'encrypted';
+                    break;
+
+                case 'encrypted-end':
+                    if ($mode === 'encrypted') {
+                        $body .= $line;
+                    }
+                    break 2; // ignore anything after this line
+                }
+
+                continue;
+            }
+
+            if ($mode === 'signed') {
+                $body .= $line;
+            }
+            else if ($mode === 'encrypted') {
+                $body .= $line;
+            }
+            else {
+                $prefix .= $line;
+            }
+        }
+
+        fclose($fd);
+
+        if ($mode === 'signed') {
+            $this->parse_plain_signed($p, $body, $prefix);
+        }
+        else if ($mode === 'encrypted') {
+            $this->parse_plain_encrypted($p, $body, $prefix);
         }
     }
 
@@ -456,8 +518,9 @@ class enigma_engine
      *
      * @param array  Reference to hook's parameters
      * @param string Message (part) body
+     * @param string Body prefix (additional text before the encrypted block)
      */
-    private function parse_plain_signed(&$p, $body)
+    private function parse_plain_signed(&$p, $body, $prefix = '')
     {
         if (!$this->rc->config->get('enigma_signatures', true)) {
             return;
@@ -471,23 +534,21 @@ class enigma_engine
             $sig = $this->pgp_verify($body);
         }
 
-        // @TODO: Handle big bodies using (temp) files
-
         // In this way we can use fgets on string as on file handle
-        $fh = fopen('php://memory', 'br+');
-        // @TODO: fopen/fwrite errors handling
-        if ($fh) {
-            fwrite($fh, $body);
-            rewind($fh);
+        // Don't use php://temp for security (body may come from an encrypted part)
+        $fd = fopen('php://memory', 'r+');
+        if (!$fd) {
+            return;
         }
+
+        fwrite($fd, $body);
+        rewind($fd);
 
         $body = $part->body = null;
         $part->body_modified = true;
 
         // Extract body (and signature?)
-        while (!feof($fh)) {
-            $line = fgets($fh, 1024);
-
+        while (($line = fgets($fd, 1024)) !== false) {
             if ($part->body === null)
                 $part->body = '';
             else if (preg_match('/^-----BEGIN PGP SIGNATURE-----/', $line))
@@ -496,17 +557,22 @@ class enigma_engine
                 $part->body .= $line;
         }
 
+        fclose($fd);
+
         // Remove "Hash" Armor Headers
         $part->body = preg_replace('/^.*\r*\n\r*\n/', '', $part->body);
         // de-Dash-Escape (RFC2440)
         $part->body = preg_replace('/(^|\n)- -/', '\\1-', $part->body);
 
-        // Store signature data for display
-        if (!empty($sig)) {
-            $this->signatures[$part->mime_id] = $sig;
+        if ($prefix) {
+            $part->body = $prefix . $part->body;
         }
 
-        fclose($fh);
+        // Store signature data for display
+        if (!empty($sig)) {
+            $sig->partial = !empty($prefix);
+            $this->signatures[$part->mime_id] = $sig;
+        }
     }
 
     /**
@@ -573,8 +639,9 @@ class enigma_engine
      *
      * @param array  Reference to hook's parameters
      * @param string Message (part) body
+     * @param string Body prefix (additional text before the encrypted block)
      */
-    private function parse_plain_encrypted(&$p, $body)
+    private function parse_plain_encrypted(&$p, $body, $prefix = '')
     {
         if (!$this->rc->config->get('enigma_decryption', true)) {
             return;
@@ -601,15 +668,18 @@ class enigma_engine
 
         // Parse decrypted message
         if ($result === true) {
-            $part->body          = $body;
+            $part->body          = $prefix . $body;
             $part->body_modified = true;
+
+            // it maybe PGP signed inside, verify signature
+            $this->parse_plain($p, $body);
 
             // Remember it was decrypted
             $this->encrypted_parts[] = $part->mime_id;
 
-            // PGP signed inside? verify signature
-            if (preg_match('/^-----BEGIN PGP SIGNED MESSAGE-----/', $body)) {
-                $this->parse_plain_signed($p, $body);
+            // Inform the user that only a part of the body was encrypted
+            if ($prefix) {
+                $this->decryptions[$part->mime_id] = self::ENCRYPTED_PARTIALLY;
             }
 
             // Encrypted plain message may contain encrypted attachments

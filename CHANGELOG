@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enigma: Handle messages with text before an encrypted block (#5149)
 - Enigma: Handle encrypted/signed content inside message/rfc822 attachments
 - Enigma: Fix missing html/plain switch on multipart/signed messages (#1490649)
 - Enigma: Disable format=flowed for signed plain text messages (#1490646)
