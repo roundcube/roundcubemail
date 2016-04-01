@@ -730,6 +730,11 @@ class enigma_ui
         $menu->add(null, $chbox->show($this->rc->config->get('enigma_encrypt_all') ? 1 : 0,
             array('name' => '_enigma_encrypt', 'id' => 'enigmaencryptopt')));
 
+        $menu->add(null, html::label(array('for' => 'enigmaattachpubkeyopt'),
+            rcube::Q($this->enigma->gettext('attachpubkeymsg'))));
+        $menu->add(null, $chbox->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0, 
+            array('name' => '_enigma_attachpubkey', 'id' => 'enigmaattachpubkeyopt')));
+
         $menu = html::div(array('id' => 'enigmamenu', 'class' => 'popupmenu'), $menu->show());
 
         // Options menu contents
