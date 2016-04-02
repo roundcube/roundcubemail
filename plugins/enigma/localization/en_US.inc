@@ -53,6 +53,7 @@ $labels['supportsignatures'] = 'Enable message signatures verification';
 $labels['supportdecryption'] = 'Enable message decryption';
 $labels['signdefault'] = 'Sign all messages by default';
 $labels['encryptdefault'] = 'Encrypt all messages by default';
+$labels['attachpubkeydefault'] = 'Attach my public PGP key by default';
 $labels['passwordtime'] = 'Keep private key passwords for';
 $labels['nminutes'] = '$m minute(s)';
 $labels['wholesession'] = 'the whole session';
@@ -82,6 +83,7 @@ $labels['signmsg'] = 'Digitally sign this message';
 $labels['enterkeypasstitle'] = 'Enter key passphrase';
 $labels['enterkeypass'] = 'A passphrase is needed to unlock the secret key ($keyid) for user: $user.';
 $labels['arialabelkeyexportoptions'] = 'Keys export options';
+$labels['attachpubkeymsg'] = 'Attach my public key';
 
 $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';

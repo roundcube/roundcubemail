@@ -921,6 +921,38 @@ class enigma_engine
         return $result;
     }
 
+    function get_gpg_pubkey_for_attach($email)
+    {
+        $this->load_pgp_driver();
+        $result = $this->pgp_driver->pubkey_for_attach($email);
+
+        if ($result instanceof enigma_error) {
+            rcube::raise_error(array(
+                'code' => 600, 'type' => 'php',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Enigma plugin: " . $result->getMessage()
+                ), true, false);
+        }
+
+        return $result;
+    }
+
+    function get_keyID($email)
+    {
+        $this->load_pgp_driver();
+        $result = $this->pgp_driver->get_keyID($email);
+
+        if ($result instanceof enigma_error) {
+            rcube::raise_error(array(
+                'code' => 600, 'type' => 'php',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Enigma plugin: " . $result->getMessage()
+                ), true, false);
+        }
+
+        return $result;
+    }
+
     /**
      * Find PGP private/public key
      *

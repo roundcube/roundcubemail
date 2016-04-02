@@ -339,6 +339,25 @@ class enigma extends rcube_plugin
             );
         }
 
+        if (!isset($no_override['enigma_attach_pubkey'])) {
+            if (!$p['current']) {
+                $p['blocks']['main']['content'] = true;
+                return $p;
+            }
+
+            $field_id = 'rcmfd_enigma_attach_pubkey';
+            $input    = new html_checkbox(array(
+                    'name'  => '_enigma_attach_pubkey',
+                    'id'    => $field_id,
+                    'value' => 1,
+            ));
+
+            $p['blocks']['main']['options']['enigma_encrypt_all'] = array(
+                'title'   => html::label($field_id, $this->gettext('attachpubkeydefault')),
+                'content' => $input->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0),
+            );
+        }
+
         if (!isset($no_override['enigma_password_time'])) {
             if (!$p['current']) {
                 $p['blocks']['main']['content'] = true;
@@ -380,6 +399,7 @@ class enigma extends rcube_plugin
                 'enigma_encryption'    => (bool) rcube_utils::get_input_value('_enigma_encryption', rcube_utils::INPUT_POST),
                 'enigma_sign_all'      => (bool) rcube_utils::get_input_value('_enigma_sign_all', rcube_utils::INPUT_POST),
                 'enigma_encrypt_all'   => (bool) rcube_utils::get_input_value('_enigma_encrypt_all', rcube_utils::INPUT_POST),
+                'enigma_attach_pubkey' => (bool) rcube_utils::get_input_value('_enigma_attach_pubkey', rcube_utils::INPUT_POST),
                 'enigma_password_time' => intval(rcube_utils::get_input_value('_enigma_password_time', rcube_utils::INPUT_POST)),
             );
         }
