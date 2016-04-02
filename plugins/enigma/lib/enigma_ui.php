@@ -730,6 +730,11 @@ class enigma_ui
         $menu->add(null, $chbox->show($this->rc->config->get('enigma_encrypt_all') ? 1 : 0,
             array('name' => '_enigma_encrypt', 'id' => 'enigmaencryptopt')));
 
+        $menu->add(null, html::label(array('for' => 'enigmaattachpubkeyopt'),
+            rcube::Q($this->enigma->gettext('attachpubkeymsg'))));
+        $menu->add(null, $chbox->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0, 
+            array('name' => '_enigma_attachpubkey', 'id' => 'enigmaattachpubkeyopt')));
+
         $menu = html::div(array('id' => 'enigmamenu', 'class' => 'popupmenu'), $menu->show());
 
         // Options menu contents
@@ -929,11 +934,15 @@ class enigma_ui
     }
 
     /**
-     * Handle message_ready hook (encryption/signing)
+     * Handle message_ready hook (encryption/signing/attach public key)
      */
     function message_ready($p)
     {
         $savedraft = !empty($_POST['_draft']) && empty($_GET['_saveonly']);
+
+        if (!$savedraft && rcube_utils::get_input_value('_enigma_attachpubkey', rcube_utils::INPUT_POST)) {
+            $p = $this->attach_public($p);
+        }
 
         if (!$savedraft && rcube_utils::get_input_value('_enigma_sign', rcube_utils::INPUT_POST)) {
             $this->enigma->load_engine();
@@ -972,6 +981,24 @@ class enigma_ui
     }
 
     /**
+     * Add sender's public key (PGP).
+     */
+    function attach_public($p)
+    {
+        // get sender's PGP pubkey for attachment
+        $this->enigma->load_engine();
+        $key = $this->enigma->engine->list_keys($p['message']->headers()['From']);
+        $keyID = $key[0]->subkeys[0]->get_short_id();
+        $pubkey_armor = $this->enigma->engine->get_gpg_pubkey_for_attach($p['message']->headers()['From']);
+
+        if(!$pubkey_armor instanceof enigma_error) {
+            $p['message']->addAttachment($pubkey_armor, 'application/pgp-keys', "0x$keyID.asc", false);
+        }
+
+        return $p;
+    }
+
+   /**
      * Handler for message_compose_body hook
      * Display error when the message cannot be encrypted
      * and provide a way to try again with a password.
