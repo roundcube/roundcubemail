@@ -172,6 +172,10 @@ function rcube_mail_ui()
         if (get_pref('previewheaders') == '1') {
           toggle_preview_headers();
         }
+
+        if (rcmail.env.action == 'show') {
+            document.getElementById('messagecontent').focus()
+        }
       }
       else if (rcmail.env.action == 'compose') {
         rcmail.addEventListener('aftersend-attachment', show_uploadform)
