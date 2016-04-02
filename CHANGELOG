@@ -15,6 +15,7 @@ CHANGELOG Roundcube Webmail
 - Protect download urls against CSRF using unique request tokens (#1490642)
 - newmail_notifier: Refactor desktop notifications
 - Fix so contactlist_fields option can be set via config file
+- Fix so SPECIAL-USE assignments are forced only until user sets special folders (#4782)
 
 RELEASE 1.1.4
 -------------

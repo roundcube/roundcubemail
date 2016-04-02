@@ -123,6 +123,8 @@ case 'server':
 case 'folders':
     $a_user_prefs = array(
         'show_real_foldernames' => isset($_POST['_show_real_foldernames']) ? true : false,
+        // stop using SPECIAL-USE (#4782)
+        'lock_special_folders'  => !in_array('lock_special_folders', (array) $CONFIG['dont_override']),
     );
 
     foreach (rcube_storage::$folder_types as $type) {

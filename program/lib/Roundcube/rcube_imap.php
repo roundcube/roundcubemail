@@ -3295,6 +3295,12 @@ class rcube_imap extends rcube_storage
     public function get_special_folders($forced = false)
     {
         $result = parent::get_special_folders();
+        $rcube  = rcube::get_instance();
+
+        // Lock SPECIAL-USE after user preferences change (#4782)
+        if ($rcube->config->get('lock_special_folders')) {
+            return $result;
+        }
 
         if (isset($this->icache['special-use'])) {
             return array_merge($result, $this->icache['special-use']);
