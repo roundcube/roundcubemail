@@ -339,17 +339,6 @@ class enigma_driver_gnupg extends enigma_driver
         }
     }
 
-    public function pubkey_for_attach($email)
-    {
-        try {
-            $pubkey = $this->gpg->exportPublicKey($email, true);
-            return $pubkey;
-        }
-        catch (Exception $e) {
-            return $this->get_error_from_exception($e);
-        }
-    }
-
     /**
      * Converts Crypt_GPG exception into Enigma's error object
      *

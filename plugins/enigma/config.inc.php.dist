@@ -28,7 +28,7 @@ $config['enigma_sign_all'] = false;
 // Enable encrypting all messages by default
 $config['enigma_encrypt_all'] = false;
 
-// Enable signing all messages by default
+// Enable attaching a public key to all messages by default
 $config['enigma_attach_pubkey'] = false;
 
 // Default for how long to store private key passwords (in minutes).

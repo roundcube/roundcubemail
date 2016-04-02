@@ -941,7 +941,8 @@ class enigma_ui
         $savedraft = !empty($_POST['_draft']) && empty($_GET['_saveonly']);
 
         if (!$savedraft && rcube_utils::get_input_value('_enigma_attachpubkey', rcube_utils::INPUT_POST)) {
-            $p = $this->attach_public($p);
+            $this->enigma->load_engine();
+            $this->enigma->engine->attach_public_key($p['message']);
         }
 
         if (!$savedraft && rcube_utils::get_input_value('_enigma_sign', rcube_utils::INPUT_POST)) {
@@ -975,24 +976,6 @@ class enigma_ui
             }
 
             $this->rc->output->send('iframe');
-        }
-
-        return $p;
-    }
-
-    /**
-     * Add sender's public key (PGP).
-     */
-    function attach_public($p)
-    {
-        // get sender's PGP pubkey for attachment
-        $this->enigma->load_engine();
-        $key = $this->enigma->engine->list_keys($p['message']->headers()['From']);
-        $keyID = $key[0]->subkeys[0]->get_short_id();
-        $pubkey_armor = $this->enigma->engine->get_gpg_pubkey_for_attach($p['message']->headers()['From']);
-
-        if(!$pubkey_armor instanceof enigma_error) {
-            $p['message']->addAttachment($pubkey_armor, 'application/pgp-keys', "0x$keyID.asc", false);
         }
 
         return $p;

@@ -352,7 +352,7 @@ class enigma extends rcube_plugin
                     'value' => 1,
             ));
 
-            $p['blocks']['main']['options']['enigma_encrypt_all'] = array(
+            $p['blocks']['main']['options']['enigma_attach_pubkey'] = array(
                 'title'   => html::label($field_id, $this->gettext('attachpubkeydefault')),
                 'content' => $input->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0),
             );
