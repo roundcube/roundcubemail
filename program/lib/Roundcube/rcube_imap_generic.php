@@ -1063,7 +1063,7 @@ class rcube_imap_generic
      */
     public function connected()
     {
-        return ($this->fp && $this->logged) ? true : false;
+        return $this->fp && $this->logged;
     }
 
     /**

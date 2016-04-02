@@ -4284,7 +4284,7 @@ class rcube_imap extends rcube_storage
             $this->clear_cache('mailboxes', true);
         }
 
-        return $updated == count($folders) ? true : false;
+        return $updated == count($folders);
     }
 
     /**

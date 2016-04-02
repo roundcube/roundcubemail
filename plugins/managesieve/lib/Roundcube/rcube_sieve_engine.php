@@ -334,7 +334,7 @@ class rcube_sieve_engine
             else if ($action == 'act' && !$error) {
                 if (isset($this->script[$fid])) {
                     $rule     = $this->script[$fid];
-                    $disabled = $rule['disabled'] ? true : false;
+                    $disabled = !empty($rule['disabled']);
                     $rule['disabled'] = !$disabled;
                     $result = $this->sieve->script->update_rule($fid, $rule);
 

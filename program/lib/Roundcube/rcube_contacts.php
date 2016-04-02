@@ -707,7 +707,7 @@ class rcube_contacts extends rcube_addressbook
             $this->result = null;  // clear current result (from get_record())
         }
 
-        return $updated ? true : false;
+        return !empty($updated);
     }
 
     /**

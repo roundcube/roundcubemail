@@ -5,7 +5,7 @@
  | program/steps/settings/save_prefs.inc                                 |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,6 +16,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -30,9 +31,9 @@ case 'general':
         'timezone'     => isset($_POST['_timezone']) ? rcube_utils::get_input_value('_timezone', rcube_utils::INPUT_POST) : $CONFIG['timezone'],
         'date_format'  => isset($_POST['_date_format']) ? rcube_utils::get_input_value('_date_format', rcube_utils::INPUT_POST) : $CONFIG['date_format'],
         'time_format'  => isset($_POST['_time_format']) ? rcube_utils::get_input_value('_time_format', rcube_utils::INPUT_POST) : ($CONFIG['time_format'] ? $CONFIG['time_format'] : 'H:i'),
-        'prettydate'   => isset($_POST['_pretty_date']) ? true : false,
+        'prettydate'   => isset($_POST['_pretty_date']),
         'refresh_interval' => isset($_POST['_refresh_interval']) ? intval($_POST['_refresh_interval'])*60 : $CONFIG['refresh_interval'],
-        'standard_windows' => isset($_POST['_standard_windows']) ? true : false,
+        'standard_windows' => isset($_POST['_standard_windows']),
         'skin'         => isset($_POST['_skin']) ? rcube_utils::get_input_value('_skin', rcube_utils::INPUT_POST) : $CONFIG['skin'],
     );
 
@@ -46,11 +47,11 @@ case 'general':
 
 case 'mailbox':
     $a_user_prefs = array(
-        'preview_pane'         => isset($_POST['_preview_pane']) ? true : false,
+        'preview_pane'         => isset($_POST['_preview_pane']),
         'preview_pane_mark_read' => isset($_POST['_preview_pane_mark_read']) ? intval($_POST['_preview_pane_mark_read']) : $CONFIG['preview_pane_mark_read'],
         'autoexpand_threads'   => isset($_POST['_autoexpand_threads']) ? intval($_POST['_autoexpand_threads']) : 0,
         'mdn_requests'         => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,
-        'check_all_folders'    => isset($_POST['_check_all_folders']) ? true : false,
+        'check_all_folders'    => isset($_POST['_check_all_folders']),
         'mail_pagesize'        => is_numeric($_POST['_mail_pagesize']) ? max(2, intval($_POST['_mail_pagesize'])) : $CONFIG['mail_pagesize'],
     );
 
@@ -59,11 +60,11 @@ case 'mailbox':
 case 'mailview':
     $a_user_prefs = array(
         'message_extwin'  => intval($_POST['_message_extwin']),
-        'message_show_email' => isset($_POST['_message_show_email']) ? true : false,
-        'prefer_html'     => isset($_POST['_prefer_html']) ? true : false,
-        'inline_images'   => isset($_POST['_inline_images']) ? true : false,
+        'message_show_email' => isset($_POST['_message_show_email']),
+        'prefer_html'     => isset($_POST['_prefer_html']),
+        'inline_images'   => isset($_POST['_inline_images']),
         'show_images'     => isset($_POST['_show_images']) ? intval($_POST['_show_images']) : 0,
-        'display_next'    => isset($_POST['_display_next']) ? true : false,
+        'display_next'    => isset($_POST['_display_next']),
         'default_charset' => rcube_utils::get_input_value('_default_charset', rcube_utils::INPUT_POST),
     );
 
@@ -75,19 +76,19 @@ case 'compose':
         'htmleditor'         => intval($_POST['_htmleditor']),
         'draft_autosave'     => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0,
         'mime_param_folding' => isset($_POST['_mime_param_folding']) ? intval($_POST['_mime_param_folding']) : 0,
-        'force_7bit'         => isset($_POST['_force_7bit']) ? true : false,
-        'mdn_default'        => isset($_POST['_mdn_default']) ? true : false,
-        'dsn_default'        => isset($_POST['_dsn_default']) ? true : false,
-        'reply_same_folder'  => isset($_POST['_reply_same_folder']) ? true : false,
-        'spellcheck_before_send' => isset($_POST['_spellcheck_before_send']) ? true : false,
-        'spellcheck_ignore_syms' => isset($_POST['_spellcheck_ignore_syms']) ? true : false,
-        'spellcheck_ignore_nums' => isset($_POST['_spellcheck_ignore_nums']) ? true : false,
-        'spellcheck_ignore_caps' => isset($_POST['_spellcheck_ignore_caps']) ? true : false,
+        'force_7bit'         => isset($_POST['_force_7bit']),
+        'mdn_default'        => isset($_POST['_mdn_default']),
+        'dsn_default'        => isset($_POST['_dsn_default']),
+        'reply_same_folder'  => isset($_POST['_reply_same_folder']),
+        'spellcheck_before_send' => isset($_POST['_spellcheck_before_send']),
+        'spellcheck_ignore_syms' => isset($_POST['_spellcheck_ignore_syms']),
+        'spellcheck_ignore_nums' => isset($_POST['_spellcheck_ignore_nums']),
+        'spellcheck_ignore_caps' => isset($_POST['_spellcheck_ignore_caps']),
         'show_sig'           => isset($_POST['_show_sig']) ? intval($_POST['_show_sig']) : 1,
         'reply_mode'         => isset($_POST['_reply_mode']) ? intval($_POST['_reply_mode']) : 0,
-        'sig_below'          => isset($_POST['_sig_below']) ? true : false,
+        'sig_below'          => isset($_POST['_sig_below']),
         'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
-        'sig_separator'      => isset($_POST['_sig_separator']) ? true : false,
+        'sig_separator'      => isset($_POST['_sig_separator']),
         'default_font'       => rcube_utils::get_input_value('_default_font', rcube_utils::INPUT_POST),
         'default_font_size'  => rcube_utils::get_input_value('_default_font_size', rcube_utils::INPUT_POST),
         'reply_all_mode'     => intval($_POST['_reply_all_mode']),
@@ -100,7 +101,7 @@ case 'compose':
 case 'addressbook':
     $a_user_prefs = array(
         'default_addressbook'  => rcube_utils::get_input_value('_default_addressbook', rcube_utils::INPUT_POST, true),
-        'autocomplete_single'  => isset($_POST['_autocomplete_single']) ? true : false,
+        'autocomplete_single'  => isset($_POST['_autocomplete_single']),
         'addressbook_sort_col' => rcube_utils::get_input_value('_addressbook_sort_col', rcube_utils::INPUT_POST),
         'addressbook_name_listing' => intval(rcube_utils::get_input_value('_addressbook_name_listing', rcube_utils::INPUT_POST)),
         'addressbook_pagesize' => is_numeric($_POST['_addressbook_pagesize']) ? max(2, intval($_POST['_addressbook_pagesize'])) : $CONFIG['addressbook_pagesize'],
@@ -110,20 +111,20 @@ case 'addressbook':
 
 case 'server':
     $a_user_prefs = array(
-        'read_when_deleted' => isset($_POST['_read_when_deleted']) ? true : false,
-        'skip_deleted'      => isset($_POST['_skip_deleted']) ? true : false,
-        'flag_for_deletion' => isset($_POST['_flag_for_deletion']) ? true : false,
-        'delete_always'     => isset($_POST['_delete_always']) ? true : false,
-        'delete_junk'       => isset($_POST['_delete_junk']) ? true : false,
-        'logout_purge'      => isset($_POST['_logout_purge']) ? true : false,
-        'logout_expunge'    => isset($_POST['_logout_expunge']) ? true : false,
+        'read_when_deleted' => isset($_POST['_read_when_deleted']),
+        'skip_deleted'      => isset($_POST['_skip_deleted']),
+        'flag_for_deletion' => isset($_POST['_flag_for_deletion']),
+        'delete_always'     => isset($_POST['_delete_always']),
+        'delete_junk'       => isset($_POST['_delete_junk']),
+        'logout_purge'      => isset($_POST['_logout_purge']),
+        'logout_expunge'    => isset($_POST['_logout_expunge']),
     );
 
     break;
 
 case 'folders':
     $a_user_prefs = array(
-        'show_real_foldernames' => isset($_POST['_show_real_foldernames']) ? true : false,
+        'show_real_foldernames' => isset($_POST['_show_real_foldernames']),
         // stop using SPECIAL-USE (#4782)
         'lock_special_folders'  => !in_array('lock_special_folders', (array) $CONFIG['dont_override']),
     );
