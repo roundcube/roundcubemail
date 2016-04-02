@@ -175,10 +175,10 @@ class emoticons extends rcube_plugin
         $dont_override = $rcube->config->get('dont_override', array());
 
         if ($args['section'] == 'mailview' && !in_array('emoticons_display', $dont_override)) {
-            $args['prefs']['emoticons_display'] = rcube_utils::get_input_value('_emoticons_display', rcube_utils::INPUT_POST) ? true : false;
+            $args['prefs']['emoticons_display'] = !empty(rcube_utils::get_input_value('_emoticons_display', rcube_utils::INPUT_POST));
         }
         else if ($args['section'] == 'compose' && !in_array('emoticons_compose', $dont_override)) {
-            $args['prefs']['emoticons_compose'] = rcube_utils::get_input_value('_emoticons_compose', rcube_utils::INPUT_POST) ? true : false;
+            $args['prefs']['emoticons_compose'] = !empty(rcube_utils::get_input_value('_emoticons_compose', rcube_utils::INPUT_POST));
         }
 
         return $args;

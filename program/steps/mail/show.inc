@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-$PRINT_MODE = $RCMAIL->action == 'print' ? TRUE : FALSE;
+$PRINT_MODE = $RCMAIL->action == 'print';
 
 // Read browser capabilities and store them in session
 if ($caps = rcube_utils::get_input_value('_caps', rcube_utils::INPUT_GET)) {

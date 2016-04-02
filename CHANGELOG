@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enigma: Added option to attach public keys to sent mail (#5152)
 - Enigma: Handle messages with text before an encrypted block (#5149)
 - Enigma: Handle encrypted/signed content inside message/rfc822 attachments
 - Enigma: Fix missing html/plain switch on multipart/signed messages (#1490649)
@@ -30,6 +31,7 @@ CHANGELOG Roundcube Webmail
 - Protect download urls against CSRF using unique request tokens (#1490642)
 - newmail_notifier: Refactor desktop notifications
 - Fix so contactlist_fields option can be set via config file
+- Fix so SPECIAL-USE assignments are forced only until user sets special folders (#4782)
 
 RELEASE 1.2-beta
 ----------------

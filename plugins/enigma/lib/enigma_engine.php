@@ -313,6 +313,33 @@ class enigma_engine
     }
 
     /**
+     * Handler for attaching public key to a message
+     *
+     * @param Mail_mime Original message
+     *
+     * @return bool True on success, False on failure
+     */
+    function attach_public_key(&$message)
+    {
+        $headers = $message->headers();
+        $from    = rcube_mime::decode_address_list($headers['From'], 1, false, null, true);
+        $from    = $from[1];
+
+        // find my key
+        if ($from && ($key = $this->find_key($from))) {
+            $pubkey_armor = $this->export_key($key->id);
+
+            if (!$pubkey_armor instanceof enigma_error) {
+                $pubkey_name = '0x' . enigma_key::format_id($key->id) . '.asc';
+                $message->addAttachment($pubkey_armor, 'application/pgp-keys', $pubkey_name, false, '7bit');
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Handler for message_part_structure hook.
      * Called for every part of the message.
      *

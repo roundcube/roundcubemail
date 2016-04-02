@@ -730,6 +730,11 @@ class enigma_ui
         $menu->add(null, $chbox->show($this->rc->config->get('enigma_encrypt_all') ? 1 : 0,
             array('name' => '_enigma_encrypt', 'id' => 'enigmaencryptopt')));
 
+        $menu->add(null, html::label(array('for' => 'enigmaattachpubkeyopt'),
+            rcube::Q($this->enigma->gettext('attachpubkeymsg'))));
+        $menu->add(null, $chbox->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0, 
+            array('name' => '_enigma_attachpubkey', 'id' => 'enigmaattachpubkeyopt')));
+
         $menu = html::div(array('id' => 'enigmamenu', 'class' => 'popupmenu'), $menu->show());
 
         // Options menu contents
@@ -929,11 +934,16 @@ class enigma_ui
     }
 
     /**
-     * Handle message_ready hook (encryption/signing)
+     * Handle message_ready hook (encryption/signing/attach public key)
      */
     function message_ready($p)
     {
         $savedraft = !empty($_POST['_draft']) && empty($_GET['_saveonly']);
+
+        if (!$savedraft && rcube_utils::get_input_value('_enigma_attachpubkey', rcube_utils::INPUT_POST)) {
+            $this->enigma->load_engine();
+            $this->enigma->engine->attach_public_key($p['message']);
+        }
 
         if (!$savedraft && rcube_utils::get_input_value('_enigma_sign', rcube_utils::INPUT_POST)) {
             $this->enigma->load_engine();
@@ -971,7 +981,7 @@ class enigma_ui
         return $p;
     }
 
-    /**
+   /**
      * Handler for message_compose_body hook
      * Display error when the message cannot be encrypted
      * and provide a way to try again with a password.

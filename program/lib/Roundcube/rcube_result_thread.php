@@ -89,7 +89,7 @@ class rcube_result_thread
      */
     public function is_error()
     {
-        return $this->raw_data === null ? true : false;
+        return $this->raw_data === null;
     }
 
     /**
@@ -99,7 +99,7 @@ class rcube_result_thread
      */
     public function is_empty()
     {
-        return empty($this->raw_data) ? true : false;
+        return empty($this->raw_data);
     }
 
     /**
