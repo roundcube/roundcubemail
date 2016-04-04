@@ -123,7 +123,9 @@ $config['apc_debug'] = false;
 // The mail host chosen to perform the log-in.
 // Leave blank to show a textbox at login, give a list of hosts
 // to display a pulldown menu or set one host as string.
-// To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
+// To use TLS connection (most secure), enter hostname with prefix tls://
+// To use SSL connection (insecure as of 2014), enter hostname with prefix ssl://
+// To use no encryption (insecure), enter hostname with no prefix.
 // Supported replacement variables:
 // %n - hostname ($_SERVER['SERVER_NAME'])
 // %t - hostname without the first part
@@ -132,13 +134,15 @@ $config['apc_debug'] = false;
 // For example %n = mail.domain.tld, %t = domain.tld
 // WARNING: After hostname change update of mail_host column in users table is
 //          required to match old user data records with the new host.
-$config['default_host'] = 'localhost';
+$config['default_host'] = 'tls://localhost';
 
-// TCP port used for IMAP connections
-$config['default_port'] = 143;
+// TCP port used for IMAP connections.
+// Generally 993 for SSL/TLS, or 143 for no encryption.
+$config['default_port'] = 993;
 
 // IMAP AUTH type (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or null to use
-// best server supported one)
+// best server supported one).  Warning: PLAIN and LOGIN send the password
+// as plain/unencrypted text, and so should not be used unless you are using TLS.
 $config['imap_auth_type'] = null;
 
 // IMAP socket context options
@@ -238,7 +242,9 @@ $config['messages_cache_threshold'] = 50;
 // ----------------------------------
 
 // SMTP server host (for sending mails).
-// To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
+// To use TLS connection (most secure), enter hostname with prefix tls://
+// To use SSL connection (insecure as of 2014), enter hostname with prefix ssl://
+// To use no encryption (insecure), enter hostname with no prefix.
 // If left blank, the PHP mail() function is used
 // Supported replacement variables:
 // %h - user's IMAP hostname
@@ -249,9 +255,11 @@ $config['messages_cache_threshold'] = 50;
 // For example %n = mail.domain.tld, %t = domain.tld
 $config['smtp_server'] = '';
 
-// SMTP port (default is 25; use 587 for STARTTLS or 465 for the
-// deprecated SSL over SMTP (aka SMTPS))
-$config['smtp_port'] = 25;
+// TCP port used for SMTP connections.
+// Use 587 for STARTTLS (most secure).
+// Use 465 for the deprecated SSL over SMTP (aka SMTPS).
+// Use 25 for unencrypted SMTP (insecure).
+$config['smtp_port'] = 587;
 
 // SMTP username (if required) if you use %u as the username Roundcube
 // will use the current username for login
@@ -262,7 +270,8 @@ $config['smtp_user'] = '';
 $config['smtp_pass'] = '';
 
 // SMTP AUTH type (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or empty to use
-// best server supported one)
+// best server supported one). Warning: PLAIN and LOGIN send the password
+// as plain/unencrypted text, and so should not be used unless you are using TLS.
 $config['smtp_auth_type'] = '';
 
 // Optional SMTP authentication identifier to be used as authorization proxy
@@ -359,6 +368,7 @@ $config['temp_dir_ttl'] = '48h';
 // enforce connections over https
 // with this option enabled, all non-secure connections will be redirected.
 // set the port for the ssl connection as value of this option if it differs from the default 443
+// this option is mutually exclusive to 'use_https' and only either one of them should be set to true.
 $config['force_https'] = false;
 
 // tell PHP that it should work as under secure connection
@@ -461,11 +471,11 @@ $config['referer_check'] = false;
 $config['x_frame_options'] = 'sameorigin';
 
 // This key is used for encrypting purposes, like storing of imap password
-// in the session. For historical reasons it's called DES_key, but it's used
+// in the session. For historical reasons it's called des_key, but it's used
 // with any configured cipher_method (see below).
 $config['des_key'] = 'rcmail-!24ByteDESkey*Str';
 
-// Encryption algorithm. You can use any method supported by openssl.
+// Encryption algorithm. You can use any method supported by OpenSSL.
 // Default is set for backward compatibility to DES-EDE3-CBC,
 // but you can choose e.g. AES-256-CBC which we consider a better choice.
 $config['cipher_method'] = 'DES-EDE3-CBC';
