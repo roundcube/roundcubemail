@@ -496,9 +496,10 @@ $config['username_domain_forced'] = false;
 // For example %n = mail.domain.tld, %t = domain.tld
 $config['mail_domain'] = '';
 
-// Password charset.
-// Use it if your authentication backend doesn't support UTF-8.
-// Defaults to ISO-8859-1 for backward compatibility
+// Password character set.
+// If your authentication backend supports it, use "UTF-8".
+// Otherwise, use the appropriate character set.
+// Defaults to ISO-8859-1 for backward compatibility.
 $config['password_charset'] = 'ISO-8859-1';
 
 // How many seconds must pass between emails sent by a user
