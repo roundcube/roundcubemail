@@ -63,7 +63,7 @@ class rcube_sieve_engine
         1 => 'notifyimportancehigh'
     );
 
-    const VERSION  = '8.5';
+    const VERSION  = '8.6';
     const PROGNAME = 'Roundcube (Managesieve)';
     const PORT     = 4190;
 
