@@ -32,10 +32,9 @@ $trash     = $RCMAIL->config->get('trash_mbox');
 
 // move messages
 if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_target_mbox'])) {
-    $target = rcube_utils::get_input_value('_target_mbox', rcube_utils::INPUT_POST, true);
-    $trash  = $RCMAIL->config->get('trash_mbox');
-
+    $target  = rcube_utils::get_input_value('_target_mbox', rcube_utils::INPUT_POST, true);
     $success = true;
+
     foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
         if ($mbox === $target) {
             $count += count($uids);
@@ -68,7 +67,7 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
         $addrows = true;
     }
 }
-// delete messages 
+// delete messages
 else if ($RCMAIL->action == 'delete' && !empty($_POST['_uid'])) {
     foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
         $del      += (int)$RCMAIL->storage->delete_message($uids, $mbox);
