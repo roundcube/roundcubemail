@@ -84,3 +84,6 @@ $config['plugins'] = array(
 
 // skin name: folder from skins/
 $config['skin'] = 'larry';
+
+// Enable logging in the browser console
+$config['enable_console_log'] = false;

@@ -1211,3 +1211,7 @@ $config['message_show_email'] = false;
 // 0 - Reply-All always
 // 1 - Reply-List if mailing list is detected
 $config['reply_all_mode'] = 0;
+
+
+// Enable logging in the browser console
+$config['enable_console_log'] = false;
