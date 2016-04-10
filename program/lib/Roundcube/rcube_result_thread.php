@@ -242,22 +242,10 @@ class rcube_result_thread
             return;
         }
 
+        $raw_data_reverse = implode(self::SEPARATOR_ELEMENT, array_reverse(explode(self::SEPARATOR_ELEMENT, $this->raw_data)));
+        $this->raw_data = $raw_data_reverse;
+
         $this->meta['pos'] = array();
-        $datalen = strlen($this->raw_data);
-        $result  = '';
-        $start   = 0;
-
-        while (($pos = @strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start))
-            || ($start < $datalen && ($pos = $datalen))
-        ) {
-            $len   = $pos - $start;
-            $elem  = substr($this->raw_data, $start, $len);
-            $start = $pos + 1;
-
-            $result = $elem . self::SEPARATOR_ELEMENT . $result;
-        }
-
-        $this->raw_data = rtrim($result, self::SEPARATOR_ELEMENT);
     }
 
     /**
