@@ -252,8 +252,9 @@ class rcube_result_thread
             return;
         }
 
-        $raw_data_reverse = implode(self::SEPARATOR_ELEMENT, array_reverse(explode(self::SEPARATOR_ELEMENT, $this->raw_data)));
-        $this->raw_data = $raw_data_reverse;
+        $data = explode(self::SEPARATOR_ELEMENT, $this->raw_data);
+        $data = array_reverse($data);
+        $this->raw_data = implode(self::SEPARATOR_ELEMENT, $data);
 
         $this->meta['pos'] = array();
     }
