@@ -688,7 +688,7 @@ $config['sent_mbox'] = 'Sent';
 // NOTE: Use folder names with namespace prefix (INBOX. on Courier-IMAP)
 $config['trash_mbox'] = 'Trash';
 
-// automatically create the above listed default folders on first login
+// automatically create the above listed default folders on user login
 $config['create_default_folders'] = false;
 
 // protect the default folders from renames, deletes, and subscription changes

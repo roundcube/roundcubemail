@@ -45,3 +45,14 @@ $config['enigma_password_time'] = 5;
 // To solve that a hardware entropy generator or
 // an entropy gathering daemon may be installed (e.g. randomsound).
 $config['enigma_keygen_server'] = false;
+
+// With this option you can lock composing options
+// of the plugin forcing the user to use configured settings.
+// The array accepts: 'sign', 'encrypt', 'pubkey'.
+//
+// For example, to force your users to sign every email,
+// you should set:
+//     - enigma_sign_all     = true
+//     - enigma_options_lock = array('sign')
+//     - dont_override       = array('enigma_sign_all')
+$config['enigma_options_lock'] = array();

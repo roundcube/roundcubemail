@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Managesieve: Refactored script parser to be 100x faster
+- Enigma: added option to force users to use signing/encryption
 - Enigma: Added option to attach public keys to sent mail (#5152)
 - Enigma: Handle messages with text before an encrypted block (#5149)
 - Enigma: Handle encrypted/signed content inside message/rfc822 attachments

@@ -717,23 +717,36 @@ class enigma_ui
             'height'   => 32
             ), 'toolbar');
 
+        $locks = (array) $this->rc->config->get('enigma_options_lock');
         $menu  = new html_table(array('cols' => 2));
         $chbox = new html_checkbox(array('value' => 1));
 
         $menu->add(null, html::label(array('for' => 'enigmasignopt'),
             rcube::Q($this->enigma->gettext('signmsg'))));
         $menu->add(null, $chbox->show($this->rc->config->get('enigma_sign_all') ? 1 : 0,
-            array('name' => '_enigma_sign', 'id' => 'enigmasignopt')));
+                array(
+                    'name'     => '_enigma_sign',
+                    'id'       => 'enigmasignopt',
+                    'disabled' => in_array('sign', $locks),
+                )));
 
         $menu->add(null, html::label(array('for' => 'enigmaencryptopt'),
             rcube::Q($this->enigma->gettext('encryptmsg'))));
         $menu->add(null, $chbox->show($this->rc->config->get('enigma_encrypt_all') ? 1 : 0,
-            array('name' => '_enigma_encrypt', 'id' => 'enigmaencryptopt')));
+                array(
+                    'name'     => '_enigma_encrypt',
+                    'id'       => 'enigmaencryptopt',
+                    'disabled' => in_array('encrypt', $locks),
+                )));
 
         $menu->add(null, html::label(array('for' => 'enigmaattachpubkeyopt'),
             rcube::Q($this->enigma->gettext('attachpubkeymsg'))));
-        $menu->add(null, $chbox->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0, 
-            array('name' => '_enigma_attachpubkey', 'id' => 'enigmaattachpubkeyopt')));
+        $menu->add(null, $chbox->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0,
+                array(
+                    'name'     => '_enigma_attachpubkey',
+                    'id'       => 'enigmaattachpubkeyopt',
+                    'disabled' => in_array('pubkey', $locks),
+                )));
 
         $menu = html::div(array('id' => 'enigmamenu', 'class' => 'popupmenu'), $menu->show());
 
@@ -938,20 +951,34 @@ class enigma_ui
      */
     function message_ready($p)
     {
-        $savedraft = !empty($_POST['_draft']) && empty($_GET['_saveonly']);
+        $savedraft      = !empty($_POST['_draft']) && empty($_GET['_saveonly']);
+        $sign_enable    = (bool) rcube_utils::get_input_value('_enigma_sign', rcube_utils::INPUT_POST);
+        $encrypt_enable = (bool) rcube_utils::get_input_value('_enigma_encrypt', rcube_utils::INPUT_POST);
+        $pubkey_enable  = (bool) rcube_utils::get_input_value('_enigma_attachpubkey', rcube_utils::INPUT_POST);
+        $locks          = (array) $this->rc->config->get('enigma_options_lock');
 
-        if (!$savedraft && rcube_utils::get_input_value('_enigma_attachpubkey', rcube_utils::INPUT_POST)) {
+        if (in_array('sign', $locks)) {
+            $sign_enable = (bool) $this->rc->config->get('enigma_sign_all');
+        }
+        if (in_array('encrypt', $locks)) {
+            $encrypt_enable = (bool) $this->rc->config->get('enigma_encrypt_all');
+        }
+        if (in_array('pubkey', $locks)) {
+            $pubkey_enable = (bool) $this->rc->config->get('enigma_attach_pubkey');
+        }
+
+        if (!$savedraft && $pubkey_enable) {
             $this->enigma->load_engine();
             $this->enigma->engine->attach_public_key($p['message']);
         }
 
-        if (!$savedraft && rcube_utils::get_input_value('_enigma_sign', rcube_utils::INPUT_POST)) {
+        if (!$savedraft && $sign_enable) {
             $this->enigma->load_engine();
             $status = $this->enigma->engine->sign_message($p['message']);
             $mode   = 'sign';
         }
 
-        if ((!$status instanceof enigma_error) && rcube_utils::get_input_value('_enigma_encrypt', rcube_utils::INPUT_POST)) {
+        if ((!$status instanceof enigma_error) && $encrypt_enable) {
             $this->enigma->load_engine();
             $status = $this->enigma->engine->encrypt_message($p['message'], null, $savedraft);
             $mode   = 'encrypt';
@@ -996,6 +1023,7 @@ class enigma_ui
         }
 
         $engine = $this->enigma->engine;
+        $locks  = (array) $this->rc->config->get('enigma_options_lock');
 
         // Decryption status
         foreach ($engine->decryptions as $status) {
@@ -1021,8 +1049,12 @@ class enigma_ui
         }
 
         // Check sign/ecrypt options for signed/encrypted drafts
-        $this->rc->output->set_env('enigma_force_encrypt', !empty($engine->decryptions));
-        $this->rc->output->set_env('enigma_force_sign', !empty($engine->signatures));
+        if (!in_array('encrypt', $locks)) {
+            $this->rc->output->set_env('enigma_force_encrypt', !empty($engine->decryptions));
+        }
+        if (!in_array('sign', $locks)) {
+            $this->rc->output->set_env('enigma_force_sign', !empty($engine->signatures));
+        }
 
         return $p;
     }
