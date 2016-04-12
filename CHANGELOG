@@ -17,6 +17,7 @@ CHANGELOG Roundcube Webmail
 - Fix so contactlist_fields option can be set via config file
 - Fix so SPECIAL-USE assignments are forced only until user sets special folders (#4782)
 - Fix performance in reverting order of THREAD result
+- Fix converting mail addresses with @www. into mailto links (#5197)
 
 RELEASE 1.1.4
 -------------
