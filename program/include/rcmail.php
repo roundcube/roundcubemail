@@ -2171,7 +2171,7 @@ class rcmail extends rcube
     /**
      * Returns supported font-family specifications
      *
-     * @param string $font  Font name
+     * @param string $font Font name
      *
      * @param string|array Font-family specification array or string (if $font is used)
      */
@@ -2203,8 +2203,8 @@ class rcmail extends rcube
     /**
      * Create a human readable string for a number of bytes
      *
-     * @param int    Number of bytes
-     * @param string Size unit
+     * @param int    $bytes Number of bytes
+     * @param string &$unit Size unit
      *
      * @return string Byte string
      */
@@ -2235,7 +2235,7 @@ class rcmail extends rcube
     /**
      * Returns real size (calculated) of the message part
      *
-     * @param rcube_message_part  Message part
+     * @param rcube_message_part $part Message part
      *
      * @return string Part size (and unit)
      */
@@ -2319,6 +2319,8 @@ class rcmail extends rcube
      * Get resource file content (with assets_dir support)
      *
      * @param string $name File name
+     *
+     * @return string File content
      */
     public function get_resource_content($name)
     {

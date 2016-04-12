@@ -25,14 +25,15 @@
 class html
 {
     protected $tagname;
+    protected $content;
     protected $attrib  = array();
     protected $allowed = array();
-    protected $content;
 
     public static $doctype = 'xhtml';
     public static $lc_tags = true;
     public static $common_attrib = array('id','class','style','title','align','unselectable','tabindex','role');
-    public static $containers = array('iframe','div','span','p','h1','h2','h3','ul','form','textarea','table','thead','tbody','tr','th','td','style','script');
+    public static $containers    = array('iframe','div','span','p','h1','h2','h3','ul','form','textarea','table','thead','tbody','tr','th','td','style','script');
+    public static $bool_attrib   = array('checked','multiple','disabled','selected','autofocus','readonly');
 
 
     /**
@@ -279,7 +280,7 @@ class html
     /**
      * Create string with attributes
      *
-     * @param array $attrib  Associative arry with tag attributes
+     * @param array $attrib  Associative array with tag attributes
      * @param array $allowed List of allowed attributes
      *
      * @return string Valid attribute string
@@ -319,8 +320,9 @@ class html
             }
 
             // attributes with no value
-            if (in_array($key, array('checked', 'multiple', 'disabled', 'selected', 'autofocus'))) {
+            if (in_array($key, self::$bool_attrib)) {
                 if ($value) {
+                    // @TODO: minimize attribute in non-xhtml mode
                     $attrib_arr[] = $key . '="' . $key . '"';
                 }
             }
@@ -460,7 +462,7 @@ class html_hiddenfield extends html
     protected $tagname = 'input';
     protected $type    = 'hidden';
     protected $allowed = array('type','name','value','onchange','disabled','readonly');
-    protected $fields_arr = array();
+    protected $fields  = array();
 
     /**
      * Constructor
@@ -481,7 +483,7 @@ class html_hiddenfield extends html
      */
     public function add($attrib)
     {
-        $this->fields_arr[] = $attrib;
+        $this->fields[] = $attrib;
     }
 
     /**
@@ -492,7 +494,7 @@ class html_hiddenfield extends html
     public function show()
     {
         $out = '';
-        foreach ($this->fields_arr as $attrib) {
+        foreach ($this->fields as $attrib) {
             $out .= self::tag($this->tagname, array('type' => $this->type) + $attrib);
         }
 
