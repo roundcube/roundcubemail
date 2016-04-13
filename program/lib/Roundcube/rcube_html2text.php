@@ -137,10 +137,10 @@ class rcube_html2text
      */
     protected $search = array(
         '/\r/',                                  // Non-legal carriage return
-        '/^.*<body[^>]*>\n*/i',                  // Anything before <body>
-        '/<head[^>]*>.*?<\/head>/i',             // <head>
-        '/<script[^>]*>.*?<\/script>/i',         // <script>
-        '/<style[^>]*>.*?<\/style>/i',           // <style>
+        '/^.*<body[^>]*>\n*/is',                 // Anything before <body>
+        '/<head[^>]*>.*?<\/head>/is',            // <head>
+        '/<script[^>]*>.*?<\/script>/is',        // <script>
+        '/<style[^>]*>.*?<\/style>/is',          // <style>
         '/[\n\t]+/',                             // Newlines and tabs
         '/<p[^>]*>/i',                           // <p>
         '/<\/p>[\s\n\t]*<div[^>]*>/i',           // </p> before <div>
