@@ -1090,6 +1090,7 @@ class rcube_sieve_script
     {
         $result = array();
         $length = strlen($str);
+        $mask   = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:_';
 
         // remove spaces from the beginning of the string
         while ($position < $length && (!$num || $num === true || count($result) < $num)) {
@@ -1175,18 +1176,11 @@ class rcube_sieve_script
                 if ($position == $length) {
                     break 2;
                 }
-                if ($length - $position < 2) {
-                    $result[] = substr($str, $position);
-                    $position = $length;
-                    break;
-                }
 
                 // tag/identifier/number
-                if (preg_match('/[a-zA-Z0-9:_]+/', $str, $m, PREG_OFFSET_CAPTURE, $position)
-                    && $m[0][1] == $position
-                ) {
-                    $atom      = $m[0][0];
-                    $position += strlen($atom);
+                if ($len = strspn($str, $mask, $position)) {
+                    $atom      = substr($str, $position, $len);
+                    $position += $len;
 
                     if ($atom != 'text:') {
                         $result[] = $atom;
