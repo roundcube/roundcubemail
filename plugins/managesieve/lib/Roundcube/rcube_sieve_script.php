@@ -966,25 +966,33 @@ class rcube_sieve_script
         $result = array();
 
         for ($i=0, $len=count($tokens); $i<$len; $i++) {
-            if (!is_array($tokens[$i]) && preg_match('/^:comparator$/i', $tokens[$i])) {
-                $test['comparator'] = $tokens[++$i];
-            }
-            else if (!is_array($tokens[$i]) && preg_match('/^:(count|value)$/i', $tokens[$i])) {
-                $test['type'] = strtolower(substr($tokens[$i], 1)) . '-' . $tokens[++$i];
-            }
-            else if (!is_array($tokens[$i]) && preg_match('/^:(is|contains|matches|regex)$/i', $tokens[$i])) {
-                $test['type'] = strtolower(substr($tokens[$i], 1));
-            }
-            else if (!is_array($tokens[$i]) && preg_match('/^:index$/i', $tokens[$i])) {
-                $test['index'] = intval($tokens[++$i]);
-                if ($tokens[$i+1] && preg_match('/^:last$/i', $tokens[$i+1])) {
-                    $test['last'] = true;
-                    $i++;
+            if (!is_array($tokens[$i]) && $tokens[$i][0] == ':') {
+                if (preg_match('/^:comparator$/i', $tokens[$i])) {
+                    $test['comparator'] = $tokens[++$i];
+                    continue;
                 }
-           }
-           else {
-               $result[] = $tokens[$i];
-           }
+
+                if (preg_match('/^:(count|value)$/i', $tokens[$i])) {
+                    $test['type'] = strtolower(substr($tokens[$i], 1)) . '-' . $tokens[++$i];
+                    continue;
+                }
+
+                if (preg_match('/^:(is|contains|matches|regex)$/i', $tokens[$i])) {
+                    $test['type'] = strtolower(substr($tokens[$i], 1));
+                    continue;
+                }
+
+                if (preg_match('/^:index$/i', $tokens[$i])) {
+                    $test['index'] = intval($tokens[++$i]);
+                    if ($tokens[$i+1] && preg_match('/^:last$/i', $tokens[$i+1])) {
+                        $test['last'] = true;
+                        $i++;
+                    }
+                    continue;
+                }
+            }
+
+            $result[] = $tokens[$i];
         }
 
         $tokens = $result;
