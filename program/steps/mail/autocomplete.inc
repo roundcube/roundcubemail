@@ -175,5 +175,14 @@ if (!empty($book_types) && strlen($search)) {
     }
 }
 
+
+// Allow autocomplete result optimization via plugin
+$pluginResult = $RCMAIL->plugins->exec_hook('contacts_autocomplete_after', array(
+    'search'   => $search,
+    'contacts' => $contacts, // Provide already-found contacts to plugin if they are required
+));
+$contacts = $pluginResult['contacts'];
+
+
 $OUTPUT->command('ksearch_query_results', $contacts, $search, $reqid);
 $OUTPUT->send();
