@@ -92,7 +92,12 @@ if (!empty($book_types) && strlen($search)) {
 
                     // skip duplicates
                     if (empty($contacts[$index])) {
-                        $contact = array('name' => $contact, 'type' => $sql_arr['_type']);
+                        $contact = array(
+                            'name'   => $contact,
+                            'type'   => $sql_arr['_type'],
+                            'id'     => $sql_arr['contact_id'],
+                            'source' => $abook_id,
+                        );
 
                         if (($display = rcube_addressbook::compose_search_name($sql_arr, $email, $name)) && $display != $contact['name']) {
                             $contact['display'] = $display;
