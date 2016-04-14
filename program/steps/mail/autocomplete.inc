@@ -64,8 +64,8 @@ if (!empty($book_types) && strlen($search)) {
     $books_num = count($book_types);
     $search_lc = mb_strtolower($search);
 
-    foreach ($book_types as $id) {
-        $abook = $RCMAIL->get_address_book($id);
+    foreach ($book_types as $abook_id) {
+        $abook = $RCMAIL->get_address_book($abook_id);
         $abook->set_pagesize($MAXNUM);
 
         if ($result = $abook->search($RCMAIL->config->get('contactlist_fields'), $search, $mode, true, true, 'email')) {
@@ -135,7 +135,7 @@ if (!empty($book_types) && strlen($search)) {
                                 'email'  => $email,
                                 'type'   => 'group',
                                 'id'     => $group['ID'],
-                                'source' => $id,
+                                'source' => $abook_id,
                             );
 
                             if (count($contacts) >= $MAXNUM) {
@@ -152,7 +152,7 @@ if (!empty($book_types) && strlen($search)) {
                             'name'   => $group['name'] . ' (' . intval($result->count) . ')',
                             'type'   => 'group',
                             'id'     => $group['ID'],
-                            'source' => $id
+                            'source' => $abook_id,
                         );
 
                         if (count($contacts) >= $MAXNUM) {
