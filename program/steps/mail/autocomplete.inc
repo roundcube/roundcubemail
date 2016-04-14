@@ -58,8 +58,8 @@ else {
     $book_types = (array) $RCMAIL->config->get('autocomplete_addressbooks', 'sql');
 }
 
+$contacts = array();
 if (!empty($book_types) && strlen($search)) {
-    $contacts  = array();
     $sort_keys = array();
     $books_num = count($book_types);
     $search_lc = mb_strtolower($search);
