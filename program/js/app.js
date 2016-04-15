@@ -5182,7 +5182,7 @@ function rcube_webmail()
     this.set_caret_pos(this.ksearch_input, p + insert.length);
 
     if (trigger) {
-      this.triggerEvent('autocomplete_insert', { field:this.ksearch_input, insert:insert, data:this.env.contacts[id], search:this.ksearch_value, result_type:'contact' });
+      this.triggerEvent('autocomplete_insert', { field:this.ksearch_input, insert:insert, data:this.env.contacts[id], search:this.ksearch_value, result_type:'person' });
       this.compose_type_activity++;
     }
   };
