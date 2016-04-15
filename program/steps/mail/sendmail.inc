@@ -359,12 +359,8 @@ if ($isHtml) {
 
     $MAIL_MIME->setHTMLBody($plugin['body']);
 
-    // replace emoticons
-    $plugin['body'] = $RCMAIL->replace_emoticons($plugin['body']);
-
-    // add a plain text version of the e-mail as an alternative part.
-    $h2t = new rcube_html2text($plugin['body'], false, true, 0, $message_charset);
-    $plainTextPart = rcube_mime::wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n", false, $message_charset);
+    $plainTextPart = $RCMAIL->html2text($plugin['body'], array('width' => 0, 'charset' => $message_charset));
+    $plainTextPart = rcube_mime::wordwrap($plainTextPart, $LINE_LENGTH, "\r\n", false, $message_charset);
     $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
 
     // make sure all line endings are CRLF (#1486712)

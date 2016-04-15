@@ -884,8 +884,7 @@ function rcmail_print_body($body, $part, $p = array())
             $data['body'] = rcube_enriched::to_html($data['body']);
         }
 
-        $txt  = new rcube_html2text($data['body'], false, true);
-        $body = $txt->get_text();
+        $body = $RCMAIL->html2text($data['body']);
         $part->ctype_secondary = 'plain';
     }
     // text/html

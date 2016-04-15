@@ -2322,6 +2322,39 @@ class rcmail extends rcube
         return file_get_contents($name, false);
     }
 
+    /**
+     * Converts HTML content into plain text
+     *
+     * @param string $html    HTML content
+     * @param array  $options Conversion parameters (width, links, charset)
+     *
+     * @return string Plain text
+     */
+    public function html2text($html, $options = array())
+    {
+        $default_options = array(
+            'links'   => true,
+            'width'   => 75,
+            'body'    => $html,
+            'charset' => RCUBE_CHARSET,
+        );
+
+        $options = array_merge($default_options, (array) $options);
+
+        // Plugins may want to modify HTML in another/additional way
+        $options = $this->plugins->exec_hook('html2text', $options);
+
+        // Convert to text
+        if (!$options['abort']) {
+            $converter = new rcube_html2text($options['body'],
+                false, $options['links'], $options['width'], $options['charset']);
+
+            $options['body'] = rtrim($converter->get_text());
+        }
+
+        return $options['body'];
+    }
+
 
     /************************************************************************
      *********          Deprecated methods (to be removed)          *********

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Plugin API: Add html2text hook
 - Fix missing emoticons on html-to-text conversion
 - Fix random "access to this resource is secured against CSRF" message at logout (#4956)
 - Fix missing language name in "Add to Dictionary" request in HTML mode (#4951)

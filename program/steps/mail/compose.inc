@@ -643,8 +643,8 @@ function rcmail_compose_header_from($attrib)
                 $text = $html = $sql_arr['signature'];
 
                 if ($sql_arr['html_signature']) {
-                    $h2t  = new rcube_html2text($html, false, true);
-                    $text = trim($h2t->get_text());
+                    $text = $RCMAIL->html2text($html, array('links' => false));
+                    $text = trim($text);
                 }
                 else {
                     $t2h  = new rcube_text2html($text, false);
@@ -858,9 +858,8 @@ function rcmail_compose_part_body($part, $isHtml = false)
         if ($part->ctype_secondary == 'html') {
             // use html part if it has been used for message (pre)viewing
             // decrease line length for quoting
-            $len = $compose_mode == RCUBE_COMPOSE_REPLY ? $LINE_LENGTH-2 : $LINE_LENGTH;
-            $txt = new rcube_html2text($body, false, true, $len);
-            $body = $txt->get_text();
+            $len  = $compose_mode == RCUBE_COMPOSE_REPLY ? $LINE_LENGTH-2 : $LINE_LENGTH;
+            $body = $RCMAIL->html2text($body, array('width' => $len));
         }
         else {
             if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed') {
@@ -1043,7 +1042,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
             $suffix = '</blockquote>';
         }
         else {
-            $suffix = '</blockquote><p></p>';
+            $suffix = '</blockquote><p><br/></p>';
         }
     }
 
