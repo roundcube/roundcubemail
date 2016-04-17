@@ -24,6 +24,6 @@
     "require": {
         "php": ">=5.3.0",
         "roundcube/plugin-installer": "~0.1.6",
-        "pear-pear.php.net/crypt_gpg": "~1.4.0"
+        "pear-pear.php.net/crypt_gpg": "~1.4.1"
     }
 }

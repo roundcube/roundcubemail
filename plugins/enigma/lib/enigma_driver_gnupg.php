@@ -40,6 +40,7 @@ class enigma_driver_gnupg extends enigma_driver
     function init()
     {
         $homedir = $this->rc->config->get('enigma_pgp_homedir', INSTALL_PATH . 'plugins/enigma/home');
+        $debug   = $this->rc->config->get('enigma_debug');
 
         if (!$homedir)
             return new enigma_error(enigma_error::INTERNAL,
@@ -73,7 +74,7 @@ class enigma_driver_gnupg extends enigma_driver
             $this->gpg = new Crypt_GPG(array(
                 'homedir'   => $this->homedir,
                 // 'binary'    => '/usr/bin/gpg2',
-                // 'debug'     => true,
+                'debug'     => $debug ? array($this, 'debug') : false,
           ));
         }
         catch (Exception $e) {
@@ -257,10 +258,11 @@ class enigma_driver_gnupg extends enigma_driver
     public function gen_key($data)
     {
         try {
+            $debug  = $this->rc->config->get('enigma_debug');
             $keygen = new Crypt_GPG_KeyGenerator(array(
                     'homedir' => $this->homedir,
                     // 'binary'  => '/usr/bin/gpg2',
-                    // 'debug'   => true,
+                    'debug'   => $debug ? array($this, 'debug') : false,
             ));
 
             $key = $keygen
@@ -440,5 +442,13 @@ class enigma_driver_gnupg extends enigma_driver
         $ekey->id = $ekey->subkeys[0]->id;
 
         return $ekey;
+    }
+
+    /**
+     * Write debug info from Crypt_GPG to logs/enigma
+     */
+    public function debug($line)
+    {
+        rcube::write_log('enigma', 'GPG: ' . $line);
     }
 }
