@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.0.9
+-------------
 - Fix a regression where some contact data was missing in export and PHP warnings were logged (Kolab #4522)
 - Enable use of TLSv1.1 and TLSv1.2 for IMAP (#4955)
 - Fix XSS issue in SVG images handling (#4949)
