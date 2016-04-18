@@ -66,8 +66,12 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     if (empty($RCMAIL->action)) {
         $OUTPUT->set_env('search_mods', rcmail_search_mods());
 
-        if (!empty($_SESSION['search_scope']))
+        if (!empty($_SESSION['search_scope'])) {
             $OUTPUT->set_env('search_scope', $_SESSION['search_scope']);
+        }
+        else {
+            $OUTPUT->set_env('search_scope', $RCMAIL->config->get('search_scope'));
+        }
 
         rcmail_list_pagetitle();
     }

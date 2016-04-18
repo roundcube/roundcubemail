@@ -1153,6 +1153,13 @@ $config['force_7bit'] = false;
 // Please note that folder names should to be in sync with $config['*_mbox'] options
 $config['search_mods'] = null;  // Example: array('*' => array('subject'=>1, 'from'=>1), 'Sent' => array('subject'=>1, 'to'=>1));
 
+// Defaults of the search field configuration - scope
+// Available options:
+// - 'base': search only the current mailbox (defaut)
+// - 'sub':  search current and subordinate mailboxes
+// - 'all':  search all mailboxes (recommended if your IMAP server has good search capability - SOLR or similar)
+$config['search_scope'] = 'base';
+
 // Defaults of the addressbook search field configuration.
 $config['addressbook_search_mods'] = null;  // Example: array('name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1);
 
