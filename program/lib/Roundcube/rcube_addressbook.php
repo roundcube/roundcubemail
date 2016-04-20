@@ -130,10 +130,10 @@ abstract class rcube_addressbook
     /**
      * Get a specific contact record
      *
-     * @param mixed record identifier(s)
+     * @param mixed   Record identifier(s)
      * @param boolean True to return record as associative array, otherwise a result set is returned
      *
-     * @return mixed Result object with all record fields or False if not found
+     * @return rcube_result_set|array Result object with all record fields
      */
     abstract function get_record($id, $assoc=false);
 
