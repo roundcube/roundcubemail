@@ -1,5 +1,5 @@
 {
-    "name": "roundcube/Attachment Reminder",
+    "name": "roundcube/attachment_reminder",
     "type": "roundcube-plugin",
     "description": "This Roundcube plugin reminds the user to attach a file if the composed message text indicates that there should be any.",
     "license": "GPLv3+",
