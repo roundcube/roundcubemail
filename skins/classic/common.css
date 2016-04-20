@@ -1308,6 +1308,11 @@ ul.toolbarmenu li.separator_above
   color: #999;
 }
 
+#searchmenu select
+{
+  width: 100%;
+}
+
 #pagejump-selector
 {
   max-height: 250px;
