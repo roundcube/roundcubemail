@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Enigma: Added enigma_debug option
+- Fix message list multi-select/deselect issue (#5219)
 
 RELEASE 1.2-rc
 --------------

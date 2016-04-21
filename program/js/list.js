@@ -1108,7 +1108,7 @@ in_selection: function(id, index)
 {
   for (var n in this.selection)
     if (this.selection[n] == id)
-      return index ? n : true;
+      return index ? parseInt(n) : true;
 
   return false;
 },
