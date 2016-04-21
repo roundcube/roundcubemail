@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix message list multi-select/deselect issue (#5219)
+
 RELEASE 1.1.5
 -------------
 - Plugin API: Add html2text hook
