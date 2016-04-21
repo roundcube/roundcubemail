@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enigma: Added enigma_debug option
+
 RELEASE 1.2-rc
 --------------
 - Managesieve: Refactored script parser to be 100x faster

@@ -542,7 +542,7 @@ class rcube_contacts extends rcube_addressbook
      * @param mixed $id    Record identifier(s)
      * @param bool  $assoc Enables returning associative array
      *
-     * @return mixed Result object with all record fields or False if not found
+     * @return rcube_result_set|array Result object with all record fields
      */
     function get_record($id, $assoc = false)
     {
@@ -559,6 +559,8 @@ class rcube_contacts extends rcube_addressbook
             $id,
             $this->user_id
         );
+
+        $this->result = null;
 
         if ($sql_arr = $this->db->fetch_assoc()) {
             $record = $this->convert_db_data($sql_arr);

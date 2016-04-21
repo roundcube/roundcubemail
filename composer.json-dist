@@ -28,7 +28,7 @@
         "pear-pear.php.net/net_idna2": "~0.1.1",
         "pear-pear.php.net/mail_mime": "~1.10.0",
         "pear-pear.php.net/net_smtp": "~1.7.1",
-        "pear-pear.php.net/crypt_gpg": "~1.4.0",
+        "pear-pear.php.net/crypt_gpg": "~1.4.1",
         "roundcube/net_sieve": "~1.5.0"
     },
     "require-dev": {

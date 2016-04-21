@@ -9,6 +9,9 @@ $config['enigma_pgp_driver'] = 'gnupg';
 // A driver to use for S/MIME. Default: "phpssl".
 $config['enigma_smime_driver'] = 'phpssl';
 
+// Enables logging of enigma operations (including Crypt_GPG debug info)
+$config['enigma_debug'] = false;
+
 // Keys directory for all users. Default 'enigma/home'.
 // Must be writeable by PHP process
 $config['enigma_pgp_homedir'] = null;
