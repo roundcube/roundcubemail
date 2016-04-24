@@ -450,7 +450,6 @@ function rcube_text_editor(config, id)
 
     // get selected text from tinymce editor
     if (ed) {
-      ed.getWin().focus(); // correct focus in IE & Chrome
       if (args.selection)
         text = ed.selection.getContent({format: args.format});
 
