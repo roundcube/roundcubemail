@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix message list multi-select/deselect issue (#5219)
+- Fix bug where contact search menu fields where always unchecked in Larry skin
 
 RELEASE 1.1.5
 -------------
