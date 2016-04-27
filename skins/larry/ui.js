@@ -305,7 +305,9 @@ function rcube_mail_ui()
     else if (rcmail.env.task == 'addressbook') {
       rcmail.addEventListener('afterupload-photo', show_uploadform)
         .addEventListener('beforepushgroup', push_contactgroup)
-        .addEventListener('beforepopgroup', pop_contactgroup);
+        .addEventListener('beforepopgroup', pop_contactgroup)
+        .addEventListener('menu-open', menu_toggle)
+        .addEventListener('menu-close', menu_toggle);
 
       if (rcmail.env.action == '') {
         new rcube_splitter({ id:'addressviewsplitterd', p1:'#addressview-left', p2:'#addressview-right',
