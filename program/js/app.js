@@ -7830,8 +7830,6 @@ function rcube_webmail()
     var url = '?_task=utils&_action=' + (format == 'html' ? 'html2text' : 'text2html'),
       lock = this.set_busy(true, 'converting');
 
-    this.log('HTTP POST: ' + url);
-
     $.ajax({ type: 'POST', url: url, data: text, contentType: 'application/octet-stream',
       error: function(o, status, err) { ref.http_error(o, status, err, lock); },
       success: function(data) {
@@ -8013,22 +8011,23 @@ function rcube_webmail()
     if (response.env)
       this.set_env(response.env);
 
+    var i;
+
     // we have labels to add
     if (typeof response.texts === 'object') {
-      for (var name in response.texts)
-        if (typeof response.texts[name] === 'string')
-          this.add_label(name, response.texts[name]);
+      for (i in response.texts)
+        if (typeof response.texts[i] === 'string')
+          this.add_label(i, response.texts[i]);
     }
 
     // if we get javascript code from server -> execute it
     if (response.exec) {
-      this.log(response.exec);
       eval(response.exec);
     }
 
     // execute callback functions of plugins
     if (response.callbacks && response.callbacks.length) {
-      for (var i=0; i < response.callbacks.length; i++)
+      for (i=0; i < response.callbacks.length; i++)
         this.triggerEvent(response.callbacks[i][0], response.callbacks[i][1]);
     }
 
