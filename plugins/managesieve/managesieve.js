@@ -599,6 +599,7 @@ function rule_header_select(id)
 {
   var obj = document.getElementById('header' + id),
     size = document.getElementById('rule_size' + id),
+    msg = document.getElementById('rule_message' + id),
     op = document.getElementById('rule_op' + id),
     header = document.getElementById('custom_header' + id + '_list'),
     mod = document.getElementById('rule_mod' + id),
@@ -610,7 +611,11 @@ function rule_header_select(id)
 
   if (h == 'size') {
     size.style.display = 'inline';
-    $.each([op, header, mod, trans, comp], function() { this.style.display = 'none'; });
+    $.each([op, header, mod, trans, comp, msg], function() { this.style.display = 'none'; });
+  }
+  else if (h == 'message') {
+    msg.style.display = 'inline';
+    $.each([op, header, mod, trans, comp, size], function() { this.style.display = 'none'; });
   }
   else {
     header.style.display = h != '...' ? 'none' : 'inline-block';
@@ -619,6 +624,7 @@ function rule_header_select(id)
     comp.style.display = '';
     mod.style.display = h == 'body' || h == 'currentdate' || h == 'date' ? 'none' : 'block';
     trans.style.display = h == 'body' ? 'block' : 'none';
+    msg.style.display = h == 'message' ? 'block' : 'none';
   }
 
   if (datepart)
@@ -638,7 +644,7 @@ function rule_op_select(obj, id, header)
   if (!header)
     header = document.getElementById('header' + id).value;
 
-  target.style.display = obj.value == 'exists' || obj.value == 'notexists' || header == 'size' ? 'none' : 'inline-block';
+  target.style.display = obj.value.match(/^(exists|notexists)$/) || header.match(/^(size|message)$/) ? 'none' : 'inline-block';
 };
 
 function rule_trans_select(id)
@@ -653,6 +659,7 @@ function rule_mod_select(id, header)
 {
   var obj = document.getElementById('rule_mod_op' + id),
     target = document.getElementById('rule_mod_type' + id),
+    duplicate = document.getElementById('rule_duplicate_div' + id),
     index = document.getElementById('rule_index_div' + id);
 
   if (!header)
@@ -661,7 +668,10 @@ function rule_mod_select(id, header)
   target.style.display = obj.value != 'address' && obj.value != 'envelope' ? 'none' : 'inline';
 
   if (index)
-    index.style.display = header != 'body' && header != 'currentdate' && header != 'size' && obj.value != 'envelope'  ? '' : 'none';
+    index.style.display = !header.match(/^(body|currentdate|size|message)$/) && obj.value != 'envelope'  ? '' : 'none';
+
+  if (duplicate)
+    duplicate.style.display = header == 'message' ? '' : 'none';
 };
 
 function rule_join_radio(value)
@@ -954,6 +964,13 @@ function sieve_form_init()
     .click(function() {  // show drop-down upon clicks
       $(this).autocomplete('search', $(this).val() || ' ');
     })
+
+  // display advanced controls when contain errors
+  $('input.error').each(function() {
+    if (String(this.id).match(/([0-9]+)$/)) {
+      $('#ruleadv' + RegExp.$1 + '.show').click();
+    }
+  });
 }
 
 

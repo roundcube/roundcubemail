@@ -63,7 +63,7 @@ class rcube_sieve_engine
         1 => 'notifyimportancehigh'
     );
 
-    const VERSION  = '8.6';
+    const VERSION  = '8.7';
     const PROGNAME = 'Roundcube (Managesieve)';
     const PORT     = 4190;
 
@@ -609,6 +609,12 @@ class rcube_sieve_engine
             $lastindexes    = rcube_utils::get_input_value('_rule_index_last', rcube_utils::INPUT_POST);
             $dateheaders    = rcube_utils::get_input_value('_rule_date_header', rcube_utils::INPUT_POST);
             $dateparts      = rcube_utils::get_input_value('_rule_date_part', rcube_utils::INPUT_POST);
+            $message        = rcube_utils::get_input_value('_rule_message', rcube_utils::INPUT_POST);
+            $dup_handles    = rcube_utils::get_input_value('_rule_duplicate_handle', rcube_utils::INPUT_POST, true);
+            $dup_headers    = rcube_utils::get_input_value('_rule_duplicate_header', rcube_utils::INPUT_POST, true);
+            $dup_uniqueids  = rcube_utils::get_input_value('_rule_duplicate_uniqueid', rcube_utils::INPUT_POST, true);
+            $dup_seconds    = rcube_utils::get_input_value('_rule_duplicate_seconds', rcube_utils::INPUT_POST);
+            $dup_lasts      = rcube_utils::get_input_value('_rule_duplicate_last', rcube_utils::INPUT_POST);
             $act_types      = rcube_utils::get_input_value('_action_type', rcube_utils::INPUT_POST, true);
             $mailboxes      = rcube_utils::get_input_value('_action_mailbox', rcube_utils::INPUT_POST, true);
             $act_targets    = rcube_utils::get_input_value('_action_target', rcube_utils::INPUT_POST, true);
@@ -816,6 +822,34 @@ class rcube_sieve_engine
                         $this->form['tests'][$i]['part'] = $trans;
                         if ($trans == 'content') {
                             $this->form['tests'][$i]['content'] = $trans_type;
+                        }
+                    }
+                    else if ($header == 'message') {
+                        $test = $this->strip_value($message[$idx]);
+
+                        if (preg_match('/^not/', $test)) {
+                            $this->form['tests'][$i]['not'] = true;
+                            $test = substr($test, 3);
+                        }
+
+                        $this->form['tests'][$i]['test'] = $test;
+
+                        if ($test == 'duplicate') {
+                            $this->form['tests'][$i]['last']     = !empty($dup_lasts[$idx]);
+                            $this->form['tests'][$i]['handle']   = trim($dup_handles[$idx]);
+                            $this->form['tests'][$i]['header']   = trim($dup_headers[$idx]);
+                            $this->form['tests'][$i]['uniqueid'] = trim($dup_uniqueids[$idx]);
+                            $this->form['tests'][$i]['seconds']  = trim($dup_seconds[$idx]);
+
+                            if ($this->form['tests'][$i]['seconds']
+                                && preg_match('/[^0-9]/', $this->form['tests'][$i]['seconds'])
+                            ) {
+                                $this->errors['tests'][$i]['duplicate_seconds'] = $this->plugin->gettext('forbiddenchars');
+                            }
+
+                            if ($this->form['tests'][$i]['header'] && $this->form['tests'][$i]['uniqueid']) {
+                                $this->errors['tests'][$i]['duplicate_uniqueid'] = $this->plugin->gettext('duplicate.conflict.err');
+                            }
                         }
                     }
                     else {
@@ -1094,6 +1128,9 @@ class rcube_sieve_engine
                     $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
 //                  $this->rc->output->send();
                 }
+            }
+            else {
+                $this->rc->output->show_message('managesieve.filterformerror', 'warning');
             }
         }
 
@@ -1406,12 +1443,16 @@ class rcube_sieve_engine
             $select_header->add($header, $index);
         }
         $select_header->add($this->plugin->gettext('...'), '...');
-        if (in_array('body', $this->exts))
+        if (in_array('body', $this->exts)) {
             $select_header->add($this->plugin->gettext('body'), 'body');
+        }
         $select_header->add($this->plugin->gettext('size'), 'size');
         if (in_array('date', $this->exts)) {
             $select_header->add($this->plugin->gettext('datetest'), 'date');
             $select_header->add($this->plugin->gettext('currdate'), 'currentdate');
+        }
+        if (in_array('duplicate', $this->exts)) {
+            $select_header->add($this->plugin->gettext('message'), 'message');
         }
 
         if (isset($rule['test'])) {
@@ -1433,6 +1474,9 @@ class rcube_sieve_engine
             }
             else if (in_array($rule['test'], array('size', 'body', 'date', 'currentdate'))) {
                 $test = $rule['test'];
+            }
+            else if (in_array($rule['test'], array('duplicate'))) {
+                $test = 'message';
             }
             else if ($rule['test'] != 'true') {
                 $test = '...';
@@ -1460,7 +1504,7 @@ class rcube_sieve_engine
 
         // matching type select (operator)
         $select_op = new html_select(array('name' => "_rule_op[]", 'id' => 'rule_op'.$id,
-            'style' => 'display:' .($rule['test']!='size' ? 'inline' : 'none'),
+            'style' => 'display:' .(!in_array($rule['test'], array('size', 'duplicate')) ? 'inline' : 'none'),
             'class' => 'operator_selector',
             'onchange' => 'rule_op_select(this, '.$id.')'));
         $select_op->add(rcube::Q($this->plugin->gettext('filtercontains')), 'contains');
@@ -1527,9 +1571,22 @@ class rcube_sieve_engine
             $tout .= $select_dp->show($rule['test'] == 'currentdate' || $rule['test'] == 'date' ? $rule['part'] : '');
         }
 
+        // message test select (e.g. duplicate)
+        if (in_array('duplicate', $this->exts)) {
+            $select_msg = new html_select(array('name' => "_rule_message[]", 'id' => 'rule_message'.$id,
+                'style' => in_array($rule['test'], array('duplicate')) ? '' : 'display:none',
+                'class' => 'message_selector',
+            ));
+
+            $select_msg->add(rcube::Q($this->plugin->gettext('duplicate')), 'duplicate');
+            $select_msg->add(rcube::Q($this->plugin->gettext('notduplicate')), 'notduplicate');
+
+            $tout .= $select_msg->show($test);
+        }
+
         $tout .= $select_op->show($test);
         $tout .= $this->list_input($id, 'rule_target', $target,
-            $rule['test'] != 'size' && $rule['test'] != 'exists',
+            $rule['test'] != 'size' && $rule['test'] != 'exists' && $rule['test'] != 'duplicate',
             $this->error_class($id, 'test', 'target', 'rule_target')) . "\n";
 
         $select_size_op = new html_select(array('name' => "_rule_size_op[]", 'id' => 'rule_size_op'.$id));
@@ -1555,8 +1612,9 @@ class rcube_sieve_engine
             'onchange' => 'rule_mod_select(' .$id .')'));
         $select_mod->add(rcube::Q($this->plugin->gettext('none')), '');
         $select_mod->add(rcube::Q($this->plugin->gettext('address')), 'address');
-        if (in_array('envelope', $this->exts))
+        if (in_array('envelope', $this->exts)) {
             $select_mod->add(rcube::Q($this->plugin->gettext('envelope')), 'envelope');
+        }
 
         $select_type = new html_select(array('name' => "_rule_mod_type[]", 'id' => 'rule_mod_type'.$id));
         $select_type->add(rcube::Q($this->plugin->gettext('allparts')), 'all');
@@ -1567,7 +1625,7 @@ class rcube_sieve_engine
             $select_type->add(rcube::Q($this->plugin->gettext('detail')), 'detail');
         }
 
-        $need_mod = !in_array($rule['test'], array('size', 'body', 'date', 'currentdate'));
+        $need_mod = !in_array($rule['test'], array('size', 'body', 'date', 'currentdate', 'duplicate'));
         $mout = '<div id="rule_mod' .$id. '" class="adv"' . (!$need_mod ? ' style="display:none"' : '') . '>';
         $mout .= ' <span class="label">' . rcube::Q($this->plugin->gettext('modifier')) . ' </span>';
         $mout .= $select_mod->show($rule['test']);
@@ -1604,7 +1662,8 @@ class rcube_sieve_engine
         }
 
         // Comparators
-        $mout .= '<div id="rule_comp' .$id. '" class="adv"' . ($rule['test'] == 'size' ? ' style="display:none"' : '') . '>';
+        $need_comp = $rule['test'] != 'size' && $rule['test'] != 'duplicate';
+        $mout .= '<div id="rule_comp' .$id. '" class="adv"' . (!$need_comp ? ' style="display:none"' : '') . '>';
         $mout .= '<span class="label">' . rcube::Q($this->plugin->gettext('comparator')) . '</span>';
         $mout .= $select_comp->show($rule['comparator']);
         $mout .= '</div>';
@@ -1630,6 +1689,32 @@ class rcube_sieve_engine
             $mout .= '&nbsp;<input type="checkbox" name="_rule_index_last[]" id="rule_index_last'.$id
                 . '" value="1"' . (!empty($rule['last']) ? ' checked="checked"' : '') . ' />'
                 . '<label for="rule_index_last'.$id.'">'.rcube::Q($this->plugin->gettext('indexlast')).'</label>';
+            $mout .= '</div>';
+        }
+
+        // Duplicate
+        if (in_array('duplicate', $this->exts)) {
+            $need_duplicate = $rule['test'] == 'duplicate';
+            $mout .= '<div id="rule_duplicate_div' .$id. '" class="adv"'. (!$need_duplicate ? ' style="display:none"' : '') .'>';
+            $mout .= '<span class="label">' . rcube::Q($this->plugin->gettext('duplicate.handle')) . '</span>';
+            $mout .= '<input type="text" name="_rule_duplicate_handle[]" id="rule_duplicate_handle'.$id
+                . '" value="'. ($rule['handle'] ? rcube::JQ($rule['handle']) : '')
+                . '" size="30"' . $this->error_class($id, 'test', 'duplicate_handle', 'rule_duplicate_handle') .' /><br>';
+            $mout .= '<span class="label">' . rcube::Q($this->plugin->gettext('duplicate.header')) . '</span>';
+            $mout .= '<input type="text" name="_rule_duplicate_header[]" id="rule_duplicate_header'.$id
+                . '" value="'. ($rule['header'] ? rcube::JQ($rule['header']) : '')
+                . '" size="30"' . $this->error_class($id, 'test', 'duplicate_header', 'rule_duplicate_header') .' /><br>';
+            $mout .= '<span class="label">' . rcube::Q($this->plugin->gettext('duplicate.uniqueid')) . '</span>';
+            $mout .= '<input type="text" name="_rule_duplicate_uniqueid[]" id="rule_duplicate_uniqueid'.$id
+                . '" value="'. ($rule['uniqueid'] ? rcube::JQ($rule['uniqueid']) : '')
+                . '" size="30"' . $this->error_class($id, 'test', 'duplicate_uniqueid', 'rule_duplicate_uniqueid') .' /><br>';
+            $mout .= '<span class="label">' . rcube::Q($this->plugin->gettext('duplicate.seconds')) . '</span>';
+            $mout .= '<input type="text" name="_rule_duplicate_seconds[]" id="rule_duplicate_seconds'.$id
+                . '" value="'. rcube::JQ($rule['seconds'])
+                . '" size="6"' . $this->error_class($id, 'test', 'duplicate_seconds', 'rule_duplicate_seconds') .' />';
+            $mout .= '&nbsp;<input type="checkbox" name="_rule_duplicate_last['.$id.']" id="rule_duplicate_last'.$id
+                . '" value="1"' . (!empty($rule['last']) ? ' checked="checked"' : '') . ' />'
+                . '<label for="rule_duplicate_last'.$id.'">'.rcube::Q($this->plugin->gettext('duplicate.last')).'</label>';
             $mout .= '</div>';
         }
 

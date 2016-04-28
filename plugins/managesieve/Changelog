@@ -1,3 +1,9 @@
+* version 8.7 [2016-]
+-----------------------------------------------------------
+- Support 'duplicate' extension [RFC 7352]
+- Unhide advanced rule controls if there are inputs with errors
+- Display warning message when filter form contains errors
+
 * version 8.6 [2016-04-06]
 -----------------------------------------------------------
 - Refactored script parser to be 100x faster

@@ -24,21 +24,22 @@ class rcube_sieve_script
 {
     public $content = array();      // script rules array
 
-    private $vars = array();        // "global" variables
-    private $prefix = '';           // script header (comments)
-    private $supported = array(     // Sieve extensions supported by class
+    private $vars      = array();   // "global" variables
+    private $prefix    = '';        // script header (comments)
+    private $supported = array(     // supported Sieve extensions:
         'body',                     // RFC5173
         'copy',                     // RFC3894
         'date',                     // RFC5260
+        'duplicate',                // RFC7352
         'enotify',                  // RFC5435
         'envelope',                 // RFC5228
         'ereject',                  // RFC5429
         'fileinto',                 // RFC5228
         'imapflags',                // draft-melnikov-sieve-imapflags-06
         'imap4flags',               // RFC5232
-        'include',                  // draft-ietf-sieve-include-12
+        'include',                  // RFC6609
         'index',                    // RFC5260
-        'notify',                   // draft-martin-sieve-notify-01,
+        'notify',                   // RFC5435
         'regex',                    // draft-ietf-sieve-regex-01
         'reject',                   // RFC5429
         'relational',               // RFC3431
@@ -317,7 +318,29 @@ class rcube_sieve_script
                         $tests[$i] .= ' ' . self::escape_string($test['arg']);
 
                         break;
+
+                    case 'duplicate':
+                        array_push($exts, 'duplicate');
+
+                        $tests[$i] .= ($test['not'] ? 'not ' : '') . $test['test'];
+
+                        $tokens = array('handle', 'uniqueid', 'header');
+                        foreach ($tokens as $token)
+                            if ($test[$token] !== null && $test[$token] !== '') {
+                                $tests[$i] .= " :$token " . self::escape_string($test[$token]);
+                            }
+
+                        if (!empty($test['seconds'])) {
+                            $tests[$i] .= ' :seconds ' . intval($test['seconds']);
+                        }
+
+                        if (!empty($test['last'])) {
+                            $tests[$i] .= ' :last';
+                        }
+
+                        break;
                     }
+
                     $i++;
                 }
             }
@@ -749,6 +772,23 @@ class rcube_sieve_script
                 $tests[] = $test;
                 break;
 
+            case 'duplicate':
+                $test = array('test' => $token, 'not' => $not);
+
+                for ($i=0, $len=count($tokens); $i<$len; $i++) {
+                    if (!is_array($tokens[$i])) {
+                        if (preg_match('/^:(handle|header|uniqueid|seconds)$/i', $tokens[$i], $m)) {
+                            $test[strtolower($m[1])] = $tokens[++$i];
+                        }
+                        else if (preg_match('/^:last$/i', $tokens[$i])) {
+                            $test['last'] = true;
+                        }
+                    }
+                }
+
+                $tests[] = $test;
+                break;
+
             case 'exists':
                 $tests[] = array('test' => 'exists', 'not' => $not,
                     'arg'  => array_pop($tokens));
@@ -966,33 +1006,25 @@ class rcube_sieve_script
         $result = array();
 
         for ($i=0, $len=count($tokens); $i<$len; $i++) {
-            if (!is_array($tokens[$i]) && $tokens[$i][0] == ':') {
-                if (preg_match('/^:comparator$/i', $tokens[$i])) {
-                    $test['comparator'] = $tokens[++$i];
-                    continue;
-                }
-
-                if (preg_match('/^:(count|value)$/i', $tokens[$i])) {
-                    $test['type'] = strtolower(substr($tokens[$i], 1)) . '-' . $tokens[++$i];
-                    continue;
-                }
-
-                if (preg_match('/^:(is|contains|matches|regex)$/i', $tokens[$i])) {
-                    $test['type'] = strtolower(substr($tokens[$i], 1));
-                    continue;
-                }
-
-                if (preg_match('/^:index$/i', $tokens[$i])) {
-                    $test['index'] = intval($tokens[++$i]);
-                    if ($tokens[$i+1] && preg_match('/^:last$/i', $tokens[$i+1])) {
-                        $test['last'] = true;
-                        $i++;
-                    }
-                    continue;
-                }
+            if (!is_array($tokens[$i]) && preg_match('/^:comparator$/i', $tokens[$i])) {
+                $test['comparator'] = $tokens[++$i];
             }
-
-            $result[] = $tokens[$i];
+            else if (!is_array($tokens[$i]) && preg_match('/^:(count|value)$/i', $tokens[$i])) {
+                $test['type'] = strtolower(substr($tokens[$i], 1)) . '-' . $tokens[++$i];
+            }
+            else if (!is_array($tokens[$i]) && preg_match('/^:(is|contains|matches|regex)$/i', $tokens[$i])) {
+                $test['type'] = strtolower(substr($tokens[$i], 1));
+            }
+            else if (!is_array($tokens[$i]) && preg_match('/^:index$/i', $tokens[$i])) {
+                $test['index'] = intval($tokens[++$i]);
+                if ($tokens[$i+1] && preg_match('/^:last$/i', $tokens[$i+1])) {
+                    $test['last'] = true;
+                    $i++;
+                }
+           }
+           else {
+               $result[] = $tokens[$i];
+           }
         }
 
         $tokens = $result;
@@ -1098,7 +1130,6 @@ class rcube_sieve_script
     {
         $result = array();
         $length = strlen($str);
-        $mask   = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:_';
 
         // remove spaces from the beginning of the string
         while ($position < $length && (!$num || $num === true || count($result) < $num)) {
@@ -1184,11 +1215,18 @@ class rcube_sieve_script
                 if ($position == $length) {
                     break 2;
                 }
+                if ($length - $position < 2) {
+                    $result[] = substr($str, $position);
+                    $position = $length;
+                    break;
+                }
 
                 // tag/identifier/number
-                if ($len = strspn($str, $mask, $position)) {
-                    $atom      = substr($str, $position, $len);
-                    $position += $len;
+                if (preg_match('/[a-zA-Z0-9:_]+/', $str, $m, PREG_OFFSET_CAPTURE, $position)
+                    && $m[0][1] == $position
+                ) {
+                    $atom      = $m[0][0];
+                    $position += strlen($atom);
 
                     if ($atom != 'text:') {
                         $result[] = $atom;
