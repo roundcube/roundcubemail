@@ -428,27 +428,25 @@ if (!function_exists('idn_to_ascii'))
  */
 function rcube_autoload($classname)
 {
-    $filename = preg_replace(
-        array(
-            '/Mail_(.+)/',
-            '/Net_(.+)/',
-            '/Auth_(.+)/',
-            '/^html_.+/',
-            '/^rcube(.*)/'
-        ),
-        array(
-            'Mail/\\1',
-            'Net/\\1',
-            'Auth/\\1',
-            'Roundcube/html',
-            'Roundcube/rcube\\1'
-        ),
-        $classname
-    );
+    if (strpos($classname, 'rcube') === 0) {
+        $classname = 'Roundcube/' . $classname;
+    }
+    else if (strpos($classname, 'html_') === 0 || $classname === 'html') {
+        $classname = 'Roundcube/html';
+    }
+    else if (strpos($classname, 'Mail_') === 0) {
+        $classname = 'Mail/' . substr($classname, 5);
+    }
+    else if (strpos($classname, 'Net_') === 0) {
+        $classname = 'Net/' . substr($classname, 4);
+    }
+    else if (strpos($classname, 'Auth_') === 0) {
+        $classname = 'Auth/' . substr($classname, 5);
+    }
 
-    if ($fp = @fopen("$filename.php", 'r', true)) {
+    if ($fp = @fopen("$classname.php", 'r', true)) {
         fclose($fp);
-        include_once "$filename.php";
+        include_once "$classname.php";
         return true;
     }
 

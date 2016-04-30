@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix message list multi-select/deselect issue (#5219)
 - Fix bug where getting HTML editor content could steal focus from other form controls (#5223)
 - Fix bug where contact search menu fields where always unchecked in Larry skin
+- Fix autoloading of 'html' class
 
 RELEASE 1.2-rc
 --------------
