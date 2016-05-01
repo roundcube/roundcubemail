@@ -1362,7 +1362,7 @@ function rcube_webmail()
 
     if (!aborted && this.triggerEvent('after'+command, props) === false)
       ret = false;
-    this.triggerEvent('actionafter', { props:props, action:command, aborted:aborted });
+    this.triggerEvent('actionafter', { props:props, action:command, aborted:aborted, ret:ret });
 
     return ret === false ? false : obj ? false : true;
   };
@@ -3477,6 +3477,12 @@ function rcube_webmail()
         // enable encrypted compose toggle
         this.enable_command('compose-encrypted', !is_html);
       }
+
+      // make sure to disable encryption button after toggling editor into HTML mode
+      this.addEventListener('actionafter', function(args) {
+        if (args.ret && args.action == 'toggle-editor')
+          ref.enable_command('compose-encrypted', !args.props.html);
+      });
     }
   };
 
@@ -4294,8 +4300,6 @@ function rcube_webmail()
     if (result) {
       // update internal format flag
       $("input[name='_is_html']").val(props.html ? 1 : 0);
-      // enable encrypted compose toggle
-      this.enable_command('compose-encrypted', !props.html);
     }
 
     return result;
