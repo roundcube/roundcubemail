@@ -331,8 +331,9 @@ function rcmail_message_list($attrib)
     $OUTPUT->add_label('from', 'to');
 
     // add id to message list table if not specified
-    if (!strlen($attrib['id']))
+    if (!strlen($attrib['id'])) {
         $attrib['id'] = 'rcubemessagelist';
+    }
 
     // define list of cols to be displayed based on parameter or config
     if (empty($attrib['columns'])) {
@@ -531,11 +532,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         if (!empty($header->list_cols) && is_array($header->list_cols))
             $a_msg_cols = array_merge($a_msg_cols, $header->list_cols);
 
-        $OUTPUT->command('add_message_row',
-            $header->uid,
-            $a_msg_cols,
-            $a_msg_flags,
-            $insert_top);
+        $OUTPUT->command('add_message_row', $header->uid, $a_msg_cols, $a_msg_flags, $insert_top);
     }
 
     if ($RCMAIL->storage->get_threading()) {
@@ -655,8 +652,9 @@ function rcmail_messagecontent_frame($attrib)
 {
     global $OUTPUT;
 
-    if (empty($attrib['id']))
+    if (empty($attrib['id'])) {
         $attrib['id'] = 'rcmailcontentwindow';
+    }
 
     return $OUTPUT->frame($attrib, true);
 }
@@ -665,8 +663,9 @@ function rcmail_messagecount_display($attrib)
 {
     global $RCMAIL;
 
-    if (!$attrib['id'])
+    if (!$attrib['id']) {
         $attrib['id'] = 'rcmcountdisplay';
+    }
 
     $RCMAIL->output->add_gui_object('countdisplay', $attrib['id']);
 
@@ -685,19 +684,21 @@ function rcmail_get_messagecount_text($count = null, $page = null)
 
     $page_size = $RCMAIL->storage->get_pagesize();
     $start_msg = ($page-1) * $page_size + 1;
+    $max       = $count;
 
-    if ($count !== null)
-        $max = $count;
-    else if ($RCMAIL->action)
-        $max = $RCMAIL->storage->count(NULL, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
+    if ($max === null && $RCMAIL->action) {
+        $max = $RCMAIL->storage->count(null, $RCMAIL->storage->get_threading() ? 'THREADS' : 'ALL');
+    }
 
-    if ($max == 0)
+    if (!$max) {
         $out = $RCMAIL->storage->get_search_set() ? $RCMAIL->gettext('nomessages') : $RCMAIL->gettext('mailboxempty');
-    else
+    }
+    else {
         $out = $RCMAIL->gettext(array('name' => $RCMAIL->storage->get_threading() ? 'threadsfromto' : 'messagesfromto',
             'vars' => array('from'  => $start_msg,
             'to'    => min($max, $start_msg + $page_size - 1),
             'count' => $max)));
+    }
 
     return rcube::Q($out);
 }
@@ -706,8 +707,9 @@ function rcmail_mailbox_name_display($attrib)
 {
     global $RCMAIL;
 
-    if (!$attrib['id'])
+    if (!$attrib['id']) {
         $attrib['id'] = 'rcmmailboxname';
+    }
 
     $RCMAIL->output->add_gui_object('mailboxname', $attrib['id']);
 
@@ -725,15 +727,16 @@ function rcmail_send_unread_count($mbox_name, $force=false, $count=null, $mark='
     global $RCMAIL;
 
     $old_unseen = rcmail_get_unseen_count($mbox_name);
+    $unseen     = $count;
 
-    if ($count === null)
+    if ($unseen === null) {
         $unseen = $RCMAIL->storage->count($mbox_name, 'UNSEEN', $force);
-    else
-        $unseen = $count;
+    }
 
-    if ($unseen != $old_unseen || ($mbox_name == 'INBOX'))
+    if ($unseen != $old_unseen || ($mbox_name == 'INBOX')) {
         $RCMAIL->output->command('set_unread_count', $mbox_name, $unseen,
             ($mbox_name == 'INBOX'), $unseen && $mark ? $mark : '');
+    }
 
     rcmail_set_unseen_count($mbox_name, $unseen);
 
@@ -966,10 +969,12 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
 
         // now check for evil strings like expression, behavior or url()
         if (!preg_match('/expression|behavior|javascript:|import[^a]/i', $stripped)) {
-            if (!$washtml->get_config('allow_remote') && stripos($stripped, 'url('))
+            if (!$washtml->get_config('allow_remote') && stripos($stripped, 'url(')) {
                 $washtml->extlinks = true;
-            else
+            }
+            else {
                 $out = html::tag('style', array('type' => 'text/css'), $content);
+            }
             break;
         }
 
@@ -1020,8 +1025,6 @@ function rcmail_message_headers($attrib, $headers=null)
     $output_headers  = array();
 
     foreach ($standard_headers as $hkey) {
-        $ishtml = false;
-
         if ($headers[$hkey])
             $value = $headers[$hkey];
         else if ($headers['others'][$hkey])
@@ -1032,6 +1035,7 @@ function rcmail_message_headers($attrib, $headers=null)
         if (in_array($hkey, $exclude_headers))
             continue;
 
+        $ishtml       = false;
         $header_title = $RCMAIL->gettext(preg_replace('/(^mail-|-)/', '', $hkey));
 
         if ($hkey == 'date') {
@@ -1060,8 +1064,8 @@ function rcmail_message_headers($attrib, $headers=null)
             }
         }
         else if ($hkey == 'mail-reply-to') {
-            if ($headers['mail-replyto'] != $headers['reply-to']
-                && $headers['reply-to'] != $headers['from']
+            if ($headers['mail-replyto'] != $headers['replyto']
+                && $headers['replyto'] != $headers['from']
             ) {
                 $header_value = rcmail_address_string($value, $attrib['max'], true,
                     $attrib['addicon'], $headers['charset'], $header_title);
@@ -1091,8 +1095,9 @@ function rcmail_message_headers($attrib, $headers=null)
                 $attrib['addicon'], $headers['charset'], $header_title);
             $ishtml = true;
         }
-        else if ($hkey == 'subject' && empty($value))
+        else if ($hkey == 'subject' && empty($value)) {
             $header_value = $RCMAIL->gettext('nosubject');
+        }
         else {
             $value        = is_array($value) ? implode(' ', $value) : $value;
             $header_value = trim(rcube_mime::decode_header($value, $headers['charset']));
@@ -1722,9 +1727,9 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
 function rcmail_wrap_and_quote($text, $length = 72)
 {
     // Rebuild the message body with a maximum of $max chars, while keeping quoted message.
-    $max = max(75, $length + 8);
+    $max   = max(75, $length + 8);
     $lines = preg_split('/\r?\n/', trim($text));
-    $out = '';
+    $out   = '';
 
     foreach ($lines as $line) {
         // don't wrap already quoted lines
@@ -1735,10 +1740,7 @@ function rcmail_wrap_and_quote($text, $length = 72)
             $newline = '';
 
             foreach (explode("\n", rcube_mime::wordwrap($line, $length - 2)) as $l) {
-                if (strlen($l))
-                    $newline .= '> ' . $l . "\n";
-                else
-                    $newline .= ">\n";
+                $newline .= strlen($l) ? "> $l\n" : ">\n";
             }
 
             $line = rtrim($newline);
@@ -1758,7 +1760,7 @@ function rcmail_draftinfo_encode($p)
 {
     $parts = array();
     foreach ($p as $key => $val) {
-        $encode = $key == 'folder' || strpos($val, ';') !== false;
+        $encode  = $key == 'folder' || strpos($val, ';') !== false;
         $parts[] = $key . '=' . ($encode ? 'B::' . base64_encode($val) : $val);
     }
 

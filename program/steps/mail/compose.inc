@@ -1058,9 +1058,6 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     $reply_mode = intval($RCMAIL->config->get('reply_mode'));
 
     if (!$bodyIsHtml) {
-        $body = preg_replace('/\r?\n/', "\n", $body);
-        $body = trim($body, "\n");
-
         // soft-wrap and quote message text
         $body = rcmail_wrap_and_quote($body, $LINE_LENGTH);
 
