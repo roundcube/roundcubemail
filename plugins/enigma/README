@@ -22,7 +22,7 @@ Implemented features:
 
 
 TODO:
--------------
+-----
 - Handling of big messages with temp files
 - Key info in contact details page (optional)
 - Extended key management:
@@ -48,3 +48,13 @@ TODO:
 - S/MIME: Sending signed/encrypted messages
 - S/MIME: Handling of certs attached to incoming messages
 - S/MIME: Certificate info in Contacts details page (optional)
+
+
+KNOWN ISSUES:
+-------------
+There are some know issues with accepting key passphrases on various
+system configurations. This is caused by issues in PinEntry handling.
+Make sure that vendor/bin/crypt-gpg-pinentry works from command line.
+Possible reasons:
+- non-supported GnuPG version, i.e. >= 2.1
+- non-working loader in shebang (#! /usr/bin/env php)
