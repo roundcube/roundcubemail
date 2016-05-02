@@ -507,6 +507,18 @@ body.iframe .boxtitle
   font-size: 10px;
 }
 
+.toolbarseparator {
+  display: block;
+  float: left;
+  width: 5px;
+  height: 32px;
+  padding: 0;
+  margin: 0 5px;
+  overflow: hidden;
+  background: url(images/abook_toolbar.png) -162px 0 no-repeat transparent;
+  opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
+}
+
 .splitter
 {
   user-select: none;

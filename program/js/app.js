@@ -339,8 +339,15 @@ function rcube_webmail()
           // init message compose form
           this.init_messageform();
         }
-        else if (this.env.action == 'get')
+        else if (this.env.action == 'get') {
           this.enable_command('download', 'print', true);
+          if (this.env.is_message) {
+            this.enable_command('reply', 'reply-all', 'edit', 'viewsource',
+              'forward', 'forward-inline', 'forward-attachment', true);
+            if (this.env.list_post)
+              this.enable_command('reply-list', true);
+          }
+        }
         // show printing dialog
         else if (this.env.action == 'print' && this.env.uid
           && !this.env.is_pgp_content && !this.env.pgp_mime_part
@@ -1211,13 +1218,13 @@ function rcube_webmail()
             this.open_window(this.env.comm_path + url, true, true);
           }
         }
-        else if (this.env.action == 'get') {
+        else if (this.env.action == 'get' && !this.env.is_message) {
           this.gui_objects.messagepartframe.contentWindow.print();
         }
         else if (uid = this.get_single_uid()) {
           url = this.url('print', this.params_from_uid(uid, {_safe: this.env.safemode ? 1 : 0}));
           if (this.open_window(url, true, true)) {
-            if (this.env.action != 'show')
+            if (this.env.action != 'show' && this.env.action != 'get')
               this.mark_message('read', uid);
           }
         }

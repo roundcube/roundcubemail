@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Implemented message/rfc822 attachment preview
 - Update to jsTimezoneDetect 1.0.6
 - Enigma: Added enigma_debug option
 - Fix message list multi-select/deselect issue (#5219)
