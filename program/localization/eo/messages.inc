@@ -37,7 +37,6 @@ $messages['savingmessage'] = 'Savanta mesaĝon...';
 $messages['messagesaved'] = 'Mesaĝo savita en Malnetujo';
 $messages['successfullysaved'] = 'Sukcese savis';
 $messages['addedsuccessfully'] = 'Sukcese aldonis kontakton al adresaro';
-$messages['contactexists'] = 'Kontakto kun ĉi tiu adreso jam ekzistas';
 $messages['blockedimages'] = 'Por protekti vian privatecon, foraj bildoj estas blokitaj en ĉi tiu mesaĝo.';
 $messages['encryptedmessage'] = 'Ĉi tiu mesaĝo estas ĉifrata kaj ne estas montrebla. Pardonu!';
 $messages['nocontactsfound'] = 'Trovis neniun kontakton';

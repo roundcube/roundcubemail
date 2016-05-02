@@ -37,7 +37,6 @@ $messages['savingmessage'] = 'O gwarediñ ar c\'hemennad...';
 $messages['messagesaved'] = 'Kemennad gwaredet dindan Brouilhedoù';
 $messages['successfullysaved'] = 'Gwarediñ graet';
 $messages['addedsuccessfully'] = 'Darempred ouzhpennet er c\'harned chomlec\'hioù';
-$messages['contactexists'] = 'Bout a ra un darempred gant memes postel elektronek';
 $messages['blockedimages'] = 'Evit gwarantiñ hoc\'h buhez prevez, stanket eo bet skeudennoù pell er c\'hemennad-se.';
 $messages['encryptedmessage'] = 'Rineget eo ar c\'hemennad, ha ne c\'hall ket bezañ diskouez. Ma Digarezit !';
 $messages['nocontactsfound'] = 'N\'eo ket bet kavet darempred ebet';

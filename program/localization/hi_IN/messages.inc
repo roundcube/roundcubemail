@@ -36,7 +36,6 @@ $messages['savingmessage'] = 'मेल सहेजा जा रहा है.
 $messages['messagesaved'] = 'मेल ड्राफ़्ट फोल्डर में जमा हो रहा है';
 $messages['successfullysaved'] = 'सहेजा गया है';
 $messages['addedsuccessfully'] = 'पता खाते में पता जोडा गया है';
-$messages['contactexists'] = 'इस ई-मेल पता से एक पता पेहले से है';
 $messages['blockedimages'] = 'आप के प्राईवेसी के लिये और स्पैम से बचने के लिये इस मेल में सदूर चित्र नहीं दिखाये गये हैं।';
 $messages['encryptedmessage'] = 'माफ़ कीजिये, यह मेल कूट रूप में है, इस कारण दिखाया नहीं जा सकता।';
 $messages['nocontactsfound'] = 'कोई पता नहीं मिला';

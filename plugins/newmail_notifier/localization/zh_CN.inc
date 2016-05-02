@@ -24,4 +24,5 @@ $labels['body'] = '您收到一封新邮件。';
 $labels['testbody'] = '这是一个提醒测试。';
 $labels['desktopdisabled'] = '您的浏览器已禁止桌面提醒功能。';
 $labels['desktopunsupported'] = '您的浏览器不支持桌面提醒功能。';
+$labels['desktoptimeout'] = '关闭桌面通知';
 ?>

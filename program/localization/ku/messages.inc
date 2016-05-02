@@ -49,7 +49,6 @@ $messages['successfullysaved'] = 'Hat hilanîn';
 $messages['savingresponse'] = 'Bersiva nivîsê tê tomarkirin...';
 $messages['deleteresponseconfirm'] = 'Tu bi rastî dixwazî vê nivîsa bersivê jê bibî?';
 $messages['addedsuccessfully'] = 'Têkilî li navnîşanan hat zêdekirin';
-$messages['contactexists'] = 'Têkiliyeke bi vê navnîşanê jixwe heye';
 $messages['contactnameexists'] = 'Jixwe kesekî bi heman navî heye.';
 $messages['blockedimages'] = 'Ji bo ewlekariya te wêneyên cuda yên vê peyamê hatin astenkirin.';
 $messages['encryptedmessage'] = 'Ev peyamenek şîfrekirî ye, bibore, nayê vekirin!';

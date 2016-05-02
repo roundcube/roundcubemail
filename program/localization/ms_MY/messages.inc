@@ -30,7 +30,6 @@ $messages['savingmessage'] = 'Menyimpan mesej...';
 $messages['messagesaved'] = 'Mesej disimpan dalam Draf';
 $messages['successfullysaved'] = 'Berjaya disimpan';
 $messages['addedsuccessfully'] = 'Kontek berjaya disimpan ke dalam buku alamat';
-$messages['contactexists'] = 'Kontek dengan alamat emel ini sudah wujud';
 $messages['blockedimages'] = 'Untuk melindungi kebesasan peribadi anda, imej jauh dihalang dalam mesej ini.';
 $messages['encryptedmessage'] = 'Ini adalah mesej yang di\'encrypted\' dan tidak boleh dipamerkan. Maaf!';
 $messages['nocontactsfound'] = 'Tiada kontek dijumpai';

@@ -54,7 +54,6 @@ $labels['add'] = 'Tilføje';
 $labels['del'] = 'Fjern';
 $labels['sender'] = 'Afsender';
 $labels['recipient'] = 'Modtager';
-$labels['vacationaddr'] = 'Min e-mail adresse:';
 $labels['vacationdays'] = 'Hvor tit skal besked sendes (i dage):';
 $labels['vacationinterval'] = 'Hvor tit skal besked sendes:';
 $labels['vacationreason'] = 'Besked (ved ferie):';

@@ -30,7 +30,6 @@ $messages['savingmessage'] = 'मेल जोगाईदै छ...';
 $messages['messagesaved'] = 'मेल ड्राफ्ट फोल्डरमा जोगाईयो';
 $messages['successfullysaved'] = 'सफल्तापूर्वक जोगाईयो';
 $messages['addedsuccessfully'] = 'सम्पर्क पुस्तिकामा सफल्तापूर्वक सम्पर्क प्रविष्ट गारियो';
-$messages['contactexists'] = 'यो ई-मेल पहिलै लिईसकिएको छ';
 $messages['blockedimages'] = 'तपाईको प्राईवेसी को लागि तथा अन्य स्पामबाट बच्नकोलागि यो मेलमा चित्रहुरु देखाईएका छैनन्।';
 $messages['encryptedmessage'] = 'माफ गर्नुहोसे, यो मेल ईन्क्रिफ्ट गरिएको रूपमा छ, त्यसैले देखाउन सकिदैन!';
 $messages['nocontactsfound'] = 'कुनै सम्पर्क भेटिएन';

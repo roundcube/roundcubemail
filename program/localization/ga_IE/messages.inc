@@ -30,7 +30,6 @@ $messages['savingmessage'] = 'Ag sábháil an teachtaireacht...';
 $messages['messagesaved'] = 'Sábháil mé an teachtaireacht i dréachtaí';
 $messages['successfullysaved'] = 'D\'éirigh mé agus sábháil mé';
 $messages['addedsuccessfully'] = 'D\'éirigh mé agus shábháil mé duine nua go dtí an Leabhair Seoltaí';
-$messages['contactexists'] = 'Tá duine i do Leabhair Seoltaí agus tá an seoladh ríomhphost seo aige';
 $messages['blockedimages'] = 'Chun do príobháide a cosain, choiscinn na híomhánna san teachtaireacht seo';
 $messages['encryptedmessage'] = 'Tá an teachtaireacht seo i criptiúchán, Níl an cumas agam chun é a tionscail';
 $messages['nocontactsfound'] = 'Ní raibh aon buine san Leabhair Seoltaí seo';
