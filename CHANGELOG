@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Update to jsTimezoneDetect 1.0.6
 - Enigma: Added enigma_debug option
 - Fix message list multi-select/deselect issue (#5219)
 - Fix bug where getting HTML editor content could steal focus from other form controls (#5223)
