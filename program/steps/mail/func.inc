@@ -518,6 +518,8 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
             $a_msg_flags['has_children'] = $header->has_children;
         if ($header->unread_children)
             $a_msg_flags['unread_children'] = $header->unread_children;
+        if ($header->flagged_children)
+            $a_msg_flags['flagged_children'] = $header->flagged_children;
         if ($header->others['list-post'])
             $a_msg_flags['ml'] = 1;
         if ($header->priority)

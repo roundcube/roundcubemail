@@ -2038,8 +2038,9 @@ function rcube_webmail()
       flagged: flags.flagged?1:0,
       has_children: flags.has_children?1:0,
       depth: flags.depth?flags.depth:0,
-      unread_children: flags.unread_children?flags.unread_children:0,
-      parent_uid: flags.parent_uid?flags.parent_uid:0,
+      unread_children: flags.unread_children || 0,
+      flagged_children: flags.flagged_children || 0,
+      parent_uid: flags.parent_uid || 0,
       selected: this.select_all_mode || this.message_list.in_selection(uid),
       ml: flags.ml?1:0,
       ctype: flags.ctype,
@@ -2119,6 +2120,9 @@ function rcube_webmail()
 
       if (flags.unread_children && flags.seen && !message.expanded)
         row_class += ' unroot';
+
+      if (flags.flagged_children && !message.expanded)
+        row_class += ' flaggedroot';
     }
 
     tree += '<span id="msgicn'+row.id+'" class="'+css_class+status_class+'" title="'+status_label+'"></span>';
@@ -2156,7 +2160,7 @@ function rcube_webmail()
           html = '<span class="attachment" title="'+label+'"></span>';
         else if (/multipart\/report/.test(flags.ctype))
           html = '<span class="report"></span>';
-          else
+        else
           html = '&nbsp;';
       }
       else if (c == 'status') {
@@ -2577,9 +2581,10 @@ function rcube_webmail()
   {
     var row = this.message_list.rows[uid];
 
-    // handle unread_children mark
+    // handle unread_children/flagged_children mark
     row.expanded = !row.expanded;
     this.set_unread_children(uid);
+    this.set_flagged_children(uid);
     row.expanded = !row.expanded;
 
     this.message_list.expand_row(e, uid);
@@ -2712,7 +2717,13 @@ function rcube_webmail()
     }
     else if (flag == 'unread' && p.has_children) {
       // unread_children may be undefined
-      p.unread_children = p.unread_children ? p.unread_children + 1 : 1;
+      p.unread_children = (p.unread_children || 0) + 1;
+    }
+    else if (flag == 'unflagged' && p.flagged_children) {
+      p.flagged_children--;
+    }
+    else if (flag == 'flagged' && p.has_children) {
+      p.flagged_children = (p.flagged_children || 0) + 1;
     }
     else {
       return;
@@ -2720,6 +2731,7 @@ function rcube_webmail()
 
     this.set_message_icon(root);
     this.set_unread_children(root);
+    this.set_flagged_children(root);
   };
 
   // update thread indicators for all messages in a thread below the specified message
@@ -2737,11 +2749,19 @@ function rcube_webmail()
 
     if (!row.depth) // root message: decrease roots count
       count--;
-    else if (row.unread) {
-      // update unread_children for thread root
+
+    // update unread_children for thread root
+    if (row.depth && row.unread) {
       parent = this.message_list.find_root(uid);
       rows[parent].unread_children--;
       this.set_unread_children(parent);
+    }
+
+    // update unread_children for thread root
+    if (row.depth && row.flagged) {
+      parent = this.message_list.find_root(uid);
+      rows[parent].flagged_children--;
+      this.set_flagged_children(parent);
     }
 
     parent = row.parent_uid;
@@ -2785,9 +2805,11 @@ function rcube_webmail()
       row = row.nextSibling;
     }
 
-    // update unread_children for roots
-    for (r=0; r<roots.length; r++)
+    // update unread_children/flagged_children for roots
+    for (r=0; r<roots.length; r++) {
       this.set_unread_children(roots[r].uid);
+      this.set_flagged_children(roots[r].uid);
+    }
 
     return count;
   };
@@ -2886,6 +2908,9 @@ function rcube_webmail()
       if (row.unread != status)
         this.update_thread_root(uid, status ? 'unread' : 'read');
     }
+    else if (flag == 'flagged') {
+      this.update_thread_root(uid, status ? 'flagged' : 'unflagged');
+    }
 
     if ($.inArray(flag, ['unread', 'deleted', 'replied', 'forwarded', 'flagged']) > -1)
       row[flag] = status;
@@ -2917,10 +2942,20 @@ function rcube_webmail()
     if (row.parent_uid)
       return;
 
-    if (!row.unread && row.unread_children && !row.expanded)
-      $(row.obj).addClass('unroot');
-    else
-      $(row.obj).removeClass('unroot');
+    var enable = !row.unread && row.unread_children && !row.expanded;
+    $(row.obj)[enable ? 'addClass' : 'removeClass']('unroot');
+  };
+
+  // sets flaggedroot (flagged_children) class of parent row
+  this.set_flagged_children = function(uid)
+  {
+    var row = this.message_list.rows[uid];
+
+    if (row.parent_uid)
+      return;
+
+    var enable = row.flagged_children && !row.expanded;
+    $(row.obj)[enable ? 'addClass' : 'removeClass']('flaggedroot');
   };
 
   // copy selected messages to the specified mailbox

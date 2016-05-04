@@ -746,6 +746,11 @@ table.messagelist.fixedcopy
   background-position: 0 -290px;
 }
 
+.messagelist tr.flaggedroot td.flag span
+{
+  background-position: 0 -136px;
+}
+
 .messagelist tr > .flag span.flagged
 {
   background-position: 0 -153px;

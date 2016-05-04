@@ -936,7 +936,7 @@ class rcube_imap extends rcube_storage
 
     /**
      * protected method for setting threaded messages flags:
-     * depth, has_children and unread_children
+     * depth, has_children, unread_children, flagged_children
      *
      * @param array               $headers  Reference to headers array indexed by message UID
      * @param rcube_result_thread $threads  Threads data object
@@ -955,8 +955,12 @@ class rcube_imap extends rcube_storage
 
             if (!empty($parents)) {
                 $headers[$uid]->parent_uid = end($parents);
-                if (empty($header->flags['SEEN']))
+                if (empty($header->flags['SEEN'])) {
                     $headers[$parents[0]]->unread_children++;
+                }
+                if (!empty($header->flags['FLAGGED'])) {
+                    $headers[$parents[0]]->flagged_children++;
+                }
             }
             array_push($parents, $uid);
 
