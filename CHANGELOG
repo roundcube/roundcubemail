@@ -3,6 +3,9 @@ CHANGELOG Roundcube Webmail
 
 - Implemented message/rfc822 attachment preview
 - Update to jsTimezoneDetect 1.0.6
+- Managesieve: Support 'duplicate' extension [RFC 7352]
+- Managesieve: Unhide advanced rule controls if there are inputs with errors
+- Managesieve: Display warning message when filter form contains errors
 - Enigma: Added enigma_debug option
 - Fix message list multi-select/deselect issue (#5219)
 - Fix bug where getting HTML editor content could steal focus from other form controls (#5223)
