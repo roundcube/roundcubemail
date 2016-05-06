@@ -38,6 +38,23 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test XSS in area's href (#5240)
+     */
+    function test_href_area()
+    {
+        $html = '<p><area href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">'
+            . '<area href="vbscript:alert(document.cookie)">Internet Explorer</p>'
+            . '<area href="javascript:alert(document.domain)" shape=default>';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertNotRegExp('/data:text/', $washed, "data:text/html in area href");
+        $this->assertNotRegExp('/vbscript:/', $washed, "vbscript: in area href");
+        $this->assertNotRegExp('/javascript:/', $washed, "javascript: in area href");
+    }
+
+    /**
      * Test handling HTML comments
      */
     function test_comments()

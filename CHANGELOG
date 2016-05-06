@@ -13,6 +13,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where contact search menu fields where always unchecked in Larry skin
 - Fix autoloading of 'html' class
 - Fix bug where Encrypt button appears when switching editor to HTML (#5235)
+- Fix XSS issue in href attribute on area tag (#5240)
 
 RELEASE 1.2-rc
 --------------
