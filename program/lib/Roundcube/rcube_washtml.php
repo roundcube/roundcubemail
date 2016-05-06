@@ -366,7 +366,7 @@ class rcube_washtml
      */
     private function is_link_attribute($tag, $attr)
     {
-        return $tag == 'a' && $attr == 'href';
+        return ($tag == 'a' || $tag == 'area') && $attr == 'href';
     }
 
     /**

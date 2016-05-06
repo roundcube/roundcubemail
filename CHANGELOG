@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix XSS issue in href attribute on area tag (#5240)
+
 RELEASE 1.0.9
 -------------
 - Fix a regression where some contact data was missing in export and PHP warnings were logged (Kolab #4522)
