@@ -191,7 +191,7 @@ if ($hdr = rcube_utils::get_input_value('_followupto', rcube_utils::INPUT_POST, 
 // remember reply/forward UIDs in special headers
 if ($savedraft) {
     // Note: We ignore <UID>.<PART> forwards/replies here
-    if (($uid = $COMPOSE['reply_uid']) && !preg_match('/^\d+[0-9.]+$/', $uid)) {
+    if (($uid = $COMPOSE['reply_uid']) && !preg_match('/^\d+\.[0-9.]+$/', $uid)) {
         $headers['X-Draft-Info'] = array('type' => 'reply', 'uid' => $uid);
     }
     else if (!empty($COMPOSE['forward_uid'])
@@ -557,7 +557,7 @@ if (!$savedraft && !$saveonly) {
     if ($COMPOSE['reply_uid']) {
         foreach (rcmail::get_uids($COMPOSE['reply_uid'], $COMPOSE['mailbox']) as $mbox => $uids) {
             // skip <UID>.<PART> replies
-            if (!preg_match('/^\d+[0-9.]+$/', implode(',', (array) $uids))) {
+            if (!preg_match('/^\d+\.[0-9.]+$/', implode(',', (array) $uids))) {
                 $RCMAIL->storage->set_flag($uids, 'ANSWERED', $mbox);
             }
         }
@@ -565,7 +565,7 @@ if (!$savedraft && !$saveonly) {
     else if ($COMPOSE['forward_uid']) {
         foreach (rcmail::get_uids($COMPOSE['forward_uid'], $COMPOSE['mailbox']) as $mbox => $uids) {
             // skip <UID>.<PART> forwards
-            if (!preg_match('/^\d+[0-9.]+$/', implode(',', (array) $uids))) {
+            if (!preg_match('/^\d+\.[0-9.]+$/', implode(',', (array) $uids))) {
                 $RCMAIL->storage->set_flag($uids, 'FORWARDED', $mbox);
             }
         }
