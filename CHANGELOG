@@ -50,6 +50,7 @@ RELEASE 1.2-rc
 RELEASE 1.2-beta
 ----------------
 - Update TinyMCE to version 4.2
+- Removed some deprecated methods: https://github.com/roundcube/roundcubemail/commit/454b0b1c
 - Remove backward compatibility "layer" of bc.php (#4902)
 - Add possibility to define date format in write operations for ldap attributes (#3956)
 - Display attachment size in compose (#1329)
