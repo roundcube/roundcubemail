@@ -270,6 +270,10 @@ class rcube_text2html
         if (empty($table)) {
             $table = get_html_translation_table(HTML_SPECIALCHARS);
             unset($table['?']);
+
+            // replace some whitespace characters
+            $table["\r"] = '';
+            $table["\t"] = '    ';
         }
 
         // skip signature separator
@@ -277,11 +281,8 @@ class rcube_text2html
             return '--' . $this->config['space'];
         }
 
-        // replace HTML special characters
+        // replace HTML special and whitespace characters
         $text = strtr($text, $table);
-
-        // replace some whitespace characters
-        $text = str_replace(array("\r", "\t"), array('', '    '), $text);
 
         $nbsp = $this->config['space'];
 
