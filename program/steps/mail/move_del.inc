@@ -56,7 +56,7 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
         $OUTPUT->send();
     }
     else {
-        $OUTPUT->show_message('messagemoved', 'confirmation');
+        $OUTPUT->show_message($target == $trash ? 'messagemovedtotrash' : 'messagemoved', 'confirmation');
     }
 
     if (!empty($_POST['_refresh'])) {

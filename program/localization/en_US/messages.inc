@@ -176,6 +176,7 @@ $messages['savedsearchcreated'] = 'Saved search created successfully.';
 $messages['savedsearchcreateerror'] = 'Could not create saved search.';
 $messages['messagedeleted'] = 'Message(s) deleted successfully.';
 $messages['messagemoved'] = 'Message(s) moved successfully.';
+$messages['messagemovedtotrash'] = 'Message(s) moved to Trash successfully.';
 $messages['messagecopied'] = 'Message(s) copied successfully.';
 $messages['messagemarked'] = 'Message(s) marked successfully.';
 $messages['autocompletechars'] = 'Enter at least $min characters for autocompletion.';
