@@ -46,7 +46,34 @@ SetOutputFilter DEFLATE
 <IfModule mod_headers.c>
 # replace 'append' with 'merge' for Apache version 2.2.9 and later
 #Header append Cache-Control public env=!NO_CACHE
+
+# Optional security header
+# Only increased security if the browser support those features
+# Be careful! Testing is required! They should be adusted to your intallation / user environment
+
+# HSTS - HTTP Strict Transport Security
+#Header always set Strict-Transport-Security "max-age=31536000; preload" env=HTTPS
+
+# HPKP - HTTP Public Key Pinning
+# Only template - fill with your values
+#Header always set Public-Key-Pins "max-age=3600; report-uri=\"\"; pin-sha256=\"\"; pin-sha256=\"\"" env=HTTPS
+
+# X-Xss-Protection
+# This header is used to configure the built in reflective XSS protection found in Internet Explorer, Chrome and Safari (Webkit). 
+#Header set X-XSS-Protection "1; mode=block"
+
+# X-Frame-Options
+# The X-Frame-Options header (RFC), or XFO header, protects your visitors against clickjacking attacks
+# Already set by php code! Do not activate both options
+#Header set X-Frame-Options SAMEORIGIN
+
+# X-Content-Type-Options
+# It prevents Google Chrome and Internet Explorer from trying to mime-sniff the content-type of a response away from the one being declared by the server.
+#Header set X-Content-Type-Options: "nosniff"
+
+# CSP - Content Security Policy
 # for better privacy/security ask browsers to not set the Referer
+# more flags for script, stylesheets and images available, read RFC for more information
 #Header set Content-Security-Policy "referrer no-referrer"
 </IfModule>
 
