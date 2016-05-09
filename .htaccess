@@ -43,6 +43,17 @@ RewriteRule /?(README\.md|composer\.json-dist|composer\.json|package\.xml|Docker
 SetOutputFilter DEFLATE
 </IfModule>
 
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault "access plus 1 month"
+</IfModule>
+
+FileETag MTime Size
+
+<IfModule mod_autoindex.c>
+Options -Indexes
+</ifModule>
+
 <IfModule mod_headers.c>
 # replace 'append' with 'merge' for Apache version 2.2.9 and later
 #Header append Cache-Control public env=!NO_CACHE
@@ -76,14 +87,3 @@ SetOutputFilter DEFLATE
 # more flags for script, stylesheets and images available, read RFC for more information
 #Header set Content-Security-Policy "referrer no-referrer"
 </IfModule>
-
-<IfModule mod_expires.c>
-ExpiresActive On
-ExpiresDefault "access plus 1 month"
-</IfModule>
-
-FileETag MTime Size
-
-<IfModule mod_autoindex.c>
-Options -Indexes
-</ifModule>
