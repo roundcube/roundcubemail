@@ -579,4 +579,5 @@ $labels['helplistkeyboardnavmessages'] = "Pfeil rechts/links: Nachricht im Threa
 Enter: Öffne die ausgewählte/fokussierte Nachricht
 Rücktaste: Verschiebe gewählte Nachricht in den Mülleimer";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Ausgewählten Kontakt öffnen.";
+$labels['sigbelow'] = 'Unterschrift unter der zitierten Nachricht platzieren';
 ?>

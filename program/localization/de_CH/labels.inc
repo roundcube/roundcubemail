@@ -579,4 +579,5 @@ $labels['helplistkeyboardnavmessages'] = "Pfeiltasten Rechts/Links: Konversation
 Eingabe: Ausgewählte/fokussierte Nachricht öffnen.
 Löschen: Ausgewählte Nachricht in den Papierkorb verschieben resp. löschen.";
 $labels['helplistkeyboardnavcontacts'] = "Eingabe: Ausgewählten Kontakt öffnen.";
+$labels['sigbelow'] = 'Signatur unter der zitierten Nachricht platzieren';
 ?>
