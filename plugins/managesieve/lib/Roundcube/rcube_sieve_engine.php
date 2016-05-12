@@ -855,11 +855,14 @@ class rcube_sieve_engine
                     }
                     else {
                         $cust_header = $headers = $this->strip_value(array_shift($cust_headers));
-                        $cust_var    = $headers = $this->strip_value(array_shift($cust_vars));
                         $mod         = $this->strip_value($mods[$idx]);
                         $mod_type    = $this->strip_value($mod_types[$idx]);
                         $index       = $this->strip_value($indexes[$idx]);
                         $indexlast   = $this->strip_value($lastindexes[$idx]);
+
+                        if ($header == 'string') {
+                            $cust_var = $headers = $this->strip_value(array_shift($cust_vars));
+                        }
 
                         if (preg_match('/^not/', $operator))
                             $this->form['tests'][$i]['not'] = true;
