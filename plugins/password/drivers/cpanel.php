@@ -45,7 +45,21 @@ class rcube_cpanel_password
         // Setup the xmlapi connection
         $this->xmlapi = new xmlapi($rcmail->config->get('password_cpanel_host'));
         $this->xmlapi->set_port($rcmail->config->get('password_cpanel_port'));
-        $this->xmlapi->password_auth($this->cuser, $rcmail->config->get('password_cpanel_password'));
+		
+		// Hash auth
+		if ( ! empty ( $rcmail->config->get( 'password_cpanel_hash' ) ) ) {
+			$this->xmlapi->hash_auth( $this->cuser, $rcmail->config->get( 'password_cpanel_hash' ) );
+		}
+		
+		// Pass auth
+		else if ( ! empty ( $rcmail->config->get( 'password_cpanel_password' ) ) ) {
+			$this->xmlapi->hash_auth( $this->cuser, $rcmail->config->get( 'password_cpanel_password' ) );
+		}
+		
+		else {
+			return false;
+		}
+		
         $this->xmlapi->set_output('json');
         $this->xmlapi->set_debug(0);
 
@@ -70,8 +84,16 @@ class rcube_cpanel_password
         }
 
         $data['password'] = $password;
+		
+		// Get the cPanel user
+		$query = $this->xmlapi->listaccts( 'domain', $data['domain'] );
+		$query = json_decode( $query, true );
+		if ( $query['status'] != 1 ) {
+			return false;
+		}
+		$cpanel_user = $query['acct'][0]['user'];
 
-        $query  = $this->xmlapi->api2_query($this->cuser, 'Email', 'passwdpop', $data);
+        $query = $this->xmlapi->api2_query( $cpanel_user, 'Email', 'passwdpop', $data );
         $query  = json_decode($query, true);
         $result = $query['cpanelresult']['data'][0];
 
