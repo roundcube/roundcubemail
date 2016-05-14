@@ -309,7 +309,9 @@ $config['password_cpanel_username'] = 'username';
 $config['password_cpanel_password'] = 'password';
 
 // The cPanel admin hash
-// If you prefer to use a hash instead of plain password, enter it below. Hash takes precedence over password auth
+// If you prefer to use a hash (Remote Access Key) instead of plain password, enter it below.
+// Hash takes precedence over password auth.
+// You can generate a Remote Access Key in WHM -> Clusters -> Remote Access Key
 $config['password_cpanel_hash'] = '';
 
 // The cPanel port to use
