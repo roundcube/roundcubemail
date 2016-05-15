@@ -169,14 +169,20 @@ if ($RCI->configured) {
     // update the require section with the new dependencies
     if (is_array($composer_data['require']) && is_array($composer_template['require'])) {
       $composer_data['require'] = array_merge($composer_data['require'], $composer_template['require']);
-      /* TO BE ADDED LATER
-      $old_packages = array();
-      for ($old_packages as $pkg) {
-        if (array_key_exists($composer_data['require'], $pkg)) {
+
+      // remove obsolete packages
+      $old_packages = array(
+        'pear/mail_mime',
+        'pear/mail_mime-decode',
+        'pear/net_smtp',
+        'pear/net_sieve',
+        'pear-pear.php.net/net_sieve',
+      );
+      foreach ($old_packages as $pkg) {
+        if (array_key_exists($pkg, $composer_data['require'])) {
           unset($composer_data['require'][$pkg]);
         }
       }
-      */
     }
 
     // update the repositories section with the new dependencies
@@ -190,12 +196,18 @@ if ($RCI->configured) {
         $existing = false;
         foreach ($composer_data['repositories'] as $k =>  $_repo) {
           if ($rkey == $_repo['type'] . preg_replace('/^https?:/', '', $_repo['url']) . $_repo['package']['name']) {
+            // switch to https://
+            if (isset($_repo['url']) && strpos($_repo['url'], 'http://') === 0)
+              $composer_data['repositories'][$k]['url'] = 'https:' . substr($_repo['url'], 5);
             $existing = true;
             break;
           }
           // remove old repos
           else if (strpos($_repo['url'], 'git://git.kolab.org') === 0) {
-              unset($composer_data['repositories'][$k]);
+            unset($composer_data['repositories'][$k]);
+          }
+          else if ($_repo['type'] == 'package' && $_repo['package']['name'] == 'Net_SMTP') {
+            unset($composer_data['repositories'][$k]);
           }
         }
         if (!$existing) {
