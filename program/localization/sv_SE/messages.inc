@@ -174,6 +174,7 @@ $messages['savedsearchcreated'] = 'Sparad sökning tillagd.';
 $messages['savedsearchcreateerror'] = 'Kunde inte lägga till sparad sökning.';
 $messages['messagedeleted'] = 'Meddelande borttaget.';
 $messages['messagemoved'] = 'Meddelande flyttat.';
+$messages['messagemovedtotrash'] = 'Meddelande flyttat till Papperskorg.';
 $messages['messagecopied'] = 'Meddelande kopierat.';
 $messages['messagemarked'] = 'Meddelande markerat.';
 $messages['autocompletechars'] = 'Ange minst $min tecken för automatisk komplettering.';

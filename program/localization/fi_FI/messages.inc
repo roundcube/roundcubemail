@@ -174,6 +174,7 @@ $messages['savedsearchcreated'] = 'Tallennettu haku luotu onnistuneesti.';
 $messages['savedsearchcreateerror'] = 'Tallennetun haun tallennus epäonnistui.';
 $messages['messagedeleted'] = 'Viestit poistettu onnistuneesti.';
 $messages['messagemoved'] = 'Viestit siirretty onnistuneesti.';
+$messages['messagemovedtotrash'] = 'Yksi tai useampi viesti siirrettiin roskakoriin onnistuneesti.';
 $messages['messagecopied'] = 'Viestit kopioitu onnistuneesti.';
 $messages['messagemarked'] = 'Viestit merkitty onnistuneesti.';
 $messages['autocompletechars'] = 'Kirjoita vähintään $min merkkiä  ennen automaattista täydennystä.';

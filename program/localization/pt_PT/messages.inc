@@ -174,6 +174,7 @@ $messages['savedsearchcreated'] = 'Pesquisa guardada criada com sucesso.';
 $messages['savedsearchcreateerror'] = 'Não foi possível criar a pesquisa guardada.';
 $messages['messagedeleted'] = 'Mensagem(ns) eliminada(s) com sucesso.';
 $messages['messagemoved'] = 'Mensagem(ns) movida(s) com sucesso.';
+$messages['messagemovedtotrash'] = 'Mensagem(ns) movida(s) com sucesso para a Reciclagem.';
 $messages['messagecopied'] = 'Mensagem(ns) copiada(s) com sucesso.';
 $messages['messagemarked'] = 'Mensage(m)ns marcada(s) com sucesso.';
 $messages['autocompletechars'] = 'Indique pelo menos $min caracteres para o auto preenchimento.';

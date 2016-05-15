@@ -174,6 +174,7 @@ $messages['savedsearchcreated'] = 'Запазените филтри са съз
 $messages['savedsearchcreateerror'] = 'Невъзможно създаване на запазен филтър.';
 $messages['messagedeleted'] = 'Писмото е изтрито успешно.';
 $messages['messagemoved'] = 'Писмото е преместено успешно.';
+$messages['messagemovedtotrash'] = 'Писмото е преместено в Кошчето успешно.';
 $messages['messagecopied'] = 'Писмото е копирано успешно.';
 $messages['messagemarked'] = 'Писмото е маркирано успешно.';
 $messages['autocompletechars'] = 'Въведете минимум $min знака, за да започне автоматичното попълване.';

@@ -15,18 +15,25 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+$messages['errortitle']  = 'Tharla botún!';
 $messages['loginfailed']  = 'Theip an iarraidh chun logáil tú isteach';
 $messages['cookiesdisabled'] = 'Níor glac do sracléitheoir an fianán seisiúin';
 $messages['sessionerror'] = 'Tá an seisiúin neamhbhailí nó as feidhm';
 $messages['storageerror'] = 'Theip an iarraidh chun nasc go dtí an freastalaí Prótacal Rochtana Teachtaireachtaí Idirlín (IMAP)';
 $messages['nomessagesfound'] = 'Ní bhfuair mé aon teachtaireacht i bosca postas seo';
 $messages['loggedout'] = 'D\'éirigh tú logáil amach. Slán Leat!';
-$messages['loading'] = 'Fan nóiméad, ag lódáil...';
-$messages['loadingdata'] = 'Ag lódáil sonraí...';
-$messages['checkingmail'] = 'Ag seiceáil chun teachtaireacht nua...';
-$messages['sendingmessage'] = 'Ag seol mo teachtaireacht láithreach bonn...';
-$messages['messagesent'] = 'Sheol mé an teachtaireacht';
-$messages['savingmessage'] = 'Ag sábháil an teachtaireacht...';
+$messages['mailboxempty'] = 'Tá an bosca poist folamh';
+$messages['nomessages'] = 'Níl teachtaireachtaí ann';
+$messages['refreshing'] = 'Ag athnuaigh...';
+$messages['loading'] = 'Ag luchtú...';
+$messages['uploading'] = 'Ag luchtú an chomhaid...';
+$messages['attaching'] = 'Ag ceangail an chomhaid...';
+$messages['uploadingmany'] = 'Ag íosluchtú comhaid...';
+$messages['loadingdata'] = 'Ag luchtú sonraí...';
+$messages['checkingmail'] = 'Ag dearbháil an bhfuil teachtaireachtaí nua ann...';
+$messages['sendingmessage'] = 'Ag seoladh na teachtaireachta...';
+$messages['messagesent'] = 'Seoladh an teachtaireacht go rathúil.';
+$messages['savingmessage'] = 'Ag sábháil na teachtaireachta...';
 $messages['messagesaved'] = 'Sábháil mé an teachtaireacht i dréachtaí';
 $messages['successfullysaved'] = 'D\'éirigh mé agus sábháil mé';
 $messages['addedsuccessfully'] = 'D\'éirigh mé agus shábháil mé duine nua go dtí an Leabhair Seoltaí';
@@ -64,3 +71,8 @@ $messages['fileuploaderror'] = 'Theip an suas-luchtú';
 $messages['filesizeerror'] = 'Beigh an comhad ró-mhor. Is ea $size uas-saghas chun admháil léite';
 $messages['sourceisreadonly'] = 'Tá an foinse seolaigh seo inléite amháin';
 $messages['errorsavingcontact'] = 'Theip mé, Níl an cumas agam an seolagh seo a sábháil';
+$messages['movingcontact'] = 'Ag bogadh teachtaireacht(aí)';
+$messages['deletingmessage'] = 'Ag scriosadh teachtaireacht(aí)...';
+$messages['nametoolong'] = 'Tá an t-ainm rófhada.';
+$messages['errnotfound'] = 'Níor Aimsíodh an Comhad';
+$messages['clicktocompose'] = 'Brúigh anseo chun teachtaireacht nua a chumadh';
