@@ -237,6 +237,6 @@ $messages['invaliddateformat'] = 'Invalid date or date part format';
 $messages['saveerror'] = 'Unable to save data. Server error occurred.';
 $messages['vacationsaved'] = 'Vacation data saved successfully.';
 $messages['emptyvacationbody'] = 'Body of vacation message is required!';
-$messages['duplicate.conflict.err'] = 'Both header and unique identifier are not alowed.';
+$messages['duplicate.conflict.err'] = 'Both header and unique identifier are not allowed.';
 
 ?>
