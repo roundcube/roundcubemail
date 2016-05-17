@@ -82,7 +82,7 @@ class rcube_utils
 
         // XXX RFC states that ".." is not allowed in a local-part
         // of an email address, but apparently gmail allows it.
-        if(preg_match('/^\.|\.$|\.\./',$local_part)) {
+        if(preg_match('/^\.|\.$/',$local_part)) {
             return false;
         }
 
