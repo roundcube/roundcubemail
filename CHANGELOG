@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where errors could have been not logged when per_user_logging=true
+
 RELEASE 1.2.0
 -------------
 - Enigma: Added enigma_debug option

@@ -1142,12 +1142,16 @@ class rcube
 
         // trigger logging hook
         if (is_object(self::$instance) && is_object(self::$instance->plugins)) {
-            $log  = self::$instance->plugins->exec_hook('write_log', array('name' => $name, 'date' => $date, 'line' => $line));
+            $log = self::$instance->plugins->exec_hook('write_log',
+                array('name' => $name, 'date' => $date, 'line' => $line));
+
             $name = $log['name'];
             $line = $log['line'];
             $date = $log['date'];
-            if ($log['abort'])
+
+            if ($log['abort']) {
                 return true;
+            }
         }
 
         // add session ID to the log
@@ -1169,32 +1173,25 @@ class rcube
         // per-user logging is activated
         if (self::$instance && self::$instance->config->get('per_user_logging', false) && self::$instance->get_user_id()) {
             $log_dir = self::$instance->get_user_log_dir();
-            if (empty($log_dir))
+            if (empty($log_dir) && $name != 'errors') {
                 return false;
+            }
         }
-        else if (!empty($log['dir'])) {
-            $log_dir = $log['dir'];
-        }
-        else if (self::$instance) {
-            $log_dir = self::$instance->config->get('log_dir');
+
+        if (empty($log_dir)) {
+            if (!empty($log['dir'])) {
+                $log_dir = $log['dir'];
+            }
+            else if (self::$instance) {
+                $log_dir = self::$instance->config->get('log_dir');
+            }
         }
 
         if (empty($log_dir)) {
             $log_dir = RCUBE_INSTALL_PATH . 'logs';
         }
 
-        // try to open specific log file for writing
-        $logfile = $log_dir.'/'.$name;
-
-        if ($fp = @fopen($logfile, 'a')) {
-            fwrite($fp, $line);
-            fflush($fp);
-            fclose($fp);
-            return true;
-        }
-
-        trigger_error("Error writing to log file $logfile; Please check permissions", E_USER_WARNING);
-        return false;
+        return file_put_contents("$log_dir/$name", $line, FILE_APPEND) !== false;
     }
 
     /**
