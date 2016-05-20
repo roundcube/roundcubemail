@@ -1688,32 +1688,33 @@ column_drag_mouse_up: function(e)
     this.col_draglayer = null;
   }
 
-  if (this.col_drag_active)
-    this.focus();
-  this.col_drag_active = false;
-
   rcube_event.remove_listener({event:'mousemove', object:this, method:'column_drag_mouse_move'});
   rcube_event.remove_listener({event:'mouseup', object:this, method:'column_drag_mouse_up'});
+
   // remove temp divs
   this.del_dragfix();
 
-  if (this.selected_column !== null && this.cols && this.cols.length) {
-    var i, cpos = 0, pos = rcube_event.get_mouse_pos(e);
+  if (this.col_drag_active) {
+    this.col_drag_active = false;
+    this.focus();
+    this.triggerEvent('column_dragend', e);
 
-    // find destination position
-    for (i=0; i<this.cols.length; i++) {
-      if (pos.x >= this.cols[i]/2 + this.list_pos + cpos)
-        cpos += this.cols[i];
-      else
-        break;
-    }
+    if (this.selected_column !== null && this.cols && this.cols.length) {
+      var i, cpos = 0, pos = rcube_event.get_mouse_pos(e);
 
-    if (i != this.selected_column && i != this.selected_column+1) {
-      this.column_replace(this.selected_column, i);
+      // find destination position
+      for (i=0; i<this.cols.length; i++) {
+        if (pos.x >= this.cols[i]/2 + this.list_pos + cpos)
+          cpos += this.cols[i];
+        else
+          break;
+      }
+
+      if (i != this.selected_column && i != this.selected_column+1) {
+        this.column_replace(this.selected_column, i);
+      }
     }
   }
-
-  this.triggerEvent('column_dragend', e);
 
   return rcube_event.cancel(e);
 },
