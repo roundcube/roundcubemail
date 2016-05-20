@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix bug where errors could have been not logged when per_user_logging=true
+- Fix bug where message list columns could be in wrong order after column drag-n-drop and list sorting
 
 RELEASE 1.2.0
 -------------
