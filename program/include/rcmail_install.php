@@ -527,7 +527,7 @@ class rcmail_install
         $errors = array();
         $types  = array(
             'application/zip'   => 'zip',
-            'application/x-tar' => 'tar',
+            'text/css'          => 'css',
             'application/pdf'   => 'pdf',
             'image/gif'         => 'gif',
             'image/svg+xml'     => 'svg',
