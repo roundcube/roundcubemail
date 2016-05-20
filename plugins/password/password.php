@@ -369,7 +369,7 @@ class password extends rcube_plugin
 
         // Host exceptions
         $hosts = $rcmail->config->get('password_hosts');
-        if (!empty($hosts) && !in_array($_SESSION['storage_host'], $hosts)) {
+        if (!empty($hosts) && !in_array($_SESSION['storage_host'], (array) $hosts)) {
             return false;
         }
 
