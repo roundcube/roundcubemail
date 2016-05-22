@@ -46,12 +46,12 @@ class rcube_cpanel_password
         $this->xmlapi = new xmlapi($rcmail->config->get('password_cpanel_host'));
         $this->xmlapi->set_port($rcmail->config->get('password_cpanel_port'));
         // Hash auth
-        if (!empty($rcmail->config->get('password_cpanel_hash'))) {
-            $this->xmlapi->hash_auth( $this->cuser, $rcmail->config->get('password_cpanel_hash'));
+        if (!empty($cpanel_hash = $rcmail->config->get('password_cpanel_hash'))) {
+            $this->xmlapi->hash_auth( $this->cuser, $cpanel_hash);
         }
         // Pass auth
-        else if (!empty($rcmail->config->get('password_cpanel_password'))) {
-            $this->xmlapi->hash_auth( $this->cuser, $rcmail->config->get('password_cpanel_password'));
+        else if (!empty($cpanel_password = $rcmail->config->get('password_cpanel_password'))) {
+            $this->xmlapi->hash_auth( $this->cuser, $cpanel_password);
         }
         else {
             return false;
