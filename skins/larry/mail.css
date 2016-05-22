@@ -426,19 +426,19 @@ table.messagelist.fixedcopy {
 }
 
 .messagelist tr td.priority span.prio5 {
-	background-position: 0 -1905px;
+	background-position: -2px -1905px;
 }
 
 .messagelist tr td.priority span.prio4 {
-	background-position: 0 -1885px;
+	background-position: -2px -1885px;
 }
 
 .messagelist tr td.priority span.prio2 {
-	background-position: 0 -1865px;
+	background-position: -2px -1865px;
 }
 
 .messagelist tr td.priority span.prio1 {
-	background-position: 0 -1845px;
+	background-position: -2px -1845px;
 }
 
 .messagelist tbody tr td.flag span.flagged {
