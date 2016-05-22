@@ -10,6 +10,9 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Display warning message when filter form contains errors
 - Fix bug where errors could have been not logged when per_user_logging=true
 - Fix bug where message list columns could be in wrong order after column drag-n-drop and list sorting
+- Fix so minified publickey.js (with cache-buster) is used when available (#5254)
+- Fix (replace) application/x-tar file extension test as it might not exist in nginx config (#5253)
+- Fix PHP warning when password_hosts is set, but is not an array (#5260)
 
 RELEASE 1.2.0
 -------------
