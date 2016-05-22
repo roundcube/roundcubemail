@@ -285,6 +285,7 @@ else if (count($MESSAGE->identities)) {
 // process $MESSAGE body/attachments, set $MESSAGE_BODY/$HTML_MODE vars and some session data
 $MESSAGE_BODY = rcmail_prepare_message_body();
 
+$OUTPUT->include_script('publickey.js');
 
 // register UI objects
 $OUTPUT->add_handlers(array(

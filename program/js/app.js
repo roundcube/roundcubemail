@@ -3577,14 +3577,6 @@ function rcube_webmail()
 
       // list recipients with missing keys
       if (!isvalid && missing_keys.length) {
-        // load publickey.js
-        if (!$('script#publickeyjs').length) {
-          $('<script>')
-            .attr('id', 'publickeyjs')
-            .attr('src', ref.assets_path('program/js/publickey.js'))
-            .appendTo(document.body);
-        }
-
         // display dialog with missing keys
         ref.show_popup_dialog(
           ref.get_label('nopubkeyfor').replace('$email', missing_keys.join(', ')) +
