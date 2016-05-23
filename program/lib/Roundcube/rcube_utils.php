@@ -1116,6 +1116,7 @@ class rcube_utils
                 $random = random_bytes($length);
             }
             catch (Throwable $e) {}
+            catch (Exception $e) {} // random_compat
         }
 
         if (!$random) {
