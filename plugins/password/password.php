@@ -504,7 +504,7 @@ class password extends rcube_plugin
             break;
 
         case 'ssha':
-            $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
+            $salt = random_bytes(8);
 
             if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
                 $salt    = mhash_keygen_s2k(MHASH_SHA1, $password, $salt, 4);
@@ -530,7 +530,7 @@ class password extends rcube_plugin
             break;
 
         case 'smd5':
-            $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
+            $salt = random_bytes(8);
 
             if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
                 $salt    = mhash_keygen_s2k(MHASH_MD5, $password, $salt, 4);
@@ -666,7 +666,7 @@ class password extends rcube_plugin
         $str      = '';
 
         while (strlen($str) < $length) {
-            $str .= substr($possible, (rand() % strlen($possible)), 1);
+            $str .= $possible[random_int(0, 63)];
         }
 
         return $str;

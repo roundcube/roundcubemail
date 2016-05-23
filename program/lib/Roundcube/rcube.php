@@ -574,7 +574,7 @@ class rcube
         $divisor     = (int) ini_get('session.gc_divisor');
 
         if ($divisor > 0 && $probability > 0) {
-            $random = mt_rand(1, $divisor);
+            $random = random_int(1, $divisor);
             if ($random <= $probability) {
                 $this->gc();
             }
@@ -1488,7 +1488,7 @@ class rcube
      */
     public function gen_message_id()
     {
-        $local_part  = md5(uniqid('rcube'.mt_rand(), true));
+        $local_part  = bin2hex(random_bytes(16));
         $domain_part = $this->user->get_username('domain');
 
         // Try to find FQDN, some spamfilters doesn't like 'localhost' (#1486924)
