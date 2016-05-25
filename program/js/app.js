@@ -4263,8 +4263,8 @@ function rcube_webmail()
       return false;
     }
 
-    // check for empty body
-    if (!this.editor.get_content() && !confirm(this.get_label('nobodywarning'))) {
+    // check for empty body (only possible if not mailvelope encrypted)
+    if (!this.mailvelope_editor && !this.editor.get_content() && !confirm(this.get_label('nobodywarning'))) {
       this.editor.focus();
       return false;
     }
