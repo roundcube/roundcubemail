@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Fix so minified publickey.js (with cache-buster) is used when available (#5254)
 - Fix (replace) application/x-tar file extension test as it might not exist in nginx config (#5253)
 - Fix PHP warning when password_hosts is set, but is not an array (#5260)
+- Fix redundant keep-alive requests when session_lifetime is greater than ~20000 (#5273)
 
 RELEASE 1.2.0
 -------------
