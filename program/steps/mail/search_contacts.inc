@@ -102,8 +102,8 @@ if (!empty($result) && $result->count > 0) {
 
     $OUTPUT->show_message('contactsearchsuccessful', 'confirmation', array('nr' => $result->count));
 
-    $OUTPUT->command('set_env', 'search_request', $search_request);
-    $OUTPUT->command('set_env', 'source', '');
+    $OUTPUT->set_env('search_request', $search_request);
+    $OUTPUT->set_env('source', '');
     $OUTPUT->command('unselect_directory');
 }
 else if (!$group_count) {
