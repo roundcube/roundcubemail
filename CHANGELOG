@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Fix (replace) application/x-tar file extension test as it might not exist in nginx config (#5253)
 - Fix PHP warning when password_hosts is set, but is not an array (#5260)
 - Fix redundant keep-alive requests when session_lifetime is greater than ~20000 (#5273)
+- Fix so subfolders of INBOX can be set as Archive (#5274)
 
 RELEASE 1.2.0
 -------------
