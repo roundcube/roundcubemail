@@ -6,7 +6,7 @@
  * Plugin that adds a new button to the mailbox toolbar
  * to move messages to a (user selectable) archive folder.
  *
- * @version 2.3
+ * @version 2.4
  * @license GNU GPLv3+
  * @author Andre Rodier, Thomas Bruederli, Aleksander Machniak
  */
@@ -245,14 +245,22 @@ class archive extends rcube_plugin
       $rcmail = rcmail::get_instance();
 
       // load folders list when needed
-      if ($CURR_SECTION)
-        $select = $rcmail->folder_selector(array('noselection' => '---', 'realnames' => true,
-          'maxlength' => 30, 'exceptions' => array('INBOX'), 'folder_filter' => 'mail', 'folder_rights' => 'w'));
-      else
+      if ($CURR_SECTION) {
+        $select = $rcmail->folder_selector(array(
+            'noselection'   => '---',
+            'realnames'     => true,
+            'maxlength'     => 30,
+            'folder_filter' => 'mail',
+            'folder_rights' => 'w',
+            'onchange'      => "if ($(this).val() == 'INBOX') $(this).val('')",
+        ));
+      }
+      else {
         $select = new html_select();
+      }
 
       $args['blocks']['main']['options']['archive_mbox'] = array(
-          'title' => $this->gettext('archivefolder'),
+          'title'   => $this->gettext('archivefolder'),
           'content' => $select->show($rcmail->config->get('archive_mbox'), array('name' => "_archive_mbox"))
       );
 
