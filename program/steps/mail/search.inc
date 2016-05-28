@@ -129,10 +129,9 @@ if ($search_str) {
         natcasesort($mboxes);  // we want natural alphabetic sorting of folders in the result set
     }
     else if ($scope == 'sub') {
-        $mboxes = $RCMAIL->storage->list_folders_subscribed($mbox, '*', 'mail');
-        if ($mbox != 'INBOX' && $mboxes[0] == 'INBOX') {
-            array_shift($mboxes);
-        }
+        $delim  = $RCMAIL->storage->get_hierarchy_delimiter();
+        $mboxes = $RCMAIL->storage->list_folders_subscribed($mbox . $delim, '*', 'mail');
+        array_unshift($mboxes, $mbox);
     }
 
     $result = $RCMAIL->storage->search($mboxes, $search_str, $imap_charset, $sort_column);
