@@ -2811,7 +2811,9 @@ class rcube_imap extends rcube_storage
         }
 
         // INBOX should always be available
-        if (!strlen($root) && (!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)) {
+        if (in_array_nocase($root . $name, array('*', '%', 'INBOX', 'INBOX*'))
+            && (!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)
+        ) {
             array_unshift($a_mboxes, 'INBOX');
         }
 
@@ -2942,7 +2944,9 @@ class rcube_imap extends rcube_storage
         }
 
         // INBOX should always be available
-        if (!strlen($root) && (!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)) {
+        if (in_array_nocase($root . $name, array('*', '%', 'INBOX', 'INBOX*'))
+            && (!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)
+        ) {
             array_unshift($a_mboxes, 'INBOX');
         }
 

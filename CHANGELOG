@@ -8,6 +8,8 @@ CHANGELOG Roundcube Webmail
 - Fix PHP warning when password_hosts is set, but is not an array (#5260)
 - Fix redundant keep-alive requests when session_lifetime is greater than ~20000 (#5273)
 - Fix so subfolders of INBOX can be set as Archive (#5274)
+- Fix bug where multi-folder search could choose a wrong folder in "this and subfolders" scope (#5282)
+- Fix bug where multi-folder search didn't work for unsubscribed INBOX (#5259)
 
 RELEASE 1.2.0
 -------------
