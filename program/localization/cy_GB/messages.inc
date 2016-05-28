@@ -174,6 +174,7 @@ $messages['savedsearchcreated'] = 'Crëwyd y chwiliad yn llwyddiannus.';
 $messages['savedsearchcreateerror'] = 'Methwyd creu y chwiliad.';
 $messages['messagedeleted'] = 'Neges(euon) wedi eu dileu yn llwyddiannus';
 $messages['messagemoved'] = 'Neges(euon) wedi eu symud yn llwyddiannus';
+$messages['messagemovedtotrash'] = 'Neges(euon) wedi eu symud i\'r Sbwriel yn llwyddiannus';
 $messages['messagecopied'] = 'Neges(euon) wedi eu copïo yn llwyddiannus';
 $messages['messagemarked'] = 'Neges(euon) wedi eu marcio yn llwyddiannus';
 $messages['autocompletechars'] = 'Rhowch o leia $min llythyren ar gyfer awto-gwblhau';

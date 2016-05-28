@@ -233,5 +233,5 @@ $messages['invaliddateformat'] = 'Ungültiges Datum oder Teil-Format';
 $messages['saveerror'] = 'Ein Serverfehler ist aufgetreten, Speicherung war nicht möglich.';
 $messages['vacationsaved'] = 'Urlaubsdaten erfolgreich gespeichert.';
 $messages['emptyvacationbody'] = 'Inhalt der Abwesenheitsbenachrichtigung wird benötigt!';
-$messages['duplicate.conflict.err'] = 'Sowohl die Kopfzeile als auch der eindeutige Bezeichner sind nicht erlaubt.';
+$messages['duplicate.conflict.err'] = 'Beides, Kopfzeilen und eindeutige Kennzeichner, sind nicht erlaubt.';
 ?>

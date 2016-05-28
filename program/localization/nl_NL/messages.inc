@@ -174,6 +174,7 @@ $messages['savedsearchcreated'] = 'Zoekopdracht succesvol opgeslagen.';
 $messages['savedsearchcreateerror'] = 'Zoekopdracht kon niet worden opgeslagen.';
 $messages['messagedeleted'] = 'Bericht(en) succesvol verwijderd.';
 $messages['messagemoved'] = 'Bericht(en) succesvol verplaatst.';
+$messages['messagemovedtotrash'] = 'Bericht(en) succesvol verplaatst naar de prullenbak.';
 $messages['messagecopied'] = 'Bericht(en) succesvol gekopieerd.';
 $messages['messagemarked'] = 'Bericht(en) succesvol gemarkeerd.';
 $messages['autocompletechars'] = 'Voer tenminste $min karakters in voor automatisch aanvullen.';

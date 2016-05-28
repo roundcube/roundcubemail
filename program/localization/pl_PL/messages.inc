@@ -174,6 +174,7 @@ $messages['savedsearchcreated'] = 'Wyszukiwanie zapisano pomyślnie.';
 $messages['savedsearchcreateerror'] = 'Nie można zapisać wyszukiwania.';
 $messages['messagedeleted'] = 'Wiadomości zostały usunięte.';
 $messages['messagemoved'] = 'Wiadomości zostały przeniesione.';
+$messages['messagemovedtotrash'] = 'Wiadomości zostały przeniesione do Kosza.';
 $messages['messagecopied'] = 'Wiadomości zostały skopiowane.';
 $messages['messagemarked'] = 'Wiadomości zostały oznaczone.';
 $messages['autocompletechars'] = 'Wprowadź co najmniej $min znak(ów) aby skorzystać z autouzupełniania.';

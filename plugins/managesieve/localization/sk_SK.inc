@@ -233,5 +233,5 @@ $messages['invaliddateformat'] = 'Neplatný formát dátumu alebo časti dátumu
 $messages['saveerror'] = 'Údaje nemožno uložiť. Nastala chyba servera.';
 $messages['vacationsaved'] = 'Údaje o dovolenke boli úspešne uložené.';
 $messages['emptyvacationbody'] = 'Musíte zadať telo správy, zobrazovanej v čase neprítomnosti!';
-$messages['duplicate.conflict.err'] = 'Záhlavie a ani unikátny identifikátor nie sú povolené.';
+$messages['duplicate.conflict.err'] = 'Hlavička a aj unikátny identifikátor nie sú povolené.';
 ?>

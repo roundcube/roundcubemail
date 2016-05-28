@@ -233,5 +233,5 @@ $messages['invaliddateformat'] = 'Data ou formato de data inválido.';
 $messages['saveerror'] = 'Não foi possível guardar os dados. Ocorreu um erro no servidor.';
 $messages['vacationsaved'] = 'Dados de férias guardados com sucesso.';
 $messages['emptyvacationbody'] = 'É necessário o corpo da mensagem de férias!';
-$messages['duplicate.conflict.err'] = 'Tanto o cabeçalho como o identificador único não são permitidos.';
+$messages['duplicate.conflict.err'] = 'Ambos, cabeçalho e identificador único, não são permitidos.';
 ?>
