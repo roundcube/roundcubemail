@@ -28,6 +28,11 @@ file_filter = plugins/attachment_reminder/localization/<lang>.inc
 source_file = plugins/attachment_reminder/localization/en_US.inc
 source_lang = en_US
 
+[roundcube-webmail.plugin-enigma]
+file_filter = plugins/enigma/localization/<lang>.inc
+source_file = plugins/enigma/localization/en_US.inc
+source_lang = en_US
+
 [roundcube-webmail.plugin-help]
 file_filter = plugins/help/localization/<lang>.inc
 source_file = plugins/help/localization/en_US.inc
@@ -82,4 +87,3 @@ source_lang = en_US
 file_filter = plugins/zipdownload/localization/<lang>.inc
 source_file = plugins/zipdownload/localization/en_US.inc
 source_lang = en_US
-
