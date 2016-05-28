@@ -174,6 +174,7 @@ $messages['savedsearchcreated'] = 'Saglabātais meklēšanas pieprasījums sagla
 $messages['savedsearchcreateerror'] = 'Meklēšanas pieprasījumu izveidot neizdevās.';
 $messages['messagedeleted'] = 'Vēstule(s) veiksmīgi izdzēsta(s).';
 $messages['messagemoved'] = 'Vēstule(s) veiksmīgi pārvietota(s).';
+$messages['messagemovedtotrash'] = 'Vēstule(s) veiksmīgi iemesta(s) papīrgrozā.';
 $messages['messagecopied'] = 'Vēstule(s) veiksmīgi pārkopēta(s).';
 $messages['messagemarked'] = 'Vēstule(s) veiksmīgi atzīmēta(s).';
 $messages['autocompletechars'] = 'Lai automātiski meklētu, ievadiet vismaz $min burtus.';

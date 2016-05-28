@@ -174,6 +174,7 @@ $messages['savedsearchcreated'] = '成功创建保存的搜索';
 $messages['savedsearchcreateerror'] = '无法创建保存的搜索。';
 $messages['messagedeleted'] = '删除邮件成功。';
 $messages['messagemoved'] = '移动邮件成功。';
+$messages['messagemovedtotrash'] = '邮件已成功移动到已删除邮件。';
 $messages['messagecopied'] = '复制邮件成功';
 $messages['messagemarked'] = '标记邮件成功';
 $messages['autocompletechars'] = '至少需要输入 $min 个字符';

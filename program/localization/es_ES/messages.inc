@@ -174,6 +174,7 @@ $messages['savedsearchcreated'] = 'Se ha guardado la búsqueda correctamente.';
 $messages['savedsearchcreateerror'] = 'No se pudo guardar la búsqueda.';
 $messages['messagedeleted'] = 'Mensaje(s) eliminado(s) correctamente.';
 $messages['messagemoved'] = 'Mensaje(s) movido(s) correctamente.';
+$messages['messagemovedtotrash'] = 'Los mensajes se han trasladado a la papelera.';
 $messages['messagecopied'] = 'Mensaje(s) copiado(s) correctamente.';
 $messages['messagemarked'] = 'Mensaje(s) marcado(s) correctamente.';
 $messages['autocompletechars'] = 'Introduce al menos $min caracteres para autocompletar.';

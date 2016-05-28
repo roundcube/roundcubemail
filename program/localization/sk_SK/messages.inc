@@ -174,6 +174,7 @@ $messages['savedsearchcreated'] = 'Uložené výsledky vyhľadávania boli úspe
 $messages['savedsearchcreateerror'] = 'Nemožno vytvoriť uložené výsledky vyhľadávania.';
 $messages['messagedeleted'] = 'Vymazanie správ(y) bolo úspešné.';
 $messages['messagemoved'] = 'Presunutie správ(y) bolo úspešné.';
+$messages['messagemovedtotrash'] = 'Presun správ(y) do koša bol úspešný.';
 $messages['messagecopied'] = 'Kopírovanie správ(y) bolo úspešné.';
 $messages['messagemarked'] = 'Označovanie správ(y) bolo úspešné.';
 $messages['autocompletechars'] = 'Zadajte najmenej $min znakov pre automatické dopĺňanie.';
