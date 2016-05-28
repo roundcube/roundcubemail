@@ -65,5 +65,5 @@ if (window.rcmail) {
       if (result.update)
         rcmail.command('list');  // refresh list
     });
-  })
+  });
 }
