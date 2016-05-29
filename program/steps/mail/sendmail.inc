@@ -372,6 +372,11 @@ if ($isHtml) {
     $plainTextPart = rcube_mime::wordwrap($h2t->get_text(), $LINE_LENGTH, "\r\n", false, $message_charset);
     $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
 
+    // completely blank text part confuses some mail clients
+    if ($plainTextPart == '') {
+        $plainTextPart = "\r\n";
+    }
+
     // make sure all line endings are CRLF (#1486712)
     $plainTextPart = preg_replace('/\r?\n/', "\r\n", $plainTextPart);
 
