@@ -235,6 +235,11 @@ class rcube_washtml
                         }
                     }
                     else if (!preg_match('/^(behavior|expression)/i', $val)) {
+                        // Set position:fixed to position:absolute for security (#5264)
+                        if (!strcasecmp($cssid, 'position') && !strcasecmp($val, 'fixed')) {
+                            $val = 'absolute';
+                        }
+
                         // whitelist ?
                         $value .= ' ' . $val;
 
@@ -727,10 +732,9 @@ class rcube_washtml
      */
     protected function explode_style($style)
     {
-        $style = trim($style);
+        $pos = 0;
 
         // first remove comments
-        $pos = 0;
         while (($pos = strpos($style, '/*', $pos)) !== false) {
             $end = strpos($style, '*/', $pos+2);
 
@@ -742,6 +746,7 @@ class rcube_washtml
             }
         }
 
+        $style  = trim($style);
         $strlen = strlen($style);
         $result = array();
 
