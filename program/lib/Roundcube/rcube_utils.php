@@ -419,10 +419,11 @@ class rcube_utils
 
     /**
      * Replace all css definitions with #container [def]
-     * and remove css-inlined scripting
+     * and remove css-inlined scripting, make position style safe
      *
      * @param string CSS source code
      * @param string Container ID to use as prefix
+     * @param bool   Allow remote content
      *
      * @return string Modified CSS source
      */
@@ -449,6 +450,9 @@ class rcube_utils
                 $pos = $nested;
             $length = $pos2 - $pos - 1;
             $styles = substr($source, $pos+1, $length);
+
+            // Convert position:fixed to position:absolute (#5264)
+            $styles = preg_replace('/position:[\s\r\n]*fixed/i', 'position: absolute', $styles);
 
             // check every line of a style block...
             if ($allow_remote) {
