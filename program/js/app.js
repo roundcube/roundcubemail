@@ -4306,7 +4306,6 @@ function rcube_webmail()
     }
 
     // check for empty body (only possible if not mailvelope encrypted)
-console.log(this.mailvelope_editor);
     if (!this.mailvelope_editor && !this.editor.get_content() && !confirm(this.get_label('nobodywarning'))) {
       this.editor.focus();
       return false;
