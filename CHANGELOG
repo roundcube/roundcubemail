@@ -18,6 +18,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where multi-folder search could choose a wrong folder in "this and subfolders" scope (#5282)
 - Fix bug where multi-folder search didn't work for unsubscribed INBOX (#5259)
 - Fix bug where "no body" alert could be displayed when sending mailvelope email
+- Enigma: Fix keys import from inside of an encrypted message (#5285)
 
 RELEASE 1.2.0
 -------------

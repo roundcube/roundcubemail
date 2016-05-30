@@ -161,7 +161,7 @@ class enigma_ui
             $data = array_merge($params, $data);
         }
 
-        if ($this->rc->action == 'send') {
+        if ($this->rc->action == 'send' || $this->rc->action == 'plugin.enigmaimport') {
             $this->rc->output->command('enigma_password_request', $data);
         }
         else {
@@ -1057,6 +1057,57 @@ class enigma_ui
         }
 
         return $p;
+    }
+
+    /**
+     * Handler for keys/certs import request action
+     */
+    function import_file()
+    {
+        $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
+        $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+        $mime_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_POST);
+        $storage = $this->rc->get_storage();
+        $engine  = $this->enigma->load_engine();
+
+        if ($uid && $mime_id) {
+            // Note: we get the attachment body via rcube_message class
+            // to support keys inside encrypted messages (#5285)
+            $message = new rcube_message($uid, $mbox);
+
+            // Check if we don't need to ask for password again
+            foreach ($engine->decryptions as $status) {
+                if ($status instanceof enigma_error) {
+                    if ($status->getCode() == enigma_error::BADPASS) {
+                        $this->password_prompt($status, array(
+                                'input_uid'    => $uid,
+                                'input_mbox'   => $mbox,
+                                'input_part'   => $mime_id,
+                                'input_task'   => 'mail',
+                                'input_action' => 'plugin.enigmaimport',
+                                'action'       => '?',
+                                'iframe'       => true,
+                        ));
+                        $this->rc->output->send($this->rc->output->type == 'html' ? 'iframe' : null);
+                        return;
+                    }
+                }
+            }
+
+            if ($engine->is_keys_part($message->mime_parts[$mime_id])) {
+                $part = $message->get_part_body($mime_id);
+            }
+        }
+
+        if ($part && is_array($result = $engine->import_key($part))) {
+            $this->rc->output->show_message('enigma.keysimportsuccess', 'confirmation',
+                array('new' => $result['imported'], 'old' => $result['unchanged']));
+        }
+        else {
+            $this->rc->output->show_message('enigma.keysimportfailed', 'error');
+        }
+
+        $this->rc->output->send($this->rc->output->type == 'html' ? 'iframe' : null);
     }
 
     /**

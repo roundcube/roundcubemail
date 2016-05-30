@@ -462,9 +462,9 @@ class enigma extends rcube_plugin
      */
     function import_file()
     {
-        $this->load_engine();
+        $this->load_ui();
 
-        $this->engine->import_file();
+        $this->ui->import_file();
     }
 
     /**

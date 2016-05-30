@@ -1051,7 +1051,7 @@ class enigma_engine
     }
 
     /**
-     * PGP keys/certs importing.
+     * PGP keys/certs import.
      *
      * @param mixed   Import file name or content
      * @param boolean True if first argument is a filename
@@ -1071,7 +1071,7 @@ class enigma_engine
                 ), true, false);
         }
         else {
-            $result['imported'] = $result['public_imported'] + $result['private_imported'];
+            $result['imported']  = $result['public_imported'] + $result['private_imported'];
             $result['unchanged'] = $result['public_unchanged'] + $result['private_unchanged'];
         }
 
@@ -1079,32 +1079,7 @@ class enigma_engine
     }
 
     /**
-     * Handler for keys/certs import request action
-     */
-    function import_file()
-    {
-        $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-        $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
-        $mime_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_POST);
-        $storage = $this->rc->get_storage();
-
-        if ($uid && $mime_id) {
-            $storage->set_folder($mbox);
-            $part = $storage->get_message_part($uid, $mime_id);
-        }
-
-        if ($part && is_array($result = $this->import_key($part))) {
-            $this->rc->output->show_message('enigma.keysimportsuccess', 'confirmation',
-                array('new' => $result['imported'], 'old' => $result['unchanged']));
-        }
-        else
-            $this->rc->output->show_message('enigma.keysimportfailed', 'error');
-
-        $this->rc->output->send();
-    }
-
-    /**
-     * PGP keys/certs export..
+     * PGP keys/certs export.
      *
      * @param string   Key ID
      * @param resource Optional output stream

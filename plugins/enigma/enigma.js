@@ -446,17 +446,26 @@ rcube_webmail.prototype.enigma_password_submit = function(data)
         return this.enigma_password_compose_submit(data);
     }
 
-    var lock = this.set_busy(true, 'loading');
-
-    // message preview
-    var form = $('<form>').attr({method: 'post', action: location.href, style: 'display:none'})
+    var lock = this.set_busy(true, 'loading'),
+      form = $('<form>').attr({method: 'post', action: data.action || location.href, style: 'display:none'})
         .append($('<input>').attr({type: 'hidden', name: '_keyid', value: data.key}))
         .append($('<input>').attr({type: 'hidden', name: '_passwd', value: data.password}))
         .append($('<input>').attr({type: 'hidden', name: '_token', value: this.env.request_token}))
-        .append($('<input>').attr({type: 'hidden', name: '_unlock', value: lock}))
-        .appendTo(document.body);
+        .append($('<input>').attr({type: 'hidden', name: '_unlock', value: lock}));
 
-    form.submit();
+    // Additional form fields for request parameters
+    $.each(data, function(i, v) {
+      if (i.indexOf('input') == 0)
+        form.append($('<input>').attr({type: 'hidden', name: i.substring(5), value: v}))
+    });
+
+    if (data.iframe) {
+      var name = 'enigma_frame_' + (new Date()).getTime(),
+        frame = $('<iframe>').attr({style: 'display:none', name: name}).appendTo(document.body);
+      form.attr('target', name);
+    }
+
+    form.appendTo(document.body).submit();
 }
 
 // submit entered password - in mail compose page
