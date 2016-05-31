@@ -1,0 +1,10 @@
+<?php
+
+// New User Dialog Plugin Options
+// -----------------------
+// The Display Name and Signature are fields everyone should fill out
+//
+// Set this to true if you want to hide the organization field from 
+// the dialog. Default false to match original behavior.
+//
+$config['new_user_dialog_disable_organization'] = false;
