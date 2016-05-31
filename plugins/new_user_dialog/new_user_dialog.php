@@ -19,6 +19,7 @@ class new_user_dialog extends rcube_plugin
 
     function init()
     {
+        $this->load_config();
         $this->add_hook('identity_create', array($this, 'create_identity'));
         $this->register_action('plugin.newusersave', array($this, 'save_data'));
 
@@ -27,6 +28,7 @@ class new_user_dialog extends rcube_plugin
             $this->add_hook('render_page', array($this, 'render_page'));
         }
     }
+    $disable_organization = $rcmail->config->get('new_user_dialog_disable_organization');
 
     /**
      * Check newly created identity at first login
@@ -71,14 +73,15 @@ class new_user_dialog extends rcube_plugin
                     'disabled' => in_array($identities_level, array(1, 3, 4))
             )));
 
-            $table->add('title', $this->gettext('organization'));
-            $table->add(null, html::tag('input', array(
-                    'type'     => 'text',
-                    'name'     => '_organization',
-                    'value'    => $identity['organization'],
-                    'disabled' => $identities_level == 4
-            )));
-
+            if(!$disable_organization) {
+                $table->add('title', $this->gettext('organization'));
+                $table->add(null, html::tag('input', array(
+                        'type'     => 'text',
+                        'name'     => '_organization',
+                        'value'    => $identity['organization'],
+                        'disabled' => $identities_level == 4
+                )));
+            }
             $table->add('title', $this->gettext('signature'));
             $table->add(null, html::tag('textarea', array(
                     'name' => '_signature',
