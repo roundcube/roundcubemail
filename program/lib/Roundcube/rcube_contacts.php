@@ -467,9 +467,10 @@ class rcube_contacts extends rcube_addressbook
         foreach ($words as $word) {
             switch ($mode) {
             case 1: // strict
-                $where[] = '(' . $this->db->ilike($col, $word . '%')
-                    . ' OR ' . $this->db->ilike($col, '%' . $WS . $word . $WS . '%')
-                    . ' OR ' . $this->db->ilike($col, '%' . $WS . $word) . ')';
+                $where[] = '(' . $this->db->ilike($col, $word)
+                    . ' OR ' . $this->db->ilike($col, $word . $AS . '%')
+                    . ' OR ' . $this->db->ilike($col, '%' . $AS . $word . $AS . '%')
+                    . ' OR ' . $this->db->ilike($col, '%' . $AS . $word) . ')';
                 break;
             case 2: // prefix
                 $where[] = '(' . $this->db->ilike($col, $word . '%')
