@@ -28,7 +28,6 @@ class new_user_dialog extends rcube_plugin
             $this->add_hook('render_page', array($this, 'render_page'));
         }
     }
-    $disable_organization = $rcmail->config->get('new_user_dialog_disable_organization');
 
     /**
      * Check newly created identity at first login
@@ -72,7 +71,8 @@ class new_user_dialog extends rcube_plugin
                     'value'    => rcube_utils::idn_to_utf8($identity['email']),
                     'disabled' => in_array($identities_level, array(1, 3, 4))
             )));
-
+            
+            $disable_organization = $rcmail->config->get('new_user_dialog_disable_organization');
             if(!$disable_organization) {
                 $table->add('title', $this->gettext('organization'));
                 $table->add(null, html::tag('input', array(
