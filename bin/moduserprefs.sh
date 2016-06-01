@@ -36,7 +36,7 @@ function print_usage()
 // get arguments
 $args = rcube_utils::get_opt(array(
         'u' => 'user',
-        'd' => 'delete',
+        'd' => 'delete:bool',
         't' => 'type',
         'c' => 'config',
 ));
@@ -45,7 +45,7 @@ if ($_SERVER['argv'][1] == 'help') {
     print_usage();
     exit;
 }
-else if (empty($args[0]) || (!isset($args[1]) && !$args['delete'])) {
+else if (empty($args[0]) || (empty($args[1]) && empty($args['delete']))) {
     print "Missing required parameters.\n";
     print_usage();
     exit;

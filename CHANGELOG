@@ -13,6 +13,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where "no body" alert could be displayed when sending mailvelope email
 - Enigma: Fix keys import from inside of an encrypted message (#5285)
 - Fix searching by email address in contacts with multiple addresses (#5291)
+- Fix handling of --delete argument in moduserprefs.sh script (#5296)
 
 RELEASE 1.2.0
 -------------

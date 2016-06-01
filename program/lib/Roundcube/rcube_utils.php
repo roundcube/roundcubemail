@@ -976,6 +976,16 @@ class rcube_utils
     public static function get_opt($aliases = array())
     {
         $args = array();
+        $bool = array();
+
+        // find boolean (no value) options
+        foreach ($aliases as $key => $alias) {
+            if ($pos = strpos($alias, ':')) {
+                $aliases[$key] = substr($alias, 0, $pos);
+                $bool[] = $key;
+                $bool[] = $aliases[$key];
+            }
+        }
 
         for ($i=1; $i < count($_SERVER['argv']); $i++) {
             $arg   = $_SERVER['argv'][$i];
@@ -985,9 +995,13 @@ class rcube_utils
             if ($arg[0] == '-') {
                 $key = preg_replace('/^-+/', '', $arg);
                 $sp  = strpos($arg, '=');
+
                 if ($sp > 0) {
                     $key   = substr($key, 0, $sp - 2);
                     $value = substr($arg, $sp+1);
+                }
+                else if (in_array($key, $bool)) {
+                    $value = true;
                 }
                 else if (strlen($_SERVER['argv'][$i+1]) && $_SERVER['argv'][$i+1][0] != '-') {
                     $value = $_SERVER['argv'][++$i];
