@@ -1003,6 +1003,10 @@ class rcube
         if (is_object($this->storage)) {
             $this->storage->close();
         }
+
+        if ($this->config->get('log_driver') == 'syslog') {
+            closelog();
+        }
     }
 
     /**
