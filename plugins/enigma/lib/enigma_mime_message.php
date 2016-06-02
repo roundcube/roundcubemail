@@ -126,7 +126,9 @@ class enigma_mime_message extends Mail_mime
         $_headers = $this->message->headers();
         $headers  = array();
 
-        if ($_headers['Content-Transfer-Encoding']) {
+        if ($_headers['Content-Transfer-Encoding']
+            && stripos($_headers['Content-Type'], 'multipart') === false
+        ) {
             $headers[] = 'Content-Transfer-Encoding: ' . $_headers['Content-Transfer-Encoding'];
         }
         $headers[] = 'Content-Type: ' . $_headers['Content-Type'];
@@ -142,8 +144,10 @@ class enigma_mime_message extends Mail_mime
     public function addPGPSignature($body)
     {
         $this->signature = $body;
+
         // Reset Content-Type to be overwritten with valid boundary
         unset($this->headers['Content-Type']);
+        unset($this->headers['Content-Transfer-Encoding']);
     }
 
     /**
@@ -154,8 +158,10 @@ class enigma_mime_message extends Mail_mime
     public function setPGPEncryptedBody($body)
     {
         $this->encrypted = $body;
+
         // Reset Content-Type to be overwritten with valid boundary
         unset($this->headers['Content-Type']);
+        unset($this->headers['Content-Transfer-Encoding']);
     }
 
     /**
@@ -193,7 +199,9 @@ class enigma_mime_message extends Mail_mime
                 $headers = $this->message->headers();
                 $params  = array('content_type' => $headers['Content-Type']);
 
-                if ($headers['Content-Transfer-Encoding']) {
+                if ($headers['Content-Transfer-Encoding']
+                    && stripos($headers['Content-Type'], 'multipart') === false
+                ) {
                     $params['encoding'] = $headers['Content-Transfer-Encoding'];
                 }
 
@@ -243,18 +251,24 @@ class enigma_mime_message extends Mail_mime
         if ($filename) {
             // Append mimePart message headers and body into file
             $headers = $message->encodeToFile($filename, $boundary, $skip_head);
+
             if ($this->isError($headers)) {
                 return $headers;
             }
+
             $this->headers = array_merge($this->headers, $headers);
-            return null;
+
+            return;
         }
         else {
             $output = $message->encode($boundary, $skip_head);
+
             if ($this->isError($output)) {
                 return $output;
             }
+
             $this->headers = array_merge($this->headers, $output['headers']);
+
             return $output['body'];
         }
     }

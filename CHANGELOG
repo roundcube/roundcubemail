@@ -12,6 +12,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where multi-folder search didn't work for unsubscribed INBOX (#5259)
 - Fix bug where "no body" alert could be displayed when sending mailvelope email
 - Enigma: Fix keys import from inside of an encrypted message (#5285)
+- Enigma: Fix malformed signed messages with force_7bit=true (#5292)
 - Fix searching by email address in contacts with multiple addresses (#5291)
 - Fix handling of --delete argument in moduserprefs.sh script (#5296)
 
