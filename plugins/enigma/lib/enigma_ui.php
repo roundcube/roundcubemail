@@ -968,19 +968,19 @@ class enigma_ui
         }
 
         if (!$savedraft && $pubkey_enable) {
-            $this->enigma->load_engine();
-            $this->enigma->engine->attach_public_key($p['message']);
+            $engine = $this->enigma->load_engine();
+            $engine->attach_public_key($p['message']);
         }
 
         if (!$savedraft && $sign_enable) {
-            $this->enigma->load_engine();
-            $status = $this->enigma->engine->sign_message($p['message']);
+            $engine = $this->enigma->load_engine();
+            $status = $engine->sign_message($p['message']);
             $mode   = 'sign';
         }
 
         if ((!$status instanceof enigma_error) && $encrypt_enable) {
-            $this->enigma->load_engine();
-            $status = $this->enigma->engine->encrypt_message($p['message'], null, $savedraft);
+            $engine = $this->enigma->load_engine();
+            $status = $engine->encrypt_message($p['message'], null, $savedraft);
             $mode   = 'encrypt';
         }
 
