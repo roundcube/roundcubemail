@@ -425,6 +425,12 @@ class rcube_config
     public function merge($prefs)
     {
         $prefs = $this->fix_legacy_props($prefs);
+        // Honor the dont_override setting for any existing user preferences
+        if(is_array($prefs['dont_override']) && !empty($prefs['dont_override'])) {
+            foreach ($prefs['dont_override'] as $key) {
+                unset($this->userprefs[$key]);
+            }
+        }
         $this->prop = array_merge($this->prop, $prefs, $this->userprefs);
     }
 
