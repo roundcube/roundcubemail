@@ -22,6 +22,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix malformed signed messages with force_7bit=true (#5292)
 - Fix searching by email address in contacts with multiple addresses (#5291)
 - Fix handling of --delete argument in moduserprefs.sh script (#5296)
+- Workaround PHP issue by calling closelog() on script shutdown when using log_driver=syslog (#5289)
 
 RELEASE 1.2.0
 -------------
