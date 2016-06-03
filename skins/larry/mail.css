@@ -381,6 +381,7 @@ table.messagelist.fixedcopy {
 .messagelist tr > .threads .listmenu,
 .messagelist tr > .attachment span.attachment,
 .messagelist tr > .attachment span.report,
+.messagelist tr > .attachment span.encrypted,
 .messagelist tr > .priority span.priority,
 .messagelist tr > .priority span.prio1,
 .messagelist tr > .priority span.prio2,
@@ -419,6 +420,10 @@ table.messagelist.fixedcopy {
 
 .messagelist tbody tr td.attachment span.report {
 	background-position: -24px -1116px;
+}
+
+.messagelist tbody tr td.attachment span.encrypted {
+	background-position: 0 -2272px;
 }
 
 .messagelist thead tr th.priority span.priority {

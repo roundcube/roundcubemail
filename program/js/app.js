@@ -2160,6 +2160,8 @@ function rcube_webmail()
           html = '<span class="attachment" title="'+label+'"></span>';
         else if (/multipart\/report/.test(flags.ctype))
           html = '<span class="report"></span>';
+        else if (flags.ctype == 'multipart/encrypted' || flags.ctype == 'application/pkcs7-mime')
+          html = '<span class="encrypted"></span>';
         else
           html = '&nbsp;';
       }
