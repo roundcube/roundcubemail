@@ -21,6 +21,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where "no body" alert could be displayed when sending mailvelope email
 - Enigma: Fix keys import from inside of an encrypted message (#5285)
 - Enigma: Fix malformed signed messages with force_7bit=true (#5292)
+- Enigma: Add possibility to configure gpg binary location (enigma_pgp_binary)
 - Fix searching by email address in contacts with multiple addresses (#5291)
 - Fix handling of --delete argument in moduserprefs.sh script (#5296)
 - Workaround PHP issue by calling closelog() on script shutdown when using log_driver=syslog (#5289)

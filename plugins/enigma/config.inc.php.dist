@@ -16,6 +16,10 @@ $config['enigma_debug'] = false;
 // Must be writeable by PHP process
 $config['enigma_pgp_homedir'] = null;
 
+// Location of gpg binary. By default it will be auto-detected.
+// This is also a way to force gpg2 use if there are both 1.x and 2.x on the system.
+$config['enigma_pgp_binary'] = '';
+
 // Enables signatures verification feature.
 $config['enigma_signatures'] = true;
 

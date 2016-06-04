@@ -41,41 +41,53 @@ class enigma_driver_gnupg extends enigma_driver
     {
         $homedir = $this->rc->config->get('enigma_pgp_homedir', INSTALL_PATH . 'plugins/enigma/home');
         $debug   = $this->rc->config->get('enigma_debug');
+        $binary  = $this->rc->config->get('enigma_pgp_binary');
 
-        if (!$homedir)
+        if (!$homedir) {
             return new enigma_error(enigma_error::INTERNAL,
                 "Option 'enigma_pgp_homedir' not specified");
+        }
 
         // check if homedir exists (create it if not) and is readable
-        if (!file_exists($homedir))
+        if (!file_exists($homedir)) {
             return new enigma_error(enigma_error::INTERNAL,
                 "Keys directory doesn't exists: $homedir");
-        if (!is_writable($homedir))
+        }
+        if (!is_writable($homedir)) {
             return new enigma_error(enigma_error::INTERNAL,
                 "Keys directory isn't writeable: $homedir");
+        }
 
         $homedir = $homedir . '/' . $this->user;
 
         // check if user's homedir exists (create it if not) and is readable
-        if (!file_exists($homedir))
+        if (!file_exists($homedir)) {
             mkdir($homedir, 0700);
+        }
 
-        if (!file_exists($homedir))
+        if (!file_exists($homedir)) {
             return new enigma_error(enigma_error::INTERNAL,
                 "Unable to create keys directory: $homedir");
-        if (!is_writable($homedir))
+        }
+        if (!is_writable($homedir)) {
             return new enigma_error(enigma_error::INTERNAL,
                 "Unable to write to keys directory: $homedir");
+        }
 
         $this->homedir = $homedir;
 
+        $options = array('homedir' => $this->homedir);
+
+        if ($debug) {
+            $options['debug'] = array($this, 'debug');
+        }
+        if ($binary) {
+            $options['binary'] = $binary;
+        }
+
         // Create Crypt_GPG object
         try {
-            $this->gpg = new Crypt_GPG(array(
-                'homedir'   => $this->homedir,
-                // 'binary'    => '/usr/bin/gpg2',
-                'debug'     => $debug ? array($this, 'debug') : false,
-          ));
+            $this->gpg = new Crypt_GPG($options);
         }
         catch (Exception $e) {
             return $this->get_error_from_exception($e);
