@@ -5,7 +5,7 @@
  | bin/installto.sh                                                      |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2014, The Roundcube Dev Team                            |
+ | Copyright (C) 2014-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -55,7 +55,9 @@ if (strtolower($input) == 'y') {
     $dirs[] = 'vendor';
   }
   foreach ($dirs as $dir) {
-    if (!system("rsync -avC " . INSTALL_PATH . "$dir/* $target_dir/$dir/")) {
+    // @FIXME: should we use --delete for all directories?
+    $delete = in_array($dir, array('program', 'installer')) ? '--delete ' : '';
+    if (!system("rsync -avC " . $delete . INSTALL_PATH . "$dir/* $target_dir/$dir/")) {
       $err = true;
       break;
     }
