@@ -32,22 +32,27 @@ abstract class enigma_driver
     abstract function init();
 
     /**
-     * Encryption.
+     * Encryption (and optional signing).
      *
      * @param string Message body
      * @param array  List of key-password mapping
+     * @param string Optional signing Key ID
+     * @param string Optional signing Key password
      *
      * @return mixed Encrypted message or enigma_error on failure
      */
-    abstract function encrypt($text, $keys);
+    abstract function encrypt($text, $keys, $sign_key = null, $sign_pass = null);
 
     /**
-     * Decryption.
+     * Decryption (and sig verification if sig exists).
      *
-     * @param string Encrypted message
-     * @param array  List of key-password mapping
+     * @param string           Encrypted message
+     * @param array            List of key-password mapping
+     * @param enigma_signature Signature information (if available)
+     *
+     * @return mixed Decrypted message or enigma_error on failure
      */
-    abstract function decrypt($text, $keys = array());
+    abstract function decrypt($text, $keys = array(), &$signature = null);
 
     /**
      * Signing.

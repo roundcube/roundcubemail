@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enigma: Implement PGP encryption and signing in one go (#5302)
+- Enigma: Display signature verification status for encrypted+signed messages (#5302)
 - Display different attachment icon on encrypted messages
 - Display different confirmation text when moving messages to Trash (#5220)
 - Indicate that a collapsed thread has flagged children (#5013)

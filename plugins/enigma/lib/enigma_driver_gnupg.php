@@ -95,18 +95,25 @@ class enigma_driver_gnupg extends enigma_driver
     }
 
     /**
-     * Encryption.
+     * Encryption (and optional signing).
      *
      * @param string Message body
      * @param array  List of key-password mapping
+     * @param string Optional signing Key ID
+     * @param string Optional signing Key password
      *
      * @return mixed Encrypted message or enigma_error on failure
      */
-    function encrypt($text, $keys)
+    function encrypt($text, $keys, $sign_key = null, $sign_pass = null)
     {
         try {
             foreach ($keys as $key) {
                 $this->gpg->addEncryptKey($key);
+            }
+
+            if ($sign_key) {
+                $this->gpg->addSignKey($sign_key, $sign_pass);
+                return $this->gpg->encryptAndSign($text, true);
             }
 
             return $this->gpg->encrypt($text, true);
@@ -117,21 +124,28 @@ class enigma_driver_gnupg extends enigma_driver
     }
 
     /**
-     * Decrypt a message
+     * Decrypt a message (and verify if signature found)
      *
-     * @param string Encrypted message
-     * @param array  List of key-password mapping
+     * @param string           Encrypted message
+     * @param array            List of key-password mapping
+     * @param enigma_signature Signature information (if available)
      *
      * @return mixed Decrypted message or enigma_error on failure
      */
-    function decrypt($text, $keys = array())
+    function decrypt($text, $keys = array(), &$signature = null)
     {
         try {
             foreach ($keys as $key => $password) {
                 $this->gpg->addDecryptKey($key, $password);
             }
 
-            return $this->gpg->decrypt($text);
+            $result = $this->gpg->decryptAndVerify($text);
+
+            if (!empty($result['signatures'])) {
+                $signature = $this->parse_signature($result['signatures'][0]);
+            }
+
+            return $result['data'];
         }
         catch (Exception $e) {
             return $this->get_error_from_exception($e);

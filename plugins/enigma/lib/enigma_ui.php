@@ -776,8 +776,9 @@ class enigma_ui
             return $p;
         }
 
-        $engine  = $this->enigma->engine;
-        $part_id = $p['part']->mime_id;
+        $engine   = $this->enigma->engine;
+        $part_id  = $p['part']->mime_id;
+        $messages = array();
 
         // Decryption status
         if (($found = $this->find_part_id($part_id, $engine->decryptions)) !== null
@@ -818,7 +819,8 @@ class enigma_ui
                 $msg = rcube::Q($this->enigma->gettext('decryptok'));
             }
 
-            $p['prefix'] .= html::div($attrib, $msg);
+            $attrib['msg'] = $msg;
+            $messages[] = $attrib;
         }
 
         // Signature verification status
@@ -869,7 +871,19 @@ class enigma_ui
             // test
 //            $msg .= '<br /><pre>'.$sig->body.'</pre>';
 
-            $p['prefix'] .= html::div($attrib, $msg);
+            $attrib['msg'] = $msg;
+            $messages[]    = $attrib;
+        }
+
+        if ($count = count($messages)) {
+            if ($count == 2 && $messages[0]['class'] == $messages[1]['class']) {
+                $p['prefix'] .= html::div($messages[0], $messages[0]['msg'] . ' ' . $messages[1]['msg']);
+            }
+            else {
+                foreach ($messages as $msg) {
+                    $p['prefix'] .= html::div($msg, $msg['msg']);
+                }
+            }
         }
 
         if ($attach_scripts) {
@@ -972,16 +986,16 @@ class enigma_ui
             $engine->attach_public_key($p['message']);
         }
 
-        if (!$savedraft && $sign_enable) {
+        if ($encrypt_enable) {
+            $engine = $this->enigma->load_engine();
+            $mode   = !$savedraft && $sign_enable ? enigma_engine::ENCRYPT_MODE_SIGN : null;
+            $status = $engine->encrypt_message($p['message'], $mode, $savedraft);
+            $mode   = 'encrypt';
+        }
+        else if (!$savedraft && $sign_enable) {
             $engine = $this->enigma->load_engine();
             $status = $engine->sign_message($p['message']);
             $mode   = 'sign';
-        }
-
-        if ((!$status instanceof enigma_error) && $encrypt_enable) {
-            $engine = $this->enigma->load_engine();
-            $status = $engine->encrypt_message($p['message'], null, $savedraft);
-            $mode   = 'encrypt';
         }
 
         if ($mode && ($status instanceof enigma_error)) {
