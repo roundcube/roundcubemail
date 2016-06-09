@@ -22,7 +22,7 @@ tinymce.addI18n('pt_PT',{
 "Select all": "Selecionar tudo",
 "Header 3": "Cabe\u00e7alho 3",
 "Blocks": "Blocos",
-"Undo": "Anular",
+"Undo": "Desfazer",
 "Strikethrough": "Rasurado",
 "Bullet list": "Lista com marcadores",
 "Header 1": "Cabe\u00e7alho 1",

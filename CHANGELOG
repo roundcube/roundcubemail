@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Update TinyMCE to version 4.3.13 (#5309)
 - Enigma: Implement PGP encryption and signing in one go (#5302)
 - Enigma: Display signature verification status for encrypted+signed messages (#5302)
 - Display different attachment icon on encrypted messages
