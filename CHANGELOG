@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Update TinyMCE to version 4.3.13 (#5309)
 - Fix bug where errors could have been not logged when per_user_logging=true
 - Fix bug where message list columns could be in wrong order after column drag-n-drop and list sorting
 - Fix so minified publickey.js (with cache-buster) is used when available (#5254)
