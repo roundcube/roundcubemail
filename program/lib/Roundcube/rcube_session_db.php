@@ -106,6 +106,8 @@ class rcube_session_db extends rcube_session
             $this->vars      = base64_decode($sql_arr['vars']);
             $this->key       = $key;
 
+            $this->db->reset();
+
             return !empty($this->vars) ? (string) $this->vars : '';
         }
 

@@ -353,6 +353,8 @@ class rcube_imap_cache
                 }
             }
 
+            $this->db->reset();
+
             $msgs = array_flip($msgs);
         }
 

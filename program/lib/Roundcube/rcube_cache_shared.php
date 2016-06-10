@@ -302,6 +302,8 @@ class rcube_cache_shared
                     $data = $this->unserialize($sql_arr['data']);
                 }
 
+                $this->db->reset();
+
                 if ($nostore) {
                     return $data;
                 }
