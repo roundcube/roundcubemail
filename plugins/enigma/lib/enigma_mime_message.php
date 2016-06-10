@@ -45,30 +45,9 @@ class enigma_mime_message extends Mail_mime
 
         // clone headers
         $this->headers = $message->headers();
-/*
-        if ($message->getParam('delay_file_io')) {
-            // use common temp dir
-            $temp_dir    = $this->config->get('temp_dir');
-            $body_file   = tempnam($temp_dir, 'rcmMsg');
-            $mime_result = $message->saveMessageBody($body_file);
 
-            if (is_a($mime_result, 'PEAR_Error')) {
-                self::raise_error(array('code' => 650, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not create message: ".$mime_result->getMessage()),
-                    true, false);
-                return false;
-            }
-
-            $msg_body = fopen($body_file, 'r');
-        }
-        else {
-*/
-            // \r\n is must-have here
-            $this->body = $message->get() . "\r\n";
-/*
-        }
-*/
+        // \r\n is must-have here
+        $this->body = $message->get() . "\r\n";
     }
 
     /**
