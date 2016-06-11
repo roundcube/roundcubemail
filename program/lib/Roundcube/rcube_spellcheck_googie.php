@@ -104,7 +104,6 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
             $http_status = $m[1];
             if ($http_status != '200') {
                 $this->error = 'HTTP ' . $m[1] . $m[2];
-                $this->error .= "\n" . $store;
             }
         }
 
