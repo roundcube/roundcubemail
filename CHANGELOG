@@ -21,6 +21,7 @@ CHANGELOG Roundcube Webmail
 - Fix so upgrade script makes sure program/lib directory does not contain old libraries (#5287)
 - Fix subscription checkbox state on error in folder subscribe/unsubscribe action (#5243)
 - Fix bug where microsecond format in logged date didn't work in some cases
+- Fix conflict in new_user_dialog and password_force_new_user settings (#5275)
 
 RELEASE 1.2.0
 -------------
