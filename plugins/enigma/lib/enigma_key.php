@@ -21,6 +21,8 @@ class enigma_key
     public $name;
     public $users   = array();
     public $subkeys = array();
+    public $reference;
+    public $password;
 
     const TYPE_UNKNOWN = 0;
     const TYPE_KEYPAIR = 1;

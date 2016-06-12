@@ -208,7 +208,7 @@ class enigma_engine
         }
 
         // sign the body
-        $result = $this->pgp_sign($body, $key->id, $pass, $pgp_mode);
+        $result = $this->pgp_sign($body, $key, $pgp_mode);
 
         if ($result !== true) {
             if ($result->getCode() == enigma_error::BADPASS) {
@@ -264,6 +264,8 @@ class enigma_engine
                 $error = array('missing' => array($sign_key->id => $sign_key->name));
                 return new enigma_error(enigma_error::BADPASS, '', $error);
             }
+
+            $sign_key->password = $sign_pass;
         }
 
         $recipients = array($from);
@@ -281,7 +283,12 @@ class enigma_engine
 
         // find recipient public keys
         foreach ((array) $recipients as $email) {
-            $key = $this->find_key($email);
+            if ($email == $from && $sign_key) {
+                $key = $sign_key;
+            }
+            else {
+                $key = $this->find_key($email);
+            }
 
             if (empty($key)) {
                 return new enigma_error(enigma_error::KEYNOTFOUND, '', array(
@@ -289,7 +296,7 @@ class enigma_engine
                 ));
             }
 
-            $keys[] = $key->id;
+            $keys[] = $key;
         }
 
         // select mode
@@ -315,7 +322,7 @@ class enigma_engine
         }
 
         // sign the body
-        $result = $this->pgp_encrypt($body, $keys, $sign_key ? $sign_key->id : null, $sign_pass);
+        $result = $this->pgp_encrypt($body, $keys, $sign_key);
 
         if ($result !== true) {
             if ($result->getCode() == enigma_error::BADPASS) {
@@ -854,7 +861,7 @@ class enigma_engine
      *
      * @return mixed enigma_signature or enigma_error
      */
-    private function pgp_verify(&$msg_body, $sig_body=null)
+    private function pgp_verify(&$msg_body, $sig_body = null)
     {
         // @TODO: Handle big bodies using (temp) files
         $sig = $this->pgp_driver->verify($msg_body, $sig_body);
@@ -902,17 +909,16 @@ class enigma_engine
     /**
      * PGP message signing
      *
-     * @param mixed  Message body
-     * @param string Key ID
-     * @param string Key passphrase
-     * @param int    Signing mode
+     * @param mixed      Message body
+     * @param enigma_key The key (with passphrase)
+     * @param int        Signing mode
      *
      * @return mixed True or enigma_error
      */
-    private function pgp_sign(&$msg_body, $keyid, $password, $mode = null)
+    private function pgp_sign(&$msg_body, $key, $mode = null)
     {
         // @TODO: Handle big bodies using (temp) files
-        $result = $this->pgp_driver->sign($msg_body, $keyid, $password, $mode);
+        $result = $this->pgp_driver->sign($msg_body, $key, $mode);
 
         if ($result instanceof enigma_error) {
             $err_code = $result->getCode();
@@ -934,7 +940,7 @@ class enigma_engine
      * PGP message encrypting
      *
      * @param mixed  Message body
-     * @param array  Keys
+     * @param array  Keys (array of enigma_key objects)
      * @param string Optional signing Key ID
      * @param string Optional signing Key password
      *
@@ -1012,7 +1018,7 @@ class enigma_engine
 
         // check key validity and type
         foreach ($result as $key) {
-            if ($keyid = $key->find_subkey($email, $mode)) {
+            if ($subkey = $key->find_subkey($email, $mode)) {
                 return $key;
             }
         }

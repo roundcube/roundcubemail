@@ -67,7 +67,7 @@ class enigma_driver_phpssl extends enigma_driver
 
     }
 
-    function encrypt($text, $keys, $sign_key = null, $sign_pass = null)
+    function encrypt($text, $keys, $sign_key = null)
     {
     }
 
@@ -75,7 +75,7 @@ class enigma_driver_phpssl extends enigma_driver
     {
     }
 
-    function sign($text, $key, $passwd, $mode = null)
+    function sign($text, $key, $mode = null)
     {
     }
 

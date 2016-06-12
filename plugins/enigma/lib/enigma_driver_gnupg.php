@@ -97,22 +97,21 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Encryption (and optional signing).
      *
-     * @param string Message body
-     * @param array  List of key-password mapping
-     * @param string Optional signing Key ID
-     * @param string Optional signing Key password
+     * @param string     Message body
+     * @param array      List of keys (enigma_key objects)
+     * @param enigma_key Optional signing Key ID
      *
      * @return mixed Encrypted message or enigma_error on failure
      */
-    function encrypt($text, $keys, $sign_key = null, $sign_pass = null)
+    function encrypt($text, $keys, $sign_key = null)
     {
         try {
             foreach ($keys as $key) {
-                $this->gpg->addEncryptKey($key);
+                $this->gpg->addEncryptKey($key->reference);
             }
 
             if ($sign_key) {
-                $this->gpg->addSignKey($sign_key, $sign_pass);
+                $this->gpg->addSignKey($sign_key->reference, $sign_key->password);
                 return $this->gpg->encryptAndSign($text, true);
             }
 
@@ -155,17 +154,16 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Signing.
      *
-     * @param string Message body
-     * @param string Key ID
-     * @param string Key password
-     * @param int    Signing mode (enigma_engine::SIGN_*)
+     * @param string     Message body
+     * @param enigma_key The key
+     * @param int        Signing mode (enigma_engine::SIGN_*)
      *
      * @return mixed True on success or enigma_error on failure
      */
-    function sign($text, $key, $passwd, $mode = null)
+    function sign($text, $key, $mode = null)
     {
         try {
-            $this->gpg->addSignKey($key, $passwd);
+            $this->gpg->addSignKey($key->reference, $key->password);
             return $this->gpg->sign($text, $mode, CRYPT_GPG::ARMOR_ASCII, true);
         }
         catch (Exception $e) {
@@ -449,6 +447,9 @@ class enigma_driver_gnupg extends enigma_driver
         }
 
         $ekey->name = trim($ekey->users[0]->name . ' <' . $ekey->users[0]->email . '>');
+
+        // keep reference to Crypt_GPG's key for performance reasons
+        $ekey->reference = $key;
 
         foreach ($key->getSubKeys() as $idx => $subkey) {
             $skey = new enigma_subkey();
