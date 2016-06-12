@@ -213,10 +213,10 @@ abstract class rcube_output
     /**
      * Create an edit field for inclusion on a form
      *
-     * @param string col field name
-     * @param string value field value
-     * @param array attrib HTML element attributes for field
-     * @param string type HTML element type (default 'text')
+     * @param string $col    Field name
+     * @param string $value  Field value
+     * @param array  $attrib HTML element attributes for the field
+     * @param string $type   HTML element type (default 'text')
      *
      * @return string HTML field definition
      */
@@ -241,7 +241,7 @@ abstract class rcube_output
             $input->add('---', '');
             $input->add(array_values($attrib['options']), array_keys($attrib['options']));
         }
-        else if ($attrib['type'] == 'password') {
+        else if ($type == 'password' || $attrib['type'] == 'password') {
             $input = new html_passwordfield($attrib);
         }
         else {
