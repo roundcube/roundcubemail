@@ -14,8 +14,9 @@
  */
 class new_user_dialog extends rcube_plugin
 {
-    public $task = 'login|mail';
+    public $task    = '';
     public $noframe = true;
+
 
     function init()
     {
@@ -45,7 +46,7 @@ class new_user_dialog extends rcube_plugin
      */
     function render_page($p)
     {
-        if ($_SESSION['plugin.newuserdialog'] && $p['template'] == 'mail') {
+        if ($_SESSION['plugin.newuserdialog']) {
             $this->add_texts('localization');
 
             $rcmail           = rcmail::get_instance();
