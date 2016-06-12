@@ -1193,10 +1193,13 @@ class rcube_utils
             $format = 'd-M-Y H:i:s O';
         }
 
-        if (strpos($format, 'u') !== false
-            && ($date = date_create_from_format('U.u.e', microtime(true) . '.' . date_default_timezone_get()))
-        ) {
-            return $date->format($format);
+        if (strpos($format, 'u') !== false) {
+            $dt  = number_format(microtime(true), 6, '.', '');
+            $dt .=  '.' . date_default_timezone_get();
+
+            if ($date = date_create_from_format('U.u.e', $dt)) {
+                return $date->format($format);
+            }
         }
 
         return date($format);
