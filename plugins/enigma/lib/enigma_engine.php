@@ -1366,7 +1366,7 @@ class enigma_engine
         $homedir = $this->rc->config->get('enigma_pgp_homedir', INSTALL_PATH . 'plugins/enigma/home');
         $homedir .= DIRECTORY_SEPARATOR . $username;
 
-        return self::delete_dir($homedir);
+        return file_exists($homedir) ? self::delete_dir($homedir) : true;
     }
 
     /**
