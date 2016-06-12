@@ -54,7 +54,7 @@ if (!is_array($COMPOSE)) {
         }
     }
 
-    $COMPOSE_ID = uniqid(mt_rand());
+    $COMPOSE_ID = bin2hex(random_bytes(32));
     $params     = rcube_utils::request2param(rcube_utils::INPUT_GET, 'task|action', true);
 
     $_SESSION['compose_data_'.$COMPOSE_ID] = array(
