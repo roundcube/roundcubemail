@@ -1353,4 +1353,53 @@ class enigma_engine
             $part->mimetype == 'application/pgp-keys'
         );
     }
+
+    /**
+     * Removes all user keys and assigned data
+     *
+     * @param string Username
+     *
+     * @return bool True on success, False on failure
+     */
+    public function delete_user_data($username)
+    {
+        $homedir = $this->rc->config->get('enigma_pgp_homedir', INSTALL_PATH . 'plugins/enigma/home');
+        $homedir .= DIRECTORY_SEPARATOR . $username;
+
+        return self::delete_dir($homedir);
+    }
+
+    /**
+     * Recursive method to remove directory with its content
+     *
+     * @param string Directory
+     */
+    public static function delete_dir($dir)
+    {
+        // This code can be executed from command line, make sure
+        // we have permissions to delete keys directory
+        if (!is_writable($dir)) {
+            rcube::raise_error("Unable to delete $dir", false, true);
+            return false;
+        }
+
+        if ($content = scandir($dir)) {
+            foreach ($content as $filename) {
+                if ($filename != '.' && $filename != '..') {
+                    $filename = $dir . DIRECTORY_SEPARATOR . $filename;
+
+                    if (is_dir($filename)) {
+                        self::delete_dir($filename);
+                    }
+                    else {
+                        unlink($filename);
+                    }
+                }
+            }
+
+            rmdir($dir);
+        }
+
+        return true;
+    }
 }
