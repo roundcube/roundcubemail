@@ -573,6 +573,10 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 'jobtitle'     => array('jobtitle'),
             );
 
+            // Allow plugins to modify order of the contact form head fields
+            $plugin = $RCMAIL->plugins->exec_hook('contact_form_field_blocks', array('field_blocks' => $field_blocks));
+            $field_blocks = $plugin['field_blocks'];
+
             foreach ($field_blocks as $blockname => $colnames) {
                 $fields = '';
                 foreach ($colnames as $col) {
