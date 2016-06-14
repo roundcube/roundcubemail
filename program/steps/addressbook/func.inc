@@ -517,7 +517,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
     global $RCMAIL;
 
     // group fields
-    $field_blocks = array(
+    $head_fields = array(
         'names'        => array('prefix','firstname','middlename','surname','suffix'),
         'displayname'  => array('name'),
         'nickname'     => array('nickname'),
@@ -528,14 +528,14 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
     // Allow plugins to modify contact form content
     $plugin = $RCMAIL->plugins->exec_hook('contact_form', array(
-        'form' => $form, 'record' => $record, 'field_blocks' => $field_blocks));
+        'form' => $form, 'record' => $record, 'head_fields' => $head_fields));
 
-    $form         = $plugin['form'];
-    $record       = $plugin['record'];
-    $field_blocks = $plugin['field_blocks']
-    $edit_mode    = $RCMAIL->action != 'show' && $RCMAIL->action != 'print';
-    $del_button   = $attrib['deleteicon'] ? html::img(array('src' => $RCMAIL->output->get_skin_file($attrib['deleteicon']), 'alt' => $RCMAIL->gettext('delete'))) : $RCMAIL->gettext('delete');
-    $out          = '';
+    $form        = $plugin['form'];
+    $record      = $plugin['record'];
+    $head_fields = $plugin['head_fields']
+    $edit_mode   = $RCMAIL->action != 'show' && $RCMAIL->action != 'print';
+    $del_button  = $attrib['deleteicon'] ? html::img(array('src' => $RCMAIL->output->get_skin_file($attrib['deleteicon']), 'alt' => $RCMAIL->gettext('delete'))) : $RCMAIL->gettext('delete');
+    $out         = '';
 
     unset($attrib['deleteicon']);
 
@@ -574,7 +574,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 unset($record['name']);
             }
 
-            foreach ($field_blocks as $blockname => $colnames) {
+            foreach ($head_fields as $blockname => $colnames) {
                 $fields = '';
                 foreach ($colnames as $col) {
                     // skip cols unknown to the backend
