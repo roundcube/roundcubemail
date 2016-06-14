@@ -1618,9 +1618,9 @@ class rcube
                     true, false);
             }
             else {
-                $delim   = $this->config->header_delimiter();
-                $to      = $headers['To'];
-                $subject = $headers['Subject'];
+                $delim      = $this->config->header_delimiter();
+                $to         = $headers['To'];
+                $subject    = $headers['Subject'];
                 $header_str = rtrim($header_str);
 
                 if ($delim != "\r\n") {
@@ -1630,10 +1630,8 @@ class rcube
                     $subject    = str_replace("\r\n", $delim, $subject);
                 }
 
-                if (filter_var(ini_get('safe_mode'), FILTER_VALIDATE_BOOLEAN))
-                    $sent = mail($to, $subject, $msg_body, $header_str);
-                else
-                    $sent = mail($to, $subject, $msg_body, $header_str, "-f$from");
+                $opts = filter_var(ini_get('safe_mode'), FILTER_VALIDATE_BOOLEAN) ? null : "-f$from";
+                $sent = mail($to, $subject, $msg_body, $header_str, $opts);
             }
         }
 
