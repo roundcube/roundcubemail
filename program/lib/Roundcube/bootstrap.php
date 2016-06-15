@@ -444,6 +444,11 @@ function rcube_autoload($classname)
         $classname = 'Auth/' . substr($classname, 5);
     }
 
+    // Translate PHP namespaces into directories,
+    // i.e. use \Sabre\VObject; $vcf = VObject\Reader::read(...)
+    //      -> Sabre/VObject/Reader.php
+    $classname = str_replace('\\', '/', $classname);
+
     if ($fp = @fopen("$classname.php", 'r', true)) {
         fclose($fp);
         include_once "$classname.php";
