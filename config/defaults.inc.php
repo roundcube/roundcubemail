@@ -605,7 +605,7 @@ $config['no_save_sent_messages'] = false;
 // Improve system security by using special URL with security token.
 // This can be set to a number defining token length. Default: 16.
 // Warning: This requires http server configuration. Sample:
-//    RewriteRule ^/roundcubemail/[a-f0-9]{16}/(.*) /roundcubemail/$1 [PT]
+//    RewriteRule ^/roundcubemail/[a-zA-Z0-9]{16}/(.*) /roundcubemail/$1 [PT]
 //    Alias /roundcubemail /var/www/roundcubemail/
 // Note: Use assets_path to not prevent the browser from caching assets
 $config['use_secure_urls'] = false;
