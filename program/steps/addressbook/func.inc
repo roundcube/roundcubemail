@@ -532,7 +532,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
     $form        = $plugin['form'];
     $record      = $plugin['record'];
-    $head_fields = $plugin['head_fields']
+    $head_fields = $plugin['head_fields'];
     $edit_mode   = $RCMAIL->action != 'show' && $RCMAIL->action != 'print';
     $del_button  = $attrib['deleteicon'] ? html::img(array('src' => $RCMAIL->output->get_skin_file($attrib['deleteicon']), 'alt' => $RCMAIL->gettext('delete'))) : $RCMAIL->gettext('delete');
     $out         = '';
