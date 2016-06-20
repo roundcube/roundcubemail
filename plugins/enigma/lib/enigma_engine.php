@@ -1126,13 +1126,14 @@ class enigma_engine
      *
      * @param string   Key ID
      * @param resource Optional output stream
+     * @param bool     Include private key
      *
      * @return mixed Key content or enigma_error
      */
-    function export_key($key, $fp = null)
+    function export_key($key, $fp = null, $include_private = false)
     {
         $this->load_pgp_driver();
-        $result = $this->pgp_driver->export($key, $fp);
+        $result = $this->pgp_driver->export($key, $include_private);
 
         if ($result instanceof enigma_error) {
             rcube::raise_error(array(

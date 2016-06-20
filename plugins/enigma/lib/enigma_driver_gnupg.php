@@ -215,13 +215,21 @@ class enigma_driver_gnupg extends enigma_driver
      * Key export.
      *
      * @param string Key ID
+     * @param bool   Include private key
      *
      * @return mixed Key content or enigma_error
      */
-    public function export($keyid)
+    public function export($keyid, $with_private = false)
     {
         try {
-            return $this->gpg->exportPublicKey($keyid, true);
+            $key = $this->gpg->exportPublicKey($keyid, true);
+
+            if ($with_private) {
+                $priv = $this->gpg->exportPrivateKey($keyid, true);
+                $key .= $priv;
+            }
+
+            return $key;
         }
         catch (Exception $e) {
             return $this->get_error_from_exception($e);
