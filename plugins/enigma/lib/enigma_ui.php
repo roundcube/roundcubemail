@@ -223,7 +223,9 @@ class enigma_ui
         $this->rc->output->include_script('list.js');
 
         // add some labels to client
-        $this->rc->output->add_label('enigma.keyremoveconfirm', 'enigma.keyremoving');
+        $this->rc->output->add_label('enigma.keyremoveconfirm', 'enigma.keyremoving',
+            'enigma.keyexportprompt', 'enigma.withprivkeys', 'enigma.onlypubkeys', 'enigma.exportkeys'
+        );
 
         return $out;
     }
@@ -259,8 +261,11 @@ class enigma_ui
 
             // Add rows
             foreach ($list as $key) {
-                $this->rc->output->command('enigma_add_list_row',
-                    array('name' => rcube::Q($key->name), 'id' => $key->id));
+                $this->rc->output->command('enigma_add_list_row', array(
+                        'name'  => rcube::Q($key->name),
+                        'id'    => $key->id,
+                        'flags' => $key->is_private() ? 'p' : ''
+                ));
             }
         }
 
@@ -462,6 +467,7 @@ class enigma_ui
         $this->rc->request_security_check(rcube_utils::INPUT_GET);
 
         $keys   = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_GPC);
+        $priv   = rcube_utils::get_input_value('_priv', rcube_utils::INPUT_GPC);
         $engine = $this->enigma->load_engine();
         $list   = $keys == '*' ? $engine->list_keys() : explode(',', $keys);
 
@@ -477,7 +483,7 @@ class enigma_ui
 
             if ($fp = fopen('php://output', 'w')) {
                 foreach ($list as $key) {
-                    $engine->export_key(is_object($key) ? $key->id : $key, $fp);
+                    $engine->export_key(is_object($key) ? $key->id : $key, $fp, (bool) $priv);
                 }
             }
         }

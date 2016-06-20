@@ -150,12 +150,50 @@ rcube_webmail.prototype.enigma_delete = function()
 // Export key(s)
 rcube_webmail.prototype.enigma_export = function(selected)
 {
-    var keys = selected ? this.keys_list.get_selection().join(',') : '*';
+    var priv = false,
+        list = this.keys_list,
+        keys = selected ? list.get_selection().join(',') : '*',
+        args = {_a: 'export', _keys: keys};
 
     if (!keys.length)
         return;
 
-    this.goto_url('plugin.enigmakeys', {_a: 'export', _keys: keys}, false, true);
+    // find out wether selected keys are private
+    if (keys == '*')
+        priv = true;
+    else
+        $.each(list.get_selection(), function() {
+            flags = $(list.rows[this].obj).data('flags');
+            if (flags && flags.indexOf('p') >= 0) {
+                priv = true;
+                return false;
+            }
+        });
+
+    // ask the user about including private key in the export
+    if (priv)
+        return this.show_popup_dialog(
+            this.get_label('enigma.keyexportprompt'),
+            this.get_label('enigma.exportkeys'),
+            [{
+                text: this.get_label('enigma.onlypubkeys'),
+                click: function(e) {
+                    rcmail.goto_url('plugin.enigmakeys', args, false, true);
+                    $(this).remove();
+                }
+            },
+            {
+                text: this.get_label('enigma.withprivkeys'),
+                click: function(e) {
+                    args._priv = 1;
+                    rcmail.goto_url('plugin.enigmakeys', args, false, true);
+                    $(this).remove();
+                }
+            }],
+            {width: 400}
+        );
+
+    this.goto_url('plugin.enigmakeys', args, false, true);
 };
 
 // Submit key(s) import form
@@ -318,6 +356,7 @@ rcube_webmail.prototype.enigma_add_list_row = function(r)
 
     row.id = 'rcmrow' + r.id;
     row.className = css_class;
+    if (r.flags) $(row).data('flags', r.flags);
 
     col.innerHTML = r.name;
     row.appendChild(col);

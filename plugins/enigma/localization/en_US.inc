@@ -85,6 +85,10 @@ $labels['enterkeypass'] = 'A passphrase is needed to unlock the secret key ($key
 $labels['arialabelkeyexportoptions'] = 'Keys export options';
 $labels['attachpubkeymsg'] = 'Attach my public key';
 
+$labels['keyexportprompt'] = 'Do you want to include secret keys in the saved OpenPGP keys file?';
+$labels['onlypubkeys'] = 'Export Public Keys Only';
+$labels['withprivkeys'] = 'Export Secret Keys';
+
 $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';
 $messages['sigvalidpartial'] = 'Verified signature from $sender, but part of the body was not signed.';

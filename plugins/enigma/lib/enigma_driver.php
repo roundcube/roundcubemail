@@ -85,10 +85,11 @@ abstract class enigma_driver
      * Key/Cert export.
      *
      * @param string Key ID
+     * @param bool   Include private key
      *
      * @return mixed Key content or enigma_error
      */
-    abstract function export($key);
+    abstract function export($key, $with_private = false);
 
     /**
      * Keys listing.

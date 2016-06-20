@@ -92,6 +92,20 @@ class enigma_key
     }
 
     /**
+     * Returns true if any of subkeys is a private key
+     */
+    function is_private()
+    {
+        $now = time();
+
+        foreach ($this->subkeys as $subkey)
+            if ($subkey->has_private)
+                return true;
+
+        return false;
+    }
+
+    /**
      * Get key ID by user email
      */
     function find_subkey($email, $mode)
