@@ -57,10 +57,12 @@ else {
     }
 
     if ($CONTACTS->group_id) {
-        $OUTPUT->command('set_group_prop', array('ID' => $CONTACTS->group_id)
-            + array_intersect_key((array)$CONTACTS->get_group($CONTACTS->group_id), array('name'=>1,'email'=>1)));
+        $group_data = array('ID' => $CONTACTS->group_id)
+            + array_intersect_key((array)$CONTACTS->get_group($CONTACTS->group_id), array('name'=>1,'email'=>1));
     }
 }
+
+$OUTPUT->command('set_group_prop', $group_data);
 
 // update message count display
 $OUTPUT->set_env('pagecount', ceil($result->count / $PAGE_SIZE));

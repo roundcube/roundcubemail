@@ -1266,21 +1266,37 @@ function rcube_webmail()
         break;
 
       case 'pushgroup':
-        // add group ID to stack
-        this.env.address_group_stack.push(props.id);
+        // add group ID and current search to stack
+        var group = {
+          id: props.id,
+          search_request: this.env.search_request,
+          page: this.env.current_page,
+          search: this.env.search_request && this.gui_objects.qsearchbox ? this.gui_objects.qsearchbox.value : null
+        };
+
+        this.env.address_group_stack.push(group);
         if (obj && event)
           rcube_event.cancel(event);
 
       case 'listgroup':
         this.reset_qsearch();
-        this.list_contacts(props.source, props.id);
+        this.list_contacts(props.source, props.id, 1, group);
         break;
 
       case 'popgroup':
-        if (this.env.address_group_stack.length > 1) {
-          this.env.address_group_stack.pop();
+        if (this.env.address_group_stack.length) {
+          var old = this.env.address_group_stack.pop();
           this.reset_qsearch();
-          this.list_contacts(props.source, this.env.address_group_stack[this.env.address_group_stack.length-1]);
+
+          if (old.search_request) {
+            // this code is executed when going back to the search result
+            if (old.search && this.gui_objects.qsearchbox)
+              $(this.gui_objects.qsearchbox).val(old.search);
+            this.env.search_request = old.search_request;
+            this.list_contacts_remote(null, null, this.env.current_page = old.page);
+          }
+          else
+            this.list_contacts(props.source, this.env.address_group_stack[this.env.address_group_stack.length-1].id);
         }
         break;
 
@@ -5453,9 +5469,9 @@ function rcube_webmail()
     return false;
   };
 
-  this.list_contacts = function(src, group, page)
+  this.list_contacts = function(src, group, page, search)
   {
-    var win, folder, url = {},
+    var win, folder, index = -1, url = {},
       refresh = src === undefined && group === undefined && page === undefined,
       target = window;
 
@@ -5464,9 +5480,6 @@ function rcube_webmail()
 
     if (refresh)
       group = this.env.group;
-
-    if (page && this.current_page == page && src == this.env.source && group == this.env.group)
-      return false;
 
     if (src != this.env.source) {
       page = this.env.current_page = 1;
@@ -5484,21 +5497,26 @@ function rcube_webmail()
     this.env.group = group;
 
     // truncate groups listing stack
-    var index = $.inArray(this.env.group, this.env.address_group_stack);
-    if (index < 0)
-      this.env.address_group_stack = [];
-    else
-      this.env.address_group_stack = this.env.address_group_stack.slice(0,index);
+    $.each(this.env.address_group_stack, function(i, v) {
+      if (ref.env.group == v.id) {
+        index = i;
+        return false;
+      }
+    });
+
+    this.env.address_group_stack = index < 0 ? [] : this.env.address_group_stack.slice(0, index);
 
     // make sure the current group is on top of the stack
     if (this.env.group) {
-      this.env.address_group_stack.push(this.env.group);
+      if (!search) search = {};
+      search.id = this.env.group;
+      this.env.address_group_stack.push(search);
 
       // mark the first group on the stack as selected in the directory list
-      folder = 'G'+src+this.env.address_group_stack[0];
+      folder = 'G'+src+this.env.address_group_stack[0].id;
     }
     else if (this.gui_objects.addresslist_title) {
-        $(this.gui_objects.addresslist_title).html(this.get_label('contacts'));
+        $(this.gui_objects.addresslist_title).text(this.get_label('contacts'));
     }
 
     if (!this.env.search_id)
@@ -5571,7 +5589,9 @@ function rcube_webmail()
       var boxtitle = $(this.gui_objects.addresslist_title).html('');  // clear contents
 
       // add link to pop back to parent group
-      if (this.env.address_group_stack.length > 1) {
+      if (this.env.address_group_stack.length > 1
+        || (this.env.address_group_stack.length == 1 && this.env.address_group_stack[0].search_request)
+      ) {
         $('<a href="#list">...</a>')
           .attr('title', this.get_label('uponelevel'))
           .addClass('poplink')
@@ -5580,10 +5600,11 @@ function rcube_webmail()
         boxtitle.append('&nbsp;&raquo;&nbsp;');
       }
 
-      boxtitle.append($('<span>').text(prop.name));
+      boxtitle.append($('<span>').text(prop ? prop.name : this.get_label('contacts')));
     }
 
-    this.triggerEvent('groupupdate', prop);
+    if (prop)
+      this.triggerEvent('groupupdate', prop);
   };
 
   // load contact record
