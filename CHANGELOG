@@ -1,7 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-
+- Searching in both contacts and groups when LDAP addressbook with group_filters option is used
 - Fix message list multi-select/deselect issue (#5219)
 - Fix bug where contact search menu fields where always unchecked in Larry skin
 - Fix XSS issue in href attribute on area tag (#5240)
