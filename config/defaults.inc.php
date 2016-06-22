@@ -144,11 +144,21 @@ $config['imap_auth_type'] = null;
 // IMAP socket context options
 // See http://php.net/manual/en/context.ssl.php
 // The example below enables server certificate validation
+//
+// proxy_protocol is used to inject HAproxy style headers in the TCP stream
+// See http://www.haproxy.org/download/1.6/doc/proxy-protocol.txt
 //$config['imap_conn_options'] = array(
 //  'ssl'         => array(
 //     'verify_peer'  => true,
 //     'verify_depth' => 3,
 //     'cafile'       => '/etc/openssl/certs/ca.crt',
+//   ),
+//  'proxy_protocol' => 1 | 2 | array ( // required (either version number (1|2) or array with 'version' key)
+//       'version'       => 1 | 2, // required, if array
+//       'remote_addr'   => $_SERVER['REMOTE_ADDR'],
+//       'remote_port'   => $_SERVER['REMOTE_PORT'],
+//       'local_addr'    => $_SERVER['SERVER_ADDR'],
+//       'local_port'    => $_SERVER['SERVER_PORT'],
 //   ),
 // );
 $config['imap_conn_options'] = null;
