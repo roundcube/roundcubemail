@@ -932,7 +932,7 @@ class rcube_ldap extends rcube_addressbook
         $result = $this->ldap->search($base_dn, $prop['filter'], $prop['scope'], $attrs, $prop, $count);
 
         // we have a search result resource, get all entries
-        if (!$count && $result && $result->count() > 0) {
+        if (!$count && $result) {
             $result = $result->entries();
             unset($result['count']);
         }
