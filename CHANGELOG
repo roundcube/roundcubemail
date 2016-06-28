@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Don't create multipart/alternative messages with empty text/plain part (#5283)
 - Fix XSS issue in href attribute on area tag (#5240)
 
 RELEASE 1.0.9
