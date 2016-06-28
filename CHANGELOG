@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where contact search menu fields where always unchecked in Larry skin
 - Fix XSS issue in href attribute on area tag (#5240)
 - Fix bug where message list columns could be in wrong order after column drag-n-drop and list sorting
+- Don't create multipart/alternative messages with empty text/plain part (#5283)
 
 RELEASE 1.1.5
 -------------
