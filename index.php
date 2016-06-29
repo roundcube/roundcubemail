@@ -91,17 +91,17 @@ $RCMAIL->action = $startup['action'];
 // try to log in
 if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $request_valid = $_SESSION['temp'] && $RCMAIL->check_request();
+    $pass_charset  = $RCMAIL->config->get('password_charset', 'ISO-8859-1');
 
     // purge the session in case of new login when a session already exists
     $RCMAIL->kill_session();
 
     $auth = $RCMAIL->plugins->exec_hook('authenticate', array(
-        'host' => $RCMAIL->autoselect_host(),
-        'user' => trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST)),
-        'pass' => rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST, true,
-            $RCMAIL->config->get('password_charset', 'ISO-8859-1')),
-        'cookiecheck' => true,
-        'valid'       => $request_valid,
+            'host'  => $RCMAIL->autoselect_host(),
+            'user'  => trim(rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST)),
+            'pass'  => rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST, true, $pass_charset),
+            'valid' => $request_valid,
+            'cookiecheck' => true,
     ));
 
     // Login
@@ -144,18 +144,18 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     }
     else {
         if (!$auth['valid']) {
-            $error_code = RCMAIL::ERROR_INVALID_REQUEST;
+            $error_code = rcmail::ERROR_INVALID_REQUEST;
         }
         else {
             $error_code = is_numeric($auth['error']) ? $auth['error'] : $RCMAIL->login_error();
         }
 
         $error_labels = array(
-            RCMAIL::ERROR_STORAGE          => 'storageerror',
-            RCMAIL::ERROR_COOKIES_DISABLED => 'cookiesdisabled',
-            RCMAIL::ERROR_INVALID_REQUEST  => 'invalidrequest',
-            RCMAIL::ERROR_INVALID_HOST     => 'invalidhost',
-            RCMAIL::ERROR_RATE_LIMIT       => 'accountlocked',
+            rcmail::ERROR_STORAGE          => 'storageerror',
+            rcmail::ERROR_COOKIES_DISABLED => 'cookiesdisabled',
+            rcmail::ERROR_INVALID_REQUEST  => 'invalidrequest',
+            rcmail::ERROR_INVALID_HOST     => 'invalidhost',
+            rcmail::ERROR_RATE_LIMIT       => 'accountlocked',
         );
 
         $error_message = !empty($auth['error']) && !is_numeric($auth['error']) ? $auth['error'] : ($error_labels[$error_code] ?: 'loginfailed');
