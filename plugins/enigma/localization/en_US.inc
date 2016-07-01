@@ -88,6 +88,7 @@ $labels['attachpubkeymsg'] = 'Attach my public key';
 $labels['keyexportprompt'] = 'Do you want to include secret keys in the saved OpenPGP keys file?';
 $labels['onlypubkeys'] = 'Export Public Keys Only';
 $labels['withprivkeys'] = 'Export Secret Keys';
+$labels['findkey'] = 'Search on key server(s)';
 
 $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';
@@ -109,6 +110,7 @@ $messages['signnopass'] = 'Signing failed. Key password required.';
 $messages['encrypterror'] = 'Encryption failed.';
 $messages['encryptnokey'] = 'Encryption failed. Public key not found for $email.';
 $messages['nokeysfound'] = 'No keys found';
+$messages['keynotfound'] = 'Key not found!';
 $messages['keyopenerror'] = 'Unable to get key information! Internal error.';
 $messages['keylisterror'] = 'Unable to list keys! Internal error.';
 $messages['keysimportfailed'] = 'Unable to import key(s)! Internal error.';

@@ -105,7 +105,7 @@ rcube_webmail.prototype.enigma_key_create_save = function()
 
         openpgp.generateKeyPair(options).then(function(keypair) {
             // success
-            var post = {_a: 'import', _keys: keypair.privateKeyArmored};
+            var post = {_a: 'import', _keys: keypair.privateKeyArmored, _generated: 1};
 
             // send request to server
             rcmail.http_post('plugin.enigmakeys', post, lock);
@@ -277,7 +277,7 @@ rcube_webmail.prototype.enigma_search = function(props)
     }
 
     return false;
-}
+};
 
 // Reset search filter and the list
 rcube_webmail.prototype.enigma_search_reset = function(props)
@@ -294,7 +294,7 @@ rcube_webmail.prototype.enigma_search_reset = function(props)
     }
 
     return false;
-}
+};
 
 // Keys/certs listing
 rcube_webmail.prototype.enigma_list = function(page)
@@ -311,7 +311,7 @@ rcube_webmail.prototype.enigma_list = function(page)
 
     this.enigma_clear_list();
     this.http_post('plugin.enigmakeys', params, lock);
-}
+};
 
 // Change list page
 rcube_webmail.prototype.enigma_list_page = function(page)
@@ -326,7 +326,7 @@ rcube_webmail.prototype.enigma_list_page = function(page)
         page = 1;
 
     this.enigma_list(page);
-}
+};
 
 // Remove list rows
 rcube_webmail.prototype.enigma_clear_list = function()
@@ -336,7 +336,7 @@ rcube_webmail.prototype.enigma_clear_list = function()
         this.keys_list.clear(true);
 
     this.enable_command('plugin.enigma-key-delete', 'plugin.enigma-key-delete-selected', false);
-}
+};
 
 // Adds a row to the list
 rcube_webmail.prototype.enigma_add_list_row = function(r)
@@ -361,7 +361,7 @@ rcube_webmail.prototype.enigma_add_list_row = function(r)
     col.innerHTML = r.name;
     row.appendChild(col);
     list.insert_row(row);
-}
+};
 
 
 /*********************************************************/
@@ -373,13 +373,13 @@ rcube_webmail.prototype.enigma_beforesend_handler = function(props)
 {
     this.env.last_action = 'send';
     this.enigma_compose_handler(props);
-}
+};
 
 rcube_webmail.prototype.enigma_beforesavedraft_handler = function(props)
 {
     this.env.last_action = 'savedraft';
     this.enigma_compose_handler(props);
-}
+};
 
 rcube_webmail.prototype.enigma_compose_handler = function(props)
 {
@@ -401,7 +401,7 @@ rcube_webmail.prototype.enigma_compose_handler = function(props)
     if (this.env.last_action == 'savedraft') {
         $('input[name="_enigma_sign"]', form).val(0);
     }
-}
+};
 
 // Import attached keys/certs file
 rcube_webmail.prototype.enigma_import_attachment = function(mime_id)
@@ -412,7 +412,7 @@ rcube_webmail.prototype.enigma_import_attachment = function(mime_id)
     this.http_post('plugin.enigmaimport', post, lock);
 
     return false;
-}
+};
 
 // password request popup
 rcube_webmail.prototype.enigma_password_request = function(data)
@@ -476,7 +476,7 @@ rcube_webmail.prototype.enigma_password_request = function(data)
         // this fixes bug when pressing Enter on "Save" button in the dialog
         parent.rcmail.message_list.blur();
     }
-}
+};
 
 // submit entered password
 rcube_webmail.prototype.enigma_password_submit = function(data)
@@ -505,7 +505,7 @@ rcube_webmail.prototype.enigma_password_submit = function(data)
     }
 
     form.appendTo(document.body).submit();
-}
+};
 
 // submit entered password - in mail compose page
 rcube_webmail.prototype.enigma_password_compose_submit = function(data)
@@ -522,4 +522,36 @@ rcube_webmail.prototype.enigma_password_compose_submit = function(data)
     }
 
     this.submit_messageform(this.env.last_action == 'savedraft');
-}
+};
+
+// Display no-key error with key search button
+rcube_webmail.prototype.enigma_key_not_found = function(data)
+{
+    return this.show_popup_dialog(
+        data.text,
+        data.title,
+        [{
+            text: data.button,
+            click: function(e) {
+                $(this).remove();
+                rcmail.enigma_find_publickey(data.email);
+            }
+        }],
+        {width: 400, dialogClass: 'popupmessage error'}
+    );
+};
+
+// Search for a public key on the key server
+rcube_webmail.prototype.enigma_find_publickey = function(email)
+{
+    this.mailvelope_search_pubkeys([email],
+        function(status) {},
+        function(key) {
+            var lock = rcmail.set_busy(true, 'enigma.importwait'),
+                post = {_a: 'import', _keys: key};
+
+            // send request to server
+            rcmail.http_post('plugin.enigmakeys', post, lock);
+        }
+    );
+};

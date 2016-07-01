@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Searching in both contacts and groups when LDAP addressbook with group_filters option is used
 - Update TinyMCE to version 4.3.13 (#5309)
+- Enigma: Search missing public keys on a key-server in mail compose (#5286)
 - Enigma: Delete user keys when using deluser.sh script
 - Enigma: Fix redundant list-secret-keys/list-public-keys calls on signing/encryption
 - Enigma: Implement PGP encryption and signing in one go (#5302)

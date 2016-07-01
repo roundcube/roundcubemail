@@ -43,6 +43,7 @@ class enigma extends rcube_plugin
             $this->add_hook('message_body_prefix', array($this, 'status_message'));
 
             $this->register_action('plugin.enigmaimport', array($this, 'import_file'));
+            $this->register_action('plugin.enigmakeys', array($this, 'preferences_ui'));
 
             // load the Enigma plugin configuration
             $this->load_config();

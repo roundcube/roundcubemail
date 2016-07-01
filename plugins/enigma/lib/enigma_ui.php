@@ -503,8 +503,14 @@ class enigma_ui
             $result = $this->enigma->engine->import_key($data);
 
             if (is_array($result)) {
-                $this->rc->output->command('enigma_key_create_success');
-                $this->rc->output->show_message('enigma.keygeneratesuccess', 'confirmation');
+                if (rcube_utils::get_input_value('_generated', rcube_utils::INPUT_POST)) {
+                    $this->rc->output->command('enigma_key_create_success');
+                    $this->rc->output->show_message('enigma.keygeneratesuccess', 'confirmation');
+                }
+                else {
+                    $this->rc->output->show_message('enigma.keysimportsuccess', 'confirmation',
+                        array('new' => $result['imported'], 'old' => $result['unchanged']));
+                }
             }
             else {
                 $this->rc->output->show_message('enigma.keysimportfailed', 'error');
@@ -1019,7 +1025,17 @@ class enigma_ui
             }
 
             if ($msg) {
-                $this->rc->output->show_message($msg, $type ?: 'error', $vars);
+                if ($vars && $vars['email']) {
+                    $this->rc->output->command('enigma_key_not_found', array(
+                            'email'  => $vars['email'],
+                            'text'   => $this->rc->gettext(array('name' => $msg, 'vars' => $vars)),
+                            'title'  => $this->enigma->gettext('keynotfound'),
+                            'button' => $this->enigma->gettext('findkey'),
+                    ));
+                }
+                else {
+                    $this->rc->output->show_message($msg, $type ?: 'error', $vars);
+                }
             }
 
             $this->rc->output->send('iframe');

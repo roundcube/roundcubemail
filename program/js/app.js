@@ -3748,7 +3748,7 @@ function rcube_webmail()
   };
 
   // subroutine to query keyservers for public keys
-  this.mailvelope_search_pubkeys = function(emails, resolve)
+  this.mailvelope_search_pubkeys = function(emails, resolve, import_handler)
   {
     // query with publickey.js
     var deferreds = [],
@@ -3790,7 +3790,7 @@ function rcube_webmail()
 
       // show key import dialog
       if (key_selection.length) {
-        ref.mailvelope_key_import_dialog(key_selection);
+        ref.mailvelope_key_import_dialog(key_selection, import_handler);
       }
       // some keys could not be found
       if (missing_keys.length) {
@@ -3806,7 +3806,7 @@ function rcube_webmail()
 
   // list the given public keys in a dialog with options to import
   // them into the local Maivelope keyring
-  this.mailvelope_key_import_dialog = function(candidates)
+  this.mailvelope_key_import_dialog = function(candidates, import_handler)
   {
     var ul = $('<div>').addClass('listing mailvelopekeyimport');
     $.each(candidates, function(i, keyrec) {
@@ -3881,6 +3881,11 @@ function rcube_webmail()
 
           if (errorCode) {
             ref.display_message(ref.get_label('keyservererror'), 'error');
+            return;
+          }
+
+          if (import_handler) {
+            import_handler(armored);
             return;
           }
 
