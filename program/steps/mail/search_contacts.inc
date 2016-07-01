@@ -46,9 +46,6 @@ foreach ($sources as $s) {
         continue;
     }
 
-    // get records
-    $result = $source->list_records($afields);
-
     while ($row = $result->next()) {
         $row['sourceid'] = $s['id'];
         $key = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
@@ -86,8 +83,10 @@ if (!empty($result) && $result->count > 0) {
         foreach ($emails as $i => $email) {
             $row_id = $row['ID'].'-'.$i;
             $jsresult[$row_id] = format_email_recipient($email, $name);
+            $title = rcube_addressbook::compose_search_name($row, $email, $name);
+
             $OUTPUT->command('add_contact_row', $row_id, array(
-                'contact' => html::a(array('title' => $email), rcube::Q($name ?: $email) .
+                'contact' => html::a(array('title' => $title), rcube::Q($name ?: $email) .
                     ($name && count($emails) > 1 ? '&nbsp;' . html::span('email', rcube::Q($email)) : '')
                 )), 'person');
         }
