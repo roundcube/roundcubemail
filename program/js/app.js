@@ -9047,7 +9047,7 @@ rcube_webmail.long_subject_title_ex = function(elem)
 rcube_webmail.subject_text = function(elem)
 {
   var t = $(elem).clone();
-  t.find('.skip-on-drag').remove();
+  t.find('.skip-on-drag,.voice').remove();
   return t.text();
 };
 

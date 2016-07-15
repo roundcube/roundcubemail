@@ -174,7 +174,7 @@ function rcube_mail_ui()
         }
 
         if (rcmail.env.action == 'show') {
-            $('#messagecontent').focus()
+          $('#messagecontent').focus();
         }
       }
       else if (rcmail.env.action == 'compose') {
