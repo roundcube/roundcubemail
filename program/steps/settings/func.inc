@@ -749,7 +749,7 @@ function rcmail_user_prefs($current = null)
                 );
             }
 
-            if (!isset($no_override['dsn_default']) && $RCMAIL->config->get('smtp_server')) {
+            if (!isset($no_override['dsn_default'])) {
                 if (!$current) {
                     continue 2;
                 }

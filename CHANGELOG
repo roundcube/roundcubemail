@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Remove PHP mail() support, smtp_server is required now (#5340)
 - Display full message subject in onmouseover on truncated subject in mail view (#5346)
 - Searching in both contacts and groups when LDAP addressbook with group_filters option is used
 - Update TinyMCE to version 4.3.13 (#5309)

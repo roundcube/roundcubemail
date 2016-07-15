@@ -368,9 +368,7 @@ $MAIL_MIME = new Mail_mime("\r\n");
 
 // Check if we have enough memory to handle the message in it
 // It's faster than using files, so we'll do this if we only can
-if (is_array($COMPOSE['attachments']) && $RCMAIL->config->get('smtp_server')
-  && ($mem_limit = parse_bytes(ini_get('memory_limit')))
-) {
+if (is_array($COMPOSE['attachments']) && ($mem_limit = parse_bytes(ini_get('memory_limit')))) {
     $memory = 0;
     foreach ($COMPOSE['attachments'] as $id => $attachment) {
         $memory += $attachment['size'];

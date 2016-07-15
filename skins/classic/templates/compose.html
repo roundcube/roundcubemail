@@ -181,7 +181,7 @@
         <td><roundcube:object name="mdnCheckBox" form="form" id="rcmcomposereceipt" /></td>
     </tr>
     <roundcube:endif />
-    <roundcube:if condition="config:smtp_server != '' and !in_array('dsn_default', (array)config:dont_override)" />
+    <roundcube:if condition="!in_array('dsn_default', (array)config:dont_override)" />
     <tr>
         <td><label for="rcmcomposedsn"><roundcube:label name="dsn" />:</label></td>
         <td><roundcube:object name="dsnCheckBox" form="form" id="rcmcomposedsn" /></td>

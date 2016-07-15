@@ -1548,98 +1548,58 @@ class rcube
         $message = $plugin['message'];
         $headers = $message->headers();
 
-        // send thru SMTP server using custom SMTP library
-        if ($this->config->get('smtp_server')) {
-            // generate list of recipients
-            $a_recipients = (array) $mailto;
+        // generate list of recipients
+        $a_recipients = (array) $mailto;
 
-            if (strlen($headers['Cc']))
-                $a_recipients[] = $headers['Cc'];
-            if (strlen($headers['Bcc']))
-                $a_recipients[] = $headers['Bcc'];
-
-            // remove Bcc header and get the whole head of the message as string
-            $smtp_headers = $this->message_head($message, array('Bcc'));
-
-            if ($message->getParam('delay_file_io')) {
-                // use common temp dir
-                $temp_dir    = $this->config->get('temp_dir');
-                $body_file   = tempnam($temp_dir, 'rcmMsg');
-                $mime_result = $message->saveMessageBody($body_file);
-
-                if (is_a($mime_result, 'PEAR_Error')) {
-                    self::raise_error(array('code' => 650, 'type' => 'php',
-                        'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Could not create message: ".$mime_result->getMessage()),
-                        true, false);
-                    return false;
-                }
-
-                $msg_body = fopen($body_file, 'r');
-            }
-            else {
-                $msg_body = $message->get();
-            }
-
-            // send message
-            if (!is_object($this->smtp)) {
-                $this->smtp_init(true);
-            }
-
-            $sent     = $this->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $options);
-            $response = $this->smtp->get_response();
-            $error    = $this->smtp->get_error();
-
-            // log error
-            if (!$sent) {
-                self::raise_error(array('code' => 800, 'type' => 'smtp',
-                    'line' => __LINE__, 'file' => __FILE__,
-                    'message' => join("\n", $response)), true, false);
-            }
+        if (strlen($headers['Cc'])) {
+            $a_recipients[] = $headers['Cc'];
         }
-        // send mail using PHP's mail() function
-        else {
-            // unset To,Subject headers because they will be added by the mail() function
-            $header_str = $this->message_head($message, array('To', 'Subject'));
+        if (strlen($headers['Bcc'])) {
+            $a_recipients[] = $headers['Bcc'];
+        }
 
-            if (is_array($mailto)) {
-                $mailto = implode(', ', $mailto);
-            }
+        // remove Bcc header and get the whole head of the message as string
+        $smtp_headers = $message->txtHeaders(array('Bcc' => null), true);
 
-            // #1485779
-            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                if (preg_match_all('/<([^@]+@[^>]+)>/', $mailto, $m)) {
-                    $mailto = implode(', ', $m[1]);
-                }
-            }
+        if ($message->getParam('delay_file_io')) {
+            // use common temp dir
+            $temp_dir    = $this->config->get('temp_dir');
+            $body_file   = tempnam($temp_dir, 'rcmMsg');
+            $mime_result = $message->saveMessageBody($body_file);
 
-            $msg_body = $message->get();
-
-            if (is_a($msg_body, 'PEAR_Error')) {
+            if (is_a($mime_result, 'PEAR_Error')) {
                 self::raise_error(array('code' => 650, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not create message: ".$msg_body->getMessage()),
+                    'message' => "Could not create message: ".$mime_result->getMessage()),
                     true, false);
+                return false;
             }
-            else {
-                $delim      = $this->config->header_delimiter();
-                $to         = $mailto;
-                $subject    = $headers['Subject'];
-                $header_str = rtrim($header_str);
 
-                if ($delim != "\r\n") {
-                    $header_str = str_replace("\r\n", $delim, $header_str);
-                    $msg_body   = str_replace("\r\n", $delim, $msg_body);
-                    $to         = str_replace("\r\n", $delim, $to);
-                    $subject    = str_replace("\r\n", $delim, $subject);
-                }
-
-                $opts = filter_var(ini_get('safe_mode'), FILTER_VALIDATE_BOOLEAN) ? null : "-f$from";
-                $sent = mail($to, $subject, $msg_body, $header_str, $opts);
-            }
+            $msg_body = fopen($body_file, 'r');
+        }
+        else {
+            $msg_body = $message->get();
         }
 
-        if ($sent) {
+        // initialize SMTP connection
+        if (!is_object($this->smtp)) {
+            $this->smtp_init(true);
+        }
+
+        // send message
+        $sent     = $this->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $options);
+        $response = $this->smtp->get_response();
+        $error    = $this->smtp->get_error();
+
+        if (!$sent) {
+            self::raise_error(array('code' => 800, 'type' => 'smtp',
+                'line' => __LINE__, 'file' => __FILE__,
+                'message' => join("\n", $response)), true, false);
+
+            // allow plugins to catch sending errors with the same parameters as in 'message_before_send'
+            $this->plugins->exec_hook('message_send_error', $plugin + array('error' => $error));
+        }
+        else {
             $this->plugins->exec_hook('message_sent', array('headers' => $headers, 'body' => $msg_body));
 
             // remove MDN headers after sending
@@ -1647,16 +1607,7 @@ class rcube
 
             if ($this->config->get('smtp_log')) {
                 // get all recipient addresses
-                if (is_array($mailto)) {
-                    $mailto = implode(',', $mailto);
-                }
-                if ($headers['Cc']) {
-                    $mailto .= ',' . $headers['Cc'];
-                }
-                if ($headers['Bcc']) {
-                    $mailto .= ',' . $headers['Bcc'];
-                }
-
+                $mailto = implode(',', $a_recipients);
                 $mailto = rcube_mime::decode_address_list($mailto, null, false, null, true);
 
                 self::write_log('sendmail', sprintf("User %s [%s]; Message for %s; %s",
@@ -1666,10 +1617,6 @@ class rcube
                     !empty($response) ? join('; ', $response) : ''));
             }
         }
-        else {
-            // allow plugins to catch sending errors with the same parameters as in 'message_before_send'
-            $this->plugins->exec_hook('message_send_error', $plugin + array('error' => $error));
-        }
 
         if (is_resource($msg_body)) {
             fclose($msg_body);
@@ -1678,20 +1625,6 @@ class rcube
         $message->headers($headers, true);
 
         return $sent;
-    }
-
-    /**
-     * Return message headers as a string
-     */
-    protected function message_head($message, $unset = array())
-    {
-        // requires Mail_mime >= 1.9.0
-        $headers = array();
-        foreach ((array) $unset as $header) {
-            $headers[$header] = null;
-        }
-
-        return $message->txtHeaders($headers, true);
     }
 }
 

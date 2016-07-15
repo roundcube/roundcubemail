@@ -461,12 +461,12 @@ echo $text_junkmbox->show($RCI->getprop('junk_mbox'));
 <?php
 
 $text_smtphost = new html_inputfield(array('name' => '_smtp_server', 'size' => 30, 'id' => "cfgsmtphost"));
-echo $text_smtphost->show($RCI->getprop('smtp_server'));
+echo $text_smtphost->show($RCI->getprop('smtp_server', 'localhost'));
 
 ?>
 <div>Use this host for sending mails</div>
 
-<p class="hint">To use SSL connection, set ssl://smtp.host.com. If left blank, the PHP mail() function is used</p>
+<p class="hint">To use SSL connection, set ssl://smtp.host.com.</p>
 </dd>
 
 <dt class="propname">smtp_port</dt>

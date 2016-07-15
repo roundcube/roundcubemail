@@ -37,7 +37,7 @@ REQUIREMENTS
 * A MySQL (4.0.8 or newer), PostgreSQL, MS SQL Server (2005 or newer), Oracle
   database or SQLite support in PHP
 * One of the above databases with permission to create tables
-* An SMTP server (recommended) or PHP configured for mail delivery
+* An SMTP server
 * Composer installed either locally or globally (https://getcomposer.org)
 
 
