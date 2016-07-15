@@ -546,10 +546,16 @@ if (!$savedraft && !$saveonly) {
             unlink($mailbody_file);
         }
 
-        if ($smtp_error)
-            $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']); 
-        else
-            $OUTPUT->show_message('sendingfailed', 'error'); 
+        if ($smtp_error && is_string($smtp_error)) {
+            $OUTPUT->show_message($smtp_error, 'error');
+        }
+        else if ($smtp_error && !empty($smtp_error['label'])) {
+            $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
+        }
+        else {
+            $OUTPUT->show_message('sendingfailed', 'error');
+        }
+
         $OUTPUT->send('iframe');
     }
 

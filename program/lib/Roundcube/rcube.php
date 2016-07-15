@@ -1602,10 +1602,14 @@ class rcube
             // unset To,Subject headers because they will be added by the mail() function
             $header_str = $this->message_head($message, array('To', 'Subject'));
 
+            if (is_array($mailto)) {
+                $mailto = implode(', ', $mailto);
+            }
+
             // #1485779
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                if (preg_match_all('/<([^@]+@[^>]+)>/', $headers['To'], $m)) {
-                    $headers['To'] = implode(', ', $m[1]);
+                if (preg_match_all('/<([^@]+@[^>]+)>/', $mailto, $m)) {
+                    $mailto = implode(', ', $m[1]);
                 }
             }
 
@@ -1619,7 +1623,7 @@ class rcube
             }
             else {
                 $delim      = $this->config->header_delimiter();
-                $to         = $headers['To'];
+                $to         = $mailto;
                 $subject    = $headers['Subject'];
                 $header_str = rtrim($header_str);
 
