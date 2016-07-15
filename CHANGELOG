@@ -25,6 +25,7 @@ CHANGELOG Roundcube Webmail
 - Fix conflict in new_user_dialog and password_force_new_user settings (#5275)
 - Don't create multipart/alternative messages with empty text/plain part (#5283)
 - Use contact_search_name format in popup on results in compose contacts search
+- Fix handling of 'mailto' and 'error' arguments in message_before_send hook (#5347)
 
 RELEASE 1.2.0
 -------------
