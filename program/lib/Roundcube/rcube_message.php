@@ -905,11 +905,7 @@ class rcube_message
             }
         }
         // message is a single part non-text
-        else if ($structure->filename) {
-            $this->add_part($structure, $attachment);
-        }
-        // message is a single part non-text (without filename)
-        else if (preg_match('/application\//i', $mimetype)) {
+        else if ($structure->filename || preg_match('/^application\//i', $mimetype)) {
             $this->add_part($structure, 'attachment');
         }
     }
