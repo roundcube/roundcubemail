@@ -82,7 +82,7 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     $OUTPUT->set_env('address_sources', $js_list);
     $OUTPUT->set_env('writable_source', $writeable);
 
-    $OUTPUT->set_pagetitle($RCMAIL->gettext('addressbook'));
+    $OUTPUT->set_pagetitle($RCMAIL->gettext('contacts'));
     $_SESSION['addressbooks_count'] = $count;
     $_SESSION['addressbooks_count_writeable'] = $writeable;
 
