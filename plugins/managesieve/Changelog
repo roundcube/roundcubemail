@@ -6,7 +6,7 @@
 
 * version 8.6 [2016-04-06]
 -----------------------------------------------------------
-- Refactored script parser to be 100x faster
+- Refactored script parser to be 100x faster (on big scripts)
 
 * version 8.5 [2015-11-15]
 -----------------------------------------------------------

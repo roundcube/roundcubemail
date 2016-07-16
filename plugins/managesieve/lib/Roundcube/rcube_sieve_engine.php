@@ -28,11 +28,11 @@ class rcube_sieve_engine
     protected $sieve;
     protected $errors;
     protected $form;
-    protected $tips = array();
-    protected $script = array();
-    protected $exts = array();
     protected $list;
-    protected $active = array();
+    protected $tips    = array();
+    protected $script  = array();
+    protected $exts    = array();
+    protected $active  = array();
     protected $headers = array(
         'subject' => 'Subject',
         'from'    => 'From',
