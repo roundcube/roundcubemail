@@ -76,7 +76,7 @@
  * - base URL support
  * - invalid HTML comments removal before parsing
  * - "fixing" unitless CSS values for XHTML output
- * - base url resolving
+ * - SVG and MathML support
  */
 
 /**
@@ -111,6 +111,15 @@ class rcube_washtml
         'feflood', 'fefunca', 'fefuncb', 'fefuncg', 'fefuncr', 'fegaussianblur',
         'feimage', 'femerge', 'femergenode', 'femorphology', 'feoffset',
         'fespecularlighting', 'fetile', 'feturbulence',
+        // MathML
+        'math', 'menclose', 'merror', 'mfenced', 'mfrac', 'mglyph', 'mi', 'mlabeledtr',
+        'mmuliscripts', 'mn', 'mo', 'mover', 'mpadded', 'mphantom', 'mroot', 'mrow',
+        'ms', 'mspace', 'msqrt', 'mstyle', 'msub', 'msup', 'msubsup', 'mtable', 'mtd',
+        'mtext', 'mtr', 'munder', 'munderover', 'maligngroup', 'malignmark',
+        'mprescripts', 'semantics', 'annotation', 'annotation-xml', 'none',
+        'infinity', 'matrix', 'matrixrow', 'ci', 'cn', 'sep', 'apply',
+        'plus', 'minus', 'eq', 'power', 'times', 'divide', 'csymbol', 'root',
+        'bvar', 'lowlimit', 'uplimit',
     );
 
     /* Ignore these HTML tags and their content */
@@ -153,11 +162,24 @@ class rcube_washtml
         'visibility', 'vert-adv-y', 'version', 'vert-origin-x', 'vert-origin-y', 'word-spacing',
         'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2',
         'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan',
+        // MathML
+        'accent', 'accentunder', 'bevelled', 'close', 'columnalign', 'columnlines',
+        'columnspan', 'denomalign', 'depth', 'display', 'displaystyle', 'encoding', 'fence',
+        'frame', 'largeop', 'length', 'linethickness', 'lspace', 'lquote',
+        'mathbackground', 'mathcolor', 'mathsize', 'mathvariant', 'maxsize',
+        'minsize', 'movablelimits', 'notation', 'numalign', 'open', 'rowalign',
+        'rowlines', 'rowspacing', 'rowspan', 'rspace', 'rquote', 'scriptlevel',
+        'scriptminsize', 'scriptsizemultiplier', 'selection', 'separator',
+        'separators', 'stretchy', 'subscriptshift', 'supscriptshift', 'symmetric', 'voffset',
+        'fontsize', 'fontweight', 'fontstyle', 'fontfamily', 'groupalign', 'edge', 'side',
     );
 
     /* Elements which could be empty and be returned in short form (<tag />) */
     static $void_elements = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr',
         'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr',
+        // MathML
+        'sep', 'infinity', 'in', 'plus', 'eq', 'power', 'times', 'divide', 'root',
+        'maligngroup', 'none', 'mprescripts',
     );
 
     /* State for linked objects in HTML */
