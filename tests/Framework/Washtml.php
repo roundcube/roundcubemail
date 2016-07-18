@@ -316,6 +316,10 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $washer = new rcube_washtml;
         $washed = $washer->wash($mathml);
 
+        // remove whitespace between tags
+        $washed = preg_replace('/>[\s\r\n\t]+</', '><', $washed);
+        $exp    = preg_replace('/>[\s\r\n\t]+</', '><', $exp);
+
         $this->assertSame(trim($washed), trim($exp), "MathML content");
     }
 }
