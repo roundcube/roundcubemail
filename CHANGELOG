@@ -26,6 +26,7 @@ CHANGELOG Roundcube Webmail
 - Don't create multipart/alternative messages with empty text/plain part (#5283)
 - Use contact_search_name format in popup on results in compose contacts search
 - Fix handling of 'mailto' and 'error' arguments in message_before_send hook (#5347)
+- Fix missing localization of HTML editor when assets_dir != INSTALL_PATH
 
 RELEASE 1.2.0
 -------------
