@@ -1917,13 +1917,14 @@ class rcmail extends rcube
         }
 
         $lang_codes = array($_SESSION['language']);
+        $assets_dir = $this->config->get('assets_dir') ?: INSTALL_PATH;
 
         if ($pos = strpos($_SESSION['language'], '_')) {
             $lang_codes[] = substr($_SESSION['language'], 0, $pos);
         }
 
         foreach ($lang_codes as $code) {
-            if (file_exists(INSTALL_PATH . 'program/js/tinymce/langs/'.$code.'.js')) {
+            if (file_exists("$assets_dir/program/js/tinymce/langs/$code.js")) {
                 $lang = $code;
                 break;
             }
