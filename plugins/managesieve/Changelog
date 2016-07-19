@@ -1,5 +1,6 @@
-* version 8.7 [2016-]
+* version 8.7 [2016-07-19]
 -----------------------------------------------------------
+- Support 'string' test from variables extension [RFC 5229] (#5248)
 - Support 'duplicate' extension [RFC 7352]
 - Unhide advanced rule controls if there are inputs with errors
 - Display warning message when filter form contains errors

@@ -608,6 +608,7 @@ function rule_header_select(id)
     comp = document.getElementById('rule_comp' + id),
     datepart = document.getElementById('rule_date_part' + id),
     dateheader = document.getElementById('rule_date_header_div' + id),
+    rule = $('#rule_op' + id),
     h = obj.value;
 
   if (h == 'size') {
@@ -634,11 +635,14 @@ function rule_header_select(id)
   if (dateheader)
     dateheader.style.display = h == 'date' ? '' : 'none';
 
+  $('[value="exists"],[value="notexists"]', rule).prop('disabled', h == 'string');
+  if (!rule.val() || rule.val().match(/^(exists|notexists)$/))
+    rule.val('contains');
+
   rule_op_select(op, id, h);
   rule_mod_select(id, h);
-  
-  if (h == '...') obj.style.width = '40px';
-  else if (h == 'string') obj.style.width = '90px';
+
+  obj.style.width = h == '...' ? '40px' : '';
 };
 
 function rule_op_select(obj, id, header)
@@ -904,22 +908,25 @@ function sieve_formattime(hour, minutes)
 
 function sieve_form_init()
 {
-  // small resize for header element
-  $('select[name="_header[]"]', rcmail.gui_objects.sieveform).each(function() {
-    if (this.value == '...') this.style.width = '40px';
-    if (this.value == 'string') this.style.width = '90px';
-  });
+  var form = rcmail.gui_objects.sieveform;
 
   // resize dialog window
   if (rcmail.env.action == 'plugin.managesieve' && rcmail.env.task == 'mail') {
-    parent.rcmail.managesieve_dialog_resize(rcmail.gui_objects.sieveform);
+    parent.rcmail.managesieve_dialog_resize(form);
   }
 
-  $('input[type="text"]:first', rcmail.gui_objects.sieveform).focus();
+  $('input[type="text"]:first', form).focus();
 
   // initialize smart list inputs
-  $('textarea[data-type="list"]', rcmail.gui_objects.sieveform).each(function() {
+  $('textarea[data-type="list"]', form).each(function() {
     smart_field_init(this);
+  });
+
+  // initialize rules form(s)
+  $('[name="_header[]"]', form).each(function() {
+    if (/([0-9]+)$/.test(this.id)) {
+      rule_header_select(RegExp.$1);
+    }
   });
 
   // enable date pickers on date fields

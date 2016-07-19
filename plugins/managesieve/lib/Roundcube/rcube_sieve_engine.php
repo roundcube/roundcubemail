@@ -1451,13 +1451,13 @@ class rcube_sieve_engine
         if (in_array('body', $this->exts)) {
             $select_header->add($this->plugin->gettext('body'), 'body');
         }
-        if (in_array('variables', $this->exts)) {
-            $select_header->add($this->plugin->gettext('string'), 'string');
-        }
         $select_header->add($this->plugin->gettext('size'), 'size');
         if (in_array('date', $this->exts)) {
             $select_header->add($this->plugin->gettext('datetest'), 'date');
             $select_header->add($this->plugin->gettext('currdate'), 'currentdate');
+        }
+        if (in_array('variables', $this->exts)) {
+            $select_header->add($this->plugin->gettext('string'), 'string');
         }
         if (in_array('duplicate', $this->exts)) {
             $select_header->add($this->plugin->gettext('message'), 'message');
