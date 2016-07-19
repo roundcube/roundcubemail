@@ -124,6 +124,7 @@ $labels['filtercreate'] = 'Créer un filtre';
 $labels['usedata'] = 'Utiliser les données suivantes dans le filtre :';
 $labels['nextstep'] = 'Étape suivante';
 $labels['...'] = '...';
+$labels['string'] = 'Chaîne';
 $labels['currdate'] = 'Date actuelle';
 $labels['datetest'] = 'Date';
 $labels['dateheader'] = 'en-tête :';
