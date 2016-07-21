@@ -102,10 +102,12 @@ if ($uid) {
     if (empty($_SESSION['browser_caps']['flash']) && ($key = array_search('application/x-shockwave-flash', $mimetypes)) !== false) {
         unset($mimetypes[$key]);
     }
-    if (empty($_SESSION['browser_caps']['tif']) && ($key = array_search('image/tiff', $mimetypes)) !== false) {
-        // we can convert tiff to jpeg
-        if (!rcube_image::is_convertable('image/tiff')) {
-            unset($mimetypes[$key]);
+    foreach (array('tiff', 'webp') as $type) {
+        if (empty($_SESSION['browser_caps'][$type]) && ($key = array_search('image/' . $type, $mimetypes)) !== false) {
+            // can we convert it to jpeg?
+            if (!rcube_image::is_convertable('image/' . $type)) {
+                unset($mimetypes[$key]);
+            }
         }
     }
     if (!in_array('message/rfc822', $mimetypes)) {

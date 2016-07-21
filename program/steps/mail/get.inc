@@ -238,14 +238,17 @@ else if (strlen($part_id)) {
         }
 
 
-        // TIFF to JPEG conversion, if needed
-        $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
-        if (!empty($_REQUEST['_embed']) && !$tiff_support
-            && rcube_image::is_convertable('image/tiff')
-            && rcmail_part_image_type($part) == 'image/tiff'
-        ) {
-            $tiff2jpeg = true;
-            $mimetype  = 'image/jpeg';
+        // TIFF/WEBP to JPEG conversion, if needed
+        foreach (array('tiff', 'webp') as $type) {
+            $img_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps'][$type]);
+            if (!empty($_REQUEST['_embed']) && !$img_support
+                && rcmail_part_image_type($part) == 'image/' . $type
+                && rcube_image::is_convertable('image/' . $type)
+            ) {
+                $convert2jpeg = true;
+                $mimetype     = 'image/jpeg';
+                break;
+            }
         }
 
 
@@ -335,7 +338,7 @@ else if (strlen($part_id)) {
             header("Content-Disposition: $disposition; filename=\"$filename\"");
 
             // handle tiff to jpeg conversion
-            if (!empty($tiff2jpeg)) {
+            if (!empty($convert2jpeg)) {
                 $temp_dir  = unslashify($RCMAIL->config->get('temp_dir'));
                 $file_path = tempnam($temp_dir, 'rcmAttmnt');
 

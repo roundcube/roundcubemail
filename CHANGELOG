@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support WEBP images in mail messages (#5362)
 - Support MathML in HTML message preview (#5182)
 - Rename Addressbook to Contacts (#5233)
 - Remove PHP mail() support, smtp_server is required now (#5340)
