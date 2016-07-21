@@ -5243,7 +5243,8 @@ function rcube_webmail()
     this.set_caret_pos(this.ksearch_input, p + insert.length);
 
     if (trigger) {
-      this.triggerEvent('autocomplete_insert', { field:this.ksearch_input, insert:insert, data:this.env.contacts[id] });
+      this.triggerEvent('autocomplete_insert', { field:this.ksearch_input, insert:insert, data:this.env.contacts[id], search:this.ksearch_value_last, result_type:'person' });
+      this.ksearch_value_last = null;
       this.compose_type_activity++;
     }
   };
@@ -5252,7 +5253,8 @@ function rcube_webmail()
   {
     if (this.group2expand[id]) {
       this.group2expand[id].input.value = this.group2expand[id].input.value.replace(this.group2expand[id].name, recipients);
-      this.triggerEvent('autocomplete_insert', { field:this.group2expand[id].input, insert:recipients });
+      this.triggerEvent('autocomplete_insert', { field:this.group2expand[id].input, insert:recipients, data:this.group2expand[id], search:this.ksearch_value_last, result_type:'group' });
+      this.ksearch_value_last = null;
       this.group2expand[id] = null;
       this.compose_type_activity++;
     }
@@ -5295,6 +5297,7 @@ function rcube_webmail()
 
     var old_value = this.ksearch_value;
     this.ksearch_value = q;
+    this.ksearch_value_last = q;   // Group expansion clears ksearch_value before calling autocomplete_insert trigger, therefore store it in separate variable for later consumption.
 
     // ...string is empty
     if (!q.length)
