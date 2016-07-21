@@ -587,11 +587,11 @@ class rcube_html2text
     {
         $level = 0;
         $offset = 0;
-        while (($start = strpos($text, '<blockquote', $offset)) !== false) {
+        while (($start = stripos($text, '<blockquote', $offset)) !== false) {
             $offset = $start + 12;
             do {
-                $end = strpos($text, '</blockquote>', $offset);
-                $next = strpos($text, '<blockquote', $offset);
+                $end = stripos($text, '</blockquote>', $offset);
+                $next = stripos($text, '<blockquote', $offset);
 
                 // nested <blockquote>, skip
                 if ($next !== false && $next < $end) {

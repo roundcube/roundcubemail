@@ -79,7 +79,7 @@ class rc_html2text extends PHPUnit_Framework_TestCase
     {
         $html = <<<EOF
 <br>Begin<br><blockquote>OUTER BEGIN<blockquote>INNER 1<br></blockquote><div><br></div><div>Par 1</div>
-<blockquote>INNER 2</blockquote><div><br></div><div>Par 2</div>
+<blockQuote>INNER 2</blockquote><div><br></div><div>Par 2</div>
 <div><br></div><div>Par 3</div><div><br></div>
 <blockquote>INNER 3</blockquote>OUTER END</blockquote>
 EOF;
