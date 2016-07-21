@@ -8850,7 +8850,7 @@ function rcube_webmail()
     if (!this.env.browser_capabilities)
       this.env.browser_capabilities = {};
 
-    $.each(['pdf', 'flash', 'tif'], function() {
+    $.each(['pdf', 'flash', 'tiff', 'webp'], function() {
       if (ref.env.browser_capabilities[this] === undefined)
         ref.env.browser_capabilities[this] = ref[this + '_support_check']();
     });
@@ -8870,16 +8870,26 @@ function rcube_webmail()
     return ret.join();
   };
 
-  this.tif_support_check = function()
+  this.tiff_support_check = function()
+  {
+    this.image_support_check('tiff');
+    return 0;
+  };
+
+  this.webp_support_check = function()
+  {
+    this.image_support_check('webp');
+    return 0;
+  };
+
+  this.image_support_check = function(type)
   {
     window.setTimeout(function() {
       var img = new Image();
-      img.onload = function() { ref.env.browser_capabilities.tif = 1; };
-      img.onerror = function() { ref.env.browser_capabilities.tif = 0; };
-      img.src = ref.assets_path('program/resources/blank.tif');
+      img.onload = function() { ref.env.browser_capabilities[type] = 1; };
+      img.onerror = function() { ref.env.browser_capabilities[type] = 0; };
+      img.src = ref.assets_path('program/resources/blank.' + type);
     }, 10);
-
-    return 0;
   };
 
   this.pdf_support_check = function()

@@ -1369,17 +1369,22 @@ function rcmail_message_body($attrib)
 
 function rcmail_part_image_type($part)
 {
-    // Skip TIFF images if browser doesn't support this format...
-    $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
-    // until we can convert them to JPEG
-    $tiff_support = $tiff_support || rcube_image::is_convertable('image/tiff');
+    $mimetype = strtolower($part->mimetype);
 
-    // Content-type regexp
-    $mime_regex = $tiff_support ? '/^image\//i' : '/^image\/(?!tif)/i';
+    // Skip TIFF/WEBP images if browser doesn't support this format
+    // ...until we can convert them to JPEG
+    $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tiff']);
+    $tiff_support = $tiff_support || rcube_image::is_convertable('image/tiff');
+    $webp_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['webp']);
+    $webp_support = $webp_support || rcube_image::is_convertable('image/webp');
+
+    if ((!$tiff_support && $mimetype == 'image/tiff') || (!$webp_support && $mimetype == 'image/webp')) {
+        return;
+    }
 
     // Content-Type: image/*...
-    if (preg_match($mime_regex, $part->mimetype)) {
-        return rcmail_fix_mimetype($part->mimetype);
+    if (strpos($mimetype, 'image/') === 0) {
+        return rcmail_fix_mimetype($mimetype);
     }
 
     // Many clients use application/octet-stream, we'll detect mimetype
@@ -1397,9 +1402,12 @@ function rcmail_part_image_type($part)
         $types['tif']  = 'image/tiff';
         $types['tiff'] = 'image/tiff';
     }
+    if ($webp_support) {
+        $types['webp'] = 'image/webp';
+    }
 
     if ($part->filename
-        && preg_match('/^application\/octet-stream$/i', $part->mimetype)
+        && $mimetype == 'application/octet-stream'
         && preg_match('/\.([^.]+)$/i', $part->filename, $m)
         && ($extension = strtolower($m[1]))
         && isset($types[$extension])
