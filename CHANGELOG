@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Searching in both contacts and groups when LDAP addressbook with group_filters option is used
 - Use contact_search_name format in popup on results in compose contacts search
 - Fix missing localization of HTML editor when assets_dir != INSTALL_PATH
+- Fix handling of blockquote tags with mixed case on html2text conversion (#5363)
 - Fix message list multi-select/deselect issue (#5219)
 - Fix bug where contact search menu fields where always unchecked in Larry skin
 - Fix XSS issue in href attribute on area tag (#5240)
