@@ -23,6 +23,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             rcmail.register_command('search', function(props) {return rcmail.enigma_search(props); }, true);
             rcmail.register_command('reset-search', function(props) {return rcmail.enigma_search_reset(props); }, true);
             rcmail.register_command('plugin.enigma-import', function() { rcmail.enigma_import(); }, true);
+            rcmail.register_command('plugin.enigma-import-search', function() { rcmail.enigma_import_search(); }, true);
             rcmail.register_command('plugin.enigma-key-export', function() { rcmail.enigma_export(); });
             rcmail.register_command('plugin.enigma-key-export-selected', function() { rcmail.enigma_export(true); });
             rcmail.register_command('plugin.enigma-key-import', function() { rcmail.enigma_key_import(); }, true);
@@ -33,6 +34,19 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             rcmail.addEventListener('responseafterplugin.enigmakeys', function() {
                 rcmail.enable_command('plugin.enigma-key-export', rcmail.env.rowcount > 0);
             });
+
+            if (rcmail.gui_objects.importform) {
+                // make sure Enter key in search input starts searching
+                // instead of submitting the form
+                $('#rcmimportsearch').keydown(function(e) {
+                    if (e.which == 13) {
+                        rcmail.enigma_import_search();
+                        return false;
+                    }
+                });
+
+                $('input[type="button"]:first').focus();
+            }
         }
     }
     else if (rcmail.env.task == 'mail') {
@@ -217,6 +231,21 @@ rcube_webmail.prototype.enigma_import = function()
    }
 };
 
+// Ssearch for key(s) for import
+rcube_webmail.prototype.enigma_import_search = function()
+{
+    var form, search;
+
+    if (form = this.gui_objects.importform) {
+        search = $('#rcmimportsearch').val();
+        if (!search) {
+            return;
+        }
+
+        this.enigma_find_publickey(search);
+   }
+};
+
 // list row selection handler
 rcube_webmail.prototype.enigma_keylist_select = function(list)
 {
@@ -251,6 +280,8 @@ rcube_webmail.prototype.enigma_loadframe = function(url)
         if (!url && (win = window.frames[this.env.contentframe])) {
             if (win.location && win.location.href.indexOf(this.env.blankpage) < 0)
                 win.location.href = this.env.blankpage;
+            if (this.env.frame_lock)
+                this.set_busy(false, null, this.env.frame_lock);
             return;
         }
 
@@ -297,8 +328,11 @@ rcube_webmail.prototype.enigma_search_reset = function(props)
 };
 
 // Keys/certs listing
-rcube_webmail.prototype.enigma_list = function(page)
+rcube_webmail.prototype.enigma_list = function(page, reset_frame)
 {
+    if (this.is_framed())
+        return parent.rcmail.enigma_list(page, reset_frame);
+
     var params = {'_a': 'list'},
       lock = this.set_busy(true, 'loading');
 
@@ -309,7 +343,7 @@ rcube_webmail.prototype.enigma_list = function(page)
     if (page)
         params._p = page;
 
-    this.enigma_clear_list();
+    this.enigma_clear_list(reset_frame);
     this.http_post('plugin.enigmakeys', params, lock);
 };
 
@@ -329,9 +363,11 @@ rcube_webmail.prototype.enigma_list_page = function(page)
 };
 
 // Remove list rows
-rcube_webmail.prototype.enigma_clear_list = function()
+rcube_webmail.prototype.enigma_clear_list = function(reset_frame)
 {
-    this.enigma_loadframe();
+    if (reset_frame !== false)
+        this.enigma_loadframe();
+
     if (this.keys_list)
         this.keys_list.clear(true);
 
@@ -549,6 +585,9 @@ rcube_webmail.prototype.enigma_find_publickey = function(email)
         function(key) {
             var lock = rcmail.set_busy(true, 'enigma.importwait'),
                 post = {_a: 'import', _keys: key};
+
+            if (rcmail.env.action == 'plugin.enigmakeys')
+                post._refresh = 1;
 
             // send request to server
             rcmail.http_post('plugin.enigmakeys', post, lock);

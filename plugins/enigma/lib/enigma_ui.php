@@ -510,6 +510,10 @@ class enigma_ui
                 else {
                     $this->rc->output->show_message('enigma.keysimportsuccess', 'confirmation',
                         array('new' => $result['imported'], 'old' => $result['unchanged']));
+
+                    if ($result['imported'] && !empty($_POST['_refresh'])) {
+                        $this->rc->output->command('enigma_list', 1, false);
+                    }
                 }
             }
             else {
@@ -566,20 +570,51 @@ class enigma_ui
 
         $upload = new html_inputfield(array('type' => 'file', 'name' => '_file',
             'id' => 'rcmimportfile', 'size' => 30));
+        $search = new html_inputfield(array('type' => 'text', 'name' => '_search',
+            'id' => 'rcmimportsearch', 'size' => 30));
 
-        $form = html::p(null,
+        $upload_button = new html_inputfield(array(
+                'type'    => 'button',
+                'value'   => $this->rc->gettext('import'),
+                'class'   => 'button',
+                'onclick' => "return rcmail.command('plugin.enigma-import','',this,event)",
+        ));
+
+        $search_button = new html_inputfield(array(
+                'type'    => 'button',
+                'value'   => $this->rc->gettext('search'),
+                'class'   => 'button',
+                'onclick' => "return rcmail.command('plugin.enigma-import-search','',this,event)",
+        ));
+
+        $upload_form = html::div(null,
             rcube::Q($this->enigma->gettext('keyimporttext'), 'show')
             . html::br() . html::br() . $upload->show()
+            . html::br() . html::br() . $upload_button->show()
         );
 
-        $this->rc->output->add_label('selectimportfile', 'importwait');
+        $search_form = html::div(null,
+            rcube::Q($this->enigma->gettext('keyimportsearchtext'), 'show')
+            . html::br() . html::br() . $search->show()
+            . html::br() . html::br() . $search_button->show()
+        );
+
+        $form = html::tag('fieldset', '', html::tag('legend', null, $this->enigma->gettext('keyimportlabel')) . $upload_form)
+            . html::tag('fieldset', '', html::tag('legend', null, $this->enigma->gettext('keyimportsearchlabel')) . $search_form);
+
+        $this->rc->output->add_label('selectimportfile', 'importwait', 'nopubkeyfor', 'nopubkeyforsender',
+            'encryptnoattachments','encryptedsendialog','searchpubkeyservers', 'importpubkeys',
+            'encryptpubkeysfound',  'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
+            'keyrevoked', 'keyimportsuccess', 'keyservererror');
         $this->rc->output->add_gui_object('importform', $attrib['id']);
+        $this->rc->output->include_script('publickey.js');
 
         $out = $this->rc->output->form_tag(array(
-            'action' => $this->rc->url(array('action' => $this->rc->action, 'a' => 'import')),
-            'method' => 'post',
+            'action'  => $this->rc->url(array('action' => $this->rc->action, 'a' => 'import')),
+            'method'  => 'post',
             'enctype' => 'multipart/form-data') + $attrib,
-            $form);
+            $form
+        );
 
         return $out;
     }

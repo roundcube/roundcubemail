@@ -3808,7 +3808,7 @@ function rcube_webmail()
   // them into the local Maivelope keyring
   this.mailvelope_key_import_dialog = function(candidates, import_handler)
   {
-    var ul = $('<div>').addClass('listing mailvelopekeyimport');
+    var ul = $('<div>').addClass('listing pgpkeyimport');
     $.each(candidates, function(i, keyrec) {
       var li = $('<div>').addClass('key');
       if (keyrec.revoked)  li.addClass('revoked');
@@ -3862,8 +3862,8 @@ function rcube_webmail()
       ref.get_label('importpubkeys'),
       [{
         text: ref.get_label('close'),
-        click: function(){
-          $(this).dialog('close');
+        click: function() {
+          (ref.is_framed() ? parent.$ : $)(this).dialog('close');
         }
       }]
     );

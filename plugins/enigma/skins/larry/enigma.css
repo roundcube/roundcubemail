@@ -141,6 +141,12 @@ p.enigmaattachment a {
   text-overflow: ellipsis;
 }
 
+#keyimportform fieldset div
+{
+  background-color: #eee;
+  padding: 10px;
+}
+
 #keystoolbar
 {
   position: absolute;

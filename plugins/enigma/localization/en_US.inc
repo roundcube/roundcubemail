@@ -89,6 +89,8 @@ $labels['keyexportprompt'] = 'Do you want to include secret keys in the saved Op
 $labels['onlypubkeys'] = 'Export Public Keys Only';
 $labels['withprivkeys'] = 'Export Secret Keys';
 $labels['findkey'] = 'Search on key server(s)';
+$labels['keyimportlabel'] = 'Import from file';
+$labels['keyimportsearchlabel'] = 'Search on key server(s)';
 
 $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';
@@ -120,6 +122,7 @@ $messages['keyremoveconfirm'] = 'Are you sure, you want to delete selected key(s
 $messages['keyremovesuccess'] = 'Key(s) deleted successfully';
 $messages['keyremoveerror'] = 'Unable to delete selected key(s).';
 $messages['keyimporttext'] = 'You can import private and public key(s) or revocation signatures in ASCII-Armor format.';
+$messages['keyimportsearchtext'] = 'You can search for public keys by key identifier, user name or email address and then import them directly.';
 
 $messages['formerror'] = 'Please, fill the form. All fields are required!';
 $messages['passwordsdiffer'] = 'Passwords do not match!';
