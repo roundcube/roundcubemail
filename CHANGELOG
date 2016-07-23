@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Remove backward compatibility "layer" of bc.php (#4902)
 - Support WEBP images in mail messages (#5362)
 - Support MathML in HTML message preview (#5182)
 - Rename Addressbook to Contacts (#5233)
