@@ -827,20 +827,6 @@ function rcmail_scroller(list, top, bottom)
   };
 };
 
-
-// Events handling in iframes (eg. preview pane)
-function iframe_events()
-{
-  // this==iframe
-  try {
-    var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-    $(doc).mouseup(function(e) { rcmail_ui.body_mouseup(e); });
-  }
-  catch (e) {
-    // catch possible "Permission denied" error in IE
-  };
-};
-
 // Abbreviate mailbox names to fit width of the container
 function rcube_render_mailboxlist()
 {
@@ -1015,8 +1001,7 @@ function rcube_init_mail_ui()
       update_quota(rcmail.env.quota_content);
     rcmail.addEventListener('setquota', update_quota);
 
-    $('iframe').on('load', iframe_events)
-      .contents().mouseup(function(e) { rcmail_ui.body_mouseup(e); });
+    rcube_webmail.set_iframe_events({mouseup: function(e) { return rcmail_ui.body_mouseup(e); }});
 
     if (rcmail.env.task == 'mail') {
       rcmail.addEventListener('enable-command', 'enable_command', rcmail_ui)
