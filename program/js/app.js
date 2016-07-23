@@ -612,16 +612,12 @@ function rcube_webmail()
     }
 
     // catch document (and iframe) mouse clicks
-    var body_mouseup = function(e){ return ref.doc_mouse_up(e); };
+    var body_mouseup = function(e) { return ref.doc_mouse_up(e); };
     $(document.body)
       .mouseup(body_mouseup)
-      .keydown(function(e){ return ref.doc_keypress(e); });
+      .keydown(function(e) { return ref.doc_keypress(e); });
 
-    $('iframe').on('load', function(e) {
-        try { $(this.contentDocument || this.contentWindow).on('mouseup', body_mouseup);  }
-        catch (e) {/* catch possible "Permission denied" error in IE */ }
-      })
-      .contents().on('mouseup', body_mouseup);
+    rcube_webmail.set_iframe_events({mouseup: body_mouseup});
 
     // trigger init event hook
     this.triggerEvent('init', { task:this.task, action:this.env.action });
@@ -8979,6 +8975,23 @@ rcube_webmail.subject_text = function(elem)
   var t = $(elem).clone();
   t.find('.skip-on-drag').remove();
   return t.text();
+};
+
+// set event handlers on all iframe elements (and their contents)
+rcube_webmail.set_iframe_events = function(events)
+{
+  $('iframe').each(function() {
+    var frame = $(this);
+    $.each(events, function(event_name, event_handler) {
+      frame.on('load', function(e) {
+        try { $(this).contents().on(event_name, event_handler); }
+        catch (e) {/* catch possible permission error in IE */ }
+      });
+
+      try { frame.contents().on(event_name, event_handler); }
+      catch (e) {/* catch possible permission error in IE */ }
+    });
+  });
 };
 
 rcube_webmail.prototype.get_cookie = getCookie;
