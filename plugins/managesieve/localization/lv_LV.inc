@@ -232,5 +232,4 @@ $messages['invaliddateformat'] = 'Nederīgs datums vai datuma formāts';
 $messages['saveerror'] = 'Nav iespējams saglabāt datus. Servera kļūda.';
 $messages['vacationsaved'] = 'Brīvdienu iestatījumi veiksmīgi saglabāti.';
 $messages['emptyvacationbody'] = 'Brīvdienu e-pastam obligāti jānorāda vēstules teksts!';
-$messages['duplicate.conflict.err'] = 'Nedrīkst vienlaicīgi iestatīt gan galvenes, gan unikālo identifikatoru.';
 ?>

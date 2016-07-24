@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = 'Šifrovanie';
 $labels['enigmacerts'] = 'Certifikáty S/MIME';
@@ -77,6 +77,12 @@ $labels['enterkeypasstitle'] = 'Zadať kľúčovú frázu';
 $labels['enterkeypass'] = 'Na odomknutie tajného kľúča je potrebná kľúčová fráza ($keyid) pre používateľa: $user.';
 $labels['arialabelkeyexportoptions'] = 'Nastavenia exportu kľúčov';
 $labels['attachpubkeymsg'] = 'Pripojiť môj verejný kľúč';
+$labels['keyexportprompt'] = 'Chcete do uloženého súboru s kľúčmi OpenPGP zahrnúť aj tajné kľúče?';
+$labels['onlypubkeys'] = 'Exportovať len verejné kľúče';
+$labels['withprivkeys'] = 'Exportovať tajné kľúče';
+$labels['findkey'] = 'Hľadať na serveri/serveroch s kľúčom';
+$labels['keyimportlabel'] = 'Importovať zo súboru';
+$labels['keyimportsearchlabel'] = 'Hľadať na serveri/serveroch s kľúčom';
 $messages['sigvalid'] = 'Overený podpis od $sender.';
 $messages['sigvalidpartial'] = 'Overený podpis od $sender, ale časť tela podpísaná nebola.';
 $messages['siginvalid'] = 'Neplatný podpis od $sender.';
@@ -96,6 +102,7 @@ $messages['signnopass'] = 'Vloženie podpisu nebolo úspešné. Vyžaduje sa kľ
 $messages['encrypterror'] = 'Šifrovanie nebolo úspešné.';
 $messages['encryptnokey'] = 'Šifrovanie nebolo úspešné. Nenašiel sa verejný kľúč pre $email.';
 $messages['nokeysfound'] = 'Nenašli sa žiadne kľúče';
+$messages['keynotfound'] = 'Kľúč sa nenašiel!';
 $messages['keyopenerror'] = 'Nemožno získať informácie o kľúči! Interná chyba.';
 $messages['keylisterror'] = 'Nemožno zostaviť zoznam kľúčov! Interná chyba.';
 $messages['keysimportfailed'] = 'Nemožno naimportovať kľúč(e)! Interná chyba.';
@@ -105,6 +112,7 @@ $messages['keyremoveconfirm'] = 'Naozaj chcete vymazať vybraný kľúč/kľúč
 $messages['keyremovesuccess'] = 'Vymazanie kľúča (kľúčov) bolo úspešné.';
 $messages['keyremoveerror'] = 'Nemožno vymazať vybraný kľúč (vybrané kľúče).';
 $messages['keyimporttext'] = 'Môžete naimportovať súkromné a verejné kľúče alebo podpisy pre odvolanie vo formáte ASCII-Armor.';
+$messages['keyimportsearchtext'] = 'Verejné kľúče môžete vyhľadávať podľa identifikátora kľúča, mena používateľa alebo e-mailovej adresy a potom ich priamo importovať.';
 $messages['formerror'] = 'Prosím vyplňte formulár. Je nutné vyplniť všetky polia!';
 $messages['passwordsdiffer'] = 'Heslá sa nezhodujú!';
 $messages['nonameident'] = 'Identita musí mať definované meno používateľa!';

@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = 'Encriptación';
 $labels['enigmacerts'] = 'Certificados S/MIME';
@@ -77,6 +77,12 @@ $labels['enterkeypasstitle'] = 'Escriba la frase de contraseña';
 $labels['enterkeypass'] = 'Se necesita una contraseña para desbloquear la clave secreta ($keyid) para el usuario: $user.';
 $labels['arialabelkeyexportoptions'] = 'Opciones de claves de exportación';
 $labels['attachpubkeymsg'] = 'Adjuntar mi clave pública';
+$labels['keyexportprompt'] = '¿Quiere incluir claves secretas en el archivo guardado de claves OpenPGP?';
+$labels['onlypubkeys'] = 'Exportar Sólo las Claves Públicas';
+$labels['withprivkeys'] = 'Exportar las Claves Secretas';
+$labels['findkey'] = 'Buscar en servidor(es) de claves';
+$labels['keyimportlabel'] = 'Importar desde archivo';
+$labels['keyimportsearchlabel'] = 'Buscar en servidor(es) de claves';
 $messages['sigvalid'] = 'Firma verificada por $sender.';
 $messages['sigvalidpartial'] = 'Firma verificada de $sender, pero parte parte del cuerpo no estaba firmado.';
 $messages['siginvalid'] = 'Firma inválida por $sender.';
@@ -96,6 +102,7 @@ $messages['signnopass'] = 'Acceso fallido. Contraseña requerida.';
 $messages['encrypterror'] = 'Encriptación fallida.';
 $messages['encryptnokey'] = 'Encriptación fallida. Clave pública no encontrada para $email.';
 $messages['nokeysfound'] = 'No se encontraron claves';
+$messages['keynotfound'] = '¡Clave no encontrada!';
 $messages['keyopenerror'] = '¡No se puede obtener la información de clave! Error interno.';
 $messages['keylisterror'] = '¡No es posible enumerar las claves! Error interno.';
 $messages['keysimportfailed'] = '¡No se puede(n) importar la(s) clave(s)! Error interno.';
@@ -105,6 +112,7 @@ $messages['keyremoveconfirm'] = '¿Seguro que quiere eliminar la(s) clave(s) sel
 $messages['keyremovesuccess'] = 'Clave(s) eliminada(s) correctamente.';
 $messages['keyremoveerror'] = 'No se han podido borrar las clave(s) seleccionadas.';
 $messages['keyimporttext'] = 'Puede importar la(s) clave(s) privada(s) y pública(s) o firmas de revocación en formato ASCII-Armor.';
+$messages['keyimportsearchtext'] = 'Puedes buscar claves por identificador de clave, nombre de usuario o dirección de email y después importarlas directamente.';
 $messages['formerror'] = 'Por favor llene el formulario. ¡Todos los campos son obligatorios!';
 $messages['passwordsdiffer'] = '¡Las contraseñas no coinciden!';
 $messages['nonameident'] = '¡La identidad debe de tener un nombre de usuario definido!';

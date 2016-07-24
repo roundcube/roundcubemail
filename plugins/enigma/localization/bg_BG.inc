@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = 'Криптиране';
 $labels['enigmacerts'] = 'S/MIME сертификати';
@@ -77,6 +77,9 @@ $labels['enterkeypasstitle'] = 'Въведете парола на ключа';
 $labels['enterkeypass'] = 'Нужна е парола за отваряне на ключ ($keyid) за потребител $user.';
 $labels['arialabelkeyexportoptions'] = 'Опции за експорт на ключ';
 $labels['attachpubkeymsg'] = 'Прикрепи моя публичен ключ';
+$labels['keyexportprompt'] = 'Желаете ли да включите секретните ключове в записания OpenPGP файл?';
+$labels['onlypubkeys'] = 'Експорт само на Публичните ключове';
+$labels['withprivkeys'] = 'Експорт на Секретни ключове';
 $messages['sigvalid'] = 'Верифициран подпис от $sender.';
 $messages['sigvalidpartial'] = 'Верифициран подпис от $sender, но част от съдържанието на писмото не е било подписано';
 $messages['siginvalid'] = 'Невалиден подпис от $sender.';

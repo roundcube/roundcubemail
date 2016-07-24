@@ -124,6 +124,7 @@ $labels['filtercreate'] = 'Vytvoriť filter';
 $labels['usedata'] = 'Použiť tieto údaje vo filtri:';
 $labels['nextstep'] = 'Ďalší krok';
 $labels['...'] = '...';
+$labels['string'] = 'Reťazec';
 $labels['currdate'] = 'Aktuálny dátum';
 $labels['datetest'] = 'Dátum';
 $labels['dateheader'] = 'záhlavie:';

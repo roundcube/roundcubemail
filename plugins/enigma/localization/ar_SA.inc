@@ -15,5 +15,5 @@
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
-$labels['keychpass'] = 'Promjena zaporke';
+$messages['decryptbadpass'] = 'فشل فك التشفير.  كلمة السر غير صالحة.';
 ?>

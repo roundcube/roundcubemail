@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = 'Salaus';
 $labels['enigmacerts'] = 'S/MIME-varmenteet';
@@ -31,8 +31,10 @@ $labels['typepublickey'] = 'julkinen avain';
 $labels['typekeypair'] = 'avainpari';
 $labels['keyattfound'] = 'Tämä viesti sisältää yhden tai useamman PGP-avaimen.';
 $labels['keyattimport'] = 'Tuo avaimia';
-$labels['typesign'] = 'Allekirjoita';
-$labels['typeencrypt'] = 'Salaa';
+$labels['typesign'] = 'Allekirjoitus';
+$labels['typeencrypt'] = 'Salaus';
+$labels['typecert'] = 'Todistus';
+$labels['typeauth'] = 'Tunnistautuminen';
 $labels['subkeyid'] = 'Tunniste';
 $labels['subkeyalgo'] = 'Algoritmi';
 $labels['subkeycreated'] = 'Luotu';
@@ -48,6 +50,7 @@ $labels['supportsignatures'] = 'Käytä viestien allekirjoitusten vahvistusta';
 $labels['supportdecryption'] = 'Ota käyttöön viestien salauksen purkaminen';
 $labels['signdefault'] = 'Allekirjoita kaikki viestit oletuksena';
 $labels['encryptdefault'] = 'Salaa kaikki viestit oletuksena';
+$labels['attachpubkeydefault'] = 'Liitä julkinen PGP-avaimeni oletuksena';
 $labels['passwordtime'] = 'Säilytä yksityisen avaimen salasanat';
 $labels['nminutes'] = '$m minuutin ajan';
 $labels['wholesession'] = 'koko istunnon ajan';
@@ -72,6 +75,8 @@ $labels['encryptmsg'] = 'Salaa tämä viesti';
 $labels['signmsg'] = 'Lisää digitaalinen allekirjoitus tähän viestiin';
 $labels['enterkeypasstitle'] = 'Anna tunnuslause';
 $labels['arialabelkeyexportoptions'] = 'Avaimien vientivalinnat';
+$labels['attachpubkeymsg'] = 'Liitä julkinen avaimeni';
+$labels['findkey'] = 'Etsi avainpalvelimilta';
 $messages['sigvalid'] = 'Vahvistettu allekirjoitus lähettäjältä $sender.';
 $messages['siginvalid'] = 'Virheellinen allekirjoitus lähettäjältä $sender.';
 $messages['sigunverified'] = 'Vahvistamaton allekirjoitus. Varmennetta ei ole vahvistettu. Varmenteen tunniste: $keyid.';
@@ -89,11 +94,13 @@ $messages['signnopass'] = 'Allekirjoitus epäonnistui. Avaimen salasana vaaditaa
 $messages['encrypterror'] = 'Salaaminen epäonnistui.';
 $messages['encryptnokey'] = 'Salaaminen epäonnistui. Osoitteelle $email ei löytynyt julkista avainta.';
 $messages['nokeysfound'] = 'Avaimia ei löytynyt';
+$messages['keynotfound'] = 'Avainta ei löytynyt!';
 $messages['keyopenerror'] = 'Avaintietojen noutaminen ei onnistu! Sisäinen virhe.';
 $messages['keylisterror'] = 'Avainten listaaminen ei onnistu! Sisäinen virhe.';
 $messages['keysimportfailed'] = 'Avaimen tuominen epäonnistui! Sisäinen virhe.';
 $messages['formerror'] = 'Täytä lomake. Kaikki kentät ovat pakollisia!';
 $messages['passwordsdiffer'] = 'Salasanat eivät täsmää!';
+$messages['nonameident'] = 'Identiteetillä tulee olla käyttäjänimi määritettynä!';
 $messages['keygenerateerror'] = 'Avainparin luominen epäonnistui';
 $messages['keygeneratesuccess'] = 'Avainpari luotiin ja tuotiin onnistuneesti.';
 $messages['keygennosupport'] = 'Selaimesi ei tue salaustekniikkaa. Avainparin luominen ei onnistu!';

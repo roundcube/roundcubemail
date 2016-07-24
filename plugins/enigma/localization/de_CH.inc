@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = 'Verschlüsselung';
 $labels['enigmacerts'] = 'S/MIME Zertifikate';
@@ -85,7 +85,7 @@ $messages['signokey'] = 'Unbestätigte Signatur. Öffentlicher Schlüssel wurde 
 $messages['sigerror'] = 'Unbestätigte Signatur. Interner Fehler.';
 $messages['decryptok'] = 'Nachricht entschlüsselt.';
 $messages['decrypterror'] = 'Entschlüsselung fehlgeschlagen.';
-$messages['decryptnokey'] = 'Entschlüsselung fehlgeschlagen. Öffentlichen Schlüssel für $email nicht gefunden.';
+$messages['decryptnokey'] = 'Entschlüsselung fehlgeschlagen. Privater Schlüssel wurde nicht gefunden. Schlüssel-ID: $keyid.';
 $messages['decryptbadpass'] = 'Entschlüsselung fehlgeschlagen. Falsches Passwort.';
 $messages['decryptnopass'] = 'Entschlüsselung fehlgeschlagen. Schlüsselpasswort wird benötigt.';
 $messages['decryptpartial'] = 'Nachricht entschlüsselt, aber ein Teil der Nachricht wurde nicht verschlüsselt.';
