@@ -174,6 +174,7 @@ $messages['savedsearchcreated'] = 'Suche erfolgreich gespeichert.';
 $messages['savedsearchcreateerror'] = 'Suche konnte nicht gespeichert werden.';
 $messages['messagedeleted'] = 'Nachricht(en) erfolgreich gelöscht.';
 $messages['messagemoved'] = 'Nachricht(en) erfolgreich verschoben.';
+$messages['messagemovedtotrash'] = 'Nachricht(en) erfolgreich in den Papierkorb verschoben.';
 $messages['messagecopied'] = 'Nachricht(en) erfolgreich kopiert.';
 $messages['messagemarked'] = 'Nachricht(en) erfolgreich markiert.';
 $messages['autocompletechars'] = 'Geben Sie mind. $min Zeichen für die Auto-Vervollständigung ein.';

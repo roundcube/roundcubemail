@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = 'Шифрование';
 $labels['enigmacerts'] = 'Сертификаты S/MIME';
@@ -77,6 +77,10 @@ $labels['enterkeypasstitle'] = 'Введите фразу-пароль ключ�
 $labels['enterkeypass'] = 'Фраза-пароль нужна для разблокировки секретного ключа ($keyid) пользователя: $user.';
 $labels['arialabelkeyexportoptions'] = 'Параметры экспорта ключей';
 $labels['attachpubkeymsg'] = 'Прикрепить мой открытый ключ';
+$labels['keyexportprompt'] = 'Вы хотите включить закрытые ключи в файл сохранения ключей OpenPGP?';
+$labels['onlypubkeys'] = 'Экспортировать только открытые ключи';
+$labels['withprivkeys'] = 'Экспортировать закрытые ключи';
+$labels['findkey'] = 'Поиск на сервере(-ах) ключей';
 $messages['sigvalid'] = 'Проверенная подпись $sender.';
 $messages['sigvalidpartial'] = 'Проверенная подпись $sender, но часть сообщения не подписана.';
 $messages['siginvalid'] = 'Недействительная подпись $sender.';
@@ -96,6 +100,7 @@ $messages['signnopass'] = 'Сбой подписания. Требуется к�
 $messages['encrypterror'] = 'Сбой шифрования.';
 $messages['encryptnokey'] = 'Сбой шифрования. Не найден открытый ключ для $email.';
 $messages['nokeysfound'] = 'Ключи не найдены';
+$messages['keynotfound'] = 'Ключ не найден!';
 $messages['keyopenerror'] = 'Невозможно получить информацию о ключе! Внутренняя ошибка.';
 $messages['keylisterror'] = 'Невозможно составить список ключей! Внутренняя ошибка.';
 $messages['keysimportfailed'] = 'Невозможно импортировать ключ(и)! Внутренняя ошибка.';

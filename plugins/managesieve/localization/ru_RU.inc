@@ -233,4 +233,5 @@ $messages['invaliddateformat'] = 'Неверная дата или формат 
 $messages['saveerror'] = 'Невозможно сохранить данные. Ошибка сервера.';
 $messages['vacationsaved'] = 'Данные об отпуске успешно сохранены.';
 $messages['emptyvacationbody'] = 'Сообщение о причине отсутствия не может быть пустым!';
+$messages['duplicate.conflict.err'] = 'Не разрешено использовать заголовок и уникальный идентификатор вместе.';
 ?>

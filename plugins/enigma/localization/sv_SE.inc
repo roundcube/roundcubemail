@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = 'Kryptering';
 $labels['enigmacerts'] = 'S/MIME-certifikat';
@@ -77,6 +77,10 @@ $labels['enterkeypasstitle'] = 'Ange nyckelns lösenord';
 $labels['enterkeypass'] = 'Lösenord behövs för att låsa upp den privata nyckeln ($keyid) för användare $user.';
 $labels['arialabelkeyexportoptions'] = 'Exportalternativ för nycklar';
 $labels['attachpubkeymsg'] = 'Bifoga min offentliga nyckel';
+$labels['keyexportprompt'] = 'Inkludera privata nycklar i den sparade nyckelfilen för OpenPGP?';
+$labels['onlypubkeys'] = 'Exportera endast offentliga nycklar';
+$labels['withprivkeys'] = 'Exportera privata nycklar';
+$labels['findkey'] = 'Sök nyckel på en eller flera servrar';
 $messages['sigvalid'] = 'Signatur verifierad för $sender.';
 $messages['sigvalidpartial'] = 'Signatur verifierad för $sender, men meddelandet var delvis osignerat.';
 $messages['siginvalid'] = 'Ogiltig signatur från $sender.';
@@ -96,6 +100,7 @@ $messages['signnopass'] = 'Signeringen misslyckades. Ange nyckelns lösenord.';
 $messages['encrypterror'] = 'Krypteringen misslyckades.';
 $messages['encryptnokey'] = 'Krypteringen misslyckades. Offentlig nyckel otillgänglig för $email.';
 $messages['nokeysfound'] = 'Inga nycklar hittades.';
+$messages['keynotfound'] = 'Nyckeln hittades inte!';
 $messages['keyopenerror'] = 'Nyckelinformation kunde inte hämtas. Internt fel.';
 $messages['keylisterror'] = 'Nycklar kunde inte listas. Internt fel.';
 $messages['keysimportfailed'] = 'Nycklar kunde inte importeras. Internt fel.';
@@ -104,7 +109,7 @@ $messages['keyremoving'] = 'Tar bort nycklar...';
 $messages['keyremoveconfirm'] = 'Vill du ta bort markerade nycklar?';
 $messages['keyremovesuccess'] = 'Nycklar borttagna.';
 $messages['keyremoveerror'] = 'Nycklarna kunde inte tas bort.';
-$messages['keyimporttext'] = 'Privata och publika nycklar eller återkallande av signaturer kan importeras i formatet ASCII-Armor.';
+$messages['keyimporttext'] = 'Privata och offentliga nycklar eller återkallande av signaturer kan importeras i formatet ASCII-Armor.';
 $messages['formerror'] = 'Fyll i formulärets samtliga fält.';
 $messages['passwordsdiffer'] = 'Bekräftelsen av lösenordet stämmer inte.';
 $messages['nonameident'] = 'Användarnamn måste anges.';

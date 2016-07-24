@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = 'הצפנה';
 $labels['enigmacerts'] = 'תעודות מאושרות S/MIME';
@@ -50,6 +50,7 @@ $labels['supportsignatures'] = 'הפעלה של וידוא חתימות הודע
 $labels['supportdecryption'] = 'הפעלה של פיענוח הודעה';
 $labels['signdefault'] = 'חתימה של כל הודעה כברירת מחדל';
 $labels['encryptdefault'] = 'הצפנה של כל הודעה כברירת מחדל';
+$labels['attachpubkeydefault'] = 'צירוף המפתח הציבורי שלי כברירת מחדל';
 $labels['passwordtime'] = 'אחסון סיסמאות של מפתח פרטי עבור';
 $labels['nminutes'] = 'm$ דקות';
 $labels['wholesession'] = 'כל משך ההתקשרות';
@@ -75,7 +76,9 @@ $labels['signmsg'] = 'חתימה דיגיטלית של הודעה זו';
 $labels['enterkeypasstitle'] = 'נא להקיש צרור אותיות וסימנים ליצירת מפתח';
 $labels['enterkeypass'] = 'יש להקיש צרור אותיות וסימנים שנבחרו קודם כדי לשחרר נעילה של המפתח הסודי  (keyid$)  של משתמש  user$';
 $labels['arialabelkeyexportoptions'] = 'אפשרויות ייצוא של מפתחות';
+$labels['attachpubkeymsg'] = 'צירוף המפתח הציבורי שלי';
 $messages['sigvalid'] = 'אימות חתימה מ sender$';
+$messages['sigvalidpartial'] = 'אומתה חתימה של sender$ אבל חלק מגוף ההודעה לא נחתם';
 $messages['siginvalid'] = 'חתימה לא תקינה מ sender$';
 $messages['sigunverified'] = 'חתימה לא מאומתת. התעודה לא אומתה. קוד תעודה: keyid$.';
 $messages['signokey'] = 'חתימה לא מאומתת. לא נמצא מפתח ציבורי. קוד מפתח: keyid$.';
@@ -85,6 +88,7 @@ $messages['decrypterror'] = 'הפיענוח נכשל.';
 $messages['decryptnokey'] = 'הפיענוח נכשל. לא נמצא מפתח פרטי. קוד מפתח: keyid$.';
 $messages['decryptbadpass'] = 'פיענוח נכשל. סיסמה שגויה.';
 $messages['decryptnopass'] = 'פענוח נכשל. נדרשת סיסמת מפתח.';
+$messages['decryptpartial'] = 'ההודעה פוענחה אבל חלק מגוף ההודעה כלל לא הוצפן';
 $messages['signerror'] = 'חתימה נכשלה.';
 $messages['signnokey'] = 'חתימה נכשלה. לא נמצא מפתח פרטי.';
 $messages['signbadpass'] = 'חתחמה נכשלה. סיסמה שגויה.';
