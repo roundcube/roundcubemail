@@ -122,7 +122,6 @@ $labels['filtercreate'] = 'Create filter';
 $labels['usedata'] = 'Use following data in the filter:';
 $labels['nextstep'] = 'Next Step';
 $labels['...'] = '...';
-$labels['string'] = 'String';
 $labels['currdate'] = 'Current date';
 $labels['datetest'] = 'Date';
 $labels['dateheader'] = 'header:';

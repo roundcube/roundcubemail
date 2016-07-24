@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = 'Szyfrowanie';
 $labels['enigmacerts'] = 'Certyfikaty S/MIME';
@@ -77,6 +77,10 @@ $labels['enterkeypasstitle'] = 'Wprowadź hasło klucza';
 $labels['enterkeypass'] = 'Wymagane jest hasło do klucza ($keyid) użytkownika: $user.';
 $labels['arialabelkeyexportoptions'] = 'Opcje eksportu kluczy';
 $labels['attachpubkeymsg'] = 'Załącz mój klucz publiczny';
+$labels['keyexportprompt'] = 'Czy chcesz dołączyć klucze prywatne do utworzonego pliku kluczy PGP?';
+$labels['onlypubkeys'] = 'Eksportuj tylko klucze publiczne';
+$labels['withprivkeys'] = 'Eksportuj klucze prywatne';
+$labels['findkey'] = 'Wyszukaj na serwerach kluczy';
 $messages['sigvalid'] = 'Zweryfikowany podpis nadawcy $sender.';
 $messages['sigvalidpartial'] = 'Zweryfikowany podpis od $sender, ale część wiadomości nie została podpisana.';
 $messages['siginvalid'] = 'Błędny podpis nadawcy $sender.';
@@ -96,6 +100,7 @@ $messages['signnopass'] = 'Błąd podpisywania. Wymagane hasło klucza.';
 $messages['encrypterror'] = 'Błąd szyfrowania.';
 $messages['encryptnokey'] = 'Błąd szyfrowania. Nie znaleziono klucza publicznego dla $email.';
 $messages['nokeysfound'] = 'Nie znaleziono kluczy';
+$messages['keynotfound'] = 'Nie znaleziono klucza!';
 $messages['keyopenerror'] = 'Nie można odczytać informacji o kluczu! Błąd wewnętrzny.';
 $messages['keylisterror'] = 'Nie można odczytać listy kluczy! Błąd wewnętrzny.';
 $messages['keysimportfailed'] = 'Nie można zapisać kluczy! Błąd wewnętrzny.';
