@@ -1064,6 +1064,21 @@ function rcmail_user_prefs($current = null)
                     'content' => $checkbox->show($config['autocomplete_single']?1:0),
                 );
             }
+
+            // show option to hide contact photos
+            if (!isset($no_override['hide_contactphotos'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_hide_contactphotos';
+                $checkbox = new html_checkbox(array('name' => '_hide_contactphotos', 'id' => $field_id, 'value' => 1));
+
+                $blocks['main']['options']['hide_contactphotos'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('hidecontactphotos'))),
+                    'content' => $checkbox->show($config['hide_contactphotos']?1:0),
+                );
+            }
         break;
 
         // Special IMAP folders

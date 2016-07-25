@@ -13,17 +13,19 @@
 		<div id="sourcename"><roundcube:label name="addressbook" />: <roundcube:var name="env:sourcename" condition="env:action!='add'" /><roundcube:object name="sourceselector" id="sourceselect" condition="env:action=='add'" /></div>
 	<roundcube:endif />
 
-	<fieldset id="contactphoto">
-		<legend class="voice"><roundcube:label name="contactphoto" /></legend>
-		<roundcube:object name="contactphoto" id="contactpic" placeholder="/images/contactpic.png" />
-		<roundcube:if condition="env:photocol" />
-		<roundcube:object name="fileDropArea" id="contactpic" />
-		<div class="formlinks">
-			<roundcube:button command="upload-photo" id="uploadformlink" type="link" label="replacephoto" class="iconlink upload disabled" classAct="iconlink upload active" onclick="UI.show_uploadform();return false" condition="env:photocol" /><br/>
-			<roundcube:button command="delete-photo" type="link" label="delete" class="iconlink delete disabled" classAct="iconlink delete active" condition="env:photocol" />
-		</div>
-		<roundcube:endif />
-	</fieldset>
+	<roundcube:if condition="!env:hide_contactphotos" />
+		<fieldset id="contactphoto">
+			<legend class="voice"><roundcube:label name="contactphoto" /></legend>
+			<roundcube:object name="contactphoto" id="contactpic" placeholder="/images/contactpic.png" />
+			<roundcube:if condition="env:photocol" />
+			<roundcube:object name="fileDropArea" id="contactpic" />
+			<div class="formlinks">
+				<roundcube:button command="upload-photo" id="uploadformlink" type="link" label="replacephoto" class="iconlink upload disabled" classAct="iconlink upload active" onclick="UI.show_uploadform();return false" condition="env:photocol" /><br/>
+				<roundcube:button command="delete-photo" type="link" label="delete" class="iconlink delete disabled" classAct="iconlink delete active" condition="env:photocol" />
+			</div>
+			<roundcube:endif />
+		</fieldset>
+	<roundcube:endif />
 
 	<roundcube:object name="contactedithead" id="contacthead" size="16" form="editform" />
 	<br style="clear:both" />

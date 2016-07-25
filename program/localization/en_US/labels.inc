@@ -534,6 +534,7 @@ $labels['reqdsn'] = 'Always request a delivery status notification';
 $labels['replysamefolder'] = 'Place replies in the folder of the message being replied to';
 $labels['defaultabook'] = 'Default address book';
 $labels['autocompletesingle'] = 'Skip alternative email addresses in autocompletion';
+$labels['hidecontactphotos'] = 'Hide contact photos';
 $labels['listnamedisplay'] = 'List contacts as';
 $labels['spellcheckbeforesend'] = 'Check spelling before sending a message';
 $labels['spellcheckoptions'] = 'Spellcheck Options';

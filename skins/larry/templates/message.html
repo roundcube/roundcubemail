@@ -75,7 +75,9 @@
 </div>
 <roundcube:object name="messageFullHeaders" id="full-headers" />
 
+<roundcube:if condition="!env:hide_contactphotos" />
 <div id="contactphoto"><roundcube:object name="contactphoto" /></div>
+<roundcube:endif />
 </div>
 
 <div id="messagecontent">
