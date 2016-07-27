@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Enigma: Add possibility to configure gpg-agent binary location (enigma_pgp_agent)
+
 RELEASE 1.2.1
 -------------
 - Update TinyMCE to version 4.3.13 (#5309)
