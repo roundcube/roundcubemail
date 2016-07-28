@@ -2916,6 +2916,7 @@ ul.toolbarmenu li span.copy {
 	position: relative;
 	background: url(images/filetypes.png) 0 0 no-repeat;
 	margin-bottom: 1px;
+	line-height: 24px;
 }
 
 .attachmentslist li.txt,
@@ -3018,8 +3019,7 @@ ul.toolbarmenu li span.copy {
 	background-position: 0 -546px;
 }
 
-.attachmentslist li a,
-#compose-attachments ul li {
+.attachmentslist li a {
 	display: block;
 	color: #333;
 	font-weight: bold;
@@ -3047,6 +3047,10 @@ ul.toolbarmenu li span.copy {
 	outline: none;
 }
 
+#compose-attachments .attachmentslist li a.drop {
+	right: 24px;
+}
+
 .attachmentslist li a:focus,
 .attachmentslist li a.drop:focus {
 	background-color: rgba(30,150,192, 0.5);
@@ -3054,7 +3058,7 @@ ul.toolbarmenu li span.copy {
 }
 
 #compose-attachments ul li {
-	padding-right: 28px;
+	padding-right: 24px;
 }
 
 .attachmentslist li a:hover {
@@ -3062,7 +3066,8 @@ ul.toolbarmenu li span.copy {
 }
 
 .attachmentslist li.uploading {
-	background: url(images/ajaxloader.gif) 2px 6px no-repeat;
+	background: url(images/ajaxloader.gif) 4px 4px no-repeat;
+	padding-left: 30px;
 }
 
 .attachmentslist li a.delete,

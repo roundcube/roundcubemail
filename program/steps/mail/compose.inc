@@ -100,6 +100,7 @@ $OUTPUT->set_env('sig_below', $RCMAIL->config->get('sig_below'));
 $OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_separator', ',')));
 $OUTPUT->set_env('save_localstorage', (bool)$RCMAIL->config->get('compose_save_localstorage'));
 $OUTPUT->set_env('is_sent', false);
+$OUTPUT->set_env('mimetypes', rcmail_supported_mimetypes());
 
 $drafts_mbox     = $RCMAIL->config->get('drafts_mbox');
 $config_show_sig = $RCMAIL->config->get('show_sig', 1);
@@ -1549,6 +1550,9 @@ function rcmail_compose_attachment_list($attrib)
     $jslist = array();
     $button = '';
 
+    if ($attrib['icon_pos'] == 'left')
+        $COMPOSE['icon_pos'] = 'left';
+
     if (is_array($COMPOSE['attachments'])) {
         if ($attrib['deleteicon']) {
             $button = html::img(array(
@@ -1565,24 +1569,29 @@ function rcmail_compose_attachment_list($attrib)
                 continue;
             }
 
-            $content = sprintf('%s <span class="attachment-size">(%s)</span>',
+            $link_content = sprintf('%s <span class="attachment-size">(%s)</span>',
                 rcube::Q($a_prop['name']), $RCMAIL->show_bytes($a_prop['size']));
+
+            $content_link = html::a(array(
+                    'href'    => "#load",
+                    'onclick' => sprintf("return %s.command('load-attachment','rcmfile%s', this, event)", rcmail_output::JS_OBJECT_NAME, $id),
+                ), $link_content);
+
+            $delete_link = html::a(array(
+                    'href'    => "#delete",
+                    'title'   => $RCMAIL->gettext('delete'),
+                    'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this, event)", rcmail_output::JS_OBJECT_NAME, $id),
+                    'class'   => 'delete',
+                    'tabindex' => $attrib['tabindex'] ?: '0',
+                    'aria-label'   => $RCMAIL->gettext('delete') . ' ' . $a_prop['name'],
+                ), $button);
 
             $out .= html::tag('li', array(
                     'id'          => 'rcmfile'.$id,
                     'class'       => rcube_utils::file2class($a_prop['mimetype'], $a_prop['name']),
                     'onmouseover' => "rcube_webmail.long_subject_title_ex(this, 0)",
                 ),
-                html::a(array(
-                        'href'    => "#delete",
-                        'title'   => $RCMAIL->gettext('delete'),
-                        'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", rcmail_output::JS_OBJECT_NAME, $id),
-                        'class'   => 'delete',
-                        'tabindex' => $attrib['tabindex'] ?: '0',
-                        'aria-label'   => $RCMAIL->gettext('delete') . ' ' . $a_prop['name'],
-                    ),
-                    $button
-                ) . $content
+                $COMPOSE['icon_pos'] == 'left' ? $delete_link.$content_link : $content_link.$delete_link
             );
 
             $jslist['rcmfile'.$id] = array(

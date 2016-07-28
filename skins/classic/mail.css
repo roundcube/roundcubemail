@@ -245,7 +245,8 @@
 }
 
 #markmessagemenu li a,
-#compose-attachments li a
+#compose-attachments li a.delete,
+#compose-attachments li a.cancelupload
 {
   background: url(images/messageicons.png) no-repeat;
 }
@@ -1147,11 +1148,12 @@ table.headers-table tr td.header span
 #attachment-list li a.drop {
   background: url(images/icons/down_small.gif) no-repeat center 6px;
   width: 12px;
-  height: 7px;
+  height: 16px;
   cursor: pointer;
-  padding: 5px 0 0;
+  padding: 0;
   margin-left: 3px;
   display: inline-block;
+  vertical-align: middle;
 }
 
 #messagebody
@@ -1547,10 +1549,11 @@ input.from_address
 
 #compose-attachments ul li
 {
+  position: relative;
   height: 18px;
   line-height: 16px;
   font-size: 11px;
-  padding: 2px 2px 1px 2px;
+  padding: 2px 16px 1px 2px;
   border-bottom: 1px solid #EBEBEB;
   white-space: nowrap;
   overflow: hidden;
@@ -1558,7 +1561,8 @@ input.from_address
   -o-text-overflow: ellipsis;
 }
 
-#compose-attachments li a
+#compose-attachments li a.delete,
+#compose-attachments li a.cancelupload
 {
   text-indent: -5000px;
   width: 17px;
@@ -1567,6 +1571,7 @@ input.from_address
   display: inline-block;
   text-decoration: none;
   vertical-align: middle;
+  background-position: 0px -392px;
 }
 
 #compose-attachments li img
@@ -1574,16 +1579,21 @@ input.from_address
   vertical-align: middle;
 }
 
-#compose-attachments li a.delete,
-#compose-attachments li a.cancelupload
-{
-  background-position: 0px -392px;
-}
-
 #compose-attachments li span
 {
   line-height: 18px;
   vertical-align: middle;
+}
+
+#compose-attachments li a.drop {
+  background: url(images/icons/down_small.gif) no-repeat center 8px;
+  width: 16px;
+  height: 22px;
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 #upload-form,

@@ -296,7 +296,8 @@ function rcube_webmail()
           this.env.address_group_stack = [];
           this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel',
             'toggle-editor', 'list-addresses', 'pushgroup', 'search', 'reset-search', 'extwin',
-            'insert-response', 'save-response', 'menu-open', 'menu-close'];
+            'insert-response', 'save-response', 'menu-open', 'menu-close', 'load-attachment',
+            'download-attachment', 'open-attachment'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
@@ -777,6 +778,8 @@ function rcube_webmail()
       case 'menu-open':
         if (props && props.menu == 'attachmentmenu') {
           var mimetype = this.env.attachments[props.id];
+          if (mimetype && mimetype.mimetype) // in compose format is different
+            mimetype = mimetype.mimetype;
           this.enable_command('open-attachment', mimetype && this.env.mimetypes && $.inArray(mimetype, this.env.mimetypes) >= 0);
         }
         this.show_menu(props, props.show || undefined, event);
@@ -1018,16 +1021,29 @@ function rcube_webmail()
       case 'load-attachment':
       case 'open-attachment':
       case 'download-attachment':
-        var qstring = '_mbox='+urlencode(this.env.mailbox)+'&_uid='+this.env.uid+'&_part='+props,
-          mimetype = this.env.attachments[props];
+        var params, mimetype = this.env.attachments[props];
+
+        if (this.env.action == 'compose') {
+          params = {_file: props, _id: this.env.compose_id};
+          mimetype = mimetype ? mimetype.mimetype : '';
+        }
+        else {
+          params = {_mbox: this.env.mailbox, _uid: this.env.uid, _part: props};
+        }
 
         // open attachment in frame if it's of a supported mimetype
         if (command != 'download-attachment' && mimetype && this.env.mimetypes && $.inArray(mimetype, this.env.mimetypes) >= 0) {
-          if (this.open_window(this.env.comm_path+'&_action=get&'+qstring+'&_frame=1'))
+          if (this.open_window(this.url('get', $.extend({_frame: 1}, params))))
             break;
         }
 
-        this.goto_url('get', qstring+'&_download=1', false, true);
+        params._download = 1;
+
+        // prevent from page unload warning in compose
+        this.compose_skip_unsavedcheck = 1;
+        this.goto_url('get', params, false, true);
+        this.compose_skip_unsavedcheck = 0;
+
         break;
 
       case 'select-all':
@@ -4864,6 +4880,8 @@ function rcube_webmail()
     var tabindex = $(this.gui_objects.attachmentlist).attr('data-tabindex') || '0';
     li.find('a').attr('tabindex', tabindex);
 
+    this.triggerEvent('fileappended', {name: name, attachment: att, id: upload_id, item: li});
+
     return true;
   };
 
@@ -4880,7 +4898,7 @@ function rcube_webmail()
     if (name && this.env.attachments[name])
       this.http_post('remove-attachment', { _id:this.env.compose_id, _file:name });
 
-    return true;
+    return false;
   };
 
   this.cancel_attachment_upload = function(name, frame_name)
