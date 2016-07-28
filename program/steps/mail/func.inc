@@ -769,7 +769,7 @@ function rcmail_get_unseen_count($mbox_name)
  *
  * @param object rcube_message Message
  */
-function rcmail_check_safe(&$message)
+function rcmail_check_safe($message)
 {
     global $RCMAIL;
 
@@ -797,6 +797,8 @@ function rcmail_check_safe(&$message)
             break;
         }
     }
+
+    return !empty($message->is_safe);
 }
 
 /**
@@ -807,7 +809,7 @@ function rcmail_check_safe(&$message)
  * @param array  CID map replaces (inline images)
  * @return string Clean HTML
  */
-function rcmail_wash_html($html, $p, $cid_replaces)
+function rcmail_wash_html($html, $p, $cid_replaces = array())
 {
     global $REMOTE_OBJECTS;
 
@@ -2311,4 +2313,39 @@ function rcmail_save_attachment($message, $pid, $compose_id, $params = array())
     }
 
     return false;
+}
+
+// Return mimetypes supported by the browser
+function rcmail_supported_mimetypes()
+{
+    $rcmail = rcube::get_instance();
+
+    // mimetypes supported by the browser (default settings)
+    $mimetypes = (array) $rcmail->config->get('client_mimetypes');
+
+    // Remove unsupported types, which makes that attachment which cannot be
+    // displayed in a browser will be downloaded directly without displaying an overlay page
+    if (empty($_SESSION['browser_caps']['pdf']) && ($key = array_search('application/pdf', $mimetypes)) !== false) {
+        unset($mimetypes[$key]);
+    }
+
+    if (empty($_SESSION['browser_caps']['flash']) && ($key = array_search('application/x-shockwave-flash', $mimetypes)) !== false) {
+        unset($mimetypes[$key]);
+    }
+
+    foreach (array('tiff', 'webp') as $type) {
+        if (empty($_SESSION['browser_caps'][$type]) && ($key = array_search('image/' . $type, $mimetypes)) !== false) {
+            // can we convert it to jpeg?
+            if (!rcube_image::is_convertable('image/' . $type)) {
+                unset($mimetypes[$key]);
+            }
+        }
+    }
+
+    // @TODO: support mail preview for compose attachments
+    if ($rcmail->action != 'compose' && !in_array('message/rfc822', $mimetypes)) {
+        $mimetypes[] = 'message/rfc822';
+    }
+
+    return array_values($mimetypes);
 }

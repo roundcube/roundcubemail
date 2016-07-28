@@ -984,6 +984,18 @@ function percent_indicator(obj, data)
   $('#quotaimg').attr('title', data.title);
 };
 
+function attachment_menu_append(item)
+{
+  $(item).append(
+    $('<a class="drop"></a>').on('click keypress', function(e) {
+      if (e.type != 'keypress' || e.which == 13) {
+        rcmail_ui.show_attachmentmenu(this, e);
+        return false;
+      }
+    })
+  );
+};
+
 // Optional parameters used by TinyMCE
 var rcmail_editor_settings = {};
 
@@ -1034,17 +1046,18 @@ function rcube_init_mail_ui()
           $("select[name='editorSelector']").prop('disabled', e.active);
           $('a.button.attach, a.button.responses, a.button.attach, #uploadmenulink')[(e.active ? 'addClass' : 'removeClass')]('buttonPas disabled');
           $('#responseslist a.insertresponse')[(e.active ? 'removeClass' : 'addClass')]('active');
+          });
+        rcmail.addEventListener('fileappended', function(e) { attachment_menu_append(e.item); });
+
+        // add menu link for each attachment
+        $('#attachmentslist > li').each(function() {
+          attachment_menu_append(this);
         });
       }
       else if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
         // add menu link for each attachment
         $('#attachment-list > li[id^="attach"]').each(function() {
-          $(this).append($('<a class="drop"></a>').on('click keypress', function(e) {
-            if (e.type != 'keypress' || e.which == 13) {
-              rcmail_ui.show_attachmentmenu(this, e);
-              return false;
-            }
-          }));
+          attachment_menu_append(this);
         });
 
         $(window).resize(function() {

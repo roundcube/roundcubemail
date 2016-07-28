@@ -159,14 +159,7 @@ function rcube_mail_ui()
 
         // add menu link for each attachment
         $('#attachment-list > li').each(function() {
-          $(this).append($('<a class="drop" tabindex="0" aria-haspopup="true">Show options</a>')
-              .on('click keypress', function(e) {
-                  if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
-                      attachmentmenu(this, e);
-                      return false;
-                  }
-              })
-          );
+          attachmentmenu_append(this);
         });
 
         if (get_pref('previewheaders') == '1') {
@@ -179,8 +172,9 @@ function rcube_mail_ui()
       }
       else if (rcmail.env.action == 'compose') {
         rcmail.addEventListener('aftersend-attachment', show_uploadform)
+          .addEventListener('fileappended', function(e) { attachmentmenu_append(e.item); })
           .addEventListener('aftertoggle-editor', function(e) {
-            window.setTimeout(function(){ layout_composeview() }, 200);
+            window.setTimeout(function() { layout_composeview() }, 200);
             if (e && e.mode)
               $("select[name='editorSelector']").val(e.mode);
           })
@@ -226,6 +220,11 @@ function rcube_mail_ui()
 
         new rcube_splitter({ id:'composesplitterv', p1:'#composeview-left', p2:'#composeview-right',
           orientation:'v', relative:true, start:206, min:170, size:12, render:layout_composeview }).init();
+
+        // add menu link for each attachment
+        $('#attachment-list > li').each(function() {
+          attachmentmenu_append(this);
+        });
       }
       else if (rcmail.env.action == 'list' || !rcmail.env.action) {
         var previewframe = $('#mailpreviewframe').is(':visible');
@@ -878,6 +877,20 @@ function rcube_mail_ui()
     });
   }
 
+  // append drop-icon to attachments list item (to invoke attachment menu)
+  function attachmentmenu_append(item)
+  {
+    item = $(item);
+
+    if (!item.children('.drop').length)
+      item.append($('<a class="drop" tabindex="0" aria-haspopup="true">Show options</a>')
+          .on('click keypress', function(e) {
+            if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
+              attachmentmenu(this, e);
+              return false;
+            }
+          }));
+  }
 
   /**
    *
