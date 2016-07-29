@@ -352,6 +352,24 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * rcube:utils::format_datestr()
+     */
+    function test_format_datestr()
+    {
+        $test = array(
+            array('abc-555', 'abc', 'abc-555'),
+            array('2013-04-22', 'Y-m-d', '2013-04-22'),
+            array('22/04/2013', 'd/m/Y', '2013-04-22'),
+            array('4.22.2013', 'm.d.Y', '2013-04-22'),
+        );
+
+        foreach ($test as $data) {
+            $result = rcube_utils::format_datestr($data[0], $data[1]);
+            $this->assertSame($data[2], $result, "Error formatting date: " . $data[0]);
+        }
+    }
+
+    /**
      * rcube:utils::tokenize_string()
      */
     function test_tokenize_string()
