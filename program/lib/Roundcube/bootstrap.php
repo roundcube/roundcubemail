@@ -30,8 +30,6 @@ $config = array(
     // critical PHP settings here. Only these, which doesn't provide
     // an error/warning in the logs later. See (#1486307).
     'mbstring.func_overload'  => 0,
-    'magic_quotes_runtime'    => false,
-    'magic_quotes_sybase'     => false, // #1488506
 );
 
 // check these additional ini settings if not called via CLI
