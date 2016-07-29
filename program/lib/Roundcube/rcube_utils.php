@@ -314,11 +314,6 @@ class rcube_utils
             return $value;
         }
 
-        // strip slashes if magic_quotes enabled
-        if (get_magic_quotes_gpc() || get_magic_quotes_runtime()) {
-            $value = stripslashes($value);
-        }
-
         // remove HTML tags if not allowed
         if (!$allow_html) {
             $value = strip_tags($value);
