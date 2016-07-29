@@ -758,7 +758,6 @@ class rcube_utils
                 $dt = $timezone ? new DateTime($date, $timezone) : new DateTime($date);
             }
             catch (Exception $e) {
-            rcube::raise_error($e, true, false);
                 // ignore
             }
         }
