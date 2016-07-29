@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Enigma: Add possibility to configure gpg-agent binary location (enigma_pgp_agent)
 - Fix regression in resizing JPEG images with Imagick (#5376)
+- Managesieve: Fix parsing of vacation date-time with non-default date_format (#5372)
 
 RELEASE 1.2.1
 -------------

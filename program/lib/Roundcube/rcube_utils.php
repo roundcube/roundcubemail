@@ -758,6 +758,7 @@ class rcube_utils
                 $dt = $timezone ? new DateTime($date, $timezone) : new DateTime($date);
             }
             catch (Exception $e) {
+            rcube::raise_error($e, true, false);
                 // ignore
             }
         }
@@ -810,15 +811,47 @@ class rcube_utils
         $date = trim($date);
 
         // try to fix dd/mm vs. mm/dd discrepancy, we can't do more here
-        if (preg_match('/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})$/', $date, $m)) {
+        if (preg_match('/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})(.*)$/', $date, $m)) {
             $mdy   = $m[2] > 12 && $m[1] <= 12;
             $day   = $mdy ? $m[2] : $m[1];
             $month = $mdy ? $m[1] : $m[2];
-            $date  = sprintf('%04d-%02d-%02d 00:00:00', intval($m[3]), $month, $day);
+            $date  = sprintf('%04d-%02d-%02d%s', intval($m[3]), $month, $day, $m[4] ?: '00:00:00');
         }
         // I've found that YYYY.MM.DD is recognized wrong, so here's a fix
-        else if (preg_match('/^(\d{4})\.(\d{1,2})\.(\d{1,2})$/', $date)) {
-            $date = str_replace('.', '-', $date) . ' 00:00:00';
+        else if (preg_match('/^(\d{4})\.(\d{1,2})\.(\d{1,2})(.*)$/', $date)) {
+            $date = str_replace('.', '-', $date) . ($m[4] ?: '00:00:00');
+        }
+
+        return $date;
+    }
+
+    /**
+     * Turns the given date-only string in defined format into YYYY-MM-DD format.
+     *
+     * Supported formats: 'Y/m/d', 'Y.m.d', 'd-m-Y', 'd/m/Y', 'd.m.Y', 'j.n.Y'
+     *
+     * @param string $date   Date string
+     * @param string $format Input date format
+     *
+     * @return strin Date string in YYYY-MM-DD format, or the original string
+     *               if format is not supported
+     */
+    public static function format_datestr($date, $format)
+    {
+        $format_items = preg_split('/[.-\/\\\\]/', $format);
+        $date_items   = preg_split('/[.-\/\\\\]/', $date);
+        $iso_format   = '%04d-%02d-%02d';
+
+        if (count($format_items) == 3 && count($date_items) == 3) {
+            if ($format_items[0] == 'Y') {
+                $date = sprintf($iso_format, $date_items[0], $date_items[1], $date_items[2]);
+            }
+            else if (strpos('dj', $format_items[0]) !== false) {
+                $date = sprintf($iso_format, $date_items[2], $date_items[1], $date_items[0]);
+            }
+            else if (strpos('mn', $format_items[0]) !== false) {
+                $date = sprintf($iso_format, $date_items[2], $date_items[0], $date_items[1]);
+            }
         }
 
         return $date;
