@@ -322,12 +322,23 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             '20130422'   => '2013-04-22',
             '1900-10-10' => '1900-10-10',
             '01-01-1900' => '1900-01-01',
-            '01/30/1960' => '1960-01-30'
+            '01/30/1960' => '1960-01-30',
+            '1960.12.11 01:02:00' => '1960-12-11',
         );
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime);
             $this->assertSame($ts, $result ? $result->format('Y-m-d') : false, "Error parsing date: $datetime");
+        }
+
+        $test = array(
+            '12/11/2013 01:02:00' => '2013-11-12 01:02:00',
+            '1960.12.11 01:02:00' => '1960-12-11 01:02:00',
+        );
+
+        foreach ($test as $datetime => $ts) {
+            $result = rcube_utils::anytodatetime($datetime);
+            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i:s') : false, "Error parsing date: $datetime");
         }
     }
 
