@@ -172,7 +172,7 @@ function rcube_mail_ui()
       }
       else if (rcmail.env.action == 'compose') {
         rcmail.addEventListener('aftersend-attachment', show_uploadform)
-          .addEventListener('fileappended', function(e) { attachmentmenu_append(e.item); })
+          .addEventListener('fileappended', function(e) { if (e.attachment.complete) attachmentmenu_append(e.item); })
           .addEventListener('aftertoggle-editor', function(e) {
             window.setTimeout(function() { layout_composeview() }, 200);
             if (e && e.mode)
