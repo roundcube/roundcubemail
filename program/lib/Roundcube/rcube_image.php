@@ -167,9 +167,15 @@ class rcube_image
                         try {
                             $image = new Imagick($this->image_file);
 
-                            $image->setImageBackgroundColor('white');
-                            $image->setImageAlphaChannel(11);
-                            $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+                            try {
+                                // it throws exception on formats not supporting these features
+                                $image->setImageBackgroundColor('white');
+                                $image->setImageAlphaChannel(11);
+                                $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+                            }
+                            catch (Exception $e) {
+                                // ignore errors
+                            }
 
                             $image->setImageColorspace(Imagick::COLORSPACE_SRGB);
                             $image->setImageCompressionQuality(75);

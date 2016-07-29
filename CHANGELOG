@@ -25,6 +25,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Unhide advanced rule controls if there are inputs with errors
 - Managesieve: Display warning message when filter form contains errors
 - Enigma: Add possibility to configure gpg-agent binary location (enigma_pgp_agent)
+- Fix regression in resizing JPEG images with Imagick (#5376)
 
 RELEASE 1.2.1
 -------------
