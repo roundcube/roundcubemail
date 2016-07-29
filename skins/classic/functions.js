@@ -1046,8 +1046,11 @@ function rcube_init_mail_ui()
           $("select[name='editorSelector']").prop('disabled', e.active);
           $('a.button.attach, a.button.responses, a.button.attach, #uploadmenulink')[(e.active ? 'addClass' : 'removeClass')]('buttonPas disabled');
           $('#responseslist a.insertresponse')[(e.active ? 'removeClass' : 'addClass')]('active');
-          });
-        rcmail.addEventListener('fileappended', function(e) { attachment_menu_append(e.item); });
+        });
+        rcmail.addEventListener('fileappended', function(e) {
+          if (e.attachment.complete)
+            attachment_menu_append(e.item);
+        });
 
         // add menu link for each attachment
         $('#attachmentslist > li').each(function() {
