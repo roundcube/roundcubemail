@@ -1,3 +1,5 @@
+- Fix parsing of vacation date-time with non-default date_format (#5372)
+
 * version 8.7 [2016-07-19]
 -----------------------------------------------------------
 - Support 'string' test from variables extension [RFC 5229] (#5248)
