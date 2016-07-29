@@ -239,9 +239,11 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if ($date_extension) {
+            $date_format = $this->rc->config->get('date_format', 'Y-m-d');
             foreach (array('date_from', 'date_to') as $var) {
                 $time = ${str_replace('date', 'time', $var)};
-                $date = trim($$var . ' ' . $time);
+                $date = rcube_utils::format_datestr($$var, $date_format);
+                $date = trim($date . ' ' . $time);
 
                 if ($date && ($dt = rcube_utils::anytodatetime($date, $timezone))) {
                     if ($time) {
