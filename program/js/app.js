@@ -4938,7 +4938,7 @@ function rcube_webmail()
     if (!attachment)
       return;
 
-    var input = $('<input>').attr('type', 'text').val(attachment.name),
+    var input = $('<input>').attr({type: 'text', size: 50}).val(attachment.name),
       content = $('<label>').text(this.get_label('namex')).append(input);
 
     this.show_popup_dialog(content, this.get_label('attachmentrename'),
