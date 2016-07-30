@@ -2482,6 +2482,10 @@ ul.toolbarmenu li span.download {
 	background-position: 0 -1412px;
 }
 
+ul.toolbarmenu li span.rename {
+	background-position: 0 -2295px;
+}
+
 ul.toolbarmenu li span.edit {
 	background-position: 0 -1388px;
 }

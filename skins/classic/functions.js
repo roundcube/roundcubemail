@@ -401,12 +401,11 @@ show_attachmentmenu: function(elem, event)
 {
   var id = elem.parentNode.id.replace(/^attach/, '');
 
-  $('#attachmenuopen').off('click').attr('onclick', '').click(function(e) {
-    return rcmail.command('open-attachment', id, this);
-  });
-
-  $('#attachmenudownload').off('click').attr('onclick', '').click(function() {
-    rcmail.command('download-attachment', id, this);
+  $.each(['open', 'download', 'rename'], function() {
+    var action = this;
+    $('#attachmenu' + action).off('click').attr('onclick', '').click(function(e) {
+      return rcmail.command(action + '-attachment', id, this);
+    });
   });
 
   this.popups.attachmentmenu.link = elem;

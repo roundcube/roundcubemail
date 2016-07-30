@@ -2255,7 +2255,7 @@ class rcmail extends rcube
             $size = $this->show_bytes($size);
         }
 
-        if (!$this->exact_size) {
+        if (!$part->exact_size) {
             $size = '~' . $size;
         }
 

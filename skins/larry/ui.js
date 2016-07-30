@@ -827,12 +827,11 @@ function rcube_mail_ui()
   {
     var id = elem.parentNode.id.replace(/^attach/, '');
 
-    $('#attachmenuopen').off('click').attr('onclick', '').click(function(e) {
-      return rcmail.command('open-attachment', id, this);
-    });
-
-    $('#attachmenudownload').off('click').attr('onclick', '').click(function() {
-      rcmail.command('download-attachment', id, this);
+    $.each(['open', 'download', 'rename'], function() {
+      var action = this;
+      $('#attachmenu' + action).off('click').attr('onclick', '').click(function(e) {
+        return rcmail.command(action + '-attachment', id, this);
+      });
     });
 
     popupconfig.attachmentmenu.link = elem;
@@ -883,7 +882,7 @@ function rcube_mail_ui()
     item = $(item);
 
     if (!item.children('.drop').length)
-      item.append($('<a class="drop" tabindex="0" aria-haspopup="true">Show options</a>')
+      item.append($('<a class="drop skip-content" tabindex="0" aria-haspopup="true">Show options</a>')
           .on('click keypress', function(e) {
             if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
               attachmentmenu(this, e);
