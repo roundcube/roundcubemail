@@ -297,7 +297,7 @@ function rcube_webmail()
           this.env.compose_commands = ['send-attachment', 'remove-attachment', 'send', 'cancel',
             'toggle-editor', 'list-addresses', 'pushgroup', 'search', 'reset-search', 'extwin',
             'insert-response', 'save-response', 'menu-open', 'menu-close', 'load-attachment',
-            'download-attachment', 'open-attachment'];
+            'download-attachment', 'open-attachment', 'rename-attachment'];
 
           if (this.env.drafts_mailbox)
             this.env.compose_commands.push('savedraft')
@@ -4930,6 +4930,59 @@ function rcube_webmail()
       this.upload_progress_start(param.action, param.name);
   };
 
+  // rename uploaded attachment (in compose)
+  this.rename_attachment = function(id)
+  {
+    var attachment = this.env.attachments ? this.env.attachments[id] : null;
+
+    if (!attachment)
+      return;
+
+    var input = $('<input>').attr('type', 'text').val(attachment.name),
+      content = $('<label>').text(this.get_label('namex')).append(input);
+
+    this.show_popup_dialog(content, this.get_label('attachmentrename'),
+      [{
+        text: this.get_label('save'),
+        'class': 'mainaction',
+        click: function() {
+          var name;
+
+          if ((name = input.val()) && name != attachment.name) {
+            ref.http_post('rename-attachment', {_id: ref.env.compose_id, _file: id, _name: name},
+              ref.set_busy(true, 'loading'));
+          }
+
+          $(this).dialog('close');
+        }
+      }],
+      {open: function() { input.select(); }}
+    );
+  };
+
+  // update attachments list with the new name
+  this.rename_attachment_handler = function(id, name)
+  {
+    var attachment = this.env.attachments ? this.env.attachments[id] : null,
+      item = $('#' + id + ' > a.filename'),
+      link = $('<a>');
+
+    if (!attachment || !name)
+      return;
+
+    attachment.name = name;
+
+    // update attachments list
+    if (item.length == 1) {
+      // create a new element with new attachment name and cloned size
+      link.text(name).append($('span', item).clone());
+      // update attachment name element
+      item.html(link.html());
+      // reset parent's title which may contain the old name
+      item.parent().attr('title', '');
+    }
+  };
+
   // send remote request to add a new contact
   this.add_contact = function(value)
   {
@@ -9074,7 +9127,7 @@ rcube_webmail.long_subject_title_ex = function(elem)
 rcube_webmail.subject_text = function(elem)
 {
   var t = $(elem).clone();
-  t.find('.skip-on-drag,.voice').remove();
+  t.find('.skip-on-drag,.skip-content,.voice').remove();
   return t.text();
 };
 

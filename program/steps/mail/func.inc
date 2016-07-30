@@ -141,6 +141,7 @@ $RCMAIL->register_action_map(array(
     'expunge' => 'folders.inc',
     'purge'   => 'folders.inc',
     'remove-attachment'  => 'attachments.inc',
+    'rename-attachment'  => 'attachments.inc',
     'display-attachment' => 'attachments.inc',
     'upload'             => 'attachments.inc',
     'group-expand'       => 'autocomplete.inc',

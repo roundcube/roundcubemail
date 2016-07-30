@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Require PHP >= 5.4
 - Add possibility to preview and download attachments in mail compose (#5053)
+- Add possibility to rename attachments in mail compose (#4996)
 - Remove backward compatibility "layer" of bc.php (#4902)
 - Support WEBP images in mail messages (#5362)
 - Support MathML in HTML message preview (#5182)
