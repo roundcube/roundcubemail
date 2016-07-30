@@ -626,23 +626,33 @@ class enigma_engine
         $sig_part = $struct->parts[1];
 
         // Get bodies
-        // Note: The first part body need to be full part body with headers
-        //       it also cannot be decoded
-        if ($body !== null) {
-            // set signed part body
-            list($msg_body, $sig_body) = $this->explode_signed_body($body, $struct->ctype_parameters['boundary']);
+        if ($body === null) {
+            if (!$struct->body_modified) {
+                $body = $this->get_part_body($p['object'], $struct);
+            }
         }
-        else {
-            $msg_body = $this->get_part_body($p['object'], $msg_part, true);
-            $sig_body = $this->get_part_body($p['object'], $sig_part);
+
+        $boundary = $struct->ctype_parameters['boundary'];
+
+        // when it is a signed message forwarded as attachment
+        // ctype_parameters property will not be set
+        if (!$boundary && $struct->headers['content-type']
+            && preg_match('/boundary="?([a-zA-Z0-9\'()+_,-.\/:=?]+)"?/', $struct->headers['content-type'], $m)
+        ) {
+            $boundary = $m[1];
         }
+
+        // set signed part body
+        list($msg_body, $sig_body) = $this->explode_signed_body($body, $boundary);
 
         // Verify
-        $sig = $this->pgp_verify($msg_body, $sig_body);
+        if ($sig_body && $msg_body) {
+            $sig = $this->pgp_verify($msg_body, $sig_body);
 
-        // Store signature data for display
-        $this->signatures[$struct->mime_id] = $sig;
-        $this->signatures[$msg_part->mime_id] = $sig;
+            // Store signature data for display
+            $this->signatures[$struct->mime_id] = $sig;
+            $this->signatures[$msg_part->mime_id] = $sig;
+        }
     }
 
     /**
@@ -1175,16 +1185,29 @@ class enigma_engine
      *
      * @param rcube_message      Message object
      * @param rcube_message_part Message part
-     * @param bool               Return raw body with headers
      */
-    private function get_part_body($msg, $part, $full = false)
+    private function get_part_body($msg, $part)
     {
         // @TODO: Handle big bodies using file handles
 
-        if ($full) {
+        // This is a special case when we want to get the whole body
+        // using direct IMAP access, in other cases we prefer
+        // rcube_message::get_part_body() as the body may be already in memory
+        if (!$part->mime_id) {
+            // fake the size which may be empty for multipart/* parts
+            // otherwise get_message_part() below will fail
+            if (!$part->size) {
+                $reset = true;
+                $part->size = 1;
+            }
+
             $storage = $this->rc->get_storage();
-            $body    = $storage->get_raw_headers($msg->uid, $part->mime_id);
-            $body   .= $storage->get_raw_body($msg->uid, null, $part->mime_id);
+            $body    = $storage->get_message_part($msg->uid, $part->mime_id, $part,
+                null, null, true, 0, false);
+
+            if ($reset) {
+                $part->size = 0;
+            }
         }
         else {
             $body = $msg->get_part_body($part->mime_id, false);
