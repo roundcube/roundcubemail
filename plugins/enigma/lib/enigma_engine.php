@@ -161,6 +161,8 @@ class enigma_engine
             return new enigma_error(enigma_error::BADPASS, '', $error);
         }
 
+        $key->password = $pass;
+
         // select mode
         switch ($mode) {
         case self::SIGN_MODE_BODY:
