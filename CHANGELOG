@@ -30,6 +30,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix signature verification with some IMAP servers, e.g. Gmail, DBMail (#5371)
 - Fix regression in resizing JPEG images with Imagick (#5376)
 - Managesieve: Fix parsing of vacation date-time with non-default date_format (#5372)
+- Use SymLinksIfOwnerMatch in .htaccess instead of FollowSymLinks disabled on some hosts for security reasons (#5370)
 
 RELEASE 1.2.1
 -------------
