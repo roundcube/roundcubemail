@@ -152,7 +152,7 @@
 		<label><roundcube:object name="mdnCheckBox" form="form" id="rcmcomposereceipt" tabindex="4" /> <roundcube:label name="returnreceipt" /></label>
 	</span>
 	<roundcube:endif />
-	<roundcube:if condition="config:smtp_server != '' and !in_array('dsn_default', (array)config:dont_override)" />
+	<roundcube:if condition="!in_array('dsn_default', (array)config:dont_override)" />
 	<span class="composeoption">
 		<label><roundcube:object name="dsnCheckBox" form="form" id="rcmcomposedsn" tabindex="4" /> <roundcube:label name="dsn" /></label>
 	</span>
@@ -217,6 +217,15 @@
 		<li role="separator" class="separator"><label><roundcube:label name="manageresponses" /></label></li>
 		<roundcube:button command="save-response" type="link-menuitem" label="newresponse" classAct="active" unselectable="on" />
 		<roundcube:button command="responses" type="link-menuitem" label="editresponses" classAct="active" />
+	</ul>
+</div>
+
+<div id="attachmentmenu" class="popupmenu" aria-hidden="true">
+	<ul class="toolbarmenu" id="attachmentoptionsmenu" role="menu">
+		<roundcube:button command="open-attachment" id="attachmenuopen" type="link-menuitem" label="open" class="icon" classAct="icon active" innerclass="icon extwin" />
+		<roundcube:button command="download-attachment" id="attachmenudownload" type="link-menuitem" label="download" class="icon" classAct="icon active" innerclass="icon download" />
+		<roundcube:button command="rename-attachment" id="attachmenurename" type="link-menuitem" label="rename" class="icon" classAct="icon active" innerclass="icon rename" />
+		<roundcube:container name="attachmentmenu" id="attachmentoptionsmenu" />
 	</ul>
 </div>
 

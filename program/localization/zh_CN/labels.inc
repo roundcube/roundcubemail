@@ -589,5 +589,12 @@ $labels['arialabelidentityeditfrom'] = '标识编辑表单';
 $labels['arialabelresonseeditfrom'] = '回复编辑表单';
 $labels['arialabelsearchterms'] = '搜索关键词';
 $labels['helplistnavigation'] = '列表键盘导航';
+$labels['helplistkeyboardnavigation'] = "方向键上/下：移动选中/焦点所在行。
+空格键：选中焦点所在行。
+Shift + 上/下：再选中上方/下方的行。
+Ctrl + 空格键：将焦点所在行添加/移除选中。";
+$labels['helplistkeyboardnavmessages'] = "方向键左/右：展开/折叠消息话题（仅话题模式下）
+回车键：打开选中/焦点所在消息。
+删除键：移动选中消息到垃圾箱。";
 $labels['helplistkeyboardnavcontacts'] = "回车：打开选中的联系人";
 ?>

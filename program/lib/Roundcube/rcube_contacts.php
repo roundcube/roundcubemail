@@ -237,7 +237,7 @@ class rcube_contacts extends rcube_addressbook
             " WHERE c.`del` <> 1" .
                 " AND c.`user_id` = ?" .
                 ($this->group_id ? " AND m.`contactgroup_id` = ?" : "").
-                ($this->filter ? " AND (".$this->filter.")" : "") .
+                ($this->filter ? " AND ".$this->filter : "") .
             " ORDER BY ". $this->db->concat($order_cols) .
             " " . $this->sort_order,
             $start_row,
@@ -314,25 +314,13 @@ class rcube_contacts extends rcube_addressbook
             foreach ((array)$fields as $idx => $col) {
                 $val = $value[$idx];
 
-                if (!strlen($val))
+                if (!strlen($val)) {
                     continue;
+                }
 
                 // table column
                 if (in_array($col, $this->table_cols)) {
-                    switch ($mode) {
-                    case 1: // strict
-                        $where[] = '(' . $this->db->quote_identifier($col) . ' = ' . $this->db->quote($val)
-                            . ' OR ' . $this->db->ilike($col, $val . $AS . '%')
-                            . ' OR ' . $this->db->ilike($col, '%' . $AS . $val . $AS . '%')
-                            . ' OR ' . $this->db->ilike($col, '%' . $AS . $val) . ')';
-                        break;
-                    case 2: // prefix
-                        $where[] = '(' . $this->db->ilike($col, $val . '%')
-                            . ' OR ' . $this->db->ilike($col, $AS . $val . '%') . ')';
-                        break;
-                    default: // partial
-                        $where[] = $this->db->ilike($col, '%' . $val . '%');
-                    }
+                    $where[] = $this->fulltext_sql_where($val, $mode, $col);
                 }
                 // vCard field
                 else {
@@ -360,7 +348,7 @@ class rcube_contacts extends rcube_addressbook
         }
 
         foreach (array_intersect($required, $this->table_cols) as $col) {
-            $and_where[] = $this->db->quote_identifier($col).' <> '.$this->db->quote('');
+            $where[] = $this->db->quote_identifier($col).' <> '.$this->db->quote('');
         }
         $required = array_diff($required, $this->table_cols);
 
@@ -368,9 +356,6 @@ class rcube_contacts extends rcube_addressbook
             // use AND operator for advanced searches
             $where = join(" AND ", $where);
         }
-
-        if (!empty($and_where))
-            $where = ($where ? "($where) AND " : '') . join(' AND ', $and_where);
 
         // Post-searching in vCard data fields
         // we will search in all records and then build a where clause for their IDs
@@ -467,9 +452,10 @@ class rcube_contacts extends rcube_addressbook
         foreach ($words as $word) {
             switch ($mode) {
             case 1: // strict
-                $where[] = '(' . $this->db->ilike($col, $word . '%')
-                    . ' OR ' . $this->db->ilike($col, '%' . $WS . $word . $WS . '%')
-                    . ' OR ' . $this->db->ilike($col, '%' . $WS . $word) . ')';
+                $where[] = '(' . $this->db->ilike($col, $word)
+                    . ' OR ' . $this->db->ilike($col, $word . $AS . '%')
+                    . ' OR ' . $this->db->ilike($col, '%' . $AS . $word . $AS . '%')
+                    . ' OR ' . $this->db->ilike($col, '%' . $AS . $word) . ')';
                 break;
             case 2: // prefix
                 $where[] = '(' . $this->db->ilike($col, $word . '%')

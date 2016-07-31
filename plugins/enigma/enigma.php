@@ -21,7 +21,7 @@
  */
 class enigma extends rcube_plugin
 {
-    public $task = 'mail|settings';
+    public $task = 'mail|settings|cli';
     public $rc;
     public $engine;
     public $ui;
@@ -43,6 +43,7 @@ class enigma extends rcube_plugin
             $this->add_hook('message_body_prefix', array($this, 'status_message'));
 
             $this->register_action('plugin.enigmaimport', array($this, 'import_file'));
+            $this->register_action('plugin.enigmakeys', array($this, 'preferences_ui'));
 
             // load the Enigma plugin configuration
             $this->load_config();
@@ -84,6 +85,9 @@ class enigma extends rcube_plugin
             if (empty($_REQUEST['_framed']) || strpos($this->rc->action, 'plugin.enigma') === 0) {
                 $this->ui->add_css();
             }
+        }
+        else if ($this->rc->task == 'cli') {
+            $this->add_hook('user_delete_commit', array($this, 'user_delete'));
         }
 
         $this->add_hook('refresh', array($this, 'refresh'));
@@ -462,9 +466,9 @@ class enigma extends rcube_plugin
      */
     function import_file()
     {
-        $this->load_engine();
+        $this->load_ui();
 
-        $this->engine->import_file();
+        $this->ui->import_file();
     }
 
     /**
@@ -505,6 +509,18 @@ class enigma extends rcube_plugin
         // calling enigma_engine constructor to remove passwords
         // stored in session after expiration time
         $this->load_engine();
+
+        return $p;
+    }
+
+    /**
+     * Handle delete_user_commit hook
+     */
+    function user_delete($p)
+    {
+        $this->load_engine();
+
+        $p['abort'] = $p['abort'] || !$this->engine->delete_user_data($p['username']);
 
         return $p;
     }

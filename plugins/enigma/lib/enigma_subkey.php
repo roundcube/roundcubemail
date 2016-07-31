@@ -27,6 +27,7 @@ class enigma_subkey
     public $length;
     public $usage;
 
+
     /**
      * Converts internal ID to short ID
      * Crypt_GPG uses internal, but e.g. Thunderbird's Enigmail displays short ID

@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = 'Versleuteling';
 $labels['enigmacerts'] = 'S/MIME-certificaten';
@@ -77,6 +77,10 @@ $labels['enterkeypasstitle'] = 'Voer sleutelwachtwoord in';
 $labels['enterkeypass'] = 'Een wachtwoord is vereist om de geheime sleutel ($keyid) te openen voor gebruiker: $user.';
 $labels['arialabelkeyexportoptions'] = 'Opties voor sleutels exporteren';
 $labels['attachpubkeymsg'] = 'Voeg mijn publieke sleutel bij';
+$labels['keyexportprompt'] = 'Wilt u geheime sleutels bewaren in het opgeslagen OpenPGP-sleutelbestand?';
+$labels['onlypubkeys'] = 'Alleen publieke sleutels exporteren';
+$labels['withprivkeys'] = 'Geheime sleutels exporteren';
+$labels['findkey'] = 'Zoek op keyserver(s)';
 $messages['sigvalid'] = 'Ondertekening van $sender geverifieerd.';
 $messages['sigvalidpartial'] = 'Ondertekening van $sender geverifieerd, maar een deel van de inhoud was niet ondertekend.';
 $messages['siginvalid'] = 'Ongeldige ondertekening van $sender.';
@@ -96,6 +100,7 @@ $messages['signnopass'] = 'Ondertekenen mislukt. Sleutelwachtwoord vereist.';
 $messages['encrypterror'] = 'Versleutelen mislukt.';
 $messages['encryptnokey'] = 'Onsleutelen mislukt. Publieke sleutel niet gevonden voor $email.';
 $messages['nokeysfound'] = 'Geen sleutels gevonden';
+$messages['keynotfound'] = 'Sleutel niet gevonden';
 $messages['keyopenerror'] = 'Sleutelinformatie kan niet worden opgehaald! Interne fout.';
 $messages['keylisterror'] = 'Sleutels kunnen niet worden weergegeven! Interne fout.';
 $messages['keysimportfailed'] = 'Sleutel(s) kunnen niet worden geïmporteerd! Interne fout.';

@@ -21,6 +21,8 @@ class enigma_key
     public $name;
     public $users   = array();
     public $subkeys = array();
+    public $reference;
+    public $password;
 
     const TYPE_UNKNOWN = 0;
     const TYPE_KEYPAIR = 1;
@@ -86,6 +88,20 @@ class enigma_key
 
         foreach ($this->subkeys as $subkey)
             if (!$subkey->expires || $subkey->expires > $now)
+                return true;
+
+        return false;
+    }
+
+    /**
+     * Returns true if any of subkeys is a private key
+     */
+    function is_private()
+    {
+        $now = time();
+
+        foreach ($this->subkeys as $subkey)
+            if ($subkey->has_private)
                 return true;
 
         return false;

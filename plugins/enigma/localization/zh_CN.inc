@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = '加密';
 $labels['enigmacerts'] = 'S/MIME 证书';
@@ -77,6 +77,10 @@ $labels['enterkeypasstitle'] = '请输入密钥口令';
 $labels['enterkeypass'] = '需要口令解锁私钥 ($keyid)，用户：$user。';
 $labels['arialabelkeyexportoptions'] = '密钥导出选项';
 $labels['attachpubkeymsg'] = '附加我的公钥';
+$labels['keyexportprompt'] = '您要在保存的 OpenPGP 密钥文件中包含私钥吗？';
+$labels['onlypubkeys'] = '仅导出公钥';
+$labels['withprivkeys'] = '导出私钥';
+$labels['findkey'] = '搜索密钥服务器';
 $messages['sigvalid'] = '已验证来自 $sender 的签名。';
 $messages['sigvalidpartial'] = '已验证来自 $sender 的签名，但主体部分未被签名。';
 $messages['siginvalid'] = '无效的来自 $sender 的签名。';
@@ -96,6 +100,7 @@ $messages['signnopass'] = '签名失败。需要密钥密码。';
 $messages['encrypterror'] = '加密失败。';
 $messages['encryptnokey'] = '加密失败。用于 $email 的公钥未找到。';
 $messages['nokeysfound'] = '没有找到密钥';
+$messages['keynotfound'] = '密钥未找到！';
 $messages['keyopenerror'] = '无法获取密钥信息！内部错误。';
 $messages['keylisterror'] = '无法列出密钥。内部错误。';
 $messages['keysimportfailed'] = '无法导入密钥！内部错误。';

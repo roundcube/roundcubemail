@@ -218,6 +218,11 @@
   background-position: 7px -17px;
 }
 
+#attachmentmenu li a.renamelink
+{
+  background-position: 6px -69px;
+}
+
 #messagemenu li a.sourcelink
 {
   background-position: 7px -34px;
@@ -245,7 +250,8 @@
 }
 
 #markmessagemenu li a,
-#compose-attachments li a
+#compose-attachments li a.delete,
+#compose-attachments li a.cancelupload
 {
   background: url(images/messageicons.png) no-repeat;
 }
@@ -678,6 +684,7 @@ table.messagelist.fixedcopy
 .messagelist tr > .threads .listmenu,
 .messagelist tr > .attachment span.attachment,
 .messagelist tr > .attachment span.report,
+.messagelist tr > .attachment span.encrypted,
 .messagelist tr > .priority span.priority,
 .messagelist tr > .priority span.prio1,
 .messagelist tr > .priority span.prio2,
@@ -714,6 +721,11 @@ table.messagelist.fixedcopy
 .messagelist tr > .attachment span.report
 {
   background-position: 0 -255px;
+}
+
+.messagelist tr > .attachment span.encrypted
+{
+  background-position: 0 -418px;
 }
 
 .messagelist tr > .priority span.priority
@@ -1141,11 +1153,12 @@ table.headers-table tr td.header span
 #attachment-list li a.drop {
   background: url(images/icons/down_small.gif) no-repeat center 6px;
   width: 12px;
-  height: 7px;
+  height: 16px;
   cursor: pointer;
-  padding: 5px 0 0;
+  padding: 0;
   margin-left: 3px;
   display: inline-block;
+  vertical-align: middle;
 }
 
 #messagebody
@@ -1541,10 +1554,11 @@ input.from_address
 
 #compose-attachments ul li
 {
+  position: relative;
   height: 18px;
   line-height: 16px;
   font-size: 11px;
-  padding: 2px 2px 1px 2px;
+  padding: 2px 16px 1px 2px;
   border-bottom: 1px solid #EBEBEB;
   white-space: nowrap;
   overflow: hidden;
@@ -1552,7 +1566,8 @@ input.from_address
   -o-text-overflow: ellipsis;
 }
 
-#compose-attachments li a
+#compose-attachments li a.delete,
+#compose-attachments li a.cancelupload
 {
   text-indent: -5000px;
   width: 17px;
@@ -1561,6 +1576,7 @@ input.from_address
   display: inline-block;
   text-decoration: none;
   vertical-align: middle;
+  background-position: 0px -392px;
 }
 
 #compose-attachments li img
@@ -1568,16 +1584,21 @@ input.from_address
   vertical-align: middle;
 }
 
-#compose-attachments li a.delete,
-#compose-attachments li a.cancelupload
-{
-  background-position: 0px -392px;
-}
-
 #compose-attachments li span
 {
   line-height: 18px;
   vertical-align: middle;
+}
+
+#compose-attachments li a.drop {
+  background: url(images/icons/down_small.gif) no-repeat center 8px;
+  width: 16px;
+  height: 22px;
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 #upload-form,
@@ -1729,57 +1750,4 @@ input.from_address
 {
   top: 45px;
   position: absolute;
-}
-
-.mailvelopekeyimport div.key {
-  position: relative;
-  margin-bottom: 2px;
-  padding: 1em 1em 5px;
-  background-color: #ebebeb;
-}
-
-.mailvelopekeyimport div.key.revoked,
-.mailvelopekeyimport div.key.disabled {
-  color: #a0a0a0;
-}
-
-.mailvelopekeyimport div.key label {
-  display: inline-block;
-  margin-right: 0.5em;
-}
-
-.mailvelopekeyimport div.key label:after {
-  content: ":";
-}
-
-.mailvelopekeyimport div.key label + a,
-.mailvelopekeyimport div.key label + span {
-  display: inline-block;
-  margin-right: 2em;
-  white-space: nowrap;
-}
-
-.mailvelopekeyimport div.key label + a {
-  font-weight: bold;
-}
-
-.mailvelopekeyimport ul.uids {
-  margin: 5px 1em 0 1em;
-  padding: 0;
-}
-
-.mailvelopekeyimport li.uid {
-  border: 0;
-  padding: 2px;
-}
-
-.mailvelopekeyimport div.key input.button.importkey {
-  position: absolute;
-  top: 0.8em;
-  right: 0.8em;
-  padding: 2px 6px;
-}
-
-.mailvelopekeyimport div.key input.button[disabled] {
-  display: none;
 }

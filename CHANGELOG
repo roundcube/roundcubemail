@@ -1,13 +1,40 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Require PHP >= 5.4
+- Add possibility to preview and download attachments in mail compose (#5053)
+- Add possibility to rename attachments in mail compose (#4996)
+- Remove backward compatibility "layer" of bc.php (#4902)
+- Support WEBP images in mail messages (#5362)
+- Support MathML in HTML message preview (#5182)
+- Rename Addressbook to Contacts (#5233)
+- Remove PHP mail() support, smtp_server is required now (#5340)
+- Display full message subject in onmouseover on truncated subject in mail view (#5346)
+- Searching in both contacts and groups when LDAP addressbook with group_filters option is used
+- Enigma: Import keys from key-server(s) (#5286)
+- Enigma: Search missing public keys on a key-server in mail compose (#5286)
+- Enigma: Delete user keys when using deluser.sh script
+- Enigma: Fix redundant list-secret-keys/list-public-keys calls on signing/encryption
+- Enigma: Implement PGP encryption and signing in one go (#5302)
+- Enigma: Display signature verification status for encrypted+signed messages (#5302)
+- Display different attachment icon on encrypted messages
 - Display different confirmation text when moving messages to Trash (#5220)
 - Indicate that a collapsed thread has flagged children (#5013)
 - Implemented message/rfc822 attachment preview
 - Update to jsTimezoneDetect 1.0.6
+- Managesieve: Support 'string' test from variables extension [RFC 5229] (#5248)
 - Managesieve: Support 'duplicate' extension [RFC 7352]
 - Managesieve: Unhide advanced rule controls if there are inputs with errors
 - Managesieve: Display warning message when filter form contains errors
+- Enigma: Add possibility to configure gpg-agent binary location (enigma_pgp_agent)
+- Enigma: Fix signature verification with some IMAP servers, e.g. Gmail, DBMail (#5371)
+- Fix regression in resizing JPEG images with Imagick (#5376)
+- Managesieve: Fix parsing of vacation date-time with non-default date_format (#5372)
+- Use SymLinksIfOwnerMatch in .htaccess instead of FollowSymLinks disabled on some hosts for security reasons (#5370)
+
+RELEASE 1.2.1
+-------------
+- Update TinyMCE to version 4.3.13 (#5309)
 - Fix bug where errors could have been not logged when per_user_logging=true
 - Fix bug where message list columns could be in wrong order after column drag-n-drop and list sorting
 - Fix so minified publickey.js (with cache-buster) is used when available (#5254)
@@ -18,6 +45,23 @@ CHANGELOG Roundcube Webmail
 - Fix bug where multi-folder search could choose a wrong folder in "this and subfolders" scope (#5282)
 - Fix bug where multi-folder search didn't work for unsubscribed INBOX (#5259)
 - Fix bug where "no body" alert could be displayed when sending mailvelope email
+- Enigma: Fix keys import from inside of an encrypted message (#5285)
+- Enigma: Fix malformed signed messages with force_7bit=true (#5292)
+- Enigma: Add possibility to configure gpg binary location (enigma_pgp_binary)
+- Enigma: Add possibility to export private keys (#5321)
+- Fix searching by email address in contacts with multiple addresses (#5291)
+- Fix handling of --delete argument in moduserprefs.sh script (#5296)
+- Workaround PHP issue by calling closelog() on script shutdown when using log_driver=syslog (#5289)
+- Fix so upgrade script makes sure program/lib directory does not contain old libraries (#5287)
+- Fix subscription checkbox state on error in folder subscribe/unsubscribe action (#5243)
+- Fix bug where microsecond format in logged date didn't work in some cases
+- Fix conflict in new_user_dialog and password_force_new_user settings (#5275)
+- Don't create multipart/alternative messages with empty text/plain part (#5283)
+- Use contact_search_name format in popup on results in compose contacts search
+- Fix handling of 'mailto' and 'error' arguments in message_before_send hook (#5347)
+- Fix missing localization of HTML editor when assets_dir != INSTALL_PATH
+- Fix handling of blockquote tags with mixed case on html2text conversion (#5363)
+- Fix javascript errors in IE on page with iframe that points to another domain
 
 RELEASE 1.2.0
 -------------

@@ -2482,6 +2482,10 @@ ul.toolbarmenu li span.download {
 	background-position: 0 -1412px;
 }
 
+ul.toolbarmenu li span.rename {
+	background-position: 0 -2295px;
+}
+
 ul.toolbarmenu li span.edit {
 	background-position: 0 -1388px;
 }
@@ -2916,6 +2920,7 @@ ul.toolbarmenu li span.copy {
 	position: relative;
 	background: url(images/filetypes.png) 0 0 no-repeat;
 	margin-bottom: 1px;
+	line-height: 24px;
 }
 
 .attachmentslist li.txt,
@@ -3018,8 +3023,7 @@ ul.toolbarmenu li span.copy {
 	background-position: 0 -546px;
 }
 
-.attachmentslist li a,
-#compose-attachments ul li {
+.attachmentslist li a {
 	display: block;
 	color: #333;
 	font-weight: bold;
@@ -3047,6 +3051,10 @@ ul.toolbarmenu li span.copy {
 	outline: none;
 }
 
+#compose-attachments .attachmentslist li a.drop {
+	right: 24px;
+}
+
 .attachmentslist li a:focus,
 .attachmentslist li a.drop:focus {
 	background-color: rgba(30,150,192, 0.5);
@@ -3054,7 +3062,7 @@ ul.toolbarmenu li span.copy {
 }
 
 #compose-attachments ul li {
-	padding-right: 28px;
+	padding-right: 24px;
 }
 
 .attachmentslist li a:hover {
@@ -3062,7 +3070,8 @@ ul.toolbarmenu li span.copy {
 }
 
 .attachmentslist li.uploading {
-	background: url(images/ajaxloader.gif) 2px 6px no-repeat;
+	background: url(images/ajaxloader.gif) 4px 4px no-repeat;
+	padding-left: 30px;
 }
 
 .attachmentslist li a.delete,
@@ -3159,4 +3168,58 @@ _:not(), _:-moz-handler-blocked, .mozilla .mce-btn-small i {
 .mce-textbox:focus {
 	box-shadow: none;
 	outline: none;
+}
+
+/** PGP Key import dialog **/
+.pgpkeyimport div.key {
+	position: relative;
+	margin-bottom: 2px;
+	padding: 1em;
+	background-color: #ebebeb;
+}
+
+.pgpkeyimport div.key.revoked,
+.pgpkeyimport div.key.disabled {
+	color: #a0a0a0;
+}
+
+.pgpkeyimport div.key label {
+	display: inline-block;
+	margin-right: 0.5em;
+}
+
+.pgpkeyimport div.key label:after {
+	content: ":";
+}
+
+.pgpkeyimport div.key label + a,
+.pgpkeyimport div.key label + span {
+	display: inline-block;
+	margin-right: 2em;
+	white-space: nowrap;
+}
+
+.pgpkeyimport div.key label + a {
+	font-weight: bold;
+}
+
+.pgpkeyimport ul.uids {
+	margin: 1em 0 0 0;
+	padding: 0;
+}
+
+.pgpkeyimport li.uid {
+	border: 0;
+	padding: 0.3em;
+}
+
+.pgpkeyimport div.key input.button.importkey {
+	position: absolute;
+	top: 0.8em;
+	right: 0.8em;
+	padding: 4px 6px;
+}
+
+.pgpkeyimport div.key input.button[disabled] {
+	display: none;
 }

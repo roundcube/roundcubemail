@@ -45,30 +45,9 @@ class enigma_mime_message extends Mail_mime
 
         // clone headers
         $this->headers = $message->headers();
-/*
-        if ($message->getParam('delay_file_io')) {
-            // use common temp dir
-            $temp_dir    = $this->config->get('temp_dir');
-            $body_file   = tempnam($temp_dir, 'rcmMsg');
-            $mime_result = $message->saveMessageBody($body_file);
 
-            if (is_a($mime_result, 'PEAR_Error')) {
-                self::raise_error(array('code' => 650, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not create message: ".$mime_result->getMessage()),
-                    true, false);
-                return false;
-            }
-
-            $msg_body = fopen($body_file, 'r');
-        }
-        else {
-*/
-            // \r\n is must-have here
-            $this->body = $message->get() . "\r\n";
-/*
-        }
-*/
+        // \r\n is must-have here
+        $this->body = $message->get() . "\r\n";
     }
 
     /**
@@ -126,7 +105,9 @@ class enigma_mime_message extends Mail_mime
         $_headers = $this->message->headers();
         $headers  = array();
 
-        if ($_headers['Content-Transfer-Encoding']) {
+        if ($_headers['Content-Transfer-Encoding']
+            && stripos($_headers['Content-Type'], 'multipart') === false
+        ) {
             $headers[] = 'Content-Transfer-Encoding: ' . $_headers['Content-Transfer-Encoding'];
         }
         $headers[] = 'Content-Type: ' . $_headers['Content-Type'];
@@ -142,8 +123,10 @@ class enigma_mime_message extends Mail_mime
     public function addPGPSignature($body)
     {
         $this->signature = $body;
+
         // Reset Content-Type to be overwritten with valid boundary
         unset($this->headers['Content-Type']);
+        unset($this->headers['Content-Transfer-Encoding']);
     }
 
     /**
@@ -154,8 +137,10 @@ class enigma_mime_message extends Mail_mime
     public function setPGPEncryptedBody($body)
     {
         $this->encrypted = $body;
+
         // Reset Content-Type to be overwritten with valid boundary
         unset($this->headers['Content-Type']);
+        unset($this->headers['Content-Transfer-Encoding']);
     }
 
     /**
@@ -193,7 +178,9 @@ class enigma_mime_message extends Mail_mime
                 $headers = $this->message->headers();
                 $params  = array('content_type' => $headers['Content-Type']);
 
-                if ($headers['Content-Transfer-Encoding']) {
+                if ($headers['Content-Transfer-Encoding']
+                    && stripos($headers['Content-Type'], 'multipart') === false
+                ) {
                     $params['encoding'] = $headers['Content-Transfer-Encoding'];
                 }
 
@@ -243,18 +230,24 @@ class enigma_mime_message extends Mail_mime
         if ($filename) {
             // Append mimePart message headers and body into file
             $headers = $message->encodeToFile($filename, $boundary, $skip_head);
+
             if ($this->isError($headers)) {
                 return $headers;
             }
+
             $this->headers = array_merge($this->headers, $headers);
-            return null;
+
+            return;
         }
         else {
             $output = $message->encode($boundary, $skip_head);
+
             if ($this->isError($output)) {
                 return $output;
             }
+
             $this->headers = array_merge($this->headers, $output['headers']);
+
             return $output['body'];
         }
     }

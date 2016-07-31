@@ -39,7 +39,7 @@ function rcube_text_editor(config, id)
     abs_url = location.href.replace(/[?#].*$/, '').replace(/\/$/, ''),
     conf = {
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
-      cache_suffix: 's=4020700',
+      cache_suffix: 's=4031300',
       theme: 'modern',
       language: config.lang,
       content_css: rcmail.assets_path('program/js/tinymce/roundcube/content.css'),
@@ -71,9 +71,6 @@ function rcube_text_editor(config, id)
     tinymce.registered_request_token = true;
     tinymce.util.XHR.on('beforeSend', function(e) {
       e.xhr.setRequestHeader('X-Roundcube-Request', rcmail.env.request_token);
-      // Fix missing lang parameter on addToDictionary request (#1490634)
-      if (e.settings && e.settings.data && /^method=addToDictionary/.test(e.settings.data) && !/&lang=/.test(e.settings.data))
-        e.settings.data += '&lang=' + ref.editor.plugins.spellchecker.getLanguage();
     });
   }
 
@@ -777,10 +774,9 @@ function rcube_text_editor(config, id)
   // create smart files upload button
   this.hack_file_input = function(elem, clone_form)
   {
-    var link = $(elem),
+    var offset, link = $(elem),
       file = $('<input>').attr('name', '_file[]'),
-      form = $('<form>').attr({method: 'post', enctype: 'multipart/form-data'}),
-      offset = link.offset();
+      form = $('<form>').attr({method: 'post', enctype: 'multipart/form-data'});
 
     // clone existing upload form
     if (clone_form) {
@@ -790,6 +786,7 @@ function rcube_text_editor(config, id)
     }
 
     function move_file_input(e) {
+      if (!offset) offset = link.offset();
       file.css({top: (e.pageY - offset.top - 10) + 'px', left: (e.pageX - offset.left - 10) + 'px'});
     }
 

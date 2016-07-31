@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = 'Verschlüsselung';
 $labels['enigmacerts'] = 'S/MIME Zertifikate';
@@ -77,6 +77,12 @@ $labels['enterkeypasstitle'] = 'Bitte Schlüssel Passwort eingeben';
 $labels['enterkeypass'] = 'Ein Passwort wird benötigt um den privaten Schlüssel ($keyid) für Benutzer: $user zu entsperren';
 $labels['arialabelkeyexportoptions'] = 'Optionen für Schlüsselexport';
 $labels['attachpubkeymsg'] = 'Meinen öffentlichen Schlüssel anfügen';
+$labels['keyexportprompt'] = 'Möchten Sie geheime Schlüssel in die gespeicherte OpenPGP-Schlüsseldatei mit aufnehmen?';
+$labels['onlypubkeys'] = 'Nur öffentliche Schlüssel exportieren';
+$labels['withprivkeys'] = 'Geheime Schlüssel exportieren';
+$labels['findkey'] = 'Auf Schlüsselserver(n) suchen';
+$labels['keyimportlabel'] = 'Aus Datei importieren';
+$labels['keyimportsearchlabel'] = 'Auf Schlüsselserver(n) suchen';
 $messages['sigvalid'] = 'Signatur von $sender wurde erfolgreich überprüft.';
 $messages['sigvalidpartial'] = 'Signatur von $sender wurde überprüft, aber ein Teil der Nachricht wurde nicht signiert.';
 $messages['siginvalid'] = 'Ungültige Signatur von $sender.';
@@ -85,7 +91,7 @@ $messages['signokey'] = 'Unbestätigte Signatur. Öffentlicher Schlüssel wurde 
 $messages['sigerror'] = 'Unbestätigte Signatur. Interner Fehler.';
 $messages['decryptok'] = 'Nachricht entschlüsselt.';
 $messages['decrypterror'] = 'Entschlüsselung fehlgeschlagen.';
-$messages['decryptnokey'] = 'Entschlüsselung fehlgeschlagen. Öffentlichen Schlüssel für $email nicht gefunden.';
+$messages['decryptnokey'] = 'Entschlüsselung fehlgeschlagen. Privater Schlüssel wurde nicht gefunden. Schlüssel-ID: $keyid.';
 $messages['decryptbadpass'] = 'Entschlüsselung fehlgeschlagen. Falsches Passwort.';
 $messages['decryptnopass'] = 'Entschlüsselung fehlgeschlagen. Schlüsselpasswort wird benötigt.';
 $messages['decryptpartial'] = 'Nachricht entschlüsselt, aber ein Teil der Nachricht wurde nicht verschlüsselt.';
@@ -96,6 +102,7 @@ $messages['signnopass'] = 'Signierung fehlgeschlagen. Schlüsselpasswort wird be
 $messages['encrypterror'] = 'Verschlüsselung fehlgeschlagen.';
 $messages['encryptnokey'] = 'Verschlüsselung fehlgeschlagen. Öffentlicehr Schlüssel für $email nicht gefunden';
 $messages['nokeysfound'] = 'Keine Schlüssel gefunden';
+$messages['keynotfound'] = 'Schlüssel nicht gefunden!';
 $messages['keyopenerror'] = 'Abrufen der Schlüsselinformationen nicht möglich. Interner Fehler.';
 $messages['keylisterror'] = 'Auflisten der Schlüsselinformationen nicht möglich! Interner Fehler.';
 $messages['keysimportfailed'] = 'Schlüsselimport fehlgeschlagen! Interner Fehler.';
@@ -105,6 +112,7 @@ $messages['keyremoveconfirm'] = 'Bist du dir sicher, dass du die ausgewählten S
 $messages['keyremovesuccess'] = 'Schlüssel erfolgreich gelöscht.';
 $messages['keyremoveerror'] = 'Löschung der Schlüssel nicht möglich.';
 $messages['keyimporttext'] = 'Private und öffentliche Schlüssel sowie zurückgerufene Signaturen können im ASCII-Armor Format importiert werden.';
+$messages['keyimportsearchtext'] = 'Sie können für öffentliche Schlüssel nach dem Schlüsselbezeichner, Benutzername oder der E-Mail-Adresse suchen und diese dann direkt importieren.';
 $messages['formerror'] = 'Bitte, alle Eingabefelder ausfüllen. Alle Eingabefelder werden benötigt!';
 $messages['passwordsdiffer'] = 'Passwörter stimmen nicht überein.';
 $messages['nonameident'] = 'Identität muss einen Benutzernamen definiert haben.';

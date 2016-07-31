@@ -236,6 +236,8 @@ function rcmail_contact_search()
     $OUTPUT->set_env('search_id', $sid);
     $OUTPUT->set_env('source', '');
     $OUTPUT->set_env('group', '');
+    // Re-set list header
+    $OUTPUT->command('set_group_prop', null);
 
     if (!$sid) {
         // unselect currently selected directory/group

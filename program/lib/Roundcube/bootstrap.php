@@ -30,8 +30,6 @@ $config = array(
     // critical PHP settings here. Only these, which doesn't provide
     // an error/warning in the logs later. See (#1486307).
     'mbstring.func_overload'  => 0,
-    'magic_quotes_runtime'    => false,
-    'magic_quotes_sybase'     => false, // #1488506
 );
 
 // check these additional ini settings if not called via CLI
@@ -100,9 +98,7 @@ if (!preg_match($regexp, $path)) {
 spl_autoload_register('rcube_autoload');
 
 // set PEAR error handling (will also load the PEAR main class)
-if (class_exists('PEAR')) {
-    @PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
-}
+PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
 
 
 /**
@@ -443,6 +439,11 @@ function rcube_autoload($classname)
     else if (strpos($classname, 'Auth_') === 0) {
         $classname = 'Auth/' . substr($classname, 5);
     }
+
+    // Translate PHP namespaces into directories,
+    // i.e. use \Sabre\VObject; $vcf = VObject\Reader::read(...)
+    //      -> Sabre/VObject/Reader.php
+    $classname = str_replace('\\', '/', $classname);
 
     if ($fp = @fopen("$classname.php", 'r', true)) {
         fclose($fp);

@@ -50,8 +50,10 @@ if ($RCMAIL->action == 'subscribe') {
 
             $OUTPUT->show_message('foldersubscribed', 'confirmation');
         }
-        else
+        else {
             $RCMAIL->display_server_error('errorsaving');
+            $OUTPUT->command('reset_subscription', $mbox, false);
+        }
     }
 }
 // unsubscribe mailbox
@@ -60,10 +62,14 @@ else if ($RCMAIL->action == 'unsubscribe') {
 
     if (strlen($mbox)) {
         $result = $STORAGE->unsubscribe(array($mbox));
-        if ($result)
+
+        if ($result) {
             $OUTPUT->show_message('folderunsubscribed', 'confirmation');
-        else
+        }
+        else {
             $RCMAIL->display_server_error('errorsaving');
+            $OUTPUT->command('reset_subscription', $mbox, true);
+        }
     }
 }
 // delete an existing mailbox

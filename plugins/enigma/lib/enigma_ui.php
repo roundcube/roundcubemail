@@ -161,7 +161,7 @@ class enigma_ui
             $data = array_merge($params, $data);
         }
 
-        if ($this->rc->action == 'send') {
+        if ($this->rc->action == 'send' || $this->rc->action == 'plugin.enigmaimport') {
             $this->rc->output->command('enigma_password_request', $data);
         }
         else {
@@ -223,7 +223,9 @@ class enigma_ui
         $this->rc->output->include_script('list.js');
 
         // add some labels to client
-        $this->rc->output->add_label('enigma.keyremoveconfirm', 'enigma.keyremoving');
+        $this->rc->output->add_label('enigma.keyremoveconfirm', 'enigma.keyremoving',
+            'enigma.keyexportprompt', 'enigma.withprivkeys', 'enigma.onlypubkeys', 'enigma.exportkeys'
+        );
 
         return $out;
     }
@@ -259,8 +261,11 @@ class enigma_ui
 
             // Add rows
             foreach ($list as $key) {
-                $this->rc->output->command('enigma_add_list_row',
-                    array('name' => rcube::Q($key->name), 'id' => $key->id));
+                $this->rc->output->command('enigma_add_list_row', array(
+                        'name'  => rcube::Q($key->name),
+                        'id'    => $key->id,
+                        'flags' => $key->is_private() ? 'p' : ''
+                ));
             }
         }
 
@@ -462,6 +467,7 @@ class enigma_ui
         $this->rc->request_security_check(rcube_utils::INPUT_GET);
 
         $keys   = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_GPC);
+        $priv   = rcube_utils::get_input_value('_priv', rcube_utils::INPUT_GPC);
         $engine = $this->enigma->load_engine();
         $list   = $keys == '*' ? $engine->list_keys() : explode(',', $keys);
 
@@ -477,7 +483,7 @@ class enigma_ui
 
             if ($fp = fopen('php://output', 'w')) {
                 foreach ($list as $key) {
-                    $engine->export_key(is_object($key) ? $key->id : $key, $fp);
+                    $engine->export_key(is_object($key) ? $key->id : $key, $fp, (bool) $priv);
                 }
             }
         }
@@ -497,8 +503,18 @@ class enigma_ui
             $result = $this->enigma->engine->import_key($data);
 
             if (is_array($result)) {
-                $this->rc->output->command('enigma_key_create_success');
-                $this->rc->output->show_message('enigma.keygeneratesuccess', 'confirmation');
+                if (rcube_utils::get_input_value('_generated', rcube_utils::INPUT_POST)) {
+                    $this->rc->output->command('enigma_key_create_success');
+                    $this->rc->output->show_message('enigma.keygeneratesuccess', 'confirmation');
+                }
+                else {
+                    $this->rc->output->show_message('enigma.keysimportsuccess', 'confirmation',
+                        array('new' => $result['imported'], 'old' => $result['unchanged']));
+
+                    if ($result['imported'] && !empty($_POST['_refresh'])) {
+                        $this->rc->output->command('enigma_list', 1, false);
+                    }
+                }
             }
             else {
                 $this->rc->output->show_message('enigma.keysimportfailed', 'error');
@@ -554,20 +570,51 @@ class enigma_ui
 
         $upload = new html_inputfield(array('type' => 'file', 'name' => '_file',
             'id' => 'rcmimportfile', 'size' => 30));
+        $search = new html_inputfield(array('type' => 'text', 'name' => '_search',
+            'id' => 'rcmimportsearch', 'size' => 30));
 
-        $form = html::p(null,
+        $upload_button = new html_inputfield(array(
+                'type'    => 'button',
+                'value'   => $this->rc->gettext('import'),
+                'class'   => 'button',
+                'onclick' => "return rcmail.command('plugin.enigma-import','',this,event)",
+        ));
+
+        $search_button = new html_inputfield(array(
+                'type'    => 'button',
+                'value'   => $this->rc->gettext('search'),
+                'class'   => 'button',
+                'onclick' => "return rcmail.command('plugin.enigma-import-search','',this,event)",
+        ));
+
+        $upload_form = html::div(null,
             rcube::Q($this->enigma->gettext('keyimporttext'), 'show')
             . html::br() . html::br() . $upload->show()
+            . html::br() . html::br() . $upload_button->show()
         );
 
-        $this->rc->output->add_label('selectimportfile', 'importwait');
+        $search_form = html::div(null,
+            rcube::Q($this->enigma->gettext('keyimportsearchtext'), 'show')
+            . html::br() . html::br() . $search->show()
+            . html::br() . html::br() . $search_button->show()
+        );
+
+        $form = html::tag('fieldset', '', html::tag('legend', null, $this->enigma->gettext('keyimportlabel')) . $upload_form)
+            . html::tag('fieldset', '', html::tag('legend', null, $this->enigma->gettext('keyimportsearchlabel')) . $search_form);
+
+        $this->rc->output->add_label('selectimportfile', 'importwait', 'nopubkeyfor', 'nopubkeyforsender',
+            'encryptnoattachments','encryptedsendialog','searchpubkeyservers', 'importpubkeys',
+            'encryptpubkeysfound',  'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
+            'keyrevoked', 'keyimportsuccess', 'keyservererror');
         $this->rc->output->add_gui_object('importform', $attrib['id']);
+        $this->rc->output->include_script('publickey.js');
 
         $out = $this->rc->output->form_tag(array(
-            'action' => $this->rc->url(array('action' => $this->rc->action, 'a' => 'import')),
-            'method' => 'post',
+            'action'  => $this->rc->url(array('action' => $this->rc->action, 'a' => 'import')),
+            'method'  => 'post',
             'enctype' => 'multipart/form-data') + $attrib,
-            $form);
+            $form
+        );
 
         return $out;
     }
@@ -776,8 +823,9 @@ class enigma_ui
             return $p;
         }
 
-        $engine  = $this->enigma->engine;
-        $part_id = $p['part']->mime_id;
+        $engine   = $this->enigma->engine;
+        $part_id  = $p['part']->mime_id;
+        $messages = array();
 
         // Decryption status
         if (($found = $this->find_part_id($part_id, $engine->decryptions)) !== null
@@ -818,7 +866,8 @@ class enigma_ui
                 $msg = rcube::Q($this->enigma->gettext('decryptok'));
             }
 
-            $p['prefix'] .= html::div($attrib, $msg);
+            $attrib['msg'] = $msg;
+            $messages[] = $attrib;
         }
 
         // Signature verification status
@@ -869,7 +918,19 @@ class enigma_ui
             // test
 //            $msg .= '<br /><pre>'.$sig->body.'</pre>';
 
-            $p['prefix'] .= html::div($attrib, $msg);
+            $attrib['msg'] = $msg;
+            $messages[]    = $attrib;
+        }
+
+        if ($count = count($messages)) {
+            if ($count == 2 && $messages[0]['class'] == $messages[1]['class']) {
+                $p['prefix'] .= html::div($messages[0], $messages[0]['msg'] . ' ' . $messages[1]['msg']);
+            }
+            else {
+                foreach ($messages as $msg) {
+                    $p['prefix'] .= html::div($msg, $msg['msg']);
+                }
+            }
         }
 
         if ($attach_scripts) {
@@ -968,20 +1029,20 @@ class enigma_ui
         }
 
         if (!$savedraft && $pubkey_enable) {
-            $this->enigma->load_engine();
-            $this->enigma->engine->attach_public_key($p['message']);
+            $engine = $this->enigma->load_engine();
+            $engine->attach_public_key($p['message']);
         }
 
-        if (!$savedraft && $sign_enable) {
-            $this->enigma->load_engine();
-            $status = $this->enigma->engine->sign_message($p['message']);
-            $mode   = 'sign';
-        }
-
-        if ((!$status instanceof enigma_error) && $encrypt_enable) {
-            $this->enigma->load_engine();
-            $status = $this->enigma->engine->encrypt_message($p['message'], null, $savedraft);
+        if ($encrypt_enable) {
+            $engine = $this->enigma->load_engine();
+            $mode   = !$savedraft && $sign_enable ? enigma_engine::ENCRYPT_MODE_SIGN : null;
+            $status = $engine->encrypt_message($p['message'], $mode, $savedraft);
             $mode   = 'encrypt';
+        }
+        else if (!$savedraft && $sign_enable) {
+            $engine = $this->enigma->load_engine();
+            $status = $engine->sign_message($p['message']);
+            $mode   = 'sign';
         }
 
         if ($mode && ($status instanceof enigma_error)) {
@@ -999,7 +1060,17 @@ class enigma_ui
             }
 
             if ($msg) {
-                $this->rc->output->show_message($msg, $type ?: 'error', $vars);
+                if ($vars && $vars['email']) {
+                    $this->rc->output->command('enigma_key_not_found', array(
+                            'email'  => $vars['email'],
+                            'text'   => $this->rc->gettext(array('name' => $msg, 'vars' => $vars)),
+                            'title'  => $this->enigma->gettext('keynotfound'),
+                            'button' => $this->enigma->gettext('findkey'),
+                    ));
+                }
+                else {
+                    $this->rc->output->show_message($msg, $type ?: 'error', $vars);
+                }
             }
 
             $this->rc->output->send('iframe');
@@ -1057,6 +1128,57 @@ class enigma_ui
         }
 
         return $p;
+    }
+
+    /**
+     * Handler for keys/certs import request action
+     */
+    function import_file()
+    {
+        $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
+        $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+        $mime_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_POST);
+        $storage = $this->rc->get_storage();
+        $engine  = $this->enigma->load_engine();
+
+        if ($uid && $mime_id) {
+            // Note: we get the attachment body via rcube_message class
+            // to support keys inside encrypted messages (#5285)
+            $message = new rcube_message($uid, $mbox);
+
+            // Check if we don't need to ask for password again
+            foreach ($engine->decryptions as $status) {
+                if ($status instanceof enigma_error) {
+                    if ($status->getCode() == enigma_error::BADPASS) {
+                        $this->password_prompt($status, array(
+                                'input_uid'    => $uid,
+                                'input_mbox'   => $mbox,
+                                'input_part'   => $mime_id,
+                                'input_task'   => 'mail',
+                                'input_action' => 'plugin.enigmaimport',
+                                'action'       => '?',
+                                'iframe'       => true,
+                        ));
+                        $this->rc->output->send($this->rc->output->type == 'html' ? 'iframe' : null);
+                        return;
+                    }
+                }
+            }
+
+            if ($engine->is_keys_part($message->mime_parts[$mime_id])) {
+                $part = $message->get_part_body($mime_id);
+            }
+        }
+
+        if ($part && is_array($result = $engine->import_key($part))) {
+            $this->rc->output->show_message('enigma.keysimportsuccess', 'confirmation',
+                array('new' => $result['imported'], 'old' => $result['unchanged']));
+        }
+        else {
+            $this->rc->output->show_message('enigma.keysimportfailed', 'error');
+        }
+
+        $this->rc->output->send($this->rc->output->type == 'html' ? 'iframe' : null);
     }
 
     /**
