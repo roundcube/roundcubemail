@@ -252,6 +252,7 @@ $labels['upload'] = 'Feltöltés';
 $labels['uploadprogress'] = '$percent ($current / $total)';
 $labels['close']  = 'Bezárás';
 $labels['messageoptions']  = 'Üzenetbeállítások...';
+$labels['togglecomposeoptions'] = 'Levélírás beállítások kapcsolása';
 $labels['low']     = 'Alacsony';
 $labels['lowest']  = 'Legkisebb';
 $labels['normal']  = 'Normál';
@@ -431,6 +432,7 @@ $labels['deletejunk'] = 'Üzenetek közvetlen törlése a levélszemét mappáb�
 $labels['showremoteimages'] = 'Távoli beágyazott képek megjelenítése';
 $labels['fromknownsenders'] = 'csak ismert feladóktól';
 $labels['always'] = 'mindig';
+$labels['alwaysbutplain'] = 'mindig, kivéve ha sima szöveg levélre válaszolunk';
 $labels['showinlineimages'] = 'Csatolt képek megjelenítése az üzenet alatt';
 $labels['autosavedraft']  = 'Piszkozat automatikus mentése';
 $labels['everynminutes']  = 'minden $n percben';
@@ -466,6 +468,8 @@ $labels['autoaddsignature'] = 'Aláírás automatikus hozzáadása';
 $labels['newmessageonly'] = 'csak új üzenetnél';
 $labels['replyandforwardonly'] = 'válasznál és továbbításnál';
 $labels['insertsignature'] = 'Aláírás beillesztése';
+$labels['sigbelow'] = 'Az aláírás az idézett üzenet alatt';
+$labels['sigseparator'] = 'Az aláírásokban a szabványos elválasztok használatának kényszerítése';
 $labels['previewpanemarkread']  = 'Előnézetben megjelent üzenetek megjelölése olvasottként';
 $labels['afternseconds']  = '$n másodperc elteltével';
 $labels['reqmdn'] = 'Olvasási visszaigazolás megkövetelése';
@@ -566,13 +570,31 @@ $labels['arialabelmailimportdialog'] = 'Üzenet importáls';
 $labels['arialabelmessagenav'] = 'Üzenet navigálás';
 $labels['arialabelmessagebody'] = 'Üzenet főrész';
 $labels['arialabelmessageactions'] = 'Üzenet műveletek';
+$labels['arialabelcontactquicksearch'] = 'Kapcsolat kereső űrlap';
+$labels['arialabelcontactsearchbox'] = 'Kapcsolat kereső bevitelimező';
+$labels['arialabelmessageheaders'] = 'Üzenet fejlécek';
 $labels['arialabelforwardingoptions'] = 'Továbbítási beállítások';
 $labels['arialabelreplyalloptions'] = 'Válasz mindenkinek beállítások';
+$labels['arialabelmoremessageactions'] = 'További műveletek az üzenettel...';
+$labels['arialabelmarkmessagesas'] = 'A kiválasztott üzenetek megjelölése mint...';
+$labels['arialabelcomposeoptions'] = 'Levélírás opciók';
 $labels['arialabelresponsesmenu'] = 'Sablon válaszok menű';
+$labels['arialabelattachmentuploadform'] = 'Csatolmány feltöltő űrlap';
 $labels['arialabelattachmentpreview'] = 'Csatolmány előnézet';
+$labels['ariasummarycomposecontacts'] = 'A kapcsolatoknak és csoportoknak a listája a címzettek kiválasztásához';
+$labels['arialabelcontactexportoptions'] = 'Kapcsolat exportálásának opciói';
+$labels['arialabelabookgroupoptions'] = 'Címjegyzék/csoportjegyzék opciói';
+$labels['arialabelpreferencesform'] = 'Beállítások űrlap';
+$labels['arialabelidentityeditfrom'] = 'Identitás szerkesztő űrlap';
+$labels['arialabelresonseeditfrom'] = 'Válasz szerkesztő űrlap';
 $labels['arialabelsearchterms'] = 'Kereső kifejezések';
+$labels['helplistnavigation'] = 'A navigálásra használt billentyűk listája';
 $labels['helplistkeyboardnavigation'] = "Nyilak fel/le: A sor fokusz/kiválasztás mozgatása.
 Szóköz: A fokuszban lévő sor kiválasztása.
 Shift + fel/le: Több sor kiválasztása az aktállíis sor alatt/felett.
 Ctrl + Szóköz: A fokszban levő sor hozzáadása a szelekcióhoz vagy törlése abból.";
+$labels['helplistkeyboardnavmessages'] = "Jobbra/Balra nyilak: kibontja/becsukja az üzenet szálaka (csak a beszélgető/szálas módban).
+Enter: Kinyitja a kiválasztott/fókuszban levő üzenetet.
+Delete: A kiválaszott üzenet áthelyezése a Kukába.";
+$labels['helplistkeyboardnavcontacts'] = "Enter: Megnyitja a kiválasztott/fókuszban levő kapcsolatot.";
 ?>

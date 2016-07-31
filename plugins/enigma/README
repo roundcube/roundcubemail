@@ -19,6 +19,7 @@ Implemented features:
 + Handling of PGP keys attached to incoming messages
 + User preferences to disable plugin features
 + Attaching public keys to email
++ Key server(s) support (search, import)
 
 
 TODO:
@@ -33,7 +34,7 @@ TODO:
    - export private keys
 - Generate revocation certs
 - Search filter to see invalid/expired keys
-- Key server(s) support (search, import, upload, refresh)
+- Key server(s) support (upload, refresh)
 - Mark keys as trusted/untrasted, display appropriate message in verify/decrypt status
 - Change attachment icon on messages list for encrypted messages (like vcard_attachment plugin does)
 - Support for multi-server installations (store keys in sql database?)

@@ -602,27 +602,30 @@ function rule_header_select(id)
     msg = document.getElementById('rule_message' + id),
     op = document.getElementById('rule_op' + id),
     header = document.getElementById('custom_header' + id + '_list'),
+    custstr = document.getElementById('custom_var' + id + '_list'),
     mod = document.getElementById('rule_mod' + id),
     trans = document.getElementById('rule_trans' + id),
     comp = document.getElementById('rule_comp' + id),
     datepart = document.getElementById('rule_date_part' + id),
     dateheader = document.getElementById('rule_date_header_div' + id),
+    rule = $('#rule_op' + id),
     h = obj.value;
 
   if (h == 'size') {
     size.style.display = 'inline';
-    $.each([op, header, mod, trans, comp, msg], function() { this.style.display = 'none'; });
+    $.each([op, header, custstr, mod, trans, comp, msg], function() { this.style.display = 'none'; });
   }
   else if (h == 'message') {
     msg.style.display = 'inline';
-    $.each([op, header, mod, trans, comp, size], function() { this.style.display = 'none'; });
+    $.each([op, header, custstr, mod, trans, comp, size], function() { this.style.display = 'none'; });
   }
   else {
     header.style.display = h != '...' ? 'none' : 'inline-block';
+    custstr.style.display = h != 'string' ? 'none' : 'inline-block';
     size.style.display = 'none';
     op.style.display = 'inline';
     comp.style.display = '';
-    mod.style.display = h == 'body' || h == 'currentdate' || h == 'date' ? 'none' : 'block';
+    mod.style.display = h == 'body' || h == 'currentdate' || h == 'date' || h == 'string' ? 'none' : 'block';
     trans.style.display = h == 'body' ? 'block' : 'none';
     msg.style.display = h == 'message' ? 'block' : 'none';
   }
@@ -632,8 +635,13 @@ function rule_header_select(id)
   if (dateheader)
     dateheader.style.display = h == 'date' ? '' : 'none';
 
+  $('[value="exists"],[value="notexists"]', rule).prop('disabled', h == 'string');
+  if (!rule.val() || rule.val().match(/^(exists|notexists)$/))
+    rule.val('contains');
+
   rule_op_select(op, id, h);
   rule_mod_select(id, h);
+
   obj.style.width = h == '...' ? '40px' : '';
 };
 
@@ -668,7 +676,7 @@ function rule_mod_select(id, header)
   target.style.display = obj.value != 'address' && obj.value != 'envelope' ? 'none' : 'inline';
 
   if (index)
-    index.style.display = !header.match(/^(body|currentdate|size|message)$/) && obj.value != 'envelope'  ? '' : 'none';
+    index.style.display = !header.match(/^(body|currentdate|size|message|string)$/) && obj.value != 'envelope'  ? '' : 'none';
 
   if (duplicate)
     duplicate.style.display = header == 'message' ? '' : 'none';
@@ -900,21 +908,25 @@ function sieve_formattime(hour, minutes)
 
 function sieve_form_init()
 {
-  // small resize for header element
-  $('select[name="_header[]"]', rcmail.gui_objects.sieveform).each(function() {
-    if (this.value == '...') this.style.width = '40px';
-  });
+  var form = rcmail.gui_objects.sieveform;
 
   // resize dialog window
   if (rcmail.env.action == 'plugin.managesieve' && rcmail.env.task == 'mail') {
-    parent.rcmail.managesieve_dialog_resize(rcmail.gui_objects.sieveform);
+    parent.rcmail.managesieve_dialog_resize(form);
   }
 
-  $('input[type="text"]:first', rcmail.gui_objects.sieveform).focus();
+  $('input[type="text"]:first', form).focus();
 
   // initialize smart list inputs
-  $('textarea[data-type="list"]', rcmail.gui_objects.sieveform).each(function() {
+  $('textarea[data-type="list"]', form).each(function() {
     smart_field_init(this);
+  });
+
+  // initialize rules form(s)
+  $('[name="_header[]"]', form).each(function() {
+    if (/([0-9]+)$/.test(this.id)) {
+      rule_header_select(RegExp.$1);
+    }
   });
 
   // enable date pickers on date fields

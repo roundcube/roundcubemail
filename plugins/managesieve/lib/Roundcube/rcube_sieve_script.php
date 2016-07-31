@@ -238,8 +238,13 @@ class rcube_sieve_script
                         break;
 
                     case 'header':
+                    case 'string':
+                        if ($test['test'] == 'string') {
+                            array_push($exts, 'variables');
+                        }
+                        
                         $tests[$i] .= ($test['not'] ? 'not ' : '');
-                        $tests[$i] .= 'header';
+                        $tests[$i] .= $test['test'];
 
                         $this->add_index($test, $tests[$i], $exts);
                         $this->add_operator($test, $tests[$i], $exts);
@@ -707,6 +712,7 @@ class rcube_sieve_script
                 break;
 
             case 'header':
+            case 'string':
             case 'address':
             case 'envelope':
                 $test = array('test' => $token, 'not' => $not);
@@ -716,7 +722,7 @@ class rcube_sieve_script
 
                 $test += $this->test_tokens($tokens);
 
-                if ($token != 'header' && !empty($tokens)) {
+                if ($token != 'header' && $token != 'string' && !empty($tokens)) {
                     for ($i=0, $len=count($tokens); $i<$len; $i++) {
                         if (!is_array($tokens[$i]) && preg_match('/^:(localpart|domain|all|user|detail)$/i', $tokens[$i])) {
                             $test['part'] = strtolower(substr($tokens[$i], 1));

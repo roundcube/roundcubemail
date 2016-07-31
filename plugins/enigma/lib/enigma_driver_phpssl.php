@@ -67,15 +67,15 @@ class enigma_driver_phpssl extends enigma_driver
 
     }
 
-    function encrypt($text, $keys)
+    function encrypt($text, $keys, $sign_key = null)
     {
     }
 
-    function decrypt($text, $keys = array())
+    function decrypt($text, $keys = array(), &$signature = null)
     {
     }
 
-    function sign($text, $key, $passwd, $mode = null)
+    function sign($text, $key, $mode = null)
     {
     }
 
@@ -126,6 +126,10 @@ class enigma_driver_phpssl extends enigma_driver
     {
     }
 
+    public function export($key, $with_private = false)
+    {
+    }
+
     public function list_keys($pattern='')
     {
     }
@@ -139,14 +143,6 @@ class enigma_driver_phpssl extends enigma_driver
     }
 
     public function delete_key($keyid)
-    {
-    }
-
-    public function delete_privkey($keyid)
-    {
-    }
-
-    public function delete_pubkey($keyid)
     {
     }
 
@@ -225,5 +221,4 @@ class enigma_driver_phpssl extends enigma_driver
 
         return $data;
     }
-
 }

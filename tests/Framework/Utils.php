@@ -332,12 +332,23 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             '20130422'   => '2013-04-22',
             '1900-10-10' => '1900-10-10',
             '01-01-1900' => '1900-01-01',
-            '01/30/1960' => '1960-01-30'
+            '01/30/1960' => '1960-01-30',
+            '1960.12.11 01:02:00' => '1960-12-11',
         );
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime);
             $this->assertSame($ts, $result ? $result->format('Y-m-d') : false, "Error parsing date: $datetime");
+        }
+
+        $test = array(
+            '12/11/2013 01:02:00' => '2013-11-12 01:02:00',
+            '1960.12.11 01:02:00' => '1960-12-11 01:02:00',
+        );
+
+        foreach ($test as $datetime => $ts) {
+            $result = rcube_utils::anytodatetime($datetime);
+            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i:s') : false, "Error parsing date: $datetime");
         }
     }
 
@@ -358,6 +369,24 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             $result = rcube_utils::anytodatetime($datetime, $tz);
             if ($result) $result->setTimezone($tz);  // move to target timezone for comparison
             $this->assertSame($ts, $result ? $result->format('Y-m-d H:i') : false, "Error parsing date: $datetime");
+        }
+    }
+
+    /**
+     * rcube:utils::format_datestr()
+     */
+    function test_format_datestr()
+    {
+        $test = array(
+            array('abc-555', 'abc', 'abc-555'),
+            array('2013-04-22', 'Y-m-d', '2013-04-22'),
+            array('22/04/2013', 'd/m/Y', '2013-04-22'),
+            array('4.22.2013', 'm.d.Y', '2013-04-22'),
+        );
+
+        foreach ($test as $data) {
+            $result = rcube_utils::format_datestr($data[0], $data[1]);
+            $this->assertSame($data[2], $result, "Error formatting date: " . $data[0]);
         }
     }
 

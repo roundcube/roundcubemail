@@ -239,7 +239,6 @@ $config['messages_cache_threshold'] = 50;
 
 // SMTP server host (for sending mails).
 // To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
-// If left blank, the PHP mail() function is used
 // Supported replacement variables:
 // %h - user's IMAP hostname
 // %n - hostname ($_SERVER['SERVER_NAME'])
@@ -247,7 +246,7 @@ $config['messages_cache_threshold'] = 50;
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
-$config['smtp_server'] = '';
+$config['smtp_server'] = 'localhost';
 
 // SMTP port (default is 25; use 587 for STARTTLS or 465 for the
 // deprecated SSL over SMTP (aka SMTPS))
@@ -605,7 +604,7 @@ $config['no_save_sent_messages'] = false;
 // Improve system security by using special URL with security token.
 // This can be set to a number defining token length. Default: 16.
 // Warning: This requires http server configuration. Sample:
-//    RewriteRule ^/roundcubemail/[a-f0-9]{16}/(.*) /roundcubemail/$1 [PT]
+//    RewriteRule ^/roundcubemail/[a-zA-Z0-9]{16}/(.*) /roundcubemail/$1 [PT]
 //    Alias /roundcubemail /var/www/roundcubemail/
 // Note: Use assets_path to not prevent the browser from caching assets
 $config['use_secure_urls'] = false;

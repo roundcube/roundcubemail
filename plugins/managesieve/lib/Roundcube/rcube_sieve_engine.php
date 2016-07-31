@@ -28,11 +28,11 @@ class rcube_sieve_engine
     protected $sieve;
     protected $errors;
     protected $form;
-    protected $tips = array();
-    protected $script = array();
-    protected $exts = array();
     protected $list;
-    protected $active = array();
+    protected $tips    = array();
+    protected $script  = array();
+    protected $exts    = array();
+    protected $active  = array();
     protected $headers = array(
         'subject' => 'Subject',
         'from'    => 'From',
@@ -595,6 +595,7 @@ class rcube_sieve_engine
             // and arrays
             $headers        = rcube_utils::get_input_value('_header', rcube_utils::INPUT_POST);
             $cust_headers   = rcube_utils::get_input_value('_custom_header', rcube_utils::INPUT_POST);
+            $cust_vars      = rcube_utils::get_input_value('_custom_var', rcube_utils::INPUT_POST);
             $ops            = rcube_utils::get_input_value('_rule_op', rcube_utils::INPUT_POST);
             $sizeops        = rcube_utils::get_input_value('_rule_size_op', rcube_utils::INPUT_POST);
             $sizeitems      = rcube_utils::get_input_value('_rule_size_item', rcube_utils::INPUT_POST);
@@ -859,6 +860,10 @@ class rcube_sieve_engine
                         $index       = $this->strip_value($indexes[$idx]);
                         $indexlast   = $this->strip_value($lastindexes[$idx]);
 
+                        if ($header == 'string') {
+                            $cust_var = $headers = $this->strip_value(array_shift($cust_vars));
+                        }
+
                         if (preg_match('/^not/', $operator))
                             $this->form['tests'][$i]['not'] = true;
                         $type = preg_replace('/^not/', '', $operator);
@@ -868,10 +873,10 @@ class rcube_sieve_engine
                             $this->form['tests'][$i]['last']  = !empty($indexlast);
                         }
 
-                        if ($header == '...') {
+                        if ($header == '...' || $header == 'string') {
                             if (!count($headers))
                                 $this->errors['tests'][$i]['header'] = $this->plugin->gettext('cannotbeempty');
-                            else {
+                            else if ($header == '...') {
                                 foreach ($headers as $hr) {
                                     // RFC2822: printable ASCII except colon
                                     if (!preg_match('/^[\x21-\x39\x41-\x7E]+$/i', $hr)) {
@@ -881,9 +886,11 @@ class rcube_sieve_engine
                             }
 
                             if (empty($this->errors['tests'][$i]['header']))
-                                $cust_header = (is_array($headers) && count($headers) == 1) ? $headers[0] : $headers;
+                                $cust_header = $cust_var = (is_array($headers) && count($headers) == 1) ? $headers[0] : $headers;
                         }
 
+                        $test   = $header == 'string' ? 'string' : 'header';
+                        $header = $header == 'string' ? $cust_var : $header;
                         $header = $header == '...' ? $cust_header : $header;
 
                         if (is_array($header)) {
@@ -899,8 +906,6 @@ class rcube_sieve_engine
                             $this->form['tests'][$i]['arg'] = $header;
                         }
                         else {
-                            $test = 'header';
-
                             if ($mod == 'address' || $mod == 'envelope') {
                                 $found = false;
                                 if (empty($this->errors['tests'][$i]['header'])) {
@@ -1451,6 +1456,9 @@ class rcube_sieve_engine
             $select_header->add($this->plugin->gettext('datetest'), 'date');
             $select_header->add($this->plugin->gettext('currdate'), 'currentdate');
         }
+        if (in_array('variables', $this->exts)) {
+            $select_header->add($this->plugin->gettext('string'), 'string');
+        }
         if (in_array('duplicate', $this->exts)) {
             $select_header->add($this->plugin->gettext('message'), 'message');
         }
@@ -1472,7 +1480,7 @@ class rcube_sieve_engine
                 $matches = ($header = strtolower($rule['arg'])) && isset($this->headers[$header]);
                 $test    = $matches ? $header : '...';
             }
-            else if (in_array($rule['test'], array('size', 'body', 'date', 'currentdate'))) {
+            else if (in_array($rule['test'], array('size', 'body', 'date', 'currentdate', 'string'))) {
                 $test = $rule['test'];
             }
             else if (in_array($rule['test'], array('duplicate'))) {
@@ -1492,6 +1500,12 @@ class rcube_sieve_engine
                 unset($custom);
             }
         }
+        else if (isset($rule['test']) && $rule['test'] == 'string') {
+            $customv = (array) $rule['arg1'];
+            if (count($customv) == 1 && isset($this->headers[strtolower($customv[0])])) {
+                unset($customv);
+            }
+        }
         else if (isset($rule['test']) && $rule['test'] == 'exists') {
             $custom = (array) $rule['arg'];
             if (count($custom) == 1 && isset($this->headers[strtolower($custom[0])])) {
@@ -1499,8 +1513,12 @@ class rcube_sieve_engine
             }
         }
 
+        // custom variable input
         $tout = $this->list_input($id, 'custom_header', $custom, isset($custom),
             $this->error_class($id, 'test', 'header', 'custom_header'), 15) . "\n";
+
+        $tout .= $this->list_input($id, 'custom_var', $customv, isset($customv),
+            $this->error_class($id, 'test', 'header', 'custom_var'), 15) . "\n";
 
         // matching type select (operator)
         $select_op = new html_select(array('name' => "_rule_op[]", 'id' => 'rule_op'.$id,
@@ -1538,7 +1556,7 @@ class rcube_sieve_engine
         $target = '';
 
         // target(s) input
-        if (in_array($rule['test'], array('header', 'address', 'envelope'))) {
+        if (in_array($rule['test'], array('header', 'address', 'envelope','string'))) {
             $target = $rule['arg2'];
         }
         else if (in_array($rule['test'], array('body', 'date', 'currentdate'))) {
@@ -1625,7 +1643,7 @@ class rcube_sieve_engine
             $select_type->add(rcube::Q($this->plugin->gettext('detail')), 'detail');
         }
 
-        $need_mod = !in_array($rule['test'], array('size', 'body', 'date', 'currentdate', 'duplicate'));
+        $need_mod = !in_array($rule['test'], array('size', 'body', 'date', 'currentdate', 'duplicate', 'string'));
         $mout = '<div id="rule_mod' .$id. '" class="adv"' . (!$need_mod ? ' style="display:none"' : '') . '>';
         $mout .= ' <span class="label">' . rcube::Q($this->plugin->gettext('modifier')) . ' </span>';
         $mout .= $select_mod->show($rule['test']);
@@ -1765,7 +1783,7 @@ class rcube_sieve_engine
             $rule['type'] = $rule['type'] == 'over' ? 'under' : 'over';
         }
 
-        $set = array('header', 'address', 'envelope', 'body', 'date', 'currentdate');
+        $set = array('header', 'address', 'envelope', 'body', 'date', 'currentdate', 'string');
 
         // build test string supported by select element
         if ($rule['size']) {

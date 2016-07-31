@@ -368,9 +368,7 @@ $MAIL_MIME = new Mail_mime("\r\n");
 
 // Check if we have enough memory to handle the message in it
 // It's faster than using files, so we'll do this if we only can
-if (is_array($COMPOSE['attachments']) && $RCMAIL->config->get('smtp_server')
-  && ($mem_limit = parse_bytes(ini_get('memory_limit')))
-) {
+if (is_array($COMPOSE['attachments']) && ($mem_limit = parse_bytes(ini_get('memory_limit')))) {
     $memory = 0;
     foreach ($COMPOSE['attachments'] as $id => $attachment) {
         $memory += $attachment['size'];
@@ -394,19 +392,19 @@ if ($isHtml) {
     $plainTextPart = rcube_mime::wordwrap($plainTextPart, $LINE_LENGTH, "\r\n", false, $message_charset);
     $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
 
-    // completely blank text part confuses some mail clients
-    if ($plainTextPart == '') {
-        $plainTextPart = "\r\n";
+    // There's no sense to use multipart/alternative if the text/plain
+    // part would be blank. Completely blank text/plain part may confuse
+    // some mail clients (#5283)
+    if (strlen(trim($plainTextPart)) > 0) {
+        // make sure all line endings are CRLF (#1486712)
+        $plainTextPart = preg_replace('/\r?\n/', "\r\n", $plainTextPart);
+
+        $plugin = $RCMAIL->plugins->exec_hook('message_outgoing_body',
+            array('body' => $plainTextPart, 'type' => 'alternative', 'message' => $MAIL_MIME));
+
+        // add a plain text version of the e-mail as an alternative part.
+        $MAIL_MIME->setTXTBody($plugin['body']);
     }
-
-    // make sure all line endings are CRLF (#1486712)
-    $plainTextPart = preg_replace('/\r?\n/', "\r\n", $plainTextPart);
-
-    $plugin = $RCMAIL->plugins->exec_hook('message_outgoing_body',
-        array('body' => $plainTextPart, 'type' => 'alternative', 'message' => $MAIL_MIME));
-
-    // add a plain text version of the e-mail as an alternative part.
-    $MAIL_MIME->setTXTBody($plugin['body']);
 
     // Extract image Data URIs into message attachments (#1488502)
     rcmail_extract_inline_images($MAIL_MIME, $from);
@@ -546,10 +544,16 @@ if (!$savedraft && !$saveonly) {
             unlink($mailbody_file);
         }
 
-        if ($smtp_error)
-            $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']); 
-        else
-            $OUTPUT->show_message('sendingfailed', 'error'); 
+        if ($smtp_error && is_string($smtp_error)) {
+            $OUTPUT->show_message($smtp_error, 'error');
+        }
+        else if ($smtp_error && !empty($smtp_error['label'])) {
+            $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
+        }
+        else {
+            $OUTPUT->show_message('sendingfailed', 'error');
+        }
+
         $OUTPUT->send('iframe');
     }
 

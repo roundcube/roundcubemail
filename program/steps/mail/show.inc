@@ -79,6 +79,7 @@ if ($uid) {
 
     // set environment
     $OUTPUT->set_env('delimiter', $RCMAIL->storage->get_hierarchy_delimiter());
+    $OUTPUT->set_env('mimetypes', rcmail_supported_mimetypes());
 
     // set configuration
     $RCMAIL->set_env_config(array('delete_junk', 'flag_for_deletion', 'read_when_deleted',
@@ -90,29 +91,6 @@ if ($uid) {
             $OUTPUT->set_env($mbox . '_mailbox', $folder);
         }
     }
-
-    // mimetypes supported by the browser (default settings)
-    $mimetypes = (array)$RCMAIL->config->get('client_mimetypes');
-
-    // Remove unsupported types, which makes that attachment which cannot be
-    // displayed in a browser will be downloaded directly without displaying an overlay page
-    if (empty($_SESSION['browser_caps']['pdf']) && ($key = array_search('application/pdf', $mimetypes)) !== false) {
-        unset($mimetypes[$key]);
-    }
-    if (empty($_SESSION['browser_caps']['flash']) && ($key = array_search('application/x-shockwave-flash', $mimetypes)) !== false) {
-        unset($mimetypes[$key]);
-    }
-    if (empty($_SESSION['browser_caps']['tif']) && ($key = array_search('image/tiff', $mimetypes)) !== false) {
-        // we can convert tiff to jpeg
-        if (!rcube_image::is_convertable('image/tiff')) {
-            unset($mimetypes[$key]);
-        }
-    }
-    if (!in_array('message/rfc822', $mimetypes)) {
-        $mimetypes[] = 'message/rfc822';
-    }
-
-    $OUTPUT->set_env('mimetypes', array_values($mimetypes));
 
     if ($MESSAGE->has_html_part()) {
         $prefer_html = $RCMAIL->config->get('prefer_html');
@@ -236,7 +214,7 @@ function rcmail_message_attachments($attrib)
                     'onclick'     => sprintf('return %s.command(\'load-attachment\',\'%s\',this)',
                         rcmail_output::JS_OBJECT_NAME, $attach_prop->mime_id),
                     'onmouseover' => $title ? '' : 'rcube_webmail.long_subject_title_ex(this, 0)',
-                    'title'       => rcube::Q($title),
+                    'title'       => $title,
                     ), rcube::Q($filename) . $size);
 
                 $ol .= html::tag('li', array('class' => $class, 'id' => $id), $link);

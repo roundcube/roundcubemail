@@ -45,7 +45,7 @@ tinymce.addI18n('it',{
 "Header 4": "Intestazione 4",
 "Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.": "Incolla \u00e8 in modalit\u00e0 testo normale. I contenuti sono incollati come testo normale se non disattivi l'opzione.",
 "Underline": "Sottolineato",
-"Cancel": "Cancella",
+"Cancel": "Annulla",
 "Justify": "Giustifica",
 "Inline": "Inlinea",
 "Copy": "Copia",

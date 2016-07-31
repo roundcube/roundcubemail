@@ -1,12 +1,15 @@
-* version 8.7 [2016-]
+- Fix parsing of vacation date-time with non-default date_format (#5372)
+
+* version 8.7 [2016-07-19]
 -----------------------------------------------------------
+- Support 'string' test from variables extension [RFC 5229] (#5248)
 - Support 'duplicate' extension [RFC 7352]
 - Unhide advanced rule controls if there are inputs with errors
 - Display warning message when filter form contains errors
 
 * version 8.6 [2016-04-06]
 -----------------------------------------------------------
-- Refactored script parser to be 100x faster
+- Refactored script parser to be 100x faster (on big scripts)
 
 * version 8.5 [2015-11-15]
 -----------------------------------------------------------

@@ -774,6 +774,16 @@ class rcube_db
     }
 
     /**
+     * Release resources related to the last query result.
+     * When we know we don't need to access the last query result we can destroy it
+     * and release memory. Usefull especially if the query returned big chunk of data.
+     */
+    public function reset()
+    {
+        $this->last_result = null;
+    }
+
+    /**
      * Formats input so it can be safely used in a query
      *
      * @param mixed  $input Value to quote

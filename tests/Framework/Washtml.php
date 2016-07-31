@@ -239,7 +239,7 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     /**
      * Test SVG cleanup
      */
-    function test_style_wash_svg()
+    function test_wash_svg()
     {
         $svg = '<?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
@@ -287,5 +287,53 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, $exp) !== false, "Position:fixed (#5264)");
+    }
+
+    /**
+     * Test MathML cleanup
+     */
+    function test_wash_mathml()
+    {
+        $mathml = '<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head><body>
+            <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics>
+                <mrow>
+                    <msub><mi>I</mi><mi>D</mi></msub>
+                    <mo>=</mo>
+                    <mfrac><mn>1</mn><mn>2</mn></mfrac>
+                    <msub><mi>k</mi><mi>n</mi></msub>
+                    <mfrac><mi>W</mi><mi>L</mi></mfrac>
+                    <mo stretchy="false">(</mo>
+                    <msub><mi>V</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub>
+                    <mo>-</mo><msub><mi>V</mi><mi>t</mi></msub><msup>
+                    <mo stretchy="false">)</mo><mn>2</mn></msup>
+                </mrow>
+                <annotation encoding="TeX">I_D = \frac{1}{2} k_n \frac{W}{L} (V_{GS}-V_t)^2</annotation>
+            </semantics></math>
+            </body></html>';
+
+        $exp = '<!-- html ignored --><!-- head ignored --><!-- meta ignored --><!-- body ignored -->
+            <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics>
+                <mrow>
+                    <msub><mi>I</mi><mi>D</mi></msub>
+                    <mo>=</mo>
+                    <mfrac><mn>1</mn><mn>2</mn></mfrac>
+                    <msub><mi>k</mi><mi>n</mi></msub>
+                    <mfrac><mi>W</mi><mi>L</mi></mfrac>
+                    <mo stretchy="false">(</mo>
+                    <msub><mi>V</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub>
+                    <mo>-</mo><msub><mi>V</mi><mi>t</mi></msub><msup>
+                    <mo stretchy="false">)</mo><mn>2</mn></msup>
+                </mrow>
+                <annotation encoding="TeX">I_D = \frac{1}{2} k_n \frac{W}{L} (V_{GS}-V_t)^2</annotation>
+            </semantics></math>';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($mathml);
+
+        // remove whitespace between tags
+        $washed = preg_replace('/>[\s\r\n\t]+</', '><', $washed);
+        $exp    = preg_replace('/>[\s\r\n\t]+</', '><', $exp);
+
+        $this->assertSame(trim($washed), trim($exp), "MathML content");
     }
 }

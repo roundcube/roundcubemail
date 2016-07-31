@@ -82,7 +82,7 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     $OUTPUT->set_env('address_sources', $js_list);
     $OUTPUT->set_env('writable_source', $writeable);
 
-    $OUTPUT->set_pagetitle($RCMAIL->gettext('addressbook'));
+    $OUTPUT->set_pagetitle($RCMAIL->gettext('contacts'));
     $_SESSION['addressbooks_count'] = $count;
     $_SESSION['addressbooks_count_writeable'] = $writeable;
 
@@ -516,15 +516,26 @@ function rcmail_contact_form($form, $record, $attrib = null)
 {
     global $RCMAIL;
 
+    // group fields
+    $head_fields = array(
+        'names'        => array('prefix','firstname','middlename','surname','suffix'),
+        'displayname'  => array('name'),
+        'nickname'     => array('nickname'),
+        'organization' => array('organization'),
+        'department'   => array('department'),
+        'jobtitle'     => array('jobtitle'),
+    );
+
     // Allow plugins to modify contact form content
     $plugin = $RCMAIL->plugins->exec_hook('contact_form', array(
-        'form' => $form, 'record' => $record));
+        'form' => $form, 'record' => $record, 'head_fields' => $head_fields));
 
-    $form       = $plugin['form'];
-    $record     = $plugin['record'];
-    $edit_mode  = $RCMAIL->action != 'show' && $RCMAIL->action != 'print';
-    $del_button = $attrib['deleteicon'] ? html::img(array('src' => $RCMAIL->output->get_skin_file($attrib['deleteicon']), 'alt' => $RCMAIL->gettext('delete'))) : $RCMAIL->gettext('delete');
-    $out        = '';
+    $form        = $plugin['form'];
+    $record      = $plugin['record'];
+    $head_fields = $plugin['head_fields'];
+    $edit_mode   = $RCMAIL->action != 'show' && $RCMAIL->action != 'print';
+    $del_button  = $attrib['deleteicon'] ? html::img(array('src' => $RCMAIL->output->get_skin_file($attrib['deleteicon']), 'alt' => $RCMAIL->gettext('delete'))) : $RCMAIL->gettext('delete');
+    $out         = '';
 
     unset($attrib['deleteicon']);
 
@@ -563,17 +574,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 unset($record['name']);
             }
 
-            // group fields
-            $field_blocks = array(
-                'names'        => array('prefix','firstname','middlename','surname','suffix'),
-                'displayname'  => array('name'),
-                'nickname'     => array('nickname'),
-                'organization' => array('organization'),
-                'department'   => array('department'),
-                'jobtitle'     => array('jobtitle'),
-            );
-
-            foreach ($field_blocks as $blockname => $colnames) {
+            foreach ($head_fields as $blockname => $colnames) {
                 $fields = '';
                 foreach ($colnames as $col) {
                     // skip cols unknown to the backend

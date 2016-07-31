@@ -21,11 +21,6 @@
 
 $html = stream_get_contents(fopen('php://input', 'r'));
 
-// strip slashes if magic_quotes enabled
-if (get_magic_quotes_gpc() || get_magic_quotes_runtime()) {
-    $html = stripslashes($html);
-}
-
 $params['links'] = (bool) rcube_utils::get_input_value('_do_links', rcube_utils::INPUT_GET);
 $params['width'] = (int) rcube_utils::get_input_value('_width', rcube_utils::INPUT_GET);
 

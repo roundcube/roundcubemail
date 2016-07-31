@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 $labels['encryption'] = 'Enrinegañ';
 $labels['enigmacerts'] = 'Testenioù S/MIME';
@@ -77,6 +77,10 @@ $labels['enterkeypasstitle'] = 'Enankañ frazenn-dremen an alc\'hwez';
 $labels['enterkeypass'] = 'Ur frazenn-dremen a zo dleet evit dibrennañ an alc\'hwez prevez ($keyid= evit an arveriad: $user';
 $labels['arialabelkeyexportoptions'] = 'Dibarzhioù ezporzhiañ an alc\'hwezioù';
 $labels['attachpubkeymsg'] = 'Stagañ ma alc\'hwez foran';
+$labels['keyexportprompt'] = 'Fellout a ra deoc\'h enkorfañ an alc\'hwezioù kuzh er restr alc\'hwezioù OpenPGP enrollet?';
+$labels['onlypubkeys'] = 'Ezporzhiañ an alc\'hwezhioù foran hepken';
+$labels['withprivkeys'] = 'Ezporzhiañ an alc\'hwezioù kuzh';
+$labels['findkey'] = 'Klask war an dafariad(où) alc\'hwezioù';
 $messages['sigvalid'] = 'Sinadur gwiriet a-berzh $sender.';
 $messages['sigvalidpartial'] = 'Sinadur gwiriet a-berzh $sender, met ul lodenn eus ar c\'horf n\'eo ket enrineget.';
 $messages['siginvalid'] = 'Sinadur didalvoudek a-berzh $sender.';
@@ -96,6 +100,7 @@ $messages['signnopass'] = 'Sinadur c\'hwitet. Frazenn-dremen azgoulennet.';
 $messages['encrypterror'] = 'Enrinegañ c\'hwitet.';
 $messages['encryptnokey'] = 'Enrinegañ c\'hwitet. N\'eo ket bet kavet an alc\'hwez foran evit $email.';
 $messages['nokeysfound'] = 'Alc\'hwez ebet kavet';
+$messages['keynotfound'] = 'N\'eo ket bet kavet an alc\'hwez!';
 $messages['keyopenerror'] = 'N\'haller ket kaout titouroù an alc\'hwez! Fazi diabarzh.';
 $messages['keylisterror'] = 'N\'haller ket rollañ an alc\'hwezioù! Fazi diabarzh.';
 $messages['keysimportfailed'] = 'N\'haller ket enporzhiañ an alc\'hwez(ioù)! Fazi diabarzh.';
