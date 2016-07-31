@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Fix regression in resizing JPEG images with Imagick (#5376)
 - Managesieve: Fix parsing of vacation date-time with non-default date_format (#5372)
 - Use SymLinksIfOwnerMatch in .htaccess instead of FollowSymLinks disabled on some hosts for security reasons (#5370)
+- Wash position:fixed style in HTML mail for better security (#5264)
 
 RELEASE 1.2.1
 -------------
