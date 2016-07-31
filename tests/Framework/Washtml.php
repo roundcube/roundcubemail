@@ -276,6 +276,20 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test position:fixed cleanup - (#5264)
+     */
+    function test_style_wash_position_fixed()
+    {
+        $html = "<img style='position:fixed' /><img style=\"position:/**/ fixed; top:10px\" />";
+        $exp  = "<img style=\"position: absolute\" /><img style=\"position: absolute; top: 10px\" />";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertTrue(strpos($washed, $exp) !== false, "Position:fixed (#5264)");
+    }
+
+    /**
      * Test MathML cleanup
      */
     function test_wash_mathml()
