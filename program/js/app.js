@@ -3650,26 +3650,16 @@ function rcube_webmail()
       // list recipients with missing keys
       if (!isvalid && missing_keys.length) {
         // display dialog with missing keys
-        ref.show_popup_dialog(
+        ref.simple_dialog(
           ref.get_label('nopubkeyfor').replace('$email', missing_keys.join(', ')) +
-          '<p>' + ref.get_label('searchpubkeyservers') + '</p>',
-          ref.get_label('encryptedsendialog'),
-          [{
-            text: ref.get_label('search'),
-            'class': 'mainaction',
-            click: function() {
-              var $dialog = $(this);
-              ref.mailvelope_search_pubkeys(missing_keys, function() {
-                $dialog.dialog('close')
-              });
-            }
+            '<p>' + ref.get_label('searchpubkeyservers') + '</p>',
+          'encryptedsendialog',
+          function() {
+            ref.mailvelope_search_pubkeys(missing_keys, function() {
+              return true; // close dialog
+            });
           },
-          {
-            text: ref.get_label('cancel'),
-            click: function(){
-              $(this).dialog('close');
-            }
-          }]
+          {button: 'search'}
         );
         return false;
       }
@@ -4173,21 +4163,11 @@ function rcube_webmail()
 
     // the message has been sent but not saved, ask the user what to do
     if (!saveonly && this.env.is_sent) {
-      return this.show_popup_dialog(this.get_label('messageissent'), '',
-        [{
-          text: this.get_label('save'),
-          'class': 'mainaction',
-          click: function() {
-            ref.submit_messageform(false, true);
-            $(this).dialog('close');
-          }
-        },
-        {
-          text: this.get_label('cancel'),
-          click: function() {
-            $(this).dialog('close');
-          }
-        }]
+      return this.simple_dialog(this.get_label('messageissent'), '',
+        function() {
+          ref.submit_messageform(false, true);
+          return true;
+        }
       );
     }
 
@@ -4941,21 +4921,14 @@ function rcube_webmail()
     var input = $('<input>').attr({type: 'text', size: 50}).val(attachment.name),
       content = $('<label>').text(this.get_label('namex')).append(input);
 
-    this.show_popup_dialog(content, this.get_label('attachmentrename'),
-      [{
-        text: this.get_label('save'),
-        'class': 'mainaction',
-        click: function() {
-          var name;
-
-          if ((name = input.val()) && name != attachment.name) {
-            ref.http_post('rename-attachment', {_id: ref.env.compose_id, _file: id, _name: name},
-              ref.set_busy(true, 'loading'));
-          }
-
-          $(this).dialog('close');
+    this.simple_dialog(content, 'attachmentrename', function() {
+        var name;
+        if ((name = input.val()) && name != attachment.name) {
+          ref.http_post('rename-attachment', {_id: ref.env.compose_id, _file: id, _name: name},
+          ref.set_busy(true, 'loading'));
+          return true;
         }
-      }],
+      },
       {open: function() { input.select(); }}
     );
   };
@@ -6017,22 +5990,15 @@ function rcube_webmail()
     var input = $('<input>').attr('type', 'text'),
       content = $('<label>').text(this.get_label('namex')).append(input);
 
-    this.show_popup_dialog(content, this.get_label('newgroup'),
-      [{
-        text: this.get_label('save'),
-        'class': 'mainaction',
-        click: function() {
-          var name;
-
-          if (name = input.val()) {
-            ref.http_post('group-create', {_source: ref.env.source, _name: name},
-              ref.set_busy(true, 'loading'));
-          }
-
-          $(this).dialog('close');
+    this.simple_dialog(content, 'newgroup',
+      function() {
+        var name;
+        if (name = input.val()) {
+          ref.http_post('group-create', {_source: ref.env.source, _name: name},
+            ref.set_busy(true, 'loading'));
+          return true;
         }
-      }]
-    );
+      });
   };
 
   // group rename dialog
@@ -6045,21 +6011,15 @@ function rcube_webmail()
       input = $('<input>').attr('type', 'text').val(group_name),
       content = $('<label>').text(this.get_label('namex')).append(input);
 
-    this.show_popup_dialog(content, this.get_label('grouprename'),
-      [{
-        text: this.get_label('save'),
-        'class': 'mainaction',
-        click: function() {
-          var name;
-
-          if ((name = input.val()) && name != group_name) {
-            ref.http_post('group-rename', {_source: ref.env.source, _gid: ref.env.group, _name: name},
-              ref.set_busy(true, 'loading'));
-          }
-
-          $(this).dialog('close');
+    this.simple_dialog(content, 'grouprename',
+      function() {
+        var name;
+        if ((name = input.val()) && name != group_name) {
+          ref.http_post('group-rename', {_source: ref.env.source, _gid: ref.env.group, _name: name},
+            ref.set_busy(true, 'loading'));
+          return true;
         }
-      }],
+      },
       {open: function() { input.select(); }}
     );
   };
@@ -6409,21 +6369,15 @@ function rcube_webmail()
     var input = $('<input>').attr('type', 'text'),
       content = $('<label>').text(this.get_label('namex')).append(input);
 
-    this.show_popup_dialog(content, this.get_label('searchsave'),
-      [{
-        text: this.get_label('save'),
-        'class': 'mainaction',
-        click: function() {
-          var name;
-
-          if (name = input.val()) {
-            ref.http_post('search-create', {_search: ref.env.search_request, _name: name},
-              ref.set_busy(true, 'loading'));
-          }
-
-          $(this).dialog('close');
+    this.simple_dialog(content, 'searchsave',
+      function() {
+        var name;
+        if (name = input.val()) {
+          ref.http_post('search-create', {_search: ref.env.search_request, _name: name},
+            ref.set_busy(true, 'loading'));
+          return true;
         }
-      }]
+      }
     );
   };
 
@@ -7435,6 +7389,28 @@ function rcube_webmail()
     });
 
     return popup;
+  };
+
+  // show_popup_dialog() wrapper for simple dialogs with Save and Cancel buttons
+  this.simple_dialog = function(content, title, button_func, options)
+  {
+    var title = this.get_label(title),
+      buttons = [{
+        text: this.get_label((options || {}).button || 'save'),
+        'class': 'mainaction',
+        click: function() {
+          if (button_func())
+            $(this).dialog('close');
+        }
+      },
+      {
+        text: ref.get_label('cancel'),
+        click: function() {
+          $(this).dialog('close');
+        }
+      }];
+
+    return this.show_popup_dialog(content, title, buttons, options);
   };
 
   // enable/disable buttons for page shifting
