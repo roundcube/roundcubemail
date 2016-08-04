@@ -1,7 +1,10 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Removed legacy_browser plugin
+- Dropped legacy browsers support
+    - Removed legacy_browser plugin
+    - Removed hacks for IE < 9
+    - Update to jQuery 3.1.0
 - Require PHP >= 5.4
 - Add possibility to preview and download attachments in mail compose (#5053)
 - Add possibility to rename attachments in mail compose (#4996)
