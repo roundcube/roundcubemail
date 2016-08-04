@@ -271,13 +271,6 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
     $filename    = $browser->ie ? rawurlencode($filename) : addcslashes($filename, '"');
     $disposition = !empty($_GET['_download']) ? 'attachment' : 'inline';
 
-    // Workaround for nasty IE bug (#1488844)
-    // If Content-Disposition header contains string "attachment" e.g. in filename
-    // IE handles data as attachment not inline
-    if ($disposition == 'inline' && $browser->ie && $browser->ver < 9) {
-        $filename = str_ireplace('attachment', 'attach', $filename);
-    }
-
     // add filename extension if missing
     if (!pathinfo($filename, PATHINFO_EXTENSION) && ($extensions = rcube_mime::get_mime_extensions($mimetype))) {
         $filename .= '.' . $extensions[0];
@@ -583,9 +576,7 @@ class rcmail_attachment_handler
             return false;
         }
 
-        $rcube   = rcube::get_instance();
-        $browser = $rcube->output->browser;
-        $secure  = stripos($mimetype, 'image/') === false || $this->download;
+        $secure = stripos($mimetype, 'image/') === false || $this->download;
 
         // Remove <script> in SVG images
         if (!$secure && stripos($mimetype, 'image/svg') === 0) {
