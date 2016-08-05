@@ -586,7 +586,8 @@ class rcube_ldap extends rcube_addressbook
 
         // filter entries for this page
         for ($i = $start_row; $i < min($entries['count'], $last_row); $i++)
-            $this->result->add($this->_ldap2result($entries[$i]));
+            if ($entries[$i])
+                $this->result->add($this->_ldap2result($entries[$i]));
 
         return $this->result;
     }
@@ -934,7 +935,8 @@ class rcube_ldap extends rcube_addressbook
 
         // we have a search result resource, get all entries
         if (!$count && $result) {
-            $result = $result->entries();
+            $result_count = $result->count();
+            $result       = $result->entries();
             unset($result['count']);
         }
 
@@ -959,10 +961,11 @@ class rcube_ldap extends rcube_addressbook
             if ($count && $res) {
                 $result += $res;
             }
-            else if (!$count && $res && $res->count()) {
+            else if (!$count && $res && ($res_count = $res->count())) {
                 $res = $res->entries();
                 unset($res['count']);
                 $result = array_merge($result, $res);
+                $result_count += $res_count;
             }
         }
 
@@ -972,7 +975,7 @@ class rcube_ldap extends rcube_addressbook
                 usort($result, array($this, '_entry_sort_cmp'));
             }
 
-            $result['count'] = count($result);
+            $result['count'] = $result_count;
             $this->result_entries = $result;
         }
 
