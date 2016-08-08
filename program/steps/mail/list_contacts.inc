@@ -117,7 +117,6 @@ else if (!empty($result) && $result->count > 0) {
     }
 }
 
-
 // update env
 $OUTPUT->set_env('contactdata', $jsresult);
 $OUTPUT->set_env('pagecount', ceil($result->count / $page_size));

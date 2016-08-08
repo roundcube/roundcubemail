@@ -139,6 +139,7 @@ function rcmail_contact_search()
 
     // Values matching mode
     $mode = (int) $RCMAIL->config->get('addressbook_search_mode');
+    $mode |= rcube_addressbook::SEARCH_GROUPS;
 
     // get sources list
     $sources    = $RCMAIL->get_address_sources();

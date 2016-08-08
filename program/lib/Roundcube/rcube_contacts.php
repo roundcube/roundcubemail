@@ -130,10 +130,7 @@ class rcube_contacts extends rcube_addressbook
      * List all active contact groups of this source
      *
      * @param string $search Search string to match group name
-     * @param int    $mode   Matching mode:
-     *                          0 - partial (*abc*),
-     *                          1 - strict (=),
-     *                          2 - prefix (abc*)
+     * @param int    $mode   Matching mode. Sum of rcube_addressbook::SEARCH_*
      *
      * @return array Indexed list of contact groups, each a hash array
      */
@@ -141,18 +138,18 @@ class rcube_contacts extends rcube_addressbook
     {
         $results = array();
 
-        if (!$this->groups)
+        if (!$this->groups) {
             return $results;
+        }
 
         if ($search) {
-            switch (intval($mode)) {
-            case 1:
+            if ($mode & rcube_addressbook::SEARCH_STRICT) {
                 $sql_filter = $this->db->ilike('name', $search);
-                break;
-            case 2:
+            }
+            else if ($mode & rcube_addressbook::SEARCH_PREFIX) {
                 $sql_filter = $this->db->ilike('name', $search . '%');
-                break;
-            default:
+            }
+            else {
                 $sql_filter = $this->db->ilike('name', '%' . $search . '%');
             }
 
@@ -283,10 +280,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @param mixed   $fields   The field name or array of field names to search in
      * @param mixed   $value    Search value (or array of values when $fields is array)
-     * @param int     $mode     Matching mode:
-     *                          0 - partial (*abc*),
-     *                          1 - strict (=),
-     *                          2 - prefix (abc*)
+     * @param int     $mode     Search mode. Sum of rcube_addressbook::SEARCH_*
      * @param boolean $select   True if results are requested, False if count only
      * @param boolean $nocount  True to skip the count query (select only)
      * @param array   $required List of fields that cannot be empty
@@ -337,7 +331,7 @@ class rcube_contacts extends rcube_addressbook
         }
         else {
             // require each word in to be present in one of the fields
-            $words = $mode == 1 ? array($value) : rcube_utils::tokenize_string($value, 1);
+            $words = ($mode & rcube_addressbook::SEARCH_STRICT) ? array($value) : rcube_utils::tokenize_string($value, 1);
             foreach ($words as $word) {
                 $groups = array();
                 foreach ((array)$fields as $idx => $col) {
@@ -450,18 +444,17 @@ class rcube_contacts extends rcube_addressbook
 
         $where = array();
         foreach ($words as $word) {
-            switch ($mode) {
-            case 1: // strict
+            if ($mode & rcube_addressbook::SEARCH_STRICT) {
                 $where[] = '(' . $this->db->ilike($col, $word)
                     . ' OR ' . $this->db->ilike($col, $word . $AS . '%')
                     . ' OR ' . $this->db->ilike($col, '%' . $AS . $word . $AS . '%')
                     . ' OR ' . $this->db->ilike($col, '%' . $AS . $word) . ')';
-                break;
-            case 2: // prefix
+            }
+            else if ($mode & rcube_addressbook::SEARCH_PREFIX) {
                 $where[] = '(' . $this->db->ilike($col, $word . '%')
                     . ' OR ' . $this->db->ilike($col, '%' . $AS . $word . '%') . ')';
-                break;
-            default: // partial
+            }
+            else {
                 $where[] = $this->db->ilike($col, '%' . $word . '%');
             }
         }

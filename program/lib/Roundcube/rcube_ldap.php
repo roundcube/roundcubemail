@@ -731,10 +731,7 @@ class rcube_ldap extends rcube_addressbook
      *
      * @param mixed   $fields   The field name of array of field names to search in
      * @param mixed   $value    Search value (or array of values when $fields is array)
-     * @param int     $mode     Matching mode:
-     *                          0 - partial (*abc*),
-     *                          1 - strict (=),
-     *                          2 - prefix (abc*)
+     * @param int     $mode     Matching mode. Sum of rcube_addressbook::SEARCH_*
      * @param boolean $select   True if results are requested, False if count only
      * @param boolean $nocount  (Not used)
      * @param array   $required List of fields that cannot be empty
@@ -765,7 +762,7 @@ class rcube_ldap extends rcube_addressbook
         if ($this->prop['vlv_search'] && $this->ready && join(',', (array)$fields) == join(',', $list_fields)) {
             $this->result = new rcube_result_set(0);
 
-            $this->ldap->config_set('fuzzy_search', intval($this->prop['fuzzy_search'] && $mode != 1));
+            $this->ldap->config_set('fuzzy_search', intval($this->prop['fuzzy_search'] && !($mode & rcube_addressbook::SEARCH_STRICT)));
             $ldap_data = $this->ldap->search($this->base_dn, $this->prop['filter'], $this->prop['scope'], $this->prop['attributes'],
                 array('search' => $value /*, 'sort' => $this->prop['sort'] */));
             if ($ldap_data === false) {
@@ -797,9 +794,9 @@ class rcube_ldap extends rcube_addressbook
 
             // set wildcards
             $wp = $ws = '';
-            if (!empty($this->prop['fuzzy_search']) && $mode != 1) {
+            if (!empty($this->prop['fuzzy_search']) && !($mode & rcube_addressbook::SEARCH_STRICT)) {
                 $ws = '*';
-                if (!$mode) {
+                if (!($mode & rcube_addressbook::SEARCH_PREFIX)) {
                     $wp = '*';
                 }
             }
@@ -865,10 +862,12 @@ class rcube_ldap extends rcube_addressbook
         // avoid double-wildcard if $value is empty
         $filter = preg_replace('/\*+/', '*', $filter);
 
+        if ($mode & rcube_addressbook::SEARCH_GROUPS) {
+            $filter = 'e:' . $filter;
+        }
+
         // set filter string and execute search
-        // @FIXME: we need a better way to detect/define when groups are allowed in the result
-        $prefix = empty($required) ? 'e:' : '';
-        $this->set_search_set($prefix . $filter);
+        $this->set_search_set($filter);
 
         if ($select)
             $this->list_records();
@@ -1689,10 +1688,7 @@ class rcube_ldap extends rcube_addressbook
      * List all active contact groups of this source
      *
      * @param string  Optional search string to match group name
-     * @param int     Matching mode:
-     *                0 - partial (*abc*),
-     *                1 - strict (=),
-     *                2 - prefix (abc*)
+     * @param int     Matching mode. Sum of rcube_addressbook::SEARCH_*
      *
      * @return array  Indexed list of contact groups, each a hash array
      */
@@ -1784,9 +1780,11 @@ class rcube_ldap extends rcube_addressbook
         if ($search !== null) {
             // set wildcards
             $wp = $ws = '';
-            if (!empty($this->prop['fuzzy_search']) && $mode != 1) {
+            if (!empty($this->prop['fuzzy_search']) && !($mode & rcube_addressbook::SEARCH_STRICT)) {
                 $ws = '*';
-                $wp = !$mode ? '*' : '';
+                if (!($mode & rcube_addressbook::SEARCH_PREFIX)) {
+                    $wp = '*';
+                }
             }
             $filter = "(&$filter($name_attr=$wp" . rcube_ldap_generic::quote_string($search) . "$ws))";
             $props['search'] = $wp . $search . $ws;
