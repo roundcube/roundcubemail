@@ -24,14 +24,20 @@
  */
 abstract class rcube_addressbook
 {
-    /** constants for error reporting **/
+    // constants for error reporting
     const ERROR_READ_ONLY     = 1;
     const ERROR_NO_CONNECTION = 2;
     const ERROR_VALIDATE      = 3;
     const ERROR_SAVING        = 4;
     const ERROR_SEARCH        = 5;
 
-    /** public properties (mandatory) */
+    // search modes
+    const SEARCH_ALL    = 0;
+    const SEARCH_STRICT = 1;
+    const SEARCH_PREFIX = 2;
+    const SEARCH_GROUPS = 4;
+
+    // public properties (mandatory)
     public $primary_key;
     public $groups        = false;
     public $export_groups = true;
@@ -102,13 +108,11 @@ abstract class rcube_addressbook
      *
      * @param array   List of fields to search in
      * @param string  Search value
-     * @param int     Matching mode:
-     *                0 - partial (*abc*),
-     *                1 - strict (=),
-     *                2 - prefix (abc*)
+     * @param int     Search mode. Sum of self::SEARCH_*.
      * @param boolean True if results are requested, False if count only
      * @param boolean True to skip the count query (select only)
      * @param array   List of fields that cannot be empty
+     *
      * @return object rcube_result_set List of contact records and 'count' value
      */
     abstract function search($fields, $value, $mode=0, $select=true, $nocount=false, $required=array());
@@ -333,10 +337,7 @@ abstract class rcube_addressbook
      * List all active contact groups of this source
      *
      * @param string  Optional search string to match group name
-     * @param int     Matching mode:
-     *                0 - partial (*abc*),
-     *                1 - strict (=),
-     *                2 - prefix (abc*)
+     * @param int     Search mode. Sum of self::SEARCH_*
      *
      * @return array  Indexed list of contact groups, each a hash array
      */
@@ -668,16 +669,14 @@ abstract class rcube_addressbook
         // composite field, e.g. address
         foreach ((array)$value as $val) {
             $val = mb_strtolower($val);
-            switch ($mode) {
-            case 1:
+
+            if ($mode & self::SEARCH_STRICT) {
                 $got = ($val == $search);
-                break;
-
-            case 2:
+            }
+            else if ($mode & self::SEARCH_PREFIX) {
                 $got = ($search == substr($val, 0, strlen($search)));
-                break;
-
-            default:
+            }
+            else {
                 $got = (strpos($val, $search) !== false);
             }
 
