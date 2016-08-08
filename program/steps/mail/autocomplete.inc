@@ -63,6 +63,7 @@ if (!empty($book_types) && strlen($search)) {
     $sort_keys = array();
     $books_num = count($book_types);
     $search_lc = mb_strtolower($search);
+    $mode     |= rcube_addressbook::SEARCH_GROUPS;
 
     foreach ($book_types as $id) {
         $abook = $RCMAIL->get_address_book($id);
