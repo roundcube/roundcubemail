@@ -1488,15 +1488,24 @@ class rcube
     /**
      * Unique Message-ID generator.
      *
+     * @param string $sender Optional sender e-mail address
+     *
      * @return string Message-ID
      */
-    public function gen_message_id()
+    public function gen_message_id($sender = null)
     {
         $local_part  = md5(uniqid('rcube'.mt_rand(), true));
-        $domain_part = $this->user->get_username('domain');
+        $domain_part = '';
+
+        if ($sender && preg_match('/@([^\s]+\.[a-z0-9-]+)/', $sender, $m)) {
+            $domain_part = $m[1];
+        }
+        else {
+            $domain_part = $this->user->get_username('domain');
+        }
 
         // Try to find FQDN, some spamfilters doesn't like 'localhost' (#1486924)
-        if (!preg_match('/\.[a-z]+$/i', $domain_part)) {
+        if (!preg_match('/\.[a-z0-9-]+$/i', $domain_part)) {
             foreach (array($_SERVER['HTTP_HOST'], $_SERVER['SERVER_NAME']) as $host) {
                 $host = preg_replace('/:[0-9]+$/', '', $host);
                 if ($host && preg_match('/\.[a-z]+$/i', $host)) {
