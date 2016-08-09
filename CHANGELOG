@@ -33,6 +33,7 @@ CHANGELOG Roundcube Webmail
 - Use SymLinksIfOwnerMatch in .htaccess instead of FollowSymLinks disabled on some hosts for security reasons (#5370)
 - Wash position:fixed style in HTML mail for better security (#5264)
 - Fix bug where memcache_debug didn't work for session operations
+- Fix bug where Message-ID domain part was tied to username instead of current identity (#5385)
 
 RELEASE 1.2.1
 -------------

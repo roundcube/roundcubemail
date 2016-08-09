@@ -63,11 +63,6 @@ if (!$savedraft) {
 
 /****** compose message ********/
 
-if (empty($COMPOSE['param']['message-id'])) {
-    $COMPOSE['param']['message-id'] = $RCMAIL->gen_message_id();
-}
-$message_id = $COMPOSE['param']['message-id'];
-
 // set default charset
 $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $OUTPUT->get_charset();
 
@@ -122,6 +117,11 @@ if (!$savedraft && !$saveonly && empty($from)) {
 if (!$from_string && $from) {
     $from_string = $from;
 }
+
+if (empty($COMPOSE['param']['message-id'])) {
+    $COMPOSE['param']['message-id'] = $RCMAIL->gen_message_id($from);
+}
+$message_id = $COMPOSE['param']['message-id'];
 
 // compose headers array
 $headers = array();
