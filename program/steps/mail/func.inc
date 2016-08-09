@@ -1826,7 +1826,7 @@ function rcmail_send_mdn($message, &$smtp_error)
             'From'       => $sender,
             'To'         => $message->headers->mdn_to,
             'Subject'    => $RCMAIL->gettext('receiptread') . ': ' . $message->subject,
-            'Message-ID' => $RCMAIL->gen_message_id(),
+            'Message-ID' => $RCMAIL->gen_message_id($identity['email']),
             'X-Sender'   => $identity['email'],
             'References' => trim($message->headers->references . ' ' . $message->headers->messageID),
             'In-Reply-To' => $message->headers->messageID,
