@@ -67,6 +67,7 @@ class rcube_imap_generic
     const ERROR_UNKNOWN  = -4;
     const ERROR_COMMAND  = -5;
     const ERROR_READONLY = -6;
+    const ERROR_RETRY    = -7;
 
     const COMMAND_NORESPONSE = 1;
     const COMMAND_CAPABILITY = 2;
@@ -976,12 +977,15 @@ class rcube_imap_generic
 
         // Connected to wrong port or connection error?
         if (!preg_match('/^\* (OK|PREAUTH)/i', $line)) {
-            if ($line)
+            if ($line) {
                 $error = sprintf("Wrong startup greeting (%s:%d): %s", $host, $this->prefs['port'], $line);
-            else
+                $this->setError(self::ERROR_BAD, $error);
+            }
+            else {
+                // When some internal limits are met, the imap server may simply close the connection
                 $error = sprintf("Empty startup greeting (%s:%d)", $host, $this->prefs['port']);
-
-            $this->setError(self::ERROR_BAD, $error);
+                $this->setError(self::ERROR_RETRY, $error);
+            }
             $this->closeConnection();
             return false;
         }
@@ -4083,4 +4087,16 @@ class rcube_imap_generic
             echo "DEBUG: $message\n";
         }
     }
+
+    /**
+     * Checks if the current error state is RETRY
+     *
+     * @return True if errornum is ERROR_RETRY, False otherwise
+     *
+     */
+    public function is_retry_error()
+    {
+      return $this->errornum == self::ERROR_RETRY;
+    }
 }
+
