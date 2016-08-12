@@ -99,7 +99,7 @@ RELEASE 1.2-rc
 - Fix .htaccess rewrite rules to not block .well-known URIs (#4943)
 - Fix mail view scaling on iOS (#4915)
 - Fix PHP7 warning "session_start(): Session callback expects true/false return value" (#4948)
-- Fix XSS issue in SVG images handling (#4949)
+- Fix XSS issue in SVG images handling [CVE-2015-8864, CVE-2016-4068] (#4949)
 - Fix missing language name in "Add to Dictionary" request in HTML mode (#4951)
 - Fix (again) security issue in DBMail driver of password plugin [CVE-2015-2181] (#4958)
 - Fix bug where Archive/Junk buttons were not active after page jump with select=all mode (#4961)
@@ -108,7 +108,7 @@ RELEASE 1.2-rc
 - Fix additional_message_headers plugin compatibility with Mail_Mime >= 1.9 (#4966)
 - Hide DSN option in Preferences when smtp_server is not used (#4967)
 - Fix handling of body parameter in mail compose request
-- Protect download urls against CSRF using unique request tokens (#4957)
+- Protect download urls against CSRF using unique request tokens [CVE-2016-4069] (#4957)
 - newmail_notifier: Refactor desktop notifications
 - Fix so contactlist_fields option can be set via config file
 - Fix so SPECIAL-USE assignments are forced only until user sets special folders (#4782)
