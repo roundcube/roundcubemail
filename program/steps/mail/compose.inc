@@ -850,13 +850,15 @@ function rcmail_prepare_message_body()
     unset($plugin);
 
     // add blocked.gif attachment (#1486516)
-    if ($isHtml && preg_match('#<img src="program/resources/blocked\.gif"#', $body)) {
+    $regexp = '# src="program/resources/blocked\.gif"#';
+    if ($isHtml && preg_match($regexp, $body)) {
         $content = $RCMAIL->get_resource_content('blocked.gif');
+
         if ($content && ($attachment = rcmail_save_image('blocked.gif', 'image/gif', $content))) {
             $COMPOSE['attachments'][$attachment['id']] = $attachment;
             $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
                 $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
-            $body = preg_replace('#program/resources/blocked\.gif#', $url, $body);
+            $body = preg_replace($regexp, ' src="' . $url . '"', $body);
         }
     }
 
