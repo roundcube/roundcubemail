@@ -451,7 +451,6 @@ function rcube_mail_ui()
           dialogClass: 'popupmessage ' + p.type,
           title: env.errortitle,
           close: dialog_close,
-          position: ['center', 'center'],
           hide: {effect: 'fadeOut'},
           width: 420,
           minHeight: 90

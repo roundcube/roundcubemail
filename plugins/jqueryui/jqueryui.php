@@ -5,15 +5,16 @@
  *
  * Provide the jQuery UI library with according themes.
  *
- * @version 1.10.4
+ * @version 1.12.0
  * @author Cor Bosman <roundcube@wa.ter.net>
  * @author Thomas Bruederli <roundcube@gmail.com>
+ * @author Aleksander Machniak <alec@alec.pl>
  * @license GNU GPLv3+
  */
 class jqueryui extends rcube_plugin
 {
     public $noajax = true;
-    public $version = '1.10.4';
+    public $version = '1.12.0';
 
     private static $features = array();
     private static $ui_theme;
@@ -30,7 +31,7 @@ class jqueryui extends rcube_plugin
         $this->load_config();
 
         // include UI scripts
-        $this->include_script("js/jquery-ui-$this->version.custom.min.js");
+        $this->include_script("js/jquery-ui.min.js");
 
         // include UI stylesheet
         $skin     = $rcmail->config->get('skin');
@@ -39,11 +40,11 @@ class jqueryui extends rcube_plugin
 
         self::$ui_theme = $ui_theme;
 
-        if (file_exists($this->home . "/themes/$ui_theme/jquery-ui-$this->version.custom.css")) {
-            $this->include_stylesheet("themes/$ui_theme/jquery-ui-$this->version.custom.css");
+        if (file_exists($this->home . "/themes/$ui_theme/jquery-ui.css")) {
+            $this->include_stylesheet("themes/$ui_theme/jquery-ui.css");
         }
         else {
-            $this->include_stylesheet("themes/larry/jquery-ui-$this->version.custom.css");
+            $this->include_stylesheet("themes/larry/jquery-ui.css");
         }
 
         if ($ui_theme == 'larry') {
