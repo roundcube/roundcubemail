@@ -61,9 +61,9 @@ class Framework_Html extends PHPUnit_Framework_TestCase
      * Test for attrib_string()
      * @dataProvider data_attrib_string
      */
-    function test_attrib_string($arg1, $arg2, $result)
+    function test_attrib_string($arg1, $arg2, $expected)
     {
-        $this->assertEquals(html::attrib_string($arg1, $arg2), $result);
+        $this->assertEquals($expected, html::attrib_string($arg1, $arg2));
     }
 
     /**
@@ -86,8 +86,46 @@ class Framework_Html extends PHPUnit_Framework_TestCase
      * Test for quote()
      * @dataProvider data_quote
      */
-    function test_quote($str, $result)
+    function test_quote($str, $expected)
     {
-        $this->assertEquals(html::quote($str), $result);
+        $this->assertEquals($expected, html::quote($str));
+    }
+
+    /**
+     * Data for test_parse_attrib_string()
+     */
+    function data_parse_attrib_string()
+    {
+        return array(
+            array(
+                '',
+                array(),
+            ),
+            array(
+                'test="test1-val"',
+                array('test' => 'test1-val'),
+            ),
+            array(
+                'test1="test1-val"    test2=test2-val',
+                array('test1' => 'test1-val', 'test2' => 'test2-val'),
+            ),
+            array(
+                '   test1="test1\'val"    test2=\'test2"val\'   ',
+                array('test1' => 'test1\'val', 'test2' => 'test2"val'),
+            ),
+            array(
+                'expression="test == true ? \' test\' : \'\'" ',
+                array('expression' => 'test == true ? \' test\' : \'\''),
+            ),
+        );
+    }
+
+    /**
+     * Test for parse_attrib_string()
+     * @dataProvider data_parse_attrib_string
+     */
+    function test_parse_attrib_string($arg1, $expected)
+    {
+        $this->assertEquals($expected, html::parse_attrib_string($arg1));
     }
 }
