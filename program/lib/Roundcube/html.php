@@ -344,14 +344,14 @@ class html
     public static function parse_attrib_string($str)
     {
         $attrib = array();
-        $regexp = '/\s*([-_a-z]+)=(["\'])??(?(2)([^\2]*)\2|(\S+?))/Ui';
+        $html   = '<html><body><div ' . rtrim($str, '/ ') . ' /></body></html>';
 
-        preg_match_all($regexp, stripslashes($str), $regs, PREG_SET_ORDER);
+        $document = new DOMDocument('1.0', RCUBE_CHARSET);
+        @$document->loadHTML($html);
 
-        // convert attributes to an associative array (name => value)
-        if ($regs) {
-            foreach ($regs as $attr) {
-                $attrib[strtolower($attr[1])] = html_entity_decode($attr[3] . $attr[4]);
+        if ($node = $document->getElementsByTagName('div')->item(0)) {
+            foreach ($node->attributes as $name => $attr) {
+                $attrib[strtolower($name)] = $attr->nodeValue;
             }
         }
 
