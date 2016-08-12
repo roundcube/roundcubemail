@@ -91,7 +91,6 @@ html>/**/body #messagelist {
 	background: #ebebeb;
 	background: -moz-linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebebeb), color-stop(100%,#c6c6c6));
-	background: -o-linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
 	background: -ms-linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
 	background: linear-gradient(to bottom, #ebebeb 0%, #c6c6c6 100%);
 	border-radius: 0 0 4px 4px;
@@ -167,11 +166,9 @@ html.mozilla #mailboxlist > li:first-child {
 	background: #82acb5;
 	background: -moz-linear-gradient(top, #82acb5 0%, #6a939f 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#82acb5), color-stop(100%,#6a939f));
-	background: -o-linear-gradient(top, #82acb5 0%, #6a939f 100%);
 	background: -ms-linear-gradient(top, #82acb5 0%, #6a939f 100%);
 	background: linear-gradient(to bottom, #82acb5 0%, #6a939f 100%);
 	box-shadow: inset 0 1px 1px 0 #536d72;
-	-webkit-box-shadow: inset 0 1px 1px 0 #536d72;
 	border-radius: 9px;
 	color: #fff;
 	text-align: center;
@@ -183,22 +180,18 @@ html.mozilla #mailboxlist > li:first-child {
 	background: #005d76;
 	background: -moz-linear-gradient(top, #005d76 0%, #004558 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#005d76), color-stop(100%,#004558));
-	background: -o-linear-gradient(top, #005d76 0%, #004558 100%);
 	background: -ms-linear-gradient(top, #005d76 0%, #004558 100%);
 	background: linear-gradient(to bottom, #005d76 0%, #004558 100%);
 	box-shadow: inset 0 1px 1px 0 #003645;
-	-webkit-box-shadow: inset 0 1px 1px 0 #003645;
 }
 
 .folderlist li.mailbox.recent > a .unreadcount {
 	background: #017cb4;
 	background: -moz-linear-gradient(top, #017cb4 0%, #006ca4 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#017cb4), color-stop(100%,#006ca4));
-	background: -o-linear-gradient(top, #017cb4 0%, #006ca4 100%);
 	background: -ms-linear-gradient(top, #017cb4 0%, #006ca4 100%);
 	background: linear-gradient(to bottom, #017cb4 0%, #006ca4 100%);
 	box-shadow: inset 0 1px 1px 0 #005080;
-	-webkit-box-shadow: inset 0 1px 1px 0 #005080;
 }
 
 #searchfilter {
@@ -602,7 +595,6 @@ table.messagelist.fixedcopy {
 	background: #f9f9f9;
 	background: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f0f0));
-	background: -o-linear-gradient(top, #fff 0%, #f0f0f0 100%);
 	background: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
 	background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
 	border-bottom: 1px solid #dfdfdf;
@@ -715,7 +707,6 @@ h3.subject {
 	background: #f2f2f2;
 	background: -moz-linear-gradient(left, #fbfbfb 0, #e9e9e9 100%);
 	background: -webkit-gradient(linear, left top, right top, color-stop(0,#fbfbfb), color-stop(100%,#e9e9e9));
-	background: -o-linear-gradient(left, #fbfbfb 0, #e9e9e9 100%);
 	background: -ms-linear-gradient(left, #fbfbfb 0, #e9e9e9 100%);
 	background: linear-gradient(left, #fbfbfb 0, #e9e9e9 100%);
 	border-right: 1px solid #dfdfdf;
@@ -726,7 +717,6 @@ h3.subject {
 	background: #f2f2f2;
 	background: -moz-linear-gradient(left, #66bcd9 0, #49b3d2 100%);
 	background: -webkit-gradient(linear, left top, right top, color-stop(0,#66bcd9), color-stop(100%,#49b3d2));
-	background: -o-linear-gradient(left, #66bcd9 0, #49b3d2 100%);
 	background: -ms-linear-gradient(left, #66bcd9 0, #49b3d2 100%);
 	background: linear-gradient(left, #66bcd9 0, #49b3d2 100%);
 	border-right-color: #149cc5;
@@ -775,7 +765,6 @@ div.hide-headers {
 	border-radius: 4px;
 	background: #fdfdfd;
 	box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
-	-webkit-box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
 }
 
 #headers-source {
@@ -1269,7 +1258,6 @@ div.message-partheaders .headers-table td.header {
 	white-space: normal;
 	border-top: 1px solid #dfdfdf;
 	box-shadow: inset 0 1px 0 0 #fff;
-	-webkit-box-shadow: inset 0 1px 0 0 #fff;
 }
 
 .composeoption {
@@ -1334,13 +1322,11 @@ div.message-partheaders .headers-table td.header {
 	font-size: 9pt;
 	outline: none;
 	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
-	-webkit-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
 }
 
 #composebody:active,
 #composebody:focus {
 	box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
-	-webkit-box-shadow: inset 0 0 3px 2px rgba(71,135,177, 0.9);
 }
 
 #compose-attachments {
@@ -1367,13 +1353,11 @@ div.message-partheaders .headers-table td.header {
 #compose-attachments.droptarget.active {
 	border-color: #019bc6;
 	box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
-	-webkit-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
 }
 
 #compose-attachments.droptarget.hover {
 	background-color: #d9ecf4;
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
-	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
 }
 
 #compose-attachments .attachment-size {
