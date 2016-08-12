@@ -7,6 +7,9 @@ $config['squirrelmail_driver'] = 'sql';
 $config['squirrelmail_data_dir'] = '';
 $config['squirrelmail_data_dir_hash_level'] = 0;
 
+// file charset - e.g. 'EUC-JP'. Leave empty for ASCII.
+$config['squirrelmail_file_charset'] = '';
+
 // 'mysql://dbuser:dbpass@localhost/database'
 $config['squirrelmail_dsn'] = 'mysql://user:password@localhost/webmail';
 $config['squirrelmail_db_charset'] = 'iso-8859-1';
