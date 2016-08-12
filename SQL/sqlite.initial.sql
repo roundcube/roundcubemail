@@ -86,7 +86,6 @@ CREATE UNIQUE INDEX ix_users_username ON users(username, mail_host);
 
 CREATE TABLE session (
   sess_id varchar(128) NOT NULL PRIMARY KEY,
-  created datetime NOT NULL default '0000-00-00 00:00:00',
   changed datetime NOT NULL default '0000-00-00 00:00:00',
   ip varchar(40) NOT NULL default '',
   vars text NOT NULL
@@ -203,4 +202,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2015111100');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2016081200');

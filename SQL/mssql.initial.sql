@@ -1,7 +1,6 @@
 CREATE TABLE [dbo].[cache] (
 	[user_id] [int] NOT NULL ,
 	[cache_key] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
-	[created] [datetime] NOT NULL ,
 	[expires] [datetime] NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
@@ -315,7 +314,6 @@ GO
 
 ALTER TABLE [dbo].[session] ADD 
 	CONSTRAINT [DF_session_sess_id] DEFAULT ('') FOR [sess_id],
-	CONSTRAINT [DF_session_created] DEFAULT (getdate()) FOR [created],
 	CONSTRAINT [DF_session_ip] DEFAULT ('') FOR [ip]
 GO
 
@@ -395,6 +393,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
-INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2015111100')
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2016081200')
 GO
 
