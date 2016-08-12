@@ -103,20 +103,3 @@
 	display: inline-block;
 	height: 15px;
 }
-
-/** Special hacks for IE7 **/
-
-html.ie7 .tagedit span.tag-element,
-html.ie7 .tagedit-list li.tagedit-listelement-old {
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#edf6fa', endColorstr='#d6e9f3', GradientType=0);
-}
-
-html.ie7 .tagedit-list li.tagedit-listelement span {
-	position: relative;
-	top: -3px;
-}
-
-html.ie7 .tagedit-list li.tagedit-listelement-old a.tagedit-close {
-	left: 5px;
-}
-

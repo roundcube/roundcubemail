@@ -85,22 +85,3 @@
 	border: 2px dotted #666;
 	margin: 1px;
 }
-
-/* Hacks for IE6/7 */
-
-* html .miniColors-colors {
-	background-image: none;
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='plugins/calendar/skins/classic/images/minicolors-all.png', sizingMethod='crop');
-}
-
-* html .miniColors-colorPicker {
-	background: url('images/minicolors-handles.gif') 0 -28px no-repeat;
-}
-
-* html .miniColors-huePicker {
-	background: url('images/minicolors-handles.gif') 0 -24px no-repeat;
-}
-
-* html .miniColors-trigger {
-	background: url('images/minicolors-handles.gif') 0 0 no-repeat;
-}
