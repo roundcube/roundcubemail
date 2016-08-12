@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Removed useless 'created' column from 'session' table (#5389)
 - Require PHP >= 5.4
 - Add possibility to preview and download attachments in mail compose (#5053)
 - Add possibility to rename attachments in mail compose (#4996)
