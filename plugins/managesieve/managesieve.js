@@ -1085,6 +1085,5 @@ rcube_webmail.prototype.managesieve_dialog_resize = function(o)
     height = form.height(),
     w = win.width(), h = win.height();
 
-  dialog.dialog('option', { height: Math.min(h-20, height+120), width: Math.min(w-20, width+65) })
-    .dialog('option', 'position', ['center', 'center']);  // works in a separate call only (!?)
+  dialog.dialog('option', { height: Math.min(h-20, height+120), width: Math.min(w-20, width+65) });
 }
