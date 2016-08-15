@@ -227,6 +227,15 @@
 .ui-menu .ui-state-active {
 	margin: -1px;
 }
+.ui-menu .ui-menu-item .ui-state-active {
+	background: #c33;
+	border-color: #a22;
+	color: #fff;
+	display: block;
+}
+.ui-menu .ui-menu-item a {
+	display: block;
+}
 
 /* icon support */
 .ui-menu-icons {
@@ -1028,7 +1037,6 @@ a.ui-button:active,
 .ui-state-active a,
 .ui-state-active a:link,
 .ui-state-active a:visited {
-	color: #ffffff;
 	text-decoration: none;
 }
 

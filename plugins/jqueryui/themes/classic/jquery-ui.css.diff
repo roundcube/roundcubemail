@@ -1,18 +1,22 @@
---- jquery-ui.css.orig	2016-08-04 06:29:38.000000000 +0200
-+++ jquery-ui.css	2016-08-12 09:01:11.000000000 +0200
-@@ -289,6 +289,11 @@
- 	text-indent: 0;
+--- jquery-ui.css.orig	2016-08-15 11:56:45.000000000 +0200
++++ jquery-ui.css	2016-08-15 11:46:38.000000000 +0200
+@@ -227,6 +227,15 @@
+ .ui-menu .ui-state-active {
+ 	margin: -1px;
  }
- 
-+button.ui-button-text-only,
-+a.ui-button-text-only {
-+	background-image: url("images/buttongradient.png") !important;
++.ui-menu .ui-menu-item .ui-state-active {
++	background: #c33;
++	border-color: #a22;
++	color: #fff;
++	display: block;
 +}
-+
- /* button icon element(s) */
- .ui-button-icon-only .ui-icon {
- 	position: absolute;
-@@ -403,6 +408,9 @@
++.ui-menu .ui-menu-item a {
++	display: block;
++}
+ 
+ /* icon support */
+ .ui-menu-icons {
+@@ -403,6 +412,9 @@
  	width: 17em;
  	padding: .2em .2em 0;
  	display: none;
@@ -22,7 +26,7 @@
  }
  .ui-datepicker .ui-datepicker-header {
  	position: relative;
-@@ -476,6 +484,11 @@
+@@ -476,6 +488,11 @@
  	text-align: right;
  	text-decoration: none;
  }
@@ -34,7 +38,7 @@
  .ui-datepicker .ui-datepicker-buttonpane {
  	background-image: none;
  	margin: .7em 0 0 0;
-@@ -487,7 +500,7 @@
+@@ -487,7 +504,7 @@
  .ui-datepicker .ui-datepicker-buttonpane button {
  	float: right;
  	margin: .5em .2em .4em;
@@ -43,7 +47,7 @@
  	padding: .2em .6em .3em .6em;
  	width: auto;
  	overflow: visible;
-@@ -580,6 +593,9 @@
+@@ -580,6 +597,9 @@
  	left: 0;
  	padding: .2em;
  	outline: 0;
@@ -53,7 +57,7 @@
  }
  .ui-dialog .ui-dialog-titlebar {
  	padding: .4em 1em;
-@@ -602,6 +618,9 @@
+@@ -602,6 +622,9 @@
  	padding: 1px;
  	height: 20px;
  }
@@ -63,7 +67,7 @@
  .ui-dialog .ui-dialog-content {
  	position: relative;
  	border: 0;
-@@ -621,7 +640,7 @@
+@@ -621,7 +644,7 @@
  }
  .ui-dialog .ui-dialog-buttonpane button {
  	margin: .5em .4em .5em 0;
@@ -72,7 +76,7 @@
  }
  .ui-dialog .ui-resizable-n {
  	height: 2px;
-@@ -843,20 +862,29 @@
+@@ -843,20 +866,29 @@
  	float: left;
  	position: relative;
  	top: 0;
@@ -104,7 +108,7 @@
  .ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor,
  .ui-tabs .ui-tabs-nav li.ui-state-disabled .ui-tabs-anchor,
  .ui-tabs .ui-tabs-nav li.ui-tabs-loading .ui-tabs-anchor {
-@@ -910,9 +938,11 @@
+@@ -910,9 +942,11 @@
  }
  .ui-widget-header {
  	border: 1px solid #dddddd;
@@ -118,7 +122,7 @@
  }
  .ui-widget-header a {
  	color: #333333;
-@@ -957,6 +987,15 @@
+@@ -957,6 +991,15 @@
  	font-weight: normal;
  	color: #2b2b2b;
  }
@@ -134,7 +138,7 @@
  .ui-state-hover a,
  .ui-state-hover a:hover,
  .ui-state-hover a:link,
-@@ -981,9 +1020,10 @@
+@@ -981,9 +1024,10 @@
  .ui-button:active,
  .ui-button.ui-state-active:hover {
  	border: 1px solid #003eff;
@@ -147,7 +151,15 @@
  }
  .ui-icon-background,
  .ui-state-active .ui-icon-background {
-@@ -1040,8 +1080,8 @@
+@@ -993,7 +1037,6 @@
+ .ui-state-active a,
+ .ui-state-active a:link,
+ .ui-state-active a:visited {
+-	color: #ffffff;
+ 	text-decoration: none;
+ }
+ 
+@@ -1040,8 +1083,8 @@
  .ui-priority-secondary,
  .ui-widget-content .ui-priority-secondary,
  .ui-widget-header .ui-priority-secondary {
