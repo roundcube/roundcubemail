@@ -22,7 +22,7 @@
 /**
  * Class to create HTML page output using a skin template
  *
- * @package Webmail
+ * @package    Webmail
  * @subpackage View
  */
 class rcmail_output_html extends rcmail_output
@@ -42,7 +42,7 @@ class rcmail_output_html extends rcmail_output
     protected $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
     protected $header = '';
     protected $footer = '';
-    protected $body = '';
+    protected $body   = '';
     protected $base_path = '';
     protected $assets_path;
     protected $assets_dir = RCUBE_INSTALL_PATH;
@@ -134,9 +134,10 @@ EOF;
     /**
      * Set environment variable
      *
-     * @param string Property name
-     * @param mixed Property value
-     * @param boolean True if this property should be added to client environment
+     * @param string  $name    Property name
+     * @param mixed   $value   Property value
+     * @param boolean $addtojs True if this property should be added
+     *                         to client environment
      */
     public function set_env($name, $value, $addtojs = true)
     {
@@ -150,7 +151,8 @@ EOF;
     /**
      * Parse and set assets path
      *
-     * @param string Assets path (relative or absolute URL)
+     * @param string $path   Assets path URL (relative or absolute)
+     * @param string $fs_dif Assets path in filesystem
      */
     public function set_assets_path($path, $fs_dir = null)
     {
@@ -221,6 +223,10 @@ EOF;
 
     /**
      * Set skin
+     *
+     * @param string $skin Skin name
+     *
+     * @return bool True if the skin exist and is readable, False otherwise
      */
     public function set_skin($skin)
     {
@@ -294,7 +300,8 @@ EOF;
     /**
      * Check if a specific template exists
      *
-     * @param string Template name
+     * @param string $name Template name
+     *
      * @return boolean True if template exists
      */
     public function template_exists($name)
@@ -314,9 +321,9 @@ EOF;
     /**
      * Find the given file in the current skin path stack
      *
-     * @param string File name/path to resolve (starting with /)
-     * @param string Reference to the base path of the matching skin
-     * @param string Additional path to search in
+     * @param string $file       File name/path to resolve (starting with /)
+     * @param string &$skin_path Reference to the base path of the matching skin
+     * @param string $add_path   Additional path to search in
      *
      * @return mixed Relative path to the requested file or False if not found
      */
@@ -349,9 +356,8 @@ EOF;
     /**
      * Register a GUI object to the client script
      *
-     * @param  string Object name
-     * @param  string Object ID
-     * @return void
+     * @param string $obj Object name
+     * @param string $id  Object ID
      */
     public function add_gui_object($obj, $id)
     {
@@ -379,8 +385,10 @@ EOF;
     public function add_label()
     {
         $args = func_get_args();
-        if (count($args) == 1 && is_array($args[0]))
+
+        if (count($args) == 1 && is_array($args[0])) {
             $args = $args[0];
+        }
 
         foreach ($args as $name) {
             $this->js_labels[$name] = $this->app->gettext($name);
@@ -395,6 +403,7 @@ EOF;
      * @param array   $vars     Key-value pairs to be replaced in localized text
      * @param boolean $override Override last set message
      * @param int     $timeout  Message display time in seconds
+     *
      * @uses self::command()
      */
     public function show_message($message, $type='notice', $vars=null, $override=true, $timeout=0)
@@ -462,8 +471,8 @@ EOF;
      * Send the request output to the client.
      * This will either parse a skin tempalte or send an AJAX response
      *
-     * @param string  Template name
-     * @param boolean True if script should terminate (default)
+     * @param string  $templ Template name
+     * @param boolean $exit  True if script should terminate (default)
      */
     public function send($templ = null, $exit = true)
     {
@@ -529,11 +538,11 @@ EOF;
     /**
      * Parse a specific skin template and deliver to stdout (or return)
      *
-     * @param  string  Template name
-     * @param  boolean Exit script
-     * @param  boolean Don't write to stdout, return parsed content instead
+     * @param string  $name  Template name
+     * @param boolean $exit  Exit script
+     * @param boolean $write Don't write to stdout, return parsed content instead
      *
-     * @link   http://php.net/manual/en/function.exit.php
+     * @link http://php.net/manual/en/function.exit.php
      */
     function parse($name = 'main', $exit = true, $write = true)
     {
@@ -570,23 +579,22 @@ EOF;
             $path = RCUBE_INSTALL_PATH . "$skin_path/templates/$name.html";
 
             // fallback to deprecated template names
-            if (!is_readable($path) && $this->deprecated_templates[$realname]) {
-                $path = RCUBE_INSTALL_PATH . "$skin_path/templates/" . $this->deprecated_templates[$realname] . ".html";
+            if (!is_readable($path) && ($dname = $this->deprecated_templates[$realname])) {
+                $path = RCUBE_INSTALL_PATH . "$skin_path/templates/$dname.html";
 
                 if (is_readable($path)) {
                     rcube::raise_error(array(
-                        'code' => 502, 'type' => 'php',
-                        'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Using deprecated template '" . $this->deprecated_templates[$realname]
-                            . "' in $skin_path/templates. Please rename to '$realname'"),
-                        true, false);
+                            'code' => 502, 'file' => __FILE__, 'line' => __LINE__,
+                            'message' => "Using deprecated template '$dname' in $skin_path/templates. Please rename to '$realname'"
+                        ), true, false);
                 }
             }
 
             if (is_readable($path)) {
                 $this->config->set('skin_path', $skin_path);
-                $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
-                $skin_dir = preg_replace('!^plugins/!', '', $skin_path);
+                // set base_path to core skin directory (not plugin's skin)
+                $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);
+                $skin_dir        = preg_replace('!^plugins/!', '', $skin_path);
                 break;
             }
             else {
@@ -611,7 +619,11 @@ EOF;
         // replace all path references to plugins/... with the configured plugins dir
         // and /this/ to the current plugin skin directory
         if ($plugin) {
-            $templ = preg_replace(array('/\bplugins\//', '/(["\']?)\/this\//'), array($this->app->plugins->url, '\\1'.$this->app->plugins->url.$skin_dir.'/'), $templ);
+            $templ = preg_replace(
+                array('/\bplugins\//', '/(["\']?)\/this\//'),
+                array($this->app->plugins->url, '\\1'.$this->app->plugins->url.$skin_dir.'/'),
+                $templ
+            );
         }
 
         // parse for specialtags
@@ -626,7 +638,7 @@ EOF;
         unset($hook['content']);
 
         // make sure all <form> tags have a valid request token
-        $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
+        $output       = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
         $this->footer = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $this->footer);
 
         // remove plugin skin paths from current context
@@ -645,8 +657,6 @@ EOF;
 
     /**
      * Return executable javascript code for all registered commands
-     *
-     * @return string $out
      */
     protected function get_js_commands(&$framed = null)
     {
@@ -710,9 +720,10 @@ EOF;
     /**
      * Make URLs starting with a slash point to skin directory
      *
-     * @param  string Input string
-     * @param  boolean True if URL should be resolved using the current skin path stack
-     * @return string
+     * @param string $str          Input string
+     * @param bool   $search_path  True if URL should be resolved using the current skin path stack
+     *
+     * @return string URL
      */
     public function abs_url($str, $search_path = false)
     {
@@ -730,8 +741,8 @@ EOF;
     /**
      * Show error page and terminate script execution
      *
-     * @param int    $code     Error code
-     * @param string $message  Error message
+     * @param int    $code    Error code
+     * @param string $message Error message
      */
     public function raise_error($code, $message)
     {
@@ -866,7 +877,8 @@ EOF;
     /**
      * Public wrapper to dipp into template parsing.
      *
-     * @param  string $input
+     * @param string $input Template content
+     *
      * @return string
      * @uses   rcmail_output_html::parse_xml()
      * @since  0.1-rc1
@@ -881,9 +893,6 @@ EOF;
 
     /**
      * Parse for conditional tags
-     *
-     * @param  string $input
-     * @return string
      */
     protected function parse_conditions($input)
     {
@@ -892,36 +901,45 @@ EOF;
             if (preg_match('/^(else|endif)$/i', $matches[1])) {
                 return $matches[0] . $this->parse_conditions($matches[3]);
             }
+
             $attrib = html::parse_attrib_string($matches[2]);
+
             if (isset($attrib['condition'])) {
-                $condmet = $this->check_condition($attrib['condition']);
+                $condmet    = $this->check_condition($attrib['condition']);
                 $submatches = preg_split('/<roundcube:(elseif|else|endif)\s+([^>]+)>\n?/is', $matches[3], 2, PREG_SPLIT_DELIM_CAPTURE);
+
                 if ($condmet) {
                     $result = $submatches[0];
-                    $result.= ($submatches[1] != 'endif' ? preg_replace('/.*<roundcube:endif\s+[^>]+>\n?/Uis', '', $submatches[3], 1) : $submatches[3]);
+                    if ($submatches[1] != 'endif') {
+                        $result .= preg_replace('/.*<roundcube:endif\s+[^>]+>\n?/Uis', '', $submatches[3], 1);
+                    }
+                    else {
+                        $result .= $submatches[3];
+                    }
                 }
                 else {
                     $result = "<roundcube:$submatches[1] $submatches[2]>" . $submatches[3];
                 }
+
                 return $matches[0] . $this->parse_conditions($result);
             }
+
             rcube::raise_error(array(
-                'code' => 500,
-                'type' => 'php',
-                'line' => __LINE__,
-                'file' => __FILE__,
-                'message' => "Unable to parse conditional tag " . $matches[2]
-            ), true, false);
+                    'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
+                    'message' => "Unable to parse conditional tag " . $matches[2]
+                ), true, false);
         }
+
         return $input;
     }
 
     /**
      * Determines if a given condition is met
      *
-     * @todo   Extend this to allow real conditions, not just "set"
-     * @param  string Condition statement
+     * @param string $condition Condition statement
+     *
      * @return boolean True if condition is met, False if not
+     * @todo Extend this to allow real conditions, not just "set"
      */
     protected function check_condition($condition)
     {
@@ -947,7 +965,7 @@ EOF;
     /**
      * Parse & evaluate a given expression and return its result.
      *
-     * @param string Expression statement
+     * @param string $expression Expression statement
      *
      * @return mixed Expression result
      */
@@ -978,13 +996,11 @@ EOF;
         $fn = create_function('$app,$browser,$env', "return ($expression);");
         if (!$fn) {
             rcube::raise_error(array(
-                'code' => 505,
-                'type' => 'php',
-                'file' => __FILE__,
-                'line' => __LINE__,
-                'message' => "Expression parse error on: ($expression)"), true, false);
+                    'code' => 505, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Expression parse error on: ($expression)"
+                ), true, false);
 
-            return null;
+            return;
         }
 
         return $fn($this->app, $this->browser, $this->env);
@@ -994,7 +1010,8 @@ EOF;
      * Search for special tags in input and replace them
      * with the appropriate content
      *
-     * @param  string Input string to parse
+     * @param string $input Input string to parse
+     *
      * @return string Altered input string
      * @todo   Use DOM-parser to traverse template HTML
      * @todo   Maybe a cache.
@@ -1008,7 +1025,8 @@ EOF;
      * Callback function for parsing an xml command tag
      * and turn it into real html content
      *
-     * @param  array Matches array of preg_replace_callback
+     * @param array $matches Matches array of preg_replace_callback
+     *
      * @return string Tag/Object content
      */
     protected function xml_command($matches)
@@ -1082,7 +1100,8 @@ EOF;
                 $old_base_path = $this->base_path;
                 if (!empty($attrib['skin_path'])) $attrib['skinpath'] = $attrib['skin_path'];
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
-                    $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
+                    // set base_path to core skin directory (not plugin's skin)
+                    $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);
                     $path = realpath(RCUBE_INSTALL_PATH . $path);
                 }
 
@@ -1238,7 +1257,8 @@ EOF;
     /**
      * Include a specific file and return it's contents
      *
-     * @param string File path
+     * @param string $file File path
+     *
      * @return string Contents of the processed file
      */
     protected function include_php($file)
@@ -1254,7 +1274,8 @@ EOF;
     /**
      * Create and register a button
      *
-     * @param  array Named button attributes
+     * @param array $attrib Named button attributes
+     *
      * @return string HTML button
      * @todo   Remove all inline JS calls and use jQuery instead.
      * @todo   Remove all sprintf()'s - they are pretty, but also slow.
@@ -1443,8 +1464,8 @@ EOF;
     /**
      * Link an external script file
      *
-     * @param string File URL
-     * @param string Target position [head|foot]
+     * @param string $file     File URL
+     * @param string $position Target position [head|foot]
      */
     public function include_script($file, $position='head')
     {
@@ -1464,8 +1485,8 @@ EOF;
     /**
      * Add inline javascript code
      *
-     * @param string JS code snippet
-     * @param string Target position [head|head_top|foot]
+     * @param string $script   JS code snippet
+     * @param string $position Target position [head|head_top|foot]
      */
     public function add_script($script, $position='head')
     {
@@ -1480,7 +1501,7 @@ EOF;
     /**
      * Link an external css file
      *
-     * @param string File URL
+     * @param string $file File URL
      */
     public function include_css($file)
     {
@@ -1511,8 +1532,8 @@ EOF;
     /**
      * Process template and write to stdOut
      *
-     * @param string HTML template
-     * @param string Base for absolute paths
+     * @param string $templ     HTML template
+     * @param string $base_path Base for absolute paths
      */
     public function _write($templ = '', $base_path = '')
     {
@@ -1653,8 +1674,9 @@ EOF;
     /**
      * Returns iframe object, registers some related env variables
      *
-     * @param array $attrib HTML attributes
+     * @param array   $attrib          HTML attributes
      * @param boolean $is_contentframe Register this iframe as the 'contentframe' gui object
+     *
      * @return string IFRAME element
      */
     public function frame($attrib, $is_contentframe = false)
@@ -1683,34 +1705,40 @@ EOF;
     /**
      * Create a form tag with the necessary hidden fields
      *
-     * @param array Named tag parameters
+     * @param array  $attrib  Named tag parameters
+     * @param string $content HTML content of the form
+     *
      * @return string HTML code for the form
      */
     public function form_tag($attrib, $content = null)
     {
-      if ($this->framed || $this->env['framed']) {
-        $hiddenfield = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
-        $hidden = $hiddenfield->show();
-      }
-      if ($this->env['extwin']) {
-        $hiddenfield = new html_hiddenfield(array('name' => '_extwin', 'value' => '1'));
-        $hidden = $hiddenfield->show();
-      }
+        if ($this->env['extwin']) {
+            $hiddenfield = new html_hiddenfield(array('name' => '_extwin', 'value' => '1'));
+            $hidden = $hiddenfield->show();
+        }
+        else if ($this->framed || $this->env['framed']) {
+            $hiddenfield = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
+            $hidden = $hiddenfield->show();
+        }
 
-      if (!$content)
-        $attrib['noclose'] = true;
+        if (!$content) {
+            $attrib['noclose'] = true;
+        }
 
-      return html::tag('form',
-        $attrib + array('action' => $this->app->comm_path, 'method' => "get"),
-        $hidden . $content,
-        array('id','class','style','name','method','action','enctype','onsubmit'));
+        return html::tag('form',
+            $attrib + array('action' => $this->app->comm_path, 'method' => "get"),
+            $hidden . $content,
+            array('id','class','style','name','method','action','enctype','onsubmit')
+        );
     }
 
     /**
      * Build a form tag with a unique request token
      *
-     * @param array Named tag parameters including 'action' and 'task' values which will be put into hidden fields
-     * @param string Form content
+     * @param array  $attrib  Named tag parameters including 'action' and 'task' values
+     *                        which will be put into hidden fields
+     * @param string $content Form content
+     *
      * @return string HTML code for the form
      */
     public function request_form($attrib, $content = '')
@@ -1723,24 +1751,27 @@ EOF;
             $hidden->add(array('name' => '_action', 'value' => $attrib['action']));
         }
 
+        // we already have a <form> tag
+        if ($attrib['form']) {
+            if ($this->framed || $this->env['framed']) {
+                $hidden->add(array('name' => '_framed', 'value' => '1'));
+            }
+
+            return $hidden->show() . $content;
+        }
+
         unset($attrib['task'], $attrib['request']);
         $attrib['action'] = './';
 
-        // we already have a <form> tag
-        if ($attrib['form']) {
-            if ($this->framed || $this->env['framed'])
-                $hidden->add(array('name' => '_framed', 'value' => '1'));
-            return $hidden->show() . $content;
-        }
-        else
-            return $this->form_tag($attrib, $hidden->show() . $content);
+        return $this->form_tag($attrib, $hidden->show() . $content);
     }
 
     /**
      * GUI object 'username'
      * Showing IMAP username of the current session
      *
-     * @param array Named tag parameters (currently not used)
+     * @param array $attrib Named tag parameters (currently not used)
+     *
      * @return string HTML code for the gui object
      */
     public function current_username($attrib)
@@ -1771,7 +1802,8 @@ EOF;
      * GUI object 'loginform'
      * Returns code for the webmail login form
      *
-     * @param array Named parameters
+     * @param array $attrib Named parameters
+     *
      * @return string HTML code for the gui object
      */
     protected function login_form($attrib)
@@ -1876,7 +1908,7 @@ EOF;
      * GUI object 'preloader'
      * Loads javascript code for images preloading
      *
-     * @param array Named parameters
+     * @param array $attrib Named parameters
      * @return void
      */
     protected function preloader($attrib)
@@ -1900,7 +1932,8 @@ EOF;
      * GUI object 'searchform'
      * Returns code for search function
      *
-     * @param array Named parameters
+     * @param array $attrib Named parameters
+     *
      * @return string HTML code for the gui object
      */
     protected function search_form($attrib)
@@ -1918,17 +1951,17 @@ EOF;
         }
 
         $input_q = new html_inputfield($attrib);
-        $out = $input_q->show();
+        $out     = $input_q->show();
 
         $this->add_gui_object('qsearchbox', $attrib['id']);
 
         // add form tag around text field
         if (empty($attrib['form'])) {
             $out = $this->form_tag(array(
-                'name'     => "rcmqsearchform",
-                'onsubmit' => self::JS_OBJECT_NAME . ".command('search'); return false",
-                'style'    => "display:inline"),
-                $out);
+                    'name'     => "rcmqsearchform",
+                    'onsubmit' => self::JS_OBJECT_NAME . ".command('search'); return false",
+                    'style'    => "display:inline"
+                ), $out);
         }
 
         return $out;
@@ -1954,7 +1987,8 @@ EOF;
     /**
      * GUI object 'charsetselector'
      *
-     * @param array Named parameters for the select tag
+     * @param array $attrib Named parameters for the select tag
+     *
      * @return string HTML code for the gui object
      */
     public function charset_selector($attrib)

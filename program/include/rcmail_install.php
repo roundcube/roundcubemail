@@ -115,6 +115,8 @@ class rcmail_install
 
     /**
      * Read the default config file and store properties
+     *
+     * @param string $file File name with path
      */
     public function load_config_file($file)
     {
@@ -158,8 +160,8 @@ class rcmail_install
     /**
      * Getter for a certain config property
      *
-     * @param string Property name
-     * @param string Default value
+     * @param string $name    Property name
+     * @param string $default Default value
      *
      * @return string The property value
      */
@@ -435,11 +437,11 @@ class rcmail_install
      * Compare the local database schema with the reference schema
      * required for this version of Roundcube
      *
-     * @param rcube_db Database object
+     * @param rcube_db $db Database object
      *
      * @return boolean True if the schema is up-to-date, false if not or an error occurred
      */
-    public function db_schema_check($DB)
+    public function db_schema_check($db)
     {
         if (!$this->configured) {
             return false;
@@ -450,7 +452,7 @@ class rcmail_install
         $errors    = array();
 
         // check list of tables
-        $existing_tables = $DB->list_tables();
+        $existing_tables = $db->list_tables();
 
         foreach ($db_schema as $table => $cols) {
             $table = $this->config['db_prefix'] . $table;
@@ -459,7 +461,7 @@ class rcmail_install
                 $errors[] = "Missing table '".$table."'";
             }
             else {  // compare cols
-                $db_cols = $DB->list_cols($table);
+                $db_cols = $db->list_cols($table);
                 $diff    = array_diff(array_keys($cols), $db_cols);
 
                 if (!empty($diff)) {
@@ -647,8 +649,8 @@ class rcmail_install
     /**
      * Display OK status
      *
-     * @param string Test name
-     * @param string Confirm message
+     * @param string $name    Test name
+     * @param string $message Confirm message
      */
     public function pass($name, $message = '')
     {
@@ -659,10 +661,10 @@ class rcmail_install
     /**
      * Display an error status and increase failure count
      *
-     * @param string Test name
-     * @param string Error message
-     * @param string URL for details
-     * @param bool   Do not count this failure
+     * @param string $name     Test name
+     * @param string $message  Error message
+     * @param string $url      URL for details
+     * @param bool   $optional Do not count this failure
      */
     public function fail($name, $message = '', $url = '', $optional=false)
     {
@@ -677,9 +679,9 @@ class rcmail_install
     /**
      * Display an error status for optional settings/features
      *
-     * @param string Test name
-     * @param string Error message
-     * @param string URL for details
+     * @param string $name    Test name
+     * @param string $message Error message
+     * @param string $url     URL for details
      */
     public function optfail($name, $message = '', $url = '')
     {
@@ -690,9 +692,9 @@ class rcmail_install
     /**
      * Display warning status
      *
-     * @param string Test name
-     * @param string Warning message
-     * @param string URL for details
+     * @param string $name    Test name
+     * @param string $message Warning message
+     * @param string $url     URL for details
      */
     public function na($name, $message = '', $url = '')
     {
@@ -787,18 +789,19 @@ class rcmail_install
     /**
      * Initialize the database with the according schema
      *
-     * @param object rcube_db Database connection
+     * @param rcube_db $db Database connection
+     *
      * @return boolen True on success, False on error
      */
-    public function init_db($DB)
+    public function init_db($db)
     {
-        $engine = $DB->db_provider;
+        $engine = $db->db_provider;
 
         // read schema file from /SQL/*
         $fname = INSTALL_PATH . "SQL/$engine.initial.sql";
         if ($sql = @file_get_contents($fname)) {
-            $DB->set_option('table_prefix', $this->config['db_prefix']);
-            $DB->exec_script($sql);
+            $db->set_option('table_prefix', $this->config['db_prefix']);
+            $db->exec_script($sql);
         }
         else {
             $this->fail('DB Schema', "Cannot read the schema file: $fname");
@@ -816,7 +819,7 @@ class rcmail_install
     /**
      * Update database schema
      *
-     * @param string Version to update from
+     * @param string $version Version to update from
      *
      * @return boolen True on success, False on error
      */
