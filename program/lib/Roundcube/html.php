@@ -267,7 +267,7 @@ class html
     /**
      * Derrived method for line breaks
      *
-     * @param array $attrib  Associative arry with tag attributes
+     * @param array $attrib Associative arry with tag attributes
      *
      * @return string HTML code
      * @see html::tag()
@@ -337,7 +337,7 @@ class html
     /**
      * Convert a HTML attribute string attributes to an associative array (name => value)
      *
-     * @param string Input string
+     * @param string $str Input string
      *
      * @return array Key-value pairs of parsed attributes
      */
@@ -773,12 +773,12 @@ class html_table extends html
      * Remove a column from a table
      * Useful for plugins making alterations
      *
-     * @param string $class
+     * @param string $class Class name
      */
     public function remove_column($class)
     {
         // Remove the header
-        foreach ($this->header as $index=>$header){
+        foreach ($this->header as $index => $header){
             if ($header->attrib['class'] == $class){
                 unset($this->header[$index]);
                 break;
@@ -786,8 +786,8 @@ class html_table extends html
         }
 
         // Remove cells from rows
-        foreach ($this->rows as $i=>$row){
-            foreach ($row->cells as $j=>$cell){
+        foreach ($this->rows as $i => $row){
+            foreach ($row->cells as $j => $cell){
                 if ($cell->attrib['class'] == $class){
                     unset($this->rows[$i]->cells[$j]);
                     break;

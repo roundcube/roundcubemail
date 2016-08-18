@@ -23,7 +23,7 @@
  * Helper class for turning URLs and email addresses in plaintext content
  * into clickable links.
  *
- * @package Webmail
+ * @package    Webmail
  * @subpackage Utils
  */
 class rcmail_string_replacer extends rcube_string_replacer
@@ -33,7 +33,8 @@ class rcmail_string_replacer extends rcube_string_replacer
      *
      * This also adds an onclick-handler to open the Rouncube compose message screen on such links
      *
-     * @param array Matches result from preg_replace_callback
+     * @param array $matches Matches result from preg_replace_callback
+     *
      * @return int Index of saved string value
      * @see rcube_string_replacer::mailto_callback()
      */
