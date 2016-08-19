@@ -750,10 +750,6 @@ class rcmail_install
                 return $val;
             }
             break;
-
-        case 'mail_header_delimiter':
-            $var = str_replace(array("\r", "\n"), array('\r', '\n'), $var);
-            return '"' . $var. '"';
 /*
         // RCMAIL_VERSION is undefined here
         case 'useragent':

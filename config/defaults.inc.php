@@ -538,10 +538,6 @@ $config['http_received_header'] = false;
 // when tracking down issues.
 $config['http_received_header_encrypt'] = false;
 
-// This string is used as a delimiter for message headers when sending
-// a message via mail() function. Leave empty for auto-detection
-$config['mail_header_delimiter'] = NULL;
-
 // number of chars allowed for line when wrapping text.
 // text wrapping is done when composing/sending messages
 $config['line_length'] = 72;
