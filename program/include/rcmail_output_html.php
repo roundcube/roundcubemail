@@ -90,7 +90,7 @@ class rcmail_output_html extends rcmail_output
 
         $lic = <<<EOF
 /*
-        @licstart  The following is the entire license notice for the 
+        @licstart  The following is the entire license notice for the
         JavaScript code in this page.
 
         Copyright (C) 2005-2014 The Roundcube Dev Team
@@ -852,15 +852,28 @@ EOF;
         if (!$this->devel_mode && !preg_match('/\.min\.' . $ext . '$/', $file)) {
             $minified_file = substr($file, 0, strlen($ext) * -1) . 'min.' . $ext;
             if ($fs = @filemtime($this->assets_dir . $minified_file)) {
-                return $minified_file . '?s=' . $fs;
+                return $this->file_with_cache_buster($minified_file, $fs);
             }
         }
 
         if ($fs = @filemtime($this->assets_dir . $file)) {
-            $file .= '?s=' . $fs;
+            $file = $this->file_with_cache_buster($file, $fs);
         }
 
         return $file;
+    }
+
+    private function file_with_cache_buster($file_name, $file_timestamp){
+        $hook_response = $this->app->plugins->exec_hook('file_with_cache_buster', array(
+            'file_name' => $file_name,
+            'file_timestamp' => $file_timestamp
+        ));
+
+        if (isset($hook_response['file_with_cache_buster']) && $hook_response['file_with_cache_buster']){
+            return $hook_response['file_with_cache_buster'];
+        }
+
+        return $file_name . '?s=' . $file_timestamp;
     }
 
     /**
