@@ -4756,13 +4756,16 @@ function rcube_webmail()
     // count files and size on capable browser
     var size = 0, numfiles = 0;
 
-    $('input[type=file]', form).each(function(i, field) {
-      var files = field.files ? field.files.length : (field.value ? 1 : 0);
+    $.each($(form).get(0).elements || [], function() {
+      if (this.type != 'file')
+        return;
+
+      var i, files = this.files ? this.files.length : (this.value ? 1 : 0);
 
       // check file size
-      if (field.files) {
-        for (var i=0; i < files; i++)
-          size += field.files[i].size;
+      if (this.files) {
+        for (i=0; i < files; i++)
+          size += this.files[i].size;
       }
 
       numfiles += files;

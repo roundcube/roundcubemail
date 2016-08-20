@@ -30,7 +30,7 @@
 		<a href="#languages" class="dropbuttontip" id="spellmenulink" onclick="UI.toggle_popup('spellmenu',event);return false" aria-haspopup="true" aria-expanded="false" tabindex="2">Select Spell Language</a>
 	</span>
 	<roundcube:endif />
-	<roundcube:button name="addattachment" type="link" class="button attach" label="attach" title="addattachment" onclick="UI.show_uploadform(event);return false" aria-haspopup="true" aria-expanded="false"tabindex="2" />
+	<roundcube:button name="addattachment" type="link" class="button attach" label="attach" title="addattachment" onclick="$('#uploadformbtn').click(); return false" aria-haspopup="true" aria-expanded="false" tabindex="2" />
 	<roundcube:button command="insert-sig" type="link" class="button insertsig disabled" classAct="button insertsig" label="signature" title="insertsignature" tabindex="2" />
 	<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="UI.toggle_popup('responsesmenu',event);return false" tabindex="2" aria-haspopup="true" aria-expanded="false" aria-owns="textresponsesmenu"><roundcube:label name="responses" /></a>
 	<roundcube:button command="compose-encrypted" type="link" class="button encrypt disabled" classAct="button encrypt" classSel="button encrypt selected" label="encrypt" title="encryptmessagemailvelope" tabindex="2" style="display:none" />
@@ -175,8 +175,8 @@
 	</div>
 	<div id="compose-attachments" class="rightcol" role="region" aria-labelledby="aria-label-composeattachments">
 		<h2 id="aria-label-composeattachments" class="voice"><roundcube:label name="attachments" /></h2>
-		<div style="text-align:center; margin-bottom:20px">
-			<roundcube:button name="addattachment" type="input" class="button" classSel="button pressed" label="addattachment" onclick="UI.show_uploadform(event);return false" tabindex="1" />
+		<div style="text-align:center; margin-bottom:10px">
+			<roundcube:object name="composeAttachmentForm" id="uploadform" smart-button="yes" tabindex="1" />
 		</div>
 		<roundcube:object name="composeAttachmentList" id="attachment-list" class="attachmentslist" tabindex="1" />
 		<roundcube:object name="fileDropArea" id="compose-attachments" />
@@ -197,15 +197,6 @@
 </div><!-- end mainscreencontent -->
 
 </div><!-- end mainscreen -->
-
-<div id="upload-dialog" class="propform popupdialog" title="<roundcube:label name='addattachment' />" aria-hidden="true">
-	<h2 id="aria-label-uploaddialog" class="voice"><roundcube:label name="arialabelattachmentuploadform" /></h2>
-	<roundcube:object name="composeAttachmentForm" id="uploadform" buttons="no" />
-	<div class="formbuttons">
-		<roundcube:button command="send-attachment" type="input" class="button mainaction" label="upload" />
-		<roundcube:button name="close" type="input" class="button" label="cancel" onclick="UI.show_uploadform()" />
-	</div>
-</div>
 
 <div id="spellmenu" class="popupmenu" aria-hidden="true"></div>
 
