@@ -8971,8 +8971,8 @@ function rcube_webmail()
     window.setTimeout(function() {
       $('<object>').css({position: 'absolute', left: '-10000px'})
         .attr({data: ref.assets_path('program/resources/dummy.pdf'), width: 1, height: 1, type: 'application/pdf'})
-        .load(function() { ref.env.browser_capabilities.pdf = 1; })
-        .error(function() { ref.env.browser_capabilities.pdf = 0; })
+        .on('load', function() { ref.env.browser_capabilities.pdf = 1; })
+        .on('error', function() { ref.env.browser_capabilities.pdf = 0; })
         .appendTo($('body'));
       }, 10);
 

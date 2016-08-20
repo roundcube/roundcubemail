@@ -8,8 +8,6 @@
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: hidden;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #filtersscreen
@@ -19,8 +17,6 @@
   right: 0;
   bottom: 0;
   left: 205px;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #filterslistbox
@@ -31,8 +27,6 @@
   bottom: 0;
   border: 1px solid #999999;
   overflow: auto;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #filterslist,
@@ -91,9 +85,6 @@
   bottom: 0;
   border: 1px solid #999999;
   overflow: hidden;
-  /* css hack for IE */
-  width: expression((parseInt(this.parentNode.offsetWidth)-20-parseInt(document.getElementById('filterslistbox').offsetWidth))+'px');
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #filter-frame

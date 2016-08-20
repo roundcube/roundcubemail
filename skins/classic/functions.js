@@ -479,16 +479,9 @@ switch_preview_pane: function(elem)
   }
   else {
     prev_frm.hide();
-    if (bw.ie7) {
-      var fr = document.getElementById('mailcontframe');
-      fr.style.bottom = 0;
-      fr.style.height = parseInt(fr.parentNode.offsetHeight)+'px';
-    }
-    else {
-      $('#mailcontframe').css({height: 'auto', bottom: 0});
-      if (bw.opera)
-        $('#messagelistcontainer').css({height: 'auto'});
-    }
+    $('#mailcontframe').css({height: 'auto', bottom: 0});
+    if (bw.opera)
+      $('#messagelistcontainer').css({height: 'auto'});
     if (mailviewsplit.layer)
       mailviewsplit.layer.elm.style.display = 'none';
 
@@ -831,8 +824,8 @@ function rcube_render_mailboxlist()
 {
   var list = $('#mailboxlist > li > a, #mailboxlist ul:visible > li > a');
 
-  // it's too slow with really big number of folders, especially on IE
-  if (list.length > (bw.ie && bw.vendver < 9 ? 40 : 100))
+  // it's too slow with really big number of folders
+  if (list.length > 100)
     return;
 
   list.each(function() {

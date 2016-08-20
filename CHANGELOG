@@ -3,6 +3,11 @@ CHANGELOG Roundcube Webmail
 
 - Squirrelmail_usercopy: Add option to define character set of data files
 - Removed useless 'created' column from 'session' table (#5389)
+- Dropped legacy browsers support
+    - Removed legacy_browser plugin
+    - Removed hacks for IE < 10
+    - Update to jQuery 3.1.0 and jQuery-UI 1.12.0
+    - compile .min.js files with ECMASCRIPT5 option
 - Require PHP >= 5.4
 - Add possibility to preview and download attachments in mail compose (#5053)
 - Add possibility to rename attachments in mail compose (#4996)
