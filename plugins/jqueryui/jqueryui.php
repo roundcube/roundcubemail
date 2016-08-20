@@ -5,15 +5,16 @@
  *
  * Provide the jQuery UI library with according themes.
  *
- * @version 1.10.4
+ * @version 1.12.0
  * @author Cor Bosman <roundcube@wa.ter.net>
  * @author Thomas Bruederli <roundcube@gmail.com>
+ * @author Aleksander Machniak <alec@alec.pl>
  * @license GNU GPLv3+
  */
 class jqueryui extends rcube_plugin
 {
     public $noajax = true;
-    public $version = '1.10.4';
+    public $version = '1.12.0';
 
     private static $features = array();
     private static $ui_theme;
@@ -30,7 +31,7 @@ class jqueryui extends rcube_plugin
         $this->load_config();
 
         // include UI scripts
-        $this->include_script("js/jquery-ui-$this->version.custom.min.js");
+        $this->include_script("js/jquery-ui.min.js");
 
         // include UI stylesheet
         $skin     = $rcmail->config->get('skin');
@@ -39,11 +40,11 @@ class jqueryui extends rcube_plugin
 
         self::$ui_theme = $ui_theme;
 
-        if (file_exists($this->home . "/themes/$ui_theme/jquery-ui-$this->version.custom.css")) {
-            $this->include_stylesheet("themes/$ui_theme/jquery-ui-$this->version.custom.css");
+        if (file_exists($this->home . "/themes/$ui_theme/jquery-ui.css")) {
+            $this->include_stylesheet("themes/$ui_theme/jquery-ui.css");
         }
         else {
-            $this->include_stylesheet("themes/larry/jquery-ui-$this->version.custom.css");
+            $this->include_stylesheet("themes/larry/jquery-ui.css");
         }
 
         if ($ui_theme == 'larry') {
@@ -101,17 +102,16 @@ class jqueryui extends rcube_plugin
 
         $ui_theme = self::$ui_theme;
         $rcube    = rcube::get_instance();
-        $script   = 'plugins/jqueryui/js/jquery.miniColors.min.js';
-        $css      = "plugins/jqueryui/themes/$ui_theme/jquery.miniColors.css";
+        $script   = 'plugins/jqueryui/js/jquery.minicolors.min.js';
+        $css      = "plugins/jqueryui/themes/$ui_theme/jquery.minicolors.css";
 
         if (!file_exists(INSTALL_PATH . $css)) {
-            $css = "plugins/jqueryui/themes/larry/jquery.miniColors.css";
+            $css = "plugins/jqueryui/themes/larry/jquery.minicolors.css";
         }
 
         $rcube->output->include_css($css);
         $rcube->output->add_header(html::tag('script', array('type' => "text/javascript", 'src' => $script)));
-        $rcube->output->add_script('$("input.colors").miniColors({colorValues: rcmail.env.mscolors})', 'docready');
-        $rcube->output->set_env('mscolors', self::get_color_values());
+        $rcube->output->add_script('$.fn.miniColors = $.fn.minicolors; $("input.colors").minicolors()', 'docready');
     }
 
     public static function tagedit()
@@ -133,32 +133,5 @@ class jqueryui extends rcube_plugin
 
         $rcube->output->include_css($css);
         $rcube->output->add_header(html::tag('script', array('type' => "text/javascript", 'src' => $script)));
-    }
-
-    /**
-     * Return a (limited) list of color values to be used for calendar and category coloring
-     *
-     * @return mixed List for colors as hex values or false if no presets should be shown
-     */
-    public static function get_color_values()
-    {
-        // selection from http://msdn.microsoft.com/en-us/library/aa358802%28v=VS.85%29.aspx
-        return array('000000','006400','2F4F4F','800000','808000','008000',
-            '008080','000080','800080','4B0082','191970','8B0000','008B8B',
-            '00008B','8B008B','556B2F','8B4513','228B22','6B8E23','2E8B57',
-            'B8860B','483D8B','A0522D','0000CD','A52A2A','00CED1','696969',
-            '20B2AA','9400D3','B22222','C71585','3CB371','D2691E','DC143C',
-            'DAA520','00FA9A','4682B4','7CFC00','9932CC','FF0000','FF4500',
-            'FF8C00','FFA500','FFD700','FFFF00','9ACD32','32CD32','00FF00',
-            '00FF7F','00FFFF','5F9EA0','00BFFF','0000FF','FF00FF','808080',
-            '708090','CD853F','8A2BE2','778899','FF1493','48D1CC','1E90FF',
-            '40E0D0','4169E1','6A5ACD','BDB76B','BA55D3','CD5C5C','ADFF2F',
-            '66CDAA','FF6347','8FBC8B','DA70D6','BC8F8F','9370DB','DB7093',
-            'FF7F50','6495ED','A9A9A9','F4A460','7B68EE','D2B48C','E9967A',
-            'DEB887','FF69B4','FA8072','F08080','EE82EE','87CEEB','FFA07A',
-            'F0E68C','DDA0DD','90EE90','7FFFD4','C0C0C0','87CEFA','B0C4DE',
-            '98FB98','ADD8E6','B0E0E6','D8BFD8','EEE8AA','AFEEEE','D3D3D3',
-            'FFDEAD'
-        );
     }
 }

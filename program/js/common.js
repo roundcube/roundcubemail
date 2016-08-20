@@ -61,16 +61,11 @@ function roundcube_browser()
   this.webkit = this.agent_lc.indexOf('applewebkit') > 0;
   this.ie = (document.all && !window.opera) || (this.win && this.agent_lc.indexOf('trident/') > 0);
 
-  if (this.ie) {
-    this.ie7 = n.appVersion.indexOf('MSIE 7') > 0;
-    this.ie8 = n.appVersion.indexOf('MSIE 8') > 0;
-    this.ie9 = n.appVersion.indexOf('MSIE 9') > 0;
-  }
-  else if (window.opera) {
+  if (window.opera) {
     this.opera = true; // Opera < 15
     this.vendver = opera.version();
   }
-  else {
+  else if (!this.ie) {
     this.chrome = this.agent_lc.indexOf('chrome') > 0;
     this.opera = this.webkit && this.agent.indexOf(' OPR/') > 0; // Opera >= 15
     this.safari = !this.chrome && !this.opera && (this.webkit || this.agent_lc.indexOf('safari') > 0);

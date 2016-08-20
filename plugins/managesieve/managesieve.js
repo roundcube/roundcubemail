@@ -1056,7 +1056,7 @@ rcube_webmail.prototype.managesieve_create = function(force)
   dialog.dialog({
     modal: false,
     resizable: true,
-    closeOnEscape: !bw.ie7,  // disable for performance reasons
+    closeOnEscape: true,
     title: this.get_label('managesieve.newfilter'),
     close: function() { rcmail.managesieve_dialog_close(); },
     buttons: buttons,
@@ -1085,6 +1085,5 @@ rcube_webmail.prototype.managesieve_dialog_resize = function(o)
     height = form.height(),
     w = win.width(), h = win.height();
 
-  dialog.dialog('option', { height: Math.min(h-20, height+120), width: Math.min(w-20, width+65) })
-    .dialog('option', 'position', ['center', 'center']);  // works in a separate call only (!?)
+  dialog.dialog('option', { height: Math.min(h-20, height+120), width: Math.min(w-20, width+65) });
 }
