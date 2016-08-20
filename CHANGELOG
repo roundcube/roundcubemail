@@ -11,7 +11,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where Message-ID domain part was tied to username instead of current identity (#5385)
 - Fix bug where blocked.gif couldn't be attached to reply/forward with insecure content
 - Fix E_DEPRECATED warning when using Auth_SASL::factory() (#5401)
-- Fix bug where names of downloaded files could be mailformed when derived from the message subject (#5404)
+- Fix bug where names of downloaded files could be malformed when derived from the message subject (#5404)
 
 RELEASE 1.2.1
 -------------
