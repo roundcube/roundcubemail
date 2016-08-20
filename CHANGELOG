@@ -3,7 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Squirrelmail_usercopy: Add option to define character set of data files
 - Removed useless 'created' column from 'session' table (#5389)
-- Dropped legacy browsers support
+- Dropped legacy browsers support (#5167)
     - Removed legacy_browser plugin
     - Removed hacks for IE < 10
     - Update to jQuery 3.1.0 and jQuery-UI 1.12.0
