@@ -7,7 +7,7 @@ RUN apt-get -qq update
 RUN apt-get install -qq apache2-mpm-event ca-certificates
 
 RUN apt-get install -qq php5 php-pear php5-mysql php5-pgsql php5-sqlite
-RUN pear install mail_mime mail_mimedecode net_smtp net_idna2-beta auth_sasl net_sieve crypt_gpg
+RUN pear install mail_mime net_smtp net_idna2-beta auth_sasl net_sieve crypt_gpg
 
 RUN a2enmod expires
 RUN a2enmod headers
