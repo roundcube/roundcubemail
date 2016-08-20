@@ -1821,6 +1821,9 @@ EOF;
         // Disable autocapitalization on iPad/iPhone (#1488609)
         $attrib['autocapitalize'] = 'off';
 
+        $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
+        unset($attrib['form']);
+
         // set atocomplete attribute
         $user_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
         $host_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
@@ -1859,7 +1862,6 @@ EOF;
                 + $attrib + $host_attrib);
         }
 
-        $form_name  = !empty($attrib['form']) ? $attrib['form'] : 'form';
         $this->add_gui_object('loginform', $form_name);
 
         // create HTML table with two cols

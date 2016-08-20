@@ -1364,6 +1364,11 @@ div.message-partheaders .headers-table td.header {
 	color: #888;
 }
 
+#compose-attachments .hint {
+	color: #666;
+	margin: 0 0 8px;
+}
+
 #composeview-bottom .formbuttons.floating {
 	position: absolute;
 	width: auto;

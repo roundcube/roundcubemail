@@ -218,7 +218,8 @@ class html
             $attr = array('for' => $attr);
         }
 
-        return self::tag('label', $attr, $cont, array_merge(self::$common_attrib, array('for')));
+        return self::tag('label', $attr, $cont, array_merge(self::$common_attrib,
+            array('for','onkeypress')));
     }
 
     /**
@@ -395,7 +396,7 @@ class html_inputfield extends html
         'type','name','value','size','tabindex','autocapitalize','required',
         'autocomplete','checked','onchange','onclick','disabled','readonly',
         'spellcheck','results','maxlength','src','multiple','accept',
-        'placeholder','autofocus','pattern'
+        'placeholder','autofocus','pattern','form',
     );
 
     /**
