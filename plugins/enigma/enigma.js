@@ -58,6 +58,8 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
                 // don't close the menu on mouse click inside
                 e.stopPropagation();
             });
+
+            $('a.button.enigma').prop('tabindex', $('#messagetoolbar > a:first').prop('tabindex'));
         }
 
         $.each(['encrypt', 'sign'], function() {
