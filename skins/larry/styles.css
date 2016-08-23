@@ -745,6 +745,12 @@ a.iconlink.upload {
 	background: linear-gradient(to bottom, #eee 0%, #dcdcdc 100%);
 }
 
+.ui-autocomplete {
+	max-height: 160px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
 
 /*** basic page layout ***/
 
