@@ -1650,7 +1650,7 @@ function rcmail_compose_attachment_form($attrib)
     $RCMAIL->output->add_gui_object('uploadform', $form_id);
 
     if (rcube_utils::get_boolean($attrib['smart-button'])) {
-        $form = $RCMAIL->output->form_tag($form_attr);
+        $form = $RCMAIL->output->form_tag($form_attr, "\n");
         $RCMAIL->output->add_footer($form);
 
         $input_attrs = $attrib + array(
