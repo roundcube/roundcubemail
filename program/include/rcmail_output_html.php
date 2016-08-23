@@ -869,7 +869,7 @@ EOF;
             'file_timestamp' => $file_timestamp
         ));
 
-        if (isset($hook_response['file_with_cache_buster']) && $hook_response['file_with_cache_buster']){
+        if (isset($hook_response['file_with_cache_buster']) && !empty($hook_response['file_with_cache_buster'])){
             return $hook_response['file_with_cache_buster'];
         }
 
