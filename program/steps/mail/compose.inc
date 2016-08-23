@@ -1631,56 +1631,55 @@ function rcmail_compose_attachment_form($attrib)
 {
     global $RCMAIL;
 
-    // set defaults
-    $attrib += array('id' => 'rcmUploadbox', 'buttons' => 'yes');
-
     // Get filesize, enable upload progress bar
     $max_filesize = $RCMAIL->upload_init();
 
-    $hint      = html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
-    $event     = rcmail_output::JS_OBJECT_NAME . ".command('send-attachment', this.form)";
-    $form_id   = $attrib['id'] . 'Frm';
-    $form_attr = array(
+    $hint = html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
+
+    if ($attrib['mode'] == 'hint') {
+        return $hint;
+    }
+
+    // set defaults
+    $attrib += array('id' => 'rcmUploadbox', 'buttons' => 'yes');
+
+    $event      = rcmail_output::JS_OBJECT_NAME . ".command('send-attachment', this.form)";
+    $form_id    = $attrib['id'] . 'Frm';
+    $input_attr = array('id' => $attrib['id'] . 'Input');
+    $form_attr  = array(
         'id'      => $form_id,
         'name'    => 'uploadform',
         'method'  => 'post',
         'enctype' => 'multipart/form-data'
     );
 
-    $RCMAIL->output->add_gui_object('uploadform', $form_id);
-
-    if (rcube_utils::get_boolean($attrib['smart-button'])) {
-        $form = $RCMAIL->output->form_tag($form_attr, "\n");
-        $RCMAIL->output->add_footer($form);
-
-        $input_attrs = $attrib + array(
+    if ($attrib['mode'] == 'smart') {
+        unset($attrib['buttons']);
+        $form_attr['class'] = 'smart-upload';
+        $input_attr += array(
             // Note: Chrome sometimes executes onchange event on Cancel, make sure a file was selected
             'onchange' => "if ((this.files && this.files.length) || (!this.files && this.value)) $event",
-            'form'     => $form_id,
             'class'    => 'smart-upload',
             'tabindex' => '-1',
         );
-
-        $label_attrs = array(
-            'for'        => $attrib['id'],
-            'id'         => $attrib['id'] . 'btn',
-            'tabindex'   => $attrib['tabindex'],
-            'onkeypress' => 'if (event.keyCode == 13) this.click()',
-        );
-
-        return $hint . rcmail_compose_attachment_field($input_attrs)
-            . html::label($label_attrs, $RCMAIL->gettext('addattachment'));
     }
 
-    $button  = new html_inputfield(array('type' => 'button'));
-    $content = html::div(null, rcmail_compose_attachment_field()) . $hint;
+    $content = rcmail_compose_attachment_field($input_attr);
+
+    if ($attrib['mode'] != 'smart') {
+        $content  = html::div(null, $content);
+        $content .= $hint;
+    }
 
     if (rcube_utils::get_boolean($attrib['buttons'])) {
+        $button   = new html_inputfield(array('type' => 'button'));
         $content .= html::div('buttons',
             $button->show($RCMAIL->gettext('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()")) . ' ' .
             $button->show($RCMAIL->gettext('upload'), array('class' => 'button mainaction', 'onclick' => $event))
         );
     }
+
+    $RCMAIL->output->add_gui_object('uploadform', $form_id);
 
     return html::div($attrib, $RCMAIL->output->form_tag($form_attr, $content));
 }

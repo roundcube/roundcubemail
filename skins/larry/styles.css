@@ -181,6 +181,7 @@ input.mainaction {
 	font-weight: bold;
 }
 
+form.smart-upload,
 input.smart-upload {
 	visibility: hidden;
 	width: 1px;
@@ -190,11 +191,6 @@ input.smart-upload {
 
 /** link buttons **/
 
-input.smart-upload + label {
-	cursor: pointer;
-}
-
-input.smart-upload + label,
 a.button,
 .buttongroup {
 	display: inline-block;
@@ -218,8 +214,6 @@ a.button,
 	white-space: nowrap;
 }
 
-input.smart-upload:focus + label,
-input.smart-upload + label:focus,
 a.button:focus,
 input.button:focus {
 	border-color: #4fadd5;
