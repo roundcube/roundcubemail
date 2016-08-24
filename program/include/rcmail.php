@@ -2102,6 +2102,79 @@ class rcmail extends rcube
     }
 
     /**
+     * Upload form object
+     *
+     * @param array  $attrib     Object attributes
+     * @param string $name       Form object name
+     * @param string $action     Form action name
+     * @param array  $input_attr File input attributes
+     *
+     * @return string HTML output
+     */
+    public function upload_form($attrib, $name, $action, $input_attr = array())
+    {
+        // Get filesize, enable upload progress bar
+        $max_filesize = $this->upload_init();
+
+        $hint = html::div('hint', $this->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
+
+        if ($attrib['mode'] == 'hint') {
+            return $hint;
+        }
+
+        // set defaults
+        $attrib += array('id' => 'rcmUploadbox', 'buttons' => 'yes');
+
+        $event   = rcmail_output::JS_OBJECT_NAME . ".command('$action', this.form)";
+        $form_id = $attrib['id'] . 'Frm';
+
+        // Default attributes of file input and form
+        $input_attr += array(
+            'id'   => $attrib['id'] . 'Input',
+            'type' => 'file',
+            'name' => '_attachments[]',
+        );
+
+        $form_attr = array(
+            'id'      => $form_id,
+            'name'    => $name,
+            'method'  => 'post',
+            'enctype' => 'multipart/form-data'
+        );
+
+        if ($attrib['mode'] == 'smart') {
+            unset($attrib['buttons']);
+            $form_attr['class'] = 'smart-upload';
+            $input_attr = array_merge($input_attr, array(
+                // Note: Chrome sometimes executes onchange event on Cancel, make sure a file was selected
+                'onchange' => "if ((this.files && this.files.length) || (!this.files && this.value)) $event",
+                'class'    => 'smart-upload',
+                'tabindex' => '-1',
+            ));
+        }
+
+        $input   = new html_inputfield($input_attr);
+        $content = $attrib['prefix'] . $input->show();
+
+        if ($attrib['mode'] != 'smart') {
+            $content  = html::div(null, $content);
+            $content .= $hint;
+        }
+
+        if (rcube_utils::get_boolean($attrib['buttons'])) {
+            $button   = new html_inputfield(array('type' => 'button'));
+            $content .= html::div('buttons',
+                $button->show($this->gettext('close'), array('class' => 'button', 'onclick' => "$('#{$attrib['id']}').hide()")) . ' ' .
+                $button->show($this->gettext('upload'), array('class' => 'button mainaction', 'onclick' => $event))
+            );
+        }
+
+        $this->output->add_gui_object($name, $form_id);
+
+        return html::div($attrib, $this->output->form_tag($form_attr, $content));
+    }
+
+    /**
      * Outputs uploaded file content (with image thumbnails support
      *
      * @param array $file Upload file data

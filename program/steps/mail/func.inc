@@ -2134,46 +2134,18 @@ function rcmail_message_import_form($attrib = array())
 {
     global $RCMAIL;
 
-    // set defaults
-    $attrib += array('id' => 'rcmImportform', 'buttons' => 'yes');
-
-    // Get filesize, enable upload progress bar
-    $max_filesize = $RCMAIL->upload_init();
-
-    $button    = new html_inputfield(array('type' => 'button'));
-    $fileinput = new html_inputfield(array(
-            'type'     => 'file',
-            'name'     => '_file[]',
-            'multiple' => 'multiple',
-            'accept'   => ".eml, .mbox, message/rfc822, text/*",
-    ));
-
-    $content = html::tag('input', array('type' => 'hidden', 'name' => '_unlock', 'value' => ''))
-        . html::tag('input', array('type' => 'hidden', 'name' => '_framed', 'value' => '1'))
-        . html::div(null, $fileinput->show())
-        . html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
-
-    if (rcube_utils::get_boolean($attrib['buttons'])) {
-        $content .= html::div('buttons',
-            $button->show($RCMAIL->gettext('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()"))
-            . ' ' .
-            $button->show($RCMAIL->gettext('upload'), array(
-                'class'   => 'button mainaction',
-                'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('import-messages', this.form)"
-            )));
-    }
-
-    $out = $RCMAIL->output->form_tag(array(
-            'id'      => $attrib['id'].'Frm',
-            'method'  => 'post',
-            'enctype' => 'multipart/form-data'
-        ),
-        $content);
-
-    $RCMAIL->output->add_gui_object('importform', $attrib['id'].'Frm');
     $RCMAIL->output->add_label('selectimportfile','importwait');
 
-    return html::div($attrib, $out);
+    $input_attr = array(
+        'multiple' => true,
+        'name'     => '_file[]',
+        'accept'   => ".eml, .mbox, message/rfc822, text/*",
+    );
+
+    $attrib['prefix'] = html::tag('input', array('type' => 'hidden', 'name' => '_unlock', 'value' => ''))
+        . html::tag('input', array('type' => 'hidden', 'name' => '_framed', 'value' => '1'));
+
+    return $RCMAIL->upload_form($attrib, 'importform', 'import-messages', $input_attr);
 }
 
 /**

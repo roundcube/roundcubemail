@@ -19,7 +19,7 @@
 		<roundcube:if condition="env:photocol" />
 		<roundcube:object name="fileDropArea" id="contactpic" />
 		<div class="formlinks">
-			<roundcube:button command="upload-photo" id="uploadformlink" type="link" label="replacephoto" class="iconlink upload disabled" classAct="iconlink upload active" onclick="UI.show_uploadform();return false" condition="env:photocol" /><br/>
+			<roundcube:button command="upload-photo" id="uploadformlink" type="link" label="replacephoto" class="iconlink upload disabled" classAct="iconlink upload active" onclick="rcmail.upload_input('upload-form')" condition="env:photocol" /><br/>
 			<roundcube:button command="delete-photo" type="link" label="delete" class="iconlink delete disabled" classAct="iconlink delete active" condition="env:photocol" />
 		</div>
 		<roundcube:endif />
@@ -40,13 +40,7 @@
 	<roundcube:button name="cancel" type="input" class="button" label="cancel" onclick="history.back()" condition="env:action=='add'" />
 </div>
 
-<div id="upload-dialog" class="propform popupdialog" title="<roundcube:label name='uploadphoto' />">
-	<roundcube:object name="photoUploadForm" id="upload-form" size="30" buttons="no" />
-	<div class="formbuttons">
-		<roundcube:button command="upload-photo" type="input" class="button mainaction" label="upload" />
-		<roundcube:button name="close" type="input" class="button" label="cancel" onclick="UI.show_uploadform()" />
-	</div>
-</div>
+<roundcube:object name="photoUploadForm" id="upload-form" mode="smart" />
 
 <roundcube:include file="/includes/footer.html" />
 
