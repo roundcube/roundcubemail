@@ -936,9 +936,6 @@ function rcube_webmail()
               input.focus();
               break;
             }
-
-            // clear empty input fields
-            $('input.placeholder').each(function(){ if (this.value == this._placeholder) this.value = ''; });
           }
 
           // add selected source (on the list)
