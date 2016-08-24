@@ -4744,6 +4744,13 @@ function rcube_webmail()
     return true;
   };
 
+  // Open file selection dialog for defined upload form
+  // Works only on click and only with smart-upload forms
+  this.upload_input = function(name)
+  {
+    $('#' + name + ' input[type="file"]').click();
+  };
+
   // upload (attachment) file
   this.upload_file = function(form, action, lock)
   {
