@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added Search button in quick search menus (#5312)
 - Implement "one click" attachment/messages/photo upload (#5024)
 - Squirrelmail_usercopy: Add option to define character set of data files
 - Removed useless 'created' column from 'session' table (#5389)
