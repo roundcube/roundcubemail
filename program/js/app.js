@@ -1255,12 +1255,8 @@ function rcube_webmail()
 
       // quicksearch
       case 'search':
-        if (!props && this.gui_objects.qsearchbox)
-          props = this.gui_objects.qsearchbox.value;
-        if (props) {
-          this.qsearch(props);
-          break;
-        }
+        ret = this.qsearch(props);
+        break;
 
       // reset quicksearch
       case 'reset-search':
@@ -4975,7 +4971,7 @@ function rcube_webmail()
   // send remote request to search mail or contacts
   this.qsearch = function(value)
   {
-    if (value != '') {
+    if (value || $(this.gui_objects.qsearchbox).val() || $(this.gui_objects.search_interval).val()) {
       var r, lock = this.set_busy(true, 'searching'),
         url = this.search_params(value),
         action = this.env.action == 'compose' && this.contact_list ? 'search-contacts' : 'search';

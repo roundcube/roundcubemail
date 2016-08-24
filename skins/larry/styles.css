@@ -2290,6 +2290,13 @@ table.quota-info td.root {
 	border-top: 0;
 }
 
+.popupmenu > .buttons {
+	border-top: 1px solid #5a5a5a;
+	height: 25px;
+	padding-top: 5px;
+	text-align: center;
+}
+
 ul.toolbarmenu,
 ul.toolbarmenu ul,
 #rcmKSearchpane ul {
