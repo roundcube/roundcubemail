@@ -1263,7 +1263,6 @@ function rcube_webmail()
         var n, s = this.env.search_request || this.env.qsearch;
 
         this.reset_qsearch(true);
-        this.select_all_mode = false;
 
         if (s && this.env.action == 'compose') {
           if (this.contact_list)
@@ -5081,6 +5080,7 @@ function rcube_webmail()
     this.env.qsearch = null;
     this.env.search_request = null;
     this.env.search_id = null;
+    this.select_all_mode = false;
 
     this.enable_command('set-listmode', this.env.threads);
   };
