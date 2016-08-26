@@ -1822,7 +1822,6 @@ EOF;
         $attrib['autocapitalize'] = 'off';
 
         $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
-        unset($attrib['form']);
 
         // set atocomplete attribute
         $user_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
