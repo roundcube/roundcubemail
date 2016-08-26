@@ -454,7 +454,8 @@ class rcube_imap extends rcube_storage
             return isset($ns[$name]) ? $ns[$name] : null;
         }
 
-        unset($ns['prefix']);
+        unset($ns['prefix_in'], $ns['prefix_out']);
+
         return $ns;
     }
 
@@ -528,10 +529,24 @@ class rcube_imap extends rcube_storage
             }
         }
 
-        // Find personal namespace prefix for mod_folder()
-        // Prefix can be removed when there is only one personal namespace
-        if (is_array($this->namespace['personal']) && count($this->namespace['personal']) == 1) {
-            $this->namespace['prefix'] = $this->namespace['personal'][0][0];
+        // Find personal namespace prefix(es) for self::mod_folder()
+        if (is_array($this->namespace['personal']) && !empty($this->namespace['personal'])) {
+            // There can be more than one namespace root,
+            // - for prefix_out get the first one but only
+            //   if there is only one root
+            // - for prefix_in get the first one but only
+            //   if there is no non-prefixed namespace root (#5403)
+            $roots = array();
+            foreach ($this->namespace['personal'] as $ns) {
+                $roots[] = $ns[0];
+            }
+
+            if (!in_array('', $roots)) {
+                $this->namespace['prefix_in'] = $roots[0];
+            }
+            if (count($roots) == 1) {
+                $this->namespace['prefix_out'] = $roots[0];
+            }
         }
 
         $_SESSION['imap_namespace'] = $this->namespace;
@@ -3478,26 +3493,23 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * Modify folder name according to namespace.
+     * Modify folder name according to personal namespace prefix.
      * For output it removes prefix of the personal namespace if it's possible.
      * For input it adds the prefix. Use it before creating a folder in root
      * of the folders tree.
      *
      * @param string $folder Folder name
-     * @param string $mode    Mode name (out/in)
+     * @param string $mode   Mode name (out/in)
      *
      * @return string Folder name
      */
     public function mod_folder($folder, $mode = 'out')
     {
-        if (!strlen($folder)) {
-            return $folder;
-        }
+        $prefix = $this->namespace['prefix_' . $mode]; // see set_env()
 
-        $prefix     = $this->namespace['prefix']; // see set_env()
-        $prefix_len = strlen($prefix);
-
-        if (!$prefix_len) {
+        if ($prefix === null || $prefix === ''
+            || !($prefix_len = strlen($prefix)) || !strlen($folder)
+        ) {
             return $folder;
         }
 
@@ -3506,13 +3518,12 @@ class rcube_imap extends rcube_storage
             if (substr($folder, 0, $prefix_len) === $prefix) {
                 return substr($folder, $prefix_len);
             }
-        }
-        // add prefix for input (e.g. folder creation)
-        else {
-            return $prefix . $folder;
+
+            return $folder;
         }
 
-        return $folder;
+        // add prefix for input (e.g. folder creation)
+        return $prefix . $folder;
     }
 
     /**
