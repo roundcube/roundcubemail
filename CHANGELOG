@@ -13,6 +13,7 @@ CHANGELOG Roundcube Webmail
 - Fix E_DEPRECATED warning when using Auth_SASL::factory() (#5401)
 - Fix bug where names of downloaded files could be malformed when derived from the message subject (#5404)
 - Fix so "All" messages selection is resetted on search reset (#5413)
+- Fix bug where folder creation could fail if personal namespace contained more than one entry (#5403)
 
 RELEASE 1.2.1
 -------------
