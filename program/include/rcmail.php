@@ -1473,7 +1473,7 @@ class rcmail extends rcube
         $prefix = '';
         if (!$path) {
             $n_folder = $folder;
-            $folder = $this->storage->mod_folder($folder);
+            $folder   = $this->storage->mod_folder($folder);
 
             if ($n_folder != $folder) {
                 $prefix = substr($n_folder, 0, -strlen($folder));
@@ -1507,10 +1507,11 @@ class rcmail extends rcube
 
         if (!isset($arrFolders[$currentFolder])) {
             $arrFolders[$currentFolder] = array(
-                'id' => $path,
-                'name' => rcube_charset::convert($currentFolder, 'UTF7-IMAP'),
+                'id'      => $path,
+                'name'    => rcube_charset::convert($currentFolder, 'UTF7-IMAP'),
                 'virtual' => $virtual,
-                'folders' => array());
+                'folders' => array()
+            );
         }
         else {
             $arrFolders[$currentFolder]['virtual'] = $virtual;
