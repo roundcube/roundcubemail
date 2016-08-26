@@ -396,7 +396,7 @@ class html_inputfield extends html
         'type','name','value','size','tabindex','autocapitalize','required',
         'autocomplete','checked','onchange','onclick','disabled','readonly',
         'spellcheck','results','maxlength','src','multiple','accept',
-        'placeholder','autofocus','pattern','form',
+        'placeholder','autofocus','pattern',
     );
 
     /**
