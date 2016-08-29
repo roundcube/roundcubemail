@@ -7932,7 +7932,11 @@ function rcube_webmail()
   this.update_state = function(query)
   {
     if (window.history.replaceState)
-      window.history.replaceState({}, document.title, rcmail.url('', query));
+      try {
+        // This may throw security exception in Firefox (#5400)
+        window.history.replaceState({}, document.title, rcmail.url('', query));
+      }
+      catch(e) { /* ignore */ };
   };
 
   // send a http request to the server
