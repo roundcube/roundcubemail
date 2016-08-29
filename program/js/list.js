@@ -127,7 +127,7 @@ init: function()
 
       // allow the table element to receive focus.
       $(this.list).attr('tabindex', '0')
-        .on('focus', function(e){ me.focus(e); });
+        .on('focus', function(e) { me.focus(e); });
     }
   }
 
@@ -462,16 +462,16 @@ blur: function(e)
 {
   this.focused = false;
 
-  // avoid the table getting focus right again
+  // avoid the table getting focus right again (on Shift+Tab)
   var me = this;
-  setTimeout(function(){
-    $(me.list).removeClass('focus').attr('tabindex', '0');
-  }, 20);
+  setTimeout(function() { $(me.list).attr('tabindex', '0'); }, 20);
 
   if (this.last_selected && this.rows[this.last_selected]) {
     $(this.rows[this.last_selected].obj)
       .find(this.col_tagname()).eq(this.subject_col).removeAttr('tabindex');
   }
+
+  $(this.list).removeClass('focus');
 },
 
 /**
@@ -1300,7 +1300,7 @@ key_press: function(e)
 {
   var target = e.target || {};
 
-  if (this.focused != true || target.nodeName == 'INPUT' || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
+  if (!this.focused || target.nodeName == 'INPUT' || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
     return true;
 
   var keyCode = rcube_event.get_keycode(e),
