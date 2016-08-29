@@ -11,6 +11,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where message list columns could be in wrong order after column drag-n-drop and list sorting
 - Don't create multipart/alternative messages with empty text/plain part (#5283)
 - Wash position:fixed style in HTML mail for better security (#5264)
+- Fix error causing empty INBOX listing in Firefox when using an URL with user:password specified (#5400)
 
 RELEASE 1.1.5
 -------------
