@@ -451,7 +451,6 @@ function rcube_mail_ui()
           dialogClass: 'popupmessage ' + p.type,
           title: env.errortitle,
           close: dialog_close,
-          position: ['center', 'center'],
           hide: {effect: 'fadeOut'},
           width: 420,
           minHeight: 90
@@ -1331,7 +1330,7 @@ function rcube_splitter(p)
       this.p2.css('top', Math.ceil(this.pos + Math.ceil(this.halfsize) + 2) + 'px');
       this.handle.css('top', Math.round(this.pos - this.halfsize + this.offset)+'px');
       if (bw.ie) {
-        var new_height = parseInt(this.parent.outerHeight(), 10) - parseInt(this.p2.css('top'), 10) - (bw.ie8 ? 2 : 0);
+        var new_height = parseInt(this.parent.outerHeight(), 10) - parseInt(this.p2.css('top'), 10);
         this.p2.css('height', (new_height > 0 ? new_height : 0) + 'px');
       }
     }
@@ -1471,7 +1470,7 @@ function rcube_splitter(p)
   function onResize(e)
   {
     if (me.horizontal) {
-      var new_height = parseInt(me.parent.outerHeight(), 10) - parseInt(me.p2[0].style.top, 10) - (bw.ie8 ? 2 : 0);
+      var new_height = parseInt(me.parent.outerHeight(), 10) - parseInt(me.p2[0].style.top, 10);
       me.p2.css('height', (new_height > 0 ? new_height : 0) +'px');
     }
     else {

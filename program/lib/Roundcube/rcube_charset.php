@@ -277,9 +277,6 @@ class rcube_charset
                     return $out;
                 }
             }
-            else if ($from == 'ISO-8859-1' && function_exists('utf8_encode')) {
-                return utf8_encode($str);
-            }
         }
 
         // encode string for output
@@ -289,9 +286,6 @@ class rcube_charset
                 if ($out = self::utf8_to_utf7imap($str)) {
                     return $out;
                 }
-            }
-            else if ($to == 'ISO-8859-1' && function_exists('utf8_decode')) {
-                return utf8_decode($str);
             }
         }
 

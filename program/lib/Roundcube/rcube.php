@@ -584,8 +584,8 @@ class rcube
     /**
      * Get localized text in the desired language
      *
-     * @param mixed   $attrib  Named parameters array or label name
-     * @param string  $domain  Label domain (plugin) name
+     * @param mixed  $attrib Named parameters array or label name
+     * @param string $domain Label domain (plugin) name
      *
      * @return string Localized text
      */
@@ -640,9 +640,9 @@ class rcube
     /**
      * Check if the given text label exists
      *
-     * @param string  $name       Label name
-     * @param string  $domain     Label domain (plugin) name or '*' for all domains
-     * @param string  $ref_domain Sets domain name if label is found
+     * @param string $name       Label name
+     * @param string $domain     Label domain (plugin) name or '*' for all domains
+     * @param string $ref_domain Sets domain name if label is found
      *
      * @return boolean True if text exists (either in the current language or in en_US)
      */
@@ -1014,7 +1014,7 @@ class rcube
      * The functions will be executed before destroying any
      * objects like smtp, imap, session, etc.
      *
-     * @param callback Function callback
+     * @param callback $function Function callback
      */
     public function add_shutdown_function($function)
     {
@@ -1203,7 +1203,7 @@ class rcube
      *
      * @param array $arg Named parameters
      *      - code:    Error code (required)
-     *      - type:    Error type [php|db|imap|javascript] (required)
+     *      - type:    Error type [php|db|imap|javascript]
      *      - message: Error message
      *      - file:    File where error occurred
      *      - line:    Line where error occurred
@@ -1463,8 +1463,8 @@ class rcube
      */
     protected function get_user_log_dir()
     {
-        $log_dir = $this->config->get('log_dir', RCUBE_INSTALL_PATH . 'logs');
-        $user_name = $this->get_user_name();
+        $log_dir      = $this->config->get('log_dir', RCUBE_INSTALL_PATH . 'logs');
+        $user_name    = $this->get_user_name();
         $user_log_dir = $log_dir . '/' . $user_name;
 
         return !empty($user_name) && is_writable($user_log_dir) ? $user_log_dir : false;

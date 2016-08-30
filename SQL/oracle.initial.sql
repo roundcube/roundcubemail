@@ -26,7 +26,6 @@ END;
 
 CREATE TABLE "session" (
     "sess_id" varchar(128) NOT NULL PRIMARY KEY,
-    "created" timestamp with time zone DEFAULT current_timestamp NOT NULL,
     "changed" timestamp with time zone DEFAULT current_timestamp NOT NULL,
     "ip" varchar(41) NOT NULL,
     "vars" long NOT NULL
@@ -220,4 +219,4 @@ CREATE TABLE "system" (
     "value" long
 );
 
-INSERT INTO "system" ("name", "value") VALUES ('roundcube-version', '2015111100');
+INSERT INTO "system" ("name", "value") VALUES ('roundcube-version', '2016081200');

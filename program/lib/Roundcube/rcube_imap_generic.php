@@ -576,7 +576,8 @@ class rcube_imap_generic
                     $user  = '';
                 }
 
-                $auth_sasl = Auth_SASL::factory('digestmd5');
+                $auth_sasl = new Auth_SASL;
+                $auth_sasl = $auth_sasl->factory('digestmd5');
                 $reply     = base64_encode($auth_sasl->getResponse($authc, $pass,
                     base64_decode($challenge), $this->host, 'imap', $user));
 

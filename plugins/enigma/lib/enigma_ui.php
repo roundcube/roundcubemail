@@ -761,7 +761,10 @@ class enigma_ui
             'label'    => 'encryption',
             'domain'   => $this->enigma->ID,
             'width'    => 32,
-            'height'   => 32
+            'height'   => 32,
+            'aria-owns'     => 'enigmamenu',
+            'aria-haspopup' => 'true',
+            'aria-expanded' => 'false',
             ), 'toolbar');
 
         $locks = (array) $this->rc->config->get('enigma_options_lock');

@@ -7,7 +7,6 @@
 
 CREATE TABLE `session` (
  `sess_id` varchar(128) NOT NULL,
- `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `ip` varchar(40) NOT NULL,
  `vars` mediumtext NOT NULL,
@@ -211,4 +210,4 @@ CREATE TABLE `system` (
 
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2015111100');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2016081200');

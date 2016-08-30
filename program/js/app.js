@@ -936,9 +936,6 @@ function rcube_webmail()
               input.focus();
               break;
             }
-
-            // clear empty input fields
-            $('input.placeholder').each(function(){ if (this.value == this._placeholder) this.value = ''; });
           }
 
           // add selected source (on the list)
@@ -1258,19 +1255,14 @@ function rcube_webmail()
 
       // quicksearch
       case 'search':
-        if (!props && this.gui_objects.qsearchbox)
-          props = this.gui_objects.qsearchbox.value;
-        if (props) {
-          this.qsearch(props);
-          break;
-        }
+        ret = this.qsearch(props);
+        break;
 
       // reset quicksearch
       case 'reset-search':
         var n, s = this.env.search_request || this.env.qsearch;
 
         this.reset_qsearch(true);
-        this.select_all_mode = false;
 
         if (s && this.env.action == 'compose') {
           if (this.contact_list)
@@ -4747,6 +4739,13 @@ function rcube_webmail()
     return true;
   };
 
+  // Open file selection dialog for defined upload form
+  // Works only on click and only with smart-upload forms
+  this.upload_input = function(name)
+  {
+    $('#' + name + ' input[type="file"]').click();
+  };
+
   // upload (attachment) file
   this.upload_file = function(form, action, lock)
   {
@@ -4756,13 +4755,16 @@ function rcube_webmail()
     // count files and size on capable browser
     var size = 0, numfiles = 0;
 
-    $('input[type=file]', form).each(function(i, field) {
-      var files = field.files ? field.files.length : (field.value ? 1 : 0);
+    $.each($(form).get(0).elements || [], function() {
+      if (this.type != 'file')
+        return;
+
+      var i, files = this.files ? this.files.length : (this.value ? 1 : 0);
 
       // check file size
-      if (field.files) {
-        for (var i=0; i < files; i++)
-          size += field.files[i].size;
+      if (this.files) {
+        for (i=0; i < files; i++)
+          size += this.files[i].size;
       }
 
       numfiles += files;
@@ -4968,7 +4970,7 @@ function rcube_webmail()
   // send remote request to search mail or contacts
   this.qsearch = function(value)
   {
-    if (value != '') {
+    if (value || $(this.gui_objects.qsearchbox).val() || $(this.gui_objects.search_interval).val()) {
       var r, lock = this.set_busy(true, 'searching'),
         url = this.search_params(value),
         action = this.env.action == 'compose' && this.contact_list ? 'search-contacts' : 'search';
@@ -5078,6 +5080,7 @@ function rcube_webmail()
     this.env.qsearch = null;
     this.env.search_request = null;
     this.env.search_id = null;
+    this.select_all_mode = false;
 
     this.enable_command('set-listmode', this.env.threads);
   };
@@ -8052,7 +8055,11 @@ function rcube_webmail()
   this.update_state = function(query)
   {
     if (window.history.replaceState)
-      window.history.replaceState({}, document.title, rcmail.url('', query));
+      try {
+        // This may throw security exception in Firefox (#5400)
+        window.history.replaceState({}, document.title, rcmail.url('', query));
+      }
+      catch(e) { /* ignore */ };
   };
 
   // send a http request to the server
@@ -8971,8 +8978,8 @@ function rcube_webmail()
     window.setTimeout(function() {
       $('<object>').css({position: 'absolute', left: '-10000px'})
         .attr({data: ref.assets_path('program/resources/dummy.pdf'), width: 1, height: 1, type: 'application/pdf'})
-        .load(function() { ref.env.browser_capabilities.pdf = 1; })
-        .error(function() { ref.env.browser_capabilities.pdf = 0; })
+        .on('load', function() { ref.env.browser_capabilities.pdf = 1; })
+        .on('error', function() { ref.env.browser_capabilities.pdf = 0; })
         .appendTo($('body'));
       }, 10);
 

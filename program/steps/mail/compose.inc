@@ -850,13 +850,15 @@ function rcmail_prepare_message_body()
     unset($plugin);
 
     // add blocked.gif attachment (#1486516)
-    if ($isHtml && preg_match('#<img src="program/resources/blocked\.gif"#', $body)) {
+    $regexp = '# src="program/resources/blocked\.gif"#';
+    if ($isHtml && preg_match($regexp, $body)) {
         $content = $RCMAIL->get_resource_content('blocked.gif');
+
         if ($content && ($attachment = rcmail_save_image('blocked.gif', 'image/gif', $content))) {
             $COMPOSE['attachments'][$attachment['id']] = $attachment;
             $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
                 $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
-            $body = preg_replace('#program/resources/blocked\.gif#', $url, $body);
+            $body = preg_replace($regexp, ' src="' . $url . '"', $body);
         }
     }
 
@@ -1627,50 +1629,10 @@ function rcmail_compose_attachment_list($attrib)
 
 function rcmail_compose_attachment_form($attrib)
 {
-    global $OUTPUT, $RCMAIL;
+    global $RCMAIL;
 
-    // set defaults
-    $attrib += array('id' => 'rcmUploadbox', 'buttons' => 'yes');
-
-    // Get filesize, enable upload progress bar
-    $max_filesize = $RCMAIL->upload_init();
-
-    $button  = new html_inputfield(array('type' => 'button'));
-    $content = html::div(null, rcmail_compose_attachment_field())
-        . html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
-
-    if (rcube_utils::get_boolean($attrib['buttons'])) {
-        $content .= html::div('buttons',
-            $button->show($RCMAIL->gettext('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()")) . ' ' .
-            $button->show($RCMAIL->gettext('upload'), array('class' => 'button mainaction', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('send-attachment', this.form)"))
-        );
-    }
-
-    $out = html::div($attrib, $OUTPUT->form_tag(array(
-            'id'      => $attrib['id'] . 'Frm',
-            'name'    => 'uploadform',
-            'method'  => 'post',
-            'enctype' => 'multipart/form-data'
-        ), $content
-    ));
-
-    $OUTPUT->add_gui_object('uploadform', $attrib['id'] . 'Frm');
-
-    return $out;
+    return $RCMAIL->upload_form($attrib, 'uploadform', 'send-attachment', array('multiple' => true));
 }
-
-
-function rcmail_compose_attachment_field($attrib = array())
-{
-    $attrib['type']     = 'file';
-    $attrib['name']     = '_attachments[]';
-    $attrib['multiple'] = 'multiple';
-
-    $field = new html_inputfield($attrib);
-
-    return $field->show();
-}
-
 
 function rcmail_priority_selector($attrib)
 {

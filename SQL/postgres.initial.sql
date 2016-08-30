@@ -37,7 +37,6 @@ CREATE TABLE users (
 
 CREATE TABLE "session" (
     sess_id varchar(128) DEFAULT '' PRIMARY KEY,
-    created timestamp with time zone DEFAULT now() NOT NULL,
     changed timestamp with time zone DEFAULT now() NOT NULL,
     ip varchar(41) NOT NULL,
     vars text NOT NULL
@@ -292,4 +291,4 @@ CREATE TABLE "system" (
     value text
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2015111100');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2016081200');

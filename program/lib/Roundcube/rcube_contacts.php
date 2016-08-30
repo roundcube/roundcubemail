@@ -68,7 +68,7 @@ class rcube_contacts extends rcube_addressbook
      * Object constructor
      *
      * @param object  $dbconn Instance of the rcube_db class
-     * @param integer $user User-ID
+     * @param integer $user   User-ID
      */
     function __construct($dbconn, $user)
     {
@@ -88,7 +88,7 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Save a search string for future listings
      *
-     * @param string SQL params to use in listing method
+     * @param string $filter SQL params to use in listing method
      */
     function set_search_set($filter)
     {
@@ -199,7 +199,7 @@ class rcube_contacts extends rcube_addressbook
      * @param  int     Only return this number of records, use negative values for tail
      * @param  boolean True to skip the count query (select only)
      *
-     * @return array  Indexed list of contact records, each a hash array
+     * @return array Indexed list of contact records, each a hash array
      */
     function list_records($cols = null, $subset = 0, $nocount = false)
     {
@@ -585,8 +585,8 @@ class rcube_contacts extends rcube_addressbook
      * Check the given data before saving.
      * If input not valid, the message to display can be fetched using get_error()
      *
-     * @param array   $save_data Associative array with data to save
-     * @param boolean $autofix   Try to fix/complete record automatically
+     * @param array   &$save_data Associative array with data to save
+     * @param boolean $autofix    Try to fix/complete record automatically
      *
      * @return boolean True if input is valid, False if not.
      */
@@ -983,8 +983,8 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Remove the given contact records from a certain group
      *
-     * @param string       Group identifier
-     * @param array|string List of contact identifiers to be removed
+     * @param string       $group_id Group identifier
+     * @param array|string $ids      List of contact identifiers to be removed
      *
      * @return int Number of deleted group members
      */

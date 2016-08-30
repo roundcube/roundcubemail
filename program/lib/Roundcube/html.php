@@ -218,7 +218,8 @@ class html
             $attr = array('for' => $attr);
         }
 
-        return self::tag('label', $attr, $cont, array_merge(self::$common_attrib, array('for')));
+        return self::tag('label', $attr, $cont, array_merge(self::$common_attrib,
+            array('for','onkeypress')));
     }
 
     /**
@@ -267,7 +268,7 @@ class html
     /**
      * Derrived method for line breaks
      *
-     * @param array $attrib  Associative arry with tag attributes
+     * @param array $attrib Associative arry with tag attributes
      *
      * @return string HTML code
      * @see html::tag()
@@ -337,21 +338,21 @@ class html
     /**
      * Convert a HTML attribute string attributes to an associative array (name => value)
      *
-     * @param string Input string
+     * @param string $str Input string
      *
      * @return array Key-value pairs of parsed attributes
      */
     public static function parse_attrib_string($str)
     {
         $attrib = array();
-        $regexp = '/\s*([-_a-z]+)=(["\'])??(?(2)([^\2]*)\2|(\S+?))/Ui';
+        $html   = '<html><body><div ' . rtrim($str, '/ ') . ' /></body></html>';
 
-        preg_match_all($regexp, stripslashes($str), $regs, PREG_SET_ORDER);
+        $document = new DOMDocument('1.0', RCUBE_CHARSET);
+        @$document->loadHTML($html);
 
-        // convert attributes to an associative array (name => value)
-        if ($regs) {
-            foreach ($regs as $attr) {
-                $attrib[strtolower($attr[1])] = html_entity_decode($attr[3] . $attr[4]);
+        if ($node = $document->getElementsByTagName('div')->item(0)) {
+            foreach ($node->attributes as $name => $attr) {
+                $attrib[strtolower($name)] = $attr->nodeValue;
             }
         }
 
@@ -395,7 +396,7 @@ class html_inputfield extends html
         'type','name','value','size','tabindex','autocapitalize','required',
         'autocomplete','checked','onchange','onclick','disabled','readonly',
         'spellcheck','results','maxlength','src','multiple','accept',
-        'placeholder','autofocus','pattern'
+        'placeholder','autofocus','pattern',
     );
 
     /**
@@ -773,12 +774,12 @@ class html_table extends html
      * Remove a column from a table
      * Useful for plugins making alterations
      *
-     * @param string $class
+     * @param string $class Class name
      */
     public function remove_column($class)
     {
         // Remove the header
-        foreach ($this->header as $index=>$header){
+        foreach ($this->header as $index => $header){
             if ($header->attrib['class'] == $class){
                 unset($this->header[$index]);
                 break;
@@ -786,8 +787,8 @@ class html_table extends html
         }
 
         // Remove cells from rows
-        foreach ($this->rows as $i=>$row){
-            foreach ($row->cells as $j=>$cell){
+        foreach ($this->rows as $i => $row){
+            foreach ($row->cells as $j => $cell){
                 if ($cell->attrib['class'] == $class){
                     unset($this->rows[$i]->cells[$j]);
                     break;

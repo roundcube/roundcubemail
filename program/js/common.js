@@ -61,16 +61,11 @@ function roundcube_browser()
   this.webkit = this.agent_lc.indexOf('applewebkit') > 0;
   this.ie = (document.all && !window.opera) || (this.win && this.agent_lc.indexOf('trident/') > 0);
 
-  if (this.ie) {
-    this.ie7 = n.appVersion.indexOf('MSIE 7') > 0;
-    this.ie8 = n.appVersion.indexOf('MSIE 8') > 0;
-    this.ie9 = n.appVersion.indexOf('MSIE 9') > 0;
-  }
-  else if (window.opera) {
+  if (window.opera) {
     this.opera = true; // Opera < 15
     this.vendver = opera.version();
   }
-  else {
+  else if (!this.ie) {
     this.chrome = this.agent_lc.indexOf('chrome') > 0;
     this.opera = this.webkit && this.agent.indexOf(' OPR/') > 0; // Opera >= 15
     this.safari = !this.chrome && !this.opera && (this.webkit || this.agent_lc.indexOf('safari') > 0);
@@ -618,39 +613,10 @@ jQuery.last = function(arr) {
   return arr && arr.length ? arr[arr.length-1] : undefined;
 }
 
-// jQuery plugin to emulate HTML5 placeholder attributes on input elements
+// jQuery plugin to set HTML5 placeholder and title attributes on input elements
 jQuery.fn.placeholder = function(text) {
   return this.each(function() {
-    var active = false, elem = $(this);
-    this.title = text;
-
-    // Try HTML5 placeholder attribute first
-    if ('placeholder' in this) {
-      elem.attr('placeholder', text);
-    }
-    // Fallback to Javascript emulation of placeholder
-    else {
-      this._placeholder = text;
-      elem.blur(function(e) {
-        if ($.trim(elem.val()) == "")
-          elem.val(text);
-        elem.triggerHandler('change');
-      })
-      .focus(function(e) {
-        if ($.trim(elem.val()) == text)
-          elem.val("");
-        elem.triggerHandler('change');
-      })
-      .change(function(e) {
-        var active = elem.val() == text;
-        elem[(active ? 'addClass' : 'removeClass')]('placeholder').attr('spellcheck', active);
-      });
-
-      // Do not blur currently focused element (catch exception: #1489008)
-      try { active = this == document.activeElement; } catch(e) {}
-      if (!active)
-        elem.blur();
-    }
+    $(this).prop({title: text, placeholder: text});
   });
 };
 
