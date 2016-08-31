@@ -330,7 +330,7 @@ function rcmail_subscription_form($attrib)
             if (!$disabled) {
                 $tmp_ns = array_merge((array)$namespace['other'], (array)$namespace['shared']);
                 foreach ($tmp_ns as $item) {
-                    if (strpos($folder['id'], $item[0]) === 0) {
+                    if (strlen($item[0]) && strpos($folder['id'], $item[0]) === 0) {
                         $disabled = true;
                         break;
                     }
