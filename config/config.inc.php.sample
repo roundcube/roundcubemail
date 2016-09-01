@@ -84,3 +84,11 @@ $config['plugins'] = array(
 
 // skin name: folder from skins/
 $config['skin'] = 'larry';
+
+// referrer setting, possible values:
+// no-referrer
+// no-referrer-when-downgrade
+// origin
+// origin-when-cross-origin
+// unsafe-url
+$config['referrer'] = 'no-referrer';
