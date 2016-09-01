@@ -1575,7 +1575,13 @@ EOF;
         
         // configure referrer
         $referrer = $this->config->get('referrer');
-        if(!empty($referrer)) {
+        $referrer_values = array(
+            "no-referrer",
+            "no-referrer-when-downgrade",
+            "origin",
+            "origin-when-cross-origin",
+            "unsafe-url");
+        if(in_array($referrer, $referrer_values)) {
             $page_header.= '<meta name="referrer" content="'.$referrer.'">'."\n";
         }
 
