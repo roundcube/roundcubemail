@@ -504,12 +504,17 @@ $config['password_charset'] = 'ISO-8859-1';
 // How many seconds must pass between emails sent by a user
 $config['sendmail_delay'] = 0;
 
+// Message size limit. Note that SMTP server(s) may use a different value.
+// This limit is verified when user attaches files to a composed message.
+// Size in bytes (possible unit suffix: K, M, G)
+$config['max_message_size'] = '100M';
+
 // Maximum number of recipients per message. Default: 0 (no limit)
-$config['max_recipients'] = 0; 
+$config['max_recipients'] = 0;
 
 // Maximum allowed number of members of an address group. Default: 0 (no limit)
 // If 'max_recipients' is set this value should be less or equal
-$config['max_group_members'] = 0; 
+$config['max_group_members'] = 0;
 
 // Name your service. This is displayed on the login screen and in the window title
 $config['product_name'] = 'Roundcube Webmail';
