@@ -1573,8 +1573,11 @@ EOF;
             $page_header.= $this->charset . '" />'."\n";
         }
         
-        // prevent referrer leaking
-        $page_header.= '<meta name="referrer" content="no-referrer">'."\n";
+        // configure referrer
+        $referrer = $this->config->get('referrer');
+        if(!empty($referrer)) {
+            $page_header.= '<meta name="referrer" content="'.$referrer.'">'."\n";
+        }
 
         // definition of the code to be placed in the document header and footer
         if (is_array($this->script_files['head'])) {
