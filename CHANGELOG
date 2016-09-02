@@ -51,6 +51,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where folder creation could fail if personal namespace contained more than one entry (#5403)
 - Fix error causing empty INBOX listing in Firefox when using an URL with user:password specified (#5400)
 - Fix PHP warning when handling shared namespace with empty prefix (#5420)
+- Fix so folders list is scrolled to the selected folder on page load (#5424)
 
 RELEASE 1.2.1
 -------------
