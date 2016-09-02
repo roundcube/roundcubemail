@@ -323,8 +323,12 @@ class html
             // attributes with no value
             if (in_array($key, self::$bool_attrib)) {
                 if ($value) {
-                    // @TODO: minimize attribute in non-xhtml mode
-                    $attrib_arr[] = $key . '="' . $key . '"';
+                    $value = $key;
+                    if (self::$doctype == 'xhtml') {
+                        $value .= '="' . $value . '"';
+                    }
+
+                    $attrib_arr[] = $value;
                 }
             }
             else {
