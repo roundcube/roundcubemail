@@ -314,8 +314,6 @@ a.button.disabled
 #filter-form input,
 #filter-form textarea
 {
-  font-size: 11px;
-  padding: 1px;
   vertical-align: middle;
   max-width: 280px;
 }
