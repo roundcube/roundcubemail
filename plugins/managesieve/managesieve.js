@@ -609,15 +609,17 @@ function rule_header_select(id)
     datepart = document.getElementById('rule_date_part' + id),
     dateheader = document.getElementById('rule_date_header_div' + id),
     rule = $('#rule_op' + id),
-    h = obj.value;
+    h = obj.value,
+    set = [op, header, custstr, mod, trans, comp, size];
 
   if (h == 'size') {
+    if (msg) set.push(msg);
+    $.each(set, function() { this.style.display = 'none'; });
     size.style.display = 'inline';
-    $.each([op, header, custstr, mod, trans, comp, msg], function() { this.style.display = 'none'; });
   }
-  else if (h == 'message') {
+  else if (h == 'message' && msg) {
+    $.each(set, function() { this.style.display = 'none'; });
     msg.style.display = 'inline';
-    $.each([op, header, custstr, mod, trans, comp, size], function() { this.style.display = 'none'; });
   }
   else {
     header.style.display = h != '...' ? 'none' : 'inline-block';
@@ -627,7 +629,8 @@ function rule_header_select(id)
     comp.style.display = '';
     mod.style.display = h == 'body' || h == 'currentdate' || h == 'date' || h == 'string' ? 'none' : 'block';
     trans.style.display = h == 'body' ? 'block' : 'none';
-    msg.style.display = h == 'message' ? 'block' : 'none';
+    if (msg)
+      msg.style.display = h == 'message' ? 'block' : 'none';
   }
 
   if (datepart)

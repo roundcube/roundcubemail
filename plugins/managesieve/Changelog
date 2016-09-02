@@ -1,4 +1,5 @@
 - Fix parsing of vacation date-time with non-default date_format (#5372)
+- Fix regression where js error is thrown if server does not support 'duplicate' extension
 
 * version 8.7 [2016-07-19]
 -----------------------------------------------------------
