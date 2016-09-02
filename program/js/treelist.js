@@ -110,6 +110,11 @@ function rcube_treelist_widget(node, p)
   else
     update_data();
 
+  // scroll to the selected item
+  if (selection) {
+    scroll_to_node(id2dom(selection, true));
+  }
+
   container.attr('role', 'tree')
     .on('focusin', function(e) {
       // TODO: only accept focus on virtual nodes from keyboard events
