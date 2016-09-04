@@ -348,6 +348,15 @@ function rcube_webmail()
             if (this.env.list_post)
               this.enable_command('reply-list', true);
           }
+
+          // center and scale the image in preview frame
+          if (this.env.mimetype.startsWith('image/'))
+            $(this.gui_objects.messagepartframe).on('load', function() {
+              var css = 'img { max-width:100%; max-height:100%; } ' // scale
+                + 'body { display:flex; align-items:center; justify-content:center; height:100%; margin:0; }'; // align
+
+              $(this).contents().find('head').append('<style type="text/css">'+ css + '</style>');
+            });
         }
         // show printing dialog
         else if (this.env.action == 'print' && this.env.uid
