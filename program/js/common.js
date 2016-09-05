@@ -280,11 +280,8 @@ cancel: function(evt)
 is_keyboard: function(e)
 {
   return e && (
-      (e.pointerType !== undefined && e.pointerType !== 'mouse') ||       // IE 11+
-      (e.mozInputSource && e.mozInputSource == e.MOZ_SOURCE_KEYBOARD) ||  // Firefox
-      (e.offsetX === 0 && e.offsetY === 0) || // Opera
-      (!e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0) ||  // others
-      (bw.ie && rcube_event._last_keyboard_event && rcube_event._last_keyboard_event.target == e.target)  // hack for IE <= 10
+      (e.type && String(e.type).match(/^key/)) // DOM3-compatible
+      || (!e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0) // others
     );
 },
 
