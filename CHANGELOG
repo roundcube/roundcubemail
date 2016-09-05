@@ -17,6 +17,7 @@ CHANGELOG Roundcube Webmail
 - Fix error causing empty INBOX listing in Firefox when using an URL with user:password specified (#5400)
 - Fix PHP warning when handling shared namespace with empty prefix (#5420)
 - Fix so folders list is scrolled to the selected folder on page load (#5424)
+- Fix so when moving to Trash we make sure the folder exists (#5192)
 
 RELEASE 1.2.1
 -------------
