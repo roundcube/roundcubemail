@@ -2596,6 +2596,14 @@ class rcube_imap extends rcube_storage
         // move messages
         $moved = $this->conn->move($uids, $from_mbox, $to_mbox);
 
+        // when moving to Trash we make sure the folder exists
+        // as it's uncommon scenario we do this when MOVE fails, not before
+        if (!$moved && $to_trash && $this->get_response_code() == rcube_storage::TRYCREATE) {
+            if ($this->create_folder($to_mbox, true, 'trash')) {
+                $moved = $this->conn->move($uids, $from_mbox, $to_mbox);
+            }
+        }
+
         if ($moved) {
             $this->clear_messagecount($from_mbox);
             $this->clear_messagecount($to_mbox);
