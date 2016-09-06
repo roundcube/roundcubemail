@@ -198,6 +198,7 @@
 	left: 0;
 	cursor: default;
 }
+.ui-menu.ui-widget,
 .ui-menu {
 	list-style: none;
 	padding: 0;
