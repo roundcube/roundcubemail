@@ -1,5 +1,5 @@
---- jquery-ui.css.orig	2016-08-15 11:56:45.000000000 +0200
-+++ jquery-ui.css	2016-08-15 11:01:37.000000000 +0200
+--- jquery-ui.css.orig	2016-09-06 05:26:47.000000000 -0400
++++ jquery-ui.css	2016-09-06 05:27:16.415606672 -0400
 @@ -62,6 +62,8 @@
  .ui-state-disabled {
  	cursor: default !important;
@@ -9,7 +9,14 @@
  }
  
  
-@@ -202,6 +204,10 @@
+@@ -196,12 +198,17 @@
+ 	left: 0;
+ 	cursor: default;
+ }
++.ui-menu.ui-widget,
+ .ui-menu {
+ 	list-style: none;
+ 	padding: 0;
  	margin: 0;
  	display: block;
  	outline: 0;
@@ -20,7 +27,7 @@
  }
  .ui-menu .ui-menu {
  	position: absolute;
-@@ -211,6 +217,26 @@
+@@ -211,6 +218,26 @@
  	cursor: pointer;
  	/* support: IE10, see #8844 */
  	list-style-image: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
@@ -47,7 +54,7 @@
  }
  .ui-menu .ui-menu-item-wrapper {
  	position: relative;
-@@ -223,9 +249,16 @@
+@@ -223,9 +250,16 @@
  	line-height: 0;
  	border-width: 1px 0 0 0;
  }
@@ -65,7 +72,7 @@
  }
  
  /* icon support */
-@@ -578,16 +611,24 @@
+@@ -578,16 +612,24 @@
  	position: absolute;
  	top: 0;
  	left: 0;
@@ -93,7 +100,7 @@
  	white-space: nowrap;
  	width: 90%;
  	overflow: hidden;
-@@ -595,29 +636,53 @@
+@@ -595,29 +637,53 @@
  }
  .ui-dialog .ui-dialog-titlebar-close {
  	position: absolute;
@@ -157,7 +164,7 @@
  }
  .ui-dialog .ui-dialog-buttonpane button {
  	margin: .5em .4em .5em 0;
-@@ -647,8 +712,11 @@
+@@ -647,8 +713,11 @@
  	height: 7px;
  }
  .ui-dialog .ui-resizable-se {
@@ -171,7 +178,7 @@
  }
  .ui-dialog .ui-resizable-sw {
  	left: 0;
-@@ -742,7 +810,13 @@
+@@ -742,7 +811,13 @@
  	font-size: .7em;
  	display: block;
  	border: 0;
@@ -186,7 +193,7 @@
  }
  
  /* support: IE8 - See #6727 */
-@@ -835,23 +909,41 @@
+@@ -835,23 +910,41 @@
  	padding: .2em;
  }
  .ui-tabs .ui-tabs-nav {
@@ -236,7 +243,7 @@
  }
  .ui-tabs .ui-tabs-nav li.ui-tabs-active {
  	margin-bottom: -1px;
-@@ -862,14 +954,26 @@
+@@ -862,14 +955,26 @@
  .ui-tabs .ui-tabs-nav li.ui-tabs-loading .ui-tabs-anchor {
  	cursor: text;
  }
@@ -265,7 +272,7 @@
  }
  .ui-tooltip {
  	padding: 8px;
-@@ -897,22 +1001,25 @@
+@@ -897,22 +1002,25 @@
  	font-family: Arial,Helvetica,sans-serif;
  	font-size: 1em;
  }
@@ -296,7 +303,7 @@
  }
  .ui-widget-header a {
  	color: #333333;
-@@ -1073,27 +1180,7 @@
+@@ -1073,27 +1181,7 @@
  .ui-button .ui-icon {
  	background-image: url("images/ui-icons_777777_256x240.png");
  }
@@ -324,7 +331,7 @@
  .ui-icon-blank { background-position: 16px 16px; }
  .ui-icon-caret-1-n { background-position: 0 0; }
  .ui-icon-caret-1-ne { background-position: -16px 0; }
-@@ -1311,3 +1398,228 @@
+@@ -1311,3 +1399,228 @@
  	-webkit-box-shadow: 0px 0px 5px #666666;
  	box-shadow: 0px 0px 5px #666666;
  }
