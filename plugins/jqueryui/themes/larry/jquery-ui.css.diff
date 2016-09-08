@@ -1,5 +1,5 @@
---- jquery-ui.css.orig	2016-09-06 05:26:47.000000000 -0400
-+++ jquery-ui.css	2016-09-06 05:27:16.415606672 -0400
+--- jquery-ui.css.orig	2016-09-08 12:47:27.000000000 +0200
++++ jquery-ui.css	2016-09-08 12:47:53.333000000 +0200
 @@ -62,6 +62,8 @@
  .ui-state-disabled {
  	cursor: default !important;
@@ -331,7 +331,7 @@
  .ui-icon-blank { background-position: 16px 16px; }
  .ui-icon-caret-1-n { background-position: 0 0; }
  .ui-icon-caret-1-ne { background-position: -16px 0; }
-@@ -1311,3 +1399,228 @@
+@@ -1311,3 +1399,222 @@
  	-webkit-box-shadow: 0px 0px 5px #666666;
  	box-shadow: 0px 0px 5px #666666;
  }
@@ -498,12 +498,6 @@
 +	-webkit-appearance: none;
 +	   -moz-appearance: none;
 +	        appearance: none;
-+}
-+.mozilla .ui-datepicker .ui-datepicker-title select {
-+	background-position: right -14px;
-+	text-indent: 0.01px;
-+	text-overflow: '';
-+	padding-right: 10px;
 +}
 +.ui-datepicker .ui-datepicker-month:focus,
 +.ui-datepicker .ui-datepicker-year:focus {
