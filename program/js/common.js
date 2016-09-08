@@ -618,7 +618,7 @@ jQuery.fn.placeholder = function(text) {
 };
 
 // function to parse query string into an object
-rcube_parse_query = function(query)
+var rcube_parse_query = function(query)
 {
   if (!query)
     return {};
@@ -677,7 +677,7 @@ var Base64 = (function () {
 
   // private method for UTF-8 decoding
   var utf8_decode = function (utftext) {
-    var i = 0, string = '', c = c2 = c3 = 0;
+    var i = 0, string = '', c = 0, c2 = 0, c3 = 0;
 
     while (i < utftext.length) {
       c = utftext.charCodeAt(i);
