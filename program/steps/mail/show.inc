@@ -217,10 +217,7 @@ function rcmail_message_attachments($attrib)
                     $title = '';
                 }
 
-                if ($attach_prop->size) {
-                    $size = ' ' . html::span('attachment-size', '(' . rcube::Q($filesize) . ')');
-                }
-
+                $size     = ' ' . html::span('attachment-size', '(' . rcube::Q($filesize) . ')');
                 $mimetype = rcmail_fix_mimetype($attach_prop->mimetype);
                 $class    = rcube_utils::file2class($mimetype, $filename);
                 $id       = 'attach' . $attach_prop->mime_id;

@@ -18,6 +18,7 @@ CHANGELOG Roundcube Webmail
 - Fix PHP warning when handling shared namespace with empty prefix (#5420)
 - Fix so folders list is scrolled to the selected folder on page load (#5424)
 - Fix so when moving to Trash we make sure the folder exists (#5192)
+- Fix displaying size of attachments with zero size
 
 RELEASE 1.2.1
 -------------

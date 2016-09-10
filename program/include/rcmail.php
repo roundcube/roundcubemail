@@ -2248,11 +2248,20 @@ class rcmail extends rcube
         }
         else {
             $size = $part->size;
+
+            if ($size === 0) {
+                $part->exact_size = true;
+            }
+
             if ($part->encoding == 'base64') {
                 $size = $size / 1.33;
             }
 
-            $size = '~' . $this->show_bytes($size);
+            $size = $this->show_bytes($size);
+        }
+
+        if (!$part->exact_size) {
+            $size = '~' . $size;
         }
 
         return $size;
