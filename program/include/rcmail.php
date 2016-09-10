@@ -2350,6 +2350,10 @@ class rcmail extends rcube
         else {
             $size = $part->size;
 
+            if ($size === 0) {
+                $part->exact_size = true;
+            }
+
             if ($part->encoding == 'base64') {
                 $size = $size / 1.33;
             }
