@@ -3,11 +3,11 @@
 <roundcube:button command="reply" type="link" class="button reply disabled" classAct="button reply" classSel="button reply pressed" label="reply" title="replytomessage" />
 <span class="dropbutton">
 	<roundcube:button command="reply-all" type="link" class="button reply-all disabled" classAct="button reply-all" classSel="button reply-all pressed" label="replyall" title="replytoallmessage" />
-	<a href="#reply-all" class="dropbuttontip" id="replyallmenulink" onclick="UI.toggle_popup('replyallmenu',event);return false" aria-haspopup="true" aria-expanded="false" aria-owns="replyallmenu-menu" tabindex="0">Reply-all options</a>
+	<a href="#reply-all" class="dropbuttontip" id="replyallmenulink" onclick="UI.toggle_popup('replyallmenu',event);return false" aria-haspopup="true" aria-expanded="false" aria-owns="replyallmenu-menu" tabindex="0"><roundcube:label name="arialabelreplyalloptions" /></a>
 </span>
 <span class="dropbutton">
 	<roundcube:button command="forward" type="link" class="button forward disabled" classAct="button forward" classSel="button forward pressed" label="forward" title="forwardmessage" />
-	<a href="#forward" class="dropbuttontip" id="forwardmenulink" onclick="UI.toggle_popup('forwardmenu',event);return false" aria-haspopup="true" aria-expanded="false" aria-owns="forwardmenu-menu" tabindex="0">Forwarding options</a>
+	<a href="#forward" class="dropbuttontip" id="forwardmenulink" onclick="UI.toggle_popup('forwardmenu',event);return false" aria-haspopup="true" aria-expanded="false" aria-owns="forwardmenu-menu" tabindex="0"><roundcube:label name="arialabelforwardingoptions" /></a>
 </span>
 <roundcube:button command="delete" type="link" class="button delete disabled" classAct="button delete" classSel="button delete pressed" label="delete" title="deletemessage" />
 <roundcube:if condition="template:name == 'message'" />
