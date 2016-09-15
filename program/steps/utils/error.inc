@@ -43,7 +43,7 @@ EOF;
 
 // authorization error
 else if ($ERROR_CODE == 401) {
-    $__error_title = strtoupper($rcmail->gettext('errauthorizationfailed'));
+    $__error_title = mb_strtoupper($rcmail->gettext('errauthorizationfailed'));
     $__error_text  = nl2br($rcmail->gettext('errunauthorizedexplain') . "\n" .
                         $rcmail->gettext('errcontactserveradmin'));
 }
@@ -58,14 +58,14 @@ else if ($ERROR_CODE == 403) {
         $add = $rcmail->gettext('errcontactserveradmin');
     }
 
-    $__error_title = strtoupper($rcmail->gettext('errrequestcheckfailed'));
+    $__error_title = mb_strtoupper($rcmail->gettext('errrequestcheckfailed'));
     $__error_text  = nl2br($rcmail->gettext('errcsrfprotectionexplain')) . '<p>' . $add . '</p>';
 }
 
 // failed request (wrong step in URL)
 else if ($ERROR_CODE == 404) {
     $request_url   = htmlentities($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-    $__error_title = strtoupper($rcmail->gettext('errnotfound'));
+    $__error_title = mb_strtoupper($rcmail->gettext('errnotfound'));
     $__error_text  = nl2br($rcmail->gettext('errnotfoundexplain') . "\n" .
                         $rcmail->gettext('errcontactserveradmin'));
 
@@ -76,7 +76,7 @@ else if ($ERROR_CODE == 404) {
 else if ($ERROR_CODE == 450 && $_SERVER['REQUEST_METHOD'] == 'GET' && $rcmail->action == 'compose') {
     $url = $rcmail->url('compose');
 
-    $__error_title = strtoupper($rcmail->gettext('errcomposesession'));
+    $__error_title = mb_strtoupper($rcmail->gettext('errcomposesession'));
     $__error_text  = nl2br($rcmail->gettext('errcomposesessionexplain'))
         . '<p>' . html::a($url, $rcmail->gettext('clicktocompose')) . '</p>';
 }
