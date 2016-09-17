@@ -47,7 +47,6 @@ case 'general':
 
 case 'mailbox':
     $a_user_prefs = array(
-        'preview_pane'         => isset($_POST['_preview_pane']),
         'preview_pane_mark_read' => isset($_POST['_preview_pane_mark_read']) ? intval($_POST['_preview_pane_mark_read']) : $CONFIG['preview_pane_mark_read'],
         'autoexpand_threads'   => isset($_POST['_autoexpand_threads']) ? intval($_POST['_autoexpand_threads']) : 0,
         'mdn_requests'         => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,

@@ -408,22 +408,6 @@ function rcmail_user_prefs($current = null)
                 'advanced'    => array('name' => rcube::Q($RCMAIL->gettext('advancedoptions'))),
             );
 
-            // show config parameter for preview pane
-            if (!isset($no_override['preview_pane'])) {
-                if (!$current) {
-                    continue 2;
-                }
-
-                $field_id = 'rcmfd_preview';
-                $input    = new html_checkbox(array('name' => '_preview_pane', 'id' => $field_id, 'value' => 1,
-                    'onchange' => "$('#rcmfd_preview_pane_mark_read').prop('disabled', !this.checked)"));
-
-                $blocks['main']['options']['preview_pane'] = array(
-                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('previewpane'))),
-                    'content' => $input->show($config['preview_pane']?1:0),
-                );
-            }
-
             // show config parameter for preview pane auto mark as read delay
             if (!isset($no_override['preview_pane_mark_read'])) {
                 if (!$current) {
@@ -435,7 +419,7 @@ function rcmail_user_prefs($current = null)
 
                 $field_id = 'rcmfd_preview_pane_mark_read';
                 $select   = new html_select(array('name' => '_preview_pane_mark_read', 'id' => $field_id,
-                    'disabled' => $config['preview_pane']?0:1));
+                    'disabled' => $config['layout'] == 'list' ? 1 : 0));
 
                 $select->add($RCMAIL->gettext('never'), '-1');
                 $select->add($RCMAIL->gettext('immediately'), 0);

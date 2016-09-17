@@ -66,6 +66,7 @@ html.ie #mailview-top {
 	left: 0;
 	width: 100%;
 	bottom: 0;
+	outline: none;
 }
 
 #messagelistcontainer {
@@ -86,7 +87,7 @@ html>/**/body #messagelist {
 	left: 0;
 	right: 0;
 	height: 22px;
-	padding: 4px 6px;
+	padding: 5px 6px 3px;
 	border-top: 1px solid #ddd;
 	background: #ebebeb;
 	background: -moz-linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
@@ -230,20 +231,6 @@ html.mozilla #mailboxlist > li:first-child {
 	top: 0;
 }
 
-#mailpreviewtoggle {
-	display: block;
-	position: absolute;
-	top: 7px;
-	right: 4px;
-	width: 20px;
-	height: 18px;
-	background: url(images/buttons.png) -3px -458px no-repeat;
-}
-
-#mailpreviewtoggle.enabled {
-	background-position: -28px -458px;
-}
-
 #s_interval {
 	margin: 3px 8px;
 }
@@ -372,18 +359,18 @@ table.messagelist.fixedcopy {
 .messagelist tr td div.collapsed,
 .messagelist tr td div.expanded,
 .messagelist tr > .threads .listmenu,
-.messagelist tr > .attachment span.attachment,
-.messagelist tr > .attachment span.report,
-.messagelist tr > .attachment span.encrypted,
+.messagelist tr .attachment span.attachment,
+.messagelist tr .attachment span.report,
+.messagelist tr .attachment span.encrypted,
 .messagelist tr > .priority span.priority,
 .messagelist tr > .priority span.prio1,
 .messagelist tr > .priority span.prio2,
 .messagelist tr > .priority span.prio3,
 .messagelist tr > .priority span.prio4,
 .messagelist tr > .priority span.prio5,
-.messagelist tr > .flag span.flagged,
-.messagelist tr > .flag span.unflagged,
-.messagelist tr > .flag span.unflagged:hover,
+.messagelist tr .flag span.flagged,
+.messagelist tr .flag span.unflagged,
+.messagelist tr .flag span.unflagged:hover,
 .messagelist tr > .status span.status,
 .messagelist tr > .status span.msgicon,
 .messagelist tr > .status span.deleted,
@@ -403,19 +390,19 @@ table.messagelist.fixedcopy {
 	background: url(images/listicons.png) -100px 0 no-repeat;
 }
 
-.messagelist tbody tr td.attachment span.attachment {
+.messagelist tbody tr .attachment span.attachment {
 	background-position: 0 -996px;
 }
 
-.messagelist thead tr th.attachment span.attachment {
+.messagelist thead tr .attachment span.attachment {
 	background-position: -24px -996px;
 }
 
-.messagelist tbody tr td.attachment span.report {
+.messagelist tbody tr .attachment span.report {
 	background-position: -24px -1116px;
 }
 
-.messagelist tbody tr td.attachment span.encrypted {
+.messagelist tbody tr .attachment span.encrypted {
 	background-position: 0 -2272px;
 }
 
@@ -440,11 +427,11 @@ table.messagelist.fixedcopy {
 }
 
 /* thread parent message with flagged children */
-.messagelist tbody tr.flaggedroot td.flag span {
+.messagelist tbody tr.flaggedroot .flag span {
 	background-position: -23px -1076px;
 }
 
-.messagelist tbody tr td.flag span.flagged {
+.messagelist tbody tr .flag span.flagged {
 	background-position: 0 -1036px;
 }
 
@@ -456,7 +443,7 @@ table.messagelist.fixedcopy {
 	background-position: -23px -1057px;
 }
 
-.messagelist tr:hover td.flag span.unflagged {
+.messagelist tr:hover .flag span.unflagged {
 	background-position: -23px -1076px;
 }
 
@@ -1398,4 +1385,196 @@ div.message-partheaders .headers-table td.header {
 
 #uploadform form div {
 	margin: 4px 0;
+}
+
+
+/**** Styles for widescreen (3-column) view ****/
+
+.widescreen #mailview-top {
+	bottom: 0;
+	width: 400px;
+	height: auto;
+}
+
+.widescreen #mailview-bottom {
+	left: 412px;
+	top:0;
+	border: 1px solid #a3a3a3;
+}
+
+#messagelistheader,
+.widescreen #messagelistfooter #countcontrols,
+.widescreen .messagelist > thead,
+.widescreen .messagelist .branch,
+.widescreen table.fixedcopy {
+	display: none;
+}
+
+.widescreen #messagelistcontainer {
+	top: 31px;
+	overflow-x: hidden;
+}
+
+.widescreen #messagelistheader {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 22px;
+	padding: 4px 6px;
+	background: #f0f0f0;
+	background: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f0f0));
+	background: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+	border-radius: 4px 4px 0 0;
+	white-space: nowrap;
+	border-bottom: 1px solid #dfdfdf;
+}
+
+.widescreen #messagelistheader .listmenu {
+	margin-right: 10px;
+	vertical-align: middle;
+	line-height: 20px;
+	width: 26px;
+	padding: 0;
+	text-indent: -5000px;
+	overflow: hidden;
+	display: inline-block;
+	background: url(images/listicons.png) 0 -2330px no-repeat;
+}
+
+.widescreen #countcontrols {
+	line-height: 24px;
+	display: inline;
+	min-width: 0;
+}
+
+.widescreen #countcontrols span {
+	padding: 0;
+}
+
+.widescreen .pagenavbuttons {
+	position: absolute;
+	top: 3px;
+	right: 10px;
+}
+
+.widescreen .pagenavbuttons a.button {
+	background: none;
+	border: 0;
+	box-shadow: none;
+	padding: 2px;
+	margin: 0;
+	height: 20px;
+}
+
+.widescreen .pagenavbuttons a.button.pressed {
+	background: inherit;
+}
+
+.widescreen a.listmenu:focus,
+.widescreen .pagenav a.button:focus {
+	border-color: #4fadd5;
+	box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	outline: none;
+}
+
+.widescreen .messagelist td {
+	border-left: 0;
+	vertical-align: top;
+	padding: 3px 1px !important;
+}
+
+.widescreen .messagelist td.subject {
+	width: 99%;
+	white-space: wrap;
+	position: relative; /* for span.date positioning in Firefox */
+}
+
+.widescreen .messagelist td.threads {
+	width: 18px;
+	vertical-align: middle;
+}
+
+.widescreen .messagelist td.flags {
+	width: 20px;
+}
+
+.widescreen .messagelist td.subject span {
+	line-height: 18px;
+}
+
+.widescreen .messagelist td.subject span.date {
+	right: 2px;
+	top: 3px;
+	position: absolute;
+	color: #666;
+}
+
+.widescreen .messagelist td.subject span.fromto {
+	padding-left: 22px;
+	display: block;
+	margin-right: 90px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #666;
+}
+
+.widescreen .messagelist tr.flagged td.subject span.date,
+.widescreen .messagelist tr.flagged td.subject span.fromto {
+	color: #ff5c33;
+}
+
+.widescreen .messagelist tr.deleted td.subject span.date,
+.widescreen .messagelist tr.deleted td.subject span.fromto {
+	color: #ccc;
+}
+
+.widescreen .messagelist td.subject span.subject {
+	clear: both;
+	display: block;
+	font-size: 14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.widescreen .messagelist td.flags span {
+	width: 20px;
+	height: 18px;
+	display: block;
+}
+
+.widescreen .messagelist td.flags span.flag {
+	cursor: pointer;
+}
+
+.widescreen .messagelist tr td.subject span.msgicon,
+.widescreen .messagelist tr td.subject span.unreadchildren {
+	width: 20px;
+}
+
+/* move attachments list to the bottom on narrow mail preview page */
+@media screen and (max-width: 800px) {
+  #messagepreview .leftcol {
+    margin-right: 0;
+  }
+  #messagepreview .rightcol {
+    min-height: 0;
+    width: auto;
+    right: 0;
+    position: relative;
+    border-radius: 0;
+    border-bottom: 1px solid #dfdfdf;
+    background-color: #f9f9f9;
+    padding: 5px;
+  }
+  ul.attachmentslist,
+  ul.attachmentslist > li,
+  div.rightcol > div > a.button {
+    vertical-align: middle;
+    display: inline-block;
+    margin-top: 0;
+  }
 }
