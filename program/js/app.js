@@ -215,6 +215,12 @@ function rcube_webmail()
         this.enable_command('list', 'checkmail', 'add-contact', 'search', 'reset-search', 'collapse-folder', 'import-messages', true);
 
         if (this.gui_objects.messagelist) {
+          this.env.widescreen_list_template = [
+            {className: 'threads', cells: ['threads']},
+            {className: 'subject', cells: ['fromto', 'date', 'status', 'subject']},
+            {className: 'flags', cells: ['flag', 'attachment']}
+          ];
+
           this.message_list = new rcube_list_widget(this.gui_objects.messagelist, {
             multiselect:true, multiexpand:true, draggable:true, keyboard:true,
             column_movable:this.env.col_movable, dblclick_time:this.dblclick_time
@@ -2141,7 +2147,7 @@ function rcube_webmail()
         }
 
         expando = '<div id="rcmexpando' + row.id + '" class="' + (message.expanded ? 'expanded' : 'collapsed') + '">&nbsp;&nbsp;</div>';
-        row_class += ' thread' + (message.expanded? ' expanded' : '');
+        row_class += ' thread' + (message.expanded ? ' expanded' : '');
       }
 
       if (flags.unread_children && flags.seen && !message.expanded)
@@ -2211,8 +2217,6 @@ function rcube_webmail()
       else if (c == 'threads')
         html = expando;
       else if (c == 'subject') {
-        if (bw.ie)
-          col.events.mouseover = function() { rcube_webmail.long_subject_title_ex(this); };
         html = tree + cols[c];
       }
       else if (c == 'priority') {
@@ -2233,6 +2237,9 @@ function rcube_webmail()
       row.cols.push(col);
     }
 
+    if (this.env.layout == 'widescreen')
+      row = this.widescreen_message_row(row, uid, message);
+
     list.insert_row(row, attop);
 
     // remove 'old' row
@@ -2241,6 +2248,52 @@ function rcube_webmail()
       list.remove_row(uid);
       list.clear_selection(uid);
     }
+  };
+
+  // Converts standard message list record into "widescreen" (3-column) layout
+  this.widescreen_message_row = function(row, uid, message)
+  {
+    var domrow = document.createElement('tr');
+
+    domrow.id = row.id;
+    domrow.uid = row.uid;
+    domrow.className = row.className;
+    if (row.style) $.extend(domrow.style, row.style);
+
+    $.each(this.env.widescreen_list_template, function() {
+      if (!ref.env.threading && this.className == 'threads')
+        return;
+
+      var i, n, e, col, domcol,
+        domcell = document.createElement('td');
+
+      if (this.className) domcell.className = this.className;
+
+      for (i=0; this.cells && i < this.cells.length; i++) {
+        for (n=0; row.cols && n < row.cols.length; n++) {
+          if (this.cells[i] == row.cols[n].className) {
+            col = row.cols[n];
+            domcol = document.createElement('span');
+            domcol.className = this.cells[i];
+            if (this.className == 'subject' && domcol.className != 'subject')
+              domcol.className += ' skip-on-drag';
+            if (col.innerHTML)
+              domcol.innerHTML = col.innerHTML;
+            domcell.appendChild(domcol);
+            break;
+          }
+        }
+      }
+
+      domrow.appendChild(domcell);
+    });
+
+    if (this.env.threading && message.depth) {
+      $('td.subject', domrow).attr('style', 'padding-left:' + Math.min(90, message.depth * 15) + 'px !important');
+      $('span.branch', domrow).remove();
+    }
+
+    return domrow;
   };
 
   this.set_list_sorting = function(sort_col, sort_order)
@@ -2260,7 +2313,7 @@ function rcube_webmail()
     this.env.sort_order = sort_order;
   };
 
-  this.set_list_options = function(cols, sort_col, sort_order, threads)
+  this.set_list_options = function(cols, sort_col, sort_order, threads, layout)
   {
     var update, post_data = {};
 
@@ -2277,6 +2330,12 @@ function rcube_webmail()
     if (this.env.threading != threads) {
       update = 1;
       post_data._threads = threads;
+    }
+
+    if (layout && this.env.layout != layout) {
+      this.triggerEvent('layout-change', {old_layout: this.env.layout, new_layout: layout});
+      update = 1;
+      this.env.layout = post_data._layout = layout;
     }
 
     if (cols && cols.length) {

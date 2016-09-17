@@ -28,6 +28,7 @@ function rcube_mail_ui()
 
   var me = this;
   var mailviewsplit;
+  var mailviewsplit2;
   var compose_headers = {};
   var prefs;
 
@@ -227,21 +228,15 @@ function rcube_mail_ui()
         });
       }
       else if (rcmail.env.action == 'list' || !rcmail.env.action) {
-        var previewframe = $('#mailpreviewframe').is(':visible');
+        mail_layout();
 
-        $('#mailpreviewtoggle').addClass(previewframe ? 'enabled' : 'closed').attr('aria-expanded', previewframe ? 'true' : 'false')
-          .click(function(e) { toggle_preview_pane(e); return false; });
         $('#maillistmode').addClass(rcmail.env.threading ? '' : 'selected').click(function(e) { switch_view_mode('list'); return false; });
         $('#mailthreadmode').addClass(rcmail.env.threading ? 'selected' : '').click(function(e) { switch_view_mode('thread'); return false; });
-
-        mailviewsplit = new rcube_splitter({ id:'mailviewsplitter', p1:'#mailview-top', p2:'#mailview-bottom',
-          orientation:'h', relative:true, start:276, min:150, size:12, offset:4 });
-        if (previewframe)
-          mailviewsplit.init();
 
         rcmail.init_pagejumper('#pagejumper');
 
         rcmail.addEventListener('setquota', update_quota)
+          .addEventListener('layout-change', mail_layout)
           .addEventListener('afterimport-messages', show_uploadform);
       }
       else if (rcmail.env.action == 'get') {
@@ -463,6 +458,53 @@ function rcube_mail_ui()
     }
   }
 
+  // Mail view layout initialization and change handler
+  function mail_layout(p)
+  {
+    var layout = p ? p.new_layout : rcmail.env.layout,
+      top = $('#mailview-top'),
+      bottom = $('#mailview-bottom');
+
+    if (p)
+      $('#mainscreencontent').removeClass().addClass(layout);
+
+    $('#mailviewsplitter')[layout == 'desktop' ? 'show' : 'hide']();
+    $('#mailviewsplitter2')[layout == 'widescreen' ? 'show' : 'hide']();
+    $('#mailpreviewframe')[layout != 'list' ? 'show' : 'hide']();
+    rcmail.env.contentframe = layout == 'list' ? null : 'messagecontframe';
+
+    if (layout == 'widescreen') {
+      $('#countcontrols').detach().appendTo($('#messagelistheader'));
+      top.css({height: 'auto', width: 394});
+      bottom.css({top: 0, left: 406, height: 'auto'}).show();
+      if (!mailviewsplit2) {
+        mailviewsplit2 = new rcube_splitter({ id:'mailviewsplitter2', p1:'#mailview-top', p2:'#mailview-bottom',
+          orientation:'v', relative:true, start:416, min:400, size:12});
+        mailviewsplit2.init();
+      }
+      else
+        mailviewsplit2.resize();
+    }
+    else if (layout == 'desktop') {
+      top.css({height: 270, width: 'auto'});
+      bottom.css({left: 0, top: 284, height: 'auto'}).show();
+      if (!mailviewsplit) {
+        mailviewsplit = new rcube_splitter({ id:'mailviewsplitter', p1:'#mailview-top', p2:'#mailview-bottom',
+          orientation:'h', relative:true, start:276, min:150, size:12, offset:4 });
+        mailviewsplit.init();
+      }
+      else
+        mailviewsplit.resize();
+    }
+    else { // layout == 'list'
+      top.css({height: 'auto', width: 'auto'});
+      bottom.hide();
+    }
+
+    if (p && p.old_layout == 'widescreen') {
+      $('#countcontrols').detach().appendTo($('#messagelistfooter'));
+    }
+  }
 
   /**
    * Adjust UI objects of the mail view screen
@@ -657,58 +699,6 @@ function rcube_mail_ui()
       ref.get(0),
       $.Event('click', { target:ref.get(0), pageX:pos.left, pageY:pos.top, clientX:pos.left, clientY:pos.top }));
   }
-
-
-  /**
-   * Show/hide the preview pane
-   */
-  function toggle_preview_pane(e)
-  {
-    var button = $(e.target),
-      frame = $('#mailpreviewframe'),
-      visible = !frame.is(':visible'),
-      splitter = mailviewsplit.pos || parseInt(get_pref('mailviewsplitter') || 320),
-      topstyles, bottomstyles, uid;
-
-    frame.toggle();
-    button.toggleClass('enabled closed').attr('aria-expanded', visible ? 'true' : 'false');
-
-    if (visible) {
-      $('#mailview-top').removeClass('fullheight').css({ bottom:'auto' });
-      $('#mailview-bottom').css({ height:'auto' }).show();
-
-      rcmail.env.contentframe = 'messagecontframe';
-      if (uid = rcmail.message_list.get_single_selection())
-        rcmail.show_message(uid, false, true);
-
-      // let the splitter set the correct size and position
-      if (mailviewsplit.handle) {
-        mailviewsplit.handle.show();
-        mailviewsplit.resize();
-      }
-      else
-        mailviewsplit.init();
-    }
-    else {
-      rcmail.env.contentframe = null;
-      rcmail.show_contentframe(false);
-
-      $('#mailview-top').addClass('fullheight').css({ height:'auto', bottom:'0px' });
-      $('#mailview-bottom').css({ top:'auto', height:'0px' }).hide();
-
-      if (mailviewsplit.handle)
-        mailviewsplit.handle.hide();
-    }
-
-    if (rcmail.message_list) {
-      if (visible && uid)
-          rcmail.message_list.scrollto(uid);
-      rcmail.message_list.resize();
-    }
-
-    rcmail.command('save-pref', { name:'preview_pane', value:(visible?1:0) });
-  }
-
 
   /**
    * Switch between short and full headers display in message preview
@@ -908,6 +898,11 @@ function rcube_mail_ui()
     $('input[name="sort_ord"][value="DESC"]').prop('checked', rcmail.env.sort_order == 'DESC');
     $('input[name="sort_ord"][value="ASC"]').prop('checked', rcmail.env.sort_order != 'DESC');
 
+    $.each(['widescreen', 'desktop', 'list'], function() {
+      $('input[name="layout"][value="' + this + '"]').prop('checked', rcmail.env.layout == this);
+    });
+    $('#listoptions-columns', $dialog)[rcmail.env.layout == 'widescreen' ? 'hide' : 'show']();
+
     // set checkboxes
     $('input[name="list_col[]"]').each(function() {
       $(this).prop('checked', $.inArray(this.value, rcmail.env.listcols) != -1);
@@ -944,10 +939,11 @@ function rcube_mail_ui()
 
     var sort = $('input[name="sort_col"]:checked').val(),
       ord = $('input[name="sort_ord"]:checked').val(),
+      layout = $('input[name="layout"]:checked').val(),
       cols = $('input[name="list_col[]"]:checked')
         .map(function(){ return this.value; }).get();
 
-    rcmail.set_list_options(cols, sort, ord, rcmail.env.threading);
+    rcmail.set_list_options(cols, sort, ord, rcmail.env.threading, layout);
   }
 
 
