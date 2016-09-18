@@ -113,7 +113,7 @@ class enigma_key
         $now = time();
 
         foreach ($this->users as $user) {
-            if ($user->email === $email && $user->valid && !$user->revoked) {
+            if (strcasecmp($user->email, $email) === 0 && $user->valid && !$user->revoked) {
                 foreach ($this->subkeys as $subkey) {
                     if (!$subkey->revoked && (!$subkey->expires || $subkey->expires > $now)) {
                         if ($subkey->usage & $mode) {
