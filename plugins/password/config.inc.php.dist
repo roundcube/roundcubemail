@@ -56,6 +56,10 @@ $config['password_dovecotpw'] = '/usr/local/sbin/dovecotpw'; // for dovecot-1.x
 // Used for password_algorithm = 'dovecot'.
 $config['password_dovecotpw_method'] = 'CRAM-MD5';
 
+// Enables use of password with method prefix, e.g. {MD5}$1$LUiMYWqx$fEkg/ggr/L6Mb2X7be4i1/
+// when using password_algorithm=dovecot
+$config['password_dovecotpw_with_method'] = false;
+
 // Iteration count parameter for Blowfish-based hashing algo.
 // It must be between 4 and 31. Default: 12.
 // Be aware, the higher the value, the longer it takes to generate the password hashes.
@@ -113,10 +117,6 @@ $config['password_crypt_hash'] = 'md5';
 // By default domains in variables are using unicode.
 // Enable this option to use punycoded names
 $config['password_idn_ascii'] = false;
-
-// Enables use of password with crypt method prefix in %D, e.g. {MD5}$1$LUiMYWqx$fEkg/ggr/L6Mb2X7be4i1/
-// when using the %D macro (deprecated, use %P)
-$config['password_dovecotpw_with_method'] = false;
 
 // Using a password hash for %n and %q variables (deprecated, use %P).
 // Determine which hashing algorithm should be used to generate
