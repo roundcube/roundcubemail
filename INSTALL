@@ -9,12 +9,12 @@ wiki page at http://trac.roundcube.net/wiki
 REQUIREMENTS
 ============
 
-* The Apache, Lighttpd, Cherokee or Hiawatha web server
+* An IMAP, HTTP and SMTP server
 * .htaccess support allowing overrides for DirectoryIndex
 * PHP Version 5.4 or greater including:
    - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring (required)
    - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
-   - Libiconv, Zip, Fileinfo, Intl, Exif (recommended)
+   - Iconv, Zip, Fileinfo, Intl, Exif (recommended)
    - LDAP for LDAP addressbook support (optional)
 * PEAR and PEAR packages distributed with Roundcube or external:
    - Mail_Mime 1.10.0 or newer
@@ -32,9 +32,7 @@ REQUIREMENTS
    - suhosin.session.encrypt disabled
    - mbstring.func_overload disabled
 * A MySQL, PostgreSQL, MS SQL Server (2005 or newer), Oracle database
-  or SQLite support in PHP
-* One of the above databases with permission to create tables
-* An SMTP server
+  or SQLite support in PHP - with permission to create tables
 * Composer installed either locally or globally (https://getcomposer.org)
 
 
