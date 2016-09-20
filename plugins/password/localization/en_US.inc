@@ -35,3 +35,4 @@ $messages['passwordweak'] = 'Password must include at least one number and one p
 $messages['passwordforbidden'] = 'Password contains forbidden characters.';
 $messages['firstloginchange'] = 'This is your first login. Please change your password.';
 $messages['disablednotice'] = 'The system is currently under maintenance and password change is not possible at the moment. Everything should be back to normal soon. We apologize for any inconvenience.';
+$messages['passwinhistory'] = 'This password has already been used previously';

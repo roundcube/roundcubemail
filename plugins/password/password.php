@@ -334,6 +334,9 @@ class password extends rcube_plugin
             case PASSWORD_CONNECT_ERROR:
                 $reason = $this->gettext('connecterror');
                 break;
+            case PASSWORD_IN_HISTORY:
+                $reason = $this->gettext('passwdinhistory');
+                break;
             case PASSWORD_ERROR:
             default:
                 $reason = $this->gettext('internalerror');
