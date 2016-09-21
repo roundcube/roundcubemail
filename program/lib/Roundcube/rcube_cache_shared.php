@@ -230,7 +230,11 @@ class rcube_cache_shared
         }
 
         // reset internal cache index, thanks to this we can force index reload
-        $this->index = null;
+        $this->index         = null;
+        $this->index_changed = false;
+        $this->cache         = array();
+        $this->cache_sums    = array();
+        $this->cache_changes = array();
     }
 
     /**
@@ -627,13 +631,15 @@ class rcube_cache_shared
                 $this->max_packet -= 2000;
             }
             else if ($this->type == 'memcache') {
-                $stats = $this->db->getStats();
-                $remaining = $stats['limit_maxbytes'] - $stats['bytes'];
-                $this->max_packet = min($remaining / 5, $this->max_packet);
+                if ($stats = $this->db->getStats()) {
+                    $remaining = $stats['limit_maxbytes'] - $stats['bytes'];
+                    $this->max_packet = min($remaining / 5, $this->max_packet);
+                }
             }
             else if ($this->type == 'apc' && function_exists('apc_sma_info')) {
-                $stats = apc_sma_info();
-                $this->max_packet = min($stats['avail_mem'] / 5, $this->max_packet);
+                if ($stats = apc_sma_info()) {
+                    $this->max_packet = min($stats['avail_mem'] / 5, $this->max_packet);
+                }
             }
         }
 

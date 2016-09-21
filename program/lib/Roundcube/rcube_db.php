@@ -774,6 +774,20 @@ class rcube_db
     }
 
     /**
+     * Terminate database connection.
+     */
+    public function closeConnection()
+    {
+        $this->db_connected = false;
+        $this->db_index     = 0;
+
+        // release statement and connection resources
+        $this->last_result  = null;
+        $this->dbh          = null;
+        $this->dbhs         = array();
+    }
+
+    /**
      * Formats input so it can be safely used in a query
      *
      * @param mixed  $input Value to quote
