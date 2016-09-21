@@ -209,25 +209,7 @@ class rcube
             }
 
             $this->memcache     = new Memcache;
-            $this->mc_available = 0;
-
-            // add all configured hosts to pool
-            $pconnect       = $this->config->get('memcache_pconnect', true);
-            $timeout        = $this->config->get('memcache_timeout', 1);
-            $retry_interval = $this->config->get('memcache_retry_interval', 15);
-
-            foreach ($this->config->get('memcache_hosts', array()) as $host) {
-                if (substr($host, 0, 7) != 'unix://') {
-                    list($host, $port) = explode(':', $host);
-                    if (!$port) $port = 11211;
-                }
-                else {
-                    $port = 0;
-                }
-
-                $this->mc_available += intval($this->memcache->addServer(
-                    $host, $port, $pconnect, 1, $timeout, $retry_interval, false, array($this, 'memcache_failure')));
-            }
+            $this->memcache_init();
 
             // test connection and failover (will result in $this->mc_available == 0 on complete failure)
             $this->memcache->increment('__CONNECTIONTEST__', 1);  // NOP if key doesn't exist
@@ -238,6 +220,34 @@ class rcube
         }
 
         return $this->memcache;
+    }
+
+    /**
+     * Get global handle for memcache access
+     *
+     * @return object Memcache
+     */
+    protected function memcache_init()
+    {
+        $this->mc_available = 0;
+
+        // add all configured hosts to pool
+        $pconnect       = $this->config->get('memcache_pconnect', true);
+        $timeout        = $this->config->get('memcache_timeout', 1);
+        $retry_interval = $this->config->get('memcache_retry_interval', 15);
+
+        foreach ($this->config->get('memcache_hosts', array()) as $host) {
+            if (substr($host, 0, 7) != 'unix://') {
+                list($host, $port) = explode(':', $host);
+                if (!$port) $port = 11211;
+            }
+            else {
+                $port = 0;
+            }
+
+            $this->mc_available += intval($this->memcache->addServer(
+                $host, $port, $pconnect, 1, $timeout, $retry_interval, false, array($this, 'memcache_failure')));
+        }
     }
 
     /**
@@ -1019,6 +1029,40 @@ class rcube
     public function add_shutdown_function($function)
     {
         $this->shutdown_functions[] = $function;
+    }
+
+    /**
+     * When you're going to sleep the script execution for a longer time
+     * it is good to close all external connections (sql, memcache, SMTP, IMAP).
+     *
+     * No action is required on wake up, all connections will be
+     * re-established automatically.
+     */
+    public function sleep()
+    {
+        foreach ($this->caches as $cache) {
+            if (is_object($cache)) {
+                $cache->close();
+            }
+        }
+
+        if ($this->storage) {
+            $this->storage->close();
+        }
+
+        if ($this->db) {
+            $this->db->closeConnection();
+        }
+
+        if ($this->memcache) {
+            $this->memcache->close();
+            // after close() need to re-init memcache
+            $this->memcache_init();
+        }
+
+        if ($this->smtp) {
+            $this->smtp->disconnect();
+        }
     }
 
     /**

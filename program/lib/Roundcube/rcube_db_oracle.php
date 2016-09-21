@@ -601,4 +601,18 @@ class rcube_db_oracle extends rcube_db
 
         return $this->last_result = $this->dbh->rollBack();
     }
+
+    /**
+     * Terminate database connection.
+     */
+    public function closeConnection()
+    {
+        // release statement and close connection(s)
+        $this->last_result = null;
+        foreach ($this->dbhs as $dbh) {
+            oci_close($dbh);
+        }
+
+        parent::closeConnection();
+    }
 }

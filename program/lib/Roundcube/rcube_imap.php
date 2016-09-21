@@ -204,7 +204,9 @@ class rcube_imap extends rcube_storage
      */
     public function close()
     {
+        $this->connect_done = false;
         $this->conn->closeConnection();
+
         if ($this->mcache) {
             $this->mcache->close();
         }
