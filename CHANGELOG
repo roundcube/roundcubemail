@@ -20,6 +20,7 @@ CHANGELOG Roundcube Webmail
 - Fix so folders list is scrolled to the selected folder on page load (#5424)
 - Fix so when moving to Trash we make sure the folder exists (#5192)
 - Fix displaying size of attachments with zero size
+- Fix so "Action disabled" error uses more appropriate 404 code (#5440)
 
 RELEASE 1.2.1
 -------------
