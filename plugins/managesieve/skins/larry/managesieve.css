@@ -373,6 +373,7 @@ td.rowtargets > span.listarea
   border-top: none;
 }
 
+#vacationform .listelement input,
 #filter-form .listelement input
 {
   border: none;
@@ -438,21 +439,6 @@ body.iframe.mail #filter-form
 
 #vacationform .listarea {
   max-height: 91px;
-}
-
-#vacationform .listelement,
-#vacationform .listelement .reset {
-  height: 22px;
-}
-
-#vacationform .listelement .reset {
-  background-position: -1px 3px;
-}
-
-#vacationform .listelement input {
-  vertical-align: top;
-  border: 0;
-  box-shadow: none;
 }
 
 #vacationform td.vacation {

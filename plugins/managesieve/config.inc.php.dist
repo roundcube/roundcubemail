@@ -96,5 +96,9 @@ $config['managesieve_vacation_interval'] = 0;
 // of these on initial vacation form creation.
 $config['managesieve_vacation_addresses_init'] = false;
 
+// Sometimes you want to always reply with mail email address
+// This option enables automatic filling of :from field on initial vacation form creation.
+$config['managesieve_vacation_from_init'] = false;
+
 // Supported methods of notify extension. Default: 'mailto'
 $config['managesieve_notify_methods'] = array('mailto');
