@@ -1947,7 +1947,17 @@ class rcube_sieve_engine
         // vacation
         $vsec      = in_array('vacation-seconds', $this->exts);
         $auto_addr = $this->rc->config->get('managesieve_vacation_addresses_init');
-        $addresses = isset($action['addresses']) || !$auto_addr ? (array) $action['addresses'] : $this->user_emails();
+        $from_addr = $this->rc->config->get('managesieve_vacation_from_init');
+
+        if (empty($action)) {
+            if ($auto_addr) {
+                $action['addresses'] = $this->user_emails();
+            }
+            if ($from_addr) {
+                $default_identity = $this->rc->user->list_emails(true);
+                $action['from'] = $default_identity['email'];
+            }
+        }
 
         $out .= '<div id="action_vacation' .$id.'" style="display:' .($action['type']=='vacation' ? 'inline' : 'none') .'">';
         $out .= '<span class="label">'. rcube::Q($this->plugin->gettext('vacationreason')) .'</span><br>';
@@ -1977,8 +1987,8 @@ class rcube_sieve_engine
                 'class' => $this->error_class($id, 'action', 'from', 'action_from'),
             ));
         $out .= '<br><span class="label">' .rcube::Q($this->plugin->gettext('vacationaddr')) . '</span><br>';
-        $out .= $this->list_input($id, 'action_addresses', $addresses, true,
-                $this->error_class($id, 'action', 'addresses', 'action_addresses'), 30)
+        $out .= $this->list_input($id, 'action_addresses', $action['addresses'], true,
+                    $this->error_class($id, 'action', 'addresses', 'action_addresses'), 30)
             . html::a(array('href' => '#', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".managesieve_vacation_addresses($id)"),
                 rcube::Q($this->plugin->gettext('filladdresses')));
         $out .= '<br><span class="label">' . rcube::Q($this->plugin->gettext($vsec ? 'vacationinterval' : 'vacationdays')) . '</span><br>';

@@ -33,6 +33,7 @@ CHANGELOG Roundcube Webmail
 - Indicate that a collapsed thread has flagged children (#5013)
 - Implemented message/rfc822 attachment preview
 - Update to jsTimezoneDetect 1.0.6
+- Managesieve: Add option to automatically set vacation :from address (#5428)
 - Managesieve: Support 'string' test from variables extension [RFC 5229] (#5248)
 - Managesieve: Support 'duplicate' extension [RFC 7352]
 - Managesieve: Unhide advanced rule controls if there are inputs with errors
