@@ -1332,7 +1332,9 @@ function rcmail_folder_options($mailbox)
     global $RCMAIL;
 
     $options = $RCMAIL->get_storage()->folder_info($mailbox);
-    $options['protected'] = $options['is_root'] || ($options['special'] && $RCMAIL->config->get('protect_default_folders'));
+    $options['protected'] = $options['is_root']
+        || strtoupper($mailbox) === 'INBOX'
+        || ($options['special'] && $RCMAIL->config->get('protect_default_folders'));
 
     return $options;
 }
