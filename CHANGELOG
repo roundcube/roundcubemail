@@ -22,6 +22,7 @@ CHANGELOG Roundcube Webmail
 - Remove PHP mail() support, smtp_server is required now (#5340)
 - Display full message subject in onmouseover on truncated subject in mail view (#5346)
 - Searching in both contacts and groups when LDAP addressbook with group_filters option is used
+- Enigma: Support key generation for multiple identities (#5383)
 - Enigma: Import keys from key-server(s) (#5286)
 - Enigma: Search missing public keys on a key-server in mail compose (#5286)
 - Enigma: Delete user keys when using deluser.sh script

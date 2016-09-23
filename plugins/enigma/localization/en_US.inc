@@ -126,9 +126,12 @@ $messages['keyimportsearchtext'] = 'You can search for public keys by key identi
 
 $messages['formerror'] = 'Please, fill the form. All fields are required!';
 $messages['passwordsdiffer'] = 'Passwords do not match!';
-$messages['nonameident'] = 'Identity must have a user name defined!';
 $messages['keygenerateerror'] = 'Failed to generate a key pair';
 $messages['keygeneratesuccess'] = 'A key pair generated and imported successfully.';
 $messages['keygennosupport'] = 'Your web browser does not support cryptography. Unable to generate a key pair!';
+$messages['noidentselected'] = 'You have to select at least one identity for the key!';
+
+// removed in 1.3
+$messages['nonameident'] = 'Identity must have a user name defined!';
 
 ?>

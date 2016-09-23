@@ -624,6 +624,12 @@ class enigma_ui
      */
     private function key_generate()
     {
+        // Crypt_GPG does not support key generation for multiple identities
+        // It is also very slow (which is problematic because it may exceed
+        // request time limit) and requires entropy generator
+        // That's why we use only OpenPGP.js method of key generation
+        return;
+
         $user = rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST, true);
         $pass = rcube_utils::get_input_value('_password', rcube_utils::INPUT_POST, true);
         $size = (int) rcube_utils::get_input_value('_size', rcube_utils::INPUT_POST);
@@ -669,8 +675,6 @@ class enigma_ui
             'keyform' => array($this, 'tpl_key_create_form'),
         ));
 
-        $this->rc->output->set_env('enigma_keygen_server', $this->rc->config->get('enigma_keygen_server'));
-
         $this->rc->output->set_pagetitle($this->enigma->gettext('keygenerate'));
         $this->rc->output->send('enigma.keycreate');
     }
@@ -685,16 +689,14 @@ class enigma_ui
 
         // get user's identities
         $identities = $this->rc->user->list_identities(null, true);
-
-        // Identity
-        $select = new html_select(array('name' => 'identity', 'id' => 'key-ident'));
+        $checkbox   = new html_checkbox(array('name' => 'identity[]'));
         foreach ((array) $identities as $idx => $ident) {
-            $name = empty($ident['name']) ? ('<' . $ident['email'] . '>') : $ident['ident'];
-            $select->add($name, $idx);
+            $name = empty($ident['name']) ? ($ident['email']) : $ident['ident'];
+            $identities[$idx] = html::label(null, $checkbox->show($name, array('value' => $name)) . rcube::Q($name));
         }
 
         $table->add('title', html::label('key-name', rcube::Q($this->enigma->gettext('newkeyident'))));
-        $table->add(null, $select->show(0));
+        $table->add(null, implode($identities, "\n"));
 
         // Key size
         $select = new html_select(array('name' => 'size', 'id' => 'key-size'));
@@ -715,7 +717,7 @@ class enigma_ui
 
         $this->rc->output->add_gui_object('keyform', $attrib['id']);
         $this->rc->output->add_label('enigma.keygenerating', 'enigma.formerror',
-            'enigma.passwordsdiffer', 'enigma.keygenerateerror', 'enigma.nonameident',
+            'enigma.passwordsdiffer', 'enigma.keygenerateerror', 'enigma.noidentselected',
             'enigma.keygennosupport');
 
         return $this->rc->output->form_tag(array(), $table->show($attrib));

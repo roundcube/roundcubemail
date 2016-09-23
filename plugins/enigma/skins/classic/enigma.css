@@ -156,6 +156,10 @@ div.enigmascreen
   padding: 5px 0px;
 }
 
+#keycreateform td > label {
+  display: block;
+}
+
 #keystoolbar
 {
   position: absolute;
