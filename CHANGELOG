@@ -10,7 +10,7 @@ CHANGELOG Roundcube Webmail
 - Dropped legacy browsers support (#5167)
     - Removed legacy_browser plugin
     - Removed hacks for IE < 10
-    - Update to jQuery 3.1.0 and jQuery-UI 1.12.0
+    - Update to jQuery 3.1.1 and jQuery-UI 1.12.0
     - compile .min.js files with ECMASCRIPT5 option
 - Require PHP >= 5.4
 - Add possibility to preview and download attachments in mail compose (#5053)
