@@ -149,6 +149,10 @@ p.enigmaattachment a {
   padding: 10px;
 }
 
+#keycreateform td > label {
+  display: block;
+}
+
 #keystoolbar
 {
   position: absolute;
