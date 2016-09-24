@@ -50,6 +50,9 @@ Options -Indexes
 </ifModule>
 
 <IfModule mod_headers.c>
+# Disable page indexing
+Header set X-Robots-Tag "noindex, nofollow"
+
 # replace 'append' with 'merge' for Apache version 2.2.9 and later
 #Header append Cache-Control public env=!NO_CACHE
 
