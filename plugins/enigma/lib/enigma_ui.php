@@ -498,8 +498,9 @@ class enigma_ui
     {
         // Import process
         if ($data = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_POST)) {
-            // Import from generation form (ajax request)
             $this->enigma->load_engine();
+            $this->enigma->engine->password_handler();
+
             $result = $this->enigma->engine->import_key($data);
 
             if (is_array($result)) {

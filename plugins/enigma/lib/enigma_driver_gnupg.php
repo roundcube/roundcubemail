@@ -201,14 +201,20 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Key file import.
      *
-     * @param string  File name or file content
-     * @param bollean True if first argument is a filename
+     * @param string File name or file content
+     * @param bolean True if first argument is a filename
+     * @param array  Optional key => password map
      *
      * @return mixed Import status array or enigma_error
      */
-    public function import($content, $isfile=false)
+    public function import($content, $isfile = false, $passwords = array())
     {
         try {
+            // GnuPG 2.1 requires secret key passphrases on import
+            foreach ($passwords as $keyid => $pass) {
+                $this->gpg->addPassphrase($keyid, $pass);
+            }
+
             if ($isfile)
                 return $this->gpg->importKeyFile($content);
             else
@@ -251,7 +257,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return mixed Array of enigma_key objects or enigma_error
      */
-    public function list_keys($pattern='')
+    public function list_keys($pattern = '')
     {
         try {
             $keys = $this->gpg->getKeys($pattern);

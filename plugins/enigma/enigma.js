@@ -99,7 +99,7 @@ rcube_webmail.prototype.enigma_key_create_save = function()
         size = $('#key-size').val();
 
     $('[name="identity[]"]:checked').each(function() {
-      users.push(this.value);
+        users.push(this.value);
     });
 
     // validate the form
@@ -124,7 +124,8 @@ rcube_webmail.prototype.enigma_key_create_save = function()
 
         openpgp.generateKeyPair(options).then(function(keypair) {
             // success
-            var post = {_a: 'import', _keys: keypair.privateKeyArmored, _generated: 1};
+            var post = {_a: 'import', _keys: keypair.privateKeyArmored, _generated: 1,
+                _passwd: password, _keyid: keypair.key.primaryKey.fingerprint};
 
             // send request to server
             rcmail.http_post('plugin.enigmakeys', post, lock);
