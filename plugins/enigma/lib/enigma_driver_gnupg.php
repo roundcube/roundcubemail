@@ -43,6 +43,7 @@ class enigma_driver_gnupg extends enigma_driver
         $debug   = $this->rc->config->get('enigma_debug');
         $binary  = $this->rc->config->get('enigma_pgp_binary');
         $agent   = $this->rc->config->get('enigma_pgp_agent');
+        $gpgconf = $this->rc->config->get('enigma_pgp_gpgconf');
 
         if (!$homedir) {
             return new enigma_error(enigma_error::INTERNAL,
@@ -87,6 +88,9 @@ class enigma_driver_gnupg extends enigma_driver
         }
         if ($agent) {
             $options['agent'] = $agent;
+        }
+        if ($gpgconf) {
+            $options['gpgconf'] = $gpgconf;
         }
 
         // Create Crypt_GPG object
