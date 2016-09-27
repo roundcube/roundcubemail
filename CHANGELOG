@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.1.6
+-------------
 - Searching in both contacts and groups when LDAP addressbook with group_filters option is used
 - Use contact_search_name format in popup on results in compose contacts search
 - Fix missing localization of HTML editor when assets_dir != INSTALL_PATH

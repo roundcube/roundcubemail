@@ -5,7 +5,7 @@
  | program/include/iniset.php                                            |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,7 @@
 */
 
 // application constants
-define('RCMAIL_VERSION', '1.1.5');
+define('RCMAIL_VERSION', '1.1.6');
 define('RCMAIL_START', microtime(true));
 
 if (!defined('INSTALL_PATH')) {
