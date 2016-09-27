@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.2.2
+-------------
 - Enigma: Add possibility to configure gpg-agent binary location (enigma_pgp_agent)
 - Enigma: Fix signature verification with some IMAP servers, e.g. Gmail, DBMail (#5371)
 - Enigma: Make recipient key searches case-insensitive (#5434)
