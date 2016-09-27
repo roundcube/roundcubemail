@@ -40,6 +40,9 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Unhide advanced rule controls if there are inputs with errors
 - Managesieve: Display warning message when filter form contains errors
 - Control search engine crawlers via X-Robots-Tag header instead of <meta> and robots.txt (#5098)
+
+RELEASE 1.2.2
+-------------
 - Enigma: Add possibility to configure gpg-agent binary location (enigma_pgp_agent)
 - Enigma: Fix signature verification with some IMAP servers, e.g. Gmail, DBMail (#5371)
 - Enigma: Make recipient key searches case-insensitive (#5434)
