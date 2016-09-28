@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where folders list would scroll to top when clicking on subscription checkbox (#5447)
+
 RELEASE 1.2.2
 -------------
 - Enigma: Add possibility to configure gpg-agent binary location (enigma_pgp_agent)
