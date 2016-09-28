@@ -191,6 +191,10 @@ function rcube_treelist_widget(node, p)
   // catch focus when clicking the list container area
   if (p.parent_focus) {
     container.parent(':not(body)').click(function(e) {
+      // click on a checkbox does not catch the focus
+      if ($(e.target).is('input'))
+        return true;
+
       if (!has_focus && selection) {
         $(get_item(selection)).find(':focusable').first().focus();
       }
