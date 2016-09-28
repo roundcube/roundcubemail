@@ -16,7 +16,7 @@ class new_user_identity extends rcube_plugin
 
     private $rc;
     private $ldap;
-
+    private $debug = true;
     function init()
     {
         $this->rc = rcmail::get_instance();
@@ -67,24 +67,60 @@ class new_user_identity extends rcube_plugin
             return $args;
         }
 
-        $identities = $this->rc->user->list_emails();
+        //HW-HACK: list_identities anstatt list_emails()
+        $identities = $this->rc->user->list_identities();
+        //$identities = $this->rc->user->list_emails();
         $ldap_entry = $this->lookup_user_name(array(
                 'user' => $this->rc->user->data['username'],
                 'host' => $this->rc->user->data['mail_host'],
         ));
-
+        
         foreach ((array) $ldap_entry['email_list'] as $email) {
-            foreach ($identities as $identity) {
+            //HW-HACK: (array)
+            foreach ((array) $identities as $identity) {
+            //foreach ($identities as $identity) {
                 if ($identity['email'] == $email) {
+                    // HW-HACK: Aenderung des Namens wenn im LDAP geaendert
+                    if($identity['name'] != $ldap_entry['user_name']) {
+                        $this->log_msg('Name has changed. Change it to: ' . $ldap_entry['user_name']);
+                        $identity['name'] = $ldap_entry['user_name'];
+                        $this->rc->user->update_identity($identity['identity_id'],$identity);
+                    }
+                    // HW-HACK: END
                     continue 2;
                 }
+                // HW-HACK: Setze die Standard-Identität auf die LDAP-Mailadresse.
+                // Das geht an dieser Stelle weil vorher aus der Schleife
+                // gesprungen wird, falls sich die Mail-Adresse nicht
+                // geändert hat.
+                // Es wird die alte Email-Adresse behalten in einer Nicht-Standard-
+                // Identität.
+                if (isset($identity['email']) && $identity['standard'] == 1) {
+                    $this->log_msg('Mail-Address in LDAP has changed. Edit the standard identitiy and jump away...');
+                    $this->rc->user->update_identity($identity['identity_id'],array('standard' => 0));
+
+                    $plugin = $this->rc->plugins->exec_hook('identity_create', array(
+                         'record' => array(
+                             'user_id'  => $this->rc->user->ID,
+                             'standard' => 1,
+                             'email'    => $email,
+                             'name'     => $ldap_entry['user_name']
+                         ),
+                     ));
+         
+                     if (!$plugin['abort'] && $plugin['record']['email']) {
+                         $this->rc->user->insert_identity($plugin['record']);
+                     }
+                     continue 2;
+                }
+               // HW-HACK: END
             }
 
             $plugin = $this->rc->plugins->exec_hook('identity_create', array(
-                'login'  => true,
+               // 'login'  => true,
                 'record' => array(
                     'user_id'  => $this->rc->user->ID,
-                    'standard' => 0,
+                    'standard' => 1,
                     'email'    => $email,
                     'name'     => $ldap_entry['user_name']
                 ),
@@ -106,7 +142,10 @@ class new_user_identity extends rcube_plugin
         $this->load_config();
 
         $addressbook = $this->rc->config->get('new_user_identity_addressbook');
-        $ldap_config = (array)$this->rc->config->get('ldap_public');
+        //HW-HACK: Dont use a LDAP addressbook
+        //$ldap_config = (array)$this->rc->config->get('ldap_public');
+        $ldap_config = (array)$this->rc->config->get('ldap_private');
+        //HW-HACK: END
         $match       = $this->rc->config->get('new_user_identity_match');
 
         if (empty($addressbook) || empty($match) || empty($ldap_config[$addressbook])) {
@@ -121,6 +160,14 @@ class new_user_identity extends rcube_plugin
 
         return $this->ldap->ready;
     }
+    //HW-HACK: Debug added
+    private function log_msg($str) {
+        if ($this->debug) {
+            rcube::write_log('ldap', "new_user_identity_ldap: $str");
+        }
+    }
+    //HW-HACK: END
+
 }
 
 class new_user_identity_ldap_backend extends rcube_ldap
