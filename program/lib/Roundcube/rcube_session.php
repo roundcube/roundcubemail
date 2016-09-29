@@ -180,6 +180,24 @@ abstract class rcube_session
     }
 
     /**
+     * Creates a new (separate) session
+     *
+     * @param array Session data
+     *
+     * @return string Session identifier (on success)
+     */
+    public function create($data)
+    {
+        $length = strlen(session_id());
+        $key    = rcube_utils::random_bytes($length);
+
+        // create new session
+        if ($this->write($key, $this->serialize($data))) {
+            return $key;
+        }
+    }
+
+    /**
      * Merge vars with old vars and apply unsets
      */
     protected function _fixvars($vars, $oldvars)
