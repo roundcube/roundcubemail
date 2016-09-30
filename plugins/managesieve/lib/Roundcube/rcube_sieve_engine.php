@@ -192,6 +192,9 @@ class rcube_sieve_engine
             'socket_options' => $this->rc->config->get('managesieve_conn_options'),
         ));
 
+        // Handle per-host socket options
+        rcube_utils::parse_socket_options($plugin['socket_options'], $plugin['host']);
+
         // try to connect to managesieve server and to fetch the script
         $this->sieve = new rcube_sieve(
             $plugin['user'],

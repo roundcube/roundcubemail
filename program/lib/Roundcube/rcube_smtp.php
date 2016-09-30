@@ -95,6 +95,9 @@ class rcube_smtp
             $use_tls   = true;
         }
 
+        // Handle per-host socket options
+        rcube_utils::parse_socket_options($CONFIG['smtp_conn_options'], $smtp_host);
+
         if (!empty($CONFIG['smtp_helo_host'])) {
             $helo_host = $CONFIG['smtp_helo_host'];
         }
