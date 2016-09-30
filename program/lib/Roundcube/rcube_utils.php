@@ -1250,4 +1250,28 @@ class rcube_utils
 
         return date($format);
     }
+
+    /**
+     * Parses socket options and returns options for specified hostname.
+     *
+     * @param array  &$options Configured socket options
+     * @param string $host     Hostname
+     */
+    public static function parse_socket_options(&$options, $host = null)
+    {
+        if (empty($host) || empty($options)) {
+            return $options;
+        }
+
+        // get rid of schema and port from the hostname
+        $host_url = parse_url($host);
+        if (isset($host_url['host'])) {
+            $host = $host_url['host'];
+        }
+
+        // find per-host options
+        if (array_key_exists($host, $options)) {
+            $options = $options[$host];
+        }
+    }
 }

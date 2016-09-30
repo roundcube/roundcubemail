@@ -151,6 +151,7 @@ $config['imap_auth_type'] = null;
 //     'cafile'       => '/etc/openssl/certs/ca.crt',
 //   ),
 // );
+// Note: These can be also specified as an array of options indexed by hostname
 $config['imap_conn_options'] = null;
 
 // IMAP connection timeout, in seconds. Default: 0 (use default_socket_timeout)
@@ -292,6 +293,7 @@ $config['smtp_timeout'] = 0;
 //     'cafile'       => '/etc/openssl/certs/ca.crt',
 //   ),
 // );
+// Note: These can be also specified as an array of options indexed by hostname
 $config['smtp_conn_options'] = null;
 
 

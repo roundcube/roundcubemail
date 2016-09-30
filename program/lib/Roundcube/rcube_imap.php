@@ -152,6 +152,9 @@ class rcube_imap extends rcube_storage
                 $pass = $data['pass'];
             }
 
+            // Handle per-host socket options
+            rcube_utils::parse_socket_options($data['socket_options'], $data['host']);
+
             $this->conn->connect($data['host'], $data['user'], $pass, $data);
         } while(!$this->conn->connected() && $data['retry']);
 

@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support host-specific imap_conn_options/smtp_conn_options/managesieve_conn_options (#5136)
 - Center and scale images in attachment preview frame (#5421)
 - Added max_message_size option enforced when attaching files to a composed message (#4993)
 - Added Search button in quick search menus (#5312)

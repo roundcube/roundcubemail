@@ -38,6 +38,7 @@ $config['managesieve_usetls'] = false;
 //     'cafile'       => '/etc/openssl/certs/ca.crt',
 //   ),
 // );
+// Note: These can be also specified as an array of options indexed by hostname
 $config['managesieve_conn_options'] = null;
 
 // default contents of filters script (eg. default spam filter)
