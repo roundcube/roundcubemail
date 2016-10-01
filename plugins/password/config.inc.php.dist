@@ -25,9 +25,10 @@ $config['password_log'] = false;
 // will be not available (no Password tab in Settings)
 $config['password_login_exceptions'] = null;
 
-// Array of hosts that support password changing. Default is NULL.
+// Array of hosts that support password changing.
 // Listed hosts will feature a Password option in Settings; others will not.
 // Example: array('mail.example.com', 'mail2.example.org');
+// Default is NULL (all hosts supported).
 $config['password_hosts'] = null;
 
 // Enables saving the new password even if it matches the old password. Useful
@@ -306,6 +307,12 @@ $config['password_cpanel_username'] = 'username';
 
 // The cPanel admin password
 $config['password_cpanel_password'] = 'password';
+
+// The cPanel admin hash
+// If you prefer to use a hash (Remote Access Key) instead of plain password, enter it below.
+// Hash takes precedence over password auth.
+// You can generate a Remote Access Key in WHM -> Clusters -> Remote Access Key
+$config['password_cpanel_hash'] = '';
 
 // The cPanel port to use
 $config['password_cpanel_port'] = 2087;
