@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improve randomness of password salts and random hashes (#5266)
 - Password/cPanel: Add support for hash authentication and reseller accounts (#5252)
 - Support host-specific imap_conn_options/smtp_conn_options/managesieve_conn_options (#5136)
 - Center and scale images in attachment preview frame (#5421)

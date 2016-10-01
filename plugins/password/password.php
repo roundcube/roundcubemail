@@ -427,19 +427,19 @@ class password extends rcube_plugin
         switch ($method) {
         case 'des':
         case 'des-crypt':
-            $crypted = crypt($password, self::random_salt(2));
+            $crypted = crypt($password, rcube_utils::random_bytes(2));
             $prefix  = '{CRYPT}';
             break;
 
         case 'ext_des': // for BC
         case 'ext-des-crypt':
-            $crypted = crypt($password, '_' . self::random_salt(8));
+            $crypted = crypt($password, '_' . rcube_utils::random_bytes(8));
             $prefix  = '{CRYPT}';
             break;
 
         case 'md5crypt': // for BC
         case 'md5-crypt':
-            $crypted = crypt($password, '$1$' . self::random_salt(9));
+            $crypted = crypt($password, '$1$' . rcube_utils::random_bytes(9));
             $prefix  = '{CRYPT}';
             break;
 
@@ -451,7 +451,7 @@ class password extends rcube_plugin
                 $prefix .= 'rounds=' . $rounds . '$';
             }
 
-            $crypted = crypt($password, $prefix . self::random_salt(16));
+            $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
             $prefix  = '{CRYPT}';
             break;
 
@@ -463,7 +463,7 @@ class password extends rcube_plugin
                 $prefix .= 'rounds=' . $rounds . '$';
             }
 
-            $crypted = crypt($password, $prefix . self::random_salt(16));
+            $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
             $prefix  = '{CRYPT}';
             break;
 
@@ -473,7 +473,7 @@ class password extends rcube_plugin
             $cost   = $cost < 4 || $cost > 31 ? 12 : $cost;
             $prefix = sprintf('$2a$%02d$', $cost);
 
-            $crypted = crypt($password, $prefix . self::random_salt(22));
+            $crypted = crypt($password, $prefix . rcube_utils::random_bytes(22));
             $prefix  = '{CRYPT}';
             break;
 
@@ -504,7 +504,7 @@ class password extends rcube_plugin
             break;
 
         case 'ssha':
-            $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
+            $salt = rcube_utils::random_bytes(8);
 
             if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
                 $salt    = mhash_keygen_s2k(MHASH_SHA1, $password, $salt, 4);
@@ -530,7 +530,7 @@ class password extends rcube_plugin
             break;
 
         case 'smd5':
-            $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
+            $salt = rcube_utils::random_bytes(8);
 
             if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
                 $salt    = mhash_keygen_s2k(MHASH_MD5, $password, $salt, 4);
@@ -652,23 +652,5 @@ class password extends rcube_plugin
         }
 
         return $crypted;
-    }
-
-    /**
-     * Used to generate a random salt for crypt-style passwords
-     *
-     * Code originaly from the phpLDAPadmin development team
-     * http://phpldapadmin.sourceforge.net/
-     */
-    static function random_salt($length)
-    {
-        $possible = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ./';
-        $str      = '';
-
-        while (strlen($str) < $length) {
-            $str .= substr($possible, (rand() % strlen($possible)), 1);
-        }
-
-        return $str;
     }
 }
