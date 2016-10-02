@@ -6,7 +6,7 @@
  * Plugin that adds a new button to the mailbox toolbar
  * to move messages to a (user selectable) archive folder.
  *
- * @version 2.4
+ * @version 3.0
  * @license GNU GPLv3+
  * @author Andre Rodier, Thomas Bruederli, Aleksander Machniak
  */
@@ -58,12 +58,8 @@ class archive extends rcube_plugin
             $this->register_action('plugin.move2archive', array($this, 'move_messages'));
         }
         else if ($rcmail->task == 'settings') {
-            $dont_override = $rcmail->config->get('dont_override', array());
-
-            if (!in_array('archive_mbox', $dont_override)) {
-                $this->add_hook('preferences_list', array($this, 'prefs_table'));
-                $this->add_hook('preferences_save', array($this, 'save_prefs'));
-            }
+            $this->add_hook('preferences_list', array($this, 'prefs_table'));
+            $this->add_hook('preferences_save', array($this, 'save_prefs'));
         }
     }
 
@@ -116,114 +112,125 @@ class archive extends rcube_plugin
      */
     function move_messages()
     {
+        $rcmail = rcmail::get_instance();
+
+        // only process ajax requests
+        if (!$rcmail->output->ajax_call) {
+            return;
+        }
+
         $this->add_texts('localization');
 
-        $rcmail         = rcmail::get_instance();
         $storage        = $rcmail->get_storage();
         $delimiter      = $storage->get_hierarchy_delimiter();
-        $archive_folder = $rcmail->config->get('archive_mbox');
+        $read_on_move   = (bool) $rcmail->config->get('read_on_archive');
         $archive_type   = $rcmail->config->get('archive_type', '');
+        $archive_folder = $rcmail->config->get('archive_mbox');
+        $archive_prefix = $archive_folder . $delimiter;
         $current_mbox   = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
         $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
         $uids           = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
 
-        $result  = array('reload' => false, 'update' => false, 'errors' => array());
-        $folders = array();
+        // count messages before changing anything
+        if ($_POST['_from'] != 'show') {
+            $threading = (bool) $storage->get_threading();
+            $old_count = $storage->count(null, $threading ? 'THREADS' : 'ALL');
+            $old_pages = ceil($old_count / $storage->get_pagesize());
+        }
 
-        if ($uids == '*') {
-            $index      = $storage->index(null, rcmail_sort_column(), rcmail_sort_order());
-            $messageset = array($current_mbox => $index->get());
+        $count = 0;
+
+        // this way response handler for 'move' action will be executed
+        $rcmail->action = 'move';
+        $this->result   = array(
+            'reload'       => false,
+            'error'        => false,
+            'sources'      => array(),
+            'destinations' => array(),
+        );
+
+        foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
+            if (!$archive_folder  || strpos($mbox, $archive_prefix) === 0) {
+                $count = count($uids);
+                continue;
+            }
+            else if (!$archive_type || $archive_type == 'folder') {
+                $folder = $archive_folder;
+
+                if ($archive_type == 'folder') {
+                    // compose full folder path
+                    $folder .= $delimiter . $mbox;
+
+                    // create archive subfolder if it doesn't yet exist
+                    $this->subfolder_worker($folder);
+                }
+
+                $count += $this->move_messages_worker($uids, $mbox, $folder, $read_on_move);
+            }
+            else {
+                if ($uids == '*') {
+                    $index = $storage->index(null, rcmail_sort_column(), rcmail_sort_order());
+                    $uids  = $index->get();
+                }
+
+                $messages = $storage->fetch_headers($mbox, $uids);
+                $execute  = array();
+
+                foreach ($messages as $message) {
+                    $subfolder = null;
+                    switch ($archive_type) {
+                    case 'year':
+                        $subfolder = $rcmail->format_date($message->timestamp, 'Y');
+                        break;
+
+                    case 'month':
+                        $subfolder = $rcmail->format_date($message->timestamp, 'Y')
+                            . $delimiter . $rcmail->format_date($message->timestamp, 'm');
+                        break;
+
+                    case 'sender':
+                        $from = $message->get('from');
+                        preg_match('/[\b<](.+@.+)[\b>]/i', $from, $m);
+                        $subfolder = $m[1] ?: $this->gettext('unkownsender');
+
+                        // replace reserved characters in folder name
+                        $repl = $delimiter == '-' ? '_' : '-';
+                        $replacements[$delimiter] = $repl;
+                        $replacements['.'] = $repl;  // some IMAP server do not allow . characters
+                        $subfolder = strtr($subfolder, $replacements);
+                        break;
+                    }
+
+                    // compose full folder path
+                    $folder = $archive_folder . ($subfolder ? $delimiter . $subfolder : '');
+
+                    $execute[$folder][] = $message->uid;
+                }
+
+                foreach ($execute as $folder => $uids) {
+                    // create archive subfolder if it doesn't yet exist
+                    $this->subfolder_worker($folder);
+
+                    $count += $this->move_messages_worker($uids, $mbox, $folder, $read_on_move);
+                }
+            }
+        }
+
+        if ($this->result['error']) {
+            if ($_POST['_from'] != 'show') {
+                $rcmail->output->command('list_mailbox');
+            }
+
+            $rcmail->output->show_message($this->gettext('archiveerror'), 'warning');
+            $rcmail->output->send();
+        }
+
+        if (!empty($_POST['_refresh'])) {
+            // FIXME: send updated message rows instead of reloading the entire list
+            $rcmail->output->command('refresh_list');
         }
         else {
-            $messageset = rcmail::get_uids();
-        }
-
-        foreach ($messageset as $mbox => $uids) {
-            $storage->set_folder(($current_mbox = $mbox));
-
-            foreach ($uids as $uid) {
-                if (!$archive_folder || !($message = $rcmail->storage->get_message($uid))) {
-                    continue;
-                }
-
-                $subfolder = null;
-                switch ($archive_type) {
-                case 'year':
-                    $subfolder = $rcmail->format_date($message->timestamp, 'Y');
-                    break;
-
-                case 'month':
-                    $subfolder = $rcmail->format_date($message->timestamp, 'Y') . $delimiter . $rcmail->format_date($message->timestamp, 'm');
-                    break;
-
-                case 'folder':
-                    $subfolder = $current_mbox;
-                    break;
-
-                case 'sender':
-                    $from = $message->get('from');
-                    if (preg_match('/[\b<](.+@.+)[\b>]/i', $from, $m)) {
-                        $subfolder = $m[1];
-                    }
-                    else {
-                        $subfolder = $this->gettext('unkownsender');
-                    }
-
-                    // replace reserved characters in folder name
-                    $repl = $delimiter == '-' ? '_' : '-';
-                    $replacements[$delimiter] = $repl;
-                    $replacements['.'] = $repl;  // some IMAP server do not allow . characters
-                    $subfolder = strtr($subfolder, $replacements);
-                    break;
-
-                default:
-                    $subfolder = '';
-                    break;
-                }
-
-                // compose full folder path
-                $folder = $archive_folder . ($subfolder ? $delimiter . $subfolder : '');
-
-                // create archive subfolder if it doesn't yet exist
-                // we'll create all folders in the path
-                if (!in_array($folder, $folders)) {
-                    if (empty($list)) {
-                        $list = $storage->list_folders('', $archive_folder . '*', 'mail', null, true);
-                    }
-                    $path = explode($delimiter, $folder);
-
-                    for ($i=0; $i<count($path); $i++) {
-                        $_folder = implode($delimiter, array_slice($path, 0, $i+1));
-                        if (!in_array($_folder, $list)) {
-                            if ($storage->create_folder($_folder, true)) {
-                                $result['reload'] = true;
-                                $list[] = $_folder;
-                            }
-                        }
-                    }
-
-                    $folders[] = $folder;
-                }
-
-                // move message to target folder
-                if ($storage->move_message(array($uid), $folder)) {
-                    $result['update'] = true;
-                }
-                else {
-                    $result['errors'][] = $uid;
-                }
-            }  // end for
-        }
-
-        // send response
-        if ($result['errors']) {
-            $rcmail->output->show_message($this->gettext('archiveerror'), 'warning');
-        }
-        if ($result['reload']) {
-            $rcmail->output->show_message($this->gettext('archivedreload'), 'confirmation');
-        }
-        else if ($result['update']) {
-            $rcmail->output->show_message($this->gettext('archived'), 'confirmation');
+            $addrows = true;
         }
 
         // refresh saved search set after moving some messages
@@ -231,16 +238,134 @@ class archive extends rcube_plugin
             $_SESSION['search'] = $rcmail->storage->refresh_search();
         }
 
-        if ($_POST['_from'] == 'show' && !empty($result['update'])) {
+        if ($_POST['_from'] == 'show') {
             if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC)) {
                 $rcmail->output->command('show_message', $next);
             }
             else {
                 $rcmail->output->command('command', 'list');
             }
+
+            $rcmail->output->send();
+        }
+
+        $mbox           = $storage->get_folder();
+        $msg_count      = $storage->count(null, $threading ? 'THREADS' : 'ALL');
+        $exists         = $storage->count($mbox, 'EXISTS', true);
+        $page_size      = $storage->get_pagesize();
+        $page           = $storage->get_page();
+        $pages          = ceil($msg_count / $page_size);
+        $nextpage_count = $old_count - $page_size * $page;
+        $remaining      = $msg_count - $page_size * ($page - 1);
+
+        // jump back one page (user removed the whole last page)
+        if ($page > 1 && $remaining == 0) {
+            $page -= 1;
+            $storage->set_page($page);
+            $_SESSION['page'] = $page;
+            $jump_back = true;
+        }
+
+        // update message count display
+        $rcmail->output->set_env('messagecount', $msg_count);
+        $rcmail->output->set_env('current_page', $page);
+        $rcmail->output->set_env('pagecount', $pages);
+        $rcmail->output->set_env('exists', $exists);
+
+        // update mailboxlist
+        $unseen_count = $msg_count ? $storage->count($mbox, 'UNSEEN') : 0;
+        $old_unseen   = rcmail_get_unseen_count($mbox);
+        $quota_root   = $multifolder ? $this->result['sources'][0] : 'INBOX';
+
+        if ($old_unseen != $unseen_count) {
+            $rcmail->output->command('set_unread_count', $mbox, $unseen_count, ($mbox == 'INBOX'));
+            rcmail_set_unseen_count($mbox, $unseen_count);
+        }
+
+        $rcmail->output->command('set_quota', $rcmail->quota_content(null, $quota_root));
+        $rcmail->output->command('set_rowcount', rcmail_get_messagecount_text($msg_count), $mbox);
+
+        if ($threading) {
+            $count = rcube_utils::get_input_value('_count', rcube_utils::INPUT_POST);
+        }
+
+        // add new rows from next page (if any)
+        if ($addrows && $count && $uids != '*' && ($jump_back || $nextpage_count > 0)) {
+            $a_headers = $storage->list_messages($mbox, null,
+                rcmail_sort_column(), rcmail_sort_order(), $jump_back ? null : $count);
+
+            rcmail_js_message_list($a_headers, false);
+        }
+
+        if ($this->result['reload']) {
+            $rcmail->output->show_message($this->gettext('archivedreload'), 'confirmation');
         }
         else {
-            $rcmail->output->command('plugin.move2archive_response', $result);
+            $rcmail->output->show_message($this->gettext('archived'), 'confirmation');
+
+            if (!$read_on_move) {
+                foreach ($this->result['destinations'] as $folder) {
+                    rcmail_send_unread_count($folder, true);
+                }
+            }
+        }
+
+        // send response
+        $rcmail->output->send();
+    }
+
+    /**
+     * Move messages from one folder to another and mark as read if needed
+     */
+    private function move_messages_worker($uids, $from_mbox, $to_mbox, $read_on_move)
+    {
+        $storage = rcmail::get_instance()->get_storage();
+
+        if ($read_on_move) {
+            // don't flush cache (4th argument)
+            $storage->set_flag($uids, 'SEEN', $from_mbox, true);
+        }
+
+        // move message to target folder
+        if ($storage->move_message($uids, $to_mbox, $from_mbox)) {
+            if (!in_array($from_mbox, $this->result['sources'])) {
+                $this->result['sources'][] = $from_mbox;
+            }
+            if (!in_array($to_mbox, $this->result['destinations'])) {
+                $this->result['destinations'][] = $to_mbox;
+            }
+
+            return count($uids);
+        }
+
+        $this->result['error'] = true;
+    }
+
+    /**
+     * Create archive subfolder if it doesn't yet exist
+     */
+    private function subfolder_worker($folder)
+    {
+        $storage   = rcmail::get_instance()->get_storage();
+        $delimiter = $storage->get_hierarchy_delimiter();
+
+        if ($this->folders === null) {
+            $this->folders = $storage->list_folders('', $archive_folder . '*', 'mail', null, true);
+        }
+
+        if (!in_array($folder, $this->folders)) {
+            $path = explode($delimiter, $folder);
+
+            // we'll create all folders in the path
+            for ($i=0; $i<count($path); $i++) {
+                $_folder = implode($delimiter, array_slice($path, 0, $i+1));
+                if (!in_array($_folder, $this->folders)) {
+                    if ($storage->create_folder($_folder, true)) {
+                        $this->result['reload'] = true;
+                        $this->folders[] = $_folder;
+                    }
+                }
+            }
         }
     }
 
@@ -251,12 +376,14 @@ class archive extends rcube_plugin
     {
         global $CURR_SECTION;
 
-        if ($args['section'] == 'folders') {
-            $this->add_texts('localization');
+        $this->add_texts('localization');
 
-            $rcmail = rcmail::get_instance();
-            $mbox   = $rcmail->config->get('archive_mbox');
-            $type   = $rcmail->config->get('archive_type');
+        $rcmail        = rcmail::get_instance();
+        $dont_override = $rcmail->config->get('dont_override', array());
+
+        if ($args['section'] == 'folders' && !in_array('archive_mbox', $dont_override)) {
+            $mbox = $rcmail->config->get('archive_mbox');
+            $type = $rcmail->config->get('archive_type');
 
             // load folders list when needed
             if ($CURR_SECTION) {
@@ -295,6 +422,13 @@ class archive extends rcube_plugin
                 )
             );
         }
+        else if ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
+            $chbox = new html_checkbox(array('name' => '_read_on_archive', 'id' => 'ff_read_on_archive', 'value' => 1));
+            $args['blocks']['main']['options']['read_on_archive'] = array(
+                'title'   => $this->gettext('readonarchive'),
+                'content' => $chbox->show($rcmail->config->get('read_on_archive') ? 1 : 0)
+            );
+        }
 
         return $args;
     }
@@ -304,8 +438,14 @@ class archive extends rcube_plugin
      */
     function save_prefs($args)
     {
-        if ($args['section'] == 'folders') {
+        $rcmail        = rcmail::get_instance();
+        $dont_override = $rcmail->config->get('dont_override', array());
+
+        if ($args['section'] == 'folders' && !in_array('archive_mbox', $dont_override)) {
             $args['prefs']['archive_type'] = rcube_utils::get_input_value('_archive_type', rcube_utils::INPUT_POST);
+        }
+        else if ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
+            $args['prefs']['read_on_archive'] = (bool) rcube_utils::get_input_value('_read_on_archive', rcube_utils::INPUT_POST);
         }
 
         return $args;

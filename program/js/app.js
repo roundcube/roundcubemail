@@ -3035,7 +3035,7 @@ function rcube_webmail()
     // Hide message command buttons until a message is selected
     this.enable_command(this.env.message_commands, false);
 
-    this._with_selected_messages('move', post_data, lock);
+    this.with_selected_messages('move', post_data, lock);
   };
 
   // delete selected messages from the current mailbox
@@ -3078,12 +3078,11 @@ function rcube_webmail()
       return;
 
     this.show_contentframe(false);
-    this._with_selected_messages('delete', post_data);
+    this.with_selected_messages('delete', post_data);
   };
 
   // Send a specific move/delete request with UIDs of all selected messages
-  // @private
-  this._with_selected_messages = function(action, post_data, lock)
+  this.with_selected_messages = function(action, post_data, lock, http_action)
   {
     var count = 0, msg,
       remove = (action == 'delete' || !this.is_multifolder_listing());
@@ -3130,7 +3129,7 @@ function rcube_webmail()
     }
 
     // send request to server
-    this.http_post(action, post_data, lock);
+    this.http_post(http_action || action, post_data, lock);
   };
 
   // build post data for message delete/move/copy/flag requests
