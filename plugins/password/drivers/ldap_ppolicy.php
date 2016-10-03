@@ -28,10 +28,7 @@ class rcube_ldap_ppolicy_password
         $bindPW = $rcmail->config->get('password_ldap_searchPW');
         $cafile = $rcmail->config->get('password_ldap_cafile');
 
-        $log_dir = null;
-        if (self::$instance) {
-        	$log_dir = self::$instance->config->get('log_dir');
-        }
+        $log_dir = $rcmail->config->get('log_dir');
         
         if (empty($log_dir)) {
         	$log_dir = RCUBE_INSTALL_PATH . 'logs';
