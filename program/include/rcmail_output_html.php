@@ -70,6 +70,7 @@ class rcmail_output_html extends rcmail_output
         $this->set_env('x_frame_options', $this->config->get('x_frame_options', 'sameorigin'));
         $this->set_env('standard_windows', (bool) $this->config->get('standard_windows'));
         $this->set_env('locale', $_SESSION['language']);
+        $this->set_env('devel_mode', $this->devel_mode);
 
         // add cookie info
         $this->set_env('cookie_domain', ini_get('session.cookie_domain'));
