@@ -655,7 +655,7 @@ function rcube_webmail()
 
   this.log = function(msg)
   {
-    if (window.console && console.log)
+    if (this.env.enable_console_log && window.console && console.log)
       console.log(msg);
   };
 

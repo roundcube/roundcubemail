@@ -65,6 +65,7 @@ class rcmail_output_html extends rcmail_output
         parent::__construct();
 
         $this->devel_mode = $this->config->get('devel_mode');
+		$this->set_env('enable_console_log', $this->config->get('enable_console_log', false));
 
         $this->set_env('task', $task);
         $this->set_env('x_frame_options', $this->config->get('x_frame_options', 'sameorigin'));
