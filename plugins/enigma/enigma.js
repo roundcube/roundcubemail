@@ -242,7 +242,7 @@ rcube_webmail.prototype.enigma_import_search = function()
         }
 
         this.enigma_find_publickey(search);
-   }
+    }
 };
 
 // list row selection handler
@@ -296,10 +296,10 @@ rcube_webmail.prototype.enigma_search = function(props)
         props = this.gui_objects.qsearchbox.value;
 
     if (props || this.env.search_request) {
-        var params = {'_a': 'search', '_q': urlencode(props)},
+        var params = {'_a': 'search', '_q': props},
           lock = this.set_busy(true, 'searching');
 //        if (this.gui_objects.search_filter)
-  //          addurl += '&_filter=' + this.gui_objects.search_filter.value;
+//          addurl += '&_filter=' + this.gui_objects.search_filter.value;
         this.env.current_page = 1;
         this.enigma_loadframe();
         this.enigma_clear_list();
