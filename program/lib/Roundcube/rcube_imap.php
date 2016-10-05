@@ -453,6 +453,11 @@ class rcube_imap extends rcube_storage
         $ns = $this->namespace;
 
         if ($name) {
+            // an alias for BC
+            if ($name == 'prefix') {
+                $name = 'prefix_in';
+            }
+
             return isset($ns[$name]) ? $ns[$name] : null;
         }
 

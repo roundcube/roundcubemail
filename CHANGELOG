@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Fix bug where folders list would scroll to top when clicking on subscription checkbox (#5447)
 - Fix decoding of GB2312/GBK text when iconv is not installed (#5448)
+- Fix regression where creation of default folders wasn't functioning without prefix (#5460)
 
 RELEASE 1.2.2
 -------------
