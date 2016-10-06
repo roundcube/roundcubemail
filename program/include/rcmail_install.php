@@ -506,7 +506,7 @@ class rcmail_install
         $errors = array();
         $files  = array(
             'skins/larry/images/roundcube_logo.png' => 'image/png',
-            'program/resources/blank.tif'           => 'image/tiff',
+            'program/resources/blank.tiff'          => 'image/tiff',
             'program/resources/blocked.gif'         => 'image/gif',
             'skins/larry/README'                    => 'text/plain',
         );
