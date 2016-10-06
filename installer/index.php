@@ -55,8 +55,6 @@ if (@file_exists(INSTALL_PATH . 'vendor/autoload.php')) {
 }
 
 require_once 'Roundcube/bootstrap.php';
-// deprecated aliases (to be removed)
-require_once 'bc.php';
 
 if (function_exists('session_start'))
   session_start();
