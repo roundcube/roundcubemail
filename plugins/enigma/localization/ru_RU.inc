@@ -17,7 +17,7 @@
 */
 $labels['encryption'] = 'Шифрование';
 $labels['enigmacerts'] = 'Сертификаты S/MIME';
-$labels['enigmakeys'] = 'Клюючи PGP';
+$labels['enigmakeys'] = 'Ключи PGP';
 $labels['keysfromto'] = 'Ключи с $from по $to из $count';
 $labels['keyname'] = 'Имя';
 $labels['keyid'] = 'ID ключа';
