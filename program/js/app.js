@@ -617,7 +617,10 @@ function rcube_webmail()
         .addEventListener('collapse', function(node) { ref.folder_collapsed(node) })
         .addEventListener('expand', function(node) { ref.folder_collapsed(node) })
         .addEventListener('beforeselect', function(node) { return !ref.busy; })
-        .addEventListener('select', function(node) { ref.triggerEvent('selectfolder', { folder:node.id, prefix:'rcmli' }) });
+        .addEventListener('select', function(node) {
+          ref.triggerEvent('selectfolder', { folder:node.id, prefix:'rcmli' });
+          ref.mark_all_read_state();
+        });
     }
 
     // activate html5 file drop feature (if browser supports it and if configured)
@@ -3938,7 +3941,7 @@ function rcube_webmail()
     if (mbox == this.env.mailbox) {
        lock = this.set_busy(true, 'loading');
        post_data._reload = 1;
-     }
+    }
 
     // send request to server
     this.http_post('purge', post_data, lock);
@@ -3953,6 +3956,98 @@ function rcube_webmail()
       || this.env.mailbox.startsWith(this.env.trash_mailbox + this.env.delimiter)
       || this.env.mailbox.startsWith(this.env.junk_mailbox + this.env.delimiter)
     ));
+  };
+
+  // Mark all messages as read in:
+  //   - selected folder (mode=cur)
+  //   - selected folder and its subfolders (mode=sub)
+  //   - all folders (mode=all)
+  this.mark_all_read = function(mbox, mode)
+  {
+    var state, content, nodes = [],
+      list = this.message_list,
+      folder = mbox || this.env.mailbox,
+      post_data = {_uid: '*', _flag: 'read', _mbox: folder, _folders: mode};
+
+    if (typeof mode != 'string') {
+      state = this.mark_all_read_state(folder);
+      if (!state)
+        return;
+
+      if (state > 1) {
+        // build content of the dialog
+        $.each({cur: 1, sub: 2, all: 4}, function(i, v) {
+          var label = $('<label>').attr('style', 'display:block; line-height:22px'),
+            text = $('<span>').text(ref.get_label('folders-' + i)),
+            input = $('<input>').attr({type: 'radio', value: i, name: 'mode'});
+
+          if (!(state & v)) {
+            label.attr('class', 'disabled');
+            input.attr('disabled', true);
+          }
+
+          nodes.push(label.append(input).append(text));
+        });
+
+        content = $('<div>').append(nodes);
+        $('input:not([disabled]):first', content).attr('checked', true);
+
+        this.show_popup_dialog(content, this.get_label('markallread'),
+          [{
+            'class': 'mainaction',
+            text: this.get_label('mark'),
+            click: function() {
+              ref.mark_all_read(folder, $('input:checked', this).val());
+              $(this).dialog('close');
+            }
+          },
+          {
+            text: this.get_label('cancel'),
+            click: function() {
+              $(this).dialog('close');
+            }
+          }]
+        );
+
+        return;
+      }
+
+      post_data._folders = 'cur'; // only current folder has unread messages
+    }
+
+    // mark messages on the list
+    $.each(list ? list.rows : [], function(uid, row) {
+      if (!row.unread)
+        return;
+
+      var mbox = ref.env.messages[uid].mbox;
+      if (mode == 'all' || mbox == ref.env.mailbox
+          || (mode == 'sub' && mbox.startsWith(ref.env.mailbox + ref.env.delimiter))
+      ) {
+        ref.set_message(uid, 'unread', false);
+      }
+    });
+
+    // send the request
+    this.http_post('mark', post_data, this.display_message(this.get_label('markingmessage'), 'loading'));
+  };
+
+  // Enable/disable mark-all-read action depending on folders state
+  this.mark_all_read_state = function(mbox)
+  {
+    var state = 0,
+      li = this.treelist.get_item(mbox || this.env.mailbox),
+      folder_item = $(li).is('.unread') ? 1 : 0,
+      subfolder_items = $('li.unread', li).length,
+      all_items = $('li.unread', ref.gui_objects.folderlist).length;
+
+    state += folder_item;
+    state += subfolder_items ? 2 : 0;
+    state += all_items > folder_item + subfolder_items ? 4 : 0;
+
+    this.enable_command('mark-all-read', state > 0);
+
+    return state;
   };
 
 
@@ -7584,6 +7679,8 @@ function rcube_webmail()
       this.mark_folder(mbox, mark, '', true);
     else if (!count)
       this.unmark_folder(mbox, 'recent', '', true);
+
+    this.mark_all_read_state();
   };
 
   // update the mailbox count display
