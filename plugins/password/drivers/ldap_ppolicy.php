@@ -21,12 +21,12 @@ class rcube_ldap_ppolicy_password
     	$this->debug = $rcmail->config->get('ldap_debug');
     	 
     	$cmd    = $rcmail->config->get('password_ldap_ppolicy_cmd');
-        $uri    = $rcmail->config->get('password_ldap_uri');
-    	$baseDN = $rcmail->config->get('password_ldap_basedn');
-        $filter = $rcmail->config->get('password_ldap_search_filter');
-        $bindDN = $rcmail->config->get('password_ldap_searchDN');
-        $bindPW = $rcmail->config->get('password_ldap_searchPW');
-        $cafile = $rcmail->config->get('password_ldap_cafile');
+        $uri    = $rcmail->config->get('password_ldap_ppolicy_uri');
+    	$baseDN = $rcmail->config->get('password_ldap_ppolicy_basedn');
+        $filter = $rcmail->config->get('password_ldap_ppolicy_search_filter');
+        $bindDN = $rcmail->config->get('password_ldap_ppolicy_searchDN');
+        $bindPW = $rcmail->config->get('password_ldap_ppolicy_searchPW');
+        $cafile = $rcmail->config->get('password_ldap_ppolicy_cafile');
 
         $log_dir = $rcmail->config->get('log_dir');
         
@@ -35,7 +35,7 @@ class rcube_ldap_ppolicy_password
         }
         
         // try to open specific log file for writing
-        $logfile = $log_dir.'/ldap_ppolicy.err';
+        $logfile = $log_dir.'/password_ldap_ppolicy.err';
         
         $descriptorspec = array(
         		0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
@@ -93,7 +93,7 @@ class rcube_ldap_ppolicy_password
     private function _debug($str)
     {
     	if ($this->debug) {
-    		rcube::write_log('ldap_ppolicy', $str);
+    		rcube::write_log('password_ldap_ppolicy', $str);
     	}
     }
     

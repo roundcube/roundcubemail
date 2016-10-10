@@ -279,23 +279,23 @@ $config['password_ldap_ppolicy_cmd'] = 'change_ldap_pass.pl';
 
 // LDAP URI
 // Example: 'ldap://ldap.example.com/ ldaps://ldap2.example.com:636/'
-$config['password_ldap_uri'] = 'ldap://localhost/ ;
+$config['password_ldap_ppolicy_uri'] = 'ldap://localhost/ ;
 
 // LDAP base name (root directory)
 // Exemple: 'dc=exemple,dc=com'
-$config['password_ldap_basedn'] = 'dc=example,dc=com';
+$config['password_ldap_ppolicy_basedn'] = 'dc=example,dc=com';
 
-$config['password_ldap_searchDN'] = 'cn=someuser,dc=example,dc=com';
+$config['password_ldap_ppolicy_searchDN'] = 'cn=someuser,dc=example,dc=com';
 
-$config['password_ldap_searchPW'] = 'secret';
+$config['password_ldap_ppolicy_searchPW'] = 'secret';
 
 // LDAP search filter
 // Example: '(uid=%login)'
 // Example: '(&(objectClass=posixAccount)(uid=%login))'
-$config['password_ldap_search_filter'] = '(uid=%login)';
+$config['password_ldap_ppolicy_search_filter'] = '(uid=%login)';
 
 // CA Certificate file if in URI is LDAPS connection
-$config['password_ldap_cafile'] = '/etc/ssl/cacert.crt';
+$config['password_ldap_ppolicy_cafile'] = '/etc/ssl/cacert.crt';
 
 
 
