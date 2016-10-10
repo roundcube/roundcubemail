@@ -187,14 +187,12 @@ class rcube_ldap_password
         );
 
         $result = $ldap->search($base, $filter, $options);
-        if (is_a($result, 'PEAR_Error') || ($result->count() != 1)) {
-            $dn = '';
-        } else {
-            $dn = $result->current()->dn();
-        }
         $ldap->done();
-        
-        return $dn;
+        if (is_a($result, 'PEAR_Error') || ($result->count() != 1)) {
+            return '';
+        }
+
+        return $result->current()->dn();
     }
 
     /**
