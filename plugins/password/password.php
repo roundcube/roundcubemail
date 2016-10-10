@@ -25,6 +25,7 @@
 define('PASSWORD_CRYPT_ERROR', 1);
 define('PASSWORD_ERROR', 2);
 define('PASSWORD_CONNECT_ERROR', 3);
+define('PASSWORD_IN_HISTORY', 4);
 define('PASSWORD_SUCCESS', 0);
 
 /**
@@ -332,6 +333,9 @@ class password extends rcube_plugin
                 break;
             case PASSWORD_CONNECT_ERROR:
                 $reason = $this->gettext('connecterror');
+                break;
+            case PASSWORD_IN_HISTORY:
+                $reason = $this->gettext('passwdinhistory');
                 break;
             case PASSWORD_ERROR:
             default:

@@ -31,3 +31,4 @@ $messages['passwordweak'] = 'Hasło musi zawierać co najmniej jedną cyfrę i z
 $messages['passwordforbidden'] = 'Hasło zawiera niedozwolone znaki.';
 $messages['firstloginchange'] = 'To jest twoje pierwsze logowanie. Proszę zmień hasło.';
 $messages['disablednotice'] = 'System jest w trakcie konserwacji i zmiana hasła w tym momencie nie jest możliwa. Wszystko powinno wrócić do normy w niedługim czasie. Przepraszamy za wszelkie niedogodności';
+$messages['passwdinhistory'] = 'To hasło było już użyte poprzednio.';
