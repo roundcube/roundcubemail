@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Password: Added LDAP PPolicy driver (#5364)
 - Implement separate action to mark all messages in a folder as \Seen (#5006)
 - Implement marking as \Seen in all folders or in a folder and its subfolders (#5076)
 - Archive: Don't reload messages list when it's not needed (#5225)
