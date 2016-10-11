@@ -1,3 +1,15 @@
+<script type="text/javascript">
+
+// UI startup
+var UI = new rcube_mail_ui();
+$(document).ready(function(){
+  UI.set('errortitle', '<roundcube:label name="errortitle" quoting="javascript" />');
+  UI.set('toggleoptions', '<roundcube:label name="toggleadvancedoptions" quoting="javascript" />');
+  UI.init();
+});
+
+</script>
+
 <div id="header">
 <div id="topline" role="banner" aria-labelledby="aria-label-topnav">
 	<h2 id="aria-label-topnav" class="voice"><roundcube:label name="arialabeltopnav" /></h2>
