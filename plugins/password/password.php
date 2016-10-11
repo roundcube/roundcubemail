@@ -95,7 +95,13 @@ class password extends rcube_plugin
         if (rcube_utils::get_input_value('_first', rcube_utils::INPUT_GET)) {
             $rcmail->output->command('display_message', $this->gettext('firstloginchange'), 'notice');
         }
-
+        if (rcube_utils::get_input_value('_passexpwarning', rcube_utils::INPUT_GET)) {
+        	$expdate = rcube_utils::get_input_value('_passexpdate', rcube_utils::INPUT_GET, true);
+        	$rcmail->output->command('display_message', $this->gettext('passexpirewarning'). ': '. $expdate, 'warning');
+        } elseif (rcube_utils::get_input_value('_passexpired', rcube_utils::INPUT_GET)) {
+        	$rcmail->output->command('display_message', $this->gettext('passexpired'), 'error');
+        }
+        
         $rcmail->output->send('plugin');
     }
 
@@ -153,9 +159,9 @@ class password extends rcube_plugin
             else if ($check_strength && (!preg_match("/[0-9]/", $newpwd) || !preg_match("/[^A-Za-z0-9]/", $newpwd))) {
                 $rcmail->output->command('display_message', $this->gettext('passwordweak'), 'error');
             }
-            // password is the same as the old one, do nothing, return success
+            // password is the same as the old one, warn user, return error
             else if ($sespwd == $newpwd && !$rcmail->config->get('password_force_save')) {
-                $rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
+                $rcmail->output->command('display_message', $this->gettext('samepass'), 'error');
             }
             // try to save the password
             else if (!($res = $this->_save($curpwd, $newpwd))) {
