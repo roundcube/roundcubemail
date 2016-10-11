@@ -163,7 +163,7 @@ class html
         }
 
         return self::tag('img', $attr + array('alt' => ''), null, array_merge(self::$common_attrib,
-            array('src','alt','width','height','border','usemap','onclick','onerror')));
+            array('src','alt','width','height','border','usemap','onclick','onerror','onload')));
     }
 
     /**
