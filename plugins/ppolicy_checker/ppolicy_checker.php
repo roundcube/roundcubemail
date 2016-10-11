@@ -62,12 +62,12 @@ class ppolicy_checker extends rcube_plugin {
 			$this->load_policies ();
 			if ($this->get_user_info ( $username )) {
 				if ($this->expired) {
-					$args ['_passexpired']    = TRUE;
+					$args ['_passwdexpired']    = TRUE;
 				} else {
-					$args ['_passexpwarning'] = TRUE;
+					$args ['_passwdexpwarning'] = TRUE;
 				}
 								
-				$args ['_passexpdate'] = $this->end_date;
+				$args ['_passwdexpdate'] = $this->end_date;
 				$args ['_task']        = 'settings';
 				$args ['action']       = 'plugin.password';
 			}
