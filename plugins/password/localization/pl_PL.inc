@@ -33,5 +33,5 @@ $messages['firstloginchange'] = 'To jest twoje pierwsze logowanie. Proszę zmie�
 $messages['disablednotice'] = 'System jest w trakcie konserwacji i zmiana hasła w tym momencie nie jest możliwa. Wszystko powinno wrócić do normy w niedługim czasie. Przepraszamy za wszelkie niedogodności';
 $messages['passwdinhistory'] = 'To hasło było już użyte poprzednio.';
 $messages['samepass'] = 'Nowe hasło musi być inne niż obecne.';
-$messages['passexpirewarning'] = 'UWAGA! \nTwoje hasło niebawem wygaśnie, zmień je przed';
+$messages['passexpirewarning'] = 'UWAGA! Twoje hasło niebawem wygaśnie, zmień je przed';
 $messages['passexpired'] = 'Twoje hasło wygasło, musisz je natychmiast zmienić !';

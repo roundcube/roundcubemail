@@ -4,7 +4,7 @@
 $config['ppolicy_checker_debug'] = false;
 
 // LDAP URI to connect to LDAP servers
-$config['ppolicy_checker_uri'] = 'ldaps://ldap2.example.com:636/ ldap://ldap.example.com';
+$config['ppolicy_checker_uri'] = 'ldaps://ldap2.example.com/ ldap://ldap.example.com';
 
 // LDAP base DN
 $config['ppolicy_checker_basedn'] = 'dc=example,dc=com';
