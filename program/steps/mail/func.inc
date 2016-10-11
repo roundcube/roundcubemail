@@ -1322,6 +1322,7 @@ function rcmail_message_body($attrib)
             if ($mimetype = rcmail_part_image_type($attach_prop)) {
                 // display thumbnails
                 if ($thumbnail_size) {
+                    $supported = in_array($mimetype, $client_mimetypes);
                     $show_link = array(
                         'href'    => $MESSAGE->get_part_url($attach_prop->mime_id, false),
                         'onclick' => sprintf(
@@ -1329,7 +1330,8 @@ function rcmail_message_body($attrib)
                             rcmail_output::JS_OBJECT_NAME,
                             $attach_prop->mime_id)
                     );
-                    $out .= html::p('image-attachment',
+
+                    $out .= html::p(array('class' => 'image-attachment', 'style' => $supported ? '' : 'display:none'),
                         html::a($show_link + array('class' => 'image-link', 'style' => sprintf('width:%dpx', $thumbnail_size)),
                             html::img(array(
                                 'class' => 'image-thumbnail',
@@ -1337,12 +1339,13 @@ function rcmail_message_body($attrib)
                                 'title' => $attach_prop->filename,
                                 'alt'   => $attach_prop->filename,
                                 'style' => sprintf('max-width:%dpx; max-height:%dpx', $thumbnail_size, $thumbnail_size),
+                                'onload' => $supported ? '' : '$(this).parents(\'p.image-attachment\').show()',
                             ))
                         ) .
                         html::span('image-filename', rcube::Q($attach_prop->filename)) .
                         html::span('image-filesize', rcube::Q($RCMAIL->message_part_size($attach_prop))) .
                         html::span('attachment-links',
-                            (in_array($mimetype, $client_mimetypes) ? html::a($show_link, $RCMAIL->gettext('showattachment')) . '&nbsp;' : '') .
+                            ($supported ? html::a($show_link, $RCMAIL->gettext('showattachment')) . '&nbsp;' : '') .
                                 html::a($show_link['href'] . '&_download=1', $RCMAIL->gettext('download'))
                         ) .
                         html::br(array('style' => 'clear:both'))
