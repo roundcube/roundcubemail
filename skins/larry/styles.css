@@ -2991,6 +2991,15 @@ ul.toolbarmenu li span.copy {
 	background-position: 0 -546px;
 }
 
+.attachmentslist li.application.asc {
+	background-position: 0 -598px;
+}
+
+.attachmentslist li.application.pgp-keys {
+	background-position: 0 -572px;
+}
+
+
 .attachmentslist li a {
 	display: block;
 	color: #333;
