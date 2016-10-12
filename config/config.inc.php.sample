@@ -88,6 +88,7 @@ $config['skin'] = 'larry';
 // referrer setting, possible values:
 // no-referrer
 // no-referrer-when-downgrade
+// same-origin
 // origin
 // origin-when-cross-origin
 // unsafe-url
