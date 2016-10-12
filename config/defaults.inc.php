@@ -1211,3 +1211,12 @@ $config['message_show_email'] = false;
 // 0 - Reply-All always
 // 1 - Reply-List if mailing list is detected
 $config['reply_all_mode'] = 0;
+
+// referrer setting, possible values:
+// no-referrer
+// no-referrer-when-downgrade
+// same-origin
+// origin
+// origin-when-cross-origin
+// unsafe-url
+$config['referrer'] = 'no-referrer';
