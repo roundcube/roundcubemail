@@ -407,27 +407,41 @@ function rcube_text_editor(config, id)
   };
 
   // replace selection with text snippet
-  this.replace = function(text)
+  // input can be a string or object with 'text' and 'html' properties
+  this.replace = function(input)
   {
-    var ed = this.editor;
+    var format, ed = this.editor;
 
     // insert into tinymce editor
     if (ed) {
       ed.getWin().focus(); // correct focus in IE & Chrome
-      ed.selection.setContent(rcmail.quote_html(text).replace(/\r?\n/g, '<br/>'), { format:'text' });
+
+      if ($.type(input) == 'object') {
+        input = input.html;
+        format = 'html';
+      }
+      else {
+        input = rcmail.quote_html(input).replace(/\r?\n/g, '<br/>');
+        format = 'text';
+      }
+
+      ed.selection.setContent(input, {format: format});
     }
     // replace selection in compose textarea
     else if (ed = rcube_find_object(this.id)) {
-      var selection = $(ed).is(':focus') ? rcmail.get_input_selection(ed) : { start:0, end:0 },
-        inp_value = ed.value;
-        pre = inp_value.substring(0, selection.start),
-        end = inp_value.substring(selection.end, inp_value.length);
+      var selection = $(ed).is(':focus') ? rcmail.get_input_selection(ed) : {start: 0, end: 0},
+        value = ed.value;
+        pre = value.substring(0, selection.start),
+        end = value.substring(selection.end, value.length);
+
+      if ($.type(input) == 'object')
+        input = input.text;
 
       // insert response text
-      ed.value = pre + text + end;
+      ed.value = pre + input + end;
 
       // set caret after inserted text
-      rcmail.set_caret_pos(ed, selection.start + text.length);
+      rcmail.set_caret_pos(ed, selection.start + input.length);
       ed.focus();
     }
   };
