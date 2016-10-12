@@ -1578,6 +1578,7 @@ EOF;
         $referrer_values = array(
             "no-referrer",
             "no-referrer-when-downgrade",
+            "same-origin",
             "origin",
             "origin-when-cross-origin",
             "unsafe-url");
