@@ -219,4 +219,4 @@ CREATE TABLE "system" (
     "value" long
 );
 
-INSERT INTO "system" ("name", "value") VALUES ('roundcube-version', '2016081200');
+INSERT INTO "system" ("name", "value") VALUES ('roundcube-version', '2016100900');
