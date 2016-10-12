@@ -44,6 +44,7 @@ class managesieve extends rcube_plugin
         $this->register_action('plugin.managesieve-action', array($this, 'managesieve_actions'));
         $this->register_action('plugin.managesieve-vacation', array($this, 'managesieve_actions'));
         $this->register_action('plugin.managesieve-save', array($this, 'managesieve_save'));
+        $this->register_action('plugin.managesieve-saveraw', array($this, 'managesieve_saveraw'));
 
         if ($this->rc->task == 'settings') {
             $this->add_hook('settings_actions', array($this, 'settings_actions'));
@@ -224,6 +225,23 @@ class managesieve extends rcube_plugin
 
         $engine = $this->get_engine();
         $engine->save();
+    }
+    
+    /**
+     * Raw form save action handler
+     */
+    function managesieve_saveraw()
+    {
+        // load localization
+        $this->add_texts('localization/', array('filters','managefilters'));
+    
+        // include main js script
+        if ($this->api->output->type == 'html') {
+            $this->include_script('managesieve.js');
+        }
+    
+        $engine = $this->get_engine();
+        $engine->saveraw();
     }
 
     /**

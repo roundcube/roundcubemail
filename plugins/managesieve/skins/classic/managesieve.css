@@ -332,6 +332,14 @@ a.button.disabled
   vertical-align: middle;
 }
 
+#filter-form #rawfiltersettxt {
+	width: 98%;
+	min-height: 400px;
+	max-width: none;
+	font-family: monospace;
+}
+
+
 /* smart multi-row input field */
 .listarea
 {

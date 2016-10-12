@@ -84,11 +84,12 @@ class rcube_sieve_engine
     {
         // register UI objects
         $this->rc->output->add_handlers(array(
-            'filterslist'    => array($this, 'filters_list'),
-            'filtersetslist' => array($this, 'filtersets_list'),
-            'filterframe'    => array($this, 'filter_frame'),
-            'filterform'     => array($this, 'filter_form'),
-            'filtersetform'  => array($this, 'filterset_form'),
+            'filterslist'      => array($this, 'filters_list'),
+            'filtersetslist'   => array($this, 'filtersets_list'),
+            'filterframe'      => array($this, 'filter_frame'),
+            'filterform'       => array($this, 'filter_form'),
+            'filtersetform'    => array($this, 'filterset_form'),
+        	'filterseteditraw' => array($this, 'filterset_editraw'),
         ));
 
         // connect to managesieve server
@@ -481,10 +482,55 @@ class rcube_sieve_engine
                 );
             }
         }
-
+        
         $this->send();
     }
 
+    function saveraw()
+    {
+        // Init plugin and handle managesieve connection
+        $error = $this->start();
+        
+        $this->rc->request_security_check(rcube_utils::INPUT_POST);
+        
+        // get request size limits (#1488648)
+        $max_post = max(array(
+                ini_get('max_input_vars'),
+                ini_get('suhosin.request.max_vars'),
+                ini_get('suhosin.post.max_vars'),
+        ));
+        $max_depth = max(array(
+                ini_get('suhosin.request.max_array_depth'),
+                ini_get('suhosin.post.max_array_depth'),
+        ));
+        
+        // check request size limit
+        if ($max_post && count($_POST, COUNT_RECURSIVE) >= $max_post) {
+            rcube::raise_error(array(
+                    'code' => 500, 'type' => 'php',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Request size limit exceeded (one of max_input_vars/suhosin.request.max_vars/suhosin.post.max_vars)"
+            ), true, false);
+            $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
+        }
+        // check request depth limits
+        else if ($max_depth && count($_POST['_header']) > $max_depth) {
+            rcube::raise_error(array(
+                    'code' => 500, 'type' => 'php',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Request size limit exceeded (one of suhosin.request.max_array_depth/suhosin.post.max_array_depth)"
+            ), true, false);
+            $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
+        }
+        
+        $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST);
+        
+        $this->sieve->save_script($script_name, $_POST['rawsetcontent']);
+        $this->rc->output->show_message('managesieve.setupdated', 'confirmation');
+        
+        $this->send();
+    }
+    
     function save()
     {
         // Init plugin and handle managesieve connection
@@ -1152,6 +1198,9 @@ class rcube_sieve_engine
             if (isset($_GET['_newset']) || isset($_POST['_newset'])) {
                 $this->rc->output->send('managesieve.setedit');
             }
+            else if (isset($_GET['_seteditraw']) || isset($_POST['_seteditraw'])) {
+            	$this->rc->output->send('managesieve.seteditraw');
+            }
             else {
                 $this->rc->output->send('managesieve.filteredit');
             }
@@ -1245,6 +1294,27 @@ class rcube_sieve_engine
     function filter_frame($attrib)
     {
         return $this->rc->output->frame($attrib, true);
+    }
+    
+    function filterset_editraw($attrib) 
+    {
+        $scriptName = isset($_GET['_set']) ? $_GET['_set'] : $_POST['_set'];
+    	$script      = $this->sieve->get_script($scriptName);
+    	    	
+    	$out = '<form name="filtersetrawform" action="./" method="post" enctype="multipart/form-data">'."\n";
+    	
+    	$hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $this->rc->task));
+    	$hiddenfields->add(array('name' => '_action', 'value' => 'plugin.managesieve-saveraw'));
+    	$hiddenfields->add(array('name' => '_set', 'value' => $scriptName));
+    	$hiddenfields->add(array('name' => '_seteditraw', 'value' => 1));
+    	$hiddenfields->add(array('name' => '_framed', 'value' => ($_POST['_framed'] || $_GET['_framed'] ? 1 : 0)));
+    	
+    	$out .= $hiddenfields->show();
+    	
+    	$out .= '<textarea id="rawfiltersettxt" name="rawsetcontent" rows="15">' . $script . '</textarea>';
+    	
+    	$this->rc->output->add_gui_object('sievesetrawform', 'filtersetrawform');
+    	return $out;
     }
 
     function filterset_form($attrib)
