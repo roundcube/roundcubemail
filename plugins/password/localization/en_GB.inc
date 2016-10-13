@@ -33,6 +33,6 @@ $messages['firstloginchange'] = 'This is your first login. Please change your pa
 $messages['disablednotice'] = 'The system is currently under maintenance and password change is not possible at the moment. Everything should be back to normal soon. We apologise for any inconvenience.';
 $messages['passwdinhistory'] = 'This password has already been used previously';
 $messages['samepasswd'] = 'New password have to be different from the old one';
-$messages['passwdexpirewarning'] = 'Warning! Your password will expire soon, change it before';
+$messages['passwdexpirewarning'] = 'Warning! Your password will expire soon, change it before $expirationdatetime';
 $messages['passwdexpired'] = 'Your password has expired, you have to change it now !';
 
