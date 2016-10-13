@@ -96,12 +96,14 @@ class password extends rcube_plugin
             $rcmail->output->command('display_message', $this->gettext('firstloginchange'), 'notice');
         }
 
-        if (rcube_utils::get_input_value('_passwdexpired', rcube_utils::INPUT_GET)) {
-            $rcmail->output->command('display_message', $this->gettext('passwdexpired'), 'error');
-        } 
-        else if (isset ($_SESSION[passwdexpdatetime])) {         
-            $rcmail->output->command('display_message', $this->gettext(
-                array('name' => 'passwdexpirewarning', 'vars' => array('expirationdatetime' => $_SESSION[passwdexpdatetime]))), 'warning');
+        if (isset ($_SESSION['passwdexpdatetime'])) {
+            if ($_SESSION['passwdexpdatetime'] == 1){
+                $rcmail->output->command('display_message', $this->gettext('passwdexpired'), 'error');
+            }
+            else {
+                $rcmail->output->command('display_message', $this->gettext(
+                    array('name' => 'passwdexpirewarning', 'vars' => array('expirationdatetime' => $_SESSION['passwdexpdatetime']))), 'warning');
+            }
         }
         
         $rcmail->output->send('plugin');
@@ -181,6 +183,8 @@ class password extends rcube_plugin
                     rcube::write_log('password', sprintf('Password changed for user %s (ID: %d) from %s',
                         $rcmail->get_user_name(), $rcmail->user->ID, rcube_utils::remote_ip()));
                 }
+                // Remove expiration date/time 
+                $rcmail->session->remove('passwdexpdatetime'); 
             }
             else {
                 $rcmail->output->command('display_message', $res, 'error');
