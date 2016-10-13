@@ -98,13 +98,10 @@ class password extends rcube_plugin
 
         if (rcube_utils::get_input_value('_passwdexpired', rcube_utils::INPUT_GET)) {
             $rcmail->output->command('display_message', $this->gettext('passwdexpired'), 'error');
-        } elseif (isset ($_SESSION[passwdexpdatetime]) {
-            $expdatetime = '';
-            if ( is_a($_SESSION[passwdexpdatetime], 'DateTime'))){
-                $expdatetime = $_SESSION[passwdexpdatetime]->format ( $this->rc->config->get('date_long') );
-            }
+        } 
+        else if (isset ($_SESSION[passwdexpdatetime])) {         
             $rcmail->output->command('display_message', $this->gettext(
-                array('name' => 'passwdexpirewarning', 'vars' => array('expirationdatetime' => $expdatetime))), 'warning');
+                array('name' => 'passwdexpirewarning', 'vars' => array('expirationdatetime' => $_SESSION[passwdexpdatetime]))), 'warning');
         }
         
         $rcmail->output->send('plugin');
