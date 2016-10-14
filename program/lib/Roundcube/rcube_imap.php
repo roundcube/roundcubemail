@@ -3293,48 +3293,47 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * Remove folder from server
+     * Remove folder (with subfolders) from the server
      *
      * @param string $folder Folder name
      *
-     * @return boolean True on success
+     * @return boolean True on success, False on failure
      */
     function delete_folder($folder)
     {
-        $delm = $this->get_hierarchy_delimiter();
-
         if (!$this->check_connection()) {
             return false;
         }
 
-        // get list of folders
-        if ((strpos($folder, '%') === false) && (strpos($folder, '*') === false)) {
-            $sub_mboxes = $this->list_folders('', $folder . $delm . '*');
-        }
-        else {
-            $sub_mboxes = $this->list_folders();
-        }
+        $delm = $this->get_hierarchy_delimiter();
 
-        // send delete command to server
-        $result = $this->conn->deleteFolder($folder);
+        // get list of sub-folders or all folders
+        // if folder name contains special characters
+        $path       = strspn($folder, '%*') > 0 ? ($folder . $delm) : '';
+        $sub_mboxes = $this->list_folders('', $path . '*');
 
-        if ($result) {
-            // unsubscribe folder
-            $this->conn->unsubscribe($folder);
-
-            foreach ($sub_mboxes as $c_mbox) {
-                if (strpos($c_mbox, $folder.$delm) === 0) {
-                    $this->conn->unsubscribe($c_mbox);
-                    if ($this->conn->deleteFolder($c_mbox)) {
-                        $this->clear_message_cache($c_mbox);
+        // According to RFC3501 deleting a \Noselect folder
+        // with subfolders may fail. To workaround this we delete
+        // subfolders first (in reverse order) (#5466)
+        if (!empty($sub_mboxes)) {
+            foreach (array_reverse($sub_mboxes) as $mbox) {
+                if (strpos($mbox, $folder . $delm) === 0) {
+                    if ($this->conn->deleteFolder($mbox)) {
+                        $this->conn->unsubscribe($mbox);
+                        $this->clear_message_cache($mbox);
                     }
                 }
             }
-
-            // clear folder-related cache
-            $this->clear_message_cache($folder);
-            $this->clear_cache('mailboxes', true);
         }
+
+        // delete the folder
+        if ($result = $this->conn->deleteFolder($folder)) {
+            // and unsubscribe it
+            $this->conn->unsubscribe($folder);
+            $this->clear_message_cache($folder);
+        }
+
+        $this->clear_cache('mailboxes', true);
 
         return $result;
     }

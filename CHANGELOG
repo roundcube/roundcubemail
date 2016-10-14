@@ -56,6 +56,7 @@ CHANGELOG Roundcube Webmail
 - Fix regression where creation of default folders wasn't functioning without prefix (#5460)
 - Enigma: Fix bug where last records on keys list were hidden (#5461)
 - Enigma: Fix key search with keyword containing non-ascii characters (#5459)
+- Fix bug where deleting folders with subfolders could fail in some cases (#5466)
 
 RELEASE 1.2.2
 -------------
