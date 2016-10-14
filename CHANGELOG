@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix To: header encoding in mail sent with mail() method (#5475)
 - Fix flickering of header topline in min-mode (#5426)
 - Fix bug where folders list would scroll to top when clicking on subscription checkbox (#5447)
 - Fix decoding of GB2312/GBK text when iconv is not installed (#5448)

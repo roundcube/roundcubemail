@@ -1676,7 +1676,7 @@ class rcube
             }
             else {
                 $delim      = $this->config->header_delimiter();
-                $to         = $mailto;
+                $to         = $message->encodeHeader('To', $mailto, RCUBE_CHARSET, 'quoted-printable');
                 $subject    = $headers['Subject'];
                 $header_str = rtrim($header_str);
 
