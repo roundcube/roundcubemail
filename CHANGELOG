@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Add missing sql upgrade file for 'ip' column resize in session table (#5465)
 - Do not show inline images of unsupported mimetype (#5463)
 - Password: Added LDAP PPolicy driver (#5364)
+- Password: Added possibility to nicely redirect from other plugins on password expiration (#5468)
 - Implement separate action to mark all messages in a folder as \Seen (#5006)
 - Implement marking as \Seen in all folders or in a folder and its subfolders (#5076)
 - Archive: Don't reload messages list when it's not needed (#5225)
