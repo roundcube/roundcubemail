@@ -2028,7 +2028,7 @@ class rcube_imap_generic
         $request = "$key $cmd $message_set (" . implode(' ', $fields) . ")";
 
         if (!$this->putLine($request)) {
-            $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");
+            $this->setError(self::ERROR_COMMAND, "Failed to send $cmd command");
             return false;
         }
 
@@ -2355,15 +2355,15 @@ class rcube_imap_generic
         $result      = array();
 
         $key      = $this->nextTag();
-        $request  = $key . ($is_uid ? ' UID' : '') . " FETCH $message_set ";
-        $request .= "(" . implode(' ', $query_items) . ")";
+        $cmd      = ($is_uid ? 'UID ' : '') . 'FETCH';
+        $request  = "$key $cmd $message_set (" . implode(' ', $query_items) . ")";
 
         if ($mod_seq !== null && $this->hasCapability('CONDSTORE')) {
             $request .= " (CHANGEDSINCE $mod_seq" . ($vanished ? " VANISHED" : '') .")";
         }
 
         if (!$this->putLine($request)) {
-            $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");
+            $this->setError(self::ERROR_COMMAND, "Failed to send $cmd command");
             return false;
         }
 
@@ -2714,7 +2714,7 @@ class rcube_imap_generic
 
         // send request
         if (!$this->putLine($request)) {
-            $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");
+            $this->setError(self::ERROR_COMMAND, "Failed to send UID FETCH command");
             return false;
         }
 
@@ -2782,14 +2782,15 @@ class rcube_imap_generic
 
                 // format request
                 $key       = $this->nextTag();
-                $request   = $key . ($is_uid ? ' UID' : '') . " FETCH $id ($fetch_mode.PEEK[$part]$partial)";
+                $cmd       = ($is_uid ? 'UID ' : '') . 'FETCH';
+                $request   = "$key $cmd $id ($fetch_mode.PEEK[$part]$partial)";
                 $result    = false;
                 $found     = false;
                 $initiated = true;
 
                 // send request
                 if (!$this->putLine($request)) {
-                    $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");
+                    $this->setError(self::ERROR_COMMAND, "Failed to send $cmd command");
                     return false;
                 }
 
@@ -2990,65 +2991,66 @@ class rcube_imap_generic
         $request .= ' ' . ($binary ? '~' : '') . '{' . $len . ($literal_plus ? '+' : '') . '}';
 
         // send APPEND command
-        if ($this->putLine($request)) {
-            // Do not wait when LITERAL+ is supported
-            if (!$literal_plus) {
-                $line = $this->readReply();
-
-                if ($line[0] != '+') {
-                    $this->parseResult($line, 'APPEND: ');
-                    return false;
-                }
-            }
-
-            foreach ($msg as $msg_part) {
-                // file pointer
-                if (is_resource($msg_part)) {
-                    rewind($msg_part);
-                    while (!feof($msg_part) && $this->fp) {
-                        $buffer = fread($msg_part, $chunk_size);
-                        $this->putLine($buffer, false);
-                    }
-                    fclose($msg_part);
-                }
-                // string
-                else {
-                    $size = strlen($msg_part);
-
-                    // Break up the data by sending one chunk (up to 512k) at a time.
-                    // This approach reduces our peak memory usage
-                    for ($offset = 0; $offset < $size; $offset += $chunk_size) {
-                        $chunk = substr($msg_part, $offset, $chunk_size);
-                        if (!$this->putLine($chunk, false)) {
-                            return false;
-                        }
-                    }
-                }
-            }
-
-            if (!$this->putLine('')) { // \r\n
-                return false;
-            }
-
-            do {
-                $line = $this->readLine();
-            } while (!$this->startsWith($line, $key, true, true));
-
-            // Clear internal status cache
-            unset($this->data['STATUS:'.$mailbox]);
-
-            if ($this->parseResult($line, 'APPEND: ') != self::ERROR_OK)
-                return false;
-            else if (!empty($this->data['APPENDUID']))
-                return $this->data['APPENDUID'];
-            else
-                return true;
-        }
-        else {
-            $this->setError(self::ERROR_COMMAND, "Unable to send command: $request");
+        if (!$this->putLine($request)) {
+            $this->setError(self::ERROR_COMMAND, "Failed to send APPEND command");
+            return false;
         }
 
-        return false;
+        // Do not wait when LITERAL+ is supported
+        if (!$literal_plus) {
+            $line = $this->readReply();
+
+            if ($line[0] != '+') {
+                $this->parseResult($line, 'APPEND: ');
+                return false;
+            }
+        }
+
+        foreach ($msg as $msg_part) {
+            // file pointer
+            if (is_resource($msg_part)) {
+                rewind($msg_part);
+                while (!feof($msg_part) && $this->fp) {
+                    $buffer = fread($msg_part, $chunk_size);
+                    $this->putLine($buffer, false);
+                }
+                fclose($msg_part);
+            }
+            // string
+            else {
+                $size = strlen($msg_part);
+
+                // Break up the data by sending one chunk (up to 512k) at a time.
+                // This approach reduces our peak memory usage
+                for ($offset = 0; $offset < $size; $offset += $chunk_size) {
+                    $chunk = substr($msg_part, $offset, $chunk_size);
+                    if (!$this->putLine($chunk, false)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        if (!$this->putLine('')) { // \r\n
+            return false;
+        }
+
+        do {
+            $line = $this->readLine();
+        } while (!$this->startsWith($line, $key, true, true));
+
+        // Clear internal status cache
+        unset($this->data['STATUS:'.$mailbox]);
+
+        if ($this->parseResult($line, 'APPEND: ') != self::ERROR_OK) {
+            return false;
+        }
+
+        if (!empty($this->data['APPENDUID'])) {
+            return $this->data['APPENDUID'];
+        }
+
+        return true;
     }
 
     /**
@@ -3707,7 +3709,10 @@ class rcube_imap_generic
 
         // Send command
         if (!$this->putLineC($query, true, ($options & self::COMMAND_ANONYMIZED))) {
-            $this->setError(self::ERROR_COMMAND, "Unable to send command: $query");
+            preg_match('/^[A-Z0-9]+ ((UID )?[A-Z]+)/', $query, $matches);
+            $cmd = $matches[1] ?: 'UNKNOWN';
+            $this->setError(self::ERROR_COMMAND, "Failed to send $cmd command");
+
             return $noresp ? self::ERROR_COMMAND : array(self::ERROR_COMMAND, '');
         }
 
