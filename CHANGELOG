@@ -59,6 +59,8 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix key search with keyword containing non-ascii characters (#5459)
 - Fix bug where deleting folders with subfolders could fail in some cases (#5466)
 - Fix bug where IMAP password could be exposed via error message (#5472)
+- Fix bug where it wasn't possible to store more that 2MB objects in memcache/apc,
+  Added memcache_max_allowed_packet and apc_max_allowed_packet settings (#5452)
 
 RELEASE 1.2.2
 -------------
