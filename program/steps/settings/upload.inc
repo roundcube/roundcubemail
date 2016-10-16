@@ -47,7 +47,7 @@ $IMAGE_TYPES = explode(',', 'jpeg,jpg,jp2,tiff,tif,bmp,eps,gif,png,png8,png24,pn
 $OUTPUT->reset();
 
 $max_size  = $RCMAIL->config->get($type . '_image_size', 64) * 1024;
-$post_size = $RCMAIL->show_bytes(parse_bytes(ini_get('upload_max_filesize')));
+$post_size = $RCMAIL->show_bytes(rcube_utils::max_upload_size());
 $uploadid  = rcube_utils::get_input_value('_uploadid', rcube_utils::INPUT_GET);
 
 
