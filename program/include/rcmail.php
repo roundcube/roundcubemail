@@ -2055,13 +2055,7 @@ class rcmail extends rcube
         }
 
         // find max filesize value
-        $max_filesize = parse_bytes(ini_get('upload_max_filesize'));
-        $max_postsize = parse_bytes(ini_get('post_max_size'));
-
-        if ($max_postsize && $max_postsize < $max_filesize) {
-            $max_filesize = $max_postsize;
-        }
-
+        $max_filesize = rcube_utils::max_upload_size();
         if ($max_size && $max_size < $max_filesize) {
             $max_filesize = $max_size;
         }

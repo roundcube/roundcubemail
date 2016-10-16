@@ -643,16 +643,9 @@ class rcube_cache
                 }
                 $this->max_packet -= 2000;
             }
-            else if ($this->type == 'memcache') {
-                if ($stats = $this->db->getStats()) {
-                    $remaining = $stats['limit_maxbytes'] - $stats['bytes'];
-                    $this->max_packet = min($remaining / 5, $this->max_packet);
-                }
-            }
-            else if ($this->type == 'apc' && function_exists('apc_sma_info')) {
-                if ($stats = apc_sma_info()) {
-                    $this->max_packet = min($stats['avail_mem'] / 5, $this->max_packet);
-                }
+            else {
+                $max_packet = rcube::get_instance()->config->get($this->type . '_max_allowed_packet');
+                $this->max_packet = parse_bytes($max_packet) ?: $this->max_packet;
             }
         }
 

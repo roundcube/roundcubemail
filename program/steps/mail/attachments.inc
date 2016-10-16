@@ -137,7 +137,7 @@ if (is_array($_FILES['_attachments']['tmp_name'])) {
         }
         else {  // upload failed
             if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-                $size = $RCMAIL->show_bytes(parse_bytes(ini_get('upload_max_filesize')));
+                $size = $RCMAIL->show_bytes(rcube_utils::max_upload_size());
                 $msg  = $RCMAIL->gettext(array('name' => 'filesizeerror', 'vars' => array('size' => $size)));
             }
             else if ($attachment['error']) {

@@ -537,7 +537,7 @@ class enigma_ui
         else if ($err = $_FILES['_file']['error']) {
             if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
                 $this->rc->output->show_message('filesizeerror', 'error',
-                    array('size' => $this->rc->show_bytes(parse_bytes(ini_get('upload_max_filesize')))));
+                    array('size' => $this->rc->show_bytes(rcube_utils::max_upload_size())));
             } else {
                 $this->rc->output->show_message('fileuploaderror', 'error');
             }

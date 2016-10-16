@@ -559,7 +559,7 @@ class rcube_sieve_engine
                     if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
                         $msg = $this->rc->gettext(array('name' => 'filesizeerror',
                             'vars' => array('size' =>
-                                $this->rc->show_bytes(parse_bytes(ini_get('upload_max_filesize'))))));
+                                $this->rc->show_bytes(rcube_utils::max_upload_size()))));
                     }
                     else {
                         $this->errors['file'] = $this->plugin->gettext('fileuploaderror');

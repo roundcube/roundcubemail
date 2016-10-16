@@ -308,6 +308,40 @@ $config['ldap_cache_ttl'] = '10m';
 
 
 // ----------------------------------
+// CACHE(S)
+// ----------------------------------
+
+// Use these hosts for accessing memcached
+// Define any number of hosts in the form of hostname:port or unix:///path/to/socket.file
+$config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
+
+// Controls the use of a persistent connections to memcache servers
+// See http://php.net/manual/en/memcache.addserver.php
+$config['memcache_pconnect'] = true;
+
+// Value in seconds which will be used for connecting to the daemon
+// See http://php.net/manual/en/memcache.addserver.php
+$config['memcache_timeout'] = 1;
+
+// Controls how often a failed server will be retried (value in seconds).
+// Setting this parameter to -1 disables automatic retry.
+// See http://php.net/manual/en/memcache.addserver.php
+$config['memcache_retry_interval'] = 15;
+
+// use these hosts for accessing Redis.
+// Currently only one host is supported. cluster support may come in a future release.
+// You can pass 4 fields, host, port, database and password.
+// Unset fields will be set to the default values host=127.0.0.1, port=6379, database=0, password=  (empty)
+$config['redis_hosts'] = null; // e.g. array( 'localhost:6379' );  array( '192.168.1.1:6379:1:secret' );
+
+// Maximum size of an object in memcache (in bytes). Default: 2MB
+$config['memcache_max_allowed_packet'] = '2M';
+
+// Maximum size of an object in APC cache (in bytes). Default: 2MB
+$config['apc_max_allowed_packet'] = '2M';
+
+
+// ----------------------------------
 // SYSTEM
 // ----------------------------------
 
@@ -421,30 +455,6 @@ $config['session_path'] = null;
 //
 // Setting this value to 'php' will use the default session save handler configured in PHP
 $config['session_storage'] = 'db';
-
-// Use these hosts for accessing memcached
-// Define any number of hosts in the form of hostname:port or unix:///path/to/socket.file
-$config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
-
-// Controls the use of a persistent connections to memcache servers
-// See http://php.net/manual/en/memcache.addserver.php
-$config['memcache_pconnect'] = true;
-
-// Value in seconds which will be used for connecting to the daemon
-// See http://php.net/manual/en/memcache.addserver.php
-$config['memcache_timeout'] = 1;
-
-// Controls how often a failed server will be retried (value in seconds).
-// Setting this parameter to -1 disables automatic retry.
-// See http://php.net/manual/en/memcache.addserver.php
-$config['memcache_retry_interval'] = 15;
-
-// use this for accessing redis
-// currently only one host is supported. cluster support may come in a future release.
-// you can pass 4 fields, host, port, database and password.
-// unset fields will be set to the default values host=127.0.0.1, port=6379, database=0, password=  (empty)
-
-$config['redis_hosts'] = null; // e.g. array( 'localhost:6379' );  array( '192.168.1.1:6379:1:secret' );
 
 // check client IP in session authorization
 $config['ip_check'] = false;

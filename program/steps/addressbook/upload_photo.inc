@@ -64,7 +64,7 @@ if ($filepath = $_FILES['_photo']['tmp_name']) {
     }
     else {  // upload failed
         $err  = $_FILES['_photo']['error'];
-        $size = $RCMAIL->show_bytes(parse_bytes(ini_get('upload_max_filesize')));
+        $size = $RCMAIL->show_bytes(rcube_utils::max_upload_size());
 
         if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE)
             $msg = $RCMAIL->gettext(array('name' => 'filesizeerror', 'vars' => array('size' => $size)));
