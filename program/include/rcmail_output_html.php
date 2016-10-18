@@ -690,7 +690,7 @@ EOF;
             $parent = $this->framed || preg_match('/^parent\./', $method);
 
             foreach ($args as $i => $arg) {
-                $args[$i] = self::json_serialize($arg);
+                $args[$i] = self::json_serialize($arg, $this->devel_mode);
             }
 
             if ($parent) {
@@ -1923,7 +1923,7 @@ EOF;
             return;
         }
 
-        $this->add_script('var images = ' . self::json_serialize($images) .';
+        $this->add_script('var images = ' . self::json_serialize($images, $this->devel_mode) .';
             for (var i=0; i<images.length; i++) {
                 img = new Image();
                 img.src = images[i];

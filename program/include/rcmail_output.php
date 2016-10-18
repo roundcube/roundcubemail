@@ -36,6 +36,7 @@ abstract class rcmail_output extends rcube_output
 
     protected $pagetitle       = '';
     protected $object_handlers = array();
+    protected $devel_mode      = false;
 
 
     /**
@@ -44,6 +45,8 @@ abstract class rcmail_output extends rcube_output
     public function __construct($task = null, $framed = false)
     {
         parent::__construct();
+
+        $this->devel_mode = (bool) $this->config->get('devel_mode');
     }
 
     /**
