@@ -265,16 +265,22 @@ abstract class rcube_output
     /**
      * Convert a variable into a javascript object notation
      *
-     * @param mixed Input value
+     * @param mixed   $input  Input value
+     * @param boolean $pretty Enable JSON formatting
      *
      * @return string Serialized JSON string
      */
-    public static function json_serialize($input)
+    public static function json_serialize($input, $pretty = false)
     {
-        $input = rcube_charset::clean($input);
+        $input   = rcube_charset::clean($input);
+        $options = 0;
+
+        if ($pretty) {
+            $options |= JSON_PRETTY_PRINT;
+        }
 
         // sometimes even using rcube_charset::clean() the input contains invalid UTF-8 sequences
         // that's why we have @ here
-        return @json_encode($input);
+        return @json_encode($input, $options);
     }
 }
