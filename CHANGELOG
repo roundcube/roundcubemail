@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Display error when trying to upload more files than specified in max_file_uploads (#5483)
 - Add missing sql upgrade file for 'ip' column resize in session table (#5465)
 - Do not show inline images of unsupported mimetype (#5463)
 - Password: Added LDAP PPolicy driver (#5364)

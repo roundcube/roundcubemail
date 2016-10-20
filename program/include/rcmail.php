@@ -2061,6 +2061,8 @@ class rcmail extends rcube
      * Initializes file uploading interface.
      *
      * @param int $max_size Optional maximum file size in bytes
+     *
+     * @return string Human-readable file size limit
      */
     public function upload_init($max_size = null)
     {
@@ -2088,12 +2090,18 @@ class rcmail extends rcube
             $max_filesize = $max_size;
         }
 
+        $max_filesize_txt = $this->show_bytes($max_filesize);
         $this->output->set_env('max_filesize', $max_filesize);
-        $max_filesize = $this->show_bytes($max_filesize);
         $this->output->set_env('filesizeerror', $this->gettext(array(
-            'name' => 'filesizeerror', 'vars' => array('size' => $max_filesize))));
+            'name' => 'filesizeerror', 'vars' => array('size' => $max_filesize_txt))));
 
-        return $max_filesize;
+        if ($max_filecount = ini_get('max_file_uploads')) {
+            $this->output->set_env('max_filecount', $max_filecount);
+            $this->output->set_env('filecounterror', $this->gettext(array(
+                'name' => 'filecounterror', 'vars' => array('count' => $max_filecount))));
+        }
+
+        return $max_filesize_txt;
     }
 
     /**
