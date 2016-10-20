@@ -4876,6 +4876,10 @@ function rcube_webmail()
         this.display_message(this.env.filesizeerror, 'error');
         return false;
       }
+      if (this.env.max_filecount && this.env.filecounterror && numfiles > this.env.max_filecount) {
+        this.display_message(this.env.filecounterror, 'error');
+        return false;
+      }
 
       var frame_name = this.async_upload_form(form, action || 'upload', function(e) {
         var d, content = '';
