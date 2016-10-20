@@ -1096,6 +1096,10 @@ EOF;
                 }
                 break;
 
+            case 'add_label':
+                $this->add_label($attrib['name']);
+                break;
+
             // include a file
             case 'include':
                 $old_base_path = $this->base_path;
