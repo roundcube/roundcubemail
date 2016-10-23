@@ -90,10 +90,11 @@ abstract class enigma_driver
      *
      * @param string Key ID
      * @param bool   Include private key
+     * @param array  Optional key => password map
      *
      * @return mixed Key content or enigma_error
      */
-    abstract function export($key, $with_private = false);
+    abstract function export($key, $with_private = false, $passwords = array());
 
     /**
      * Keys listing.

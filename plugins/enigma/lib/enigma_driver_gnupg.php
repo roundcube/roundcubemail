@@ -230,15 +230,21 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @param string Key ID
      * @param bool   Include private key
+     * @param array  Optional key => password map
      *
      * @return mixed Key content or enigma_error
      */
-    public function export($keyid, $with_private = false)
+    public function export($keyid, $with_private = false, $passwords = array())
     {
         try {
             $key = $this->gpg->exportPublicKey($keyid, true);
 
             if ($with_private) {
+                // GnuPG 2.1 requires secret key passphrases on export
+                foreach ($passwords as $keyid => $pass) {
+                    $this->gpg->addPassphrase($keyid, $pass);
+                }
+
                 $priv = $this->gpg->exportPrivateKey($keyid, true);
                 $key .= $priv;
             }

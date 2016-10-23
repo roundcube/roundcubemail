@@ -1145,7 +1145,7 @@ class enigma_engine
     function export_key($key, $fp = null, $include_private = false)
     {
         $this->load_pgp_driver();
-        $result = $this->pgp_driver->export($key, $include_private);
+        $result = $this->pgp_driver->export($key, $include_private, $this->get_passwords());
 
         if ($result instanceof enigma_error) {
             rcube::raise_error(array(
