@@ -485,7 +485,6 @@ class enigma_ui
                 if ($status instanceof enigma_error) {
                     $code = $status->getCode();
 
-                    // No/bad passphrase, display error and ask for pass
                     if ($code == enigma_error::BADPASS) {
                         $this->password_prompt($status, array(
                                 'input_keys'   => $keys,
@@ -564,12 +563,15 @@ class enigma_ui
 
                 $this->rc->output->show_message('enigma.keysimportsuccess', 'confirmation',
                     array('new' => $result['imported'], 'old' => $result['unchanged']));
-
-                $this->rc->output->send('iframe');
+            }
+            else if ($result instanceof enigma_error && $result->getCode() == enigma_error::BADPASS) {
+                $this->password_prompt($result);
             }
             else {
                 $this->rc->output->show_message('enigma.keysimportfailed', 'error');
             }
+
+            $this->rc->output->send('iframe');
         }
         else if ($err = $_FILES['_file']['error']) {
             if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
@@ -578,6 +580,8 @@ class enigma_ui
             } else {
                 $this->rc->output->show_message('fileuploaderror', 'error');
             }
+
+            $this->rc->output->send('iframe');
         }
 
         $this->rc->output->add_handlers(array(
