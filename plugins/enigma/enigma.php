@@ -85,6 +85,8 @@ class enigma extends rcube_plugin
             if (empty($_REQUEST['_framed']) || strpos($this->rc->action, 'plugin.enigma') === 0) {
                 $this->ui->add_css();
             }
+
+            $this->password_handler();
         }
         else if ($this->rc->task == 'cli') {
             $this->add_hook('user_delete_commit', array($this, 'user_delete'));
