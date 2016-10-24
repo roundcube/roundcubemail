@@ -4446,14 +4446,10 @@ function rcube_webmail()
     return result;
   };
 
+  // Inserts a predefined response to the compose editor
   this.insert_response = function(key)
   {
-    var insert = this.env.textresponses[key] ? this.env.textresponses[key].text : null;
-
-    if (!insert)
-      return false;
-
-    this.editor.replace(insert);
+    return this.editor.replace(this.env.textresponses[key]);
   };
 
   /**
