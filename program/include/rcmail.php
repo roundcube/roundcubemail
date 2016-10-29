@@ -1330,12 +1330,6 @@ class rcmail extends rcube
 
         $attrib += array('maxlength' => 100, 'realnames' => false, 'unreadwrap' => ' (%s)');
 
-        $rcmail  = rcmail::get_instance();
-        $storage = $rcmail->get_storage();
-
-        // add some labels to client
-        $rcmail->output->add_label('purgefolderconfirm', 'deletemessagesconfirm');
-
         $type = $attrib['type'] ? $attrib['type'] : 'ul';
         unset($attrib['type']);
 
@@ -1348,6 +1342,7 @@ class rcmail extends rcube
         }
 
         // get current folder
+        $storage   = $this->get_storage();
         $mbox_name = $storage->get_folder();
 
         // build the folders tree
@@ -1359,12 +1354,12 @@ class rcmail extends rcube
             $a_mailboxes = array();
 
             foreach ($a_folders as $folder) {
-                $rcmail->build_folder_tree($a_mailboxes, $folder, $delimiter);
+                $this->build_folder_tree($a_mailboxes, $folder, $delimiter);
             }
         }
 
         // allow plugins to alter the folder tree or to localize folder names
-        $hook = $rcmail->plugins->exec_hook('render_mailboxlist', array(
+        $hook = $this->plugins->exec_hook('render_mailboxlist', array(
             'list'      => $a_mailboxes,
             'delimiter' => $delimiter,
             'type'      => $type,
@@ -1380,31 +1375,34 @@ class rcmail extends rcube
 
             // add no-selection option
             if ($attrib['noselection']) {
-                $select->add(html::quote($rcmail->gettext($attrib['noselection'])), '');
+                $select->add(html::quote($this->gettext($attrib['noselection'])), '');
             }
 
-            $rcmail->render_folder_tree_select($a_mailboxes, $mbox_name, $attrib['maxlength'], $select, $attrib['realnames']);
+            $this->render_folder_tree_select($a_mailboxes, $mbox_name, $attrib['maxlength'], $select, $attrib['realnames']);
             $out = $select->show($attrib['default']);
         }
         else {
             $js_mailboxlist = array();
-            $tree = $rcmail->render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib);
+            $tree = $this->render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib);
 
             if ($type != 'js') {
                 $out = html::tag('ul', $attrib, $tree, html::$common_attrib);
 
-                $rcmail->output->include_script('treelist.js');
-                $rcmail->output->add_gui_object('mailboxlist', $attrib['id']);
-                $rcmail->output->set_env('unreadwrap', $attrib['unreadwrap']);
-                $rcmail->output->set_env('collapsed_folders', (string)$rcmail->config->get('collapsed_folders'));
+                $this->output->include_script('treelist.js');
+                $this->output->add_gui_object('mailboxlist', $attrib['id']);
+                $this->output->set_env('unreadwrap', $attrib['unreadwrap']);
+                $this->output->set_env('collapsed_folders', (string) $this->config->get('collapsed_folders'));
             }
 
-            $rcmail->output->set_env('mailboxes', $js_mailboxlist);
+            $this->output->set_env('mailboxes', $js_mailboxlist);
 
             // we can't use object keys in javascript because they are unordered
             // we need sorted folders list for folder-selector widget
-            $rcmail->output->set_env('mailboxes_list', array_keys($js_mailboxlist));
+            $this->output->set_env('mailboxes_list', array_keys($js_mailboxlist));
         }
+
+        // add some labels to client
+        $this->output->add_label('purgefolderconfirm', 'deletemessagesconfirm');
 
         return $out;
     }
