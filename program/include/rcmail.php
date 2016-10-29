@@ -380,7 +380,7 @@ class rcmail extends rcube
         if (!$user_only) {
             foreach ($this->config->get('compose_responses_static', array()) as $response) {
                 if (empty($response['key'])) {
-                    $response['key']    = substr(md5($response['name']), 0, 16);
+                    $response['key'] = substr(md5($response['name']), 0, 16);
                 }
 
                 $response['static'] = true;
@@ -405,7 +405,15 @@ class rcmail extends rcube
             ksort($responses, SORT_LOCALE_STRING);
         }
 
-        return array_values($responses);
+        $responses = array_values($responses);
+
+        $hook = $this->plugins->exec_hook('get_compose_responses', array(
+            'list'      => $responses,
+            'sorted'    => $sorted,
+            'user_only' => $user_only,
+        ));
+
+        return $hook['list'];
     }
 
     /**
