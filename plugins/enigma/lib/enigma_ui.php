@@ -161,7 +161,10 @@ class enigma_ui
             $data = array_merge($params, $data);
         }
 
-        if ($this->rc->action == 'send' || $this->rc->action == 'plugin.enigmaimport') {
+        // @TODO: Get user name/address when keyid == user,
+        //        it may happen on GnuPG 2.1
+
+        if (preg_match('/^(send|plugin.enigmaimport|plugin.enigmakeys)$/', $this->rc->action)) {
             $this->rc->output->command('enigma_password_request', $data);
         }
         else {
@@ -464,28 +467,50 @@ class enigma_ui
      */
     private function key_export()
     {
-        $this->rc->request_security_check(rcube_utils::INPUT_GET);
-
-        $keys   = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_GPC);
-        $priv   = rcube_utils::get_input_value('_priv', rcube_utils::INPUT_GPC);
+        $keys   = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_POST);
+        $priv   = rcube_utils::get_input_value('_priv', rcube_utils::INPUT_POST);
         $engine = $this->enigma->load_engine();
         $list   = $keys == '*' ? $engine->list_keys() : explode(',', $keys);
 
-        if (is_array($list)) {
+        if (is_array($list) && ($fp = fopen('php://memory', 'rw'))) {
             $filename = 'export.pgp';
             if (count($list) == 1) {
                 $filename = (is_object($list[0]) ? $list[0]->id : $list[0]) . '.pgp';
+            }
+
+            $status = null;
+            foreach ($list as $key) {
+                $status = $engine->export_key(is_object($key) ? $key->id : $key, $fp, (bool) $priv);
+
+                if ($status instanceof enigma_error) {
+                    $code = $status->getCode();
+
+                    if ($code == enigma_error::BADPASS) {
+                        $this->password_prompt($status, array(
+                                'input_keys'   => $keys,
+                                'input_priv'   => 1,
+                                'input_task'   => 'settings',
+                                'input_action' => 'plugin.enigmakeys',
+                                'input_a'      => 'export',
+                                'action'       => '?',
+                                'iframe'       => true,
+                                'nolock'       => true,
+                        ));
+                        fclose($fp);
+                        $this->rc->output->send('iframe');
+                    }
+                }
             }
 
             // send downlaod headers
             header('Content-Type: application/pgp-keys');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
 
-            if ($fp = fopen('php://output', 'w')) {
-                foreach ($list as $key) {
-                    $engine->export_key(is_object($key) ? $key->id : $key, $fp, (bool) $priv);
-                }
+            rewind($fp);
+            while (!feof($fp)) {
+                echo fread($fp, 1024 * 1024);
             }
+            fclose($fp);
         }
 
         exit;
@@ -498,8 +523,9 @@ class enigma_ui
     {
         // Import process
         if ($data = rcube_utils::get_input_value('_keys', rcube_utils::INPUT_POST)) {
-            // Import from generation form (ajax request)
             $this->enigma->load_engine();
+            $this->enigma->engine->password_handler();
+
             $result = $this->enigma->engine->import_key($data);
 
             if (is_array($result)) {
@@ -537,12 +563,15 @@ class enigma_ui
 
                 $this->rc->output->show_message('enigma.keysimportsuccess', 'confirmation',
                     array('new' => $result['imported'], 'old' => $result['unchanged']));
-
-                $this->rc->output->send('iframe');
+            }
+            else if ($result instanceof enigma_error && $result->getCode() == enigma_error::BADPASS) {
+                $this->password_prompt($result);
             }
             else {
                 $this->rc->output->show_message('enigma.keysimportfailed', 'error');
             }
+
+            $this->rc->output->send('iframe');
         }
         else if ($err = $_FILES['_file']['error']) {
             if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
@@ -551,6 +580,8 @@ class enigma_ui
             } else {
                 $this->rc->output->show_message('fileuploaderror', 'error');
             }
+
+            $this->rc->output->send('iframe');
         }
 
         $this->rc->output->add_handlers(array(
@@ -1074,7 +1105,7 @@ class enigma_ui
                     ));
                 }
                 else {
-                    $this->rc->output->show_message($msg, $type ?: 'error', $vars);
+                    $this->rc->output->show_message($msg, 'error', $vars);
                 }
             }
 
