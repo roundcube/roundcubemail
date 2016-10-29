@@ -99,7 +99,7 @@ rcube_webmail.prototype.enigma_key_create_save = function()
         size = $('#key-size').val();
 
     $('[name="identity[]"]:checked').each(function() {
-      users.push(this.value);
+        users.push(this.value);
     });
 
     // validate the form
@@ -124,7 +124,8 @@ rcube_webmail.prototype.enigma_key_create_save = function()
 
         openpgp.generateKeyPair(options).then(function(keypair) {
             // success
-            var post = {_a: 'import', _keys: keypair.privateKeyArmored, _generated: 1};
+            var post = {_a: 'import', _keys: keypair.privateKeyArmored, _generated: 1,
+                _passwd: password, _keyid: keypair.key.primaryKey.fingerprint};
 
             // send request to server
             rcmail.http_post('plugin.enigmakeys', post, lock);
@@ -166,12 +167,12 @@ rcube_webmail.prototype.enigma_export = function(selected)
     var priv = false,
         list = this.keys_list,
         keys = selected ? list.get_selection().join(',') : '*',
-        args = {_a: 'export', _keys: keys};
+        args = {_keys: keys};
 
     if (!keys.length)
         return;
 
-    // find out wether selected keys are private
+    // find out whether selected keys are private
     if (keys == '*')
         priv = true;
     else
@@ -191,7 +192,7 @@ rcube_webmail.prototype.enigma_export = function(selected)
             [{
                 text: this.get_label('enigma.onlypubkeys'),
                 click: function(e) {
-                    rcmail.goto_url('plugin.enigmakeys', args, false, true);
+                    rcmail.enigma_export_submit(args);
                     $(this).remove();
                 }
             },
@@ -199,20 +200,40 @@ rcube_webmail.prototype.enigma_export = function(selected)
                 text: this.get_label('enigma.withprivkeys'),
                 click: function(e) {
                     args._priv = 1;
-                    rcmail.goto_url('plugin.enigmakeys', args, false, true);
+                    rcmail.enigma_export_submit(args);
                     $(this).remove();
                 }
             }],
             {width: 400}
         );
 
-    this.goto_url('plugin.enigmakeys', args, false, true);
+    this.enigma_export_submit(args);
+};
+
+// Sumbitting request for key(s) export
+// Done this way to handle password input
+rcube_webmail.prototype.enigma_export_submit = function(data)
+{
+    var id = 'keyexport-' + new Date().getTime(),
+        form = $('<form>').attr({target: id, method: 'post', style: 'display:none',
+            action: '?_action=plugin.enigmakeys&_task=settings&_a=export'}),
+        iframe = $('<iframe>').attr({name: id, style: 'display:none'})
+
+    form.append($('<input>').attr({name: '_token', value: this.env.request_token}));
+    $.each(data, function(i, v) {
+        form.append($('<input>').attr({name: i, value: v}));
+    });
+
+    iframe.appendTo(document.body);
+    form.appendTo(document.body).submit();
 };
 
 // Submit key(s) import form
 rcube_webmail.prototype.enigma_import = function()
 {
-    var form, file;
+    var form, file, lock,
+        id = 'keyexport-' + new Date().getTime(),
+        iframe = $('<iframe>').attr({name: id, style: 'display:none'});
 
     if (form = this.gui_objects.importform) {
         file = document.getElementById('rcmimportfile');
@@ -221,13 +242,11 @@ rcube_webmail.prototype.enigma_import = function()
             return;
         }
 
-        var lock = this.set_busy(true, 'importwait');
-
-        form.action = this.add_url(form.action, '_unlock', lock);
-        form.submit();
-
-        this.lock_form(form, true);
-   }
+        lock = this.set_busy(true, 'importwait');
+        iframe.appendTo(document.body);
+        $(form).attr({target: id, action: this.add_url(form.action, '_unlock', lock)})
+            .submit();
+    }
 };
 
 // Ssearch for key(s) for import
@@ -516,12 +535,23 @@ rcube_webmail.prototype.enigma_password_request = function(data)
 // submit entered password
 rcube_webmail.prototype.enigma_password_submit = function(data)
 {
+    var lock, form;
+
     if (this.env.action == 'compose' && !data['compose-init']) {
         return this.enigma_password_compose_submit(data);
     }
+    else if (this.env.action == 'plugin.enigmakeys' && (form = this.gui_objects.importform)) {
+        if (!$('input[name="_keyid"]', form).length) {
+            $(form).append($('<input>').attr({type: 'hidden', name: '_keyid', value: data.key}))
+                .append($('<input>').attr({type: 'hidden', name: '_passwd', value: data.password}))
+        }
 
-    var lock = this.set_busy(true, 'loading'),
-      form = $('<form>').attr({method: 'post', action: data.action || location.href, style: 'display:none'})
+        return this.enigma_import();
+    }
+
+    lock = data.nolock ? null : this.set_busy(true, 'loading');
+    form = $('<form>')
+        .attr({method: 'post', action: data.action || location.href, style: 'display:none'})
         .append($('<input>').attr({type: 'hidden', name: '_keyid', value: data.key}))
         .append($('<input>').attr({type: 'hidden', name: '_passwd', value: data.password}))
         .append($('<input>').attr({type: 'hidden', name: '_token', value: this.env.request_token}))
@@ -529,14 +559,14 @@ rcube_webmail.prototype.enigma_password_submit = function(data)
 
     // Additional form fields for request parameters
     $.each(data, function(i, v) {
-      if (i.indexOf('input') == 0)
-        form.append($('<input>').attr({type: 'hidden', name: i.substring(5), value: v}))
+        if (i.indexOf('input') == 0)
+            form.append($('<input>').attr({type: 'hidden', name: i.substring(5), value: v}))
     });
 
     if (data.iframe) {
-      var name = 'enigma_frame_' + (new Date()).getTime(),
-        frame = $('<iframe>').attr({style: 'display:none', name: name}).appendTo(document.body);
-      form.attr('target', name);
+        var name = 'enigma_frame_' + (new Date()).getTime(),
+            frame = $('<iframe>').attr({style: 'display:none', name: name}).appendTo(document.body);
+        form.attr('target', name);
     }
 
     form.appendTo(document.body).submit();

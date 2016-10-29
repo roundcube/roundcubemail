@@ -122,11 +122,11 @@ class enigma_driver_phpssl extends enigma_driver
         return $sig;
     }
 
-    public function import($content, $isfile=false)
+    public function import($content, $isfile = false, $passwords = array())
     {
     }
 
-    public function export($key, $with_private = false)
+    public function export($key, $with_private = false, $passwords = array())
     {
     }
 

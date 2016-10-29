@@ -1113,10 +1113,10 @@ class enigma_engine
      *
      * @return mixed Import status data array or enigma_error
      */
-    function import_key($content, $isfile=false)
+    function import_key($content, $isfile = false)
     {
         $this->load_pgp_driver();
-        $result = $this->pgp_driver->import($content, $isfile);
+        $result = $this->pgp_driver->import($content, $isfile, $this->get_passwords());
 
         if ($result instanceof enigma_error) {
             rcube::raise_error(array(
@@ -1145,7 +1145,7 @@ class enigma_engine
     function export_key($key, $fp = null, $include_private = false)
     {
         $this->load_pgp_driver();
-        $result = $this->pgp_driver->export($key, $include_private);
+        $result = $this->pgp_driver->export($key, $include_private, $this->get_passwords());
 
         if ($result instanceof enigma_error) {
             rcube::raise_error(array(
@@ -1174,7 +1174,7 @@ class enigma_engine
         $passwd = rcube_utils::get_input_value('_passwd', rcube_utils::INPUT_POST, true);
 
         if ($keyid && $passwd !== null && strlen($passwd)) {
-            $this->save_password($keyid, $passwd);
+            $this->save_password(strtoupper($keyid), $passwd);
         }
     }
 

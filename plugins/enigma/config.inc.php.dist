@@ -24,6 +24,10 @@ $config['enigma_pgp_binary'] = '';
 // It's used with GnuPG 2.x.
 $config['enigma_pgp_agent'] = '';
 
+// Location of gpgconf binary. By default it will be auto-detected.
+// It's used with GnuPG >= 2.1.
+$config['enigma_pgp_gpgconf'] = '';
+
 // Enables signatures verification feature.
 $config['enigma_signatures'] = true;
 
