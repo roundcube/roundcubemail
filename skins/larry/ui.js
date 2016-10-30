@@ -1371,6 +1371,10 @@ function rcube_splitter(p)
     // start listening to mousemove events
     $(document).on('mousemove.' + this.id, onDrag).on('mouseup.' + this.id, onDragStop);
 
+    // hack messages list so it will propagate the mouseup event over the list
+    if (rcmail.message_list)
+      rcmail.message_list.drag_active = true;
+
     // enable dragging above iframes
     $('iframe').each(function(i, elem) {
       $('<div>')
@@ -1448,6 +1452,9 @@ function rcube_splitter(p)
     // cancel the listening for drag events
     $(document).off('.' + me.id);
     me.drag_active = false;
+
+    if (rcmail.message_list)
+      rcmail.message_list.drag_active = false;
 
     // remove temp divs
     $('div.iframe-splitter-fix').remove();
