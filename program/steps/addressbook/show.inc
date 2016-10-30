@@ -117,6 +117,8 @@ function rcmail_contact_details($attrib)
                 'manager' => array('size' => $i_size),
                 'assistant' => array('size' => $i_size),
                 'spouse' => array('size' => $i_size),
+                'freebusyurl' => array('size' => $i_size),
+                'calendarurl' => array('size' => $i_size),
             ),
         ),
     );

@@ -53,6 +53,8 @@ $CONTACT_COLTYPES = array(
     'assistant'    => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('assistant'), 'category' => 'personal'),
     'manager'      => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('manager'), 'category' => 'personal'),
     'spouse'       => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('spouse'), 'category' => 'personal'),
+    'freebusyurl'  => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('freebusyurl'), 'category' => 'personal'),
+    'calendarurl'  => array('type' => 'text', 'size' => 40, 'maxlength' => 50, 'limit' => 1, 'label' => $RCMAIL->gettext('calendarurl'), 'category' => 'personal'),
     // TODO: define fields for vcards like GEO, KEY
 );
 

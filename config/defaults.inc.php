@@ -907,6 +907,8 @@ $config['ldap_public']['Verisign'] = array(
     'jobtitle'     => 'title',
     'notes'        => 'description',
     'photo'        => 'jpegPhoto',
+    'freebusyurl'  => 'calFBURL:*',
+    'calendarurl'  => 'calCalURI:*',
     // these currently don't work:
     // 'manager'       => 'manager',
     // 'assistant'     => 'secretary',

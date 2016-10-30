@@ -48,6 +48,8 @@ class rcube_vcard
         'spouse'      => 'X-SPOUSE',
         'edit'        => 'X-AB-EDIT',
         'groups'      => 'CATEGORIES',
+        'freebusyurl' => 'FBURL',
+        'calendarurl' => 'CALURI',
     );
     private $typemap = array(
         'IPHONE'   => 'mobile',
@@ -214,7 +216,7 @@ class rcube_vcard
                     }
 
                     // force subtype if none set
-                    if (!$subtype && preg_match('/^(email|phone|address|website)/', $key)) {
+                    if (!$subtype && preg_match('/^(email|phone|address|website|freebusyurl|calendarurl)/', $key)) {
                         $subtype = 'other';
                     }
 
@@ -532,7 +534,7 @@ class rcube_vcard
         // Cleanup
         $vcard = preg_replace(array(
                 // convert special types (like Skype) to normal type='skype' classes with this simple regex ;)
-                '/item(\d+)\.(TEL|EMAIL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w-() ]*)(?:>!\$_)?./si',
+                '/item(\d+)\.(TEL|EMAIL|URL|FBURL|CALURI)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w-() ]*)(?:>!\$_)?./si',
                 '/^item\d*\.X-AB.*$/mi',  // remove cruft like item1.X-AB*
                 '/^item\d*\./mi',         // remove item1.ADR instead of ADR
                 '/\n+/',                 // remove empty lines
