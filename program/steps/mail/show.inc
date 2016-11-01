@@ -129,18 +129,21 @@ if ($uid) {
         }
     }
 
-    if (empty($MESSAGE->headers->flags['SEEN'])
-        && $MESSAGE->context === null
-        && ($RCMAIL->action == 'show' || ($RCMAIL->action == 'preview' && intval($RCMAIL->config->get('preview_pane_mark_read')) == 0))
-    ) {
-        $RCMAIL->output->command('set_unread_message', $MESSAGE->uid, $mbox_name);
-        $RCMAIL->plugins->exec_hook('message_read', array(
-            'uid'     => $MESSAGE->uid,
-            'mailbox' => $mbox_name,
-            'message' => $MESSAGE,
-        ));
+    if (empty($MESSAGE->headers->flags['SEEN']) && $MESSAGE->context === null) {
+        $v = intval($RCMAIL->config->get('mail_read_time'));
+        if ($v > 0) {
+            $OUTPUT->set_env('mail_read_time', $v);
+        }
+        else if ($v == 0) {
+            $RCMAIL->output->command('set_unread_message', $MESSAGE->uid, $mbox_name);
+            $RCMAIL->plugins->exec_hook('message_read', array(
+                    'uid'     => $MESSAGE->uid,
+                    'mailbox' => $mbox_name,
+                    'message' => $MESSAGE,
+            ));
 
-        $set_seen_flag = true;
+            $set_seen_flag = true;
+        }
     }
 }
 

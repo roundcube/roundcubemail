@@ -408,20 +408,19 @@ function rcmail_user_prefs($current = null)
                 'advanced'    => array('name' => rcube::Q($RCMAIL->gettext('advancedoptions'))),
             );
 
-            // show config parameter for preview pane auto mark as read delay
-            if (!isset($no_override['preview_pane_mark_read'])) {
+            // show config parameter for auto marking the previewed message as read
+            if (!isset($no_override['mail_read_time'])) {
                 if (!$current) {
                     continue 2;
                 }
 
                 // apply default if config option is not set at all
-                $config['preview_pane_mark_read'] = $RCMAIL->config->get('preview_pane_mark_read', 0);
+                $config['mail_read_time'] = intval($RCMAIL->config->get('mail_read_time'));
 
-                $field_id = 'rcmfd_preview_pane_mark_read';
-                $select   = new html_select(array('name' => '_preview_pane_mark_read', 'id' => $field_id,
-                    'disabled' => $config['layout'] == 'list' ? 1 : 0));
+                $field_id = 'rcmfd_mail_read_time';
+                $select   = new html_select(array('name' => '_mail_read_time', 'id' => $field_id));
 
-                $select->add($RCMAIL->gettext('never'), '-1');
+                $select->add($RCMAIL->gettext('never'), -1);
                 $select->add($RCMAIL->gettext('immediately'), 0);
 
                 foreach (array(5, 10, 20, 30) as $sec) {
@@ -429,9 +428,9 @@ function rcmail_user_prefs($current = null)
                     $select->add($label, $sec);
                 }
 
-                $blocks['main']['options']['preview_pane_mark_read'] = array(
+                $blocks['main']['options']['mail_read_time'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('previewpanemarkread'))),
-                    'content' => $select->show(intval($config['preview_pane_mark_read'])),
+                    'content' => $select->show($config['mail_read_time']),
                 );
             }
 

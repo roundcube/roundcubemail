@@ -82,6 +82,8 @@ if (($_uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST))
         foreach (rcmail::get_uids() as $mbox => $uids) {
             rcmail_send_unread_count($mbox);
         }
+
+        $OUTPUT->set_env('last_flag', $flag);
     }
     else if ($flag == 'DELETED' && $skip_deleted) {
         if ($_POST['_from'] == 'show') {
