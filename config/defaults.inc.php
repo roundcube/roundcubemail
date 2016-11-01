@@ -1073,9 +1073,9 @@ $config['draft_autosave'] = 300;
 //  'list'       - two columns, no preview
 $config['layout'] = 'widescreen';
 
-// Mark as read when viewed in preview pane (delay in seconds)
-// Set to -1 if messages in preview pane should not be marked as read
-$config['preview_pane_mark_read'] = 0;
+// Mark as read when viewing a message (delay in seconds)
+// Set to -1 if messages should not be marked as read
+$config['mail_read_time'] = 0;
 
 // Clear Trash on logout
 $config['logout_purge'] = false;

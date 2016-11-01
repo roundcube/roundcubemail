@@ -83,7 +83,6 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     $OUTPUT->set_env('threading', $threading);
     $OUTPUT->set_env('threads', $threading || $RCMAIL->storage->get_capability('THREAD'));
     $OUTPUT->set_env('reply_all_mode', (int) $RCMAIL->config->get('reply_all_mode'));
-    $OUTPUT->set_env('preview_pane_mark_read', (int) $RCMAIL->config->get('preview_pane_mark_read'));
     $OUTPUT->set_env('layout', $RCMAIL->config->get('layout') ?: 'widescreen');
 
     if ($RCMAIL->storage->get_capability('QUOTA')) {
