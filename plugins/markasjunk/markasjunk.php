@@ -6,7 +6,6 @@
  * Sample plugin that adds a new button to the mailbox toolbar
  * to mark the selected messages as Junk and move them to the Junk folder
  *
- * @version @package_version@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
  */

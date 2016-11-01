@@ -12,7 +12,6 @@
  * Enable the plugin in config.inc.php and add your desired headers:
  *   $config['identity_select_headers'] = array('Delivered-To');
  *
- * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  * @license GNU GPLv3+
  */

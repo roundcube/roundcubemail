@@ -3,7 +3,6 @@
 /**
  * Detect VCard attachments and show a button to add them to address book
  *
- * @version @package_version@
  * @license GNU GPLv3+
  * @author Thomas Bruederli, Aleksander Machniak
  */

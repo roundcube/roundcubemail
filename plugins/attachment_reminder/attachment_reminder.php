@@ -4,7 +4,6 @@
  *
  * A plugin that reminds a user to attach the files
  *
- * @version @package_version@
  * @author Thomas Yu - Sian, Liu
  * @author Aleksander Machniak <machniak@kolabsys.com>
  *

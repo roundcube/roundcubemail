@@ -19,7 +19,6 @@
  * 'dont_override' list and the global option has changed, don't expect
  * to see the change until the folder list cache is refreshed.
  *
- * @version @package_version@
  * @author Ziba Scott
  * @license GNU GPLv3+
  */
