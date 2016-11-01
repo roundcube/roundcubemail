@@ -9,7 +9,6 @@
  * Enable the plugin in config.inc.php and add your desired headers:
  * $config['additional_message_headers'] = array('User-Agent' => 'My-Very-Own-Webmail');
  *
- * @version @package_version@
  * @author Ziba Scott
  * @website http://roundcube.net
  */

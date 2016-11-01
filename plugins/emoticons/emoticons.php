@@ -6,7 +6,6 @@
  * Plugin to replace emoticons in plain text message body with real icons.
  * Also it enables emoticons in HTML compose editor. Both features are optional.
  *
- * @version @package_version@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
  * @author Aleksander Machniak

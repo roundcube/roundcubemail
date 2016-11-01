@@ -15,7 +15,6 @@
  * Enable the plugin in config.inc.php and add your desired
  * log types and files.
  *
- * @version @package_version@
  * @author Ziba Scott
  * @website http://roundcube.net
  *

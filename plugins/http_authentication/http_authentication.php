@@ -13,7 +13,6 @@
  *
  * For other configuration options, see config.inc.php.dist!
  *
- * @version @package_version@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
  */

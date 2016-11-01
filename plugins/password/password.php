@@ -3,7 +3,6 @@
 /**
  * Password Plugin for Roundcube
  *
- * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  *
  * Copyright (C) 2005-2015, The Roundcube Dev Team

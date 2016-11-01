@@ -1,8 +1,5 @@
 /**
  * ACL plugin script
- *
- * @version @package_version@
- * @author Aleksander Machniak <alec@alec.pl>
  */
 
 if (window.rcmail) {

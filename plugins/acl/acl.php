@@ -3,7 +3,6 @@
 /**
  * Folders Access Control Lists Management (RFC4314, RFC2086)
  *
- * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  *
  * Copyright (C) 2011-2012, Kolab Systems AG

@@ -7,7 +7,6 @@
  * and sets a session flag in case it is incomplete. An overlay box will appear
  * on the screen until the user has reviewed/completed his identity.
  *
- * @version @package_version@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
  * @author Aleksander Machniak
