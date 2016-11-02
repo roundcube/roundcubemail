@@ -96,7 +96,7 @@ if (!empty($book_types) && strlen($search)) {
                         $contact = array(
                             'name'   => $contact,
                             'type'   => $sql_arr['_type'],
-                            'id'     => $sql_arr['contact_id'],
+                            'id'     => $sql_arr['ID'],
                             'source' => $abook_id,
                         );
 
