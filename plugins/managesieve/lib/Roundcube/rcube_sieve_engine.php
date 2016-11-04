@@ -292,7 +292,8 @@ class rcube_sieve_engine
                     if ($result === true) {
                         $this->rc->output->show_message('managesieve.filterdeleted', 'confirmation');
                         $this->rc->output->command('managesieve_updatelist', 'del', array('id' => $fid));
-                    } else {
+                    }
+                    else {
                         $this->rc->output->show_message('managesieve.filterdeleteerror', 'error');
                     }
                 }
@@ -329,7 +330,8 @@ class rcube_sieve_engine
                         $this->rc->output->show_message('managesieve.moved', 'confirmation');
                         $this->rc->output->command('managesieve_updatelist', 'list',
                             array('list' => $result, 'clear' => true, 'set' => $to));
-                    } else {
+                    }
+                    else {
                         $this->rc->output->show_message('managesieve.moveerror', 'error');
                     }
                 }
@@ -351,7 +353,8 @@ class rcube_sieve_engine
                             $this->rc->output->show_message('managesieve.activated', 'confirmation');
                         $this->rc->output->command('managesieve_updatelist', 'update',
                             array('id' => $fid, 'disabled' => $rule['disabled']));
-                    } else {
+                    }
+                    else {
                         if ($rule['disabled'])
                             $this->rc->output->show_message('managesieve.deactivateerror', 'error');
                         else
@@ -369,7 +372,8 @@ class rcube_sieve_engine
                     $this->rc->output->show_message('managesieve.setactivated', 'confirmation');
                     $this->rc->output->command('managesieve_updatelist', 'setact',
                         array('name' => $script_name, 'active' => true, 'all' => !$kep14));
-                } else {
+                }
+                else {
                     $this->rc->output->show_message('managesieve.setactivateerror', 'error');
                 }
             }
@@ -382,7 +386,8 @@ class rcube_sieve_engine
                     $this->rc->output->show_message('managesieve.setdeactivated', 'confirmation');
                     $this->rc->output->command('managesieve_updatelist', 'setact',
                         array('name' => $script_name, 'active' => false));
-                } else {
+                }
+                else {
                     $this->rc->output->show_message('managesieve.setdeactivateerror', 'error');
                 }
             }
@@ -395,7 +400,8 @@ class rcube_sieve_engine
                     $this->rc->output->command('managesieve_updatelist', 'setdel',
                         array('name' => $script_name));
                     $this->rc->session->remove('managesieve_current');
-                } else {
+                }
+                else {
                     $this->rc->output->show_message('managesieve.setdeleteerror', 'error');
                 }
             }
@@ -405,7 +411,7 @@ class rcube_sieve_engine
                 $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
                 $script      = $this->sieve->get_script($script_name);
 
-                if (is_a($script, 'PEAR_Error')) {
+                if ($script === false) {
                     exit;
                 }
 
@@ -583,9 +589,11 @@ class rcube_sieve_engine
                 $this->rc->output->show_message('managesieve.setcreated', 'confirmation');
                 $this->rc->output->command('parent.managesieve_updatelist', 'setadd',
                     array('name' => $name, 'index' => $index));
-            } else if ($msg) {
+            }
+            else if ($msg) {
                 $this->rc->output->command('display_message', $msg, 'error');
-            } else if ($error) {
+            }
+            else if ($error) {
                 $this->rc->output->show_message($error, 'error');
             }
         }
