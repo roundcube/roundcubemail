@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- identity_select: Support Received header (#5085)
 - Plugin API: Added get_compose_responses hook (#5457)
 - Display error when trying to upload more files than specified in max_file_uploads (#5483)
 - Add missing sql upgrade file for 'ip' column resize in session table (#5465)
