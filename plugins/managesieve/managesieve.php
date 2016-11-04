@@ -236,9 +236,7 @@ class managesieve extends rcube_plugin
         $this->add_texts('localization/', array('filters','managefilters'));
     
         // include main js script
-        if ($this->api->output->type == 'html') {
-            $this->include_script('managesieve.js');
-        }
+        $this->include_script('managesieve.js');
     
         $engine = $this->get_engine();
         $engine->saveraw();
