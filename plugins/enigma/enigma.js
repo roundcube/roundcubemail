@@ -602,7 +602,7 @@ rcube_webmail.prototype.enigma_key_not_found = function(data)
                 rcmail.enigma_find_publickey(data.email);
             }
         }],
-        {width: 400, dialogClass: 'popupmessage error'}
+        {width: 400, dialogClass: 'error'}
     );
 };
 

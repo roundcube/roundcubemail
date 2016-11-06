@@ -450,7 +450,7 @@ function rcube_mail_ui()
         .dialog({
           resizable: false,
           closeOnEscape: true,
-          dialogClass: 'popupmessage ' + p.type,
+          dialogClass: p.type,
           title: rcmail.gettext('errortitle'),
           close: dialog_close,
           hide: {effect: 'fadeOut'},
