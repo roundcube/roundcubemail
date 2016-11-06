@@ -44,9 +44,7 @@ if (!isset($COMPOSE['id'])) {
 }
 
 if (!$savedraft) {
-    if (empty($_POST['_to']) && empty($_POST['_cc']) && empty($_POST['_bcc'])
-        && empty($_POST['_subject']) && $_POST['_message']
-    ) {
+    if (empty($_POST['_to']) && empty($_POST['_cc']) && empty($_POST['_bcc']) && $_POST['_message']) {
         $OUTPUT->show_message('sendingfailed', 'error');
         $OUTPUT->send('iframe');
     }
@@ -171,10 +169,11 @@ if (($max_recipients = (int) $RCMAIL->config->get('max_recipients')) > 0) {
 $dont_override = (array) $RCMAIL->config->get('dont_override');
 $mdn_enabled   = in_array('mdn_default', $dont_override) ? $RCMAIL->config->get('mdn_default') : !empty($_POST['_mdn']);
 $dsn_enabled   = in_array('dsn_default', $dont_override) ? $RCMAIL->config->get('dsn_default') : !empty($_POST['_dsn']);
+$subject       = trim(rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, TRUE, $message_charset));
 
-// add subject
-$headers['Subject'] = trim(rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, TRUE, $message_charset));
-
+if (strlen($subject)) {
+    $headers['Subject'] = $subject;
+}
 if (!empty($identity_arr['organization'])) {
     $headers['Organization'] = $identity_arr['organization'];
 }

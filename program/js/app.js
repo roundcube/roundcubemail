@@ -4345,14 +4345,23 @@ function rcube_webmail()
   };
 
   // checks the input fields before sending a message
-  this.check_compose_input = function(cmd)
+  this.check_compose_input = function(cmd, skip_recipients_checks)
   {
     // check input fields
-    var input_to = $("[name='_to']"),
+    var key, recipients, dialog,
+      limit = this.env.max_disclosed_recipients,
+      input_to = $("[name='_to']"),
       input_cc = $("[name='_cc']"),
       input_bcc = $("[name='_bcc']"),
       input_from = $("[name='_from']"),
-      input_subject = $("[name='_subject']");
+      input_subject = $("[name='_subject']"),
+      get_recipients = function(fields) {
+        fields = $.map(fields, function(v) {
+          v = $.trim(v.val());
+          return v.length ? v : null;
+        });
+        return fields.join(',').replace(/^[\s,;]+/, '').replace(/[\s,;]+$/, '');
+      };
 
     // check sender (if have no identities)
     if (input_from.prop('type') == 'text' && !rcube_check_email(input_from.val(), true)) {
@@ -4362,53 +4371,92 @@ function rcube_webmail()
     }
 
     // check for empty recipient
-    var recipients = input_to.val() ? input_to.val() : (input_cc.val() ? input_cc.val() : input_bcc.val());
-    if (!rcube_check_email(recipients.replace(/^\s+/, '').replace(/[\s,;]+$/, ''), true)) {
+    recipients = get_recipients([input_to, input_cc, input_bcc]);
+    if (!skip_recipients_checks && !rcube_check_email(recipients, true)) {
       alert(this.get_label('norecipientwarning'));
       input_to.focus();
       return false;
     }
 
     // check if all files has been uploaded
-    for (var key in this.env.attachments) {
+    for (key in this.env.attachments) {
       if (typeof this.env.attachments[key] === 'object' && !this.env.attachments[key].complete) {
         alert(this.get_label('notuploadedwarning'));
         return false;
       }
     }
 
+    // check disclosed recipients limit
+    if (limit && !skip_recipients_checks && !this.env.disclosed_recipients_warned
+      && rcube_check_email(recipients = get_recipients([input_to, input_cc]), true, true) > limit
+    ) {
+      var save_func = function(move_to_bcc) {
+          if (move_to_bcc) {
+            var bcc = input_bcc.val();
+            input_bcc.val((bcc ? (bcc + ', ') : '') + recipients).change();
+            input_to.val('').change();
+            input_cc.val('').change();
+          }
+
+          dialog.dialog('close');
+          ref.check_compose_input(cmd, true);
+        };
+
+      dialog = this.show_popup_dialog(
+        this.get_label('disclosedrecipwarning'),
+        this.get_label('disclosedreciptitle'),
+        [{
+            text: this.get_label('sendmessage'),
+            click: function() { save_func(false); },
+            'class': 'mainaction'
+          }, {
+            text: this.get_label('bccinstead'),
+            click: function() { save_func(true); }
+          }, {
+            text: this.get_label('cancel'),
+            click: function() { dialog.dialog('close'); }
+          }],
+        {dialogClass: 'warning'}
+      );
+
+      this.env.disclosed_recipients_warned = true;
+      return false;
+    }
+
     // display localized warning for missing subject
-    if (input_subject.val() == '') {
-      var buttons = {},
-        myprompt = $('<div class="prompt">').html('<div class="message">' + this.get_label('nosubjectwarning') + '</div>')
-          .appendTo(document.body),
-        prompt_value = $('<input>').attr({type: 'text', size: 30}).val(this.get_label('nosubject'))
-          .appendTo(myprompt),
+    if (!this.env.nosubject_warned && input_subject.val() == '') {
+      var prompt_value = $('<input>').attr({type: 'text', size: 40}),
+        myprompt = $('<div class="prompt">')
+          .append($('<div class="message">').text(this.get_label('nosubjectwarning')))
+          .append(prompt_value),
         save_func = function() {
           input_subject.val(prompt_value.val());
-          myprompt.dialog('close');
+          dialog.dialog('close');
           ref.command(cmd, { nocheck:true });  // repeat command which triggered this
         };
 
-      buttons[this.get_label('sendmessage')] = function() {
-        save_func($(this));
-      };
-      buttons[this.get_label('cancel')] = function() {
-        input_subject.focus();
-        $(this).dialog('close');
-      };
-
-      myprompt.dialog({
-        modal: true,
-        resizable: false,
-        buttons: buttons,
-        close: function(event, ui) { $(this).remove(); }
-      });
+      dialog = this.show_popup_dialog(
+        myprompt,
+        this.get_label('nosubjecttitle'),
+        [{
+            text: this.get_label('sendmessage'),
+            click: function() { save_func(); },
+            'class': 'mainaction'
+          }, {
+            text: this.get_label('cancel'),
+            click: function() {
+              input_subject.focus();
+              dialog.dialog('close');
+            }
+          }],
+        {dialogClass: 'warning'}
+      );
 
       prompt_value.select().keydown(function(e) {
         if (e.which == 13) save_func();
       });
 
+      this.env.nosubject_warned = true;
       return false;
     }
 

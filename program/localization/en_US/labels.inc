@@ -266,6 +266,7 @@ $labels['keyid']          = 'Key ID';
 $labels['keylength']      = 'Bits';
 $labels['keyexpired']     = 'Expired';
 $labels['keyrevoked']     = 'Revoked';
+$labels['bccinstead']     = 'Use Bcc';
 
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
