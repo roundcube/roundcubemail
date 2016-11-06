@@ -521,8 +521,14 @@ $config['sendmail_delay'] = 0;
 // Size in bytes (possible unit suffix: K, M, G)
 $config['max_message_size'] = '100M';
 
-// Maximum number of recipients per message. Default: 0 (no limit)
+// Maximum number of recipients per message (including To, Cc, Bcc).
+// Default: 0 (no limit)
 $config['max_recipients'] = 0;
+
+// Maximum number of recipients per message exluding Bcc header.
+// This is a soft limit, which means we only display a warning to the user.
+// Default: 5
+$config['max_disclosed_recipients'] = 5;
 
 // Maximum allowed number of members of an address group. Default: 0 (no limit)
 // If 'max_recipients' is set this value should be less or equal

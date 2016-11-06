@@ -407,10 +407,14 @@ triggerEvent: function(evt, e)
 // check if input is a valid email address
 // By Cal Henderson <cal@iamcal.com>
 // http://code.iamcal.com/php/rfc822/
-function rcube_check_email(input, inline)
+function rcube_check_email(input, inline, count)
 {
-  if (input && window.RegExp) {
-    var qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]',
+  if (!input)
+    return count ? 0 : false;
+
+  if (count) inline = true;
+
+  var qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]',
       dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]',
       atom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+',
       quoted_pair = '\\x5c[\\x00-\\x7f]',
@@ -443,12 +447,13 @@ function rcube_check_email(input, inline)
       delim = '[,;\\s\\n]',
       local_part = word+'(\\x2e'+word+')*',
       addr_spec = '(('+local_part+'\\x40'+domain+')|('+icann_addr+'))',
-      reg1 = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', 'i') : new RegExp('^'+addr_spec+'$', 'i');
+      rx_flag = count ? 'ig' : 'i',
+      rx = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', rx_flag) : new RegExp('^'+addr_spec+'$', 'i');
 
-    return reg1.test(input) ? true : false;
-  }
+  if (count)
+    return input.match(rx).length;
 
-  return false;
+  return rx.test(input);
 };
 
 // recursively copy an object
