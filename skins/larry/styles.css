@@ -698,17 +698,17 @@ a.iconlink.upload {
 
 .ui-dialog.warning .ui-dialog-title {
 	color: #960;
-	background-position: 0 -90px;
+	background-position: 0 -91px;
 }
 
 .ui-dialog.error .ui-dialog-title {
 	color: #cf2734;
-	background-position: 0 -60px;
+	background-position: 0 -62px;
 }
 
 .ui-dialog.confirmation .ui-dialog-title {
 	color: #093;
-	background-position: 0 -30px;
+	background-position: 0 -32px;
 }
 
 .ui-autocomplete {
