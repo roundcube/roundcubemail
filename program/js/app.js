@@ -8486,6 +8486,12 @@ function rcube_webmail()
     if (this.env.action == 'compose') {
       this.save_compose_form_local();
       this.compose_skip_unsavedcheck = true;
+      // stop keep-alive and refresh processes
+      this.env.session_lifetime = 0;
+      if (this._keepalive)
+        clearInterval(this._keepalive);
+      if (this._refresh)
+        clearInterval(this._refresh);
     }
     else if (redirect_url) {
       setTimeout(function(){ ref.redirect(redirect_url, true); }, 2000);
