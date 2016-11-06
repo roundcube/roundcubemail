@@ -1675,8 +1675,9 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
                             rcmail_output::JS_OBJECT_NAME, rcube::JQ($string)),
                     ),
                     html::img(array(
-                        'src' => $RCMAIL->output->abs_url($addicon, true),
-                        'alt' => "Add contact",
+                        'src'   => $RCMAIL->output->abs_url($addicon, true),
+                        'alt'   => "Add contact",
+                        'class' => 'noselect',
                 )));
             }
         }

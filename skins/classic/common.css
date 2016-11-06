@@ -161,6 +161,15 @@ img
   display: none;
 }
 
+.noselect
+{
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+
 /* fixes vertical alignment of checkboxes and labels */
 label input,
 label span
