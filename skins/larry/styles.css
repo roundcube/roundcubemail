@@ -98,6 +98,14 @@ label input + span {
 	vertical-align: middle;
 }
 
+.noselect {
+	user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+}
+
 /*** buttons ***/
 
 input.button {
