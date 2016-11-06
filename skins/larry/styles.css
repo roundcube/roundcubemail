@@ -711,24 +711,6 @@ a.iconlink.upload {
 	background-position: 0 -30px;
 }
 
-.ui-dialog.popupmessage .ui-dialog-titlebar {
-	padding: 8px 1em 4px 1em;
-	background: #e3e3e3;
-	background: -moz-linear-gradient(top, #e3e3e3 0%, #cfcfcf 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e3e3e3), color-stop(100%,#cfcfcf));
-	background: -ms-linear-gradient(top, #e3e3e3 0%, #cfcfcf 100%);
-	background: linear-gradient(to bottom, #e3e3e3 0%, #cfcfcf 100%);
-}
-
-.ui-dialog.popupmessage .ui-widget-content {
-	font-size: 12px;
-	background: #eee;
-	background: -moz-linear-gradient(top, #eee 0%, #dcdcdc 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(100%,#dcdcdc));
-	background: -ms-linear-gradient(top, #eee 0%, #dcdcdc 100%);
-	background: linear-gradient(to bottom, #eee 0%, #dcdcdc 100%);
-}
-
 .ui-autocomplete {
 	max-height: 160px;
 	overflow-x: hidden;
