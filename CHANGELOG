@@ -57,6 +57,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Unhide advanced rule controls if there are inputs with errors
 - Managesieve: Display warning message when filter form contains errors
 - Control search engine crawlers via X-Robots-Tag header instead of <meta> and robots.txt (#5098)
+- Fix so templating system does not mess with external (e.g. email) content (#5499)
 - Fix redundant keep-alive/refresh after session error on compose page (#5500)
 - Fix flickering of header topline in min-mode (#5426)
 - Fix bug where folders list would scroll to top when clicking on subscription checkbox (#5447)
