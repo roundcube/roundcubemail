@@ -542,6 +542,14 @@ class rcube_imap_generic
                 // RFC2195: CRAM-MD5
                 $ipad = '';
                 $opad = '';
+                $xor  = function($str1, $str2) {
+                    $result = '';
+                    $size   = strlen($str1);
+                    for ($i=0; $i<$size; $i++) {
+                        $result .= chr(ord($str1[$i]) ^ ord($str2[$i]));
+                    }
+                    return $result;
+                };
 
                 // initialize ipad, opad
                 for ($i=0; $i<64; $i++) {
@@ -550,14 +558,11 @@ class rcube_imap_generic
                 }
 
                 // pad $pass so it's 64 bytes
-                $padLen = 64 - strlen($pass);
-                for ($i=0; $i<$padLen; $i++) {
-                    $pass .= chr(0);
-                }
+                $pass = str_pad($pass, 64, chr(0));
 
                 // generate hash
-                $hash  = md5($this->_xor($pass, $opad) . pack("H*",
-                    md5($this->_xor($pass, $ipad) . base64_decode($challenge))));
+                $hash  = md5($xor($pass, $opad) . pack("H*",
+                    md5($xor($pass, $ipad) . base64_decode($challenge))));
                 $reply = base64_encode($user . ' ' . $hash);
 
                 // send result
@@ -3830,6 +3835,9 @@ class rcube_imap_generic
         return $num == 1 ? $result[0] : $result;
     }
 
+    /**
+     * Joins IMAP command line elements (recursively)
+     */
     protected static function r_implode($element)
     {
         $string = '';
@@ -3930,18 +3938,6 @@ class rcube_imap_generic
                 $result[] = (int)$x;
             }
             unset($messages[$idx]);
-        }
-
-        return $result;
-    }
-
-    protected function _xor($string, $string2)
-    {
-        $result = '';
-        $size   = strlen($string);
-
-        for ($i=0; $i<$size; $i++) {
-            $result .= chr(ord($string[$i]) ^ ord($string2[$i]));
         }
 
         return $result;
