@@ -31,6 +31,7 @@ class rcmail_output_html extends rcmail_output
 
     protected $message;
     protected $template_name;
+    protected $objects      = array();
     protected $js_env       = array();
     protected $js_labels    = array();
     protected $js_commands  = array();
@@ -638,15 +639,11 @@ EOF;
         $output = $hook['content'];
         unset($hook['content']);
 
-        // make sure all <form> tags have a valid request token
-        $output       = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
-        $this->footer = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $this->footer);
-
         // remove plugin skin paths from current context
         $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
 
         if (!$write) {
-            return $output;
+            return $this->postrender($output);
         }
 
         $this->write(trim($output));
@@ -888,6 +885,7 @@ EOF;
     {
         $input = $this->parse_conditions($input);
         $input = $this->parse_xml($input);
+        $input = $this->postrender($input);
 
         return $input;
     }
@@ -970,7 +968,7 @@ EOF;
      *
      * @return mixed Expression result
      */
-    protected function eval_expression ($expression)
+    protected function eval_expression($expression)
     {
         $expression = preg_replace(
             array(
@@ -1012,13 +1010,18 @@ EOF;
      * with the appropriate content
      *
      * @param string $input Input string to parse
+     * @param bool   $reset Reset stored objects
      *
      * @return string Altered input string
      * @todo   Use DOM-parser to traverse template HTML
      * @todo   Maybe a cache.
      */
-    protected function parse_xml($input)
+    protected function parse_xml($input, $reset = true)
     {
+        if ($reset) {
+            $this->objects = array();
+        }
+
         return preg_replace_callback('/<roundcube:([-_a-z]+)\s+((?:[^>]|\\\\>)+)(?<!\\\\)>/Ui', array($this, 'xml_command'), $input);
     }
 
@@ -1118,7 +1121,7 @@ EOF;
                       $incl = file_get_contents($path);
                     }
                     $incl = $this->parse_conditions($incl);
-                    $incl = $this->parse_xml($incl);
+                    $incl = $this->parse_xml($incl, false);
                     $incl = $this->fix_paths($incl);
                     $this->base_path = $old_base_path;
                     return $incl;
@@ -1141,14 +1144,15 @@ EOF;
 
             // return code for a specific application object
             case 'object':
-                $object = strtolower($attrib['name']);
+                $object  = strtolower($attrib['name']);
                 $content = '';
 
                 // we are calling a class/method
                 if (($handler = $this->object_handlers[$object]) && is_array($handler)) {
                     if ((is_object($handler[0]) && method_exists($handler[0], $handler[1])) ||
                     (is_string($handler[0]) && class_exists($handler[0])))
-                    $content = call_user_func($handler, $attrib);
+                    $content  = call_user_func($handler, $attrib);
+                    $external = true;
                 }
                 // execute object handler function
                 else if (function_exists($handler)) {
@@ -1211,6 +1215,13 @@ EOF;
 
                 // exec plugin hooks for this template object
                 $hook = $this->app->plugins->exec_hook("template_object_$object", $attrib + array('content' => $content));
+
+                if (strlen($hook['content']) && !empty($external)) {
+                    $object_id                 = uniqid('TEMPLOBJECT:', true);
+                    $this->objects[$object_id] = $hook['content'];
+                    $hook['content']           = $object_id;
+                }
+
                 return $hook['content'];
 
             // return code for a specified eval expression
@@ -1274,6 +1285,25 @@ EOF;
         ob_end_clean();
 
         return $out;
+    }
+
+    /**
+     * Put objects' content back into template output
+     */
+    protected function postrender($output)
+    {
+        // insert objects' contents
+        foreach ($this->objects as $key => $val) {
+            $output = str_replace($key, $val, $output);
+        }
+
+        // reset objects
+        $this->objects = array();
+
+        // make sure all <form> tags have a valid request token
+        $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
+
+        return $output;
     }
 
     /**
@@ -1540,7 +1570,7 @@ EOF;
      * @param string $templ     HTML template
      * @param string $base_path Base for absolute paths
      */
-    public function _write($templ = '', $base_path = '')
+    protected function _write($templ = '', $base_path = '')
     {
         $output = trim($templ);
 
@@ -1663,6 +1693,8 @@ EOF;
         if ($this->assets_path) {
             $output = $this->fix_assets_paths($output);
         }
+
+        $output = $this->postrender($output);
 
         // trigger hook with final HTML content to be sent
         $hook = $this->app->plugins->exec_hook("send_page", array('content' => $output));
