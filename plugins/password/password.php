@@ -282,11 +282,12 @@ class password extends rcube_plugin
                 'class'   => 'button mainaction',
                 'label'   => 'save',
         ));
+        $form_buttons = html::p(array('class' => 'formbuttons'), $submit_button);
 
         $out = html::div(array('class' => 'box'),
             html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changepasswd'))
             . html::div(array('class' => 'boxcontent'),
-                $disabled_msg . $table->show() . $rules . html::p(null, $submit_button)));
+                $disabled_msg . $table->show() . $rules . $form_buttons));
 
         $rcmail->output->add_gui_object('passform', 'password-form');
 
