@@ -134,6 +134,12 @@ if ($search_str) {
         array_unshift($mboxes, $mbox);
     }
 
+    if ($scope != 'all') {
+        // Remember current folder, it can change in meantime (plugins)
+        // but we need it to e.g. recognize Sent folder to handle From/To column later
+        $RCMAIL->output->set_env('mailbox', $mbox);
+    }
+
     $result = $RCMAIL->storage->search($mboxes, $search_str, $imap_charset, $sort_column);
 }
 
