@@ -91,9 +91,9 @@ if (window.rcmail) {
 
         setcnt = rcmail.filtersets_list.rowcount;
         rcmail.enable_command('plugin.managesieve-set', true);
-        rcmail.enable_command('plugin.managesieve-setact', 'plugin.managesieve-setget', setcnt);
+        rcmail.enable_command('plugin.managesieve-setact', 'plugin.managesieve-setget', setcnt > 0);
         rcmail.enable_command('plugin.managesieve-setdel', setcnt > 1);
-        rcmail.enable_command('plugin.managesieve-seteditraw', true);
+        rcmail.enable_command('plugin.managesieve-seteditraw', setcnt > 0 && rcmail.env.raw_sieve_editor);
 
         // Fix dragging filters over sets list
         $('tr', rcmail.gui_objects.filtersetslist).each(function (i, e) { rcmail.managesieve_fixdragend(e); });
@@ -111,8 +111,7 @@ if (window.rcmail) {
 
 rcube_webmail.prototype.managesieve_add = function()
 {
-  this.load_managesieveframe();
-  this.filters_list.clear_selection();
+  this.load_managesieveframe('', true);
 };
 
 rcube_webmail.prototype.managesieve_del = function()
@@ -138,8 +137,14 @@ rcube_webmail.prototype.managesieve_act = function()
 rcube_webmail.prototype.managesieve_select = function(list)
 {
   var id = list.get_single_selection();
-  if (id != null)
-    this.load_managesieveframe(list.rows[id].uid);
+
+  if (id != null) {
+    id = list.rows[id].uid;
+    this.load_managesieveframe('_fid=' + id);
+  }
+
+  var has_id = typeof(id) != 'undefined' && id != null;
+  this.enable_command('plugin.managesieve-act', 'plugin.managesieve-del', has_id);
 };
 
 // Set selection
@@ -148,7 +153,8 @@ rcube_webmail.prototype.managesieve_setselect = function(list)
   this.show_contentframe(false);
   this.filters_list.clear(true);
   this.enable_command('plugin.managesieve-setdel', list.rowcount > 1);
-  this.enable_command('plugin.managesieve-setact', 'plugin.managesieve-setget', true);
+  this.enable_command('plugin.managesieve-setact', 'plugin.managesieve-setget', list.rowcount > 0);
+  this.enable_command('plugin.managesieve-seteditraw', list.rowcount > 0 && this.env.raw_sieve_editor);
 
   var id = list.get_single_selection();
   if (id != null)
@@ -219,24 +225,13 @@ rcube_webmail.prototype.managesieve_seteditraw = function()
   var id = this.filtersets_list.get_single_selection(),
     script = this.env.filtersets[id];
 
-  if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
-    var lock = this.set_busy(true, 'loading');
-    target = window.frames[this.env.contentframe];
-    target.location.href = this.env.comm_path+'&_action=plugin.managesieve-action&_framed=1&_seteditraw=1&_unlock='+lock+'&_set='+urlencode(script);
-  }
+  this.load_managesieveframe('_seteditraw=1&_set=' + urlencode(script), true);
 }
 
 // Set add request
 rcube_webmail.prototype.managesieve_setadd = function()
 {
-  this.filters_list.clear_selection();
-  this.enable_command('plugin.managesieve-act', 'plugin.managesieve-del', false);
-
-  if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
-    var lock = this.set_busy(true, 'loading');
-    target = window.frames[this.env.contentframe];
-    target.location.href = this.env.comm_path+'&_action=plugin.managesieve-action&_framed=1&_newset=1&_unlock='+lock;
-  }
+  this.load_managesieveframe('_newset=1', true);
 };
 
 rcube_webmail.prototype.managesieve_updatelist = function(action, o)
@@ -249,9 +244,8 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
       var id = o.id, list = this.filters_list;
 
       list.remove_row(this.managesieve_rowid(o.id));
-      list.clear_selection();
       this.show_contentframe(false);
-      this.enable_command('plugin.managesieve-del', 'plugin.managesieve-act', false);
+      this.reset_filters_list();
 
       // filter identifiers changed, fix the list
       $('tr', this.filters_list.list).each(function() {
@@ -388,22 +382,42 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
       this.managesieve_fixdragend(row);
 
       break;
+
+    case 'refresh':
+      this.reset_filters_list(true);
+      break;
   }
 
   this.set_busy(false);
 };
 
-// load filter frame
-rcube_webmail.prototype.load_managesieveframe = function(id)
+// Resets filters list state
+rcube_webmail.prototype.reset_filters_list = function(reload)
 {
-  var has_id = typeof(id) != 'undefined' && id != null;
-  this.enable_command('plugin.managesieve-act', 'plugin.managesieve-del', has_id);
+  this.filters_list.clear_selection();
+  this.enable_command('plugin.managesieve-act', 'plugin.managesieve-del', false);
+
+  if (reload) {
+    var id = this.filtersets_list.get_single_selection();
+
+    this.filters_list.clear(true);
+    this.managesieve_list(this.env.filtersets[id]);
+  }
+};
+
+// load filter frame
+rcube_webmail.prototype.load_managesieveframe = function(add_url, reset)
+{
+  if (reset)
+    this.reset_filters_list();
 
   if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
+    var lock = this.set_busy(true, 'loading');
+
     target = window.frames[this.env.contentframe];
-    var msgid = this.set_busy(true, 'loading');
-    target.location.href = this.env.comm_path+'&_action=plugin.managesieve-action&_framed=1'
-      +(has_id ? '&_fid='+id : '')+'&_unlock='+msgid;
+    target.location.href = this.env.comm_path
+      + '&_action=plugin.managesieve-action&_framed=1&_unlock=' + lock
+      + (add_url ? ('&' + add_url) : '');
   }
 };
 
@@ -479,8 +493,7 @@ rcube_webmail.prototype.managesieve_save = function()
     }
     this.gui_objects.sieveform.submit();
   }
-  
-  if (this.gui_objects.sievesetrawform) {
+  else if (this.gui_objects.sievesetrawform) {
     this.gui_objects.sievesetrawform.submit();
   }
 };

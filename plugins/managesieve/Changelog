@@ -2,6 +2,7 @@
 - Fix regression where js error is thrown if server does not support 'duplicate' extension
 - Add option to automatically set vacation :from address (#5428)
 - Support per-host managesieve_conn_options (#5136)
+- Added (optional) RAW script editor (#5414)
 
 * version 8.7 [2016-07-19]
 -----------------------------------------------------------

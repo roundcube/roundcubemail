@@ -225,19 +225,24 @@ class managesieve extends rcube_plugin
         $engine = $this->get_engine();
         $engine->save();
     }
-    
+
     /**
      * Raw form save action handler
      */
     function managesieve_saveraw()
     {
+        $engine = $this->get_engine();
+
+        if (!$this->rc->config->get('managesieve_raw_editor', true)) {
+            return;
+        }
+
         // load localization
         $this->add_texts('localization/', array('filters','managefilters'));
-    
+
         // include main js script
         $this->include_script('managesieve.js');
-    
-        $engine = $this->get_engine();
+
         $engine->saveraw();
     }
 

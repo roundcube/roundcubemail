@@ -103,3 +103,6 @@ $config['managesieve_vacation_from_init'] = false;
 
 // Supported methods of notify extension. Default: 'mailto'
 $config['managesieve_notify_methods'] = array('mailto');
+
+// Enables scripts RAW editor feature
+$config['managesieve_raw_editor'] = true;
