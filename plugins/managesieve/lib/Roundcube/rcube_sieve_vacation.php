@@ -914,9 +914,13 @@ class rcube_sieve_vacation extends rcube_sieve_engine
      */
     public function connect($username, $password)
     {
-        if (!parent::connect($username, $password)) {
-            return $this->load_script();
+        $error = parent::connect($username, $password);
+
+        if ($error) {
+            return $error;
         }
+
+        return $this->load_script();
     }
 
     /**
