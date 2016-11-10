@@ -318,6 +318,13 @@ a.button.disabled
   max-width: 280px;
 }
 
+#filter-form #rawfiltersettxt {
+	width: 98%;
+	min-height: 400px;
+	max-width: none;
+	font-family: monospace;
+}
+
 /* revert larry style button */
 #filter-form input.button
 {
