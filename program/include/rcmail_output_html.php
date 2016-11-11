@@ -529,8 +529,10 @@ EOF;
 
         // allow (legal) iframe content to be loaded
         $iframe = $this->framed || $this->env['framed'];
-        if (!headers_sent() && $iframe && $this->app->config->get('x_frame_options', 'sameorigin') === 'deny') {
-            header('X-Frame-Options: sameorigin', true);
+        if (!headers_sent() && $iframe && ($xopt = $this->app->config->get('x_frame_options', 'sameorigin'))) {
+            if (strtolower($xopt) != 'sameorigin') {
+                header('X-Frame-Options: sameorigin', true);
+            }
         }
 
         // call super method
