@@ -468,7 +468,8 @@ $config['proxy_whitelist'] = array();
 $config['referer_check'] = false;
 
 // X-Frame-Options HTTP header value sent to prevent from Clickjacking.
-// Possible values: sameorigin|deny. Set to false in order to disable sending them
+// Possible values: sameorigin|deny|allow-from <uri>.
+// Set to false in order to disable sending the header.
 $config['x_frame_options'] = 'sameorigin';
 
 // This key is used for encrypting purposes, like storing of imap password

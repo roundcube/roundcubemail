@@ -174,11 +174,13 @@ function rcube_webmail()
       this.gui_objects[n] = rcube_find_object(this.gui_objects[n]);
 
     // clickjacking protection
-    if (this.env.x_frame_options) {
+    if (n = this.env.x_frame_options) {
       try {
         // bust frame if not allowed
-        if (this.env.x_frame_options == 'deny' && top.location.href != self.location.href)
+        if (n.toLowerCase() == 'deny' && top.location.href != self.location.href)
           top.location.href = self.location.href;
+        else if (/^allow-from[\s\t]+(.+)$/i.test(n) && RegExp.$1.indexOf(top.location.origin) != 0)
+          throw 1;
         else if (top.location.hostname != self.location.hostname)
           throw 1;
       } catch (e) {
