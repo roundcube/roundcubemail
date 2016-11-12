@@ -280,7 +280,7 @@ $config['password_ldap_ppolicy_cmd'] = 'change_ldap_pass.pl';
 
 // LDAP URI
 // Example: 'ldap://ldap.example.com/ ldaps://ldap2.example.com:636/'
-$config['password_ldap_ppolicy_uri'] = 'ldap://localhost/ ;
+$config['password_ldap_ppolicy_uri'] = 'ldap://localhost/';
 
 // LDAP base name (root directory)
 // Exemple: 'dc=exemple,dc=com'
