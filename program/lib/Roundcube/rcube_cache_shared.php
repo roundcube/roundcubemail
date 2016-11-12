@@ -392,7 +392,7 @@ class rcube_cache_shared
                 $key, $data);
         }
 
-        return $this->db->affected_rows($result);
+        return $this->db->affected_rows($result) > 0;
     }
 
     /**
