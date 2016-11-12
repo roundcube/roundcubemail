@@ -949,46 +949,24 @@ function rcmail_compose_body($attrib)
     list($form_start, $form_end) = get_form_tags($attrib);
     unset($attrib['form']);
 
-    if (empty($attrib['id']))
+    if (empty($attrib['id'])) {
         $attrib['id'] = 'rcmComposeBody';
+    }
+
+    // If desired, set this textarea to be editable by TinyMCE
+    if ($HTML_MODE) {
+        $attrib['class'] = 'mce_editor';
+    }
 
     $attrib['name'] = '_message';
 
-    $isHtml = $HTML_MODE;
+    $textarea = new html_textarea($attrib);
+    $hidden   = new html_hiddenfield();
 
-    $out = $form_start ? "$form_start\n" : '';
-
-    $saveid = new html_hiddenfield(array('name' => '_draft_saveid', 'value' => $RCMAIL->output->get_env('draft_id')));
-    $out .= $saveid->show();
-
-    $drafttoggle = new html_hiddenfield(array('name' => '_draft', 'value' => 'yes'));
-    $out .= $drafttoggle->show();
-
-    $msgtype = new html_hiddenfield(array('name' => '_is_html', 'value' => ($isHtml ? "1" : "0")));
-    $out .= $msgtype->show();
-
-    $framed = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
-    $out .= $framed->show();
-
-    // If desired, set this textarea to be editable by TinyMCE
-    if ($isHtml) {
-        $MESSAGE_BODY = htmlentities($MESSAGE_BODY, ENT_NOQUOTES, RCUBE_CHARSET);
-        $attrib['class'] = 'mce_editor';
-        $attrib['is_escaped'] = true;
-        $textarea = new html_textarea($attrib);
-        $out .= $textarea->show($MESSAGE_BODY);
-    }
-    else {
-        $textarea = new html_textarea($attrib);
-        $out .= $textarea->show('');
-
-        // quote plain text, inject into textarea
-        $table = get_html_translation_table(HTML_SPECIALCHARS);
-        $MESSAGE_BODY = strtr($MESSAGE_BODY, $table);
-        $out = substr($out, 0, -11) . $MESSAGE_BODY . '</textarea>';
-    }
-
-    $out .= $form_end ? "\n$form_end" : '';
+    $hidden->add(array('name' => '_draft_saveid', 'value' => $RCMAIL->output->get_env('draft_id')));
+    $hidden->add(array('name' => '_draft', 'value' => ''));
+    $hidden->add(array('name' => '_is_html', 'value' => $HTML_MODE ? "1" : "0"));
+    $hidden->add(array('name' => '_framed', 'value' => '1'));
 
     $OUTPUT->set_env('composebody', $attrib['id']);
 
@@ -1010,9 +988,6 @@ function rcmail_compose_body($attrib)
         if (!$spellcheck_langs[$lang]) {
             $lang = 'en';
         }
-
-        $OUTPUT->set_env('spell_langs', $spellcheck_langs);
-        $OUTPUT->set_env('spell_lang', $lang);
 
         $editor_lang_set = array();
         foreach ($spellcheck_langs as $key => $name) {
@@ -1048,11 +1023,15 @@ function rcmail_compose_body($attrib)
 
         $OUTPUT->add_label('checking');
         $OUTPUT->set_env('spellcheck_langs', join(',', $editor_lang_set));
+        $OUTPUT->set_env('spell_langs', $spellcheck_langs);
+        $OUTPUT->set_env('spell_lang', $lang);
     }
 
-    $out .= "\n".'<iframe name="savetarget" src="program/resources/blank.gif" style="width:0;height:0;border:none;visibility:hidden;" aria-hidden="true"></iframe>';
-
-    return $out;
+    return ($form_start ? "$form_start\n" : '')
+        . "\n" . $hidden->show() . "\n" . $textarea->show($MESSAGE_BODY)
+        . ($form_end ? "\n$form_end\n" : '')
+        . '<iframe name="savetarget" src="program/resources/blank.gif"'
+        . ' style="width:0;height:0;border:none;visibility:hidden;" aria-hidden="true"></iframe>';
 }
 
 
@@ -1060,7 +1039,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
 {
     global $RCMAIL, $MESSAGE, $LINE_LENGTH;
 
-    $prefix = rcmail_get_reply_header($MESSAGE);
+    $prefix     = rcmail_get_reply_header($MESSAGE);
     $reply_mode = intval($RCMAIL->config->get('reply_mode'));
 
     if (!$bodyIsHtml) {
