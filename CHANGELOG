@@ -12,6 +12,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where IMAP password could be exposed via error message (#5472)
 - Fix bug where it wasn't possible to store more that 2MB objects in memcache/apc,
   Added memcache_max_allowed_packet and apc_max_allowed_packet settings (#5452)
+- Fix "Illegal string offset" warning in rcube::log_bug() on PHP 7.1 (#5508)
 
 RELEASE 1.2.2
 -------------

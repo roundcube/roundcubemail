@@ -1322,7 +1322,6 @@ class rcube
 
         // write error to local log file
         if (($level & 1) || !empty($arg_arr['fatal'])) {
-            $post_query = '';
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 foreach (array('_task', '_action') as $arg) {
                     if ($_POST[$arg] && !$_GET[$arg]) {
