@@ -403,7 +403,7 @@ class rcube_cache
                 $this->userid, $key, $data);
         }
 
-        return $this->db->affected_rows($result);
+        return $this->db->affected_rows($result) > 0;
     }
 
     /**
