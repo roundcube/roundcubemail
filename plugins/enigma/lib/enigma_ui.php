@@ -155,14 +155,24 @@ class enigma_ui
             $data = $status->getData('bad');
         }
 
-        $data = array('keyid' => key($data), 'user' => $data[key($data)]);
+        $keyid = key($data);
+        $data  = array(
+            'keyid' => $params['keyid'] ?: $keyid,
+            'user'  => $data[$keyid]
+        );
+
+        // With GnuPG 2.1 user name may not be specified (e.g. on private
+        // key export), we'll get the key information and set the name appropriately
+        if ($keyid && $params['keyid'] && strpos($data['user'], $keyid) !== false) {
+            $key = $this->enigma->engine->get_key($params['keyid']);
+            if ($key && $key->name) {
+                $data['user'] = $key->name;
+            }
+        }
 
         if (!empty($params)) {
             $data = array_merge($params, $data);
         }
-
-        // @TODO: Get user name/address when keyid == user,
-        //        it may happen on GnuPG 2.1
 
         if (preg_match('/^(send|plugin.enigmaimport|plugin.enigmakeys)$/', $this->rc->action)) {
             $this->rc->output->command('enigma_password_request', $data);
@@ -480,7 +490,8 @@ class enigma_ui
 
             $status = null;
             foreach ($list as $key) {
-                $status = $engine->export_key(is_object($key) ? $key->id : $key, $fp, (bool) $priv);
+                $keyid  = is_object($key) ? $key->id : $key;
+                $status = $engine->export_key($keyid, $fp, (bool) $priv);
 
                 if ($status instanceof enigma_error) {
                     $code = $status->getCode();
@@ -495,6 +506,7 @@ class enigma_ui
                                 'action'       => '?',
                                 'iframe'       => true,
                                 'nolock'       => true,
+                                'keyid'        => $keyid,
                         ));
                         fclose($fp);
                         $this->rc->output->send('iframe');
