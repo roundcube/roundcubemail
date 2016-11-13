@@ -9,7 +9,7 @@
  * Completely rewritten using the cPanel API2 call Email::passwdpop
  * as opposed to the original coding against the UI, which is a fragile method that
  * makes the driver to always return a failure message for any language other than English
- * see http://trac.roundcube.net/ticket/1487015
+ * see https://github.com/roundcube/roundcubemail/issues/3063
  *
  * This driver has been tested with o2switch hosting and seems to work fine.
  *
