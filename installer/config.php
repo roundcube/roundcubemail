@@ -57,7 +57,7 @@ if (!empty($_POST['submit'])) {
   }
 
   echo '<p class="hint">Of course there are more options to configure.
-    Have a look at the defaults.inc.php file or visit <a href="http://trac.roundcube.net/wiki/Howto_Config" target="_blank">Howto_Config</a> to find out.</p>';
+    Have a look at the defaults.inc.php file or visit <a href="https://github.com/roundcube/roundcubemail/wiki/Configuration" target="_blank">Howto_Config</a> to find out.</p>';
 
   echo '<p><input type="button" onclick="location.href=\'./index.php?_step=3\'" value="CONTINUE" /></p>';
 
