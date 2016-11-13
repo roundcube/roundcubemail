@@ -189,7 +189,7 @@ $config['imap_force_caps'] = false;
 
 // By default list of subscribed folders is determined using LIST-EXTENDED
 // extension if available. Some servers (dovecot 1.x) returns wrong results
-// for shared namespaces in this case. http://trac.roundcube.net/ticket/1486225
+// for shared namespaces in this case. https://github.com/roundcube/roundcubemail/issues/2474
 // Enable this option to force LSUB command usage instead.
 // Deprecated: Use imap_disabled_caps = array('LIST-EXTENDED')
 $config['imap_force_lsub'] = false;
@@ -542,7 +542,8 @@ $config['product_name'] = 'Roundcube Webmail';
 $config['useragent'] = 'Roundcube Webmail/'.RCMAIL_VERSION;
 
 // try to load host-specific configuration
-// see http://trac.roundcube.net/wiki/Howto_Config for more details
+// see https://github.com/roundcube/roundcubemail/wiki/Configuration:-Multi-Domain-Setup
+// for more details
 $config['include_host_config'] = false;
 
 // path to a text file which will be added to each sent message

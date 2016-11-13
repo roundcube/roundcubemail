@@ -120,7 +120,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 </div>
 
 <div id="topnav">
-  <a href="http://trac.roundcube.net/wiki/Howto_Install">How-to Wiki</a>
+  <a href="https://github.com/roundcube/roundcubemail/wiki/Installation">How-to Wiki</a>
 </div>
 
 <div id="content">

@@ -3,7 +3,7 @@ INTRODUCTION
 
 This file describes the basic steps to install Roundcube Webmail on your
 web server. For additional information, please also consult the project's
-wiki page at http://trac.roundcube.net/wiki
+wiki page at https://github.com/roundcube/roundcubemail/wiki
 
 
 REQUIREMENTS
@@ -125,7 +125,7 @@ createuser and createdb commands.
 * Microsoft SQL Server
 ----------------------
 Language/locale of the database must be set to us_english (1033). More info
-on this at http://trac.roundcube.net/ticket/1488918.
+on this at https://github.com/roundcube/roundcubemail/issues/4078.
 
 
 Database cleaning
@@ -143,8 +143,8 @@ to config/config.inc.php and make the necessary adjustments according to your
 environment and your needs. More configuration options can be copied from the
 config/defaults.inc.php file into your local config.inc.php file as needed.
 Read the comments above the individual configuration options to find out what
-they do or read http://trac.roundcube.net/wiki/Howto_Install for even more
-guidance.
+they do or read https://github.com/roundcube/roundcubemail/wiki/Installation
+for even more guidance.
 
 You can also modify the default .htaccess file. This is necessary to
 increase the allowed size of file attachments, for example:
