@@ -88,11 +88,7 @@ class enigma_engine
         $result = $this->pgp_driver->init();
 
         if ($result instanceof enigma_error) {
-            rcube::raise_error(array(
-                'code' => 600, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: ".$result->getMessage()
-            ), true, true);
+            self::raise_error($result, __LINE__, true);
         }
     }
 
@@ -123,11 +119,7 @@ class enigma_engine
         $result = $this->smime_driver->init();
 
         if ($result instanceof enigma_error) {
-            rcube::raise_error(array(
-                'code' => 600, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: ".$result->getMessage()
-            ), true, true);
+            self::raise_error($result, __LINE__, true);
         }
     }
 
@@ -878,12 +870,9 @@ class enigma_engine
         // @TODO: Handle big bodies using (temp) files
         $sig = $this->pgp_driver->verify($msg_body, $sig_body);
 
-        if (($sig instanceof enigma_error) && $sig->getCode() != enigma_error::KEYNOTFOUND)
-            rcube::raise_error(array(
-                'code' => 600, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: " . $sig->getMessage()
-                ), true, false);
+        if (($sig instanceof enigma_error) && $sig->getCode() != enigma_error::KEYNOTFOUND) {
+            self::raise_error($sig, __LINE__);
+        }
 
         return $sig;
     }
@@ -903,13 +892,10 @@ class enigma_engine
         $result = $this->pgp_driver->decrypt($msg_body, $keys, $signature);
 
         if ($result instanceof enigma_error) {
-            $err_code = $result->getCode();
-            if (!in_array($err_code, array(enigma_error::KEYNOTFOUND, enigma_error::BADPASS)))
-                rcube::raise_error(array(
-                    'code' => 600, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Enigma plugin: " . $result->getMessage()
-                    ), true, false);
+            if ($result->getCode() != enigma_error::KEYNOTFOUND) {
+                self::raise_error($result, __LINE__);
+            }
+
             return $result;
         }
 
@@ -933,13 +919,10 @@ class enigma_engine
         $result = $this->pgp_driver->sign($msg_body, $key, $mode);
 
         if ($result instanceof enigma_error) {
-            $err_code = $result->getCode();
-            if (!in_array($err_code, array(enigma_error::KEYNOTFOUND, enigma_error::BADPASS)))
-                rcube::raise_error(array(
-                    'code' => 600, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Enigma plugin: " . $result->getMessage()
-                    ), true, false);
+            if ($result->getCode() != enigma_error::KEYNOTFOUND) {
+                self::raise_error($result, __LINE__);
+            }
+
             return $result;
         }
 
@@ -964,13 +947,9 @@ class enigma_engine
         $result = $this->pgp_driver->encrypt($msg_body, $keys, $sign_key, $sign_pass);
 
         if ($result instanceof enigma_error) {
-            $err_code = $result->getCode();
-            if (!in_array($err_code, array(enigma_error::KEYNOTFOUND, enigma_error::BADPASS)))
-                rcube::raise_error(array(
-                    'code' => 600, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Enigma plugin: " . $result->getMessage()
-                    ), true, false);
+            if ($result->getCode() != enigma_error::KEYNOTFOUND) {
+                self::raise_error($result, __LINE__);
+            }
 
             return $result;
         }
@@ -993,11 +972,7 @@ class enigma_engine
         $result = $this->pgp_driver->list_keys($pattern);
 
         if ($result instanceof enigma_error) {
-            rcube::raise_error(array(
-                'code' => 600, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: " . $result->getMessage()
-                ), true, false);
+            self::raise_error($result, __LINE__);
         }
 
         return $result;
@@ -1017,12 +992,7 @@ class enigma_engine
         $result = $this->pgp_driver->list_keys($email);
 
         if ($result instanceof enigma_error) {
-            rcube::raise_error(array(
-                'code' => 600, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: " . $result->getMessage()
-                ), true, false);
-
+            self::raise_error($result, __LINE__);
             return;
         }
 
@@ -1049,11 +1019,7 @@ class enigma_engine
         $result = $this->pgp_driver->get_key($keyid);
 
         if ($result instanceof enigma_error) {
-            rcube::raise_error(array(
-                'code' => 600, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: " . $result->getMessage()
-                ), true, false);
+            self::raise_error($result, __LINE__);
         }
 
         return $result;
@@ -1072,11 +1038,7 @@ class enigma_engine
         $result = $this->pgp_driver->delete_key($keyid);
 
         if ($result instanceof enigma_error) {
-            rcube::raise_error(array(
-                'code' => 600, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: " . $result->getMessage()
-                ), true, false);
+            self::raise_error($result, __LINE__);
         }
 
         return $result;
@@ -1095,11 +1057,7 @@ class enigma_engine
         $result = $this->pgp_driver->gen_key($data);
 
         if ($result instanceof enigma_error) {
-            rcube::raise_error(array(
-                'code' => 600, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: " . $result->getMessage()
-                ), true, false);
+            self::raise_error($result, __LINE__);
         }
 
         return $result;
@@ -1119,11 +1077,7 @@ class enigma_engine
         $result = $this->pgp_driver->import($content, $isfile, $this->get_passwords());
 
         if ($result instanceof enigma_error) {
-            rcube::raise_error(array(
-                'code' => 600, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: " . $result->getMessage()
-                ), true, false);
+            self::raise_error($result, __LINE__);
         }
         else {
             $result['imported']  = $result['public_imported'] + $result['private_imported'];
@@ -1148,12 +1102,7 @@ class enigma_engine
         $result = $this->pgp_driver->export($key, $include_private, $this->get_passwords());
 
         if ($result instanceof enigma_error) {
-            rcube::raise_error(array(
-                'code' => 600, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: " . $result->getMessage()
-                ), true, false);
-
+            self::raise_error($result, __LINE__);
             return $result;
         }
 
@@ -1427,5 +1376,20 @@ class enigma_engine
         }
 
         return true;
+    }
+
+    /**
+     * Raise/log (relevant) errors
+     */
+    protected static function raise_error($result, $line, $abort = false)
+    {
+        if ($result->getCode() != enigma_error::BADPASS) {
+            rcube::raise_error(array(
+                    'code'    => 600,
+                    'file'    => __FILE__,
+                    'line'    => $line,
+                    'message' => "Enigma plugin: " . $result->getMessage()
+                ), true, $abort);
+        }
     }
 }
