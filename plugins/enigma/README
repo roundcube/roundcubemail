@@ -24,7 +24,7 @@ Implemented features:
 
 TODO:
 -----
-- Handling of big messages with temp files
+- Handling of big messages with temp files (? - security)
 - Key info in contact details page (optional)
 - Extended key management:
    - disable,
@@ -36,7 +36,7 @@ TODO:
 - Search filter to see invalid/expired keys
 - Key server(s) support (upload, refresh)
 - Mark keys as trusted/untrasted, display appropriate message in verify/decrypt status
-- Support for multi-server installations (store keys in sql database?)
+- Support for multi-server installations (store keys in sql database? probably impossible with GnuPG 2.1)
 - Performance improvements:
    - cache decrypted message key id so we can skip decryption if we have no password in session
    - cache (last or successful only?) sig verification status to not verify on every msg preview (optional)
@@ -51,9 +51,9 @@ TODO:
 
 KNOWN ISSUES:
 -------------
-There are some know issues with accepting key passphrases on various
+There are some known issues with accepting key passphrases on various
 system configurations. This is caused by issues in PinEntry handling.
 Make sure that vendor/bin/crypt-gpg-pinentry works from command line.
+Note that pinentry is used with gpg >= 2.0 and <= 2.1.12.
 Possible reasons:
-- non-supported GnuPG version, i.e. >= 2.1
 - non-working loader in shebang (#! /usr/bin/env php)
