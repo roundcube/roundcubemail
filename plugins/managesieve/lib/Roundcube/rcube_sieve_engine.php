@@ -505,9 +505,9 @@ class rcube_sieve_engine
 
         if ($result === false) {
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
-            $errorLine = $this->sieve->get_error_line();
-            if ($errorLine > 0) {
-                $this->rc->output->set_env("sieve_error_line", $errorLine);
+            $errorLines = $this->sieve->get_error_lines();
+            if (sizeof($errorLines) > 0) {
+                $this->rc->output->set_env("sieve_errors", $errorLines);
             }
         }
         else {

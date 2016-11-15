@@ -5,3 +5,7 @@
 .CodeMirror-linebackground.line-error {
 	background-color: #f66;
 }
+
+.errorGutter {
+	width: 0.8em;
+}
