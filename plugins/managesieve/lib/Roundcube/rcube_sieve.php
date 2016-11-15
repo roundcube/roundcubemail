@@ -26,6 +26,7 @@ class rcube_sieve
 {
     private $sieve;                 // Net_Sieve object
     private $error = false;         // error flag
+    private $errorLine = -1;        // line number within sieve script which raised an error
     private $list = array();        // scripts list
 
     public $script;                 // rcube_sieve_script object
@@ -161,10 +162,25 @@ class rcube_sieve
         $result = $this->sieve->installScript($name, $content);
 
         if (is_a($result, 'PEAR_Error')) {
+            $errorMsg = $result->getMessage();
+            $matches = array();
+            $res = preg_match('/line (\d+):/i', $errorMsg, $matches);
+            
+            if ($res === 1 && count($matches) > 1) {
+                $this->errorLine = $matches[1];
+            }
             return $this->_set_error(self::ERROR_INSTALL);
         }
 
         return true;
+    }
+    
+    /**
+     * Returns the current error line within the saved sieve script
+     */
+    public function get_error_line()
+    {
+        return $this->errorLine;
     }
 
     /**
