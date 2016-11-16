@@ -275,7 +275,7 @@ class rcube_cache_shared
                 }
             }
 
-            if ($data) {
+            if ($data !== false) {
                 $md5sum = md5($data);
                 $data   = $this->unserialize($data);
 
@@ -301,9 +301,9 @@ class rcube_cache_shared
                 0, 1, $this->prefix . '.' . $key);
 
             if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
-                $md5sum = $sql_arr['data'] ? md5($sql_arr['data']) : null;
-                if ($sql_arr['data']) {
-                    $data = $this->unserialize($sql_arr['data']);
+                if (strlen($sql_arr['data']) > 0) {
+                    $md5sum = md5($sql_arr['data']);
+                    $data   = $this->unserialize($sql_arr['data']);
                 }
 
                 $this->db->reset();
