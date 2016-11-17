@@ -50,10 +50,10 @@ class rcube_imap_generic
 
     protected $fp;
     protected $host;
-    protected $prefs;
     protected $cmd_tag;
     protected $cmd_num = 0;
     protected $resourceid;
+    protected $prefs             = array();
     protected $logged            = false;
     protected $capability        = array();
     protected $capability_readed = false;
@@ -805,7 +805,7 @@ class rcube_imap_generic
      *
      * @return bool True on success, False on failure
      */
-    public function connect($host, $user, $password, $options = null)
+    public function connect($host, $user, $password, $options = array())
     {
         // configure
         $this->set_prefs($options);
