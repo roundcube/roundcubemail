@@ -82,33 +82,31 @@ if (!empty($_GET['_thumb']) && $attachment->is_valid()) {
     $cache_file     = $cache_basename . '.thumb';
 
     // render thumbnail image if not done yet
-    if (!is_file($cache_file)) {
-        if ($fp = fopen(($orig_name = $cache_basename . '.tmp'), 'w')) {
-            $attachment->body(0, $fp);
-            fclose($fp);
+    if (!is_file($cache_file) && $attachment->body_to_file($orig_name = $cache_basename . '.tmp')) {
+        $image = new rcube_image($orig_name);
 
-            $image = new rcube_image($orig_name);
-            if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
-                $mimetype = 'image/' . $imgtype;
-                unlink($orig_name);
-            }
-            else if (stripos($mimetype, 'image/svg') === 0) {
-                $content = $attachment->svg_filter(file_get_contents($orig_name));
-                file_put_contents($cache_file, $content);
-                unlink($orig_name);
-            }
-            else {
-                rename($orig_name, $cache_file);
-            }
+        if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
+            $mimetype = 'image/' . $imgtype;
+            unlink($orig_name);
+        }
+        else {
+            // Resize failed, we need to check the file mimetype
+            // So, we do not exit here, but goto generic file body handler below
+            $_GET['_thumb']     = 0;
+            $_REQUEST['_embed'] = 1;
         }
     }
 
-    if (is_file($cache_file)) {
-        header('Content-Type: ' . $mimetype);
-        readfile($cache_file);
-    }
+    if (!empty($_GET['_thumb'])) {
+        if (is_file($cache_file)) {
+            $RCMAIL->output->future_expire_header(3600);
+            header('Content-Type: ' . $mimetype);
+            header('Content-Length: ' . filesize($cache_file));
+            readfile($cache_file);
+        }
 
-    exit;
+        exit;
+    }
 }
 
 // Handle attachment body (display or download)
@@ -283,18 +281,8 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
         $temp_dir  = unslashify($RCMAIL->config->get('temp_dir'));
         $file_path = tempnam($temp_dir, 'rcmAttmnt');
 
-        // write content to temp file
-        if ($body) {
-            $saved = file_put_contents($file_path, $body);
-        }
-        else if ($attachment->size) {
-            $fd    = fopen($file_path, 'w');
-            $saved = $attachment->body(0, $fd);
-            fclose($fd);
-        }
-
         // convert image to jpeg and send it to the browser
-        if ($saved) {
+        if ($attachment->body_to_file($file_path)) {
             $image = new rcube_image($file_path);
             if ($image->convert(rcube_image::TYPE_JPG, $file_path)) {
                 header("Content-Length: " . filesize($file_path));
@@ -384,6 +372,7 @@ class rcmail_attachment_handler
     private $part;
     private $upload;
     private $body;
+    private $body_file;
     private $download = false;
 
     /**
@@ -464,6 +453,16 @@ class rcmail_attachment_handler
     }
 
     /**
+     * Remove temp files, etc.
+     */
+    public function __destruct()
+    {
+        if ($this->body_file) {
+            @unlink($this->body_file);
+        }
+    }
+
+    /**
      * Check if the object is a message part not uploaded file
      *
      * @return bool True if the object is a meesage part
@@ -515,7 +514,7 @@ class rcmail_attachment_handler
      */
     public function body($size = null, $fp = null)
     {
-        // we have the body in memory already
+        // we may have the body in memory or file already
         if ($this->body !== null) {
             if ($fp == -1) {
                 echo $size ? substr($this->body, 0, $size) : $this->body;
@@ -525,6 +524,21 @@ class rcmail_attachment_handler
             }
             else {
                 $result = $size ? substr($this->body, 0, $size) : $this->body;
+            }
+        }
+        else if ($this->body_file) {
+            if ($size) {
+                $result = file_get_contents($this->body_file, false, null, 0, $size);
+            }
+            else {
+                $result = file_get_contents($this->body_file);
+            }
+
+            if ($fp == -1) {
+                echo $result;
+            }
+            else if ($fp) {
+                $result = fwrite($fp, $result) !== false;
             }
         }
         else if ($this->message) {
@@ -565,6 +579,26 @@ class rcmail_attachment_handler
         }
 
         return $result;
+    }
+
+    /**
+     * Save the body to a file
+     *
+     * @param string $filename File name with path
+     *
+     * @return bool True on success, False on failure
+     */
+    public function body_to_file($filename)
+    {
+        if ($filename && $this->size && ($fp = fopen($filename, 'w'))) {
+            $this->body(0, $fp);
+            $this->body_file = $filename;
+            fclose($fp);
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
