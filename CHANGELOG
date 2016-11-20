@@ -74,6 +74,7 @@ CHANGELOG Roundcube Webmail
 - Fix "Illegal string offset" warning in rcube::log_bug() on PHP 7.1 (#5508)
 - Fix storing "empty" values in rcube_cache/rcube_cache_shared (#5519)
 - Fix missing content check when image resize fails on attachment thumbnail generation (#5485)
+- Fix displaying attached images with wrong Content-Type specified (#5527)
 
 RELEASE 1.2.2
 -------------
