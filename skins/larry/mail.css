@@ -1411,7 +1411,7 @@ div.message-partheaders .headers-table td.header {
 }
 
 .widescreen #messagelistcontainer {
-	top: 31px;
+	top: 34px;
 	overflow-x: hidden;
 }
 
@@ -1421,8 +1421,8 @@ div.message-partheaders .headers-table td.header {
 	top: 0;
 	left: 0;
 	right: 0;
-	height: 22px;
-	padding: 4px 6px;
+	height: 34px;
+	padding: 6px 6px;
 	background: #f0f0f0;
 	background: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f0f0));
@@ -1431,12 +1431,15 @@ div.message-partheaders .headers-table td.header {
 	border-radius: 4px 4px 0 0;
 	white-space: nowrap;
 	border-bottom: 1px solid #dfdfdf;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .widescreen #messagelistheader .listmenu {
 	margin-right: 10px;
 	vertical-align: middle;
-	line-height: 20px;
+	line-height: 22px;
 	width: 26px;
 	padding: 0;
 	text-indent: -5000px;
@@ -1457,8 +1460,8 @@ div.message-partheaders .headers-table td.header {
 
 .widescreen .pagenavbuttons {
 	position: absolute;
-	top: 3px;
-	right: 10px;
+	top: 4px;
+	right: 6px;
 }
 
 .widescreen .pagenavbuttons a.button {
@@ -1484,7 +1487,7 @@ div.message-partheaders .headers-table td.header {
 .widescreen .messagelist td {
 	border-left: 0;
 	vertical-align: top;
-	padding: 3px 1px !important;
+	padding: 3px 2px !important;
 }
 
 .widescreen .messagelist td.subject {
@@ -1494,16 +1497,16 @@ div.message-partheaders .headers-table td.header {
 }
 
 .widescreen .messagelist td.threads {
-	width: 18px;
-	vertical-align: middle;
+	width: 20px;
+	vertical-align: top;
 }
 
 .widescreen .messagelist td.flags {
-	width: 20px;
+	width: 22px;
 }
 
 .widescreen .messagelist td.subject span {
-	line-height: 18px;
+	line-height: 20px;
 }
 
 .widescreen .messagelist td.subject span.date {
@@ -1514,9 +1517,9 @@ div.message-partheaders .headers-table td.header {
 }
 
 .widescreen .messagelist td.subject span.fromto {
-	padding-left: 22px;
+	padding-left: 24px;
 	display: block;
-	margin-right: 90px;
+	margin-right: 10em;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	color: #666;
@@ -1535,15 +1538,17 @@ div.message-partheaders .headers-table td.header {
 .widescreen .messagelist td.subject span.subject {
 	clear: both;
 	display: block;
-	font-size: 14px;
+	font-size: 12px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	padding-left: 24px;
 }
 
 .widescreen .messagelist td.flags span {
 	width: 20px;
-	height: 18px;
+	height: 20px;
 	display: block;
+	margin-left: 1px;
 }
 
 .widescreen .messagelist td.flags span.flag {
@@ -1552,7 +1557,9 @@ div.message-partheaders .headers-table td.header {
 
 .widescreen .messagelist tr td.subject span.msgicon,
 .widescreen .messagelist tr td.subject span.unreadchildren {
-	width: 20px;
+	position: absolute;
+	top: 3px;
+	left: 0px;
 }
 
 /* move attachments list to the bottom on narrow mail preview page */
