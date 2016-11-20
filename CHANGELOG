@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support hostname and hostname:port in force_https option (#5511)
 - Support ALLOW-FROM in x_frame_options (#5122)
 - Allow to omit a subject when sending an email (#5068)
 - Warn about too many disclosed recipients in composed email [max_disclosed_recipients] (#5132)

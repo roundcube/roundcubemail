@@ -4,7 +4,7 @@
  | Roundcube Webmail IMAP Client                                           |
  | Version 1.3-git                                                         |
  |                                                                         |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                         |
+ | Copyright (C) 2005-2016, The Roundcube Dev Team                         |
  |                                                                         |
  | This program is free software: you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License (with exceptions   |
@@ -72,11 +72,23 @@ if ($RCMAIL->action == 'error' && !empty($_GET['_code'])) {
 
 // check if https is required (for login) and redirect if necessary
 if (empty($_SESSION['user_id']) && ($force_https = $RCMAIL->config->get('force_https', false))) {
-    $https_port = is_bool($force_https) ? 443 : $force_https;
+    // force_https can be true, <hostname>, <hostname>:<port>, <port>
+    if (!is_bool($force_https)) {
+        list($host, $port) = explode(':', $force_https);
 
-    if (!rcube_utils::https_check($https_port)) {
-        $host  = preg_replace('/:[0-9]+$/', '', $_SERVER['HTTP_HOST']);
-        $host .= ($https_port != 443 ? ':' . $https_port : '');
+        if (is_numeric($host) && empty($port)) {
+            $port = $host;
+            $host = '';
+        }
+    }
+
+    if (!rcube_utils::https_check($port ?: 443)) {
+        if (empty($host)) {
+            $host = preg_replace('/:[0-9]+$/', '', $_SERVER['HTTP_HOST']);
+        }
+        if ($port && $port != 443) {
+            $host .= ':' . $port;
+        }
 
         header('Location: https://' . $host . $_SERVER['REQUEST_URI']);
         exit;
