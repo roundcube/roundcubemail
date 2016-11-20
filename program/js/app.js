@@ -217,6 +217,12 @@ function rcube_webmail()
         this.enable_command('list', 'checkmail', 'add-contact', 'search', 'reset-search', 'collapse-folder', 'import-messages', true);
 
         if (this.gui_objects.messagelist) {
+          this.env.widescreen_list_template = [
+            {className: 'threads', cells: ['threads']},
+            {className: 'subject', cells: ['fromto', 'date', 'status', 'subject']},
+            {className: 'flags', cells: ['flag', 'attachment']}
+          ];
+
           this.message_list = new rcube_list_widget(this.gui_objects.messagelist, {
             multiselect:true, multiexpand:true, draggable:true, keyboard:true,
             column_movable:this.env.col_movable, dblclick_time:this.dblclick_time
@@ -264,6 +270,11 @@ function rcube_webmail()
             this.http_request('pagenav', {_uid: this.env.uid, _mbox: this.env.mailbox, _search: this.env.search_request},
               this.display_message('', 'loading'));
           }
+
+          if (this.env.mail_read_time > 0)
+            setTimeout(function() {
+              ref.http_post('mark', {_uid: ref.env.uid, _flag: 'read', _mbox: ref.env.mailbox, _quiet: 1});
+            }, this.env.mail_read_time * 1000);
 
           if (this.env.blockedobjects) {
             if (this.gui_objects.remoteobjectsmsg)
@@ -1611,8 +1622,6 @@ function rcube_webmail()
 
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
-    if (this.preview_read_timer)
-      clearTimeout(this.preview_read_timer);
 
     // prepare treelist widget for dragging interactions
     if (this.treelist)
@@ -1806,8 +1815,6 @@ function rcube_webmail()
   {
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
-    if (this.preview_read_timer)
-      clearTimeout(this.preview_read_timer);
 
     var selected = list.get_single_selection();
 
@@ -1832,7 +1839,7 @@ function rcube_webmail()
 
     // start timer for message preview (wait for double click)
     if (selected && this.env.contentframe && !list.multi_selecting && !this.dummy_select)
-      this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, this.dblclick_time);
+      this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, list.dblclick_time);
     else if (this.env.contentframe)
       this.show_contentframe(false);
   };
@@ -1851,10 +1858,8 @@ function rcube_webmail()
     if (win && win.location.href.indexOf(this.env.blankpage) >= 0) {
       if (this.preview_timer)
         clearTimeout(this.preview_timer);
-      if (this.preview_read_timer)
-        clearTimeout(this.preview_read_timer);
 
-      this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, this.dblclick_time);
+      this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, list.dblclick_time);
     }
   };
 
@@ -1862,8 +1867,6 @@ function rcube_webmail()
   {
     if (this.preview_timer)
       clearTimeout(this.preview_timer);
-    if (this.preview_read_timer)
-      clearTimeout(this.preview_read_timer);
 
     var uid = list.get_single_selection();
 
@@ -2146,7 +2149,7 @@ function rcube_webmail()
         }
 
         expando = '<div id="rcmexpando' + row.id + '" class="' + (message.expanded ? 'expanded' : 'collapsed') + '">&nbsp;&nbsp;</div>';
-        row_class += ' thread' + (message.expanded? ' expanded' : '');
+        row_class += ' thread' + (message.expanded ? ' expanded' : '');
       }
 
       if (flags.unread_children && flags.seen && !message.expanded)
@@ -2216,8 +2219,6 @@ function rcube_webmail()
       else if (c == 'threads')
         html = expando;
       else if (c == 'subject') {
-        if (bw.ie)
-          col.events.mouseover = function() { rcube_webmail.long_subject_title_ex(this); };
         html = tree + cols[c];
       }
       else if (c == 'priority') {
@@ -2238,6 +2239,9 @@ function rcube_webmail()
       row.cols.push(col);
     }
 
+    if (this.env.layout == 'widescreen')
+      row = this.widescreen_message_row(row, uid, message);
+
     list.insert_row(row, attop);
 
     // remove 'old' row
@@ -2246,6 +2250,52 @@ function rcube_webmail()
       list.remove_row(uid);
       list.clear_selection(uid);
     }
+  };
+
+  // Converts standard message list record into "widescreen" (3-column) layout
+  this.widescreen_message_row = function(row, uid, message)
+  {
+    var domrow = document.createElement('tr');
+
+    domrow.id = row.id;
+    domrow.uid = row.uid;
+    domrow.className = row.className;
+    if (row.style) $.extend(domrow.style, row.style);
+
+    $.each(this.env.widescreen_list_template, function() {
+      if (!ref.env.threading && this.className == 'threads')
+        return;
+
+      var i, n, e, col, domcol,
+        domcell = document.createElement('td');
+
+      if (this.className) domcell.className = this.className;
+
+      for (i=0; this.cells && i < this.cells.length; i++) {
+        for (n=0; row.cols && n < row.cols.length; n++) {
+          if (this.cells[i] == row.cols[n].className) {
+            col = row.cols[n];
+            domcol = document.createElement('span');
+            domcol.className = this.cells[i];
+            if (this.className == 'subject' && domcol.className != 'subject')
+              domcol.className += ' skip-on-drag';
+            if (col.innerHTML)
+              domcol.innerHTML = col.innerHTML;
+            domcell.appendChild(domcol);
+            break;
+          }
+        }
+      }
+
+      domrow.appendChild(domcell);
+    });
+
+    if (this.env.threading && message.depth) {
+      $('td.subject', domrow).attr('style', 'padding-left:' + Math.min(90, message.depth * 15) + 'px !important');
+      $('span.branch', domrow).remove();
+    }
+
+    return domrow;
   };
 
   this.set_list_sorting = function(sort_col, sort_order)
@@ -2265,7 +2315,7 @@ function rcube_webmail()
     this.env.sort_order = sort_order;
   };
 
-  this.set_list_options = function(cols, sort_col, sort_order, threads)
+  this.set_list_options = function(cols, sort_col, sort_order, threads, layout)
   {
     var update, post_data = {};
 
@@ -2282,6 +2332,12 @@ function rcube_webmail()
     if (this.env.threading != threads) {
       update = 1;
       post_data._threads = threads;
+    }
+
+    if (layout && this.env.layout != layout) {
+      this.triggerEvent('layout-change', {old_layout: this.env.layout, new_layout: layout});
+      update = 1;
+      this.env.layout = post_data._layout = layout;
     }
 
     if (cols && cols.length) {
@@ -2343,14 +2399,6 @@ function rcube_webmail()
         this.open_window(url, true);
       else
         this.location_href(url, target, true);
-
-      // mark as read and change mbox unread counter
-      if (preview && this.message_list && this.message_list.rows[id] && this.message_list.rows[id].unread && this.env.preview_pane_mark_read > 0) {
-        this.preview_read_timer = setTimeout(function() {
-          ref.set_unread_message(id, ref.env.mailbox);
-          ref.http_post('mark', {_uid: id, _flag: 'read', _mbox: ref.env.mailbox, _quiet: 1});
-        }, this.env.preview_pane_mark_read * 1000);
-      }
     }
   };
 
@@ -2561,6 +2609,11 @@ function rcube_webmail()
     url._mbox = mbox;
     if (page)
       url._page = page;
+
+    // disable double-click on the list when preview pane is on
+    // this eliminates delay when opening a message in preview pane (#5199)
+    if (this.message_list)
+      this.message_list.dblclick_time = this.env.layout != 'list' ? 10 : this.dblclick_time;
 
     this.http_request('list', url, lock);
     this.update_state({ _mbox: mbox, _page: (page && page > 1 ? page : null) });
@@ -5667,9 +5720,9 @@ function rcube_webmail()
       selected = list.selection.length,
       source = this.env.source ? this.env.address_sources[this.env.source] : null;
 
-    // we don't have dblclick handler here, so use 200 instead of this.dblclick_time
+    // we don't have dblclick handler here, so use 50 instead of this.dblclick_time
     if (this.env.contentframe && (id = list.get_single_selection()))
-      this.preview_timer = setTimeout(function(){ ref.load_contact(id, 'show'); }, 200);
+      this.preview_timer = setTimeout(function(){ ref.load_contact(id, 'show'); }, 50);
     else if (this.env.contentframe)
       this.show_contentframe(false);
 
@@ -8312,6 +8365,12 @@ function rcube_webmail()
 
     // process the response data according to the sent action
     switch (response.action) {
+      case 'mark':
+        // Mark the message as Seen also in the opener/parent
+        if ((this.env.action == 'show' || this.env.action == 'preview') && this.env.last_flag == 'SEEN')
+          this.set_unread_message(this.env.uid, this.env.mailbox);
+        break;
+
       case 'delete':
         if (this.task == 'addressbook') {
           var sid, uid = this.contact_list.get_selection(), writable = false;

@@ -46,6 +46,7 @@ class rcube_config
         'refresh_interval'     => 'keep_alive',
         'min_refresh_interval' => 'min_keep_alive',
         'messages_cache_ttl'   => 'message_cache_lifetime',
+        'mail_read_time'       => 'preview_pane_mark_read',
         'redundant_attachments_cache_ttl' => 'redundant_attachments_memcache_ttl',
     );
 

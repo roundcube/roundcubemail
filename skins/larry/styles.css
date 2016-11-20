@@ -426,9 +426,7 @@ a.button.delete span.icon {
 
 .pagenav .pagejumper {
 	text-align: center;
-	background: #f8f8f8;
 	padding: 3px 0;
-	background: linear-gradient(to bottom, #dddddd 0%, #f8f8f8 100%);
 	cursor: default;
 }
 

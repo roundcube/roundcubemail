@@ -356,20 +356,24 @@ insert_row: function(row, before)
   // create a real dom node first
   if (row.nodeName === undefined) {
     // for performance reasons use DOM instead of jQuery here
-    var domrow = document.createElement(this.row_tagname());
+    var i, e, domcell, col,
+      domrow = document.createElement(this.row_tagname());
 
     if (row.id) domrow.id = row.id;
     if (row.uid) domrow.uid = row.uid;
     if (row.className) domrow.className = row.className;
     if (row.style) $.extend(domrow.style, row.style);
 
-    for (var e, domcell, col, i=0; row.cols && i < row.cols.length; i++) {
+    for (i=0; row.cols && i < row.cols.length; i++) {
       col = row.cols[i];
-      domcell = document.createElement(this.col_tagname());
-      if (col.className) domcell.className = col.className;
-      if (col.innerHTML) domcell.innerHTML = col.innerHTML;
-      for (e in col.events)
-        domcell['on' + e] = col.events[e];
+      domcell = col.dom;
+      if (!domcell) {
+        domcell = document.createElement(this.col_tagname());
+        if (col.className) domcell.className = col.className;
+        if (col.innerHTML) domcell.innerHTML = col.innerHTML;
+        for (e in col.events)
+          domcell['on' + e] = col.events[e];
+      }
       domrow.appendChild(domcell);
     }
 
