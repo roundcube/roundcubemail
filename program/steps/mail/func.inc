@@ -463,7 +463,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         $smart_col = rcmail_message_list_smart_column_name();
     }
 
-    $OUTPUT->command('set_message_coltypes', $a_show_cols, $thead, $smart_col);
+    $OUTPUT->command('set_message_coltypes', array_values($a_show_cols), $thead, $smart_col);
 
     if ($multifolder && $_SESSION['search_scope'] == 'all') {
         $OUTPUT->command('select_folder', '');
