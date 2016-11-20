@@ -368,11 +368,12 @@
 #mailpreviewframe
 {
   position: absolute;
-  width: 100%;
+  right: 0;
   top: 205px;
   bottom: 0px;
   border: 1px solid #999999;
   background-color: #F9F9F9;
+  display: none;
 }
 
 #messagecontframe
@@ -570,7 +571,6 @@ table.messagelist
   width: 100%;
   display: table;
   table-layout: fixed;
-  border-collapse: collapse;
   border-spacing: 0;
   z-index: 1;
 }
@@ -668,10 +668,10 @@ table.messagelist.fixedcopy
   cursor: pointer;
 }
 
-.messagelist tr > .flag span,
-.messagelist tr > .status span,
-.messagelist tr > .attachment span,
-.messagelist tr > .priority span
+.messagelist tr .flag span,
+.messagelist tr .status span,
+.messagelist tr .attachment span,
+.messagelist tr .priority span
 {
   display: block;
   width: 15px;
@@ -682,18 +682,18 @@ table.messagelist.fixedcopy
 .messagelist tr td div.collapsed,
 .messagelist tr td div.expanded,
 .messagelist tr > .threads .listmenu,
-.messagelist tr > .attachment span.attachment,
-.messagelist tr > .attachment span.report,
-.messagelist tr > .attachment span.encrypted,
+.messagelist tr .attachment span.attachment,
+.messagelist tr .attachment span.report,
+.messagelist tr .attachment span.encrypted,
 .messagelist tr > .priority span.priority,
 .messagelist tr > .priority span.prio1,
 .messagelist tr > .priority span.prio2,
 .messagelist tr > .priority span.prio3,
 .messagelist tr > .priority span.prio4,
 .messagelist tr > .priority span.prio5,
-.messagelist tr > .flag span.flagged,
-.messagelist tr > .flag span.unflagged,
-.messagelist tr > .flag span.unflagged:hover,
+.messagelist tr .flag span.flagged,
+.messagelist tr .flag span.unflagged,
+.messagelist tr:hover .flag span.unflagged,
 .messagelist tr > .status span.status,
 .messagelist tr > .status span.msgicon,
 .messagelist tr > .status span.deleted,
@@ -713,17 +713,17 @@ table.messagelist.fixedcopy
   background: url(images/messageicons.png) center no-repeat;
 }
 
-.messagelist tr > .attachment span.attachment
+.messagelist tr .attachment span.attachment
 {
   background-position: 0 -170px;
 }
 
-.messagelist tr > .attachment span.report
+.messagelist tr .attachment span.report
 {
   background-position: 0 -255px;
 }
 
-.messagelist tr > .attachment span.encrypted
+.messagelist tr .attachment span.encrypted
 {
   background-position: 0 -418px;
 }
@@ -758,17 +758,18 @@ table.messagelist.fixedcopy
   background-position: 0 -290px;
 }
 
-.messagelist tr.flaggedroot td.flag span
-{
-  background-position: 0 -136px;
-}
-
-.messagelist tr > .flag span.flagged
+.messagelist tr .flag span.flagged
 {
   background-position: 0 -153px;
 }
 
-.messagelist tr > .flag span.unflagged:hover
+.messagelist tr:hover .flag span.unflagged
+{
+  background-position: 0 -136px;
+}
+
+.messagelist tr.flaggedroot .flag span,
+.messagelist tr.flaggedroot .flag span.unflagged
 {
   background-position: 0 -136px;
 }
@@ -796,10 +797,10 @@ table.messagelist.fixedcopy
 }
 
 .messagelist tr > .status span.msgicon,
-.messagelist tr > .flag span.unflagged,
+.messagelist tr .flag span.unflagged,
 .messagelist tr > .status span.unreadchildren
 {
-  background-position: 0 17px; /* no icon */
+  background-position: 0 18px; /* no icon */
 }
 
 .messagelist tr > .status span.msgicon:hover
@@ -928,7 +929,7 @@ table.messagelist.fixedcopy
 
 /* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
 .messagelist tbody tr.focused > td:first-child {
-	border-left: 4px solid #d4d4d4;
+	border-left: 2px solid #d4d4d4;
 	padding-left: 4px;
 }
 
@@ -1750,4 +1751,140 @@ input.from_address
 {
   top: 45px;
   position: absolute;
+}
+
+/**** Styles for widescreen (3-column) view ****/
+
+.widescreen #mailview-top {
+  bottom: 0;
+  width: 400px;
+  height: auto;
+}
+
+.widescreen #mailview-bottom {
+  left: 412px;
+  top:0;
+  border: 1px solid #a3a3a3;
+}
+
+#messagelistheader,
+.widescreen #messagelistfooter #countcontrols,
+.widescreen .messagelist > thead,
+.widescreen .messagelist .branch,
+.widescreen table.fixedcopy {
+  display: none;
+}
+
+#messagelistcontainer {
+  top: 0;
+}
+
+.widescreen #messagelistcontainer {
+  top: 21px;
+  overflow-x: hidden;
+}
+
+.widescreen #mailpreviewframe {
+  top: 0;
+}
+
+.widescreen #messagelistheader {
+  display: block;
+  top: 0;
+  white-space: nowrap;
+  border-top: 0;
+  border-bottom: 1px solid #999;
+  height: 20px;
+}
+
+.widescreen #messagelistheader .listmenu {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 16px;
+  width: 15px;
+  background: url(images/messageicons.png) 4px -236px no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  text-indent: -5000px;
+  padding: 2px 4px;
+}
+
+.widescreen .messagelist td {
+  border-left: 0;
+  vertical-align: top;
+  padding: 3px 1px 1px !important;
+}
+
+.widescreen .messagelist td.subject {
+  width: 99%;
+  white-space: wrap;
+  position: relative; /* for span.date positioning in Firefox */
+}
+
+.widescreen .messagelist td.threads {
+  width: 14px;
+  vertical-align: middle;
+}
+
+.widescreen .messagelist td.flags {
+  width: 20px;
+}
+
+.widescreen .messagelist td.subject span {
+  line-height: 16px;
+}
+
+.widescreen .messagelist td.subject span.date {
+  right: 2px;
+  top: 3px;
+  position: absolute;
+  color: #666;
+}
+
+.widescreen .messagelist td.subject span.fromto {
+  padding-left: 18px;
+  display: block;
+  margin-right: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #666;
+}
+
+.widescreen .messagelist tr.flagged td.subject span.date,
+.widescreen .messagelist tr.flagged td.subject span.fromto {
+  color: #ff0000;
+}
+
+.widescreen .messagelist tr.selected td.subject span.date,
+.widescreen .messagelist tr.selected td.subject span.fromto {
+  color: #fff;
+}
+
+.widescreen .messagelist tr.deleted td.subject span.date,
+.widescreen .messagelist tr.deleted td.subject span.fromto {
+  color: #ccc;
+}
+
+.widescreen .messagelist td.subject span.subject {
+  clear: both;
+  display: block;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.widescreen .messagelist td.flags span {
+  width: 20px;
+  height: 18px;
+  display: block;
+}
+
+.widescreen .messagelist td.flags span.flag {
+  cursor: pointer;
+}
+
+.widescreen .messagelist tr td.subject span.msgicon,
+.widescreen .messagelist tr td.subject span.unreadchildren {
+  width: 18px;
+  margin: 0;
 }

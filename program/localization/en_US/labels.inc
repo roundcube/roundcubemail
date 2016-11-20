@@ -203,6 +203,10 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
+$labels['layout'] = 'Layout';
+$labels['layoutwidescreen'] = 'Widescreen';
+$labels['layoutdesktop'] = 'Desktop';
+$labels['layoutlist'] = 'List';
 
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Compact';

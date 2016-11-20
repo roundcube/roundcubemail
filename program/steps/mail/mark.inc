@@ -102,6 +102,8 @@ if ($_uids && $flag) {
         foreach ($input as $mbox => $uids) {
             rcmail_send_unread_count($mbox);
         }
+
+        $OUTPUT->set_env('last_flag', $flag);
     }
     else if ($flag == 'DELETED' && $skip_deleted) {
         if ($_POST['_from'] == 'show') {

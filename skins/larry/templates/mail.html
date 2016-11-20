@@ -4,7 +4,7 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 <style type="text/css">
-<roundcube:if condition="config:preview_pane == true" />
+<roundcube:if condition="env:layout != 'list'" />
 	#mailview-top { height: 270px; }
 	#mailview-bottom { top: 284px; height: auto; display: block; }
 	#mailpreviewframe { display: block; }
@@ -66,7 +66,7 @@
 
 </div>
 
-<div id="mainscreencontent">
+<div id="mainscreencontent" class="<roundcube:var name="env:layout" />">
 <div id="mailview-left">
 
 <!-- folders list -->
@@ -88,14 +88,15 @@
 
 <div id="mailview-right" role="main">
 
-<roundcube:if condition="config:preview_pane == true" />
+<roundcube:if condition="env:layout == 'desktop'" />
 <div id="mailview-top" class="uibox">
 <roundcube:else />
 <div id="mailview-top" class="uibox fullheight">
 <roundcube:endif />
 
 <!-- messagelist -->
-<div id="messagelistcontainer" class="boxlistcontent">
+<div id="messagelistheader"><roundcube:object name="listmenulink" optionsmenuIcon="true" /></div>
+<div id="messagelistcontainer" class="boxlistcontent" tabindex="-1">
 <h2 id="aria-label-messagelist" class="voice"><roundcube:label name="arialabelmessagelist" /></h2>
 <roundcube:object name="messages"
 	id="messagelist"
@@ -138,8 +139,6 @@
 	</div>
 
 	<roundcube:container name="listcontrols" id="listcontrols" />
-
-	<a href="#preview" id="mailpreviewtoggle" class="iconbutton" title="<roundcube:label name='previewpane' />" role="button" tabindex="0"><roundcube:label name="previewpane" /></a>
 </div>
 
 </div><!-- end mailview-top -->
@@ -201,8 +200,18 @@
 
 <div id="listoptions" class="propform popupdialog" role="dialog" aria-labelledby="aria-label-listoptions" aria-hidden="true">
 <h2 id="aria-label-listoptions" class="voice"><roundcube:label name="arialabelmessagelistoptions" /></h2>
-<roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
-	<fieldset class="floating">
+	<roundcube:if condition="!in_array('layout', (array)config:dont_override)" />
+	<fieldset id="listoptions-layout" class="floating">
+		<legend><roundcube:label name="layout" /></legend>
+		<ul class="proplist">
+			<li><label><input type="radio" name="layout" value="widescreen" /> <span><roundcube:label name="layoutwidescreen" /></span></label></li>
+			<li><label><input type="radio" name="layout" value="desktop" /> <span><roundcube:label name="layoutdesktop" /></span></label></li>
+			<li><label><input type="radio" name="layout" value="list" /> <span><roundcube:label name="layoutlist" /></span></label></li>
+		</ul>
+	</fieldset>
+	<roundcube:endif />
+	<roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
+	<fieldset id="listoptions-columns" class="floating">
 		<legend><roundcube:label name="listcolumns" /></legend>
 		<ul class="proplist">
 			<li><label class="disabled"><input type="checkbox" name="list_col[]" value="threads" checked disabled /> <span><roundcube:label name="threads" /></span></label></li>
@@ -222,7 +231,7 @@
 	</fieldset>
 	<roundcube:endif />
 	<roundcube:if condition="!in_array('message_sort_col', (array)config:dont_override)" />
-	<fieldset class="floating">
+	<fieldset id="listoptions-sortcol" class="floating">
 		<legend><roundcube:label name="listsorting" /></legend>
 		<ul class="proplist">
 			<li><label><input type="radio" name="sort_col" value="" /> <span><roundcube:label name="nonesort" /></span></label></li>
@@ -238,7 +247,7 @@
 	</fieldset>
 	<roundcube:endif />
 	<roundcube:if condition="!in_array('message_sort_order', (array)config:dont_override)" />
-	<fieldset class="floating">
+	<fieldset id="listoptions-sortord" class="floating">
 		<legend><roundcube:label name="listorder" /></legend>
 		<ul class="proplist">
 			<li><label><input type="radio" name="sort_ord" value="ASC" /> <span><roundcube:label name="asc" /></span></label></li>

@@ -83,7 +83,7 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     $OUTPUT->set_env('threading', $threading);
     $OUTPUT->set_env('threads', $threading || $RCMAIL->storage->get_capability('THREAD'));
     $OUTPUT->set_env('reply_all_mode', (int) $RCMAIL->config->get('reply_all_mode'));
-    $OUTPUT->set_env('preview_pane_mark_read', (int) $RCMAIL->config->get('preview_pane_mark_read'));
+    $OUTPUT->set_env('layout', $RCMAIL->config->get('layout') ?: 'widescreen');
 
     if ($RCMAIL->storage->get_capability('QUOTA')) {
         $OUTPUT->set_env('quota', true);
@@ -120,6 +120,7 @@ $OUTPUT->add_handlers(array(
     'quotadisplay'        => array($RCMAIL, 'quota_display'),
     'messages'            => 'rcmail_message_list',
     'messagecountdisplay' => 'rcmail_messagecount_display',
+    'listmenulink'        => 'rcmail_options_menu_link',
     'mailboxname'         => 'rcmail_mailbox_name_display',
     'messageheaders'      => 'rcmail_message_headers',
     'messagefullheaders'  => 'rcmail_message_full_headers',
@@ -358,13 +359,22 @@ function rcmail_message_list($attrib)
     if (!in_array('threads', $a_show_cols))
         array_unshift($a_show_cols, 'threads');
 
+    $listcols = $a_show_cols;
+
+    // Widescreen layout uses hardcoded list of columns
+    if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
+        $a_show_cols = array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment');
+        $listcols    = $a_show_cols;
+        array_shift($listcols);
+    }
+
     // set client env
     $OUTPUT->add_gui_object('messagelist', $attrib['id']);
     $OUTPUT->set_env('autoexpand_threads', intval($RCMAIL->config->get('autoexpand_threads')));
     $OUTPUT->set_env('sort_col', $_SESSION['sort_col']);
     $OUTPUT->set_env('sort_order', $_SESSION['sort_order']);
     $OUTPUT->set_env('messages', array());
-    $OUTPUT->set_env('listcols', $a_show_cols);
+    $OUTPUT->set_env('listcols', $listcols);
 
     $OUTPUT->include_script('list.js');
 
@@ -426,6 +436,11 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $a_show_cols = array_unique($a_show_cols);
     $_SESSION['list_attrib']['columns'] = $a_show_cols;
 
+    // Widescreen layout uses hardcoded list of columns
+    if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
+        $a_show_cols = array('threads', 'subject', 'fromto', 'date', 'flag', 'attachment');
+    }
+
     // Plugins may set header's list_cols/list_flags and other rcube_message_header variables
     // and list columns
     $plugin = $RCMAIL->plugins->exec_hook('messages_list',
@@ -434,6 +449,14 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $a_show_cols = $plugin['cols'];
     $a_headers   = $plugin['messages'];
 
+    if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
+        if (!$OUTPUT->get_env('threading')) {
+            if (($idx = array_search('threads', $a_show_cols)) !== false) {
+                unset($a_show_cols[$idx]);
+            }
+        }
+    }
+
     $thead = $head_replace ? rcmail_message_list_head($_SESSION['list_attrib'], $a_show_cols) : NULL;
 
     // get name of smart From/To column in folder context
@@ -441,7 +464,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         $smart_col = rcmail_message_list_smart_column_name();
     }
 
-    $OUTPUT->command('set_message_coltypes', $a_show_cols, $thead, $smart_col);
+    $OUTPUT->command('set_message_coltypes', array_values($a_show_cols), $thead, $smart_col);
 
     if ($multifolder && $_SESSION['search_scope'] == 'all') {
         $OUTPUT->command('select_folder', '');
@@ -569,22 +592,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
     if (!empty($attrib['optionsmenuicon'])) {
-        $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', this, event)";
-        $inner   = $RCMAIL->gettext('listoptions');
-        if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
-            $inner = html::img(array('src' => $RCMAIL->output->abs_url($attrib['optionsmenuicon'], true), 'alt' => $RCMAIL->gettext('listoptions')));
-        }
-        $list_menu = html::a(array(
-            'href' => '#list-options',
-            'onclick' => $onclick,
-            'class' => 'listmenu',
-            'id' => 'listmenulink',
-            'title' => $RCMAIL->gettext('listoptions'),
-            'tabindex' => '0',
-        ), $inner);
-    }
-    else {
-        $list_menu = '';
+        $list_menu = rcmail_options_menu_link($attrib);
     }
 
     $cells = $coltypes = array();
@@ -612,7 +620,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
             $col_name = html::span($col, $RCMAIL->gettext('readstatus'));
             break;
         case 'threads':
-            $col_name = $list_menu;
+            $col_name = (string) $list_menu;
             break;
         case 'fromto':
             $label    = $RCMAIL->gettext($smart_col);
@@ -647,6 +655,27 @@ function rcmail_message_list_head($attrib, $a_show_cols)
 
     $RCMAIL->output->set_env('coltypes', $coltypes);
     return $cells;
+}
+
+function rcmail_options_menu_link($attrib)
+{
+    global $RCMAIL;
+
+    $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', this, event)";
+    $inner   = $title = $RCMAIL->gettext('listoptions');
+
+    if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
+        $inner = html::img(array('src' => $RCMAIL->output->abs_url($attrib['optionsmenuicon'], true), 'alt' => $title));
+    }
+
+    return html::a(array(
+            'href'     => '#list-options',
+            'onclick'  => $onclick,
+            'class'    => 'listmenu',
+            'id'       => 'listmenulink',
+            'title'    => $title,
+            'tabindex' => '0',
+    ), $inner);
 }
 
 /**

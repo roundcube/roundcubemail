@@ -33,7 +33,7 @@ class rcmail_install
     public $bool_config_props = array();
 
     public $local_config    = array('db_dsnw', 'default_host', 'support_url', 'des_key', 'plugins');
-    public $obsolete_config = array('db_backend', 'db_max_length', 'double_auth');
+    public $obsolete_config = array('db_backend', 'db_max_length', 'double_auth', 'preview_pane');
     public $replaced_config = array(
         'skin_path'            => 'skin',
         'locale_string'        => 'language',

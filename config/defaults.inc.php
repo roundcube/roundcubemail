@@ -664,7 +664,7 @@ $config['message_sort_col'] = '';
 $config['message_sort_order'] = 'DESC';
 
 // These cols are shown in the message list. Available cols are:
-// subject, from, to, fromto, cc, replyto, date, size, status, flag, attachment, 'priority'
+// subject, from, to, fromto, cc, replyto, date, size, status, flag, attachment, priority
 $config['list_cols'] = array('subject', 'status', 'fromto', 'date', 'size', 'flag', 'attachment');
 
 // the default locale setting (leave empty for auto-detection)
@@ -1088,12 +1088,15 @@ $config['prettydate'] = true;
 // save compose message every 300 seconds (5min)
 $config['draft_autosave'] = 300;
 
-// default setting if preview pane is enabled
-$config['preview_pane'] = false;
+// Interface layout. Default: 'widescreen'.
+//  'widescreen' - three columns
+//  'desktop'    - two columns, preview on bottom
+//  'list'       - two columns, no preview
+$config['layout'] = 'widescreen';
 
-// Mark as read when viewed in preview pane (delay in seconds)
-// Set to -1 if messages in preview pane should not be marked as read
-$config['preview_pane_mark_read'] = 0;
+// Mark as read when viewing a message (delay in seconds)
+// Set to -1 if messages should not be marked as read
+$config['mail_read_time'] = 0;
 
 // Clear Trash on logout
 $config['logout_purge'] = false;
