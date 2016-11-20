@@ -180,6 +180,10 @@ if (strlen($part_id)) {
                 if ($mimetype == 'application/octet-stream' && strpos($real_mimetype, 'image/') === 0 && $valid_extension) {
                     $mimetype = $real_mimetype;
                 }
+                // fix mimetype for images with wrong mimetype
+                else if (strpos($real_mimetype, 'image/') === 0 && strpos($mimetype, 'image/') === 0) {
+                    $mimetype = $real_mimetype;
+                }
 
                 // "fix" real mimetype the same way the original is before comparison
                 $real_mimetype = rcmail_fix_mimetype($real_mimetype);
@@ -225,7 +229,6 @@ if (strlen($part_id)) {
                 exit;
             }
         }
-
 
         // TIFF to JPEG conversion, if needed
         $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
