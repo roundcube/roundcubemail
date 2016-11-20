@@ -1517,7 +1517,7 @@ div.message-partheaders .headers-table td.header {
 }
 
 .widescreen .messagelist td.subject span.fromto {
-	padding-left: 24px;
+	padding-left: 22px;
 	display: block;
 	margin-right: 10em;
 	overflow: hidden;
@@ -1541,7 +1541,6 @@ div.message-partheaders .headers-table td.header {
 	font-size: 12px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	padding-left: 24px;
 }
 
 .widescreen .messagelist td.flags span {
@@ -1557,9 +1556,7 @@ div.message-partheaders .headers-table td.header {
 
 .widescreen .messagelist tr td.subject span.msgicon,
 .widescreen .messagelist tr td.subject span.unreadchildren {
-	position: absolute;
-	top: 3px;
-	left: 0px;
+	width: 20px;
 }
 
 /* move attachments list to the bottom on narrow mail preview page */
