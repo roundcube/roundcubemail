@@ -72,7 +72,7 @@ if (!empty($_GET['_frame'])) {
 }
 
 // render thumbnail of an image attachment
-else if ($_GET['_thumb']) {
+if ($_GET['_thumb']) {
     $pid = rcube_utils::get_input_value('_part', rcube_utils::INPUT_GET);
     if ($part = $MESSAGE->mime_parts[$pid]) {
         $thumbnail_size = $RCMAIL->config->get('image_thumbnail_size', 240);
@@ -93,26 +93,27 @@ else if ($_GET['_thumb']) {
                     $mimetype = 'image/' . $imgtype;
                     unlink($orig_name);
                 }
-                else if (stripos($mimetype, 'image/svg') === 0) {
-                    $content = rcmail_svg_filter(file_get_contents($orig_name));
-                    file_put_contents($cache_file, $content);
-                    unlink($orig_name);
-                }
                 else {
-                    rename($orig_name, $cache_file);
+                    // Resize failed, we need to check the file mimetype
+                    // So, we do not exit here, but goto generic file body handler below
+                    $_GET['_thumb']     = 0;
+                    $_REQUEST['_embed'] = 1;
                 }
             }
         }
 
-        if (is_file($cache_file)) {
-            header('Content-Type: ' . $mimetype);
-            readfile($cache_file);
+        if (!empty($_GET['_thumb'])) {
+            if (is_file($cache_file)) {
+                header('Content-Type: ' . $mimetype);
+                readfile($cache_file);
+            }
+
+            exit;
         }
     }
-
-    exit;
 }
-else if (strlen($part_id)) {
+
+if (strlen($part_id)) {
     if ($part = $MESSAGE->mime_parts[$part_id]) {
         $mimetype = rcmail_fix_mimetype($part->mimetype);
 
