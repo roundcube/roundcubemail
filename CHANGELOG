@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Widescreen layout aka three column view (#5093)
+- Unify automatic marking as \Seen in preview pane, full-page and extwin views (#5071)
+- Disable double-click on the list when preview pane is on (#5199)
 - Support hostname and hostname:port in force_https option (#5511)
 - Support ALLOW-FROM in x_frame_options (#5122)
 - Allow to omit a subject when sending an email (#5068)
