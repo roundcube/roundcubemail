@@ -1498,7 +1498,11 @@ div.message-partheaders .headers-table td.header {
 
 .widescreen .messagelist td.threads {
 	width: 20px;
-	vertical-align: top;
+	vertical-align: bottom;
+}
+
+.widescreen .messagelist td.threads div {
+	padding-bottom: 1px;
 }
 
 .widescreen .messagelist td.flags {
@@ -1557,6 +1561,7 @@ div.message-partheaders .headers-table td.header {
 .widescreen .messagelist tr td.subject span.msgicon,
 .widescreen .messagelist tr td.subject span.unreadchildren {
 	width: 20px;
+	height: 20px;
 }
 
 /* move attachments list to the bottom on narrow mail preview page */
