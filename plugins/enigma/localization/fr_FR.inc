@@ -115,8 +115,9 @@ $messages['keyimporttext'] = 'Vous pouvez importer des clés privées et publiqu
 $messages['keyimportsearchtext'] = 'Vous pouvez chercher des clés publiques par identifiant de clé, nom d\'utilisateur ou adresse courriel, et ensuite les importer directement.';
 $messages['formerror'] = 'Veuillez remplir le formulaire. Tous les champs sont requis !';
 $messages['passwordsdiffer'] = 'Les mots de passe ne correspondent pas !';
-$messages['nonameident'] = 'Un nom d\'utilisateur doit être défini pour l\'identité !';
 $messages['keygenerateerror'] = 'La génération de la biclé a échoué';
 $messages['keygeneratesuccess'] = 'Une biclé a été générée et importée avec succès.';
 $messages['keygennosupport'] = 'Votre navigateur ne prend pas en charge le chiffrement. Activez-le pour générer une biclé !';
+$messages['noidentselected'] = 'Vous devez choisir au moins une identité pour la clé !';
+$messages['nonameident'] = 'Un nom d\'utilisateur doit être défini pour l\'identité !';
 ?>

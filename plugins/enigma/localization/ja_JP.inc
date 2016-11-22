@@ -115,8 +115,9 @@ $messages['keyimporttext'] = '秘密鍵と公開鍵、または失効署名はAS
 $messages['keyimportsearchtext'] = 'キーの識別子、ユーザー名、電子メールアドレスのいずれかで公開鍵を検索して、直接インポートできます。';
 $messages['formerror'] = '項目を入力してください。すべての項目は必須です!';
 $messages['passwordsdiffer'] = 'パスワードが一致しません!';
-$messages['nonameident'] = '識別情報にはユーザー名が必須です!';
 $messages['keygenerateerror'] = '鍵ペアを生成できませんでした。';
 $messages['keygeneratesuccess'] = '鍵ペアを生成してインポートしました。';
 $messages['keygennosupport'] = 'Webブラウザーが暗号機能をサポートしていません。鍵ペアを生成できません!';
+$messages['noidentselected'] = 'キーのための識別情報を少なくとも1つ選択しなければなりません!';
+$messages['nonameident'] = '識別情報にはユーザー名が必須です!';
 ?>

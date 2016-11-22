@@ -17,5 +17,5 @@
 */
 $labels['buttontext'] = 'İstenmeyen';
 $labels['buttontitle'] = 'İstenmeyen olarak işaretle';
-$labels['reportedasjunk'] = 'Spam olarak rapor edildi';
+$labels['reportedasjunk'] = 'Spam olarak bildirildi';
 ?>

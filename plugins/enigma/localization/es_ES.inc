@@ -115,8 +115,9 @@ $messages['keyimporttext'] = 'Puede importar la(s) clave(s) privada(s) y públic
 $messages['keyimportsearchtext'] = 'Puedes buscar claves por identificador de clave, nombre de usuario o dirección de email y después importarlas directamente.';
 $messages['formerror'] = 'Por favor llene el formulario. ¡Todos los campos son obligatorios!';
 $messages['passwordsdiffer'] = '¡Las contraseñas no coinciden!';
-$messages['nonameident'] = '¡La identidad debe de tener un nombre de usuario definido!';
 $messages['keygenerateerror'] = 'No se ha podido generar una clave par';
 $messages['keygeneratesuccess'] = 'Un par de claves generadas e importadas correctamente.';
 $messages['keygennosupport'] = 'Su navegador web no soporta criptografía. ¡No se puede generar un par de claves!';
+$messages['noidentselected'] = '¡Tiene que seleccionar al menos una identidad para la llave!';
+$messages['nonameident'] = '¡La identidad debe de tener un nombre de usuario definido!';
 ?>

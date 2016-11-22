@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+$labels['changepasswd']  = 'Spremenjeno geslo';
 $labels['curpasswd']  = 'Obstoječe geslo:';
 $labels['newpasswd']  = 'Novo geslo:';
 $labels['confpasswd']  = 'Potrdi novo geslo:';
@@ -28,3 +29,5 @@ $messages['internalerror'] = 'Novega gesla ni bilo mogoče shraniti.';
 $messages['passwordshort'] = 'Geslo mora vsebovati vsaj $length znakov';
 $messages['passwordweak'] = 'Geslo mora vključevati vsaj eno številko in ločilo.';
 $messages['passwordforbidden'] = 'Geslo vsebuje neveljavne znake.';
+$messages['firstloginchange'] = 'To je vaša prva prijava. Spremenite začetno geslo.';
+$messages['disablednotice'] = 'Sistem se trenutno posodablja, zato sprememba gesla v tem trenutku ni mogoča. Postopek bo mogoče opraviti v kratkem. Za nevšečnosti se opravičujemo.';

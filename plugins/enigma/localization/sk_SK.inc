@@ -115,8 +115,9 @@ $messages['keyimporttext'] = 'Môžete naimportovať súkromné a verejné kľú
 $messages['keyimportsearchtext'] = 'Verejné kľúče môžete vyhľadávať podľa identifikátora kľúča, mena používateľa alebo e-mailovej adresy a potom ich priamo importovať.';
 $messages['formerror'] = 'Prosím vyplňte formulár. Je nutné vyplniť všetky polia!';
 $messages['passwordsdiffer'] = 'Heslá sa nezhodujú!';
-$messages['nonameident'] = 'Identita musí mať definované meno používateľa!';
 $messages['keygenerateerror'] = 'Nepodarilo sa vygenerovať pár kľúčov';
 $messages['keygeneratesuccess'] = 'Pár kľúčov bol úspešne vygenerovaný a naimportovaný.';
 $messages['keygennosupport'] = 'Váš internetový prehliadač nepodporuje kryptografiu. Nemožno vygenerovať pár kľúčov!';
+$messages['noidentselected'] = 'Pre tento kľúč si musíte vybrať aspoň jednu identitu!';
+$messages['nonameident'] = 'Identita musí mať definované meno používateľa!';
 ?>

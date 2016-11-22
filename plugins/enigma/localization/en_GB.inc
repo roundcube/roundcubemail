@@ -107,8 +107,8 @@ $messages['keyremoveerror'] = 'Unable to delete selected key(s).';
 $messages['keyimporttext'] = 'You can import private and public key(s) or revocation signatures in ASCII-Armor format.';
 $messages['formerror'] = 'Please fill in the form. All fields are required!';
 $messages['passwordsdiffer'] = 'Passwords do not match!';
-$messages['nonameident'] = 'Identity must have a user name defined!';
 $messages['keygenerateerror'] = 'Failed to generate a key pair';
 $messages['keygeneratesuccess'] = 'A key pair generated and imported successfully.';
 $messages['keygennosupport'] = 'Your web browser does not support cryptography. Unable to generate a key pair!';
+$messages['nonameident'] = 'Identity must have a user name defined!';
 ?>

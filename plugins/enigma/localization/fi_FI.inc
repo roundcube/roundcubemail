@@ -100,8 +100,8 @@ $messages['keylisterror'] = 'Avainten listaaminen ei onnistu! Sisäinen virhe.';
 $messages['keysimportfailed'] = 'Avaimen tuominen epäonnistui! Sisäinen virhe.';
 $messages['formerror'] = 'Täytä lomake. Kaikki kentät ovat pakollisia!';
 $messages['passwordsdiffer'] = 'Salasanat eivät täsmää!';
-$messages['nonameident'] = 'Identiteetillä tulee olla käyttäjänimi määritettynä!';
 $messages['keygenerateerror'] = 'Avainparin luominen epäonnistui';
 $messages['keygeneratesuccess'] = 'Avainpari luotiin ja tuotiin onnistuneesti.';
 $messages['keygennosupport'] = 'Selaimesi ei tue salaustekniikkaa. Avainparin luominen ei onnistu!';
+$messages['nonameident'] = 'Identiteetillä tulee olla käyttäjänimi määritettynä!';
 ?>

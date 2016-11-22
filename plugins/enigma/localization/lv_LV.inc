@@ -107,8 +107,8 @@ $messages['keyremoveerror'] = 'Atzīmēto atslēgu(as) neizdevās nodzēst.';
 $messages['keyimporttext'] = 'Jūs varat importēt privātās un publiskās atslēgas vai anulēšanas parakstus ASCII-Armor formātā.';
 $messages['formerror'] = 'Lūdzu aipildiet formu. Visi lauki ir obligāti!';
 $messages['passwordsdiffer'] = 'Paroles nesakrīt!';
-$messages['nonameident'] = 'Identitātei jābūt ar definētu lietotāja vārdu!';
 $messages['keygenerateerror'] = 'Neizdevās uzģenerēt atslēgu pāri.';
 $messages['keygeneratesuccess'] = 'Atslēgu pāris veiksmīgi uzģenerēts un ieimportēts.';
 $messages['keygennosupport'] = 'Nav iespējams uzģenerēt atslēgu pāri, jo Jūsu tīmekļa pārlūks neatbalsta kriptogrāfijas iespējas!';
+$messages['nonameident'] = 'Identitātei jābūt ar definētu lietotāja vārdu!';
 ?>

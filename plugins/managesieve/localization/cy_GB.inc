@@ -124,6 +124,7 @@ $labels['filtercreate'] = 'Creu hidlydd';
 $labels['usedata'] = 'Defnyddio\'r wybodaeth ganlynol yn yr hidlydd:';
 $labels['nextstep'] = 'Cam nesaf';
 $labels['...'] = '...';
+$labels['string'] = 'Llinyn';
 $labels['currdate'] = 'Dyddiad cyfredol';
 $labels['datetest'] = 'Dyddiad';
 $labels['dateheader'] = 'pennawd:';

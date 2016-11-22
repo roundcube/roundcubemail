@@ -96,6 +96,7 @@ $messages['signnopass'] = 'Signierung fehlgeschlagen. Schlüsselpasswort wird be
 $messages['encrypterror'] = 'Verschlüsselung fehlgeschlagen.';
 $messages['encryptnokey'] = 'Verschlüsselung fehlgeschlagen. Öffentlicehr Schlüssel für $email nicht gefunden';
 $messages['nokeysfound'] = 'Keine Schlüssel gefunden';
+$messages['keynotfound'] = 'Schlüssel nicht gefunden!';
 $messages['keyopenerror'] = 'Abrufen der Schlüsselinformationen nicht möglich. Interner Fehler.';
 $messages['keylisterror'] = 'Auflisten der Schlüsselinformationen nicht möglich! Interner Fehler.';
 $messages['keysimportfailed'] = 'Schlüsselimport fehlgeschlagen! Interner Fehler.';
@@ -107,8 +108,8 @@ $messages['keyremoveerror'] = 'Löschung der Schlüssel nicht möglich.';
 $messages['keyimporttext'] = 'Private und öffentliche Schlüssel sowie zurückgerufene Signaturen können im ASCII-Armor Format importiert werden.';
 $messages['formerror'] = 'Bitte, alle Eingabefelder ausfüllen. Alle Eingabefelder werden benötigt!';
 $messages['passwordsdiffer'] = 'Passwörter stimmen nicht überein.';
-$messages['nonameident'] = 'Identität muss einen Benutzernamen definiert haben.';
 $messages['keygenerateerror'] = 'Schlüsselgenerierung fehlgeschlagen.';
 $messages['keygeneratesuccess'] = 'Schlüsselpaar erfolgreich generiert und importiert.';
 $messages['keygennosupport'] = 'Dein Browser unterstützt keine Kryptopgraphiefunktionen. Konnte Schlüsselpaar nicht generieren!';
+$messages['nonameident'] = 'Identität muss einen Benutzernamen definiert haben.';
 ?>

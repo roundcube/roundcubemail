@@ -103,8 +103,8 @@ $messages['keyremoveerror'] = 'Ber ikki til at strika lyk(il/lar)';
 $messages['keyimporttext'] = 'Tú kanst innflyta almennar og privat lyklar ella taka aftur undirskriftir í ASCII-Armor formati';
 $messages['formerror'] = 'Vinarliga fylla allan formin. Øll felt eru kravd!';
 $messages['passwordsdiffer'] = 'Loyniorðini eru ikki eins!';
-$messages['nonameident'] = 'samleiki má hava eitt brúkaranavn';
 $messages['keygenerateerror'] = 'Feilur kom í, tá roynt var at framleiða lykla par';
 $messages['keygeneratesuccess'] = 'Eitt lykla-par var framleitt og inn flutt';
 $messages['keygennosupport'] = 'Tín kagari dugur ikki dulmálsvísindi. Ber ikki til at framleiða lykla par';
+$messages['nonameident'] = 'samleiki má hava eitt brúkaranavn';
 ?>

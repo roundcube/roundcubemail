@@ -112,8 +112,8 @@ $messages['keyremoveerror'] = 'N\'haller ket dilemel an alc\'hwez(ioù) diuzet.'
 $messages['keyimporttext'] = 'Gallout a rit enporzhiañ alc\'hwez(ioù) foran ha prevez pe sinadurioù dizorniañ er mentrezh ASCII-Armor.';
 $messages['formerror'] = 'Ret eo leuniañ ar furmskrid. An holl vaeziennoù a zo dleet!';
 $messages['passwordsdiffer'] = 'Ne glot ket ar gerioù-tremen!';
-$messages['nonameident'] = 'Ret eo d\'ar pivelezh kaout un anv arveriad despizet!';
 $messages['keygenerateerror'] = 'C\'hwitadenn war ganedigezh un daouad alc\'hwezhioù';
 $messages['keygeneratesuccess'] = 'Ganet hag enporzhiet eo bet un daouad alc\'hwezioù gant berzh. ';
 $messages['keygennosupport'] = 'N\'eo ket skoret an enrinegañ gant ho merdeer web. N\'haller ket genel un alc\'hwez nevez.';
+$messages['nonameident'] = 'Ret eo d\'ar pivelezh kaout un anv arveriad despizet!';
 ?>
