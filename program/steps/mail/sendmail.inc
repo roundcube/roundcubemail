@@ -101,11 +101,14 @@ if (is_numeric($from)) {
     }
 }
 // ... if there is no identity record, this might be a custom from
-else if ($from_string = rcmail_email_input_format($from)) {
-    if (preg_match('/(\S+@\S+)/', $from_string, $m))
-        $from = trim($m[1], '<>');
-    else
-        $from = null;
+else if (($from_string = rcmail_email_input_format($from))
+    && preg_match('/(\S+@\S+)/', $from_string, $m)
+) {
+    $from = trim($m[1], '<>');
+}
+// ... otherwise it's empty or invalid
+else {
+    $from = null;
 }
 
 // check 'From' address (identity may be incomplete)
