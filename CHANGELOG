@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix vulnerability in handling of mail()'s 5th argument
+
 RELEASE 1.1.6
 -------------
 - Searching in both contacts and groups when LDAP addressbook with group_filters option is used
