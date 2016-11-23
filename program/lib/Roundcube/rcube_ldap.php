@@ -866,9 +866,6 @@ class rcube_ldap extends rcube_addressbook
             $filter = 'e:' . $filter;
         }
 
-        // set filter string and execute search
-        // @FIXME: we need a better way to detect/define when groups are allowed in the result
-        $prefix = empty($required) ? 'e:' : '';
         $this->set_search_set($prefix . $filter);
 
         if ($select)
