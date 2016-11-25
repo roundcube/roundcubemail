@@ -867,7 +867,14 @@ class rcube_imap_generic
             }
 
             // Use best (for security) supported authentication method
-            $all_methods = array('GSSAPI', 'DIGEST-MD5', 'CRAM-MD5', 'CRAM_MD5', 'PLAIN', 'LOGIN');
+            // but don't bother trying GSSAPI when there isn't a ccache available
+            if (empty($options['gssapi_cn'])) {
+                $all_methods = array('DIGEST-MD5', 'CRAM-MD5', 'CRAM_MD5', 'PLAIN', 'LOGIN');
+            }
+            else {
+                $all_methods = array('GSSAPI', 'DIGEST-MD5', 'CRAM-MD5', 'CRAM_MD5', 'PLAIN', 'LOGIN');
+            }
+
             foreach ($all_methods as $auth_method) {
                 if (in_array($auth_method, $auth_methods)) {
                     break;
