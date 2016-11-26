@@ -1179,6 +1179,8 @@ class rcube
      *
      * @param string $name Name of the log file
      * @param mixed  $line Line to append
+     *
+     * @return bool True on success, False on failure
      */
     public static function write_log($name, $line)
     {
@@ -1216,14 +1218,12 @@ class rcube
 
         if ($log_driver == 'syslog') {
             $prio = $name == 'errors' ? LOG_ERR : LOG_INFO;
-            syslog($prio, $line);
-            return true;
+            return syslog($prio, $line);
         }
 
         // log_driver == 'file' is assumed here
 
         $line = sprintf("[%s]: %s\n", $date, $line);
-        $log_dir = null;
 
         // per-user logging is activated
         if (self::$instance && self::$instance->config->get('per_user_logging', false) && self::$instance->get_user_id()) {
