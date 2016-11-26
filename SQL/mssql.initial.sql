@@ -8,7 +8,6 @@ GO
 
 CREATE TABLE [dbo].[cache_shared] (
 	[cache_key] [varchar] (255) COLLATE Latin1_General_CI_AI NOT NULL ,
-	[created] [datetime] NOT NULL ,
 	[expires] [datetime] NULL ,
 	[data] [text] COLLATE Latin1_General_CI_AI NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
@@ -131,6 +130,20 @@ CREATE TABLE [dbo].[system] (
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
+ALTER TABLE [dbo].[cache] WITH NOCHECK ADD 
+	 PRIMARY KEY CLUSTERED 
+	(
+		[user_id],[cache_key]
+	) ON [PRIMARY] 
+GO
+
+ALTER TABLE [dbo].[cache_shared] WITH NOCHECK ADD 
+	 PRIMARY KEY CLUSTERED 
+	(
+		[cache_key]
+	) ON [PRIMARY] 
+GO
+
 ALTER TABLE [dbo].[cache_index] WITH NOCHECK ADD 
 	 PRIMARY KEY CLUSTERED 
 	(
@@ -211,11 +224,6 @@ GO
 ALTER TABLE [dbo].[cache] ADD 
 	CONSTRAINT [DF_cache_user_id] DEFAULT ('0') FOR [user_id],
 	CONSTRAINT [DF_cache_cache_key] DEFAULT ('') FOR [cache_key],
-	CONSTRAINT [DF_cache_created] DEFAULT (getdate()) FOR [created]
-GO
-
-ALTER TABLE [dbo].[cache_shared] ADD 
-	CONSTRAINT [DF_cache_shared_created] DEFAULT (getdate()) FOR [created]
 GO
 
 ALTER TABLE [dbo].[cache_index] ADD 
@@ -224,12 +232,6 @@ GO
 
 ALTER TABLE [dbo].[cache_messages] ADD 
 	CONSTRAINT [DF_cache_messages_flags] DEFAULT (0) FOR [flags]
-GO
-
-CREATE INDEX [IX_cache_user_id] ON [dbo].[cache]([user_id]) ON [PRIMARY]
-GO
-
-CREATE INDEX [IX_cache_cache_key] ON [dbo].[cache]([cache_key]) ON [PRIMARY]
 GO
 
 CREATE INDEX [IX_cache_shared_cache_key] ON [dbo].[cache_shared]([cache_key]) ON [PRIMARY]
@@ -393,6 +395,6 @@ CREATE TRIGGER [contact_delete_member] ON [dbo].[contacts]
     WHERE [contact_id] IN (SELECT [contact_id] FROM deleted)
 GO
 
-INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2016100900')
+INSERT INTO [dbo].[system] ([name], [value]) VALUES ('roundcube-version', '2016112200')
 GO
 

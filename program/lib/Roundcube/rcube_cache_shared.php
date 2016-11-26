@@ -291,14 +291,10 @@ class rcube_cache_shared
             }
         }
         else {
-            $sql_result = $this->db->limitquery(
-                "SELECT `data`, `cache_key`".
-                " FROM {$this->table}" .
-                " WHERE `cache_key` = ?".
-                // for better performance we allow more records for one key
-                // get the newer one
-                " ORDER BY `created` DESC",
-                0, 1, $this->prefix . '.' . $key);
+            $sql_result = $this->db->query(
+                "SELECT `data`, `cache_key` FROM {$this->table}"
+                . " WHERE `cache_key` = ?",
+                $this->prefix . '.' . $key);
 
             if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
                 if (strlen($sql_arr['data']) > 0) {
@@ -362,37 +358,41 @@ class rcube_cache_shared
             return $result;
         }
 
-        $key_exists = array_key_exists($key, $this->cache_sums);
-        $key        = $this->prefix . '.' . $key;
+        $db_key = $this->prefix . '.' . $key;
 
         // Remove NULL rows (here we don't need to check if the record exist)
         if ($data == 'N;') {
-            $this->db->query("DELETE FROM {$this->table} WHERE `cache_key` = ?", $key);
-            return true;
+            $result = $this->db->query("DELETE FROM {$this->table} WHERE `cache_key` = ?", $db_key);
+
+            return !$this->db->is_error($result);
         }
 
-        // update existing cache record
-        if ($key_exists) {
+        $key_exists = array_key_exists($key, $this->cache_sums);
+        $expires    = $this->ttl ? $this->db->now($this->ttl) : 'NULL';
+
+        if (!$key_exists) {
+            // Try INSERT temporarily ignoring "duplicate key" errors
+            $this->db->set_option('ignore_key_errors', true);
+
             $result = $this->db->query(
-                "UPDATE {$this->table}" .
-                " SET `created` = " . $this->db->now() .
-                    ", `expires` = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL') .
-                    ", `data` = ?".
-                " WHERE `cache_key` = ?",
-                $data, $key);
-        }
-        // add new cache record
-        else {
-            // for better performance we allow more records for one key
-            // so, no need to check if record exist (see rcube_cache::read_record())
-            $result = $this->db->query(
-                "INSERT INTO {$this->table}".
-                " (`created`, `expires`, `cache_key`, `data`)".
-                " VALUES (".$this->db->now().", " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL') . ", ?, ?)",
-                $key, $data);
+                "INSERT INTO {$this->table} (`expires`, `cache_key`, `data`)"
+                . " VALUES ($expires, ?, ?)",
+                $db_key, $data);
+
+            $this->db->set_option('ignore_key_errors', false);
         }
 
-        return $this->db->affected_rows($result) > 0;
+        // otherwise try UPDATE
+        if (!isset($result) || !($count = $this->db->affected_rows($result))) {
+            $result = $this->db->query(
+                "UPDATE {$this->table} SET `expires` = $expires, `data` = ?"
+                . " WHERE `cache_key` = ?",
+                $data, $db_key);
+
+            $count = $this->db->affected_rows($result);
+        }
+
+        return $count > 0;
     }
 
     /**
