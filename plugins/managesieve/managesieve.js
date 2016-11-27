@@ -53,6 +53,7 @@ if (window.rcmail) {
       }
       else if (rcmail.gui_objects.sievesetrawform) {
         rcmail.enable_command('plugin.managesieve-save', true);
+        sieve_raw_editor_init();
       }
       else {
         rcmail.enable_command('plugin.managesieve-add', 'plugin.managesieve-setadd', !rcmail.env.sieveconnerror);
@@ -1023,6 +1024,53 @@ function sieve_form_init()
       $('#ruleadv' + RegExp.$1 + '.show').click();
     }
   });
+}
+
+/*********************************************************/
+/*********        RAW editor methods             *********/
+/*********************************************************/
+
+var cmeditor;
+
+function cmCreateErrorElem(msg)
+{
+  var marker = document.createElement("div");
+  marker.style.color = "#822";
+  marker.innerHTML = "●";
+  marker.title = msg;
+
+  return marker;
+}
+
+function cmScrollToError()
+{
+  var line = $('.CodeMirror-lines .line-error'),
+    scroll = $('.CodeMirror-scroll'),
+    h = line.parent();
+
+  scroll.scrollTop(line.offset().top - scroll.offset().top - Math.round(scroll.height()/2));
+}
+
+function sieve_raw_editor_init()
+{
+  var textArea = document.getElementById('rawfiltersettxt');
+  if (textArea && !cmeditor) {
+    cmeditor = CodeMirror.fromTextArea(textArea, {
+      mode: 'sieve',
+      lineNumbers: true,
+      gutters: ["CodeMirror-linenumbers", "errorGutter"],
+      styleActiveLine: true
+    });
+
+    // fetching errors from environment and setting the line background
+    // and a gutter element with the error message accordingly
+    $.each(rcmail.env.sieve_errors || [], function(i, err) {
+      var lineNo = Number(err.line) - 1;
+      cmeditor.addLineClass(lineNo, 'background', 'line-error');
+      cmeditor.setGutterMarker(lineNo, 'errorGutter', cmCreateErrorElem(err.msg));
+      if (!i) cmScrollToError();
+    });
+  }
 }
 
 
