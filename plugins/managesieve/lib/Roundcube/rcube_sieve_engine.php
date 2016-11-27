@@ -1309,16 +1309,13 @@ class rcube_sieve_engine
                 'rows' => '15'
         ));
 
-        $out .= $txtarea->show($script_post !== null ? $script_post : ($script !== false ? $script : ''));
+        $out .= $txtarea->show($script_post !== null ? $script_post : ($script !== false ? rtrim($script) : ''));
 
         $this->rc->output->add_gui_object('sievesetrawform', 'filtersetrawform');
         $this->plugin->include_stylesheet('codemirror/lib/codemirror.css');
         $this->plugin->include_script('codemirror/lib/codemirror.js');
         $this->plugin->include_script('codemirror/addon/selection/active-line.js');
         $this->plugin->include_script('codemirror/mode/sieve/sieve.js');
-        
-        $this->plugin->include_script('codemirror/initeditor.js');
-        $this->plugin->include_stylesheet('codemirror/overrides.css');
 
         if ($script === false) {
             $this->rc->output->show_message('managesieve.filterunknownerror', 'error');
