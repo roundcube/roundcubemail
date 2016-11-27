@@ -56,7 +56,7 @@ if [ $# -gt 0 ]; then
 	exit
 fi
 
-DIRS="$PWD/../program/js $PWD/../skins/* $PWD/../plugins/* $PWD/../plugins/*/skins/*"
+DIRS="$PWD/../program/js $PWD/../skins/* $PWD/../plugins/* $PWD/../plugins/*/skins/* $PWD/../plugins/managesieve/codemirror/lib"
 # default: compress application scripts
 for dir in $DIRS; do
     for file in $dir/*.js; do
