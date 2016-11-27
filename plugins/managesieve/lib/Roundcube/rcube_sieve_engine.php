@@ -505,6 +505,10 @@ class rcube_sieve_engine
 
         if ($result === false) {
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
+            $errorLines = $this->sieve->get_error_lines();
+            if (sizeof($errorLines) > 0) {
+                $this->rc->output->set_env("sieve_errors", $errorLines);
+            }
         }
         else {
             $this->rc->output->show_message('managesieve.setupdated', 'confirmation');
@@ -1308,6 +1312,13 @@ class rcube_sieve_engine
         $out .= $txtarea->show($script_post !== null ? $script_post : ($script !== false ? $script : ''));
 
         $this->rc->output->add_gui_object('sievesetrawform', 'filtersetrawform');
+        $this->plugin->include_stylesheet('codemirror/lib/codemirror.css');
+        $this->plugin->include_script('codemirror/lib/codemirror.js');
+        $this->plugin->include_script('codemirror/addon/selection/active-line.js');
+        $this->plugin->include_script('codemirror/mode/sieve/sieve.js');
+        
+        $this->plugin->include_script('codemirror/initeditor.js');
+        $this->plugin->include_stylesheet('codemirror/overrides.css');
 
         if ($script === false) {
             $this->rc->output->show_message('managesieve.filterunknownerror', 'error');
