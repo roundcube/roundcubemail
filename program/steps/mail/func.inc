@@ -505,8 +505,10 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         foreach ($a_show_cols as $col) {
             $col_name = $col == 'fromto' ? $smart_col : $col;
 
-            if (in_array($col_name, array('from', 'to', 'cc', 'replyto')))
+            if (in_array($col_name, array('from', 'to', 'cc', 'replyto'))) {
                 $cont = rcmail_address_string($header->$col_name, 3, false, null, $header->charset);
+                if (empty($cont)) $cont = '&nbsp;'; // for widescreen mode
+            }
             else if ($col == 'subject') {
                 $cont = trim(rcube_mime::decode_header($header->$col, $header->charset));
                 if (!$cont) $cont = $RCMAIL->gettext('nosubject');
