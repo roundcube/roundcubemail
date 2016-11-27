@@ -598,37 +598,30 @@ class password extends rcube_plugin
                 $method = 'CRAM-MD5';
             }
 
-            // use common temp dir
-            $tmp_dir = $rcmail->config->get('temp_dir');
-            $tmpfile = tempnam($tmp_dir, 'roundcube-');
+            $pipe = proc_open("$dovecotpw -s '$method'", array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('file', '/dev/null', 'a')), $pipes);
+            if (!is_resource($pipe)) return false;
 
-            $pipe = popen("$dovecotpw -s '$method' > '$tmpfile'", "w");
-            if (!$pipe) {
-                unlink($tmpfile);
+            fwrite($pipes[0], $password . "\n", 1+strlen($password));
+            usleep(1000);
+            fwrite($pipes[0], $password . "\n", 1+strlen($password));
+            fclose($pipes[0]);
+            $crypted = trim(stream_get_contents($pipes[1]), "\n");
+            fclose($pipes[1]);
+            proc_close($pipe);
+
+            if (!preg_match('/^\{' . $method . '\}/', $crypted)) {
                 return false;
             }
-            else {
-                fwrite($pipe, $password . "\n", 1+strlen($password)); usleep(1000);
-                fwrite($pipe, $password . "\n", 1+strlen($password));
-                pclose($pipe);
 
-                $crypted = trim(file_get_contents($tmpfile), "\n");
-                unlink($tmpfile);
-
-                if (!preg_match('/^\{' . $method . '\}/', $crypted)) {
-                    return false;
-                }
-
-                if (!$default) {
-                    $prefixed = (bool) $rcmail->config->get('password_dovecotpw_with_method');
-                }
-
-                if (!$prefixed) {
-                    $crypted = trim(str_replace('{' . $method . '}', '', $crypted));
-                }
-
-                $prefixed = false;
+            if (!$default) {
+                $prefixed = (bool) $rcmail->config->get('password_dovecotpw_with_method');
             }
+
+            if (!$prefixed) {
+                $crypted = trim(str_replace('{' . $method . '}', '', $crypted));
+            }
+
+            $prefixed = false;
 
             break;
 
