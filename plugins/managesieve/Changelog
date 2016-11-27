@@ -1,3 +1,5 @@
+* version 8.8 [2016-11-27]
+-----------------------------------------------------------
 - Fix parsing of vacation date-time with non-default date_format (#5372)
 - Fix regression where js error is thrown if server does not support 'duplicate' extension
 - Add option to automatically set vacation :from address (#5428)
@@ -23,7 +25,7 @@
 -----------------------------------------------------------
 - Add option to prepopulate vacation addresses on form init (#1490030)
 - Add option to define default vacation interval
-- Fix missing position idicator in Larry skin when dragging a filter
+- Fix missing position indicator in Larry skin when dragging a filter
 - Fix incorrect filter data after filter delete (#1490356)
 
 * version 8.3 [2015-03-12]
