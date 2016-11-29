@@ -43,7 +43,6 @@ CHANGELOG Roundcube Webmail
 - Rename Addressbook to Contacts (#5233)
 - Remove PHP mail() support, smtp_server is required now (#5340)
 - Display full message subject in onmouseover on truncated subject in mail view (#5346)
-- Searching in both contacts and groups when LDAP addressbook with group_filters option is used
 - Enigma: Support GnuPG 2.1 (#5313)
 - Enigma: Support key generation for multiple identities (#5383)
 - Enigma: Import keys from key-server(s) (#5286)
@@ -70,6 +69,12 @@ CHANGELOG Roundcube Webmail
     - Added missing primary keys (dictionary, cache, cache_shared tables)
 - Fix so templating system does not mess with external (e.g. email) content (#5499)
 - Fix redundant keep-alive/refresh after session error on compose page (#5500)
+
+RELEASE 1.2.3
+-------------
+- Searching in both contacts and groups when LDAP addressbook with group_filters option is used
+- Fix vulnerability in handling of mail()'s 5th argument
+- Fix To: header encoding in mail sent with mail() method (#5475)
 - Fix flickering of header topline in min-mode (#5426)
 - Fix bug where folders list would scroll to top when clicking on subscription checkbox (#5447)
 - Fix decoding of GB2312/GBK text when iconv is not installed (#5448)
