@@ -40,8 +40,12 @@ class rcube_poppassd_password
         $rcmail = rcmail::get_instance();
 //    include('Net/Socket.php');
         $poppassd = new Net_Socket();
+        
+        $host = $rcmail->config->get('password_pop_host');
+        $host = str_replace('%h', $_SESSION['imap_host'], $host);
+        $host = str_replace('%d', $rcmail->user->get_username('domain'), $host);
 
-        $result = $poppassd->connect($rcmail->config->get('password_pop_host'), $rcmail->config->get('password_pop_port'), null);
+        $result = $poppassd->connect($host, $rcmail->config->get('password_pop_port'), null);
         if (is_a($result, 'PEAR_Error')) {
             return $this->format_error_result(PASSWORD_CONNECT_ERROR, $result->getMessage());
         }
