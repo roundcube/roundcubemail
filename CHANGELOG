@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Managesieve: Fix handling of scripts with nested rules (#5540)
+
 RELEASE 1.2.3
 -------------
 - Searching in both contacts and groups when LDAP addressbook with group_filters option is used

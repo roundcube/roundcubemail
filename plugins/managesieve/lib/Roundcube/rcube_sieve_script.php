@@ -805,6 +805,11 @@ class rcube_sieve_script
             $token     = !empty($tokens) ? array_shift($tokens) : $separator;
 
             switch ($token) {
+            case 'if':
+                // nested 'if' conditions, ignore the whole rule (#5540)
+                $this->_parse_actions($content, $position);
+                continue 2;
+
             case 'discard':
             case 'keep':
             case 'stop':
@@ -890,8 +895,9 @@ class rcube_sieve_script
                 break;
             }
 
-            if ($separator == $end)
+            if ($separator == $end) {
                 break;
+            }
         }
 
         return $result;

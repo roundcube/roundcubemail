@@ -1,3 +1,5 @@
+- Fix handling of scripts with nested rules (#5540)
+
 * version 8.6 [2016-04-06]
 -----------------------------------------------------------
 - Refactored script parser to be 100x faster
