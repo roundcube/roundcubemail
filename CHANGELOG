@@ -69,6 +69,7 @@ CHANGELOG Roundcube Webmail
     - Added missing primary keys (dictionary, cache, cache_shared tables)
 - Fix so templating system does not mess with external (e.g. email) content (#5499)
 - Fix redundant keep-alive/refresh after session error on compose page (#5500)
+- Managesieve: Fix handling of scripts with nested rules (#5540)
 
 RELEASE 1.2.3
 -------------
