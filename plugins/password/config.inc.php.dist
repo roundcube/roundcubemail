@@ -132,10 +132,17 @@ $config['password_hash_base64'] = false;
 
 // Poppassd Driver options
 // -----------------------
-// The host which changes the password
+// The host which changes the password (default: localhost)
+// Supported replacement variables:
+//   %n - hostname ($_SERVER['SERVER_NAME'])
+//   %t - hostname without the first part
+//   %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
+//   %h - IMAP host
+//   %z - IMAP domain without first part
+//   %s - domain name after the '@' from e-mail address provided at login screen
 $config['password_pop_host'] = 'localhost';
 
-// TCP port used for poppassd connections
+// TCP port used for poppassd connections (default: 106)
 $config['password_pop_port'] = 106;
 
 
