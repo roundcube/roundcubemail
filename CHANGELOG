@@ -13,6 +13,7 @@ CHANGELOG Roundcube Webmail
 - Display error when trying to upload more files than specified in max_file_uploads (#5483)
 - Add missing sql upgrade file for 'ip' column resize in session table (#5465)
 - Do not show inline images of unsupported mimetype (#5463)
+- Password: Added replacement variables support in password_pop_host (#5539)
 - Password: Don't store passwords in temp files when using dovecotpw (#5531)
 - Password: Added LDAP PPolicy driver (#5364)
 - Password: Added possibility to nicely redirect from other plugins on password expiration (#5468)
