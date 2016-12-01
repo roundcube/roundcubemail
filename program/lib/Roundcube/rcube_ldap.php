@@ -228,7 +228,7 @@ class rcube_ldap extends rcube_addressbook
 
         $this->sort_col    = is_array($p['sort']) ? $p['sort'][0] : $p['sort'];
         $this->debug       = $debug;
-        $this->mail_domain = $mail_domain;
+        $this->mail_domain = $this->prop['mail_domain'] = $mail_domain;
 
         // initialize cache
         $rcube = rcube::get_instance();
@@ -260,11 +260,13 @@ class rcube_ldap extends rcube_addressbook
     {
         $rcube = rcube::get_instance();
 
-        if ($this->ready)
+        if ($this->ready) {
             return true;
+        }
 
-        if (!is_array($this->prop['hosts']))
+        if (!is_array($this->prop['hosts'])) {
             $this->prop['hosts'] = array($this->prop['hosts']);
+        }
 
         // try to connect + bind for every host configured
         // with OpenLDAP 2.x ldap_connect() always succeeds but ldap_bind will fail if host isn't reachable
