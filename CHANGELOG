@@ -70,6 +70,7 @@ CHANGELOG Roundcube Webmail
 - Fix so templating system does not mess with external (e.g. email) content (#5499)
 - Fix redundant keep-alive/refresh after session error on compose page (#5500)
 - Managesieve: Fix handling of scripts with nested rules (#5540)
+- Fix variable substitution in ldap host for some use-cases, e.g. new_user_identity (#5544)
 
 RELEASE 1.2.3
 -------------
