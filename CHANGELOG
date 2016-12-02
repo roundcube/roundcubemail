@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added identicon plugin
 - Widescreen layout aka three column view (#5093)
 - Unify automatic marking as \Seen in preview pane, full-page and extwin views (#5071)
 - Disable double-click on the list when preview pane is on (#5199)
