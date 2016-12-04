@@ -163,6 +163,8 @@ if [ "$WHAT" = "tinymce" ] || [ "$WHAT" = "" ]; then
     echo "Installing TinyMCE localization..."
 
     $UNZIP -q "$TINYMCE_PATH.zip" -d "$TINYMCE_PATH"
+    # cleanup
+    rm -f "$TINYMCE_PATH.zip"
 
     echo "Done"
 fi
