@@ -198,17 +198,7 @@ class enigma_ui
      */
     function tpl_key_frame($attrib)
     {
-        if (!$attrib['id']) {
-            $attrib['id'] = 'rcmkeysframe';
-        }
-
-        $attrib['name'] = $attrib['id'];
-
-        $this->rc->output->set_env('contentframe', $attrib['name']);
-        $this->rc->output->set_env('blankpage', $attrib['src'] ?
-            $this->rc->output->abs_url($attrib['src']) : 'program/resources/blank.gif');
-
-        return $this->rc->output->frame($attrib);
+        return $this->rc->output->frame($attrib, true);
     }
 
     /**
