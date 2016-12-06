@@ -28,7 +28,9 @@
  2.3.  Poppassd/Courierpassd (poppassd)
  2.4.  LDAP (ldap)
  2.5.  DirectAdmin Control Panel (directadmin)
- 2.6.  cPanel (cpanel)
+ 2.6.  cPanel
+ 2.6.1.  cPanel WHM (cpanel)
+ 2.6.2.  cPanel Webmail (cpanel_webmail)
  2.7.  XIMSS/Communigate (ximms)
  2.8.  Virtualmin (virtualmin)
  2.9.  hMailServer (hmail)
@@ -190,14 +192,35 @@
  See config.inc.php.dist file for more info.
 
 
- 2.6. cPanel (cpanel)
- --------------------
+ 2.6. cPanel
+ -----------
+
+ cPanel offers various APIs. The `cpanel` driver is configured with and admin
+ account. It can change user's passwords without access to the current password.
+ See the next section.
+
+ The `cpanel_webmail` driver authenticates as the current user and does not need
+ an admin account. See 2.6.2.
+
+
+ 2.6.1. cPanel WHM (cpanel)
+ --------------------------
 
  Install cPanel XMLAPI Client Class into Roundcube program/lib directory
  or any other place in PHP include path. You can get the class from
  https://raw.github.com/CpanelInc/xmlapi-php/master/xmlapi.php
 
  You can configure parameters for connection to cPanel's API interface.
+ See config.inc.php.dist file for more info.
+
+
+ 2.6.2. cPanel Webmail (cpanel_webmail)
+ --------------------------------------
+
+ Specify the host to connect to via 'password_webmail_cpanel_host'. This driver
+ comes with a minimal UAPI implementation and does not use the external xmlapi
+ class.
+
  See config.inc.php.dist file for more info.
 
 
