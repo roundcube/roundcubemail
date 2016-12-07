@@ -537,7 +537,7 @@ if (!$savedraft && !$saveonly) {
     $smtp_opts['dsn'] = $dsn_enabled;
 
     $sent = $RCMAIL->deliver_message($MAIL_MIME, $from, $mailto,
-        $smtp_error, $mailbody_file, $smtp_opts);
+        $smtp_error, $mailbody_file, $smtp_opts, true);
 
     // return to compose page if sending failed
     if (!$sent) {

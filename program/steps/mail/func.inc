@@ -1910,7 +1910,7 @@ function rcmail_send_mdn($message, &$smtp_error)
         // SMTP options
         $options = array('mdn_use_from' => (bool) $RCMAIL->config->get('mdn_use_from'));
 
-        $sent = $RCMAIL->deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file, $options);
+        $sent = $RCMAIL->deliver_message($compose, $identity['email'], $mailto, $smtp_error, $body_file, $options, true);
 
         if ($sent) {
             $RCMAIL->storage->set_flag($message->uid, 'MDNSENT');
