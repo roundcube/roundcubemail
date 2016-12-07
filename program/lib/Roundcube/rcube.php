@@ -1578,10 +1578,12 @@ class rcube
      * @param string $body_file Location of file with saved message body (reference),
      *                          used when delay_file_io is enabled
      * @param array  $options   SMTP options (e.g. DSN request)
+     * @param bool   $disconnect Close SMTP connection ASAP
      *
      * @return boolean Send status.
      */
-    public function deliver_message(&$message, $from, $mailto, &$error, &$body_file = null, $options = null)
+    public function deliver_message(&$message, $from, $mailto, &$error,
+        &$body_file = null, $options = null, $disconnect = false)
     {
         $plugin = $this->plugins->exec_hook('message_before_send', array(
             'message' => $message,
@@ -1679,6 +1681,10 @@ class rcube
 
         if (is_resource($msg_body)) {
             fclose($msg_body);
+        }
+
+        if ($disconnect) {
+            $this->smtp->disconnect();
         }
 
         $message->headers($headers, true);
