@@ -17,6 +17,7 @@ CHANGELOG Roundcube Webmail
 - Password: Added replacement variables support in password_pop_host (#5539)
 - Password: Don't store passwords in temp files when using dovecotpw (#5531)
 - Password: Added LDAP PPolicy driver (#5364)
+- Password: Added cpanel_webmail driver (#5549)
 - Password: Added possibility to nicely redirect from other plugins on password expiration (#5468)
 - Implement separate action to mark all messages in a folder as \Seen (#5006)
 - Implement marking as \Seen in all folders or in a folder and its subfolders (#5076)

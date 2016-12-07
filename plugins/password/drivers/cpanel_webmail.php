@@ -30,15 +30,18 @@ class rcube_cpanel_webmail_password
 {
     public function save($curpas, $newpass)
     {
-        $user = $_SESSION['username'];
+        $user    = $_SESSION['username'];
         $userpwd = "$user:$curpas";
         list($login) = split('@', $user);
+
         $data = array(
-            'email' => $login,
+            'email'    => $login,
             'password' => $newpass
         );
-        $url = self::url();
+
+        $url      = self::url();
         $response = $this->curl_auth_post($userpwd, $url, $data);
+
         return self::decode_response($response);
     }
 
@@ -49,7 +52,7 @@ class rcube_cpanel_webmail_password
      */
     public static function url()
     {
-        $config = rcmail::get_instance()->config;
+        $config       = rcmail::get_instance()->config;
         $storage_host = $_SESSION['storage_host'];
 
         $host = $config->get('password_cpanel_webmail_host', $storage_host);
@@ -62,6 +65,7 @@ class rcube_cpanel_webmail_password
      * Converts a UAPI response to a password driver response.
      *
      * @param string $response JSON response by the Cpanel UAPI
+     *
      * @return mixed response code or array
      */
     public static function decode_response($response)
@@ -75,7 +79,7 @@ class rcube_cpanel_webmail_password
         $errors = $result['errors'];
         if (is_array($errors) && count($errors) > 0) {
             return array(
-                'code' => PASSWORD_ERROR,
+                'code'    => PASSWORD_ERROR,
                 'message' => $errors[0],
             );
         }
@@ -95,10 +99,11 @@ class rcube_cpanel_webmail_password
      * ));
      * </code>
      *
-     * @param string $userpwd user name and password separated by a colon
-     * <code>:</code>
-     * @param string $url the URL to post data to
-     * @param array $postdata the data to post
+     * @param string $userpwd  user name and password separated by a colon
+     *                         <code>:</code>
+     * @param string $url      the URL to post data to
+     * @param array  $postdata the data to post
+     *
      * @return string the body of the reply
      * @throws Exception
      */
@@ -118,7 +123,7 @@ class rcube_cpanel_webmail_password
         curl_setopt($ch, CURLOPT_USERPWD, $userpwd);
 
         $result = curl_exec($ch);
-        $error = curl_error($ch);
+        $error  = curl_error($ch);
         curl_close($ch);
 
         if ($result === false) {
