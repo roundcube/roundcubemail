@@ -353,6 +353,15 @@ $config['password_cpanel_hash'] = '';
 $config['password_cpanel_port'] = 2087;
 
 
+// cPanel Webmail Driver options
+// -----------------------------
+// The cPanel Host name
+$config['password_cpanel_webmail_host'] = 'host.domain.com';
+
+// The cPanel port to use
+$config['password_cpanel_webmail_port'] = 2096;
+
+
 // XIMSS (Communigate server) Driver options
 // -----------------------------------------
 // Host name of the Communigate server
