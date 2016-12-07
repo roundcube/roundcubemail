@@ -153,6 +153,15 @@ $config['imap_auth_type'] = null;
 // );
 $config['imap_conn_options'] = null;
 
+// IMAP Possibility of setting port and ssl per host
+// $config['imap_hosts_config'] = array(
+//    'mail.domain.tld' => array(
+//       'port' => 993,
+//       'ssl' => 'ssl'
+//   )
+// );
+$config['imap_hosts_config'] = null;
+
 // IMAP connection timeout, in seconds. Default: 0 (use default_socket_timeout)
 $config['imap_timeout'] = 0;
 
