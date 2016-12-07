@@ -219,7 +219,7 @@
 
  Specify the host to connect to via 'password_webmail_cpanel_host'. This driver
  comes with a minimal UAPI implementation and does not use the external xmlapi
- class.
+ class. It requires php-curl extension.
 
  See config.inc.php.dist file for more info.
 
