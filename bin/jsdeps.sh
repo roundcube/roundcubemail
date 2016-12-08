@@ -27,9 +27,9 @@ PKEY_URL="https://raw.githubusercontent.com/diafygi/publickeyjs/$PKEY_VERSION/pu
 PKEY_SHA="d0920e190754e024c4be76ad5bbc7e76b2e37a4d"
 PKEY_PATH="$PWD/../program/js/publickey.js"
 
-TINYMCE_VERSION="4.3.13"
+TINYMCE_VERSION="4.5.1"
 TINYMCE_URL="http://download.ephox.com/tinymce/community/tinymce_$TINYMCE_VERSION.zip"
-TINYMCE_SHA="28631746784453daf8baa10f2c8982aac5e32aa7"
+TINYMCE_SHA="e358301ac9fefafcd0ee21643c6aaed2c8b83470"
 TINYMCE_PATH="$PWD/../program/js/tinymce"
 TINYMCE_LANGS="https://tinymce-services.azurewebsites.net/1/i18n/download?langs=ar,hy,az,eu,be,bs,bg_BG,ca,zh_CN,zh_TW,hr,cs,cs_CZ,da,nl,en_CA,en_GB,eo,et,fo,fi,fr_FR,fr_CH,gd,gl,ka_GE,de,de_AT,el,he_IL,hi_IN,hu_HU,is_IS,id,ga,it,ja,kab,km_KH,ko_KR,ku,ku_IQ,lv,lt,lb,mk_MK,ml_IN,nb_NO,oc,fa,fa_IR,pl,pt_BR,pt_PT,ro,ru,sk,sl_SI,es,es_MX,sv_SE,tg,ta,ta_IN,tt,th_TH,tr,tr_TR,ug,uk,uk_UA,vi,vi_VN,cy"
 
