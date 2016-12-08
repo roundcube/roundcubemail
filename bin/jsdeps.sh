@@ -41,7 +41,7 @@ OPENPGP_PATH="$PWD/../plugins/enigma/openpgp.min.js"
 CM_VERSION="5.21.0"
 CM_URL="http://codemirror.net/codemirror-$CM_VERSION.zip"
 CM_SHA="3b767c2e3acd6796e54ed19ed2ac0755fcf87984"
-CM_PATH="$PWD/../plugins/managesieve/codemirror.zip"
+CM_PATH="$PWD/../plugins/managesieve/codemirror"
 
 ################################################################################
 
@@ -64,6 +64,17 @@ elif [ -n "$WGET" ]; then
 else
     echo "Curl or wget is required"
     exit 1
+fi
+
+if [ "$WHAT" = "cleanup" ]; then
+    set -x
+    rm -rf $JQUERY_PATH
+    rm -rf $JSTZ_PATH
+    rm -rf $PKEY_PATH
+    rm -rf $TINYMCE_PATH
+    rm -rf $OPENPGP_PATH
+    rm -rf $CM_PATH
+    exit
 fi
 
 if [ "$WHAT" = "jquery" ] || [ "$WHAT" = "" ]; then
@@ -196,15 +207,15 @@ fi
 if [ "$WHAT" = "codemirror" ] || [ "$WHAT" = "" ]; then
     echo "Downloading CodeMirror..."
 
-    $GET $CM_URL $OPT "$CM_PATH"
-    if [ ! -f "$CM_PATH" ]; then
+    $GET $CM_URL $OPT "$CM_PATH.zip"
+    if [ ! -f "$CM_PATH.zip" ]; then
         echo "ERROR: Failed to get $CM_URL"
         exit 1
     fi
 
-    SUM=`$SHASUM "$CM_PATH" | cut -d " " -f 1`
+    SUM=`$SHASUM "$CM_PATH.zip" | cut -d " " -f 1`
     if [ "$SUM" != "$CM_SHA" ]; then
-        echo "ERROR: Incorrect SHA of $CM_PATH. Expected: $CM_SHA, got: $SUM"
+        echo "ERROR: Incorrect SHA of $CM_PATH.zip. Expected: $CM_SHA, got: $SUM"
         exit 1
     fi
 
@@ -218,13 +229,13 @@ if [ "$WHAT" = "codemirror" ] || [ "$WHAT" = "" ]; then
     $UNZIP -q "$CM_PATH" -d "$DIR" "codemirror-$CM_VERSION/addon/selection/active-line.js"
     $UNZIP -q "$CM_PATH" -d "$DIR" "codemirror-$CM_VERSION/mode/sieve/sieve.js"
 
-    if [ -d "$DIR/codemirror" ]; then
-        rm -drf "$DIR/codemirror"
+    if [ -d "$CM_PATH" ]; then
+        rm -drf "$CM_PATH"
     fi
 
-    mv -f "$DIR/codemirror-$CM_VERSION" "$DIR/codemirror"
+    mv -f "$DIR/codemirror-$CM_VERSION" "$CM_PATH"
     #cleanup
-    rm -f "$CM_PATH"
+    rm -f "$CM_PATH.zip"
 
     echo "Done"
 fi
