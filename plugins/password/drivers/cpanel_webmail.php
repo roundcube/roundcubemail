@@ -70,13 +70,17 @@ class rcube_cpanel_webmail_password
      */
     public static function decode_response($response)
     {
+        if (!$response) {
+            return PASSWORD_CONNECT_ERROR;
+        }
+
         $result = json_decode($response);
 
-        if ($result['status'] === 1) {
+        if ($result->status === 1) {
             return PASSWORD_SUCCESS;
         }
 
-        $errors = $result['errors'];
+        $errors = $result->errors;
         if (is_array($errors) && count($errors) > 0) {
             return array(
                 'code'    => PASSWORD_ERROR,
