@@ -28,6 +28,15 @@
 
 class rcube_cpanel_webmail_password
 {
+    /**
+     * Changes the user's password. It is called by password.php.
+     * See "Driver API" README and password.php for the interface details.
+     *
+     * @param string $curpas current (old) password
+     * @param string $newpass new requested password
+     * @return mixed int code or assoc array with 'code' and 'message', see
+     * "Driver API" README and password.php
+     */
     public function save($curpas, $newpass)
     {
         $user    = $_SESSION['username'];
@@ -66,7 +75,7 @@ class rcube_cpanel_webmail_password
      *
      * @param string $response JSON response by the Cpanel UAPI
      *
-     * @return mixed response code or array
+     * @return mixed response code or array, see <code>save</code>
      */
     public static function decode_response($response)
     {
@@ -74,9 +83,11 @@ class rcube_cpanel_webmail_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $result = json_decode($response);
+        // $result should be `null` or `stdClass` object
+        $result = json_decode($response, !JSON_OBJECT_AS_ARRAY);
 
-        if ($result->status === 1) {
+        // The UAPI may return HTML instead of JSON on missing authentication
+        if (is_object($result) && $result->status === 1) {
             return PASSWORD_SUCCESS;
         }
 
