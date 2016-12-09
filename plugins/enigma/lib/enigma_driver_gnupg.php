@@ -437,17 +437,20 @@ class enigma_driver_gnupg extends enigma_driver
      */
     protected function parse_signature($sig)
     {
-        $user = $sig->getUserId();
-
         $data = new enigma_signature();
+
         $data->id          = $sig->getId();
         $data->valid       = $sig->isValid();
         $data->fingerprint = $sig->getKeyFingerprint();
         $data->created     = $sig->getCreationDate();
         $data->expires     = $sig->getExpirationDate();
-        $data->name        = $user->getName();
-        $data->comment     = $user->getComment();
-        $data->email       = $user->getEmail();
+
+        // In case of ERRSIG user may not be set
+        if ($user = $sig->getUserId()) {
+            $data->name    = $user->getName();
+            $data->comment = $user->getComment();
+            $data->email   = $user->getEmail();
+        }
 
         return $data;
     }
