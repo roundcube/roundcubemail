@@ -474,7 +474,7 @@ function rcube_webmail()
         this.set_page_buttons();
 
         if (this.env.cid) {
-          this.enable_command('show', 'edit', true);
+          this.enable_command('show', 'edit', 'qrcode', true);
           // register handlers for group assignment via checkboxes
           if (this.gui_objects.editform) {
             $('input.groupmember').change(function() {
@@ -6630,6 +6630,24 @@ function rcube_webmail()
     // reset vars
     this.env.current_page = 1;
     this.http_request('search', {_sid: id}, lock);
+  };
+
+  // display a dialog with QR code image
+  this.qrcode = function()
+  {
+    var title = this.get_label('qrcode'),
+      buttons = [{
+        text: this.get_label('close'),
+        'class': 'mainaction',
+        click: function() {
+          (ref.is_framed() ? parent.$ : $)(this).dialog('destroy');
+        }
+      }],
+      img = new Image(300, 300);
+
+    img.src = this.url('addressbook/qrcode', {_source: this.env.source, _cid: this.env.cid});
+
+    return this.show_popup_dialog(img, title, buttons, {width: 310, height: 410});
   };
 
 
