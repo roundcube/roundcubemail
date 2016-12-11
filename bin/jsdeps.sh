@@ -8,6 +8,7 @@ SHASUM=`which sha1sum`
 UNZIP=`which unzip`
 
 PWD=`dirname "$0"`
+CACHE="$PWD/js_cache"
 WHAT="$1"
 
 # Downloads definition
@@ -16,32 +17,38 @@ JQUERY_VERSION="3.1.1"
 JQUERY_URL="https://code.jquery.com/jquery-$JQUERY_VERSION.min.js"
 JQUERY_SHA="f647a6d37dc4ca055ced3cf64bbc1f490070acba"
 JQUERY_PATH="$PWD/../program/js/jquery.min.js"
+JQUERY_CACHE="$CACHE/jquery.min.js"
 
 JSTZ_VERSION="6c427658686c664da52c6a87cd62ec910baab276" #1.0.6
 JSTZ_URL="https://bitbucket.org/pellepim/jstimezonedetect/raw/$JSTZ_VERSION/dist/jstz.min.js"
 JSTZ_SHA="4291cd3b259d2060460c2a6ab99f428d3c0c9537"
 JSTZ_PATH="$PWD/../program/js/jstz.min.js"
+JSTZ_CACHE="$CACHE/jstz.min.js"
 
 PKEY_VERSION="0e011cb18907a1adc0313aa92e69cd8858e1ef66"
 PKEY_URL="https://raw.githubusercontent.com/diafygi/publickeyjs/$PKEY_VERSION/publickey.js"
 PKEY_SHA="d0920e190754e024c4be76ad5bbc7e76b2e37a4d"
 PKEY_PATH="$PWD/../program/js/publickey.js"
+PKEY_CACHE="$CACHE/publickey.js"
 
 TINYMCE_VERSION="4.5.1"
 TINYMCE_URL="http://download.ephox.com/tinymce/community/tinymce_$TINYMCE_VERSION.zip"
 TINYMCE_SHA="e358301ac9fefafcd0ee21643c6aaed2c8b83470"
 TINYMCE_PATH="$PWD/../program/js/tinymce"
+TINYMCE_CACHE="$CACHE/tinymce"
 TINYMCE_LANGS="https://tinymce-services.azurewebsites.net/1/i18n/download?langs=ar,hy,az,eu,be,bs,bg_BG,ca,zh_CN,zh_TW,hr,cs,cs_CZ,da,nl,en_CA,en_GB,eo,et,fo,fi,fr_FR,fr_CH,gd,gl,ka_GE,de,de_AT,el,he_IL,hi_IN,hu_HU,is_IS,id,ga,it,ja,kab,km_KH,ko_KR,ku,ku_IQ,lv,lt,lb,mk_MK,ml_IN,nb_NO,oc,fa,fa_IR,pl,pt_BR,pt_PT,ro,ru,sk,sl_SI,es,es_MX,sv_SE,tg,ta,ta_IN,tt,th_TH,tr,tr_TR,ug,uk,uk_UA,vi,vi_VN,cy"
 
 OPENPGP_VERSION="1.6.2"
 OPENPGP_URL="https://github.com/openpgpjs/openpgpjs/archive/v$OPENPGP_VERSION.zip"
 OPENPGP_SHA="70662ccd317a3e5221132778ec7bdf46342ab3fb"
 OPENPGP_PATH="$PWD/../plugins/enigma/openpgp.min.js"
+OPENPGP_CACHE="$CACHE/openpgp.min.js"
 
 CM_VERSION="5.21.0"
 CM_URL="http://codemirror.net/codemirror-$CM_VERSION.zip"
 CM_SHA="3b767c2e3acd6796e54ed19ed2ac0755fcf87984"
 CM_PATH="$PWD/../plugins/managesieve/codemirror"
+CM_CACHE="$CACHE/codemirror"
 
 ################################################################################
 
@@ -66,7 +73,7 @@ else
     exit 1
 fi
 
-if [ "$WHAT" = "cleanup" ]; then
+cleanup() {
     set -x
     rm -rf $JQUERY_PATH
     rm -rf $JSTZ_PATH
@@ -74,7 +81,38 @@ if [ "$WHAT" = "cleanup" ]; then
     rm -rf $TINYMCE_PATH
     rm -rf $OPENPGP_PATH
     rm -rf $CM_PATH
+}
+
+from_cache() {
+    set -x
+    cp -rf $JQUERY_CACHE $JQUERY_PATH
+    cp -rf $JSTZ_CACHE $JSTZ_PATH
+    cp -rf $PKEY_CACHE $PKEY_PATH
+    cp -rf $OPENPGP_CACHE $OPENPGP_PATH
+    cp -rf $TINYMCE_CACHE $TINYMCE_PATH
+    cp -rf $CM_CACHE $CM_PATH
+}
+
+# Install deps from the cache directory
+if [ "$WHAT" = "from-cache" ]; then
+    if [ ! -d $CACHE ]; then
+        echo "Cache directory ($CACHE) not found."
+        exit 1
+    fi
+
+    cleanup
+    from_cache
     exit
+fi
+
+# remove all javascript files from defined locations
+if [ "$WHAT" = "cleanup" ]; then
+    cleanup
+    exit
+fi
+
+if [ ! -d $CACHE ]; then
+    mkdir $CACHE
 fi
 
 if [ "$WHAT" = "jquery" ] || [ "$WHAT" = "" ]; then
@@ -94,6 +132,9 @@ if [ "$WHAT" = "jquery" ] || [ "$WHAT" = "" ]; then
 
     echo "Installing jQuery..."
     echo "Done"
+
+    rm -f $JQUERY_CACHE
+    cp -f $JQUERY_PATH $JQUERY_CACHE
 fi
 
 if [ "$WHAT" = "jstz" ] || [ "$WHAT" = "" ]; then
@@ -113,6 +154,9 @@ if [ "$WHAT" = "jstz" ] || [ "$WHAT" = "" ]; then
 
     echo "Installing jsTimezoneDetect..."
     echo "Done"
+
+    rm -f $JSTZ_CACHE
+    cp -f $JSTZ_PATH $JSTZ_CACHE
 fi
 
 if [ "$WHAT" = "publickey" ] || [ "$WHAT" = "" ]; then
@@ -132,6 +176,9 @@ if [ "$WHAT" = "publickey" ] || [ "$WHAT" = "" ]; then
 
     echo "Installing publickey.js..."
     echo "Done"
+
+    rm -f $PKEY_CACHE
+    cp -f $PKEY_PATH $PKEY_CACHE
 fi
 
 if [ "$WHAT" = "tinymce" ] || [ "$WHAT" = "" ]; then
@@ -178,6 +225,9 @@ if [ "$WHAT" = "tinymce" ] || [ "$WHAT" = "" ]; then
     rm -f "$TINYMCE_PATH.zip"
 
     echo "Done"
+
+    rm -rf $TINYMCE_CACHE
+    cp -rf $TINYMCE_PATH $TINYMCE_CACHE
 fi
 
 if [ "$WHAT" = "openpgp" ] || [ "$WHAT" = "" ]; then
@@ -202,6 +252,9 @@ if [ "$WHAT" = "openpgp" ] || [ "$WHAT" = "" ]; then
     rm -f "$OPENPGP_PATH.zip"
 
     echo "Done"
+
+    rm -f $OPENPGP_CACHE
+    cp -f $OPENPGP_PATH $OPENPGP_CACHE
 fi
 
 if [ "$WHAT" = "codemirror" ] || [ "$WHAT" = "" ]; then
@@ -238,4 +291,7 @@ if [ "$WHAT" = "codemirror" ] || [ "$WHAT" = "" ]; then
     rm -f "$CM_PATH.zip"
 
     echo "Done"
+
+    rm -rf $CM_CACHE
+    cp -rf $CM_PATH $CM_CACHE
 fi
