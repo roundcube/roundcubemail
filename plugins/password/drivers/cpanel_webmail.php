@@ -7,7 +7,6 @@
  *
  * This driver has been tested successfully with Digital Pacific hosting.
  *
- * @version 4.0
  * @author Maikel Linke <maikel@email.org.au>
  *
  * Copyright (C) 2005-2016, The Roundcube Dev Team
@@ -32,10 +31,11 @@ class rcube_cpanel_webmail_password
      * Changes the user's password. It is called by password.php.
      * See "Driver API" README and password.php for the interface details.
      *
-     * @param string $curpas current (old) password
+     * @param string $curpas  current (old) password
      * @param string $newpass new requested password
+     *
      * @return mixed int code or assoc array with 'code' and 'message', see
-     * "Driver API" README and password.php
+     *                   "Driver API" README and password.php
      */
     public function save($curpas, $newpass)
     {
@@ -84,18 +84,17 @@ class rcube_cpanel_webmail_password
         }
 
         // $result should be `null` or `stdClass` object
-        $result = json_decode($response, !JSON_OBJECT_AS_ARRAY);
+        $result = json_decode($response);
 
         // The UAPI may return HTML instead of JSON on missing authentication
-        if (is_object($result) && $result->status === 1) {
+        if ($result && $result->status === 1) {
             return PASSWORD_SUCCESS;
         }
 
-        $errors = $result->errors;
-        if (is_array($errors) && count($errors) > 0) {
+        if ($result && is_array($result->errors) && count($result->errors) > 0) {
             return array(
                 'code'    => PASSWORD_ERROR,
-                'message' => $errors[0],
+                'message' => $result->errors[0],
             );
         }
 
@@ -119,8 +118,7 @@ class rcube_cpanel_webmail_password
      * @param string $url      the URL to post data to
      * @param array  $postdata the data to post
      *
-     * @return string the body of the reply
-     * @throws Exception
+     * @return string|false The body of the reply, False on error
      */
     private function curl_auth_post($userpwd, $url, $postdata)
     {
@@ -142,7 +140,7 @@ class rcube_cpanel_webmail_password
         curl_close($ch);
 
         if ($result === false) {
-            throw new Exception("curl error: $error");
+            rcube::raise_error("curl error: $error", true, false);
         }
 
         return $result;
