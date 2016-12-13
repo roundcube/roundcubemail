@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Preserve message internal/received date on import in mbox format (#5559)
+- Zipdownload: Fix date format in mbox "From line"
 - Possibility to display QR code for contacts data (#5030)
 - Added identicon plugin
 - Widescreen layout aka three column view (#5093)
