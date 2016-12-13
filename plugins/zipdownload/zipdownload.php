@@ -4,10 +4,10 @@
  * ZipDownload
  *
  * Plugin to allow the download of all message attachments in one zip file
- * and downloading of many messages in one go.
+ * and also download of many messages in one go.
  *
- * @version 3.1
  * @requires php_zip extension (including ZipArchive class)
+ *
  * @author Philip Weir
  * @author Thomas Bruderli
  * @author Aleksander Machniak
@@ -15,7 +15,11 @@
 class zipdownload extends rcube_plugin
 {
     public $task = 'mail';
+
     private $charset = 'ASCII';
+
+    // RFC4155: mbox date format
+    const MBOX_DATE_FORMAT = 'D M d H:i:s Y';
 
     /**
      * Plugin initialization
@@ -225,17 +229,22 @@ class zipdownload extends rcube_plugin
                 $headers = $imap->get_message_headers($uid);
 
                 if ($mode == 'mbox') {
+                    // Sender address
                     $from = rcube_mime::decode_address_list($headers->from, null, true, $headers->charset, true);
                     $from = array_shift($from);
+                    $from = preg_replace('/\s/', '-', $from);
 
-                    // Mbox format header
-                    // @FIXME: \r\n or \n
-                    // @FIXME: date format
+                    // Received (internal) date
+                    $date = rcube_utils::anytodatetime($headers->internaldate);
+                    if ($date) {
+                        $date->setTimezone(new DateTimeZone('UTC'));
+                        $date = $date->format(self::MBOX_DATE_FORMAT);
+                    }
+
+                    // Mbox format header (RFC4155)
                     $header = sprintf("From %s %s\r\n",
-                        // replace spaces with hyphens
-                        $from ? preg_replace('/\s/', '-', $from) : 'MAILER-DAEMON',
-                        // internaldate
-                        $headers->internaldate
+                        $from ?: 'MAILER-DAEMON',
+                        $date ?: ''
                     );
 
                     fwrite($tmpfp, $header);
