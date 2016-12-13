@@ -779,6 +779,7 @@ class rcube_mime
             $file_paths[] = '/etc/nginx/mime.types';
             $file_paths[] = '/usr/local/etc/httpd/conf/mime.types';
             $file_paths[] = '/usr/local/etc/apache/conf/mime.types';
+            $file_paths[] = '/usr/local/etc/apache24/mime.types';
         }
 
         foreach ($file_paths as $fp) {
