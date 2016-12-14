@@ -354,7 +354,20 @@ function rcube_webmail()
           this.init_messageform();
         }
         else if (this.env.action == 'get') {
-          this.enable_command('download', 'print', true);
+          this.enable_command('download', true);
+
+          // Mozilla's PDF.js viewer does not allow printing from host page (#5125)
+          // to minimize user confusion we disable the Print button
+          if (bw.mz && this.env.mimetype == 'application/pdf') {
+            n = 0; // there will be two onload events, first for the preload page
+            $(this.gui_objects.messagepartframe).on('load', function() {
+              if (n++) try { this.contentWindow.document; ref.enable_command('print', true); }
+                catch (e) {/* ignore */}
+            });
+          }
+          else
+            this.enable_command('print', true);
+
           if (this.env.is_message) {
             this.enable_command('reply', 'reply-all', 'edit', 'viewsource',
               'forward', 'forward-inline', 'forward-attachment', true);
