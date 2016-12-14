@@ -1371,6 +1371,8 @@ function rcmail_settings_tabs($attrib)
         array('command' => 'responses',   'type' => 'link', 'label' => 'responses',   'title' => 'manageresponses'),
     );
 
+    $disabled_actions = (array) $RCMAIL->config->get('disabled_actions');
+
     // get all identites from DB and define list of cols to be displayed
     $plugin = $RCMAIL->plugins->exec_hook('settings_actions', array(
         'actions' => $default_actions,
@@ -1382,6 +1384,11 @@ function rcmail_settings_tabs($attrib)
     $tabs    = array();
 
     foreach ($plugin['actions'] as $action) {
+        $task_action = $action['command'] ? $action['command'] : $action['action'];
+        if (in_array('settings.' . $task_action, $disabled_actions)) {
+            continue;
+        }
+
         if (!$action['command'] && !$action['href'] && $action['action']) {
             $action['href'] = $RCMAIL->url(array('_action' => $action['action']));
         }
