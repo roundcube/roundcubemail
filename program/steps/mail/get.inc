@@ -54,6 +54,7 @@ if (!empty($_GET['_frame'])) {
     if ($part_id && ($part = $MESSAGE->mime_parts[$part_id])) {
         $filename = rcmail_attachment_name($part);
         $OUTPUT->set_pagetitle($filename);
+        $OUTPUT->set_env('mimetype', rcmail_fix_mimetype($part->mimetype));
     }
 
     // register UI objects

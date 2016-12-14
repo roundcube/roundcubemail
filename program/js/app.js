@@ -339,8 +339,21 @@ function rcube_webmail()
           // init message compose form
           this.init_messageform();
         }
-        else if (this.env.action == 'get')
-          this.enable_command('download', 'print', true);
+        else if (this.env.action == 'get') {
+          this.enable_command('download', true);
+
+          // Mozilla's PDF.js viewer does not allow printing from host page (#5125)
+          // to minimize user confusion we disable the Print button
+          if (bw.mz && this.env.mimetype == 'application/pdf') {
+            n = 0; // there will be two onload events, first for the preload page
+            $(this.gui_objects.messagepartframe).on('load', function() {
+              if (n++) try { this.contentWindow.document; ref.enable_command('print', true); }
+                catch (e) {/* ignore */}
+            });
+          }
+          else
+            this.enable_command('print', true);
+        }
         // show printing dialog
         else if (this.env.action == 'print' && this.env.uid
           && !this.env.is_pgp_content && !this.env.pgp_mime_part
