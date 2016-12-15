@@ -1,6 +1,25 @@
 #!/usr/bin/env php
 <?php
 
+/*
+ +-----------------------------------------------------------------------+
+ | bin/userexport.sh                                                     |
+ |                                                                       |
+ | This file is part of the Roundcube Webmail client                     |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
+ |                                                                       |
+ | PURPOSE:                                                              |
+ |   Utility script to export user data to a database-independent        |
+ |   format for roundcube migrations.                                    |
+ +-----------------------------------------------------------------------+
+ | Author: Lukas Erlacher <luke@lerlacher.de>                            |
+ +-----------------------------------------------------------------------+
+*/
+
 define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 ini_set('memory_limit', -1);
 
@@ -92,6 +111,17 @@ if (!isset($users) || empty($users)) {
         );
         // user identities
         $user_d['identities'] = $user->list_identities();
+        // user search
+        $user_d['searches'] = $user->list_searches();
+
+        // dictionary - loaded directly from db
+        $query = 'SELECT * FROM ' . $db->table_name('dictionary', true) . "WHERE `user_id` = ?";
+        $sql_result = $db->query($query, $user->ID);
+        $user_d['dictionary'] = array();
+        while ( $dict = $db->fetch_assoc($sql_result)) {
+            $user_d['dictionary'][] = $dict;
+        }
+
         // contact groups
         $contacts = new rcube_contacts($db, $user->ID);
         $groups = $contacts->list_groups();
