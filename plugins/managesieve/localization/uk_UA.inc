@@ -124,6 +124,7 @@ $labels['filtercreate'] = 'Створити фільтр';
 $labels['usedata'] = 'Використати у фільтрі такі дані: ';
 $labels['nextstep'] = 'Наступний крок';
 $labels['...'] = '...';
+$labels['string'] = 'Рядок';
 $labels['currdate'] = 'Поточна дата';
 $labels['datetest'] = 'Дата';
 $labels['dateheader'] = 'шапка:';

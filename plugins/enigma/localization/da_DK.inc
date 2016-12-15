@@ -18,4 +18,5 @@
 $labels['keyname'] = 'Navn';
 $labels['fingerprint'] = 'Fingeravtryk';
 $labels['typeencrypt'] = 'Krypter';
+$labels['subkeyid'] = 'ID';
 ?>

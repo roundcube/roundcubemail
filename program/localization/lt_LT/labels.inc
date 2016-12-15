@@ -253,6 +253,7 @@ $labels['uploadprogress'] = '$percent ($current iš $total)';
 $labels['close']  = 'Užverti';
 $labels['messageoptions']  = 'Laiško savybės…';
 $labels['togglecomposeoptions'] = 'Rodyti/slėpti nustatymus';
+$labels['attachmentrename']  = 'Pervardinti priedą';
 $labels['low']     = 'Žemas';
 $labels['lowest']  = 'Žemiausias';
 $labels['normal']  = 'Normalus';

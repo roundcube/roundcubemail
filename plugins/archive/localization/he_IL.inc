@@ -5,7 +5,7 @@
  | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -28,4 +28,5 @@ $labels['archivetypemonth'] = 'חודש ( לדוגמה, ארכיב/2012/96 )';
 $labels['archivetypefolder'] = 'תיקיה מקורית';
 $labels['archivetypesender'] = 'שולח ההודעה';
 $labels['unkownsender'] = 'לא ידוע';
+$labels['readonarchive'] = 'יש לסמן את ההודעה בארכיב כאילו נקראה';
 ?>

@@ -253,6 +253,7 @@ $labels['uploadprogress'] = '$percent ($current van $total)';
 $labels['close']  = 'Sluit';
 $labels['messageoptions']  = 'Berichtopties...';
 $labels['togglecomposeoptions'] = 'Wissel opties voor opstellen';
+$labels['attachmentrename']  = 'Hernoem bijlage';
 $labels['low']     = 'Laag';
 $labels['lowest']  = 'Laagste';
 $labels['normal']  = 'Normaal';

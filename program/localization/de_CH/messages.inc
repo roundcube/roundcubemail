@@ -117,6 +117,7 @@ $messages['messageopenerror'] = 'Die Nachricht konnte nicht vom Server geladen w
 $messages['filelinkerror'] = 'Datei konnte nicht angehängt werden';
 $messages['fileuploaderror'] = 'Der Dateiupload ist fehlgeschlagen.';
 $messages['filesizeerror'] = 'Die Datei überschreitet die maximale Grösse von $size.';
+$messages['msgsizeerror'] = 'Datei konnte nicht angehängt werden. Die maximale Grösse einer Nachricht ($size) wird damit überschritten.';
 $messages['copysuccess'] = '$nr Kontakt(e) erfolgreich kopiert.';
 $messages['movesuccess'] = '$nr Kontakt(e) erfolgreich verschoben.';
 $messages['copyerror'] = 'Kontakte konnten nicht kopiert werden.';

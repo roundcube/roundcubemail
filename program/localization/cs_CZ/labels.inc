@@ -253,6 +253,7 @@ $labels['uploadprogress'] = '$percent ($current z $total)';
 $labels['close']  = 'Zavřít';
 $labels['messageoptions']  = 'Nastavení zprávy...';
 $labels['togglecomposeoptions'] = 'Přepnout možnosti kompozice';
+$labels['attachmentrename']  = 'Přejmenovat přílohu';
 $labels['low']     = 'Nízká';
 $labels['lowest']  = 'Nejnižší';
 $labels['normal']  = 'Normální';

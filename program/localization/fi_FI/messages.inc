@@ -117,6 +117,7 @@ $messages['messageopenerror'] = 'Virhe kopioitaessa viestiä palvelimelta';
 $messages['filelinkerror'] = 'TIedoston liittäminen epäonnistui.';
 $messages['fileuploaderror'] = 'Tiedoston lähettäminen epäonnistui';
 $messages['filesizeerror'] = 'Lähetettävä tiedosto ylittää sallitun enimmäiskoon $size';
+$messages['msgsizeerror'] = 'Tiedoston liittäminen epäonnistui. Viestin enimmäiskoko ($size) ylitettiin.';
 $messages['copysuccess'] = '$nr yhteystietoa kopioitiin onnistuneesti.';
 $messages['movesuccess'] = '$nr yhteystietoa siirrettiin onnistuneesti.';
 $messages['copyerror'] = 'Yhdenkään yhteystiedon kopiointi ei onnistunut.';
