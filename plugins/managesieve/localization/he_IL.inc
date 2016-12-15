@@ -124,6 +124,7 @@ $labels['filtercreate'] = 'יצירת מסנן';
 $labels['usedata'] = 'שימוש במידע שלהלן ליצירת המסנן:';
 $labels['nextstep'] = 'הצעד הבא';
 $labels['...'] = '...';
+$labels['string'] = 'מחרוזת';
 $labels['currdate'] = 'תאריך נוכחי';
 $labels['datetest'] = 'תאריך';
 $labels['dateheader'] = 'כותרת:';

@@ -117,6 +117,7 @@ $messages['messageopenerror'] = '无法从服务器加载邮件内容。';
 $messages['filelinkerror'] = '附加文件失败。';
 $messages['fileuploaderror'] = '文件上传失败。';
 $messages['filesizeerror'] = '上传的文件超过了 $size 的大小限制。';
+$messages['msgsizeerror'] = '附加文件失败。邮件超出最大大小 ($size)。';
 $messages['copysuccess'] = '成功复制 $nr 个联系人。';
 $messages['movesuccess'] = '成功移动 $nr 个联系人。';
 $messages['copyerror'] = '无法复制联系人。';

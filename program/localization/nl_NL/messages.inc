@@ -117,6 +117,7 @@ $messages['messageopenerror'] = 'Kan het bericht niet van de server laden.';
 $messages['filelinkerror'] = 'Bestand toevoegen mislukt.';
 $messages['fileuploaderror'] = 'Bestand uploaden mislukt.';
 $messages['filesizeerror'] = 'Het bestand overschrijdt de maximale grootte van $size.';
+$messages['msgsizeerror'] = 'Bestand toevoegen als bijlage mislukt. Maximale grootte van een bericht ($size) overschreden.';
 $messages['copysuccess'] = '$nr contactpersonen succesvol gekopieerd.';
 $messages['movesuccess'] = '$nr contactpersonen succesvol verplaatst.';
 $messages['copyerror'] = 'Kon geen contactpersoon kopieren.';

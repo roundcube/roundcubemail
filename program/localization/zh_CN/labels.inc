@@ -253,6 +253,7 @@ $labels['uploadprogress'] = '$percent ($current of $total)';
 $labels['close']  = '关闭';
 $labels['messageoptions']  = '邮件选项...';
 $labels['togglecomposeoptions'] = '切换布局选项';
+$labels['attachmentrename']  = '重命名附件';
 $labels['low']     = '低';
 $labels['lowest']  = '最低';
 $labels['normal']  = '普通';

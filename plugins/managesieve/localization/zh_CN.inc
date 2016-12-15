@@ -124,6 +124,7 @@ $labels['filtercreate'] = '创建过滤规则';
 $labels['usedata'] = '在过滤器中使用下列数据';
 $labels['nextstep'] = '下一步';
 $labels['...'] = '...';
+$labels['string'] = '字符串';
 $labels['currdate'] = '当前日期';
 $labels['datetest'] = '日期';
 $labels['dateheader'] = '头：';

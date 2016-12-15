@@ -253,6 +253,7 @@ $labels['uploadprogress'] = '$percent ($current von $total)';
 $labels['close']  = 'Schliessen';
 $labels['messageoptions']  = 'Optionen...';
 $labels['togglecomposeoptions'] = 'Nachrichten-Optionen ein-/ausblenden';
+$labels['attachmentrename']  = 'Anhang umbenennen';
 $labels['low']     = 'Niedrig';
 $labels['lowest']  = 'Niedrigste';
 $labels['normal']  = 'Normal';
