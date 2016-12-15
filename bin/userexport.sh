@@ -27,14 +27,20 @@ require_once INSTALL_PATH.'program/include/clisetup.php';
 
 function print_usage()
 {
-	print "Usage:  userexport -u username -h host -l limit\n";
+	print "Usage:  userexport -f file -u username -h host -l limit\n";
+	print "--file   Output file\n";
 	print "--user   IMAP user name\n";
 	print "--host   User IMAP host\n";
 	print "--limit  Limit\n";
 }
 
+function vputs($str)
+{
+	$out = $GLOBALS['args']['file'] ? STDOUT : STDERR;
+	fwrite($out, $str);
+}
 // get arguments
-$opts = array('u' => 'user', 'h' => 'host', 'l' => 'limit');
+$opts = array('u' => 'user', 'h' => 'host', 'l' => 'limit', 'f' => 'file');
 $args = rcube_utils::get_opt($opts);
 
 if ($_SERVER['argv'][1] == 'help')
@@ -54,18 +60,17 @@ if (!$db->is_connected() || $db->is_error()) {
     _die("No DB connection\n" . $db->is_error());
 }
 
-print "Connected DB, querying...\n";
+vputs("Connected DB, querying...\n");
 
 // simple query for user
 if (!empty($args['user']) && !empty($args['host'])) {
-    print "Simple querying for ${args['user']}@${args['host']}\n";
+    vputs("Simple querying for ${args['user']}@${args['host']}\n");
     $user = rcube_user::query($args['user'], $args['host']);
     $users = [$user];
 } else {
-    print "Direct querying for ${args['user']}@${args['host']}\n";
+    vputs("Direct querying for " . ((empty($args['user'])) ? '*' : $args['user']) . '@' . ((empty($args['host'])) ? '*' : $args['host']) . "\n");
     $query = "SELECT * FROM " . $db->table_name('users', true);
 
-    print "Query:" . $query . "\n";
     if (!empty($args['user'])) {
         $query = $query . " WHERE `username` = ?";
         $qarg = $args['user'];
@@ -73,7 +78,6 @@ if (!empty($args['user']) && !empty($args['host'])) {
         $query = $query . " WHERE `mail_host` = ?";
         $qarg = $args['host'];
     }
-    print "Query:" . $query . "\n";
 
     if (isset($qarg)) {
         if (!empty($args['limit'])) {
@@ -95,10 +99,8 @@ if (!empty($args['user']) && !empty($args['host'])) {
     }
 }
 
-print "\n";
-
 if (!isset($users) || empty($users)) {
-    print "No users found!\n";
+    vputs("No users found!\n");
 } else {
     $users_arr = [];
     foreach ($users as $user) {
@@ -139,7 +141,24 @@ if (!isset($users) || empty($users)) {
         $users_arr[] = $user_d;
 
     }
+    vputs("Collected ". count($users_arr) ." users, dumping\n");
     //dump
-    print_r($users_arr);
+    if (!empty($args['file'])) {
+        $file = fopen($args['file'], 'w');
+        if (!$file) {
+            print "Could not open ${args['file']} for writing!\n";
+            exit;
+        }
+    } else {
+        $file = STDOUT;
+    }
+
+    foreach($users_arr as $user_rec) {
+        fwrite($file, json_encode($user_rec) . "\n");
+    }
+
+    if (!empty($args['file'])) {
+        fclose($file);
+    }
 }
 
