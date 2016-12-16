@@ -27,11 +27,12 @@ require_once INSTALL_PATH.'program/include/clisetup.php';
 
 function print_usage()
 {
-	print "Usage:  userexport -f file -u username -h host -l limit\n";
-	print "--file   Output file\n";
-	print "--user   IMAP user name\n";
-	print "--host   User IMAP host\n";
-	print "--limit  Limit\n";
+	print "Usage:  userexport -f file -u username -h host -l limit -v\n";
+	print "--file       Output file\n";
+	print "--user       IMAP user name\n";
+	print "--host       User IMAP host\n";
+	print "--limit      Limit\n";
+	print "--verbose    Dump pretty-printed user records \n";
 }
 
 function vputs($str)
@@ -40,7 +41,7 @@ function vputs($str)
 	fwrite($out, $str);
 }
 // get arguments
-$opts = array('u' => 'user', 'h' => 'host', 'l' => 'limit', 'f' => 'file');
+$opts = array('u' => 'user', 'h' => 'host', 'l' => 'limit', 'f' => 'file', 'v' => 'verbose:');
 $args = rcube_utils::get_opt($opts);
 
 if ($_SERVER['argv'][1] == 'help')
@@ -155,6 +156,10 @@ if (!isset($users) || empty($users)) {
 
     foreach($users_arr as $user_rec) {
         fwrite($file, json_encode($user_rec) . "\n");
+
+        if ($args['verbose']) {
+            vputs(print_r($user_rec, true));
+        }
     }
 
     if (!empty($args['file'])) {
