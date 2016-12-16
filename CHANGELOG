@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- vcard_attachments: Add possibility to attach contact vCard to composed message (#4997)
 - Preserve message internal/received date on import in mbox format (#5559)
 - Zipdownload: Fix date format in mbox "From line"
 - Possibility to display QR code for contacts data (#5030)

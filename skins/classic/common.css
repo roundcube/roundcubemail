@@ -710,6 +710,11 @@ table.records-table tr.selected td
   background-color: #CC3333;
 }
 
+table.records-table tr.selected td a
+{
+  color: #FFFFFF;
+}
+
 table.records-table tr.focused td
 {
 }

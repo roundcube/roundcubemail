@@ -102,13 +102,18 @@ if ($uri) {
             && $RCMAIL->get_user_name() == rawurldecode($url['user'])
         ) {
             $message = new rcube_message($params['_uid'], $params['_mbox']);
+
+            if ($message && !empty($message->headers)) {
+                $attachment = rcmail_save_attachment($message, $params['_part'], $COMPOSE_ID);
+            }
         }
     }
 
-    if ($message && !empty($message->headers)
-        && ($attachment = rcmail_save_attachment($message, $params['_part'], $COMPOSE_ID))
-    ) {
-        rcmail_attachment_success($attachment, $uploadid);
+    $plugin = $RCMAIL->plugins->exec_hook('attachment_from_uri', array(
+        'attachment' => $attachment, 'uri' => $uri, 'compose_id' => $COMPOSE_ID));
+
+    if ($plugin['attachment']) {
+        rcmail_attachment_success($plugin['attachment'], $uploadid);
     }
     else {
         $OUTPUT->command('display_message', $RCMAIL->gettext('filelinkerror'), 'error');
