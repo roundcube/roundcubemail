@@ -1,11 +1,11 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | plugins/userinfo/localization/<lang>.inc                              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Localization file of the Roundcube Webmail Userinfo plugin            |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,10 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
-$messages['decryptbadpass'] = 'فشل فك التشفير.  كلمة السر غير صالحة.';
+$labels['userinfo'] = 'Notandaupplýsingar';
+$labels['created'] = 'Búið til';
+$labels['lastlogin'] = 'Síðasta innskráning';
+$labels['defaultidentity'] = 'Sjálfgefið auðkenni';
 ?>

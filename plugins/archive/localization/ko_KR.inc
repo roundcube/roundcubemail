@@ -5,7 +5,7 @@
  | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -28,4 +28,5 @@ $labels['archivetypemonth'] = '월 (예: 보관/2012/06)';
 $labels['archivetypefolder'] = '원본 폴더';
 $labels['archivetypesender'] = '발송자 이메일';
 $labels['unkownsender'] = '알 수 없음';
+$labels['readonarchive'] = '편지 보관함에서 메시지를 읽음으로 표시';
 ?>

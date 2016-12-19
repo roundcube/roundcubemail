@@ -124,6 +124,7 @@ $labels['filtercreate'] = 'Filter aanmaken';
 $labels['usedata'] = 'Gebruik de volgende gegevens in het filter:';
 $labels['nextstep'] = 'Volgende stap';
 $labels['...'] = '...';
+$labels['string'] = 'Karakterreeks';
 $labels['currdate'] = 'Huidige datum';
 $labels['datetest'] = 'Datum';
 $labels['dateheader'] = 'header:';

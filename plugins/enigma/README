@@ -54,6 +54,11 @@ KNOWN ISSUES:
 There are some known issues with accepting key passphrases on various
 system configurations. This is caused by issues in PinEntry handling.
 Make sure that vendor/bin/crypt-gpg-pinentry works from command line.
-Note that pinentry is used with gpg >= 2.0 and <= 2.1.12.
+
 Possible reasons:
 - non-working loader in shebang (#! /usr/bin/env php)
+  Make sure it works for the user the php scripts are executed upon
+  (i.e. apache, www-date, etc.)
+
+Note: pinentry is used with gpg >= 2.0 and <= 2.1.12.
+Note: for server use GnuPG developers still recommend version 1.4.

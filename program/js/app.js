@@ -354,7 +354,20 @@ function rcube_webmail()
           this.init_messageform();
         }
         else if (this.env.action == 'get') {
-          this.enable_command('download', 'print', true);
+          this.enable_command('download', true);
+
+          // Mozilla's PDF.js viewer does not allow printing from host page (#5125)
+          // to minimize user confusion we disable the Print button
+          if (bw.mz && this.env.mimetype == 'application/pdf') {
+            n = 0; // there will be two onload events, first for the preload page
+            $(this.gui_objects.messagepartframe).on('load', function() {
+              if (n++) try { this.contentWindow.document; ref.enable_command('print', true); }
+                catch (e) {/* ignore */}
+            });
+          }
+          else
+            this.enable_command('print', true);
+
           if (this.env.is_message) {
             this.enable_command('reply', 'reply-all', 'edit', 'viewsource',
               'forward', 'forward-inline', 'forward-attachment', true);
@@ -474,7 +487,7 @@ function rcube_webmail()
         this.set_page_buttons();
 
         if (this.env.cid) {
-          this.enable_command('show', 'edit', true);
+          this.enable_command('show', 'edit', 'qrcode', true);
           // register handlers for group assignment via checkboxes
           if (this.gui_objects.editform) {
             $('input.groupmember').change(function() {
@@ -6630,6 +6643,24 @@ function rcube_webmail()
     // reset vars
     this.env.current_page = 1;
     this.http_request('search', {_sid: id}, lock);
+  };
+
+  // display a dialog with QR code image
+  this.qrcode = function()
+  {
+    var title = this.get_label('qrcode'),
+      buttons = [{
+        text: this.get_label('close'),
+        'class': 'mainaction',
+        click: function() {
+          (ref.is_framed() ? parent.$ : $)(this).dialog('destroy');
+        }
+      }],
+      img = new Image(300, 300);
+
+    img.src = this.url('addressbook/qrcode', {_source: this.env.source, _cid: this.env.cid});
+
+    return this.show_popup_dialog(img, title, buttons, {width: 310, height: 410});
   };
 
 

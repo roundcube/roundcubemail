@@ -42,6 +42,7 @@ if ($cid && ($record = ($CONTACT_RECORD ?: $CONTACTS->get_record($cid, true)))) 
 // get address book name (for display)
 rcmail_set_sourcename($CONTACTS);
 
+$OUTPUT->add_label('qrcode');
 $OUTPUT->add_handlers(array(
     'contacthead'    => 'rcmail_contact_head',
     'contactdetails' => 'rcmail_contact_details',

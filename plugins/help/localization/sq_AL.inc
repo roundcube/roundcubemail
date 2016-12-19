@@ -16,5 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-help/
 */
 $labels['help'] = 'Ndihmë';
-$labels['license'] = 'Licenca';
+$labels['about'] = 'Rreth';
+$labels['license'] = 'Licencë';
+$labels['csrfinfo'] = 'Lexoni më teprë rreth CSRF-së dhe se si ju mbrojmë';
 ?>
