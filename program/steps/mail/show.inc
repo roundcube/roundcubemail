@@ -189,7 +189,8 @@ function rcmail_message_attachments($attrib)
             $filesize = $RCMAIL->message_part_size($attach_prop);
 
             if ($PRINT_MODE) {
-                $ol .= html::tag('li', null, rcube::Q(sprintf("%s (%s)", $filename, $filesize)));
+                $ol .= html::tag('li', array('id' => 'attach' . $attach_prop->mime_id),
+                    rcube::Q(sprintf("%s (%s)", $filename, $filesize)));
             }
             else {
                 if ($attrib['maxlength'] && mb_strlen($filename) > $attrib['maxlength']) {
