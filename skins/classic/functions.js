@@ -1085,6 +1085,9 @@ function rcube_init_mail_ui()
         });
 
         $(window).resize(function() {
+          if (!$('#attachment-list > li[id^="attach"]').length)
+            $('#attachment-list').hide();
+
           var mvlpe = $('#messagebody.mailvelope');
           if (mvlpe.length) {
             var content = $('#messageframe'),

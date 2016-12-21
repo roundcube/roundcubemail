@@ -868,6 +868,10 @@ div.hide-headers {
 	margin: 8px;
 }
 
+#messagebody.mailvelope {
+	margin: 0;
+}
+
 #message-objects div,
 #messagebody span.part-notice {
 	margin: 8px;

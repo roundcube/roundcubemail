@@ -525,7 +525,7 @@ function rcube_mail_ui()
     if (mvlpe.length) {
       var h = $('#messagecontent').length ?
         $('#messagecontent').height() - 16 :
-        $(window).height() - mvlpe.offset().top - 10;
+        $(window).height() - mvlpe.offset().top - 2;
       mvlpe.height(h);
     }
   }

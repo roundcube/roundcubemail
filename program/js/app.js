@@ -3806,15 +3806,27 @@ function rcube_webmail()
   // wrapper for the mailvelope.createDisplayContainer API call
   this.mailvelope_display_container = function(selector, data, keyring, msgid)
   {
-    mailvelope.createDisplayContainer(selector, data, keyring, { showExternalContent: this.env.safemode }).then(function() {
+    var error_handler = function(error) {
+      // remove mailvelope frame with the error message
+      $(selector + ' > iframe').remove();
+      ref.hide_message(msgid);
+      ref.display_message(error.message, 'error');
+    };
+
+    mailvelope.createDisplayContainer(selector, data, keyring, { showExternalContent: this.env.safemode }).then(function(status) {
+      if (status.error && status.error.message) {
+        return error_handler(status.error);
+      }
+
+      ref.hide_message(msgid);
       $(selector).addClass('mailvelope').children().not('iframe').hide();
-      ref.hide_message(msgid);
+
+      // on success we can remove encrypted part from the attachments list
+      if (ref.env.pgp_mime_part)
+        $('#attach' + ref.env.pgp_mime_part).remove();
+
       setTimeout(function() { $(window).resize(); }, 10);
-    }, function(err) {
-      console.error(err);
-      ref.hide_message(msgid);
-      ref.display_message('Message decryption failed: ' + err.message, 'error')
-    });
+    }, error_handler);
   };
 
   // subroutine to query keyservers for public keys
