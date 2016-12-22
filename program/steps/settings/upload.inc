@@ -25,7 +25,7 @@ if (!empty($_GET['_progress'])) {
 }
 
 $from = rcube_utils::get_input_value('_from', rcube_utils::INPUT_GET);
-$type = str_replace('edit-', '', $from);
+$type = preg_replace('/(add|edit)-/', '', $from);
 
 if ($RCMAIL->action == 'upload-display') {
     $id = 'undefined';
