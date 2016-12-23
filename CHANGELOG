@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix variable substitution in ldap host for some use-cases, e.g. new_user_identity (#5544)
 - Enigma: Fix PHP fatal error when decrypting a message with invalid signature (#5555)
 - Fix adding images to new identity signatures
+- Fix rsync error handling in installto.sh script (#5562)
 
 RELEASE 1.2.3
 -------------

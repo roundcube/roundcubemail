@@ -42,7 +42,6 @@ echo "Upgrading from $oldversion. Do you want to continue? (y/N)\n";
 $input = trim(fgets(STDIN));
 
 if (strtolower($input) == 'y') {
-  $err = false;
   echo "Copying files to target location...";
 
   // Save a copy of original .htaccess file (#1490623)
@@ -56,16 +55,16 @@ if (strtolower($input) == 'y') {
   }
   foreach ($dirs as $dir) {
     // @FIXME: should we use --delete for all directories?
-    $delete = in_array($dir, array('program', 'installer')) ? '--delete ' : '';
-    if (!system("rsync -avC " . $delete . INSTALL_PATH . "$dir/* $target_dir/$dir/")) {
-      $err = true;
-      break;
+    $delete  = in_array($dir, array('program', 'installer')) ? '--delete ' : '';
+    $command = "rsync -aC --out-format \"%n\" " . $delete . INSTALL_PATH . "$dir/* $target_dir/$dir/";
+    if (!system($command, $ret) || $ret > 0) {
+      rcube::raise_error("Failed to execute command: $command", false, true);
     }
   }
   foreach (array('index.php','.htaccess','config/defaults.inc.php','composer.json-dist','CHANGELOG','README.md','UPGRADING','LICENSE','INSTALL') as $file) {
-    if (!system("rsync -av " . INSTALL_PATH . "$file $target_dir/$file")) {
-      $err = true;
-      break;
+    $command = "rsync -a --out-format \"%n\" " . INSTALL_PATH . "$file $target_dir/$file";
+    if (file_exists(INSTALL_PATH . $file) && (!system($command, $ret) || $ret > 0)) {
+      rcube::raise_error("Failed to execute command: $command", false, true);
     }
   }
 
@@ -96,13 +95,12 @@ if (strtolower($input) == 'y') {
       echo "done.\n\n";
   }
 
-  if (!$err) {
-    echo "Running update script at target...\n";
-    system("cd $target_dir && php bin/update.sh --version=$oldversion");
-    echo "All done.\n";
-  }
+  echo "Running update script at target...\n";
+  system("cd $target_dir && php bin/update.sh --version=$oldversion");
+  echo "All done.\n";
 }
-else
+else {
   echo "Update cancelled. See ya!\n";
+}
 
 ?>
