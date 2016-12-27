@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix PHP fatal error when decrypting a message with invalid signature (#5555)
 - Fix adding images to new identity signatures
 - Fix rsync error handling in installto.sh script (#5562)
+- Fix some advanced search issues with multiple addressbooks (#5572)
 
 RELEASE 1.2.3
 -------------

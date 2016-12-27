@@ -240,6 +240,16 @@ function rcmail_contact_search()
     // Re-set list header
     $OUTPUT->command('set_group_prop', null);
 
+    if ($adv) {
+        $OUTPUT->command('parent.set_env', array(
+                'search_request' => $search_request,
+                'pagecount'      => ceil($result->count / $PAGE_SIZE),
+                'search_id'      => $sid,
+                'source'         => '',
+                'group'          => '',
+        ));
+    }
+
     if (!$sid) {
         // unselect currently selected directory/group
         $OUTPUT->command('unselect_directory');
