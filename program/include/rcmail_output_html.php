@@ -1012,18 +1012,13 @@ EOF;
      * with the appropriate content
      *
      * @param string $input Input string to parse
-     * @param bool   $reset Reset stored objects
      *
      * @return string Altered input string
      * @todo   Use DOM-parser to traverse template HTML
      * @todo   Maybe a cache.
      */
-    protected function parse_xml($input, $reset = true)
+    protected function parse_xml($input)
     {
-        if ($reset) {
-            $this->objects = array();
-        }
-
         return preg_replace_callback('/<roundcube:([-_a-z]+)\s+((?:[^>]|\\\\>)+)(?<!\\\\)>/Ui', array($this, 'xml_command'), $input);
     }
 
@@ -1123,7 +1118,7 @@ EOF;
                       $incl = file_get_contents($path);
                     }
                     $incl = $this->parse_conditions($incl);
-                    $incl = $this->parse_xml($incl, false);
+                    $incl = $this->parse_xml($incl);
                     $incl = $this->fix_paths($incl);
                     $this->base_path = $old_base_path;
                     return $incl;
@@ -1296,11 +1291,11 @@ EOF;
     {
         // insert objects' contents
         foreach ($this->objects as $key => $val) {
-            $output = str_replace($key, $val, $output);
+            $output = str_replace($key, $val, $output, $count);
+            if ($count) {
+                $this->objects[$key] = null;
+            }
         }
-
-        // reset objects
-        $this->objects = array();
 
         // make sure all <form> tags have a valid request token
         $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
