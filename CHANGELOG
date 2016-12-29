@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Fix adding images to new identity signatures
 - Fix rsync error handling in installto.sh script (#5562)
 - Fix some advanced search issues with multiple addressbooks (#5572)
+- Fix so group/addressbook selection is retained on page refresh
 
 RELEASE 1.2.3
 -------------

@@ -152,14 +152,18 @@ function rcmail_contact_source($source=null, $init_env=false, $writable=false)
     else
         $CONTACTS->set_page(isset($_SESSION['page']) ? $_SESSION['page'] : 1);
 
-    if (!empty($_REQUEST['_gid']))
-        $CONTACTS->set_group(rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC));
+    if (!empty($_REQUEST['_gid'])) {
+        $group = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC);
+        $CONTACTS->set_group($group);
+    }
 
-    if (!$init_env)
+    if (!$init_env) {
         return $CONTACTS;
+    }
 
     $OUTPUT->set_env('readonly', $CONTACTS->readonly);
     $OUTPUT->set_env('source', (string) $source);
+    $OUTPUT->set_env('group', $group);
 
     // reduce/extend $CONTACT_COLTYPES with specification from the current $CONTACT object
     if (is_array($CONTACTS->coltypes)) {

@@ -5585,6 +5585,9 @@ function rcube_webmail()
       url._search = this.env.search_request;
 
     this.http_request(this.env.task == 'mail' ? 'list-contacts' : 'list', url, lock);
+
+    if (this.env.task != 'mail')
+      this.update_state({_source: src, _page: page && page > 1 ? page : null, _gid: group});
   };
 
   this.list_contacts_clear = function()
