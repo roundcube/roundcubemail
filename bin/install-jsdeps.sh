@@ -5,7 +5,7 @@
  | bin/install-jsdeps.sh                                                 |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2015, The Roundcube Dev Team                            |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -98,7 +98,7 @@ EOL;
 //////////////// Functions
 
 /**
- *
+ * Fetch package file from source
  */
 function fetch_from_source($package, $useCache = true, &$filetype = null)
 {
@@ -107,7 +107,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
   $filetype = pathinfo($package['url'], PATHINFO_EXTENSION) ?: 'tmp';
   $cache_file = $CACHEDIR . '/' . $package['lib'] . '-' . $package['version'] . '.' . $filetype;
 
-  if (!is_readable($cache_file)) {
+  if (!is_readable($cache_file) || !$useCache) {
     echo "Fetching $package[url]\n";
     exec(sprintf('%s -s %s -o %s', $CURL, escapeshellarg($package['url']), $cache_file), $out, $retval);
     if ($retval !== 0) {
@@ -129,7 +129,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
 }
 
 /**
- *
+ * Create a destination javascript file with copyright and license header
  */
 function compose_destfile($package, $srcfile)
 {
@@ -168,7 +168,7 @@ function compose_destfile($package, $srcfile)
 }
 
 /**
- *
+ * Extract a Zip archive into the destination specified by the package config
  */
 function extrac_zipfile($package, $srcfile)
 {
@@ -252,7 +252,8 @@ function extrac_zipfile($package, $srcfile)
 
 //////////////// Execution
 
-$WHAT = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : null;
+$args = rcube_utils::get_opt(array('f' => 'force')) + array('force' => false);
+$WHAT = $args[0];
 
 foreach ($SOURCES['dependencies'] as $package) {
   if (!isset($package['name'])) {
@@ -265,7 +266,7 @@ foreach ($SOURCES['dependencies'] as $package) {
 
   echo "Installing $package[name]...\n";
 
-  $srcfile = fetch_from_source($package, true, $filetype);
+  $srcfile = fetch_from_source($package, !$args['force'], $filetype);
 
   if ($filetype === 'zip') {
     extrac_zipfile($package, $srcfile);
