@@ -254,10 +254,28 @@ function extract_zipfile($package, $srcfile)
   }
 }
 
+/**
+ * Delete the package destination file/dir
+ */
+function delete_destfile($package)
+{
+  $destdir = INSTALL_PATH . ($package['rm'] ?: $package['dest']);
+
+  if (file_exists($destdir)) {
+    if (PHP_OS === 'Windows') {
+      exec(sprintf("rd /s /q %s", escapeshellarg($destdir)));
+    }
+    else {
+      exec(sprintf("rm -rf %s", escapeshellarg($destdir)));
+    }
+  }
+}
+
 
 //////////////// Execution
 
-$args = rcube_utils::get_opt(array('f' => 'force:bool')) + array('force' => false);
+$args = rcube_utils::get_opt(array('f' => 'force:bool', 'd' => 'delete:bool'))
+        + array('force' => false, 'delete' => false);
 $WHAT = $args[0];
 
 foreach ($SOURCES['dependencies'] as $package) {
@@ -266,6 +284,11 @@ foreach ($SOURCES['dependencies'] as $package) {
   }
 
   if ($WHAT && $package['lib'] !== $WHAT) {
+    continue;
+  }
+
+  if ($args['delete']) {
+    delete_destfile($package);
     continue;
   }
 
