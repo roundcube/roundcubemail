@@ -1,0 +1,86 @@
+{
+  "dependencies": [
+    {
+      "lib": "jquery",
+      "name": "jQuery",
+      "version": "3.1.1",
+      "url": "https://code.jquery.com/jquery-3.1.1.min.js",
+      "dest": "program/js/jquery.min.js",
+      "sha1": "f647a6d37dc4ca055ced3cf64bbc1f490070acba",
+      "license": "MIT",
+      "copyright": "Copyright 2005, 2015 jQuery Foundation, Inc.",
+      "source": "https://github.com/jquery/jquery/tree/3.1.1"
+    },
+    {
+      "lib": "jstz",
+      "name": "jsTimezoneDetect",
+      "version": "1.0.6",
+      "url": "https://bitbucket.org/pellepim/jstimezonedetect/raw/6c427658686c664da52c6a87cd62ec910baab276/dist/jstz.min.js",
+      "dest": "program/js/jstz.min.js",
+      "sha1": "4291cd3b259d2060460c2a6ab99f428d3c0c9537",
+      "license": "MIT",
+      "copyright": "Copyright (c) Jon Nylander",
+      "source": "https://bitbucket.org/pellepim/jstimezonedetect/raw/6c427658686c664da52c6a87cd62ec910baab276/dist/jstz.js"
+    },
+    {
+      "lib": "publickey",
+      "name": "PublicKey.js",
+      "version": "0e011cb",
+      "url": "https://raw.githubusercontent.com/diafygi/publickeyjs/0e011cb18907a1adc0313aa92e69cd8858e1ef66/publickey.js",
+      "dest": "program/js/publickey.js",
+      "sha1": "d0920e190754e024c4be76ad5bbc7e76b2e37a4d",
+      "license": "GPLv3",
+      "copyright": "Copyright (c) 2015 Daniel Roesler",
+      "source": "https://github.com/diafygi/publickeyjs/blob/master/publickey.js"
+    },
+    {
+      "lib": "tinymce",
+      "version": "4.5.1",
+      "url": "http://download.ephox.com/tinymce/community/tinymce_4.5.1.zip",
+      "dest": "program/js",
+      "sha1": "e358301ac9fefafcd0ee21643c6aaed2c8b83470",
+      "license": "LGPL",
+      "copyright": "Copyright (c) 1999-2015 Ephox Corp. All rights reserved",
+      "map": {
+        "tinymce/js/tinymce": "tinymce"
+      },
+      "omit": [
+        "tinymce/license.txt",
+        "tinymce/jquery.tinymce.min.js"
+      ],
+      "addlicense": [
+        "tinymce/tinymce.min.js"
+      ]
+    },
+    {
+      "lib": "tinymce-langs",
+      "version": "4.5.1",
+      "url": "https://tinymce-services.azurewebsites.net/1/i18n/download?langs=ar,hy,az,eu,be,bs,bg_BG,ca,zh_CN,zh_TW,hr,cs,cs_CZ,da,nl,en_CA,en_GB,eo,et,fo,fi,fr_FR,fr_CH,gd,gl,ka_GE,de,de_AT,el,he_IL,hi_IN,hu_HU,is_IS,id,ga,it,ja,kab,km_KH,ko_KR,ku,ku_IQ,lv,lt,lb,mk_MK,ml_IN,nb_NO,oc,fa,fa_IR,pl,pt_BR,pt_PT,ro,ru,sk,sl_SI,es,es_MX,sv_SE,tg,ta,ta_IN,tt,th_TH,tr,tr_TR,ug,uk,uk_UA,vi,vi_VN,cy",
+      "dest": "program/js/tinymce"
+    },
+    {
+      "lib": "openpgp",
+      "name": "OpenPGP.js",
+      "version": "1.6.2",
+      "url": "https://raw.githubusercontent.com/openpgpjs/openpgpjs/v2.3.5/dist/openpgp.min.js",
+      "dest": "plugins/enigma/openpgp.min.js",
+      "sha1": "4f54a93a46ffc0d932372ea0923d760849775f79",
+      "license": "LGPL",
+      "copyright": "Copyright (c) OpenPGP Development Team",
+      "source": "https://github.com/openpgpjs/openpgpjs/blob/v2.3.5/dist/openpgp.js"
+    },
+    {
+      "lib": "codemirror",
+      "version": "5.21.0",
+      "url": "http://codemirror.net/codemirror-5.21.0.zip",
+      "dest": "plugins/managesieve/codemirror",
+      "sha1": "3b767c2e3acd6796e54ed19ed2ac0755fcf87984",
+      "license": "MIT",
+      "map": {
+        "*/lib": "lib",
+        "*/addon/selection": "addon/selection",
+        "*/mode/sieve": "mode/sieve"
+      }
+    }
+  ]
+}
