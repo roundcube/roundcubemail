@@ -175,7 +175,7 @@ function compose_destfile($package, $srcfile)
 /**
  * Extract a Zip archive into the destination specified by the package config
  */
-function extrac_zipfile($package, $srcfile)
+function extract_zipfile($package, $srcfile)
 {
   global $UNZIP, $CACHEDIR;
 
@@ -274,7 +274,7 @@ foreach ($SOURCES['dependencies'] as $package) {
   $srcfile = fetch_from_source($package, !$args['force'], $filetype);
 
   if ($filetype === 'zip') {
-    extrac_zipfile($package, $srcfile);
+    extract_zipfile($package, $srcfile);
   }
   else {
     compose_destfile($package, $srcfile);
