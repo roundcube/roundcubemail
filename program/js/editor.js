@@ -39,10 +39,10 @@ function rcube_text_editor(config, id)
     abs_url = location.href.replace(/[?#].*$/, '').replace(/\/$/, ''),
     conf = {
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
-      cache_suffix: 's=4031301',
+      cache_suffix: 's=4050100',
       theme: 'modern',
       language: config.lang,
-      content_css: rcmail.assets_path('program/js/tinymce/roundcube/content.css'),
+      content_css: rcmail.assets_path('program/resources/tinymce/content.css'),
       menubar: false,
       statusbar: false,
       toolbar_items_size: 'small',
@@ -751,7 +751,7 @@ function rcube_text_editor(config, id)
 
       case 'media':
         rx = /^video\//i;
-        img_src = 'program/js/tinymce/roundcube/video.png';
+        img_src = 'program/resources/tinymce/video.png';
         break;
 
       default:
