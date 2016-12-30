@@ -41,6 +41,7 @@
       "sha1": "e358301ac9fefafcd0ee21643c6aaed2c8b83470",
       "license": "LGPL",
       "copyright": "Copyright (c) 1999-2015 Ephox Corp. All rights reserved",
+      "rm": "program/js/tinymce",
       "map": {
         "tinymce/js/tinymce": "tinymce"
       },
