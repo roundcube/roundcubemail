@@ -102,14 +102,19 @@ EOL;
  */
 function fetch_from_source($package, $useCache = true, &$filetype = null)
 {
-  global $CURL, $FILEINFO, $CACHEDIR;
+  global $CURL, $WGET, $FILEINFO, $CACHEDIR;
 
   $filetype = pathinfo($package['url'], PATHINFO_EXTENSION) ?: 'tmp';
   $cache_file = $CACHEDIR . '/' . $package['lib'] . '-' . $package['version'] . '.' . $filetype;
 
   if (!is_readable($cache_file) || !$useCache) {
     echo "Fetching $package[url]\n";
-    exec(sprintf('%s -s %s -o %s', $CURL, escapeshellarg($package['url']), $cache_file), $out, $retval);
+
+    if ($CURL)
+        exec(sprintf('%s -s %s -o %s', $CURL, escapeshellarg($package['url']), $cache_file), $out, $retval);
+    else
+        exec(sprintf('%s -q %s -O %s', $WGET, escapeshellarg($package['url']), $cache_file), $out, $retval);
+
     if ($retval !== 0) {
       die("ERROR: Failed to download source file from " . $package['url'] . "\n");
     }
@@ -252,7 +257,7 @@ function extrac_zipfile($package, $srcfile)
 
 //////////////// Execution
 
-$args = rcube_utils::get_opt(array('f' => 'force')) + array('force' => false);
+$args = rcube_utils::get_opt(array('f' => 'force:bool')) + array('force' => false);
 $WHAT = $args[0];
 
 foreach ($SOURCES['dependencies'] as $package) {
