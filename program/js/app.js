@@ -9239,10 +9239,15 @@ function rcube_webmail()
     }
 
     window.setTimeout(function() {
-      $('<object>').css({position: 'absolute', left: '-10000px'})
-        .attr({data: ref.assets_path('program/resources/dummy.pdf'), width: 1, height: 1, type: 'application/pdf'})
-        .on('load', function() { ref.env.browser_capabilities.pdf = 1; })
-        .on('error', function() { ref.env.browser_capabilities.pdf = 0; })
+      $('<object>').attr({
+          data: ref.assets_path('program/resources/dummy.pdf'),
+          type: 'application/pdf',
+          style: 'position: "absolute"; top: -1000px; height: 1px'
+        })
+        .on('load error', function(e) {
+          ref.env.browser_capabilities.pdf = e.type == 'load' ? 1 : 0;
+          $(this).remove();
+        })
         .appendTo($('body'));
       }, 10);
 
