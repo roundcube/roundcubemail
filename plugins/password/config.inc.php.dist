@@ -481,3 +481,6 @@ $config['password_plesk_rpc_path'] = 'enterprise/control/agent.php';
 // ---------------------
 // Command to use
 $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';
+
+// Postfixadmin
+$config['password_postfixadmin_host'] = 'https://your_host/postfixadmin/xmlrpc.php';
