@@ -8,6 +8,7 @@ CHANGELOG Roundcube Webmail
 - Fix rsync error handling in installto.sh script (#5562)
 - Fix some advanced search issues with multiple addressbooks (#5572)
 - Fix so group/addressbook selection is retained on page refresh
+- Fix bug where image data URIs in css style were treated as evil/remote in mail preview (#5580)
 
 RELEASE 1.2.3
 -------------

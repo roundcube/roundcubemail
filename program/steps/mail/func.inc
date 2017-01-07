@@ -969,7 +969,7 @@ function rcmail_washtml_callback($tagname, $attrib, $content, $washtml)
 
         // now check for evil strings like expression, behavior or url()
         if (!preg_match('/expression|behavior|javascript:|import[^a]/i', $stripped)) {
-            if (!$washtml->get_config('allow_remote') && stripos($stripped, 'url(')) {
+            if (!$washtml->get_config('allow_remote') && preg_match('/url\((?!data:image)/', $stripped)) {
                 $washtml->extlinks = true;
             }
             else {
