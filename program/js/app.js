@@ -607,10 +607,6 @@ function rcube_webmail()
       $("input,select,textarea", this.gui_objects.editform)
         .not(':hidden').not(':disabled').first().select().focus();
 
-    // unset contentframe variable if preview_pane is enabled
-    if (this.env.contentframe && !$('#' + this.env.contentframe).is(':visible'))
-      this.env.contentframe = null;
-
     // prevent from form submit with Enter key in file input fields
     if (bw.ie)
       $('input[type=file]').keydown(function(e) { if (e.keyCode == '13') e.preventDefault(); });
@@ -2444,7 +2440,7 @@ function rcube_webmail()
   {
     var frame, win, name = this.env.contentframe;
 
-    if (name && (frame = this.get_frame_element(name))) {
+    if (frame = this.get_frame_element(name)) {
       if (!show && (win = this.get_frame_window(name))) {
         if (win.location.href.indexOf(this.env.blankpage) < 0) {
           if (win.stop)
@@ -6782,7 +6778,7 @@ function rcube_webmail()
 
     if (this.responses_list) {
       this.responses_list.remove_row(key);
-      if (this.env.contentframe && (frame = this.get_frame_window(this.env.contentframe))) {
+      if (frame = this.get_frame_window(this.env.contentframe)) {
         frame.location.href = this.env.blankpage;
       }
     }
@@ -6797,7 +6793,7 @@ function rcube_webmail()
 
     if (list && id) {
       list.remove_row(rid);
-      if (this.env.contentframe && (frame = this.get_frame_window(this.env.contentframe))) {
+      if (frame = this.get_frame_window(this.env.contentframe)) {
         frame.location.href = this.env.blankpage;
       }
     }
