@@ -9242,7 +9242,7 @@ function rcube_webmail()
       $('<object>').attr({
           data: ref.assets_path('program/resources/dummy.pdf'),
           type: 'application/pdf',
-          style: 'position: "absolute"; top: -1000px; height: 1px'
+          style: 'position: "absolute"; top: -1000px; height: 1px; width: 1px'
         })
         .on('load error', function(e) {
           ref.env.browser_capabilities.pdf = e.type == 'load' ? 1 : 0;
