@@ -283,4 +283,26 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(strpos($washed, $exp) !== false, "Position:fixed (#5264)");
     }
+
+    /**
+     * Test external links in src of input/video elements (#5583)
+     */
+    function test_src_wash()
+    {
+        $html = "<input type=\"image\" src=\"http://TRACKING_URL/\">";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertTrue($washer->extlinks);
+        $this->assertNotContains('TRACKING', $washed, "Src attribute of <input> tag (#5583)");
+
+        $html = "<video src=\"http://TRACKING_URL/\">";
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertTrue($washer->extlinks);
+        $this->assertNotContains('TRACKING', $washed, "Src attribute of <video> tag (#5583)");
+    }
 }
