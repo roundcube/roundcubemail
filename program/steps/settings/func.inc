@@ -170,6 +170,8 @@ function rcmail_user_prefs($current = null)
     $no_override = array_flip((array)$RCMAIL->config->get('dont_override'));
 
     foreach ($sections as $idx => $sect) {
+        $sections[$idx]['class'] = $idx;
+
         if ($current && $sect['id'] != $current) {
             continue;
         }
