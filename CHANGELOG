@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix bug where image data URIs in css style were treated as evil/remote in mail preview (#5580)
+- Fix bug where external content in src attribute of input/video tags was not secured (#5583)
 
 RELEASE 1.3-beta
 ----------------
