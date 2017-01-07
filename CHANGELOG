@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where image data URIs in css style were treated as evil/remote in mail preview (#5580)
+
 RELEASE 1.3-beta
 ----------------
 - Nicely handle contact deletion on contact edit (#5522)

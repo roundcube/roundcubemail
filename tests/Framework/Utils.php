@@ -214,6 +214,10 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
 
         $mod = rcube_utils::mod_css_styles(".test { position:/**/fixed; }", 'rcmbody');
         $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (2)");
+
+        // allow data URIs with images (#5580)
+        $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody');
+        $this->assertEquals("#rcmbody { background-image: url(data:image/png;base64,123); }", $mod, "Data URIs in url() allowed");
     }
 
     /**
