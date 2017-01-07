@@ -361,7 +361,7 @@ function rcube_webmail()
           if (bw.mz && this.env.mimetype == 'application/pdf') {
             n = 0; // there will be two onload events, first for the preload page
             $(this.gui_objects.messagepartframe).on('load', function() {
-              if (n++) try { this.contentWindow.document; ref.enable_command('print', true); }
+              if (n++) try { doc = this.contentWindow.document; ref.enable_command('print', true); }
                 catch (e) {/* ignore */}
             });
           }
