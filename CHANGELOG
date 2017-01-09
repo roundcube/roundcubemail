@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where mail content frame couldn't be reset in some corner cases (#5608)
 - Fix so group/addressbook selection is retained on page refresh
 
 RELEASE 1.1.7

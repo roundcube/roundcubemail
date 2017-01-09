@@ -3214,7 +3214,8 @@ function rcube_webmail()
     var r_uids = [],
       post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: 'delete'}),
       lock = this.display_message(this.get_label('markingmessage'), 'loading'),
-      rows = this.message_list ? this.message_list.rows : {},
+      list = this.message_list,
+      rows = list ? list.rows : {},
       count = 0;
 
     for (var i=0, len=a_uids.length; i<len; i++) {
@@ -3225,7 +3226,7 @@ function rcube_webmail()
 
         if (this.env.skip_deleted) {
           count += this.update_thread(uid);
-          this.message_list.remove_row(uid, (this.env.display_next && i == this.message_list.selection.length-1));
+          list.remove_row(uid, (this.env.display_next && i == list.selection.length-1));
         }
         else
           this.set_message(uid, 'deleted', true);
@@ -3233,9 +3234,9 @@ function rcube_webmail()
     }
 
     // make sure there are no selected rows
-    if (this.env.skip_deleted && this.message_list) {
-      if (!this.env.display_next)
-        this.message_list.clear_selection();
+    if (this.env.skip_deleted && list) {
+      if (!this.env.display_next || !list.rowcount)
+        list.clear_selection();
       if (count < 0)
         post_data._count = (count*-1);
       else if (count > 0)
