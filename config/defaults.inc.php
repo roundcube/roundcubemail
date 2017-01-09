@@ -120,7 +120,7 @@ $config['apc_debug'] = false;
 // IMAP
 // ----------------------------------
 
-// The mail host chosen to perform the log-in.
+// The IMAP host chosen to perform the log-in.
 // Leave blank to show a textbox at login, give a list of hosts
 // to display a pulldown menu or set one host as string.
 // To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
@@ -239,7 +239,8 @@ $config['messages_cache_threshold'] = 50;
 // ----------------------------------
 
 // SMTP server host (for sending mails).
-// To use SSL/TLS connection, enter hostname with prefix ssl:// or tls://
+// Enter hostname with prefix tls:// to use STARTTLS, or use
+// prefix ssl:// to use the deprecated SSL over SMTP (aka SMTPS)
 // Supported replacement variables:
 // %h - user's IMAP hostname
 // %n - hostname ($_SERVER['SERVER_NAME'])
