@@ -42,6 +42,7 @@ $config['default_host'] = 'localhost';
 // SMTP server host (for sending mails).
 // Enter hostname with prefix tls:// to use STARTTLS, or use
 // prefix ssl:// to use the deprecated SSL over SMTP (aka SMTPS)
+// Supported replacement variables:
 // %h - user's IMAP hostname
 // %n - hostname ($_SERVER['SERVER_NAME'])
 // %t - hostname without the first part
