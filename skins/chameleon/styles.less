@@ -478,6 +478,7 @@ html.mozilla #mailboxlist > li:first-child,
 #messagelistfooter,
 #preferences-frame,
 #helpcontentframe,
+.widescreen #mailview-bottom,
 #mailview-bottom {
 	border-radius: 0;
 	border: none;
@@ -2700,24 +2701,24 @@ a.button.changeformat.text.selected span.icon {
 	line-height: 18px;
 }
 
-#schedule-freebusy-times td.free,
+#schedule-freebusy-times td div.free,
 .availability img.availabilityicon.free {
 	background-color: #adce4a;
 }
 
-#schedule-freebusy-times td.busy,
+#schedule-freebusy-times td div.busy,
 .availability img.availabilityicon.busy {
 	background-color: #da4340;
 }
 
-#schedule-freebusy-times td.tentative,
+#schedule-freebusy-times td div.tentative,
 .availability img.availabilityicon.tentative {
 	background-color: #8c699f;
 }
 
-#schedule-freebusy-times td.all-busy,
-#schedule-freebusy-times td.all-tentative,
-#schedule-freebusy-times td.all-out-of-office {
+#schedule-freebusy-times td div.all-busy,
+#schedule-freebusy-times td div.all-tentative,
+#schedule-freebusy-times td div.all-out-of-office {
 	background-image: url('images/freebusy-colors.png');
 }
 
@@ -2758,13 +2759,12 @@ div.tasklist-invitebox .rsvp-status.needs-action {
 	line-height: 15px;
 }
 
-.attendees-list div.attendee.spacer,
-#schedule-freebusy-times tr.spacer td {
+.attendees-list div.attendee.spacer {
 	line-height: 5px;
 }
 
-#schedule-freebusy-times td {
-	line-height: 15px;
+#schedule-freebusy-times tbody td {
+	height: 23px;
 }
 
 .attendees-list a.attendee-role-toggle {
@@ -3666,6 +3666,10 @@ div.actionrow:hover {
 	border-width: 1px;
 }
 
+#filter-form input.error,
+#filter-form textarea.error {
+	background-color: #ffffc4;
+}
 
 /*** Kolab Notes plugin ***/
 
