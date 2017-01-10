@@ -1,0 +1,102 @@
+<div id="header">
+	<div class="topleft" role="banner" aria-labelledby="aria-label-topnav">
+		<h2 id="aria-label-topnav" class="voice"><roundcube:label name="arialabeltopnav" /></h2>
+		<roundcube:object name="logo" src="/images/kolab_logo.png" id="toplogo" border="0" alt="Logo" onclick="if(window.rcmail)rcmail.command('switch-task','mail')" condition="!env:extwin" />
+
+		<span class="aboutlinks">
+			<roundcube:button name="about" type="link" label="about" class="about-link" onclick="UI.show_about(this);return false" />
+			<roundcube:if condition="config:support_url" />
+			&#9679; <a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link" id="supportlink"><roundcube:label name="support" /></a>
+			<roundcube:endif />
+		</span>
+	</div>
+
+<roundcube:if condition="!env:extwin &amp;&amp; !env:framed &amp;&amp; env:task" />
+	<div class="topright ktaskmenu" id="taskmenu" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false" aria-owns="application-tasks-menu">
+		<span class="voice"><roundcube:label name="arialabelactivetask" />:</span>
+		<span class="activetask <roundcube:exp expression='env:task' />"><roundcube:label expression="in_array(env:task, array('mail','addressbook','settings')) ? env:task : (env:task == 'files' ? 'kolab_files' : env:task).'.'.env:task" /></span>
+		<span class="dropdownhandle"></span>
+	</div>
+	<div class="topright" role="contentinfo">
+		<span class="username"><roundcube:object name="username" /></span>
+	</div>
+<roundcube:elseif condition="env:extwin" />
+	<div class="topright">
+		<roundcube:button command="close" label="close" class="closelink" />
+	</div>
+<roundcube:endif />
+
+<br style="clear:both" />
+</div>
+
+<div class="topgradient"></div>
+
+<div id="ktaskpopup" class="ktaskmenu" role="navigation" aria-labelledby="aria-label-tasknav">
+<h2 id="aria-label-tasknav" class="voice"><roundcube:label name="arialabeltasknav" /></h2>
+	<div id="application-tasks-menu" class="popupmenu">
+		<roundcube:button command="mail" label="mail" class="button-mail" classSel="button-mail button-selected" innerClass="button-inner" />
+		<roundcube:button command="addressbook" label="addressbook" class="button-addressbook" classSel="button-addressbook button-selected" innerClass="button-inner" />
+		<roundcube:container name="taskbar" id="application-tasks-menu" />
+		<roundcube:button command="settings" label="settings" class="button-settings" classSel="button-settings button-selected" innerClass="button-inner" />
+		<roundcube:button command="logout" label="logout" class="button-logout" classSel="button-logout button-selected" innerClass="button-inner" />
+	</div>
+</div>
+
+<script type="text/javascript">
+
+  // register hover events for taskmenu
+  window.$ && $(document).ready(function(){
+    $('#ktaskpopup').width($('#taskmenu').outerWidth());
+
+    var timer = null;
+    $('#taskmenu, #ktaskpopup').hover(function(e){
+      clearTimeout(timer);
+      if (e.target.id != 'ktaskpopup') {
+        $('#ktaskpopup').fadeIn(100);
+      }
+    }, function(){
+      clearTimeout(timer);
+      timer = setTimeout(function(){ $('#ktaskpopup').fadeOut(100) }, 50);
+    });
+
+    $('#taskmenu').bind('click touchstart', function(e){
+      $('#ktaskpopup').toggle();
+      e.preventDefault();
+      if (!rcube_event.is_keyboard(e))
+        $(this).blur();
+    })
+    .bind('keyup', function(e){
+      var key = rcube_event.get_keycode(e),
+        popup = $('#ktaskpopup'),
+        vis = popup.is(':visible');
+
+      if (key == 13 || key == 40 || (vis && (key == 27 || key == 9))) {
+        if (vis && key == 40) vis = false;
+        popup[(vis ? 'hide' : 'show')]();
+        vis = !vis;
+        if (vis) popup.find('a:not([aria-disabled=true])').first().focus();
+        $('#taskmenu').attr('aria-expanded', vis ? 'true' : 'false');
+      }
+    });
+
+    // enable keyboard navigation inside tasks menu
+    $('#ktaskpopup').on('keyup', function(e) {
+      var dir = 1;
+      switch (rcube_event.get_keycode(e)) {
+        case 9:   // tab
+        case 27:  // escape
+          $('#ktaskpopup').hide();
+          $('#taskmenu').attr('aria-expanded', 'false').focus();
+          break;
+
+        case 38:  // up
+          dir = -1;
+        case 40:  // down
+          var mod = dir < 0 ? 'prevAll' : 'nextAll';
+          $('#ktaskpopup').find(':focus')[mod]('a:not([aria-disabled=true])').first().focus();
+          break;
+      }
+    })
+  });
+
+</script>

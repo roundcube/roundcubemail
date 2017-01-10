@@ -1,0 +1,13 @@
+<meta name="viewport" content="" id="viewport" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="skins/larry/styles.css" />
+<roundcube:if condition="in_array(env:task, array('mail','addressbook','settings'))" />
+<link rel="stylesheet" type="text/css" href="skins/larry/<roundcube:var name="env:task" />.css" />
+<roundcube:endif />
+<script type="text/javascript" src="skins/larry/ui.js"></script>
+<roundcube:if condition="config:devel_mode" />
+<link rel="stylesheet/less" type="text/css" href="/styles.less" />
+<script src="less.min.js" data-env="development"></script>
+<roundcube:else />
+<link rel="stylesheet" type="text/css" href="/styles.css" />
+<roundcube:endif />
