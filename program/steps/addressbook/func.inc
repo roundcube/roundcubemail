@@ -670,8 +670,9 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 }
 
                 // hack: create empty values array to force this field to be displayed
-                if (empty($values) && $colprop['visible'])
-                    $values[] = '';
+                if (empty($values) && $colprop['visible']) {
+                    $values = array('');
+                }
 
                 if (!is_array($values)) {
                     // $values can be an object, don't use (array)$values syntax
@@ -680,8 +681,9 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
                 $rows = '';
                 foreach ($values as $i => $val) {
-                    if ($subtypes[$i])
+                    if ($subtypes[$i]) {
                         $subtype = $subtypes[$i];
+                    }
 
                     $colprop['id'] = 'ff_' . $col . intval($coltypes[$field]['count']);
 
