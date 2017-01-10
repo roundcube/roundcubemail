@@ -110,7 +110,7 @@ class rcube_utils
 
             // last domain part
             $last_part = array_pop($domain_array);
-            if (strpos($last_part, 'xn--') !== 0 && preg_match('/[^a-zA-Z]/', $last_part)) {
+            if (strpos($last_part, 'xn--') !== 0 && preg_match('/[^a-zA-Z0-9]/', $last_part)) {
                 return false;
             }
 
