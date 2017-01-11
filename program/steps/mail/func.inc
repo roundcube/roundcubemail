@@ -681,7 +681,7 @@ function rcmail_options_menu_link($attrib)
 }
 
 /**
- * return an HTML iframe for loading mail content
+ * Return an HTML iframe for loading mail content
  */
 function rcmail_messagecontent_frame($attrib)
 {
@@ -1300,18 +1300,10 @@ function rcmail_message_body($attrib)
 
                 if ($part->ctype_secondary == 'html') {
                     $container_id = 'message-htmlpart' . (++$part_no);
+                    $attrs        = array('class' => 'message-htmlpart', 'id' => $container_id);
                     $body         = rcmail_html4inline($body, $container_id, 'rcmBody', $attrs, $safe_mode);
-                    $div_attr     = array('class' => 'message-htmlpart', 'id' => $container_id);
-                    $style        = array();
 
-                    if (!empty($attrs)) {
-                        foreach ($attrs as $a_idx => $a_val)
-                            $style[] = $a_idx . ': ' . $a_val;
-                        if (!empty($style))
-                            $div_attr['style'] = implode('; ', $style);
-                    }
-
-                    $out .= html::div($div_attr, $plugin['prefix'] . $body);
+                    $out .= html::div($attrs, $plugin['prefix'] . $body);
                 }
                 else {
                     $container_id = 'message-part' . (++$part_no);
@@ -1455,9 +1447,9 @@ function rcmail_part_image_type($part)
 }
 
 /**
- * modify a HTML message that it can be displayed inside a HTML page
+ * Modify a HTML message that it can be displayed inside a HTML page
  */
-function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=null, $allow_remote=false)
+function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=array(), $allow_remote=false)
 {
     $last_style_pos = 0;
     $cont_id        = $container_id . ($body_class ? ' div.'.$body_class : '');
@@ -1509,41 +1501,48 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=n
         ),
         $body);
 
-    $attributes = array();
-
     // Handle body attributes that doesn't play nicely with div elements
     $regexp = '/<div class="' . preg_quote($body_class, '/') . '"([^>]*)/';
     if (preg_match($regexp, $body, $m)) {
+        $style = array();
         $attrs = $m[0];
 
         // Get bgcolor, we'll set it as background-color of the message container
         if ($m[1] && preg_match('/bgcolor=["\']*([a-z0-9#]+)["\']*/i', $attrs, $mb)) {
-            $attributes['background-color'] = $mb[1];
+            $style['background-color'] = $mb[1];
             $attrs = preg_replace('/bgcolor=["\']*[a-z0-9#]+["\']*/i', '', $attrs);
         }
 
         // Get background, we'll set it as background-image of the message container
         if ($m[1] && preg_match('/background=["\']*([^"\'>\s]+)["\']*/', $attrs, $mb)) {
-            $attributes['background-image'] = 'url('.$mb[1].')';
+            $style['background-image'] = 'url('.$mb[1].')';
             $attrs = preg_replace('/background=["\']*([^"\'>\s]+)["\']*/', '', $attrs);
         }
 
-        if (!empty($attributes)) {
+        if (!empty($style)) {
             $body = preg_replace($regexp, rtrim($attrs), $body, 1);
         }
 
         // handle body styles related to background image
-        if ($attributes['background-image']) {
+        if ($style['background-image']) {
             // get body style
             if (preg_match('/#'.preg_quote($cont_id, '/').'\s+\{([^}]+)}/i', $body, $m)) {
                 // get background related style
                 $regexp = '/(background-position|background-repeat)\s*:\s*([^;]+);/i';
-                if (preg_match_all($regexp, $m[1], $ma, PREG_SET_ORDER)) {
-                    foreach ($ma as $style) {
-                        $attributes[$style[1]] = $style[2];
+                if (preg_match_all($regexp, $m[1], $matches, PREG_SET_ORDER)) {
+                    foreach ($matches as $m) {
+                        $style[$m[1]] = $m[2];
                     }
                 }
             }
+        }
+
+        if (!empty($style)) {
+            foreach ($style as $idx => $val) {
+                $style[$idx] = $idx . ': ' . $val;
+            }
+
+            $attributes['style'] = implode('; ', $style);
         }
     }
     // make sure there's 'rcmBody' div, we need it for proper css modification
@@ -1556,7 +1555,7 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=n
 }
 
 /**
- * parse link (a, link, area) attributes and set correct target
+ * Parse link (a, link, area) attributes and set correct target
  */
 function rcmail_alter_html_link($matches)
 {
@@ -1567,8 +1566,9 @@ function rcmail_alter_html_link($matches)
     $end    = '>';
 
     // Remove non-printable characters in URL (#1487805)
-    if ($attrib['href'])
+    if ($attrib['href']) {
         $attrib['href'] = preg_replace('/[\x00-\x1F]/', '', $attrib['href']);
+    }
 
     if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
         $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
@@ -1628,7 +1628,7 @@ function rcmail_alter_html_link($matches)
 }
 
 /**
- * decode address string and re-format it as HTML links
+ * Decode address string and re-format it as HTML links
  */
 function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, $default_charset=null, $title=null)
 {
@@ -1713,18 +1713,18 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
             }
         }
         else {
-            $address = '';
-            if ($name)
-                $address .= rcube::Q($name);
-            if ($mailto)
+            $address = $name ? rcube::Q($name) : '';
+            if ($mailto) {
                 $address = trim($address . ' ' . rcube::Q($name ? sprintf('<%s>', $mailto) : $mailto));
+            }
         }
 
         $address = html::span('adr', $address);
         $allvalues[] = $address;
 
-        if (!$moreadrs)
+        if (!$moreadrs) {
             $out .= ($out ? ', ' : '') . $address;
+        }
 
         if ($max && $j == $max && $c > $j) {
             if ($linked) {
@@ -1738,13 +1738,14 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
     }
 
     if ($moreadrs) {
+        $label = rcube::Q($RCMAIL->gettext(array('name' => 'andnmore', 'vars' => array('nr' => $moreadrs))));
+
         if ($PRINT_MODE) {
             $out .= ' ' . html::a(array(
                     'href'    => '#more',
                     'class'   => 'morelink',
                     'onclick' => '$(this).hide().next().show()',
-                ),
-                rcube::Q($RCMAIL->gettext(array('name' => 'andnmore', 'vars' => array('nr' => $moreadrs)))))
+                ), $label)
                 . html::span(array('style' => 'display:none'), join(', ', $allvalues));
         }
         else {
@@ -1755,8 +1756,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
                         rcmail_output::JS_OBJECT_NAME,
                         rcube::JQ(join(', ', $allvalues)),
                         rcube::JQ($title))
-                ),
-                rcube::Q($RCMAIL->gettext(array('name' => 'andnmore', 'vars' => array('nr' => $moreadrs)))));
+                ), $label);
         }
     }
 
@@ -2059,9 +2059,10 @@ function rcmail_attachment_name($attachment, $display = false)
 {
     global $RCMAIL;
 
-    $filename = $attachment->filename;
+    $filename = (string) $attachment->filename;
+    $filename = str_replace(array("\r", "\n"), '', $filename);
 
-    if ($filename === null || $filename === '') {
+    if ($filename === '') {
         if ($attachment->mimetype == 'text/html') {
             $filename = $RCMAIL->gettext('htmlmessage');
         }
@@ -2074,8 +2075,6 @@ function rcmail_attachment_name($attachment, $display = false)
             }
         }
     }
-
-    $filename = preg_replace('[\r\n]', '', $filename);
 
     // Display smart names for some known mimetypes
     if ($display) {
