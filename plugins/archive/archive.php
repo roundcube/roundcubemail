@@ -43,6 +43,7 @@ class archive extends rcube_plugin
                     'height'   => 32,
                     'title'    => 'buttontitle',
                     'domain'   => $this->ID,
+                    'innerclass' => 'inner',
                 ),
                 'toolbar');
 
