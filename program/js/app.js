@@ -7459,7 +7459,7 @@ function rcube_webmail()
     if (this.messages[key]) {
       // replace label
       if (this.messages[key].obj)
-        this.messages[key].obj.html(msg);
+        $('div.content', this.messages[key].obj).html(msg);
       // store label in stack
       if (type == 'loading') {
         this.messages[key].labels.push({'id': id, 'msg': msg});
@@ -7471,7 +7471,7 @@ function rcube_webmail()
     }
 
     // create DOM object and display it
-    var obj = $('<div>').addClass(type).html(msg).data('key', key),
+    var obj = $('<div>').addClass(type + ' content').html(msg).data('key', key),
       cont = $(this.gui_objects.message).append(obj).show();
 
     this.messages[key] = {'obj': obj, 'elements': [id]};
@@ -7531,7 +7531,7 @@ function rcube_webmail()
                 }
                 else {
                   o = m[k].labels[i].msg;
-                  m[k].obj.html(o);
+                  $('div.content', m[k].obj).html(o);
                 }
               }
             }
@@ -7545,7 +7545,7 @@ function rcube_webmail()
   this.hide_message_object = function(o, fade)
   {
     if (fade)
-      o.fadeOut(600, function() {$(this).remove(); });
+      o.fadeOut(600, function() { $(this).remove(); });
     else
       o.hide().remove();
   };
