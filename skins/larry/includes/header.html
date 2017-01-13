@@ -19,7 +19,7 @@ var UI = new rcube_mail_ui();
 	<roundcube:container name="topline-right" id="topline-right" />
 	<roundcube:if condition="!env:extwin &amp;&amp; !env:framed" />
 		<span class="username"><roundcube:object name="username" /></span>
-		<roundcube:button command="logout" label="logout" class="button-logout" />
+		<roundcube:button command="logout" label="logout" type="link" class="button-logout" />
 	<roundcube:elseif condition="env:extwin" />
 		<roundcube:button name="close" type="link" label="close" class="closelink" onclick="self.close()" />
 	<roundcube:endif />
@@ -29,11 +29,11 @@ var UI = new rcube_mail_ui();
 <div id="topnav">
 	<h2 id="aria-label-tasknav" class="voice"><roundcube:label name="arialabeltasknav" /></h2>
 	<div id="taskbar" class="topright" role="navigation" aria-labelledby="aria-label-tasknav">
-		<roundcube:button command="mail" label="mail" class="button-mail" classSel="button-mail button-selected" innerClass="button-inner" />
-		<roundcube:button command="addressbook" label="contacts" class="button-addressbook" classSel="button-addressbook button-selected" innerClass="button-inner" />
+		<roundcube:button command="mail" label="mail" type="link" class="button-mail" classSel="button-mail button-selected" innerClass="button-inner" />
+		<roundcube:button command="addressbook" label="contacts" type="link" class="button-addressbook" classSel="button-addressbook button-selected" innerClass="button-inner" />
 		<roundcube:container name="taskbar" id="taskbar" />
-		<roundcube:button command="settings" label="settings" class="button-settings" classSel="button-settings button-selected" innerClass="button-inner" />
-		<roundcube:button command="logout" label="logout" class="button-logout" classSel="button-logout" innerClass="button-inner" />
+		<roundcube:button command="settings" label="settings" type="link" class="button-settings" classSel="button-settings button-selected" innerClass="button-inner" />
+		<roundcube:button command="logout" label="logout" type="link" class="button-logout" classSel="button-logout" innerClass="button-inner" />
 		<span class="minmodetoggle" role="presentation"></span>
 	</div>
 	<roundcube:object name="logo" src="/images/roundcube_logo.png" id="toplogo" alt="Logo" onclick="if(window.rcmail)rcmail.command('switch-task','mail')" />
