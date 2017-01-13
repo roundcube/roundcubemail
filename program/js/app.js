@@ -7328,7 +7328,7 @@ function rcube_webmail()
         obj.className = button[state];
       }
       // disable/enable input buttons
-      if (button.type == 'input') {
+      if (button.type == 'input' || button.type == 'button') {
         obj.disabled = state == 'pas';
       }
       else if (button.type == 'uibutton') {

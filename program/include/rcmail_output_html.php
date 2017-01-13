@@ -1333,7 +1333,7 @@ EOF;
             }
         }
         else {
-            $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $attrib['imageact']) ? 'image' : 'link';
+            $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $attrib['imageact']) ? 'image' : 'button';
         }
 
         $command = $attrib['command'];
@@ -1469,10 +1469,21 @@ EOF;
                 $attrib['value'] = $attrib['label'];
             }
             if ($attrib['command']) {
-              $attrib['disabled'] = 'disabled';
+                $attrib['disabled'] = 'disabled';
             }
 
             $out = html::tag('input', $attrib, null, array('type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled'));
+        }
+        else {
+            if ($attrib['label']) {
+                $attrib['value'] = $attrib['label'];
+            }
+            if ($attrib['command']) {
+                $attrib['disabled'] = 'disabled';
+            }
+
+            $content = isset($attrib['content']) ? $attrib['content'] : $attrib['label'];
+            $out = html::tag('button', $attrib, $content, array('type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled'));
         }
 
         // generate html code for button

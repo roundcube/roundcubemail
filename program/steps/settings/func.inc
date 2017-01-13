@@ -1395,7 +1395,7 @@ function rcmail_settings_tabs($attrib)
             $action['href'] = $RCMAIL->url(array('_action' => $action['action']));
         }
 
-        $button = $OUTPUT->button($action);
+        $button = $OUTPUT->button($action + array('type' => 'link'));
         $attr   = $attrib;
 
         $cmd = $action['action'] ?: $action['command'];
