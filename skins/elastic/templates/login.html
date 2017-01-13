@@ -1,0 +1,22 @@
+<roundcube:include file="/includes/layout.html" />
+
+<h1 class="voice"><roundcube:object name="productname" /> <roundcube:label name="login" /></h1>
+
+<div id="content" class="content selected" role="main">
+	<roundcube:form id="login-form" name="login-form" method="post">
+	<roundcube:object name="loginform" form="login-form" size="40" submit=true />
+	</form>
+	<div id="bottomline" role="contentinfo">
+		<roundcube:object name="productname" /> <roundcube:object name="version" condition="config:display_version" />
+		<roundcube:if condition="config:support_url" />
+			&nbsp;&#9679;&nbsp; <a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link"><roundcube:label name="support" /></a>
+		<roundcube:endif />
+		<roundcube:container name="loginfooter" id="bottomline" />
+	</div>
+</div>
+
+<noscript>
+	<p class="noscriptwarning"><roundcube:label name="noscriptwarning" /></p>
+</noscript>
+
+<roundcube:include file="/includes/footer.html" />

@@ -1,0 +1,16 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+	<title><roundcube:object name="pagetitle" /></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" id="viewport" />
+	<link rel="shortcut icon" href="/images/favicon.ico"/>
+	<link rel="stylesheet" href="/semantic-ui/semantic.min.css">
+	<link rel="stylesheet" type="text/css" href="/styles.css" />
+	<roundcube:add_label name="errortitle" />
+</head>
+<roundcube:if condition="!env:extwin &amp;&amp; !env:framed" />
+<body class="task-<roundcube:var name="env:task" />">
+<div id="layout">
+<roundcube:else />
+<body class="iframe task-<roundcube:var name="env:task" />">
+<roundcube:endif />

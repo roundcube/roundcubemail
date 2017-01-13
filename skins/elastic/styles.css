@@ -1,0 +1,865 @@
+/*** Responsive design - Layout ***/
+
+/*
+- Desktop - Big screen (width > 1200px)
+   -----------------------------------------------------------------------------------------------------
+   |  menu  |        sidebar        |         list          |                 content                  |
+   -----------------------------------------------------------------------------------------------------
+- Desktop - Normal screen (1200px => width => 768px)
+   -------------------------------------------------------------------
+   |menu|    sidebar/list     |               content                |
+   -------------------------------------------------------------------
+- Tablet (480px < width < 768px) - typical: 768x1024 (iPad Mini/Air)
+   ------------------------------------------
+   |menu|     sidebar/list/content          |
+   ------------------------------------------
+- Phone (width <= 480px) - typical: 320x480 (iPhone 5), 375x667 (iPhone 6-7), 360x564 (Galaxy S6)
+   ------------------------
+   | sidebar/list/content |
+   ------------------------
+
+NOTE: below 1024px we do some UI elements bigger, as this is good (imho)
+      assumption that in this size we're dealing with touch device, is it?
+      should we rather feature detect tables/phones?
+*/
+
+body > #layout {
+	overflow: hidden;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	height: 100%;
+	width: 100%;
+}
+
+body > #layout > div.menu {
+	width: 60px;
+	background-color: #222;
+}
+
+body > #layout > div.sidebar {
+	display: flex;
+	flex-grow: 2;
+	flex-direction: column;
+	min-width: 220px;
+}
+
+body > #layout > div.list {
+	display: flex;
+	flex-grow: 3;
+	flex-direction: column;
+	min-width: 280px;
+	max-width: 30%;
+}
+
+body > #layout > div.content {
+	display: flex;
+	flex-grow: 7;
+	flex-direction: column;
+	min-width: 50%;
+}
+
+body > #layout > div.menu a,
+body > #layout > div.menu a:before {
+	display: block;
+	width: 60px;
+}
+
+body:not(.iframe) > *:not(#layout),
+body > #layout > div > .header > a.back-list-button,
+body > #layout > div > .header > a.back-sidebar-button,
+body > #layout > div > .header > .buttons,
+body > #layout > div > .header > a.menu-button {
+	display: none;
+}
+
+#taskmenu a.button-logout {
+	position: absolute;
+	bottom: 0;
+	color: grey;
+}
+
+#layout > div .toolbar {
+	float: right;
+}
+
+@media screen and (max-width: 1200px) { /* small */
+	body > #layout > div:not(.selected),
+	body > #layout > div.menu span.button-inner {
+		display: none;
+	}
+	body > #layout > div > .header > a.back-sidebar-button {
+		display: inline;
+	}
+	body > #layout > div.menu,
+	body > #layout > div.content {
+		display: flex;
+	}
+	body > #layout > div.menu a,
+	body > #layout > div.menu a:before,
+	body > #layout > div.menu {
+		width: 45px;
+	}
+	body > #layout > div.menu a:before {
+		margin: 0.4em 0;
+	}
+}
+
+@media screen and (max-width: 768px) { /* tablet */
+	body > #layout > div:not(.selected) {
+		display: none;
+	}
+	body > #layout > div.menu {
+		display: flex;
+	}
+	body > #layout > div.list {
+		max-width: 100%;
+	}
+	body > #layout > div > .header > .buttons {
+		display: block;
+		float: right;
+	}
+	body > #layout > div > .header > a.back-list-button {
+		display: block;
+		float: left;
+	}
+}
+
+@media screen and (max-width: 480px) { /* phone */
+	body > #layout > div > .header > a.menu-button {
+		display: inline;
+	}
+	body > #layout > div.menu span.button-inner {
+		display: block;
+	}
+	body > #layout > div.menu {
+		display: none;
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: auto;
+		margin: 38pt 3pt 3pt 3pt;
+		padding-bottom: 8pt;
+		opacity: 0.96;
+		text-align:center;
+		border-radius: 4pt;
+	}
+	body > #layout > div.menu a,
+	body > #layout > div.menu a:before {
+		display: inline-block;
+		width: 100px;
+	}
+	#taskmenu a.button-logout {
+		position: relative;
+	}
+	body > #layout > div.menu a {
+		font-size: 15pt;
+	}
+}
+
+/*** Layout elements style ***/
+
+body {
+	font-size: 10pt;
+}
+
+#layout > div.content > iframe,
+#layout > div.content > .content,
+#layout > div.content > .content > iframe {
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+	border: 0;
+	flex: 1;
+}
+
+#layout > div.sidebar,
+#layout > div.list {
+	border-right: 1px solid #ddd;
+}
+
+#layout > div > .scroller {
+	flex: 1;
+}
+
+#layout > .content.only > .scroller {
+	overflow: auto;
+}
+
+#layout > div > .header,
+#layout > div > .footer {
+	background-color: #f9f9f9;
+	font-size: 12pt;
+	font-weight: bold;
+	line-height: 30pt;
+	height: 30pt;
+	overflow: hidden;
+	padding: 0 0.5em;
+	margin: 0;
+}
+#layout > div > .header {
+	border-bottom: 1px solid #ddd;
+}
+#layout > div > .footer {
+	border-top: 1px solid #ddd;
+}
+
+/*** Login form ***/
+
+.task-login .content {
+	text-align: center;
+	width: 100%;
+	background: url(images/watermark.jpg) center -20px no-repeat;
+}
+
+#login-form {
+	margin: auto;
+	width: 100%;
+	max-width: 320px;
+}
+
+#login-form table {
+	display: none;
+}
+
+#login-form div.ui.input {
+	width: 100%;
+	max-width: 310px;
+	margin-bottom: 1em;
+}
+
+/*** Common UI elements ***/
+
+#uploadform,
+.ui.modal,
+.voice {
+	display: none;
+}
+
+body.iframe .formcontent {
+	padding: 1em;
+}
+
+body.iframe .formbuttons {
+	padding: 0 1em 1em 1em;
+}
+
+#messagestack {
+	position: absolute;
+	bottom: 0.5em;
+	right: 0.5em;
+	z-index: 50000;
+	width: 300px;
+	height: auto;
+	max-height: 85%;
+	overflow-y: auto;
+}
+
+#messagestack div.voice {
+	position: absolute;
+	top: -1000px;
+}
+
+#messagestack div a {
+	color: #94c0da;
+}
+
+#messagestack div a:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.ui.message {
+	margin-top: 0.5em;
+}
+
+.ui.popup {
+	padding: 0;
+	min-width: 180px;
+}
+
+.button.disabled,
+.listing li a.disabled {
+	opacity: 0.5;
+}
+
+.listbox .scroller {
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.listing tbody td,
+.listing li {
+	display: block;
+	border-bottom: 1px solid #f4f4f4;
+	cursor: default;
+	font-weight: normal;
+}
+
+.listbox .listitem a,
+.listbox .listitem span,
+.listbox .tablink a,
+.listing tbody td,
+.listing li a {
+	display: block;
+	text-decoration: none;
+	cursor: default;
+	padding: 0 0.5em;
+	line-height: 24pt;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+.listing tbody td {
+	display: table-cell;
+	outline: none;
+}
+
+table.listing {
+	width: 100%;
+}
+
+ul.listing {
+	display: block;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.listing li {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	position: relative;
+}
+
+ul.listing li ul {
+	border-top: 1px solid #f4f4f4;
+	padding-left: 1.5em;
+}
+ul.listing li ul li:last-child {
+	border-bottom: none;
+}
+
+ul.treelist li div.treetoggle {
+	position: absolute;
+	top: 7px;
+	left: 4px;
+	width: 13px;
+	height: 13px;
+	background: /* TODO */ no-repeat;
+	cursor: pointer;
+}
+
+.folderlist li.mailbox .unreadcount {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 2em;
+	line-height: 18pt;
+	margin: 3pt 8px;
+	padding: 0 3px;
+	background:  /* todo */ #1e70bf;
+	border-radius: 9px;
+	color: #fff;
+	text-align: center;
+	font-weight: bold;
+	font-size: 10pt;
+}
+
+ul.listing li input[type=checkbox] {
+	position: absolute;
+	top: 0;
+	right: 0.2em;
+	height: 24pt;
+	vertical-align: middle;
+}
+
+.folderlist li.mailbox.selected > a .unreadcount {
+	background: /* todo */;
+}
+
+.folderlist li.mailbox.recent > a .unreadcount {
+	background: /* todo */;
+}
+
+.toolbar > .spacer {
+	display: inline-block;
+	width: 1em;
+}
+
+.header > .buttons > input.button {
+	padding: 0.3em 0.8em;
+	font-size: 14pt;
+}
+
+/* fixes border set by accordion widget */
+.propform.ui.accordion td.title {
+	border: none;
+}
+
+
+/* make some elements bigger on tablets/phones */
+/* TODO: we should/could maybe do this more globally? */
+@media screen and (max-width: 1024px) {
+	.listbox .listitem a,
+	.listbox .listitem span,
+	.listbox .tablink a,
+	.listing tbody td,
+	.listing li a {
+		line-height: 30pt;
+		font-size: 12pt;
+	}
+	ul.listing li input[type=checkbox] {
+		height: 30pt;
+	}
+	#layout > div > .footer,
+	#layout > div > .header {
+		line-height: 35pt;
+		height: 35pt;
+		font-size: 14pt;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	#messagestack {
+		left: 0.5em;
+		width: auto;
+	}
+}
+
+/* font-icons */
+
+
+button.ui.button.icon:before,
+.toolbar a.button:before,
+.toolbarmenu li a:before,
+.folderlist li a:before,
+.listing.iconized tr td:before,
+.listing.iconized li a:before,
+#taskmenu a:before {
+	font-size: 1.5em;
+	/*display: inline-block;*/
+	/* FIXME: with inline-block we have a problem with icon alignment,
+	use display:block; float: left;
+	 */
+	display: block;
+	float: left;
+	opacity: 1;
+	margin: 0em 0.25rem 0em 0em;
+	width: 1.18em;
+	height: 1em;
+	font-family: 'Icons';
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: inherit;
+	text-align: center;
+	speak: none;
+	font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+button.ui.button.icon:before {
+	height: auto;
+	font-size: 1rem;
+}
+
+.toolbar a.button:before {
+	display: inline;
+	float: initial;
+}
+
+.toolbar a.button span.inner {
+	display: none;
+}
+
+.toolbar a.button {
+	padding: 0 0.3em;
+}
+
+.toolbar .dropbutton > a.button:first-child {
+	padding-right: 0;
+}
+.toolbar .dropbutton > a.button.dropdown {
+	font-size: 70%;
+	padding-left: 0;
+}
+
+#taskmenu a {
+	padding: 0.4em 0;
+}
+
+#taskmenu a,
+#taskmenu a:before {
+	display: block;
+	width: 60px;
+	text-align: center;
+}
+
+#taskmenu a.button-mail:before {
+	content: "\f0e0";
+}
+#taskmenu a.button-addressbook:before {
+	content: "\f007";
+}
+#taskmenu a.button-settings:before {
+	content: "\f013";
+}
+#taskmenu a.button-help:before {
+	content: "\f1cd"; /* i.icon.life.ring */
+}
+#taskmenu a.button-logout:before {
+	content: "\f011";
+}
+#taskmenu a.button-logout:hover {
+	color: red;
+}
+
+.listing.iconized li.preferences > a:before {
+	content: "\f1de";
+}
+.listing.iconized li.folders > a:before {
+	content: "\f07b";
+}
+.listing.iconized li.responses > a:before {
+	content: "\f075";
+}
+.listing.iconized li.identities > a:before {
+	content: "\f1fa"; /* i.icon.at */
+}
+.listing.iconized li.password > a:before {
+	content: "\f023";
+}
+.listing.iconized li.addressbook a:before {
+	content: "\f02d"; /* i.icon.book */
+}
+.listing.iconized li.contactgroup a:before {
+	content: "\f0c0";
+}
+.listing.iconized tr.contact.person td.name:before {
+	content: "\f007";
+}
+.listing.iconized tr.general > td.section:before {
+	content: "\f108";
+}
+.listing.iconized tr.mailbox > td.section:before {
+	content: "\f003";
+}
+.listing.iconized tr.mailview > td.section:before {
+	content: "\f01c";
+}
+.listing.iconized tr.compose > td.section:before {
+	content: "\f1d8";
+}
+.listing.iconized tr.addressbook > td.section:before {
+	content: "\f007";
+}
+.listing.iconized tr.folders > td.section:before {
+	content: "\f114";
+}
+.listing.iconized tr.server > td.section:before {
+	content: "\f233";
+}
+
+.folderlist li a:before {
+	content: "\f114"; /* i.icon.folder.outline */
+}
+.folderlist li.inbox a:before {
+	content: "\f01c"; /* i.icon.inbox */
+}
+.folderlist li.trash a:before {
+	content: "\f1f8"; /* i.icon.trash */
+}
+.folderlist li.trash.empty a:before {
+	content: "\f014"; /* i.icon.trash.outline */
+}
+.folderlist li.drafts a:before {
+	content: "\f044"; /* i.icon.edit */
+}
+.folderlist li.sent a:before {
+	content: "\f1d8"; /* i.icon.send */
+}
+.folderlist li.junk a:before {
+	content: ""; /* i.icon. TODO */
+}
+.folderlist li.archive a:before {
+	content: "\f187"; /* i.icon.archive */
+}
+
+.toolbarmenu li a.print:before {
+	content: "\f02f"; /* i.icon.print */
+}
+.toolbarmenu li a.copy:before {
+	content: "\f0c5"; /* i.icon.copy */
+}
+.toolbarmenu li a.move:before {
+	content: "\f047"; /* i.icon.move */
+}
+.toolbarmenu li a.source:before {
+	content: "\f0c3"; /* i.icon.lab */
+}
+.toolbarmenu li a.download:before {
+	content: "\f019"; /* i.icon.download */
+}
+.toolbarmenu li a.extwin:before {
+	content: "\f08e"; /* i.icon.external */
+}
+.toolbarmenu li a.edit:before {
+	content: "\f044"; /* i.icon.edit, TODO: edit.asnew */
+}
+.toolbarmenu li a.read:before {
+	content: "\f006"; /* i.icon.empty.star */
+}
+.toolbarmenu li a.unread:before {
+	content: "\f005"; /* i.icon.star */
+}
+.toolbarmenu li a.flag:before {
+	content: "\f024"; /* i.icon.flag */
+}
+.toolbarmenu li a.unflag:before {
+	content: "\f11d"; /* i.icon.flag.outline */
+}
+.toolbar a.button.reply:before {
+	content: "\f112"; /* i.icon.reply */
+}
+.toolbar a.button.reply-all:before {
+	content: "\f122"; /* i.icon.reply.all */
+}
+.toolbar a.button.forward:before {
+	content: "\f064"; /* i.icon.mail.forward */
+}
+.toolbar a.button.delete:before {
+	content: "\f014"; /* i.icon.trash.outline */
+}
+.toolbar a.button.markmessage:before {
+	content: "\f02b"; /* i.icon.tag */
+}
+.toolbar a.button.more:before {
+	content: "\f141"; /* i.icon.ellipsis.horizontal */
+}
+.toolbar a.button.dropdown:before {
+	content: "\f0d7"; /* i.icon.dropdown */
+}
+.toolbar a.button.settings:before {
+	content: "\f013"; /* i.icon.setting */
+}
+.toolbar a.button.print:before {
+	content: "\f02f"; /* i.icon.print */
+}
+.toolbar a.button.search:before {
+	content: "\f002"; /* i.icon.search */
+}
+.toolbar a.button.upload:before,
+.toolbar a.button.import:before {
+	content: "\f093"; /* i.icon.upload */
+}
+.toolbar a.button.download:before,
+.toolbar a.button.export:before {
+	content: "\f019"; /* i.icon.download */
+}
+.toolbar a.button.compose:before {
+	content: "\f044"; /* i.icon.edit */
+}
+.toolbar a.button.refresh:before {
+	content: "\f021"; /* i.icon.refresh */
+}
+.toolbar a.button.archive:before {
+	content: "\f187"; /* i.icon.archive */
+}
+.toolbar a.button.encrypt:before {
+	content: "\f023"; /* i.icon.lock */
+}
+.toolbar a.button.firstpage:before {
+	content: "\f049"; /* i.icon.fask.backward */
+}
+.toolbar a.button.prevpage:before {
+	content: "\f04a"; /* i.icon.backward */
+}
+.toolbar a.button.nextpage:before {
+	content: "\f04e"; /* i.icon.forward */
+}
+.toolbar a.button.lastpage:before {
+	content: "\f050"; /* i.icon.fast.forward */
+}
+
+button.icon.save:before {
+  content: "\f00c"; /* i.icon.checkmark */
+}
+button.icon.edit:before {
+	content: "\f040"; /* i.icon.write */
+}
+button.icon.qrcode:before {
+  content: "\f029"; /* i.icon.qrcode */
+}
+
+
+/**** Styles for widescreen (3-column) view ****/
+/* copied from larry removing .widescreen prefix */
+
+
+.messagelist > thead,
+.messagelist .branch,
+table.fixedcopy {
+	display: none;
+}
+/*
+#messagelistcontainer {
+	top: 34px;
+	overflow-x: hidden;
+}
+
+#messagelistheader {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 34px;
+	padding: 6px 6px;
+	background: #f0f0f0;
+	background: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f0f0));
+	background: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+	background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+	border-radius: 4px 4px 0 0;
+	white-space: nowrap;
+	border-bottom: 1px solid #dfdfdf;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#messagelistheader .listmenu {
+	margin-right: 10px;
+	vertical-align: middle;
+	line-height: 22px;
+	width: 26px;
+	padding: 0;
+	text-indent: -5000px;
+	overflow: hidden;
+	display: inline-block;
+	background: url(images/listicons.png) 0 -2330px no-repeat;
+}
+
+#countcontrols {
+	line-height: 24px;
+	display: inline;
+	min-width: 0;
+}
+
+#countcontrols span {
+	padding: 0;
+}
+
+.pagenavbuttons {
+	position: absolute;
+	top: 4px;
+	right: 6px;
+}
+
+.pagenavbuttons a.button {
+	background: none;
+	border: 0;
+	box-shadow: none;
+	padding: 2px;
+	margin: 0;
+	height: 20px;
+}
+
+.pagenavbuttons a.button.pressed {
+	background: inherit;
+}
+
+a.listmenu:focus,
+.pagenav a.button:focus {
+	border-color: #4fadd5;
+	box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	outline: none;
+}
+*/
+.messagelist td {
+	border-left: 0;
+	vertical-align: top;
+	padding: 3px 2px !important;
+}
+
+.messagelist td.subject {
+	width: 99%;
+	white-space: wrap;
+	position: relative; /* for span.date positioning in Firefox */
+}
+
+.messagelist td.threads {
+	width: 20px;
+	vertical-align: bottom;
+}
+
+.messagelist td.threads div {
+	padding-bottom: 1px;
+}
+
+.messagelist td.flags {
+	width: 22px;
+}
+
+.messagelist td.subject span {
+	line-height: 20px;
+}
+
+.messagelist td.subject span.date {
+	right: 2px;
+	top: 3px;
+	position: absolute;
+	color: #666;
+}
+
+.messagelist td.subject span.fromto {
+	padding-left: 22px;
+	display: block;
+	margin-right: 10em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #666;
+}
+
+.messagelist tr.flagged td.subject span.date,
+.messagelist tr.flagged td.subject span.fromto {
+	color: #ff5c33;
+}
+
+.messagelist tr.deleted td.subject span.date,
+.messagelist tr.deleted td.subject span.fromto {
+	color: #ccc;
+}
+
+.messagelist td.subject span.subject {
+	clear: both;
+	display: block;
+	font-size: 12px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.messagelist td.flags span {
+	width: 20px;
+	height: 20px;
+	display: block;
+	margin-left: 1px;
+}
+
+.messagelist td.flags span.flag {
+	cursor: pointer;
+}
+
+.messagelist tr td.subject span.msgicon,
+.messagelist tr td.subject span.unreadchildren {
+	width: 20px;
+	height: 20px;
+}
+

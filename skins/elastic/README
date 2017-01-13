@@ -1,0 +1,53 @@
+Roundcube Webmail Skin "Elastic"
+================================
+
+This skin package contains a theme for the Roundcube Webmail
+software. It can be used, modified and redistributed according to
+the terms described in the LICENSE section.
+
+For information about building or modifiying Roundcube skins please visit
+https://github.com/roundcube/roundcubemail/wiki/Skins
+
+LICENSE
+-------
+The contents of this folder are subject to the Creative Commons
+Attribution-ShareAlike License. It is allowed to copy, distribute,
+transmit and to adapt the work by keeping credits to the original
+authors in the README file.
+See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+
+PROJECT GOALS
+-------------
+Create a user interface that is clean and usable with any screen size.
+Use new technologies like e.g. flexbox, @media, font-icons or less.
+Cleanup css/html and unify as much as possible.
+
+------------------------------------------------------------------
+WARNING: In current state we're focusing on main layout and logic!
+------------------------------------------------------------------
+
+INSTALLATION:
+-------------
+1. Clone git-master roundcube/roundcubemail
+2. Switch to branch dev-elastic
+3. Goto /skins
+4. git clone https://github.com/roundcube/elastic.git
+5. Before use disable all plugins (we're not there yet)
+
+IDEAS/TODOs:
+------------
+- Planned use of a css framework, e.g. semantic-ui, bootstrap (to be decided)
+- Minimum supported screen width: 320px (or we should support 240px?)
+- As we use flexbox, we develop on most recent Chrome/Firefox, we'll
+  see later what we can do for older browser versions
+- use Less
+- build custom semantic-ui style/js, we don't really want 800kB (already minified) file
+- use semantic-ui/loader when loading content to content-frames (on phones only)?
+- make scrollbars pretty (impossible in Firefox?)
+- check supported browser versions, looks like flexbox is not supported on Android <= 4,
+  how old versions we should support?
+- popups/modal dialogs
+- consider using a dialog popup for Contacts import instead of a separate page. Actually consider
+  this a UI rule: no full page for functionality that can be in a dialog.
+  Note: This is for consistency reasons, mail import uses dialog, calendar events import too.
+  Note: the same rule would apply to contacts advanced search.

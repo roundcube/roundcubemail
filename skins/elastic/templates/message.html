@@ -1,0 +1,42 @@
+<roundcube:include file="/includes/layout.html" />
+<roundcube:object name="mailboxlist" folder_filter="mail" type="js" />
+
+<h1 class="voice"><roundcube:object name="messageHeaders" valueOf="subject" /></h1>
+
+<div id="message-header">
+	<span class="moreheaderstoggle"></span>
+	<h2 class="subject">
+		<span onmouseover="rcube_webmail.long_subject_title(this)">
+			<span class="voice"><roundcube:label name="subject" />: </span>
+			<roundcube:object name="messageHeaders" valueOf="subject" />
+		</span>
+	</h2>
+	<div class="message-headers">
+		<roundcube:object name="messageHeaders" class="headers-table" addicon="/images/addcontact.png" exclude="subject" max="20" />
+	</div>
+	<roundcube:object name="messageFullHeaders" id="full-headers" />
+	<div id="contactphoto"><roundcube:object name="contactphoto" /></div>
+</div>
+
+<div id="message-content">
+	<div class="leftcol" role="region" aria-labelledby="aria-label-messageattachments">
+		<h2 id="aria-label-messageattachments" class="voice"><roundcube:label name="attachments" /></h2>
+		<roundcube:object name="messageAttachments" id="attachment-list" class="attachmentslist" />
+	</div>
+	<div class="rightcol" role="region" aria-labelledby="aria-label-messagebody">
+		<h2 id="aria-label-messagebody" class="voice"><roundcube:label name="arialabelmessagebody" /></h2>
+		<roundcube:object name="messageObjects" id="message-objects" />
+		<roundcube:object name="messageBody" id="messagebody" headertableclass="listing iconized" />
+	</div>
+</div>
+
+<!-- popu menus -->
+<div id="attachment-menu" class="ui popup">
+	<ul class="toolbarmenu listing" role="menu">
+		<roundcube:button command="open-attachment" id="attachmenuopen" type="link-menuitem" label="open" class="icon" classAct="icon active" innerclass="icon extwin" />
+		<roundcube:button command="download-attachment" id="attachmenudownload" type="link-menuitem" label="download" class="icon" classAct="icon active" innerclass="icon download" />
+		<roundcube:container name="attachmentmenu" id="attachmentoptionsmenu" />
+	</ul>
+</div>
+
+<roundcube:include file="/includes/footer.html" />

@@ -1,0 +1,60 @@
+<roundcube:include file="/includes/layout.html" />
+<roundcube:include file="/includes/menu.html" />
+<roundcube:include file="/includes/settings-menu.html" />
+
+<h1 class="voice"><roundcube:label name="settings" /> : <roundcube:label name="folders" /></h1>
+
+<!-- folders list -->
+<div id="list" class="list listbox selected" aria-labelledby="aria-label-prefsection">
+	<div class="header">
+		<a class="button menu-button" href="#menu"><i class="content icon"></i></a>
+		<a class="button back-sidebar-button" href="#sidebar"><i class="chevron left icon"></i></a>
+		<roundcube:label name="folders" />
+		<a href="#folders" class="button" title="<roundcube:label name='findfolders' />" tabindex="0"><i class="icon search"></i></a>
+<!--
+		<roundcube:object name="folderfilter" id="folderlist-filter" class="listing" noheader="true" />
+		<div class="searchbox" role="search" aria-labelledby="aria-label-foldersearchform">
+			<h3 id="aria-label-foldersearchform" class="voice"><roundcube:label name="arialabelfoldersearchform" /></h3>
+			<label for="foldersearch" class="voice"><roundcube:label name="arialabelsearchterms" /></label>
+			<input type="text" name="q" id="foldersearch" placeholder="<roundcube:label name='findfolders' />" />
+			<a class="iconbutton searchicon"></a>
+			<roundcube:button command="reset-foldersearch" id="folderlistsearch-reset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
+		</div>
+-->
+	</div>
+	<div class="scroller">
+		<roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table" class="treelist listing folderlist iconized" />
+	</div>
+	<div class="footer">
+		<roundcube:button command="create-folder" type="link" title="createfolder"
+			class="listbutton add disabled" classAct="listbutton add" innerClass="inner"
+			label="createfolder" />
+		<roundcube:button name="mailboxmenulink" type="link"
+			title="folderactions" class="listbutton groupactions"
+			data-popup="mailbox-menu" innerClass="inner" content="&#9881;" />
+		<roundcube:if condition="env:quota" />
+			<span class="voice"><roundcube:label name="quota"></span>
+			<roundcube:object name="quotaDisplay" id="quotadisplay" class="countdisplay" display="text" />
+		<roundcube:endif />
+	</div>
+</div>
+
+<!-- folder info frame -->
+<div id="content" class="content" role="main">
+	<div class="header">
+		<a class="button back-list-button" href="#back"><i class="chevron left icon"></i><roundcube:label name="back" /></a>
+	</div>
+	<roundcube:object name="folderframe" id="preferences-frame" src="/watermark.html" />
+</div>
+
+<!-- popup menus -->
+<div id="mailbox-menu" class="ui popup">
+	<h3 id="aria-label-mailboxmenu" class="voice"><roundcube:label name="arialabelmailboxmenu" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-mailboxmenu">
+		<roundcube:button command="delete-folder" type="link-menuitem" label="delete" classAct="active" />
+		<roundcube:button command="purge" type="link-menuitem" label="empty" classAct="active" />
+		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
+	</ul>
+</div>
+
+<roundcube:include file="/includes/footer.html" />

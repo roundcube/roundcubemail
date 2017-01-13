@@ -1,0 +1,20 @@
+<roundcube:include file="/includes/layout.html" />
+<roundcube:include file="/includes/menu.html" />
+
+<h1 class="voice"><roundcube:label name="addressbook" /> : <roundcube:label name="importcontacts" /></h1>
+
+<div id="content" class="content only selected" role="main">
+	<div class="header">
+		<a class="button back-list-button" href="#back"><i class="chevron left icon"></i><roundcube:label name="back" /></a>
+		<h2 class="title"><roundcube:label name="importcontacts" /></h2>
+	</div>
+	<div class="scroller">
+		<roundcube:object name="importstep" class="propform" />
+		<br/>
+		<p class="formbuttons">
+			<roundcube:object name="importnav" class="ui button" />
+		</p>
+	</div>
+</div>
+
+<roundcube:include file="/includes/footer.html" />
