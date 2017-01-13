@@ -669,11 +669,14 @@ function rcmail_options_menu_link($attrib)
     if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
         $inner = html::img(array('src' => $RCMAIL->output->abs_url($attrib['optionsmenuicon'], true), 'alt' => $title));
     }
+    else if ($attrib['innerclass']) {
+        $inner = html::span($attrib['innerclass'], $inner);
+    }
 
     return html::a(array(
             'href'     => '#list-options',
             'onclick'  => $onclick,
-            'class'    => 'listmenu',
+            'class'    => isset($attrib['class']) ? $attrib['class'] : 'listmenu',
             'id'       => 'listmenulink',
             'title'    => $title,
             'tabindex' => '0',
