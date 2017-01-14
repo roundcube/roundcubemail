@@ -23,7 +23,6 @@ function rcube_elastic_ui()
     // public methods
     this.register_frame_buttons = register_frame_buttons;
 
-
     env.last_selected = $('#layout > div.selected')[0];
 
     $(window).on('resize', function() {
@@ -115,10 +114,13 @@ function rcube_elastic_ui()
             .popup({
                 popup: '#' + popup_id,
                 exclusive: true,
-                on: 'click'
+                on: 'click',
+                position: $(this).data('popup-pos') || 'top left',
+                lastResort: true
             });
 
-        // TOOD: Set aria attributes on menu show/hide
+        // TODO: Set aria attributes on menu show/hide
+        // TODO: Set popup height so it is less that window height
     });
     $('.ui.popup').attr('aria-hidden', 'true');
 
@@ -178,6 +180,8 @@ function rcube_elastic_ui()
 
     // TODO: In phone mode convert the content toolbar into "hamburger menu"
 
+    // Initialize search forms (in list headers)
+    $('.header > .searchbar').each(function() { searchbar_init(this); });
 
     // Make login form pretty
     if (rcmail.env.task == 'login') {
@@ -391,7 +395,60 @@ function rcube_elastic_ui()
             rcmail.hide_message(p.object);
         }
 */
-    }
+    };
+
+    /**
+     * Initializes searchbar widget
+     */
+    function searchbar_init(bar)
+    {
+        var input = $('input', bar),
+            button = $('a.button.search', bar),
+            form = $('form', bar),
+            all_elements = $('form, a.button.options, a.button.reset', bar),
+            is_search_pending = function() {
+                // TODO: This have to be improved to detect real searching state
+                //       There are cases when search is active but the input is empty
+                return input.val();
+            },
+            hide_func = function() {
+                $(bar).animate({'width': '0'}, 200, 'swing', function() {
+                    all_elements.hide();
+                    button[is_search_pending() ? 'addClass' : 'removeClass']('active')
+                        .css('display', 'inline-block')
+                        .focus();
+                });
+            };
+
+        if (is_search_pending()) {
+            button.addClass('active');
+        }
+
+        // Display search form (with animation effect)
+        button.on('click', function() {
+            $(bar).animate({'width': '100%'}, 200);
+            all_elements.css('display', 'table-cell');
+            button.hide();
+            input.focus();
+        });
+
+        // Search reset action
+        $('a.button.reset', bar).on('click', function() {
+            // for treelist widget's search setting val and keyup.treelist is needed
+            // in normal search form reset-search command will do the trick
+            // TODO: This calls for some generalization, what about two searchboxes on a page?
+            input.val('').change().trigger('keyup.treelist', {keyCode: 27});
+            hide_func();
+        });
+
+        // These will hide the form, but not reset it
+        rcube_webmail.set_iframe_events({mousedown: hide_func});
+        $('body').on('mousedown', function(e) {
+            if (!button.is(':visible') && $.inArray(bar, $(e.target).parents()) == -1) {
+                hide_func();
+            }
+        });
+    };
 }
 
 var UI = new rcube_elastic_ui();

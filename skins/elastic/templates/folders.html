@@ -10,17 +10,8 @@
 		<a class="button menu-button" href="#menu"><i class="content icon"></i></a>
 		<a class="button back-sidebar-button" href="#sidebar"><i class="chevron left icon"></i></a>
 		<roundcube:label name="folders" />
-		<a href="#folders" class="button" title="<roundcube:label name='findfolders' />" tabindex="0"><i class="icon search"></i></a>
-<!--
-		<roundcube:object name="folderfilter" id="folderlist-filter" class="listing" noheader="true" />
-		<div class="searchbox" role="search" aria-labelledby="aria-label-foldersearchform">
-			<h3 id="aria-label-foldersearchform" class="voice"><roundcube:label name="arialabelfoldersearchform" /></h3>
-			<label for="foldersearch" class="voice"><roundcube:label name="arialabelsearchterms" /></label>
-			<input type="text" name="q" id="foldersearch" placeholder="<roundcube:label name='findfolders' />" />
-			<a class="iconbutton searchicon"></a>
-			<roundcube:button command="reset-foldersearch" id="folderlistsearch-reset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
-		</div>
--->
+		<roundcube:object name="searchform" id="foldersearch" wrapper="searchbar toolbar"
+			label="foldersearchform" buttontitle="findfolders" options="search-filter" ariatag="h2" />
 	</div>
 	<div class="scroller">
 		<roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table" class="treelist listing folderlist iconized" />
@@ -55,6 +46,10 @@
 		<roundcube:button command="purge" type="link-menuitem" label="empty" classAct="active" />
 		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
 	</ul>
+</div>
+
+<div id="search-filter" class="ui popup">
+	<roundcube:object name="folderfilter" id="folderlist-filter" class="listing" noheader="true" />
 </div>
 
 <roundcube:include file="/includes/footer.html" />

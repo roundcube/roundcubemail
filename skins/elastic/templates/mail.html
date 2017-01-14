@@ -30,7 +30,10 @@
 		<span id="folder-name"></span>
 		<div class="toolbar">
 			<roundcube:object name="listmenulink" class="button settings" innerclass="inner" />
+			<span class="spacer"></span><!-- spacer to compensate the search icon -->
 		</div>
+		<roundcube:object name="searchform" id="mailsearchform" wrapper="searchbar toolbar"
+			label="mailquicksearchbox" buttontitle="findmail" options="search-menu" ariatag="h2" />
 	</div>
 	<div id="messagelist-content" class="scroller" tabindex="-1">
 		<h2 id="aria-label-messagelist" class="voice"><roundcube:label name="arialabelmessagelist" /></h2>
@@ -112,7 +115,7 @@
 		<li role="menuitem"><label><input type="radio" name="s_scope" value="sub" id="s_scope_sub" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="subfolders" /></span></label></li>
 		<li role="menuitem"><label><input type="radio" name="s_scope" value="all" id="s_scope_all" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="allfolders" /></span></label></li>
 	</ul>
-	<div class="buttons"><a class="button" href="#" onclick="if (rcmail.command('search')) UI.show_popup('searchmenu',false)"><roundcube:label name="search" /></a></div>
+	<div class="buttons"><button class="ui button primary icon search" href="#" onclick="if (rcmail.command('search')) UI.show_popup('searchmenu',false)"><roundcube:label name="search" /></button></div>
 </div>
 
 <div id="dragmessage-menu" class="ui popup">

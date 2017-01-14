@@ -195,9 +195,10 @@ body {
 	font-weight: bold;
 	line-height: 30pt;
 	height: 30pt;
-	overflow: hidden;
 	padding: 0 0.5em;
 	margin: 0;
+	position: relative; /* for absolute positioning of searchbar */
+	overflow: hidden;
 }
 #layout > div > .header {
 	border-bottom: 1px solid #ddd;
@@ -208,7 +209,7 @@ body {
 
 /*** Login form ***/
 
-.task-login .content {
+.task-login #content {
 	text-align: center;
 	width: 100%;
 	background: url(images/watermark.jpg) center -20px no-repeat;
@@ -388,7 +389,39 @@ ul.listing li input[type=checkbox] {
 
 .toolbar > .spacer {
 	display: inline-block;
-	width: 1em;
+	width: 1.2em;
+}
+
+.searchbar {
+	display: table;
+	text-align: right;
+	position: absolute;
+	background-color: #f9f9f9;
+	z-index: 10;
+	top: 0;
+	right: 0;
+}
+
+.searchbar > form,
+.searchbar > a.button.options,
+.searchbar > a.button.reset {
+	display: none;
+	width: 1%;
+}
+
+.searchbar > form,
+.searchbar > form > input {
+	width: 98%;
+}
+
+.searchbar input {
+	border: none;
+	border-bottom: 1px solid #ddd;
+	background: transparent;
+}
+
+.searchbar > a.button.search.active {
+	color: green;
 }
 
 .header > .buttons > input.button {
@@ -688,6 +721,13 @@ button.ui.button.icon:before {
 	content: "\f050"; /* i.icon.fast.forward */
 }
 
+.searchbar > a.button.reset:before {
+	content: "\f00d"; /* i.icon.remove */
+}
+.searchbar > a.button.options:before {
+	content: "\f107"; /* i.icon.angle.down */
+}
+
 button.icon.save:before {
   content: "\f00c"; /* i.icon.checkmark */
 }
@@ -696,6 +736,9 @@ button.icon.edit:before {
 }
 button.icon.qrcode:before {
   content: "\f029"; /* i.icon.qrcode */
+}
+button.icon.search:before {
+	content: "\f002"; /* i.icon.search */
 }
 
 
