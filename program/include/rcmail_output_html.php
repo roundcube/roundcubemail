@@ -1995,19 +1995,71 @@ EOF;
         if ($attrib['type'] == 'search' && !$this->browser->khtml) {
             unset($attrib['type'], $attrib['results']);
         }
+        if (empty($attrib['placeholder'])) {
+            $attrib['placeholder'] = $this->app->gettext('searchplaceholder');
+        }
 
+        $label   = html::label(array('for' => $attrib['id'], 'class' => 'voice'), rcube::Q($this->app->gettext('arialabelsearchterms')));
         $input_q = new html_inputfield($attrib);
-        $out     = $input_q->show();
+        $out     = $label . $input_q->show();
 
+        // @TODO: At some point we'll need support for multiple searchforms on the same page
         $this->add_gui_object('qsearchbox', $attrib['id']);
 
         // add form tag around text field
-        if (empty($attrib['form'])) {
+        if (empty($attrib['form']) && empty($attrib['no-form'])) {
             $out = $this->form_tag(array(
                     'name'     => "rcmqsearchform",
                     'onsubmit' => self::JS_OBJECT_NAME . ".command('search'); return false",
-                    'style'    => "display:inline"
+                    // 'style'    => "display:inline"
                 ), $out);
+        }
+
+        if (!empty($attrib['wrapper'])) {
+            $header = html::tag($attrib['ariatag'] ?: 'h2', array(
+                    'id'    => 'aria-label-' . $attrib['label'],
+                    'class' => 'voice'
+                ), rcube::Q($this->app->gettext('arialabel' . $attrib['label'])));
+
+            if ($attrib['options']) {
+                $options_button = $this->button(array(
+                        'type'           => 'link',
+                        'href'           => '#search-filter',
+                        'class'          => 'button options',
+                        'label'          => 'options',
+                        'title'          => 'options',
+                        'tabindex'       => '0',
+                        'innerclass'     => 'inner',
+                        'data-popup'     => $attrib['options'],
+                        'data-popup-pos' => 'top right',
+                ));
+            }
+
+            $search_button = $this->button(array(
+                    'type'       => 'link',
+                    'href'       => '#search',
+                    'class'      => 'button search',
+                    'label'      => $attrib['buttontitle'],
+                    'title'      => $attrib['buttontitle'],
+                    'tabindex'   => '0',
+                    'innerclass' => 'inner',
+            ));
+
+            $reset_button = $this->button(array(
+                    'type'       => 'link',
+                    'command'    => 'reset-search',
+                    'class'      => 'button reset',
+                    'label'      => 'resetsearch',
+                    'title'      => 'resetsearch',
+                    'tabindex'   => '0',
+                    'innerclass' => 'inner',
+            ));
+
+            $out = html::div(array(
+                'role'            => 'search',
+                'aria-labelledby' => $attrib['label'] ? 'aria-label-' . $attrib['label'] : null,
+                'class'           => $attrib['wrapper'],
+            ), "$header$out\n$options_button\n$reset_button\n$search_button");
         }
 
         return $out;

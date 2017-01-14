@@ -223,6 +223,7 @@ $labels['quotastorage'] = 'Disk space';
 $labels['quotamessage'] = 'Messages count';
 
 $labels['quicksearch']  = 'Quick search';
+$labels['searchplaceholder']  = 'Search...';
 $labels['resetsearch']  = 'Reset search';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
@@ -582,6 +583,8 @@ $labels['personalfolder'] = 'Private Folder';
 $labels['otherfolder'] = 'Other User\'s Folder';
 $labels['sharedfolder'] = 'Public Folder';
 $labels['findfolders'] = 'Find folders';
+$labels['findcontacts'] = 'Find contacts';
+$labels['findmail'] = 'Find mail messages';
 $labels['namespace.personal'] = 'Personal';
 $labels['namespace.other'] = 'Other users';
 $labels['namespace.shared'] = 'Shared';
