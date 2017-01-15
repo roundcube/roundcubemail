@@ -101,28 +101,7 @@ function rcube_elastic_ui()
     });
 
     // Initialize menu dropdowns
-    $('*[data-popup]').each(function() {
-        var popup_id = $(this).data('popup');
-
-        $('#' + popup_id).data('button', this);
-
-        $(this).attr({
-                'aria-haspopup': 'true',
-                'aria-expanded': 'false',
-                'aria-owns': popup_id + '-menu'
-            })
-            .popup({
-                popup: '#' + popup_id,
-                exclusive: true,
-                on: 'click',
-                position: $(this).data('popup-pos') || 'bottom left',
-                lastResort: true
-            });
-
-        // TODO: Set aria attributes on menu show/hide
-        // TODO: Set popup height so it is less that window height
-    });
-    $('.ui.popup').attr('aria-hidden', 'true');
+    $('*[data-popup]').each(function() { popup_init(this); });
 
     // close popups on click in an iframe on the page
     var close_all_popups = function() {
@@ -134,11 +113,9 @@ function rcube_elastic_ui()
     rcube_webmail.set_iframe_events({mousedown: close_all_popups});
 
     // Move form buttons from the content frame into the frame header (on parent window)
-    // TODO: There really should be only one button in most forms, Cancel buttons
-    //       should not be used at all, other buttons will need to be verified
     // TODO: Active button state
     var form_buttons = [];
-    $('.formbuttons > .primary').each(function() {
+    $('.formbuttons').children(':not(.cancel)').each(function() {
         var target = this, button = $(this).clone();
 
         form_buttons.push(
@@ -182,6 +159,9 @@ function rcube_elastic_ui()
 
     // Initialize search forms (in list headers)
     $('.header > .searchbar').each(function() { searchbar_init(this); });
+
+    // Initialize responsive toolbars
+    toolbar_init();
 
     // Make login form pretty
     if (rcmail.env.task == 'login') {
@@ -287,6 +267,8 @@ function rcube_elastic_ui()
             buttons.back_list.show();
         }
 
+        $('.header > ul.toolbar', layout.content).addClass('hidden ui popup');
+
         $.each(content_buttons, function() { $(this).hide(); });
     };
 
@@ -307,6 +289,7 @@ function rcube_elastic_ui()
         $(layout.menu).css('display', 'flex');
         buttons.back_list.hide();
         $.each(content_buttons, function() { $(this).show(); });
+        $('ul.toolbar.ui.popup').removeClass('hidden ui popup');
     };
 
     function screen_resize_wide()
@@ -314,6 +297,7 @@ function rcube_elastic_ui()
         $.each(layout, function(name, item) { $(item).css('display', 'flex'); });
         buttons.back_list.hide();
         $.each(content_buttons, function() { $(this).show(); });
+        $('ul.toolbar.ui.popup').removeClass('hidden ui popup');
     };
 
     function show_sidebar()
@@ -449,6 +433,76 @@ function rcube_elastic_ui()
             }
         });
     };
+
+    /**
+     * Converts toolbar menu into popup-menu for small screens
+     */
+    function toolbar_init()
+    {
+        if (env.got_smart_toolbar) {
+            return;
+        }
+
+        env.got_smart_toolbar = true;
+
+        // TODO: if the toolbar contains "global or list only" buttons
+        //       another popup menu with these options should be created
+        //       on the list (or sidebar if there's no list element).
+        // TODO: spacer item
+        // TODO: dropbutton item
+        // TODO: a way to inject buttons to the menu from content iframe
+
+        var items = [];
+
+        // convert toolbar to a popup list
+        $('.header > .toolbar', layout.content).each(function() {
+            var toolbar = $(this);
+
+            toolbar.children().each(function() {
+                var button = $(this).detach();
+                items.push($('<li role="menuitem">').append(button));
+            });
+        });
+
+        // append the new toolbar and menu button
+        if (items.length) {
+            var menu_button = $('<a class="button menu-button" href="#menu">')
+                .html('<i class="icon ellipsis vertical"></i>')
+                .data('popup', 'toolbar-menu')
+                .data('popup-pos', 'bottom right');
+
+            $(layout.content).children('.header')
+                // TODO: copy original toolbar attributes (class, role, aria-*)
+                .append($('<ul>').attr({'class': 'toolbar ui popup', id: 'toolbar-menu'}).append(items))
+                .append(menu_button);
+
+            popup_init(menu_button);
+        }
+    }
+
+    function popup_init(item)
+    {
+        var popup_id = $(item).data('popup');
+
+        $('#' + popup_id).data('button', item);
+
+        $(item).attr({
+                'aria-haspopup': 'true',
+                'aria-expanded': 'false',
+                'aria-owns': popup_id + '-menu'
+            })
+            .popup({
+                popup: '#' + popup_id,
+                exclusive: true,
+                on: 'click',
+                position: $(item).data('popup-pos') || 'bottom left',
+                lastResort: true
+            });
+
+        // TODO: Set aria attributes on menu show/hide
+        // TODO: Set popup height so it is less that window height
+        $('#' + popup_id).attr('aria-hidden', 'true');
+    }
 }
 
 var UI = new rcube_elastic_ui();

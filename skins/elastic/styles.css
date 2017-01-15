@@ -106,6 +106,7 @@ body > #layout > div > .header > a.menu-button {
 }
 
 @media screen and (max-width: 768px) { /* tablet */
+	#layout > div > .header > .toolbar:not(.searchbar),
 	body > #layout > div:not(.selected) {
 		display: none;
 	}
@@ -115,6 +116,7 @@ body > #layout > div > .header > a.menu-button {
 	body > #layout > div.list {
 		max-width: 100%;
 	}
+	body > #layout > div > .header > a.menu-button,
 	body > #layout > div > .header > .buttons {
 		display: block;
 		float: right;
@@ -206,6 +208,9 @@ body {
 #layout > div > .footer {
 	border-top: 1px solid #ddd;
 }
+
+
+
 
 /*** Login form ***/
 
@@ -392,6 +397,10 @@ ul.listing li input[type=checkbox] {
 	width: 1.2em;
 }
 
+.toolbar a.button span.inner {
+	display: none;
+}
+
 .searchbar {
 	display: table;
 	text-align: right;
@@ -457,6 +466,21 @@ ul.listing li input[type=checkbox] {
 	}
 }
 
+@media screen and (min-width: 769px) {
+	ul.toolbar {
+		margin: 0;
+}
+	ul.toolbar > li {
+		display: inline-block;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	ul.toolbar a.button .inner {
+		display: inline;
+	}
+}
+
 @media screen and (max-width: 480px) {
 	#messagestack {
 		left: 0.5em;
@@ -464,8 +488,8 @@ ul.listing li input[type=checkbox] {
 	}
 }
 
-/* font-icons */
 
+/* font-icons */
 
 button.ui.button.icon:before,
 .toolbar a.button:before,
@@ -506,10 +530,6 @@ button.ui.button.icon:before {
 .toolbar a.button:before {
 	display: inline;
 	float: initial;
-}
-
-.toolbar a.button span.inner {
-	display: none;
 }
 
 .toolbar a.button {

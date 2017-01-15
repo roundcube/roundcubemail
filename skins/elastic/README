@@ -37,17 +37,5 @@ INSTALLATION:
 IDEAS/TODOs:
 ------------
 - Planned use of a css framework, e.g. semantic-ui, bootstrap (to be decided)
-- Minimum supported screen width: 320px (or we should support 240px?)
-- As we use flexbox, we develop on most recent Chrome/Firefox, we'll
-  see later what we can do for older browser versions
-- use Less
 - build custom semantic-ui style/js, we don't really want 800kB (already minified) file
 - use semantic-ui/loader when loading content to content-frames (on phones only)?
-- make scrollbars pretty (impossible in Firefox?)
-- check supported browser versions, looks like flexbox is not supported on Android <= 4,
-  how old versions we should support?
-- popups/modal dialogs
-- consider using a dialog popup for Contacts import instead of a separate page. Actually consider
-  this a UI rule: no full page for functionality that can be in a dialog.
-  Note: This is for consistency reasons, mail import uses dialog, calendar events import too.
-  Note: the same rule would apply to contacts advanced search.
