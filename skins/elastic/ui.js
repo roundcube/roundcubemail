@@ -115,7 +115,7 @@ function rcube_elastic_ui()
                 popup: '#' + popup_id,
                 exclusive: true,
                 on: 'click',
-                position: $(this).data('popup-pos') || 'top left',
+                position: $(this).data('popup-pos') || 'bottom left',
                 lastResort: true
             });
 
