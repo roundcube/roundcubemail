@@ -66,7 +66,15 @@ function rcube_elastic_ui()
     // menu/sidebar button
     buttons.menu.on('click', function() { show_menu(); return false; });
     buttons.back_sidebar.on('click', function() { show_sidebar(); return false; });
-    buttons.back_list.on('click', function() { hide_content(); return false; });
+    buttons.back_list.on('click', function() {
+        if (!layout.list && !layout.sidebar) {
+            history.back();
+        }
+        else {
+            hide_content();
+        }
+        return false;
+    });
 
 
     // Semantic-UI style
