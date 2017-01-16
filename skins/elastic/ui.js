@@ -409,8 +409,10 @@ function rcube_elastic_ui()
                 return input.val();
             },
             hide_func = function() {
+                // TODO: This animation in Chrome does not look as good as in Firefox
                 $(bar).animate({'width': '0'}, 200, 'swing', function() {
                     all_elements.hide();
+                    $(bar).width('auto'); // fixes search button position in Chrome
                     button[is_search_pending() ? 'addClass' : 'removeClass']('active')
                         .css('display', 'inline-block')
                         .focus();
