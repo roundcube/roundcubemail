@@ -477,7 +477,7 @@ function rcube_elastic_ui()
 
         // append the new toolbar and menu button
         if (items.length) {
-            var menu_button = $('<a class="button menu-button" href="#menu">')
+            var menu_button = $('<a class="button toolbar-menu-button" href="#menu">')
                 .html('<i class="icon ellipsis vertical"></i>')
                 .attr({'data-popup': 'toolbar-menu', 'data-popup-pos': 'bottom right'});
 

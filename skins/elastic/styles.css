@@ -23,6 +23,10 @@ NOTE: below 1024px we do some UI elements bigger, as this is good (imho)
       should we rather feature detect tables/phones?
 */
 
+body {
+	font-size: 1em;
+}
+
 body > #layout {
 	overflow: hidden;
 	display: flex;
@@ -106,6 +110,9 @@ body > #layout > div > .header > a.menu-button {
 }
 
 @media screen and (max-width: 768px) { /* tablet */
+	body {
+		font-size: 1.2em;
+	}
 	#layout > div > .header > .toolbar:not(.searchbar),
 	body > #layout > div:not(.selected) {
 		display: none;
@@ -116,7 +123,10 @@ body > #layout > div > .header > a.menu-button {
 	body > #layout > div.list {
 		max-width: 100%;
 	}
-	body > #layout > div > .header > a.menu-button,
+	body > #layout > div > .header > a.menu-button {
+		display: inline;
+	}
+	body > #layout > div > .header > a.toolbar-menu-button,
 	body > #layout > div > .header > .buttons {
 		display: block;
 		float: right;
@@ -156,16 +166,9 @@ body > #layout > div > .header > a.menu-button {
 	#taskmenu a.button-logout {
 		position: relative;
 	}
-	body > #layout > div.menu a {
-		font-size: 15pt;
-	}
 }
 
 /*** Layout elements style ***/
-
-body {
-	font-size: 10pt;
-}
 
 #layout > div.content > iframe,
 #layout > div.content > .content,
@@ -193,10 +196,10 @@ body {
 #layout > div > .header,
 #layout > div > .footer {
 	background-color: #f9f9f9;
-	font-size: 12pt;
+	font-size: 1.2em;
 	font-weight: bold;
-	line-height: 30pt;
-	height: 30pt;
+	line-height: 2.4em;
+	height: 2.4em;
 	padding: 0 0.5em;
 	margin: 0;
 	position: relative; /* for absolute positioning of searchbar */
@@ -208,7 +211,6 @@ body {
 #layout > div > .footer {
 	border-top: 1px solid #ddd;
 }
-
 
 
 
@@ -314,9 +316,9 @@ body.iframe .formbuttons {
 	text-decoration: none;
 	cursor: default;
 	padding: 0 0.5em;
-	line-height: 24pt;
 	white-space: nowrap;
 	vertical-align: middle;
+	line-height: 2.4em;
 }
 
 .listing tbody td {
@@ -365,22 +367,21 @@ ul.treelist li div.treetoggle {
 	top: 0;
 	right: 0;
 	min-width: 2em;
-	line-height: 18pt;
-	margin: 3pt 8px;
-	padding: 0 3px;
+	line-height: 1.4em;
+	margin: 0.5em 0.2em;
+	padding: 0 0.3em;
 	background:  /* todo */ #1e70bf;
-	border-radius: 9px;
+	border-radius: 0.4em;
 	color: #fff;
 	text-align: center;
 	font-weight: bold;
-	font-size: 10pt;
 }
 
 ul.listing li input[type=checkbox] {
 	position: absolute;
 	top: 0;
 	right: 0.2em;
-	height: 24pt;
+	height: 2.4em;
 	vertical-align: middle;
 }
 
@@ -390,6 +391,15 @@ ul.listing li input[type=checkbox] {
 
 .folderlist li.mailbox.recent > a .unreadcount {
 	background: /* todo */;
+}
+
+.toolbar {
+	height: 2.4em;
+}
+
+.toolbar .ui.popup,
+.toolbar.ui.popup {
+	height: auto;
 }
 
 .toolbar > .spacer {
@@ -409,6 +419,10 @@ ul.listing li input[type=checkbox] {
 	z-index: 10;
 	top: 0;
 	right: 0;
+}
+
+.searchbar > * {
+	height: 2.4em;
 }
 
 .searchbar > form,
@@ -435,7 +449,7 @@ ul.listing li input[type=checkbox] {
 
 .header > .buttons > input.button {
 	padding: 0.3em 0.8em;
-	font-size: 14pt;
+	font-size: 1em;
 }
 
 /* fixes border set by accordion widget */
@@ -447,23 +461,6 @@ ul.listing li input[type=checkbox] {
 /* make some elements bigger on tablets/phones */
 /* TODO: we should/could maybe do this more globally? */
 @media screen and (max-width: 1024px) {
-	.listbox .listitem a,
-	.listbox .listitem span,
-	.listbox .tablink a,
-	.listing tbody td,
-	.listing li a {
-		line-height: 30pt;
-		font-size: 12pt;
-	}
-	ul.listing li input[type=checkbox] {
-		height: 30pt;
-	}
-	#layout > div > .footer,
-	#layout > div > .header {
-		line-height: 35pt;
-		height: 35pt;
-		font-size: 14pt;
-	}
 }
 
 @media screen and (min-width: 769px) {
@@ -498,14 +495,13 @@ button.ui.button.icon:before,
 .listing.iconized tr td:before,
 .listing.iconized li a:before,
 #taskmenu a:before {
-	font-size: 1.5em;
+	font-size: 1.25em;
 	/*display: inline-block;*/
 	/* FIXME: with inline-block we have a problem with icon alignment,
 	use display:block; float: left;
 	 */
 	display: block;
 	float: left;
-	opacity: 1;
 	margin: 0em 0.25rem 0em 0em;
 	width: 1.18em;
 	height: 1em;
@@ -524,7 +520,6 @@ button.ui.button.icon:before,
 
 button.ui.button.icon:before {
 	height: auto;
-	font-size: 1rem;
 }
 
 .toolbar a.button:before {
@@ -553,6 +548,11 @@ button.ui.button.icon:before {
 	display: block;
 	width: 60px;
 	text-align: center;
+}
+
+#taskmenu a:before {
+	font-size: 1.5em;
+	margin-bottom: 0.1em;
 }
 
 #taskmenu a.button-mail:before {
@@ -872,7 +872,7 @@ a.listmenu:focus,
 }
 
 .messagelist td.subject span {
-	line-height: 20px;
+	line-height: 2em;
 }
 
 .messagelist td.subject span.date {
@@ -883,7 +883,7 @@ a.listmenu:focus,
 }
 
 .messagelist td.subject span.fromto {
-	padding-left: 22px;
+	padding-left: 1.5em;
 	display: block;
 	margin-right: 10em;
 	overflow: hidden;
@@ -904,7 +904,7 @@ a.listmenu:focus,
 .messagelist td.subject span.subject {
 	clear: both;
 	display: block;
-	font-size: 12px;
+	font-size: 1em;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -925,4 +925,3 @@ a.listmenu:focus,
 	width: 20px;
 	height: 20px;
 }
-
