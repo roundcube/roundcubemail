@@ -73,6 +73,7 @@ body:not(.iframe) > *:not(#layout),
 body > #layout > div > .header > a.back-list-button,
 body > #layout > div > .header > a.back-sidebar-button,
 body > #layout > div > .header > .buttons,
+body > #layout > div > .header > a.toolbar-menu-button,
 body > #layout > div > .header > a.menu-button {
 	display: none;
 }
