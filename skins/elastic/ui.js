@@ -108,6 +108,9 @@ function rcube_elastic_ui()
         }
     });
 
+    // Initialize responsive toolbars (have to be before popups init)
+    toolbar_init();
+
     // Initialize menu dropdowns
     $('*[data-popup]').each(function() { popup_init(this); });
 
@@ -163,13 +166,8 @@ function rcube_elastic_ui()
         }
     }
 
-    // TODO: In phone mode convert the content toolbar into "hamburger menu"
-
     // Initialize search forms (in list headers)
     $('.header > .searchbar').each(function() { searchbar_init(this); });
-
-    // Initialize responsive toolbars
-    toolbar_init();
 
     // Make login form pretty
     if (rcmail.env.task == 'login') {
@@ -460,7 +458,7 @@ function rcube_elastic_ui()
         // TODO: dropbutton item
         // TODO: a way to inject buttons to the menu from content iframe
 
-        var items = [];
+        var items = [], buttons_with_popup = [];
 
         // convert toolbar to a popup list
         $('.header > .toolbar', layout.content).each(function() {
@@ -468,6 +466,11 @@ function rcube_elastic_ui()
 
             toolbar.children().each(function() {
                 var button = $(this).detach();
+
+                $('[data-popup]', button).each(function() {
+                    buttons_with_popup.push(this);
+                });
+
                 items.push($('<li role="menuitem">').append(button));
             });
         });
@@ -476,40 +479,44 @@ function rcube_elastic_ui()
         if (items.length) {
             var menu_button = $('<a class="button menu-button" href="#menu">')
                 .html('<i class="icon ellipsis vertical"></i>')
-                .data('popup', 'toolbar-menu')
-                .data('popup-pos', 'bottom right');
+                .attr({'data-popup': 'toolbar-menu', 'data-popup-pos': 'bottom right'});
 
             $(layout.content).children('.header')
                 // TODO: copy original toolbar attributes (class, role, aria-*)
                 .append($('<ul>').attr({'class': 'toolbar ui popup', id: 'toolbar-menu'}).append(items))
                 .append(menu_button);
 
-            popup_init(menu_button);
+            // TODO: A menu converted to a popup will be hidden on click in the body
+            //       we do not want that
         }
     }
 
+    /**
+     * Initialize a popup for specified button element
+     */
     function popup_init(item)
     {
-        var popup_id = $(item).data('popup');
-
-        $('#' + popup_id).data('button', item);
+        var popup_id = $(item).data('popup'),
+            popup = $('#' + popup_id)[0],
+            popup_position = $(item).data('popup-pos') || 'bottom left';
 
         $(item).attr({
                 'aria-haspopup': 'true',
                 'aria-expanded': 'false',
-                'aria-owns': popup_id + '-menu'
+                'aria-owns': popup_id
             })
             .popup({
-                popup: '#' + popup_id,
+                popup: popup,
                 exclusive: true,
                 on: 'click',
-                position: $(item).data('popup-pos') || 'bottom left',
+                position: popup_position,
                 lastResort: true
             });
 
         // TODO: Set aria attributes on menu show/hide
         // TODO: Set popup height so it is less that window height
-        $('#' + popup_id).attr('aria-hidden', 'true');
+        $(popup).attr('aria-hidden', 'true')
+            .data('button', item);
     }
 }
 
