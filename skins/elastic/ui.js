@@ -127,17 +127,19 @@ function rcube_elastic_ui()
     // TODO: Active button state
     var form_buttons = [];
     $('.formbuttons').children(':not(.cancel)').each(function() {
+        var target = $(this);
+
         // skip non-content buttons
-        if (!rcmail.is_framed() && !this.parents('.content').length) {
+        if (!rcmail.is_framed() && !target.parents('.content').length) {
             return;
         }
 
-        var target = this, button = $(this).clone();
+        var button = target.clone();
 
         form_buttons.push(
             button.attr({'onclick': '', disabled: false, id: button.attr('id') + '-clone'})
                 .data('target', target)
-                .on('click', function(e) { $(target).click(); })
+                .on('click', function(e) { target.click(); })
         );
     });
 
