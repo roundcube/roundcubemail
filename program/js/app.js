@@ -559,14 +559,7 @@ function rcube_webmail()
         else if (this.gui_objects.responseslist) {
           this.responses_list = new rcube_list_widget(this.gui_objects.responseslist, {multiselect:false, draggable:false, keyboard:true});
           this.responses_list
-            .addEventListener('select', function(list) {
-              var win, id = list.get_single_selection();
-              ref.enable_command('delete', !!id && $.inArray(id, ref.env.readonly_responses) < 0);
-              if (id && (win = ref.get_frame_window(ref.env.contentframe))) {
-                ref.set_busy(true);
-                ref.location_href({ _action:'edit-response', _key:id, _framed:1 }, win);
-              }
-            })
+            .addEventListener('select', function(o) { ref.response_select(o); })
             .init()
             .focus();
         }
@@ -920,24 +913,15 @@ function rcube_webmail()
       case 'add':
         if (this.task == 'addressbook')
           this.load_contact(0, 'add');
-        else if (this.task == 'settings' && this.env.action == 'responses') {
-          var frame;
-          if ((frame = this.get_frame_window(this.env.contentframe))) {
-            this.set_busy(true);
-            this.location_href({ _action:'add-response', _framed:1 }, frame);
-          }
-        }
-        else if (this.task == 'settings') {
-          this.identity_list.clear_selection();
+        else if (this.task == 'settings' && this.env.action == 'responses')
+          this.load_response(0, 'add-response');
+        else if (this.task == 'settings')
           this.load_identity(0, 'add-identity');
-        }
         break;
 
       case 'edit':
         if (this.task == 'addressbook' && (cid = this.get_single_cid()))
           this.load_contact(cid, 'edit');
-        else if (this.task == 'settings' && props)
-          this.load_identity(props, 'edit-identity');
         else if (this.task == 'mail' && (uid = this.get_single_uid())) {
           url = { _mbox: this.get_message_mailbox(uid) };
           url[this.env.mailbox == this.env.drafts_mailbox && props != 'new' ? '_draft_uid' : '_uid'] = uid;
@@ -6682,25 +6666,46 @@ function rcube_webmail()
   // preferences section select and load options frame
   this.section_select = function(list)
   {
-    var win, id = list.get_single_selection(), target = window,
-      url = {_action: 'edit-prefs', _section: id};
+    var win, id = list.get_single_selection();
+
+    if (id && (win = this.get_frame_window(this.env.contentframe))) {
+      this.location_href({_action: 'edit-prefs', _section: id, _framed: 1}, win, true);
+    }
+  };
+
+  this.response_select = function(list)
+  {
+    var id = list.get_single_selection();
+
+    this.enable_command('delete', !!id && $.inArray(id, this.env.readonly_responses) < 0);
 
     if (id) {
-      if (win = this.get_frame_window(this.env.contentframe)) {
-        url._framed = 1;
-        target = win;
-      }
-      this.location_href(url, target, true);
+      this.load_response(id, 'edit-response');
     }
+  };
 
-    return true;
+  // load response record
+  this.load_response = function(id, action)
+  {
+    var win;
+
+    if (win = this.get_frame_window(this.env.contentframe)) {
+      if (id || action == 'add-response') {
+        if (!id)
+          this.responses_list.clear_selection();
+
+        this.location_href({_action: action, _key: id, _framed: 1}, win, true);
+      }
+    }
   };
 
   this.identity_select = function(list)
   {
-    var id;
-    if (id = list.get_single_selection()) {
-      this.enable_command('delete', list.rowcount > 1 && this.env.identities_level < 2);
+    var id = list.get_single_selection();
+
+    this.enable_command('delete', !!id && list.rowcount > 1 && this.env.identities_level < 2);
+
+    if (id) {
       this.load_identity(id, 'edit-identity');
     }
   };
@@ -6708,22 +6713,16 @@ function rcube_webmail()
   // load identity record
   this.load_identity = function(id, action)
   {
-    if (action == 'edit-identity' && (!id || id == this.env.iid))
-      return false;
-
-    var win, target = window,
-      url = {_action: action, _iid: id};
+    var win;
 
     if (win = this.get_frame_window(this.env.contentframe)) {
-      url._framed = 1;
-      target = win;
-    }
+      if (id || action == 'add-identity') {
+        if (!id)
+          this.identity_list.clear_selection();
 
-    if (id || action == 'add-identity') {
-      this.location_href(url, target, true);
+        this.location_href({_action: action, _iid: id, _framed: 1}, win, true);
+      }
     }
-
-    return true;
   };
 
   this.delete_identity = function(id)
