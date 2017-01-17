@@ -353,7 +353,7 @@ function rcmail_user_prefs($current = null)
                                 'alt'     => $skin,
                                 'width'   => 64,
                                 'height'  => 64,
-                                'onerror' => "this.src = rcmail.assets_path('program/resources/blank.gif')",
+                                'onerror' => "this.src = rcmail.assets_path('program/resources/blank.gif'); this.onerror = null",
                         ));
 
                         $skinnames[] = mb_strtolower($skinname);
