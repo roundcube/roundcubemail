@@ -25,6 +25,7 @@ NOTE: below 1024px we do some UI elements bigger, as this is good (imho)
 
 body {
 	font-size: 1em;
+	min-width: 240px; /* reset semantic-ui's limit of 320px */
 }
 
 body > #layout {
@@ -41,26 +42,29 @@ body > #layout > div.menu {
 	background-color: #222;
 }
 
-body > #layout > div.sidebar {
+#layout > div.sidebar,
+#layout > div.list {
 	display: flex;
 	flex-grow: 2;
 	flex-direction: column;
-	min-width: 220px;
-}
-
-body > #layout > div.list {
-	display: flex;
-	flex-grow: 3;
-	flex-direction: column;
-	min-width: 280px;
+	min-width: 300px;
 	max-width: 30%;
+	border-right: 1px solid #ddd;
 }
 
 body > #layout > div.content {
 	display: flex;
-	flex-grow: 7;
+	flex-grow: 6;
 	flex-direction: column;
 	min-width: 50%;
+}
+
+body > #layout > div.sidebar {
+	min-width: 220px;
+}
+
+body > #layout > div.list {
+	min-width: 300px;
 }
 
 body > #layout > div.menu a,
@@ -78,17 +82,59 @@ body > #layout > div > .header > a.menu-button {
 	display: none;
 }
 
+#layout > div .toolbar {
+	float: right;
+}
+
+#layout > div.content > iframe,
+#layout > div.content > .content,
+#layout > div.content > .content > iframe {
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+	border: 0;
+	flex: 1;
+}
+
+#layout > div > .scroller {
+	flex: 1;
+}
+
+#layout > .content.only > .scroller {
+	overflow: auto;
+}
+
+#layout > div > .header,
+#layout > div > .footer {
+	background-color: #f9f9f9;
+	font-size: 1.2em;
+	font-weight: bold;
+	line-height: 2.4em;
+	height: 2.4em;
+	padding: 0 0.5em;
+	margin: 0;
+	position: relative; /* for absolute positioning of searchbar */
+	/* overflow: hidden; breaks semantic-ui popups */
+}
+#layout > div > .header {
+	border-bottom: 1px solid #ddd;
+}
+#layout > div > .footer {
+	border-top: 1px solid #ddd;
+}
+
 #taskmenu a.button-logout {
 	position: absolute;
 	bottom: 0;
 	color: grey;
 }
 
-#layout > div .toolbar {
-	float: right;
-}
 
 @media screen and (max-width: 1200px) { /* small */
+	body > #layout > div.sidebar,
+	body > #layout > div.list {
+		min-width: 260px;
+	}
 	body > #layout > div:not(.selected),
 	body > #layout > div.menu span.button-inner {
 		display: none;
@@ -169,48 +215,15 @@ body > #layout > div > .header > a.menu-button {
 	}
 }
 
-/*** Layout elements style ***/
-
-#layout > div.content > iframe,
-#layout > div.content > .content,
-#layout > div.content > .content > iframe {
-	height: 100%;
-	width: 100%;
-	overflow: auto;
-	border: 0;
-	flex: 1;
-}
-
-#layout > div.sidebar,
-#layout > div.list {
-	border-right: 1px solid #ddd;
-}
-
-#layout > div > .scroller {
-	flex: 1;
-}
-
-#layout > .content.only > .scroller {
-	overflow: auto;
-}
-
-#layout > div > .header,
-#layout > div > .footer {
-	background-color: #f9f9f9;
-	font-size: 1.2em;
-	font-weight: bold;
-	line-height: 2.4em;
-	height: 2.4em;
-	padding: 0 0.5em;
-	margin: 0;
-	position: relative; /* for absolute positioning of searchbar */
-	/* overflow: hidden; breaks semantic-ui popups */
-}
-#layout > div > .header {
-	border-bottom: 1px solid #ddd;
-}
-#layout > div > .footer {
-	border-top: 1px solid #ddd;
+@media screen and (max-width: 319px) {
+	#layout > div > .header > .buttons > button:before {
+		content: "" !important;
+		float: none !important;
+	}
+	body > #layout > div.sidebar,
+	body > #layout > div.list {
+		min-width: 240px;
+	}
 }
 
 
