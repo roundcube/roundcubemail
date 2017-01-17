@@ -144,8 +144,11 @@ function rcube_elastic_ui()
     });
 
     if (form_buttons.length) {
-        if (rcmail.is_framed())
-            parent.UI.register_frame_buttons(form_buttons);
+        if (rcmail.is_framed()) {
+            if (parent.UI) {
+                parent.UI.register_frame_buttons(form_buttons);
+            }
+        }
         else
             register_frame_buttons(form_buttons);
     }

@@ -167,6 +167,7 @@ body > #layout > div > .header > a.menu-button {
 	body > #layout > div.menu {
 		display: flex;
 	}
+	body > #layout > div.sidebar,
 	body > #layout > div.list {
 		max-width: 100%;
 	}
@@ -238,7 +239,7 @@ body > #layout > div > .header > a.menu-button {
 
 #login-form {
 	margin: auto;
-	width: 100%;
+	width: 95%;
 	max-width: 320px;
 }
 
@@ -248,7 +249,6 @@ body > #layout > div > .header > a.menu-button {
 
 #login-form div.ui.input {
 	width: 100%;
-	max-width: 310px;
 	margin-bottom: 1em;
 }
 
@@ -286,6 +286,10 @@ body.iframe .formbuttons {
 
 #messagestack div a {
 	color: #94c0da;
+}
+
+#messagestack div i.icon {
+	font-size: 2em !important;
 }
 
 #messagestack div a:hover {
