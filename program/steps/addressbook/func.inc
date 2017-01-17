@@ -860,7 +860,7 @@ function rcmail_contact_photo($attrib)
     $content = html::div($attrib, html::img(array(
             'src'     => $photo_img,
             'alt'     => $RCMAIL->gettext('contactphoto'),
-            'onerror' => 'this.src = rcmail.env.photo_placeholder',
+            'onerror' => 'this.src = rcmail.env.photo_placeholder; this.onerror = null',
     )));
 
     if ($CONTACT_COLTYPES['photo'] && ($RCMAIL->action == 'edit' || $RCMAIL->action == 'add')) {
