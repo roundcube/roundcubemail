@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix missing thread expand icon on search result in widescreen mode (#5613)
 - Fix bug where image data URIs in css style were treated as evil/remote in mail preview (#5580)
 - Fix bug where external content in src attribute of input/video tags was not secured (#5583)
 - Fix PHP error on update of a contact with multiple email addresses when using PHP 7.1 (#5587)
