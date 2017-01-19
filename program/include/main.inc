@@ -905,7 +905,7 @@ function rcmail_mailbox_list($attrib)
     'list'      => $a_mailboxes,
     'delimiter' => $delimiter,
     'type'      => $type,
-    'attribs'   => $attrib,
+    'attribs'   => $attrib
   ));
 
   $a_mailboxes = $hook['list'];
