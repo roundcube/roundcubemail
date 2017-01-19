@@ -59,9 +59,12 @@ function rcube_elastic_ui()
             }
         };
 
-    rcmail.addEventListener('afterlist', list_handler);
-    rcmail.addEventListener('afterlistgroup', list_handler);
-    rcmail.addEventListener('message', message_displayed);
+    rcmail
+        .addEventListener('afterlist', list_handler)
+        .addEventListener('afterlistgroup', list_handler)
+        .addEventListener('message', message_displayed)
+        .addEventListener('menu-open', menu_toggle)
+        .addEventListener('menu-close', menu_toggle);
 
     // menu/sidebar button
     buttons.menu.on('click', function() { show_menu(); return false; });
@@ -197,6 +200,14 @@ function rcube_elastic_ui()
         table.after(inputs);
     }
 
+    // Intercept jQuery-UI dialogs to re-style them
+    $.widget('ui.dialog', $.ui.dialog, {
+      open: function() {
+        this._super();
+        dialog_open(this);
+        return this;
+      }
+    });
 
     // window resize handler
     function resize()
@@ -501,7 +512,7 @@ function rcube_elastic_ui()
             // TODO: A menu converted to a popup will be hidden on click in the body
             //       we do not want that
         }
-    }
+    };
 
     /**
      * Initialize a popup for specified button element
@@ -529,7 +540,89 @@ function rcube_elastic_ui()
         // TODO: Set popup height so it is less that window height
         $(popup).attr('aria-hidden', 'true')
             .data('button', item);
-    }
+    };
+
+    /**
+     * Set UI dialogs size/style depending on screen size
+     */
+    function dialog_open(dialog)
+    {
+        var me = $(dialog.uiDialog),
+            width = me.width(),
+            height = me.height(),
+            maxWidth = $(window).width(),
+            maxHeight = $(window).height();
+
+        if (maxWidth <= 480) {
+            me.css({width: '100%', height: '100%'});
+        }
+        else {
+            if (height > maxHeight) {
+                me.css('height', '100%');
+            }
+            if (width > maxWidth) {
+                me.css('width', '100%');
+            }
+        }
+
+        // TODO: style buttons/forms
+    };
+
+    /**
+     * Handler for menu-open and menu-close events
+     */
+    function menu_toggle(p)
+    {
+        if (p && p.name == 'messagelistmenu') {
+            menu_messagelist(p);
+        }
+    };
+
+    /**
+     * Messages list options dialog
+     */
+    function menu_messagelist(p)
+    {
+        var content = $('#listoptions-menu'),
+            width = content.width() + 25,
+            dialog = content.clone();
+
+        // set form values
+        $('input[name="sort_col"][value="'+rcmail.env.sort_col+'"]', dialog).prop('checked', true);
+        $('input[name="sort_ord"][value="DESC"]', dialog).prop('checked', rcmail.env.sort_order == 'DESC');
+        $('input[name="sort_ord"][value="ASC"]', dialog).prop('checked', rcmail.env.sort_order != 'DESC');
+
+        // set checkboxes
+        $('input[name="list_col[]"]', dialog).each(function() {
+            $(this).prop('checked', $.inArray(this.value, rcmail.env.listcols) != -1);
+        });
+
+        dialog.removeClass('popup');
+
+        var save_func = function(e) {
+            if (rcube_event.is_keyboard(e.originalEvent)) {
+                $('#listmenulink').focus();
+            }
+
+            var sort = $('input[name="sort_col"]:checked', dialog).val(),
+                ord = $('input[name="sort_ord"]:checked', dialog).val(),
+                layout = $('input[name="layout"]:checked', dialog).val(),
+                cols = $('input[name="list_col[]"]:checked', dialog)
+                    .map(function() { return this.value; }).get();
+
+            rcmail.set_list_options(cols, sort, ord, rcmail.env.threading, layout);
+            return true;
+        };
+
+        rcmail.simple_dialog(dialog, rcmail.gettext('listoptionstitle'), save_func, {
+            closeOnEscape: true,
+            open: function(e) {
+                setTimeout(function() { dialog.find('a, input:not(:disabled)').not('[aria-disabled=true]').first().focus(); }, 100);
+            },
+            minWidth: 500,
+            width: width
+        });
+    };
 }
 
 var UI = new rcube_elastic_ui();
