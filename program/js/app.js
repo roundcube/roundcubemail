@@ -7645,8 +7645,8 @@ function rcube_webmail()
       buttons = [{
         text: this.get_label((options || {}).button || 'save'),
         'class': 'mainaction',
-        click: function() {
-          if (button_func())
+        click: function(e) {
+          if (button_func(e))
             $(this).dialog('close');
         }
       },
