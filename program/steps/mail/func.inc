@@ -450,7 +450,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
     $a_headers   = $plugin['messages'];
 
     if ($RCMAIL->config->get('layout', 'widescreen') == 'widescreen') {
-        if (!$OUTPUT->get_env('threading')) {
+        if (!$RCMAIL->storage->get_threading()) {
             if (($idx = array_search('threads', $a_show_cols)) !== false) {
                 unset($a_show_cols[$idx]);
             }
