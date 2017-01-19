@@ -123,6 +123,13 @@ function rcube_mail_ui()
   {
     rcmail.addEventListener('message', message_displayed);
 
+    $.widget('ui.dialog', $.ui.dialog, {
+      open: function() {
+        this._super();
+        dialog_open(this);
+        return this;
+      }});
+
     /*** prepare minmode functions ***/
     $('#taskbar a').each(function(i,elem){
       $(elem).append('<span class="tooltip">' + $('.button-inner', this).html() + '</span>')
@@ -458,6 +465,22 @@ function rcube_mail_ui()
       if (p.timeout > 0)
         me.message_timer = window.setTimeout(dialog_close, p.timeout);
     }
+  }
+
+  // modify dialog position to fully fit the close button into the window
+  function dialog_open(dialog)
+  {
+    var me = $(dialog.uiDialog),
+      offset = me.offset(),
+      position = me.position(),
+      width = me.outerWidth(),
+      maxWidth = $(window).width(),
+      topOffset = offset.top - 12;
+
+    if (topOffset < 0)
+      me.css('top', position.top - topOffset);
+    if (offset.left + width + 12 > maxWidth)
+      me.css('left', position.left - 12);
   }
 
   // Mail view layout initialization and change handler
