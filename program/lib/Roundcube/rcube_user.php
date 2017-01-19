@@ -81,6 +81,14 @@ class rcube_user
             $sql_arr = $this->db->fetch_assoc($sql_result);
         }
 
+        // BUGFIX: Fix for database replication.
+        // Verifying if the user gotten is the same from the user SESSION
+        if ($sql_arr['username']!=$_SESSION['username']){
+            $renew_user = rcube_user::query($_SESSION['username'], $_SESSION['imap_host']); 
+            $_SESSION['user_id'] = $renew_user->ID; // setting the new session
+            $sql_arr = $renew_user->data; //
+        }
+
         if (!empty($sql_arr)) {
             $this->ID       = $sql_arr['user_id'];
             $this->data     = $sql_arr;
