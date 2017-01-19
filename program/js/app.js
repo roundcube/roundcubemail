@@ -1859,7 +1859,7 @@ function rcube_webmail()
     if (list.multi_selecting || !this.env.contentframe)
       return;
 
-    if (list.get_single_selection())
+    if (!list.get_single_selection())
       return;
 
     var win = this.get_frame_window(this.env.contentframe);
