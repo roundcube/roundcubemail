@@ -447,4 +447,7 @@ $labels['vietnamese'] = 'Vietnamien';
 $labels['japanese'] = 'Japonais';
 $labels['korean'] = 'Coréen';
 $labels['chinese'] = 'Chinois';
+$labels['forwardmode'] = 'Transfert des messages';
+$labels['inline'] = 'dans le corps';
+$labels['asattachment'] = 'en pièce jointe';
 
