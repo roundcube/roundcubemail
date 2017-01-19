@@ -54,6 +54,7 @@ $labels['priority'] = 'Priority';
 $labels['organization'] = 'Organization';
 $labels['readstatus'] = 'Read status';
 $labels['listoptions'] = 'List options...';
+$labels['listoptionstitle'] = 'List options';
 
 $labels['mailboxlist'] = 'Folders';
 $labels['messagesfromto'] = 'Messages $from to $to of $count';
