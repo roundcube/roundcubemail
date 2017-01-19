@@ -244,10 +244,6 @@ input.button[disabled]:hover {
 	box-shadow: 0 1px 1px 0 rgba(160, 160, 160, 0.4);
 }
 
-a.button.disabled span.inner {
-	opacity: 0.4;
-}
-
 .buttongroup a.button {
 	margin: 0;
 	border-width: 0 1px 0 0;
