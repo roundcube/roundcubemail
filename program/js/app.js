@@ -4321,6 +4321,9 @@ function rcube_webmail()
 
     obj.keydown(function(e) { return ref.ksearch_keydown(e, this, props); })
       .attr({ 'autocomplete': 'off', 'aria-autocomplete': 'list', 'aria-expanded': 'false', 'role': 'combobox' });
+
+    // hide the popup on any click
+    $(document).on('click', function() { ref.ksearch_hide(); });
   };
 
   this.submit_messageform = function(draft, saveonly)
@@ -5403,8 +5406,7 @@ function rcube_webmail()
     if (this.ksearch_timer)
       clearTimeout(this.ksearch_timer);
 
-    var key = rcube_event.get_keycode(e),
-      mod = rcube_event.get_modifier(e);
+    var key = rcube_event.get_keycode(e);
 
     switch (key) {
       case 38:  // arrow up
@@ -5423,12 +5425,6 @@ function rcube_webmail()
 
         return rcube_event.cancel(e);
 
-      case 9:   // tab
-        if (mod == SHIFT_KEY || !this.ksearch_visible()) {
-          this.ksearch_hide();
-          return;
-        }
-
       case 13:  // enter
         if (!this.ksearch_visible())
           return false;
@@ -5439,6 +5435,7 @@ function rcube_webmail()
 
         return rcube_event.cancel(e);
 
+      case 9:   // tab
       case 27:  // escape
         this.ksearch_hide();
         return;
