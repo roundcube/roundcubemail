@@ -171,9 +171,6 @@ body > #layout > div > .header > a.menu-button {
 	body > #layout > div.list {
 		max-width: 100%;
 	}
-	body > #layout > div > .header > a.menu-button {
-		display: inline;
-	}
 	body > #layout > div > .header > a.toolbar-menu-button,
 	body > #layout > div > .header > .buttons {
 		display: block;
