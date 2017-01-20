@@ -61,7 +61,7 @@ if (strtolower($input) == 'y') {
       rcube::raise_error("Failed to execute command: $command", false, true);
     }
   }
-  foreach (array('index.php','.htaccess','config/defaults.inc.php','composer.json-dist','CHANGELOG','README.md','UPGRADING','LICENSE','INSTALL') as $file) {
+  foreach (array('index.php','.htaccess','config/defaults.inc.php','composer.json-dist','jsdeps.json','CHANGELOG','README.md','UPGRADING','LICENSE','INSTALL') as $file) {
     $command = "rsync -a --out-format \"%n\" " . INSTALL_PATH . "$file $target_dir/$file";
     if (file_exists(INSTALL_PATH . $file) && (!system($command, $ret) || $ret > 0)) {
       rcube::raise_error("Failed to execute command: $command", false, true);
