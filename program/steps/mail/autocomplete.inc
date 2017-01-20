@@ -24,7 +24,7 @@ if ($RCMAIL->action == 'group-expand') {
     $abook = $RCMAIL->get_address_book(rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC));
     if ($gid = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC)) {
         $abook->set_group($gid);
-        $abook->set_pagesize(1000);  // TODO: limit number of group members by config
+        $abook->set_pagesize(9999);  // TODO: limit number of group members by config?
 
         $separator = trim($RCMAIL->config->get('recipients_separator', ',')) . ' ';
         $result    = $abook->list_records($RCMAIL->config->get('contactlist_fields'));
