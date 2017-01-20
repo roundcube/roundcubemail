@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix autocomplete popup closing with click outside the input, don't handle Tab key as Enter (#5606)
 - Fix jsdeps.json synchronization on update, warn about missing requirements of install-jsdeps.sh (#5598)
 - Fix missing thread expand icon on search result in widescreen mode (#5613)
 - Fix bug where image data URIs in css style were treated as evil/remote in mail preview (#5580)
