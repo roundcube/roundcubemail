@@ -1,3 +1,7 @@
+@import (reference) "fontawesome.less";
+@import (reference) "layout.less";
+@import (reference) "colors.less";
+
 /*** Responsive design - Layout ***/
 
 /*
@@ -19,13 +23,13 @@
    ------------------------
 
 NOTE: below 1024px we do some UI elements bigger, as this is good (imho)
-      assumption that in this size we're dealing with touch device, is it?
+      assumption that in this size we're dealing with touch device. Is it?
       should we rather feature detect tables/phones?
 */
 
 body {
-	font-size: 1em;
-	min-width: 240px; /* reset semantic-ui's limit of 320px */
+	font-size: @page-font-size;
+	min-width: @page-min-width; /* overwrite semantic-ui's limit of 320px */
 }
 
 body > #layout {
@@ -39,7 +43,7 @@ body > #layout {
 
 body > #layout > div.menu {
 	width: 60px;
-	background-color: #222;
+	background-color: @taskmenu-background-color;
 }
 
 #layout > div.sidebar,
@@ -49,7 +53,7 @@ body > #layout > div.menu {
 	flex-direction: column;
 	min-width: 300px;
 	max-width: 30%;
-	border-right: 1px solid #ddd;
+	border-right: 1px solid @layout-border-color;
 }
 
 body > #layout > div.content {
@@ -106,7 +110,7 @@ body > #layout > div > .header > a.menu-button {
 
 #layout > div > .header,
 #layout > div > .footer {
-	background-color: #f9f9f9;
+	background-color: @layout-header-background-color;
 	font-size: 1.2em;
 	font-weight: bold;
 	line-height: 2.4em;
@@ -126,7 +130,7 @@ body > #layout > div > .header > a.menu-button {
 #taskmenu a.button-logout {
 	position: absolute;
 	bottom: 0;
-	color: grey;
+	color: @taskmenu-logout-button-color;
 }
 
 
@@ -220,7 +224,7 @@ body > #layout > div > .header > a.menu-button {
 	}
 	body > #layout > div.sidebar,
 	body > #layout > div.list {
-		min-width: 240px;
+		min-width: @page-min-width;
 	}
 }
 
@@ -282,7 +286,7 @@ body.iframe .formbuttons {
 }
 
 #messagestack div a {
-	color: #94c0da;
+	color: #94c0da; /* TODO: less'ify this color */
 }
 
 #messagestack div i.icon {
@@ -387,7 +391,7 @@ ul.treelist li div.treetoggle {
 	padding: 0 0.3em;
 	background:  /* todo */ #1e70bf;
 	border-radius: 0.4em;
-	color: #fff;
+	color: @badge-font-color;
 	text-align: center;
 	font-weight: bold;
 }
@@ -430,7 +434,7 @@ ul.listing li input[type=checkbox] {
 	display: table;
 	text-align: right;
 	position: absolute;
-	background-color: #f9f9f9;
+	background-color: @layout-header-background-color;
 	z-index: 10;
 	top: 0;
 	right: 0;
@@ -459,7 +463,7 @@ ul.listing li input[type=checkbox] {
 }
 
 .searchbar > a.button.search.active {
-	color: green;
+	color: @searchbar-icon-active-color;
 }
 
 .header > .buttons > input.button {
@@ -571,209 +575,212 @@ button.ui.button.icon:before {
 }
 
 #taskmenu a.button-mail:before {
-	content: "\f0e0";
+	content: @fa-var-envelope;
 }
 #taskmenu a.button-addressbook:before {
-	content: "\f007";
+	content: @fa-var-user;
 }
 #taskmenu a.button-settings:before {
-	content: "\f013";
+	content: @fa-var-cog;
 }
 #taskmenu a.button-help:before {
-	content: "\f1cd"; /* i.icon.life.ring */
+	content: @fa-var-life-bouy;
 }
 #taskmenu a.button-logout:before {
-	content: "\f011";
+	content: @fa-var-power-off;
 }
 #taskmenu a.button-logout:hover {
-	color: red;
+	color: @taskmenu-logout-button-hover-color;
 }
 
 .listing.iconized li.preferences > a:before {
-	content: "\f1de";
+	content: @fa-var-sliders;
 }
 .listing.iconized li.folders > a:before {
-	content: "\f07b";
+	content: @fa-var-folder;
 }
 .listing.iconized li.responses > a:before {
-	content: "\f075";
+	content: @fa-var-comment;
 }
 .listing.iconized li.identities > a:before {
-	content: "\f1fa"; /* i.icon.at */
+	content: @fa-var-at;
 }
 .listing.iconized li.password > a:before {
-	content: "\f023";
+	content: @fa-var-lock;
 }
 .listing.iconized li.addressbook a:before {
-	content: "\f02d"; /* i.icon.book */
+	content: @fa-var-book;
 }
 .listing.iconized li.contactgroup a:before {
-	content: "\f0c0";
+	content: @fa-var-group;
+}
+.listing.iconized li.contactsearch a:before {
+	content: @fa-var-search;
 }
 .listing.iconized tr.contact.person td.name:before {
-	content: "\f007";
+	content: @fa-var-user;
 }
 .listing.iconized tr.general > td.section:before {
-	content: "\f108";
+	content: @fa-var-desktop;
 }
 .listing.iconized tr.mailbox > td.section:before {
-	content: "\f003";
+	content: @fa-var-envelope-o;
 }
 .listing.iconized tr.mailview > td.section:before {
-	content: "\f01c";
+	content: @fa-var-inbox;
 }
 .listing.iconized tr.compose > td.section:before {
-	content: "\f1d8";
+	content: @fa-var-paper-plane;
 }
 .listing.iconized tr.addressbook > td.section:before {
-	content: "\f007";
+	content: @fa-var-user;
 }
 .listing.iconized tr.folders > td.section:before {
-	content: "\f114";
+	content: @fa-var-folder-o;
 }
 .listing.iconized tr.server > td.section:before {
-	content: "\f233";
+	content: @fa-var-server;
 }
 
 .folderlist li a:before {
-	content: "\f114"; /* i.icon.folder.outline */
+	content: @fa-var-folder-o;
 }
 .folderlist li.inbox a:before {
-	content: "\f01c"; /* i.icon.inbox */
+	content: @fa-var-inbox;
 }
 .folderlist li.trash a:before {
-	content: "\f1f8"; /* i.icon.trash */
+	content: @fa-var-trash;
 }
 .folderlist li.trash.empty a:before {
-	content: "\f014"; /* i.icon.trash.outline */
+	content: @fa-var-trash-o;
 }
 .folderlist li.drafts a:before {
-	content: "\f044"; /* i.icon.edit */
+	content: @fa-var-edit;
 }
 .folderlist li.sent a:before {
-	content: "\f1d8"; /* i.icon.send */
+	content: @fa-var-paper-plane;
 }
 .folderlist li.junk a:before {
-	content: ""; /* i.icon. TODO */
+	content: ""; /* TODO */
 }
 .folderlist li.archive a:before {
-	content: "\f187"; /* i.icon.archive */
+	content: @fa-var-archive;
 }
 
 .toolbarmenu li a.print:before {
-	content: "\f02f"; /* i.icon.print */
+	content: @fa-var-print;
 }
 .toolbarmenu li a.copy:before {
-	content: "\f0c5"; /* i.icon.copy */
+	content: @fa-var-copy;
 }
 .toolbarmenu li a.move:before {
-	content: "\f047"; /* i.icon.move */
+	content: @fa-var-arrows;
 }
 .toolbarmenu li a.source:before {
-	content: "\f0c3"; /* i.icon.lab */
+	content: @fa-var-flask;
 }
 .toolbarmenu li a.download:before {
-	content: "\f019"; /* i.icon.download */
+	content: @fa-var-download;
 }
 .toolbarmenu li a.extwin:before {
-	content: "\f08e"; /* i.icon.external */
+	content: @fa-var-external-link;
 }
 .toolbarmenu li a.edit:before {
-	content: "\f044"; /* i.icon.edit, TODO: edit.asnew */
+	content: @fa-var-edit; /* TODO: edit.asnew */
 }
 .toolbarmenu li a.read:before {
-	content: "\f006"; /* i.icon.empty.star */
+	content: @fa-var-star-o;
 }
 .toolbarmenu li a.unread:before {
-	content: "\f005"; /* i.icon.star */
+	content: @fa-var-star;
 }
 .toolbarmenu li a.flag:before {
-	content: "\f024"; /* i.icon.flag */
+	content: @fa-var-flag;
 }
 .toolbarmenu li a.unflag:before {
-	content: "\f11d"; /* i.icon.flag.outline */
+	content: @fa-var-flag-o;
 }
 .toolbar a.button.reply:before {
-	content: "\f112"; /* i.icon.reply */
+	content: @fa-var-mail-reply;
 }
 .toolbar a.button.reply-all:before {
-	content: "\f122"; /* i.icon.reply.all */
+	content: @fa-var-mail-reply-all;
 }
 .toolbar a.button.forward:before {
-	content: "\f064"; /* i.icon.mail.forward */
+	content: @fa-var-mail-forward;
 }
 .toolbar a.button.delete:before {
-	content: "\f014"; /* i.icon.trash.outline */
+	content: @fa-var-trash-o;
 }
 .toolbar a.button.markmessage:before {
-	content: "\f02b"; /* i.icon.tag */
+	content: @fa-var-tag;
 }
 .toolbar a.button.more:before {
-	content: "\f141"; /* i.icon.ellipsis.horizontal */
+	content: @fa-var-ellipsis-h;
 }
 .toolbar a.button.dropdown:before {
-	content: "\f0d7"; /* i.icon.dropdown */
+	content: @fa-var-caret-down;
 }
 .toolbar a.button.settings:before {
-	content: "\f013"; /* i.icon.setting */
+	content: @fa-var-cog;
 }
 .toolbar a.button.print:before {
-	content: "\f02f"; /* i.icon.print */
+	content: @fa-var-print;
 }
 .toolbar a.button.search:before {
-	content: "\f002"; /* i.icon.search */
+	content: @fa-var-search;
 }
 .toolbar a.button.upload:before,
 .toolbar a.button.import:before {
-	content: "\f093"; /* i.icon.upload */
+	content: @fa-var-upload;
 }
 .toolbar a.button.download:before,
 .toolbar a.button.export:before {
-	content: "\f019"; /* i.icon.download */
+	content: @fa-var-download;
 }
 .toolbar a.button.compose:before {
-	content: "\f044"; /* i.icon.edit */
+	content: @fa-var-edit;
 }
 .toolbar a.button.refresh:before {
-	content: "\f021"; /* i.icon.refresh */
+	content: @fa-var-refresh;
 }
 .toolbar a.button.archive:before {
-	content: "\f187"; /* i.icon.archive */
+	content: @fa-var-archive;
 }
 .toolbar a.button.encrypt:before {
-	content: "\f023"; /* i.icon.lock */
+	content: @fa-var-lock;
 }
 .toolbar a.button.firstpage:before {
-	content: "\f049"; /* i.icon.fask.backward */
+	content: @fa-var-fast-backward;
 }
 .toolbar a.button.prevpage:before {
-	content: "\f04a"; /* i.icon.backward */
+	content: @fa-var-backward;
 }
 .toolbar a.button.nextpage:before {
-	content: "\f04e"; /* i.icon.forward */
+	content: @fa-var-forward;
 }
 .toolbar a.button.lastpage:before {
-	content: "\f050"; /* i.icon.fast.forward */
+	content: @fa-var-fast-forward;
 }
 
 .searchbar > a.button.reset:before {
-	content: "\f00d"; /* i.icon.remove */
+	content: @fa-var-remove;
 }
 .searchbar > a.button.options:before {
-	content: "\f107"; /* i.icon.angle.down */
+	content: @fa-var-angle-down;
 }
 
 button.icon.save:before {
-  content: "\f00c"; /* i.icon.checkmark */
+  content: @fa-var-check;
 }
 button.icon.edit:before {
-	content: "\f040"; /* i.icon.write */
+	content: @fa-var-pencil;
 }
 button.icon.qrcode:before {
-  content: "\f029"; /* i.icon.qrcode */
+  content: @fa-var-qrcode;
 }
 button.icon.search:before {
-	content: "\f002"; /* i.icon.search */
+	content: @fa-var-search;
 }
 
 
@@ -786,81 +793,7 @@ button.icon.search:before {
 table.fixedcopy {
 	display: none;
 }
-/*
-#messagelistcontainer {
-	top: 34px;
-	overflow-x: hidden;
-}
 
-#messagelistheader {
-	display: block;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 34px;
-	padding: 6px 6px;
-	background: #f0f0f0;
-	background: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f0f0));
-	background: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
-	background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
-	border-radius: 4px 4px 0 0;
-	white-space: nowrap;
-	border-bottom: 1px solid #dfdfdf;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-#messagelistheader .listmenu {
-	margin-right: 10px;
-	vertical-align: middle;
-	line-height: 22px;
-	width: 26px;
-	padding: 0;
-	text-indent: -5000px;
-	overflow: hidden;
-	display: inline-block;
-	background: url(images/listicons.png) 0 -2330px no-repeat;
-}
-
-#countcontrols {
-	line-height: 24px;
-	display: inline;
-	min-width: 0;
-}
-
-#countcontrols span {
-	padding: 0;
-}
-
-.pagenavbuttons {
-	position: absolute;
-	top: 4px;
-	right: 6px;
-}
-
-.pagenavbuttons a.button {
-	background: none;
-	border: 0;
-	box-shadow: none;
-	padding: 2px;
-	margin: 0;
-	height: 20px;
-}
-
-.pagenavbuttons a.button.pressed {
-	background: inherit;
-}
-
-a.listmenu:focus,
-.pagenav a.button:focus {
-	border-color: #4fadd5;
-	box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
-	outline: none;
-}
-*/
 .messagelist td {
 	border-left: 0;
 	vertical-align: top;
@@ -894,7 +827,7 @@ a.listmenu:focus,
 	right: 2px;
 	top: 3px;
 	position: absolute;
-	color: #666;
+	color: #666; /* TODO */
 }
 
 .messagelist td.subject span.fromto {
@@ -903,17 +836,17 @@ a.listmenu:focus,
 	margin-right: 10em;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	color: #666;
+	color: #666; /* TODO */
 }
 
 .messagelist tr.flagged td.subject span.date,
 .messagelist tr.flagged td.subject span.fromto {
-	color: #ff5c33;
+	color: #ff5c33; /* TODO */
 }
 
 .messagelist tr.deleted td.subject span.date,
 .messagelist tr.deleted td.subject span.fromto {
-	color: #ccc;
+	color: #ccc; /* TODO */
 }
 
 .messagelist td.subject span.subject {

@@ -8,6 +8,7 @@ the terms described in the LICENSE section.
 For information about building or modifiying Roundcube skins please visit
 https://github.com/roundcube/roundcubemail/wiki/Skins
 
+
 LICENSE
 -------
 The contents of this folder are subject to the Creative Commons
@@ -16,29 +17,45 @@ transmit and to adapt the work by keeping credits to the original
 authors in the README file.
 See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 
+
 PROJECT GOALS
 -------------
 Create a user interface that is clean and usable with any screen size.
 Use new technologies like e.g. flexbox, @media, font-icons or less.
 Cleanup css/html and unify as much as possible.
 
-------------------------------------------------------------------
-WARNING: In current state we're focusing on main layout and logic!
-------------------------------------------------------------------
 
-INSTALLATION:
--------------
+INSTALLATION (development):
+---------------------------
 1. Clone git-master roundcube/roundcubemail
 2. Switch to branch dev-elastic
 3. Goto /skins
 4. git clone https://github.com/roundcube/elastic.git
-5. Before use disable all plugins (we're not there yet)
+5. Before use disable all plugins (we're not there yet) and set devel_mode=true
+
+INSTALLATION (production):
+--------------------------
+styles.css is written using LESS syntax. Thus it needs to be compiled
+using the `lessc` command line tool. This comes with the `nodejs-less`
+RPM package which depends on nodejs.
+
+ $ lessc -x style/styles.less > styles.css
+
+(the -x option minifies the CSS code)
+
+References to image files from the included CSS files can be appended
+with cache-buster marks to avoid browser caching issues after updating.
+
+Run `bin/updatecss.sh --dir <path-to-kolab-skin>` from the Roundcube
+package before packaging the skin or after installing it on the
+destination system.
 
 
 RULES:
 ------
 - Minimum supported screen width is 240px (note that even if the device screen
-  resolution is e.g.320x372 changing the text size in settings will reduce the size)
+  resolution is e.g.320x372 changing the text size in device settings will reduce
+  the resolution)
 
 
 IDEAS/TODOs:
