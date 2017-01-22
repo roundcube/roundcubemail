@@ -422,14 +422,16 @@ function rcube_elastic_ui()
                 //       There are cases when search is active but the input is empty
                 return input.val();
             },
-            hide_func = function() {
+            hide_func = function(event, focus) {
                 // TODO: This animation in Chrome does not look as good as in Firefox
                 $(bar).animate({'width': '0'}, 200, 'swing', function() {
                     all_elements.hide();
                     $(bar).width('auto'); // fixes search button position in Chrome
                     button[is_search_pending() ? 'addClass' : 'removeClass']('active')
-                        .css('display', 'inline-block')
-                        .focus();
+                        .css('display', 'inline-block');
+                    if (focus) {
+                        button.focus();
+                    }
                 });
             };
 
@@ -446,19 +448,19 @@ function rcube_elastic_ui()
         });
 
         // Search reset action
-        $('a.button.reset', bar).on('click', function() {
+        $('a.button.reset', bar).on('click', function(e) {
             // for treelist widget's search setting val and keyup.treelist is needed
             // in normal search form reset-search command will do the trick
             // TODO: This calls for some generalization, what about two searchboxes on a page?
             input.val('').change().trigger('keyup.treelist', {keyCode: 27});
-            hide_func();
+            hide_func(e, true);
         });
 
         // These will hide the form, but not reset it
         rcube_webmail.set_iframe_events({mousedown: hide_func});
         $('body').on('mousedown', function(e) {
             if (!button.is(':visible') && $.inArray(bar, $(e.target).parents()) == -1) {
-                hide_func();
+                hide_func(e);
             }
         });
     };
