@@ -1,3 +1,232 @@
 
 @page-font-size:        1em;
 @page-min-width:        240px;
+
+/*** Responsive design - Layout ***/
+
+/*
+- Desktop - Big screen (width > 1200px)
+   -----------------------------------------------------------------------------------------------------
+   |  menu  |        sidebar        |         list          |                 content                  |
+   -----------------------------------------------------------------------------------------------------
+- Desktop - Normal screen (1200px => width => 768px)
+   -------------------------------------------------------------------
+   |menu|    sidebar/list     |               content                |
+   -------------------------------------------------------------------
+- Tablet (480px < width < 768px) - typical: 768x1024 (iPad Mini/Air)
+   ------------------------------------------
+   |menu|     sidebar/list/content          |
+   ------------------------------------------
+- Phone (width <= 480px) - typical: 320x480 (iPhone 5), 375x667 (iPhone 6-7), 360x564 (Galaxy S6)
+   ------------------------
+   | sidebar/list/content |
+   ------------------------
+
+NOTE: below 1024px we do some UI elements bigger, as this is good (imho)
+      assumption that in this size we're dealing with touch device. Is it?
+      should we rather feature detect tables/phones?
+*/
+
+body {
+	font-size: @page-font-size;
+	min-width: @page-min-width; /* overwrite semantic-ui's limit of 320px */
+}
+
+body > #layout {
+	overflow: hidden;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	height: 100%;
+	width: 100%;
+}
+
+body > #layout > div.sidebar,
+body > #layout > div.list {
+	display: flex;
+	flex-grow: 2;
+	flex-direction: column;
+	min-width: 300px;
+	max-width: 30%;
+	border-right: 1px solid @layout-border-color;
+}
+
+body > #layout > div.content {
+	display: flex;
+	flex-grow: 6;
+	flex-direction: column;
+	min-width: 50%;
+	background-color: @layout-content-background-color;
+}
+
+body > #layout > div.sidebar {
+	min-width: 220px;
+	background-color: @layout-sidebar-background-color;
+}
+
+body > #layout > div.list {
+	min-width: 300px;
+	background-color: @layout-list-background-color;
+}
+
+body > #layout > div.menu {
+	width: 60px;
+	background-color: @taskmenu-background-color;
+}
+
+body > #layout > div.menu a,
+body > #layout > div.menu a:before {
+	display: block;
+	width: 60px;
+}
+
+body:not(.iframe) > *:not(#layout),
+body > #layout > div > .header > .buttons,
+body > #layout > div > .header > a.back-list-button,
+body > #layout > div > .header > a.back-sidebar-button,
+body > #layout > div > .header > a.toolbar-menu-button,
+body > #layout > div > .header > a.menu-button {
+	display: none;
+}
+
+#layout > div .toolbar {
+	float: right;
+}
+
+#layout > div.content > iframe,
+#layout > div.content > .content,
+#layout > div.content > .content > iframe {
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+	border: 0;
+	flex: 1;
+}
+
+#layout > div > .scroller {
+	flex: 1;
+}
+
+#layout > .content.only > .scroller {
+	overflow: auto;
+}
+
+#layout > div > .header,
+#layout > div > .footer {
+	background-color: @layout-header-background-color;
+	font-size: 1.2em;
+	font-weight: bold;
+	line-height: 2.4em;
+	height: 2.4em;
+	padding: 0 0.5em;
+	margin: 0;
+	position: relative; /* for absolute positioning of searchbar */
+	/* overflow: hidden; breaks semantic-ui popups */
+}
+#layout > div > .header {
+	border-bottom: 1px solid #ddd;
+}
+#layout > div > .footer {
+	border-top: 1px solid #ddd;
+}
+
+#taskmenu a.button-logout {
+	position: absolute;
+	bottom: 0;
+	color: @taskmenu-logout-button-color;
+}
+
+
+@media screen and (max-width: 1200px) { /* small */
+	body > #layout > div.sidebar,
+	body > #layout > div.list {
+		min-width: 260px;
+	}
+	body > #layout > div:not(.selected),
+	body > #layout > div.menu span.button-inner {
+		display: none;
+	}
+	body > #layout > div > .header > a.back-sidebar-button {
+		display: inline;
+	}
+	body > #layout > div.menu,
+	body > #layout > div.content {
+		display: flex;
+	}
+	body > #layout > div.menu a,
+	body > #layout > div.menu a:before,
+	body > #layout > div.menu {
+		width: 45px;
+	}
+	body > #layout > div.menu a:before {
+		margin: 0.4em 0;
+	}
+}
+
+@media screen and (max-width: 768px) { /* tablet */
+	body {
+		font-size: 1.2em;
+	}
+	#layout > div > .header > .toolbar:not(.searchbar),
+	body > #layout > div:not(.selected) {
+		display: none;
+	}
+	body > #layout > div.menu {
+		display: flex;
+	}
+	body > #layout > div.sidebar,
+	body > #layout > div.list {
+		max-width: 100%;
+	}
+	body > #layout > div > .header > a.toolbar-menu-button,
+	body > #layout > div > .header > .buttons {
+		display: block;
+		float: right;
+	}
+	body > #layout > div > .header > a.back-list-button {
+		display: block;
+		float: left;
+	}
+}
+
+@media screen and (max-width: 480px) { /* phone */
+	body > #layout > div > .header > a.menu-button {
+		display: inline;
+	}
+	body > #layout > div.menu span.button-inner {
+		display: block;
+	}
+	body > #layout > div.menu {
+		display: none;
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: auto;
+		margin: 38pt 3pt 3pt 3pt;
+		padding-bottom: 8pt;
+		opacity: 0.96;
+		text-align:center;
+		border-radius: 4pt;
+	}
+	body > #layout > div.menu a,
+	body > #layout > div.menu a:before {
+		display: inline-block;
+		width: 100px;
+	}
+	#taskmenu a.button-logout {
+		position: relative;
+	}
+}
+
+@media screen and (max-width: 319px) {
+	#layout > div > .header > .buttons > button:before {
+		content: "" !important;
+		float: none !important;
+	}
+	body > #layout > div.sidebar,
+	body > #layout > div.list {
+		min-width: @page-min-width;
+	}
+}
