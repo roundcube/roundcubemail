@@ -188,6 +188,12 @@ class archive extends rcube_plugin
                             . $delimiter . $rcmail->format_date($message->timestamp, 'm');
                         break;
 
+                    case 'thunderbirdmonth':
+                        $subfolder = $rcmail->format_date($message->timestamp, 'Y')
+                            . $delimiter . $rcmail->format_date($message->timestamp, 'Y')
+                            . '-' . $rcmail->format_date($message->timestamp, 'm');
+                        break;
+
                     case 'sender':
                         $from = $message->get('from');
                         preg_match('/[\b<](.+@.+)[\b>]/i', $from, $m);
@@ -410,6 +416,7 @@ class archive extends rcube_plugin
             $archive_type->add($this->gettext('none'), '');
             $archive_type->add($this->gettext('archivetypeyear'), 'year');
             $archive_type->add($this->gettext('archivetypemonth'), 'month');
+            $archive_type->add($this->gettext('archivetypethunderbirdmonth'), 'thunderbirdmonth');
             $archive_type->add($this->gettext('archivetypesender'), 'sender');
             $archive_type->add($this->gettext('archivetypefolder'), 'folder');
 
