@@ -62,6 +62,7 @@ function rcube_elastic_ui()
     rcmail
         .addEventListener('afterlist', list_handler)
         .addEventListener('afterlistgroup', list_handler)
+        .addEventListener('afterlistsearch', list_handler)
         .addEventListener('message', message_displayed)
         .addEventListener('menu-open', menu_toggle)
         .addEventListener('menu-close', menu_toggle);
