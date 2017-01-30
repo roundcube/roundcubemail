@@ -8,10 +8,10 @@ function rcube_elastic_ui()
         content_buttons = [];
 
     var layout = {
-        menu: $('#layout > .menu')[0],
-        sidebar: $('#layout > .sidebar')[0],
-        list: $('#layout > .list')[0],
-        content: $('#layout > .content')[0],
+        menu: $('#layout > .menu'),
+        sidebar: $('#layout > .sidebar'),
+        list: $('#layout > .list'),
+        content: $('#layout > .content'),
     };
 
     var buttons = {
@@ -30,14 +30,14 @@ function rcube_elastic_ui()
         env.resize_timeout = setTimeout(function() { resize(); }, 25);
     }).resize();
 
-    $('body').on('click', function() { if (mode == 'phone') $(layout.menu).hide(); });
+    $('body').on('click', function() { if (mode == 'phone') layout.menu.hide(); });
 
     // when loading content-frame in small-screen mode display it
-    $('#layout > .content').find('iframe').on('load', function(e) {
+    layout.content.find('iframe').on('load', function(e) {
         var show = !e.target.contentWindow.location.href.endsWith(rcmail.env.blankpage);
 
-        if (show && !$(layout.content).is(':visible')) {
-            env.last_selected = layout.content;
+        if (show && !layout.content.is(':visible')) {
+            env.last_selected = layout.content[0];
             screen_resize();
         }
     });
@@ -70,7 +70,7 @@ function rcube_elastic_ui()
     buttons.menu.on('click', function() { show_menu(); return false; });
     buttons.back_sidebar.on('click', function() { show_sidebar(); return false; });
     buttons.back_list.on('click', function() {
-        if (!layout.list && !layout.sidebar) {
+        if (!layout.list.length && !layout.sidebar.length) {
             history.back();
         }
         else {
@@ -159,8 +159,8 @@ function rcube_elastic_ui()
     function register_frame_buttons(buttons)
     {
         // we need these buttons really only in phone mode
-        if (/*mode == 'phone' && */layout.content && buttons && buttons.length) {
-            var header = $(layout.content).children('.header');
+        if (/*mode == 'phone' && */layout.content.length && buttons && buttons.length) {
+            var header = layout.content.children('.header');
 
             if (header.length) {
                 var toolbar = header.children('.buttons');
@@ -224,7 +224,7 @@ function rcube_elastic_ui()
             size = 'normal';
 
         mode = size;
-        screen_resize(size);
+        screen_resize();
         display_screen_size(); // debug info
     };
 
@@ -260,34 +260,34 @@ function rcube_elastic_ui()
     {
         screen_resize_small();
 
-        $(layout.menu).hide();
+        layout.menu.hide();
     };
 
     function screen_resize_tablet()
     {
         screen_resize_small();
 
-        $(layout.menu).css('display', 'flex');
+        layout.menu.css('display', 'flex');
     };
 
     function screen_resize_small()
     {
-        var show, got_content = false;;
+        var show, got_content = false;
 
-        if (layout.content) {
-            show = got_content = layout.content === env.last_selected;
+        if (layout.content.length) {
+            show = got_content = layout.content.is(env.last_selected);
 
-            $(layout.content).css('display', show ? 'flex' : 'none');
+            layout.content.css('display', show ? 'flex' : 'none');
         }
 
-        if (layout.list) {
-            show = layout.list === env.last_selected && !got_content;
-            $(layout.list).css('display', show ? 'flex' : 'none');
+        if (layout.list.length) {
+            show = !got_content && layout.list.is(env.last_selected);
+            layout.list.css('display', show ? 'flex' : 'none');
         }
 
-        if (layout.sidebar) {
-            show = (layout.sidebar === env.last_selected || !layout.list) && !got_content;
-            $(layout.sidebar).css('display', show ? 'flex' : 'none');
+        if (layout.sidebar.length) {
+            show = !got_content && (layout.sidebar.is(env.last_selected) || !layout.list.length);
+            layout.sidebar.css('display', show ? 'flex' : 'none');
         }
 
         if (got_content) {
@@ -303,17 +303,17 @@ function rcube_elastic_ui()
     {
         var show;
 
-        if (layout.list) {
-            show = layout.list === env.last_selected || layout.sidebar !== env.last_selected;
-            $(layout.list).css('display', show ? 'flex' : 'none');
+        if (layout.list.length) {
+            show = layout.list.is(env.last_selected) || !layout.sidebar.is(env.last_selected);
+            layout.list.css('display', show ? 'flex' : 'none');
         }
-        if (layout.sidebar) {
-            show = layout.sidebar === env.last_selected || !layout.list;
-            $(layout.sidebar).css('display', show ? 'flex' : 'none');
+        if (layout.sidebar.length) {
+            show = !layout.list.length || layout.sidebar.is(env.last_selected);
+            layout.sidebar.css('display', show ? 'flex' : 'none');
         }
 
-        $(layout.content).css('display', 'flex');
-        $(layout.menu).css('display', 'flex');
+        layout.content.css('display', 'flex');
+        layout.menu.css('display', 'flex');
         buttons.back_list.hide();
         $.each(content_buttons, function() { $(this).show(); });
         $('ul.toolbar.ui.popup').removeClass('hidden ui popup');
@@ -321,7 +321,7 @@ function rcube_elastic_ui()
 
     function screen_resize_wide()
     {
-        $.each(layout, function(name, item) { $(item).css('display', 'flex'); });
+        $.each(layout, function(name, item) { item.css('display', 'flex'); });
         buttons.back_list.hide();
         $.each(content_buttons, function() { $(this).show(); });
         $('ul.toolbar.ui.popup').removeClass('hidden ui popup');
@@ -330,22 +330,22 @@ function rcube_elastic_ui()
     function show_sidebar()
     {
         // show sidebar and hide list
-        $(layout.list).hide();
-        $(layout.sidebar).css('display', 'flex');
+        layout.list.hide();
+        layout.sidebar.css('display', 'flex');
     };
 
     function show_list()
     {
         // show list and hide sidebar
-        $(layout.sidebar).hide();
-        $(layout.list).css('display', 'flex');
+        layout.sidebar.hide();
+        layout.list.css('display', 'flex');
     };
 
     function hide_content()
     {
         // show sidebar or list, hide content frame
         //$(layout.content).hide();
-        env.last_selected = layout.list || layout.sidebar;
+        env.last_selected = layout.list[0] || layout.sidebar[0];
         screen_resize();
 
         // reset content frame, so we can load it again
@@ -363,13 +363,16 @@ function rcube_elastic_ui()
         }
     };
 
+    // show menu widget
     function show_menu()
     {
-        // show menu widget
-        var menu = $(layout.menu),
-            phone_display = menu.is(':visible') && mode == 'phone' ? 'none' : 'block';
+        var display = 'flex';
 
-        menu.css('display', mode == 'phone' ? phone_display : 'flex');
+        if (mode == 'phone') {
+            display = layout.menu.is(':visible') ? 'none' : 'block';
+        }
+
+        layout.menu.css('display', display);
     };
 
     /**
@@ -506,7 +509,7 @@ function rcube_elastic_ui()
                 .html('<i class="icon ellipsis vertical"></i>')
                 .attr({'data-popup': 'toolbar-menu', 'data-popup-pos': 'bottom right'});
 
-            $(layout.content).children('.header')
+            layout.content.children('.header')
                 // TODO: copy original toolbar attributes (class, role, aria-*)
                 .append($('<ul>').attr({'class': 'toolbar ui popup', id: 'toolbar-menu'}).append(items))
                 .append(menu_button);
