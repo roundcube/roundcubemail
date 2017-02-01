@@ -13,6 +13,7 @@ CHANGELOG Roundcube Webmail
 - Fix PHP error on update of a contact with multiple email addresses when using PHP 7.1 (#5587)
 - Fix bug where mail content frame couldn't be reset in some corner cases (#5608)
 - Fix bug where some classic skin images were not displayed in IE/Edge (#5614)
+- Fix bug where signature couldn't be added above the quote in Firefox 51 (#5628)
 
 RELEASE 1.2.3
 -------------
