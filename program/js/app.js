@@ -4212,6 +4212,8 @@ function rcube_webmail()
       // add signature according to selected identity
       // if we have HTML editor, signature is added in a callback
       if (input_from.prop('type') == 'select-one') {
+        // for some reason the caret initially is not at pos=0 in Firefox 51 (#5628)
+        this.set_caret_pos(input_message, 0);
         this.change_identity(input_from[0]);
       }
 
