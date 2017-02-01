@@ -4,15 +4,12 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 </head>
-<body class="iframe">
+<body class="iframe fullheight">
 
-<h1 class="boxtitle"><roundcube:label name="advsearch" /></h1>
+<h1 class="voice"><roundcube:label name="addressbook" /> : <roundcube:label name="advsearch" /></h1>
 
 <div id="contact-details" class="boxcontent">
 	<roundcube:object name="searchform" id="advsearchform" class="tabbed" size=30 />
-	<p class="formbuttons">
-		<roundcube:button command="save" type="input" class="button mainaction" label="search" />
-	</p>
 </div>
 
 <roundcube:include file="/includes/footer.html" />

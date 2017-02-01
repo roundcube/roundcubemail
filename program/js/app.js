@@ -932,11 +932,8 @@ function rcube_webmail()
       case 'save':
         var input, form = this.gui_objects.editform;
         if (form) {
-          // adv. search
-          if (this.env.action == 'search') {
-          }
           // user prefs
-          else if ((input = $("input[name='_pagesize']", form)) && input.length && isNaN(parseInt(input.val()))) {
+          if ((input = $("input[name='_pagesize']", form)) && input.length && isNaN(parseInt(input.val()))) {
             alert(this.get_label('nopagesizewarning'));
             input.focus();
             break;
@@ -1349,19 +1346,41 @@ function rcube_webmail()
         break;
 
       case 'import':
-        if (this.env.action == 'import' && this.gui_objects.importform) {
-          var file = document.getElementById('rcmimportfile');
-          if (file && !file.value) {
-            alert(this.get_label('selectimportfile'));
-            aborted = true;
-            break;
-          }
-          this.gui_objects.importform.submit();
-          this.set_busy(true, 'importwait');
-          this.lock_form(this.gui_objects.importform, true);
-        }
-        else
-          this.goto_url('import', (this.env.source ? '_target='+urlencode(this.env.source)+'&' : ''));
+        var reload = false,
+          dialog = $('<iframe>').attr('src', this.url('import', {_framed: 1, _target: this.env.source})),
+          import_func = function(e) {
+            var win = dialog[0].contentWindow,
+              form = win.rcmail.gui_objects.importform;
+
+            if (form) {
+              var lock, file = win.$('#rcmimportfile')[0];
+              if (file && !file.value) {
+                alert(win.rcmail.get_label('selectimportfile'));
+                return;
+              }
+
+              lock = win.rcmail.set_busy(true, 'importwait');
+              $('input[name="_unlock"]', form).val(lock);
+              form.submit();
+              win.rcmail.lock_form(form, true);
+              // disable Import button
+              $(e.target).attr('disabled', true);
+              reload = true;
+            }
+          },
+          close_func = function(event, ui) {
+            $(this).remove();
+            if (reload)
+              ref.command('list');
+          };
+
+        this.simple_dialog(dialog, this.gettext('importcontacts'), import_func, {
+          close: close_func,
+          button: 'import',
+          width: 500,
+          height: 300
+        });
+
         break;
 
       case 'export':
@@ -6539,15 +6558,28 @@ function rcube_webmail()
   // load advanced search page
   this.advanced_search = function()
   {
-    var win, url = {_form: 1, _action: 'search'}, target = window;
+    var dialog = $('<iframe>').attr('src', this.url('search', {_form: 1, _framed: 1})),
+      search_func = function() {
+        var valid = false, form = {_adv: 1};
 
-    if (win = this.get_frame_window(this.env.contentframe)) {
-      url._framed = 1;
-      target = win;
-      this.contact_list.clear_selection();
-    }
+        $.each($(dialog[0].contentWindow.rcmail.gui_objects.editform).serializeArray(), function() {
+          if (this.name.match(/^_search/) && this.value != '') {
+            form[this.name] = this.value;
+            valid = true;
+          }
+        });
 
-    this.location_href(url, target, true);
+        if (valid) {
+          ref.http_post('search', form, ref.set_busy(true, 'searching'));
+          return true;
+        }
+      };
+
+    this.simple_dialog(dialog, this.gettext('advsearch'), search_func, {
+      button: 'search',
+      width: 600,
+      height: 500
+    });
 
     return true;
   };
@@ -7605,8 +7637,11 @@ function rcube_webmail()
 
     var popup = $('<div class="popup">');
 
-    if (typeof content == 'object')
+    if (typeof content == 'object') {
       popup.append(content);
+      if ($(content).is('iframe'))
+        popup.addClass('iframe');
+    }
     else
       popup.html(content);
 
