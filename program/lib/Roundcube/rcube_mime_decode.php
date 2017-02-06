@@ -101,7 +101,7 @@ class rcube_mime_decode
         $return  = new stdClass;
         $headers = $this->parseHeaders($headers);
 
-        while (list($key, $value) = each($headers)) {
+        foreach ($headers as $value) {
             $header_name = strtolower($value['name']);
 
             if (isset($return->headers[$header_name]) && !is_array($return->headers[$header_name])) {
@@ -124,10 +124,8 @@ class rcube_mime_decode
                     $return->ctype_secondary = $regs[2];
                 }
 
-                if (isset($content_type['other'])) {
-                    while (list($p_name, $p_value) = each($content_type['other'])) {
-                        $return->ctype_parameters[$p_name] = $p_value;
-                    }
+                if (!empty($content_type['other'])) {
+                    $return->ctype_parameters = array_merge((array) $return->ctype_parameters, (array) $content_type['other']);
                 }
 
                 break;
@@ -136,10 +134,8 @@ class rcube_mime_decode
                 $content_disposition = $this->parseHeaderValue($value['value']);
                 $return->disposition = $content_disposition['value'];
 
-                if (isset($content_disposition['other'])) {
-                    while (list($p_name, $p_value) = each($content_disposition['other'])) {
-                        $return->d_parameters[$p_name] = $p_value;
-                    }
+                if (!empty($content_disposition['other'])) {
+                    $return->d_parameters = array_merge((array) $return->d_parameters, (array) $content_disposition['other']);
                 }
 
                 break;

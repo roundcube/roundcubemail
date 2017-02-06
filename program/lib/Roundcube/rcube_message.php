@@ -125,7 +125,8 @@ class rcube_message
 
         $this->mime    = new rcube_mime($this->headers->charset);
         $this->subject = $this->headers->get('subject');
-        list(, $this->sender) = each($this->mime->decode_address_list($this->headers->from, 1));
+        $from          = $this->mime->decode_address_list($this->headers->from, 1);
+        $this->sender  = current($from);
 
         // notify plugins and let them analyze this structured message object
         $this->app->plugins->exec_hook('message_load', array('object' => $this));

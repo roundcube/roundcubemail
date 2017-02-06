@@ -689,7 +689,7 @@ class rcube_sieve_engine
             if ($name == '')
                 $this->errors['name'] = $this->plugin->gettext('cannotbeempty');
             else {
-                foreach($this->script as $idx => $rule)
+                foreach ($this->script as $idx => $rule)
                     if($rule['name'] == $name && $idx != $fid) {
                         $this->errors['name'] = $this->plugin->gettext('ruleexist');
                         break;

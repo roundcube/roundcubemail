@@ -537,8 +537,8 @@ class rcmail extends rcube
         // we'll only handle unset host (if possible)
         if (!$host && !empty($default_host)) {
             if (is_array($default_host)) {
-                list($key, $val) = each($default_host);
-                $host = is_numeric($key) ? $val : $key;
+                $key  = key($default_host);
+                $host = is_numeric($key) ? $default_host[$key] : $key;
             }
             else {
                 $host = $default_host;
@@ -749,8 +749,8 @@ class rcmail extends rcube
 
             // take the first entry if $host is still not set
             if (empty($host)) {
-                list($key, $val) = each($default_host);
-                $host = is_numeric($key) ? $val : $key;
+                $key  = key($default_host);
+                $host = is_numeric($key) ? $default_host[$key] : $key;
             }
         }
         else if (empty($default_host)) {
