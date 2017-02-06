@@ -806,7 +806,7 @@ class rcube
     {
         static $sa_languages = array();
 
-        if (!sizeof($sa_languages)) {
+        if (!count($sa_languages)) {
             @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
 
             if ($dh = @opendir(RCUBE_LOCALIZATION_DIR)) {

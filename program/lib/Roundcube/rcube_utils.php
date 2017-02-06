@@ -98,7 +98,7 @@ class rcube_utils
             // If not an IP address
             $domain_array = explode('.', $domain_part);
             // Not enough parts to be a valid domain
-            if (sizeof($domain_array) < 2) {
+            if (count($domain_array) < 2) {
                 return false;
             }
 

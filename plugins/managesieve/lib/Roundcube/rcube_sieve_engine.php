@@ -506,7 +506,7 @@ class rcube_sieve_engine
         if ($result === false) {
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
             $errorLines = $this->sieve->get_error_lines();
-            if (sizeof($errorLines) > 0) {
+            if (count($errorLines) > 0) {
                 $this->rc->output->set_env("sieve_errors", $errorLines);
             }
         }
@@ -1432,7 +1432,7 @@ class rcube_sieve_engine
 
         // 'any' flag
         if ((!isset($this->form) && empty($scr['tests']) && !empty($scr))
-            || (sizeof($scr['tests']) == 1 && $scr['tests'][0]['test'] == 'true' && !$scr['tests'][0]['not'])
+            || (count($scr['tests']) == 1 && $scr['tests'][0]['test'] == 'true' && !$scr['tests'][0]['not'])
         ) {
             $any = true;
         }
@@ -1493,7 +1493,7 @@ class rcube_sieve_engine
 
         $out .= $input_join . html::label($field_id, rcube::Q($this->plugin->gettext('filterany')));
 
-        $rows_num = !empty($scr['tests']) ? sizeof($scr['tests']) : 1;
+        $rows_num = !empty($scr['tests']) ? count($scr['tests']) : 1;
 
         $out .= '<div id="rules"'.($any ? ' style="display: none"' : '').'>';
         for ($x=0; $x<$rows_num; $x++)
@@ -1505,7 +1505,7 @@ class rcube_sieve_engine
         // actions
         $out .= '<fieldset><legend>' . rcube::Q($this->plugin->gettext('messagesactions')) . "</legend>\n";
 
-        $rows_num = isset($scr) ? sizeof($scr['actions']) : 1;
+        $rows_num = isset($scr) ? count($scr['actions']) : 1;
 
         $out .= '<div id="actions">';
         for ($x=0; $x<$rows_num; $x++)
@@ -1531,7 +1531,7 @@ class rcube_sieve_engine
     function rule_div($fid, $id, $div=true)
     {
         $rule     = isset($this->form) ? $this->form['tests'][$id] : $this->script[$fid]['tests'][$id];
-        $rows_num = isset($this->form) ? sizeof($this->form['tests']) : sizeof($this->script[$fid]['tests']);
+        $rows_num = isset($this->form) ? count($this->form['tests']) : count($this->script[$fid]['tests']);
 
         // headers select
         $select_header = new html_select(array('name' => "_header[]", 'id' => 'header'.$id,
@@ -1935,7 +1935,7 @@ class rcube_sieve_engine
     function action_div($fid, $id, $div=true)
     {
         $action   = isset($this->form) ? $this->form['actions'][$id] : $this->script[$fid]['actions'][$id];
-        $rows_num = isset($this->form) ? sizeof($this->form['actions']) : sizeof($this->script[$fid]['actions']);
+        $rows_num = isset($this->form) ? count($this->form['actions']) : count($this->script[$fid]['actions']);
 
         $out = $div ? '<div class="actionrow" id="actionrow' .$id .'">'."\n" : '';
 

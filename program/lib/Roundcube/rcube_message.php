@@ -865,7 +865,7 @@ class rcube_message
             }
 
             // if this was a related part try to resolve references
-            if (preg_match('/^multipart\/(related|relative)/', $mimetype) && sizeof($this->inline_parts)) {
+            if (preg_match('/^multipart\/(related|relative)/', $mimetype) && count($this->inline_parts)) {
                 $a_replaces = array();
                 $img_regexp = '/^image\/(gif|jpe?g|png|tiff|bmp|svg)/';
 
