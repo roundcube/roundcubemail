@@ -984,27 +984,19 @@ EOF;
             ),
             array(
                 "\$_SESSION['\\1']",
-                "\$app->config->get('\\1',rcube_utils::get_boolean('\\3'))",
-                "\$env['\\1']",
+                "\$this->app->config->get('\\1',rcube_utils::get_boolean('\\3'))",
+                "\$this->env['\\1']",
                 "rcube_utils::get_input_value('\\1', rcube_utils::INPUT_GPC)",
                 "\$_COOKIE['\\1']",
-                "\$browser->{'\\1'}",
-                "'" . $this->template_name . "'",
+                "\$this->browser->{'\\1'}",
+                "'{$this->template_name}'",
             ),
             $expression
         );
 
-        $fn = create_function('$app,$browser,$env', "return ($expression);");
-        if (!$fn) {
-            rcube::raise_error(array(
-                    'code' => 505, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Expression parse error on: ($expression)"
-                ), true, false);
-
-            return;
-        }
-
-        return $fn($this->app, $this->browser, $this->env);
+        // Note: We used create_function() before but it's deprecated in PHP 7.2
+        //       and really it was just a wrapper on eval().
+        return eval("return ($expression);");
     }
 
     /**
