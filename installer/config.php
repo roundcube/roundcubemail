@@ -673,8 +673,7 @@ echo $select_param_folding->show(strval($RCI->getprop('mime_param_folding')));
 
 <?php
 $plugins = $RCI->list_plugins();
-foreach($plugins as $p) 
-{
+foreach ($plugins as $p) {
     $p_check = new html_checkbox(array('name' => '_plugins_'.$p['name'], 'id' => 'cfgplugin_'.$p['name'], 'value' => $p['name']));
     echo '<dt class="propname"><label>';
     echo $p_check->show($p['enabled'] ? $p['name'] : 0);
