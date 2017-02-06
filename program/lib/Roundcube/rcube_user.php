@@ -399,7 +399,7 @@ class rcube_user
 
         $sql = "INSERT INTO ".$this->db->table_name('identities', true).
             " (`changed`, ".join(', ', $insert_cols).")".
-            " VALUES (".$this->db->now().", ".join(', ', array_pad(array(), sizeof($insert_values), '?')).")";
+            " VALUES (".$this->db->now().", ".join(', ', array_pad(array(), count($insert_values), '?')).")";
 
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $insert_values));
@@ -832,7 +832,7 @@ class rcube_user
 
         $sql = "INSERT INTO ".$this->db->table_name('searches', true)
             ." (".join(', ', $insert_cols).")"
-            ." VALUES (".join(', ', array_pad(array(), sizeof($insert_values), '?')).")";
+            ." VALUES (".join(', ', array_pad(array(), count($insert_values), '?')).")";
 
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $insert_values));

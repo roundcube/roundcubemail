@@ -1248,7 +1248,7 @@ function rcmail_message_body($attrib)
     if (!empty($MESSAGE->parts)) {
         foreach ($MESSAGE->parts as $part) {
             if ($part->type == 'headers') {
-                $out .= html::div('message-partheaders', rcmail_message_headers(sizeof($header_attrib) ? $header_attrib : null, $part->headers));
+                $out .= html::div('message-partheaders', rcmail_message_headers(count($header_attrib) ? $header_attrib : null, $part->headers));
             }
             else if ($part->type == 'content') {
                 // unsupported (e.g. encrypted)
@@ -1636,7 +1636,7 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
 
     $a_parts = rcube_mime::decode_address_list($input, null, true, $default_charset);
 
-    if (!sizeof($a_parts)) {
+    if (!count($a_parts)) {
         return $input;
     }
 

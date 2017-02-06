@@ -85,21 +85,22 @@ class rcube_sieve_script
     {
         // TODO: check this->supported
         array_push($this->content, $content);
-        return sizeof($this->content)-1;
+        return count($this->content) - 1;
     }
 
     public function delete_rule($index)
     {
-        if(isset($this->content[$index])) {
+        if (isset($this->content[$index])) {
             unset($this->content[$index]);
             return true;
         }
+
         return false;
     }
 
     public function size()
     {
-        return sizeof($this->content);
+        return count($this->content);
     }
 
     public function update_rule($index, $content)
@@ -109,6 +110,7 @@ class rcube_sieve_script
             $this->content[$index] = $content;
             return $index;
         }
+
         return false;
     }
 
