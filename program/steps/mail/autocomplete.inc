@@ -99,6 +99,11 @@ if (!empty($book_types) && strlen($search)) {
                             $contact['display'] = $display;
                         }
 
+                        // groups with defined email address will not be expanded to its members' addresses
+                        if ($sql_arr['_type'] == 'group') {
+                            $contact['email'] = $email;
+                        }
+
                         $contacts[$index]  = $contact;
                         $sort_keys[$index] = sprintf('%s %03d', $contact['display'] ?: $name, $idx++);
 
