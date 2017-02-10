@@ -230,7 +230,6 @@ function rcube_webmail()
           this.message_list
             .addEventListener('initrow', function(o) { ref.init_message_row(o); })
             .addEventListener('dblclick', function(o) { ref.msglist_dbl_click(o); })
-            .addEventListener('click', function(o) { ref.msglist_click(o); })
             .addEventListener('keypress', function(o) { ref.msglist_keypress(o); })
             .addEventListener('select', function(o) { ref.msglist_select(o); })
             .addEventListener('dragstart', function(o) { ref.drag_start(o); })
@@ -1851,25 +1850,6 @@ function rcube_webmail()
       this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, list.dblclick_time);
     else if (this.env.contentframe)
       this.show_contentframe(false);
-  };
-
-  // This allow as to re-select selected message and display it in preview frame
-  this.msglist_click = function(list)
-  {
-    if (list.multi_selecting || !this.env.contentframe)
-      return;
-
-    if (!list.get_single_selection())
-      return;
-
-    var win = this.get_frame_window(this.env.contentframe);
-
-    if (win && win.location.href.indexOf(this.env.blankpage) >= 0) {
-      if (this.preview_timer)
-        clearTimeout(this.preview_timer);
-
-      this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, list.dblclick_time);
-    }
   };
 
   this.msglist_dbl_click = function(list)
