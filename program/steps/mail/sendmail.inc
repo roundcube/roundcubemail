@@ -490,6 +490,10 @@ if (preg_match('/[^\x00-\x7F]/', $MAIL_MIME->getTXTBody())) {
     $text_charset      = $message_charset;
     $transfer_encoding = $RCMAIL->config->get('force_7bit') ? 'quoted-printable' : '8bit';
 }
+else if (strncmp(strtoupper($message_charset), 'ISO-2022', 8) == 0 && preg_match('/\x1B/', $MAIL_MIME->getTXTBody())) {
+    $text_charset      = $message_charset;
+    $transfer_encoding = '7bit';
+}
 else {
     $text_charset      = 'US-ASCII';
     $transfer_encoding = '7bit';
