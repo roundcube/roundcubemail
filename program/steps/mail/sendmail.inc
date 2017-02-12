@@ -516,10 +516,13 @@ if ($pgp_mime) {
     $MAIL_MIME->setParam('preamble', 'This is an OpenPGP/MIME encrypted message (RFC 2440 and 3156)');
 }
 
+// default MIME head encoding
+$default_head_encoding = $RCMAIL->config->get('default_head_encoding', 'quoted-printable');
+
 // encoding settings for mail composing
 $MAIL_MIME->setParam('text_encoding', $transfer_encoding);
 $MAIL_MIME->setParam('html_encoding', 'quoted-printable');
-$MAIL_MIME->setParam('head_encoding', 'quoted-printable');
+$MAIL_MIME->setParam('head_encoding', $default_head_encoding);
 $MAIL_MIME->setParam('head_charset', $message_charset);
 $MAIL_MIME->setParam('html_charset', $message_charset);
 $MAIL_MIME->setParam('text_charset', $text_charset);
