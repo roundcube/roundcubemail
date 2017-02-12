@@ -5,6 +5,9 @@
 		<roundcube:button command="addressbook" label="contacts" type="link" class="button-addressbook" classSel="button-addressbook button-selected" innerClass="button-inner" />
 		<roundcube:container name="taskbar" id="taskmenu" />
 		<roundcube:button command="settings" label="settings" type="link" class="button-settings" classSel="button-settings button-selected" innerClass="button-inner" />
-		<roundcube:button command="logout" label="logout" type="link" class="button-logout" classSel="button-logout" innerClass="button-inner" />
+		<span class="special-buttons">
+			<roundcube:button name="about" label="about" type="link" class="button-about" classSel="button-about" innerClass="button-about" onclick="UI.about_dialog(this)" />
+			<roundcube:button command="logout" label="logout" type="link" class="button-logout" classSel="button-logout" innerClass="button-inner" />
+		<span>
 	</div>
 </div>

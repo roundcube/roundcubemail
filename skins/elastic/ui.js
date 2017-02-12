@@ -22,6 +22,7 @@ function rcube_elastic_ui()
 
     // public methods
     this.register_frame_buttons = register_frame_buttons;
+    this.about_dialog = about_dialog;
 
     env.last_selected = $('#layout > div.selected')[0];
 
@@ -627,6 +628,25 @@ function rcube_elastic_ui()
             },
             minWidth: 500,
             width: width
+        });
+    };
+
+    function about_dialog(elem)
+    {
+        var support_url, support_func, support_button = false,
+            dialog = $('<iframe>').attr({id: 'aboutframe', src: rcmail.url('settings/about', {_framed: 1})}),
+            support_link = $('#supportlink');
+
+        // TODO: 'Get Support' link/button
+        if (support_link.length && (support_url = support_link.attr('href'))) {
+            support_button = support_link.html();
+            support_func = function(e) { support_url.indexOf('mailto:') < 0 ? window.open(support_url) : location.href = support_url };
+        }
+
+        rcmail.simple_dialog(dialog, $(elem).text(), support_func, {
+            button: support_button,
+            width: 600,
+            height: 400
         });
     };
 }
