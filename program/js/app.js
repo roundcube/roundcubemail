@@ -6676,18 +6676,12 @@ function rcube_webmail()
   this.qrcode = function()
   {
     var title = this.get_label('qrcode'),
-      buttons = [{
-        text: this.get_label('close'),
-        'class': 'mainaction',
-        click: function() {
-          (ref.is_framed() ? parent.$ : $)(this).dialog('destroy');
-        }
-      }],
+      options = {button: false, cancel_button: 'close', width: 310, height: 410},
       img = new Image(300, 300);
 
     img.src = this.url('addressbook/qrcode', {_source: this.env.source, _cid: this.env.cid});
 
-    return this.show_popup_dialog(img, title, buttons, {width: 310, height: 410});
+    return this.simple_dialog(img, title, null, options);
   };
 
 
@@ -7673,24 +7667,24 @@ function rcube_webmail()
     return popup;
   };
 
-  // show_popup_dialog() wrapper for simple dialogs with Save and Cancel buttons
-  this.simple_dialog = function(content, title, button_func, options)
+  // show_popup_dialog() wrapper for simple dialogs with action and Cancel buttons
+  this.simple_dialog = function(content, title, action_func, options)
   {
     var title = this.get_label(title),
+      close_func = function() { (ref.is_framed() ? parent.$ : $)(this).dialog('close'); },
       buttons = [{
+        text: ref.get_label((options || {}).cancel_button || 'cancel'),
+        click: close_func
+      }];
+
+    if (!action_func)
+      buttons[0]['class'] = 'mainaction';
+    else
+      buttons.unshift({
         text: this.get_label((options || {}).button || 'save'),
         'class': 'mainaction',
-        click: function(e) {
-          if (button_func(e))
-            $(this).dialog('close');
-        }
-      },
-      {
-        text: ref.get_label('cancel'),
-        click: function() {
-          $(this).dialog('close');
-        }
-      }];
+        click: function(e) { if (action_func(e)) close_func(); }
+      });
 
     return this.show_popup_dialog(content, title, buttons, options);
   };
