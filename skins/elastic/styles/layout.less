@@ -1,6 +1,9 @@
+@import "font.less";
 
 @page-font-size:        1em;
 @page-min-width:        240px;
+
+@taskmenu-width:        65px;
 
 /*** Responsive design - Layout ***/
 
@@ -70,14 +73,14 @@ body > #layout > div.list {
 }
 
 body > #layout > div.menu {
-	width: 60px;
+	width: @taskmenu-width;
 	background-color: @taskmenu-background-color;
 }
 
 body > #layout > div.menu a,
 body > #layout > div.menu a:before {
 	display: block;
-	width: 60px;
+	width: @taskmenu-width;
 }
 
 body:not(.iframe) > *:not(#layout),
