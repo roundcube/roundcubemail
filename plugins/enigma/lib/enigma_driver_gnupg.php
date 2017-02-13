@@ -281,6 +281,8 @@ class enigma_driver_gnupg extends enigma_driver
      */
     public function gen_key($data)
     {
+        require_once 'Crypt/GPG/KeyGenerator.php';
+
         try {
             $debug  = $this->rc->config->get('enigma_debug');
             $keygen = new Crypt_GPG_KeyGenerator(array(
