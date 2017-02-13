@@ -61,5 +61,6 @@ Possible reasons:
 - non-working loader in shebang (#! /usr/bin/env php)
   Make sure it works for the user the php scripts are executed upon
   (i.e. apache, www-date, etc.)
+- SELinux setting, try command: setsebool -P httpd_unified 0
 
 Note: for server use GnuPG developers still recommend version 1.4.
