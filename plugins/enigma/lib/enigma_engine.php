@@ -404,11 +404,6 @@ class enigma_engine
     {
         $part = $p['structure'];
 
-        // exit, if we're already inside a decrypted message
-        if (in_array($part->mime_id, $this->encrypted_parts)) {
-            return;
-        }
-
         // Get message body from IMAP server
         if ($body === null) {
             $body = $this->get_part_body($p['object'], $part);

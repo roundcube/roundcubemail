@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Managesieve: Fix handling of scripts with nested rules (#5540)
 - Fix variable substitution in ldap host for some use-cases, e.g. new_user_identity (#5544)
+- Enigma: Fix handling of messages with nested PGP encrypted parts (#5634)
 - Enigma: Fix PHP fatal error when decrypting a message with invalid signature (#5555)
 - Enigma: Fix missing require statement for Crypt_GPG_KeyGenerator (#5641)
 - Fix adding images to new identity signatures
