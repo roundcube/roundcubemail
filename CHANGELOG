@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Enigma: Always use detached signatures (#5624)
+- Enigma: Fix handling of messages with nested PGP encrypted parts (#5634)
 - Fix autocomplete popup closing with click outside the input, don't handle Tab key as Enter (#5606)
 - Fix jsdeps.json synchronization on update, warn about missing requirements of install-jsdeps.sh (#5598)
 - Fix missing thread expand icon on search result in widescreen mode (#5613)
