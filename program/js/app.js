@@ -6322,7 +6322,9 @@ function rcube_webmail()
     else {
       $(this.treelist.get_item(key)).children().first().html(prop.name);
       this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
-      this.set_group_prop(prop);
+
+      if (prop.id == this.env.group)
+        this.set_group_prop(prop);
     }
 
     // update list node and re-sort it
