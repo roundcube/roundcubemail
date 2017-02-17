@@ -17,6 +17,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where some classic skin images were not displayed in IE/Edge (#5614)
 - Fix bug where signature couldn't be added above the quote in Firefox 51 (#5628)
 - Fix regression where groups with email address were resolved to its members' addresses
+- Fix update of group name in the contacts list header on group rename (#5648)
 
 RELEASE 1.2.3
 -------------

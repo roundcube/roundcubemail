@@ -5621,9 +5621,6 @@ function rcube_webmail()
 
       boxtitle.append($('<span>').text(prop ? prop.name : this.get_label('contacts')));
     }
-
-    if (prop)
-      this.triggerEvent('groupupdate', prop);
   };
 
   // load contact record
@@ -6049,6 +6046,7 @@ function rcube_webmail()
     else {
       $(this.treelist.get_item(key)).children().first().html(prop.name);
       this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
+      this.set_group_prop(prop);
     }
 
     // update list node and re-sort it
