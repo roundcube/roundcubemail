@@ -6219,13 +6219,15 @@ function rcube_webmail()
 
     var group_name = this.env.contactgroups['G' + this.env.source + this.env.group].name,
       input = $('<input>').attr('type', 'text').val(group_name),
-      content = $('<label>').text(this.get_label('namex')).append(input);
+      content = $('<label>').text(this.get_label('namex')).append(input),
+      source = this.env.source,
+      group = this.env.group;
 
     this.simple_dialog(content, 'grouprename',
       function() {
         var name;
         if ((name = input.val()) && name != group_name) {
-          ref.http_post('group-rename', {_source: ref.env.source, _gid: ref.env.group, _name: name},
+          ref.http_post('group-rename', {_source: source, _gid: group, _name: name},
             ref.set_busy(true, 'loading'));
           return true;
         }
