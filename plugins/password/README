@@ -375,11 +375,21 @@
  4. Sudo setup
  -------------
 
+// try to be more secure and use dovecot or pam methods
+// if this is not possible in your setup you can increase security by
+// sudo to a wrapper, where you can implement some security meassures
+
+//    1. a simple wraper is provided by this plugin: helpers/chpasswrapper.py
+//    2. move wrapper out of default location to a random place
+//    3. change permissons of wrapper to root:www 770 to avoid changes by user or webserver
+//    4. add some security meassures, i.e. limit userids where password can be changed
+//    5. allow webserver sudo for wrapper only (se below)
+
  Some drivers that execute system commands (like chpasswd) require use of sudo command.
  Here's a sample for CentOS 7:
 
  # cat <<END >/etc/sudoers.d/99-roundcubemail
- apache ALL=NOPASSWD:/usr/sbin/chpasswd
+ apache ALL=NOPASSWD:/srv/wrapper/roundcube/chpasswrapper.py
  Defaults:apache !requiretty
  <<END
 
