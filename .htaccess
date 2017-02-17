@@ -33,6 +33,8 @@ RewriteRule ^favicon\.ico$ skins/larry/images/favicon.ico
 RewriteRule ^(?!installer|\.well-known\/|[a-zA-Z0-9]{16})(\.?[^\.]+)$ - [F]
 # - deny access to some locations
 RewriteRule ^/?(\.git|\.tx|SQL|bin|config|logs|temp|tests|program\/(include|lib|localization|steps)) - [F]
+# - deny access to composer binaries
+RewriteRule ^/vendor\/bin\/.* - [F]
 # - deny access to some documentation files
 RewriteRule /?(README\.md|composer\.json-dist|composer\.json|package\.xml|Dockerfile)$ - [F]
 </IfModule>
