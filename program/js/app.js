@@ -6195,13 +6195,14 @@ function rcube_webmail()
   this.group_create = function()
   {
     var input = $('<input>').attr('type', 'text'),
-      content = $('<label>').text(this.get_label('namex')).append(input);
+      content = $('<label>').text(this.get_label('namex')).append(input),
+      source = this.env.source;
 
     this.simple_dialog(content, 'newgroup',
       function() {
         var name;
         if (name = input.val()) {
-          ref.http_post('group-create', {_source: ref.env.source, _name: name},
+          ref.http_post('group-create', {_source: source, _name: name},
             ref.set_busy(true, 'loading'));
           return true;
         }
