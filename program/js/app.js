@@ -6519,7 +6519,7 @@ function rcube_webmail()
       .addEventListener('collapse', function(node) { ref.folder_collapsed(node) })
       .addEventListener('expand', function(node) { ref.folder_collapsed(node) })
       .addEventListener('search', function(p) { if (p.query) ref.subscription_select(); })
-      .draggable({cancel: 'li.mailbox.root'})
+      .draggable({cancel: 'li.mailbox.root,input,div.treetoggle'})
       .droppable({
         // @todo: find better way, accept callback is executed for every folder
         // on the list when dragging starts (and stops), this is slow, but
