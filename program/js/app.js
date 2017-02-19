@@ -1078,12 +1078,10 @@ function rcube_webmail()
 
       case 'select-all':
         this.select_all_mode = props ? false : true;
-        this.dummy_select = true; // prevent msg opening if there's only one msg on the list
         if (props == 'invert')
           this.message_list.invert_selection();
         else
           this.message_list.select_all(props == 'page' ? '' : props);
-        this.dummy_select = null;
         break;
 
       case 'select-none':
@@ -1846,7 +1844,7 @@ function rcube_webmail()
       this.select_all_mode = false;
 
     // start timer for message preview (wait for double click)
-    if (selected && this.env.contentframe && !list.multi_selecting && !this.dummy_select)
+    if (selected && this.env.contentframe && !list.multi_selecting)
       this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, list.dblclick_time);
     else if (this.env.contentframe)
       this.show_contentframe(false);
@@ -2599,10 +2597,12 @@ function rcube_webmail()
     if (page)
       url._page = page;
 
-    // disable double-click on the list when preview pane is on
-    // this eliminates delay when opening a message in preview pane (#5199)
+    // Disable double-click on the list when preview pane is on
+    // to make the delay when opening a message in preview pane minimal (#5199)
+    // Standard double-click time is 500ms, we use 100ms, the smaller the value is
+    // unwanted message opening (on drag) can happen more often (#5616)
     if (this.message_list)
-      this.message_list.dblclick_time = this.env.layout != 'list' ? 10 : this.dblclick_time;
+      this.message_list.dblclick_time = this.env.layout != 'list' ? 100 : this.dblclick_time;
 
     this.http_request('list', url, lock);
     this.update_state({ _mbox: mbox, _page: (page && page > 1 ? page : null) });
