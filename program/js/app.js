@@ -6253,7 +6253,8 @@ function rcube_webmail()
       delete this.env.contactgroups[key];
     }
 
-    this.list_contacts(prop.source, 0);
+    if (prop.source == this.env.source && prop.id == this.env.group)
+      this.list_contacts(prop.source, 0);
   };
 
   //remove selected contacts from current active group
@@ -6324,7 +6325,7 @@ function rcube_webmail()
       $(this.treelist.get_item(key)).children().first().html(prop.name);
       this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
 
-      if (prop.id == this.env.group)
+      if (prop.source == this.env.source && prop.id == this.env.group)
         this.set_group_prop(prop);
     }
 
