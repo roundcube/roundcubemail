@@ -20,6 +20,7 @@ CHANGELOG Roundcube Webmail
 - Fix update of group name in the contacts list header on group rename (#5648)
 - Add rewrite rule to disable access to /vendor/bin folder in .htaccess (#5630)
 - Fix bug where it was too easy accidentally move a folder when using the subscription checkbox (#5655)
+- Managesieve: Fix parser issue with empty lines between comments (#5657)
 
 RELEASE 1.2.3
 -------------

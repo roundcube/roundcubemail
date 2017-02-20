@@ -562,7 +562,8 @@ class rcube_sieve_script
                     $prefix .= $line . "\n";
                 }
 
-                $position = $endl + 1;
+                // skip empty lines after the comment (#5657)
+                $position = self::ltrim_position($script, $endl + 1);
             }
 
             // handle script header
