@@ -594,7 +594,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
     if (!empty($attrib['optionsmenuicon'])) {
-        $list_menu = rcmail_options_menu_link($attrib);
+        $list_menu = rcmail_options_menu_link();
     }
 
     $cells = $coltypes = array();
@@ -659,7 +659,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
     return $cells;
 }
 
-function rcmail_options_menu_link($attrib)
+function rcmail_options_menu_link($attrib = array())
 {
     global $RCMAIL;
 
