@@ -1,0 +1,280 @@
+/* font-icons */
+
+button.ui.button.icon:before,
+.toolbar a.button:before,
+.toolbarmenu li a:before,
+.folderlist li a:before,
+.listing.iconized tr td:before,
+.listing.iconized li a:before,
+#taskmenu a:before {
+	font-size: 1.25em;
+	/*display: inline-block;*/
+	/* FIXME: with inline-block we have a problem with icon alignment,
+	use display:block; float: left;
+	 */
+	display: block;
+	float: left;
+	margin: 0em 0.25rem 0em 0em;
+	width: 1.18em;
+	height: 1em;
+	font-family: 'Icons';
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: inherit;
+	text-align: center;
+	speak: none;
+	font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+button.ui.button.icon:before {
+	height: auto;
+}
+
+.toolbar a.button:before {
+	display: inline;
+	float: initial;
+}
+
+.toolbar a.button {
+	padding: 0 0.3em;
+}
+
+.toolbar .dropbutton > a.button:first-child {
+	padding-right: 0;
+}
+.toolbar .dropbutton > a.button.dropdown {
+	font-size: 70%;
+	padding-left: 0;
+}
+
+#taskmenu a {
+	padding: 0.4em 0;
+}
+
+#taskmenu a,
+#taskmenu a:before {
+	display: block;
+	width: 60px;
+	text-align: center;
+}
+
+#taskmenu a:before {
+	font-size: 1.5em;
+	margin-bottom: 0.1em;
+}
+
+#taskmenu a.button-mail:before {
+	content: @fa-var-envelope;
+}
+#taskmenu a.button-addressbook:before {
+	content: @fa-var-user;
+}
+#taskmenu a.button-settings:before {
+	content: @fa-var-cog;
+}
+#taskmenu a.button-help:before {
+	content: @fa-var-life-bouy;
+}
+#taskmenu a.button-logout:before {
+	content: @fa-var-power-off;
+}
+#taskmenu a.button-about:before {
+	content: @fa-var-question;
+}
+#taskmenu a.button-logout:hover {
+	color: @taskmenu-logout-button-hover-color;
+}
+
+.listing.iconized li.preferences > a:before {
+	content: @fa-var-sliders;
+}
+.listing.iconized li.folders > a:before {
+	content: @fa-var-folder;
+}
+.listing.iconized li.responses > a:before {
+	content: @fa-var-comment;
+}
+.listing.iconized li.identities > a:before {
+	content: @fa-var-at;
+}
+.listing.iconized li.password > a:before {
+	content: @fa-var-lock;
+}
+.listing.iconized li.addressbook a:before {
+	content: @fa-var-book;
+}
+.listing.iconized li.contactgroup a:before {
+	content: @fa-var-group;
+}
+.listing.iconized li.contactsearch a:before {
+	content: @fa-var-search;
+}
+.listing.iconized tr.contact.person td.name:before {
+	content: @fa-var-user;
+}
+.listing.iconized tr.general > td.section:before {
+	content: @fa-var-desktop;
+}
+.listing.iconized tr.mailbox > td.section:before {
+	content: @fa-var-envelope-o;
+}
+.listing.iconized tr.mailview > td.section:before {
+	content: @fa-var-inbox;
+}
+.listing.iconized tr.compose > td.section:before {
+	content: @fa-var-paper-plane;
+}
+.listing.iconized tr.addressbook > td.section:before {
+	content: @fa-var-user;
+}
+.listing.iconized tr.folders > td.section:before {
+	content: @fa-var-folder-o;
+}
+.listing.iconized tr.server > td.section:before {
+	content: @fa-var-server;
+}
+
+.folderlist li a:before {
+	content: @fa-var-folder-o;
+}
+.folderlist li.inbox a:before {
+	content: @fa-var-inbox;
+}
+.folderlist li.trash a:before {
+	content: @fa-var-trash;
+}
+.folderlist li.trash.empty a:before {
+	content: @fa-var-trash-o;
+}
+.folderlist li.drafts a:before {
+	content: @fa-var-edit;
+}
+.folderlist li.sent a:before {
+	content: @fa-var-paper-plane;
+}
+.folderlist li.junk a:before {
+	content: ""; /* TODO */
+}
+.folderlist li.archive a:before {
+	content: @fa-var-archive;
+}
+
+.toolbarmenu li a.print:before {
+	content: @fa-var-print;
+}
+.toolbarmenu li a.copy:before {
+	content: @fa-var-copy;
+}
+.toolbarmenu li a.move:before {
+	content: @fa-var-arrows;
+}
+.toolbarmenu li a.source:before {
+	content: @fa-var-flask;
+}
+.toolbarmenu li a.download:before {
+	content: @fa-var-download;
+}
+.toolbarmenu li a.extwin:before {
+	content: @fa-var-external-link;
+}
+.toolbarmenu li a.edit:before {
+	content: @fa-var-edit; /* TODO: edit.asnew */
+}
+.toolbarmenu li a.read:before {
+	content: @fa-var-star-o;
+}
+.toolbarmenu li a.unread:before {
+	content: @fa-var-star;
+}
+.toolbarmenu li a.flag:before {
+	content: @fa-var-flag;
+}
+.toolbarmenu li a.unflag:before {
+	content: @fa-var-flag-o;
+}
+.toolbar a.button.reply:before {
+	content: @fa-var-mail-reply;
+}
+.toolbar a.button.reply-all:before {
+	content: @fa-var-mail-reply-all;
+}
+.toolbar a.button.forward:before {
+	content: @fa-var-mail-forward;
+}
+.toolbar a.button.delete:before {
+	content: @fa-var-trash-o;
+}
+.toolbar a.button.markmessage:before {
+	content: @fa-var-tag;
+}
+.toolbar a.button.more:before {
+	content: @fa-var-ellipsis-h;
+}
+.toolbar a.button.dropdown:before {
+	content: @fa-var-caret-down;
+}
+.toolbar a.button.settings:before {
+	content: @fa-var-cog;
+}
+.toolbar a.button.print:before {
+	content: @fa-var-print;
+}
+.toolbar a.button.search:before {
+	content: @fa-var-search;
+}
+.toolbar a.button.upload:before,
+.toolbar a.button.import:before {
+	content: @fa-var-upload;
+}
+.toolbar a.button.download:before,
+.toolbar a.button.export:before {
+	content: @fa-var-download;
+}
+.toolbar a.button.compose:before {
+	content: @fa-var-edit;
+}
+.toolbar a.button.refresh:before {
+	content: @fa-var-refresh;
+}
+.toolbar a.button.archive:before {
+	content: @fa-var-archive;
+}
+.toolbar a.button.encrypt:before {
+	content: @fa-var-lock;
+}
+.toolbar a.button.firstpage:before {
+	content: @fa-var-fast-backward;
+}
+.toolbar a.button.prevpage:before {
+	content: @fa-var-backward;
+}
+.toolbar a.button.nextpage:before {
+	content: @fa-var-forward;
+}
+.toolbar a.button.lastpage:before {
+	content: @fa-var-fast-forward;
+}
+
+.searchbar > a.button.reset:before {
+	content: @fa-var-remove;
+}
+.searchbar > a.button.options:before {
+	content: @fa-var-angle-down;
+}
+
+button.icon.save:before {
+  content: @fa-var-check;
+}
+button.icon.edit:before {
+	content: @fa-var-pencil;
+}
+button.icon.qrcode:before {
+  content: @fa-var-qrcode;
+}
+button.icon.search:before {
+	content: @fa-var-search;
+}

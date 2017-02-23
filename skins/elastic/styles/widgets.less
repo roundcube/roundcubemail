@@ -1,0 +1,261 @@
+/*** Common UI elements ***/
+
+#uploadform,
+.ui.modal,
+.voice {
+	display: none;
+}
+
+body.iframe .formcontent {
+	padding: 1em;
+}
+
+body.iframe .formbuttons {
+	padding: 0 1em 1em 1em;
+}
+
+#messagestack {
+	position: absolute;
+	bottom: 0.5em;
+	right: 0.5em;
+	z-index: 50000;
+	width: 300px;
+	height: auto;
+	max-height: 85%;
+	overflow-y: auto;
+}
+
+#messagestack div.voice {
+	position: absolute;
+	top: -1000px;
+}
+
+#messagestack div a {
+	color: #94c0da; /* TODO: less'ify this color */
+}
+
+#messagestack div i.icon {
+	font-size: 2em !important;
+}
+
+#messagestack div a:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.ui.message {
+	margin-top: 0.5em;
+}
+
+.ui-dialog iframe {
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+.ui-dialog-content.iframe {
+	padding: 0 !important;
+	overflow: hidden !important;
+}
+
+.ui.popup {
+	padding: 0;
+	min-width: 180px;
+}
+
+.button.disabled,
+.listing li a.disabled {
+	opacity: 0.5;
+}
+
+.listbox .scroller {
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.listing tbody td,
+.listing li {
+	display: block;
+	border-bottom: 1px solid #f4f4f4;
+	cursor: default;
+	font-weight: normal;
+}
+
+.listbox .listitem a,
+.listbox .listitem span,
+.listbox .tablink a,
+.listing tbody td,
+.listing li a {
+	display: block;
+	text-decoration: none;
+	cursor: default;
+	padding: 0 0.5em;
+	white-space: nowrap;
+	vertical-align: middle;
+	line-height: 2.4em;
+}
+
+.listing tbody td {
+	display: table-cell;
+	outline: none;
+}
+
+table.listing {
+	width: 100%;
+}
+
+ul.listing {
+	display: block;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.listing li {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	position: relative;
+}
+
+ul.listing li ul {
+	border-top: 1px solid #f4f4f4;
+	padding-left: 1.5em;
+}
+ul.listing li ul li:last-child {
+	border-bottom: none;
+}
+
+ul.treelist li div.treetoggle {
+	position: absolute;
+	top: 7px;
+	left: 4px;
+	width: 13px;
+	height: 13px;
+	background: /* TODO */ no-repeat;
+	cursor: pointer;
+}
+
+.folderlist li.mailbox .unreadcount {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 2em;
+	line-height: 1.4em;
+	margin: 0.5em 0.2em;
+	padding: 0 0.3em;
+	background:  /* todo */ #1e70bf;
+	border-radius: 0.4em;
+	color: @badge-font-color;
+	text-align: center;
+	font-weight: bold;
+}
+
+ul.listing li input[type=checkbox] {
+	position: absolute;
+	top: 0;
+	right: 0.2em;
+	height: 2.4em;
+	vertical-align: middle;
+}
+
+.folderlist li.mailbox.selected > a .unreadcount {
+	background: /* todo */;
+}
+
+.folderlist li.mailbox.recent > a .unreadcount {
+	background: /* todo */;
+}
+
+.toolbar {
+	height: 2.4em;
+}
+
+.toolbar .ui.popup,
+.toolbar.ui.popup {
+	height: auto;
+}
+
+.toolbar > .spacer {
+	display: inline-block;
+	width: 1.2em;
+}
+
+.toolbar a.button span.inner {
+	display: none;
+}
+
+.searchbar {
+	display: table;
+	text-align: right;
+	position: absolute;
+	background-color: @layout-header-background-color;
+	z-index: 10;
+	top: 0;
+	right: 0;
+}
+
+.searchbar > * {
+	height: 2.4em;
+}
+
+.searchbar > form,
+.searchbar > a.button.options,
+.searchbar > a.button.reset {
+	display: none;
+	width: 1%;
+}
+
+.searchbar > form,
+.searchbar > form > input {
+	width: 98%;
+}
+
+.searchbar input {
+	border: none;
+	border-bottom: 1px solid #ddd;
+	background: transparent;
+}
+
+.searchbar > a.button.search.active {
+	color: @searchbar-icon-active-color;
+}
+
+.header > .buttons > input.button {
+	padding: 0.3em 0.8em;
+	font-size: 1em;
+}
+
+/* fixes border set by accordion widget */
+.propform.ui.accordion td.title {
+	border: none;
+}
+
+
+/* make some elements bigger on tablets/phones */
+/* TODO: we should/could maybe do this more globally? */
+@media screen and (max-width: 1024px) {
+}
+
+@media screen and (min-width: 769px) {
+	ul.toolbar {
+		margin: 0;
+}
+	ul.toolbar > li {
+		display: inline-block;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	ul.toolbar a.button .inner {
+		display: inline;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	#messagestack {
+		left: 0.5em;
+		width: auto;
+	}
+}
