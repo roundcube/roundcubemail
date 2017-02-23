@@ -26,6 +26,7 @@ $labels['server']    = 'Server';
 $labels['login']     = 'Login';
 
 // taskbar
+$labels['menu']     = 'Menu';
 $labels['logout']   = 'Logout';
 $labels['mail']     = 'Mail';
 $labels['settings'] = 'Settings';
