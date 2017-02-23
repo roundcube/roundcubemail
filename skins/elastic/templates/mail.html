@@ -6,7 +6,7 @@
 <!-- folders list -->
 <div id="sidebar" class="sidebar listbox" role="navigation" aria-labelledby="aria-label-folderlist">
 	<div class="header">
-		<a class="button menu-button" href="#menu"><i class="content icon"></i></a>
+		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<span class="username"><roundcube:object name="username" /></span>
 	</div>
 	<h2 id="aria-label-folderlist" class="voice"><roundcube:label name="arialabelfolderlist" /></h2>
@@ -25,8 +25,8 @@
 <!-- messages list -->
 <div id="list" class="list listbox selected">
 	<div id="messagelist-header" class="header">
-		<a class="button menu-button" href="#menu"><i class="content icon"></i></a>
-		<a class="button back-sidebar-button" href="#sidebar"><i class="chevron left icon"></i></a>
+		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="mailboxlist" /></span></a>
 		<span id="folder-name"></span>
 		<div class="toolbar">
 			<roundcube:object name="listmenulink" class="button settings" innerclass="inner" />
@@ -86,7 +86,7 @@
 <!-- message preview -->
 <div id="content" class="content">
 	<div class="header">
-		<a class="button back-list-button" href="#back"><i class="chevron left icon"></i><roundcube:label name="back" /></a>
+		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 		<roundcube:include file="/includes/mail-menu.html" />
 	</div>
 	<h2 id="aria-label-mailpreviewframe" class="voice"><roundcube:label name="arialabelmailpreviewframe" /></h2>

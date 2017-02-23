@@ -100,7 +100,7 @@ function rcube_elastic_ui()
             $(this).addClass('ui styled fluid accordion');
             fieldsets.each(function(i, fieldset) {
                 var title = $('<div>').attr('class', 'title' + (i ? '' : ' active'))
-                    .html('<i class="dropdown icon"></i>')
+                    .html('<i class="dropdown icon"></i>') // TODO: replace <i> with css
                     .append($('<span>').text($('legend', fieldset).text()));
                 var content = $('<div>').attr('class', 'content' + (i ? '' : ' active'))
                     .append($(fieldset).children().not('legend'));
@@ -507,8 +507,7 @@ function rcube_elastic_ui()
 
         // append the new toolbar and menu button
         if (items.length) {
-            var menu_button = $('<a class="button toolbar-menu-button" href="#menu">')
-                .html('<i class="icon ellipsis vertical"></i>')
+            var menu_button = $('<a class="button icon toolbar-menu-button" href="#menu">')
                 .attr({'data-popup': 'toolbar-menu', 'data-popup-pos': 'bottom right'});
 
             layout.content.children('.header')

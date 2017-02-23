@@ -6,8 +6,8 @@
 
 <div id="list" class="list listbox selected" aria-labelledby="aria-label-prefsection">
 	<div id="aria-label-prefsection" class="header">
-		<a class="button menu-button" href="#menu"><i class="content icon"></i></a>
-		<a class="button back-sidebar-button" href="#sidebar"><i class="chevron left icon"></i></a>
+		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
 		<roundcube:label name="preferences" />
 	</div>
 	<div class="scroller">
@@ -17,7 +17,7 @@
 
 <div id="content" class="content" role="main">
 	<div class="header">
-		<a class="button back-list-button" href="#back"><i class="chevron left icon"></i><roundcube:label name="back" /></a>
+		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 	</div>
 	<roundcube:object name="prefsframe" id="preferences-frame" src="/watermark.html" title="arialabelpreferencesform" />
 </div>

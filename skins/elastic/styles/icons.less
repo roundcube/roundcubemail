@@ -1,6 +1,7 @@
 /* font-icons */
 
 button.ui.button.icon:before,
+a.button.icon:before,
 .toolbar a.button:before,
 .toolbarmenu li a:before,
 .folderlist li a:before,
@@ -277,4 +278,20 @@ button.icon.qrcode:before {
 }
 button.icon.search:before {
 	content: @fa-var-search;
+}
+
+a.button.icon.toolbar-menu-button:before {
+	content: @fa-var-ellipsis-v;
+}
+a.button.icon.menu-button:before {
+	content: @fa-var-bars;
+}
+a.button.icon.back-sidebar-button:before {
+	content: @fa-var-chevron-left;
+}
+a.button.icon.back-list-button:before {
+	content: @fa-var-arrow-left;
+}
+a.button.icon > span.inner {
+	display: none;
 }
