@@ -1193,7 +1193,7 @@ class rcube_utils
             $format = 'd-M-Y H:i:s O';
         }
 
-        if (strpos($format, 'u') !== false) {
+        if (strpos($format, 'u') !== false && function_exists('date_create_from_format')) {
             $dt  = number_format(microtime(true), 6, '.', '');
             $dt .=  '.' . date_default_timezone_get();
 
