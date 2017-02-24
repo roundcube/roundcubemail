@@ -214,13 +214,15 @@ function rcube_elastic_ui()
     }
 
     // Intercept jQuery-UI dialogs to re-style them
-    $.widget('ui.dialog', $.ui.dialog, {
-      open: function() {
-        this._super();
-        dialog_open(this);
-        return this;
-      }
-    });
+    if ($.ui) {
+      $.widget('ui.dialog', $.ui.dialog, {
+        open: function() {
+          this._super();
+          dialog_open(this);
+          return this;
+        }
+      });
+    }
 
     // window resize handler
     function resize()

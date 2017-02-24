@@ -1,28 +1,18 @@
-<roundcube:object name="doctype" value="html5" />
-<html>
-<head>
-	<title><roundcube:object name="pagetitle" /></title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" id="viewport" />
-	<link rel="shortcut icon" href="/images/favicon.ico"/>
-	<link rel="stylesheet" href="/semantic-ui/semantic.min.css">
-	<link rel="stylesheet" type="text/css" href="/styles.css" />
-</head>
-<roundcube:if condition="!env:extwin &amp;&amp; !env:framed" />
-<body class="task-<roundcube:var name="env:task" />">
-<roundcube:else />
-<body class="iframe task-<roundcube:var name="env:task" />">
-<roundcube:endif />
-
-<div id="layout">
+<roundcube:include file="/includes/layout.html" />
 
 <roundcube:if condition="!env:framed" />
 	<roundcube:include file="/includes/menu.html" />
+	<div id="content" class="content selected" role="main">
+		<div class="header">
+			<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+			<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+		</div>
 <roundcube:endif />
 
-<div id="content" class="content selected">
-	$__page_content
-</div>
+$__page_content
 
-</div>
-</body>
-</html>
+<roundcube:if condition="!env:framed" />
+	</div>
+<roundcube:endif />
+
+<roundcube:include file="/includes/footer.html" />
