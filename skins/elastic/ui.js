@@ -4,7 +4,18 @@
 function rcube_elastic_ui()
 {
     var mode = 'normal', // one of: wide, normal, tablet, phone
-        env = {},
+        env = {
+            config: {
+                standard_windows: rcmail.env.standard_windows,
+                message_extwin: rcmail.env.message_extwin,
+                compose_extwin: rcmail.env.compose_extwin
+            },
+            small_screen_config: {
+                standard_windows: true,
+                message_extwin: false,
+                compose_extwin: false
+            }
+        },
         content_buttons = [];
 
     var layout = {
@@ -299,6 +310,10 @@ function rcube_elastic_ui()
         $('.header > ul.toolbar', layout.content).addClass('hidden ui popup');
 
         $.each(content_buttons, function() { $(this).hide(); });
+
+        // disable ext-windows and other features
+        rcmail.set_env(env.small_screen_config);
+        rcmail.enable_command('extwin', false);
     };
 
     function screen_resize_normal()
@@ -319,6 +334,10 @@ function rcube_elastic_ui()
         buttons.back_list.hide();
         $.each(content_buttons, function() { $(this).show(); });
         $('ul.toolbar.ui.popup').removeClass('hidden ui popup');
+
+        // re-enable ext-windows
+        rcmail.set_env(env.config);
+        rcmail.enable_command('extwin', true);
     };
 
     function screen_resize_wide()
@@ -327,6 +346,10 @@ function rcube_elastic_ui()
         buttons.back_list.hide();
         $.each(content_buttons, function() { $(this).show(); });
         $('ul.toolbar.ui.popup').removeClass('hidden ui popup');
+
+        // re-enable ext-windows
+        rcmail.set_env(env.config);
+        rcmail.enable_command('extwin', true);
     };
 
     function show_sidebar()
