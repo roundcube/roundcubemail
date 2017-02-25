@@ -212,6 +212,7 @@ class rcube_charset
             $aliases = array(
                 'WINDOWS-1257' => 'ISO-8859-13',
                 'US-ASCII'     => 'ASCII',
+                'ISO-2022-JP'  => 'ISO-2022-JP-MS',
             );
 
             $mb_from = $aliases[$from] ?: $from;
