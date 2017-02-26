@@ -7,6 +7,7 @@ a.button.icon:before,
 .folderlist li a:before,
 .listing.iconized tr td:before,
 .listing.iconized li a:before,
+a.rcmaddcontact:before,
 #taskmenu a:before {
 	font-size: 1.25em;
 	/*display: inline-block;*/
@@ -294,4 +295,12 @@ a.button.icon.back-list-button:before {
 }
 a.button.icon > span.inner {
 	display: none;
+}
+
+a.rcmaddcontact:before {
+	content: @fa-var-user-plus;
+	display: inline;
+	float: none;
+	margin-left: 5px;
+	font-size: inherit;
 }
