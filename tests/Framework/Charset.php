@@ -179,7 +179,7 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
     function data_detect_with_lang()
     {
         return array(
-            array('顯示名稱,主要', 'zh_TW', 'BIG-5'),
+            array(base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'),
         );
     }
 
