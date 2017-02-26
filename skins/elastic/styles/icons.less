@@ -140,6 +140,15 @@ button.ui.button.icon:before {
 .listing.iconized tr.server > td.section:before {
 	content: @fa-var-server;
 }
+.listing.iconized li.filter > a:before {
+	content: @fa-var-filter;
+}
+.listing.iconized li.enigma.keys > a:before {
+	content: @fa-var-key;
+}
+.listing.iconized tr.enigma > td.section:before {
+	content: @fa-var-lock;
+}
 
 .folderlist li a:before {
 	content: @fa-var-folder-o;
@@ -160,7 +169,7 @@ button.ui.button.icon:before {
 	content: @fa-var-paper-plane;
 }
 .folderlist li.junk a:before {
-	content: ""; /* TODO */
+	content: @fa-var-thumbs-down;
 }
 .folderlist li.archive a:before {
 	content: @fa-var-archive;
