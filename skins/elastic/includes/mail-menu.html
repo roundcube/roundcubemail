@@ -49,8 +49,8 @@
 <div id="forward-menu" class="ui popup">
 	<h3 id="aria-label-forwardmenu" class="voice"><roundcube:label name="arialabelforwardingoptions" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-forwardmenu">
-		<roundcube:button type="link-menuitem" command="forward-inline" label="forwardinline" prop="sub" classAct="forwardlink" class="forwardlink disabled" />
-		<roundcube:button type="link-menuitem" command="forward-attachment" label="forwardattachment" prop="sub" classAct="forwardattachmentlink" class="forwardattachmentlink disabled" />
+		<roundcube:button type="link-menuitem" command="forward-inline" label="forwardinline" prop="sub" classAct="forwardlink" class="forwardlink" />
+		<roundcube:button type="link-menuitem" command="forward-attachment" label="forwardattachment" prop="sub" classAct="forwardattachmentlink active" class="forwardattachmentlink" />
 		<roundcube:container name="forwardmenu" id="forward-menu" />
 	</ul>
 </div>
@@ -67,13 +67,13 @@
 <div id="message-menu" class="ui popup">
 	<h3 id="aria-label-messagemenu" class="voice"><roundcube:label name="arialabelmoremessageactions" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-messagemenu">
-		<roundcube:button type="link-menuitem" command="print" label="printmessage" class="print disabled" classAct="print" />
-		<roundcube:button type="link-menuitem" command="download" label="emlsave" class="download disabled" classAct="download" />
-		<roundcube:button type="link-menuitem" command="edit" prop="new" label="editasnew" class="edit asnew disabled" classAct="edit asnew" />
-		<roundcube:button type="link-menuitem" command="viewsource" label="viewsource" class="source disabled" classAct="source" />
-		<roundcube:button type="link-menuitem" command="move" label="moveto" class="move disabled" classAct="move" innerclass="folder-selector-link" />
-		<roundcube:button type="link-menuitem" command="copy" label="copyto" class="copy disabled" classAct="copy" innerclass="folder-selector-link" />
-		<roundcube:button type="link-menuitem" command="open" label="openinextwin" target="_blank" class="extwin disabled" classAct="extwin" />
+		<roundcube:button type="link-menuitem" command="print" label="printmessage" class="print" classAct="print active" />
+		<roundcube:button type="link-menuitem" command="download" label="emlsave" class="download" classAct="download active" />
+		<roundcube:button type="link-menuitem" command="edit" prop="new" label="editasnew" class="edit asnew" classAct="edit asnew active" />
+		<roundcube:button type="link-menuitem" command="viewsource" label="viewsource" class="source" classAct="source active" />
+		<roundcube:button type="link-menuitem" command="move" label="moveto" class="move" classAct="move active" innerclass="folder-selector-link" />
+		<roundcube:button type="link-menuitem" command="copy" label="copyto" class="copy" classAct="copy active" innerclass="folder-selector-link" />
+		<roundcube:button type="link-menuitem" command="open" label="openinextwin" target="_blank" class="extwin" classAct="extwin active" />
 		<roundcube:container name="messagemenu" id="message-menu" />
 	</ul>
 </div>
@@ -81,10 +81,10 @@
 <div id="markmessage-menu" class="ui popup">
 	<h3 id="aria-label-markmessagemenu" class="voice"><roundcube:label name="arialabelmarkmessagesas" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-markmessagemenu">
-		<roundcube:button type="link-menuitem" command="mark" prop="read" label="markread" classAct="read" class="read disabled" />
-		<roundcube:button type="link-menuitem" command="mark" prop="unread" label="markunread" classAct="unread" class="unread disabled" />
-		<roundcube:button type="link-menuitem" command="mark" prop="flagged" label="markflagged" classAct="flag" class="flag disabled" />
-		<roundcube:button type="link-menuitem" command="mark" prop="unflagged" label="markunflagged" classAct="unflag" class="unflag disabled" />
+		<roundcube:button type="link-menuitem" command="mark" prop="read" label="markread" classAct="read active" class="read" />
+		<roundcube:button type="link-menuitem" command="mark" prop="unread" label="markunread" classAct="unread active" class="unread" />
+		<roundcube:button type="link-menuitem" command="mark" prop="flagged" label="markflagged" classAct="flag active" class="flag" />
+		<roundcube:button type="link-menuitem" command="mark" prop="unflagged" label="markunflagged" classAct="unflag active" class="unflag" />
 		<roundcube:container name="markmenu" id="markmessage-menu" />
 	</ul>
 </div>
