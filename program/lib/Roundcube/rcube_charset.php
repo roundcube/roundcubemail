@@ -200,30 +200,10 @@ class rcube_charset
             }
         }
 
-        $aliases = array(
-            'WINDOWS-1257' => 'ISO-8859-13',
-            'US-ASCII'     => 'ASCII',
-        );
-
         // convert charset using iconv module
-        do {
-            // Skip using iconv if it is not available
-            if ($iconv_options === false) { break; }
-
-            // `iconv` doesn't know modified UTF-7 (a.k.a., UTF7-IMAP)
-            if ($from == 'UTF7-IMAP') { break; }
-            if ($to   == 'UTF7-IMAP') { break; }
-
-            // CP5022x
-            if (function_exists('mb_check_encoding')) {
-                if ($from === 'ISO-2022-JP'
-                    && !mb_check_encoding($str, 'ISO-2022-JP')
-                ) {
-                    $aliases['ISO-2022-JP'] = 'ISO-2022-JP-MS';
-                    break;
-                }
-            }
-
+        if ($iconv_options !== false && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP'
+            && $from !== 'ISO-2022-JP'
+        ) {
             // throw an exception if iconv reports an illegal character in input
             // it means that input string has been truncated
             set_error_handler(array('rcube_charset', 'error_handler'), E_NOTICE);
@@ -238,7 +218,7 @@ class rcube_charset
             if ($out !== false) {
                 return $out;
             }
-        } while (0);
+        }
 
         if ($mbstring_sc === null) {
             $mbstring_sc = extension_loaded('mbstring') ? mb_substitute_character() : false;
@@ -246,6 +226,12 @@ class rcube_charset
 
         // convert charset using mbstring module
         if ($mbstring_sc !== false) {
+            $aliases = array(
+                'WINDOWS-1257' => 'ISO-8859-13',
+                'US-ASCII'     => 'ASCII',
+                'ISO-2022-JP'  => 'ISO-2022-JP-MS',
+            );
+
             $mb_from = $aliases[$from] ?: $from;
             $mb_to   = $aliases[$to] ?: $to;
 
