@@ -72,10 +72,7 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
             array('Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-', 'UTF-8', 'UTF7-IMAP'),
         );
 
-        if (extension_loaded('mbstring')
-            && mb_substitute_character()
-            && function_exists('mb_check_encoding')
-        ) {
+        if (mb_substitute_character() && function_exists('mb_check_encoding')) {
             $tests[] = array(
                 base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='),
                 '㈱山﨑工業',
