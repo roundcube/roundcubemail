@@ -1701,18 +1701,21 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
             }
 
             if ($addicon && $_SESSION['writeable_abook']) {
+                $label = $RCMAIL->gettext('addtoaddressbook');
+                $icon = html::img(array(
+                        'src'   => $RCMAIL->output->abs_url($addicon, true),
+                        'alt'   => $label,
+                        'class' => 'noselect',
+                ));
                 $address .= html::a(array(
                         'href'    => "#add",
-                        'title'   => $RCMAIL->gettext('addtoaddressbook'),
+                        'title'   => $label,
                         'class'   => 'rcmaddcontact',
                         'onclick' => sprintf("return %s.command('add-contact','%s',this)",
                             rcmail_output::JS_OBJECT_NAME, rcube::JQ($string)),
                     ),
-                    html::img(array(
-                        'src'   => $RCMAIL->output->abs_url($addicon, true),
-                        'alt'   => "Add contact",
-                        'class' => 'noselect',
-                )));
+                    $addicon == 'virtual' ? '' : $icon
+                );
             }
         }
         else {
