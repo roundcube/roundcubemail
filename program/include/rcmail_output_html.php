@@ -297,6 +297,10 @@ EOF;
                 $this->load_skin('skins/' . $meta['extends']);
             }
         }
+
+        foreach ((array) $meta['config'] as $key => $value) {
+            $this->config->set($key, $value, true);
+        }
     }
 
     /**

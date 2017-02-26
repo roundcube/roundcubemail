@@ -2594,10 +2594,9 @@ function rcube_webmail()
 
     // load message list to target frame/window
     if (mbox) {
-      this.set_busy(true, 'loading');
       url._mbox = mbox;
-      if (page)
-        url._page = page;
+      url._page = page;
+      this.set_busy(true, 'loading');
       this.location_href(url, target);
     }
   };
@@ -2618,9 +2617,10 @@ function rcube_webmail()
 
     if (typeof url != 'object')
       url = {};
+
+    url._layout = this.env.layout
     url._mbox = mbox;
-    if (page)
-      url._page = page;
+    url._page = page;
 
     // disable double-click on the list when preview pane is on
     // this eliminates delay when opening a message in preview pane (#5199)
@@ -5251,9 +5251,6 @@ function rcube_webmail()
     if (!search && this.gui_objects.qsearchbox)
       search = this.gui_objects.qsearchbox.value;
 
-    if (filter)
-      url._filter = filter;
-
     if (this.gui_objects.search_interval)
       url._interval = $(this.gui_objects.search_interval).val();
 
@@ -5270,8 +5267,10 @@ function rcube_webmail()
       }
     }
 
-    if (scope)
-      url._scope = scope;
+    url._layout = this.env.layout;
+    url._filter = filter;
+    url._scope = scope;
+
     if (mbox && scope != 'all')
       url._mbox = mbox;
 
