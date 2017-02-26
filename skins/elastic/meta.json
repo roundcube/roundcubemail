@@ -2,5 +2,8 @@
 	"name": "Elastic",
 	"author": "Aleksander Machniak",
 	"license": "Creative Commons Attribution-ShareAlike",
-	"license-url": "http://creativecommons.org/licenses/by-sa/3.0/"
+	"license-url": "http://creativecommons.org/licenses/by-sa/3.0/",
+	"config": {
+		"layout": "widescreen"
+	}
 }
