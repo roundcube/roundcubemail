@@ -243,7 +243,7 @@ class rcube_washtml
         $style = preg_replace('/[\n\r\s\t]+/', ' ', $style);
 
         foreach (explode(';', $style) as $declaration) {
-            if (preg_match('/^\s*([a-z\-]+)\s*:\s*(.*)\s*$/i', $declaration, $match)) {
+            if (preg_match('/^\s*([a-z\-]+)\s*:\s*(.*)\s*$/is', $declaration, $match)) {
                 $cssid = $match[1];
                 $str   = $match[2];
                 $value = '';
