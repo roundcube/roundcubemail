@@ -190,6 +190,9 @@ abstract class rcube_output
 
         // Request browser to disable DNS prefetching (CVE-2010-0464)
         header("X-DNS-Prefetch-Control: off");
+     
+        // Request browser disable Referer (sic) header
+        header("Referrer-Policy: same-origin");
 
         // send CSRF and clickjacking protection headers
         if ($xframe = $this->app->config->get('x_frame_options', 'sameorigin')) {
