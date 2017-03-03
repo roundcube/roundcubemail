@@ -1129,12 +1129,14 @@ function rcube_webmail()
             else if (this.contact_list)
               a_cids = this.contact_list.get_selection();
 
-            if (a_cids.length)
+            if (a_cids.length) {
               this.http_post('mailto', { _cid: a_cids.join(','), _source: this.env.source }, true);
-            else if (this.env.group)
+              break;
+            }
+            else if (this.env.group) {
               this.http_post('mailto', { _gid: this.env.group, _source: this.env.source }, true);
-
-            break;
+              break;
+            }
           }
         }
         else if (props && typeof props == 'string') {
@@ -5765,7 +5767,6 @@ function rcube_webmail()
     // if a group is currently selected, and there is at least one contact selected
     // thend we can enable the group-remove-selected command
     this.enable_command('group-remove-selected', this.env.group && selected && writable);
-    this.enable_command('compose', this.env.group || selected);
     this.enable_command('print', selected == 1);
     this.enable_command('export-selected', 'copy', selected > 0);
     this.enable_command('edit', id && writable);
@@ -5888,7 +5889,6 @@ function rcube_webmail()
     this.contact_list.clear(true);
     this.show_contentframe(false);
     this.enable_command('delete', 'move', 'copy', 'print', false);
-    this.enable_command('compose', this.env.group);
   };
 
   this.set_group_prop = function(prop)
@@ -5927,7 +5927,6 @@ function rcube_webmail()
       if (!cid)
         this.contact_list.clear_selection();
 
-      this.enable_command('compose', rec && rec.email);
       this.enable_command('export-selected', 'print', rec && rec._type != 'group');
     }
     else if (framed)
@@ -8438,7 +8437,6 @@ function rcube_webmail()
               writable = !this.env.address_sources[this.env.source].readonly;
             }
           }
-          this.enable_command('compose', (uid && this.contact_list.rows[uid]));
           this.enable_command('delete', 'edit', writable);
           this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
           this.enable_command('export-selected', 'print', false);
