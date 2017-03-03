@@ -92,6 +92,12 @@ button.ui.button.icon:before {
 #taskmenu a.button-logout:hover {
 	color: @taskmenu-logout-button-hover-color;
 }
+#taskmenu a.button-refresh:before {
+	content: @fa-var-refresh;
+}
+#taskmenu a.button-compose:before {
+	content: @fa-var-edit;
+}
 
 .listing.iconized li.preferences > a:before {
 	content: @fa-var-sliders;
@@ -252,9 +258,6 @@ button.ui.button.icon:before {
 }
 .toolbar a.button.compose:before {
 	content: @fa-var-edit;
-}
-.toolbar a.button.refresh:before {
-	content: @fa-var-refresh;
 }
 .toolbar a.button.archive:before {
 	content: @fa-var-archive;
