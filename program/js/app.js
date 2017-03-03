@@ -7954,12 +7954,12 @@ function rcube_webmail()
           row = $('<li>');
 
         if (folder.virtual)
-          a.addClass('virtual').attr('aria-disabled', 'true').attr('tabindex', '-1');
+          a.addClass('virtual').attr({'aria-disabled': 'true', tabindex: '-1'});
         else
           a.addClass('active').data('id', folder.id);
 
         if (folder['class'])
-          a.addClass(folder['class']);
+          row.addClass(folder['class']);
 
         // calculate/set indentation level
         while ((s = id.indexOf(delim, s)) >= 0) {
@@ -7985,7 +7985,7 @@ function rcube_webmail()
         container.css('max-height', $('li', container)[0].offsetHeight * 10 + 9);
 
       // register delegate event handler for folder item clicks
-      container.on('click', 'a.active', function(e){
+      container.on('click', 'a.active', function(e) {
         container.data('callback')($(this).data('id'));
         return false;
       });

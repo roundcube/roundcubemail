@@ -2630,23 +2630,23 @@ ul.toolbarmenu li span.copy {
 	text-overflow: ellipsis;
 }
 
-#folder-selector li a.virtual {
+#folder-selector li a.virtual span {
 	opacity: .2;
 }
 
-#folder-selector li a.inbox span {
+#folder-selector li.inbox span {
 	background-position: 4px -2049px;
 }
-#folder-selector li a.drafts span {
+#folder-selector li.drafts span {
 	background-position: 4px -1388px;
 }
-#folder-selector li a.sent span {
+#folder-selector li.sent span {
 	background-position: 4px -2074px;
 }
-#folder-selector li a.trash span {
+#folder-selector li.trash span {
 	background-position: 4px -1508px;
 }
-#folder-selector li a.junk span {
+#folder-selector li.junk span {
 	background-position: 4px -2100px;
 }
 
