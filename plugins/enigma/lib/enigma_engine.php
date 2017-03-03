@@ -164,11 +164,7 @@ class enigma_engine
         case self::SIGN_MODE_MIME:
             $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
             break;
-/*
-        case self::SIGN_MODE_SEPARATE:
-            $pgp_mode = Crypt_GPG::SIGN_MODE_NORMAL;
-            break;
-*/
+
         default:
             if ($mime->isMultipart()) {
                 $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
@@ -429,11 +425,6 @@ class enigma_engine
     function parse_plain(&$p, $body = null)
     {
         $part = $p['structure'];
-
-        // exit, if we're already inside a decrypted message
-        if (in_array($part->mime_id, $this->encrypted_parts)) {
-            return;
-        }
 
         // Get message body from IMAP server
         if ($body === null) {

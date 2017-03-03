@@ -203,7 +203,6 @@ else {
 // update message count display
 $OUTPUT->set_env('search_request', $search_str ? $search_request : '');
 $OUTPUT->set_env('search_filter', $_SESSION['search_filter']);
-$OUTPUT->set_env('threading', $RCMAIL->storage->get_threading());
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', ceil($count/$RCMAIL->storage->get_pagesize()));
 $OUTPUT->set_env('exists', $mbox === null ? 0 : $RCMAIL->storage->count($mbox, 'EXISTS'));

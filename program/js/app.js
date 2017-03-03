@@ -230,7 +230,6 @@ function rcube_webmail()
           this.message_list
             .addEventListener('initrow', function(o) { ref.init_message_row(o); })
             .addEventListener('dblclick', function(o) { ref.msglist_dbl_click(o); })
-            .addEventListener('click', function(o) { ref.msglist_click(o); })
             .addEventListener('keypress', function(o) { ref.msglist_keypress(o); })
             .addEventListener('select', function(o) { ref.msglist_select(o); })
             .addEventListener('dragstart', function(o) { ref.drag_start(o); })
@@ -1060,12 +1059,10 @@ function rcube_webmail()
 
       case 'select-all':
         this.select_all_mode = props ? false : true;
-        this.dummy_select = true; // prevent msg opening if there's only one msg on the list
         if (props == 'invert')
           this.message_list.invert_selection();
         else
           this.message_list.select_all(props == 'page' ? '' : props);
-        this.dummy_select = null;
         break;
 
       case 'select-none':
@@ -1850,29 +1847,10 @@ function rcube_webmail()
       this.select_all_mode = false;
 
     // start timer for message preview (wait for double click)
-    if (selected && this.env.contentframe && !list.multi_selecting && !this.dummy_select)
+    if (selected && this.env.contentframe && !list.multi_selecting)
       this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, list.dblclick_time);
     else if (this.env.contentframe)
       this.show_contentframe(false);
-  };
-
-  // This allow as to re-select selected message and display it in preview frame
-  this.msglist_click = function(list)
-  {
-    if (list.multi_selecting || !this.env.contentframe)
-      return;
-
-    if (list.get_single_selection())
-      return;
-
-    var win = this.get_frame_window(this.env.contentframe);
-
-    if (win && win.location.href.indexOf(this.env.blankpage) >= 0) {
-      if (this.preview_timer)
-        clearTimeout(this.preview_timer);
-
-      this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, list.dblclick_time);
-    }
   };
 
   this.msglist_dbl_click = function(list)
@@ -2622,10 +2600,12 @@ function rcube_webmail()
     url._mbox = mbox;
     url._page = page;
 
-    // disable double-click on the list when preview pane is on
-    // this eliminates delay when opening a message in preview pane (#5199)
+    // Disable double-click on the list when preview pane is on
+    // to make the delay when opening a message in preview pane minimal (#5199)
+    // Standard double-click time is 500ms, we use 100ms, the smaller the value is
+    // unwanted message opening (on drag) can happen more often (#5616)
     if (this.message_list)
-      this.message_list.dblclick_time = this.env.layout != 'list' ? 10 : this.dblclick_time;
+      this.message_list.dblclick_time = this.env.layout != 'list' ? 100 : this.dblclick_time;
 
     this.http_request('list', url, lock);
     this.update_state({ _mbox: mbox, _page: (page && page > 1 ? page : null) });
@@ -3356,7 +3336,8 @@ function rcube_webmail()
     var r_uids = [],
       post_data = this.selection_post_data({_uid: this.uids_to_list(a_uids), _flag: 'delete'}),
       lock = this.display_message(this.get_label('markingmessage'), 'loading'),
-      rows = this.message_list ? this.message_list.rows : {},
+      list = this.message_list,
+      rows = list ? list.rows : {},
       count = 0;
 
     for (var i=0, len=a_uids.length; i<len; i++) {
@@ -3367,7 +3348,7 @@ function rcube_webmail()
 
         if (this.env.skip_deleted) {
           count += this.update_thread(uid);
-          this.message_list.remove_row(uid, (this.env.display_next && i == this.message_list.selection.length-1));
+          list.remove_row(uid, (this.env.display_next && i == list.selection.length-1));
         }
         else
           this.set_message(uid, 'deleted', true);
@@ -3375,9 +3356,9 @@ function rcube_webmail()
     }
 
     // make sure there are no selected rows
-    if (this.env.skip_deleted && this.message_list) {
-      if (!this.env.display_next)
-        this.message_list.clear_selection();
+    if (this.env.skip_deleted && list) {
+      if (!this.env.display_next || !list.rowcount)
+        list.clear_selection();
       if (count < 0)
         post_data._count = (count*-1);
       else if (count > 0)
@@ -4214,6 +4195,8 @@ function rcube_webmail()
       // add signature according to selected identity
       // if we have HTML editor, signature is added in a callback
       if (input_from.prop('type') == 'select-one') {
+        // for some reason the caret initially is not at pos=0 in Firefox 51 (#5628)
+        this.set_caret_pos(input_message, 0);
         this.change_identity(input_from[0]);
       }
 
@@ -4323,6 +4306,9 @@ function rcube_webmail()
 
     obj.keydown(function(e) { return ref.ksearch_keydown(e, this, props); })
       .attr({ 'autocomplete': 'off', 'aria-autocomplete': 'list', 'aria-expanded': 'false', 'role': 'combobox' });
+
+    // hide the popup on any click
+    $(document).on('click', function() { ref.ksearch_hide(); });
   };
 
   this.submit_messageform = function(draft, saveonly)
@@ -5404,8 +5390,7 @@ function rcube_webmail()
     if (this.ksearch_timer)
       clearTimeout(this.ksearch_timer);
 
-    var key = rcube_event.get_keycode(e),
-      mod = rcube_event.get_modifier(e);
+    var key = rcube_event.get_keycode(e);
 
     switch (key) {
       case 38:  // arrow up
@@ -5424,12 +5409,6 @@ function rcube_webmail()
 
         return rcube_event.cancel(e);
 
-      case 9:   // tab
-        if (mod == SHIFT_KEY || !this.ksearch_visible()) {
-          this.ksearch_hide();
-          return;
-        }
-
       case 13:  // enter
         if (!this.ksearch_visible())
           return false;
@@ -5440,6 +5419,7 @@ function rcube_webmail()
 
         return rcube_event.cancel(e);
 
+      case 9:   // tab
       case 27:  // escape
         this.ksearch_hide();
         return;
@@ -5930,9 +5910,6 @@ function rcube_webmail()
 
       boxtitle.append($('<span>').text(prop ? prop.name : this.get_label('contacts')));
     }
-
-    if (prop)
-      this.triggerEvent('groupupdate', prop);
   };
 
   // load contact record
@@ -6220,13 +6197,14 @@ function rcube_webmail()
   this.group_create = function()
   {
     var input = $('<input>').attr('type', 'text'),
-      content = $('<label>').text(this.get_label('namex')).append(input);
+      content = $('<label>').text(this.get_label('namex')).append(input),
+      source = this.env.source;
 
     this.simple_dialog(content, 'newgroup',
       function() {
         var name;
         if (name = input.val()) {
-          ref.http_post('group-create', {_source: ref.env.source, _name: name},
+          ref.http_post('group-create', {_source: source, _name: name},
             ref.set_busy(true, 'loading'));
           return true;
         }
@@ -6241,13 +6219,15 @@ function rcube_webmail()
 
     var group_name = this.env.contactgroups['G' + this.env.source + this.env.group].name,
       input = $('<input>').attr('type', 'text').val(group_name),
-      content = $('<label>').text(this.get_label('namex')).append(input);
+      content = $('<label>').text(this.get_label('namex')).append(input),
+      source = this.env.source,
+      group = this.env.group;
 
     this.simple_dialog(content, 'grouprename',
       function() {
         var name;
         if ((name = input.val()) && name != group_name) {
-          ref.http_post('group-rename', {_source: ref.env.source, _gid: ref.env.group, _name: name},
+          ref.http_post('group-rename', {_source: source, _gid: group, _name: name},
             ref.set_busy(true, 'loading'));
           return true;
         }
@@ -6275,7 +6255,8 @@ function rcube_webmail()
       delete this.env.contactgroups[key];
     }
 
-    this.list_contacts(prop.source, 0);
+    if (prop.source == this.env.source && prop.id == this.env.group)
+      this.list_contacts(prop.source, 0);
   };
 
   //remove selected contacts from current active group
@@ -6345,6 +6326,9 @@ function rcube_webmail()
     else {
       $(this.treelist.get_item(key)).children().first().html(prop.name);
       this.env.contactfolders[key].name = this.env.contactgroups[key].name = prop.name;
+
+      if (prop.source == this.env.source && prop.id == this.env.group)
+        this.set_group_prop(prop);
     }
 
     // update list node and re-sort it
@@ -6851,7 +6835,7 @@ function rcube_webmail()
       .addEventListener('collapse', function(node) { ref.folder_collapsed(node) })
       .addEventListener('expand', function(node) { ref.folder_collapsed(node) })
       .addEventListener('search', function(p) { if (p.query) ref.subscription_select(); })
-      .draggable({cancel: 'li.mailbox.root'})
+      .draggable({cancel: 'li.mailbox.root,input,div.treetoggle'})
       .droppable({
         // @todo: find better way, accept callback is executed for every folder
         // on the list when dragging starts (and stops), this is slow, but

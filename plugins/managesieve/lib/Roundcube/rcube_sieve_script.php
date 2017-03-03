@@ -85,21 +85,22 @@ class rcube_sieve_script
     {
         // TODO: check this->supported
         array_push($this->content, $content);
-        return sizeof($this->content)-1;
+        return count($this->content) - 1;
     }
 
     public function delete_rule($index)
     {
-        if(isset($this->content[$index])) {
+        if (isset($this->content[$index])) {
             unset($this->content[$index]);
             return true;
         }
+
         return false;
     }
 
     public function size()
     {
-        return sizeof($this->content);
+        return count($this->content);
     }
 
     public function update_rule($index, $content)
@@ -109,6 +110,7 @@ class rcube_sieve_script
             $this->content[$index] = $content;
             return $index;
         }
+
         return false;
     }
 
@@ -590,7 +592,8 @@ class rcube_sieve_script
                     $prefix .= $line . "\n";
                 }
 
-                $position = $endl + 1;
+                // skip empty lines after the comment (#5657)
+                $position = self::ltrim_position($script, $endl + 1);
             }
 
             // handle script header
@@ -1087,7 +1090,7 @@ class rcube_sieve_script
     static function escape_string($str)
     {
         if (is_array($str) && count($str) > 1) {
-            foreach($str as $idx => $val)
+            foreach ($str as $idx => $val)
                 $str[$idx] = self::escape_string($val);
 
             return '[' . implode(',', $str) . ']';

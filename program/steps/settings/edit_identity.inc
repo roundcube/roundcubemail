@@ -121,7 +121,7 @@ function rcube_identity_form($attrib)
     }
 
     if (IDENTITIES_LEVEL == 4) {
-        foreach($form['addressing']['content'] as $formfield => $value){
+        foreach ($form['addressing']['content'] as $formfield => $value){
             $form['addressing']['content'][$formfield]['disabled'] = true;
             $form['addressing']['content'][$formfield]['class']    = 'disabled';
         }

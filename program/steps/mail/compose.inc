@@ -1161,7 +1161,7 @@ function rcmail_create_draft_body($body, $bodyIsHtml)
     global $MESSAGE, $COMPOSE;
 
     // add attachments
-    // sizeof($MESSAGE->mime_parts can be 1 - e.g. attachment, but no text!
+    // count($MESSAGE->mime_parts) can be 1 - e.g. attachment, but no text!
     if (empty($COMPOSE['forward_attachments'])
         && is_array($MESSAGE->mime_parts)
         && count($MESSAGE->mime_parts) > 0

@@ -157,8 +157,8 @@ class enigma_mime_message extends Mail_mime
      */
     public function get($params = null, $filename = null, $skip_head = false)
     {
-        if (isset($params)) {
-            while (list($key, $value) = each($params)) {
+        if (!empty($params)) {
+            foreach ($params as $key => $value) {
                 $this->build_params[$key] = $value;
             }
         }

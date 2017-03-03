@@ -34,6 +34,16 @@ $WGET = trim(`which wget`);
 $UNZIP = trim(`which unzip`);
 $FILEINFO = trim(`which file`);
 
+if (empty($UNZIP)) {
+  die("ERROR: Required program 'unzip' not found\n");
+}
+if (empty($FILEINFO)) {
+  die("ERROR: Required program 'file' not found\n");
+}
+if (empty($CURL) && empty($WGET)) {
+  die("ERROR: Required program 'wget' or 'curl' not found\n");
+}
+
 $CACHEDIR = sys_get_temp_dir();
 
 if (is_writeable(INSTALL_PATH . 'temp/js_cache') || mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {

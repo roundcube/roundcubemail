@@ -68,7 +68,7 @@ class runlog {
         $this->indent--;
         if ($this->run_log[$lastk]['duration'] >= $this->threshold) {
             $tag_report = "";
-            foreach($this->tag_count as $tag => $count){
+            foreach ($this->tag_count as $tag => $count){
                 $tag_report .= "$tag: $count, ";
             }
             if (!empty($tag_report)) {

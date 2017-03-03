@@ -107,7 +107,7 @@ class rcube_spellcheck_pspell extends rcube_spellcheck_engine
             else if (!pspell_check($this->plink, $word)) {
                 $suggestions = pspell_suggest($this->plink, $word);
 
-                if (sizeof($suggestions) > self::MAX_SUGGESTIONS) {
+                if (count($suggestions) > self::MAX_SUGGESTIONS) {
                     $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
                 }
 
@@ -136,7 +136,7 @@ class rcube_spellcheck_pspell extends rcube_spellcheck_engine
 
         $suggestions = pspell_suggest($this->plink, $word);
 
-        if (sizeof($suggestions) > self::MAX_SUGGESTIONS)
+        if (count($suggestions) > self::MAX_SUGGESTIONS)
             $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
 
         return is_array($suggestions) ? $suggestions : array();

@@ -1079,7 +1079,7 @@ class enigma_ui
         }
         else if (!$savedraft && $sign_enable) {
             $engine = $this->enigma->load_engine();
-            $status = $engine->sign_message($p['message']);
+            $status = $engine->sign_message($p['message'], enigma_engine::SIGN_MODE_MIME);
             $mode   = 'sign';
         }
 

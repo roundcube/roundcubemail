@@ -806,7 +806,7 @@ class rcube
     {
         static $sa_languages = array();
 
-        if (!sizeof($sa_languages)) {
+        if (!count($sa_languages)) {
             @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
 
             if ($dh = @opendir(RCUBE_LOCALIZATION_DIR)) {
@@ -1661,7 +1661,7 @@ class rcube
             $this->plugins->exec_hook('message_send_error', $plugin + array('error' => $error));
         }
         else {
-            $this->plugins->exec_hook('message_sent', array('headers' => $headers, 'body' => $msg_body));
+            $this->plugins->exec_hook('message_sent', array('headers' => $headers, 'body' => $msg_body, 'message' => $message));
 
             // remove MDN headers after sending
             unset($headers['Return-Receipt-To'], $headers['Disposition-Notification-To']);
