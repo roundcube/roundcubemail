@@ -7,6 +7,7 @@ a.button.icon:before,
 .folderlist li a:before,
 .listing.iconized tr td:before,
 .listing.iconized li a:before,
+ul.treelist li div.treetoggle:before,
 a.rcmaddcontact:before,
 .attachmentslist li:before,
 #taskmenu a:before {
@@ -308,6 +309,18 @@ a.button.icon.back-list-button:before {
 }
 a.button.icon > span.inner {
 	display: none;
+}
+
+
+ul.treelist li div.treetoggle:before {
+	content: @fa-var-plus-square-o;
+	font-size: 0.8em;
+	width: 0.8em;
+	height: 0.8em;
+	background-color: white;
+}
+ul.treelist li div.treetoggle.expanded:before {
+	content: @fa-var-minus-square-o;
 }
 
 
