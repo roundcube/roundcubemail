@@ -5744,7 +5744,7 @@ function rcube_webmail()
       source = this.env.source ? this.env.address_sources[this.env.source] : null;
 
     // we don't have dblclick handler here, so use 50 instead of this.dblclick_time
-    if (this.env.contentframe && (id = list.get_single_selection()))
+    if (this.env.contentframe && !list.multi_selecting && (id = list.get_single_selection()))
       this.preview_timer = setTimeout(function(){ ref.load_contact(id, 'show'); }, 50);
     else if (this.env.contentframe)
       this.show_contentframe(false);
