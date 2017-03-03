@@ -617,6 +617,10 @@ function rcube_elastic_ui()
         if (p && p.name == 'messagelistmenu') {
             menu_messagelist(p);
         }
+        else if (p && p.name == 'folder-selector') {
+            $('ul:first', p.obj).addClass('listing folderlist');
+            $(p.obj).addClass('ui popup visible');
+        }
     };
 
     /**
