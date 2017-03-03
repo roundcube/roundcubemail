@@ -186,8 +186,8 @@ table.listing tr.selected td {
 }
 
 table.listing td.selection {
-	width: 1%;
 	padding: 0 1em;
+	width: 3em;
 	text-align: center;
 }
 
@@ -265,6 +265,88 @@ ul.listing li input[type=checkbox] {
 
 #folder-selector li a.virtual {
 	opacity: .2;
+}
+
+
+table.listing {
+	table-layout: fixed;
+}
+
+.messagelist > thead,
+.messagelist .branch,
+table.fixedcopy {
+	display: none;
+}
+
+.messagelist td {
+	border-left: 0;
+	width: 2em;
+	vertical-align: top;
+}
+
+.messagelist td.subject {
+	width: 99%;
+	white-space: wrap;
+	position: relative; /* for span.date positioning in Firefox */
+}
+
+.messagelist td.threads {
+	vertical-align: bottom;
+}
+
+.messagelist td.subject span {
+	line-height: 2em;
+}
+
+.messagelist td.subject span.date {
+	right: 2px;
+	top: 3px;
+	position: absolute;
+	color: #666; /* TODO */
+}
+
+.messagelist td.subject span.fromto {
+	padding-left: 1.5em;
+	display: block;
+	margin-right: 10em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #666; /* TODO */
+}
+
+.messagelist tr.flagged td.subject span.date,
+.messagelist tr.flagged td.subject span.fromto {
+	color: #ff5c33; /* TODO */
+}
+
+.messagelist tr.deleted td.subject span.date,
+.messagelist tr.deleted td.subject span.fromto {
+	color: #ccc; /* TODO */
+}
+
+.messagelist td.subject span.subject {
+	clear: both;
+	display: block;
+	font-size: 1em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.messagelist td.flags span {
+	width: 20px;
+	height: 20px;
+	display: block;
+	margin-left: 1px;
+}
+
+.messagelist td.flags span.flag {
+	cursor: pointer;
+}
+
+.messagelist tr td.subject span.msgicon,
+.messagelist tr td.subject span.unreadchildren {
+	width: 20px;
+	height: 20px;
 }
 
 

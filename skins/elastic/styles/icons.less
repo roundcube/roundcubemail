@@ -8,6 +8,11 @@ a.button.icon:before,
 .listing.iconized tr td:before,
 .listing.iconized li a:before,
 ul.treelist li div.treetoggle:before,
+.messagelist tr.thread td.threads div:before,
+.messagelist td.subject span.msgicon.status:before,
+.messagelist span.attachment span:before,
+.messagelist span.flagged:before,
+.messagelist tr:hover span.unflagged:before,
 a.rcmaddcontact:before,
 .attachmentslist li:before,
 #taskmenu a:before {
@@ -314,6 +319,30 @@ a.button.icon > span.inner {
 	display: none;
 }
 
+.messagelist tr.thread td.threads div:before {
+	content: @fa-var-caret-square-o-right;
+}
+.messagelist tr.thread.expanded td.threads div:before {
+	content: @fa-var-caret-square-o-down;
+}
+.messagelist td.subject span.msgicon.status:before {
+	content: @fa-var-circle-o;
+}
+.messagelist tr.unread td.subject span.msgicon.status:before {
+	content: @fa-var-circle;
+}
+.messagelist tr.deleted td.subject span.msgicon.status:before {
+	content: @fa-var-ban;
+}
+.messagelist span.attachment span:before {
+	content: @fa-var-paperclip;
+}
+.messagelist span.flagged:before {
+	content: @fa-var-flag;
+}
+.messagelist tr:hover span.unflagged:before {
+	content: @fa-var-flag-o;
+}
 
 ul.treelist li div.treetoggle:before {
 	content: @fa-var-plus-square-o;
