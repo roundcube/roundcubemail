@@ -657,7 +657,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     if (is_array($colprop['subtypes'])) {
                         $values = $subtypes = array();
                         foreach (rcube_addressbook::get_col_values($field, $record) as $st => $vals) {
-                            foreach((array)$vals as $value) {
+                            foreach ((array)$vals as $value) {
                                 $i = count($values);
                                 $subtypes[$i] = $st;
                                 $values[$i] = $value;

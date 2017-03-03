@@ -165,7 +165,7 @@ class rcube_sieve
             $rawErrorMessage = $result->getMessage();
             $errMessages = preg_split("/$name:/", $rawErrorMessage);
 
-            if (sizeof($errMessages) > 0) {
+            if (count($errMessages) > 0) {
                 foreach ($errMessages as $singleError) {
                     $matches = array();
                     $res = preg_match('/line (\d+):(.*)/i', $singleError, $matches);

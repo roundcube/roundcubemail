@@ -194,7 +194,7 @@ class squirrelmail_usercopy extends rcube_plugin
 
                 // parse addres book file
                 if (filesize($abookfile)) {
-                    foreach(file($abookfile) as $line) {
+                    foreach (file($abookfile) as $line) {
                         $line = $this->convert_charset(rtrim($line), $file_charset);
                         list($rec['name'], $rec['firstname'], $rec['surname'], $rec['email']) = explode('|', $line);
                         if ($rec['name'] && $rec['email']) {

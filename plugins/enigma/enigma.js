@@ -292,10 +292,10 @@ rcube_webmail.prototype.enigma_keylist_keypress = function(list)
 // load key frame
 rcube_webmail.prototype.enigma_loadframe = function(url)
 {
-    var frm, win;
+    var win;
 
-    if (this.env.contentframe && window.frames && (frm = window.frames[this.env.contentframe])) {
-        if (!url && (win = window.frames[this.env.contentframe])) {
+    if (win = this.get_frame_window(this.env.contentframe)) {
+        if (!url) {
             if (win.location && win.location.href.indexOf(this.env.blankpage) < 0)
                 win.location.href = this.env.blankpage;
             if (this.env.frame_lock)
@@ -304,7 +304,7 @@ rcube_webmail.prototype.enigma_loadframe = function(url)
         }
 
         this.env.frame_lock = this.set_busy(true, 'loading');
-        frm.location.href = this.env.comm_path + '&_framed=1&' + url;
+        win.location.href = this.env.comm_path + '&_framed=1' + url;
     }
 };
 

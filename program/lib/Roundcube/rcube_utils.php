@@ -98,7 +98,7 @@ class rcube_utils
             // If not an IP address
             $domain_array = explode('.', $domain_part);
             // Not enough parts to be a valid domain
-            if (sizeof($domain_array) < 2) {
+            if (count($domain_array) < 2) {
                 return false;
             }
 
@@ -633,7 +633,7 @@ class rcube_utils
             $proxy_whitelist = rcube::get_instance()->config->get('proxy_whitelist', array());
             if (in_array($_SERVER['REMOTE_ADDR'], $proxy_whitelist)) {
                 if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                    foreach(array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) as $forwarded_ip) {
+                    foreach (array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) as $forwarded_ip) {
                         if (!in_array($forwarded_ip, $proxy_whitelist)) {
                             return $forwarded_ip;
                         }

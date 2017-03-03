@@ -88,7 +88,7 @@ function rcube_text_editor(config, id)
   // full-featured editor
   else {
     $.extend(conf, {
-      plugins: 'autolink charmap code colorpicker directionality link image media nonbreaking'
+      plugins: 'autolink charmap code colorpicker directionality link lists image media nonbreaking'
         + ' paste table tabfocus textcolor searchreplace spellchecker',
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
         + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'

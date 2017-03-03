@@ -4241,7 +4241,7 @@ class rcube_imap extends rcube_storage
      */
     protected function sort_folder_specials($folder, &$list, &$specials, &$out)
     {
-        while (list($key, $name) = each($list)) {
+        foreach ($list as $key => $name) {
             if ($folder === null || strpos($name, $folder.$this->delimiter) === 0) {
                 $out[] = $name;
                 unset($list[$key]);

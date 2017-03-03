@@ -141,7 +141,7 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
 
         if ($matches[0][4]) {
             $suggestions = explode("\t", $matches[0][4]);
-            if (sizeof($suggestions) > self::MAX_SUGGESTIONS) {
+            if (count($suggestions) > self::MAX_SUGGESTIONS) {
                 $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
             }
 
