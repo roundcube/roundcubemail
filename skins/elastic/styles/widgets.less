@@ -72,104 +72,13 @@ body.iframe .formbuttons {
 	opacity: 1;
 }
 
-.listbox .scroller {
-	width: 100%;
-	overflow-x: hidden;
-	overflow-y: auto;
+.toolbar > .spacer {
+	display: inline-block;
+	width: 1.2em;
 }
 
-.listing tbody td,
-.listing li {
-	display: block;
-	border-bottom: 1px solid #f4f4f4;
-	cursor: default;
-	font-weight: normal;
-}
-
-.listbox .listitem a,
-.listbox .listitem span,
-.listbox .tablink a,
-.listing tbody td,
-.listing li a {
-	display: block;
-	text-decoration: none;
-	cursor: default;
-	padding: 0 0.5em;
-	white-space: nowrap;
-	vertical-align: middle;
-	line-height: 2.4em;
-}
-
-.listing tbody td {
-	display: table-cell;
-	outline: none;
-}
-
-table.listing {
-	width: 100%;
-}
-
-ul.listing {
-	display: block;
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-ul.listing li {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	position: relative;
-}
-
-ul.listing li ul {
-	border-top: 1px solid #f4f4f4;
-	padding-left: 1.5em;
-}
-ul.listing li ul li:last-child {
-	border-bottom: none;
-}
-
-ul.treelist li div.treetoggle {
-	position: absolute;
-	top: 7px;
-	left: 4px;
-	width: 13px;
-	height: 13px;
-	background: /* TODO */ no-repeat;
-	cursor: pointer;
-}
-
-.folderlist li.mailbox .unreadcount {
-	position: absolute;
-	top: 0;
-	right: 0;
-	min-width: 2em;
-	line-height: 1.4em;
-	margin: 0.5em 0.2em;
-	padding: 0 0.3em;
-	background:  /* todo */ #1e70bf;
-	border-radius: 0.4em;
-	color: @badge-font-color;
-	text-align: center;
-	font-weight: bold;
-}
-
-ul.listing li input[type=checkbox] {
-	position: absolute;
-	top: 0;
-	right: 0.2em;
-	height: 2.4em;
-	vertical-align: middle;
-}
-
-.folderlist li.mailbox.selected > a .unreadcount {
-	background: /* todo */;
-}
-
-.folderlist li.mailbox.recent > a .unreadcount {
-	background: /* todo */;
+.toolbar a.button span.inner {
+	display: none;
 }
 
 .toolbar {
@@ -181,13 +90,9 @@ ul.listing li input[type=checkbox] {
 	height: auto;
 }
 
-.toolbar > .spacer {
-	display: inline-block;
-	width: 1.2em;
-}
-
-.toolbar a.button span.inner {
-	display: none;
+.header > .buttons > input.button {
+	padding: 0.3em 0.8em;
+	font-size: 1em;
 }
 
 .searchbar {
@@ -226,10 +131,132 @@ ul.listing li input[type=checkbox] {
 	color: @searchbar-icon-active-color;
 }
 
-.header > .buttons > input.button {
-	padding: 0.3em 0.8em;
-	font-size: 1em;
+#rcmdraglayer {
+	min-width: 260px;
+	width: auto !important;
+	width: 260px;
+	background: @drag-layer-color-background;
+	z-index: 250;
+	color: @drag-layer-color;
+	white-space: nowrap;
+	opacity: 0.92;
 }
+
+.listbox .scroller {
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.listing tbody td,
+.listing li {
+	display: block;
+	border-bottom: 1px solid #f4f4f4;
+	cursor: default;
+	font-weight: normal;
+}
+
+.listbox .listitem a,
+.listbox .listitem span,
+.listbox .tablink a,
+.listing tbody td,
+.listing li a {
+	display: block;
+	text-decoration: none;
+	cursor: default;
+	padding: 0 0.5em;
+	white-space: nowrap;
+	vertical-align: middle;
+	line-height: 2.4em;
+}
+
+.listing tbody td {
+	display: table-cell;
+	outline: none;
+}
+
+table.listing {
+	width: 100%;
+}
+
+table.listing tr.selected td {
+	color: @list-selected-color;
+	background-color: @list-selected-color-background;
+}
+
+table.listing td.selection {
+	width: 1%;
+	padding: 0 1em;
+	text-align: center;
+}
+
+table.listing td.selection > input {
+	vertical-align: middle;
+}
+
+ul.listing {
+	display: block;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.listing li {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	position: relative;
+}
+
+ul.listing li ul {
+	border-top: 1px solid #f4f4f4;
+	padding-left: 1.5em;
+}
+ul.listing li ul li:last-child {
+	border-bottom: none;
+}
+
+ul.treelist li div.treetoggle {
+	position: absolute;
+	top: 7px;
+	left: 4px;
+	width: 13px;
+	height: 13px;
+	background: /* TODO */ no-repeat;
+	cursor: pointer;
+}
+
+ul.listing li input[type=checkbox] {
+	position: absolute;
+	top: 0;
+	right: 0.2em;
+	height: 2.4em;
+	vertical-align: middle;
+}
+
+.folderlist li.mailbox .unreadcount {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 2em;
+	line-height: 1.4em;
+	margin: 0.5em 0.2em;
+	padding: 0 0.3em;
+	background:  /* todo */ #1e70bf;
+	border-radius: 0.4em;
+	color: @badge-font-color;
+	text-align: center;
+	font-weight: bold;
+}
+
+.folderlist li.mailbox.selected > a .unreadcount {
+	background: /* todo */;
+}
+
+.folderlist li.mailbox.recent > a .unreadcount {
+	background: /* todo */;
+}
+
 
 /* fixes border set by accordion widget */
 .propform.ui.accordion td.title {

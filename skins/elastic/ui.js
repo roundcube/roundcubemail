@@ -224,6 +224,16 @@ function rcube_elastic_ui()
       });
     }
 
+    // Add checkbox selection to list widgets
+    rcmail.addEventListener('init', function() {
+        $('table[data-list]').each(function() {
+            var list = $(this).data('list');
+            if (rcmail[list] && rcmail[list].multiselect) {
+                rcmail[list].checkbox_selection = true;
+            }
+        });
+    });
+
     // window resize handler
     function resize()
     {

@@ -83,7 +83,6 @@ body > #layout > div.menu a:before {
 	width: @taskmenu-width;
 }
 
-body:not(.iframe) > *:not(#layout),
 body > #layout > div > .header > .buttons,
 body > #layout > div > .header > a.back-list-button,
 body > #layout > div > .header > a.back-sidebar-button,
@@ -170,10 +169,13 @@ body > #layout > div > .header > a.menu-button {
 	}
 }
 
-@media screen and (max-width: 768px) { /* tablet */
-	body {
+@media screen and (max-width: 1024px) { /* tablet */
+	body:not(.iframe) {
 		font-size: 1.2em;
 	}
+}
+
+@media screen and (max-width: 768px) { /* tablet */
 	#layout > div > .header > .toolbar:not(.searchbar),
 	body > #layout > div:not(.selected) {
 		display: none;
