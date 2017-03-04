@@ -170,7 +170,7 @@ class rcube_charset
      */
     public static function convert($str, $from, $to = null)
     {
-        static $iconv_options = null;
+        static $iconv_options = '';
         static $mbstring_sc   = null;
 
         $to   = empty($to) ? RCUBE_CHARSET : strtoupper($to);
@@ -186,24 +186,9 @@ class rcube_charset
             return $str;
         }
 
-        if ($iconv_options === null) {
-            if (function_exists('iconv')) {
-                // ignore characters not available in output charset
-                $iconv_options = '//IGNORE';
-                if (iconv('', $iconv_options, '') === false) {
-                    // iconv implementation does not support options
-                    $iconv_options = '';
-                }
-            }
-            else {
-                $iconv_options = false;
-            }
-        }
-
         // convert charset using iconv module
-        if ($iconv_options !== false && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP') {
-            // throw an exception if iconv reports an illegal character in input
-            // it means that input string has been truncated
+        if ($from != 'UTF7-IMAP' && $to != 'UTF7-IMAP') {
+            // throw an exception if iconv fails
             set_error_handler(array('rcube_charset', 'error_handler'), E_NOTICE);
             try {
                 $out = iconv($from, $to . $iconv_options, $str);
@@ -227,12 +212,13 @@ class rcube_charset
             $aliases = array(
                 'WINDOWS-1257' => 'ISO-8859-13',
                 'US-ASCII'     => 'ASCII',
+                'ISO-2022-JP'  => 'ISO-2022-JP-MS',
             );
 
             $mb_from = $aliases[$from] ?: $from;
             $mb_to   = $aliases[$to] ?: $to;
 
-            // Do the same as //IGNORE with iconv
+            // Ignore characters not available in output charset
             mb_substitute_character('none');
 
             // throw an exception if mbstring reports an illegal character in input
