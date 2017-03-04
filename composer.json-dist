@@ -34,7 +34,7 @@
         "endroid/qrcode": "~1.6.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "~5.7.15"
     },
     "suggest": {
         "pear-pear.php.net/net_ldap2": "~2.2.0 required for connecting to LDAP address books",
