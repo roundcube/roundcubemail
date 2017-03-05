@@ -64,24 +64,14 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
      */
     function data_convert()
     {
-        $tests = array(
+        return array(
             array('ö', 'ö', 'UTF-8', 'UTF-8'),
             array('ö', '', 'UTF-8', 'US-ASCII'),
             array('aż', 'a', 'UTF-8', 'US-ASCII'),
             array('&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки', 'UTF7-IMAP', 'UTF-8'),
             array('Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-', 'UTF-8', 'UTF7-IMAP'),
+            array(base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), '㈱山﨑工業', 'ISO-2022-JP', 'UTF-8'),
         );
-
-        if (mb_substitute_character()) {
-            $tests[] = array(
-                base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='),
-                '㈱山﨑工業',
-                'ISO-2022-JP',
-                'UTF-8',
-            );
-        }
-
-        return $tests;
     }
 
     /**
