@@ -2019,15 +2019,14 @@ EOF;
 
             if ($attrib['options']) {
                 $options_button = $this->button(array(
-                        'type'           => 'link',
-                        'href'           => '#search-filter',
-                        'class'          => 'button options',
-                        'label'          => 'options',
-                        'title'          => 'options',
-                        'tabindex'       => '0',
-                        'innerclass'     => 'inner',
-                        'data-popup'     => $attrib['options'],
-                        'data-popup-pos' => 'top right',
+                        'type'       => 'link',
+                        'href'       => '#search-filter',
+                        'class'      => 'button options',
+                        'label'      => 'options',
+                        'title'      => 'options',
+                        'tabindex'   => '0',
+                        'innerclass' => 'inner',
+                        'data-popup' => $attrib['options']
                 ));
             }
 
