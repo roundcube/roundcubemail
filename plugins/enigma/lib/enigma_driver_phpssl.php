@@ -147,6 +147,16 @@ class enigma_driver_phpssl extends enigma_driver
     }
 
     /**
+     * Returns a name of the hash algorithm used for the last
+     * signing operation.
+     *
+     * @return string Hash algorithm name e.g. sha1
+     */
+    public function signature_algorithm()
+    {
+    }
+
+    /**
      * Converts Crypt_GPG_Key object into Enigma's key object
      *
      * @param Crypt_GPG_Key Key object
