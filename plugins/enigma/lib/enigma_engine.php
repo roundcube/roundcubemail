@@ -216,7 +216,7 @@ class enigma_engine
             $message->setParam('text_charset', $text_charset);
         }
         else {
-            $mime->addPGPSignature($body);
+            $mime->addPGPSignature($body, $this->pgp_driver->signature_algorithm());
             $message = $mime;
         }
     }

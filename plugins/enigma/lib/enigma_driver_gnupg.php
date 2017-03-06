@@ -23,6 +23,7 @@ class enigma_driver_gnupg extends enigma_driver
     protected $gpg;
     protected $homedir;
     protected $user;
+    protected $last_sig_algorithm;
 
 
     function __construct($user)
@@ -120,7 +121,13 @@ class enigma_driver_gnupg extends enigma_driver
 
             if ($sign_key) {
                 $this->gpg->addSignKey($sign_key->reference, $sign_key->password);
-                return $this->gpg->encryptAndSign($text, true);
+
+                $res     = $this->gpg->encryptAndSign($text, true);
+                $sigInfo = $this->gpg->getLastSignatureInfo();
+
+                $this->last_sig_algorithm = $sigInfo->getHashAlgorithmName();
+
+                return $res;
             }
 
             return $this->gpg->encrypt($text, true);
@@ -172,7 +179,13 @@ class enigma_driver_gnupg extends enigma_driver
     {
         try {
             $this->gpg->addSignKey($key->reference, $key->password);
-            return $this->gpg->sign($text, $mode, CRYPT_GPG::ARMOR_ASCII, true);
+
+            $res     = $this->gpg->sign($text, $mode, CRYPT_GPG::ARMOR_ASCII, true);
+            $sigInfo = $this->gpg->getLastSignatureInfo();
+
+            $this->last_sig_algorithm = $sigInfo->getHashAlgorithmName();
+
+            return $res;
         }
         catch (Exception $e) {
             return $this->get_error_from_exception($e);
@@ -363,6 +376,17 @@ class enigma_driver_gnupg extends enigma_driver
         }
 
         return $result;
+    }
+
+    /**
+     * Returns a name of the hash algorithm used for the last
+     * signing operation.
+     *
+     * @return string Hash algorithm name e.g. sha1
+     */
+    public function signature_algorithm()
+    {
+        return $this->last_sig_algorithm;
     }
 
     /**
