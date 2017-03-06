@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Plugin API: Call message_part_structure hook for sub-parts of multipart/alternative message (#5678)
 - Enigma: Always use detached signatures (#5624)
 - Enigma: Fix handling of messages with nested PGP encrypted parts (#5634)
 - Minimize unwanted message loading in preview frame on drag (#5616)
