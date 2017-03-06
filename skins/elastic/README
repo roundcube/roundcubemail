@@ -57,10 +57,3 @@ RULES:
 - Minimum supported screen width is 240px (note that even if the device screen
   resolution is e.g.320x372 changing the text size in device settings will reduce
   the resolution)
-
-
-IDEAS/TODOs:
-------------
-- Planned use of a css framework, e.g. semantic-ui, bootstrap (to be decided)
-- build custom semantic-ui style/js, we don't really want 800kB (already minified) file
-- use semantic-ui/loader when loading content to content-frames (on phones only)?

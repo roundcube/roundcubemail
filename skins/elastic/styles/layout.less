@@ -1,6 +1,6 @@
 @import "fonts.less";
 
-@page-font-size:        1em;
+@page-font-size:        14px;
 @page-min-width:        240px;
 
 @taskmenu-width:        65px;
@@ -30,9 +30,16 @@ NOTE: below 1024px we do some UI elements bigger, as this is good (imho)
       should we rather feature detect tables/phones?
 */
 
+html {
+	height: 100%;
+	overflow: hidden;
+}
+
 body {
 	font-size: @page-font-size;
-	min-width: @page-min-width; /* overwrite semantic-ui's limit of 320px */
+	line-height: 1;
+	min-width: @page-min-width;
+	height: 100%;
 }
 
 body > #layout {
@@ -123,7 +130,7 @@ body > #layout > div > .header > a.menu-button {
 	padding: 0 0.5em;
 	margin: 0;
 	position: relative; /* for absolute positioning of searchbar */
-	/* overflow: hidden; breaks semantic-ui popups */
+	overflow: hidden;
 }
 #layout > div > .header {
 	border-bottom: 1px solid #ddd;
@@ -212,7 +219,7 @@ body > #layout > div > .header > a.menu-button {
 	body > #layout > div.menu {
 		display: none;
 		position: absolute;
-		z-index: 2;
+		z-index: 100;
 		top: 0;
 		left: 0;
 		right: 0;

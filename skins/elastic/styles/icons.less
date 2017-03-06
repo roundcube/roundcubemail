@@ -1,8 +1,10 @@
 /* font-icons */
 
-button.ui.button.icon:before,
+button.btn.icon:before,
+a.btn.icon:before,
 a.button.icon:before,
 .toolbar a.button:before,
+.ui.alert > i.icon:before,
 .toolbarmenu li a:before,
 .folderlist li a:before,
 .listing.iconized tr td:before,
@@ -39,8 +41,31 @@ a.rcmaddcontact:before,
 	backface-visibility: hidden;
 }
 
-button.ui.button.icon:before {
-	height: auto;
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+
+button.btn.icon:before {
+	font-size: 1em;
 }
 
 .toolbar a.button:before {
@@ -102,6 +127,21 @@ button.ui.button.icon:before {
 }
 #taskmenu a.button-compose:before {
 	content: @fa-var-edit;
+}
+
+.ui.alert > i.icon:before {
+	content: @fa-var-info-circle;
+}
+.ui.alert.loading > i.icon:before {
+	content: @fa-var-circle-o-notch;
+	-webkit-animation: fa-spin 2s infinite linear;
+	animation: fa-spin 2s infinite linear;
+}
+.ui.alert.alert-warning > i.icon:before {
+	content: @fa-var-warning;
+}
+.ui.alert.alert-danger > i.icon:before {
+	content: @fa-var-exclamation-circle;
 }
 
 .listing.iconized li.preferences > a:before {

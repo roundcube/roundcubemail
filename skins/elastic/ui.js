@@ -77,7 +77,8 @@ function rcube_elastic_ui()
         .addEventListener('afterlistsearch', list_handler)
         .addEventListener('message', message_displayed)
         .addEventListener('menu-open', menu_toggle)
-        .addEventListener('menu-close', menu_toggle);
+        .addEventListener('menu-close', menu_toggle)
+        .addEventListener('init', init);
 
     // menu/sidebar button
     buttons.menu.on('click', function() { show_menu(); return false; });
@@ -93,36 +94,8 @@ function rcube_elastic_ui()
     });
 
 
-    // Semantic-UI style
-    $('input.button').addClass('ui');
-    $('input.button.mainaction').addClass('primary');
-
-    // TODO: Most of this style-related code should not be needed
-    // We should implement some features in the core that would
-    // allow as to tell the engine to add additional html code/attribs
-    $('select').dropdown();
-
-    // Make forms pretty with semantic-ui's accordion widget
-    // TODO: Consider using tabs when the page width is big enough
-    $('form.propform,.tabbed').each(function() {
-        var form = $(this), fieldsets = form.children('fieldset');
-
-        if (fieldsets.length) {
-            $(this).addClass('ui styled fluid accordion');
-            fieldsets.each(function(i, fieldset) {
-                var title = $('<div>').attr('class', 'title' + (i ? '' : ' active'))
-                    .html('<i class="dropdown icon"></i>') // TODO: replace <i> with css
-                    .append($('<span>').text($('legend', fieldset).text()));
-                var content = $('<div>').attr('class', 'content' + (i ? '' : ' active'))
-                    .append($(fieldset).children().not('legend'));
-
-                form.append(title).append(content);
-                $(fieldset).remove();
-            });
-
-            form.accordion({animateChildren: false});
-        }
-    });
+    // Convert some elements to bootstrap style
+    bootstrap_style();
 
     // Initialize responsive toolbars (have to be before popups init)
     toolbar_init();
@@ -132,11 +105,14 @@ function rcube_elastic_ui()
 
     // close popups on click in an iframe on the page
     var close_all_popups = function() {
-        $('.ui.popup:visible').each(function() {
-            $($(this).data('button')).popup('hide');
+        $('.popover-content:visible').each(function() {
+            console.log($(this).children('*:first').data('button'));
+            $($(this).children('*:first').data('button')).popover('hide');
         });
     };
 
+    // TODO: Fix unwanted popups closing on click inside a popup
+    $(document).on('click', close_all_popups);
     rcube_webmail.set_iframe_events({mousedown: close_all_popups});
 
     // Move form buttons from the content frame into the frame header (on parent window)
@@ -195,24 +171,6 @@ function rcube_elastic_ui()
     // Initialize search forms (in list headers)
     $('.header > .searchbar').each(function() { searchbar_init(this); });
 
-    // Make login form pretty
-    if (rcmail.env.task == 'login') {
-        var inputs = [],
-            icon_map = {user: 'user', pass: 'lock', host: 'home'},
-            table = $('#login-form table');
-
-        $('tr', table).each(function() {
-            var input = $('input', this).detach(),
-                input_name = input.attr('name').replace('_', ''),
-                icon = $('<i>').attr('class', 'icon ' + icon_map[input_name]);
-
-            input.attr('placeholder', $('label', this).text());
-            inputs.push($('<div>').attr('class', 'ui left icon input').append([input, icon]));
-        });
-
-        table.after(inputs);
-    }
-
     // Intercept jQuery-UI dialogs to re-style them
     if ($.ui) {
       $.widget('ui.dialog', $.ui.dialog, {
@@ -224,15 +182,23 @@ function rcube_elastic_ui()
       });
     }
 
-    // Add checkbox selection to list widgets
-    rcmail.addEventListener('init', function() {
+
+    // rcmail 'init' event handler
+    function init() {
+        // Add checkbox selection to list widgets
         $('table[data-list]').each(function() {
             var list = $(this).data('list');
             if (rcmail[list] && rcmail[list].multiselect) {
                 rcmail[list].checkbox_selection = true;
             }
         });
-    });
+    };
+
+    function bootstrap_style(parent)
+    {
+        $('input.button,button', parent || window).addClass('btn');
+        $('input.button.mainaction,button.primary,button.mainaction', parent || window).addClass('btn-primary');
+    };
 
     // window resize handler
     function resize()
@@ -417,24 +383,23 @@ function rcube_elastic_ui()
      */
     function message_displayed(p)
     {
-        var icon, classes = 'ui icon message',
+        var cl, classes = 'ui alert',
             map = {
-                information: ['success', 'info circle icon'],
-                confirmation: ['success', 'info circle icon'],
-                notice: ['', 'info circle icon'],
-                error: ['negative', 'warning circle icon'],
-                warning: ['negative', 'warning sign icon'],
-                loading: ['', 'notched circle loading icon']
+                information: 'alert-success',
+                confirmation: 'alert-success',
+                notice: 'alert-info',
+                error: 'alert-danger',
+                warning: 'alert-warning',
+                loading: 'alert-info loading'
             };
 
-        if (icon = map[p.type]) {
-            if (icon[0])
-                classes += ' ' + icon[0];
-            $('<i>').attr('class', icon[1]).prependTo(p.object);
+        if (cl = map[p.type]) {
+            classes += ' ' + cl;
+            $('<i>').attr('class', 'icon').prependTo(p.object);
         }
 
-        $(p.object).addClass(classes);
-
+        $(p.object).addClass(classes).attr('role', 'alert');
+        $('a', p.object).addClass('alert-link');
 /*
         var siblings = $(p.object).siblings('div');
         if (siblings.length)
@@ -455,6 +420,7 @@ function rcube_elastic_ui()
     {
         var input = $('input', bar),
             button = $('a.button.search', bar),
+            settings_button = $('a.button.settings', bar)[0],
             form = $('form', bar),
             all_elements = $('form, a.button.options, a.button.reset', bar),
             is_search_pending = function() {
@@ -543,7 +509,7 @@ function rcube_elastic_ui()
         // append the new toolbar and menu button
         if (items.length) {
             var menu_button = $('<a class="button icon toolbar-menu-button" href="#menu">')
-                .attr({'data-popup': 'toolbar-menu', 'data-popup-pos': 'bottom right'});
+                .attr({'data-popup': 'toolbar-menu'});
 
             layout.content.children('.header')
                 // TODO: copy original toolbar attributes (class, role, aria-*)
@@ -562,22 +528,26 @@ function rcube_elastic_ui()
     {
         var popup_id = $(item).data('popup'),
             popup = $('#' + popup_id)[0],
-            popup_position = $(item).data('popup-pos') || 'bottom left';
+            title = $(item).attr('title'),
+            popup_position = $(item).data('popup-pos') || 'bottom';
 
         $(item).attr({
                 'aria-haspopup': 'true',
                 'aria-expanded': 'false',
                 'aria-owns': popup_id
             })
-            .popup({
-                popup: popup,
-                exclusive: true,
-                on: 'click',
-                position: popup_position,
-                lastResort: true
-            });
+            .popover({
+                trigger: 'click',
+                container: 'body',
+                content: popup,
+                placement: popup_position,
+                html: true
+            })
+            .on('show.bs.popover', function() { $(popup).removeClass('popup').attr('aria-hidden', false); })
+            .on('hide.bs.popover', function() { $(popup).attr('aria-hidden', true); })
+            .attr('title', title); // re-add title attribute removed by bootstrap
 
-        // TODO: Set aria attributes on menu show/hide
+        // TODO: Fix popup positioning
         // TODO: Set popup height so it is less that window height
         $(popup).attr('aria-hidden', 'true')
             .data('button', item);
@@ -607,6 +577,7 @@ function rcube_elastic_ui()
         }
 
         // TODO: style buttons/forms
+        bootstrap_style(dialog.uiDialog);
     };
 
     /**

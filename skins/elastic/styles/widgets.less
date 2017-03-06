@@ -2,6 +2,7 @@
 
 #uploadform,
 .ui.modal,
+.ui.popup,
 .voice {
 	display: none;
 }
@@ -19,7 +20,7 @@ body.iframe .formbuttons {
 	bottom: 0.5em;
 	right: 0.5em;
 	z-index: 50000;
-	width: 300px;
+	width: 320px;
 	height: auto;
 	max-height: 85%;
 	overflow-y: auto;
@@ -28,10 +29,6 @@ body.iframe .formbuttons {
 #messagestack div.voice {
 	position: absolute;
 	top: -1000px;
-}
-
-#messagestack div a {
-	color: #94c0da; /* TODO: less'ify this color */
 }
 
 #messagestack div i.icon {
@@ -43,8 +40,19 @@ body.iframe .formbuttons {
 	cursor: pointer;
 }
 
-.ui.message {
-	margin-top: 0.5em;
+.ui.alert {
+	margin: 0;
+	margin-bottom: 0.2em;
+	opacity: 0.95;
+	float: left;
+	width: 100%;
+	padding-left: 0.75em;
+}
+
+.ui.alert > i.icon:before {
+	height: 1em;
+	width: 1em;
+	line-height: 1em;
 }
 
 .ui-dialog iframe {
@@ -63,6 +71,13 @@ body.iframe .formbuttons {
 	min-width: 180px;
 }
 
+#taskmenu a,
+.toolbar a,
+a.listbutton,
+a.rcmaddcontact {
+	text-decoration: none;
+}
+
 .button.disabled,
 .toolbarmenu li a {
 	opacity: 0.5;
@@ -70,6 +85,14 @@ body.iframe .formbuttons {
 
 .toolbarmenu li a.active {
 	opacity: 1;
+}
+
+.toolbarmenu li:last-child {
+	border-bottom: none;
+}
+
+a.button {
+	text-decoration: none;
 }
 
 .toolbar > .spacer {
@@ -125,6 +148,7 @@ body.iframe .formbuttons {
 	border: none;
 	border-bottom: 1px solid #ddd;
 	background: transparent;
+	line-height: 1;
 }
 
 .searchbar > a.button.search.active {
@@ -353,6 +377,14 @@ table.fixedcopy {
 /* fixes border set by accordion widget */
 .propform.ui.accordion td.title {
 	border: none;
+}
+
+div.popover-content {
+	padding: 0;
+}
+
+div.popover > h3 {
+	display: none;
 }
 
 

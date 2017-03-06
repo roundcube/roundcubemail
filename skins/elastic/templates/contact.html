@@ -20,9 +20,9 @@
 </div>
 
 <div class="formbuttons">
-	<roundcube:button command="edit" class="ui button icon edit primary" label="edit" condition="!ENV:readonly" />
+	<roundcube:button command="edit" class="btn btn-primary icon edit" label="edit" condition="!ENV:readonly" />
 	<roundcube:if condition="env:qrcode" />
-		<roundcube:button command="qrcode" class="ui button icon qrcode" label="qrcode" />
+		<roundcube:button command="qrcode" class="btn icon qrcode" label="qrcode" />
 	<roundcube:endif />
 </div>
 
