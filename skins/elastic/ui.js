@@ -194,10 +194,10 @@ function rcube_elastic_ui()
         });
     };
 
-    function bootstrap_style(parent)
+    function bootstrap_style(context)
     {
-        $('input.button,button', parent || window).addClass('btn');
-        $('input.button.mainaction,button.primary,button.mainaction', parent || window).addClass('btn-primary');
+        $('input.button,button', context || document).addClass('btn');
+        $('input.button.mainaction,button.primary,button.mainaction', context || document).addClass('btn-primary');
     };
 
     // window resize handler
