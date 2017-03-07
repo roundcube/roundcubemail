@@ -1,9 +1,22 @@
+/**
+ * Roundcube functions for the elastic skin
+ *
+ * Copyright (c) 2017, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original autors in the README file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ *
+ * @license magnet:?xt=urn:btih:90dc5c0be029de84e523b9b3922520e79e0e6f08&dn=cc0.txt CC0-1.0
+ */
 
 "use strict";
 
 function rcube_elastic_ui()
 {
-    var mode = 'normal', // one of: wide, normal, tablet, phone
+    var ref = this,
+        mode = 'normal', // one of: wide, normal, tablet, phone
         env = {
             config: {
                 standard_windows: rcmail.env.standard_windows,
@@ -34,6 +47,9 @@ function rcube_elastic_ui()
     // public methods
     this.register_frame_buttons = register_frame_buttons;
     this.about_dialog = about_dialog;
+    this.searchmenu = searchmenu;
+    this.set_searchscope = set_searchscope;
+    this.set_searchmod = set_searchmod;
 
     env.last_selected = $('#layout > div.selected')[0];
 
@@ -104,10 +120,12 @@ function rcube_elastic_ui()
     $('*[data-popup]').each(function() { popup_init(this); });
 
     // close popups on click in an iframe on the page
-    var close_all_popups = function() {
+    var close_all_popups = function(e) {
         $('.popover-content:visible').each(function() {
-            console.log($(this).children('*:first').data('button'));
-            $($(this).children('*:first').data('button')).popover('hide');
+            var button = $(this).children('*:first').data('button');
+            if (e.target != button) {
+                $(button).popover('hide');
+            }
         });
     };
 
@@ -185,7 +203,7 @@ function rcube_elastic_ui()
 
     // rcmail 'init' event handler
     function init() {
-        // Add checkbox selection to list widgets
+        // Enable checkbox selection on list widgets
         $('table[data-list]').each(function() {
             var list = $(this).data('list');
             if (rcmail[list] && rcmail[list].multiselect) {
@@ -543,12 +561,25 @@ function rcube_elastic_ui()
                 placement: popup_position,
                 html: true
             })
-            .on('show.bs.popover', function() { $(popup).removeClass('popup').attr('aria-hidden', false); })
-            .on('hide.bs.popover', function() { $(popup).attr('aria-hidden', true); })
+            .on('show.bs.popover', function() {
+                var init_func = $(popup).data('popup-init');
+
+                $(popup).attr('aria-hidden', false);
+
+                if (init_func && ref[init_func]) {
+                    ref[init_func](popup);
+                }
+                else if (init_func && window[init_func]) {
+                    window[init_func](popup);
+                }
+            })
+            .on('hide.bs.popover', function() {
+                $(popup).attr('aria-hidden', true);
+            })
             .attr('title', title); // re-add title attribute removed by bootstrap
 
         // TODO: Fix popup positioning
-        // TODO: Set popup height so it is less that window height
+        // TODO: Set popup height so it is less than the window height
         $(popup).attr('aria-hidden', 'true')
             .data('button', item);
     };
@@ -613,8 +644,6 @@ function rcube_elastic_ui()
             $(this).prop('checked', $.inArray(this.value, rcmail.env.listcols) != -1);
         });
 
-        dialog.removeClass('popup');
-
         var save_func = function(e) {
             if (rcube_event.is_keyboard(e.originalEvent)) {
                 $('#listmenulink').focus();
@@ -640,6 +669,9 @@ function rcube_elastic_ui()
         });
     };
 
+    /**
+     * Roundcube About dialog
+     */
     function about_dialog(elem)
     {
         var support_url, support_func, support_button = false,
@@ -657,6 +689,105 @@ function rcube_elastic_ui()
             width: 600,
             height: 400
         });
+    };
+
+    function searchmenu(obj)
+    {
+        if (rcmail.env.search_mods) {
+            var n, all,
+                list = $('input:checkbox[name="s_mods[]"]', obj),
+                mbox = rcmail.env.mailbox,
+                mods = rcmail.env.search_mods,
+                scope = rcmail.env.search_scope || 'base';
+
+            if (rcmail.env.task == 'mail') {
+                if (scope == 'all') {
+                    mbox = '*';
+                }
+                mods = mods[mbox] ? mods[mbox] : mods['*'];
+                all = 'text';
+                $('input:radio[name="s_scope"]').prop('checked', false)
+                    .filter('#s_scope_'+scope).prop('checked', true);
+            }
+            else {
+                all = '*';
+            }
+
+            if (mods[all]) {
+                list.map(function() {
+                    this.checked = true;
+                    this.disabled = this.value != all;
+                });
+            }
+            else {
+                list.prop('disabled', false).prop('checked', false);
+                for (n in mods) {
+                    $('#s_mod_' + n).prop('checked', true);
+                }
+            }
+        }
+    };
+
+    function set_searchmod(elem)
+    {
+        var all, m, task = rcmail.env.task,
+            mods = rcmail.env.search_mods,
+            mbox = rcmail.env.mailbox,
+            scope = $('input[name="s_scope"]:checked').val();
+
+        if (scope == 'all') {
+            mbox = '*';
+        }
+
+        if (!mods) {
+            mods = {};
+        }
+
+        if (task == 'mail') {
+            if (!mods[mbox]) {
+                mods[mbox] = rcube_clone_object(mods['*']);
+            }
+            m = mods[mbox];
+            all = 'text';
+        }
+        else { //addressbook
+            m = mods;
+            all = '*';
+        }
+
+        if (!elem.checked) {
+            delete(m[elem.value]);
+        }
+        else {
+            m[elem.value] = 1;
+        }
+
+        // mark all fields
+        if (elem.value == all) {
+            $('input:checkbox[name="s_mods[]"]').map(function() {
+                if (this == elem) {
+                    return;
+                }
+
+                this.checked = true;
+
+                if (elem.checked) {
+                    this.disabled = true;
+                    delete m[this.value];
+                }
+                else {
+                    this.disabled = false;
+                    m[this.value] = 1;
+                }
+            });
+        }
+
+        rcmail.set_searchmods(m);
+    };
+
+    function set_searchscope(elem)
+    {
+        rcmail.set_searchscope(elem.value);
     };
 }
 

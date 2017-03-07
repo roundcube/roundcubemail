@@ -40,7 +40,7 @@ styles.css is written using LESS syntax. Thus it needs to be compiled
 using the `lessc` command line tool. This comes with the `nodejs-less`
 RPM package which depends on nodejs.
 
- $ lessc -x style/styles.less > styles.css
+ $ lessc -x styles/styles.less > styles/styles.css
 
 (the -x option minifies the CSS code)
 
