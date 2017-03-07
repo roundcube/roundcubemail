@@ -7653,7 +7653,7 @@ function rcube_webmail()
   this.simple_dialog = function(content, title, action_func, options)
   {
     var title = this.get_label(title),
-      close_func = function() { (ref.is_framed() ? parent.$ : $)(this).dialog('close'); },
+      close_func = function(dialog) { (ref.is_framed() ? parent.$ : $)(dialog).dialog('close'); },
       buttons = [{
         text: ref.get_label((options || {}).cancel_button || 'cancel'),
         click: close_func
@@ -7665,7 +7665,7 @@ function rcube_webmail()
       buttons.unshift({
         text: this.get_label((options || {}).button || 'save'),
         'class': 'mainaction',
-        click: function(e) { if (action_func(e)) close_func(); }
+        click: function(e) { if (action_func(e)) close_func(this); }
       });
 
     return this.show_popup_dialog(content, title, buttons, options);
