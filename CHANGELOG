@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Fix so group/addressbook selection is retained on page refresh
 - Fix bug where signature couldn't be added above the quote in Firefox 51 (#5628)
 - Fix so microseconds macro (u) in log_date_format works (#1490446)
+- Fix XSS issue in handling of a style tag inside of an svg element
 
 RELEASE 1.1.7
 -------------
