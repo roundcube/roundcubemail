@@ -4,10 +4,12 @@ CHANGELOG Roundcube Webmail
 RELEASE 1.2.4
 -------------
 - Managesieve: Fix handling of scripts with nested rules (#5540)
-- Fix variable substitution in ldap host for some use-cases, e.g. new_user_identity (#5544)
+- Managesieve: Fix parser issue with empty lines between comments (#5657)
+- Managesieve: Fix possible defect in handling \r\n in scripts (#5685)
 - Enigma: Fix handling of messages with nested PGP encrypted parts (#5634)
 - Enigma: Fix PHP fatal error when decrypting a message with invalid signature (#5555)
 - Enigma: Fix missing require statement for Crypt_GPG_KeyGenerator (#5641)
+- Fix variable substitution in ldap host for some use-cases, e.g. new_user_identity (#5544)
 - Fix adding images to new identity signatures
 - Fix rsync error handling in installto.sh script (#5562)
 - Fix some advanced search issues with multiple addressbooks (#5572)
@@ -22,8 +24,7 @@ RELEASE 1.2.4
 - Fix update of group name in the contacts list header on group rename (#5648)
 - Add rewrite rule to disable access to /vendor/bin folder in .htaccess (#5630)
 - Fix bug where it was too easy accidentally move a folder when using the subscription checkbox (#5655)
-- Managesieve: Fix parser issue with empty lines between comments (#5657)
-- Managesieve: Fix possible defect in handling \r\n in scripts (#5685)
+- Fix XSS issue in handling of a style tag inside of an svg element
 
 RELEASE 1.2.3
 -------------
