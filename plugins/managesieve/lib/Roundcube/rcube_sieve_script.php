@@ -1261,7 +1261,7 @@ class rcube_sieve_script
                         if ($str[$position] == "\n") {
                             $position++;
                         }
-                        else if ($str[$position] == "\r" && $str[$position] == "\n") {
+                        else if ($str[$position] == "\r" && $str[$position + 1] == "\n") {
                             $position += 2;
                         }
 
