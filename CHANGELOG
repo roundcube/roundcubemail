@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix XSS issue in handling of a style tag inside of an svg element
 - Don't create multipart/alternative messages with empty text/plain part (#5283)
 - Fix XSS issue in href attribute on area tag (#5240)
 - Wash position:fixed style in HTML mail for better security (#5264)
