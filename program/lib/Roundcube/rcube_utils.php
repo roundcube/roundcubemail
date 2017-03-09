@@ -493,25 +493,14 @@ class rcube_utils
      */
     public static function xss_entity_decode($content)
     {
+        $callback = function($matches) { return chr(hexdec($matches[1])); };
+
         $out = html_entity_decode(html_entity_decode($content));
         $out = strip_tags($out);
-        $out = preg_replace_callback('/\\\([0-9a-f]{4})/i',
-            array(self, 'xss_entity_decode_callback'), $out);
+        $out = preg_replace_callback('/\\\([0-9a-f]{4})/i', $callback, $out);
         $out = preg_replace('#/\*.*\*/#Ums', '', $out);
 
         return $out;
-    }
-
-    /**
-     * preg_replace_callback callback for xss_entity_decode
-     *
-     * @param array $matches Result from preg_replace_callback
-     *
-     * @return string Decoded entity
-     */
-    public static function xss_entity_decode_callback($matches)
-    {
-        return chr(hexdec($matches[1]));
     }
 
     /**
