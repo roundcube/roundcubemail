@@ -24,7 +24,6 @@
         "pear/net_idna2": "~0.2.0",
         "pear/mail_mime": "~1.10.0",
         "pear/net_smtp": "~1.7.1",
-        "pear/net_ldap2": "~2.2.0",
         "pear/crypt_gpg": "~1.6.0",
         "roundcube/net_sieve": "~1.5.0",
         "roundcube/plugin-installer": "~0.1.6",
@@ -34,6 +33,7 @@
         "phpunit/phpunit": "~5.7.15"
     },
     "suggest": {
-        "kolab/Net_LDAP3": "dev-master required for connecting to LDAP address books"
+        "pear/net_ldap2": "~2.2.0 required for connecting to LDAP",
+        "kolab/Net_LDAP3": "dev-master required for connecting to LDAP"
     }
 }
