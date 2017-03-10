@@ -220,6 +220,15 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $this->assertEquals("#rcmbody { background-image: url(data:image/png;base64,123); }", $mod, "Data URIs in url() allowed");
     }
 
+    function test_xss_entity_decode()
+    {
+        $mod = rcube_utils::xss_entity_decode("&lt;img/src=x onerror=alert(1)// </b>");
+        $this->assertNotContains('<img', $mod, "Strip (encoded) tags from style node");
+
+        $mod = rcube_utils::xss_entity_decode('#foo:after{content:"\003Cimg/src=x onerror=alert(2)>";}');
+        $this->assertNotContains('<img', $mod, "Strip (encoded) tags from content property");
+    }
+
     /**
      * Check rcube_utils::explode_quoted_string()
      */
