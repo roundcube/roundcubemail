@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.1.8
+-------------
 - Fix bug where mail content frame couldn't be reset in some corner cases (#5608)
 - Fix regression where groups with email address were resolved to its members' addresses
 - Fix so group/addressbook selection is retained on page refresh
