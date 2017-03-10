@@ -147,9 +147,10 @@ function rcube_elastic_ui()
         var button = target.clone();
 
         form_buttons.push(
-            button.attr({'onclick': '', disabled: false, id: button.attr('id') + '-clone'})
+            button.attr({'onclick': '', disabled: false, id: button.attr('id') + '-clone', title: target.text()})
                 .data('target', target)
                 .on('click', function(e) { target.click(); })
+                .text('')
         );
     });
 
@@ -452,7 +453,7 @@ function rcube_elastic_ui()
                     all_elements.hide();
                     $(bar).width('auto'); // fixes search button position in Chrome
                     button[is_search_pending() ? 'addClass' : 'removeClass']('active')
-                        .css('display', 'inline-block');
+                        .css('display', 'block');
                     if (focus) {
                         button.focus();
                     }

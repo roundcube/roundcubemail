@@ -94,6 +94,24 @@ a.button {
 	text-decoration: none;
 }
 
+
+#taskmenu a {
+	padding: 0.4em 0;
+}
+
+#taskmenu a,
+#taskmenu a:before {
+	display: block;
+	width: 60px;
+	text-align: center;
+}
+
+#taskmenu a:before {
+	font-size: 1.5em;
+	margin-bottom: 0.1em;
+}
+
+
 .toolbar > .spacer {
 	display: inline-block;
 	width: 1.2em;
@@ -112,10 +130,47 @@ a.button {
 	height: auto;
 }
 
+.toolbar a.button:before {
+	display: inline;
+	float: initial;
+}
+
+.toolbar a.button {
+	padding: 0 0.3em;
+}
+
+.toolbar .dropbutton > a.button:first-child {
+	padding-right: 0;
+}
+.toolbar .dropbutton > a.button.dropdown {
+	font-size: 70%;
+	padding-left: 0;
+}
+
+
 .header > .buttons > input.button {
 	padding: 0.3em 0.8em;
 	font-size: 1em;
 }
+
+.header > .buttons > button.btn {
+	color: @layout-header-button-color;
+	background-color: transparent;
+	border: 0;
+	padding: 0 0.25em;
+	font-size: 1em;
+	float: left;
+	height: 2.5em;
+	line-height: 1.25em;
+	border-radius: 0;
+	cursor: pointer;
+}
+
+.header > a {
+	height: 2.5em;
+	line-height: 2.5em;
+}
+
 
 .searchbar {
 	display: table;
@@ -128,7 +183,7 @@ a.button {
 }
 
 .searchbar > * {
-	height: 2.4em;
+	height: 2.5em;
 }
 
 .searchbar > form,
@@ -370,6 +425,11 @@ table.fixedcopy {
 .messagelist tr td.subject span.unreadchildren {
 	width: 20px;
 	height: 20px;
+}
+
+
+.formbuttons button.btn:before {
+	font-size: 1em;
 }
 
 

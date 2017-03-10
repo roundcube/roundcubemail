@@ -129,12 +129,14 @@ body > #layout > div > .header > a.menu-button {
 	background-color: @layout-header-background-color;
 	font-size: 1.2em;
 	font-weight: bold;
-	line-height: 2.4em;
-	height: 2.4em;
+	line-height: 2.5em;
+	height: 2.5em;
 	padding: 0 0.5em;
 	margin: 0;
 	position: relative; /* for absolute positioning of searchbar */
 	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 #layout > div > .header {
 	border-bottom: 1px solid #ddd;
@@ -168,7 +170,8 @@ body > #layout > div > .header > a.menu-button {
 		display: none;
 	}
 	body > #layout > div > .header > a.back-sidebar-button {
-		display: inline;
+		display: block;
+		float: left;
 	}
 	body > #layout > div.menu,
 	body > #layout > div.content {
@@ -215,7 +218,8 @@ body > #layout > div > .header > a.menu-button {
 
 @media screen and (max-width: 480px) { /* phone */
 	body > #layout > div > .header > a.menu-button {
-		display: inline;
+		display: block;
+		float: left;
 	}
 	body > #layout > div.menu span.inner {
 		display: block;

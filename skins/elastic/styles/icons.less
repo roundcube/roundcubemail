@@ -1,6 +1,6 @@
 /* font-icons */
 
-button.btn.icon:before,
+button.btn:before,
 a.btn.icon:before,
 a.button.icon:before,
 .toolbar a.button:before,
@@ -63,43 +63,6 @@ a.rcmaddcontact:before,
   }
 }
 
-
-button.btn.icon:before {
-	font-size: 1em;
-}
-
-.toolbar a.button:before {
-	display: inline;
-	float: initial;
-}
-
-.toolbar a.button {
-	padding: 0 0.3em;
-}
-
-.toolbar .dropbutton > a.button:first-child {
-	padding-right: 0;
-}
-.toolbar .dropbutton > a.button.dropdown {
-	font-size: 70%;
-	padding-left: 0;
-}
-
-#taskmenu a {
-	padding: 0.4em 0;
-}
-
-#taskmenu a,
-#taskmenu a:before {
-	display: block;
-	width: 60px;
-	text-align: center;
-}
-
-#taskmenu a:before {
-	font-size: 1.5em;
-	margin-bottom: 0.1em;
-}
 
 #taskmenu a.button-mail:before {
 	content: @fa-var-envelope;
@@ -330,18 +293,22 @@ button.btn.icon:before {
 	content: @fa-var-angle-down;
 }
 
-button.icon.save:before {
+button.btn.save:before {
   content: @fa-var-check;
 }
-button.icon.edit:before {
+button.btn.edit:before {
 	content: @fa-var-pencil;
 }
-button.icon.qrcode:before {
+button.btn.qrcode:before {
   content: @fa-var-qrcode;
 }
-button.icon.search:before {
+button.btn.search:before {
 	content: @fa-var-search;
 }
+button.btn.import:before {
+	content: @fa-var-upload;
+}
+
 
 a.button.icon.toolbar-menu-button:before {
 	content: @fa-var-ellipsis-v;
