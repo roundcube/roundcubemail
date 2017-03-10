@@ -7653,9 +7653,12 @@ function rcube_webmail()
   this.simple_dialog = function(content, title, action_func, options)
   {
     var title = this.get_label(title),
+      cancel_label = (options || {}).cancel_button || 'cancel',
+      save_label = (options || {}).button || 'save',
       close_func = function(e, ui, dialog) { (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close'); },
       buttons = [{
-        text: ref.get_label((options || {}).cancel_button || 'cancel'),
+        text: ref.get_label(cancel_label),
+        'class': cancel_label,
         click: close_func
       }];
 
@@ -7663,8 +7666,8 @@ function rcube_webmail()
       buttons[0]['class'] = 'mainaction';
     else
       buttons.unshift({
-        text: this.get_label((options || {}).button || 'save'),
-        'class': 'mainaction',
+        text: this.get_label(save_label),
+        'class': 'mainaction ' + save_label,
         click: function(e, ui) { if (action_func(e)) close_func(e, ui, this); }
       });
 
