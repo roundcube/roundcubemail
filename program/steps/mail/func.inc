@@ -1473,7 +1473,7 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=a
     unset($GLOBALS['rcmail_html_container_id']);
 
     $body = preg_replace(array(
-            // add comments arround html and other tags
+            // add comments around html and other tags
             '/(<!DOCTYPE[^>]*>)/i',
             '/(<\?xml[^>]*>)/i',
             '/(<\/?html[^>]*>)/i',

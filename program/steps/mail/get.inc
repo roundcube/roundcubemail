@@ -696,7 +696,7 @@ class rcmail_attachment_handler
         if ($error == rcube_imap_generic::ERROR_BAD) {
             ob_end_clean();
 
-            // Get action is often executed simultanously.
+            // Get action is often executed simultaneously.
             // Some servers have MAXPERIP or other limits.
             // To workaround this we'll wait for some time
             // and try again (once).

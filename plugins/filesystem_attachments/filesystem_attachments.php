@@ -114,7 +114,7 @@ class filesystem_attachments extends rcube_plugin
     /**
      * When composing an html message, image attachments may be shown
      * For this plugin, the file is already in place, just check for
-     * the existance of the proper metadata
+     * the existence of the proper metadata
      */
     function display($args)
     {

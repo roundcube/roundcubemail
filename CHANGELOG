@@ -374,7 +374,7 @@ RELEASE 1.1.1
 - Fix fatal errors on systems without mbstring extension or mb_regex_encoding() function (#4769)
 - Fix cursor position on reply below the quote in HTML mode (#4759)
 - Fix so "over quota" errors are displayed also in message compose page
-- Fix duplicate entries supression in autocomplete result (#4776)
+- Fix duplicate entries suppression in autocomplete result (#4776)
 - Fix "Non-static method PEAR::isError() should not be called statically" errors (#4770)
 - Fix parsing invalid HTML messages with BOM after <!DOCTYPE> (#4777)
 - Fix duplicate entry on timezones list in rcube_config::timezone_name_from_abbr() (#4779)
@@ -447,7 +447,7 @@ RELEASE 1.1-beta
 - Fix restoring draft messages from localStorage if editor mode differs (#4631)
 - Added config option/user preference to disable saving messages in localStorage (#4606)
 - Added config option 'imap_log_session' to enable Roundcube <-> IMAP session ID logging
-- Added config option 'log_session_id' to control the lengh of the session identifer in logs
+- Added config option 'log_session_id' to control the length of the session identifier in logs
 - Implemented 'storage_connected' API hook after successful IMAP login (#4638)
 - Intergrate Net_LDAP3 and rcube_ldap_generic classes
 - Add option (disabled_actions) to disable UI elements/actions (#4478)
@@ -760,7 +760,7 @@ RELEASE 0.9.4
 - Make identities matching case insensitive (#1881)
 - Fix issue where too big message data was stored in cache causing sql errors (#4325)
 - Fix iframe scrollbars on webkit desktop browsers (#4319)
-- Fix issue where legacy config was overriden by default config (#4305)
+- Fix issue where legacy config was overridden by default config (#4305)
 - Fix newmail_notifier issue where favicon wasn't changed back to default (#4324)
 - Fix setting of Junk and NonJunk flags by markasjunk plugin (#4303)
 - Fix lack of Reply-To address in header of forwarded message body (#4314)
@@ -844,7 +844,7 @@ RELEASE 0.9.1
 - Fix so Sender: address is added to Cc: field on reply to all (#4140)
 - Fix so addressbook_search_mode works also for group search (#4183)
 - Fix removal of a contact from a group in LDAP addressbook (#4185)
-- Inlcude SQL query in the log on SQL error (#4172)
+- Include SQL query in the log on SQL error (#4172)
 - Fix handling untagged responses in IMAP FETCH - "could not load message" error (#4180)
 - Fix very small window size in Chrome (#4087)
 - Fix list page reset when viewing a message in Larry skin (#4182)
@@ -1131,7 +1131,7 @@ RELEASE 0.8-rc
 - Add IE8 hack for messages list issue (#3317)
 - Fix handling errors on draft auto-save
 - Fix importing vCard photo with ENCODING param specified (#3746)
-- Support mutliple name/email pairs for Bcc and Reply-To identity settings (#3752)
+- Support multiple name/email pairs for Bcc and Reply-To identity settings (#3752)
 - Set flexible width to login form fields (#3735)
 - Fix re-draw bug on list columns change in IE8 (#3318)
 - Allow mass-removal of addresses from a group (#3259)
@@ -1627,7 +1627,7 @@ RELEASE 0.4.1
 
 RELEASE 0.4
 -----------
-- Fix disapearing upload form disapears when user selects a file on Safari (#2917)
+- Fix disappearing upload form disappears when user selects a file on Safari (#2917)
 - Don't replace error messages with loading info (#2534)
 - Fix JS errors on compose mode switch (#2952)
 - Fix message structure parsing when it lacks optional fields (#2960)
@@ -2290,7 +2290,7 @@ RELEASE 0.1-RC2
 - Improve message compose screen (closes #1060)
 - Select next row after removing one from list (#1063)
 - Make smtp HELO/EHLO hostname configurable (#851)
-- IPv6 Compatability (#1023), Patch #1484373
+- IPv6 Compatibility (#1023), Patch #1484373
 - Unlock interface when message sending fails (#1188)
 - Eval PHP code in template includes (if configured)
 - Show message when folder is empty. Mo more static text in table (#1068)
@@ -2396,7 +2396,7 @@ RELEASE 0.1-RC1
 - Corrected date string in sent message header (closes #887)
 - Correclty choose "To" column in sent and draft mailboxes (closes #769)
 - Changed srong tooltips for message browse buttons (closes #757)
-- Fixed signature delimeter character to be standard (Bug #830)
+- Fixed signature delimiter character to be standard (Bug #830)
 - Fixed XSS vulnerability (Bug #877)
 - Remove newlines from mail headers (Bug #827)
 - Selection issues when moving/deleting (Bug #837)

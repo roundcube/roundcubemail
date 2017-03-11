@@ -4065,7 +4065,7 @@ class rcube_imap_generic
     /**
      * Write the given debug text to the current debug output handler.
      *
-     * @param string $message Debug mesage text.
+     * @param string $message Debug message text.
      *
      * @since 0.5-stable
      */

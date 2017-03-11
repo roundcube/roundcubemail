@@ -65,7 +65,7 @@ class html
      *
      * @param string $tagname Tag name
      * @param array  $attrib  Tag attributes as key/value pairs
-     * @param string $content Optinal Tag content (creates a container tag)
+     * @param string $content Optional Tag content (creates a container tag)
      * @param array  $allowed List with allowed attributes, omit to allow all
      *
      * @return string The XHTML tag
@@ -630,7 +630,7 @@ class html_textarea extends html
  * $select->add(array('Switzerland','Germany'), array('CH','DE'));
  *
  * // generate pulldown with selection 'Switzerland'  and return html-code
- * // as second argument the same attributes available to instanciate can be used
+ * // as second argument the same attributes available to instantiate can be used
  * print $select->show('CH');
  * </pre>
  *

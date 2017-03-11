@@ -100,7 +100,7 @@ class rcube_ldap_generic extends Net_LDAP3
     /**
      * Returns the last LDAP error occurred
      *
-     * @return mixed Error message string or null if no error occured
+     * @return mixed Error message string or null if no error occurred
      */
     function get_error()
     {

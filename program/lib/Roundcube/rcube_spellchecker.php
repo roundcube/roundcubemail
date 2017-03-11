@@ -255,7 +255,7 @@ class rcube_spellchecker
     }
 
     /**
-     * Check if the specified word is an exception accoring to 
+     * Check if the specified word is an exception according to 
      * spellcheck options.
      *
      * @param string  $word  The word

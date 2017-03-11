@@ -308,7 +308,7 @@ class rcube_imap extends rcube_storage
 
     /**
      * Set internal folder reference.
-     * All operations will be perfomed on this folder.
+     * All operations will be performed on this folder.
      *
      * @param string $folder Folder name
      */
@@ -2798,7 +2798,7 @@ class rcube_imap extends rcube_storage
 
 
     /* --------------------------------
-     *        folder managment
+     *        folder management
      * --------------------------------*/
 
     /**
