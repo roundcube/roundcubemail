@@ -7,7 +7,7 @@
 <div id="sidebar" class="sidebar listbox" role="navigation" aria-labelledby="directorylist-header">
 	<div class="header">
 		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
-		<roundcube:label name="groups" />
+		<span id="directorylist-header" class="header-title"><roundcube:label name="groups" /></span>
 	</div>
 	<div class="scroller">
 		<roundcube:object name="directorylist" id="directorylist" class="treelist listing iconized" />
@@ -26,7 +26,7 @@
 	<div class="header">
 		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="groups" /></span></a>
-		<roundcube:object name="addresslisttitle" label="contacts" tag="span" />
+		<roundcube:object name="addresslisttitle" label="contacts" tag="span" class="header-title" />
 		<roundcube:object name="searchform" id="searchform" wrapper="searchbar toolbar"
 			label="contactsearchform" buttontitle="findcontacts" options="search-menu" ariatag="h2" />
 	</div>
@@ -60,11 +60,12 @@
 
 <!-- contact details frame -->
 <div id="content" class="content" role="main">
-	<div class="header">
+	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+		<span class="header-title"></span>
 		<!-- toolbar -->
-		<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
-		<div id="addressbooktoolbar" class="toolbar" role="toolbar" aria-labelledby="aria-label-toolbar">
+		<div id="addressbooktoolbar" class="toolbar">
 			<roundcube:button command="import" type="link"
 				class="button import disabled" classAct="button import"
 				label="import" title="importcontacts" innerclass="inner" />

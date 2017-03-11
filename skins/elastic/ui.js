@@ -68,6 +68,9 @@ function rcube_elastic_ui()
             env.last_selected = layout.content[0];
             screen_resize();
         }
+        else if (!show) {
+            $('.header > .header-title', layout.content).text('');
+        }
     });
 
     // display the list widget after 'list' and 'listgroup' commands
@@ -83,7 +86,7 @@ function rcube_elastic_ui()
             if (rcmail.env.task == 'mail' && !rcmail.env.action) {
                 var name = $.type(e) == 'string' ? e : rcmail.env.mailbox;
                 var folder = rcmail.env.mailboxes[name];
-                $('#folder-name').text(folder ? folder.name : '');
+                $('.header > .header-title', layout.list).text(folder ? folder.name : '');
             }
         };
 
@@ -109,7 +112,6 @@ function rcube_elastic_ui()
         return false;
     });
 
-
     // Convert some elements to bootstrap style
     bootstrap_style();
 
@@ -132,6 +134,34 @@ function rcube_elastic_ui()
     // TODO: Fix unwanted popups closing on click inside a popup
     $(document).on('click', close_all_popups);
     rcube_webmail.set_iframe_events({mousedown: close_all_popups});
+
+    // Initialize search forms (in list headers)
+    $('.header > .searchbar').each(function() { searchbar_init(this); });
+
+    // Intercept jQuery-UI dialogs to re-style them
+    if ($.ui) {
+        $.widget('ui.dialog', $.ui.dialog, {
+            open: function() {
+                this._super();
+                dialog_open(this);
+                return this;
+            }
+        });
+    }
+
+    // Set content frame title in parent window
+    if (rcmail.is_framed()) {
+        var title = $('h1.voice:first').text();
+        if (title) {
+            parent.$('#content > .header > .header-title').text(title);
+        }
+    }
+    else {
+        var title = $('#content .boxtitle:first').detach().text();
+        if (title) {
+            $('#content > .header > .header-title').text(title);
+        }
+    }
 
     // Move form buttons from the content frame into the frame header (on parent window)
     // TODO: Active button state
@@ -160,8 +190,9 @@ function rcube_elastic_ui()
                 parent.UI.register_frame_buttons(form_buttons);
             }
         }
-        else
+        else {
             register_frame_buttons(form_buttons);
+        }
     }
 
     function register_frame_buttons(buttons)
@@ -173,37 +204,24 @@ function rcube_elastic_ui()
             if (header.length) {
                 var toolbar = header.children('.buttons');
 
-                if (!toolbar.length)
+                if (!toolbar.length) {
                     toolbar = $('<span class="buttons">').appendTo(header);
+                }
 
                 content_buttons = [];
-                toolbar.html('');
                 $.each(buttons, function() {
-                    toolbar.append(this);
                     content_buttons.push(this.data('target'));
                 });
+
+                toolbar.html('').append(buttons);
                 resize();
             }
         }
-    }
-
-    // Initialize search forms (in list headers)
-    $('.header > .searchbar').each(function() { searchbar_init(this); });
-
-    // Intercept jQuery-UI dialogs to re-style them
-    if ($.ui) {
-      $.widget('ui.dialog', $.ui.dialog, {
-        open: function() {
-          this._super();
-          dialog_open(this);
-          return this;
-        }
-      });
-    }
-
+    };
 
     // rcmail 'init' event handler
-    function init() {
+    function init()
+    {
         // Enable checkbox selection on list widgets
         $('table[data-list]').each(function() {
             var list = $(this).data('list');
@@ -213,6 +231,7 @@ function rcube_elastic_ui()
         });
     };
 
+    // Apply bootstrap classes to html elements
     function bootstrap_style(context)
     {
         $('input.button,button', context || document).addClass('btn');
@@ -507,6 +526,8 @@ function rcube_elastic_ui()
         // TODO: spacer item
         // TODO: dropbutton item
         // TODO: a way to inject buttons to the menu from content iframe
+        //       or automatically add all buttons except Save and Cancel
+        //       (example QR Code button in contact frame)
 
         var items = [], buttons_with_popup = [];
 
@@ -671,7 +692,7 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Roundcube About dialog
+     * About dialog
      */
     function about_dialog(elem)
     {
@@ -692,6 +713,9 @@ function rcube_elastic_ui()
         });
     };
 
+    /**
+     * Search options menu popup
+     */
     function searchmenu(obj)
     {
         if (rcmail.env.search_mods) {

@@ -94,18 +94,6 @@ body > #layout > div.menu a:before {
 	width: @taskmenu-width;
 }
 
-body > #layout > div > .header > .buttons,
-body > #layout > div > .header > a.back-list-button,
-body > #layout > div > .header > a.back-sidebar-button,
-body > #layout > div > .header > a.toolbar-menu-button,
-body > #layout > div > .header > a.menu-button {
-	display: none;
-}
-
-#layout > div .toolbar {
-	float: right;
-}
-
 #layout > div.content > iframe,
 #layout > div.content > .content,
 #layout > div.content > .content > iframe {
@@ -131,18 +119,26 @@ body > #layout > div > .header > a.menu-button {
 	font-weight: bold;
 	line-height: 2.5em;
 	height: 2.5em;
-	padding: 0 0.5em;
+	padding: 0 0.25em;
 	margin: 0;
 	position: relative; /* for absolute positioning of searchbar */
 	overflow: hidden;
 	white-space: nowrap;
-	text-overflow: ellipsis;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
 }
 #layout > div > .header {
 	border-bottom: 1px solid #ddd;
 }
 #layout > div > .footer {
 	border-top: 1px solid #ddd;
+}
+
+#layout > div > .header > .header-title {
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #taskmenu .special-buttons {
@@ -168,10 +164,6 @@ body > #layout > div > .header > a.menu-button {
 	body > #layout > div:not(.selected),
 	body > #layout > div.menu span.inner {
 		display: none;
-	}
-	body > #layout > div > .header > a.back-sidebar-button {
-		display: block;
-		float: left;
 	}
 	body > #layout > div.menu,
 	body > #layout > div.content {
@@ -205,22 +197,9 @@ body > #layout > div > .header > a.menu-button {
 	body > #layout > div.list {
 		max-width: 100%;
 	}
-	body > #layout > div > .header > a.toolbar-menu-button,
-	body > #layout > div > .header > .buttons {
-		display: block;
-		float: right;
-	}
-	body > #layout > div > .header > a.back-list-button {
-		display: block;
-		float: left;
-	}
 }
 
 @media screen and (max-width: 480px) { /* phone */
-	body > #layout > div > .header > a.menu-button {
-		display: block;
-		float: left;
-	}
 	body > #layout > div.menu span.inner {
 		display: block;
 	}
@@ -249,12 +228,29 @@ body > #layout > div > .header > a.menu-button {
 }
 
 @media screen and (max-width: 319px) {
-	#layout > div > .header > .buttons > button:before {
-		content: "" !important;
-		float: none !important;
-	}
 	body > #layout > div.sidebar,
 	body > #layout > div.list {
 		min-width: @page-min-width;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	body > #layout > div > .header > a.back-list-button,
+	body > #layout > div > .header > a.back-sidebar-button {
+		display: none;
+	}
+}
+
+@media screen and (min-width: 769px) {
+	body > #layout > .content > .header > .header-title,
+	body > #layout > div > .header > .buttons,
+	body > #layout > div > .header > a.toolbar-menu-button {
+		display: none;
+	}
+}
+
+@media screen and (min-width: 480px) {
+	body > #layout > div > .header > a.menu-button {
+		display: none;
 	}
 }

@@ -6,10 +6,10 @@
 
 <!-- responses list -->
 <div id="list" class="list listbox selected" aria-labelledby="aria-label-identitieslist">
-	<div id="aria-label-identitieslist" class="header">
+	<div class="header">
 		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
-		<roundcube:label name="identities" />
+		<span id="aria-label-identitieslist" class="header-title"><roundcube:label name="identities" /></span>
 	</div>
 	<div class="scroller">
 		<roundcube:object name="identitieslist" id="identities-table" class="listing" noheader="true" role="listbox" />
@@ -30,6 +30,7 @@
 <div id="content" class="content" role="main">
 	<div class="header">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+		<span class="header-title"></span>
 	</div>
 	<roundcube:object name="identityframe" id="preferences-frame" src="/watermark.html" title="arialabelidentityeditfrom" />
 </div>

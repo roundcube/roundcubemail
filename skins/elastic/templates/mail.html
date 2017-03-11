@@ -7,7 +7,7 @@
 <div id="sidebar" class="sidebar listbox" role="navigation" aria-labelledby="aria-label-folderlist">
 	<div class="header">
 		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
-		<span class="username"><roundcube:object name="username" /></span>
+		<span class="header-title username"><roundcube:object name="username" /></span>
 	</div>
 	<h2 id="aria-label-folderlist" class="voice"><roundcube:label name="arialabelfolderlist" /></h2>
 	<div id="folderlist-content" class="scroller">
@@ -27,7 +27,7 @@
 	<div id="messagelist-header" class="header">
 		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="mailboxlist" /></span></a>
-		<span id="folder-name"></span>
+		<span class="header-title"></span>
 		<div class="toolbar">
 			<roundcube:object name="listmenulink" class="button settings" innerclass="inner" />
 			<span class="spacer"></span><!-- spacer to compensate the search icon -->
@@ -88,6 +88,7 @@
 <div id="content" class="content">
 	<div class="header">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+		<span class="header-title"></span>
 		<roundcube:include file="/includes/mail-menu.html" />
 	</div>
 	<h2 id="aria-label-mailpreviewframe" class="voice"><roundcube:label name="arialabelmailpreviewframe" /></h2>

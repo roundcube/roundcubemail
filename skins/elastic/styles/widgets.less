@@ -121,10 +121,6 @@ a.button {
 	display: none;
 }
 
-.toolbar {
-	height: 2.4em;
-}
-
 .toolbar .ui.popup,
 .toolbar.ui.popup {
 	height: auto;
@@ -137,6 +133,8 @@ a.button {
 
 .toolbar a.button {
 	padding: 0 0.3em;
+	height: 100%;
+	display: inline-block;
 }
 
 .toolbar .dropbutton > a.button:first-child {
@@ -159,18 +157,11 @@ a.button {
 	border: 0;
 	padding: 0 0.25em;
 	font-size: 1em;
-	float: left;
 	height: 2.5em;
 	line-height: 1.25em;
 	border-radius: 0;
 	cursor: pointer;
 }
-
-.header > a {
-	height: 2.5em;
-	line-height: 2.5em;
-}
-
 
 .searchbar {
 	display: table;
@@ -447,15 +438,13 @@ div.popover > h3 {
 }
 
 
-/* make some elements bigger on tablets/phones */
-/* TODO: we should/could maybe do this more globally? */
-@media screen and (max-width: 1024px) {
-}
 
 @media screen and (min-width: 769px) {
 	ul.toolbar {
 		margin: 0;
-}
+		flex: 1;
+		text-align: right;
+	}
 	ul.toolbar > li {
 		display: inline-block;
 	}
