@@ -57,3 +57,17 @@ RULES:
 - Minimum supported screen width is 240px (note that even if the device screen
   resolution is e.g.320x372 changing the text size in device settings will reduce
   the resolution)
+
+- Every page (which is not a frame) has following required structure:
+```
+    <body>
+        <div id="layout">
+            <div id="menu"></div>
+            <div id="sidebar"></div>
+            <div id="list"></div>
+            <div id="content"></div>
+        </div>
+    </body>
+```
+  where `sidebar` and `list` are optional. Which element of the `layout` will be displayed
+  as a main view on mobile devices can be defined by adding `selected` class to it.

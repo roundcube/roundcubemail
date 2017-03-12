@@ -1,5 +1,11 @@
 @import "fonts.less";
 
+@screen-width-large:    1200px;
+@screen-width-medium:   1024px;
+@screen-width-small:    768px;
+@screen-width-xs:       480px;
+@screen-width-mini:     320px;
+
 @page-font-size:        14px;
 @page-min-width:        240px;
 
@@ -31,226 +37,226 @@ NOTE: below 1024px we do some UI elements bigger, as this is good (imho)
 */
 
 html {
-	height: 100%;
+    height: 100%;
 }
 
 body {
-	font-size: @page-font-size;
-	line-height: 1;
-	min-width: @page-min-width;
-	height: 100%;
-	overflow: hidden;
+    font-size: @page-font-size;
+    line-height: 1;
+    min-width: @page-min-width;
+    height: 100%;
+    overflow: hidden;
 }
 
 body.iframe {
-	overflow: auto;
+    overflow: auto;
 }
 
 body > #layout {
-	overflow: hidden;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	height: 100%;
-	width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 100%;
+    width: 100%;
 }
 
 body > #layout > div.sidebar,
 body > #layout > div.list {
-	display: flex;
-	flex-grow: 2;
-	flex-direction: column;
-	min-width: 300px;
-	max-width: 30%;
-	border-right: 1px solid @layout-border-color;
+    display: flex;
+    flex-grow: 2;
+    flex-direction: column;
+    min-width: 300px;
+    max-width: 30%;
+    border-right: 1px solid @layout-border-color;
 }
 
 body > #layout > div.content {
-	display: flex;
-	flex-grow: 6;
-	flex-direction: column;
-	min-width: 50%;
-	background-color: @layout-content-background-color;
+    display: flex;
+    flex-grow: 6;
+    flex-direction: column;
+    min-width: 50%;
+    background-color: @layout-content-background-color;
 }
 
 body > #layout > div.sidebar {
-	min-width: 220px;
-	background-color: @layout-sidebar-background-color;
+    min-width: 220px;
+    background-color: @layout-sidebar-background-color;
 }
 
 body > #layout > div.list {
-	min-width: 300px;
-	background-color: @layout-list-background-color;
+    min-width: 300px;
+    background-color: @layout-list-background-color;
 }
 
 body > #layout > div.menu {
-	width: @taskmenu-width;
-	background-color: @taskmenu-background-color;
+    width: @taskmenu-width;
+    background-color: @taskmenu-background-color;
 }
 
 body > #layout > div.menu a,
 body > #layout > div.menu a:before {
-	display: block;
-	width: @taskmenu-width;
+    display: block;
+    width: @taskmenu-width;
 }
 
 #layout > div.content > iframe,
 #layout > div.content > .content,
 #layout > div.content > .content > iframe {
-	height: 100%;
-	width: 100%;
-	overflow: auto;
-	border: 0;
-	flex: 1;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    border: 0;
+    flex: 1;
 }
 
 #layout > div > .scroller {
-	flex: 1;
+    flex: 1;
 }
 
 #layout > .content.only > .scroller {
-	overflow: auto;
+    overflow: auto;
 }
 
 #layout > div > .header,
 #layout > div > .footer {
-	background-color: @layout-header-background-color;
-	font-size: 1.2em;
-	font-weight: bold;
-	line-height: 2.5em;
-	height: 2.5em;
-	padding: 0 0.25em;
-	margin: 0;
-	position: relative; /* for absolute positioning of searchbar */
-	overflow: hidden;
-	white-space: nowrap;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
+    background-color: @layout-header-background-color;
+    font-size: 1.2em;
+    font-weight: bold;
+    line-height: 2.5em;
+    height: 2.5em;
+    padding: 0 0.25em;
+    margin: 0;
+    position: relative; /* for absolute positioning of searchbar */
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
 #layout > div > .header {
-	border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 #layout > div > .footer {
-	border-top: 1px solid #ddd;
+    border-top: 1px solid #ddd;
 }
 
 #layout > div > .header > .header-title {
-	flex: 1;
-	overflow: hidden;
-	text-overflow: ellipsis;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #taskmenu .special-buttons {
-	position: absolute;
-	bottom: 0;
-	left: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 #taskmenu .special-buttons a {
-	color: @taskmenu-special-button-color;
+    color: @taskmenu-special-button-color;
 }
 
 #taskmenu .action-buttons a {
-	color: @taskmenu-action-button-color;
+    color: @taskmenu-action-button-color;
 }
 
 
-@media screen and (max-width: 1200px) { /* small */
-	body > #layout > div.sidebar,
-	body > #layout > div.list {
-		min-width: 260px;
-	}
-	body > #layout > div:not(.selected),
-	body > #layout > div.menu span.inner {
-		display: none;
-	}
-	body > #layout > div.menu,
-	body > #layout > div.content {
-		display: flex;
-	}
-	body > #layout > div.menu a,
-	body > #layout > div.menu a:before,
-	body > #layout > div.menu {
-		width: 45px;
-	}
-	body > #layout > div.menu a:before {
-		margin: 0.4em 0;
-	}
+@media screen and (max-width: @screen-width-large) {
+    body > #layout > div.sidebar,
+    body > #layout > div.list {
+        min-width: 260px;
+    }
+    body > #layout > div:not(.selected),
+    body > #layout > div.menu span.inner {
+        display: none;
+    }
+    body > #layout > div.menu,
+    body > #layout > div.content {
+        display: flex;
+    }
+    body > #layout > div.menu a,
+    body > #layout > div.menu a:before,
+    body > #layout > div.menu {
+        width: 45px;
+    }
+    body > #layout > div.menu a:before {
+        margin: 0.4em 0;
+    }
 }
 
-@media screen and (max-width: 1024px) { /* tablet */
-	body:not(.iframe) {
-		font-size: 1.2em;
-	}
+@media screen and (max-width: @screen-width-medium) {
+    body:not(.iframe) {
+        font-size: 1.2em;
+    }
 }
 
-@media screen and (max-width: 768px) { /* tablet */
-	#layout > div > .header > .toolbar:not(.searchbar),
-	body > #layout > div:not(.selected) {
-		display: none;
-	}
-	body > #layout > div.menu {
-		display: flex;
-	}
-	body > #layout > div.sidebar,
-	body > #layout > div.list {
-		max-width: 100%;
-	}
+@media screen and (max-width: @screen-width-small) {
+    #layout > div > .header > .toolbar:not(.searchbar),
+    body > #layout > div:not(.selected) {
+        display: none;
+    }
+    body > #layout > div.menu {
+        display: flex;
+    }
+    body > #layout > div.sidebar,
+    body > #layout > div.list {
+        max-width: 100%;
+    }
 }
 
-@media screen and (max-width: 480px) { /* phone */
-	body > #layout > div.menu span.inner {
-		display: block;
-	}
-	body > #layout > div.menu {
-		display: none;
-		position: absolute;
-		z-index: 100;
-		top: 0;
-		left: 0;
-		right: 0;
-		width: auto;
-		margin: 38pt 3pt 3pt 3pt;
-		padding-bottom: 8pt;
-		opacity: 0.96;
-		text-align:center;
-		border-radius: 4pt;
-	}
-	body > #layout > div.menu a,
-	body > #layout > div.menu a:before {
-		display: inline-block;
-		width: 100px;
-	}
-	#taskmenu .special-buttons {
-		position: relative;
-	}
+@media screen and (max-width: @screen-width-xs) {
+    body > #layout > div.menu span.inner {
+        display: block;
+    }
+    body > #layout > div.menu {
+        display: none;
+        position: absolute;
+        z-index: 100;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: auto;
+        margin: 38pt 3pt 3pt 3pt;
+        padding-bottom: 8pt;
+        opacity: 0.96;
+        text-align:center;
+        border-radius: 4pt;
+    }
+    body > #layout > div.menu a,
+    body > #layout > div.menu a:before {
+        display: inline-block;
+        width: 100px;
+    }
+    #taskmenu .special-buttons {
+        position: relative;
+    }
 }
 
-@media screen and (max-width: 319px) {
-	body > #layout > div.sidebar,
-	body > #layout > div.list {
-		min-width: @page-min-width;
-	}
+@media screen and (max-width: @screen-width-mini) {
+    body > #layout > div.sidebar,
+    body > #layout > div.list {
+        min-width: @page-min-width;
+    }
 }
 
-@media screen and (min-width: 1200px) {
-	body > #layout > div > .header > a.back-list-button,
-	body > #layout > div > .header > a.back-sidebar-button {
-		display: none;
-	}
+@media screen and (min-width: (@screen-width-large + 1px)) {
+    body > #layout > div > .header > a.back-list-button,
+    body > #layout > div > .header > a.back-sidebar-button {
+        display: none;
+    }
 }
 
-@media screen and (min-width: 769px) {
-	body > #layout > .content > .header > .header-title,
-	body > #layout > div > .header > .buttons,
-	body > #layout > div > .header > a.toolbar-menu-button {
-		display: none;
-	}
+@media screen and (min-width: (@screen-width-small + 1px)) {
+    body > #layout > .content > .header > .header-title,
+    body > #layout > div > .header > .buttons,
+    body > #layout > div > .header > a.toolbar-menu-button {
+        display: none;
+    }
 }
 
-@media screen and (min-width: 480px) {
-	body > #layout > div > .header > a.menu-button {
-		display: none;
-	}
+@media screen and (min-width: (@screen-width-xs + 1px)) {
+    body > #layout > div > .header > a.menu-button {
+        display: none;
+    }
 }
