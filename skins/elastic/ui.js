@@ -44,14 +44,25 @@ function rcube_elastic_ui()
         back_list: $('a.back-list-button'),
     };
 
-    // public methods
+    // Public methods
     this.register_frame_buttons = register_frame_buttons;
     this.about_dialog = about_dialog;
     this.searchmenu = searchmenu;
     this.set_searchscope = set_searchscope;
     this.set_searchmod = set_searchmod;
 
+
+    // Select current layout element
     env.last_selected = $('#layout > div.selected')[0];
+    if (!env.last_selected && layout.content.length) {
+        $.each(['sidebar', 'list', 'content'], function() {
+            if (layout[this].length) {
+                env.last_selected = layout[this][0];
+                layout[this].addClass('selected');
+                return false;
+            }
+        });
+    }
 
     $(window).on('resize', function() {
         clearTimeout(env.resize_timeout);
