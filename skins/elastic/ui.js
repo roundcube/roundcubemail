@@ -216,7 +216,15 @@ function rcube_elastic_ui()
                 var toolbar = header.children('.buttons');
 
                 if (!toolbar.length) {
-                    toolbar = $('<span class="buttons">').appendTo(header);
+                    var menu = $('a.toolbar-menu-button', header);
+                    toolbar = $('<span class="buttons">');
+
+                    if (menu.length) {
+                        menu.before(toolbar);
+                    }
+                    else {
+                        toolbar.appendTo(header);
+                    }
                 }
 
                 content_buttons = [];
@@ -542,7 +550,7 @@ function rcube_elastic_ui()
         //       or automatically add all buttons except Save and Cancel
         //       (example QR Code button in contact frame)
 
-        var items = [], buttons_with_popup = [];
+        var items = [];
 
         // convert toolbar to a popup list
         $('.header > .toolbar', layout.content).each(function() {
@@ -550,13 +558,10 @@ function rcube_elastic_ui()
 
             toolbar.children().each(function() {
                 var button = $(this).detach();
-
-                $('[data-popup]', button).each(function() {
-                    buttons_with_popup.push(this);
-                });
-
                 items.push($('<li role="menuitem">').append(button));
             });
+
+            toolbar.remove();
         });
 
         // append the new toolbar and menu button
