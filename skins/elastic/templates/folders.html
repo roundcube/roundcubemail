@@ -14,7 +14,8 @@
 			label="foldersearchform" buttontitle="findfolders" options="search-filter" ariatag="h2" />
 	</div>
 	<div class="scroller">
-		<roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table" class="treelist listing folderlist iconized" />
+		<roundcube:object name="foldersubscription" form="subscriptionform" id="subscription-table"
+			class="treelist listing folderlist iconized" role="listbox" data-list="subscription_list" />
 	</div>
 	<div class="footer">
 		<roundcube:button command="create-folder" type="link" title="createfolder"

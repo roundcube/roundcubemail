@@ -391,17 +391,19 @@ function rcube_elastic_ui()
 
         // reset content frame, so we can load it again
         rcmail.show_contentframe(false);
-        // or env.content_window.location.href = rcmail.env.blankpage; ?
 
         // now we have to unselect selected row on the list
-        // TODO: do this with some magic, so it works for plugins UI
-        // e.g. we could store list widget reference in list container data
-        if (rcmail.env.task == 'settings' && !rcmail.env.action) {
-            rcmail.sections_list.clear_selection();
-        }
-        else if (rcmail.env.task == 'addressbook' && !rcmail.env.action) {
-            rcmail.contact_list.clear_selection();
-        }
+        $('[data-list]', layout.list).each(function() {
+            var list = $(this).data('list');
+            if (rcmail[list]) {
+                if (rcmail[list].clear_selection) {
+                    rcmail[list].clear_selection(); // list widget
+                }
+                else if (rcmail[list].select) {
+                    rcmail[list].select(); // treelist widget
+                }
+            }
+        });
     };
 
     // show menu widget
