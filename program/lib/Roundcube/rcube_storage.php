@@ -177,7 +177,7 @@ abstract class rcube_storage
 
     /**
      * Set internal folder reference.
-     * All operations will be perfomed on this folder.
+     * All operations will be performed on this folder.
      *
      * @param  string $folder  Folder name
      */
@@ -434,7 +434,7 @@ abstract class rcube_storage
      * @param  int                $uid    Message UID
      * @param  string             $part   Part number
      * @param  rcube_message_part $o_part Part object created by get_structure()
-     * @param  mixed              $print  True to print part, ressource to write part contents in
+     * @param  mixed              $print  True to print part, resource to write part contents in
      * @param  resource           $fp     File pointer to save the message part
      * @param  boolean            $skip_charset_conv Disables charset conversion
      *
@@ -608,7 +608,7 @@ abstract class rcube_storage
 
 
     /* --------------------------------
-     *        folder managment
+     *        folder management
      * --------------------------------*/
 
     /**
@@ -849,7 +849,7 @@ abstract class rcube_storage
      */
     public function set_special_folders($specials)
     {
-        // should be overriden by storage class if backend supports special folders (SPECIAL-USE)
+        // should be overridden by storage class if backend supports special folders (SPECIAL-USE)
         unset($this->icache['special-folders']);
     }
 

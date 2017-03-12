@@ -192,7 +192,7 @@ class squirrelmail_usercopy extends rcube_plugin
                     }
                 }
 
-                // parse addres book file
+                // parse address book file
                 if (filesize($abookfile)) {
                     foreach (file($abookfile) as $line) {
                         $line = $this->convert_charset(rtrim($line), $file_charset);
@@ -234,7 +234,7 @@ class squirrelmail_usercopy extends rcube_plugin
             $sql_result = $db->query('SELECT * FROM ' . $db->quote_identifier($address_table)
                 .' WHERE `owner` = ?', $uname); // ? is replaced with emailaddress
 
-            // parse addres book
+            // parse address book
             while ($sql_array = $db->fetch_assoc($sql_result) ) { // fetch one row from result
                 $rec['name']      = rcube_charset::convert(rtrim($sql_array['nickname']), $db_charset);
                 $rec['firstname'] = rcube_charset::convert(rtrim($sql_array['firstname']), $db_charset);

@@ -1,6 +1,6 @@
 <?php
 /**
- * Attachement Reminder
+ * Attachment Reminder
  *
  * A plugin that reminds a user to attach the files
  *

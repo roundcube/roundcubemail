@@ -120,7 +120,7 @@ class plesk_rpc
      * send a request to the plesk
      *
      * @param string $packet XML-Packet to send to Plesk
-     * @returns bool request was successfull or not
+     * @returns bool request was successful or not
      */
     function send_request($packet)
     {
@@ -152,7 +152,7 @@ class plesk_rpc
     }
 
     /**
-     * Get all hosting-informations of a domain
+     * Get all hosting-information of a domain
      *
      * @param string $domain domain-name
      * @returns object SimpleXML object
@@ -199,7 +199,7 @@ class plesk_rpc
     /**
      * Change Password of a mailbox
      *
-     * @param string $mailbox full email-adress (user@domain.tld)
+     * @param string $mailbox full email-address (user@domain.tld)
      * @param string $newpass new password of mailbox
      *
      * @returns bool

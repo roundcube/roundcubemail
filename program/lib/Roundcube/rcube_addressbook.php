@@ -668,7 +668,7 @@ abstract class rcube_addressbook
      * @param string       $search  Search value
      * @param int          $mode    Search mode
      *
-     * @return bool Comparision result
+     * @return bool Comparison result
      */
     protected function compare_search_value($colname, $value, $search, $mode)
     {
