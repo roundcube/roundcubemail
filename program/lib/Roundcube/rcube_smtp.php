@@ -186,7 +186,7 @@ class rcube_smtp
      *
      * @param string Sender e-Mail address
      *
-     * @param mixed  Either a comma-seperated list of recipients
+     * @param mixed  Either a comma-separated list of recipients
      *               (RFC822 compliant), or an array of recipients,
      *               each RFC822 valid. This may contain recipients not
      *               specified in the headers, for Bcc:, resending
@@ -448,7 +448,7 @@ class rcube_smtp
      * bare addresses (forward paths) that can be passed to sendmail
      * or an smtp server with the rcpt to: command.
      *
-     * @param mixed Either a comma-seperated list of recipients
+     * @param mixed Either a comma-separated list of recipients
      *              (RFC822 compliant), or an array of recipients,
      *              each RFC822 valid.
      *

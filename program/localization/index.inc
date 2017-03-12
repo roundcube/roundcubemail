@@ -20,7 +20,7 @@
  +-----------------------------------------------------------------------+
 */
 
-// langage codes according to ISO 639-1
+// language codes according to ISO 639-1
 // country codes according to ISO 3166-1 (Alpha-2)
 // original names from http://www.mediaglyphs.org/mg/?p=langnames
 

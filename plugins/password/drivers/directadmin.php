@@ -152,8 +152,8 @@ class HTTPSocket {
     /**
      * Specify a username and password.
      *
-     * @param string|null username. defualt is null
-     * @param string|null password. defualt is null
+     * @param string|null username. default is null
+     * @param string|null password. default is null
      */
     function set_login( $uname = '', $passwd = '' )
     {

@@ -42,7 +42,7 @@ class rcube_mime
     /**
      * Returns message/object character set name
      *
-     * @return string Characted set name
+     * @return string Character set name
      */
     public static function get_charset()
     {

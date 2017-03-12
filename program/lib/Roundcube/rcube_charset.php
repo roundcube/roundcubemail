@@ -144,7 +144,7 @@ class rcube_charset
             else if (!empty($aliases[$m[1]])) {
                 $result = 'ISO-8859-'.$aliases[$m[1]];
             }
-            // iconv requires convertion of e.g. LATIN-1 to LATIN1
+            // iconv requires conversion of e.g. LATIN-1 to LATIN1
             else {
                 $result = $str;
             }

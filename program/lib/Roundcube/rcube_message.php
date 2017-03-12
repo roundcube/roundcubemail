@@ -28,7 +28,7 @@
 class rcube_message
 {
     /**
-     * Instace of framework class.
+     * Instance of framework class.
      *
      * @var rcube
      */

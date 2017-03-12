@@ -493,7 +493,7 @@ class rcmail extends rcube
     }
 
     /**
-     * Perfom login to the mail server and to the webmail service.
+     * Perform login to the mail server and to the webmail service.
      * This will also create a new user entry if auto_create_user is configured.
      *
      * @param string $username    Mail storage (IMAP) user name
@@ -1194,7 +1194,7 @@ class rcmail extends rcube
      *
      * @param mixed  $date    Date representation (string, timestamp or DateTime object)
      * @param string $format  Date format to use
-     * @param bool   $convert Enables date convertion according to user timezone
+     * @param bool   $convert Enables date conversion according to user timezone
      *
      * @return string Formatted date string
      */

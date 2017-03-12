@@ -522,7 +522,7 @@ class rcube_db
 
     /**
      * Helper method to handle DB errors.
-     * This by default logs the error but could be overriden by a driver implementation
+     * This by default logs the error but could be overridden by a driver implementation
      *
      * @param string $query Query that triggered the error
      *
@@ -778,7 +778,7 @@ class rcube_db
     /**
      * Release resources related to the last query result.
      * When we know we don't need to access the last query result we can destroy it
-     * and release memory. Usefull especially if the query returned big chunk of data.
+     * and release memory. Useful especially if the query returned big chunk of data.
      */
     public function reset()
     {
