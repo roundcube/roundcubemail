@@ -17,7 +17,7 @@ ul.treelist li div.treetoggle:before,
 .messagelist tr:hover span.unflagged:before,
 a.rcmaddcontact:before,
 .attachmentslist li:before,
-#taskmenu a:before {
+#taskmenu a.button:before {
     font-size: 1.25em;
     /*display: inline-block;*/
     /* FIXME: with inline-block we have a problem with icon alignment,
@@ -64,31 +64,31 @@ a.rcmaddcontact:before,
 }
 
 
-#taskmenu a.button-mail:before {
+#taskmenu a.button.mail:before {
     content: @fa-var-envelope;
 }
-#taskmenu a.button-addressbook:before {
+#taskmenu a.button.addressbook:before {
     content: @fa-var-user;
 }
-#taskmenu a.button-settings:before {
+#taskmenu a.button.settings:before {
     content: @fa-var-cog;
 }
-#taskmenu a.button-help:before {
+#taskmenu a.button.help:before {
     content: @fa-var-life-bouy;
 }
-#taskmenu a.button-logout:before {
+#taskmenu a.button.logout:before {
     content: @fa-var-power-off;
 }
-#taskmenu a.button-about:before {
+#taskmenu a.button.about:before {
     content: @fa-var-question;
 }
-#taskmenu a.button-logout:hover {
+#taskmenu a.button.logout:hover {
     color: @taskmenu-logout-button-hover-color;
 }
-#taskmenu a.button-refresh:before {
+#taskmenu a.button.refresh:before {
     content: @fa-var-refresh;
 }
-#taskmenu a.button-compose:before {
+#taskmenu a.button.compose:before {
     content: @fa-var-edit;
 }
 
