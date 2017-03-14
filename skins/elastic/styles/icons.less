@@ -362,11 +362,29 @@ a.button.icon > span.inner {
 .messagelist tr.unread td.subject span.msgicon.status:before {
     content: @fa-var-circle;
 }
+.messagelist td.subject span.msgicon.unreadchildren:before {
+    content: @fa-var-dot-circle-o;
+}
 .messagelist tr.deleted td.subject span.msgicon.status:before {
     content: @fa-var-ban;
 }
+.messagelist td.subject span.msgicon.status.replied:before {
+    content: @fa-var-mail-reply;
+}
+.messagelist td.subject span.msgicon.status.forwarded:before {
+    content: @fa-var-mail-forward;
+}
+.messagelist td.subject span.msgicon.status.replied.forwarded:before {
+    content: @fa-var-mail-forward; /* TODO */
+}
 .messagelist span.attachment span:before {
     content: @fa-var-paperclip;
+}
+.messagelist span.attachment span.report:before {
+    content: @fa-var-file-text-o;
+}
+.messagelist span.attachment span.encrypted:before {
+    content: @fa-var-lock;
 }
 .messagelist span.flagged:before {
     content: @fa-var-flag;
