@@ -47,6 +47,7 @@ function rcube_elastic_ui()
     // Public methods
     this.register_frame_buttons = register_frame_buttons;
     this.about_dialog = about_dialog;
+    this.spellmenu = spellmenu;
     this.searchmenu = searchmenu;
     this.set_searchscope = set_searchscope;
     this.set_searchmod = set_searchmod;
@@ -832,6 +833,50 @@ function rcube_elastic_ui()
     {
         rcmail.set_searchscope(elem.value);
     };
+
+    /**
+     * Spellcheck languages list
+     */
+    function spellmenu(obj)
+    {
+        var i, link, li, list = [],
+            lang = rcmail.spellcheck_lang(),
+            ul = $('ul', obj);
+
+        if (!ul.length) {
+            ul = $('<ul class="toolbarmenu selectable" role="menu">');
+
+            for (i in rcmail.env.spell_langs) {
+                li = $('<li role="menuitem">');
+                link = $('<a href="#'+ i +'" tabindex="0"></a>')
+                    .text(rcmail.env.spell_langs[i])
+                    .addClass('active').data('lang', i)
+                    .on('click keypress', function(e) {
+                        if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
+                            rcmail.spellcheck_lang_set($(this).data('lang'));
+//                            rcmail.hide_menu('spellmenu', e);
+                            return false;
+                        }
+                    });
+
+                link.appendTo(li);
+                list.push(li);
+            }
+
+            ul.append(list).appendTo(obj);
+        }
+
+        // select current language
+        $('li', ul).each(function() {
+            var el = $('a', this);
+            if (el.data('lang') == lang) {
+                el.addClass('selected').attr('aria-selected', 'true');
+            }
+            else if (el.hasClass('selected')) {
+                el.removeClass('selected').removeAttr('aria-selected');
+            }
+        });
+    }
 }
 
 var UI = new rcube_elastic_ui();

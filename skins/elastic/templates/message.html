@@ -32,7 +32,8 @@
 
 <!-- popup menus -->
 <div id="attachment-menu" class="ui popup">
-	<ul class="toolbarmenu listing" role="menu">
+	<h3 id="aria-label-attachmentmenu" class="voice"><roundcube:label name="arialabelattachmentmenu" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-attachmentmenu">
 		<roundcube:button command="open-attachment" id="attachmenuopen" type="link-menuitem" label="open" class="icon" classAct="icon active" innerclass="icon extwin" />
 		<roundcube:button command="download-attachment" id="attachmenudownload" type="link-menuitem" label="download" class="icon" classAct="icon active" innerclass="icon download" />
 		<roundcube:container name="attachmentmenu" id="attachmentoptionsmenu" />

@@ -12,7 +12,7 @@
 			<roundcube:if condition="env:task == 'mail' && !env:action" />
 				<roundcube:button command="checkmail" type="link" class="button refresh" label="refresh" title="checkmail" innerclass="inner" />
 			<roundcube:endif />
-			<roundcube:if condition="env.task != 'mail' || env:action != 'compose'" />
+			<roundcube:if condition="env:task != 'mail' || env:action != 'compose'" />
 				<roundcube:button command="compose" type="link" class="button compose" label="compose" title="writenewmessage" innerclass="inner" />
 			<roundcube:endif />
 		</span>
