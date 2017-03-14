@@ -49,8 +49,6 @@ function rcube_elastic_ui()
     this.about_dialog = about_dialog;
     this.spellmenu = spellmenu;
     this.searchmenu = searchmenu;
-    this.set_searchscope = set_searchscope;
-    this.set_searchmod = set_searchmod;
 
 
     // Select current layout element
@@ -737,21 +735,28 @@ function rcube_elastic_ui()
      */
     function searchmenu(obj)
     {
-        if (rcmail.env.search_mods) {
-            var n, all,
-                list = $('input:checkbox[name="s_mods[]"]', obj),
-                mbox = rcmail.env.mailbox,
-                mods = rcmail.env.search_mods,
-                scope = rcmail.env.search_scope || 'base';
+        var n, all,
+            list = $('input[name="s_mods[]"]', obj),
+            scope = $('input[name="s_scope"]', obj),
+            mbox = rcmail.env.mailbox,
+            mods = rcmail.env.search_mods,
+            scope = rcmail.env.search_scope || 'base';
 
+        if (!$(obj).data('initialized')) {
+            list.on('click', function() { set_searchmod(this, obj); });
+            scope.on('click', function() { rcmail.set_searchscope(this.value); });
+            $(obj).data('initialized', true);
+        }
+
+        if (rcmail.env.search_mods) {
             if (rcmail.env.task == 'mail') {
                 if (scope == 'all') {
                     mbox = '*';
                 }
+
                 mods = mods[mbox] ? mods[mbox] : mods['*'];
                 all = 'text';
-                $('input:radio[name="s_scope"]').prop('checked', false)
-                    .filter('#s_scope_'+scope).prop('checked', true);
+                scope.prop('checked', false).filter('#s_scope_' + scope).prop('checked', true);
             }
             else {
                 all = '*';
@@ -772,12 +777,12 @@ function rcube_elastic_ui()
         }
     };
 
-    function set_searchmod(elem)
+    function set_searchmod(elem, menu)
     {
         var all, m, task = rcmail.env.task,
             mods = rcmail.env.search_mods,
             mbox = rcmail.env.mailbox,
-            scope = $('input[name="s_scope"]:checked').val();
+            scope = $('input[name="s_scope"]:checked', menu).val();
 
         if (scope == 'all') {
             mbox = '*';
@@ -808,7 +813,7 @@ function rcube_elastic_ui()
 
         // mark all fields
         if (elem.value == all) {
-            $('input:checkbox[name="s_mods[]"]').map(function() {
+            $('input[name="s_mods[]"]', menu).map(function() {
                 if (this == elem) {
                     return;
                 }
@@ -827,11 +832,6 @@ function rcube_elastic_ui()
         }
 
         rcmail.set_searchmods(m);
-    };
-
-    function set_searchscope(elem)
-    {
-        rcmail.set_searchscope(elem.value);
     };
 
     /**
