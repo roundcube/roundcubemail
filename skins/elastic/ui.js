@@ -68,7 +68,11 @@ function rcube_elastic_ui()
         env.resize_timeout = setTimeout(function() { resize(); }, 25);
     }).resize();
 
-    $('body').on('click', function() { if (mode == 'phone') layout.menu.hide(); });
+    // Convert some elements to bootstrap style
+    bootstrap_style();
+
+    // Initialize responsive toolbars (have to be before popups init)
+    toolbar_init();
 
     // when loading content-frame in small-screen mode display it
     layout.content.find('iframe').on('load', function(e) {
@@ -109,24 +113,12 @@ function rcube_elastic_ui()
         .addEventListener('menu-close', menu_toggle)
         .addEventListener('init', init);
 
-    // menu/sidebar button
+    // menu/sidebar/list button
     buttons.menu.on('click', function() { show_menu(); return false; });
     buttons.back_sidebar.on('click', function() { show_sidebar(); return false; });
-    buttons.back_list.on('click', function() {
-        if (!layout.list.length && !layout.sidebar.length) {
-            history.back();
-        }
-        else {
-            hide_content();
-        }
-        return false;
-    });
+    buttons.back_list.on('click', function() { show_list(); return false; });
 
-    // Convert some elements to bootstrap style
-    bootstrap_style();
-
-    // Initialize responsive toolbars (have to be before popups init)
-    toolbar_init();
+    $('body').on('click', function() { if (mode == 'phone') layout.menu.hide(); });
 
     // Initialize menu dropdowns
     $('*[data-popup]').each(function() { popup_init(this); });
@@ -395,9 +387,15 @@ function rcube_elastic_ui()
 
     function show_list()
     {
-        // show list and hide sidebar
-        layout.sidebar.hide();
-        layout.list.css('display', 'flex');
+        if (!layout.list.length && !layout.sidebar.length) {
+            history.back();
+        }
+        else {
+            // show list and hide sidebar and content
+            layout.sidebar.hide();
+            layout.list.css('display', 'flex');
+            hide_content();
+        }
     };
 
     function hide_content()
