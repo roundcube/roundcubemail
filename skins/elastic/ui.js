@@ -206,6 +206,7 @@ function rcube_elastic_ui()
             .addEventListener('message', message_displayed)
             .addEventListener('menu-open', menu_toggle)
             .addEventListener('menu-close', menu_toggle)
+            .addEventListener('editor-init', tinymce_init)
             .addEventListener('init', init);
     };
 
@@ -293,6 +294,25 @@ function rcube_elastic_ui()
             .addEventListener('afterlist', list_handler)
             .addEventListener('afterlistgroup', list_handler)
             .addEventListener('afterlistsearch', list_handler);
+    };
+
+    /**
+     * Handler for editor-init event
+     */
+    function tinymce_init(o)
+    {
+        // FIXME: only for mobile?
+        if (mode == 'phone') {
+            // Enable autoresize plugin
+            // TODO: autoresize for plain text editor area
+            o.config.plugins += ' autoresize';
+
+            // Make the toolbar icons bigger
+            o.config.toolbar_items_size = null;
+
+            // Use minimalistic toolbar
+            o.config.toolbar = 'undo redo | insert | styleselect';
+        }
     };
 
     /**
