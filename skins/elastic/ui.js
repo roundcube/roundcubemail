@@ -29,20 +29,19 @@ function rcube_elastic_ui()
                 compose_extwin: false
             }
         },
-        content_buttons = [];
+        content_buttons = [],
+        layout = {
+            menu: $('#layout > .menu'),
+            sidebar: $('#layout > .sidebar'),
+            list: $('#layout > .list'),
+            content: $('#layout > .content'),
+        },
+        buttons = {
+            menu: $('a.menu-button'),
+            back_sidebar: $('a.back-sidebar-button'),
+            back_list: $('a.back-list-button'),
+        };
 
-    var layout = {
-        menu: $('#layout > .menu'),
-        sidebar: $('#layout > .sidebar'),
-        list: $('#layout > .list'),
-        content: $('#layout > .content'),
-    };
-
-    var buttons = {
-        menu: $('a.menu-button'),
-        back_sidebar: $('a.back-sidebar-button'),
-        back_list: $('a.back-list-button'),
-    };
 
     // Public methods
     this.register_frame_buttons = register_frame_buttons;
@@ -51,152 +50,101 @@ function rcube_elastic_ui()
     this.searchmenu = searchmenu;
 
 
-    // Select current layout element
-    env.last_selected = $('#layout > div.selected')[0];
-    if (!env.last_selected && layout.content.length) {
-        $.each(['sidebar', 'list', 'content'], function() {
-            if (layout[this].length) {
-                env.last_selected = layout[this][0];
-                layout[this].addClass('selected');
-                return false;
-            }
-        });
-    }
+    // Initialize layout
+    layout_init();
 
-    $(window).on('resize', function() {
-        clearTimeout(env.resize_timeout);
-        env.resize_timeout = setTimeout(function() { resize(); }, 25);
-    }).resize();
-
-    // Convert some elements to bootstrap style
+    // Convert some elements to Bootstrap style
     bootstrap_style();
 
     // Initialize responsive toolbars (have to be before popups init)
     toolbar_init();
 
-    // when loading content-frame in small-screen mode display it
-    layout.content.find('iframe').on('load', function(e) {
-        var show = !e.target.contentWindow.location.href.endsWith(rcmail.env.blankpage);
-
-        if (show && !layout.content.is(':visible')) {
-            env.last_selected = layout.content[0];
-            screen_resize();
-        }
-        else if (!show) {
-            $('.header > .header-title', layout.content).text('');
-        }
-    });
-
-    // display the list widget after 'list' and 'listgroup' commands
-    // @TODO: plugins should be able to do the same
-    var list_handler = function(e) {
-            if (mode != 'wide') {
-                if (rcmail.env.task == 'addressbook' || (rcmail.env.task == 'mail' && !rcmail.env.action)) {
-                    show_list();
-                }
-            }
-
-            // display current folder name in list header
-            if (rcmail.env.task == 'mail' && !rcmail.env.action) {
-                var name = $.type(e) == 'string' ? e : rcmail.env.mailbox;
-                var folder = rcmail.env.mailboxes[name];
-                $('.header > .header-title', layout.list).text(folder ? folder.name : '');
-            }
-        };
-
-    rcmail
-        .addEventListener('afterlist', list_handler)
-        .addEventListener('afterlistgroup', list_handler)
-        .addEventListener('afterlistsearch', list_handler)
-        .addEventListener('message', message_displayed)
-        .addEventListener('menu-open', menu_toggle)
-        .addEventListener('menu-close', menu_toggle)
-        .addEventListener('init', init);
-
-    // menu/sidebar/list button
-    buttons.menu.on('click', function() { show_menu(); return false; });
-    buttons.back_sidebar.on('click', function() { show_sidebar(); return false; });
-    buttons.back_list.on('click', function() { show_list(); return false; });
-
-    $('body').on('click', function() { if (mode == 'phone') layout.menu.hide(); });
+    // Initialize content frame and list handlers
+    content_frame_init();
 
     // Initialize menu dropdowns
-    $('*[data-popup]').each(function() { popup_init(this); });
+    dropdowns_init();
 
-    // close popups on click in an iframe on the page
-    var close_all_popups = function(e) {
-        $('.popover-content:visible').each(function() {
-            var button = $(this).children('*:first').data('button');
-            if (e.target != button) {
-                $(button).popover('hide');
-            }
-        });
-    };
+    // Setup various UI elements
+    setup();
 
-    // TODO: Fix unwanted popups closing on click inside a popup
-    $(document).on('click', close_all_popups);
-    rcube_webmail.set_iframe_events({mousedown: close_all_popups});
 
-    // Initialize search forms (in list headers)
-    $('.header > .searchbar').each(function() { searchbar_init(this); });
+    /**
+     * Setup procedure
+     */
+    function setup()
+    {
+        // Initialize search forms (in list headers)
+        $('.header > .searchbar').each(function() { searchbar_init(this); });
 
-    // Intercept jQuery-UI dialogs to re-style them
-    if ($.ui) {
-        $.widget('ui.dialog', $.ui.dialog, {
-            open: function() {
-                this._super();
-                dialog_open(this);
-                return this;
-            }
-        });
-    }
-
-    // Set content frame title in parent window
-    if (rcmail.is_framed()) {
-        var title = $('h1.voice:first').text();
-        if (title) {
-            parent.$('#content > .header > .header-title').text(title);
-        }
-    }
-    else {
-        var title = $('#content .boxtitle:first').detach().text();
-        if (title) {
-            $('#content > .header > .header-title').text(title);
-        }
-    }
-
-    // Move form buttons from the content frame into the frame header (on parent window)
-    // TODO: Active button state
-    var form_buttons = [];
-    $('.formbuttons').children(':not(.cancel)').each(function() {
-        var target = $(this);
-
-        // skip non-content buttons
-        if (!rcmail.is_framed() && !target.parents('.content').length) {
-            return;
+        // Intercept jQuery-UI dialogs to re-style them
+        if ($.ui) {
+            $.widget('ui.dialog', $.ui.dialog, {
+                open: function() {
+                    this._super();
+                    dialog_open(this);
+                    return this;
+                }
+            });
         }
 
-        var button = target.clone();
+        // menu/sidebar/list button
+        buttons.menu.on('click', function() { show_menu(); return false; });
+        buttons.back_sidebar.on('click', function() { show_sidebar(); return false; });
+        buttons.back_list.on('click', function() { show_list(); return false; });
 
-        form_buttons.push(
-            button.attr({'onclick': '', disabled: false, id: button.attr('id') + '-clone', title: target.text()})
-                .data('target', target)
-                .on('click', function(e) { target.click(); })
-                .text('')
-        );
-    });
+        $('body').on('click', function() { if (mode == 'phone') layout.menu.hide(); });
 
-    if (form_buttons.length) {
+        // Set content frame title in parent window
         if (rcmail.is_framed()) {
-            if (parent.UI) {
-                parent.UI.register_frame_buttons(form_buttons);
+            var title = $('h1.voice:first').text();
+            if (title) {
+                parent.$('#content > .header > .header-title').text(title);
             }
         }
         else {
-            register_frame_buttons(form_buttons);
+            var title = $('#content .boxtitle:first').detach().text();
+            if (title) {
+                $('#content > .header > .header-title').text(title);
+            }
         }
-    }
 
+        // Move form buttons from the content frame into the frame header (on parent window)
+        // TODO: Active button state
+        var form_buttons = [];
+        $('.formbuttons').children(':not(.cancel)').each(function() {
+            var target = $(this);
+
+            // skip non-content buttons
+            if (!rcmail.is_framed() && !target.parents('.content').length) {
+                return;
+            }
+
+            var button = target.clone();
+
+            form_buttons.push(
+                button.attr({'onclick': '', disabled: false, id: button.attr('id') + '-clone', title: target.text()})
+                    .data('target', target)
+                    .on('click', function(e) { target.click(); })
+                    .text('')
+            );
+        });
+
+        if (form_buttons.length) {
+            if (rcmail.is_framed()) {
+                if (parent.UI) {
+                    parent.UI.register_frame_buttons(form_buttons);
+                }
+            }
+            else {
+                register_frame_buttons(form_buttons);
+            }
+        }
+    };
+
+    /**
+     * Moves form buttons into content frame toolbar (for mobile)
+     */
     function register_frame_buttons(buttons)
     {
         // we need these buttons really only in phone mode
@@ -229,7 +177,41 @@ function rcube_elastic_ui()
         }
     };
 
-    // rcmail 'init' event handler
+    /**
+     * Setup environment
+     */
+    function layout_init()
+    {
+        // Select current layout element
+        env.last_selected = $('#layout > div.selected')[0];
+        if (!env.last_selected && layout.content.length) {
+            $.each(['sidebar', 'list', 'content'], function() {
+                if (layout[this].length) {
+                    env.last_selected = layout[this][0];
+                    layout[this].addClass('selected');
+                    return false;
+                }
+            });
+        }
+
+        // Register resize handler, and call it to do layout setup
+        $(window).on('resize', function() {
+            clearTimeout(env.resize_timeout);
+            env.resize_timeout = setTimeout(function() { resize(); }, 25);
+        });
+
+        resize();
+
+        rcmail
+            .addEventListener('message', message_displayed)
+            .addEventListener('menu-open', menu_toggle)
+            .addEventListener('menu-close', menu_toggle)
+            .addEventListener('init', init);
+    };
+
+    /**
+     * rcmail 'init' event handler
+     */
     function init()
     {
         // Enable checkbox selection on list widgets
@@ -241,14 +223,82 @@ function rcube_elastic_ui()
         });
     };
 
-    // Apply bootstrap classes to html elements
+    /**
+     * Apply bootstrap classes to html elements
+     */
     function bootstrap_style(context)
     {
         $('input.button,button', context || document).addClass('btn');
         $('input.button.mainaction,button.primary,button.mainaction', context || document).addClass('btn-primary');
     };
 
-    // window resize handler
+    /**
+     * Initializes popup menus
+     */
+    function dropdowns_init()
+    {
+        $('*[data-popup]').each(function() { popup_init(this); });
+
+        // close popups on click in an iframe on the page
+        var close_all_popups = function(e) {
+            $('.popover-content:visible').each(function() {
+                var button = $(this).children('*:first').data('button');
+                if (e.target != button) {
+                    $(button).popover('hide');
+                }
+            });
+        };
+
+        // TODO: Fix unwanted popups closing on click inside a popup
+        $(document).on('click', close_all_popups);
+        rcube_webmail.set_iframe_events({mousedown: close_all_popups});
+    };
+
+    /**
+     * Init content frame
+     */
+    function content_frame_init()
+    {
+        // when loading content-frame in small-screen mode display it
+        layout.content.find('iframe').on('load', function(e) {
+            var show = !e.target.contentWindow.location.href.endsWith(rcmail.env.blankpage);
+
+            if (show && !layout.content.is(':visible')) {
+                env.last_selected = layout.content[0];
+                screen_resize();
+            }
+            else if (!show) {
+                $('.header > .header-title', layout.content).text('');
+            }
+        });
+
+        // display the list widget after 'list' and 'listgroup' commands
+        // @TODO: plugins should be able to do the same
+        var list_handler = function(e) {
+            if (mode != 'wide') {
+                if (rcmail.env.task == 'addressbook' || (rcmail.env.task == 'mail' && !rcmail.env.action)) {
+                    show_list();
+                }
+            }
+
+            // display current folder name in list header
+            if (rcmail.env.task == 'mail' && !rcmail.env.action) {
+                var name = $.type(e) == 'string' ? e : rcmail.env.mailbox;
+                var folder = rcmail.env.mailboxes[name];
+                $('.header > .header-title', layout.list).text(folder ? folder.name : '');
+            }
+        };
+
+        rcmail
+            .addEventListener('afterlist', list_handler)
+            .addEventListener('afterlistgroup', list_handler)
+            .addEventListener('afterlistsearch', list_handler);
+    };
+
+    /**
+     * Window resize handler
+     * Does layout reflows e.g. on screen orientation change
+     */
     function resize()
     {
         var size, width = $(window).width();
@@ -267,7 +317,7 @@ function rcube_elastic_ui()
         display_screen_size(); // debug info
     };
 
-    // for development only
+    // for development only (to be removed)
     function display_screen_size()
     {
         if ($('body.iframe').length)
