@@ -165,6 +165,13 @@ a.rcmaddcontact:before,
     content: @fa-var-lock;
 }
 
+.listing.iconized.selectable li a:before {
+    content: "";
+}
+.listing.iconized.selectable li a.selected:before {
+    content: @fa-var-check;
+}
+
 .folderlist li a:before {
     content: @fa-var-folder-o;
 }

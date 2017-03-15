@@ -805,14 +805,14 @@ function rcube_elastic_ui()
     {
         var n, all,
             list = $('input[name="s_mods[]"]', obj),
-            scope = $('input[name="s_scope"]', obj),
+            scope_list = $('input[name="s_scope"]', obj),
             mbox = rcmail.env.mailbox,
             mods = rcmail.env.search_mods,
             scope = rcmail.env.search_scope || 'base';
 
         if (!$(obj).data('initialized')) {
             list.on('click', function() { set_searchmod(this, obj); });
-            scope.on('click', function() { rcmail.set_searchscope(this.value); });
+            scope_list.on('click', function() { rcmail.set_searchscope(this.value); });
             $(obj).data('initialized', true);
         }
 
@@ -824,7 +824,7 @@ function rcube_elastic_ui()
 
                 mods = mods[mbox] ? mods[mbox] : mods['*'];
                 all = 'text';
-                scope.prop('checked', false).filter('#s_scope_' + scope).prop('checked', true);
+                scope_list.prop('checked', false).filter('#s_scope_' + scope).prop('checked', true);
             }
             else {
                 all = '*';
@@ -912,7 +912,7 @@ function rcube_elastic_ui()
             ul = $('ul', obj);
 
         if (!ul.length) {
-            ul = $('<ul class="toolbarmenu selectable" role="menu">');
+            ul = $('<ul class="toolbarmenu selectable listing iconized" role="menu">');
 
             for (i in rcmail.env.spell_langs) {
                 li = $('<li role="menuitem">');
