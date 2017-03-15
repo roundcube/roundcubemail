@@ -65,6 +65,9 @@ function rcube_elastic_ui()
     // Initialize menu dropdowns
     dropdowns_init();
 
+    // Update layout after some initialization
+    resize();
+
     // Setup various UI elements
     setup();
 
@@ -199,8 +202,6 @@ function rcube_elastic_ui()
             clearTimeout(env.resize_timeout);
             env.resize_timeout = setTimeout(function() { resize(); }, 25);
         });
-
-        resize();
 
         rcmail
             .addEventListener('message', message_displayed)
