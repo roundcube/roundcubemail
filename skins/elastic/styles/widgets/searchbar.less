@@ -1,0 +1,39 @@
+/*** Common UI elements ***/
+
+
+.searchbar {
+    display: table;
+    text-align: right;
+    position: absolute;
+    background-color: @layout-header-background-color;
+    z-index: 10;
+    top: 0;
+    right: 0;
+}
+
+.searchbar > * {
+    height: 2.5em;
+}
+
+.searchbar > form,
+.searchbar > a.button.options,
+.searchbar > a.button.reset {
+    display: none;
+    width: 1%;
+}
+
+.searchbar > form,
+.searchbar > form > input {
+    width: 98%;
+}
+
+.searchbar input {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    background: transparent;
+    line-height: 1;
+}
+
+.searchbar > a.button.search.active {
+    color: @searchbar-icon-active-color;
+}

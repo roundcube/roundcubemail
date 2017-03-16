@@ -1,0 +1,34 @@
+/*** Messages stack ***/
+
+#messagestack {
+    position: absolute;
+    bottom: 0.5em;
+    right: 0.5em;
+    z-index: 50000;
+    width: 320px;
+    height: auto;
+    max-height: 85%;
+    overflow-y: auto;
+}
+
+#messagestack div.voice {
+    position: absolute;
+    top: -1000px;
+}
+
+#messagestack div i.icon {
+    font-size: 2em !important;
+}
+
+#messagestack div a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 480px) {
+    #messagestack {
+        left: 0.5em;
+        width: auto;
+    }
+}

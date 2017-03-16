@@ -1,0 +1,71 @@
+/*** Toolbar widget ***/
+
+
+.toolbar a {
+    text-decoration: none;
+}
+
+.toolbar > .spacer {
+    display: inline-block;
+    width: 1.2em;
+}
+
+.toolbar a.button span.inner {
+    display: none;
+}
+
+.toolbar .ui.popup,
+.toolbar.ui.popup {
+    height: auto;
+}
+
+.toolbar a.button:before {
+    display: inline;
+    float: initial;
+}
+
+.toolbar a.button {
+    padding: 0 0.3em;
+    height: 100%;
+    display: inline-block;
+}
+
+.toolbar .dropbutton > a.button:first-child {
+    padding-right: 0;
+}
+
+.toolbar .dropbutton > a.button.dropdown {
+    font-size: 70%;
+    padding-left: 0;
+}
+
+
+.toolbarmenu li a {
+    opacity: 0.5;
+}
+
+.toolbarmenu li a.active {
+    opacity: 1;
+}
+
+.toolbarmenu li:last-child {
+    border-bottom: none;
+}
+
+
+@media screen and (min-width: (@screen-width-small + 1px)) {
+    ul.toolbar {
+        margin: 0;
+        flex: 1;
+        text-align: right;
+    }
+    ul.toolbar > li {
+        display: inline-block;
+    }
+}
+
+@media screen and (max-width: @screen-width-small) {
+    ul.toolbar a.button .inner {
+        display: inline;
+    }
+}

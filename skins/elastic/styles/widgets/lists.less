@@ -1,0 +1,88 @@
+/*** List and treelist widgets ***/
+
+table.listing {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.listing tbody td,
+.listing li {
+    display: block;
+    border-bottom: 1px solid #f4f4f4;
+    cursor: default;
+    font-weight: normal;
+}
+
+.listing tbody td,
+.listing li a {
+    display: block;
+    text-decoration: none;
+    cursor: default;
+    padding: 0 0.5em;
+    white-space: nowrap;
+    vertical-align: middle;
+    line-height: 2.4em;
+    color: @list-color;
+}
+
+.listing tbody td {
+    display: table-cell;
+    outline: none;
+}
+
+.listing tr.selected td {
+    color: @list-selected-color;
+    background-color: @list-selected-color-background;
+}
+
+.listing td.selection {
+    padding: 0 1em;
+    width: 3em;
+    text-align: center;
+}
+
+.listing td.selection > input {
+    vertical-align: middle;
+}
+
+ul.listing {
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.listing li {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+}
+
+ul.listing li ul {
+    border-top: 1px solid #f4f4f4;
+    padding-left: 1.5em;
+}
+
+ul.listing li ul li:last-child {
+    border-bottom: none;
+}
+
+ul.listing li input[type=checkbox] {
+    position: absolute;
+    top: 0;
+    right: 0.2em;
+    height: 2.4em;
+    vertical-align: middle;
+}
+
+
+ul.treelist li div.treetoggle {
+    position: absolute;
+    top: 1.2em;
+    left: 1.3em;
+    width: 0.8em;
+    height: 0.8em;
+    line-height: 0.8em;
+    cursor: pointer;
+}
