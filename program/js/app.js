@@ -5591,9 +5591,14 @@ function rcube_webmail()
     // create results pane if not present
     if (!this.ksearch_pane) {
       ul = $('<ul>');
-      this.ksearch_pane = $('<div>').attr('id', 'rcmKSearchpane').attr('role', 'listbox')
-        .css({ position:'absolute', 'z-index':30000 }).append(ul).appendTo(document.body);
+      this.ksearch_pane = $('<div>')
+        .attr({id: 'rcmKSearchpane', role: 'listbox'})
+        .css({position: 'absolute', 'z-index': 30000})
+        .append(ul)
+        .appendTo(document.body);
+
       this.ksearch_pane.__ul = ul[0];
+      this.triggerEvent('autocomplete_create', {obj: this.ksearch_pane});
     }
 
     ul = this.ksearch_pane.__ul;
