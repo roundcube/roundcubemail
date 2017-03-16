@@ -944,7 +944,7 @@ col_tagname: function()
 
 get_cell: function(row, index)
 {
-  return $(this.col_tagname(), row).eq(index);
+  return $(this.col_tagname(), row).eq(index + (this.checkbox_selection ? 1 : 0));
 },
 
 /**
