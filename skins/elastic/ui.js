@@ -208,6 +208,8 @@ function rcube_elastic_ui()
             .addEventListener('menu-open', menu_toggle)
             .addEventListener('menu-close', menu_toggle)
             .addEventListener('editor-init', tinymce_init)
+            .addEventListener('autocomplete_create', rcmail_popup_init)
+            .addEventListener('googiespell_create', rcmail_popup_init)
             .addEventListener('init', init);
     };
 
@@ -314,6 +316,17 @@ function rcube_elastic_ui()
             // Use minimalistic toolbar
             o.config.toolbar = 'undo redo | insert | styleselect';
         }
+    };
+
+    /**
+     * Handler for roundcube some popups
+     */
+    function rcmail_popup_init(o)
+    {
+        // Add some common styling to the autocomplete/googiespell popups
+        $('table,ul', o.obj).addClass('listing iconized');
+        $(o.obj).addClass('ui popup');
+        bootstrap_style(o.obj);
     };
 
     /**

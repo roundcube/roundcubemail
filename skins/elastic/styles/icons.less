@@ -9,6 +9,7 @@ a.button.icon:before,
 .folderlist li a:before,
 .listing.iconized tr td:before,
 .listing.iconized li a:before,
+.listing.iconized li > i:before,
 ul.treelist li div.treetoggle:before,
 .messagelist tr.thread td.threads div:before,
 .messagelist td.subject span.msgicon.status:before,
@@ -165,6 +166,15 @@ a.rcmaddcontact:before,
     content: @fa-var-lock;
 }
 
+/* autocomplete popup */
+.listing.iconized li > i:before {
+    content: @fa-var-user;
+}
+.listing.iconized li.group > i:before {
+    content: @fa-var-group;
+}
+
+/* selecatable list: spellcheck language selection */
 .listing.iconized.selectable li a:before {
     content: "";
 }
@@ -323,6 +333,7 @@ a.rcmaddcontact:before,
 .searchbar > a.button.options:before {
     content: @fa-var-angle-down;
 }
+
 
 button.btn.save:before {
   content: @fa-var-check;
