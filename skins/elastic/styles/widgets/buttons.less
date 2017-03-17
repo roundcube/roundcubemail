@@ -1,0 +1,87 @@
+/*** Buttons ***/
+
+
+a.listbutton,
+a.rcmaddcontact {
+    text-decoration: none;
+}
+
+.button.disabled {
+    opacity: 0.5;
+}
+
+a.button {
+    text-decoration: none;
+}
+
+
+.header > .buttons > input.button {
+    padding: 0.3em 0.8em;
+    font-size: 1em;
+}
+
+.header > .buttons > button.btn {
+    color: @layout-header-button-color;
+    background-color: transparent;
+    border: 0;
+    padding: 0 0.25em;
+    font-size: 1em;
+    height: 2.5em;
+    line-height: 1.25em;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+
+.formbuttons button.btn:before {
+    font-size: 1em;
+}
+
+/* font-icons */
+
+button.btn:before,
+a.btn.icon:before,
+a.button.icon:before,
+a.rcmaddcontact:before {
+    &:extend(.font-icon-class);
+}
+
+button.btn.save:before {
+  content: @fa-var-check;
+}
+button.btn.edit:before {
+    content: @fa-var-pencil;
+}
+button.btn.qrcode:before {
+  content: @fa-var-qrcode;
+}
+button.btn.search:before {
+    content: @fa-var-search;
+}
+button.btn.import:before {
+    content: @fa-var-upload;
+}
+
+a.button.icon.toolbar-menu-button:before {
+    content: @fa-var-ellipsis-v;
+}
+a.button.icon.menu-button:before {
+    content: @fa-var-bars;
+}
+a.button.icon.back-sidebar-button:before {
+    content: @fa-var-chevron-left;
+}
+a.button.icon.back-list-button:before {
+    content: @fa-var-arrow-left;
+}
+a.button.icon > span.inner {
+    display: none;
+}
+
+a.rcmaddcontact:before {
+    content: @fa-var-user-plus;
+    display: inline;
+    float: none;
+    margin-left: 5px;
+    font-size: inherit;
+}

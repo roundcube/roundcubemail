@@ -1,0 +1,94 @@
+/* Attachments list */
+
+
+.attachmentslist li:before {
+    &:extend(.font-icon-class);
+    content: @fa-var-file-o;
+}
+
+.attachmentslist li.txt:before,
+.attachmentslist li.text:before {
+    content: @fa-var-file-text-o;
+}
+
+.attachmentslist li.pdf:before {
+    content: @fa-var-file-pdf-o;
+}
+
+.attachmentslist li.odt:before,
+.attachmentslist li.doc:before,
+.attachmentslist li.docx:before,
+.attachmentslist li.msword:before {
+    content: @fa-var-file-word-o;
+}
+
+.attachmentslist li.ods:before,
+.attachmentslist li.xls:before,
+.attachmentslist li.xlsx:before,
+.attachmentslist li.msexcel:before {
+    content: @fa-var-file-excel-o;
+}
+
+.attachmentslist li.rar:before,
+.attachmentslist li.zip:before,
+.attachmentslist li.gz:before {
+    content: @fa-var-file-zip-o;
+}
+
+.attachmentslist li.image:before,
+.attachmentslist li.jpg:before,
+.attachmentslist li.jpeg:before,
+.attachmentslist li.png:before {
+    content: @fa-var-file-image-o;
+}
+
+.attachmentslist li.mp3:before,
+.attachmentslist li.audio:before {
+    content: @fa-var-file-audio-o;
+}
+
+.attachmentslist li.m4p:before,
+.attachmentslist li.video:before {
+    content: @fa-var-file-video-o;
+}
+
+.attachmentslist li.ics:before,
+.attachmentslist li.calendar:before {
+/* TODO */
+}
+
+.attachmentslist li.vcard:before {
+    content: @fa-var-vcard;
+}
+
+.attachmentslist li.html:before {
+    content: @fa-var-file-code-o;
+}
+
+.attachmentslist li.eml:before,
+.attachmentslist li.rfc822:before {
+/* TODO */
+}
+
+.attachmentslist li.odp:before,
+.attachmentslist li.otp:before,
+.attachmentslist li.ppt:before,
+.attachmentslist li.pptx:before,
+.attachmentslist li.ppsx:before,
+.attachmentslist li.vnd.mspowerpoint:before {
+    content: @fa-var-file-powerpoint-o;
+}
+
+.attachmentslist li.sig:before,
+.attachmentslist li.pgp-signature:before,
+.attachmentslist li.pkcs7-signature:before {
+/* TODO */
+}
+
+.attachmentslist li.application.asc:before {
+/* TODO */
+}
+
+.attachmentslist li.application.pgp-keys:before {
+/* TODO */
+}

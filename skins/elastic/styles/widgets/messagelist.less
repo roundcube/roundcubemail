@@ -70,3 +70,57 @@ table.fixedcopy {
 .messagelist td.flags span.flag {
     cursor: pointer;
 }
+
+
+/* font icons */
+
+.messagelist tr.thread td.threads div:before,
+.messagelist td.subject span.msgicon.status:before,
+.messagelist span.attachment span:before,
+.messagelist span.flagged:before,
+.messagelist tr:hover span.unflagged:before {
+    &:extend(.font-icon-class);
+}
+
+.messagelist tr.thread td.threads div:before {
+    content: @fa-var-caret-square-o-right;
+}
+.messagelist tr.thread.expanded td.threads div:before {
+    content: @fa-var-caret-square-o-down;
+}
+.messagelist td.subject span.msgicon.status:before {
+    content: @fa-var-circle-o;
+}
+.messagelist tr.unread td.subject span.msgicon.status:before {
+    content: @fa-var-circle;
+}
+.messagelist td.subject span.msgicon.unreadchildren:before {
+    content: @fa-var-dot-circle-o;
+}
+.messagelist tr.deleted td.subject span.msgicon.status:before {
+    content: @fa-var-ban;
+}
+.messagelist td.subject span.msgicon.status.replied:before {
+    content: @fa-var-mail-reply;
+}
+.messagelist td.subject span.msgicon.status.forwarded:before {
+    content: @fa-var-mail-forward;
+}
+.messagelist td.subject span.msgicon.status.replied.forwarded:before {
+    content: @fa-var-mail-forward; /* TODO */
+}
+.messagelist span.attachment span:before {
+    content: @fa-var-paperclip;
+}
+.messagelist span.attachment span.report:before {
+    content: @fa-var-file-text-o;
+}
+.messagelist span.attachment span.encrypted:before {
+    content: @fa-var-lock;
+}
+.messagelist span.flagged:before {
+    content: @fa-var-flag;
+}
+.messagelist tr:hover span.unflagged:before {
+    content: @fa-var-flag-o;
+}

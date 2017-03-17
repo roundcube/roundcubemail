@@ -25,6 +25,37 @@
     cursor: pointer;
 }
 
+.ui.alert {
+    margin: 0;
+    margin-bottom: 0.2em;
+    opacity: 0.95;
+    float: left;
+    width: 100%;
+    padding-left: 0.75em;
+}
+
+.ui.alert > i.icon:before {
+    &:extend(.font-icon-class);
+    height: 1em;
+    width: 1em;
+    line-height: 1em;
+    content: @fa-var-info-circle;
+}
+
+.ui.alert.loading > i.icon:before {
+    content: @fa-var-circle-o-notch;
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+}
+
+.ui.alert.alert-warning > i.icon:before {
+    content: @fa-var-warning;
+}
+
+.ui.alert.alert-danger > i.icon:before {
+    content: @fa-var-exclamation-circle;
+}
+
 
 @media screen and (max-width: 480px) {
     #messagestack {

@@ -12,7 +12,38 @@
     text-align: center;
 }
 
+/* Icons */
+
 #taskmenu a.button:before {
+    &:extend(.font-icon-class);
     font-size: 1.5em;
     margin-bottom: 0.1em;
+}
+
+#taskmenu a.button.mail:before {
+    content: @fa-var-envelope;
+}
+#taskmenu a.button.addressbook:before {
+    content: @fa-var-user;
+}
+#taskmenu a.button.settings:before {
+    content: @fa-var-cog;
+}
+#taskmenu a.button.help:before {
+    content: @fa-var-life-bouy;
+}
+#taskmenu a.button.logout:before {
+    content: @fa-var-power-off;
+}
+#taskmenu a.button.about:before {
+    content: @fa-var-question;
+}
+#taskmenu a.button.logout:hover {
+    color: @taskmenu-logout-button-hover-color;
+}
+#taskmenu a.button.refresh:before {
+    content: @fa-var-refresh;
+}
+#taskmenu a.button.compose:before {
+    content: @fa-var-edit;
 }

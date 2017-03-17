@@ -69,3 +69,135 @@
         display: inline;
     }
 }
+
+/* icons */
+
+.toolbar a.button:before {
+    &:extend(.font-icon-class);
+}
+
+.toolbar a.button.reply:before {
+    content: @fa-var-mail-reply;
+}
+.toolbar a.button.reply-all:before {
+    content: @fa-var-mail-reply-all;
+}
+.toolbar a.button.forward:before {
+    content: @fa-var-mail-forward;
+}
+.toolbar a.button.delete:before {
+    content: @fa-var-trash-o;
+}
+.toolbar a.button.markmessage:before {
+    content: @fa-var-tag;
+}
+.toolbar a.button.more:before {
+    content: @fa-var-ellipsis-h;
+}
+.toolbar a.button.dropdown:before {
+    content: @fa-var-caret-down;
+}
+.toolbar a.button.settings:before {
+    content: @fa-var-cog;
+}
+.toolbar a.button.print:before {
+    content: @fa-var-print;
+}
+.toolbar a.button.search:before {
+    content: @fa-var-search;
+}
+.toolbar a.button.upload:before,
+.toolbar a.button.import:before {
+    content: @fa-var-upload;
+}
+.toolbar a.button.download:before,
+.toolbar a.button.export:before {
+    content: @fa-var-download;
+}
+.toolbar a.button.compose:before {
+    content: @fa-var-edit;
+}
+.toolbar a.button.archive:before {
+    content: @fa-var-archive;
+}
+.toolbar a.button.enigma:before,
+.toolbar a.button.encrypt:before {
+    content: @fa-var-lock;
+}
+.toolbar a.button.firstpage:before {
+    content: @fa-var-fast-backward;
+}
+.toolbar a.button.prevpage:before {
+    content: @fa-var-backward;
+}
+.toolbar a.button.nextpage:before {
+    content: @fa-var-forward;
+}
+.toolbar a.button.lastpage:before {
+    content: @fa-var-fast-forward;
+}
+.toolbar a.button.send:before {
+    content: @fa-var-paper-plane;
+}
+.toolbar a.button.back:before {
+    content: @fa-var-arrow-left;
+}
+.toolbar a.button.close:before {
+    content: @fa-var-window-close;
+}
+.toolbar a.button.save:before {
+    content: @fa-var-floppy-o;
+}
+.toolbar a.button.attach:before {
+    content: @fa-var-paperclip;
+}
+.toolbar a.button.spellcheck:before {
+    content: @fa-var-magic; /* TODO */
+}
+.toolbar a.button.signature:before {
+    content: @fa-var-at; /* TODO */
+}
+.toolbar a.button.responses:before {
+    content: @fa-var-comment;
+}
+
+.toolbarmenu li a:before {
+    &:extend(.font-icon-class);
+}
+
+.toolbarmenu li a.print:before {
+    content: @fa-var-print;
+}
+.toolbarmenu li a.copy:before {
+    content: @fa-var-copy;
+}
+.toolbarmenu li a.move:before {
+    content: @fa-var-arrows;
+}
+.toolbarmenu li a.source:before {
+    content: @fa-var-flask;
+}
+.toolbarmenu li a.download:before {
+    content: @fa-var-download;
+}
+.toolbarmenu li a.extwin:before {
+    content: @fa-var-external-link;
+}
+.toolbarmenu li a.edit:before {
+    content: @fa-var-edit; /* TODO: edit.asnew */
+}
+.toolbarmenu li a.read:before {
+    content: @fa-var-star-o;
+}
+.toolbarmenu li a.unread:before {
+    content: @fa-var-star;
+}
+.toolbarmenu li a.flag:before {
+    content: @fa-var-flag;
+}
+.toolbarmenu li a.unflag:before {
+    content: @fa-var-flag-o;
+}
+.toolbarmenu li a.filterlink:before {
+    content: @fa-var-filter;
+}
