@@ -24,7 +24,7 @@ CHANGELOG Roundcube Webmail
 - Managesieve: Fix possible defect in handling \r\n in scripts (#5685)
 - Fix/rephrase "unsaved changes" warning when cancelling a draft (#5610)
 - Fix XSS issue in handling of a style tag inside of an svg element
-- Fix so settings/upload.inc could not be used by plugins (#5694)
+- Fix bug where settings/upload.inc could not be used by plugins (#5694)
 
 RELEASE 1.3-beta
 ----------------
