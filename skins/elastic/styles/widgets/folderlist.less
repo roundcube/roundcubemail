@@ -1,53 +1,58 @@
 /*** Folders list widget ***/
 
 
-.folderlist li.mailbox .unreadcount {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 2em;
-    line-height: 1.4em;
-    margin: 0.5em 0.2em;
-    padding: 0 0.3em;
-    background:  /* todo */ #1e70bf;
-    border-radius: 0.4em;
-    color: @badge-font-color;
-    text-align: center;
-    font-weight: bold;
-}
+.folderlist {
+    li {
+        &.mailbox {
+            .unreadcount {
+                position: absolute;
+                top: 0;
+                right: 0;
+                min-width: 2em;
+                line-height: 1.4em;
+                margin: 0.5em 0.2em;
+                padding: 0 0.3em;
+                background:  /* todo */ #1e70bf;
+                border-radius: 0.4em;
+                color: @badge-font-color;
+                text-align: center;
+                font-weight: bold;
+            }
 
-.folderlist li.mailbox.selected > a .unreadcount {
-    background: /* todo */;
-}
+            &.selected > a .unreadcount {
+                background: /* todo */;
+            }
 
-.folderlist li.mailbox.recent > a .unreadcount {
-    background: /* todo */;
-}
+            &.recent > a .unreadcount {
+                background: /* todo */;
+            }
+        }
 
-/* icons */
+        a:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-folder-o;
+        }
 
-.folderlist li a:before {
-    &:extend(.font-icon-class);
-    content: @fa-var-folder-o;
-}
-.folderlist li.inbox a:before {
-    content: @fa-var-inbox;
-}
-.folderlist li.trash a:before {
-    content: @fa-var-trash;
-}
-.folderlist li.trash.empty a:before {
-    content: @fa-var-trash-o;
-}
-.folderlist li.drafts a:before {
-    content: @fa-var-edit;
-}
-.folderlist li.sent a:before {
-    content: @fa-var-paper-plane;
-}
-.folderlist li.junk a:before {
-    content: @fa-var-recycle;
-}
-.folderlist li.archive a:before {
-    content: @fa-var-archive;
+        &.inbox a:before {
+            content: @fa-var-inbox;
+        }
+        &.trash a:before {
+            content: @fa-var-trash;
+        }
+        &.trash.empty a:before {
+            content: @fa-var-trash-o;
+        }
+        &.drafts a:before {
+            content: @fa-var-edit;
+        }
+        &.sent a:before {
+            content: @fa-var-paper-plane;
+        }
+        &.junk a:before {
+            content: @fa-var-recycle;
+        }
+        &.archive a:before {
+            content: @fa-var-archive;
+        }
+    }
 }

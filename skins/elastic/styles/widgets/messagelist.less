@@ -6,69 +6,73 @@ table.fixedcopy {
     display: none;
 }
 
-.messagelist td {
-    border-left: 0;
-    width: 2em;
-    vertical-align: top;
-}
+.messagelist {
+    td {
+        border-left: 0;
+        width: 2em;
+        vertical-align: top;
+    }
 
-.messagelist td.subject {
-    width: 99%;
-    white-space: wrap;
-    position: relative; /* for span.date positioning in Firefox */
-}
+    td.subject {
+        width: 99%;
+        white-space: wrap;
+        position: relative; /* for span.date positioning in Firefox */
 
-.messagelist td.threads {
-    vertical-align: bottom;
-}
+        span {
+            line-height: 2em;
 
-.messagelist td.subject span {
-    line-height: 2em;
-}
+            &.date {
+                right: 2px;
+                top: 3px;
+                position: absolute;
+                color: #666; /* TODO */
+            }
 
-.messagelist td.subject span.date {
-    right: 2px;
-    top: 3px;
-    position: absolute;
-    color: #666; /* TODO */
-}
+            &.fromto {
+                padding-left: 1.5em;
+                display: block;
+                margin-right: 10em;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: #666; /* TODO */
+            }
 
-.messagelist td.subject span.fromto {
-    padding-left: 1.5em;
-    display: block;
-    margin-right: 10em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #666; /* TODO */
-}
+            &.subject {
+                clear: both;
+                display: block;
+                font-size: 1em;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
 
-.messagelist tr.flagged td.subject span.date,
-.messagelist tr.flagged td.subject span.fromto {
-    color: #ff5c33; /* TODO */
-}
+    td.threads {
+        vertical-align: bottom;
+    }
 
-.messagelist tr.deleted td.subject span.date,
-.messagelist tr.deleted td.subject span.fromto {
-    color: #ccc; /* TODO */
-}
+    td.flags {
+        span {
+            width: 20px;
+            height: 20px;
+            display: block;
+            margin-left: 1px;
 
-.messagelist td.subject span.subject {
-    clear: both;
-    display: block;
-    font-size: 1em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+            &.flag {
+                cursor: pointer;
+            }
+        }
+    }
 
-.messagelist td.flags span {
-    width: 20px;
-    height: 20px;
-    display: block;
-    margin-left: 1px;
-}
+    tr.flagged td.subject span.date,
+    tr.flagged td.subject span.fromto {
+        color: #ff5c33; /* TODO */
+    }
 
-.messagelist td.flags span.flag {
-    cursor: pointer;
+    tr.deleted td.subject span.date,
+    tr.deleted td.subject span.fromto {
+        color: #ccc; /* TODO */
+    }
 }
 
 
@@ -82,45 +86,52 @@ table.fixedcopy {
     &:extend(.font-icon-class);
 }
 
-.messagelist tr.thread td.threads div:before {
-    content: @fa-var-caret-square-o-right;
-}
-.messagelist tr.thread.expanded td.threads div:before {
-    content: @fa-var-caret-square-o-down;
-}
-.messagelist td.subject span.msgicon.status:before {
-    content: @fa-var-circle-o;
-}
-.messagelist tr.unread td.subject span.msgicon.status:before {
-    content: @fa-var-circle;
-}
-.messagelist td.subject span.msgicon.unreadchildren:before {
-    content: @fa-var-dot-circle-o;
-}
-.messagelist tr.deleted td.subject span.msgicon.status:before {
-    content: @fa-var-ban;
-}
-.messagelist td.subject span.msgicon.status.replied:before {
-    content: @fa-var-mail-reply;
-}
-.messagelist td.subject span.msgicon.status.forwarded:before {
-    content: @fa-var-mail-forward;
-}
-.messagelist td.subject span.msgicon.status.replied.forwarded:before {
-    content: @fa-var-mail-forward; /* TODO */
-}
-.messagelist span.attachment span:before {
-    content: @fa-var-paperclip;
-}
-.messagelist span.attachment span.report:before {
-    content: @fa-var-file-text-o;
-}
-.messagelist span.attachment span.encrypted:before {
-    content: @fa-var-lock;
-}
-.messagelist span.flagged:before {
-    content: @fa-var-flag;
-}
-.messagelist tr:hover span.unflagged:before {
-    content: @fa-var-flag-o;
+.messagelist {
+    tr.thread td.threads div:before {
+        content: @fa-var-caret-square-o-right;
+    }
+    tr.thread.expanded td.threads div:before {
+        content: @fa-var-caret-square-o-down;
+    }
+    td.subject span.msgicon.status:before {
+        content: @fa-var-circle-o;
+    }
+    tr.unread td.subject span.msgicon.status:before {
+        content: @fa-var-circle;
+    }
+    td.subject span.msgicon.unreadchildren:before {
+        content: @fa-var-dot-circle-o;
+    }
+    td.subject span.msgicon.status.replied:before {
+        content: @fa-var-mail-reply;
+    }
+    td.subject span.msgicon.status.forwarded:before {
+        content: @fa-var-mail-forward;
+    }
+    td.subject span.msgicon.status.replied.forwarded:before {
+        content: @fa-var-mail-forward; /* TODO */
+    }
+    tr.deleted td.subject span.msgicon.status:before {
+        content: @fa-var-ban;
+    }
+
+    span.attachment span {
+        &:before {
+            content: @fa-var-paperclip;
+        }
+        &.report:before {
+            content: @fa-var-file-text-o;
+        }
+        &.encrypted:before {
+            content: @fa-var-lock;
+        }
+    }
+
+    span.flagged:before {
+        content: @fa-var-flag;
+    }
+
+    tr:hover span.unflagged:before {
+        content: @fa-var-flag-o;
+    }
 }

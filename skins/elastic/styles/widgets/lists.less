@@ -1,49 +1,51 @@
 /*** List and treelist widgets ***/
 
+.listing {
+    tbody td,
+    li {
+        display: block;
+        border-bottom: 1px solid #f4f4f4;
+        cursor: default;
+        font-weight: normal;
+    }
+
+    tbody td,
+    li a {
+        display: block;
+        text-decoration: none;
+        cursor: default;
+        padding: 0 0.5em;
+        white-space: nowrap;
+        vertical-align: middle;
+        line-height: 2.4em;
+        color: @list-color;
+    }
+
+    tbody td {
+        display: table-cell;
+        outline: none;
+    }
+
+    li.selected,
+    tr.selected td {
+        color: @list-selected-color;
+        background-color: @list-selected-color-background;
+    }
+
+    td.selection {
+        padding: 0 1em;
+        width: 3em;
+        text-align: center;
+    }
+
+    td.selection > input {
+        vertical-align: middle;
+    }
+}
+
 table.listing {
     width: 100%;
     table-layout: fixed;
-}
-
-.listing tbody td,
-.listing li {
-    display: block;
-    border-bottom: 1px solid #f4f4f4;
-    cursor: default;
-    font-weight: normal;
-}
-
-.listing tbody td,
-.listing li a {
-    display: block;
-    text-decoration: none;
-    cursor: default;
-    padding: 0 0.5em;
-    white-space: nowrap;
-    vertical-align: middle;
-    line-height: 2.4em;
-    color: @list-color;
-}
-
-.listing tbody td {
-    display: table-cell;
-    outline: none;
-}
-
-.listing li.selected,
-.listing tr.selected td {
-    color: @list-selected-color;
-    background-color: @list-selected-color-background;
-}
-
-.listing td.selection {
-    padding: 0 1em;
-    width: 3em;
-    text-align: center;
-}
-
-.listing td.selection > input {
-    vertical-align: middle;
 }
 
 ul.listing {
@@ -51,32 +53,123 @@ ul.listing {
     list-style: none;
     margin: 0;
     padding: 0;
+
+    li {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        position: relative;
+
+        ul {
+            border-top: 1px solid #f4f4f4;
+            padding-left: 1.5em;
+
+            li:last-child {
+                border-bottom: none;
+            }
+        }
+
+        input[type=checkbox] {
+            position: absolute;
+            top: 0;
+            right: 0.2em;
+            height: 2.4em;
+            vertical-align: middle;
+        }
+    }
 }
 
-ul.listing li {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    position: relative;
+
+/* icons */
+
+.listing.iconized li {
+    a:before {
+        &:extend(.font-icon-class);
+    }
+    &.preferences > a:before {
+        content: @fa-var-sliders;
+    }
+    &.folders > a:before {
+        content: @fa-var-folder;
+    }
+    &.responses > a:before {
+        content: @fa-var-comment;
+    }
+    &.identities > a:before {
+        content: @fa-var-at;
+    }
+    &.password > a:before {
+        content: @fa-var-lock;
+    }
+    &.addressbook a:before {
+        content: @fa-var-book;
+    }
+    &.contactgroup a:before {
+        content: @fa-var-group;
+    }
+    &.contactsearch a:before {
+        content: @fa-var-search;
+    }
+    &.filter > a:before {
+        content: @fa-var-filter;
+    }
+    &.enigma.keys > a:before {
+        content: @fa-var-key;
+    }
+
+    /* autocomplete popup */
+    & > i:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-user;
+    }
+    &.group > i:before {
+        content: @fa-var-group;
+    }
 }
 
-ul.listing li ul {
-    border-top: 1px solid #f4f4f4;
-    padding-left: 1.5em;
+.listing.iconized tr {
+    td:before {
+        &:extend(.font-icon-class);
+    }
+    &.contact.person td.name:before {
+        content: @fa-var-user;
+    }
+    &.general > td.section:before {
+        content: @fa-var-desktop;
+    }
+    &.mailbox > td.section:before {
+        content: @fa-var-envelope-o;
+    }
+    &.mailview > td.section:before {
+        content: @fa-var-inbox;
+    }
+    &.compose > td.section:before {
+        content: @fa-var-paper-plane;
+    }
+    &.addressbook > td.section:before {
+        content: @fa-var-user;
+    }
+    &.folders > td.section:before {
+        content: @fa-var-folder-o;
+    }
+    &.server > td.section:before {
+        content: @fa-var-server;
+    }
+    &.enigma > td.section:before {
+        content: @fa-var-lock;
+    }
 }
 
-ul.listing li ul li:last-child {
-    border-bottom: none;
+/* selecatable list: e.g. spellcheck language selection */
+.listing.iconized.selectable li {
+    a:before {
+        &:extend(.font-icon-class);
+        content: "";
+    }
+    a.selected:before {
+        content: @fa-var-check;
+    }
 }
-
-ul.listing li input[type=checkbox] {
-    position: absolute;
-    top: 0;
-    right: 0.2em;
-    height: 2.4em;
-    vertical-align: middle;
-}
-
 
 ul.treelist li div.treetoggle {
     position: absolute;
@@ -86,99 +179,17 @@ ul.treelist li div.treetoggle {
     height: 0.8em;
     line-height: 0.8em;
     cursor: pointer;
-}
 
-/* icons */
+    &:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-plus-square-o;
+        font-size: 0.8em;
+        width: 0.8em;
+        height: 0.8em;
+        background-color: white;
+    }
 
-.listing.iconized tr td:before,
-.listing.iconized li a:before,
-.listing.iconized li > i:before,
-ul.treelist li div.treetoggle:before {
-    &:extend(.font-icon-class);
-}
-
-.listing.iconized li.preferences > a:before {
-    content: @fa-var-sliders;
-}
-.listing.iconized li.folders > a:before {
-    content: @fa-var-folder;
-}
-.listing.iconized li.responses > a:before {
-    content: @fa-var-comment;
-}
-.listing.iconized li.identities > a:before {
-    content: @fa-var-at;
-}
-.listing.iconized li.password > a:before {
-    content: @fa-var-lock;
-}
-.listing.iconized li.addressbook a:before {
-    content: @fa-var-book;
-}
-.listing.iconized li.contactgroup a:before {
-    content: @fa-var-group;
-}
-.listing.iconized li.contactsearch a:before {
-    content: @fa-var-search;
-}
-.listing.iconized tr.contact.person td.name:before {
-    content: @fa-var-user;
-}
-.listing.iconized tr.general > td.section:before {
-    content: @fa-var-desktop;
-}
-.listing.iconized tr.mailbox > td.section:before {
-    content: @fa-var-envelope-o;
-}
-.listing.iconized tr.mailview > td.section:before {
-    content: @fa-var-inbox;
-}
-.listing.iconized tr.compose > td.section:before {
-    content: @fa-var-paper-plane;
-}
-.listing.iconized tr.addressbook > td.section:before {
-    content: @fa-var-user;
-}
-.listing.iconized tr.folders > td.section:before {
-    content: @fa-var-folder-o;
-}
-.listing.iconized tr.server > td.section:before {
-    content: @fa-var-server;
-}
-.listing.iconized li.filter > a:before {
-    content: @fa-var-filter;
-}
-.listing.iconized li.enigma.keys > a:before {
-    content: @fa-var-key;
-}
-.listing.iconized tr.enigma > td.section:before {
-    content: @fa-var-lock;
-}
-
-/* autocomplete popup */
-.listing.iconized li > i:before {
-    content: @fa-var-user;
-}
-.listing.iconized li.group > i:before {
-    content: @fa-var-group;
-}
-
-/* selecatable list: spellcheck language selection */
-.listing.iconized.selectable li a:before {
-    content: "";
-}
-.listing.iconized.selectable li a.selected:before {
-    content: @fa-var-check;
-}
-
-ul.treelist li div.treetoggle:before {
-    content: @fa-var-plus-square-o;
-    font-size: 0.8em;
-    width: 0.8em;
-    height: 0.8em;
-    background-color: white;
-}
-
-ul.treelist li div.treetoggle.expanded:before {
-    content: @fa-var-minus-square-o;
+    &.expanded:before {
+        content: @fa-var-minus-square-o;
+    }
 }

@@ -9,20 +9,22 @@
     height: auto;
     max-height: 85%;
     overflow-y: auto;
-}
 
-#messagestack div.voice {
-    position: absolute;
-    top: -1000px;
-}
+    div {
+        &.voice {
+            position: absolute;
+            top: -1000px;
+        }
 
-#messagestack div i.icon {
-    font-size: 2em !important;
-}
+        i.icon {
+            font-size: 2em !important;
+        }
 
-#messagestack div a:hover {
-    text-decoration: underline;
-    cursor: pointer;
+        a:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
 }
 
 .ui.alert {
@@ -31,29 +33,25 @@
     opacity: 0.95;
     float: left;
     width: 100%;
-    padding-left: 0.75em;
-}
+    padding: 0.75em;
 
-.ui.alert > i.icon:before {
-    &:extend(.font-icon-class);
-    height: 1em;
-    width: 1em;
-    line-height: 1em;
-    content: @fa-var-info-circle;
-}
+    & > i.icon:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-info-circle;
+    }
 
-.ui.alert.loading > i.icon:before {
-    content: @fa-var-circle-o-notch;
-    -webkit-animation: fa-spin 2s infinite linear;
-    animation: fa-spin 2s infinite linear;
-}
+    &.loading > i.icon:before {
+        content: @fa-var-circle-o-notch;
+        .animated-icon-class;
+    }
 
-.ui.alert.alert-warning > i.icon:before {
-    content: @fa-var-warning;
-}
+    &.alert-warning > i.icon:before {
+        content: @fa-var-warning;
+    }
 
-.ui.alert.alert-danger > i.icon:before {
-    content: @fa-var-exclamation-circle;
+    &.alert-danger > i.icon:before {
+        content: @fa-var-exclamation-circle;
+    }
 }
 
 

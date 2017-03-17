@@ -57,106 +57,97 @@ body > #layout {
     flex-wrap: nowrap;
     height: 100%;
     width: 100%;
-}
 
-body > #layout > div.sidebar,
-body > #layout > div.list {
-    display: flex;
-    flex-grow: 2;
-    flex-direction: column;
-    min-width: 300px;
-    max-width: 30%;
-    border-right: 1px solid @layout-border-color;
-}
 
-body > #layout > div.content {
-    display: flex;
-    flex-grow: 6;
-    flex-direction: column;
-    min-width: 50%;
-    background-color: @layout-content-background-color;
-}
+    & > div {
+        &.sidebar,
+        &.list {
+            display: flex;
+            flex-grow: 2;
+            flex-direction: column;
+            min-width: 300px;
+            max-width: 30%;
+            border-right: 1px solid @layout-border-color;
+        }
 
-body > #layout > div.sidebar {
-    min-width: 220px;
-    background-color: @layout-sidebar-background-color;
-}
+        &.content {
+            display: flex;
+            flex-grow: 6;
+            flex-direction: column;
+            min-width: 50%;
+            background-color: @layout-content-background-color;
 
-body > #layout > div.list {
-    min-width: 300px;
-    background-color: @layout-list-background-color;
-}
+            & > iframe,
+            & > .content,
+            & > .content > iframe {
+                height: 100%;
+                width: 100%;
+                overflow: auto;
+                border: 0;
+                flex: 1;
+            }
+        }
 
-body > #layout > div.menu {
-    width: @taskmenu-width;
-    background-color: @taskmenu-background-color;
-}
+        &.sidebar {
+            min-width: 220px;
+            background-color: @layout-sidebar-background-color;
+        }
 
-body > #layout > div.menu a,
-body > #layout > div.menu a:before {
-    display: block;
-    width: @taskmenu-width;
-}
+        &.list {
+            min-width: 300px;
+            background-color: @layout-list-background-color;
+        }
 
-#layout > div.content > iframe,
-#layout > div.content > .content,
-#layout > div.content > .content > iframe {
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-    border: 0;
-    flex: 1;
-}
+        &.menu {
+            width: @taskmenu-width;
+            background-color: @taskmenu-background-color;
 
-#layout > div > .scroller {
-    flex: 1;
-}
+            a,
+            a:before {
+                display: block;
+                width: @taskmenu-width;
+            }
+        }
 
-#layout > .content.only > .scroller {
-    overflow: auto;
-}
+        & > .scroller {
+            flex: 1;
+        }
 
-#layout > div > .header,
-#layout > div > .footer {
-    background-color: @layout-header-background-color;
-    font-size: 1.2em;
-    font-weight: bold;
-    line-height: 2.5em;
-    height: 2.5em;
-    padding: 0 0.25em;
-    margin: 0;
-    position: relative; /* for absolute positioning of searchbar */
-    overflow: hidden;
-    white-space: nowrap;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-}
-#layout > div > .header {
-    border-bottom: 1px solid #ddd;
-}
-#layout > div > .footer {
-    border-top: 1px solid #ddd;
-}
+        & > .content.only > .scroller {
+            overflow: auto;
+        }
 
-#layout > div > .header > .header-title {
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        & > .header,
+        & > .footer {
+            background-color: @layout-header-background-color;
+            font-size: 1.2em;
+            font-weight: bold;
+            line-height: 2.5em;
+            height: 2.5em;
+            padding: 0 0.25em;
+            margin: 0;
+            position: relative; /* for absolute positioning of searchbar */
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+        }
 
-#taskmenu .special-buttons {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
+        & > .header {
+            border-bottom: 1px solid #ddd;
 
-#taskmenu .special-buttons a {
-    color: @taskmenu-special-button-color;
-}
+            .header-title {
+                flex: 1;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
 
-#taskmenu .action-buttons a {
-    color: @taskmenu-action-button-color;
+        & > .footer {
+            border-top: 1px solid #ddd;
+        }
+    }
 }
 
 
@@ -190,7 +181,7 @@ body > #layout > div.menu a:before {
 }
 
 @media screen and (max-width: @screen-width-small) {
-    #layout > div > .header > .toolbar:not(.searchbar),
+    body > #layout > div > .header > .toolbar:not(.searchbar),
     body > #layout > div:not(.selected) {
         display: none;
     }
@@ -225,9 +216,6 @@ body > #layout > div.menu a:before {
     body > #layout > div.menu a:before {
         display: inline-block;
         width: 100px;
-    }
-    #taskmenu .special-buttons {
-        position: relative;
     }
 }
 

@@ -115,6 +115,11 @@ button, input, select, textarea {
   }
 }
 
+.animated-icon-class {
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+}
+
 
 /*** Common UI elements ***/
 
@@ -129,12 +134,14 @@ div.popover-content > .ui.popup {
     display: block !important;
 }
 
-body.iframe .formcontent {
-    padding: 1em;
-}
+body.iframe {
+    .formcontent {
+        padding: 1em;
+    }
 
-body.iframe .formbuttons {
-    padding: 0 1em 1em 1em;
+    .formbuttons {
+        padding: 0 1em 1em 1em;
+    }
 }
 
 .ui-dialog iframe {
@@ -174,10 +181,10 @@ body.iframe .formbuttons {
 
 #folder-selector {
     overflow-y: auto;
-}
 
-#folder-selector li a.virtual {
-    opacity: .2;
+    li a.virtual {
+        opacity: .2;
+    }
 }
 
 
