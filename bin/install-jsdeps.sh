@@ -213,8 +213,12 @@ function extract_zipfile($package, $srcfile)
     $extract = $CACHEDIR . '/' . $package['lib'] . '-extract';
     exec(sprintf('%s -o %s -d %s', $UNZIP, escapeshellarg($srcfile), $extract), $out, $retval);
 
+    // get the root folder of the extracted package
+    $extract_tree = glob("$extract/*", GLOB_ONLYDIR);
+    $sourcedir    = $extract_tree[0];
+
     foreach ($package['map'] as $src => $dest) {
-      echo "Installing files $extract/$src into $destdir/$dest\n";
+      echo "Installing files $sourcedir/$src into $destdir/$dest\n";
 
       // make sure the destination's parent directory exists
       if (strpos($dest, '/') !== false) {
@@ -225,11 +229,11 @@ function extract_zipfile($package, $srcfile)
       }
 
       // avoid copying source directory as a child into destination
-      if (is_dir($extract . '/' . $src) && is_dir($destdir . '/' . $dest)) {
+      if (is_dir($sourcedir . '/' . $src) && is_dir($destdir . '/' . $dest)) {
         exec(sprintf('rm -rf %s/%s', $destdir, $dest));
       }
 
-      exec(sprintf('mv -f %s/%s %s/%s', $extract, $src, $destdir, $dest), $out, $retval);
+      exec(sprintf('mv -f %s/%s %s/%s', $sourcedir, $src, $destdir, $dest), $out, $retval);
       if ($retval !== 0) {
         echo "ERROR: Failed to move $src into $destdir/$dest; " . join('; ' . $out) . "\n";
       }
