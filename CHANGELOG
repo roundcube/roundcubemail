@@ -25,6 +25,7 @@ RELEASE 1.2.4
 - Add rewrite rule to disable access to /vendor/bin folder in .htaccess (#5630)
 - Fix bug where it was too easy accidentally move a folder when using the subscription checkbox (#5655)
 - Fix XSS issue in handling of a style tag inside of an svg element
+- Fix so settings/upload.inc could not be used by plugins (#5694)
 
 RELEASE 1.2.3
 -------------
