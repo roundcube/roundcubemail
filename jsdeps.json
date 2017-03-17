@@ -43,7 +43,7 @@
       "copyright": "Copyright (c) 1999-2015 Ephox Corp. All rights reserved",
       "rm": "program/js/tinymce",
       "map": {
-        "tinymce/js/tinymce": "tinymce"
+        "js/tinymce": "tinymce"
       },
       "omit": [
         "tinymce/license.txt",
@@ -78,9 +78,9 @@
       "sha1": "3b767c2e3acd6796e54ed19ed2ac0755fcf87984",
       "license": "MIT",
       "map": {
-        "*/lib": "lib",
-        "*/addon/selection": "addon/selection",
-        "*/mode/sieve": "mode/sieve"
+        "lib": "lib",
+        "addon/selection": "addon/selection",
+        "mode/sieve": "mode/sieve"
       }
     }
   ]
