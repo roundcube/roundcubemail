@@ -46,10 +46,6 @@ body {
     overflow: hidden;
 }
 
-body.iframe {
-    overflow: auto;
-}
-
 body > #layout {
     overflow: hidden;
     display: flex;
@@ -147,6 +143,14 @@ body > #layout {
         & > .footer {
             border-top: 1px solid #ddd;
         }
+    }
+}
+
+body.iframe {
+    overflow: auto;
+
+    #content {
+        height: 100%;
     }
 }
 

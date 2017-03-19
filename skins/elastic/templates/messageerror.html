@@ -1,0 +1,18 @@
+<roundcube:include file="/includes/layout.html" />
+<roundcube:if condition="env:action == 'show'" />
+	<roundcube:include file="/includes/menu.html" />
+<roundcube:endif />
+
+<h1 class="voice"><roundcube:label name="messageopenerror" /></h1>
+
+<div id="content" class="content selected">
+	<roundcube:if condition="env:action == 'show'" />
+		<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+		<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
+			<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+		</div>
+	<roundcube:endif />
+	<div class="watermark"></div>
+</div>
+
+<roundcube:include file="/includes/footer.html" />
