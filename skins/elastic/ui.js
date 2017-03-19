@@ -65,7 +65,7 @@ function rcube_elastic_ui()
     // Initialize menu dropdowns
     dropdowns_init();
 
-    // Update layout after some initialization
+    // Update layout after initialization
     resize();
 
     // Setup various UI elements
