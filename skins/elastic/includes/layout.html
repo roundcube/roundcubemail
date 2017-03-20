@@ -13,9 +13,9 @@
 	<roundcube:endif />
 	<roundcube:add_label name="errortitle" />
 </head>
-<roundcube:if condition="!env:framed" />
-<body class="task-<roundcube:var name="env:task" />">
+<roundcube:if condition="!env:framed || env:extwin" />
+<body class="task-<roundcube:exp expression="env:task ?: 'error'" />">
 <div id="layout">
 <roundcube:else />
-<body class="iframe task-<roundcube:var name="env:task" />">
+<body class="iframe task-<roundcube:exp expression="env:task ?: 'error'" />">
 <roundcube:endif />

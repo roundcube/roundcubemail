@@ -1,4 +1,6 @@
 <roundcube:include file="/includes/layout.html" />
+<roundcube:include file="/includes/menu.html" condition="!env:framed && !env:extwin" />
+
 <roundcube:object name="mailboxlist" folder_filter="mail" type="js" />
 
 <h1 class="voice"><roundcube:object name="messageHeaders" valueOf="subject" /></h1>

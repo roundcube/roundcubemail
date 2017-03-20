@@ -1,7 +1,5 @@
 <roundcube:include file="/includes/layout.html" />
-<roundcube:if condition="env:action == 'show'" />
-	<roundcube:include file="/includes/menu.html" />
-<roundcube:endif />
+<roundcube:include file="/includes/menu.html" condition="!env:framed && !env:extwin" />
 
 <h1 class="voice"><roundcube:label name="messageopenerror" /></h1>
 

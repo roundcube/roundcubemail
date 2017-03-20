@@ -1,5 +1,5 @@
 <roundcube:include file="/includes/layout.html" />
-<roundcube:include file="/includes/menu.html" />
+<roundcube:include file="/includes/menu.html" condition="!env:extwin && !env:framed" />
 
 <h1 class="voice"><roundcube:object name="pagetitle" /></h1>
 
@@ -47,7 +47,7 @@
 		<div id="messagetoolbar" class="toolbar" role="toolbar" aria-labelledby="aria-label-toolbar">
 			<roundcube:button command="list" type="link" class="button back disabled" classAct="button back"
 				label="cancel" condition="!env:extwin" tabindex="2" innerclass="inner" />
-			<roundcube:button command="close" type="link" class="button close disabled" classAct="button close"
+			<roundcube:button command="close" type="link" class="button closewin disabled" classAct="button closewin"
 				label="cancel" condition="env:extwin" tabindex="2" innerclass="inner" />
 			<span class="spacer"></span>
 			<roundcube:button command="send" type="link" class="button send disabled" classAct="button send"
