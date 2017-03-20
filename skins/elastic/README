@@ -5,7 +5,7 @@ This skin package contains a theme for the Roundcube Webmail
 software. It can be used, modified and redistributed according to
 the terms described in the LICENSE section.
 
-For information about building or modifiying Roundcube skins please visit
+For information about building or modifying Roundcube skins please visit
 https://github.com/roundcube/roundcubemail/wiki/Skins
 
 Roboto font from https://google-webfonts-helper.herokuapp.com/fonts/roboto?subsets=cyrillic,latin-ext,cyrillic-ext,latin,greek,greek-ext
@@ -28,15 +28,14 @@ Cleanup css/html and unify as much as possible.
 
 INSTALLATION (development):
 ---------------------------
-1. Clone git-master roundcube/roundcubemail
-2. Switch to branch dev-elastic
-3. Goto /skins
-4. git clone https://github.com/roundcube/elastic.git
-5. Before use disable all plugins (we're not there yet) and set devel_mode=true
+1. git clone https://github.com/roundcube/roundcubemail.git --branch dev-elastic
+2. cd roundcubemail/skins
+3. git clone https://github.com/roundcube/elastic.git
+4. Disable all plugins (we're not there yet) and set devel_mode=true.
 
 INSTALLATION (production):
 --------------------------
-styles.css is written using LESS syntax. Thus it needs to be compiled
+All styles are written using LESS syntax. Thus it needs to be compiled
 using the `lessc` command line tool. This comes with the `nodejs-less`
 RPM package which depends on nodejs.
 
