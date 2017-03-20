@@ -1098,6 +1098,10 @@ EOF;
 
             // include a file
             case 'include':
+                if ($attrib['condition'] && !$this->check_condition($attrib['condition'])) {
+                    break;
+                }
+
                 $old_base_path = $this->base_path;
                 if (!empty($attrib['skin_path'])) $attrib['skinpath'] = $attrib['skin_path'];
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
