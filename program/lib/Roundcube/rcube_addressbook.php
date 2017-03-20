@@ -497,8 +497,11 @@ abstract class rcube_addressbook
         $contact = rcube::get_instance()->plugins->exec_hook('contact_displayname', $contact);
         $fn = $contact['name'];
 
-        if (!$fn)  // default display name composition according to vcard standard
-            $fn = trim(join(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix']))));
+        // default display name composition according to vcard standard
+        if (!$fn) {
+            $fn = join(' ', array_filter(array($contact['prefix'], $contact['firstname'], $contact['middlename'], $contact['surname'], $contact['suffix'])));
+            $fn = trim(preg_replace('/\s+/', ' ', $fn));
+        }
 
         // use email address part for name
         $email = self::get_col_values('email', $contact, true);
@@ -547,6 +550,7 @@ abstract class rcube_addressbook
         }
 
         $fn = trim($fn, ', ');
+        $fn = preg_replace('/\s+/', ' ', $fn);
 
         // fallbacks...
         if ($fn === '') {

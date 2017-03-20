@@ -1032,11 +1032,11 @@ $config['addressbook_pagesize'] = 50;
 // sort contacts by this col (preferably either one of name, firstname, surname)
 $config['addressbook_sort_col'] = 'surname';
 
-// the way how contact names are displayed in the list
-// 0: display name
-// 1: (prefix) firstname middlename surname (suffix)
-// 2: (prefix) surname firstname middlename (suffix)
-// 3: (prefix) surname, firstname middlename (suffix)
+// The way how contact names are displayed in the list.
+// 0: prefix firstname middlename surname suffix (only if display name is not set)
+// 1: firstname middlename surname
+// 2: surname firstname middlename
+// 3: surname, firstname middlename
 $config['addressbook_name_listing'] = 0;
 
 // use this timezone to display date/time
