@@ -14,26 +14,34 @@
         height: 2.5em;
     }
 
-    & > form,
-    & > a.button.options,
-    & > a.button.reset {
+    form,
+    a.button.options,
+    a.button.reset {
         display: none;
         width: 1%;
     }
 
-    & > form,
-    & > form > input {
+    form {
         width: 98%;
+        text-align: left;
+        padding-left: 0.25em;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-search;
+        }
     }
 
     input {
+        width: 80%;
         border: none;
         border-bottom: 1px solid #ddd;
         background: transparent;
         line-height: 1;
+        padding-left: 0.1em;
     }
 
-    & > a {
+    a {
         &.button.search.active {
             color: @searchbar-icon-active-color;
         }
