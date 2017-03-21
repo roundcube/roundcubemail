@@ -437,12 +437,13 @@ class rcube_mime
     /**
      * Interpret a format=flowed message body according to RFC 2646
      *
-     * @param string $text Raw body formatted as flowed text
-     * @param string $mark Mark each flowed line with specified character
+     * @param string  $text  Raw body formatted as flowed text
+     * @param string  $mark  Mark each flowed line with specified character
+     * @param boolean $delsp Remove the trailing space of each flowed line
      *
      * @return string Interpreted text with unwrapped lines and stuffed space removed
      */
-    public static function unfold_flowed($text, $mark = null)
+    public static function unfold_flowed($text, $mark = null, $delsp = false)
     {
         $text    = preg_split('/\r?\n/', $text);
         $last    = -1;
@@ -464,6 +465,9 @@ class rcube_mime
                     && isset($text[$last]) && $text[$last][strlen($text[$last])-1] == ' '
                     && !preg_match('/^>+ {0,1}$/', $text[$last])
                 ) {
+                    if ($delsp) {
+                        $text[$last] = substr($text[$last], 0, -1);
+                    }
                     $text[$last] .= $line;
                     unset($text[$idx]);
 
@@ -487,6 +491,9 @@ class rcube_mime
                         && $text[$last] != '-- '
                         && $text[$last][strlen($text[$last])-1] == ' '
                     ) {
+                        if ($delsp) {
+                            $text[$last] = substr($text[$last], 0, -1);
+                        }
                         $text[$last] .= $line;
                         unset($text[$idx]);
 
