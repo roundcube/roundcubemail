@@ -1221,6 +1221,17 @@ EOF;
 
                 return $hook['content'];
 
+            // return <link> element
+            case 'link':
+                if ($attrib['condition'] && !$this->check_condition($attrib['condition'])) {
+                    break;
+                }
+
+                unset($attrib['condition']);
+
+                return html::tag('link', $attrib);
+
+
             // return code for a specified eval expression
             case 'exp':
                 return html::quote($this->eval_expression($attrib['expression']));
