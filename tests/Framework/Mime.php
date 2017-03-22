@@ -171,6 +171,20 @@ class Framework_Mime extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test format=flowed delsp=yes unfolding (RFC3676)
+     */
+    function test_unfold_flowed_delsp()
+    {
+        $flowed   = "そしてジョバンニはすぐうしろの天気輪の柱が \r\n"
+                    ."いつかぼんやりした三角標の形になって、しば \r\n"
+                    ."らく蛍のように、ぺかぺか消えたりともったり \r\n"
+                    ."しているのを見ました。";
+        $unfolded = "そしてジョバンニはすぐうしろの天気輪の柱がいつかぼんやりした三角標の形になって、しばらく蛍のように、ぺかぺか消えたりともったりしているのを見ました。";
+
+        $this->assertEquals($unfolded, rcube_mime::unfold_flowed($flowed, null, true), "Test correct unfolding of flowed DelSp=Yes lines");
+    }
+
+    /**
      * Test wordwrap()
      */
     function test_wordwrap()
