@@ -6,17 +6,14 @@
 	<roundcube:if condition="strlen(env:sourcename)" />
 		<div id="sourcename"><roundcube:label name="addressbook" />: <roundcube:var name="env:sourcename" /></div>
 	<roundcube:endif />
-
 	<div id="contactphoto">
 		<roundcube:object name="contactphoto" id="contactpic" placeholder="/images/contactpic.png" placeholderGroup="/images/contactgroup.png" />
 	</div>
 	<roundcube:object name="contacthead" id="contacthead" />
-	<br style="clear:both" />
-
+	<br style="clear:both">
 	<div id="contacttabs" class="tabbed">
 		<roundcube:object name="contactdetails" />
 	</div>
-
 </div>
 
 <div class="formbuttons">

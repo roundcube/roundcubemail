@@ -40,6 +40,7 @@ using the `lessc` command line tool. This comes with the `nodejs-less`
 RPM package which depends on nodejs.
 
  $ lessc -x styles/styles.less > styles/styles.css
+ $ lessc -x styles/print.less > styles/print.css
 
 (the -x option minifies the CSS code)
 

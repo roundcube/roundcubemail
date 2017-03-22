@@ -1,21 +1,24 @@
+<roundcube:add_label name="errortitle" />
+
 <roundcube:object name="doctype" value="html5" />
 <html>
 <head>
 	<title><roundcube:object name="pagetitle" /></title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" id="viewport" />
-	<link rel="shortcut icon" href="/images/favicon.ico"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" id="viewport">
+	<link rel="shortcut icon" href="/images/favicon.ico">
 	<link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
 	<roundcube:if condition="config:devel_mode" />
-		<link rel="stylesheet/less" type="text/css" href="/styles/styles.less" />
+		<link rel="stylesheet/less" type="text/css" href="/styles/styles.less">
+		<roundcube:link rel="stylesheet/less" type="text/css" href="/styles/print.less" condition="env:action == 'print'" />
 		<script src="/styles/less.min.js" data-env="development"></script>
 	<roundcube:else />
-		<link rel="stylesheet" type="text/css" href="/styles/styles.css" />
+		<link rel="stylesheet" type="text/css" href="/styles/styles.css">
+		<roundcube:link rel="stylesheet" type="text/css" href="/styles/print.css" condition="env:action == 'print'" />
 	<roundcube:endif />
-	<roundcube:add_label name="errortitle" />
 </head>
 <roundcube:if condition="!env:framed || env:extwin" />
-<body class="task-<roundcube:exp expression="env:task ?: 'error'" />">
+<body class="task-<roundcube:exp expression="env:task ?: 'error'">">
 <div id="layout">
 <roundcube:else />
-<body class="iframe task-<roundcube:exp expression="env:task ?: 'error'" />">
+<body class="iframe task-<roundcube:exp expression="env:task ?: 'error'">">
 <roundcube:endif />

@@ -1,0 +1,11 @@
+<roundcube:include file="/includes/layout.html" />
+
+<div id="content" class="content" role="main">
+	<div id="printmessageframe">
+		<roundcube:object name="messageHeaders" class="headers-table" max="10" />
+		<roundcube:object name="messageAttachments" id="attachment-list" />
+		<roundcube:object name="messageBody" id="messagebody" showImages="false" />
+	</div>
+</div>
+
+<roundcube:include file="/includes/footer.html" />
