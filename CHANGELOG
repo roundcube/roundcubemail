@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add support for DelSp=Yes in format=flowed messages (#5702)
 - Update to jQuery 3.2.1
 - Update to TinyMCE 4.5.5
 - Plugin API: Call message_part_structure hook for sub-parts of multipart/alternative message (#5678)
