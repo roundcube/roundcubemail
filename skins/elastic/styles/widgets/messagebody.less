@@ -1,0 +1,65 @@
+/***** Styles for message body elements *****/
+
+
+#messagebody {
+    /* TODO */
+
+    &.mailvelope {
+        margin: 0;
+    }
+}
+
+div.message-part,
+div.message-htmlpart {
+    /* TODO */
+
+    blockquote {
+        color: blue;
+        border-left: 2px solid blue;
+        border-right: 2px solid blue;
+        background-color: #F6F6F6; /* TODO */
+        margin: 2px 0;
+        padding: 0 0.4em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        blockquote {
+            color: green;
+            border-left: 2px solid green;
+            border-right: 2px solid green;
+
+            blockquote {
+                color: #900;
+                border-left: 2px solid #b00;
+                border-right: 2px solid #b00;
+            }
+        }
+    }
+}
+
+div.message-partheaders {
+    /* TODO */
+}
+
+#messagepartframe {
+    border: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#messagepartheader {
+    table {
+        table-layout: fixed;
+        overflow: hidden;
+
+        td {
+            text-overflow: ellipsis;
+            overflow: hidden;
+
+            &.title {
+                width: 60px;
+                padding-right: 0;
+            }
+        }
+    }
+}

@@ -73,6 +73,15 @@ table.fixedcopy {
     tr.deleted td.subject span.fromto {
         color: #ccc; /* TODO */
     }
+
+    tr.unread td.subject span.subject {
+        /* TODO font-weight: bold? */
+    }
+
+    /* thread parent message with unread children */
+    tr.unroot td.subject a {
+        text-decoration: underline;
+    }
 }
 
 

@@ -1,7 +1,7 @@
 @import (reference) "fontawesome.less";
 @import (reference) "colors.less";
 
-/* Fonts */
+/*** Fonts ***/
 
 @font-face {
   font-family: 'Icons';
@@ -68,7 +68,7 @@ button, input, select, textarea {
 @import "layout.less";
 
 
-/* Font-icons */
+/*** Font-icons ***/
 
 .font-icon-class {
     font-size: 1.25em;
@@ -124,14 +124,8 @@ button, input, select, textarea {
 /*** Common UI elements ***/
 
 #uploadform,
-.ui.popup,
 .voice {
     display: none;
-}
-
-div.ui-dialog-content > .ui.popup,
-div.popover-content > .ui.popup {
-    display: block !important;
 }
 
 body.iframe {
@@ -142,22 +136,6 @@ body.iframe {
     .formbuttons {
         padding: 0 1em 1em 1em;
     }
-}
-
-.ui-dialog iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
-
-.ui-dialog-content.iframe {
-    padding: 0 !important;
-    overflow: hidden !important;
-}
-
-.ui.popup {
-    padding: 0;
-    min-width: 180px;
 }
 
 #rcmdraglayer {
@@ -187,25 +165,25 @@ body.iframe {
     }
 }
 
-
-div.popover-content {
-    padding: 0;
-}
-
-div.popover > h3 {
-    display: none;
-}
-
 #content .watermark {
     background: url(../images/watermark.jpg) center no-repeat;
     width: 100%;
     height: 100%;
 }
 
+.noselect {
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
 
-/* Widgets */
+
+/*** Widgets ***/
 
 @import "widgets/buttons.less";
+@import "widgets/dialogs.less";
 @import "widgets/taskmenu.less";
 @import "widgets/messages.less";
 @import "widgets/toolbar.less";
@@ -213,6 +191,7 @@ div.popover > h3 {
 @import "widgets/lists.less";
 @import "widgets/folderlist.less";
 @import "widgets/messagelist.less";
+@import "widgets/messagebody.less";
 @import "widgets/attachmentlist.less";
 @import "widgets/googiespell.less";
 
@@ -230,4 +209,65 @@ div.popover > h3 {
     margin: auto;
     width: 95%;
     max-width: 320px;
+}
+
+
+/*** Addressbook UI ***/
+
+#contacts-table {
+    .contact.readonly td {
+        font-style: italic;
+    }
+
+    td.action {
+        /* TODO */
+        a {
+            /* TODO */
+        }
+    }
+
+    span.email {
+        display: inline;
+        color: #69939e; /* TODO */
+        font-style: italic;
+        margin-left: 0.5em;
+    }
+}
+
+#contactpic { /* TODO */ }
+#contactphoto { /* TODO */ }
+#contacthead { /* TODO */ }
+.contactfieldgroup { /* TODO */ }
+
+
+/*** Settings UI ***/
+
+.skinselection {
+    span {
+        display: inline-block;
+        vertical-align: middle;
+        padding-right: 1em;
+    }
+
+    .skinname {
+        font-weight: bold;
+    }
+
+    .skinlicense,
+    .skinlicense a {
+        font-style: italic;
+        text-decoration: none;
+    }
+
+    .skinlicense a:hover {
+        text-decoration: underline;
+    }
+
+    .skinthumbnail {
+        width: 64px;
+        height: 64px;
+        border: 1px solid #ccc; /* TODO */
+        background: #fff;
+        border-radius: 4px;
+    }
 }
