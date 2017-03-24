@@ -1,7 +1,11 @@
 <roundcube:add_label name="errortitle" />
 
 <roundcube:object name="doctype" value="html5" />
+<roundcube:if condition="!env:framed || env:extwin" />
 <html>
+<roundcube:else />
+<html class="iframe">
+<roundcube:endif />
 <head>
 	<title><roundcube:object name="pagetitle" /></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" id="viewport">
@@ -16,9 +20,7 @@
 		<roundcube:link rel="stylesheet" type="text/css" href="/styles/print.css" condition="env:action == 'print'" />
 	<roundcube:endif />
 </head>
-<roundcube:if condition="!env:framed || env:extwin" />
 <body class="task-<roundcube:exp expression="env:task ?: 'error'">">
-<div id="layout">
-<roundcube:else />
-<body class="iframe task-<roundcube:exp expression="env:task ?: 'error'">">
-<roundcube:endif />
+	<roundcube:if condition="!env:framed || env:extwin" />
+		<div id="layout">
+	<roundcube:endif />

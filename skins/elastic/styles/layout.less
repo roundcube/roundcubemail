@@ -36,10 +36,10 @@ NOTE: below 1024px we do some UI elements bigger, as this is good (imho)
 
 html {
     height: 100%;
+    font-size: @page-font-size;
 }
 
 body {
-    font-size: @page-font-size;
     line-height: 1;
     min-width: @page-min-width;
     height: 100%;
@@ -53,7 +53,6 @@ body > #layout {
     flex-wrap: nowrap;
     height: 100%;
     width: 100%;
-
 
     & > div {
         &.sidebar,
@@ -116,10 +115,10 @@ body > #layout {
         & > .header,
         & > .footer {
             background-color: @layout-header-background-color;
-            font-size: 1.2em;
+            font-size: 1rem;
             font-weight: bold;
-            line-height: 2.5em;
-            height: 2.5em;
+            line-height: 2.5rem;
+            height: 2.5rem;
             padding: 0 0.25em;
             margin: 0;
             position: relative; /* for absolute positioning of searchbar */
@@ -146,7 +145,7 @@ body > #layout {
     }
 }
 
-body.iframe {
+html.iframe body {
     overflow: auto;
 
     #content {
@@ -179,8 +178,8 @@ body.iframe {
 }
 
 @media screen and (max-width: @screen-width-medium) {
-    body:not(.iframe) {
-        font-size: 1.2em;
+    html:not(.iframe) {
+        font-size: 120%;
     }
 }
 
