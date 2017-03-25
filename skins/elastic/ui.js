@@ -48,6 +48,7 @@ function rcube_elastic_ui()
     this.about_dialog = about_dialog;
     this.spellmenu = spellmenu;
     this.searchmenu = searchmenu;
+    this.attachmentmenu = attachmentmenu;
 
 
     // Initialize layout
@@ -225,6 +226,13 @@ function rcube_elastic_ui()
                 rcmail[list].checkbox_selection = true;
             }
         });
+
+        // add menu link for each attachment
+        $('#attachment-list > li').each(function() {
+            attachmentmenu_append(this);
+        });
+
+        rcmail.addEventListener('fileappended', function(e) { if (e.attachment.complete) attachmentmenu_append(e.item); });
     };
 
     /**
@@ -319,7 +327,7 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Handler for roundcube some popups
+     * Handler for some Roundcube core popups
      */
     function rcmail_popup_init(o)
     {
@@ -361,7 +369,8 @@ function rcube_elastic_ui()
         if (!div.length) {
             div = $('<div>').attr({
                 id: 'screen-size',
-                style: 'position:absolute;display:block;right:0;bottom:0;z-index:100;'
+                style: 'position:absolute;display:block;right:0;z-index:100;'
+                    + (rcmail.is_framed() ? 'top:0;' : 'bottom:0;')
                     + 'opacity:0.5;color:white;background-color:black;white-space:nowrap'
             }).appendTo(document.body);
         }
@@ -682,16 +691,16 @@ function rcube_elastic_ui()
                 placement: popup_position,
                 html: true
             })
-            .on('show.bs.popover', function() {
+            .on('show.bs.popover', function(event) {
                 var init_func = $(popup).data('popup-init');
 
                 $(popup).attr('aria-hidden', false);
 
                 if (init_func && ref[init_func]) {
-                    ref[init_func](popup);
+                    ref[init_func](popup, item, event);
                 }
                 else if (init_func && window[init_func]) {
-                    window[init_func](popup);
+                    window[init_func](popup, item, event);
                 }
             })
             .on('hide.bs.popover', function() {
@@ -958,7 +967,47 @@ function rcube_elastic_ui()
                 el.removeClass('selected').removeAttr('aria-selected');
             }
         });
-    }
+    };
+
+    /**
+     * Attachment menu
+     */
+    function attachmentmenu(obj, button, event)
+    {
+        var id = $(button).parent().attr('id').replace(/^attach/, '');
+
+        $.each(['open', 'download', 'rename'], function() {
+            var action = this;
+            $('#attachmenu' + action, obj).off('click').attr('onclick', '').click(function(e) {
+                return rcmail.command(action + '-attachment', id, this);
+            });
+        });
+
+        // call menu-open so core can set state of menu commands
+        rcmail.command('menu-open', {menu: 'attachmentmenu', id: id}, obj, event);
+    };
+
+    /**
+     * Appends drop-icon to attachments list item (to invoke attachment menu)
+     */
+    function attachmentmenu_append(item)
+    {
+        item = $(item);
+
+        if (!item.children('.drop').length) {
+            var button = $('<a>')
+                .attr({
+                    href: '#',
+                    tabindex: 0,
+                    'class': 'button icon dropdown skip-content',
+                    'data-popup': 'attachment-menu',
+                })
+                .append($('<span class="inner">').text('Show options')) // TODO: Localize "Show options" below
+                .appendTo(item);
+
+            popup_init(button);
+        }
+    };
 }
 
 var UI = new rcube_elastic_ui();
