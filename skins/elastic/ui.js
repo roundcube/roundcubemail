@@ -333,7 +333,7 @@ function rcube_elastic_ui()
     {
         // Add some common styling to the autocomplete/googiespell popups
         $('table,ul', o.obj).addClass('listing iconized');
-        $(o.obj).addClass('ui popup');
+        $(o.obj).addClass('popupmenu');
         bootstrap_style(o.obj);
     };
 
@@ -426,7 +426,7 @@ function rcube_elastic_ui()
             buttons.back_list.show();
         }
 
-        $('.header > ul.toolbar', layout.content).addClass('hidden ui popup');
+        $('.header > ul.toolbar', layout.content).addClass('popupmenu');
 
         $.each(content_buttons, function() { $(this).hide(); });
 
@@ -452,7 +452,7 @@ function rcube_elastic_ui()
         layout.menu.css('display', 'flex');
         buttons.back_list.hide();
         $.each(content_buttons, function() { $(this).show(); });
-        $('ul.toolbar.ui.popup').removeClass('hidden ui popup');
+        $('ul.toolbar.popupmenu').removeClass('popupmenu');
 
         // re-enable ext-windows
         rcmail.set_env(env.config);
@@ -464,7 +464,7 @@ function rcube_elastic_ui()
         $.each(layout, function(name, item) { item.css('display', 'flex'); });
         buttons.back_list.hide();
         $.each(content_buttons, function() { $(this).show(); });
-        $('ul.toolbar.ui.popup').removeClass('hidden ui popup');
+        $('ul.toolbar.popupmenu').removeClass('popupmenu');
 
         // re-enable ext-windows
         rcmail.set_env(env.config);
@@ -661,7 +661,7 @@ function rcube_elastic_ui()
 
             layout.content.children('.header')
                 // TODO: copy original toolbar attributes (class, role, aria-*)
-                .append($('<ul>').attr({'class': 'toolbar ui popup', id: 'toolbar-menu'}).append(items))
+                .append($('<ul>').attr({'class': 'toolbar popupmenu', id: 'toolbar-menu'}).append(items))
                 .append(menu_button);
 
             // TODO: A menu converted to a popup will be hidden on click in the body
@@ -751,7 +751,7 @@ function rcube_elastic_ui()
         }
         else if (p && p.name == 'folder-selector') {
             $('ul:first', p.obj).addClass('listing folderlist');
-            $(p.obj).addClass('ui popup visible');
+//            $(p.obj).addClass('popupmenu');
         }
     };
 

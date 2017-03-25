@@ -56,7 +56,7 @@
 </div>
 
 <roundcube:if condition="env:is_message" />
-	<div id="forward-menu" class="ui popup" aria-hidden="true">
+	<div id="forward-menu" class="popupmenu" aria-hidden="true">
 		<h3 id="aria-label-forwardmenu" class="voice"><roundcube:label name="arialabelforwardingoptions" /></h3>
 		<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-forwardmenu">
 			<roundcube:button type="link-menuitem" command="forward-inline" label="forwardinline" prop="sub" classAct="forward active" class="forward" />
@@ -65,7 +65,7 @@
 		</ul>
 	</div>
 
-	<div id="replyall-menu" class="ui popup" aria-hidden="true">
+	<div id="replyall-menu" class="popupmenu" aria-hidden="true">
 		<h3 id="aria-label-replyallmenu" class="voice"><roundcube:label name="arialabelreplyalloptions" /></h3>
 		<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-replyallmenu">
 			<roundcube:button type="link-menuitem" command="reply-all" label="replyall" prop="sub" class="replyall" classAct="replyall active" />
@@ -74,7 +74,7 @@
 		</ul>
 	</div>
 
-	<div id="message-menu" class="ui popup" aria-hidden="true">
+	<div id="message-menu" class="popupmenu" aria-hidden="true">
 		<h3 id="aria-label-messagemenu" class="voice"><roundcube:label name="arialabelmoremessageactions" /></h3>
 		<ul class="toolbarmenu listing iconized" role="menu" aria-labelledby="aria-label-messagemenu">
 			<roundcube:button type="link-menuitem" command="edit" prop="new" label="editasnew" class="edit asnew" classAct="edit asnew active" />

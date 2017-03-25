@@ -101,7 +101,7 @@
 </div>
 
 <!-- popup menus -->
-<div id="search-menu" class="ui popup" data-editable="true" data-popup-init="searchmenu">
+<div id="search-menu" class="popupmenu" data-editable="true" data-popup-init="searchmenu">
 	<h3 id="aria-label-searchmenu" class="voice"><roundcube:label name="searchmod" /></h3>
 	<ul class="toolbarmenu" role="menu" aria-labelledby="aria-label-searchmenu">
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="subject" id="s_mod_subject" /> <span><roundcube:label name="subject" /></span></label></li>
@@ -121,14 +121,14 @@
 	<div class="buttons"><button class="btn btn-primary icon search" href="#" onclick="if (rcmail.command('search')) UI.show_popup('searchmenu',false)"><roundcube:label name="search" /></button></div>
 </div>
 
-<div id="dragmessage-menu" class="ui popup">
+<div id="dragmessage-menu" class="popupmenu">
 	<ul class="toolbarmenu" role="menu">
 		<roundcube:button command="move" type="link-menuitem" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" />
 		<roundcube:button command="copy" type="link-menuitem" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" />
 	</ul>
 </div>
 
-<div id="mailboxoptions-menu" class="ui popup">
+<div id="mailboxoptions-menu" class="popupmenu">
 	<h3 id="aria-label-mailboxmenu" class="voice"><roundcube:label name="arialabelmailboxmenu" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-mailboxmenu">
 		<roundcube:button command="expunge" type="link-menuitem" label="compact" classAct="active" />
@@ -140,7 +140,7 @@
 	</ul>
 </div>
 
-<div id="listselect-menu" class="ui popup">
+<div id="listselect-menu" class="popupmenu">
 	<h3 id="aria-label-listselectmenu" class="voice"><roundcube:label name="arialabellistselectmenu" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-listselectmenu">
 		<roundcube:button command="select-all" type="link-menuitem" label="all" class="icon" classAct="icon active" innerclass="icon mail" />
@@ -152,7 +152,7 @@
 	</ul>
 </div>
 
-<div id="threadselect-menu" class="ui popup dropdown">
+<div id="threadselect-menu" class="popupmenu">
 	<h3 id="aria-label-threadselectmenu" class="voice"><roundcube:label name="arialabelthreadselectmenu" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-threadselectmenu">
 		<roundcube:button command="expand-all" type="link-menuitem" label="expand-all" class="icon" classAct="icon active" innerclass="icon conversation" />
@@ -161,7 +161,7 @@
 	</ul>
 </div>
 
-<div id="listoptions-menu" class="propform ui popup" role="dialog" aria-labelledby="aria-label-listoptions">
+<div id="listoptions-menu" class="propform popupmenu" role="dialog" aria-labelledby="aria-label-listoptions">
 	<h3 id="aria-label-listoptions" class="voice"><roundcube:label name="arialabelmessagelistoptions" /></h3>
 	<roundcube:if condition="!in_array('message_sort_col', (array)config:dont_override)" />
 	<fieldset id="listoptions-sortcol" class="floating">

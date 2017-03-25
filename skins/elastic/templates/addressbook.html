@@ -95,7 +95,7 @@
 </div>
 
 <!-- popup menus -->
-<div id="export-menu" class="ui popup">
+<div id="export-menu" class="popupmenu">
 	<h3 id="aria-label-exportmenu" class="voice"><roundcube:label name="arialabelcontactexportoptions" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-exportmenu">
 		<roundcube:button type="link-menuitem" command="export" label="exportall" prop="sub" class="exportalllink" classAct="exportalllink active" />
@@ -103,7 +103,7 @@
 	</ul>
 </div>
 
-<div id="groupoptions-menu" class="ui popup">
+<div id="groupoptions-menu" class="popupmenu">
 	<h3 id="aria-label-groupoptions" class="voice"><roundcube:label name="arialabelabookgroupoptions" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-groupoptions">
 		<roundcube:button type="link-menuitem" command="group-rename" label="grouprename" classAct="active" />
@@ -114,7 +114,7 @@
 	</ul>
 </div>
 
-<div id="search-menu" class="ui popup" data-editable="true" data-popup-init="searchmenu">
+<div id="search-menu" class="popupmenu" data-editable="true" data-popup-init="searchmenu">
 	<h3 id="aria-label-searchmenu" class="voice"><roundcube:label name="searchmod" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-searchmenu">
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="name" id="s_mod_name" /> <span><roundcube:label name="name" /></span></label></li>
@@ -126,7 +126,7 @@
 	<div class="buttons"><button class="btn btn-primary icon search" href="#" onclick="if (rcmail.command('search')) UI.show_popup('searchmenu',false)"><roundcube:label name="search" /></button></div>
 </div>
 
-<div id="dragcontact-menu" class="ui popup">
+<div id="dragcontact-menu" class="popupmenu">
 	<ul class="toolbarmenu listing" role="menu">
 		<roundcube:button type="link-menuitem" command="move" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" />
 		<roundcube:button type="link-menuitem" command="copy" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" />

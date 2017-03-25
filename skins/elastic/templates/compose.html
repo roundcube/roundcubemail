@@ -212,11 +212,11 @@
 
 <roundcube:object name="composeAttachmentForm" id="uploadform" mode="smart" />
 
-<div id="spell-menu" class="ui popup" data-popup-init="spellmenu"></div>
+<div id="spell-menu" class="popupmenu" data-popup-init="spellmenu"></div>
 
-<div id="responses-menu" class="ui popup">
+<div id="responses-menu" class="popupmenu">
 	<h3 id="aria-label-responsesmenu" class="voice"><roundcube:label name="arialabelresponsesmenu" /></h3>
-	<ul class="toolbarmenu listing" id="textresponsesmenu" role="menu" aria-labelledby="aria-label-responsesmenu">
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-responsesmenu">
 		<li role="separator" class="separator" id=""><label><roundcube:label name="insertresponse" /></label></li>
 		<roundcube:object name="responseslist" id="responseslist" tagname="ul" itemclass="active" />
 		<li role="separator" class="separator"><label><roundcube:label name="manageresponses" /></label></li>
@@ -225,9 +225,9 @@
 	</ul>
 </div>
 
-<div id="attachment-menu" class="ui popup" data-popup-init="attachmentmenu">
+<div id="attachment-menu" class="popupmenu" data-popup-init="attachmentmenu">
 	<h3 id="aria-label-attachmentmenu" class="voice"><roundcube:label name="arialabelattachmentmenu" /></h3>
-	<ul class="toolbarmenu listing" id="attachmentoptionsmenu" role="menu" aria-labelledby="aria-label-attachmentmenu">
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-attachmentmenu">
 		<roundcube:button command="open-attachment" id="attachmenuopen" type="link-menuitem" label="open" class="extwin" classAct="extwin active" />
 		<roundcube:button command="download-attachment" id="attachmenudownload" type="link-menuitem" label="download" class="download" classAct="download active" />
 		<roundcube:button command="rename-attachment" id="attachmenurename" type="link-menuitem" label="rename" class="rename" classAct="rename active" />

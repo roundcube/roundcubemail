@@ -2,12 +2,14 @@
 
 /* TODO: To be reviewed with popups implementation */
 
-.ui.popup {
+.popupmenu {
     display: none;
+    padding: 0;
+    min-width: 180px;
 }
 
-div.ui-dialog-content > .ui.popup,
-div.popover-content > .ui.popup {
+div.ui-dialog-content > .popupmenu,
+div.popover-content > .popupmenu {
     display: block !important;
 }
 
@@ -20,11 +22,6 @@ div.popover-content > .ui.popup {
 .ui-dialog-content.iframe {
     padding: 0 !important;
     overflow: hidden !important;
-}
-
-.ui.popup {
-    padding: 0;
-    min-width: 180px;
 }
 
 div.popover-content {
