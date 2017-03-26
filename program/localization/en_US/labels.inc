@@ -602,6 +602,7 @@ $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
+$labels['savedsearches'] = 'Saved searches';
 
 // units
 $labels['B'] = 'B';
@@ -662,6 +663,7 @@ $labels['arialabelmarkmessagesas'] = 'Mark selected messages as...';
 $labels['arialabelcomposeoptions'] = 'Composition options';
 $labels['arialabelresponsesmenu'] = 'Canned responses menu';
 $labels['arialabelattachmentuploadform'] = 'Attachment upload form';
+$labels['arialabelattachmentmenu'] = 'Attachment options';
 $labels['arialabelattachmentpreview'] = 'Attachment preview';
 $labels['ariasummarycomposecontacts'] = 'List of contacts and groups to select as recipients';
 $labels['arialabelcontactexportoptions'] = 'Contact export options';
@@ -670,6 +672,7 @@ $labels['arialabelpreferencesform'] = 'Preferences form';
 $labels['arialabelidentityeditfrom'] = 'Identity edit form';
 $labels['arialabelresonseeditfrom'] = 'Response edit form';
 $labels['arialabelsearchterms'] = 'Search terms';
+$labels['arialabeldropactionmenu'] = 'Drag-n-Drop action menu';
 
 $labels['helplistnavigation'] = 'List keyboard navigation';
 $labels['helplistkeyboardnavigation'] = "Arrows up/down: Move row focus/selection.
