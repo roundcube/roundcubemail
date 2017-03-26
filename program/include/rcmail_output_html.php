@@ -529,7 +529,9 @@ EOF;
         }
 
         // write all javascript commands
-        $this->add_script($commands, 'head_top');
+        if (!empty($commands)) {
+            $this->add_script($commands, 'head_top');
+        }
 
         // allow (legal) iframe content to be loaded
         $iframe = $this->framed || $this->env['framed'];
@@ -1542,7 +1544,7 @@ EOF;
      * @param string $script   JS code snippet
      * @param string $position Target position [head|head_top|foot]
      */
-    public function add_script($script, $position='head')
+    public function add_script($script, $position = 'head')
     {
         if (!isset($this->scripts[$position])) {
             $this->scripts[$position] = "\n" . rtrim($script);
