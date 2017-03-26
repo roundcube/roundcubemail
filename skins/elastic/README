@@ -74,3 +74,6 @@ RULES:
 ```
   where `sidebar` and `list` are optional. Which element of the `layout` will be displayed
   as a main view on mobile devices can be defined by adding `selected` class to it.
+
+- Every button, that is not <button> nor <input> should have inner <span class="inner"> element
+  for the button label.

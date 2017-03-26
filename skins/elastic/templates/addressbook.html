@@ -22,7 +22,6 @@
 
 <!-- contacts list -->
 <div id="list" class="list listbox selected" aria-labelledby="aria-label-contactslist">
-	<roundcube:object name="addresslisttitle" label="contacts" tag="h2" class="voice" id="aria-label-contactslist" />
 	<div class="header">
 		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="groups" /></span></a>
@@ -31,6 +30,7 @@
 			label="contactsearchform" buttontitle="findcontacts" options="search-menu" ariatag="h2" />
 	</div>
 	<div class="scroller">
+		<roundcube:object name="addresslisttitle" label="contacts" tag="h2" class="voice" id="aria-label-contactslist" />
 		<roundcube:object name="addresslist" id="contacts-table" class="listing iconized" noheader="true"
 			role="listbox" data-list="contact_list" />
 	</div>
@@ -93,21 +93,23 @@
 			<roundcube:container name="toolbar" id="addressbooktoolbar" />
 		</div>
 	</div>
-	<roundcube:object name="addressframe" id="contact-frame" src="/watermark.html" title="contactproperties" />
+	<h2 id="aria-label-contact-frame" class="voice"><roundcube:label name="contactproperties" /></h2>
+	<roundcube:object name="addressframe" id="contact-frame" src="/watermark.html" title="contactproperties"
+		aria-labelledby="aria-label-contact-frame" />
 </div>
 
 <!-- popup menus -->
 <div id="export-menu" class="popupmenu">
-	<h3 id="aria-label-exportmenu" class="voice"><roundcube:label name="arialabelcontactexportoptions" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-exportmenu">
+	<h3 id="aria-label-export-menu" class="voice"><roundcube:label name="arialabelcontactexportoptions" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-export-menu">
 		<roundcube:button type="link-menuitem" command="export" label="exportall" prop="sub" class="exportalllink" classAct="exportalllink active" />
 		<roundcube:button type="link-menuitem" command="export-selected" label="exportsel" prop="sub" class="exportsellink" classAct="exportsellink active" />
 	</ul>
 </div>
 
 <div id="groupoptions-menu" class="popupmenu">
-	<h3 id="aria-label-groupoptions" class="voice"><roundcube:label name="arialabelabookgroupoptions" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-groupoptions">
+	<h3 id="aria-label-groupoptions-menu" class="voice"><roundcube:label name="arialabelabookgroupoptions" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-groupoptions-menu">
 		<roundcube:button type="link-menuitem" command="group-rename" label="grouprename" classAct="active" />
 		<roundcube:button type="link-menuitem" command="group-delete" label="groupdelete" classAct="active" />
 		<roundcube:button type="link-menuitem" command="search-create" label="searchsave" classAct="active" />
@@ -117,8 +119,8 @@
 </div>
 
 <div id="search-menu" class="popupmenu" data-editable="true" data-popup-init="searchmenu">
-	<h3 id="aria-label-searchmenu" class="voice"><roundcube:label name="searchmod" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-searchmenu">
+	<h3 id="aria-label-search-menu" class="voice"><roundcube:label name="searchmod" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-search-menu">
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="name" id="s_mod_name" /> <span><roundcube:label name="name" /></span></label></li>
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="firstname" id="s_mod_firstname" /> <span><roundcube:label name="firstname" /></span></label></li>
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="surname" id="s_mod_surname" /> <span><roundcube:label name="surname" /></span></label></li>
@@ -129,7 +131,8 @@
 </div>
 
 <div id="dragcontact-menu" class="popupmenu">
-	<ul class="toolbarmenu listing" role="menu">
+	<h3 id="aria-label-dragcontact-menu" class="voice"><roundcube:label name="arialabeldropactionmenu" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-dragcontact-menu">
 		<roundcube:button type="link-menuitem" command="move" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" />
 		<roundcube:button type="link-menuitem" command="copy" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" />
 	</ul>

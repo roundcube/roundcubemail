@@ -7,13 +7,14 @@
 
 <div id="content" class="content selected">
 	<roundcube:if condition="!env:framed" />
-		<div class="header">
+		<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+		<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
 			<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 			<span class="header-title"></span>
 			<roundcube:include file="/includes/mail-menu.html" />
 		</div>
 	<roundcube:endif />
-	<div class="content">
+	<div class="content" role="main">
 		<div id="message-header">
 			<span class="moreheaderstoggle"></span>
 			<h2 class="subject">
@@ -44,8 +45,8 @@
 
 <!-- popup menus -->
 <div id="attachment-menu" class="popupmenu" data-popup-init="attachmentmenu">
-	<h3 id="aria-label-attachmentmenu" class="voice"><roundcube:label name="arialabelattachmentmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-attachmentmenu">
+	<h3 id="aria-label-attachment-menu" class="voice"><roundcube:label name="arialabelattachmentmenu" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-attachment-menu">
 		<roundcube:button command="open-attachment" id="attachmenuopen" type="link-menuitem" label="open" class="extwin" classAct="extwin active" />
 		<roundcube:button command="download-attachment" id="attachmenudownload" type="link-menuitem" label="download" class="download" classAct="download active" />
 		<roundcube:container name="attachmentmenu" id="attachmentoptionsmenu" />

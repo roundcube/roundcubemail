@@ -240,7 +240,7 @@ function rcube_elastic_ui()
      */
     function bootstrap_style(context)
     {
-        $('input.button,button', context || document).addClass('btn');
+        $('input.button,button', context || document).addClass('btn').not('.btn-primary,.primary,.mainaction').addClass('btn-secondary');
         $('input.button.mainaction,button.primary,button.mainaction', context || document).addClass('btn-primary');
     };
 

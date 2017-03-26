@@ -86,7 +86,8 @@
 
 <!-- message preview -->
 <div id="content" class="content">
-	<div class="header">
+	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title"></span>
 		<roundcube:include file="/includes/mail-menu.html" />
@@ -102,8 +103,8 @@
 
 <!-- popup menus -->
 <div id="search-menu" class="popupmenu" data-editable="true" data-popup-init="searchmenu">
-	<h3 id="aria-label-searchmenu" class="voice"><roundcube:label name="searchmod" /></h3>
-	<ul class="toolbarmenu" role="menu" aria-labelledby="aria-label-searchmenu">
+	<h3 id="aria-label-search-menu" class="voice"><roundcube:label name="searchmod" /></h3>
+	<ul class="toolbarmenu" role="menu" aria-labelledby="aria-label-search-menu">
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="subject" id="s_mod_subject" /> <span><roundcube:label name="subject" /></span></label></li>
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="from" id="s_mod_from" /> <span><roundcube:label name="from" /></span></label></li>
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="to" id="s_mod_to" /> <span><roundcube:label name="to" /></span></label></li>
@@ -122,15 +123,16 @@
 </div>
 
 <div id="dragmessage-menu" class="popupmenu">
-	<ul class="toolbarmenu" role="menu">
+	<h3 id="aria-label-dragmessage-menu" class="voice"><roundcube:label name="arialabeldropactionmenu" /></h3>
+	<ul class="toolbarmenu" role="menu" aria-labelledby="aria-label-dragmessage-menu">
 		<roundcube:button command="move" type="link-menuitem" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" />
 		<roundcube:button command="copy" type="link-menuitem" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" />
 	</ul>
 </div>
 
 <div id="mailboxoptions-menu" class="popupmenu">
-	<h3 id="aria-label-mailboxmenu" class="voice"><roundcube:label name="arialabelmailboxmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-mailboxmenu">
+	<h3 id="aria-label-mailboxoptions-menu" class="voice"><roundcube:label name="arialabelmailboxmenu" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-mailboxoptions-menu">
 		<roundcube:button command="expunge" type="link-menuitem" label="compact" classAct="active" />
 		<roundcube:button command="purge" type="link-menuitem" label="empty" classAct="active" />
 		<roundcube:button command="mark-all-read" type="link-menuitem" label="markallread" classAct="active" />
@@ -141,8 +143,8 @@
 </div>
 
 <div id="listselect-menu" class="popupmenu">
-	<h3 id="aria-label-listselectmenu" class="voice"><roundcube:label name="arialabellistselectmenu" /></h3>
-	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-listselectmenu">
+	<h3 id="aria-label-listselect-menu" class="voice"><roundcube:label name="arialabellistselectmenu" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-listselect-menu">
 		<roundcube:button command="select-all" type="link-menuitem" label="all" class="icon" classAct="icon active" innerclass="icon mail" />
 		<roundcube:button command="select-all" type="link-menuitem" prop="page" label="currpage" class="icon" classAct="icon active" innerclass="icon list" />
 		<roundcube:button command="select-all" type="link-menuitem" prop="unread" label="unread" class="icon" classAct="icon active" innerclass="icon unread" />

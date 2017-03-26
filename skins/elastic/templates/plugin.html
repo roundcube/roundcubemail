@@ -1,8 +1,6 @@
 <roundcube:include file="/includes/layout.html" />
 <roundcube:include file="/includes/menu.html" />
-<roundcube:if condition="env:task == 'settings'" />
-	<roundcube:include file="/includes/settings-menu.html" />
-<roundcube:endif />
+<roundcube:include file="/includes/settings-menu.html" condition="env:task == 'settings'" />
 
 <div id="content" class="content selected" role="main">
 	<div class="header">
