@@ -10,6 +10,11 @@
     max-height: 85%;
     overflow-y: auto;
 
+    @media screen and (max-width: @screen-width-xs) {
+        left: 0.5em;
+        width: auto;
+    }
+
     div {
         &.voice {
             position: absolute;
@@ -76,12 +81,5 @@
 
     &.error:before {
         content: @fa-var-exclamation-circle;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    #messagestack {
-        left: 0.5em;
-        width: auto;
     }
 }

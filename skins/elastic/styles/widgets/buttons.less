@@ -14,7 +14,6 @@ a.button {
     text-decoration: none;
 }
 
-
 .header > .buttons > input.button {
     padding: 0.3em 0.8em;
     font-size: 1em;
@@ -32,57 +31,61 @@ a.button {
     cursor: pointer;
 }
 
-
 .formbuttons button.btn:before {
     font-size: 1em;
 }
 
+
 /* font-icons */
 
-button.btn:before,
-a.btn.icon:before,
-a.button.icon:before,
+button.btn {
+    &:before {
+        &:extend(.font-icon-class);
+    }
+    &.save:before {
+        content: @fa-var-check;
+    }
+    &.edit:before {
+        content: @fa-var-pencil;
+    }
+    &.qrcode:before {
+        content: @fa-var-qrcode;
+    }
+    &.search:before {
+        content: @fa-var-search;
+    }
+    &:before {
+        content: @fa-var-upload;
+    }
+}
+
+a.button.icon {
+    &:before {
+        &:extend(.font-icon-class);
+    }
+    &.toolbar-menu-button:before {
+        content: @fa-var-ellipsis-v;
+    }
+    &.menu-button:before {
+        content: @fa-var-bars;
+    }
+    &.back-sidebar-button:before {
+        content: @fa-var-chevron-left;
+    }
+    &.back-list-button:before {
+        content: @fa-var-arrow-left;
+    }
+    &.dropdown:before {
+        content: @fa-var-caret-down;
+        font-size: 1em;
+    }
+    & > span.inner {
+        display: none;
+    }
+}
+
 a.rcmaddcontact:before {
     &:extend(.font-icon-class);
-}
-
-button.btn.save:before {
-  content: @fa-var-check;
-}
-button.btn.edit:before {
-    content: @fa-var-pencil;
-}
-button.btn.qrcode:before {
-  content: @fa-var-qrcode;
-}
-button.btn.search:before {
-    content: @fa-var-search;
-}
-button.btn.import:before {
-    content: @fa-var-upload;
-}
-
-a.button.icon.toolbar-menu-button:before {
-    content: @fa-var-ellipsis-v;
-}
-a.button.icon.menu-button:before {
-    content: @fa-var-bars;
-}
-a.button.icon.back-sidebar-button:before {
-    content: @fa-var-chevron-left;
-}
-a.button.icon.back-list-button:before {
-    content: @fa-var-arrow-left;
-}
-a.button.icon.dropdown:before {
-    content: @fa-var-caret-down;
-    font-size: 1em;
-}
-a.button.icon > span.inner {
-    display: none;
-}
-
-a.rcmaddcontact:before {
     content: @fa-var-user-plus;
     display: inline;
     float: none;

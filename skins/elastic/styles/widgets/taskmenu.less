@@ -10,6 +10,15 @@
         display: block;
         width: 60px;
         text-align: center;
+        color: @taskmenu-button-color;
+
+        &:hover {
+            color: @taskmenu-button-hover-color;
+        }
+
+        &.selected {
+            color: @taskmenu-selected-button-color;
+        }
 
         &:before {
             &:extend(.font-icon-class);
@@ -57,12 +66,20 @@
 
         a {
             color: @taskmenu-special-button-color;
+
+            &:hover {
+                color: @taskmenu-special-button-hover-color;
+            }
         }
     }
 
     .action-buttons {
         a {
             color: @taskmenu-action-button-color;
+
+            &:hover {
+                color: @taskmenu-action-button-hover-color;
+            }
         }
     }
 }
