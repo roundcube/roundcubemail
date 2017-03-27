@@ -126,6 +126,37 @@
     }
 }
 
+.toolbar.listing {
+    .dropbutton {
+        display: flex;
+
+        a.button:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 0.5em;
+            flex: 1;
+        }
+
+        a.button.dropdown {
+            font-size: 100%;
+            cursor: pointer;
+
+            &:before {
+                content: @fa-var-angle-right;
+            }
+
+            span.inner {
+                display: none;
+            }
+        }
+    }
+
+    .spacer {
+        height: 1px;
+        display: block;
+    }
+}
+
 .toolbarmenu li {
     a {
         opacity: 0.5;

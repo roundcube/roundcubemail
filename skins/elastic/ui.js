@@ -661,7 +661,7 @@ function rcube_elastic_ui()
 
             layout.content.children('.header')
                 // TODO: copy original toolbar attributes (class, role, aria-*)
-                .append($('<ul>').attr({'class': 'toolbar popupmenu', id: 'toolbar-menu'}).append(items))
+                .append($('<ul>').attr({'class': 'toolbar popupmenu listing', id: 'toolbar-menu'}).append(items))
                 .append(menu_button);
 
             // TODO: A menu converted to a popup will be hidden on click in the body
