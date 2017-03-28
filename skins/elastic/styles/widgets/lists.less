@@ -121,6 +121,9 @@ ul.listing {
     &.filter > a:before {
         content: @fa-var-filter;
     }
+    &.vacation > a:before {
+        content: @fa-var-clock-o;
+    }
     &.enigma.keys > a:before {
         content: @fa-var-key;
     }
@@ -182,26 +185,73 @@ ul.listing {
     }
 }
 
-ul.treelist li div.treetoggle {
-    position: absolute;
-    top: 1.2em;
-    left: 1.3em;
-    width: 0.8em;
-    height: 0.8em;
-    line-height: 0.8em;
-    cursor: pointer;
-
-    &:before {
-        &:extend(.font-icon-class);
-        content: @fa-var-plus-square-o;
-        font-size: 0.8em;
+ul.treelist li {
+    div.treetoggle {
+        position: absolute;
+        top: 1.2em;
+        left: 1.3em;
         width: 0.8em;
         height: 0.8em;
-        background-color: white;
+        line-height: 0.8em;
+        cursor: pointer;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-plus-square-o;
+            font-size: 0.8em;
+            width: 0.8em;
+            height: 0.8em;
+            background-color: white;
+        }
+
+        &.expanded:before {
+            content: @fa-var-minus-square-o;
+        }
     }
 
-    &.expanded:before {
-        content: @fa-var-minus-square-o;
+    & > a {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &.selected > a {
+        color: @list-selected-color;
+        background-color: @list-selected-color-background;
+    }
+
+    &.selected {
+        color: inherit;
+        background-color: transparent;
+    }
+
+    ul {
+        padding: 0;
+
+        li {
+            padding-left: 0;
+            a { padding-left: 1.5em; }
+            div.treetoggle { left: (1.5em + 0.8em); }
+
+            li {
+                a { padding-left: (2 * 1.5em); }
+                div.treetoggle { left: (2 * 1.5em + 0.8em); }
+
+                li {
+                    a { padding-left: (3 * 1.5em); }
+                    div.treetoggle { left: (3 * 1.5em + 0.8em); }
+
+                    li {
+                        a { padding-left: (4 * 1.5em); }
+                        div.treetoggle { left: (4 * 1.5em + 0.8em); }
+
+                        li {
+                            a { padding-left: (5 * 1.5em); }
+                            div.treetoggle { left: (5 * 1.5em + 0.8em); }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -235,6 +285,9 @@ ul.treelist li div.treetoggle {
 
             &.unread {
                 /* TODO */
+                & > a {
+                    padding-right: 2.5em;
+                }
             }
 
             &.recent {
