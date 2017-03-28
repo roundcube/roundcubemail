@@ -62,6 +62,10 @@ ul.listing {
     margin: 0;
     padding: 0;
 
+    & > ul {
+        padding: 0;
+    }
+
     li {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -483,10 +487,7 @@ table.fixedcopy {
 
 .attachmentslist li {
     display: inline-block;
-
-    a.button {
-        float: right;
-    }
+    line-height: 1.25em;
 
     &:before {
         &:extend(.font-icon-class);
@@ -578,5 +579,32 @@ table.fixedcopy {
 
     &.application.pgp-keys:before {
         /* TODO */
+    }
+
+    .attachment-size {
+        color: #ddd; /* TODO: use color variable */
+    }
+
+    a.button {
+        float: right;
+    }
+
+    a.delete:before {
+        float: right;
+        &:extend(.font-icon-class);
+        content: @fa-var-trash;
+    }
+
+    &.uploading {
+        &:before {
+            content: @fa-var-circle-o-notch;
+            .animated-icon-class;
+        }
+
+        a.cancelupload:before {
+            float: right;
+            &:extend(.font-icon-class);
+            content: @fa-var-remove;
+        }
     }
 }

@@ -4,6 +4,7 @@
 .toolbar {
     a {
         text-decoration: none;
+        cursor: pointer !important; /* TODO: re-consider .listing class use on toolbar */
     }
 
     a.button {
@@ -126,7 +127,7 @@
     }
 }
 
-.toolbar.listing {
+.popupmenu.toolbar.listing {
     .dropbutton {
         display: flex;
 
@@ -158,6 +159,10 @@
 }
 
 .toolbarmenu li {
+    &.separator {
+        /* TODO */
+    }
+
     a {
         opacity: 0.5;
 
