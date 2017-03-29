@@ -239,10 +239,18 @@ html.iframe body {
 /*** Settings UI ***/
 
 .skinselection {
-    span {
-        display: inline-block;
+    white-space: nowrap;
+    display: table-row;
+
+    & > span {
+        display: table-cell;
         vertical-align: middle;
-        padding-right: 1em;
+        padding: 0.1em 0.5em;
+        white-space: normal;
+
+        &:last-child {
+            padding-right: 0;
+        }
     }
 
     .skinname {
