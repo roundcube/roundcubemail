@@ -18,7 +18,7 @@
         white-space: nowrap;
         vertical-align: middle;
         line-height: 2.4em;
-        color: @list-color;
+        color: @color-list;
     }
 
     tbody td {
@@ -28,8 +28,8 @@
 
     li.selected,
     tr.selected td {
-        color: @list-selected-color;
-        background-color: @list-selected-color-background;
+        color: @color-list-selected;
+        background-color: @color-list-selected-background;
     }
 
     td.selection {
@@ -47,7 +47,7 @@
         border-left: 2px solid transparent;
     }
     &.focus tbody tr.focused > td:first-child {
-        border-left: 2px solid @list-focus-indicator-color;
+        border-left: 2px solid @color-list-focus-indicator;
     }
 }
 
@@ -219,8 +219,8 @@ ul.treelist li {
     }
 
     &.selected > a {
-        color: @list-selected-color;
-        background-color: @list-selected-color-background;
+        color: @color-list-selected;
+        background-color: @color-list-selected-background;
     }
 
     &.selected {
@@ -264,6 +264,17 @@ ul.treelist li {
 .folderlist {
     li {
         &.mailbox {
+            &.unread {
+                /* TODO */
+                & > a {
+                    padding-right: 2.5em;
+                }
+            }
+
+            &.recent {
+                color: @color-list-recent;
+            }
+
             .unreadcount {
                 position: absolute;
                 top: 0;
@@ -274,28 +285,18 @@ ul.treelist li {
                 padding: 0 0.3em;
                 background:  /* todo */ #1e70bf;
                 border-radius: 0.4em;
-                color: @badge-font-color;
+                color: @color-list-badge;
                 text-align: center;
                 font-weight: bold;
             }
 
             &.selected .unreadcount {
-                background: /* todo */;
+                /* todo */;
             }
 
             &.recent > .unreadcount {
-                background: /* todo */;
-            }
-
-            &.unread {
-                /* TODO */
-                & > a {
-                    padding-right: 2.5em;
-                }
-            }
-
-            &.recent {
-                /* TODO */
+                background: @color-list-recent-badge;
+                color: @color-list-recent-badge-background;
             }
         }
 

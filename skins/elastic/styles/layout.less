@@ -62,7 +62,7 @@ body > #layout {
             flex-direction: column;
             min-width: 300px;
             max-width: 30%;
-            border-right: 1px solid @layout-border-color;
+            border-right: 1px solid @color-layout-border;
         }
 
         &.content {
@@ -70,7 +70,7 @@ body > #layout {
             flex-grow: 6;
             flex-direction: column;
             min-width: 50%;
-            background-color: @layout-content-background-color;
+            background-color: @color-layout-content-background;
 
             & > iframe,
             & > .content,
@@ -85,17 +85,17 @@ body > #layout {
 
         &.sidebar {
             min-width: 220px;
-            background-color: @layout-sidebar-background-color;
+            background-color: @color-layout-sidebar-background;
         }
 
         &.list {
             min-width: 300px;
-            background-color: @layout-list-background-color;
+            background-color: @color-layout-list-background;
         }
 
         &.menu {
             width: @taskmenu-width;
-            background-color: @taskmenu-background-color;
+            background-color: @color-taskmenu-background;
 
             a,
             a:before {
@@ -114,7 +114,7 @@ body > #layout {
 
         & > .header,
         & > .footer {
-            background-color: @layout-header-background-color;
+            background-color: @color-layout-header-background;
             font-size: 1rem;
             font-weight: bold;
             line-height: 2.5rem;
