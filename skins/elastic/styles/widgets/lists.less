@@ -42,6 +42,11 @@
         vertical-align: middle;
     }
 
+    li.droptarget > a,
+    tr.droptarget > td {
+        background-color: @color-list-droptarget-background;
+    }
+
     /* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
     tbody tr > td:first-child {
         border-left: 2px solid transparent;
