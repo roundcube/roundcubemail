@@ -248,8 +248,9 @@ input.button:active {
 
 .pagenav.dark a.button {
 	font-weight: bold;
-	border-color: #e6e6e6;
-	background: #bababa;
+	border: 0;
+	background: transparent;
+	margin: 0;
 }
 
 .pagenav.dark a.button.pressed {
