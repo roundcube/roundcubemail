@@ -272,6 +272,22 @@ function rcube_elastic_ui()
 
             row.addClass(row_classes.join(' '));
         });
+
+        // Make logon form prettier
+        if (rcmail.env.task == 'login') {
+            $('#login-form table tr').each(function() {
+                var input = $('input,select', this),
+                    label = $('label', this),
+                    icon = $('<i>').attr('class', 'input-group-addon icon ' + input.attr('name').replace('_', ''));
+
+                $(this).addClass('form-group row');
+                label.parent().css('display', 'none');
+                input.addClass('form-control')
+                    .attr('placeholder', label.text())
+                    .before(icon)
+                    .parent().addClass('input-group');
+            });
+        }
     };
 
     /**

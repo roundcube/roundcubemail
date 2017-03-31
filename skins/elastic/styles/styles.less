@@ -189,6 +189,24 @@ table.propform {
     }
 }
 
+/* Some common icons for "iconized inputs" */
+.input-group-addon.icon {
+
+    &:before {
+        &:extend(.font-icon-class);
+        margin: 0;
+        line-height: 1;
+    }
+    &.user:before {
+        content: @fa-var-user;
+    }
+    &.pass:before {
+        content: @fa-var-lock;
+    }
+    &.host:before {
+        content: @fa-var-home;
+    }
+}
 
 
 /*** Widgets ***/
@@ -216,7 +234,7 @@ table.propform {
 #login-form {
     margin: auto;
     width: 95%;
-    max-width: 320px;
+    max-width: 280px;
 }
 
 
