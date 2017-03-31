@@ -5407,6 +5407,12 @@ function rcube_webmail()
 
         return rcube_event.cancel(e);
 
+      case 9:   // tab
+        if (rcube_event.get_modifier(e) == SHIFT_KEY || !this.ksearch_visible()) {
+          this.ksearch_hide();
+          return;
+        }
+
       case 13:  // enter
         if (!this.ksearch_visible())
           return false;
@@ -5415,9 +5421,9 @@ function rcube_webmail()
         this.insert_recipient(this.ksearch_selected);
         this.ksearch_hide();
 
-        return rcube_event.cancel(e);
+        // Don't cancel on Tab, we want to jump to the next field (#5659)
+        return key == 9 ? null : rcube_event.cancel(e);
 
-      case 9:   // tab
       case 27:  // escape
         this.ksearch_hide();
         return;
