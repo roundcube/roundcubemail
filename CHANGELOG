@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix regression in LDAP fuzzy search where it always used prefix search instead (#5713)
+
 RELEASE 1.1.8
 -------------
 - Fix bug where mail content frame couldn't be reset in some corner cases (#5608)

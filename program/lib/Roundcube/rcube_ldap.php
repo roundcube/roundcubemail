@@ -826,7 +826,7 @@ class rcube_ldap extends rcube_addressbook
             }
 
             // compose a full-text-like search filter
-            $filter = rcube_ldap_generic::fulltext_search_filter($value, $attributes, $mode);
+            $filter = rcube_ldap_generic::fulltext_search_filter($value, $attributes, $mode & ~rcube_addressbook::SEARCH_GROUPS);
         }
 
         // add required (non empty) fields filter
