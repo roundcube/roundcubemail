@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix so settings/upload.inc could not be used by plugins (#5694)
+- Fix bug where namespace prefix could not be truncated on folders list if show_real_foldernames=true (#5695)
 
 RELEASE 1.2.4
 -------------
