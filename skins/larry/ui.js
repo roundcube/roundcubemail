@@ -131,6 +131,10 @@ function rcube_mail_ui()
       var ismin = $(document.body).toggleClass('minimal').hasClass('minimal');
       save_pref('minimalmode', ismin?1:0);
       $(window).resize();
+
+      // This hack fixes re-positioning of the fixed header of messages list (#5711)
+      if (bw.chrome)
+        $('#mailviewsplitterv').trigger('mousedown').trigger('mouseup');
     });
 
     /***  mail task  ***/
