@@ -86,20 +86,21 @@ function rcmail_folder_form($attrib)
 
     // Location (name)
     if ($options['protected']) {
-        $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q($RCMAIL->localize_folderpath($mbox)));
+        $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q($RCMAIL->localize_foldername($mbox, false, true)));
     }
     else if ($options['norename']) {
         $foldername = rcube::Q($folder);
     }
     else {
-        if (isset($_POST['_name']))
+        if (isset($_POST['_name'])) {
             $folder = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
+        }
 
         $foldername = new html_inputfield(array('name' => '_name', 'id' => '_name', 'size' => 30));
         $foldername = $foldername->show($folder);
 
-        if ($options['special']) {
-            $foldername .= '&nbsp;(' . rcube::Q($RCMAIL->localize_foldername($mbox)) .')';
+        if ($options['special'] && ($sname = $RCMAIL->localize_foldername($mbox, false, true)) != $folder) {
+            $foldername .= '&nbsp;(' . rcube::Q($sname) .')';
         }
     }
 
