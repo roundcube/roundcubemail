@@ -29,6 +29,21 @@ class rcube_db_pgsql extends rcube_db
     public $db_provider = 'postgres';
 
     /**
+     * Object constructor
+     *
+     * @param string $db_dsnw DSN for read/write operations
+     * @param string $db_dsnr Optional DSN for read only operations
+     * @param bool   $pconn   Enables persistent connections
+     */
+    public function __construct($db_dsnw, $db_dsnr = '', $pconn = false)
+    {
+        parent::__construct($db_dsnw, $db_dsnr, $pconn);
+
+        // use date/time input format with timezone spec.
+        $this->options['datetime_format'] = 'c';
+    }
+
+    /**
      * Driver-specific configuration of database connection
      *
      * @param array $dsn DSN for DB connections

@@ -327,6 +327,10 @@ class rcube_db_oracle extends rcube_db
             return 'NULL';
         }
 
+        if ($input instanceof DateTime) {
+            return $this->quote($input->format($this->options['datetime_format']));
+        }
+
         if ($type == 'ident') {
             return $this->quote_identifier($input);
         }

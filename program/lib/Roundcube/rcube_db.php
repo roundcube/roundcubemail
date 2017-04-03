@@ -47,6 +47,8 @@ class rcube_db
         // column/table quotes
         'identifier_start' => '"',
         'identifier_end'   => '"',
+        // date/time input format
+        'datetime_format'  => 'Y-m-d H:i:s',
     );
 
     const DEBUG_LINE_LENGTH = 4096;
@@ -818,6 +820,10 @@ class rcube_db
             return 'NULL';
         }
 
+        if ($input instanceof DateTime) {
+            return $this->quote($input->format($this->options['datetime_format']));
+        }
+
         if ($type == 'ident') {
             return $this->quote_identifier($input);
         }
@@ -970,10 +976,11 @@ class rcube_db
      * @param int $timestamp Unix timestamp
      *
      * @return string Date string in db-specific format
+     * @deprecated
      */
     public function fromunixtime($timestamp)
     {
-        return date("'Y-m-d H:i:s'", $timestamp);
+        return $this->quote(date($this->options['datetime_format'], $timestamp));
     }
 
     /**
