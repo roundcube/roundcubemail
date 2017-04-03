@@ -41,6 +41,7 @@ RPM package which depends on nodejs.
 
  $ lessc -x styles/styles.less > styles/styles.css
  $ lessc -x styles/print.less > styles/print.css
+ $ lessc -x styles/embed.less > styles/embed.css
 
 (the -x option minifies the CSS code)
 
