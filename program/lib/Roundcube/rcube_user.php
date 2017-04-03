@@ -503,10 +503,10 @@ class rcube_user
 
             $this->db->query(
                 "UPDATE " . $this->db->table_name('users', true)
-                    . " SET `failed_login` = " . $this->db->fromunixtime($failed_login->format('U'))
+                    . " SET `failed_login` = ?"
                     . ", `failed_login_counter` = " . ($counter ?: "`failed_login_counter` + 1")
                 . " WHERE `user_id` = ?",
-                $this->ID);
+                $failed_login, $this->ID);
         }
     }
 
