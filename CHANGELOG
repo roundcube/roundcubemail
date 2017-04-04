@@ -3,7 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Add support for DelSp=Yes in format=flowed messages (#5702)
 - Update to jQuery 3.2.1
-- Update to TinyMCE 4.5.5
+- Update to TinyMCE 4.5.6
 - Plugin API: Call message_part_structure hook for sub-parts of multipart/alternative message (#5678)
 - Enigma: Always use detached signatures (#5624)
 - Enigma: Fix handling of messages with nested PGP encrypted parts (#5634)
