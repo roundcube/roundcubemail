@@ -72,6 +72,7 @@ textarea {
 
 input[type="text"]:focus,
 input[type="password"]:focus,
+button:focus,
 input.button:focus,
 textarea:focus {
 	border-color: #4787b1;
@@ -108,6 +109,7 @@ label input + span {
 
 /*** buttons ***/
 
+button,
 input.button {
 	display: inline-block;
 	margin: 0 2px;
@@ -126,6 +128,7 @@ input.button {
 	outline: none;
 }
 
+.formbuttons button,
 .formbuttons input.button {
 	color: #ddd;
 	font-size: 110%;
@@ -141,6 +144,8 @@ input.button {
 	box-shadow: 0 1px 1px 0 #ccc, inset 0 1px 0 0 #888;
 }
 
+.formbuttons button:hover,
+.formbuttons button:focus,
 .formbuttons input.button:hover,
 .formbuttons input.button:focus,
 input.button.mainaction:hover,
@@ -150,6 +155,7 @@ input.button.mainaction:focus {
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6), inset 0 1px 0 0 #888;
 }
 
+.formbuttons button:active,
 .formbuttons input.button:active {
 	color: #fff;
 	background: -moz-linear-gradient(top, #5c5c5c 0%, #7b7b7b 100%);
@@ -158,6 +164,7 @@ input.button.mainaction:focus {
 	background: linear-gradient(to bottom, #5c5c5c 0%, #7b7b7b 100%);
 }
 
+button.mainaction,
 input.button.mainaction {
 	color: #ededed;
 	text-shadow: 0px 1px 1px #333;
@@ -170,6 +177,7 @@ input.button.mainaction {
 	box-shadow: inset 0 1px 0 0 #777;
 }
 
+button.mainaction:active,
 input.button.mainaction:active {
 	color: #fff;
 	background: #515151;
@@ -179,12 +187,15 @@ input.button.mainaction:active {
 	background: linear-gradient(to bottom, #2a2e31 0%, #505050 100%);
 }
 
+button[disabled],
+button[disabled]:hover,
 input.button[disabled],
 input.button[disabled]:hover,
 input.button.mainaction[disabled] {
 	color: #aaa !important;
 }
 
+button.mainaction,
 input.mainaction {
 	font-weight: bold;
 }
@@ -222,6 +233,7 @@ a.button,
 	white-space: nowrap;
 }
 
+button:focus,
 a.button:focus,
 input.button:focus {
 	border-color: #4fadd5;
@@ -230,6 +242,7 @@ input.button:focus {
 }
 
 label.disabled,
+button.disabled,
 a.button.disabled {
 	color: #999;
 }
@@ -237,6 +250,10 @@ a.button.disabled {
 a.button.disabled,
 input.button.disabled,
 input.button[disabled],
+button.disabled,
+button[disabled],
+button.disabled:hover,
+button[disabled]:hover,
 a.button.disabled:hover,
 input.button.disabled:hover,
 input.button[disabled]:hover {
@@ -266,6 +283,7 @@ input.button[disabled]:hover {
 
 a.button.pressed,
 a.button:active,
+button:active,
 input.button:active {
 	background: #e6e6e6;
 	background: -moz-linear-gradient(top, #e6e6e6 0%, #f9f9f9 100%);
@@ -1811,7 +1829,7 @@ ul.proplist li {
 	border-color: #666;
 }
 
-#login-form input.button {
+#login-form button.button {
 	color: #444;
 	text-shadow: 0px 1px 1px #fff;
 	border-color: #f9f9f9;
@@ -1823,12 +1841,12 @@ ul.proplist li {
 	box-shadow: inset 0 1px 0 0 #fff;
 }
 
-#login-form input.button:hover,
-#login-form input.button:focus {
+#login-form button.button:hover,
+#login-form button.button:focus {
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9), inset 0 1px 0 0 #fff;
 }
 
-#login-form input.button:active {
+#login-form button.button:active {
 	color: #333;
 	background: -moz-linear-gradient(top, #dcdcdc 0%, #f9f9f9 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dcdcdc), color-stop(100%,#f9f9f9));
