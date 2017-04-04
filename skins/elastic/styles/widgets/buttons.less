@@ -42,6 +42,7 @@ button.btn {
     &:before {
         &:extend(.font-icon-class);
     }
+    &.submit:before,
     &.save:before {
         content: @fa-var-check;
     }
@@ -56,6 +57,9 @@ button.btn {
     }
     &.import:before {
         content: @fa-var-upload;
+    }
+    &.delete:before {
+        content: @fa-var-trash-o;
     }
 }
 
