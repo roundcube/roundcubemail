@@ -585,7 +585,7 @@ function rcube_webmail()
 
         // display 'loading' message on form submit, lock submit button
         $('form').submit(function () {
-          $('input[type=submit]', this).prop('disabled', true);
+          $('[type=submit]', this).prop('disabled', true);
           ref.clear_messages();
           ref.display_message('', 'loading');
         });

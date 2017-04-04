@@ -1947,9 +1947,8 @@ EOF;
         }
 
         if (rcube_utils::get_boolean($attrib['submit'])) {
-            $submit = new html_inputfield(array('type' => 'submit', 'id' => 'rcmloginsubmit',
-                'class' => 'button mainaction', 'value' => $this->app->gettext('login')));
-            $out .= html::p('formbuttons', $submit->show());
+            $button_attr = array('type' => 'submit', 'id' => 'rcmloginsubmit', 'class' => 'button mainaction submit');
+            $out .= html::p('formbuttons', html::tag('button', $button_attr, $this->app->gettext('login')));
         }
 
         // surround html output with a form tag
