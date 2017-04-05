@@ -3155,6 +3155,8 @@ _:not(), _:-moz-handler-blocked, .mozilla .mce-btn-small i {
 	box-shadow: none;
 }
 
+button.mce-close,
+.mce-btn button,
 .mce-textbox:focus {
 	box-shadow: none;
 	outline: none;
