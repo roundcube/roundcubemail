@@ -1,5 +1,7 @@
 /*** List and treelist widgets ***/
 
+@var-listing-line-height:   2.4em;
+
 .listing {
     tbody td,
     li {
@@ -7,6 +9,7 @@
         border-bottom: 1px solid #f4f4f4;
         cursor: default;
         font-weight: normal;
+        line-height: @var-listing-line-height;
     }
 
     tbody td,
@@ -17,7 +20,7 @@
         padding: 0 0.5em;
         white-space: nowrap;
         vertical-align: middle;
-        line-height: 2.4em;
+        line-height: @var-listing-line-height;
         color: @color-list;
     }
 
@@ -95,7 +98,7 @@ ul.listing {
             position: absolute;
             top: 0;
             right: 0.2em;
-            height: 2.4em;
+            height: @var-listing-line-height;
             vertical-align: middle;
         }
     }
