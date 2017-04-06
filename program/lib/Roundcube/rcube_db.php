@@ -1326,18 +1326,31 @@ class rcube_db
     {
         $sql  = $this->fix_table_names($sql);
         $buff = '';
+        $exec = '';
 
         foreach (explode("\n", $sql) as $line) {
-            if (preg_match('/^--/', $line) || trim($line) == '')
+            $trimmed = trim($line);
+            if ($trimmed == '' || preg_match('/^--/', $trimmed)) {
                 continue;
+            }
 
-            $buff .= $line . "\n";
-            if (preg_match('/(;|^GO)$/', trim($line))) {
-                $this->query($buff);
+            if ($trimmed == 'GO') {
+                $exec = $buff;
+            }
+            else if ($trimmed[strlen($trimmed)-1] == ';') {
+                $exec = $buff . substr(rtrim($line), 0, -1);
+            }
+
+            if ($exec) {
+                $this->query($exec);
                 $buff = '';
+                $exec = '';
                 if ($this->db_error) {
                     break;
                 }
+            }
+            else {
+                $buff .= $line . "\n";
             }
         }
 
