@@ -1221,6 +1221,13 @@ class rcube
             return syslog($prio, $line);
         }
 
+        // write message with file name when configured to log to STDOUT
+        if ($log_driver == 'stdout') {
+            $stdout = "php://stdout";
+            $line = "$name: $line";
+            return file_put_contents($stdout, $line, FILE_APPEND) !== false;
+        }
+
         // log_driver == 'file' is assumed here
 
         $line = sprintf("[%s]: %s\n", $date, $line);
