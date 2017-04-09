@@ -179,36 +179,6 @@ html.iframe body {
 }
 
 
-/* TODO: review when decided what css framework to use */
-table.propform {
-    width: 100%;
-
-    .row {
-        margin-right: 0; /* without these the form is too wide causing horizontal scrollbar appearence */
-        margin-left: 0;
-    }
-}
-
-/* Some common icons for "iconized inputs" */
-.input-group-addon.icon {
-
-    &:before {
-        &:extend(.font-icon-class);
-        margin: 0;
-        line-height: 1;
-    }
-    &.user:before {
-        content: @fa-var-user;
-    }
-    &.pass:before {
-        content: @fa-var-lock;
-    }
-    &.host:before {
-        content: @fa-var-home;
-    }
-}
-
-
 /*** Widgets ***/
 
 @import "widgets/buttons.less";
@@ -218,6 +188,7 @@ table.propform {
 @import "widgets/toolbar.less";
 @import "widgets/searchbar.less";
 @import "widgets/lists.less";
+@import "widgets/forms.less";
 @import "widgets/messagebody.less";
 @import "widgets/googiespell.less";
 

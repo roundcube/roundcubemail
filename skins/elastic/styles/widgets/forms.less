@@ -1,0 +1,77 @@
+/*** Common form elements style ***/
+
+
+/* TODO: review when decided what css framework to use */
+table.propform {
+    width: 100%;
+
+    .row {
+        margin-right: 0; /* without these the form is too wide causing horizontal scrollbar appearence */
+        margin-left: 0;
+    }
+}
+
+/* Some common icons for "iconized inputs" */
+.input-group-addon.icon {
+
+    &:before {
+        &:extend(.font-icon-class);
+        margin: 0;
+        line-height: 1;
+    }
+    &.user:before {
+        content: @fa-var-user;
+    }
+    &.pass:before {
+        content: @fa-var-lock;
+    }
+    &.host:before {
+        content: @fa-var-home;
+    }
+}
+
+
+td.editfield { width: 99%;  /* TODO */ }
+
+
+/*** Smart recipient input field ***/
+
+.recipient-input {
+    min-height: 2.4em;
+/*    padding: 0.2em 0.5em; */
+
+    .recipient {
+        border: 1px solid #ddd; /* TODO */
+        background-color: #f4f4f4; /* TODO */
+        border-radius: 0.25em;
+        padding: 0 0.25em;
+        margin-right: 0.2em;
+        display: inline-block;
+        white-space: nowrap;
+    }
+
+    .name {
+        max-width: 25em;
+        display: inline-block;
+        line-height: 1.1;
+        padding: 0.25em;
+        vertical-align: middle;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .email {
+        text-indent: -5000rem;
+        display: inline-block;
+        width: 0;
+    }
+
+    a.button.icon:before {
+        font-size: 0.9em;
+        float: initial;
+        display: inline-block;
+        width: 1em;
+        margin: 0;
+        cursor: pointer;
+    }
+}

@@ -144,6 +144,8 @@ function rcube_elastic_ui()
                 register_frame_buttons(form_buttons);
             }
         }
+
+        $('[data-recipient-input]').each(function() { recipient_input(this); });
     };
 
     /**
@@ -1048,12 +1050,185 @@ function rcube_elastic_ui()
                     'class': 'button icon dropdown skip-content',
                     'data-popup': 'attachment-menu',
                 })
-                .append($('<span class="inner">').text('Show options')) // TODO: Localize "Show options" below
+                .append($('<span class="inner">').text('Show options')) // TODO: Localize "Show options"
                 .appendTo(item);
 
             popup_init(button);
         }
     };
+
+    /**
+     * Replaces recipient input with content-editable element that uses "recipient boxes"
+     */
+    function recipient_input(obj)
+    {
+        var input;
+
+        var insert_recipient = function(name, email) {
+            var name_element = $('<span>').attr({'class': 'name', contenteditable: false})
+                    .text(recipient_input_name(name || email)),
+                email_element = $('<span>').attr({'class': 'email', contenteditable: false})
+                    .text(' <' + email + '>' + rcmail.env.recipients_separator),
+                // TODO: should the 'close' link have tabindex?
+                link = $('<a>').attr({'class': 'button icon remove', contenteditable: false})
+                    .click(function() { $(this).parent().remove(); }),
+                last = input.children('span:last'),
+                recipient = $('<span>')
+                    .attr({
+                        'class': 'recipient',
+                        contenteditable: false,
+                        title: name ? (name + ' <' + email + '>') : ''
+                    })
+                    .append([name_element, email_element, link])
+
+            if (last.length) {
+                (last).after(recipient);
+            }
+            else {
+                input.html('').append(recipient)
+                    // contentEditable BR is required as a workaround for cursor issues in Chrome
+                    .append($('<br>').attr('contenteditable', false));
+            }
+        };
+
+        // Puts cursor at proper place of the content editable element
+        var focus_func = function() {
+            var obj, range = document.createRange();
+
+            // if there's a text node, put cursor at the end of it
+            if (obj = $(input).contents().filter(function() { return this.nodeType == 3; }).last()[0]) {
+                range.setStart(obj, $(obj).text().length);
+            }
+            // else if there's <br> put the cursor before it
+            else if (obj = input.children('br:last')[0]) {
+                range.setStartBefore(obj);
+            }
+            // else if there's at least one recipient box put the cursor after the last one
+            else if (obj = input.children('span:last')[0]) {
+                range.setStartAfter(obj);
+            }
+            // else if there's any node, put the cursor after it
+            else if (obj = input.lastChild) {
+                range.setStartAfter(obj);
+            }
+            // else do nothing
+            else {
+                return;
+            }
+
+            range.collapse(true);
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        };
+
+        var parse_func = function(e) {
+            // TODO: BUG: backspace removes all recipients in Chrome
+            // TODO: it is possible to put cursor between recipient boxes, we should block this
+            // TODO: in onkeyup add recipient element on separator character?
+            // TODO: selecting signatures can modify the original input, need to
+            //       update the contentEditable element too
+
+            // Note it can be also executed when autocomplete inserts a recipient
+            if (e.type.match(/^(change|paste|blur)$/)) {
+                var node, text, recipients = [], cloned = input.clone();
+
+                cloned.find('span').remove();
+                text = cloned.text();
+                recipients = recipient_input_parser(text);
+
+                $.each(recipients, function() {
+                    insert_recipient(this.name, this.email);
+                    text = text.replace(this.text, '');
+                });
+
+                if (recipients.length) {
+                    // update text node
+                    text = $.trim(text.replace(/[,]{1,}/g, ',').replace(/(^,|,$)/g, ''));
+                    $(input).contents().each(function() { if (this.nodeType == 3) $(this).remove(); });
+                    input.children('span:last').after(document.createTextNode(text));
+
+                    // update original input
+                    $(obj).val(input.text());
+                }
+
+                // fix cursor position
+                if (e.type != 'blur') {
+                    focus_func();
+                }
+            }
+
+            // Backspace key can add <br type="_moz"> in Firefox
+            $('br[type=\"_moz\"]', this).remove();
+        };
+
+        input = $('<div>')
+            .attr({contenteditable: true, tabindex: $(obj).attr('tabindex')})
+            // todo aria attributes
+            .addClass('form-control recipient-input')
+            .on('paste change blur keyup', parse_func)
+            .on('focus', focus_func);
+
+        $(obj).hide().after(input).on('focus', function() { input.focus(); })
+
+        setTimeout(function() {
+            var ac_props;
+
+            // Copy and parse the value already set
+            input.text($(obj).val()).change();
+
+            if (rcmail.env.autocomplete_threads > 0) {
+                ac_props = {
+                    threads: rcmail.env.autocomplete_threads,
+                    sources: rcmail.env.autocomplete_sources
+                };
+            }
+
+            // Init autocompletion
+            rcmail.init_address_input_events(input, ac_props);
+        }, 5);
+    };
+
+    /**
+     * Parses recipient address input and extracts recipients from it
+     */
+    function recipient_input_parser(text)
+    {
+        var recipients = [],
+            delim = rcmail.env.recipients_delimiter + ';',
+            address_rx_part = '(\\S+|("[^"]+"))@\\S+',
+            recipient_rx1 = new RegExp('(<' + address_rx_part + '>)'),
+            recipient_rx2 = new RegExp('(' + address_rx_part + ')'),
+            global_rx = /(?=\S)[^",;]*(?:"[^\\"]*(?:\\[,;\S][^\\"]*)*"[^",;]*)*/g,
+            matches = text.match(global_rx);
+
+        $.each(matches || [], function() {
+            if (this.length && (recipient_rx1.test(this) || recipient_rx2.test(this))) {
+                var email = RegExp.$1,
+                    name = $.trim(this.replace(email, ''));
+
+                recipients.push({
+                    name: name,
+                    email: email.replace(/(^<|>$)/g, ''),
+                    text: this
+                });
+            }
+        });
+
+        return recipients;
+    };
+
+    /**
+     * Generates HTML for a text adding <span class="hidden">
+     * for quote/backslash characters, so it can be hidden from the user,
+     * but still in place to make copying simpler
+     */
+    function recipient_input_name(text)
+    {
+        // TODO
+        return text;
+    };
+
 }
 
 var UI = new rcube_elastic_ui();

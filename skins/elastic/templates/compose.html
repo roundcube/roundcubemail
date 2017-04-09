@@ -101,7 +101,7 @@
 						<label for="_to"><roundcube:label name="to" /></label>
 					</td>
 					<td class="editfield">
-						<roundcube:object name="composeHeaders" part="to" form="form" id="_to" cols="70" rows="1" tabindex="1" aria-required="true" />
+						<roundcube:object name="composeHeaders" part="to" form="form" id="_to" cols="70" rows="1" tabindex="1" aria-required="true" data-recipient-input="true" />
 					</td>
 					<td class="button">
 						<a href="#add-header" onclick="" class="button add-recipient" tabindex="1"><roundcube:label name="addheader" /></a>
@@ -112,10 +112,10 @@
 						<label for="_cc"><roundcube:label name="cc" /></label>
 					</td>
 					<td class="editfield">
-						<roundcube:object name="composeHeaders" part="cc" form="form" id="_cc" cols="70" rows="1" tabindex="1" />
+						<roundcube:object name="composeHeaders" part="cc" form="form" id="_cc" cols="70" rows="1" tabindex="1" data-recipient-input="true" />
 					</td>
 					<td class="button">
-						<a href="#delete" onclick="return UI.hide_header_row('cc');" class="button cancel" title="<roundcube:label name='delete' />" tabindex="3"><roundcube:label name="delete" /></a>
+						<a href="#delete" onclick="return UI.hide_header_row('cc');" class="button cancel" title="<roundcube:label name='delete' />" tabindex="1"><roundcube:label name="delete" /></a>
 					</td>
 				</tr>
 				<tr id="compose-bcc" class="hidden">
@@ -123,7 +123,7 @@
 						<label for="_bcc"><roundcube:label name="bcc" /></label>
 					</td>
 					<td class="editfield">
-						<roundcube:object name="composeHeaders" part="bcc" form="form" id="_bcc" cols="70" rows="1" tabindex="1" />
+						<roundcube:object name="composeHeaders" part="bcc" form="form" id="_bcc" cols="70" rows="1" tabindex="1" data-recipient-input="true" />
 					</td>
 					<td class="button">
 						<a href="#delete" onclick="return UI.hide_header_row('bcc');" class="button cancel" title="<roundcube:label name='delete' />" tabindex="1"><roundcube:label name="delete" /></a>
@@ -134,7 +134,7 @@
 						<label for="_replyto"><roundcube:label name="replyto" /></label>
 					</td>
 					<td class="editfield">
-						<roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="1" />
+						<roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="1" data-recipient-input="true" />
 					</td>
 					<td class="button">
 						<a href="#delete" onclick="return UI.hide_header_row('replyto');" class="button cancel" title="<roundcube:label name='delete' />" tabindex="1"><roundcube:label name="delete" /></a>
@@ -145,7 +145,7 @@
 						<label for="_followupto"><roundcube:label name="followupto" /></label>
 					</td>
 					<td class="editfield">
-						<roundcube:object name="composeHeaders" part="followupto" form="form" id="_followupto" size="70" tabindex="1" />
+						<roundcube:object name="composeHeaders" part="followupto" form="form" id="_followupto" size="70" tabindex="1" data-recipient-input="true" />
 					</td>
 					<td class="button">
 						<a href="#delete" onclick="return UI.hide_header_row('followupto');" class="button cancel" title="<roundcube:label name='delete' />" tabindex="1"><roundcube:label name="delete" /></a>
