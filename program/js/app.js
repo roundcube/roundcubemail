@@ -5462,14 +5462,7 @@ function rcube_webmail()
       return;
 
     // get cursor pos
-    var inp_value = this.ksearch_input.value,
-      cpos = this.get_caret_pos(this.ksearch_input),
-      p = inp_value.lastIndexOf(this.ksearch_value, cpos),
-      trigger = false,
-      insert = '',
-      // replace search string with full address
-      pre = inp_value.substring(0, p),
-      end = inp_value.substring(p+this.ksearch_value.length, inp_value.length);
+    var trigger = false, insert = '';
 
     this.ksearch_destroy();
 
@@ -5488,10 +5481,7 @@ function rcube_webmail()
       trigger = true;
     }
 
-    this.ksearch_input.value = pre + insert + end;
-
-    // set caret to insert pos
-    this.set_caret_pos(this.ksearch_input, p + insert.length);
+    this.ksearch_input_replace(this.ksearch_value, insert);
 
     if (trigger) {
       this.triggerEvent('autocomplete_insert', { field:this.ksearch_input, insert:insert, data:this.env.contacts[id], search:this.ksearch_value_last, result_type:'person' });
@@ -5503,7 +5493,7 @@ function rcube_webmail()
   this.replace_group_recipients = function(id, recipients)
   {
     if (this.group2expand[id]) {
-      this.group2expand[id].input.value = this.group2expand[id].input.value.replace(this.group2expand[id].name, recipients);
+      this.ksearch_input_replace(this.group2expand[id].name, recipients, this.group2expand[id].input);
       this.triggerEvent('autocomplete_insert', { field:this.group2expand[id].input, insert:recipients, data:this.group2expand[id], search:this.ksearch_value_last, result_type:'group' });
       this.ksearch_value_last = null;
       this.group2expand[id] = null;
@@ -5514,18 +5504,11 @@ function rcube_webmail()
   // address search processor
   this.ksearch_get_results = function(props)
   {
-    var inp_value = this.ksearch_input ? this.ksearch_input.value : null;
-
-    if (inp_value === null)
-      return;
-
     if (this.ksearch_pane && this.ksearch_pane.is(":visible"))
       this.ksearch_pane.hide();
 
     // get string from current cursor pos to last comma
-    var cpos = this.get_caret_pos(this.ksearch_input),
-      p = inp_value.lastIndexOf(this.env.recipients_separator, cpos-1),
-      q = inp_value.substring(p+1, cpos),
+    var q = this.ksearch_input_get(),
       min = this.env.autocomplete_min_length,
       data = this.ksearch_data;
 
@@ -5656,6 +5639,67 @@ function rcube_webmail()
 
     if (this.ksearch_data.id == reqid)
       this.ksearch_data.num--;
+  };
+
+  // Getter for input value (with support for non-input content-editable elements)
+  // returns a string from last comma to current cursor position
+  this.ksearch_input_get = function()
+  {
+    if (!this.ksearch_input)
+      return '';
+
+    var sel, range, sp, cp = 0, value = '';
+
+    if (this.ksearch_input.value === undefined) {
+      if ((sel = window.getSelection()) && (range = sel.getRangeAt(0))) {
+        value = $(range.endContainer).text();
+        cp = range.endOffset;
+      }
+      else {
+        value = $(this.ksearch_input).text();
+      }
+    }
+    else {
+      cp = this.get_caret_pos(this.ksearch_input);
+      value = this.ksearch_input.value;
+    }
+
+    sp = value.lastIndexOf(this.env.recipients_separator, cp - 1);
+
+    return value.substring(sp + 1, cp);
+  };
+
+  // Setter for input value (with support for non-input content-editable elements)
+  // replaces 'from' string with 'to' and sets cursor position at the end
+  this.ksearch_input_replace = function(from, to, input)
+  {
+    if (!this.ksearch_input && !input)
+      return;
+
+    if (!input)
+      input = this.ksearch_input;
+
+    if (input.value === undefined) {
+      var node = $(input).contents().filter(function() { return this.nodeType == 3; }).last();
+      // here we assume there's only one text node
+      if (node.length) {
+        $(node)[0].textContent = to;
+
+        // run onchange action on the element
+        $(input).change();
+      }
+    }
+    else {
+      var cpos = this.get_caret_pos(input),
+        p = input.value.lastIndexOf(from, cpos),
+        pre = input.value.substring(0, p),
+        end = input.value.substring(p + from.length, input.value.length);
+
+      input.value = pre + to + end;
+
+      // set caret to insert pos
+      this.set_caret_pos(input, p + to.length);
+    }
   };
 
   this.ksearch_click = function(node)
