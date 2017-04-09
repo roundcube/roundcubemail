@@ -458,7 +458,7 @@ function rcmail_compose_headers($attrib)
         // pass the following attributes to the form class
         $field_attrib = array('name' => $fname, 'spellcheck' => 'false');
         foreach ($attrib as $attr => $value) {
-            if (in_array($attr, $allow_attrib)) {
+            if (stripos($attr, 'data-') === 0 || in_array($attr, $allow_attrib)) {
                 $field_attrib[$attr] = $value;
             }
         }
