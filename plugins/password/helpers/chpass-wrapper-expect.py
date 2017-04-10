@@ -10,7 +10,6 @@
 # Parameter:
 # -ssh           use ssh for connetion to host (default)
 # -host hostname connect to hostname (default localhost)
-# - policy #     0-4 enable password local password checks
 # -timeout #     0 - 99 time in s to wait for response
 #
 # all other parameters are passed to passwd-expect, see there.
@@ -121,18 +120,7 @@ if hostname == 'localhost':
     sys.exit('Changing the password for user %s is forbidden (system user)!' %
              username)
 
-elif len(username) < 3:
-  # non local users should have at least 3 charactes
-  sys.exit('Changing the password for user %s is forbidden (short user)!' %
-             username)
-
-# enforcing password policy
-if len(oldpassw) < 3:
-    sys.exit('Old password to short or not known!')
-
-if len(password) < 8:
-    sys.exit('Password contains less than 8 characters!')
-
+ 
 path= os.path.dirname(os.path.realpath(sys.argv[0]))
 
 # script has to be in same directory
