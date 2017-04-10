@@ -394,7 +394,7 @@ $config['password_ximss_port'] = 11024;
 //    1. use my wrapper for the nice expect script provided by this plugin: helpers/chpass-wrapper-expect.py 
 //    2. move wrapper out of default location to a random place
 //    3. change permissons of wrapper to root:www 770 to avoid changes by user or webserver
-//    4. edit arguments to provide loginmethod and hostname, see wrapper for mor options 
+//    4. edit arguments to provide loginmethod and hostname.
 //    5. remove sudo rules you may have applied (see README)
 $config['password_chpasswd_cmd'] = '/<RANDOMPATH>/roundcube/wrapper/chpass-wrapper-expect.py -ssh -host localhost';
 
