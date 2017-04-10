@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #
 # extended wrapper to /user/sbin/chpasswd
-#  - more password and user checks
 #  - file based blacklist (/etc/ftpusers)
 #  - timeout for reading and writing
 
@@ -81,14 +80,6 @@ except KeyError, e:
 if user.pw_uid < 1000:
     sys.exit('Changing the password for user %s is forbidden (system user)!' %
              username)
-
-elif len(username) < 4:
-  # users should have at least 3 charactes
-  sys.exit('Changing the password for user %s is forbidden (short user)!' %
-             username)
-
-if len(password) < 8:
-    sys.exit('Password contains less than 8 characters!')
 
 # set timeout
 signal.alarm(TIMEOUT)
