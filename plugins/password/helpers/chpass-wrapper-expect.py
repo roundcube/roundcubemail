@@ -44,8 +44,7 @@
 # "which expect" show the path to expect programm
 expect = '/usr/bin/expect'
 script = 'passwd-expect'
-# 0 no checks, 1 >= 8 char, 2 digits, 3 upper and lowercase, 4 special char
-POLICY = 3
+
 TIMEOUT= 10
 
 import os, sys, pwd, re
@@ -62,10 +61,6 @@ while(count < len(sys.argv)):
     hostname = sys.argv[count+1]
   # local only args, do not pass
   try:
-    if sys.argv[count] == '-policy':
-      count += 2
-      POLICY=int(sys.argv[count-1])
-      continue
     if sys.argv[count] == '-timeout':
       count += 2
       TIMEOUT=int(sys.argv[count-1])
@@ -141,47 +136,13 @@ elif len(username) < 3:
   sys.exit('Changing the password for user %s is forbidden (short user)!' %
              username)
 
-
-"""
-    Verify the strength of 'password'
-    A password is considered strong if:
-        8 characters length or more
-        1 digit or more
-        1 symbol or more
-        1 uppercase letter or more
-        1 lowercase letter or more
-"""
-
 # enforcing password policy
-if POLICY > 0:
-  if len(oldpassw) < 3:
+if len(oldpassw) < 3:
     sys.exit('Old password to short or not known!')
 
-  if len(password) < 8:
+if len(password) < 8:
     sys.exit('Password contains less than 8 characters!')
 
-  if re.search(r"[A-Zia-z]", password) is None:
-      sys.exit('Password contains no character!')
-
-if POLICY > 1:
-  # look for digits
-  if re.search(r"\d", password) is None:
-      sys.exit('Password contains no digits!')
-
-if POLICY > 2:
-  # look for uppercase
-  if re.search(r"[A-Z]", password) is None:
-      sys.exit('Password contains no UPPERCASE character!')
-
-  # look for lowercase
-  if re.search(r"[a-z]", password) is None:
-      sys.exit('Password contains no lowercase character!')
-
-if POLICY > 3:
-  # look for symbols
-  if re.search(r"[ !#$%&'()*+,-./[\\\]^_`{|}~"+r'"]', password) is None:
-      sys.exit('Password contains no symbol/special character!')
-# see more options for script in the script itself
 path= os.path.dirname(os.path.realpath(sys.argv[0]))
 
 # script has to be in same directory
