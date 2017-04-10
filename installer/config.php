@@ -216,11 +216,11 @@ echo '<label for="cfgdebug4">Print errors (to the browser)</label><br />';
 <?php
 
 $select_log_driver = new html_select(array('name' => '_log_driver', 'id' => "cfglogdriver"));
-$select_log_driver->add(array('file', 'syslog'), array('file', 'syslog'));
+$select_log_driver->add(array('file', 'syslog', 'stdout'), array('file', 'syslog', 'stdout'));
 echo $select_log_driver->show($RCI->getprop('log_driver', 'file'));
 
 ?>
-<div>How to do logging? 'file' - write to files in the log directory, 'syslog' - use the syslog facility.</div>
+<div>How to do logging? 'file' - write to files in the log directory, 'syslog' - use the syslog facility, 'stdout' writes to the process' STDOUT file descriptor.</div>
 </dd>
 
 <dt class="propname">log_dir</dt>
