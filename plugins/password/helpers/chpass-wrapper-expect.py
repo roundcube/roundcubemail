@@ -20,23 +20,13 @@
 // allowing sudo chpasswd directly opens a security hole!
 // any script on the webserver can change password for every user, incl. root
 
-// try to be more secure and use dovecot or pam methods
-// if this is not possible in your setup you can increase security by
-// sudo to a wrapper, where you can implement some security meassures
-
-//    1. a simple wraper is provided by this plugin: helpers/chpasswrapper.py 
-//    2. move wrapper out of default location to a random place
-//    3. change permissons of wrapper to root:www 770 to avoid changes by user or webserver
-//    4. add some security meassures, i.e. limit userids where password can be changed
-//    5. allow webserver sudo for wrapper only (see README)
-
 // IMHO the most flexible and secure method for users with interactive shell access is to use ssh with an expect script
 // I modifed the chpasss driver to provide the old password needed, additionally it pass the script response in case of error.
 
-//    1. I wrote a wrapper for the nice expect script provided by this plugin: helpers/chpass-wrapper-expect.py 
+//    1. I wrote a wrapper (this script) for expect script provided by this plugin. 
 //    2. move wrapper out of default location to a random place
 //    3. change permissons of wrapper to root:www 770 to avoid changes by user or webserver
-//    4. I add some security meassures and password policy, see wrapper for details 
+//    4. I add some security meassures(see README) 
 //    5. remove sudo rules you may have applied (see README)
 """
 
