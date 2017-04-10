@@ -262,6 +262,9 @@
 
  Attached wrapper script (helpers/chpass-wrapper.py) restricts password changes
  to uids >= 1000 and can deny requests based on a blacklist.
+ 
+ For a more secure setup see the notes in section sudo or use the new wrapper
+ chpass-wrapper-expect.py, for usage see there. 
 
 
  2.12.  LDAP - no PEAR (ldap_simple)
@@ -317,7 +320,9 @@
 
  Driver to change user password via the 'expect' command.
  See config.inc.php.dist file for configuration description.
-
+ 
+ For easyer and more secure of the expect script a new wrapper is
+ is provided: chpass-wrapper-expect.py, see there and sudo for setup
 
  2.18.  Samba (smb)
  -----------------------------------
@@ -375,21 +380,21 @@
  4. Sudo setup
  -------------
 
-// try to be more secure and use dovecot or pam methods
-// if this is not possible in your setup you can increase security by
-// sudo to a wrapper, where you can implement some security meassures
+ try to be more secure and use dovecot or pam methods
+ if this is not possible in your setup you can increase security by
+ sudo to a wrapper, where you can implement some security meassures
 
-//    1. a simple wraper is provided by this plugin: helpers/chpasswrapper.py
-//    2. move wrapper out of default location to a random place
-//    3. change permissons of wrapper to root:www 770 to avoid changes by user or webserver
-//    4. add some security meassures, i.e. limit userids where password can be changed
-//    5. allow webserver sudo for wrapper only (se below)
+    1. two wrappers are provided by this plugin: chpass-wrapper.py / chpass-wrapper_expect.py
+    2. move wrapper out of the default location to a random place
+    3. change permissons of wrapper to root:www 770 to avoid changes by user or webserver
+    4. add some security meassures, i.e. limit userids where password can be changed
+    5. allow webserver sudo for wrapper only (se below)
 
  Some drivers that execute system commands (like chpasswd) require use of sudo command.
  Here's a sample for CentOS 7:
 
  # cat <<END >/etc/sudoers.d/99-roundcubemail
- apache ALL=NOPASSWD:/srv/wrapper/roundcube/chpasswrapper.py
+ apache ALL=NOPASSWD:/<RANDOMPATH>/roundcube/wrapper/chpass-wrapper.py
  Defaults:apache !requiretty
  <<END
 
