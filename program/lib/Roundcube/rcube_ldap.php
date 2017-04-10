@@ -899,7 +899,7 @@ class rcube_ldap extends rcube_addressbook
     protected function extended_search($count = false)
     {
         $prop    = $this->group_id ? $this->group_data : $this->prop;
-        $base_dn = $this->group_id ? $this->groups_base_dn : $this->base_dn;
+        $base_dn = $this->group_id ? $prop['base_dn'] : $this->base_dn;
         $attrs   = $count ? array('dn') : $this->prop['attributes'];
         $entries = array();
 

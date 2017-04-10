@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix regression in LDAP fuzzy search where it always used prefix search instead (#5713)
+- Fix bug where base_dn setting was ignored inside group_filters (#5720)
 
 RELEASE 1.1.8
 -------------
