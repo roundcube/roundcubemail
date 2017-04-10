@@ -16,13 +16,13 @@
 			role="listbox" data-list="identity_list" />
 	</div>
 	<div class="footer">
-		<roundcube:button command="add" type="link" title="newresponse"
+		<roundcube:button command="add" type="link" title="newidentity"
 			class="listbutton add disabled" classAct="listbutton add" innerClass="inner"
-			label="addresponse"
+			label="addidentity" condition="config:identities_level:0<2"
 		/>
 		<roundcube:button command="delete" type="link" title="delete"
 			class="listbutton delete disabled" classAct="listbutton delete" innerClass="inner"
-			label="delete"
+			label="delete" condition="config:identities_level:0<2"
 		/>
 	</div>
 </div>

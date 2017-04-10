@@ -1065,21 +1065,33 @@ function rcube_elastic_ui()
         var input;
 
         var insert_recipient = function(name, email) {
-            var name_element = $('<span>').attr({'class': 'name', contenteditable: false})
+            var recipient = $('<span>'),
+                last = input.children('span:last'),
+                name_element = $('<span>').attr({'class': 'name', contenteditable: false})
                     .text(recipient_input_name(name || email)),
-                email_element = $('<span>').attr({'class': 'email', contenteditable: false})
-                    .text(' <' + email + '>' + rcmail.env.recipients_separator),
+                email_element = $('<span>').attr({'class': 'email', contenteditable: false}),
                 // TODO: should the 'close' link have tabindex?
                 link = $('<a>').attr({'class': 'button icon remove', contenteditable: false})
-                    .click(function() { $(this).parent().remove(); }),
-                last = input.children('span:last'),
-                recipient = $('<span>')
-                    .attr({
-                        'class': 'recipient',
-                        contenteditable: false,
-                        title: name ? (name + ' <' + email + '>') : ''
-                    })
-                    .append([name_element, email_element, link])
+                    .click(function() {
+                        recipient.remove();
+                        // update the original input
+                        $(obj).val(input.text());
+                        // no need to propagate the event
+                        return false;
+                    });
+
+            if (name) {
+                email = ' <' + email + '>';
+            }
+
+            email_element.text((name ? email : '') + rcmail.env.recipients_separator);
+
+            recipient.attr({
+                    'class': 'recipient',
+                    contenteditable: false,
+                    title: name ? (name + email) : null
+                })
+                .append([name_element, email_element, link]);
 
             if (last.length) {
                 (last).after(recipient);
@@ -1094,6 +1106,8 @@ function rcube_elastic_ui()
         // Puts cursor at proper place of the content editable element
         var focus_func = function() {
             var obj, range = document.createRange();
+
+            rcmail.env.focused_field = obj;
 
             // if there's a text node, put cursor at the end of it
             if (obj = $(input).contents().filter(function() { return this.nodeType == 3; }).last()[0]) {
@@ -1126,15 +1140,13 @@ function rcube_elastic_ui()
             // TODO: BUG: backspace removes all recipients in Chrome
             // TODO: it is possible to put cursor between recipient boxes, we should block this
             // TODO: in onkeyup add recipient element on separator character?
-            // TODO: selecting signatures can modify the original input, need to
-            //       update the contentEditable element too
 
             // Note it can be also executed when autocomplete inserts a recipient
             if (e.type.match(/^(change|paste|blur)$/)) {
                 var node, text, recipients = [], cloned = input.clone();
 
                 cloned.find('span').remove();
-                text = cloned.text();
+                text = cloned.text().replace(/[,;\s]+$/, '');
                 recipients = recipient_input_parser(text);
 
                 $.each(recipients, function() {
@@ -1147,10 +1159,10 @@ function rcube_elastic_ui()
                     text = $.trim(text.replace(/[,]{1,}/g, ',').replace(/(^,|,$)/g, ''));
                     $(input).contents().each(function() { if (this.nodeType == 3) $(this).remove(); });
                     input.children('span:last').after(document.createTextNode(text));
-
-                    // update original input
-                    $(obj).val(input.text());
                 }
+
+                // update the original input
+                $(obj).val(input.text());
 
                 // fix cursor position
                 if (e.type != 'blur') {
@@ -1167,9 +1179,19 @@ function rcube_elastic_ui()
             // todo aria attributes
             .addClass('form-control recipient-input')
             .on('paste change blur keyup', parse_func)
-            .on('focus', focus_func);
+            .on('focus click', focus_func);
 
-        $(obj).hide().after(input).on('focus', function() { input.focus(); })
+        // "Replace" the original input/textarea with the content-editable div
+        // Note: we do not remove the original element, and we do not use
+        // display: none, because we want to handle onfocus event
+        // Note: tabindex:-1 to make Shift+TAB working on these widgets
+        $(obj).css({position: 'absolute', opacity: 0, left: '-5000px', width: '10px'})
+            .attr('tabindex', -1).after(input)
+            // some core code sometimes focuses or changes the original node
+            // in such cases we wan't to parse it's value and apply changes
+            // to the widget element
+            .on('focus', function(e) { input.focus(); })
+            .on('change', function(e) { input.text(this.value).change(); });
 
         setTimeout(function() {
             var ac_props;
