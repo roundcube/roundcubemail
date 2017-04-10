@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix so settings/upload.inc could not be used by plugins (#5694)
 - Fix regression in LDAP fuzzy search where it always used prefix search instead (#5713)
 - Fix bug where namespace prefix could not be truncated on folders list if show_real_foldernames=true (#5695)
+- Fix bug where base_dn setting was ignored inside group_filters (#5720)
 
 RELEASE 1.2.4
 -------------
@@ -30,6 +31,93 @@ RELEASE 1.2.4
 - Add rewrite rule to disable access to /vendor/bin folder in .htaccess (#5630)
 - Fix bug where it was too easy accidentally move a folder when using the subscription checkbox (#5655)
 - Fix XSS issue in handling of a style tag inside of an svg element (CVE-2017-6820)
+
+RELEASE 1.3-beta
+----------------
+- Nicely handle contact deletion on contact edit (#5522)
+- vcard_attachments: Add possibility to attach contact vCard to composed message (#4997)
+- Preserve message internal/received date on import in mbox format (#5559)
+- Zipdownload: Fix date format in mbox "From line"
+- Possibility to display QR code for contacts data (#5030)
+- Added identicon plugin
+- Widescreen layout aka three column view (#5093)
+- Unify automatic marking as \Seen in preview pane, full-page and extwin views (#5071)
+- Disable double-click on the list when preview pane is on (#5199)
+- Support hostname and hostname:port in force_https option (#5511)
+- Support ALLOW-FROM in x_frame_options (#5122)
+- Allow to omit a subject when sending an email (#5068)
+- Warn about too many disclosed recipients in composed email [max_disclosed_recipients] (#5132)
+- identity_select: Support Received header (#5085)
+- Plugin API: Added get_compose_responses hook (#5457)
+- Display error when trying to upload more files than specified in max_file_uploads (#5483)
+- Add missing sql upgrade file for 'ip' column resize in session table (#5465)
+- Do not show inline images of unsupported mimetype (#5463)
+- Password: Added replacement variables support in password_pop_host (#5539)
+- Password: Don't store passwords in temp files when using dovecotpw (#5531)
+- Password: Added LDAP PPolicy driver (#5364)
+- Password: Added cpanel_webmail driver (#5549)
+- Password: Added possibility to nicely redirect from other plugins on password expiration (#5468)
+- Implement separate action to mark all messages in a folder as \Seen (#5006)
+- Implement marking as \Seen in all folders or in a folder and its subfolders (#5076)
+- Archive: Don't reload messages list when it's not needed (#5225)
+- Archive: Add option to automatically mark archived messages as \Seen (#5142)
+- Improve randomness of password salts and random hashes (#5266)
+- Password/cPanel: Add support for hash authentication and reseller accounts (#5252)
+- Support host-specific imap_conn_options/smtp_conn_options/managesieve_conn_options (#5136)
+- Center and scale images in attachment preview frame (#5421)
+- Added max_message_size option enforced when attaching files to a composed message (#4993)
+- Added Search button in quick search menus (#5312)
+- Implement "one click" attachment/messages/photo upload (#5024)
+- Squirrelmail_usercopy: Add option to define character set of data files
+- Removed useless 'created' column from 'session' table (#5389)
+- Dropped legacy browsers support (#5167)
+    - Removed legacy_browser plugin
+    - Removed hacks for IE < 10
+    - Update to jQuery 3.1.1 and jQuery-UI 1.12.0
+    - compile .min.js files with ECMASCRIPT5 option
+- Require PHP >= 5.4
+- Add possibility to preview and download attachments in mail compose (#5053)
+- Add possibility to rename attachments in mail compose (#4996)
+- Remove backward compatibility "layer" of bc.php (#4902)
+- Support WEBP images in mail messages (#5362)
+- Support MathML in HTML message preview (#5182)
+- Rename Addressbook to Contacts (#5233)
+- Remove PHP mail() support, smtp_server is required now (#5340)
+- Display full message subject in onmouseover on truncated subject in mail view (#5346)
+- Enigma: Support GnuPG 2.1 (#5313)
+- Enigma: Support key generation for multiple identities (#5383)
+- Enigma: Import keys from key-server(s) (#5286)
+- Enigma: Search missing public keys on a key-server in mail compose (#5286)
+- Enigma: Delete user keys when using deluser.sh script
+- Enigma: Fix redundant list-secret-keys/list-public-keys calls on signing/encryption
+- Enigma: Implement PGP encryption and signing in one go (#5302)
+- Enigma: Display signature verification status for encrypted+signed messages (#5302)
+- Display different attachment icon on encrypted messages
+- Display different confirmation text when moving messages to Trash (#5220)
+- Indicate that a collapsed thread has flagged children (#5013)
+- Implemented message/rfc822 attachment preview
+- Update to jsTimezoneDetect 1.0.6
+- Managesieve: Add (optional) RAW script editor (#5414)
+- Managesieve: Add option to automatically set vacation :from address (#5428)
+- Managesieve: Support 'string' test from variables extension [RFC 5229] (#5248)
+- Managesieve: Support 'duplicate' extension [RFC 7352]
+- Managesieve: Unhide advanced rule controls if there are inputs with errors
+- Managesieve: Display warning message when filter form contains errors
+- Control search engine crawlers via X-Robots-Tag header instead of <meta> and robots.txt (#5098)
+- Fixed redundancy in sql caching system and compatibility with Galera Cluster (#5439)
+    - Removed redundant 'created' column from cache and cache_shared tables
+    - Removed use of redundant data records
+    - Added missing primary keys (dictionary, cache, cache_shared tables)
+- Fix so templating system does not mess with external (e.g. email) content (#5499)
+- Fix redundant keep-alive/refresh after session error on compose page (#5500)
+- Managesieve: Fix handling of scripts with nested rules (#5540)
+- Fix variable substitution in ldap host for some use-cases, e.g. new_user_identity (#5544)
+- Enigma: Fix PHP fatal error when decrypting a message with invalid signature (#5555)
+- Fix adding images to new identity signatures
+- Fix rsync error handling in installto.sh script (#5562)
+- Fix some advanced search issues with multiple addressbooks (#5572)
+- Fix so group/addressbook selection is retained on page refresh
+>>>>>>> 712875b... Fix bug where base_dn setting was ignored inside group_filters (#5720)
 
 RELEASE 1.2.3
 -------------
