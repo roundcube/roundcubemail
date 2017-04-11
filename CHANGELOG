@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support logging to php://stdout (#5721)
 - Add support for DelSp=Yes in format=flowed messages (#5702)
 - Update to jQuery 3.2.1
 - Update to TinyMCE 4.5.6
