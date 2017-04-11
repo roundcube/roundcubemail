@@ -8,9 +8,8 @@
  *
  * For installation instructions please read the README file.
  *
- * @version 3.0
+ * @version 2.0
  * @author Alex Cartwright <acartwright@mutinydesign.co.uk>
- * @author rewrtitten by KaM <kay@rrr.de>
  *
  * Copyright (C) 2005-2013, The Roundcube Dev Team
  *
@@ -35,43 +34,12 @@ class rcube_chpasswd_password
         $cmd = rcmail::get_instance()->config->get('password_chpasswd_cmd');
         $username = $_SESSION['username'];
 
-        // change popen to proc_open to chatch responses from command
-        $desc = array(
-            0 => array('pipe', 'r'), // 0 is STDIN for process
-            1 => array('pipe', 'w'), // 1 is STDOUT for process
-            2 => array('file', strtok(cmd,  ' ') . '-error.log', 'a') // 2 is STDERR for process
-        );
+        $handle = popen($cmd, "w");
+        fwrite($handle, "$username:$newpass\n");
 
-        // spawn the sub process
-        $process = proc_open($cmd, $desc, $pipes);
-
-        // does sub prescess exist?
-        if (is_resource($process)) {
-            // send send username and new pass to chpasswd command / warpper 
-            fwrite($pipes[0], "$username:$newpass\n");
-            // new: send old passwd for expect sript, works also with chpasswd
-            fwrite($pipes[0], "$currpass\n");
-            fclose($pipes[0]);
-
-            // read response from sub process
-            $message = stream_get_contents($pipes[1]);
-
-            // all done! Clean up
-            fclose($pipes[1]);
-            fclose($pipes[2]);
-
-            if (!proc_close($process)) {
-              return PASSWORD_SUCCESS;
-            }
-            else {
-                // return response in case of error
-                return array(
-                    'code'    => PASSWORD_ERROR,
-                    'message' => "<br>" . $message
-                );
-            }
+        if (pclose($handle) == 0) {
+            return PASSWORD_SUCCESS;
         }
-        // sub process failed!
         else {
             rcube::raise_error(array(
                 'code' => 600,
@@ -80,4 +48,7 @@ class rcube_chpasswd_password
                 'message' => "Password plugin: Unable to execute $cmd"
                 ), true, false);
         }
+
+        return PASSWORD_ERROR;
+    }
 }
