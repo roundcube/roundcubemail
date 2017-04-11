@@ -12,9 +12,7 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Compose a new mail message with all headers and attachments         |
- |   and send it using the PEAR::Net_SMTP class or with PHP mail()       |
- |                                                                       |
+ |   Compose a new mail message and send it or store as draft            |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
