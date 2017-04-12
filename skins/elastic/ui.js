@@ -244,6 +244,7 @@ function rcube_elastic_ui()
     {
         $('input.button,button', context || document).addClass('btn').not('.btn-primary,.primary,.mainaction').addClass('btn-secondary');
         $('input.button.mainaction,button.primary,button.mainaction', context || document).addClass('btn-primary');
+        $('button.btn.delete').addClass('btn-danger');
 
         $.each(['warning', 'error'], function() {
             var type = this;
