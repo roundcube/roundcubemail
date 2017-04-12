@@ -4272,7 +4272,7 @@ function rcube_webmail()
           this.get_label('restoremessage'),
           [{
             text: this.get_label('restore'),
-            'class': 'mainaction',
+            'class': 'mainaction restore',
             click: function(){
               ref.restore_compose_form(key, html_mode);
               ref.remove_compose_data(key);  // remove old copy
@@ -4291,6 +4291,7 @@ function rcube_webmail()
           },
           {
             text: this.get_label('ignore'),
+            'class': 'cancel',
             click: function(){
               $(this).dialog('close');
               show_next(i);
