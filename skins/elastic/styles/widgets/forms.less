@@ -25,6 +25,10 @@ input.smart-upload {
         margin-right: 0; /* without these the form is too wide causing horizontal scrollbar appearence */
         margin-left: 0;
     }
+    .row .input-group {
+        padding-right: 0; /* without these e.g. inputs in compose screen are not aligned properly */
+        padding-left: 0;
+    }
 }
 
 .formbuttons {
@@ -34,6 +38,7 @@ input.smart-upload {
 
 /* Some common icons for "iconized inputs" */
 .input-group-addon.icon {
+    text-decoration: none;
 
     &:before {
         &:extend(.font-icon-class);
@@ -49,6 +54,19 @@ input.smart-upload {
     &.host:before {
         content: @fa-var-home;
     }
+    &.cancel:before {
+        content: @fa-var-close;
+    }
+    &.edit:before {
+        content: @fa-var-pencil;
+    }
+    &.add:before {
+        content: @fa-var-plus;
+    }
+
+    .inner {
+        display: none;
+    }
 }
 
 
@@ -58,6 +76,7 @@ td.editfield { width: 99%;  /* TODO */ }
 /*** Smart recipient input field ***/
 
 .recipient-input {
+    display: block !important; /* overwrites Bootstrap */
     min-height: 2.4em;
 /*    padding: 0.2em 0.5em; */
 

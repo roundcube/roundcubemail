@@ -84,83 +84,54 @@
 		<!-- message headers -->
 		<div id="composeheaders" role="region" aria-labelledby="aria-label-composeheaders">
 			<h2 id="aria-label-composeheaders" class="voice"><roundcube:label name="arialabelmessageheaders" /></h2>
-			<table class="headers-table compose-headers">
-				<tr id="compose-from">
-					<td class="title">
-						<label for="_from"><roundcube:label name="from" /></label>
-					</td>
-					<td class="editfield">
-						<roundcube:object name="composeHeaders" part="from" form="form" id="_from" tabindex="1" />
-					</td>
-					<td class="button">
-						<a href="#identities" onclick="return rcmail.command('identities')" class="button edit" tabindex="1"><roundcube:label name="editidents" /></a>
-					</td>
-				</tr>
-				<tr id="compose-to">
-					<td class="title">
-						<label for="_to"><roundcube:label name="to" /></label>
-					</td>
-					<td class="editfield">
-						<roundcube:object name="composeHeaders" part="to" form="form" id="_to" cols="70" rows="1" tabindex="1" aria-required="true" data-recipient-input="true" />
-					</td>
-					<td class="button">
-						<a href="#add-header" onclick="" class="button add-recipient" tabindex="1"><roundcube:label name="addheader" /></a>
-					</td>
-				</tr>
-				<tr id="compose-cc" class="hidden">
-					<td class="title">
-						<label for="_cc"><roundcube:label name="cc" /></label>
-					</td>
-					<td class="editfield">
-						<roundcube:object name="composeHeaders" part="cc" form="form" id="_cc" cols="70" rows="1" tabindex="1" data-recipient-input="true" />
-					</td>
-					<td class="button">
-						<a href="#delete" onclick="return UI.hide_header_row('cc');" class="button cancel" title="<roundcube:label name='delete' />" tabindex="1"><roundcube:label name="delete" /></a>
-					</td>
-				</tr>
-				<tr id="compose-bcc" class="hidden">
-					<td class="title">
-						<label for="_bcc"><roundcube:label name="bcc" /></label>
-					</td>
-					<td class="editfield">
-						<roundcube:object name="composeHeaders" part="bcc" form="form" id="_bcc" cols="70" rows="1" tabindex="1" data-recipient-input="true" />
-					</td>
-					<td class="button">
-						<a href="#delete" onclick="return UI.hide_header_row('bcc');" class="button cancel" title="<roundcube:label name='delete' />" tabindex="1"><roundcube:label name="delete" /></a>
-					</td>
-				</tr>
-				<tr id="compose-replyto" class="hidden">
-					<td class="title">
-						<label for="_replyto"><roundcube:label name="replyto" /></label>
-					</td>
-					<td class="editfield">
-						<roundcube:object name="composeHeaders" part="replyto" form="form" id="_replyto" size="70" tabindex="1" data-recipient-input="true" />
-					</td>
-					<td class="button">
-						<a href="#delete" onclick="return UI.hide_header_row('replyto');" class="button cancel" title="<roundcube:label name='delete' />" tabindex="1"><roundcube:label name="delete" /></a>
-					</td>
-				</tr>
-				<tr id="compose-followupto" class="hidden">
-					<td class="title">
-						<label for="_followupto"><roundcube:label name="followupto" /></label>
-					</td>
-					<td class="editfield">
-						<roundcube:object name="composeHeaders" part="followupto" form="form" id="_followupto" size="70" tabindex="1" data-recipient-input="true" />
-					</td>
-					<td class="button">
-						<a href="#delete" onclick="return UI.hide_header_row('followupto');" class="button cancel" title="<roundcube:label name='delete' />" tabindex="1"><roundcube:label name="delete" /></a>
-					</td>
-				</tr>
-				<tr id="compose-subject">
-					<td class="title">
-						<label for="compose-subject"><roundcube:label name="subject" /></label>
-					</td>
-					<td class="editfield">
-						<roundcube:object name="composeSubject" id="compose-subject" form="form" tabindex="1" />
-					</td>
-					<td></td>
-				</tr>
-			</table>
+			<div class="compose-headers">
+				<div id="compose_from" class="form-group row">
+					<label for="_from" class="col-1 col-form-label"><roundcube:label name="from" /></label>
+					<div class="input-group col-11">
+						<roundcube:object name="composeHeaders" part="from" id="_from" tabindex="1" class="form-control" />
+						<a href="#identities" onclick="return rcmail.command('identities')" class="input-group-addon icon edit" title="<roundcube:label name="editidents" />" tabindex="1"><span class="inner"><roundcube:label name="editidents" /></span></a>
+					</div>
+				</div>
+				<div id="compose_to" class="form-group row">
+					<label for="_to" class="col-1 col-form-label"><roundcube:label name="to" /></label>
+					<div class="input-group col-11">
+						<roundcube:object name="composeHeaders" part="to" id="_to" tabindex="1" aria-required="true" data-recipient-input="true" />
+						<a href="#add-header" onclick="/* TODO */" class="input-group-addon icon add" title="<roundcube:label name="addheader" />" tabindex="1"><span class="inner"><roundcube:label name="addheader" /></span></a>
+					</div>
+				</div>
+				<div id="compose_cc" class="hidden form-group row">
+					<label for="_cc" class="col-1 col-form-label"><roundcube:label name="cc" /></label>
+					<div class="input-group col-11">
+						<roundcube:object name="composeHeaders" part="cc" id="_cc" tabindex="1" data-recipient-input="true" />
+						<a href="#delete" onclick="$('#_cc').val('').change()" class="input-group-addon icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+					</div>
+				</div>
+				<div id="compose_bcc" class="hidden form-group row">
+					<label for="_bcc" class="col-1 col-form-label"><roundcube:label name="bcc" /></label>
+					<div class="input-group col-11">
+						<roundcube:object name="composeHeaders" part="bcc" id="_bcc" rows="1" tabindex="1" data-recipient-input="true" />
+						<a href="#delete" onclick="$('#_bcc').val('').change()" class="input-group-addon icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+					</div>
+				</div>
+				<div id="compose_replyto" class="hidden form-group row">
+					<label for="_replyto" class="col-1 col-form-label"><roundcube:label name="replyto" /></label>
+					<div class="input-group col-11">
+						<roundcube:object name="composeHeaders" part="replyto" id="_replyto" tabindex="1" data-recipient-input="true" />
+						<a href="#delete" onclick="$('#_replyto').val('').change()" class="input-group-addon icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+					</div>
+				</div>
+				<div id="compose_followupto" class="hidden form-group row">
+					<label for="_followupto" class="col-1 col-form-label"><roundcube:label name="followupto" /></label>
+					<div class="input-group col-11">
+						<roundcube:object name="composeHeaders" part="followupto" id="_followupto" tabindex="1" data-recipient-input="true" />
+						<a href="#delete" onclick="$('#_followupto').val('').change()" class="input-group-addon icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+					</div>
+				</div>
+				<div id="compose_subject" class="form-group row">
+					<label for="compose-subject" class="col-1 col-form-label"><roundcube:label name="subject" /></label>
+					<roundcube:object name="composeSubject" id="_subject" form="form" tabindex="1" class="col-11 form-control" />
+				</div>
+			</div>
 		</div>
 		<!-- (collapsable) message options -->
 		<div id="composeoptions" role="region" aria-labelledby="aria-label-composeoptions">
@@ -195,7 +166,7 @@
 		<!-- message compose body -->
 		<div id="composebodycontainer">
 			<label for="composebody" class="voice"><roundcube:label name="arialabelmessagebody" /></label>
-			<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" tabindex="1" />
+			<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" class="form-control" tabindex="1" />
 		</div>
 		<div id="compose-attachments" class="rightcol" role="region" aria-labelledby="aria-label-composeattachments">
 			<h2 id="aria-label-composeattachments" class="voice"><roundcube:label name="attachments" /></h2>

@@ -146,6 +146,14 @@ function rcube_elastic_ui()
         }
 
         $('[data-recipient-input]').each(function() { recipient_input(this); });
+
+        // Show input elements with non-empty value
+        // These event handlers need to be registered before rcmail 'init' event
+        $('#_cc, #_bcc, #_replyto, #_followupto', $('.compose-headers')).each(function() {
+            $(this).on('change', function() {
+                $('#compose' + $(this).attr('id'))[this.value ? 'removeClass' : 'addClass']('hidden');
+            });
+        });
     };
 
     /**
