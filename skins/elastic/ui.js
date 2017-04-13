@@ -276,6 +276,35 @@ function rcube_elastic_ui()
             row.addClass(row_classes.join(' '));
         });
 
+        // Testing Bootstrap Tabs on contact info/edit page
+        // Tabs do not scale nicely on very small screen, so can be used
+        // only with small number of tabs with short text labels
+        // TODO: Should we use Accordion widget instead on mobile?
+        $('.tabbed', context).each(function(idx, item) {
+            var tabs = [], nav = $('<ul>').attr({'class': 'nav nav-tabs', role: 'tablist'});
+
+            $(this).addClass('tab-content').children('fieldset').each(function(i, fieldset) {
+                var tab, id = 'tab' + idx + '-' + i;
+
+                $(fieldset).addClass('tab-pane').attr({id: id, role: 'tabpanel'});
+
+                tab = $('<li>').addClass('nav-item').append(
+                    $('<a>').addClass('nav-link')
+                        .attr({role: 'tab', 'href': '#' + id})
+                        .text($('legend:first', fieldset).text())
+                        .click(function() { $(this).tab('show'); })
+                );
+
+                $('legend:first', fieldset).hide();
+                tabs.push(tab);
+            });
+
+            // create the navigation bar
+            nav.append(tabs).insertBefore(item);
+            // activate the first tab
+            $('a.nav-link:first', nav).click();
+        });
+
         // Make logon form prettier
         if (rcmail.env.task == 'login') {
             $('#login-form table tr').each(function() {
