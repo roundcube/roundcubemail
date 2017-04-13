@@ -1,5 +1,9 @@
 /*** Common form elements style ***/
 
+#uploadform {
+    display: none;
+}
+
 form.smart-upload,
 input.smart-upload {
     visibility: hidden;
@@ -10,14 +14,23 @@ input.smart-upload {
 
 
 /* TODO: review when decided what css framework to use */
-table.propform {
+.propform {
     width: 100%;
+}
+
+.formcontent {
+    padding: 1em;
 
     .row {
         margin-right: 0; /* without these the form is too wide causing horizontal scrollbar appearence */
         margin-left: 0;
     }
 }
+
+.formbuttons {
+    padding: 0 1em 1em 1em;
+}
+
 
 /* Some common icons for "iconized inputs" */
 .input-group-addon.icon {
