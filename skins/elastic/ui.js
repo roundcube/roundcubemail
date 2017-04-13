@@ -911,7 +911,7 @@ function rcube_elastic_ui()
             else {
                 list.prop('disabled', false).prop('checked', false);
                 for (n in mods) {
-                    $('#s_mod_' + n).prop('checked', true);
+                    $('#s_mod_' + n, obj).prop('checked', true);
                 }
             }
         }
