@@ -292,6 +292,7 @@ $OUTPUT->include_script('publickey.js');
 
 // register UI objects
 $OUTPUT->add_handlers(array(
+    'composeformhead'       => 'rcmail_compose_form_head',
     'composeheaders'        => 'rcmail_compose_headers',
     'composesubject'        => 'rcmail_compose_subject',
     'composebody'           => 'rcmail_compose_body',
@@ -410,6 +411,13 @@ function rcmail_process_compose_params(&$COMPOSE)
             }
         }
     }
+}
+
+function rcmail_compose_form_head($attrib)
+{
+    list($form_start,) = get_form_tags($attrib);
+
+    return $form_start;
 }
 
 function rcmail_compose_headers($attrib)
