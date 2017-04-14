@@ -80,7 +80,7 @@
 		</div>
 	</div>
 	<div id="compose-content" class="scroller formcontent">
-		<roundcube:form name="form" method="post" id="compose-content" role="main">
+		<roundcube:object name="composeFormHead" role="main" />
 		<!-- message headers -->
 		<div id="composeheaders" role="region" aria-labelledby="aria-label-composeheaders">
 			<h2 id="aria-label-composeheaders" class="voice"><roundcube:label name="arialabelmessageheaders" /></h2>
@@ -88,42 +88,42 @@
 				<div id="compose_from" class="form-group row">
 					<label for="_from" class="col-1 col-form-label"><roundcube:label name="from" /></label>
 					<div class="input-group col-11">
-						<roundcube:object name="composeHeaders" part="from" id="_from" tabindex="1" class="form-control" />
+						<roundcube:object name="composeHeaders" part="from" id="_from" form="form" tabindex="1" class="form-control" />
 						<a href="#identities" onclick="return rcmail.command('identities')" class="input-group-addon icon edit" title="<roundcube:label name="editidents" />" tabindex="1"><span class="inner"><roundcube:label name="editidents" /></span></a>
 					</div>
 				</div>
 				<div id="compose_to" class="form-group row">
 					<label for="_to" class="col-1 col-form-label"><roundcube:label name="to" /></label>
 					<div class="input-group col-11">
-						<roundcube:object name="composeHeaders" part="to" id="_to" tabindex="1" aria-required="true" data-recipient-input="true" />
+						<roundcube:object name="composeHeaders" part="to" id="_to" form="form"  tabindex="1" aria-required="true" data-recipient-input="true" />
 						<a href="#add-header" data-popup="headers-menu" class="input-group-addon icon add" title="<roundcube:label name="addheader" />" tabindex="1"><span class="inner"><roundcube:label name="addheader" /></span></a>
 					</div>
 				</div>
 				<div id="compose_cc" class="hidden form-group row">
 					<label for="_cc" class="col-1 col-form-label"><roundcube:label name="cc" /></label>
 					<div class="input-group col-11">
-						<roundcube:object name="composeHeaders" part="cc" id="_cc" tabindex="1" data-recipient-input="true" />
+						<roundcube:object name="composeHeaders" part="cc" id="_cc" form="form" tabindex="1" data-recipient-input="true" />
 						<a href="#delete" onclick="$('#_cc').val('').change()" class="input-group-addon icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 					</div>
 				</div>
 				<div id="compose_bcc" class="hidden form-group row">
 					<label for="_bcc" class="col-1 col-form-label"><roundcube:label name="bcc" /></label>
 					<div class="input-group col-11">
-						<roundcube:object name="composeHeaders" part="bcc" id="_bcc" rows="1" tabindex="1" data-recipient-input="true" />
+						<roundcube:object name="composeHeaders" part="bcc" id="_bcc" form="form" tabindex="1" data-recipient-input="true" />
 						<a href="#delete" onclick="$('#_bcc').val('').change()" class="input-group-addon icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 					</div>
 				</div>
 				<div id="compose_replyto" class="hidden form-group row">
 					<label for="_replyto" class="col-1 col-form-label"><roundcube:label name="replyto" /></label>
 					<div class="input-group col-11">
-						<roundcube:object name="composeHeaders" part="replyto" id="_replyto" tabindex="1" data-recipient-input="true" />
+						<roundcube:object name="composeHeaders" part="replyto" id="_replyto" form="form" tabindex="1" data-recipient-input="true" />
 						<a href="#delete" onclick="$('#_replyto').val('').change()" class="input-group-addon icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 					</div>
 				</div>
 				<div id="compose_followupto" class="hidden form-group row">
 					<label for="_followupto" class="col-1 col-form-label"><roundcube:label name="followupto" /></label>
 					<div class="input-group col-11">
-						<roundcube:object name="composeHeaders" part="followupto" id="_followupto" tabindex="1" data-recipient-input="true" />
+						<roundcube:object name="composeHeaders" part="followupto" id="_followupto" form="form" tabindex="1" data-recipient-input="true" />
 						<a href="#delete" onclick="$('#_followupto').val('').change()" class="input-group-addon icon cancel" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 					</div>
 				</div>
