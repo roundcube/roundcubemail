@@ -96,7 +96,7 @@
 					<label for="_to" class="col-1 col-form-label"><roundcube:label name="to" /></label>
 					<div class="input-group col-11">
 						<roundcube:object name="composeHeaders" part="to" id="_to" tabindex="1" aria-required="true" data-recipient-input="true" />
-						<a href="#add-header" onclick="/* TODO */" class="input-group-addon icon add" title="<roundcube:label name="addheader" />" tabindex="1"><span class="inner"><roundcube:label name="addheader" /></span></a>
+						<a href="#add-header" data-popup="headers-menu" class="input-group-addon icon add" title="<roundcube:label name="addheader" />" tabindex="1"><span class="inner"><roundcube:label name="addheader" /></span></a>
 					</div>
 				</div>
 				<div id="compose_cc" class="hidden form-group row">
@@ -185,10 +185,20 @@
 
 <div id="spell-menu" class="popupmenu" data-popup-init="spellmenu"></div>
 
+<div id="headers-menu" class="popupmenu" data-popup-init="headersmenu">
+	<h3 id="aria-label-headersmenu" class="voice"><roundcube:label name="arialabelheadersmenu" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-headersmenu">
+		<li role="menuitem"><a data-target="cc" href="#" role="button" tabindex="-1"><roundcube:label name="cc" /></a></li>
+		<li role="menuitem"><a data-target="bcc" href="#" role="button" tabindex="-1"><roundcube:label name="bcc" /></a></li>
+		<li role="menuitem"><a data-target="replyto" href="#" role="button" tabindex="-1"><roundcube:label name="replyto" /></a></li>
+		<li role="menuitem"><a data-target="followupto" href="#" role="button" tabindex="-1"><roundcube:label name="followupto" /></a></li>
+	</ul>
+</div>
+
 <div id="responses-menu" class="popupmenu">
 	<h3 id="aria-label-responsesmenu" class="voice"><roundcube:label name="arialabelresponsesmenu" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-responsesmenu">
-		<li role="separator" class="separator" id=""><label><roundcube:label name="insertresponse" /></label></li>
+		<li role="separator" class="separator"><label><roundcube:label name="insertresponse" /></label></li>
 		<roundcube:object name="responseslist" id="responseslist" tagname="ul" itemclass="active" />
 		<li role="separator" class="separator"><label><roundcube:label name="manageresponses" /></label></li>
 		<roundcube:button command="save-response" type="link-menuitem" label="newresponse" class="newresponse" classAct="newresponse active" unselectable="on" />

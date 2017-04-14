@@ -48,6 +48,7 @@ function rcube_elastic_ui()
     this.about_dialog = about_dialog;
     this.spellmenu = spellmenu;
     this.searchmenu = searchmenu;
+    this.headersmenu = headersmenu;
     this.attachmentmenu = attachmentmenu;
 
 
@@ -1096,6 +1097,19 @@ function rcube_elastic_ui()
     };
 
     /**
+     * Headers menu in mail compose
+     */
+    function headersmenu(obj, button, event)
+    {
+        $('li > a', obj).each(function() {
+            var target = '#compose_' + $(this).data('target');
+
+            $(this)[$(target).is(':visible') ? 'removeClass' : 'addClass']('active')
+                .off().on('click', function() { $(target).removeClass('hidden'); });
+        });
+    };
+
+    /**
      * Replaces recipient input with content-editable element that uses "recipient boxes"
      */
     function recipient_input(obj)
@@ -1257,6 +1271,10 @@ function rcube_elastic_ui()
             // to the widget element
             .on('focus', function(e) { input.focus(); })
             .on('change', function(e) { input.text(this.value).change(); });
+
+        // this one line is here to fix border of Bootstrap's input-group
+        // input-group should not contain any hidden elements
+        $(obj).detach().insertBefore(input.parent());
 
         // Copy and parse the value already set
         input.text($(obj).val()).change();
