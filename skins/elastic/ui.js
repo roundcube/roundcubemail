@@ -1,5 +1,5 @@
 /**
- * Roundcube functions for the elastic skin
+ * Roundcube webmail functions for the Elastic skin
  *
  * Copyright (c) 2017, The Roundcube Dev Team
  *
