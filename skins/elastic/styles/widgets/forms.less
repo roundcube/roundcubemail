@@ -40,6 +40,22 @@ input.smart-upload {
         padding-right: 0; /* without these e.g. inputs in compose screen are not aligned properly */
         padding-left: 0;
     }
+
+    tr.row.form-check {
+        @media screen and (min-width: 576px) {
+            display: flex; /* https://github.com/twbs/bootstrap/issues/22348 */
+        }
+
+        /* fixed checkbox vertical alignment
+        td:not(.col-form-label) {
+            padding-top: ~"calc(.5rem - 1px * 2)";
+            padding-bottom: ~"calc(.5rem - 1px * 2)";
+        }
+
+        .form-check-input {
+            margin-left: 0; /* fixes checkbox alignment with other inputs in a form */
+        }
+    }
 }
 
 .formbuttons {
