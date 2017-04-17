@@ -263,7 +263,7 @@ function rcube_elastic_ui()
         });
 
         // Forms
-        $('input,select', $('table.propform')).not('[type=checkbox]').addClass('form-control');
+        $('input,select,textarea', $('table.propform')).not('[type=checkbox]').addClass('form-control');
         $('[type=checkbox]', $('table.propform')).addClass('form-check-input');
         $('table.propform > tbody > tr').each(function() {
             var row = $(this),
