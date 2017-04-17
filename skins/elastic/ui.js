@@ -314,6 +314,12 @@ function rcube_elastic_ui()
             $('a.nav-link:first', nav).click();
         });
 
+        // Make message-objects alerts pretty (the same as UI alerts)
+        $('#message-objects').children('div').each(function() {
+            alert_style(this, $(this).attr('class'));
+            $('a', this).addClass('btn btn-primary');
+        });
+
         // Make logon form prettier
         if (rcmail.env.task == 'login') {
             $('#login-form table tr').each(function() {
@@ -619,22 +625,8 @@ function rcube_elastic_ui()
      */
     function message_displayed(p)
     {
-        var cl, classes = 'ui alert',
-            map = {
-                information: 'alert-success',
-                confirmation: 'alert-success',
-                notice: 'alert-info',
-                error: 'alert-danger',
-                warning: 'alert-warning',
-                loading: 'alert-info loading'
-            };
-
-        if (cl = map[p.type]) {
-            classes += ' ' + cl;
-            $('<i>').attr('class', 'icon').prependTo(p.object);
-        }
-
-        $(p.object).addClass(classes).attr('role', 'alert');
+        alert_style(p.object, p.type);
+        $(p.object).attr('role', 'alert');
         $('a', p.object).addClass('alert-link');
 /*
         var siblings = $(p.object).siblings('div');
@@ -648,6 +640,29 @@ function rcube_elastic_ui()
         }
 */
     };
+
+    /**
+     * Applies some styling and icon to an alert object
+     */
+    function alert_style(object, type)
+    {
+        var cl, classes = 'ui alert',
+            map = {
+                information: 'alert-success',
+                confirmation: 'alert-success',
+                notice: 'alert-info',
+                error: 'alert-danger',
+                warning: 'alert-warning',
+                loading: 'alert-info loading'
+            };
+
+        if (cl = map[type]) {
+            classes += ' ' + cl;
+            $('<i>').attr('class', 'icon').prependTo(object);
+        }
+
+        $(object).addClass(classes);
+    }
 
     /**
      * Initializes searchbar widget

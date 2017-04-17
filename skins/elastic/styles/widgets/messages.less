@@ -75,27 +75,10 @@
     }
 }
 
-/* TODO: #message-objects colors, make <a> buttons, icons using <i>? */
+#message-objects {
+    margin: 0 0.2em;
 
-#message-objects div {
-    margin: 0;
-    margin-bottom: 0.2em;
-    width: 100%;
-    padding: 0.75em;
-
-    &:before {
-        &:extend(.font-icon-class);
-    }
-
-    &.notice:before {
-        content: @fa-var-info-circle;
-    }
-
-    &.warning:before {
-        content: @fa-var-warning;
-    }
-
-    &.error:before {
-        content: @fa-var-exclamation-circle;
+    i.icon {
+        font-size: 2em !important;
     }
 }
