@@ -408,7 +408,7 @@ function rcube_elastic_ui()
         // FIXME: only for mobile?
         if (mode == 'phone') {
             // Enable autoresize plugin
-            // TODO: autoresize for plain text editor area
+            // TODO: autoresize for plain text editor area?
             o.config.plugins += ' autoresize';
 
             // Make the toolbar icons bigger
@@ -416,6 +416,10 @@ function rcube_elastic_ui()
 
             // Use minimalistic toolbar
             o.config.toolbar = 'undo redo | insert | styleselect';
+
+            if (o.config.plugins.match(/emoticons/)) {
+                o.config.toolbar += ' emoticons';
+            }
         }
     };
 
