@@ -178,7 +178,7 @@ $config['password_ldap_version'] = '3';
 $config['password_ldap_basedn'] = 'dc=exemple,dc=com';
 
 // LDAP connection method
-// There is two connection method for changing a user's LDAP password.
+// There are two connection methods for changing a user's LDAP password.
 // 'user': use user credential (recommended, require password_confirm_current=true)
 // 'admin': use admin credential (this mode require password_ldap_adminDN and password_ldap_adminPW)
 // Default: 'user'
