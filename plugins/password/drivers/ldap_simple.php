@@ -59,8 +59,8 @@ class rcube_ldap_simple_password
         $this->_debug("S: OK");
 
         // Set protocol version
-	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION,
-	    $rcmail->config->get('password_ldap_version', '3'));
+        ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION,
+            $rcmail->config->get('password_ldap_version', '3'));
 
         // Start TLS
         if ($rcmail->config->get('password_ldap_starttls')) {
