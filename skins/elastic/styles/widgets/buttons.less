@@ -42,16 +42,14 @@ a.button {
     cursor: pointer;
 }
 
-.formbuttons button.btn:before {
-    font-size: 1em;
-}
-
 
 /* font-icons */
 
 button.btn {
     &:before {
         &:extend(.font-icon-class);
+        display: inline-block;
+        float: initial;
     }
     &.submit:before,
     &.save:before {
