@@ -448,7 +448,7 @@ $config['password_expect_params'] = '';
 // %t - hostname without the first part
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 $config['password_smb_host'] = 'localhost';
-// Location of smbpasswd binary
+// Location of smbpasswd binary (default: /usr/bin/smbpasswd)
 $config['password_smb_cmd'] = '/usr/bin/smbpasswd';
 
 // gearman driver options
