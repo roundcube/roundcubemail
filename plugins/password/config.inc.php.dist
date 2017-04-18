@@ -178,7 +178,7 @@ $config['password_ldap_version'] = '3';
 $config['password_ldap_basedn'] = 'dc=exemple,dc=com';
 
 // LDAP connection method
-// There is two connection method for changing a user's LDAP password.
+// There are two connection methods for changing a user's LDAP password.
 // 'user': use user credential (recommended, require password_confirm_current=true)
 // 'admin': use admin credential (this mode require password_ldap_adminDN and password_ldap_adminPW)
 // Default: 'user'
@@ -448,7 +448,7 @@ $config['password_expect_params'] = '';
 // %t - hostname without the first part
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 $config['password_smb_host'] = 'localhost';
-// Location of smbpasswd binary
+// Location of smbpasswd binary (default: /usr/bin/smbpasswd)
 $config['password_smb_cmd'] = '/usr/bin/smbpasswd';
 
 // gearman driver options
