@@ -165,7 +165,13 @@ class rcube_ldap_simple_password
         if (!ldap_modify($ds, $user_dn, $entry)) {
             $this->_debug("S: ".ldap_error($ds));
 
+            $errno = ldap_errno($ds);
+
             ldap_unbind($ds);
+
+            if ($errno == 0x13) {   // LDAP_CONSTRAINT_VIOLATION
+                return PASSWORD_LDAP_CONSTRAINT_VIOLATION;
+            }
 
             return PASSWORD_CONNECT_ERROR;
         }
