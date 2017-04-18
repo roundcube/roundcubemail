@@ -1092,9 +1092,10 @@ function rcmail_user_prefs($current = null)
                     continue 2;
                 }
 
+                $attrs = array('id' => '_drafts_mbox', 'name' => '_drafts_mbox', 'onchange' => $onchange);
                 $blocks['main']['options']['drafts_mbox'] = array(
-                    'title'   => rcube::Q($RCMAIL->gettext('drafts')),
-                    'content' => $select->show($config['drafts_mbox'], array('name' => "_drafts_mbox", 'onchange' => $onchange)),
+                    'title'   => html::label($attrs['id'], rcube::Q($RCMAIL->gettext('drafts'))),
+                    'content' => $select->show($config['drafts_mbox'], $attrs),
                 );
             }
 
@@ -1103,9 +1104,10 @@ function rcmail_user_prefs($current = null)
                     continue 2;
                 }
 
+                $attrs = array('id' => '_sent_mbox', 'name' => '_sent_mbox', 'onchange' => '');
                 $blocks['main']['options']['sent_mbox'] = array(
-                    'title'   => rcube::Q($RCMAIL->gettext('sent')),
-                    'content' => $select->show($config['sent_mbox'], array('name' => "_sent_mbox", 'onchange' => '')),
+                    'title'   => html::label($attrs['id'], rcube::Q($RCMAIL->gettext('sent'))),
+                    'content' => $select->show($config['sent_mbox'], $attrs),
                 );
             }
 
@@ -1114,9 +1116,10 @@ function rcmail_user_prefs($current = null)
                     continue 2;
                 }
 
+                $attrs = array('id' => '_junk_mbox', 'name' => '_junk_mbox', 'onchange' => $onchange);
                 $blocks['main']['options']['junk_mbox'] = array(
-                    'title'   => rcube::Q($RCMAIL->gettext('junk')),
-                    'content' => $select->show($config['junk_mbox'], array('name' => "_junk_mbox", 'onchange' => $onchange)),
+                    'title'   => html::label($attrs['id'], rcube::Q($RCMAIL->gettext('junk'))),
+                    'content' => $select->show($config['junk_mbox'], $attrs),
                 );
             }
 
@@ -1125,9 +1128,10 @@ function rcmail_user_prefs($current = null)
                     continue 2;
                 }
 
+                $attrs = array('id' => '_trash_mbox', 'name' => '_trash_mbox', 'onchange' => $onchange);
                 $blocks['main']['options']['trash_mbox'] = array(
-                    'title'   => rcube::Q($RCMAIL->gettext('trash')),
-                    'content' => $select->show($config['trash_mbox'], array('name' => "_trash_mbox", 'onchange' => $onchange)),
+                    'title'   => html::label($attrs['id'], rcube::Q($RCMAIL->gettext('trash'))),
+                    'content' => $select->show($config['trash_mbox'], $attrs),
                 );
             }
         break;
