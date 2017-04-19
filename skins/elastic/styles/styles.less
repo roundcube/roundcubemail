@@ -207,7 +207,15 @@ button, input, select, textarea {
     margin: auto;
     width: 95%;
     max-width: 280px;
+
+    /* Fixes input width and position in IE11 */
+    .row {
+        max-width: 280px;
+        margin-right: 0;
+        margin-left: 0;
+    }
 }
+
 
 
 /*** Addressbook UI ***/

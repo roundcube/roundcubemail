@@ -29,6 +29,23 @@ input.smart-upload {
     width: 100%;
 }
 
+/* Forms fixes for IE */
+html.ie .propform {
+    .row:not(.form-check) > td {
+        display: flex;
+    }
+    @media screen and (min-width: 576px) {
+        .row.form-check > td {
+            display: flex;
+        }
+    }
+    @media screen and (max-width: 575px) {
+        .row {
+            display: block;
+        }
+    }
+}
+
 .formcontent {
     padding: 1em;
 
