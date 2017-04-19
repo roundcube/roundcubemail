@@ -170,7 +170,7 @@ class rcube_ldap_simple_password
             ldap_unbind($ds);
 
             if ($errno == 0x13) {   // LDAP_CONSTRAINT_VIOLATION
-                return PASSWORD_LDAP_CONSTRAINT_VIOLATION;
+                return PASSWORD_CONSTRAINT_VIOLATION;
             }
 
             return PASSWORD_CONNECT_ERROR;

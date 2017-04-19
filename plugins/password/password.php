@@ -352,7 +352,7 @@ class password extends rcube_plugin
             case PASSWORD_IN_HISTORY:
                 $reason = $this->gettext('passwdinhistory');
                 break;
-            case PASSWORD_LDAP_CONSTRAINT_VIOLATION:
+            case PASSWORD_CONSTRAINT_VIOLATION:
                 $reason = $this->gettext('passwdconstraintviolation');
                 break;
             case PASSWORD_ERROR:
