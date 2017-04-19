@@ -684,7 +684,9 @@ function rcube_elastic_ui()
                 return input.val();
             },
             hide_func = function(event, focus) {
-                // TODO: This animation in Chrome does not look as good as in Firefox
+                if (button.is(':visible')) {
+                    return;
+                }
                 $(bar).animate({'width': '0'}, 200, 'swing', function() {
                     all_elements.hide();
                     $(bar).width('auto'); // fixes search button position in Chrome
@@ -720,7 +722,7 @@ function rcube_elastic_ui()
         // These will hide the form, but not reset it
         rcube_webmail.set_iframe_events({mousedown: hide_func});
         $('body').on('mousedown', function(e) {
-            if (!button.is(':visible') && $.inArray(bar, $(e.target).parents()) == -1) {
+            if ($.inArray(bar, $(e.target).parents()) == -1) {
                 hide_func(e);
             }
         });
