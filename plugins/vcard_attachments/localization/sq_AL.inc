@@ -16,5 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
 $labels['addvcardmsg'] = 'Shtoje vCard-in te libër adresash';
-$labels['vcardsavefailed'] = 'I pazoti të ruajë vCard-in';
+$labels['vcardsavefailed'] = 'S’arrihet të ruhet vCard-i';
+$labels['attachvcard'] = 'Bashkëngjitni vCard';
+$labels['vcard'] = 'vCard';
 ?>

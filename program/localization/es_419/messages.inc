@@ -82,7 +82,6 @@ $messages['nopagesizewarning'] = 'Por favor ingresa un tamaño de página.';
 $messages['norecipientwarning'] = 'Por favor ingresa al menos un destinatario.';
 $messages['nosubjectwarning']  = 'El campo "Asunto" está vacio. ¿Deseas ingresar uno ahora?';
 $messages['nobodywarning'] = '¿Enviar este mensaje sin texto?';
-$messages['notsentwarning'] = 'El mensaje no ha sido enviado. ¿Deseas descartar este mensaje?';
 $messages['restoresavedcomposedata'] = 'Se ha encontrado un mensaje escrito pero no enviado\n\nAsunto: $subject\nGuardado: $date\n\n¿Desea restaurar este mensaje?';
 $messages['noldapserver'] = 'Por favor ingresa un servidor ldap para buscar.';
 $messages['nosearchname'] = 'Por favor ingresa un nombre de contacto o dirección de correo electrónico.';

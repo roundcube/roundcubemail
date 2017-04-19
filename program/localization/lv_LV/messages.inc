@@ -94,7 +94,6 @@ $messages['nosenderwarning'] = 'Lūdzu ievadiet sūtītāja e-pasta adresi';
 $messages['norecipientwarning'] = 'Lūdzu ievadiet vismaz vienu saņēmēju';
 $messages['nosubjectwarning']  = 'Lauks "temats" ir tukšs. Vai vēlaties to aizpildīt tagad?';
 $messages['nobodywarning'] = 'Sūtīt vēstuli bez teksta?';
-$messages['notsentwarning'] = 'Vēstule netika nosūtīta. Vai tiešām vēlaties atcelt vēstules rakstīšanu?';
 $messages['restoresavedcomposedata'] = 'Ir atrasta pirms kāda laika uzrakstīta, bet nenosūtīta vēstule.\n\nTēma: $subject\nSaglabāta:$date\n\nVai atjaunot šo vēstuli?';
 $messages['noldapserver'] = 'Lai meklētu, lūdzu izvēlaties LDAP serveri';
 $messages['nosearchname'] = 'Lūdzu ievadiet kontaktpersonas vārdu vai e-pasta adresi';

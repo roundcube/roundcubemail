@@ -87,10 +87,10 @@ $messages['saving'] = 'Po ruhen të drejtash hyrjeje…';
 $messages['updatesuccess'] = 'U ndryshuan me sukses të drejta hyrjeje';
 $messages['deletesuccess'] = 'U fshinë me sukses të drejta hyrjeje';
 $messages['createsuccess'] = 'U shtuan me sukses të drejta hyrjeje';
-$messages['updateerror'] = 'I pazoti të përditësojë të drejta hyrjeje';
-$messages['deleteerror'] = 'I pazoti të fshijë të drejta hyrjeje';
-$messages['createerror'] = 'I pazoti të shtojë të drejta hyrjeje';
+$messages['updateerror'] = 'S’arrihet të përditësohen të drejta hyrjeje';
+$messages['deleteerror'] = 'S’arrihet të fshihen të drejta hyrjeje';
+$messages['createerror'] = 'S’arrihet të shtohen të drejta hyrjeje';
 $messages['deleteconfirm'] = 'Jeni i sigurt, doni t’i hiqni të drejta hyrjeje përdoruesit(ve) të përzgjedhur?';
-$messages['norights'] = 'Nuk janë specifikuar të drejta!';
-$messages['nouser'] = 'Nuk është specifikuar emër përdoruesi!';
+$messages['norights'] = 'S’janë specifikuar të drejta!';
+$messages['nouser'] = 'S’është specifikuar emër përdoruesi!';
 ?>

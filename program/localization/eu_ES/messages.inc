@@ -94,7 +94,6 @@ $messages['nosenderwarning'] = 'Idatzi bidaltzailearen helbide elektronikoa';
 $messages['norecipientwarning'] = 'Mesedez behintzat hartzaile bat idatzi';
 $messages['nosubjectwarning']  = '"Gaia" eremua hutsik dago. Bat idatzi nahi al duzu?';
 $messages['nobodywarning'] = 'Testu gabeko mezu hau bidali?';
-$messages['notsentwarning'] = 'Mezua ez da bidali. Mezua ezeztatu nahi al duzu?';
 $messages['restoresavedcomposedata'] = 'Lehendik idatzitako baina bidali gabeko mezu bat aurkitu da.\n\nGaia:$subject\nGordeta:$date\n\nBerreskuratu nahi duzu mezu hau?';
 $messages['noldapserver'] = 'Mesedez hautatu bilaketa egiteko LDAP zerbitzari bat';
 $messages['nosearchname'] = 'Idatzi kontaktu izen bat edo helbide elektroniko bat';

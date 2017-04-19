@@ -15,7 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-$labels['buttontext'] = 'I padëshiruar';
-$labels['buttontitle'] = 'Vëri shenjë si I padëshiruar';
-$labels['reportedasjunk'] = 'U raportua me sukses si I padëshiruar';
+$labels['buttontext'] = 'I pavlerë';
+$labels['buttontitle'] = 'Vëri shenjë si I pavlerë';
+$labels['reportedasjunk'] = 'U raportua me sukses si I pavlerë';
 ?>

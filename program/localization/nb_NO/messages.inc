@@ -80,7 +80,6 @@ $messages['nopagesizewarning'] = 'Angi sidestørrelsen';
 $messages['norecipientwarning'] = 'Skriv inn minst én mottaker';
 $messages['nosubjectwarning']  = 'Emnefeltet er tomt. Vil du skrive det inn nå?';
 $messages['nobodywarning'] = 'Send denne meldingen uten tekst?';
-$messages['notsentwarning'] = 'E-posten er ikke sendt. Er du sikker på at du vil avbryte skrivingen?';
 $messages['restoresavedcomposedata'] = 'Et tidligere usendt svar ble funnet.\n\nEmne: $subject\nLagret: $date\n\nVil du gjenopprette denne meldingen?';
 $messages['noldapserver'] = 'Velg LDAP-tjener å søke i';
 $messages['nosearchname'] = 'Venligst skriv inn kontaktens navn eller e-postadresse';

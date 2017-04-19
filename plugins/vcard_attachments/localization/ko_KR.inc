@@ -17,4 +17,6 @@
 */
 $labels['addvcardmsg'] = '주소록에 vCard 추가';
 $labels['vcardsavefailed'] = 'vCard를 저장할 수 없음';
+$labels['attachvcard'] = 'vCard 첨부';
+$labels['vcard'] = 'vCard';
 ?>

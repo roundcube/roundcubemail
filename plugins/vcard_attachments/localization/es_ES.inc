@@ -17,4 +17,6 @@
 */
 $labels['addvcardmsg'] = 'Añadir tarjeta vCard a la libreta de direcciones';
 $labels['vcardsavefailed'] = 'No se pudo guardar la tarjeta vCard';
+$labels['attachvcard'] = 'Adjuntar vCard';
+$labels['vcard'] = 'vCard';
 ?>

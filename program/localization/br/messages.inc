@@ -94,7 +94,6 @@ $messages['nosenderwarning'] = 'Enankit chomlec\'h postel ar c\'haser.';
 $messages['norecipientwarning'] = 'Ouzhpennit ur resever da nebeutañ mar plij ganeoc\'h';
 $messages['nosubjectwarning']  = 'Dileun eo ar maezienn « Sujed » . C\'hoant hoc\'h eus da leuniañ anezhiñ diouzhtu ?';
 $messages['nobodywarning'] = 'Kas ar c\'hemennad hep testenn ?';
-$messages['notsentwarning'] = 'N\'eo ket bet kaset ar c\'hemennad. C\'hoant hoc\'h eus dilezel ar c\'hemennad-se ?';
 $messages['restoresavedcomposedata'] = 'Kavet ez eus bet ur gemennadenn skrivet ha n\'eo ket bet kaset.\n\nDanvez: $subject\nEnrollet: $date\n\nFellout a ra deoc\'h assav ar gemennadenn-mañ?';
 $messages['noldapserver'] = 'Dizuit ur servijer LDAP evit ar glask';
 $messages['nosearchname'] = 'Skrivit un anv darempred pe ur postel elektronek';

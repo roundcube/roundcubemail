@@ -84,7 +84,6 @@ $messages['nosenderwarning'] = 'Settu inn tölvupóstfang sendanda.';
 $messages['norecipientwarning'] = 'Í það minnsta einn viðtakandi verður að vera';
 $messages['nosubjectwarning']  = 'Efnislínan er tóm. Viltu slá eitthvað inn í hana?';
 $messages['nobodywarning'] = 'Viltu senda tómt skeyti?';
-$messages['notsentwarning'] = 'Skeytið hefur ekki verið send. Viltu henda skeytinu?';
 $messages['noldapserver'] = 'Please select an ldap server to search';
 $messages['nosearchname'] = 'Sláðu inn nafn eða netfang';
 $messages['searchsuccessful'] = '$nr skeyti fundust';
