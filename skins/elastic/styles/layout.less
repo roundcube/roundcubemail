@@ -69,16 +69,14 @@ body > #layout {
         &.sidebar,
         &.list {
             display: flex;
-            flex-grow: 2;
             flex-direction: column;
-            min-width: 300px;
             max-width: 30%;
             border-right: 1px solid @color-layout-border;
         }
 
         &.content {
             display: flex;
-            flex-grow: 6;
+            flex: 6;
             flex-direction: column;
             min-width: 50%;
             background-color: @color-layout-content-background;
@@ -97,11 +95,13 @@ body > #layout {
         &.sidebar {
             min-width: 220px;
             background-color: @color-layout-sidebar-background;
+            flex: 2;
         }
 
         &.list {
             min-width: 300px;
             background-color: @color-layout-list-background;
+            flex: 3;
         }
 
         &.menu {
@@ -169,6 +169,7 @@ html.iframe body {
     body > #layout > div.sidebar,
     body > #layout > div.list {
         min-width: 260px;
+        flex: 3;
     }
     body > #layout > div:not(.selected),
     body > #layout > div.menu span.inner {
@@ -204,7 +205,7 @@ html.iframe body {
     }
     body > #layout > div.sidebar,
     body > #layout > div.list {
-        max-width: 100%;
+        max-width: none;
     }
 }
 
