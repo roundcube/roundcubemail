@@ -324,6 +324,7 @@ $labels['advsearch'] = 'Chwilio Uwch';
 $labels['advanced'] = 'Uwch';
 $labels['other'] = 'Arall';
 $labels['printcontact'] = 'Cyswllt argraffu';
+$labels['qrcode'] = 'Cod QR';
 $labels['typehome']   = 'Cartref';
 $labels['typework']   = 'Gwaith';
 $labels['typeother']  = 'Arall';

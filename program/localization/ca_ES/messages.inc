@@ -82,7 +82,6 @@ $messages['nopagesizewarning'] = 'Si us plau, introduïu una mida de pàgina.';
 $messages['norecipientwarning'] = 'Si us plau, introduïu com a mínim un destinatari.';
 $messages['nosubjectwarning']  = 'El camp "Assumpte" és buit. Voleu introduir-ne un ara?';
 $messages['nobodywarning'] = 'Voleu enviar aquest missatge sense text?';
-$messages['notsentwarning'] = 'El missatge no s\'ha enviat. Voleu descartar el vostre missatge?';
 $messages['restoresavedcomposedata'] = 'S\'ha trobat un missatge començat però que no ha estat enviat.\n\nAssumpte: $subject\nDesat: $date\n\nVoleu recuperar aquest missatge?';
 $messages['noldapserver'] = 'Si us plau, seleccioneu un servidor LDAP per cercar.';
 $messages['nosearchname'] = 'Si us plau, introduïu un nom de contacte o una adreça de correu.';

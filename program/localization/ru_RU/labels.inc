@@ -324,6 +324,7 @@ $labels['advsearch'] = 'Расширенный поиск';
 $labels['advanced'] = 'Дополнительно';
 $labels['other'] = 'Другое';
 $labels['printcontact'] = 'Печатать контакт';
+$labels['qrcode'] = 'QR код';
 $labels['typehome']   = 'Дом';
 $labels['typework']   = 'Работа';
 $labels['typeother']  = 'Другое';

@@ -88,7 +88,6 @@ $messages['nosenderwarning'] = 'الرجاء إدخال عنوان البريد 
 $messages['norecipientwarning'] = 'الرجاء إدخال اسم مستقبل واحد على الأقل';
 $messages['nosubjectwarning']  = 'حقل "الموضوع" فارغ. هل تريد كتابة موضوعللرسالة؟';
 $messages['nobodywarning'] = 'إرسال هذه الرسالة دون نص؟';
-$messages['notsentwarning'] = 'لم يتم إرسال الرسالة. هل تريد تجاهلالرسالة؟';
 $messages['restoresavedcomposedata'] = 'يوجد رسالة سابقة ولاكن غير مرسلة.\n\nالموضوع: $subject\nحفظ: $date\n\n هل تريد بالفعل استعادة هذة الرسالة ؟';
 $messages['noldapserver'] = 'الرجاء اختيار خادم ldap للبحث فيه';
 $messages['nosearchname'] = 'الرجاء إدخال اسم مراسل أو عنوان بريدإلكتروني';

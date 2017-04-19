@@ -95,7 +95,6 @@ $messages['disclosedreciptitle'] = 'Preveliko število javnih naslovov prejemnik
 $messages['nosubjectwarning']  = 'Polje "Zadeva" je prazno. Želite dodati besedilo v to polje?';
 $messages['nosubjecttitle']  = 'Brez naslova';
 $messages['nobodywarning'] = 'Želite poslati sporočilo brez besedila?';
-$messages['notsentwarning'] = 'Sporočilo ni bilo poslano. Želite zavreči to sporočilo?';
 $messages['restoresavedcomposedata'] = 'Ali želite nadaljevati z urejanjem še neodposlanega osnutka:\n\nZadeva: $subject\nShranjeno dne: $date\n\n ';
 $messages['noldapserver'] = 'Izberite LDAP strežnik, v katerem želite iskati?';
 $messages['nosearchname'] = 'Vnesite ime ali elektronski naslov stika';

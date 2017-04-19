@@ -17,4 +17,6 @@
 */
 $labels['addvcardmsg'] = 'Adres defterine vCard ekle';
 $labels['vcardsavefailed'] = 'vCard kaydedilemedi';
+$labels['attachvcard'] = 'vCard Ekle';
+$labels['vcard'] = 'vCard';
 ?>
