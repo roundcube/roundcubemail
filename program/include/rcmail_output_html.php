@@ -1104,6 +1104,10 @@ EOF;
                     break;
                 }
 
+                if ($attrib['file'][0] != '/') {
+                    $attrib['file'] = '/templates/' . $attrib['file'];
+                }
+
                 $old_base_path = $this->base_path;
                 if (!empty($attrib['skin_path'])) $attrib['skinpath'] = $attrib['skin_path'];
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
