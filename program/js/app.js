@@ -3919,17 +3919,13 @@ function rcube_webmail()
     });
 
     // display dialog with missing keys
-    ref.show_popup_dialog(
+    ref.simple_dialog(
       $('<div>')
         .append($('<p>').html(ref.get_label('encryptpubkeysfound')))
         .append(ul),
       ref.get_label('importpubkeys'),
-      [{
-        text: ref.get_label('close'),
-        click: function() {
-          (ref.is_framed() ? parent.$ : $)(this).dialog('close');
-        }
-      }]
+      null,
+      {cancel_label: 'close', cancel_button: 'close'}
     );
 
     // delegate handler for import button clicks
@@ -4054,21 +4050,12 @@ function rcube_webmail()
         content = $('<div>').append(nodes);
         $('input:not([disabled]):first', content).attr('checked', true);
 
-        this.show_popup_dialog(content, this.get_label('markallread'),
-          [{
-            'class': 'mainaction',
-            text: this.get_label('mark'),
-            click: function() {
-              ref.mark_all_read(folder, $('input:checked', this).val());
-              $(this).dialog('close');
-            }
+        this.simple_dialog(content, this.get_label('markallread'),
+          function() {
+            ref.mark_all_read(folder, $('input:checked', this).val());
+            return true;
           },
-          {
-            text: this.get_label('cancel'),
-            click: function() {
-              $(this).dialog('close');
-            }
-          }]
+          {button: 'mark'}
         );
 
         return;
@@ -4323,7 +4310,7 @@ function rcube_webmail()
 
     // the message has been sent but not saved, ask the user what to do
     if (!saveonly && this.env.is_sent) {
-      return this.simple_dialog(this.get_label('messageissent'), '',
+      return this.simple_dialog(this.get_label('messageissent'), '', // TODO: dialog title
         function() {
           ref.submit_messageform(false, true);
           return true;
@@ -4482,7 +4469,8 @@ function rcube_webmail()
             click: function() { save_func(true); }
           }, {
             text: this.get_label('cancel'),
-            click: function() { dialog.dialog('close'); }
+            click: function() { dialog.dialog('close'); },
+            'class': 'cancel'
           }],
         {dialogClass: 'warning'}
       );
@@ -4508,10 +4496,11 @@ function rcube_webmail()
         this.get_label('nosubjecttitle'),
         [{
             text: this.get_label('sendmessage'),
-            click: function() { save_func(); },
-            'class': 'mainaction'
+            'class': 'mainaction send',
+            click: function() { save_func(); }
           }, {
             text: this.get_label('cancel'),
+            'class': 'cancel',
             click: function() {
               input_subject.focus();
               dialog.dialog('close');
@@ -4602,7 +4591,7 @@ function rcube_webmail()
       $(this).dialog('close');
     };
 
-    this.show_popup_dialog(html, this.get_label('newresponse'), buttons, {button_classes: ['mainaction']});
+    this.show_popup_dialog(html, this.get_label('newresponse'), buttons, {button_classes: ['mainaction save', 'cancel']});
 
     $('#ffresponsetext').val(text);
     $('#ffresponsename').select();
@@ -7693,7 +7682,7 @@ function rcube_webmail()
 
     // assign special classes to dialog buttons
     $.each(options.button_classes || [], function(i, v) {
-      if (v) $($('.ui-dialog-buttonpane button.ui-button', popup.parent()).get(i)).addClass(v);
+      if (v) $($('.ui-dialog-buttonpane button', popup.parent()).get(i)).addClass(v);
     });
 
     return popup;
