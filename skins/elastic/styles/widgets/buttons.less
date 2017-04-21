@@ -73,8 +73,18 @@ button.btn {
     &.restore:before {
         content: @fa-var-undo;
     }
+    &.send:before {
+        content: @fa-var-paper-plane;
+    }
+    &.attach:before {
+        content: @fa-var-paperclip;
+    }
+    &.close:before,
     &.cancel:before {
         content: @fa-var-close;
+    }
+    &.mark:before {
+        /* TODO: "Mark all as read" icon */
     }
 }
 
