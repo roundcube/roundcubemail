@@ -25,6 +25,7 @@ define('PASSWORD_CRYPT_ERROR', 1);
 define('PASSWORD_ERROR', 2);
 define('PASSWORD_CONNECT_ERROR', 3);
 define('PASSWORD_IN_HISTORY', 4);
+define('PASSWORD_CONSTRAINT_VIOLATION', 5);
 define('PASSWORD_SUCCESS', 0);
 
 /**
@@ -350,6 +351,9 @@ class password extends rcube_plugin
                 break;
             case PASSWORD_IN_HISTORY:
                 $reason = $this->gettext('passwdinhistory');
+                break;
+            case PASSWORD_CONSTRAINT_VIOLATION:
+                $reason = $this->gettext('passwdconstraintviolation');
                 break;
             case PASSWORD_ERROR:
             default:
