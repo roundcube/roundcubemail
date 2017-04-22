@@ -123,6 +123,20 @@ class Framework_DB extends PHPUnit_Framework_TestCase
 
        $this->assertSame($expected, implode("\n", $db->queries), "Query parsing [2]");
     }
+
+    function test_parse_dsn()
+    {
+        $dsn = "mysql://USERNAME:PASSWORD@HOST:3306/DATABASE";
+
+        $result = rcube_db::parse_dsn($dsn);
+
+        $this->assertSame('mysql', $result['phptype'], "DSN parser: phptype");
+        $this->assertSame('USERNAME', $result['username'], "DSN parser: username");
+        $this->assertSame('PASSWORD', $result['password'], "DSN parser: password");
+        $this->assertSame('3306', $result['port'], "DSN parser: port");
+        $this->assertSame('HOST', $result['hostspec'], "DSN parser: hostspec");
+        $this->assertSame('DATABASE', $result['database'], "DSN parser: database");
+    }
 }
 
 /**
