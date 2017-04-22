@@ -227,7 +227,6 @@
 	display: block;
 	line-height: 1.5;
 	padding: 6px 10px 4px;
-	text-shadow: 0 1px 1px #333;
 	background-color: #444;
 	border: 0;
 	border-radius: 0;
@@ -254,12 +253,7 @@
 .ui-menu .ui-menu-item .ui-state-active,
 .ui-menu .ui-state-focus,
 .ui-menu .ui-state-active {
-	background: #00aad6;
-	background: -moz-linear-gradient(top, #00aad6 0%, #008fc9 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00aad6), color-stop(100%,#008fc9));
-	background: -o-linear-gradient(top, #00aad6 0%, #008fc9 100%);
-	background: -ms-linear-gradient(top, #00aad6 0%, #008fc9 100%);
-	background: linear-gradient(top, #00aad6 0%, #008fc9 100%);
+	background: #0883d0;
 }
 
 /* icon support */
@@ -629,7 +623,6 @@ button.ui-button::-moz-focus-inner {
 	float: left;
 	margin: .1em 16px .1em 0;
 	font-size: 1.3em;
-	text-shadow: 1px 1px 1px #fff;
 	white-space: nowrap;
 	width: 90%;
 	overflow: hidden;
@@ -811,13 +804,7 @@ button.ui-button::-moz-focus-inner {
 	font-size: .7em;
 	display: block;
 	border: 0;
-	background: #019bc6;
-	background: -moz-linear-gradient(top, #019bc6 0%, #017cb4 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#019bc6), color-stop(100%,#017cb4));
-	background: -o-linear-gradient(top, #019bc6 0%, #017cb4 100%);
-	background: -ms-linear-gradient(top, #019bc6 0%, #017cb4 100%);
-	background: linear-gradient(top, #019bc6 0%, #017cb4 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#019bc6', endColorstr='#017cb4', GradientType=0);
+	background: #017cb4;
 }
 
 /* support: IE8 - See #6727 */
@@ -1457,7 +1444,6 @@ a.ui-button:active,
 	background: #3a3a3a;
 	filter: none;
 	color: #fff;
-	text-shadow: 0px 1px 1px #000;
 }
 .ui-datepicker .ui-datepicker-prev,
 .ui-datepicker .ui-datepicker-next {
@@ -1531,32 +1517,18 @@ a.ui-button:active,
 .ui-datepicker td span, .ui-datepicker td a {
 	border: 0;
 	padding: .5em;
-	text-shadow: 0px 1px 1px #fff;
 }
 .ui-datepicker td a.ui-state-default {
-	border: 0px solid #fff;
-	border-top-width: 1px;
-	border-left-width: 1px;
+	border: none;
 	background: #e6e6e6;
-	background: -moz-linear-gradient(top, #e6e6e6 0%, #d6d6d6 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e6e6e6), color-stop(100%,#d6d6d6));
-	background: -o-linear-gradient(top, #e6e6e6 0%, #d6d6d6 100%);
-	background: -ms-linear-gradient(top, #e6e6e6 0%, #d6d6d6 100%);
-	background: linear-gradient(top, #e6e6e6 0%, #d6d6d6 100%);
 }
 .ui-datepicker td a.ui-priority-secondary {
 	background: #eee;
 }
 .ui-datepicker td a.ui-state-active {
 	color: #fff;
-	border-color: #0286ac !important;
-	text-shadow: 0px 1px 1px #00516e !important;
-	background: #00acd4 !important;
-	background: -moz-linear-gradient(top, #00acd4 0%, #008fc7 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00acd4), color-stop(100%,#008fc7));
-	background: -o-linear-gradient(top, #00acd4 0%, #008fc7 100%);
-	background: -ms-linear-gradient(top, #00acd4 0%, #008fc7 100%);
-	background: linear-gradient(top, #00acd4 0%, #008fc7 100%);
+	border-color: #0883d0 !important;
+	background: #0883d0 !important;
 }
 .ui-datepicker .ui-state-highlight {
 	color: #0081c2;
@@ -1565,5 +1537,4 @@ a.ui-button:active,
 	color: #fff;
 	border-color: rgba(73,180,210,0.7);
 	background: rgba(73,180,210,0.7);
-	text-shadow: 0px 1px 1px #666;
 }
