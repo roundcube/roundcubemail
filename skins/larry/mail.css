@@ -1,7 +1,7 @@
 /**
  * Roundcube webmail styles for the Email section
  *
- * Copyright (c) 2012, The Roundcube Dev Team
+ * Copyright (c) 2012-2017, The Roundcube Dev Team
  * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
@@ -89,11 +89,7 @@ html>/**/body #messagelist {
 	height: 22px;
 	padding: 5px 6px 3px;
 	border-top: 1px solid #ddd;
-	background: #ebebeb;
-	background: -moz-linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebebeb), color-stop(100%,#c6c6c6));
-	background: -ms-linear-gradient(top, #ebebeb 0%, #c6c6c6 100%);
-	background: linear-gradient(to bottom, #ebebeb 0%, #c6c6c6 100%);
+	background: #eaeaea;
 	border-radius: 0 0 4px 4px;
 	white-space: nowrap;
 }
@@ -164,12 +160,7 @@ html.mozilla #mailboxlist > li:first-child {
 	min-width: 1.8em;
 	line-height: 15px;
 	padding: 2px 4px;
-	background: #82acb5;
-	background: -moz-linear-gradient(top, #82acb5 0%, #6a939f 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#82acb5), color-stop(100%,#6a939f));
-	background: -ms-linear-gradient(top, #82acb5 0%, #6a939f 100%);
-	background: linear-gradient(to bottom, #82acb5 0%, #6a939f 100%);
-	box-shadow: inset 0 1px 1px 0 #536d72;
+	background: #6a939f;
 	border-radius: 9px;
 	color: #fff;
 	text-align: center;
@@ -179,20 +170,10 @@ html.mozilla #mailboxlist > li:first-child {
 
 .folderlist li.mailbox.selected > a .unreadcount {
 	background: #005d76;
-	background: -moz-linear-gradient(top, #005d76 0%, #004558 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#005d76), color-stop(100%,#004558));
-	background: -ms-linear-gradient(top, #005d76 0%, #004558 100%);
-	background: linear-gradient(to bottom, #005d76 0%, #004558 100%);
-	box-shadow: inset 0 1px 1px 0 #003645;
 }
 
 .folderlist li.mailbox.recent > a .unreadcount {
-	background: #017cb4;
-	background: -moz-linear-gradient(top, #017cb4 0%, #006ca4 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#017cb4), color-stop(100%,#006ca4));
-	background: -ms-linear-gradient(top, #017cb4 0%, #006ca4 100%);
-	background: linear-gradient(to bottom, #017cb4 0%, #006ca4 100%);
-	box-shadow: inset 0 1px 1px 0 #005080;
+	background: #006ca4;
 }
 
 #searchfilter {
@@ -580,10 +561,6 @@ table.messagelist.fixedcopy {
 	position: relative;
 	padding: 3px 0;
 	background: #f9f9f9;
-	background: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f0f0));
-	background: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
-	background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
 	border-bottom: 1px solid #dfdfdf;
 }
 
@@ -691,22 +668,14 @@ h3.subject {
 	width: 18px;
 	padding: 0;
 	outline: none;
-	background: #f2f2f2;
-	background: -moz-linear-gradient(left, #fbfbfb 0, #e9e9e9 100%);
-	background: -webkit-gradient(linear, left top, right top, color-stop(0,#fbfbfb), color-stop(100%,#e9e9e9));
-	background: -ms-linear-gradient(left, #fbfbfb 0, #e9e9e9 100%);
-	background: linear-gradient(left, #fbfbfb 0, #e9e9e9 100%);
+	background: #e9e9e9;
 	border-right: 1px solid #dfdfdf;
 	border-radius: 3px 0 0 0; /* for Opera */
 }
 
 .moreheaderstoggle:focus {
-	background: #f2f2f2;
-	background: -moz-linear-gradient(left, #66bcd9 0, #49b3d2 100%);
-	background: -webkit-gradient(linear, left top, right top, color-stop(0,#66bcd9), color-stop(100%,#49b3d2));
-	background: -ms-linear-gradient(left, #66bcd9 0, #49b3d2 100%);
-	background: linear-gradient(left, #66bcd9 0, #49b3d2 100%);
-	border-right-color: #149cc5;
+	background: #66bcd9;
+	border-right-color: #66bcd9;
 }
 
 .moreheaderstoggle .iconlink {
@@ -751,7 +720,6 @@ div.hide-headers {
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	background: #fdfdfd;
-	box-shadow: inset 0 0 1px 1px rgba(0,0,0, 0.1);
 }
 
 #headers-source {
@@ -1085,7 +1053,6 @@ div.message-partheaders .headers-table td.header {
 
 #compose-contacts .scroller {
 	top: 65px;
-	border-top: 1px solid #fff;
 }
 
 #contacts-table {
@@ -1147,19 +1114,19 @@ div.message-partheaders .headers-table td.header {
 }
 
 #contacts-table td.contactgroup {
-	background-position: 6px -1555px;
+	background-position: 6px -1553px;
 }
 
 #contacts-table tr.selected td.contactgroup {
-	background-position: 6px -1579px;
+	background-position: 6px -1577px;
 }
 
 #contacts-table td.contact {
-	background-position: 6px -1603px;
+	background-position: 6px -1601px;
 }
 
 #contacts-table tr.selected td.contact {
-	background-position: 6px -1627px;
+	background-position: 6px -1625px;
 }
 
 #compose-content {
@@ -1248,7 +1215,6 @@ div.message-partheaders .headers-table td.header {
 	padding: 2px 0 0 8px;
 	white-space: normal;
 	border-top: 1px solid #dfdfdf;
-	box-shadow: inset 0 1px 0 0 #fff;
 }
 
 .composeoption {
@@ -1312,7 +1278,6 @@ div.message-partheaders .headers-table td.header {
 	font-family: monospace;
 	font-size: 9pt;
 	outline: none;
-	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
 }
 
 #composebody:active,
@@ -1342,7 +1307,7 @@ div.message-partheaders .headers-table td.header {
 
 #compose-attachments.droptarget.hover,
 #compose-attachments.droptarget.active {
-	border-color: #019bc6;
+	border-color: #017db4;
 	box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
 }
 
@@ -1403,7 +1368,7 @@ div.message-partheaders .headers-table td.header {
 .widescreen #mailview-bottom {
 	left: 412px;
 	top:0;
-	border: 1px solid #a3a3a3;
+	border: 1px solid #b2b8bf;
 }
 
 #messagelistheader,
@@ -1427,11 +1392,7 @@ div.message-partheaders .headers-table td.header {
 	right: 0;
 	height: 34px;
 	padding: 6px 6px;
-	background: #f0f0f0;
-	background: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f0f0));
-	background: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
-	background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+	background: #efefef;
 	border-radius: 4px 4px 0 0;
 	white-space: nowrap;
 	border-bottom: 1px solid #dfdfdf;
@@ -1471,7 +1432,6 @@ div.message-partheaders .headers-table td.header {
 .widescreen .pagenavbuttons a.button {
 	background: none;
 	border: 0;
-	box-shadow: none;
 	padding: 2px;
 	margin: 0;
 	height: 20px;
@@ -1483,8 +1443,7 @@ div.message-partheaders .headers-table td.header {
 
 .widescreen a.listmenu:focus,
 .widescreen .pagenav a.button:focus {
-	border-color: #4fadd5;
-	box-shadow: 0 0 4px 2px rgba(71,135,177, 0.8);
+	border-color: #017db6;
 	outline: none;
 }
 
