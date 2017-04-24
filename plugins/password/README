@@ -383,8 +383,8 @@
  Here's a sample for CentOS 7:
 
  Remark by Kay Marquardt kay@rrr.de
- allowing sudo to a system command like chpasswd opens a security hole!
- with access to chapasswd any script on the webserver can change password for every user, incl. root
+ allowing sudo to a system command like chpasswd opens a security hole.
+ with access to chpasswd any script on the webserver can change password for every user!
  
  It is more scure to use a wrapper script and place this script directory where the webserver
  can excecute, but not modify. I changed the sudo chpasswd example to use the provided wrapper
