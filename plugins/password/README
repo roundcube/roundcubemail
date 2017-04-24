@@ -259,9 +259,13 @@
 
  Driver that adds functionality to change the systems user password via 
  the 'chpasswd' command. See config.inc.php.dist file.
-
+ 
  Attached wrapper script (helpers/chpass-wrapper.py) restricts password changes
  to uids >= 1000 and can deny requests based on a blacklist.
+ 
+ Remark by Kay Marquardt kay@rrr.de
+ allowing sudo to a system command like chpasswd opens a security hole!
+ pls use attached wrapper and move it to a random dir, see also 4. sudo setup
 
 
  2.12.  LDAP - no PEAR (ldap_simple)
@@ -378,8 +382,15 @@
  Some drivers that execute system commands (like chpasswd) require use of sudo command.
  Here's a sample for CentOS 7:
 
+ Remark by Kay Marquardt kay@rrr.de
+ allowing sudo to a system command like chpasswd opens a security hole!
+ with access to chapasswd any script on the webserver can change password for every user, incl. root
+ 
+ It is more scure to use a wrapper script and place this script directory where the webserver
+ can excecute, but not modify. I changed the sudo chpasswd example to use the provided wrapper
+
  # cat <<END >/etc/sudoers.d/99-roundcubemail
- apache ALL=NOPASSWD:/usr/sbin/chpasswd
+ apache ALL=NOPASSWD:/path/tosecure/directory/chpass-wrapper.py
  Defaults:apache !requiretty
  <<END
 
