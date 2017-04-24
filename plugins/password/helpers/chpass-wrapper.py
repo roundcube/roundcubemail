@@ -47,12 +47,6 @@ expscript = 'passwd-expect'
 # path to this script
 PATH = os.path.dirname(os.path.realpath(sys.argv[0]))
 
-DEBUG = False
-if DEBUG:
-  debug = open(os.path.realpath(sys.argv[0]) + '.debug', 'a')
-  debug.write('\n===============\nnew script run as:\n')
-  debug.write(str(sys.argv) + '\n')
-
 # other defaults:
 ftpusers=False  # do not blacklist from /etc/ftpusers
 expect=False    # use chpasswd
@@ -152,19 +146,9 @@ if hostname == 'localhost':
 
 ####################
 # ready to change password ...
-if DEBUG:
-  debug.write('output found values:\n')
-  debug.write('hostname: ' + hostname + '\n')
-  debug.write('username: ' + username + '\n')
-  debug.write('oldpassw: ' + oldpassw + '\n')
-  debug.write('password: ' + password + '\n')
-  debug.write('Expect  : ' + str(expect)   + '\n')
-  debug.write('BLACKLIST: ' + str(BLACKLIST) + '\n')
 
 if expect != True:
     # CHPASSWD, very simple :-)
-    if DEBUG:
-      debug.write('command : ' + CHPASSBIN + '\n')
     handle = subprocess.Popen(CHPASSBIN, stdin = subprocess.PIPE)
     handle.communicate('%s:%s\n' % (username, password))
 
