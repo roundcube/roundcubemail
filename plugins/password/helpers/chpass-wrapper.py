@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #
-# wrapper to change password with chpasswd and expect
-# for configuration see plugins/password/README
+# for configuration see plugins/password/config.inc.php.dist
 #
 # CHPASSWD:
 #
@@ -27,7 +26,6 @@
 # -expscript script name of expect script (default passwd-expect)
 # -host hostname    connect to hostname (default localhost)
 # -ssh              use ssh protocol
-# -timeout #        wait #s for response (default 20s)
 # all addional parameters are passed to passwd-expect, see there.
 #
 
@@ -36,14 +34,12 @@ import subprocess, signal
 
 ###############
 # startup, prepare values and parameters
-
 # path to executables
 CHPASSBIN = '/usr/sbin/chpasswd'
 EXPECTBIN = '/usr/bin/expect'
 
 # expect script, has to be in the same directory as this script
 expscript = 'passwd-expect'
-
 # path to this script
 PATH = os.path.dirname(os.path.realpath(sys.argv[0]))
 
@@ -53,12 +49,11 @@ expect=False    # use chpasswd
 hostname='localhost'    # change on localhost
 scriptargs = ''         # no additional args
 
-
 #############################
 # process args from command line
 count=1
 while(count < len(sys.argv)):
-  # we need hostname also
+  # we need hostname, also pass
   if sys.argv[count] == '-host':
     hostname = sys.argv[count+1]
 
@@ -80,8 +75,8 @@ while(count < len(sys.argv)):
       continue
 
     if sys.argv[count] == '-expscript':
-      expect = True;
-      expscript = sys.argv[count]
+      expect = True
+      expscript = sys.argv[count+1]
       count += 2
       continue
 
@@ -95,8 +90,7 @@ while(count < len(sys.argv)):
 
 ##############################
 # here we go ...
-
-# read username:password\noldpasswd from roundcube 
+# read username:password \n oldpasswd 
 try:
   username, password = sys.stdin.readline().rstrip('\r\n').split(':', 1)
   oldpassw = sys.stdin.readline().rstrip('\r\n')
@@ -104,10 +98,10 @@ except ValueError, e:
   sys.exit('Malformed input from roundcube')
 
 
-# add an user to BLACKLIST to disable password change
+# BLACKLIST user to disable password change
 BLACKLIST = [
-    # add blacklisted users here if you dont can/want
-    # to use /etc/ftpusers, eg.
+    # add blacklisted users here if you don't can/wan't
+    # use /etc/ftpusers, eg.
     # 'ftp','root','www'
 ]
 
@@ -121,18 +115,15 @@ try:
         BLACKLIST.append(line.rstrip('\n'))
 
 except IOError:
-  # only catch error and continue
   pass
 
 
-# check if user is blacklisted for password change
+# check if blacklisted
 if username in BLACKLIST:
     sys.exit('Changing password for user %s is forbidden (blacklisted)!' %
              username)
 
-
-# if on localhost
-# check if user exit and is a system user (UID<1000)
+# check if a system user (UID<1000)
 if hostname == 'localhost':
   try:
     user = pwd.getpwnam(username)
@@ -143,10 +134,8 @@ if hostname == 'localhost':
     sys.exit('Changing password for user %s is forbidden (system user)!' %
              username)
 
-
 ####################
 # ready to change password ...
-
 if expect != True:
     # CHPASSWD, very simple :-)
     handle = subprocess.Popen(CHPASSBIN, stdin = subprocess.PIPE)
@@ -154,19 +143,15 @@ if expect != True:
 
 else:
     # EXPECT
-    # defaults to ssh and localhost
     if scriptargs == '':
        scriptargs = ' -ssh -host ' + hostname
 
-    # expect expect script has to be in same directory
+    # expect expect script has to be in same directory, HACK: log to stdout
     cmd = EXPECTBIN + ' ' + PATH + '/' + expscript + scriptargs + ' -log \|cat'
 
     # call expect
     handle = subprocess.Popen( cmd, shell=True, stdin = subprocess.PIPE)
     handle.communicate('%s\n%s\n%s\n' % (username, oldpassw, password))
-
-# end change password
-
 
 # send back return value from popen
 sys.exit(handle.returncode)
