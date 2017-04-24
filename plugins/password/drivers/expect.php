@@ -22,9 +22,13 @@
  * password_expect_params => arguments for the expect script
  *   see the password-expect file for details. This is probably
  *   a good starting default:
- *   -telent -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
+ *   -ssh -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
  *
- * Copyright (C) 2005-2014, The Roundcube Dev Team
+ * Reamrk from Kay Marquardt, kay@rrr.de
+ * password-expect is now also supported by rewritten chpasswd driver
+ * you can use it as a drop in replacement if you set password_expect_params
+ *
+ * Copyright (C) 2005-2017, The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
