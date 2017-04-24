@@ -1,32 +1,190 @@
 #!/usr/bin/env python
+#
+# wrapper to change password with chpasswd and expect
+# for configuration see plugins/password/README
+#
+# CHPASSWD:
+#
+# for use with chpasswd this wrapper has to be called with SUDO, see README 
+# $config['password_chpasswd_cmd'] = 'sudo /pathto/chpass-wrapper.py -ftpusers';
+#
+# EXPECT:
+#
+# to use expect set password_expect_params in config.inc.php, NO sudo!
+# $config['password_chpasswd_cmd'] = '/pathto/chpass-wrapper.py -ftpusers';
+# $config['password_expect_params'] = '-ssh -host hostname'; 
+# 
+# you need an writeable .ssh dir in webserver homedir for ssh
+# you can test this by do ssh user@host as webserver
+#
+# passwd-expect MUST be in the same directory as this wrapper
+#
+# PARAMETER: 
+# -expect           use expect (set by driver if expect_params set) 
+# -ftpusers         blacklist users in /etc/ftpusers
+#
+# expect only:
+# -expscript script name of expect script (default passwd-expect)
+# -host hostname    connect to hostname (default localhost)
+# -ssh              use ssh protocol
+# -timeout #        wait #s for response (default 20s)
+# all addional parameters are passed to passwd-expect, see there.
+#
 
-import sys
-import pwd
-import subprocess
+import os, sys, pwd, re
+import subprocess, signal
 
-BLACKLIST = (
-    # add blacklisted users here
-    #'user1',
-)
+###############
+# startup, prepare values and parameters
 
+# path to executables
+CHPASSBIN = '/usr/sbin/chpasswd'
+EXPECTBIN = '/usr/bin/expect'
+
+# expect script, has to be in the same directory as this script
+expscript = 'passwd-expect'
+
+# path to this script
+PATH = os.path.dirname(os.path.realpath(sys.argv[0]))
+
+DEBUG = False
+if DEBUG:
+  debug = open(os.path.realpath(sys.argv[0]) + '.debug', 'a')
+  debug.write('\n===============\nnew script run as:\n')
+  debug.write(str(sys.argv) + '\n')
+
+# other defaults:
+ftpusers=False  # do not blacklist from /etc/ftpusers
+expect=False    # use chpasswd
+hostname='localhost'    # change on localhost
+scriptargs = ''         # no additional args
+
+
+#############################
+# process args from command line
+count=1
+while(count < len(sys.argv)):
+  # we need hostname also
+  if sys.argv[count] == '-host':
+    hostname = sys.argv[count+1]
+
+  # local only args, do not pass
+  try:
+    if sys.argv[count] == '-ftpusers':
+      ftpusers = True
+      count += 1
+      continue
+
+    if sys.argv[count] == '-chpasswd':
+      expect = False
+      count += 1
+      continue
+
+    if sys.argv[count] == '-expect':
+      expect = True
+      count += 1
+      continue
+
+    if sys.argv[count] == '-expscript':
+      expect = True;
+      expscript = sys.argv[count]
+      count += 2
+      continue
+
+  except ValueError:
+    continue
+
+  # pass all other args
+  scriptargs += ' ' + sys.argv[count]
+  count += 1
+
+
+##############################
+# here we go ...
+
+# read username:password\noldpasswd from roundcube 
 try:
-    username, password = sys.stdin.readline().split(':', 1)
+  username, password = sys.stdin.readline().rstrip('\r\n').split(':', 1)
+  oldpassw = sys.stdin.readline().rstrip('\r\n')
 except ValueError, e:
-    sys.exit('Malformed input')
+  sys.exit('Malformed input from roundcube')
 
+
+# add an user to BLACKLIST to disable password change
+BLACKLIST = [
+    # add blacklisted users here if you dont can/want
+    # to use /etc/ftpusers, eg.
+    # 'ftp','root','www'
+]
+
+# append users from /etc/ftpusers to BLACKLIST
 try:
-    user = pwd.getpwnam(username)
-except KeyError, e:
-    sys.exit('No such user: %s' % username)
+  if ftpusers:
+    with open("/etc/ftpusers", "r") as readftp:
+      for line in readftp:
+        if line.startswith('#'):
+           continue
+        BLACKLIST.append(line.rstrip('\n'))
 
-if user.pw_uid < 1000:
-    sys.exit('Changing the password for user id < 1000 is forbidden')
+except IOError:
+  # only catch error and continue
+  pass
 
+
+# check if user is blacklisted for password change
 if username in BLACKLIST:
-    sys.exit('Changing password for user %s is forbidden (user blacklisted)' %
+    sys.exit('Changing password for user %s is forbidden (blacklisted)!' %
              username)
 
-handle = subprocess.Popen('/usr/sbin/chpasswd', stdin = subprocess.PIPE)
-handle.communicate('%s:%s' % (username, password))
 
+# if on localhost
+# check if user exit and is a system user (UID<1000)
+if hostname == 'localhost':
+  try:
+    user = pwd.getpwnam(username)
+  except KeyError, e:
+    sys.exit('No such user: %s' % username)
+
+  if user.pw_uid < 1000:
+    sys.exit('Changing password for user %s is forbidden (system user)!' %
+             username)
+
+
+####################
+# ready to change password ...
+if DEBUG:
+  debug.write('output found values:\n')
+  debug.write('hostname: ' + hostname + '\n')
+  debug.write('username: ' + username + '\n')
+  debug.write('oldpassw: ' + oldpassw + '\n')
+  debug.write('password: ' + password + '\n')
+  debug.write('Expect  : ' + str(expect)   + '\n')
+  debug.write('BLACKLIST: ' + str(BLACKLIST) + '\n')
+
+if expect != True:
+    # CHPASSWD, very simple :-)
+    if DEBUG:
+      debug.write('command : ' + CHPASSBIN + '\n')
+    handle = subprocess.Popen(CHPASSBIN, stdin = subprocess.PIPE)
+    handle.communicate('%s:%s\n' % (username, password))
+
+else:
+    # EXPECT
+    # defaults to ssh and localhost
+    if scriptargs == '':
+       scriptargs = ' -ssh -host ' + hostname
+
+    # expect expect script has to be in same directory
+    cmd = EXPECTBIN + ' ' + PATH + '/' + expscript + scriptargs + ' -log \|cat'
+
+    if DEBUG:
+      debug.write('command : ' + cmd + '\n')
+    # call expect
+    handle = subprocess.Popen( cmd, shell=True, stdin = subprocess.PIPE)
+    handle.communicate('%s\n%s\n%s\n' % (username, oldpassw, password))
+
+# end change password
+
+
+# send back return value from popen
 sys.exit(handle.returncode)
