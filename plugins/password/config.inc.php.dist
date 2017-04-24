@@ -387,14 +387,14 @@ $config['password_expect_params'] = '';
 
 // Note about using ssh:
 // webserver must able to create ~/.ssh directory or ssh will fail!
-// you can test this by running "ssh user@hostname" by webserver userid
-// this should be done before first run and after every change to hostname
+// you can test ssh by running "ssh user@hostname" as webserver userid
+// this should be tested before first run and after every change to hostname
 
 
 // chpasswd Driver options
 // ---------------------
 // chpasswd driver supports now local chpasswd and passwd-expect
-// as drop in replacement for Expect driver, e.g:
+// as drop in replacement for Expect driver, e.g set:
 // $config['password_expect_params'] = '-ssh -host localhost';
 $config['password_chpasswd_cmd'] = 'plugins/password/helpers/chpass-wrapper.py';
 
