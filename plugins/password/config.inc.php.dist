@@ -371,10 +371,27 @@ $config['password_ximss_host'] = 'mail.example.com';
 $config['password_ximss_port'] = 11024;
 
 
+// Expect Driver options
+// ---------------------
+// Location of expect binary
+$config['password_expect_bin'] = '/usr/bin/expect';
+
+// Location of expect script (see helpers/passwd-expect)
+$config['password_expect_script'] = '';
+
+// Arguments for the expect script. See the helpers/passwd-expect file for details.
+// This is probably a good starting default:
+//   -telent -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
+$config['password_expect_params'] = '';
+
 // chpasswd Driver options
 // ---------------------
-// Command to use (see "Sudo setup" in README)
-$config['password_chpasswd_cmd'] = 'sudo /usr/sbin/chpasswd 2> /dev/null';
+
+// Remark by Kay Marquardt kay@rrr.de
+// allowing sudo chpasswd directly opens a security hole!
+// any script on the webserver can change password for every user, incl. root
+// Its much better to use a wrapper script, see README
+$config['password_chpasswd_cmd'] = 'sudo plugins/password/helpers/chpass-wrapper.py';
 
 
 // XMail Driver options
@@ -424,20 +441,6 @@ $config['password_pw_usermod_cmd'] = 'sudo /usr/sbin/pw usermod -h 0 -n';
 // -------------------
 // Additional arguments for the dbmail-users call
 $config['password_dbmail_args'] = '-p sha512';
-
-
-// Expect Driver options
-// ---------------------
-// Location of expect binary
-$config['password_expect_bin'] = '/usr/bin/expect';
-
-// Location of expect script (see helpers/passwd-expect)
-$config['password_expect_script'] = '';
-
-// Arguments for the expect script. See the helpers/passwd-expect file for details.
-// This is probably a good starting default:
-//   -telent -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
-$config['password_expect_params'] = '';
 
 
 // smb Driver options
