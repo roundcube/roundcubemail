@@ -179,8 +179,12 @@ virtual host config by with:
 
   AllowOverride all
 
+For non-apache web servers add equivalent configuration parameters to deny
+direct access to these private resources.
+
 It is also recommended to change the document root to <install path>/public_html
-after installation.
+after installation if Roundcube runs at root of a dedicated virtual host. This
+will automatically keep sensitive files out of reach for http requests.
 
 
 UPGRADING
