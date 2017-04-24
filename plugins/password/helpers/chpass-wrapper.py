@@ -161,8 +161,6 @@ else:
     # expect expect script has to be in same directory
     cmd = EXPECTBIN + ' ' + PATH + '/' + expscript + scriptargs + ' -log \|cat'
 
-    if DEBUG:
-      debug.write('command : ' + cmd + '\n')
     # call expect
     handle = subprocess.Popen( cmd, shell=True, stdin = subprocess.PIPE)
     handle.communicate('%s\n%s\n%s\n' % (username, oldpassw, password))
