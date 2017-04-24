@@ -373,6 +373,7 @@ $config['password_ximss_port'] = 11024;
 
 // Expect Driver options
 // ---------------------
+// expect is now also supported by chpasswd driver, see next section.
 // Location of expect binary
 $config['password_expect_bin'] = '/usr/bin/expect';
 
@@ -381,17 +382,27 @@ $config['password_expect_script'] = '';
 
 // Arguments for the expect script. See the helpers/passwd-expect file for details.
 // This is probably a good starting default:
-//   -telent -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
+//   -ssh -host localhost
 $config['password_expect_params'] = '';
+
+// Note about using ssh:
+// webserver must able to create ~/.ssh directory or ssh will fail!
+// you can test this by running "ssh user@hostname" by webserver userid
+// this should be done before first run and after every change to hostname
+
 
 // chpasswd Driver options
 // ---------------------
+// chpasswd driver supports now local chpasswd and passwd-expect
+// as drop in replacement for Expect driver, e.g:
+// $config['password_expect_params'] = '-ssh -host localhost';
+$config['password_chpasswd_cmd'] = 'plugins/password/helpers/chpass-wrapper.py';
 
 // Remark by Kay Marquardt kay@rrr.de
-// allowing sudo chpasswd directly opens a security hole!
-// any script on the webserver can change password for every user, incl. root
-// Its much better to use a wrapper script, see README
-$config['password_chpasswd_cmd'] = 'sudo plugins/password/helpers/chpass-wrapper.py';
+// allowing sudo to chpasswd opens a security hole,
+// any script on the webserver can change then password for every user!
+// If you really need the chpasswd method use the provided wrapper script, see README
+// $config['password_chpasswd_cmd'] = 'sudo /path/tosecure/dir/chpass-wrapper.py';
 
 
 // XMail Driver options
