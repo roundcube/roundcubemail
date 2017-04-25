@@ -1,6 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+
+- Password: Fix security issue in virtualmin and sasl drivers
+
 RELEASE 1.0.10
 --------------
 - Strip HTML tags inside CSS style definitions
