@@ -70,9 +70,9 @@ class rcube_virtualmin_password
             $domain = $rcmail->user->get_username('domain');
         }
 
-        $username = escapeshellcmd($username);
-        $domain   = escapeshellcmd($domain);
-        $newpass  = escapeshellcmd($newpass);
+        $username = escapeshellarg($username);
+        $domain   = escapeshellarg($domain);
+        $newpass  = escapeshellarg($newpass);
         $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
 
         exec("$curdir/chgvirtualminpasswd modify-user --domain $domain --user $username --pass $newpass", $output, $returnvalue);
