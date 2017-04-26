@@ -36,7 +36,7 @@ RELEASE 1.3-rc
 - Fix undesired effects when postgres database uses different timezone than PHP host (#5708)
 - Installer: Fix DB schema initialization on MS SQL Server
 - Fix bug where base_dn setting was ignored inside group_filters (#5720)
-- Password: Fix security issue in virtualmin and sasl drivers
+- Password: Fix security issue in virtualmin and sasl drivers [CVE-2017-8114]
 
 RELEASE 1.3-beta
 ----------------
