@@ -1,8 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-
-- Password: Fix security issue in virtualmin and sasl drivers
+- Password: Fix security issue in virtualmin and sasl drivers [CVE-2017-8114]
 
 RELEASE 1.0.10
 --------------
