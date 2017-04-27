@@ -1783,6 +1783,10 @@ function get_form_tags($attrib)
 {
     global $RCMAIL, $MESSAGE_FORM, $COMPOSE;
 
+    if (rcube_utils::get_boolean((string) $attrib['noform'])) {
+        return array('', '');
+    }
+
     $form_start = '';
     if (!$MESSAGE_FORM) {
         $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $RCMAIL->task));
