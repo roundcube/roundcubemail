@@ -1,0 +1,13 @@
+<roundcube:object name="message" id="messagestack" condition="env:task != 'login'" />
+
+<script type="text/javascript">
+
+// UI startup
+var UI = new rcube_mail_ui();
+$(document).ready(function(){
+	UI.set('errortitle', '<roundcube:label name="errortitle" quoting="javascript" />');
+	UI.set('toggleoptions', '<roundcube:label name="toggleadvancedoptions" quoting="javascript" />');
+	UI.init();
+});
+
+</script>

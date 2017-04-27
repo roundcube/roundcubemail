@@ -82,52 +82,10 @@ function rcube_identity_form($attrib)
         'addressing' => array(
             'name'    => $RCMAIL->gettext('settings'),
             'content' => array(
-                'name'         => array('type' => 'text', 'size' => $i_size),
-                'alias'        => array('type' => 'select', 'options' => array( array( 'name' => 'hello', 'value' => 'hello' ) ) ), //TODO
-                'organization' => array('type' => 'text', 'size' => $i_size),
-                'reply-to'     => array('type' => 'text', 'size' => $i_size),
-                'bcc'          => array('type' => 'text', 'size' => $i_size),
-                'standard'     => array('type' => 'checkbox', 'label' => $RCMAIL->gettext('setdefault')),
-        )),
-        'signature' => array(
-            'name'    => $RCMAIL->gettext('signature'),
-            'content' => array(
-                'signature'      => array('type' => 'textarea', 'size' => $t_cols, 'rows' => $t_rows,
-                    'spellcheck' => true),
-                'html_signature' => array('type' => 'checkbox',
-                    'label'   => $RCMAIL->gettext('htmlsignature'),
-                    'onclick' => 'return rcmail.command(\'toggle-editor\', {id: \'rcmfd_signature\', html: this.checked}, \'\', event)'),
+                'alias'         => array('type' => 'text', 'size' => $i_size),
+                'email' => array('type' => 'text', 'size' => $i_size),
         ))
     );
-
-    // Enable TinyMCE editor
-    if ($IDENTITY_RECORD['html_signature']) {
-        $form['signature']['content']['signature']['class']      = 'mce_editor';
-        $form['signature']['content']['signature']['is_escaped'] = true;
-
-        // Correctly handle HTML entities in HTML editor (#1488483)
-        $IDENTITY_RECORD['signature'] = htmlspecialchars($IDENTITY_RECORD['signature'], ENT_NOQUOTES, RCUBE_CHARSET);
-    }
-
-    // hide "default" checkbox if only one identity is allowed
-    if (IDENTITIES_LEVEL > 1) {
-        unset($form['addressing']['content']['standard']);
-    }
-
-    // disable some field according to access level
-    if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3) {
-        $form['addressing']['content']['email']['disabled'] = true;
-        $form['addressing']['content']['email']['class']    = 'disabled';
-    }
-
-    if (IDENTITIES_LEVEL == 4) {
-        foreach ($form['addressing']['content'] as $formfield => $value){
-            $form['addressing']['content'][$formfield]['disabled'] = true;
-            $form['addressing']['content'][$formfield]['class']    = 'disabled';
-        }
-    }
-
-    $IDENTITY_RECORD['email'] = rcube_utils::idn_to_utf8($IDENTITY_RECORD['email']);
 
     // Allow plugins to modify identity form content
     $plugin = $RCMAIL->plugins->exec_hook('identity_form', array(

@@ -1369,6 +1369,7 @@ function rcmail_settings_tabs($attrib)
     $default_actions = array(
         array('command' => 'preferences', 'type' => 'link', 'label' => 'preferences', 'title' => 'editpreferences'),
         array('command' => 'folders',     'type' => 'link', 'label' => 'folders',     'title' => 'managefolders'),
+        array('command' => 'aliases',     'type' => 'link', 'label' => 'aliases',     'title' => 'managealiases'),
         array('command' => 'identities',  'type' => 'link', 'label' => 'identities',  'title' => 'manageidentities'),
         array('command' => 'responses',   'type' => 'link', 'label' => 'responses',   'title' => 'manageresponses'),
     );

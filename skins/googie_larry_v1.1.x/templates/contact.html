@@ -1,0 +1,35 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,800,700,600,300' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="iframe">
+
+<h1 class="boxtitle"><roundcube:label name="contactproperties" /></h1>
+
+<div id="contact-details" class="boxcontent">
+	<roundcube:if condition="strlen(env:sourcename)" />
+		<div id="sourcename"><roundcube:label name="addressbook" />: <roundcube:var name="env:sourcename" /></div>
+	<roundcube:endif />
+
+	<div id="contactphoto"><roundcube:object name="contactphoto" id="contactpic" placeholder="/images/contactpic.png" placeholderGroup="/images/contactgroup.png" /></div>
+	<roundcube:object name="contacthead" id="contacthead" />
+	<br style="clear:both" />
+
+	<div id="contacttabs" class="tabbed">
+		<roundcube:object name="contactdetails" />
+	</div>
+
+</div>
+
+<div id="headerbuttons" class="formbuttons">
+	<roundcube:button command="edit" type="input" class="button mainaction" label="editcontact" condition="!ENV:readonly" />
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>

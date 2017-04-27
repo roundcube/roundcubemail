@@ -1,0 +1,24 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,800,700,600,300' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="iframe">
+
+<h1 class="boxtitle"><roundcube:object name="steptitle" /></h1>
+
+<div id="preferences-details" class="boxcontent">
+	<roundcube:object name="identityform" class="propform" size="40" textareacols="40" textarearows="6" />
+</div>
+
+<div class="footerleft formbuttons">
+	<roundcube:button command="save" type="input" class="button mainaction" label="save" />
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>

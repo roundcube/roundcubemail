@@ -1,0 +1,28 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,800,700,600,300' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<roundcube:if condition="request:_framed" />
+<body class="iframe fullheight">
+<roundcube:else />
+<body class="ui-widget-content">
+<roundcube:endif />
+
+<div class="readtext">
+<roundcube:object name="aboutcontent" />
+
+<h2 class="sysname">Scientillion Webmail</h2>
+<p class="copyright"><B>Beta Version</B></p>
+<hr>
+<p><B>How to setup your email client to receive mails:</B><BR>
+<img src="/images/imap-setup.png"></p>
+<p><B>How to setup your email client to send mails:</B><BR>
+<img src="/images/smtp-setup.png"></p>
+
+
+</body>
+</html>

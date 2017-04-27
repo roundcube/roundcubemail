@@ -1,0 +1,23 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,800,700,600,300' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="iframe">
+
+<h1 class="boxtitle"><roundcube:label name="advsearch" /></h1>
+
+<div id="contact-details" class="boxcontent">
+	<roundcube:object name="searchform" id="advsearchform" class="tabbed" size=30 />
+	<p class="formbuttons">
+		<roundcube:button command="save" type="input" class="button mainaction" label="search" />
+	</p>
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>
