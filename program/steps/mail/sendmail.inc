@@ -897,9 +897,6 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
             $result[] = format_email_recipient($address, $name);
             $item     = $address;
         }
-        else if (trim($item)) {
-            continue;
-        }
 
         // check address format
         $item = trim($item, '<>');
