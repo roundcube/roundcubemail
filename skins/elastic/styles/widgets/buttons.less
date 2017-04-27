@@ -45,11 +45,10 @@ a.button {
 
 /* font-icons */
 
+a.button.icon,
 button.btn {
     &:before {
         &:extend(.font-icon-class);
-        display: inline-block;
-        float: none;
     }
     &.submit:before,
     &.save:before {
@@ -86,12 +85,6 @@ button.btn {
     &.mark:before {
         /* TODO: "Mark all as read" icon */
     }
-}
-
-a.button.icon {
-    &:before {
-        &:extend(.font-icon-class);
-    }
     &.toolbar-menu-button:before {
         content: @fa-var-ellipsis-v;
     }
@@ -107,6 +100,16 @@ a.button.icon {
     &.remove:before {
         content: @fa-var-close;
     }
+}
+
+button.btn {
+    &:before {
+        display: inline-block;
+        float: none;
+    }
+}
+
+a.button.icon {
     &.dropdown:before {
         content: @fa-var-caret-down;
         font-size: 1em;

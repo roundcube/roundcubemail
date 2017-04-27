@@ -49,16 +49,14 @@ html.ie .propform {
 .formcontent {
     padding: 1em;
 
-    .row {
+    td.row {
         margin-right: 0; /* without these the form is too wide causing horizontal scrollbar appearence */
         margin-left: 0;
     }
-    .row .input-group {
-        padding-right: 0; /* without these e.g. inputs in compose screen are not aligned properly */
-        padding-left: 0;
-    }
 
-    tr.row.form-check {
+    .row.form-check {
+        padding-right: 0; /* without these e.g. inputs in compose screen are not aligned properly */
+
         @media screen and (min-width: 576px) {
             display: flex; /* https://github.com/twbs/bootstrap/issues/22348 */
         }
@@ -115,6 +113,42 @@ html.ie .propform {
 
 
 td.editfield { width: 99%;  /* TODO */ }
+
+/*** Files upload widget with list of files, upload form and drop area ***/
+
+.file-upload {
+    /* TODO */
+
+    padding: 1em 1em 12em;
+    margin: 1em;
+    background-color: #f4f4f4;
+
+    .upload-form {
+        text-align: center;
+        padding-bottom: 1em;
+    }
+
+   .hint {
+        margin-bottom: .5rem;
+    }
+
+    .attachmentslist {
+        padding: 0;
+        list-style: none;
+
+        li {
+            display: block;
+            padding-bottom: .5em;
+        }
+    }
+
+    &.droptarget {
+        &.hover {
+        }
+        &.active {
+        }
+    }
+}
 
 
 /*** Smart recipient input field ***/

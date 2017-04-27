@@ -38,6 +38,66 @@
 	</div>
 </div>
 
+<!-- compose options and attachments list -->
+<div id="list" class="list listbox">
+	<div class="header">
+	</div>
+	<div class="scroller">
+		<!-- compose options -->
+		<div id="compose-options" class="formcontent" role="region" aria-labelledby="aria-label-composeoptions">
+			<h2 id="aria-label-composeoptions" class="voice"><roundcube:label name="arialabelcomposeoptions" /></h2>
+			<roundcube:if condition="!in_array('mdn_default', (array)config:dont_override)" />
+			<div class="form-group row form-check">
+				<label for="compose-mdn" class="col-form-label col-6"><roundcube:label name="returnreceipt" /></label>
+				<div class="col-6 form-check">
+					<roundcube:object name="mdnCheckBox" form="form" id="compose-mdn" tabindex="2" class="form-check-input" />
+				</div>
+			</div>
+			<roundcube:endif />
+			<roundcube:if condition="!in_array('dsn_default', (array)config:dont_override)" />
+			<div class="form-group row form-check">
+				<label for="compose-dsn" class="col-form-label col-6"><roundcube:label name="dsn" /></label>
+				<div class="col-6 form-check">
+					<roundcube:object name="dsnCheckBox" form="form" id="compose-dsn" tabindex="2" class="form-check-input" />
+				</div>
+			</div>
+			<roundcube:endif />
+			<div class="form-group row">
+				<label for="compose-priority" class="col-form-label col-6"><roundcube:label name="priority" /></label>
+				<div class="col-6">
+					<roundcube:object name="prioritySelector" form="form" id="compose-priority" tabindex="2" class="form-control" />
+				</div>
+			</div>
+			<roundcube:if condition="!config:no_save_sent_messages" />
+			<div class="form-group row">
+				<label for="compose-store-target" class="col-form-label col-6"><roundcube:label name="savesentmessagein" /></label>
+				<div class="col-6">
+					<roundcube:object name="storetarget" id="compose-store-target" tabindex="2" class="form-control" />
+				</div>
+			</div>
+			<roundcube:endif />
+			<roundcube:container name="composeoptions" id="compose-options" />
+			<roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />
+				<div class="form-group row">
+					<label for="editor-selector" class="col-form-label col-6"><roundcube:label name="editortype" /></label>
+					<div class="col-6">
+						<roundcube:object name="editorSelector" id="editor-selector" editorid="composebody" tabindex="2" class="form-control" />
+					</div>
+				</div>
+			<roundcube:endif />
+		</div>
+		<div id="compose-attachments" class="file-upload" role="region" aria-labelledby="aria-label-compose-attachments">
+			<h2 id="aria-label-compose-attachments" class="voice"><roundcube:label name="attachments" /></h2>
+			<div class="upload-form">
+				<roundcube:object name="composeAttachmentForm" mode="hint" />
+				<button class="btn btn-secondary attach" tabindex="2" href="#" onclick="rcmail.upload_input('uploadform')"><roundcube:label name="addattachment" /></button>
+			</div>
+			<roundcube:object name="composeAttachmentList" id="attachment-list" class="attachmentslist" tabindex="2" />
+			<roundcube:object name="fileDropArea" id="compose-attachments" />
+		</div>
+	</div>
+</div>
+
 <div id="content" class="content listbox selected" role="main">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 	<div class="header">
@@ -82,7 +142,7 @@
 	<div id="compose-content" class="scroller formcontent">
 		<roundcube:object name="composeFormHead" role="main" />
 		<!-- message headers -->
-		<div id="composeheaders" role="region" aria-labelledby="aria-label-composeheaders">
+		<div id="compose-headers" role="region" aria-labelledby="aria-label-composeheaders">
 			<h2 id="aria-label-composeheaders" class="voice"><roundcube:label name="arialabelmessageheaders" /></h2>
 			<div class="compose-headers">
 				<div id="compose_from" class="form-group row">
@@ -129,53 +189,16 @@
 				</div>
 				<div id="compose_subject" class="form-group row">
 					<label for="compose-subject" class="col-2 col-form-label"><roundcube:label name="subject" /></label>
-					<roundcube:object name="composeSubject" id="_subject" form="form" tabindex="1" class="col-10 form-control" />
+					<div class="col-10">
+						<roundcube:object name="composeSubject" id="_subject" form="form" tabindex="1" class="form-control" />
+					</div>
 				</div>
 			</div>
-		</div>
-		<!-- (collapsable) message options -->
-		<div id="composeoptions" role="region" aria-labelledby="aria-label-composeoptions">
-			<h2 id="aria-label-composeoptions" class="voice"><roundcube:label name="arialabelcomposeoptions" /></h2>
-			<roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />
-			<span class="composeoption">
-				<label><roundcube:label name="editortype" />
-					<roundcube:object name="editorSelector" editorid="composebody" tabindex="4" /></label>
-			</span>
-			<roundcube:endif />
-			<span class="composeoption">
-				<label for="rcmcomposepriority"><roundcube:label name="priority" />
-					<roundcube:object name="prioritySelector" form="form" id="rcmcomposepriority" tabindex="4" /></label>
-			</span>
-			<roundcube:if condition="!in_array('mdn_default', (array)config:dont_override)" />
-			<span class="composeoption">
-				<label><roundcube:object name="mdnCheckBox" form="form" id="rcmcomposereceipt" tabindex="4" /> <roundcube:label name="returnreceipt" /></label>
-			</span>
-			<roundcube:endif />
-			<roundcube:if condition="!in_array('dsn_default', (array)config:dont_override)" />
-			<span class="composeoption">
-				<label><roundcube:object name="dsnCheckBox" form="form" id="rcmcomposedsn" tabindex="4" /> <roundcube:label name="dsn" /></label>
-			</span>
-			<roundcube:endif />
-			<roundcube:if condition="!config:no_save_sent_messages" />
-			<span class="composeoption">
-				<label><roundcube:label name="savesentmessagein" /> <roundcube:object name="storetarget" maxlength="30" style="max-width:12em" tabindex="4" /></label>
-			</span>
-			<roundcube:endif />
-			<roundcube:container name="composeoptions" id="composeoptions" />
 		</div>
 		<!-- message compose body -->
 		<div id="composebodycontainer">
 			<label for="composebody" class="voice"><roundcube:label name="arialabelmessagebody" /></label>
 			<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" class="form-control" tabindex="1" />
-		</div>
-		<div id="compose-attachments" class="rightcol" role="region" aria-labelledby="aria-label-composeattachments">
-			<h2 id="aria-label-composeattachments" class="voice"><roundcube:label name="attachments" /></h2>
-			<div style="text-align:center; margin-bottom:10px">
-				<roundcube:object name="composeAttachmentForm" mode="hint" />
-				<a class="button" tabindex="1" href="#" onclick="rcmail.upload_input('uploadform')"><roundcube:label name="addattachment" /></a>
-			</div>
-			<roundcube:object name="composeAttachmentList" id="attachment-list" class="attachmentslist" tabindex="1" />
-			<roundcube:object name="fileDropArea" id="compose-attachments" />
 		</div>
 		</form>
 	</div>
