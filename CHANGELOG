@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where invalid recipients could be silently discareded (#5739)
+
 RELEASE 1.3-rc
 --------------
 - "Flattened" the larry theme: fresher look by removing shadows and gradients
