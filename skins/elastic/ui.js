@@ -155,6 +155,18 @@ function rcube_elastic_ui()
                 $('#compose' + $(this).attr('id'))[this.value ? 'removeClass' : 'addClass']('hidden');
             });
         });
+
+        // We put compose options for outside of the main form
+        // Because IE/Edge does not support 'form' attribute we'll copy
+        // inputs into the main form hidden fields
+        // TODO: Consider doing this for IE/Edge only, just set the 'form' attribute on others
+        $('#compose-options').find('textarea,input,select').each(function() {
+            var hidden = $('<input>')
+                .attr({type: 'hidden', name: $(this).attr('name')})
+                .appendTo(rcmail.gui_objects.messageform);
+
+            $(this).on('change', function() { hidden.val($(this).val()); }).change();
+        });
     };
 
     /**
