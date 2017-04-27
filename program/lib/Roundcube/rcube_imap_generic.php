@@ -2250,7 +2250,7 @@ class rcube_imap_generic
         }
 
         $result = $this->execute('UID STORE', array(
-            $this->compressMessageSet($messages), $mod . 'FLAGS', "($flag)"),
+            $this->compressMessageSet($messages), $mod . 'FLAGS.SILENT', "($flag)"),
             self::COMMAND_NORESPONSE);
 
         return $result == self::ERROR_OK;
