@@ -3,9 +3,9 @@
 /**
  +-------------------------------------------------------------------------+
  | Roundcube Webmail setup tool                                            |
- | Version 1.2.4                                                           |
+ | Version 1.2.5                                                           |
  |                                                                         |
- | Copyright (C) 2009-2016, The Roundcube Dev Team                         |
+ | Copyright (C) 2009-2017, The Roundcube Dev Team                         |
  |                                                                         |
  | This program is free software: you can redistribute it and/or modify    |
  | it under the terms of the GNU General Public License (with exceptions   |
