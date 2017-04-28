@@ -4585,7 +4585,7 @@ function rcube_webmail()
         return false;
       }
       if (!name)
-        name = text.substring(0,40);
+        name = text.replace(/[\r\n]+/g, ' ').substring(0,40);
 
       var lock = ref.display_message(ref.get_label('savingresponse'), 'loading');
       ref.http_post('settings/responses', { _insert:1, _name:name, _text:text }, lock);
