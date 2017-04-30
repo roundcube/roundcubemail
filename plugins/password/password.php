@@ -121,6 +121,7 @@ class password extends rcube_plugin
         $confirm         = $rcmail->config->get('password_confirm_current');
         $required_length = intval($rcmail->config->get('password_minimum_length'));
         $check_strength  = $rcmail->config->get('password_require_nonalpha');
+        $disallowed_chars = $rcmail->config->get['password_disallowed_chars'];
 
         if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd'])) {
             $rcmail->output->command('display_message', $this->gettext('nopassword'), 'error');
@@ -167,6 +168,9 @@ class password extends rcube_plugin
             // password is the same as the old one, warn user, return error
             else if ($sespwd == $newpwd && !$rcmail->config->get('password_force_save')) {
                 $rcmail->output->command('display_message', $this->gettext('samepasswd'), 'error');
+            }
+            else if (!empty($disallowed_chars) && strtr($newpwd, $disallowed_chars, str_repeat("\r",strlen($disallowed_chars))) != $newpwd) {
+                $rcmail->output->command('display_message', $this->gettext('passwordforbidden'), 'error');  
             }
             // try to save the password
             else if (!($res = $this->_save($curpwd, $newpwd))) {
