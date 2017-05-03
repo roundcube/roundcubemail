@@ -87,6 +87,7 @@ switch ($CURR_SECTION)
       'reply_mode'         => isset($_POST['_reply_mode']) ? intval($_POST['_reply_mode']) : 0,
       'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
       'default_font'       => get_input_value('_default_font', RCUBE_INPUT_POST),
+      'default_font_size'  => get_input_value('_default_font_size', RCUBE_INPUT_POST),
       'forward_attachment' => !empty($_POST['_forward_attachment']),
     );
 

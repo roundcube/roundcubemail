@@ -148,6 +148,9 @@ if ($font && !is_array($font)) {
   $OUTPUT->set_env('default_font', $font);
 }
 
+// default font size for HTML editor
+$OUTPUT->set_env('default_font_size', $RCMAIL->config->get('default_font_size'));
+
 // get reference message and set compose mode
 if ($msg_uid = $COMPOSE['param']['draft_uid']) {
   $compose_mode = RCUBE_COMPOSE_DRAFT;
