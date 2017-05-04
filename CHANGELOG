@@ -1,7 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix bug where invalid recipients could be silently discareded (#5739)
+- Fix bug where invalid recipients could be silently discarded (#5739)
+- Fix conflict with _gid cookie of Google Analytics (#5748)
 
 RELEASE 1.3-rc
 --------------

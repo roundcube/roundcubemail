@@ -27,9 +27,12 @@
 class rcube_utils
 {
     // define constants for input reading
-    const INPUT_GET  = 0x0101;
-    const INPUT_POST = 0x0102;
-    const INPUT_GPC  = 0x0103;
+    const INPUT_GET    = 1;
+    const INPUT_POST   = 2;
+    const INPUT_COOKIE = 4;
+    const INPUT_GP     = 3; // GET + POST
+    const INPUT_GPC    = 7; // GET + POST + COOKIE
+
 
     /**
      * Helper method to set a cookie with the current path and host settings
@@ -254,7 +257,7 @@ class rcube_utils
      * Performs stripslashes() and charset conversion if necessary
      *
      * @param string  Field name to read
-     * @param int     Source to get value from (GPC)
+     * @param int     Source to get value from (see self::INPUT_*)
      * @param boolean Allow HTML tags in field value
      * @param string  Charset to convert into
      *
@@ -264,26 +267,16 @@ class rcube_utils
     {
         $value = null;
 
-        if ($source == self::INPUT_GET) {
-            if (isset($_GET[$fname])) {
-                $value = $_GET[$fname];
-            }
+        if (($source & self::INPUT_GET) && isset($_GET[$fname])) {
+            $value = $_GET[$fname];
         }
-        else if ($source == self::INPUT_POST) {
-            if (isset($_POST[$fname])) {
-                $value = $_POST[$fname];
-            }
+
+        if (($source & self::INPUT_POST) && isset($_POST[$fname])) {
+            $value = $_POST[$fname];
         }
-        else if ($source == self::INPUT_GPC) {
-            if (isset($_POST[$fname])) {
-                $value = $_POST[$fname];
-            }
-            else if (isset($_GET[$fname])) {
-                $value = $_GET[$fname];
-            }
-            else if (isset($_COOKIE[$fname])) {
-                $value = $_COOKIE[$fname];
-            }
+
+        if (($source & self::INPUT_COOKIE) && isset($_COOKIE[$fname])) {
+            $value = $_COOKIE[$fname];
         }
 
         return self::parse_input_value($value, $allow_html, $charset);
