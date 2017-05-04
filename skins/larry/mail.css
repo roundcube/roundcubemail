@@ -16,7 +16,7 @@
 	left: 0;
 	width: 200px;
 	bottom: 0;
-	z-index: 2;
+	z-index: 4;
 }
 
 #mailview-right {
