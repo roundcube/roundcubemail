@@ -41,7 +41,7 @@
 # default values
 set host               "localhost"
 set login              "ssh"
-set program            "passwd"
+set program            "export LC_ALL=C; passwd"
 set prompt_string      "(%|\\\$|>)"
 set fingerprint_string "The authenticity of host.* can't be established.*\nRSA key fingerprint is.*\nAre you sure you want to continue connecting.*"
 set password_string    "(P|p)assword.*"
