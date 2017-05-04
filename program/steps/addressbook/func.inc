@@ -152,8 +152,7 @@ function rcmail_contact_source($source=null, $init_env=false, $writable=false)
     else
         $CONTACTS->set_page(isset($_SESSION['page']) ? $_SESSION['page'] : 1);
 
-    if (!empty($_REQUEST['_gid'])) {
-        $group = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC);
+    if ($group = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GP)) {
         $CONTACTS->set_group($group);
     }
 
