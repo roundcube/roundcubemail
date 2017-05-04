@@ -61,8 +61,8 @@ foreach ($cids as $source => $cid) {
             $error = 'contactdelerror';
         }
 
-        $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
-        $group  = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC);
+        $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GP);
+        $group  = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GP);
 
         $OUTPUT->show_message($error, 'error');
         $OUTPUT->command('list_contacts', $source, $group);

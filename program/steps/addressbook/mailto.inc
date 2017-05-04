@@ -34,10 +34,10 @@ foreach ($cids as $source => $cid) {
 }
 
 if (!empty($_REQUEST['_gid']) && isset($_REQUEST['_source'])) {
-    $source   = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
-    $CONTACTS = $RCMAIL->get_address_book($source);
+    $source   = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GP);
+    $group_id = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GP);
 
-    $group_id   = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC);
+    $CONTACTS   = $RCMAIL->get_address_book($source);
     $group_data = $CONTACTS->get_group($group_id);
 
     // group has an email address assigned: use that
