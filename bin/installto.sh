@@ -23,6 +23,10 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
+if (!function_exists('system')) {
+  rcube::raise_error("PHP system() function is required. Check disable_functions in php.ini.", false, true);
+}
+
 $target_dir = unslashify($_SERVER['argv'][1]);
 
 if (empty($target_dir) || !is_dir(realpath($target_dir)))
