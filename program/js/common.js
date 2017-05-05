@@ -60,6 +60,7 @@ function roundcube_browser()
 
   this.webkit = this.agent_lc.indexOf('applewebkit') > 0;
   this.ie = (document.all && !window.opera) || (this.win && this.agent_lc.indexOf('trident/') > 0);
+  this.edge = this.agent_lc.indexOf('edge/') > 0;
 
   if (window.opera) {
     this.opera = true; // Opera < 15
@@ -108,7 +109,9 @@ function roundcube_browser()
     var classname = ' js';
 
     if (this.ie)
-      classname += ' ie ie'+parseInt(this.vendver);
+      classname += ' ms ie ie'+parseInt(this.vendver);
+    else if (this.edge)
+      classname += ' ms edge';
     else if (this.opera)
       classname += ' opera';
     else if (this.konq)
