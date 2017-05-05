@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Update to TinyMCE 4.5.7
 - Fix bug where invalid recipients could be silently discarded (#5739)
 - Fix conflict with _gid cookie of Google Analytics (#5748)
 
