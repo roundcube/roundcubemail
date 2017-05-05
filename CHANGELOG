@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where comment notation within style tag would cause the whole style to be ignored (#5747)
+
 RELEASE 1.2.5
 -------------
 - Fix re-positioning of the fixed header of messages list in Chrome when using minimal mode toggle and About dialog (#5711)
