@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Print error from CLI scripts when system/exec function is disabled (#5744)
 - Fix bug where comment notation within style tag would cause the whole style to be ignored (#5747)
 - Fix bug where it wasn't possible to scroll folders list in Edge (#5750)
+- Fix folders list sorting on Windows - if php-intl is available (#5732)
 
 RELEASE 1.3-rc
 --------------
