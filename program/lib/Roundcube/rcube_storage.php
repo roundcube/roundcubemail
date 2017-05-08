@@ -42,13 +42,13 @@ abstract class rcube_storage
      */
     public static $folder_types = array('drafts', 'sent', 'junk', 'trash');
 
-    protected $folder = 'INBOX';
+    protected $folder          = 'INBOX';
     protected $default_charset = 'ISO-8859-1';
+    protected $options         = array('auth_type' => 'check', 'language' => 'en_US');
+    protected $page_size       = 10;
+    protected $list_page       = 1;
+    protected $threading       = false;
     protected $search_set;
-    protected $options = array('auth_type' => 'check');
-    protected $page_size = 10;
-    protected $list_page = 1;
-    protected $threading = false;
 
     /**
      * All (additional) headers used (in any way) by Roundcube

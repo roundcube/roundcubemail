@@ -390,6 +390,7 @@ class rcube
         );
 
         if (!empty($_SESSION['storage_host'])) {
+            $options['language'] = $_SESSION['language'];
             $options['host']     = $_SESSION['storage_host'];
             $options['user']     = $_SESSION['username'];
             $options['port']     = $_SESSION['storage_port'];
