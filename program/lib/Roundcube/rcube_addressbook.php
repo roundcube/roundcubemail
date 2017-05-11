@@ -670,6 +670,11 @@ abstract class rcube_addressbook
                 && $value->format('Ymd') == $search->format('Ymd'));
         }
 
+        // Gender is a special value, must use strict comparison (#5757)
+        if ($colname == 'gender') {
+            $mode = self::SEARCH_STRICT;
+        }
+
         // composite field, e.g. address
         foreach ((array)$value as $val) {
             $val = mb_strtolower($val);
