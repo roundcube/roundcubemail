@@ -147,6 +147,7 @@ function rcube_elastic_ui()
         }
 
         $('[data-recipient-input]').each(function() { recipient_input(this); });
+        $('.image-upload').each(function() { image_upload_input(this); });
 
         // Show input elements with non-empty value
         // These event handlers need to be registered before rcmail 'init' event
@@ -1404,6 +1405,23 @@ function rcube_elastic_ui()
         return result;
     };
 
+    /**
+     * Adds some logic to the contact photo widget
+     */
+    function image_upload_input(obj)
+    {
+        var reset_button = $('<a>')
+            .attr({'class': 'icon button cancel', href: '#', })
+            .click(function(e) { rcmail.command('delete-photo', '', this, e); return false; });
+
+        $(obj).append(reset_button).click(function() { rcmail.upload_input('upload-form'); });
+
+        $('img', obj).on('load', function() {
+            // FIXME: will that work in IE?
+            var state = (this.currentSrc || this.src).indexOf(rcmail.env.photo_placeholder) != -1;
+            $(obj)[state ? 'removeClass' : 'addClass']('changed');
+        });
+    };
 }
 
 var UI = new rcube_elastic_ui();

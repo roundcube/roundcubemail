@@ -242,3 +242,27 @@ td.editfield { width: 99%;  /* TODO */ }
         border-radius: 4px;
     }
 }
+
+/*** Image upload widget ***/
+
+.image-upload {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
+    a.button {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 5px;
+        width: 2.5em;
+        padding: 0.5em;
+        margin: 0.5em;
+    }
+
+    &.changed a.button {
+        display: inline;
+    }
+}
