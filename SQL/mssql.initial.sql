@@ -88,7 +88,6 @@ GO
 
 CREATE TABLE [dbo].[session] (
 	[sess_id] [varchar] (128) COLLATE Latin1_General_CI_AI NOT NULL ,
-	[created] [datetime] NOT NULL ,
 	[changed] [datetime] NULL ,
 	[ip] [varchar] (40) COLLATE Latin1_General_CI_AI NOT NULL ,
 	[vars] [text] COLLATE Latin1_General_CI_AI NOT NULL 

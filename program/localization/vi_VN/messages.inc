@@ -82,7 +82,6 @@ $messages['nopagesizewarning'] = 'Xin nhập kích cỡ của trang.';
 $messages['norecipientwarning'] = 'Xin nhập it nhất 1 người nhận.';
 $messages['nosubjectwarning']  = 'Mục "Tiêu đề" vẫn còn trống. Bạn có muốn nhập tiêu đề bây giờ không?';
 $messages['nobodywarning'] = 'Gửi thư không có nội dung?';
-$messages['notsentwarning'] = 'Thư chưa được gửi. Bỏ qua thư đang soạn?';
 $messages['restoresavedcomposedata'] = 'Tìm thấy một thư đã được soạn trước nhưng chưa gửi.\n\nTiêu đề: $subject\nLưu ngày: $date\n\nBạn có muốn khôi phục lại thư này?';
 $messages['noldapserver'] = 'Chọn máy chủ ldap server để tìm';
 $messages['nosearchname'] = 'Nhập liên hệ hoặc địa chỉ email.';

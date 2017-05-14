@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  Classes for managesieve operations (using PEAR::Net_Sieve)
+ * Classes for managesieve operations (using PEAR::Net_Sieve)
  *
  * Copyright (C) 2008-2011, The Roundcube Dev Team
  * Copyright (C) 2011, Kolab Systems AG
@@ -103,7 +103,8 @@ class rcube_sieve
         }
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->sieve->disconnect();
     }
 
@@ -178,15 +179,15 @@ class rcube_sieve
                             $this->errorLines[] = array("line" => $matches[1], "msg" => null);
                         }
                     }
-	            }
+                }
             }
-            
+
             return $this->_set_error(self::ERROR_INSTALL);
         }
 
         return true;
     }
-    
+
     /**
      * Returns the current error line within the saved sieve script
      */

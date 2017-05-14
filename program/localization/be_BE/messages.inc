@@ -82,7 +82,6 @@ $messages['nopagesizewarning'] = 'Задайце памер старонкі.';
 $messages['norecipientwarning'] = 'Задайце хаця-б аднаго атрымальніка.';
 $messages['nosubjectwarning']  = 'Тэма ліста не зададзена. Ці жадаеце задаць яе зараз?';
 $messages['nobodywarning'] = 'Адправіць гэта паведамленне без тэксту?';
-$messages['notsentwarning'] = 'Паведамленне не адпраўлена. Жадаеце скасаваць сваё паведамленне?';
 $messages['restoresavedcomposedata'] = 'Было знойдзена ўжо складзенае, але не адпраўленае паведамленне.\n\nТэма: $subject\nЗахавана: $date\n\nЖадаеце аднавіць гэтае паведамленне?';
 $messages['noldapserver'] = 'Задайце ldap-сервер для пошуку.';
 $messages['nosearchname'] = 'Задайце імя кантакта альбо адрас электроннай пошты.';

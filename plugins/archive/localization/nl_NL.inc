@@ -28,4 +28,5 @@ $labels['archivetypemonth'] = 'Maand (bijv. Archief/2012/06)';
 $labels['archivetypefolder'] = 'Originele map';
 $labels['archivetypesender'] = 'Afzender e-mail';
 $labels['unkownsender'] = 'onbekend';
+$labels['readonarchive'] = 'Markeer bericht al gelezen op archiveren';
 ?>

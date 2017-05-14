@@ -17,10 +17,6 @@
             "url": "https://plugins.roundcube.net"
         },
         {
-            "type": "pear",
-            "url": "https://pear.php.net/"
-        },
-        {
             "type": "vcs",
             "url": "https://github.com/roundcube/Net_Sieve.git"
         }

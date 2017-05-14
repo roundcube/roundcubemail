@@ -918,7 +918,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
             }
 
             // add HTML formatting
-            $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed');
+            $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed', $part->ctype_parameters['delsp'] == 'yes');
         }
     }
     else {
@@ -935,7 +935,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
         }
         else {
             if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed') {
-                $body = rcube_mime::unfold_flowed($body);
+                $body = rcube_mime::unfold_flowed($body, null, $part->ctype_parameters['delsp'] == 'yes');
             }
 
             // try to remove the signature

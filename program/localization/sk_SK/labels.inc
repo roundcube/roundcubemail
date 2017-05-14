@@ -324,6 +324,7 @@ $labels['advsearch'] = 'Rozšírené vyhľadávanie';
 $labels['advanced'] = 'Rozšírené';
 $labels['other'] = 'Ostatné';
 $labels['printcontact'] = 'Vytlačiť kontakt';
+$labels['qrcode'] = 'QR kód';
 $labels['typehome']   = 'Domov';
 $labels['typework']   = 'Práca';
 $labels['typeother']  = 'Iné';

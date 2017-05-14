@@ -131,4 +131,12 @@ abstract class enigma_driver
      * @return mixed True on success or enigma_error
      */
     abstract function delete_key($keyid);
+
+    /**
+     * Returns a name of the hash algorithm used for the last
+     * signing operation.
+     *
+     * @return string Hash algorithm name e.g. sha1
+     */
+    abstract function signature_algorithm();
 }

@@ -27,5 +27,6 @@ $labels['archivetypeyear'] = 'години (нпр. Архива/2015)';
 $labels['archivetypemonth'] = 'месецу (нпр. Архива/2015/03)';
 $labels['archivetypefolder'] = 'изворној фасцикли';
 $labels['archivetypesender'] = 'адреси пошиљаоца';
-$labels['unkownsender'] = 'непознат';
+$labels['unkownsender'] = 'непознато';
+$labels['readonarchive'] = 'Поруку означи као прочитану при архивирању';
 ?>

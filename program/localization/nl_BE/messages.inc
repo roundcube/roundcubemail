@@ -87,7 +87,6 @@ $messages['nopagesizewarning'] = 'Geef een geldig aantal berichten per pagina op
 $messages['norecipientwarning'] = 'Geef minstens één bestemmeling op.';
 $messages['nosubjectwarning']  = 'Geen onderwerp opgegeven. Wenst u alsnog een onderwerp te geven?';
 $messages['nobodywarning'] = 'Wilt u dit lege bericht versturen?';
-$messages['notsentwarning'] = 'Het bericht is niet verzonden. Wilt u het bericht verwijderen?';
 $messages['noldapserver'] = 'Kies een LDAP server waarop gezocht moet worden.';
 $messages['nosearchname'] = 'Geen een contacpersoon of e-mailadres op.';
 $messages['notuploadedwarning'] = 'Nog niet alle bijlagen zijn geüpload. Wacht even of annuleer de upload.';

@@ -81,6 +81,7 @@ $labels['keyexportprompt'] = 'Θέλετε να συμπεριληφθούν τ�
 $labels['onlypubkeys'] = 'Εξαγωγή Δημοσίων Κλειδιών Μόνο';
 $labels['withprivkeys'] = 'Εξαγωγή Μυστικών Κλειδιών';
 $labels['findkey'] = 'Αναζήτηση στον(ους) εξυπηρετητή(ές) κλειδιών';
+$labels['keyimportlabel'] = 'Εισαγωγή από αρχείο';
 $messages['sigvalid'] = 'Επαληθευμένη υπογραφή από τον  $sender.';
 $messages['sigvalidpartial'] = 'Επαληθευμένη υπογραφή από τον $sender, αλλά τμήμα του κειμένου δεν έχει υπογραφεί.';
 $messages['siginvalid'] = 'Άκυρη υπογραφή από τον $sender.';

@@ -87,7 +87,6 @@ if (!empty($_GET['_thumb']) && $attachment->is_valid()) {
 
         if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
             $mimetype = 'image/' . $imgtype;
-            unlink($orig_name);
         }
         else {
             // Resize failed, we need to check the file mimetype
@@ -95,6 +94,8 @@ if (!empty($_GET['_thumb']) && $attachment->is_valid()) {
             $_GET['_thumb']     = 0;
             $_REQUEST['_embed'] = 1;
         }
+
+        unlink($orig_name);
     }
 
     if (!empty($_GET['_thumb'])) {
@@ -591,6 +592,7 @@ class rcmail_attachment_handler
             $this->body(0, $fp);
             $this->body_file = $filename;
             fclose($fp);
+            @chmod(filename, 0600);
 
             return true;
         }
@@ -689,7 +691,7 @@ class rcmail_attachment_handler
         if ($error == rcube_imap_generic::ERROR_BAD) {
             ob_end_clean();
 
-            // Get action is often executed simultanously.
+            // Get action is often executed simultaneously.
             // Some servers have MAXPERIP or other limits.
             // To workaround this we'll wait for some time
             // and try again (once).

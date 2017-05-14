@@ -94,7 +94,6 @@ $messages['nosenderwarning'] = 'Anna lähettäjän sähköpostiosoite.';
 $messages['norecipientwarning'] = 'Anna ainakin yksi vastaanottaja';
 $messages['nosubjectwarning']  = '"Aihe"-kenttä on tyhjä. Haluatko kirjoittaa viestillesi aiheen?';
 $messages['nobodywarning'] = 'Lähetetäänkö viesti ilman tekstiä?';
-$messages['notsentwarning'] = 'Viestiä ei lähetetty. Haluatko poistaa viestin?';
 $messages['restoresavedcomposedata'] = 'Löydettiin aiemmin luotu, mutta lähettämätön viesti.\n\nAihe: $subject\nTallennettu: $date\n\nHaluatko palauttaa tämän viestin?';
 $messages['noldapserver'] = 'Valitse LDAP-palvelin';
 $messages['nosearchname'] = 'Anna yhteystiedon nimi tai sähköpostiosoite';

@@ -94,7 +94,6 @@ $messages['nosenderwarning'] = 'Будь ласка, введіть адресу
 $messages['norecipientwarning'] = 'Будь ласка, вкажіть принаймні одного отримувача';
 $messages['nosubjectwarning']  = 'Не вказано тему листа. Бажаєте вказати її зараз?';
 $messages['nobodywarning'] = 'Відправити листа без тексту?';
-$messages['notsentwarning'] = 'Лист не було відправлено. Ви бажаєте відхилити відправку?';
 $messages['restoresavedcomposedata'] = 'Знайдено написаного раніше, але не надісланого листа.\n\nТема: $subject\nЗбережено: $date\n\nХочете відновити це повідомлення?';
 $messages['noldapserver'] = 'Будь ласка, виберіть LDAP сервер для пошуку';
 $messages['nosearchname'] = 'Будь ласка, введіть ім\'я чи електронну адресу';

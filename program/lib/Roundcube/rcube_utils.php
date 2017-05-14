@@ -27,9 +27,12 @@
 class rcube_utils
 {
     // define constants for input reading
-    const INPUT_GET  = 0x0101;
-    const INPUT_POST = 0x0102;
-    const INPUT_GPC  = 0x0103;
+    const INPUT_GET    = 1;
+    const INPUT_POST   = 2;
+    const INPUT_COOKIE = 4;
+    const INPUT_GP     = 3; // GET + POST
+    const INPUT_GPC    = 7; // GET + POST + COOKIE
+
 
     /**
      * Helper method to set a cookie with the current path and host settings
@@ -254,7 +257,7 @@ class rcube_utils
      * Performs stripslashes() and charset conversion if necessary
      *
      * @param string  Field name to read
-     * @param int     Source to get value from (GPC)
+     * @param int     Source to get value from (see self::INPUT_*)
      * @param boolean Allow HTML tags in field value
      * @param string  Charset to convert into
      *
@@ -264,26 +267,16 @@ class rcube_utils
     {
         $value = null;
 
-        if ($source == self::INPUT_GET) {
-            if (isset($_GET[$fname])) {
-                $value = $_GET[$fname];
-            }
+        if (($source & self::INPUT_GET) && isset($_GET[$fname])) {
+            $value = $_GET[$fname];
         }
-        else if ($source == self::INPUT_POST) {
-            if (isset($_POST[$fname])) {
-                $value = $_POST[$fname];
-            }
+
+        if (($source & self::INPUT_POST) && isset($_POST[$fname])) {
+            $value = $_POST[$fname];
         }
-        else if ($source == self::INPUT_GPC) {
-            if (isset($_POST[$fname])) {
-                $value = $_POST[$fname];
-            }
-            else if (isset($_GET[$fname])) {
-                $value = $_GET[$fname];
-            }
-            else if (isset($_COOKIE[$fname])) {
-                $value = $_COOKIE[$fname];
-            }
+
+        if (($source & self::INPUT_COOKIE) && isset($_COOKIE[$fname])) {
+            $value = $_COOKIE[$fname];
         }
 
         return self::parse_input_value($value, $allow_html, $charset);
@@ -493,24 +486,15 @@ class rcube_utils
      */
     public static function xss_entity_decode($content)
     {
+        $callback = function($matches) { return chr(hexdec($matches[1])); };
+
         $out = html_entity_decode(html_entity_decode($content));
-        $out = preg_replace_callback('/\\\([0-9a-f]{4})/i',
-            array(self, 'xss_entity_decode_callback'), $out);
+        $out = trim(preg_replace('/(^<!--|-->$)/', '', trim($out)));
+        $out = preg_replace_callback('/\\\([0-9a-f]{4})/i', $callback, $out);
         $out = preg_replace('#/\*.*\*/#Ums', '', $out);
+        $out = strip_tags($out);
 
         return $out;
-    }
-
-    /**
-     * preg_replace_callback callback for xss_entity_decode
-     *
-     * @param array $matches Result from preg_replace_callback
-     *
-     * @return string Decoded entity
-     */
-    public static function xss_entity_decode_callback($matches)
-    {
-        return chr(hexdec($matches[1]));
     }
 
     /**

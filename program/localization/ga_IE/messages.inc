@@ -92,7 +92,6 @@ $messages['disclosedreciptitle'] = 'An iomarca faighteoirí poiblí';
 $messages['nosubjectwarning']  = 'Níl aon ábhair ar an teachtaireacht, ba mhaith tú déarfaidh mé ábair?';
 $messages['nosubjecttitle']  = 'Gan ábhar';
 $messages['nobodywarning'] = 'Níl aon teacs san teachtaireacht, ba mhaith tú déarfaidh mé teachtaireacht ar bith?';
-$messages['notsentwarning'] = 'Theip an iarraidh chun an teachtaireacht a seo. ba mhaith tú scrios do teachtaireacht?';
 $messages['restoresavedcomposedata'] = 'Aimsíodh teachtaireacht a chumadh ach nár seoladh.\n\nÁbhar: $subject\nTaiscthe: $date\n\nAr mhaith leat an teachtaireacht seo a chur ar ais?';
 $messages['noldapserver'] = 'Abair liom eolaire LDAP chun é a cuardaigh';
 $messages['nosearchname'] = 'Abair liom ainm duine nó seoladh ríomhphost';

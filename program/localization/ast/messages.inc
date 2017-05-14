@@ -82,7 +82,6 @@ $messages['nopagesizewarning'] = 'Por favor, introduz un tamañu de páxina.';
 $messages['norecipientwarning'] = 'Por favor, introduz polo menos un destinatariu';
 $messages['nosubjectwarning']  = 'El campo "Asuntu" ta vacíu. ¿Quies rellenalu agora?';
 $messages['nobodywarning'] = '¿Quies unviar esti mensaxe ensin testu?';
-$messages['notsentwarning'] = 'Nun s\'unvió\'l mensaxe. ¿Quies desanicialu?';
 $messages['restoresavedcomposedata'] = 'Alcontróse un mensaxe redactáu anterior ensin unviar.n\nAsuntu: $subject\nGuardáu: $date\n\n¿Quies restaurar esti mensaxe?';
 $messages['noldapserver'] = 'Por favor, escueyi un sirvidor LDAP pa buscar.';
 $messages['nosearchname'] = 'Por favor, introduz un nome o una direición de corréu-e.';

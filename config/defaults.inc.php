@@ -66,7 +66,7 @@ $config['db_max_allowed_packet'] = null;
 // system error reporting, sum of: 1 = log; 4 = show
 $config['debug_level'] = 1;
 
-// log driver:  'syslog' or 'file'.
+// log driver:  'syslog', 'stdout' or 'file'.
 $config['log_driver'] = 'file';
 
 // date format for log entries
@@ -85,7 +85,7 @@ $config['syslog_id'] = 'roundcube';
 $config['syslog_facility'] = LOG_USER;
 
 // Activate this option if logs should be written to per-user directories.
-// Data will only be logged if a directry <log_dir>/<username>/ exists and is writable.
+// Data will only be logged if a directory <log_dir>/<username>/ exists and is writable.
 $config['per_user_logging'] = false;
 
 // Log sent messages to <log_dir>/sendmail or to syslog
@@ -210,7 +210,7 @@ $config['imap_skip_hidden_folders'] = false;
 // Note: Because the list is cached, re-login is required after change.
 $config['imap_disabled_caps'] = array();
 
-// Log IMAP session identifers after each IMAP login.
+// Log IMAP session identifiers after each IMAP login.
 // This is used to relate IMAP session with Roundcube user sessions
 $config['imap_log_session'] = false;
 
@@ -351,7 +351,7 @@ $config['apc_max_allowed_packet'] = '2M';
 // ONLY ENABLE IT IF YOU'RE REALLY SURE WHAT YOU'RE DOING!
 $config['enable_installer'] = false;
 
-// don't allow these settings to be overriden by the user
+// don't allow these settings to be overridden by the user
 $config['dont_override'] = array();
 
 // List of disabled UI elements/actions
@@ -1044,15 +1044,15 @@ $config['addressbook_pagesize'] = 50;
 // sort contacts by this col (preferably either one of name, firstname, surname)
 $config['addressbook_sort_col'] = 'surname';
 
-// the way how contact names are displayed in the list
-// 0: display name
-// 1: (prefix) firstname middlename surname (suffix)
-// 2: (prefix) surname firstname middlename (suffix)
-// 3: (prefix) surname, firstname middlename (suffix)
+// The way how contact names are displayed in the list.
+// 0: prefix firstname middlename surname suffix (only if display name is not set)
+// 1: firstname middlename surname
+// 2: surname firstname middlename
+// 3: surname, firstname middlename
 $config['addressbook_name_listing'] = 0;
 
 // use this timezone to display date/time
-// valid timezone identifers are listed here: php.net/manual/en/timezones.php
+// valid timezone identifiers are listed here: php.net/manual/en/timezones.php
 // 'auto' will use the browser's timezone settings
 $config['timezone'] = 'auto';
 

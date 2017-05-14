@@ -82,7 +82,6 @@ $messages['nopagesizewarning'] = 'Gëff w.e.gl eng Säitegréisst an.';
 $messages['norecipientwarning'] = 'Gëff w.e.gl op mannst een Empfänger an.';
 $messages['nosubjectwarning']  = 'D\'Feld "Sujet" ass eidel. Wëlls du elo eent uginn?';
 $messages['nobodywarning'] = 'Soll dëse Message ouni Text verschéckt ginn?';
-$messages['notsentwarning'] = 'De Message gouf net verschéckt. Wëlls du e verwerfen?';
 $messages['restoresavedcomposedata'] = 'Et gouf e Message fonnt dee scho geschriwwen awer nach net verschéckt ginn ass.\n\nSujet: $subject\nGespäichert: $date\n\nSoll de Message recuperéiert ginn?';
 $messages['noldapserver'] = 'Wiel w.e.gl en LDAP-Server fir d\'Sich aus.';
 $messages['nosearchname'] = 'Gëff w.e.gl en Numm oder eng E-Mail-Adress fir de Kontakt an.';

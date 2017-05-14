@@ -32,7 +32,7 @@
 
 /**
  * Roundcube Treelist widget class
- * @contructor
+ * @constructor
  */
 function rcube_treelist_widget(node, p)
 {

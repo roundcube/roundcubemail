@@ -324,6 +324,7 @@ $labels['advsearch'] = 'Búsqueda avanzada';
 $labels['advanced'] = 'Avanzadas';
 $labels['other'] = 'Otro';
 $labels['printcontact'] = 'Imprimir contacto';
+$labels['qrcode'] = 'Código QR';
 $labels['typehome']   = 'Casa';
 $labels['typework']   = 'Trabajo';
 $labels['typeother']  = 'Otro';

@@ -448,7 +448,8 @@ class rcmail_install
         }
 
         // read reference schema from mysql.initial.sql
-        $db_schema = $this->db_read_schema(INSTALL_PATH . 'SQL/mysql.initial.sql');
+        $engine    = $db->db_provider;
+        $db_schema = $this->db_read_schema(INSTALL_PATH . "SQL/$engine.initial.sql");
         $errors    = array();
 
         // check list of tables
@@ -484,13 +485,26 @@ class rcmail_install
         $keywords    = array('PRIMARY','KEY','INDEX','UNIQUE','CONSTRAINT','REFERENCES','FOREIGN');
 
         foreach ($lines as $line) {
-            if (preg_match('/^\s*create table `?([a-z0-9_]+)`?/i', $line, $m)) {
-                $table_block = $m[1];
+            if (preg_match('/^\s*create table ([\S]+)/i', $line, $m)) {
+                $table_name = explode('.', $m[1]);
+                $table_name = end($table_name);
+                $table_name = preg_replace('/[`"\[\]]/', '', $table_name);
             }
-            else if ($table_block && preg_match('/^\s*`?([a-z0-9_-]+)`?\s+([a-z]+)/', $line, $m)) {
-                $col = $m[1];
-                if (!in_array(strtoupper($col), $keywords)) {
-                    $schema[$table_block][$col] = $m[2];
+            else if ($table_name && ($line = trim($line))) {
+                if ($line == 'GO' || $line[0] == ')' || $line[strlen($line)-1] == ';') {
+                    $table_name = null;
+                }
+                else {
+                    $items = explode(' ', $line);
+                    $col   = $items[0];
+                    $col   = preg_replace('/[`"\[\]]/', '', $col);
+
+                    if (!in_array(strtoupper($col), $keywords)) {
+                        $type = strtolower($items[1]);
+                        $type = preg_replace('/[^a-zA-Z0-9()]/', '', $type);
+
+                        $schema[$table_name][$col] = $type;
+                    }
                 }
             }
         }

@@ -39,7 +39,7 @@ class rcube
     const DEBUG_LINE_LENGTH = 4096;
 
     /**
-     * Singleton instace of rcube
+     * Singleton instance of rcube
      *
      * @var rcube
      */
@@ -53,21 +53,21 @@ class rcube
     public $config;
 
     /**
-     * Instace of database class.
+     * Instance of database class.
      *
      * @var rcube_db
      */
     public $db;
 
     /**
-     * Instace of Memcache class.
+     * Instance of Memcache class.
      *
      * @var Memcache
      */
     public $memcache;
 
    /**
-     * Instace of rcube_session class.
+     * Instance of rcube_session class.
      *
      * @var rcube_session
      */
@@ -390,6 +390,7 @@ class rcube
         );
 
         if (!empty($_SESSION['storage_host'])) {
+            $options['language'] = $_SESSION['language'];
             $options['host']     = $_SESSION['storage_host'];
             $options['user']     = $_SESSION['username'];
             $options['port']     = $_SESSION['storage_port'];
@@ -1219,6 +1220,13 @@ class rcube
         if ($log_driver == 'syslog') {
             $prio = $name == 'errors' ? LOG_ERR : LOG_INFO;
             return syslog($prio, $line);
+        }
+
+        // write message with file name when configured to log to STDOUT
+        if ($log_driver == 'stdout') {
+            $stdout = "php://stdout";
+            $line = "$name: $line";
+            return file_put_contents($stdout, $line, FILE_APPEND) !== false;
         }
 
         // log_driver == 'file' is assumed here
