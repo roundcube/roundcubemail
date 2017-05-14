@@ -27,6 +27,11 @@ if (!empty($_GET['_progress'])) {
 $from = rcube_utils::get_input_value('_from', rcube_utils::INPUT_GET);
 $type = preg_replace('/(add|edit)-/', '', $from);
 
+// Plugins in Settings may use this file for some uploads (#5694)
+// Make sure it does not contain a dot, which is a special character
+// when using rcube_session::append() below
+$type = str_replace('.', '-', $type);
+
 if ($RCMAIL->action == 'upload-display') {
     $id = 'undefined';
 

@@ -82,7 +82,6 @@ $messages['nopagesizewarning'] = 'Palun sisesta lehekülje suurus';
 $messages['norecipientwarning'] = 'Palun sisesta vähemalt üks adressaat';
 $messages['nosubjectwarning']  = 'Väli „Pealkiri“ on tühi. Soovid selle ära täita?';
 $messages['nobodywarning'] = 'Saadan selle kirja ilma tekstita?';
-$messages['notsentwarning'] = 'Kirja saatmine nurjus. Soovid selle ära visata?';
 $messages['restoresavedcomposedata'] = 'Eelnevalt loodud aga saatmatta kiri leiti.\n\nTeema: $subject\nSalvestatud: $date\n\nKas sa soovid antud kirja taastada?';
 $messages['noldapserver'] = 'Palun vali otsinguks LDAPi server';
 $messages['nosearchname'] = 'Palun sisesta kontakti nimi või e-posti aadress';

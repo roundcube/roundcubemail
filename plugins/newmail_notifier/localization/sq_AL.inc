@@ -23,6 +23,6 @@ $labels['title'] = 'Email i ri!';
 $labels['body'] = 'Morët një mesazh të ri.';
 $labels['testbody'] = 'Ky është një njoftim test.';
 $labels['desktopdisabled'] = 'Njoftimet për desktop janë të çaktivizuara te shfletuesi juaj.';
-$labels['desktopunsupported'] = 'Shfletuesi juaj nuk mbulon njoftime për dekstop.';
+$labels['desktopunsupported'] = 'Shfletuesi juaj nuk mbulon njoftime për desktop.';
 $labels['desktoptimeout'] = 'Mbylle njoftimin për desktop';
 ?>

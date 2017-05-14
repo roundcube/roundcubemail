@@ -28,4 +28,5 @@ $labels['archivetypemonth'] = 'Mense (p.ex. Archivo/2012/06)';
 $labels['archivetypefolder'] = 'Dossier original';
 $labels['archivetypesender'] = 'E-mail del expeditor';
 $labels['unkownsender'] = 'incognite';
+$labels['readonarchive'] = 'Marcar le message como legite in le archivo';
 ?>

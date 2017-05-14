@@ -308,7 +308,7 @@ class rcube_imap extends rcube_storage
 
     /**
      * Set internal folder reference.
-     * All operations will be perfomed on this folder.
+     * All operations will be performed on this folder.
      *
      * @param string $folder Folder name
      */
@@ -2798,7 +2798,7 @@ class rcube_imap extends rcube_storage
 
 
     /* --------------------------------
-     *        folder managment
+     *        folder management
      * --------------------------------*/
 
     /**
@@ -4262,6 +4262,17 @@ class rcube_imap extends rcube_storage
      */
     protected function sort_folder_comparator($str1, $str2)
     {
+        if ($this->sort_folder_collator === null) {
+            $this->sort_folder_collator = false;
+
+            // strcoll() does not work with UTF8 locale on Windows,
+            // use Collator from the intl extension
+            if (stripos(PHP_OS, 'win') === 0 && function_exists('collator_compare')) {
+                $locale = $this->options['language'] ?: 'en_US';
+                $this->sort_folder_collator = collator_create($locale) ?: false;
+            }
+        }
+
         $path1 = explode($this->delimiter, $str1);
         $path2 = explode($this->delimiter, $str2);
 
@@ -4270,6 +4281,10 @@ class rcube_imap extends rcube_storage
 
             if ($folder1 === $folder2) {
                 continue;
+            }
+
+            if ($this->sort_folder_collator) {
+                return collator_compare($this->sort_folder_collator, $folder1, $folder2);
             }
 
             return strcoll($folder1, $folder2);

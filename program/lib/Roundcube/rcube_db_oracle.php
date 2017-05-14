@@ -191,7 +191,7 @@ class rcube_db_oracle extends rcube_db
 
     /**
      * Helper method to handle DB errors.
-     * This by default logs the error but could be overriden by a driver implementation
+     * This by default logs the error but could be overridden by a driver implementation
      *
      * @param string Query that triggered the error
      * @return mixed Result to be stored and returned
@@ -325,6 +325,10 @@ class rcube_db_oracle extends rcube_db
 
         if (is_null($input)) {
             return 'NULL';
+        }
+
+        if ($input instanceof DateTime) {
+            return $this->quote($input->format($this->options['datetime_format']));
         }
 
         if ($type == 'ident') {

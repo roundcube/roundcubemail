@@ -48,7 +48,7 @@ if ($active_server) {
     if ($mesg->code != 0) {
         print "Cannot login: ". $mesg->error;
     } else {
-        # Wyszukanie usera wg filtra
+        # Wyszukanie users wg filtra
         $PAR{'filter'} =~ s/\%login/$PAR{'user'}/;
         my @search_args = (
             base => $PAR{'base'},

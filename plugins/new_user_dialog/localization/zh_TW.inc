@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
-$labels['identitydialogtitle'] = '請完成您的身份資訊';
-$labels['identitydialoghint'] = '此視窗只會於第一次登入時出現。';
+$labels['identitydialogtitle'] = '請完成填寫您的身份資訊';
+$labels['identitydialoghint'] = '此視窗只會於第一次登入時出現';
 ?>

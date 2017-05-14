@@ -94,7 +94,6 @@ $messages['nosenderwarning'] = '请输入发件人的电子邮件地址。';
 $messages['norecipientwarning'] = '至少输入一个收件人。';
 $messages['nosubjectwarning']  = '主题为空。您要输入一个主题吗？';
 $messages['nobodywarning'] = '要发送没有正文的邮件吗？';
-$messages['notsentwarning'] = '邮件未发送。您确定要离开并舍弃当前邮件吗？';
 $messages['restoresavedcomposedata'] = '您有一封邮件尚未发送.\n\nSubject: $subject\nSaved: $date\n\n您是否要恢复这封邮件？';
 $messages['noldapserver'] = '请选择一个用来查找的 LDAP 服务器。';
 $messages['nosearchname'] = '请输入联系人姓名或电子邮件地址。';

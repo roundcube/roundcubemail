@@ -97,7 +97,6 @@ $messages['disclosedreciptitle'] = 'Há muitos destinatários públicos';
 $messages['nosubjectwarning']  = 'O campo "Assunto" está vazio. Deseja incluí-lo agora?';
 $messages['nosubjecttitle']  = 'Sem assunto';
 $messages['nobodywarning'] = 'Enviar a mensagem sem texto?';
-$messages['notsentwarning'] = 'A mensagem não foi enviada. Deseja descartar sua mensagem?';
 $messages['restoresavedcomposedata'] = 'Uma mensagem criada anteriormente, mas não enviada, foi localizada.\n\nTítulo: $subject\nSalva em: $date\n\nDeseja restaurar esta mensagem?';
 $messages['noldapserver'] = 'Por favor, selecione um servidor LDAP para a pesquisa';
 $messages['nosearchname'] = 'Por favor, informe o nome do contato ou seu endereço de e-mail.';

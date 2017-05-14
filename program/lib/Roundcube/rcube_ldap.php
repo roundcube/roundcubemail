@@ -840,7 +840,7 @@ class rcube_ldap extends rcube_addressbook
             }
 
             // compose a full-text-like search filter
-            $filter = rcube_ldap_generic::fulltext_search_filter($value, $attributes, $mode);
+            $filter = rcube_ldap_generic::fulltext_search_filter($value, $attributes, $mode & ~rcube_addressbook::SEARCH_GROUPS);
         }
 
         // add required (non empty) fields filter
@@ -912,7 +912,7 @@ class rcube_ldap extends rcube_addressbook
     protected function extended_search($count = false)
     {
         $prop    = $this->group_id ? $this->group_data : $this->prop;
-        $base_dn = $this->group_id ? $this->groups_base_dn : $this->base_dn;
+        $base_dn = $this->group_id ? $prop['base_dn'] : $this->base_dn;
         $attrs   = $count ? array('dn') : $this->prop['attributes'];
         $entries = array();
 

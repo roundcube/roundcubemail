@@ -15,6 +15,14 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
+$labels['basic'] = 'Toan browser notifikaasjes op nij berjocht';
+$labels['desktop'] = 'Toan desktop notifikaasjes op nij berjocht';
+$labels['sound'] = 'Spylje it lûd op nij berjocht';
 $labels['test'] = 'Test';
-$labels['title'] = 'Nije e-mail!';
+$labels['title'] = 'Nije e-post!';
+$labels['body'] = 'Jo hawwe in nij berjocht.';
+$labels['testbody'] = 'Dit is in test notifikaasje.';
+$labels['desktopdisabled'] = 'Desktop notifikaasjes binne útskeakele yn jo browser.';
+$labels['desktopunsupported'] = 'Jo browser stipet gjin desktop notifikaasjes.';
+$labels['desktoptimeout'] = 'Slút desktop notifikaasje';
 ?>

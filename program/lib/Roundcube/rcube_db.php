@@ -47,6 +47,8 @@ class rcube_db
         // column/table quotes
         'identifier_start' => '"',
         'identifier_end'   => '"',
+        // date/time input format
+        'datetime_format'  => 'Y-m-d H:i:s',
     );
 
     const DEBUG_LINE_LENGTH = 4096;
@@ -522,7 +524,7 @@ class rcube_db
 
     /**
      * Helper method to handle DB errors.
-     * This by default logs the error but could be overriden by a driver implementation
+     * This by default logs the error but could be overridden by a driver implementation
      *
      * @param string $query Query that triggered the error
      *
@@ -778,7 +780,7 @@ class rcube_db
     /**
      * Release resources related to the last query result.
      * When we know we don't need to access the last query result we can destroy it
-     * and release memory. Usefull especially if the query returned big chunk of data.
+     * and release memory. Useful especially if the query returned big chunk of data.
      */
     public function reset()
     {
@@ -816,6 +818,10 @@ class rcube_db
 
         if (is_null($input)) {
             return 'NULL';
+        }
+
+        if ($input instanceof DateTime) {
+            return $this->quote($input->format($this->options['datetime_format']));
         }
 
         if ($type == 'ident') {
@@ -970,10 +976,11 @@ class rcube_db
      * @param int $timestamp Unix timestamp
      *
      * @return string Date string in db-specific format
+     * @deprecated
      */
     public function fromunixtime($timestamp)
     {
-        return date("'Y-m-d H:i:s'", $timestamp);
+        return $this->quote(date($this->options['datetime_format'], $timestamp));
     }
 
     /**
@@ -1319,18 +1326,31 @@ class rcube_db
     {
         $sql  = $this->fix_table_names($sql);
         $buff = '';
+        $exec = '';
 
         foreach (explode("\n", $sql) as $line) {
-            if (preg_match('/^--/', $line) || trim($line) == '')
+            $trimmed = trim($line);
+            if ($trimmed == '' || preg_match('/^--/', $trimmed)) {
                 continue;
+            }
 
-            $buff .= $line . "\n";
-            if (preg_match('/(;|^GO)$/', trim($line))) {
-                $this->query($buff);
+            if ($trimmed == 'GO') {
+                $exec = $buff;
+            }
+            else if ($trimmed[strlen($trimmed)-1] == ';') {
+                $exec = $buff . substr(rtrim($line), 0, -1);
+            }
+
+            if ($exec) {
+                $this->query($exec);
                 $buff = '';
+                $exec = '';
                 if ($this->db_error) {
                     break;
                 }
+            }
+            else {
+                $buff .= $line . "\n";
             }
         }
 

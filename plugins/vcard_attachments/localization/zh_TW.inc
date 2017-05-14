@@ -15,6 +15,8 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-$labels['addvcardmsg'] = '加入 vCard 到通訊錄';
+$labels['addvcardmsg'] = '將 vCard 加入通訊錄';
 $labels['vcardsavefailed'] = '無法儲存 vCard';
+$labels['attachvcard'] = '附上 vCard';
+$labels['vcard'] = 'vCard';
 ?>

@@ -277,7 +277,7 @@ EOF;
     {
         $this->skin_paths[] = $skin_path;
 
-        // read meta file and check for dependecies
+        // read meta file and check for dependencies
         $meta = @file_get_contents(RCUBE_INSTALL_PATH . $skin_path . '/meta.json');
         $meta = @json_decode($meta, true);
 
@@ -794,7 +794,7 @@ EOF;
     }
 
     /**
-     * Callback funtion for preg_replace_callback() in parse_with_globals()
+     * Callback function for preg_replace_callback() in parse_with_globals()
      */
     protected function globals_callback($matches)
     {

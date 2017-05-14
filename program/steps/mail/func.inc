@@ -959,7 +959,9 @@ function rcmail_print_body($body, $part, $p = array())
 
     // plaintext postprocessing
     if ($part->ctype_secondary == 'plain') {
-        $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed');
+        $flowed = $part->ctype_parameters['format'] == 'flowed';
+        $delsp = $part->ctype_parameters['delsp'] == 'yes';
+        $body = rcmail_plain_body($body, $flowed, $delsp);
     }
 
     // allow post-processing of the message body
@@ -977,9 +979,10 @@ function rcmail_print_body($body, $part, $p = array())
  *
  * @return string Formatted HTML string
  */
-function rcmail_plain_body($body, $flowed = false)
+function rcmail_plain_body($body, $flowed = false, $delsp = false)
 {
-    $options   = array('flowed' => $flowed, 'wrap' => !$flowed, 'replacer' => 'rcmail_string_replacer');
+    $options   = array('flowed' => $flowed, 'wrap' => !$flowed, 'replacer' => 'rcmail_string_replacer',
+        'delsp' => $delsp);
     $text2html = new rcube_text2html($body, false, $options);
     $body      = $text2html->get_html();
 
@@ -1476,7 +1479,7 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=a
     unset($GLOBALS['rcmail_html_container_id']);
 
     $body = preg_replace(array(
-            // add comments arround html and other tags
+            // add comments around html and other tags
             '/(<!DOCTYPE[^>]*>)/i',
             '/(<\?xml[^>]*>)/i',
             '/(<\/?html[^>]*>)/i',

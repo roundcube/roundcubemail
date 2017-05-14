@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  Class for operations on Sieve scripts
+ * Class for operations on Sieve scripts
  *
  * Copyright (C) 2008-2011, The Roundcube Dev Team
  * Copyright (C) 2011, Kolab Systems AG
@@ -1261,7 +1261,7 @@ class rcube_sieve_script
                         if ($str[$position] == "\n") {
                             $position++;
                         }
-                        else if ($str[$position] == "\r" && $str[$position] == "\n") {
+                        else if ($str[$position] == "\r" && $str[$position + 1] == "\n") {
                             $position += 2;
                         }
 

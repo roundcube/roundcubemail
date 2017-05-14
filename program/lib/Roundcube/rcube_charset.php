@@ -144,7 +144,7 @@ class rcube_charset
             else if (!empty($aliases[$m[1]])) {
                 $result = 'ISO-8859-'.$aliases[$m[1]];
             }
-            // iconv requires convertion of e.g. LATIN-1 to LATIN1
+            // iconv requires conversion of e.g. LATIN-1 to LATIN1
             else {
                 $result = $str;
             }
@@ -201,7 +201,9 @@ class rcube_charset
         }
 
         // convert charset using iconv module
-        if ($iconv_options !== false && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP') {
+        if ($iconv_options !== false && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP'
+            && $from !== 'ISO-2022-JP'
+        ) {
             // throw an exception if iconv reports an illegal character in input
             // it means that input string has been truncated
             set_error_handler(array('rcube_charset', 'error_handler'), E_NOTICE);
@@ -227,6 +229,7 @@ class rcube_charset
             $aliases = array(
                 'WINDOWS-1257' => 'ISO-8859-13',
                 'US-ASCII'     => 'ASCII',
+                'ISO-2022-JP'  => 'ISO-2022-JP-MS',
             );
 
             $mb_from = $aliases[$from] ?: $from;

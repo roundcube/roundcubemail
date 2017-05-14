@@ -19,6 +19,7 @@ class Framework_Text2Html extends PHPUnit_Framework_TestCase
             'break'  => '<br>',
             'links'  => false,
             'flowed' => false,
+            'delsp'  => false,
             'wrap'   => false,
             'space'  => '_', // replace UTF-8 non-breaking space for simpler testing
             'nobr_start' => '>',
@@ -70,7 +71,30 @@ class Framework_Text2Html extends PHPUnit_Framework_TestCase
         $data[] = array(">aaaa \n>bbbb\ncccc dddd", "<blockquote>aaaa bbbb</blockquote>>cccc_dddd<", $options);
         $data[] = array("\x02\x03", ">\x02\x03<", $options);
 
+        $options['flowed'] = true;
+        $options['delsp']  = true;
+
+        $data[] = array(" aaaa", "aaaa", $options);
+        $data[] = array("aaaa aaaa", ">aaaa_aaaa<", $options);
+        $data[] = array("aaaa  aaaa", ">aaaa__aaaa<", $options);
+        $data[] = array("aaaa   aaaa", ">aaaa___aaaa<", $options);
+        $data[] = array("aaaa\taaaa", ">aaaa____aaaa<", $options);
+        $data[] = array("aaaa\naaaa", "aaaa<br>aaaa", $options);
+        $data[] = array("aaaa\n aaaa", "aaaa<br>aaaa", $options);
+        $data[] = array("aaaa\n  aaaa", "aaaa<br>>_aaaa<", $options);
+        $data[] = array("aaaa\n   aaaa", "aaaa<br>>__aaaa<", $options);
+        $data[] = array("\taaaa", ">____aaaa<", $options);
+        $data[] = array("\naaaa", "<br>aaaa", $options);
+        $data[] = array("\n aaaa", "<br>aaaa", $options);
+        $data[] = array("\n  aaaa", "<br>>_aaaa<", $options);
+        $data[] = array("\n   aaaa", "<br>>__aaaa<", $options);
+        $data[] = array("aaaa\n\nbbbb", "aaaa<br><br>bbbb", $options);
+        $data[] = array(">aaaa \n>aaaa", "<blockquote>aaaaaaaa</blockquote>", $options);
+        $data[] = array(">aaaa\n>aaaa", "<blockquote>aaaa<br>aaaa</blockquote>", $options);
+        $data[] = array(">aaaa \n>bbbb\ncccc dddd", "<blockquote>aaaabbbb</blockquote>>cccc_dddd<", $options);
+
         $options['flowed'] = false;
+        $options['delsp']  = false;
         $options['wrap']   = true;
 
         $data[] = array(">>aaaa bbbb\n>>\n>>>\n>cccc\n\ndddd eeee",

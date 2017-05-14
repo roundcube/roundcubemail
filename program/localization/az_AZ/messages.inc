@@ -80,7 +80,6 @@ $messages['nopagesizewarning'] = 'Lütfən, səhifənin ölçüsünü daxil edin
 $messages['norecipientwarning'] = 'Lütfən, qəbul edənin ünvanını daxil edin';
 $messages['nosubjectwarning']  = '"Mövzu" sahəsi boşdur. Mövzu daxil etmək istəyirsiniz?';
 $messages['nobodywarning'] = 'Məktub boş göndərilsin?';
-$messages['notsentwarning'] = 'Məktub göndərilmədi. Göndərilmədən imtina etmək istəyirsiniz?';
 $messages['restoresavedcomposedata'] = 'Əvvəlki göndərildi, ancaq göndərilməyən məktub da tapıldı.\n\nSubject: $subject\nSaved: $date\n\nSiz bu məktubu bərpa etmək istəyirsiniz?';
 $messages['noldapserver'] = 'Lütfən, axtarış üçün LDAP server seçin';
 $messages['nosearchname'] = 'Lütfən, ad və ya e-poçt əlavə edin';

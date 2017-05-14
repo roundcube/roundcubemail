@@ -324,6 +324,7 @@ $labels['advsearch'] = 'Avancerad sökning';
 $labels['advanced'] = 'Avancerad';
 $labels['other'] = 'Annat';
 $labels['printcontact'] = 'Skriv ut kontakt';
+$labels['qrcode'] = 'QR-kod';
 $labels['typehome']   = 'Hem';
 $labels['typework']   = 'Arbete';
 $labels['typeother']  = 'Annat';
