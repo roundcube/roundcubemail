@@ -1,6 +1,18 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Various improvements for templating engine and skin behaviours
+  - Support conditional include
+  - Support for 'link' objects
+  - Support including files with path relative to templates directory
+  - Use <button> instead of <input> for submit button on logon screen
+- Reset onerror on images if placeholder does not exist to prevent from requests storm
+- Unified and simplified code for loading content frame for responses and identities
+- Display contact import and advanced search in popup dialogs
+- Make possible to set (some) config options from a skin
+- Added optional checkbox selection for the list widget
+- Make 'compose' command always enabled
+
 - Update to TinyMCE 4.5.7
 - Fix bug where invalid recipients could be silently discarded (#5739)
 - Fix conflict with _gid cookie of Google Analytics (#5748)
