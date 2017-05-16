@@ -9,6 +9,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where it wasn't possible to scroll folders list in Edge (#5750)
 - Fix folders list sorting on Windows - if php-intl is available (#5732)
 - Fix addressbook searching by gender (#5757)
+- Fix prevention from using % and * characters in folder name (#5762)
 
 RELEASE 1.3-rc
 --------------
