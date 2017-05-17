@@ -16,7 +16,7 @@
 */
 
 $labels = array();
-$labels['tz:utc'] = 'UTC+';
+$labels['tz:utc'] = 'UTC';
 $labels['tz:africa'] = 'Africa';
 $labels['tz:africa:abidjan'] = 'Abidjan';
 $labels['tz:africa:accra'] = 'Accra';
