@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support LDAP GSSAPI authentication (#5703)
 - Allow contacts without an email address (#5079)
 - Localized timezone selector (#4983)
 - Update to TinyMCE 4.5.7
