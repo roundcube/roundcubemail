@@ -51,6 +51,7 @@ class rcube_virtualmin_password
             break;
         case 4: // username-domain
             $domain = substr(strrchr($username, "-"), 1);
+            $username = current(explode("-", $username));
             break;
         case 5: // domain-username
             $domain = str_replace(strrchr($username, "-"), "", $username);
