@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Password: Automatic virtualmin domain setting, removed password_virtualmin_format option (#5759)
 - Support AUTHENTICATE LOGIN for IMAP connections (#5563)
 - Support LDAP GSSAPI authentication (#5703)
 - Allow contacts without an email address (#5079)
