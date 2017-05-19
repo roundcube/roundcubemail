@@ -32,10 +32,6 @@ class rcube_domainfactory_password
     {
         $rcmail = rcmail::get_instance();
 
-        if (is_null($curpass)) {
-            $curpass = $rcmail->decrypt($_SESSION['password']);
-        }
-
         if ($ch = curl_init()) {
             // initial login
             curl_setopt_array($ch, array(
