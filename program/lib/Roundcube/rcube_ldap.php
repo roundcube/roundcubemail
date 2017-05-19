@@ -421,7 +421,7 @@ class rcube_ldap extends rcube_addressbook
                 }
             }
 
-            if (empty($bind_pass) && strncasecmp($method, 'GSSAPI', 6) != 0) {
+            if (empty($bind_pass) && strncasecmp($auth_method, 'GSSAPI', 6) != 0) {
                 $this->ready = true;
             }
             else {
