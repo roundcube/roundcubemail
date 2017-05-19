@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support AUTHENTICATE LOGIN for IMAP connections (#5563)
 - Support LDAP GSSAPI authentication (#5703)
 - Allow contacts without an email address (#5079)
 - Localized timezone selector (#4983)
