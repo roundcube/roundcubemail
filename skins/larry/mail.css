@@ -1400,15 +1400,20 @@ div.message-partheaders .headers-table td.header {
 }
 
 .widescreen #messagelistheader .listmenu {
-	margin-right: 10px;
+	margin-right: 8px;
 	vertical-align: middle;
-	line-height: 22px;
-	width: 26px;
+	line-height: 24px;
+	width: 28px;
 	padding: 0;
 	text-indent: -5000px;
 	overflow: hidden;
 	display: inline-block;
-	background: url(images/listicons.png) 0 -2330px no-repeat;
+	background: url(images/listicons.png) 0 -2328px no-repeat;
+}
+
+.widescreen #messagelistheader .listmenu:focus {
+	background-color: rgba(128,128,128,0.55);
+	outline: none;
 }
 
 .widescreen #countcontrols {

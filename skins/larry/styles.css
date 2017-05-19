@@ -110,12 +110,11 @@ label input + span {
 input.button {
 	display: inline-block;
 	margin: 0 2px;
-	padding: 2px 5px;
+	padding: 4px 8px;
 	color: #525252;
 	border: 1px solid #c0c0c0;
 	border-radius: 4px;
 	background: #f7f7f7;
-	box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
 	text-decoration: none;
 	outline: none;
 }
