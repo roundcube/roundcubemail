@@ -1,0 +1,10 @@
+require ["envelope","fileinto","imap4flags","subaddress"];
+if envelope :detail "to" "addressextension"
+{
+	setflag "\\Flagged";
+}
+if header :is "X-Spam-Flag" "YES"
+{
+	fileinto "Junk";
+	stop;
+}
