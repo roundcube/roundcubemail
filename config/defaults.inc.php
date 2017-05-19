@@ -137,8 +137,9 @@ $config['default_host'] = 'localhost';
 // TCP port used for IMAP connections
 $config['default_port'] = 143;
 
-// IMAP AUTH type (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or null to use
-// best server supported one)
+// IMAP authentication method (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or null).
+// Use 'IMAP' to authenticate with IMAP LOGIN command.
+// By default the most secure method (from supported) will be selected.
 $config['imap_auth_type'] = null;
 
 // IMAP socket context options
