@@ -2,9 +2,9 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/vcard_attachments/localization/<lang>.inc                     |
+ | plugins/hide_blockquote/localization/<lang>.inc                       |
  |                                                                       |
- | Localization file of the Roundcube Webmail Vcard Attachments plugin   |
+ | Localization file of the Roundcube Webmail Hide-Blockquote plugin     |
  | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -13,10 +13,9 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-hide_blockquote/
 */
-$labels['addvcardmsg'] = 'Afegeix la vCard a la llibreta d\'adreces';
-$labels['vcardsavefailed'] = 'No s\'ha pogut desar la vCard';
-$labels['attachvcard'] = 'Adjunta la vCard';
-$labels['vcard'] = 'vCard';
+$labels['hide'] = 'Скриј ';
+$labels['show'] = 'Покажи';
+$labels['quotelimit'] = 'Скриј цитат кога бројот на линии е поголем од';
 ?>

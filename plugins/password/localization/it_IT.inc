@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Questa password è già stata usata precedentemen
 $messages['samepasswd'] = 'La nuova password deve essere differente da una usata precedentemente.';
 $messages['passwdexpirewarning'] = 'Attenzione! La tua password scadrà a breve, cambiala prima del $expiretiondatetime.';
 $messages['passwdexpired'] = 'La tua password è scaduta, devi cambiarla adesso.';
+$messages['passwdconstraintviolation'] = 'La password non soddisfa i requisiti di sicurezza.';

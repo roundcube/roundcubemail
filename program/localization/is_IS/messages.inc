@@ -83,6 +83,7 @@ $messages['nopagesizewarning'] = 'Sláðu inn síðustærð';
 $messages['nosenderwarning'] = 'Settu inn tölvupóstfang sendanda.';
 $messages['norecipientwarning'] = 'Í það minnsta einn viðtakandi verður að vera';
 $messages['nosubjectwarning']  = 'Efnislínan er tóm. Viltu slá eitthvað inn í hana?';
+$messages['nosubjecttitle']  = 'Án titils';
 $messages['nobodywarning'] = 'Viltu senda tómt skeyti?';
 $messages['noldapserver'] = 'Please select an ldap server to search';
 $messages['nosearchname'] = 'Sláðu inn nafn eða netfang';

@@ -28,4 +28,5 @@ $labels['archivetypemonth'] = 'Kuu (nt. Arhiiv/2012/06)';
 $labels['archivetypefolder'] = 'Esialgne kaust';
 $labels['archivetypesender'] = 'Saatja e-post';
 $labels['unkownsender'] = 'teadmata';
+$labels['readonarchive'] = 'Märgi kiri arhiveerimisel loetuks';
 ?>

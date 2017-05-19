@@ -28,4 +28,5 @@ $labels['archivetypemonth'] = 'Mes (p.ex. Arxiu/2012/06)';
 $labels['archivetypefolder'] = 'Carpeta original';
 $labels['archivetypesender'] = 'Adreça del remitent';
 $labels['unkownsender'] = 'desconegut';
+$labels['readonarchive'] = 'Marca el missatge com a llegit a l\'arxiu';
 ?>

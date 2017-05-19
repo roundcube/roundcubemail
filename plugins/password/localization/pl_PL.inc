@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'To hasło było już wcześniej użyte';
 $messages['samepasswd'] = 'Nowe hasło musi być różne od poprzednich.';
 $messages['passwdexpirewarning'] = 'Uwaga! Twoje hasło wkrótce wygaśnie, zmień je przed $expirationdatetime.';
 $messages['passwdexpired'] = 'Twoje hasło wygasło, musisz je zmienić.';
+$messages['passwdconstraintviolation'] = 'Naruszenie ograniczeń hasła. Prawdopodobnie jest zbyt słabe.';

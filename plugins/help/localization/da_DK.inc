@@ -18,4 +18,5 @@
 $labels['help'] = 'Hjælp';
 $labels['about'] = 'Om';
 $labels['license'] = 'Licens';
+$labels['csrfinfo'] = 'Læs mere om CSRF og om hvordan vi beskytter dig';
 ?>

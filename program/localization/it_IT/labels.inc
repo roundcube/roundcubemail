@@ -179,6 +179,7 @@ $labels['listmode'] = 'Modalità di visualizzazione';
 $labels['layout'] = 'Layout';
 $labels['layoutwidescreen'] = 'Widescreen';
 $labels['layoutdesktop'] = 'Desktop';
+$labels['layoutlist'] = 'Elenco';
 $labels['folderactions'] = 'Operazioni cartella';
 $labels['compact'] = 'Compatta';
 $labels['empty'] = 'Svuota';

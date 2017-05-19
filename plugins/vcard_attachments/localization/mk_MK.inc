@@ -15,8 +15,8 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-vcard_attachments/
 */
-$labels['addvcardmsg'] = 'Afegeix la vCard a la llibreta d\'adreces';
-$labels['vcardsavefailed'] = 'No s\'ha pogut desar la vCard';
-$labels['attachvcard'] = 'Adjunta la vCard';
-$labels['vcard'] = 'vCard';
+$labels['addvcardmsg'] = 'Додади виртуелна бизнис картичка во адресната книга ';
+$labels['vcardsavefailed'] = 'Не може да се сочува виртуелна бизнис картичка';
+$labels['attachvcard'] = 'Прикачи виртуелна бизнис картичка';
+$labels['vcard'] = 'Виртуелна бизнис картичка';
 ?>

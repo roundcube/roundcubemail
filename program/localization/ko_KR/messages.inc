@@ -97,6 +97,7 @@ $messages['disclosedreciptitle'] = '너무 많은 공개 수신자';
 $messages['nosubjectwarning']  = '"제목" 필드가 비어있습니다. 지금 입력하시겠습니까?';
 $messages['nosubjecttitle']  = '제목 없음';
 $messages['nobodywarning'] = '내용 없는 메시지를 보내시겠습니까?';
+$messages['notsentwarning'] = '메시지가 발신되지 않았으며 저장되지 않은 변경사항이 있습니다. 변경사항을 폐기하시겠습니까?';
 $messages['restoresavedcomposedata'] = '이전에 작성했으나 보내지 않은 메시지가 발견되었습니다.\n\nSubject: $subject\nSaved: $date\n\n이 메시지를 복구하시겠습니까?';
 $messages['noldapserver'] = '검색할 LDAP 서버를 선택해주십시오.';
 $messages['nosearchname'] = '연락처명이나 이메일 주소를 입력해주십시오.';
