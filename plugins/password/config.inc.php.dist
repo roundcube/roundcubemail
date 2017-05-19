@@ -399,11 +399,6 @@ $config['hmailserver_server'] = array(
 );
 
 
-// Virtualmin Driver options
-// -------------------------
-// No settings needed
-
-
 // pw_usermod Driver options
 // --------------------------
 // Use comma delimited exlist to disable password change for users.
