@@ -7703,12 +7703,12 @@ function rcube_webmail()
       close_func = function(e, ui, dialog) { (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close'); },
       buttons = [{
         text: ref.get_label(cancel_label),
-        'class': cancel_label,
+        'class': 'cancel',
         click: close_func
       }];
 
     if (!action_func)
-      buttons[0]['class'] = 'mainaction';
+      buttons[0]['class'] += ' mainaction';
     else
       buttons.unshift({
         text: this.get_label(save_label),
