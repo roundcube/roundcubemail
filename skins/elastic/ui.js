@@ -937,6 +937,7 @@ function rcube_elastic_ui()
 
         rcmail.simple_dialog(dialog, $(elem).text(), support_func, {
             button: support_button,
+            cancel_button: 'close',
             width: 600,
             height: 400
         });
