@@ -116,14 +116,12 @@ class enigma_ui
      */
     function add_css()
     {
-        if ($this->css_loaded)
+        if ($this->css_loaded) {
             return;
-
-        $skin_path = $this->enigma->local_skin_path();
-        if (is_file($this->home . "/$skin_path/enigma.css")) {
-            $this->enigma->include_stylesheet("$skin_path/enigma.css");
         }
 
+        $skin_path = $this->enigma->local_skin_path();
+        $this->enigma->include_stylesheet("$skin_path/enigma.css");
         $this->css_loaded = true;
     }
 
