@@ -27,11 +27,12 @@ class rcube_sieve
     private $sieve;                 // Net_Sieve object
     private $error = false;         // error flag
     private $errorLines = array();  // array of line numbers within sieve script which raised an error
-    private $list = array();        // scripts list
+    private $list       = array();  // scripts list
+    private $exts;                  // array of supported extensions
+    private $active;                // active script name
 
     public $script;                 // rcube_sieve_script object
     public $current;                // name of currently loaded script
-    private $exts;                  // array of supported extensions
 
     const ERROR_CONNECTION = 1;
     const ERROR_LOGIN      = 2;
@@ -215,6 +216,8 @@ class rcube_sieve
             return $this->_set_error(self::ERROR_ACTIVATE);
         }
 
+        $this->active = $name;
+
         return true;
     }
 
@@ -232,6 +235,8 @@ class rcube_sieve
         if (is_a($result, 'PEAR_Error')) {
             return $this->_set_error(self::ERROR_DEACTIVATE);
         }
+
+        $this->active = null;
 
         return true;
     }
@@ -256,6 +261,8 @@ class rcube_sieve
             if (is_a($result, 'PEAR_Error')) {
                 return $this->_set_error(self::ERROR_DELETE);
             }
+
+            $this->active = null;
         }
 
         $result = $this->sieve->removeScript($name);
@@ -267,6 +274,8 @@ class rcube_sieve
         if ($name == $this->current) {
             $this->current = null;
         }
+
+        $this->list = null;
 
         return true;
     }
@@ -311,13 +320,14 @@ class rcube_sieve
             if (!$this->sieve)
                 return $this->_set_error(self::ERROR_INTERNAL);
 
-            $list = $this->sieve->listScripts();
+            $list = $this->sieve->listScripts($active);
 
             if (is_a($list, 'PEAR_Error')) {
                 return $this->_set_error(self::ERROR_OTHER);
             }
 
-            $this->list = $list;
+            $this->list   = $list;
+            $this->active = $active;
         }
 
         return $this->list;
@@ -328,10 +338,15 @@ class rcube_sieve
      */
     public function get_active()
     {
-        if (!$this->sieve)
-            return $this->_set_error(self::ERROR_INTERNAL);
+        if ($this->active !== null) {
+            return $this->active;
+        }
 
-        return $this->sieve->getActive();
+        if (!$this->sieve) {
+            return $this->_set_error(self::ERROR_INTERNAL);
+        }
+
+        return $this->active = $this->sieve->getActive();
     }
 
     /**
