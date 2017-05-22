@@ -25,13 +25,13 @@
 class rcube_sieve
 {
     private $sieve;                 // Net_Sieve object
-    private $error = false;         // error flag
+    private $error      = false;    // error flag
     private $errorLines = array();  // array of line numbers within sieve script which raised an error
-    private $list = array();        // scripts list
+    private $list       = array();  // scripts list
+    private $exts;                  // array of supported extensions
 
     public $script;                 // rcube_sieve_script object
     public $current;                // name of currently loaded script
-    private $exts;                  // array of supported extensions
 
     const ERROR_CONNECTION = 1;
     const ERROR_LOGIN      = 2;
@@ -276,11 +276,13 @@ class rcube_sieve
      */
     public function get_extensions()
     {
-        if ($this->exts)
+        if ($this->exts) {
             return $this->exts;
+        }
 
-        if (!$this->sieve)
+        if (!$this->sieve) {
             return $this->_set_error(self::ERROR_INTERNAL);
+        }
 
         $ext = $this->sieve->getExtensions();
 
@@ -293,9 +295,11 @@ class rcube_sieve
 
         if ($this->script) {
             $supported = $this->script->get_extensions();
-            foreach ($ext as $idx => $ext_name)
-                if (!in_array($ext_name, $supported))
+            foreach ($ext as $idx => $ext_name) {
+                if (!in_array($ext_name, $supported)) {
                     unset($ext[$idx]);
+                }
+            }
         }
 
         return array_values($ext);
@@ -308,8 +312,9 @@ class rcube_sieve
     {
         if (!$this->list) {
 
-            if (!$this->sieve)
+            if (!$this->sieve) {
                 return $this->_set_error(self::ERROR_INTERNAL);
+            }
 
             $list = $this->sieve->listScripts();
 
@@ -328,8 +333,9 @@ class rcube_sieve
      */
     public function get_active()
     {
-        if (!$this->sieve)
+        if (!$this->sieve) {
             return $this->_set_error(self::ERROR_INTERNAL);
+        }
 
         return $this->sieve->getActive();
     }
@@ -339,11 +345,13 @@ class rcube_sieve
      */
     public function load($name)
     {
-        if (!$this->sieve)
+        if (!$this->sieve) {
             return $this->_set_error(self::ERROR_INTERNAL);
+        }
 
-        if ($this->current == $name)
+        if ($this->current == $name) {
             return true;
+        }
 
         $script = $this->sieve->getScript($name);
 
@@ -364,8 +372,9 @@ class rcube_sieve
      */
     public function load_script($script)
     {
-        if (!$this->sieve)
+        if (!$this->sieve) {
             return $this->_set_error(self::ERROR_INTERNAL);
+        }
 
         // try to parse from Roundcube format
         $this->script = $this->_parse($script);
@@ -395,6 +404,7 @@ class rcube_sieve
                         continue 2;
                     }
                 }
+
                 if (!empty($script->content[$idx+1]) && $script->content[$idx+1]['type'] != 'if') {
                     $script->content[$idx]['actions'][] = array('type' => 'stop');
                 }
@@ -409,8 +419,9 @@ class rcube_sieve
      */
     public function get_script($name)
     {
-        if (!$this->sieve)
+        if (!$this->sieve) {
             return $this->_set_error(self::ERROR_INTERNAL);
+        }
 
         $content = $this->sieve->getScript($name);
 
@@ -426,8 +437,9 @@ class rcube_sieve
      */
     public function copy($name, $copy)
     {
-        if (!$this->sieve)
+        if (!$this->sieve) {
             return $this->_set_error(self::ERROR_INTERNAL);
+        }
 
         if ($copy) {
             $content = $this->sieve->getScript($copy);
