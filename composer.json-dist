@@ -9,10 +9,6 @@
         },
         {
             "type": "vcs",
-            "url": "https://github.com/roundcube/Net_Sieve.git"
-        },
-        {
-            "type": "vcs",
             "url": "https://git.kolab.org/diffusion/PNL/php-net_ldap.git"
         }
     ],
@@ -25,7 +21,7 @@
         "pear/mail_mime": "~1.10.0",
         "pear/net_smtp": "~1.7.1",
         "pear/crypt_gpg": "~1.6.0",
-        "roundcube/net_sieve": "~1.5.0",
+        "pear/net_sieve": "~1.4.0",
         "roundcube/plugin-installer": "~0.1.6",
         "endroid/qrcode": "~1.6.5"
     },
