@@ -1,5 +1,8 @@
+* version 8.9 [2017-05-22]
+-----------------------------------------------------------
 - Fix handling of scripts with nested rules (#5540)
 - Fix possible defect in handling \r\n in scripts (#5685)
+- Performance: Skip redundant LISTSCRIPTS command
 
 * version 8.8 [2016-11-27]
 -----------------------------------------------------------

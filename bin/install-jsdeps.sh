@@ -23,6 +23,10 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
+if (!function_exists('exec')) {
+  die("PHP exec() function is required. Check disable_functions in php.ini\n");
+}
+
 $SOURCES = json_decode(file_get_contents(INSTALL_PATH . 'jsdeps.json'), true);
 
 if (empty($SOURCES['dependencies'])) {
@@ -319,4 +323,3 @@ foreach ($SOURCES['dependencies'] as $package) {
 
   echo "Done.\n\n";
 }
-

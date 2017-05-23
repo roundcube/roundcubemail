@@ -84,16 +84,21 @@ class rcube_mime
     /**
      * Split an address list into a structured array list
      *
-     * @param string  $input    Input string
-     * @param int     $max      List only this number of addresses
-     * @param boolean $decode   Decode address strings
-     * @param string  $fallback Fallback charset if none specified
-     * @param boolean $addronly Return flat array with e-mail addresses only
+     * @param string|array $input    Input string (or list of strings)
+     * @param int          $max      List only this number of addresses
+     * @param boolean      $decode   Decode address strings
+     * @param string       $fallback Fallback charset if none specified
+     * @param boolean      $addronly Return flat array with e-mail addresses only
      *
      * @return array Indexed list of addresses
      */
     static function decode_address_list($input, $max = null, $decode = true, $fallback = null, $addronly = false)
     {
+        // A common case when the same header is used many times in a mail message
+        if (is_array($input)) {
+            $input = implode(', ', $input);
+        }
+
         $a   = self::parse_address_list($input, $decode, $fallback);
         $out = array();
         $j   = 0;

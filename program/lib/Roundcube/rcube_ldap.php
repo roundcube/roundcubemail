@@ -282,9 +282,10 @@ class rcube_ldap extends rcube_addressbook
                 $this->readonly = false;
             }
 
-            $bind_pass = $this->prop['bind_pass'];
-            $bind_user = $this->prop['bind_user'];
-            $bind_dn   = $this->prop['bind_dn'];
+            $bind_pass   = $this->prop['bind_pass'];
+            $bind_user   = $this->prop['bind_user'];
+            $bind_dn     = $this->prop['bind_dn'];
+            $auth_method = $this->prop['auth_method'];
 
             $this->base_dn        = $this->prop['base_dn'];
             $this->groups_base_dn = $this->prop['groups']['base_dn'] ?: $this->base_dn;
@@ -420,7 +421,7 @@ class rcube_ldap extends rcube_addressbook
                 }
             }
 
-            if (empty($bind_pass)) {
+            if (empty($bind_pass) && strcasecmp($auth_method, 'GSSAPI') != 0) {
                 $this->ready = true;
             }
             else {

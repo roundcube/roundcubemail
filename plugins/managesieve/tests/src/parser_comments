@@ -1,0 +1,16 @@
+require ["envelope","fileinto","imap4flags","subaddress"];
+
+# simple to-be-ignored comment with an empty line after (#5657)
+
+# another comment
+if envelope :detail "to" "addressextension"
+{
+	setflag "\\Flagged";
+}
+
+# Spam
+if header :is "X-Spam-Flag" "YES"
+{
+	fileinto "Junk";
+	stop;
+}

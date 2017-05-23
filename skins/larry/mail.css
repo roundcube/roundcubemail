@@ -16,7 +16,7 @@
 	left: 0;
 	width: 200px;
 	bottom: 0;
-	z-index: 2;
+	z-index: 1; /* fixes scrolling in Edge (#5750) */
 }
 
 #mailview-right {
@@ -25,7 +25,6 @@
 	left: 212px;
 	right: 0;
 	bottom: 0;
-	z-index: 3;
 }
 
 #mailview-right.fullwidth {
@@ -199,7 +198,6 @@ html.mozilla #mailboxlist > li:first-child {
 	left: 0;
 	height: 40px;
 	white-space: nowrap;
-	z-index: 10;
 }
 
 #messagetoolbar.fullwidth {
@@ -1402,15 +1400,20 @@ div.message-partheaders .headers-table td.header {
 }
 
 .widescreen #messagelistheader .listmenu {
-	margin-right: 10px;
+	margin-right: 8px;
 	vertical-align: middle;
-	line-height: 22px;
-	width: 26px;
+	line-height: 24px;
+	width: 28px;
 	padding: 0;
 	text-indent: -5000px;
 	overflow: hidden;
 	display: inline-block;
-	background: url(images/listicons.png) 0 -2330px no-repeat;
+	background: url(images/listicons.png) 0 -2328px no-repeat;
+}
+
+.widescreen #messagelistheader .listmenu:focus {
+	background-color: rgba(128,128,128,0.55);
+	outline: none;
 }
 
 .widescreen #countcontrols {

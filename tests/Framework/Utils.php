@@ -227,6 +227,10 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
 
         $mod = rcube_utils::xss_entity_decode('#foo:after{content:"\003Cimg/src=x onerror=alert(2)>";}');
         $this->assertNotContains('<img', $mod, "Strip (encoded) tags from content property");
+
+        // #5747
+        $mod = rcube_utils::xss_entity_decode('<!-- #foo { content:css; } -->');
+        $this->assertContains('#foo', $mod, "Strip HTML comments from content, but not the content");
     }
 
     /**

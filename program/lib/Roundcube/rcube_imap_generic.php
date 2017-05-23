@@ -667,7 +667,7 @@ class rcube_imap_generic
             $line   = $this->readReply();
             $result = $this->parseResult($line);
         }
-        else { // PLAIN
+        else if ($type == 'PLAIN') {
             // proxy authorization
             if (!empty($this->prefs['auth_cid'])) {
                 $authc = $this->prefs['auth_cid'];
@@ -699,8 +699,29 @@ class rcube_imap_generic
                 $result = $this->parseResult($line);
             }
         }
+        else if ($type == 'LOGIN') {
+            $this->putLine($this->nextTag() . " AUTHENTICATE LOGIN");
 
-        if ($result == self::ERROR_OK) {
+            $line = trim($this->readReply());
+            if ($line[0] != '+') {
+                return $this->parseResult($line);
+            }
+
+            $this->putLine(base64_encode($user), true, true);
+
+            $line = trim($this->readReply());
+            if ($line[0] != '+') {
+                return $this->parseResult($line);
+            }
+
+            // send result, get reply and process it
+            $this->putLine(base64_encode($pass), true, true);
+
+            $line   = $this->readReply();
+            $result = $this->parseResult($line);
+        }
+
+        if ($result === self::ERROR_OK) {
             // optional CAPABILITY response
             if ($line && preg_match('/\[CAPABILITY ([^]]+)\]/i', $line, $matches)) {
                 $this->parseCapability($matches[1], true);
@@ -724,6 +745,12 @@ class rcube_imap_generic
      */
     protected function login($user, $password)
     {
+        // Prevent from sending credentials in plain text when connection is not secure
+        if ($this->getCapability('LOGINDISABLED')) {
+            $this->setError(self::ERROR_BAD, "Login disabled by IMAP server");
+            return false;
+        }
+
         list($code, $response) = $this->execute('LOGIN', array(
             $this->escape($user), $this->escape($password)), self::COMMAND_CAPABILITY | self::COMMAND_ANONYMIZED);
 
@@ -850,20 +877,9 @@ class rcube_imap_generic
         $result       = null;
 
         // check for supported auth methods
-        if ($auth_method == 'CHECK') {
+        if (!$auth_method || $auth_method == 'CHECK') {
             if ($auth_caps = $this->getCapability('AUTH')) {
                 $auth_methods = $auth_caps;
-            }
-
-            // RFC 2595 (LOGINDISABLED) LOGIN disabled when connection is not secure
-            $login_disabled = $this->getCapability('LOGINDISABLED');
-            if (($key = array_search('LOGIN', $auth_methods)) !== false) {
-                if ($login_disabled) {
-                    unset($auth_methods[$key]);
-                }
-            }
-            else if (!$login_disabled) {
-                $auth_methods[] = 'LOGIN';
             }
 
             // Use best (for security) supported authentication method
@@ -878,17 +894,10 @@ class rcube_imap_generic
                     break;
                 }
             }
-        }
-        else {
-            // Prevent from sending credentials in plain text when connection is not secure
-            if ($auth_method == 'LOGIN' && $this->getCapability('LOGINDISABLED')) {
-                $this->setError(self::ERROR_BAD, "Login disabled by IMAP server");
-                $this->closeConnection();
-                return false;
-            }
-            // replace AUTH with CRAM-MD5 for backward compat.
-            if ($auth_method == 'AUTH') {
-                $auth_method = 'CRAM-MD5';
+
+            // Prefer LOGIN over AUTHENTICATE LOGIN for performance reasons
+            if ($auth_method == 'LOGIN' && !$this->getCapability('LOGINDISABLED')) {
+                $auth_method = 'IMAP';
             }
         }
 
@@ -901,13 +910,16 @@ class rcube_imap_generic
                 $auth_method = 'CRAM-MD5';
             case 'CRAM-MD5':
             case 'DIGEST-MD5':
-            case 'PLAIN':
             case 'GSSAPI':
+            case 'PLAIN':
+            case 'LOGIN':
                 $result = $this->authenticate($user, $password, $auth_method);
                 break;
-            case 'LOGIN':
+
+            case 'IMAP':
                 $result = $this->login($user, $password);
                 break;
+
             default:
                 $this->setError(self::ERROR_BAD, "Configuration error. Unknown auth method: $auth_method");
         }

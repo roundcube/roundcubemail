@@ -4585,7 +4585,7 @@ function rcube_webmail()
         return false;
       }
       if (!name)
-        name = text.substring(0,40);
+        name = text.replace(/[\r\n]+/g, ' ').substring(0,40);
 
       var lock = ref.display_message(ref.get_label('savingresponse'), 'loading');
       ref.http_post('settings/responses', { _insert:1, _name:name, _text:text }, lock);
@@ -8246,8 +8246,8 @@ function rcube_webmail()
 
   this.redirect = function(url, lock)
   {
-    if (lock || lock === null)
-      this.set_busy(true);
+    if (lock !== false)
+      this.set_busy(true, 'loading');
 
     if (this.is_framed()) {
       parent.rcmail.redirect(url, lock);
