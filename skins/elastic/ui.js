@@ -170,6 +170,10 @@ function rcube_elastic_ui()
 
             $(this).on('change', function() { hidden.val($(this).val()); }).change();
         });
+
+        $('#dragmessage-menu,#dragcontact-menu').each(function() {
+            rcmail.gui_object('dragmenu', this.id);
+        });
     };
 
     /**
@@ -833,8 +837,8 @@ function rcube_elastic_ui()
                 'aria-owns': popup_id,
             })
             .popover({
-                trigger: $(item).data('popup-trigger') || 'click',
                 content: popup,
+                trigger: $(item).data('popup-trigger') || 'click',
                 placement: $(item).data('popup-pos') || 'bottom',
                 animation: true,
                 html: true
@@ -910,51 +914,72 @@ function rcube_elastic_ui()
      */
     function menu_toggle(p)
     {
-        if (p && p.name == 'messagelistmenu') {
+        if (!p || !p.name) {
+            return;
+        }
+
+        if (p.name == 'messagelistmenu') {
             menu_messagelist(p);
         }
-        else if (p && p.name) {
-            var target = p.originalEvent.target;
+        else if (p.event == 'menu-open') {
+            var fn, pos,
+                content = $('ul:first', p.obj),
+                target = p.originalEvent.target;
 
             if ($(target).is('span')) {
                 target = $(target).parents('a,li')[0];
             }
 
-            if (p.event == 'menu-open') {
-                var fn, content = $('ul:first', p.obj);
-                if (p.name == 'folder-selector') {
-                    content.addClass('listing folderlist');
-                }
-                else if (content.hasClass('toolbarmenu')) {
-                    content.addClass('listing');
-                }
-
-                // Popover menus use animation. Sometimes the same menu is
-                // immediately hidden and shown (e.g. folder-selector for copy and move action)
-                // we have to way until the previous menu hides before we can open it again
-                fn = function() {
-                    if (menus[p.name] && menus[p.name].transitioning) {
-                        return setTimeout(fn, 50);
-                    }
-
-                    if (!$(target).data('popup')) {
-                        $(target).data({popup: p.name, 'popup-pos': 'right', 'popup-trigger': 'manual'});
-                        popup_init(target);
-                    }
-
-                    menus[p.name] = {target: target, transitioning: true};
-                    $(target).popover('show');
-                }
-
-                fn();
+            if (p.name == 'folder-selector') {
+                content.addClass('listing folderlist');
             }
-            else {
-                menu_hide(p.name);
+            else if (content.hasClass('toolbarmenu')) {
+                content.addClass('listing');
             }
 
-            // Stop propagation so multi-level menus work properly
-            p.originalEvent.stopPropagation();
+            if (p.name.match(/^drag/)) {
+                // create a fake element to position drag menu on the cursor position
+                pos = rcube_event.get_mouse_pos(p.originalEvent);
+                target = $('<a>').css({
+                        position: 'absolute',
+                        left: pos.x,
+                        top: pos.y,
+                        height: '1px',
+                        width: '1px',
+                        visibility: 'hidden'
+                    })
+                    .appendTo(document.body).get(0);
+            }
+
+            // Popover menus use animation. Sometimes the same menu is
+            // immediately hidden and shown (e.g. folder-selector for copy and move action)
+            // we have to way until the previous menu hides before we can open it again
+            fn = function() {
+                if (menus[p.name] && menus[p.name].transitioning) {
+                    return setTimeout(fn, 50);
+                }
+
+                if (!$(target).data('popup')) {
+                    $(target).data({
+                        popup: p.name,
+                        'popup-pos': 'right',
+                        'popup-trigger': 'manual'
+                    });
+                    popup_init(target);
+                }
+
+                menus[p.name] = {target: target, transitioning: true};
+                $(target).popover('show');
+            }
+
+            fn();
         }
+        else {
+            menu_hide(p.name);
+        }
+
+        // Stop propagation so multi-level menus work properly
+        p.originalEvent.stopPropagation();
     };
 
     /**
@@ -972,7 +997,12 @@ function rcube_elastic_ui()
             target = $('#' + name).data('button');
         }
 
-        $(target).popover('hide');
+        if (name.match(/^drag/)) {
+            $(target).popover('dispose').remove();
+        }
+        else {
+            $(target).popover('hide');
+        }
     };
 
     /**
