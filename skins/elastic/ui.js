@@ -29,6 +29,7 @@ function rcube_elastic_ui()
                 compose_extwin: false
             }
         },
+        menus = {},
         content_buttons = [],
         layout = {
             menu: $('#layout > .menu'),
@@ -45,6 +46,7 @@ function rcube_elastic_ui()
 
     // Public methods
     this.register_frame_buttons = register_frame_buttons;
+    this.menu_hide = menu_hide;
     this.about_dialog = about_dialog;
     this.spellmenu = spellmenu;
     this.searchmenu = searchmenu;
@@ -367,9 +369,8 @@ function rcube_elastic_ui()
             });
         };
 
-        // TODO: Fix unwanted popups closing on click inside a popup
-        $(document).on('click', close_all_popups);
-        rcube_webmail.set_iframe_events({mousedown: close_all_popups});
+        $(document).on('click', popups_close);
+        rcube_webmail.set_iframe_events({mousedown: popups_close});
     };
 
     /**
@@ -682,6 +683,33 @@ function rcube_elastic_ui()
     }
 
     /**
+     * Set UI dialogs size/style depending on screen size
+     */
+    function dialog_open(dialog)
+    {
+        var me = $(dialog.uiDialog),
+            width = me.width(),
+            height = me.height(),
+            maxWidth = $(window).width(),
+            maxHeight = $(window).height();
+
+        if (maxWidth <= 480) {
+            me.css({width: '100%', height: '100%'});
+        }
+        else {
+            if (height > maxHeight) {
+                me.css('height', '100%');
+            }
+            if (width > maxWidth) {
+                me.css('width', '100%');
+            }
+        }
+
+        // TODO: style buttons/forms
+        bootstrap_style(dialog.uiDialog);
+    };
+
+    /**
      * Initializes searchbar widget
      */
     function searchbar_init(bar)
@@ -797,69 +825,84 @@ function rcube_elastic_ui()
     {
         var popup_id = $(item).data('popup'),
             popup = $('#' + popup_id)[0],
-            title = $(item).attr('title'),
-            popup_position = $(item).data('popup-pos') || 'bottom';
+            title = $(item).attr('title');
 
         $(item).attr({
                 'aria-haspopup': 'true',
                 'aria-expanded': 'false',
-                'aria-owns': popup_id
+                'aria-owns': popup_id,
             })
             .popover({
-                trigger: 'click',
-                container: 'body',
+                trigger: $(item).data('popup-trigger') || 'click',
                 content: popup,
-                placement: popup_position,
+                placement: $(item).data('popup-pos') || 'bottom',
+                animation: true,
                 html: true
             })
-            .on('show.bs.popover', function(event) {
+            .on('show.bs.popover', function(event, el) {
                 var init_func = $(popup).data('popup-init');
-
-                $(popup).attr('aria-hidden', false);
-
                 if (init_func && ref[init_func]) {
                     ref[init_func](popup, item, event);
                 }
                 else if (init_func && window[init_func]) {
                     window[init_func](popup, item, event);
                 }
-            })
-            .on('hide.bs.popover', function() {
-                $(popup).attr('aria-hidden', true);
-            })
-            .attr('title', title); // re-add title attribute removed by bootstrap
 
-        // TODO: Fix popup positioning
-        // TODO: Set popup height so it is less than the window height
-        $(popup).attr('aria-hidden', 'true')
-            .data('button', item);
+                $(popup).attr('aria-hidden', false)
+                    // Set popup height so it is less than the window height
+                    .css('max-height', Math.min(500, $(window).height() - 5));
+            })
+            .on('shown.bs.popover', function(event, el) {
+                if (popup_id && menus[popup_id]) {
+                    menus[popup_id].transitioning = false;
+                }
+            })
+            .on('hidden.bs.popover', function() {
+                $(popup).attr('aria-hidden', true)
+                    // Bootstrap will detach the popup element from
+                    // the DOM (https://github.com/twbs/bootstrap/issues/20219)
+                    // making our menus to not update buttons state.
+                    // Work around this by attaching it back to the body.
+                    .appendTo(document.body);
+
+                if (popup_id && menus[popup_id]) {
+                    menus[popup_id].transitioning = false;
+                }
+            })
+            .on('keypress', function(event) {
+                // Close the popup on ESC key
+                if (event.originalEvent.keyCode == 27) {
+                    $(item).popover('hide');
+                }
+            });
+
+        // re-add title attribute removed by bootstrap popover
+        if (title) {
+            $(item).attr('title', title);
+        }
+
+        $(popup).attr('aria-hidden', 'true').data('button', item);
+
+        // stop propagation to e.g. do not hide the popup when 
+        // clicking inside on form elements
+        if ($(popup).data('editable')) {
+            $(popup).on('click mousedown', function(e) { e.stopPropagation(); });
+        }
     };
 
     /**
-     * Set UI dialogs size/style depending on screen size
+     * Closes all popups (for use as event handler)
      */
-    function dialog_open(dialog)
+    function popups_close(e)
     {
-        var me = $(dialog.uiDialog),
-            width = me.width(),
-            height = me.height(),
-            maxWidth = $(window).width(),
-            maxHeight = $(window).height();
+        $('.popover-content:visible').each(function() {
+            var popup = $(this),
+                button = popup.children().first().data('button');
 
-        if (maxWidth <= 480) {
-            me.css({width: '100%', height: '100%'});
-        }
-        else {
-            if (height > maxHeight) {
-                me.css('height', '100%');
+            if (button && e.target != button && !$(button).find(e.target).length) {
+                $(button).popover('hide');
             }
-            if (width > maxWidth) {
-                me.css('width', '100%');
-            }
-        }
-
-        // TODO: style buttons/forms
-        bootstrap_style(dialog.uiDialog);
+        });
     };
 
     /**
@@ -870,10 +913,66 @@ function rcube_elastic_ui()
         if (p && p.name == 'messagelistmenu') {
             menu_messagelist(p);
         }
-        else if (p && p.name == 'folder-selector') {
-            $('ul:first', p.obj).addClass('listing folderlist');
-//            $(p.obj).addClass('popupmenu');
+        else if (p && p.name) {
+            var target = p.originalEvent.target;
+
+            if ($(target).is('span')) {
+                target = $(target).parents('a,li')[0];
+            }
+
+            if (p.event == 'menu-open') {
+                var fn, content = $('ul:first', p.obj);
+                if (p.name == 'folder-selector') {
+                    content.addClass('listing folderlist');
+                }
+                else if (content.hasClass('toolbarmenu')) {
+                    content.addClass('listing');
+                }
+
+                // Popover menus use animation. Sometimes the same menu is
+                // immediately hidden and shown (e.g. folder-selector for copy and move action)
+                // we have to way until the previous menu hides before we can open it again
+                fn = function() {
+                    if (menus[p.name] && menus[p.name].transitioning) {
+                        return setTimeout(fn, 50);
+                    }
+
+                    if (!$(target).data('popup')) {
+                        $(target).data({popup: p.name, 'popup-pos': 'right', 'popup-trigger': 'manual'});
+                        popup_init(target);
+                    }
+
+                    menus[p.name] = {target: target, transitioning: true};
+                    $(target).popover('show');
+                }
+
+                fn();
+            }
+            else {
+                menu_hide(p.name);
+            }
+
+            // Stop propagation so multi-level menus work properly
+            p.originalEvent.stopPropagation();
         }
+    };
+
+    /**
+     * Close menu_hide by name
+     */
+    function menu_hide(name)
+    {
+        var target;
+
+        if (menus[name]) {
+            menus[name].transitioning = true;
+            target = menus[name].target;
+        }
+        else {
+            target = $('#' + name).data('button');
+        }
+
+        $(target).popover('hide');
     };
 
     /**
