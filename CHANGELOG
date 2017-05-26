@@ -15,6 +15,7 @@ CHANGELOG Roundcube Webmail
 - Fix folders list sorting on Windows - if php-intl is available (#5732)
 - Fix addressbook searching by gender (#5757)
 - Fix prevention from using % and * characters in folder name (#5762)
+- Fix POST parameter reflection in default_charset selector (#5768)
 - Enigma: Fix compatibility with assets_dir
 - Managesieve: Skip redundant LISTSCRIPTS command
 
