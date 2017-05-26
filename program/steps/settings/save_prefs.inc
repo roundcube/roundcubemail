@@ -67,6 +67,10 @@ case 'mailview':
         'default_charset' => rcube_utils::get_input_value('_default_charset', rcube_utils::INPUT_POST),
     );
 
+    if ($a_user_prefs['default_charset'] && !preg_match('/^[a-zA-Z0-9-]+$/', $a_user_prefs['default_charset'])) {
+        $a_user_prefs['default_charset'] = $CONFIG['default_charset'];
+    }
+
     break;
 
 case 'compose':

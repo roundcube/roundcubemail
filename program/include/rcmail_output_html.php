@@ -2064,8 +2064,8 @@ EOF;
             'GB2312'       => 'GB2312 ('.$this->app->gettext('chinese').')',
         );
 
-        if (!empty($_POST['_charset'])) {
-            $set = $_POST['_charset'];
+        if ($post = rcube_utils::get_input_value('_charset', rcube_utils::INPUT_POST)) {
+            $set = $post;
         }
         else if (!empty($attrib['selected'])) {
             $set = $attrib['selected'];
@@ -2075,7 +2075,7 @@ EOF;
         }
 
         $set = strtoupper($set);
-        if (!isset($charsets[$set])) {
+        if (!isset($charsets[$set]) && preg_match('/^[A-Z0-9-]+$/', $set)) {
             $charsets[$set] = $set;
         }
 
