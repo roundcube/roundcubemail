@@ -191,8 +191,6 @@ class rcube_config
 
     /**
      * Load config from local config file
-     *
-     * @todo Remove global $CONFIG
      */
     private function load()
     {
@@ -262,9 +260,6 @@ class rcube_config
 
         // remove deprecated properties
         unset($this->prop['dst_active']);
-
-        // export config data
-        $GLOBALS['CONFIG'] = &$this->prop;
     }
 
     /**
