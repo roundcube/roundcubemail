@@ -5,7 +5,7 @@
  | program/steps/settings/save_prefs.inc                                 |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2016, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -20,21 +20,22 @@
  +-----------------------------------------------------------------------+
 */
 
-$CURR_SECTION = rcube_utils::get_input_value('_section', rcube_utils::INPUT_POST);
-$a_user_prefs = array();
+$CURR_SECTION  = rcube_utils::get_input_value('_section', rcube_utils::INPUT_POST);
+$a_user_prefs  = array();
+$dont_override = (array) $RCMAIL->config->get('dont_override');
 
 // set options for specified section
 switch ($CURR_SECTION) {
 case 'general':
     $a_user_prefs = array(
-        'language'     => isset($_POST['_language']) ? rcube_utils::get_input_value('_language', rcube_utils::INPUT_POST) : $CONFIG['language'],
-        'timezone'     => isset($_POST['_timezone']) ? rcube_utils::get_input_value('_timezone', rcube_utils::INPUT_POST) : $CONFIG['timezone'],
-        'date_format'  => isset($_POST['_date_format']) ? rcube_utils::get_input_value('_date_format', rcube_utils::INPUT_POST) : $CONFIG['date_format'],
-        'time_format'  => isset($_POST['_time_format']) ? rcube_utils::get_input_value('_time_format', rcube_utils::INPUT_POST) : ($CONFIG['time_format'] ? $CONFIG['time_format'] : 'H:i'),
+        'language'     => rcube_utils::get_input_value('_language', rcube_utils::INPUT_POST),
+        'timezone'     => rcube_utils::get_input_value('_timezone', rcube_utils::INPUT_POST),
+        'date_format'  => rcube_utils::get_input_value('_date_format', rcube_utils::INPUT_POST),
+        'time_format'  => rcube_utils::get_input_value('_time_format', rcube_utils::INPUT_POST),
         'prettydate'   => isset($_POST['_pretty_date']),
-        'refresh_interval' => isset($_POST['_refresh_interval']) ? intval($_POST['_refresh_interval'])*60 : $CONFIG['refresh_interval'],
+        'refresh_interval' => intval($_POST['_refresh_interval']) * 60,
         'standard_windows' => isset($_POST['_standard_windows']),
-        'skin'         => isset($_POST['_skin']) ? rcube_utils::get_input_value('_skin', rcube_utils::INPUT_POST) : $CONFIG['skin'],
+        'skin'         => rcube_utils::get_input_value('_skin', rcube_utils::INPUT_POST),
     );
 
     // compose derived date/time format strings
@@ -47,11 +48,11 @@ case 'general':
 
 case 'mailbox':
     $a_user_prefs = array(
-        'mail_read_time'       => isset($_POST['_mail_read_time']) ? intval($_POST['_mail_read_time']) : $CONFIG['mail_read_time'],
-        'autoexpand_threads'   => isset($_POST['_autoexpand_threads']) ? intval($_POST['_autoexpand_threads']) : 0,
-        'mdn_requests'         => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,
+        'mail_read_time'       => intval($_POST['_mail_read_time']),
+        'autoexpand_threads'   => intval($_POST['_autoexpand_threads']),
+        'mdn_requests'         => intval($_POST['_mdn_requests']),
         'check_all_folders'    => isset($_POST['_check_all_folders']),
-        'mail_pagesize'        => is_numeric($_POST['_mail_pagesize']) ? max(2, intval($_POST['_mail_pagesize'])) : $CONFIG['mail_pagesize'],
+        'mail_pagesize'        => max(2, intval($_POST['_mail_pagesize'])),
     );
 
     break;
@@ -62,13 +63,13 @@ case 'mailview':
         'message_show_email' => isset($_POST['_message_show_email']),
         'prefer_html'     => isset($_POST['_prefer_html']),
         'inline_images'   => isset($_POST['_inline_images']),
-        'show_images'     => isset($_POST['_show_images']) ? intval($_POST['_show_images']) : 0,
+        'show_images'     => intval($_POST['_show_images']),
         'display_next'    => isset($_POST['_display_next']),
         'default_charset' => rcube_utils::get_input_value('_default_charset', rcube_utils::INPUT_POST),
     );
 
     if ($a_user_prefs['default_charset'] && !preg_match('/^[a-zA-Z0-9-]+$/', $a_user_prefs['default_charset'])) {
-        $a_user_prefs['default_charset'] = $CONFIG['default_charset'];
+        $a_user_prefs['default_charset'] = $RCMAIL->config->get('default_charset');
     }
 
     break;
@@ -77,8 +78,8 @@ case 'compose':
     $a_user_prefs = array(
         'compose_extwin'     => intval($_POST['_compose_extwin']),
         'htmleditor'         => intval($_POST['_htmleditor']),
-        'draft_autosave'     => isset($_POST['_draft_autosave']) ? intval($_POST['_draft_autosave']) : 0,
-        'mime_param_folding' => isset($_POST['_mime_param_folding']) ? intval($_POST['_mime_param_folding']) : 0,
+        'draft_autosave'     => intval($_POST['_draft_autosave']),
+        'mime_param_folding' => intval($_POST['_mime_param_folding']),
         'force_7bit'         => isset($_POST['_force_7bit']),
         'mdn_default'        => isset($_POST['_mdn_default']),
         'dsn_default'        => isset($_POST['_dsn_default']),
@@ -87,8 +88,8 @@ case 'compose':
         'spellcheck_ignore_syms' => isset($_POST['_spellcheck_ignore_syms']),
         'spellcheck_ignore_nums' => isset($_POST['_spellcheck_ignore_nums']),
         'spellcheck_ignore_caps' => isset($_POST['_spellcheck_ignore_caps']),
-        'show_sig'           => isset($_POST['_show_sig']) ? intval($_POST['_show_sig']) : 1,
-        'reply_mode'         => isset($_POST['_reply_mode']) ? intval($_POST['_reply_mode']) : 0,
+        'show_sig'           => intval($_POST['_show_sig']),
+        'reply_mode'         => intval($_POST['_reply_mode']),
         'sig_below'          => isset($_POST['_sig_below']),
         'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
         'sig_separator'      => isset($_POST['_sig_separator']),
@@ -107,7 +108,7 @@ case 'addressbook':
         'autocomplete_single'  => isset($_POST['_autocomplete_single']),
         'addressbook_sort_col' => rcube_utils::get_input_value('_addressbook_sort_col', rcube_utils::INPUT_POST),
         'addressbook_name_listing' => intval(rcube_utils::get_input_value('_addressbook_name_listing', rcube_utils::INPUT_POST)),
-        'addressbook_pagesize' => is_numeric($_POST['_addressbook_pagesize']) ? max(2, intval($_POST['_addressbook_pagesize'])) : $CONFIG['addressbook_pagesize'],
+        'addressbook_pagesize' => max(2, intval($_POST['_addressbook_pagesize'])),
     );
 
     break;
@@ -129,7 +130,7 @@ case 'folders':
     $a_user_prefs = array(
         'show_real_foldernames' => isset($_POST['_show_real_foldernames']),
         // stop using SPECIAL-USE (#4782)
-        'lock_special_folders'  => !in_array('lock_special_folders', (array) $CONFIG['dont_override']),
+        'lock_special_folders'  => !in_array('lock_special_folders', $dont_override),
     );
 
     foreach (rcube_storage::$folder_types as $type) {
@@ -145,8 +146,8 @@ $plugin = rcmail::get_instance()->plugins->exec_hook('preferences_save',
 $a_user_prefs = $plugin['prefs'];
 
 // don't override these parameters
-foreach ((array)$CONFIG['dont_override'] as $p) {
-    $a_user_prefs[$p] = $CONFIG[$p];
+foreach ($dont_override as $p) {
+    $a_user_prefs[$p] = $RCMAIL->config->get($p);
 }
 
 
@@ -167,9 +168,10 @@ case 'general':
 
     $a_user_prefs['timezone'] = (string) $a_user_prefs['timezone'];
 
-    if (!empty($a_user_prefs['refresh_interval']) && !empty($CONFIG['min_refresh_interval'])) {
-        if ($a_user_prefs['refresh_interval'] < $CONFIG['min_refresh_interval']) {
-            $a_user_prefs['refresh_interval'] = $CONFIG['min_refresh_interval'];
+    $min_refresh_interval = (int) $RCMAIL->config->get('min_refresh_interval');
+    if (!empty($a_user_prefs['refresh_interval']) && $min_refresh_interval) {
+        if ($a_user_prefs['refresh_interval'] < $min_refresh_interval) {
+            $a_user_prefs['refresh_interval'] = $min_refresh_interval;
         }
     }
 
@@ -181,8 +183,9 @@ case 'mailbox':
         $a_user_prefs['mail_pagesize'] = 10;
     }
 
-    if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['mail_pagesize'] > $CONFIG['max_pagesize'])) {
-        $a_user_prefs['mail_pagesize'] = (int) $CONFIG['max_pagesize'];
+    $max_pagesize = (int) $RCMAIL->config->get('max_pagesize');
+    if ($max_pagesize && ($a_user_prefs['mail_pagesize'] > $max_pagesize)) {
+        $a_user_prefs['mail_pagesize'] = $max_pagesize;
     }
 
     break;
@@ -193,8 +196,9 @@ case 'addressbook':
         $a_user_prefs['addressbook_pagesize'] = 10;
     }
 
-    if (isset($CONFIG['max_pagesize']) && ($a_user_prefs['addressbook_pagesize'] > $CONFIG['max_pagesize'])) {
-        $a_user_prefs['addressbook_pagesize'] = (int) $CONFIG['max_pagesize'];
+    $max_pagesize = (int) $RCMAIL->config->get('max_pagesize');
+    if ($max_pagesize && ($a_user_prefs['addressbook_pagesize'] > $max_pagesize)) {
+        $a_user_prefs['addressbook_pagesize'] = $max_pagesize;
     }
 
     break;
