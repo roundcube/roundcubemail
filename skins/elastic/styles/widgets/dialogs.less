@@ -9,15 +9,16 @@
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
  */
 
-
 /*** Dialogs ***/
-
-/* TODO: To be reviewed with popups implementation */
 
 .popupmenu {
     display: none;
     padding: 0;
     min-width: 180px;
+
+    li > a {
+        width: 100%;
+    }
 }
 
 div.ui-dialog-content > .popupmenu,
@@ -41,8 +42,20 @@ div.popover-content {
     overflow-x: hidden;
 }
 
-div.popover > h3 {
-    display: none;
+.popover {
+    /* On mobile don't display popup arrows */
+    @media screen and (max-width: @screen-width-xs) {
+        & {
+            margin: 0 !important;
+        }
+        div.arrow {
+            display: none;
+        }
+    }
+
+    & > h3 {
+        display: none;
+    }
 }
 
 .pgpkeyimport {
