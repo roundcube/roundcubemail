@@ -854,7 +854,12 @@ function rcube_elastic_ui()
 
                 $(popup).attr('aria-hidden', false)
                     // Set popup height so it is less than the window height
-                    .css('max-height', Math.min(500, $(window).height() - 5));
+                    .css('max-height', Math.min(500, $(window).height() - 5))
+                    // Stop propagation on menu items that have popups
+                    // to make a click on them not hide their parent menu(s)
+                    .find('[aria-haspopup="true"]')
+                        .off('click.popup')
+                        .on('click.popup', function(e) { e.stopPropagation(); });
             })
             .on('shown.bs.popover', function(event, el) {
                 if (popup_id && menus[popup_id]) {
