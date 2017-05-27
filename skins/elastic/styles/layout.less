@@ -170,14 +170,20 @@ html.iframe body {
         min-width: 260px;
         flex: 3;
     }
-    body > #layout > div:not(.selected),
-    body > #layout > div.menu span.inner {
+    body > #layout > div:not(.selected) {
         display: none;
     }
     body > #layout > div.menu,
     body > #layout > div.content {
         display: flex;
     }
+}
+
+@media screen and (max-width: @screen-width-medium) {
+    html:not(.iframe) {
+        font-size: 120%;
+    }
+
     body > #layout > div.menu a,
     body > #layout > div.menu a:before,
     body > #layout > div.menu {
@@ -186,11 +192,8 @@ html.iframe body {
     body > #layout > div.menu a:before {
         margin: 0.4em 0;
     }
-}
-
-@media screen and (max-width: @screen-width-medium) {
-    html:not(.iframe) {
-        font-size: 120%;
+    body > #layout > div.menu span.inner {
+        display: none;
     }
 }
 
