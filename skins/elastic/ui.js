@@ -827,7 +827,7 @@ function rcube_elastic_ui()
     function popup_init(item)
     {
         var popup_id = $(item).data('popup'),
-            popup = $('#' + popup_id)[0],
+            popup = $('#' + popup_id),
             title = $(item).attr('title');
 
         $(item).attr({
@@ -851,7 +851,7 @@ function rcube_elastic_ui()
                     window[init_func](popup, item, event);
                 }
 
-                $(popup).attr('aria-hidden', false)
+                popup.attr('aria-hidden', false)
                     // Set popup height so it is less than the window height
                     .css('max-height', Math.min(500, $(window).height() - 5))
                     // Stop propagation on menu items that have popups
@@ -866,9 +866,9 @@ function rcube_elastic_ui()
                 }
             })
             .on('hidden.bs.popover', function() {
-                var parent = $(popup).data('popup-parent') || document.body;
+                var parent = popup.data('popup-parent') || document.body;
 
-                $(popup).attr('aria-hidden', true)
+                popup.attr('aria-hidden', true)
                     // Bootstrap will detach the popup element from
                     // the DOM (https://github.com/twbs/bootstrap/issues/20219)
                     // making our menus to not update buttons state.
@@ -891,12 +891,12 @@ function rcube_elastic_ui()
             $(item).attr('title', title);
         }
 
-        $(popup).attr('aria-hidden', 'true').data('button', item);
+        popup.attr('aria-hidden', 'true').data('button', item);
 
         // stop propagation to e.g. do not hide the popup when 
         // clicking inside on form elements
-        if ($(popup).data('editable')) {
-            $(popup).on('click mousedown', function(e) { e.stopPropagation(); });
+        if (popup.data('editable')) {
+            popup.on('click mousedown', function(e) { e.stopPropagation(); });
         }
     };
 
@@ -1202,7 +1202,7 @@ function rcube_elastic_ui()
                     .on('click keypress', function(e) {
                         if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
                             rcmail.spellcheck_lang_set($(this).data('lang'));
-//                            rcmail.hide_menu('spellmenu', e);
+                            rcmail.hide_menu('spell-menu', e);
                             return false;
                         }
                     });
