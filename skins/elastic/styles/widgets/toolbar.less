@@ -139,13 +139,16 @@
 }
 
 .popupmenu.toolbar.listing {
+    a.button:before {
+        display: inline-block;
+    }
+
     .dropbutton {
         display: flex;
 
         a.button:first-child {
             overflow: hidden;
             text-overflow: ellipsis;
-            margin-right: 0.5em;
             flex: 1;
         }
 
@@ -155,6 +158,8 @@
 
             &:before {
                 content: @fa-var-angle-right;
+                margin-left: 0.5em;
+                margin-right: 0;
             }
 
             span.inner {
@@ -166,6 +171,10 @@
     .spacer {
         height: 1px;
         display: block;
+    }
+
+    li:last-child {
+        border: 0;
     }
 }
 

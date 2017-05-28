@@ -787,7 +787,6 @@ function rcube_elastic_ui()
         //       another popup menu with these options should be created
         //       on the list (or sidebar if there's no list element).
         // TODO: spacer item
-        // TODO: dropbutton item
         // TODO: a way to inject buttons to the menu from content iframe
         //       or automatically add all buttons except Save and Cancel
         //       (example QR Code button in contact frame)
@@ -800,6 +799,10 @@ function rcube_elastic_ui()
 
             toolbar.children().each(function() {
                 var button = $(this).detach();
+
+                // Remove empty text nodes that break alignment of text of the menu item
+                button.contents().filter(function() { if (this.nodeType == 3 && !$.trim(this.nodeValue).length) $(this).remove(); });
+
                 items.push($('<li role="menuitem">').append(button));
             });
 
