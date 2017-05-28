@@ -16,7 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 $messages['errortitle']  = 'Hiba történt!';
-$messages['loginfailed']  = 'Sikertelen bejelentkezés.';
+$messages['loginfailed']  = 'Sikertelen bejelentkezés!';
 $messages['cookiesdisabled'] = 'A böngésző nem támogatja a sütik használatát';
 $messages['sessionerror'] = 'Érvénytelen vagy lejárt munkamenet';
 $messages['storageerror'] = 'Nem sikerült csatlakozni az IMAP szerverhez';
