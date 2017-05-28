@@ -423,12 +423,11 @@ function rcube_elastic_ui()
      */
     function tinymce_init(o)
     {
+        // Enable autoresize plugin
+        o.config.plugins += ' autoresize';
+
         // FIXME: only for mobile?
         if (mode == 'phone') {
-            // Enable autoresize plugin
-            // TODO: autoresize for plain text editor area?
-            o.config.plugins += ' autoresize';
-
             // Make the toolbar icons bigger
             o.config.toolbar_items_size = null;
 
