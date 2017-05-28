@@ -19,6 +19,7 @@ CHANGELOG Roundcube Webmail
 - Fix POST parameter reflection in default_charset selector (#5768)
 - Enigma: Fix compatibility with assets_dir
 - Managesieve: Skip redundant LISTSCRIPTS command
+- Fix SQL syntax error on MariaDB 10.2 (#5774)
 
 RELEASE 1.3-rc
 --------------

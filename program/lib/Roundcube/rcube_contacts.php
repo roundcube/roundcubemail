@@ -487,7 +487,7 @@ class rcube_contacts extends rcube_addressbook
 
         // count contacts for this user
         $sql_result = $this->db->query(
-            "SELECT COUNT(c.`contact_id`) AS rows".
+            "SELECT COUNT(c.`contact_id`) AS cnt".
             " FROM " . $this->db->table_name($this->db_name, true) . " AS c".
                 $join.
             " WHERE c.`del` <> 1".
@@ -500,7 +500,7 @@ class rcube_contacts extends rcube_addressbook
 
         $sql_arr = $this->db->fetch_assoc($sql_result);
 
-        $this->cache['count'] = (int) $sql_arr['rows'];
+        $this->cache['count'] = (int) $sql_arr['cnt'];
 
         return $this->cache['count'];
     }
