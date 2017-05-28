@@ -809,16 +809,15 @@ function rcube_elastic_ui()
 
         // append the new toolbar and menu button
         if (items.length) {
-            var menu_button = $('<a class="button icon toolbar-menu-button" href="#menu">')
-                .attr({'data-popup': 'toolbar-menu'});
+            var container = layout.content.children('.header'),
+                menu_attrs = {'class': 'toolbar popupmenu listing', id: 'toolbar-menu'},
+                menu_button = $('<a class="button icon toolbar-menu-button" href="#menu">')
+                    .attr({'data-popup': 'toolbar-menu'});
 
-            layout.content.children('.header')
+            container
                 // TODO: copy original toolbar attributes (class, role, aria-*)
-                .append($('<ul>').attr({'class': 'toolbar popupmenu listing', id: 'toolbar-menu'}).append(items))
+                .append($('<ul>').attr(menu_attrs).data('popup-parent', container).append(items))
                 .append(menu_button);
-
-            // TODO: A menu converted to a popup will be hidden on click in the body
-            //       we do not want that
         }
     };
 
@@ -867,12 +866,14 @@ function rcube_elastic_ui()
                 }
             })
             .on('hidden.bs.popover', function() {
+                var parent = $(popup).data('popup-parent') || document.body;
+
                 $(popup).attr('aria-hidden', true)
                     // Bootstrap will detach the popup element from
                     // the DOM (https://github.com/twbs/bootstrap/issues/20219)
                     // making our menus to not update buttons state.
-                    // Work around this by attaching it back to the body.
-                    .appendTo(document.body);
+                    // Work around this by attaching it back to the DOM tree.
+                    .appendTo(parent);
 
                 if (popup_id && menus[popup_id]) {
                     menus[popup_id].transitioning = false;
