@@ -5680,9 +5680,6 @@ function rcube_webmail()
       // here we assume there's only one text node
       if (node.length) {
         $(node)[0].textContent = to;
-
-        // run onchange action on the element
-        $(input).change();
       }
     }
     else {
@@ -5696,6 +5693,9 @@ function rcube_webmail()
       // set caret to insert pos
       this.set_caret_pos(input, p + to.length);
     }
+
+    // run onchange action on the element
+    $(input).change();
   };
 
   this.ksearch_click = function(node)
