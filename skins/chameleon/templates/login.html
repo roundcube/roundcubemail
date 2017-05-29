@@ -1,0 +1,67 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<meta name="Robots" content="noindex,nofollow" />
+<roundcube:include file="/includes/links.html" />
+</head>
+<body class="login">
+
+<div id="header">
+	<roundcube:object name="logo" src="/images/kolab_logo.png" id="toplogo" alt="Logo" />
+</div>
+<div id="login-form">
+
+
+<h1 class="voice login-title"><roundcube:label name="welcome" /></h1>
+
+<div class="box-inner" role="main">
+
+<roundcube:form name="form" method="post">
+<roundcube:object name="loginform" form="form" size="40" />
+
+<p class="formbuttons"><input type="submit" class="button mainaction" value="<roundcube:label name='login' />" /></p>
+
+</form>
+</div>
+
+<div class="box-bottom">
+	<roundcube:object name="message" id="message" />
+	<noscript>
+		<p class="noscriptwarning"><roundcube:label name="noscriptwarning" /></p>
+	</noscript>
+</div>
+
+<div id="bottomline" role="contentinfo">
+	<roundcube:var name="config:product_name"> <roundcube:object name="version" condition="config:display_version" />
+	<roundcube:if condition="config:support_url" />
+		&nbsp;&#9679;&nbsp; <a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link"><roundcube:label name="support" /></a>
+	<roundcube:endif />
+	<roundcube:container name="loginfooter" id="bottomline" />
+</div>
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+<roundcube:object name="preloader" images="
+  /images/ajaxloader.gif
+  /images/ajaxloader_dark.gif
+  /images/messages.png
+  /images/buttons.png
+  /images/listicons.png
+  /images/taskmenu.png
+  /images/quota.png
+  /images/watermark.png
+" />
+
+<script type="text/javascript">
+$(document).ready(function() {
+    var div = $('#logon_page');
+
+    if (div.length && div.text())
+        div.prependTo($('#login-form div.box-inner')).show();
+});
+</script>
+
+</body>
+</html>

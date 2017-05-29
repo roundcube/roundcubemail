@@ -1,0 +1,8 @@
+{
+	"extends": "larry",
+	"name": "Chameleon - Kolab Community Edition",
+	"author": "Kolab Systems AG, Zurich, Switzerland",
+	"license": "GNU Affero General Public License",
+	"license-url": "http://www.gnu.org/licenses/agpl.html",
+	"version": "0.3.8"
+}

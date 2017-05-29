@@ -1,0 +1,18 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<link rel="stylesheet" type="text/css" href="./skins/larry/print.css" />
+</head>
+<body>
+
+<div id="header"><roundcube:object name="logo" src="/images/kolab_logo.png" id="toplogo" border="0" alt="Logo" /></div>
+
+<div id="printmessageframe">
+<roundcube:object name="messageHeaders" class="headers-table" max="10" />
+<roundcube:object name="messageAttachments" id="attachment-list" />
+<roundcube:object name="messageBody" id="messagebody" showImages="false" />
+</div>
+
+</body>
+</html>

@@ -372,6 +372,15 @@ $config['support_url'] = '';
 // for example array("*" => "/images/roundcube_logo.png", "messageprint" => "/images/roundcube_logo_print.png")
 $config['skin_logo'] = null;
 
+// referrer setting, possible values:
+// no-referrer
+// no-referrer-when-downgrade
+// same-origin
+// origin
+// origin-when-cross-origin
+// unsafe-url
+$config['referrer'] = 'no-referrer';
+
 // automatically create a new Roundcube user when log-in the first time.
 // a new user will be created once the IMAP login succeeds.
 // set to false if only registered users can use this service
