@@ -530,6 +530,7 @@ $labels['signatureoptions'] = 'Signature Options';
 $labels['whenreplying'] = 'When replying';
 $labels['replyempty'] = 'do not quote the original message';
 $labels['replytopposting'] = 'start new message above the quote';
+$labels['replytoppostingnoindent'] = 'start new message above the quote (no indentation)';
 $labels['replybottomposting'] = 'start new message below the quote';
 $labels['replyremovesignature'] = 'When replying remove original signature from message';
 $labels['autoaddsignature'] = 'Automatically add signature';

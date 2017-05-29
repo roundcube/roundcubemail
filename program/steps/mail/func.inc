@@ -1774,9 +1774,10 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
  *
  * @param string Text to wrap
  * @param int    The line width
+ * @param bool   Enable quote indentation
  * @return string The wrapped text
  */
-function rcmail_wrap_and_quote($text, $length = 72)
+function rcmail_wrap_and_quote($text, $length = 72, $quote = true)
 {
     // Rebuild the message body with a maximum of $max chars, while keeping quoted message.
     $max   = max(75, $length + 8);
@@ -1786,18 +1787,28 @@ function rcmail_wrap_and_quote($text, $length = 72)
     foreach ($lines as $line) {
         // don't wrap already quoted lines
         if ($line[0] == '>') {
-            $line = '>' . rtrim($line);
+            $line = rtrim($line);
+            if ($quote) {
+                $line = '>' . $line;
+            }
         }
-        else if (mb_strlen($line) > $max) {
+        // wrap lines above the length limit, but skip these
+        // special lines with links list created by rcube_html2text
+        else if (mb_strlen($line) > $max && !preg_match('|^\[[0-9]+\] https?://\S+$|', $line)) {
             $newline = '';
 
             foreach (explode("\n", rcube_mime::wordwrap($line, $length - 2)) as $l) {
-                $newline .= strlen($l) ? "> $l\n" : ">\n";
+                if ($quote) {
+                    $newline .= strlen($l) ? "> $l\n" : ">\n";
+                }
+                else {
+                    $newline .= "$l\n";
+                }
             }
 
             $line = rtrim($newline);
         }
-        else {
+        else if ($quote) {
             $line = '> ' . $line;
         }
 

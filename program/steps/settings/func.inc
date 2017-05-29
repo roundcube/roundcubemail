@@ -773,6 +773,7 @@ function rcmail_user_prefs($current = null)
                 $select->add($RCMAIL->gettext('replyempty'), -1);
                 $select->add($RCMAIL->gettext('replybottomposting'), 0);
                 $select->add($RCMAIL->gettext('replytopposting'), 1);
+                $select->add($RCMAIL->gettext('replytoppostingnoindent'), 2);
 
                 $blocks['main']['options']['reply_mode'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('whenreplying'))),
