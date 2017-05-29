@@ -1150,6 +1150,7 @@ $config['autoexpand_threads'] = 0;
 // -1 - don't cite the original message
 // 0  - place cursor below the original message
 // 1  - place cursor above original message (top posting)
+// 2  - place cursor above original message (top posting), but do not indent the quote
 $config['reply_mode'] = 0;
 
 // When replying strip original signature from message

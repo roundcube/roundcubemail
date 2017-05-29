@@ -1039,14 +1039,26 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
 {
     global $RCMAIL, $MESSAGE, $LINE_LENGTH;
 
-    $prefix     = rcmail_get_reply_header($MESSAGE);
-    $reply_mode = intval($RCMAIL->config->get('reply_mode'));
+    $reply_mode   = (int) $RCMAIL->config->get('reply_mode');
+    $reply_indent = $reply_mode != 2;
+
+    // In top-posting without quoting it's better to use multi-line header
+    if ($reply_mode == 2) {
+        $prefix = rcmail_get_forward_header($MESSAGE, $bodyIsHtml, false);
+    }
+    else {
+        $prefix = rcmail_get_reply_header($MESSAGE);
+        if ($bodyIsHtml) {
+            $prefix = '<p>' . rcube::Q($prefix) . '</p>';
+        }
+        else {
+            $prefix .= "\n";
+        }
+    }
 
     if (!$bodyIsHtml) {
         // soft-wrap and quote message text
-        $body = rcmail_wrap_and_quote($body, $LINE_LENGTH);
-
-        $prefix .= "\n";
+        $body = rcmail_wrap_and_quote($body, $LINE_LENGTH, $reply_indent);
 
         if ($reply_mode > 0) { // top-posting
             $prefix = "\n\n\n" . $prefix;
@@ -1064,16 +1076,22 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
         // clean up html tags
         $body = rcmail_wash_html($body, array('safe' => $MESSAGE->is_safe), $cid_map);
 
-        // build reply (quote content)
-        $prefix = '<p>' . rcube::Q($prefix) . "</p>\n";
-        $prefix .= '<blockquote>';
+        $suffix = '';
 
-        if ($reply_mode > 0) { // top-posting
+        if ($reply_indent) {
+            $prefix .= '<blockquote>';
+            $suffix .= '</blockquote>';
+        }
+
+        if ($reply_mode == 2) {
+            // top-posting, no indent
+        }
+        else if ($reply_mode > 0) {
+            // top-posting
             $prefix = '<br>' . $prefix;
-            $suffix = '</blockquote>';
         }
         else {
-            $suffix = '</blockquote><p><br/></p>';
+            $suffix .= '<p><br/></p>';
         }
     }
 
@@ -1103,23 +1121,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
         $cid_map = rcmail_write_compose_attachments($MESSAGE, $bodyIsHtml);
     }
 
-    $date = $RCMAIL->format_date($MESSAGE->headers->date, $RCMAIL->config->get('date_long'));
-
     if (!$bodyIsHtml) {
-        $prefix = "\n\n\n-------- " . $RCMAIL->gettext('originalmessage') . " --------\n";
-        $prefix .= $RCMAIL->gettext('subject') . ': ' . $MESSAGE->subject . "\n";
-        $prefix .= $RCMAIL->gettext('date')    . ': ' . $date . "\n";
-        $prefix .= $RCMAIL->gettext('from')    . ': ' . $MESSAGE->get_header('from') . "\n";
-        $prefix .= $RCMAIL->gettext('to')      . ': ' . $MESSAGE->get_header('to') . "\n";
-
-        if ($cc = $MESSAGE->headers->get('cc')) {
-            $prefix .= $RCMAIL->gettext('cc') . ': ' . $cc . "\n";
-        }
-        if (($replyto = $MESSAGE->headers->get('reply-to')) && $replyto != $MESSAGE->get_header('from')) {
-            $prefix .= $RCMAIL->gettext('replyto') . ': ' . $replyto . "\n";
-        }
-
-        $prefix .= "\n";
         $body = trim($body, "\r\n");
     }
     else {
@@ -1128,7 +1130,35 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
 
         // clean up html tags
         $body = rcmail_wash_html($body, array('safe' => $MESSAGE->is_safe), $cid_map);
+    }
 
+    return rcmail_get_forward_header($MESSAGE, $bodyIsHtml) . $body;
+}
+
+function rcmail_get_forward_header($message, $bodyIsHtml = false, $extended = true)
+{
+    global $RCMAIL;
+
+    $date = $RCMAIL->format_date($message->headers->date, $RCMAIL->config->get('date_long'));
+
+    if (!$bodyIsHtml) {
+        $prefix = "\n\n\n-------- " . $RCMAIL->gettext('originalmessage') . " --------\n";
+        $prefix .= $RCMAIL->gettext('subject') . ': ' . $message->subject . "\n";
+        $prefix .= $RCMAIL->gettext('date')    . ': ' . $date . "\n";
+        $prefix .= $RCMAIL->gettext('from')    . ': ' . $message->get_header('from') . "\n";
+        $prefix .= $RCMAIL->gettext('to')      . ': ' . $message->get_header('to') . "\n";
+
+        if ($extended && ($cc = $message->headers->get('cc'))) {
+            $prefix .= $RCMAIL->gettext('cc') . ': ' . $cc . "\n";
+        }
+
+        if ($extended && ($replyto = $message->headers->get('reply-to')) && $replyto != $message->get_header('from')) {
+            $prefix .= $RCMAIL->gettext('replyto') . ': ' . $replyto . "\n";
+        }
+
+        $prefix .= "\n";
+    }
+    else {
         $prefix = sprintf(
             "<br /><p>-------- " . $RCMAIL->gettext('originalmessage') . " --------</p>" .
             "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>" .
@@ -1136,25 +1166,26 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
             "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>" .
             "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>" .
             "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
-            $RCMAIL->gettext('subject'), rcube::Q($MESSAGE->subject),
+            $RCMAIL->gettext('subject'), rcube::Q($message->subject),
             $RCMAIL->gettext('date'), rcube::Q($date),
-            $RCMAIL->gettext('from'), rcube::Q($MESSAGE->get_header('from'), 'replace'),
-            $RCMAIL->gettext('to'), rcube::Q($MESSAGE->get_header('to'), 'replace'));
+            $RCMAIL->gettext('from'), rcube::Q($message->get_header('from'), 'replace'),
+            $RCMAIL->gettext('to'), rcube::Q($message->get_header('to'), 'replace'));
 
-        if ($cc = $MESSAGE->headers->get('cc'))
+        if ($extended && ($cc = $message->headers->get('cc'))) {
             $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
                 $RCMAIL->gettext('cc'), rcube::Q($cc, 'replace'));
+        }
 
-        if (($replyto = $MESSAGE->headers->get('reply-to')) && $replyto != $MESSAGE->get_header('from'))
+        if ($extended && ($replyto = $message->headers->get('reply-to')) && $replyto != $message->get_header('from')) {
             $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
                 $RCMAIL->gettext('replyto'), rcube::Q($replyto, 'replace'));
+        }
 
         $prefix .= "</tbody></table><br>";
     }
 
-    return $prefix . $body;
+    return $prefix;
 }
-
 
 function rcmail_create_draft_body($body, $bodyIsHtml)
 {
