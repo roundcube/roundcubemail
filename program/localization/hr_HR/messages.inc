@@ -81,7 +81,6 @@ $messages['nopagesizewarning'] = 'Unesite veličinu stranice.';
 $messages['norecipientwarning'] = 'Unesite barem jednog primatelja.';
 $messages['nosubjectwarning']  = 'Polje \'Naslov\' je prazno. Želite li unijeti naslov?';
 $messages['nobodywarning'] = 'Želite li poslati poruku bez teksta?';
-$messages['notsentwarning'] = 'Poruka nije poslana. Želite li odbaciti ovu poruku?';
 $messages['restoresavedcomposedata'] = 'Pronađena je započeta, ali neposlana poruka .\n\nNaslov: $subject\nSnimljeno: $date\n\nŽelite li je prikazati?';
 $messages['noldapserver'] = 'Odaberite LDAP poslužitelj za pretragu.';
 $messages['nosearchname'] = 'Unesite ime ili e-mail adresu.';

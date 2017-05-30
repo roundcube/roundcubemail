@@ -106,6 +106,8 @@ class rcube_session_db extends rcube_session
             $this->vars      = base64_decode($sql_arr['vars']);
             $this->key       = $key;
 
+            $this->db->reset();
+
             return !empty($this->vars) ? (string) $this->vars : '';
         }
 
@@ -124,8 +126,8 @@ class rcube_session_db extends rcube_session
         $now = $this->db->now();
 
         $this->db->query("INSERT INTO {$this->table_name}"
-            . " (`sess_id`, `vars`, `ip`, `created`, `changed`)"
-            . " VALUES (?, ?, ?, $now, $now)",
+            . " (`sess_id`, `vars`, `ip`, `changed`)"
+            . " VALUES (?, ?, ?, $now)",
             $key, base64_encode($vars), (string)$this->ip);
 
         return true;

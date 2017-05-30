@@ -144,7 +144,7 @@ class rcube_charset
             else if (!empty($aliases[$m[1]])) {
                 $result = 'ISO-8859-'.$aliases[$m[1]];
             }
-            // iconv requires convertion of e.g. LATIN-1 to LATIN1
+            // iconv requires conversion of e.g. LATIN-1 to LATIN1
             else {
                 $result = $str;
             }
@@ -171,8 +171,7 @@ class rcube_charset
     public static function convert($str, $from, $to = null)
     {
         static $iconv_options = null;
-        static $mbstring_list = null;
-        static $mbstring_sch  = null;
+        static $mbstring_sc   = null;
 
         $to   = empty($to) ? RCUBE_CHARSET : strtoupper($to);
         $from = self::parse_charset($from);
@@ -202,7 +201,9 @@ class rcube_charset
         }
 
         // convert charset using iconv module
-        if ($iconv_options !== false && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP') {
+        if ($iconv_options !== false && $from != 'UTF7-IMAP' && $to != 'UTF7-IMAP'
+            && $from !== 'ISO-2022-JP'
+        ) {
             // throw an exception if iconv reports an illegal character in input
             // it means that input string has been truncated
             set_error_handler(array('rcube_charset', 'error_handler'), E_NOTICE);
@@ -219,49 +220,39 @@ class rcube_charset
             }
         }
 
-        if ($mbstring_list === null) {
-            if (extension_loaded('mbstring')) {
-                $mbstring_sch  = mb_substitute_character();
-                $mbstring_list = mb_list_encodings();
-                $mbstring_list = array_map('strtoupper', $mbstring_list);
-            }
-            else {
-                $mbstring_list = false;
-            }
+        if ($mbstring_sc === null) {
+            $mbstring_sc = extension_loaded('mbstring') ? mb_substitute_character() : false;
         }
 
         // convert charset using mbstring module
-        if ($mbstring_list !== false) {
-            $aliases['WINDOWS-1257'] = 'ISO-8859-13';
-            // it happens that mbstring supports ASCII but not US-ASCII
-            if (($from == 'US-ASCII' || $to == 'US-ASCII') && !in_array('US-ASCII', $mbstring_list)) {
-                $aliases['US-ASCII'] = 'ASCII';
-            }
+        if ($mbstring_sc !== false) {
+            $aliases = array(
+                'WINDOWS-1257' => 'ISO-8859-13',
+                'US-ASCII'     => 'ASCII',
+                'ISO-2022-JP'  => 'ISO-2022-JP-MS',
+            );
 
             $mb_from = $aliases[$from] ?: $from;
             $mb_to   = $aliases[$to] ?: $to;
 
-            // return if encoding found, string matches encoding and convert succeeded
-            if (in_array($mb_from, $mbstring_list) && in_array($mb_to, $mbstring_list)) {
-                // Do the same as //IGNORE with iconv
-                mb_substitute_character('none');
+            // Do the same as //IGNORE with iconv
+            mb_substitute_character('none');
 
-                // throw an exception if mbstring reports an illegal character in input
-                // using mb_check_encoding() is much slower
-                set_error_handler(array('rcube_charset', 'error_handler'), E_WARNING);
-                try {
-                    $out = mb_convert_encoding($str, $mb_to, $mb_from);
-                }
-                catch (ErrorException $e) {
-                    $out = false;
-                }
-                restore_error_handler();
+            // throw an exception if mbstring reports an illegal character in input
+            // using mb_check_encoding() is much slower
+            set_error_handler(array('rcube_charset', 'error_handler'), E_WARNING);
+            try {
+                $out = mb_convert_encoding($str, $mb_to, $mb_from);
+            }
+            catch (ErrorException $e) {
+                $out = false;
+            }
+            restore_error_handler();
 
-                mb_substitute_character($mbstring_sch);
+            mb_substitute_character($mbstring_sc);
 
-                if ($out !== false) {
-                    return $out;
-                }
+            if ($out !== false) {
+                return $out;
             }
         }
 
@@ -277,9 +268,6 @@ class rcube_charset
                     return $out;
                 }
             }
-            else if ($from == 'ISO-8859-1' && function_exists('utf8_encode')) {
-                return utf8_encode($str);
-            }
         }
 
         // encode string for output
@@ -289,9 +277,6 @@ class rcube_charset
                 if ($out = self::utf8_to_utf7imap($str)) {
                     return $out;
                 }
-            }
-            else if ($to == 'ISO-8859-1' && function_exists('utf8_decode')) {
-                return utf8_decode($str);
             }
         }
 

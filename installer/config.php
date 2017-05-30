@@ -11,7 +11,6 @@ $RCI->bool_config_props = array(
   'auto_create_user' => 1,
   'smtp_log' => 1,
   'prefer_html' => 1,
-  'preview_pane' => 1,
   'debug_level' => 1,
 );
 
@@ -57,7 +56,7 @@ if (!empty($_POST['submit'])) {
   }
 
   echo '<p class="hint">Of course there are more options to configure.
-    Have a look at the defaults.inc.php file or visit <a href="http://trac.roundcube.net/wiki/Howto_Config" target="_blank">Howto_Config</a> to find out.</p>';
+    Have a look at the defaults.inc.php file or visit <a href="https://github.com/roundcube/roundcubemail/wiki/Configuration" target="_blank">Howto_Config</a> to find out.</p>';
 
   echo '<p><input type="button" onclick="location.href=\'./index.php?_step=3\'" value="CONTINUE" /></p>';
 
@@ -217,11 +216,11 @@ echo '<label for="cfgdebug4">Print errors (to the browser)</label><br />';
 <?php
 
 $select_log_driver = new html_select(array('name' => '_log_driver', 'id' => "cfglogdriver"));
-$select_log_driver->add(array('file', 'syslog'), array('file', 'syslog'));
+$select_log_driver->add(array('file', 'syslog', 'stdout'), array('file', 'syslog', 'stdout'));
 echo $select_log_driver->show($RCI->getprop('log_driver', 'file'));
 
 ?>
-<div>How to do logging? 'file' - write to files in the log directory, 'syslog' - use the syslog facility.</div>
+<div>How to do logging? 'file' - write to files in the log directory, 'syslog' - use the syslog facility, 'stdout' writes to the process' STDOUT file descriptor.</div>
 </dd>
 
 <dt class="propname">log_dir</dt>
@@ -461,12 +460,12 @@ echo $text_junkmbox->show($RCI->getprop('junk_mbox'));
 <?php
 
 $text_smtphost = new html_inputfield(array('name' => '_smtp_server', 'size' => 30, 'id' => "cfgsmtphost"));
-echo $text_smtphost->show($RCI->getprop('smtp_server'));
+echo $text_smtphost->show($RCI->getprop('smtp_server', 'localhost'));
 
 ?>
 <div>Use this host for sending mails</div>
 
-<p class="hint">To use SSL connection, set ssl://smtp.host.com. If left blank, the PHP mail() function is used</p>
+<p class="hint">To use SSL connection, set ssl://smtp.host.com.</p>
 </dd>
 
 <dt class="propname">smtp_port</dt>
@@ -598,17 +597,6 @@ echo $check_htmlview->show(intval($RCI->getprop('prefer_html')));
 <label for="cfghtmlview">Prefer displaying HTML messages</label><br />
 </dd>
 
-<dt class="propname">preview_pane <span class="userconf">*</span></dt>
-<dd>
-<?php
-
-$check_prevpane = new html_checkbox(array('name' => '_preview_pane', 'id' => "cfgprevpane", 'value' => 1));
-echo $check_prevpane->show(intval($RCI->getprop('preview_pane')));
-
-?>
-<label for="cfgprevpane">If preview pane is enabled</label><br />
-</dd>
-
 <dt class="propname">htmleditor <span class="userconf">*</span></dt>
 <dd>
 <label for="cfghtmlcompose">Compose HTML formatted messages</label>
@@ -685,8 +673,7 @@ echo $select_param_folding->show(strval($RCI->getprop('mime_param_folding')));
 
 <?php
 $plugins = $RCI->list_plugins();
-foreach($plugins as $p) 
-{
+foreach ($plugins as $p) {
     $p_check = new html_checkbox(array('name' => '_plugins_'.$p['name'], 'id' => 'cfgplugin_'.$p['name'], 'value' => $p['name']));
     echo '<dt class="propname"><label>';
     echo $p_check->show($p['enabled'] ? $p['name'] : 0);

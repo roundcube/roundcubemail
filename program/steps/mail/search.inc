@@ -129,10 +129,15 @@ if ($search_str) {
         natcasesort($mboxes);  // we want natural alphabetic sorting of folders in the result set
     }
     else if ($scope == 'sub') {
-        $mboxes = $RCMAIL->storage->list_folders_subscribed($mbox, '*', 'mail');
-        if ($mbox != 'INBOX' && $mboxes[0] == 'INBOX') {
-            array_shift($mboxes);
-        }
+        $delim  = $RCMAIL->storage->get_hierarchy_delimiter();
+        $mboxes = $RCMAIL->storage->list_folders_subscribed($mbox . $delim, '*', 'mail');
+        array_unshift($mboxes, $mbox);
+    }
+
+    if ($scope != 'all') {
+        // Remember current folder, it can change in meantime (plugins)
+        // but we need it to e.g. recognize Sent folder to handle From/To column later
+        $RCMAIL->output->set_env('mailbox', $mbox);
     }
 
     $result = $RCMAIL->storage->search($mboxes, $search_str, $imap_charset, $sort_column);
@@ -198,7 +203,6 @@ else {
 // update message count display
 $OUTPUT->set_env('search_request', $search_str ? $search_request : '');
 $OUTPUT->set_env('search_filter', $_SESSION['search_filter']);
-$OUTPUT->set_env('threading', $RCMAIL->storage->get_threading());
 $OUTPUT->set_env('messagecount', $count);
 $OUTPUT->set_env('pagecount', ceil($count/$RCMAIL->storage->get_pagesize()));
 $OUTPUT->set_env('exists', $mbox === null ? 0 : $RCMAIL->storage->count($mbox, 'EXISTS'));

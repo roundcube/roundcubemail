@@ -21,7 +21,7 @@
 /**
  * Class for output generation
  *
- * @package Webmail
+ * @package    Webmail
  * @subpackage View
  */
 class rcmail_output_cli extends rcmail_output

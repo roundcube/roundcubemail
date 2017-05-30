@@ -12,9 +12,7 @@
  | See the README file for a full license statement.                     |
  |                                                                       |
  | PURPOSE:                                                              |
- |   Compose a new mail message with all headers and attachments         |
- |   and send it using the PEAR::Net_SMTP class or with PHP mail()       |
- |                                                                       |
+ |   Compose a new mail message and send it or store as draft            |
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
@@ -44,9 +42,7 @@ if (!isset($COMPOSE['id'])) {
 }
 
 if (!$savedraft) {
-    if (empty($_POST['_to']) && empty($_POST['_cc']) && empty($_POST['_bcc'])
-        && empty($_POST['_subject']) && $_POST['_message']
-    ) {
+    if (empty($_POST['_to']) && empty($_POST['_cc']) && empty($_POST['_bcc']) && $_POST['_message']) {
         $OUTPUT->show_message('sendingfailed', 'error');
         $OUTPUT->send('iframe');
     }
@@ -62,11 +58,6 @@ if (!$savedraft) {
 
 
 /****** compose message ********/
-
-if (empty($COMPOSE['param']['message-id'])) {
-    $COMPOSE['param']['message-id'] = $RCMAIL->gen_message_id();
-}
-$message_id = $COMPOSE['param']['message-id'];
 
 // set default charset
 $message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $OUTPUT->get_charset();
@@ -106,11 +97,14 @@ if (is_numeric($from)) {
     }
 }
 // ... if there is no identity record, this might be a custom from
-else if ($from_string = rcmail_email_input_format($from)) {
-    if (preg_match('/(\S+@\S+)/', $from_string, $m))
-        $from = trim($m[1], '<>');
-    else
-        $from = null;
+else if (($from_string = rcmail_email_input_format($from))
+    && preg_match('/(\S+@\S+)/', $from_string, $m)
+) {
+    $from = trim($m[1], '<>');
+}
+// ... otherwise it's empty or invalid
+else {
+    $from = null;
 }
 
 // check 'From' address (identity may be incomplete)
@@ -122,6 +116,11 @@ if (!$savedraft && !$saveonly && empty($from)) {
 if (!$from_string && $from) {
     $from_string = $from;
 }
+
+if (empty($COMPOSE['param']['message-id'])) {
+    $COMPOSE['param']['message-id'] = $RCMAIL->gen_message_id($from);
+}
+$message_id = $COMPOSE['param']['message-id'];
 
 // compose headers array
 $headers = array();
@@ -171,10 +170,11 @@ if (($max_recipients = (int) $RCMAIL->config->get('max_recipients')) > 0) {
 $dont_override = (array) $RCMAIL->config->get('dont_override');
 $mdn_enabled   = in_array('mdn_default', $dont_override) ? $RCMAIL->config->get('mdn_default') : !empty($_POST['_mdn']);
 $dsn_enabled   = in_array('dsn_default', $dont_override) ? $RCMAIL->config->get('dsn_default') : !empty($_POST['_dsn']);
+$subject       = trim(rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, TRUE, $message_charset));
 
-// add subject
-$headers['Subject'] = trim(rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST, TRUE, $message_charset));
-
+if (strlen($subject)) {
+    $headers['Subject'] = $subject;
+}
 if (!empty($identity_arr['organization'])) {
     $headers['Organization'] = $identity_arr['organization'];
 }
@@ -368,9 +368,7 @@ $MAIL_MIME = new Mail_mime("\r\n");
 
 // Check if we have enough memory to handle the message in it
 // It's faster than using files, so we'll do this if we only can
-if (is_array($COMPOSE['attachments']) && $RCMAIL->config->get('smtp_server')
-  && ($mem_limit = parse_bytes(ini_get('memory_limit')))
-) {
+if (is_array($COMPOSE['attachments']) && ($mem_limit = parse_bytes(ini_get('memory_limit')))) {
     $memory = 0;
     foreach ($COMPOSE['attachments'] as $id => $attachment) {
         $memory += $attachment['size'];
@@ -394,14 +392,19 @@ if ($isHtml) {
     $plainTextPart = rcube_mime::wordwrap($plainTextPart, $LINE_LENGTH, "\r\n", false, $message_charset);
     $plainTextPart = wordwrap($plainTextPart, 998, "\r\n", true);
 
-    // make sure all line endings are CRLF (#1486712)
-    $plainTextPart = preg_replace('/\r?\n/', "\r\n", $plainTextPart);
+    // There's no sense to use multipart/alternative if the text/plain
+    // part would be blank. Completely blank text/plain part may confuse
+    // some mail clients (#5283)
+    if (strlen(trim($plainTextPart)) > 0) {
+        // make sure all line endings are CRLF (#1486712)
+        $plainTextPart = preg_replace('/\r?\n/', "\r\n", $plainTextPart);
 
-    $plugin = $RCMAIL->plugins->exec_hook('message_outgoing_body',
-        array('body' => $plainTextPart, 'type' => 'alternative', 'message' => $MAIL_MIME));
+        $plugin = $RCMAIL->plugins->exec_hook('message_outgoing_body',
+            array('body' => $plainTextPart, 'type' => 'alternative', 'message' => $MAIL_MIME));
 
-    // add a plain text version of the e-mail as an alternative part.
-    $MAIL_MIME->setTXTBody($plugin['body']);
+        // add a plain text version of the e-mail as an alternative part.
+        $MAIL_MIME->setTXTBody($plugin['body']);
+    }
 
     // Extract image Data URIs into message attachments (#1488502)
     rcmail_extract_inline_images($MAIL_MIME, $from);
@@ -532,7 +535,7 @@ if (!$savedraft && !$saveonly) {
     $smtp_opts['dsn'] = $dsn_enabled;
 
     $sent = $RCMAIL->deliver_message($MAIL_MIME, $from, $mailto,
-        $smtp_error, $mailbody_file, $smtp_opts);
+        $smtp_error, $mailbody_file, $smtp_opts, true);
 
     // return to compose page if sending failed
     if (!$sent) {
@@ -541,10 +544,16 @@ if (!$savedraft && !$saveonly) {
             unlink($mailbody_file);
         }
 
-        if ($smtp_error)
-            $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']); 
-        else
-            $OUTPUT->show_message('sendingfailed', 'error'); 
+        if ($smtp_error && is_string($smtp_error)) {
+            $OUTPUT->show_message($smtp_error, 'error');
+        }
+        else if ($smtp_error && !empty($smtp_error['label'])) {
+            $OUTPUT->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
+        }
+        else {
+            $OUTPUT->show_message('sendingfailed', 'error');
+        }
+
         $OUTPUT->send('iframe');
     }
 
@@ -887,9 +896,6 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
             $address  = rcube_utils::idn_to_ascii(trim($address, '<>'));
             $result[] = format_email_recipient($address, $name);
             $item     = $address;
-        }
-        else if (trim($item)) {
-            continue;
         }
 
         // check address format

@@ -6,7 +6,7 @@ Webmail software. It can be used, modified and redistributed according to
 the terms described in the LICENSE section.
 
 For information about building or modifiying Roundcube skins please visit
-http://trac.roundcube.net/wiki/Doc_Skins
+https://github.com/roundcube/roundcubemail/wiki/Skins
 
 The theme uses icons originally designed by Stephen Horlander and Kevin Gerich
 for Mozilla.org. In case of redistribution giving credit to these artwork

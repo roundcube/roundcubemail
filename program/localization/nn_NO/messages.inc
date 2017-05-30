@@ -72,7 +72,6 @@ $messages['nopagesizewarning'] = 'Oppgje sidestorleik.';
 $messages['norecipientwarning'] = 'Skriv minst ein mottakar.';
 $messages['nosubjectwarning']  = 'Emnefeltet er tomt. Vil du skriva eitt emne no?';
 $messages['nobodywarning'] = 'Senda meldinga utan tekst?';
-$messages['notsentwarning'] = 'Meldinga er ikkje sendt. Vil du kasta ho?';
 $messages['noldapserver'] = 'Vel LDAP-tenar å søkja i.';
 $messages['nosearchname'] = 'Skriv kontaktnamn eller epostadresse.';
 $messages['notuploadedwarning'] = 'Ikkje alle vedlegga er ferdig opplasta enno. Vent litt til, eller avbryt opplastinga.';

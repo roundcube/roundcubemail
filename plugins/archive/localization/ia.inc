@@ -5,7 +5,7 @@
  | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -28,4 +28,5 @@ $labels['archivetypemonth'] = 'Mense (p.ex. Archivo/2012/06)';
 $labels['archivetypefolder'] = 'Dossier original';
 $labels['archivetypesender'] = 'E-mail del expeditor';
 $labels['unkownsender'] = 'incognite';
+$labels['readonarchive'] = 'Marcar le message como legite in le archivo';
 ?>

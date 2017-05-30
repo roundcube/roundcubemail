@@ -7,7 +7,6 @@ $config['jquery_ui_i18n'] = array('datepicker');
 $config['jquery_ui_skin_map'] = array(
   'larry' => 'larry',
   'default' => 'larry',
-  'groupvice4' => 'redmond',
 );
 
 ?>

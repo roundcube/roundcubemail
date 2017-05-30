@@ -151,6 +151,15 @@ div.enigmascreen
   border: 0;
 }
 
+#keyimportform fieldset div {
+  color: #666;
+  padding: 5px 0px;
+}
+
+#keycreateform td > label {
+  display: block;
+}
+
 #keystoolbar
 {
   position: absolute;

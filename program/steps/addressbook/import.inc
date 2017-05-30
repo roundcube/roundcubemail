@@ -77,7 +77,7 @@ if (is_array($_FILES['_file'])) {
     // no vcards detected
     if (!count($vcards)) {
         if ($upload_error == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-            $size = $RCMAIL->show_bytes(parse_bytes(ini_get('upload_max_filesize')));
+            $size = $RCMAIL->show_bytes(rcube_utils::max_upload_size());
             $OUTPUT->show_message('filesizeerror', 'error', array('size' => $size));
         }
         else if ($upload_error) {

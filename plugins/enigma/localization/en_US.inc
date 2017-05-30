@@ -5,7 +5,7 @@
  | plugins/enigma/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -13,7 +13,7 @@
  |                                                                       |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/enigma/
+ For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 
 $labels = array();
@@ -85,6 +85,13 @@ $labels['enterkeypass'] = 'A passphrase is needed to unlock the secret key ($key
 $labels['arialabelkeyexportoptions'] = 'Keys export options';
 $labels['attachpubkeymsg'] = 'Attach my public key';
 
+$labels['keyexportprompt'] = 'Do you want to include secret keys in the saved OpenPGP keys file?';
+$labels['onlypubkeys'] = 'Export Public Keys Only';
+$labels['withprivkeys'] = 'Export Secret Keys';
+$labels['findkey'] = 'Search on key server(s)';
+$labels['keyimportlabel'] = 'Import from file';
+$labels['keyimportsearchlabel'] = 'Search on key server(s)';
+
 $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';
 $messages['sigvalidpartial'] = 'Verified signature from $sender, but part of the body was not signed.';
@@ -95,16 +102,17 @@ $messages['sigerror'] = 'Unverified signature. Internal error.';
 $messages['decryptok'] = 'Message decrypted.';
 $messages['decrypterror'] = 'Decryption failed.';
 $messages['decryptnokey'] = 'Decryption failed. Private key not found. Key ID: $keyid.';
-$messages['decryptbadpass'] = 'Decryption failed. Bad password.';
+$messages['decryptbadpass'] = 'Decryption failed. Invalid password.';
 $messages['decryptnopass'] = 'Decryption failed. Key password required.';
 $messages['decryptpartial'] = 'Message decrypted, but part of the body was not encrypted.';
 $messages['signerror'] = 'Signing failed.';
 $messages['signnokey'] = 'Signing failed. Private key not found.';
-$messages['signbadpass'] = 'Signing failed. Bad password.';
+$messages['signbadpass'] = 'Signing failed. Invalid password.';
 $messages['signnopass'] = 'Signing failed. Key password required.';
 $messages['encrypterror'] = 'Encryption failed.';
 $messages['encryptnokey'] = 'Encryption failed. Public key not found for $email.';
 $messages['nokeysfound'] = 'No keys found';
+$messages['keynotfound'] = 'Key not found!';
 $messages['keyopenerror'] = 'Unable to get key information! Internal error.';
 $messages['keylisterror'] = 'Unable to list keys! Internal error.';
 $messages['keysimportfailed'] = 'Unable to import key(s)! Internal error.';
@@ -114,12 +122,16 @@ $messages['keyremoveconfirm'] = 'Are you sure, you want to delete selected key(s
 $messages['keyremovesuccess'] = 'Key(s) deleted successfully';
 $messages['keyremoveerror'] = 'Unable to delete selected key(s).';
 $messages['keyimporttext'] = 'You can import private and public key(s) or revocation signatures in ASCII-Armor format.';
+$messages['keyimportsearchtext'] = 'You can search for public keys by key identifier, user name or email address and then import them directly.';
 
 $messages['formerror'] = 'Please, fill the form. All fields are required!';
 $messages['passwordsdiffer'] = 'Passwords do not match!';
-$messages['nonameident'] = 'Identity must have a user name defined!';
 $messages['keygenerateerror'] = 'Failed to generate a key pair';
 $messages['keygeneratesuccess'] = 'A key pair generated and imported successfully.';
 $messages['keygennosupport'] = 'Your web browser does not support cryptography. Unable to generate a key pair!';
+$messages['noidentselected'] = 'You have to select at least one identity for the key!';
+
+// removed in 1.3
+$messages['nonameident'] = 'Identity must have a user name defined!';
 
 ?>

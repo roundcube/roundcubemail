@@ -96,7 +96,7 @@ if (!empty($save_data['signature']) && !empty($save_data['html_signature'])) {
     unset($_POST['_signature']);
 }
 
-// update an existing contact
+// update an existing identity
 if ($_POST['_iid']) {
     $iid = rcube_utils::get_input_value('_iid', rcube_utils::INPUT_POST);
 

@@ -31,3 +31,7 @@ $messages['passwordweak'] = 'Le mot de passe doit comporter au moins un chiffre 
 $messages['passwordforbidden'] = 'Le mot de passe contient des caractères interdits.';
 $messages['firstloginchange'] = 'Ceci est votre première connexion. Veuillez changer votre mot de passe.';
 $messages['disablednotice'] = 'Le système est en cours de maintenance et les changements de mot de passe sont impossibles pour l\'instant. Tout devrait redevenir normal sous peu. Nous regrettons tout inconvénient que cette situation pourrait occasionner.';
+$messages['passwinhistory'] = 'Ce mot de passe a déjà été utilisé précédemment.';
+$messages['samepasswd'] = 'Le nouveau mot de passe doit être différent de l\'ancien.';
+$messages['passwdexpirewarning'] = 'Avertissement ! Votre mot de passe arrivera prochainement à expiration. Changez-le avant le $expirationdatetime.';
+$messages['passwdexpired'] = 'Votre mot de passe est expiré, vous devez le changer maintenant !';

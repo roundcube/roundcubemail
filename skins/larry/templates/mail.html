@@ -4,7 +4,7 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 <style type="text/css">
-<roundcube:if condition="config:preview_pane == true" />
+<roundcube:if condition="env:layout != 'list'" />
 	#mailview-top { height: 270px; }
 	#mailview-bottom { top: 284px; height: auto; display: block; }
 	#mailpreviewframe { display: block; }
@@ -59,13 +59,14 @@
 		<li role="menuitem"><label><input type="radio" name="s_scope" value="sub" id="s_scope_sub" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="subfolders" /></span></label></li>
 		<li role="menuitem"><label><input type="radio" name="s_scope" value="all" id="s_scope_all" onclick="UI.set_searchscope(this)" /> <span><roundcube:label name="allfolders" /></span></label></li>
 	</ul>
+	<div class="buttons"><a class="button" href="#" onclick="if (rcmail.command('search')) UI.show_popup('searchmenu',false)"><roundcube:label name="search" /></a></div>
 </div>
 
 </div>
 
 </div>
 
-<div id="mainscreencontent">
+<div id="mainscreencontent" class="<roundcube:var name="env:layout" />">
 <div id="mailview-left">
 
 <!-- folders list -->
@@ -87,14 +88,15 @@
 
 <div id="mailview-right" role="main">
 
-<roundcube:if condition="config:preview_pane == true" />
+<roundcube:if condition="env:layout == 'desktop'" />
 <div id="mailview-top" class="uibox">
 <roundcube:else />
 <div id="mailview-top" class="uibox fullheight">
 <roundcube:endif />
 
 <!-- messagelist -->
-<div id="messagelistcontainer" class="boxlistcontent">
+<div id="messagelistheader"><roundcube:object name="listmenulink" optionsmenuIcon="true" /></div>
+<div id="messagelistcontainer" class="boxlistcontent" tabindex="-1">
 <h2 id="aria-label-messagelist" class="voice"><roundcube:label name="arialabelmessagelist" /></h2>
 <roundcube:object name="messages"
 	id="messagelist"
@@ -130,15 +132,13 @@
 		<span class="pagenavbuttons">
 		<roundcube:button command="firstpage" type="link" class="button firstpage disabled" classAct="button firstpage" classSel="button firstpage pressed" innerClass="inner" title="firstpage" label="first" />
 		<roundcube:button command="previouspage" type="link" class="button prevpage disabled" classAct="button prevpage" classSel="button prevpage pressed" innerClass="inner" title="previouspage" label="previous" />
-		<input id="pagejumper" class="pagejumper" type="text" size="3" disabled="disabled" title="<roundcube:label name="currpage" />" />
+		<input id="pagejumper" class="pagejumper" type="text" size="3" disabled title="<roundcube:label name="currpage" />" />
 		<roundcube:button command="nextpage" type="link" class="button nextpage disabled" classAct="button nextpage" classSel="button nextpage pressed" innerClass="inner" title="nextpage" label="next" />
 		<roundcube:button command="lastpage" type="link" class="button lastpage disabled" classAct="button lastpage" classSel="button lastpage pressed" innerClass="inner" title="lastpage" label="last" />
 		</span>
 	</div>
 
 	<roundcube:container name="listcontrols" id="listcontrols" />
-
-	<a href="#preview" id="mailpreviewtoggle" class="iconbutton" title="<roundcube:label name='previewpane' />" role="button" tabindex="0"><roundcube:label name="previewpane" /></a>
 </div>
 
 </div><!-- end mailview-top -->
@@ -170,7 +170,8 @@
 	<ul class="toolbarmenu" id="mailboxoptionsmenu" role="menu" aria-labelledby="aria-label-mailboxmenu">
 		<roundcube:button command="expunge" type="link-menuitem" label="compact" classAct="active" />
 		<roundcube:button command="purge" type="link-menuitem" label="empty" classAct="active" />
-		<roundcube:button command="import-messages" type="link-menuitem" name="messageimport" classAct="active" label="importmessages" onclick="if(rcmail.command_enabled('import-messages'))UI.show_uploadform();return false" />
+		<roundcube:button command="mark-all-read" type="link-menuitem" label="markallread" classAct="active" />
+		<roundcube:button command="import-messages" type="link-menuitem" name="messageimport" classAct="active" label="importmessages" onclick="if (rcmail.command_enabled('import-messages')) rcmail.upload_input('uploadform')" />
 		<roundcube:button command="folders" task="settings" type="link-menuitem" label="managefolders" classAct="active" />
 		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
 	</ul>
@@ -199,12 +200,22 @@
 
 <div id="listoptions" class="propform popupdialog" role="dialog" aria-labelledby="aria-label-listoptions" aria-hidden="true">
 <h2 id="aria-label-listoptions" class="voice"><roundcube:label name="arialabelmessagelistoptions" /></h2>
-<roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
-	<fieldset class="floating">
+	<roundcube:if condition="!in_array('layout', (array)config:dont_override)" />
+	<fieldset id="listoptions-layout" class="floating">
+		<legend><roundcube:label name="layout" /></legend>
+		<ul class="proplist">
+			<li><label><input type="radio" name="layout" value="widescreen" /> <span><roundcube:label name="layoutwidescreen" /></span></label></li>
+			<li><label><input type="radio" name="layout" value="desktop" /> <span><roundcube:label name="layoutdesktop" /></span></label></li>
+			<li><label><input type="radio" name="layout" value="list" /> <span><roundcube:label name="layoutlist" /></span></label></li>
+		</ul>
+	</fieldset>
+	<roundcube:endif />
+	<roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
+	<fieldset id="listoptions-columns" class="floating">
 		<legend><roundcube:label name="listcolumns" /></legend>
 		<ul class="proplist">
-			<li><label class="disabled"><input type="checkbox" name="list_col[]" value="threads" checked="checked" disabled="disabled" /> <span><roundcube:label name="threads" /></span></label></li>
-			<li><label class="disabled"><input type="checkbox" name="list_col[]" value="subject" checked="checked" disabled="disabled" /> <span><roundcube:label name="subject" /></span></label></li>
+			<li><label class="disabled"><input type="checkbox" name="list_col[]" value="threads" checked disabled /> <span><roundcube:label name="threads" /></span></label></li>
+			<li><label class="disabled"><input type="checkbox" name="list_col[]" value="subject" checked disabled /> <span><roundcube:label name="subject" /></span></label></li>
 			<li><label><input type="checkbox" name="list_col[]" value="fromto" /> <span><roundcube:label name="fromto" /></span></label></li>
 			<li><label><input type="checkbox" name="list_col[]" value="from" /> <span><roundcube:label name="from" /></span></label></li>
 			<li><label><input type="checkbox" name="list_col[]" value="to" /> <span><roundcube:label name="to" /></span></label></li>
@@ -220,7 +231,7 @@
 	</fieldset>
 	<roundcube:endif />
 	<roundcube:if condition="!in_array('message_sort_col', (array)config:dont_override)" />
-	<fieldset class="floating">
+	<fieldset id="listoptions-sortcol" class="floating">
 		<legend><roundcube:label name="listsorting" /></legend>
 		<ul class="proplist">
 			<li><label><input type="radio" name="sort_col" value="" /> <span><roundcube:label name="nonesort" /></span></label></li>
@@ -236,7 +247,7 @@
 	</fieldset>
 	<roundcube:endif />
 	<roundcube:if condition="!in_array('message_sort_order', (array)config:dont_override)" />
-	<fieldset class="floating">
+	<fieldset id="listoptions-sortord" class="floating">
 		<legend><roundcube:label name="listorder" /></legend>
 		<ul class="proplist">
 			<li><label><input type="radio" name="sort_ord" value="ASC" /> <span><roundcube:label name="asc" /></span></label></li>
@@ -251,14 +262,7 @@
 	</div>
 </div>
 
-<div id="upload-dialog" class="propform popupdialog" title="<roundcube:label name='importmessages' />" aria-hidden="true">
-	<h2 id="aria-label-uploaddialog" class="voice"><roundcube:label name="arialabelmailimportdialog" /></h2>
-	<roundcube:object name="messageimportform" id="uploadform" buttons="no" />
-	<div class="formbuttons">
-		<roundcube:button command="import-messages" type="input" class="button mainaction" label="upload" />
-		<roundcube:button name="close" type="input" class="button" label="cancel" onclick="UI.show_uploadform()" />
-	</div>
-</div>
+<roundcube:object name="messageimportform" id="uploadform" mode="smart" />
 
 <roundcube:include file="/includes/footer.html" />
 

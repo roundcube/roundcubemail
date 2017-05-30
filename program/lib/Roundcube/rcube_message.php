@@ -28,7 +28,7 @@
 class rcube_message
 {
     /**
-     * Instace of framework class.
+     * Instance of framework class.
      *
      * @var rcube
      */
@@ -125,7 +125,8 @@ class rcube_message
 
         $this->mime    = new rcube_mime($this->headers->charset);
         $this->subject = $this->headers->get('subject');
-        list(, $this->sender) = each($this->mime->decode_address_list($this->headers->from, 1));
+        $from          = $this->mime->decode_address_list($this->headers->from, 1);
+        $this->sender  = current($from);
 
         // notify plugins and let them analyze this structured message object
         $this->app->plugins->exec_hook('message_load', array('object' => $this));
@@ -678,8 +679,9 @@ class rcube_message
                 $this->parse_alternative = false;
 
                 // if plain part was found, we should unset it if html is preferred
-                if ($this->opt['prefer_html'] && count($this->parts))
+                if ($this->opt['prefer_html'] && count($this->parts)) {
                     $plain_part = null;
+                }
             }
 
             // choose html/plain part to print
@@ -696,7 +698,15 @@ class rcube_message
             // add the right message body
             if (is_object($print_part)) {
                 $print_part->type = 'content';
-                $this->add_part($print_part);
+
+                // Allow plugins to handle also this part
+                $plugin = $this->app->plugins->exec_hook('message_part_structure',
+                    array('object' => $this, 'structure' => $print_part,
+                        'mimetype' => $print_part->mimetype, 'recursive' => true));
+
+                if (!$plugin['abort']) {
+                    $this->add_part($print_part);
+                }
             }
             // show plaintext warning
             else if ($html_part !== null && empty($this->parts)) {
@@ -865,7 +875,7 @@ class rcube_message
             }
 
             // if this was a related part try to resolve references
-            if (preg_match('/^multipart\/(related|relative)/', $mimetype) && sizeof($this->inline_parts)) {
+            if (preg_match('/^multipart\/(related|relative)/', $mimetype) && count($this->inline_parts)) {
                 $a_replaces = array();
                 $img_regexp = '/^image\/(gif|jpe?g|png|tiff|bmp|svg)/';
 
@@ -905,11 +915,7 @@ class rcube_message
             }
         }
         // message is a single part non-text
-        else if ($structure->filename) {
-            $this->add_part($structure, $attachment);
-        }
-        // message is a single part non-text (without filename)
-        else if (preg_match('/application\//i', $mimetype)) {
+        else if ($structure->filename || preg_match('/^application\//i', $mimetype)) {
             $this->add_part($structure, 'attachment');
         }
     }

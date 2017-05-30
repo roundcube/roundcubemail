@@ -80,7 +80,7 @@ else {
         $CONTACTS->set_pagesize($page_size);
         $CONTACTS->set_page($list_page);
 
-        if ($group_id = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC)) {
+        if ($group_id = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GET)) {
             $CONTACTS->set_group($group_id);
         }
         // list groups of this source (on page one)
@@ -116,7 +116,6 @@ else if (!empty($result) && $result->count > 0) {
         }
     }
 }
-
 
 // update env
 $OUTPUT->set_env('contactdata', $jsresult);

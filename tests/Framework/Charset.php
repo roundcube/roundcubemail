@@ -70,6 +70,7 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
             array('aż', 'a', 'UTF-8', 'US-ASCII'),
             array('&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки', 'UTF7-IMAP', 'UTF-8'),
             array('Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-', 'UTF-8', 'UTF7-IMAP'),
+            array(base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), '㈱山﨑工業', 'ISO-2022-JP', 'UTF-8'),
         );
     }
 
@@ -178,7 +179,7 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
     function data_detect_with_lang()
     {
         return array(
-            array('��ܦW��,�D�n', 'zh_TW', 'BIG-5'),
+            array(base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'),
         );
     }
 

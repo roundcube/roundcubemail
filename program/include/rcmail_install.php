@@ -33,7 +33,7 @@ class rcmail_install
     public $bool_config_props = array();
 
     public $local_config    = array('db_dsnw', 'default_host', 'support_url', 'des_key', 'plugins');
-    public $obsolete_config = array('db_backend', 'db_max_length', 'double_auth');
+    public $obsolete_config = array('db_backend', 'db_max_length', 'double_auth', 'preview_pane');
     public $replaced_config = array(
         'skin_path'            => 'skin',
         'locale_string'        => 'language',
@@ -115,6 +115,8 @@ class rcmail_install
 
     /**
      * Read the default config file and store properties
+     *
+     * @param string $file File name with path
      */
     public function load_config_file($file)
     {
@@ -158,8 +160,8 @@ class rcmail_install
     /**
      * Getter for a certain config property
      *
-     * @param string Property name
-     * @param string Default value
+     * @param string $name    Property name
+     * @param string $default Default value
      *
      * @return string The property value
      */
@@ -435,22 +437,23 @@ class rcmail_install
      * Compare the local database schema with the reference schema
      * required for this version of Roundcube
      *
-     * @param rcube_db Database object
+     * @param rcube_db $db Database object
      *
      * @return boolean True if the schema is up-to-date, false if not or an error occurred
      */
-    public function db_schema_check($DB)
+    public function db_schema_check($db)
     {
         if (!$this->configured) {
             return false;
         }
 
         // read reference schema from mysql.initial.sql
-        $db_schema = $this->db_read_schema(INSTALL_PATH . 'SQL/mysql.initial.sql');
+        $engine    = $db->db_provider;
+        $db_schema = $this->db_read_schema(INSTALL_PATH . "SQL/$engine.initial.sql");
         $errors    = array();
 
         // check list of tables
-        $existing_tables = $DB->list_tables();
+        $existing_tables = $db->list_tables();
 
         foreach ($db_schema as $table => $cols) {
             $table = $this->config['db_prefix'] . $table;
@@ -459,7 +462,7 @@ class rcmail_install
                 $errors[] = "Missing table '".$table."'";
             }
             else {  // compare cols
-                $db_cols = $DB->list_cols($table);
+                $db_cols = $db->list_cols($table);
                 $diff    = array_diff(array_keys($cols), $db_cols);
 
                 if (!empty($diff)) {
@@ -482,13 +485,26 @@ class rcmail_install
         $keywords    = array('PRIMARY','KEY','INDEX','UNIQUE','CONSTRAINT','REFERENCES','FOREIGN');
 
         foreach ($lines as $line) {
-            if (preg_match('/^\s*create table `?([a-z0-9_]+)`?/i', $line, $m)) {
-                $table_block = $m[1];
+            if (preg_match('/^\s*create table ([\S]+)/i', $line, $m)) {
+                $table_name = explode('.', $m[1]);
+                $table_name = end($table_name);
+                $table_name = preg_replace('/[`"\[\]]/', '', $table_name);
             }
-            else if ($table_block && preg_match('/^\s*`?([a-z0-9_-]+)`?\s+([a-z]+)/', $line, $m)) {
-                $col = $m[1];
-                if (!in_array(strtoupper($col), $keywords)) {
-                    $schema[$table_block][$col] = $m[2];
+            else if ($table_name && ($line = trim($line))) {
+                if ($line == 'GO' || $line[0] == ')' || $line[strlen($line)-1] == ';') {
+                    $table_name = null;
+                }
+                else {
+                    $items = explode(' ', $line);
+                    $col   = $items[0];
+                    $col   = preg_replace('/[`"\[\]]/', '', $col);
+
+                    if (!in_array(strtoupper($col), $keywords)) {
+                        $type = strtolower($items[1]);
+                        $type = preg_replace('/[^a-zA-Z0-9()]/', '', $type);
+
+                        $schema[$table_name][$col] = $type;
+                    }
                 }
             }
         }
@@ -504,7 +520,7 @@ class rcmail_install
         $errors = array();
         $files  = array(
             'skins/larry/images/roundcube_logo.png' => 'image/png',
-            'program/resources/blank.tif'           => 'image/tiff',
+            'program/resources/blank.tiff'          => 'image/tiff',
             'program/resources/blocked.gif'         => 'image/gif',
             'skins/larry/README'                    => 'text/plain',
         );
@@ -647,8 +663,8 @@ class rcmail_install
     /**
      * Display OK status
      *
-     * @param string Test name
-     * @param string Confirm message
+     * @param string $name    Test name
+     * @param string $message Confirm message
      */
     public function pass($name, $message = '')
     {
@@ -659,10 +675,10 @@ class rcmail_install
     /**
      * Display an error status and increase failure count
      *
-     * @param string Test name
-     * @param string Error message
-     * @param string URL for details
-     * @param bool   Do not count this failure
+     * @param string $name     Test name
+     * @param string $message  Error message
+     * @param string $url      URL for details
+     * @param bool   $optional Do not count this failure
      */
     public function fail($name, $message = '', $url = '', $optional=false)
     {
@@ -677,9 +693,9 @@ class rcmail_install
     /**
      * Display an error status for optional settings/features
      *
-     * @param string Test name
-     * @param string Error message
-     * @param string URL for details
+     * @param string $name    Test name
+     * @param string $message Error message
+     * @param string $url     URL for details
      */
     public function optfail($name, $message = '', $url = '')
     {
@@ -690,9 +706,9 @@ class rcmail_install
     /**
      * Display warning status
      *
-     * @param string Test name
-     * @param string Warning message
-     * @param string URL for details
+     * @param string $name    Test name
+     * @param string $message Warning message
+     * @param string $url     URL for details
      */
     public function na($name, $message = '', $url = '')
     {
@@ -748,10 +764,6 @@ class rcmail_install
                 return $val;
             }
             break;
-
-        case 'mail_header_delimiter':
-            $var = str_replace(array("\r", "\n"), array('\r', '\n'), $var);
-            return '"' . $var. '"';
 /*
         // RCMAIL_VERSION is undefined here
         case 'useragent':
@@ -787,18 +799,19 @@ class rcmail_install
     /**
      * Initialize the database with the according schema
      *
-     * @param object rcube_db Database connection
+     * @param rcube_db $db Database connection
+     *
      * @return boolen True on success, False on error
      */
-    public function init_db($DB)
+    public function init_db($db)
     {
-        $engine = $DB->db_provider;
+        $engine = $db->db_provider;
 
         // read schema file from /SQL/*
         $fname = INSTALL_PATH . "SQL/$engine.initial.sql";
         if ($sql = @file_get_contents($fname)) {
-            $DB->set_option('table_prefix', $this->config['db_prefix']);
-            $DB->exec_script($sql);
+            $db->set_option('table_prefix', $this->config['db_prefix']);
+            $db->exec_script($sql);
         }
         else {
             $this->fail('DB Schema', "Cannot read the schema file: $fname");
@@ -816,7 +829,7 @@ class rcmail_install
     /**
      * Update database schema
      *
-     * @param string Version to update from
+     * @param string $version Version to update from
      *
      * @return boolen True on success, False on error
      */

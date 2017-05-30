@@ -8,7 +8,6 @@
  * 2. Sound   - play wav file
  * 3. Desktop - display desktop notification (using window.Notification API)
  *
- * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  *
  * Copyright (C) 2011-2016, Kolab Systems AG

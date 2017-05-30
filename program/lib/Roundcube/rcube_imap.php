@@ -152,6 +152,9 @@ class rcube_imap extends rcube_storage
                 $pass = $data['pass'];
             }
 
+            // Handle per-host socket options
+            rcube_utils::parse_socket_options($data['socket_options'], $data['host']);
+
             $this->conn->connect($data['host'], $data['user'], $pass, $data);
         } while(!$this->conn->connected() && $data['retry']);
 
@@ -204,7 +207,9 @@ class rcube_imap extends rcube_storage
      */
     public function close()
     {
+        $this->connect_done = false;
         $this->conn->closeConnection();
+
         if ($this->mcache) {
             $this->mcache->close();
         }
@@ -303,7 +308,7 @@ class rcube_imap extends rcube_storage
 
     /**
      * Set internal folder reference.
-     * All operations will be perfomed on this folder.
+     * All operations will be performed on this folder.
      *
      * @param string $folder Folder name
      */
@@ -451,10 +456,16 @@ class rcube_imap extends rcube_storage
         $ns = $this->namespace;
 
         if ($name) {
+            // an alias for BC
+            if ($name == 'prefix') {
+                $name = 'prefix_in';
+            }
+
             return isset($ns[$name]) ? $ns[$name] : null;
         }
 
-        unset($ns['prefix']);
+        unset($ns['prefix_in'], $ns['prefix_out']);
+
         return $ns;
     }
 
@@ -528,10 +539,24 @@ class rcube_imap extends rcube_storage
             }
         }
 
-        // Find personal namespace prefix for mod_folder()
-        // Prefix can be removed when there is only one personal namespace
-        if (is_array($this->namespace['personal']) && count($this->namespace['personal']) == 1) {
-            $this->namespace['prefix'] = $this->namespace['personal'][0][0];
+        // Find personal namespace prefix(es) for self::mod_folder()
+        if (is_array($this->namespace['personal']) && !empty($this->namespace['personal'])) {
+            // There can be more than one namespace root,
+            // - for prefix_out get the first one but only
+            //   if there is only one root
+            // - for prefix_in get the first one but only
+            //   if there is no non-prefixed namespace root (#5403)
+            $roots = array();
+            foreach ($this->namespace['personal'] as $ns) {
+                $roots[] = $ns[0];
+            }
+
+            if (!in_array('', $roots)) {
+                $this->namespace['prefix_in'] = $roots[0];
+            }
+            if (count($roots) == 1) {
+                $this->namespace['prefix_out'] = $roots[0];
+            }
         }
 
         $_SESSION['imap_namespace'] = $this->namespace;
@@ -2581,6 +2606,14 @@ class rcube_imap extends rcube_storage
         // move messages
         $moved = $this->conn->move($uids, $from_mbox, $to_mbox);
 
+        // when moving to Trash we make sure the folder exists
+        // as it's uncommon scenario we do this when MOVE fails, not before
+        if (!$moved && $to_trash && $this->get_response_code() == rcube_storage::TRYCREATE) {
+            if ($this->create_folder($to_mbox, true, 'trash')) {
+                $moved = $this->conn->move($uids, $from_mbox, $to_mbox);
+            }
+        }
+
         if ($moved) {
             $this->clear_messagecount($from_mbox);
             $this->clear_messagecount($to_mbox);
@@ -2765,7 +2798,7 @@ class rcube_imap extends rcube_storage
 
 
     /* --------------------------------
-     *        folder managment
+     *        folder management
      * --------------------------------*/
 
     /**
@@ -2815,7 +2848,9 @@ class rcube_imap extends rcube_storage
         }
 
         // INBOX should always be available
-        if (!strlen($root) && (!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)) {
+        if (in_array_nocase($root . $name, array('*', '%', 'INBOX', 'INBOX*'))
+            && (!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)
+        ) {
             array_unshift($a_mboxes, 'INBOX');
         }
 
@@ -2946,7 +2981,9 @@ class rcube_imap extends rcube_storage
         }
 
         // INBOX should always be available
-        if (!strlen($root) && (!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)) {
+        if (in_array_nocase($root . $name, array('*', '%', 'INBOX', 'INBOX*'))
+            && (!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)
+        ) {
             array_unshift($a_mboxes, 'INBOX');
         }
 
@@ -3256,48 +3293,47 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * Remove folder from server
+     * Remove folder (with subfolders) from the server
      *
      * @param string $folder Folder name
      *
-     * @return boolean True on success
+     * @return boolean True on success, False on failure
      */
     function delete_folder($folder)
     {
-        $delm = $this->get_hierarchy_delimiter();
-
         if (!$this->check_connection()) {
             return false;
         }
 
-        // get list of folders
-        if ((strpos($folder, '%') === false) && (strpos($folder, '*') === false)) {
-            $sub_mboxes = $this->list_folders('', $folder . $delm . '*');
-        }
-        else {
-            $sub_mboxes = $this->list_folders();
-        }
+        $delm = $this->get_hierarchy_delimiter();
 
-        // send delete command to server
-        $result = $this->conn->deleteFolder($folder);
+        // get list of sub-folders or all folders
+        // if folder name contains special characters
+        $path       = strspn($folder, '%*') > 0 ? ($folder . $delm) : '';
+        $sub_mboxes = $this->list_folders('', $path . '*');
 
-        if ($result) {
-            // unsubscribe folder
-            $this->conn->unsubscribe($folder);
-
-            foreach ($sub_mboxes as $c_mbox) {
-                if (strpos($c_mbox, $folder.$delm) === 0) {
-                    $this->conn->unsubscribe($c_mbox);
-                    if ($this->conn->deleteFolder($c_mbox)) {
-                        $this->clear_message_cache($c_mbox);
+        // According to RFC3501 deleting a \Noselect folder
+        // with subfolders may fail. To workaround this we delete
+        // subfolders first (in reverse order) (#5466)
+        if (!empty($sub_mboxes)) {
+            foreach (array_reverse($sub_mboxes) as $mbox) {
+                if (strpos($mbox, $folder . $delm) === 0) {
+                    if ($this->conn->deleteFolder($mbox)) {
+                        $this->conn->unsubscribe($mbox);
+                        $this->clear_message_cache($mbox);
                     }
                 }
             }
-
-            // clear folder-related cache
-            $this->clear_message_cache($folder);
-            $this->clear_cache('mailboxes', true);
         }
+
+        // delete the folder
+        if ($result = $this->conn->deleteFolder($folder)) {
+            // and unsubscribe it
+            $this->conn->unsubscribe($folder);
+            $this->clear_message_cache($folder);
+        }
+
+        $this->clear_cache('mailboxes', true);
 
         return $result;
     }
@@ -3474,26 +3510,23 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * Modify folder name according to namespace.
+     * Modify folder name according to personal namespace prefix.
      * For output it removes prefix of the personal namespace if it's possible.
      * For input it adds the prefix. Use it before creating a folder in root
      * of the folders tree.
      *
      * @param string $folder Folder name
-     * @param string $mode    Mode name (out/in)
+     * @param string $mode   Mode name (out/in)
      *
      * @return string Folder name
      */
     public function mod_folder($folder, $mode = 'out')
     {
-        if (!strlen($folder)) {
-            return $folder;
-        }
+        $prefix = $this->namespace['prefix_' . $mode]; // see set_env()
 
-        $prefix     = $this->namespace['prefix']; // see set_env()
-        $prefix_len = strlen($prefix);
-
-        if (!$prefix_len) {
+        if ($prefix === null || $prefix === ''
+            || !($prefix_len = strlen($prefix)) || !strlen($folder)
+        ) {
             return $folder;
         }
 
@@ -3502,13 +3535,12 @@ class rcube_imap extends rcube_storage
             if (substr($folder, 0, $prefix_len) === $prefix) {
                 return substr($folder, $prefix_len);
             }
-        }
-        // add prefix for input (e.g. folder creation)
-        else {
-            return $prefix . $folder;
+
+            return $folder;
         }
 
-        return $folder;
+        // add prefix for input (e.g. folder creation)
+        return $prefix . $folder;
     }
 
     /**
@@ -4209,7 +4241,7 @@ class rcube_imap extends rcube_storage
      */
     protected function sort_folder_specials($folder, &$list, &$specials, &$out)
     {
-        while (list($key, $name) = each($list)) {
+        foreach ($list as $key => $name) {
             if ($folder === null || strpos($name, $folder.$this->delimiter) === 0) {
                 $out[] = $name;
                 unset($list[$key]);
@@ -4230,6 +4262,17 @@ class rcube_imap extends rcube_storage
      */
     protected function sort_folder_comparator($str1, $str2)
     {
+        if ($this->sort_folder_collator === null) {
+            $this->sort_folder_collator = false;
+
+            // strcoll() does not work with UTF8 locale on Windows,
+            // use Collator from the intl extension
+            if (stripos(PHP_OS, 'win') === 0 && function_exists('collator_compare')) {
+                $locale = $this->options['language'] ?: 'en_US';
+                $this->sort_folder_collator = collator_create($locale) ?: false;
+            }
+        }
+
         $path1 = explode($this->delimiter, $str1);
         $path2 = explode($this->delimiter, $str2);
 
@@ -4238,6 +4281,10 @@ class rcube_imap extends rcube_storage
 
             if ($folder1 === $folder2) {
                 continue;
+            }
+
+            if ($this->sort_folder_collator) {
+                return collator_compare($this->sort_folder_collator, $folder1, $folder2);
             }
 
             return strcoll($folder1, $folder2);

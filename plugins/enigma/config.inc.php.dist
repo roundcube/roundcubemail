@@ -16,6 +16,18 @@ $config['enigma_debug'] = false;
 // Must be writeable by PHP process
 $config['enigma_pgp_homedir'] = null;
 
+// Location of gpg binary. By default it will be auto-detected.
+// This is also a way to force gpg2 use if there are both 1.x and 2.x on the system.
+$config['enigma_pgp_binary'] = '';
+
+// Location of gpg-agent binary. By default it will be auto-detected.
+// It's used with GnuPG 2.x.
+$config['enigma_pgp_agent'] = '';
+
+// Location of gpgconf binary. By default it will be auto-detected.
+// It's used with GnuPG >= 2.1.
+$config['enigma_pgp_gpgconf'] = '';
+
 // Enables signatures verification feature.
 $config['enigma_signatures'] = true;
 
@@ -37,17 +49,6 @@ $config['enigma_attach_pubkey'] = false;
 // Default for how long to store private key passwords (in minutes).
 // When set to 0 passwords will be stored for the whole session.
 $config['enigma_password_time'] = 5;
-
-// Enables server-side keys generation which would be used
-// if user browser does not support web-crypto features.
-//
-// WARNING: Key generation requires true random numbers, and as such can be
-// slow. If the operating system runs out of entropy, key generation will
-// block until more entropy is available.
-//
-// To solve that a hardware entropy generator or
-// an entropy gathering daemon may be installed (e.g. randomsound).
-$config['enigma_keygen_server'] = false;
 
 // With this option you can lock composing options
 // of the plugin forcing the user to use configured settings.

@@ -239,9 +239,11 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if ($date_extension) {
+            $date_format = $this->rc->config->get('date_format', 'Y-m-d');
             foreach (array('date_from', 'date_to') as $var) {
                 $time = ${str_replace('date', 'time', $var)};
-                $date = trim($$var . ' ' . $time);
+                $date = rcube_utils::format_datestr($$var, $date_format);
+                $date = trim($date . ' ' . $time);
 
                 if ($date && ($dt = rcube_utils::anytodatetime($date, $timezone))) {
                     if ($time) {
@@ -337,8 +339,18 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             'noclose' => true
             ) + $attrib);
 
+        $from_addr = $this->rc->config->get('managesieve_vacation_from_init');
         $auto_addr = $this->rc->config->get('managesieve_vacation_addresses_init');
-        $addresses = !$auto_addr || count($this->vacation) > 1 ? (array) $this->vacation['addresses'] : $this->user_emails();
+
+        if (count($this->vacation) < 2) {
+            if ($auto_addr) {
+                $this->vacation['addresses'] = $this->user_emails();
+            }
+            if ($from_addr) {
+                $default_identity = $this->rc->user->list_emails(true);
+                $this->vacation['from'] = $default_identity['email'];
+            }
+        }
 
         // form elements
         $from      = new html_inputfield(array('name' => 'vacation_from', 'id' => 'vacation_from', 'size' => 50));
@@ -346,7 +358,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $reason    = new html_textarea(array('name' => 'vacation_reason', 'id' => 'vacation_reason', 'cols' => 60, 'rows' => 8));
         $interval  = new html_inputfield(array('name' => 'vacation_interval', 'id' => 'vacation_interval', 'size' => 5));
         $addresses = '<textarea name="vacation_addresses" id="vacation_addresses" data-type="list" data-size="30" style="display: none">'
-            . rcube::Q(implode("\n", $addresses), 'strict', false) . '</textarea>';
+            . rcube::Q(implode("\n", (array) $this->vacation['addresses']), 'strict', false) . '</textarea>';
         $status    = new html_select(array('name' => 'vacation_status', 'id' => 'vacation_status'));
         $action    = new html_select(array('name' => 'vacation_action', 'id' => 'vacation_action', 'onchange' => 'vacation_action_select()'));
         $addresses_link = new html_inputfield(array(
@@ -902,9 +914,13 @@ class rcube_sieve_vacation extends rcube_sieve_engine
      */
     public function connect($username, $password)
     {
-        if (!parent::connect($username, $password)) {
-            return $this->load_script();
+        $error = parent::connect($username, $password);
+
+        if ($error) {
+            return $error;
         }
+
+        return $this->load_script();
     }
 
     /**

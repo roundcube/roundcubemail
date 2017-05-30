@@ -234,7 +234,7 @@ class rcube_html2text
         '-',
         '*',
         '£',
-        'EUR',                                  // Euro sign. � ?
+        'EUR',                                  // Euro sign. €
         '|+|amp|+|',                            // Ampersand: see _converter()
         ' ',                                    // Runs of spaces, post-handling
     );
@@ -328,10 +328,10 @@ class rcube_html2text
      * will instantiate with that source propagated, all that has
      * to be done it to call get_text().
      *
-     * @param string $source HTML content
+     * @param string  $source    HTML content
      * @param boolean $from_file Indicates $source is a file to pull content from
-     * @param boolean $do_links Indicate whether a table of link URLs is desired
-     * @param integer $width Maximum width of the formatted text, 0 for no limit
+     * @param boolean $do_links  Indicate whether a table of link URLs is desired
+     * @param integer $width     Maximum width of the formatted text, 0 for no limit
      */
     function __construct($source = '', $from_file = false, $do_links = true, $width = 75, $charset = 'UTF-8')
     {
@@ -349,7 +349,7 @@ class rcube_html2text
     /**
      * Loads source HTML into memory, either from $source string or a file.
      *
-     * @param string $source HTML content
+     * @param string  $source    HTML content
      * @param boolean $from_file Indicates $source is a file to pull content from
      */
     function set_html($source, $from_file = false)
@@ -454,7 +454,7 @@ class rcube_html2text
      * and newlines to a readable format, and word wraps the text to
      * $width characters.
      *
-     * @param string Reference to HTML content string
+     * @param string &$text Reference to HTML content string
      */
     protected function _converter(&$text)
     {
@@ -512,7 +512,7 @@ class rcube_html2text
      * appeared. Also makes an effort at identifying and handling absolute
      * and relative links.
      *
-     * @param string $link URL of the link
+     * @param string $link    URL of the link
      * @param string $display Part of the text to associate number with
      */
     protected function _build_link_list($link, $display)
@@ -553,7 +553,7 @@ class rcube_html2text
     /**
      * Helper function for PRE body conversion.
      *
-     * @param string HTML content
+     * @param string &$text HTML content
      */
     protected function _convert_pre(&$text)
     {
@@ -581,17 +581,17 @@ class rcube_html2text
     /**
      * Helper function for BLOCKQUOTE body conversion.
      *
-     * @param string HTML content
+     * @param string &$text HTML content
      */
     protected function _convert_blockquotes(&$text)
     {
         $level = 0;
         $offset = 0;
-        while (($start = strpos($text, '<blockquote', $offset)) !== false) {
+        while (($start = stripos($text, '<blockquote', $offset)) !== false) {
             $offset = $start + 12;
             do {
-                $end = strpos($text, '</blockquote>', $offset);
-                $next = strpos($text, '<blockquote', $offset);
+                $end = stripos($text, '</blockquote>', $offset);
+                $next = stripos($text, '<blockquote', $offset);
 
                 // nested <blockquote>, skip
                 if ($next !== false && $next < $end) {
@@ -653,7 +653,7 @@ class rcube_html2text
     /**
      * Callback function for preg_replace_callback use.
      *
-     * @param  array PREG matches
+     * @param array $matches PREG matches
      * @return string
      */
     public function tags_preg_callback($matches)
@@ -676,7 +676,7 @@ class rcube_html2text
     /**
      * Callback function for preg_replace_callback use in PRE content handler.
      *
-     * @param array PREG matches
+     * @param array $matches PREG matches
      * @return string
      */
     public function pre_preg_callback($matches)
@@ -692,7 +692,7 @@ class rcube_html2text
      */
     private function _toupper($str)
     {
-        // string can containg HTML tags
+        // string can containing HTML tags
         $chunks = preg_split('/(<[^>]*>)/', $str, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 
         // convert toupper only the text between HTML tags

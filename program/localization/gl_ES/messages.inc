@@ -82,7 +82,6 @@ $messages['nopagesizewarning'] = 'Por favor, engade un tamaño de páxina.';
 $messages['norecipientwarning'] = 'Por favor, engade polo menos unha persoa destinataria.';
 $messages['nosubjectwarning']  = 'O campo "Asunto" está baleiro. Queres completalo?';
 $messages['nobodywarning'] = 'Queres enviar esta mensaxe sen texto?';
-$messages['notsentwarning'] = 'A mensaxe non se enviou. Queres descartala?';
 $messages['restoresavedcomposedata'] = 'Foi atopada unha mensaxe que non se enviara.\n\nSubject: $subject\nSaved: $date\n\n¿queres restaurar esta mensaxe?';
 $messages['noldapserver'] = 'Por favor, elixe un servidor LDAP para buscar.';
 $messages['nosearchname'] = 'Por favor, engade un nome ou un enderezo de correo electrónico.';

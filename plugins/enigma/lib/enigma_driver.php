@@ -32,34 +32,37 @@ abstract class enigma_driver
     abstract function init();
 
     /**
-     * Encryption.
+     * Encryption (and optional signing).
      *
-     * @param string Message body
-     * @param array  List of key-password mapping
+     * @param string     Message body
+     * @param array      List of keys (enigma_key objects)
+     * @param enigma_key Optional signing Key ID
      *
      * @return mixed Encrypted message or enigma_error on failure
      */
-    abstract function encrypt($text, $keys);
+    abstract function encrypt($text, $keys, $sign_key = null);
 
     /**
-     * Decryption.
+     * Decryption (and sig verification if sig exists).
      *
-     * @param string Encrypted message
-     * @param array  List of key-password mapping
+     * @param string           Encrypted message
+     * @param array            List of key-password
+     * @param enigma_signature Signature information (if available)
+     *
+     * @return mixed Decrypted message or enigma_error on failure
      */
-    abstract function decrypt($text, $keys = array());
+    abstract function decrypt($text, $keys = array(), &$signature = null);
 
     /**
      * Signing.
      *
-     * @param string Message body
-     * @param string Key ID
-     * @param string Key password
-     * @param int    Signing mode (enigma_engine::SIGN_*)
+     * @param string     Message body
+     * @param enigma_key The signing key
+     * @param int        Signing mode (enigma_engine::SIGN_*)
      *
      * @return mixed True on success or enigma_error on failure
      */
-    abstract function sign($text, $key, $passwd, $mode = null);
+    abstract function sign($text, $key, $mode = null);
 
     /**
      * Signature verification.
@@ -74,21 +77,24 @@ abstract class enigma_driver
     /**
      * Key/Cert file import.
      *
-     * @param string  File name or file content
-     * @param bollean True if first argument is a filename
+     * @param string File name or file content
+     * @param bolean True if first argument is a filename
+     * @param array  Optional key => password map
      *
      * @return mixed Import status array or enigma_error
      */
-    abstract function import($content, $isfile = false);
+    abstract function import($content, $isfile = false, $passwords = array());
 
     /**
      * Key/Cert export.
      *
      * @param string Key ID
+     * @param bool   Include private key
+     * @param array  Optional key => password map
      *
      * @return mixed Key content or enigma_error
      */
-    abstract function export($key);
+    abstract function export($key, $with_private = false, $passwords = array());
 
     /**
      * Keys listing.
@@ -125,4 +131,12 @@ abstract class enigma_driver
      * @return mixed True on success or enigma_error
      */
     abstract function delete_key($keyid);
+
+    /**
+     * Returns a name of the hash algorithm used for the last
+     * signing operation.
+     *
+     * @return string Hash algorithm name e.g. sha1
+     */
+    abstract function signature_algorithm();
 }

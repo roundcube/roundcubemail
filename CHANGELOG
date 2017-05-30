@@ -1,18 +1,223 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option to not indent quoted text on top-posting reply (#5105)
+- Removed global $CONFIG variable
+- Password: Automatic virtualmin domain setting, removed password_virtualmin_format option (#5759)
+- Support AUTHENTICATE LOGIN for IMAP connections (#5563)
+- Support LDAP GSSAPI authentication (#5703)
+- Allow contacts without an email address (#5079)
+- Localized timezone selector (#4983)
+- Update to TinyMCE 4.5.7
+- Fix bug where invalid recipients could be silently discarded (#5739)
+- Fix conflict with _gid cookie of Google Analytics (#5748)
+- Print error from CLI scripts when system/exec function is disabled (#5744)
+- Fix bug where comment notation within style tag would cause the whole style to be ignored (#5747)
+- Fix bug where it wasn't possible to scroll folders list in Edge (#5750)
+- Fix folders list sorting on Windows - if php-intl is available (#5732)
+- Fix addressbook searching by gender (#5757)
+- Fix prevention from using % and * characters in folder name (#5762)
+- Fix POST parameter reflection in default_charset selector (#5768)
+- Enigma: Fix compatibility with assets_dir
+- Managesieve: Skip redundant LISTSCRIPTS command
+- Fix SQL syntax error on MariaDB 10.2 (#5774)
+
+RELEASE 1.3-rc
+--------------
+- "Flattened" the larry theme: fresher look by removing shadows and gradients
+- Support logging to php://stdout (#5721)
+- Add support for DelSp=Yes in format=flowed messages (#5702)
+- Update to jQuery 3.2.1
+- Update to TinyMCE 4.5.6
+- Plugin API: Call message_part_structure hook for sub-parts of multipart/alternative message (#5678)
+- Enigma: Always use detached signatures (#5624)
+- Enigma: Fix handling of messages with nested PGP encrypted parts (#5634)
+- Minimize unwanted message loading in preview frame on drag (#5616)
+- Fix failing database schema check in all engines except mysql (#5730)
+- Fix autocomplete popup closing with click outside the input, don't handle Tab key as Enter (#5606)
+- Fix jsdeps.json synchronization on update, warn about missing requirements of install-jsdeps.sh (#5598)
+- Fix missing thread expand icon on search result in widescreen mode (#5613)
+- Fix bug where image data URIs in css style were treated as evil/remote in mail preview (#5580)
+- Fix bug where external content in src attribute of input/video tags was not secured (#5583)
+- Fix PHP error on update of a contact with multiple email addresses when using PHP 7.1 (#5587)
+- Fix bug where mail content frame couldn't be reset in some corner cases (#5608)
+- Fix bug where some classic skin images were not displayed in IE/Edge (#5614)
+- Fix bug where signature couldn't be added above the quote in Firefox 51 (#5628)
+- Fix regression where groups with email address were resolved to its members' addresses
+- Fix update of group name in the contacts list header on group rename (#5648)
+- Add rewrite rule to disable access to /vendor/bin folder in .htaccess (#5630)
+- Fix bug where it was too easy accidentally move a folder when using the subscription checkbox (#5655)
+- Managesieve: Fix parser issue with empty lines between comments (#5657)
+- Managesieve: Fix possible defect in handling \r\n in scripts (#5685)
+- Fix/rephrase "unsaved changes" warning when cancelling a draft (#5610)
+- Fix XSS issue in handling of a style tag inside of an svg element [CVE-2017-6820]
+- Fix bug where settings/upload.inc could not be used by plugins (#5694)
+- Fix regression in LDAP fuzzy search where it always used prefix search instead (#5713)
+- Fix bug where namespace prefix could not be truncated on folders list if show_real_foldernames=true (#5695)
+- Fix undesired effects when postgres database uses different timezone than PHP host (#5708)
+- Installer: Fix DB schema initialization on MS SQL Server
+- Fix bug where base_dn setting was ignored inside group_filters (#5720)
+- Password: Fix security issue in virtualmin and sasl drivers [CVE-2017-8114]
+
+RELEASE 1.3-beta
+----------------
+- Nicely handle contact deletion on contact edit (#5522)
+- vcard_attachments: Add possibility to attach contact vCard to composed message (#4997)
+- Preserve message internal/received date on import in mbox format (#5559)
+- Zipdownload: Fix date format in mbox "From line"
+- Possibility to display QR code for contacts data (#5030)
+- Added identicon plugin
+- Widescreen layout aka three column view (#5093)
+- Unify automatic marking as \Seen in preview pane, full-page and extwin views (#5071)
+- Disable double-click on the list when preview pane is on (#5199)
+- Support hostname and hostname:port in force_https option (#5511)
+- Support ALLOW-FROM in x_frame_options (#5122)
+- Allow to omit a subject when sending an email (#5068)
+- Warn about too many disclosed recipients in composed email [max_disclosed_recipients] (#5132)
+- identity_select: Support Received header (#5085)
+- Plugin API: Added get_compose_responses hook (#5457)
+- Display error when trying to upload more files than specified in max_file_uploads (#5483)
+- Add missing sql upgrade file for 'ip' column resize in session table (#5465)
+- Do not show inline images of unsupported mimetype (#5463)
+- Password: Added replacement variables support in password_pop_host (#5539)
+- Password: Don't store passwords in temp files when using dovecotpw (#5531)
+- Password: Added LDAP PPolicy driver (#5364)
+- Password: Added cpanel_webmail driver (#5549)
+- Password: Added possibility to nicely redirect from other plugins on password expiration (#5468)
+- Implement separate action to mark all messages in a folder as \Seen (#5006)
+- Implement marking as \Seen in all folders or in a folder and its subfolders (#5076)
+- Archive: Don't reload messages list when it's not needed (#5225)
+- Archive: Add option to automatically mark archived messages as \Seen (#5142)
+- Improve randomness of password salts and random hashes (#5266)
+- Password/cPanel: Add support for hash authentication and reseller accounts (#5252)
+- Support host-specific imap_conn_options/smtp_conn_options/managesieve_conn_options (#5136)
+- Center and scale images in attachment preview frame (#5421)
+- Added max_message_size option enforced when attaching files to a composed message (#4993)
+- Added Search button in quick search menus (#5312)
+- Implement "one click" attachment/messages/photo upload (#5024)
+- Squirrelmail_usercopy: Add option to define character set of data files
+- Removed useless 'created' column from 'session' table (#5389)
+- Dropped legacy browsers support (#5167)
+    - Removed legacy_browser plugin
+    - Removed hacks for IE < 10
+    - Update to jQuery 3.1.1 and jQuery-UI 1.12.0
+    - compile .min.js files with ECMASCRIPT5 option
+- Require PHP >= 5.4
+- Add possibility to preview and download attachments in mail compose (#5053)
+- Add possibility to rename attachments in mail compose (#4996)
+- Remove backward compatibility "layer" of bc.php (#4902)
+- Support WEBP images in mail messages (#5362)
+- Support MathML in HTML message preview (#5182)
+- Rename Addressbook to Contacts (#5233)
+- Remove PHP mail() support, smtp_server is required now (#5340)
+- Display full message subject in onmouseover on truncated subject in mail view (#5346)
+- Enigma: Support GnuPG 2.1 (#5313)
+- Enigma: Support key generation for multiple identities (#5383)
+- Enigma: Import keys from key-server(s) (#5286)
+- Enigma: Search missing public keys on a key-server in mail compose (#5286)
+- Enigma: Delete user keys when using deluser.sh script
+- Enigma: Fix redundant list-secret-keys/list-public-keys calls on signing/encryption
+- Enigma: Implement PGP encryption and signing in one go (#5302)
+- Enigma: Display signature verification status for encrypted+signed messages (#5302)
+- Display different attachment icon on encrypted messages
 - Display different confirmation text when moving messages to Trash (#5220)
 - Indicate that a collapsed thread has flagged children (#5013)
 - Implemented message/rfc822 attachment preview
 - Update to jsTimezoneDetect 1.0.6
+- Managesieve: Add (optional) RAW script editor (#5414)
+- Managesieve: Add option to automatically set vacation :from address (#5428)
+- Managesieve: Support 'string' test from variables extension [RFC 5229] (#5248)
 - Managesieve: Support 'duplicate' extension [RFC 7352]
 - Managesieve: Unhide advanced rule controls if there are inputs with errors
 - Managesieve: Display warning message when filter form contains errors
+- Control search engine crawlers via X-Robots-Tag header instead of <meta> and robots.txt (#5098)
+- Fixed redundancy in sql caching system and compatibility with Galera Cluster (#5439)
+    - Removed redundant 'created' column from cache and cache_shared tables
+    - Removed use of redundant data records
+    - Added missing primary keys (dictionary, cache, cache_shared tables)
+- Fix so templating system does not mess with external (e.g. email) content (#5499)
+- Fix redundant keep-alive/refresh after session error on compose page (#5500)
+- Managesieve: Fix handling of scripts with nested rules (#5540)
+- Fix variable substitution in ldap host for some use-cases, e.g. new_user_identity (#5544)
+- Enigma: Fix PHP fatal error when decrypting a message with invalid signature (#5555)
+- Fix adding images to new identity signatures
+- Fix rsync error handling in installto.sh script (#5562)
+- Fix some advanced search issues with multiple addressbooks (#5572)
+- Fix so group/addressbook selection is retained on page refresh
+
+RELEASE 1.2.3
+-------------
+- Searching in both contacts and groups when LDAP addressbook with group_filters option is used
+- Fix vulnerability in handling of mail()'s 5th argument
+- Fix To: header encoding in mail sent with mail() method (#5475)
+- Fix flickering of header topline in min-mode (#5426)
+- Fix bug where folders list would scroll to top when clicking on subscription checkbox (#5447)
+- Fix decoding of GB2312/GBK text when iconv is not installed (#5448)
+- Fix regression where creation of default folders wasn't functioning without prefix (#5460)
+- Enigma: Fix bug where last records on keys list were hidden (#5461)
+- Enigma: Fix key search with keyword containing non-ascii characters (#5459)
+- Fix bug where deleting folders with subfolders could fail in some cases (#5466)
+- Fix bug where IMAP password could be exposed via error message (#5472)
+- Fix bug where it wasn't possible to store more that 2MB objects in memcache/apc,
+  Added memcache_max_allowed_packet and apc_max_allowed_packet settings (#5452)
+- Fix "Illegal string offset" warning in rcube::log_bug() on PHP 7.1 (#5508)
+- Fix storing "empty" values in rcube_cache/rcube_cache_shared (#5519)
+- Fix missing content check when image resize fails on attachment thumbnail generation (#5485)
+- Fix displaying attached images with wrong Content-Type specified (#5527)
+
+RELEASE 1.2.2
+-------------
+- Enigma: Add possibility to configure gpg-agent binary location (enigma_pgp_agent)
+- Enigma: Fix signature verification with some IMAP servers, e.g. Gmail, DBMail (#5371)
+- Enigma: Make recipient key searches case-insensitive (#5434)
+- Fix regression in resizing JPEG images with Imagick (#5376)
+- Managesieve: Fix parsing of vacation date-time with non-default date_format (#5372)
+- Use SymLinksIfOwnerMatch in .htaccess instead of FollowSymLinks disabled on some hosts for security reasons (#5370)
+- Wash position:fixed style in HTML mail for better security (#5264)
+- Fix bug where memcache_debug didn't work for session operations
+- Fix bug where Message-ID domain part was tied to username instead of current identity (#5385)
+- Fix bug where blocked.gif couldn't be attached to reply/forward with insecure content
+- Fix E_DEPRECATED warning when using Auth_SASL::factory() (#5401)
+- Fix bug where names of downloaded files could be malformed when derived from the message subject (#5404)
+- Fix so "All" messages selection is resetted on search reset (#5413)
+- Fix bug where folder creation could fail if personal namespace contained more than one entry (#5403)
+- Fix error causing empty INBOX listing in Firefox when using an URL with user:password specified (#5400)
+- Fix PHP warning when handling shared namespace with empty prefix (#5420)
+- Fix so folders list is scrolled to the selected folder on page load (#5424)
+- Fix so when moving to Trash we make sure the folder exists (#5192)
+- Fix displaying size of attachments with zero size
+- Fix so "Action disabled" error uses more appropriate 404 code (#5440)
+
+RELEASE 1.2.1
+-------------
+- Update TinyMCE to version 4.3.13 (#5309)
 - Fix bug where errors could have been not logged when per_user_logging=true
 - Fix bug where message list columns could be in wrong order after column drag-n-drop and list sorting
 - Fix so minified publickey.js (with cache-buster) is used when available (#5254)
 - Fix (replace) application/x-tar file extension test as it might not exist in nginx config (#5253)
 - Fix PHP warning when password_hosts is set, but is not an array (#5260)
+- Fix redundant keep-alive requests when session_lifetime is greater than ~20000 (#5273)
+- Fix so subfolders of INBOX can be set as Archive (#5274)
+- Fix bug where multi-folder search could choose a wrong folder in "this and subfolders" scope (#5282)
+- Fix bug where multi-folder search didn't work for unsubscribed INBOX (#5259)
+- Fix bug where "no body" alert could be displayed when sending mailvelope email
+- Enigma: Fix keys import from inside of an encrypted message (#5285)
+- Enigma: Fix malformed signed messages with force_7bit=true (#5292)
+- Enigma: Add possibility to configure gpg binary location (enigma_pgp_binary)
+- Enigma: Add possibility to export private keys (#5321)
+- Fix searching by email address in contacts with multiple addresses (#5291)
+- Fix handling of --delete argument in moduserprefs.sh script (#5296)
+- Workaround PHP issue by calling closelog() on script shutdown when using log_driver=syslog (#5289)
+- Fix so upgrade script makes sure program/lib directory does not contain old libraries (#5287)
+- Fix subscription checkbox state on error in folder subscribe/unsubscribe action (#5243)
+- Fix bug where microsecond format in logged date didn't work in some cases
+- Fix conflict in new_user_dialog and password_force_new_user settings (#5275)
+- Don't create multipart/alternative messages with empty text/plain part (#5283)
+- Use contact_search_name format in popup on results in compose contacts search
+- Fix handling of 'mailto' and 'error' arguments in message_before_send hook (#5347)
+- Fix missing localization of HTML editor when assets_dir != INSTALL_PATH
+- Fix handling of blockquote tags with mixed case on html2text conversion (#5363)
+- Fix javascript errors in IE on page with iframe that points to another domain
 
 RELEASE 1.2.0
 -------------
@@ -46,7 +251,7 @@ RELEASE 1.2-rc
 - Fix .htaccess rewrite rules to not block .well-known URIs (#4943)
 - Fix mail view scaling on iOS (#4915)
 - Fix PHP7 warning "session_start(): Session callback expects true/false return value" (#4948)
-- Fix XSS issue in SVG images handling (#4949)
+- Fix XSS issue in SVG images handling [CVE-2015-8864, CVE-2016-4068] (#4949)
 - Fix missing language name in "Add to Dictionary" request in HTML mode (#4951)
 - Fix (again) security issue in DBMail driver of password plugin [CVE-2015-2181] (#4958)
 - Fix bug where Archive/Junk buttons were not active after page jump with select=all mode (#4961)
@@ -55,7 +260,7 @@ RELEASE 1.2-rc
 - Fix additional_message_headers plugin compatibility with Mail_Mime >= 1.9 (#4966)
 - Hide DSN option in Preferences when smtp_server is not used (#4967)
 - Fix handling of body parameter in mail compose request
-- Protect download urls against CSRF using unique request tokens (#4957)
+- Protect download urls against CSRF using unique request tokens [CVE-2016-4069] (#4957)
 - newmail_notifier: Refactor desktop notifications
 - Fix so contactlist_fields option can be set via config file
 - Fix so SPECIAL-USE assignments are forced only until user sets special folders (#4782)
@@ -205,7 +410,7 @@ RELEASE 1.1.1
 - Fix fatal errors on systems without mbstring extension or mb_regex_encoding() function (#4769)
 - Fix cursor position on reply below the quote in HTML mode (#4759)
 - Fix so "over quota" errors are displayed also in message compose page
-- Fix duplicate entries supression in autocomplete result (#4776)
+- Fix duplicate entries suppression in autocomplete result (#4776)
 - Fix "Non-static method PEAR::isError() should not be called statically" errors (#4770)
 - Fix parsing invalid HTML messages with BOM after <!DOCTYPE> (#4777)
 - Fix duplicate entry on timezones list in rcube_config::timezone_name_from_abbr() (#4779)
@@ -278,7 +483,7 @@ RELEASE 1.1-beta
 - Fix restoring draft messages from localStorage if editor mode differs (#4631)
 - Added config option/user preference to disable saving messages in localStorage (#4606)
 - Added config option 'imap_log_session' to enable Roundcube <-> IMAP session ID logging
-- Added config option 'log_session_id' to control the lengh of the session identifer in logs
+- Added config option 'log_session_id' to control the length of the session identifier in logs
 - Implemented 'storage_connected' API hook after successful IMAP login (#4638)
 - Intergrate Net_LDAP3 and rcube_ldap_generic classes
 - Add option (disabled_actions) to disable UI elements/actions (#4478)
@@ -591,7 +796,7 @@ RELEASE 0.9.4
 - Make identities matching case insensitive (#1881)
 - Fix issue where too big message data was stored in cache causing sql errors (#4325)
 - Fix iframe scrollbars on webkit desktop browsers (#4319)
-- Fix issue where legacy config was overriden by default config (#4305)
+- Fix issue where legacy config was overridden by default config (#4305)
 - Fix newmail_notifier issue where favicon wasn't changed back to default (#4324)
 - Fix setting of Junk and NonJunk flags by markasjunk plugin (#4303)
 - Fix lack of Reply-To address in header of forwarded message body (#4314)
@@ -675,7 +880,7 @@ RELEASE 0.9.1
 - Fix so Sender: address is added to Cc: field on reply to all (#4140)
 - Fix so addressbook_search_mode works also for group search (#4183)
 - Fix removal of a contact from a group in LDAP addressbook (#4185)
-- Inlcude SQL query in the log on SQL error (#4172)
+- Include SQL query in the log on SQL error (#4172)
 - Fix handling untagged responses in IMAP FETCH - "could not load message" error (#4180)
 - Fix very small window size in Chrome (#4087)
 - Fix list page reset when viewing a message in Larry skin (#4182)
@@ -962,7 +1167,7 @@ RELEASE 0.8-rc
 - Add IE8 hack for messages list issue (#3317)
 - Fix handling errors on draft auto-save
 - Fix importing vCard photo with ENCODING param specified (#3746)
-- Support mutliple name/email pairs for Bcc and Reply-To identity settings (#3752)
+- Support multiple name/email pairs for Bcc and Reply-To identity settings (#3752)
 - Set flexible width to login form fields (#3735)
 - Fix re-draw bug on list columns change in IE8 (#3318)
 - Allow mass-removal of addresses from a group (#3259)
@@ -1458,7 +1663,7 @@ RELEASE 0.4.1
 
 RELEASE 0.4
 -----------
-- Fix disapearing upload form disapears when user selects a file on Safari (#2917)
+- Fix disappearing upload form disappears when user selects a file on Safari (#2917)
 - Don't replace error messages with loading info (#2534)
 - Fix JS errors on compose mode switch (#2952)
 - Fix message structure parsing when it lacks optional fields (#2960)
@@ -2121,7 +2326,7 @@ RELEASE 0.1-RC2
 - Improve message compose screen (closes #1060)
 - Select next row after removing one from list (#1063)
 - Make smtp HELO/EHLO hostname configurable (#851)
-- IPv6 Compatability (#1023), Patch #1484373
+- IPv6 Compatibility (#1023), Patch #1484373
 - Unlock interface when message sending fails (#1188)
 - Eval PHP code in template includes (if configured)
 - Show message when folder is empty. Mo more static text in table (#1068)
@@ -2227,7 +2432,7 @@ RELEASE 0.1-RC1
 - Corrected date string in sent message header (closes #887)
 - Correclty choose "To" column in sent and draft mailboxes (closes #769)
 - Changed srong tooltips for message browse buttons (closes #757)
-- Fixed signature delimeter character to be standard (Bug #830)
+- Fixed signature delimiter character to be standard (Bug #830)
 - Fixed XSS vulnerability (Bug #877)
 - Remove newlines from mail headers (Bug #827)
 - Selection issues when moving/deleting (Bug #837)

@@ -37,46 +37,50 @@ class rcube_poppassd_password
 
     function save($curpass, $passwd)
     {
-        $rcmail = rcmail::get_instance();
-//    include('Net/Socket.php');
+        $rcmail   = rcmail::get_instance();
         $poppassd = new Net_Socket();
 
-        $result = $poppassd->connect($rcmail->config->get('password_pop_host'), $rcmail->config->get('password_pop_port'), null);
+        $port = $rcmail->config->get('password_pop_port', 106);
+        $host = $rcmail->config->get('password_pop_host', 'localhost');
+        $host = rcube_utils::parse_host($host);
+
+        $result = $poppassd->connect($host, $port, null);
+
         if (is_a($result, 'PEAR_Error')) {
             return $this->format_error_result(PASSWORD_CONNECT_ERROR, $result->getMessage());
         }
-        else {
-            $result = $poppassd->readLine();
-            if(!preg_match('/^2\d\d/', $result)) {
-                $poppassd->disconnect();
-                return $this->format_error_result(PASSWORD_ERROR, $result);
-            }
-            else {
-                $poppassd->writeLine("user ". $_SESSION['username']);
-                $result = $poppassd->readLine();
-                if (!preg_match('/^[23]\d\d/', $result) ) {
-                    $poppassd->disconnect();
-                    return $this->format_error_result(PASSWORD_CONNECT_ERROR, $result);
-                }
-                else {
-                    $poppassd->writeLine("pass ". $curpass);
-                    $result = $poppassd->readLine();
-                    if (!preg_match('/^[23]\d\d/', $result) ) {
-                        $poppassd->disconnect();
-                        return $this->format_error_result(PASSWORD_ERROR, $result);
-                    }
-                    else {
-                        $poppassd->writeLine("newpass ". $passwd);
-                        $result = $poppassd->readLine();
-                        $poppassd->disconnect();
-                        if (!preg_match('/^2\d\d/', $result)) {
-                            return $this->format_error_result(PASSWORD_ERROR, $result);
-                        }
 
-                        return PASSWORD_SUCCESS;
-                    }
-                }
-            }
+        $result = $poppassd->readLine();
+
+        if (!preg_match('/^2\d\d/', $result)) {
+            $poppassd->disconnect();
+            return $this->format_error_result(PASSWORD_ERROR, $result);
         }
+
+        $poppassd->writeLine("user ". $_SESSION['username']);
+        $result = $poppassd->readLine();
+
+        if (!preg_match('/^[23]\d\d/', $result)) {
+            $poppassd->disconnect();
+            return $this->format_error_result(PASSWORD_CONNECT_ERROR, $result);
+        }
+
+        $poppassd->writeLine("pass ". $curpass);
+        $result = $poppassd->readLine();
+
+        if (!preg_match('/^[23]\d\d/', $result)) {
+            $poppassd->disconnect();
+            return $this->format_error_result(PASSWORD_ERROR, $result);
+        }
+
+        $poppassd->writeLine("newpass ". $passwd);
+        $result = $poppassd->readLine();
+        $poppassd->disconnect();
+
+        if (!preg_match('/^2\d\d/', $result)) {
+            return $this->format_error_result(PASSWORD_ERROR, $result);
+        }
+
+        return PASSWORD_SUCCESS;
     }
 }

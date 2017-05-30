@@ -20,7 +20,6 @@
  * By default Roundcube database is used. To use different database (or host)
  * you can specify DSN string in $config['virtuser_query_dsn'] option.
  *
- * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  * @author Steffen Vogel
  * @author Tim Gerundt

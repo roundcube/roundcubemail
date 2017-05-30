@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "Copy a new users identity and settings from a nearby Squirrelmail installation",
     "license": "GPLv3+",
-    "version": "1.4",
+    "version": "1.6",
     "authors": [
         {
             "name": "Thomas Bruederli",

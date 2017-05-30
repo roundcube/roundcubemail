@@ -353,6 +353,8 @@ class rcube_imap_cache
                 }
             }
 
+            $this->db->reset();
+
             $msgs = array_flip($msgs);
         }
 
@@ -447,7 +449,7 @@ class rcube_imap_cache
      *
      * @param string               $mailbox  Folder name
      * @param rcube_message_header $message  Message data
-     * @param bool                 $force    Skips message in-cache existance check
+     * @param bool                 $force    Skips message in-cache existence check
      */
     function add_message($mailbox, $message, $force = false)
     {

@@ -204,6 +204,33 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
 
         $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
         $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (2)");
+
+        // position: fixed (#5264)
+        $mod = rcube_utils::mod_css_styles(".test { position: fixed; }", 'rcmbody');
+        $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (0)");
+
+        $mod = rcube_utils::mod_css_styles(".test { position:\nfixed; }", 'rcmbody');
+        $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (1)");
+
+        $mod = rcube_utils::mod_css_styles(".test { position:/**/fixed; }", 'rcmbody');
+        $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (2)");
+
+        // allow data URIs with images (#5580)
+        $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody');
+        $this->assertEquals("#rcmbody { background-image: url(data:image/png;base64,123); }", $mod, "Data URIs in url() allowed");
+    }
+
+    function test_xss_entity_decode()
+    {
+        $mod = rcube_utils::xss_entity_decode("&lt;img/src=x onerror=alert(1)// </b>");
+        $this->assertNotContains('<img', $mod, "Strip (encoded) tags from style node");
+
+        $mod = rcube_utils::xss_entity_decode('#foo:after{content:"\003Cimg/src=x onerror=alert(2)>";}');
+        $this->assertNotContains('<img', $mod, "Strip (encoded) tags from content property");
+
+        // #5747
+        $mod = rcube_utils::xss_entity_decode('<!-- #foo { content:css; } -->');
+        $this->assertContains('#foo', $mod, "Strip HTML comments from content, but not the content");
     }
 
     /**
@@ -322,12 +349,23 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             '20130422'   => '2013-04-22',
             '1900-10-10' => '1900-10-10',
             '01-01-1900' => '1900-01-01',
-            '01/30/1960' => '1960-01-30'
+            '01/30/1960' => '1960-01-30',
+            '1960.12.11 01:02:00' => '1960-12-11',
         );
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime);
             $this->assertSame($ts, $result ? $result->format('Y-m-d') : false, "Error parsing date: $datetime");
+        }
+
+        $test = array(
+            '12/11/2013 01:02:00' => '2013-11-12 01:02:00',
+            '1960.12.11 01:02:00' => '1960-12-11 01:02:00',
+        );
+
+        foreach ($test as $datetime => $ts) {
+            $result = rcube_utils::anytodatetime($datetime);
+            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i:s') : false, "Error parsing date: $datetime");
         }
     }
 
@@ -348,6 +386,24 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             $result = rcube_utils::anytodatetime($datetime, $tz);
             if ($result) $result->setTimezone($tz);  // move to target timezone for comparison
             $this->assertSame($ts, $result ? $result->format('Y-m-d H:i') : false, "Error parsing date: $datetime");
+        }
+    }
+
+    /**
+     * rcube:utils::format_datestr()
+     */
+    function test_format_datestr()
+    {
+        $test = array(
+            array('abc-555', 'abc', 'abc-555'),
+            array('2013-04-22', 'Y-m-d', '2013-04-22'),
+            array('22/04/2013', 'd/m/Y', '2013-04-22'),
+            array('4.22.2013', 'm.d.Y', '2013-04-22'),
+        );
+
+        foreach ($test as $data) {
+            $result = rcube_utils::format_datestr($data[0], $data[1]);
+            $this->assertSame($data[2], $result, "Error formatting date: " . $data[0]);
         }
     }
 

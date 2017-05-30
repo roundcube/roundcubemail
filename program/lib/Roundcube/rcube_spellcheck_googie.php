@@ -103,8 +103,7 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
         if (preg_match('!^HTTP/1.\d (\d+)(.+)!', $store, $m)) {
             $http_status = $m[1];
             if ($http_status != '200') {
-                $this->error = 'HTTP ' . $m[1] . $m[2];
-                $this->error .= "\n" . $store;
+                $this->error = 'HTTP ' . $m[1] . rtrim($m[2]);
             }
         }
 
@@ -142,7 +141,7 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
 
         if ($matches[0][4]) {
             $suggestions = explode("\t", $matches[0][4]);
-            if (sizeof($suggestions) > self::MAX_SUGGESTIONS) {
+            if (count($suggestions) > self::MAX_SUGGESTIONS) {
                 $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
             }
 

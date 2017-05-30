@@ -88,7 +88,8 @@ $OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubj
     'selectimportfile', 'messageissent', 'loadingdata', 'nopubkeyfor', 'nopubkeyforsender',
     'encryptnoattachments','encryptedsendialog','searchpubkeyservers', 'importpubkeys',
     'encryptpubkeysfound',  'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
-    'keyrevoked', 'keyimportsuccess', 'keyservererror', 'attaching');
+    'keyrevoked', 'keyimportsuccess', 'keyservererror', 'attaching', 'namex', 'attachmentrename',
+    'disclosedrecipwarning', 'disclosedreciptitle', 'bccinstead', 'nosubjecttitle');
 
 $OUTPUT->set_pagetitle($RCMAIL->gettext('compose'));
 
@@ -99,7 +100,9 @@ $OUTPUT->set_env('top_posting', intval($RCMAIL->config->get('reply_mode')) > 0);
 $OUTPUT->set_env('sig_below', $RCMAIL->config->get('sig_below'));
 $OUTPUT->set_env('recipients_separator', trim($RCMAIL->config->get('recipients_separator', ',')));
 $OUTPUT->set_env('save_localstorage', (bool)$RCMAIL->config->get('compose_save_localstorage'));
+$OUTPUT->set_env('max_disclosed_recipients', (int) $RCMAIL->config->get('max_disclosed_recipients', 5));
 $OUTPUT->set_env('is_sent', false);
+$OUTPUT->set_env('mimetypes', rcmail_supported_mimetypes());
 
 $drafts_mbox     = $RCMAIL->config->get('drafts_mbox');
 $config_show_sig = $RCMAIL->config->get('show_sig', 1);
@@ -849,13 +852,15 @@ function rcmail_prepare_message_body()
     unset($plugin);
 
     // add blocked.gif attachment (#1486516)
-    if ($isHtml && preg_match('#<img src="program/resources/blocked\.gif"#', $body)) {
+    $regexp = '# src="program/resources/blocked\.gif"#';
+    if ($isHtml && preg_match($regexp, $body)) {
         $content = $RCMAIL->get_resource_content('blocked.gif');
+
         if ($content && ($attachment = rcmail_save_image('blocked.gif', 'image/gif', $content))) {
             $COMPOSE['attachments'][$attachment['id']] = $attachment;
             $url = sprintf('%s&_id=%s&_action=display-attachment&_file=rcmfile%s',
                 $RCMAIL->comm_path, $COMPOSE['id'], $attachment['id']);
-            $body = preg_replace('#program/resources/blocked\.gif#', $url, $body);
+            $body = preg_replace($regexp, ' src="' . $url . '"', $body);
         }
     }
 
@@ -905,7 +910,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
             }
 
             // add HTML formatting
-            $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed');
+            $body = rcmail_plain_body($body, $part->ctype_parameters['format'] == 'flowed', $part->ctype_parameters['delsp'] == 'yes');
         }
     }
     else {
@@ -922,7 +927,7 @@ function rcmail_compose_part_body($part, $isHtml = false)
         }
         else {
             if ($part->ctype_secondary == 'plain' && $part->ctype_parameters['format'] == 'flowed') {
-                $body = rcube_mime::unfold_flowed($body);
+                $body = rcube_mime::unfold_flowed($body, null, $part->ctype_parameters['delsp'] == 'yes');
             }
 
             // try to remove the signature
@@ -944,46 +949,24 @@ function rcmail_compose_body($attrib)
     list($form_start, $form_end) = get_form_tags($attrib);
     unset($attrib['form']);
 
-    if (empty($attrib['id']))
+    if (empty($attrib['id'])) {
         $attrib['id'] = 'rcmComposeBody';
+    }
+
+    // If desired, set this textarea to be editable by TinyMCE
+    if ($HTML_MODE) {
+        $attrib['class'] = 'mce_editor';
+    }
 
     $attrib['name'] = '_message';
 
-    $isHtml = $HTML_MODE;
+    $textarea = new html_textarea($attrib);
+    $hidden   = new html_hiddenfield();
 
-    $out = $form_start ? "$form_start\n" : '';
-
-    $saveid = new html_hiddenfield(array('name' => '_draft_saveid', 'value' => $RCMAIL->output->get_env('draft_id')));
-    $out .= $saveid->show();
-
-    $drafttoggle = new html_hiddenfield(array('name' => '_draft', 'value' => 'yes'));
-    $out .= $drafttoggle->show();
-
-    $msgtype = new html_hiddenfield(array('name' => '_is_html', 'value' => ($isHtml ? "1" : "0")));
-    $out .= $msgtype->show();
-
-    $framed = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
-    $out .= $framed->show();
-
-    // If desired, set this textarea to be editable by TinyMCE
-    if ($isHtml) {
-        $MESSAGE_BODY = htmlentities($MESSAGE_BODY, ENT_NOQUOTES, RCUBE_CHARSET);
-        $attrib['class'] = 'mce_editor';
-        $attrib['is_escaped'] = true;
-        $textarea = new html_textarea($attrib);
-        $out .= $textarea->show($MESSAGE_BODY);
-    }
-    else {
-        $textarea = new html_textarea($attrib);
-        $out .= $textarea->show('');
-
-        // quote plain text, inject into textarea
-        $table = get_html_translation_table(HTML_SPECIALCHARS);
-        $MESSAGE_BODY = strtr($MESSAGE_BODY, $table);
-        $out = substr($out, 0, -11) . $MESSAGE_BODY . '</textarea>';
-    }
-
-    $out .= $form_end ? "\n$form_end" : '';
+    $hidden->add(array('name' => '_draft_saveid', 'value' => $RCMAIL->output->get_env('draft_id')));
+    $hidden->add(array('name' => '_draft', 'value' => ''));
+    $hidden->add(array('name' => '_is_html', 'value' => $HTML_MODE ? "1" : "0"));
+    $hidden->add(array('name' => '_framed', 'value' => '1'));
 
     $OUTPUT->set_env('composebody', $attrib['id']);
 
@@ -1005,9 +988,6 @@ function rcmail_compose_body($attrib)
         if (!$spellcheck_langs[$lang]) {
             $lang = 'en';
         }
-
-        $OUTPUT->set_env('spell_langs', $spellcheck_langs);
-        $OUTPUT->set_env('spell_lang', $lang);
 
         $editor_lang_set = array();
         foreach ($spellcheck_langs as $key => $name) {
@@ -1043,11 +1023,15 @@ function rcmail_compose_body($attrib)
 
         $OUTPUT->add_label('checking');
         $OUTPUT->set_env('spellcheck_langs', join(',', $editor_lang_set));
+        $OUTPUT->set_env('spell_langs', $spellcheck_langs);
+        $OUTPUT->set_env('spell_lang', $lang);
     }
 
-    $out .= "\n".'<iframe name="savetarget" src="program/resources/blank.gif" style="width:0;height:0;border:none;visibility:hidden;" aria-hidden="true"></iframe>';
-
-    return $out;
+    return ($form_start ? "$form_start\n" : '')
+        . "\n" . $hidden->show() . "\n" . $textarea->show($MESSAGE_BODY)
+        . ($form_end ? "\n$form_end\n" : '')
+        . '<iframe name="savetarget" src="program/resources/blank.gif"'
+        . ' style="width:0;height:0;border:none;visibility:hidden;" aria-hidden="true"></iframe>';
 }
 
 
@@ -1055,14 +1039,26 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
 {
     global $RCMAIL, $MESSAGE, $LINE_LENGTH;
 
-    $prefix = rcmail_get_reply_header($MESSAGE);
-    $reply_mode = intval($RCMAIL->config->get('reply_mode'));
+    $reply_mode   = (int) $RCMAIL->config->get('reply_mode');
+    $reply_indent = $reply_mode != 2;
+
+    // In top-posting without quoting it's better to use multi-line header
+    if ($reply_mode == 2) {
+        $prefix = rcmail_get_forward_header($MESSAGE, $bodyIsHtml, false);
+    }
+    else {
+        $prefix = rcmail_get_reply_header($MESSAGE);
+        if ($bodyIsHtml) {
+            $prefix = '<p>' . rcube::Q($prefix) . '</p>';
+        }
+        else {
+            $prefix .= "\n";
+        }
+    }
 
     if (!$bodyIsHtml) {
         // soft-wrap and quote message text
-        $body = rcmail_wrap_and_quote($body, $LINE_LENGTH);
-
-        $prefix .= "\n";
+        $body = rcmail_wrap_and_quote($body, $LINE_LENGTH, $reply_indent);
 
         if ($reply_mode > 0) { // top-posting
             $prefix = "\n\n\n" . $prefix;
@@ -1080,16 +1076,22 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
         // clean up html tags
         $body = rcmail_wash_html($body, array('safe' => $MESSAGE->is_safe), $cid_map);
 
-        // build reply (quote content)
-        $prefix = '<p>' . rcube::Q($prefix) . "</p>\n";
-        $prefix .= '<blockquote>';
+        $suffix = '';
 
-        if ($reply_mode > 0) { // top-posting
+        if ($reply_indent) {
+            $prefix .= '<blockquote>';
+            $suffix .= '</blockquote>';
+        }
+
+        if ($reply_mode == 2) {
+            // top-posting, no indent
+        }
+        else if ($reply_mode > 0) {
+            // top-posting
             $prefix = '<br>' . $prefix;
-            $suffix = '</blockquote>';
         }
         else {
-            $suffix = '</blockquote><p><br/></p>';
+            $suffix .= '<p><br/></p>';
         }
     }
 
@@ -1119,23 +1121,7 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
         $cid_map = rcmail_write_compose_attachments($MESSAGE, $bodyIsHtml);
     }
 
-    $date = $RCMAIL->format_date($MESSAGE->headers->date, $RCMAIL->config->get('date_long'));
-
     if (!$bodyIsHtml) {
-        $prefix = "\n\n\n-------- " . $RCMAIL->gettext('originalmessage') . " --------\n";
-        $prefix .= $RCMAIL->gettext('subject') . ': ' . $MESSAGE->subject . "\n";
-        $prefix .= $RCMAIL->gettext('date')    . ': ' . $date . "\n";
-        $prefix .= $RCMAIL->gettext('from')    . ': ' . $MESSAGE->get_header('from') . "\n";
-        $prefix .= $RCMAIL->gettext('to')      . ': ' . $MESSAGE->get_header('to') . "\n";
-
-        if ($cc = $MESSAGE->headers->get('cc')) {
-            $prefix .= $RCMAIL->gettext('cc') . ': ' . $cc . "\n";
-        }
-        if (($replyto = $MESSAGE->headers->get('reply-to')) && $replyto != $MESSAGE->get_header('from')) {
-            $prefix .= $RCMAIL->gettext('replyto') . ': ' . $replyto . "\n";
-        }
-
-        $prefix .= "\n";
         $body = trim($body, "\r\n");
     }
     else {
@@ -1144,7 +1130,35 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
 
         // clean up html tags
         $body = rcmail_wash_html($body, array('safe' => $MESSAGE->is_safe), $cid_map);
+    }
 
+    return rcmail_get_forward_header($MESSAGE, $bodyIsHtml) . $body;
+}
+
+function rcmail_get_forward_header($message, $bodyIsHtml = false, $extended = true)
+{
+    global $RCMAIL;
+
+    $date = $RCMAIL->format_date($message->headers->date, $RCMAIL->config->get('date_long'));
+
+    if (!$bodyIsHtml) {
+        $prefix = "\n\n\n-------- " . $RCMAIL->gettext('originalmessage') . " --------\n";
+        $prefix .= $RCMAIL->gettext('subject') . ': ' . $message->subject . "\n";
+        $prefix .= $RCMAIL->gettext('date')    . ': ' . $date . "\n";
+        $prefix .= $RCMAIL->gettext('from')    . ': ' . $message->get_header('from') . "\n";
+        $prefix .= $RCMAIL->gettext('to')      . ': ' . $message->get_header('to') . "\n";
+
+        if ($extended && ($cc = $message->headers->get('cc'))) {
+            $prefix .= $RCMAIL->gettext('cc') . ': ' . $cc . "\n";
+        }
+
+        if ($extended && ($replyto = $message->headers->get('reply-to')) && $replyto != $message->get_header('from')) {
+            $prefix .= $RCMAIL->gettext('replyto') . ': ' . $replyto . "\n";
+        }
+
+        $prefix .= "\n";
+    }
+    else {
         $prefix = sprintf(
             "<br /><p>-------- " . $RCMAIL->gettext('originalmessage') . " --------</p>" .
             "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>" .
@@ -1152,32 +1166,33 @@ function rcmail_create_forward_body($body, $bodyIsHtml)
             "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>" .
             "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>" .
             "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
-            $RCMAIL->gettext('subject'), rcube::Q($MESSAGE->subject),
+            $RCMAIL->gettext('subject'), rcube::Q($message->subject),
             $RCMAIL->gettext('date'), rcube::Q($date),
-            $RCMAIL->gettext('from'), rcube::Q($MESSAGE->get_header('from'), 'replace'),
-            $RCMAIL->gettext('to'), rcube::Q($MESSAGE->get_header('to'), 'replace'));
+            $RCMAIL->gettext('from'), rcube::Q($message->get_header('from'), 'replace'),
+            $RCMAIL->gettext('to'), rcube::Q($message->get_header('to'), 'replace'));
 
-        if ($cc = $MESSAGE->headers->get('cc'))
+        if ($extended && ($cc = $message->headers->get('cc'))) {
             $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
                 $RCMAIL->gettext('cc'), rcube::Q($cc, 'replace'));
+        }
 
-        if (($replyto = $MESSAGE->headers->get('reply-to')) && $replyto != $MESSAGE->get_header('from'))
+        if ($extended && ($replyto = $message->headers->get('reply-to')) && $replyto != $message->get_header('from')) {
             $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
                 $RCMAIL->gettext('replyto'), rcube::Q($replyto, 'replace'));
+        }
 
         $prefix .= "</tbody></table><br>";
     }
 
-    return $prefix . $body;
+    return $prefix;
 }
-
 
 function rcmail_create_draft_body($body, $bodyIsHtml)
 {
     global $MESSAGE, $COMPOSE;
 
     // add attachments
-    // sizeof($MESSAGE->mime_parts can be 1 - e.g. attachment, but no text!
+    // count($MESSAGE->mime_parts) can be 1 - e.g. attachment, but no text!
     if (empty($COMPOSE['forward_attachments'])
         && is_array($MESSAGE->mime_parts)
         && count($MESSAGE->mime_parts) > 0
@@ -1549,6 +1564,9 @@ function rcmail_compose_attachment_list($attrib)
     $jslist = array();
     $button = '';
 
+    if ($attrib['icon_pos'] == 'left')
+        $COMPOSE['icon_pos'] = 'left';
+
     if (is_array($COMPOSE['attachments'])) {
         if ($attrib['deleteicon']) {
             $button = html::img(array(
@@ -1565,24 +1583,30 @@ function rcmail_compose_attachment_list($attrib)
                 continue;
             }
 
-            $content = sprintf('%s <span class="attachment-size">(%s)</span>',
+            $link_content = sprintf('%s <span class="attachment-size"> (%s)</span>',
                 rcube::Q($a_prop['name']), $RCMAIL->show_bytes($a_prop['size']));
+
+            $content_link = html::a(array(
+                    'href'    => "#load",
+                    'class'   => 'filename',
+                    'onclick' => sprintf("return %s.command('load-attachment','rcmfile%s', this, event)", rcmail_output::JS_OBJECT_NAME, $id),
+                ), $link_content);
+
+            $delete_link = html::a(array(
+                    'href'    => "#delete",
+                    'title'   => $RCMAIL->gettext('delete'),
+                    'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this, event)", rcmail_output::JS_OBJECT_NAME, $id),
+                    'class'   => 'delete',
+                    'tabindex' => $attrib['tabindex'] ?: '0',
+                    'aria-label'   => $RCMAIL->gettext('delete') . ' ' . $a_prop['name'],
+                ), $button);
 
             $out .= html::tag('li', array(
                     'id'          => 'rcmfile'.$id,
                     'class'       => rcube_utils::file2class($a_prop['mimetype'], $a_prop['name']),
                     'onmouseover' => "rcube_webmail.long_subject_title_ex(this, 0)",
                 ),
-                html::a(array(
-                        'href'    => "#delete",
-                        'title'   => $RCMAIL->gettext('delete'),
-                        'onclick' => sprintf("return %s.command('remove-attachment','rcmfile%s', this)", rcmail_output::JS_OBJECT_NAME, $id),
-                        'class'   => 'delete',
-                        'tabindex' => $attrib['tabindex'] ?: '0',
-                        'aria-label'   => $RCMAIL->gettext('delete') . ' ' . $a_prop['name'],
-                    ),
-                    $button
-                ) . $content
+                $COMPOSE['icon_pos'] == 'left' ? $delete_link.$content_link : $content_link.$delete_link
             );
 
             $jslist['rcmfile'.$id] = array(
@@ -1617,50 +1641,10 @@ function rcmail_compose_attachment_list($attrib)
 
 function rcmail_compose_attachment_form($attrib)
 {
-    global $OUTPUT, $RCMAIL;
+    global $RCMAIL;
 
-    // set defaults
-    $attrib += array('id' => 'rcmUploadbox', 'buttons' => 'yes');
-
-    // Get filesize, enable upload progress bar
-    $max_filesize = $RCMAIL->upload_init();
-
-    $button  = new html_inputfield(array('type' => 'button'));
-    $content = html::div(null, rcmail_compose_attachment_field())
-        . html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
-
-    if (rcube_utils::get_boolean($attrib['buttons'])) {
-        $content .= html::div('buttons',
-            $button->show($RCMAIL->gettext('close'), array('class' => 'button', 'onclick' => "$('#$attrib[id]').hide()")) . ' ' .
-            $button->show($RCMAIL->gettext('upload'), array('class' => 'button mainaction', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('send-attachment', this.form)"))
-        );
-    }
-
-    $out = html::div($attrib, $OUTPUT->form_tag(array(
-            'id'      => $attrib['id'] . 'Frm',
-            'name'    => 'uploadform',
-            'method'  => 'post',
-            'enctype' => 'multipart/form-data'
-        ), $content
-    ));
-
-    $OUTPUT->add_gui_object('uploadform', $attrib['id'] . 'Frm');
-
-    return $out;
+    return $RCMAIL->upload_form($attrib, 'uploadform', 'send-attachment', array('multiple' => true));
 }
-
-
-function rcmail_compose_attachment_field($attrib = array())
-{
-    $attrib['type']     = 'file';
-    $attrib['name']     = '_attachments[]';
-    $attrib['multiple'] = 'multiple';
-
-    $field = new html_inputfield($attrib);
-
-    return $field->show();
-}
-
 
 function rcmail_priority_selector($attrib)
 {

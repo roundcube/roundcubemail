@@ -127,7 +127,7 @@ init: function()
 
       // allow the table element to receive focus.
       $(this.list).attr('tabindex', '0')
-        .on('focus', function(e){ me.focus(e); });
+        .on('focus', function(e) { me.focus(e); });
     }
   }
 
@@ -356,20 +356,24 @@ insert_row: function(row, before)
   // create a real dom node first
   if (row.nodeName === undefined) {
     // for performance reasons use DOM instead of jQuery here
-    var domrow = document.createElement(this.row_tagname());
+    var i, e, domcell, col,
+      domrow = document.createElement(this.row_tagname());
 
     if (row.id) domrow.id = row.id;
     if (row.uid) domrow.uid = row.uid;
     if (row.className) domrow.className = row.className;
     if (row.style) $.extend(domrow.style, row.style);
 
-    for (var e, domcell, col, i=0; row.cols && i < row.cols.length; i++) {
+    for (i=0; row.cols && i < row.cols.length; i++) {
       col = row.cols[i];
-      domcell = document.createElement(this.col_tagname());
-      if (col.className) domcell.className = col.className;
-      if (col.innerHTML) domcell.innerHTML = col.innerHTML;
-      for (e in col.events)
-        domcell['on' + e] = col.events[e];
+      domcell = col.dom;
+      if (!domcell) {
+        domcell = document.createElement(this.col_tagname());
+        if (col.className) domcell.className = col.className;
+        if (col.innerHTML) domcell.innerHTML = col.innerHTML;
+        for (e in col.events)
+          domcell['on' + e] = col.events[e];
+      }
       domrow.appendChild(domcell);
     }
 
@@ -462,16 +466,16 @@ blur: function(e)
 {
   this.focused = false;
 
-  // avoid the table getting focus right again
+  // avoid the table getting focus right again (on Shift+Tab)
   var me = this;
-  setTimeout(function(){
-    $(me.list).removeClass('focus').attr('tabindex', '0');
-  }, 20);
+  setTimeout(function() { $(me.list).attr('tabindex', '0'); }, 20);
 
   if (this.last_selected && this.rows[this.last_selected]) {
     $(this.rows[this.last_selected].obj)
       .find(this.col_tagname()).eq(this.subject_col).removeAttr('tabindex');
   }
+
+  $(this.list).removeClass('focus');
 },
 
 /**
@@ -1300,7 +1304,7 @@ key_press: function(e)
 {
   var target = e.target || {};
 
-  if (this.focused != true || target.nodeName == 'INPUT' || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
+  if (!this.focused || target.nodeName == 'INPUT' || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT')
     return true;
 
   var keyCode = rcube_event.get_keycode(e),

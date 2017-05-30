@@ -253,6 +253,7 @@ $labels['uploadprogress'] = '$percent ($current/$total)';
 $labels['close']  = 'Sulje';
 $labels['messageoptions']  = 'Viestin asetukset...';
 $labels['togglecomposeoptions'] = 'Vaihda kirjoitusvalintoja';
+$labels['attachmentrename']  = 'Nimeä liite uudelleen';
 $labels['low']     = 'Matala';
 $labels['lowest']  = 'Matalin';
 $labels['normal']  = 'Normaali';

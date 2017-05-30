@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Detect VCard attachments and show a button to add them to address book
+ * Detects VCard attachments and show a button to add them to address book
+ * Adds possibility to attach a contact vcard to mail messages
  *
- * @version @package_version@
  * @license GNU GPLv3+
  * @author Thomas Bruederli, Aleksander Machniak
  */
@@ -12,15 +12,38 @@ class vcard_attachments extends rcube_plugin
     public $task = 'mail';
 
     private $message;
-    private $vcard_parts = array();
+    private $vcard_parts  = array();
     private $vcard_bodies = array();
 
     function init()
     {
         $rcmail = rcmail::get_instance();
+
         if ($rcmail->action == 'show' || $rcmail->action == 'preview') {
             $this->add_hook('message_load', array($this, 'message_load'));
             $this->add_hook('template_object_messagebody', array($this, 'html_output'));
+        }
+        else if ($rcmail->action == 'upload') {
+            $this->add_hook('attachment_from_uri', array($this, 'attach_vcard'));
+        }
+        else if ($rcmail->action == 'compose' && !$rcmail->output->framed) {
+            $skin_path = $this->local_skin_path();
+            $btn_class = strpos($skin_path, 'classic') ? 'button' : 'listbutton';
+
+            $this->add_texts('localization', true);
+            $this->include_stylesheet($skin_path . '/style.css');
+            $this->include_script('vcardattach.js');
+            $this->add_button(
+                array(
+                    'type'     => 'link',
+                    'label'    => 'vcard_attachments.vcard',
+                    'command'  => 'attach-vcard',
+                    'class'    => $btn_class . ' vcard disabled',
+                    'classact' => $btn_class . ' vcard',
+                    'title'    => 'vcard_attachments.attachvcard',
+                    'innerclass' => 'inner',
+                ),
+                'compose-contacts-toolbar');
         }
         else if (!$rcmail->output->framed && (!$rcmail->action || $rcmail->action == 'list')) {
             $icon = 'plugins/vcard_attachments/' .$this->local_skin_path(). '/vcard.png';
@@ -47,13 +70,14 @@ class vcard_attachments extends rcube_plugin
         // the same with message bodies
         foreach ((array)$this->message->parts as $part) {
             if ($this->is_vcard($part)) {
-                $this->vcard_parts[] = $part->mime_id;
+                $this->vcard_parts[]  = $part->mime_id;
                 $this->vcard_bodies[] = $part->mime_id;
             }
         }
 
-        if ($this->vcard_parts)
+        if ($this->vcard_parts) {
             $this->add_texts('localization');
+        }
     }
 
     /**
@@ -88,9 +112,9 @@ class vcard_attachments extends rcube_plugin
                 // add box below message body
                 $p['content'] .= html::p(array('class' => 'vcardattachment'),
                     html::a(array(
-                        'href' => "#",
+                        'href'    => "#",
                         'onclick' => "return plugin_vcard_save_contact('" . rcube::JQ($part.':'.$idx) . "')",
-                        'title' => $this->gettext('addvcardmsg'),
+                        'title'   => $this->gettext('addvcardmsg'),
                         ),
                         html::span(null, rcube::Q($display)))
                 );
@@ -222,5 +246,82 @@ class vcard_attachments extends rcube_plugin
         }
 
         return $this->abook = $CONTACTS;
+    }
+
+    /**
+     * Attaches a contact vcard to composed mail
+     */
+    public function attach_vcard($args)
+    {
+        if (preg_match('|^vcard://(.+)$|', $args['uri'], $m)) {
+            list($cid, $source) = explode('-', $m[1]);
+
+            $vcard  = $this->get_contact_vcard($source, $cid, $filename);
+            $params = array(
+                'filename' => $filename,
+                'mimetype' => 'text/vcard',
+            );
+
+            if ($vcard) {
+                $args['attachment'] = rcmail_save_attachment($vcard, null, $args['compose_id'], $params);
+            }
+        }
+
+        return $args;
+    }
+
+    /**
+     * Get vcard data for specified contact
+     */
+    private function get_contact_vcard($source, $cid, &$filename = null)
+    {
+        $rcmail  = rcmail::get_instance();
+        $source  = $rcmail->get_address_book($source);
+        $contact = $source->get_record($cid, true);
+
+        if ($contact) {
+            $fieldmap = $source ? $source->vcard_map : null;
+
+            if (empty($contact['vcard'])) {
+                $vcard = new rcube_vcard('', RCUBE_CHARSET, false, $fieldmap);
+                $vcard->reset();
+
+                foreach ($contact as $key => $values) {
+                    list($field, $section) = explode(':', $key);
+                    // avoid unwanted casting of DateTime objects to an array
+                    // (same as in rcube_contacts::convert_save_data())
+                    if (is_object($values) && is_a($values, 'DateTime')) {
+                        $values = array($values);
+                    }
+
+                    foreach ((array) $values as $value) {
+                        if (is_array($value) || is_a($value, 'DateTime') || @strlen($value)) {
+                            $vcard->set($field, $value, strtoupper($section));
+                        }
+                    }
+                }
+
+                $contact['vcard'] = $vcard->export();
+            }
+
+            $name     = rcube_addressbook::compose_list_name($contact);
+            $filename = (self::parse_filename($name) ?: 'contact') . '.vcf';
+
+            // fix folding and end-of-line chars
+            $vcard = preg_replace('/\r|\n\s+/', '', $contact['vcard']);
+            $vcard = preg_replace('/\n/', rcube_vcard::$eol, $vcard);
+
+            return rcube_vcard::rfc2425_fold($vcard) . rcube_vcard::$eol;
+        }
+    }
+
+    /**
+     * Helper function to convert contact name into filename
+     */
+    static private function parse_filename($str)
+    {
+        $str = preg_replace('/[\t\n\r\0\x0B:\/]+\s*/', ' ', $str);
+
+        return trim($str, " ./_");
     }
 }

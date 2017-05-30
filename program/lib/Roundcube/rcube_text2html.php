@@ -48,6 +48,8 @@ class rcube_text2html
         'space' => "\xC2\xA0",
         // enables format=flowed parser
         'flowed' => false,
+        // enables delsp=yes parser
+        'delsp' => false,
         // enables wrapping for non-flowed text
         'wrap' => true,
         // line-break tag
@@ -150,7 +152,8 @@ class rcube_text2html
 
         if ($this->config['flowed']) {
             $flowed_char = 0x01;
-            $text        = rcube_mime::unfold_flowed($text, chr($flowed_char));
+            $delsp       = $this->config['delsp'];
+            $text        = rcube_mime::unfold_flowed($text, chr($flowed_char), $delsp);
         }
 
         // search for patterns like links and e-mail addresses and replace with tokens

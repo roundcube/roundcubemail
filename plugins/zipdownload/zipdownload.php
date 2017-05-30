@@ -4,10 +4,10 @@
  * ZipDownload
  *
  * Plugin to allow the download of all message attachments in one zip file
- * and downloading of many messages in one go.
+ * and also download of many messages in one go.
  *
- * @version 3.1
  * @requires php_zip extension (including ZipArchive class)
+ *
  * @author Philip Weir
  * @author Thomas Bruderli
  * @author Aleksander Machniak
@@ -15,9 +15,13 @@
 class zipdownload extends rcube_plugin
 {
     public $task = 'mail';
+
     private $charset = 'ASCII';
 
     private $names = [];
+
+    // RFC4155: mbox date format
+    const MBOX_DATE_FORMAT = 'D M d H:i:s Y';
 
     /**
      * Plugin initialization
@@ -152,7 +156,8 @@ class zipdownload extends rcube_plugin
 
         $zip->close();
 
-        $filename = ($message->subject ?: 'roundcube') . '.zip';
+        $filename = ($this->_filename_from_subject($message->subject) ?: 'attachments') . '.zip';
+
         $this->_deliver_zipfile($tmpfname, $filename);
 
         // delete temporary files from disk
@@ -172,7 +177,7 @@ class zipdownload extends rcube_plugin
 
         if ($rcmail->config->get('zipdownload_selection') && !empty($_POST['_uid'])) {
             $messageset = rcmail::get_uids();
-            if (sizeof($messageset)) {
+            if (count($messageset)) {
                 $this->_download_messages($messageset);
             }
         }
@@ -259,17 +264,22 @@ class zipdownload extends rcube_plugin
                 $headers = $imap->get_message_headers($uid);
 
                 if ($mode == 'mbox') {
+                    // Sender address
                     $from = rcube_mime::decode_address_list($headers->from, null, true, $headers->charset, true);
                     $from = array_shift($from);
+                    $from = preg_replace('/\s/', '-', $from);
 
-                    // Mbox format header
-                    // @FIXME: \r\n or \n
-                    // @FIXME: date format
+                    // Received (internal) date
+                    $date = rcube_utils::anytodatetime($headers->internaldate);
+                    if ($date) {
+                        $date->setTimezone(new DateTimeZone('UTC'));
+                        $date = $date->format(self::MBOX_DATE_FORMAT);
+                    }
+
+                    // Mbox format header (RFC4155)
                     $header = sprintf("From %s %s\r\n",
-                        // replace spaces with hyphens
-                        $from ? preg_replace('/\s/', '-', $from) : 'MAILER-DAEMON',
-                        // internaldate
-                        $headers->internaldate
+                        $from ?: 'MAILER-DAEMON',
+                        $date ?: ''
                     );
 
                     fwrite($tmpfp, $header);
@@ -282,12 +292,11 @@ class zipdownload extends rcube_plugin
                     fwrite($tmpfp, "\r\n");
                 }
                 else { // maildir
-                    $subject = rcube_mime::decode_mime_string((string)$headers->subject);
+                    $subject = rcube_mime::decode_header($headers->subject, $headers->charset);
+                    $subject = $this->_filename_from_subject(mb_substr($subject, 0, 16));
                     $subject = $this->_convert_filename($subject);
-                    $subject = substr($subject, 0, 16);
 
-                    $disp_name = ($subject ?: 'message_rfc822') . ".eml";
-                    $disp_name = $path . $uid . "_" . $disp_name;
+                    $disp_name = $path . $uid . ($subject ? " $subject" : '') . '.eml';
 
                     $tmpfn = tempnam($temp_dir, 'zipmessage');
                     $tmpfp = fopen($tmpfn, 'w');
@@ -352,9 +361,19 @@ class zipdownload extends rcube_plugin
      */
     private function _convert_filename($str)
     {
-        $str = rcube_charset::convert($str, RCUBE_CHARSET, $this->charset);
+        $str = strtr($str, array(':' => '', '/' => '-'));
 
-        return strtr($str, array(':' => '', '/' => '-'));
+        return rcube_charset::convert($str, RCUBE_CHARSET, $this->charset);
+    }
+
+    /**
+     * Helper function to convert message subject into filename
+     */
+    private function _filename_from_subject($str)
+    {
+        $str = preg_replace('/[\t\n\r\0\x0B]+\s*/', ' ', $str);
+
+        return trim($str, " ./_");
     }
 }
 

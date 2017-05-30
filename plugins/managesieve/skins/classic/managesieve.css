@@ -8,8 +8,6 @@
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: hidden;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #filtersscreen
@@ -19,8 +17,6 @@
   right: 0;
   bottom: 0;
   left: 205px;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #filterslistbox
@@ -31,8 +27,6 @@
   bottom: 0;
   border: 1px solid #999999;
   overflow: auto;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #filterslist,
@@ -91,9 +85,6 @@
   bottom: 0;
   border: 1px solid #999999;
   overflow: hidden;
-  /* css hack for IE */
-  width: expression((parseInt(this.parentNode.offsetWidth)-20-parseInt(document.getElementById('filterslistbox').offsetWidth))+'px');
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #filter-frame
@@ -444,4 +435,47 @@ body.iframe.mail #filter-form
 
 #vacationform input.button {
   margin-left: 10px;
+}
+
+/* RAW editor and CodeMirror overrides */
+
+.raweditor textarea {
+  border: none;
+  border-radius: 0;
+  max-width: none !important;
+  box-shadow: none;
+  font-family: monospace;
+  width: 99%;
+  min-height: 300px;
+}
+
+.raweditor textarea,
+.raweditor .CodeMirror {
+  position: absolute;
+  top: 34px;
+  bottom: 45px;
+  right: 0;
+  left: 0;
+  height: auto;
+  background-color: #fdfdfd;
+  border-bottom: 1px solid #eee;
+}
+
+.raweditor .CodeMirror-linebackground.line-error {
+  background-color: #f00;
+  opacity: 0.4;
+}
+
+.raweditor .errorGutter {
+  width: 0.8em;
+}
+
+.raweditor #footer {
+  position: absolute;
+  bottom: 5px;
+}
+
+body.iframe.raweditor {
+  min-width: 100px;
+  overflow: hidden;
 }

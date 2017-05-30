@@ -26,10 +26,6 @@ select, input, textarea, button
   font-family: inherit;
 }
 
-html.mozilla select {
-  padding: 2px 1px;
-}
-
 th
 {
   font-weight: normal;
@@ -159,6 +155,15 @@ img
 .voice
 {
   display: none;
+}
+
+.noselect
+{
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
 }
 
 /* fixes vertical alignment of checkboxes and labels */
@@ -453,7 +458,6 @@ body.iframe .boxtitle
   height: 11px;
   padding: 0;
   margin: 1px;
-  margin-top: 2px;
   overflow: hidden;
   background: url(images/pagenav.gif) 0 0 no-repeat transparent;
   opacity: 0.99; /* this is needed to make buttons appear correctly in Chrome */
@@ -704,6 +708,11 @@ table.records-table tr.selected td
 {
   color: #FFFFFF;
   background-color: #CC3333;
+}
+
+table.records-table tr.selected td a
+{
+  color: #FFFFFF;
 }
 
 table.records-table tr.focused td
@@ -1555,4 +1564,58 @@ table.quota-info td.root {
   box-shadow: 0 0 5px 0 #999;
   -moz-box-shadow: 0 0 5px 0 #999;
   -o-box-shadow: 0 0 5px 0 #999;
+}
+
+/** PGP key import dialog **/
+.pgpkeyimport div.key {
+  position: relative;
+  margin-bottom: 2px;
+  padding: 1em 1em 5px;
+  background-color: #ebebeb;
+}
+
+.pgpkeyimport div.key.revoked,
+.pgpkeyimport div.key.disabled {
+  color: #a0a0a0;
+}
+
+.pgpkeyimport div.key label {
+  display: inline-block;
+  margin-right: 0.5em;
+}
+
+.pgpkeyimport div.key label:after {
+  content: ":";
+}
+
+.pgpkeyimport div.key label + a,
+.pgpkeyimport div.key label + span {
+  display: inline-block;
+  margin-right: 2em;
+  white-space: nowrap;
+}
+
+.pgpkeyimport div.key label + a {
+  font-weight: bold;
+}
+
+.pgpkeyimport ul.uids {
+  margin: 5px 1em 0 1em;
+  padding: 0;
+}
+
+.pgpkeyimport li.uid {
+  border: 0;
+  padding: 2px;
+}
+
+.pgpkeyimport div.key input.button.importkey {
+  position: absolute;
+  top: 0.8em;
+  right: 0.8em;
+  padding: 2px 6px;
+}
+
+.pgpkeyimport div.key input.button[disabled] {
+  display: none;
 }

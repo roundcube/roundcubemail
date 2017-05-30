@@ -68,7 +68,7 @@ class rcube_contacts extends rcube_addressbook
      * Object constructor
      *
      * @param object  $dbconn Instance of the rcube_db class
-     * @param integer $user User-ID
+     * @param integer $user   User-ID
      */
     function __construct($dbconn, $user)
     {
@@ -88,7 +88,7 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Save a search string for future listings
      *
-     * @param string SQL params to use in listing method
+     * @param string $filter SQL params to use in listing method
      */
     function set_search_set($filter)
     {
@@ -130,10 +130,7 @@ class rcube_contacts extends rcube_addressbook
      * List all active contact groups of this source
      *
      * @param string $search Search string to match group name
-     * @param int    $mode   Matching mode:
-     *                          0 - partial (*abc*),
-     *                          1 - strict (=),
-     *                          2 - prefix (abc*)
+     * @param int    $mode   Matching mode. Sum of rcube_addressbook::SEARCH_*
      *
      * @return array Indexed list of contact groups, each a hash array
      */
@@ -141,18 +138,18 @@ class rcube_contacts extends rcube_addressbook
     {
         $results = array();
 
-        if (!$this->groups)
+        if (!$this->groups) {
             return $results;
+        }
 
         if ($search) {
-            switch (intval($mode)) {
-            case 1:
+            if ($mode & rcube_addressbook::SEARCH_STRICT) {
                 $sql_filter = $this->db->ilike('name', $search);
-                break;
-            case 2:
+            }
+            else if ($mode & rcube_addressbook::SEARCH_PREFIX) {
                 $sql_filter = $this->db->ilike('name', $search . '%');
-                break;
-            default:
+            }
+            else {
                 $sql_filter = $this->db->ilike('name', '%' . $search . '%');
             }
 
@@ -202,7 +199,7 @@ class rcube_contacts extends rcube_addressbook
      * @param  int     Only return this number of records, use negative values for tail
      * @param  boolean True to skip the count query (select only)
      *
-     * @return array  Indexed list of contact records, each a hash array
+     * @return array Indexed list of contact records, each a hash array
      */
     function list_records($cols = null, $subset = 0, $nocount = false)
     {
@@ -237,7 +234,7 @@ class rcube_contacts extends rcube_addressbook
             " WHERE c.`del` <> 1" .
                 " AND c.`user_id` = ?" .
                 ($this->group_id ? " AND m.`contactgroup_id` = ?" : "").
-                ($this->filter ? " AND (".$this->filter.")" : "") .
+                ($this->filter ? " AND ".$this->filter : "") .
             " ORDER BY ". $this->db->concat($order_cols) .
             " " . $this->sort_order,
             $start_row,
@@ -283,10 +280,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @param mixed   $fields   The field name or array of field names to search in
      * @param mixed   $value    Search value (or array of values when $fields is array)
-     * @param int     $mode     Matching mode:
-     *                          0 - partial (*abc*),
-     *                          1 - strict (=),
-     *                          2 - prefix (abc*)
+     * @param int     $mode     Search mode. Sum of rcube_addressbook::SEARCH_*
      * @param boolean $select   True if results are requested, False if count only
      * @param boolean $nocount  True to skip the count query (select only)
      * @param array   $required List of fields that cannot be empty
@@ -314,25 +308,13 @@ class rcube_contacts extends rcube_addressbook
             foreach ((array)$fields as $idx => $col) {
                 $val = $value[$idx];
 
-                if (!strlen($val))
+                if (!strlen($val)) {
                     continue;
+                }
 
                 // table column
                 if (in_array($col, $this->table_cols)) {
-                    switch ($mode) {
-                    case 1: // strict
-                        $where[] = '(' . $this->db->quote_identifier($col) . ' = ' . $this->db->quote($val)
-                            . ' OR ' . $this->db->ilike($col, $val . $AS . '%')
-                            . ' OR ' . $this->db->ilike($col, '%' . $AS . $val . $AS . '%')
-                            . ' OR ' . $this->db->ilike($col, '%' . $AS . $val) . ')';
-                        break;
-                    case 2: // prefix
-                        $where[] = '(' . $this->db->ilike($col, $val . '%')
-                            . ' OR ' . $this->db->ilike($col, $AS . $val . '%') . ')';
-                        break;
-                    default: // partial
-                        $where[] = $this->db->ilike($col, '%' . $val . '%');
-                    }
+                    $where[] = $this->fulltext_sql_where($val, $mode, $col);
                 }
                 // vCard field
                 else {
@@ -349,7 +331,7 @@ class rcube_contacts extends rcube_addressbook
         }
         else {
             // require each word in to be present in one of the fields
-            $words = $mode == 1 ? array($value) : rcube_utils::tokenize_string($value, 1);
+            $words = ($mode & rcube_addressbook::SEARCH_STRICT) ? array($value) : rcube_utils::tokenize_string($value, 1);
             foreach ($words as $word) {
                 $groups = array();
                 foreach ((array)$fields as $idx => $col) {
@@ -360,7 +342,7 @@ class rcube_contacts extends rcube_addressbook
         }
 
         foreach (array_intersect($required, $this->table_cols) as $col) {
-            $and_where[] = $this->db->quote_identifier($col).' <> '.$this->db->quote('');
+            $where[] = $this->db->quote_identifier($col).' <> '.$this->db->quote('');
         }
         $required = array_diff($required, $this->table_cols);
 
@@ -368,9 +350,6 @@ class rcube_contacts extends rcube_addressbook
             // use AND operator for advanced searches
             $where = join(" AND ", $where);
         }
-
-        if (!empty($and_where))
-            $where = ($where ? "($where) AND " : '') . join(' AND ', $and_where);
 
         // Post-searching in vCard data fields
         // we will search in all records and then build a where clause for their IDs
@@ -465,17 +444,17 @@ class rcube_contacts extends rcube_addressbook
 
         $where = array();
         foreach ($words as $word) {
-            switch ($mode) {
-            case 1: // strict
-                $where[] = '(' . $this->db->ilike($col, $word . '%')
-                    . ' OR ' . $this->db->ilike($col, '%' . $WS . $word . $WS . '%')
-                    . ' OR ' . $this->db->ilike($col, '%' . $WS . $word) . ')';
-                break;
-            case 2: // prefix
+            if ($mode & rcube_addressbook::SEARCH_STRICT) {
+                $where[] = '(' . $this->db->ilike($col, $word)
+                    . ' OR ' . $this->db->ilike($col, $word . $AS . '%')
+                    . ' OR ' . $this->db->ilike($col, '%' . $AS . $word . $AS . '%')
+                    . ' OR ' . $this->db->ilike($col, '%' . $AS . $word) . ')';
+            }
+            else if ($mode & rcube_addressbook::SEARCH_PREFIX) {
                 $where[] = '(' . $this->db->ilike($col, $word . '%')
                     . ' OR ' . $this->db->ilike($col, '%' . $AS . $word . '%') . ')';
-                break;
-            default: // partial
+            }
+            else {
                 $where[] = $this->db->ilike($col, '%' . $word . '%');
             }
         }
@@ -508,7 +487,7 @@ class rcube_contacts extends rcube_addressbook
 
         // count contacts for this user
         $sql_result = $this->db->query(
-            "SELECT COUNT(c.`contact_id`) AS rows".
+            "SELECT COUNT(c.`contact_id`) AS cnt".
             " FROM " . $this->db->table_name($this->db_name, true) . " AS c".
                 $join.
             " WHERE c.`del` <> 1".
@@ -521,7 +500,7 @@ class rcube_contacts extends rcube_addressbook
 
         $sql_arr = $this->db->fetch_assoc($sql_result);
 
-        $this->cache['count'] = (int) $sql_arr['rows'];
+        $this->cache['count'] = (int) $sql_arr['cnt'];
 
         return $this->cache['count'];
     }
@@ -606,8 +585,8 @@ class rcube_contacts extends rcube_addressbook
      * Check the given data before saving.
      * If input not valid, the message to display can be fetched using get_error()
      *
-     * @param array   $save_data Associative array with data to save
-     * @param boolean $autofix   Try to fix/complete record automatically
+     * @param array   &$save_data Associative array with data to save
+     * @param boolean $autofix    Try to fix/complete record automatically
      *
      * @return boolean True if input is valid, False if not.
      */
@@ -616,9 +595,12 @@ class rcube_contacts extends rcube_addressbook
         // validate e-mail addresses
         $valid = parent::validate($save_data, $autofix);
 
-        // require at least one email address or a name
-        if ($valid && !strlen($save_data['firstname'].$save_data['surname'].$save_data['name']) && !array_filter($this->get_col_values('email', $save_data, true))) {
-            $this->set_error(self::ERROR_VALIDATE, 'noemailwarning');
+        // require at least some name or email
+        if ($valid
+            && !strlen($save_data['firstname'].$save_data['surname'].$save_data['name'])
+            && !count(array_filter($this->get_col_values('email', $save_data, true)))
+        ) {
+            $this->set_error(self::ERROR_VALIDATE, 'nonamewarning');
             $valid = false;
         }
 
@@ -1004,8 +986,8 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Remove the given contact records from a certain group
      *
-     * @param string       Group identifier
-     * @param array|string List of contact identifiers to be removed
+     * @param string       $group_id Group identifier
+     * @param array|string $ids      List of contact identifiers to be removed
      *
      * @return int Number of deleted group members
      */

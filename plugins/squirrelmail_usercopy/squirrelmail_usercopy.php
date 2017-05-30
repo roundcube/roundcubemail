@@ -3,7 +3,7 @@
 /**
  * Copy a new users identities and contacts from a nearby Squirrelmail installation
  *
- * @version 1.5
+ * @version 1.6
  * @author Thomas Bruederli, Johannes Hessellund, pommi, Thomas Lueder
  */
 class squirrelmail_usercopy extends rcube_plugin
@@ -162,6 +162,7 @@ class squirrelmail_usercopy extends rcube_plugin
             if (($hash_level = $rcmail->config->get('squirrelmail_data_dir_hash_level')) > 0) {
                 $srcdir = slashify($srcdir).chunk_split(substr(base_convert(crc32($uname), 10, 16), 0, $hash_level), 1, '/');
             }
+            $file_charset = $rcmail->config->get('squirrelmail_file_charset');
 
             $prefsfile = slashify($srcdir) . $uname . '.pref';
             $abookfile = slashify($srcdir) . $uname . '.abook';
@@ -172,27 +173,30 @@ class squirrelmail_usercopy extends rcube_plugin
                 $this->prefs = array();
                 foreach (file($prefsfile) as $line) {
                     list($key, $value) = explode('=', $line);
-                    $this->prefs[$key] = utf8_encode(rtrim($value));
+                    $this->prefs[$key] = $this->convert_charset(rtrim($value), $file_charset);
                 }
 
                 // also read signature file if exists
                 if (is_readable($sigfile)) {
-                    $this->prefs['___signature___'] = utf8_encode(file_get_contents($sigfile));
+                    $sig = file_get_contents($sigfile);
+                    $this->prefs['___signature___'] = $this->convert_charset($sig, $file_charset);
                 }
 
                 if (isset($this->prefs['identities']) && $this->prefs['identities'] > 1) {
                     for ($i=1; $i < $this->prefs['identities']; $i++) {
                         // read signature file if exists
                         if (is_readable($sigbase.$i)) {
-                            $this->prefs['___sig'.$i.'___'] = utf8_encode(file_get_contents($sigbase.$i));
+                            $sig = file_get_contents($sigbase.$i);
+                            $this->prefs['___sig'.$i.'___'] = $this->convert_charset($sig, $file_charset);
                         }
                     }
                 }
 
-                // parse addres book file
+                // parse address book file
                 if (filesize($abookfile)) {
-                    foreach(file($abookfile) as $line) {
-                        list($rec['name'], $rec['firstname'], $rec['surname'], $rec['email']) = explode('|', utf8_encode(rtrim($line)));
+                    foreach (file($abookfile) as $line) {
+                        $line = $this->convert_charset(rtrim($line), $file_charset);
+                        list($rec['name'], $rec['firstname'], $rec['surname'], $rec['email']) = explode('|', $line);
                         if ($rec['name'] && $rec['email']) {
                             $this->abook[] = $rec;
                         }
@@ -230,7 +234,7 @@ class squirrelmail_usercopy extends rcube_plugin
             $sql_result = $db->query('SELECT * FROM ' . $db->quote_identifier($address_table)
                 .' WHERE `owner` = ?', $uname); // ? is replaced with emailaddress
 
-            // parse addres book
+            // parse address book
             while ($sql_array = $db->fetch_assoc($sql_result) ) { // fetch one row from result
                 $rec['name']      = rcube_charset::convert(rtrim($sql_array['nickname']), $db_charset);
                 $rec['firstname'] = rcube_charset::convert(rtrim($sql_array['firstname']), $db_charset);
@@ -243,5 +247,14 @@ class squirrelmail_usercopy extends rcube_plugin
                 }
             }
         } // end if 'sql'-driver
+    }
+
+    private function convert_charset($str, $charset = null)
+    {
+        if (!$charset) {
+            return utf8_encode($sig);
+        }
+
+        return rcube_charset::convert($str, $charset, RCMAIL_CHARSET);
     }
 }

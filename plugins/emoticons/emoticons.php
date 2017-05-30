@@ -6,7 +6,6 @@
  * Plugin to replace emoticons in plain text message body with real icons.
  * Also it enables emoticons in HTML compose editor. Both features are optional.
  *
- * @version @package_version@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
  * @author Aleksander Machniak
@@ -91,7 +90,7 @@ class emoticons extends rcube_plugin
      * editor with plain text emoticons.
      *
      * This is executed on html2text action, i.e. when switching from HTML to text
-     * in compose window (or similiar place). Also when generating alternative
+     * in compose window (or similar place). Also when generating alternative
      * text/plain part.
      */
     function html2text($args)

@@ -38,6 +38,7 @@ $config['managesieve_usetls'] = false;
 //     'cafile'       => '/etc/openssl/certs/ca.crt',
 //   ),
 // );
+// Note: These can be also specified as an array of options indexed by hostname
 $config['managesieve_conn_options'] = null;
 
 // default contents of filters script (eg. default spam filter)
@@ -96,5 +97,12 @@ $config['managesieve_vacation_interval'] = 0;
 // of these on initial vacation form creation.
 $config['managesieve_vacation_addresses_init'] = false;
 
+// Sometimes you want to always reply with mail email address
+// This option enables automatic filling of :from field on initial vacation form creation.
+$config['managesieve_vacation_from_init'] = false;
+
 // Supported methods of notify extension. Default: 'mailto'
 $config['managesieve_notify_methods'] = array('mailto');
+
+// Enables scripts RAW editor feature
+$config['managesieve_raw_editor'] = true;

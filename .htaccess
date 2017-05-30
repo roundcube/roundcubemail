@@ -8,10 +8,7 @@ php_value   upload_max_filesize   5M
 php_value   post_max_size         6M
 php_value   memory_limit          64M
 
-php_flag    register_globals            Off
 php_flag    zlib.output_compression     Off
-php_flag    magic_quotes_gpc            Off
-php_flag    magic_quotes_runtime        Off
 php_flag    suhosin.session.encrypt     Off
 
 #php_value   session.cookie_path     /
@@ -23,7 +20,7 @@ php_value   session.gc_probability   1
 </IfModule>
 
 <IfModule mod_rewrite.c>
-Options +FollowSymLinks
+Options +SymLinksIfOwnerMatch
 RewriteEngine On
 RewriteRule ^favicon\.ico$ skins/larry/images/favicon.ico
 
@@ -33,8 +30,10 @@ RewriteRule ^favicon\.ico$ skins/larry/images/favicon.ico
 RewriteRule ^(?!installer|\.well-known\/|[a-zA-Z0-9]{16})(\.?[^\.]+)$ - [F]
 # - deny access to some locations
 RewriteRule ^/?(\.git|\.tx|SQL|bin|config|logs|temp|tests|program\/(include|lib|localization|steps)) - [F]
+# - deny access to composer binaries
+RewriteRule ^/vendor\/bin\/.* - [F]
 # - deny access to some documentation files
-RewriteRule /?(README\.md|composer\.json-dist|composer\.json|package\.xml|Dockerfile)$ - [F]
+RewriteRule /?(README\.md|composer\.json-dist|composer\.json|package\.xml|jsdeps.json|Dockerfile)$ - [F]
 </IfModule>
 
 <IfModule mod_deflate.c>
@@ -53,6 +52,9 @@ Options -Indexes
 </ifModule>
 
 <IfModule mod_headers.c>
+# Disable page indexing
+Header set X-Robots-Tag "noindex, nofollow"
+
 # replace 'append' with 'merge' for Apache version 2.2.9 and later
 #Header append Cache-Control public env=!NO_CACHE
 

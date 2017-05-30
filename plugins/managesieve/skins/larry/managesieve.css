@@ -314,12 +314,9 @@ a.button.disabled
 #filter-form input,
 #filter-form textarea
 {
-  font-size: 11px;
-  padding: 1px;
   vertical-align: middle;
   max-width: 280px;
 }
-
 /* revert larry style button */
 #filter-form input.button
 {
@@ -375,6 +372,7 @@ td.rowtargets > span.listarea
   border-top: none;
 }
 
+#vacationform .listelement input,
 #filter-form .listelement input
 {
   border: none;
@@ -442,25 +440,53 @@ body.iframe.mail #filter-form
   max-height: 91px;
 }
 
-#vacationform .listelement,
-#vacationform .listelement .reset {
-  height: 22px;
-}
-
-#vacationform .listelement .reset {
-  background-position: -1px 3px;
-}
-
-#vacationform .listelement input {
-  vertical-align: top;
-  border: 0;
-  box-shadow: none;
-}
-
 #vacationform td.vacation {
   white-space: nowrap;
 }
 
 #vacationform input.button {
   margin-left: 10px;
+}
+
+/* RAW editor and CodeMirror overrides */
+
+.raweditor textarea {
+  border: none;
+  border-radius: 0;
+  max-width: none !important;
+  box-shadow: none;
+  font-family: monospace;
+  width: 99%;
+  min-height: 300px;
+}
+
+.raweditor textarea,
+.raweditor .CodeMirror {
+  position: absolute;
+  top: 34px;
+  bottom: 45px;
+  right: 0;
+  left: 0;
+  height: auto;
+  background-color: #fdfdfd;
+  border-bottom: 1px solid #eee;
+}
+
+.raweditor .CodeMirror-linebackground.line-error {
+  background-color: #f00;
+  opacity: 0.4;
+}
+
+.raweditor .errorGutter {
+  width: 0.8em;
+}
+
+.raweditor #footer {
+  position: absolute;
+  bottom: 5px;
+}
+
+body.iframe.raweditor {
+  min-width: 100px;
+  overflow: hidden;
 }

@@ -82,7 +82,7 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     $OUTPUT->set_env('address_sources', $js_list);
     $OUTPUT->set_env('writable_source', $writeable);
 
-    $OUTPUT->set_pagetitle($RCMAIL->gettext('addressbook'));
+    $OUTPUT->set_pagetitle($RCMAIL->gettext('contacts'));
     $_SESSION['addressbooks_count'] = $count;
     $_SESSION['addressbooks_count_writeable'] = $writeable;
 
@@ -152,14 +152,17 @@ function rcmail_contact_source($source=null, $init_env=false, $writable=false)
     else
         $CONTACTS->set_page(isset($_SESSION['page']) ? $_SESSION['page'] : 1);
 
-    if (!empty($_REQUEST['_gid']))
-        $CONTACTS->set_group(rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC));
+    if ($group = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GP)) {
+        $CONTACTS->set_group($group);
+    }
 
-    if (!$init_env)
+    if (!$init_env) {
         return $CONTACTS;
+    }
 
     $OUTPUT->set_env('readonly', $CONTACTS->readonly);
     $OUTPUT->set_env('source', (string) $source);
+    $OUTPUT->set_env('group', $group);
 
     // reduce/extend $CONTACT_COLTYPES with specification from the current $CONTACT object
     if (is_array($CONTACTS->coltypes)) {
@@ -516,15 +519,26 @@ function rcmail_contact_form($form, $record, $attrib = null)
 {
     global $RCMAIL;
 
+    // group fields
+    $head_fields = array(
+        'names'        => array('prefix','firstname','middlename','surname','suffix'),
+        'displayname'  => array('name'),
+        'nickname'     => array('nickname'),
+        'organization' => array('organization'),
+        'department'   => array('department'),
+        'jobtitle'     => array('jobtitle'),
+    );
+
     // Allow plugins to modify contact form content
     $plugin = $RCMAIL->plugins->exec_hook('contact_form', array(
-        'form' => $form, 'record' => $record));
+        'form' => $form, 'record' => $record, 'head_fields' => $head_fields));
 
-    $form       = $plugin['form'];
-    $record     = $plugin['record'];
-    $edit_mode  = $RCMAIL->action != 'show' && $RCMAIL->action != 'print';
-    $del_button = $attrib['deleteicon'] ? html::img(array('src' => $RCMAIL->output->get_skin_file($attrib['deleteicon']), 'alt' => $RCMAIL->gettext('delete'))) : $RCMAIL->gettext('delete');
-    $out        = '';
+    $form        = $plugin['form'];
+    $record      = $plugin['record'];
+    $head_fields = $plugin['head_fields'];
+    $edit_mode   = $RCMAIL->action != 'show' && $RCMAIL->action != 'print';
+    $del_button  = $attrib['deleteicon'] ? html::img(array('src' => $RCMAIL->output->get_skin_file($attrib['deleteicon']), 'alt' => $RCMAIL->gettext('delete'))) : $RCMAIL->gettext('delete');
+    $out         = '';
 
     unset($attrib['deleteicon']);
 
@@ -563,17 +577,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 unset($record['name']);
             }
 
-            // group fields
-            $field_blocks = array(
-                'names'        => array('prefix','firstname','middlename','surname','suffix'),
-                'displayname'  => array('name'),
-                'nickname'     => array('nickname'),
-                'organization' => array('organization'),
-                'department'   => array('department'),
-                'jobtitle'     => array('jobtitle'),
-            );
-
-            foreach ($field_blocks as $blockname => $colnames) {
+            foreach ($head_fields as $blockname => $colnames) {
                 $fields = '';
                 foreach ($colnames as $col) {
                     // skip cols unknown to the backend
@@ -651,7 +655,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     if (is_array($colprop['subtypes'])) {
                         $values = $subtypes = array();
                         foreach (rcube_addressbook::get_col_values($field, $record) as $st => $vals) {
-                            foreach((array)$vals as $value) {
+                            foreach ((array)$vals as $value) {
                                 $i = count($values);
                                 $subtypes[$i] = $st;
                                 $values[$i] = $value;
@@ -666,8 +670,9 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 }
 
                 // hack: create empty values array to force this field to be displayed
-                if (empty($values) && $colprop['visible'])
-                    $values[] = '';
+                if (empty($values) && $colprop['visible']) {
+                    $values = array('');
+                }
 
                 if (!is_array($values)) {
                     // $values can be an object, don't use (array)$values syntax
@@ -676,8 +681,9 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
                 $rows = '';
                 foreach ($values as $i => $val) {
-                    if ($subtypes[$i])
+                    if ($subtypes[$i]) {
                         $subtype = $subtypes[$i];
+                    }
 
                     $colprop['id'] = 'ff_' . $col . intval($coltypes[$field]['count']);
 

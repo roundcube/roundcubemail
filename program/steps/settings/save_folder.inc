@@ -48,7 +48,7 @@ else if ($name[0] == '.' && $RCMAIL->config->get('imap_skip_hidden_folders')) {
 else {
     // these characters are problematic e.g. when used in LIST/LSUB
     foreach (array($delimiter, '%', '*') as $char) {
-        if (strpos($name, $delimiter) !== false) {
+        if (strpos($name, $char) !== false) {
             $error = $RCMAIL->gettext('forbiddencharacter') . " ($char)";
             break;
         }

@@ -47,6 +47,8 @@ class rcube_db
         // column/table quotes
         'identifier_start' => '"',
         'identifier_end'   => '"',
+        // date/time input format
+        'datetime_format'  => 'Y-m-d H:i:s',
     );
 
     const DEBUG_LINE_LENGTH = 4096;
@@ -201,7 +203,7 @@ class rcube_db
     /**
      * Connect to appropriate database depending on the operation
      *
-     * @param string $mode Connection mode (r|w)
+     * @param string  $mode  Connection mode (r|w)
      * @param boolean $force Enforce using the given mode
      */
     public function db_connect($mode, $force = false)
@@ -522,9 +524,10 @@ class rcube_db
 
     /**
      * Helper method to handle DB errors.
-     * This by default logs the error but could be overriden by a driver implementation
+     * This by default logs the error but could be overridden by a driver implementation
      *
-     * @param string Query that triggered the error
+     * @param string $query Query that triggered the error
+     *
      * @return mixed Result to be stored and returned
      */
     protected function handle_error($query)
@@ -567,7 +570,8 @@ class rcube_db
      * If no query handle is specified, the last query will be taken as reference
      *
      * @param mixed $result Optional query handle
-     * @return mixed   Number of rows or false on failure
+     *
+     * @return mixed Number of rows or false on failure
      * @deprecated This method shows very poor performance and should be avoided.
      */
     public function num_rows($result = null)
@@ -774,6 +778,30 @@ class rcube_db
     }
 
     /**
+     * Release resources related to the last query result.
+     * When we know we don't need to access the last query result we can destroy it
+     * and release memory. Useful especially if the query returned big chunk of data.
+     */
+    public function reset()
+    {
+        $this->last_result = null;
+    }
+
+    /**
+     * Terminate database connection.
+     */
+    public function closeConnection()
+    {
+        $this->db_connected = false;
+        $this->db_index     = 0;
+
+        // release statement and connection resources
+        $this->last_result  = null;
+        $this->dbh          = null;
+        $this->dbhs         = array();
+    }
+
+    /**
      * Formats input so it can be safely used in a query
      *
      * @param mixed  $input Value to quote
@@ -790,6 +818,10 @@ class rcube_db
 
         if (is_null($input)) {
             return 'NULL';
+        }
+
+        if ($input instanceof DateTime) {
+            return $this->quote($input->format($this->options['datetime_format']));
         }
 
         if ($type == 'ident') {
@@ -944,10 +976,11 @@ class rcube_db
      * @param int $timestamp Unix timestamp
      *
      * @return string Date string in db-specific format
+     * @deprecated
      */
     public function fromunixtime($timestamp)
     {
-        return date("'Y-m-d H:i:s'", $timestamp);
+        return $this->quote(date($this->options['datetime_format'], $timestamp));
     }
 
     /**
@@ -1088,8 +1121,8 @@ class rcube_db
     /**
      * Set DSN connection to be used for the given table
      *
-     * @param string Table name
-     * @param string DSN connection ('r' or 'w') to be used
+     * @param string $table Table name
+     * @param string $mode  DSN connection ('r' or 'w') to be used
      */
     public function set_table_dsn($table, $mode)
     {
@@ -1285,7 +1318,7 @@ class rcube_db
     /**
      * Execute the given SQL script
      *
-     * @param string SQL queries to execute
+     * @param string $sql SQL queries to execute
      *
      * @return boolen True on success, False on error
      */
@@ -1293,18 +1326,31 @@ class rcube_db
     {
         $sql  = $this->fix_table_names($sql);
         $buff = '';
+        $exec = '';
 
         foreach (explode("\n", $sql) as $line) {
-            if (preg_match('/^--/', $line) || trim($line) == '')
+            $trimmed = trim($line);
+            if ($trimmed == '' || preg_match('/^--/', $trimmed)) {
                 continue;
+            }
 
-            $buff .= $line . "\n";
-            if (preg_match('/(;|^GO)$/', trim($line))) {
-                $this->query($buff);
+            if ($trimmed == 'GO') {
+                $exec = $buff;
+            }
+            else if ($trimmed[strlen($trimmed)-1] == ';') {
+                $exec = $buff . substr(rtrim($line), 0, -1);
+            }
+
+            if ($exec) {
+                $this->query($exec);
                 $buff = '';
+                $exec = '';
                 if ($this->db_error) {
                     break;
                 }
+            }
+            else {
+                $buff .= $line . "\n";
             }
         }
 

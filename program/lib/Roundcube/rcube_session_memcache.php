@@ -174,6 +174,6 @@ class rcube_session_memcache extends rcube_session
             $line .= ' ' . $data;
         }
 
-        rcube::debug($this->type, $line, $result);
+        rcube::debug('memcache', $line, $result);
     }
 }

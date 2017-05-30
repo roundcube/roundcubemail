@@ -39,10 +39,10 @@ function rcube_text_editor(config, id)
     abs_url = location.href.replace(/[?#].*$/, '').replace(/\/$/, ''),
     conf = {
       selector: '#' + ($('#' + id).is('.mce_editor') ? id : 'fake-editor-id'),
-      cache_suffix: 's=4020700',
+      cache_suffix: 's=4050700',
       theme: 'modern',
       language: config.lang,
-      content_css: rcmail.assets_path('program/js/tinymce/roundcube/content.css'),
+      content_css: rcmail.assets_path('program/resources/tinymce/content.css'),
       menubar: false,
       statusbar: false,
       toolbar_items_size: 'small',
@@ -71,9 +71,6 @@ function rcube_text_editor(config, id)
     tinymce.registered_request_token = true;
     tinymce.util.XHR.on('beforeSend', function(e) {
       e.xhr.setRequestHeader('X-Roundcube-Request', rcmail.env.request_token);
-      // Fix missing lang parameter on addToDictionary request (#1490634)
-      if (e.settings && e.settings.data && /^method=addToDictionary/.test(e.settings.data) && !/&lang=/.test(e.settings.data))
-        e.settings.data += '&lang=' + ref.editor.plugins.spellchecker.getLanguage();
     });
   }
 
@@ -91,7 +88,7 @@ function rcube_text_editor(config, id)
   // full-featured editor
   else {
     $.extend(conf, {
-      plugins: 'autolink charmap code colorpicker directionality link image media nonbreaking'
+      plugins: 'autolink charmap code colorpicker directionality link lists image media nonbreaking'
         + ' paste table tabfocus textcolor searchreplace spellchecker',
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
         + ' | bullist numlist outdent indent ltr rtl blockquote | forecolor backcolor | fontselect fontsizeselect'
@@ -410,27 +407,47 @@ function rcube_text_editor(config, id)
   };
 
   // replace selection with text snippet
-  this.replace = function(text)
+  // input can be a string or object with 'text' and 'html' properties
+  this.replace = function(input)
   {
-    var ed = this.editor;
+    var format, ed = this.editor;
+
+    if (!input)
+      return false;
 
     // insert into tinymce editor
     if (ed) {
       ed.getWin().focus(); // correct focus in IE & Chrome
-      ed.selection.setContent(rcmail.quote_html(text).replace(/\r?\n/g, '<br/>'), { format:'text' });
+
+      if ($.type(input) == 'object' && ('html' in input)) {
+        input = input.html;
+        format = 'html';
+      }
+      else {
+        if ($.type(input) == 'object')
+          input = input.text || '';
+
+        input = rcmail.quote_html(input).replace(/\r?\n/g, '<br/>');
+        format = 'text';
+      }
+
+      ed.selection.setContent(input, {format: format});
     }
     // replace selection in compose textarea
     else if (ed = rcube_find_object(this.id)) {
-      var selection = $(ed).is(':focus') ? rcmail.get_input_selection(ed) : { start:0, end:0 },
-        inp_value = ed.value;
-        pre = inp_value.substring(0, selection.start),
-        end = inp_value.substring(selection.end, inp_value.length);
+      var selection = $(ed).is(':focus') ? rcmail.get_input_selection(ed) : {start: 0, end: 0},
+        value = ed.value;
+        pre = value.substring(0, selection.start),
+        end = value.substring(selection.end, value.length);
+
+      if ($.type(input) == 'object')
+        input = input.text || '';
 
       // insert response text
-      ed.value = pre + text + end;
+      ed.value = pre + input + end;
 
       // set caret after inserted text
-      rcmail.set_caret_pos(ed, selection.start + text.length);
+      rcmail.set_caret_pos(ed, selection.start + input.length);
       ed.focus();
     }
   };
@@ -734,7 +751,7 @@ function rcube_text_editor(config, id)
 
       case 'media':
         rx = /^video\//i;
-        img_src = 'program/js/tinymce/roundcube/video.png';
+        img_src = 'program/resources/tinymce/video.png';
         break;
 
       default:
@@ -777,10 +794,9 @@ function rcube_text_editor(config, id)
   // create smart files upload button
   this.hack_file_input = function(elem, clone_form)
   {
-    var link = $(elem),
+    var offset, link = $(elem),
       file = $('<input>').attr('name', '_file[]'),
-      form = $('<form>').attr({method: 'post', enctype: 'multipart/form-data'}),
-      offset = link.offset();
+      form = $('<form>').attr({method: 'post', enctype: 'multipart/form-data'});
 
     // clone existing upload form
     if (clone_form) {
@@ -790,6 +806,7 @@ function rcube_text_editor(config, id)
     }
 
     function move_file_input(e) {
+      if (!offset) offset = link.offset();
       file.css({top: (e.pageY - offset.top - 10) + 'px', left: (e.pageX - offset.left - 10) + 'px'});
     }
 

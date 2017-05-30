@@ -21,6 +21,8 @@ class enigma_key
     public $name;
     public $users   = array();
     public $subkeys = array();
+    public $reference;
+    public $password;
 
     const TYPE_UNKNOWN = 0;
     const TYPE_KEYPAIR = 1;
@@ -92,6 +94,20 @@ class enigma_key
     }
 
     /**
+     * Returns true if any of subkeys is a private key
+     */
+    function is_private()
+    {
+        $now = time();
+
+        foreach ($this->subkeys as $subkey)
+            if ($subkey->has_private)
+                return true;
+
+        return false;
+    }
+
+    /**
      * Get key ID by user email
      */
     function find_subkey($email, $mode)
@@ -99,7 +115,7 @@ class enigma_key
         $now = time();
 
         foreach ($this->users as $user) {
-            if ($user->email === $email && $user->valid && !$user->revoked) {
+            if (strcasecmp($user->email, $email) === 0 && $user->valid && !$user->revoked) {
                 foreach ($this->subkeys as $subkey) {
                     if (!$subkey->revoked && (!$subkey->expires || $subkey->expires > $now)) {
                         if ($subkey->usage & $mode) {

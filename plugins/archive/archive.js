@@ -1,11 +1,11 @@
 /**
  * Archive plugin script
- * @version 2.3
+ * @version 3.0
  *
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2012-2014, The Roundcube Dev Team
+ * Copyright (c) 2012-2016, The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -18,29 +18,30 @@
 
 function rcmail_archive(prop)
 {
-  if (!rcmail.env.uid && (!rcmail.message_list || !rcmail.message_list.get_selection().length))
+  if (rcmail_is_archive())
     return;
 
-  if (!rcmail_is_archive()) {
-    if (!rcmail.env.archive_type) {
-      // simply move to archive folder (if no partition type is set)
-      rcmail.command('move', rcmail.env.archive_folder);
-    }
-    else {
-      // let the server sort the messages to the according subfolders
-      rcmail.http_post('plugin.move2archive', rcmail.selection_post_data());
-    }
-  }
+  var post_data = rcmail.selection_post_data();
+
+  // exit if selection is empty
+  if (!post_data._uid)
+    return;
+
+  rcmail.show_contentframe(false);
+
+  // Disable message command buttons until a message is selected
+  rcmail.enable_command(rcmail.env.message_commands, false);
+  rcmail.enable_command('plugin.archive', false);
+
+  // let the server sort the messages to the according subfolders
+  rcmail.with_selected_messages('move', post_data, null, 'plugin.move2archive');
 }
 
 function rcmail_is_archive()
 {
   // check if current folder is an archive folder or one of its children
-  if (rcmail.env.mailbox == rcmail.env.archive_folder
-    || rcmail.env.mailbox.startsWith(rcmail.env.archive_folder + rcmail.env.delimiter)
-  ) {
-    return true;
-  }
+  return rcmail.env.mailbox == rcmail.env.archive_folder
+    || rcmail.env.mailbox.startsWith(rcmail.env.archive_folder + rcmail.env.delimiter);
 }
 
 // callback for app-onload event
@@ -59,11 +60,5 @@ if (window.rcmail) {
     var li;
     if (rcmail.env.archive_folder && (li = rcmail.get_folder_li(rcmail.env.archive_folder, '', true)))
       $(li).addClass('archive');
-
-    // callback for server response
-    rcmail.addEventListener('plugin.move2archive_response', function(result) {
-      if (result.update)
-        rcmail.command('list');  // refresh list
-    });
-  })
+  });
 }

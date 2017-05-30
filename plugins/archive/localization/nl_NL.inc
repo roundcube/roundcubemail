@@ -5,7 +5,7 @@
  | plugins/archive/localization/<lang>.inc                                |
  |                                                                       |
  | Localization file of the Roundcube Webmail Archive plugin             |
- | Copyright (C) 2013, The Roundcube Dev Team                            |
+ | Copyright (C) 2016, The Roundcube Dev Team                            |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -28,4 +28,5 @@ $labels['archivetypemonth'] = 'Maand (bijv. Archief/2012/06)';
 $labels['archivetypefolder'] = 'Originele map';
 $labels['archivetypesender'] = 'Afzender e-mail';
 $labels['unkownsender'] = 'onbekend';
+$labels['readonarchive'] = 'Markeer bericht al gelezen op archiveren';
 ?>

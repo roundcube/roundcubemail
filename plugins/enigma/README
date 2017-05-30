@@ -19,11 +19,12 @@ Implemented features:
 + Handling of PGP keys attached to incoming messages
 + User preferences to disable plugin features
 + Attaching public keys to email
++ Key server(s) support (search, import)
 
 
 TODO:
 -----
-- Handling of big messages with temp files
+- Handling of big messages with temp files (? - security)
 - Key info in contact details page (optional)
 - Extended key management:
    - disable,
@@ -33,15 +34,13 @@ TODO:
    - export private keys
 - Generate revocation certs
 - Search filter to see invalid/expired keys
-- Key server(s) support (search, import, upload, refresh)
+- Key server(s) support (upload, refresh)
 - Mark keys as trusted/untrasted, display appropriate message in verify/decrypt status
-- Change attachment icon on messages list for encrypted messages (like vcard_attachment plugin does)
-- Support for multi-server installations (store keys in sql database?)
-- Per-Identity settings (including keys/certs)
+- Support for multi-server installations (store keys in sql database? probably impossible with GnuPG 2.1)
 - Performance improvements:
    - cache decrypted message key id so we can skip decryption if we have no password in session
    - cache (last or successful only?) sig verification status to not verify on every msg preview (optional)
-- S/MIME: Certs generation
+- S/MIME: Certs generation (?)
 - S/MIME: Certs management
 - S/MIME: signed messages verification
 - S/MIME: encrypted messages decryption
@@ -52,9 +51,15 @@ TODO:
 
 KNOWN ISSUES:
 -------------
-There are some know issues with accepting key passphrases on various
+There are some known issues with accepting key passphrases on various
 system configurations. This is caused by issues in PinEntry handling.
 Make sure that vendor/bin/crypt-gpg-pinentry works from command line.
+
 Possible reasons:
-- non-supported GnuPG version, i.e. >= 2.1
 - non-working loader in shebang (#! /usr/bin/env php)
+  Make sure it works for the user the php scripts are executed upon
+  (i.e. apache, www-date, etc.)
+- SELinux setting, try command: setsebool -P httpd_unified 0
+
+Note: pinentry is used with gpg >= 2.0 and <= 2.1.12.
+Note: for server use GnuPG developers still recommend version 1.4.

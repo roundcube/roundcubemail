@@ -191,7 +191,7 @@ class rcube_db_oracle extends rcube_db
 
     /**
      * Helper method to handle DB errors.
-     * This by default logs the error but could be overriden by a driver implementation
+     * This by default logs the error but could be overridden by a driver implementation
      *
      * @param string Query that triggered the error
      * @return mixed Result to be stored and returned
@@ -325,6 +325,10 @@ class rcube_db_oracle extends rcube_db
 
         if (is_null($input)) {
             return 'NULL';
+        }
+
+        if ($input instanceof DateTime) {
+            return $this->quote($input->format($this->options['datetime_format']));
         }
 
         if ($type == 'ident') {
@@ -493,7 +497,7 @@ class rcube_db_oracle extends rcube_db
     /**
      * Execute the given SQL script
      *
-     * @param string SQL queries to execute
+     * @param string $sql SQL queries to execute
      *
      * @return boolen True on success, False on error
      */
@@ -600,5 +604,19 @@ class rcube_db_oracle extends rcube_db
         }
 
         return $this->last_result = $this->dbh->rollBack();
+    }
+
+    /**
+     * Terminate database connection.
+     */
+    public function closeConnection()
+    {
+        // release statement and close connection(s)
+        $this->last_result = null;
+        foreach ($this->dbhs as $dbh) {
+            oci_close($dbh);
+        }
+
+        parent::closeConnection();
     }
 }

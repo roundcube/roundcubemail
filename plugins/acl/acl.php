@@ -3,9 +3,7 @@
 /**
  * Folders Access Control Lists Management (RFC4314, RFC2086)
  *
- * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
- *
  *
  * Copyright (C) 2011-2012, Kolab Systems AG
  *
@@ -613,7 +611,7 @@ class acl extends rcube_plugin
      * @param array $acl1 ACL rights array (or string)
      * @param array $acl2 ACL rights array (or string)
      *
-     * @param int Comparision result, 2 - full match, 1 - partial match, 0 - no match
+     * @param int Comparison result, 2 - full match, 1 - partial match, 0 - no match
      */
     function acl_compare($acl1, $acl2)
     {
