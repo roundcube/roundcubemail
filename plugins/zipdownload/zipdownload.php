@@ -215,7 +215,7 @@ class zipdownload extends rcube_plugin
             $attachNumber = 1;
             list($filename, $ext) = preg_split("/\.(?=[^\.]*$)/", $displayname);
             foreach ($this->names as $name) {
-                if (preg_match("/{$filename}\[(\d+)\]\.{$ext}/", $name, $match)) {
+                if (preg_match("/{$filename}\((\d+)\)\.{$ext}/", $name, $match)) {
                     $attachNumber =  ((int) $match[1]) + 1;
                 }
             }
