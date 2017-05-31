@@ -740,11 +740,11 @@ class enigma_ui
         // Password and confirm password
         $table->add('title', html::label('key-pass', rcube::Q($this->enigma->gettext('newkeypass'))));
         $table->add(null, rcube_output::get_edit_field('password', '',
-            array('id' => 'key-pass', 'size' => $attrib['size'], 'required' => true), 'password'));
+            array('id' => 'key-pass', 'size' => $attrib['size'], 'required' => true, 'type' => 'password')));
 
         $table->add('title', html::label('key-pass-confirm', rcube::Q($this->enigma->gettext('newkeypassconfirm'))));
         $table->add(null, rcube_output::get_edit_field('password-confirm', '',
-            array('id' => 'key-pass-confirm', 'size' => $attrib['size'], 'required' => true), 'password'));
+            array('id' => 'key-pass-confirm', 'size' => $attrib['size'], 'required' => true, 'type' => 'password')));
 
         $this->rc->output->add_gui_object('keyform', $attrib['id']);
         $this->rc->output->add_label('enigma.keygenerating', 'enigma.formerror',
