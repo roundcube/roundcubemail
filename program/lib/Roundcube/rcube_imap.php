@@ -142,8 +142,16 @@ class rcube_imap extends rcube_storage
             );
         }
 
+        // retrying the connection for at most 5 times if the imap server simply closes the connection
+        // that scenario could be an indication of some internal imap server limit that was met
+        // this is usually transient and we might just save the user experience by doing so
         $attempt = 0;
         do {
+            if ($attempt > 0) {
+              // if not the first attempt, sleep 50 to 150ms
+              usleep(rand(50 * 1000, 150 * 1000));
+            }
+
             $data = $this->plugins->exec_hook('storage_connect',
                 array_merge($this->options, array('host' => $host, 'user' => $user,
                     'attempt' => ++$attempt)));
@@ -156,7 +164,10 @@ class rcube_imap extends rcube_storage
             rcube_utils::parse_socket_options($data['socket_options'], $data['host']);
 
             $this->conn->connect($data['host'], $data['user'], $pass, $data);
-        } while(!$this->conn->connected() && $data['retry']);
+
+        // retry the connection if the current attempt is unsuccessful, the error code is RETRY and
+        // the attempt limit is not met
+        } while(!$this->conn->connected() && $this->conn->is_retry_error() && $attempt < 5);
 
         $config = array(
             'host'     => $data['host'],
