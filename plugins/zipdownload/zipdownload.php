@@ -143,7 +143,7 @@ class zipdownload extends rcube_plugin
         foreach ($message->attachments as $part) {
             $pid      = $part->mime_id;
             $part     = $message->mime_parts[$pid];
-            $disp_name = $this->_create_displayname($part->filename);
+            $disp_name = $this->_create_displayname($part);
 
             $tmpfn       = tempnam($temp_dir, 'zipattach');
             $tmpfp       = fopen($tmpfn, 'w');
@@ -188,11 +188,10 @@ class zipdownload extends rcube_plugin
      * Create and get display name of attachment part to add on zip file
      *
      * @param $part stdClass Part of attachment on message
-     * @param $pid string Part Id of attachment
      *
      * @return string Display name of attachment part
      */
-    private function _create_displayname($part, $pid)
+    private function _create_displayname($part)
     {
         $rcmail    = rcmail::get_instance();
         $filename = $part->filename;
