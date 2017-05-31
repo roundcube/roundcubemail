@@ -523,6 +523,7 @@ class rcmail extends rcube
         $default_port    = $this->config->get('default_port');
         $username_domain = $this->config->get('username_domain');
         $login_lc        = $this->config->get('login_lc', 2);
+        $imap_hosts_config = $this->config->get('imap_hosts_config');
 
         // check input for security (#1490500)
         if (($username_maxlen && strlen($username) > $username_maxlen)
@@ -618,6 +619,13 @@ class rcmail extends rcube
                 $this->login_error = self::ERROR_RATE_LIMIT;
                 return false;
             }
+        }
+
+        if (!empty($imap_hosts_config) && isset($imap_hosts_config[$host])) {
+            if (!empty($imap_hosts_config[$host]['port']))
+                $port = $imap_hosts_config[$host]['port'];
+            if (!empty($imap_hosts_config[$host]['ssl']))
+                $ssl = $imap_hosts_config[$host]['ssl'];
         }
 
         $storage = $this->get_storage();
