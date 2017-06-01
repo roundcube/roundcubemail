@@ -28,14 +28,14 @@ $dont_override = (array) $RCMAIL->config->get('dont_override');
 switch ($CURR_SECTION) {
 case 'general':
     $a_user_prefs = array(
-        'language'     => rcube_utils::get_input_value('_language', rcube_utils::INPUT_POST),
-        'timezone'     => rcube_utils::get_input_value('_timezone', rcube_utils::INPUT_POST),
-        'date_format'  => rcube_utils::get_input_value('_date_format', rcube_utils::INPUT_POST),
-        'time_format'  => rcube_utils::get_input_value('_time_format', rcube_utils::INPUT_POST),
+        'language'     => rcmail_prefs_input('language', '/^[a-zA-Z_-]+$/'),
+        'timezone'     => rcmail_prefs_input('timezone', '/^[a-zA-Z_\/-]+$/'),
+        'date_format'  => rcmail_prefs_input('date_format', '/^[a-zA-Z_.\/ -]+$/'),
+        'time_format'  => rcmail_prefs_input('time_format', '/^[a-zA-Z0-9: ]+$/'),
         'prettydate'   => isset($_POST['_pretty_date']),
         'refresh_interval' => intval($_POST['_refresh_interval']) * 60,
         'standard_windows' => isset($_POST['_standard_windows']),
-        'skin'         => rcube_utils::get_input_value('_skin', rcube_utils::INPUT_POST),
+        'skin'         => rcmail_prefs_input('skin', '/^[a-zA-Z0-9_.-]+$/'),
     );
 
     // compose derived date/time format strings
@@ -65,12 +65,8 @@ case 'mailview':
         'inline_images'   => isset($_POST['_inline_images']),
         'show_images'     => intval($_POST['_show_images']),
         'display_next'    => isset($_POST['_display_next']),
-        'default_charset' => rcube_utils::get_input_value('_default_charset', rcube_utils::INPUT_POST),
+        'default_charset' => rcmail_prefs_input('default_charset', '/^[a-zA-Z0-9-]+$/'),
     );
-
-    if ($a_user_prefs['default_charset'] && !preg_match('/^[a-zA-Z0-9-]+$/', $a_user_prefs['default_charset'])) {
-        $a_user_prefs['default_charset'] = $RCMAIL->config->get('default_charset');
-    }
 
     break;
 
@@ -93,8 +89,8 @@ case 'compose':
         'sig_below'          => isset($_POST['_sig_below']),
         'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
         'sig_separator'      => isset($_POST['_sig_separator']),
-        'default_font'       => rcube_utils::get_input_value('_default_font', rcube_utils::INPUT_POST),
-        'default_font_size'  => rcube_utils::get_input_value('_default_font_size', rcube_utils::INPUT_POST),
+        'default_font'       => rcmail_prefs_input('default_font', '/^[a-zA-Z ]+$/'),
+        'default_font_size'  => rcmail_prefs_input('default_font_size', '/^[0-9]+pt$/'),
         'reply_all_mode'     => intval($_POST['_reply_all_mode']),
         'forward_attachment' => !empty($_POST['_forward_attachment']),
         'compose_save_localstorage' => intval($_POST['_compose_save_localstorage']),
@@ -106,8 +102,8 @@ case 'addressbook':
     $a_user_prefs = array(
         'default_addressbook'  => rcube_utils::get_input_value('_default_addressbook', rcube_utils::INPUT_POST, true),
         'autocomplete_single'  => isset($_POST['_autocomplete_single']),
-        'addressbook_sort_col' => rcube_utils::get_input_value('_addressbook_sort_col', rcube_utils::INPUT_POST),
-        'addressbook_name_listing' => intval(rcube_utils::get_input_value('_addressbook_name_listing', rcube_utils::INPUT_POST)),
+        'addressbook_sort_col' => rcmail_prefs_input('addressbook_sort_col', '/^[a-z_]+$/'),
+        'addressbook_name_listing' => intval($_POST['_addressbook_name_listing']),
         'addressbook_pagesize' => max(2, intval($_POST['_addressbook_pagesize'])),
     );
 
@@ -229,3 +225,23 @@ else
 
 // display the form again
 $RCMAIL->overwrite_action('edit-prefs');
+
+
+// Get option value from POST and validate with a regex
+function rcmail_prefs_input($name, $regex)
+{
+    global $RCMAIL;
+
+    $value = rcube_utils::get_input_value('_' . $name, rcube_utils::INPUT_POST);
+
+    if (!is_string($value)) {
+        $value = null;
+    }
+
+    if ($value !== null && strlen($value) && !preg_match($regex, $value)) {
+rcube::console($name);
+        $value = $RCMAIL->config->get($name);
+    }
+
+    return $value;
+}
