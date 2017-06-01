@@ -1445,17 +1445,16 @@ function rcmail_timezone_label($tz)
         return str_replace('_', ' ', $tz);
     }
 
-    list($glob, $city) = explode('/', $tz);
+    $tokens = explode('/', $tz);
+    $key    = 'tz';
 
-    $glob_idx   = 'tz:' . strtolower($glob);
-    $city_idx   = 'tz:' . strtolower($glob) . ':' . strtolower($city);
-    $glob_label = $labels[$glob_idx] ?: $glob;
-    $city_label = $labels[$city_idx] ?: str_replace('_', ' ', $city);
+    foreach ($tokens as $i => $token) {
+        $idx   = strtolower($token);
+        $token = str_replace('_', ' ', $token);
+        $key  .= ":$idx";
 
-    $label = $glob_label;
-    if ($city) {
-        $label .= '/' . $city_label;
+        $tokens[$i] = $labels[$key] ?: $token;
     }
 
-    return $label;
+    return implode('/', $tokens);
 }
