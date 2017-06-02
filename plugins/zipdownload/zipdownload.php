@@ -182,8 +182,7 @@ class zipdownload extends rcube_plugin
             }
         }
     }
-    
-    
+
     /**
      * Create and get display name of attachment part to add on zip file
      *
@@ -205,22 +204,20 @@ class zipdownload extends rcube_plugin
             }
         }
 
-        $displayname   = $this->_convert_filename($filename);
+        $displayname = $this->_convert_filename($filename);
+
         /**
          * Adding a number before dot of extension on a name of file with same name on zip
          * Ext: attach(1).txt on attach filename that has a attach.txt filename on same zip
          */
-        if (in_array($displayname, $this->names)) {
-            $attachNumber = 1;
+        if (isset($this->name[$displayname])) {
             list($filename, $ext) = preg_split("/\.(?=[^\.]*$)/", $displayname);
-            foreach ($this->names as $name) {
-                if (preg_match("/{$filename}\((\d+)\)\.{$ext}/", $name, $match)) {
-                    $attachNumber =  ((int) $match[1]) + 1;
-                }
-            }
-            $displayname = $filename . '(' .$attachNumber . ').' . $ext;
+            $displayname = $filename . '(' . ($this->names[$displayname]++) . ').' . $ext;
+            $this->names[$displayname] = 1;
         }
-        $this->names[] = $displayname;
+        else {
+            $this->names[$displayname] = 1;
+        }
 
         return $displayname;
     }
