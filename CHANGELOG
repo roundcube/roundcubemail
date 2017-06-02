@@ -21,6 +21,7 @@ CHANGELOG Roundcube Webmail
 - Enigma: Fix compatibility with assets_dir
 - Managesieve: Skip redundant LISTSCRIPTS command
 - Fix SQL syntax error on MariaDB 10.2 (#5774)
+- Fix bug where zipdownload ignored files with the same name (#5777)
 
 RELEASE 1.3-rc
 --------------
