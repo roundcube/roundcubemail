@@ -192,14 +192,16 @@ class rcube_user
         $a_user_prefs = $plugin['prefs'];
         $old_prefs    = $plugin['old'];
         $config       = $this->rc->config;
+        $defaults     = $config->all();
 
         // merge (partial) prefs array with existing settings
         $this->prefs = $save_prefs = $a_user_prefs + $old_prefs;
         unset($save_prefs['language']);
 
         // don't save prefs with default values if they haven't been changed yet
+        // Warning: we use result of rcube_config::all() here instead of just get() (#5782)
         foreach ($a_user_prefs as $key => $value) {
-            if ($value === null || (!isset($old_prefs[$key]) && ($value == $config->get($key)))) {
+            if ($value === null || (!isset($old_prefs[$key]) && $value === $defaults[$key])) {
                 unset($save_prefs[$key]);
             }
         }
