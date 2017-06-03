@@ -6,6 +6,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where it wasn't possible to scroll folders list in Edge (#5750)
 - Fix addressbook searching by gender (#5757)
 - Fix SQL syntax error on MariaDB 10.2 (#5774)
+- Fix bug where it wasn't possible to set timezone to auto-detected value (#5782)
 
 RELEASE 1.2.5
 -------------
