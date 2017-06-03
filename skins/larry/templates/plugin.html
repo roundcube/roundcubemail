@@ -4,21 +4,31 @@
 <title><roundcube:object name="pagetitle" /></title>
 <roundcube:include file="/includes/links.html" />
 </head>
-<body class="noscroll">
+<roundcube:if condition="env:framed" />
+	<body class="iframe">
+<roundcube:else />
+	<body class="noscroll">
 
-<roundcube:include file="/includes/header.html" />
+	<roundcube:include file="/includes/header.html" />
 
-<div id="mainscreen" class="offset">
+	<div id="mainscreen" class="offset">
+<roundcube:endif />
 
-<roundcube:if condition="env:task == 'settings'" />
+<roundcube:if condition="env:task == 'settings' &amp;&amp; !env:framed" />
 	<roundcube:include file="/includes/settingstabs.html" />
 <roundcube:endif />
 
-<div id="pluginbody" class="uibox contentbox">
-<roundcube:object name="plugin.body" />
-</div>
+<roundcube:if condition="!env:framed" />
+	<div id="pluginbody" class="uibox contentbox">
+<roundcube:endif />
 
-</div>
+<roundcube:object name="plugin.body" />
+
+<roundcube:if condition="!env:framed" />
+	</div>
+
+	</div>
+<roundcube:endif />
 
 <roundcube:object name="plugin.footer" />
 

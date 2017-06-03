@@ -5,18 +5,28 @@
 <roundcube:include file="/includes/links.html" />
 <script type="text/javascript" src="/functions.js"></script>
 </head>
-<body>
+<roundcube:if condition="env:framed" />
+	<body class="iframe">
+<roundcube:else />
+	<body>
+	<roundcube:include file="/includes/taskbar.html" />
+	<roundcube:include file="/includes/header.html" />
+<roundcube:endif />
 
-<roundcube:include file="/includes/taskbar.html" />
-<roundcube:include file="/includes/header.html" />
-<roundcube:if condition="env:task == 'settings'" />
+<roundcube:if condition="env:task == 'settings' &amp;&amp; !env:framed" />
   <roundcube:include file="/includes/settingstabs.html" />
 <roundcube:endif />
 
-<div id="mainscreen">
+<roundcube:if condition="!env:framed" />
+	<div id="mainscreen">
+<roundcube:endif />
+
 <roundcube:object name="plugin.body" />
-</div>
-  
+
+<roundcube:if condition="!env:framed" />
+	</div>
+<roundcube:endif />
+
 <roundcube:object name="plugin.footer" />
 
 </body>
