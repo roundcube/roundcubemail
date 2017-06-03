@@ -46,6 +46,7 @@
  2.19. Vpopmail daemon (vpopmaild)
  2.20. Plesk (Plesk RPC-API)
  2.21. Kpasswd
+ 2.22. hostNET (hostnet)
  3. Driver API
  4. Sudo setup
 
@@ -359,6 +360,13 @@
  -----------------------------------
 
  Driver to change the password in Kerberos environments via the 'kpasswd' command.
+ See config.inc.php.dist file for configuration description.
+
+
+ 2.22.  hostNET (hostnet)
+ -----------------------------------
+
+ Driver for the hosting provider hostNET (www.hostnet.de).
  See config.inc.php.dist file for configuration description.
 
 
