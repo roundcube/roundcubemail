@@ -770,7 +770,7 @@ EOF;
         }
 
         list($file) = explode('?', $path, 2);
-        if (!empty($file) && is_readable($file)) {
+        if (!empty($file) && is_readable($this->assets_dir . $file)) {
 	    $content = @file_get_contents($this->assets_dir . $file);
 	    if ($content !== false) {
 	        return 'sha384-'.base64_encode(hash('sha384', $content, true));
