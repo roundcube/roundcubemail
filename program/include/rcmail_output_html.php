@@ -85,7 +85,7 @@ class rcmail_output_html extends rcmail_output
         $this->set_env('skin', $skin);
 
         $this->set_assets_path($this->config->get('assets_path'), $this->config->get('assets_dir'));
-        $this->assets_sri = $this->config->get('assets_sri');
+        $this->assets_sri = $this->config->get('assets_sri') && in_array('sha384', hash_algos(), true);
 
         if (!empty($_REQUEST['_extwin']))
             $this->set_env('extwin', 1);
