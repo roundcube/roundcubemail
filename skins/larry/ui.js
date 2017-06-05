@@ -896,7 +896,10 @@ function rcube_mail_ui()
     item = $(item);
 
     if (!item.children('.drop').length)
-      item.append($('<a class="drop skip-content" tabindex="0" aria-haspopup="true">Show options</a>')
+      var label = rcmail.gettext('options');
+      item.append($('<a>')
+          .attr({'class': 'drop skip-content', tabindex: 0, 'aria-haspopup': true, title: label})
+          .text(label)
           .on('click keypress', function(e) {
             if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
               attachmentmenu(this, e);
