@@ -467,3 +467,9 @@ $config['password_plesk_rpc_path'] = 'enterprise/control/agent.php';
 // ---------------------
 // Command to use
 $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';
+
+
+// hostNET Driver options
+// -------------------
+// Path to mailuser file
+$config['password_hostnet_mailuserfile'] = '/etc/mail/mailuser';
