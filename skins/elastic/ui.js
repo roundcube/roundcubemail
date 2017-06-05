@@ -1254,17 +1254,21 @@ function rcube_elastic_ui()
         item = $(item);
 
         if (!item.children('.drop').length) {
+            var label = rcmail.gettext('options');
             var button = $('<a>')
                 .attr({
                     href: '#',
                     tabindex: 0,
-                    'class': 'button icon dropdown skip-content',
-                    'data-popup': 'attachment-menu',
+                    title: label,
+                    'class': 'button icon dropdown skip-content'
                 })
-                .append($('<span class="inner">').text('Show options')) // TODO: Localize "Show options"
+                .on('click keypress', function(e) {
+                    if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
+                        attachmentmenu($('#attachmentmenu'), button, e);
+                    }
+                })
+                .append($('<span>').attr('class', 'inner').text(label))
                 .appendTo(item);
-
-            popup_init(button);
         }
     };
 
