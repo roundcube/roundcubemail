@@ -282,7 +282,7 @@ if (is_file($incfile = INSTALL_PATH . 'program/steps/'.$RCMAIL->task.'/func.inc'
 }
 
 // allow 5 "redirects" to another action
-$redirects = 0; $incstep = null;
+$redirects = 0;
 while ($redirects < 5) {
     // execute a plugin action
     if (preg_match('/^plugin\./', $RCMAIL->action)) {
