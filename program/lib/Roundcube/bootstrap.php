@@ -25,7 +25,7 @@
  */
 
 $config = array(
-    'error_reporting'         => E_ALL & ~E_NOTICE & ~E_STRICT,
+    'error_reporting'         => E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED,
     // Some users are not using Installer, so we'll check some
     // critical PHP settings here. Only these, which doesn't provide
     // an error/warning in the logs later. See (#1486307).
