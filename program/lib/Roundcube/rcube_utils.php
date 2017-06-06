@@ -1118,7 +1118,7 @@ class rcube_utils
             }
 
             $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']);
-            if ($_SERVER['SERVER_PORT'] != $default_port) {
+            if ($_SERVER['SERVER_PORT'] != $default_port && $_SERVER['SERVER_PORT'] != 80) {
                 $prefix .= ':' . $_SERVER['SERVER_PORT'];
             }
 
