@@ -1552,7 +1552,7 @@ class rcube
      */
     public function gen_message_id($sender = null)
     {
-        $local_part  = md5(uniqid('rcube'.mt_rand(), true));
+        $local_part  = base_convert(microtime(true), 10, 36).'.'.rcube_utils::random_bytes(16);
         $domain_part = '';
 
         if ($sender && preg_match('/@([^\s]+\.[a-z0-9-]+)/', $sender, $m)) {
