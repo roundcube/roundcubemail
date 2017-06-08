@@ -1,16 +1,31 @@
 <?php
 
 /**
- * hostNET Password Driver
+ * Dovecot passwdfile Password Driver
  *
- * Driver that adds functionality to change the mailuser password on hostNET Servers.
+ * Driver that adds functionality to change the passwords in dovecot 2 passwd-file files.
  * The code is derrived from the Plugin examples by The Roundcube Dev Team
  *
- * It only works on hostnet.de Managed-Root Server Systems.
+ * Intentionally written for hostnet.de Managed-Root Server Systems, it determines
+ * the hostBSD System to preset any needed settings. hostNET Managed-Root Customers only need to set
+ *
+ * $config['password_driver'] = 'dovecot_passwdfile'
+ *
+ * in roundcubes plugins/password/config.inc.php to have all set.
+ * (But don't forget to enable the 'password' plugin at all...)
+ *
+ * On vanilla dovecot 2 environments, use the correct values for these config settings:
+ *
+ * $config['password_dovecot_passwdfile_path']: The path of your dovecot passwd-file '/path/to/filename' as set in dovecot/conf.d/auth-passwdfile.conf.ext
+ * $config['password_dovecotpw']: Full path and 'pw' command of doveadm binary - like '/usr/local/bin/doveadm pw'
+ * $config['password_dovecotpw_method']: Dovecot hashing algo (http://wiki2.dovecot.org/Authentication/PasswordSchemes)
+ * $config['password_dovecotpw_with_method']: True if you want the hashing algo as prefix in your passwd-file
  *
  * @version 1.0; Jimmy Koerting
  *
- * Copyright (C) 2017, hostNET Medien GmbH
+ * Copyright (C) 2017, hostNET Medien GmbH, www.hostnet.de
+ *
+ *
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,29 +41,71 @@
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-class rcube_hostnet_password
+
+class rcube_dovecot_passwdfile_password
 {
     public function save($currpass, $newpass)
     {
+        $rcmail           = rcmail::get_instance();
         $username         = escapeshellcmd($_SESSION['username']);
-        $password         = escapeshellarg($newpass);
-        $mailuserfile     = rcmail::get_instance()->config->get('password_hostnet_mailuserfile', '/etc/mail/mailuser');
-        $createhash       = "/usr/iports/bin/doveadm pw -s SHA512-CRYPT -p '$password' | sed s/\{SHA512-CRYPT\}//";
+        $password         = $newpass;
+        $mailuserfile     = $rcmail->config->get('password_dovecot_passwdfile_path', '/etc/mail/mailuser');
+        $dovecotpw        = $rcmail->config->get('password_dovecotpw', '/usr/local/bin/doveadm pw');
+        $method           = $rcmail->config->get('password_dovecotpw_method', 'SHA512-CRYPT');
+        $with_method      = $rcmail->config->get('password_dovecotpw_with_method', false);
 
-        // create new SHA512 hash
-        exec($createhash, $newhash, $return_value);
+        // BEGIN hostNET.de specific code - ignored elsewhere
+        $uname_call = "/usr/bin/uname -v";
+        exec($uname_call, $systemname, $return_value);
+        $systemname = implode($systemname);
+        if (strncmp ($systemname, 'hostBSD', 7) === 0) {
+                $mailuserfile     = '/etc/mail/mailuser';
+                $dovecotpw = '/usr/iports/bin/doveadm pw';
+                $method  = 'SHA512-CRYPT';
+                $with_method = false;
+        }
+        // END hostNET.de specific code
 
-        if ($return_value != 0) {
-            rcube::raise_error(array(
-                'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: Unable to execute doveadm for $username"
-                ), true, false);
-            return PASSWORD_CRYPT_ERROR;
+
+        // simplified version from password::hash_password
+        $tmp_dir = $rcmail->config->get('temp_dir');
+        $tmpfile = tempnam($tmp_dir, 'roundcube-');
+
+        $pipe = popen("$dovecotpw -s '$method' > '$tmpfile'", "w");
+        if (!$pipe) {
+                unlink($tmpfile);
+                rcube::raise_error(array(
+                    'code' => 600,
+                    'type' => 'php',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Can't create tempfile $tmpfile"
+                    ), true, false);
+                return PASSWORD_CRYPT_ERROR;
+        }
+        else {
+                fwrite($pipe, $password . "\n", 1+strlen($password)); usleep(1000);
+                fwrite($pipe, $password . "\n", 1+strlen($password));
+                pclose($pipe);
+
+                $newhash = trim(file_get_contents($tmpfile), "\n");
+                unlink($tmpfile);
+
+                if (!preg_match('/^\{' . $method . '\}/', $newhash)) {
+                    rcube::raise_error(array(
+                        'code' => 600,
+                        'type' => 'php',
+                        'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Password hashing failed -> $newhash"
+                        ), true, false);
+                    return PASSWORD_CRYPT_ERROR;
+                }
+
+                if(!$with_method) {
+                        $newhash = trim(str_replace('{' . $method . '}', '', $newhash));
+                }
         }
 
-        $newhash = escapeshellcmd(implode($newhash));
+        $newhash = escapeshellcmd($newhash);
 
         // read the entire mailuser file
         $mailusercontent = file_get_contents($mailuserfile);
@@ -81,7 +138,7 @@ class rcube_hostnet_password
                 ), true, false);
             return PASSWORD_ERROR;
         }
- 
+
         // write back the entire file
         if (file_put_contents($mailuserfile, $mailusercontent)) {
             return PASSWORD_SUCCESS;
@@ -94,10 +151,10 @@ class rcube_hostnet_password
                 'message' => "Password plugin: Unable to save new password."
                 ), true, false);
         }
-  
+
         return PASSWORD_ERROR;
     }
-
+    
 
     /**
      * Fire TEXT errors
