@@ -488,6 +488,10 @@ if (preg_match('/[^\x00-\x7F]/', $MAIL_MIME->getTXTBody())) {
     $text_charset      = $message_charset;
     $transfer_encoding = $RCMAIL->config->get('force_7bit') ? 'quoted-printable' : '8bit';
 }
+else if (strncmp(strtoupper($message_charset), 'ISO-2022', 8) == 0 && preg_match('/\x1B/', $MAIL_MIME->getTXTBody())) {
+    $text_charset      = $message_charset;
+    $transfer_encoding = '7bit';
+}
 else {
     $text_charset      = 'US-ASCII';
     $transfer_encoding = '7bit';
@@ -514,10 +518,13 @@ if ($pgp_mime) {
     $MAIL_MIME->setParam('preamble', 'This is an OpenPGP/MIME encrypted message (RFC 2440 and 3156)');
 }
 
+// default MIME head encoding
+$default_head_encoding = $RCMAIL->config->get('default_head_encoding', 'quoted-printable');
+
 // encoding settings for mail composing
 $MAIL_MIME->setParam('text_encoding', $transfer_encoding);
 $MAIL_MIME->setParam('html_encoding', 'quoted-printable');
-$MAIL_MIME->setParam('head_encoding', 'quoted-printable');
+$MAIL_MIME->setParam('head_encoding', $default_head_encoding);
 $MAIL_MIME->setParam('head_charset', $message_charset);
 $MAIL_MIME->setParam('html_charset', $message_charset);
 $MAIL_MIME->setParam('text_charset', $text_charset);
