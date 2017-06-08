@@ -14,7 +14,7 @@
  * in roundcubes plugins/password/config.inc.php to have all set.
  * (But don't forget to enable the 'password' plugin at all...)
  *
- * On vanilla dovecot 2 environments, use the correct values for these config settings:
+ * On vanilla dovecot 2 environments, use the correct values for these config settings, too:
  *
  * $config['password_dovecot_passwdfile_path']: The path of your dovecot passwd-file '/path/to/filename' as set in dovecot/conf.d/auth-passwdfile.conf.ext
  * $config['password_dovecotpw']: Full path and 'pw' command of doveadm binary - like '/usr/local/bin/doveadm pw'
