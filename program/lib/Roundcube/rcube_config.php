@@ -647,6 +647,12 @@ class rcube_config
             }
         }
 
+        // translate old `preview_pane` settings to `layout`
+        if (isset($props['preview_pane']) && !isset($props['layout'])) {
+            $props['layout'] = $props['preview_pane'] ? 'desktop' : 'list';
+            unset($props['preview_pane']);
+        }
+
         return $props;
     }
 
