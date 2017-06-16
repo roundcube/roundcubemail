@@ -50,7 +50,7 @@ if (empty($CURL) && empty($WGET)) {
 
 $CACHEDIR = sys_get_temp_dir();
 
-if (is_writeable(INSTALL_PATH . 'temp/js_cache') || mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {
+if (is_writeable(INSTALL_PATH . 'temp/js_cache') || @mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {
   $CACHEDIR = INSTALL_PATH . 'temp/js_cache';
 }
 
