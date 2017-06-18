@@ -54,19 +54,19 @@ if (strtolower($input) == 'y') {
   }
 
   $dirs = array('program','installer','bin','SQL','plugins','skins');
-  if (is_dir(INSTALL_PATH . 'vendor') && !is_file(INSTALL_PATH . 'composer.json')) {
+  if (is_dir(INSTALL_PATH . 'vendor') && !is_file("$target_dir/composer.json")) {
     $dirs[] = 'vendor';
   }
   foreach ($dirs as $dir) {
     // @FIXME: should we use --delete for all directories?
-    $delete  = in_array($dir, array('program', 'installer')) ? '--delete ' : '';
-    $command = "rsync -aC --out-format \"%n\" " . $delete . INSTALL_PATH . "$dir/* $target_dir/$dir/";
+    $delete  = in_array($dir, array('program', 'installer', 'vendor')) ? '--delete ' : '';
+    $command = "rsync -aC --out-format=%n " . $delete . INSTALL_PATH . "$dir/ $target_dir/$dir/";
     if (!system($command, $ret) || $ret > 0) {
       rcube::raise_error("Failed to execute command: $command", false, true);
     }
   }
   foreach (array('index.php','.htaccess','config/defaults.inc.php','composer.json-dist','jsdeps.json','CHANGELOG','README.md','UPGRADING','LICENSE','INSTALL') as $file) {
-    $command = "rsync -a --out-format \"%n\" " . INSTALL_PATH . "$file $target_dir/$file";
+    $command = "rsync -a --out-format=%n " . INSTALL_PATH . "$file $target_dir/$file";
     if (file_exists(INSTALL_PATH . $file) && (!system($command, $ret) || $ret > 0)) {
       rcube::raise_error("Failed to execute command: $command", false, true);
     }
