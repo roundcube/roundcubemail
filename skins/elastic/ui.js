@@ -365,7 +365,7 @@ function rcube_elastic_ui()
 
         // close popups on click in an iframe on the page
         var close_all_popups = function(e) {
-            $('.popover-content:visible').each(function() {
+            $('.popover-body:visible').each(function() {
                 var button = $(this).children('*:first').data('button');
                 if (e.target != button) {
                     $(button).popover('hide');
@@ -907,7 +907,7 @@ function rcube_elastic_ui()
      */
     function popups_close(e)
     {
-        $('.popover-content:visible').each(function() {
+        $('.popover-body:visible').each(function() {
             var popup = $(this),
                 button = popup.children().first().data('button');
 
