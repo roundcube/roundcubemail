@@ -2330,6 +2330,15 @@ class rcmail extends rcube
      */
     public function show_bytes($bytes, &$unit = null)
     {
+        // Plugins may want to display different units
+        $plugin = $this->plugins->exec_hook('show_bytes', array('bytes' => $bytes));
+
+        $unit = $plugin['unit'];
+
+        if ($plugin['result'] !== null) {
+            return $plugin['result'];
+        }
+
         if ($bytes >= 1073741824) {
             $unit = 'GB';
             $gb   = $bytes/1073741824;
