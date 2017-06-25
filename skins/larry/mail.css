@@ -1210,9 +1210,8 @@ div.message-partheaders .headers-table td.header {
 
 #composeoptions {
 	display: none;
-	padding: 2px 0 0 8px;
+	padding: 0 0 0 8px;
 	white-space: normal;
-	border-top: 1px solid #dfdfdf;
 }
 
 .composeoption {
@@ -1228,10 +1227,6 @@ div.message-partheaders .headers-table td.header {
 
 #composeoptions .composeoption:last-child {
 	padding-right: 4px;
-}
-
-.mozilla .composeoption input {
-	vertical-align: -3px;
 }
 
 #composeview-bottom {
