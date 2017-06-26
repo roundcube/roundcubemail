@@ -285,19 +285,23 @@ function rcube_elastic_ui()
         $('input,select,textarea', $('table.propform')).not('[type=checkbox]').addClass('form-control');
         $('[type=checkbox]', $('table.propform')).addClass('form-check-input');
         $('table.propform > tbody > tr').each(function() {
-            var row = $(this),
+            var first, last, row = $(this),
                 row_classes = ['form-group', 'row'],
                 cells = row.children('td');
 
             if (cells.length == 2) {
-                cells.first().addClass('col-form-label');
-                $('label', cells.first()).addClass('col-form-label');
+                first = cells.first();
+                last = cells.last();
 
-                cells.first().addClass('col-sm-4');
-                cells.last().addClass('col-sm-8');
+                $('label', first).addClass('col-form-label');
+                first.addClass('col-sm-4 col-form-label');
+                last.addClass('col-sm-8');
 
-                if (cells.last().find('[type=checkbox]').length) {
+                if (last.find('[type=checkbox]').length) {
                     row_classes.push('form-check');
+                }
+                else if (!last.find('input,textarea,radio').length) {
+                    last.addClass('form-control-plaintext');
                 }
             }
 
