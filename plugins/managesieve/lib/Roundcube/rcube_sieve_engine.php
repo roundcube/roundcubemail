@@ -414,26 +414,11 @@ class rcube_sieve_engine
                 $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
                 $script      = $this->sieve->get_script($script_name);
 
-                if ($script === false) {
-                    exit;
+                if ($script !== false) {
+                    $this->rc->output->download_headers($script_name . '.txt', array('length' => strlen($script)));
+                    echo $script;
                 }
 
-                $browser = new rcube_browser;
-
-                // send download headers
-                header("Content-Type: application/octet-stream");
-                header("Content-Length: ".strlen($script));
-
-                if ($browser->ie) {
-                    header("Content-Type: application/force-download");
-                    $filename = rawurlencode($script_name);
-                }
-                else {
-                    $filename = addcslashes($script_name, '\\"');
-                }
-
-                header("Content-Disposition: attachment; filename=\"$filename.txt\"");
-                echo $script;
                 exit;
             }
             else if ($action == 'list') {

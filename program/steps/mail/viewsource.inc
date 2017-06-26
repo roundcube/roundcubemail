@@ -38,17 +38,19 @@ if ($uid = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GET)) {
 
     $charset = $headers->charset ?: $RCMAIL->config->get('default_charset');
 
-    header("Content-Type: text/plain; charset={$charset}");
-
     if (!empty($_GET['_save'])) {
-        $browser  = $RCMAIL->output->browser;
         $subject  = rcube_mime::decode_header($headers->subject, $headers->charset);
         $filename = rcmail_filename_from_subject(mb_substr($subject, 0, 128));
         $filename = ($filename ?: $uid)  . '.eml';
-        $filename = $browser->ie ? rawurlencode($filename) : addcslashes($filename, '"');
 
-        header("Content-Length: {$headers->size}");
-        header("Content-Disposition: attachment; filename=\"$filename\"");
+        $RCMAIL->output->download_headers($filename, array(
+                'length'       => $headers->size,
+                'type'         => 'text/plain',
+                'type_charset' => $charset,
+        ));
+    }
+    else {
+        header("Content-Type: text/plain; charset={$charset}");
     }
 
     if (isset($message)) {

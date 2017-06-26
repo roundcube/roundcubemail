@@ -198,6 +198,60 @@ abstract class rcube_output
     }
 
     /**
+     * Send headers related to file downloads
+     *
+     * @param string $filename File name
+     * @param array  $params   Optional parameters:
+     *                         type         - File content type (default: 'application/octet-stream')
+     *                         disposition  - Download type: 'inline' or 'attachment' (default)
+     *                         length       - Content length
+     *                         charset      - File name character set
+     *                         type_charset - Content character set
+     *                         time_limit   - Script execution limit (default: 3600)
+     */
+    public function download_headers($filename, $params = array())
+    {
+        if (empty($params['disposition'])) {
+            $params['disposition'] = 'attachment';
+        }
+
+        if ($params['disposition'] == 'inline' && stripos($params['type'], 'text') === 0) {
+            $params['type'] .= '; charset=' . ($params['type_charset'] ?: $this->charset);
+        }
+
+        header("Content-Type: " . ($params['type'] ?: "application/octet-stream"));
+
+        if ($params['disposition'] == 'attachment' && $this->browser->ie) {
+            header("Content-Type: application/force-download");
+        }
+
+        $disposition = "Content-Disposition: " . $params['disposition'];
+
+        // For non-ascii characters we'll use RFC2231 syntax
+        if (!preg_match('/[^a-zA-Z0-9_.:,?;@+ -]/', $filename)) {
+            $disposition .= sprintf("; filename=\"%s\"", $filename);
+        }
+        else {
+            $disposition .= sprintf("; filename*=\"%s''%s\"", $params['charset'] ?: $this->charset, rawurlencode($filename));
+        }
+
+        header($disposition);
+
+        if (isset($params['length'])) {
+            header("Content-Length: " . $params['length']);
+        }
+
+        // don't kill the connection if download takes more than 30 sec.
+        if (!array_key_exists('time_limit', $params)) {
+            $params['time_limit'] = 3600;
+        }
+
+        if (is_numeric($params['time_limit'])) {
+            @set_time_limit($params['time_limit']);
+        }
+    }
+
+    /**
      * Show error page and terminate script execution
      *
      * @param int    $code     Error code

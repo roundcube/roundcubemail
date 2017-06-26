@@ -329,26 +329,10 @@ class zipdownload extends rcube_plugin
      */
     private function _deliver_zipfile($tmpfname, $filename)
     {
-        $browser = new rcube_browser;
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
-        $rcmail->output->nocacheing_headers();
+        $rcmail->output->download_headers($filename, array('length' => filesize($tmpfname)));
 
-        if ($browser->ie)
-            $filename = rawurlencode($filename);
-        else
-            $filename = addcslashes($filename, '"');
-
-        // send download headers
-        header("Content-Type: application/octet-stream");
-        if ($browser->ie) {
-            header("Content-Type: application/force-download");
-        }
-
-        // don't kill the connection if download takes more than 30 sec.
-        @set_time_limit(0);
-        header("Content-Disposition: attachment; filename=\"". $filename ."\"");
-        header("Content-length: " . filesize($tmpfname));
         readfile($tmpfname);
     }
 
