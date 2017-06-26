@@ -37,7 +37,7 @@ if [ ! -r "$JAR_DIR/compiler.jar" ]; then
 		echo "Please download $CLOSURE_COMPILER_URL and extract compiler.jar to $JAR_DIR/."
 		exit 1
 	fi
-	(cd $JAR_DIR && unzip -p "/tmp/$$.zip" "*.jar" > "$JAR_DIR/compiler.jar")
+	unzip -p "/tmp/$$.zip" "*.jar" > "$JAR_DIR/compiler.jar"
 	rm -f "/tmp/$$.zip"
 fi
 
