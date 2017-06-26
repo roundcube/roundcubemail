@@ -245,6 +245,10 @@ if (empty($RCMAIL->user->ID)) {
 
     $RCMAIL->set_task($plugin['task']);
 
+    if (!$session_error) {
+        header('HTTP/1.0 401 Unauthorized');
+    }
+
     $OUTPUT->send($plugin['task']);
 }
 else {
