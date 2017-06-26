@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support both comma and semicolon as recipient separator, drop recipients_separator option (#5092)
 - Plugin API: Added 'show_bytes' hook (#5001)
 - subscriptions_option: show \\Noselect folders greyed out (#5621)
 - Add option to not indent quoted text on top-posting reply (#5105)

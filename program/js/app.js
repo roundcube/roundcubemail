@@ -58,8 +58,8 @@ function rcube_webmail()
     request_timeout: 180,  // seconds
     draft_autosave: 0,     // seconds
     comm_path: './',
-    recipients_separator: ',',
-    recipients_delimiter: ', ',
+    recipients_separator: ',', // @deprecated
+    recipients_delimiter: ', ', // @deprecated
     popup_width: 1150,
     popup_width_small: 900
   };
@@ -4299,8 +4299,6 @@ function rcube_webmail()
 
   this.init_address_input_events = function(obj, props)
   {
-    this.env.recipients_delimiter = this.env.recipients_separator + ' ';
-
     obj.keydown(function(e) { return ref.ksearch_keydown(e, this, props); })
       .attr({ 'autocomplete': 'off', 'aria-autocomplete': 'list', 'aria-expanded': 'false', 'role': 'combobox' });
 
@@ -4377,7 +4375,7 @@ function rcube_webmail()
       field = field.length ? field.attr('id').replace('_', '') : 'to';
     }
 
-    var recipients = [], input = $('#_'+field), delim = this.env.recipients_delimiter;
+    var recipients = [], input = $('#_' + field);
 
     if (this.contact_list && this.contact_list.selection.length) {
       for (var id, n=0; n < this.contact_list.selection.length; n++) {
@@ -4396,10 +4394,10 @@ function rcube_webmail()
     }
 
     if (recipients.length && input.length) {
-      var oldval = input.val(), rx = new RegExp(RegExp.escape(delim) + '\\s*$');
-      if (oldval && !rx.test(oldval))
-        oldval += delim + ' ';
-      input.val(oldval + recipients.join(delim + ' ') + delim + ' ').change();
+      var oldval = input.val();
+      if (oldval && !/[,;]\s*$/.test(oldval))
+        oldval += ', ';
+      input.val(oldval + recipients.join(', ') + ', ').change();
       this.triggerEvent('add-recipient', { field:field, recipients:recipients });
     }
 
@@ -4885,9 +4883,7 @@ function rcube_webmail()
       show_sig = this.env.show_sig;
 
     var id = obj.options[obj.selectedIndex].value,
-      sig = this.env.identity,
-      delim = this.env.recipients_separator,
-      rx_delim = RegExp.escape(delim);
+      sig = this.env.identity;
 
     // enable manual signature insert
     if (this.env.signatures && this.env.signatures[id]) {
@@ -4920,19 +4916,15 @@ function rcube_webmail()
       }
 
       // cleanup
-      rx = new RegExp(rx_delim + '\\s*' + rx_delim, 'g');
-      input_val = String(input_val).replace(rx, delim);
-      rx = new RegExp('^[\\s' + rx_delim + ']+');
-      input_val = input_val.replace(rx, '');
+      input_val = String(input_val).replace(/[,;]\s*[,;]/g, ',').replace(/^[\s,;]+/, '');
 
       // add new address(es)
       if (new_val && input_val.indexOf(new_val) == -1 && input_val.indexOf(new_val.replace(/"/g, '')) == -1) {
         if (input_val) {
-          rx = new RegExp('[' + rx_delim + '\\s]+$')
-          input_val = input_val.replace(rx, '') + delim + ' ';
+          input_val = input_val.replace(/[,;\s]+$/, '') + ', ';
         }
 
-        input_val += new_val + delim + ' ';
+        input_val += new_val + ', ';
       }
 
       if (old_val || new_val)
@@ -5469,6 +5461,7 @@ function rcube_webmail()
       p = inp_value.lastIndexOf(this.ksearch_value, cpos),
       trigger = false,
       insert = '',
+      delim = ', ',
       // replace search string with full address
       pre = inp_value.substring(0, p),
       end = inp_value.substring(p+this.ksearch_value.length, inp_value.length);
@@ -5477,16 +5470,16 @@ function rcube_webmail()
 
     // insert all members of a group
     if (typeof this.env.contacts[id] === 'object' && this.env.contacts[id].type == 'group' && !this.env.contacts[id].email) {
-      insert += this.env.contacts[id].name + this.env.recipients_delimiter;
+      insert += this.env.contacts[id].name + delim;
       this.group2expand[this.env.contacts[id].id] = $.extend({ input: this.ksearch_input }, this.env.contacts[id]);
       this.http_request('mail/group-expand', {_source: this.env.contacts[id].source, _gid: this.env.contacts[id].id}, false);
     }
     else if (typeof this.env.contacts[id] === 'object' && this.env.contacts[id].name) {
-      insert = this.env.contacts[id].name + this.env.recipients_delimiter;
+      insert = this.env.contacts[id].name + delim;
       trigger = true;
     }
     else if (typeof this.env.contacts[id] === 'string') {
-      insert = this.env.contacts[id] + this.env.recipients_delimiter;
+      insert = this.env.contacts[id] + delim;
       trigger = true;
     }
 
@@ -5524,10 +5517,9 @@ function rcube_webmail()
     if (this.ksearch_pane && this.ksearch_pane.is(":visible"))
       this.ksearch_pane.hide();
 
-    // get string from current cursor pos to last comma
+    // get string from cursor position back to the last comma or semicolon
     var cpos = this.get_caret_pos(this.ksearch_input),
-      p = inp_value.lastIndexOf(this.env.recipients_separator, cpos-1),
-      q = inp_value.substring(p+1, cpos),
+      q = inp_value.substr(0, cpos).split(/[,;]/).pop(),
       min = this.env.autocomplete_min_length,
       data = this.ksearch_data;
 
