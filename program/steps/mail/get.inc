@@ -220,19 +220,10 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
         }
     }
 
-    $browser = $RCMAIL->output->browser;
-    list($ctype_primary, $ctype_secondary) = explode('/', $mimetype);
-
-    if (!empty($_GET['_download']) && $ctype_primary == 'text') {
-        header("Content-Type: text/$ctype_secondary; charset=" . $attachment->charset);
-    }
-    else {
-        header("Content-Type: $mimetype");
-        header("Content-Transfer-Encoding: binary");
-    }
-
     // deliver part content
     if ($mimetype == 'text/html' && empty($_GET['_download'])) {
+        header("Content-Type: text/html; charset=" . $attachment->charset);
+
         // Check if we have enough memory to handle the message in it
         // #1487424: we need up to 10x more memory than the body
         if (!rcube_utils::mem_check($attachment->size * 10)) {
@@ -268,18 +259,16 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
         exit;
     }
 
-    // don't kill the connection if download takes some more time
-    @set_time_limit(3600);
-
-    $filename    = $browser->ie ? rawurlencode($filename) : addcslashes($filename, '"');
-    $disposition = !empty($_GET['_download']) ? 'attachment' : 'inline';
-
     // add filename extension if missing
     if (!pathinfo($filename, PATHINFO_EXTENSION) && ($extensions = rcube_mime::get_mime_extensions($mimetype))) {
         $filename .= '.' . $extensions[0];
     }
 
-    header("Content-Disposition: $disposition; filename=\"$filename\"");
+    $OUTPUT->download_headers($filename, array(
+            'type'         => $mimetype,
+            'type_charset' => $attachment->charset,
+            'disposition'  => !empty($_GET['_download']) ? 'attachment' : 'inline',
+    ));
 
     // handle tiff to jpeg conversion
     if (!empty($convert2jpeg)) {
