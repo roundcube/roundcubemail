@@ -761,9 +761,6 @@ $config['spellcheck_ignore_nums'] = false;
 // Makes that words with symbols will be ignored (e.g. g@@gle)
 $config['spellcheck_ignore_syms'] = false;
 
-// Use this char/string to separate recipients when composing a new message
-$config['recipients_separator'] = ',';
-
 // Number of lines at the end of a message considered to contain the signature.
 // Increase this value if signatures are not properly detected and colored
 $config['sig_max_lines'] = 15;

@@ -26,9 +26,8 @@ if ($RCMAIL->action == 'group-expand') {
         $abook->set_group($gid);
         $abook->set_pagesize(9999);  // TODO: limit number of group members by config?
 
-        $separator = trim($RCMAIL->config->get('recipients_separator', ',')) . ' ';
-        $result    = $abook->list_records($RCMAIL->config->get('contactlist_fields'));
-        $members   = array();
+        $result  = $abook->list_records($RCMAIL->config->get('contactlist_fields'));
+        $members = array();
 
         while ($result && ($record = $result->iterate())) {
             $emails = (array) $abook->get_col_values('email', $record, true);
@@ -37,7 +36,7 @@ if ($RCMAIL->action == 'group-expand') {
             }
         }
 
-        $OUTPUT->command('replace_group_recipients', $gid, join($separator, array_unique($members)));
+        $OUTPUT->command('replace_group_recipients', $gid, join(', ', array_unique($members)));
     }
 
     $OUTPUT->send();

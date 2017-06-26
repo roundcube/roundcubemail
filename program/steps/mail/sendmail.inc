@@ -864,13 +864,13 @@ function rcmail_email_input_format($mailto, $count=false, $check=true)
     // simplified email regexp, supporting quoted local part
     $email_regexp = '(\S+|("[^"]+"))@\S+';
 
-    $delim   = trim($RCMAIL->config->get('recipients_separator', ','));
-    $regexp  = array("/[,;$delim]\s*[\r\n]+/", '/[\r\n]+/', "/[,;$delim]\s*\$/m", '/;/', '/(\S{1})(<'.$email_regexp.'>)/U');
-    $replace = array($delim.' ', ', ', '', $delim, '\\1 \\2');
+    $delim   = ',;';
+    $regexp  = array("/[$delim]\s*[\r\n]+/", '/[\r\n]+/', "/[$delim]\s*\$/m", '/;/', '/(\S{1})(<'.$email_regexp.'>)/U');
+    $replace = array(', ', ', ', '', ',', '\\1 \\2');
 
     // replace new lines and strip ending ', ', make address input more valid
     $mailto = trim(preg_replace($regexp, $replace, $mailto));
-    $items  = rcube_utils::explode_quoted_string($delim, $mailto);
+    $items  = rcube_utils::explode_quoted_string("[$delim]", $mailto);
     $result = array();
 
     foreach ($items as $item) {
