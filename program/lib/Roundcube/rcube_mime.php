@@ -3,7 +3,7 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2016, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
  | Copyright (C) 2011-2016, Kolab Systems AG                             |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
