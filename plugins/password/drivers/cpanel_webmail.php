@@ -41,7 +41,7 @@ class rcube_cpanel_webmail_password
     {
         $user    = $_SESSION['username'];
         $userpwd = "$user:$curpas";
-        list($login) = split('@', $user);
+        list($login) = explode('@', $user);
 
         $data = array(
             'email'    => $login,
