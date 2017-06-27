@@ -100,13 +100,18 @@ if (strtolower($input) == 'y') {
   }
 
   // check if js-deps are up-to-date
-  $jsdeps = json_decode(file_get_contents("$target_dir/jsdeps.json"));
-  $package = $jsdeps->dependencies[0];
-  $dest_file = $target_dir . '/' . $package->dest;
-  if (!file_exists($dest_file) || sha1_file($dest_file) !== $package->sha1) {
-      echo "Installing JavaScript dependencies...";
-      system("cd $target_dir && bin/install-jsdeps.sh");
-      echo "done.\n\n";
+  if (file_exists("$target_dir/jsdeps.json") && file_exists("$target_dir/bin/install-jsdeps.sh")) {
+    $jsdeps = json_decode(file_get_contents("$target_dir/jsdeps.json"));
+    $package = $jsdeps->dependencies[0];
+    $dest_file = $target_dir . '/' . $package->dest;
+    if (!file_exists($dest_file) || sha1_file($dest_file) !== $package->sha1) {
+        echo "Installing JavaScript dependencies...";
+        system("cd $target_dir && bin/install-jsdeps.sh");
+        echo "done.\n\n";
+    }
+  }
+  else {
+    echo "JavaScript dependencies installation skipped...\n";
   }
 
   echo "Running update script at target...\n";
