@@ -279,7 +279,7 @@ table.messagelist.fixedcopy {
 /*	background-color: #fff; */
 }
 
-.messagelist tr.thread.expanded td {
+.messagelist tr.thread.expanded:not(.selected) td {
 	background-color: #ededed;
 }
 
