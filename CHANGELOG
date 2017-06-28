@@ -20,6 +20,7 @@ CHANGELOG Roundcube Webmail
 - Fix bug where HTML messages with @media styles could moddify style of page body (#5811)
 - Fix style issue on selected and unfocused message that is part of a thread (#5798)
 - Fix bug where a.button style from managesieve plugin could impact other elements (#5800)
+- Fix position of selected icon for (Mailvelope) Encrypt button
 
 RELEASE 1.3.0
 -------------
