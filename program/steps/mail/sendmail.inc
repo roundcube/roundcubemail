@@ -60,7 +60,7 @@ if (!$savedraft) {
 /****** compose message ********/
 
 // set default charset
-$message_charset = isset($_POST['_charset']) ? $_POST['_charset'] : $OUTPUT->get_charset();
+$message_charset = rcube_utils::get_input_value('_charset', rcube_utils::INPUT_POST) ?: $OUTPUT->get_charset();
 
 $EMAIL_FORMAT_ERROR = NULL;
 $RECIPIENT_COUNT    = 0;
@@ -483,14 +483,19 @@ if (is_array($COMPOSE['attachments'])) {
     }
 }
 
-// choose transfer encoding for plain/text body
-if (preg_match('/[^\x00-\x7F]/', $MAIL_MIME->getTXTBody())) {
-    $text_charset      = $message_charset;
+$text_charset      = $message_charset;
+$transfer_encoding = '7bit';
+$head_encoding     = 'quoted-printable';
+
+// choose encodings for plain/text body and message headers
+if (preg_match('/ISO-2022/i', $message_charset)) {
+    $head_encoding = '7bit';
+}
+else if (preg_match('/[^\x00-\x7F]/', $MAIL_MIME->getTXTBody())) {
     $transfer_encoding = $RCMAIL->config->get('force_7bit') ? 'quoted-printable' : '8bit';
 }
-else {
-    $text_charset      = 'US-ASCII';
-    $transfer_encoding = '7bit';
+else if ($message_charset == 'UTF-8') {
+    $text_charset = 'US-ASCII';
 }
 
 if ($flowed) {
@@ -517,7 +522,7 @@ if ($pgp_mime) {
 // encoding settings for mail composing
 $MAIL_MIME->setParam('text_encoding', $transfer_encoding);
 $MAIL_MIME->setParam('html_encoding', 'quoted-printable');
-$MAIL_MIME->setParam('head_encoding', 'quoted-printable');
+$MAIL_MIME->setParam('head_encoding', $head_encoding);
 $MAIL_MIME->setParam('head_charset', $message_charset);
 $MAIL_MIME->setParam('html_charset', $message_charset);
 $MAIL_MIME->setParam('text_charset', $text_charset);
