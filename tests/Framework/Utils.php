@@ -183,6 +183,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
 
         $this->assertContains('#rcmbody table[class=w600]', $mod, 'Replace styles nested in @media block');
         $this->assertContains('#rcmbody {width:600px', $mod, 'Replace body selector nested in @media block');
+        $this->assertContains('#rcmbody {min-width:474px', $mod, 'Replace body selector nested in @media block (#5811)');
     }
 
     /**

@@ -430,7 +430,10 @@ class rcube_utils
         $source = preg_replace(
             array(
                 '/(^\s*<\!--)|(-->\s*$)/m',
-                '/(^\s*|,\s*|\}\s*)([a-z0-9\._#\*][a-z0-9\.\-_]*)/im',
+                // (?!##str) below is to not match with ##str_replacement_0##
+                // from rcube_string_replacer used above, this is needed for
+                // cases like @media { body { position: fixed; } } (#5811)
+                '/(^\s*|,\s*|\}\s*|\{\s*)((?!##str)[a-z0-9\._#\*][a-z0-9\.\-_]*)/im',
                 '/'.preg_quote($container_id, '/').'\s+body/i',
             ),
             array(

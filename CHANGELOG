@@ -17,6 +17,7 @@ CHANGELOG Roundcube Webmail
 - Password: Fix compatibility with PHP 7+ in cpanel_webmail driver (#5820)
 - Fix decoding non-ascii attachment names from TNEF attachments (#5646, #5799)
 - Fix uninitialized string offset in rcube_utils::bin2ascii() and make sure rcube_utils::random_bytes() result has always requested length (#5788)
+- Fix bug where HTML messages with @media styles could moddify style of page body (#5811)
 
 RELEASE 1.3.0
 -------------
