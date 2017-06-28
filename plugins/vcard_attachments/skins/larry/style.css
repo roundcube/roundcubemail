@@ -5,8 +5,6 @@ p.vcardattachment {
 	background: #f9f9f9;
 	border: 1px solid #d3d3d3;
 	border-radius: 4px;
-	box-shadow: 0 0 2px #ccc;
-	-webkit-box-shadow: 0 0 2px #ccc;
 }
 
 p.vcardattachment a {
