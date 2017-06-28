@@ -3,7 +3,7 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -52,6 +52,7 @@ class rcube_db_pgsql extends rcube_db
     protected function conn_configure($dsn, $dbh)
     {
         $dbh->query("SET NAMES 'utf8'");
+        $dbh->query("SET DATESTYLE TO ISO");
     }
 
     /**
