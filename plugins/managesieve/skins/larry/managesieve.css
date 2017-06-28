@@ -58,7 +58,7 @@
 #filtersetslist tbody tr.disabled td
 {
   color: #87A3AA;
-	text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 #filtersetslist tbody td
@@ -280,13 +280,13 @@ span.sieve.error
   background-color: #eee;
 }
 
-a.button
+#filter-form a.button
 {
   margin: 0;
   padding: 0;
 }
 
-a.button.add
+#filter-form a.button.add
 {
   background: url(images/add.png?v=a165.280) no-repeat;
   width: 30px;
@@ -295,7 +295,7 @@ a.button.add
   display: inline-block;
 }
 
-a.button.del
+#filter-form a.button.del
 {
   background: url(images/del.png?v=3c27.247) no-repeat;
   width: 30px;
@@ -303,7 +303,7 @@ a.button.del
   display: inline-block;
 }
 
-a.button.disabled
+#filter-form a.button.disabled
 {
   opacity: 0.35;
   filter: alpha(opacity=35);
@@ -419,8 +419,8 @@ body.iframe.mail #filter-form
 /* vacation form */
 #settings-sections .vacation a {
   background-image: url(images/vacation_icons.png?v=e738.767);
-	background-repeat: no-repeat;
-	background-position: 7px 1px;
+  background-repeat: no-repeat;
+  background-position: 7px 1px;
 }
 
 #settings-sections .vacation.selected a {
