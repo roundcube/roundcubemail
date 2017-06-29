@@ -489,7 +489,7 @@ $head_encoding     = 'quoted-printable';
 
 // choose encodings for plain/text body and message headers
 if (preg_match('/ISO-2022/i', $message_charset)) {
-    $head_encoding = '7bit';
+    $head_encoding = 'base64'; // RFC1468
 }
 else if (preg_match('/[^\x00-\x7F]/', $MAIL_MIME->getTXTBody())) {
     $transfer_encoding = $RCMAIL->config->get('force_7bit') ? 'quoted-printable' : '8bit';
