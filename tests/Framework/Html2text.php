@@ -143,4 +143,39 @@ Links:
 
         $this->assertSame($expected, $res, 'Skip link with href == content');
     }
+
+    /**
+     * Test <a> links handling when not using link list (#5795)
+     *
+     * @dataProvider data_links_no_list
+     */
+    function test_links_no_list($input, $output)
+    {
+        $h2t = new rcube_html2text($input, false, false);
+        $res = $h2t->get_text();
+
+        $this->assertSame($output, $res, 'Links handling');
+    }
+
+    function data_links_no_list()
+    {
+        return array(
+            array(
+                'this is <a href="http://test.com">content</a>',
+                'this is content',
+            ),
+            array(
+                'this is <a href="#test">content&amp;&nbsp;test</a>',
+                'this is content& test',
+            ),
+            array(
+                'this is <a href="">content</a>',
+                'this is content',
+            ),
+            array(
+                'this is <a href="http://test.com"><img src=http://test.com/image" alt="image" /></a>',
+                'this is http://test.com',
+            ),
+        );
+    }
 }

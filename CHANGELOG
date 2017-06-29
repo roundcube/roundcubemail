@@ -14,6 +14,7 @@ CHANGELOG Roundcube Webmail
 - Allow contacts without an email address (#5079)
 - Localized timezone selector (#4983)
 - Use 7bit encoding for ISO-2022-* charsets in sent mail (#5640)
+- Fix so links over images are not removed in plain text signatures converted from HTML (#4473)
 - Fix various issues when downloading files with names containing non-ascii chars, use RFC 2231 (#5772)
 - Password: Fix compatibility with PHP 7+ in cpanel_webmail driver (#5820)
 - Fix decoding non-ascii attachment names from TNEF attachments (#5646, #5799)

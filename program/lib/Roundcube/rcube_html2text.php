@@ -517,7 +517,7 @@ class rcube_html2text
      */
     protected function _build_link_list($link, $display)
     {
-        if (!$this->_do_links || empty($link)) {
+        if (empty($link)) {
             return $display;
         }
 
@@ -540,6 +540,19 @@ class rcube_html2text
                 $url .= '/';
             }
             $url .= "$link";
+        }
+
+        if (!$this->_do_links) {
+            // When not using link list use URL if there's no content (#5795)
+            // The content here is HTML, convert it to text first
+            $h2t     = new rcube_html2text($display, false, false, 1024, $this->charset);
+            $display = $h2t->get_text();
+
+            if (empty($display) && preg_match('!^([a-z][a-z0-9.+-]+://)!i', $link)) {
+                return $link;
+            }
+
+            return $display;
         }
 
         if (($index = array_search($url, $this->_link_list)) === false) {
