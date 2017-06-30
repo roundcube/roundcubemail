@@ -410,6 +410,24 @@ function rcmail_user_prefs($current = null)
                 'advanced'    => array('name' => rcube::Q($RCMAIL->gettext('advancedoptions'))),
             );
 
+            if (!isset($no_override['layout'])) {
+                if (!$current) {
+                    continue 2;
+                }
+
+                $field_id = 'rcmfd_layout';
+                $select   = new html_select(array('name' => '_layout', 'id' => $field_id));
+
+                $select->add($RCMAIL->gettext('layoutwidescreendesc'), 'widescreen');
+                $select->add($RCMAIL->gettext('layoutdesktopdesc'), 'desktop');
+                $select->add($RCMAIL->gettext('layoutlistdesc'), 'list');
+
+                $blocks['main']['options']['date_format'] = array(
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('layout'))),
+                    'content' => $select->show($config['layout'] ?: 'widescreen'),
+                );
+            }
+
             // show config parameter for auto marking the previewed message as read
             if (!isset($no_override['mail_read_time'])) {
                 if (!$current) {
