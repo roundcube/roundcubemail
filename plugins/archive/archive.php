@@ -6,7 +6,7 @@
  * Plugin that adds a new button to the mailbox toolbar
  * to move messages to a (user selectable) archive folder.
  *
- * @version 3.1
+ * @version 3.2
  * @license GNU GPLv3+
  * @author Andre Rodier, Thomas Bruederli, Aleksander Machniak
  */
