@@ -77,6 +77,9 @@ $config['log_date_format'] = 'd-M-Y H:i:s O';
 // set to 0 to avoid session IDs being logged.
 $config['log_session_id'] = 8;
 
+// Default extension used for log file name
+$config['log_file_ext'] = '.log';
+
 // Syslog ident string to use, if using the 'syslog' log driver.
 $config['syslog_id'] = 'roundcube';
 
