@@ -47,6 +47,7 @@ case 'general':
 
 case 'mailbox':
     $a_user_prefs = array(
+        'layout'               => rcube_utils::get_input_value('_layout', rcube_utils::INPUT_POST),
         'mail_read_time'       => isset($_POST['_mail_read_time']) ? intval($_POST['_mail_read_time']) : $CONFIG['mail_read_time'],
         'autoexpand_threads'   => isset($_POST['_autoexpand_threads']) ? intval($_POST['_autoexpand_threads']) : 0,
         'mdn_requests'         => isset($_POST['_mdn_requests']) ? intval($_POST['_mdn_requests']) : 0,

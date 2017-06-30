@@ -207,6 +207,9 @@ $labels['layout'] = 'Layout';
 $labels['layoutwidescreen'] = 'Widescreen';
 $labels['layoutdesktop'] = 'Desktop';
 $labels['layoutlist'] = 'List';
+$labels['layoutwidescreendesc'] = 'Widescreen (3-column view)';
+$labels['layoutdesktopdesc'] = 'Desktop (wide list and mail preview below)';
+$labels['layoutlistdesc'] = 'List (no mail preview)';
 
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Compact';
