@@ -1250,17 +1250,18 @@ class rcube
             }
         }
 
-        if (self::$instance) {
-            $log_suf = self::$instance->config->get('log_file_ext', '.log');
-        } else {
-            $log_suf = '.log';
-        }
-
         if (empty($log_dir)) {
             $log_dir = RCUBE_INSTALL_PATH . 'logs';
         }
 
-        return file_put_contents("$log_dir/$name$log_suf", $line, FILE_APPEND) !== false;
+        if (self::$instance) {
+            $name .= self::$instance->config->get('log_file_ext', '.log');
+        }
+        else {
+            $name .= '.log';
+        }
+
+        return file_put_contents("$log_dir/$name", $line, FILE_APPEND) !== false;
     }
 
     /**

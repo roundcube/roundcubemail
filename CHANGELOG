@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add .log suffix to all log file names, add option log_file_ext to control this (#313)
 - Archive: Fix archiving by sender address on cyrus-imap
 - Archive: Add Thunderbird compatible Month option (#5623)
 - Return "401 Unauthorized" status when login fails (#5663)
