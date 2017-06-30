@@ -422,7 +422,7 @@ function rcmail_user_prefs($current = null)
                 $select->add($RCMAIL->gettext('layoutdesktopdesc'), 'desktop');
                 $select->add($RCMAIL->gettext('layoutlistdesc'), 'list');
 
-                $blocks['main']['options']['date_format'] = array(
+                $blocks['main']['options']['layout'] = array(
                     'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('layout'))),
                     'content' => $select->show($config['layout'] ?: 'widescreen'),
                 );
