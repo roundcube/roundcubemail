@@ -48,6 +48,7 @@ case 'general':
 
 case 'mailbox':
     $a_user_prefs = array(
+        'layout'               => rcmail_prefs_input('layout', '/^[a-z]+$/'),
         'mail_read_time'       => intval($_POST['_mail_read_time']),
         'autoexpand_threads'   => intval($_POST['_autoexpand_threads']),
         'mdn_requests'         => intval($_POST['_mdn_requests']),
