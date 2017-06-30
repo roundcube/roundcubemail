@@ -1254,6 +1254,13 @@ class rcube
             $log_dir = RCUBE_INSTALL_PATH . 'logs';
         }
 
+        if (self::$instance) {
+            $name .= self::$instance->config->get('log_file_ext', '.log');
+        }
+        else {
+            $name .= '.log';
+        }
+
         return file_put_contents("$log_dir/$name", $line, FILE_APPEND) !== false;
     }
 
