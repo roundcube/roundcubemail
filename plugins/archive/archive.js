@@ -1,6 +1,5 @@
 /**
  * Archive plugin script
- * @version 3.0
  *
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.

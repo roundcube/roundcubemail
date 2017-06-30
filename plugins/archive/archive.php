@@ -195,15 +195,7 @@ class archive extends rcube_plugin
                         break;
 
                     case 'sender':
-                        $from = $message->get('from');
-                        preg_match('/[\b<](.+@.+)[\b>]/i', $from, $m);
-                        $subfolder = $m[1] ?: $this->gettext('unkownsender');
-
-                        // replace reserved characters in folder name
-                        $repl = $delimiter == '-' ? '_' : '-';
-                        $replacements[$delimiter] = $repl;
-                        $replacements['.'] = $repl;  // some IMAP server do not allow . characters
-                        $subfolder = strtr($subfolder, $replacements);
+                        $subfolder = $this->sender_subfolder($message->get('from'));
                         break;
                     }
 
@@ -456,5 +448,41 @@ class archive extends rcube_plugin
         }
 
         return $args;
+    }
+
+    /**
+     * Create folder name from the message sender address
+     */
+    protected function sender_subfolder($from)
+    {
+        static $delim;
+        static $vendor;
+
+        preg_match('/[\b<](.+@.+)[\b>]/i', $from, $m);
+
+        if (empty($m[1])) {
+            return $this->gettext('unkownsender');
+        }
+
+        if ($delim === null) {
+            $storage = rcmail::get_instance()->get_storage();
+            $delim   = $storage->get_hierarchy_delimiter();
+            $vendor  = $storage->get_vendor();
+        }
+
+        $replace = $delim == '-' ? '_' : '-';
+        $replacements[$delim] = $replace;
+
+        // some IMAP servers do not allow . characters
+        // @FIXME: really? which ones?
+        $replacements['.'] = $replace;
+
+        // Cyrus-IMAP does not allow @ character in folder name
+        if ($vendor == 'cyrus') {
+            $replacements['@'] = $replace;
+        }
+
+        // replace reserved characters in folder name
+        return strtr($m[1], $replacements);
     }
 }
