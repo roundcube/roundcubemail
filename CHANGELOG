@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Archive: Fix archiving by sender address on cyrus-imap
 - Archive: Add Thunderbird compatible Month option (#5623)
 - Return "401 Unauthorized" status when login fails (#5663)
 - Support both comma and semicolon as recipient separator, drop recipients_separator option (#5092)
