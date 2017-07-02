@@ -1288,14 +1288,14 @@ class rcube
             $arg['code'] = 500;
         }
 
+        $cli = php_sapi_name() == 'cli';
+
         // installer
-        if (class_exists('rcmail_install', false)) {
+        if (!$cli && class_exists('rcmail_install', false)) {
             $rci = rcmail_install::get_instance();
             $rci->raise_error($arg);
             return;
         }
-
-        $cli = php_sapi_name() == 'cli';
 
         if (($log || $terminate) && !$cli && $arg['message']) {
             $arg['fatal'] = $terminate;
