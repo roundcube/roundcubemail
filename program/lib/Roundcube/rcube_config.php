@@ -31,6 +31,7 @@ class rcube_config
     private $prop      = array();
     private $errors    = array();
     private $userprefs = array();
+    private $immutable = array();
 
 
     /**
@@ -410,12 +411,17 @@ class rcube_config
     /**
      * Setter for a config parameter
      *
-     * @param string $name  Parameter name
-     * @param mixed  $value Parameter value
+     * @param string $name      Parameter name
+     * @param mixed  $value     Parameter value
+     * @param bool   $immutable Make the value immutable
      */
-    public function set($name, $value)
+    public function set($name, $value, $immutable = false)
     {
         $this->prop[$name] = $value;
+
+        if ($immutable) {
+            $this->immutable[$name] = $value;
+        }
     }
 
     /**
@@ -426,7 +432,7 @@ class rcube_config
     public function merge($prefs)
     {
         $prefs = $this->fix_legacy_props($prefs);
-        $this->prop = array_merge($this->prop, $prefs, $this->userprefs);
+        $this->prop = array_merge($this->prop, $prefs, $this->userprefs, $this->immutable);
     }
 
     /**

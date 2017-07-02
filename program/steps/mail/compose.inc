@@ -291,6 +291,7 @@ $OUTPUT->include_script('publickey.js');
 
 // register UI objects
 $OUTPUT->add_handlers(array(
+    'composeformhead'       => 'rcmail_compose_form_head',
     'composeheaders'        => 'rcmail_compose_headers',
     'composesubject'        => 'rcmail_compose_subject',
     'composebody'           => 'rcmail_compose_body',
@@ -411,6 +412,13 @@ function rcmail_process_compose_params(&$COMPOSE)
     }
 }
 
+function rcmail_compose_form_head($attrib)
+{
+    list($form_start,) = get_form_tags($attrib);
+
+    return $form_start;
+}
+
 function rcmail_compose_headers($attrib)
 {
     global $RCMAIL, $MESSAGE;
@@ -457,7 +465,7 @@ function rcmail_compose_headers($attrib)
         // pass the following attributes to the form class
         $field_attrib = array('name' => $fname, 'spellcheck' => 'false');
         foreach ($attrib as $attr => $value) {
-            if (in_array($attr, $allow_attrib)) {
+            if (stripos($attr, 'data-') === 0 || in_array($attr, $allow_attrib)) {
                 $field_attrib[$attr] = $value;
             }
         }
@@ -1804,6 +1812,10 @@ function rcmail_check_sent_folder($folder, $create=false)
 function get_form_tags($attrib)
 {
     global $RCMAIL, $MESSAGE_FORM, $COMPOSE;
+
+    if (rcube_utils::get_boolean((string) $attrib['noform'])) {
+        return array('', '');
+    }
 
     $form_start = '';
     if (!$MESSAGE_FORM) {

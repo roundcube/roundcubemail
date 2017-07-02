@@ -43,6 +43,8 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             link.html('').append(span);
         }
 
+        link.attr('aria-haspopup', 'true');
+
         span.text(rcmail.get_label('zipdownload.download'));
         rcmail.env.download_link = link;
     });

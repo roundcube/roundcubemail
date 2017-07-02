@@ -38,9 +38,9 @@
 <div id="quicksearchbar" class="searchbox" role="search" aria-labelledby="aria-label-searchform">
 <h2 id="aria-label-searchform" class="voice"><roundcube:label name="arialabelmailsearchform" /></h2>
 <label for="quicksearchbox" class="voice"><roundcube:label name="arialabelmailquicksearchbox" /></label>
-<roundcube:button command="menu-open" prop="searchmenu" id="searchmenulink" class="iconbutton searchoptions" title="searchmod" label="options" aria-haspopup="true" aria-expanded="false" aria-owns="searchmenu-menu" />
+<roundcube:button command="menu-open" prop="searchmenu" type="link" id="searchmenulink" class="iconbutton searchoptions" title="searchmod" label="options" aria-haspopup="true" aria-expanded="false" aria-owns="searchmenu-menu" />
 <roundcube:object name="searchform" id="quicksearchbox" />
-<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
+<roundcube:button command="reset-search" id="searchreset" type="link" class="iconbutton reset" title="resetsearch" label="resetsearch" />
 
 <div id="searchmenu" class="popupmenu" data-editable="true">
 	<h3 id="aria-label-searchmenu" class="voice"><roundcube:label name="searchmod" /></h3>
@@ -116,8 +116,8 @@
 <!-- list footer -->
 <div id="messagelistfooter">
 	<div id="listcontrols">
-		<roundcube:button href="#list" command="set-listmode" prop="list" class="iconbutton listmode disabled" classAct="iconbutton listmode" id="maillistmode" title="list" content="List" />
-		<roundcube:button href="#threads" command="set-listmode" prop="threads" class="iconbutton threadmode disabled" classAct="iconbutton threadmode" id="mailthreadmode" title="threads" content="Threads" />
+		<roundcube:button href="#list" command="set-listmode" prop="list" type="link" class="iconbutton listmode disabled" classAct="iconbutton listmode" id="maillistmode" title="list" content="List" />
+		<roundcube:button href="#threads" command="set-listmode" prop="threads"type="link" class="iconbutton threadmode disabled" classAct="iconbutton threadmode" id="mailthreadmode" title="threads" content="Threads" />
 	</div>
 	
 	<div id="listselectors">

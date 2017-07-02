@@ -191,6 +191,7 @@ $OUTPUT->add_handlers(array(
     'folderframe'        => 'rcmail_folder_frame',
     'folderfilter'       => 'rcmail_folder_filter',
     'quotadisplay'       => array($RCMAIL, 'quota_display'),
+    'searchform'         => array($OUTPUT, 'search_form'),
 ));
 
 $OUTPUT->send('folders');

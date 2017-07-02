@@ -180,12 +180,15 @@ $OUTPUT->set_pagetitle($RCMAIL->gettext('importcontacts'));
 
 $OUTPUT->add_handlers(array(
     'importstep' => $importstep,
-    'importnav'  => 'rcmail_import_buttons',
 ));
 
 // render page
-$OUTPUT->send('importcontacts');
-
+if ($OUTPUT->template_exists('contactimport')) {
+    $OUTPUT->send('contactimport');
+}
+else {
+    $OUTPUT->send('importcontacts'); // deprecated
+}
 
 
 /**
@@ -226,6 +229,8 @@ function rcmail_import_form($attrib)
         $abook = new html_hiddenfield(array('name' => '_target', 'value' => key($writable_books)));
         $form .= $abook->show();
     }
+
+    $form .= html::tag('input', array('type' => 'hidden', 'name' => '_unlock', 'value' => ''));
 
     // selector for group import options
     if (count($writable_books) >= 1 || $writable_books[0]->groups) {
@@ -289,33 +294,6 @@ function rcmail_import_confirm($attrib)
     }
 
     return html::div($attrib, $content);
-}
-
-/**
- * Create navigation buttons for the current import step
- */
-function rcmail_import_buttons($attrib)
-{
-    global $IMPORT_STATS, $OUTPUT;
-
-    $target = rcube_utils::get_input_value('_target', rcube_utils::INPUT_GPC);
-
-    $attrib += array('type' => 'input');
-    unset($attrib['name']);
-
-    if (is_object($IMPORT_STATS)) {
-        $attrib['class'] = trim($attrib['class'] . ' mainaction');
-        $out = $OUTPUT->button(array('command' => 'list', 'prop' => $target, 'label' => 'done') + $attrib);
-    }
-    else {
-        $cancel = $OUTPUT->button(array('command' => 'list', 'label' => 'cancel') + $attrib);
-        $attrib['class'] = trim($attrib['class'] . ' mainaction');
-        $out  = $OUTPUT->button(array('command' => 'import', 'label' => 'import') + $attrib);
-        $out .= '&nbsp;';
-        $out .= $cancel;
-    }
-
-    return $out;
 }
 
 /**

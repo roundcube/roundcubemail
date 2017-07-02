@@ -138,6 +138,8 @@ function rcube_text_editor(config, id)
     });
   };
 
+  rcmail.triggerEvent('editor-init', {config: conf, ref: ref});
+
   // textarea identifier
   this.id = id;
   // reference to active editor (if in HTML mode)
