@@ -198,7 +198,10 @@ class rcmail_utils
                 echo "Updating database schema ($v)... ";
             }
 
+            // Ignore errors here to print the error only once
+            $db->set_option('ignore_errors', true);
             $error = self::db_update_schema($package, $v, "$dir/$v.sql");
+            $db->set_option('ignore_errors', false);
 
             if ($error) {
                 if (!$opts['quiet']) {
