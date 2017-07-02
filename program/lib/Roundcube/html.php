@@ -32,7 +32,7 @@ class html
     public static $doctype = 'xhtml';
     public static $lc_tags = true;
     public static $common_attrib = array('id','class','style','title','align','unselectable','tabindex','role');
-    public static $containers    = array('iframe','div','span','p','h1','h2','h3','ul','form','textarea','table','thead','tbody','tr','th','td','style','script');
+    public static $containers    = array('iframe','div','span','p','h1','h2','h3','ul','form','textarea','table','thead','tbody','tr','th','td','style','script','a');
     public static $bool_attrib   = array('checked','multiple','disabled','selected','autofocus','readonly');
 
 

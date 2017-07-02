@@ -20,15 +20,17 @@
 	margin-bottom: 0.8em;
 }
 
-.rcmail-inline-message > button {
-	margin-left: 1em;
-	vertical-align: baseline;
-}
-
 .rcmail-inline-message em {
 	font-size: 90%;
 }
 
 .rcmail-inline-buttons {
 	margin-bottom: 0;
+	display: inline;
+}
+
+.rcmail-inline-buttons > button {
+	margin-left: 1em;
+	vertical-align: baseline;
+	line-height: 12px;
 }

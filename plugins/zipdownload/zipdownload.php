@@ -112,6 +112,7 @@ class zipdownload extends rcube_plugin
                     'command'  => "download-$type",
                     'label'    => "zipdownload.download$type",
                     'classact' => 'active',
+                    'type'     => 'link',
             )));
         }
 

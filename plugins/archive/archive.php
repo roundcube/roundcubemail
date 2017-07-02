@@ -43,6 +43,7 @@ class archive extends rcube_plugin
                     'height'   => 32,
                     'title'    => 'buttontitle',
                     'domain'   => $this->ID,
+                    'innerclass' => 'inner',
                 ),
                 'toolbar');
 
@@ -399,8 +400,8 @@ class archive extends rcube_plugin
             }
 
             $args['blocks']['main']['options']['archive_mbox'] = array(
-                'title'   => $this->gettext('archivefolder'),
-                'content' => $select->show($mbox, array('name' => "_archive_mbox"))
+                'title'   => html::label('_archive_mbox', rcube::Q($this->gettext('archivefolder'))),
+                'content' => $select->show($mbox, array('id' => '_archive_mbox', 'name' => '_archive_mbox'))
             );
 
             // add option for structuring the archive folder
@@ -413,9 +414,9 @@ class archive extends rcube_plugin
             $archive_type->add($this->gettext('archivetypefolder'), 'folder');
 
             $args['blocks']['archive'] = array(
-                'name' => rcube::Q($this->gettext('settingstitle')),
+                'name'    => rcube::Q($this->gettext('settingstitle')),
                 'options' => array('archive_type' => array(
-                        'title'   => $this->gettext('archivetype'),
+                        'title'   => html::label('ff_archive_type', rcube::Q($this->gettext('archivetype'))),
                         'content' => $archive_type->show($type)
                     )
                 )
@@ -424,7 +425,7 @@ class archive extends rcube_plugin
         else if ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
             $chbox = new html_checkbox(array('name' => '_read_on_archive', 'id' => 'ff_read_on_archive', 'value' => 1));
             $args['blocks']['main']['options']['read_on_archive'] = array(
-                'title'   => $this->gettext('readonarchive'),
+                'title'   => html::label('ff_read_on_archive', rcube::Q($this->gettext('readonarchive'))),
                 'content' => $chbox->show($rcmail->config->get('read_on_archive') ? 1 : 0)
             );
         }

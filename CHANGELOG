@@ -1,6 +1,17 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Various improvements for templating engine and skin behaviours
+  - Support conditional include
+  - Support for 'link' objects
+  - Support including files with path relative to templates directory
+  - Use <button> instead of <input> for submit button on logon screen
+- Reset onerror on images if placeholder does not exist to prevent from requests storm
+- Unified and simplified code for loading content frame for responses and identities
+- Display contact import and advanced search in popup dialogs
+- Make possible to set (some) config options from a skin
+- Added optional checkbox selection for the list widget
+- Make 'compose' command always enabled
 - Add .log suffix to all log file names, add option log_file_ext to control this (#313)
 - Archive: Fix archiving by sender address on cyrus-imap
 - Archive: Add Thunderbird compatible Month option (#5623)

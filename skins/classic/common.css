@@ -671,6 +671,18 @@ img.uploading
   margin-left: 10px;
 }
 
+.ui-dialog iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.ui-dialog-content.iframe {
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+
 /***** common table settings ******/
 
 table.records-table thead tr th,
@@ -1355,7 +1367,7 @@ ul.toolbarmenu li.separator_above
   padding: 0;
 }
 
-#folder-selector li a span
+#folder-selector li span
 {
   background: url(images/icons/folders.png) no-repeat 6px 0;
   display: block;
@@ -1377,23 +1389,23 @@ ul.toolbarmenu li.separator_above
   color: white;
 }
 
-#folder-selector li a.inbox span
+#folder-selector li.inbox span
 {
   background-position: 6px -18px;
 }
-#folder-selector li a.drafts span
+#folder-selector li.drafts span
 {
   background-position: 6px -37px;
 }
-#folder-selector li a.sent span
+#folder-selector li.sent span
 {
   background-position: 6px -54px;
 }
-#folder-selector li a.trash span
+#folder-selector li.trash span
 {
   background-position: 6px -91px;
 }
-#folder-selector li a.junk span
+#folder-selector li.junk span
 {
   background-position: 6px -73px;
 }

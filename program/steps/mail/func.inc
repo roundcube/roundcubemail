@@ -594,7 +594,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
         $a_sort_cols = array('subject', 'date', 'from', 'to', 'fromto', 'size', 'cc');
 
     if (!empty($attrib['optionsmenuicon'])) {
-        $list_menu = rcmail_options_menu_link($attrib);
+        $list_menu = rcmail_options_menu_link();
     }
 
     $cells = $coltypes = array();
@@ -659,7 +659,7 @@ function rcmail_message_list_head($attrib, $a_show_cols)
     return $cells;
 }
 
-function rcmail_options_menu_link($attrib)
+function rcmail_options_menu_link($attrib = array())
 {
     global $RCMAIL;
 
@@ -669,11 +669,14 @@ function rcmail_options_menu_link($attrib)
     if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
         $inner = html::img(array('src' => $RCMAIL->output->abs_url($attrib['optionsmenuicon'], true), 'alt' => $title));
     }
+    else if ($attrib['innerclass']) {
+        $inner = html::span($attrib['innerclass'], $inner);
+    }
 
     return html::a(array(
             'href'     => '#list-options',
             'onclick'  => $onclick,
-            'class'    => 'listmenu',
+            'class'    => isset($attrib['class']) ? $attrib['class'] : 'listmenu',
             'id'       => 'listmenulink',
             'title'    => $title,
             'tabindex' => '0',
@@ -1701,18 +1704,21 @@ function rcmail_address_string($input, $max=null, $linked=false, $addicon=null, 
             }
 
             if ($addicon && $_SESSION['writeable_abook']) {
+                $label = $RCMAIL->gettext('addtoaddressbook');
+                $icon = html::img(array(
+                        'src'   => $RCMAIL->output->abs_url($addicon, true),
+                        'alt'   => $label,
+                        'class' => 'noselect',
+                ));
                 $address .= html::a(array(
                         'href'    => "#add",
-                        'title'   => $RCMAIL->gettext('addtoaddressbook'),
+                        'title'   => $label,
                         'class'   => 'rcmaddcontact',
                         'onclick' => sprintf("return %s.command('add-contact','%s',this)",
                             rcmail_output::JS_OBJECT_NAME, rcube::JQ($string)),
                     ),
-                    html::img(array(
-                        'src'   => $RCMAIL->output->abs_url($addicon, true),
-                        'alt'   => "Add contact",
-                        'class' => 'noselect',
-                )));
+                    $addicon == 'virtual' ? '' : $icon
+                );
             }
         }
         else {

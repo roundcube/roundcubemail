@@ -92,3 +92,13 @@
   border: 0;
 }
 
+.googie_ok_button {
+  background: url(images/googiespell/ok.gif) no-repeat center center transparent !important;
+  width: 32px;
+  height: 16px;
+  cursor: pointer;
+  margin: 0 5px;
+  padding: 0;
+  border: 0 !important;
+  text-indent: -5000px;
+}

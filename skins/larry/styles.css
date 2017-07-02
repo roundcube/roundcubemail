@@ -71,6 +71,7 @@ textarea {
 
 input[type="text"]:focus,
 input[type="password"]:focus,
+button:focus,
 input.button:focus,
 textarea:focus {
 	border-color: #4787b1;
@@ -107,6 +108,7 @@ label input + span {
 
 /*** buttons ***/
 
+button,
 input.button {
 	display: inline-block;
 	margin: 0 2px;
@@ -119,6 +121,7 @@ input.button {
 	outline: none;
 }
 
+.formbuttons button,
 .formbuttons input.button {
 	color: #ddd;
 	font-size: 110%;
@@ -129,6 +132,8 @@ input.button {
 	box-shadow: 0 1px 1px 0 #ccc;
 }
 
+.formbuttons button:hover,
+.formbuttons button:focus,
 .formbuttons input.button:hover,
 .formbuttons input.button:focus,
 input.button.mainaction:hover,
@@ -138,17 +143,20 @@ input.button.mainaction:focus {
 	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.6);
 }
 
+.formbuttons button:active,
 .formbuttons input.button:active {
 	color: #fff;
 	background: #5f5f5f;
 }
 
+button.mainaction,
 input.button.mainaction {
 	color: #ededed;
 	border-color: #1f262c;
 	background: #2c2f33;
 }
 
+button.mainaction:active,
 input.button.mainaction:active {
 	color: #fff;
 	background: #515151;
@@ -158,12 +166,15 @@ input.button.mainaction:active {
 	background: linear-gradient(to bottom, #2a2e31 0%, #505050 100%);
 }
 
+button[disabled],
+button[disabled]:hover,
 input.button[disabled],
 input.button[disabled]:hover,
 input.button.mainaction[disabled] {
 	color: #aaa !important;
 }
 
+button.mainaction,
 input.mainaction {
 	font-weight: bold;
 }
@@ -195,6 +206,7 @@ a.button,
 	white-space: nowrap;
 }
 
+button:focus,
 a.button:focus,
 input.button:focus {
 	border-color: #017db6;
@@ -203,6 +215,7 @@ input.button:focus {
 }
 
 label.disabled,
+button.disabled,
 a.button.disabled {
 	color: #999;
 }
@@ -210,14 +223,14 @@ a.button.disabled {
 a.button.disabled,
 input.button.disabled,
 input.button[disabled],
+button.disabled,
+button[disabled],
+button.disabled:hover,
+button[disabled]:hover,
 a.button.disabled:hover,
 input.button.disabled:hover,
 input.button[disabled]:hover {
 	border-color: #c6c6c6;
-}
-
-a.button.disabled span.inner {
-	opacity: 0.4;
 }
 
 .buttongroup a.button {
@@ -241,6 +254,7 @@ a.button.disabled span.inner {
 
 a.button.pressed,
 a.button:active,
+button:active,
 input.button:active {
 	background: #f7f7f7;
 }
@@ -1731,13 +1745,13 @@ ul.proplist li {
 	border-color: #666;
 }
 
-#login-form input.button {
+#login-form button.button {
 	color: #444;
 	border-color: #f9f9f9;
 	background-color: #f9f9f9;
 }
 
-#login-form input.button:active {
+#login-form button.button:active {
 	color: #333;
 	background-color: #dcdcdc;
 }
@@ -2413,6 +2427,17 @@ ul.toolbarmenu li span.copy {
 	margin: 8px 0;
 }
 
+.ui-dialog iframe {
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+.ui-dialog-content.iframe {
+	padding: 0 !important;
+	overflow: hidden !important;
+}
+
 .hint {
 	margin: 4px 0;
 	color: #999;
@@ -2503,23 +2528,23 @@ ul.toolbarmenu li span.copy {
 	text-overflow: ellipsis;
 }
 
-#folder-selector li a.virtual {
+#folder-selector li a.virtual span {
 	opacity: .2;
 }
 
-#folder-selector li a.inbox span {
+#folder-selector li.inbox span {
 	background-position: 4px -2049px;
 }
-#folder-selector li a.drafts span {
+#folder-selector li.drafts span {
 	background-position: 4px -1388px;
 }
-#folder-selector li a.sent span {
+#folder-selector li.sent span {
 	background-position: 4px -2074px;
 }
-#folder-selector li a.trash span {
+#folder-selector li.trash span {
 	background-position: 4px -1508px;
 }
-#folder-selector li a.junk span {
+#folder-selector li.junk span {
 	background-position: 4px -2100px;
 }
 
@@ -3009,6 +3034,8 @@ _:not(), _:-moz-handler-blocked, .mozilla .mce-btn-small i {
 	box-shadow: none;
 }
 
+button.mce-close,
+.mce-btn button,
 .mce-textbox:focus {
 	box-shadow: none;
 	outline: none;

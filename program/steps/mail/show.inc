@@ -336,7 +336,7 @@ function rcmail_message_contactphoto($attrib)
             '_email'  => $MESSAGE->sender['mailto'],
         ));
 
-        $attrib['onerror'] = "this.src = '$placeholder'";
+        $attrib['onerror'] = "this.src = '$placeholder'; this.onerror = null";
     }
     else {
         $photo_img = $placeholder;
