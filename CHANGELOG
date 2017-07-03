@@ -4,6 +4,7 @@ CHANGELOG Roundcube Webmail
 - Fix rewind(): stream does not support seeking (#5950)
 - Fix bug where HTML messages could have been rendered empty on some systems (#5957)
 - Fix (again) bug where image data URIs in css style were treated as evil/remote in mail preview (#5580)
+- Managesieve: Fix parsing dot-staffed lines in multiline text (#5838, #5959)
 
 RELEASE 1.2.6
 -------------
