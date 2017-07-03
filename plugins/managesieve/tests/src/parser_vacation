@@ -5,6 +5,8 @@ if header :contains "Subject" "vacation"
 	vacation :days 1 text:
 # test
 test test /* test */
+..
+..test
 test
 .
 ;
