@@ -43,7 +43,11 @@ if ($cid && ($record = ($CONTACT_RECORD ?: $CONTACTS->get_record($cid, true)))) 
 rcmail_set_sourcename($CONTACTS);
 
 // Disable qr-code if php-gd is not installed
-$OUTPUT->set_env('qrcode', function_exists('imagecreate'));
+// Disable qr-code if Endriod's QrCode is not installed
+$OUTPUT->set_env(
+    'qrcode',
+    function_exists('imagecreate') && class_exists('Endroid\QrCode\QrCode')
+);
 $OUTPUT->add_label('qrcode');
 
 $OUTPUT->add_handlers(array(
