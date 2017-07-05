@@ -17,7 +17,7 @@
  * Class to control the installation process of the Roundcube Webmail package
  *
  * @category Install
- * @package  Roundcube
+ * @package  Webmail
  * @author   Thomas Bruederli
  */
 class rcmail_install
