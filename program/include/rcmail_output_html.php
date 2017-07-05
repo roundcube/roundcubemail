@@ -1750,7 +1750,7 @@ EOF;
         }
 
         $attrib['name'] = $attrib['id'];
-        $attrib['src']  = $attrib['src'] ? $this->abs_url($attrib['src'], true) : 'program/resources/blank.gif';
+        $attrib['src']  = $attrib['src'] ? $this->abs_url($attrib['src'], true) : 'about:blank';
 
         // register as 'contentframe' object
         if ($is_contentframe || $attrib['contentframe']) {

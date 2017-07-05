@@ -163,7 +163,7 @@ function rcube_webmail()
     }
 
     if (!this.env.blankpage)
-      this.env.blankpage = this.assets_path('program/resources/blank.gif');
+      this.env.blankpage = 'about:blank';
 
     // find all registered gui containers
     for (n in this.gui_containers)

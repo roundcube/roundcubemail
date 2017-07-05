@@ -696,7 +696,7 @@ function rcmail_compose_body($attrib)
     return ($form_start ? "$form_start\n" : '')
         . "\n" . $hidden->show() . "\n" . $textarea->show($MESSAGE_BODY)
         . ($form_end ? "\n$form_end\n" : '')
-        . '<iframe name="savetarget" src="program/resources/blank.gif"'
+        . '<iframe name="savetarget" src="about:blank"'
         . ' style="width:0;height:0;border:none;visibility:hidden;" aria-hidden="true"></iframe>';
 }
 
