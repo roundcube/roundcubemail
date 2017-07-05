@@ -10,7 +10,7 @@
 <div id="mainscreen" class="watermark" style="top:0"></div>
 
 <roundcube:else />
-<body>
+<roundcube:if condition="env:extwin" /><body class="extwin"><roundcube:else /><body><roundcube:endif />
 
 <roundcube:include file="/includes/header.html" />
 
