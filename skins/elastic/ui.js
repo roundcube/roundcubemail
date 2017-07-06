@@ -1316,7 +1316,7 @@ function rcube_elastic_ui()
                 email = ' <' + email + '>';
             }
 
-            email_element.text((name ? email : '') + rcmail.env.recipients_separator);
+            email_element.text((name ? email : '') + ',');
             recipient.attr({'class': 'recipient', contenteditable: false, title: name ? (name + email) : null})
                 .append([name_element, email_element, link]);
 
@@ -1418,8 +1418,8 @@ function rcube_elastic_ui()
                     return false;
                 }
             }
-            // Here we add a recipient box when the separator character was pressed
-            else if (e.keyCode == 188) {
+            // Here we add a recipient box when the separator character (,;) was pressed
+            else if (e.keyCode == 188 || e.keyCode == 59) {
                 if (update_func()) {
                     focus_func();
                     return false;
@@ -1476,7 +1476,6 @@ function rcube_elastic_ui()
     function recipient_input_parser(text)
     {
         var recipients = [],
-            delim = rcmail.env.recipients_delimiter + ';',
             address_rx_part = '(\\S+|("[^"]+"))@\\S+',
             recipient_rx1 = new RegExp('(<' + address_rx_part + '>)'),
             recipient_rx2 = new RegExp('(' + address_rx_part + ')'),
@@ -1552,7 +1551,7 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Adds some logic to the contact photo widget
+     * Adds logic to the contact photo widget
      */
     function image_upload_input(obj)
     {
