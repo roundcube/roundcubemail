@@ -300,7 +300,7 @@ function rcube_elastic_ui()
                 if (last.find('[type=checkbox]').length) {
                     row_classes.push('form-check');
                 }
-                else if (!last.find('input,textarea,radio').length) {
+                else if (!last.find('input,textarea,radio,select').length) {
                     last.addClass('form-control-plaintext');
                 }
             }
