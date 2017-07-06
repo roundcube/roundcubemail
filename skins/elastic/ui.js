@@ -712,6 +712,9 @@ function rcube_elastic_ui()
             }
         }
 
+        // Display loader when the dialog has an iframe
+        iframe_loader($('div.popup > iframe', me));
+
         // TODO: style buttons/forms
         bootstrap_style(dialog.uiDialog);
     };
@@ -1567,6 +1570,25 @@ function rcube_elastic_ui()
             $(obj)[state ? 'removeClass' : 'addClass']('changed');
         });
     };
+
+    /**
+     * Displays loading... overlay for iframes
+     */
+    function iframe_loader(frame)
+    {
+        frame = $(frame);
+
+        if (frame.length) {
+            var loader = $('<div>').attr('class', 'iframe-loader')
+                .append($('<div>').attr('class', 'spinner').text(rcmail.gettext('loading')));
+
+            frame.on('load error', function() {
+                    // wait some time to make sure the iframe stopped loading
+                    setTimeout(function() { loader.remove(); }, 500);
+                })
+                .parent().append(loader);
+        }
+    }
 }
 
 var UI = new rcube_elastic_ui();

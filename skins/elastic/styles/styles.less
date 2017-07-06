@@ -177,6 +177,32 @@ button, input, select, textarea {
     -webkit-user-select: none;
 }
 
+.iframe-loader {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .spinner {
+        position: relative;
+        display: inline-block;
+        width: 5rem;
+        height: 5rem;
+        overflow: hidden;
+        text-indent: -999em;
+        border: .5em solid;
+        border-color: currentColor transparent currentColor currentColor;
+        border-radius: 50%;
+        animation-name: fa-spin;
+        animation-duration: 1s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
+}
 
 /*** Widgets ***/
 
