@@ -74,6 +74,9 @@ function rcube_list_widget(list, p)
   this.dblclick_time = 500; // default value on MS Windows is 500
   this.row_init = function(){};  // @deprecated; use list.addEventListener('initrow') instead
 
+  this.pointer_touch_start = 0; // start time of the touch event
+  this.pointer_touch_time = 500; // maximum time a touch should be considered a left mouse button event, after this its something else (eg contextmenu event)
+
   // overwrite default paramaters
   if (p && typeof p === 'object')
     for (var n in p)
@@ -162,7 +165,25 @@ init_row: function(row)
           return true;
       });
 
-    if (bw.touch && row.addEventListener) {
+    // for IE and Edge differentiate between touch, touch+hold using pointer events rather than touch
+    if ((bw.ie || bw.edge) && bw.pointer) {
+      $(row).on('pointerdown', function(e) {
+          if (e.pointerType == 'touch') {
+            self.pointer_touch_start = new Date().getTime();
+            return false;
+          }
+        })
+        .on('pointerup', function(e) {
+          if (e.pointerType == 'touch') {
+            var duration = (new Date().getTime() - self.pointer_touch_start);
+            if (duration <= self.pointer_touch_time) {
+              self.drag_row(e, this.uid);
+              return self.click_row(e, this.uid);
+            }
+          }
+        });
+    }
+    else if (bw.touch && row.addEventListener) {
       row.addEventListener('touchstart', function(e) {
         if (e.touches.length == 1) {
           self.touchmoved = false;
