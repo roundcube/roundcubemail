@@ -27,6 +27,7 @@ CHANGELOG Roundcube Webmail
 - Allow contacts without an email address (#5079)
 - Localized timezone selector (#4983)
 - Use 7bit encoding for ISO-2022-* charsets in sent mail (#5640)
+- Fix touch event issue on messages list in IE/Edge (#5781)
 - Fix so links over images are not removed in plain text signatures converted from HTML (#4473)
 - Fix various issues when downloading files with names containing non-ascii chars, use RFC 2231 (#5772)
 - Add Preferences > Mailbox View > Main Options > Layout (#5829)
