@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/settings/edit_identity.inc                              |
  |                                                                       |
@@ -73,9 +73,9 @@ function rcube_identity_form($attrib)
     // add some labels to client
     $OUTPUT->add_label('noemailwarning', 'converting', 'editorwarning');
 
-    $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
-    $t_rows = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 6;
-    $t_cols = !empty($attrib['textareacols']) ? $attrib['textareacols'] : 40;
+    $i_size = $attrib['size'] ?: 40;
+    $t_rows = $attrib['textarearows'] ?: 6;
+    $t_cols = $attrib['textareacols'] ?: 40;
 
     // list of available cols
     $form = array(
@@ -109,6 +109,11 @@ function rcube_identity_form($attrib)
         $IDENTITY_RECORD['signature'] = htmlspecialchars($IDENTITY_RECORD['signature'], ENT_NOQUOTES, RCUBE_CHARSET);
     }
 
+    // hide "default" checkbox if only one identity is allowed
+    if (IDENTITIES_LEVEL > 1) {
+        unset($form['addressing']['content']['standard']);
+    }
+
     // disable some field according to access level
     if (IDENTITIES_LEVEL == 1 || IDENTITIES_LEVEL == 3) {
         $form['addressing']['content']['email']['disabled'] = true;
@@ -116,7 +121,7 @@ function rcube_identity_form($attrib)
     }
 
     if (IDENTITIES_LEVEL == 4) {
-        foreach($form['addressing']['content'] as $formfield => $value){
+        foreach ($form['addressing']['content'] as $formfield => $value){
             $form['addressing']['content'][$formfield]['disabled'] = true;
             $form['addressing']['content'][$formfield]['class']    = 'disabled';
         }
@@ -154,11 +159,8 @@ function rcube_identity_form($attrib)
             foreach ($fieldset['content'] as $col => $colprop) {
                 $colprop['id'] = 'rcmfd_'.$col;
 
-                $label = !empty($colprop['label']) ? $colprop['label'] :
-                    $RCMAIL->gettext(str_replace('-', '', $col));
-
-                $value = !empty($colprop['value']) ? $colprop['value'] :
-                    rcube_output::get_edit_field($col, $IDENTITY_RECORD[$col], $colprop, $colprop['type']);
+                $label = $colprop['label'] ?: $RCMAIL->gettext(str_replace('-', '', $col));
+                $value = $colprop['value'] ?: rcube_output::get_edit_field($col, $IDENTITY_RECORD[$col], $colprop, $colprop['type']);
 
                 $table->add('title', html::label($colprop['id'], rcube::Q($label)));
                 $table->add(null, $value);

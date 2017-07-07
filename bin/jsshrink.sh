@@ -2,14 +2,14 @@
 PWD=`dirname "$0"`
 JS_DIR="$PWD/../program/js"
 JAR_DIR='/tmp'
-LANG_IN='ECMASCRIPT3'
-# latest version requires Java 7, we'll use an older one
-#CLOSURE_COMPILER_URL='http://dl.google.com/closure-compiler/compiler-latest.zip'
-CLOSURE_COMPILER_URL='http://dl.google.com/closure-compiler/compiler-20131014.zip'
+LANG_IN='ECMASCRIPT5'
+CLOSURE_COMPILER_URL='http://dl.google.com/closure-compiler/compiler-latest.zip'
 
 do_shrink() {
 	rm -f "$2"
-	java -jar $JAR_DIR/compiler.jar --compilation_level=SIMPLE_OPTIMIZATIONS --js="$1" --js_output_file="$2" --language_in="$3"
+	# copy the first comment block with license information for LibreJS
+	grep -q '@lic' $1 && sed -n '/\/\*/,/\*\// { p; /\*\//q; }' $1 > $2
+	java -jar $JAR_DIR/compiler.jar --compilation_level=SIMPLE_OPTIMIZATIONS --js="$1" --language_in="$3" >> $2
 }
 
 if [ ! -d "$JS_DIR" ]; then
@@ -37,7 +37,7 @@ if [ ! -r "$JAR_DIR/compiler.jar" ]; then
 		echo "Please download $CLOSURE_COMPILER_URL and extract compiler.jar to $JAR_DIR/."
 		exit 1
 	fi
-	(cd $JAR_DIR && unzip "/tmp/$$.zip" "compiler.jar")
+	unzip -p "/tmp/$$.zip" "*.jar" > "$JAR_DIR/compiler.jar"
 	rm -f "/tmp/$$.zip"
 fi
 
@@ -56,7 +56,7 @@ if [ $# -gt 0 ]; then
 	exit
 fi
 
-DIRS="$PWD/../program/js $PWD/../skins/* $PWD/../plugins/* $PWD/../plugins/*/skins/*"
+DIRS="$PWD/../program/js $PWD/../skins/* $PWD/../plugins/* $PWD/../plugins/*/skins/* $PWD/../plugins/managesieve/codemirror/lib"
 # default: compress application scripts
 for dir in $DIRS; do
     for file in $dir/*.js; do

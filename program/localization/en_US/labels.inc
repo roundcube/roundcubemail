@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -26,6 +26,7 @@ $labels['server']    = 'Server';
 $labels['login']     = 'Login';
 
 // taskbar
+$labels['menu']     = 'Menu';
 $labels['logout']   = 'Logout';
 $labels['mail']     = 'Mail';
 $labels['settings'] = 'Settings';
@@ -54,6 +55,7 @@ $labels['priority'] = 'Priority';
 $labels['organization'] = 'Organization';
 $labels['readstatus'] = 'Read status';
 $labels['listoptions'] = 'List options...';
+$labels['listoptionstitle'] = 'List options';
 
 $labels['mailboxlist'] = 'Folders';
 $labels['messagesfromto'] = 'Messages $from to $to of $count';
@@ -153,6 +155,10 @@ $labels['markunread']       = 'As unread';
 $labels['markflagged']      = 'As flagged';
 $labels['markunflagged']    = 'As unflagged';
 $labels['moreactions']      = 'More actions...';
+$labels['markallread']      = 'Mark all as read';
+$labels['folders-cur']      = 'Selected folder only';
+$labels['folders-sub']      = 'Selected folder and its subfolders';
+$labels['folders-all']      = 'All folders';
 $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
@@ -199,6 +205,13 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
+$labels['layout'] = 'Layout';
+$labels['layoutwidescreen'] = 'Widescreen';
+$labels['layoutdesktop'] = 'Desktop';
+$labels['layoutlist'] = 'List';
+$labels['layoutwidescreendesc'] = 'Widescreen (3-column view)';
+$labels['layoutdesktopdesc'] = 'Desktop (wide list and mail preview below)';
+$labels['layoutlistdesc'] = 'List (no mail preview)';
 
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Compact';
@@ -215,6 +228,7 @@ $labels['quotastorage'] = 'Disk space';
 $labels['quotamessage'] = 'Messages count';
 
 $labels['quicksearch']  = 'Quick search';
+$labels['searchplaceholder']  = 'Search...';
 $labels['resetsearch']  = 'Reset search';
 $labels['searchmod']  = 'Search modifiers';
 $labels['msgtext']  = 'Entire message';
@@ -225,6 +239,12 @@ $labels['searchscope'] = 'Scope';
 $labels['currentfolder'] = 'Current folder';
 $labels['subfolders'] = 'This and subfolders';
 $labels['allfolders'] = 'All folders';
+$labels['searchinterval-1W'] = 'older than a week';
+$labels['searchinterval-1M'] = 'older than a month';
+$labels['searchinterval-1Y'] = 'older than a year';
+$labels['searchinterval1W'] = 'younger than a week';
+$labels['searchinterval1M'] = 'younger than a month';
+$labels['searchinterval1Y'] = 'younger than a year';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
@@ -247,6 +267,16 @@ $labels['selectimage']    = 'Select image';
 $labels['addimage']       = 'Add image';
 $labels['selectmedia']    = 'Select movie';
 $labels['addmedia']       = 'Add movie';
+$labels['encrypt']        = 'Encrypt';
+$labels['encryptmessage'] = 'Encrypt message';
+$labels['encryptmessagemailvelope'] = 'Encrypt message with Mailvelope';
+$labels['importpubkeys']  = 'Import public keys';
+$labels['encryptedsendialog'] = 'Sending encrypted message';
+$labels['keyid']          = 'Key ID';
+$labels['keylength']      = 'Bits';
+$labels['keyexpired']     = 'Expired';
+$labels['keyrevoked']     = 'Revoked';
+$labels['bccinstead']     = 'Use Bcc';
 
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
@@ -256,6 +286,7 @@ $labels['revertto']      = 'Revert to';
 
 $labels['restore'] = 'Restore';
 $labels['restoremessage'] = 'Restore message?';
+$labels['ignore'] = 'Ignore';
 
 $labels['responses'] = 'Responses';
 $labels['insertresponse'] = 'Insert a response';
@@ -270,10 +301,11 @@ $labels['responsetext'] = 'Response Text';
 $labels['attach'] = 'Attach';
 $labels['attachments'] = 'Attachments';
 $labels['upload'] = 'Upload';
-$labels['uploadprogress'] = '$percent ($current from $total)';
+$labels['uploadprogress'] = '$percent ($current of $total)';
 $labels['close']  = 'Close';
 $labels['messageoptions']  = 'Message options...';
 $labels['togglecomposeoptions'] = 'Toggle composition options';
+$labels['attachmentrename']  = 'Rename attachment';
 
 $labels['low']     = 'Low';
 $labels['lowest']  = 'Lowest';
@@ -342,6 +374,8 @@ $labels['searchresult'] = 'Search result';
 $labels['advsearch'] = 'Advanced Search';
 $labels['advanced'] = 'Advanced';
 $labels['other'] = 'Other';
+$labels['printcontact'] = 'Print contact';
+$labels['qrcode'] = 'QR Code';
 
 $labels['typehome']   = 'Home';
 $labels['typework']   = 'Work';
@@ -463,7 +497,7 @@ $labels['askuser'] = 'ask me';
 $labels['autosend'] = 'send receipt';
 $labels['autosendknown'] = 'send receipt to my contacts, otherwise ask me';
 $labels['autosendknownignore'] = 'send receipt to my contacts, otherwise ignore';
-$labels['ignore'] = 'ignore';
+$labels['ignorerequest'] = 'ignore request';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
 $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
 $labels['skipdeleted'] = 'Do not show deleted messages';
@@ -472,6 +506,7 @@ $labels['deletejunk'] = 'Directly delete messages in Junk';
 $labels['showremoteimages'] = 'Display remote inline images';
 $labels['fromknownsenders'] = 'from known senders';
 $labels['always'] = 'always';
+$labels['alwaysbutplain'] = 'always, except when replying to plain text';
 $labels['showinlineimages'] = 'Display attached images below the message';
 $labels['autosavedraft']  = 'Automatically save draft';
 $labels['everynminutes']  = 'every $n minute(s)';
@@ -501,12 +536,15 @@ $labels['signatureoptions'] = 'Signature Options';
 $labels['whenreplying'] = 'When replying';
 $labels['replyempty'] = 'do not quote the original message';
 $labels['replytopposting'] = 'start new message above the quote';
+$labels['replytoppostingnoindent'] = 'start new message above the quote (no indentation)';
 $labels['replybottomposting'] = 'start new message below the quote';
 $labels['replyremovesignature'] = 'When replying remove original signature from message';
 $labels['autoaddsignature'] = 'Automatically add signature';
 $labels['newmessageonly'] = 'new message only';
 $labels['replyandforwardonly'] = 'replies and forwards only';
 $labels['insertsignature'] = 'Insert signature';
+$labels['sigbelow'] = 'Place signature below the quoted message';
+$labels['sigseparator'] = 'Force standard separator in signatures';
 $labels['previewpanemarkread']  = 'Mark previewed messages as read';
 $labels['afternseconds']  = 'after $n seconds';
 $labels['reqmdn'] = 'Always request a return receipt';
@@ -551,6 +589,8 @@ $labels['personalfolder'] = 'Private Folder';
 $labels['otherfolder'] = 'Other User\'s Folder';
 $labels['sharedfolder'] = 'Public Folder';
 $labels['findfolders'] = 'Find folders';
+$labels['findcontacts'] = 'Find contacts';
+$labels['findmail'] = 'Find mail messages';
 $labels['namespace.personal'] = 'Personal';
 $labels['namespace.other'] = 'Other users';
 $labels['namespace.shared'] = 'Shared';
@@ -566,6 +606,7 @@ $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
+$labels['savedsearches'] = 'Saved searches';
 
 // units
 $labels['B'] = 'B';
@@ -626,6 +667,7 @@ $labels['arialabelmarkmessagesas'] = 'Mark selected messages as...';
 $labels['arialabelcomposeoptions'] = 'Composition options';
 $labels['arialabelresponsesmenu'] = 'Canned responses menu';
 $labels['arialabelattachmentuploadform'] = 'Attachment upload form';
+$labels['arialabelattachmentmenu'] = 'Attachment options';
 $labels['arialabelattachmentpreview'] = 'Attachment preview';
 $labels['ariasummarycomposecontacts'] = 'List of contacts and groups to select as recipients';
 $labels['arialabelcontactexportoptions'] = 'Contact export options';
@@ -634,6 +676,7 @@ $labels['arialabelpreferencesform'] = 'Preferences form';
 $labels['arialabelidentityeditfrom'] = 'Identity edit form';
 $labels['arialabelresonseeditfrom'] = 'Response edit form';
 $labels['arialabelsearchterms'] = 'Search terms';
+$labels['arialabeldropactionmenu'] = 'Drag-n-Drop action menu';
 
 $labels['helplistnavigation'] = 'List keyboard navigation';
 $labels['helplistkeyboardnavigation'] = "Arrows up/down: Move row focus/selection.

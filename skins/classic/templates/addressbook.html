@@ -21,8 +21,9 @@
 <div id="abooktoolbar">
 <roundcube:button command="add" type="link" class="buttonPas addcontact" classAct="button addcontact" classSel="button addcontactSel" title="newcontact" content=" " />
 <roundcube:button command="compose" type="link" class="buttonPas compose" classAct="button compose" classSel="button composeSel" title="composeto" content=" " />
+<roundcube:button command="print" type="link" class="buttonPas print" classAct="button print" classSel="button printSel" label="print" title="printcontact" content=" " />
 <roundcube:button command="delete" type="link" class="buttonPas delete" classAct="button delete" classSel="button deleteSel" title="deletecontact" content=" " />
-<span class="separator">&nbsp;</span>
+<span class="toolbarseparator">&nbsp;</span>
 <roundcube:button command="import" type="link" class="buttonPas import" classAct="button import" classSel="button importSel" title="importcontacts" content=" " />
 <span class="dropbutton">
 <roundcube:button command="export" type="link" class="buttonPas export" classAct="button export" classSel="button exportSel" title="exportvcards" content=" " />
@@ -40,8 +41,8 @@
 
 <div id="exportmenu" class="popupmenu">
     <ul>
-        <li><roundcube:button command="export" label="exportall" prop="sub" classAct="exportalllink active" class="exportalllink" /></li>
-        <li><roundcube:button command="export-selected" label="exportsel" prop="sub" classAct="exportsellink active" class="exportsellink" /></li>
+        <li><roundcube:button command="export" type="link" label="exportall" prop="sub" classAct="exportalllink active" class="exportalllink" /></li>
+        <li><roundcube:button command="export-selected" type="link" label="exportsel" prop="sub" classAct="exportsellink active" class="exportsellink" /></li>
     </ul>
 </div>
 
@@ -104,19 +105,19 @@
 
 <div id="groupoptionsmenu" class="popupmenu">
   <ul>
-    <li><roundcube:button command="group-rename" label="grouprename" classAct="active" /></li>
-    <li><roundcube:button command="group-delete" label="groupdelete" classAct="active" /></li>
-    <li><roundcube:button command="group-remove-selected" label="groupremoveselected" classAct="active" /></li>
-    <li class="separator_above"><roundcube:button command="search-create" label="searchsave" classAct="active" /></li>
-    <li><roundcube:button command="search-delete" label="searchdelete" classAct="active" /></li>
+    <li><roundcube:button command="group-rename" type="link" label="grouprename" classAct="active" /></li>
+    <li><roundcube:button command="group-delete" type="link" label="groupdelete" classAct="active" /></li>
+    <li><roundcube:button command="group-remove-selected" type="link" label="groupremoveselected" classAct="active" /></li>
+    <li class="separator_above"><roundcube:button command="search-create" type="link" label="searchsave" classAct="active" /></li>
+    <li><roundcube:button command="search-delete" type="link" label="searchdelete" classAct="active" /></li>
     <roundcube:container name="groupoptions" id="groupoptionsmenu" />
   </ul>
 </div>
 
 <div id="dragmenu" class="popupmenu">
   <ul>
-    <li><roundcube:button command="move" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" /></li>
-    <li><roundcube:button command="copy" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" /></li>
+    <li><roundcube:button command="move" type="link" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" /></li>
+    <li><roundcube:button command="copy" type="link" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" /></li>
   </ul>
 </div>
 

@@ -15,8 +15,8 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
-$labels['downloadall'] = 'Llwytho lawr holl atodiadau';
-$labels['download'] = 'Llwytho lawr...';
+$labels['downloadall'] = 'Lawrlwytho\'r holl atodiadau';
+$labels['download'] = 'Lawrlwytho...';
 $labels['downloadmbox'] = 'Fformat mbox (.zip)';
 $labels['downloadmaildir'] = 'Fformat maildir (.zip)';
 $labels['downloademl'] = 'Ffynhonnell (.eml)';

@@ -28,4 +28,3 @@ $messages['internalerror'] = 'تعذر حفظ كلمة المرور الجديد
 $messages['passwordshort'] = 'كلمة المرور يجب على الأقل $length أحرف';
 $messages['passwordweak'] = ' كلمة المرور يجب أن تتضمن رقم واحد على الأقل وحرف ترقيم واحد.';
 $messages['passwordforbidden'] = 'كلمة المرور تحتوى على أحرف ممنوعة';
-?>

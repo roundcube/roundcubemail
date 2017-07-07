@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -50,7 +50,6 @@ $messages['successfullysaved'] = 'Guardado correctamente';
 $messages['savingresponse'] = 'Guardando texto de respuesta...';
 $messages['deleteresponseconfirm'] = 'Realmente deseas eliminar este texto de respuesta?';
 $messages['addedsuccessfully'] = 'Contacto añadido correctamente a la libreta de direcciones';
-$messages['contactexists'] = 'Ya existe un contacto con esta dirección de correo';
 $messages['contactnameexists'] = 'Ya existe un contacto con el mismo nombre.';
 $messages['blockedimages'] = 'Para proteger su privacidad, las imágenes externas han sido bloqueadas en este mensaje';
 $messages['encryptedmessage'] = 'Este es un mensaje cifrado y no puede ser mostrado. ¡Lo siento!';
@@ -80,11 +79,9 @@ $messages['formincomplete'] = 'No se han llenado todos los campos del formulario
 $messages['noemailwarning'] = 'Por favor, introduzca un e-mail válido';
 $messages['nonamewarning']  = 'Por favor, introduzca su nombre';
 $messages['nopagesizewarning'] = 'Por favor, introduzca un tamaño de página';
-$messages['nosenderwarning'] = 'Por favor, introduzca el e-mail del emisor';
 $messages['norecipientwarning'] = 'Por favor, introduzca al menos un destinatario';
 $messages['nosubjectwarning']  = 'El campo "Asunto" esta vacío. ¿Desea completarlo en este momento?';
 $messages['nobodywarning'] = '¿Quiere enviar este mensaje sin texto?';
-$messages['notsentwarning'] = 'El mensaje no ha sido enviado. ¿Desea descartar su mensaje?';
 $messages['restoresavedcomposedata'] = 'Se ha encontrado un mensaje redactado anteriormente que no ha sido enviado.\n\nAsunto: $subject\nGuardado: $date\n\nDeseas recuperar este mensaje?';
 $messages['noldapserver'] = 'Por favor, seleccione un servidor LDAP para buscar';
 $messages['nosearchname'] = 'Por favor, introduzca un nombre o la dirección de e-mail';
@@ -137,7 +134,6 @@ $messages['importconfirmskipped'] = '<b>Se ignoraron $skipped entradas ya existe
 $messages['importmessagesuccess'] = '$nr mensajes importados exitosamente';
 $messages['importmessageerror'] = 'Importación fallida! El archivo subido no es un mensaje o archivo mailbox válido';
 $messages['opnotpermitted'] = 'Operación no permitida!';
-$messages['nofromaddress'] = 'El contacto seleccionado no tiene dirección de e-mail';
 $messages['editorwarning'] = 'Cambiar el tipo de editor puede causar la pérdida del formato. Deseas continuar?';
 $messages['httpreceivedencrypterror'] = 'Ha ocurrido un error fatal de configuración. Contacte inmediatamente a su administrador. <b>Su mensaje no ha sido enviado.</b>';
 $messages['smtpconnerror'] = 'Error SMTP ($code): Conexión al servidor falló';
@@ -146,7 +142,6 @@ $messages['smtpfromerror'] = 'Error SMTP ($code): No se pudo establecer el remit
 $messages['smtptoerror'] = 'Error SMTP ($code): No se puedo agregar el destinatario "$to" ($msg)';
 $messages['smtprecipientserror'] = 'Error SMTP: No se pudo leer la lista de destinatarios';
 $messages['smtperror'] = 'Error SMTP: $msg';
-$messages['emailformaterror'] = 'La dirección $email no es válida';
 $messages['toomanyrecipients'] = 'Demasiados destinatarios. Reduzca la cantidad a un máximo de $max.';
 $messages['maxgroupmembersreached'] = 'El número de miembros del grupo excede el máximo de $max';
 $messages['internalerror'] = 'Ocurrió un error interno. Por favor, intenta nuevamente.';
@@ -177,4 +172,3 @@ $messages['parentnotwritable'] = 'No se pudo crear/mover la carpeta dentro de la
 $messages['messagetoobig'] = 'El mensaje es demasiado grande para ser procesado.';
 $messages['attachmentvalidationerror'] = 'Advertencia! Este archivo adjunto es sospechoso porque su tipo no concuerda con el tipo declarado en el mensaje. Si no confias en el remitente, no deberías abrirlo en el navegador porque puede contener código malicioso.<br/><br/><em>Se esperaba: $expected; Se encontró: $detected</em>';
 $messages['noscriptwarning'] = 'Advertencia: Este servicio de webmail requiere Javascript! Para usarlo, por favor, habilite Javascript en las preferencia de tu navegador.';
-?>

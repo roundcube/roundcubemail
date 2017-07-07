@@ -18,4 +18,5 @@
 $labels['help'] = 'Cymorth';
 $labels['about'] = 'Amdan';
 $labels['license'] = 'Trwydded';
+$labels['csrfinfo'] = 'Darllenwch fwy am CSRF a sut rydyn ni\'n amddiffyn chi.';
 ?>

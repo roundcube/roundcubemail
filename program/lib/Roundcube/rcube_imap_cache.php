@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -99,7 +99,6 @@ class rcube_imap_cache
     );
 
 
-
     /**
      * Object constructor.
      *
@@ -132,7 +131,6 @@ class rcube_imap_cache
         $this->messages_table = $db->table_name('cache_messages', true);
     }
 
-
     /**
      * Cleanup actions (on shutdown).
      */
@@ -141,7 +139,6 @@ class rcube_imap_cache
         $this->save_icache();
         $this->icache = null;
     }
-
 
     /**
      * Set cache mode
@@ -152,7 +149,6 @@ class rcube_imap_cache
     {
         $this->mode = $mode;
     }
-
 
     /**
      * Return (sorted) messages index (UIDs).
@@ -262,7 +258,6 @@ class rcube_imap_cache
         return $data;
     }
 
-
     /**
      * Return messages thread.
      * If threaded index doesn't exist or is invalid, will be updated.
@@ -318,7 +313,6 @@ class rcube_imap_cache
         return $index['object'];
     }
 
-
     /**
      * Returns list of messages (headers). See rcube_imap::fetch_headers().
      *
@@ -359,6 +353,8 @@ class rcube_imap_cache
                 }
             }
 
+            $this->db->reset();
+
             $msgs = array_flip($msgs);
         }
 
@@ -380,7 +376,6 @@ class rcube_imap_cache
 
         return $result;
     }
-
 
     /**
      * Returns message data.
@@ -449,13 +444,12 @@ class rcube_imap_cache
         return $message;
     }
 
-
     /**
      * Saves the message in cache.
      *
      * @param string               $mailbox  Folder name
      * @param rcube_message_header $message  Message data
-     * @param bool                 $force    Skips message in-cache existance check
+     * @param bool                 $force    Skips message in-cache existence check
      */
     function add_message($mailbox, $message, $force = false)
     {
@@ -522,7 +516,6 @@ class rcube_imap_cache
         $this->db->set_option('ignore_key_errors', false);
     }
 
-
     /**
      * Sets the flag for specified message.
      *
@@ -575,7 +568,6 @@ class rcube_imap_cache
             $this->userid, $mailbox);
     }
 
-
     /**
      * Removes message(s) from cache.
      *
@@ -611,7 +603,6 @@ class rcube_imap_cache
                 $this->userid, $mailbox);
         }
     }
-
 
     /**
      * Clears index cache.
@@ -652,7 +643,6 @@ class rcube_imap_cache
         }
     }
 
-
     /**
      * Clears thread cache.
      *
@@ -677,7 +667,6 @@ class rcube_imap_cache
         }
     }
 
-
     /**
      * Clears the cache.
      *
@@ -690,7 +679,6 @@ class rcube_imap_cache
         $this->remove_thread($mailbox);
         $this->remove_message($mailbox, $uids);
     }
-
 
     /**
      * Delete expired cache entries
@@ -710,7 +698,6 @@ class rcube_imap_cache
         $db->query("DELETE FROM ".$db->table_name('cache_thread', true)
               ." WHERE `expires` < $now");
     }
-
 
     /**
      * Fetches index data from database
@@ -748,7 +735,6 @@ class rcube_imap_cache
         return null;
     }
 
-
     /**
      * Fetches thread data from database
      */
@@ -781,7 +767,6 @@ class rcube_imap_cache
 
         return null;
     }
-
 
     /**
      * Saves index data into database
@@ -836,7 +821,6 @@ class rcube_imap_cache
         $this->db->set_option('ignore_key_errors', false);
     }
 
-
     /**
      * Saves thread data into database
      */
@@ -886,7 +870,6 @@ class rcube_imap_cache
 
         $this->db->set_option('ignore_key_errors', false);
     }
-
 
     /**
      * Checks index/thread validity
@@ -1005,14 +988,13 @@ class rcube_imap_cache
                 return false;
             }
             // ... and max UID
-            if ($object->max() != $this->imap->id2uid($mbox_data['EXISTS'], $mailbox, true)) {
+            if ($object->max() != $this->imap->id2uid($mbox_data['EXISTS'], $mailbox)) {
                 return false;
             }
         }
 
         return true;
     }
-
 
     /**
      * Synchronizes the mailbox.
@@ -1190,7 +1172,6 @@ class rcube_imap_cache
         $this->icache[$mailbox]['index']['object'] = $data;
     }
 
-
     /**
      * Converts cache row into message object.
      *
@@ -1214,7 +1195,6 @@ class rcube_imap_cache
         return $message;
     }
 
-
     /**
      * Saves message stored in internal cache
      */
@@ -1235,7 +1215,6 @@ class rcube_imap_cache
             $this->icache['__message']['md5sum'] = $md5sum;
         }
     }
-
 
     /**
      * Prepares message object to be stored in database.
@@ -1276,7 +1255,6 @@ class rcube_imap_cache
         }
     }
 
-
     /**
      * Fetches index data from IMAP server
      */
@@ -1297,7 +1275,6 @@ class rcube_imap_cache
         return $index;
     }
 
-
     /**
      * Fetches thread data from IMAP server
      */
@@ -1314,7 +1291,6 @@ class rcube_imap_cache
 
         return new rcube_result_thread($mailbox, '* THREAD');
     }
-
 }
 
 // for backward compat.

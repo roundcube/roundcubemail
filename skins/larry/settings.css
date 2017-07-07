@@ -1,7 +1,7 @@
 /**
  * Roundcube webmail styles for the Settings section
  *
- * Copyright (c) 2012, The Roundcube Dev Team
+ * Copyright (c) 2017-2017, The Roundcube Dev Team
  * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
@@ -334,6 +334,7 @@ img.skinthumbnail {
 #rcmfd_signature {
 	width: 99%;
 	min-width: 390px;
+	font-family: monospace;
 }
 
 #rcmfd_signature_toolbar1 td,
@@ -344,4 +345,24 @@ img.skinthumbnail {
 .mailtoprotohandler-status {
 	padding-left: 1em;
 	font-style: italic;
+}
+
+#pluginlist {
+	table-layout: auto;
+}
+
+#pluginlist th.version {
+	width: 1%;
+}
+
+.readtext {
+	width: 45em;
+	padding: 12px;
+	font-size: 12px;
+}
+
+.readtext > h1,
+.readtext > h2,
+.readtext > h3 {
+	margin-top: 0;
 }

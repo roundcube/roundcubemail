@@ -3,7 +3,7 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -29,6 +29,21 @@ class rcube_db_pgsql extends rcube_db
     public $db_provider = 'postgres';
 
     /**
+     * Object constructor
+     *
+     * @param string $db_dsnw DSN for read/write operations
+     * @param string $db_dsnr Optional DSN for read only operations
+     * @param bool   $pconn   Enables persistent connections
+     */
+    public function __construct($db_dsnw, $db_dsnr = '', $pconn = false)
+    {
+        parent::__construct($db_dsnw, $db_dsnr, $pconn);
+
+        // use date/time input format with timezone spec.
+        $this->options['datetime_format'] = 'c';
+    }
+
+    /**
      * Driver-specific configuration of database connection
      *
      * @param array $dsn DSN for DB connections
@@ -37,6 +52,7 @@ class rcube_db_pgsql extends rcube_db
     protected function conn_configure($dsn, $dbh)
     {
         $dbh->query("SET NAMES 'utf8'");
+        $dbh->query("SET DATESTYLE TO ISO");
     }
 
     /**
@@ -139,8 +155,10 @@ class rcube_db_pgsql extends rcube_db
         // There's a known case when max_allowed_packet is queried
         // PostgreSQL doesn't have such limit, return immediately
         if ($varname == 'max_allowed_packet') {
-            return $default;
+            return rcube::get_instance()->config->get('db_' . $varname, $default);
         }
+
+        $this->variables[$varname] = rcube::get_instance()->config->get('db_' . $varname);
 
         if (!isset($this->variables)) {
             $this->variables = array();
@@ -153,6 +171,25 @@ class rcube_db_pgsql extends rcube_db
         }
 
         return isset($this->variables[$varname]) ? $this->variables[$varname] : $default;
+    }
+
+    /**
+     * Returns list of tables in a database
+     *
+     * @return array List of all tables of the current database
+     */
+    public function list_tables()
+    {
+        // get tables if not cached
+        if ($this->tables === null) {
+            $q = $this->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
+                . " WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA NOT IN ('pg_catalog', 'information_schema')"
+                . " ORDER BY TABLE_NAME");
+
+            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : array();
+        }
+
+        return $this->tables;
     }
 
     /**

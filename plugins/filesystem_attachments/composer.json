@@ -2,7 +2,7 @@
     "name": "roundcube/filesystem_attachments",
     "type": "roundcube-plugin",
     "description": "This is a core plugin which provides basic, filesystem based attachment temporary file handling. This includes storing attachments of messages currently being composed, writing attachments to disk when drafts with attachments are re-opened and writing attachments to disk for inline display in current html compositions.",
-    "license": "GNU GPLv3+",
+    "license": "GPLv3+",
     "version": "1.0",
     "authors": [
         {

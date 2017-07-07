@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -214,7 +214,6 @@ $labels['mailboxview'] = 'அஞ்சல் பெட்டி காட்ச�
 $labels['mdnrequests'] = 'அனுப்புனர் அறிவிப்புகள்';
 $labels['askuser'] = 'பயனரை கேள்';
 $labels['autosend'] = 'தானாக அனுப்பு';
-$labels['ignore'] = 'தவிர்';
 $labels['readwhendeleted'] = 'செய்தியை நீக்கும் போது படித்ததாக குறி';
 $labels['flagfordeletion'] = 'நீக்குவதற்கு பதிலாக நீக்குவதாக நட்சத்திரமிடு';
 $labels['skipdeleted'] = 'நீக்கிய செய்திகளை காட்டாதே';
@@ -231,7 +230,6 @@ $labels['mimeparamfolding'] = 'இணைப்பு பெயர்கள்';
 $labels['2231folding'] = 'முழு RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'முழு RFC 2047 (மற்ற)';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'மேம்பட்ட விருப்பங்கள்';
 $labels['focusonnewmessage'] = 'உலாவி சாளரத்தை புது செய்திக்காக கவனி';
 $labels['checkallfolders'] = 'புது செய்திகளுக்காக எல்லா அடைவுகளையும் சரிபார்';
@@ -265,7 +263,4 @@ $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

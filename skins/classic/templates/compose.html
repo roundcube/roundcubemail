@@ -39,6 +39,7 @@
     </span>
 <roundcube:endif />
     <a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" id="responsesmenulink" unselectable="on" onmousedown="return false" onclick="rcmail_ui.show_popup('responsesmenu');return false">&nbsp;</a>
+    <roundcube:button command="compose-encrypted" type="link" class="buttonPas encrypt disabled" classAct="button encrypt" classSel="button encrypt" title="encryptmessagemailvelope" content=" " style="display:none" />
     <roundcube:container name="toolbar" id="compose-toolbar" />
     <roundcube:button name="messageoptions" id="composemenulink" type="link" class="button messagemenu" title="messageoptions" onclick="rcmail_ui.show_popup('composemenu', true);return false" content=" " />
 </div>
@@ -48,7 +49,16 @@
 <div id="mainscreen">
 
 <div id="compose-contacts">
-<div class="boxtitle"><roundcube:label name="contacts" /></div>
+<div class="boxtitle">
+    <roundcube:label name="contacts" />
+    <div id="abookcountbar" class="pagenav">
+        <roundcube:button command="firstpage" type="link" class="buttonPas firstpage" classAct="button firstpage" classSel="button firstpageSel" title="firstpage" content=" " />
+        <roundcube:button command="previouspage" type="link" class="buttonPas prevpage" classAct="button prevpage" classSel="button prevpageSel" title="previouspage" content=" " />
+        <span style="float:left">&nbsp;</span>
+        <roundcube:button command="nextpage" type="link" class="buttonPas nextpage" classAct="button nextpage" classSel="button nextpageSel" title="nextpage" content=" " />
+        <roundcube:button command="lastpage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastpage" content=" " />
+    </div>
+</div>
 <div class="boxlistcontent">
     <div class="searchbox">
         <img id="searchmenulink" src="/images/icons/glass.png" width="16" height="16" />
@@ -59,17 +69,11 @@
     <roundcube:object name="addresslist" id="contacts-table" class="records-table" cellspacing="0" noheader="true" />
 </div>
 <div class="boxfooter">
-    <div id="abookactions" class="pagenav">
+    <div id="abookactions">
         <roundcube:button command="add-recipient" prop="to" type="link" title="to" class="button disabled" classAct="button" content="To &amp;raquo;" />
         <roundcube:button command="add-recipient" prop="cc" type="link" title="cc" class="button disabled" classAct="button" content="Cc &amp;raquo;" />
         <roundcube:button command="add-recipient" prop="bcc" type="link" title="bcc" class="button disabled" classAct="button" content="Bcc &amp;raquo;" />
-    </div>
-    <div id="abookcountbar" class="pagenav">
-        <roundcube:button command="firstpage" type="link" class="buttonPas firstpage" classAct="button firstpage" classSel="button firstpageSel" title="firstpage" content=" " />
-        <roundcube:button command="previouspage" type="link" class="buttonPas prevpage" classAct="button prevpage" classSel="button prevpageSel" title="previouspage" content=" " />
-        <span style="float:left">&nbsp;</span>
-        <roundcube:button command="nextpage" type="link" class="buttonPas nextpage" classAct="button nextpage" classSel="button nextpageSel" title="nextpage" content=" " />
-        <roundcube:button command="lastpage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastpage" content=" " />
+        <roundcube:container name="compose-contacts-toolbar" id="compose-contacts-toolbar" />
     </div>
 </div>
 </div>
@@ -135,7 +139,7 @@
     </div>
     <div id="compose-div">
         <div id="compose-body-div">
-            <div class="boxlistcontent" style="overflow: hidden; top: 0">
+            <div id="compose-body-parent" class="boxlistcontent" style="overflow: hidden; top: 0">
                 <roundcube:object name="composeBody" id="compose-body" form="form" cols="70" rows="20" tabindex="9" />
             </div>
             <div class="boxfooter">
@@ -160,7 +164,7 @@
         <div id="compose-attachments">
             <div class="boxtitle"><roundcube:label name="attachments" /></div>
             <div class="boxlistcontent">
-                <roundcube:object name="composeAttachmentList" id="attachmentslist" loadingIcon="/images/display/loading_blue.gif" />
+                <roundcube:object name="composeAttachmentList" id="attachmentslist" loadingIcon="/images/display/loading_blue.gif" icon_pos="left" />
             </div>
             <div class="boxfooter">
                 <roundcube:button name="uploadmenulink" id="uploadmenulink" type="link" title="addattachment" class="button addgroup" onclick="rcmail_ui.show_popup('uploadmenu', true);return false" content=" " />
@@ -174,11 +178,13 @@
 
 <div id="composeoptionsmenu" class="popupmenu">
     <table>
+    <roundcube:if condition="!in_array('mdn_default', (array)config:dont_override)" />
     <tr>
         <td><label for="rcmcomposereceipt"><roundcube:label name="returnreceipt" />:</label></td>
-        <td><roundcube:object name="receiptCheckBox" form="form" id="rcmcomposereceipt" /></td>
+        <td><roundcube:object name="mdnCheckBox" form="form" id="rcmcomposereceipt" /></td>
     </tr>
-    <roundcube:if condition="config:smtp_server != ''" />
+    <roundcube:endif />
+    <roundcube:if condition="!in_array('dsn_default', (array)config:dont_override)" />
     <tr>
         <td><label for="rcmcomposedsn"><roundcube:label name="dsn" />:</label></td>
         <td><roundcube:object name="dsnCheckBox" form="form" id="rcmcomposedsn" /></td>
@@ -212,6 +218,15 @@
 </form>
 
 <roundcube:object name="composeAttachmentForm" id="attachment-form" attachmentFieldSize="40" class="popupmenu" />
+
+<div id="attachmentmenu" class="popupmenu">
+  <ul class="toolbarmenu">
+    <li><roundcube:button command="open-attachment" id="attachmenuopen" type="link" label="open" class="openlink" classAct="openlink active" innerclass="openlink" /></li>
+    <li><roundcube:button command="download-attachment" id="attachmenudownload" type="link" label="download" class="downloadlink" classAct="downloadlink active" innerclass="downloadlink" /></li>
+    <li><roundcube:button command="rename-attachment" id="attachmenurename" type="link" label="rename" class="renamelink" classAct="renamelink active" innerclass="renamelink" /></li>
+    <roundcube:container name="attachmentmenu" id="attachmentmenu" />
+  </ul>
+</div>
 
 <script type="text/javascript">
 rcube_init_mail_ui();

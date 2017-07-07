@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/addressbook/undo.inc                                    |
  |                                                                       |
@@ -36,7 +36,7 @@ foreach ((array)$undo['data'] as $source => $cid) {
     $restored = !$plugin['abort'] ? $CONTACTS->undelete($cid) : $plugin['result'];
 
     if (!$restored) {
-        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'contactrestoreerror', 'error');
+        $OUTPUT->show_message($plugin['message'] ?: 'contactrestoreerror', 'error');
         $OUTPUT->command('list_contacts');
         $OUTPUT->send();
     }

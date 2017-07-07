@@ -47,6 +47,8 @@ class rcube_db
         // column/table quotes
         'identifier_start' => '"',
         'identifier_end'   => '"',
+        // date/time input format
+        'datetime_format'  => 'Y-m-d H:i:s',
     );
 
     const DEBUG_LINE_LENGTH = 4096;
@@ -149,10 +151,6 @@ class rcube_db
         $dsn_string  = $this->dsn_string($dsn);
         $dsn_options = $this->dsn_options($dsn);
 
-        if ($this->db_pconn) {
-            $dsn_options[PDO::ATTR_PERSISTENT] = true;
-        }
-
         // Connect
         try {
             // with this check we skip fatal error on PDO object creation
@@ -205,7 +203,7 @@ class rcube_db
     /**
      * Connect to appropriate database depending on the operation
      *
-     * @param string $mode Connection mode (r|w)
+     * @param string  $mode  Connection mode (r|w)
      * @param boolean $force Enforce using the given mode
      */
     public function db_connect($mode, $force = false)
@@ -357,7 +355,7 @@ class rcube_db
     public function get_variable($varname, $default = null)
     {
         // to be implemented by driver class
-        return $default;
+        return rcube::get_instance()->config->get('db_' . $varname, $default);
     }
 
     /**
@@ -448,9 +446,14 @@ class rcube_db
             }
         }
 
-        // replace escaped '?' back to normal, see self::quote()
-        $query = str_replace('??', '?', $query);
         $query = rtrim($query, " \t\n\r\0\x0B;");
+
+        // replace escaped '?' and quotes back to normal, see self::quote()
+        $query = str_replace(
+            array('??', self::DEFAULT_QUOTE.self::DEFAULT_QUOTE),
+            array('?', self::DEFAULT_QUOTE),
+            $query
+        );
 
         // log query
         $this->debug($query);
@@ -516,17 +519,15 @@ class rcube_db
             }
         }
 
-        // replace escaped quote back to normal, see self::quote()
-        $query = str_replace($quote.$quote, $quote, $query);
-
         return $query;
     }
 
     /**
      * Helper method to handle DB errors.
-     * This by default logs the error but could be overriden by a driver implementation
+     * This by default logs the error but could be overridden by a driver implementation
      *
-     * @param string Query that triggered the error
+     * @param string $query Query that triggered the error
+     *
      * @return mixed Result to be stored and returned
      */
     protected function handle_error($query)
@@ -537,10 +538,12 @@ class rcube_db
             $this->db_error = true;
             $this->db_error_msg = sprintf('[%s] %s', $error[1], $error[2]);
 
-            rcube::raise_error(array('code' => 500, 'type' => 'db',
-                'line' => __LINE__, 'file' => __FILE__,
-                'message' => $this->db_error_msg . " (SQL Query: $query)"
-                ), true, false);
+            if (empty($this->options['ignore_errors'])) {
+                rcube::raise_error(array(
+                        'code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
+                        'message' => $this->db_error_msg . " (SQL Query: $query)"
+                    ), true, false);
+            }
         }
 
         return false;
@@ -569,7 +572,8 @@ class rcube_db
      * If no query handle is specified, the last query will be taken as reference
      *
      * @param mixed $result Optional query handle
-     * @return mixed   Number of rows or false on failure
+     *
+     * @return mixed Number of rows or false on failure
      * @deprecated This method shows very poor performance and should be avoided.
      */
     public function num_rows($result = null)
@@ -689,14 +693,11 @@ class rcube_db
     {
         // get tables if not cached
         if ($this->tables === null) {
-            $q = $this->query('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES ORDER BY TABLE_NAME');
+            $q = $this->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
+                . " WHERE TABLE_TYPE = 'BASE TABLE'"
+                . " ORDER BY TABLE_NAME");
 
-            if ($q) {
-                $this->tables = $q->fetchAll(PDO::FETCH_COLUMN, 0);
-            }
-            else {
-                $this->tables = array();
-            }
+            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : array();
         }
 
         return $this->tables;
@@ -779,6 +780,30 @@ class rcube_db
     }
 
     /**
+     * Release resources related to the last query result.
+     * When we know we don't need to access the last query result we can destroy it
+     * and release memory. Useful especially if the query returned big chunk of data.
+     */
+    public function reset()
+    {
+        $this->last_result = null;
+    }
+
+    /**
+     * Terminate database connection.
+     */
+    public function closeConnection()
+    {
+        $this->db_connected = false;
+        $this->db_index     = 0;
+
+        // release statement and connection resources
+        $this->last_result  = null;
+        $this->dbh          = null;
+        $this->dbhs         = array();
+    }
+
+    /**
      * Formats input so it can be safely used in a query
      *
      * @param mixed  $input Value to quote
@@ -795,6 +820,10 @@ class rcube_db
 
         if (is_null($input)) {
             return 'NULL';
+        }
+
+        if ($input instanceof DateTime) {
+            return $this->quote($input->format($this->options['datetime_format']));
         }
 
         if ($type == 'ident') {
@@ -949,10 +978,11 @@ class rcube_db
      * @param int $timestamp Unix timestamp
      *
      * @return string Date string in db-specific format
+     * @deprecated
      */
     public function fromunixtime($timestamp)
     {
-        return date("'Y-m-d H:i:s'", $timestamp);
+        return $this->quote(date($this->options['datetime_format'], $timestamp));
     }
 
     /**
@@ -1093,8 +1123,8 @@ class rcube_db
     /**
      * Set DSN connection to be used for the given table
      *
-     * @param string Table name
-     * @param string DSN connection ('r' or 'w') to be used
+     * @param string $table Table name
+     * @param string $mode  DSN connection ('r' or 'w') to be used
      */
     public function set_table_dsn($table, $mode)
     {
@@ -1188,7 +1218,7 @@ class rcube_db
         }
 
         // process the different protocol options
-        $parsed['protocol'] = (!empty($proto)) ? $proto : 'tcp';
+        $parsed['protocol'] = $proto ?: 'tcp';
         $proto_opts = rawurldecode($proto_opts);
         if (strpos($proto_opts, ':') !== false) {
             list($proto_opts, $parsed['port']) = explode(':', $proto_opts);
@@ -1272,13 +1302,25 @@ class rcube_db
     {
         $result = array();
 
+        if ($this->db_pconn) {
+            $result[PDO::ATTR_PERSISTENT] = true;
+        }
+
+        if (!empty($dsn['prefetch'])) {
+            $result[PDO::ATTR_PREFETCH] = (int) $dsn['prefetch'];
+        }
+
+        if (!empty($dsn['timeout'])) {
+            $result[PDO::ATTR_TIMEOUT] = (int) $dsn['timeout'];
+        }
+
         return $result;
     }
 
     /**
      * Execute the given SQL script
      *
-     * @param string SQL queries to execute
+     * @param string $sql SQL queries to execute
      *
      * @return boolen True on success, False on error
      */
@@ -1286,18 +1328,31 @@ class rcube_db
     {
         $sql  = $this->fix_table_names($sql);
         $buff = '';
+        $exec = '';
 
         foreach (explode("\n", $sql) as $line) {
-            if (preg_match('/^--/', $line) || trim($line) == '')
+            $trimmed = trim($line);
+            if ($trimmed == '' || preg_match('/^--/', $trimmed)) {
                 continue;
+            }
 
-            $buff .= $line . "\n";
-            if (preg_match('/(;|^GO)$/', trim($line))) {
-                $this->query($buff);
+            if ($trimmed == 'GO') {
+                $exec = $buff;
+            }
+            else if ($trimmed[strlen($trimmed)-1] == ';') {
+                $exec = $buff . substr(rtrim($line), 0, -1);
+            }
+
+            if ($exec) {
+                $this->query($exec);
                 $buff = '';
+                $exec = '';
                 if ($this->db_error) {
                     break;
                 }
+            }
+            else {
+                $buff .= $line . "\n";
             }
         }
 

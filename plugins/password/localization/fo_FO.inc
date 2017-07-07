@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+$labels['changepasswd']  = 'Broyt loyniorð';
 $labels['curpasswd']  = 'Nú verandi loyniorð:';
 $labels['newpasswd']  = 'Nýtt loyniorð:';
 $labels['confpasswd']  = 'Endurtak nýggja loyniorð:';
@@ -28,4 +29,5 @@ $messages['internalerror'] = 'Kundi ikki goyma nýggja loyniorðið.';
 $messages['passwordshort'] = 'Loyniorði má hvørfall verða $length tekin langt.';
 $messages['passwordweak'] = 'Loyniorði má innihalda minst eitt nummar og eitt punktum tekin.';
 $messages['passwordforbidden'] = 'Loyniorð inniheldur ólóglig tekin.';
-?>
+$messages['firstloginchange'] = 'Hetta er tín fyrsta innriting. Vinarliga broyt títt loyniorð.';
+$messages['disablednotice'] = 'Skipanin er í verandi stunduni dagførd. Av tí sama, er ikki loyvt at broyta loyniorði í løtuni. Alt skuldi verið aftur til tað vanliga skjótt. Tað muga tygum orsaka. ';

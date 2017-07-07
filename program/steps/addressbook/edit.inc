@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/addressbook/edit.inc                                    |
  |                                                                       |
@@ -104,7 +104,7 @@ function rcmail_contact_edithead($attrib)
 
     // check if we have a valid result
     $record = rcmail_get_edit_record();
-    $i_size = !empty($attrib['size']) ? $attrib['size'] : 20;
+    $i_size = $attrib['size'] ?: 20;
 
     $form = array(
         'head' => array(
@@ -143,15 +143,15 @@ function rcmail_contact_editform($attrib)
     if (preg_match_all('/\{([a-z0-9]+)\}([^{]*)/i', $RCMAIL->config->get('address_template', ''), $templ, PREG_SET_ORDER))
       $RCMAIL->output->set_env('address_template', $templ);
 
-    $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
-    $t_rows = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 10;
-    $t_cols = !empty($attrib['textareacols']) ? $attrib['textareacols'] : 40;
+    $i_size = $attrib['size'] ?: 40;
+    $t_rows = $attrib['textarearows'] ?: 10;
+    $t_cols = $attrib['textareacols'] ?: 40;
 
     $form = array(
         'contact' => array(
             'name'    => $RCMAIL->gettext('properties'),
             'content' => array(
-                'email' => array('size' => $i_size, 'visible' => true),
+                'email' => array('size' => $i_size, 'maxlength' => 254, 'visible' => true),
                 'phone' => array('size' => $i_size, 'visible' => true),
                 'address' => array('visible' => true),
                 'website' => array('size' => $i_size),
@@ -193,56 +193,15 @@ function rcmail_contact_editform($attrib)
 
 function rcmail_upload_photo_form($attrib)
 {
-    global $RCMAIL, $OUTPUT;
+    global $RCMAIL;
 
-    // set defaults
-    $attrib += array('id' => 'rcmUploadform', 'buttons' => 'yes');
+    $hidden           = new html_hiddenfield(array('name' => '_cid', 'value' => $GLOBALS['cid']));
+    $attrib['prefix'] = $hidden->show();
+    $input_attr       = array('name' => '_photo', 'accept' => 'image/*');
 
-    // find max filesize value
-    $max_filesize = parse_bytes(ini_get('upload_max_filesize'));
-    $max_postsize = parse_bytes(ini_get('post_max_size'));
+    $RCMAIL->output->add_label('addphoto','replacephoto');
 
-    if ($max_postsize && $max_postsize < $max_filesize) {
-        $max_filesize = $max_postsize;
-    }
-    $max_filesize = $RCMAIL->show_bytes($max_filesize);
-
-    $hidden = new html_hiddenfield(array('name' => '_cid', 'value' => $GLOBALS['cid']));
-    $input  = new html_inputfield(array('type' => 'file', 'name' => '_photo', 'size' => $attrib['size']));
-    $button = new html_inputfield(array('type' => 'button'));
-
-    $content = $hidden->show() . html::div(null, $input->show())
-        . html::div('hint', $RCMAIL->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))));
-
-    if (rcube_utils::get_boolean($attrib['buttons'])) {
-        $content .= html::div('buttons',
-            $button->show($RCMAIL->gettext('close'), array(
-                'class'   => 'button',
-                'onclick' => "$('#$attrib[id]').hide()"
-            ))
-            . ' ' .
-            $button->show($RCMAIL->gettext('upload'), array(
-                'class'   => 'button mainaction',
-                'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('upload-photo', this.form)"
-            ))
-        );
-    }
-
-    $out = html::div($attrib,
-        $OUTPUT->form_tag(array(
-                'id'      => $attrib['id'] . 'Frm',
-                'name'    => 'uploadform',
-                'method'  => 'post',
-                'enctype' => 'multipart/form-data'
-            ),
-            $content
-        )
-    );
-
-    $OUTPUT->add_label('addphoto','replacephoto');
-    $OUTPUT->add_gui_object('uploadform', $attrib['id'].'Frm');
-
-    return $out;
+    return $RCMAIL->upload_form($attrib, 'uploadform', 'upload-photo', $input_attr);
 }
 
 // similar function as in /steps/settings/edit_identity.inc
@@ -270,7 +229,7 @@ function get_form_tags($attrib)
             'noclose' => true) + $attrib, $hiddenfields->show());
         $form_end = !strlen($attrib['form']) ? '</form>' : '';
 
-        $EDIT_FORM = !empty($attrib['form']) ? $attrib['form'] : 'form';
+        $EDIT_FORM = $attrib['form'] ?: 'form';
         $RCMAIL->output->add_gui_object('editform', $EDIT_FORM);
     }
 

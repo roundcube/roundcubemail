@@ -8,8 +8,6 @@
   border: 1px solid #999999;
   background-color: #F9F9F9;
   overflow: hidden;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #filtersscreen
@@ -19,8 +17,6 @@
   right: 0;
   bottom: 0;
   left: 205px;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #filterslistbox
@@ -31,8 +27,6 @@
   bottom: 0;
   border: 1px solid #999999;
   overflow: auto;
-  /* css hack for IE */
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #filterslist,
@@ -54,6 +48,7 @@
 #filtersetslist tbody tr.disabled td
 {
   color: #999999;
+	text-decoration: line-through;
 }
 
 #filtersetslist tbody td
@@ -90,9 +85,6 @@
   bottom: 0;
   border: 1px solid #999999;
   overflow: hidden;
-  /* css hack for IE */
-  width: expression((parseInt(this.parentNode.offsetWidth)-20-parseInt(document.getElementById('filterslistbox').offsetWidth))+'px');
-  height: expression(parseInt(this.parentNode.offsetHeight)+'px');
 }
 
 #filter-frame
@@ -171,12 +163,12 @@ td.advbutton a
 
 td.advbutton a.show
 {
-  background: url(images/down_small.gif) center no-repeat;
+  background: url(images/down_small.gif?v=8629.106) center no-repeat;
 }
 
 td.advbutton a.hide
 {
-  background: url(images/up_small.gif) center no-repeat;
+  background: url(images/up_small.gif?v=c56c.106) center no-repeat;
 }
 
 td.rowbuttons
@@ -219,6 +211,16 @@ td.rowtargets div.adv span.label
   min-width: 65px;
 }
 
+td.rowtargets div a
+{
+  margin-left: 10px;
+}
+
+td.rowtargets div.adv input
+{
+  margin-bottom: 1px;
+}
+
 html.mozilla #filter-form select
 {
   padding-top: 3px;
@@ -249,6 +251,7 @@ select.operator_selector
 }
 
 td.rowtargets span,
+td.rowtargets label,
 span.label
 {
   color: #666666;
@@ -299,7 +302,7 @@ span.sieve.error
 
 a.button.add
 {
-  background: url(images/add.png) no-repeat;
+  background: url(images/add.png?v=a165.280) no-repeat;
   width: 30px;
   height: 20px;
   margin-right: 4px;
@@ -308,7 +311,7 @@ a.button.add
 
 a.button.del
 {
-  background: url(images/del.png) no-repeat;
+  background: url(images/del.png?v=3c27.247) no-repeat;
   width: 30px;
   height: 20px;
   display: inline-block;
@@ -338,6 +341,7 @@ a.button.disabled
   display: inline-block;
   max-height: 67px;
   overflow-y: auto;
+  vertical-align: middle;
 }
 
 td.rowtargets > span.listarea
@@ -393,7 +397,7 @@ td.rowtargets > span.listarea
   display: inline-block;
   width: 16px;
   height: 16px;
-  background: url(images/erase.png) -1px 0 no-repeat #eee;
+  background: url(images/erase.png?v=3052.453) -1px 0 no-repeat #eee;
   cursor: pointer;
 }
 
@@ -427,4 +431,51 @@ body.iframe.mail #filter-form
 #vacationform .listelement input {
   vertical-align: top;
   border: 0;
+}
+
+#vacationform input.button {
+  margin-left: 10px;
+}
+
+/* RAW editor and CodeMirror overrides */
+
+.raweditor textarea {
+  border: none;
+  border-radius: 0;
+  max-width: none !important;
+  box-shadow: none;
+  font-family: monospace;
+  width: 99%;
+  min-height: 300px;
+}
+
+.raweditor textarea,
+.raweditor .CodeMirror {
+  position: absolute;
+  top: 34px;
+  bottom: 45px;
+  right: 0;
+  left: 0;
+  height: auto;
+  background-color: #fdfdfd;
+  border-bottom: 1px solid #eee;
+}
+
+.raweditor .CodeMirror-linebackground.line-error {
+  background-color: #f00;
+  opacity: 0.4;
+}
+
+.raweditor .errorGutter {
+  width: 0.8em;
+}
+
+.raweditor #footer {
+  position: absolute;
+  bottom: 5px;
+}
+
+body.iframe.raweditor {
+  min-width: 100px;
+  overflow: hidden;
 }

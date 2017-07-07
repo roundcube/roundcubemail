@@ -58,6 +58,7 @@
 #filtersetslist tbody tr.disabled td
 {
   color: #87A3AA;
+  text-decoration: line-through;
 }
 
 #filtersetslist tbody td
@@ -67,13 +68,13 @@
 
 #filterslist tbody tr.filtermoveup td
 {
-  border-top: 2px dotted #555;
+  border-top: 2px dotted #555 !important;
   padding-top: 5px;
 }
 
 #filterslist tbody tr.filtermovedown td
 {
-  border-bottom: 2px dotted #555;
+  border-bottom: 2px dotted #555 !important;
   padding-bottom: 4px;
 }
 
@@ -92,6 +93,7 @@ body.iframe
 #filter-form legend, #filter-form label
 {
   color: #666666;
+  vertical-align: middle;
 }
 
 #rules, #actions
@@ -145,12 +147,12 @@ td.advbutton a
 
 td.advbutton a.show
 {
-  background: url(images/down_small.gif) center no-repeat;
+  background: url(images/down_small.gif?v=8629.106) center no-repeat;
 }
 
 td.advbutton a.hide
 {
-  background: url(images/up_small.gif) center no-repeat;
+  background: url(images/up_small.gif?v=c56c.106) center no-repeat;
 }
 
 td.rowbuttons
@@ -192,6 +194,15 @@ td.rowtargets div.adv span.label
   display: inline-block;
   padding-right: 5px;
   min-width: 70px;
+}
+
+td.rowtargets div a {
+  margin-left: 10px;
+}
+
+td.rowtargets div.adv input
+{
+  margin-bottom: 1px;
 }
 
 input.disabled, input.disabled:hover
@@ -269,30 +280,30 @@ span.sieve.error
   background-color: #eee;
 }
 
-a.button
+#filter-form a.button
 {
   margin: 0;
   padding: 0;
 }
 
-a.button.add
+#filter-form a.button.add
 {
-  background: url(images/add.png) no-repeat;
+  background: url(images/add.png?v=a165.280) no-repeat;
   width: 30px;
   height: 20px;
   margin-right: 4px;
   display: inline-block;
 }
 
-a.button.del
+#filter-form a.button.del
 {
-  background: url(images/del.png) no-repeat;
+  background: url(images/del.png?v=3c27.247) no-repeat;
   width: 30px;
   height: 20px;
   display: inline-block;
 }
 
-a.button.disabled
+#filter-form a.button.disabled
 {
   opacity: 0.35;
   filter: alpha(opacity=35);
@@ -303,25 +314,13 @@ a.button.disabled
 #filter-form input,
 #filter-form textarea
 {
-  font-size: 11px;
-  padding: 1px;
   vertical-align: middle;
   max-width: 280px;
 }
-
-html.mozilla #filter-form select
-{
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-
 /* revert larry style button */
 #filter-form input.button
 {
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 2px;
+  padding: 4px 12px;
 }
 
 fieldset
@@ -341,6 +340,7 @@ fieldset
   display: inline-block;
   max-height: 59px;
   overflow-y: auto;
+  vertical-align: middle;
 }
 
 td.rowtargets > span.listarea
@@ -372,6 +372,7 @@ td.rowtargets > span.listarea
   border-top: none;
 }
 
+#vacationform .listelement input,
 #filter-form .listelement input
 {
   border: none;
@@ -396,7 +397,7 @@ td.rowtargets > span.listarea
   display: inline-block;
   width: 16px;
   height: 16px;
-  background: url(images/erase.png) -1px -1px no-repeat #eee;
+  background: url(images/erase.png?v=3052.453) -1px -1px no-repeat #eee;
   cursor: pointer;
 }
 
@@ -417,9 +418,9 @@ body.iframe.mail #filter-form
 
 /* vacation form */
 #settings-sections .vacation a {
-  background-image: url(images/vacation_icons.png);
-	background-repeat: no-repeat;
-	background-position: 7px 1px;
+  background-image: url(images/vacation_icons.png?v=e738.767);
+  background-repeat: no-repeat;
+  background-position: 7px 1px;
 }
 
 #settings-sections .vacation.selected a {
@@ -439,21 +440,53 @@ body.iframe.mail #filter-form
   max-height: 91px;
 }
 
-#vacationform .listelement,
-#vacationform .listelement .reset {
-  height: 22px;
-}
-
-#vacationform .listelement .reset {
-  background-position: -1px 3px;
-}
-
-#vacationform .listelement input {
-  vertical-align: top;
-  border: 0;
-  box-shadow: none;
-}
-
 #vacationform td.vacation {
   white-space: nowrap;
+}
+
+#vacationform input.button {
+  margin-left: 10px;
+}
+
+/* RAW editor and CodeMirror overrides */
+
+.raweditor textarea {
+  border: none;
+  border-radius: 0;
+  max-width: none !important;
+  box-shadow: none;
+  font-family: monospace;
+  width: 99%;
+  min-height: 300px;
+}
+
+.raweditor textarea,
+.raweditor .CodeMirror {
+  position: absolute;
+  top: 34px;
+  bottom: 45px;
+  right: 0;
+  left: 0;
+  height: auto;
+  background-color: #fdfdfd;
+  border-bottom: 1px solid #eee;
+}
+
+.raweditor .CodeMirror-linebackground.line-error {
+  background-color: #f00;
+  opacity: 0.4;
+}
+
+.raweditor .errorGutter {
+  width: 0.8em;
+}
+
+.raweditor #footer {
+  position: absolute;
+  bottom: 5px;
+}
+
+body.iframe.raweditor {
+  min-width: 100px;
+  overflow: hidden;
 }

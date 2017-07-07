@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+$labels['changepasswd']  = 'Passwort ändern';
 $labels['curpasswd']  = 'Aktuelles Passwort';
 $labels['newpasswd']  = 'Neues Passwort';
 $labels['confpasswd']  = 'Passwort Wiederholung';
@@ -28,4 +29,9 @@ $messages['internalerror'] = 'Neues Passwort nicht gespeichert';
 $messages['passwordshort'] = 'Passwort muss mindestens $length Zeichen lang sein.';
 $messages['passwordweak'] = 'Passwort muss mindestens eine Zahl und ein Sonderzeichen enthalten.';
 $messages['passwordforbidden'] = 'Passwort enthält unzulässige Zeichen.';
-?>
+$messages['firstloginchange'] = 'Dies ist Ihre erste Anmeldung. Bitte ändern Sie Ihr Passwort.';
+$messages['disablednotice'] = 'Das System befindet sich derzeit im Wartungszustand und eine Passwortänderung ist im Moment nicht möglich. Der normale Betrieb sollte bald wieder hergestellt sein. Wir bitten um Entschuldigung für die Unannehmlichkeiten.';
+$messages['passwinhistory'] = 'Dieses Passwort wurde bereits einmal verwendet.';
+$messages['samepasswd'] = 'Das neue Passwort muss sich von dem Alten unterscheiden.';
+$messages['passwdexpirewarning'] = 'Achtung! Ihr Passwort läuft am $expirationdatetime ab. Ändern Sie es rechtzeitig.';
+$messages['passwdexpired'] = 'Ihr Passwort ist abgelaufen, bitte ändern Sie es jetzt!';

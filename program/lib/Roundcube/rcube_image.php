@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -41,6 +41,11 @@ class rcube_image
     );
 
 
+    /**
+     * Class constructor
+     *
+     * @param string $filename Image file name/path
+     */
     function __construct($filename)
     {
         $this->image_file = $filename;
@@ -57,8 +62,8 @@ class rcube_image
         if (function_exists('getimagesize') && ($imsize = @getimagesize($this->image_file))) {
             $width   = $imsize[0];
             $height  = $imsize[1];
-            $gd_type = $imsize['2'];
-            $type    = image_type_to_extension($imsize['2'], false);
+            $gd_type = $imsize[2];
+            $type    = image_type_to_extension($gd_type, false);
             $channels = $imsize['channels'];
         }
 
@@ -85,9 +90,9 @@ class rcube_image
      * Resize image to a given size. Use only to shrink an image.
      * If an image is smaller than specified size it will be not resized.
      *
-     * @param int    $size      Max width/height size
-     * @param string $filename  Output filename
-     * @param boolean $browser_compat  Convert to image type displayable by any browser
+     * @param int     $size           Max width/height size
+     * @param string  $filename       Output filename
+     * @param boolean $browser_compat Convert to image type displayable by any browser
      *
      * @return mixed Output type on success, False on failure
      */
@@ -161,7 +166,16 @@ class rcube_image
                     else {
                         try {
                             $image = new Imagick($this->image_file);
-                            $image = $image->flattenImages();
+
+                            try {
+                                // it throws exception on formats not supporting these features
+                                $image->setImageBackgroundColor('white');
+                                $image->setImageAlphaChannel(11);
+                                $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+                            }
+                            catch (Exception $e) {
+                                // ignore errors
+                            }
 
                             $image->setImageColorspace(Imagick::COLORSPACE_SRGB);
                             $image->setImageCompressionQuality(75);
@@ -197,11 +211,11 @@ class rcube_image
                 $image = imagecreatefromjpeg($this->image_file);
                 $type  = 'jpg';
             }
-            else if($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
+            else if ($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = imagecreatefromgif($this->image_file);
                 $type  = 'gif';
             }
-            else if($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
+            else if ($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = imagecreatefrompng($this->image_file);
                 $type  = 'png';
             }
@@ -226,6 +240,10 @@ class rcube_image
                 $width     = intval($props['width']  * $scale);
                 $height    = intval($props['height'] * $scale);
                 $new_image = imagecreatetruecolor($width, $height);
+
+                if ($new_image === false) {
+                    return false;
+                }
 
                 // Fix transparency of gif/png image
                 if ($props['gd_type'] != IMAGETYPE_JPEG) {
@@ -280,9 +298,9 @@ class rcube_image
     /**
      * Convert image to a given type
      *
-     * @param int    $type      Destination file type (see class constants)
-     * @param string $filename  Output filename (if empty, original file will be used
-     *                          and filename extension will be modified)
+     * @param int    $type     Destination file type (see class constants)
+     * @param string $filename Output filename (if empty, original file will be used
+     *                         and filename extension will be modified)
      *
      * @return bool True on success, False on failure
      */
@@ -341,7 +359,6 @@ class rcube_image
         if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
             return false;
         }
-
 
         if ($props['gd_type']) {
             if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {

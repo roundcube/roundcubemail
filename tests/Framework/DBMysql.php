@@ -4,6 +4,8 @@
  * Test class to test rcube_db_mysql class
  *
  * @package Tests
+ * @group database
+ * @group mysql
  */
 class Framework_DBMysql extends PHPUnit_Framework_TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcmail_output.php                                     |
  |                                                                       |
@@ -22,19 +22,21 @@
 /**
  * Class for output generation
  *
- * @package Webmail
+ * @package    Webmail
  * @subpackage View
  */
 abstract class rcmail_output extends rcube_output
 {
     const JS_OBJECT_NAME = 'rcmail';
+    const BLANK_GIF      = 'R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7';
 
-    public $type = 'html';
+    public $type      = 'html';
     public $ajax_call = false;
-    public $framed = false;
+    public $framed    = false;
 
-    protected $pagetitle = '';
+    protected $pagetitle       = '';
     protected $object_handlers = array();
+    protected $devel_mode      = false;
 
 
     /**
@@ -43,8 +45,9 @@ abstract class rcmail_output extends rcube_output
     public function __construct($task = null, $framed = false)
     {
         parent::__construct();
-    }
 
+        $this->devel_mode = (bool) $this->config->get('devel_mode');
+    }
 
     /**
      * Setter for page title
@@ -56,7 +59,6 @@ abstract class rcmail_output extends rcube_output
         $this->pagetitle = $title;
     }
 
-
     /**
      * Getter for the current skin path property
      */
@@ -64,7 +66,6 @@ abstract class rcmail_output extends rcube_output
     {
         return $this->config->get('skin_path');
     }
-
 
     /**
      * Delete all stored env variables and commands
@@ -77,7 +78,6 @@ abstract class rcmail_output extends rcube_output
         $this->pagetitle = '';
     }
 
-
     /**
      * Call a client method
      *
@@ -86,35 +86,33 @@ abstract class rcmail_output extends rcube_output
      */
     abstract function command();
 
-
     /**
      * Add a localized label to the client environment
      */
     abstract function add_label();
 
-
     /**
      * Register a template object handler
      *
-     * @param  string Object name
-     * @param  string Function name to call
+     * @param string $name Object name
+     * @param string $func Function name to call
+     *
      * @return void
      */
-    public function add_handler($obj, $func)
+    public function add_handler($name, $func)
     {
-        $this->object_handlers[$obj] = $func;
+        $this->object_handlers[$name] = $func;
     }
-
 
     /**
      * Register a list of template object handlers
      *
-     * @param  array Hash array with object=>handler pairs
+     * @param array $handlers Hash array with object=>handler pairs
+     *
      * @return void
      */
-    public function add_handlers($arr)
+    public function add_handlers($handlers)
     {
-        $this->object_handlers = array_merge($this->object_handlers, $arr);
+        $this->object_handlers = array_merge($this->object_handlers, $handlers);
     }
-
 }

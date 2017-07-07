@@ -15,7 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-$labels['buttontext'] = 'Indésirables';
-$labels['buttontitle'] = 'Marquer comme indésirable';
-$labels['reportedasjunk'] = 'Notification de message indésirable envoyée';
+$labels['buttontext'] = 'Pourriels';
+$labels['buttontitle'] = 'Marqué comme pourriel';
+$labels['reportedasjunk'] = 'Signalé comme pourriel avec succès';
 ?>

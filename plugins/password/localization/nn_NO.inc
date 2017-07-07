@@ -28,4 +28,3 @@ $messages['internalerror'] = 'Kunne ikkje lagre nytt passord.';
 $messages['passwordshort'] = 'Passordet må minimum innehalde $length teikn.';
 $messages['passwordweak'] = 'Passordet må innehalde minst eitt tal og eitt skilleteikn.';
 $messages['passwordforbidden'] = 'Passordet inneheld forbodne teikn.';
-?>

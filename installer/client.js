@@ -1,6 +1,6 @@
 /*
  +-----------------------------------------------------------------------+
- | Roundcube installer cleint function                                   |
+ | Roundcube installer client function                                   |
  |                                                                       |
  | This file is part of the Roundcube web development suite              |
  | Copyright (C) 2009-2012, The Roundcube Dev Team                       |

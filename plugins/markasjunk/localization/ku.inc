@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markasjunk/
 */
-$labels['buttontitle'] = 'nawnişani bka ba şkaw';
-$labels['reportedasjunk'] = 'ba gşti raport kra';
+$labels['buttontext'] = 'Gemar';
+$labels['buttontitle'] = 'Wekî Gemar nîşan bike';
+$labels['reportedasjunk'] = 'Bi serkeftin wekî Gemar hat nirxandi';
 ?>

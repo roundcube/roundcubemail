@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/addressbook/photo.inc                                   |
  |                                                                       |
@@ -80,16 +80,20 @@ if (strlen($data) < 1024 && filter_var($data, FILTER_VALIDATE_URL)) {
     $RCMAIL->output->redirect($data);
 }
 
-// deliver alt image
-if (!$data && ($alt_img = rcube_utils::get_input_value('_alt', rcube_utils::INPUT_GPC)) && is_file($alt_img)) {
-    $data = file_get_contents($alt_img);
-}
-
 // cache for one day if requested by email
 if (!$cid && $email) {
     $RCMAIL->output->future_expire_header(86400);
 }
 
-header('Content-Type: ' . rcube_mime::image_content_type($data));
-echo $data ? $data : file_get_contents('program/resources/blank.gif');
+if ($data) {
+    header('Content-Type: ' . rcube_mime::image_content_type($data));
+    echo $data;
+}
+else if (!empty($_GET['_error'])) {
+    header('HTTP/1.0 404 Photo not found');
+}
+else {
+    header('Content-Type: image/gif');
+    echo base64_decode(rcmail_output::BLANK_GIF);
+}
 exit;

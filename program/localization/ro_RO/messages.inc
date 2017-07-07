@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -50,7 +50,6 @@ $messages['successfullysaved'] = 'Salvat cu succes.';
 $messages['savingresponse'] = 'Se salvează textul pentru răspuns...';
 $messages['deleteresponseconfirm'] = 'Chiar vrei să ștergi acest text pentru răspuns?';
 $messages['addedsuccessfully'] = 'Contactul a fost adăugat cu succes în agendă';
-$messages['contactexists'] = 'Un contact cu această adresă de e-mail există deja.';
 $messages['contactnameexists'] = 'Există deja un contact cu acelaşi nume.';
 $messages['blockedimages'] = 'Pentru a vă proteja intimitatea, imaginile externe au fost blocate.';
 $messages['encryptedmessage'] = 'Acesta este un mesaj criptat şi nu poate fi afişat. Ne pare rău.';
@@ -80,11 +79,9 @@ $messages['formincomplete'] = 'Formularul nu a fost completat corect';
 $messages['noemailwarning'] = 'Vă rugăm să introduceţi o adresă de e-mail validă';
 $messages['nonamewarning']  = 'Vă rugăm să introduceţi un nume';
 $messages['nopagesizewarning'] = 'Vă rugăm să introduceţi mărimea paginii';
-$messages['nosenderwarning'] = 'Vă rugăm să introduceţi adresa expeditorului';
 $messages['norecipientwarning'] = 'Vă rugăm să introduceţi cel puţin un destinatar';
 $messages['nosubjectwarning']  = 'Mesajul nu are subiect. Vreţi să introduceţi unul acum?';
 $messages['nobodywarning'] = 'Trimiteţi acest mesaj fără text?';
-$messages['notsentwarning'] = 'Mesajul nu a fost trimis. Vreţi să renunţaţi la el?';
 $messages['restoresavedcomposedata'] = 'Un mesaj compus anterior a fost găsit.\n\nSubiect:$subject\nSalvat: $date\n\nDoriţi restaurarea acestuia ?';
 $messages['noldapserver'] = 'Vă rugăm să alegeţi un server ldap pentru căutare';
 $messages['nosearchname'] = 'Vă rugăm să introduceţi un nume de contact sau adresă de e-mail';
@@ -137,7 +134,6 @@ $messages['importconfirmskipped'] = '<b>Am sărit peste $skipped înregistrări<
 $messages['importmessagesuccess'] = 'Am importat cu succes $nr mesaje.';
 $messages['importmessageerror'] = 'Importarea a esuat. Fisierul incarca nu este un mesaj valid pentru email.';
 $messages['opnotpermitted'] = 'Operaţiunea nu este permisă!';
-$messages['nofromaddress'] = 'Nu există o adresă de e-mail în identitatea selectată';
 $messages['editorwarning'] = 'Trecerea în mod text a editorului va cauza pierderea formatării textului. Doriţi să continuaţi?';
 $messages['httpreceivedencrypterror'] = 'Vă rugăm să luaţi legătura cu administratorul serverului de mail, deoarece există o eroare în configuraţia acestuia. <b>Mesajul d-voastră nu a fost trimis.</b>';
 $messages['smtpconnerror'] = 'Eroare SMTP ($code): Conexiunea cu serverul a eşuat';
@@ -146,7 +142,6 @@ $messages['smtpfromerror'] = 'Eroare SMTP ($code): Nu s-a putut seta expeditorul
 $messages['smtptoerror'] = 'Eroare SMTP ($code): Nu s-a putut adăuga destinatarul "$to" ($msg)';
 $messages['smtprecipientserror'] = 'Eroare SMTP: Nu s-a putut procesa lista cu destinatari';
 $messages['smtperror'] = 'Eroare SMTP: $msg';
-$messages['emailformaterror'] = 'Adresă de e-mail incorectă: $email';
 $messages['toomanyrecipients'] = 'Prea mulţi destinatari. Reduceţi numărul de destinatari la $max.';
 $messages['maxgroupmembersreached'] = 'Numărul de membri ai grupului depăşeşte maximul de $max.';
 $messages['internalerror'] = 'A avut loc o eroare internă. Te rog încearcă din nou.';
@@ -177,4 +172,3 @@ $messages['parentnotwritable'] = 'Nu pot crea/muta dosarul în dosarul părinte 
 $messages['messagetoobig'] = 'Partea de mesaj este prea mare pentru a o procesa.';
 $messages['attachmentvalidationerror'] = 'ATENȚIE! Acest atașament este suspect, fiindcă tipul lui nu coincide cu tipul declarat în mesaj. Dacă nu aveți încredere în expeditor, nu vă recomandăm să deschideți fișierul, fiindcă poate avea conținut malițios. <br/><br/><em>Așteptat: $expected; găsit: $detected</em>';
 $messages['noscriptwarning'] = 'Atenție: Serviciul de webmail necesită Javascript! Pentru a-l utiliza vă rugăm activați Javascript în setările browserului.';
-?>

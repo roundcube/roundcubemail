@@ -1,20 +1,14 @@
 <?php
-/*
+
+/**
  +-------------------------------------------------------------------------+
  | Key class for the Enigma Plugin                                         |
  |                                                                         |
- | This program is free software; you can redistribute it and/or modify    |
- | it under the terms of the GNU General Public License version 2          |
- | as published by the Free Software Foundation.                           |
+ | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
  |                                                                         |
- | This program is distributed in the hope that it will be useful,         |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of          |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           |
- | GNU General Public License for more details.                            |
- |                                                                         |
- | You should have received a copy of the GNU General Public License along |
- | with this program; if not, write to the Free Software Foundation, Inc., |
- | 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.             |
+ | Licensed under the GNU General Public License version 3 or              |
+ | any later version with exceptions for skins & plugins.                  |
+ | See the README file for a full license statement.                       |
  |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
@@ -25,12 +19,20 @@ class enigma_key
 {
     public $id;
     public $name;
-    public $users = array();
+    public $users   = array();
     public $subkeys = array();
+    public $reference;
+    public $password;
 
     const TYPE_UNKNOWN = 0;
     const TYPE_KEYPAIR = 1;
-    const TYPE_PUBLIC = 2;
+    const TYPE_PUBLIC  = 2;
+
+    const CAN_ENCRYPT      = 1;
+    const CAN_SIGN         = 2;
+    const CAN_CERTIFY      = 4;
+    const CAN_AUTHENTICATE = 8;
+
 
     /**
      * Keys list sorting callback for usort()
@@ -55,7 +57,7 @@ class enigma_key
 
     /**
      * Returns true if all user IDs are revoked
-     */    
+     */
     function is_revoked()
     {
         foreach ($this->subkeys as $subkey)
@@ -67,7 +69,7 @@ class enigma_key
 
     /**
      * Returns true if any user ID is valid
-     */    
+     */
     function is_valid()
     {
         foreach ($this->users as $user)
@@ -76,19 +78,53 @@ class enigma_key
 
         return false;
     }
-    
+
     /**
      * Returns true if any of subkeys is not expired
-     */    
+     */
     function is_expired()
     {
         $now = time();
-        
+
         foreach ($this->subkeys as $subkey)
             if (!$subkey->expires || $subkey->expires > $now)
                 return true;
-    
+
         return false;
+    }
+
+    /**
+     * Returns true if any of subkeys is a private key
+     */
+    function is_private()
+    {
+        $now = time();
+
+        foreach ($this->subkeys as $subkey)
+            if ($subkey->has_private)
+                return true;
+
+        return false;
+    }
+
+    /**
+     * Get key ID by user email
+     */
+    function find_subkey($email, $mode)
+    {
+        $now = time();
+
+        foreach ($this->users as $user) {
+            if (strcasecmp($user->email, $email) === 0 && $user->valid && !$user->revoked) {
+                foreach ($this->subkeys as $subkey) {
+                    if (!$subkey->revoked && (!$subkey->expires || $subkey->expires > $now)) {
+                        if ($subkey->usage & $mode) {
+                            return $subkey;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -101,7 +137,7 @@ class enigma_key
     static function format_id($id)
     {
         // E.g. 04622F2089E037A5 => 89E037A5
-        
+
         return substr($id, -8);
     }
 
@@ -114,16 +150,18 @@ class enigma_key
      */
     static function format_fingerprint($fingerprint)
     {
-        if (!$fingerprint)
+        if (!$fingerprint) {
             return '';
-    
+        }
+
         $result = '';
         for ($i=0; $i<40; $i++) {
-            if ($i % 4 == 0)
+            if ($i % 4 == 0) {
                 $result .= ' ';
+            }
             $result .= $fingerprint[$i];
         }
+
         return $result;
     }
-
 }

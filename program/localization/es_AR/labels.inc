@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -293,7 +293,7 @@ $labels['assistant'] = 'Asistente';
 $labels['spouse'] = 'Cónygue';
 $labels['allfields'] = 'Todos los campos';
 $labels['search'] = 'Buscar';
-$labels['searchfor'] = 'Buscar por "$q"';
+$labels['searchresult'] = 'Resultado de búsqueda';
 $labels['advsearch'] = 'Búsqueda Avanzada';
 $labels['advanced'] = 'Avanzado';
 $labels['other'] = 'Otro';
@@ -337,6 +337,7 @@ $labels['exportall']      = 'Exportar todo';
 $labels['exportsel']      = 'Exportar lo seleccionado';
 $labels['exportvcards']   = 'Exportar contactos en format vCard';
 $labels['newgroup']       = 'Crear nuevo grupo';
+$labels['addgroup']       = 'Agregar grupo';
 $labels['grouprename']    = 'Renombrar grupo';
 $labels['groupdelete']    = 'Eliminar grupo';
 $labels['groupremoveselected'] = 'Remover del grupo los contactos seleccionados';
@@ -405,7 +406,6 @@ $labels['askuser'] = 'preguntar al usuario';
 $labels['autosend'] = 'enviar automáticamente';
 $labels['autosendknown'] = 'enviar acuse de recibo a mis contactos, sino preguntarme';
 $labels['autosendknownignore'] = 'enviar acuse de recibo a mis contactos, sino ignorar';
-$labels['ignore'] = 'ignorar';
 $labels['readwhendeleted'] = 'Marcar el mensage como leído al borrarlo';
 $labels['flagfordeletion'] = 'Marcar el mensage para borrarse en vez de borrarlo';
 $labels['skipdeleted'] = 'No mostrar mensajes eliminados';
@@ -427,7 +427,7 @@ $labels['2231folding'] = 'RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 (Otro)';
 $labels['force7bit'] = 'Usar codificación MIME para caracteres de 8 bit';
-$labels['savelocalstorage'] = "";
+$labels['savelocalstorage'] = "Guardar en el almacenamiento local del navegador (temporalmente)";
 $labels['advancedoptions'] = 'Opciones Avanzadas';
 $labels['toggleadvancedoptions'] = 'Activar opciones avanzadas';
 $labels['focusonnewmessage'] = 'Traer al frente la ventana del navegador cuando haya nuevos mensajes';

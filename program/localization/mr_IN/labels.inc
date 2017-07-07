@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -297,7 +297,6 @@ $labels['mailboxview'] = 'टपालपेटी पहाणे';
 $labels['mdnrequests'] = 'पाठवणार्‍याच्या सूचना';
 $labels['askuser'] = 'वापरकर्त्याला विचारा';
 $labels['autosend'] = 'स्वयंचलित (आपोआप पाठवणे)';
-$labels['ignore'] = 'दुर्लक्ष करा';
 $labels['readwhendeleted'] = 'काढून टाकल्यावर संदेश वाचला असे दाखवा';
 $labels['flagfordeletion'] = 'संदेश काढून टाकण्या ऎवजी संदेश काढून टाकण्यासाठी आहे अशी खूण करा';
 $labels['skipdeleted'] = 'काढून टाकलेले संदेश दाखवू नका';
@@ -317,7 +316,6 @@ $labels['2231folding'] = 'संपूर्ण आर एफ सी 2231(थं
 $labels['miscfolding'] = 'आर एफ सी  2047/2231 (मायक्रोसॉफ़्ट आऊटलूक)';
 $labels['2047folding'] = 'संपूर्ण आर एफ सी 2047(ईतर)';
 $labels['force7bit'] = '8 अक्षरी एमआयएमई संक्षिप्‍तरूप वापरा';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'अधिक पर्याय';
 $labels['focusonnewmessage'] = 'ब्राऊझर खिडकी नवीन संदेशावर केंद्रित करा';
 $labels['checkallfolders'] = 'सर्व फोल्डरमधे नवीन संदेश शोधा';
@@ -373,7 +371,4 @@ $labels['vietnamese'] = 'व्हिएतनामी';
 $labels['japanese'] = 'जपानी';
 $labels['korean'] = 'कोरियन';
 $labels['chinese'] = 'चिनी';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

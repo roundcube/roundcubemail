@@ -83,7 +83,7 @@ function rcube_splitter(attrib)
       this.p2.style.top = Math.ceil(this.pos + lh / 2) + 'px';
       this.layer.move(this.layer.x, Math.round(this.pos - lh / 2 + 1));
       if (bw.ie) {
-        var new_height = parseInt(this.p2.parentNode.offsetHeight, 10) - parseInt(this.p2.style.top, 10) - (bw.ie8 ? 2 : 0);
+        var new_height = parseInt(this.p2.parentNode.offsetHeight, 10) - parseInt(this.p2.style.top, 10);
         this.p2.style.height = (new_height > 0 ? new_height : 0) + 'px';
       }
     }
@@ -115,7 +115,7 @@ function rcube_splitter(attrib)
     me.p2pos = me.relative ? $(me.p2).position() : $(me.p2).offset();
 
     // start listening to mousemove events
-    $(document).bind('mousemove.'+me.id, onDrag).bind('mouseup.'+me.id, onDragStop);
+    $(document).on('mousemove.' + me.id, onDrag).on('mouseup.' + me.id, onDragStop);
 
     // enable dragging above iframes
     $('iframe').each(function() {
@@ -181,7 +181,7 @@ function rcube_splitter(attrib)
       document.body.style.webkitUserSelect = 'auto';
 
     // cancel the listening for drag events
-    $(document).unbind('.' + me.id);
+    $(document).off('.' + me.id);
 
     // remove temp divs
     $('div.iframe-splitter-fix').remove();
@@ -200,7 +200,7 @@ function rcube_splitter(attrib)
   function onResize(e)
   {
     if (me.horizontal) {
-      var new_height = parseInt(me.p2.parentNode.offsetHeight, 10) - parseInt(me.p2.style.top, 10) - (bw.ie8 ? 2 : 0);
+      var new_height = parseInt(me.p2.parentNode.offsetHeight, 10) - parseInt(me.p2.style.top, 10);
       me.p2.style.height = (new_height > 0 ? new_height : 0) +'px';
     }
     else {

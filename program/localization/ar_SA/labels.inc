@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -214,7 +214,6 @@ $labels['responsetext'] = 'نص الرد';
 $labels['attach'] = 'إرفاق';
 $labels['attachments'] = 'مرفقات';
 $labels['upload'] = 'تحميل';
-$labels['uploadprogress'] = '$percent ($current من $total)';
 $labels['close']  = 'إغلاق';
 $labels['messageoptions']  = 'خيارات الرسائل...';
 $labels['low']     = 'منخض';
@@ -272,7 +271,6 @@ $labels['assistant'] = 'المساعد';
 $labels['spouse'] = 'زوجة';
 $labels['allfields'] = 'جميع الحقول';
 $labels['search'] = 'بحث';
-$labels['searchfor'] = 'بحث عن "$q"';
 $labels['advsearch'] = 'بحث متقدم';
 $labels['advanced'] = 'مُتقدم';
 $labels['other'] = 'آخر';
@@ -374,7 +372,6 @@ $labels['askuser'] = 'اسأل المستخدم';
 $labels['autosend'] = 'أرسلها تلقائياً';
 $labels['autosendknown'] = 'أرسل إشعار استلام إلى جهات اتصالي، وإلااسألني';
 $labels['autosendknownignore'] = 'أرسل إشعار استلام إلى جهات اتصالي، وإلاتجاهل الأمر';
-$labels['ignore'] = 'تجاهلها';
 $labels['readwhendeleted'] = 'تحديد الرسالة كمقروءة عند حذفها';
 $labels['flagfordeletion'] = 'وضع علامة على الرسالة لحذفها بدلاً منحذفها';
 $labels['skipdeleted'] = 'لا تظهر الرسائل المحذوفة';
@@ -396,7 +393,6 @@ $labels['2231folding'] = 'RFC 2231 بأكملها (ثندربيرد)';
 $labels['miscfolding'] = 'RFC 2047/2231 (ميكروسوفت آوتلوك)';
 $labels['2047folding'] = 'RFC 2047 بأكملها (غيرها)';
 $labels['force7bit'] = 'استخدام ترميز MIME للحروف ذات الثمانيةبتّات';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'خيارات متقدّمة';
 $labels['focusonnewmessage'] = 'التركيز على نافذة المتصفح عند وجود رسالةجديدة';
 $labels['checkallfolders'] = 'التحقق من وجود رسائل جديدة في جميعالمجلدات';
@@ -491,7 +487,4 @@ $labels['vietnamese'] = 'الفيتنامية';
 $labels['japanese'] = 'اليابانية';
 $labels['korean'] = 'الكورية';
 $labels['chinese'] = 'الصينية';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

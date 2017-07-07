@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,9 +16,18 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 $labels['welcome']   = ' $product میں خوش آمدید';
+$labels['username']  = 'صارف';
+$labels['password']  = 'پاسورڈ';
 $labels['server']    = 'سَروَر';
+$labels['logout']   = 'لاگ آؤٹ';
 $labels['mail']     = 'میل';
 $labels['settings'] = 'ترتیبات';
+$labels['addressbook'] = 'ایڈریس بک';
+$labels['inbox']  = 'ان باکس';
+$labels['drafts'] = 'ڈرافٹ';
+$labels['subject'] = 'مضمون';
+$labels['from']    = 'از';
+$labels['sender']  = 'بھیجنے والا';
 $labels['download'] = 'ڈاؤن لوڈ';
 $labels['showanyway'] = 'جیسا بھی ہے ظاہر کر دیں';
 $labels['markread']         = 'جیسے پڑھ لیا ہو';
@@ -37,8 +46,4 @@ $labels['list'] = 'لِسٹ';
 $labels['expand-all'] = 'تمام کھولیں';
 $labels['attachment'] = 'مُنسلَک شُدہ';
 $labels['nonesort'] = 'کوئی نہیں';
-$labels['savelocalstorage'] = "";
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

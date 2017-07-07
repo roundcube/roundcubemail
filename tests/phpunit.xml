@@ -15,6 +15,7 @@
             <file>Framework/DB.php</file>
             <file>Framework/DBMssql.php</file>
             <file>Framework/DBMysql.php</file>
+            <file>Framework/DBOracle.php</file>
             <file>Framework/DBPgsql.php</file>
             <file>Framework/DBSqlite.php</file>
             <file>Framework/DBSqlsrv.php</file>
@@ -24,13 +25,16 @@
             <file>Framework/Imap.php</file>
             <file>Framework/ImapCache.php</file>
             <file>Framework/ImapGeneric.php</file>
+            <file>Framework/ImapSearch.php</file>
             <file>Framework/Image.php</file>
+            <file>Framework/Ldap.php</file>
             <file>Framework/LdapGeneric.php</file>
             <file>Framework/MessageHeader.php</file>
             <file>Framework/MessagePart.php</file>
             <file>Framework/Mime.php</file>
             <file>Framework/Rcube.php</file>
             <file>Framework/ResultIndex.php</file>
+            <file>Framework/ResultMultifolder.php</file>
             <file>Framework/ResultSet.php</file>
             <file>Framework/ResultThread.php</file>
             <file>Framework/Smtp.php</file>
@@ -56,15 +60,17 @@
             <file>./../plugins/database_attachments/tests/DatabaseAttachments.php</file>
             <file>./../plugins/debug_logger/tests/DebugLogger.php</file>
             <file>./../plugins/emoticons/tests/Emoticons.php</file>
+            <file>./../plugins/emoticons/tests/EmoticonsEngine.php</file>
             <file>./../plugins/enigma/tests/Enigma.php</file>
             <file>./../plugins/example_addressbook/tests/ExampleAddressbook.php</file>
             <file>./../plugins/filesystem_attachments/tests/FilesystemAttachments.php</file>
             <file>./../plugins/help/tests/Help.php</file>
             <file>./../plugins/hide_blockquote/tests/HideBlockquote.php</file>
             <file>./../plugins/http_authentication/tests/HttpAuthentication.php</file>
+            <file>./../plugins/identicon/tests/Identicon.php</file>
             <file>./../plugins/identity_select/tests/IdentitySelect.php</file>
             <file>./../plugins/jqueryui/tests/Jqueryui.php</file>
-            <file>./../plugins/legacy_browser/tests/LegacyBrowser.php</file>
+            <file>./../plugins/krb_authentication/tests/KrbAuthentication.php</file>
             <file>./../plugins/managesieve/tests/Managesieve.php</file>
             <file>./../plugins/managesieve/tests/Parser.php</file>
             <file>./../plugins/managesieve/tests/Tokenizer.php</file>

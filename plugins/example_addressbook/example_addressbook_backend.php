@@ -44,7 +44,7 @@ class example_addressbook_backend extends rcube_addressbook
     $this->filter = null;
   }
 
-  function list_groups($search = null)
+  function list_groups($search = null, $mode = 0)
   {
     return array(
       array('ID' => 'testgroup1', 'name' => "Testgroup"),
@@ -98,7 +98,7 @@ class example_addressbook_backend extends rcube_addressbook
     return false;
   }
 
-  function rename_group($gid, $newname)
+  function rename_group($gid, $newname, &$newid)
   {
     return $newname;
   }

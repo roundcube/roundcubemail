@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -49,7 +49,6 @@ $messages['successfullysaved'] = 'Uspješno spremljeno.';
 $messages['savingresponse'] = 'Spremanje teksta odgovora...';
 $messages['deleteresponseconfirm'] = 'Jeste li sigurni da želite obrisati tekst ovog odgovora?';
 $messages['addedsuccessfully'] = 'Kontakt uspješno dodan u imenik.';
-$messages['contactexists'] = 'Kontakt sa istom e-mail adresom već postoji.';
 $messages['contactnameexists'] = 'Kontakt istog imena već postoji.';
 $messages['blockedimages'] = 'Zbog zaštite privatnosti, slike sa interneta su blokirane u ovoj poruci.';
 $messages['encryptedmessage'] = 'Ova poruka je šifrirana i ne može se prikazati.';
@@ -79,11 +78,9 @@ $messages['formincomplete'] = 'Obrazac nije u cjelosti popunjen.';
 $messages['noemailwarning'] = 'Unesite ispravnu e-mail adresu.';
 $messages['nonamewarning']  = 'Unesite ime.';
 $messages['nopagesizewarning'] = 'Unesite veličinu stranice.';
-$messages['nosenderwarning'] = 'Unesite e-mail adresu pošiljatelja.';
 $messages['norecipientwarning'] = 'Unesite barem jednog primatelja.';
 $messages['nosubjectwarning']  = 'Polje \'Naslov\' je prazno. Želite li unijeti naslov?';
 $messages['nobodywarning'] = 'Želite li poslati poruku bez teksta?';
-$messages['notsentwarning'] = 'Poruka nije poslana. Želite li odbaciti ovu poruku?';
 $messages['restoresavedcomposedata'] = 'Pronađena je započeta, ali neposlana poruka .\n\nNaslov: $subject\nSnimljeno: $date\n\nŽelite li je prikazati?';
 $messages['noldapserver'] = 'Odaberite LDAP poslužitelj za pretragu.';
 $messages['nosearchname'] = 'Unesite ime ili e-mail adresu.';
@@ -135,7 +132,6 @@ $messages['importconfirmskipped'] = '<b>Preskočeno $skipped postojećih unosa</
 $messages['importmessagesuccess'] = 'Uspješno uvezeno $nr poruka';
 $messages['importmessageerror'] = 'Uvoz neuspješan! Datoteka nije u formatu poruke ili sandučića';
 $messages['opnotpermitted'] = 'Operacija nije dozvoljena!';
-$messages['nofromaddress'] = 'Nije upisana e-mail adresa u odabrani identitet.';
 $messages['httpreceivedencrypterror'] = 'Dogodila se fatalna greška u konfiguraciji. Odmah kontaktirajte administratora. <b>Vaša poruka se ne može poslati.</b>';
 $messages['smtpconnerror'] = 'SMTP greška ($code): Povezivanje na poslužitelj nije uspjelo.';
 $messages['smtpautherror'] = 'SMTP greška ($code): Autentikacija nije uspjela.';
@@ -143,7 +139,6 @@ $messages['smtpfromerror'] = 'SMTP greška ($code): Postavljanje pošiljatelja "
 $messages['smtptoerror'] = 'SMTP greška ($code): Dodavanje primatelja "$to" ($msg) nije uspjelo.';
 $messages['smtprecipientserror'] = 'SMTP greška: Nije moguće pročitati listu primatelja.';
 $messages['smtperror'] = 'SMTP greška: $msg';
-$messages['emailformaterror'] = 'Neispravna e-mail adresa: $email';
 $messages['toomanyrecipients'] = 'Previše primatelja. Smanjite broj primatelja na $max.';
 $messages['maxgroupmembersreached'] = 'Broj članova grupe prelazi maksimalni broj od $max.';
 $messages['internalerror'] = 'Dogodila se interna greška. Molimo pokušajte ponovno.';
@@ -174,4 +169,3 @@ $messages['parentnotwritable'] = 'Nije moguće stvoriti/pomaknuti mapu u odabran
 $messages['messagetoobig'] = 'Dio poruke je prevelik za obradu.';
 $messages['attachmentvalidationerror'] = 'UPOZORENJE! Ovaj privitak je sumnjiv jer vrsta privitka ne odgovara vrsti deklariranoj u poruci. Ako ne vjerujete pošiljatelju, ne biste trebali otvarati privitak u pregledniku jer može isti može sadržavati zloćudni kod.<br/><br/><em>Očekivano: $expected; pronađeno: $detected</em>';
 $messages['noscriptwarning'] = 'UPOZORENJE: Ovaj webmail servis zahtijeva Javascript!  Kako biste ga mogli koristiti, molimo omogućite Javascript u postavkama svog preglednika.';
-?>

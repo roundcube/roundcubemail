@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+$labels['changepasswd']  = 'Kemmañ ar ger-tremen';
 $labels['curpasswd']  = 'Ger-tremen bremañ :';
 $labels['newpasswd']  = 'Ger-tremen nevez :';
 $labels['confpasswd']  = 'Kadarnaat ar ger-tremen :';
@@ -28,4 +29,5 @@ $messages['internalerror'] = 'N\'haller ket enrollañ ar ger-tremen nevez.';
 $messages['passwordshort'] = 'Ret eo d\'ar ger-tremen bezañ hiroc\'h eget $length arouezenn.';
 $messages['passwordweak'] = 'En ho ker-tremen e tle bezañ ur sifr hag un arouezenn boentaouiñ da nebeutañ';
 $messages['passwordforbidden'] = 'Arouezennoù difennet zo er ger-tremen.';
-?>
+$messages['firstloginchange'] = 'Emaoc\'h o kennaskañ evit ar wezh kentañ. Kemmit ho ker-tremen mar plij.';
+$messages['disablednotice'] = 'War drezalc\'h eo ar reizhiad evit ar mare ha n\'haller ket kemmañ gerioù-tremen. Pep tra a rankfe distreiñ d\'e stad orin a-benn nebeud. Digarezit ac\'hanomp.';

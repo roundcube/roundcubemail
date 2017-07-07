@@ -6,9 +6,12 @@
 <script type="text/javascript" src="/splitter.js"></script>
 <script type="text/javascript" src="/functions.js"></script>
 <style type="text/css">
-<roundcube:if condition="config:preview_pane == true" />
+<roundcube:if condition="env:layout == 'widescreen'" />
+#mailcontframe { width: <roundcube:exp expression="!empty(cookie:mailviewsplitter2) ? cookie:mailviewsplitter2-5 : 395" />px; }
+#mailpreviewframe { left: <roundcube:exp expression="!empty(cookie:mailviewsplitter2) ? cookie:mailviewsplitter2+5 : 405" />px; display: block; }
+<roundcube:elseif condition="env:layout != 'list'" />
 #mailcontframe { height: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter-5 : 195" />px; }
-#mailpreviewframe { top: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 205" />px; }
+#mailpreviewframe { top: <roundcube:exp expression="!empty(cookie:mailviewsplitter) ? cookie:mailviewsplitter+5 : 205" />px; display: block; }
 <roundcube:endif />
 #mailleftcontainer { width: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv-5 : 160" />px; }
 #mailrightcontainer { left: <roundcube:exp expression="!empty(cookie:mailviewsplitterv) ? cookie:mailviewsplitterv+5 : 170" />px; }
@@ -35,20 +38,16 @@
   <roundcube:object name="quotaDisplay" display="image" width="100" height="14" id="quotadisplay" />
 </div>
 <roundcube:endif />
+
+</div>
 </div>
 </div>
 
-<script type="text/javascript">
-  var mailviewsplitv = new rcube_splitter({id:'mailviewsplitterv', p1: 'mailleftcontainer', p2: 'mailrightcontainer', orientation: 'v', relative: true, start: 165, callback: rcube_render_mailboxlist });
-  rcmail.add_onload('mailviewsplitv.init()');
-</script>
-
-</div>
-
-<div id="mailrightcontainer">
+<div id="mailrightcontainer" class="<roundcube:var name="env:layout" />">
 <div id="mailrightcontent">
 <div id="mailcontframe">
-<div id="messagelistcontainer" class="boxlistcontent" style="top:0">
+<div id="messagelistheader" class="boxfooter"><roundcube:object name="listmenulink" optionsmenuIcon="true" /></div>
+<div id="messagelistcontainer" class="boxlistcontent">
 <roundcube:object name="messages"
   id="messagelist"
   class="messagelist fixedheader"
@@ -57,7 +56,7 @@
   summary="Message list"
   optionsmenuIcon="true" />
 </div>
-<div class="boxfooter">
+<div id="messagelistfooter" class="boxfooter">
     <div id="listcontrols" class="pagenav">
         <span><roundcube:label name="select" />:&nbsp;</span>
         <roundcube:button command="select-all" type="link" title="all" class="buttonPas all" classAct="button all" classSel="button allsel" content=" " />
@@ -72,34 +71,23 @@
         <roundcube:button command="expand-unread" type="link" title="expand-unread" class="buttonPas expand-unread" classAct="button expand-unread" classSel="button expand-unreadsel" content=" " />
         <roundcube:button command="collapse-all" type="link" title="collapse-all" class="buttonPas collapse-all" classAct="button collapse-all" classSel="button collapse-allsel" content=" " />
     <roundcube:endif />
-    <roundcube:if condition="!in_array('preview_pane', (array)config:dont_override)" />
-        <span style="margin-left: 12px"><label for="prevpaneswitch"><span><roundcube:label name="previewpane" />:</span></label>
-            <input type="checkbox" id="prevpaneswitch" onclick="rcmail_ui.switch_preview_pane(this)"<roundcube:exp expression="config:preview_pane == true ? ' checked=checked' : ''" /> />
-        </span>
-    <roundcube:endif />
     </div>
     <div id="countcontrols" class="pagenav">
+        <roundcube:object name="messageCountDisplay" />
         <roundcube:button command="lastpage" type="link" class="buttonPas lastpage" classAct="button lastpage" classSel="button lastpageSel" title="lastpage" content=" " />
         <roundcube:button command="nextpage" type="link" class="buttonPas nextpage" classAct="button nextpage" classSel="button nextpageSel" title="nextpage" content=" " />
-        <roundcube:object name="messageCountDisplay" style="padding:0 .5em; float:right" />
+        <input id="pagejumper" class="pagejumper" type="text" size="3" disabled="disabled" title="<roundcube:label name="currpage" />" />
         <roundcube:button command="previouspage" type="link" class="buttonPas prevpage" classAct="button prevpage" classSel="button prevpageSel" title="previouspage" content=" " />
         <roundcube:button command="firstpage" type="link" class="buttonPas firstpage" classAct="button firstpage" classSel="button firstpageSel" title="firstpage" content=" " />
     </div>
 </div>
 </div>
 
-<script type="text/javascript">
-  var mailviewsplit = new rcube_splitter({id:'mailviewsplitter', p1: 'mailcontframe', p2: 'mailpreviewframe', orientation: 'h', relative: true, start: 205});
-<roundcube:if condition="config:preview_pane == true" />
-  rcmail.add_onload('mailviewsplit.init()');
-<roundcube:endif />
-</script>
-
-<div id="mailpreviewframe"<roundcube:if condition="config:preview_pane != true" /> style="display:none"<roundcube:endif />>
+<div id="mailpreviewframe">
 <roundcube:object name="messagecontentframe" id="messagecontframe" width="100%" height="100%" frameborder="0" src="/watermark.html" />
 </div>
-</div>
 
+</div>
 </div>
 </div>
 
@@ -114,6 +102,8 @@
     <li><label><input type="checkbox" name="s_mods[]" value="bcc" id="s_mod_bcc" onclick="rcmail_ui.set_searchmod(this)" /> <span><roundcube:label name="bcc" /></span></label></li>
     <li><label><input type="checkbox" name="s_mods[]" value="body" id="s_mod_body" onclick="rcmail_ui.set_searchmod(this)" /> <span><roundcube:label name="body" /></span></label></li>
     <li><label><input type="checkbox" name="s_mods[]" value="text" id="s_mod_text" onclick="rcmail_ui.set_searchmod(this)" /> <span><roundcube:label name="msgtext" /></span></label></li>
+    <li><label class="comment"><roundcube:label name="date" /></label></li>
+    <li><roundcube:object name="searchinterval" id="s_interval" onchange="rcmail.set_searchinterval($(this).val())" /></li>
     <li><label class="comment"><roundcube:label name="searchscope" /></label></li>
     <li><label><input type="radio" name="s_scope" value="base" id="s_scope_base" onclick="rcmail.set_searchscope(this.value)" /> <span><roundcube:label name="currentfolder" /></span></label></li>
     <li><label><input type="radio" name="s_scope" value="sub" id="s_scope_sub" onclick="rcmail.set_searchscope(this.value)" /> <span><roundcube:label name="subfolders" /></span></label></li>
@@ -142,6 +132,7 @@
   <ul>
     <li><roundcube:button command="expunge" type="link" label="compact" classAct="active" /></li>
     <li><roundcube:button command="purge" type="link" label="empty" classAct="active" /></li>
+    <li><roundcube:button command="mark-all-read" type="link" label="markallread" classAct="active" /></li>
     <li class="separator_below"><roundcube:button command="import-messages" name="messageimport" type="link" classAct="active" label="importmessages" id="uploadformlink" onclick="if(rcmail.command_enabled('import-messages'))rcmail_ui.show_popup('uploadform', true); return false" /></li>
     <li><roundcube:button command="folders" task="settings" type="link" label="managefolders" classAct="active" /></li>
     <roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
@@ -149,8 +140,17 @@
 </div>
 
 <div id="listmenu" style="display: none">
+<roundcube:if condition="!in_array('layout', (array)config:dont_override)" />
+<fieldset id="listoptions-layout"  class="floating"><legend><roundcube:label name="layout" /></legend>
+  <ul class="toolbarmenu">
+    <li><label><input type="radio" name="layout" value="widescreen" /> <span><roundcube:label name="layoutwidescreen" /></span></label></li>
+    <li><label><input type="radio" name="layout" value="desktop" /> <span><roundcube:label name="layoutdesktop" /></span></label></li>
+    <li><label><input type="radio" name="layout" value="list" /> <span><roundcube:label name="layoutlist" /></span></label></li>
+  </ul>
+</fieldset>
+<roundcube:endif />
 <roundcube:if condition="env:threads" />
-<fieldset class="thinbordered"><legend><roundcube:label name="listmode" /></legend>
+<fieldset id="listoptions-view"  class="thinbordered"><legend><roundcube:label name="listmode" /></legend>
   <ul class="toolbarmenu">
     <li><label><input type="radio" name="view" value="list" id="view_default" /> <span><roundcube:label name="list" /></span></label></li>
     <li><label><input type="radio" name="view" value="thread" id="view_thread" /> <span><roundcube:label name="threads" /></span></label></li>
@@ -158,7 +158,7 @@
 </fieldset>
 <roundcube:endif />
 <roundcube:if condition="!in_array('list_cols', (array)config:dont_override)" />
-<fieldset class="thinbordered"><legend><roundcube:label name="listcolumns" /></legend>
+<fieldset id="listoptions-columns" class="thinbordered"><legend><roundcube:label name="listcolumns" /></legend>
   <ul class="toolbarmenu">
     <li><label><input type="checkbox" name="list_col[]" value="threads" id="cols_threads" checked="checked" disabled="disabled" /> <span class="disabled"><roundcube:label name="threads" /></span></label></li>
     <li><label><input type="checkbox" name="list_col[]" value="subject" id="cols_subject" checked="checked" disabled="disabled" /> <span class="disabled"><roundcube:label name="subject" /></span></label></li>
@@ -177,7 +177,7 @@
 </fieldset>
 <roundcube:endif />
 <roundcube:if condition="!in_array('message_sort_col', (array)config:dont_override)" />
-<fieldset class="thinbordered"><legend><roundcube:label name="listsorting" /></legend>
+<fieldset id="listoptions-sortcol"  class="thinbordered"><legend><roundcube:label name="listsorting" /></legend>
   <ul class="toolbarmenu">
     <li><label><input type="radio" name="sort_col" value="" id="sort_default" /> <span><roundcube:label name="nonesort" /></span></label></li>
     <li><label><input type="radio" name="sort_col" value="arrival" id="sort_arrival" /> <span><roundcube:label name="arrival" /></span></label></li>
@@ -193,7 +193,7 @@
 </fieldset>
 <roundcube:endif />
 <roundcube:if condition="!in_array('message_sort_order', (array)config:dont_override)" />
-<fieldset><legend><roundcube:label name="listorder" /></legend> 
+<fieldset id="listoptions-sortord" ><legend><roundcube:label name="listorder" /></legend> 
   <ul class="toolbarmenu"> 
     <li><label><input type="radio" name="sort_ord" value="ASC" id="sort_asc" /> <span><roundcube:label name="asc" /></span></label></li>
     <li><label><input type="radio" name="sort_ord" value="DESC" id="sort_desc" /> <span><roundcube:label name="desc" /></span></label></li>

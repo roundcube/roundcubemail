@@ -15,3 +15,15 @@ p.vcardattachment a {
 	padding: 0.7em 0.5em 0.3em 42px;
 	height: 22px;
 }
+
+#abookactions a.vcard span {
+	text-indent: -5000px;
+	display: inline-block;
+	height: 22px;
+	width: 15px;
+	background: url(../../../../skins/classic/images/messageicons.png) 0 -168px no-repeat;
+}
+
+#abookactions a.vcard.disabled span {
+	opacity: 0.5;
+}

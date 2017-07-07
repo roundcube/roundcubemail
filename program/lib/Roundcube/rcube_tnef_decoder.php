@@ -1,9 +1,9 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2017, The Roundcube Dev Team                       |
  | Copyright (C) 2002-2010, The Horde Project (http://www.horde.org/)    |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
@@ -15,6 +15,7 @@
  +-----------------------------------------------------------------------+
  | Author: Jan Schneider <jan@horde.org>                                 |
  | Author: Michael Slusarz <slusarz@horde.org>                           |
+ | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
 
@@ -29,41 +30,70 @@
  */
 class rcube_tnef_decoder
 {
-    const SIGNATURE = 0x223e9f78;
-    const LVL_MESSAGE = 0x01;
-    const LVL_ATTACHMENT = 0x02;
+    const SIGNATURE         = 0x223e9f78;
+    const LVL_MESSAGE       = 0x01;
+    const LVL_ATTACHMENT    = 0x02;
 
-    const ASUBJECT = 0x88004;
-    const AMCLASS = 0x78008;
-    const ATTACHDATA = 0x6800f;
-    const AFILENAME = 0x18010;
-    const ARENDDATA = 0x69002;
-    const AMAPIATTRS = 0x69005;
-    const AVERSION = 0x89006;
+    const ASUBJECT          = 0x88004;
+    const AMCLASS           = 0x78008;
+    const ATTACHDATA        = 0x6800f;
+    const AFILENAME         = 0x18010;
+    const ARENDDATA         = 0x69002;
+    const AMAPIATTRS        = 0x69005;
+    const AOEMCODEPAGE      = 0x69007;
+    const AVERSION          = 0x89006;
 
-    const MAPI_NULL = 0x0001;
-    const MAPI_SHORT = 0x0002;
-    const MAPI_INT = 0x0003;
-    const MAPI_FLOAT = 0x0004;
-    const MAPI_DOUBLE = 0x0005;
+    const MAPI_NULL     = 0x0001;
+    const MAPI_SHORT    = 0x0002;
+    const MAPI_INT      = 0x0003;
+    const MAPI_FLOAT    = 0x0004;
+    const MAPI_DOUBLE   = 0x0005;
     const MAPI_CURRENCY = 0x0006;
-    const MAPI_APPTIME = 0x0007;
-    const MAPI_ERROR = 0x000a;
-    const MAPI_BOOLEAN = 0x000b;
-    const MAPI_OBJECT = 0x000d;
+    const MAPI_APPTIME  = 0x0007;
+    const MAPI_ERROR    = 0x000a;
+    const MAPI_BOOLEAN  = 0x000b;
+    const MAPI_OBJECT   = 0x000d;
     const MAPI_INT8BYTE = 0x0014;
-    const MAPI_STRING = 0x001e;
+    const MAPI_STRING   = 0x001e;
     const MAPI_UNICODE_STRING = 0x001f;
-    const MAPI_SYSTIME = 0x0040;
-    const MAPI_CLSID = 0x0048;
-    const MAPI_BINARY = 0x0102;
+    const MAPI_SYSTIME  = 0x0040;
+    const MAPI_CLSID    = 0x0048;
+    const MAPI_BINARY   = 0x0102;
 
-    const MAPI_ATTACH_LONG_FILENAME = 0x3707;
-    const MAPI_ATTACH_MIME_TAG = 0x370E;
+    const MAPI_DISPLAY_NAME             = 0x3001;
+    const MAPI_ADDRTYPE                 = 0x3002;
+    const MAPI_EMAIL_ADDRESS            = 0x3003;
+    const MAPI_COMMENT                  = 0x3004;
+    const MAPI_DEPTH                    = 0x3005;
+    const MAPI_PROVIDER_DISPLAY         = 0x3006;
+    const MAPI_CREATION_TIME            = 0x3007;
+    const MAPI_LAST_MODIFICATION_TIME   = 0x3008;
+    const MAPI_RESOURCE_FLAGS           = 0x3009;
+    const MAPI_PROVIDER_DLL_NAME        = 0x300A;
+    const MAPI_SEARCH_KEY               = 0x300B;
+    const MAPI_ATTACHMENT_X400_PARAMETERS = 0x3700;
+    const MAPI_ATTACH_DATA_OBJ          = 0x3701;
+    const MAPI_ATTACH_ENCODING          = 0x3702;
+    const MAPI_ATTACH_EXTENSION         = 0x3703;
+    const MAPI_ATTACH_FILENAME          = 0x3704;
+    const MAPI_ATTACH_METHOD            = 0x3705;
+    const MAPI_ATTACH_LONG_FILENAME     = 0x3707;
+    const MAPI_ATTACH_PATHNAME          = 0x3708;
+    const MAPI_ATTACH_RENDERING         = 0x3709;
+    const MAPI_ATTACH_TAG               = 0x370A;
+    const MAPI_RENDERING_POSITION       = 0x370B;
+    const MAPI_ATTACH_TRANSPORT_NAME    = 0x370C;
+    const MAPI_ATTACH_LONG_PATHNAME     = 0x370D;
+    const MAPI_ATTACH_MIME_TAG          = 0x370E;
+    const MAPI_ATTACH_ADDITIONAL_INFO   = 0x370F;
+    const MAPI_ATTACH_MIME_SEQUENCE     = 0x3710;
+    const MAPI_ATTACH_CONTENT_ID        = 0x3712;
+    const MAPI_ATTACH_CONTENT_LOCATION  = 0x3713;
+    const MAPI_ATTACH_FLAGS             = 0x3714;
 
-    const MAPI_NAMED_TYPE_ID = 0x0000;
-    const MAPI_NAMED_TYPE_STRING = 0x0001;
-    const MAPI_MV_FLAG = 0x1000;
+    const MAPI_NAMED_TYPE_ID        = 0x0000;
+    const MAPI_NAMED_TYPE_STRING    = 0x0001;
+    const MAPI_MV_FLAG              = 0x1000;
 
     /**
      * Decompress the data.
@@ -153,10 +183,12 @@ class rcube_tnef_decoder
     protected function _decodeAttribute(&$data, $attribute)
     {
         /* Data. */
-        $this->_getx($data, $this->_geti($data, 32));
+        $value = $this->_getx($data, $this->_geti($data, 32));
 
         /* Checksum. */
         $this->_geti($data, 16);
+
+        return $value;
     }
 
     /**
@@ -234,7 +266,7 @@ class rcube_tnef_decoder
             case self::MAPI_UNICODE_STRING:
             case self::MAPI_BINARY:
             case self::MAPI_OBJECT:
-                $num_vals = ($have_mval) ? $num_mval : $this->_geti($data, 32);
+                $num_vals = $have_mval ? $num_mval : $this->_geti($data, 32);
                 for ($i = 0; $i < $num_vals; $i++) {
                     $length = $this->_geti($data, 32);
 
@@ -254,13 +286,13 @@ class rcube_tnef_decoder
             /* Store any interesting attributes. */
             switch ($attr_name) {
             case self::MAPI_ATTACH_LONG_FILENAME:
-                $value = str_replace("\0", '', $value);
+                $value = $this->convertString($value);
                 /* Used in preference to AFILENAME value. */
                 $attachment_data[0]['name'] = preg_replace('/.*[\/](.*)$/', '\1', $value);
                 break;
 
             case self::MAPI_ATTACH_MIME_TAG:
-                $value = str_replace("\0", '', $value);
+                $value = $this->convertString($value);
                 /* Is this ever set, and what is format? */
                 $attachment_data[0]['type']    = preg_replace('/^(.*)\/.*/', '\1', $value);
                 $attachment_data[0]['subtype'] = preg_replace('/.*\/(.*)$/', '\1', $value);
@@ -276,7 +308,18 @@ class rcube_tnef_decoder
      */
     protected function _decodeMessage(&$data)
     {
-        $this->_decodeAttribute($data, $this->_geti($data, 32));
+        $attribute = $this->_geti($data, 32);
+        $value     = $this->_decodeAttribute($data, $attribute);
+
+        switch ($attribute) {
+        case self::AOEMCODEPAGE:
+            // Find codepage of the message
+            $value = unpack('V', $value);
+            $this->codepage = $value[1];
+            break;
+
+        default:
+        }
     }
 
     /**
@@ -307,7 +350,8 @@ class rcube_tnef_decoder
 
         case self::AFILENAME:
             $value = $this->_getx($data, $this->_geti($data, 32));
-            $value = str_replace("\0", '', $value);
+            $value = $this->convertString($value, true);
+
             /* Strip path. */
             $attachment_data[0]['name'] = preg_replace('/.*[\/](.*)$/', '\1', $value);
 
@@ -318,7 +362,7 @@ class rcube_tnef_decoder
         case self::ATTACHDATA:
             /* The attachment itself. */
             $length = $this->_geti($data, 32);
-            $attachment_data[0]['size'] = $length;
+            $attachment_data[0]['size']   = $length;
             $attachment_data[0]['stream'] = $this->_getx($data, $length);
 
             /* Checksum */
@@ -326,8 +370,7 @@ class rcube_tnef_decoder
             break;
 
         case self::AMAPIATTRS:
-            $length = $this->_geti($data, 32);
-            $value = $this->_getx($data, $length);
+            $value = $this->_getx($data, $this->_geti($data, 32));
 
             /* Checksum */
             $this->_geti($data, 16);
@@ -337,5 +380,24 @@ class rcube_tnef_decoder
         default:
             $this->_decodeAttribute($data, $attribute);
         }
+    }
+
+    /**
+     * Convert string value to system charset according to defined codepage
+     */
+    protected function convertString($str, $use_codepage = false)
+    {
+        $str = rtrim($str, "\0");
+
+        if ($convert && $this->codepage
+            && ($charset = rcube_charset::$windows_codepages[$this->codepage])
+        ) {
+            $str = rcube_charset::convert($str, $charset);
+        }
+        else if (strpos($str, "\0") !== false) {
+            $str = rcube_charset::convert($str, 'UTF-16LE');
+        }
+
+        return $str;
     }
 }

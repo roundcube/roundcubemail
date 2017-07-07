@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -214,7 +214,6 @@ $labels['responsetext'] = 'Svar tekst';
 $labels['attach'] = 'Legg ved';
 $labels['attachments'] = 'Vedlegg';
 $labels['upload'] = 'Last opp';
-$labels['uploadprogress'] = '$percent ($current fra $total)';
 $labels['close']  = 'Lukk';
 $labels['messageoptions']  = 'Meldingsalternativer...';
 $labels['low']     = 'Lav';
@@ -273,7 +272,6 @@ $labels['assistant'] = 'Assistent';
 $labels['spouse'] = 'Ektefelle';
 $labels['allfields'] = 'Alle felter';
 $labels['search'] = 'Søk';
-$labels['searchfor'] = 'Søk for "$q"';
 $labels['advsearch'] = 'Avansert søk';
 $labels['advanced'] = 'Avansert';
 $labels['other'] = 'Annet';
@@ -375,7 +373,6 @@ $labels['askuser'] = 'spør hver gang';
 $labels['autosend'] = 'send automatisk';
 $labels['autosendknown'] = 'send kvittering til kontaktene mine, ellers spør meg';
 $labels['autosendknownignore'] = 'send kvittering til kontaktene mine, ellers ignorer';
-$labels['ignore'] = 'ignorer';
 $labels['readwhendeleted'] = 'Merk melding som lest ved sletting';
 $labels['flagfordeletion'] = 'Flagg meldingen for sletting i stedet for å slette';
 $labels['skipdeleted'] = 'Ikke vis slettede meldinger';
@@ -397,7 +394,6 @@ $labels['2231folding'] = 'Fullstendig RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Fullstendig RFC 2047 (andre)';
 $labels['force7bit'] = 'Bruk MIME-koding for 8-bit-tegn';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Avanserte alternativer';
 $labels['focusonnewmessage'] = 'Gi nettleservindu fokus ved nye meldinger';
 $labels['checkallfolders'] = 'Kontroller alle mapper for nye meldinger';
@@ -492,7 +488,4 @@ $labels['vietnamese'] = 'Vietnamesisk';
 $labels['japanese'] = 'Japansk';
 $labels['korean'] = 'Koreansk';
 $labels['chinese'] = 'Kinesisk';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

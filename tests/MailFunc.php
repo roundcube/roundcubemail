@@ -45,7 +45,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
         $html = rcmail_html4inline(rcmail_print_body($part->body, $part, array('safe' => false)), 'foo');
 
         $this->assertRegExp('/src="'.$part->replaces['ex1.jpg'].'"/', $html, "Replace reference to inline image");
-        $this->assertRegExp('#background="./program/resources/blocked.gif"#', $html, "Replace external background image");
+        $this->assertRegExp('#background="program/resources/blocked.gif"#', $html, "Replace external background image");
         $this->assertNotRegExp('/ex3.jpg/', $html, "No references to external images");
         $this->assertNotRegExp('/<meta [^>]+>/', $html, "No meta tags allowed");
         //$this->assertNoPattern('/<style [^>]+>/', $html, "No style tags allowed");
@@ -110,13 +110,15 @@ class MailFunc extends PHPUnit_Framework_TestCase
 
     /**
      * Test washtml class on non-unicode characters (#1487813)
+     * @group iconv
+     * @group mbstring
      */
     function test_washtml_utf8()
     {
         $part = $this->get_html_part('src/invalidchars.html');
         $washed = rcmail_print_body($part->body, $part);
 
-        $this->assertRegExp('/<p>символ<\/p>/', $washed, "Remove non-unicode characters from HTML message body");
+        $this->assertRegExp('/<p>(символ|симол)<\/p>/', $washed, "Remove non-unicode characters from HTML message body");
     }
 
     /**

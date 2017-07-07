@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -50,7 +50,6 @@ $messages['successfullysaved'] = 'Gardado correctamente.';
 $messages['savingresponse'] = 'Gardar texto de resposta...';
 $messages['deleteresponseconfirm'] = 'Realmente queres borrar este texto de resposta?';
 $messages['addedsuccessfully'] = 'O contacto engadiuse correctamente á Axenda de enderezos.';
-$messages['contactexists'] = 'Xa existe un contacto con este enderezo de correo electrónico.';
 $messages['contactnameexists'] = 'Xa existe un contacto con este nome.';
 $messages['blockedimages'] = 'Estanse a bloquear as imaxes remotas para protexer a túa privacidade.';
 $messages['encryptedmessage'] = 'Sentímolo! Non se pode amosar a mensaxe porque está cifrada.';
@@ -80,11 +79,9 @@ $messages['formincomplete'] = 'O formulario non foi completamente cuberto.';
 $messages['noemailwarning'] = 'Por favor, engade un enderezo de correo electrónico válido.';
 $messages['nonamewarning']  = 'Por favor, engade un nome.';
 $messages['nopagesizewarning'] = 'Por favor, engade un tamaño de páxina.';
-$messages['nosenderwarning'] = 'Por favor, engade o enderezo de correo electrónico do remite.';
 $messages['norecipientwarning'] = 'Por favor, engade polo menos unha persoa destinataria.';
 $messages['nosubjectwarning']  = 'O campo "Asunto" está baleiro. Queres completalo?';
 $messages['nobodywarning'] = 'Queres enviar esta mensaxe sen texto?';
-$messages['notsentwarning'] = 'A mensaxe non se enviou. Queres descartala?';
 $messages['restoresavedcomposedata'] = 'Foi atopada unha mensaxe que non se enviara.\n\nSubject: $subject\nSaved: $date\n\n¿queres restaurar esta mensaxe?';
 $messages['noldapserver'] = 'Por favor, elixe un servidor LDAP para buscar.';
 $messages['nosearchname'] = 'Por favor, engade un nome ou un enderezo de correo electrónico.';
@@ -137,7 +134,6 @@ $messages['importconfirmskipped'] = '<b>Ignoráronse $skipped existing entradas<
 $messages['importmessagesuccess'] = 'Importadas $nr mensaxes con éxito';
 $messages['importmessageerror'] = 'Fallou a importación! O arquivo subido non é unha mensaxe válida ou un ficheiro de correo';
 $messages['opnotpermitted'] = 'Operación non permitida!';
-$messages['nofromaddress'] = 'Falta o enderezo de correo electrónico na identidade que escolleches.';
 $messages['editorwarning'] = 'Se troca neste intre ao editor de texto plano, vai perder todo o formato do texto. Quere continuar?';
 $messages['httpreceivedencrypterror'] = 'Produciuse un erro fatal de configuración. Contacta coa persoa administradora inmediatamente. <b>Non se enviou a túa mensaxe.</b>';
 $messages['smtpconnerror'] = 'Erro SMTP ($code): Fallou a conexión co servidor.';
@@ -146,7 +142,6 @@ $messages['smtpfromerror'] = 'Erro SMTP ($code): Non foi posíbel estabelecer o 
 $messages['smtptoerror'] = 'Erro SMTP ($code): Non foi posíbel engadir a persoa destinataria "$to" ($msg).';
 $messages['smtprecipientserror'] = 'Erro SMTP: Non se pode analizar a lista de persoas destinatarias.';
 $messages['smtperror'] = 'Erro SMTP: $msg';
-$messages['emailformaterror'] = 'O enderezo de correo electrónico é incorrecto: $email.';
 $messages['toomanyrecipients'] = 'Especificou persoas destinatarias de máis. Por favor, redúceas a un máximo de $max.';
 $messages['maxgroupmembersreached'] = 'O número de integrantes do grupo excede o máximo de $max.';
 $messages['internalerror'] = 'Produciuse un erro interno. Por favor, téntao de novo.';
@@ -177,4 +172,3 @@ $messages['parentnotwritable'] = 'Non foi posíbel crear/mover o cartafol para o
 $messages['messagetoobig'] = 'A mensaxe é demasiado grande para procesala';
 $messages['attachmentvalidationerror'] = 'ATENCIÓN! Este anexo é sospeitoso porque o seu tipo non coincide co tipo declarado na mensaxe. Se non confías no remite, non deberías abrilo, porque podería conter un virus ou malware.<br/><br/><em>Tipo agardado: $expected; Tipo detectado: $detected</em>';
 $messages['noscriptwarning'] = 'Atención: Este servicio de correo web precisa de Javascript!. Por favor, active javascript nas opción do seu navegador.';
-?>

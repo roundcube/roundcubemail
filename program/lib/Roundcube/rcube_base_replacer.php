@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
@@ -29,27 +29,44 @@ class rcube_base_replacer
     private $base_url;
 
 
+    /**
+     * Class constructor
+     *
+     * @param string $base Base URL
+     */
     public function __construct($base)
     {
         $this->base_url = $base;
     }
 
-
+    /**
+     * Replace callback
+     *
+     * @param array $matches Matching entries
+     *
+     * @return string Replaced text with absolute URL
+     */
     public function callback($matches)
     {
         return $matches[1] . '="' . self::absolute_url($matches[3], $this->base_url) . '"';
     }
 
-
+    /**
+     * Convert base URLs to absolute ones
+     *
+     * @param string $body Text body
+     *
+     * @return string Replaced text
+     */
     public function replace($body)
     {
-        return preg_replace_callback(array(
+        $regexp = array(
             '/(src|background|href)=(["\']?)([^"\'\s>]+)(\2|\s|>)/i',
             '/(url\s*\()(["\']?)([^"\'\)\s]+)(\2)\)/i',
-        ),
-        array($this, 'callback'), $body);
-    }
+        );
 
+        return preg_replace_callback($regexp, array($this, 'callback'), $body);
+    }
 
     /**
      * Convert paths like ../xxx to an absolute path using a base url
@@ -61,9 +78,6 @@ class rcube_base_replacer
      */
     public static function absolute_url($path, $base_url)
     {
-        $host_url = $base_url;
-        $abs_path = $path;
-
         // check if path is an absolute URL
         if (preg_match('/^[fhtps]+:\/\//', $path)) {
             return $path;
@@ -73,6 +87,9 @@ class rcube_base_replacer
         if (strpos($path, 'cid:') === 0) {
             return $path;
         }
+
+        $host_url = $base_url;
+        $abs_path = $path;
 
         // cut base_url to the last directory
         if (strrpos($base_url, '/') > 7) {
@@ -89,7 +106,8 @@ class rcube_base_replacer
             $path = preg_replace('/^\.\//', '', $path);
 
             if (preg_match_all('/\.\.\//', $path, $matches, PREG_SET_ORDER)) {
-                foreach ($matches as $a_match) {
+                $cnt = count($matches);
+                while ($cnt--) {
                     if ($pos = strrpos($base_url, '/')) {
                         $base_url = substr($base_url, 0, $pos);
                     }

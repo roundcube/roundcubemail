@@ -1,20 +1,14 @@
 <?php
-/*
+
+/**
  +-------------------------------------------------------------------------+
  | SubKey class for the Enigma Plugin                                      |
  |                                                                         |
- | This program is free software; you can redistribute it and/or modify    |
- | it under the terms of the GNU General Public License version 2          |
- | as published by the Free Software Foundation.                           |
+ | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
  |                                                                         |
- | This program is distributed in the hope that it will be useful,         |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of          |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           |
- | GNU General Public License for more details.                            |
- |                                                                         |
- | You should have received a copy of the GNU General Public License along |
- | with this program; if not, write to the Free Software Foundation, Inc., |
- | 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.             |
+ | Licensed under the GNU General Public License version 3 or              |
+ | any later version with exceptions for skins & plugins.                  |
+ | See the README file for a full license statement.                       |
  |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
@@ -29,9 +23,11 @@ class enigma_subkey
     public $created;
     public $revoked;
     public $has_private;
-    public $can_sign;
-    public $can_encrypt;
-    
+    public $algorithm;
+    public $length;
+    public $usage;
+
+
     /**
      * Converts internal ID to short ID
      * Crypt_GPG uses internal, but e.g. Thunderbird's Enigmail displays short ID
@@ -54,4 +50,30 @@ class enigma_subkey
         return enigma_key::format_fingerprint($this->fingerprint);
     }
 
+    /**
+     * Returns human-readable name of the key's algorithm
+     *
+     * @return string Algorithm name
+     */
+    function get_algorithm()
+    {
+        // http://tools.ietf.org/html/rfc4880#section-9.1
+        switch ($this->algorithm) {
+        case 1:
+        case 2:
+        case 3:
+            return 'RSA';
+        case 16:
+        case 20:
+            return 'Elgamal';
+        case 17:
+            return 'DSA';
+        case 18:
+            return 'Elliptic Curve';
+        case 19:
+            return 'ECDSA';
+        case 21:
+            return 'Diffie-Hellman';
+        }
+    }
 }

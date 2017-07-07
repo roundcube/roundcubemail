@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/mail/addcontact.inc                                     |
  |                                                                       |
@@ -63,7 +63,7 @@ if (!empty($_POST['_address']) && is_object($CONTACTS)) {
             // TODO: show dialog to complete record
             // if ($error['type'] == rcube_addressbook::ERROR_VALIDATE) { }
 
-            $OUTPUT->show_message($error['message'] ? $error['message'] : 'errorsavingcontact', 'error');
+            $OUTPUT->show_message($error['message'] ?: 'errorsavingcontact', 'error');
             $OUTPUT->send();
         }
 
@@ -87,7 +87,7 @@ if (!empty($_POST['_address']) && is_object($CONTACTS)) {
 }
 
 if (!$done) {
-    $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsavingcontact', 'error');
+    $OUTPUT->show_message($plugin['message'] ?: 'errorsavingcontact', 'error');
 }
 
 $OUTPUT->send();

@@ -1,20 +1,14 @@
 <?php
-/*
+
+/**
  +-------------------------------------------------------------------------+
  | Abstract driver for the Enigma Plugin                                   |
  |                                                                         |
- | This program is free software; you can redistribute it and/or modify    |
- | it under the terms of the GNU General Public License version 2          |
- | as published by the Free Software Foundation.                           |
+ | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
  |                                                                         |
- | This program is distributed in the hope that it will be useful,         |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of          |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           |
- | GNU General Public License for more details.                            |
- |                                                                         |
- | You should have received a copy of the GNU General Public License along |
- | with this program; if not, write to the Free Software Foundation, Inc., |
- | 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.             |
+ | Licensed under the GNU General Public License version 3 or              |
+ | any later version with exceptions for skins & plugins.                  |
+ | See the README file for a full license statement.                       |
  |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
@@ -38,19 +32,37 @@ abstract class enigma_driver
     abstract function init();
 
     /**
-     * Encryption.
+     * Encryption (and optional signing).
+     *
+     * @param string     Message body
+     * @param array      List of keys (enigma_key objects)
+     * @param enigma_key Optional signing Key ID
+     *
+     * @return mixed Encrypted message or enigma_error on failure
      */
-    abstract function encrypt($text, $keys);
+    abstract function encrypt($text, $keys, $sign_key = null);
 
     /**
-     * Decryption..
+     * Decryption (and sig verification if sig exists).
+     *
+     * @param string           Encrypted message
+     * @param array            List of key-password
+     * @param enigma_signature Signature information (if available)
+     *
+     * @return mixed Decrypted message or enigma_error on failure
      */
-    abstract function decrypt($text, $key, $passwd);
+    abstract function decrypt($text, $keys = array(), &$signature = null);
 
     /**
      * Signing.
+     *
+     * @param string     Message body
+     * @param enigma_key The signing key
+     * @param int        Signing mode (enigma_engine::SIGN_*)
+     *
+     * @return mixed True on success or enigma_error on failure
      */
-    abstract function sign($text, $key, $passwd);
+    abstract function sign($text, $key, $mode = null);
 
     /**
      * Signature verification.
@@ -65,12 +77,24 @@ abstract class enigma_driver
     /**
      * Key/Cert file import.
      *
-     * @param string  File name or file content
-     * @param bollean True if first argument is a filename
+     * @param string File name or file content
+     * @param bolean True if first argument is a filename
+     * @param array  Optional key => password map
      *
      * @return mixed Import status array or enigma_error
      */
-    abstract function import($content, $isfile=false);
+    abstract function import($content, $isfile = false, $passwords = array());
+
+    /**
+     * Key/Cert export.
+     *
+     * @param string Key ID
+     * @param bool   Include private key
+     * @param array  Optional key => password map
+     *
+     * @return mixed Key content or enigma_error
+     */
+    abstract function export($key, $with_private = false, $passwords = array());
 
     /**
      * Keys listing.
@@ -79,8 +103,8 @@ abstract class enigma_driver
      *
      * @return mixed Array of enigma_key objects or enigma_error
      */
-    abstract function list_keys($pattern='');
-    
+    abstract function list_keys($pattern = '');
+
     /**
      * Single key information.
      *
@@ -93,14 +117,26 @@ abstract class enigma_driver
     /**
      * Key pair generation.
      *
-     * @param array Key/User data
+     * @param array Key/User data (name, email, password, size)
      *
      * @return mixed Key (enigma_key) object or enigma_error
      */
     abstract function gen_key($data);
-    
+
     /**
      * Key deletion.
+     *
+     * @param string Key ID
+     *
+     * @return mixed True on success or enigma_error
      */
-    abstract function del_key($keyid);
+    abstract function delete_key($keyid);
+
+    /**
+     * Returns a name of the hash algorithm used for the last
+     * signing operation.
+     *
+     * @return string Hash algorithm name e.g. sha1
+     */
+    abstract function signature_algorithm();
 }

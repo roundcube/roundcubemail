@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcmail_output_html.php                                |
  |                                                                       |
@@ -19,11 +19,10 @@
  +-----------------------------------------------------------------------+
 */
 
-
 /**
  * Class to create HTML page output using a skin template
  *
- * @package Webmail
+ * @package    Webmail
  * @subpackage View
  */
 class rcmail_output_html extends rcmail_output
@@ -32,6 +31,7 @@ class rcmail_output_html extends rcmail_output
 
     protected $message;
     protected $template_name;
+    protected $objects      = array();
     protected $js_env       = array();
     protected $js_labels    = array();
     protected $js_commands  = array();
@@ -43,8 +43,10 @@ class rcmail_output_html extends rcmail_output
     protected $default_template = "<html>\n<head><title></title></head>\n<body></body>\n</html>";
     protected $header = '';
     protected $footer = '';
-    protected $body = '';
+    protected $body   = '';
     protected $base_path = '';
+    protected $assets_path;
+    protected $assets_dir = RCUBE_INSTALL_PATH;
     protected $devel_mode = false;
 
     // deprecated names of templates used before 0.5
@@ -69,6 +71,7 @@ class rcmail_output_html extends rcmail_output
         $this->set_env('x_frame_options', $this->config->get('x_frame_options', 'sameorigin'));
         $this->set_env('standard_windows', (bool) $this->config->get('standard_windows'));
         $this->set_env('locale', $_SESSION['language']);
+        $this->set_env('devel_mode', $this->devel_mode);
 
         // add cookie info
         $this->set_env('cookie_domain', ini_get('session.cookie_domain'));
@@ -79,6 +82,8 @@ class rcmail_output_html extends rcmail_output
         $skin = $this->config->get('skin');
         $this->set_skin($skin);
         $this->set_env('skin', $skin);
+
+        $this->set_assets_path($this->config->get('assets_path'), $this->config->get('assets_dir'));
 
         if (!empty($_REQUEST['_extwin']))
             $this->set_env('extwin', 1);
@@ -131,9 +136,10 @@ EOF;
     /**
      * Set environment variable
      *
-     * @param string Property name
-     * @param mixed Property value
-     * @param boolean True if this property should be added to client environment
+     * @param string  $name    Property name
+     * @param mixed   $value   Property value
+     * @param boolean $addtojs True if this property should be added
+     *                         to client environment
      */
     public function set_env($name, $value, $addtojs = true)
     {
@@ -142,6 +148,56 @@ EOF;
         if ($addtojs || isset($this->js_env[$name])) {
             $this->js_env[$name] = $value;
         }
+    }
+
+    /**
+     * Parse and set assets path
+     *
+     * @param string $path   Assets path URL (relative or absolute)
+     * @param string $fs_dif Assets path in filesystem
+     */
+    public function set_assets_path($path, $fs_dir = null)
+    {
+        if (empty($path)) {
+            return;
+        }
+
+        $path = rtrim($path, '/') . '/';
+
+        // handle relative assets path
+        if (!preg_match('|^https?://|', $path) && $path[0] != '/') {
+            // save the path to search for asset files later
+            $this->assets_dir = $path;
+
+            $base = preg_replace('/[?#&].*$/', '', $_SERVER['REQUEST_URI']);
+            $base = rtrim($base, '/');
+
+            // remove url token if exists
+            if ($len = intval($this->config->get('use_secure_urls'))) {
+                $_base  = explode('/', $base);
+                $last   = count($_base) - 1;
+                $length = $len > 1 ? $len : 16; // as in rcube::get_secure_url_token()
+
+                // we can't use real token here because it
+                // does not exists in unauthenticated state,
+                // hope this will not produce false-positive matches
+                if ($last > -1 && preg_match('/^[a-f0-9]{' . $length . '}$/', $_base[$last])) {
+                    $path = '../' . $path;
+                }
+            }
+        }
+
+        // set filesystem path for assets
+        if ($fs_dir) {
+            if ($fs_dir[0] != '/') {
+                $fs_dir = realpath(RCUBE_INSTALL_PATH . $fs_dir);
+            }
+            // ensure the path ends with a slash
+            $this->assets_dir = rtrim($fs_dir, '/') . '/';
+        }
+
+        $this->assets_path = $path;
+        $this->set_env('assets_path', $path);
     }
 
     /**
@@ -169,9 +225,24 @@ EOF;
 
     /**
      * Set skin
+     *
+     * @param string $skin Skin name
+     *
+     * @return bool True if the skin exist and is readable, False otherwise
      */
     public function set_skin($skin)
     {
+        // Sanity check to prevent from path traversal vulnerability (#1490620)
+        if (strpos($skin, '/') !== false || strpos($skin, "\\") !== false) {
+            rcube::raise_error(array(
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                    'message' => 'Invalid skin name'
+                ), true, false);
+
+            return false;
+        }
+
         $valid = false;
         $path  = RCUBE_INSTALL_PATH . 'skins/';
 
@@ -206,15 +277,18 @@ EOF;
     {
         $this->skin_paths[] = $skin_path;
 
-        // read meta file and check for dependecies
+        // read meta file and check for dependencies
         $meta = @file_get_contents(RCUBE_INSTALL_PATH . $skin_path . '/meta.json');
         $meta = @json_decode($meta, true);
 
-        $meta['path'] = $skin_path;
-        $skin_id = end(explode('/', $skin_path));
+        $meta['path']  = $skin_path;
+        $path_elements = explode('/', $skin_path);
+        $skin_id       = end($path_elements);
+
         if (!$meta['name']) {
             $meta['name'] = $skin_id;
         }
+
         $this->skins[$skin_id] = $meta;
 
         if ($meta['extends']) {
@@ -223,12 +297,17 @@ EOF;
                 $this->load_skin('skins/' . $meta['extends']);
             }
         }
+
+        foreach ((array) $meta['config'] as $key => $value) {
+            $this->config->set($key, $value, true);
+        }
     }
 
     /**
      * Check if a specific template exists
      *
-     * @param string Template name
+     * @param string $name Template name
+     *
      * @return boolean True if template exists
      */
     public function template_exists($name)
@@ -248,9 +327,10 @@ EOF;
     /**
      * Find the given file in the current skin path stack
      *
-     * @param string File name/path to resolve (starting with /)
-     * @param string Reference to the base path of the matching skin
-     * @param string Additional path to search in
+     * @param string $file       File name/path to resolve (starting with /)
+     * @param string &$skin_path Reference to the base path of the matching skin
+     * @param string $add_path   Additional path to search in
+     *
      * @return mixed Relative path to the requested file or False if not found
      */
     public function get_skin_file($file, &$skin_path = null, $add_path = null)
@@ -261,9 +341,18 @@ EOF;
         }
 
         foreach ($skin_paths as $skin_path) {
-            $path = realpath($skin_path . $file);
-            if (is_file($path)) {
+            $path = realpath(RCUBE_INSTALL_PATH . $skin_path . $file);
+
+            if ($path && is_file($path)) {
                 return $skin_path . $file;
+            }
+
+            if ($this->assets_dir != RCUBE_INSTALL_PATH) {
+                $path = realpath($this->assets_dir . $skin_path . $file);
+
+                if ($path && is_file($path)) {
+                    return $skin_path . $file;
+                }
             }
         }
 
@@ -273,9 +362,8 @@ EOF;
     /**
      * Register a GUI object to the client script
      *
-     * @param  string Object name
-     * @param  string Object ID
-     * @return void
+     * @param string $obj Object name
+     * @param string $id  Object ID
      */
     public function add_gui_object($obj, $id)
     {
@@ -303,8 +391,10 @@ EOF;
     public function add_label()
     {
         $args = func_get_args();
-        if (count($args) == 1 && is_array($args[0]))
+
+        if (count($args) == 1 && is_array($args[0])) {
             $args = $args[0];
+        }
 
         foreach ($args as $name) {
             $this->js_labels[$name] = $this->app->gettext($name);
@@ -319,6 +409,7 @@ EOF;
      * @param array   $vars     Key-value pairs to be replaced in localized text
      * @param boolean $override Override last set message
      * @param int     $timeout  Message display time in seconds
+     *
      * @uses self::command()
      */
     public function show_message($message, $type='notice', $vars=null, $override=true, $timeout=0)
@@ -326,7 +417,7 @@ EOF;
         if ($override || !$this->message) {
             if ($this->app->text_exists($message)) {
                 if (!empty($vars))
-                    $vars = array_map('Q', $vars);
+                    $vars = array_map(array('rcube','Q'), $vars);
                 $msgtext = $this->app->gettext(array('name' => $message, 'vars' => $vars));
             }
             else
@@ -369,14 +460,15 @@ EOF;
     /**
      * Redirect to a certain url
      *
-     * @param mixed $p     Either a string with the action or url parameters as key-value pairs
-     * @param int   $delay Delay in seconds
+     * @param mixed $p      Either a string with the action or url parameters as key-value pairs
+     * @param int   $delay  Delay in seconds
+     * @param bool  $secure Redirect to secure location (see rcmail::url())
      */
-    public function redirect($p = array(), $delay = 1)
+    public function redirect($p = array(), $delay = 1, $secure = false)
     {
         if ($this->env['extwin'])
             $p['extwin'] = 1;
-        $location = $this->app->url($p);
+        $location = $this->app->url($p, false, false, $secure);
         header('Location: ' . $location);
         exit;
     }
@@ -385,8 +477,8 @@ EOF;
      * Send the request output to the client.
      * This will either parse a skin tempalte or send an AJAX response
      *
-     * @param string  Template name
-     * @param boolean True if script should terminate (default)
+     * @param string  $templ Template name
+     * @param boolean $exit  True if script should terminate (default)
      */
     public function send($templ = null, $exit = true)
     {
@@ -437,12 +529,16 @@ EOF;
         }
 
         // write all javascript commands
-        $this->add_script($commands, 'head_top');
+        if (!empty($commands)) {
+            $this->add_script($commands, 'head_top');
+        }
 
-        // send clickjacking protection headers
+        // allow (legal) iframe content to be loaded
         $iframe = $this->framed || $this->env['framed'];
-        if (!headers_sent() && ($xframe = $this->app->config->get('x_frame_options', 'sameorigin'))) {
-            header('X-Frame-Options: ' . ($iframe && $xframe == 'deny' ? 'sameorigin' : $xframe));
+        if (!headers_sent() && $iframe && ($xopt = $this->app->config->get('x_frame_options', 'sameorigin'))) {
+            if (strtolower($xopt) != 'sameorigin') {
+                header('X-Frame-Options: sameorigin', true);
+            }
         }
 
         // call super method
@@ -452,11 +548,11 @@ EOF;
     /**
      * Parse a specific skin template and deliver to stdout (or return)
      *
-     * @param  string  Template name
-     * @param  boolean Exit script
-     * @param  boolean Don't write to stdout, return parsed content instead
+     * @param string  $name  Template name
+     * @param boolean $exit  Exit script
+     * @param boolean $write Don't write to stdout, return parsed content instead
      *
-     * @link   http://php.net/manual/en/function.exit.php
+     * @link http://php.net/manual/en/function.exit.php
      */
     function parse($name = 'main', $exit = true, $write = true)
     {
@@ -490,26 +586,25 @@ EOF;
         // find skin template
         $path = false;
         foreach ($this->skin_paths as $skin_path) {
-            $path = "$skin_path/templates/$name.html";
+            $path = RCUBE_INSTALL_PATH . "$skin_path/templates/$name.html";
 
             // fallback to deprecated template names
-            if (!is_readable($path) && $this->deprecated_templates[$realname]) {
-                $path = "$skin_path/templates/" . $this->deprecated_templates[$realname] . ".html";
+            if (!is_readable($path) && ($dname = $this->deprecated_templates[$realname])) {
+                $path = RCUBE_INSTALL_PATH . "$skin_path/templates/$dname.html";
 
                 if (is_readable($path)) {
                     rcube::raise_error(array(
-                        'code' => 502, 'type' => 'php',
-                        'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Using deprecated template '" . $this->deprecated_templates[$realname]
-                            . "' in $skin_path/templates. Please rename to '$realname'"),
-                        true, false);
+                            'code' => 502, 'file' => __FILE__, 'line' => __LINE__,
+                            'message' => "Using deprecated template '$dname' in $skin_path/templates. Please rename to '$realname'"
+                        ), true, false);
                 }
             }
 
             if (is_readable($path)) {
                 $this->config->set('skin_path', $skin_path);
-                $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
-                $skin_dir = preg_replace('!^plugins/!', '', $skin_path);
+                // set base_path to core skin directory (not plugin's skin)
+                $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);
+                $skin_dir        = preg_replace('!^plugins/!', '', $skin_path);
                 break;
             }
             else {
@@ -520,7 +615,7 @@ EOF;
         // read template file
         if (!$path || ($templ = @file_get_contents($path)) === false) {
             rcube::raise_error(array(
-                'code' => 501,
+                'code' => 404,
                 'type' => 'php',
                 'line' => __LINE__,
                 'file' => __FILE__,
@@ -534,7 +629,11 @@ EOF;
         // replace all path references to plugins/... with the configured plugins dir
         // and /this/ to the current plugin skin directory
         if ($plugin) {
-            $templ = preg_replace(array('/\bplugins\//', '/(["\']?)\/this\//'), array($this->app->plugins->url, '\\1'.$this->app->plugins->url.$skin_dir.'/'), $templ);
+            $templ = preg_replace(
+                array('/\bplugins\//', '/(["\']?)\/this\//'),
+                array($this->app->plugins->url, '\\1'.$this->app->plugins->url.$skin_dir.'/'),
+                $templ
+            );
         }
 
         // parse for specialtags
@@ -548,15 +647,11 @@ EOF;
         $output = $hook['content'];
         unset($hook['content']);
 
-        // make sure all <form> tags have a valid request token
-        $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
-        $this->footer = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $this->footer);
-
         // remove plugin skin paths from current context
         $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
 
         if (!$write) {
-            return $output;
+            return $this->postrender($output);
         }
 
         $this->write(trim($output));
@@ -568,8 +663,6 @@ EOF;
 
     /**
      * Return executable javascript code for all registered commands
-     *
-     * @return string $out
      */
     protected function get_js_commands(&$framed = null)
     {
@@ -602,7 +695,7 @@ EOF;
             $parent = $this->framed || preg_match('/^parent\./', $method);
 
             foreach ($args as $i => $arg) {
-                $args[$i] = self::json_serialize($arg);
+                $args[$i] = self::json_serialize($arg, $this->devel_mode);
             }
 
             if ($parent) {
@@ -633,9 +726,10 @@ EOF;
     /**
      * Make URLs starting with a slash point to skin directory
      *
-     * @param  string Input string
-     * @param  boolean True if URL should be resolved using the current skin path stack
-     * @return string
+     * @param string $str          Input string
+     * @param bool   $search_path  True if URL should be resolved using the current skin path stack
+     *
+     * @return string URL
      */
     public function abs_url($str, $search_path = false)
     {
@@ -653,8 +747,8 @@ EOF;
     /**
      * Show error page and terminate script execution
      *
-     * @param int    $code     Error code
-     * @param string $message  Error message
+     * @param int    $code    Error code
+     * @param string $message Error message
      */
     public function raise_error($code, $message)
     {
@@ -665,6 +759,21 @@ EOF;
 
         include RCUBE_INSTALL_PATH . 'program/steps/utils/error.inc';
         exit;
+    }
+
+    /**
+     * Modify path by adding URL prefix if configured
+     */
+    public function asset_url($path)
+    {
+        // iframe content can't be in a different domain
+        // @TODO: check if assests are on a different domain
+
+        if (!$this->assets_path || in_array($path[0], array('?', '/', '.')) || strpos($path, '://')) {
+            return $path;
+        }
+
+        return $this->assets_path . $path;
     }
 
 
@@ -685,7 +794,7 @@ EOF;
     }
 
     /**
-     * Callback funtion for preg_replace_callback() in parse_with_globals()
+     * Callback function for preg_replace_callback() in parse_with_globals()
      */
     protected function globals_callback($matches)
     {
@@ -704,7 +813,7 @@ EOF;
     }
 
     /**
-     * Callback function for preg_replace_callback in write()
+     * Callback function for preg_replace_callback in fix_paths()
      *
      * @return string Parsed string
      */
@@ -727,6 +836,28 @@ EOF;
     }
 
     /**
+     * Correct paths of asset files according to assets_path
+     */
+    protected function fix_assets_paths($output)
+    {
+        return preg_replace_callback(
+            '!(src|href|background)=(["\']?)([a-z0-9/_.?=-]+)(["\'\s>])!i',
+            array($this, 'assets_callback'), $output);
+    }
+
+    /**
+     * Callback function for preg_replace_callback in fix_assets_paths()
+     *
+     * @return string Parsed string
+     */
+    protected function assets_callback($matches)
+    {
+        $file = $this->asset_url($matches[3]);
+
+        return $matches[1] . '=' . $matches[2] . $file . $matches[4];
+    }
+
+    /**
      * Modify file by adding mtime indicator
      */
     protected function file_mod($file)
@@ -737,12 +868,12 @@ EOF;
         // use minified file if exists (not in development mode)
         if (!$this->devel_mode && !preg_match('/\.min\.' . $ext . '$/', $file)) {
             $minified_file = substr($file, 0, strlen($ext) * -1) . 'min.' . $ext;
-            if ($fs = @filemtime($minified_file)) {
+            if ($fs = @filemtime($this->assets_dir . $minified_file)) {
                 return $minified_file . '?s=' . $fs;
             }
         }
 
-        if ($fs = @filemtime($file)) {
+        if ($fs = @filemtime($this->assets_dir . $file)) {
             $file .= '?s=' . $fs;
         }
 
@@ -752,7 +883,8 @@ EOF;
     /**
      * Public wrapper to dipp into template parsing.
      *
-     * @param  string $input
+     * @param string $input Template content
+     *
      * @return string
      * @uses   rcmail_output_html::parse_xml()
      * @since  0.1-rc1
@@ -761,15 +893,13 @@ EOF;
     {
         $input = $this->parse_conditions($input);
         $input = $this->parse_xml($input);
+        $input = $this->postrender($input);
 
         return $input;
     }
 
     /**
      * Parse for conditional tags
-     *
-     * @param  string $input
-     * @return string
      */
     protected function parse_conditions($input)
     {
@@ -778,36 +908,45 @@ EOF;
             if (preg_match('/^(else|endif)$/i', $matches[1])) {
                 return $matches[0] . $this->parse_conditions($matches[3]);
             }
+
             $attrib = html::parse_attrib_string($matches[2]);
+
             if (isset($attrib['condition'])) {
-                $condmet = $this->check_condition($attrib['condition']);
+                $condmet    = $this->check_condition($attrib['condition']);
                 $submatches = preg_split('/<roundcube:(elseif|else|endif)\s+([^>]+)>\n?/is', $matches[3], 2, PREG_SPLIT_DELIM_CAPTURE);
+
                 if ($condmet) {
                     $result = $submatches[0];
-                    $result.= ($submatches[1] != 'endif' ? preg_replace('/.*<roundcube:endif\s+[^>]+>\n?/Uis', '', $submatches[3], 1) : $submatches[3]);
+                    if ($submatches[1] != 'endif') {
+                        $result .= preg_replace('/.*<roundcube:endif\s+[^>]+>\n?/Uis', '', $submatches[3], 1);
+                    }
+                    else {
+                        $result .= $submatches[3];
+                    }
                 }
                 else {
                     $result = "<roundcube:$submatches[1] $submatches[2]>" . $submatches[3];
                 }
+
                 return $matches[0] . $this->parse_conditions($result);
             }
+
             rcube::raise_error(array(
-                'code' => 500,
-                'type' => 'php',
-                'line' => __LINE__,
-                'file' => __FILE__,
-                'message' => "Unable to parse conditional tag " . $matches[2]
-            ), true, false);
+                    'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
+                    'message' => "Unable to parse conditional tag " . $matches[2]
+                ), true, false);
         }
+
         return $input;
     }
 
     /**
      * Determines if a given condition is met
      *
-     * @todo   Extend this to allow real conditions, not just "set"
-     * @param  string Condition statement
+     * @param string $condition Condition statement
+     *
      * @return boolean True if condition is met, False if not
+     * @todo Extend this to allow real conditions, not just "set"
      */
     protected function check_condition($condition)
     {
@@ -833,11 +972,11 @@ EOF;
     /**
      * Parse & evaluate a given expression and return its result.
      *
-     * @param string Expression statement
+     * @param string $expression Expression statement
      *
      * @return mixed Expression result
      */
-    protected function eval_expression ($expression)
+    protected function eval_expression($expression)
     {
         $expression = preg_replace(
             array(
@@ -851,36 +990,27 @@ EOF;
             ),
             array(
                 "\$_SESSION['\\1']",
-                "\$app->config->get('\\1',rcube_utils::get_boolean('\\3'))",
-                "\$env['\\1']",
+                "\$this->app->config->get('\\1',rcube_utils::get_boolean('\\3'))",
+                "\$this->env['\\1']",
                 "rcube_utils::get_input_value('\\1', rcube_utils::INPUT_GPC)",
                 "\$_COOKIE['\\1']",
-                "\$browser->{'\\1'}",
-                $this->template_name,
+                "\$this->browser->{'\\1'}",
+                "'{$this->template_name}'",
             ),
             $expression
         );
 
-        $fn = create_function('$app,$browser,$env', "return ($expression);");
-        if (!$fn) {
-            rcube::raise_error(array(
-                'code' => 505,
-                'type' => 'php',
-                'file' => __FILE__,
-                'line' => __LINE__,
-                'message' => "Expression parse error on: ($expression)"), true, false);
-
-            return null;
-        }
-
-        return $fn($this->app, $this->browser, $this->env);
+        // Note: We used create_function() before but it's deprecated in PHP 7.2
+        //       and really it was just a wrapper on eval().
+        return eval("return ($expression);");
     }
 
     /**
      * Search for special tags in input and replace them
      * with the appropriate content
      *
-     * @param  string Input string to parse
+     * @param string $input Input string to parse
+     *
      * @return string Altered input string
      * @todo   Use DOM-parser to traverse template HTML
      * @todo   Maybe a cache.
@@ -894,7 +1024,8 @@ EOF;
      * Callback function for parsing an xml command tag
      * and turn it into real html content
      *
-     * @param  array Matches array of preg_replace_callback
+     * @param array $matches Matches array of preg_replace_callback
+     *
      * @return string Tag/Object content
      */
     protected function xml_command($matches)
@@ -963,13 +1094,26 @@ EOF;
                 }
                 break;
 
+            case 'add_label':
+                $this->add_label($attrib['name']);
+                break;
+
             // include a file
             case 'include':
+                if ($attrib['condition'] && !$this->check_condition($attrib['condition'])) {
+                    break;
+                }
+
+                if ($attrib['file'][0] != '/') {
+                    $attrib['file'] = '/templates/' . $attrib['file'];
+                }
+
                 $old_base_path = $this->base_path;
                 if (!empty($attrib['skin_path'])) $attrib['skinpath'] = $attrib['skin_path'];
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attrib['skinpath'])) {
-                    $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);  // set base_path to core skin directory (not plugin's skin)
-                    $path = realpath($path);
+                    // set base_path to core skin directory (not plugin's skin)
+                    $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);
+                    $path = realpath(RCUBE_INSTALL_PATH . $path);
                 }
 
                 if (is_readable($path)) {
@@ -1003,14 +1147,15 @@ EOF;
 
             // return code for a specific application object
             case 'object':
-                $object = strtolower($attrib['name']);
+                $object  = strtolower($attrib['name']);
                 $content = '';
 
                 // we are calling a class/method
                 if (($handler = $this->object_handlers[$object]) && is_array($handler)) {
                     if ((is_object($handler[0]) && method_exists($handler[0], $handler[1])) ||
                     (is_string($handler[0]) && class_exists($handler[0])))
-                    $content = call_user_func($handler, $attrib);
+                    $content  = call_user_func($handler, $attrib);
+                    $external = true;
                 }
                 // execute object handler function
                 else if (function_exists($handler)) {
@@ -1073,7 +1218,25 @@ EOF;
 
                 // exec plugin hooks for this template object
                 $hook = $this->app->plugins->exec_hook("template_object_$object", $attrib + array('content' => $content));
+
+                if (strlen($hook['content']) && !empty($external)) {
+                    $object_id                 = uniqid('TEMPLOBJECT:', true);
+                    $this->objects[$object_id] = $hook['content'];
+                    $hook['content']           = $object_id;
+                }
+
                 return $hook['content'];
+
+            // return <link> element
+            case 'link':
+                if ($attrib['condition'] && !$this->check_condition($attrib['condition'])) {
+                    break;
+                }
+
+                unset($attrib['condition']);
+
+                return html::tag('link', $attrib);
+
 
             // return code for a specified eval expression
             case 'exp':
@@ -1124,7 +1287,8 @@ EOF;
     /**
      * Include a specific file and return it's contents
      *
-     * @param string File path
+     * @param string $file File path
+     *
      * @return string Contents of the processed file
      */
     protected function include_php($file)
@@ -1138,9 +1302,29 @@ EOF;
     }
 
     /**
+     * Put objects' content back into template output
+     */
+    protected function postrender($output)
+    {
+        // insert objects' contents
+        foreach ($this->objects as $key => $val) {
+            $output = str_replace($key, $val, $output, $count);
+            if ($count) {
+                $this->objects[$key] = null;
+            }
+        }
+
+        // make sure all <form> tags have a valid request token
+        $output = preg_replace_callback('/<form\s+([^>]+)>/Ui', array($this, 'alter_form_tag'), $output);
+
+        return $output;
+    }
+
+    /**
      * Create and register a button
      *
-     * @param  array Named button attributes
+     * @param array $attrib Named button attributes
+     *
      * @return string HTML button
      * @todo   Remove all inline JS calls and use jQuery instead.
      * @todo   Remove all sprintf()'s - they are pretty, but also slow.
@@ -1157,7 +1341,6 @@ EOF;
             return '';
         }
 
-
         // try to find out the button type
         if ($attrib['type']) {
             $attrib['type'] = strtolower($attrib['type']);
@@ -1167,7 +1350,7 @@ EOF;
             }
         }
         else {
-            $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $attrib['imageact']) ? 'image' : 'link';
+            $attrib['type'] = ($attrib['image'] || $attrib['imagepas'] || $attrib['imageact']) ? 'image' : 'button';
         }
 
         $command = $attrib['command'];
@@ -1303,10 +1486,21 @@ EOF;
                 $attrib['value'] = $attrib['label'];
             }
             if ($attrib['command']) {
-              $attrib['disabled'] = 'disabled';
+                $attrib['disabled'] = 'disabled';
             }
 
             $out = html::tag('input', $attrib, null, array('type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled'));
+        }
+        else {
+            if ($attrib['label']) {
+                $attrib['value'] = $attrib['label'];
+            }
+            if ($attrib['command']) {
+                $attrib['disabled'] = 'disabled';
+            }
+
+            $content = isset($attrib['content']) ? $attrib['content'] : $attrib['label'];
+            $out = html::tag('button', $attrib, $content, array('type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled'));
         }
 
         // generate html code for button
@@ -1330,8 +1524,8 @@ EOF;
     /**
      * Link an external script file
      *
-     * @param string File URL
-     * @param string Target position [head|foot]
+     * @param string $file     File URL
+     * @param string $position Target position [head|foot]
      */
     public function include_script($file, $position='head')
     {
@@ -1351,10 +1545,10 @@ EOF;
     /**
      * Add inline javascript code
      *
-     * @param string JS code snippet
-     * @param string Target position [head|head_top|foot]
+     * @param string $script   JS code snippet
+     * @param string $position Target position [head|head_top|foot]
      */
-    public function add_script($script, $position='head')
+    public function add_script($script, $position = 'head')
     {
         if (!isset($this->scripts[$position])) {
             $this->scripts[$position] = "\n" . rtrim($script);
@@ -1367,7 +1561,7 @@ EOF;
     /**
      * Link an external css file
      *
-     * @param string File URL
+     * @param string $file File URL
      */
     public function include_css($file)
     {
@@ -1398,10 +1592,10 @@ EOF;
     /**
      * Process template and write to stdOut
      *
-     * @param string HTML template
-     * @param string Base for absolute paths
+     * @param string $templ     HTML template
+     * @param string $base_path Base for absolute paths
      */
-    public function _write($templ = '', $base_path = '')
+    protected function _write($templ = '', $base_path = '')
     {
         $output = trim($templ);
 
@@ -1521,6 +1715,12 @@ EOF;
 
         $output = $this->parse_with_globals($this->fix_paths($output));
 
+        if ($this->assets_path) {
+            $output = $this->fix_assets_paths($output);
+        }
+
+        $output = $this->postrender($output);
+
         // trigger hook with final HTML content to be sent
         $hook = $this->app->plugins->exec_hook("send_page", array('content' => $output));
         if (!$hook['abort']) {
@@ -1536,8 +1736,9 @@ EOF;
     /**
      * Returns iframe object, registers some related env variables
      *
-     * @param array $attrib HTML attributes
+     * @param array   $attrib          HTML attributes
      * @param boolean $is_contentframe Register this iframe as the 'contentframe' gui object
+     *
      * @return string IFRAME element
      */
     public function frame($attrib, $is_contentframe = false)
@@ -1549,12 +1750,12 @@ EOF;
         }
 
         $attrib['name'] = $attrib['id'];
-        $attrib['src'] = $attrib['src'] ? $this->abs_url($attrib['src'], true) : 'program/resources/blank.gif';
+        $attrib['src']  = $attrib['src'] ? $this->abs_url($attrib['src'], true) : 'about:blank';
 
         // register as 'contentframe' object
         if ($is_contentframe || $attrib['contentframe']) {
             $this->set_env('contentframe', $attrib['contentframe'] ? $attrib['contentframe'] : $attrib['name']);
-            $this->set_env('blankpage', $attrib['src']);
+            $this->set_env('blankpage', $this->asset_url($attrib['src']));
         }
 
         return html::iframe($attrib);
@@ -1566,34 +1767,40 @@ EOF;
     /**
      * Create a form tag with the necessary hidden fields
      *
-     * @param array Named tag parameters
+     * @param array  $attrib  Named tag parameters
+     * @param string $content HTML content of the form
+     *
      * @return string HTML code for the form
      */
     public function form_tag($attrib, $content = null)
     {
-      if ($this->framed || $this->env['framed']) {
-        $hiddenfield = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
-        $hidden = $hiddenfield->show();
-      }
-      if ($this->env['extwin']) {
-        $hiddenfield = new html_hiddenfield(array('name' => '_extwin', 'value' => '1'));
-        $hidden = $hiddenfield->show();
-      }
+        if ($this->env['extwin']) {
+            $hiddenfield = new html_hiddenfield(array('name' => '_extwin', 'value' => '1'));
+            $hidden = $hiddenfield->show();
+        }
+        else if ($this->framed || $this->env['framed']) {
+            $hiddenfield = new html_hiddenfield(array('name' => '_framed', 'value' => '1'));
+            $hidden = $hiddenfield->show();
+        }
 
-      if (!$content)
-        $attrib['noclose'] = true;
+        if (!$content) {
+            $attrib['noclose'] = true;
+        }
 
-      return html::tag('form',
-        $attrib + array('action' => $this->app->comm_path, 'method' => "get"),
-        $hidden . $content,
-        array('id','class','style','name','method','action','enctype','onsubmit'));
+        return html::tag('form',
+            $attrib + array('action' => $this->app->comm_path, 'method' => "get"),
+            $hidden . $content,
+            array('id','class','style','name','method','action','enctype','onsubmit')
+        );
     }
 
     /**
      * Build a form tag with a unique request token
      *
-     * @param array Named tag parameters including 'action' and 'task' values which will be put into hidden fields
-     * @param string Form content
+     * @param array  $attrib  Named tag parameters including 'action' and 'task' values
+     *                        which will be put into hidden fields
+     * @param string $content Form content
+     *
      * @return string HTML code for the form
      */
     public function request_form($attrib, $content = '')
@@ -1606,24 +1813,27 @@ EOF;
             $hidden->add(array('name' => '_action', 'value' => $attrib['action']));
         }
 
+        // we already have a <form> tag
+        if ($attrib['form']) {
+            if ($this->framed || $this->env['framed']) {
+                $hidden->add(array('name' => '_framed', 'value' => '1'));
+            }
+
+            return $hidden->show() . $content;
+        }
+
         unset($attrib['task'], $attrib['request']);
         $attrib['action'] = './';
 
-        // we already have a <form> tag
-        if ($attrib['form']) {
-            if ($this->framed || $this->env['framed'])
-                $hidden->add(array('name' => '_framed', 'value' => '1'));
-            return $hidden->show() . $content;
-        }
-        else
-            return $this->form_tag($attrib, $hidden->show() . $content);
+        return $this->form_tag($attrib, $hidden->show() . $content);
     }
 
     /**
      * GUI object 'username'
      * Showing IMAP username of the current session
      *
-     * @param array Named tag parameters (currently not used)
+     * @param array $attrib Named tag parameters (currently not used)
+     *
      * @return string HTML code for the gui object
      */
     public function current_username($attrib)
@@ -1654,7 +1864,8 @@ EOF;
      * GUI object 'loginform'
      * Returns code for the webmail login form
      *
-     * @param array Named parameters
+     * @param array $attrib Named parameters
+     *
      * @return string HTML code for the gui object
      */
     protected function login_form($attrib)
@@ -1671,6 +1882,8 @@ EOF;
 
         // Disable autocapitalization on iPad/iPhone (#1488609)
         $attrib['autocapitalize'] = 'off';
+
+        $form_name = !empty($attrib['form']) ? $attrib['form'] : 'form';
 
         // set atocomplete attribute
         $user_attrib = $autocomplete > 0 ? array() : array('autocomplete' => 'off');
@@ -1710,7 +1923,6 @@ EOF;
                 + $attrib + $host_attrib);
         }
 
-        $form_name  = !empty($attrib['form']) ? $attrib['form'] : 'form';
         $this->add_gui_object('loginform', $form_name);
 
         // create HTML table with two cols
@@ -1739,9 +1951,8 @@ EOF;
         }
 
         if (rcube_utils::get_boolean($attrib['submit'])) {
-            $submit = new html_inputfield(array('type' => 'submit', 'id' => 'rcmloginsubmit',
-                'class' => 'button mainaction', 'value' => $this->app->gettext('login')));
-            $out .= html::p('formbuttons', $submit->show());
+            $button_attr = array('type' => 'submit', 'id' => 'rcmloginsubmit', 'class' => 'button mainaction submit');
+            $out .= html::p('formbuttons', html::tag('button', $button_attr, $this->app->gettext('login')));
         }
 
         // surround html output with a form tag
@@ -1759,18 +1970,20 @@ EOF;
      * GUI object 'preloader'
      * Loads javascript code for images preloading
      *
-     * @param array Named parameters
+     * @param array $attrib Named parameters
      * @return void
      */
     protected function preloader($attrib)
     {
         $images = preg_split('/[\s\t\n,]+/', $attrib['images'], -1, PREG_SPLIT_NO_EMPTY);
         $images = array_map(array($this, 'abs_url'), $images);
+        $images = array_map(array($this, 'asset_url'), $images);
 
-        if (empty($images) || $this->app->task == 'logout')
+        if (empty($images) || $_REQUEST['_task'] == 'logout') {
             return;
+        }
 
-        $this->add_script('var images = ' . self::json_serialize($images) .';
+        $this->add_script('var images = ' . self::json_serialize($images, $this->devel_mode) .';
             for (var i=0; i<images.length; i++) {
                 img = new Image();
                 img.src = images[i];
@@ -1781,7 +1994,8 @@ EOF;
      * GUI object 'searchform'
      * Returns code for search function
      *
-     * @param array Named parameters
+     * @param array $attrib Named parameters
+     *
      * @return string HTML code for the gui object
      */
     protected function search_form($attrib)
@@ -1797,19 +2011,70 @@ EOF;
         if ($attrib['type'] == 'search' && !$this->browser->khtml) {
             unset($attrib['type'], $attrib['results']);
         }
+        if (empty($attrib['placeholder'])) {
+            $attrib['placeholder'] = $this->app->gettext('searchplaceholder');
+        }
 
+        $label   = html::label(array('for' => $attrib['id'], 'class' => 'voice'), rcube::Q($this->app->gettext('arialabelsearchterms')));
         $input_q = new html_inputfield($attrib);
-        $out = $input_q->show();
+        $out     = $label . $input_q->show();
 
+        // @TODO: At some point we'll need support for multiple searchforms on the same page
         $this->add_gui_object('qsearchbox', $attrib['id']);
 
         // add form tag around text field
-        if (empty($attrib['form'])) {
+        if (empty($attrib['form']) && empty($attrib['no-form'])) {
             $out = $this->form_tag(array(
-                'name'     => "rcmqsearchform",
-                'onsubmit' => self::JS_OBJECT_NAME . ".command('search'); return false",
-                'style'    => "display:inline"),
-                $out);
+                    'name'     => "rcmqsearchform",
+                    'onsubmit' => self::JS_OBJECT_NAME . ".command('search'); return false",
+                    // 'style'    => "display:inline"
+                ), $out);
+        }
+
+        if (!empty($attrib['wrapper'])) {
+            $header = html::tag($attrib['ariatag'] ?: 'h2', array(
+                    'id'    => 'aria-label-' . $attrib['label'],
+                    'class' => 'voice'
+                ), rcube::Q($this->app->gettext('arialabel' . $attrib['label'])));
+
+            if ($attrib['options']) {
+                $options_button = $this->button(array(
+                        'type'       => 'link',
+                        'href'       => '#search-filter',
+                        'class'      => 'button options',
+                        'label'      => 'options',
+                        'title'      => 'options',
+                        'tabindex'   => '0',
+                        'innerclass' => 'inner',
+                        'data-popup' => $attrib['options']
+                ));
+            }
+
+            $search_button = $this->button(array(
+                    'type'       => 'link',
+                    'href'       => '#search',
+                    'class'      => 'button search',
+                    'label'      => $attrib['buttontitle'],
+                    'title'      => $attrib['buttontitle'],
+                    'tabindex'   => '0',
+                    'innerclass' => 'inner',
+            ));
+
+            $reset_button = $this->button(array(
+                    'type'       => 'link',
+                    'command'    => 'reset-search',
+                    'class'      => 'button reset',
+                    'label'      => 'resetsearch',
+                    'title'      => 'resetsearch',
+                    'tabindex'   => '0',
+                    'innerclass' => 'inner',
+            ));
+
+            $out = html::div(array(
+                'role'            => 'search',
+                'aria-labelledby' => $attrib['label'] ? 'aria-label-' . $attrib['label'] : null,
+                'class'           => $attrib['wrapper'],
+            ), "$header$out\n$options_button\n$reset_button\n$search_button");
         }
 
         return $out;
@@ -1835,7 +2100,8 @@ EOF;
     /**
      * GUI object 'charsetselector'
      *
-     * @param array Named parameters for the select tag
+     * @param array $attrib Named parameters for the select tag
+     *
      * @return string HTML code for the gui object
      */
     public function charset_selector($attrib)
@@ -1884,8 +2150,8 @@ EOF;
             'GB2312'       => 'GB2312 ('.$this->app->gettext('chinese').')',
         );
 
-        if (!empty($_POST['_charset'])) {
-            $set = $_POST['_charset'];
+        if ($post = rcube_utils::get_input_value('_charset', rcube_utils::INPUT_POST)) {
+            $set = $post;
         }
         else if (!empty($attrib['selected'])) {
             $set = $attrib['selected'];
@@ -1895,7 +2161,7 @@ EOF;
         }
 
         $set = strtoupper($set);
-        if (!isset($charsets[$set])) {
+        if (!isset($charsets[$set]) && preg_match('/^[A-Z0-9-]+$/', $set)) {
             $charsets[$set] = $set;
         }
 
@@ -1928,5 +2194,4 @@ EOF;
 
         return $content;
     }
-
 }

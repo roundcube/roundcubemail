@@ -15,5 +15,5 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-subscriptions_option/
 */
-$labels['useimapsubscriptions']  = '使用IMAP訂閱';
+$labels['useimapsubscriptions']  = '使用 IMAP 訂閱';
 ?>

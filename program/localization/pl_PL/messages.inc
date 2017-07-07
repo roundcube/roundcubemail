@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,6 +22,7 @@ $messages['sessionerror'] = 'Błąd sesji bądź sesja wygasła!';
 $messages['storageerror'] = 'Błąd połączenia z serwerem!';
 $messages['servererror'] = 'Błąd serwera!';
 $messages['servererrormsg'] = 'Błąd serwera: $msg';
+$messages['accountlocked'] = 'Przekroczono maksymalną dozwoloną liczbę prób logowania. Proszę spróbować później.';
 $messages['connerror'] = 'Błąd połączenia (brak odpowiedzi serwera)!';
 $messages['dberror'] = 'Błąd bazy danych!';
 $messages['windowopenerror'] = 'Wyskakujące okno zostało zablokowane!';
@@ -39,6 +40,7 @@ $messages['nomessages'] = 'Brak wiadomości';
 $messages['refreshing'] = 'Odświeżanie...';
 $messages['loading'] = 'Ładowanie...';
 $messages['uploading'] = 'Zapisywanie pliku...';
+$messages['attaching'] = 'Dołączanie pliku...';
 $messages['uploadingmany'] = 'Zapisywanie plików...';
 $messages['loadingdata'] = 'Ładowanie danych...';
 $messages['checkingmail'] = 'Sprawdzanie nowych wiadomości...';
@@ -54,6 +56,14 @@ $messages['contactexists'] = 'Kontakt o podanym adresie e-mail już istnieje!';
 $messages['contactnameexists'] = 'Kontakt z podaną nazwą już istnieje!';
 $messages['blockedimages'] = 'Ze względów bezpieczeństwa zewnętrzne obrazki zostały zablokowane.';
 $messages['encryptedmessage'] = 'Przepraszamy, nie można wyświetlić zaszyfrowanej wiadomości!';
+$messages['externalmessagedecryption'] = 'Ta wiadomość jest zaszyfrowana i może zostać odszyfrowana za pomocą rozszerzenia przeglądarki.';
+$messages['nopubkeyfor'] = 'Nie znaleziono klucza publicznego dla $email';
+$messages['nopubkeyforsender'] = 'Nie znaleziono klucza publicznego dla używanej tożsamości. Czy chcesz zaszyfrować wiadomość tylko dla adresatów?';
+$messages['encryptnoattachments'] = 'Załączniki, które zostały poprzednio przesłane na serwer nie mogą zostać zaszyfrowane. Należy przesłać je ponownie poprzez dodanie do edytora szyfrowania.';
+$messages['searchpubkeyservers'] = 'Czy wyszukać brakujące klucze na serwerach kluczy?';
+$messages['encryptpubkeysfound'] = 'Znaleziono następujące klucze:';
+$messages['keyservererror'] = 'Pobieranie klucza z serwera nie powiodło się';
+$messages['keyimportsuccess'] = 'Klucz $key został pomyślnie zaimportowany do bazy kluczy';
 $messages['nocontactsfound'] = 'Nie znaleziono kontaktu!';
 $messages['contactnotfound'] = 'Szukany kontakt nie został odnaleziony.';
 $messages['contactsearchonly'] = 'Użyj wyszukiwarki aby wyświetlić kontakty.';
@@ -80,11 +90,13 @@ $messages['formincomplete'] = 'Uzupełnij formularz!';
 $messages['noemailwarning'] = 'Podaj poprawny adres e-mail!';
 $messages['nonamewarning']  = 'Podaj nazwę!';
 $messages['nopagesizewarning'] = 'Podaj poprawną wartość!';
-$messages['nosenderwarning'] = 'Podaj adres nadawcy!';
+$messages['nosenderwarning'] = 'Podaj adres e-mail nadawcy!';
 $messages['norecipientwarning'] = 'Podaj co najmniej jednego odbiorcę!';
+$messages['disclosedrecipwarning'] = 'Wszyscy odbiorcy będą widzieć adresy e-mail innych. Aby temu zapobiec i chronić ich prywatność możesz użyć pola Bcc.';
+$messages['disclosedreciptitle'] = 'Zbyt wielu publicznych odbiorców';
 $messages['nosubjectwarning']  = 'Nie podano tematu wiadomości. Czy chcesz go teraz uzupełnić?';
+$messages['nosubjecttitle']  = 'Brak tematu';
 $messages['nobodywarning'] = 'Ta wiadomość jest pusta, czy mimo to chcesz ją wysłać?';
-$messages['notsentwarning'] = 'Wiadomość nie została wysłana. Czy chcesz usunąć tę wiadomość?';
 $messages['restoresavedcomposedata'] = 'Wykryto poprzednio tworzoną ale nie wysłaną wiadomość.\n\nTemat: $subject\nZapisano: $date\n\nCzy przywrócić tą wiadomość?';
 $messages['noldapserver'] = 'Wybierz serwer LDAP!';
 $messages['nosearchname'] = 'Podaj nazwę kontaktu lub jego adres e-mail.';
@@ -104,8 +116,11 @@ $messages['folderexpunged'] = 'Folder został pomyślnie uporządkowany.';
 $messages['deletedsuccessfully'] = 'Usunięto.';
 $messages['converting'] = 'Konwertowanie tekstu...';
 $messages['messageopenerror'] = 'Nie można załadować wiadomości z serwera.';
+$messages['filelinkerror'] = 'Dołączanie pliku nie powiodło się.';
 $messages['fileuploaderror'] = 'Załączanie pliku nie powiodło się.';
 $messages['filesizeerror'] = 'Plik przekracza maksymalną wielkość $size.';
+$messages['filecounterror'] = 'Możesz wysłać tylko $count plików jednocześnie.';
+$messages['msgsizeerror'] = 'Załączanie pliku nie powiodło się. Przekroczony maksymalny rozmiar wiadomości ($size).';
 $messages['copysuccess'] = 'Pomyślnie skopiowano $nr kontaktów.';
 $messages['movesuccess'] = 'Pomyślnie przeniesiono $nr kontaktów.';
 $messages['copyerror'] = 'Nie udało się skopiować żadnego kontaktu.';
@@ -163,12 +178,14 @@ $messages['savedsearchcreated'] = 'Wyszukiwanie zapisano pomyślnie.';
 $messages['savedsearchcreateerror'] = 'Nie można zapisać wyszukiwania.';
 $messages['messagedeleted'] = 'Wiadomości zostały usunięte.';
 $messages['messagemoved'] = 'Wiadomości zostały przeniesione.';
+$messages['messagemovedtotrash'] = 'Wiadomości zostały przeniesione do Kosza.';
 $messages['messagecopied'] = 'Wiadomości zostały skopiowane.';
 $messages['messagemarked'] = 'Wiadomości zostały oznaczone.';
 $messages['autocompletechars'] = 'Wprowadź co najmniej $min znak(ów) aby skorzystać z autouzupełniania.';
 $messages['autocompletemore'] = 'Znaleziono więcej pasujących wpisów. Wprowadź więcej znaków.';
 $messages['namecannotbeempty'] = 'Nazwa nie może być pusta.';
 $messages['nametoolong'] = 'Nazwa jest zbyt długa.';
+$messages['namedotforbidden'] = 'Nazwa folderu nie może rozpoczynać się od kropki.';
 $messages['folderupdated'] = 'Folder został pomyślnie zaktualizowany.';
 $messages['foldercreated'] = 'Folder został pomyślnie utworzony.';
 $messages['invalidimageformat'] = 'Niepoprawny format obrazka.';
@@ -177,4 +194,16 @@ $messages['parentnotwritable'] = 'Nie można utworzyć/przenieść folderu w wyb
 $messages['messagetoobig'] = 'Ta część wiadomości jest zbyt duża aby ją przetworzyć.';
 $messages['attachmentvalidationerror'] = 'UWAGA! Ten załącznik jest podejrzany ponieważ jego typ nie jest zgodny z typem zadeklarownym w wiadomości. Jeśli nie ufasz temu nadawcy nie powinieneś otwierać go w przeglądarce, gdyż może zawierać złośliwe oprogramowanie.<br/><br/><em>Zadeklarowany: $expected; wykryty: $detected</em>';
 $messages['noscriptwarning'] = 'Uwaga: Usługa wymaga Javascriptu! Aby z niej skorzystać proszę włączyć obsługę języka Javascript w ustawieniach przeglądarki.';
-?>
+$messages['messageissent'] = 'Wiadomość została już wysłana, jednak nie została zapisana. Czy chcesz ją zapisać teraz?';
+$messages['errnotfound'] = 'Nie znaleziono pliku';
+$messages['errnotfoundexplain'] = 'Żądany zasób nie został odnaleziony!';
+$messages['errfailedrequest'] = 'Błędne żądanie';
+$messages['errauthorizationfailed'] = 'Błąd autoryzacji';
+$messages['errunauthorizedexplain'] = 'Nie można zweryfikować czy jesteś upoważniony do dostępu dla tej usługi!';
+$messages['errrequestcheckfailed'] = 'Sprawdzanie żądania nie powiodło się';
+$messages['errcsrfprotectionexplain'] = "Dla twojego bezpieczeństwa, dostęp do tego zasobu jest zabezpieczony przeciw atakom typu CSRF.\nJeśli widzisz ten komunikat, prawdopodobnie nie wylogowałeś się przed opuszczeniem aplikacji.\n\nTwoje działanie jest wymagane aby kontynuować.";
+$messages['errcontactserveradmin'] = 'Skontaktuj się z administratorem serwera.';
+$messages['clicktoresumesession'] = 'Kliknij tutaj aby przywrócić poprzednią sesję';
+$messages['errcomposesession'] = 'Błąd sesji tworzenia';
+$messages['errcomposesessionexplain'] = 'Wywoływana sesja nie została odnaleziona';
+$messages['clicktocompose'] = 'Kliknij tutaj aby stworzyć nową wiadomość';

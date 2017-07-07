@@ -37,8 +37,8 @@ class rcube_ldap_simple_password
 
         $this->debug = $rcmail->config->get('ldap_debug');
 
-        $ldap_host = $rcmail->config->get('password_ldap_host');
-        $ldap_port = $rcmail->config->get('password_ldap_port');
+        $ldap_host = $rcmail->config->get('password_ldap_host', 'localhost');
+        $ldap_port = $rcmail->config->get('password_ldap_port', '389');
 
         $this->_debug("C: Connect to $ldap_host:$ldap_port");
 
@@ -59,7 +59,8 @@ class rcube_ldap_simple_password
         $this->_debug("S: OK");
 
         // Set protocol version
-        ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, $rcmail->config->get('password_ldap_version'));
+        ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION,
+            $rcmail->config->get('password_ldap_version', '3'));
 
         // Start TLS
         if ($rcmail->config->get('password_ldap_starttls')) {
@@ -106,12 +107,12 @@ class rcube_ldap_simple_password
         }
 
         $lchattr      = $rcmail->config->get('password_ldap_lchattr');
-        $pwattr       = $rcmail->config->get('password_ldap_pwattr');
+        $pwattr       = $rcmail->config->get('password_ldap_pwattr', 'userPassword');
         $smbpwattr    = $rcmail->config->get('password_ldap_samba_pwattr');
         $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
         $samba        = $rcmail->config->get('password_ldap_samba');
-        $pass_mode    = $rcmail->config->get('password_ldap_encodage');
-        $crypted_pass = rcube_ldap_password::hash_password($passwd, $pass_mode);
+        $pass_mode    = $rcmail->config->get('password_ldap_encodage', 'crypt');
+        $crypted_pass = password::hash_password($passwd, $pass_mode);
 
         // Support password_ldap_samba option for backward compat.
         if ($samba && !$smbpwattr) {
@@ -125,7 +126,7 @@ class rcube_ldap_simple_password
         }
 
         // Crypt new Samba password
-        if ($smbpwattr && !($samba_pass = rcube_ldap_password::hash_password($passwd, 'samba'))) {
+        if ($smbpwattr && !($samba_pass = password::hash_password($passwd, 'samba'))) {
             return PASSWORD_CRYPT_ERROR;
         }
 
@@ -164,7 +165,13 @@ class rcube_ldap_simple_password
         if (!ldap_modify($ds, $user_dn, $entry)) {
             $this->_debug("S: ".ldap_error($ds));
 
+            $errno = ldap_errno($ds);
+
             ldap_unbind($ds);
+
+            if ($errno == 0x13) {   // LDAP_CONSTRAINT_VIOLATION
+                return PASSWORD_CONSTRAINT_VIOLATION;
+            }
 
             return PASSWORD_CONNECT_ERROR;
         }

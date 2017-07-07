@@ -15,10 +15,9 @@
  * Enable the plugin in config.inc.php and add your desired
  * log types and files.
  *
- * @version @package_version@
  * @author Ziba Scott
  * @website http://roundcube.net
- * 
+ *
  * Example:
  *
  * config.inc.php:
@@ -75,7 +74,7 @@ class debug_logger extends rcube_plugin
 
         $log_config = rcmail::get_instance()->config->get('debug_logger',array());
 
-        foreach($log_config as $type=>$file){
+        foreach ($log_config as $type => $file){
             $this->runlog->set_file(rcmail::get_instance()->config->get('log_dir').'/'.$file, $type);
         }
 

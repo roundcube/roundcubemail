@@ -19,10 +19,10 @@ $labels['basic'] = 'visualizza notifica nel browser per nuovi messaggi';
 $labels['desktop'] = 'visualizza notifiche sul desktop per nuovi messaggi';
 $labels['sound'] = 'riproduci il suono per nuovi messaggi';
 $labels['test'] = 'Prova';
-$labels['title'] = 'nuovo messaggio';
-$labels['body'] = 'hai ricevuto un nuovo messaggio';
-$labels['testbody'] = 'notifica di prova';
-$labels['desktopdisabled'] = 'le notifiche sul desktop sono disabilitate nel tuo browser';
+$labels['title'] = 'Nuovo Messaggio';
+$labels['body'] = 'Hai ricevuto un nuovo messaggio';
+$labels['testbody'] = 'Notifica di prova';
+$labels['desktopdisabled'] = 'Le notifiche sul desktop sono disabilitate nel tuo browser';
 $labels['desktopunsupported'] = 'il tuo browser non supporta le notifiche sul desktop';
 $labels['desktoptimeout'] = 'Chiudi la notifica visualizzata sul desktop';
 ?>

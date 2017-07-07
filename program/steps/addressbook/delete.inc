@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/addressbook/delete.inc                                  |
  |                                                                       |
@@ -20,10 +20,11 @@
 */
 
 // process ajax requests only
-if (!$OUTPUT->ajax_call)
+if (!$OUTPUT->ajax_call) {
     return;
+}
 
-$cids   = rcmail_get_cids();
+$cids   = rcmail_get_cids(null, rcube_utils::INPUT_POST);
 $delcnt = 0;
 
 // remove previous deletes
@@ -60,8 +61,8 @@ foreach ($cids as $source => $cid) {
             $error = 'contactdelerror';
         }
 
-        $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GPC);
-        $group  = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC);
+        $source = rcube_utils::get_input_value('_source', rcube_utils::INPUT_GP);
+        $group  = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GP);
 
         $OUTPUT->show_message($error, 'error');
         $OUTPUT->command('list_contacts', $source, $group);
@@ -142,7 +143,7 @@ else {
 
 // update message count display
 $OUTPUT->set_env('pagecount', ceil($result->count / $PAGE_SIZE));
-$OUTPUT->command('set_rowcount', $rowcount ? $rowcount : rcmail_get_rowcount_text($result));
+$OUTPUT->command('set_rowcount', $rowcount ?: rcmail_get_rowcount_text($result));
 
 // add new rows from next page (if any)
 if (!empty($records)) {

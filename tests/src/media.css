@@ -15,6 +15,7 @@ div, p, a, li, td { -webkit-text-size-adjust:none; }
 	body {width:600px !important; margin:auto !important;}
 	.pict img {max-width:540px !important;  height:auto !important;}
 }
+@media screen and (max-width:600px) { body {min-width:474px !important;} }
 h1{ font-weight:bold; font-size:14px;color:#3c3c3c ;margin:0px; }
 h2{ color:#8DB048 ; font-size:14px; font-weight:bold; margin-top:20px; border-bottom:1px solid #d6d6d6; padding-bottom:4px; }
 h3{ color:#7e7e7e ; font-size:14px; font-weight:bold; margin:20px 0px 0px 0px; border-bottom:1px solid #d6d6d6; padding-bottom:0px 0px 4px 0px; }

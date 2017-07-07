@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -46,14 +46,17 @@ $labels['mailboxlist'] = 'กล่องจดหมาย';
 $labels['messagesfromto'] = 'จดหมายจาก $from ถึง $to จำนวน $count ฉบับ';
 $labels['messagenrof'] = 'จดหมายฉบับที่ $nr จาก $count ฉบับ';
 $labels['copy']     = 'คัดลอก';
-$labels['move']     = 'เลื่อน';
+$labels['move']     = 'ย้าย';
 $labels['moveto']   = 'ย้ายไป...';
+$labels['copyto']   = 'คัดลอกไป...';
 $labels['download'] = 'ดาวน์โหลด';
+$labels['open']     = 'เปิด';
 $labels['showattachment'] = 'แสดง';
+$labels['showanyway'] = 'แสดงตลอด';
 $labels['filename'] = 'ชื่อไฟล์';
 $labels['filesize'] = 'ขนาดไฟล์';
 $labels['addtoaddressbook'] = 'บันทึกในสมุดรายชื่อ';
-$labels['sun'] = 'อ';
+$labels['sun'] = 'อา';
 $labels['mon'] = 'จ';
 $labels['tue'] = 'อ';
 $labels['wed'] = 'พ';
@@ -118,17 +121,29 @@ $labels['markmessages']     = 'ทำเครื่องหมายข้อ�
 $labels['markread']         = 'ว่าอ่านแล้ว';
 $labels['markunread']       = 'ว่ายังไม่ได้อ่าน';
 $labels['moreactions']      = 'การกระทำเพิ่มเติม...';
+$labels['markallread']      = 'ทำว่าอ่านแล้ว';
+$labels['folders-cur']      = 'เลือกเฉพาะโฟเดอร์';
+$labels['folders-sub']      = 'เลือกโฟเดอร์และโฟเดอร์ย่อย';
+$labels['folders-all']      = 'ทุกโฟเดอร์';
 $labels['more']             = 'เพิ่มเติม';
 $labels['back']             = 'ย้อนกลับ';
 $labels['options']          = 'ตัวเลือก';
+$labels['first'] = 'แรก';
+$labels['last'] = 'ล่าสุด';
+$labels['previous'] = 'ก่อนหน้า';
+$labels['next'] = 'ถัดไป';
 $labels['select'] = 'เลือก';
 $labels['all'] = 'ทั้งหมด';
 $labels['none'] = 'ไม่เลือก';
 $labels['currpage'] = 'หน้าปัจจุบัน';
+$labels['isread'] = 'อ่าน';
 $labels['unread'] = 'จดหมายที่ไม่ได้อ่าน';
+$labels['flagged'] = 'ปักธง';
+$labels['unflagged'] = 'ไม่ปักธง';
 $labels['unanswered'] = 'ยังไม่ได้ตอบ';
 $labels['deleted'] = 'ลบแล้ว';
 $labels['undeleted'] = 'ยังไม่ได้ลบ';
+$labels['forwarded'] = 'ส่งต่อแล้ว';
 $labels['filter'] = 'ตัวกรองข้อมูล';
 $labels['list'] = 'รายการ';
 $labels['expand-all'] = 'แสดงทั้งหมด';
@@ -248,7 +263,6 @@ $labels['htmlsignature'] = 'ลายมือชื่อแบบ HTML';
 $labels['previewpane'] = 'แสดงหน้าต่างตัวอย่างแสดงผล';
 $labels['autosavedraft']  = 'บันทึกเป็นจดหมายร่างอัตโนมัติ';
 $labels['never']  = 'ไม่ใช้';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'ตัวเลือกขั้นสูง';
 $labels['newmessage'] = 'ข้อความใหม่';
 $labels['signatureoptions'] = 'ตัวเลือกสำหรับลายเซ็็นต์';
@@ -287,7 +301,4 @@ $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
 $labels['unicode'] = 'Unicode';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

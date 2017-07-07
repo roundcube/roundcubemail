@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-$messages['forgotattachment'] = "Haben Sie möglicherweise vergessen eine Datei anzuhängen?";
-$messages['reminderoption'] = "Erinnern an vergessene Anhänge ";
-$messages['keywords'] = "anbei,im anhang,angehängt,angefügt,beigefügt,beliegend";
+$messages['forgotattachment'] = "Haben Sie möglicherweise vergessen, eine Datei anzuhängen?";
+$messages['reminderoption'] = "An vergessene Anhänge erinnern";
+$messages['keywords'] = "anbei,im anhang,siehe anhang,angehängt,angefügt,beigefügt,beliegend";

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/addressbook/save.inc                                    |
  |                                                                       |
@@ -124,7 +124,7 @@ if (isset($a_record['photo'])) {
     else if ($tempfile = $_SESSION['contacts']['files'][$a_record['photo']]) {
         $tempfile = $RCMAIL->plugins->exec_hook('attachment_get', $tempfile);
         if ($tempfile['status'])
-            $a_record['photo'] = $tempfile['data'] ? $tempfile['data'] : @file_get_contents($tempfile['path']);
+            $a_record['photo'] = $tempfile['data'] ?: @file_get_contents($tempfile['path']);
     }
     else
         unset($a_record['photo']);
@@ -158,15 +158,25 @@ if (!empty($cid)) {
         }
 
         // LDAP DN change
-        if (is_string($result) && strlen($result)>1) {
+        if (is_string($result) && strlen($result) > 1) {
             $newcid = $result;
             // change cid in POST for 'show' action
             $_POST['_cid'] = $newcid;
         }
 
-        // define list of cols to be displayed
+        // refresh contact data for list update and 'show' action
+        $CONTACT_RECORD = $CONTACTS->get_record($newcid ?: $cid, true);
+
+        // Plugins can decide to remove the contact on edit, e.g. automatic_addressbook
+        // Best we can do is to refresh the list (#5522)
+        if (empty($CONTACT_RECORD)) {
+            $OUTPUT->command('parent.command', 'list');
+            $OUTPUT->send('iframe');
+        }
+
+        // Update contacts list
         $a_js_cols = array();
-        $record = $CONTACTS->get_record($newcid ? $newcid : $cid, true);
+        $record = $CONTACT_RECORD;
         $record['email'] = reset($CONTACTS->get_col_values('email', $record, true));
         $record['name']  = rcube_addressbook::compose_list_name($record);
 
@@ -186,7 +196,7 @@ if (!empty($cid)) {
     else {
         // show error message
         $err = $CONTACTS->get_error();
-        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : ($err['message'] ? $err['message'] : 'errorsaving'), 'error', null, false);
+        $OUTPUT->show_message($plugin['message'] ?: ($err['message'] ?: 'errorsaving'), 'error', null, false);
         $RCMAIL->overwrite_action('show');
     }
 }
@@ -226,13 +236,15 @@ else {
             $plugin = $RCMAIL->plugins->exec_hook('group_addmembers', array(
                 'group_id' => $CONTACTS->group_id, 'ids' => $insert_id, 'source' => $source));
 
-            $counts = $CONTACTS->count();
-
             if (!$plugin['abort']) {
-                if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($counts->count + 1 > $maxnum))
-                    $OUTPUT->show_message('maxgroupmembersreached', 'warning', array('max' => $maxnum));
-
-                $CONTACTS->add_to_group($plugin['group_id'], $plugin['ids']);
+                if (($maxnum = $RCMAIL->config->get('max_group_members', 0)) && ($CONTACTS->count()->count + 1 > $maxnum)) {
+                    // @FIXME: should we remove the contact?
+                    $msgtext = $RCMAIL->gettext(array('name' => 'maxgroupmembersreached', 'vars' => array('max' => $maxnum)));
+                    $OUTPUT->command('parent.display_message', $msgtext, 'warning');
+                }
+                else {
+                    $CONTACTS->add_to_group($plugin['group_id'], $plugin['ids']);
+                }
             }
         }
 
@@ -247,7 +259,7 @@ else {
     else {
         // show error message
         $err = $CONTACTS->get_error();
-        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : ($err['message'] ? $err['message'] : 'errorsaving'), 'error', null, false);
+        $OUTPUT->show_message($plugin['message'] ?: ($err['message'] ?: 'errorsaving'), 'error', null, false);
         $RCMAIL->overwrite_action('add');
     }
 }

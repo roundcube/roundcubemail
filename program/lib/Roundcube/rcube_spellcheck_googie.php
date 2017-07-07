@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -87,7 +87,7 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
         if ($fp = fsockopen($host, $port, $errno, $errstr, 30)) {
             $out = "POST $path HTTP/1.0\r\n";
             $out .= "Host: " . str_replace('ssl://', '', $host) . "\r\n";
-            $out .= "User-Agent: Roundcube Webmail/" . RCMAIL_VERSION . " (Googiespell Wrapper)\r\n";
+            $out .= "User-Agent: Roundcube Webmail/" . RCUBE_VERSION . " (Googiespell Wrapper)\r\n";
             $out .= "Content-Length: " . strlen($gtext) . "\r\n";
             $out .= "Content-Type: text/xml\r\n";
             $out .= "Connection: Close\r\n\r\n";
@@ -103,8 +103,7 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
         if (preg_match('!^HTTP/1.\d (\d+)(.+)!', $store, $m)) {
             $http_status = $m[1];
             if ($http_status != '200') {
-                $this->error = 'HTTP ' . $m[1] . $m[2];
-                $this->error .= "\n" . $store;
+                $this->error = 'HTTP ' . $m[1] . rtrim($m[2]);
             }
         }
 
@@ -142,7 +141,7 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
 
         if ($matches[0][4]) {
             $suggestions = explode("\t", $matches[0][4]);
-            if (sizeof($suggestions) > self::MAX_SUGGESTIONS) {
+            if (count($suggestions) > self::MAX_SUGGESTIONS) {
                 $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
             }
 
@@ -175,6 +174,4 @@ class rcube_spellcheck_googie extends rcube_spellcheck_engine
 
         return $result;
     }
-
 }
-

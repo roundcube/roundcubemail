@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/settings/edit_folder.inc                                |
  |                                                                       |
@@ -86,20 +86,21 @@ function rcmail_folder_form($attrib)
 
     // Location (name)
     if ($options['protected']) {
-        $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q($RCMAIL->localize_folderpath($mbox)));
+        $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q($RCMAIL->localize_foldername($mbox, false, true)));
     }
     else if ($options['norename']) {
         $foldername = rcube::Q($folder);
     }
     else {
-        if (isset($_POST['_name']))
+        if (isset($_POST['_name'])) {
             $folder = trim(rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true));
+        }
 
         $foldername = new html_inputfield(array('name' => '_name', 'id' => '_name', 'size' => 30));
         $foldername = $foldername->show($folder);
 
-        if ($options['special']) {
-            $foldername .= '&nbsp;(' . rcube::Q($RCMAIL->localize_foldername($mbox)) .')';
+        if ($options['special'] && ($sname = $RCMAIL->localize_foldername($mbox, false, true)) != $folder) {
+            $foldername .= '&nbsp;(' . rcube::Q($sname) .')';
         }
     }
 
@@ -298,13 +299,15 @@ function rcmail_folder_form($attrib)
 
 function rcmail_get_form_part($form, $attrib = array())
 {
+    global $RCMAIL;
+
     $content = '';
 
     if (is_array($form['content']) && !empty($form['content'])) {
         $table = new html_table(array('cols' => 2));
         foreach ($form['content'] as $col => $colprop) {
             $colprop['id'] = '_'.$col;
-            $label = !empty($colprop['label']) ? $colprop['label'] : $RCMAIL->gettext($col);
+            $label = $colprop['label'] ?: $RCMAIL->gettext($col);
 
             $table->add('title', html::label($colprop['id'], rcube::Q($label)));
             $table->add(null, $colprop['value']);

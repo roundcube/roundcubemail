@@ -94,17 +94,23 @@ $.extend($.datepicker, {
 		var that = this;
 
 		// register additional keyboard events to control date selection with cursor keys
-		$(target).unbind('keyup.datepicker-extended').bind('keyup.datepicker-extended', function(event) {
+		$(target).unbind('keydown.datepicker-extended').bind('keydown.datepicker-extended', function(event) {
 			var inc = 1;
 			switch (event.keyCode) {
 				case 109:
+				case 173:
 				case 189:  // "minus"
 					inc = -1;
+				case 61:
 				case 107:
 				case 187:  // "plus"
+					// do nothing if the input does not contain full date string
+					if (this.value.length < that._formatDate(inst, inst.selectedDay, inst.selectedMonth, inst.selectedYear).length) {
+						return true;
+					}
 					that._adjustInstDate(inst, inc, 'D');
-					that._selectDate(target, that._formatDate(inst, inst.selectedDay, inst.selectedMonth, inst.selectedYear));
-					break;
+					that._selectDateRC(target, that._formatDate(inst, inst.selectedDay, inst.selectedMonth, inst.selectedYear));
+					return false;
 
 				case $.ui.keyCode.UP:
 				case $.ui.keyCode.DOWN:
@@ -122,6 +128,8 @@ $.extend($.datepicker, {
 					}
 			}
 		})
+		// fix https://bugs.jqueryui.com/ticket/8593
+		.click(function (event) { that._showDatepicker(event); })
 		.attr('autocomplete', 'off');
 	},
 
@@ -171,7 +179,7 @@ $.extend($.datepicker, {
 	_hideDatepicker: function(input) {
 		__hideDatepicker.call(this, input);
 
-		var inst = this._curInst;;
+		var inst = this._curInst;
 		if (inst && !$.datepicker._datepickerShowing) {
 			inst.dpDiv.attr('aria-hidden', 'true');
 			$(inst.input).attr('aria-expanded', 'false');
@@ -207,8 +215,23 @@ $.extend($.datepicker, {
 			inst.dpDiv.find('.ui-datepicker-calendar').focus();
 			inst._hasfocus = false;
 		}
-	}
+	},
 
+	_selectDateRC: function(id, dateStr) {
+		var target = $(id), inst = this._getInst(target[0]);
+
+		dateStr = (dateStr != null ? dateStr : this._formatDate(inst));
+		if (inst.input) {
+			inst.input.val(dateStr);
+		}
+		this._updateAlternate(inst);
+		if (inst.input) {
+			inst.input.trigger("change"); // fire the change event
+		}
+		if (inst.inline) {
+			this._updateDatepicker(inst);
+		}
+	}
 });
 
 }(jQuery));

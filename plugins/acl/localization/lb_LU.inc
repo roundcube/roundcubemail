@@ -18,7 +18,7 @@
 $labels['sharing'] = 'Sharing';
 $labels['myrights'] = 'Zougrëffsrechter';
 $labels['username'] = 'Benotzer:';
-$labels['advanced'] = 'avancéierte Modus';
+$labels['advanced'] = 'Avancéierte Modus';
 $labels['newuser'] = 'Element dobäisetzen';
 $labels['actions'] = 'Optioune fir d\'Zougrëffsrechter';
 $labels['anyone'] = 'All d\'Benotzer (jiddwereen)';

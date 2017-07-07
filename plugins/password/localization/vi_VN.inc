@@ -28,4 +28,3 @@ $messages['internalerror'] = 'Không thể lưu mật khẩu mới';
 $messages['passwordshort'] = 'Mật khẩu phải dài ít nhất $ ký tự';
 $messages['passwordweak'] = 'Mật khẩu phải bao gồm ít nhất 1 con số và 1 ký tự dấu câu';
 $messages['passwordforbidden'] = 'Mật khẩu bao gồm ký tự không hợp lệ';
-?>

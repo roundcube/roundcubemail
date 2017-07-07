@@ -4,11 +4,6 @@ if (!class_exists('rcmail_install', false) || !is_object($RCI)) {
     die("Not allowed! Please open installer/index.php instead.");
 }
 
-?>
-<form action="index.php" method="post">
-<input type="hidden" name="_step" value="2" />
-<?php
-
 // register these boolean fields
 $RCI->bool_config_props = array(
   'ip_check' => 1,
@@ -16,7 +11,6 @@ $RCI->bool_config_props = array(
   'auto_create_user' => 1,
   'smtp_log' => 1,
   'prefer_html' => 1,
-  'preview_pane' => 1,
   'debug_level' => 1,
 );
 
@@ -36,10 +30,20 @@ if (!empty($_POST['submit'])) {
      echo '</p>';
   }
   else {
+    if (($dir = sys_get_temp_dir()) && @is_writable($dir)) {
+      echo '<iframe name="getconfig" style="display:none"></iframe>';
+      echo '<form id="getconfig_form" action="index.php" method="get" target="getconfig" style="display:none">';
+      echo '<input name="_getconfig" value="2" /></form>';
+
+      $button_txt  = html::quote('Save in ' . $dir);
+      $save_button = '&nbsp;<input type="button" onclick="document.getElementById(\'getconfig_form\').submit()" value="' . $button_txt . '" />';
+    }
+
     echo '<p class="notice">Copy or download the following configuration and save it';
     echo ' as <tt><b>config.inc.php</b></tt> within the <tt>'.RCUBE_CONFIG_DIR.'</tt> directory of your Roundcube installation.<br/>';
     echo ' Make sure that there are no characters outside the <tt>&lt;?php ?&gt;</tt> brackets when saving the file.';
     echo '&nbsp;<input type="button" onclick="location.href=\'index.php?_getconfig=1\'" value="Download" />';
+    echo $save_button;
 
     if ($RCI->legacy_config) {
        echo '<br/><br/>Afterwards, please <b>remove</b> the old configuration files <tt>main.inc.php</tt> and <tt>db.inc.php</tt> from the config directory.';
@@ -52,7 +56,7 @@ if (!empty($_POST['submit'])) {
   }
 
   echo '<p class="hint">Of course there are more options to configure.
-    Have a look at the defaults.inc.php file or visit <a href="http://trac.roundcube.net/wiki/Howto_Config" target="_blank">Howto_Config</a> to find out.</p>';
+    Have a look at the defaults.inc.php file or visit <a href="https://github.com/roundcube/roundcubemail/wiki/Configuration" target="_blank">Howto_Config</a> to find out.</p>';
 
   echo '<p><input type="button" onclick="location.href=\'./index.php?_step=3\'" value="CONTINUE" /></p>';
 
@@ -61,6 +65,9 @@ if (!empty($_POST['submit'])) {
 }
 
 ?>
+<form action="index.php" method="post">
+<input type="hidden" name="_step" value="2" />
+
 <fieldset>
 <legend>General configuration</legend>
 <dl class="configblock">
@@ -85,7 +92,7 @@ echo $input_support->show($RCI->getprop('support_url'));
 
 ?>
 <div>Provide an URL where a user can get support for this Roundcube installation.<br/>PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!</div>
-<p class="hint">Enter an absolute URL (inculding http://) to a support page/form or a mailto: link.</p>
+<p class="hint">Enter an absolute URL (including http://) to a support page/form or a mailto: link.</p>
 </dd>
 
 <dt class="propname">skin_logo</dt>
@@ -120,8 +127,7 @@ echo $input_deskey->show($RCI->getprop('des_key'));
 
 ?>
 <div>This key is used to encrypt the users imap password before storing in the session record</div>
-<p class="hint">It's a random generated string to ensure that every installation has its own key.
-If you enter it manually please provide a string of exactly 24 chars.</p>
+<p class="hint">It's a random generated string to ensure that every installation has its own key.</p>
 </dd>
 
 <dt class="propname">ip_check</dt>
@@ -210,11 +216,11 @@ echo '<label for="cfgdebug4">Print errors (to the browser)</label><br />';
 <?php
 
 $select_log_driver = new html_select(array('name' => '_log_driver', 'id' => "cfglogdriver"));
-$select_log_driver->add(array('file', 'syslog'), array('file', 'syslog'));
+$select_log_driver->add(array('file', 'syslog', 'stdout'), array('file', 'syslog', 'stdout'));
 echo $select_log_driver->show($RCI->getprop('log_driver', 'file'));
 
 ?>
-<div>How to do logging? 'file' - write to files in the log directory, 'syslog' - use the syslog facility.</div>
+<div>How to do logging? 'file' - write to files in the log directory, 'syslog' - use the syslog facility, 'stdout' writes to the process' STDOUT file descriptor.</div>
 </dd>
 
 <dt class="propname">log_dir</dt>
@@ -285,7 +291,7 @@ foreach ($RCI->supported_dbs as $database => $ext) {
 $input_dbhost = new html_inputfield(array('name' => '_dbhost', 'size' => 20, 'id' => "cfgdbhost"));
 $input_dbname = new html_inputfield(array('name' => '_dbname', 'size' => 20, 'id' => "cfgdbname"));
 $input_dbuser = new html_inputfield(array('name' => '_dbuser', 'size' => 20, 'id' => "cfgdbuser"));
-$input_dbpass = new html_passwordfield(array('name' => '_dbpass', 'size' => 20, 'id' => "cfgdbpass"));
+$input_dbpass = new html_inputfield(array('name' => '_dbpass', 'size' => 20, 'id' => "cfgdbpass"));
 
 $dsnw = rcube_db::parse_dsn($RCI->getprop('db_dsnw'));
 
@@ -454,12 +460,12 @@ echo $text_junkmbox->show($RCI->getprop('junk_mbox'));
 <?php
 
 $text_smtphost = new html_inputfield(array('name' => '_smtp_server', 'size' => 30, 'id' => "cfgsmtphost"));
-echo $text_smtphost->show($RCI->getprop('smtp_server'));
+echo $text_smtphost->show($RCI->getprop('smtp_server', 'localhost'));
 
 ?>
 <div>Use this host for sending mails</div>
 
-<p class="hint">To use SSL connection, set ssl://smtp.host.com. If left blank, the PHP mail() function is used</p>
+<p class="hint">To use SSL connection, set ssl://smtp.host.com.</p>
 </dd>
 
 <dt class="propname">smtp_port</dt>
@@ -478,7 +484,7 @@ echo $text_smtpport->show($RCI->getprop('smtp_port'));
 <?php
 
 $text_smtpuser = new html_inputfield(array('name' => '_smtp_user', 'size' => 20, 'id' => "cfgsmtpuser"));
-$text_smtppass = new html_passwordfield(array('name' => '_smtp_pass', 'size' => 20, 'id' => "cfgsmtppass"));
+$text_smtppass = new html_inputfield(array('name' => '_smtp_pass', 'size' => 20, 'id' => "cfgsmtppass"));
 echo $text_smtpuser->show($RCI->getprop('smtp_user'));
 echo $text_smtppass->show($RCI->getprop('smtp_pass'));
 
@@ -591,17 +597,6 @@ echo $check_htmlview->show(intval($RCI->getprop('prefer_html')));
 <label for="cfghtmlview">Prefer displaying HTML messages</label><br />
 </dd>
 
-<dt class="propname">preview_pane <span class="userconf">*</span></dt>
-<dd>
-<?php
-
-$check_prevpane = new html_checkbox(array('name' => '_preview_pane', 'id' => "cfgprevpane", 'value' => 1));
-echo $check_prevpane->show(intval($RCI->getprop('preview_pane')));
-
-?>
-<label for="cfgprevpane">If preview pane is enabled</label><br />
-</dd>
-
 <dt class="propname">htmleditor <span class="userconf">*</span></dt>
 <dd>
 <label for="cfghtmlcompose">Compose HTML formatted messages</label>
@@ -669,6 +664,27 @@ echo $select_param_folding->show(strval($RCI->getprop('mime_param_folding')));
 </dl>
 
 <p class="hint"><span class="userconf">*</span>&nbsp; These settings are defaults for the user preferences</p>
+</fieldset>
+
+
+<fieldset>
+<legend>Plugins</legend>
+<dl class="configblock" id="cgfblockdisplay">
+
+<?php
+$plugins = $RCI->list_plugins();
+foreach ($plugins as $p) {
+    $p_check = new html_checkbox(array('name' => '_plugins_'.$p['name'], 'id' => 'cfgplugin_'.$p['name'], 'value' => $p['name']));
+    echo '<dt class="propname"><label>';
+    echo $p_check->show($p['enabled'] ? $p['name'] : 0);
+    echo '&nbsp;' . $p['name'] . '</label></dt><dd>';
+    echo '<label for="cfgplugin_'.$p['name'].'" class="hint">' . $p['desc'] . '</label><br/></dd>';
+}
+
+?>
+</dl>
+
+<p class="hint">Please consider checking dependencies of enabled plugins</p>
 </fieldset>
 
 <?php

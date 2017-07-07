@@ -30,4 +30,8 @@ $messages['passwordshort'] = 'Heslo musí mať najmenej $length znakov.';
 $messages['passwordweak'] = 'Heslo musí obsahovať aspoň jedno číslo a jedno interpunkčné znamienko.';
 $messages['passwordforbidden'] = 'Heslo obsahuje nepovolené znaky.';
 $messages['firstloginchange'] = 'Prihlásili ste sa po prvýkrát. Prosím zmeňte si prístupové heslo.';
-?>
+$messages['disablednotice'] = 'V systéme momentálne prebieha údržba a preto nie je teraz možné zmeniť heslo. Čoskoro by sa však situácia mala vrátiť do normálu. Ospravedlňujeme sa Vám za spôsobené nepríjemnosti.';
+$messages['passwinhistory'] = 'Toto heslo už bolo predtým použité.';
+$messages['samepasswd'] = 'Nové heslo by sa malo odlišovať od pôvodného hesla.';
+$messages['passwdexpirewarning'] = 'Pozor! Platnosť Vášho hesla čoskoro vyprší, zmeňte ho pred $expirationdatetime.';
+$messages['passwdexpired'] = 'Platnosť Vášho hesla vypršala, teraz ho musíte zmeniť!';

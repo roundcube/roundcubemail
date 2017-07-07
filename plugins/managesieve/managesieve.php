@@ -7,7 +7,6 @@
  * It's clickable interface which operates on text scripts and communicates
  * with server using managesieve protocol. Adds Filters tab in Settings.
  *
- * @version @package_version@
  * @author Aleksander Machniak <alec@alec.pl>
  *
  * Configuration (see config.inc.php.dist)
@@ -44,6 +43,7 @@ class managesieve extends rcube_plugin
         $this->register_action('plugin.managesieve-action', array($this, 'managesieve_actions'));
         $this->register_action('plugin.managesieve-vacation', array($this, 'managesieve_actions'));
         $this->register_action('plugin.managesieve-save', array($this, 'managesieve_save'));
+        $this->register_action('plugin.managesieve-saveraw', array($this, 'managesieve_saveraw'));
 
         if ($this->rc->task == 'settings') {
             $this->add_hook('settings_actions', array($this, 'settings_actions'));
@@ -84,10 +84,10 @@ class managesieve extends rcube_plugin
 
         // include styles
         $skin_path = $this->local_skin_path();
-        if ($this->rc->task == 'settings' || $sieve_action) {
+        if ($sieve_action || ($this->rc->task == 'settings' && empty($_REQUEST['_framed']))) {
             $this->include_stylesheet("$skin_path/managesieve.css");
         }
-        else {
+        else if ($this->rc->task == 'mail') {
             $this->include_stylesheet("$skin_path/managesieve_mail.css");
         }
 
@@ -227,6 +227,23 @@ class managesieve extends rcube_plugin
     }
 
     /**
+     * Raw form save action handler
+     */
+    function managesieve_saveraw()
+    {
+        $engine = $this->get_engine();
+
+        if (!$this->rc->config->get('managesieve_raw_editor', true)) {
+            return;
+        }
+
+        // load localization
+        $this->add_texts('localization/', array('filters','managefilters'));
+
+        $engine->saveraw();
+    }
+
+    /**
      * Initializes engine object
      */
     public function get_engine($type = null)
@@ -239,7 +256,7 @@ class managesieve extends rcube_plugin
             $include_path .= ini_get('include_path');
             set_include_path($include_path);
 
-            $class_name = 'rcube_sieve_' . ($type ? $type : 'engine');
+            $class_name = 'rcube_sieve_' . ($type ?: 'engine');
             $this->engine = new $class_name($this);
         }
 

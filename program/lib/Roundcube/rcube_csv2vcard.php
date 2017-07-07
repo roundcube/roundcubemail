@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2012, The Roundcube Dev Team                       |
@@ -52,9 +52,9 @@ class rcube_csv2vcard
         'company'               => 'organization',
         //'company_main_phone'    => '',
         'department'            => 'department',
-        //'email_2_address'       => '', //@TODO
+        'email_2_address'       => 'email:other',
         //'email_2_type'          => '',
-        //'email_3_address'       => '', //@TODO
+        'email_3_address'       => 'email:other',
         //'email_3_type'          => '',
         'email_address'         => 'email:pref',
         //'email_type'            => '',
@@ -186,9 +186,9 @@ class rcube_csv2vcard
         //'company_main_phone' => "Company Main Phone",
         'department'        => "Department",
         //'directory_server'  => "Directory Server",
-        //'email_2_address'   => "E-mail 2 Address",
+        'email_2_address'   => "E-mail 2 Address",
         //'email_2_type'      => "E-mail 2 Type",
-        //'email_3_address'   => "E-mail 3 Address",
+        'email_3_address'   => "E-mail 3 Address",
         //'email_3_type'      => "E-mail 3 Type",
         'email_address'     => "E-mail Address",
         //'email_type'        => "E-mail Type",
@@ -302,6 +302,7 @@ class rcube_csv2vcard
             'Value' => array(
                 'home' => 'email:home',
                 'work' => 'email:work',
+                '*'    => 'email:other',
             ),
         ),
         'Phone' => array(
@@ -393,7 +394,9 @@ class rcube_csv2vcard
     }
 
     /**
+     * Import contacts from CSV file
      *
+     * @param string $csv Content of the CSV file
      */
     public function import($csv)
     {
@@ -456,6 +459,8 @@ class rcube_csv2vcard
     }
 
     /**
+     * Export vCards
+     *
      * @return array rcube_vcard List of vcards
      */
     public function export()
@@ -553,7 +558,13 @@ class rcube_csv2vcard
         foreach ($this->map as $idx => $name) {
             $value = $data[$idx];
             if ($value !== null && $value !== '') {
-                $contact[$name] = $value;
+                if (!empty($contact[$name])) {
+                    $contact[$name]   = (array) $contact[$name];
+                    $contact[$name][] = $value;
+                }
+                else {
+                   $contact[$name] = $value;
+                }
             }
         }
 
@@ -567,8 +578,20 @@ class rcube_csv2vcard
 
             foreach ($item as $item_key => $item_idx) {
                 $value = $data[$item_idx];
-                if ($value !== null && $value !== '' && ($data_idx = $this->gmail_label_map[$key][$item_key][$type])) {
-                    $contact[$data_idx] = $value;
+                if ($value !== null && $value !== '') {
+                    foreach (array($type, '*') as $_type) {
+                        if ($data_idx = $this->gmail_label_map[$key][$item_key][$_type]) {
+                            $value = explode(' ::: ', $value);
+
+                            if (!empty($contact[$data_idx])) {
+                                $contact[$data_idx]   = array_merge((array) $contact[$data_idx], $value);
+                            }
+                            else {
+                                $contact[$data_idx] = $value;
+                            }
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -584,11 +607,14 @@ class rcube_csv2vcard
 
         if (!empty($contact['groups'])) {
             // categories/groups separator in vCard is ',' not ';'
+            $contact['groups'] = str_replace(',', '', $contact['groups']);
             $contact['groups'] = str_replace(';', ',', $contact['groups']);
 
-            // remove "* " added by GMail
             if (!empty($this->gmail_map)) {
+                // remove "* " added by GMail
                 $contact['groups'] = str_replace('* ', '', $contact['groups']);
+                // replace strange delimiter
+                $contact['groups'] = str_replace(' ::: ', ',', $contact['groups']);
             }
         }
 
@@ -621,7 +647,14 @@ class rcube_csv2vcard
         $vcard = new rcube_vcard();
         foreach ($contact as $name => $value) {
             $name = explode(':', $name);
-            $vcard->set($name[0], $value, $name[1]);
+            if (is_array($value) && $name[0] != 'address') {
+                foreach ((array) $value as $val) {
+                    $vcard->set($name[0], $val, $name[1]);
+                }
+            }
+            else {
+                $vcard->set($name[0], $value, $name[1]);
+            }
         }
 
         // add to the list

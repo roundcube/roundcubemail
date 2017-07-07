@@ -2,7 +2,7 @@
     "name": "roundcube/show_additional_headers",
     "type": "roundcube-plugin",
     "description": "Proof-of-concept plugin which will fetch additional headers and display them in the message view.",
-    "license": "GNU GPLv3+",
+    "license": "GPLv3+",
     "version": "2.0",
     "authors": [
         {

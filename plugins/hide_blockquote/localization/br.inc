@@ -17,4 +17,5 @@
 */
 $labels['hide'] = 'Kuzhat';
 $labels['show'] = 'Diskouez';
+$labels['quotelimit'] = 'Kuzhat ar meneg pa\'z\'eo re uhel niver a linennnoù eus';
 ?>

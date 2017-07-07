@@ -9,7 +9,6 @@
  * Enable the plugin in config.inc.php and add your desired headers:
  * $config['additional_message_headers'] = array('User-Agent' => 'My-Very-Own-Webmail');
  *
- * @version @package_version@
  * @author Ziba Scott
  * @website http://roundcube.net
  */
@@ -24,22 +23,14 @@ class additional_message_headers extends rcube_plugin
     {
         $this->load_config();
 
-        $headers = $args['message']->headers();
-        $rcube   = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         // additional email headers
         $additional_headers = $rcube->config->get('additional_message_headers', array());
-        foreach ((array)$additional_headers as $header => $value) {
-            if (null === $value) {
-                unset($headers[$header]);
-            }
-            else {
-                $headers[$header] = $value;
-            }
-        }
 
-        $args['message']->_headers = array();
-        $args['message']->headers($headers);
+        if (!empty($additional_headers)) {
+            $args['message']->headers($additional_headers, true);
+        }
 
         return $args;
     }

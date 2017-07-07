@@ -2,8 +2,8 @@
     "name": "roundcube/zipdownload",
     "type": "roundcube-plugin",
     "description": "Adds an option to download all attachments to a message in one zip file, when a message has multiple attachments. Also allows the download of a selection of messages in one zip file. Supports mbox and maildir format.",
-    "license": "GNU GPLv3+",
-    "version": "3.0",
+    "license": "GPLv3+",
+    "version": "3.3",
     "authors": [
         {
             "name": "Thomas Bruederli",

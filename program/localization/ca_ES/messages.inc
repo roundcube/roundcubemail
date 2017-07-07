@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -50,7 +50,6 @@ $messages['successfullysaved'] = 'Desat correctament.';
 $messages['savingresponse'] = 'S\'està desant el text de resposta...';
 $messages['deleteresponseconfirm'] = 'Esteu segurs de voler suprimir aquest text de resposta?';
 $messages['addedsuccessfully'] = 'Contacte afegit correctament a la llibreta d\'adreces.';
-$messages['contactexists'] = 'Ja hi ha un contacte amb aquesta adreça de correu.';
 $messages['contactnameexists'] = 'Ja existeix un contacte amb el mateix nom.';
 $messages['blockedimages'] = 'Per protegir la vostra privadesa, les imatges remotes han estat bloquejades en aquest missatge.';
 $messages['encryptedmessage'] = 'Aquest és un missatge xifrat i no pot ser mostrat. Ho sento!';
@@ -80,11 +79,9 @@ $messages['formincomplete'] = 'El formulari no ha estat emplenat completament.';
 $messages['noemailwarning'] = 'Si us plau, introduïu una adreça de correu electrònic vàlida.';
 $messages['nonamewarning']  = 'Si us plau, introduïu un nom.';
 $messages['nopagesizewarning'] = 'Si us plau, introduïu una mida de pàgina.';
-$messages['nosenderwarning'] = 'Si us plau, entreu l\'adreça de correu del remitent.';
 $messages['norecipientwarning'] = 'Si us plau, introduïu com a mínim un destinatari.';
 $messages['nosubjectwarning']  = 'El camp "Assumpte" és buit. Voleu introduir-ne un ara?';
 $messages['nobodywarning'] = 'Voleu enviar aquest missatge sense text?';
-$messages['notsentwarning'] = 'El missatge no s\'ha enviat. Voleu descartar el vostre missatge?';
 $messages['restoresavedcomposedata'] = 'S\'ha trobat un missatge començat però que no ha estat enviat.\n\nAssumpte: $subject\nDesat: $date\n\nVoleu recuperar aquest missatge?';
 $messages['noldapserver'] = 'Si us plau, seleccioneu un servidor LDAP per cercar.';
 $messages['nosearchname'] = 'Si us plau, introduïu un nom de contacte o una adreça de correu.';
@@ -137,7 +134,6 @@ $messages['importconfirmskipped'] = '<b>S\'han descartat $skipped entrades ja ex
 $messages['importmessagesuccess'] = '<b>S\'han importat $nr missatges correctament</b>';
 $messages['importmessageerror'] = 'La importació ha fallat. El fitxer que heu pujat no és un fitxer de missatges vàlid o no és un fitxer de bústia.';
 $messages['opnotpermitted'] = 'Operació no permesa!';
-$messages['nofromaddress'] = 'Falta l\'adreça de correu a la identitat seleccionada.';
 $messages['editorwarning'] = 'Si canvieu el tipus d\'editor pot ser que perdreu tot el format del text. Voleu continuar?';
 $messages['httpreceivedencrypterror'] = 'Hi ha hagut un error fatal de configuració. Contacteu amb el vostre administrador immediatament. <b>El vostre missatge no pot ser enviat.</b>';
 $messages['smtpconnerror'] = 'Error SMTP ($code): La connexió al servidor ha fallat.';
@@ -146,7 +142,6 @@ $messages['smtpfromerror'] = 'Error SMTP ($code): No s\'ha pogut posar "$from" c
 $messages['smtptoerror'] = 'Error SMTP ($code): No s\'ha pogut posar "$to" com a destinatari ($msg).';
 $messages['smtprecipientserror'] = 'Error SMTP: No s\'ha pogut analitzar la llista de destinataris.';
 $messages['smtperror'] = 'Error SMTP: $msg';
-$messages['emailformaterror'] = 'Adreça de correu no vàlida: $email';
 $messages['toomanyrecipients'] = 'Hi ha masses destinataris. Reduïu el nombre de destinataris a $max.';
 $messages['maxgroupmembersreached'] = 'El nombre de membres del grup excedeix el màxim de $max.';
 $messages['internalerror'] = 'S\'ha produït un error intern. Si us plau torneu-ho a provar.';
@@ -177,4 +172,3 @@ $messages['parentnotwritable'] = 'No s\'ha pogut crear/moure la carpeta dins de 
 $messages['messagetoobig'] = 'La part del missatge és massa gran per processar-la.';
 $messages['attachmentvalidationerror'] = 'ATENCIÓ! Aquest adjunt és sospitós perquè el seu tipus no coincideix amb el tipus declarat al missatge. Si no confieu en l\'emissor, no l\'hauríeu d\'obrir al navegador perquè pot contenir elements maliciosos. <br/><br/><em>S\'esperava: $expected; s\'ha trobat: $detected</em>';
 $messages['noscriptwarning'] = 'Atenció: Aquest client de correu necessita Javascript! Per a poder fer-lo servir heu d\'activar Javascript a les opcions del navegador.';
-?>

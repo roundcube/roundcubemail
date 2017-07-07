@@ -65,6 +65,9 @@
     <li><roundcube:button command="plugin.managesieve-setact" label="managesieve.enable" classAct="active" /></li>
     <li><roundcube:button command="plugin.managesieve-setdel" label="delete" classAct="active" /></li>
     <li class="separator_above"><roundcube:button command="plugin.managesieve-setget" label="download" classAct="active" /></li>
+    <roundcube:if condition="env:raw_sieve_editor != false" />
+    <li><roundcube:button command="plugin.managesieve-seteditraw" label="managesieve.filterseteditraw" classAct="active" /></li>
+    <roundcube:endif />
     <roundcube:container name="filtersetoptions" id="filtersetmenu" />
   </ul>
 </div>

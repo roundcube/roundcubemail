@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -132,13 +132,11 @@ $labels['htmlsignature'] = 'HTML ಸಹಿ';
 $labels['showemail'] = ' ಇಮೇಲ್ ವಿಳಾಸವನ್ನು ಹೆಸರಿನೊಂದಿಗೆ ತೋರಿಸು';
 $labels['askuser'] = 'ನನನ್ನು  ಕೇಳು';
 $labels['autosend'] = 'ರಸಿಟನ್ನು  ಕಳಿಸು';
-$labels['ignore'] = 'ನಿರ್ಲಕ್ಷಿಸು';
 $labels['skipdeleted'] = 'ಅಳಿಸಲಾಗಿರುವ  ಸಂದೇಶಗಳನ್ನು ತೋರಿಸಬೇಡ';
 $labels['always'] = 'ಯಾವಾಗಲೂ';
 $labels['everynminutes']  = 'ಪ್ರತಿ $n ನಿಮಿಷ (ಗಳು)';
 $labels['refreshinterval']  = 'ರಿಫ್ರೆಶ್ (ಹೊಸ ಸಂದೇಶಗಳನ್ನು, ಇತ್ಯಾದಿಗಳನ್ನು ಪರಿಶೀಲಿಸು)';
 $labels['immediately']  = 'ತತ್ಕ್ಷಣ ';
-$labels['savelocalstorage'] = "";
 $labels['mainoptions'] = 'ಮುಖ್ಯ ಆಯ್ಕೆಗಳು';
 $labels['section'] = 'ವಿಭಾಗ';
 $labels['newmessage'] = 'ಹೊಸ ಸಂದೇಶ';
@@ -163,7 +161,4 @@ $labels['GB'] = 'GB';
 $labels['english'] = 'ಇಂಗ್ಲೀಷ್';
 $labels['westerneuropean'] = 'ಪಾಶ್ಚಾತ್ಯ ಯುರೋಪಿಯನ್';
 $labels['easterneuropean'] = 'ಪೂರ್ವ ಯುರೋಪಿಯನ್';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

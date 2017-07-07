@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -208,7 +208,6 @@ $labels['mailboxview'] = 'ليکبکس ښکار کړه';
 $labels['mdnrequests'] = 'د استوونکي خبرتياوې';
 $labels['askuser'] = 'له کاروونکي څخه وپوښته';
 $labels['autosend'] = 'په خپلواکه توګه واستوه';
-$labels['ignore'] = 'لرې کړه';
 $labels['readwhendeleted'] = 'په ړنګ شوو کې استوزي د لوستل شوي  په توګه په نښه کړه';
 $labels['flagfordeletion'] = 'استوزه د ړنګ شوي پرځای بېکاره کړه';
 $labels['skipdeleted'] = 'ړنګ شوي استوزي مه ښکاره کوه';
@@ -225,7 +224,6 @@ $labels['mimeparamfolding'] = 'د نښلول شوو نومونه';
 $labels['2231folding'] = 'بشپړ RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (نور)';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'پرمختللي لارې';
 $labels['focusonnewmessage'] = 'فوکاس براوسر کړکۍ په نوي استوزي کې';
 $labels['checkallfolders'] = 'په ټولو پوښيو کې نوي استوزي وګورئ';
@@ -245,7 +243,4 @@ $labels['B'] = 'بي';
 $labels['KB'] = 'کي بي';
 $labels['MB'] = 'ام بي';
 $labels['GB'] = 'جي بي';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

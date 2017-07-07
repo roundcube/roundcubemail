@@ -4,6 +4,8 @@
  * Test class to test rcube_charset class
  *
  * @package Tests
+ * @group iconv
+ * @group mbstring
  */
 class Framework_Charset extends PHPUnit_Framework_TestCase
 {
@@ -15,7 +17,8 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
     {
         return array(
             array('', ''),
-            array("\xC1", ''),
+            array("\xC1", ""),
+            array("Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν", "Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν"),
         );
     }
 
@@ -25,6 +28,16 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
     function test_clean($input, $output)
     {
         $this->assertEquals($output, rcube_charset::clean($input));
+    }
+
+    /**
+     * Just check for faulty byte-sequence, regardless of the actual cleaning results
+     */
+    function test_clean_2()
+    {
+        $bogus = "сим\xD0вол";
+        $this->assertRegExp('/\xD0\xD0/', $bogus);
+        $this->assertNotRegExp('/\xD0\xD0/', rcube_charset::clean($bogus));
     }
 
     /**
@@ -57,6 +70,7 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
             array('aż', 'a', 'UTF-8', 'US-ASCII'),
             array('&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки', 'UTF7-IMAP', 'UTF-8'),
             array('Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-', 'UTF-8', 'UTF7-IMAP'),
+            array(base64_decode('GyRCLWo7M3l1OSk2SBsoQg=='), '㈱山﨑工業', 'ISO-2022-JP', 'UTF-8'),
         );
     }
 
@@ -165,7 +179,7 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
     function data_detect_with_lang()
     {
         return array(
-            array('��ܦW��,�D�n', 'zh_TW', 'BIG-5'),
+            array(base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'),
         );
     }
 

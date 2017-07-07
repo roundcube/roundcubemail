@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -195,6 +195,12 @@ $labels['searchscope'] = '范围';
 $labels['currentfolder'] = '当前文件夹';
 $labels['subfolders'] = '当前文件夹及其子文件夹';
 $labels['allfolders'] = '所有文件夹';
+$labels['searchinterval-1W'] = '早于一周';
+$labels['searchinterval-1M'] = '早于一个月';
+$labels['searchinterval-1Y'] = '早于一年';
+$labels['searchinterval1W'] = '不到一周';
+$labels['searchinterval1M'] = '不到一个月';
+$labels['searchinterval1Y'] = '不到一年';
 $labels['openinextwin'] = '在新窗口中打开';
 $labels['emlsave'] = '下载(.eml)';
 $labels['changeformattext'] = '以文本格式显示';
@@ -214,6 +220,15 @@ $labels['selectimage']    = '选择图片';
 $labels['addimage']       = '添加图片';
 $labels['selectmedia']    = '选择影片';
 $labels['addmedia']       = '添加影片';
+$labels['encrypt']        = '加密';
+$labels['encryptmessage'] = '加密邮件';
+$labels['encryptmessagemailvelope'] = '用 Mailvelope 加密邮件';
+$labels['importpubkeys']  = '导入公钥';
+$labels['encryptedsendialog'] = '正在发送加密的邮件';
+$labels['keyid']          = '密钥 ID';
+$labels['keylength']      = '位';
+$labels['keyexpired']     = '已过期';
+$labels['keyrevoked']     = '已废除';
 $labels['editidents']    = '编辑身份';
 $labels['spellcheck']    = '拼写';
 $labels['checkspelling'] = '拼写检查';
@@ -221,6 +236,7 @@ $labels['resumeediting'] = '继续编辑';
 $labels['revertto']      = '恢复至';
 $labels['restore'] = '恢复信息';
 $labels['restoremessage'] = '是否恢复信息？';
+$labels['ignore'] = '忽略';
 $labels['responses'] = '回复';
 $labels['insertresponse'] = '插入回复';
 $labels['manageresponses'] = '管理回复';
@@ -233,10 +249,11 @@ $labels['responsetext'] = '以文本形式回复';
 $labels['attach'] = '附加';
 $labels['attachments'] = '附件';
 $labels['upload'] = '上传';
-$labels['uploadprogress'] = '$percent ($current / $total)';
+$labels['uploadprogress'] = '$percent ($current of $total)';
 $labels['close']  = '关闭';
 $labels['messageoptions']  = '邮件选项...';
 $labels['togglecomposeoptions'] = '切换布局选项';
+$labels['attachmentrename']  = '重命名附件';
 $labels['low']     = '低';
 $labels['lowest']  = '最低';
 $labels['normal']  = '普通';
@@ -293,10 +310,11 @@ $labels['assistant'] = '助理';
 $labels['spouse'] = '配偶';
 $labels['allfields'] = '所有栏目';
 $labels['search'] = '查询';
-$labels['searchfor'] = '查找"$q"';
+$labels['searchresult'] = '查找结果';
 $labels['advsearch'] = '高级查询';
 $labels['advanced'] = '高级选项';
 $labels['other'] = '其他';
+$labels['printcontact'] = '打印联系人';
 $labels['typehome']   = '家庭';
 $labels['typework']   = '工作';
 $labels['typeother']  = '其他';
@@ -337,6 +355,7 @@ $labels['exportall']      = '导出全部';
 $labels['exportsel']      = '导出选中';
 $labels['exportvcards']   = '导出联系人为 vCard 格式';
 $labels['newgroup']       = '创建新组';
+$labels['addgroup']       = '新建组';
 $labels['grouprename']    = '重命名群组';
 $labels['groupdelete']    = '删除群组';
 $labels['groupremoveselected'] = '删除选中';
@@ -405,7 +424,7 @@ $labels['askuser'] = '询问用户';
 $labels['autosend'] = '自动发送';
 $labels['autosendknown'] = '对我的联系人发送回执，否则询问';
 $labels['autosendknownignore'] = '对我的联系人发送回执，否则忽略';
-$labels['ignore'] = '忽略';
+$labels['ignorerequest'] = '忽略请求';
 $labels['readwhendeleted'] = '删除后标记为已读';
 $labels['flagfordeletion'] = '标记邮件为已删除而不是实际删除';
 $labels['skipdeleted'] = '不显示标记为已删除的邮件';
@@ -414,6 +433,7 @@ $labels['deletejunk'] = '直接删除垃圾邮箱中的邮件';
 $labels['showremoteimages'] = '显示内嵌的图片';
 $labels['fromknownsenders'] = '来自已知发件人';
 $labels['always'] = '总是';
+$labels['alwaysbutplain'] = '始终，除了回复纯文本';
 $labels['showinlineimages'] = '在邮件下方显示附件中的图片';
 $labels['autosavedraft']  = '自动保存到草稿箱';
 $labels['everynminutes']  = '每隔 $n 分钟';
@@ -427,7 +447,7 @@ $labels['2231folding'] = '完整的 RFC 2231（Thunderbird）';
 $labels['miscfolding'] = 'RFC 2047/2232（MS Outlook）';
 $labels['2047folding'] = '完整的 RFC 2047（其它）';
 $labels['force7bit'] = '对 8 位字符使用 MIME 编码';
-$labels['savelocalstorage'] = "";
+$labels['savelocalstorage'] = "保存到浏览器的本地存储（临时）";
 $labels['advancedoptions'] = '高级选项';
 $labels['toggleadvancedoptions'] = '切换高级选项';
 $labels['focusonnewmessage'] = '新邮件到达时将窗口提升为焦点窗口';
@@ -449,6 +469,8 @@ $labels['autoaddsignature'] = '自动插入签名';
 $labels['newmessageonly'] = '仅新邮件';
 $labels['replyandforwardonly'] = '仅回复和转发邮件';
 $labels['insertsignature'] = '插入签名';
+$labels['sigbelow'] = '在引文的下方放置签名';
+$labels['sigseparator'] = '强制标准的签名分隔符';
 $labels['previewpanemarkread']  = '标记预览邮件为已读';
 $labels['afternseconds']  = '$n 秒之后';
 $labels['reqmdn'] = '总是要求回执';
@@ -491,6 +513,10 @@ $labels['foldertype'] = '文件夹类型';
 $labels['personalfolder'] = '私有文件夹';
 $labels['otherfolder'] = '他人文件夹';
 $labels['sharedfolder'] = '共享文件夹';
+$labels['findfolders'] = '查找文件夹';
+$labels['namespace.personal'] = '个人';
+$labels['namespace.other'] = '其他用户';
+$labels['namespace.shared'] = '已共享';
 $labels['sortby'] = '排序';
 $labels['sortasc']  = '递增排序';
 $labels['sortdesc'] = '递减排序';
@@ -532,6 +558,8 @@ $labels['arialabelmailsearchform'] = '邮件信息查询表单';
 $labels['arialabelcontactsearchform'] = '联系人查询表单';
 $labels['arialabelmailquicksearchbox'] = '邮件查询条件';
 $labels['arialabelquicksearchbox'] = '查询条件';
+$labels['arialabelfoldersearchfilter'] = '文件夹列出过滤器';
+$labels['arialabelfoldersearchform'] = '文件夹搜索自';
 $labels['arialabelfolderlist'] = '邮件文件夹选择';
 $labels['arialabelmessagelist'] = '邮件信息列表';
 $labels['arialabelmailpreviewframe'] = '邮件预览';
@@ -560,8 +588,14 @@ $labels['arialabelabookgroupoptions'] = '地址簿/组选项';
 $labels['arialabelpreferencesform'] = '偏好设置表单';
 $labels['arialabelidentityeditfrom'] = '标识编辑表单';
 $labels['arialabelresonseeditfrom'] = '回复编辑表单';
+$labels['arialabelsearchterms'] = '搜索关键词';
 $labels['helplistnavigation'] = '列表键盘导航';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
+$labels['helplistkeyboardnavigation'] = "方向键上/下：移动选中/焦点所在行。
+空格键：选中焦点所在行。
+Shift + 上/下：再选中上方/下方的行。
+Ctrl + 空格键：将焦点所在行添加/移除选中。";
+$labels['helplistkeyboardnavmessages'] = "方向键左/右：展开/折叠消息话题（仅话题模式下）
+回车键：打开选中/焦点所在消息。
+删除键：移动选中消息到垃圾箱。";
 $labels['helplistkeyboardnavcontacts'] = "回车：打开选中的联系人";
 ?>

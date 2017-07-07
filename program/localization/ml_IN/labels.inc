@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -229,7 +229,6 @@ $labels['signature'] = 'ഒപ്പ്';
 $labels['htmleditor'] = 'HTML സന്ദേശങ്ങള്‍ രചിക്കുക';
 $labels['serversettings'] = 'സേവകന്റെ ക്രമീകരണങ്ങള്‍';
 $labels['askuser'] = 'എന്നൊടു ചോദിക്കുക';
-$labels['ignore'] = 'അവഗണിക്കുക';
 $labels['always'] = 'എപ്പോഴും';
 $labels['never']  = 'ഒരിക്കലുമില്ല';
 $labels['immediately']  = 'ഉടനടി';
@@ -237,7 +236,6 @@ $labels['2231folding'] = 'Full RFC 2231 (തണ്ടര്‍ബേട് )';
 $labels['miscfolding'] = 'Full RFC 2231 ( മൈക്രൊസൊഫ്റ്റ് ഔട്ട്ലൂക്കു് )';
 $labels['2047folding'] = 'Full RFC 2047 (മറ്റുള്ളവ)';
 $labels['force7bit'] = '8-bit അക്ഷരങ്ങള്‍ക്കു "MIME encoding" ഉപയോഗിക്കുക';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'വിപുലീക്രിതമായ ക്രമീകരണങ്ങള്‍';
 $labels['defaultfont'] = 'HTML സന്ദേശത്തിന്റെ തനതായ ലിപി';
 $labels['section'] = 'വിഭാഗം';
@@ -273,7 +271,4 @@ $labels['vietnamese'] = 'വിയറ്റ്നാമീസ്';
 $labels['japanese'] = 'ജാപ്പനീസ്';
 $labels['korean'] = 'കൊറിയന്‍';
 $labels['chinese'] = 'ചൈനീസ്‌';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

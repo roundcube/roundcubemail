@@ -4,5 +4,7 @@
 <roundcube:if condition="in_array(env:task, array('mail','addressbook','settings'))" />
 <link rel="stylesheet" type="text/css" href="/<roundcube:var name="env:task" />.css" />
 <roundcube:endif />
-<!--[if IE 9]><link rel="stylesheet" type="text/css" href="/svggradients.css" /><![endif]-->
 <script type="text/javascript" src="/ui.js"></script>
+<roundcube:add_label name="errortitle" />
+<roundcube:add_label name="toggleadvancedoptions" />
+<roundcube:add_label name="options" />

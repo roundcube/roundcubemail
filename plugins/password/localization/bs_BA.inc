@@ -30,4 +30,3 @@ $messages['passwordshort'] = 'Šifra mora sadržavati barem $length znakova.';
 $messages['passwordweak'] = 'Šifra mora imati barem jedan broj i jedan interpunkcijski znak.';
 $messages['passwordforbidden'] = 'Šifra sadrži nedozvoljene znakove.';
 $messages['firstloginchange'] = 'Ovo je vaša prva prijava. Molimo vas da promijenite vašu šifru.';
-?>

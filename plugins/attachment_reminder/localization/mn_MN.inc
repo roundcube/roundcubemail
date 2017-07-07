@@ -15,6 +15,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
-$messages['forgotattachment'] = "";
-$messages['reminderoption'] = "";
-$messages['keywords'] = "";
+$messages['forgotattachment'] = "Та файл хавсаргахаа мартсан уу?";
+$messages['reminderoption'] = "Мартсан хавсралтуудыг сануулах";
+$messages['keywords'] = "хавсралт,файл,хавсралт,хавсаргагдсан,хавсаргаж байна,хасваргасан,анкет,танилцуулга";

@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -48,7 +48,6 @@ $messages['successfullysaved'] = 'Lagret';
 $messages['savingresponse'] = 'Lagrer svartekst...';
 $messages['deleteresponseconfirm'] = 'Vil du virkelig å slette denne svarteksten?';
 $messages['addedsuccessfully'] = 'Kontakten ble lagt til i adresseboken';
-$messages['contactexists'] = 'Det finnes allerede en kontakt med denne e-postadressen';
 $messages['contactnameexists'] = 'Det finnes allerede en kontakt med dette navnet';
 $messages['blockedimages'] = 'Av sikkerhetsgrunner er bilder lagret på eksterne servere blokkert fra denne e-postmeldingen';
 $messages['encryptedmessage'] = 'Dette er en kryptert melding som ikke kan vises. Beklager!';
@@ -78,11 +77,9 @@ $messages['formincomplete'] = 'Skjemaet var ikke fullstendig fylt ut';
 $messages['noemailwarning'] = 'Vennligst oppgi en gyldig epostadresse.';
 $messages['nonamewarning']  = 'Angi et navn';
 $messages['nopagesizewarning'] = 'Angi sidestørrelsen';
-$messages['nosenderwarning'] = 'Vennligst angi avsenderadresse';
 $messages['norecipientwarning'] = 'Skriv inn minst én mottaker';
 $messages['nosubjectwarning']  = 'Emnefeltet er tomt. Vil du skrive det inn nå?';
 $messages['nobodywarning'] = 'Send denne meldingen uten tekst?';
-$messages['notsentwarning'] = 'E-posten er ikke sendt. Er du sikker på at du vil avbryte skrivingen?';
 $messages['restoresavedcomposedata'] = 'Et tidligere usendt svar ble funnet.\n\nEmne: $subject\nLagret: $date\n\nVil du gjenopprette denne meldingen?';
 $messages['noldapserver'] = 'Velg LDAP-tjener å søke i';
 $messages['nosearchname'] = 'Venligst skriv inn kontaktens navn eller e-postadresse';
@@ -134,7 +131,6 @@ $messages['importconfirmskipped'] = '<b>Hoppet over $skipped eksisterende oppfø
 $messages['importmessagesuccess'] = 'Kopierte $nr meldinger';
 $messages['importmessageerror'] = 'Importeringen var mislykket! Den opplastede filen er ikke en gyldig melding, eller er ikke kompatibel med meldingssystemet.';
 $messages['opnotpermitted'] = 'Handling ikke tillatt!';
-$messages['nofromaddress'] = 'E-postadresse mangler i valgt identitet';
 $messages['httpreceivedencrypterror'] = 'En uopprettelig feil oppsto. Vennligst kontakt systemansvarlig umiddelbart. <b>Din melding kunne ikke sendes.</b>';
 $messages['smtpconnerror'] = 'SMTP-feil ($code): Klarte ikke koble til server';
 $messages['smtpautherror'] = 'SMTP-feil ($code): Pålogging feilet';
@@ -142,7 +138,6 @@ $messages['smtpfromerror'] = 'SMTP-feil ($code): Kunne ikke sette avsender "$fro
 $messages['smtptoerror'] = 'SMTP-feil ($code): Kunne ikke legge til mottaker "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP-feil ($code): Kunne ikke lese mottakerliste';
 $messages['smtperror'] = 'SMTP-feil ($code): $msg';
-$messages['emailformaterror'] = 'Ukorrekt e-postadresse: $email';
 $messages['toomanyrecipients'] = 'For mange mottakere. Reduser antall mottakere til $max.';
 $messages['maxgroupmembersreached'] = 'Antall gruppemedlemmer overskrider maksgrensen på $max';
 $messages['internalerror'] = 'En intern feil har oppstått, prøv igjen senere.';
@@ -173,4 +168,3 @@ $messages['parentnotwritable'] = 'Kunne ikke opprette/flytte mappen i valgt over
 $messages['messagetoobig'] = 'Meldingsdelen er for stor til at den kan prosesseres.';
 $messages['attachmentvalidationerror'] = 'ADVARSEL! Dette vedlegget er mistenkelig fordi det er av en type som ikke passer med det som er deklarert i meldingen. Hvis du ikke stoler på avsenderen burde du ikke åpne det i nettleseren, fordi det kan ha skadelig innhold.<br/><br/><em>Forventet: $expected; fant: $detected</em>rnrnWARNING! This attachment is suspicious because its type doesn\'t match the type declared in the message. If you do not trust the sender, you shouldn\'t open it in the browser because it may contain malicious contents.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'NB: Denne webmail-klienten krever Javascript! Skru på Javascript i nettleseren din for å kunne bruke den.';
-?>

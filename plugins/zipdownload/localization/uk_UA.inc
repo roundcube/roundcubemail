@@ -16,3 +16,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 $labels['downloadall'] = 'Завантажити всі вкладення';
+$labels['download'] = 'Завантаження…';
+$labels['downloadmbox'] = 'Формат Mbox (.zip)';
+$labels['downloadmaildir'] = 'Формат Maildir (.zip)';
+$labels['downloademl'] = 'Джерело (.eml)';

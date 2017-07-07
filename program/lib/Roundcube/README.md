@@ -16,6 +16,15 @@ tasks:
 - VCard parsing and writing
 
 
+REQUIREMENTS
+------------
+PHP Version 5.4 or greater including:
+   - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring (required)
+   - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
+   - Libiconv, Zip, Fileinfo, Intl, Exif (recommended)
+   - LDAP for LDAP addressbook support (optional)
+
+
 INSTALLATION
 ------------
 Copy all files of this directory to your project or install it in the default
@@ -23,8 +32,8 @@ include_path directory of your webserver. Some classes of the framework require
 one or multiple of the following [PEAR][pear] libraries:
 
 - Mail_Mime 1.8.1 or newer
-- Mail_mimeDecode 1.5.5 or newer
-- Net_SMTP (latest from https://github.com/pear/Net_SMTP/)
+- Net_SMTP 1.7.1 or newer
+- Net_Socket 1.0.12 or newer
 - Net_IDNA2 0.1.1 or newer
 - Auth_SASL 1.0.6 or newer
 
@@ -87,8 +96,8 @@ see [roundcube.net/license][license]
 
 CONTACT
 -------
-For any bug reports or feature requests please refer to the tracking system
-at [trac.roundcube.net][tracreport] or subscribe to our mailing list.
+For bug reports or feature requests please refer to the tracking system
+at [Github][githubissues] or subscribe to our mailing list.
 See [roundcube.net/support][support] for details.
 
 You're always welcome to send a message to the project admins:
@@ -99,4 +108,4 @@ hello(at)roundcube(dot)net
 [gpl]:          http://www.gnu.org/licenses/
 [license]:      http://roundcube.net/license
 [support]:      http://roundcube.net/support
-[tracreport]:   http://trac.roundcube.net/wiki/Howto_ReportIssues
+[githubissues]: https://github.com/roundcube/roundcubemail/issues

@@ -17,4 +17,6 @@
 */
 $labels['addvcardmsg'] = 'Dodaj wizytówkę (vCard) do kontaktów';
 $labels['vcardsavefailed'] = 'Nie można zapisać wizytówki (vCard)';
+$labels['attachvcard'] = 'Dołącz plik vCard';
+$labels['vcard'] = 'vCard';
 ?>

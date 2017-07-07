@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/addressbook/copy.inc                                    |
  |                                                                       |
@@ -115,7 +115,7 @@ foreach ($cids as $source => $cid) {
             $success = $plugin['result'];
         }
 
-        $errormsg = $plugin['message'] ? $plugin['message'] : 'copyerror';
+        $errormsg = $plugin['message'] ?: 'copyerror';
     }
 }
 

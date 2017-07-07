@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
@@ -28,7 +28,7 @@
 class rcube_message
 {
     /**
-     * Instace of framework class.
+     * Instance of framework class.
      *
      * @var rcube
      */
@@ -53,13 +53,14 @@ class rcube_message
     public $uid;
     public $folder;
     public $headers;
-    public $parts = array();
-    public $mime_parts = array();
+    public $sender;
+    public $context;
+    public $parts        = array();
+    public $mime_parts   = array();
     public $inline_parts = array();
-    public $attachments = array();
-    public $subject = '';
-    public $sender = null;
-    public $is_safe = false;
+    public $attachments  = array();
+    public $subject      = '';
+    public $is_safe      = false;
 
     const BODY_MAX_SIZE = 1048576; // 1MB
 
@@ -69,26 +70,33 @@ class rcube_message
      *
      * Provide a uid, and parse message structure.
      *
-     * @param string $uid    The message UID.
-     * @param string $folder Folder name
+     * @param string $uid     The message UID.
+     * @param string $folder  Folder name
+     * @param bool   $is_safe Security flag
      *
      * @see self::$app, self::$storage, self::$opt, self::$parts
      */
-    function __construct($uid, $folder = null)
+    function __construct($uid, $folder = null, $is_safe = false)
     {
         // decode combined UID-folder identifier
-        if (preg_match('/^\d+-.+/', $uid)) {
+        if (preg_match('/^[0-9.]+-.+/', $uid)) {
             list($uid, $folder) = explode('-', $uid, 2);
         }
 
-        $this->uid  = $uid;
-        $this->app  = rcube::get_instance();
+        if (preg_match('/^([0-9]+)\.([0-9.]+)$/', $uid, $matches)) {
+            $uid     = $matches[1];
+            $context = $matches[2];
+        }
+
+        $this->uid     = $uid;
+        $this->context = $context;
+        $this->app     = rcube::get_instance();
         $this->storage = $this->app->get_storage();
         $this->folder  = strlen($folder) ? $folder : $this->storage->get_folder();
-        $this->storage->set_options(array('all_headers' => true));
 
         // Set current folder
         $this->storage->set_folder($this->folder);
+        $this->storage->set_options(array('all_headers' => true));
 
         $this->headers = $this->storage->get_message($uid);
 
@@ -96,33 +104,33 @@ class rcube_message
             return;
         }
 
-        $this->mime = new rcube_mime($this->headers->charset);
-
-        $this->subject = $this->headers->get('subject');
-        list(, $this->sender) = each($this->mime->decode_address_list($this->headers->from, 1));
-
-        $this->set_safe((intval($_GET['_safe']) || $_SESSION['safe_messages'][$this->folder.':'.$uid]));
+        $this->set_safe($is_safe || $_SESSION['safe_messages'][$this->folder.':'.$uid]);
         $this->opt = array(
-            'safe' => $this->is_safe,
+            'safe'        => $this->is_safe,
             'prefer_html' => $this->app->config->get('prefer_html'),
-            'get_url' => $this->app->url(array(
-                'action' => 'get',
-                'mbox'   => $this->storage->get_folder(),
-                'uid'    => $uid))
+            'get_url'     => $this->app->url(array(
+                    'action' => 'get',
+                    'mbox'   => $this->folder,
+                    'uid'    => $uid),
+                false, false, true)
         );
 
         if (!empty($this->headers->structure)) {
             $this->get_mime_numbers($this->headers->structure);
             $this->parse_structure($this->headers->structure);
         }
-        else {
+        else if ($this->context === null) {
             $this->body = $this->storage->get_body($uid);
         }
+
+        $this->mime    = new rcube_mime($this->headers->charset);
+        $this->subject = $this->headers->get('subject');
+        $from          = $this->mime->decode_address_list($this->headers->from, 1);
+        $this->sender  = current($from);
 
         // notify plugins and let them analyze this structured message object
         $this->app->plugins->exec_hook('message_load', array('object' => $this));
     }
-
 
     /**
      * Return a (decoded) message header
@@ -140,7 +148,6 @@ class rcube_message
         return $this->headers->get($name, !$raw);
     }
 
-
     /**
      * Set is_safe var and session data
      *
@@ -150,7 +157,6 @@ class rcube_message
     {
         $_SESSION['safe_messages'][$this->folder.':'.$this->uid] = $this->is_safe = $safe;
     }
-
 
     /**
      * Compose a valid URL for getting a message part
@@ -167,12 +173,11 @@ class rcube_message
             return false;
     }
 
-
     /**
      * Get content of a specific part of this message
      *
      * @param string   $mime_id           Part MIME-ID
-     * @param resource $fp File           pointer to save the message part
+     * @param resource $fp                File pointer to save the message part
      * @param boolean  $skip_charset_conv Disables charset conversion
      * @param int      $max_bytes         Only read this number of bytes
      * @param boolean  $formatted         Enables formatting of text/* parts bodies
@@ -199,7 +204,6 @@ class rcube_message
         }
     }
 
-
     /**
      * Get content of a specific part of this message
      *
@@ -216,6 +220,10 @@ class rcube_message
         if (!($part = $this->mime_parts[$mime_id])) {
             return;
         }
+
+        // allow plugins to modify part body
+        $plugin = $this->app->plugins->exec_hook('message_part_body',
+            array('object' => $this, 'part' => $part));
 
         // only text parts can be formatted
         $formatted = $formatted && $part->ctype_primary == 'text';
@@ -279,7 +287,6 @@ class rcube_message
         return $body;
     }
 
-
     /**
      * Format text message part for display
      *
@@ -320,16 +327,16 @@ class rcube_message
         return $body;
     }
 
-
     /**
      * Determine if the message contains a HTML part. This must to be
      * a real part not an attachment (or its part)
      *
-     * @param bool $enriched Enables checking for text/enriched parts too
+     * @param bool               $enriched Enables checking for text/enriched parts too
+     * @param rcube_message_part &$part    Reference to the part if found
      *
      * @return bool True if a HTML is available, False if not
      */
-    function has_html_part($enriched = false)
+    public function has_html_part($enriched = false, &$part = null)
     {
         // check all message parts
         foreach ($this->mime_parts as $part) {
@@ -339,8 +346,17 @@ class rcube_message
                     continue;
                 }
 
+                if (!$part->size) {
+                    continue;
+                }
+
+                if (!$this->check_context($part)) {
+                    continue;
+                }
+
                 $level = explode('.', $part->mime_id);
                 $depth = count($level);
+                $last  = '';
 
                 // Check if the part belongs to higher-level's multipart part
                 // this can be alternative/related/signed/encrypted or mixed
@@ -351,35 +367,52 @@ class rcube_message
                     }
 
                     $parent = $this->mime_parts[join('.', $level)];
-                    if (!preg_match('/^multipart\/(alternative|related|signed|encrypted|mixed)$/', $parent->mimetype)
-                        || ($parent->mimetype == 'multipart/mixed' && $parent_depth < $depth - 1)) {
+
+                    if (!$this->check_context($parent)) {
+                        return true;
+                    }
+
+                    $max_delta = $depth - (1 + ($last == 'multipart/alternative' ? 1 : 0));
+                    $last      = $parent->real_mimetype ?: $parent->mimetype;
+
+                    if (!preg_match('/^multipart\/(alternative|related|signed|encrypted|mixed)$/', $last)
+                        || ($last == 'multipart/mixed' && $parent_depth < $max_delta)) {
                         continue 2;
                     }
                 }
 
-                if ($part->size) {
-                    return true;
-                }
+                return true;
             }
         }
 
+        $part = null;
+
         return false;
     }
-
 
     /**
      * Determine if the message contains a text/plain part. This must to be
      * a real part not an attachment (or its part)
      *
+     * @param rcube_message_part &$part Reference to the part if found
+     *
      * @return bool True if a plain text part is available, False if not
      */
-    function has_text_part()
+    public function has_text_part(&$part = null)
     {
         // check all message parts
         foreach ($this->mime_parts as $part) {
             if ($part->mimetype == 'text/plain') {
                 // Skip if part is an attachment, don't use is_attachment() here
                 if ($part->filename) {
+                    continue;
+                }
+
+                if (!$part->size) {
+                    continue;
+                }
+
+                if (!$this->check_context($part)) {
                     continue;
                 }
 
@@ -392,67 +425,93 @@ class rcube_message
                     }
 
                     $parent = $this->mime_parts[join('.', $level)];
+
+                    if (!$this->check_context($parent)) {
+                        return true;
+                    }
+
                     if ($parent->mimetype != 'multipart/alternative' && $parent->mimetype != 'multipart/related') {
                         continue 2;
                     }
                 }
 
-                if ($part->size) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-
-    /**
-     * Return the first HTML part of this message
-     *
-     * @return string HTML message part content
-     */
-    function first_html_part()
-    {
-        // check all message parts
-        foreach ($this->mime_parts as $pid => $part) {
-            if ($part->mimetype == 'text/html') {
-                return $this->get_part_body($pid, true);
-            }
-        }
-    }
-
-
-    /**
-     * Return the first text part of this message
-     *
-     * @param rcube_message_part $part Reference to the part if found
-     * @return string Plain text message/part content
-     */
-    function first_text_part(&$part=null)
-    {
-        // no message structure, return complete body
-        if (empty($this->parts))
-            return $this->body;
-
-        // check all message parts
-        foreach ($this->mime_parts as $mime_id => $part) {
-            if ($part->mimetype == 'text/plain') {
-                return $this->get_part_body($mime_id, true);
-            }
-            else if ($part->mimetype == 'text/html') {
-                $out = $this->get_part_body($mime_id, true);
-
-                // create instance of html2text class
-                $txt = new rcube_html2text($out);
-                return $txt->get_text();
+                return true;
             }
         }
 
         $part = null;
-        return null;
+
+        return false;
     }
 
+    /**
+     * Return the first HTML part of this message
+     *
+     * @param rcube_message_part &$part    Reference to the part if found
+     * @param bool               $enriched Enables checking for text/enriched parts too
+     *
+     * @return string HTML message part content
+     */
+    public function first_html_part(&$part = null, $enriched = false)
+    {
+        if ($this->has_html_part($enriched, $part)) {
+            $body = $this->get_part_body($part->mime_id, true);
+
+            if ($part->mimetype == 'text/enriched') {
+                $body = rcube_enriched::to_html($body);
+            }
+
+            return $body;
+        }
+    }
+
+    /**
+     * Return the first text part of this message.
+     * If there's no text/plain part but $strict=true and text/html part
+     * exists, it will be returned in text/plain format.
+     *
+     * @param rcube_message_part &$part  Reference to the part if found
+     * @param bool               $strict Check only text/plain parts
+     *
+     * @return string Plain text message/part content
+     */
+    public function first_text_part(&$part = null, $strict = false)
+    {
+        // no message structure, return complete body
+        if (empty($this->parts)) {
+            return $this->body;
+        }
+
+        if ($this->has_text_part($part)) {
+            return $this->get_part_body($part->mime_id, true);
+        }
+
+        if (!$strict && ($body = $this->first_html_part($part, true))) {
+            // create instance of html2text class
+            $h2t  = new rcube_html2text($body);
+            return $h2t->get_text();
+        }
+    }
+
+    /**
+     * Return message parts in current context
+     */
+    public function mime_parts()
+    {
+        if ($this->context === null) {
+            return $this->mime_parts;
+        }
+
+        $parts = array();
+
+        foreach ($this->mime_parts as $part_id => $part) {
+            if ($this->check_context($part)) {
+                $parts[$part_id] = $part;
+            }
+        }
+
+        return $parts;
+    }
 
     /**
      * Checks if part of the message is an attachment (or part of it)
@@ -479,6 +538,27 @@ class rcube_message
         return false;
     }
 
+    /**
+     * In a multipart/encrypted encrypted message,
+     * find the encrypted message payload part.
+     *
+     * @return rcube_message_part
+     */
+    public function get_multipart_encrypted_part()
+    {
+        foreach ($this->mime_parts as $mime_id => $mpart) {
+            if ($mpart->mimetype == 'multipart/encrypted') {
+                $this->pgp_mime = true;
+            }
+            if ($this->pgp_mime && ($mpart->mimetype == 'application/octet-stream' ||
+                    (!empty($mpart->filename) && $mpart->filename != 'version.txt'))) {
+                $this->encrypted_part = $mime_id;
+                return $mpart;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Read the message structure returend by the IMAP server
@@ -497,18 +577,24 @@ class rcube_message
             if (!isset($structure->headers['subject']) && !isset($structure->headers['from'])) {
                 list($headers, ) = explode("\r\n\r\n", $this->get_part_body($structure->mime_id, false, 32768));
                 $structure->headers = rcube_mime::parse_headers($headers);
+
+                if ($this->context == $structure->mime_id) {
+                    $this->headers = rcube_message_header::from_array($structure->headers);
+                }
             }
         }
-        else
+        else {
             $mimetype = $structure->mimetype;
+        }
 
         // show message headers
         if ($recursive && is_array($structure->headers) &&
-                (isset($structure->headers['subject']) || $structure->headers['from'] || $structure->headers['to'])) {
+            (isset($structure->headers['subject']) || $structure->headers['from'] || $structure->headers['to'])
+        ) {
             $c = new stdClass;
             $c->type = 'headers';
             $c->headers = $structure->headers;
-            $this->parts[] = $c;
+            $this->add_part($c);
         }
 
         // Allow plugins to handle message parts
@@ -516,46 +602,44 @@ class rcube_message
             array('object' => $this, 'structure' => $structure,
                 'mimetype' => $mimetype, 'recursive' => $recursive));
 
-        if ($plugin['abort'])
+        if ($plugin['abort']) {
             return;
+        }
 
         $structure = $plugin['structure'];
-        list($message_ctype_primary, $message_ctype_secondary) = explode('/', $plugin['mimetype']);
+        $mimetype  = $plugin['mimetype'];
+        $recursive = $plugin['recursive'];
+
+        list($message_ctype_primary, $message_ctype_secondary) = explode('/', $mimetype);
 
         // print body if message doesn't have multiple parts
         if ($message_ctype_primary == 'text' && !$recursive) {
             // parts with unsupported type add to attachments list
             if (!in_array($message_ctype_secondary, array('plain', 'html', 'enriched'))) {
-                $this->attachments[] = $structure;
+                $this->add_part($structure, 'attachment');
                 return;
             }
 
             $structure->type = 'content';
-            $this->parts[] = $structure;
+            $this->add_part($structure);
 
             // Parse simple (plain text) message body
             if ($message_ctype_secondary == 'plain') {
                 foreach ((array)$this->uu_decode($structure) as $uupart) {
                     $this->mime_parts[$uupart->mime_id] = $uupart;
-                    $this->attachments[] = $uupart;
+                    $this->add_part($uupart, 'attachment');
                 }
             }
         }
         // the same for pgp signed messages
         else if ($mimetype == 'application/pgp' && !$recursive) {
             $structure->type = 'content';
-            $this->parts[] = $structure;
+            $this->add_part($structure);
         }
         // message contains (more than one!) alternative parts
         else if ($mimetype == 'multipart/alternative'
             && is_array($structure->parts) && count($structure->parts) > 1
         ) {
-            $plain_part   = null;
-            $html_part    = null;
-            $print_part   = null;
-            $related_part = null;
-            $attach_part  = null;
-
             // get html/plaintext parts, other add to attachments list
             foreach ($structure->parts as $p => $sub_part) {
                 $sub_mimetype = $sub_part->mimetype;
@@ -576,13 +660,15 @@ class rcube_message
                     $related_part = $p;
                 else if ($sub_mimetype == 'text/plain' && !$plain_part)
                     $plain_part = $p;
-                else if ($sub_mimetype == 'text/html' && !$html_part)
+                else if ($sub_mimetype == 'text/html' && !$html_part) {
                     $html_part = $p;
+                    $this->got_html_part = true;
+                }
                 else if ($sub_mimetype == 'text/enriched' && !$enriched_part)
                     $enriched_part = $p;
                 else {
                     // add unsupported/unrecognized parts to attachments list
-                    $this->attachments[] = $sub_part;
+                    $this->add_part($sub_part, 'attachment');
                 }
             }
 
@@ -593,8 +679,9 @@ class rcube_message
                 $this->parse_alternative = false;
 
                 // if plain part was found, we should unset it if html is preferred
-                if ($this->opt['prefer_html'] && count($this->parts))
+                if ($this->opt['prefer_html'] && count($this->parts)) {
                     $plain_part = null;
+                }
             }
 
             // choose html/plain part to print
@@ -611,7 +698,15 @@ class rcube_message
             // add the right message body
             if (is_object($print_part)) {
                 $print_part->type = 'content';
-                $this->parts[] = $print_part;
+
+                // Allow plugins to handle also this part
+                $plugin = $this->app->plugins->exec_hook('message_part_structure',
+                    array('object' => $this, 'structure' => $print_part,
+                        'mimetype' => $print_part->mimetype, 'recursive' => true));
+
+                if (!$plugin['abort']) {
+                    $this->add_part($print_part);
+                }
             }
             // show plaintext warning
             else if ($html_part !== null && empty($this->parts)) {
@@ -622,7 +717,7 @@ class rcube_message
                 $c->mimetype        = 'text/plain';
                 $c->realtype        = 'text/html';
 
-                $this->parts[] = $c;
+                $this->add_part($c);
             }
         }
         // this is an ecrypted message -> create a plaintext body with the according message
@@ -633,8 +728,19 @@ class rcube_message
             $p->ctype_secondary = 'plain';
             $p->mimetype        = 'text/plain';
             $p->realtype        = 'multipart/encrypted';
+            $p->mime_id         = $structure->mime_id;
 
-            $this->parts[] = $p;
+            $this->add_part($p);
+
+            // add encrypted payload part as attachment
+            if (is_array($structure->parts)) {
+                for ($i=0; $i < count($structure->parts); $i++) {
+                    $subpart = $structure->parts[$i];
+                    if ($subpart->mimetype == 'application/octet-stream' || !empty($subpart->filename)) {
+                        $this->add_part($subpart, 'attachment');
+                    }
+                }
+            }
         }
         // this is an S/MIME ecrypted message -> create a plaintext body with the according message
         else if ($mimetype == 'application/pkcs7-mime') {
@@ -644,8 +750,13 @@ class rcube_message
             $p->ctype_secondary = 'plain';
             $p->mimetype        = 'text/plain';
             $p->realtype        = 'application/pkcs7-mime';
+            $p->mime_id         = $structure->mime_id;
 
-            $this->parts[] = $p;
+            $this->add_part($p);
+
+            if (!empty($structure->filename)) {
+                $this->add_part($structure, 'attachment');
+            }
         }
         // message contains multiple parts
         else if (is_array($structure->parts) && !empty($structure->parts)) {
@@ -654,24 +765,16 @@ class rcube_message
                 $mail_part      = &$structure->parts[$i];
                 $primary_type   = $mail_part->ctype_primary;
                 $secondary_type = $mail_part->ctype_secondary;
+                $part_mimetype  = $mail_part->mimetype;
 
-                // real content-type of message/rfc822
-                if ($mail_part->real_mimetype) {
-                    $part_orig_mimetype = $mail_part->mimetype;
-                    $part_mimetype = $mail_part->real_mimetype;
-                    list($primary_type, $secondary_type) = explode('/', $part_mimetype);
-                }
-                else {
-                    $part_mimetype = $part_orig_mimetype = $mail_part->mimetype;
-                  }
-
-                // multipart/alternative
-                if ($primary_type == 'multipart') {
+                // multipart/alternative or message/rfc822
+                if ($primary_type == 'multipart' || $part_mimetype == 'message/rfc822') {
                     $this->parse_structure($mail_part, true);
 
                     // list message/rfc822 as attachment as well (mostly .eml)
-                    if ($part_orig_mimetype == 'message/rfc822' && !empty($mail_part->filename))
-                        $this->attachments[] = $mail_part;
+                    if ($primary_type == 'message' && !empty($mail_part->filename)) {
+                        $this->add_part($mail_part, 'attachment');
+                    }
                 }
                 // part text/[plain|html] or delivery status
                 else if ((($part_mimetype == 'text/plain' || $part_mimetype == 'text/html') && $mail_part->disposition != 'attachment') ||
@@ -682,11 +785,12 @@ class rcube_message
                         array('object' => $this, 'structure' => $mail_part,
                             'mimetype' => $part_mimetype, 'recursive' => true));
 
-                    if ($plugin['abort'])
+                    if ($plugin['abort']) {
                         continue;
+                    }
 
                     if ($part_mimetype == 'text/html' && $mail_part->size) {
-                        $got_html_part = true;
+                        $this->got_html_part = true;
                     }
 
                     $mail_part = $plugin['structure'];
@@ -698,21 +802,13 @@ class rcube_message
                         ($secondary_type == 'plain' && !$this->opt['prefer_html'])
                     ) {
                         $mail_part->type = 'content';
-                        $this->parts[] = $mail_part;
+                        $this->add_part($mail_part);
                     }
 
                     // list as attachment as well
                     if (!empty($mail_part->filename)) {
-                        $this->attachments[] = $mail_part;
+                        $this->add_part($mail_part, 'attachment');
                     }
-                }
-                // part message/*
-                else if ($primary_type == 'message') {
-                    $this->parse_structure($mail_part, true);
-
-                    // list as attachment as well (mostly .eml)
-                    if (!empty($mail_part->filename))
-                        $this->attachments[] = $mail_part;
                 }
                 // ignore "virtual" protocol parts
                 else if ($primary_type == 'protocol') {
@@ -720,9 +816,16 @@ class rcube_message
                 }
                 // part is Microsoft Outlook TNEF (winmail.dat)
                 else if ($part_mimetype == 'application/ms-tnef') {
-                    foreach ((array)$this->tnef_decode($mail_part) as $tpart) {
+                    $tnef_parts = (array) $this->tnef_decode($mail_part);
+                    foreach ($tnef_parts as $tpart) {
                         $this->mime_parts[$tpart->mime_id] = $tpart;
-                        $this->attachments[] = $tpart;
+                        $this->add_part($tpart, 'attachment');
+                    }
+
+                    // add winmail.dat to the list if it's content is unknown
+                    if (empty($tnef_parts) && !empty($mail_part->filename)) {
+                        $this->mime_parts[$mail_part->mime_id] = $mail_part;
+                        $this->add_part($mail_part, 'attachment');
                     }
                 }
                 // part is a file/attachment
@@ -737,26 +840,19 @@ class rcube_message
 
                     // part belongs to a related message and is linked
                     if (preg_match('/^multipart\/(related|relative)/', $mimetype)
-                        && ($mail_part->headers['content-id'] || $mail_part->headers['content-location'])) {
+                        && ($mail_part->headers['content-id'] || $mail_part->headers['content-location'])
+                    ) {
                         if ($mail_part->headers['content-id'])
                             $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
                         if ($mail_part->headers['content-location'])
                             $mail_part->content_location = $mail_part->headers['content-base'] . $mail_part->headers['content-location'];
 
-                        $this->inline_parts[] = $mail_part;
-                    }
-                    // attachment encapsulated within message/rfc822 part needs further decoding (#1486743)
-                    else if ($part_orig_mimetype == 'message/rfc822') {
-                        $this->parse_structure($mail_part, true);
-
-                        // list as attachment as well (mostly .eml)
-                        if (!empty($mail_part->filename))
-                            $this->attachments[] = $mail_part;
+                        $this->add_part($mail_part, 'inline');
                     }
                     // regular attachment with valid content type
                     // (content-type name regexp according to RFC4288.4.2)
                     else if (preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $part_mimetype)) {
-                        $this->attachments[] = $mail_part;
+                        $this->add_part($mail_part, 'attachment');
                     }
                     // attachment with invalid content type
                     // replace malformed content type with application/octet-stream (#1487767)
@@ -765,17 +861,21 @@ class rcube_message
                         $mail_part->ctype_secondary = 'octet-stream';
                         $mail_part->mimetype        = 'application/octet-stream';
 
-                        $this->attachments[] = $mail_part;
+                        $this->add_part($mail_part, 'attachment');
                     }
                 }
-                // attachment part as message/rfc822 (#1488026)
-                else if ($mail_part->mimetype == 'message/rfc822') {
-                    $this->parse_structure($mail_part);
+                // calendar part not marked as attachment (#1490325)
+                else if ($part_mimetype == 'text/calendar') {
+                    if (!$mail_part->filename) {
+                        $mail_part->filename = 'calendar.ics';
+                    }
+
+                    $this->add_part($mail_part, 'attachment');
                 }
             }
 
             // if this was a related part try to resolve references
-            if (preg_match('/^multipart\/(related|relative)/', $mimetype) && sizeof($this->inline_parts)) {
+            if (preg_match('/^multipart\/(related|relative)/', $mimetype) && count($this->inline_parts)) {
                 $a_replaces = array();
                 $img_regexp = '/^image\/(gif|jpe?g|png|tiff|bmp|svg)/';
 
@@ -791,14 +891,14 @@ class rcube_message
                         // MS Outlook sends sometimes non-related attachments as related
                         // In this case multipart/related message has only one text part
                         // We'll add all such attachments to the attachments list
-                        if (!isset($got_html_part) && empty($inline_object->content_id)) {
-                            $this->attachments[] = $inline_object;
+                        if (!isset($this->got_html_part)) {
+                            $this->add_part($inline_object, 'attachment');
                         }
                         // MS Outlook sometimes also adds non-image attachments as related
                         // We'll add all such attachments to the attachments list
                         // Warning: some browsers support pdf in <img/>
                         else if (!preg_match($img_regexp, $inline_object->mimetype)) {
-                            $this->attachments[] = $inline_object;
+                            $this->add_part($inline_object, 'attachment');
                         }
                         // @TODO: we should fetch HTML body and find attachment's content-id
                         // to handle also image attachments without reference in the body
@@ -815,18 +915,13 @@ class rcube_message
             }
         }
         // message is a single part non-text
-        else if ($structure->filename) {
-            $this->attachments[] = $structure;
-        }
-        // message is a single part non-text (without filename)
-        else if (preg_match('/application\//i', $mimetype)) {
-            $this->attachments[] = $structure;
+        else if ($structure->filename || preg_match('/^application\//i', $mimetype)) {
+            $this->add_part($structure, 'attachment');
         }
     }
 
-
     /**
-     * Fill aflat array with references to all parts, indexed by part numbers
+     * Fill a flat array with references to all parts, indexed by part numbers
      *
      * @param rcube_message_part $part Message body structure
      */
@@ -840,6 +935,27 @@ class rcube_message
                 $this->get_mime_numbers($part->parts[$i]);
     }
 
+    /**
+     * Add a part to object parts array(s) (with context check)
+     */
+    private function add_part($part, $type = null)
+    {
+        if ($this->check_context($part)) {
+            switch ($type) {
+                case 'inline': $this->inline_parts[] = $part; break;
+                case 'attachment': $this->attachments[] = $part; break;
+                default: $this->parts[] = $part; break;
+            }
+        }
+    }
+
+    /**
+     * Check if specified part belongs to the current context
+     */
+    private function check_context($part)
+    {
+        return $this->context === null || strpos($part->mime_id, $this->context . '.') === 0;
+    }
 
     /**
      * Decode a Microsoft Outlook TNEF part (winmail.dat)
@@ -875,7 +991,6 @@ class rcube_message
 
         return $parts;
     }
-
 
     /**
      * Parse message body for UUencoded attachments bodies
@@ -1002,5 +1117,4 @@ class rcube_message
     {
         return rcube_mime::format_flowed($text, $length);
     }
-
 }

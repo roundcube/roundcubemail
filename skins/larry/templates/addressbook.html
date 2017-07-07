@@ -23,6 +23,7 @@
 
 	<span class="spacer"></span>
 	<roundcube:button command="compose" type="link" class="button compose disabled" classAct="button compose" classSel="button compose pressed" label="compose" title="writenewmessage" />
+	<roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" title="printcontact" />
 	<roundcube:button command="advanced-search" type="link" class="button search disabled" classAct="button search" classSel="button search pressed" label="advanced" title="advsearch" />
 	<roundcube:container name="toolbar" id="addressbooktoolbar" />
 
@@ -40,9 +41,9 @@
 <div id="quicksearchbar" class="searchbox" role="search" aria-labelledby="aria-label-searchform">
 <h2 id="aria-label-searchform" class="voice"><roundcube:label name="arialabelcontactsearchform" /></h2>
 <label for="quicksearchbox" class="voice"><roundcube:label name="arialabelquicksearchbox" /></label>
-<roundcube:button command="menu-open" prop="searchmenu" id="searchmenulink" class="iconbutton searchoptions" title="searchmod" label="options" aria-haspopup="true" aria-expanded="false" aria-owns="searchmenu-menu" />
+<roundcube:button command="menu-open" type="link" prop="searchmenu" id="searchmenulink" class="iconbutton searchoptions" title="searchmod" label="options" aria-haspopup="true" aria-expanded="false" aria-owns="searchmenu-menu" />
 <roundcube:object name="searchform" id="quicksearchbox" />
-<roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
+<roundcube:button command="reset-search" type="link" id="searchreset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
 
 <div id="searchmenu" class="popupmenu" data-editable="true">
 	<h3 id="aria-label-searchmenu" class="voice"><roundcube:label name="searchmod" /></h3>
@@ -53,6 +54,7 @@
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="email" id="s_mod_email" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="email" /></span></label></li>
 		<li role="menuitem"><label><input type="checkbox" name="s_mods[]" value="*" id="s_mod_all" onclick="UI.set_searchmod(this)" /> <span><roundcube:label name="allfields" /></span></label></li>
 	</ul>
+	<div class="buttons"><a class="button" href="#" onclick="if (rcmail.command('search')) UI.show_popup('searchmenu',false)"><roundcube:label name="search" /></a></div>
 </div>
 </div>
 

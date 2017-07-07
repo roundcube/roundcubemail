@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/settings/save_folder.inc                                |
  |                                                                       |
@@ -42,10 +42,13 @@ else if (!strlen($name)) {
 else if (mb_strlen($name) > 128) {
     $error = $RCMAIL->gettext('nametoolong');
 }
+else if ($name[0] == '.' && $RCMAIL->config->get('imap_skip_hidden_folders')) {
+    $error = $RCMAIL->gettext('namedotforbidden');
+}
 else {
     // these characters are problematic e.g. when used in LIST/LSUB
     foreach (array($delimiter, '%', '*') as $char) {
-        if (strpos($name, $delimiter) !== false) {
+        if (strpos($name, $char) !== false) {
             $error = $RCMAIL->gettext('forbiddencharacter') . " ($char)";
             break;
         }
@@ -129,7 +132,7 @@ if (!$error && !strlen($old_imap)) {
     }
     else {
         // show error message
-        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
+        $OUTPUT->show_message($plugin['message'] ?: 'errorsaving', 'error', null, false);
     }
 }
 // update a mailbox
@@ -192,7 +195,7 @@ else if (!$error) {
     }
     else {
         // show error message
-        $OUTPUT->show_message($plugin['message'] ? $plugin['message'] : 'errorsaving', 'error', null, false);
+        $OUTPUT->show_message($plugin['message'] ?: 'errorsaving', 'error', null, false);
     }
 }
 

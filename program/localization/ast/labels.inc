@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -230,7 +230,6 @@ $labels['responsetext'] = 'Testu de la rempuesta';
 $labels['attach'] = 'Axuntar';
 $labels['attachments'] = 'Axuntos';
 $labels['upload'] = 'Xubir';
-$labels['uploadprogress'] = '$percent ($current de $total)';
 $labels['close']  = 'Zarrar';
 $labels['messageoptions']  = 'Opciones de mensaxe...';
 $labels['togglecomposeoptions'] = 'Camudar opciones de composición';
@@ -290,7 +289,6 @@ $labels['assistant'] = 'Auxiliar';
 $labels['spouse'] = 'Casáu con';
 $labels['allfields'] = 'Tolos campos';
 $labels['search'] = 'Guetar';
-$labels['searchfor'] = 'Guetar por "$q"';
 $labels['advsearch'] = 'Gueta avanzada';
 $labels['advanced'] = 'Avanzáu';
 $labels['other'] = 'Otru';
@@ -402,7 +400,6 @@ $labels['askuser'] = 'entrúgame';
 $labels['autosend'] = 'unviar recibu';
 $labels['autosendknown'] = 'unviar recibu a los mios contautos, d\'otramiente entrúgame';
 $labels['autosendknownignore'] = 'unviar recibu a los mios contautos, d\'otramiente inorar';
-$labels['ignore'] = 'inorar';
 $labels['readwhendeleted'] = 'Conseñar el mensaxe como lleíu al desanicialu';
 $labels['flagfordeletion'] = 'Conseñar el mensaxe pal desaniu en cuantes de desanicialu';
 $labels['skipdeleted'] = 'Nun amosar los mensaxes desaniciaos';
@@ -424,7 +421,6 @@ $labels['2231folding'] = 'RFC 2231 completu (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 completu (otros)';
 $labels['force7bit'] = 'Usar codificación MIME pa caráuteres de 8 bits';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Opciones avanzaes';
 $labels['toggleadvancedoptions'] = 'Camudar opciones avanzaes';
 $labels['focusonnewmessage'] = 'Enfocar la ventana de restolación en mensaxes nuevos';
@@ -557,7 +553,5 @@ $labels['arialabelpreferencesform'] = 'Formulariu de preferencies';
 $labels['arialabelidentityeditfrom'] = 'Formulariu d\'edición d\'identidá';
 $labels['arialabelresonseeditfrom'] = 'Formulariu d\'edición de rempuesta';
 $labels['helplistnavigation'] = 'Restolación de tecláu de llista';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abrir el contautu esbilláu/enfocáu.";
 ?>

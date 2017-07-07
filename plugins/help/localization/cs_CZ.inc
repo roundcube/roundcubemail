@@ -18,4 +18,5 @@
 $labels['help'] = 'Nápověda';
 $labels['about'] = 'O aplikaci';
 $labels['license'] = 'Licence';
+$labels['csrfinfo'] = 'Přečtěte si více o útoku typu CSRF a jak vás chráníme';
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/rcmail_output_json.php                                |
  |                                                                       |
@@ -19,21 +19,20 @@
  +-----------------------------------------------------------------------+
 */
 
-
 /**
  * View class to produce JSON responses
  *
- * @package Webmail
+ * @package    Webmail
  * @subpackage View
  */
 class rcmail_output_json extends rcmail_output
 {
-    protected $texts = array();
-    protected $commands = array();
+    protected $texts     = array();
+    protected $commands  = array();
     protected $callbacks = array();
-    protected $message = null;
+    protected $message   = null;
 
-    public $type = 'js';
+    public $type      = 'js';
     public $ajax_call = true;
 
 
@@ -44,37 +43,36 @@ class rcmail_output_json extends rcmail_output
      */
     public function set_pagetitle($title)
     {
-        if ($this->config->get('devel_mode') && !empty($_SESSION['username']))
+        if ($this->config->get('devel_mode') && !empty($_SESSION['username'])) {
             $name = $_SESSION['username'];
-        else
+        }
+        else {
             $name = $this->config->get('product_name');
+        }
 
-        $this->command('set_pagetitle', empty($name) ? $title : $name.' :: '.$title);
+        $this->command('set_pagetitle', empty($name) ? $title : $name . ' :: ' . $title);
     }
-
 
     /**
      * Register a template object handler
      *
-     * @param  string $obj Object name
-     * @param  string $func Function name to call
+     * @param string $obj  Object name
+     * @param string $func Function name to call
      */
     public function add_handler($obj, $func)
     {
         // ignore
     }
 
-
     /**
      * Register a list of template object handlers
      *
-     * @param  array $arr Hash array with object=>handler pairs
+     * @param array $arr Hash array with object=>handler pairs
      */
     public function add_handlers($arr)
     {
         // ignore
     }
-
 
     /**
      * Call a client method
@@ -86,12 +84,13 @@ class rcmail_output_json extends rcmail_output
     {
         $cmd = func_get_args();
 
-        if (strpos($cmd[0], 'plugin.') === 0)
-          $this->callbacks[] = $cmd;
-        else
-          $this->commands[] = $cmd;
+        if (strpos($cmd[0], 'plugin.') === 0) {
+            $this->callbacks[] = $cmd;
+        }
+        else {
+            $this->commands[] = $cmd;
+        }
     }
-
 
     /**
      * Add a localized label to the client environment
@@ -99,14 +98,14 @@ class rcmail_output_json extends rcmail_output
     public function add_label()
     {
         $args = func_get_args();
-        if (count($args) == 1 && is_array($args[0]))
+        if (count($args) == 1 && is_array($args[0])) {
             $args = $args[0];
+        }
 
         foreach ($args as $name) {
             $this->texts[$name] = $this->app->gettext($name);
         }
     }
-
 
     /**
      * Invoke display_message command
@@ -116,6 +115,7 @@ class rcmail_output_json extends rcmail_output
      * @param array   $vars     Key-value pairs to be replaced in localized text
      * @param boolean $override Override last set message
      * @param int     $timeout  Message displaying time in seconds
+     *
      * @uses self::command()
      */
     public function show_message($message, $type='notice', $vars=null, $override=true, $timeout=0)
@@ -135,23 +135,22 @@ class rcmail_output_json extends rcmail_output
         }
     }
 
-
     /**
      * Delete all stored env variables and commands
      */
     public function reset()
     {
         parent::reset();
-        $this->texts = array();
+        $this->texts    = array();
         $this->commands = array();
     }
-
 
     /**
      * Redirect to a certain url
      *
-     * @param mixed $p Either a string with the action or url parameters as key-value pairs
-     * @param int $delay Delay in seconds
+     * @param mixed $p     Either a string with the action or url parameters as key-value pairs
+     * @param int   $delay Delay in seconds
+     *
      * @see rcmail::url()
      */
     public function redirect($p = array(), $delay = 1)
@@ -162,7 +161,6 @@ class rcmail_output_json extends rcmail_output
         exit;
     }
 
-
     /**
      * Send an AJAX response to the client.
      */
@@ -172,30 +170,30 @@ class rcmail_output_json extends rcmail_output
         exit;
     }
 
-
     /**
      * Show error page and terminate script execution
      *
-     * @param int    $code     Error code
-     * @param string $message  Error message
+     * @param int    $code    Error code
+     * @param string $message Error message
      */
     public function raise_error($code, $message)
     {
+        if ($code == 403) {
+            header('HTTP/1.1 403 Forbidden');
+            die("Invalid Request");
+        }
+
         $this->show_message("Application Error ($code): $message", 'error');
         $this->remote_response();
         exit;
     }
 
-
     /**
      * Send an AJAX response with executable JS code
      *
-     * @param  string  $add Additional JS code
-     * @param  boolean True if output buffer should be flushed
-     * @return void
-     * @deprecated
+     * @param string $add Additional JS code
      */
-    protected function remote_response($add='')
+    protected function remote_response($add = '')
     {
         static $s_header_sent = false;
 
@@ -234,14 +232,11 @@ class rcmail_output_json extends rcmail_output
         $response = $hook['response'];
         unset($hook['response']);
 
-        echo self::json_serialize($response);
+        echo self::json_serialize($response, $this->devel_mode);
     }
-
 
     /**
      * Return executable javascript code for all registered commands
-     *
-     * @return string $out
      */
     protected function get_js_commands()
     {
@@ -250,7 +245,7 @@ class rcmail_output_json extends rcmail_output
         foreach ($this->commands as $i => $args) {
             $method = array_shift($args);
             foreach ($args as $i => $arg) {
-                $args[$i] = self::json_serialize($arg);
+                $args[$i] = self::json_serialize($arg, $this->devel_mode);
             }
 
             $out .= sprintf(

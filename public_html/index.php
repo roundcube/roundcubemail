@@ -3,9 +3,9 @@
 /*
  +-----------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                         |
- | Version 1.0-git                                                       |
+ | Version 1.4-git                                                       |
  |                                                                       |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -24,4 +24,3 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
 // include index.php from application root directory
 include INSTALL_PATH . 'index.php';
-

@@ -15,14 +15,14 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
-$labels['basic'] = 'Yeni mesajlarda web tarayıcı bildirimlerini göster';
-$labels['desktop'] = 'Yeni mesajlarda masa üstü bildirimlerini göster';
-$labels['sound'] = 'Yeni mesajlarda muzik çal';
+$labels['basic'] = 'Yeni iletiler web tarayıcıdan bildirilsin';
+$labels['desktop'] = 'Yeni iletiler Masaüstünden bildirilsin';
+$labels['sound'] = 'Yeni ileti geldiğinde ses çalınsın';
 $labels['test'] = 'Deneme';
-$labels['title'] = 'Yeni E-posta!';
-$labels['body'] = 'Yeni bir mesaj aldınız';
+$labels['title'] = 'Yeni İleti!';
+$labels['body'] = 'Yeni bir iletiniz var.';
 $labels['testbody'] = 'Bu bir test bildirimidir.';
-$labels['desktopdisabled'] = 'Web tarayıcınızda masa üstü bildirimi iptal edildi';
-$labels['desktopunsupported'] = 'Web tarayıcınız masa üstü bildidrimleri desteklemiyor';
+$labels['desktopdisabled'] = 'Web tarayıcınızda masaüstü bildirimi devre dışı bırakıldı.';
+$labels['desktopunsupported'] = 'Web tarayıcınız masaüstü bildirimleri desteklemiyor';
 $labels['desktoptimeout'] = 'Masaüstü bildirimini kapat';
 ?>

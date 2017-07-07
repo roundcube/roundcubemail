@@ -30,4 +30,4 @@ $messages['passwordshort'] = 'Gutxienez $length karakteretakoa izan behar du pas
 $messages['passwordweak'] = 'Gutxienez zenbaki bat eta puntuazio karaktere bat izan behar du pasahitzak.';
 $messages['passwordforbidden'] = 'Galarazitako karaktereak daude pasahitzean.';
 $messages['firstloginchange'] = 'Zure lehenengo sarrera da. Pasahitza aldatu mesedez.';
-?>
+$messages['disablednotice'] = 'Sistema mantentze lanetan dago eta oraintxe bertan ezin da pasahitzik aldatu. Laster denak bere onera itzuli beharko luke. Barkatu eragozpenenak.';

@@ -155,9 +155,14 @@ class rcube_db_oracle extends rcube_db
             }
         }
 
-        // replace escaped '?' back to normal, see self::quote()
-        $query = str_replace('??', '?', $query);
         $query = rtrim($query, " \t\n\r\0\x0B;");
+
+        // replace escaped '?' and quotes back to normal, see self::quote()
+        $query = str_replace(
+            array('??', self::DEFAULT_QUOTE.self::DEFAULT_QUOTE),
+            array('?', self::DEFAULT_QUOTE),
+            $query
+        );
 
         // log query
         $this->debug($query);
@@ -171,7 +176,7 @@ class rcube_db_oracle extends rcube_db
         $mode   = $this->in_transaction ? OCI_NO_AUTO_COMMIT : OCI_COMMIT_ON_SUCCESS;
 
         if ($result) {
-            foreach ($args as $param => $arg) {
+            foreach (array_keys($args) as $param) {
                 oci_bind_by_name($result, $param, $args[$param], -1, SQLT_LNG);
             }
         }
@@ -186,7 +191,7 @@ class rcube_db_oracle extends rcube_db
 
     /**
      * Helper method to handle DB errors.
-     * This by default logs the error but could be overriden by a driver implementation
+     * This by default logs the error but could be overridden by a driver implementation
      *
      * @param string Query that triggered the error
      * @return mixed Result to be stored and returned
@@ -320,6 +325,10 @@ class rcube_db_oracle extends rcube_db
 
         if (is_null($input)) {
             return 'NULL';
+        }
+
+        if ($input instanceof DateTime) {
+            return $this->quote($input->format($this->options['datetime_format']));
         }
 
         if ($type == 'ident') {
@@ -488,7 +497,7 @@ class rcube_db_oracle extends rcube_db
     /**
      * Execute the given SQL script
      *
-     * @param string SQL queries to execute
+     * @param string $sql SQL queries to execute
      *
      * @return boolen True on success, False on error
      */
@@ -587,7 +596,7 @@ class rcube_db_oracle extends rcube_db
 
         $this->debug('ROLLBACK TRANSACTION');
 
-        if ($result = @oci_rollback($this->dbh)) {
+        if (@oci_rollback($this->dbh)) {
             $this->in_transaction = false;
         }
         else {
@@ -595,5 +604,19 @@ class rcube_db_oracle extends rcube_db
         }
 
         return $this->last_result = $this->dbh->rollBack();
+    }
+
+    /**
+     * Terminate database connection.
+     */
+    public function closeConnection()
+    {
+        // release statement and close connection(s)
+        $this->last_result = null;
+        foreach ($this->dbhs as $dbh) {
+            oci_close($dbh);
+        }
+
+        parent::closeConnection();
     }
 }

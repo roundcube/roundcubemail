@@ -5,7 +5,7 @@
  | localization/<lang>/csv2vcard.inc                                     |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -40,6 +40,8 @@ $map['categories'] = "Categories";
 $map['company'] = "Company";
 $map['department'] = "Department";
 $map['email_address'] = "E-mail Address";
+$map['email_2_address'] = "E-mail 2 Address";
+$map['email_3_address'] = "E-mail 3 Address";
 $map['first_name'] = "First Name";
 $map['gender'] = "Gender";
 $map['home_city'] = "Home City";

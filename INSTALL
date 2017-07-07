@@ -3,53 +3,54 @@ INTRODUCTION
 
 This file describes the basic steps to install Roundcube Webmail on your
 web server. For additional information, please also consult the project's
-wiki page at http://trac.roundcube.net/wiki
+wiki page at https://github.com/roundcube/roundcubemail/wiki
 
 
 REQUIREMENTS
 ============
 
-* The Apache, Lighttpd, Cherokee or Hiawatha web server
+* An IMAP, HTTP and SMTP server
 * .htaccess support allowing overrides for DirectoryIndex
-* PHP Version 5.3.7 or greater including
-   - PCRE, DOM, JSON, XML, Session, Sockets (required)
-   - PHP Data Objects (PDO) with driver for either MySQL, PostgreSQL or SQLite (required)
-   - Libiconv, Zip (recommended)
-   - OpenSSL, Fileinfo, Mcrypt, mbstring (optional)
-* PEAR packages distributed with Roundcube or external:
-   - Mail_Mime 1.8.1 or newer
-   - Mail_mimeDecode 1.5.5 or newer
-   - Net_SMTP (latest from https://github.com/pear/Net_SMTP/)
+* PHP Version 5.4 or greater including:
+   - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring (required)
+   - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
+   - Iconv, Zip, Fileinfo, Intl, Exif (recommended)
+   - LDAP for LDAP addressbook support (optional)
+* PEAR and PEAR packages distributed with Roundcube or external:
+   - Mail_Mime 1.10.0 or newer
+   - Net_SMTP 1.7.1 or newer
+   - Net_Socket 1.0.12 or newer
    - Net_IDNA2 0.1.1 or newer
    - Auth_SASL 1.0.6 or newer
    - Net_Sieve 1.3.2 or newer (for managesieve plugin)
-   - Crypt_GPG 1.2.0 or newer (for enigma plugin)
+   - Crypt_GPG 1.6.0 or newer (for enigma plugin)
+   - Endroid/QrCode 1.6.0 or newer (https://github.com/endroid/QrCode)
 * php.ini options (see .htaccess file):
-   - error_reporting E_ALL & ~E_NOTICE (or lower)
+   - error_reporting E_ALL & ~E_NOTICE & ~E_STRICT
    - memory_limit > 16MB (increase as suitable to support large attachments)
    - file_uploads enabled (for attachment upload features)
    - session.auto_start disabled
    - suhosin.session.encrypt disabled
    - mbstring.func_overload disabled
-   - magic_quotes_runtime disabled
-   - magic_quotes_sybase disabled
-   - register_globals disabled (PHP < 5.4)
-* PHP compiled with OpenSSL to use secure (tls/ssl) connections and to use the spell checker
-* A MySQL (4.0.8 or newer), PostgreSQL, MS SQL Server (2005 or newer) database engine
-  or SQLite support in PHP
-* One of the above databases with permission to create tables
-* An SMTP server (recommended) or PHP configured for mail delivery
-* Composer installed either locally or globally
+* A MySQL, PostgreSQL, MS SQL Server (2005 or newer), Oracle database
+  or SQLite support in PHP - with permission to create tables
+* Composer installed either locally or globally (https://getcomposer.org)
 
 
 INSTALLATION
 ============
 
 1. Decompress and put this folder somewhere inside your document root
-2. Install dependencies using composer:
-   - get composer from https://getcomposer.org/download/
-   - rename the composer.json-dist file into composer.json
-   - run `php composer.phar install`
+2. In case you don't use the so-called "complete" release package,
+  you have to install PHP and javascript dependencies.
+  2.1. Install PHP dependencies using composer:
+    - get composer from https://getcomposer.org/download/
+    - rename the composer.json-dist file into composer.json
+    - if you want to use LDAP address books, enable the LDAP libraries in your
+      composer.json file by moving the items from "suggest" to the "require"
+      section (remove the explanation texts after the version!).
+    - run `php composer.phar install --no-dev`
+  2.2. Install Javascript dependencies by executing `bin/install-jsdeps.sh` script.
 3. Make sure that the following directories (and the files within)
    are writable by the webserver
    - /temp
@@ -63,6 +64,9 @@ INSTALLATION
 
 CONFIGURATION HINTS
 ===================
+
+IMPORTANT! Read all comments in defaults.inc.php, understand them
+and configure your installation to be not surprised by default behaviour.
 
 Roundcube writes internal errors to the 'errors' log file located in the logs
 directory which can be configured in config/config.inc.php. If you want ordinary
@@ -79,6 +83,7 @@ DATABASE SETUP
 ==============
 
 Note: Database for Roundcube must use UTF-8 character set.
+Note: See defaults.inc.php file for examples of DSN configuration.
 
 * MySQL
 -------
@@ -124,7 +129,7 @@ createuser and createdb commands.
 * Microsoft SQL Server
 ----------------------
 Language/locale of the database must be set to us_english (1033). More info
-on this at http://trac.roundcube.net/ticket/1488918.
+on this at https://github.com/roundcube/roundcubemail/issues/4078.
 
 
 Database cleaning
@@ -142,12 +147,44 @@ to config/config.inc.php and make the necessary adjustments according to your
 environment and your needs. More configuration options can be copied from the
 config/defaults.inc.php file into your local config.inc.php file as needed.
 Read the comments above the individual configuration options to find out what
-they do or read http://trac.roundcube.net/wiki/Howto_Install for even more
-guidance.
+they do or read https://github.com/roundcube/roundcubemail/wiki/Installation
+for even more guidance.
 
 You can also modify the default .htaccess file. This is necessary to
 increase the allowed size of file attachments, for example:
-	php_value       upload_max_filesize     2M
+
+  php_value   upload_max_filesize     5M
+  php_value   post_max_size           6M
+
+
+SECURE YOUR INSTALLATION
+========================
+
+Access through the webserver to the following directories should be denied:
+
+  /config
+  /temp
+  /logs
+
+Roundcube uses .htaccess files to protect these directories, so be sure to
+allow override of the Limit directives to get them taken into account. The
+package also ships a .htaccess file in the root directory which defines some
+rewrite rules. In order to properly secure your installation, please enable
+mod_rewrite for Apache webserver and double check access to the above listed
+directories and their contents is denied.
+
+NOTE: In Apache 2.4, support for .htaccess files has been disabled by
+default. Therefore you first need to enable this in your Apache main or
+virtual host config by with:
+
+  AllowOverride all
+
+For non-apache web servers add equivalent configuration parameters to deny
+direct access to these private resources.
+
+It is also recommended to change the document root to <install path>/public_html
+after installation if Roundcube runs at root of a dedicated virtual host. This
+will automatically keep sensitive files out of reach for http requests.
 
 
 UPGRADING

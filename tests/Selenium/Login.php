@@ -5,6 +5,7 @@ class Selenium_Login extends Selenium_Test
     protected function setUp()
     {
         bootstrap::init_db();
+        bootstrap::init_imap();
         parent::setUp();
     }
 

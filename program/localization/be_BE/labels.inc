@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -228,7 +228,6 @@ $labels['responsetext'] = 'Тэкст адказу';
 $labels['attach'] = 'Далучыць';
 $labels['attachments'] = 'Далучэнні';
 $labels['upload'] = 'Апублікаваць';
-$labels['uploadprogress'] = '$percent ($current з $total)';
 $labels['close']  = 'Закрыць';
 $labels['messageoptions']  = 'Параметры паведамлення...';
 $labels['togglecomposeoptions'] = 'Пераключыць параметры складання';
@@ -288,7 +287,6 @@ $labels['assistant'] = 'Асістэнт';
 $labels['spouse'] = 'Жонка';
 $labels['allfields'] = 'Усе палі';
 $labels['search'] = 'Пошук';
-$labels['searchfor'] = 'Шукаць "$q"';
 $labels['advsearch'] = 'Пашыраны пошук';
 $labels['advanced'] = 'Дадаткова';
 $labels['other'] = 'Іншае';
@@ -396,7 +394,6 @@ $labels['askuser'] = 'спытаць мяне';
 $labels['autosend'] = 'адправіць пацверджанне';
 $labels['autosendknown'] = 'адпраўляць пацверджанне маім кантактам, іначай спытаць';
 $labels['autosendknownignore'] = 'адпраўляць пацверджанне маім кантактам, іначай ігнараваць';
-$labels['ignore'] = 'ігнараваць';
 $labels['readwhendeleted'] = 'Пазначаць паведамленне як прачытанае па выдаленні';
 $labels['flagfordeletion'] = 'Толькі пазначаць паведамленне на выдаленне, не выдаляць';
 $labels['skipdeleted'] = 'Не паказваць выдаленыя паведамленні';
@@ -418,7 +415,6 @@ $labels['2231folding'] = 'Поўны RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Поўны RFC 2047 (інш.)';
 $labels['force7bit'] = 'Ужываць MIME-кадзіроўку для 8-бітных знакаў';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Дадатковыя параметры';
 $labels['focusonnewmessage'] = 'Актываваць акно браўзера пры новым паведамленні';
 $labels['checkallfolders'] = 'Правяраць усе папкі на новыя паведамленні';
@@ -513,7 +509,4 @@ $labels['vietnamese'] = 'в\'етнамская';
 $labels['japanese'] = 'японская';
 $labels['korean'] = 'карэйская';
 $labels['chinese'] = 'кітайская';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

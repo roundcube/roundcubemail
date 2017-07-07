@@ -1,11 +1,11 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/include/iniset.php                                            |
  |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2008-2017, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -21,7 +21,7 @@
 */
 
 // application constants
-define('RCMAIL_VERSION', '1.1-git');
+define('RCMAIL_VERSION', '1.4-git');
 define('RCMAIL_START', microtime(true));
 
 if (!defined('INSTALL_PATH')) {
@@ -64,15 +64,6 @@ require_once 'Roundcube/bootstrap.php';
 
 // register autoloader for rcmail app classes
 spl_autoload_register('rcmail_autoload');
-
-// backward compatybility (to be removed)
-require_once INSTALL_PATH . 'program/include/bc.php';
-
-// load the UTF-8 portablity layer from Patchwor
-if (!function_exists('iconv') || !function_exists('utf8_encode') || !extension_loaded('mbstring')) {
-    \Patchwork\Utf8\Bootup::initAll();
-}
-
 
 /**
  * PHP5 autoloader routine for dynamic class loading

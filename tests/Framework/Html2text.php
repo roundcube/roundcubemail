@@ -46,6 +46,16 @@ class rc_html2text extends PHPUnit_Framework_TestCase
                 'in'    => chr(0x002).chr(0x003),
                 'out'   => chr(0x002).chr(0x003),
             ),
+            7 => array(
+                'title' => 'Remove spaces after <br>',
+                'in'    => 'test<br>  test',
+                'out'   => "test\ntest",
+            ),
+            8 => array(
+                'title' => '&nbsp; handling test',
+                'in'    => '<div>eye: &nbsp;&nbsp;test<br /> tes: &nbsp;&nbsp;test</div>',
+                'out'   => "eye:   test\ntes:   test",
+            ),
         );
     }
 
@@ -69,7 +79,7 @@ class rc_html2text extends PHPUnit_Framework_TestCase
     {
         $html = <<<EOF
 <br>Begin<br><blockquote>OUTER BEGIN<blockquote>INNER 1<br></blockquote><div><br></div><div>Par 1</div>
-<blockquote>INNER 2</blockquote><div><br></div><div>Par 2</div>
+<blockQuote>INNER 2</blockquote><div><br></div><div>Par 2</div>
 <div><br></div><div>Par 3</div><div><br></div>
 <blockquote>INNER 3</blockquote>OUTER END</blockquote>
 EOF;
@@ -107,5 +117,65 @@ EOF;
         $res = $ht->get_text();
 
         $this->assertContains('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoating on invalid html');
+    }
+
+    function test_links()
+    {
+        $html     = '<a href="http://test.com">content</a>';
+        $expected = 'content [1]
+
+Links:
+------
+[1] http://test.com
+';
+
+        $ht = new rcube_html2text($html, false, true);
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Links list');
+
+        // href == content (#1490434)
+        $html     = '<a href="http://test.com">http://test.com</a>';
+        $expected = 'http://test.com';
+
+        $ht = new rcube_html2text($html, false, true);
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Skip link with href == content');
+    }
+
+    /**
+     * Test <a> links handling when not using link list (#5795)
+     *
+     * @dataProvider data_links_no_list
+     */
+    function test_links_no_list($input, $output)
+    {
+        $h2t = new rcube_html2text($input, false, false);
+        $res = $h2t->get_text();
+
+        $this->assertSame($output, $res, 'Links handling');
+    }
+
+    function data_links_no_list()
+    {
+        return array(
+            array(
+                'this is <a href="http://test.com">content</a>',
+                'this is content',
+            ),
+            array(
+                'this is <a href="#test">content&amp;&nbsp;test</a>',
+                'this is content& test',
+            ),
+            array(
+                'this is <a href="">content</a>',
+                'this is content',
+            ),
+            array(
+                'this is <a href="http://test.com"><img src=http://test.com/image" alt="image" /></a>',
+                'this is http://test.com',
+            ),
+        );
     }
 }

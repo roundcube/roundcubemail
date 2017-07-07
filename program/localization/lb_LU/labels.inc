@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -226,7 +226,6 @@ $labels['responsetext'] = 'Äntwert-Text';
 $labels['attach'] = 'Drunhänken';
 $labels['attachments'] = 'Unhäng';
 $labels['upload'] = 'Eroplueden';
-$labels['uploadprogress'] = '$percent ($current vun $total)';
 $labels['close']  = 'Zoumaachen';
 $labels['messageoptions']  = 'Message-Optiounen...';
 $labels['low']     = 'Niddreg';
@@ -285,7 +284,6 @@ $labels['assistant'] = 'Assistent';
 $labels['spouse'] = 'Liewenspartner';
 $labels['allfields'] = 'All d\'Felder';
 $labels['search'] = 'Sichen';
-$labels['searchfor'] = 'No "$q" sichen';
 $labels['advsearch'] = 'Avancéiert Sich';
 $labels['advanced'] = 'Avancéiert';
 $labels['other'] = 'Aneres';
@@ -387,7 +385,6 @@ $labels['askuser'] = 'mech froen';
 $labels['autosend'] = 'Bestätegung schécken';
 $labels['autosendknown'] = 'Bestätegung u meng Kontakter schécken, anerefalls nofroen';
 $labels['autosendknownignore'] = 'Bestätegung u meng Kontakter schécken, anerefalls ignoréieren';
-$labels['ignore'] = 'ignoréieren';
 $labels['readwhendeleted'] = 'Beim Läschen de Message als gelies markéieren';
 $labels['flagfordeletion'] = 'De Message als "läschbar" markéieren amplaz en ze läschen';
 $labels['skipdeleted'] = 'Geläschte Messagen net uweisen';
@@ -409,7 +406,6 @@ $labels['2231folding'] = 'Kompletten RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (Microsoft Outlook)';
 $labels['2047folding'] = 'Kompletten RFC 2047 (anerer)';
 $labels['force7bit'] = 'MIME-Kodéierung fir 8-Bit-Zeeche benotzen';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Avancéiert Optiounen';
 $labels['focusonnewmessage'] = 'Browser-Fënster fokusséiere wann en neie Message ukënnt';
 $labels['checkallfolders'] = 'Nei Messagen an allen Dossieren opruffen';
@@ -504,7 +500,4 @@ $labels['vietnamese'] = 'Vietnamesesch';
 $labels['japanese'] = 'Japanesch';
 $labels['korean'] = 'Koreanesch';
 $labels['chinese'] = 'Chinesesch';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

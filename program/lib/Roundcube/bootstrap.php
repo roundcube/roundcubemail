@@ -1,9 +1,9 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2017, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,7 +16,6 @@
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
-
 
 /**
  * Roundcube Framework Initialization
@@ -31,8 +30,6 @@ $config = array(
     // critical PHP settings here. Only these, which doesn't provide
     // an error/warning in the logs later. See (#1486307).
     'mbstring.func_overload'  => 0,
-    'magic_quotes_runtime'    => false,
-    'magic_quotes_sybase'     => false, // #1488506
 );
 
 // check these additional ini settings if not called via CLI
@@ -46,15 +43,17 @@ if (php_sapi_name() != 'cli') {
 foreach ($config as $optname => $optval) {
     $ini_optval = filter_var(ini_get($optname), is_bool($optval) ? FILTER_VALIDATE_BOOLEAN : FILTER_VALIDATE_INT);
     if ($optval != $ini_optval && @ini_set($optname, $optval) === false) {
-        $error = "ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
+        $optval = !is_bool($optval) ? $optval : ($optval ? 'On' : 'Off');
+        $error  = "ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
             . "Check your PHP configuration (including php_admin_flag).";
+
         if (defined('STDERR')) fwrite(STDERR, $error); else echo $error;
         exit(1);
     }
 }
 
 // framework constants
-define('RCUBE_VERSION', '1.1-git');
+define('RCUBE_VERSION', '1.4-git');
 define('RCUBE_CHARSET', 'UTF-8');
 
 if (!defined('RCUBE_LIB_DIR')) {
@@ -78,9 +77,11 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 }
 
 // set internal encoding for mbstring extension
-if (extension_loaded('mbstring')) {
+if (function_exists('mb_internal_encoding')) {
     mb_internal_encoding(RCUBE_CHARSET);
-    @mb_regex_encoding(RCUBE_CHARSET);
+}
+if (function_exists('mb_regex_encoding')) {
+    mb_regex_encoding(RCUBE_CHARSET);
 }
 
 // make sure the Roundcube lib directory is in the include_path
@@ -100,32 +101,40 @@ spl_autoload_register('rcube_autoload');
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'rcube_pear_error');
 
 
-
 /**
- * Similar function as in_array() but case-insensitive
+ * Similar function as in_array() but case-insensitive with multibyte support.
  *
- * @param string $needle    Needle value
- * @param array  $heystack  Array to search in
+ * @param string $needle   Needle value
+ * @param array  $heystack Array to search in
  *
  * @return boolean True if found, False if not
  */
 function in_array_nocase($needle, $haystack)
 {
-    $needle = mb_strtolower($needle);
-    foreach ((array)$haystack as $value) {
-        if ($needle === mb_strtolower($value)) {
-            return true;
+    // use much faster method for ascii
+    if (is_ascii($needle)) {
+        foreach ((array) $haystack as $value) {
+            if (strcasecmp($value, $needle) === 0) {
+                return true;
+            }
+        }
+    }
+    else {
+        $needle = mb_strtolower($needle);
+        foreach ((array) $haystack as $value) {
+            if ($needle === mb_strtolower($value)) {
+                return true;
+            }
         }
     }
 
     return false;
 }
 
-
 /**
  * Parse a human readable string for a number of bytes.
  *
- * @param string $str  Input string
+ * @param string $str Input string
  *
  * @return float Number of bytes
  */
@@ -156,7 +165,6 @@ function parse_bytes($str)
     return floatval($bytes);
 }
 
-
 /**
  * Make sure the string ends with a slash
  */
@@ -164,7 +172,6 @@ function slashify($str)
 {
   return unslashify($str).'/';
 }
-
 
 /**
  * Remove slashes at the end of the string
@@ -174,11 +181,10 @@ function unslashify($str)
   return preg_replace('/\/+$/', '', $str);
 }
 
-
 /**
  * Returns number of seconds for a specified offset string.
  *
- * @param string $str  String representation of the offset (e.g. 20min, 5h, 2days, 1week)
+ * @param string $str String representation of the offset (e.g. 20min, 5h, 2days, 1week)
  *
  * @return int Number of seconds
  */
@@ -207,20 +213,18 @@ function get_offset_sec($str)
     return $amount;
 }
 
-
 /**
  * Create a unix timestamp with a specified offset from now.
  *
- * @param string $offset_str  String representation of the offset (e.g. 20min, 5h, 2days)
- * @param int    $factor      Factor to multiply with the offset
+ * @param string $offset_str String representation of the offset (e.g. 20min, 5h, 2days)
+ * @param int    $factor     Factor to multiply with the offset
  *
  * @return int Unix timestamp
  */
-function get_offset_time($offset_str, $factor=1)
+function get_offset_time($offset_str, $factor = 1)
 {
     return time() + get_offset_sec($offset_str) * $factor;
 }
-
 
 /**
  * Truncate string if it is longer than the allowed length.
@@ -233,7 +237,7 @@ function get_offset_time($offset_str, $factor=1)
  *
  * @return string Abbreviated string
  */
-function abbreviate_string($str, $maxlength, $placeholder='...', $ending=false)
+function abbreviate_string($str, $maxlength, $placeholder = '...', $ending = false)
 {
     $length = mb_strlen($str);
 
@@ -246,17 +250,18 @@ function abbreviate_string($str, $maxlength, $placeholder='...', $ending=false)
         $first_part_length  = floor(($maxlength - $placeholder_length)/2);
         $second_starting_location = $length - $maxlength + $first_part_length + $placeholder_length;
 
-        $str = mb_substr($str, 0, $first_part_length) . $placeholder . mb_substr($str, $second_starting_location);
+        $prefix = mb_substr($str, 0, $first_part_length);
+        $suffix = mb_substr($str, $second_starting_location);
+        $str    = $prefix . $placeholder . $suffix;
     }
 
     return $str;
 }
 
-
 /**
  * Get all keys from array (recursive).
  *
- * @param array $array  Input array
+ * @param array $array Input array
  *
  * @return array List of array keys
  */
@@ -276,7 +281,6 @@ function array_keys_recursive($array)
     return $keys;
 }
 
-
 /**
  * Remove all non-ascii and non-word chars except ., -, _
  */
@@ -285,7 +289,6 @@ function asciiwords($str, $css_id = false, $replace_with = '')
     $allowed = 'a-z0-9\_\-' . (!$css_id ? '\.' : '');
     return preg_replace("/[^$allowed]/i", $replace_with, $str);
 }
-
 
 /**
  * Check if a string contains only ascii characters
@@ -301,12 +304,11 @@ function is_ascii($str, $control_chars = true)
     return preg_match($regexp, $str) ? false : true;
 }
 
-
 /**
  * Compose a valid representation of name and e-mail address
  *
- * @param string $email  E-mail address
- * @param string $name   Person name
+ * @param string $email E-mail address
+ * @param string $name  Person name
  *
  * @return string Formatted string
  */
@@ -325,7 +327,6 @@ function format_email_recipient($email, $name = '')
 
     return $email;
 }
-
 
 /**
  * Format e-mail address
@@ -349,7 +350,6 @@ function format_email($email)
     return $email;
 }
 
-
 /**
  * Fix version number so it can be used correctly in version_compare()
  *
@@ -362,44 +362,8 @@ function version_parse($version)
     return str_replace(
         array('-stable', '-git'),
         array('.0', '.99'),
-        $version);
-}
-
-
-/**
- * mbstring replacement functions
- */
-if (!extension_loaded('mbstring'))
-{
-    function mb_strlen($str)
-    {
-        return strlen($str);
-    }
-
-    function mb_strtolower($str)
-    {
-        return strtolower($str);
-    }
-
-    function mb_strtoupper($str)
-    {
-        return strtoupper($str);
-    }
-
-    function mb_substr($str, $start, $len=null)
-    {
-        return substr($str, $start, $len);
-    }
-
-    function mb_strpos($haystack, $needle, $offset=0)
-    {
-        return strpos($haystack, $needle, $offset);
-    }
-
-    function mb_strrpos($haystack, $needle, $offset=0)
-    {
-        return strrpos($haystack, $needle, $offset);
-    }
+        $version
+    );
 }
 
 /**
@@ -408,12 +372,12 @@ if (!extension_loaded('mbstring'))
 
 if (!function_exists('idn_to_utf8'))
 {
-    function idn_to_utf8($domain, $flags=null)
+    function idn_to_utf8($domain)
     {
         static $idn, $loaded;
 
         if (!$loaded) {
-            $idn = new Net_IDNA2();
+            $idn    = new Net_IDNA2();
             $loaded = true;
         }
 
@@ -424,18 +388,19 @@ if (!function_exists('idn_to_utf8'))
             catch (Exception $e) {
             }
         }
+
         return $domain;
     }
 }
 
 if (!function_exists('idn_to_ascii'))
 {
-    function idn_to_ascii($domain, $flags=null)
+    function idn_to_ascii($domain)
     {
         static $idn, $loaded;
 
         if (!$loaded) {
-            $idn = new Net_IDNA2();
+            $idn    = new Net_IDNA2();
             $loaded = true;
         }
 
@@ -446,6 +411,7 @@ if (!function_exists('idn_to_ascii'))
             catch (Exception $e) {
             }
         }
+
         return $domain;
     }
 }
@@ -458,27 +424,30 @@ if (!function_exists('idn_to_ascii'))
  */
 function rcube_autoload($classname)
 {
-    $filename = preg_replace(
-        array(
-            '/Mail_(.+)/',
-            '/Net_(.+)/',
-            '/Auth_(.+)/',
-            '/^html_.+/',
-            '/^rcube(.*)/'
-        ),
-        array(
-            'Mail/\\1',
-            'Net/\\1',
-            'Auth/\\1',
-            'Roundcube/html',
-            'Roundcube/rcube\\1'
-        ),
-        $classname
-    );
+    if (strpos($classname, 'rcube') === 0) {
+        $classname = 'Roundcube/' . $classname;
+    }
+    else if (strpos($classname, 'html_') === 0 || $classname === 'html') {
+        $classname = 'Roundcube/html';
+    }
+    else if (strpos($classname, 'Mail_') === 0) {
+        $classname = 'Mail/' . substr($classname, 5);
+    }
+    else if (strpos($classname, 'Net_') === 0) {
+        $classname = 'Net/' . substr($classname, 4);
+    }
+    else if (strpos($classname, 'Auth_') === 0) {
+        $classname = 'Auth/' . substr($classname, 5);
+    }
 
-    if ($fp = @fopen("$filename.php", 'r', true)) {
+    // Translate PHP namespaces into directories,
+    // i.e. use \Sabre\VObject; $vcf = VObject\Reader::read(...)
+    //      -> Sabre/VObject/Reader.php
+    $classname = str_replace('\\', '/', $classname);
+
+    if ($fp = @fopen("$classname.php", 'r', true)) {
         fclose($fp);
-        include_once "$filename.php";
+        include_once "$classname.php";
         return true;
     }
 
@@ -490,8 +459,11 @@ function rcube_autoload($classname)
  */
 function rcube_pear_error($err)
 {
-    error_log(sprintf("%s (%s): %s",
-        $err->getMessage(),
-        $err->getCode(),
-        $err->getUserinfo()), 0);
+    $msg = sprintf("ERROR: %s (%s)", $err->getMessage(), $err->getCode());
+
+    if ($info = $err->getUserinfo()) {
+        $msg .= ': ' . $info;
+    }
+
+    error_log($msg, 0);
 }

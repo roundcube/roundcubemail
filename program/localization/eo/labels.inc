@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -191,7 +191,6 @@ $labels['revertto']      = 'Reiru al';
 $labels['attach'] = 'Alfiksu';
 $labels['attachments'] = 'Alfiksaĵoj';
 $labels['upload'] = 'Alŝutu';
-$labels['uploadprogress'] = '$percent ($current de $total)';
 $labels['close']  = 'Fermi';
 $labels['messageoptions']  = 'Mesaĝ-agordoj...';
 $labels['low']     = 'Malalta';
@@ -316,7 +315,6 @@ $labels['mailboxview'] = 'Ricevitujo vido';
 $labels['mdnrequests'] = 'Sendanto-sciigoj';
 $labels['askuser'] = 'demandu';
 $labels['autosend'] = 'sendu aŭtomate';
-$labels['ignore'] = 'malatentu';
 $labels['readwhendeleted'] = 'Marku mesaĝon kiel legita kiam forigata';
 $labels['flagfordeletion'] = 'Marku mesaĝon kiel forigita anstataŭ forigi';
 $labels['showinlineimages'] = 'Montru alfiksitajn bildojn sub la mesaĝo';
@@ -324,7 +322,6 @@ $labels['autosavedraft']  = 'Aŭtomate savu malneton';
 $labels['never']  = 'neniam';
 $labels['messagesdisplaying'] = 'Mesaĝoj vidigante';
 $labels['messagescomposition'] = 'Mesaĝo-verkado';
-$labels['savelocalstorage'] = "";
 $labels['folder'] = 'Dosierujo';
 $labels['folders'] = 'Dosierujoj';
 $labels['foldername'] = 'Dosierujo-nomo';
@@ -336,7 +333,4 @@ $labels['managefolders'] = 'Administru dosierujon';
 $labels['sortby'] = 'Ordigu per';
 $labels['sortasc']  = 'Ordigu kreskante';
 $labels['sortdesc'] = 'Ordigu malkreskante';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

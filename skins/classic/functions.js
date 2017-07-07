@@ -193,6 +193,9 @@ uploadmenu: function(show)
     catch(e){}  // ignore errors
   }
 
+  if (rcmail.mailvelope_editor)
+    return;
+
   this.show_popupmenu('uploadmenu', show);
 
   if (!document.all && this.popups.uploadmenu.obj.is(':visible'))
@@ -314,6 +317,11 @@ show_listmenu: function(p)
     $(this).prop('checked', $.inArray(this.value, rcmail.env.listcols) != -1);
   });
 
+  $.each(['widescreen', 'desktop', 'list'], function() {
+    $('input[name="layout"][value="' + this + '"]').prop('checked', rcmail.env.layout == this);
+  });
+  $('#listoptions-columns', $dialog)[rcmail.env.layout == 'widescreen' ? 'hide' : 'show']();
+
   buttons[rcmail.gettext('save')] = function(e) {
     $dialog.dialog('close', e);
     self.save_listmenu();
@@ -351,10 +359,11 @@ save_listmenu: function()
   var sort = $('input[name="sort_col"]:checked').val(),
     ord = $('input[name="sort_ord"]:checked').val(),
     thread = $('input[name="view"]:checked').val(),
+    layout = $('input[name="layout"]:checked').val(),
     cols = $('input[name="list_col[]"]:checked')
       .map(function(){ return this.value; }).get();
 
-  rcmail.set_list_options(cols, sort, ord, thread == 'thread' ? 1 : 0);
+  rcmail.set_list_options(cols, sort, ord, thread == 'thread' ? 1 : 0, layout);
 },
 
 spellmenu: function(show)
@@ -398,12 +407,11 @@ show_attachmentmenu: function(elem, event)
 {
   var id = elem.parentNode.id.replace(/^attach/, '');
 
-  $('#attachmenuopen').unbind('click').attr('onclick', '').click(function(e) {
-    return rcmail.command('open-attachment', id, this);
-  });
-
-  $('#attachmenudownload').unbind('click').attr('onclick', '').click(function() {
-    rcmail.command('download-attachment', id, this);
+  $.each(['open', 'download', 'rename'], function() {
+    var action = this;
+    $('#attachmenu' + action).off('click').attr('onclick', '').click(function(e) {
+      return rcmail.command(action + '-attachment', id, this);
+    });
   });
 
   this.popups.attachmentmenu.link = elem;
@@ -454,48 +462,60 @@ body_keydown: function(e)
   }
 },
 
-switch_preview_pane: function(elem)
+// Mail view layout initialization and change handler
+set_layout: function(p)
 {
-  var uid, prev_frm = $('#mailpreviewframe');
+  var layout = p ? p.new_layout : rcmail.env.layout,
+    top = $('#mailcontframe'),
+    bottom = $('#mailpreviewframe');
 
-  if (elem.checked) {
-    rcmail.env.contentframe = 'messagecontframe';
-    if (mailviewsplit.layer) {
-      mailviewsplit.resize();
-      mailviewsplit.layer.elm.style.display = '';
+  if (p)
+    $('#mailrightcontainer').removeClass().addClass(layout);
+
+  if (!this.mailviewsplitv) {
+    this.mailviewsplitv = new rcube_splitter({id:'mailviewsplitterv', p1: 'mailleftcontainer', p2: 'mailrightcontainer',
+      orientation: 'v', relative: true, start: 165, callback: rcube_render_mailboxlist });
+    this.mailviewsplitv.init();
+  }
+
+  $('#mailviewsplitter')[layout == 'desktop' ? 'show' : 'hide']();
+  $('#mailviewsplitter2')[layout == 'widescreen' ? 'show' : 'hide']();
+  $('#mailpreviewframe')[layout != 'list' ? 'show' : 'hide']();
+  rcmail.env.contentframe = layout == 'list' ? null : 'messagecontframe';
+
+  if (layout == 'widescreen') {
+    $('#countcontrols').detach().appendTo($('#messagelistheader'));
+    top.css({height: 'auto', width: 400});
+    bottom.css({top: 0, left: 410, height: 'auto'}).show();
+    if (!this.mailviewsplit2) {
+      this.mailviewsplit2 = new rcube_splitter({id:'mailviewsplitter2', p1: 'mailcontframe', p2: 'mailpreviewframe',
+        orientation: 'v', relative: true, start: 405});
+      this.mailviewsplit2.init();
     }
     else
-      mailviewsplit.init();
-
-    if (bw.opera) {
-      $('#messagelistcontainer').css({height: ''});
-    }
-    prev_frm.show();
-
-    if (uid = rcmail.message_list.get_single_selection())
-      rcmail.show_message(uid, false, true);
+      this.mailviewsplit2.resize();
   }
-  else {
-    prev_frm.hide();
-    if (bw.ie7) {
-      var fr = document.getElementById('mailcontframe');
-      fr.style.bottom = 0;
-      fr.style.height = parseInt(fr.parentNode.offsetHeight)+'px';
+  else if (layout == 'desktop') {
+    top.css({height: 200, width: '100%'});
+    bottom.css({left: 0, top: 210, height: 'auto'}).show();
+    if (!this.mailviewsplit) {
+      this.mailviewsplit = new rcube_splitter({id:'mailviewsplitter', p1: 'mailcontframe', p2: 'mailpreviewframe',
+        orientation: 'h', relative: true, start: 205});
+      this.mailviewsplit.init();
     }
-    else {
-      $('#mailcontframe').css({height: 'auto', bottom: 0});
-      if (bw.opera)
-        $('#messagelistcontainer').css({height: 'auto'});
-    }
-    if (mailviewsplit.layer)
-      mailviewsplit.layer.elm.style.display = 'none';
-
-    rcmail.env.contentframe = null;
-    rcmail.show_contentframe(false);
+    else
+      this.mailviewsplit.resize();
+  }
+  else { // layout == 'list'
+    top.css({height: 'auto', width: '100%'});
+    bottom.hide();
   }
 
-  rcmail.command('save-pref', {name: 'preview_pane', value: (elem.checked?1:0)});
+  if (p && p.old_layout == 'widescreen') {
+    $('#countcontrols').detach().appendTo($('#messagelistfooter'));
+  }
 },
+
 
 /* Message composing */
 init_compose_form: function()
@@ -636,6 +656,10 @@ enable_command: function(p)
   if (p.command == 'reply-list' && rcmail.env.reply_all_mode == 1) {
     var label = rcmail.gettext(p.status ? 'replylist' : 'replyall');
     $('a.button.replyAll').attr('title', label);
+  }
+  else if (p.command == 'compose-encrypted') {
+    // show the toolbar button for Mailvelope
+    $('#messagetoolbar > a.encrypt').show();
   }
 },
 
@@ -820,27 +844,13 @@ function rcmail_scroller(list, top, bottom)
   };
 };
 
-
-// Events handling in iframes (eg. preview pane)
-function iframe_events()
-{
-  // this==iframe
-  try {
-    var doc = this.contentDocument ? this.contentDocument : this.contentWindow ? this.contentWindow.document : null;
-    $(doc).mouseup(function(e) { rcmail_ui.body_mouseup(e); });
-  }
-  catch (e) {
-    // catch possible "Permission denied" error in IE
-  };
-};
-
 // Abbreviate mailbox names to fit width of the container
 function rcube_render_mailboxlist()
 {
   var list = $('#mailboxlist > li > a, #mailboxlist ul:visible > li > a');
 
-  // it's too slow with really big number of folders, especially on IE
-  if (list.length > (bw.ie && bw.vendver < 9 ? 40 : 100))
+  // it's too slow with really big number of folders
+  if (list.length > 100)
     return;
 
   list.each(function() {
@@ -991,6 +1001,18 @@ function percent_indicator(obj, data)
   $('#quotaimg').attr('title', data.title);
 };
 
+function attachment_menu_append(item)
+{
+  $(item).append(
+    $('<a class="drop"></a>').on('click keypress', function(e) {
+      if (e.type != 'keypress' || e.which == 13) {
+        rcmail_ui.show_attachmentmenu(this, e);
+        return false;
+      }
+    })
+  );
+};
+
 // Optional parameters used by TinyMCE
 var rcmail_editor_settings = {};
 
@@ -1008,8 +1030,7 @@ function rcube_init_mail_ui()
       update_quota(rcmail.env.quota_content);
     rcmail.addEventListener('setquota', update_quota);
 
-    $('iframe').load(iframe_events)
-      .contents().mouseup(function(e) { rcmail_ui.body_mouseup(e); });
+    rcube_webmail.set_iframe_events({mouseup: function(e) { return rcmail_ui.body_mouseup(e); }});
 
     if (rcmail.env.task == 'mail') {
       rcmail.addEventListener('enable-command', 'enable_command', rcmail_ui)
@@ -1027,18 +1048,54 @@ function rcube_init_mail_ui()
           .addEventListener('afterimport-messages', function(){ rcmail_ui.show_popup('uploadform', false); });
       }
 
-      if (rcmail.env.action == 'compose')
+      rcmail.init_pagejumper('#pagejumper');
+
+      // fix message list header on window resize (#1490213)
+      if (bw.ie && rcmail.message_list)
+        $(window).resize(function() {
+          setTimeout(function() { rcmail.message_list.resize(); }, 10);
+        });
+
+      if (rcmail.env.action == 'list' || !rcmail.env.action) {
+        rcmail.addEventListener('layout-change', 'set_layout', rcmail_ui);
+        rcmail_ui.set_layout();
+      }
+      else if (rcmail.env.action == 'compose') {
         rcmail_ui.init_compose_form();
-      else if (rcmail.env.action == 'show' || rcmail.env.action == 'preview')
+        rcmail.addEventListener('compose-encrypted', function(e) {
+          $("a.button.encrypt")[(e.active ? 'addClass' : 'removeClass')]('selected');
+          $("select[name='editorSelector']").prop('disabled', e.active);
+          $('a.button.attach, a.button.responses, a.button.attach, #uploadmenulink')[(e.active ? 'addClass' : 'removeClass')]('buttonPas disabled');
+          $('#responseslist a.insertresponse')[(e.active ? 'removeClass' : 'addClass')]('active');
+        });
+        rcmail.addEventListener('fileappended', function(e) {
+          if (e.attachment.complete)
+            attachment_menu_append(e.item);
+        });
+
+        // add menu link for each attachment
+        $('#attachmentslist > li').each(function() {
+          attachment_menu_append(this);
+        });
+      }
+      else if (rcmail.env.action == 'show' || rcmail.env.action == 'preview') {
         // add menu link for each attachment
         $('#attachment-list > li[id^="attach"]').each(function() {
-          $(this).append($('<a class="drop"></a>').bind('click keypress', function(e) {
-            if (e.type != 'keypress' || e.which == 13) {
-              rcmail_ui.show_attachmentmenu(this, e);
-              return false;
-            }
-          }));
+          attachment_menu_append(this);
         });
+
+        $(window).resize(function() {
+          if (!$('#attachment-list > li[id^="attach"]').length)
+            $('#attachment-list').hide();
+
+          var mvlpe = $('#messagebody.mailvelope');
+          if (mvlpe.length) {
+            var content = $('#messageframe'),
+              h = (content.length ? content.height() + content.offset().top - 25 : $(this).height()) - mvlpe.offset().top - 20;
+            mvlpe.height(h);
+          }
+        });
+      }
     }
     else if (rcmail.env.task == 'addressbook') {
       rcmail.addEventListener('afterupload-photo', function(){ rcmail_ui.show_popup('uploadform', false); })

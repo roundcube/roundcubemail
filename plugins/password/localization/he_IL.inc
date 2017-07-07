@@ -30,4 +30,8 @@ $messages['passwordshort'] = 'הסיסמה צריכה להיות לפחות בע
 $messages['passwordweak'] = 'הסיסמה חייבת לכלול לפחות סיפרה אחת ולפחות סימן פיסוק אחד.';
 $messages['passwordforbidden'] = 'הסיסמה מכילה תווים אסורים.';
 $messages['firstloginchange'] = 'זוהי כניסתך הראשונה. אנא שנה את סיסמתך.';
-?>
+$messages['disablednotice'] = 'לא ניתן לשנות סיסמה כעת כי המערכת התחזוקה.  המערכת תחזור בקרוב לפעולה רגילה. אנו מתנצלים על אי הנוחות.';
+$messages['passwinhistory'] = 'הסיסמה היתה בשימוש מקודם';
+$messages['samepasswd'] = 'הסיסמה החדשה צריכה להיות שונה מהישנה';
+$messages['passwdexpirewarning'] = 'אזהרה! הסיסמה תפוג בקרוב. יש לשנותה לפני expirationdatetime$.';
+$messages['passwdexpired'] = 'פג תוקפה של הסיסמה. יש לשנותה כעת!';

@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -131,6 +131,8 @@ $labels['moreactions']      = 'Mai multe acțiuni...';
 $labels['more']             = 'Mai multe';
 $labels['back']             = 'Înapoi';
 $labels['options']          = 'Opţiuni';
+$labels['first'] = 'Primul';
+$labels['last'] = 'Ultimul';
 $labels['select'] = 'Selectează';
 $labels['all'] = 'Toate';
 $labels['none'] = 'Niciunul';
@@ -210,7 +212,6 @@ $labels['responsetext'] = 'Textul răspunsului';
 $labels['attach'] = 'Ataşează';
 $labels['attachments'] = 'Ataşamente';
 $labels['upload'] = 'Încarcă';
-$labels['uploadprogress'] = '$percent ($current din $total)';
 $labels['close']  = 'Închide';
 $labels['messageoptions']  = 'Opţiuni mesaj...';
 $labels['low']     = 'Mică';
@@ -370,7 +371,6 @@ $labels['askuser'] = 'întreabă-mă';
 $labels['autosend'] = 'trimite automat';
 $labels['autosendknown'] = 'trimite confirmarea de primire către contactele mele, în rest întreabă-mă';
 $labels['autosendknownignore'] = 'trimite confirmarea de primire către contactele mele, în rest ignoră';
-$labels['ignore'] = 'ignoră';
 $labels['readwhendeleted'] = 'Marchează mesajul ca citit la ştergere';
 $labels['flagfordeletion'] = 'Marchează mesajul pentru ştergere în loc de a-l şterge direct';
 $labels['skipdeleted'] = 'Nu arăta mesajele şterse';
@@ -392,7 +392,6 @@ $labels['2231folding'] = 'RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 (Altele)';
 $labels['force7bit'] = 'Foloseşte encodarea MIME pentru caracterele cu 8 biţi';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Opţiuni avansate';
 $labels['focusonnewmessage'] = 'Focalizare pe fereastra browser-ului la mesaje noi';
 $labels['checkallfolders'] = 'Verifică toate dosarele pentru mesaje noi';
@@ -487,7 +486,5 @@ $labels['vietnamese'] = 'Vietnamez';
 $labels['japanese'] = 'Japonez';
 $labels['korean'] = 'Coreean';
 $labels['chinese'] = 'Chinezesc';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
+$labels['arialabelsearchterms'] = 'Termenii căutării';
 ?>

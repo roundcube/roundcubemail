@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -42,7 +42,6 @@ $messages['savingmessage'] = 'Lagrar melding …';
 $messages['messagesaved'] = 'Melding lagra som kladd.';
 $messages['successfullysaved'] = 'Meldinga vart lagra.';
 $messages['addedsuccessfully'] = 'Kontakta vart lagt til i adresseboka.';
-$messages['contactexists'] = 'Ei kontakt med denne e-postadressa finst frå før.';
 $messages['contactnameexists'] = 'Det finst allereie en kontakt med dette namnet.';
 $messages['blockedimages'] = 'Av omsyn til personvernet ditt er eksterne bilete blokkerte i denne meldinga.';
 $messages['encryptedmessage'] = 'Dette er ei kryptert melding og kan ikkje visast. Orsak!';
@@ -70,11 +69,9 @@ $messages['formincomplete'] = 'Skjemaet var ikkje fullstendig fylt ut.';
 $messages['noemailwarning'] = 'Skriv ei gyldig e-postadresse.';
 $messages['nonamewarning']  = 'Skriv eit namn.';
 $messages['nopagesizewarning'] = 'Oppgje sidestorleik.';
-$messages['nosenderwarning'] = 'Skriv inn avsendar si e-postadresse';
 $messages['norecipientwarning'] = 'Skriv minst ein mottakar.';
 $messages['nosubjectwarning']  = 'Emnefeltet er tomt. Vil du skriva eitt emne no?';
 $messages['nobodywarning'] = 'Senda meldinga utan tekst?';
-$messages['notsentwarning'] = 'Meldinga er ikkje sendt. Vil du kasta ho?';
 $messages['noldapserver'] = 'Vel LDAP-tenar å søkja i.';
 $messages['nosearchname'] = 'Skriv kontaktnamn eller epostadresse.';
 $messages['notuploadedwarning'] = 'Ikkje alle vedlegga er ferdig opplasta enno. Vent litt til, eller avbryt opplastinga.';
@@ -118,7 +115,6 @@ $messages['importformaterror'] = 'Importering feila. Den opplasta fila er i feil
 $messages['importconfirm'] = '<b>Importerte $inserted kontaktar</b>';
 $messages['importconfirmskipped'] = '<b>Hoppa over $skipped oppføringar som fanst frå før</b>';
 $messages['opnotpermitted'] = 'Ulovleg operasjon.';
-$messages['nofromaddress'] = 'Manglar e-postadresse i denne identiteten.';
 $messages['httpreceivedencrypterror'] = 'En uopprettelig feil oppstod knytta til innstillingane. Kontakt systemansvarleg umiddelbart. <b>Meldinga kunne ikkje sendast.</b>';
 $messages['smtpconnerror'] = 'SMTP-feil ($code): Tilkopling til tenar feila.';
 $messages['smtpautherror'] = 'SMTP-feil ($code): Autentisering feila.';
@@ -126,7 +122,6 @@ $messages['smtpfromerror'] = 'SMTP-feil ($code): Klarte ikkje å angje sendar «
 $messages['smtptoerror'] = 'SMTP-feil ($code): Klarte ikkje å leggja til mottakar «$to» ($msg).';
 $messages['smtprecipientserror'] = 'SMTP-feil: Klarte ikkje tolka mottakarlista.';
 $messages['smtperror'] = 'SMTP-feil: $msg';
-$messages['emailformaterror'] = 'Ugyldig e-postadresse: $email';
 $messages['toomanyrecipients'] = 'For mange mottakarar. Senk talet til $max.';
 $messages['maxgroupmembersreached'] = 'Ei gruppe kan ikkje ha fleire enn $max medlemmer.';
 $messages['contactdelerror'] = 'Klarte ikkje sletta kontakt(ar).';
@@ -156,4 +151,3 @@ $messages['parentnotwritable'] = 'Klarte ikkje laga/flytte mappa i vald overordn
 $messages['messagetoobig'] = 'Meldingsdelen er for stor til å prosesserast.';
 $messages['attachmentvalidationerror'] = 'ÅTVARING: Dette vedlegget er mistenkjeleg fordi det er av ein  type som ikkje stemmer med det som er deklarert i meldinga. Viss du ikkje stolar på avsendaren bør du ikkje opna det i nettlesaren. Det kan ha skadeleg innhald.<br/><br/><em>Venta: $expected; fann: $detected</em>';
 $messages['noscriptwarning'] = 'NB: Denne webmail-klienten krev JavaScript. Skru på JavaScript i nettlesaren din for å kunna bruka klienten.';
-?>

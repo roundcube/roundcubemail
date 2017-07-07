@@ -14,8 +14,7 @@
 }
 
 #abooktoolbar a.button,
-#abooktoolbar a.buttonPas,
-#abooktoolbar span.separator {
+#abooktoolbar a.buttonPas {
   display: block;
   float: left;
   width: 32px;
@@ -41,6 +40,16 @@
 
 #abooktoolbar a.composeSel {
   background-position: -32px -32px;
+}
+
+#abooktoolbar a.print {
+  background: url(images/mail_toolbar.png) 0 0 no-repeat transparent;
+  background-position: -256px 0;
+}
+
+#abooktoolbar a.printSel {
+  background: url(images/mail_toolbar.png) 0 0 no-repeat transparent;
+  background-position: -256px -32px;
 }
 
 #abooktoolbar a.delete {
@@ -73,11 +82,6 @@
 
 #abooktoolbar a.exportAllSel {
   background-position: -128px -32px;
-}
-
-#abooktoolbar span.separator {
-  width: 5px;
-  background-position: -162px 0;
 }
 
 #abooktoolbar a.search {

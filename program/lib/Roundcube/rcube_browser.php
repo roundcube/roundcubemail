@@ -1,9 +1,9 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2007-2009, The Roundcube Dev Team                       |
+ | Copyright (C) 2007-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -54,15 +54,16 @@ class rcube_browser
             $this->ver = (float) $regs[1];
         }
 
-        if (preg_match('/ ([a-z]{2})-([a-z]{2})/', $HTTP_USER_AGENT, $regs))
+        if (preg_match('/ ([a-z]{2})-([a-z]{2})/', $HTTP_USER_AGENT, $regs)) {
             $this->lang =  $regs[1];
-        else
+        }
+        else {
             $this->lang =  'en';
+        }
 
         $this->dom      = $this->mz || $this->safari || ($this->ie && $this->ver>=5) || ($this->opera && $this->ver>=7);
         $this->pngalpha = $this->mz || $this->safari || ($this->ie && $this->ver>=5.5) ||
-            ($this->ie && $this->ver>=5 && $this->mac) || ($this->opera && $this->ver>=7) ? true : false;
+            ($this->ie && $this->ver>=5 && $this->mac) || ($this->opera && $this->ver>=7);
         $this->imgdata  = !$this->ie;
     }
 }
-

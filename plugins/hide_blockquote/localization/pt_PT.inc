@@ -17,5 +17,5 @@
 */
 $labels['hide'] = 'Ocultar';
 $labels['show'] = 'Mostrar';
-$labels['quotelimit'] = 'Ocultar citação quando o numero de linhas for maior que';
+$labels['quotelimit'] = 'Ocultar citação quando o número de linhas for maior que';
 ?>

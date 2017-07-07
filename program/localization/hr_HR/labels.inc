@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -78,7 +78,7 @@ $labels['jan']	= 'Sij';
 $labels['feb']	= 'Velj';
 $labels['mar']	= 'Ožu';
 $labels['apr']	= 'Tra';
-$labels['may']	= 'Svibanj';
+$labels['may']	= 'Svi';
 $labels['jun']	= 'Lip';
 $labels['jul'] 	= 'Srp';
 $labels['aug']	= 'Kol';
@@ -213,7 +213,6 @@ $labels['responsetext'] = 'Tekst odgovora';
 $labels['attach'] = 'Priloži';
 $labels['attachments'] = 'Privitci (Attachments)';
 $labels['upload'] = 'Dodaj';
-$labels['uploadprogress'] = '$percent ($current od $total)';
 $labels['close']  = 'Zatvori';
 $labels['messageoptions']  = 'Postavke poruka...';
 $labels['low']     = 'Nizak';
@@ -272,7 +271,6 @@ $labels['assistant'] = 'Asistent';
 $labels['spouse'] = 'Suprug/a';
 $labels['allfields'] = 'Sva polja';
 $labels['search'] = 'Pretraga';
-$labels['searchfor'] = 'Pretraži za "$q"';
 $labels['advsearch'] = 'Napredna pretraga';
 $labels['advanced'] = 'Napredno';
 $labels['other'] = 'Ostalo';
@@ -374,7 +372,6 @@ $labels['askuser'] = 'pitaj me';
 $labels['autosend'] = 'pošalji potvrdu';
 $labels['autosendknown'] = 'pošalji potvrdu ako je pošiljatelj u mom imeniku, u suprotnom me pitaj';
 $labels['autosendknownignore'] = 'pošalji potvrdu ako je pošiljatelj u mom imeniku, u suprotnom zanemari';
-$labels['ignore'] = 'zanemari';
 $labels['readwhendeleted'] = 'Označi poruku kao pročitanu pri brisanju';
 $labels['flagfordeletion'] = 'Označi poruku za brisanje umjesto brisanja';
 $labels['skipdeleted'] = 'Ne prikazuj obrisane poruke';
@@ -396,7 +393,6 @@ $labels['2231folding'] = 'Prema RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Prema RFC 2047 (ostali)';
 $labels['force7bit'] = 'Koristi MIME kodiranje za 8-bitne znakove';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Napredne postavke';
 $labels['focusonnewmessage'] = 'Fokusiraj prozor preglednika pri primitku nove poruke';
 $labels['checkallfolders'] = 'Provjeri nove poruke u svim mapama';
@@ -491,7 +487,4 @@ $labels['vietnamese'] = 'Vijetnamski';
 $labels['japanese'] = 'Japanski';
 $labels['korean'] = 'Korejski';
 $labels['chinese'] = 'Kineski';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

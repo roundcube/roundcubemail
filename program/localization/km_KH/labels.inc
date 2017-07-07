@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -194,7 +194,6 @@ $labels['revertto']      = 'ត្រលប់ទៅ';
 $labels['attach'] = 'ភ្ជាប់';
 $labels['attachments'] = 'ឯកសារភ្ជាប់';
 $labels['upload'] = 'ភ្ជាប់ឯកសារ';
-$labels['uploadprogress'] = '$percent ($current ពី $total)';
 $labels['close']  = 'បិទ';
 $labels['messageoptions']  = 'កំណត់ជំរើសរបស់សំបុត្រ';
 $labels['low']     = 'ទាប';
@@ -337,7 +336,6 @@ $labels['askuser'] = 'សួរអ្នកប្រើ';
 $labels['autosend'] = 'ផ្ញើស្វ័យប្រវត្តិ';
 $labels['autosendknown'] = 'បញ្ជូនអត្ថបទប្រាប់អ្នកផ្ញើទៅកាន់អាសយដ្ឋានទាក់ទងរបស់ខ្ញុំឬក៏សួរខ្ញុំ';
 $labels['autosendknownignore'] = 'បញ្ជូនអត្ថបទប្រាប់អ្នកផ្ញើទៅកាន់អាសយដ្ឋានទាក់ទងរបស់ខ្ញុំឬមិនបាច់ធ្វើអ្វីទាំងអស់';
-$labels['ignore'] = 'ទុកចោល';
 $labels['readwhendeleted'] = 'កំណត់សំបុត្រថាបានអាននៅពេលលុបសំបុត្រនោះ';
 $labels['flagfordeletion'] = 'កំណត់សញ្ញាផ្កាយអោយសំបុត្រថាបានលុបដោយមិនចាំបាច់លុបជាក់ស្តែង';
 $labels['skipdeleted'] = 'មិនបង្ហាញសំបុត្រដែលបានលុប';
@@ -357,7 +355,6 @@ $labels['2231folding'] = 'RFC 2231 ពេញ (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'RFC 2047 ពេញ(other)';
 $labels['force7bit'] = 'ប្រើ MIME សំរាប់អក្សរទំហំ 8-bit';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'ការកំណត់ពឹស្តារ';
 $labels['focusonnewmessage'] = 'ផ្តោតលើវីនដូវដែលកំពុងសរសេរសំបុត្រថ្មី';
 $labels['checkallfolders'] = 'ពិនិត្យសំបុត្រថ្មីនៅគ្រប់ថតទាំងអស់';
@@ -426,7 +423,4 @@ $labels['vietnamese'] = 'ភាសាវៀតណាម';
 $labels['japanese'] = 'ភាសាជប៉ុន';
 $labels['korean'] = 'ភាសាកូរ៉េ';
 $labels['chinese'] = 'ភាសាចិន';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
-$labels['helplistkeyboardnavcontacts'] = "";
 ?>

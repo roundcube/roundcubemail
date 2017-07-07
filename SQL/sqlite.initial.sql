@@ -72,6 +72,8 @@ CREATE TABLE users (
   mail_host varchar(128) NOT NULL default '',
   created datetime NOT NULL default '0000-00-00 00:00:00',
   last_login datetime DEFAULT NULL,
+  failed_login datetime DEFAULT NULL,
+  failed_login_counter integer DEFAULT NULL,
   language varchar(5),
   preferences text NOT NULL default ''
 );
@@ -84,7 +86,6 @@ CREATE UNIQUE INDEX ix_users_username ON users(username, mail_host);
 
 CREATE TABLE session (
   sess_id varchar(128) NOT NULL PRIMARY KEY,
-  created datetime NOT NULL default '0000-00-00 00:00:00',
   changed datetime NOT NULL default '0000-00-00 00:00:00',
   ip varchar(40) NOT NULL default '',
   vars text NOT NULL
@@ -125,12 +126,11 @@ CREATE UNIQUE INDEX ix_searches_user_type_name ON searches (user_id, type, name)
 CREATE TABLE cache (
   user_id integer NOT NULL default 0,
   cache_key varchar(128) NOT NULL default '',
-  created datetime NOT NULL default '0000-00-00 00:00:00',
   expires datetime DEFAULT NULL,
-  data text NOT NULL
+  data text NOT NULL,
+  PRIMARY KEY (user_id, cache_key)
 );
 
-CREATE INDEX ix_cache_user_cache_key ON cache(user_id, cache_key);
 CREATE INDEX ix_cache_expires ON cache(expires);
 
 -- 
@@ -139,12 +139,11 @@ CREATE INDEX ix_cache_expires ON cache(expires);
 
 CREATE TABLE cache_shared (
   cache_key varchar(255) NOT NULL,
-  created datetime NOT NULL default '0000-00-00 00:00:00',
   expires datetime DEFAULT NULL,
-  data text NOT NULL
+  data text NOT NULL,
+  PRIMARY KEY (cache_key)
 );
 
-CREATE INDEX ix_cache_shared_cache_key ON cache_shared(cache_key);
 CREATE INDEX ix_cache_shared_expires ON cache_shared(expires);
 
 --
@@ -201,4 +200,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2014042900');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2016112200');

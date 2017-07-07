@@ -27,23 +27,23 @@
 </div>
 
 <div id="forwardmenu" class="popupmenu">
-    <ul>
+    <ul id="forwardmenumenu">
         <roundcube:button type="link-menuitem" command="forward-inline" label="forwardinline" prop="sub" classAct="forwardlink active" class="forwardlink" />
         <roundcube:button type="link-menuitem" command="forward-attachment" label="forwardattachment" prop="sub" classAct="forwardattachmentlink active" class="forwardattachmentlink" />
-        <roundcube:container name="forwardmenu" id="forwardmenu" />
+        <roundcube:container name="forwardmenu" id="forwardmenumenu" />
     </ul>
 </div>
 
 <div id="replyallmenu" class="popupmenu">
-    <ul>
+    <ul id="replyallmenumenu">
         <roundcube:button type="link-menuitem" command="reply-all" label="replyall" prop="sub" classAct="replyalllink active" class="replyalllink" />
         <roundcube:button type="link-menuitem" command="reply-list" label="replylist" prop="sub" classAct="replylistlink active" class="replylistlink" />
-        <roundcube:container name="replyallmenu" id="replyallmenu" />
+        <roundcube:container name="replyallmenu" id="replyallmenumenu" />
     </ul>
 </div>
 
 <div id="messagemenu" class="popupmenu">
-  <ul class="toolbarmenu">
+  <ul class="toolbarmenu" id="messagemenumenu">
     <roundcube:button type="link-menuitem" class="printlink" command="print" label="printmessage" classAct="printlink active" />
     <roundcube:button type="link-menuitem" class="downloadlink" command="download" label="emlsave" classAct="downloadlink active" />
     <roundcube:button type="link-menuitem" class="editlink" command="edit" prop="new" label="editasnew" classAct="editlink active" />
@@ -51,16 +51,16 @@
     <roundcube:button type="link-menuitem" class="copylink" command="copy" label="copyto" classAct="copylink active" innerclass="folder-selector-link" />
     <roundcube:button type="link-menuitem" class="sourcelink" command="viewsource" label="viewsource" classAct="sourcelink active" menuitem-class="separator_below" />
     <roundcube:button type="link-menuitem" class="openlink" command="open" label="openinextwin" target="_blank" classAct="openlink active" />
-    <roundcube:container name="messagemenu" id="messagemenu" />
+    <roundcube:container name="messagemenu" id="messagemenumenu" />
   </ul>
 </div>
 
 <div id="markmessagemenu" class="popupmenu">
-  <ul class="toolbarmenu">
+  <ul class="toolbarmenu" id="markmessagemenumenu">
     <roundcube:button type="link-menuitem" command="mark" prop="read" label="markread" classAct="readlink active" class="readlink" />
     <roundcube:button type="link-menuitem" command="mark" prop="unread" label="markunread" classAct="unreadlink active" class="unreadlink" />
     <roundcube:button type="link-menuitem" command="mark" prop="flagged" label="markflagged" classAct="flaggedlink active" class="flaggedlink" />
     <roundcube:button type="link-menuitem" command="mark" prop="unflagged" label="markunflagged" classAct="unflaggedlink active" class="unflaggedlink" />
-    <roundcube:container name="markmenu" id="markmessagemenu" />
+    <roundcube:container name="markmenu" id="markmessagemenumenu" />
   </ul>
 </div>

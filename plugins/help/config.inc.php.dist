@@ -2,7 +2,8 @@
 
 // Help content iframe source
 // %l will be replaced by the language code resolved using the 'help_language_map' option
-$config['help_source'] = 'http://docs.roundcube.net/doc/help/1.0/%l/';
+// If you are serving roundcube via https, then change this URL to https also.
+$config['help_source'] = 'http://docs.roundcube.net/doc/help/1.1/%l/';
 
 // Map task/action combinations to deep-links
 // Use '<task>/<action>' or only '<task>' strings as keys
@@ -33,3 +34,5 @@ $config['help_license_url'] = null;
 // Determine whether to open the help in a new window
 $config['help_open_extwin'] = false;
 
+// URL to additional information about CSRF protection
+$config['help_csrf_info'] = null;

@@ -7,6 +7,8 @@ CREATE TABLE "users" (
     "mail_host" varchar(128) NOT NULL,
     "created" timestamp with time zone DEFAULT current_timestamp NOT NULL,
     "last_login" timestamp with time zone DEFAULT NULL,
+    "failed_login" timestamp with time zone DEFAULT NULL,
+    "failed_login_counter" integer DEFAULT NULL,
     "language" varchar(5),
     "preferences" long DEFAULT NULL,
     CONSTRAINT "users_username_key" UNIQUE ("username", "mail_host")
@@ -24,7 +26,6 @@ END;
 
 CREATE TABLE "session" (
     "sess_id" varchar(128) NOT NULL PRIMARY KEY,
-    "created" timestamp with time zone DEFAULT current_timestamp NOT NULL,
     "changed" timestamp with time zone DEFAULT current_timestamp NOT NULL,
     "ip" varchar(41) NOT NULL,
     "vars" long NOT NULL
@@ -125,23 +126,21 @@ CREATE TABLE "cache" (
     "user_id" integer NOT NULL
         REFERENCES "users" ("user_id") ON DELETE CASCADE,
     "cache_key" varchar(128) NOT NULL,
-    "created" timestamp with time zone DEFAULT current_timestamp NOT NULL,
     "expires" timestamp with time zone DEFAULT NULL,
-    "data" long NOT NULL
+    "data" long NOT NULL,
+    PRIMARY KEY ("user_id", "cache_key")
 );
 
-CREATE INDEX "cache_user_id_idx" ON "cache" ("user_id", "cache_key");
 CREATE INDEX "cache_expires_idx" ON "cache" ("expires");
 
 
 CREATE TABLE "cache_shared" (
     "cache_key" varchar(255) NOT NULL,
-    "created" timestamp with time zone DEFAULT current_timestamp NOT NULL,
     "expires" timestamp with time zone DEFAULT NULL,
-    "data" long NOT NULL
+    "data" long NOT NULL,
+    PRIMARY KEY ("cache_key")
 );
 
-CREATE INDEX "cache_shared_cache_key_idx" ON "cache_shared" ("cache_key");
 CREATE INDEX "cache_shared_expires_idx" ON "cache_shared" ("expires");
 
 
@@ -218,4 +217,4 @@ CREATE TABLE "system" (
     "value" long
 );
 
-INSERT INTO "system" ("name", "value") VALUES ('roundcube-version', '2014042900');
+INSERT INTO "system" ("name", "value") VALUES ('roundcube-version', '2016112200');

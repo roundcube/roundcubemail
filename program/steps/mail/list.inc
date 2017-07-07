@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/mail/list.inc                                           |
  |                                                                       |
@@ -40,8 +40,15 @@ if ($sort = rcube_utils::get_input_value('_sort', rcube_utils::INPUT_GET)) {
     }
 }
 
+// register layout change
+if ($layout = rcube_utils::get_input_value('_layout', rcube_utils::INPUT_GET)) {
+    $OUTPUT->set_env('layout', $layout);
+    $save_arr['layout'] = $layout;
+    // force header replace on layout change
+    $cols = $_SESSION['list_attrib']['columns'];
+}
 // is there a set of columns for this request?
-if ($cols = rcube_utils::get_input_value('_cols', rcube_utils::INPUT_GET)) {
+else if ($cols = rcube_utils::get_input_value('_cols', rcube_utils::INPUT_GET)) {
     $_SESSION['list_attrib']['columns'] = explode(',', $cols);
     if (!in_array('list_cols', $dont_override)) {
         $save_arr['list_cols'] = explode(',', $cols);
@@ -57,20 +64,6 @@ $threading = (bool) $RCMAIL->storage->get_threading();
 
 // Synchronize mailbox cache, handle flag changes
 $RCMAIL->storage->folder_sync($mbox_name);
-
-// initialize searching result if search_filter is used
-if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
-    $search_request = md5($mbox_name.$_SESSION['search_scope'].$_SESSION['search_filter']);
-    $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCUBE_CHARSET, rcmail_sort_column());
-
-    $_SESSION['search']         = $RCMAIL->storage->get_search_set();
-    $_SESSION['search_request'] = $search_request;
-
-    $OUTPUT->set_env('search_request', $search_request);
-    $OUTPUT->set_env('search_filter', $_SESSION['search_filter']);
-
-    $multifolder = is_a($_SESSION['search'][1], 'rcube_result_multifolder');
-}
 
 // fetch message headers
 if ($count = $RCMAIL->storage->count($mbox_name, $threading ? 'THREADS' : 'ALL', !empty($_REQUEST['_refresh']))) {

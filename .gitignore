@@ -13,3 +13,11 @@ composer.json
 composer.phar
 composer.lock
 vendor
+
+# javascript dependencies
+plugins/enigma/openpgp.min.js
+plugins/managesieve/codemirror/
+program/js/jquery.min.js
+program/js/jstz.min.js
+program/js/publickey.js
+program/js/tinymce/

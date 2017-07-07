@@ -30,4 +30,8 @@ $messages['passwordshort'] = 'Slaptažodis turi būti sudarytas bent iš $length
 $messages['passwordweak'] = 'Slaptažodyje turi būti bent vienas skaitmuo ir vienas skyrybos ženklas.';
 $messages['passwordforbidden'] = 'Slaptažodyje rasta neleistinų simbolių.';
 $messages['firstloginchange'] = 'Tai yra pirmasis jūsų prisijungimas. Prašau, pasikeiskite savo slaptažodį.';
-?>
+$messages['disablednotice'] = 'Sistema šiuo metu tvarkoma ir slaptažodžio pakeitimas negalimas. Netrukus viskas turėtų grįžti į įprastą būseną. Atsiprašome dėl nepatogumų.';
+$messages['passwinhistory'] = 'Šis slaptažodis jau buvo naudotas anksčiau.';
+$messages['samepasswd'] = 'Naujas slaptažodis turi būti kitoks nei senasis.';
+$messages['passwdexpirewarning'] = 'Įspėjimas! Jūsų slaptažodis greitai nustos galioti, pakeiskite jį iki $expirationdatetime.';
+$messages['passwdexpired'] = 'Jūsų slaptažodis nebegalioja, jūs turite pakeisti jį dabar!';

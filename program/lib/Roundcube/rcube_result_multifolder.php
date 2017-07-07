@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  | Copyright (C) 2005-2011, The Roundcube Dev Team                       |
@@ -34,6 +34,7 @@ class rcube_result_multifolder
     protected $meta    = array();
     protected $index   = array();
     protected $folders = array();
+    protected $sdata   = array();
     protected $order   = 'ASC';
     protected $sorting;
 
@@ -46,7 +47,6 @@ class rcube_result_multifolder
         $this->folders = $folders;
         $this->meta    = array('count' => 0);
     }
-
 
     /**
      * Initializes object with SORT command response
@@ -103,7 +103,6 @@ class rcube_result_multifolder
         return false;
     }
 
-
     /**
      * Checks if the result is empty
      *
@@ -114,7 +113,6 @@ class rcube_result_multifolder
         return empty($this->sets) || $this->meta['count'] == 0;
     }
 
-
     /**
      * Returns number of elements in the result
      *
@@ -124,7 +122,6 @@ class rcube_result_multifolder
     {
         return $this->meta['count'];
     }
-
 
     /**
      * Returns number of elements in the result.
@@ -137,28 +134,21 @@ class rcube_result_multifolder
         return $this->count();
     }
 
-
     /**
      * Reverts order of elements in the result
      */
     public function revert()
     {
         $this->order = $this->order == 'ASC' ? 'DESC' : 'ASC';
-        $this->index = array();
+        $this->index = array_reverse($this->index);
 
         // revert order in all sub-sets
         foreach ($this->sets as $set) {
             if ($this->order != $set->get_parameters('ORDER')) {
                 $set->revert();
             }
-
-            $folder = $set->get_parameters('MAILBOX');
-            $index  = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $set->get());
-
-            $this->index = array_merge($this->index, $index);
         }
     }
-
 
     /**
      * Check if the given message ID exists in the object
@@ -178,11 +168,10 @@ class rcube_result_multifolder
         return array_search($msgid, $this->index);
     }
 
-
     /**
      * Filters data set. Removes elements listed in $ids list.
      *
-     * @param array $ids List of IDs to remove.
+     * @param array  $ids    List of IDs to remove.
      * @param string $folder IMAP folder
      */
     public function filter($ids = array(), $folder = null)
@@ -200,9 +189,8 @@ class rcube_result_multifolder
     /**
      * Slices data set.
      *
-     * @param $offset Offset (as for PHP's array_slice())
-     * @param $length Number of elements (as for PHP's array_slice())
-     *
+     * @param int $offset Offset (as for PHP's array_slice())
+     * @param int $length Number of elements (as for PHP's array_slice())
      */
     public function slice($offset, $length)
     {
@@ -232,22 +220,20 @@ class rcube_result_multifolder
         return $this->index;
     }
 
-
     /**
-     * Return all messages in the result.
+     * Return all messages in the result in compressed form
      *
-     * @return array List of message IDs
+     * @return string List of message IDs in compressed form
      */
     public function get_compressed()
     {
         return '';
     }
 
-
     /**
      * Return result element at specified index
      *
-     * @param int|string  $index  Element's index or "FIRST" or "LAST"
+     * @param int|string $index Element's index or "FIRST" or "LAST"
      *
      * @return int Element value
      */
@@ -260,12 +246,11 @@ class rcube_result_multifolder
         }
     }
 
-
     /**
      * Returns response parameters, e.g. ESEARCH's MIN/MAX/COUNT/ALL/MODSEQ
      * or internal data e.g. MAILBOX, ORDER
      *
-     * @param string $param  Parameter name
+     * @param string $param Parameter name
      *
      * @return array|string Response parameters or parameter value
      */
@@ -287,8 +272,9 @@ class rcube_result_multifolder
     /**
      * Returns the stored result object for a particular folder
      *
-     * @param string $folder  Folder name
-     * @return false|obejct rcube_result_* instance of false if none found
+     * @param string $folder Folder name
+     *
+     * @return false|object rcube_result_* instance of false if none found
      */
     public function get_set($folder)
     {
@@ -316,22 +302,47 @@ class rcube_result_multifolder
 
     public function __sleep()
     {
-        return array('sets','folders','sorting','order');
+        $this->sdata = array('incomplete' => array(), 'error' => array());
+
+        foreach ($this->sets as $set) {
+            if ($set->incomplete) {
+                $this->sdata['incomplete'][] = $set->get_parameters('MAILBOX');
+            }
+            else if ($set->is_error()) {
+                $this->sdata['error'][] = $set->get_parameters('MAILBOX');
+            }
+        }
+
+        return array('sdata', 'index', 'folders', 'sorting', 'order');
     }
 
     public function __wakeup()
     {
-        // restore index from saved result sets
-        $this->meta = array('count' => 0);
+        $this->meta       = array('count' => count($this->index));
+        $this->incomplete = count($this->sdata['incomplete']) > 0;
 
-        foreach ($this->sets as $result) {
-            if ($result->count()) {
-                $this->append_result($result);
+        // restore result sets from saved index
+        $data = array();
+        foreach ($this->index as $item) {
+            list($uid, $folder) = explode('-', $item, 2);
+            $data[$folder] .= ' ' . $uid;
+        }
+
+        foreach ($this->folders as $folder) {
+            if (in_array($folder, $this->sdata['error'])) {
+                $data_str = null;
             }
-            else if ($result->incomplete) {
-                $this->incomplete = true;
+            else {
+                $data_str = '* SORT' . $data[$folder];
             }
+
+            $set = new rcube_result_index($folder, $data_str, strtoupper($this->order));
+
+            if (in_array($folder, $this->sdata['incomplete'])) {
+                $set->incomplete = true;
+            }
+
+            $this->sets[] = $set;
         }
     }
-
 }

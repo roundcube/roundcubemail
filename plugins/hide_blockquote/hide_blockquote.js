@@ -43,12 +43,12 @@ function hide_blockquote()
 
     link = $('<span class="blockquote-link"></span>')
       .css({position: 'absolute', 'z-Index': 2})
-      .text(rcmail.gettext('hide_blockquote.show'))
+      .text(rcmail.get_label('hide_blockquote.show'))
       .data('parent', div)
       .click(function() {
         var t = $(this), parent = t.data('parent'), visible = parent.is(':visible');
 
-        t.text(rcmail.gettext(visible ? 'hide' : 'show', 'hide_blockquote'))
+        t.text(rcmail.get_label(visible ? 'hide' : 'show', 'hide_blockquote'))
           .detach().appendTo(visible ? q : parent);
 
         parent[visible ? 'hide' : 'show']();

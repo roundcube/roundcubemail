@@ -5,7 +5,7 @@
  | plugins/zipdownload/localization/<lang>.inc                           |
  |                                                                       |
  | Localization file of the Roundcube Webmail Zipdownload plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2012-2014, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -16,5 +16,3 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 $labels['downloadall'] = 'Ներբեռնել բոլո կցված նիշքերը';
-$labels['downloadfolder'] = 'Ներբեռնել պանակը';
-?>

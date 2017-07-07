@@ -17,4 +17,6 @@
 */
 $labels['addvcardmsg'] = 'Įtraukti vizitinę kortelę į adresų knygą';
 $labels['vcardsavefailed'] = 'Įrašyti vizitinės kortelės nepavyko';
+$labels['attachvcard'] = 'Pridėti vCard';
+$labels['vcard'] = 'vCard';
 ?>

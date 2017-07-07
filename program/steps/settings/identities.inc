@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/settings/identities.inc                                 |
  |                                                                       |
@@ -32,7 +32,7 @@ if ($RCMAIL->action == 'delete-identity' && $OUTPUT->ajax_call) {
             $OUTPUT->command('remove_identity', $iid);
         }
         else {
-            $msg = $plugin['message'] ? $plugin['message'] : ($deleted < 0 ? 'nodeletelastidentity' : 'errorsaving');
+            $msg = $plugin['message'] ?: ($deleted < 0 ? 'nodeletelastidentity' : 'errorsaving');
             $OUTPUT->show_message($msg, 'error', null, false);
         }
     }

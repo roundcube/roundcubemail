@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube PHP suite                          |
  | Copyright (C) 2005-2014 The Roundcube Dev Team                        |
@@ -190,6 +190,65 @@ abstract class rcube_output
 
         // Request browser to disable DNS prefetching (CVE-2010-0464)
         header("X-DNS-Prefetch-Control: off");
+
+        // send CSRF and clickjacking protection headers
+        if ($xframe = $this->app->config->get('x_frame_options', 'sameorigin')) {
+            header('X-Frame-Options: ' . $xframe);
+        }
+    }
+
+    /**
+     * Send headers related to file downloads
+     *
+     * @param string $filename File name
+     * @param array  $params   Optional parameters:
+     *                         type         - File content type (default: 'application/octet-stream')
+     *                         disposition  - Download type: 'inline' or 'attachment' (default)
+     *                         length       - Content length
+     *                         charset      - File name character set
+     *                         type_charset - Content character set
+     *                         time_limit   - Script execution limit (default: 3600)
+     */
+    public function download_headers($filename, $params = array())
+    {
+        if (empty($params['disposition'])) {
+            $params['disposition'] = 'attachment';
+        }
+
+        if ($params['disposition'] == 'inline' && stripos($params['type'], 'text') === 0) {
+            $params['type'] .= '; charset=' . ($params['type_charset'] ?: $this->charset);
+        }
+
+        header("Content-Type: " . ($params['type'] ?: "application/octet-stream"));
+
+        if ($params['disposition'] == 'attachment' && $this->browser->ie) {
+            header("Content-Type: application/force-download");
+        }
+
+        $disposition = "Content-Disposition: " . $params['disposition'];
+
+        // For non-ascii characters we'll use RFC2231 syntax
+        if (!preg_match('/[^a-zA-Z0-9_.:,?;@+ -]/', $filename)) {
+            $disposition .= sprintf("; filename=\"%s\"", $filename);
+        }
+        else {
+            $disposition .= sprintf("; filename*=\"%s''%s\"", $params['charset'] ?: $this->charset, rawurlencode($filename));
+        }
+
+        header($disposition);
+
+        if (isset($params['length'])) {
+            header("Content-Length: " . $params['length']);
+        }
+
+        // don't kill the connection if download takes more than 30 sec.
+        if (!array_key_exists('time_limit', $params)) {
+            $params['time_limit'] = 3600;
+        }
+
+        if (is_numeric($params['time_limit'])) {
+            @set_time_limit($params['time_limit']);
+        }
     }
 
     /**
@@ -208,10 +267,10 @@ abstract class rcube_output
     /**
      * Create an edit field for inclusion on a form
      *
-     * @param string col field name
-     * @param string value field value
-     * @param array attrib HTML element attributes for field
-     * @param string type HTML element type (default 'text')
+     * @param string $col    Field name
+     * @param string $value  Field value
+     * @param array  $attrib HTML element attributes for the field
+     * @param string $type   HTML element type (default 'text')
      *
      * @return string HTML field definition
      */
@@ -236,7 +295,7 @@ abstract class rcube_output
             $input->add('---', '');
             $input->add(array_values($attrib['options']), array_keys($attrib['options']));
         }
-        else if ($attrib['type'] == 'password') {
+        else if ($type == 'password' || $attrib['type'] == 'password') {
             $input = new html_passwordfield($attrib);
         }
         else {
@@ -260,16 +319,22 @@ abstract class rcube_output
     /**
      * Convert a variable into a javascript object notation
      *
-     * @param mixed Input value
+     * @param mixed   $input  Input value
+     * @param boolean $pretty Enable JSON formatting
      *
      * @return string Serialized JSON string
      */
-    public static function json_serialize($input)
+    public static function json_serialize($input, $pretty = false)
     {
-        $input = rcube_charset::clean($input);
+        $input   = rcube_charset::clean($input);
+        $options = 0;
+
+        if ($pretty) {
+            $options |= JSON_PRETTY_PRINT;
+        }
 
         // sometimes even using rcube_charset::clean() the input contains invalid UTF-8 sequences
         // that's why we have @ here
-        return @json_encode($input);
+        return @json_encode($input, $options);
     }
 }

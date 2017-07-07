@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/utils/text2html.inc                                     |
  |                                                                       |
@@ -20,11 +20,6 @@
 */
 
 $text = stream_get_contents(fopen('php://input', 'r'));
-
-// strip slashes if magic_quotes enabled
-if (get_magic_quotes_gpc() || get_magic_quotes_runtime()) {
-    $html = stripslashes($html);
-}
 
 $converter = new rcube_text2html($text, false, array('wrap' => true));
 

@@ -13,6 +13,11 @@ file_filter = program/localization/<lang>/messages.inc
 source_file = program/localization/en_US/messages.inc
 source_lang = en_US
 
+[roundcube-webmail.timezones]
+file_filter = program/localization/<lang>/timezones.inc
+source_file = program/localization/en_US/timezones.inc
+source_lang = en_US
+
 [roundcube-webmail.plugin-acl]
 file_filter = plugins/acl/localization/<lang>.inc
 source_file = plugins/acl/localization/en_US.inc
@@ -26,6 +31,11 @@ source_lang = en_US
 [roundcube-webmail.plugin-attachment_reminder]
 file_filter = plugins/attachment_reminder/localization/<lang>.inc
 source_file = plugins/attachment_reminder/localization/en_US.inc
+source_lang = en_US
+
+[roundcube-webmail.plugin-enigma]
+file_filter = plugins/enigma/localization/<lang>.inc
+source_file = plugins/enigma/localization/en_US.inc
 source_lang = en_US
 
 [roundcube-webmail.plugin-help]
@@ -82,4 +92,3 @@ source_lang = en_US
 file_filter = plugins/zipdownload/localization/<lang>.inc
 source_file = plugins/zipdownload/localization/en_US.inc
 source_lang = en_US
-

@@ -5,7 +5,7 @@
  | localization/<lang>/labels.inc                                        |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2013, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -233,7 +233,6 @@ $labels['responsetext'] = 'Texto de resposta';
 $labels['attach'] = 'Anexar';
 $labels['attachments'] = 'Ficheiros anexos';
 $labels['upload'] = 'Cargar';
-$labels['uploadprogress'] = '$percent ($current de $total)';
 $labels['close']  = 'Pechar';
 $labels['messageoptions']  = 'Opcións da mensaxe...';
 $labels['togglecomposeoptions'] = 'Conmutar opcións de redacción';
@@ -293,7 +292,6 @@ $labels['assistant'] = 'Asistente';
 $labels['spouse'] = 'Parella';
 $labels['allfields'] = 'Todos os campos';
 $labels['search'] = 'Procurar';
-$labels['searchfor'] = 'Procurar  "$1"';
 $labels['advsearch'] = 'Procura avanzada';
 $labels['advanced'] = 'Avanzado';
 $labels['other'] = 'Outro';
@@ -405,7 +403,6 @@ $labels['askuser'] = 'preguntarme que facer';
 $labels['autosend'] = 'enviar automáticamente';
 $labels['autosendknown'] = 'enviar aos meus contactos, noutros casos preguntar';
 $labels['autosendknownignore'] = 'enviar aos meus contactos, noutros casos ignorar';
-$labels['ignore'] = 'ignorar';
 $labels['readwhendeleted'] = 'Marcar a mensaxe como lida ao eliminar';
 $labels['flagfordeletion'] = 'Marcar a mensaxe para eliminar en vez de eliminar';
 $labels['skipdeleted'] = 'Non amosar as mensaxes marcadas como eliminadas';
@@ -427,7 +424,6 @@ $labels['2231folding'] = 'Conforme ao RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Conforme ao RFC 2047 (outros)';
 $labels['force7bit'] = 'Usar MIME para codificar caracteres de 8 bits';
-$labels['savelocalstorage'] = "";
 $labels['advancedoptions'] = 'Opcións avanzadas';
 $labels['toggleadvancedoptions'] = 'Amosar opcións avanzadas';
 $labels['focusonnewmessage'] = 'Centrar a xanela do navegador en novas mensaxes';
@@ -552,7 +548,5 @@ $labels['arialabelpreferencesform'] = 'Formulario de preferencias';
 $labels['arialabelidentityeditfrom'] = 'Formulario de edición de identidade';
 $labels['arialabelresonseeditfrom'] = 'Formulario de edición de resposta';
 $labels['helplistnavigation'] = 'Navegación pola lista con teclado';
-$labels['helplistkeyboardnavigation'] = "";
-$labels['helplistkeyboardnavmessages'] = "";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Abrir o contacto seleccionado.";
 ?>

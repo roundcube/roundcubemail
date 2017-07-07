@@ -7,7 +7,6 @@
 
 CREATE TABLE `session` (
  `sess_id` varchar(128) NOT NULL,
- `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `ip` varchar(40) NOT NULL,
  `vars` mediumtext NOT NULL,
@@ -24,6 +23,8 @@ CREATE TABLE `users` (
  `mail_host` varchar(128) NOT NULL,
  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `last_login` datetime DEFAULT NULL,
+ `failed_login` datetime DEFAULT NULL,
+ `failed_login_counter` int(10) UNSIGNED DEFAULT NULL,
  `language` varchar(5),
  `preferences` longtext,
  PRIMARY KEY(`user_id`),
@@ -36,13 +37,12 @@ CREATE TABLE `users` (
 CREATE TABLE `cache` (
  `user_id` int(10) UNSIGNED NOT NULL,
  `cache_key` varchar(128) /*!40101 CHARACTER SET ascii COLLATE ascii_general_ci */ NOT NULL,
- `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `expires` datetime DEFAULT NULL,
  `data` longtext NOT NULL,
+ PRIMARY KEY (`user_id`, `cache_key`),
  CONSTRAINT `user_id_fk_cache` FOREIGN KEY (`user_id`)
    REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
- INDEX `expires_index` (`expires`),
- INDEX `user_cache_index` (`user_id`,`cache_key`)
+ INDEX `expires_index` (`expires`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
@@ -50,11 +50,10 @@ CREATE TABLE `cache` (
 
 CREATE TABLE `cache_shared` (
  `cache_key` varchar(255) /*!40101 CHARACTER SET ascii COLLATE ascii_general_ci */ NOT NULL,
- `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `expires` datetime DEFAULT NULL,
  `data` longtext NOT NULL,
- INDEX `expires_index` (`expires`),
- INDEX `cache_key_index` (`cache_key`)
+ PRIMARY KEY (`cache_key`),
+ INDEX `expires_index` (`expires`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 
@@ -162,7 +161,7 @@ CREATE TABLE `identities` (
  `email` varchar(128) NOT NULL,
  `reply-to` varchar(128) NOT NULL DEFAULT '',
  `bcc` varchar(128) NOT NULL DEFAULT '',
- `signature` text,
+ `signature` longtext,
  `html_signature` tinyint(1) NOT NULL DEFAULT '0',
  PRIMARY KEY(`identity_id`),
  CONSTRAINT `user_id_fk_identities` FOREIGN KEY (`user_id`)
@@ -175,7 +174,8 @@ CREATE TABLE `identities` (
 -- Table structure for table `dictionary`
 
 CREATE TABLE `dictionary` (
-  `user_id` int(10) UNSIGNED DEFAULT NULL,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, -- redundant, for compat. with Galera Cluster
+  `user_id` int(10) UNSIGNED DEFAULT NULL, -- NULL here is for "shared dictionaries"
   `language` varchar(5) NOT NULL,
   `data` longtext NOT NULL,
   CONSTRAINT `user_id_fk_dictionary` FOREIGN KEY (`user_id`)
@@ -209,4 +209,4 @@ CREATE TABLE `system` (
 
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2014042900');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2016112200');

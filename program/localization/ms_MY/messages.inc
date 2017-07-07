@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -30,7 +30,6 @@ $messages['savingmessage'] = 'Menyimpan mesej...';
 $messages['messagesaved'] = 'Mesej disimpan dalam Draf';
 $messages['successfullysaved'] = 'Berjaya disimpan';
 $messages['addedsuccessfully'] = 'Kontek berjaya disimpan ke dalam buku alamat';
-$messages['contactexists'] = 'Kontek dengan alamat emel ini sudah wujud';
 $messages['blockedimages'] = 'Untuk melindungi kebesasan peribadi anda, imej jauh dihalang dalam mesej ini.';
 $messages['encryptedmessage'] = 'Ini adalah mesej yang di\'encrypted\' dan tidak boleh dipamerkan. Maaf!';
 $messages['nocontactsfound'] = 'Tiada kontek dijumpai';
@@ -49,7 +48,6 @@ $messages['nopagesizewarning'] = 'Sila masukkan saiz halaman';
 $messages['norecipientwarning'] = 'Sila masukkan sekurang-kurangnya satu penerima';
 $messages['nosubjectwarning']  = 'Ruang "Subjek" kosong. Adakah anda ingin masukkannya sekarang?';
 $messages['nobodywarning'] = 'Hantar mesej ini tanpa teks?';
-$messages['notsentwarning'] = 'Mesej tidak dihantar. Adakah anda ingin menyingkir mesej anda?';
 $messages['noldapserver'] = 'Sila pilih satu pelayan ldap untuk carian';
 $messages['nosearchname'] = 'Sila masukkan nama kontek atau alamat emel';
 $messages['searchsuccessful'] = '$nr mesej dijumpai';
@@ -69,4 +67,3 @@ $messages['movingmessage'] = 'Memindah mesej...';
 $messages['receiptsent'] = 'Berjaya menghantar resip bacaan';
 $messages['errorsendingreceipt'] = 'Tidak dapat menghantar resip';
 $messages['nodeletelastidentity'] = 'Anda tidak boleh membuang identiti ini, ia milik anda yang terakhir.';
-?>

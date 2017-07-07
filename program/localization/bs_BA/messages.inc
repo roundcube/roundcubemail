@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -50,7 +50,6 @@ $messages['successfullysaved'] = 'Uspješno sačuvano.';
 $messages['savingresponse'] = 'Snimam teksta odgovora...';
 $messages['deleteresponseconfirm'] = 'Da li zaista želite obrisati tekst ovog odgovora?';
 $messages['addedsuccessfully'] = 'Kontakt uspješno dodan u adresar.';
-$messages['contactexists'] = 'Kontakt sa ovom email adresom već postoji u adresaru.';
 $messages['contactnameexists'] = 'Kontakt s tim imenom već postoji.';
 $messages['blockedimages'] = 'Zbog zaštite privatnosti, slike sa drugih servera su blokirane u ovoj poruci.';
 $messages['encryptedmessage'] = 'Ova poruka je šifrirana i nije je moguće prikazati. Žao nam je!';
@@ -80,11 +79,9 @@ $messages['formincomplete'] = 'Obrazac nije popunjen u cjelosti.';
 $messages['noemailwarning'] = 'Molimo vas da upišete ispravnu email adresu.';
 $messages['nonamewarning']  = 'Molimo vas da upišete ime.';
 $messages['nopagesizewarning'] = 'Molimo vas da upišete veličinu stranice.';
-$messages['nosenderwarning'] = 'Molimo vas da upišete email adresu pošiljaoca';
 $messages['norecipientwarning'] = 'Molimo vas da upišete barem jednog primaoca.';
 $messages['nosubjectwarning']  = 'Polje \'Naslov\' je prazno. Želite li unijeti naslov?';
 $messages['nobodywarning'] = 'Želite li poslati poruku bez teksta?';
-$messages['notsentwarning'] = 'Poruka nije poslana. Želite li odbaciti ovu poruku?';
 $messages['restoresavedcomposedata'] = 'Pronađena je prethodno napisana poruka koja nije poslana..\n\nTema:$subject\nSnimljeno: $date\n\nŽelite li vratiti ovu poruku?';
 $messages['noldapserver'] = 'Molimo vas da odaberete LDAP server za pretragu.';
 $messages['nosearchname'] = 'Molimo vas da upišete ime kontakta ili email adresu.';
@@ -137,7 +134,6 @@ $messages['importconfirmskipped'] = '<b>Preskočeno $skipped postojećih unosa</
 $messages['importmessagesuccess'] = 'Uspješno uvezeno $nr poruka';
 $messages['importmessageerror'] = 'Uvoz nije uspio! Dodana datoteke nije ispravna datoteka sa porukama';
 $messages['opnotpermitted'] = 'Operacija nije dozvoljena!';
-$messages['nofromaddress'] = 'U odabrani identitet nije upisana email adresa.';
 $messages['editorwarning'] = 'Promjenom uređivača biste mogli izgubiti formatiranje teksta. Želite li nastaviti?';
 $messages['httpreceivedencrypterror'] = 'Dogodila se fatalna konfiguracijska greška. Odmah kontaktirajte administratora. <b>Vaša poruka se ne poslati.</b>';
 $messages['smtpconnerror'] = 'SMTP greška ($code): Veza sa serverom nije uspostavljena.';
@@ -146,7 +142,6 @@ $messages['smtpfromerror'] = 'SMTP greška ($code): Nije uspjelo postavljanje po
 $messages['smtptoerror'] = 'SMTP greška ($code): Nije uspjelo dodavanje primaoca "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP greška: Nije moguće pročitati listu primaoca.';
 $messages['smtperror'] = 'SMTP greška: $msg';
-$messages['emailformaterror'] = 'Netačna email adresa: $email';
 $messages['toomanyrecipients'] = 'Previše primaoca. Smanjite broj primaoca na $max.';
 $messages['maxgroupmembersreached'] = 'Broj članova grupe prelazi maksimum od $max.';
 $messages['internalerror'] = 'Dogodila se interna greška. Molimo vas da pokušate ponovo.';
@@ -177,4 +172,13 @@ $messages['parentnotwritable'] = 'Nije moguće kreirati/premjestiti folder u oda
 $messages['messagetoobig'] = 'Dio poruke je prevelik za procesiranje.';
 $messages['attachmentvalidationerror'] = 'UPOZORENJE! Ovaj prilog je sumnjiv zbog toga što se njegov tip ne poklapa s tipom navedenim u poruci. Ako nemate povjerenja u pošiljaova, ne biste trebali da otvarate ovaj prilog u vašem browseru jer bi on mogao da sadrži zlonamjerni sadržaj.<br/><br/><em>Očekivano: $expected; pronađeno: $detected</em>';
 $messages['noscriptwarning'] = 'Upozorenje! Ovom webmail servisu je potreban Javascript! Da biste ga mogli koristiti, prvo je potrebno da omogućite Javascript u postavkama vašeg browsera.';
-?>
+$messages['messageissent'] = 'Poruka je već poslana, ali nije sačuvana. Želite li sada da je sačuvate?';
+$messages['errnotfound'] = 'Fajl nije pronađen';
+$messages['errnotfoundexplain'] = 'Traženi resurs nije pronađen!';
+$messages['errfailedrequest'] = 'Neuspjeli zahtjev';
+$messages['errauthorizationfailed'] = 'Autorizacija neuspjela';
+$messages['errunauthorizedexplain'] = 'Nije moguće verificirani vašu dozvolu pristupa za ovaj servis!';
+$messages['errrequestcheckfailed'] = 'Provjera zahtjeva nije uspjela';
+$messages['errcsrfprotectionexplain'] = "Radi vaše zaštite, pristup ovom resursu je osiguran pomoću CSRF-a.\nAko vam je prikazana ova poruku, najvjerovatnije se niste odjavili prije napuštanja web aplikacije\n\nVaša akcija je sada neophodna za nastavak rada.";
+$messages['errcontactserveradmin'] = 'Molimo vas da kontaktirate administratora servera.';
+$messages['clicktoresumesession'] = 'Kliknite ovdje da nastavite rad u vašoj prethodnoj sesiji';

@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+$labels['changepasswd']  = '修改密码';
 $labels['curpasswd']  = '当前密码：';
 $labels['newpasswd']  = '新密码：';
 $labels['confpasswd']  = '确认新密码：';
@@ -28,4 +29,5 @@ $messages['internalerror'] = '无法保存新密码。';
 $messages['passwordshort'] = '密码至少为 $length 位。';
 $messages['passwordweak'] = '密码必须至少包含一个数字和一个标点符号。';
 $messages['passwordforbidden'] = '密码包含禁止使用的字符。';
-?>
+$messages['firstloginchange'] = '这是你第一次登录邮箱，请修改邮箱密码。';
+$messages['disablednotice'] = '系统目前正在维护，密码修改功能无法使用。我们会很快回来，给您带来不便深表歉意。';

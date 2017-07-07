@@ -17,4 +17,5 @@
 */
 $labels['addvcardmsg'] = 'Προσθήκη vCard στο βιβλίο διευθύνσεων';
 $labels['vcardsavefailed'] = 'Δεν είναι δυνατή η αποθήκευση του vCard';
+$labels['vcard'] = 'vCard';
 ?>

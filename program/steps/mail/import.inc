@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/mail/import.inc                                         |
  |                                                                       |
@@ -25,6 +25,7 @@ $OUTPUT->reset();
 
 if (is_array($_FILES['_file'])) {
     $imported = 0;
+    $folder   = $RCMAIL->storage->get_folder();
 
     foreach ((array)$_FILES['_file']['tmp_name'] as $i => $filepath) {
         // Process uploaded file if there is no error
@@ -59,20 +60,16 @@ if (is_array($_FILES['_file'])) {
 
                 $message = $lastline = '';
                 fseek($fp, 0);
+
                 while (($line = fgets($fp)) !== false) {
                     // importing mbox file, split by From - lines
                     if ($lastline === '' && strncmp($line, 'From ', 5) === 0 && strlen($line) > 5) {
                         if (!empty($message)) {
-                            // unquote ">From " lines in message body
-                            $message = preg_replace('/\n>([>]*)From /', "\n\\1From ", $message);
-                            if ($RCMAIL->storage->save_message(null, rtrim($message))) {
-                                $imported++;
-                            }
-                            else {
-                                rcube::raise_error("Failed to import message to " . $RCMAIL->storage->get_folder(), false, true);
-                            }
-                            $message = '';
+                            $imported += (int) rcmail_save_message($folder, $message);
                         }
+
+                        $message  = $line;
+                        $lastline = '';
                         continue;
                     }
 
@@ -80,8 +77,8 @@ if (is_array($_FILES['_file'])) {
                     $lastline = rtrim($line);
                 }
 
-                if (!empty($message) && $RCMAIL->storage->save_message(null, rtrim($message))) {
-                    $imported++;
+                if (!empty($message)) {
+                    $imported += (int) rcmail_save_message($folder, $message);
                 }
 
                 // remove temp files extracted from zip
@@ -90,15 +87,16 @@ if (is_array($_FILES['_file'])) {
                 }
             }
         }
-
-        if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
-            $size = $RCMAIL->show_bytes(parse_bytes(ini_get('upload_max_filesize')));
+        else if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
+            $size = $RCMAIL->show_bytes(rcube_utils::max_upload_size());
             $msg  = $RCMAIL->gettext(array('name' => 'filesizeerror', 'vars' => array('size' => $size)));
+
+            $OUTPUT->command('display_message', $msg, 'error');
         }
         else if ($err) {
             $OUTPUT->show_message('fileuploaderror', 'error');
         }
-    }  // end foreach
+    }
 
     if ($imported) {
         $OUTPUT->show_message($RCMAIL->gettext(array('name' => 'importmessagesuccess', 'nr' => $imported, 'vars' => array('nr' => $imported))), 'confirmation');
@@ -156,4 +154,44 @@ function rcmail_zip_extract($path)
     }
 
     return $files;
+}
+
+function rcmail_save_message($folder, &$message)
+{
+    if (strncmp($message, 'From ', 5) === 0) {
+        // Extract the mbox from_line
+        $pos     = strpos($message, "\n");
+        $from    = substr($message, 0, $pos);
+        $message = substr($message, $pos + 1);
+
+        // Read the received date, support only known date formats
+
+        // RFC4155: "Sat Jan  3 01:05:34 1996"
+        $mboxdate_rx = '/^([a-z]{3} [a-z]{3} [0-9 ][0-9] [0-9]{2}:[0-9]{2}:[0-9]{2} [0-9]{4})/i';
+        // Roundcube/Zipdownload: "12-Dec-2016 10:56:33 +0100"
+        $imapdate_rx = '/^([0-9]{1,2}-[a-z]{3}-[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2} [0-9+-]{5})/i';
+
+        if (($pos = strpos($from, ' ', 6)) && ($dt_str = substr($from, $pos + 1))
+            && (preg_match($mboxdate_rx, $dt_str, $m) || preg_match($imapdate_rx, $dt_str, $m))
+        ) {
+           try {
+               $date = new DateTime($m[0], new DateTimeZone('UTC'));
+            }
+            catch (Exception $e) {
+                // ignore
+            }
+        }
+    }
+
+    // unquote ">From " lines in message body
+    $message = preg_replace('/\n>([>]*)From /', "\n\\1From ", $message);
+    $message = rtrim($message);
+    $rcmail  = rcmail::get_instance();
+
+    if ($rcmail->storage->save_message($folder, $message, '', false, array(), $date)) {
+        return true;
+    }
+
+    rcube::raise_error("Failed to import message to $folder", true, false);
+    return false;
 }

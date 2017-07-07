@@ -17,6 +17,6 @@
 */
 $labels['userinfo'] = 'Інформація';
 $labels['created'] = 'Створено';
-$labels['lastlogin'] = 'Останній захід';
+$labels['lastlogin'] = 'Останнє входження';
 $labels['defaultidentity'] = 'Профіль за замовчуванням';
 ?>

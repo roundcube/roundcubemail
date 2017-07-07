@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+$labels['changepasswd']  = 'Promjena zaporke';
 $labels['curpasswd']  = 'Važeća zaporka:';
 $labels['newpasswd']  = 'Nova zaporka:';
 $labels['confpasswd']  = 'Potvrda nove zaporke:';
@@ -26,6 +27,7 @@ $messages['crypterror'] = 'Nemoguće promijeniti zaporku. Nedostaje enkripcijska
 $messages['connecterror'] = 'Nemoguće promijeniti zaporku. Greška prilikom spajanja.';
 $messages['internalerror'] = 'Nemoguće promijeniti zaporku.';
 $messages['passwordshort'] = 'Zaporka mora sadržavati barem $length znakova.';
-$messages['passwordweak'] = 'Zaporka mora sadržavati barem jedanu znamenku i jedan interpunkcijski znak.';
+$messages['passwordweak'] = 'Zaporka mora sadržavati barem jednu znamenku i jedan interpunkcijski znak.';
 $messages['passwordforbidden'] = 'Zaporka sadrži nedozvoljene znakove.';
-?>
+$messages['firstloginchange'] = 'Ovo je vaša prva prijava u sustav. Molimo promijenite vašu zaporku.';
+$messages['disablednotice'] = 'Sustav je trenutno u fazi održavanja i promjena zaporke trenutno nije moguća. Uskoro bi sve trebalo raditi ispravno. Ispričavamo se zbog neugodnosti.';

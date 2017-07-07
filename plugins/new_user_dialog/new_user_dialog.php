@@ -7,15 +7,15 @@
  * and sets a session flag in case it is incomplete. An overlay box will appear
  * on the screen until the user has reviewed/completed his identity.
  *
- * @version @package_version@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
  * @author Aleksander Machniak
  */
 class new_user_dialog extends rcube_plugin
 {
-    public $task = 'login|mail';
+    public $task    = '';
     public $noframe = true;
+
 
     function init()
     {
@@ -45,7 +45,7 @@ class new_user_dialog extends rcube_plugin
      */
     function render_page($p)
     {
-        if ($_SESSION['plugin.newuserdialog'] && $p['template'] == 'mail') {
+        if ($_SESSION['plugin.newuserdialog']) {
             $this->add_texts('localization');
 
             $rcmail           = rcmail::get_instance();

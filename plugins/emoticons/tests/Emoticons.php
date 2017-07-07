@@ -20,4 +20,3 @@ class Emoticons_Plugin extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('rcube_plugin', $plugin);
     }
 }
-

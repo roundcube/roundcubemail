@@ -15,23 +15,25 @@
 	<span class="buttongroup">
 		<roundcube:button command="change-format" prop="html" type="link" class="button first changeformat html selected" innerClass="icon" title="changeformathtml" content="HTML" /><roundcube:button command="change-format" prop="text" type="link" class="button last changeformat text" classSel="button changeformat text pressed" innerClass="icon" title="changeformattext" content="Text" />
 	</span>
-	&nbsp;
 <roundcube:elseif condition="env:optional_format=='html'" />
+	&nbsp;
 	<span class="buttongroup">
 		<roundcube:button command="change-format" prop="html" type="link" class="button first changeformat html" classSel="button changeformat html pressed" innerClass="icon" title="changeformathtml" content="HTML" /><roundcube:button command="change-format" prop="text" type="link" class="button last changeformat text selected" innerClass="icon" title="changeformattext" content="Text" />
 	</span>
-	&nbsp;
 <roundcube:endif />
-<roundcube:if condition="env:mailbox != config:drafts_mbox">
+<roundcube:if condition="env:mailbox != config:drafts_mbox || env:message_context">
+	&nbsp;
 	<roundcube:button command="reply" type="link" class="button reply" classSel="button reply pressed" innerClass="icon" title="replytomessage" label="replytomessage" />
 	<roundcube:button command="reply-all" type="link" class="button replyall" classSel="button replyall pressed" innerClass="icon" title="replytoallmessage" label="replytoallmessage" />
 	<roundcube:button command="forward" type="link" class="button forward" classSel="button forward pressed" innerClass="icon" title="forwardmessage" label="forwardmessage" />
-	&nbsp;
 <roundcube:endif />
+<roundcube:if condition="!env:message_context">
+	&nbsp;
 	<roundcube:button command="extwin" type="link" class="button extwin" classSel="button extwin pressed" innerClass="icon" title="openinextwin" label="openinextwin" />
+<roundcube:endif />
 </div>
 
-<h3 class="subject"><span class="voice"><roundcube:label name="subject" />: </span><roundcube:object name="messageHeaders" valueOf="subject" /></h3>
+<h3 class="subject"><span onmouseover="rcube_webmail.long_subject_title(this)"><span class="voice"><roundcube:label name="subject" />: </span><roundcube:object name="messageHeaders" valueOf="subject" /></span></h3>
 
 <a href="#details" id="previewheaderstoggle" class="moreheaderstoggle" aria-expanded="false"><span class="iconlink" title="<roundcube:label name='togglemoreheaders' />"></span></a>
 <div id="contactphoto"><roundcube:object name="contactphoto" /></div>

@@ -1,36 +1,65 @@
-------------------------------------------------------------------
-THIS IS NOT EVEN AN "ALPHA" STATE. USE ONLY FOR DEVELOPMENT!!!!!!!
-------------------------------------------------------------------
+Enigma Plugin for Roundcube
 
-WARNING: Don't use with gnupg-2.x!
+This plugin adds support for viewing and sending of signed and encrypted
+messages in PGP (RFC 2440) and PGP/MIME (RFC 3156) format.
 
-Enigma Plugin Status:
+The plugin uses gpg binary on the server and stores all keys
+(including private keys of the users) on the server.
+Encryption/decryption is done server-side. So, this plugin
+is for users that trust the server.
 
-* DONE:
 
-- PGP signed messages verification
-- Handling of PGP keys files attached to incoming messages
-- PGP encrypted messages decryption (started)
-- PGP keys management UI (started)
-- S/MIME signatures verification (started)
+Implemented features:
+---------------------
++ PGP: signatures verification
++ PGP: messages decryption
++ PGP: Sending of encrypted/signed messages
++ PGP: keys management UI (key import, export, delete)
++ PGP: key generation (client- or server-side)
++ Handling of PGP keys attached to incoming messages
++ User preferences to disable plugin features
++ Attaching public keys to email
++ Key server(s) support (search, import)
 
-* TODO (must have):
 
-- Parsing of decrypted messages into array (see rcube_mime_struct) and then into rcube_message_part structure
-  (create core class rcube_mime_parser or take over PEAR::Mail_mimeDecode package and improve it)
-- Sending encrypted/signed messages (probably some changes in core will be needed)
-- Per-Identity settings (including keys/certs)
-- Handling big messages with temp files (including changes in Roundcube core)
-- Performance improvements (some caching, code review)
-- better (and more) icons
+TODO:
+-----
+- Handling of big messages with temp files (? - security)
+- Key info in contact details page (optional)
+- Extended key management:
+   - disable,
+   - revoke,
+   - change expiration date, change passphrase, add photo,
+   - manage user IDs
+   - export private keys
+- Generate revocation certs
+- Search filter to see invalid/expired keys
+- Key server(s) support (upload, refresh)
+- Mark keys as trusted/untrasted, display appropriate message in verify/decrypt status
+- Support for multi-server installations (store keys in sql database? probably impossible with GnuPG 2.1)
+- Performance improvements:
+   - cache decrypted message key id so we can skip decryption if we have no password in session
+   - cache (last or successful only?) sig verification status to not verify on every msg preview (optional)
+- S/MIME: Certs generation (?)
+- S/MIME: Certs management
+- S/MIME: signed messages verification
+- S/MIME: encrypted messages decryption
+- S/MIME: Sending signed/encrypted messages
+- S/MIME: Handling of certs attached to incoming messages
+- S/MIME: Certificate info in Contacts details page (optional)
 
-* TODO (later):
 
-- Keys generation
-- Certs generation
-- Keys/Certs info in Contacts details page (+ split Contact details page into tabs)
-- Key server support
-- S/MIME signed messages verification
-- S/MIME encrypted messages decryption
-- Handling of S/MIME certs files attached to incoming messages
-- SSL (S/MIME) Certs management
+KNOWN ISSUES:
+-------------
+There are some known issues with accepting key passphrases on various
+system configurations. This is caused by issues in PinEntry handling.
+Make sure that vendor/bin/crypt-gpg-pinentry works from command line.
+
+Possible reasons:
+- non-working loader in shebang (#! /usr/bin/env php)
+  Make sure it works for the user the php scripts are executed upon
+  (i.e. apache, www-date, etc.)
+- SELinux setting, try command: setsebool -P httpd_unified 0
+
+Note: pinentry is used with gpg >= 2.0 and <= 2.1.12.
+Note: for server use GnuPG developers still recommend version 1.4.

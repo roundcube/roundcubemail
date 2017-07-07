@@ -17,4 +17,6 @@
 */
 $labels['addvcardmsg'] = 'Ajouter la vCard au carnet d\'adresses';
 $labels['vcardsavefailed'] = 'Impossible d\'enregistrer la vCard';
+$labels['attachvcard'] = 'Joindre la vCard';
+$labels['vcard'] = 'vCard';
 ?>

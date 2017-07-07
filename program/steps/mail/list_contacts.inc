@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  +-----------------------------------------------------------------------+
  | program/steps/mail/list_contacts.inc                                  |
  |                                                                       |
@@ -80,7 +80,7 @@ else {
         $CONTACTS->set_pagesize($page_size);
         $CONTACTS->set_page($list_page);
 
-        if ($group_id = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GPC)) {
+        if ($group_id = rcube_utils::get_input_value('_gid', rcube_utils::INPUT_GET)) {
             $CONTACTS->set_group($group_id);
         }
         // list groups of this source (on page one)
@@ -110,13 +110,12 @@ else if (!empty($result) && $result->count > 0) {
             $keyname = $row['_type'] == 'group' ? 'contactgroup' : 'contact';
 
             $OUTPUT->command('add_contact_row', $row_id, array(
-                $keyname => html::a(array('title' => $email), rcube::Q($name ? $name : $email) .
+                $keyname => html::a(array('title' => $email), rcube::Q($name ?: $email) .
                     ($name && count($emails) > 1 ? '&nbsp;' . html::span('email', rcube::Q($email)) : '')
                 )), $classname);
         }
     }
 }
-
 
 // update env
 $OUTPUT->set_env('contactdata', $jsresult);

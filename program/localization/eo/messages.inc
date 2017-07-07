@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -37,7 +37,6 @@ $messages['savingmessage'] = 'Savanta mesaĝon...';
 $messages['messagesaved'] = 'Mesaĝo savita en Malnetujo';
 $messages['successfullysaved'] = 'Sukcese savis';
 $messages['addedsuccessfully'] = 'Sukcese aldonis kontakton al adresaro';
-$messages['contactexists'] = 'Kontakto kun ĉi tiu adreso jam ekzistas';
 $messages['blockedimages'] = 'Por protekti vian privatecon, foraj bildoj estas blokitaj en ĉi tiu mesaĝo.';
 $messages['encryptedmessage'] = 'Ĉi tiu mesaĝo estas ĉifrata kaj ne estas montrebla. Pardonu!';
 $messages['nocontactsfound'] = 'Trovis neniun kontakton';
@@ -56,7 +55,6 @@ $messages['nopagesizewarning'] = 'Bonvolu enmeti paĝ-grando';
 $messages['norecipientwarning'] = 'Bonvolu enmeti minumume unu ricevonto';
 $messages['nosubjectwarning']  = 'La temkampo estas malplena. Ĉu vi volas skribi temon nun?';
 $messages['nobodywarning'] = 'Ĉu sendi ĉi tiun mesaĝon sen teksto?';
-$messages['notsentwarning'] = 'Mesaĝo ne estas sendita. Ĉu vi volas forigi vian mesaĝon?';
 $messages['noldapserver'] = 'Bonvolu elekti ldap-servilon por serĉado';
 $messages['nosearchname'] = 'Bonvolu enmeti kontakt-nomon aŭ retpoŝt-adreson.';
 $messages['searchsuccessful'] = 'trovis $nr mesaĝojn';
@@ -77,4 +75,3 @@ $messages['receiptsent'] = 'Sukcese sendis konfirmon';
 $messages['errorsendingreceipt'] = 'Ne povis sendi konfirmon';
 $messages['nodeletelastidentity'] = 'Vi ne povas forigi ĉi tiun identon, ĉar ĝi estas la lasta';
 $messages['forbiddencharacter'] = 'Dosierujo-nomo enhavas malpermesitan karaktron';
-?>

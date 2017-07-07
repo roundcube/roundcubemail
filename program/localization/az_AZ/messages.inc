@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -48,7 +48,6 @@ $messages['successfullysaved'] = 'Yaddaşa yazıldı';
 $messages['savingresponse'] = 'Cavab mətninin saxlanılması...';
 $messages['deleteresponseconfirm'] = 'Siz cavab mətnini silmək istəyirsiniz?';
 $messages['addedsuccessfully'] = 'Əlaqə ünvan kitabçasına əlavə olundu';
-$messages['contactexists'] = 'Ünvan kitabçasında bu e-poçtla əlaqə mövcuddur';
 $messages['contactnameexists'] = 'Bu adda kontakt artıq mövcuddur.';
 $messages['blockedimages'] = 'Təhlükəsizlik məqsədi ilə şəkillərin yüklənməsi bloklanıb.';
 $messages['encryptedmessage'] = 'Məktub şifrələnib və göstərilə bilməz. Server inzibatçısına müraciət edin.';
@@ -78,11 +77,9 @@ $messages['formincomplete'] = 'Bütün sətrlər doldurulmayıb';
 $messages['noemailwarning'] = 'Lütfən, düzgün e-poçt ünvanı daxil edin';
 $messages['nonamewarning']  = 'Lütfən, ad daxil edin';
 $messages['nopagesizewarning'] = 'Lütfən, səhifənin ölçüsünü daxil edin';
-$messages['nosenderwarning'] = 'Lütfən, göndərənin elektron poçt ünvanını daxil edin';
 $messages['norecipientwarning'] = 'Lütfən, qəbul edənin ünvanını daxil edin';
 $messages['nosubjectwarning']  = '"Mövzu" sahəsi boşdur. Mövzu daxil etmək istəyirsiniz?';
 $messages['nobodywarning'] = 'Məktub boş göndərilsin?';
-$messages['notsentwarning'] = 'Məktub göndərilmədi. Göndərilmədən imtina etmək istəyirsiniz?';
 $messages['restoresavedcomposedata'] = 'Əvvəlki göndərildi, ancaq göndərilməyən məktub da tapıldı.\n\nSubject: $subject\nSaved: $date\n\nSiz bu məktubu bərpa etmək istəyirsiniz?';
 $messages['noldapserver'] = 'Lütfən, axtarış üçün LDAP server seçin';
 $messages['nosearchname'] = 'Lütfən, ad və ya e-poçt əlavə edin';
@@ -134,7 +131,6 @@ $messages['importconfirmskipped'] = '<b>Buraxılmış $skipped mövcud daxillər
 $messages['importmessagesuccess'] = '$nr məktublar uğurla idxal edildi';
 $messages['importmessageerror'] = 'İdxal alınmadı! Yüklənilmiş fayl düzgün məktub və ya poçt faylı deyil';
 $messages['opnotpermitted'] = 'Əməliyyat qadağandır!';
-$messages['nofromaddress'] = 'Seçilmiş kimlikdə e-poçt ünvanları yoxdur';
 $messages['httpreceivedencrypterror'] = 'Serverdə qaçıımaz xəta baş verib. Təcili öz inzibatçınız ilə əlaqə qurun. <b>Sizin məktub göndərilməyə bilər.</b>';
 $messages['smtpconnerror'] = 'SMTP Error ($code): Serverlə bağlantı alınmadı';
 $messages['smtpautherror'] = 'SMTP Error ($code): İdentifikasiya xətası';
@@ -142,7 +138,6 @@ $messages['smtpfromerror'] = 'SMTP Error ($code): Göndərəni səlavə etmək m
 $messages['smtptoerror'] = 'SMTP Error ($code): Qəbul edəni əlavə etmək mümkün deyil - "$to" ($msg)';
 $messages['smtprecipientserror'] = 'SMTP Error ($code): Qəbul edənlərin siyahısını emal etmək mümkün deyil';
 $messages['smtperror'] = 'SMTP Error ($code): $msg';
-$messages['emailformaterror'] = 'Səhv ünvan: $email';
 $messages['toomanyrecipients'] = 'Qəbul edənlər həddindən artıq çoxdur. Lütfən, $max qədər azaldın.';
 $messages['maxgroupmembersreached'] = 'Qrupun ölçüsü imkan verilən maksimumdan artıqdır - $max';
 $messages['internalerror'] = 'Daxili xəta. Lütfən bir daha cəhd edin.';
@@ -173,4 +168,3 @@ $messages['parentnotwritable'] = 'Qovluğu seçilmiş ana qovluğa köçürmək/
 $messages['messagetoobig'] = 'Məktubun bir hissəsi emal üçün böyükdür.';
 $messages['attachmentvalidationerror'] = 'DİQQƏT! Bu qoşma şübhəlidir, çünki məktubda deyilən növlə eyni deyil. Əgər siz göndərə güvənmirsinizsə, brauzerdə bunu açmayın. Tərkibi təhlükəli ola bilər.<br/><br/><em>Expected: $expected; found: $detected</em>';
 $messages['noscriptwarning'] = 'Xəbərdarlıq: Bu vebmeyl xidməti Javascript tələb edir! Funksiyanı istifadə etmək üçün lütfən, brauzerinizin ayarlarında Javascript-i yandırın.';
-?>
