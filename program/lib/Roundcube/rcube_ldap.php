@@ -1472,16 +1472,23 @@ class rcube_ldap extends rcube_addressbook
                 if (strpos($templ, '(') !== false) {
                     // replace {attr} placeholders with (escaped!) attribute values to be safely eval'd
                     $code = preg_replace('/\{\w+\}/', '', strtr($templ, array_map('addslashes', $attrvals)));
-                    $fn   = create_function('', "return ($code);");
-                    if (!$fn) {
+                    $res  = false;
+
+                    try {
+                        $res = eval("return ($code);");
+                    }
+                    catch (ParseError $e) {
+                        // ignore
+                    }
+
+                    if ($res === false) {
                         rcube::raise_error(array(
-                            'code' => 505, 'type' => 'php',
-                            'file' => __FILE__, 'line' => __LINE__,
+                            'code' => 505, 'file' => __FILE__, 'line' => __LINE__,
                             'message' => "Expression parse error on: ($code)"), true, false);
                         continue;
                     }
 
-                    $attrs[$lf] = $fn();
+                    $attrs[$lf] = $res;
                 }
                 else {
                     // replace {attr} placeholders with concrete attribute values
