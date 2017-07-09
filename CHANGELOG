@@ -41,6 +41,7 @@ CHANGELOG Roundcube Webmail
 - Fix position of selected icon for (Mailvelope) Encrypt button
 - Fix fatal error when using DMY- or MDY-based date format in PostgreSQL (#5808)
 - Fix bug where errors were not printed when using bin/update.sh (#5834)
+- Fix PHP 7.2 warnings on count() use (#5845)
 
 RELEASE 1.3.0
 -------------

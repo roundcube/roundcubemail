@@ -435,14 +435,16 @@ class rcube_plugin_api
         array_push($this->exec_stack, $hook);
 
         // Use for loop here, so handlers added in the hook will be executed too
-        for ($i = 0; $i < count($this->handlers[$hook]); $i++) {
-            $ret = call_user_func($this->handlers[$hook][$i], $args);
-            if ($ret && is_array($ret)) {
-                $args = $ret + $args;
-            }
+        if (!empty($this->handlers[$hook])) {
+            for ($i = 0; $i < count($this->handlers[$hook]); $i++) {
+                $ret = call_user_func($this->handlers[$hook][$i], $args);
+                if ($ret && is_array($ret)) {
+                    $args = $ret + $args;
+                }
 
-            if ($args['break']) {
-                break;
+                if ($args['break']) {
+                    break;
+                }
             }
         }
 
