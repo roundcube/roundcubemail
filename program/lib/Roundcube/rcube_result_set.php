@@ -27,10 +27,10 @@
  */
 class rcube_result_set implements Iterator, ArrayAccess
 {
-    public $count = 0;
-    public $first = 0;
+    public $count      = 0;
+    public $first      = 0;
     public $searchonly = false;
-    public $records = array();
+    public $records    = array();
 
     private $current = 0;
 

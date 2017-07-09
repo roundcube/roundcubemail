@@ -133,7 +133,7 @@ class rcube_db_oracle extends rcube_db
         $idx  = 0;
         $args = array();
 
-        if (count($params)) {
+        if (!empty($params)) {
             while ($pos = strpos($query, '?', $pos)) {
                 if ($query[$pos+1] == '?') {  // skip escaped '?'
                     $pos += 2;
