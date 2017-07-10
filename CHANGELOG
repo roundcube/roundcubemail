@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Don't ignore (global) userlogins/sendmail logs in per_user_logging mode
 - Add Preferences > Mailbox View > Main Options > Layout (#5829)
 - Password: Fix compatibility with PHP 7+ in cpanel_webmail driver (#5820)
 - Managesieve: Fix parsing dot-staffed lines in multiline text (#5838)
