@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Don't ignore (global) userlogins/sendmail logs in per_user_logging mode
+
 RELEASE 1.1.10
 --------------
 - Fix file disclosure vulnerability caused by insufficient input validation [CVE-2017-16651] (#6026)
