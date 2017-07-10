@@ -176,7 +176,7 @@ input.button.mainaction[disabled] {
 
 button.mainaction,
 input.mainaction {
-	font-weight: bold;
+	font-weight: bold !important;
 }
 
 form.smart-upload,
