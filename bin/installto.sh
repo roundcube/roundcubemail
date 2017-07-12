@@ -52,6 +52,9 @@ if (strtolower($input) == 'y') {
   if (file_exists("$target_dir/.htaccess")) {
     $htaccess_copied = copy("$target_dir/.htaccess", "$target_dir/.htaccess.orig");
   }
+  if (file_exists("$target_dir/.user.ini")) {
+    $user_ini_copied = copy("$target_dir/.user.ini", "$target_dir/.user.ini.orig");
+  }
 
   $dirs = array('program','installer','bin','SQL','plugins','skins');
   if (is_dir(INSTALL_PATH . 'vendor') && !is_file("$target_dir/composer.json")) {
@@ -65,7 +68,7 @@ if (strtolower($input) == 'y') {
       rcube::raise_error("Failed to execute command: $command", false, true);
     }
   }
-  foreach (array('index.php','.htaccess','config/defaults.inc.php','composer.json-dist','jsdeps.json','CHANGELOG','README.md','UPGRADING','LICENSE','INSTALL') as $file) {
+  foreach (array('index.php','.htaccess','.user.ini','config/defaults.inc.php','composer.json-dist','jsdeps.json','CHANGELOG','README.md','UPGRADING','LICENSE','INSTALL') as $file) {
     $command = "rsync -a --out-format=%n " . INSTALL_PATH . "$file $target_dir/$file";
     if (file_exists(INSTALL_PATH . $file) && (!system($command, $ret) || $ret > 0)) {
       rcube::raise_error("Failed to execute command: $command", false, true);
@@ -83,6 +86,16 @@ if (strtolower($input) == 'y') {
     }
     else {
       @unlink("$target_dir/.htaccess.orig");
+    }
+  }
+
+  // Inform the user about .user.ini change
+  if (!empty($user_ini_copied)) {
+    if (file_get_contents("$target_dir/.user.ini") != file_get_contents("$target_dir/.user.ini.orig")) {
+      echo "\n!! Old .user.ini file saved as .user.ini.orig !!";
+    }
+    else {
+      @unlink("$target_dir/.user.ini.orig");
     }
   }
 
