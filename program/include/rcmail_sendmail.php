@@ -659,9 +659,9 @@ class rcmail_sendmail
     /**
      * Parse and cleanup email address input (and count addresses)
      *
-     * @param string  Address input
-     * @param boolean Do count recipients (saved in global $RECIPIENT_COUNT)
-     * @param boolean Validate addresses (errors saved in global $EMAIL_FORMAT_ERROR)
+     * @param string  $mailto Address input
+     * @param boolean $count  Do count recipients (count saved in $this->parse_data['RECIPIENT_COUNT'])
+     * @param boolean $check  Validate addresses (errors saved in $this->parse_data['INVALID_EMAIL'])
      *
      * @return string Canonical recipients string (comma separated)
      */
@@ -872,8 +872,6 @@ class rcmail_sendmail
      */
     protected function compose_header_from($attrib)
     {
-        global $MESSAGE, $OUTPUT, $RCMAIL, $COMPOSE;
-
         // pass the following attributes to the form class
         $field_attrib = array('name' => '_from');
         foreach ($attrib as $attr => $value) {
@@ -975,9 +973,9 @@ class rcmail_sendmail
             $fvalue  = rcube_utils::get_input_value('_' . $header, rcube_utils::INPUT_POST, true);
             $charset = $this->rcmail->output->charset;
         }
-        else if (!empty($COMPOSE['param'][$header])) {
-            $fvalue  = $COMPOSE['param'][$header];
-            $charset = $RCMAIL->output->charset;
+        else if (!empty($this->data['param'][$header])) {
+            $fvalue  = $this->data['param'][$header];
+            $charset = $this->rcmail->output->charset;
         }
         else if ($mode == self::MODE_REPLY) {
             // get recipent address(es) out of the message headers
@@ -1402,6 +1400,12 @@ class rcmail_sendmail
                 'dsncheckbox'      => array($this, 'dsn_checkbox'),
                 'composeformhead'  => array($this, 'form_head'),
         ));
+
+        // add some labels to client
+        $this->rcmail->output->add_label('nosubject', 'nosenderwarning', 'norecipientwarning',
+            'nosubjectwarning', 'cancel', 'nobodywarning', 'notsentwarning', 'savingmessage',
+            'sendingmessage', 'searching', 'disclosedrecipwarning', 'disclosedreciptitle',
+            'bccinstead', 'nosubjecttitle');
 
         $this->rcmail->output->set_env('max_disclosed_recipients', (int) $this->rcmail->config->get('max_disclosed_recipients', 5));
     }

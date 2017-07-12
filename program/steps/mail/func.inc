@@ -110,7 +110,8 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
             'copy', 'move', 'quota', 'replyall', 'replylist', 'stillsearching',
             'flagged', 'unflagged', 'unread', 'deleted', 'replied', 'forwarded',
             'priority', 'withattachment', 'fileuploaderror', 'mark', 'markallread',
-            'folders-cur', 'folders-sub', 'folders-all', 'cancel');
+            'folders-cur', 'folders-sub', 'folders-all', 'cancel', 'bounce', 'bouncemsg',
+            'sendingmessage');
     }
 }
 

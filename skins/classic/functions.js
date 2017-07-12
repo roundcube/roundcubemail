@@ -1037,6 +1037,7 @@ function rcube_init_mail_ui()
         .addEventListener('menu-open', 'menu_open', rcmail_ui)
         .addEventListener('aftersend-attachment', 'uploadmenu', rcmail_ui)
         .addEventListener('aftertoggle-editor', 'resize_compose_body_ev', rcmail_ui)
+        .addEventListener('afterbounce', function(){ rcmail_ui.show_popup('forwardmenu', false); })
         .gui_object('dragmenu', 'dragmenu');
 
       if (rcmail.gui_objects.mailboxlist) {
