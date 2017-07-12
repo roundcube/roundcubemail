@@ -2,7 +2,7 @@
 <IfModule mod_php5.c>
 php_flag    display_errors  Off
 php_flag    log_errors      On
-# php_value    error_log    logs/errors
+# php_value    error_log    logs/errors.log
 
 php_value   upload_max_filesize   5M
 php_value   post_max_size         6M
