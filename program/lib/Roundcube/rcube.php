@@ -1234,9 +1234,9 @@ class rcube
         $line = sprintf("[%s]: %s\n", $date, $line);
 
         // per-user logging is activated
-        if (self::$instance && self::$instance->config->get('per_user_logging', false) && self::$instance->get_user_id()) {
+        if (self::$instance && self::$instance->config->get('per_user_logging') && self::$instance->get_user_id()) {
             $log_dir = self::$instance->get_user_log_dir();
-            if (empty($log_dir) && $name != 'errors') {
+            if (empty($log_dir) && !in_array($name, array('errors', 'userlogins', 'sendmail'))) {
                 return false;
             }
         }
