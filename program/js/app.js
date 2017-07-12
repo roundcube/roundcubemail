@@ -257,7 +257,7 @@ function rcube_webmail()
         this.set_button_titles();
 
         this.env.message_commands = ['show', 'reply', 'reply-all', 'reply-list',
-          'move', 'copy', 'delete', 'open', 'mark', 'edit', 'viewsource',
+          'move', 'copy', 'delete', 'open', 'mark', 'edit', 'viewsource', 'bounce',
           'print', 'load-attachment', 'download-attachment', 'show-headers', 'hide-headers', 'download',
           'forward', 'forward-inline', 'forward-attachment', 'change-format'];
 
@@ -352,6 +352,10 @@ function rcube_webmail()
           // init message compose form
           this.init_messageform();
         }
+        else if (this.env.action == 'bounce') {
+          this.init_messageform_inputs();
+          this.enable_command('identities', true);
+        }
         else if (this.env.action == 'get') {
           this.enable_command('download', true);
 
@@ -369,7 +373,7 @@ function rcube_webmail()
 
           if (this.env.is_message) {
             this.enable_command('reply', 'reply-all', 'edit', 'viewsource',
-              'forward', 'forward-inline', 'forward-attachment', true);
+              'forward', 'forward-inline', 'forward-attachment', 'bounce', true);
             if (this.env.list_post)
               this.enable_command('reply-list', true);
           }
@@ -1407,7 +1411,7 @@ function rcube_webmail()
       case 'identities':
       case 'responses':
       case 'folders':
-        this.goto_url('settings/' + command);
+        this.goto_url('settings/' + command, {_framed: 0});
         break;
 
       case 'undo':
@@ -4099,6 +4103,48 @@ function rcube_webmail()
     return state;
   };
 
+  // Display "bounce message" dialog
+  this.bounce = function(props, obj, event)
+  {
+    // get message uid and folder
+    var uid = this.get_single_uid(),
+      url = this.url('bounce', {_framed: 1, _uid: uid, _mbox: this.get_message_mailbox(uid)}),
+      dialog = $('<iframe>').attr('src', url),
+      submit_func = function() {
+        var post = {},
+          rc = dialog[0].contentWindow.rcmail,
+          form = rc.gui_objects.messageform
+
+        if (typeof form != 'object')
+          return false;
+
+        if (!rc.check_compose_address_fields(false, false, form))
+          return false;
+
+        $.each($(form).serializeArray(), function() { post[this.name] = this.value; });
+
+        post._uid = rc.env.uid;
+        post._mbox = rc.env.mailbox;
+        delete post._action;
+        delete post._task;
+
+        if (post._to || post._cc || post._bcc) {
+          ref.http_post('bounce', post, ref.set_busy(true, 'sendingmessage'));
+          return true;
+        }
+      };
+
+    this.hide_menu('forwardmenu');
+
+    this.simple_dialog(dialog, this.gettext('bouncemsg'), submit_func, {
+      button: 'bounce',
+      width: 400,
+      height: 300
+    });
+
+    return true;
+  };
+
 
   /*********************************************************/
   /*********           login form methods          *********/
@@ -4145,13 +4191,13 @@ function rcube_webmail()
     if (!this.gui_objects.messageform)
       return false;
 
-    var i, elem, pos, input_from = $("[name='_from']"),
+    var elem, pos,
+      input_from = $("[name='_from']"),
       input_to = $("[name='_to']"),
       input_subject = $("input[name='_subject']"),
       input_message = $("[name='_message']").get(0),
       html_mode = $("input[name='_is_html']").val() == '1',
-      ac_fields = ['cc', 'bcc', 'replyto', 'followupto'],
-      ac_props, opener_rc = this.opener();
+      opener_rc = this.opener();
 
     // close compose step in opener
     if (opener_rc && opener_rc.env.action == 'compose') {
@@ -4162,20 +4208,6 @@ function rcube_webmail()
           opener_rc.redirect(opener_rc.get_task_url('mail'));
       }, 100);
       this.env.opened_extwin = true;
-    }
-
-    // configure parallel autocompletion
-    if (this.env.autocomplete_threads > 0) {
-      ac_props = {
-        threads: this.env.autocomplete_threads,
-        sources: this.env.autocomplete_sources
-      };
-    }
-
-    // init live search events
-    this.init_address_input_events(input_to, ac_props);
-    for (i in ac_fields) {
-      this.init_address_input_events($("[name='_"+ac_fields[i]+"']"), ac_props);
     }
 
     if (!html_mode) {
@@ -4209,8 +4241,7 @@ function rcube_webmail()
     else if (input_message)
       elem = input_message;
 
-    // focus first empty element (need to be visible on IE8)
-    $(elem).filter(':visible').focus();
+    this.init_messageform_inputs(elem);
 
     this.env.compose_focus_elem = document.activeElement;
 
@@ -4219,6 +4250,31 @@ function rcube_webmail()
 
     // start the auto-save timer
     this.auto_save_start();
+  };
+
+  // init autocomplete events on compose form inputs
+  this.init_messageform_inputs = function(focused)
+  {
+    var i, ac_props,
+      input_to = $("[name='_to']"),
+      ac_fields = ['cc', 'bcc', 'replyto', 'followupto'];
+
+    // configure parallel autocompletion
+    if (this.env.autocomplete_threads > 0) {
+      ac_props = {
+        threads: this.env.autocomplete_threads,
+        sources: this.env.autocomplete_sources
+      };
+    }
+
+    // init live search events
+    this.init_address_input_events(input_to, ac_props);
+    for (i in ac_fields) {
+      this.init_address_input_events($("[name='_"+ac_fields[i]+"']"), ac_props);
+    }
+
+    // focus first empty element
+    $(focused || input_to).focus();
   };
 
   this.compose_restore_dialog = function(j, html_mode)
@@ -4400,36 +4456,8 @@ function rcube_webmail()
   // checks the input fields before sending a message
   this.check_compose_input = function(cmd, skip_recipients_checks)
   {
-    // check input fields
-    var key, recipients, dialog,
-      limit = this.env.max_disclosed_recipients,
-      input_to = $("[name='_to']"),
-      input_cc = $("[name='_cc']"),
-      input_bcc = $("[name='_bcc']"),
-      input_from = $("[name='_from']"),
-      input_subject = $("[name='_subject']"),
-      get_recipients = function(fields) {
-        fields = $.map(fields, function(v) {
-          v = $.trim(v.val());
-          return v.length ? v : null;
-        });
-        return fields.join(',').replace(/^[\s,;]+/, '').replace(/[\s,;]+$/, '');
-      };
-
-    // check sender (if have no identities)
-    if (input_from.prop('type') == 'text' && !rcube_check_email(input_from.val(), true)) {
-      alert(this.get_label('nosenderwarning'));
-      input_from.focus();
-      return false;
-    }
-
-    // check for empty recipient
-    recipients = get_recipients([input_to, input_cc, input_bcc]);
-    if (!skip_recipients_checks && !rcube_check_email(recipients, true)) {
-      alert(this.get_label('norecipientwarning'));
-      input_to.focus();
-      return false;
-    }
+    var key,
+      input_subject = $("[name='_subjec']");
 
     // check if all files has been uploaded
     for (key in this.env.attachments) {
@@ -4439,43 +4467,8 @@ function rcube_webmail()
       }
     }
 
-    // check disclosed recipients limit
-    if (limit && !skip_recipients_checks && !this.env.disclosed_recipients_warned
-      && rcube_check_email(recipients = get_recipients([input_to, input_cc]), true, true) > limit
-    ) {
-      var save_func = function(move_to_bcc) {
-          if (move_to_bcc) {
-            var bcc = input_bcc.val();
-            input_bcc.val((bcc ? (bcc + ', ') : '') + recipients).change();
-            input_to.val('').change();
-            input_cc.val('').change();
-          }
-
-          dialog.dialog('close');
-          ref.check_compose_input(cmd, true);
-        };
-
-      dialog = this.show_popup_dialog(
-        this.get_label('disclosedrecipwarning'),
-        this.get_label('disclosedreciptitle'),
-        [{
-            text: this.get_label('sendmessage'),
-            click: function() { save_func(false); },
-            'class': 'mainaction'
-          }, {
-            text: this.get_label('bccinstead'),
-            click: function() { save_func(true); }
-          }, {
-            text: this.get_label('cancel'),
-            click: function() { dialog.dialog('close'); },
-            'class': 'cancel'
-          }],
-        {dialogClass: 'warning'}
-      );
-
-      this.env.disclosed_recipients_warned = true;
+    if (!this.check_compose_address_fields(cmd, skip_recipients_checks))
       return false;
-    }
 
     // display localized warning for missing subject
     if (!this.env.nosubject_warned && input_subject.val() == '') {
@@ -4523,6 +4516,83 @@ function rcube_webmail()
 
     // move body from html editor to textarea (just to be sure, #1485860)
     this.editor.save();
+
+    return true;
+  };
+
+  this.check_compose_address_fields = function(cmd, skip_recipients_checks, form)
+  {
+    if (!form)
+      form = window;
+
+    // check input fields
+    var key, recipients, dialog,
+      limit = this.env.max_disclosed_recipients,
+      input_to = $("[name='_to']", form),
+      input_cc = $("[name='_cc']", form),
+      input_bcc = $("[name='_bcc']", form),
+      input_from = $("[name='_from']", form),
+      get_recipients = function(fields) {
+        fields = $.map(fields, function(v) {
+          v = $.trim(v.val());
+          return v.length ? v : null;
+        });
+        return fields.join(',').replace(/^[\s,;]+/, '').replace(/[\s,;]+$/, '');
+      };
+
+    // check sender (if have no identities)
+    if (input_from.prop('type') == 'text' && !rcube_check_email(input_from.val(), true)) {
+      alert(this.get_label('nosenderwarning'));
+      input_from.focus();
+      return false;
+    }
+
+    // check for empty recipient
+    recipients = get_recipients([input_to, input_cc, input_bcc]);
+    if (!skip_recipients_checks && !rcube_check_email(recipients, true)) {
+      alert(this.get_label('norecipientwarning'));
+      input_to.focus();
+      return false;
+    }
+
+    // check disclosed recipients limit
+    if (limit && !skip_recipients_checks && !this.env.disclosed_recipients_warned
+      && rcube_check_email(recipients = get_recipients([input_to, input_cc]), true, true) > limit
+    ) {
+      var save_func = function(move_to_bcc) {
+          if (move_to_bcc) {
+            var bcc = input_bcc.val();
+            input_bcc.val((bcc ? (bcc + ', ') : '') + recipients).change();
+            input_to.val('').change();
+            input_cc.val('').change();
+          }
+
+          dialog.dialog('close');
+          if (cmd)
+            ref.check_compose_input(cmd, true);
+        };
+
+      dialog = this.show_popup_dialog(
+        this.get_label('disclosedrecipwarning'),
+        this.get_label('disclosedreciptitle'),
+        [{
+            text: this.get_label('sendmessage'),
+            click: function() { save_func(false); },
+            'class': 'mainaction'
+          }, {
+            text: this.get_label('bccinstead'),
+            click: function() { save_func(true); }
+          }, {
+            text: this.get_label('cancel'),
+            click: function() { dialog.dialog('close'); },
+            'class': 'cancel'
+          }],
+        {dialogClass: 'warning'}
+      );
+
+      this.env.disclosed_recipients_warned = true;
+      return false;
+    }
 
     return true;
   };
@@ -8284,6 +8354,12 @@ function rcube_webmail()
     if (action && action.match(/([a-z0-9_-]+)\/([a-z0-9-_.]+)/)) {
       query._action = RegExp.$2;
       url = url.replace(/\_task=[a-z0-9_-]+/, '_task=' + RegExp.$1);
+    }
+
+    // force _framed=0
+    if (query._framed === 0) {
+      url = url.replace('&_framed=1', '');
+      query._framed = null;
     }
 
     // remove undefined values

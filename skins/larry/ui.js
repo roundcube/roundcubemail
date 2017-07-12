@@ -194,16 +194,7 @@ function rcube_mail_ui()
             $('#responseslist a.insertresponse')[(e.active?'removeClass':'addClass')]('active');
           });
 
-        // Show input elements with non-empty value
-        var f, v, field, fields = ['cc', 'bcc', 'replyto', 'followupto'];
-        for (f=0; f < fields.length; f++) {
-          v = fields[f]; field = $('#_'+v);
-          if (field.length) {
-            field.on('change', {v: v}, function(e) { if (this.value) show_header_row(e.data.v, true); });
-            if (field.val() != '')
-              show_header_row(v, true);
-          }
-        }
+        init_compose_editfields();
 
         $('#composeoptionstoggle').click(function(e){
           var expanded = $('#composeoptions').toggle().is(':visible');
@@ -219,10 +210,6 @@ function rcube_mail_ui()
           $('#composeoptionstoggle').click();
         }
 
-        // adjust hight when textarea starts to scroll
-        $("textarea[name='_to'], textarea[name='_cc'], textarea[name='_bcc']").change(function(e){ adjust_compose_editfields(this); }).change();
-        rcmail.addEventListener('autocomplete_insert', function(p){ adjust_compose_editfields(p.field); });
-
         // toggle compose options if opened in new window and they were visible before
         var opener_rc = rcmail.opener();
         if (opener_rc && opener_rc.env.action == 'compose' && $('#composeoptionstoggle', opener.document).hasClass('remove'))
@@ -235,6 +222,9 @@ function rcube_mail_ui()
         $('#attachment-list > li').each(function() {
           attachmentmenu_append(this);
         });
+      }
+      else if (rcmail.env.action == 'bounce') {
+        init_compose_editfields();
       }
       else if (rcmail.env.action == 'list' || !rcmail.env.action) {
         mail_layout();
@@ -565,6 +555,24 @@ function rcube_mail_ui()
     // STUB
   }
 
+  function init_compose_editfields()
+  {
+    // Show input elements with non-empty value
+    var f, v, field, fields = ['cc', 'bcc', 'replyto', 'followupto'];
+    for (f=0; f < fields.length; f++) {
+      v = fields[f]; field = $('#_'+v);
+      if (field.length) {
+        field.on('change', {v: v}, function(e) { if (this.value) show_header_row(e.data.v, true); });
+        if (field.val() != '')
+          show_header_row(v, true);
+      }
+    }
+
+    // adjust hight when textarea starts to scroll
+    $("textarea[name='_to'], textarea[name='_cc'], textarea[name='_bcc']").change(function(e){ adjust_compose_editfields(this); }).change();
+    rcmail.addEventListener('autocomplete_insert', function(p){ adjust_compose_editfields(p.field); });
+  }
+
   function adjust_compose_editfields(elem)
   {
     if (elem.nodeName == 'TEXTAREA') {
@@ -582,7 +590,10 @@ function rcube_mail_ui()
       form = $('#compose-content'),
       bottom = $('#composeview-bottom'),
       w, h, bh, ovflw, btns = 0,
-      minheight = 300,
+      minheight = 300;
+
+    if (!form.length)
+      return;
 
     bh = form.height() - bottom.position().top;
     ovflw = minheight - bh;

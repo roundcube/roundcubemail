@@ -74,16 +74,15 @@ if (!is_array($COMPOSE)) {
 
 
 // add some labels to client
-$OUTPUT->add_label('nosubject', 'nosenderwarning', 'norecipientwarning', 'nosubjectwarning', 'cancel',
-    'nobodywarning', 'notsentwarning', 'notuploadedwarning', 'savingmessage', 'sendingmessage', 
-    'messagesaved', 'converting', 'editorwarning', 'searching', 'uploading', 'uploadingmany',
+$OUTPUT->add_label('notuploadedwarning', 'savingmessage',
+    'messagesaved', 'converting', 'editorwarning', 'uploading', 'uploadingmany',
     'fileuploaderror', 'sendmessage', 'newresponse', 'responsename', 'responsetext', 'save',
     'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore', 'ignore',
     'selectimportfile', 'messageissent', 'loadingdata', 'nopubkeyfor', 'nopubkeyforsender',
     'encryptnoattachments','encryptedsendialog','searchpubkeyservers', 'importpubkeys',
     'encryptpubkeysfound',  'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
-    'keyrevoked', 'keyimportsuccess', 'keyservererror', 'attaching', 'namex', 'attachmentrename',
-    'disclosedrecipwarning', 'disclosedreciptitle', 'bccinstead', 'nosubjecttitle');
+    'keyrevoked', 'keyimportsuccess', 'keyservererror', 'attaching', 'namex', 'attachmentrename'
+);
 
 $OUTPUT->set_pagetitle($RCMAIL->gettext('compose'));
 

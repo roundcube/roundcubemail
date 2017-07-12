@@ -369,6 +369,7 @@
 {
   position: absolute;
   right: 0;
+  left: 0;
   top: 205px;
   bottom: 0px;
   border: 1px solid #999999;
@@ -1488,6 +1489,10 @@ input.from_address
 #compose-followupto
 {
   display: none;
+}
+
+#bounceheaders td.editfield {
+  width: 95%;
 }
 
 #compose-editorfooter

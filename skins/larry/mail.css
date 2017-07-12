@@ -1164,9 +1164,16 @@ div.message-partheaders .headers-table td.header {
 }
 
 .compose-headers td.title {
-	width: 11%;
+	width: 10%;
 	white-space: nowrap;
 	padding-left: 6px;
+	min-width: 60px;
+	line-height: 16px;
+}
+
+.compose-headers td.top {
+	vertical-align: top;
+	padding-top: 5px;
 }
 
 .compose-headers td.title label {
@@ -1193,15 +1200,14 @@ div.message-partheaders .headers-table td.header {
 	padding: 0 4px;
 }
 
-.compose-headers td.top {
-	vertical-align: top;
-	padding-top: 10px;
-}
-
 .compose-headers td textarea,
 .compose-headers td input {
 	width: 100%;
 	resize: none;
+}
+
+.compose-headers td.bounceopts {
+	padding-top: 20px;
 }
 
 #compose-cc, #compose-bcc, #compose-replyto, #compose-followupto {
