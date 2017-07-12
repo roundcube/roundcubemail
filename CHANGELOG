@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Added .user.ini file for php-fpm (#5846)
 - Email Resent (Bounce) feature (#4985)
 - Various improvements for templating engine and skin behaviours
   - Support conditional include
