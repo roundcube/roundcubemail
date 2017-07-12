@@ -870,8 +870,8 @@ function sieve_formattime(hour, minutes)
   for (i=0; i<format.length; i++) {
     c = format.charAt(i);
     switch (c) {
-      case 'a': time += hour > 12 ? 'am' : 'pm'; break;
-      case 'A': time += hour > 12 ? 'AM' : 'PM'; break;
+      case 'a': time += hour >= 12 ? 'pm' : 'am'; break;
+      case 'A': time += hour >= 12 ? 'PM' : 'AM'; break;
       case 'g':
       case 'h':
         h = hour == 0 ? 12 : hour > 12 ? hour - 12 : hour;

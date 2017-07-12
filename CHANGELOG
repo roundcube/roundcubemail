@@ -3,6 +3,7 @@ CHANGELOG Roundcube Webmail
 
 - Don't ignore (global) userlogins/sendmail logging in per_user_logging mode
 - Enigma: Fix compatibility with assets_dir
+- Managesieve: Fix AM/PM suffix in vacation time selectors
 - Fix bug where comment notation within style tag would cause the whole style to be ignored (#5747)
 - Fix bug where it wasn't possible to scroll folders list in Edge (#5750)
 - Fix addressbook searching by gender (#5757)

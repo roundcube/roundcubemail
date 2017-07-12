@@ -395,8 +395,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if ($date_extension) {
-            $time_from   = new html_inputfield(array('name' => 'vacation_timefrom', 'id' => 'vacation_timefrom', 'size' => 6));
-            $time_to     = new html_inputfield(array('name' => 'vacation_timeto', 'id' => 'vacation_timeto', 'size' => 6));
+            $time_from   = new html_inputfield(array('name' => 'vacation_timefrom', 'id' => 'vacation_timefrom', 'size' => 7));
+            $time_to     = new html_inputfield(array('name' => 'vacation_timeto', 'id' => 'vacation_timeto', 'size' => 7));
             $time_format = $this->rc->config->get('time_format', 'H:i');
             $date_value  = array();
 
