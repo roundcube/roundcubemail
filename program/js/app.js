@@ -4457,7 +4457,7 @@ function rcube_webmail()
   this.check_compose_input = function(cmd, skip_recipients_checks)
   {
     var key,
-      input_subject = $("[name='_subjec']");
+      input_subject = $("[name='_subject']");
 
     // check if all files has been uploaded
     for (key in this.env.attachments) {
@@ -4523,7 +4523,7 @@ function rcube_webmail()
   this.check_compose_address_fields = function(cmd, skip_recipients_checks, form)
   {
     if (!form)
-      form = window;
+      form = window.document;
 
     // check input fields
     var key, recipients, dialog,
