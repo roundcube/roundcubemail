@@ -783,7 +783,7 @@ function rcube_webmail()
           if (win) {
             this.save_compose_form_local();
             this.compose_skip_unsavedcheck = true;
-            $("input[name='_action']", form).val('compose');
+            $("[name='_action']", form).val('compose');
             form.action = this.url('mail/compose', { _id: this.env.compose_id, _extwin: 1 });
             form.target = win.name;
             form.submit();
@@ -936,7 +936,7 @@ function rcube_webmail()
         var input, form = this.gui_objects.editform;
         if (form) {
           // user prefs
-          if ((input = $("input[name='_pagesize']", form)) && input.length && isNaN(parseInt(input.val()))) {
+          if ((input = $("[name='_pagesize']", form)) && input.length && isNaN(parseInt(input.val()))) {
             alert(this.get_label('nopagesizewarning'));
             input.focus();
             break;
@@ -948,7 +948,7 @@ function rcube_webmail()
               form.action += '&_reload=1';
             }
             else if (this.task == 'settings' && (this.env.identities_level % 2) == 0  &&
-              (input = $("input[name='_email']", form)) && input.length && !rcube_check_email(input.val())
+              (input = $("[name='_email']", form)) && input.length && !rcube_check_email(input.val())
             ) {
               alert(this.get_label('noemailwarning'));
               input.focus();
@@ -1338,7 +1338,7 @@ function rcube_webmail()
         var form = props || this.gui_objects.importform,
           importlock = this.set_busy(true, 'importwait');
 
-        $('input[name="_unlock"]', form).val(importlock);
+        $('[name="_unlock"]', form).val(importlock);
 
         if (!(flag = this.upload_file(form, 'import', importlock))) {
           this.set_busy(false, null, importlock);
@@ -1363,7 +1363,7 @@ function rcube_webmail()
               }
 
               lock = win.rcmail.set_busy(true, 'importwait');
-              $('input[name="_unlock"]', form).val(lock);
+              $('[name="_unlock"]', form).val(lock);
               form.submit();
               win.rcmail.lock_form(form, true);
               // disable Import button
@@ -3573,7 +3573,7 @@ function rcube_webmail()
     else if (action == 'compose') {
       this.env.compose_commands.push('compose-encrypted');
 
-      var is_html = $('input[name="_is_html"]').val() > 0;
+      var is_html = $('[name="_is_html"]').val() > 0;
 
       if (this.env.pgp_mime_message) {
         // fetch PGP/Mime part and open load into Mailvelope editor
@@ -4194,9 +4194,9 @@ function rcube_webmail()
     var elem, pos,
       input_from = $("[name='_from']"),
       input_to = $("[name='_to']"),
-      input_subject = $("input[name='_subject']"),
+      input_subject = $("[name='_subject']"),
       input_message = $("[name='_message']").get(0),
-      html_mode = $("input[name='_is_html']").val() == '1',
+      html_mode = $("[name='_is_html']").val() == '1',
       opener_rc = this.opener();
 
     // close compose step in opener
@@ -4389,7 +4389,7 @@ function rcube_webmail()
 
     // send files list
     $('li', this.gui_objects.attachmentlist).each(function() { files.push(this.id.replace(/^rcmfile/, '')); });
-    $('input[name="_attachments"]', form).val(files.join());
+    $('[name="_attachments"]', form).val(files.join());
 
     form.target = this.get_save_target();
     form._draft.value = draft ? '1' : '';
@@ -4618,7 +4618,7 @@ function rcube_webmail()
 
     if (result) {
       // update internal format flag
-      $("input[name='_is_html']").val(props.html ? 1 : 0);
+      $("[name='_is_html']").val(props.html ? 1 : 0);
     }
 
     return result;
@@ -4755,7 +4755,7 @@ function rcube_webmail()
         rc.command('checkmail');
 
       this.env.draft_id = id;
-      $("input[name='_draft_saveid']").val(id);
+      $("[name='_draft_saveid']").val(id);
     }
 
     // always remove local copy upon saving as draft
