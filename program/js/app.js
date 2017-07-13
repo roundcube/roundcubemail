@@ -4753,9 +4753,6 @@ function rcube_webmail()
       $("input[name='_draft_saveid']").val(id);
     }
 
-    // Resetting savetarget frame to workaround issues with window history
-    this.save_target.detach();
-
     // always remove local copy upon saving as draft
     this.remove_compose_data(this.env.compose_id);
     this.compose_skip_unsavedcheck = false;
@@ -4772,7 +4769,12 @@ function rcube_webmail()
       });
     }
 
-    this.save_target.detach().attr('src', "about:blank").appendTo('body');
+    this.save_target
+      .detach()
+      .attr('src', "about:blank")
+      .appendTo('body')
+      // Removing savetarget frame to workaround issues with window history
+      .on('load error', function() { $(this).detach(); });
 
     return 'savetarget';
   };
