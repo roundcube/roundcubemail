@@ -3757,7 +3757,7 @@ function rcube_webmail()
             hidden = $("[name='_pgpmime']", form),
             msgid = ref.set_busy(true, draft || saveonly ? 'savingmessage' : 'sendingmessage')
 
-          form.target = 'savetarget';
+          form.target = ref.get_save_target();
           form._draft.value = draft ? '1' : '';
           form.action = ref.add_url(form.action, '_unlock', msgid);
           form.action = ref.add_url(form.action, '_framed', 1);
@@ -4386,7 +4386,7 @@ function rcube_webmail()
     $('li', this.gui_objects.attachmentlist).each(function() { files.push(this.id.replace(/^rcmfile/, '')); });
     $('input[name="_attachments"]', form).val(files.join());
 
-    form.target = 'savetarget';
+    form.target = this.get_save_target();
     form._draft.value = draft ? '1' : '';
     form.action = this.add_url(form.action, '_unlock', msgid);
     form.action = this.add_url(form.action, '_lang', lang);
@@ -4751,27 +4751,36 @@ function rcube_webmail()
 
       this.env.draft_id = id;
       $("input[name='_draft_saveid']").val(id);
-
-      // reset history of hidden iframe used for saving draft (#1489643)
-      // but don't do this on timer-triggered draft-autosaving (#1489789)
-      if (window.frames['savetarget'] && window.frames['savetarget'].history && !this.draft_autosave_submit && !this.mailvelope_editor) {
-        window.frames['savetarget'].history.back();
-      }
-
-      this.draft_autosave_submit = false;
     }
+
+    // Resetting savetarget frame to workaround issues with window history
+    this.save_target.detach();
 
     // always remove local copy upon saving as draft
     this.remove_compose_data(this.env.compose_id);
     this.compose_skip_unsavedcheck = false;
   };
 
+  // Create (attach) 'savetarget' iframe before use
+  this.get_save_target = function()
+  {
+    if (!this.save_target) {
+      this.save_target = $('<iframe>').attr({
+        name: "savetarget",
+        style: "width:0;height:0;visibility:hidden;",
+        'aria-hidden': "true"
+      });
+    }
+
+    this.save_target.detach().attr('src', "about:blank").appendTo('body');
+
+    return 'savetarget';
+  };
+
   this.auto_save_start = function()
   {
     if (this.env.draft_autosave) {
-      this.draft_autosave_submit = false;
-      this.save_timer = setTimeout(function(){
-          ref.draft_autosave_submit = true;  // set auto-saved flag (#1489789)
+      this.save_timer = setTimeout(function() {
           ref.command("savedraft");
       }, this.env.draft_autosave * 1000);
     }
