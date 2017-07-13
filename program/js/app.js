@@ -4211,6 +4211,11 @@ function rcube_webmail()
     }
 
     if (!html_mode) {
+      // On Back button Chrome will overwrite textarea with old content
+      // causing e.g. the same signature is added twice (#5809)
+      if (input_message.value && input_message.defaultValue !== undefined)
+        input_message.value = input_message.defaultValue;
+
       pos = this.env.top_posting && this.env.compose_mode ? 0 : input_message.value.length;
 
       // add signature according to selected identity
