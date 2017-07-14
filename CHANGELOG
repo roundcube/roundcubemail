@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support for IMAP folders that cannot contain both folders and messages (#5057)
 - Added .user.ini file for php-fpm (#5846)
 - Email Resent (Bounce) feature (#4985)
 - Various improvements for templating engine and skin behaviours

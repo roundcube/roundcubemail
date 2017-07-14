@@ -80,6 +80,8 @@ abstract class rcube_storage
     const NONEXISTENT   = 7;
     const CONTACTADMIN  = 8;
 
+    const DUAL_USE_FOLDERS = 'X-DUAL-USE-FOLDERS';
+
 
     /**
      * Connect to the server
@@ -660,10 +662,14 @@ abstract class rcube_storage
      *
      * @param string  $folder    New folder name
      * @param boolean $subscribe True if the newvfolder should be subscribed
+     * @param string  $type      Optional folder type (junk, trash, drafts, sent, archive)
+     * @param boolean $noselect  Make the folder \NoSelect folder by adding hierarchy
+     *                           separator at the end (useful for server that do not support
+     *                           both folders and messages as folder children)
      *
      * @return boolean True on success, False on error
      */
-    abstract function create_folder($folder, $subscribe = false);
+    abstract function create_folder($folder, $subscribe = false, $type = null, $noselect = false);
 
     /**
      * Set a new name to an existing folder
