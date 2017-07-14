@@ -2164,8 +2164,9 @@ class rcmail extends rcube
             unset($attrib['buttons']);
             $form_attr['class'] = 'smart-upload';
             $input_attr = array_merge($input_attr, array(
-                // Note: Chrome sometimes executes onchange event on Cancel, make sure a file was selected
-                'onchange' => "if ((this.files && this.files.length) || (!this.files && this.value)) $event",
+                // #5854: Chrome does not execute onchange when selecting the same file.
+                //        To fix this we reset the input using null value.
+                'onchange' => "$event; this.value=null",
                 'class'    => 'smart-upload',
                 'tabindex' => '-1',
             ));
