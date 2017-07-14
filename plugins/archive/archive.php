@@ -404,23 +404,27 @@ class archive extends rcube_plugin
                 'content' => $select->show($mbox, array('id' => '_archive_mbox', 'name' => '_archive_mbox'))
             );
 
-            // add option for structuring the archive folder
-            $archive_type = new html_select(array('name' => '_archive_type', 'id' => 'ff_archive_type'));
-            $archive_type->add($this->gettext('none'), '');
-            $archive_type->add($this->gettext('archivetypeyear'), 'year');
-            $archive_type->add($this->gettext('archivetypemonth'), 'month');
-            $archive_type->add($this->gettext('archivetypetbmonth'), 'tbmonth');
-            $archive_type->add($this->gettext('archivetypesender'), 'sender');
-            $archive_type->add($this->gettext('archivetypefolder'), 'folder');
+            // If the server supports only either messages or folders in a folder
+            // we do not allow archive splitting, for simplicity (#5057)
+            if ($rcmail->get_storage()->get_capability(rcube_storage::DUAL_USE_FOLDERS)) {
+                // add option for structuring the archive folder
+                $archive_type = new html_select(array('name' => '_archive_type', 'id' => 'ff_archive_type'));
+                $archive_type->add($this->gettext('none'), '');
+                $archive_type->add($this->gettext('archivetypeyear'), 'year');
+                $archive_type->add($this->gettext('archivetypemonth'), 'month');
+                $archive_type->add($this->gettext('archivetypetbmonth'), 'tbmonth');
+                $archive_type->add($this->gettext('archivetypesender'), 'sender');
+                $archive_type->add($this->gettext('archivetypefolder'), 'folder');
 
-            $args['blocks']['archive'] = array(
-                'name'    => rcube::Q($this->gettext('settingstitle')),
-                'options' => array('archive_type' => array(
-                        'title'   => html::label('ff_archive_type', rcube::Q($this->gettext('archivetype'))),
-                        'content' => $archive_type->show($type)
+                $args['blocks']['archive'] = array(
+                    'name'    => rcube::Q($this->gettext('settingstitle')),
+                    'options' => array('archive_type' => array(
+                            'title'   => html::label('ff_archive_type', rcube::Q($this->gettext('archivetype'))),
+                            'content' => $archive_type->show($type)
+                        )
                     )
-                )
-            );
+                );
+            }
         }
         else if ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
             $chbox = new html_checkbox(array('name' => '_read_on_archive', 'id' => 'ff_read_on_archive', 'value' => 1));

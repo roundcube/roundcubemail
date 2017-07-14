@@ -1118,16 +1118,7 @@ class rcube_imap_generic
         if ($this->selected === $mailbox) {
             return true;
         }
-/*
-    Temporary commented out because Courier returns \Noselect for INBOX
-    Requires more investigation
 
-        if (is_array($this->data['LIST']) && is_array($opts = $this->data['LIST'][$mailbox])) {
-            if (in_array('\\Noselect', $opts)) {
-                return false;
-            }
-        }
-*/
         $params = array($this->escape($mailbox));
 
         // QRESYNC data items

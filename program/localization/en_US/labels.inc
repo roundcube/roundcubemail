@@ -596,6 +596,9 @@ $labels['findmail'] = 'Find mail messages';
 $labels['namespace.personal'] = 'Personal';
 $labels['namespace.other'] = 'Other users';
 $labels['namespace.shared'] = 'Shared';
+$labels['dualuselabel'] = 'Can contain only';
+$labels['dualusemail'] = 'messages';
+$labels['dualusefolder'] = 'folders';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc']  = 'Sort ascending';

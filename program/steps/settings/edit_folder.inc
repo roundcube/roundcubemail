@@ -44,7 +44,8 @@ function rcmail_folder_form($attrib)
     $parent = rcube_utils::get_input_value('_path', rcube_utils::INPUT_GPC, true);
 
     $threading_supported = $storage->get_capability('THREAD');
-    $delimiter = $storage->get_hierarchy_delimiter();
+    $dual_use_supported  = $storage->get_capability(rcube_storage::DUAL_USE_FOLDERS);
+    $delimiter           = $storage->get_hierarchy_delimiter();
 
     // Get mailbox parameters
     if (strlen($mbox)) {
@@ -151,6 +152,27 @@ function rcmail_folder_form($attrib)
     $form['props']['fieldsets']['settings'] = array(
         'name'  => $RCMAIL->gettext('settings'),
     );
+
+    // For servers that do not support both sub-folders and messages in a folder
+    if (!$dual_use_supported) {
+        if (!strlen($mbox)) {
+            $select = new html_select(array('name' => '_type', 'id' => '_type'));
+            $select->add($RCMAIL->gettext('dualusemail'), 'mail');
+            $select->add($RCMAIL->gettext('dualusefolder'), 'folder');
+
+            $value  = rcube_utils::get_input_value('_type', rcube_utils::INPUT_POST);
+            $value = $select->show($value ?: 'mail');
+        }
+        else {
+            $value = $options['noselect'] ? 'folder' : 'mail';
+            $value = $RCMAIL->gettext('dualuse' . $value);
+        }
+
+        $form['props']['fieldsets']['settings']['content']['type'] = array(
+            'label' => $RCMAIL->gettext('dualuselabel'),
+            'value' => $value,
+        );
+    }
 
     // Settings: threading
     if ($threading_supported && ($mbox == 'INBOX' || (!$options['noselect'] && !$options['is_root']))) {

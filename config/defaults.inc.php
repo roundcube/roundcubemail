@@ -207,6 +207,11 @@ $config['imap_force_ns'] = false;
 // Enable this option to hide them and disable possibility to create such.
 $config['imap_skip_hidden_folders'] = false;
 
+// Some servers do not support folders with both folders and messages inside
+// If your server supports that use true, if it does not, use false.
+// By default it will be determined automatically (once per user session).
+$config['imap_dual_use_folders'] = null;
+
 // List of disabled imap extensions.
 // Use if your IMAP server has broken implementation of some feature
 // and you can't remove it from CAPABILITY string on server-side.
