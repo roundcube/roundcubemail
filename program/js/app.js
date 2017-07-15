@@ -355,6 +355,7 @@ function rcube_webmail()
         else if (this.env.action == 'bounce') {
           this.init_messageform_inputs();
           this.enable_command('identities', true);
+          this.env.compose_commands = [];
         }
         else if (this.env.action == 'get') {
           this.enable_command('download', true);
@@ -4134,7 +4135,7 @@ function rcube_webmail()
         }
       };
 
-    this.hide_menu('forwardmenu');
+    this.hide_menu('forwardmenu', event);
 
     this.simple_dialog(dialog, this.gettext('bouncemsg'), submit_func, {
       button: 'bounce',
@@ -5012,9 +5013,12 @@ function rcube_webmail()
         input.val(input_val).change();
     });
 
-    this.editor.change_signature(id, show_sig);
+    if (this.editor)
+      this.editor.change_signature(id, show_sig);
+
     this.env.identity = id;
     this.triggerEvent('change_identity');
+
     return true;
   };
 
