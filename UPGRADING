@@ -38,7 +38,7 @@ it on a unix system, you need to do the following operations by hand:
    - config/mimetypes.php
 3. rsync the contents of the following folders from your installation
    directory into the target folder:
-   ./skins/
+   ./skins/ (be careful not to overwrite `larry` and `classic` skins, as the old versions are not fully compatible)
    ./plugins/
    ./vendor/
 4. Update dependencies:
