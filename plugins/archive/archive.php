@@ -290,8 +290,11 @@ class archive extends rcube_plugin
 
         // add new rows from next page (if any)
         if ($addrows && $count && $uids != '*' && ($jump_back || $nextpage_count > 0)) {
+            // #5862: Don't add more rows than it was on the next page
+            $count = $jump_back ? null : min($nextpage_count, $count);
+
             $a_headers = $storage->list_messages($mbox, null,
-                rcmail_sort_column(), rcmail_sort_order(), $jump_back ? null : $count);
+                rcmail_sort_column(), rcmail_sort_order(), $count);
 
             rcmail_js_message_list($a_headers, false);
         }
