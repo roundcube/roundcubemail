@@ -1261,7 +1261,7 @@ class rcube
             $name .= '.log';
         }
 
-        return file_put_contents("$log_dir/$name", $line, FILE_APPEND) !== false;
+        return file_put_contents("$log_dir/$name.log", $line, FILE_APPEND) !== false;
     }
 
     /**
