@@ -2490,13 +2490,12 @@ class rcube_imap extends rcube_storage
 
             // clear cached counters
             if ($flag == 'SEEN' || $flag == 'UNSEEN') {
-                $this->clear_messagecount($folder, 'SEEN');
-                $this->clear_messagecount($folder, 'UNSEEN');
+                $this->clear_messagecount($folder, array('SEEN', 'UNSEEN'));
             }
             else if ($flag == 'DELETED' || $flag == 'UNDELETED') {
-                $this->clear_messagecount($folder, 'DELETED');
-                // remove cached messages
+                $this->clear_messagecount($folder, array('ALL', 'THREADS'));
                 if ($this->options['skip_deleted']) {
+                    // remove cached messages
                     $this->clear_message_cache($folder, $all_mode ? null : explode(',', $uids));
                 }
             }
@@ -4371,13 +4370,15 @@ class rcube_imap extends rcube_storage
     /**
      * Remove messagecount of a specific folder from cache
      */
-    protected function clear_messagecount($folder, $mode=null)
+    protected function clear_messagecount($folder, $mode = array())
     {
         $a_folder_cache = $this->get_cache('messagecount');
 
         if (is_array($a_folder_cache[$folder])) {
-            if ($mode) {
-                unset($a_folder_cache[$folder][$mode]);
+            if (!empty($mode)) {
+                foreach ((array) $mode as $key) {
+                    unset($a_folder_cache[$folder][$key]);
+                }
             }
             else {
                 unset($a_folder_cache[$folder]);

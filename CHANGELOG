@@ -17,6 +17,7 @@ CHANGELOG Roundcube Webmail
 - Fix PHP 7.2 warnings on count() use (#5845)
 - Fix bug where Chrome could not upload the same file that was selected before (#5854)
 - Fix duplicate messages on the list after deleting messages on the next to the last page (#5862)
+- Fix bug where messages count was not updated after delete when imap_cache is set (#5872)
 
 RELEASE 1.3.0
 -------------
