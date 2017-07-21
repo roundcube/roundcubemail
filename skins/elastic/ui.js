@@ -1010,6 +1010,11 @@ function rcube_elastic_ui()
         }
         else {
             target = $('#' + name).data('button');
+
+            // catch cases as 'forwardmenu' where menu suffix has no hyphen
+            if (!target && name.match(/(?!-)menu$/)) {
+                target = $('#' + name.substr(0, name.length - 4) + '-menu').data('button');
+            }
         }
 
         if (name.match(/^drag/)) {
