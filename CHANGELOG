@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support _filter and _scope as GET arguments for opening mail UI (#5825)
 - Support for IMAP folders that cannot contain both folders and messages (#5057)
 - Added .user.ini file for php-fpm (#5846)
 - Email Resent (Bounce) feature (#4985)

@@ -66,8 +66,10 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     if (empty($RCMAIL->action)) {
         $OUTPUT->set_env('search_mods', rcmail_search_mods());
 
-        if (!empty($_SESSION['search_scope']))
-            $OUTPUT->set_env('search_scope', $_SESSION['search_scope']);
+        $scope = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET) ?: $_SESSION['search_scope'];
+        if ($scope && preg_match('/^(all|sub)$/i', $scope)) {
+            $OUTPUT->set_env('search_scope', strtolower($scope));
+        }
 
         rcmail_list_pagetitle();
     }
@@ -2016,7 +2018,13 @@ function rcmail_search_filter($attrib)
 
     $RCMAIL->output->add_gui_object('search_filter', $attrib['id']);
 
-    return $select->show($_REQUEST['_search'] ? $_SESSION['search_filter'] : 'ALL');
+    $selected = rcube_utils::get_input_value('_filter', rcube_utils::INPUT_GET);
+
+    if (!$selected && $_REQUEST['_search']) {
+        $selected = $_SESSION['search_filter'];
+    }
+
+    return $select->show($selected ?: 'ALL');
 }
 
 function rcmail_search_interval($attrib)
