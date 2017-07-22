@@ -249,7 +249,11 @@ function rcube_webmail()
           this.enable_command('set-listmode', this.env.threads && !this.is_multifolder_listing());
 
           // load messages
-          this.command('list');
+          var searchfilter = $(this.gui_objects.search_filter).val();
+          if (searchfilter && searchfilter != 'ALL')
+            this.filter_mailbox(searchfilter);
+          else
+            this.command('list');
 
           $(this.gui_objects.qsearchbox).val(this.env.search_text).focusin(function() { ref.message_list.blur(); });
         }
@@ -2506,14 +2510,16 @@ function rcube_webmail()
     if (this.filter_disabled)
       return;
 
-    var lock = this.set_busy(true, 'searching');
+    var params = this.search_params(false, filter),
+      lock = this.set_busy(true, 'searching');
 
     this.clear_message_list();
 
     // reset vars
     this.env.current_page = 1;
     this.env.search_filter = filter;
-    this.http_request('search', this.search_params(false, filter), lock);
+    this.http_request('search', params, lock);
+    this.update_state({_mbox: params._mbox, _filter: filter, _scope: params._scope});
   };
 
   // reload the current message listing
