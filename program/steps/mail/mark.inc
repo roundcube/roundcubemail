@@ -158,8 +158,11 @@ if ($_uids && $flag) {
 
             // add new rows from next page (if any)
             if ($old_count && $_uids != '*' && ($jump_back || $nextpage_count > 0)) {
-                $a_headers = $RCMAIL->storage->list_messages($mbox, NULL,
-                    rcmail_sort_column(), rcmail_sort_order(), $jump_back ? NULL : $count);
+                // #5862: Don't add more rows than it was on the next page
+                $count = $jump_back ? null : min($nextpage_count, $count);
+
+                $a_headers = $RCMAIL->storage->list_messages($mbox, null,
+                    rcmail_sort_column(), rcmail_sort_order(), $count);
 
                 rcmail_js_message_list($a_headers, false);
             }

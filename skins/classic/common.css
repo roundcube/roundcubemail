@@ -72,6 +72,7 @@ hr
 input[type="text"],
 input[type="button"],
 input[type="password"],
+button,
 textarea
 {
   border: 1px solid #666;
@@ -79,7 +80,7 @@ textarea
   background-color: #FFF;
 }
 
-input, textarea
+button, input, textarea
 {
   color: black;
   padding: 1px 3px;
@@ -93,6 +94,7 @@ textarea:-moz-placeholder
   color: #aaa;
 }
 
+button,
 input.button
 {
   height: 20px;
@@ -104,11 +106,14 @@ input.button
   border: 1px solid #a4a4a4;
 }
 
+button:hover,
 input.button:hover
 {
   color: black;
 }
 
+button[disabled],
+button[disabled]:hover,
 input.button[disabled],
 input.button[disabled]:hover
 {
@@ -116,6 +121,7 @@ input.button[disabled]:hover
   border-color: #ccc;
 }
 
+button.mainaction,
 input.mainaction
 {
   font-weight: bold;
@@ -1241,7 +1247,7 @@ font.bold
   font-weight: bold;
 }
 
-.formbuttons
+#login-form .formbuttons
 {
   text-align: center;
 }
