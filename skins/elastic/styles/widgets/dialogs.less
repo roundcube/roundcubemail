@@ -9,7 +9,7 @@
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
  */
 
-/*** Dialogs ***/
+/*** Dialogs and popovers ***/
 
 .popupmenu {
     display: none;
@@ -21,25 +21,13 @@
     }
 }
 
-div.ui-dialog-content > .popupmenu,
-div.popover-body > .popupmenu {
-    display: block !important;
-}
-
-.ui-dialog iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
-
-.ui-dialog-content.iframe {
-    padding: 0 !important;
-    overflow: hidden !important;
-}
-
 div.popover-body {
     padding: 0;
     overflow-x: hidden;
+
+    & > .popupmenu {
+        display: block !important;
+    }
 }
 
 .popover {

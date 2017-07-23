@@ -1,0 +1,118 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original autors in the README file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** jQuery-UI widgets' style overrides ***/
+
+.ui-widget-overlay {
+    background-color: @color-dialog-overlay-background;
+}
+
+.ui-dialog {
+    .ui-dialog-titlebar {
+        height: 4rem;
+        border-bottom: 1px solid lightgrey; /* TODO: var */
+    }
+
+    .ui-dialog-title {
+        line-height: 4rem;
+        font-size: 1.25rem;
+        padding: 0 3rem 0 1rem;
+    }
+
+    .ui-dialog-titlebar-close {
+        border: 0;
+        background: transparent;
+        color: grey; /* TODO: var */
+        right: 0;
+        top: 0;
+        position: absolute;
+        height: 4rem;
+        cursor: pointer;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-close;
+        }
+    }
+
+    .ui-dialog-content {
+        /* fixes resize issue e.g. in qr-code dialog */
+        box-sizing: initial;
+
+        & > .popupmenu {
+            display: block !important;
+        }
+    }
+}
+
+.ui-dialog iframe,
+.ui-dialog-content.iframe {
+    padding: 0 !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    height: 100%;
+    border: 0;
+}
+
+/* FIXME: why do I need !important here? */
+
+@media screen and (max-width: @screen-width-mini) {
+    .ui-dialog {
+        width: 100% !important;
+        height: 100% !important;
+        display: flex;
+        flex-direction: column;
+
+        .ui-resizable-handle,
+        .ui-dialog-titlebar-close {
+            display: none !important;
+        }
+
+        .ui-dialog-titlebar {
+        
+        }
+
+        .ui-dialog-content {
+            flex: 1;
+            &:not(.iframe) {
+                padding: .5em !important;
+            }
+        }
+
+        .ui-dialog-buttonpane {
+            padding: 0 !important;
+            text-align: center !important;
+
+            .ui-dialog-buttonset button {
+                margin: 0 !important;
+                border: 0 !important;
+                box-shadow: none;
+
+                &:before {
+                    display: block;
+                    width: auto;
+                    height: 1.25em;
+                    margin: 0;
+                }
+
+                &.btn-primary {
+                    color: #007bff; /* TODO: var */
+                    background: transparent;
+                }
+
+                &.btn-secondary {
+                    color: #868e96; /* TODO: var */
+                    background: transparent;
+                }
+            }
+        }
+    }
+}

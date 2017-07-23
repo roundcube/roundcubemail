@@ -312,7 +312,7 @@ function rcube_elastic_ui()
         // Tabs do not scale nicely on very small screen, so can be used
         // only with small number of tabs with short text labels
         // TODO: Should we use Accordion widget instead on mobile?
-        $('.tabbed', context).each(function(idx, item) {
+        $('form.tabbed,div.tabbed', context).each(function(idx, item) {
             var tabs = [], nav = $('<ul>').attr({'class': 'nav nav-tabs', role: 'tablist'});
 
             $(this).addClass('tab-content').children('fieldset').each(function(i, fieldset) {
