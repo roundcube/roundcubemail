@@ -77,7 +77,12 @@
         }
 
         .ui-dialog-titlebar {
-        
+            height: @layout-header-height-mobile;
+        }
+
+        .ui-dialog-title {
+            line-height: @layout-header-height-mobile;
+            font-size: 1rem;
         }
 
         .ui-dialog-content {
@@ -91,26 +96,31 @@
             padding: 0 !important;
             text-align: center !important;
 
-            .ui-dialog-buttonset button {
-                margin: 0 !important;
-                border: 0 !important;
-                box-shadow: none;
+            .ui-dialog-buttonset {
+                display: flex;
 
-                &:before {
-                    display: block;
-                    width: auto;
-                    height: 1.25em;
-                    margin: 0;
-                }
+                button {
+                    margin: 0 !important;
+                    border: 0 !important;
+                    box-shadow: none;
+                    flex-grow: 1;
 
-                &.btn-primary {
-                    color: #007bff; /* TODO: var */
-                    background: transparent;
-                }
+                    &:before {
+                        display: block;
+                        width: auto;
+                        height: 1.25em;
+                        margin: 0;
+                    }
 
-                &.btn-secondary {
-                    color: #868e96; /* TODO: var */
-                    background: transparent;
+                    &.btn-primary {
+                        color: #007bff; /* TODO: var */
+                        background: transparent;
+                    }
+
+                    &.btn-secondary {
+                        color: #868e96; /* TODO: var */
+                        background: transparent;
+                    }
                 }
             }
         }
