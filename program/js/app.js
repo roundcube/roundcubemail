@@ -4060,7 +4060,7 @@ function rcube_webmail()
             ref.mark_all_read(folder, $('input:checked', this).val());
             return true;
           },
-          {button: 'mark', height: 120}
+          {button: 'mark', height: 100}
         );
 
         return;
@@ -6782,7 +6782,7 @@ function rcube_webmail()
   this.qrcode = function()
   {
     var title = this.get_label('qrcode'),
-      options = {button: false, cancel_button: 'close', width: 300, height: 350},
+      options = {button: false, cancel_button: 'close', width: 300, height: 300},
       img = new Image(300, 300);
 
     img.src = this.url('addressbook/qrcode', {_source: this.env.source, _cid: this.env.cid});
@@ -7766,8 +7766,8 @@ function rcube_webmail()
       width = popup.width(), height = popup.height();
 
     popup.dialog('option', {
-      height: Math.min(h - 40, height + 28 + (buttons ? 50 : 0)),
-      width: Math.min(w - 20, width + 28)
+      height: Math.min(h - 40, height + 70 + (buttons ? 50 : 0)),
+      width: Math.min(w - 20, width + 24)
     });
 
     // assign special classes to dialog buttons
