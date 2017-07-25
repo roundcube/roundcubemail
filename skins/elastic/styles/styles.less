@@ -198,10 +198,8 @@ button, input, select, textarea {
         border: 1rem solid;
         border-color: currentColor @color-spinner-item currentColor currentColor;
         border-radius: 50%;
-        animation-name: fa-spin;
-        animation-duration: 1s;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
+        -webkit-animation: fa-spin 1s infinite linear;
+        animation: fa-spin 1s infinite linear;
     }
 }
 
