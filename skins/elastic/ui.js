@@ -174,6 +174,32 @@ function rcube_elastic_ui()
         $('#dragmessage-menu,#dragcontact-menu').each(function() {
             rcmail.gui_object('dragmenu', this.id);
         });
+
+        // Taskmenu items added by plugins do not have elastic classes (e.g help plugin)
+        // it's for larry skin compat. We'll assign 'button' and icon-specific class.
+        $('#taskmenu > a').each(function() {
+            if (/button-([a-z]+)/.test(this.className)) {
+                var button = this, id = button.id, name = RegExp.$1;
+
+                $.each(rcmail.buttons, function(i, v) {
+                    $.each(v, function(j, data) {
+                        if (data.id == id) {
+                            if (data.sel) {
+                                data.sel += ' button ' + name;
+                            }
+                            if (data.act) {
+                                data.act += ' button ' + name;
+                            }
+
+                            rcmail.buttons[i][j] = data;
+                            rcmail.init_button(i, data);
+                            $(button).addClass('button ' + name);
+                            $('.button-inner', button).addClass('inner');
+                        }
+                    });
+                });
+            }
+        });
     };
 
     /**
