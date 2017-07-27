@@ -175,8 +175,8 @@ function rcube_elastic_ui()
             rcmail.gui_object('dragmenu', this.id);
         });
 
-        // Taskmenu items added by plugins do not have elastic classes (e.g help plugin)
-        // it's for larry skin compat. We'll assign 'button' and icon-specific class.
+        // Taskmenu items added by plugins do not use elastic classes (e.g help plugin)
+        // it's for larry skin compat. We'll assign 'button', 'selected' and icon-specific class.
         $('#taskmenu > a').each(function() {
             if (/button-([a-z]+)/.test(this.className)) {
                 var button = this, id = button.id, name = RegExp.$1;
@@ -186,6 +186,7 @@ function rcube_elastic_ui()
                         if (data.id == id) {
                             if (data.sel) {
                                 data.sel += ' button ' + name;
+                                data.sel = data.sel.replace('button-selected', 'selected');
                             }
                             if (data.act) {
                                 data.act += ' button ' + name;
