@@ -44,10 +44,6 @@ if (empty($UNZIP)) {
 if (empty($FILEINFO)) {
   die("ERROR: Required program 'file' not found\n");
 }
-if (empty($CURL) && empty($WGET)) {
-  die("ERROR: Required program 'wget' or 'curl' not found\n");
-}
-
 $CACHEDIR = sys_get_temp_dir();
 
 if (is_writeable(INSTALL_PATH . 'temp/js_cache') || @mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {
@@ -116,10 +112,9 @@ EOL;
  */
 function fetch_from_source($package, $useCache = true, &$filetype = null)
 {
-  global $CURL, $WGET, $FILEINFO, $CACHEDIR;
+  global $CURL, $WGET;
 
-  $filetype = pathinfo($package['url'], PATHINFO_EXTENSION) ?: 'tmp';
-  $cache_file = $CACHEDIR . '/' . $package['lib'] . '-' . $package['version'] . '.' . $filetype;
+  $cache_file = extract_filetype($package, false, $filetype);
 
   if (!is_readable($cache_file) || !$useCache) {
     echo "Fetching $package[url]\n";
@@ -134,7 +129,17 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
     }
   }
 
-  if (!empty($package['sha1']) && ($sum = sha1_file($cache_file)) !== $package['sha1']) {
+  return extract_filetype($package, true, $filetype);
+}
+
+function extract_filetype($package, $check,  &$filetype = null)
+{
+  global $FILEINFO, $CACHEDIR;
+
+  $filetype = pathinfo($package['url'], PATHINFO_EXTENSION) ?: 'tmp';
+  $cache_file = $CACHEDIR . '/' . $package['lib'] . '-' . $package['version'] . '.' . $filetype;
+
+  if ($check == true && !empty($package['sha1']) && ($sum = sha1_file($cache_file)) !== $package['sha1']) {
     die("ERROR: Incorrect sha1 sum of $cache_file. Expected: $package[sha1], got: $sum\n");
   }
 
@@ -295,8 +300,8 @@ function delete_destfile($package)
 
 //////////////// Execution
 
-$args = rcube_utils::get_opt(array('f' => 'force:bool', 'd' => 'delete:bool'))
-        + array('force' => false, 'delete' => false);
+$args = rcube_utils::get_opt(array('f' => 'force:bool', 'd' => 'delete:bool', 'g' => 'get:bool', 'e' => 'extract:bool'))
+        + array('force' => false, 'delete' => false, 'get' => true, 'extract' => true);
 $WHAT = $args[0];
 
 foreach ($SOURCES['dependencies'] as $package) {
@@ -315,14 +320,22 @@ foreach ($SOURCES['dependencies'] as $package) {
 
   echo "Installing $package[name]...\n";
 
-  $srcfile = fetch_from_source($package, !$args['force'], $filetype);
-
-  if ($filetype === 'zip') {
-    extract_zipfile($package, $srcfile);
+  if ($args['get']) {
+    if (empty($CURL) && empty($WGET)) {
+      die("ERROR: Required program 'wget' or 'curl' not found\n");
+    }
+    $srcfile = fetch_from_source($package, !$args['force'], $filetype);
+  } else {
+    $srcfile = extract_filetype($package, true, $filetype);
   }
-  else {
-    compose_destfile($package, $srcfile);
-  }
 
+  if ($args['extract']) {
+      if ($filetype === 'zip') {
+        extract_zipfile($package, $srcfile);
+      }
+      else {
+        compose_destfile($package, $srcfile);
+      }
+  }
   echo "Done.\n\n";
 }
