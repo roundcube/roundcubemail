@@ -44,9 +44,13 @@ if (empty($UNZIP)) {
 if (empty($FILEINFO)) {
   die("ERROR: Required program 'file' not found\n");
 }
+
 $CACHEDIR = sys_get_temp_dir();
 
-if (is_writeable(INSTALL_PATH . 'temp/js_cache') || @mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {
+if (getenv("CACHEDIR") != false && is_writeable(getenv("CACHEDIR"))) {
+  $CACHEDIR = getenv("CACHEDIR");
+}
+else if (is_writeable(INSTALL_PATH . 'temp/js_cache') || @mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {
   $CACHEDIR = INSTALL_PATH . 'temp/js_cache';
 }
 
