@@ -1851,10 +1851,10 @@ function rcube_webmail()
       }
     }
     // Multi-message commands
-    this.enable_command('delete', 'move', 'copy', 'mark', 'forward', 'forward-attachment', list.selection.length > 0);
+    this.enable_command('delete', 'move', 'copy', 'mark', 'forward', 'forward-attachment', list.get_selection(false).length > 0);
 
     // reset all-pages-selection
-    if (selected || (list.selection.length && list.selection.length != list.rowcount))
+    if (selected || (list.get_selection(false).length && list.get_selection(false).length != list.rowcount))
       this.select_all_mode = false;
 
     // start timer for message preview (wait for double click)
@@ -3361,7 +3361,7 @@ function rcube_webmail()
 
         if (this.env.skip_deleted) {
           count += this.update_thread(uid);
-          list.remove_row(uid, (this.env.display_next && i == list.selection.length-1));
+          list.remove_row(uid, (this.env.display_next && i == list.get_selection(false).length-1));
         }
         else
           this.set_message(uid, 'deleted', true);
@@ -4419,9 +4419,9 @@ function rcube_webmail()
 
   this.compose_recipient_select = function(list)
   {
-    var id, n, recipients = 0;
-    for (n=0; n < list.selection.length; n++) {
-      id = list.selection[n];
+    var id, n, recipients = 0, selection = list.get_selection();
+    for (n=0; n < selection.length; n++) {
+      id = selection[n];
       if (this.env.contactdata[id])
         recipients++;
     }
@@ -4436,11 +4436,11 @@ function rcube_webmail()
       field = field.length ? field.attr('id').replace('_', '') : 'to';
     }
 
-    var recipients = [], input = $('#_' + field);
+    var recipients = [], input = $('#_' + field), selection = this.contact_list.get_selection();
 
-    if (this.contact_list && this.contact_list.selection.length) {
-      for (var id, n=0; n < this.contact_list.selection.length; n++) {
-        id = this.contact_list.selection[n];
+    if (this.contact_list && selection.length) {
+      for (var id, n=0; n < selection.length; n++) {
+        id = selection[n];
         if (id && this.env.contactdata[id]) {
           recipients.push(this.env.contactdata[id]);
 
@@ -5852,7 +5852,7 @@ function rcube_webmail()
       clearTimeout(this.preview_timer);
 
     var n, id, sid, contact, writable = false,
-      selected = list.selection.length,
+      selected = list.get_selection().length,
       source = this.env.source ? this.env.address_sources[this.env.source] : null;
 
     // we don't have dblclick handler here, so use 50 instead of this.dblclick_time
@@ -5874,10 +5874,11 @@ function rcube_webmail()
         this.env.selection_sources.push(this.env.source);
       }
 
-      for (n in list.selection) {
-        contact = list.data[list.selection[n]];
+      var selection = list.get_selection()
+      for (n in selection) {
+        contact = list.data[selection[n]];
         if (!source) {
-          sid = String(list.selection[n]).replace(/^[^-]+-/, '');
+          sid = String(selection[n]).replace(/^[^-]+-/, '');
           if (sid && this.env.address_sources[sid]) {
             writable = writable || (!this.env.address_sources[sid].readonly && !contact.readonly);
             this.env.selection_sources.push(sid);
@@ -6391,7 +6392,7 @@ function rcube_webmail()
   //remove selected contacts from current active group
   this.group_remove_selected = function()
   {
-    this.http_post('group-delmembers', {_cid: this.contact_list.selection,
+    this.http_post('group-delmembers', {_cid: this.contact_list.get_selection(),
       _source: this.env.source, _gid: this.env.group});
   };
 
