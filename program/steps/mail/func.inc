@@ -2063,7 +2063,7 @@ function rcmail_attachment_name($attachment, $display = false)
     global $RCMAIL;
 
     $filename = (string) $attachment->filename;
-    $filename = str_replace(array("\r", "\n"), '', $filename);
+    $filename = preg_replace('/[\x00-\x1F\x7F]/', '', $filename);
 
     if ($filename === '') {
         if ($attachment->mimetype == 'text/html') {
