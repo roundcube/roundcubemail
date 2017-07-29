@@ -415,7 +415,11 @@ function rcube_elastic_ui()
     {
         // when loading content-frame in small-screen mode display it
         layout.content.find('iframe').on('load', function(e) {
-            var show = !e.target.contentWindow.location.href.endsWith(rcmail.env.blankpage);
+            var show = true;
+            try {
+                show = !e.target.contentWindow.location.href.endsWith(rcmail.env.blankpage);
+            }
+            catch(e) { /* ignore */ }
 
             if (show && !layout.content.is(':visible')) {
                 env.last_selected = layout.content[0];
