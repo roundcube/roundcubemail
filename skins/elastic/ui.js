@@ -21,12 +21,14 @@ function rcube_elastic_ui()
             config: {
                 standard_windows: rcmail.env.standard_windows,
                 message_extwin: rcmail.env.message_extwin,
-                compose_extwin: rcmail.env.compose_extwin
+                compose_extwin: rcmail.env.compose_extwin,
+                help_open_extwin: rcmail.env.help_open_extwin
             },
             small_screen_config: {
                 standard_windows: true,
                 message_extwin: false,
-                compose_extwin: false
+                compose_extwin: false,
+                help_open_extwin: false
             }
         },
         menus = {},
