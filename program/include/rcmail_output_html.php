@@ -73,6 +73,10 @@ class rcmail_output_html extends rcmail_output
         $this->set_env('locale', $_SESSION['language']);
         $this->set_env('devel_mode', $this->devel_mode);
 
+        // Version number e.g. 1.4.2 will be 10402
+        $version = explode('.', preg_replace('/[^0-9.].*/', '', RCMAIL_VERSION));
+        $this->set_env('rcversion', $version[0] * 10000 + $version[1] * 100 + $version[2]);
+
         // add cookie info
         $this->set_env('cookie_domain', ini_get('session.cookie_domain'));
         $this->set_env('cookie_path', ini_get('session.cookie_path'));
