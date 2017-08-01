@@ -30,20 +30,70 @@ div.popover-body {
     }
 }
 
-.popover {
-    /* On mobile don't display popup arrows */
-    @media screen and (max-width: @screen-width-xs) {
-        & {
-            margin: 0 !important;
-        }
-        div.arrow {
-            display: none;
-        }
+/* On mobile don't display popup arrows and titles */
+.popover > h3 {
+    display: none;
+}
+
+body.layout-mode-phone .popover {
+    margin: 0 !important;
+    left: initial !important;
+    right: 0;
+    bottom: 0;
+    width: 276px;
+    transform: none !important;
+    border-radius: 0;
+    border: 0; /* TODO */
+    display: flex;
+    flex-direction: column;
+
+    div.arrow {
+        display: none;
     }
 
     & > h3 {
-        display: none;
+        display: block;
+        border-radius: 0;
+        padding: 0 .5em;
+        height: 2.5rem; /* TODO: layout var */
+        line-height: 2.5rem; /* TODO: layout var */
+        color: #888; /* TODO: color */
     }
+
+    .popover-body > * {
+        max-height: 100% !important;
+    }
+
+    .toolbarmenu.listing,
+    .popupmenu.toolbar.listing {
+        li a {
+            line-height: 2.5rem; /* TODO: layout var */
+            font-size: 1rem;
+            padding: 0 .5em;
+
+            &:before {
+                float: left; /* overwrite icon float to have unified element height */
+            }
+        }
+
+        li:last-child {
+            border-bottom: 1px solid #f4f4f4; /* TODO: color */
+        }
+    }
+
+    .folderlist li {
+        padding-left: .5em;
+    }
+}
+
+body.layout-mode-phone .popover-overlay {
+    z-index: 1000;
+    opacity: .5;
+    background-color: @color-dialog-overlay-background;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
 }
 
 .pgpkeyimport {

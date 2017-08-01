@@ -18,7 +18,7 @@ a.rcmaddcontact {
 }
 
 .button.disabled {
-    opacity: 0.5;
+    opacity: .5;
 }
 
 a.button {
@@ -26,7 +26,7 @@ a.button {
 }
 
 .header > .buttons > input.button {
-    padding: 0.3em 0.8em;
+    padding: .3em .8em;
     font-size: 1em;
 }
 
@@ -34,7 +34,7 @@ a.button {
     color: @color-layout-header-button;
     background-color: transparent;
     border: 0;
-    padding: 0 0.25em;
+    padding: 0 .25em;
     font-size: 1em;
     height: 2.5em;
     line-height: 1.25em;
@@ -92,11 +92,10 @@ button.btn {
     &.menu-button:before {
         content: @fa-var-bars;
     }
-    &.back-sidebar-button:before {
-        content: @fa-var-chevron-left;
-    }
+    &.back:before,
+    &.back-sidebar-button:before,
     &.back-list-button:before {
-        content: @fa-var-arrow-left;
+        content: @fa-var-chevron-left;
     }
     &.remove:before {
         content: @fa-var-close;

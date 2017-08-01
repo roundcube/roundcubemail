@@ -28,7 +28,7 @@
         display: block;
         text-decoration: none;
         cursor: default;
-        padding: 0 0.5em;
+        padding: 0 .5em;
         white-space: nowrap;
         vertical-align: middle;
         line-height: @var-listing-line-height;
@@ -97,7 +97,7 @@ ul.listing {
         position: relative;
 
         ul {
-            border-top: 1px solid #f4f4f4;
+            border-top: 1px solid #f4f4f4; /* TODO */
             padding-left: 1.5em;
 
             li:last-child {
@@ -108,7 +108,7 @@ ul.listing {
         input[type=checkbox] {
             position: absolute;
             top: 0;
-            right: 0.2em;
+            right: .2em;
             height: @var-listing-line-height;
             vertical-align: middle;
         }
@@ -228,17 +228,17 @@ ul.treelist li {
         position: absolute;
         top: 1.2em;
         left: 1.3em;
-        width: 0.8em;
-        height: 0.8em;
-        line-height: 0.8em;
+        width: .8em;
+        height: .8em;
+        line-height: .8em;
         cursor: pointer;
 
         &:before {
             &:extend(.font-icon-class);
             content: @fa-var-plus-square-o;
-            font-size: 0.8em;
-            width: 0.8em;
-            height: 0.8em;
+            font-size: .8em;
+            width: .8em;
+            height: .8em;
             background-color: white;
         }
 
@@ -268,23 +268,23 @@ ul.treelist li {
         li {
             padding-left: 0;
             a { padding-left: 1.5em; }
-            div.treetoggle { left: (1.5em + 0.8em); }
+            div.treetoggle { left: (1.5em + .8em); }
 
             li {
                 a { padding-left: (2 * 1.5em); }
-                div.treetoggle { left: (2 * 1.5em + 0.8em); }
+                div.treetoggle { left: (2 * 1.5em + .8em); }
 
                 li {
                     a { padding-left: (3 * 1.5em); }
-                    div.treetoggle { left: (3 * 1.5em + 0.8em); }
+                    div.treetoggle { left: (3 * 1.5em + .8em); }
 
                     li {
                         a { padding-left: (4 * 1.5em); }
-                        div.treetoggle { left: (4 * 1.5em + 0.8em); }
+                        div.treetoggle { left: (4 * 1.5em + .8em); }
 
                         li {
                             a { padding-left: (5 * 1.5em); }
-                            div.treetoggle { left: (5 * 1.5em + 0.8em); }
+                            div.treetoggle { left: (5 * 1.5em + .8em); }
                         }
                     }
                 }
@@ -315,10 +315,10 @@ ul.treelist li {
                 right: 0;
                 min-width: 2em;
                 line-height: 1.4em;
-                margin: 0.5em 0.2em;
-                padding: 0 0.3em;
+                margin: .5em .2em;
+                padding: 0 .3em;
                 background:  /* todo */ #1e70bf;
-                border-radius: 0.4em;
+                border-radius: .4em;
                 color: @color-list-badge;
                 text-align: center;
                 font-weight: bold;
@@ -459,7 +459,7 @@ table.fixedcopy {
         &:extend(.font-icon-class);
         content: @fa-var-circle;
         cursor: pointer;
-        font-size: 0.4em;
+        font-size: .4em;
         width: 3em;
     }
     td.subject span.msgicon.status.unread:before {

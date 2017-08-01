@@ -257,7 +257,7 @@ function rcube_elastic_ui()
             });
         }
 
-        // Register resize handler, and call it to do layout setup
+        // Register resize handler
         $(window).on('resize', function() {
             clearTimeout(env.resize_timeout);
             env.resize_timeout = setTimeout(function() { resize(); }, 25);
@@ -507,14 +507,16 @@ function rcube_elastic_ui()
 
         mode = size;
         screen_resize();
+        screen_resize_body();
         display_screen_size(); // debug info
     };
 
     // for development only (to be removed)
     function display_screen_size()
     {
-        if ($('body.iframe').length)
+        if (rcmail.is_framed()) {
             return;
+        }
 
         var div = $('#screen-size'), win = $(window);
         if (!div.length) {
@@ -531,12 +533,41 @@ function rcube_elastic_ui()
 
     function screen_resize()
     {
+        // TODO: Shall we do this in iframes?
+
         switch (mode) {
             case 'phone': screen_resize_phone(); break;
             case 'tablet': screen_resize_tablet(); break;
             case 'normal': screen_resize_normal(); break;
             case 'wide': screen_resize_wide(); break;
         }
+    };
+
+
+    /**
+     * Assigns layout-mode-* class to the 'body' element
+     *
+     * If we're inside an iframe that is small we have to
+     * check if the parent window is also small (mobile).
+     * We use that e.g. to still display desktop-like popovers in dialogs
+     */
+    function screen_resize_body()
+    {
+        var _mode = mode, body = $('body');
+
+        if (rcmail.is_framed() && parent.$('body')[0].className.match(/layout-mode-([a-z]+)/)) {
+            _mode = RegExp.$1;
+        }
+
+        if (body[0].className.match(/layout-mode-([a-z]+)/)) {
+            if (RegExp.$1 == _mode) {
+                return;
+            }
+
+            body.removeClass('layout-mode-' + RegExp.$1);
+        }
+
+        body.addClass('layout-mode-' + _mode);
     };
 
     function screen_resize_phone()
@@ -868,7 +899,8 @@ function rcube_elastic_ui()
      */
     function popup_init(item)
     {
-        var popup_id = $(item).data('popup'),
+        var is_phone, level,
+            popup_id = $(item).data('popup'),
             popup = $('#' + popup_id),
             title = $(item).attr('title');
 
@@ -884,8 +916,11 @@ function rcube_elastic_ui()
                 animation: true,
                 html: true
             })
-            .on('show.bs.popover', function(event, el) {
+            .on('show.bs.popover', function(event) {
                 var init_func = $(popup).data('popup-init');
+
+                is_phone = $('body.layout-mode-phone').length == 1;
+
                 if (init_func && ref[init_func]) {
                     ref[init_func](popup, item, event);
                 }
@@ -894,17 +929,45 @@ function rcube_elastic_ui()
                 }
 
                 popup.attr('aria-hidden', false)
-                    // Set popup height so it is less than the window height
-                    .css('max-height', Math.min(500, $(window).height() - 5))
                     // Stop propagation on menu items that have popups
                     // to make a click on them not hide their parent menu(s)
                     .find('[aria-haspopup="true"]')
                         .off('click.popup')
                         .on('click.popup', function(e) { e.stopPropagation(); });
+
+                if (!is_phone) {
+                    // Set popup height so it is less than the window height
+                    popup.css('max-height', Math.min(500, $(window).height() - 5));
+                }
             })
             .on('shown.bs.popover', function(event, el) {
+                // Set popup Back/Close title
+                if (is_phone) {
+                    level = $('div.popover:visible').length;
+
+                    var label = level > 1 ? 'back' : 'close',
+                        title = rcmail.gettext(label),
+                        class_name = 'button icon ' + (label == 'back' ? 'back' : 'cancel');
+
+                    $('.popover-header:last').empty()
+                        .append($('<a>').attr('class', class_name).text(title))
+                        .click(function(e) {
+                            if (level > 1) {
+                                $(item).popover('hide');
+                                e.stopPropagation();
+                            }
+                        });
+                }
+
                 if (popup_id && menus[popup_id]) {
                     menus[popup_id].transitioning = false;
+                }
+
+                // add overlay element for phone layout
+                if (is_phone && !$('.popover-overlay').length) {
+                    $('<div>').attr('class', 'popover-overlay')
+                        .appendTo('body')
+                        .click(function() { $(this).remove(); });
                 }
             })
             .on('hidden.bs.popover', function() {
@@ -919,6 +982,11 @@ function rcube_elastic_ui()
 
                 if (popup_id && menus[popup_id]) {
                     menus[popup_id].transitioning = false;
+                }
+            })
+            .on('hide.bs.popover', function() {
+                if (level == 1) {
+                    $('.popover-overlay').remove();
                 }
             })
             .on('keypress', function(event) {
@@ -1023,7 +1091,7 @@ function rcube_elastic_ui()
             fn();
         }
         else {
-            menu_hide(p.name);
+            menu_hide(p.name, p.originalEvent);
         }
 
         // Stop propagation so multi-level menus work properly
@@ -1033,7 +1101,7 @@ function rcube_elastic_ui()
     /**
      * Close menu_hide by name
      */
-    function menu_hide(name)
+    function menu_hide(name, event)
     {
         var target;
 
@@ -1055,6 +1123,12 @@ function rcube_elastic_ui()
         }
         else {
             $(target).popover('hide');
+
+            // In phone mode close all menus when forwardmenu is requested to be closed
+            // FIXME: This is a hack, we need some generic solution.
+            if (name == 'forwardmenu') {
+                popups_close(event);
+            }
         }
     };
 
