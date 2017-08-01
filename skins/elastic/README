@@ -78,3 +78,8 @@ RULES:
 
 - Every button, that is not <button> nor <input> should have inner <span class="inner"> element
   for the button label.
+
+- Special attributes:
+    - `data-hidden-small`: Makes a menu entry/button hidden on small devices.
+      Can be used for example for functionality not implemented or that has no sense
+      on phones or touch devices.

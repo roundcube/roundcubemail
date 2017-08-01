@@ -180,7 +180,15 @@
 
 .toolbarmenu li {
     &.separator {
-        /* TODO */
+        /* TODO: all separator properties */
+        line-height: 1.5em;
+        font-size: .75em;
+        padding: 0 .5rem;
+        color: #888;
+
+        label {
+            margin: 0; /* Unsets Bootstrap label margin, bug? */
+        }
     }
 
     a {

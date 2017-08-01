@@ -203,6 +203,12 @@ function rcube_elastic_ui()
                 });
             }
         });
+
+        // buttons that should be hidden on small screen devices
+        $('a[data-hidden-small],button[data-hidden-small]').each(function() {
+            var parent = $(this).parent('li');
+            $(parent.length ? parent : this).addClass('hidden-small');
+        });
     };
 
     /**
