@@ -37,6 +37,7 @@ div.popover-body {
 
 body.layout-mode-phone .popover {
     margin: 0 !important;
+    padding: 0;
     left: initial !important;
     right: 0;
     bottom: 0;
@@ -55,8 +56,9 @@ body.layout-mode-phone .popover {
         display: block;
         border-radius: 0;
         padding: 0 .5em;
-        height: 2.5rem; /* TODO: layout var */
-        line-height: 2.5rem; /* TODO: layout var */
+        height: @layout-small-header-height;
+        line-height: @layout-small-header-height;
+        font-size: @layout-small-header-font-size;
         color: #888; /* TODO: color */
     }
 
@@ -67,8 +69,8 @@ body.layout-mode-phone .popover {
     .toolbarmenu.listing,
     .popupmenu.toolbar.listing {
         li a {
-            line-height: 2.5rem; /* TODO: layout var */
-            font-size: 1rem;
+            line-height: @layout-small-menu-record-height;
+            font-size: @layout-small-menu-record-font-size;
             padding: 0 .5em;
 
             &:before {

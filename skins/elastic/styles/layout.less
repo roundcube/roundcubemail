@@ -18,9 +18,16 @@
 @page-font-size:        14px;
 @page-min-width:        240px;
 
-@taskmenu-width:        70px;
+@layout-taskmenu-width:        70px;
 
-@layout-header-height-mobile:    2.5rem;
+@layout-header-height:                  2.5rem;
+@layout-header-font-size:               1rem;
+@layout-small-header-height:            3.6rem;
+@layout-small-header-font-size:         1.2rem;
+
+@layout-small-menu-record-height:       3.6rem;
+@layout-small-menu-record-font-size:    1.2rem;
+
 
 /*** Responsive design - Layout ***/
 
@@ -106,13 +113,13 @@ body > #layout {
         }
 
         &.menu {
-            width: @taskmenu-width;
+            width: @layout-taskmenu-width;
             background-color: @color-taskmenu-background;
 
             a,
             a:before {
                 display: block;
-                width: @taskmenu-width;
+                width: @layout-taskmenu-width;
             }
         }
 
@@ -127,10 +134,10 @@ body > #layout {
         & > .header,
         & > .footer {
             background-color: @color-layout-header-background;
-            font-size: 1rem;
+            font-size: @layout-header-font-size;
             font-weight: bold;
-            line-height: 2.5rem;
-            height: 2.5rem;
+            line-height: @layout-header-height;
+            height: @layout-header-height;
             padding: 0 .25em;
             margin: 0;
             position: relative; /* for absolute positioning of searchbar */
@@ -186,10 +193,6 @@ html.iframe body {
 }
 
 @media screen and (max-width: @screen-width-medium) {
-    html:not(.iframe) {
-        font-size: 120%;
-    }
-
     body > #layout > div.menu a,
     body > #layout > div.menu a:before,
     body > #layout > div.menu {
@@ -212,6 +215,20 @@ html.iframe body {
     body > #layout > div.list {
         max-width: none;
     }
+    body > #layout > div > .header,
+    body > #layout > div > .footer {
+        line-height: @layout-small-header-height;
+        height: @layout-small-header-height;
+        font-size: @layout-small-header-font-size;
+
+        a.button.icon:before {
+            font-size: 1.5em;
+            height: @layout-small-header-height;
+            margin: 0;
+            width: 1.4em;
+        }
+    }
+
     .hidden-small {
         display: none !important;
     }

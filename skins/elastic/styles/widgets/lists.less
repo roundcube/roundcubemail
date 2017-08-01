@@ -11,7 +11,8 @@
 
 /*** List and treelist widgets ***/
 
-@var-listing-line-height:   2.4em;
+@listing-line-height:           2.5rem;
+@listing-small-line-height:     3.6rem;
 
 .listing {
     tbody td,
@@ -20,7 +21,11 @@
         border-bottom: 1px solid #f4f4f4;
         cursor: default;
         font-weight: normal;
-        line-height: @var-listing-line-height;
+        line-height: @listing-line-height;
+
+        @media screen and (max-width: @screen-width-small) {
+            line-height: @listing-small-line-height;
+        }
     }
 
     tbody td,
@@ -31,7 +36,9 @@
         padding: 0 .5em;
         white-space: nowrap;
         vertical-align: middle;
-        line-height: @var-listing-line-height;
+/*
+        line-height: @listing-line-height;
+*/
         color: @color-list;
     }
 
@@ -108,9 +115,13 @@ ul.listing {
         input[type=checkbox] {
             position: absolute;
             top: 0;
-            right: .2em;
-            height: @var-listing-line-height;
+            right: .5em;
+            height: @listing-line-height;
             vertical-align: middle;
+
+            @media screen and (max-width: @screen-width-small) {
+                height: @listing-small-line-height;
+            }
         }
     }
 }
@@ -227,8 +238,8 @@ ul.listing {
 ul.treelist li {
     div.treetoggle {
         position: absolute;
-        top: 1.2em;
-        left: 1.3em;
+        top: 1.2rem;
+        left: 1.2em;
         width: .8em;
         height: .8em;
         line-height: .8em;
