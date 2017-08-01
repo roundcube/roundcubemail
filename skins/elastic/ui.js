@@ -269,6 +269,10 @@ function rcube_elastic_ui()
             env.resize_timeout = setTimeout(function() { resize(); }, 25);
         });
 
+        // Enable rcmail.open_window intercepting
+        env.open_window = rcmail.open_window;
+        rcmail.open_window = window_open;
+
         rcmail
             .addEventListener('message', message_displayed)
             .addEventListener('menu-open', menu_toggle)
@@ -1706,7 +1710,31 @@ function rcube_elastic_ui()
                 })
                 .parent().append(loader);
         }
-    }
+    };
+
+    /**
+     * Wrapper for rcmail.open_window to intercept window opening
+     * and display a dialog with an iframe instead of a real window.
+     */
+    function window_open(url)
+    {
+        if (mode != 'phone' && mode != 'tablet') {
+            return env.open_window.apply(rcmail, arguments);
+        }
+
+        if (!/(&|\?)_framed=/.test(url)) {
+            url += (url.match(/\?/) ? '&' : '?') + '_framed=1';
+        }
+
+        var label, title = '',
+            frame = $('<iframe>').attr({id: 'windowframe', src: url});
+
+        if (/_action=([a-z_]+)/.test(url) && (label = rcmail.labels[RegExp.$1])) {
+            title = label;
+        }
+
+        rcmail.simple_dialog(frame, title, null, {cancel_button: 'close'});
+    };
 }
 
 var UI = new rcube_elastic_ui();
