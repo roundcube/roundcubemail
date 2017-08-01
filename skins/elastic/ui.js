@@ -404,7 +404,7 @@ function rcube_elastic_ui()
      */
     function dropdowns_init()
     {
-        $('*[data-popup]').each(function() { popup_init(this); });
+        $('[data-popup]').each(function() { popup_init(this); });
 
         // close popups on click in an iframe on the page
         var close_all_popups = function(e) {
@@ -890,10 +890,21 @@ function rcube_elastic_ui()
             toolbar.remove();
         });
 
+        // special elements to clone and add to the toolbar (mobile only)
+        $('ul[data-menu="toolbar-small"] > li > a').each(function() {
+            var button = $(this).clone();
+
+            button.attr('id', this.id + '_clone');
+
+            // TODO: rcmail.register_button()
+
+            items.push($('<li role="menuitem">').addClass('hidden-big').append(button));
+        });
+
         // append the new toolbar and menu button
         if (items.length) {
             var container = layout.content.children('.header'),
-                menu_attrs = {'class': 'toolbar popupmenu listing', id: 'toolbar-menu'},
+                menu_attrs = {'class': 'toolbar popupmenu listing iconized', id: 'toolbar-menu'},
                 menu_button = $('<a class="button icon toolbar-menu-button" href="#menu">')
                     .attr({'data-popup': 'toolbar-menu'});
 
