@@ -38,11 +38,11 @@ INSTALLATION (production):
 All styles are written using LESS syntax. Thus it needs to be compiled
 using the `lessc` command line tool. This comes with the `nodejs-less`
 RPM package which depends on nodejs.
-
- $ lessc -x styles/styles.less > styles/styles.css
- $ lessc -x styles/print.less > styles/print.css
- $ lessc -x styles/embed.less > styles/embed.css
-
+```
+    $ lessc -x styles/styles.less > styles/styles.css
+    $ lessc -x styles/print.less > styles/print.css
+    $ lessc -x styles/embed.less > styles/embed.css
+```
 (the -x option minifies the CSS code)
 
 References to image files from the included CSS files can be appended
