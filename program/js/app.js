@@ -113,7 +113,7 @@ function rcube_webmail()
     this.buttons[command].push(button_prop);
 
     if (this.loaded)
-      init_button(command, button_prop);
+      this.init_button(command, button_prop);
   };
 
   // register a specific gui object
@@ -7384,7 +7384,7 @@ function rcube_webmail()
   /*********           GUI functionality           *********/
   /*********************************************************/
 
-  var init_button = function(cmd, prop)
+  this.init_button = function(cmd, prop)
   {
     var elm = document.getElementById(prop.id);
     if (!elm)
@@ -7420,7 +7420,7 @@ function rcube_webmail()
         continue;
 
       for (var i=0; i<this.buttons[cmd].length; i++) {
-        init_button(cmd, this.buttons[cmd][i]);
+        this.init_button(cmd, this.buttons[cmd][i]);
       }
     }
   };

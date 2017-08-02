@@ -1203,7 +1203,7 @@ EOF;
                     $content = html::quote($ver);
                 }
                 else if ($object == 'steptitle') {
-                  $content = html::quote($this->get_pagetitle());
+                    $content = html::quote($this->get_pagetitle());
                 }
                 else if ($object == 'pagetitle') {
                     if ($this->devel_mode && !empty($_SESSION['username']))
@@ -1475,7 +1475,7 @@ EOF;
         }
         else if ($attrib['type'] == 'link') {
             $btn_content = isset($attrib['content']) ? $attrib['content'] : ($attrib['label'] ? $attrib['label'] : $attrib['command']);
-            $link_attrib = array_merge(html::$common_attrib, array('href', 'onclick', 'tabindex', 'target'));
+            $link_attrib = array_merge(html::$common_attrib, array('href', 'onclick', 'tabindex', 'target', 'rel'));
             if ($attrib['innerclass'])
                 $btn_content = html::span($attrib['innerclass'], $btn_content);
         }
