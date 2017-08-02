@@ -102,7 +102,7 @@ function rcube_elastic_ui()
         buttons.back_sidebar.on('click', function() { show_sidebar(); return false; });
         buttons.back_list.on('click', function() { show_list(); return false; });
 
-        $('body').on('click', function() { if (mode == 'phone') layout.menu.hide(); });
+        $('body').on('click', function() { if (mode == 'phone') layout.menu.addClass('hidden'); });
 
         // Set content frame title in parent window
         if (rcmail.is_framed()) {
@@ -584,14 +584,14 @@ function rcube_elastic_ui()
     {
         screen_resize_small();
 
-        layout.menu.hide();
+        layout.menu.addClass('hidden');
     };
 
     function screen_resize_tablet()
     {
         screen_resize_small();
 
-        layout.menu.css('display', 'flex');
+        layout.menu.removeClass('hidden');
     };
 
     function screen_resize_small()
@@ -600,18 +600,17 @@ function rcube_elastic_ui()
 
         if (layout.content.length) {
             show = got_content = layout.content.is(env.last_selected);
-
-            layout.content.css('display', show ? 'flex' : 'none');
+            layout.content[show ? 'removeClass' : 'addClass']('hidden');
         }
 
         if (layout.list.length) {
             show = !got_content && layout.list.is(env.last_selected);
-            layout.list.css('display', show ? 'flex' : 'none');
+            layout.list[show ? 'removeClass' : 'addClass']('hidden');
         }
 
         if (layout.sidebar.length) {
             show = !got_content && (layout.sidebar.is(env.last_selected) || !layout.list.length);
-            layout.sidebar.css('display', show ? 'flex' : 'none');
+            layout.sidebar[show ? 'removeClass' : 'addClass']('hidden');
         }
 
         if (got_content) {
@@ -633,15 +632,15 @@ function rcube_elastic_ui()
 
         if (layout.list.length) {
             show = layout.list.is(env.last_selected) || !layout.sidebar.is(env.last_selected);
-            layout.list.css('display', show ? 'flex' : 'none');
+            layout.list[show ? 'removeClass' : 'addClass']('hidden');
         }
         if (layout.sidebar.length) {
             show = !layout.list.length || layout.sidebar.is(env.last_selected);
-            layout.sidebar.css('display', show ? 'flex' : 'none');
+            layout.sidebar[show ? 'removeClass' : 'addClass']('hidden');
         }
 
-        layout.content.css('display', 'flex');
-        layout.menu.css('display', 'flex');
+        layout.content.removeClass('hidden');
+        layout.menu.removeClass('hidden');
         buttons.back_list.hide();
         $.each(content_buttons, function() { $(this).show(); });
         $('ul.toolbar.popupmenu').removeClass('popupmenu');
@@ -653,7 +652,7 @@ function rcube_elastic_ui()
 
     function screen_resize_wide()
     {
-        $.each(layout, function(name, item) { item.css('display', 'flex'); });
+        $.each(layout, function(name, item) { item.removeClass('hidden'); });
         buttons.back_list.hide();
         $.each(content_buttons, function() { $(this).show(); });
         $('ul.toolbar.popupmenu').removeClass('popupmenu');
@@ -666,8 +665,8 @@ function rcube_elastic_ui()
     function show_sidebar()
     {
         // show sidebar and hide list
-        layout.list.hide();
-        layout.sidebar.css('display', 'flex');
+        layout.list.addClass('hidden');
+        layout.sidebar.removeClass('hidden');
     };
 
     function show_list()
@@ -677,8 +676,8 @@ function rcube_elastic_ui()
         }
         else {
             // show list and hide sidebar and content
-            layout.sidebar.hide();
-            layout.list.css('display', 'flex');
+            layout.sidebar.addClass('hidden');
+            layout.list.removeClass('hidden');
             hide_content();
         }
     };
@@ -686,7 +685,7 @@ function rcube_elastic_ui()
     function hide_content()
     {
         // show sidebar or list, hide content frame
-        //$(layout.content).hide();
+        //$(layout.content).addClass('hidden');
         env.last_selected = layout.list[0] || layout.sidebar[0];
         screen_resize();
 
@@ -710,13 +709,13 @@ function rcube_elastic_ui()
     // show menu widget
     function show_menu()
     {
-        var display = 'flex';
+        var show = true;
 
         if (mode == 'phone') {
-            display = layout.menu.is(':visible') ? 'none' : 'block';
+            show = layout.menu.is(':visible') ? false : true;
         }
 
-        layout.menu.css('display', display);
+        layout.menu[show ? 'removeClass' : 'addClass']('hidden');
     };
 
     /**

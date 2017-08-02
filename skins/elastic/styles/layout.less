@@ -18,7 +18,7 @@
 @page-font-size:        14px;
 @page-min-width:        240px;
 
-@layout-taskmenu-width:        70px;
+@layout-taskmenu-width:        5rem;
 
 @layout-header-height:                  2.5rem;
 @layout-header-font-size:               1rem;
@@ -101,18 +101,21 @@ body > #layout {
         }
 
         &.sidebar {
+            display: flex;
             min-width: 220px;
             background-color: @color-layout-sidebar-background;
             flex: 2;
         }
 
         &.list {
+            display: flex;
+            flex: 3;
             min-width: 300px;
             background-color: @color-layout-list-background;
-            flex: 3;
         }
 
         &.menu {
+            display: flex;
             width: @layout-taskmenu-width;
             background-color: @color-taskmenu-background;
 
@@ -183,33 +186,30 @@ html.iframe body {
         min-width: 260px;
         flex: 3;
     }
-    body > #layout > div:not(.selected) {
-        display: none;
-    }
-    body > #layout > div.menu,
-    body > #layout > div.content {
-        display: flex;
-    }
 }
 
 @media screen and (max-width: @screen-width-medium) {
-    body > #layout > div.menu a,
-    body > #layout > div.menu a:before,
     body > #layout > div.menu {
-        width: 45px;
-    }
-    body > #layout > div.menu span.inner {
-        display: none;
+        width: @layout-taskmenu-width/2;
+
+        a,
+        a:before {
+            width: @layout-taskmenu-width/2;
+        }
+
+        a {
+            height: @layout-taskmenu-width/2;
+        }
+
+        span.inner {
+            display: none;
+        }
     }
 }
 
 @media screen and (max-width: @screen-width-small) {
-    body > #layout > div > .header > .toolbar:not(.searchbar),
-    body > #layout > div:not(.selected) {
+    body > #layout > div > .header > .toolbar:not(.searchbar) {
         display: none;
-    }
-    body > #layout > div.menu {
-        display: flex;
     }
     body > #layout > div.sidebar,
     body > #layout > div.list {
@@ -235,11 +235,7 @@ html.iframe body {
 }
 
 @media screen and (max-width: @screen-width-xs) {
-    body > #layout > div.menu span.inner {
-        display: block;
-    }
     body > #layout > div.menu {
-        display: none;
         position: absolute;
         z-index: 100;
         top: 0;
@@ -251,11 +247,16 @@ html.iframe body {
         opacity: .96;
         text-align:center;
         border-radius: 4pt;
-    }
-    body > #layout > div.menu a,
-    body > #layout > div.menu a:before {
-        display: inline-block;
-        width: 100px;
+
+        span.inner {
+            display: block;
+        }
+
+        a,
+        a:before {
+            display: inline-block;
+            width: 100px;
+        }
     }
 }
 
