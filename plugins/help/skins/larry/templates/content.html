@@ -1,0 +1,16 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+</head>
+<body class="iframe fullheight">
+
+<div id="help-<roundcube:var name="env:action" />" class="boxcontent">
+<roundcube:object name="helpcontent" />
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>
