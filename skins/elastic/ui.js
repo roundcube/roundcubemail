@@ -425,11 +425,18 @@ function rcube_elastic_ui()
      */
     function content_frame_init()
     {
+        var title_reset = function() {
+                var title = $('h1.voice').text() || $('title').text() || '';
+                $('.header > .header-title', layout.content).text(title);
+            };
+
         // when loading content-frame in small-screen mode display it
         layout.content.find('iframe').on('load', function(e) {
             var show = true;
             try {
                 show = !e.target.contentWindow.location.href.endsWith(rcmail.env.blankpage);
+                // Reset title back to the default
+                $(e.target.contentWindow).on('unload', title_reset);
             }
             catch(e) { /* ignore */ }
 
@@ -438,7 +445,7 @@ function rcube_elastic_ui()
                 screen_resize();
             }
             else if (!show) {
-                $('.header > .header-title', layout.content).text('');
+                title_reset();
             }
         });
 
