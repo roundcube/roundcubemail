@@ -76,6 +76,16 @@ RULES:
   where `sidebar` and `list` are optional. Which element of the `layout` will be displayed
   as a main view on mobile devices can be defined by adding `selected` class to it.
 
+- The `<html>` element will receive special classes that will be updated on resize
+  or orientation change:
+    - `touch`: A touch device, screen width <= 1024px,
+    - 'layout-large`: Screen width > 1200px,
+    - `layout-normal`: Screen width <= 1200px and >= 768px,
+    - `layout-small`: Screen width < 768px and > 480px,
+    - `layout-phone`: Screen width <= 480px.
+
+  Frames will have the same classes applied as their parent windows.
+
 - Every button, that is not <button> nor <input> should have inner <span class="inner"> element
   for the button label.
 

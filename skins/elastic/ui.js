@@ -16,7 +16,8 @@
 function rcube_elastic_ui()
 {
     var ref = this,
-        mode = 'normal', // one of: wide, normal, tablet, phone
+        mode = 'normal', // one of: large, normal, small, phone
+        touch = false,
         env = {
             config: {
                 standard_windows: rcmail.env.standard_windows,
@@ -452,7 +453,7 @@ function rcube_elastic_ui()
         // display the list widget after 'list' and 'listgroup' commands
         // @TODO: plugins should be able to do the same
         var list_handler = function(e) {
-            if (mode != 'wide') {
+            if (mode != 'large') {
                 if (rcmail.env.task == 'addressbook' || (rcmail.env.task == 'mail' && !rcmail.env.action)) {
                     show_list();
                 }
@@ -480,8 +481,7 @@ function rcube_elastic_ui()
         // Enable autoresize plugin
         o.config.plugins += ' autoresize';
 
-        // FIXME: only for mobile?
-        if (mode == 'phone') {
+        if (mode == 'small' || mode == 'phone') {
             // Make the toolbar icons bigger
             o.config.toolbar_items_size = null;
 
@@ -516,15 +516,16 @@ function rcube_elastic_ui()
         if (width <= 480)
             size = 'phone';
         else if (width > 1200)
-            size = 'wide';
-        else if (width <= 768)
-            size = 'tablet';
-        else
+            size = 'large';
+        else if (width >= 768)
             size = 'normal';
+        else
+            size = 'small';
 
+        touch = width <= 1024;
         mode = size;
         screen_resize();
-        screen_resize_body();
+        screen_resize_html();
         display_screen_size(); // debug info
     };
 
@@ -554,54 +555,57 @@ function rcube_elastic_ui()
 
         switch (mode) {
             case 'phone': screen_resize_phone(); break;
-            case 'tablet': screen_resize_tablet(); break;
+            case 'small': screen_resize_small(); break;
             case 'normal': screen_resize_normal(); break;
-            case 'wide': screen_resize_wide(); break;
+            case 'large': screen_resize_large(); break;
         }
     };
 
-
     /**
-     * Assigns layout-mode-* class to the 'body' element
+     * Assigns layout-* and touch-mode class to the 'html' element
      *
      * If we're inside an iframe that is small we have to
      * check if the parent window is also small (mobile).
      * We use that e.g. to still display desktop-like popovers in dialogs
      */
-    function screen_resize_body()
+    function screen_resize_html()
     {
-        var _mode = mode, body = $('body');
+        var meta = layout_metadata(),
+            html = $(document.documentElement);
 
-        if (rcmail.is_framed() && parent.$('body')[0].className.match(/layout-mode-([a-z]+)/)) {
-            _mode = RegExp.$1;
-        }
-
-        if (body[0].className.match(/layout-mode-([a-z]+)/)) {
-            if (RegExp.$1 == _mode) {
-                return;
+        if (html[0].className.match(/layout-([a-z]+)/)) {
+            if (RegExp.$1 != meta.mode) {
+                html.removeClass('layout-' + RegExp.$1)
+                    .addClass('layout-' + meta.mode);
             }
-
-            body.removeClass('layout-mode-' + RegExp.$1);
+        }
+        else {
+            html.addClass('layout-' + meta.mode);
         }
 
-        body.addClass('layout-mode-' + _mode);
+        if (touch && !html.is('.touch')) {
+            html.addClass('touch');
+        }
+        else if (!touch && html.is('.touch')) {
+            html.removeClass('touch');
+        }
     };
 
     function screen_resize_phone()
     {
-        screen_resize_small();
+        screen_resize_small_all();
 
         layout.menu.addClass('hidden');
     };
 
-    function screen_resize_tablet()
+    function screen_resize_small()
     {
-        screen_resize_small();
+        screen_resize_small_all();
 
         layout.menu.removeClass('hidden');
     };
 
-    function screen_resize_small()
+    function screen_resize_small_all()
     {
         var show, got_content = false;
 
@@ -657,7 +661,7 @@ function rcube_elastic_ui()
         rcmail.enable_command('extwin', true);
     };
 
-    function screen_resize_wide()
+    function screen_resize_large()
     {
         $.each(layout, function(name, item) { item.removeClass('hidden'); });
         buttons.back_list.hide();
@@ -926,10 +930,14 @@ function rcube_elastic_ui()
      */
     function popup_init(item)
     {
-        var is_phone, level,
+        var level,
             popup_id = $(item).data('popup'),
             popup = $('#' + popup_id),
-            title = $(item).attr('title');
+            title = $(item).attr('title'),
+            is_phone = function() {
+                var meta = layout_metadata();
+                return meta.mode == 'phone' || meta.mode == 'small';
+            };
 
         $(item).attr({
                 'aria-haspopup': 'true',
@@ -946,8 +954,6 @@ function rcube_elastic_ui()
             .on('show.bs.popover', function(event) {
                 var init_func = $(popup).data('popup-init');
 
-                is_phone = $('body.layout-mode-phone').length == 1;
-
                 if (init_func && ref[init_func]) {
                     ref[init_func](popup, item, event);
                 }
@@ -962,12 +968,14 @@ function rcube_elastic_ui()
                         .off('click.popup')
                         .on('click.popup', function(e) { e.stopPropagation(); });
 
-                if (!is_phone) {
+                if (!is_phone()) {
                     // Set popup height so it is less than the window height
-                    popup.css('max-height', Math.min(500, $(window).height() - 5));
+                    popup.css('max-height', Math.min(500, $(window).height() - 30));
                 }
             })
             .on('shown.bs.popover', function(event, el) {
+                var is_phone = is_phone();
+
                 // Set popup Back/Close title
                 if (is_phone) {
                     level = $('div.popover:visible').length;
@@ -1735,7 +1743,9 @@ function rcube_elastic_ui()
      */
     function window_open(url)
     {
-        if (mode != 'phone' && mode != 'tablet') {
+        var meta = layout_metadata();
+
+        if (meta.mode != 'phone' && meta.mode != 'small') {
             return env.open_window.apply(rcmail, arguments);
         }
 
@@ -1752,6 +1762,23 @@ function rcube_elastic_ui()
 
         rcmail.simple_dialog(frame, title, null, {cancel_button: 'close'});
     };
+
+    /**
+     * Get layout modes. In frame mode returns the parent layout modes.
+     */
+    function layout_metadata()
+    {
+        if (rcmail.is_framed()) {
+            var doc = $(parent.document.documentElement);
+
+            return {
+                mode: doc[0].className.match(/layout-([a-z]+)/) ? RegExp.$1 : mode,
+                touch: doc.is('.touch'),
+            };
+        }
+
+        return {mode: mode, touch: touch};
+    }
 }
 
 var UI = new rcube_elastic_ui();

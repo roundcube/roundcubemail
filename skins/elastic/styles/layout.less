@@ -22,25 +22,25 @@
 
 @layout-header-height:                  2.5rem;
 @layout-header-font-size:               1rem;
-@layout-small-header-height:            3.6rem;
-@layout-small-header-font-size:         1.2rem;
 
-@layout-small-menu-record-height:       3.6rem;
-@layout-small-menu-record-font-size:    1.2rem;
+@layout-touch-header-height:            3.6rem;
+@layout-touch-header-font-size:         1.2rem;
+@layout-touch-menu-record-height:       3.6rem;
+@layout-touch-menu-record-font-size:    1.2rem;
 
 
 /*** Responsive design - Layout ***/
 
 /*
-- Desktop - Big screen (width > 1200px)
+- Large screen (width > 1200px)
    -----------------------------------------------------------------------------------------------------
    |  menu  |        sidebar        |         list          |                 content                  |
    -----------------------------------------------------------------------------------------------------
-- Desktop - Normal screen (1200px => width => 768px)
+- Normal screen (1200px => width => 768px) - typical: 768x1024 (iPad Mini/Air)
    -------------------------------------------------------------------
    |menu|    sidebar/list     |               content                |
    -------------------------------------------------------------------
-- Tablet (480px < width < 768px) - typical: 768x1024 (iPad Mini/Air)
+- Small (480px < width < 768px)
    ------------------------------------------
    |menu|     sidebar/list/content          |
    ------------------------------------------
@@ -48,10 +48,6 @@
    ------------------------
    | sidebar/list/content |
    ------------------------
-
-NOTE: below 1024px we do some UI elements bigger, as this is good (imho)
-      assumption that in this size we're dealing with touch device. Is it?
-      should we rather feature detect tablets/phones?
 */
 
 html {
@@ -189,6 +185,20 @@ html.iframe body {
 }
 
 @media screen and (max-width: @screen-width-medium) {
+    body > #layout > div > .header,
+    body > #layout > div > .footer {
+        line-height: @layout-touch-header-height;
+        height: @layout-touch-header-height;
+        font-size: @layout-touch-header-font-size;
+
+        a.button.icon:before {
+            font-size: 1.5em;
+            height: @layout-touch-header-height;
+            margin: 0;
+            width: 1.4em;
+        }
+    }
+
     body > #layout > div.menu {
         width: @layout-taskmenu-width/2;
 
@@ -214,19 +224,6 @@ html.iframe body {
     body > #layout > div.sidebar,
     body > #layout > div.list {
         max-width: none;
-    }
-    body > #layout > div > .header,
-    body > #layout > div > .footer {
-        line-height: @layout-small-header-height;
-        height: @layout-small-header-height;
-        font-size: @layout-small-header-font-size;
-
-        a.button.icon:before {
-            font-size: 1.5em;
-            height: @layout-small-header-height;
-            margin: 0;
-            width: 1.4em;
-        }
     }
 
     .hidden-small {

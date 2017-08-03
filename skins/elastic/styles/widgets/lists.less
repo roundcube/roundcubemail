@@ -12,7 +12,7 @@
 /*** List and treelist widgets ***/
 
 @listing-line-height:           2.5rem;
-@listing-small-line-height:     3.6rem;
+@listing-touch-line-height:     3.6rem;
 
 .listing {
     tbody td,
@@ -22,10 +22,6 @@
         cursor: default;
         font-weight: normal;
         line-height: @listing-line-height;
-
-        @media screen and (max-width: @screen-width-small) {
-            line-height: @listing-small-line-height;
-        }
     }
 
     tbody td,
@@ -118,14 +114,20 @@ ul.listing {
             right: .5em;
             height: @listing-line-height;
             vertical-align: middle;
-
-            @media screen and (max-width: @screen-width-small) {
-                height: @listing-small-line-height;
-            }
         }
     }
 }
 
+html.touch {
+    .listing li,
+    .listing tbody td {
+        line-height: @listing-touch-line-height;
+        font-size: @layout-touch-menu-record-font-size;
+    }
+    li input[type=checkbox] {
+        height: @listing-touch-line-height;
+    }
+}
 
 /* icons */
 

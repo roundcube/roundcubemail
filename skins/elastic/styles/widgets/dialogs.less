@@ -21,7 +21,7 @@
     }
 }
 
-div.popover-body {
+.popover-body {
     padding: 0;
     overflow-x: hidden;
 
@@ -35,68 +35,72 @@ div.popover-body {
     display: none;
 }
 
-body.layout-mode-phone .popover {
-    margin: 0 !important;
-    padding: 0;
-    left: initial !important;
-    right: 0;
-    bottom: 0;
-    width: 276px;
-    transform: none !important;
-    border-radius: 0;
-    border: 0; /* TODO */
-    display: flex;
-    flex-direction: column;
-
-    div.arrow {
-        display: none;
-    }
-
-    & > h3 {
-        display: block;
+html.layout-small,
+html.layout-phone {
+    .popover {
+        margin: 0 !important;
+        padding: 0;
+        left: initial !important;
+        right: 0;
+        bottom: 0;
+        width: 276px;
+        transform: none !important;
         border-radius: 0;
-        padding: 0 .5em;
-        height: @layout-small-header-height;
-        line-height: @layout-small-header-height;
-        font-size: @layout-small-header-font-size;
-        color: #888; /* TODO: color */
-    }
+        border: 0; /* TODO */
+        display: flex;
+        flex-direction: column;
 
-    .popover-body > * {
-        max-height: 100% !important;
-    }
+        div.arrow {
+            display: none;
+        }
 
-    .toolbarmenu.listing,
-    .popupmenu.toolbar.listing {
-        li a {
-            line-height: @layout-small-menu-record-height;
-            font-size: @layout-small-menu-record-font-size;
+        & > h3 {
+            display: block;
+            border-radius: 0;
             padding: 0 .5em;
+            height: @layout-touch-header-height;
+            line-height: @layout-touch-header-height;
+            font-size: @layout-touch-header-font-size;
+            color: #888; /* TODO: color */
+        }
 
-            &:before {
-                float: left; /* overwrite icon float to have unified element height */
+        .popover-body > * {
+            max-height: 100% !important;
+        }
+
+        .toolbarmenu.listing,
+        .popupmenu.toolbar.listing {
+            li a {
+                line-height: @layout-touch-menu-record-height;
+                font-size: @layout-touch-menu-record-font-size;
+                padding: 0 .5em;
+
+                &:before {
+                    float: left; /* overwrite icon float to have unified element height */
+                }
+            }
+
+            li:last-child {
+                border-bottom: 1px solid #f4f4f4; /* TODO: color */
             }
         }
 
-        li:last-child {
-            border-bottom: 1px solid #f4f4f4; /* TODO: color */
+        .folderlist li {
+            padding-left: .5em;
         }
     }
 
-    .folderlist li {
-        padding-left: .5em;
+    .popover-overlay {
+        z-index: 1000;
+        opacity: .5;
+        background-color: @color-dialog-overlay-background;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
     }
 }
 
-body.layout-mode-phone .popover-overlay {
-    z-index: 1000;
-    opacity: .5;
-    background-color: @color-dialog-overlay-background;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-}
 
 .pgpkeyimport {
     /* TODO */
