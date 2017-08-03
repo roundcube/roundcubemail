@@ -106,7 +106,7 @@ function rcube_elastic_ui()
         $('body').on('click', function() { if (mode == 'phone') layout.menu.addClass('hidden'); });
 
         // Set content frame title in parent window
-        if (rcmail.is_framed()) {
+        if (rcmail.is_framed() && !rcmail.env.extwin) {
             var title = $('h1.voice:first').text();
             if (title) {
                 parent.$('#content > .header > .header-title').text(title);
@@ -1748,9 +1748,12 @@ function rcube_elastic_ui()
             return env.open_window.apply(rcmail, arguments);
         }
 
-        if (!/(&|\?)_framed=/.test(url)) {
-            url += (url.match(/\?/) ? '&' : '?') + '_framed=1';
-        }
+        // _extwin=1 is required to display attachment preview layout properly
+        $.each(['_framed', '_extwin'], function() {
+            if (!RegExp('(&|\\?)' + this + '=').test(url)) {
+                url += (url.match(/\?/) ? '&' : '?') + this + '=1';
+            }
+        });
 
         var label, title = '',
             frame = $('<iframe>').attr({id: 'windowframe', src: url});
@@ -1760,6 +1763,12 @@ function rcube_elastic_ui()
         }
 
         rcmail.simple_dialog(frame, title, null, {cancel_button: 'close'});
+
+        // Remove title bar of the dialog widget, we most likely have
+        // one bar in the iframe
+        frame.parent().parent().children('.ui-dialog-titlebar').hide();
+
+        return true;
     };
 
     /**
