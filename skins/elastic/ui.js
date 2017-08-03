@@ -481,7 +481,7 @@ function rcube_elastic_ui()
         // Enable autoresize plugin
         o.config.plugins += ' autoresize';
 
-        if (mode == 'small' || mode == 'phone') {
+        if (is_mobile()) {
             // Make the toolbar icons bigger
             o.config.toolbar_items_size = null;
 
@@ -933,11 +933,7 @@ function rcube_elastic_ui()
         var level,
             popup_id = $(item).data('popup'),
             popup = $('#' + popup_id),
-            title = $(item).attr('title'),
-            is_phone = function() {
-                var meta = layout_metadata();
-                return meta.mode == 'phone' || meta.mode == 'small';
-            };
+            title = $(item).attr('title');
 
         $(item).attr({
                 'aria-haspopup': 'true',
@@ -968,16 +964,16 @@ function rcube_elastic_ui()
                         .off('click.popup')
                         .on('click.popup', function(e) { e.stopPropagation(); });
 
-                if (!is_phone()) {
+                if (!is_mobile()) {
                     // Set popup height so it is less than the window height
                     popup.css('max-height', Math.min(500, $(window).height() - 30));
                 }
             })
             .on('shown.bs.popover', function(event, el) {
-                var is_phone = is_phone();
+                var mobile = is_mobile();
 
                 // Set popup Back/Close title
-                if (is_phone) {
+                if (mobile) {
                     level = $('div.popover:visible').length;
 
                     var label = level > 1 ? 'back' : 'close',
@@ -999,7 +995,7 @@ function rcube_elastic_ui()
                 }
 
                 // add overlay element for phone layout
-                if (is_phone && !$('.popover-overlay').length) {
+                if (mobile && !$('.popover-overlay').length) {
                     $('<div>').attr('class', 'popover-overlay')
                         .appendTo('body')
                         .click(function() { $(this).remove(); });
@@ -1743,9 +1739,7 @@ function rcube_elastic_ui()
      */
     function window_open(url)
     {
-        var meta = layout_metadata();
-
-        if (meta.mode != 'phone' && meta.mode != 'small') {
+        if (!is_mobile()) {
             return env.open_window.apply(rcmail, arguments);
         }
 
@@ -1778,6 +1772,16 @@ function rcube_elastic_ui()
         }
 
         return {mode: mode, touch: touch};
+    }
+
+    /**
+     * Returns true if the layout is in 'small' or 'phone' mode
+     */
+    function is_mobile()
+    {
+        var meta = layout_metadata();
+
+        return meta.mode == 'phone' || meta.mode == 'small';
     }
 }
 
