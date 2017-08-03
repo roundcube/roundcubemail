@@ -426,7 +426,8 @@ function rcube_elastic_ui()
      */
     function content_frame_init()
     {
-        var title_reset = function() {
+        var last_selected = env.last_selected,
+            title_reset = function() {
                 var title = $('h1.voice').text() || $('title').text() || '';
                 $('.header > .header-title', layout.content).text(title);
             };
@@ -446,6 +447,10 @@ function rcube_elastic_ui()
                 screen_resize();
             }
             else if (!show) {
+                if (env.last_selected != last_selected) {
+                    env.last_selected = last_selected;
+                    screen_resize();
+                }
                 title_reset();
             }
         });
