@@ -213,7 +213,7 @@ class password extends rcube_plugin
         $rcmail->output->set_env('product_name', $rcmail->config->get('product_name'));
         $rcmail->output->set_env('password_disabled', !empty($form_disabled));
 
-        $table = new html_table(array('cols' => 2));
+        $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
         if ($rcmail->config->get('password_confirm_current')) {
             // show current password selection
@@ -297,6 +297,7 @@ class password extends rcube_plugin
             'id'     => 'password-form',
             'name'   => 'password-form',
             'method' => 'post',
+            'class'  => 'formcontent',
             'action' => './?_task=settings&_action=plugin.password-save',
         ), $out);
     }
