@@ -12,16 +12,21 @@
 /*** Taskmenu ***/
 
 #taskmenu {
+    background-color: @color-taskmenu-background;
+
     a {
         text-decoration: none;
         padding: .4em 0;
-    }
-
-    a.button {
         display: block;
-        width: 60px;
         text-align: center;
         color: @color-taskmenu-button;
+
+        &:before {
+            &:extend(.font-icon-class);
+            display: block;
+            height: 1.75rem;
+            width: @layout-menu-width;
+        }
 
         &:hover {
             color: @color-taskmenu-button-hover;
@@ -29,12 +34,6 @@
 
         &.selected {
             color: @color-taskmenu-selected-button;
-        }
-
-        &:before {
-            &:extend(.font-icon-class);
-            font-size: 1.5rem;
-            height: 2rem;
         }
 
         &.mail:before {
@@ -82,6 +81,7 @@
         position: absolute;
         bottom: 0;
         left: 0;
+        width: @layout-menu-width;
 
         @media screen and (max-width: @screen-width-xs) {
             position: relative;
@@ -102,6 +102,72 @@
 
             &:hover {
                 color: @color-taskmenu-action-button-hover;
+            }
+        }
+    }
+
+    @media screen and (max-width: @screen-width-medium) {
+        .special-buttons,
+        a,
+        a:before {
+            width: @layout-menu-width/2;
+        }
+
+        a {
+            height: 3.25rem;
+            font-size: 1.25rem;
+        }
+
+        span.inner {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: @screen-width-xs) {
+        a {
+            height: auto;
+            margin-top: 1rem;
+        }
+
+        a,
+        a:before {
+            height: 2.25rem;
+            display: inline-block;
+            width: 310px / 3;
+            font-size: 1.25em;
+        }
+
+        span.inner {
+            display: block;
+        }
+    }
+
+    @media screen and (min-width: (@screen-width-xs + 1px)) {
+        .menu-header {
+            display: none;
+        }
+
+        a:before {
+            margin: 0;
+        }
+    }
+
+    .menu-header {
+        border-bottom: 1px solid #eee; /* TODO: color */
+        height: @layout-touch-header-height;
+        line-height: @layout-touch-header-height;
+        text-align: left;
+        padding: 0 .5em;
+        font-size: 1.2rem;
+
+        a {
+            color: #bbb; /* TODO: color */
+            font-size: 100%;
+            display: inline;
+
+            &:before {
+                height: @layout-touch-header-height;
+                width: auto;
             }
         }
     }

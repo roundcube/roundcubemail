@@ -14,11 +14,12 @@
 @screen-width-small:    768px;
 @screen-width-xs:       480px;
 @screen-width-mini:     320px;
+@screen-width-touch:    @screen-width-medium;
 
 @page-font-size:        14px;
 @page-min-width:        240px;
 
-@layout-taskmenu-width:                 5rem;
+@layout-menu-width:                     5rem;
 
 @layout-header-height:                  2.5rem;
 @layout-header-font-size:               1rem;
@@ -112,14 +113,7 @@ body > #layout {
 
         &.menu {
             display: flex;
-            width: @layout-taskmenu-width;
-            background-color: @color-taskmenu-background;
-
-            a,
-            a:before {
-                display: block;
-                width: @layout-taskmenu-width;
-            }
+            width: @layout-menu-width;
         }
 
         & > .scroller {
@@ -200,20 +194,7 @@ html.iframe body {
     }
 
     body > #layout > div.menu {
-        width: @layout-taskmenu-width/2;
-
-        a,
-        a:before {
-            width: @layout-taskmenu-width/2;
-        }
-
-        a {
-            height: @layout-taskmenu-width/2;
-        }
-
-        span.inner {
-            display: none;
-        }
+        width: @layout-menu-width/2;
     }
 }
 
@@ -238,22 +219,10 @@ html.iframe body {
         top: 0;
         left: 0;
         right: 0;
+        bottom: 0;
         width: auto;
-        margin: 38pt 3pt 3pt 3pt;
-        padding-bottom: 8pt;
         opacity: .96;
-        text-align:center;
-        border-radius: 4pt;
-
-        span.inner {
-            display: block;
-        }
-
-        a,
-        a:before {
-            display: inline-block;
-            width: 100px;
-        }
+        text-align: center;
     }
 }
 
