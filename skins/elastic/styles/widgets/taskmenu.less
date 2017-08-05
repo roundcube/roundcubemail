@@ -30,10 +30,12 @@
 
         &:hover {
             color: @color-taskmenu-button-hover;
+            background: @color-taskmenu-button-background-hover;
         }
 
         &.selected {
-            color: @color-taskmenu-selected-button;
+            color: @color-taskmenu-button-selected;
+            background: @color-taskmenu-button-selected-background;
         }
 
         &.mail:before {
@@ -54,9 +56,6 @@
         &.about:before {
             content: @fa-var-question;
         }
-        &.logout:hover {
-            color: @color-taskmenu-logout-button-hover;
-        }
         &.refresh:before {
             content: @fa-var-refresh;
         }
@@ -75,6 +74,10 @@
         &.notes:before {
             content: @fa-var-sticky-note;
         }
+
+        span.inner {
+            font-size: 90%;
+        }
     }
 
     .special-buttons {
@@ -88,26 +91,33 @@
         }
 
         a {
-            color: @color-taskmenu-special-button;
+            color: @color-taskmenu-button-special;
+            background: @color-taskmenu-button-special-background;
 
             &:hover {
-                color: @color-taskmenu-special-button-hover;
+                color: @color-taskmenu-button-special-hover;
+                background: @color-taskmenu-button-special-background-hover;
+
+                &.logout {
+                    color: @color-taskmenu-button-logout-hover !important;
+                }
             }
         }
     }
 
     .action-buttons {
         a {
-            color: @color-taskmenu-action-button;
+            color: @color-taskmenu-button-action;
+            background: @color-taskmenu-button-action-background;
 
             &:hover {
-                color: @color-taskmenu-action-button-hover;
+                color: @color-taskmenu-button-action-hover;
+                background: @color-taskmenu-button-action-background-hover;
             }
         }
     }
 
     @media screen and (max-width: @screen-width-medium) {
-        .special-buttons,
         a,
         a:before {
             width: @layout-menu-width/2;
@@ -121,12 +131,20 @@
         span.inner {
             display: none;
         }
+
+        .action-buttons {
+            a {
+                color: @color-taskmenu-button-action-background;
+                background: @color-taskmenu-background;
+            }
+        }
     }
 
     @media screen and (max-width: @screen-width-xs) {
         a {
             height: auto;
             margin-top: 1rem;
+            background: transparent;
         }
 
         a,
@@ -137,8 +155,22 @@
             font-size: 1.25em;
         }
 
+        a:hover {
+            background: transparent !important;
+        }
+
         span.inner {
             display: block;
+        }
+    }
+
+    @media screen and (max-width: @screen-width-xs) and (min-width: 320px) and (min-height: 480px) {
+        text-align: left;
+
+        .special-buttons,
+        .action-buttons {
+            display: block;
+            width: 100%;
         }
     }
 
@@ -153,7 +185,7 @@
     }
 
     .menu-header {
-        border-bottom: 1px solid #eee; /* TODO: color */
+        border-bottom: 1px solid @color-taskmenu-button;
         height: @layout-touch-header-height;
         line-height: @layout-touch-header-height;
         text-align: left;
@@ -161,13 +193,17 @@
         font-size: 1.2rem;
 
         a {
-            color: #bbb; /* TODO: color */
+            color: @color-taskmenu-button;
             font-size: 100%;
             display: inline;
 
             &:before {
                 height: @layout-touch-header-height;
                 width: auto;
+            }
+
+            &:hover {
+                background: inherit;
             }
         }
     }

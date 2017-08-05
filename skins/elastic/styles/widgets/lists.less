@@ -32,9 +32,6 @@
         padding: 0 .5em;
         white-space: nowrap;
         vertical-align: middle;
-/*
-        line-height: @listing-line-height;
-*/
         color: @color-list;
     }
 
@@ -122,7 +119,6 @@ html.touch {
     .listing li,
     .listing tbody td {
         line-height: @listing-touch-line-height;
-        font-size: @layout-touch-menu-record-font-size;
     }
     li input[type=checkbox] {
         height: @listing-touch-line-height;
@@ -315,7 +311,7 @@ ul.treelist li {
             &.unread {
                 /* TODO */
                 & > a {
-                    padding-right: 2.5em;
+                    padding-right: 2.8em;
                 }
             }
 
@@ -328,14 +324,19 @@ ul.treelist li {
                 top: 0;
                 right: 0;
                 min-width: 2em;
-                line-height: 1.4em;
-                margin: .5em .2em;
+                line-height: 1.4rem;
+                margin: (@listing-line-height - 1.4rem)/2;
                 padding: 0 .3em;
-                background:  /* todo */ #1e70bf;
                 border-radius: .4em;
+                background: @color-list-badge-background;
                 color: @color-list-badge;
                 text-align: center;
                 font-weight: bold;
+
+                html.touch & {
+                    line-height: 2rem;
+                    margin: (@listing-touch-line-height - 2rem)/2;
+                }
             }
 
             &.selected .unreadcount {
@@ -343,8 +344,8 @@ ul.treelist li {
             }
 
             &.recent > .unreadcount {
-                background: @color-list-recent-badge;
-                color: @color-list-recent-badge-background;
+                background: @color-list-recent-badge-background;
+                color: @color-list-recent-badge;
             }
         }
 

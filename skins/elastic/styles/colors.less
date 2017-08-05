@@ -9,18 +9,8 @@
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
  */
 
-// Left menu
-@color-taskmenu-background:         #222;
-@color-taskmenu-button:             skyblue;
-@color-taskmenu-selected-button:    #1a7599;
-@color-taskmenu-action-button:      #ffffb3;
-@color-taskmenu-special-button:     grey;
-
-@color-taskmenu-button-hover:       lighten(@color-taskmenu-button, 10%);
-@color-taskmenu-action-button-hover: lighten(@color-taskmenu-action-button, 10%);
-@color-taskmenu-special-button-hover: lighten(@color-taskmenu-special-button, 10%);
-@color-taskmenu-logout-button-hover: red;
-
+@color-font:                        #141823;
+@color-main:                        #37beff;
 
 // Layout elements
 @color-layout-border:               #ddd;
@@ -28,19 +18,46 @@
 @color-layout-list-background:      #fff;
 @color-layout-content-background:   #fff;
 @color-layout-header-background:    #f9f9f9;
-@color-layout-header-button:        #0275d8;
+
+
+// Task menu
+@color-taskmenu-background:                     #414e54;
+@color-taskmenu-button:                         #959c9f;
+@color-taskmenu-button-selected:                white;
+@color-taskmenu-button-action:                  white;
+@color-taskmenu-button-special:                 @color-taskmenu-button;
+
+@color-taskmenu-button-selected-background:     @color-taskmenu-background;
+@color-taskmenu-button-action-background:       @color-main;
+@color-taskmenu-button-special-background:      @color-taskmenu-background;
+
+@color-taskmenu-button-hover:                   lighten(@color-taskmenu-button, 10%);
+@color-taskmenu-button-selected-hover:          white;
+@color-taskmenu-button-action-hover:            white;
+@color-taskmenu-button-special-hover:           lighten(@color-taskmenu-button-special, 10%);
+
+@color-taskmenu-button-background-hover:        lighten(@color-taskmenu-background, 10%);
+@color-taskmenu-button-action-background-hover: lighten(@color-taskmenu-button-action-background, 10%);
+@color-taskmenu-button-special-background-hover:lighten(@color-taskmenu-button-special-background, 10%);
+@color-taskmenu-button-logout-hover:            #ff1a1a;
+
+
+// Toolbar
+@color-toolbar-button:              #333;
+
 
 @color-searchbar-icon-active:       green;
 
 
 // Listings
-@color-list:                        black;
+@color-list:                        @color-font;
 @color-list-selected:               inherit;
 @color-list-selected-background:    #f9f9f9;
 @color-list-droptarget-background:  #ffffcc;
 @color-list-focus-indicator:        #ccc;
 
 @color-list-badge:                  #fff;
+@color-list-badge-background:       #1e70bf;
 @color-list-recent:                 blue;
 @color-list-recent-badge:           #fff;
 @color-list-recent-badge-background: @color-list-recent;

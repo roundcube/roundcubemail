@@ -68,21 +68,8 @@ html.layout-phone {
             max-height: 100% !important;
         }
 
-        .toolbarmenu.listing,
-        .popupmenu.toolbar.listing {
-            li a {
-                line-height: @layout-touch-menu-record-height;
-                font-size: @layout-touch-menu-record-font-size;
-                padding: 0 .5em;
-
-                &:before {
-                    float: left; /* overwrite icon float to have unified element height */
-                }
-            }
-
-            li:last-child {
-                border-bottom: 1px solid #f4f4f4; /* TODO: color */
-            }
+        .listing li:last-child {
+            border-bottom: 1px solid #f4f4f4; /* TODO: color */
         }
 
         .folderlist li {
@@ -101,6 +88,19 @@ html.layout-phone {
     }
 }
 
+html.touch .popover {
+    .listing {
+        li a {
+            line-height: @layout-touch-menu-record-height;
+            font-size: @layout-touch-menu-record-font-size;
+            padding: 0 .5em;
+
+            &:before {
+                float: left; /* overwrite icon float to have unified element height */
+            }
+        }
+    }
+}
 
 .pgpkeyimport {
     /* TODO */
