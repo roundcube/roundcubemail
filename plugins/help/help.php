@@ -55,10 +55,7 @@ class help extends rcube_plugin
         }
 
         // add style for taskbar button (must be here) and Help UI
-        $skin_path = $this->local_skin_path();
-        if (is_file($this->home . "/$skin_path/help.css")) {
-            $this->include_stylesheet("$skin_path/help.css");
-        }
+        $this->include_stylesheet($this->local_skin_path() . '/help.css', true);
     }
 
     function action()
