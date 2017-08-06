@@ -38,6 +38,10 @@
     tbody td {
         display: table-cell;
         outline: none;
+
+        a {
+            color: @color-list;
+        }
     }
 
     li.selected,
@@ -395,17 +399,18 @@ table.fixedcopy {
 
     td.subject {
         width: 99%;
-        white-space: wrap;
         position: relative; /* for span.date positioning in Firefox */
+        background-clip: padding-box; /* fixes Firefox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
 
         span {
             line-height: 2em;
 
             &.date {
-                right: 2px;
-                top: 3px;
+                right: 0;
+                top: 0;
                 position: absolute;
-                color: #666; /* TODO */
+                font-size: 90%;
+                color: @color-list-unimportant;
             }
 
             &.fromto {
@@ -414,13 +419,12 @@ table.fixedcopy {
                 margin-right: 10em;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                color: #666; /* TODO */
+                font-size: 90%;
+                color: @color-list-unimportant;
             }
 
             &.subject {
-                clear: both;
                 display: block;
-                font-size: 1em;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
@@ -432,11 +436,12 @@ table.fixedcopy {
     }
 
     td.flags {
-        span {
-            width: 20px;
-            height: 20px;
+        width: 2.5em;
+
+        & > span {
+            height: 1.7em;
+            line-height: 1.7em;
             display: block;
-            margin-left: 1px;
 
             &.flag {
                 cursor: pointer;
@@ -444,14 +449,15 @@ table.fixedcopy {
         }
     }
 
+    tr.flagged td.subject span.subject a,
     tr.flagged td.subject span.date,
     tr.flagged td.subject span.fromto {
-        color: #ff5c33; /* TODO */
+        color: @color-list-flagged;
     }
 
     tr.deleted td.subject span.date,
     tr.deleted td.subject span.fromto {
-        color: #ccc; /* TODO */
+        color: @color-list-deleted;
     }
 
     tr.unread td.subject span.subject {

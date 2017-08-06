@@ -13,6 +13,7 @@
 
 #taskmenu {
     background-color: @color-taskmenu-background;
+    height: 100%;
 
     a {
         text-decoration: none;
@@ -98,6 +99,12 @@
                 color: @color-taskmenu-button-special-hover;
                 background: @color-taskmenu-button-special-background-hover;
 
+                &.logout {
+                    color: @color-taskmenu-button-logout-hover !important;
+                }
+            }
+
+            @media screen and (max-width: @screen-width-xs) {
                 &.logout {
                     color: @color-taskmenu-button-logout-hover !important;
                 }

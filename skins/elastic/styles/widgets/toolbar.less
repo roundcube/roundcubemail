@@ -253,6 +253,21 @@
     a.filterlink:before {
         content: @fa-var-filter;
     }
+    a.reply.list:before,
+    a.reply.all:before {
+        content: @fa-var-mail-reply-all;
+    }
+    a.forward:before,
+    a.forward.bounce:before,
+    a.forward.attachment:before,
+    a.forward.inline:before {
+        content: @fa-var-mail-forward;
+    }
+    a.download.mbox:before,
+    a.download.eml:before,
+    a.download.maildir:before {
+        content: @fa-var-download;
+    }
 }
 
 @media screen and (min-width: (@screen-width-small + 1px)) {

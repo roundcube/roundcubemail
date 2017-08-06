@@ -11,6 +11,8 @@
 
 @color-font:                        #141823;
 @color-main:                        #37beff;
+@color-link:                        #00acff;
+
 
 // Layout elements
 @color-layout-border:               #ddd;
@@ -52,12 +54,15 @@
 // Listings
 @color-list:                        @color-font;
 @color-list-selected:               inherit;
-@color-list-selected-background:    #f9f9f9;
+@color-list-selected-background:    tint(@color-main, 96%); /*#f8fafb;*/
+@color-list-flagged:                #ff5c33;
+@color-list-deleted:                #ccc;
+@color-list-unimportant:            #666;
 @color-list-droptarget-background:  #ffffcc;
 @color-list-focus-indicator:        #ccc;
 
 @color-list-badge:                  #fff;
-@color-list-badge-background:       #1e70bf;
+@color-list-badge-background:       @color-main;
 @color-list-recent:                 blue;
 @color-list-recent-badge:           #fff;
 @color-list-recent-badge-background: @color-list-recent;
