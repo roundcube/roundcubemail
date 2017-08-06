@@ -25,11 +25,7 @@ class archive extends rcube_plugin
         if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show')
             && ($archive_folder = $rcmail->config->get('archive_mbox'))
         ) {
-            $skin_path = $this->local_skin_path();
-            if (is_file($this->home . "/$skin_path/archive.css")) {
-                $this->include_stylesheet("$skin_path/archive.css");
-            }
-
+            $this->include_stylesheet($this->local_skin_path() . '/archive.css', true);
             $this->include_script('archive.js');
             $this->add_texts('localization', true);
             $this->add_button(

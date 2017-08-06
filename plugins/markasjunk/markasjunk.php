@@ -21,14 +21,9 @@ class markasjunk extends rcube_plugin
         $this->add_hook('storage_init', array($this, 'storage_init'));
 
         if ($rcmail->action == '' || $rcmail->action == 'show') {
-            $skin_path = $this->local_skin_path();
-
             $this->add_texts('localization', true);
             $this->include_script('markasjunk.js');
-
-            if (is_file($this->home . "/$skin_path/markasjunk.css")) {
-                $this->include_stylesheet("$skin_path/markasjunk.css");
-            }
+            $this->include_stylesheet($this->local_skin_path() . '/markasjunk.css', true);
 
             $this->add_button(array(
                     'type'     => 'link',
