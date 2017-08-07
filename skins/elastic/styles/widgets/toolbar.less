@@ -117,10 +117,6 @@
         &.responses:before {
             content: @fa-var-comment;
         }
-
-        span.inner {
-            display: none;
-        }
     }
 
     .dropbutton {
@@ -129,14 +125,51 @@
         }
 
         a.button.dropdown {
-            font-size: 70%;
-            padding-left: 0;
+            font-size: 75%;
+
+            span.inner {
+                display: none;
+            }
         }
     }
 
     & > .spacer {
         display: inline-block;
         width: 1.2em;
+    }
+}
+
+#sidebar,
+#list {
+    span.inner {
+        display: none;
+    }
+}
+
+.header {
+    a.button {
+        color: @color-font;
+    }
+
+    .buttons {
+        display: block;
+
+        button {
+            display: block;
+            float: left;
+            cursor: pointer;
+            color: @color-toolbar-button;
+            background-color: transparent;
+            border: 0;
+            padding: 0;
+            height: @layout-touch-header-height;
+            line-height: @layout-touch-header-height;
+            width: 2.5em;
+
+            &:before {
+                font-size: 1.75rem;
+            }
+        }
     }
 }
 
@@ -268,6 +301,10 @@
     a.download.maildir:before {
         content: @fa-var-download;
     }
+    a.export.selection:before,
+    a.export.all:before {
+        content: @fa-var-download;
+    }
 }
 
 @media screen and (min-width: (@screen-width-small + 1px)) {
@@ -275,14 +312,62 @@
         margin: 0;
         flex: 1;
         text-align: right;
+        font-size: 1rem;
+
+        a.button {
+            height: @layout-header-height;
+            min-width: 3.5rem;
+            max-width: 6rem;
+            padding: .45rem;
+            text-align: center;
+            text-overflow: ellipsis;
+            overflow-x: hidden;
+            line-height: 1.5;
+
+            &:before {
+                margin: 0;
+                line-height: 1.75;
+            }
+        }
+        a span.inner {
+            font-size: 90%;
+        }
+
+        &.listing.iconized li a:before {
+            height: 1.75rem;
+            float: none;
+            display: block;
+            width: auto;
+        }
+
+        .dropbutton {
+            height: @layout-header-height;
+            display: inline-block;
+
+            &:hover {
+                background-color: #f4f4f4; /* TODO */
+            }
+
+            a.button.dropdown {
+                min-width: 1.1rem;
+                padding: 0 .3rem;
+
+                &:hover {
+                    background-color: #f0f0f0; /* TODO */
+                }
+
+                &:before {
+                    height: @layout-header-height;
+                    line-height: 4.2;
+                }
+            }
+        }
+
     }
     ul.toolbar > li {
         display: inline-block;
     }
-}
-
-@media screen and (max-width: @screen-width-small) {
-    ul.toolbar a.button .inner {
-        display: inline;
+    ul.toolbar.listing li {
+        border: 0;
     }
 }

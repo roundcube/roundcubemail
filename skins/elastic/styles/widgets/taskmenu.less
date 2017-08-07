@@ -17,7 +17,7 @@
 
     a {
         text-decoration: none;
-        padding: .4em 0;
+        padding: .45rem 0;
         display: block;
         text-align: center;
         color: @color-taskmenu-button;
@@ -26,6 +26,7 @@
             &:extend(.font-icon-class);
             display: block;
             height: 1.75rem;
+            line-height: 1.75;
             width: @layout-menu-width;
         }
 
@@ -205,6 +206,7 @@
             display: inline;
 
             &:before {
+                line-height: @layout-touch-header-height;
                 height: @layout-touch-header-height;
                 width: auto;
             }
