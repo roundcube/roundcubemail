@@ -105,8 +105,8 @@ function rcube_elastic_ui()
 
         $('body').on('click', function() { if (mode == 'phone') layout.menu.addClass('hidden'); });
 
-        // Set content frame title in parent window
-        if (rcmail.is_framed() && !rcmail.env.extwin) {
+        // Set content frame title in parent window (exclude ext-windows and dialog frames)
+        if (rcmail.is_framed() && !rcmail.env.extwin && !parent.$('.ui-dialog:visible').length) {
             var title = $('h1.voice:first').text();
             if (title) {
                 parent.$('#content > .header > .header-title').text(title);
