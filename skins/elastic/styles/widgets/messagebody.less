@@ -25,24 +25,24 @@ div.message-htmlpart {
     /* TODO */
 
     blockquote {
-        color: blue;
-        border-left: 2px solid blue;
-        border-right: 2px solid blue;
-        background-color: #F6F6F6; /* TODO */
+        color: @color-blockquote-0;
+        border-left: 2px solid @color-blockquote-0-border;
+        border-right: 2px solid @color-blockquote-0-border;
+        background-color: @color-blockquote-background;
         margin: 2px 0;
         padding: 0 .4em;
         overflow: hidden;
         text-overflow: ellipsis;
 
         blockquote {
-            color: green;
-            border-left: 2px solid green;
-            border-right: 2px solid green;
+            color: @color-blockquote-1;
+            border-left: 2px solid @color-blockquote-1-border;
+            border-right: 2px solid @color-blockquote-1-border;
 
             blockquote {
-                color: #900;
-                border-left: 2px solid #b00;
-                border-right: 2px solid #b00;
+                color: @color-blockquote-2;
+                border-left: 2px solid @color-blockquote-2-border;
+                border-right: 2px solid @color-blockquote-2-border;
             }
         }
     }

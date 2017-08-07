@@ -101,7 +101,7 @@ ul.listing {
         position: relative;
 
         ul {
-            border-top: 1px solid #f4f4f4; /* TODO */
+            border-top: 1px solid @color-list-border;
             padding-left: 1.5em;
 
             li:last-child {
@@ -410,7 +410,7 @@ table.fixedcopy {
                 top: 0;
                 position: absolute;
                 font-size: 90%;
-                color: @color-list-unimportant;
+                color: @color-list-secondary;
             }
 
             &.fromto {
@@ -420,7 +420,7 @@ table.fixedcopy {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 font-size: 90%;
-                color: @color-list-unimportant;
+                color: @color-list-secondary;
             }
 
             &.subject {
@@ -638,7 +638,7 @@ table.fixedcopy {
     }
 
     .attachment-size {
-        color: #ddd; /* TODO: use color variable */
+        color: @color-list-secondary;
     }
 
     a.button {

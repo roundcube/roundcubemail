@@ -46,7 +46,7 @@ html.layout-phone {
         width: 276px;
         transform: none !important;
         border-radius: 0;
-        border: 0; /* TODO */
+        border: 0;
         display: flex;
         flex-direction: column;
 
@@ -61,7 +61,8 @@ html.layout-phone {
             height: @layout-touch-header-height;
             line-height: @layout-touch-header-height;
             font-size: @layout-touch-header-font-size;
-            color: #888; /* TODO: color */
+            color: @color-popover-header;
+            background-color: @color-popover-header-background;
         }
 
         .popover-body > * {
@@ -69,7 +70,7 @@ html.layout-phone {
         }
 
         .listing li:last-child {
-            border-bottom: 1px solid #f4f4f4; /* TODO: color */
+            border-bottom: 1px solid @color-list-border;
         }
 
         .folderlist li {

@@ -9,9 +9,11 @@
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
  */
 
-@color-font:                        #141823;
-@color-main:                        #37beff;
-@color-link:                        #00acff;
+@color-font:                #141823;
+@color-main:                #37beff;
+@color-link:                #00acff;
+@color-link-hover:          darken(@color-link, 10%);
+@color-border:              #ddd;
 
 
 // Layout elements
@@ -57,10 +59,11 @@
 @color-list-selected-background:    tint(@color-main, 96%); /*#f8fafb;*/
 @color-list-flagged:                #ff5c33;
 @color-list-deleted:                #ccc;
-@color-list-unimportant:            #666;
+@color-list-secondary:              #666;
 @color-list-droptarget-background:  #ffffcc;
 @color-list-focus-indicator:        #ccc;
 
+@color-list-border:                 @color-layout-border;
 @color-list-badge:                  #fff;
 @color-list-badge-background:       @color-main;
 @color-list-recent:                 blue;
@@ -72,13 +75,36 @@
 @color-toolbarmenu-hover:               white;
 @color-toolbarmenu-hover-background:    blue;
 
+
 // Drag-n-drop layer
 @color-drag-layer:                  white;
 @color-drag-layer-background:       #444;
 
+
+// Popovers (menus)
+@color-popover-header:              #888;
+@color-popover-header-background:   transparent;
+
+
 // Dialogs
 @color-dialog-overlay-background:   #333;
+@color-dialog-header-border:        @color-border;
 
 
 @color-spinner-circle:              #eee;
 @color-spinner-item:                #666;
+
+
+// Forms
+@color-input-border:                @color-border;
+@color-recipient-input-border:      @color-input-border;
+@color-recipient-input-background:  #f4f4f4;
+
+
+@color-blockquote-background:       #f6f6f6;
+@color-blockquote-0:                blue;
+@color-blockquote-1:                green;
+@color-blockquote-2:                #900;
+@color-blockquote-0-border:         blue;
+@color-blockquote-1-border:         green;
+@color-blockquote-2-border:         #b00;

@@ -80,6 +80,10 @@ a {
     color: @color-link;
 }
 
+a:hover {
+    color: @color-link-hover;
+}
+
 @import "layout";
 
 
@@ -261,14 +265,14 @@ a {
 
     span.email {
         display: inline;
-        color: #69939e; /* TODO */
+        color: @color-list-secondary;
         font-style: italic;
         margin-left: .5em;
     }
 }
 
 #contactpic {
-    /* TODO: merge with imap-upload? */
+    /* TODO: merge with file-upload? */
     min-width: 112px;
     min-height: 112px;
     text-align: center;
