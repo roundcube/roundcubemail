@@ -486,7 +486,7 @@ function rcube_elastic_ui()
         // Enable autoresize plugin
         o.config.plugins += ' autoresize';
 
-        if (is_mobile()) {
+        if (is_touch()) {
             // Make the toolbar icons bigger
             o.config.toolbar_items_size = null;
 
@@ -1798,6 +1798,16 @@ function rcube_elastic_ui()
         var meta = layout_metadata();
 
         return meta.mode == 'phone' || meta.mode == 'small';
+    }
+
+    /**
+     * Returns true if the layout is in 'touch' mode
+     */
+    function is_touch()
+    {
+        var meta = layout_metadata();
+
+        return meta.touch;
     }
 }
 
