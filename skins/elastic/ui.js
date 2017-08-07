@@ -1436,7 +1436,9 @@ function rcube_elastic_ui()
             var target = '#compose_' + $(this).data('target');
 
             $(this)[$(target).is(':visible') ? 'removeClass' : 'addClass']('active')
-                .off().on('click', function() { $(target).removeClass('hidden'); });
+                .off().on('click', function() {
+                    $(target).removeClass('hidden').find('.recipient-input').focus();
+                });
         });
     };
 
