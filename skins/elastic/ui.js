@@ -588,10 +588,10 @@ function rcube_elastic_ui()
             html.addClass('layout-' + meta.mode);
         }
 
-        if (touch && !html.is('.touch')) {
+        if (meta.touch && !html.is('.touch')) {
             html.addClass('touch');
         }
-        else if (!touch && html.is('.touch')) {
+        else if (!meta.touch && html.is('.touch')) {
             html.removeClass('touch');
         }
     };
