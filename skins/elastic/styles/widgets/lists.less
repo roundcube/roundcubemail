@@ -402,6 +402,11 @@ table.fixedcopy {
         position: relative; /* for span.date positioning in Firefox */
         background-clip: padding-box; /* fixes Firefox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
 
+        a {
+            text-decoration: none;
+            cursor: default;
+        }
+
         span {
             line-height: 2em;
 
@@ -449,12 +454,15 @@ table.fixedcopy {
         }
     }
 
+    tr.flagged td,
     tr.flagged td.subject span.subject a,
     tr.flagged td.subject span.date,
     tr.flagged td.subject span.fromto {
         color: @color-list-flagged;
     }
 
+    tr.deleted td,
+    tr.deleted td.subject span.subject a,
     tr.deleted td.subject span.date,
     tr.deleted td.subject span.fromto {
         color: @color-list-deleted;
