@@ -47,21 +47,27 @@
 
 
 // Toolbar
-@color-toolbar-button:              @color-font;
+@color-toolbar-button:                  @color-font;
+@color-toolbar-button-background-hover: tint(@color-main, 96%);
+
+@color-searchbar-icon-active:           green;
 
 
-@color-searchbar-icon-active:       green;
+// Toolbar menu
+@color-toolbarmenu-hover:               #fff;
+@color-toolbarmenu-hover-background:    darken(@color-main, 20%);
+
 
 
 // Listings
 @color-list:                        @color-font;
 @color-list-selected:               inherit;
-@color-list-selected-background:    tint(@color-main, 96%); /*#f8fafb;*/
+@color-list-selected-background:    tint(@color-main, 96%);
 @color-list-flagged:                #ff5c33;
 @color-list-deleted:                #ccc;
 @color-list-secondary:              #666;
 @color-list-droptarget-background:  #ffffcc;
-@color-list-focus-indicator:        #ccc;
+@color-list-focus-indicator:        lighten(@color-main, 20%);
 
 @color-list-border:                 #f4f4f4;
 @color-list-badge:                  #fff;
@@ -69,11 +75,6 @@
 @color-list-recent:                 blue;
 @color-list-recent-badge:           #fff;
 @color-list-recent-badge-background: @color-list-recent;
-
-
-// Toolbar menu
-@color-toolbarmenu-hover:               #fff;
-@color-toolbarmenu-hover-background:    blue;
 
 
 // Drag-n-drop layer

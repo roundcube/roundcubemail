@@ -23,6 +23,7 @@
     a.button {
         padding: 0 .3em;
         display: inline-block;
+        border: 0 !important;
 
         &:before {
             &:extend(.font-icon-class);
@@ -120,10 +121,6 @@
     }
 
     .dropbutton {
-        a.button:first-child {
-            padding-right: 0;
-        }
-
         a.button.dropdown {
             font-size: 75%;
 
@@ -328,7 +325,14 @@
                 margin: 0;
                 line-height: 1.75;
             }
+
+            &:not(.disabled):focus,
+            &:not(.disabled):hover {
+                background-color: @color-toolbar-button-background-hover;
+                outline: 0;
+            }
         }
+
         a span.inner {
             font-size: 90%;
         }
@@ -345,7 +349,7 @@
             display: inline-block;
 
             &:hover {
-                background-color: #f4f4f4; /* TODO */
+                background-color: @color-toolbar-button-background-hover;
             }
 
             a.button.dropdown {
@@ -353,7 +357,7 @@
                 padding: 0 .3rem;
 
                 &:hover {
-                    background-color: #f0f0f0; /* TODO */
+                    background-color: darken(@color-toolbar-button-background-hover, 5%);
                 }
 
                 &:before {
