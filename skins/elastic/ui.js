@@ -1181,6 +1181,8 @@ function rcube_elastic_ui()
         $('input[name="sort_col"][value="'+rcmail.env.sort_col+'"]', dialog).prop('checked', true);
         $('input[name="sort_ord"][value="DESC"]', dialog).prop('checked', rcmail.env.sort_order == 'DESC');
         $('input[name="sort_ord"][value="ASC"]', dialog).prop('checked', rcmail.env.sort_order != 'DESC');
+        $('input[name="mode"][value="list"]', dialog).prop('checked', !rcmail.env.threading);
+        $('input[name="mode"][value="threads"]', dialog).prop('checked', !!rcmail.env.threading);
 
         // set checkboxes
         $('input[name="list_col[]"]', dialog).each(function() {
@@ -1194,11 +1196,11 @@ function rcube_elastic_ui()
 
             var sort = $('input[name="sort_col"]:checked', dialog).val(),
                 ord = $('input[name="sort_ord"]:checked', dialog).val(),
-                layout = $('input[name="layout"]:checked', dialog).val(),
+                mode = $('input[name="mode"]:checked', dialog).val(),
                 cols = $('input[name="list_col[]"]:checked', dialog)
                     .map(function() { return this.value; }).get();
 
-            rcmail.set_list_options(cols, sort, ord, rcmail.env.threading, layout);
+            rcmail.set_list_options(cols, sort, ord, mode == 'threads');
             return true;
         };
 

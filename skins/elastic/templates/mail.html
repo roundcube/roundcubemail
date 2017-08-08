@@ -46,16 +46,6 @@
 		/>
 	</div>
 	<div id="messagelist-footer" class="footer">
-		<div id="listcontrols">
-			<roundcube:button href="#list" command="set-listmode" prop="list" type="link"
-				class="iconbutton listmode disabled" classAct="iconbutton listmode"
-				id="maillistmode" title="list" content="List"
-			/>
-			<roundcube:button href="#threads" command="set-listmode" prop="threads" type="link"
-				class="iconbutton threadmode disabled" classAct="iconbutton threadmode"
-				id="mailthreadmode" title="threads" content="Threads"
-			/>
-		</div>
 		<div id="listselectors">
 			<a href="#select" id="listselectmenulink" class="menuselector" data-popup="listselect-menu"><span class="handle"><roundcube:label name="select" /></span></a>
 			<roundcube:if condition="env:threads" />
@@ -187,6 +177,15 @@
 		<ul class="proplist">
 			<li><label><input type="radio" name="sort_ord" value="ASC" /> <span><roundcube:label name="asc" /></span></label></li>
 			<li><label><input type="radio" name="sort_ord" value="DESC" /> <span><roundcube:label name="desc" /></span></label></li>
+		</ul>
+	</fieldset>
+	<roundcube:endif />
+	<roundcube:if condition="env:threads" />
+	<fieldset id="listoptions-threads" class="floating">
+		<legend><roundcube:label name="lmode" /></legend>
+		<ul class="proplist">
+			<li><label><input type="radio" name="mode" value="list" /> <span><roundcube:label name="list" /></span></label></li>
+			<li><label><input type="radio" name="mode" value="threads" /> <span><roundcube:label name="threads" /></span></label></li>
 		</ul>
 	</fieldset>
 	<roundcube:endif />
