@@ -15,7 +15,7 @@ LICENSE
 The contents of this folder are subject to the Creative Commons
 Attribution-ShareAlike License. It is allowed to copy, distribute,
 transmit and to adapt the work by keeping credits to the original
-authors in the README file.
+authors in the README.md file.
 See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 
 
