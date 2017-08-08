@@ -207,6 +207,7 @@ $labels['listcolumns'] = 'List columns';
 $labels['listsorting'] = 'Sorting column';
 $labels['listorder'] = 'Sorting order';
 $labels['listmode'] = 'List view mode';
+$labels['lmode'] = 'List mode';
 $labels['layout'] = 'Layout';
 $labels['layoutwidescreen'] = 'Widescreen';
 $labels['layoutdesktop'] = 'Desktop';
@@ -279,6 +280,7 @@ $labels['keylength']      = 'Bits';
 $labels['keyexpired']     = 'Expired';
 $labels['keyrevoked']     = 'Revoked';
 $labels['bccinstead']     = 'Use Bcc';
+$labels['addheader']      = 'Add recipient (header)';
 
 $labels['editidents']    = 'Edit identities';
 $labels['spellcheck']    = 'Spell';
@@ -682,6 +684,7 @@ $labels['arialabelidentityeditfrom'] = 'Identity edit form';
 $labels['arialabelresonseeditfrom'] = 'Response edit form';
 $labels['arialabelsearchterms'] = 'Search terms';
 $labels['arialabeldropactionmenu'] = 'Drag-n-Drop action menu';
+$labels['arialabelheadersmenu'] = 'Recipient (header) adding menu';
 
 $labels['helplistnavigation'] = 'List keyboard navigation';
 $labels['helplistkeyboardnavigation'] = "Arrows up/down: Move row focus/selection.
