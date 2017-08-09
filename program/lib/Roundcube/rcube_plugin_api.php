@@ -614,7 +614,7 @@ class rcube_plugin_api
                 $rcube = rcube::get_instance();
                 $path  = unslashify($rcube->config->get('assets_dir') ?: RCUBE_INSTALL_PATH);
 
-                if (!is_file("$path/$fn")) {
+                if (!is_file("$path/plugins/$fn")) {
                     return;
                 }
             }
