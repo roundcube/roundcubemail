@@ -36,6 +36,10 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
     define('RCUBE_LOCALIZATION_DIR', INSTALL_PATH . 'program/localization/');
 }
 
+if (!defined('DEBIAN_PKG')) {
+    define('DEBIAN_PKG', FALSE);
+}
+
 define('RCUBE_INSTALL_PATH', INSTALL_PATH);
 define('RCUBE_CONFIG_DIR',  RCMAIL_CONFIG_DIR.'/');
 

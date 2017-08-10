@@ -18,6 +18,13 @@
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
 */
+if (getenv('RCMAIL_CONFIG_DIR')){
+  define('RCMAIL_CONFIG_DIR', $_SERVER['RCMAIL_CONFIG_DIR']);
+}
+
+if (getenv('DEBIAN_PKG')) {
+  define('DEBIAN_PKG', TRUE);
+}
 
 define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
@@ -86,20 +93,26 @@ if ($RCI->configured) {
       if ($opts['accept'] || strtolower($input) == 'y') {
         $error = $written = false;
 
-        // backup current config
-        echo ". backing up the current config file(s)...\n";
+        if (!DEBIAN_PKG) {
+          // backup current config
+          echo ". backing up the current config file(s)...\n";
 
-        foreach (array('config', 'main', 'db') as $file) {
-          if (file_exists(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php')) {
-            if (!copy(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php', RCMAIL_CONFIG_DIR . '/' . $file . '.old.php')) {
-              $error = true;
+          foreach (array('config', 'main', 'db') as $file) {
+            if (file_exists(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php')) {
+              if (!copy(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php', RCMAIL_CONFIG_DIR . '/' . $file . '.old.php')) {
+                $error = true;
+              }
             }
           }
         }
 
         if (!$error) {
           $RCI->merge_config();
-          echo ". writing " . RCMAIL_CONFIG_DIR . "/config.inc.php...\n";
+          if (DEBIAN_PKG) {
+            echo ". writing " . RCMAIL_CONFIG_DIR . "/config.inc.php.dpkg-new...\n";
+          } else {
+            echo ". writing " . RCMAIL_CONFIG_DIR . "/config.inc.php...\n";
+          }
           $written = $RCI->save_configfile($RCI->create_config());
         }
 
@@ -114,9 +127,11 @@ if ($RCI->configured) {
               echo "- '" . $msg['prop'] . ($msg['name'] ? "': " . $msg['name'] : "'") . "\n";
           }
 
-          if ($RCI->legacy_config) {
-            foreach (array('main', 'db') as $file) {
-              @unlink(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php');
+          if (!DEBIAN_PKG) {
+            if ($RCI->legacy_config) {
+              foreach (array('main', 'db') as $file) {
+                @unlink(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php');
+              }
             }
           }
         }
@@ -153,11 +168,13 @@ if ($RCI->configured) {
     echo "Please check the 'mime_types' config option and run this script again.\n";
   }
 
-  // check database schema
-  if ($RCI->config['db_dsnw']) {
-    echo "Executing database schema update.\n";
-    $success = rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $opts['version'],
-        array('errors' => true));
+  if (!DEBIAN_PKG) {
+    // check database schema
+    if ($RCI->config['db_dsnw']) {
+      echo "Executing database schema update.\n";
+      $success = rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $opts['version'],
+          array('errors' => true));
+    }
   }
 
   // update composer dependencies

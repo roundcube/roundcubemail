@@ -104,7 +104,19 @@ class rcmail_install
                 $this->legacy_config = true;
             }
 
+            // Debian save its old config in dpkg-bak file
+            if (DEBIAN_PKG && $config = $this->load_config_file(RCUBE_CONFIG_DIR . 'main.inc.php.dpkg-bak')) {
+                $this->config        = array_merge($this->config, $config);
+                $this->legacy_config = true;
+            }
+
             if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'db.inc.php')) {
+                $this->config        = array_merge($this->config, $config);
+                $this->legacy_config = true;
+            }
+
+            // Debian save its old config in dpkg-bak file
+            if (DEBIAN_PKG && $config = $this->load_config_file(RCUBE_CONFIG_DIR . 'db.inc.php.dpkg-bak')) {
                 $this->config        = array_merge($this->config, $config);
                 $this->legacy_config = true;
             }
@@ -269,8 +281,10 @@ class rcmail_install
             }
 
             // save change
-            $this->config[$prop] = $value;
-            $config[$prop]       = $value;
+            if (!DEBIAN_PKG || $prop != 'db_dsnw') {
+                $this->config[$prop] = $value;
+                $config[$prop]       = $value;
+            }
         }
 
         $out = "<?php\n\n";
@@ -280,6 +294,11 @@ class rcmail_install
             // copy option descriptions from existing config or defaults.inc.php
             $out .= $this->comments[$prop];
             $out .= "\$config['$prop'] = " . self::_dump_var($value, $prop) . ";\n\n";
+        }
+
+        if (DEBIAN_PKG) {
+            $out .= "/* Do not set db_dsnw here, use dpkg-reconfigure roundcube-core to configure database ! */\n";
+            $out .= "include_once(\"/etc/roundcube/debian-db-roundcube.php\");\n";
         }
 
         return $out;
@@ -292,8 +311,14 @@ class rcmail_install
      */
     public function save_configfile($config)
     {
+        $filename = "config.inc.php";
+
+        if (DEBIAN_PKG) {
+            $filename = "config.inc.php.dpkg-new";
+        }
+
         if (is_writable(RCUBE_CONFIG_DIR)) {
-            return file_put_contents(RCUBE_CONFIG_DIR . 'config.inc.php', $config);
+            return file_put_contents(RCUBE_CONFIG_DIR . $filename, $config);
         }
 
         return false;
