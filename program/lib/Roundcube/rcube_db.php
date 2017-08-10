@@ -68,6 +68,7 @@ class rcube_db
         $driver     = strtolower(substr($db_dsnw, 0, strpos($db_dsnw, ':')));
         $driver_map = array(
             'sqlite2' => 'sqlite',
+            'sqlite3' => 'sqlite',
             'sybase'  => 'mssql',
             'dblib'   => 'mssql',
             'mysqli'  => 'mysql',
