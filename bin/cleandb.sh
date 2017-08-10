@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+define('INSTALL_PATH', '/var/lib/roundcube/' );
 
 require INSTALL_PATH.'program/include/clisetup.php';
 
