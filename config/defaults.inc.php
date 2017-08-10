@@ -1032,7 +1032,7 @@ $config['contact_search_name'] = '{name} <{email}>';
 // ----------------------------------
 
 // Use this charset as fallback for message decoding
-$config['default_charset'] = 'ISO-8859-1';
+$config['default_charset'] = 'UTF-8';
 
 // skin name: folder from skins/
 $config['skin'] = 'larry';
