@@ -51,6 +51,8 @@ function rcube_webmail()
   // webmail client settings
   this.dblclick_time = 500;
   this.message_time = 5000;
+  this.preview_delay_select = 400;
+  this.preview_delay_click  = 60;
   this.identifier_expr = /[^0-9a-z_-]/gi;
 
   // environment defaults
@@ -1068,10 +1070,12 @@ function rcube_webmail()
 
       case 'select-all':
         this.select_all_mode = props ? false : true;
+        this.dummy_select = true; // prevent msg opening if there's only one msg on the list
         if (props == 'invert')
           this.message_list.invert_selection();
         else
           this.message_list.select_all(props == 'page' ? '' : props);
+        this.dummy_select = null;
         break;
 
       case 'select-none':
@@ -1858,10 +1862,29 @@ function rcube_webmail()
       this.select_all_mode = false;
 
     // start timer for message preview (wait for double click)
-    if (selected && this.env.contentframe && !list.multi_selecting)
-      this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, list.dblclick_time);
-    else if (this.env.contentframe)
+    if (selected && this.env.contentframe && !list.multi_selecting && !this.dummy_select) {
+      // try to be responsive and try not to overload the server when user is pressing up/down key repeatedly
+      var now = new Date().getTime();
+      var time_diff = now - (this._last_msglist_select_time || 0);
+      var preview_pane_delay = this.preview_delay_click;
+
+      // user is selecting messages repeatedly, wait until this ends (use larger delay)
+      if (time_diff < this.preview_delay_select) {
+        preview_pane_delay = this.preview_delay_select;
+        if (this.preview_timer) {
+          clearTimeout(this.preview_timer);
+        }
+        if (this.env.contentframe) {
+          this.show_contentframe(false);
+        }
+      }
+
+      this._last_msglist_select_time = now;
+      this.preview_timer = setTimeout(function() { ref.msglist_get_preview(); }, preview_pane_delay);
+    }
+    else if (this.env.contentframe) {
       this.show_contentframe(false);
+    }
   };
 
   this.msglist_dbl_click = function(list)
@@ -2612,13 +2635,6 @@ function rcube_webmail()
     url._layout = this.env.layout
     url._mbox = mbox;
     url._page = page;
-
-    // Disable double-click on the list when preview pane is on
-    // to make the delay when opening a message in preview pane minimal (#5199)
-    // Standard double-click time is 500ms, we use 100ms, the smaller the value is
-    // unwanted message opening (on drag) can happen more often (#5616)
-    if (this.message_list)
-      this.message_list.dblclick_time = this.env.layout != 'list' ? 100 : this.dblclick_time;
 
     this.http_request('list', url, lock);
     this.update_state({ _mbox: mbox, _page: (page && page > 1 ? page : null) });
@@ -5857,7 +5873,7 @@ function rcube_webmail()
 
     // we don't have dblclick handler here, so use 50 instead of this.dblclick_time
     if (this.env.contentframe && !list.multi_selecting && (id = list.get_single_selection()))
-      this.preview_timer = setTimeout(function(){ ref.load_contact(id, 'show'); }, 50);
+      this.preview_timer = setTimeout(function() { ref.load_contact(id, 'show'); }, this.preview_delay_click);
     else if (this.env.contentframe)
       this.show_contentframe(false);
 
