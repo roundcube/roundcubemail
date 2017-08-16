@@ -439,8 +439,9 @@ $config['login_rate_limit'] = 3;
 // Includes should be interpreted as PHP files
 $config['skin_include_php'] = false;
 
-// display software version on login screen
-$config['display_version'] = false;
+// display product name and software version on login screen
+// 0 - hide product name and version number, 1 - show product name only, 2 - show product name and version number
+$config['display_product_info'] = 1;
 
 // Session lifetime in minutes
 $config['session_lifetime'] = 10;
