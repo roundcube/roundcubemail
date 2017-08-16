@@ -1358,12 +1358,14 @@ EOF;
         }
 
         $command = $attrib['command'];
+        $action = $command ?: $attrib['name'];
 
         if ($attrib['task']) {
-            $element = $command = $attrib['task'] . '.' . $command;
+            $command = $attrib['task'] . '.' . $command;
+            $element = $attrib['task'] . '.' . $action;
         }
         else {
-            $element = ($this->env['task'] ? $this->env['task'] . '.' : '') . $command;
+            $element = ($this->env['task'] ? $this->env['task'] . '.' : '') . $action;
         }
 
         if ($disabled_actions === null) {
@@ -1371,7 +1373,7 @@ EOF;
         }
 
         // remove buttons for disabled actions
-        if (in_array($element, $disabled_actions)) {
+        if (in_array($element, $disabled_actions) || in_array($action, $disabled_actions)) {
             return '';
         }
 
