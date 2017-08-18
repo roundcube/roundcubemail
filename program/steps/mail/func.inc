@@ -903,7 +903,7 @@ function rcmail_wash_html($html, $p, $cid_replaces = array())
         $washer->add_callback('style', 'rcmail_washtml_callback');
     }
 
-    // alter link tag attributes
+    // modify HTML links to open a new window if clicked
     if (!$p['skip_washer_link_callback']) {
         $washer->add_callback('a', 'rcmail_washtml_link_callback');
         $washer->add_callback('area', 'rcmail_washtml_link_callback');
@@ -1484,10 +1484,6 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=a
         $body = substr_replace($body, $styles, $pos, $len);
         $last_style_pos = $pos2 + strlen($styles) - $len;
     }
-
-    // modify HTML links to open a new window if clicked
-    $GLOBALS['rcmail_html_container_id'] = $container_id;
-    unset($GLOBALS['rcmail_html_container_id']);
 
     $body = preg_replace(array(
             // add comments around html and other tags
