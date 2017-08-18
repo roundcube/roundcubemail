@@ -358,4 +358,15 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $this->assertTrue($washer->extlinks);
         $this->assertNotContains('TRACKING', $washed, "Src attribute of <video> tag (#5583)");
     }
+
+    function test_textarea_content_escaping()
+    {
+        $html = '<textarea><p style="x:</textarea><img src=x onerror=alert(1)>">';
+
+        $washer = new rcube_washtml;
+        $washed = $washer->wash($html);
+
+        $this->assertNotContains('onerror=alert(1)>', $washed);
+        $this->assertContains('&lt;p style=&quot;x:', $washed);
+    }
 }
