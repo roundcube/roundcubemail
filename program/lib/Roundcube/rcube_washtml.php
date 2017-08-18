@@ -449,6 +449,9 @@ class rcube_washtml
                             }
                         }
                     }
+                    else if ($tagName == 'textarea' && strpos($content, '<') !== false) {
+                        $content = htmlspecialchars($content, ENT_QUOTES);
+                    }
 
                     $dump .= $this->wash_attribs($node);
 
