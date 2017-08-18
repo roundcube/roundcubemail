@@ -22,12 +22,12 @@ class MailFunc extends PHPUnit_Framework_TestCase
     /**
      * Helper method to create a HTML message part object
      */
-    function get_html_part($body)
+    function get_html_part($body = null)
     {
         $part = new rcube_message_part;
         $part->ctype_primary = 'text';
         $part->ctype_secondary = 'html';
-        $part->body = file_get_contents(TESTS_DIR . $body);
+        $part->body = $body ? file_get_contents(TESTS_DIR . $body) : null;
         $part->replaces = array();
         return $part;
     }
@@ -182,6 +182,40 @@ class MailFunc extends PHPUnit_Framework_TestCase
         // base resolving exceptions
         $this->assertRegExp('|src="cid:theCID"|', $html, "URI base resolving exception [1]");
         $this->assertRegExp('|src="http://other\.domain\.tld/img3\.gif"|', $html, "URI base resolving exception [2]");
+    }
+
+    /**
+     * Test link attribute modifications
+     */
+    public function test_html_links()
+    {
+      // disable relative links
+      $html = '<a href="/">test</a>';
+      $body = rcmail_print_body($html, $this->get_html_part(), array('safe' => false, 'plain' => false));
+
+      $this->assertNotContains('href="/"', $body);
+      $this->assertContains('<a href="./#NOP"', $body);
+      $this->assertContains('onclick="return false"', $body);
+
+      $html = '<a href="https://roundcube.net">test</a>';
+      $body = rcmail_print_body($html, $this->get_html_part(), array('safe' => false, 'plain' => false));
+
+      // allow external links, add target and noreferrer
+      $this->assertContains('<a href="https://roundcube.net"', $body);
+      $this->assertContains(' target="_blank"', $body);
+      $this->assertContains(' rel="noreferrer"', $body);
+    }
+
+    /**
+     * Test potential XSS with invalid attributes
+     */
+    public function test_html_link_xss()
+    {
+      $html = '<a style="x:><img src=x onerror=alert(1)//">test</a>';
+      $body = rcmail_print_body($html, $this->get_html_part(), array('safe' => false, 'plain' => false));
+
+      $this->assertNotContains('onerror=alert(1)//">test', $body);
+      $this->assertContains('<a style="x: &gt;&lt;img src=x onerror=alert(1)//"', $body);
     }
 
     /**
