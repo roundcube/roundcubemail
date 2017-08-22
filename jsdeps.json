@@ -9,7 +9,7 @@
       "sha1": "1055018c28ab41087ef9ccefe411606893dabea2",
       "license": "MIT",
       "copyright": "Copyright 2005, 2015 jQuery Foundation, Inc.",
-      "source": "https://github.com/jquery/jquery/tree/3.2.1"
+      "source": "https://github.com/jquery/jquery/archive/3.2.1.zip"
     },
     {
       "lib": "jstz",
@@ -30,8 +30,7 @@
       "dest": "program/js/publickey.js",
       "sha1": "d0920e190754e024c4be76ad5bbc7e76b2e37a4d",
       "license": "GPLv3",
-      "copyright": "Copyright (c) 2015 Daniel Roesler",
-      "source": "https://github.com/diafygi/publickeyjs/blob/master/publickey.js"
+      "copyright": "Copyright (c) 2015 Daniel Roesler"
     },
     {
       "lib": "tinymce",
@@ -68,7 +67,7 @@
       "sha1": "de75af6883019f490f69211e506377c84f49a85b",
       "license": "LGPL",
       "copyright": "Copyright (c) OpenPGP Development Team",
-      "source": "https://github.com/openpgpjs/openpgpjs/blob/v1.6.2/dist/openpgp.js"
+      "source": "https://github.com/openpgpjs/openpgpjs/raw/v1.6.2/dist/openpgp.js"
     },
     {
       "lib": "codemirror",
