@@ -135,6 +135,39 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
 }
 
 /**
+ * Fetch package sourcecode
+ */
+function fetch_sourcecode($package, $useCache = true)
+{
+  global $CURL, $WGET, $CACHEDIR;
+
+  $filetype   = pathinfo($package['source'], PATHINFO_EXTENSION) ?: '.zip';
+  if ($filetype != "js") {
+    $filetype = "zip";
+  }
+  $cache_file = $CACHEDIR . '/' . $package['lib'] . '-' . $package['version'] . '.src.' . $filetype;
+
+  if (!is_readable($cache_file) || !$useCache) {
+    if (empty($CURL) && empty($WGET)) {
+      die("ERROR: Required program 'wget' or 'curl' not found\n");
+    }
+
+    echo "Fetching {$package['source']}\n";
+
+    if ($CURL)
+        exec(sprintf('%s -L -s %s -o %s', $CURL, escapeshellarg($package['source']), $cache_file), $out, $retval);
+    else
+        exec(sprintf('%s -q %s -O %s', $WGET, escapeshellarg($package['source']), $cache_file), $out, $retval);
+
+    if ($retval !== 0) {
+      die("ERROR: Failed to download source file from " . $package['source'] . "\n");
+    }
+  }
+
+  return $cache_file;
+}
+
+/**
  * Returns package source file location and type
  */
 function extract_filetype($package, &$filetype = null)
@@ -156,6 +189,19 @@ function extract_filetype($package, &$filetype = null)
 
   return $cache_file;
 }
+
+/**
+ * Create a destination source javascript file with copyright and license header
+ */
+function copy_source($package, $srcfile)
+{
+  if (substr($package['dest'], -6) === 'min.js') {
+     $basename = substr($package['dest'], 0, -6)."js";
+     copy($srcfile, $basename);
+     echo "Wrote file " . INSTALL_PATH . $basename . "\n";
+  }
+}
+
 
 /**
  * Create a destination javascript file with copyright and license header
@@ -306,11 +352,30 @@ function delete_destfile($package)
   }
 }
 
+/**
+ * Delete the package destination file/dir
+ */
+function delete_source_destfile($package)
+{
+  if (substr($package['dest'], -6) === 'min.js') {
+    $name = INSTALL_PATH . substr($package['dest'], 0, -6)."js";
+    if (file_exists($name)) {
+      if (PHP_OS === 'Windows') {
+        exec(sprintf("rd /s /q %s", escapeshellarg($name)));
+      }
+      else {
+        exec(sprintf("rm -rf %s", escapeshellarg($name)));
+      }
+    }
+  }
+}
+
+
 
 //////////////// Execution
 
-$args = rcube_utils::get_opt(array('f' => 'force:bool', 'd' => 'delete:bool', 'g' => 'get:bool', 'e' => 'extract:bool'))
-        + array('force' => false, 'delete' => false, 'get' => false, 'extract' => false);
+$args = rcube_utils::get_opt(array('f' => 'force:bool', 'd' => 'delete:bool', 'g' => 'get:bool', 'e' => 'extract:bool', 's' => 'source:bool'))
+        + array('force' => false, 'delete' => false, 'get' => false, 'extract' => false, 'source' => false);
 $WHAT = $args[0];
 $useCache = !$args['force'] && !$args['get'];
 
@@ -329,14 +394,24 @@ foreach ($SOURCES['dependencies'] as $package) {
 
   if ($args['delete']) {
     delete_destfile($package);
+    delete_source_destfile($package);
     continue;
   }
 
   if ($args['get']) {
     $srcfile = fetch_from_source($package, $useCache, $filetype);
+    if($args['source'] && $package['source']) {
+      $srcfile_orig=fetch_sourcecode($package, $useCache);
+    }
   }
   else {
     $srcfile = extract_filetype($package, $filetype);
+
+    $ft   = pathinfo($package['source'], PATHINFO_EXTENSION) ?: '.zip';
+    if ($ft != "js") {
+      $ft = "zip";
+    }
+    $srcfile_orig = $CACHEDIR . '/' . $package['lib'] . '-' . $package['version'] . '.src.' . $ft;
   }
 
   if (!empty($package['sha1']) && ($sum = sha1_file($srcfile)) !== $package['sha1']) {
@@ -351,6 +426,16 @@ foreach ($SOURCES['dependencies'] as $package) {
     }
     else {
       compose_destfile($package, $srcfile);
+      if ($args['source'] && $package['source']) {
+        $filetype = pathinfo($package['source'], PATHINFO_EXTENSION) ?: '.zip';
+        if ($filetype != "js") {
+          $filetype = "zip";
+        }
+
+        if ($filetype === "js") {
+          copy_source($package, $srcfile_orig);
+        }
+      }
     }
 
     echo "Done.\n";
