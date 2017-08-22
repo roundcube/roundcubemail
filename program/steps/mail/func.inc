@@ -1260,36 +1260,38 @@ function rcmail_message_body($attrib)
                     rcmail_message_error($MESSAGE->uid);
                 }
 
-                // check if the message body is PGP encrypted
-                if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
-                    $OUTPUT->set_env('is_pgp_content', '#message-part' . ($part_no + 1));
-                }
-
                 $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
                     array('part' => $part, 'prefix' => ''));
 
+                // Set attributes of the part container
+                $container_class  = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
+                $container_id     = $container_class . (++$part_no);
+                $container_attrib = array('class' => $container_class, 'id' => $container_id);
+
+                // Assign container ID to a global variable for use in rcmail_washtml_link_callback()
+                $GLOBALS['rcmail_html_container_id'] = $container_id;
+
+                // Parse the part content for display
                 $body = rcmail_print_body($body, $part, array('safe' => $safe_mode, 'plain' => !$RCMAIL->config->get('prefer_html')));
 
+                // check if the message body is PGP encrypted
+                if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
+                    $OUTPUT->set_env('is_pgp_content', '#' . $container_id);
+                }
+
                 if ($part->ctype_secondary == 'html') {
-                    $container_id = 'message-htmlpart' . (++$part_no);
-                    $body         = rcmail_html4inline($body, $container_id, 'rcmBody', $attrs, $safe_mode);
-                    $div_attr     = array('class' => 'message-htmlpart', 'id' => $container_id);
-                    $style        = array();
+                    $body  = rcmail_html4inline($body, $container_id, 'rcmBody', $container_attrib, $safe_mode);
+                    $style = array();
 
                     if (!empty($attrs)) {
                         foreach ($attrs as $a_idx => $a_val)
                             $style[] = $a_idx . ': ' . $a_val;
                         if (!empty($style))
-                            $div_attr['style'] = implode('; ', $style);
+                            $container_attrib['style'] = implode('; ', $style);
                     }
+                }
 
-                    $out .= html::div($div_attr, $plugin['prefix'] . $body);
-                }
-                else {
-                    $container_id = 'message-part' . (++$part_no);
-                    $div_attr     = array('class' => 'message-part', 'id' => $container_id);
-                    $out .= html::div($div_attr, $plugin['prefix'] . $body);
-                }
+                $out .= html::div($container_attrib, $plugin['prefix'] . $body);
             }
         }
     }
