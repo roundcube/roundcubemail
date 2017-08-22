@@ -4789,20 +4789,15 @@ function rcube_webmail()
   // Create (attach) 'savetarget' iframe before use
   this.get_save_target = function()
   {
-    if (!this.save_target) {
-      this.save_target = $('<iframe>').attr({
+    $('<iframe>').attr({
         name: "savetarget",
+        src: "about:blank",
         style: "width:0;height:0;visibility:hidden;",
         'aria-hidden': "true"
-      });
-    }
-
-    this.save_target
-      .detach()
-      .attr('src', "about:blank")
+      })
       .appendTo('body')
       // Removing savetarget frame to workaround issues with window history
-      .on('load error', function() { $(this).detach(); });
+      .on('load error', function() { $(this).remove(); });
 
     return 'savetarget';
   };
