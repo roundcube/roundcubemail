@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Fix SQL syntax error on MariaDB 10.2 (#5774)
 - Fix bug where it wasn't possible to set timezone to auto-detected value (#5782)
 - Fix uninitialized string offset in rcube_utils::bin2ascii() and make sure rcube_utils::random_bytes() result has always requested length (#5788)
+- Fix potential XSS vulnerability with malformed HTML message markup
 
 RELEASE 1.2.5
 -------------
