@@ -4500,7 +4500,8 @@ function rcube_webmail()
 
     // display localized warning for missing subject
     if (!this.env.nosubject_warned && input_subject.val() == '') {
-      var prompt_value = $('<input>').attr({type: 'text', size: 40}),
+      var dialog,
+        prompt_value = $('<input>').attr({type: 'text', size: 40}),
         myprompt = $('<div class="prompt">')
           .append($('<div class="message">').text(this.get_label('nosubjectwarning')))
           .append(prompt_value),
@@ -7781,7 +7782,7 @@ function rcube_webmail()
 
     // resize and center popup
     var win = $(window), w = win.width(), h = win.height(),
-      width = popup.width(), height = popup.height();
+      width = popup.width(), height = options.height || (popup[0].scrollHeight + 20);
 
     popup.dialog('option', {
       height: Math.min(h - 40, height + 28 + (buttons ? 50 : 0)),
