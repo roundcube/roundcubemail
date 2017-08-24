@@ -4082,7 +4082,7 @@ function rcube_webmail()
             ref.mark_all_read(folder, $('input:checked', this).val());
             return true;
           },
-          {button: 'mark', height: 120}
+          {button: 'mark'}
         );
 
         return;
