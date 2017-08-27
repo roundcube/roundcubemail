@@ -20,6 +20,7 @@ $labels['username']  = 'Ім\'я користувача';
 $labels['password']  = 'Пароль';
 $labels['server']    = 'Сервер';
 $labels['login']     = 'Увійти';
+$labels['menu']     = 'Меню';
 $labels['logout']   = 'Вийти';
 $labels['mail']     = 'Пошта';
 $labels['settings'] = 'Налаштування';

@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Hiányzó csatolmány?";
 $messages['forgotattachment'] = "Nem felejtetted el a csatolandó file-t?";
 $messages['reminderoption'] = "Emlékeztessen a csatolandó csatolmányra";
 $messages['keywords'] = "csatolmány, file, csatolás, csatolt, csatolni, közrezárt, CV, kisérőlevél";

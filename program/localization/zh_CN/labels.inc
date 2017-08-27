@@ -20,6 +20,7 @@ $labels['username']  = '用户名';
 $labels['password']  = '密码';
 $labels['server']    = '服务器';
 $labels['login']     = '登录';
+$labels['menu']     = '菜单';
 $labels['logout']   = '注销';
 $labels['mail']     = '邮件';
 $labels['settings'] = '设置';

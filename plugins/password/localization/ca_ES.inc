@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Aquesta contrasenya ja es va fer servir anteriorm
 $messages['samepasswd'] = 'La nova contrasenya ha de ser diferent de l\'antiga.';
 $messages['passwdexpirewarning'] = 'Compte!, la vostra contrasenya caducarà aviat. Canvieu-la abans de $expirationdatetime.';
 $messages['passwdexpired'] = 'La vostra contrasenya ha caducat, l\'heu de canviar ara!';
+$messages['passwdconstraintviolation'] = 'Violació de restricció de les contrasenyes. La contrasenya és probablement massa feble.';

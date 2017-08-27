@@ -25,6 +25,7 @@ $labels['settingstitle'] = 'Arkiv';
 $labels['archivetype'] = 'Uppdelning av arkiv';
 $labels['archivetypeyear'] = 'År (ex. Arkiv/2012)';
 $labels['archivetypemonth'] = 'Månad (ex. Arkiv/2012/06)';
+$labels['archivetypetbmonth'] = 'Månad - Anpassad för Thunderbird (ex. Arkiv/2012/2012-06)';
 $labels['archivetypefolder'] = 'Ursprunglig katalog';
 $labels['archivetypesender'] = 'Avsändaradress';
 $labels['unkownsender'] = 'Okänd';

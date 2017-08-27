@@ -17,4 +17,6 @@
 */
 $labels['addvcardmsg'] = 'Adaugă vCard la agendă';
 $labels['vcardsavefailed'] = 'Nu pot salva vCard';
+$labels['attachvcard'] = 'Atașează vCard';
+$labels['vcard'] = 'vCard';
 ?>
