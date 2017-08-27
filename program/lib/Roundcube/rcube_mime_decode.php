@@ -192,6 +192,11 @@ class rcube_mime_decode
                 $obj = new rcube_mime_decode($this->params);
                 $return->parts[] = $obj->decode($body, false);
                 unset($obj);
+
+                if ($this->params['include_bodies']) {
+                    $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body, $encoding) : $body;
+                }
+
                 break;
 
             default:
