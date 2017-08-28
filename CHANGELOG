@@ -55,6 +55,7 @@ CHANGELOG Roundcube Webmail
 - Fix duplicate messages on the list after deleting messages on the next to the last page (#5862)
 - Fix bug where messages count was not updated after delete when imap_cache is set (#5872)
 - Fix potential XSS vulnerability with malformed HTML message markup
+- Fix sending message with "Too many public recipients" dialog buttons (#5924)
 - Bring back double-click behavior on the message list which was removed in 1.3.0 (#5823)
 - Enigma: Fix decrypting an encrypted+signed message when signature verification fails (#5914)
 
