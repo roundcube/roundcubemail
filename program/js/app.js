@@ -4502,9 +4502,6 @@ function rcube_webmail()
       }
     }
 
-    if (!this.check_compose_address_fields(cmd))
-      return false;
-
     // display localized warning for missing subject
     if (!this.env.nosubject_warned && input_subject.val() == '') {
       var dialog,
@@ -4515,7 +4512,8 @@ function rcube_webmail()
         save_func = function() {
           input_subject.val(prompt_value.val());
           dialog.dialog('close');
-          ref.command(cmd, { nocheck:true });  // repeat command which triggered this
+          if (ref.check_compose_input(cmd))
+            ref.command(cmd, { nocheck:true });  // repeat command which triggered this
         };
 
       dialog = this.show_popup_dialog(
@@ -4549,6 +4547,9 @@ function rcube_webmail()
       this.editor.focus();
       return false;
     }
+
+    if (!this.check_compose_address_fields(cmd))
+      return false;
 
     // move body from html editor to textarea (just to be sure, #1485860)
     this.editor.save();
@@ -4584,11 +4585,9 @@ function rcube_webmail()
     }
 
     // check for empty recipient
-    recipients = get_recipients([input_to, input_cc, input_bcc]);
-    if (!this.env.recipients_warned && !rcube_check_email(recipients, true)) {
+    if (!rcube_check_email(get_recipients([input_to, input_cc, input_bcc]), true)) {
       alert(this.get_label('norecipientwarning'));
       input_to.focus();
-      this.env.recipients_warned = true;
       return false;
     }
 
