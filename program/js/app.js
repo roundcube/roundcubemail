@@ -4423,7 +4423,7 @@ function rcube_webmail()
   };
 
   // checks the input fields before sending a message
-  this.check_compose_input = function(cmd, skip_recipients_checks)
+  this.check_compose_input = function(cmd)
   {
     // check input fields
     var key, recipients, dialog,
@@ -4449,8 +4449,7 @@ function rcube_webmail()
     }
 
     // check for empty recipient
-    recipients = get_recipients([input_to, input_cc, input_bcc]);
-    if (!skip_recipients_checks && !rcube_check_email(recipients, true)) {
+    if (!rcube_check_email(get_recipients([input_to, input_cc, input_bcc]), true)) {
       alert(this.get_label('norecipientwarning'));
       input_to.focus();
       return false;
@@ -4465,7 +4464,7 @@ function rcube_webmail()
     }
 
     // check disclosed recipients limit
-    if (limit && !skip_recipients_checks && !this.env.disclosed_recipients_warned
+    if (limit && !this.env.disclosed_recipients_warned
       && rcube_check_email(recipients = get_recipients([input_to, input_cc]), true, true) > limit
     ) {
       var save_func = function(move_to_bcc) {
@@ -4477,7 +4476,8 @@ function rcube_webmail()
           }
 
           dialog.dialog('close');
-          ref.check_compose_input(cmd, true);
+          if (ref.check_compose_input(cmd))
+            ref.command(cmd, { nocheck:true });  // repeat command which triggered this
         };
 
       dialog = this.show_popup_dialog(
@@ -4510,7 +4510,8 @@ function rcube_webmail()
         save_func = function() {
           input_subject.val(prompt_value.val());
           dialog.dialog('close');
-          ref.command(cmd, { nocheck:true });  // repeat command which triggered this
+          if (ref.check_compose_input(cmd))
+            ref.command(cmd, { nocheck:true });  // repeat command which triggered this
         };
 
       dialog = this.show_popup_dialog(
