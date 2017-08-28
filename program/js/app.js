@@ -4133,33 +4133,40 @@ function rcube_webmail()
     var uid = this.get_single_uid(),
       url = this.url('bounce', {_framed: 1, _uid: uid, _mbox: this.get_message_mailbox(uid)}),
       dialog = $('<iframe>').attr('src', url),
-      submit_func = function() {
-        var post = {},
-          rc = dialog[0].contentWindow.rcmail,
-          form = rc.gui_objects.messageform
+      get_form = function() {
+        var rc = $('iframe', dialog)[0].contentWindow.rcmail;
+        return {rc: rc, form: rc.gui_objects.messageform};
+      },
+      post_func = function() {
+        var post = {}, form = get_form();
 
-        if (typeof form != 'object')
-          return false;
+        $.each($(form.form).serializeArray(), function() { post[this.name] = this.value; });
 
-        if (!rc.check_compose_address_fields(false, false, form))
-          return false;
-
-        $.each($(form).serializeArray(), function() { post[this.name] = this.value; });
-
-        post._uid = rc.env.uid;
-        post._mbox = rc.env.mailbox;
+        post._uid = form.rc.env.uid;
+        post._mbox = form.rc.env.mailbox;
         delete post._action;
         delete post._task;
 
         if (post._to || post._cc || post._bcc) {
           ref.http_post('bounce', post, ref.set_busy(true, 'sendingmessage'));
-          return true;
+          dialog.dialog('close');
         }
+      },
+      submit_func = function() {
+        var form = get_form();
+
+        if (typeof form.form != 'object')
+          return false;
+
+        if (!form.rc.check_compose_address_fields(post_func, form.form))
+          return false;
+
+        return post_func();
       };
 
     this.hide_menu('forwardmenu', event);
 
-    this.simple_dialog(dialog, this.gettext('bouncemsg'), submit_func, {
+    dialog = this.simple_dialog(dialog, this.gettext('bouncemsg'), submit_func, {
       button: 'bounce',
       width: 400,
       height: 300
@@ -4482,7 +4489,7 @@ function rcube_webmail()
   };
 
   // checks the input fields before sending a message
-  this.check_compose_input = function(cmd, skip_recipients_checks)
+  this.check_compose_input = function(cmd)
   {
     var key,
       input_subject = $("[name='_subject']");
@@ -4495,7 +4502,7 @@ function rcube_webmail()
       }
     }
 
-    if (!this.check_compose_address_fields(cmd, skip_recipients_checks))
+    if (!this.check_compose_address_fields(cmd))
       return false;
 
     // display localized warning for missing subject
@@ -4549,7 +4556,7 @@ function rcube_webmail()
     return true;
   };
 
-  this.check_compose_address_fields = function(cmd, skip_recipients_checks, form)
+  this.check_compose_address_fields = function(cmd, form)
   {
     if (!form)
       form = window.document;
@@ -4578,14 +4585,15 @@ function rcube_webmail()
 
     // check for empty recipient
     recipients = get_recipients([input_to, input_cc, input_bcc]);
-    if (!skip_recipients_checks && !rcube_check_email(recipients, true)) {
+    if (!this.env.recipients_warned && !rcube_check_email(recipients, true)) {
       alert(this.get_label('norecipientwarning'));
       input_to.focus();
+      this.env.recipients_warned = true;
       return false;
     }
 
     // check disclosed recipients limit
-    if (limit && !skip_recipients_checks && !this.env.disclosed_recipients_warned
+    if (limit && !this.env.disclosed_recipients_warned
       && rcube_check_email(recipients = get_recipients([input_to, input_cc]), true, true) > limit
     ) {
       var save_func = function(move_to_bcc) {
@@ -4597,8 +4605,11 @@ function rcube_webmail()
           }
 
           dialog.dialog('close');
-          if (cmd)
-            ref.check_compose_input(cmd, true);
+
+          if (typeof cmd == 'function')
+            cmd();
+          else if (cmd)
+            ref.command(cmd, { nocheck:true });  // repeat command which triggered this
         };
 
       dialog = this.show_popup_dialog(
