@@ -835,6 +835,7 @@ class enigma_ui
 
         // Options menu contents
         $this->rc->output->add_footer($menu);
+        $this->rc->output->add_label('enigma.sendunencrypted');
     }
 
     /**
@@ -1111,6 +1112,7 @@ class enigma_ui
                             'text'   => $this->rc->gettext(array('name' => $msg, 'vars' => $vars)),
                             'title'  => $this->enigma->gettext('keynotfound'),
                             'button' => $this->enigma->gettext('findkey'),
+                            'mode'   => $mode,
                     ));
                 }
                 else {
