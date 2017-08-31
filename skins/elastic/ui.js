@@ -862,7 +862,8 @@ function rcube_elastic_ui()
         // These will hide the form, but not reset it
         rcube_webmail.set_iframe_events({mousedown: hide_func});
         $('body').on('mousedown', function(e) {
-            if ($.inArray(bar, $(e.target).parents()) == -1) {
+            // close searchbar on mousedown anywhere, but not inside the searchbar or dialogs
+            if ($.inArray(bar, $(e.target).parents()) == -1 && !$(e.target).parents('.popover').length) {
                 hide_func(e);
             }
         });
