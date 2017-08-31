@@ -127,3 +127,98 @@
         }
     }
 }
+
+/* Datepicker widget */
+
+.ui-datepicker {
+    border: 1px solid @color-datepicker-border;
+    border-radius: .3rem;
+    padding: 0;
+    overflow: hidden;
+
+    .ui-datepicker-header,
+    .ui-datepicker-title {
+        line-height: 4rem;
+        height: 4rem;
+        padding: 0;
+    }
+
+    .ui-datepicker-header {
+        border-bottom: 1px solid @color-dialog-header-border;
+
+        a {
+            height: 4rem;
+        }
+    }
+    .ui-icon {
+        background-image: none !important;
+        background-position: none !important;
+    }
+
+    .ui-datepicker-prev,
+    .ui-datepicker-next {
+        cursor: pointer;
+        width: auto;
+
+        &:before {
+        &:extend(.font-icon-class);
+            content: "\f053";
+            margin: 0 .25em;
+            height: auto;
+            width: 1em;
+        }
+    }
+
+    .ui-datepicker-prev:before {
+        content: "\f053";
+    }
+
+    .ui-datepicker-next:before {
+        content: "\f054";
+    }
+
+    td a {
+        padding: 0;
+        line-height: 1.8em;
+        border-radius: .3rem;
+    }
+
+    .ui-state-default,
+    &.ui-widget-content .ui-state-default {
+        border: 0;
+        background: transparent;
+        color: @color-datepicker-font;
+    }
+
+    .ui-state-highlight,
+    &.ui-widget-content .ui-state-highlight {
+        background: @color-datepicker-highlight-background;
+        color: @color-datepicker-highlight;
+    }
+
+    .ui-state-active,
+    &.ui-widget-content .ui-state-active {
+        background: @color-datepicker-active-background;
+        color: @color-datepicker-active;
+        font-weight: bold;
+    }
+}
+
+html.touch {
+    .ui-datepicker {
+        width: @screen-width-mini;
+
+        td a {
+            font-size: 1.2em;
+            line-height: 2.2em;
+        }
+    }
+}
+
+@media screen and (max-width: @screen-width-mini) {
+    .ui-datepicker {
+        border-radius: 0;
+        width: 100% !important;
+        left: 0 !important;
+    }
+}
