@@ -66,10 +66,10 @@ RULES:
 ```
     <body>
         <div id="layout">
-            <div id="menu"></div>
-            <div id="sidebar"></div>
-            <div id="list"></div>
-            <div id="content"></div>
+            <div class="menu"></div>
+            <div class="sidebar"></div>
+            <div class="list"></div>
+            <div class="content"></div>
         </div>
     </body>
 ```
