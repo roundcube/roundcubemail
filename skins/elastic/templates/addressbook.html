@@ -22,12 +22,13 @@
 
 <!-- contacts list -->
 <div id="list" class="list listbox selected" aria-labelledby="aria-label-contactslist">
-	<div class="header">
+	<div class="header with-search-and-toolbar">
 		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="groups" /></span></a>
 		<roundcube:object name="addresslisttitle" label="contacts" tag="span" class="header-title" />
 		<roundcube:object name="searchform" id="searchform" wrapper="searchbar toolbar"
 			label="contactsearchform" buttontitle="findcontacts" options="search-menu" ariatag="h2" />
+		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 	</div>
 	<div class="scroller">
 		<roundcube:object name="addresslisttitle" label="contacts" tag="h2" class="voice" id="aria-label-contactslist" />

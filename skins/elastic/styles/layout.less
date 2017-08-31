@@ -187,7 +187,7 @@ html.iframe body {
         height: @layout-touch-header-height;
         font-size: @layout-touch-header-font-size;
 
-        a.button.icon:before {
+        a.button:before {
             font-size: 1.75rem;
             height: @layout-touch-header-height;
             margin: 0;
@@ -207,6 +207,17 @@ html.iframe body {
     body > #layout > div.sidebar,
     body > #layout > div.list {
         max-width: none;
+    }
+
+    body > #layout > div > .header.with-search-and-toolbar {
+        & > .header-title {
+            margin-right: 1.5em;
+        }
+
+        & > .searchbar {
+            margin-right: 2em;
+            padding-left: 2em;
+        }
     }
 
     .hidden-small {

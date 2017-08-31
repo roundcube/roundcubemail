@@ -927,6 +927,14 @@ function rcube_elastic_ui()
                 // TODO: copy original toolbar attributes (class, role, aria-*)
                 .append($('<ul>').attr(menu_attrs).data('popup-parent', container).append(items))
                 .append(menu_button);
+
+            if (layout.list.length) {
+                // bind toolbar menu with the menu button in the list header
+                $('a.toolbar-menu-button', layout.list).click(function(e) {
+                    e.stopPropagation();
+                    menu_button.click();
+                });
+            }
         }
     };
 
