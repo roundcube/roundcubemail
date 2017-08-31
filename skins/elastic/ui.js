@@ -109,13 +109,13 @@ function rcube_elastic_ui()
         if (rcmail.is_framed() && !rcmail.env.extwin && !parent.$('.ui-dialog:visible').length) {
             var title = $('h1.voice:first').text();
             if (title) {
-                parent.$('#content > .header > .header-title').text(title);
+                parent.$('#layout > .content > .header > .header-title').text(title);
             }
         }
         else {
-            var title = $('#content .boxtitle:first').detach().text();
+            var title = $('#layout > .content .boxtitle:first').detach().text();
             if (title) {
-                $('#content > .header > .header-title').text(title);
+                $('#layout > .content > .header > .header-title').text(title);
             }
         }
 
