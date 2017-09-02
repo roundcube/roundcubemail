@@ -48,7 +48,7 @@ function rcube_elastic_ui()
 
 
     // Public methods
-    this.register_frame_buttons = register_frame_buttons;
+    this.register_content_buttons = register_content_buttons;
     this.menu_hide = menu_hide;
     this.about_dialog = about_dialog;
     this.spellmenu = spellmenu;
@@ -84,6 +84,9 @@ function rcube_elastic_ui()
      */
     function setup()
     {
+        var content_buttons = [],
+            is_framed = rcmail.is_framed();
+
         // Initialize search forms (in list headers)
         $('.header > .searchbar').each(function() { searchbar_init(this); });
 
@@ -106,7 +109,7 @@ function rcube_elastic_ui()
         $('body').on('click', function() { if (mode == 'phone') layout.menu.addClass('hidden'); });
 
         // Set content frame title in parent window (exclude ext-windows and dialog frames)
-        if (rcmail.is_framed() && !rcmail.env.extwin && !parent.$('.ui-dialog:visible').length) {
+        if (is_framed && !rcmail.env.extwin && !parent.$('.ui-dialog:visible').length) {
             var title = $('h1.voice:first').text();
             if (title) {
                 parent.$('#layout > .content > .header > .header-title').text(title);
@@ -119,20 +122,36 @@ function rcube_elastic_ui()
             }
         }
 
+        // Move some buttons to the toolbar
+        $('a[data-content-button]').each(function() {
+            var target = $(this),
+                button = target.clone(),
+                target_id = target.attr('id'),
+                button_id = target_id + '-clone';
+
+            content_buttons.push(
+                button.attr({'onclick': '', id: button_id, title: target.text()})
+                    .on('click', function(e) { target.click(); })
+                    .text('')
+            );
+
+            // Register the button to get active state updates
+            register_cloned_button(target_id, button_id);
+        });
+
         // Move form buttons from the content frame into the frame header (on parent window)
         // TODO: Active button state
-        var form_buttons = [];
         $('.formbuttons').children(':not(.cancel)').each(function() {
             var target = $(this);
 
             // skip non-content buttons
-            if (!rcmail.is_framed() && !target.parents('.content').length) {
+            if (!is_framed && !target.parents('.content').length) {
                 return;
             }
 
             var button = target.clone();
 
-            form_buttons.push(
+            content_buttons.push(
                 button.attr({'onclick': '', disabled: false, id: button.attr('id') + '-clone', title: target.text()})
                     .data('target', target)
                     .on('click', function(e) { target.click(); })
@@ -140,14 +159,14 @@ function rcube_elastic_ui()
             );
         });
 
-        if (form_buttons.length) {
-            if (rcmail.is_framed()) {
+        if (content_buttons.length) {
+            if (is_framed) {
                 if (parent.UI) {
-                    parent.UI.register_frame_buttons(form_buttons);
+                    parent.UI.register_content_buttons(content_buttons);
                 }
             }
             else {
-                register_frame_buttons(form_buttons);
+                register_content_buttons(content_buttons);
             }
         }
 
@@ -215,7 +234,7 @@ function rcube_elastic_ui()
     /**
      * Moves form buttons into content frame toolbar (for mobile)
      */
-    function register_frame_buttons(buttons)
+    function register_content_buttons(buttons)
     {
         // we need these buttons really only in phone mode
         if (/*mode == 'phone' && */layout.content.length && buttons && buttons.length) {
@@ -238,11 +257,31 @@ function rcube_elastic_ui()
 
                 content_buttons = [];
                 $.each(buttons, function() {
-                    content_buttons.push(this.data('target'));
+                    if (this.data('target')) {
+                        content_buttons.push(this.data('target'));
+                    }
                 });
 
                 toolbar.html('').append(buttons);
                 resize();
+            }
+        }
+    };
+
+    /**
+     * Registers cloned button
+     */
+    function register_cloned_button(old_id, new_id)
+    {
+        var i, button, command;
+
+        for (command in rcmail.buttons) {
+            for (i = 0; i < rcmail.buttons[command].length; i++) {
+                button = rcmail.buttons[command][i];
+                if (button.id == old_id) {
+                    rcmail.register_button(command, new_id, button.type, button.act, button.sel, button.over);
+                    return;
+                }
             }
         }
     };

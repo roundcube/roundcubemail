@@ -93,3 +93,5 @@ RULES:
     - `data-hidden-small`: Makes a menu entry/button hidden on small devices.
       Can be used for example for functionality not implemented or that has no sense
       on phones or touch devices.
+    - `data-content-button`: Makes the action button with this attribute to be copied
+      to the content frame header on small/phone screens.

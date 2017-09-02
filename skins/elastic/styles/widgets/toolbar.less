@@ -11,7 +11,6 @@
 
 /*** Toolbar widget ***/
 
-
 .toolbar {
     &.listing a,
     a {
@@ -165,6 +164,23 @@
 
             &:before {
                 font-size: 1.75rem;
+            }
+        }
+
+        a.button {
+            display: inline-block;
+
+            &:before {
+                &:extend(.font-icon-class);
+                float: none;
+            }
+
+            &.reply:before {
+                content: @fa-var-mail-reply;
+            }
+
+            &.send:before {
+                content: @fa-var-paper-plane;
             }
         }
     }

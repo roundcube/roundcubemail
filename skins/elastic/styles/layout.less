@@ -212,6 +212,16 @@ html.iframe body {
         max-width: none;
     }
 
+    body > #layout > div > .header,
+    body > #layout > div > .footer {
+        a.button:before {
+            font-size: 1.75rem;
+            height: @layout-touch-header-height;
+            margin: 0;
+            width: 1.4em;
+        }
+    }
+
     body > #layout > div > .header.with-search-and-toolbar {
         & > .header-title {
             margin-right: 1.5em;
