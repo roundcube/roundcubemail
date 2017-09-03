@@ -3495,7 +3495,7 @@ function rcube_webmail()
         // go to specified page
         var p = parseInt(this.value);
         if (p && p != ref.env.current_page && !ref.busy) {
-          ref.hide_menu('pagejump-selector');
+          ref.hide_menu('pagejump-selector', e);
           ref.list_page(p);
         }
       });
@@ -8262,8 +8262,7 @@ function rcube_webmail()
       this.focused_menu = null;
       this.menu_keyboard_active = false;
     }
-  }
-
+  };
 
   // position a menu element on the screen in relation to other object
   this.element_position = function(element, obj)
