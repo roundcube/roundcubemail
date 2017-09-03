@@ -117,6 +117,12 @@
         &.responses:before {
             content: @fa-var-comment;
         }
+        &.select:before {
+            content: @fa-var-check-square-o;
+        }
+        &.threads:before {
+            content: @fa-var-comments;
+        }
     }
 
     .dropbutton {
@@ -317,6 +323,29 @@
     a.export.selection:before,
     a.export.all:before {
         content: @fa-var-download;
+    }
+    a.select.all:before {
+        content: @fa-var-check-square-o;
+    }
+    a.select.none:before {
+        content: @fa-var-times;
+    }
+    a.select.page:before {
+        content: @fa-var-reorder;
+    }
+    a.select.flagged:before {
+        content: @fa-var-flag;
+    }
+    a.select.unread:before {
+        content: @fa-var-star;
+    }
+    a.select.invert:before {
+        content: @fa-var-square-o;
+    }
+    a.expand.all:before,
+    a.expand.unread:before,
+    a.expand.none:before {
+        content: @fa-var-comments;
     }
 }
 

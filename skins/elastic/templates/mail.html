@@ -46,14 +46,14 @@
 			data-list="message_list"
 		/>
 	</div>
-	<div id="messagelist-footer" class="footer">
+	<div id="messagelist-footer" class="footer toolbar">
 		<div id="listselectors">
-			<a href="#select" id="listselectmenulink" class="menuselector" data-popup="listselect-menu"><span class="handle"><roundcube:label name="select" /></span></a>
+			<a href="#select" class="button select" data-popup="listselect-menu"><span class="inner"><roundcube:label name="select" /></span></a>
 			<roundcube:if condition="env:threads" />
-				&nbsp; <a href="#threads" id="threadselectmenulink" class="menuselector" data-popup="threadselect-menu"><span class="handle"><roundcube:label name="threads" /></span></a>
+				<a href="#threads" class="button threads" data-popup="threadselect-menu"><span class="inner"><roundcube:label name="threads" /></span></a>
 			<roundcube:endif />
 		</div>
-		<div id="countcontrols" class="toolbar">
+		<div id="countcontrols">
 			<roundcube:object name="messageCountDisplay" class="countdisplay" aria-live="polite" aria-relevant="text" />
 			<span class="pagenavbuttons">
 			<roundcube:button command="firstpage" type="link"
@@ -136,21 +136,21 @@
 <div id="listselect-menu" class="popupmenu">
 	<h3 id="aria-label-listselect-menu" class="voice"><roundcube:label name="arialabellistselectmenu" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-listselect-menu">
-		<roundcube:button command="select-all" type="link-menuitem" label="all" class="icon" classAct="icon active" innerclass="icon mail" />
-		<roundcube:button command="select-all" type="link-menuitem" prop="page" label="currpage" class="icon" classAct="icon active" innerclass="icon list" />
-		<roundcube:button command="select-all" type="link-menuitem" prop="unread" label="unread" class="icon" classAct="icon active" innerclass="icon unread" />
-		<roundcube:button command="select-all" type="link-menuitem" prop="flagged" label="flagged" class="icon" classAct="icon active" innerclass="icon flagged" />
-		<roundcube:button command="select-all" type="link-menuitem" prop="invert" label="invert" class="icon" classAct="icon active" innerclass="icon invert" />
-		<roundcube:button command="select-none" type="link-menuitem" label="none" class="icon" classAct="icon active" innerclass="icon cross" />
+		<roundcube:button command="select-all" type="link-menuitem" label="all" class="select all" classAct="select all active" innerclass="inner" />
+		<roundcube:button command="select-all" type="link-menuitem" prop="page" label="currpage" class="select page" classAct="select page active" innerclass="inner" />
+		<roundcube:button command="select-all" type="link-menuitem" prop="unread" label="unread" class="select unread" classAct="select unread active" innerclass="inner" />
+		<roundcube:button command="select-all" type="link-menuitem" prop="flagged" label="flagged" class="select flagged" classAct="select flagged active" innerclass="inner" />
+		<roundcube:button command="select-all" type="link-menuitem" prop="invert" label="invert" class="select invert" classAct="select invert active" innerclass="inner" />
+		<roundcube:button command="select-none" type="link-menuitem" label="none" class="select none" classAct="select none active" innerclass="inner" />
 	</ul>
 </div>
 
 <div id="threadselect-menu" class="popupmenu">
 	<h3 id="aria-label-threadselectmenu" class="voice"><roundcube:label name="arialabelthreadselectmenu" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-threadselectmenu">
-		<roundcube:button command="expand-all" type="link-menuitem" label="expand-all" class="icon" classAct="icon active" innerclass="icon conversation" />
-		<roundcube:button command="expand-unread" type="link-menuitem" label="expand-unread" class="icon" classAct="icon active" innerclass="icon conversation" />
-		<roundcube:button command="collapse-all" type="link-menuitem" label="collapse-all" class="icon" classAct="icon active" innerclass="icon conversation" />
+		<roundcube:button command="expand-all" type="link-menuitem" label="expand-all" class="expand all" classAct="expand all active" innerclass="inner" />
+		<roundcube:button command="expand-unread" type="link-menuitem" label="expand-unread" class="expand unread" classAct="expand unread active" innerclass="inner" />
+		<roundcube:button command="collapse-all" type="link-menuitem" label="collapse-all" class="expand none" classAct="expand none active" innerclass="inner" />
 	</ul>
 </div>
 
