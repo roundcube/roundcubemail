@@ -342,6 +342,8 @@ function rcube_elastic_ui()
         });
 
         rcmail.addEventListener('fileappended', function(e) { if (e.attachment.complete) attachmentmenu_append(e.item); });
+
+        rcmail.init_pagejumper('.pagenav-buttons > input');
     };
 
     /**
@@ -1151,6 +1153,12 @@ function rcube_elastic_ui()
                     .appendTo(document.body).get(0);
             }
 
+            pos = 'right';
+
+            if (p.name == 'pagejump-selector') {
+                pos = 'top';
+            }
+
             // Popover menus use animation. Sometimes the same menu is
             // immediately hidden and shown (e.g. folder-selector for copy and move action)
             // we have to way until the previous menu hides before we can open it again
@@ -1162,7 +1170,7 @@ function rcube_elastic_ui()
                 if (!$(target).data('popup')) {
                     $(target).data({
                         popup: p.name,
-                        'popup-pos': 'right',
+                        'popup-pos': pos,
                         'popup-trigger': 'manual'
                     });
                     popup_init(target);

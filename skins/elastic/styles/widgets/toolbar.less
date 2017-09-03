@@ -139,6 +139,47 @@
         display: inline-block;
         width: 1.2em;
     }
+
+    &.footer {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+
+        div {
+            flex-grow: 1;
+        }
+    }
+
+    .pagenav {
+        text-align: center;
+        flex-grow: 3;
+
+        span {
+            display: block;
+            text-align: center;
+        }
+
+        .pagenav-text {
+            height: (@layout-header-height * 0.3);
+            line-height: (@layout-header-height * 0.3);
+            font-size: 80%;
+            color: @color-pagenav-secondary;
+            padding-top: .25rem;
+        }
+
+        .pagenav-buttons {
+            height: (@layout-header-height * 0.7);
+            line-height: (@layout-header-height * 0.7);
+
+            input {
+                width: 3rem;
+                line-height: 1;
+                padding: .25rem;
+                display: inline;
+                text-align:center;
+            }
+        }
+    }
 }
 
 #layout > .sidebar,

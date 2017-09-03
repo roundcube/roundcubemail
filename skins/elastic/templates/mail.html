@@ -47,22 +47,22 @@
 		/>
 	</div>
 	<div id="messagelist-footer" class="footer toolbar">
-		<div id="listselectors">
-			<a href="#select" class="button select" data-popup="listselect-menu"><span class="inner"><roundcube:label name="select" /></span></a>
+		<div class="listselectors">
+			<a href="#select" class="button select" data-popup="listselect-menu" title="<roundcube:label name="select" />"><span class="inner"><roundcube:label name="select" /></span></a>
 			<roundcube:if condition="env:threads" />
-				<a href="#threads" class="button threads" data-popup="threadselect-menu"><span class="inner"><roundcube:label name="threads" /></span></a>
+				<a href="#threads" class="button threads" data-popup="threadselect-menu" title="<roundcube:label name="threads" />"><span class="inner"><roundcube:label name="threads" /></span></a>
 			<roundcube:endif />
 		</div>
-		<div id="countcontrols">
-			<roundcube:object name="messageCountDisplay" class="countdisplay" aria-live="polite" aria-relevant="text" />
-			<span class="pagenavbuttons">
+		<div class="pagenav">
+			<roundcube:object name="messageCountDisplay" class="pagenav-text" aria-live="polite" aria-relevant="text" />
+			<span class="pagenav-buttons">
 			<roundcube:button command="firstpage" type="link"
 				class="button firstpage disabled" classAct="button firstpage"
 				title="firstpage" label="first" innerclass="inner" />
 			<roundcube:button command="previouspage" type="link"
 				class="button prevpage disabled" classAct="button prevpage"
 				title="previouspage" label="previous" innerclass="inner" />
-			<input id="pagejumper" class="pagejumper" type="text" size="3" disabled title="<roundcube:label name="currpage" />" />
+			<input class="form-control" type="text" size="3" disabled title="<roundcube:label name="currpage" />" />
 			<roundcube:button command="nextpage" type="link"
 				class="button nextpage disabled" classAct="button nextpage"
 				title="nextpage" label="next" innerclass="inner" />
