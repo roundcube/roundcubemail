@@ -39,11 +39,15 @@ CHANGELOG Roundcube Webmail
 - Fix touch event issue on messages list in IE/Edge (#5781)
 - Fix so links over images are not removed in plain text signatures converted from HTML (#4473)
 - Fix various issues when downloading files with names containing non-ascii chars, use RFC 2231 (#5772)
+
+RELEASE 1.3.1
+-------------
 - Add Preferences > Mailbox View > Main Options > Layout (#5829)
 - Password: Fix compatibility with PHP 7+ in cpanel_webmail driver (#5820)
 - Managesieve: Fix parsing dot-staffed lines in multiline text (#5838)
 - Managesieve: Fix AM/PM suffix in vacation time selectors
 - Managesieve: Fix bug where 'exists' operator was reset to 'contains' (#5899)
+- Remove non-printable characters from filenames on download/display (#5880)
 - Fix decoding non-ascii attachment names from TNEF attachments (#5646, #5799)
 - Fix uninitialized string offset in rcube_utils::bin2ascii() and make sure rcube_utils::random_bytes() result has always requested length (#5788)
 - Fix bug where HTML messages with @media styles could moddify style of page body (#5811)
