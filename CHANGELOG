@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Improve detection for Egde browser and add pointer event support (#5922)
 - Fix bug where pink image was used instead of a thumbnail when image resize fails (#5933)
 
 RELEASE 1.3.1
