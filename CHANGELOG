@@ -35,6 +35,7 @@ CHANGELOG Roundcube Webmail
 - Allow contacts without an email address (#5079)
 - Localized timezone selector (#4983)
 - Use 7bit encoding for ISO-2022-* charsets in sent mail (#5640)
+- Handle inline images also inside multipart/mixed messages (#5905)
 - Fix duplicated signature when using Back button in Chrome (#5809)
 - Fix touch event issue on messages list in IE/Edge (#5781)
 - Fix so links over images are not removed in plain text signatures converted from HTML (#4473)
