@@ -16,6 +16,7 @@ REQUIREMENTS
    - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
    - Iconv, Zip, Fileinfo, Intl, Exif (recommended)
    - LDAP for LDAP addressbook support (optional)
+   - GD, Imagick (optional thumbnails generation, QR-code)
 * PEAR and PEAR packages distributed with Roundcube or external:
    - Mail_Mime 1.10.0 or newer
    - Net_SMTP 1.7.1 or newer
