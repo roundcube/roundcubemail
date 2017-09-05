@@ -39,6 +39,7 @@ CHANGELOG Roundcube Webmail
 - Fix touch event issue on messages list in IE/Edge (#5781)
 - Fix so links over images are not removed in plain text signatures converted from HTML (#4473)
 - Fix various issues when downloading files with names containing non-ascii chars, use RFC 2231 (#5772)
+- Fix bug where pink image was used instead of a thumbnail when image resize fails (#5933)
 
 RELEASE 1.3.1
 -------------

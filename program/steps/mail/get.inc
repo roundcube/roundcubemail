@@ -94,8 +94,6 @@ if (!empty($_GET['_thumb']) && $attachment->is_valid()) {
             $_GET['_thumb']     = 0;
             $_REQUEST['_embed'] = 1;
         }
-
-        unlink($orig_name);
     }
 
     if (!empty($_GET['_thumb'])) {
@@ -273,7 +271,6 @@ if (empty($_GET['_thumb']) && $attachment->is_valid()) {
                 header("Content-Length: " . filesize($file_path));
                 readfile($file_path);
             }
-            unlink($file_path);
         }
     }
     else {
