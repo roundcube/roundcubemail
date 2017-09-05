@@ -401,6 +401,7 @@ table.fixedcopy {
         width: 99%;
         position: relative; /* for span.date positioning in Firefox */
         background-clip: padding-box; /* fixes Firefox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
+        padding-right: 0;
 
         a {
             text-decoration: none;
@@ -469,7 +470,7 @@ table.fixedcopy {
     }
 
     tr.unread td.subject span.subject {
-        /* TODO font-weight: bold? */
+        font-weight: bold;
     }
 
     /* thread parent message with unread children */

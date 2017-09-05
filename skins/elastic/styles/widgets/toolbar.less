@@ -52,7 +52,7 @@
             content: @fa-var-caret-down;
         }
         &.settings:before {
-            content: @fa-var-cog;
+            content: @fa-var-sliders;
         }
         &.move:before {
             content: @fa-var-arrows;
@@ -122,6 +122,9 @@
         }
         &.threads:before {
             content: @fa-var-comments;
+        }
+        &.actions:before {
+            content: @fa-var-cog;
         }
     }
 
@@ -388,6 +391,18 @@
     a.expand.none:before {
         content: @fa-var-comments;
     }
+    a.delete:before {
+        content: @fa-var-trash;
+    }
+    a.expunge:before {
+        content: @fa-var-compress;
+    }
+    a.import:before {
+        content: @fa-var-upload;
+    }
+    a.settings:before {
+        content: @fa-var-sliders;
+    }
 }
 
 @media screen and (min-width: (@screen-width-small + 1px)) {
@@ -453,11 +468,12 @@
             }
         }
 
-    }
-    ul.toolbar > li {
-        display: inline-block;
-    }
-    ul.toolbar.listing li {
-        border: 0;
+        & > li {
+            display: inline-block;
+        }
+
+        &.listing li {
+            border: 0;
+        }
     }
 }

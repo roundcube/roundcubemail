@@ -13,8 +13,9 @@
 	<div id="folderlist-content" class="scroller">
 		<roundcube:object name="mailboxlist" id="mailboxlist" class="treelist listing folderlist" folder_filter="mail" unreadwrap="%s" />
 	</div>
-	<div id="folderlist-footer" class="footer">
-		<roundcube:button id="mailboxmenulink" type="link" title="folderactions" class="listbutton groupactions" data-popup="mailboxoptions-menu" innerClass="inner" content="&#9881;" />
+	<div id="folderlist-footer" class="footer toolbar">
+		<roundcube:button name="folderactions" type="link" title="folderactions" label="folderactions"
+			class="button actions" innerclass="inner" data-popup="mailboxoptions-menu" />
 		<roundcube:if condition="env:quota" />
 			<span class="voice"><roundcube:label name="quota"></span>
 			<roundcube:object name="quotaDisplay" id="quotadisplay" class="countdisplay" display="text" />
@@ -124,11 +125,11 @@
 <div id="mailboxoptions-menu" class="popupmenu">
 	<h3 id="aria-label-mailboxoptions-menu" class="voice"><roundcube:label name="arialabelmailboxmenu" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-mailboxoptions-menu">
-		<roundcube:button command="expunge" type="link-menuitem" label="compact" classAct="active" />
-		<roundcube:button command="purge" type="link-menuitem" label="empty" classAct="active" />
-		<roundcube:button command="mark-all-read" type="link-menuitem" label="markallread" classAct="active" />
-		<roundcube:button command="import-messages" type="link-menuitem" name="messageimport" classAct="active" label="importmessages" onclick="if (rcmail.command_enabled('import-messages')) rcmail.upload_input('uploadform')" />
-		<roundcube:button command="folders" task="settings" type="link-menuitem" label="managefolders" classAct="active" />
+		<roundcube:button command="expunge" type="link-menuitem" label="compact" class="expunge" classAct="expunge active" />
+		<roundcube:button command="purge" type="link-menuitem" label="empty" class="delete" classAct="delete active" />
+		<roundcube:button command="mark-all-read" type="link-menuitem" label="markallread" class="read" classAct="read active" />
+		<roundcube:button command="import-messages" type="link-menuitem" label="importmessages" class="import" classAct="import active" name="messageimport" onclick="if (rcmail.command_enabled('import-messages')) rcmail.upload_input('uploadform')" />
+		<roundcube:button command="folders" task="settings" type="link-menuitem" label="managefolders" class="settings" classAct="settings active" />
 		<roundcube:container name="mailboxoptions" id="mailboxoptionsmenu" />
 	</ul>
 </div>
