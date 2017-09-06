@@ -26,13 +26,14 @@ class markasjunk extends rcube_plugin
             $this->include_stylesheet($this->local_skin_path() . '/markasjunk.css', true);
 
             $this->add_button(array(
-                    'type'     => 'link',
-                    'label'    => 'buttontext',
-                    'command'  => 'plugin.markasjunk',
-                    'class'    => 'button buttonPas junk disabled',
-                    'classact' => 'button junk',
-                    'title'    => 'buttontitle',
-                    'domain'   => 'markasjunk'
+                    'type'       => 'link',
+                    'label'      => 'buttontext',
+                    'command'    => 'plugin.markasjunk',
+                    'title'      => 'buttontitle',
+                    'domain'     => 'markasjunk',
+                    'class'      => 'button buttonPas junk disabled',
+                    'classact'   => 'button junk',
+                    'innerclass' => 'inner',
                 ),'toolbar');
         }
     }
