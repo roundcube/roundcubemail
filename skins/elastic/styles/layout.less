@@ -189,11 +189,10 @@ html.iframe body {
     body > #layout > div > .footer {
         line-height: @layout-touch-header-height;
         height: @layout-touch-header-height;
-        font-size: @layout-touch-header-font-size;
     }
 
-    body > #layout > div:not(.content) > .header,
-    body > #layout > div:not(.content) > .footer {
+    body > #layout > div:not(.content) > .header {
+        font-size: @layout-touch-header-font-size;
         a.button:before {
             font-size: 1.75rem;
             height: @layout-touch-header-height;
@@ -209,15 +208,20 @@ html.iframe body {
 
 @media screen and (max-width: @screen-width-small) {
     body > #layout > div > .header > .toolbar:not(.searchbar) {
+        font-size: @layout-touch-header-font-size;
         display: none;
     }
+
+    body > #layout > div > .footer {
+        font-size: @layout-touch-header-font-size;
+    }
+
     body > #layout > div.sidebar,
     body > #layout > div.list {
         max-width: none;
     }
 
-    body > #layout > div > .header,
-    body > #layout > div > .footer {
+    body > #layout > div > .header {
         a.button:before {
             font-size: 1.75rem;
             height: @layout-touch-header-height;

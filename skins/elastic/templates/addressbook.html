@@ -14,9 +14,11 @@
 		<h3 class="voice"><roundcube:label name="savedsearches" /></h3>
 		<roundcube:object name="savedsearchlist" id="savedsearchlist" class="treelist listing iconized" />
 	</div>
-	<div class="footer">
-		<roundcube:button command="group-create" type="link" title="newgroup" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" label="addgroup" />
-		<roundcube:button name="groupoptions" type="link" title="moreactions" class="listbutton groupactions" data-popup="groupoptions-menu" innerClass="inner" label="arialabelabookgroupoptions" />
+	<div class="footer toolbar" role="toolbar">
+		<roundcube:button command="group-create" type="link" title="newgroup" label="addgroup"
+			class="button create disabled" classAct="button create" innerClass="inner" />
+		<roundcube:button name="groupoptions" type="link" title="arialabelabookgroupoptions" label="moreactions"
+			class="button actions" innerClass="inner" data-popup="groupoptions-menu" />
 	</div>
 </div>
 
@@ -37,8 +39,9 @@
 	</div>
 	<div class="footer toolbar">
 <!-- TODO: Move to toolbar?
-		<roundcube:button command="group-remove-selected" type="link" title="groupremoveselected" class="listbutton removegroup disabled" classAct="listbutton removegroup" innerClass="inner" label="groupremoveselected" />
+		<roundcube:button command="group-remove-selected" type="link" title="groupremoveselected" class="button removegroup disabled" classAct="button removegroup" innerClass="inner" label="groupremoveselected" />
 -->
+<!--
 		<div class="pagenav">
 			<span class="pagenav-text" aria-live="polite" aria-relevant="text">
 				<span class="voice"><roundcube:label name="contacts" /></span>
@@ -59,6 +62,7 @@
 				title="lastpage" label="last" innerclass="inner" />
 			</span>
 		</div>
+-->
 	</div>
 </div>
 

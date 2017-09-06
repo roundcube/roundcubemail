@@ -114,6 +114,7 @@
         &.save:before {
             content: @fa-var-floppy-o;
         }
+        &.vcard:before,
         &.attach:before {
             content: @fa-var-paperclip;
         }
@@ -133,6 +134,15 @@
             content: @fa-var-comments;
         }
         &.actions:before {
+            content: @fa-var-cog;
+        }
+        &.addto:before {
+            content: @fa-var-cog;
+        }
+        &.addcc:before {
+            content: @fa-var-cog;
+        }
+        &.addbcc:before {
             content: @fa-var-cog;
         }
     }
@@ -193,14 +203,6 @@
         }
     }
 }
-
-#layout > .sidebar,
-#layout > .list {
-    span.inner {
-        display: none;
-    }
-}
-
 .header {
     a.button {
         color: @color-font;
@@ -414,11 +416,20 @@
     }
 }
 
+#layout > .sidebar,
+#layout > .list {
+    span.inner {
+        display: none;
+    }
+}
+
 @media screen and (min-width: (@screen-width-small + 1px)) {
     ul.toolbar {
-        margin: 0;
         flex: 1;
-        text-align: right;
+    }
+
+    .toolbar:not(.searchbar) {
+        margin: 0;
         font-size: 1rem;
 
         a.button {
@@ -445,13 +456,19 @@
 
         a span.inner {
             font-size: 90%;
+            font-weight: normal;
         }
 
-        &.listing.iconized li a:before {
-            height: 1.75rem;
-            float: none;
-            display: block;
-            width: auto;
+        &.listing li {
+            display: inline-block;
+            border: 0;
+
+            a.button:before {
+                height: 1.75rem;
+                float: none;
+                display: block;
+                width: auto;
+            }
         }
 
         .dropbutton {
@@ -476,13 +493,18 @@
                 }
             }
         }
+    }
 
-        & > li {
-            display: inline-block;
+    .footer.toolbar {
+        a.button:before {
+            height: 1.75rem;
+            float: none;
+            display: block;
+            width: auto;
         }
+    }
 
-        &.listing li {
-            border: 0;
-        }
+    #layout .footer span.inner {
+        display: inline !important;
     }
 }

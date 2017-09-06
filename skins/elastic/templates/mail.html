@@ -16,10 +16,12 @@
 	<div id="folderlist-footer" class="footer toolbar">
 		<roundcube:button name="folderactions" type="link" title="folderactions" label="folderactions"
 			class="button actions" innerclass="inner" data-popup="mailboxoptions-menu" />
+<!--
 		<roundcube:if condition="env:quota" />
 			<span class="voice"><roundcube:label name="quota"></span>
 			<roundcube:object name="quotaDisplay" id="quotadisplay" class="countdisplay" display="text" />
 		<roundcube:endif />
+-->
 	</div>
 </div>
 
@@ -29,10 +31,6 @@
 		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="mailboxlist" /></span></a>
 		<span class="header-title"></span>
-		<div class="toolbar">
-			<roundcube:object name="listmenulink" class="button settings" innerclass="inner" />
-			<span class="spacer"></span><!-- spacer to compensate the search icon -->
-		</div>
 		<roundcube:object name="searchform" id="mailsearchform" wrapper="searchbar toolbar"
 			label="mailquicksearchbox" buttontitle="findmail" options="search-menu" ariatag="h2" />
 		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
@@ -47,13 +45,15 @@
 			data-list="message_list"
 		/>
 	</div>
-	<div id="messagelist-footer" class="footer toolbar">
-		<div class="listselectors">
+	<div id="messagelist-footer" class="footer toolbar" role="toolbar">
+		<div id="listcontrols" class="listselectors">
 			<a href="#select" class="button select" data-popup="listselect-menu" title="<roundcube:label name="select" />"><span class="inner"><roundcube:label name="select" /></span></a>
 			<roundcube:if condition="env:threads" />
 				<a href="#threads" class="button threads" data-popup="threadselect-menu" title="<roundcube:label name="threads" />"><span class="inner"><roundcube:label name="threads" /></span></a>
 			<roundcube:endif />
+			<roundcube:object name="listmenulink" class="button settings" innerclass="inner" />
 		</div>
+<!--
 		<div class="pagenav">
 			<roundcube:object name="messageCountDisplay" class="pagenav-text" aria-live="polite" aria-relevant="text" />
 			<span class="pagenav-buttons">
@@ -72,6 +72,7 @@
 				title="lastpage" label="last" innerclass="inner" />
 			</span>
 		</div>
+-->
 		<roundcube:container name="listcontrols" id="listcontrols" />
 	</div>
 </div>

@@ -201,27 +201,42 @@ function rcube_elastic_ui()
         // it's for larry skin compat. We'll assign 'button', 'selected' and icon-specific class.
         $('#taskmenu > a').each(function() {
             if (/button-([a-z]+)/.test(this.className)) {
-                var button = this, id = button.id, name = RegExp.$1;
+                var data, name = RegExp.$1,
+                    button = find_button(this.id);
 
-                $.each(rcmail.buttons, function(i, v) {
-                    $.each(v, function(j, data) {
-                        if (data.id == id) {
-                            if (data.sel) {
-                                data.sel += ' button ' + name;
-                                data.sel = data.sel.replace('button-selected', 'selected');
-                            }
-                            if (data.act) {
-                                data.act += ' button ' + name;
-                            }
+                if (data = button.data) {
+                    if (data.sel) {
+                        data.sel += ' button ' + name;
+                        data.sel = data.sel.replace('button-selected', 'selected');
+                    }
 
-                            rcmail.buttons[i][j] = data;
-                            rcmail.init_button(i, data);
-                            $(button).addClass('button ' + name);
-                            $('.button-inner', button).addClass('inner');
-                        }
-                    });
-                });
+                    if (data.act) {
+                        data.act += ' button ' + name;
+                    }
+
+                    rcmail.buttons[button.command][button.index] = data;
+                    rcmail.init_button(button.command, data);
+                    $(this).addClass('button ' + name);
+                    $('.button-inner', this).addClass('inner');
+                }
             }
+        });
+
+        // Some plugins use 'listbubtton' class, we'll replace it with 'button'
+        $('.listbutton').each(function() {
+            var button = find_button(this.id);
+
+            $(this).addClass('button').removeClass('listbutton');
+
+            if (button.data.sel) {
+                button.data.sel = button.data.sel.replace('listbutton', 'button');
+            }
+            if (button.data.act) {
+                button.data.act = button.data.act.replace('listbutton', 'button');
+            }
+
+            rcmail.buttons[button.command][button.index] = button.data;
+            rcmail.init_button(button.command, button.data);
         });
 
         // buttons that should be hidden on small screen devices
@@ -273,14 +288,30 @@ function rcube_elastic_ui()
      */
     function register_cloned_button(old_id, new_id)
     {
+        var button = find_button(old_id);
+
+        if (button) {
+            rcmail.register_button(button.command, new_id,
+                button.data.type, button.data.act, button.data.sel, button.data.over);
+        }
+    };
+
+    /**
+     * Finds an rcmail button
+     */
+    function find_button(id)
+    {
         var i, button, command;
 
         for (command in rcmail.buttons) {
             for (i = 0; i < rcmail.buttons[command].length; i++) {
                 button = rcmail.buttons[command][i];
-                if (button.id == old_id) {
-                    rcmail.register_button(command, new_id, button.type, button.act, button.sel, button.over);
-                    return;
+                if (button.id == id) {
+                    return {
+                        command: command,
+                        index: i,
+                        data: button
+                    };
                 }
             }
         }

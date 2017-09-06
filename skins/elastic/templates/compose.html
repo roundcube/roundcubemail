@@ -17,7 +17,7 @@
 		<roundcube:object name="addresslist" id="contacts-table" class="listing iconized"
 			noheader="true" role="listbox" data-list="contact_list" />
 	</div>
-	<div class="footer toolbar">
+	<div class="footer toolbar" role="toolbar">
 		<roundcube:button command="add-recipient" prop="to" type="link" title="to"
 			class="button addto disabled" classAct="button addto" innerClass="inner" content="To+" />
 		<roundcube:button command="add-recipient" prop="cc" type="link" title="cc"
@@ -25,6 +25,7 @@
 		<roundcube:button command="add-recipient" prop="bcc" type="link" title="bcc"
 			class="button addbcc disabled" classAct="button addbcc" innerClass="inner" content="Bcc+" />
 		<roundcube:container name="compose-contacts-toolbar" id="compose-contacts-toolbar" />
+<!--
 		<div class="pagenav">
 			<roundcube:button command="firstpage" type="link" title="firstpage" label="first"
 				class="button firstpage disabled" classAct="button firstpage" innerclass="inner" />
@@ -35,6 +36,7 @@
 			<roundcube:button command="lastpage" type="link" title="lastpage" label="last"
 				class="button lastpage disabled" classAct="button lastpage" innerclass="inner" />
 		</div>
+-->
 	</div>
 </div>
 
