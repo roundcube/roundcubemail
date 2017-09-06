@@ -374,7 +374,7 @@ function rcube_elastic_ui()
 
         rcmail.addEventListener('fileappended', function(e) { if (e.attachment.complete) attachmentmenu_append(e.item); });
 
-        rcmail.init_pagejumper('.pagenav-buttons > input');
+        rcmail.init_pagejumper('.pagenav > input');
     };
 
     /**

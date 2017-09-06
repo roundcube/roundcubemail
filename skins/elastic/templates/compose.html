@@ -11,6 +11,7 @@
 		<roundcube:object name="searchform" id="searchform" wrapper="searchbar toolbar"
 			label="contactsearchform" buttontitle="findcontacts" ariatag="h2" />
 	</div>
+	<roundcube:include file="includes/pagenav.html" />
 	<div class="scroller" tabindex="-1">
 		<roundcube:object name="addressbooks" id="directorylist" class="treelist listing iconized"
 			summary="ariasummarycomposecontacts" />
@@ -25,18 +26,6 @@
 		<roundcube:button command="add-recipient" prop="bcc" type="link" title="bcc"
 			class="button addbcc disabled" classAct="button addbcc" innerClass="inner" content="Bcc+" />
 		<roundcube:container name="compose-contacts-toolbar" id="compose-contacts-toolbar" />
-<!--
-		<div class="pagenav">
-			<roundcube:button command="firstpage" type="link" title="firstpage" label="first"
-				class="button firstpage disabled" classAct="button firstpage" innerclass="inner" />
-			<roundcube:button command="previouspage" type="link" title="previouspage" label="previous"
-				class="button prevpage disabled" classAct="button prevpage" innerclass="inner" />
-			<roundcube:button command="nextpage" type="link" title="nextpage" label="next"
-				class="button nextpage disabled" classAct="button nextpage" innerclass="inner" />
-			<roundcube:button command="lastpage" type="link" title="lastpage" label="last"
-				class="button lastpage disabled" classAct="button lastpage" innerclass="inner" />
-		</div>
--->
 	</div>
 </div>
 

@@ -35,6 +35,7 @@
 			label="mailquicksearchbox" buttontitle="findmail" options="search-menu" ariatag="h2" />
 		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 	</div>
+	<roundcube:include file="includes/pagenav.html" />
 	<div id="messagelist-content" class="scroller" tabindex="-1">
 		<h2 id="aria-label-messagelist" class="voice"><roundcube:label name="arialabelmessagelist" /></h2>
 		<roundcube:object name="messages"
@@ -53,26 +54,6 @@
 			<roundcube:endif />
 			<roundcube:object name="listmenulink" class="button settings" innerclass="inner" />
 		</div>
-<!--
-		<div class="pagenav">
-			<roundcube:object name="messageCountDisplay" class="pagenav-text" aria-live="polite" aria-relevant="text" />
-			<span class="pagenav-buttons">
-			<roundcube:button command="firstpage" type="link"
-				class="button firstpage disabled" classAct="button firstpage"
-				title="firstpage" label="first" innerclass="inner" />
-			<roundcube:button command="previouspage" type="link"
-				class="button prevpage disabled" classAct="button prevpage"
-				title="previouspage" label="previous" innerclass="inner" />
-			<input class="form-control" type="text" size="3" disabled title="<roundcube:label name="currpage" />" />
-			<roundcube:button command="nextpage" type="link"
-				class="button nextpage disabled" classAct="button nextpage"
-				title="nextpage" label="next" innerclass="inner" />
-			<roundcube:button command="lastpage" type="link"
-				class="button lastpage disabled" classAct="button lastpage"
-				title="lastpage" label="last" innerclass="inner" />
-			</span>
-		</div>
--->
 		<roundcube:container name="listcontrols" id="listcontrols" />
 	</div>
 </div>
