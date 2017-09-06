@@ -10,28 +10,30 @@
 		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
 		<span id="aria-label-responseslist" class="header-title"><roundcube:label name="responses" /></span>
+		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 	</div>
 	<div class="scroller">
 		<roundcube:object name="responseslist" id="identities-table" class="listing" noheader="true"
 			role="listbox" data-list="responses_list" />
 	</div>
-	<div class="footer">
-		<roundcube:button command="add" type="link" title="newresponse"
-			class="listbutton add disabled" classAct="listbutton add" innerClass="inner"
-			label="addresponse"
-		/>
-		<roundcube:button command="delete" type="link" title="delete"
-			class="listbutton delete disabled" classAct="listbutton delete" innerClass="inner"
-			label="delete"
-		/>
-	</div>
+	<div class="footer"></div>
 </div>
 
 <!-- response details frame -->
 <div class="content" role="main">
-	<div class="header">
+	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title"></span>
+		<!-- toolbar -->
+		<div id="responsestoolbar" class="toolbar">
+			<roundcube:button command="add" type="link"
+				label="create" title="newresponse" innerClass="inner"
+				class="button create disabled" classAct="button create" />
+			<roundcube:button command="delete" type="link"
+				label="delete" title="delete" innerClass="inner"
+				class="button delete disabled" classAct="button delete" />
+		</div>
 	</div>
 	<roundcube:object name="responseframe" id="preferences-frame" src="/watermark.html" title="arialabelresonseeditfrom" />
 </div>

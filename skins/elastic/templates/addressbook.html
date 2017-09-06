@@ -36,11 +36,9 @@
 			role="listbox" data-list="contact_list" />
 	</div>
 	<div class="footer toolbar">
-		<div>
-			<roundcube:button command="add" type="link" title="newcontact" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" label="addcontact" />
-			<roundcube:button command="delete" type="link" title="deletecontact" class="listbutton delete disabled" classAct="listbutton delete" innerClass="inner" label="deletecontact" />
-			<roundcube:button command="group-remove-selected" type="link" title="groupremoveselected" class="listbutton removegroup disabled" classAct="listbutton removegroup" innerClass="inner" label="groupremoveselected" />
-		</div>
+<!-- TODO: Move to toolbar?
+		<roundcube:button command="group-remove-selected" type="link" title="groupremoveselected" class="listbutton removegroup disabled" classAct="listbutton removegroup" innerClass="inner" label="groupremoveselected" />
+-->
 		<div class="pagenav">
 			<span class="pagenav-text" aria-live="polite" aria-relevant="text">
 				<span class="voice"><roundcube:label name="contacts" /></span>
@@ -72,6 +70,25 @@
 		<span class="header-title"></span>
 		<!-- toolbar -->
 		<div id="addressbooktoolbar" class="toolbar">
+			<roundcube:button command="add" type="link"
+				class="button create disabled" classAct="button create"
+				label="create" title="newcontact" innerclass="inner" />
+			<roundcube:button command="print" type="link" data-hidden-small="true"
+				class="button print disabled" classAct="button print"
+				label="print" title="printcontact" innerclass="inner" />
+			<roundcube:button command="delete" type="link"
+				class="button delete disabled" classAct="button delete"
+				label="delete" title="deletecontact" innerClass="inner" />
+			<span class="spacer"></span>
+<!--
+			<roundcube:button command="compose" type="link"
+				class="button compose disabled" classAct="button compose"
+				label="compose" title="writenewmessage" innerclass="inner" />
+-->
+			<roundcube:button command="advanced-search" type="link"
+				class="button search disabled" classAct="button search"
+				label="advanced" title="advsearch" innerclass="inner" />
+			<roundcube:container name="toolbar" id="addressbooktoolbar" />
 			<roundcube:button command="import" type="link"
 				class="button import disabled" classAct="button import"
 				label="import" title="importcontacts" innerclass="inner" />
@@ -83,17 +100,6 @@
 					<span class="inner"><roundcube:label name="arialabelcontactexportoptions" /></span>
 				</a>
 			</span>
-			<span class="spacer"></span>
-			<roundcube:button command="compose" type="link"
-				class="button compose disabled" classAct="button compose"
-				label="compose" title="writenewmessage" innerclass="inner" />
-			<roundcube:button command="print" type="link" data-hidden-small="true"
-				class="button print disabled" classAct="button print"
-				label="print" title="printcontact" innerclass="inner" />
-			<roundcube:button command="advanced-search" type="link"
-				class="button search disabled" classAct="button search"
-				label="advanced" title="advsearch" innerclass="inner" />
-			<roundcube:container name="toolbar" id="addressbooktoolbar" />
 		</div>
 	</div>
 	<h2 id="aria-label-contact-frame" class="voice"><roundcube:label name="contactproperties" /></h2>
