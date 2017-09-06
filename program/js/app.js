@@ -5087,6 +5087,7 @@ function rcube_webmail()
         this.display_message(this.env.filesizeerror, 'error');
         return false;
       }
+
       if (this.env.max_filecount && this.env.filecounterror && numfiles > this.env.max_filecount) {
         this.display_message(this.env.filecounterror, 'error');
         return false;
@@ -8973,7 +8974,8 @@ function rcube_webmail()
     this.file_drag_hover(e, false);
 
     // prepare multipart form data composition
-    var uri, files = e.target.files || e.dataTransfer.files,
+    var uri, size = 0, numfiles = 0,
+      files = e.target.files || e.dataTransfer.files,
       formdata = window.FormData ? new FormData() : null,
       fieldname = (this.env.filedrop.fieldname || '_file') + (this.env.filedrop.single ? '' : '[]'),
       boundary = '------multipartformboundary' + (new Date).getTime(),
@@ -9002,6 +9004,16 @@ function rcube_webmail()
 
     // inline function to submit the files to the server
     var submit_data = function() {
+      if (ref.env.max_filesize && ref.env.filesizeerror && size > ref.env.max_filesize) {
+        ref.display_message(ref.env.filesizeerror, 'error');
+        return;
+      }
+
+      if (ref.env.max_filecount && ref.env.filecounterror && numfiles > ref.env.max_filecount) {
+        ref.display_message(ref.env.filecounterror, 'error');
+        return;
+      }
+
       var multiple = files.length > 1,
         ts = new Date().getTime(),
         // jQuery way to escape filename (#1490530)
@@ -9047,6 +9059,9 @@ function rcube_webmail()
         // TODO: show message to user
         continue;
       }
+
+      size += f.size;
+      numfiles++;
 
       // do it the easy way with FormData (FF 4+, Chrome 5+, Safari 5+)
       if (formdata) {
