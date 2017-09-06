@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Changed defaults for smtp_user (%u), smtp_pass (%p) and smtp_port (587)
 - Composer: Fix certificate validation errors by using packagist only (#5148)
 - Enigma: Add button to send mail unencrypted if no key was found (#5913)
 - Add --get and --extract arguments and CACHEDIR env-variable support to install-jsdeps.sh (#5882)
