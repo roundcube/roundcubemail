@@ -137,13 +137,13 @@
             content: @fa-var-cog;
         }
         &.addto:before {
-            content: @fa-var-cog;
+            content: @fa-var-envelope-o;
         }
         &.addcc:before {
-            content: @fa-var-cog;
+            content: @fa-var-envelope-o;
         }
         &.addbcc:before {
-            content: @fa-var-cog;
+            content: @fa-var-envelope-o;
         }
     }
 
@@ -510,5 +510,19 @@
 
     #layout .footer span.inner {
         display: inline !important;
+    }
+}
+
+@media screen and (max-width: @screen-width-small) {
+    .toolbar {
+        a.button.texticon {
+            &:before {
+                display: none;
+            }
+
+            span.inner {
+                display: inline !important;
+            }
+        }
     }
 }
