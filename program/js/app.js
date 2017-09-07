@@ -3168,7 +3168,7 @@ function rcube_webmail()
 
     // update the list (remove rows, clear selection)
     if (this.message_list) {
-      var n, id, root, roots = [],
+      var n, len, id, root, roots = [],
         selection = this.message_list.get_selection();
 
       for (n=0, len=selection.length; n<len; n++) {
