@@ -44,6 +44,7 @@ function rcube_elastic_ui()
             menu: $('a.menu-button'),
             back_sidebar: $('a.back-sidebar-button'),
             back_list: $('a.back-list-button'),
+            back_content: $('a.back-content-button'),
         };
 
 
@@ -55,6 +56,8 @@ function rcube_elastic_ui()
     this.searchmenu = searchmenu;
     this.headersmenu = headersmenu;
     this.attachmentmenu = attachmentmenu;
+    this.show_list = show_list;
+    this.show_sidebar = show_sidebar;
 
 
     // Initialize layout
@@ -105,6 +108,7 @@ function rcube_elastic_ui()
         buttons.menu.on('click', function() { show_menu(); return false; });
         buttons.back_sidebar.on('click', function() { show_sidebar(); return false; });
         buttons.back_list.on('click', function() { show_list(); return false; });
+        buttons.back_content.on('click', function() { show_content(); return false; });
 
         $('body').on('click', function() { if (mode == 'phone') layout.menu.addClass('hidden'); });
 
@@ -240,9 +244,11 @@ function rcube_elastic_ui()
         });
 
         // buttons that should be hidden on small screen devices
-        $('a[data-hidden-small],button[data-hidden-small]').each(function() {
-            var parent = $(this).parent('li');
-            $(parent.length ? parent : this).addClass('hidden-small');
+        $('a[data-hidden],button[data-hidden]').each(function() {
+            var parent = $(this).parent('li'),
+                sizes = $(this).data('hidden').split(',');
+
+            $(parent.length ? parent : this).addClass('hidden-' + sizes.join(' hidden-'));
         });
 
         // Assign .formcontainer class to the iframe body, when it
@@ -760,11 +766,23 @@ function rcube_elastic_ui()
         rcmail.enable_command('extwin', true);
     };
 
+    function show_content()
+    {
+        // show sidebar and hide list
+        layout.list.addClass('hidden');
+        layout.sidebar.addClass('hidden');
+        layout.content.removeClass('hidden');
+    };
+
     function show_sidebar()
     {
         // show sidebar and hide list
         layout.list.addClass('hidden');
         layout.sidebar.removeClass('hidden');
+
+        if (mode == 'small' || mode == 'phone') {
+            layout.content.addClass('hidden');
+        }
     };
 
     function show_list()
@@ -776,7 +794,10 @@ function rcube_elastic_ui()
             // show list and hide sidebar and content
             layout.sidebar.addClass('hidden');
             layout.list.removeClass('hidden');
-            hide_content();
+
+            if (mode == 'small' || mode == 'phone') {
+                hide_content();
+            }
         }
     };
 
@@ -1232,7 +1253,7 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Close menu_hide by name
+     * Close menu by name
      */
     function menu_hide(name, event)
     {

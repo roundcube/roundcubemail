@@ -90,8 +90,9 @@ RULES:
   for the button label.
 
 - Special attributes:
-    - `data-hidden-small`: Makes a menu entry/button hidden on small devices.
+    - `data-hidden`: Makes a menu entry/button hidden on specified screen sizes.
       Can be used for example for functionality not implemented or that has no sense
-      on phones or touch devices.
+      on phones or touch devices. Contains a comma-separated list following values:
+      `large` (width > 1200px), `big` (width > 768px), `small` (width =< 768px).
     - `data-content-button`: Makes the action button with this attribute to be copied
       to the content frame header on small/phone screens.

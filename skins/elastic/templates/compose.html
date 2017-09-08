@@ -6,7 +6,7 @@
 <!-- inline address book -->
 <div class="sidebar listbox" role="region" aria-labelledby="aria-label-composecontacts">
 	<div class="header">
-		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+		<a class="button icon back-content-button" href="#content" data-hidden="big"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span id="aria-label-composecontacts" class="header-title"><roundcube:label name="contacts" /></span>
 		<roundcube:object name="searchform" id="searchform" wrapper="searchbar toolbar"
 			label="contactsearchform" buttontitle="findcontacts" ariatag="h2" />
@@ -32,6 +32,8 @@
 <!-- compose options and attachments list -->
 <div class="list listbox">
 	<div class="header">
+		<a class="button icon back-content-button" href="#content" data-hidden="big"><span class="inner"><roundcube:label name="back" /></span></a>
+		<span class="header-title"><roundcube:label name="composeoptions" /></span>
 	</div>
 	<div class="scroller">
 		<!-- compose options -->
@@ -96,18 +98,36 @@
 		<span class="header-title"><roundcube:label name="compose" /></span>
 		<!-- toolbar -->
 		<div id="messagetoolbar" class="toolbar" role="toolbar" aria-labelledby="aria-label-toolbar">
+<!--
 			<roundcube:button command="list" type="link" class="button back disabled" classAct="button back"
 				label="cancel" condition="!env:extwin" tabindex="2" innerclass="inner" />
 			<roundcube:button command="close" type="link" class="button closewin disabled" classAct="button closewin"
 				label="cancel" condition="env:extwin" tabindex="2" innerclass="inner" />
 			<span class="spacer"></span>
-<!--
-			<roundcube:button command="send" type="link" class="button send disabled" classAct="button send"
-				label="send" title="sendmessage" tabindex="2" innerclass="inner" data-content-button="true" />
 -->
+			<a class="button settings" href="#options" onclick="UI.show_list()" data-hidden="big">
+				<span class="inner"><roundcube:label name="composeoptions"></span>
+			</a>
+			<a class="button addressbook" href="#contacts" onclick="UI.show_sidebar()" data-hidden="big">
+				<span class="inner"><roundcube:label name="contacts"></span>
+			</a>
 			<roundcube:button command="savedraft" type="link" class="button save draft disabled" classAct="button save draft"
 				label="save" title="savemessage" tabindex="2" innerclass="inner" />
 			<span class="spacer"></span>
+			<roundcube:button name="addattachment" type="link" class="button attach"
+				label="attach" title="addattachment" onclick="rcmail.upload_input('uploadform')"
+				aria-haspopup="true" aria-expanded="false" tabindex="2" innerclass="inner" />
+			<roundcube:button command="insert-sig" type="link" class="button signature disabled" classAct="button signature"
+				label="signature" title="insertsignature" tabindex="2" innerclass="inner" />
+			<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" unselectable="on" tabindex="2" data-popup="responses-menu">
+				<span class="inner"><roundcube:label name="responses" /></span>
+			</a>
+			<a id="composeoptionslink" class="button settings hidden" href="#options" onclick="UI.show_list(); $(this).addClass('hidden'); $('#composecontactslink').removeClass('hidden')" data-hidden="large,small">
+				<span class="inner"><roundcube:label name="options"></span>
+			</a>
+			<a id="composecontactslink" class="button addressbook" href="#contacts" onclick="UI.show_sidebar(); $(this).addClass('hidden'); $('#composeoptionslink').removeClass('hidden')" data-hidden="large,small">
+				<span class="inner"><roundcube:label name="contacts"></span>
+			</a>
 			<roundcube:if condition="config:enable_spellcheck" />
 			<span class="dropbutton">
 				<roundcube:button command="spellcheck" type="link" class="button spellcheck disabled"
@@ -118,14 +138,6 @@
 				</a>
 			</span>
 			<roundcube:endif />
-			<roundcube:button name="addattachment" type="link" class="button attach"
-				label="attach" title="addattachment" onclick="rcmail.upload_input('uploadform')"
-				aria-haspopup="true" aria-expanded="false" tabindex="2" innerclass="inner" />
-			<roundcube:button command="insert-sig" type="link" class="button signature disabled" classAct="button signature"
-				label="signature" title="insertsignature" tabindex="2" innerclass="inner" />
-			<a href="#responses" class="button responses" label="responses" title="<roundcube:label name='insertresponse' />" unselectable="on" tabindex="2" data-popup="responses-menu">
-				<span class="inner"><roundcube:label name="responses" /></span>
-			</a>
 			<roundcube:button command="compose-encrypted" type="link" class="button encrypt disabled"
 				classAct="button encrypt" classSel="button encrypt selected" innerclass="inner"
 				label="encrypt" title="encryptmessagemailvelope" tabindex="2" style="display:none" />

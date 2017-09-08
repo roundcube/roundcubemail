@@ -27,7 +27,7 @@
 		<roundcube:button command="move" type="link"
 			class="button move disabled" classAct="button move"
 			label="move" title="moveto" innerclass="inner"  />
-		<roundcube:button command="print" type="link" data-hidden-small="true"
+		<roundcube:button command="print" type="link" data-hidden="small"
 			class="button print disabled" classAct="button print"
 			label="print" title="printmessage" innerclass="inner" />
 	<roundcube:endif />
@@ -62,7 +62,7 @@
 <div id="message-menu" class="popupmenu">
 	<h3 id="aria-label-message-menu" class="voice"><roundcube:label name="arialabelmoremessageactions" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-message-menu">
-		<roundcube:button type="link-menuitem" command="print" label="printmessage" class="print" classAct="print active" data-hidden-small="true"/>
+		<roundcube:button type="link-menuitem" command="print" label="printmessage" class="print" classAct="print active" data-hidden="small"/>
 		<roundcube:if condition="template:name != 'message'" />
 			<roundcube:button type="link-menuitem" command="import-messages" label="import" class="import" classAct="import active" name="messageimport" onclick="if (rcmail.command_enabled('import-messages')) rcmail.upload_input('uploadform')" />
 		<roundcube:endif />
@@ -71,7 +71,7 @@
 		<roundcube:button type="link-menuitem" command="viewsource" label="viewsource" class="source" classAct="source active" />
 		<roundcube:button type="link-menuitem" command="move" label="moveto" class="move" classAct="move active" innerclass="folder-selector-link" aria-haspopup="true" />
 		<roundcube:button type="link-menuitem" command="copy" label="copyto" class="copy" classAct="copy active" innerclass="folder-selector-link" aria-haspopup="true" />
-		<roundcube:button type="link-menuitem" command="open" label="openinextwin" target="_blank" class="extwin" classAct="extwin active" data-hidden-small="true" />
+		<roundcube:button type="link-menuitem" command="open" label="openinextwin" target="_blank" class="extwin" classAct="extwin active" data-hidden="small" />
 		<roundcube:container name="messagemenu" id="message-menu" />
 	</ul>
 </div>
