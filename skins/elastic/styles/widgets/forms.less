@@ -45,6 +45,25 @@ html.ms .propform {
     }
 }
 
+
+.formcontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    overflow-y: hidden !important;
+    height: 100%;
+
+    .formcontent {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .formbuttons {
+        padding: 0.5rem 1rem;
+    }
+}
+
+
 .formcontent {
     padding: 1em;
 
@@ -82,10 +101,6 @@ html.ms .propform {
         padding-top: ~"calc(1rem - 1px * 2)";
         padding-bottom: ~"calc(1rem - 1px * 2)";
     }
-}
-
-.formbuttons {
-    padding: 0 1em 1em 1em;
 }
 
 

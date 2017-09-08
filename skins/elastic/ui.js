@@ -244,6 +244,16 @@ function rcube_elastic_ui()
             var parent = $(this).parent('li');
             $(parent.length ? parent : this).addClass('hidden-small');
         });
+
+        // Assign .formcontainer class to the iframe body, when it
+        // contains .formcontent and .formbuttons.
+        if (is_framed) {
+            $('.formcontent').each(function() {
+                if ($(this).next('.formbuttons').length) {
+                    $(this).parent().addClass('formcontainer');
+                }
+            });
+        }
     };
 
     /**

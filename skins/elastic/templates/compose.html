@@ -101,8 +101,10 @@
 			<roundcube:button command="close" type="link" class="button closewin disabled" classAct="button closewin"
 				label="cancel" condition="env:extwin" tabindex="2" innerclass="inner" />
 			<span class="spacer"></span>
+<!--
 			<roundcube:button command="send" type="link" class="button send disabled" classAct="button send"
 				label="send" title="sendmessage" tabindex="2" innerclass="inner" data-content-button="true" />
+-->
 			<roundcube:button command="savedraft" type="link" class="button save draft disabled" classAct="button save draft"
 				label="save" title="savemessage" tabindex="2" innerclass="inner" />
 			<span class="spacer"></span>
@@ -130,8 +132,8 @@
 			<roundcube:container name="toolbar" id="compose-toolbar" />
 		</div>
 	</div>
-	<div id="compose-content" class="scroller formcontent">
-		<roundcube:object name="composeFormHead" role="main" />
+	<div id="compose-content" class="formcontainer content">
+		<roundcube:object name="composeFormHead" role="main" class="formcontent" />
 		<!-- message headers -->
 		<div id="compose-headers" role="region" aria-labelledby="aria-label-composeheaders">
 			<h2 id="aria-label-composeheaders" class="voice"><roundcube:label name="arialabelmessageheaders" /></h2>
@@ -204,6 +206,9 @@
 			<roundcube:object name="composeBody" id="composebody" form="form" cols="70" rows="20" class="form-control" tabindex="1" />
 		</div>
 		</form>
+		<div class="formbuttons">
+			<roundcube:button command="send" class="btn btn-primary send" label="send" tabindex="1" data-content-button="true" />
+		</div>
 	</div>
 </div>
 
