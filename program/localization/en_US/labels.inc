@@ -164,6 +164,8 @@ $labels['folders-all']      = 'All folders';
 $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
+$labels['composeoptions']   = 'Compose options';
+$labels['actions']          = 'Actions';
 
 $labels['first'] = 'First';
 $labels['last'] = 'Last';
