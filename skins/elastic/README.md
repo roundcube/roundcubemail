@@ -48,7 +48,7 @@ RPM package which depends on nodejs.
 References to image files from the included CSS files can be appended
 with cache-buster marks to avoid browser caching issues after updating.
 
-Run `bin/updatecss.sh --dir <path-to-kolab-skin>` from the Roundcube
+Run `bin/updatecss.sh --dir skins/elastic` from the Roundcube
 package before packaging the skin or after installing it on the
 destination system.
 
