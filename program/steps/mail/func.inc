@@ -665,7 +665,7 @@ function rcmail_options_menu_link($attrib = array())
     global $RCMAIL;
 
     $onclick = 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('menu-open', 'messagelistmenu', this, event)";
-    $inner   = $title = $RCMAIL->gettext('listoptions');
+    $inner   = $title = $RCMAIL->gettext($attrib['label'] ?: 'listoptions');
 
     if (is_string($attrib['optionsmenuicon']) && $attrib['optionsmenuicon'] != 'true') {
         $inner = html::img(array('src' => $RCMAIL->output->abs_url($attrib['optionsmenuicon'], true), 'alt' => $title));
