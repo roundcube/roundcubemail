@@ -383,7 +383,7 @@ function rcube_elastic_ui()
             }
         });
 
-        // add menu link for each attachment
+        // Add menu link for each attachment
         $('#attachment-list > li').each(function() {
             attachmentmenu_append(this);
         });
@@ -392,11 +392,20 @@ function rcube_elastic_ui()
 
         rcmail.init_pagejumper('.pagenav > input');
 
-        // In compose window we do not provide "Back' button, instead
-        // we modify the Mail button in the task menu to act like it (i.e. calls 'list' command)
-        if (rcmail.task == 'mail' && rcmail.env.action == 'compose' && !rcmail.env.extwin) {
-            $('a.button.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
+        if (rcmail.task == 'mail') {
+            // In compose window we do not provide "Back' button, instead
+            // we modify the Mail button in the task menu to act like it (i.e. calls 'list' command)
+            if (rcmail.env.action == 'compose' && !rcmail.env.extwin) {
+                $('a.button.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
+            }
         }
+
+        // Update searchbar state
+        $('.header > .searchbar').each(function() {
+            if ($('input', this).val()) {
+                $('a.button.search', this).addClass('active');
+            }
+        });
     };
 
     /**
