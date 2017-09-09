@@ -116,13 +116,13 @@ function rcube_elastic_ui()
         if (is_framed && !rcmail.env.extwin && !parent.$('.ui-dialog:visible').length) {
             var title = $('h1.voice:first').text();
             if (title) {
-                parent.$('#layout > .content > .header > .header-title').text(title);
+                parent.$('.header > .header-title', layout.content).text(title);
             }
         }
         else {
-            var title = $('#layout > .content .boxtitle:first').detach().text();
+            var title = $('.boxtitle:first', layout.content).detach().text();
             if (title) {
-                $('#layout > .content > .header > .header-title').text(title);
+                $('.header > .header-title', layout.content).text(title);
             }
         }
 
@@ -499,7 +499,7 @@ function rcube_elastic_ui()
         var close_all_popups = function(e) {
             $('.popover-body:visible').each(function() {
                 var button = $(this).children('*:first').data('button');
-                if (e.target != button) {
+                if (e.target != button && typeof button !== 'string') {
                     $(button).popover('hide');
                 }
             });
@@ -619,7 +619,7 @@ function rcube_elastic_ui()
         mode = size;
         screen_resize();
         screen_resize_html();
-        display_screen_size(); // debug info
+//        display_screen_size(); // debug info
     };
 
     // for development only (to be removed)
@@ -698,6 +698,32 @@ function rcube_elastic_ui()
         layout.menu.removeClass('hidden');
     };
 
+    function screen_resize_normal()
+    {
+        var show;
+
+        if (layout.list.length) {
+            show = layout.list.is(env.last_selected) || !layout.sidebar.is(env.last_selected);
+            layout.list[show ? 'removeClass' : 'addClass']('hidden');
+        }
+        if (layout.sidebar.length) {
+            show = !layout.list.length || layout.sidebar.is(env.last_selected);
+            layout.sidebar[show ? 'removeClass' : 'addClass']('hidden');
+        }
+
+        layout.content.removeClass('hidden');
+        layout.menu.removeClass('hidden');
+
+        screen_resize_small_none();
+    };
+
+    function screen_resize_large()
+    {
+        $.each(layout, function(name, item) { item.removeClass('hidden'); });
+
+        screen_resize_small_none();
+    };
+
     function screen_resize_small_all()
     {
         var show, got_content = false;
@@ -730,33 +756,8 @@ function rcube_elastic_ui()
         rcmail.enable_command('extwin', false);
     };
 
-    function screen_resize_normal()
+    function screen_resize_small_none()
     {
-        var show;
-
-        if (layout.list.length) {
-            show = layout.list.is(env.last_selected) || !layout.sidebar.is(env.last_selected);
-            layout.list[show ? 'removeClass' : 'addClass']('hidden');
-        }
-        if (layout.sidebar.length) {
-            show = !layout.list.length || layout.sidebar.is(env.last_selected);
-            layout.sidebar[show ? 'removeClass' : 'addClass']('hidden');
-        }
-
-        layout.content.removeClass('hidden');
-        layout.menu.removeClass('hidden');
-        buttons.back_list.hide();
-        $.each(content_buttons, function() { $(this).show(); });
-        $('ul.toolbar.popupmenu').removeClass('popupmenu');
-
-        // re-enable ext-windows
-        rcmail.set_env(env.config);
-        rcmail.enable_command('extwin', true);
-    };
-
-    function screen_resize_large()
-    {
-        $.each(layout, function(name, item) { item.removeClass('hidden'); });
         buttons.back_list.hide();
         $.each(content_buttons, function() { $(this).show(); });
         $('ul.toolbar.popupmenu').removeClass('popupmenu');
@@ -879,7 +880,7 @@ function rcube_elastic_ui()
         }
 
         $(object).addClass(classes);
-    }
+    };
 
     /**
      * Set UI dialogs size/style depending on screen size
@@ -1151,7 +1152,7 @@ function rcube_elastic_ui()
 
         popup.attr('aria-hidden', 'true').data('button', item);
 
-        // stop propagation to e.g. do not hide the popup when 
+        // stop propagation to e.g. do not hide the popup when
         // clicking inside on form elements
         if (popup.data('editable')) {
             popup.on('click mousedown', function(e) { e.stopPropagation(); });
@@ -1167,7 +1168,7 @@ function rcube_elastic_ui()
             var popup = $(this),
                 button = popup.children().first().data('button');
 
-            if (button && e.target != button && !$(button).find(e.target).length) {
+            if (button && e.target != button && !$(button).find(e.target).length && typeof button !== 'string') {
                 $(button).popover('hide');
             }
         });
@@ -1223,7 +1224,7 @@ function rcube_elastic_ui()
 
             // Popover menus use animation. Sometimes the same menu is
             // immediately hidden and shown (e.g. folder-selector for copy and move action)
-            // we have to way until the previous menu hides before we can open it again
+            // we have to wait until the previous menu hides before we can open it again
             fn = function() {
                 if (menus[p.name] && menus[p.name].transitioning) {
                     return setTimeout(fn, 50);
