@@ -391,6 +391,12 @@ function rcube_elastic_ui()
         rcmail.addEventListener('fileappended', function(e) { if (e.attachment.complete) attachmentmenu_append(e.item); });
 
         rcmail.init_pagejumper('.pagenav > input');
+
+        // In compose window we do not provide "Back' button, instead
+        // we modify the Mail button in the task menu to act like it (i.e. calls 'list' command)
+        if (rcmail.task == 'mail' && rcmail.env.action == 'compose' && !rcmail.env.extwin) {
+            $('a.button.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
+        }
     };
 
     /**
