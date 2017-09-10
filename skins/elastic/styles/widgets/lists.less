@@ -351,6 +351,11 @@ ul.treelist li {
                 background: @color-list-recent-badge-background;
                 color: @color-list-recent-badge;
             }
+
+            &.root {
+                display: none;
+                /* FIXME: This element is confusing, I propose to not use it */
+            }
         }
 
         a:before {
