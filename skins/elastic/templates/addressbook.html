@@ -17,7 +17,7 @@
 	<div class="footer toolbar" role="toolbar">
 		<roundcube:button command="group-create" type="link" title="newgroup" label="addgroup"
 			class="button create disabled" classAct="button create" innerClass="inner" />
-		<roundcube:button name="groupoptions" type="link" title="arialabelabookgroupoptions" label="moreactions"
+		<roundcube:button name="groupoptions" type="link" title="arialabelabookgroupoptions" label="actions"
 			class="button actions" innerClass="inner" data-popup="groupoptions-menu" />
 	</div>
 </div>
@@ -57,7 +57,7 @@
 			<roundcube:button command="delete" type="link"
 				class="button delete disabled" classAct="button delete"
 				label="delete" title="deletecontact" innerClass="inner" />
-<!-- TODO: Move to toolbar?
+<!-- TODO
 			<roundcube:button command="group-remove-selected" type="link" title="groupremoveselected" class="button removegroup disabled" classAct="button removegroup" innerClass="inner" label="groupremoveselected" />
 -->
 			<span class="spacer"></span>
@@ -100,10 +100,10 @@
 <div id="groupoptions-menu" class="popupmenu">
 	<h3 id="aria-label-groupoptions-menu" class="voice"><roundcube:label name="arialabelabookgroupoptions" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-groupoptions-menu">
-		<roundcube:button type="link-menuitem" command="group-rename" label="grouprename" classAct="active" />
-		<roundcube:button type="link-menuitem" command="group-delete" label="groupdelete" classAct="active" />
-		<roundcube:button type="link-menuitem" command="search-create" label="searchsave" classAct="active" />
-		<roundcube:button type="link-menuitem" command="search-delete" label="searchdelete" classAct="active" />
+		<roundcube:button type="link-menuitem" command="group-rename" label="grouprename" class="group rename" classAct="group rename active" />
+		<roundcube:button type="link-menuitem" command="group-delete" label="groupdelete" class="group delete" classAct="group delete active" />
+		<roundcube:button type="link-menuitem" command="search-create" label="searchsave" class="search" classAct="search active" />
+		<roundcube:button type="link-menuitem" command="search-delete" label="searchdelete" class="search delete" classAct="search delete active" />
 		<roundcube:container name="groupoptions" id="groupoptionsmenu" />
 	</ul>
 </div>
