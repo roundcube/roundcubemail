@@ -157,8 +157,8 @@ rcube_webmail.prototype.acl_list_init = function()
 // ACL table row selection handler
 rcube_webmail.prototype.acl_list_select = function(list)
 {
-    rcmail.enable_command('acl-delete', list.selection.length > 0);
-    rcmail.enable_command('acl-edit', list.selection.length == 1);
+    rcmail.enable_command('acl-delete', list.get_selection().length > 0);
+    rcmail.enable_command('acl-edit', list.get_selection().length == 1);
     list.focus();
 }
 
@@ -218,8 +218,8 @@ rcube_webmail.prototype.acl_remove_row = function(id)
     $('#rcmrow'+id).remove();
     this.env.acl[id] = null;
 
-    this.enable_command('acl-delete', list.selection.length > 0);
-    this.enable_command('acl-edit', list.selection.length == 1);
+    this.enable_command('acl-delete', list.get_selection().length > 0);
+    this.enable_command('acl-edit', list.get_selection().length == 1);
 }
 
 // Adds ACL table row

@@ -259,21 +259,20 @@ $config['messages_cache_threshold'] = 50;
 // For example %n = mail.domain.tld, %t = domain.tld
 $config['smtp_server'] = 'localhost';
 
-// SMTP port (default is 25; use 587 for STARTTLS or 465 for the
-// deprecated SSL over SMTP (aka SMTPS))
-$config['smtp_port'] = 25;
+// SMTP port (default is 587)
+$config['smtp_port'] = 587;
 
 // SMTP username (if required) if you use %u as the username Roundcube
 // will use the current username for login
-$config['smtp_user'] = '';
+$config['smtp_user'] = '%u';
 
 // SMTP password (if required) if you use %p as the password Roundcube
 // will use the current user's password for login
-$config['smtp_pass'] = '';
+$config['smtp_pass'] = '%p';
 
 // SMTP AUTH type (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or empty to use
 // best server supported one)
-$config['smtp_auth_type'] = '';
+$config['smtp_auth_type'] = null;
 
 // Optional SMTP authentication identifier to be used as authorization proxy
 $config['smtp_auth_cid'] = null;

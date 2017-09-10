@@ -476,7 +476,7 @@ $text_smtpport = new html_inputfield(array('name' => '_smtp_port', 'size' => 6, 
 echo $text_smtpport->show($RCI->getprop('smtp_port'));
 
 ?>
-<div>SMTP port (default is 25; 465 for SSL; 587 for submission)</div>
+<div>SMTP port (default is 587)</div>
 </dd>
 
 <dt class="propname">smtp_user/smtp_pass</dt>

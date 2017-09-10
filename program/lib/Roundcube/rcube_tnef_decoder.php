@@ -387,8 +387,6 @@ class rcube_tnef_decoder
      */
     protected function convertString($str, $use_codepage = false)
     {
-        $str = rtrim($str, "\0");
-
         if ($convert && $this->codepage
             && ($charset = rcube_charset::$windows_codepages[$this->codepage])
         ) {
@@ -397,6 +395,8 @@ class rcube_tnef_decoder
         else if (strpos($str, "\0") !== false) {
             $str = rcube_charset::convert($str, 'UTF-16LE');
         }
+
+        $str = rtrim($str, "\0");
 
         return $str;
     }

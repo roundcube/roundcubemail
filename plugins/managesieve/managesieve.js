@@ -677,7 +677,7 @@ function rule_header_select(id)
     dateheader.style.display = h == 'date' ? '' : 'none';
 
   $('[value="exists"],[value="notexists"]', rule).prop('disabled', h == 'string');
-  if (!rule.val() || rule.val().match(/^(exists|notexists)$/))
+  if (!rule.val())
     rule.val('contains');
 
   rule_op_select(op, id, h);

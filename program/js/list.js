@@ -1056,10 +1056,7 @@ select: function(id)
  */
 select_next: function()
 {
-  var next_row = this.get_next_row(),
-    prev_row = this.get_prev_row(),
-    new_row = (next_row) ? next_row : prev_row;
-
+  var new_row = this.get_next_row() || this.get_prev_row();
   if (new_row)
     this.select_row(new_row.uid, false, false);
 },
@@ -1257,7 +1254,12 @@ clear_selection: function(id, no_event)
  */
 get_selection: function(deep)
 {
-  var res = $.merge([], this.selection);
+  var res;
+
+  if (res = this.triggerEvent('getselection', deep))
+    return res;
+
+  res = $.merge([], this.selection);
 
   // return children of selected threads even if only root is selected
   if (deep !== false && res.length) {
