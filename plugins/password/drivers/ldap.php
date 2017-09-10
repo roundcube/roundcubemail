@@ -216,6 +216,9 @@ class rcube_ldap_password
             $str = str_replace('%dc', $dc, $str);
             $str = str_replace('%domain', $parts[1], $str);
             $str = str_replace('%d', $parts[1], $str);
+        } else if ( count($parts) == 1) {
+            $str = str_replace('%name', $parts[0], $str);
+            $str = str_replace('%n', $parts[0], $str);
         }
 
         return $str;

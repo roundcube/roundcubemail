@@ -66,8 +66,10 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     if (empty($RCMAIL->action)) {
         $OUTPUT->set_env('search_mods', rcmail_search_mods());
 
-        if (!empty($_SESSION['search_scope']))
-            $OUTPUT->set_env('search_scope', $_SESSION['search_scope']);
+        $scope = rcube_utils::get_input_value('_scope', rcube_utils::INPUT_GET) ?: $_SESSION['search_scope'];
+        if ($scope && preg_match('/^(all|sub)$/i', $scope)) {
+            $OUTPUT->set_env('search_scope', strtolower($scope));
+        }
 
         rcmail_list_pagetitle();
     }
@@ -901,6 +903,15 @@ function rcmail_wash_html($html, $p, $cid_replaces = array())
         $washer->add_callback('style', 'rcmail_washtml_callback');
     }
 
+    // modify HTML links to open a new window if clicked
+    if (!$p['skip_washer_link_callback']) {
+        $washer->add_callback('a', 'rcmail_washtml_link_callback');
+        $washer->add_callback('area', 'rcmail_washtml_link_callback');
+
+        if ($p['safe'])
+            $washer->add_callback('link', 'rcmail_washtml_link_callback');
+    }
+
     // Remove non-UTF8 characters (#1487813)
     $html = rcube_charset::clean($html);
 
@@ -1295,28 +1306,30 @@ function rcmail_message_body($attrib)
                     rcmail_message_error($MESSAGE->uid);
                 }
 
-                // check if the message body is PGP encrypted
-                if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
-                    $OUTPUT->set_env('is_pgp_content', '#message-part' . ($part_no + 1));
-                }
-
                 $plugin = $RCMAIL->plugins->exec_hook('message_body_prefix',
                     array('part' => $part, 'prefix' => ''));
 
+                // Set attributes of the part container
+                $container_class  = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
+                $container_id     = $container_class . (++$part_no);
+                $container_attrib = array('class' => $container_class, 'id' => $container_id);
+
+                // Assign container ID to a global variable for use in rcmail_washtml_link_callback()
+                $GLOBALS['rcmail_html_container_id'] = $container_id;
+
+                // Parse the part content for display
                 $body = rcmail_print_body($body, $part, array('safe' => $safe_mode, 'plain' => !$RCMAIL->config->get('prefer_html')));
 
-                if ($part->ctype_secondary == 'html') {
-                    $container_id = 'message-htmlpart' . (++$part_no);
-                    $attrs        = array('class' => 'message-htmlpart', 'id' => $container_id);
-                    $body         = rcmail_html4inline($body, $container_id, 'rcmBody', $attrs, $safe_mode);
+                // check if the message body is PGP encrypted
+                if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
+                    $OUTPUT->set_env('is_pgp_content', '#' . $container_id);
+                }
 
-                    $out .= html::div($attrs, $plugin['prefix'] . $body);
+                if ($part->ctype_secondary == 'html') {
+                    $body = rcmail_html4inline($body, $container_id, 'rcmBody', $container_attrib, $safe_mode);
                 }
-                else {
-                    $container_id = 'message-part' . (++$part_no);
-                    $div_attr     = array('class' => 'message-part', 'id' => $container_id);
-                    $out .= html::div($div_attr, $plugin['prefix'] . $body);
-                }
+
+                $out .= html::div($container_attrib, $plugin['prefix'] . $body);
             }
         }
     }
@@ -1474,11 +1487,6 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=a
         $last_style_pos = $pos2 + strlen($styles) - $len;
     }
 
-    // modify HTML links to open a new window if clicked
-    $GLOBALS['rcmail_html_container_id'] = $container_id;
-    $body = preg_replace_callback('/<(a|link|area)\s+([^>]+)>/Ui', 'rcmail_alter_html_link', $body);
-    unset($GLOBALS['rcmail_html_container_id']);
-
     $body = preg_replace(array(
             // add comments around html and other tags
             '/(<!DOCTYPE[^>]*>)/i',
@@ -1564,13 +1572,11 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=a
 /**
  * Parse link (a, link, area) attributes and set correct target
  */
-function rcmail_alter_html_link($matches)
+function rcmail_washtml_link_callback($tag, $attribs, $content, $washtml)
 {
     global $RCMAIL;
 
-    $tag    = strtolower($matches[1]);
-    $attrib = html::parse_attrib_string($matches[2]);
-    $end    = '>';
+    $attrib = html::parse_attrib_string($attribs);
 
     // Remove non-printable characters in URL (#1487805)
     if ($attrib['href']) {
@@ -1614,7 +1620,7 @@ function rcmail_alter_html_link($matches)
             $attrib['onclick'] = '';
         }
     }
-    else if (empty($attrib['href']) && !$attrib['name']) {
+    else if (empty($attrib['href']) && !isset($attrib['name'])) {
         $attrib['href']    = './#NOP';
         $attrib['onclick'] = 'return false';
     }
@@ -1631,7 +1637,7 @@ function rcmail_alter_html_link($matches)
     $allow = array('href','name','target','onclick','id','class','style','title',
         'rel','type','media','alt','coords','nohref','hreflang','shape');
 
-    return "<$tag" . html::attrib_string($attrib, $allow) . $end;
+    return html::tag($tag, $attrib, $content, $allow);
 }
 
 /**
@@ -2016,7 +2022,13 @@ function rcmail_search_filter($attrib)
 
     $RCMAIL->output->add_gui_object('search_filter', $attrib['id']);
 
-    return $select->show($_REQUEST['_search'] ? $_SESSION['search_filter'] : 'ALL');
+    $selected = rcube_utils::get_input_value('_filter', rcube_utils::INPUT_GET);
+
+    if (!$selected && $_REQUEST['_search']) {
+        $selected = $_SESSION['search_filter'];
+    }
+
+    return $select->show($selected ?: 'ALL');
 }
 
 function rcmail_search_interval($attrib)

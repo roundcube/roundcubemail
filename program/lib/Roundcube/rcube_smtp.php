@@ -60,9 +60,9 @@ class rcube_smtp
         // let plugins alter smtp connection config
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', array(
             'smtp_server'    => $host ?: $rcube->config->get('smtp_server'),
-            'smtp_port'      => $port ?: $rcube->config->get('smtp_port', 25),
-            'smtp_user'      => $user !== null ? $user : $rcube->config->get('smtp_user'),
-            'smtp_pass'      => $pass !== null ? $pass : $rcube->config->get('smtp_pass'),
+            'smtp_port'      => $port ?: $rcube->config->get('smtp_port', 587),
+            'smtp_user'      => $user !== null ? $user : $rcube->config->get('smtp_user', '%u'),
+            'smtp_pass'      => $pass !== null ? $pass : $rcube->config->get('smtp_pass', '%p'),
             'smtp_auth_cid'  => $rcube->config->get('smtp_auth_cid'),
             'smtp_auth_pw'   => $rcube->config->get('smtp_auth_pw'),
             'smtp_auth_type' => $rcube->config->get('smtp_auth_type'),

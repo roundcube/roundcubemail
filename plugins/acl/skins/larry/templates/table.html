@@ -11,10 +11,10 @@
 <div id="aclmenu" class="popupmenu" aria-hidden="true" data-align="bottom">
     <h3 id="aria-label-aclactions" class="voice"><roundcube:label name="acl.arialabelaclactions" /></h3>
     <ul id="aclmenu-menu" class="toolbarmenu selectable iconized" role="menu" aria-labelledby="aria-label-aclactions">
-        <li role="menuitem"><roundcube:button command="acl-edit" label="edit" class="icon" classAct="icon active" innerclass="icon edit" /></li>
-        <li role="menuitem"><roundcube:button command="acl-delete" label="delete" class="icon" classAct="icon active" innerclass="icon delete" /></li>
+        <li role="menuitem"><roundcube:button command="acl-edit" label="edit" type="link" class="icon" classAct="icon active" innerclass="icon edit" /></li>
+        <li role="menuitem"><roundcube:button command="acl-delete" label="delete" type="link" class="icon" classAct="icon active" innerclass="icon delete" /></li>
         <roundcube:if condition="!in_array('acl_advanced_mode', (array)config:dont_override)" />
-            <li role="menuitem"><roundcube:button name="acl-switch" id="acl-switch" label="acl.advanced" onclick="rcmail.command('acl-mode-switch');return false" class="active" /></li>
+            <li role="menuitem"><roundcube:button name="acl-switch" type="link" id="acl-switch" label="acl.advanced" onclick="rcmail.command('acl-mode-switch');return false" class="active" /></li>
         <roundcube:endif />
     </ul>
 </div>

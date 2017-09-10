@@ -16,10 +16,10 @@
 
 <div id="aclmenu" class="popupmenu selectable">
     <ul>
-        <li><roundcube:button command="acl-edit" label="edit" classAct="active" /></li>
-        <li><roundcube:button command="acl-delete" label="delete" classAct="active" /></li>
+        <li><roundcube:button command="acl-edit" type="link" label="edit" classAct="active" /></li>
+        <li><roundcube:button command="acl-delete" type="link" label="delete" classAct="active" /></li>
         <roundcube:if condition="!in_array('acl_advanced_mode', (array)config:dont_override)" />
-            <li><roundcube:button name="acl-switch" id="acl-switch" label="acl.advanced" onclick="rcmail.command('acl-mode-switch')" class="active" /></li>
+            <li><roundcube:button name="acl-switch" type="link" id="acl-switch" label="acl.advanced" onclick="rcmail.command('acl-mode-switch')" class="active" /></li>
         <roundcube:endif />
     </ul>
 </div>

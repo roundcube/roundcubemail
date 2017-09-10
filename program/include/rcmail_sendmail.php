@@ -1409,7 +1409,7 @@ class rcmail_sendmail
         $this->rcmail->output->add_label('nosubject', 'nosenderwarning', 'norecipientwarning',
             'nosubjectwarning', 'cancel', 'nobodywarning', 'notsentwarning', 'savingmessage',
             'sendingmessage', 'searching', 'disclosedrecipwarning', 'disclosedreciptitle',
-            'bccinstead', 'nosubjecttitle');
+            'bccinstead', 'nosubjecttitle', 'sendmessage');
 
         $this->rcmail->output->set_env('max_disclosed_recipients', (int) $this->rcmail->config->get('max_disclosed_recipients', 5));
     }

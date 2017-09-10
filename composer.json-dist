@@ -6,10 +6,6 @@
         {
             "type": "composer",
             "url": "https://plugins.roundcube.net/"
-        },
-        {
-            "type": "vcs",
-            "url": "https://git.kolab.org/diffusion/PNL/php-net_ldap.git"
         }
     ],
     "require": {
@@ -30,6 +26,6 @@
     },
     "suggest": {
         "pear/net_ldap2": "~2.2.0 required for connecting to LDAP",
-        "kolab/Net_LDAP3": "dev-master required for connecting to LDAP"
+        "kolab/net_ldap3": "~1.0.6 required for connecting to LDAP"
     }
 }

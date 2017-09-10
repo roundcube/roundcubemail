@@ -835,18 +835,23 @@ class rcube_message
                         (empty($mail_part->disposition) || preg_match('/^[a-z0-9!#$&.+^_-]+$/i', $mail_part->disposition)))
                 ) {
                     // skip apple resource forks
-                    if ($message_ctype_secondary == 'appledouble' && $secondary_type == 'applefile')
+                    if ($message_ctype_secondary == 'appledouble' && $secondary_type == 'applefile') {
                         continue;
+                    }
+
+                    if ($mail_part->headers['content-id']) {
+                        $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
+                    }
+
+                    if ($mail_part->headers['content-location']) {
+                        $mail_part->content_location = $mail_part->headers['content-base'] . $mail_part->headers['content-location'];
+                    }
 
                     // part belongs to a related message and is linked
-                    if (preg_match('/^multipart\/(related|relative)/', $mimetype)
-                        && ($mail_part->headers['content-id'] || $mail_part->headers['content-location'])
+                    // Note: mixed is not supposed to contain inline images, but we've found such examples (#5905)
+                    if (preg_match('/^multipart\/(related|relative|mixed)/', $mimetype)
+                        && ($mail_part->content_id || $mail_part->content_location)
                     ) {
-                        if ($mail_part->headers['content-id'])
-                            $mail_part->content_id = preg_replace(array('/^</', '/>$/'), '', $mail_part->headers['content-id']);
-                        if ($mail_part->headers['content-location'])
-                            $mail_part->content_location = $mail_part->headers['content-base'] . $mail_part->headers['content-location'];
-
                         $this->add_part($mail_part, 'inline');
                     }
                     // regular attachment with valid content type
@@ -874,15 +879,17 @@ class rcube_message
                 }
             }
 
-            // if this was a related part try to resolve references
-            if (preg_match('/^multipart\/(related|relative)/', $mimetype) && count($this->inline_parts)) {
+            // if this is a related part try to resolve references
+            // Note: mixed is not supposed to contain inline images, but we've found such examples (#5905)
+            if (preg_match('/^multipart\/(related|relative|mixed)/', $mimetype) && count($this->inline_parts)) {
                 $a_replaces = array();
                 $img_regexp = '/^image\/(gif|jpe?g|png|tiff|bmp|svg)/';
 
                 foreach ($this->inline_parts as $inline_object) {
                     $part_url = $this->get_part_url($inline_object->mime_id, $inline_object->ctype_primary);
-                    if (isset($inline_object->content_id))
+                    if (isset($inline_object->content_id)) {
                         $a_replaces['cid:'.$inline_object->content_id] = $part_url;
+                    }
                     if ($inline_object->content_location) {
                         $a_replaces[$inline_object->content_location] = $part_url;
                     }
@@ -909,8 +916,9 @@ class rcube_message
                 // add replace array to each content part
                 // (will be applied later when part body is available)
                 foreach ($this->parts as $i => $part) {
-                    if ($part->type == 'content')
+                    if ($part->type == 'content') {
                         $this->parts[$i]->replaces = $a_replaces;
+                    }
                 }
             }
         }

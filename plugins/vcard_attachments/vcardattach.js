@@ -37,10 +37,11 @@ function plugin_vcard_attach()
 {
   var id, n, contacts = [],
     ts = new Date().getTime(),
-    args = {_uploadid: ts, _id: rcmail.env.compose_id};
+    args = {_uploadid: ts, _id: rcmail.env.compose_id},
+    selection = rcmail.contact_list.get_selection();
 
-  for (n=0; n < rcmail.contact_list.selection.length; n++) {
-    id = rcmail.contact_list.selection[n];
+  for (n=0; n < selection.length; n++) {
+    id = selection[n];
     if (id && id.charAt(0) != 'E' && rcmail.env.contactdata[id])
       contacts.push(id);
   }
@@ -66,7 +67,8 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
     rcmail.register_command('attach-vcard', function() { plugin_vcard_attach(); });
     rcmail.contact_list.addEventListener('select', function(list) {
       // TODO: support attaching more than one at once
-      rcmail.enable_command('attach-vcard', list.selection.length == 1 && rcmail.contact_list.selection[0].charAt(0) != 'E');
+      var selection = list.get_selection();
+      rcmail.enable_command('attach-vcard', selection.length == 1 && selection[0].charAt(0) != 'E');
     });
   }
 });

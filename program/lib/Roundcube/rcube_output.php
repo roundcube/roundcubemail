@@ -327,7 +327,7 @@ abstract class rcube_output
     public static function json_serialize($input, $pretty = false)
     {
         $input   = rcube_charset::clean($input);
-        $options = 0;
+        $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
         if ($pretty) {
             $options |= JSON_PRETTY_PRINT;

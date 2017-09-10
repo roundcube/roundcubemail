@@ -153,7 +153,7 @@ class enigma_driver_gnupg extends enigma_driver
                 $this->gpg->addDecryptKey($key, $password);
             }
 
-            $result = $this->gpg->decryptAndVerify($text);
+            $result = $this->gpg->decryptAndVerify($text, true);
 
             if (!empty($result['signatures'])) {
                 $signature = $this->parse_signature($result['signatures'][0]);
@@ -463,7 +463,7 @@ class enigma_driver_gnupg extends enigma_driver
     {
         $data = new enigma_signature();
 
-        $data->id          = $sig->getId();
+        $data->id          = $sig->getId() ?: $sig->getKeyId();
         $data->valid       = $sig->isValid();
         $data->fingerprint = $sig->getKeyFingerprint();
         $data->created     = $sig->getCreationDate();

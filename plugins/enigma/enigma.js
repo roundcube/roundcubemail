@@ -273,7 +273,7 @@ rcube_webmail.prototype.enigma_keylist_select = function(list)
         url = '&_action=plugin.enigmakeys&_a=info&_id=' + id;
 
     this.enigma_loadframe(url);
-    this.enable_command('plugin.enigma-key-delete', 'plugin.enigma-key-export-selected', list.selection.length > 0);
+    this.enable_command('plugin.enigma-key-delete', 'plugin.enigma-key-export-selected', list.get_selection().length > 0);
 };
 
 rcube_webmail.prototype.enigma_keylist_keypress = function(list)
@@ -593,18 +593,37 @@ rcube_webmail.prototype.enigma_password_compose_submit = function(data)
 // Display no-key error with key search button
 rcube_webmail.prototype.enigma_key_not_found = function(data)
 {
-    return this.show_popup_dialog(
-        data.text,
-        data.title,
-        [{
+    var params = {width: 400, dialogClass: 'error'},
+        buttons = [{
+            'class': 'mainaction search',
             text: data.button,
-            click: function(e) {
+            click: function() {
                 $(this).remove();
                 rcmail.enigma_find_publickey(data.email);
             }
-        }],
-        {width: 400, dialogClass: 'error'}
-    );
+        }];
+
+    if (data.mode == 'encrypt') {
+        buttons.push({
+            'class': 'send',
+            text: rcmail.get_label('enigma.sendunencrypted'),
+            click: function(e) {
+                $(this).remove();
+                $('#enigmaencryptopt').prop('checked', false);
+                rcmail.command('send', {nocheck: true}, e.target, e.originalEvent);
+            }
+        });
+    }
+
+    buttons.push({
+        'class': 'cancel',
+        text: this.get_label('cancel'),
+        click: function() {
+            $(this).remove();
+        }
+    });
+
+    return this.show_popup_dialog(data.text, data.title, buttons, params);
 };
 
 // Search for a public key on the key server

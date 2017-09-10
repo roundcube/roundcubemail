@@ -835,6 +835,7 @@ class enigma_ui
 
         // Options menu contents
         $this->rc->output->add_footer($menu);
+        $this->rc->output->add_label('enigma.sendunencrypted');
     }
 
     /**
@@ -919,7 +920,10 @@ class enigma_ui
             $attrib['id'] = 'enigma-message';
 
             if ($sig instanceof enigma_signature) {
-                $sender = ($sig->name ? $sig->name . ' ' : '') . '<' . $sig->email . '>';
+                $sender = $sig->name ?: '';
+                if ($sig->email) {
+                    $sender .= ' <' . $sig->email . '>';
+                }
 
                 if ($sig->valid === enigma_error::UNVERIFIED) {
                     $attrib['class'] = 'enigmawarning';
@@ -934,7 +938,13 @@ class enigma_ui
                 }
                 else {
                     $attrib['class'] = 'enigmawarning';
-                    $msg = rcube::Q(str_replace('$sender', $sender, $this->enigma->gettext('siginvalid')));
+                    if ($sender) {
+                        $msg = rcube::Q(str_replace('$sender', $sender, $this->enigma->gettext('siginvalid')));
+                    }
+                    else {
+                        $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($sig->id),
+                            $this->enigma->gettext('signokey')));
+                    }
                 }
             }
             else if ($sig && $sig->getCode() == enigma_error::KEYNOTFOUND) {
@@ -1102,6 +1112,7 @@ class enigma_ui
                             'text'   => $this->rc->gettext(array('name' => $msg, 'vars' => $vars)),
                             'title'  => $this->enigma->gettext('keynotfound'),
                             'button' => $this->enigma->gettext('findkey'),
+                            'mode'   => $mode,
                     ));
                 }
                 else {
