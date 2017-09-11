@@ -537,40 +537,48 @@ function rcube_elastic_ui()
 
         // when loading content-frame in small-screen mode display it
         layout.content.find('iframe').on('load', function(e) {
-            var show = true;
+            var href = '', show = true;
             try {
-                show = !e.target.contentWindow.location.href.endsWith(rcmail.env.blankpage);
+                href = e.target.contentWindow.location.href;
+                show = !href.endsWith(rcmail.env.blankpage);
                 // Reset title back to the default
                 $(e.target.contentWindow).on('unload', title_reset);
             }
             catch(e) { /* ignore */ }
+
+            content_frame_navigation(href, e);
 
             if (show && !layout.content.is(':visible')) {
                 env.last_selected = layout.content[0];
                 screen_resize();
             }
             else if (!show) {
-                if (env.last_selected != last_selected) {
+                if (env.last_selected != last_selected && !env.content_lock) {
                     env.last_selected = last_selected;
                     screen_resize();
                 }
                 title_reset();
             }
+
+            env.content_lock = false;
         });
 
         // display the list widget after 'list' and 'listgroup' commands
         // @TODO: plugins should be able to do the same
         var list_handler = function(e) {
-            if (mode != 'large') {
+            if (mode != 'large' && !env.content_lock) {
                 if (rcmail.env.task == 'addressbook' || (rcmail.env.task == 'mail' && !rcmail.env.action)) {
                     show_list();
                 }
             }
 
+            env.content_lock = false;
+
             // display current folder name in list header
             if (rcmail.env.task == 'mail' && !rcmail.env.action) {
-                var name = $.type(e) == 'string' ? e : rcmail.env.mailbox;
-                var folder = rcmail.env.mailboxes[name];
+                var name = $.type(e) == 'string' ? e : rcmail.env.mailbox,
+                    folder = rcmail.env.mailboxes[name];
+
                 $('.header > .header-title', layout.list).text(folder ? folder.name : '');
             }
         };
@@ -579,6 +587,80 @@ function rcube_elastic_ui()
             .addEventListener('afterlist', list_handler)
             .addEventListener('afterlistgroup', list_handler)
             .addEventListener('afterlistsearch', list_handler);
+    };
+
+    /**
+     * Content frame navigation
+     */
+    function content_frame_navigation(href, event)
+    {
+        // Don't display navigation for create/add action frames
+        if (href.match(/_action=(create|add)/)) {
+            if (env.frame_nav) {
+                $(env.frame_nav).addClass('hidden');
+            }
+
+            return;
+        }
+
+        var uid, list = $('[data-list]', layout.list).data('list');
+
+        if (!list || !(list = rcmail[list]) || !list.get_single_selection) {
+            return;
+        }
+
+        // expand collapsed row so we do not skip the whole thread
+        if (uid = list.get_single_selection()) {
+            if (list.rows[uid] && !list.rows[uid].expanded) {
+                list.expand_row(event, uid);
+            }
+        }
+
+        // TODO: Add "message X from Y" text between buttons
+        // TODO: Support tree_list widget (Settings > Folders)
+
+        if (!env.frame_nav) {
+            env.frame_nav = $('<div class="footer toolbar content-frame-navigation">')
+                .append($('<a class="button prev">'))
+                .append($('<span>'))
+                .append($('<a class="button next">'))
+                .appendTo(layout.content);
+        }
+
+        var prev, next, found = false,
+            next_button = $('a.button.next', env.frame_nav).off('click').addClass('disabled'),
+            prev_button = $('a.button.prev', env.frame_nav).off('click').addClass('disabled'),
+            span = $('span', env.frame_nav).text('');
+
+        if ((next = list.get_next_row()) || rcmail.env.current_page < rcmail.env.pagecount) {
+            found = true;
+            next_button.removeClass('disabled').on('click', function() {
+                env.content_lock = true;
+                if (next) {
+                    list.select(next.uid);
+                }
+                else {
+                    rcmail.env.list_uid = 'FIRST';
+                    rcmail.command('nextpage');
+                }
+            });
+        }
+
+        if ((prev = list.get_prev_row()) || rcmail.env.current_page > 1) {
+            found = true;
+            prev_button.removeClass('disabled').on('click', function() {
+                env.content_lock = true;
+                if (prev) {
+                    list.select(prev.uid);
+                }
+                else {
+                    rcmail.env.list_uid = 'LAST';
+                    rcmail.command('previouspage');
+                }
+            });
+        }
+
+        env.frame_nav[found ? 'removeClass' : 'addClass']('hidden');
     };
 
     /**

@@ -93,6 +93,12 @@
         &.firstpage:before {
             content: @fa-var-fast-backward;
         }
+        &.prev:before {
+            content: @fa-var-arrow-left;
+        }
+        &.next:before {
+            content: @fa-var-arrow-right;
+        }
         &.prevpage:before {
             content: @fa-var-backward;
         }
@@ -433,6 +439,12 @@
     }
 }
 
+.toolbar.content-frame-navigation {
+    span {
+        flex-grow: 1;
+    }
+}
+
 @media screen and (min-width: (@screen-width-small + 1px)) {
     ul.toolbar {
         flex: 1;
@@ -516,6 +528,10 @@
 
     #layout .footer span.inner {
         display: inline !important;
+    }
+
+    .toolbar.content-frame-navigation {
+        display: none !important;
     }
 }
 
