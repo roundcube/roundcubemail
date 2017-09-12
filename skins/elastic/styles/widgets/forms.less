@@ -81,10 +81,8 @@ html.ms .propform {
 
     .row.form-check {
         padding-right: 0; /* without these e.g. inputs in compose screen are not aligned properly */
-
-        @media screen and (min-width: 576px) {
-            display: flex; /* https://github.com/twbs/bootstrap/issues/22348 */
-        }
+        display: flex; /* https://github.com/twbs/bootstrap/issues/22348 */
+        flex-wrap: nowrap;
 
         /* fixed checkbox vertical alignment */
         td:not(.col-form-label) {
@@ -92,8 +90,23 @@ html.ms .propform {
             padding-bottom: ~"calc(.5rem - 1px * 2)";
         }
 
+        /* alignment fixes needed because we do not stick precissely to Bootstrap's form structure */
+        @media screen and (max-width: 576px) {
+            .col-6 {
+                max-width: 100%;
+                flex: auto;
+            }
+
+            & > *:last-child {
+                width: 1%;
+                padding-right: 15px;
+            }
+        }
+
         .form-check-input {
-            margin-left: 0; /* fixes checkbox alignment with other inputs in a form */
+            margin: 0; /* fixes checkbox alignment with other inputs in a form */
+            margin-top: .5rem;
+            margin-bottom: .5rem;
         }
     }
 

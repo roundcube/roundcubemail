@@ -29,7 +29,7 @@
         display: block;
         text-decoration: none;
         cursor: default;
-        padding: 0 .5em;
+        padding: 0 .5rem;
         white-space: nowrap;
         vertical-align: middle;
         color: @color-list;
@@ -240,12 +240,16 @@ html.touch {
 ul.treelist li {
     div.treetoggle {
         position: absolute;
-        top: 1.8em;
+        top: (@listing-line-height * 0.5);
         left: 1.4em;
         width: .8em;
         height: .8em;
         line-height: .8em;
         cursor: pointer;
+
+        html.touch & {
+            top: (@listing-touch-line-height * 0.5);
+        }
 
         &:before {
             &:extend(.font-icon-class);
