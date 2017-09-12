@@ -406,6 +406,8 @@ function rcube_elastic_ui()
                 $('a.button.search', this).addClass('active');
             }
         });
+
+        rcmail.env.thread_padding = '1.5rem';
     };
 
     /**
