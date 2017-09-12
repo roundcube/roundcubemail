@@ -63,7 +63,8 @@ function rcube_webmail()
     recipients_separator: ',', // @deprecated
     recipients_delimiter: ', ', // @deprecated
     popup_width: 1150,
-    popup_width_small: 900
+    popup_width_small: 900,
+    thread_padding: '15px'
   };
 
   // create protected reference to myself
@@ -2315,11 +2316,18 @@ function rcube_webmail()
     });
 
     if (this.env.threading && message.depth) {
-      $('td.subject', domrow).attr('style', 'padding-left:' + Math.min(90, message.depth * 15) + 'px !important');
+      n = this.calculate_thread_padding(message.depth);
+      $('td.subject', domrow).attr('style', 'padding-left:' + n + ' !important');
       $('span.branch', domrow).remove();
     }
 
     return domrow;
+  };
+
+  this.calculate_thread_padding = function(level)
+  {
+     ref.env.thread_padding.match(/^([0-9.]+)(.+)/);
+     return (Math.min(6, level) * parseFloat(RegExp.$1)) + RegExp.$2;
   };
 
   this.set_list_sorting = function(sort_col, sort_order)
