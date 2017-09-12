@@ -951,6 +951,22 @@ get_last_row: function()
   return null;
 },
 
+get_next: function()
+{
+  var row;
+  if (row = this.get_next_row()) {
+    return row.uid;
+  }
+},
+
+get_prev: function()
+{
+  var row;
+  if (row = this.get_prev_row()) {
+    return row.uid;
+  }
+},
+
 row_tagname: function()
 {
   var row_tagnames = { table:'tr', ul:'li', '*':'div' };
