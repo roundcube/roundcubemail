@@ -597,7 +597,8 @@ function rcube_elastic_ui()
     function content_frame_navigation(href, event)
     {
         // Don't display navigation for create/add action frames
-        if (href.match(/_action=(create|add)/)) {
+        // TODO: edit-folder should really be create-folder
+        if (href.match(/_action=(create|add)/) || (href.match(/_action=edit-folder/) && href.match(/_mbox=&/))) {
             if (env.frame_nav) {
                 $(env.frame_nav).addClass('hidden');
             }
@@ -605,21 +606,24 @@ function rcube_elastic_ui()
             return;
         }
 
-        var uid, list = $('[data-list]', layout.list).data('list');
+        var uid, list, _list = $('[data-list]', layout.list).data('list');
 
-        if (!list || !(list = rcmail[list]) || !list.get_single_selection) {
+        if (!_list || !(list = rcmail[_list])) {
             return;
         }
 
         // expand collapsed row so we do not skip the whole thread
+        // TODO: Unified interface for list and treelist widgets
         if (uid = list.get_single_selection()) {
-            if (list.rows[uid] && !list.rows[uid].expanded) {
+            if (list.rows && list.rows[uid] && !list.rows[uid].expanded) {
                 list.expand_row(event, uid);
+            }
+            else if (list.get_node && list.get_node(uid).collapsed) {
+                list.expand(uid);
             }
         }
 
-        // TODO: Add "message X from Y" text between buttons
-        // TODO: Support tree_list widget (Settings > Folders)
+        // TODO: Add "message X of Y" text between buttons
 
         if (!env.frame_nav) {
             env.frame_nav = $('<div class="footer toolbar content-frame-navigation">')
@@ -634,12 +638,12 @@ function rcube_elastic_ui()
             prev_button = $('a.button.prev', env.frame_nav).off('click').addClass('disabled'),
             span = $('span', env.frame_nav).text('');
 
-        if ((next = list.get_next_row()) || rcmail.env.current_page < rcmail.env.pagecount) {
+        if ((next = list.get_next()) || rcmail.env.current_page < rcmail.env.pagecount) {
             found = true;
             next_button.removeClass('disabled').on('click', function() {
                 env.content_lock = true;
                 if (next) {
-                    list.select(next.uid);
+                    list.select(next);
                 }
                 else {
                     rcmail.env.list_uid = 'FIRST';
@@ -648,12 +652,12 @@ function rcube_elastic_ui()
             });
         }
 
-        if ((prev = list.get_prev_row()) || rcmail.env.current_page > 1) {
+        if (((prev = list.get_prev()) && (prev != '*' || _list != 'subscription_list')) || rcmail.env.current_page > 1) {
             found = true;
             prev_button.removeClass('disabled').on('click', function() {
                 env.content_lock = true;
                 if (prev) {
-                    list.select(prev.uid);
+                    list.select(prev);
                 }
                 else {
                     rcmail.env.list_uid = 'LAST';
