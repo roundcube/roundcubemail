@@ -8667,11 +8667,20 @@ function rcube_webmail()
             if (response.action == 'list' || response.action == 'search') {
               // highlight message row when we're back from message page
               if (uid) {
-                if (!list.rows[uid])
+                if (uid === 'FIRST') {
+                  uid = list.get_first_row();
+                }
+                else if (uid === 'LAST') {
+                  uid = list.get_last_row();
+                }
+                else if (!list.rows[uid]) {
                   uid += '-' + this.env.mailbox;
-                if (list.rows[uid]) {
+                }
+
+                if (uid && list.rows[uid]) {
                   list.select(uid);
                 }
+
                 delete this.env.list_uid;
               }
 
@@ -8689,15 +8698,38 @@ function rcube_webmail()
           }
         }
         else if (this.task == 'addressbook') {
-          this.enable_command('export', (this.contact_list && this.contact_list.rowcount > 0));
+          var list = this.contact_list,
+            uid = this.env.list_uid;
+
+          this.enable_command('export', (list && list.rowcount > 0));
 
           if (response.action == 'list' || response.action == 'search') {
             this.enable_command('search-create', this.env.source == '');
             this.enable_command('search-delete', this.env.search_id);
             this.update_group_commands();
-            if (this.contact_list.rowcount > 0 && !$(document.activeElement).is('input,textarea'))
-              this.contact_list.focus();
-            this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
+
+            if (list && uid) {
+              if (uid === 'FIRST') {
+                uid = list.get_first_row();
+              }
+              else if (uid === 'LAST') {
+                uid = list.get_last_row();
+              }
+
+              if (uid && list.rows[uid]) {
+                list.select(uid);
+              }
+
+              delete this.env.list_uid;
+
+              // trigger 'select' so all dependent actions update its state
+              list.triggerEvent('select');
+            }
+
+            if (list.rowcount > 0 && !$(document.activeElement).is('input,textarea'))
+              list.focus();
+
+            this.triggerEvent('listupdate', { folder:this.env.source, rowcount:list.rowcount });
           }
         }
         break;
