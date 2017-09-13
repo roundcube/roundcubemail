@@ -1422,7 +1422,7 @@ function rcube_elastic_ui()
                 cols = $('input[name="list_col[]"]:checked', dialog)
                     .map(function() { return this.value; }).get();
 
-            rcmail.set_list_options(cols, sort, ord, mode == 'threads');
+            rcmail.set_list_options(cols, sort, ord, mode == 'threads' ? 1 : 0);
             return true;
         };
 

@@ -447,7 +447,7 @@ table.fixedcopy {
     }
 
     td.threads {
-        vertical-align: bottom;
+        padding-left: 0;
     }
 
     td.flags {
@@ -489,10 +489,11 @@ table.fixedcopy {
 
     tr.thread td.threads div:before {
         &:extend(.font-icon-class);
-        content: @fa-var-caret-square-o-right;
+        content: @fa-var-angle-right;
+        cursor: pointer;
     }
     tr.thread.expanded td.threads div:before {
-        content: @fa-var-caret-square-o-down;
+        content: @fa-var-angle-down;
     }
     td.subject span.msgicon.status:before {
         &:extend(.font-icon-class);
