@@ -35,7 +35,7 @@ class rcube_sql_password
         }
 
         if ($dsn = $rcmail->config->get('password_db_dsn')) {
-            $db = rcube_db::factory($dsn, '', false);
+            $db = rcube_db::factory(self::parse_dsn($dsn), '', false);
             $db->set_debug((bool)$rcmail->config->get('sql_debug'));
         }
         else {
@@ -168,5 +168,24 @@ class rcube_sql_password
         }
 
         return PASSWORD_ERROR;
+    }
+
+    /**
+     * Parse DSN string and replace host variables
+     */
+    protected static function parse_dsn($dsn)
+    {
+        if (strpos($dsn, '%')) {
+            // parse DSN and replace variables in hostname
+            $parsed = rcube_db::parse_dsn($dsn);
+            $host   = rcube_utils::parse_host($parsed['hostspec']);
+
+            // build back the DSN string
+            if ($host != $parsed['hostspec']) {
+                $dsn = str_replace('@' . $parsed['hostspec'], '@' . $host, $dsn);
+            }
+        }
+
+        return $dsn;
     }
 }
