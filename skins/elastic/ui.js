@@ -75,11 +75,11 @@ function rcube_elastic_ui()
     // Initialize menu dropdowns
     dropdowns_init();
 
-    // Update layout after initialization
-    resize();
-
     // Setup various UI elements
     setup();
+
+    // Update layout after initialization
+    resize();
 
 
     /**
@@ -401,14 +401,12 @@ function rcube_elastic_ui()
             }
         }
 
-        // Update searchbar state
-        $('.header > .searchbar').each(function() {
-            if ($('input', this).val()) {
-                $('a.button.search', this).addClass('active');
-            }
-        });
-
         rcmail.env.thread_padding = '1.5rem';
+
+        // In devel mode we have to wait until all styles are aplied by less
+        if (rcmail.env.devel_mode) {
+            setTimeout(resize, 1000);
+        }
     };
 
     /**
@@ -756,6 +754,8 @@ function rcube_elastic_ui()
             case 'normal': screen_resize_normal(); break;
             case 'large': screen_resize_large(); break;
         }
+
+        screen_resize_headers();
     };
 
     /**
@@ -786,6 +786,48 @@ function rcube_elastic_ui()
         else if (!meta.touch && html.is('.touch')) {
             html.removeClass('touch');
         }
+    };
+
+    /**
+     * Sets left and right margin to the header title element
+     * to make it properly centered depending on number of buttons
+     * on both sides
+     */
+    function screen_resize_headers()
+    {
+        $('#layout > div > .header').each(function() {
+            var title, right = 0, left = 0, padding = 0,
+                sizes = {left: 0, right: 0};
+
+            $(this).children(':visible').each(function() {
+                if (!title && $(this).is('.header-title')) {
+                    title = $(this);
+                    return;
+                }
+
+                if ($(this).is('.searchbar,.searchfilterbar')) {
+                    padding += this.offsetWidth;
+                }
+                else {
+                    sizes[title ? 'right' : 'left'] += this.offsetWidth;
+                }
+            });
+
+            if (padding + sizes.right >= sizes.left) {
+                right = 0;
+                left = sizes.right + padding - sizes.left;
+            }
+            else {
+                left = 0;
+                right = sizes.left - padding + sizes.right;
+            }
+
+            $(title).css({
+                'margin-right': right + 'px',
+                'margin-left': left + 'px',
+                'padding-right': padding + 'px'
+            });
+        });
     };
 
     function screen_resize_phone()
@@ -877,6 +919,8 @@ function rcube_elastic_ui()
         layout.list.addClass('hidden');
         layout.sidebar.addClass('hidden');
         layout.content.removeClass('hidden');
+
+        screen_resize_headers();
     };
 
     function show_sidebar()
@@ -888,6 +932,8 @@ function rcube_elastic_ui()
         if (mode == 'small' || mode == 'phone') {
             layout.content.addClass('hidden');
         }
+
+        screen_resize_headers();
     };
 
     function show_list()
@@ -904,6 +950,8 @@ function rcube_elastic_ui()
                 hide_content();
             }
         }
+
+        screen_resize_headers();
     };
 
     function hide_content()
@@ -1041,11 +1089,13 @@ function rcube_elastic_ui()
                     // reset padding set when the form is displayed
                     $(bar).css({width: 'auto', 'padding-left': 0})[is_search_pending() ? 'addClass' : 'removeClass']('active');
                     button.css('display', 'block');
-                    if (focus) {
+                    if (focus && rcube_event.is_keyboard(event)) {
                         button.focus();
                     }
                 });
             };
+
+        $(bar).parent().addClass('with-search');
 
         if (is_search_pending()) {
             $(bar).addClass('active');
@@ -1084,6 +1134,8 @@ function rcube_elastic_ui()
                 hide_func(e);
             }
         });
+
+        rcmail.addEventListener('init', function() { if (input.val()) $(bar).addClass('active'); });
     };
 
     /**
@@ -1114,11 +1166,13 @@ function rcube_elastic_ui()
                     // reset padding set when the form is displayed
                     bar.css({width: 'auto', 'padding-left': 0})[is_filter_enabled() ? 'addClass' : 'removeClass']('active');
                     button.css('display', 'block');
-                    if (focus) {
+                    if (focus && rcube_event.is_keyboard(event)) {
                         button.focus();
                     }
                 });
             };
+
+        bar.parent().addClass('with-filter');
 
         if (is_filter_enabled()) {
             bar.addClass('active');

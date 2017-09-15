@@ -153,6 +153,8 @@ body > #layout {
                 flex: 1;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                text-align: center;
+                margin: 0 -20rem;
             }
         }
 
@@ -196,6 +198,7 @@ html.iframe body {
 
     body > #layout > div:not(.content) > .header {
         font-size: @layout-touch-header-font-size;
+
         a.button:before {
             font-size: 1.75rem;
             height: @layout-touch-header-height;
@@ -234,17 +237,15 @@ html.iframe body {
         }
     }
 
-    body > #layout > div > .header.with-search-and-toolbar {
-        & > .header-title {
-            margin-right: (@layout-touch-icon-width * 2);
-        }
+    body > #layout > div > .header {
+        &.with-search {
+            .searchfilterbar {
+                right: (@layout-touch-icon-width * 2);
+            }
 
-        & > .searchfilterbar {
-            right: (@layout-touch-icon-width * 2);
-        }
-
-        & > .searchbar {
-            right: @layout-touch-icon-width;
+            .searchbar {
+                right: @layout-touch-icon-width;
+            }
         }
     }
 
@@ -276,6 +277,10 @@ html.iframe body {
 @media screen and (min-width: (@screen-width-large + 1px)) {
     body > #layout > div > .header > a.back-list-button,
     body > #layout > div > .header > a.back-sidebar-button {
+        display: none;
+    }
+
+    body > #layout > .list > .header > .header-title {
         display: none;
     }
 

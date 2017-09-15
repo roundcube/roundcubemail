@@ -17,12 +17,12 @@
 
 .ui-dialog {
     .ui-dialog-titlebar {
-        height: 4rem;
+        height: @layout-header-height;
         border-bottom: 1px solid @color-dialog-header-border;
     }
 
     .ui-dialog-title {
-        line-height: 4rem;
+        line-height: @layout-header-height;
         font-size: 1.25rem;
         padding: 0 3rem 0 1rem;
         color: @color-dialog-header;
@@ -35,7 +35,7 @@
         right: 0;
         top: 0;
         position: absolute;
-        height: 4rem;
+        height: @layout-header-height;
         cursor: pointer;
 
         &:before {
@@ -96,6 +96,8 @@
         .ui-dialog-buttonpane {
             padding: 0 !important;
             text-align: center !important;
+            border-top: 1px solid @color-dialog-header-border;
+            height: @layout-header-height !important;
 
             .ui-dialog-buttonset {
                 display: flex;
@@ -105,6 +107,7 @@
                     border: 0 !important;
                     box-shadow: none;
                     flex-grow: 1;
+                    height: @layout-header-height;
 
                     &:before {
                         display: block;
