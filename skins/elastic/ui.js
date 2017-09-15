@@ -941,7 +941,7 @@ function rcube_elastic_ui()
         screen_resize_headers();
     };
 
-    function show_list()
+    function show_list(scroll)
     {
         if (!layout.list.length && !layout.sidebar.length) {
             history.back();
@@ -953,6 +953,10 @@ function rcube_elastic_ui()
 
             if (mode == 'small' || mode == 'phone') {
                 hide_content();
+            }
+
+            if (scroll) {
+                layout.list.children('.scroller').scrollTop(0);
             }
         }
 

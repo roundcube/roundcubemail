@@ -5,7 +5,7 @@
 
 <!-- inline address book -->
 <div class="sidebar listbox" role="region" aria-labelledby="aria-label-composecontacts">
-	<div class="header">
+	<div class="header no-toolbar">
 		<a class="button icon back-content-button" href="#content" data-hidden="big"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span id="aria-label-composecontacts" class="header-title"><roundcube:label name="contacts" /></span>
 		<roundcube:object name="searchform" id="searchform" wrapper="searchbar toolbar"
@@ -98,7 +98,7 @@
 		<span class="header-title"><roundcube:label name="compose" /></span>
 		<!-- toolbar -->
 		<div id="messagetoolbar" class="toolbar" role="toolbar" aria-labelledby="aria-label-toolbar">
-			<a class="button settings" href="#options" onclick="UI.show_list()" data-hidden="big">
+			<a class="button settings" href="#options" onclick="UI.show_list(true)" data-hidden="big">
 				<span class="inner"><roundcube:label name="composeoptions"></span>
 			</a>
 			<a class="button addressbook" href="#contacts" onclick="UI.show_sidebar()" data-hidden="big">
