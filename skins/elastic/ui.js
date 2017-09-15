@@ -146,11 +146,16 @@ function rcube_elastic_ui()
 
         // Move form buttons from the content frame into the frame header (on parent window)
         // TODO: Active button state
-        $('.formbuttons').children(':not(.cancel)').each(function() {
+        $('.formbuttons').children().each(function() {
             var target = $(this);
 
             // skip non-content buttons
             if (!is_framed && !target.parents('.content').length) {
+                return;
+            }
+
+            if (target.is('.cancel')) {
+                target.addClass('hidden');
                 return;
             }
 
