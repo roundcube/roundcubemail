@@ -31,6 +31,8 @@
 @layout-touch-menu-record-height:       3.6rem;
 @layout-touch-menu-record-font-size:    1.2rem;
 
+@layout-touch-icon-width:               2.2em;
+
 
 /*** Responsive design - Layout ***/
 
@@ -208,7 +210,7 @@ html.iframe body {
 }
 
 @media screen and (max-width: @screen-width-small) {
-    body > #layout > div > .header > .toolbar:not(.searchbar) {
+    body > #layout > div > .header > .toolbar {
         font-size: @layout-touch-header-font-size;
         display: none;
     }
@@ -234,12 +236,15 @@ html.iframe body {
 
     body > #layout > div > .header.with-search-and-toolbar {
         & > .header-title {
-            margin-right: 1.5em;
+            margin-right: (@layout-touch-icon-width * 2);
+        }
+
+        & > .searchfilterbar {
+            right: (@layout-touch-icon-width * 2);
         }
 
         & > .searchbar {
-            margin-right: 2em;
-            padding-left: 2em;
+            right: @layout-touch-icon-width;
         }
     }
 

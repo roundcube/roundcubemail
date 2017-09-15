@@ -11,7 +11,6 @@
 
 /*** Searchbar widget ***/
 
-
 .searchbar {
     text-align: right;
     position: absolute;
@@ -21,14 +20,15 @@
     right: 0;
 
     form,
-    a.button.options,
-    a.button.reset {
+    a.button.reset,
+    a.button.cancel,
+    a.button.options {
         display: none;
         width: 1%;
     }
 
     form {
-        width: 98%;
+        width: 97%;
         text-align: left;
         padding-left: .25em;
 
@@ -49,14 +49,57 @@
     }
 
     a {
-        &.button.search.active {
-            color: @color-searchbar-icon-active;
-        }
         &.button.reset:before {
-            content: @fa-var-remove;
+            content: @fa-var-trash;
         }
         &.button.options:before {
             content: @fa-var-angle-down;
+        }
+    }
+
+    &.active a.button.search {
+        color: @color-searchbar-icon-active;
+    }
+}
+
+/*** Searchfilterbar widget ***/
+
+.searchfilterbar {
+    text-align: right;
+    position: absolute;
+    background-color: @color-layout-header-background;
+    z-index: 10;
+    top: 0;
+    right: @layout-touch-icon-width;
+
+    select,
+    a.button.cancel {
+        display: none;
+        width: 1%;
+    }
+
+    select {
+        width: 98%;
+        padding-left: .25em;
+    }
+
+    &.active a.button.filter {
+        color: @color-searchbar-icon-active;
+    }
+}
+
+.searchbar,
+.searchfilterbar {
+    height: @layout-header-height;
+    display: table !important;
+
+    a.button {
+        /* Reset toolbar style */
+        min-width: auto;
+        padding: 0 .5rem;
+
+        &:before {
+            line-height: @layout-header-height;
         }
     }
 }

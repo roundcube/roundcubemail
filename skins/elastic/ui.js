@@ -92,6 +92,7 @@ function rcube_elastic_ui()
 
         // Initialize search forms (in list headers)
         $('.header > .searchbar').each(function() { searchbar_init(this); });
+        $('.header > .searchfilterbar').each(function() { searchfilterbar_init(this); });
 
         // Intercept jQuery-UI dialogs to re-style them
         if ($.ui) {
@@ -1022,9 +1023,9 @@ function rcube_elastic_ui()
     {
         var input = $('input', bar),
             button = $('a.button.search', bar),
-            settings_button = $('a.button.settings', bar)[0],
+            cancel = $('<a class="button icon cancel">').insertBefore(button),
             form = $('form', bar),
-            all_elements = $('form, a.button.options, a.button.reset', bar),
+            all_elements = $('form, a.button.options, a.button.reset, a.button.cancel', bar),
             is_search_pending = function() {
                 // TODO: This have to be improved to detect real searching state
                 //       There are cases when search is active but the input is empty
@@ -1036,9 +1037,10 @@ function rcube_elastic_ui()
                 }
                 $(bar).animate({'width': '0'}, 200, 'swing', function() {
                     all_elements.hide();
-                    $(bar).width('auto'); // fixes search button position in Chrome
-                    button[is_search_pending() ? 'addClass' : 'removeClass']('active')
-                        .css('display', 'block');
+                    // width:auto fixes search button position in Chrome
+                    // reset padding set when the form is displayed
+                    $(bar).css({width: 'auto', 'padding-left': 0})[is_search_pending() ? 'addClass' : 'removeClass']('active');
+                    button.css('display', 'block');
                     if (focus) {
                         button.focus();
                     }
@@ -1046,12 +1048,13 @@ function rcube_elastic_ui()
             };
 
         if (is_search_pending()) {
-            button.addClass('active');
+            $(bar).addClass('active');
         }
 
         // Display search form (with animation effect)
         button.on('click', function() {
-            $(bar).animate({'width': '100%'}, 200);
+            var margin = $(bar).css('right');
+            $(bar).css('padding-left', margin).animate({'width': '100%'}, 200);
             all_elements.css('display', 'table-cell');
             button.hide();
             input.focus();
@@ -1063,14 +1066,90 @@ function rcube_elastic_ui()
             // in normal search form reset-search command will do the trick
             // TODO: This calls for some generalization, what about two searchboxes on a page?
             input.val('').change().trigger('keyup.treelist', {keyCode: 27});
+
+            // we have to de-activate filter
+            // TODO: Probably that should not reset filter, but that's current Roundcube bahavior
+            $(bar).prev('.searchfilterbar').removeClass('active');
+
             hide_func(e, true);
         });
+
+        cancel.attr('title', rcmail.gettext('close')).on('click', function(e) { hide_func(e, true); });
 
         // These will hide the form, but not reset it
         rcube_webmail.set_iframe_events({mousedown: hide_func});
         $('body').on('mousedown', function(e) {
             // close searchbar on mousedown anywhere, but not inside the searchbar or dialogs
-            if ($.inArray(bar, $(e.target).parents()) == -1 && !$(e.target).parents('.popover').length) {
+            if (!$(e.target).parents('.popover,.searchbar').length) {
+                hide_func(e);
+            }
+        });
+    };
+
+    /**
+     * Initializes searchfilterbar widget
+     */
+    function searchfilterbar_init(bar)
+    {
+        bar = $('<div class="searchfilterbar toolbar">')
+            .insertAfter(bar)
+            .append($(bar).detach())
+            .append($('<a class="button icon cancel">').attr('title', rcmail.gettext('close')))
+            .append($('<a class="button icon filter">').attr('title', rcmail.gettext('filter')));
+
+        var select = $('select', bar),
+            button = $('a.button.filter', bar),
+            all_elements = $('select, a.button.cancel', bar),
+            is_filter_enabled = function() {
+                var value = select.val();
+                return value && value != 'ALL';
+            },
+            hide_func = function(event, focus) {
+                if (button.is(':visible')) {
+                    return;
+                }
+                $(bar).animate({'width': '0'}, 200, 'swing', function() {
+                    all_elements.hide();
+                    // width:auto fixes search button position in Chrome
+                    // reset padding set when the form is displayed
+                    bar.css({width: 'auto', 'padding-left': 0})[is_filter_enabled() ? 'addClass' : 'removeClass']('active');
+                    button.css('display', 'block');
+                    if (focus) {
+                        button.focus();
+                    }
+                });
+            };
+
+        if (is_filter_enabled()) {
+            bar.addClass('active');
+        }
+
+        select.removeClass('hidden searchfilterbar').addClass('form-control')
+            .on('change', function(e) {
+                hide_func(e, true);
+                // It may be called when the form is hidden... update status
+                if (is_filter_enabled()) {
+                    bar.removeClass('active');
+                }
+            });
+
+        // Display filter selection (with animation effect)
+        button.on('click', function() {
+            var margin = $(bar).css('right');
+            $(bar).css('padding-left', margin).animate({'width': '100%'}, 200);
+            all_elements.css('display', 'table-cell');
+            button.hide();
+            select.focus();
+        });
+
+        // Filter close button
+        $('a.button.cancel', bar).on('click', function(e) { hide_func(e, true); });
+
+        // These will hide the form, but not reset it
+        rcube_webmail.set_iframe_events({mousedown: hide_func});
+        $('body').on('mousedown', function(e) {
+            // close searchbar on mousedown anywhere, but not inside the searchbar or dialogs
+            if (!$(e.target).parents('.searchfilterbar').length) {
                 hide_func(e);
             }
         });

@@ -450,7 +450,7 @@
         flex: 1;
     }
 
-    .toolbar:not(.searchbar) {
+    .toolbar {
         margin: 0;
         font-size: 1rem;
 
@@ -537,6 +537,10 @@
 
 @media screen and (max-width: @screen-width-small) {
     .toolbar {
+        a.button {
+            padding: 0 .5em;
+        }
+
         a.button.texticon {
             &:before {
                 display: none;
