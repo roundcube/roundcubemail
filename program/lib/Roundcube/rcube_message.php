@@ -251,7 +251,7 @@ class rcube_message
             if (is_resource($mode)) {
                 if ($body !== false) {
                     fwrite($mode, $body);
-                    rewind($mode);
+                    @rewind($mode);
                 }
 
                 return $body !== false;
@@ -276,7 +276,7 @@ class rcube_message
             !($mode && $formatted), $max_bytes, $mode && $formatted);
 
         if (is_resource($mode)) {
-            rewind($mode);
+            @rewind($mode);
             return $body !== false;
         }
 
