@@ -289,17 +289,17 @@ class rcube_washtml
                     }
                 }
 
-                if ($this->is_image_attribute($node->tagName, $key)) {
+                if ($this->is_image_attribute($node->nodeName, $key)) {
                     $out = $this->wash_uri($value, true);
                 }
-                else if ($this->is_link_attribute($node->tagName, $key)) {
+                else if ($this->is_link_attribute($node->nodeName, $key)) {
                     if (!preg_match('!^(javascript|vbscript|data:text)!i', $value)
                         && preg_match('!^([a-z][a-z0-9.+-]+:|//|#).+!i', $value)
                     ) {
                         $out = $value;
                     }
                 }
-                else if ($this->is_funciri_attribute($node->tagName, $key)) {
+                else if ($this->is_funciri_attribute($node->nodeName, $key)) {
                     if (preg_match('/^[a-z:]*url\(/i', $val)) {
                         if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $value, $match)) {
                             if ($url = $this->wash_uri($match[2])) {
@@ -432,14 +432,14 @@ class rcube_washtml
         do {
             switch ($node->nodeType) {
             case XML_ELEMENT_NODE: //Check element
-                $tagName = strtolower($node->tagName);
+                $tagName = strtolower($node->nodeName);
                 if ($callback = $this->handlers[$tagName]) {
                     $dump .= call_user_func($callback, $tagName,
                         $this->wash_attribs($node), $this->dumpHtml($node, $level), $this);
                 }
                 else if (isset($this->_html_elements[$tagName])) {
                     $content = $this->dumpHtml($node, $level);
-                    $dump .= '<' . $node->tagName;
+                    $dump .= '<' . $node->nodeName;
 
                     if ($tagName == 'svg') {
                         $xpath = new DOMXPath($node->ownerDocument);
@@ -459,14 +459,14 @@ class rcube_washtml
                         $dump .= ' />';
                     }
                     else {
-                        $dump .= '>' . $content . '</' . $node->tagName . '>';
+                        $dump .= '>' . $content . '</' . $node->nodeName . '>';
                     }
                 }
                 else if (isset($this->_ignore_elements[$tagName])) {
-                    $dump .= '<!-- ' . htmlspecialchars($node->tagName, ENT_QUOTES) . ' not allowed -->';
+                    $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES) . ' not allowed -->';
                 }
                 else {
-                    $dump .= '<!-- ' . htmlspecialchars($node->tagName, ENT_QUOTES) . ' ignored -->';
+                    $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES) . ' ignored -->';
                     $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
                 }
                 break;
