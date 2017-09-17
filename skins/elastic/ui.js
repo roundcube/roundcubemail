@@ -262,7 +262,7 @@ function rcube_elastic_ui()
         $('[data-list]').each(function() {
             $('input[type="checkbox"]', this).each(function() { pretty_checkbox(this); });
         });
-        $('[type=checkbox]', $('table.propform')).each(function() { pretty_checkbox(this); });
+        $('table.propform input[type=checkbox], .form-check > input').each(function() { pretty_checkbox(this); });
 
         // Assign .formcontainer class to the iframe body, when it
         // contains .formcontent and .formbuttons.
@@ -450,7 +450,7 @@ function rcube_elastic_ui()
                 last = cells.last();
 
                 $('label', first).addClass('col-form-label');
-                first.addClass('col-sm-4 col-form-label');
+                first.addClass('col-sm-4');
                 last.addClass('col-sm-8');
 
                 if (last.find('[type=checkbox]').length) {
