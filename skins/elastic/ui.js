@@ -257,6 +257,13 @@ function rcube_elastic_ui()
             $(parent.length ? parent : this).addClass('hidden-' + sizes.join(' hidden-'));
         });
 
+        // Modify normal checkboxes on lists so they are different
+        // than those used for row selection, i.e. use icons
+        $('[data-list]').each(function() {
+            $('input[type="checkbox"]', this).each(function() { pretty_checkbox(this); });
+        });
+        $('[type=checkbox]', $('table.propform')).each(function() { pretty_checkbox(this); });
+
         // Assign .formcontainer class to the iframe body, when it
         // contains .formcontent and .formbuttons.
         if (is_framed) {
@@ -2104,6 +2111,25 @@ function rcube_elastic_ui()
                 })
                 .parent().append(loader);
         }
+    };
+
+    /**
+     * Checkbox wrapper
+     */
+    function pretty_checkbox(checkbox)
+    {
+        var checkbox = $(checkbox),
+            id = checkbox.attr('id');
+
+        if (!id) {
+            if (!env.icon_checkbox) env.icon_checkbox = 0;
+            id = 'icochk' + (++env.icon_checkbox);
+            checkbox.attr('id', id);
+        }
+
+        checkbox.addClass('icon-checkbox').after(
+            $('<label>').attr({'for': id, title: checkbox.attr('title') || ''})
+        );
     };
 
     /**

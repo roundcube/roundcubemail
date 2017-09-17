@@ -99,6 +99,7 @@ html.ms .propform {
 
             & > *:last-child {
                 width: 1%;
+                min-width: 2.2em; /* for icon-checkbox */
                 padding-right: 15px;
             }
         }
@@ -325,6 +326,58 @@ td.editfield { width: 99%;  /* TODO */ }
         display: inline;
     }
 }
+
+
+/*** Pretty icon checkbox ***/
+
+input.icon-checkbox {
+    opacity: 0;
+
+    & + label {
+        margin: 0;
+        display: inline;
+        font-size: 1.2rem;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-toggle-off;
+            margin: 0;
+            color: @color-checkbox;
+        }
+    }
+
+    &:disabled + label {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    &:checked + label:before {
+        content: @fa-var-toggle-on;
+        color: @color-checkbox-checked;
+    }
+
+    &:focus + label:before {
+        color: @color-checkbox-focus;
+    }
+
+    &:checked:focus + label:before {
+        color: @color-checkbox-checked-focus;
+    }
+
+    &.form-check-input + label {
+        font-size: 1.25rem;
+        padding: .4em 0;
+    }
+}
+
+html.touch input.icon-checkbox + label {
+    font-size: 1.6em;
+}
+
+.formcontent input.icon-checkbox + label {
+    line-height: 1.2;
+}
+
 
 /*** TinyMCE editor ***/
 

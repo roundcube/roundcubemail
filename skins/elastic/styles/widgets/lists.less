@@ -75,6 +75,7 @@
         li > a:focus,
         &.focus tbody tr.focused > td:first-child {
             border-left: 2px solid @color-list-focus-indicator;
+            outline: 0;
         }
     }
 }
@@ -109,10 +110,11 @@ ul.listing {
             }
         }
 
+        input.icon-checkbox + label,
         input[type=checkbox] {
             position: absolute;
             top: 0;
-            right: .5em;
+            right: .5rem;
             height: @listing-line-height;
             vertical-align: middle;
         }
@@ -124,6 +126,8 @@ html.touch {
     .listing tbody td {
         line-height: @listing-touch-line-height;
     }
+
+    input.icon-checkbox + label,
     li input[type=checkbox] {
         height: @listing-touch-line-height;
     }
