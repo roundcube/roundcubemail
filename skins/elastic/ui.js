@@ -200,7 +200,14 @@ function rcube_elastic_ui()
                 .attr({type: 'hidden', name: $(this).attr('name')})
                 .appendTo(rcmail.gui_objects.messageform);
 
-            $(this).on('change', function() { hidden.val($(this).val()); }).change();
+            $(this).on('change', function() {
+                if (this.type == 'checkbox') {
+                    hidden.attr('checked', $(this).attr('checked'));
+                }
+                else {
+                    hidden.val($(this).val());
+                }
+            }).change();
         });
 
         $('#dragmessage-menu,#dragcontact-menu').each(function() {
