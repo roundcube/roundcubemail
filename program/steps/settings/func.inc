@@ -449,7 +449,7 @@ function rcmail_user_prefs($current = null)
                 }
 
                 $blocks['main']['options']['mail_read_time'] = array(
-                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('previewpanemarkread'))),
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('automarkread'))),
                     'content' => $select->show($config['mail_read_time']),
                 );
             }
