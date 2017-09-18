@@ -12,6 +12,55 @@
 /*** Mail message body elements ***/
 
 
+@mail-header-photo-height:      4rem;
+
+
+.content #message-header {
+    margin-bottom: 1rem;
+
+    .subject {
+        font-size: 1.5rem;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .short-header {
+        display: flex;
+
+        img.contactphoto {
+            margin: 0 1rem 0 0;
+            border-radius: 50%;
+            width: @mail-header-photo-height;
+            height: @mail-header-photo-height;
+        }
+
+        div {
+            line-height: @mail-header-photo-height;
+
+            & > span {
+                line-height: normal;
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+    }
+}
+
+
+#message-objects {
+    i.icon {
+        font-size: 2em !important;
+    }
+
+    .ui {
+        float: none;
+        border-radius: 0;
+    }
+}
+
+
 #messagebody {
     /* TODO */
 
