@@ -9605,7 +9605,7 @@ rcube_webmail.subject_text = function(elem)
 {
   var t = $(elem).clone();
   t.find('.skip-on-drag,.skip-content,.voice').remove();
-  return t.text();
+  return $.trim(t.text());
 };
 
 // set event handlers on all iframe elements (and their contents)
