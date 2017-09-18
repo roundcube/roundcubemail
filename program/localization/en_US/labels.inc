@@ -231,6 +231,9 @@ $labels['quotatotal'] = 'Limit';
 $labels['quotaused'] = 'Used';
 $labels['quotastorage'] = 'Disk space';
 $labels['quotamessage'] = 'Messages count';
+$labels['shortheaderdate'] = 'On $date';
+$labels['shortheaderto'] = 'To $to on $date';
+$labels['shortheaderfrom'] = 'From $from on $date';
 
 $labels['quicksearch']  = 'Quick search';
 $labels['searchplaceholder']  = 'Search...';
