@@ -30,9 +30,13 @@
     }
 }
 
-/* On mobile don't display popup arrows and titles */
-.popover > h3 {
-    display: none;
+.popover {
+    box-shadow: 3px 3px 5px @color-popover-shadow;
+
+    & > h3 {
+        /* On mobile don't display popup arrows and titles */
+        display: none;
+    }
 }
 
 html.layout-small,

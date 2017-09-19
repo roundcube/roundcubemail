@@ -164,11 +164,14 @@
                 display: none;
             }
         }
+
+        a.button:first-child {
+            padding-right: 0;
+        }
     }
 
     & > .spacer {
-        display: inline-block;
-        width: 1.2em;
+        width: 1em;
     }
 
     &.pagenav {
@@ -290,9 +293,8 @@
         }
     }
 
-    .spacer {
-        height: 1px;
-        display: block;
+    li.spacer {
+        display: none;
     }
 
     li:last-child {
@@ -303,10 +305,11 @@
 .toolbarmenu li {
     &.separator {
         /* TODO: all separator properties */
-        line-height: 1.5em;
-        font-size: .75em;
+        line-height: 1.5rem !important;
+        font-size: .75rem;
         padding: 0 .5rem;
-        color: #888;
+        color: @color-popover-separator;
+        background-color: @color-popover-separator-background;
 
         label {
             margin: 0; /* Unsets Bootstrap label margin, bug? */
@@ -351,6 +354,9 @@
     }
     a.extwin:before {
         content: @fa-var-external-link;
+    }
+    a.create:before {
+        content: @fa-var-plus-square;
     }
     a.edit:before {
         content: @fa-var-edit; /* TODO: edit.asnew */
@@ -429,6 +435,9 @@
     }
     a.settings:before {
         content: @fa-var-sliders;
+    }
+    a.insertresponse:before {
+        content: @fa-var-comment;
     }
 }
 
