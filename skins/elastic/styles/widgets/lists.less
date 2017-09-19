@@ -541,6 +541,7 @@ table.fixedcopy {
         &:extend(.font-icon-class);
 
         &:before {
+            margin: 0;
             content: @fa-var-paperclip;
         }
         &.report:before {
@@ -548,6 +549,9 @@ table.fixedcopy {
         }
         &.encrypted:before {
             content: @fa-var-lock;
+        }
+        &.vcard:before {
+            content: @fa-var-user-o; /* vcard_attachments plugin */
         }
     }
 
@@ -582,6 +586,9 @@ html.touch {
 
 /* Attachments list */
 
+.attachmentslist {
+    padding: 0;
+}
 .attachmentslist li {
     display: inline-block;
     line-height: 1.25em;

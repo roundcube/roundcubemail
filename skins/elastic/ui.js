@@ -501,8 +501,8 @@ function rcube_elastic_ui()
         });
 
         // Make message-objects alerts pretty (the same as UI alerts)
-        $('#message-objects').children('div').each(function() {
-            alert_style(this, $(this).attr('class'));
+        $('#message-objects').children().each(function() {
+            alert_style(this, $(this).attr('class').split(/\s/)[0]);
             $('a', this).addClass('btn btn-primary');
         });
 
@@ -1022,10 +1022,6 @@ function rcube_elastic_ui()
         $(p.object).attr('role', 'alert');
         $('a', p.object).addClass('alert-link');
 /*
-        var siblings = $(p.object).siblings('div');
-        if (siblings.length)
-            $(p.object).insertBefore(siblings.first());
-
         // show a popup dialog on errors
         if (p.type == 'error' && rcmail.env.task != 'login') {
             // hide original message object, we don't want both
@@ -1046,7 +1042,8 @@ function rcube_elastic_ui()
                 notice: 'alert-info',
                 error: 'alert-danger',
                 warning: 'alert-warning',
-                loading: 'alert-info loading'
+                loading: 'alert-info loading',
+                vcardattachment: 'alert-info' /* vcard_attachments plugin */
             };
 
         if (cl = map[type]) {

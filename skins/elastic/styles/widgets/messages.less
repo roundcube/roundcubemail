@@ -77,4 +77,23 @@
     &.alert-danger > i.icon:before {
         content: @fa-var-exclamation-circle;
     }
+
+    &.vcardattachment > i.icon:before {
+        content: @fa-var-vcard; /* vcard_attachments plugin */
+    }
+
+    /* This works with following structure: <i> <span> [button].
+       <span> here is a one-line text, and button can be anything but <span>.
+     */
+    &.aligned-buttons {
+        display: flex;
+
+        span {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 2.6;
+        }
+    }
 }
