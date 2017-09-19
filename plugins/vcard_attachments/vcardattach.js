@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2012-2016, The Roundcube Dev Team
+ * Copyright (c) 2012-2017, The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -25,11 +25,8 @@ function plugin_vcard_save_contact(mime_id)
 
 function plugin_vcard_insertrow(data)
 {
-  var ctype = data.row.ctype;
-
-  if (ctype == 'text/vcard' || ctype == 'text/x-vcard' || ctype == 'text/directory') {
-    $('#rcmrow' + rcmail.html_identifier(data.uid, true) + ' > td.attachment')
-      .html('<img src="' + rcmail.env.vcard_icon + '" alt="" />');
+  if (data.row.ctype.match(/^(text\/vcard|text\/x-vcard|text\/directory)$/i)) {
+    $(data.row.obj).find('.attachment > .attachment').addClass('vcard');
   }
 }
 
