@@ -646,7 +646,7 @@ function rcube_elastic_ui()
             }
         }
 
-        // TODO: Add "message X of Y" text between buttons
+        // TODO: Add "message X of Y" text between buttons?
 
         if (!env.frame_nav) {
             env.frame_nav = $('<div class="footer toolbar content-frame-navigation">')
@@ -657,6 +657,7 @@ function rcube_elastic_ui()
         }
 
         var prev, next, found = false,
+            frame = $('#' + rcmail.env.contentframe),
             next_button = $('a.button.next', env.frame_nav).off('click').addClass('disabled'),
             prev_button = $('a.button.prev', env.frame_nav).off('click').addClass('disabled'),
             span = $('span', env.frame_nav).text('');
@@ -665,6 +666,8 @@ function rcube_elastic_ui()
             found = true;
             next_button.removeClass('disabled').on('click', function() {
                 env.content_lock = true;
+                iframe_loader(frame);
+
                 if (next) {
                     list.select(next);
                 }
@@ -679,6 +682,8 @@ function rcube_elastic_ui()
             found = true;
             prev_button.removeClass('disabled').on('click', function() {
                 env.content_lock = true;
+                iframe_loader(frame);
+
                 if (prev) {
                     list.select(prev);
                 }
@@ -1023,6 +1028,12 @@ function rcube_elastic_ui()
      */
     function message_displayed(p)
     {
+        if (p.type == 'loading' && $('.iframe-loader:visible').length) {
+            // hide original message object, we don't need two "loaders"
+            rcmail.hide_message(p.object);
+            return;
+        }
+
         alert_style(p.object, p.type);
         $(p.object).attr('role', 'alert');
         $('a', p.object).addClass('alert-link');

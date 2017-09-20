@@ -1,0 +1,94 @@
+/**
+ * Roundcube webmail styles for the Elastic skin
+ *
+ * Copyright (c) 2017, The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** Common sizing variables ***/
+
+@listing-line-height:           2.5rem;
+@listing-touch-line-height:     3.6rem;
+
+
+/*** Common UI elements ***/
+
+.hidden,
+.voice {
+    display: none !important;
+}
+
+#rcmdraglayer {
+    min-width: 260px;
+    width: auto !important;
+    width: 260px;
+    background: @color-drag-layer-background;
+    z-index: 250;
+    color: @color-drag-layer;
+    white-space: nowrap;
+    opacity: .92;
+}
+
+.listbox .scroller {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+#folder-selector {
+    overflow-y: auto;
+
+    li a.virtual {
+        opacity: .2;
+    }
+}
+
+#layout > .content .watermark {
+    background: url(../images/watermark.jpg) center no-repeat;
+    width: 100%;
+    height: 100%;
+}
+
+.noselect {
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+
+.iframe-loader {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, .95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .spinner {
+        position: relative;
+        display: inline-block;
+        width: 7rem;
+        height: 7rem;
+        overflow: hidden;
+        text-indent: -999em;
+        color: @color-spinner-circle;
+        border: 1rem solid;
+        border-color: currentColor @color-spinner-item currentColor currentColor;
+        border-radius: 50%;
+        -webkit-animation: fa-spin 1s infinite linear;
+        animation: fa-spin 1s infinite linear;
+    }
+}
+
+.footer.toolbar + .iframe-loader {
+    top: @layout-header-height;
+    bottom: @layout-header-height;
+}
