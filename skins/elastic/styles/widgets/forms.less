@@ -159,15 +159,41 @@ td.editfield { width: 99%;  /* TODO */ }
 /*** Forms in popups ***/
 
 .popupmenu.form {
-    margin: .5rem;
+    &.nolist {
+        padding: 0 .5rem;
+    }
 
     ul {
         list-style-type: none;
         padding: 0;
+        margin: 0;
+    }
+
+    li:not(.separator) {
+        padding: 0 1rem;
+
+        label {
+            margin: 0;
+            line-height: @listing-line-height;
+
+            input {
+                margin-right: .5rem;
+            }
+        }
+    }
+
+    input {
+        vertical-align: middle;
+        height: @listing-line-height !important;
+    }
+
+    select {
+        margin: .5rem 0;
     }
 
     .buttons {
         text-align: center;
+        padding: .5rem;
     }
 }
 
@@ -333,6 +359,7 @@ td.editfield { width: 99%;  /* TODO */ }
 
 input.icon-checkbox {
     opacity: 0;
+    margin-left: -1.5em;
 
     & + label {
         margin: 0;

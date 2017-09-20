@@ -272,7 +272,10 @@ function rcube_elastic_ui()
         $('[data-list]').each(function() {
             $('input[type="checkbox"]', this).each(function() { pretty_checkbox(this); });
         });
-        $('table.propform input[type=checkbox], .form-check > input').each(function() { pretty_checkbox(this); });
+
+        // The same for some other checkboxes
+        $('table.propform input[type=checkbox], .form-check > input, .popupmenu.form input[type=checkbox]')
+            .each(function() { pretty_checkbox(this); });
 
         // Assign .formcontainer class to the iframe body, when it
         // contains .formcontent and .formbuttons.
@@ -503,6 +506,8 @@ function rcube_elastic_ui()
             $('a.nav-link:first', nav).click();
         });
 
+        $('.toolbarmenu select').addClass('form-control');
+
         // Make message-objects alerts pretty (the same as UI alerts)
         $('#message-objects').children().each(function() {
             alert_style(this, $(this).attr('class').split(/\s/)[0]);
@@ -644,7 +649,7 @@ function rcube_elastic_ui()
             }
         }
 
-        // TODO: Add "message X of Y" text between buttons
+        // TODO: Add "message X of Y" text between buttons?
 
         if (!env.frame_nav) {
             env.frame_nav = $('<div class="footer toolbar content-frame-navigation">')
@@ -655,6 +660,7 @@ function rcube_elastic_ui()
         }
 
         var prev, next, found = false,
+            frame = $('#' + rcmail.env.contentframe),
             next_button = $('a.button.next', env.frame_nav).off('click').addClass('disabled'),
             prev_button = $('a.button.prev', env.frame_nav).off('click').addClass('disabled'),
             span = $('span', env.frame_nav).text('');
@@ -663,6 +669,8 @@ function rcube_elastic_ui()
             found = true;
             next_button.removeClass('disabled').on('click', function() {
                 env.content_lock = true;
+                iframe_loader(frame);
+
                 if (next) {
                     list.select(next);
                 }
@@ -677,6 +685,8 @@ function rcube_elastic_ui()
             found = true;
             prev_button.removeClass('disabled').on('click', function() {
                 env.content_lock = true;
+                iframe_loader(frame);
+
                 if (prev) {
                     list.select(prev);
                 }
@@ -1021,6 +1031,12 @@ function rcube_elastic_ui()
      */
     function message_displayed(p)
     {
+        if (p.type == 'loading' && $('.iframe-loader:visible').length) {
+            // hide original message object, we don't need two "loaders"
+            rcmail.hide_message(p.object);
+            return;
+        }
+
         alert_style(p.object, p.type);
         $(p.object).attr('role', 'alert');
         $('a', p.object).addClass('alert-link');
@@ -1347,7 +1363,7 @@ function rcube_elastic_ui()
 
                 if (!is_mobile()) {
                     // Set popup height so it is less than the window height
-                    popup.css('max-height', Math.min(500, $(window).height() - 30));
+                    popup.css('max-height', Math.min(510, $(window).height() - 30));
                 }
             })
             .on('shown.bs.popover', function(event, el) {
