@@ -619,6 +619,7 @@ function rcmail_compose_body($attrib)
     }
 
     // If desired, set this textarea to be editable by TinyMCE
+    $attrib['data-html-editor'] = true;
     if ($HTML_MODE) {
         $attrib['class'] = trim($attrib['class'] . ' mce_editor');
     }

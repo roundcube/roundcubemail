@@ -93,7 +93,7 @@ function rcube_identity_form($attrib)
             'name'    => $RCMAIL->gettext('signature'),
             'content' => array(
                 'signature'      => array('type' => 'textarea', 'size' => $t_cols, 'rows' => $t_rows,
-                    'spellcheck' => true),
+                    'spellcheck' => true, 'data-html-editor' => true),
                 'html_signature' => array('type' => 'checkbox',
                     'label'   => $RCMAIL->gettext('htmlsignature'),
                     'onclick' => 'return rcmail.command(\'toggle-editor\', {id: \'rcmfd_signature\', html: this.checked}, \'\', event)'),
