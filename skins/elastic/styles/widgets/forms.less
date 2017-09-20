@@ -380,9 +380,54 @@ html.touch input.icon-checkbox + label {
 }
 
 
-/*** TinyMCE editor ***/
+/*** HTML editor widget (and TinyMCE editor) ***/
 
-.mce-tinymce.mce-container.mce-panel {
-    border-radius: .25rem;
-    overflow: hidden;
+.mce-tinymce {
+    &.mce-container.mce-panel {
+        border-radius: .25rem;
+        border-color: @color-input-border;
+        overflow: hidden;
+    }
+
+    .mce-btn,
+    .mce-panel {
+        background-color: @color-input-addon-background;
+    }
+}
+
+.html-editor {
+    position: relative;
+    display: flex;
+
+    & > .nav {
+        border-color: transparent;
+        z-index: 1;
+        position: absolute;
+        top: 1px;
+        right: 1rem;
+
+        a.active {
+            border-color: @color-input-border !important;
+
+            &.mode-html {
+                background-color: @color-input-addon-background;
+                border-bottom-color: @color-input-addon-background !important;
+            }
+
+            &.mode-plain {
+                border-bottom-color: #fff !important;
+            }
+        }
+
+        a:hover {
+            border-bottom-color: transparent;
+        }
+    }
+
+    & > .mce-tinymce,
+    & > textarea {
+        margin-top: 2.55rem;
+        font-family: monospace;
+        width: 100%;
+    }
 }
