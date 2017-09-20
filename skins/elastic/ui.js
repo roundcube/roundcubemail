@@ -269,7 +269,10 @@ function rcube_elastic_ui()
         $('[data-list]').each(function() {
             $('input[type="checkbox"]', this).each(function() { pretty_checkbox(this); });
         });
-        $('table.propform input[type=checkbox], .form-check > input').each(function() { pretty_checkbox(this); });
+
+        // The same for some other checkboxes
+        $('table.propform input[type=checkbox], .form-check > input, .popupmenu.form input[type=checkbox]')
+            .each(function() { pretty_checkbox(this); });
 
         // Assign .formcontainer class to the iframe body, when it
         // contains .formcontent and .formbuttons.
@@ -499,6 +502,8 @@ function rcube_elastic_ui()
             // activate the first tab
             $('a.nav-link:first', nav).click();
         });
+
+        $('.toolbarmenu select').addClass('form-control');
 
         // Make message-objects alerts pretty (the same as UI alerts)
         $('#message-objects').children().each(function() {
@@ -1344,7 +1349,7 @@ function rcube_elastic_ui()
 
                 if (!is_mobile()) {
                     // Set popup height so it is less than the window height
-                    popup.css('max-height', Math.min(500, $(window).height() - 30));
+                    popup.css('max-height', Math.min(510, $(window).height() - 30));
                 }
             })
             .on('shown.bs.popover', function(event, el) {
