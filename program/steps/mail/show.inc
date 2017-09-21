@@ -62,6 +62,10 @@ if ($uid) {
         $RCMAIL->storage->set_charset($MESSAGE->headers->charset);
     }
 
+    if (!isset($_SESSION['writeable_abook'])) {
+        $_SESSION['writeable_abook'] = $RCMAIL->get_address_sources(true) ? true : false;
+    }
+
     $OUTPUT->set_pagetitle(abbreviate_string($MESSAGE->subject, 128, '...', true));
 
     // set message environment
@@ -72,6 +76,7 @@ if ($uid) {
     $OUTPUT->set_env('mailbox', $mbox_name);
     $OUTPUT->set_env('username', $RCMAIL->get_user_name());
     $OUTPUT->set_env('permaurl', $RCMAIL->url(array('_action' => 'show', '_uid' => $msg_id, '_mbox' => $mbox_name)));
+    $OUTPUT->set_env('has_writeable_addressbook', $_SESSION['writeable_abook']);
 
     if ($MESSAGE->headers->get('list-post', false)) {
         $OUTPUT->set_env('list_post', true);
