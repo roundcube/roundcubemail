@@ -71,7 +71,7 @@
 			<roundcube:endif />
 			<roundcube:container name="composeoptions" id="compose-options" />
 			<roundcube:if condition="!in_array('htmleditor', (array)config:dont_override)" />
-				<div class="form-group row">
+				<div class="form-group row hidden">
 					<label for="editor-selector" class="col-form-label col-6"><roundcube:label name="editortype" /></label>
 					<div class="col-6">
 						<roundcube:object name="editorSelector" id="editor-selector" editorid="composebody" noform="true" tabindex="2" class="form-control" />

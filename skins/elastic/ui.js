@@ -211,6 +211,9 @@ function rcube_elastic_ui()
             }).change();
         });
 
+        // Add HTML/Plain tabs (switch) on top of textarea with TinyMCE editor
+        $('textarea[data-html-editor]').each(function() { html_editor_init(this); });
+
         $('#dragmessage-menu,#dragcontact-menu').each(function() {
             rcmail.gui_object('dragmenu', this.id);
         });
@@ -2205,6 +2208,75 @@ function rcube_elastic_ui()
         checkbox.addClass('icon-checkbox').after(
             $('<label>').attr({'for': id, title: checkbox.attr('title') || ''})
         );
+    };
+
+    /**
+     * HTML editor textarea wrapper with nice looking tabs-like switch
+     */
+    function html_editor_init(obj)
+    {
+        // Here we support two structures
+        // 1. <div><textarea></textarea><select name="editorSelector"></div>
+        // 2. <tr><td><td><td><textarea></textarea></td></tr>
+        //    <tr><td><td><td><input type="checkbox"></td></tr>
+
+        var sw, is_table = false,
+            editor = $(obj),
+            parent = editor.parent(),
+            mode = function() {
+                if (is_table) {
+                    return sw.is(':checked') ? 'html' : 'plain';
+                }
+
+                return sw.val();
+            },
+            tabs = $('<ul class="nav nav-tabs">')
+                .append($('<li class="nav-item">')
+                    .append($('<a class="nav-link mode-html" href="#">')
+                        .text(rcmail.gettext('htmltoggle'))))
+                .append($('<li class="nav-item">')
+                    .append($('<a class="nav-link mode-plain" href="#">')
+                        .text(rcmail.gettext('plaintoggle'))));
+
+        if (parent.is('td')) {
+            sw = $('input[type="checkbox"]', parent.parent().next());
+            is_table = true;
+        }
+        else {
+            sw = $('[name="editorSelector"]', obj.form);
+        }
+
+        // sanity check
+        if (sw.length != 1) {
+            return;
+        }
+
+        parent.addClass('html-editor');
+        editor.before(tabs);
+
+        $('a', tabs).attr('tabindex', editor.attr('tabindex'))
+            .on('click', function(e) {
+                var id = editor.attr('id'), is_html = $(this).is('.mode-html');
+
+                e.preventDefault();
+                if (rcmail.command('toggle-editor', {id: id, html: is_html}, '', e.originalEvent)) {
+                    $(this).tab('show');
+
+                    if (is_table) {
+                    console.log(sw[0]);
+                        sw.prop('checked', is_html);
+                    }
+                }
+            })
+            .filter('.mode-' + mode()).tab('show');
+
+        if (is_table) {
+            // Hide unwanted table cells
+            sw.parent().parent().hide();
+            parent.prev().hide();
+            // Modify the textarea cell to use 100% width
+            parent.addClass('col-sm-12');
+        }
     };
 
     /**
