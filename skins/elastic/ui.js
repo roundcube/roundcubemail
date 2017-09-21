@@ -56,6 +56,7 @@ function rcube_elastic_ui()
     this.searchmenu = searchmenu;
     this.headersmenu = headersmenu;
     this.attachmentmenu = attachmentmenu;
+    this.mailtomenu = mailtomenu;
     this.show_list = show_list;
     this.show_sidebar = show_sidebar;
 
@@ -420,6 +421,13 @@ function rcube_elastic_ui()
             // we modify the Mail button in the task menu to act like it (i.e. calls 'list' command)
             if (rcmail.env.action == 'compose' && !rcmail.env.extwin) {
                 $('a.button.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
+            }
+
+            // Append contact menu to all mailto: links
+            if (rcmail.env.action == 'preview' || rcmail.env.action == 'show') {
+                $('a').filter('[href^="mailto:"]').each(function() {
+                    mailtomenu_append(this);
+                });
             }
         }
 
@@ -1814,14 +1822,57 @@ function rcube_elastic_ui()
                     title: label,
                     'class': 'button icon dropdown skip-content'
                 })
-                .on('click keypress', function(e) {
-                    if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
-                        attachmentmenu($('#attachmentmenu'), button, e);
-                    }
+                .on('click', function(e) {
+                    attachmentmenu($('#attachmentmenu'), button, e);
                 })
                 .append($('<span>').attr('class', 'inner').text(label))
                 .appendTo(item);
         }
+    };
+
+    /**
+     * Mailto menu
+     */
+    function mailtomenu(obj, button, event)
+    {
+        var mailto = $(button).attr('href').replace(/^mailto:/, '');
+
+        if (mailto.indexOf('@') < 0) {
+            return true; // let the browser to handle this
+        }
+
+        if (rcmail.env.has_writeable_addressbook) {
+            $('.addressbook', obj).addClass('active')
+                .off('click').on('click', function(e) {
+                    var i, contact = mailto,
+                        txt = $(button).filter('.rcmContactAddress').text();
+
+                    contact = contact.split('?')[0].replace(/(^<|>$)/g, '');
+
+                    if (txt) {
+                        txt = txt.replace('<' + contact + '>', '');
+                        contact = $.trim(txt) + ' <' + contact + '>';
+                    }
+
+                    return rcmail.command('add-contact', contact, this);
+                });
+        }
+
+        $('.compose', obj).off('click').on('click', function(e) {
+            return rcmail.command('compose', mailto, this);
+        });
+
+        return rcmail.command('menu-open', {menu: 'mailto-menu', link: button}, button, event);
+    };
+
+    /**
+     * Appends popup menu to mailto links
+     */
+    function mailtomenu_append(item)
+    {
+        $(item).attr('onclick', '').on('click', function(e) {
+            return mailtomenu($('#mailto-menu'), item, e);
+        });
     };
 
     /**

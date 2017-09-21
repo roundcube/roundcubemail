@@ -49,9 +49,18 @@
 <div id="attachmentmenu" class="popupmenu">
 	<h3 id="aria-label-attachmentmenu" class="voice"><roundcube:label name="arialabelattachmentmenu" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-attachmentmenu">
-		<roundcube:button command="open-attachment" id="attachmenuopen" type="link-menuitem" label="open" class="extwin" classAct="extwin active" />
-		<roundcube:button command="download-attachment" id="attachmenudownload" type="link-menuitem" label="download" class="download" classAct="download active" />
-		<roundcube:container name="attachmentmenu" id="attachmentoptionsmenu" />
+		<roundcube:button command="open-attachment" type="link-menuitem" label="open" class="extwin" classAct="extwin active" />
+		<roundcube:button command="download-attachment" type="link-menuitem" label="download" class="download" classAct="download active" />
+		<roundcube:container name="attachmentmenu" id="attachmentmenu" />
+	</ul>
+</div>
+
+<div id="mailto-menu" class="popupmenu">
+	<h3 id="aria-label-mailtomenu" class="voice"><roundcube:label name="arialabelmailtomenu" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-mailtomenu">
+		<roundcube:button name="addtoaddressbook" type="link-menuitem" label="addtoaddressbook" class="addressbook" />
+		<roundcube:button name="composeto" type="link-menuitem" label="composeto" class="compose active" />
+		<roundcube:container name="mailtomenu" id="mailto-menu" />
 	</ul>
 </div>
 

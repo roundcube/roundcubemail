@@ -13,7 +13,7 @@
 
 
 a.rcmaddcontact {
-    text-decoration: none;
+    display: none;
 }
 
 .button.disabled {
@@ -108,15 +108,6 @@ a.button.icon {
     & > span.inner {
         display: none;
     }
-}
-
-a.rcmaddcontact:before {
-    &:extend(.font-icon-class);
-    content: @fa-var-user-plus;
-    display: inline;
-    float: none;
-    margin-left: 5px;
-    font-size: inherit;
 }
 
 @media screen and (max-width: @screen-width-small) {
