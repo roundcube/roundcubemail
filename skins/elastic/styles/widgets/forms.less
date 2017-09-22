@@ -451,10 +451,62 @@ html.touch input.icon-checkbox + label {
         }
     }
 
+    & > .googie_edit_layer,
     & > .mce-tinymce,
     & > textarea {
         margin-top: 2.55rem;
         font-family: monospace;
-        width: 100%;
+        width: 100% !important;
+    }
+}
+
+
+/*** GoogieSpell widget ***/
+
+.googie_window {
+    width: 16rem;
+}
+
+.googie_edit_layer {
+    font-family: monospace;
+
+    /* from Bootstrap's textarea */
+    padding: .5rem .75rem;
+    border: 1px solid @color-input-border;
+    border-radius: .3rem;
+    line-height: 1.25;
+}
+
+.googie_link {
+    color: @color-spellcheck-link;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.googie_list {
+    td {
+        min-width: 8rem;
+        width: auto;
+
+        &.googie_list_onhover {
+            color: @color-toolbarmenu-hover;
+            background-color: @color-toolbarmenu-hover-background;
+        }
+
+        .googie_list_revert:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-plus-square;
+        }
+
+        .googie_add_to_dict:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-plus-square;
+        }
+    }
+
+    input {
+        display: inline-block;
+        margin: .5rem .5rem .5rem 0 !important;
+        padding: .5rem .75rem !important;
     }
 }

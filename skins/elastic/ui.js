@@ -735,9 +735,40 @@ function rcube_elastic_ui()
     function rcmail_popup_init(o)
     {
         // Add some common styling to the autocomplete/googiespell popups
-        $('table,ul', o.obj).addClass('listing iconized');
-        $(o.obj).addClass('popupmenu');
+        $('table,ul', o.obj).addClass('toolbarmenu listing iconized');
+        $(o.obj).addClass('popupmenu popover');
         bootstrap_style(o.obj);
+
+        // for googiespell list
+        $('input', o.obj).addClass('form-control');
+
+        // Modify the googiespell menu on mobile
+        if (is_mobile() && $(o.obj).is('.googie_window')) {
+            // Set popup Close title
+            var title = rcmail.gettext('close'),
+                class_name = 'button icon cancel',
+                close_link = $('<a>').attr('class', class_name).text(title)
+                    .click(function(e) {
+                        e.stopPropagation();
+                        $('.popover-overlay').remove();
+                        $(o.obj).hide();
+                    });
+
+            $('<h3 class="popover-header">').append(close_link).prependTo(o.obj);
+
+            // add overlay element for phone layout
+            if (!$('.popover-overlay').length) {
+                $('<div>').attr('class', 'popover-overlay')
+                    .appendTo('body')
+                    .click(function() { $(this).remove(); });
+            }
+
+            $('table,button', o.obj).click(function(e) {
+                if (!$(e.target).is('input')) {
+                    $('.popover-overlay').remove();
+                }
+            });
+        }
     };
 
     /**

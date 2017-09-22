@@ -185,6 +185,7 @@ html.touch {
     & > i:before {
         &:extend(.font-icon-class);
         content: @fa-var-user;
+        margin-left: .5rem;
     }
     &.group > i:before {
         content: @fa-var-group;
@@ -235,6 +236,13 @@ html.touch {
     }
     a.selected:before {
         content: @fa-var-check;
+    }
+}
+
+.popupmenu .listing {
+    li.selected {
+        color: @color-toolbarmenu-hover;
+        background-color: @color-toolbarmenu-hover-background;
     }
 }
 

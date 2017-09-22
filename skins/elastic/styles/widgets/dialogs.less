@@ -32,6 +32,8 @@
 
 .popover {
     box-shadow: 3px 3px 5px @color-popover-shadow;
+    overflow: hidden;
+    padding: 0;
 
     & > h3 {
         /* On mobile don't display popup arrows and titles */
@@ -67,6 +69,11 @@ html.layout-phone {
             font-size: @layout-touch-header-font-size;
             color: @color-popover-header;
             background-color: @color-popover-header-background;
+
+            a {
+                display: inline-block;
+                width: 100%;
+            }
         }
 
         .popover-body > * {
@@ -90,6 +97,12 @@ html.layout-phone {
         top: 0;
         bottom: 0;
         width: 100%;
+    }
+
+    #rcmKSearchpane {
+        bottom: auto;
+        box-shadow: none;
+        border: 1px solid @color-input-border;
     }
 }
 

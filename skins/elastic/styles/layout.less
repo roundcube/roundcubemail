@@ -257,7 +257,7 @@ html.iframe body {
 @media screen and (max-width: @screen-width-xs) {
     body > #layout > div.menu {
         position: absolute;
-        z-index: 100;
+        z-index: 30001; /* because autocompletion popup uses z-index:30000 */
         top: 0;
         left: 0;
         right: 0;
