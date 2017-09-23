@@ -181,6 +181,7 @@
     .dropbutton {
         a.button.dropdown {
             font-size: 75%;
+            overflow: hidden; /* for IE11 */
 
             span.inner {
                 display: none;
@@ -508,6 +509,10 @@ html.touch {
     #layout > :not(.content) > .header a.button {
         font-size: 1.2rem;
     }
+}
+
+html.ie11 .toolbar .dropbutton a.dropdown:before {
+    font-size: 80%;
 }
 
 @media screen and (min-width: (@screen-width-small + 1px)) {
