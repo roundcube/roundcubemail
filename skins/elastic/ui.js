@@ -658,12 +658,13 @@ function rcube_elastic_ui()
         }
 
         // TODO: Add "message X of Y" text between buttons?
-
         if (!env.frame_nav) {
             env.frame_nav = $('<div class="footer toolbar content-frame-navigation">')
-                .append($('<a class="button prev">'))
+                .append($('<a class="button prev">')
+                    .append($('<span class="inner"></span>').text(rcmail.gettext('previous'))))
                 .append($('<span>'))
-                .append($('<a class="button next">'))
+                .append($('<a class="button next">')
+                    .append($('<span class="inner"></span>').text(rcmail.gettext('next'))))
                 .appendTo(layout.content);
         }
 
@@ -671,7 +672,7 @@ function rcube_elastic_ui()
             frame = $('#' + rcmail.env.contentframe),
             next_button = $('a.button.next', env.frame_nav).off('click').addClass('disabled'),
             prev_button = $('a.button.prev', env.frame_nav).off('click').addClass('disabled'),
-            span = $('span', env.frame_nav).text('');
+            span = $(env.frame_nav).children('span').text('');
 
         if ((next = list.get_next()) || rcmail.env.current_page < rcmail.env.pagecount) {
             found = true;
@@ -783,7 +784,7 @@ function rcube_elastic_ui()
             size = 'phone';
         else if (width > 1200)
             size = 'large';
-        else if (width >= 768)
+        else if (width > 768)
             size = 'normal';
         else
             size = 'small';

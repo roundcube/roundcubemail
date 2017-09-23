@@ -32,7 +32,6 @@
 
 .popover {
     box-shadow: 3px 3px 5px @color-popover-shadow;
-    overflow: hidden;
     padding: 0;
 
     & > h3 {
@@ -41,12 +40,21 @@
     }
 }
 
+#rcmKSearchpane {
+    width: auto;
+    max-width: none;
+    overflow: hidden;
+
+    li {
+        padding-right: .5rem;
+    }
+}
+
 html.layout-small,
 html.layout-phone {
     .popover {
         margin: 0 !important;
         padding: 0;
-        left: initial !important;
         right: 0;
         bottom: 0;
         width: 276px;
@@ -89,6 +97,10 @@ html.layout-phone {
         }
     }
 
+    .popover:not(#rcmKSearchpane) {
+        left: initial !important;
+    }
+
     .popover-overlay {
         z-index: 1000;
         opacity: .5;
@@ -101,8 +113,8 @@ html.layout-phone {
 
     #rcmKSearchpane {
         bottom: auto;
-        box-shadow: none;
         border: 1px solid @color-input-border;
+        box-shadow: none;
     }
 }
 

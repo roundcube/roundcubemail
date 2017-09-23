@@ -12,6 +12,9 @@
 /*** Toolbar widget ***/
 
 .toolbar {
+    margin: 0;
+    font-size: 1rem;
+
     &.listing a,
     a {
         text-decoration: none;
@@ -20,14 +23,28 @@
     }
 
     a.button {
-        padding: 0 .3em;
         display: inline-block;
         border: 0 !important;
+        height: @layout-header-height;
+        min-width: 3.5rem;
+        max-width: 6rem;
+        padding: .45rem;
+        text-align: center;
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+        line-height: 1.5;
+
+        &:hover,
+        &:focus {
+            outline: 0;
+        }
 
         &:before {
             &:extend(.font-icon-class);
             display: inline;
             float: none;
+            margin: 0;
+            line-height: 1.75;
         }
 
         &.reply:before {
@@ -156,6 +173,11 @@
         }
     }
 
+    &:not(.popupmenu) span.inner {
+        font-size: 90%;
+        font-weight: normal;
+    }
+
     .dropbutton {
         a.button.dropdown {
             font-size: 75%;
@@ -188,13 +210,10 @@
             min-width: 1rem !important;
             height: @layout-pagenav-height !important;
             color: @color-list-pagenav;
+            overflow: hidden;
 
             &:before {
                 line-height: 1 !important;
-
-                @media screen and (max-width: (@screen-width-small)) {
-                    line-height: 2 !important;
-                }
             }
         }
 
@@ -215,6 +234,19 @@
             margin: .15rem;
             display: inline;
             text-align: center;
+        }
+
+        span.inner {
+            display: none;
+        }
+    }
+
+    &.footer {
+        a.button:before {
+            height: 1.75rem;
+            float: none;
+            display: block;
+            width: auto;
         }
     }
 }
@@ -264,8 +296,17 @@
 }
 
 .popupmenu.toolbar.listing {
-    a.button:before {
-        display: inline-block;
+    a.button {
+        max-width: 100%;
+        text-align: left;
+        line-height: @layout-touch-menu-record-height;
+        height: @layout-touch-menu-record-height;
+
+        &:before {
+            display: inline-block;
+            line-height: inherit;
+            margin-right: .5rem;
+        }
     }
 
     .dropbutton {
@@ -445,18 +486,27 @@
     a.addressbook:before {
         content: @fa-var-user;
     }
+    a.recipient:before {
+        content: @fa-var-envelope-o;
+    }
 }
 
-#layout > .sidebar,
-#layout > .list {
+#layout > .sidebar > .header,
+#layout > .list > .header {
     span.inner {
         display: none;
     }
 }
 
-.toolbar.content-frame-navigation {
-    span {
-        flex-grow: 1;
+#layout > .content > * > .toolbar {
+    text-align: center;
+}
+
+html.touch {
+    .toolbarmenu.listing td,
+    .toolbarmenu.listing li,
+    #layout > :not(.content) > .header a.button {
+        font-size: 1.2rem;
     }
 }
 
@@ -466,34 +516,11 @@
     }
 
     .toolbar {
-        margin: 0;
-        font-size: 1rem;
-
         a.button {
-            height: @layout-header-height;
-            min-width: 3.5rem;
-            max-width: 6rem;
-            padding: .45rem;
-            text-align: center;
-            text-overflow: ellipsis;
-            overflow-x: hidden;
-            line-height: 1.5;
-
-            &:before {
-                margin: 0;
-                line-height: 1.75;
-            }
-
             &:not(.disabled):focus,
             &:not(.disabled):hover {
                 background-color: @color-toolbar-button-background-hover;
-                outline: 0;
             }
-        }
-
-        a span.inner {
-            font-size: 90%;
-            font-weight: normal;
         }
 
         &.listing li {
@@ -532,42 +559,31 @@
         }
     }
 
-    .footer.toolbar {
-        a.button:before {
-            height: 1.75rem;
-            float: none;
-            display: block;
-            width: auto;
-        }
-    }
-
-    #layout .footer span.inner {
-        display: inline !important;
-    }
-
     .toolbar.content-frame-navigation {
         display: none !important;
-    }
-
-    #layout > .content > .header > .toolbar {
-        text-align: center;
     }
 }
 
 @media screen and (max-width: @screen-width-small) {
-    .toolbar {
-        a.button {
-            padding: 0 .5em;
+    body > #layout > div > .toolbar.footer {
+        justify-content: space-around;
+
+        & > * {
+            flex-grow: 1;
         }
 
-        a.button.texticon {
-            &:before {
-                display: none;
-            }
+        .listselectors {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: nowrap;
 
-            span.inner {
-                display: inline !important;
+            & > * {
+                flex-grow: 1;
             }
+        }
+
+        a.button {
+            max-width: initial
         }
     }
 }
