@@ -485,6 +485,16 @@ function rcube_elastic_ui()
             row.addClass(row_classes.join(' '));
         });
 
+        // Other forms, e.g. Contact advanced search
+        $('fieldset.propform > .contactfieldgroup').each(function() {
+            $('.row', this).addClass('form-group').each(function() {
+                $('div:first', this).addClass('col-sm-4');
+                $('div:last', this).addClass('col-sm-8');
+            });
+            $('.label', this).addClass('col-form-label');
+            $('input,select').addClass('form-control');
+        });
+
         // Testing Bootstrap Tabs on contact info/edit page
         // Tabs do not scale nicely on very small screen, so can be used
         // only with small number of tabs with short text labels
