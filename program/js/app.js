@@ -5765,7 +5765,7 @@ function rcube_webmail()
     var sel, range, sp, cp = 0, value = '';
 
     if (this.ksearch_input.value === undefined) {
-      if ((sel = window.getSelection()) && (range = sel.getRangeAt(0))) {
+      if ((sel = window.getSelection()) && (range = sel.getRangeAt(0)) && range.endContainer != this.ksearch_input) {
         value = $(range.endContainer).text();
         cp = range.endOffset;
       }
