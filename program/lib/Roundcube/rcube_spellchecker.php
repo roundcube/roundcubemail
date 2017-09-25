@@ -255,7 +255,7 @@ class rcube_spellchecker
     }
 
     /**
-     * Check if the specified word is an exception according to 
+     * Check if the specified word is an exception according to
      * spellcheck options.
      *
      * @param string  $word  The word
@@ -265,11 +265,11 @@ class rcube_spellchecker
     public function is_exception($word)
     {
         // Contain only symbols (e.g. "+9,0", "2:2")
-        if (!$word || preg_match('/^[0-9@#$%^&_+~*<>=:;?!,.-]+$/', $word))
+        if (!$word || preg_match('/^[0-9@#$%^&_+~*<>=:;?!,.-ºª°]+$/', $word))
             return true;
 
         // Contain symbols (e.g. "g@@gle"), all symbols excluding separators
-        if (!empty($this->options['ignore_syms']) && preg_match('/[@#$%^&_+~*=-]/', $word))
+        if (!empty($this->options['ignore_syms']) && preg_match('/[@#$%^&_+~*=-ºª°]/', $word))
             return true;
 
         // Contain numbers (e.g. "g00g13")
