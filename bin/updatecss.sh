@@ -25,6 +25,7 @@ require_once INSTALL_PATH . 'program/include/clisetup.php';
 // get arguments
 $opts = rcube_utils::get_opt(array(
     'd' => 'dir',
+    'q' => 'quiet:bool',
 ));
 
 if (empty($opts['dir'])) {
@@ -44,6 +45,8 @@ else if (!file_exists($opts['dir'])) {
 else {
     $dirs = array($opts['dir']);
 }
+
+$quiet = !empty($opts['quiet']);
 
 foreach ($dirs as $dir) {
     $img_dir = $dir . '/images';
@@ -65,7 +68,9 @@ foreach ($dirs as $dir) {
 
     foreach ($files as $file) {
         $file    = $dir . '/' . $file;
-        print "File: $file\n";
+        if (!$quiet) {
+            print "File: $file\n";
+        }
         $content = file_get_contents($file);
         $content = preg_replace($find, $replace, $content, -1, $count);
         if ($count) {
@@ -77,6 +82,8 @@ foreach ($dirs as $dir) {
 
 function get_images($dir)
 {
+    global $quiet;
+
     $images = array();
     $dh     = opendir($dir);
 
@@ -84,7 +91,9 @@ function get_images($dir)
         if (preg_match('/^(.+)\.(gif|ico|png|jpg|jpeg)$/', $file, $m)) {
             $filepath = "$dir/$file";
             $images[$file] = substr(md5_file($filepath), 0, 4) . '.' . filesize($filepath);
-            print "Image: $filepath ({$images[$file]})\n";
+            if (!$quiet) {
+                print "Image: $filepath ({$images[$file]})\n";
+            }
         }
         else if ($file != '.' && $file != '..' && is_dir($dir . '/' . $file)) {
             foreach (get_images($dir . '/' . $file) as $img => $sum) {
