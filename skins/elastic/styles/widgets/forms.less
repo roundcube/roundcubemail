@@ -121,6 +121,19 @@ html.ms .propform {
     }
 }
 
+@media screen and (max-width: @screen-width-mini) {
+    .formcontent {
+        .col-form-label {
+            flex: auto;
+            max-width: 100%;
+        }
+        .col-10 {
+            flex: auto;
+            max-width: 100%;
+        }
+    }
+}
+
 
 /* Some common icons for "iconized inputs" */
 .input-group-addon.icon {
@@ -240,23 +253,35 @@ td.editfield { width: 99%;  /* TODO */ }
 /*** Smart recipient input field ***/
 
 .recipient-input {
-    display: block !important; /* overwrites Bootstrap */
-    min-height: 2.4em;
-    overflow: hidden;
-/*    padding: .2em .5em; */
+    display: flex;
+    flex-wrap: wrap;
+    padding: .25rem .75rem .5rem .75rem;
+
+    &.focus {
+        border-color: @color-input-border-focus;
+    }
 
     .recipient {
+        flex: 1;
+        display: flex;
+        position: relative;
+        max-width: 50%;
         border: 1px solid @color-recipient-input-border;
         background-color: @color-recipient-input-background;
         border-radius: .25em;
         padding: 0 .25em;
+        margin-top: .25rem;
         margin-right: .2em;
-        display: inline-block;
         white-space: nowrap;
+
+        @media screen and (max-width: 450px) {
+            width: 100%;
+            max-width: 100%;
+        }
     }
 
     .name {
-        max-width: 25em;
+        flex-grow: 1;
         display: inline-block;
         line-height: 1.1;
         padding: .25em;
@@ -280,6 +305,7 @@ td.editfield { width: 99%;  /* TODO */ }
     a.button.icon {
         font-size: .8em;
         cursor: pointer;
+        line-height: 1.5;
 
         &:before {
             float: none;
@@ -288,7 +314,17 @@ td.editfield { width: 99%;  /* TODO */ }
             margin: 0;
         }
     }
+
+    input {
+        flex-grow: 1;
+        min-width: 25%;
+        background: transparent !important;
+        border: 0 !important;
+        margin-top: .25rem;
+        outline: 0;
+    }
 }
+
 
 /*** Skin selection widget ***/
 

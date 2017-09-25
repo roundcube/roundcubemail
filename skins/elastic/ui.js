@@ -1930,7 +1930,7 @@ function rcube_elastic_ui()
 
             $(this)[$(target).is(':visible') ? 'removeClass' : 'addClass']('active')
                 .off().on('click', function() {
-                    $(target).removeClass('hidden').find('.recipient-input').focus();
+                    $(target).removeClass('hidden').find('.recipient-input > input').focus();
                 });
         });
     };
@@ -1940,167 +1940,101 @@ function rcube_elastic_ui()
      */
     function recipient_input(obj)
     {
-        var input, ac_props;
+        var area, input, ac_props,
+            apply_func = function() {
+                // update the original input
+                $(obj).val(area.text());
+            },
+            focus_func = function() {
+                area.addClass('focus');
+            },
+            insert_recipient = function(name, email) {
+                var recipient = $('<span class="recipient">'),
+                    name_element = $('<span class="name">').html(recipient_input_name(name || email)),
+                    email_element = $('<span class="email">'),
+                    // TODO: should the 'close' link have tabindex?
+                    link = $('<a>').attr({'class': 'button icon remove'})
+                        .click(function() {
+                            recipient.remove();
+                            apply_func();
+                            input.focus();
+                            return false;
+                        });
 
-        var insert_recipient = function(name, email) {
-            var recipient = $('<span>'),
-                last = input.children('span:last'),
-                name_element = $('<span>').attr({'class': 'name', contenteditable: false})
-                    .html(recipient_input_name(name || email)),
-                email_element = $('<span>').attr({'class': 'email', contenteditable: false}),
-                // TODO: should the 'close' link have tabindex?
-                link = $('<a>').attr({'class': 'button icon remove', contenteditable: false})
-                    .click(function() {
-                        recipient.remove();
-                        // update the original input
-                        $(obj).val(input.text());
-                        // no need to propagate the event
+                if (name) {
+                    email = ' <' + email + '>';
+                }
+
+                email_element.text((name ? email : '') + ',');
+                recipient.attr('title', name ? (name + email) : null)
+                    .append([name_element, email_element, link])
+                    .insertBefore(input);
+            },
+            update_func = function() {
+                var text = input.val().replace(/[,;\s]+$/, ''),
+                    recipients = recipient_input_parser(text);
+
+                $.each(recipients, function() {
+                    insert_recipient(this.name, this.email);
+                });
+
+                input.val('');
+                apply_func();
+
+                return recipients.length > 0;
+            },
+            parse_func = function(e) {
+                // Note it can be also executed when autocomplete inserts a recipient
+                update_func();
+
+                if (e.type == 'blur') {
+                    area.removeClass('focus');
+                }
+            },
+            keydown_func = function(e) {
+                // On Backspace remove the last recipient
+                if (e.keyCode == 8 && !input.val().length) {
+                    area.children('span.recipient:last').remove();
+                    apply_func();
+                    return false;
+                }
+                // Here we add a recipient box when the separator character (,;) was pressed
+                else if (e.key == ',' || e.key == ';') {
+                    if (update_func()) {
                         return false;
-                    });
-
-            if (name) {
-                email = ' <' + email + '>';
-            }
-
-            email_element.text((name ? email : '') + ',');
-            recipient.attr({'class': 'recipient', contenteditable: false, title: name ? (name + email) : null})
-                .append([name_element, email_element, link]);
-
-            if (last.length) {
-                (last).after(recipient);
-            }
-            else {
-                input.html('').append(recipient)
-                    // contentEditable BR is required as a workaround for cursor issues in Chrome
-                    .append($('<br>').attr('contenteditable', false));
-            }
-        };
-
-        // get text input node from inside of the widget
-        var get_text_node = function() {
-            return $(input).contents().filter(function() { return this.nodeType == 3; }).last()[0];
-        };
-
-        // Backspace key can add <br type="_moz"> in Firefox
-        // Puts cursor at proper place of the content editable element
-        var focus_func = function() {
-            var obj, range = document.createRange();
-
-            rcmail.env.focused_field = obj;
-
-            // if there's a text node, put cursor at the end of it
-            if (obj = get_text_node()) {
-                range.setStart(obj, $(obj).text().length);
-            }
-            // else if there's <br> put the cursor before it
-            else if (obj = input.children('br:last')[0]) {
-                range.setStartBefore(obj);
-            }
-            // else if there's at least one recipient box put the cursor after the last one
-            else if (obj = input.children('span:last')[0]) {
-                range.setStartAfter(obj);
-            }
-            // else if there's any node, put the cursor after it
-            else if (obj = input.lastChild) {
-                range.setStartAfter(obj);
-            }
-            // else do nothing
-            else {
-                return;
-            }
-
-            range.collapse(true);
-            var selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-        };
-
-        var update_func = function() {
-            var node, text, recipients = [], cloned = input.clone();
-
-            cloned.find('span').remove();
-            text = cloned.text().replace(/[,;\s]+$/, '');
-            recipients = recipient_input_parser(text);
-
-            $.each(recipients, function() {
-                insert_recipient(this.name, this.email);
-                text = text.replace(this.text, '');
-            });
-
-            if (recipients.length) {
-                // update text node
-                text = $.trim(text.replace(/[,]{1,}/g, ',').replace(/(^,|,$)/g, ''));
-                $(input).contents().each(function() { if (this.nodeType == 3) $(this).remove(); });
-                input.children('span:last').after(document.createTextNode(text));
-            }
-
-            return recipients.length > 0;
-        };
-
-        var parse_func = function(e) {
-            // Note it can be also executed when autocomplete inserts a recipient
-            update_func();
-
-            // update the original input
-            $(obj).val(input.text());
-
-            // fix cursor position
-            if (e.type != 'blur') {
-                focus_func();
-            }
-        };
-
-        var keydown_func = function(e) {
-            // Backspace removes all recipients in Chrome, but in Firefox
-            // it does nothing. We'll consistently remove the last recipient
-            if (e.keyCode == 8) {
-                // check if we're on the far left side of the text entry node
-                var node = get_text_node(), selection = window.getSelection();
-                if ((node == selection.focusNode && !selection.focusOffset) || selection.anchorNode == input[0]) {
-                    input.children('span:last').remove();
-                    // update the original input
-                    $(obj).val(input.text());
-                    focus_func();
-                    return false;
+                    }
                 }
-            }
-            // Here we add a recipient box when the separator character (,;) was pressed
-            else if (e.keyCode == 188 || e.keyCode == 59) {
-                if (update_func()) {
-                    focus_func();
-                    return false;
-                }
-            }
-        };
+            };
 
         // Create the content-editable div
-        input = $('<div>')
-            .attr({contenteditable: true, tabindex: $(obj).attr('tabindex')})
-            .addClass('form-control recipient-input')
+        input = $('<input>').attr({type: 'text', tabindex: $(obj).attr('tabindex')})
             .on('paste change blur', parse_func)
             .on('keydown', keydown_func)
-            .on('focus mousedown', focus_func)
-            .on('keyup', function() {
-                // Backspace key can add <br type="_moz"> in Firefox
-                // TODO: this fixes that, but causes input height jump effect
-                $('br[type=\"_moz\"]', this).remove();
-            });
+            .on('focus mousedown', focus_func);
+
+        area = $('<div>').addClass('form-control recipient-input')
+            .append(input)
+            .on('click', function() { input.focus(); });
 
         // "Replace" the original input/textarea with the content-editable div
         // Note: we do not remove the original element, and we do not use
         // display: none, because we want to handle onfocus event
         // Note: tabindex:-1 to make Shift+TAB working on these widgets
         $(obj).css({position: 'absolute', opacity: 0, left: '-5000px', width: '10px'})
-            .attr('tabindex', -1).after(input)
+            .attr('tabindex', -1)
+            .after(area)
             // some core code sometimes focuses or changes the original node
             // in such cases we wan't to parse it's value and apply changes
             // to the widget element
             .on('focus', function(e) { input.focus(); })
-            .on('change', function(e) { input.text(this.value).change(); });
+            .on('change', function(e) {
+                $('span.recipient', area).remove();
+                input.val(this.value).change();
+            });
 
-        // this one line is here to fix border of Bootstrap's input-group
+        // this one line is here to fix border of Bootstrap's input-group,
         // input-group should not contain any hidden elements
-        $(obj).detach().insertBefore(input.parent());
+        $(obj).detach().insertBefore(area.parent());
 
         // Copy and parse the value already set
         input.text($(obj).val()).change();
@@ -2305,7 +2239,6 @@ function rcube_elastic_ui()
                     $(this).tab('show');
 
                     if (is_table) {
-                    console.log(sw[0]);
                         sw.prop('checked', is_html);
                     }
                 }
