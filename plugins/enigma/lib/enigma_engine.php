@@ -685,7 +685,24 @@ class enigma_engine
             return;
         }
 
-        // @TODO
+        if ($this->rc->action != 'show' && $this->rc->action != 'preview' && $this->rc->action != 'print') {
+            return;
+        }
+
+        $this->load_smime_driver();
+        $struct = $p['structure'];
+
+        $msg_part = $struct->parts[0];
+
+        $sig = $this->smime_driver->verify($struct, $p['object']);
+
+        if (($sig instanceof enigma_error) && $sig->getCode() != enigma_error::KEYNOTFOUND) {
+            self::raise_error($sig, __LINE__);
+        } else {
+            // Store signature data for display
+            $this->signatures[$struct->mime_id] = $sig;
+            $this->signatures[$msg_part->mime_id] = $sig;
+        }
     }
 
     /**

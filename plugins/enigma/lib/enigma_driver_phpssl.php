@@ -229,6 +229,8 @@ class enigma_driver_phpssl extends enigma_driver
 //        $data->comment     = '';
         $data->email       = $cert['subject']['emailAddress'];
 
+        rcube::write_log('errors', 'Decrypted sig: ' . $data->name);
+
         return $data;
     }
 }
