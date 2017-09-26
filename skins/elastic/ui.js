@@ -1978,10 +1978,11 @@ function rcube_elastic_ui()
                     insert_recipient(this.name, this.email);
                 });
 
-                input.val('');
-                apply_func();
-
-                return recipients.length > 0;
+                if (recipients.length) {
+                    input.val('');
+                    apply_func();
+                    return true;
+                }
             },
             parse_func = function(e) {
                 // Note it can be also executed when autocomplete inserts a recipient
