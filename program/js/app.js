@@ -5755,33 +5755,19 @@ function rcube_webmail()
       this.ksearch_data.num--;
   };
 
-  // Getter for input value (with support for non-input content-editable elements)
-  // returns a string from last comma to current cursor position
+  // Getter for input value
+  // returns a string from the last comma to current cursor position
   this.ksearch_input_get = function()
   {
     if (!this.ksearch_input)
       return '';
 
-    var sel, range, sp, cp = 0, value = '';
+    var cp = this.get_caret_pos(this.ksearch_input);
 
-    if (this.ksearch_input.value === undefined) {
-      if ((sel = window.getSelection()) && (range = sel.getRangeAt(0)) && range.endContainer != this.ksearch_input) {
-        value = $(range.endContainer).text();
-        cp = range.endOffset;
-      }
-      else {
-        value = $(this.ksearch_input).text();
-      }
-    }
-    else {
-      cp = this.get_caret_pos(this.ksearch_input);
-      value = this.ksearch_input.value;
-    }
-
-    return value.substr(0, cp).split(/[,;]/).pop();
+    return this.ksearch_input.value.substr(0, cp).split(/[,;]/).pop();
   };
 
-  // Setter for input value (with support for non-input content-editable elements)
+  // Setter for input value
   // replaces 'from' string with 'to' and sets cursor position at the end
   this.ksearch_input_replace = function(from, to, input)
   {
@@ -5791,24 +5777,15 @@ function rcube_webmail()
     if (!input)
       input = this.ksearch_input;
 
-    if (input.value === undefined) {
-      var node = $(input).contents().filter(function() { return this.nodeType == 3; }).last();
-      // here we assume there's only one text node
-      if (node.length) {
-        $(node)[0].textContent = to;
-      }
-    }
-    else {
-      var cpos = this.get_caret_pos(input),
-        p = input.value.lastIndexOf(from, cpos),
-        pre = input.value.substring(0, p),
-        end = input.value.substring(p + from.length, input.value.length);
+    var cpos = this.get_caret_pos(input),
+      p = input.value.lastIndexOf(from, cpos),
+      pre = input.value.substring(0, p),
+      end = input.value.substring(p + from.length, input.value.length);
 
-      input.value = pre + to + end;
+    input.value = pre + to + end;
 
-      // set caret to insert pos
-      this.set_caret_pos(input, p + to.length);
-    }
+    // set caret to insert pos
+    this.set_caret_pos(input, p + to.length);
 
     // run onchange action on the element
     $(input).change();
