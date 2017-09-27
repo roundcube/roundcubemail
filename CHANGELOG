@@ -7,6 +7,7 @@ CHANGELOG Roundcube Webmail
 - Fix invalid template loading on a message error in preview frame (#5941)
 - Fix bug where HTML messages could have been rendered empty on some systems (#5957)
 - Fix wording of "Mark previewed messages as read" to "Mark messages as read" (#5952)
+- Enigma: Fix decryption of messages encoded with non-ascii charset (#5962)
 
 RELEASE 1.3.1
 -------------
