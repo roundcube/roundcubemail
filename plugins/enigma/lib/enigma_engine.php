@@ -1196,6 +1196,11 @@ class enigma_engine
         }
         else {
             $body = $msg->get_part_body($part->mime_id, false);
+
+            // Convert charset to get rid of possible non-ascii characters (#5962)
+            if ($part->charset && stripos($part->charset, 'ASCII') === false) {
+                $body = rcube_charset::convert($body, $part->charset, 'US-ASCII');
+            }
         }
 
         return $body;
