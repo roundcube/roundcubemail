@@ -447,9 +447,13 @@ function rcube_elastic_ui()
      */
     function bootstrap_style(context)
     {
-        $('input.button,button', context || document).addClass('btn').not('.btn-primary,.primary,.mainaction').addClass('btn-secondary');
-        $('input.button.mainaction,button.primary,button.mainaction', context || document).addClass('btn-primary');
-        $('button.btn.delete').addClass('btn-danger');
+        if (!context) {
+            context = document;
+        }
+
+        $('input.button,button', context).addClass('btn').not('.btn-primary,.primary,.mainaction').addClass('btn-secondary');
+        $('input.button.mainaction,button.primary,button.mainaction', context).addClass('btn-primary');
+        $('button.btn.delete', context).addClass('btn-danger');
 
         $.each(['warning', 'error'], function() {
             var type = this;
@@ -459,9 +463,9 @@ function rcube_elastic_ui()
         });
 
         // Forms
-        $('input,select,textarea', $('table.propform')).not('[type=checkbox]').addClass('form-control');
-        $('[type=checkbox]', $('table.propform')).addClass('form-check-input');
-        $('table.propform > tbody > tr').each(function() {
+        $('input,select,textarea', $('table.propform', context)).not('[type=checkbox]').addClass('form-control');
+        $('[type=checkbox]', $('table.propform', context)).addClass('form-check-input');
+        $('table.propform > tbody > tr', context).each(function() {
             var first, last, row = $(this),
                 row_classes = ['form-group', 'row'],
                 cells = row.children('td');
@@ -486,7 +490,7 @@ function rcube_elastic_ui()
         });
 
         // Other forms, e.g. Contact advanced search
-        $('fieldset.propform > .contactfieldgroup').each(function() {
+        $('fieldset.propform > .contactfieldgroup', context).each(function() {
             $('.row', this).addClass('form-group').each(function() {
                 $('div:first', this).addClass('col-sm-4');
                 $('div:last', this).addClass('col-sm-8');
@@ -524,17 +528,20 @@ function rcube_elastic_ui()
             $('a.nav-link:first', nav).click();
         });
 
-        $('.toolbarmenu select').addClass('form-control');
+        $('.toolbarmenu select', context).addClass('form-control');
+        if (context != document) {
+            $('select,input:not([type="checkbox"],[type="radio"])', context).addClass('form-control');
+        }
 
         // Make message-objects alerts pretty (the same as UI alerts)
-        $('#message-objects').children().each(function() {
+        $('#message-objects', context).children().each(function() {
             alert_style(this, $(this).attr('class').split(/\s/)[0]);
             $('a', this).addClass('btn btn-primary');
         });
 
         // Make logon form prettier
         if (rcmail.env.task == 'login') {
-            $('#login-form table tr').each(function() {
+            $('#login-form table tr', context).each(function() {
                 var input = $('input,select', this),
                     label = $('label', this),
                     icon = $('<i>').attr('class', 'input-group-addon icon ' + input.attr('name').replace('_', ''));
