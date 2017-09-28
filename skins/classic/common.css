@@ -1084,6 +1084,15 @@ div.searchbox > input
   width: 97%;
 }
 
+.formcontent table {
+  width: 100%;
+}
+
+.formcontent input,
+.formcontent textarea {
+  width: 95%;
+}
+
 .listsearchbox
 {
   border-bottom: solid 1px #ddd;
