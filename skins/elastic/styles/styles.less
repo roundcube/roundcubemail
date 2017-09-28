@@ -11,6 +11,7 @@
 
 @import (reference) "fontawesome";
 @import (reference) "colors";
+@import (reference) "mixins";
 
 /*** Fonts ***/
 
@@ -83,58 +84,6 @@ a {
 a:hover {
     color: @color-link-hover;
 }
-
-
-/*** Font-icons ***/
-
-.font-icon-class {
-    font-size: 1.25em;
-    /*
-        display: inline-block;
-        FIXME: with inline-block we have some problems with icon alignment
-    */
-    display: block;
-    float: left;
-    margin: 0 .25rem 0 0;
-    width: 1.18em;
-    height: 1em;
-    font-family: 'Icons';
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
-    text-align: center;
-    speak: none;
-    font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-}
-
-@-webkit-keyframes fa-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-@keyframes fa-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-
-.animated-icon-class() {
-    -webkit-animation: fa-spin 2s infinite linear;
-    animation: fa-spin 2s infinite linear;
-}
-
 
 @import "layout";
 
