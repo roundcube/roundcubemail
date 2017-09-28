@@ -530,7 +530,7 @@ function rcube_elastic_ui()
 
         $('.toolbarmenu select', context).addClass('form-control');
         if (context != document) {
-            $('select,input:not([type="checkbox"],[type="radio"])', context).addClass('form-control');
+            $('select,textarea,input:not([type="checkbox"],[type="radio"])', context).addClass('form-control');
         }
 
         // Make message-objects alerts pretty (the same as UI alerts)
