@@ -49,7 +49,7 @@ function hide_blockquote()
         var t = $(this), parent = t.data('parent'), visible = parent.is(':visible');
 
         t.text(rcmail.get_label(visible ? 'hide' : 'show', 'hide_blockquote'))
-          .detach().appendTo(visible ? q : parent);
+          .detach().appendTo(visible ? q : parent).toggleClass('collapsed');
 
         parent[visible ? 'hide' : 'show']();
         q[visible ? 'show' : 'hide']();
