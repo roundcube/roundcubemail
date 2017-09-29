@@ -4234,9 +4234,7 @@ function rcube_webmail()
       elem = input_message;
 
     // focus first empty element (need to be visible on IE8)
-    $(elem).filter(':visible').focus();
-
-    this.env.compose_focus_elem = document.activeElement;
+    this.env.compose_focus_elem = $(elem).filter(':visible').focus().get(0);
 
     // get summary of all field values
     this.compose_field_hash(true);

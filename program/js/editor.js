@@ -182,7 +182,7 @@ function rcube_text_editor(config, id)
         rcmail.change_identity(elem);
 
       // Focus previously focused element
-      if (fe && fe.id != this.id) {
+      if (fe && fe.id != this.id && fe.nodeName != 'BODY') {
         window.focus(); // for WebKit (#1486674)
         fe.focus();
         rcmail.env.compose_focus_elem = null;
