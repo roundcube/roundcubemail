@@ -95,6 +95,43 @@ div.message-htmlpart {
                 border-right: 2px solid @color-blockquote-2-border;
             }
         }
+
+        span.blockquote-link {
+            top: 0;
+            cursor: pointer;
+            right: .5rem;
+            min-width: 4rem;
+            padding-left: .5rem;
+            padding-right: .25rem;
+            font-size: 90%;
+            color: @color-font;
+            text-align: center;
+            background: #f8f8f8;
+            border: 1px solid #e8e8e8;
+            border-top: none;
+            border-bottom-right-radius: .3rem;
+            border-bottom-left-radius: .3rem;
+
+
+            &:after {
+                &:extend(.font-icon-class);
+                content: @fa-var-angle-down;
+                display: inline-block;
+                float: none;
+                margin: 0;
+                font-size: 90%;
+                height: 1.1rem;
+            }
+
+            &.collapsed:after {
+                content: @fa-var-angle-up;
+            }
+        }
+
+        &.blockquote-header {
+            text-overflow: ellipsis !important;
+            padding-right: 5rem !important;
+        }
     }
 }
 
