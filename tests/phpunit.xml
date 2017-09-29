@@ -91,4 +91,9 @@
             <file>./../plugins/zipdownload/tests/Zipdownload.php</file>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../program/lib</directory>
+        </whitelist>
+    </filter>
 </phpunit>
