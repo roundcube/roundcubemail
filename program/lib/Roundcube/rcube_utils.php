@@ -1167,7 +1167,7 @@ class rcube_utils
 
         $random = openssl_random_pseudo_bytes($length);
 
-        if ($random === false) {
+        if ($random === false && $length > 0) {
             throw new Exception("Failed to get random bytes");
         }
 
