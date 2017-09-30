@@ -496,7 +496,15 @@ function rcube_elastic_ui()
                 $('div:last', this).addClass('col-sm-8');
             });
             $('.label', this).addClass('col-form-label');
-            $('input,select').addClass('form-control');
+            $('input,select,textarea', this).addClass('form-control');
+        });
+
+        // Other forms, e.g. Insert response
+        $('.propform > .prop.block:not(.row)', context).each(function() {
+            $(this).addClass('form-group row').each(function() {
+              $('label', this).addClass('col-form-label').wrap($('<div class="col-sm-4 col-form-label">'));
+              $('input,select,textarea', this).addClass('form-control').wrap($('<div class="col-sm-8">'));
+            });
         });
 
         // Testing Bootstrap Tabs on contact info/edit page

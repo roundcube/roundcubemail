@@ -48,13 +48,13 @@
     }
 
     td.selection {
-        padding: 0 1em;
-        width: 3em;
+        padding: 0 0 0 .5em;
+        width: 2em;
         text-align: center;
-    }
 
-    td.selection > input {
-        vertical-align: middle;
+        & > input {
+            vertical-align: middle;
+        }
     }
 
     li.droptarget > a,
@@ -127,6 +127,11 @@ html.touch {
     input.icon-checkbox + label,
     li input[type=checkbox] {
         height: @listing-touch-line-height;
+    }
+
+    td.selection {
+        padding: 0;
+        width: 3em;
     }
 }
 
@@ -468,7 +473,8 @@ table.fixedcopy {
     }
 
     td.threads {
-        padding-left: 0;
+        padding: 0 0 0 .25rem;
+        width: 1.5em;
     }
 
     td.flags {
@@ -596,6 +602,10 @@ html.touch {
             span.date {
                 right: 1em;
             }
+        }
+        td.threads {
+            padding: 0;
+            width: 2em;
         }
     }
 }
