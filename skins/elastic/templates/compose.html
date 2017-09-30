@@ -118,7 +118,7 @@
 			<a id="composeoptionslink" class="button settings hidden" href="#options" onclick="UI.show_list(); $(this).addClass('hidden'); $('#composecontactslink').removeClass('hidden')" data-hidden="large,small">
 				<span class="inner"><roundcube:label name="options"></span>
 			</a>
-			<a id="composecontactslink" class="button addressbook" href="#contacts" onclick="UI.show_sidebar(); $(this).addClass('hidden'); $('#composeoptionslink').removeClass('hidden')" data-hidden="large,small">
+			<a id="composecontactslink" class="button addressbook" href="#contacts" onclick="UI.show_sidebar(true); $(this).addClass('hidden'); $('#composeoptionslink').removeClass('hidden')" data-hidden="large,small">
 				<span class="inner"><roundcube:label name="contacts"></span>
 			</a>
 			<roundcube:if condition="config:enable_spellcheck" />

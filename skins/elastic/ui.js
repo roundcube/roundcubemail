@@ -110,7 +110,7 @@ function rcube_elastic_ui()
         buttons.menu.on('click', function() { show_menu(); return false; });
         buttons.back_sidebar.on('click', function() { show_sidebar(); return false; });
         buttons.back_list.on('click', function() { show_list(); return false; });
-        buttons.back_content.on('click', function() { show_content(); return false; });
+        buttons.back_content.on('click', function() { show_content(true); return false; });
 
         $('body').on('click', function() { if (mode == 'phone') layout.menu.addClass('hidden'); });
 
@@ -886,9 +886,8 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Sets left and right margin to the header title element
-     * to make it properly centered depending on number of buttons
-     * on both sides
+     * Sets left and right margin to the header title element to make it
+     * properly centered depending on the number of buttons on both sides
      */
     function screen_resize_headers()
     {
@@ -946,11 +945,11 @@ function rcube_elastic_ui()
         var show;
 
         if (layout.list.length) {
-            show = layout.list.is(env.last_selected) || !layout.sidebar.is(env.last_selected);
+            show = layout.list.is(env.last_selected) || (!layout.sidebar.is(env.last_selected) && !layout.sidebar.is('.layout-sticky'));
             layout.list[show ? 'removeClass' : 'addClass']('hidden');
         }
         if (layout.sidebar.length) {
-            show = !layout.list.length || layout.sidebar.is(env.last_selected);
+            show = !layout.list.length || layout.sidebar.is(env.last_selected) || layout.sidebar.is('.layout-sticky');
             layout.sidebar[show ? 'removeClass' : 'addClass']('hidden');
         }
 
@@ -1010,21 +1009,30 @@ function rcube_elastic_ui()
         rcmail.enable_command('extwin', true);
     };
 
-    function show_content()
+    function show_content(unsticky)
     {
         // show sidebar and hide list
         layout.list.addClass('hidden');
         layout.sidebar.addClass('hidden');
         layout.content.removeClass('hidden');
 
+        if (unsticky) {
+            layout.sidebar.removeClass('layout-sticky');
+        }
+
         screen_resize_headers();
+        env.last_selected = layout.content[0];
     };
 
-    function show_sidebar()
+    function show_sidebar(sticky)
     {
         // show sidebar and hide list
         layout.list.addClass('hidden');
         layout.sidebar.removeClass('hidden');
+
+        if (sticky) {
+            layout.sidebar.addClass('layout-sticky');
+        }
 
         if (mode == 'small' || mode == 'phone') {
             layout.content.addClass('hidden');
@@ -1040,7 +1048,7 @@ function rcube_elastic_ui()
         }
         else {
             // show list and hide sidebar and content
-            layout.sidebar.addClass('hidden');
+            layout.sidebar.addClass('hidden').removeClass('layout-sticky');
             layout.list.removeClass('hidden');
 
             if (mode == 'small' || mode == 'phone') {
@@ -1058,7 +1066,6 @@ function rcube_elastic_ui()
     function hide_content()
     {
         // show sidebar or list, hide content frame
-        //$(layout.content).addClass('hidden');
         env.last_selected = layout.list[0] || layout.sidebar[0];
         screen_resize();
 
