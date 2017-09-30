@@ -33,28 +33,8 @@
     -webkit-font-smoothing: antialiased;
 }
 
-@-webkit-keyframes fa-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-@keyframes fa-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-
 .animated-icon-class() {
+    /* fa-spin is defined in styles.less */
     -webkit-animation: fa-spin 2s infinite linear;
     animation: fa-spin 2s infinite linear;
 }

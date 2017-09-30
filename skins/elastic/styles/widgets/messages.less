@@ -14,15 +14,16 @@
 #messagestack {
     position: absolute;
     bottom: .5em;
-    right: .5em;
+    right: .7em;
     z-index: 99;
     width: 320px;
     height: auto;
     max-height: 85%;
-    overflow-y: auto;
 
     @media screen and (max-width: @screen-width-xs) {
-        left: .5em;
+        left: 0;
+        right: 0;
+        bottom: 0;
         width: auto;
     }
 
@@ -33,7 +34,7 @@
         }
 
         i.icon {
-            font-size: 2em !important;
+            font-size: 1.5em !important;
         }
 
         a:hover {
@@ -55,27 +56,61 @@
     float: left;
     width: 100%;
     padding: .75em;
+    color: @color-message;
+    border: 1px solid @color-message-border;
+    box-shadow: 1px 1px 2px @color-message-shadow;
+    background-color: @color-message-background;
+    display: flex;
+
+    @media screen and (max-width: @screen-width-xs) {
+        margin-bottom: 0;
+        box-shadow: none;
+        border: 0;
+        border-top: 2px solid #fff;
+        border-radius: 0;
+        min-height: 4.2rem;
+    }
+
+    span {
+        margin: auto 0;
+    }
+
+    &.loading {
+        color: @color-message-loading;
+    }
 
     & > i.icon {
         line-height: 1;
+        color: @color-message-information;
+        margin: auto 0;
     }
 
     & > i.icon:before {
         &:extend(.font-icon-class);
         content: @fa-var-info-circle;
+        margin-right: .6rem;
+        width: 1em;
     }
 
     &.loading > i.icon:before {
         content: @fa-var-circle-o-notch;
         .animated-icon-class;
+        color: @color-message-loading;
+    }
+
+    &.alert-success > i.icon:before {
+        content: @fa-var-check-circle;
+        color: @color-message-success;
     }
 
     &.alert-warning > i.icon:before {
         content: @fa-var-warning;
+        color: @color-message-warning;
     }
 
     &.alert-danger > i.icon:before {
         content: @fa-var-exclamation-circle;
+        color: @color-message-error;
     }
 
     &.vcardattachment > i.icon:before {
@@ -94,6 +129,27 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             line-height: 2.6;
+        }
+    }
+
+    a {
+        color: @color-message-link;
+        font-weight: normal;
+    }
+
+    &.boxwarning {
+        float: none;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        padding: .5em;
+
+        i.icon {
+            font-size: 1.5em !important;
+        }
+
+        & + :not(.boxwarning) {
+            margin-top: 1rem;
         }
     }
 }

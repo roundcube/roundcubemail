@@ -535,7 +535,7 @@ function rcube_elastic_ui()
 
         // Make message-objects alerts pretty (the same as UI alerts)
         $('#message-objects', context).children().each(function() {
-            alert_style(this, $(this).attr('class').split(/\s/)[0]);
+            alert_style(this, $(this).addClass('boxwarning').attr('class').split(/\s/)[0]);
             $('a', this).addClass('btn btn-primary');
         });
 
@@ -1094,10 +1094,11 @@ function rcube_elastic_ui()
             return;
         }
 
-        alert_style(p.object, p.type);
+        alert_style(p.object, p.type, true);
         $(p.object).attr('role', 'alert');
-        $('a', p.object).addClass('alert-link');
 /*
+        $('a', p.object).addClass('alert-link');
+
         // show a popup dialog on errors
         if (p.type == 'error' && rcmail.env.task != 'login') {
             // hide original message object, we don't want both
@@ -1109,9 +1110,9 @@ function rcube_elastic_ui()
     /**
      * Applies some styling and icon to an alert object
      */
-    function alert_style(object, type)
+    function alert_style(object, type, wrap)
     {
-        var cl, classes = 'ui alert',
+        var tmp, classes = 'ui alert',
             map = {
                 information: 'alert-success',
                 confirmation: 'alert-success',
@@ -1122,8 +1123,14 @@ function rcube_elastic_ui()
                 vcardattachment: 'alert-info' /* vcard_attachments plugin */
             };
 
-        if (cl = map[type]) {
-            classes += ' ' + cl;
+        if (wrap) {
+            // we need the content to be non-text node for best alignment
+            tmp = $(object).html();
+            $(object).html($('<span>').html(tmp));
+        }
+
+        if (tmp = map[type]) {
+            classes += ' ' + tmp;
             $('<i>').attr('class', 'icon').prependTo(object);
         }
 
