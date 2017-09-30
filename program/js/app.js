@@ -7760,6 +7760,30 @@ function rcube_webmail()
     else
       popup.html(content);
 
+    // assign special classes to dialog buttons
+    var i = 0, fn = function(button, classes, idx) {
+        if (typeof button == 'function') {
+          button = {
+            click: button,
+            text: idx,
+            'class': classes
+          };
+        }
+        else {
+          buttons['class'] = classes;
+        }
+
+        return button;
+      };
+
+    if (options.button_classes)
+      $.each(buttons, function(idx, button) {
+        var cl = options.button_classes[i];
+        if (cl)
+          buttons[idx] = fn(button, cl, idx);
+        i++;
+      });
+
     options = $.extend({
         title: title,
         buttons: buttons,
@@ -7783,11 +7807,6 @@ function rcube_webmail()
     popup.dialog('option', {
       height: Math.min(h - 40, height + 70 + (buttons ? 50 : 0)),
       width: Math.min(w - 20, width + 24)
-    });
-
-    // assign special classes to dialog buttons
-    $.each(options.button_classes || [], function(i, v) {
-      if (v) $($('.ui-dialog-buttonpane button', popup.parent()).get(i)).addClass(v);
     });
 
     return popup;
