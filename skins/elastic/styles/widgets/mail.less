@@ -61,6 +61,11 @@ div.message-part,
 div.message-htmlpart {
     /* TODO */
 
+    div.rcmBody {
+        /* Remove margins that can be set by the mail message styles */
+        margin: 0 !important;
+    }
+
     blockquote {
         color: @color-blockquote-0;
         border-left: 2px solid @color-blockquote-0-border;
