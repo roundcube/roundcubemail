@@ -44,8 +44,6 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
                         return false;
                     }
                 });
-
-                $('input[type="button"]:first').focus();
             }
         }
     }

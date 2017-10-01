@@ -121,7 +121,7 @@ class enigma_ui
         }
 
         $skin_path = $this->enigma->local_skin_path();
-        $this->enigma->include_stylesheet("$skin_path/enigma.css");
+        $this->enigma->include_stylesheet("$skin_path/enigma.css", true);
         $this->css_loaded = true;
     }
 
@@ -604,30 +604,26 @@ class enigma_ui
         $search = new html_inputfield(array('type' => 'text', 'name' => '_search',
             'id' => 'rcmimportsearch', 'size' => 30));
 
-        $upload_button = new html_inputfield(array(
-                'type'    => 'button',
-                'value'   => $this->rc->gettext('import'),
-                'class'   => 'button',
+        $upload_button = new html_button(array(
+                'class'   => 'button import',
                 'onclick' => "return rcmail.command('plugin.enigma-import','',this,event)",
         ));
 
-        $search_button = new html_inputfield(array(
-                'type'    => 'button',
-                'value'   => $this->rc->gettext('search'),
-                'class'   => 'button',
+        $search_button = new html_button(array(
+                'class'   => 'button search',
                 'onclick' => "return rcmail.command('plugin.enigma-import-search','',this,event)",
         ));
 
         $upload_form = html::div(null,
             rcube::Q($this->enigma->gettext('keyimporttext'), 'show')
             . html::br() . html::br() . $upload->show()
-            . html::br() . html::br() . $upload_button->show()
+            . html::br() . html::br() . $upload_button->show($this->rc->gettext('import'))
         );
 
         $search_form = html::div(null,
             rcube::Q($this->enigma->gettext('keyimportsearchtext'), 'show')
             . html::br() . html::br() . $search->show()
-            . html::br() . html::br() . $search_button->show()
+            . html::br() . html::br() . $search_button->show($this->rc->gettext('search'))
         );
 
         $form = html::tag('fieldset', '', html::tag('legend', null, $this->enigma->gettext('keyimportlabel')) . $upload_form)
@@ -783,59 +779,78 @@ class enigma_ui
     private function compose_ui()
     {
         $this->add_css();
+        $this->rc->output->add_label('enigma.sendunencrypted');
 
-        // Options menu button
-        $this->enigma->add_button(array(
-            'type'     => 'link',
-            'command'  => 'plugin.enigma',
-            'onclick'  => "rcmail.command('menu-open', 'enigmamenu', event.target, event)",
-            'class'    => 'button enigma',
-            'title'    => 'encryptionoptions',
-            'label'    => 'encryption',
-            'domain'   => $this->enigma->ID,
-            'width'    => 32,
-            'height'   => 32,
-            'aria-owns'     => 'enigmamenu',
-            'aria-haspopup' => 'true',
-            'aria-expanded' => 'false',
-            ), 'toolbar');
+        // Elastic skin (or a skin based on it)
+        if (array_key_exists('elastic', (array) $this->rc->output->skins)) {
+            $this->enigma->api->add_content($this->compose_ui_options(), 'composeoptions');
+        }
+        // other skins
+        else {
+            // Options menu button
+            $this->enigma->add_button(array(
+                'type'     => 'link',
+                'command'  => 'plugin.enigma',
+                'onclick'  => "rcmail.command('menu-open', 'enigmamenu', event.target, event)",
+                'class'    => 'button enigma',
+                'title'    => 'encryptionoptions',
+                'label'    => 'encryption',
+                'domain'   => $this->enigma->ID,
+                'width'    => 32,
+                'height'   => 32,
+                'aria-owns'     => 'enigmamenu',
+                'aria-haspopup' => 'true',
+                'aria-expanded' => 'false',
+                ), 'toolbar');
 
+            // Options menu contents
+            $this->rc->output->add_footer($this->compose_ui_options(true));
+        }
+    }
+
+    /**
+     * Init compose UI (add task button and the menu)
+     */
+    private function compose_ui_options($wrap = false)
+    {
         $locks = (array) $this->rc->config->get('enigma_options_lock');
-        $menu  = new html_table(array('cols' => 2));
         $chbox = new html_checkbox(array('value' => 1));
 
-        $menu->add(null, html::label(array('for' => 'enigmasignopt'),
-            rcube::Q($this->enigma->gettext('signmsg'))));
-        $menu->add(null, $chbox->show($this->rc->config->get('enigma_sign_all') ? 1 : 0,
-                array(
-                    'name'     => '_enigma_sign',
-                    'id'       => 'enigmasignopt',
-                    'disabled' => in_array('sign', $locks),
-                )));
+        $out = html::div('form-group form-check row',
+            html::label(array('for' => 'enigmasignopt', 'class' => 'col-form-label col-6'),
+                rcube::Q($this->enigma->gettext('signmsg')))
+            . html::div('form-check col-6',
+                $chbox->show($this->rc->config->get('enigma_sign_all') ? 1 : 0, array(
+                        'name'     => '_enigma_sign',
+                        'id'       => 'enigmasignopt',
+                        'disabled' => in_array('sign', $locks),
+                ))));
 
-        $menu->add(null, html::label(array('for' => 'enigmaencryptopt'),
-            rcube::Q($this->enigma->gettext('encryptmsg'))));
-        $menu->add(null, $chbox->show($this->rc->config->get('enigma_encrypt_all') ? 1 : 0,
-                array(
-                    'name'     => '_enigma_encrypt',
-                    'id'       => 'enigmaencryptopt',
-                    'disabled' => in_array('encrypt', $locks),
-                )));
+        $out .= html::div('form-group form-check row',
+            html::label(array('for' => 'enigmaencryptopt', 'class' => 'col-form-label col-6'),
+                rcube::Q($this->enigma->gettext('encryptmsg')))
+            . html::div('form-check col-6',
+                $chbox->show($this->rc->config->get('enigma_encrypt_all') ? 1 : 0, array(
+                        'name'     => '_enigma_encrypt',
+                        'id'       => 'enigmaencryptopt',
+                        'disabled' => in_array('encrypt', $locks),
+                ))));
 
-        $menu->add(null, html::label(array('for' => 'enigmaattachpubkeyopt'),
-            rcube::Q($this->enigma->gettext('attachpubkeymsg'))));
-        $menu->add(null, $chbox->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0,
-                array(
-                    'name'     => '_enigma_attachpubkey',
-                    'id'       => 'enigmaattachpubkeyopt',
-                    'disabled' => in_array('pubkey', $locks),
-                )));
+        $out .= html::div('form-group form-check row',
+            html::label(array('for' => 'enigmaattachpubkeyopt', 'class' => 'col-form-label col-6'),
+                rcube::Q($this->enigma->gettext('attachpubkeymsg')))
+            . html::div('form-check col-6',
+                $chbox->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0, array(
+                        'name'     => '_enigma_attachpubkey',
+                        'id'       => 'enigmaattachpubkeyopt',
+                        'disabled' => in_array('pubkey', $locks),
+                ))));
 
-        $menu = html::div(array('id' => 'enigmamenu', 'class' => 'popupmenu'), $menu->show());
+        if (!$wrap) {
+            return $out;
+        }
 
-        // Options menu contents
-        $this->rc->output->add_footer($menu);
-        $this->rc->output->add_label('enigma.sendunencrypted');
+        return html::div(array('id' => 'enigmamenu', 'class' => 'popupmenu'), $out);
     }
 
     /**
