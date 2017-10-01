@@ -419,10 +419,17 @@ class rcube_utils
             if ($allow_remote) {
                 $a_styles = preg_split('/;[\r\n]*/', $styles, -1, PREG_SPLIT_NO_EMPTY);
 
-                foreach ($a_styles as $line) {
+                for ($i=0, $len=count($a_styles); $i < $len; $i++) {
+                    $line     = $a_styles[$i];
                     $stripped = preg_replace('/[^a-z\(:;]/i', '', $line);
-                    // ... and only allow strict url() values
-                    if (stripos($stripped, 'url(') && !preg_match($strict_url_regexp, $line)) {
+
+                    // allow data:image uri, join with continuation
+                    if (stripos($stripped, 'url(data:image')) {
+                        $a_styles[$i] .= ';' . $a_styles[$i+1];
+                        unset($a_styles[$i+1]);
+                    }
+                    // allow strict url() values only
+                    else if (stripos($stripped, 'url(') && !preg_match($strict_url_regexp, $line)) {
                         $a_styles = array('/* evil! */');
                         break;
                     }
