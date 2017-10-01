@@ -572,6 +572,38 @@ class html_checkbox extends html_inputfield
 }
 
 /**
+ * Class to create HTML button
+ *
+ * @package    Framework
+ * @subpackage View
+ */
+class html_button extends html_inputfield
+{
+    protected $tagname = 'button';
+    protected $type    = 'button';
+
+    /**
+     * Get HTML code for this object
+     *
+     * @param string $content Text Content of the button
+     * @param array  $attrib  Additional attributes to override
+     *
+     * @return string HTML output
+     */
+    public function show($content = '', $attrib = null)
+    {
+        // overwrite object attributes
+        if (is_array($attrib)) {
+            $this->attrib = array_merge($this->attrib, $attrib);
+        }
+
+        $this->content = $content;
+
+        return parent::show();
+    }
+}
+
+/**
  * Class to create an HTML textarea
  *
  * @package    Framework
