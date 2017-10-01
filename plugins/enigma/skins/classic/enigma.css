@@ -73,6 +73,26 @@ p.enigmaattachment a
   background: url(enigma.png) 0 0 no-repeat;
 }
 
+#enigmamenu div.row {
+  display: table-row;
+}
+
+#enigmamenu div.row > label {
+  display: table-cell;
+  width: 99%;
+  padding: 3px;
+}
+
+#enigmamenu div.row > div {
+  display: table-cell;
+  width: 1%;
+  padding: 3px;
+}
+
+#enigmamenu input {
+  vertical-align: middle;
+}
+
 /***** Keys/Certs Management *****/
 
 #mainscreen.enigma

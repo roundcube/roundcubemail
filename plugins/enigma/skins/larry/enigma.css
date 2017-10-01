@@ -73,6 +73,21 @@ p.enigmaattachment a {
   padding: 2px 5px;
 }
 
+#enigmamenu div.row {
+  display: table-row;
+}
+
+#enigmamenu div.row > label {
+  display: table-cell;
+  width: 99%;
+  padding: 3px;
+}
+
+#enigmamenu div.row > div {
+  display: table-cell;
+  width: 1%;
+  padding: 3px;
+}
 
 /***** Keys/Certs Management *****/
 
