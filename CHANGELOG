@@ -9,6 +9,7 @@ CHANGELOG Roundcube Webmail
 - Fix wording of "Mark previewed messages as read" to "Mark messages as read" (#5952)
 - Enigma: Fix decryption of messages encoded with non-ascii charset (#5962)
 - Fix missing cursor in HTML editor on mail reply (#5969)
+- Fix (again) bug where image data URIs in css style were treated as evil/remote in mail preview (#5580)
 
 RELEASE 1.3.1
 -------------
