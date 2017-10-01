@@ -7776,7 +7776,7 @@ function rcube_webmail()
         return button;
       };
 
-    if (options.button_classes)
+    if (options && options.button_classes)
       $.each(buttons, function(idx, button) {
         var cl = options.button_classes[i];
         if (cl)
