@@ -381,9 +381,9 @@ class rcube_vcard
             }
 
             if (($tag = self::$fieldmap[$field]) && (is_array($value) || strlen($value))) {
-                $index = count($this->raw[$tag]);
-                $this->raw[$tag][$index] = (array)$value;
+                $this->raw[$tag][] = (array) $value;
                 if ($type) {
+                    $index   = count($this->raw[$tag]) - 1;
                     $typemap = array_flip($this->typemap);
                     $this->raw[$tag][$index]['type'] = explode(',', $typemap[$type_uc] ?: $type);
                 }
@@ -405,7 +405,7 @@ class rcube_vcard
      */
     public function set_raw($tag, $value, $append = false)
     {
-        $index = $append ? count($this->raw[$tag]) : 0;
+        $index = $append && isset($this->raw[$tag]) ? count($this->raw[$tag]) : 0;
         $this->raw[$tag][$index] = (array)$value;
     }
 

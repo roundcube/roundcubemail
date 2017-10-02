@@ -218,7 +218,9 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
 
         // allow data URIs with images (#5580)
         $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody');
-        $this->assertEquals("#rcmbody { background-image: url(data:image/png;base64,123); }", $mod, "Data URIs in url() allowed");
+        $this->assertContains("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [1]");
+        $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody', true);
+        $this->assertContains("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [2]");
     }
 
     function test_xss_entity_decode()
