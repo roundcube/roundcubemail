@@ -552,3 +552,15 @@ html.touch input.icon-checkbox + label {
         padding: .5rem .75rem !important;
     }
 }
+
+/* Remove outline on selects in Firefox */
+@-moz-document url-prefix() {
+    select:-moz-focusring {
+       color: transparent !important;
+       text-shadow: 0 0 0 @color-font !important;
+    }
+}
+
+.form-control, .form-control:focus {
+    color: @color-font;
+}
