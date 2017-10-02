@@ -237,4 +237,6 @@ $messages['saveerror'] = 'Unable to save data. Server error occurred.';
 $messages['vacationsaved'] = 'Vacation data saved successfully.';
 $messages['emptyvacationbody'] = 'Body of vacation message is required!';
 $messages['duplicate.conflict.err'] = 'Both header and unique identifier are not allowed.';
+$messages['disabledaction'] = 'Action not permitted.';
+
 ?>
