@@ -64,7 +64,7 @@ class rcube_sieve_engine
     );
     private $disabled_actions;
 
-    const VERSION  = '8.9';
+    const VERSION  = '9.0';
     const PROGNAME = 'Roundcube (Managesieve)';
     const PORT     = 4190;
 

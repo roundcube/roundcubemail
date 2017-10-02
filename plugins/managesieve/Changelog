@@ -1,6 +1,9 @@
+* version 9.0 [2017-10-02]
+-----------------------------------------------------------
 - Fix parsing dot-staffed lines in multiline text (#5838)
 - Fix AM/PM suffix in vacation time selectors
 - Fix bug where 'exists' operator was reset to 'contains' (#5899)
+- Add ability to disable filter sets and other actions (#5496, #5898)
 
 * version 8.9 [2017-05-22]
 -----------------------------------------------------------
