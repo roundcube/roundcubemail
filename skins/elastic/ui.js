@@ -1574,7 +1574,7 @@ function rcube_elastic_ui()
                     .appendTo(document.body).get(0);
             }
 
-            pos = 'right';
+            pos = $(target).data('popup-pos') || 'right';
 
             if (p.name == 'pagejump-selector') {
                 pos = 'top';
