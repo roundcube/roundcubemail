@@ -2562,7 +2562,7 @@ class rcube_sieve_engine
             $user_script = $_SESSION['managesieve_user_script'];
 
             // if the script is not active...
-            if ($user_script && array_search($name, $this->active) === false) {
+            if ($user_script && array_search($name, (array) $this->active) === false) {
                 // ...rewrite USER file adding appropriate include command
                 if ($this->sieve->load($user_script)) {
                     $script = $this->sieve->script->as_array();
