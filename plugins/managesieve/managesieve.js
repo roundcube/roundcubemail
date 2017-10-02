@@ -56,7 +56,8 @@ if (window.rcmail) {
         sieve_raw_editor_init();
       }
       else {
-        rcmail.enable_command('plugin.managesieve-add', 'plugin.managesieve-setadd', !rcmail.env.sieveconnerror);
+        rcmail.enable_command('plugin.managesieve-add', !rcmail.env.sieveconnerror && $.inArray('new_rule', rcmail.env.managesieve_disabled_actions) == -1);
+        rcmail.enable_command('plugin.managesieve-setadd', !rcmail.env.sieveconnerror && $.inArray('new_set', rcmail.env.managesieve_disabled_actions) == -1);
       }
 
       var setcnt, set = rcmail.env.currentset;
@@ -92,8 +93,9 @@ if (window.rcmail) {
 
         setcnt = rcmail.filtersets_list.rowcount;
         rcmail.enable_command('plugin.managesieve-set', true);
-        rcmail.enable_command('plugin.managesieve-setact', 'plugin.managesieve-setget', setcnt > 0);
-        rcmail.enable_command('plugin.managesieve-setdel', setcnt > 1);
+        rcmail.enable_command('plugin.managesieve-setact', setcnt > 0 && $.inArray('enable_disable_set', rcmail.env.managesieve_disabled_actions) == -1);
+        rcmail.enable_command('plugin.managesieve-setget', setcnt > 0 && $.inArray('download_set', rcmail.env.managesieve_disabled_actions) == -1);
+        rcmail.enable_command('plugin.managesieve-setdel', setcnt > 1 && $.inArray('delete_set', rcmail.env.managesieve_disabled_actions) == -1);
         rcmail.enable_command('plugin.managesieve-seteditraw', setcnt > 0 && rcmail.env.raw_sieve_editor);
 
         // Fix dragging filters over sets list
@@ -145,7 +147,9 @@ rcube_webmail.prototype.managesieve_select = function(list)
   }
 
   var has_id = typeof(id) != 'undefined' && id != null;
-  this.enable_command('plugin.managesieve-act', 'plugin.managesieve-del', has_id);
+
+  this.enable_command('plugin.managesieve-act', has_id);
+  this.enable_command('plugin.managesieve-del', has_id && $.inArray('delete_rule', rcmail.env.managesieve_disabled_actions) == -1);
 };
 
 // Set selection
@@ -153,8 +157,9 @@ rcube_webmail.prototype.managesieve_setselect = function(list)
 {
   this.show_contentframe(false);
   this.filters_list.clear(true);
-  this.enable_command('plugin.managesieve-setdel', list.rowcount > 1);
-  this.enable_command('plugin.managesieve-setact', 'plugin.managesieve-setget', list.rowcount > 0);
+  this.enable_command('plugin.managesieve-setdel', list.rowcount > 1 && $.inArray('delete_set', rcmail.env.managesieve_disabled_actions) == -1);
+  this.enable_command('plugin.managesieve-setact', list.rowcount > 0 && $.inArray('enable_disable_set', rcmail.env.managesieve_disabled_actions) == -1);
+  this.enable_command('plugin.managesieve-setget', list.rowcount > 0 && $.inArray('delete_set', rcmail.env.managesieve_disabled_actions) == -1);
   this.enable_command('plugin.managesieve-seteditraw', list.rowcount > 0 && this.env.raw_sieve_editor);
 
   var id = list.get_single_selection();
@@ -299,7 +304,8 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
       list.insert_row(row.get(0));
       list.highlight_row(o.id);
 
-      this.enable_command('plugin.managesieve-del', 'plugin.managesieve-act', true);
+      this.enable_command('plugin.managesieve-del', $.inArray('delete_rule', rcmail.env.managesieve_disabled_actions) == -1);
+      this.enable_command('plugin.managesieve-act', true);
 
       break;
 

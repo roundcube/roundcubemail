@@ -4284,9 +4284,7 @@ function rcube_webmail()
     else if (input_message)
       elem = input_message;
 
-    this.init_messageform_inputs(elem);
-
-    this.env.compose_focus_elem = document.activeElement;
+    this.env.compose_focus_elem = this.init_messageform_inputs(elem);
 
     // get summary of all field values
     this.compose_field_hash(true);
@@ -4316,8 +4314,11 @@ function rcube_webmail()
       this.init_address_input_events($("[name='_"+ac_fields[i]+"']"), ac_props);
     }
 
-    // focus first empty element
-    $(focused || input_to).focus();
+    if (!focused)
+      focused = input_to;
+
+    // focus first empty element (and return it)
+    return $(focused).focus().get(0);
   };
 
   this.compose_restore_dialog = function(j, html_mode)

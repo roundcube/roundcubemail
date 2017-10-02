@@ -19,6 +19,11 @@
   left: 205px;
 }
 
+#filtersscreen.nosetlist
+{
+  left: 0;
+}
+
 #filterslistbox
 {
   position: absolute;

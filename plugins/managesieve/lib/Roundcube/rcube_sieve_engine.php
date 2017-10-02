@@ -62,8 +62,9 @@ class rcube_sieve_engine
         2 => 'notifyimportancenormal',
         1 => 'notifyimportancehigh'
     );
+    private $disabled_actions;
 
-    const VERSION  = '8.9';
+    const VERSION  = '9.0';
     const PROGNAME = 'Roundcube (Managesieve)';
     const PORT     = 4190;
 
@@ -91,6 +92,8 @@ class rcube_sieve_engine
             'filtersetform'    => array($this, 'filterset_form'),
             'filterseteditraw' => array($this, 'filterset_editraw'),
         ));
+
+        $this->disabled_actions = $this->rc->config->get('managesieve_disabled_actions', array());
 
         // connect to managesieve server
         $error = $this->connect($_SESSION['username'], $this->rc->decrypt($_SESSION['password']));
@@ -147,6 +150,9 @@ class rcube_sieve_engine
         }
 
         $this->rc->output->set_env('raw_sieve_editor', $this->rc->config->get('managesieve_raw_editor', true));
+        $this->rc->output->set_env('managesieve_disabled_actions', $this->disabled_actions);
+        if (in_array('list_sets', $this->disabled_actions))
+            $this->rc->output->set_env('managesieve_no_set_list', true);
 
         return $error;
     }
@@ -288,17 +294,22 @@ class rcube_sieve_engine
             $fid = (int) rcube_utils::get_input_value('_fid', rcube_utils::INPUT_POST);
 
             if ($action == 'delete' && !$error) {
-                if (isset($this->script[$fid])) {
-                    if ($this->sieve->script->delete_rule($fid))
-                        $result = $this->save_script();
+                if (!in_array('delete_rule', $this->disabled_actions)) {
+                    if (isset($this->script[$fid])) {
+                        if ($this->sieve->script->delete_rule($fid))
+                            $result = $this->save_script();
 
-                    if ($result === true) {
-                        $this->rc->output->show_message('managesieve.filterdeleted', 'confirmation');
-                        $this->rc->output->command('managesieve_updatelist', 'del', array('id' => $fid));
+                        if ($result === true) {
+                            $this->rc->output->show_message('managesieve.filterdeleted', 'confirmation');
+                            $this->rc->output->command('managesieve_updatelist', 'del', array('id' => $fid));
+                        }
+                        else {
+                            $this->rc->output->show_message('managesieve.filterdeleteerror', 'error');
+                        }
                     }
-                    else {
-                        $this->rc->output->show_message('managesieve.filterdeleteerror', 'error');
-                    }
+                }
+                else {
+                    $this->rc->output->show_message('managesieve.disabledaction', 'error');
                 }
             }
             else if ($action == 'move' && !$error) {
@@ -366,60 +377,77 @@ class rcube_sieve_engine
                 }
             }
             else if ($action == 'setact' && !$error) {
-                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST, true);
-                $result = $this->activate_script($script_name);
-                $kep14  = $this->rc->config->get('managesieve_kolab_master');
+                if (!in_array('enable_disable_set', $this->disabled_actions)) {
+                    $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST, true);
+                    $result = $this->activate_script($script_name);
+                    $kep14  = $this->rc->config->get('managesieve_kolab_master');
 
-                if ($result === true) {
-                    $this->rc->output->set_env('active_sets', $this->active);
-                    $this->rc->output->show_message('managesieve.setactivated', 'confirmation');
-                    $this->rc->output->command('managesieve_updatelist', 'setact',
-                        array('name' => $script_name, 'active' => true, 'all' => !$kep14));
+                    if ($result === true) {
+                        $this->rc->output->set_env('active_sets', $this->active);
+                        $this->rc->output->show_message('managesieve.setactivated', 'confirmation');
+                        $this->rc->output->command('managesieve_updatelist', 'setact',
+                            array('name' => $script_name, 'active' => true, 'all' => !$kep14));
+                    }
+                    else {
+                        $this->rc->output->show_message('managesieve.setactivateerror', 'error');
+                    }
                 }
                 else {
-                    $this->rc->output->show_message('managesieve.setactivateerror', 'error');
+                    $this->rc->output->show_message('managesieve.disabledaction', 'error');
                 }
             }
             else if ($action == 'deact' && !$error) {
-                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST, true);
-                $result = $this->deactivate_script($script_name);
+                if (!in_array('enable_disable_set', $this->disabled_actions)) {
+                    $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST, true);
+                    $result = $this->deactivate_script($script_name);
 
-                if ($result === true) {
-                    $this->rc->output->set_env('active_sets', $this->active);
-                    $this->rc->output->show_message('managesieve.setdeactivated', 'confirmation');
-                    $this->rc->output->command('managesieve_updatelist', 'setact',
-                        array('name' => $script_name, 'active' => false));
+                    if ($result === true) {
+                        $this->rc->output->set_env('active_sets', $this->active);
+                        $this->rc->output->show_message('managesieve.setdeactivated', 'confirmation');
+                        $this->rc->output->command('managesieve_updatelist', 'setact',
+                            array('name' => $script_name, 'active' => false));
+                    }
+                    else {
+                        $this->rc->output->show_message('managesieve.setdeactivateerror', 'error');
+                    }
                 }
                 else {
-                    $this->rc->output->show_message('managesieve.setdeactivateerror', 'error');
+                    $this->rc->output->show_message('managesieve.disabledaction', 'error');
                 }
             }
             else if ($action == 'setdel' && !$error) {
-                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST, true);
-                $result = $this->remove_script($script_name);
+                if (!in_array('delete_set', $this->disabled_actions)) {
+                    $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_POST, true);
+                    $result = $this->remove_script($script_name);
 
-                if ($result === true) {
-                    $this->rc->output->show_message('managesieve.setdeleted', 'confirmation');
-                    $this->rc->output->command('managesieve_updatelist', 'setdel',
-                        array('name' => $script_name));
-                    $this->rc->session->remove('managesieve_current');
+                    if ($result === true) {
+                        $this->rc->output->show_message('managesieve.setdeleted', 'confirmation');
+                        $this->rc->output->command('managesieve_updatelist', 'setdel',
+                            array('name' => $script_name));
+                        $this->rc->session->remove('managesieve_current');
+                    }
+                    else {
+                        $this->rc->output->show_message('managesieve.setdeleteerror', 'error');
+                    }
                 }
                 else {
-                    $this->rc->output->show_message('managesieve.setdeleteerror', 'error');
+                    $this->rc->output->show_message('managesieve.disabledaction', 'error');
                 }
             }
             else if ($action == 'setget') {
-                $this->rc->request_security_check(rcube_utils::INPUT_GET);
+                if (!in_array('download_set', $this->disabled_actions)) {
+                    $this->rc->request_security_check(rcube_utils::INPUT_GET);
 
-                $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
-                $script      = $this->sieve->get_script($script_name);
+                    $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
+                    $script      = $this->sieve->get_script($script_name);
 
-                if ($script !== false) {
-                    $this->rc->output->download_headers($script_name . '.txt', array('length' => strlen($script)));
-                    echo $script;
+                    if ($script !== false) {
+                        $this->rc->output->download_headers($script_name . '.txt', array('length' => strlen($script)));
+                        echo $script;
+                    }
+
+                    exit;
                 }
-
-                exit;
             }
             else if ($action == 'list') {
                 $result = $this->list_rules();
@@ -547,7 +575,10 @@ class rcube_sieve_engine
             $name_uc    = mb_strtolower($name);
             $list       = $this->list_scripts();
 
-            if (!$name) {
+            if (in_array('new_set', $this->disabled_actions)) {
+                $error = 'managesieve.disabledaction';
+            }
+            else if (!$name) {
                 $this->errors['name'] = $this->plugin->gettext('cannotbeempty');
             }
             else if (mb_strlen($name) > 128) {
@@ -1406,6 +1437,12 @@ class rcube_sieve_engine
 
         $fid = rcube_utils::get_input_value('_fid', rcube_utils::INPUT_GPC);
         $scr = isset($this->form) ? $this->form : $this->script[$fid];
+
+        // do not allow creation of new rules
+        if ($fid == null && in_array('new_rule', $this->disabled_actions)) {
+            $this->rc->output->show_message('managesieve.disabledaction', 'error');
+            return;
+        }
 
         $hiddenfields = new html_hiddenfield(array('name' => '_task', 'value' => $this->rc->task));
         $hiddenfields->add(array('name' => '_action', 'value' => 'plugin.managesieve-save'));
@@ -2472,6 +2509,17 @@ class rcube_sieve_engine
             }
         }
 
+        // When no script listing allowed limit the list to the defined script
+        if (in_array('list_sets', $this->disabled_actions)) {
+            $script_name = $this->rc->config->get('managesieve_script_name', 'roundcube');
+            $this->list = array_intersect($this->list, array($script_name));
+            $this->active = null;
+            if (in_array($script_name, $this->list)) {
+                // Because its the only allowed script make sure its active
+                $this->activate_script($script_name);
+            }
+        }
+
         // reindex
         if (!empty($this->list)) {
             $this->list = array_values($this->list);
@@ -2514,7 +2562,7 @@ class rcube_sieve_engine
             $user_script = $_SESSION['managesieve_user_script'];
 
             // if the script is not active...
-            if ($user_script && array_search($name, $this->active) === false) {
+            if ($user_script && array_search($name, (array) $this->active) === false) {
                 // ...rewrite USER file adding appropriate include command
                 if ($this->sieve->load($user_script)) {
                     $script = $this->sieve->script->as_array();

@@ -189,8 +189,8 @@ class rcube_imap extends rcube_storage
         // write error log
         else if ($this->conn->error) {
             if ($pass && $user) {
-                $message = sprintf("Login failed for %s from %s. %s",
-                    $user, rcube_utils::remote_ip(), $this->conn->error);
+                $message = sprintf("Login failed for %s against %s from %s. %s",
+                    $user, $host, rcube_utils::remote_ip(), $this->conn->error);
 
                 rcube::raise_error(array('code' => 403, 'type' => 'imap',
                     'file' => __FILE__, 'line' => __LINE__,

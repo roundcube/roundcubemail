@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Managesieve: Add ability to disable filter sets and other actions (#5496, #5898)
 - Changed defaults for smtp_user (%u), smtp_pass (%p) and smtp_port (587)
 - Composer: Fix certificate validation errors by using packagist only (#5148)
 - Enigma: Add button to send mail unencrypted if no key was found (#5913)
@@ -30,6 +31,7 @@ CHANGELOG Roundcube Webmail
 - subscriptions_option: show \\Noselect folders greyed out (#5621)
 - Add option to not indent quoted text on top-posting reply (#5105)
 - Removed global $CONFIG variable
+- Password: Support host variables in password_db_dsn option (#5955)
 - Password: Automatic virtualmin domain setting, removed password_virtualmin_format option (#5759)
 - Support AUTHENTICATE LOGIN for IMAP connections (#5563)
 - Support LDAP GSSAPI authentication (#5703)
@@ -44,6 +46,11 @@ CHANGELOG Roundcube Webmail
 - Fix bug where pink image was used instead of a thumbnail when image resize fails (#5933)
 - Fix so files size/count limit is verified (client-side) also on drag-n-drop uploads (#5940)
 - Fix invalid template loading on a message error in preview frame (#5941)
+- Fix bug where HTML messages could have been rendered empty on some systems (#5957)
+- Fix wording of "Mark previewed messages as read" to "Mark messages as read" (#5952)
+- Enigma: Fix decryption of messages encoded with non-ascii charset (#5962)
+- Fix missing cursor in HTML editor on mail reply (#5969)
+- Fix (again) bug where image data URIs in css style were treated as evil/remote in mail preview (#5580)
 
 RELEASE 1.3.1
 -------------
