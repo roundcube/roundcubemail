@@ -59,6 +59,10 @@ class enigma_ui
                     $this->key_import();
                     break;
 
+                case 'import-search':
+                    $this->key_import_search();
+                    break;
+
                 case 'export':
                     $this->key_export();
                     break;
@@ -225,7 +229,9 @@ class enigma_ui
 
         // add some labels to client
         $this->rc->output->add_label('enigma.keyremoveconfirm', 'enigma.keyremoving',
-            'enigma.keyexportprompt', 'enigma.withprivkeys', 'enigma.onlypubkeys', 'enigma.exportkeys'
+            'enigma.keyexportprompt', 'enigma.withprivkeys', 'enigma.onlypubkeys',
+            'enigma.exportkeys', 'enigma.importkeys', 'enigma.keyimportsearchlabel',
+            'import', 'search'
         );
 
         return $out;
@@ -557,12 +563,11 @@ class enigma_ui
                 if ($result['imported']) {
                     $this->rc->output->command('parent.enigma_list', 1);
                 }
-                else {
-                    $this->rc->output->command('parent.enigma_loadframe');
-                }
 
                 $this->rc->output->show_message('enigma.keysimportsuccess', 'confirmation',
                     array('new' => $result['imported'], 'old' => $result['unchanged']));
+
+                $this->rc->output->command('parent.enigma_import_success');
             }
             else if ($result instanceof enigma_error && $result->getCode() == enigma_error::BADPASS) {
                 $this->password_prompt($result);
@@ -570,7 +575,6 @@ class enigma_ui
             else {
                 $this->rc->output->show_message('enigma.keysimportfailed', 'error');
             }
-
             $this->rc->output->send('iframe');
         }
         else if ($err = $_FILES['_file']['error']) {
@@ -588,8 +592,19 @@ class enigma_ui
             'importform' => array($this, 'tpl_key_import_form'),
         ));
 
-        $this->rc->output->set_pagetitle($this->enigma->gettext('keyimport'));
         $this->rc->output->send('enigma.keyimport');
+    }
+
+    /**
+     * Key import-search (page) handler
+     */
+    private function key_import_search()
+    {
+        $this->rc->output->add_handlers(array(
+            'importform' => array($this, 'tpl_key_import_form'),
+        ));
+
+        $this->rc->output->send('enigma.keysearch');
     }
 
     /**
@@ -599,42 +614,62 @@ class enigma_ui
     {
         $attrib += array('id' => 'rcmKeyImportForm');
 
-        $upload = new html_inputfield(array('type' => 'file', 'name' => '_file',
-            'id' => 'rcmimportfile', 'size' => 30));
-        $search = new html_inputfield(array('type' => 'text', 'name' => '_search',
-            'id' => 'rcmimportsearch', 'size' => 30));
+        if (empty($attrib['part']) || $attrib['part'] == 'import') {
+            $title  = $this->enigma->gettext('keyimportlabel');
+            $upload = new html_inputfield(array('type' => 'file', 'name' => '_file',
+                'id' => 'rcmimportfile', 'size' => 30));
 
-        $upload_button = new html_button(array(
-                'class'   => 'button import',
-                'onclick' => "return rcmail.command('plugin.enigma-import','',this,event)",
-        ));
+            $upload_button = new html_button(array(
+                    'class'   => 'button import',
+                    'onclick' => "return rcmail.command('plugin.enigma-import','',this,event)",
+            ));
 
-        $search_button = new html_button(array(
-                'class'   => 'button search',
-                'onclick' => "return rcmail.command('plugin.enigma-import-search','',this,event)",
-        ));
+            $form = html::div(null,
+                rcube::Q($this->enigma->gettext('keyimporttext'), 'show')
+                . html::br() . html::br() . $upload->show()
+                . (empty($attrib['part']) ? html::br() . html::br() . $upload_button->show($this->rc->gettext('import')) : '')
+            );
 
-        $upload_form = html::div(null,
-            rcube::Q($this->enigma->gettext('keyimporttext'), 'show')
-            . html::br() . html::br() . $upload->show()
-            . html::br() . html::br() . $upload_button->show($this->rc->gettext('import'))
-        );
+            if (empty($attrib['part'])) {
+                $form = html::tag('fieldset', '', html::tag('legend', null, $title) . $form);
+            }
+            else {
+                $this->rc->output->set_pagetitle($title);
+            }
+        }
 
-        $search_form = html::div(null,
-            rcube::Q($this->enigma->gettext('keyimportsearchtext'), 'show')
-            . html::br() . html::br() . $search->show()
-            . html::br() . html::br() . $search_button->show($this->rc->gettext('search'))
-        );
+        if (empty($attrib['part']) || $attrib['part'] == 'search') {
+            $title  = $this->enigma->gettext('keyimportsearchlabel');
+            $search = new html_inputfield(array('type' => 'text', 'name' => '_search',
+                'id' => 'rcmimportsearch', 'size' => 30));
 
-        $form = html::tag('fieldset', '', html::tag('legend', null, $this->enigma->gettext('keyimportlabel')) . $upload_form)
-            . html::tag('fieldset', '', html::tag('legend', null, $this->enigma->gettext('keyimportsearchlabel')) . $search_form);
+            $search_button = new html_button(array(
+                    'class'   => 'button search',
+                    'onclick' => "return rcmail.command('plugin.enigma-import-search','',this,event)",
+            ));
+
+            $form = html::div(null,
+                rcube::Q($this->enigma->gettext('keyimportsearchtext'), 'show')
+                . html::br() . html::br() . $search->show()
+                . (empty($attrib['part']) ? html::br() . html::br() . $search_button->show($this->rc->gettext('search')) : '')
+            );
+
+            if (empty($attrib['part'])) {
+                $form = html::tag('fieldset', '', html::tag('legend', null, $title) . $form);
+            }
+            else {
+                $this->rc->output->set_pagetitle($title);
+            }
+
+            $this->rc->output->include_script('publickey.js');
+        }
 
         $this->rc->output->add_label('selectimportfile', 'importwait', 'nopubkeyfor', 'nopubkeyforsender',
             'encryptnoattachments','encryptedsendialog','searchpubkeyservers', 'importpubkeys',
             'encryptpubkeysfound',  'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
             'keyrevoked', 'keyimportsuccess', 'keyservererror');
+
         $this->rc->output->add_gui_object('importform', $attrib['id']);
-        $this->rc->output->include_script('publickey.js');
 
         $out = $this->rc->output->form_tag(array(
             'action'  => $this->rc->url(array('action' => $this->rc->action, 'a' => 'import')),
