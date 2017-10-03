@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add Message-ID to the sendmail log (#5871)
 - Managesieve: Add ability to disable filter sets and other actions (#5496, #5898)
 - Changed defaults for smtp_user (%u), smtp_pass (%p) and smtp_port (587)
 - Composer: Fix certificate validation errors by using packagist only (#5148)
