@@ -536,6 +536,9 @@ function rcube_elastic_ui()
             $('a.nav-link:first', nav).click();
         });
 
+        // Make tables pretier, FIXME: these classes do not work on the current Bootstrap build as they should
+        $('table:not(.propform):not(.listing)').addClass('table table-responsive').find('thead').addClass('thead-default');
+
         $('.toolbarmenu select', context).addClass('form-control');
         if (context != document) {
             $('select,textarea,input:not([type="checkbox"],[type="radio"])', context).addClass('form-control');
