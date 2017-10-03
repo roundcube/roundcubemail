@@ -372,11 +372,11 @@ class enigma_ui
         $table = new html_table(array('cols' => 2));
 
         // Key user ID
-        $table->add('title', $this->enigma->gettext('keyuserid'));
+        $table->add('title', html::label(null, $this->enigma->gettext('keyuserid')));
         $table->add(null, rcube::Q($this->data->name));
 
         // Key ID
-        $table->add('title', $this->enigma->gettext('keyid'));
+        $table->add('title', html::label(null, $this->enigma->gettext('keyid')));
         $table->add(null, $this->data->subkeys[0]->get_short_id());
 
         // Key type
@@ -387,11 +387,11 @@ class enigma_ui
         else if ($keytype == enigma_key::TYPE_PUBLIC) {
             $type = $this->enigma->gettext('typepublickey');
         }
-        $table->add('title', $this->enigma->gettext('keytype'));
+        $table->add('title', html::label(null, $this->enigma->gettext('keytype')));
         $table->add(null, $type);
 
         // Key fingerprint
-        $table->add('title', $this->enigma->gettext('fingerprint'));
+        $table->add('title', html::label(null, $this->enigma->gettext('fingerprint')));
         $table->add(null, $this->data->subkeys[0]->get_fingerprint());
 
         $out .= html::tag('fieldset', null,
