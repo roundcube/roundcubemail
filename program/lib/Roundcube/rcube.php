@@ -1686,9 +1686,10 @@ class rcube
                 $mailto = implode(',', $a_recipients);
                 $mailto = rcube_mime::decode_address_list($mailto, null, false, null, true);
 
-                self::write_log('sendmail', sprintf("User %s [%s]; Message for %s; %s",
+                self::write_log('sendmail', sprintf("User %s [%s]; Message %s for %s; %s",
                     $this->user->get_username(),
                     rcube_utils::remote_addr(),
+                    $headers['Message-ID'],
                     implode(', ', $mailto),
                     !empty($response) ? join('; ', $response) : ''));
             }
