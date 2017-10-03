@@ -3943,11 +3943,10 @@ function rcube_webmail()
       });
 
       li.append(ul_);
-      li.append($('<input>')
-        .attr('type', 'button')
+      li.append($('<button>')
         .attr('rel', keyrec.keyid)
-        .attr('value', ref.get_label('import'))
-        .addClass('button importkey')
+        .text(ref.get_label('import'))
+        .addClass('button import importkey')
         .prop('disabled', keyrec.revoked || keyrec.disabled || keyrec.expired));
 
       ul.append(li);
@@ -3964,7 +3963,7 @@ function rcube_webmail()
     );
 
     // delegate handler for import button clicks
-    ul.on('click', 'input.button.importkey', function() {
+    ul.on('click', 'button.importkey', function() {
       var btn = $(this),
         keyid = btn.attr('rel'),
         pk = new PublicKey(),

@@ -3092,13 +3092,13 @@ button.mce-close,
 	padding: 0.3em;
 }
 
-.pgpkeyimport div.key input.button.importkey {
+.pgpkeyimport div.key button.importkey {
 	position: absolute;
 	top: 0.8em;
 	right: 0.8em;
 	padding: 4px 6px;
 }
 
-.pgpkeyimport div.key input.button[disabled] {
+.pgpkeyimport div.key button[disabled] {
 	display: none;
 }
