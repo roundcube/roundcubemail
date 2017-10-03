@@ -244,3 +244,11 @@ div.enigmascreen
   width: 5px;
   background-position: -166px 0;
 }
+
+#keystoolbar a.search {
+  background: url(../../../../skins/classic/images/abook_toolbar.png) -170px 0 no-repeat transparent;
+}
+
+#keystoolbar a.searchSel {
+  background: url(../../../../skins/classic/images/abook_toolbar.png) -170px -32px no-repeat transparent;
+}

@@ -176,15 +176,10 @@ p.enigmaattachment a {
   z-index: 10;
 }
 
-#keystoolbar a.button
-{
-  background: url(enigma_icons.png) 0 0 no-repeat transparent;
-}
-
 #keystoolbar a.import {
-  background-position: center 0;
+  background: url(enigma_icons.png) center 0 no-repeat transparent;
 }
 
 #keystoolbar a.export {
-  background-position: center -40px;
+  background: url(enigma_icons.png) center -40px no-repeat transparent;
 }

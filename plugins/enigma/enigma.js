@@ -27,6 +27,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             rcmail.register_command('plugin.enigma-key-export', function() { rcmail.enigma_export(); });
             rcmail.register_command('plugin.enigma-key-export-selected', function() { rcmail.enigma_export(true); });
             rcmail.register_command('plugin.enigma-key-import', function() { rcmail.enigma_key_import(); }, true);
+            rcmail.register_command('plugin.enigma-key-import-search', function() { rcmail.enigma_key_import_search(); }, true);
             rcmail.register_command('plugin.enigma-key-delete', function(props) { return rcmail.enigma_delete(); });
             rcmail.register_command('plugin.enigma-key-create', function(props) { return rcmail.enigma_key_create(); }, true);
             rcmail.register_command('plugin.enigma-key-save', function(props) { return rcmail.enigma_key_create_save(); }, true);
@@ -79,7 +80,39 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
 // Display key(s) import form
 rcube_webmail.prototype.enigma_key_import = function()
 {
-    this.enigma_loadframe('&_action=plugin.enigmakeys&_a=import');
+    var dialog = $('<iframe>').attr('src', this.url('plugin.enigmakeys', {_a: 'import', _framed: 1})),
+        import_func = function(e) {
+            var win = dialog[0].contentWindow;
+            win.rcmail.enigma_import();
+        };
+
+    this.enigma_import_dialog = this.simple_dialog(dialog, this.gettext('enigma.importkeys'), import_func, {
+        button: 'import',
+        width: 500,
+        height: 150
+    });
+};
+
+// Display key(s) search/import form
+rcube_webmail.prototype.enigma_key_import_search = function()
+{
+    var dialog = $('<iframe>').attr('src', this.url('plugin.enigmakeys', {_a: 'import-search', _framed: 1})),
+        search_func = function() {
+            var win = dialog[0].contentWindow;
+            win.rcmail.enigma_import_search();
+        };
+
+    this.enigma_import_dialog = this.simple_dialog(dialog, this.gettext('enigma.keyimportsearchlabel'), search_func, {
+        button: 'search',
+        width: 500,
+        height: 150
+    });
+};
+
+rcube_webmail.prototype.enigma_import_success = function()
+{
+    var dialog = this.enigma_import_dialog || parent.rcmail.enigma_import_dialog;
+    dialog.dialog('destroy');
 };
 
 // Display key(s) generation form
@@ -230,8 +263,7 @@ rcube_webmail.prototype.enigma_export_submit = function(data)
 rcube_webmail.prototype.enigma_import = function()
 {
     var form, file, lock,
-        id = 'keyexport-' + new Date().getTime(),
-        iframe = $('<iframe>').attr({name: id, style: 'display:none'});
+        id = 'keyimport-' + new Date().getTime();
 
     if (form = this.gui_objects.importform) {
         file = document.getElementById('rcmimportfile');
@@ -241,9 +273,10 @@ rcube_webmail.prototype.enigma_import = function()
         }
 
         lock = this.set_busy(true, 'importwait');
-        iframe.appendTo(document.body);
-        $(form).attr({target: id, action: this.add_url(form.action, '_unlock', lock)})
-            .submit();
+        $('<iframe>').attr({name: id, style: 'display:none'}).appendTo(document.body);
+        $(form).attr({target: id, action: this.add_url(form.action, '_unlock', lock)}).submit();
+
+        return true;
     }
 };
 
