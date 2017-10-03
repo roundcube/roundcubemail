@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Changed defaults for smtp_user (%u), smtp_pass (%p) and smtp_port (587)
 - Composer: Fix certificate validation errors by using packagist only (#5148)
 - Enigma: Add button to send mail unencrypted if no key was found (#5913)
+- Enigma: Add options to set PGP cipher/digest algorithms (#5645)
 - Add --get and --extract arguments and CACHEDIR env-variable support to install-jsdeps.sh (#5882)
 - Update to jquery-minicolors 2.2.6
 - Support _filter and _scope as GET arguments for opening mail UI (#5825)
