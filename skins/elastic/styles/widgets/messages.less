@@ -15,7 +15,7 @@
     position: absolute;
     bottom: .5em;
     right: .7em;
-    z-index: 99;
+    z-index: 102; /* needs to be above .ui-widget-overlay */
     width: 320px;
     height: auto;
     max-height: 85%;
@@ -58,7 +58,7 @@
     padding: .75em;
     color: @color-message;
     border: 1px solid @color-message-border;
-    box-shadow: 1px 1px 2px @color-message-shadow;
+/*    box-shadow: 1px 1px 2px @color-message-shadow; */
     background-color: @color-message-background;
     display: flex;
 
