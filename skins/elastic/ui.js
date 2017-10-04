@@ -537,7 +537,11 @@ function rcube_elastic_ui()
         });
 
         // Make tables pretier, FIXME: these classes do not work on the current Bootstrap build as they should
-        $('table:not(.propform):not(.listing)').addClass('table table-responsive').find('thead').addClass('thead-default');
+        $('table:not(.propform):not(.listing)').each(function() {
+            if (!$(this).parent().is('.propform')) {
+                $(this).addClass('table table-responsive').find('thead').addClass('thead-default');
+            }
+        });
 
         $('.toolbarmenu select', context).addClass('form-control');
         if (context != document) {
