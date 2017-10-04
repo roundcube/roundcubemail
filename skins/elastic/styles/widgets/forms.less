@@ -23,10 +23,22 @@ input.smart-upload {
     opacity: 0;
 }
 
-/* TODO: review when decided what css framework to use */
-.propform:not(.popupmenu) {
-    width: 100%;
+
+.propform {
+    /* TODO: do we need this? */
+    &:not(.popupmenu) {
+        width: 100%;
+    }
 }
+
+.propform,
+.formcontent {
+    legend {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+}
+
 
 /* Forms fixes for IE and Edge */
 html.ms .propform {
@@ -133,7 +145,6 @@ html.ms .propform {
         }
     }
 }
-
 
 .popup form.propform {
     padding: .5rem;
