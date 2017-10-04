@@ -57,6 +57,22 @@
         }
     }
 
+    td.name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    td.action {
+        /* TODO */
+        padding: 0 .5em;
+        width: 2em;
+        text-align: center;
+
+        &:empty {
+            width: 0;
+        }
+    }
+
     li.droptarget > a,
     tr.droptarget > td {
         background-color: @color-list-droptarget-background;

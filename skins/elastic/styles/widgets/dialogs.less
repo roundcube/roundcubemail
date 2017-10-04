@@ -132,6 +132,68 @@ html.touch .popover {
     }
 }
 
+/** PGP Key search/import dialog **/
+
 .pgpkeyimport {
-    /* TODO */
+    div.key {
+        position: relative;
+        padding: .5rem 0;
+
+        &.revoked,
+        &.disabled {
+            color: @color-list-secondary;
+        }
+
+        label {
+            display: inline-block;
+            margin-right: 0.5em;
+            margin-bottom: 0;
+
+            &:after {
+                content: ":";
+            }
+
+            &.keyid {
+                display: none;
+            }
+        }
+
+        label + a,
+        label + span {
+            line-height: 2.6rem;
+            margin-right: 1em;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        label.keyid + a {
+            font-weight: bold;
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-key;
+            }
+        }
+    }
+
+    ul.uids {
+        margin: 0;
+        padding: 0;
+    }
+
+    li.uid {
+        border: 0;
+        padding: .25rem 0 0 1.5rem;
+        line-height: 1.5rem !important;
+    }
+
+    button.importkey {
+        position: absolute;
+        top: .5rem;
+        right: 0;
+    }
+
+    button[disabled] {
+        display: none;
+    }
 }
