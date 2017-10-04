@@ -54,6 +54,7 @@ CHANGELOG Roundcube Webmail
 - Fix missing cursor in HTML editor on mail reply (#5969)
 - Fix (again) bug where image data URIs in css style were treated as evil/remote in mail preview (#5580)
 - Fix bug where mail search could return empty result on servers without SORT capability (#5973)
+- Fix bug where assets_path wasn't added to some watermark frames
 
 RELEASE 1.3.1
 -------------
