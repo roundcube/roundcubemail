@@ -1156,10 +1156,13 @@ EOF;
 
                 // we are calling a class/method
                 if (($handler = $this->object_handlers[$object]) && is_array($handler)) {
-                    if ((is_object($handler[0]) && method_exists($handler[0], $handler[1])) ||
-                    (is_string($handler[0]) && class_exists($handler[0])))
-                    $content  = call_user_func($handler, $attrib);
-                    $external = true;
+                    if (is_callable($handler)) {
+                        // We assume that objects with src attribute are internal (in most
+                        // cases this is a watermark frame). We need this to make sure assets_path
+                        // is added to the internal assets paths
+                        $external = empty($attrib['src']);
+                        $content  = call_user_func($handler, $attrib);
+                    }
                 }
                 // execute object handler function
                 else if (function_exists($handler)) {
