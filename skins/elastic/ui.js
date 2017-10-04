@@ -1662,38 +1662,33 @@ function rcube_elastic_ui()
             dialog = content.clone();
 
         // set form values
-        $('input[name="sort_col"][value="'+rcmail.env.sort_col+'"]', dialog).prop('checked', true);
-        $('input[name="sort_ord"][value="DESC"]', dialog).prop('checked', rcmail.env.sort_order == 'DESC');
-        $('input[name="sort_ord"][value="ASC"]', dialog).prop('checked', rcmail.env.sort_order != 'DESC');
-        $('input[name="mode"][value="list"]', dialog).prop('checked', !rcmail.env.threading);
-        $('input[name="mode"][value="threads"]', dialog).prop('checked', !!rcmail.env.threading);
+        $('select[name="sort_col"]', dialog).val(rcmail.env.sort_col || '');
+        $('select[name="sort_ord"]', dialog).val(rcmail.env.sort_order || 'ASC');
+        $('select[name="mode"]', dialog).val(rcmail.env.threading ? 'threads' : 'list');
 
-        // set checkboxes
-        $('input[name="list_col[]"]', dialog).each(function() {
-            $(this).prop('checked', $.inArray(this.value, rcmail.env.listcols) != -1);
-        });
+        // Fix id/for attributes
+        $('select', dialog).each(function() { this.id = this.id + '-clone'; });
+        $('label', dialog).each(function() { $(this).attr('for', $(this).attr('for') + '-clone'); });
 
         var save_func = function(e) {
             if (rcube_event.is_keyboard(e.originalEvent)) {
                 $('#listmenulink').focus();
             }
 
-            var sort = $('input[name="sort_col"]:checked', dialog).val(),
-                ord = $('input[name="sort_ord"]:checked', dialog).val(),
-                mode = $('input[name="mode"]:checked', dialog).val(),
-                cols = $('input[name="list_col[]"]:checked', dialog)
-                    .map(function() { return this.value; }).get();
+            var col = $('select[name="sort_col"]', dialog).val(),
+                ord = $('select[name="sort_ord"]', dialog).val(),
+                mode = $('select[name="mode"]', dialog).val();
 
-            rcmail.set_list_options(cols, sort, ord, mode == 'threads' ? 1 : 0);
+            rcmail.set_list_options([], col, ord, mode == 'threads' ? 1 : 0);
             return true;
         };
 
-        rcmail.simple_dialog(dialog, rcmail.gettext('listoptionstitle'), save_func, {
+        dialog = rcmail.simple_dialog(dialog, rcmail.gettext('listoptionstitle'), save_func, {
             closeOnEscape: true,
             open: function(e) {
-                setTimeout(function() { dialog.find('a, input:not(:disabled)').not('[aria-disabled=true]').first().focus(); }, 100);
+                setTimeout(function() { dialog.find('select').first().focus(); }, 100);
             },
-            minWidth: 500,
+            minWidth: 400,
             width: width
         });
     };

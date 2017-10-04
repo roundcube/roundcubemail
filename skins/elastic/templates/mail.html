@@ -138,41 +138,47 @@
 	</ul>
 </div>
 
-<div id="listoptions-menu" class="propform popupmenu" role="dialog" aria-labelledby="aria-label-listoptions">
+<div id="listoptions-menu" class="popupmenu propform" role="dialog" aria-labelledby="aria-label-listoptions">
 	<h3 id="aria-label-listoptions" class="voice"><roundcube:label name="arialabelmessagelistoptions" /></h3>
 	<roundcube:if condition="!in_array('message_sort_col', (array)config:dont_override)" />
-	<fieldset id="listoptions-sortcol" class="floating">
-		<legend><roundcube:label name="listsorting" /></legend>
-		<ul class="proplist">
-			<li><label><input type="radio" name="sort_col" value="" /> <span><roundcube:label name="nonesort" /></span></label></li>
-			<li><label><input type="radio" name="sort_col" value="arrival" /> <span><roundcube:label name="arrival" /></span></label></li>
-			<li><label><input type="radio" name="sort_col" value="date" /> <span><roundcube:label name="sentdate" /></span></label></li>
-			<li><label><input type="radio" name="sort_col" value="subject" /> <span><roundcube:label name="subject" /></span></label></li>
-			<li><label><input type="radio" name="sort_col" value="fromto" /> <span><roundcube:label name="fromto" /></span></label></li>
-			<li><label><input type="radio" name="sort_col" value="from" /> <span><roundcube:label name="from" /></span></label></li>
-			<li><label><input type="radio" name="sort_col" value="to" /> <span><roundcube:label name="to" /></span></label></li>
-			<li><label><input type="radio" name="sort_col" value="cc" /> <span><roundcube:label name="cc" /></span></label></li>
-			<li><label><input type="radio" name="sort_col" value="size" /> <span><roundcube:label name="size" /></span></label></li>
-		</ul>
-	</fieldset>
+	<div class="form-group row">
+		<label for="listoptions-sortcol" class="col-form-label col-sm-4"><roundcube:label name="listsorting" /></label>
+		<div class="col-sm-8">
+			<select id="listoptions-sortcol" name="sort_col" class="form-control">
+				<option value=""><roundcube:label name="nonesort" /></option>
+				<option value="arrival"><roundcube:label name="arrival" /></option>
+				<option value="date"><roundcube:label name="sentdate" /></option>
+				<option value="subject"><roundcube:label name="subject" /></option>
+				<option value="fromto"><roundcube:label name="fromto" /></option>
+				<option value="from"><roundcube:label name="from" /></option>
+				<option value="to"><roundcube:label name="to" /></option>
+				<option value="cc"><roundcube:label name="cc" /></options>
+				<option value="size"><roundcube:label name="size" /></options>
+			</select>
+		</div>
+	</div>
 	<roundcube:endif />
 	<roundcube:if condition="!in_array('message_sort_order', (array)config:dont_override)" />
-	<fieldset id="listoptions-sortord" class="floating">
-		<legend><roundcube:label name="listorder" /></legend>
-		<ul class="proplist">
-			<li><label><input type="radio" name="sort_ord" value="ASC" /> <span><roundcube:label name="asc" /></span></label></li>
-			<li><label><input type="radio" name="sort_ord" value="DESC" /> <span><roundcube:label name="desc" /></span></label></li>
-		</ul>
-	</fieldset>
+	<div class="form-group row">
+		<label for="listoptions-sortord" class="col-form-label col-sm-4"><roundcube:label name="listorder" /></label>
+		<div class="col-sm-8">
+			<select id="listoptions-sortord" name="sort_ord" class="form-control">
+				<option value="ASC"><roundcube:label name="asc" /></option>
+				<option value="DESC"><roundcube:label name="desc" /></option>
+			</select>
+		</div>
+	</div>
 	<roundcube:endif />
 	<roundcube:if condition="env:threads" />
-	<fieldset id="listoptions-threads" class="floating">
-		<legend><roundcube:label name="lmode" /></legend>
-		<ul class="proplist">
-			<li><label><input type="radio" name="mode" value="list" /> <span><roundcube:label name="list" /></span></label></li>
-			<li><label><input type="radio" name="mode" value="threads" /> <span><roundcube:label name="threads" /></span></label></li>
-		</ul>
-	</fieldset>
+	<div class="form-group row">
+		<label for="listoptions-threads" class="col-form-label col-sm-4"><roundcube:label name="lmode" /></label>
+		<div class="col-sm-8">
+			<select id="listoptions-threads" name="mode" class="form-control">
+				<option value="list"><roundcube:label name="list" /></option>
+				<option value="threads"><roundcube:label name="threads" /></option>
+			</select>
+		</div>
+	</div>
 	<roundcube:endif />
 	<roundcube:add_label name="listoptionstitle" />
 </div>
