@@ -554,9 +554,14 @@ function rcube_elastic_ui()
             $('a', this).addClass('btn btn-primary');
         });
 
+        // Style calendar widget (we use setTimeout() because there's no widget event we could bind to)
+        $('input.datepicker').focus(function() {
+            setTimeout(function() { bootstrap_style($('.ui-datepicker')); }, 5);
+        });
+
         // Make logon form prettier
-        if (rcmail.env.task == 'login') {
-            $('#login-form table tr', context).each(function() {
+        if (rcmail.env.task == 'login' && context == document) {
+            $('#login-form table tr').each(function() {
                 var input = $('input,select', this),
                     label = $('label', this),
                     icon = $('<i>').attr('class', 'input-group-addon icon ' + input.attr('name').replace('_', ''));
