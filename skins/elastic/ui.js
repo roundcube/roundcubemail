@@ -2290,6 +2290,42 @@ function rcube_elastic_ui()
             // Modify the textarea cell to use 100% width
             parent.addClass('col-sm-12');
         }
+
+        // make the textarea autoresizeable
+        textarea_autoresize_init(editor);
+    };
+
+    /**
+     * Make the textarea autoresizeable depending on it's content length.
+     * The way there's no vertical scrollbar.
+     */
+    function textarea_autoresize_init(textarea)
+    {
+        var resize = function(e) {
+            clearTimeout(env.textarea_timer);
+            env.textarea_timer = setTimeout(function() {
+                var min = 380, area = $(e.target),
+                    initial_height = area.data('initial-height');
+
+                // do nothing when the area is hidden
+                if (!area[0].scrollHeight) {
+                    return;
+                }
+
+                if (initial_height > 50 && initial_height < min) {
+                    min = initial_height;
+                }
+
+                area.outerHeight(!area.val() ? min : Math.max(min, area[0].scrollHeight));
+            }, 10);
+        };
+
+        $(textarea).css('overflow-y', 'hidden')
+            .data('initial-height', ($(textarea).attr('rows') || 5) * 18)
+            .on('input', resize).trigger('input');
+
+        // Make sure the height is up-to-date also in time intervals
+        setInterval(function() { $(textarea).trigger('input'); }, 500);
     };
 
     /**
