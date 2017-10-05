@@ -1200,11 +1200,9 @@ function rcube_elastic_ui()
      */
     function searchbar_init(bar)
     {
-        var input = $('input', bar),
+        var input = $('input', bar).addClass('form-control'),
             button = $('a.button.search', bar),
-            cancel = $('<a class="button icon cancel">').insertBefore(button),
             form = $('form', bar),
-            all_elements = $('form, a.button.options, a.button.reset, a.button.cancel', bar),
             is_search_pending = function() {
                 // TODO: This have to be improved to detect real searching state
                 //       There are cases when search is active but the input is empty
@@ -1214,16 +1212,14 @@ function rcube_elastic_ui()
                 if (button.is(':visible')) {
                     return;
                 }
-                $(bar).animate({'width': '0'}, 200, 'swing', function() {
-                    all_elements.hide();
-                    // width:auto fixes search button position in Chrome
-                    // reset padding set when the form is displayed
-                    $(bar).css({width: 'auto', 'padding-left': 0})[is_search_pending() ? 'addClass' : 'removeClass']('active');
-                    button.css('display', 'block');
-                    if (focus && rcube_event.is_keyboard(event)) {
-                        button.focus();
-                    }
-                });
+                form.hide();
+                // width:auto fixes search button position in Chrome
+                // reset padding set when the form is displayed
+                $(bar).css({width: 'auto', 'padding-left': 0})[is_search_pending() ? 'addClass' : 'removeClass']('active');
+                button.css('display', 'block');
+                if (focus && rcube_event.is_keyboard(event)) {
+                    button.focus();
+                }
             };
 
         $(bar).parent().addClass('with-search');
@@ -1232,17 +1228,24 @@ function rcube_elastic_ui()
             $(bar).addClass('active');
         }
 
-        // Display search form (with animation effect)
+        // make the input pretty
+        form.addClass('input-group')
+            .prepend($('<i class="input-group-addon icon search">'))
+            .append($('a.options').detach().removeClass('button').addClass('icon input-group-addon'))
+            .append($('a.reset').detach().removeClass('button').addClass('icon input-group-addon'))
+            .append($('<a class="icon cancel input-group-addon">'));
+
+        // Display search form
         button.on('click', function() {
             var margin = $(bar).css('right');
-            $(bar).css('padding-left', margin).animate({'width': '100%'}, 200);
-            all_elements.css('display', 'table-cell');
+            $(bar).css({'padding-left': margin, width: '100%'});
+            form.css('display', 'flex');
             button.hide();
             input.focus();
         });
 
         // Search reset action
-        $('a.button.reset', bar).on('click', function(e) {
+        $('a.reset', bar).on('click', function(e) {
             // for treelist widget's search setting val and keyup.treelist is needed
             // in normal search form reset-search command will do the trick
             // TODO: This calls for some generalization, what about two searchboxes on a page?
@@ -1255,7 +1258,7 @@ function rcube_elastic_ui()
             hide_func(e, true);
         });
 
-        cancel.attr('title', rcmail.gettext('close')).on('click', function(e) { hide_func(e, true); });
+        $('a.cancel', bar).attr('title', rcmail.gettext('close')).on('click', function(e) { hide_func(e, true); });
 
         // These will hide the form, but not reset it
         rcube_webmail.set_iframe_events({mousedown: hide_func});
@@ -1274,15 +1277,18 @@ function rcube_elastic_ui()
      */
     function searchfilterbar_init(bar)
     {
-        bar = $('<div class="searchfilterbar toolbar">')
+        bar = $('<div class="searchfilterbar searchbar toolbar">')
             .insertAfter(bar)
             .append($(bar).detach())
-            .append($('<a class="button icon cancel">').attr('title', rcmail.gettext('close')))
             .append($('<a class="button icon filter">').attr('title', rcmail.gettext('filter')));
+
+        $('select', bar).wrap($('<div class="input-group">'))
+            .parent().prepend($('<i class="input-group-addon icon filter">'))
+                .append($('<a class="icon cancel input-group-addon">').attr('title', rcmail.gettext('close')));
 
         var select = $('select', bar),
             button = $('a.button.filter', bar),
-            all_elements = $('select, a.button.cancel', bar),
+            all_elements = $('.input-group', bar),
             is_filter_enabled = function() {
                 var value = select.val();
                 return value && value != 'ALL';
@@ -1291,16 +1297,14 @@ function rcube_elastic_ui()
                 if (button.is(':visible')) {
                     return;
                 }
-                $(bar).animate({'width': '0'}, 200, 'swing', function() {
-                    all_elements.hide();
-                    // width:auto fixes search button position in Chrome
-                    // reset padding set when the form is displayed
-                    bar.css({width: 'auto', 'padding-left': 0})[is_filter_enabled() ? 'addClass' : 'removeClass']('active');
-                    button.css('display', 'block');
-                    if (focus && rcube_event.is_keyboard(event)) {
-                        button.focus();
-                    }
-                });
+                all_elements.hide();
+                // width:auto fixes search button position in Chrome
+                // reset padding set when the form is displayed
+                bar.css({width: 'auto', 'padding-left': 0})[is_filter_enabled() ? 'addClass' : 'removeClass']('active');
+                button.css('display', 'block');
+                if (focus && rcube_event.is_keyboard(event)) {
+                    button.focus();
+                }
             };
 
         bar.parent().addClass('with-filter');
@@ -1321,14 +1325,14 @@ function rcube_elastic_ui()
         // Display filter selection (with animation effect)
         button.on('click', function() {
             var margin = $(bar).css('right');
-            $(bar).css('padding-left', margin).animate({'width': '100%'}, 200);
-            all_elements.css('display', 'table-cell');
+            $(bar).css({'padding-left': margin, width: '100%'});
+            all_elements.css('display', 'flex');
             button.hide();
             select.focus();
         });
 
         // Filter close button
-        $('a.button.cancel', bar).on('click', function(e) { hide_func(e, true); });
+        $('a.cancel', bar).on('click', function(e) { hide_func(e, true); });
 
         // These will hide the form, but not reset it
         rcube_webmail.set_iframe_events({mousedown: hide_func});

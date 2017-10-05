@@ -9,50 +9,47 @@
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
  */
 
-/*** Searchbar widget ***/
+/*** Searchbar and searchfilterbar widgets ***/
 
 .searchbar {
-    text-align: right;
     position: absolute;
     background-color: @color-layout-header-background;
     z-index: 10;
-    top: 0;
     right: 0;
+    display: flex !important;
+    height: @layout-header-height;
 
-    form,
-    a.button.reset,
-    a.button.cancel,
-    a.button.options {
-        display: none;
-        width: 1%;
-    }
-
-    form {
-        width: 97%;
-        text-align: left;
-        padding-left: .25em;
+    a.button {
+        min-width: auto;
+        padding: 0 .5rem;
 
         &:before {
-            &:extend(.font-icon-class);
-            content: @fa-var-search;
+            line-height: @layout-header-height;
         }
     }
 
-    input {
-        width: 80%;
-        border: none;
-        border-bottom: 1px solid #ddd;
-        border-radius: 0;
-        background: transparent;
-        line-height: 1.2;
-        padding-left: .1em;
+    .input-group {
+        display: none;
+        flex-grow: 1;
+        padding: 0 .5rem;
+        height: @layout-header-height;
     }
 
-    a {
-        &.button.reset:before {
+    .input-group-addon {
+        padding: .5rem;
+        font-size: 80%;
+    }
+
+    a.icon {
+        &:before {
+            &:extend(.font-icon-class);
+            margin: 0;
+        }
+
+        &.reset:before {
             content: @fa-var-trash;
         }
-        &.button.options:before {
+        &.options:before {
             content: @fa-var-angle-down;
         }
     }
@@ -62,48 +59,15 @@
     }
 }
 
-/*** Searchfilterbar widget ***/
-
 .searchfilterbar {
-    text-align: right;
-    position: absolute;
-    background-color: @color-layout-header-background;
-    z-index: 10;
-    top: 0;
     right: @layout-touch-icon-width;
-
-    select,
-    a.button.cancel {
-        display: none;
-        width: 1%;
-    }
-
-    select {
-        width: 98%;
-        padding-left: .25em;
-    }
 
     &.active a.button.filter {
         color: @color-searchbar-icon-active;
     }
 }
 
-.searchbar,
-.searchfilterbar {
-    height: @layout-header-height;
-    display: table !important;
-
-    a.button {
-        /* Reset toolbar style */
-        min-width: auto;
-        padding: 0 .5rem;
-
-        &:before {
-            line-height: @layout-header-height;
-        }
-    }
-}
-
+/*
 html.ie11 {
     .searchbar,
     .searchfilterbar {
@@ -113,3 +77,4 @@ html.ie11 {
         }
     }
 }
+*/
