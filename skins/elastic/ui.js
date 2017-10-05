@@ -914,7 +914,7 @@ function rcube_elastic_ui()
                     return;
                 }
 
-                if ($(this).is('.searchbar,.searchfilterbar')) {
+                if ($(this).is('.searchbar')) {
                     padding += this.offsetWidth;
                 }
                 else {
@@ -1214,8 +1214,7 @@ function rcube_elastic_ui()
                 }
                 form.hide();
                 // width:auto fixes search button position in Chrome
-                // reset padding set when the form is displayed
-                $(bar).css({width: 'auto', 'padding-left': 0})[is_search_pending() ? 'addClass' : 'removeClass']('active');
+                $(bar).css('left', 'auto')[is_search_pending() ? 'addClass' : 'removeClass']('active');
                 button.css('display', 'block');
                 if (focus && rcube_event.is_keyboard(event)) {
                     button.focus();
@@ -1233,12 +1232,11 @@ function rcube_elastic_ui()
             .prepend($('<i class="input-group-addon icon search">'))
             .append($('a.options').detach().removeClass('button').addClass('icon input-group-addon'))
             .append($('a.reset').detach().removeClass('button').addClass('icon input-group-addon'))
-            .append($('<a class="icon cancel input-group-addon">'));
+            .append($('<a class="icon cancel input-group-addon" href="#">'));
 
         // Display search form
         button.on('click', function() {
-            var margin = $(bar).css('right');
-            $(bar).css({'padding-left': margin, width: '100%'});
+            $(bar).css('left', 0);
             form.css('display', 'flex');
             button.hide();
             input.focus();
@@ -1284,11 +1282,12 @@ function rcube_elastic_ui()
 
         $('select', bar).wrap($('<div class="input-group">'))
             .parent().prepend($('<i class="input-group-addon icon filter">'))
-                .append($('<a class="icon cancel input-group-addon">').attr('title', rcmail.gettext('close')));
+                .append($('<a class="icon cancel input-group-addon">')
+                    .attr({title: rcmail.gettext('close'), href: '#'}));
 
         var select = $('select', bar),
             button = $('a.button.filter', bar),
-            all_elements = $('.input-group', bar),
+            form = $('.input-group', bar),
             is_filter_enabled = function() {
                 var value = select.val();
                 return value && value != 'ALL';
@@ -1297,10 +1296,8 @@ function rcube_elastic_ui()
                 if (button.is(':visible')) {
                     return;
                 }
-                all_elements.hide();
-                // width:auto fixes search button position in Chrome
-                // reset padding set when the form is displayed
-                bar.css({width: 'auto', 'padding-left': 0})[is_filter_enabled() ? 'addClass' : 'removeClass']('active');
+                form.hide();
+                bar.css('left', 'auto')[is_filter_enabled() ? 'addClass' : 'removeClass']('active');
                 button.css('display', 'block');
                 if (focus && rcube_event.is_keyboard(event)) {
                     button.focus();
@@ -1324,9 +1321,8 @@ function rcube_elastic_ui()
 
         // Display filter selection (with animation effect)
         button.on('click', function() {
-            var margin = $(bar).css('right');
-            $(bar).css({'padding-left': margin, width: '100%'});
-            all_elements.css('display', 'flex');
+            $(bar).css('left', 0);
+            form.css('display', 'flex');
             button.hide();
             select.focus();
         });
