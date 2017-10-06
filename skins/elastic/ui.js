@@ -536,13 +536,16 @@ function rcube_elastic_ui()
             $('a.nav-link:first', nav).click();
         });
 
-        // Make tables pretier, FIXME: these classes do not work on the current Bootstrap build as they should
-        $('table:not(.propform):not(.listing)').each(function() {
-            if (!$(this).parent().is('.propform')) {
+        // Make tables pretier
+        $('table:not(.propform):not(.listing)')
+            .filter(function() {
+                // exclude direct propform children and external content
+                return !$(this).parent().is('.propform') && !$(this).parents('.message-htmlpart').length;
+            })
+            .each(function() {
                 // TODO: Consider implementing automatic setting of table-responsive on window resize
                 $(this).addClass('table table-responsive-sm').find('thead').addClass('thead-default');
-            }
-        });
+            });
 
         $('.toolbarmenu select', context).addClass('form-control');
         if (context != document) {
