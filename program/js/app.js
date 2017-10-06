@@ -283,8 +283,7 @@ function rcube_webmail()
             }, this.env.mail_read_time * 1000);
 
           if (this.env.blockedobjects) {
-            if (this.gui_objects.remoteobjectsmsg)
-              this.gui_objects.remoteobjectsmsg.style.display = 'block';
+            $(this.gui_objects.remoteobjectsmsg).show();
             this.enable_command('load-images', 'always-load', true);
           }
 
