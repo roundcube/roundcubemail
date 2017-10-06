@@ -29,6 +29,17 @@ input.smart-upload {
     &:not(.popupmenu) {
         width: 100%;
     }
+
+    /* This is the way we can have multiple checkboxes in a single form field */
+    .form-check td:not(.title) > label {
+        display: block;
+        margin: 0;
+        line-height: 2rem;
+
+        label {
+            margin-right: .5rem;
+        }
+    }
 }
 
 .propform,

@@ -202,12 +202,7 @@ function rcube_elastic_ui()
                 .appendTo(rcmail.gui_objects.messageform);
 
             $(this).on('change', function() {
-                if (this.type == 'checkbox') {
-                    hidden.attr('checked', $(this).attr('checked'));
-                }
-                else {
-                    hidden.val($(this).val());
-                }
+                hidden.val(this.type != 'checkbox' || this.checked ? $(this).val() : '');
             }).change();
         });
 
