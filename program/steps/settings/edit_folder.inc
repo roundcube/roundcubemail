@@ -142,7 +142,7 @@ function rcmail_folder_form($attrib)
             'additional'  => strlen($selected) ? array($selected) : null,
         ));
 
-        $form['props']['fieldsets']['location']['content']['path'] = array(
+        $form['props']['fieldsets']['location']['content']['parent'] = array(
             'label' => $RCMAIL->gettext('parentfolder'),
             'value' => $select->show($selected),
         );
