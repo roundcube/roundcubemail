@@ -4,7 +4,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
     if (rcmail.env.task == 'settings') {
         if (rcmail.gui_objects.keyslist) {
             rcmail.keys_list = new rcube_list_widget(rcmail.gui_objects.keyslist,
-                {multiselect:true, draggable:false, keyboard:false});
+                {multiselect:true, draggable:false, keyboard:true});
             rcmail.keys_list
                 .addEventListener('select', function(o) { rcmail.enigma_keylist_select(o); })
                 .addEventListener('keypress', function(o) { rcmail.enigma_keylist_keypress(o); })
@@ -433,16 +433,15 @@ rcube_webmail.prototype.enigma_add_list_row = function(r)
         tbody = this.gui_objects.keyslist.tBodies[0],
         rowcount = tbody.rows.length,
         even = rowcount%2,
-        css_class = 'message'
-            + (even ? ' even' : ' odd'),
         // for performance use DOM instead of jQuery here
         row = document.createElement('tr'),
         col = document.createElement('td');
 
     row.id = 'rcmrow' + r.id;
-    row.className = css_class;
+    row.className = 'message';
     if (r.flags) $(row).data('flags', r.flags);
 
+    col.className = 'name';
     col.innerHTML = r.name;
     row.appendChild(col);
     list.insert_row(row);
