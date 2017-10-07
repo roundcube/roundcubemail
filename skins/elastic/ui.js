@@ -926,7 +926,7 @@ function rcube_elastic_ui()
             }
             else {
                 left = 0;
-                right = sizes.left - padding + sizes.right;
+                right = sizes.left - (padding + sizes.right);
             }
 
             $(title).css({
