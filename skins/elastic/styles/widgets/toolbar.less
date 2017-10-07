@@ -358,6 +358,25 @@
             margin: 0; /* Unsets Bootstrap label margin, bug? */
         }
     }
+
+    &.checkbox > label {
+        margin: 0;
+        padding: 0 .5rem 0 2.25rem;
+        width: 100%;
+        position: relative;
+
+        input.icon-checkbox + label {
+            left: 0;
+            margin: 0 .5rem;
+            font-size: 1rem;
+        }
+
+        &:hover {
+            color: @color-toolbarmenu-hover;
+            background-color: @color-toolbarmenu-hover-background;
+        }
+    }
+
     a {
         opacity: .5;
 
@@ -508,6 +527,16 @@ html.touch {
     .toolbarmenu.listing li,
     #layout > :not(.content) > .header a.button {
         font-size: 1.2rem;
+    }
+
+    .toolbarmenu li {
+        &.checkbox > label {
+            padding: 0 .5rem 0 2.75rem;
+
+            input.icon-checkbox + label {
+                font-size: 1.3rem;
+            }
+        }
     }
 }
 

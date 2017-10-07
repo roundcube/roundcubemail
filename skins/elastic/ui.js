@@ -266,11 +266,11 @@ function rcube_elastic_ui()
         // Modify normal checkboxes on lists so they are different
         // than those used for row selection, i.e. use icons
         $('[data-list]').each(function() {
-            $('input[type="checkbox"]', this).each(function() { pretty_checkbox(this); });
+            $('input[type=checkbox]', this).each(function() { pretty_checkbox(this); });
         });
 
         // The same for some other checkboxes
-        $('table.propform input[type=checkbox], .form-check > input, .popupmenu.form input[type=checkbox]')
+        $('.propform input[type=checkbox], .form-check > input, .popupmenu.form input[type=checkbox], .toolbarmenu input[type=checkbox]')
             .each(function() { pretty_checkbox(this); });
 
         // Assign .formcontainer class to the iframe body, when it

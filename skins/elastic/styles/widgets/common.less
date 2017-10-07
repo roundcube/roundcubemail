@@ -106,3 +106,74 @@
     top: @layout-header-height;
     bottom: @layout-header-height;
 }
+
+.table-widget {
+    display: flex;
+    flex-direction: column;
+    height: 22rem;
+    margin-bottom: .25rem;
+    border: 1px solid @color-table-border;
+
+    & > .content {
+        overflow-x: auto;
+        flex-grow: 1;
+
+        table th {
+            border-top: 0;
+        }
+    }
+
+    & > .footer {
+        height: 3.5rem;
+        border-top: 1px solid @color-table-border;
+
+        a.button {
+            padding: 0;
+        }
+    }
+
+    /* Options table is a table with first column for identifier/description
+       and other columns for a state flag. E.g. ACL table */
+    table.options-table {
+        td,th {
+            text-align: center;
+            vertical-align: middle;
+
+            &:first-child {
+                text-align: left;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+
+        tr.selected td {
+            background-color: @color-table-selected-background;
+            color: @color-table-selected;
+        }
+
+        td:not(:first-child) span {
+            display: inline-block;
+            line-height: 1.25;
+
+            &:before {
+                &:extend(.font-icon-class);
+            }
+        }
+
+        td.enabled span:before {
+            content: @fa-var-check;
+        }
+
+        td.partial span:before {
+            opacity: .3;
+            content: @fa-var-check;
+        }
+    }
+}
+
+/* Bootstrap's .table style overwrites */
+.table {
+    thead th {
+        border-width: 1px;
+    }
+}

@@ -157,11 +157,6 @@ html.ms .propform {
     }
 }
 
-.popup form.propform {
-    padding: .5rem;
-    overflow-x: hidden;
-}
-
 
 /* Some common icons for "iconized inputs" */
 .input-group-addon.icon {
@@ -207,7 +202,48 @@ td.editfield { width: 99%;  /* TODO */ }
 .form-group { margin-bottom: .5rem; /* overwrites Bootstrap style */ }
 
 
+ul.proplist {
+    padding-left: 15px;
+    margin-bottom: 0;
+    list-style-type: none;
+
+    li {
+        line-height: 2.4rem;
+        margin-bottom: .25rem;
+        display: flex;
+
+        input[type=radio] {
+            vertical-align: middle;
+            margin-right: .5em;
+
+            & + .input-group {
+                flex-grow: 1;
+            }
+        }
+
+        label {
+            margin: 0;
+        }
+
+        .icon-checkbox {
+            height: 2.4rem !important;
+            margin-left: -1.2em;
+
+            & + label {
+                height: 1.8rem;
+                margin-right: .5rem;
+            }
+        }
+    }
+}
+
+
 /*** Forms in popups ***/
+
+.popup form.propform {
+    padding: .5rem;
+    overflow-x: hidden;
+}
 
 .popupmenu.form {
     &.nolist {
@@ -473,7 +509,7 @@ input.icon-checkbox {
 }
 
 html.touch input.icon-checkbox + label {
-    font-size: 1.6em;
+    font-size: 1.5rem;
 }
 
 
