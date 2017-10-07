@@ -177,7 +177,7 @@ class acl extends rcube_plugin
         $this->rc->output->add_label('save', 'cancel');
         $this->include_script('acl.js');
         $this->rc->output->include_script('list.js');
-        $this->include_stylesheet($this->local_skin_path().'/acl.css');
+        $this->include_stylesheet($this->local_skin_path() . '/acl.css', true);
 
         // add Info fieldset if it doesn't exist
         if (!isset($args['form']['props']['fieldsets']['info']))
@@ -318,8 +318,9 @@ class acl extends rcube_plugin
 
         $textfield = new html_inputfield($attrib);
 
-        $fields['user'] = html::label(array('for' => $attrib['id']), $this->gettext('username'))
-            . ' ' . $textfield->show();
+        $fields['user'] = html::div('input-group',
+            html::label(array('for' => $attrib['id'], 'class' => 'input-group-addon'), $this->gettext('username'))
+                . ' ' . $textfield->show());
 
         // Add special entries
         if (!empty($this->specials)) {
@@ -452,7 +453,7 @@ class acl extends rcube_plugin
                     case 1: $class = 'partial'; break;
                     default: $class = 'disabled'; break;
                 }
-                $table->add('acl' . $key . ' ' . $class, '');
+                $table->add('acl' . $key . ' ' . $class, '<span/>');
             }
 
             $js_table[$userid] = implode($userrights);

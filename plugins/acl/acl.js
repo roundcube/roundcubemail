@@ -245,7 +245,7 @@ rcube_webmail.prototype.acl_add_row = function(o, sel)
         if (cl == 'user')
             td.addClass(cl).append($('<a>').text(o.username));
         else
-            td.addClass(this.className + ' ' + rcmail.acl_class(o.acl, cl)).text('');
+            td.addClass(this.className + ' ' + rcmail.acl_class(o.acl, cl)).html('<span/>');
 
         $(this).replaceWith(td);
     });
@@ -350,7 +350,7 @@ rcube_webmail.prototype.acl_init_form = function(id)
         id ? this.get_label('acl.editperms') : this.get_label('acl.newuser'),
         buttons,
         {
-            button_classes: ['mainaction submit'],
+            button_classes: ['mainaction submit', 'cancel'],
             modal: true,
             closeOnEscape: true,
             close: function(e, ui) {
