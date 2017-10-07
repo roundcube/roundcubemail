@@ -138,6 +138,7 @@ html.touch {
     .listing li,
     .listing tbody td {
         line-height: @listing-touch-line-height;
+        font-size: 1.2rem;
     }
 
     input.icon-checkbox + label,
@@ -224,6 +225,7 @@ html.ie11 .listing.iconized li a:before {
 .listing.iconized tr {
     td:before {
         &:extend(.font-icon-class);
+        margin-right: .5rem;
     }
     &.contact.person td.name:before {
         content: @fa-var-user;
@@ -408,6 +410,7 @@ ul.treelist li {
         a:before {
             &:extend(.font-icon-class);
             content: @fa-var-folder-o;
+            margin-right: .5rem;
         }
 
         &.inbox a:before {
@@ -447,6 +450,7 @@ table.fixedcopy {
         border-left: 0;
         width: 2em;
         vertical-align: top;
+        font-size: 1rem !important;
     }
 
     td.subject {
