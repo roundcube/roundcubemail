@@ -515,6 +515,8 @@ class rcube
             ini_set('session.gc_maxlifetime', $lifetime * 2);
         }
 
+        // set session cookie lifetime so it never expires (#5961)
+        ini_set('session.cookie_lifetime', 0);
         ini_set('session.cookie_secure', $is_secure);
         ini_set('session.name', $sess_name ?: 'roundcube_sessid');
         ini_set('session.use_cookies', 1);
