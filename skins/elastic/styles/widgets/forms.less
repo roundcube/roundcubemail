@@ -40,7 +40,129 @@ input.smart-upload {
             margin-right: .5rem;
         }
     }
+
+    td.datetime {
+        display: flex;
+
+        input:first-child {
+            margin-right: .5rem;
+        }
+        input:last-child {
+            width: 75%;
+        }
+    }
+
+    td.rowbuttons {
+        width: 1%;
+        white-space: nowrap;
+
+        span {
+            display: none;
+        }
+
+        a {
+            padding: 0;
+            line-height: 2.3rem;
+            font-size: 1rem;
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-plus;
+                margin: 0;
+            }
+
+            &.delete:before {
+                content: @fa-var-trash-o;
+            }
+
+            &.advanced:before {
+                content: @fa-var-cog;
+            }
+
+            &:not(:last-child) {
+                margin-right: .25rem;
+            }
+        }
+    }
+
+    td.rowactions {
+        width: 1%;
+
+        .form-control {
+            width: auto;
+        }
+    }
+
+    td.rowtargets {
+        .input-group {
+            margin-bottom: .25rem;
+
+            *:first-child.input-group-addon {
+                text-align: left;
+                min-width: 7em;
+                padding: .5rem
+            }
+        }
+
+        & > .advanced {
+            margin-top: .25rem;
+        }
+    }
+
+    td > .flexbox {
+        display: flex;
+
+        & > .multi-input {
+            width: 100%;
+            margin-left: .25rem;
+        }
+    }
+
+    .rulerow {
+        margin-bottom: .5rem;
+    }
 }
+
+@media screen and (max-width: 576px) {
+    .propform {
+        table.compact-table {
+            overflow-x: initial;
+
+            tbody {
+                display: block;
+            }
+
+            .rowactions > select,
+            .flexbox > select {
+                width: 100%;
+            }
+
+            tr {
+                display: flex;
+                flex-direction: column;
+
+                td {
+                    width: 100%;
+                    padding-right: 0;
+                    padding-left: 0;
+
+                    &.rowbuttons {
+                        text-align: right;
+
+                        a {
+                            margin-right: .5rem;
+
+                            & > span {
+                                display: inline;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 .propform,
 .formcontent {
@@ -283,6 +405,52 @@ ul.proplist {
         padding: .5rem;
     }
 }
+
+
+/*** Smart list (multiple input) field ***/
+
+.multi-input {
+    max-height: 11.65em;
+    overflow: hidden;
+    overflow-y: auto;
+    border-radius: .25rem;
+    border: 1px solid @color-input-border;
+
+    &.focused {
+        border: 1px solid @color-input-border-focus;
+    }
+
+    /* TODO: style button focus */
+
+    .input-group {
+        margin: 0 !important;
+    }
+
+    .input-group-addon {
+        &.reset:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-trash-o;
+            margin: 0;
+        }
+    }
+
+    input,
+    input:focus,
+    .input-group-addon {
+        border-radius: 0;
+        border: 0;
+        border-bottom: 1px solid @color-input-border;
+    }
+
+    .input-group:last-child * {
+        border: 0;
+    }
+
+    & + .btn {
+        margin-top: .5rem;
+    }
+}
+
 
 /*** Files upload widget with list of files, upload form and drop area ***/
 

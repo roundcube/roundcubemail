@@ -171,6 +171,33 @@
     }
 }
 
+table.compact-table {
+    font-size: 90%;
+    margin: 0;
+
+    * {
+        font-size: inherit;
+    }
+
+    td {
+        padding: .25rem;
+        border: 0;
+    }
+
+    td:first-child {
+        padding-left: 0;
+    }
+
+    td:last-child {
+        padding-right: 0;
+    }
+
+    .form-control {
+        padding-left: .25rem;
+        padding-right: .25rem;
+    }
+}
+
 /* Bootstrap's .table style overwrites */
 .table {
     thead th {

@@ -59,6 +59,8 @@ function rcube_elastic_ui()
     this.mailtomenu = mailtomenu;
     this.show_list = show_list;
     this.show_sidebar = show_sidebar;
+    this.smart_field_init = smart_field_init;
+    this.smart_field_reset = smart_field_reset;
 
 
     // Initialize layout
@@ -88,7 +90,8 @@ function rcube_elastic_ui()
      */
     function setup()
     {
-        var content_buttons = [],
+        var title,
+            content_buttons = [],
             is_framed = rcmail.is_framed();
 
         // Initialize search forms (in list headers)
@@ -116,13 +119,17 @@ function rcube_elastic_ui()
 
         // Set content frame title in parent window (exclude ext-windows and dialog frames)
         if (is_framed && !rcmail.env.extwin && !parent.$('.ui-dialog:visible').length) {
-            var title = $('h1.voice:first').text();
-            if (title) {
+            if (title = $('h1.voice:first').text()) {
                 parent.$('.header > .header-title', layout.content).text(title);
             }
         }
         else {
-            var title = $('.boxtitle:first', layout.content).detach().text();
+            title = $('.boxtitle:first', layout.content).detach().text();
+
+            if (!title) {
+                title = $('h1.voice:first').text();
+            }
+
             if (title) {
                 $('.header > .header-title', layout.content).text(title);
             }
@@ -269,9 +276,6 @@ function rcube_elastic_ui()
             $('input[type=checkbox]', this).each(function() { pretty_checkbox(this); });
         });
 
-        // The same for some other checkboxes
-        $('.propform input[type=checkbox], .form-check > input, .popupmenu.form input[type=checkbox], .toolbarmenu input[type=checkbox]')
-            .each(function() { pretty_checkbox(this); });
 
         // Assign .formcontainer class to the iframe body, when it
         // contains .formcontent and .formbuttons.
@@ -410,7 +414,8 @@ function rcube_elastic_ui()
             attachmentmenu_append(this);
         });
 
-        rcmail.addEventListener('fileappended', function(e) { if (e.attachment.complete) attachmentmenu_append(e.item); });
+        rcmail.addEventListener('fileappended', function(e) { if (e.attachment.complete) attachmentmenu_append(e.item); })
+            .addEventListener('managesieve.insertrow', function(o) { console.log(o); bootstrap_style(o.obj); });
 
         rcmail.init_pagejumper('.pagenav > input');
 
@@ -458,8 +463,8 @@ function rcube_elastic_ui()
         });
 
         // Forms
-        $('input,select,textarea', $('table.propform', context)).not('[type=checkbox]').addClass('form-control');
-        $('[type=checkbox]', $('table.propform', context)).addClass('form-check-input');
+        $('input:not(.button),select,textarea', $('.propform', context)).not('[type=checkbox]').addClass('form-control');
+        $('[type=checkbox]', $('.propform', context)).addClass('form-check-input');
         $('table.propform > tbody > tr', context).each(function() {
             var first, last, row = $(this),
                 row_classes = ['form-group', 'row'],
@@ -479,9 +484,19 @@ function rcube_elastic_ui()
                 else if (!last.find('input,textarea,radio,select').length) {
                     last.addClass('form-control-plaintext');
                 }
+
+                // style some multi-input fields
+                if (last.children('.datepicker') && last.children('input').length == 2) {
+                    last.addClass('datetime');
+                }
             }
 
             row.addClass(row_classes.join(' '));
+        });
+
+        // Special input + anything entry
+        $('td.input-group', context).each(function() {
+            $(this).children(':not(:first)').addClass('input-group-addon');
         });
 
         // Other forms, e.g. Contact advanced search
@@ -501,6 +516,8 @@ function rcube_elastic_ui()
               $('input,select,textarea', this).addClass('form-control').wrap($('<div class="col-sm-8">'));
             });
         });
+
+        $('td.rowbuttons > a', context).addClass('btn');
 
         // Testing Bootstrap Tabs on contact info/edit page
         // Tabs do not scale nicely on very small screen, so can be used
@@ -532,7 +549,7 @@ function rcube_elastic_ui()
         });
 
         // Make tables pretier
-        $('table:not(.propform):not(.listing)')
+        $('table:not(.propform):not(.listing)', context)
             .filter(function() {
                 // exclude direct propform children and external content
                 return !$(this).parent().is('.propform') && !$(this).parents('.message-htmlpart').length;
@@ -546,6 +563,11 @@ function rcube_elastic_ui()
         if (context != document) {
             $('select,textarea,input:not([type="checkbox"],[type="radio"])', context).addClass('form-control');
         }
+
+        // The same for some other checkboxes
+        // We do this here, not in setup() because we want to cover dialogs
+        $('.propform input[type=checkbox], .form-check > input, .popupmenu.form input[type=checkbox], .toolbarmenu input[type=checkbox]', context)
+            .each(function() { pretty_checkbox(this); });
 
         // Make message-objects alerts pretty (the same as UI alerts)
         $('#message-objects', context).children().each(function() {
@@ -2324,6 +2346,126 @@ function rcube_elastic_ui()
 
         // Make sure the height is up-to-date also in time intervals
         setInterval(function() { $(textarea).trigger('input'); }, 500);
+    };
+
+    // Inititalizes smart list input
+    function smart_field_init(field)
+    {
+        var id = field.id + '_list',
+            area = $('<div class="multi-input"></div>'),
+            list = field.value ? field.value.split("\n") : [''];
+
+        if ($('#' + id).length) {
+            return;
+        }
+
+        // add input rows
+        $.each(list, function(i, v) {
+            smart_field_row_add(area, v, field.name, i, $(field).data('size'));
+        });
+
+        area.attr('id', id);
+        field = $(field);
+
+        if (field.attr('disabled')) {
+            area.hide();
+        }
+        // disable the original field anyway, we don't want it in POST
+        else {
+            field.prop('disabled', true);
+        }
+
+        field.after(area);
+
+        if (field.hasClass('error')) {
+            area.addClass('error');
+//TODO            rcmail.managesieve_tip_register([[id, field.data('tip')]]);
+        }
+    };
+
+    function smart_field_row_add(area, value, name, idx, size, after)
+    {
+        // build row element content
+        var input, elem = $('<div class="input-group">'
+                + '<input type="text" class="form-control">'
+                + '<a class="icon reset input-group-addon" href="#"></a>'
+                + '</div>'),
+            attrs = {value: value, name: name + '[]'};
+
+        if (size) {
+            attrs.size = size;
+        }
+
+        input = $('input', elem).attr(attrs)
+            .keydown(function(e) {
+                var input = $(this);
+
+                // element creation event (on Enter)
+                if (e.which == 13) {
+                    var name = input.attr('name').replace(/\[\]$/, ''),
+                        dt = (new Date()).getTime(),
+                        elem = smart_field_row_add(area, '', name, dt, size, input.parent());
+
+                    $('input', elem).focus();
+                }
+                // backspace or delete: remove input, focus previous one
+                else if ((e.which == 8 || e.which == 46) && input.val() == '') {
+                    var parent = input.parent(),
+                        siblings = area.children();
+
+                    if (siblings.length > 1) {
+                        if (parent.prev().length) {
+                            parent.prev().children('input').focus();
+                        }
+                        else {
+                            parent.next().children('input').focus();
+                        }
+
+                        parent.remove();
+                        return false;
+                    }
+                }
+            });
+
+        // element deletion event
+        $('a.reset', elem).click(function() {
+            var record = $(this.parentNode);
+
+            if (area.children().length > 1) {
+                record.remove();
+            }
+            else {
+                $('input', record).val('').focus();
+            }
+        });
+
+        $(elem).children()
+            .on('focus', function() { area.addClass('focused'); })
+            .on('blur', function() { area.removeClass('focused'); });
+
+        if (after) {
+            after.after(elem);
+        }
+        else {
+            elem.appendTo(area);
+        }
+
+        return elem;
+    };
+
+    // Reset and fill the smart list input with new data
+    function smart_field_reset(field, data)
+    {
+        var id = field.id + '_list',
+            list = data.length ? data : [''],
+            area = $('#' + id);
+
+        area.empty();
+
+        // add input rows
+        $.each(list, function(i, v) {
+            smart_field_row_add(area, v, field.name, i, $(field).data('size'));
+        });
     };
 
     /**

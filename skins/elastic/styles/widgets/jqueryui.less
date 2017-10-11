@@ -15,7 +15,22 @@
     background-color: @color-dialog-overlay-background;
 }
 
+.ui-widget {
+    border: 1px solid @color-datepicker-border;
+    box-shadow: 3px 3px 5px @color-popover-shadow;
+    border-radius: .3rem;
+}
+
+.ui-menu {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 400px;
+}
+
 .ui-dialog {
+    border-radius: 0;
+    box-shadow: none;
+
     .ui-dialog-titlebar {
         height: @layout-header-height;
         border-bottom: 1px solid @color-dialog-header-border;
@@ -135,11 +150,9 @@
 /* Datepicker widget */
 
 .ui-datepicker {
-    border: 1px solid @color-datepicker-border;
-    box-shadow: 3px 3px 5px @color-popover-shadow;
-    border-radius: .3rem;
     padding: 0;
     overflow: hidden;
+    z-index: 2 !important; /* above Bootstrap form controls that use z-index: 1 */
 
     .ui-datepicker-header,
     .ui-datepicker-title {
@@ -225,9 +238,13 @@ html.touch {
 }
 
 @media screen and (max-width: @screen-width-mini) {
-    .ui-datepicker {
+    .ui-widget-content {
         border-radius: 0;
         width: 100% !important;
         left: 0 !important;
+    }
+
+    .ui-autocomplete {
+        /* TODO: e.g. time input autocompletion on mobile */
     }
 }
