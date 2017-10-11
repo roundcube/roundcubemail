@@ -14,6 +14,9 @@ composer.phar
 composer.lock
 vendor
 
+# PHP-CS-Fixer related
+.php_cs.cache
+
 # javascript dependencies
 plugins/enigma/openpgp.min.js
 plugins/managesieve/codemirror/

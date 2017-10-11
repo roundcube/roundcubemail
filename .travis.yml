@@ -8,6 +8,7 @@ matrix:
     - php: 5.4
     - php: 5.5
     - php: 5.6
+      env: CS_CHECK=1
     - php: 7.0
     - php: 7.1
       env: CODE_COVERAGE=1
@@ -20,10 +21,12 @@ cache:
 install:
   - if [ "$CODE_COVERAGE" != 1 ]; then phpenv config-rm xdebug.ini || true; fi
   - cp composer.json-dist composer.json
+  - if [ "$CS_CHECK" != 1 ]; then composer remove --no-update --no-scripts --dev friendsofphp/php-cs-fixer; fi
   - composer install --prefer-dist
 
 script:
   - if [ "$CODE_COVERAGE" = 1 ]; then CODE_COVERAGE_ARGS="--coverage-text"; fi; vendor/bin/phpunit -c tests/phpunit.xml $CODE_COVERAGE_ARGS
+  - if [ "$CS_CHECK" = 1 ]; then vendor/bin/php-cs-fixer fix --diff --dry-run --verbose; fi
 
 notifications:
   email: false
