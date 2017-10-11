@@ -117,6 +117,20 @@ body.iframe
   color: #666666;
 }
 
+filter-form .col-form-label {
+  display: inline-block;
+  min-width: 75px;
+  line-height: 2.5;
+}
+
+#filter-form .col-form-label + div {
+  display: inline;
+}
+
+#filter-form div.flexbox {
+  margin: 0;
+}
+
 #rules, #actions
 {
   margin-top: 5px;
@@ -161,9 +175,13 @@ td.advbutton a
 {
   display: block;
   padding-top: 14px;
-  height: 6px;
+  height: 14px;
   width: 12px;
   text-decoration: none;
+}
+
+td.advbutton a span {
+  display: none;
 }
 
 td.advbutton a.show
@@ -303,6 +321,10 @@ td.rowtargets label
 span.sieve.error
 {
   color: red;
+}
+
+#filter-form a.button span {
+  display: none;
 }
 
 a.button.add
