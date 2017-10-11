@@ -1570,7 +1570,7 @@ function rcube_elastic_ui()
      */
     function menu_toggle(p)
     {
-        if (!p || !p.name) {
+        if (!p || !p.name || (p.props && p.props.skinable === false)) {
             return;
         }
 
