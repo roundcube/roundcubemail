@@ -35,10 +35,10 @@
     },
     {
       "lib": "tinymce",
-      "version": "4.5.7",
-      "url": "http://download.ephox.com/tinymce/community/tinymce_4.5.7.zip",
+      "version": "4.5.8",
+      "url": "http://download.ephox.com/tinymce/community/tinymce_4.5.8.zip",
       "dest": "program/js",
-      "sha1": "4e86907c4748f7f75072e173ff3eee08700b9594",
+      "sha1": "08b0757264adb86066940bbafb7aa9ec0c7c6685",
       "license": "LGPL",
       "copyright": "Copyright (c) 1999-2015 Ephox Corp. All rights reserved",
       "rm": "program/js/tinymce",
@@ -55,7 +55,7 @@
     },
     {
       "lib": "tinymce-langs",
-      "version": "4.5.7",
+      "version": "4.5.8",
       "url": "https://tinymce-services.azurewebsites.net/1/i18n/download?langs=ar,hy,az,eu,be,bs,bg_BG,ca,zh_CN,zh_TW,hr,cs,cs_CZ,da,nl,en_CA,en_GB,eo,et,fo,fi,fr_FR,fr_CH,gd,gl,ka_GE,de,de_AT,el,he_IL,hi_IN,hu_HU,is_IS,id,ga,it,ja,kab,km_KH,ko_KR,ku,ku_IQ,lv,lt,lb,mk_MK,ml_IN,nb_NO,oc,fa,fa_IR,pl,pt_BR,pt_PT,ro,ru,sk,sl_SI,es,es_MX,sv_SE,tg,ta,ta_IN,tt,th_TH,tr,tr_TR,ug,uk,uk_UA,vi,vi_VN,cy",
       "dest": "program/js/tinymce"
     },
