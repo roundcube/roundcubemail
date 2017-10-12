@@ -132,9 +132,9 @@ class rcube_washtml
         'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border',
         'abbr', 'char', 'charoff', 'clear', 'compact', 'coords', 'vspace', 'hspace',
         'cellborder', 'size', 'lang', 'dir', 'usemap', 'shape', 'media',
-        'background', 'src', 'poster', 'href',
+        'background', 'src', 'poster', 'href', 'headers',
         // attributes of form elements
-        'type', 'rows', 'cols', 'disabled', 'readonly', 'checked', 'multiple', 'value',
+        'type', 'rows', 'cols', 'disabled', 'readonly', 'checked', 'multiple', 'value', 'for',
         // SVG
         'accent-height', 'accumulate', 'additive', 'alignment-baseline', 'alphabetic',
         'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseprofile',
@@ -203,6 +203,9 @@ class rcube_washtml
     /* Allowed HTML attributes */
     private $_html_attribs = array();
 
+    /* A prefix to be added to id/class/for attribute values */
+    private $_css_prefix;
+
     /* Max nesting level */
     private $max_nesting_level;
 
@@ -218,6 +221,7 @@ class rcube_washtml
         $this->_html_attribs    = array_flip((array)$p['html_attribs']) + array_flip(self::$html_attribs);
         $this->_ignore_elements = array_flip((array)$p['ignore_elements']) + array_flip(self::$ignore_elements);
         $this->_void_elements   = array_flip((array)$p['void_elements']) + array_flip(self::$void_elements);
+        $this->_css_prefix      = is_string($p['css_prefix']) && strlen($p['css_prefix']) ? $p['css_prefix'] : null;
 
         unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['void_elements']);
 
@@ -337,6 +341,9 @@ class rcube_washtml
                     else {
                         $out = $value;
                     }
+                }
+                else if ($this->_css_prefix !== null && in_array($key, array('id', 'class', 'for'))) {
+                    $out = preg_replace('/(\S+)/', $this->_css_prefix . '\1', $value);
                 }
                 else if ($key) {
                    $out = $value;

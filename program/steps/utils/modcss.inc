@@ -72,10 +72,12 @@ else {
 }
 
 $ctype_regexp = '~Content-Type:\s+text/(css|plain)~i';
+$container_id = preg_replace('/[^a-z0-9]/i', '', $_GET['_c']);
+$css_prefix   = preg_replace('/[^a-z0-9]/i', '', $_GET['_p']);
 
 if ($source !== false && preg_match($ctype_regexp, $headers)) {
     header('Content-Type: text/css');
-    echo rcube_utils::mod_css_styles($source, preg_replace('/[^a-z0-9]/i', '', $_GET['_c']));
+    echo rcube_utils::mod_css_styles($source, $container, false, $css_prefix);
     exit;
 }
 

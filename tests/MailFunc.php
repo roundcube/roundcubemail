@@ -42,7 +42,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
         $part->replaces = array('ex1.jpg' => 'part_1.2.jpg', 'ex2.jpg' => 'part_1.2.jpg');
 
         // render HTML in normal mode
-        $html = rcmail_html4inline(rcmail_print_body($part->body, $part, array('safe' => false)), 'foo');
+        $html = rcmail_html4inline(rcmail_print_body($part->body, $part, array('safe' => false)), array('container_id' => 'foo'));
 
         $this->assertRegExp('/src="'.$part->replaces['ex1.jpg'].'"/', $html, "Replace reference to inline image");
         $this->assertRegExp('#background="program/resources/blocked.gif"#', $html, "Replace external background image");
@@ -56,7 +56,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
         $this->assertTrue($GLOBALS['REMOTE_OBJECTS'], "Remote object detected");
 
         // render HTML in safe mode
-        $html2 = rcmail_html4inline(rcmail_print_body($part->body, $part, array('safe' => true)), 'foo');
+        $html2 = rcmail_html4inline(rcmail_print_body($part->body, $part, array('safe' => true)), array('container_id' => 'foo'));
 
         $this->assertRegExp('/<style [^>]+>/', $html2, "Allow styles in safe mode");
         $this->assertRegExp('#src="http://evilsite.net/mailings/ex3.jpg"#', $html2, "Allow external images in HTML (safe mode)");
@@ -76,7 +76,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
         $this->assertNotRegExp('/src="skins/', $washed, "Remove local references");
         $this->assertNotRegExp('/\son[a-z]+/', $washed, "Remove on* attributes");
 
-        $html = rcmail_html4inline($washed, 'foo');
+        $html = rcmail_html4inline($washed, array('container_id' => 'foo'));
         $this->assertNotRegExp('/onclick="return rcmail.command(\'compose\',\'xss@somehost.net\',this)"/', $html, "Clean mailto links");
         $this->assertNotRegExp('/alert/', $html, "Remove alerts");
     }
@@ -88,7 +88,8 @@ class MailFunc extends PHPUnit_Framework_TestCase
     function test_html_xss2()
     {
         $part = $this->get_html_part('src/BID-26800.txt');
-        $washed = rcmail_html4inline(rcmail_print_body($part->body, $part, array('safe' => true)), 'dabody', '', $attr, true);
+        $washed = rcmail_html4inline(rcmail_print_body($part->body, $part, array('safe' => true)),
+             array('container_id' => 'dabody', 'safe' => true));
 
         $this->assertNotRegExp('/alert|expression|javascript|xss/', $washed, "Remove evil style blocks");
         $this->assertNotRegExp('/font-style:italic/', $washed, "Allow valid styles");
@@ -145,7 +146,7 @@ class MailFunc extends PHPUnit_Framework_TestCase
         $part = $this->get_html_part('src/mailto.txt');
 
         // render HTML in normal mode
-        $html = rcmail_html4inline(rcmail_print_body($part->body, $part, array('safe' => false)), 'foo');
+        $html = rcmail_html4inline(rcmail_print_body($part->body, $part, array('safe' => false)), array('container_id' => 'foo'));
 
         $mailto = '<a href="mailto:me@me.com"'
             .' onclick="return rcmail.command(\'compose\',\'me@me.com?subject=this is the subject&amp;body=this is the body\',this)" rel="noreferrer">e-mail</a>';
