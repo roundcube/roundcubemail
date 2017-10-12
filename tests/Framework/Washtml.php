@@ -369,4 +369,19 @@ class Framework_Washtml extends PHPUnit_Framework_TestCase
         $this->assertNotContains('onerror=alert(1)>', $washed);
         $this->assertContains('&lt;p style=&quot;x:', $washed);
     }
+
+    /**
+     * Test css_prefix feature
+     */
+    function test_css_prefix()
+    {
+        $washer = new rcube_washtml(array('css_prefix' => 'test'));
+
+        $html   = '<p id="my-id"><label for="my-other-id" class="my-class1 my-class2">test</label></p>';
+        $washed = $washer->wash($html);
+
+        $this->assertContains('id="testmy-id"', $washed);
+        $this->assertContains('for="testmy-other-id"', $washed);
+        $this->assertContains('class="testmy-class1 testmy-class2"', $washed);
+    }
 }
