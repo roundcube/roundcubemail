@@ -186,12 +186,12 @@ td.advbutton a span {
 
 td.advbutton a.show
 {
-  background: url(images/down_small.gif?v=8629.106) center no-repeat;
+  background: url(images/down_small.gif) center no-repeat;
 }
 
 td.advbutton a.hide
 {
-  background: url(images/up_small.gif?v=c56c.106) center no-repeat;
+  background: url(images/up_small.gif) center no-repeat;
 }
 
 td.rowbuttons
@@ -329,7 +329,7 @@ span.sieve.error
 
 a.button.add
 {
-  background: url(images/add.png?v=a165.280) no-repeat;
+  background: url(images/add.png) no-repeat;
   width: 30px;
   height: 20px;
   margin-right: 4px;
@@ -338,7 +338,7 @@ a.button.add
 
 a.button.del
 {
-  background: url(images/del.png?v=3c27.247) no-repeat;
+  background: url(images/del.png) no-repeat;
   width: 30px;
   height: 20px;
   display: inline-block;
@@ -424,7 +424,7 @@ td.rowtargets > span.listarea
   display: inline-block;
   width: 16px;
   height: 16px;
-  background: url(images/erase.png?v=3052.453) -1px 0 no-repeat #eee;
+  background: url(images/erase.png) -1px 0 no-repeat #eee;
   cursor: pointer;
 }
 
