@@ -237,21 +237,21 @@ function rcmail_remote_objects_msg()
     $attrib['class'] = 'notice';
     $attrib['style'] = 'display: none';
 
-    $msg = rcube::Q($RCMAIL->gettext('blockedimages')) . '&nbsp;';
+    $msg = rcube::Q($RCMAIL->gettext('blockedresources')) . '&nbsp;';
     $msg .= html::a(array(
-            'href'    => "#loadimages",
-            'onclick' => rcmail_output::JS_OBJECT_NAME.".command('load-images')"
+            'href'    => "#loadremote",
+            'onclick' => rcmail_output::JS_OBJECT_NAME.".command('load-remote')"
         ),
-        rcube::Q($RCMAIL->gettext('showimages')));
+        rcube::Q($RCMAIL->gettext('allow')));
 
     // add link to save sender in addressbook and reload message
     if ($MESSAGE->sender['mailto'] && $RCMAIL->config->get('show_images') == 1) {
         $msg .= ' ' . html::a(array(
-                'href'    => "#alwaysload",
-                'onclick' => rcmail_output::JS_OBJECT_NAME.".command('always-load')",
+                'href'    => "#loadremotealways",
+                'onclick' => rcmail_output::JS_OBJECT_NAME.".command('load-remote', true)",
                 'style'   => "white-space:nowrap"
             ),
-            rcube::Q($RCMAIL->gettext(array('name' => 'alwaysshow', 'vars' => array('sender' => $MESSAGE->sender['mailto'])))));
+            rcube::Q($RCMAIL->gettext(array('name' => 'alwaysallow', 'vars' => array('sender' => $MESSAGE->sender['mailto'])))));
     }
 
     $RCMAIL->output->add_gui_object('remoteobjectsmsg', $attrib['id']);

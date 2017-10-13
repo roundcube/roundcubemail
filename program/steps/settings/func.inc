@@ -607,7 +607,7 @@ function rcmail_user_prefs($current = null)
                 $input->add($RCMAIL->gettext('always'), 2);
 
                 $blocks['main']['options']['show_images'] = array(
-                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('showremoteimages'))),
+                    'title'   => html::label($field_id, rcube::Q($RCMAIL->gettext('allowremoteresources'))),
                     'content' => $input->show($config['prefer_html'] ? $config['show_images'] : 0),
                 );
             }

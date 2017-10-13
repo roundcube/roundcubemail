@@ -55,7 +55,7 @@
  * It return a sanityzed string of the $html parameter without html and head tags.
  * $html is a string containing the html code to wash.
  * $config is an array containing options:
- *   $config['allow_remote'] is a boolean to allow link to remote images.
+ *   $config['allow_remote'] is a boolean to allow link to remote resources (images/css).
  *   $config['blocked_src'] string with image-src to be used for blocked remote images
  *   $config['show_washed'] is a boolean to include washed out attributes as x-washed
  *   $config['cid_map'] is an array where cid urls index urls to replace them.
@@ -371,7 +371,7 @@ class rcube_washtml
     /**
      * Wash URI value
      */
-    private function wash_uri($uri, $blocked_source = false)
+    private function wash_uri($uri, $blocked_source = false, $is_image = true)
     {
         if (($src = $this->config['cid_map'][$uri])
             || ($src = $this->config['cid_map'][$this->config['base_url'].$uri])
@@ -390,11 +390,11 @@ class rcube_washtml
             }
 
             $this->extlinks = true;
-            if ($blocked_source && $this->config['blocked_src']) {
+            if ($is_image && $blocked_source && $this->config['blocked_src']) {
                 return $this->config['blocked_src'];
             }
         }
-        else if (preg_match('/^data:image.+/i', $uri)) { // RFC2397
+        else if ($is_image && preg_match('/^data:image.+/i', $uri)) { // RFC2397
             return $uri;
         }
     }
@@ -462,6 +462,17 @@ class rcube_washtml
             switch ($node->nodeType) {
             case XML_ELEMENT_NODE: //Check element
                 $tagName = strtolower($node->nodeName);
+
+                if ($tagName == 'link') {
+                    $uri = $this->wash_uri($node->getAttribute('href'), false, false);
+                    if (!$uri) {
+                        $dump .= '<!-- link ignored -->';
+                        break;
+                    }
+
+                    $node->setAttribute('href', (string) $uri);
+                }
+
                 if ($callback = $this->handlers[$tagName]) {
                     $dump .= call_user_func($callback, $tagName,
                         $this->wash_attribs($node), $this->dumpHtml($node, $level), $this);

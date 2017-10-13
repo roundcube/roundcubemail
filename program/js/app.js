@@ -284,7 +284,7 @@ function rcube_webmail()
           if (this.env.blockedobjects) {
             if (this.gui_objects.remoteobjectsmsg)
               this.gui_objects.remoteobjectsmsg.style.display = 'block';
-            this.enable_command('load-images', 'always-load', true);
+            this.enable_command('load-remote', true);
           }
 
           // make preview/message frame visible
@@ -1028,16 +1028,15 @@ function rcube_webmail()
 
         break;
 
-      case 'always-load':
-        if (this.env.uid && this.env.sender) {
-          this.add_contact(this.env.sender);
-          setTimeout(function(){ ref.command('load-images'); }, 300);
-          break;
-        }
+      case 'load-remote':
+        if (this.env.uid) {
+          if (props && this.env.sender) {
+            this.add_contact(this.env.sender, true);
+            break;
+          }
 
-      case 'load-images':
-        if (this.env.uid)
-          this.show_message(this.env.uid, true, this.env.action=='preview');
+          this.show_message(this.env.uid, true, this.env.action == 'preview');
+        }
         break;
 
       case 'load-attachment':
@@ -5276,10 +5275,10 @@ function rcube_webmail()
   };
 
   // send remote request to add a new contact
-  this.add_contact = function(value)
+  this.add_contact = function(value, reload)
   {
     if (value)
-      this.http_post('addcontact', {_address: value});
+      this.http_post('addcontact', {_address: value, _reload: reload});
 
     return true;
   };

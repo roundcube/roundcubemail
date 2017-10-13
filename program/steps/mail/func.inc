@@ -880,10 +880,9 @@ function rcmail_wash_html($html, $p, $cid_replaces = array())
     );
 
     if (!$p['inline_html']) {
-        $wash_opts['html_elements'] = array('html','head','title','body');
+        $wash_opts['html_elements'] = array('html','head','title','body','link');
     }
     if ($p['safe']) {
-        $wash_opts['html_elements'][] = 'link';
         $wash_opts['html_attribs'] = array('rel','type');
     }
 
@@ -911,10 +910,7 @@ function rcmail_wash_html($html, $p, $cid_replaces = array())
     if (!$p['skip_washer_link_callback']) {
         $washer->add_callback('a', 'rcmail_washtml_link_callback');
         $washer->add_callback('area', 'rcmail_washtml_link_callback');
-
-        if ($p['safe']) {
-            $washer->add_callback('link', 'rcmail_washtml_link_callback');
-        }
+        $washer->add_callback('link', 'rcmail_washtml_link_callback');
     }
 
     // Remove non-UTF8 characters (#1487813)

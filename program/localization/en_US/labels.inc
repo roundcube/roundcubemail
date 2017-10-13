@@ -317,7 +317,9 @@ $labels['highest'] = 'Highest';
 
 $labels['nosubject']  = '(no subject)';
 $labels['showimages'] = 'Display images';
+$labels['allow']      = 'Allow';
 $labels['alwaysshow'] = 'Always show images from $sender';
+$labels['alwaysallow'] = 'Always allow from $sender';
 $labels['isdraft']    = 'This is a draft message.';
 $labels['andnmore']   = '$nr more...';
 $labels['togglemoreheaders'] = 'Show more message headers';
@@ -506,6 +508,7 @@ $labels['skipdeleted'] = 'Do not show deleted messages';
 $labels['deletealways'] = 'If moving messages to Trash fails, delete them';
 $labels['deletejunk'] = 'Directly delete messages in Junk';
 $labels['showremoteimages'] = 'Display remote inline images';
+$labels['allowremoteresources'] = 'Allow remote resources (images, styles)';
 $labels['fromknownsenders'] = 'from known senders';
 $labels['always'] = 'always';
 $labels['alwaysbutplain'] = 'always, except when replying to plain text';
