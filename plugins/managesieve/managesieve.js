@@ -84,6 +84,7 @@ if (window.rcmail) {
         rcmail.filtersets_list.init().focus();
 
         if (set != null) {
+          $('#filterset-name').text(set);
           set = rcmail.managesieve_setid(set);
           rcmail.filtersets_list.select(set);
         }
@@ -163,8 +164,10 @@ rcube_webmail.prototype.managesieve_setselect = function(list)
   this.enable_command('plugin.managesieve-seteditraw', list.rowcount > 0 && this.env.raw_sieve_editor);
 
   var id = list.get_single_selection();
-  if (id != null)
+  if (id != null) {
     this.managesieve_list(this.env.filtersets[id]);
+    $('#filterset-name').text(this.env.filtersets[id]);
+  }
 };
 
 rcube_webmail.prototype.managesieve_rowid = function(id)
@@ -355,13 +358,13 @@ rcube_webmail.prototype.managesieve_updatelist = function(action, o)
     case 'setdel':
       var id = this.managesieve_setid(o.name);
 
-      this.filtersets_list.remove_row(id);
       this.filters_list.clear();
       this.show_contentframe(false);
-      this.enable_command('plugin.managesieve-setdel', 'plugin.managesieve-setact', 'plugin.managesieve-setget', false);
+      this.enable_command('plugin.managesieve-setdel', 'plugin.managesieve-setact',
+        'plugin.managesieve-setget', 'plugin.managesieve-seteditraw', false);
 
+      this.filtersets_list.remove_row(id, true);
       delete this.env.filtersets[id];
-
       break;
 
     // Create set row
@@ -695,7 +698,7 @@ function rule_mod_select(id, header)
   if (!header)
     header = document.getElementById('header' + id).value;
 
-  target.style.display = obj.value != 'address' && obj.value != 'envelope' ? 'none' : 'inline';
+  target.style.display = obj.value != 'address' && obj.value != 'envelope' ? 'none' : '';
 
   if (index)
     index.style.display = !header.match(/^(body|currentdate|size|message|string)$/) && obj.value != 'envelope'  ? '' : 'none';
@@ -802,7 +805,7 @@ function smart_field_init(field)
 
   if (field.hasClass('error')) {
     area.addClass('error');
-    rcmail.managesieve_tip_register([[id, field.data('tip')]]);
+    rcmail.managesieve_tip_register([[id, field.data('tip-class'), field.data('tip-msg')]]);
   }
 };
 
@@ -880,19 +883,25 @@ function smart_field_reset(field, data)
 // Register onmouse(leave/enter) events for tips on specified form element
 rcube_webmail.prototype.managesieve_tip_register = function(tips)
 {
+  if (window.UI && UI.form_errors)
+    return UI.form_errors(tips);
+
   var n, framed = parent.rcmail,
     tip = framed ? parent.rcmail.env.ms_tip_layer : rcmail.env.ms_tip_layer;
 
   for (n in tips) {
+console.log(tips[n]);
     $('#'+tips[n][0])
-      .data('tip', tips[n][1])
+      .data('tip-class', tips[n][1])
+      .data('tip-msg', tips[n][2])
       .mouseleave(function(e) { tip.hide(); })
       .mouseenter(function(e) {
         var elem = $(this),
           offset = elem.offset(),
           left = offset.left,
           top = offset.top - 12,
-          minwidth = elem.width();
+          minwidth = elem.width(),
+          span = $('<span>').addClass(elem.data('tip-class')).text(elem.data('tip-msg'));
 
         if (framed) {
           offset = $((rcmail.env.task == 'mail'  ? '#sievefilterform > iframe' : '#filter-box'), parent.document).offset();
@@ -900,7 +909,7 @@ rcube_webmail.prototype.managesieve_tip_register = function(tips)
           left += offset.left;
         }
 
-        tip.html(elem.data('tip'));
+        tip.html('').append(span);
         top -= tip.height();
 
         tip.css({left: left, top: top, minWidth: (minwidth-2) + 'px'}).show();

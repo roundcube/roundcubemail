@@ -395,7 +395,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $interval_txt .= $interval_select->show(isset($this->vacation['seconds']) ? 'seconds' : 'days');
         }
         else {
-            $interval_txt .= html::span('input-group-addon', $this->plugin->gettext('days'));
+            $interval_txt .= "\n" . html::span('input-group-addon', $this->plugin->gettext('days'));
         }
 
         if ($date_extension || $regex_extension) {

@@ -101,6 +101,10 @@ body.iframe
   vertical-align: middle;
 }
 
+#filter-form li {
+  border: none;
+}
+
 #filter-form .col-form-label {
   display: inline-block;
   min-width: 75px;

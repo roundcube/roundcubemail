@@ -4,38 +4,35 @@
 
 <h1 class="voice"><roundcube:label name="settings" /> : <roundcube:label name="managesieve.filters" /></h1>
 
-<!--
-<div id="settings-right" role="main">
-  <roundcube:if condition="!env:managesieve_no_set_list" />
-  <div id="filtersetslistbox" class="uibox listbox" aria-labelledby="aria-label-filtersets">
-    <h2 class="boxtitle" id="aria-label-filtersets"><roundcube:label name="managesieve.filtersets" /></h2>
-    <div class="scroller withfooter">
-    <roundcube:object name="filtersetslist" id="filtersetslist" class="listing" summary="managesieve.ariasummaryfiltersetslist" type="list" noheader="true" role="listbox" />
-    </div>
-    <div class="boxfooter">
-      <roundcube:button command="plugin.managesieve-setadd" type="link" title="managesieve.filtersetadd" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" content="+" /><roundcube:button name="filtersetmenulink" id="filtersetmenulink" type="link" title="moreactions" class="listbutton groupactions" onclick="return UI.toggle_popup('filtersetmenu', event)" innerClass="inner" content="&#9881;" aria-haspopup="true" aria-expanded="false" aria-owns="filtersetmenu-menu" />
-    </div>
-  </div>
-  <div id="filtersscreen">
-  <roundcube:else />
-  <div id="filtersscreen" class="nosetlist">
-  <roundcube:endif />
-</div>
--->
-
 <!-- filters list -->
-<div class="list listbox selected" aria-labelledby="aria-label-filters">
+<div class="list listbox selected">
 	<div class="header">
 		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
-		<span id="aria-label-responseslist" class="header-title"><roundcube:label name="managesieve.filters" /></span>
+		<span id="aria-label-filterslist" class="header-title"><roundcube:label name="managesieve.filters" /></span>
 		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 	</div>
-	<div class="scroller">
+	<roundcube:if condition="!env:managesieve_no_set_list" />
+	<div class="pagenav pagenav-list toolbar" onclick="UI.switch_nav_list(this)">
+		<a class="button icon expand" href="#filtersetslistbox"><span class="inner"></span></a>
+		<span id="filterset-name" class="pagenav-text"></span>
+		<h2 class="voice" id="aria-label-filtersets"><roundcube:label name="managesieve.filtersets" /></h2>
+	</div>
+	<div id="filtersetslistbox" class="navlist scroller" aria-labelledby="aria-label-filtersets">
+		<roundcube:object name="filtersetslist" id="filtersetslist" class="listing"
+			summary="managesieve.ariasummaryfiltersetslist" type="list" noheader="true" role="listbox" />
+	</div>
+	<roundcube:endif />
+	<div class="scroller" aria-labelledby="aria-label-filterslist">
 		<roundcube:object name="filterslist" id="filterslist" class="listing" noheader="true"
 			role="listbox" data-list="filters_list" />
 	</div>
-	<div class="footer"></div>
+	<roundcube:if condition="!env:managesieve_no_set_list" />
+	<div class="footer toolbar">
+		<roundcube:button name="filtersetactions" type="link" title="managesieve.arialabelfiltersetactions" label="actions"
+			class="button actions" innerclass="inner" data-popup="filterset-menu" />
+	</div>
+	<roundcube:endif />
 </div>
 
 <!-- filter details frame -->
@@ -47,29 +44,29 @@
 		<!-- toolbar -->
 		<div id="responsestoolbar" class="toolbar">
 			<roundcube:button command="plugin.managesieve-add" type="link"
-				label="create" title="managesieve.filteradd"
-				class="button create disabled" classAct="button create" innerClass="inner" />
+				label="create" title="managesieve.filteradd" innerClass="inner"
+				class="button create disabled" classAct="button create" />
 			<roundcube:button command="plugin.managesieve-del" type="link"
 				label="delete" title="delete" innerClass="inner"
 				class="button delete disabled" classAct="button delete" />
 		</div>
 	</div>
 	<h2 id="aria-label-filterframe" class="voice"><roundcube:label name="managesieve.arialabelfilterform" /></h2>
-	<roundcube:object name="filterframe" id="filter-frame" src="/watermark.html" title="managesieve.arialabelfilterform"
+	<roundcube:object name="filterframe" id="filter-box" src="/watermark.html" title="managesieve.arialabelfilterform"
 		aria-labelledby="aria-label-filterform" />
 </div>
 
 <div id="filterset-menu" class="popupmenu">
 	<h3 id="aria-label-setactions" class="voice"><roundcube:label name="managesieve.arialabelfiltersetactions" /></h3>
-	<ul class="toolbarmenu" id="filtersetmenu-menu" role="menu" aria-labelledby="aria-label-setactions">
-		<roundcube:button type="link-menuitem" command="plugin.managesieve-setact" label="managesieve.enable" classAct="active" /></li>
-		<roundcube:button type="link-menuitem" command="plugin.managesieve-setdel" label="delete" classAct="active" /></li>
+	<ul class="toolbarmenu listing" id="filtersetmenu-menu" role="menu" aria-labelledby="aria-label-setactions">
+		<roundcube:button type="link-menuitem" command="plugin.managesieve-setadd" label="managesieve.filtersetadd" class="create" classAct="create active" />
 		<roundcube:if condition="env:raw_sieve_editor != false" />
-			<roundcube:button type="link-menuitem" command="plugin.managesieve-seteditraw" label="managesieve.filterseteditraw" classAct="active" /></li>
+			<roundcube:button type="link-menuitem" command="plugin.managesieve-seteditraw" label="managesieve.filterseteditraw" class="edit" classAct="edit active" data-hidden="small" />
 		<roundcube:endif />
-		<li role="menuitem" class="separator_above">
-		<roundcube:button type="link-menuitem" command="plugin.managesieve-setget" label="download" classAct="active" /></li>
-		<roundcube:container name="filtersetoptions" id="filterset-menu" />
+		<roundcube:button type="link-menuitem" command="plugin.managesieve-setact" label="managesieve.filtersetswitch" class="status" classAct="status active" />
+		<roundcube:button type="link-menuitem" command="plugin.managesieve-setdel" label="managesieve.filtersetdel" class="delete" classAct="delete active" />
+		<roundcube:button type="link-menuitem" command="plugin.managesieve-setget" label="download" class="download" classAct="download active" />
+		<roundcube:container name="filtersetoptions" id="filtersetmenu-menu" />
 	</ul>
 </div>
 
