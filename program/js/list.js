@@ -931,7 +931,7 @@ get_first_row: function()
     var i, uid, rows = this.tbody.childNodes;
 
     for (i=0; i<rows.length; i++)
-      if (rows[i].id && (uid = this.get_row_uid(rows[i])))
+      if (rows[i].id && (uid = this.get_row_uid(rows[i])) && this.rows[uid])
         return uid;
   }
 
@@ -944,7 +944,7 @@ get_last_row: function()
     var i, uid, rows = this.tbody.childNodes;
 
     for (i=rows.length-1; i>=0; i--)
-      if (rows[i].id && (uid = this.get_row_uid(rows[i])))
+      if (rows[i].id && (uid = this.get_row_uid(rows[i])) && this.rows[uid])
         return uid;
   }
 
