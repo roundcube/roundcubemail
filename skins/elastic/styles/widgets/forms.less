@@ -63,6 +63,7 @@ input.smart-upload {
         a {
             padding: 0;
             line-height: 2.3rem;
+            height: 2.3rem;
             font-size: 1rem;
 
             &:before {
@@ -208,6 +209,13 @@ html.ms .propform {
     }
 }
 
+html.layout-phone {
+    .formcontainer {
+        .formbuttons {
+            display: none;
+        }
+    }
+}
 
 .formcontent {
     padding: 1em;
@@ -356,6 +364,19 @@ ul.proplist {
                 margin-right: .5rem;
             }
         }
+
+        select {
+            width: auto;
+            display: inline;
+        }
+    }
+}
+
+
+.checklist {
+    .form-check-input + label {
+        margin-right: .25rem;
+        line-height: 1;
     }
 }
 
@@ -410,17 +431,19 @@ ul.proplist {
 /*** Smart list (multiple input) field ***/
 
 .multi-input {
-    max-height: 11.65em;
-    overflow: hidden;
-    overflow-y: auto;
-    border-radius: .25rem;
-    border: 1px solid @color-input-border;
+    & > .content {
+        max-height: 11.65em;
+        overflow: hidden;
+        overflow-y: auto;
+        border-radius: .25rem;
+        border: 1px solid @color-input-border;
 
-    &.focused {
-        border: 1px solid @color-input-border-focus;
+        &.focused {
+            border: 1px solid @color-input-border-focus;
+        }
+
+        /* TODO: style button focus */
     }
-
-    /* TODO: style button focus */
 
     .input-group {
         margin: 0 !important;
@@ -432,6 +455,15 @@ ul.proplist {
             content: @fa-var-trash-o;
             margin: 0;
         }
+    }
+
+    .input-group-addon,
+    .form-control {
+        height: 2.25rem; /* to be the same height as select.form-control element */
+    }
+
+    input.form-control {
+        padding-left: .5rem;
     }
 
     input,
@@ -448,6 +480,16 @@ ul.proplist {
 
     & + .btn {
         margin-top: .5rem;
+    }
+
+    &.is-invalid {
+        & > .content {
+            border: 1px solid @color-input-border-invalid;
+        }
+
+        & > .invalid-feedback {
+            display: inline-block;
+        }
     }
 }
 
@@ -795,4 +837,12 @@ html.touch input.icon-checkbox + label {
 
 .form-control, .form-control:focus {
     color: @color-font;
+}
+
+.invalid-feedback {
+    color: @color-error;
+}
+
+.form-control.is-invalid {
+    border-color: @color-input-border-invalid;
 }

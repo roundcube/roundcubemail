@@ -47,10 +47,26 @@
     }
 }
 
-.listbox .scroller {
-    width: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
+.listbox {
+    .scroller {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .navlist {
+        height: 0;
+        flex: initial !important;
+
+        .listing {
+            border-bottom: 1px solid @color-layout-border;
+
+            tr:last-child td,
+            li:last-child {
+                border: 0;
+            }
+        }
+    }
 }
 
 

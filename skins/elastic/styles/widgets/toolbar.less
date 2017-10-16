@@ -171,6 +171,12 @@
         &.addressbook:before {
             content: @fa-var-user;
         }
+        &.expand:before {
+            content: @fa-var-caret-down;
+        }
+        &.collapse:before {
+            content: @fa-var-caret-up;
+        }
     }
 
     &:not(.popupmenu) span.inner {
@@ -239,6 +245,17 @@
 
         span.inner {
             display: none;
+        }
+
+        &.pagenav-list {
+            cursor: pointer;
+
+            a.button {
+                flex-grow: initial;
+            }
+            .pagenav-text {
+                text-align: left;
+            }
         }
     }
 
@@ -508,6 +525,9 @@
     }
     a.recipient:before {
         content: @fa-var-envelope-o;
+    }
+    a.status:before {
+        content: @fa-var-lightbulb-o;
     }
 }
 

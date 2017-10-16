@@ -61,6 +61,8 @@ function rcube_elastic_ui()
     this.show_sidebar = show_sidebar;
     this.smart_field_init = smart_field_init;
     this.smart_field_reset = smart_field_reset;
+    this.form_errors = form_errors;
+    this.switch_nav_list = switch_nav_list;
 
 
     // Initialize layout
@@ -463,7 +465,7 @@ function rcube_elastic_ui()
         });
 
         // Forms
-        $('input:not(.button),select,textarea', $('.propform', context)).not('[type=checkbox]').addClass('form-control');
+        $('input:not(.button,[type=file],[type=radio],[type=checkbox]),select,textarea', $('.propform', context)).addClass('form-control');
         $('[type=checkbox]', $('.propform', context)).addClass('form-check-input');
         $('table.propform > tbody > tr', context).each(function() {
             var first, last, row = $(this),
@@ -579,6 +581,9 @@ function rcube_elastic_ui()
         $('input.datepicker').focus(function() {
             setTimeout(function() { bootstrap_style($('.ui-datepicker')); }, 5);
         });
+
+        // Form validation errors (managesieve plugin)
+        $('.error').addClass('is-invalid');
 
         // Make logon form prettier
         if (rcmail.env.task == 'login' && context == document) {
@@ -2351,8 +2356,8 @@ function rcube_elastic_ui()
     // Inititalizes smart list input
     function smart_field_init(field)
     {
-        var id = field.id + '_list',
-            area = $('<div class="multi-input"></div>'),
+        var tip, id = field.id + '_list',
+            area = $('<div class="multi-input"><div class="content"></div><div class="invalid-feedback"></div></div>'),
             list = field.value ? field.value.split("\n") : [''];
 
         if ($('#' + id).length) {
@@ -2361,7 +2366,7 @@ function rcube_elastic_ui()
 
         // add input rows
         $.each(list, function(i, v) {
-            smart_field_row_add(area, v, field.name, i, $(field).data('size'));
+            smart_field_row_add($('.content', area), v, field.name, i, $(field).data('size'));
         });
 
         area.attr('id', id);
@@ -2377,9 +2382,9 @@ function rcube_elastic_ui()
 
         field.after(area);
 
-        if (field.hasClass('error')) {
-            area.addClass('error');
-//TODO            rcmail.managesieve_tip_register([[id, field.data('tip')]]);
+        if (field.hasClass('is-invalid')) {
+            area.addClass('is-invalid');
+            $('.invalid-feedback', area).text(field.data('error-msg'));
         }
     };
 
@@ -2458,7 +2463,7 @@ function rcube_elastic_ui()
     {
         var id = field.id + '_list',
             list = data.length ? data : [''],
-            area = $('#' + id);
+            area = $('#' + id).children('.content');
 
         area.empty();
 
@@ -2466,6 +2471,46 @@ function rcube_elastic_ui()
         $.each(list, function(i, v) {
             smart_field_row_add(area, v, field.name, i, $(field).data('size'));
         });
+    };
+
+    /**
+     * Register form errors, mark fields as invalid, dsplay the error below the input
+     */
+    function form_errors(tips)
+    {
+        $.each(tips, function() {
+            var input = $('#' + this[0]).addClass('is-invalid');
+
+            if (input.data('type') == 'list') {
+                input.data('error-msg', this[2]);
+                return;
+            }
+
+
+            input.after($('<span class="invalid-feedback">').text(this[2]));
+        });
+    };
+
+    /**
+     * Show/hide the navigation list
+     */
+    function switch_nav_list(obj)
+    {
+        var records, height, speed = 250,
+            button = $('a.button', obj),
+            navlist = $(obj).next();
+
+        if (!navlist.height()) {
+            records = $('tr,li', navlist).filter(function() { return this.style.display != 'none'; });
+            height = $(records[0]).height() || 50;
+
+            navlist.animate({height: (Math.min(5, records.length) * height) + 'px'}, speed);
+            button.addClass('collapse').removeClass('expand');
+        }
+        else {
+            navlist.animate({height: '0'}, speed);
+            button.addClass('expand').removeClass('collapse');
+        }
     };
 
     /**

@@ -14,6 +14,7 @@
 @color-link:                #00acff;
 @color-link-hover:          darken(@color-link, 10%);
 @color-border:              #ddd;
+@color-error:               #ff5552;
 
 
 // Layout elements
@@ -92,7 +93,7 @@
 @color-message-information:         @color-main;
 @color-message-success:             #41b849;
 @color-message-warning:             #ffd452;
-@color-message-error:               #ff5552;
+@color-message-error:               @color-error;
 @color-message-loading:             #333;
 
 
@@ -117,6 +118,7 @@
 // Forms
 @color-input-border:                rgba(0, 0, 0, 0.15); /* from Bootstrap's .form-control */
 @color-input-border-focus:          #80bdff; /* from Bootstrap's .form-control:focus */
+@color-input-border-invalid:        @color-error;
 @color-input-addon-background:      #e9ecef; /* from Bootstrap's .input-group-addon */
 @color-recipient-input-border:      @color-input-border;
 @color-recipient-input-background:  #f4f4f4;
