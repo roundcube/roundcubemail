@@ -102,6 +102,13 @@
 table.listing {
     width: 100%;
     table-layout: fixed;
+    /*
+      border-spacing/border-collapse here fix problem with our focus indicator
+      when the table cells use overflow: hidden. I.e. we use border-spacing:0
+      instead of Bootstrap's border-collapse:collapse. Is this cross-browser?
+    */
+    border-spacing: 0;
+    border-collapse: unset;
 }
 
 ul.listing {
