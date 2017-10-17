@@ -8062,7 +8062,7 @@ function rcube_webmail()
   // display fetched raw headers
   this.set_headers = function(content)
   {
-    if (this.gui_objects.all_headers_row && this.gui_objects.all_headers_box && content)
+    if (this.gui_objects.all_headers_box && content)
       $(this.gui_objects.all_headers_box).html(content).show();
   };
 
@@ -8078,7 +8078,7 @@ function rcube_webmail()
 
     // fetch headers only once
     if (!this.gui_objects.all_headers_box.innerHTML) {
-      this.http_post('headers', {_uid: this.env.uid, _mbox: this.env.mailbox},
+      this.http_request('headers', {_uid: this.env.uid, _mbox: this.env.mailbox},
         this.display_message(this.get_label('loading'), 'loading')
       );
     }
