@@ -222,10 +222,6 @@ html.iframe body {
             }
         }
     }
-
-    .hidden-small {
-        display: none !important;
-    }
 }
 
 @media screen and (max-width: @screen-width-xs) {
@@ -257,10 +253,6 @@ html.iframe body {
     body > #layout > .list > .header > .header-title {
         display: none;
     }
-
-    .hidden-large {
-        display: none !important;
-    }
 }
 
 @media screen and (min-width: (@screen-width-small + 1px)) {
@@ -269,14 +261,30 @@ html.iframe body {
     body > #layout > div > .header > a.toolbar-menu-button {
         display: none;
     }
-
-    .hidden-big {
-        display: none !important;
-    }
 }
 
 @media screen and (min-width: (@screen-width-xs + 1px)) {
     body > #layout > div > .header > a.menu-button {
         display: none;
+    }
+}
+
+html.layout-phone,
+html.layout-small {
+    .hidden-small {
+        display: none !important;
+    }
+}
+
+html.layout-large,
+html.layout-normal {
+    .hidden-big {
+        display: none !important;
+    }
+}
+
+html.layout-large {
+    .hidden-large {
+        display: none !important;
     }
 }

@@ -24,12 +24,17 @@
 			</h2>
 			<div class="short-header">
 				<roundcube:object name="contactphoto" class="contactphoto" placeholder="/images/contactpic.png" />
-				<roundcube:object name="messageSummary" addicon="virtual" />
+				<div class="header-content">
+					<roundcube:object name="messageSummary" addicon="virtual" class="header-subject" />
+					<div class="header-links">
+						<a href="#all-headers" class="headers" onclick="return UI.headers_dialog()"><roundcube:label name="arialabelmessageheaders" /></a>
+						<roundcube:add_label name="arialabelmessageheaders" />
+						<roundcube:if condition="!env:message_context">
+							<roundcube:button command="extwin" type="link" class="extwin" innerClass="inner" title="openinextwin" label="openinextwin" data-hidden="small" />
+						<roundcube:endif />
+					</div>
+				</div>
 			</div>
-<!--
-			<roundcube:object name="messageFullHeaders" id="full-headers" />
-			<span class="moreheaderstoggle"></span>
--->
 		</div>
 		<div id="message-content">
 			<div class="leftcol" role="region" aria-labelledby="aria-label-messageattachments">

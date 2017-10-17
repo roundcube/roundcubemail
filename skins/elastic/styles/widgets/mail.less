@@ -36,14 +36,42 @@
             height: @mail-header-photo-height;
         }
 
-        div {
-            line-height: @mail-header-photo-height;
+        div.header-content {
+            min-height: @mail-header-photo-height;
             flex: 1;
+        }
+
+        div.header-subject {
+            line-height: @mail-header-photo-height/2;
 
             & > span {
                 line-height: normal;
                 display: inline-block;
                 vertical-align: middle;
+            }
+        }
+
+        div.header-links {
+            line-height: @mail-header-photo-height/2;
+
+            a {
+                color: #aaa;
+                font-size: 90%;
+                padding-right: .25rem;
+
+                &:before {
+                    &:extend(.font-icon-class);
+                    float: none;
+                    display: inline;
+                }
+
+                &.extwin:before {
+                    content: @fa-var-external-link;
+                }
+
+                &.headers:before {
+                    content: @fa-var-wrench;
+                }
             }
         }
     }

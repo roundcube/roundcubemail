@@ -52,6 +52,7 @@ function rcube_elastic_ui()
     this.register_content_buttons = register_content_buttons;
     this.menu_hide = menu_hide;
     this.about_dialog = about_dialog;
+    this.headers_dialog = headers_dialog;
     this.spellmenu = spellmenu;
     this.searchmenu = searchmenu;
     this.headersmenu = headersmenu;
@@ -1741,6 +1742,21 @@ function rcube_elastic_ui()
 
         rcmail.simple_dialog(dialog, $(elem).text(), support_func, {
             button: support_button,
+            cancel_button: 'close',
+            width: 600,
+            height: 400
+        });
+    };
+
+    /**
+     * Mail headers dialog
+     */
+    function headers_dialog()
+    {
+        var props = {_uid: rcmail.env.uid, _mbox: rcmail.env.mailbox},
+            dialog = $('<iframe>').attr({id: 'headersframe', src: rcmail.url('headers', props)});
+
+        rcmail.simple_dialog(dialog, rcmail.gettext('arialabelmessageheaders'), null, {
             cancel_button: 'close',
             width: 600,
             height: 400
