@@ -16,8 +16,8 @@
     background-color: @color-layout-header-background;
     z-index: 10;
     right: 0;
-    display: flex !important;
     height: @layout-header-height;
+    display: block !important;
 
     a.button {
         min-width: auto;
@@ -29,10 +29,9 @@
     }
 
     .input-group {
+        margin-top: calc(@layout-header-height/2 - 2.25rem/2);
         display: none;
-        flex-grow: 1;
         padding: 0 .5rem;
-        height: @layout-header-height;
     }
 
     .input-group-addon {
