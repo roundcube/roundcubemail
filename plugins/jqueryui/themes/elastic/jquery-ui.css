@@ -481,7 +481,7 @@ button.ui-button::-moz-focus-inner {
 	height: 4rem;
 }
 .ui-dialog .ui-dialog-buttonpane button {
-	margin: .75em 0 .75em .5em;
+	margin: .65rem 0 .65rem .5rem;
 }
 .ui-dialog .ui-resizable-n {
 	height: 2px;
