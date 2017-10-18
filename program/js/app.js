@@ -5196,7 +5196,10 @@ function rcube_webmail()
   // send remote request to search mail or contacts
   this.qsearch = function(value)
   {
-    if (value || $(this.gui_objects.qsearchbox).val() || $(this.gui_objects.search_interval).val()) {
+    // Note: Some plugins would like to do search without value,
+    // so we keep value != '' check to allow that use-case. Which means
+    // e.g. that qsearch() with no argument will execute the search.
+    if (value != '' || $(this.gui_objects.qsearchbox).val() || $(this.gui_objects.search_interval).val()) {
       var r, lock = this.set_busy(true, 'searching'),
         url = this.search_params(value),
         action = this.env.action == 'compose' && this.contact_list ? 'search-contacts' : 'search';
