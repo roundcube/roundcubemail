@@ -842,7 +842,7 @@ function rcube_elastic_ui()
      */
     function resize()
     {
-        var size, width = $(window).width();
+        var meta, size, width = $(window).width();
 
         if (width <= 480)
             size = 'phone';
@@ -858,6 +858,18 @@ function rcube_elastic_ui()
         screen_resize();
         screen_resize_html();
 //        display_screen_size(); // debug info
+
+        meta = layout_metadata();
+
+        // disable ext-windows and other features
+        if (meta.mode == 'small' || meta.mode == 'phone') {
+            rcmail.set_env(env.small_screen_config);
+            rcmail.enable_command('extwin', false);
+        }
+        else {
+            rcmail.set_env(env.config);
+            rcmail.enable_command('extwin', true);
+        }
     };
 
     // for development only (to be removed)
@@ -1031,10 +1043,6 @@ function rcube_elastic_ui()
         $('.header > ul.toolbar', layout.content).addClass('popupmenu');
 
         $.each(content_buttons, function() { $(this).hide(); });
-
-        // disable ext-windows and other features
-        rcmail.set_env(env.small_screen_config);
-        rcmail.enable_command('extwin', false);
     };
 
     function screen_resize_small_none()
@@ -1042,10 +1050,6 @@ function rcube_elastic_ui()
         buttons.back_list.hide();
         $.each(content_buttons, function() { $(this).show(); });
         $('ul.toolbar.popupmenu').removeClass('popupmenu');
-
-        // re-enable ext-windows
-        rcmail.set_env(env.config);
-        rcmail.enable_command('extwin', true);
     };
 
     function show_content(unsticky)
