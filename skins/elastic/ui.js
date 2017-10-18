@@ -1172,11 +1172,11 @@ function rcube_elastic_ui()
     {
         var tmp, classes = 'ui alert',
             map = {
-                information: 'alert-success',
+                information: 'alert-info',
                 confirmation: 'alert-success',
-                notice: 'alert-info',
-                error: 'alert-danger',
+                notice: 'alert-warning',
                 warning: 'alert-warning',
+                error: 'alert-danger',
                 loading: 'alert-info loading',
                 vcardattachment: 'alert-info' /* vcard_attachments plugin */
             };
