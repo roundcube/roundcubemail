@@ -30,7 +30,15 @@
 						<a href="#all-headers" class="headers" onclick="return UI.headers_dialog()"><roundcube:label name="arialabelmessageheaders" /></a>
 						<roundcube:add_label name="arialabelmessageheaders" />
 						<roundcube:if condition="!env:message_context">
-							<roundcube:button command="extwin" type="link" class="extwin" innerClass="inner" title="openinextwin" label="openinextwin" data-hidden="small" />
+							<roundcube:button command="extwin" type="link" class="extwin" innerClass="inner"
+								title="openinextwin" label="openinextwin" data-hidden="small" />
+						<roundcube:endif />
+						<roundcube:if condition="env:optional_format=='text'" />
+							<roundcube:button command="change-format" prop="text" type="link" class="plain" innerClass="inner"
+								title="changeformattext" label="plaintoggle" />
+						<roundcube:elseif condition="env:optional_format=='html'" />
+							<roundcube:button command="change-format" prop="html" type="link" class="html" innerClass="inner"
+								title="changeformathtml" label="htmltoggle" />
 						<roundcube:endif />
 					</div>
 				</div>

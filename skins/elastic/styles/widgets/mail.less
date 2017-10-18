@@ -58,6 +58,7 @@
                 color: #aaa;
                 font-size: 90%;
                 padding-right: .25rem;
+                text-decoration: none;
 
                 &:before {
                     &:extend(.font-icon-class);
@@ -71,6 +72,14 @@
 
                 &.headers:before {
                     content: @fa-var-wrench;
+                }
+
+                &.html:before {
+                    content: @fa-var-code;
+                }
+
+                &.plain:before {
+                    content: @fa-var-align-justify;
                 }
             }
         }
