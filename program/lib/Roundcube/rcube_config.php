@@ -288,6 +288,10 @@ class rcube_config
                 $fname = preg_replace('/[^a-z0-9\.\-_]/i', '', $name) . '.inc.php';
             }
 
+            if (!empty($this->prop['include_dir_host_config'])) {
+              $fname = $this->prop['include_dir_host_config'] . $fname;
+            }
+         
             if ($fname && $this->load_from_file($fname)) {
                 return;
             }
