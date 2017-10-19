@@ -556,6 +556,10 @@ $config['useragent'] = 'Roundcube Webmail/'.RCMAIL_VERSION;
 // for more details
 $config['include_host_config'] = false;
 
+// path to try to load host-specific configuration
+// if you don´t want to use the default config dir 
+$config['include_dir_host_config'] = '';
+
 // path to a text file which will be added to each sent message
 // paths are relative to the Roundcube root folder
 $config['generic_message_footer'] = '';
