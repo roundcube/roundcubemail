@@ -521,8 +521,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
             else if ($col == 'folder') {
                 if ($last_folder !== $header->folder) {
                     $last_folder      = $header->folder;
-                    $last_folder_name = rcube_charset::convert($last_folder, 'UTF7-IMAP');
-                    $last_folder_name = $RCMAIL->localize_foldername($last_folder_name, true);
+                    $last_folder_name = $RCMAIL->localize_foldername($last_folder, true);
                     $last_folder_name = str_replace($delimiter, " \xC2\xBB ", $last_folder_name);
                 }
 
