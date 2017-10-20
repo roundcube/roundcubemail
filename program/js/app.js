@@ -2070,6 +2070,11 @@ function rcube_webmail()
     if (flags.mbox != this.env.mailbox && !flags.skip_mbox_check)
       return false;
 
+    // When deleting messages fast it may happen that the same message
+    // from the next page could be added many times, we prevent this here
+    if (this.message_list.rows[uid])
+      return false;
+
     if (!this.env.messages[uid])
       this.env.messages[uid] = {};
 
@@ -2827,13 +2832,14 @@ function rcube_webmail()
 
   // update thread indicators for all messages in a thread below the specified message
   // return number of removed/added root level messages
-  this.update_thread = function (uid)
+  this.update_thread = function(uid)
   {
-    if (!this.env.threading)
+    if (!this.env.threading || !this.message_list.rows[uid])
       return 0;
 
     var r, parent, count = 0,
-      rows = this.message_list.rows,
+      list = this.message_list,
+      rows = list.rows,
       row = rows[uid],
       depth = rows[uid].depth,
       roots = [];
@@ -2843,14 +2849,14 @@ function rcube_webmail()
 
     // update unread_children for thread root
     if (row.depth && row.unread) {
-      parent = this.message_list.find_root(uid);
+      parent = list.find_root(uid);
       rows[parent].unread_children--;
       this.set_unread_children(parent);
     }
 
     // update unread_children for thread root
     if (row.depth && row.flagged) {
-      parent = this.message_list.find_root(uid);
+      parent = list.find_root(uid);
       rows[parent].flagged_children--;
       this.set_flagged_children(parent);
     }
