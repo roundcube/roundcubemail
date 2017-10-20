@@ -1584,13 +1584,6 @@ function rcube_elastic_ui()
                 target = $(target).parents('a,li')[0];
             }
 
-            if (p.name == 'folder-selector') {
-                content.addClass('listing folderlist');
-            }
-            else if (content.hasClass('toolbarmenu')) {
-                content.addClass('listing');
-            }
-
             if (p.name.match(/^drag/)) {
                 // create a fake element to position drag menu on the cursor position
                 pos = rcube_event.get_mouse_pos(p.originalEvent);
@@ -1604,10 +1597,20 @@ function rcube_elastic_ui()
                     })
                     .appendTo(document.body).get(0);
             }
+            else {
+                pos = $(target).data('popup-pos') || 'right';
+            }
 
-            pos = $(target).data('popup-pos') || 'right';
+            if (p.name == 'folder-selector') {
+                content.addClass('listing folderlist');
+            }
+            else if (content.hasClass('toolbarmenu')) {
+                content.addClass('listing');
+            }
 
             if (p.name == 'pagejump-selector') {
+                content.addClass('simplelist');
+                p.obj.addClass('simplelist');
                 pos = 'top';
             }
 
