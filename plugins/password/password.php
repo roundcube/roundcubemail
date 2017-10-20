@@ -279,7 +279,7 @@ class password extends rcube_plugin
 
         $submit_button = $rcmail->output->button(array(
                 'command' => 'plugin.password-save',
-                'class'   => 'button mainaction save',
+                'class'   => 'button mainaction submit',
                 'label'   => 'save',
         ));
         $form_buttons = html::p(array('class' => 'formbuttons'), $submit_button);
