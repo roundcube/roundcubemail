@@ -210,9 +210,11 @@ function rcube_elastic_ui()
                 .attr({type: 'hidden', name: $(this).attr('name')})
                 .appendTo(rcmail.gui_objects.messageform);
 
-            $(this).on('change', function() {
-                hidden.val(this.type != 'checkbox' || this.checked ? $(this).val() : '');
-            }).change();
+            $(this).attr('tabindex', 2)
+                .on('change', function() {
+                    hidden.val(this.type != 'checkbox' || this.checked ? $(this).val() : '');
+                })
+                .change();
         });
 
         // Add HTML/Plain tabs (switch) on top of textarea with TinyMCE editor
