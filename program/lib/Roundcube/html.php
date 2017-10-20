@@ -900,26 +900,35 @@ class html_table extends html
             $this->attrib = array_merge($this->attrib, $attrib);
         }
 
-        $thead = $tbody = "";
+        $thead        = '';
+        $tbody        = '';
+        $col_tagname  = $this->_col_tagname();
+        $row_tagname  = $this->_row_tagname();
+        $head_tagname = $this->_head_tagname();
 
         // include <thead>
         if (!empty($this->header)) {
             $rowcontent = '';
             foreach ($this->header as $c => $col) {
-                $rowcontent .= self::tag($this->_head_tagname(), $col->attrib, $col->content);
+                $rowcontent .= self::tag($head_tagname, $col->attrib, $col->content);
             }
             $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', null, $rowcontent, parent::$common_attrib)) :
-                self::tag($this->_row_tagname(), array('class' => 'thead'), $rowcontent, parent::$common_attrib);
+                self::tag($row_tagname, array('class' => 'thead'), $rowcontent, parent::$common_attrib);
         }
 
         foreach ($this->rows as $r => $row) {
             $rowcontent = '';
             foreach ($row->cells as $c => $col) {
-                $rowcontent .= self::tag($this->_col_tagname(), $col->attrib, $col->content);
+                if ($row_tagname == 'li' && empty($col->attrib) && count($row->cells) == 1) {
+                    $rowcontent .= $col->content;
+                }
+                else {
+                    $rowcontent .= self::tag($col_tagname, $col->attrib, $col->content);
+                }
             }
 
             if ($r < $this->rowindex || count($row->cells)) {
-                $tbody .= self::tag($this->_row_tagname(), $row->attrib, $rowcontent, parent::$common_attrib);
+                $tbody .= self::tag($row_tagname, $row->attrib, $rowcontent, parent::$common_attrib);
             }
         }
 
