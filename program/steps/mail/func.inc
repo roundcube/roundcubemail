@@ -490,8 +490,9 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
 
     // loop through message headers
     foreach ($a_headers as $header) {
-        if (empty($header))
+        if (empty($header) || !$header->size) {
             continue;
+        }
 
         // make message UIDs unique by appending the folder name
         if ($multifolder) {
