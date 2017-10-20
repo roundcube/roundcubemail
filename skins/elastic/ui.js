@@ -152,7 +152,7 @@ function rcube_elastic_ui()
         // Move some buttons to the frame footer toolbar
         $('a[data-content-button]').each(function() {
             var target = $(this),
-                target_id = target.attr('id')
+                target_id = target.attr('id'),
                 button_id = target_id + '-clone';
 
             content_buttons.push(create_cloned_button(target));
@@ -164,7 +164,7 @@ function rcube_elastic_ui()
         // Move form buttons from the content frame into the frame footer (on parent window)
         // TODO: Active button state
         $('.formbuttons').children().each(function() {
-            var target = $(this), btn_class = target[0].className;
+            var target = $(this);
 
             // skip non-content buttons
             if (!is_framed && !target.parents('.content').length) {
@@ -175,8 +175,6 @@ function rcube_elastic_ui()
                 target.addClass('hidden');
                 return;
             }
-
-            btn_class = $.trim(btn_class.replace(/btn(-[a-z+]+)?/g, '')) + ' button';
 
             content_buttons.push(create_cloned_button(target, true));
         });
