@@ -1390,8 +1390,7 @@ class rcube_imap extends rcube_storage
                     $index  = new rcube_result_index($folder, '* ESEARCH ALL ' . $search);
                 }
                 else {
-                    $index = $this->index_direct($folder, $this->search_charset,
-                        $this->sort_field, $this->search_set);
+                    $index = $this->index_direct($folder, $this->sort_field, $this->sort_order, $this->search_set);
                 }
             }
 
@@ -2110,7 +2109,10 @@ class rcube_imap extends rcube_storage
 
         if (is_array($part[$di]) && count($part[$di]) == 2) {
             $struct->disposition = strtolower($part[$di][0]);
-
+            if ($struct->disposition && $struct->disposition !== 'inline' && $struct->disposition !== 'attachment') {
+                // RFC2183, Section 2.8 - unrecognized type should be treated as "attachment"
+                $struct->disposition = 'attachment';
+            }
             if (is_array($part[$di][1])) {
                 for ($n=0; $n<count($part[$di][1]); $n+=2) {
                     $struct->d_parameters[strtolower($part[$di][1][$n])] = $part[$di][1][$n+1];

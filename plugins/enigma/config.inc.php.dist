@@ -28,6 +28,14 @@ $config['enigma_pgp_agent'] = '';
 // It's used with GnuPG >= 2.1.
 $config['enigma_pgp_gpgconf'] = '';
 
+// Name of the PGP symmetric cipher algorithm.
+// Run gpg --version to see the list of supported algorithms
+$config['enigma_pgp_cipher_algo'] = null;
+
+// Name of the PGP digest (hash) algorithm.
+// Run gpg --version to see the list of supported algorithms
+$config['enigma_pgp_digest_algo'] = null;
+
 // Enables signatures verification feature.
 $config['enigma_signatures'] = true;
 

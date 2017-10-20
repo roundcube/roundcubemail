@@ -57,6 +57,7 @@ $messages['addedsuccessfully'] = 'Contact added successfully to address book.';
 $messages['contactexists'] = 'A contact with the same email address already exists.';
 $messages['contactnameexists'] = 'A contact with the same name already exists.';
 $messages['blockedimages'] = 'To protect your privacy, remote images are blocked in this message.';
+$messages['blockedresources'] = 'To protect your privacy remote resources have been blocked.';
 $messages['encryptedmessage'] = 'This is an encrypted message and can not be displayed. Sorry!';
 $messages['externalmessagedecryption'] = 'This is an encrypted message and can be decrypted with your browser extension.';
 $messages['nopubkeyfor'] = 'No valid public key found for $email';

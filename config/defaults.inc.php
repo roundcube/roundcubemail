@@ -1064,10 +1064,10 @@ $config['timezone'] = 'auto';
 // prefer displaying HTML messages
 $config['prefer_html'] = true;
 
-// display remote inline images
+// display remote resources (inline images, styles)
 // 0 - Never, always ask
 // 1 - Ask if sender is not in address book
-// 2 - Always show inline images
+// 2 - Always allow
 $config['show_images'] = 0;
 
 // open messages in new window

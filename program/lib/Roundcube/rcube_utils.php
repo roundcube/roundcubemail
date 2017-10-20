@@ -373,10 +373,11 @@ class rcube_utils
      * @param string CSS source code
      * @param string Container ID to use as prefix
      * @param bool   Allow remote content
+     * @param string Prefix to be added to id/class identifier
      *
      * @return string Modified CSS source
      */
-    public static function mod_css_styles($source, $container_id, $allow_remote = false)
+    public static function mod_css_styles($source, $container_id, $allow_remote = false, $prefix = '')
     {
         $last_pos     = 0;
         $replacements = new rcube_string_replacer;
@@ -432,23 +433,37 @@ class rcube_utils
             $last_pos = $pos2 - ($length - strlen($repl));
         }
 
-        // remove html comments and add #container to each tag selector.
-        // also replace body definition because we also stripped off the <body> tag
-        $source = preg_replace(
-            array(
-                '/(^\s*<\!--)|(-->\s*$)/m',
-                // (?!##str) below is to not match with ##str_replacement_0##
-                // from rcube_string_replacer used above, this is needed for
-                // cases like @media { body { position: fixed; } } (#5811)
-                '/(^\s*|,\s*|\}\s*|\{\s*)((?!##str)[a-z0-9\._#\*][a-z0-9\.\-_]*)/im',
-                '/'.preg_quote($container_id, '/').'\s+body/i',
-            ),
-            array(
-                '',
-                "\\1#$container_id \\2",
-                $container_id,
-            ),
-            $source);
+        // remove html comments
+        $source = preg_replace('/(^\s*<\!--)|(-->\s*$)/m', '', $source);
+
+        // add #container to each tag selector and prefix to id/class identifiers
+        if ($container_id || $prefix) {
+            // (?!##str) below is to not match with ##str_replacement_0##
+            // from rcube_string_replacer used above, this is needed for
+            // cases like @media { body { position: fixed; } } (#5811)
+            $regexp   = '/(^\s*|,\s*|\}\s*|\{\s*)((?!##str)[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
+            $callback = function($matches) use ($container_id, $prefix) {
+                $replace = $matches[2];
+
+                if ($prefix) {
+                    $replace = str_replace(array('.', '#'), array(".$prefix", "#$prefix"), $replace);
+                }
+
+                if ($container_id) {
+                    $replace = "#$container_id " . $replace;
+                }
+
+                return str_replace($matches[2], $replace, $matches[0]);
+            };
+
+            $source = preg_replace_callback($regexp, $callback, $source);
+        }
+
+        // replace body definition because we also stripped off the <body> tag
+        if ($container_id) {
+            $regexp = '/#' . preg_quote($container_id, '/') . '\s+body/i';
+            $source = preg_replace($regexp, "#$container_id", $source);
+        }
 
         // put block contents back in
         $source = $replacements->resolve($source);

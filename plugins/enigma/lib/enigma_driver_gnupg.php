@@ -94,6 +94,9 @@ class enigma_driver_gnupg extends enigma_driver
             $options['gpgconf'] = $gpgconf;
         }
 
+        $options['cipher-algo'] = $this->rc->config->get('enigma_pgp_cipher_algo');
+        $options['digest-algo'] = $this->rc->config->get('enigma_pgp_digest_algo');
+
         // Create Crypt_GPG object
         try {
             $this->gpg = new Crypt_GPG($options);

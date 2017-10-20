@@ -487,8 +487,9 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
 
     // loop through message headers
     foreach ($a_headers as $header) {
-        if (empty($header))
+        if (empty($header) || !$header->size) {
             continue;
+        }
 
         // make message UIDs unique by appending the folder name
         if ($multifolder) {
@@ -521,8 +522,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
             else if ($col == 'folder') {
                 if ($last_folder !== $header->folder) {
                     $last_folder      = $header->folder;
-                    $last_folder_name = rcube_charset::convert($last_folder, 'UTF7-IMAP');
-                    $last_folder_name = $RCMAIL->localize_foldername($last_folder_name, true);
+                    $last_folder_name = $RCMAIL->localize_foldername($last_folder, true);
                     $last_folder_name = str_replace($delimiter, " \xC2\xBB ", $last_folder_name);
                 }
 
@@ -872,21 +872,24 @@ function rcmail_wash_html($html, $p, $cid_replaces = array())
         'charset'       => RCUBE_CHARSET,
         'cid_map'       => $cid_replaces,
         'html_elements' => array('body'),
+        'css_prefix'    => $p['css_prefix'],
+        'container_id'  => $p['container_id'],
     );
 
     if (!$p['inline_html']) {
-        $wash_opts['html_elements'] = array('html','head','title','body');
+        $wash_opts['html_elements'] = array('html','head','title','body','link');
     }
     if ($p['safe']) {
-        $wash_opts['html_elements'][] = 'link';
         $wash_opts['html_attribs'] = array('rel','type');
     }
 
     // overwrite washer options with options from plugins
-    if (isset($p['html_elements']))
+    if (isset($p['html_elements'])) {
         $wash_opts['html_elements'] = $p['html_elements'];
-    if (isset($p['html_attribs']))
+    }
+    if (isset($p['html_attribs'])) {
         $wash_opts['html_attribs'] = $p['html_attribs'];
+    }
 
     // initialize HTML washer
     $washer = new rcube_washtml($wash_opts);
@@ -904,9 +907,7 @@ function rcmail_wash_html($html, $p, $cid_replaces = array())
     if (!$p['skip_washer_link_callback']) {
         $washer->add_callback('a', 'rcmail_washtml_link_callback');
         $washer->add_callback('area', 'rcmail_washtml_link_callback');
-
-        if ($p['safe'])
-            $washer->add_callback('link', 'rcmail_washtml_link_callback');
+        $washer->add_callback('link', 'rcmail_washtml_link_callback');
     }
 
     // Remove non-UTF8 characters (#1487813)
@@ -1089,22 +1090,22 @@ function rcmail_part_image_type($part)
 /**
  * Modify a HTML message that it can be displayed inside a HTML page
  */
-function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=array(), $allow_remote=false)
+function rcmail_html4inline($body, $args)
 {
-    $last_style_pos = 0;
-    $cont_id        = $container_id . ($body_class ? ' div.'.$body_class : '');
+    $last_pos = 0;
+    $cont_id  = $args['container_id'] . ($args['body_class'] ? ' div.' . $args['body_class'] : '');
 
     // find STYLE tags
-    while (($pos = stripos($body, '<style', $last_style_pos)) && ($pos2 = stripos($body, '</style>', $pos))) {
+    while (($pos = stripos($body, '<style', $last_pos)) && ($pos2 = stripos($body, '</style>', $pos))) {
         $pos = strpos($body, '>', $pos) + 1;
         $len = $pos2 - $pos;
 
         // replace all css definitions with #container [def]
         $styles = substr($body, $pos, $len);
-        $styles = rcube_utils::mod_css_styles($styles, $cont_id, $allow_remote);
+        $styles = rcube_utils::mod_css_styles($styles, $cont_id, $args['safe'], $args['css_prefix']);
 
-        $body = substr_replace($body, $styles, $pos, $len);
-        $last_style_pos = $pos2 + strlen($styles) - $len;
+        $body     = substr_replace($body, $styles, $pos, $len);
+        $last_pos = $pos2 + strlen($styles) - $len;
     }
 
     $body = preg_replace(array(
@@ -1131,13 +1132,13 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=a
             '<!--\\1-->',
             '&lt;?',
             '?&gt;',
-            '<div class="' . $body_class . '"\\1>',
+            '<div class="' . $args['body_class'] . '"\\1>',
             '</div>',
         ),
         $body);
 
     // Handle body attributes that doesn't play nicely with div elements
-    $regexp = '/<div class="' . preg_quote($body_class, '/') . '"([^>]*)/';
+    $regexp = '/<div class="' . preg_quote($args['body_class'], '/') . '"([^>]*)/';
     if (preg_match($regexp, $body, $m)) {
         $style = array();
         $attrs = $m[0];
@@ -1183,7 +1184,7 @@ function rcmail_html4inline($body, $container_id, $body_class='', &$attributes=a
     // make sure there's 'rcmBody' div, we need it for proper css modification
     // its name is hardcoded in rcmail_message_body() also
     else {
-        $body = '<div class="' . $body_class . '">' . $body . '</div>';
+        $body = '<div class="' . $args['body_class'] . '">' . $body . '</div>';
     }
 
     return $body;
@@ -1206,8 +1207,15 @@ function rcmail_washtml_link_callback($tag, $attribs, $content, $washtml)
     if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
         $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
         $_SESSION['modcssurls'][$tempurl] = $attrib['href'];
-        $attrib['href'] = $RCMAIL->url(array('task' => 'utils', 'action' => 'modcss', 'u' => $tempurl, 'c' => $GLOBALS['rcmail_html_container_id']));
+        $attrib['href'] = $RCMAIL->url(array(
+                'task'   => 'utils',
+                'action' => 'modcss',
+                'u'      => $tempurl,
+                'c'      => $washtml->get_config('container_id'),
+                'p'      => $washtml->get_config('css_prefix'),
+        ));
         $end = ' />';
+        $content = null;
     }
     else if (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {
         list($mailto, $url) = explode('?', html_entity_decode($mailto[1], ENT_QUOTES, 'UTF-8'), 2);

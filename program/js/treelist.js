@@ -467,10 +467,11 @@ function rcube_treelist_widget(node, p)
    */
   function remove(id)
   {
-    var node, li;
+    var node, li, parent;
 
     if (node = indexbyid[id]) {
       li = id2dom(id, true);
+      parent = li.parent();
       li.remove();
 
       node.deleted = true;
@@ -478,6 +479,12 @@ function rcube_treelist_widget(node, p)
 
       if (search_active) {
         id2dom(id, false).remove();
+      }
+
+      // remove tree-toggle button and children list
+      if (!parent.children().length) {
+        parent.parent().find('div.treetoggle').remove();
+        parent.remove();
       }
 
       return true;
