@@ -18,6 +18,7 @@ CHANGELOG Roundcube Webmail
 - Fix handling of unknown Content-Disposition type (#6002)
 - Fix truncated folder name on messages list in multi-folder mode, for folders with non-ascii characters (#6004)
 - Fix bug where removing the last subfolder did not hide toggle button on its parent record (#6007)
+- Fix bug where ghost messages could be added to the list after fast delete (#5941)
 
 RELEASE 1.3.1
 -------------
