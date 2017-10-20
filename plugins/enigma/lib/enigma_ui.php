@@ -754,11 +754,11 @@ class enigma_ui
         $checkbox   = new html_checkbox(array('name' => 'identity[]'));
         foreach ((array) $identities as $idx => $ident) {
             $name = empty($ident['name']) ? ($ident['email']) : $ident['ident'];
-            $identities[$idx] = html::label(null, $checkbox->show($name, array('value' => $name)) . rcube::Q($name));
+            $identities[$idx] = html::tag('li', null, html::label(null, $checkbox->show($name, array('value' => $name)) . rcube::Q($name)));
         }
 
         $table->add('title', html::label('key-name', rcube::Q($this->enigma->gettext('newkeyident'))));
-        $table->add(null, implode($identities, "\n"));
+        $table->add(null, html::tag('ul', 'proplist', implode($identities, "\n")));
 
         // Key size
         $select = new html_select(array('name' => 'size', 'id' => 'key-size'));
