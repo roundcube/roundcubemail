@@ -515,6 +515,8 @@ class rcube
             ini_set('session.gc_maxlifetime', $lifetime * 2);
         }
 
+        // set session cookie lifetime so it never expires (#5961)
+        ini_set('session.cookie_lifetime', 0);
         ini_set('session.cookie_secure', $is_secure);
         ini_set('session.name', $sess_name ?: 'roundcube_sessid');
         ini_set('session.use_cookies', 1);
@@ -1686,9 +1688,10 @@ class rcube
                 $mailto = implode(',', $a_recipients);
                 $mailto = rcube_mime::decode_address_list($mailto, null, false, null, true);
 
-                self::write_log('sendmail', sprintf("User %s [%s]; Message for %s; %s",
+                self::write_log('sendmail', sprintf("User %s [%s]; Message %s for %s; %s",
                     $this->user->get_username(),
                     rcube_utils::remote_addr(),
+                    $headers['Message-ID'],
                     implode(', ', $mailto),
                     !empty($response) ? join('; ', $response) : ''));
             }

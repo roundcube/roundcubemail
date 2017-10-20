@@ -81,6 +81,10 @@ if (!empty($_POST['_address']) && is_object($CONTACTS)) {
 
             if ($done) {
                 $OUTPUT->show_message('addedsuccessfully', 'confirmation');
+
+                if (!empty($_POST['_reload'])) {
+                    $OUTPUT->command('command', 'load-remote');
+                }
             }
         }
     }

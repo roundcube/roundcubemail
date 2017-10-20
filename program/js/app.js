@@ -284,7 +284,7 @@ function rcube_webmail()
 
           if (this.env.blockedobjects) {
             $(this.gui_objects.remoteobjectsmsg).show();
-            this.enable_command('load-images', 'always-load', true);
+            this.enable_command('load-remote', true);
           }
 
           // make preview/message frame visible
@@ -1028,16 +1028,15 @@ function rcube_webmail()
 
         break;
 
-      case 'always-load':
-        if (this.env.uid && this.env.sender) {
-          this.add_contact(this.env.sender);
-          setTimeout(function(){ ref.command('load-images'); }, 300);
-          break;
-        }
+      case 'load-remote':
+        if (this.env.uid) {
+          if (props && this.env.sender) {
+            this.add_contact(this.env.sender, true);
+            break;
+          }
 
-      case 'load-images':
-        if (this.env.uid)
-          this.show_message(this.env.uid, true, this.env.action=='preview');
+          this.show_message(this.env.uid, true, this.env.action == 'preview');
+        }
         break;
 
       case 'load-attachment':
@@ -2084,6 +2083,11 @@ function rcube_webmail()
     if (flags.mbox != this.env.mailbox && !flags.skip_mbox_check)
       return false;
 
+    // When deleting messages fast it may happen that the same message
+    // from the next page could be added many times, we prevent this here
+    if (this.message_list.rows[uid])
+      return false;
+
     if (!this.env.messages[uid])
       this.env.messages[uid] = {};
 
@@ -2850,13 +2854,14 @@ function rcube_webmail()
 
   // update thread indicators for all messages in a thread below the specified message
   // return number of removed/added root level messages
-  this.update_thread = function (uid)
+  this.update_thread = function(uid)
   {
-    if (!this.env.threading)
+    if (!this.env.threading || !this.message_list.rows[uid])
       return 0;
 
     var r, parent, count = 0,
-      rows = this.message_list.rows,
+      list = this.message_list,
+      rows = list.rows,
       row = rows[uid],
       depth = rows[uid].depth,
       roots = [];
@@ -2866,14 +2871,14 @@ function rcube_webmail()
 
     // update unread_children for thread root
     if (row.depth && row.unread) {
-      parent = this.message_list.find_root(uid);
+      parent = list.find_root(uid);
       rows[parent].unread_children--;
       this.set_unread_children(parent);
     }
 
     // update unread_children for thread root
     if (row.depth && row.flagged) {
-      parent = this.message_list.find_root(uid);
+      parent = list.find_root(uid);
       rows[parent].flagged_children--;
       this.set_flagged_children(parent);
     }
@@ -5282,10 +5287,10 @@ function rcube_webmail()
   };
 
   // send remote request to add a new contact
-  this.add_contact = function(value)
+  this.add_contact = function(value, reload)
   {
     if (value)
-      this.http_post('addcontact', {_address: value});
+      this.http_post('addcontact', {_address: value, _reload: reload});
 
     return true;
   };
@@ -5293,7 +5298,10 @@ function rcube_webmail()
   // send remote request to search mail or contacts
   this.qsearch = function(value)
   {
-    if (value || $(this.gui_objects.qsearchbox).val() || $(this.gui_objects.search_interval).val()) {
+    // Note: Some plugins would like to do search without value,
+    // so we keep value != '' check to allow that use-case. Which means
+    // e.g. that qsearch() with no argument will execute the search.
+    if (value != '' || $(this.gui_objects.qsearchbox).val() || $(this.gui_objects.search_interval).val()) {
       var r, lock = this.set_busy(true, 'searching'),
         url = this.search_params(value),
         action = this.env.action == 'compose' && this.contact_list ? 'search-contacts' : 'search';
