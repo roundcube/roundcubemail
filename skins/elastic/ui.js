@@ -2553,10 +2553,6 @@ function rcube_elastic_ui()
 
         rcmail.simple_dialog(frame, title, null, {cancel_button: 'close'});
 
-        // Remove title bar of the dialog widget, we most likely have
-        // one bar in the iframe
-        frame.parent().parent().children('.ui-dialog-titlebar').hide();
-
         return true;
     };
 
