@@ -485,7 +485,7 @@ function rcube_elastic_ui()
                 first.addClass('col-sm-4');
                 last.addClass('col-sm-8');
 
-                if (last.find('[type=checkbox]').length) {
+                if (last.find('[type=checkbox]').length == 1) {
                     row_classes.push('form-check');
                 }
                 else if (!last.find('input,textarea,radio,select').length) {
