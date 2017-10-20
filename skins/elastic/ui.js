@@ -138,7 +138,18 @@ function rcube_elastic_ui()
             }
         }
 
-        // Move some buttons to the toolbar
+        // Add content frame toolbar in the footer, for content buttons and navigation
+        if (!is_framed && layout.content.length) {
+            env.frame_nav = $('<div class="footer toolbar content-frame-navigation hide-nav-buttons">')
+                .append($('<a class="button prev">')
+                    .append($('<span class="inner"></span>').text(rcmail.gettext('previous'))))
+                .append($('<span class="buttons">'))
+                .append($('<a class="button next">')
+                    .append($('<span class="inner"></span>').text(rcmail.gettext('next'))))
+                .appendTo(layout.content);
+        }
+
+        // Move some buttons to the frame footer toolbar
         $('a[data-content-button]').each(function() {
             var target = $(this),
                 button = target.clone(),
@@ -146,19 +157,19 @@ function rcube_elastic_ui()
                 button_id = target_id + '-clone';
 
             content_buttons.push(
-                button.attr({'onclick': '', id: button_id, title: target.text()})
+                $('<a>').attr({'onclick': '', id: button_id, href: '#', 'class': target[0].className})
+                    .append($('<span class="inner">').text(target.text()))
                     .on('click', function(e) { target.click(); })
-                    .text('')
             );
 
             // Register the button to get active state updates
             register_cloned_button(target_id, button_id);
         });
 
-        // Move form buttons from the content frame into the frame header (on parent window)
+        // Move form buttons from the content frame into the frame footer (on parent window)
         // TODO: Active button state
         $('.formbuttons').children().each(function() {
-            var target = $(this);
+            var target = $(this), btn_class = target[0].className;
 
             // skip non-content buttons
             if (!is_framed && !target.parents('.content').length) {
@@ -170,13 +181,13 @@ function rcube_elastic_ui()
                 return;
             }
 
-            var button = target.clone();
+            btn_class = $.trim(btn_class.replace(/btn(-[a-z+]+)?/g, '')) + ' button';
 
             content_buttons.push(
-                button.attr({'onclick': '', disabled: false, id: button.attr('id') + '-clone', title: target.text()})
+                $('<a>').attr({'onclick': '', id: target.attr('id') + '-clone', href: '#', 'class': btn_class})
+                    .append($('<span class="inner">').text(target.text()))
                     .data('target', target)
                     .on('click', function(e) { target.click(); })
-                    .text('')
             );
         });
 
@@ -292,39 +303,22 @@ function rcube_elastic_ui()
     };
 
     /**
-     * Moves form buttons into content frame toolbar (for mobile)
+     * Moves form buttons into the content frame actions toolbar (for mobile)
      */
     function register_content_buttons(buttons)
     {
         // we need these buttons really only in phone mode
-        if (/*mode == 'phone' && */layout.content.length && buttons && buttons.length) {
-            var header = layout.content.children('.header');
+        if (/*mode == 'phone' && */ env.frame_nav && buttons && buttons.length) {
+            var toolbar = env.frame_nav.children('.buttons');
 
-            if (header.length) {
-                var toolbar = header.children('.buttons');
-
-                if (!toolbar.length) {
-                    var menu = $('a.toolbar-menu-button', header);
-                    toolbar = $('<span class="buttons">');
-
-                    if (menu.length) {
-                        menu.before(toolbar);
-                    }
-                    else {
-                        toolbar.appendTo(header);
-                    }
+            content_buttons = [];
+            $.each(buttons, function() {
+                if (this.data('target')) {
+                    content_buttons.push(this.data('target'));
                 }
+            });
 
-                content_buttons = [];
-                $.each(buttons, function() {
-                    if (this.data('target')) {
-                        content_buttons.push(this.data('target'));
-                    }
-                });
-
-                toolbar.html('').append(buttons);
-                resize();
-            }
+            toolbar.html('').append(buttons);
         }
     };
 
@@ -696,11 +690,9 @@ function rcube_elastic_ui()
     {
         // Don't display navigation for create/add action frames
         // TODO: edit-folder should really be create-folder
+        // TODO: managesieve and enigma plugins use different action name scheme
         if (href.match(/_action=(create|add)/) || (href.match(/_action=edit-folder/) && href.match(/_mbox=&/))) {
-            if (env.frame_nav) {
-                $(env.frame_nav).addClass('hidden');
-            }
-
+            $(env.frame_nav).addClass('hide-nav-buttons');
             return;
         }
 
@@ -709,6 +701,8 @@ function rcube_elastic_ui()
         if (!_list || !(list = rcmail[_list])) {
             return;
         }
+
+        $(env.frame_nav).removeClass('hide-nav-buttons');
 
         // expand collapsed row so we do not skip the whole thread
         // TODO: Unified interface for list and treelist widgets
@@ -721,25 +715,12 @@ function rcube_elastic_ui()
             }
         }
 
-        // TODO: Add "message X of Y" text between buttons?
-        if (!env.frame_nav) {
-            env.frame_nav = $('<div class="footer toolbar content-frame-navigation">')
-                .append($('<a class="button prev">')
-                    .append($('<span class="inner"></span>').text(rcmail.gettext('previous'))))
-                .append($('<span>'))
-                .append($('<a class="button next">')
-                    .append($('<span class="inner"></span>').text(rcmail.gettext('next'))))
-                .appendTo(layout.content);
-        }
-
-        var prev, next, found = false,
+        var prev, next,
             frame = $('#' + rcmail.env.contentframe),
             next_button = $('a.button.next', env.frame_nav).off('click').addClass('disabled'),
-            prev_button = $('a.button.prev', env.frame_nav).off('click').addClass('disabled'),
-            span = $(env.frame_nav).children('span').text('');
+            prev_button = $('a.button.prev', env.frame_nav).off('click').addClass('disabled');
 
         if ((next = list.get_next()) || rcmail.env.current_page < rcmail.env.pagecount) {
-            found = true;
             next_button.removeClass('disabled').on('click', function() {
                 env.content_lock = true;
                 iframe_loader(frame);
@@ -755,7 +736,6 @@ function rcube_elastic_ui()
         }
 
         if (((prev = list.get_prev()) && (prev != '*' || _list != 'subscription_list')) || rcmail.env.current_page > 1) {
-            found = true;
             prev_button.removeClass('disabled').on('click', function() {
                 env.content_lock = true;
                 iframe_loader(frame);
@@ -769,8 +749,6 @@ function rcube_elastic_ui()
                 }
             });
         }
-
-        env.frame_nav[found ? 'removeClass' : 'addClass']('hidden');
     };
 
     /**
