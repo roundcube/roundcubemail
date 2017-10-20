@@ -152,15 +152,10 @@ function rcube_elastic_ui()
         // Move some buttons to the frame footer toolbar
         $('a[data-content-button]').each(function() {
             var target = $(this),
-                button = target.clone(),
-                target_id = target.attr('id'),
+                target_id = target.attr('id')
                 button_id = target_id + '-clone';
 
-            content_buttons.push(
-                $('<a>').attr({'onclick': '', id: button_id, href: '#', 'class': target[0].className})
-                    .append($('<span class="inner">').text(target.text()))
-                    .on('click', function(e) { target.click(); })
-            );
+            content_buttons.push(create_cloned_button(target));
 
             // Register the button to get active state updates
             register_cloned_button(target_id, button_id);
@@ -183,12 +178,7 @@ function rcube_elastic_ui()
 
             btn_class = $.trim(btn_class.replace(/btn(-[a-z+]+)?/g, '')) + ' button';
 
-            content_buttons.push(
-                $('<a>').attr({'onclick': '', id: target.attr('id') + '-clone', href: '#', 'class': btn_class})
-                    .append($('<span class="inner">').text(target.text()))
-                    .data('target', target)
-                    .on('click', function(e) { target.click(); })
-            );
+            content_buttons.push(create_cloned_button(target, true));
         });
 
         if (content_buttons.length) {
@@ -333,6 +323,26 @@ function rcube_elastic_ui()
             rcmail.register_button(button.command, new_id,
                 button.data.type, button.data.act, button.data.sel, button.data.over);
         }
+    };
+
+    /**
+     * Create a button clone for use in toolbar
+     */
+    function create_cloned_button(target, is_ext)
+    {
+        var button = $('<a>'), btn_class = target[0].className;
+
+        btn_class = $.trim(btn_class.replace('btn-primary', 'primary').replace(/btn(-[a-z+]+)?/g, '')) + ' button';
+
+        button.attr({'onclick': '', id: target.attr('id') + '-clone', href: '#', 'class': btn_class})
+            .append($('<span class="inner">').text(target.text()))
+            .on('click', function(e) { target.click(); });
+
+        if (is_ext) {
+            button.data('target', target);
+        }
+
+        return button;
     };
 
     /**
