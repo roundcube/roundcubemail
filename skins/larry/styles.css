@@ -1692,6 +1692,11 @@ ul.proplist li {
 	width: auto;
 }
 
+ul.proplist.simplelist li {
+	border: 0;
+	background: transparent;
+}
+
 #pluginbody {
 	position: absolute;
 	top: 0;
