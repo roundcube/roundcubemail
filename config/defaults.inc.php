@@ -475,6 +475,11 @@ $config['ip_check'] = false;
 // X_FORWARDED_* and X_REAL_IP headers are only accepted from these IPs
 $config['proxy_whitelist'] = array();
 
+// List of trusted host names
+// since $_SERVER['SERVER_NAME'] can be modified via the Host header
+// An empty list accepts any host name.
+$config['trusted_host_patterns'] = array();
+
 // check referer of incoming requests
 $config['referer_check'] = false;
 
