@@ -605,6 +605,30 @@ class rcube_utils
     }
 
     /**
+     * Returns the server name after checking it against trusted hostname patterns,
+     * otherwise returns localhost
+     *
+     * @return string Server name
+     */
+    public static function server_name()
+    {
+        $server_name = $_SERVER['SERVER_NAME'];
+        $trusted_host_patterns = rcube::get_instance()->config->get('trusted_host_patterns', array());
+
+        if (empty($trusted_host_patterns) || in_array($server_name, $trusted_host_patterns)) {
+            return $server_name;
+        }
+
+        foreach ($trusted_host_patterns as $pattern) {
+            if (preg_match("/$pattern/", $server_name)) {
+                return $server_name;
+            }
+        }
+
+        return 'localhost';
+    }
+
+    /**
      * Returns remote IP address and forwarded addresses if found
      *
      * @return string Remote IP address(es)

@@ -102,7 +102,8 @@ class rcube_smtp
             $helo_host = $CONFIG['smtp_helo_host'];
         }
         else if (!empty($_SERVER['SERVER_NAME'])) {
-            $helo_host = preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME']);
+            $server_name = rcube_utils::server_name();
+            $helo_host = preg_replace('/:\d+$/', '', $server_name);
         }
         else {
             $helo_host = 'localhost';
