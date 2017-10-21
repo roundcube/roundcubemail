@@ -471,10 +471,10 @@ table.fixedcopy {
     }
 
     td.subject {
-        width: 99%;
-        position: relative; /* for span.date positioning in Firefox */
-        background-clip: padding-box; /* fixes Firefox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
+        width: 100%;
         padding-right: 0;
+        display: flex;
+        flex-wrap: wrap;
 
         a {
             text-decoration: none;
@@ -485,27 +485,24 @@ table.fixedcopy {
             line-height: 2em;
 
             &.date {
-                right: 0;
-                top: 0;
-                position: absolute;
                 font-size: 90%;
                 color: @color-list-secondary;
             }
 
             &.fromto {
-                padding-left: 1.5em;
-                display: block;
-                margin-right: 10em;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                flex: 1;
                 font-size: 90%;
                 color: @color-list-secondary;
+                padding-left: 1.5em;
+                padding-right: .5rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             &.subject {
-                display: block;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                width: 100%;
             }
         }
     }
