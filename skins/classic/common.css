@@ -179,6 +179,13 @@ label span
   vertical-align: middle;
 }
 
+ul.proplist
+{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
 
 /** common user interface objects */
 
