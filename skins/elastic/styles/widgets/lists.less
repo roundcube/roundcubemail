@@ -22,9 +22,6 @@
 
     tbody td,
     li a {
-        display: block;
-        text-decoration: none;
-        cursor: default;
         padding: 0 .5rem;
         white-space: nowrap;
         vertical-align: middle;
@@ -32,7 +29,6 @@
     }
 
     tbody td {
-        display: table-cell;
         outline: none;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -40,6 +36,13 @@
         a {
             color: @color-list;
         }
+    }
+
+    li a {
+        display: inline-block;
+        text-decoration: none;
+        cursor: default;
+        width: 100%;
     }
 
     li.selected,
