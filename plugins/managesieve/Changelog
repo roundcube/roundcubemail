@@ -1,3 +1,5 @@
+- Added option managesieve_default_headers
+
 * version 9.0 [2017-10-02]
 -----------------------------------------------------------
 - Fix parsing dot-staffed lines in multiline text (#5838)
