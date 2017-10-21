@@ -84,3 +84,8 @@ $config['plugins'] = array(
 
 // skin name: folder from skins/
 $config['skin'] = 'larry';
+
+// restrict maximum upload file size
+// if set to a negative value, the maximum file size of attachments is
+// determined by the settings in your php.ini only
+$config['max_upload_size'] = -1;

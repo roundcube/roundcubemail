@@ -2101,6 +2101,10 @@ class rcmail extends rcube
 
         // find max filesize value
         $max_filesize = rcube_utils::max_upload_size();
+        $max_filesize_config = $this->config->get('max_upload_size');
+        if ($max_filesize_config > 0) {
+            $max_filesize = min($max_filesize, $max_filesize_config);
+        }
         if ($max_size && $max_size < $max_filesize) {
             $max_filesize = $max_size;
         }
