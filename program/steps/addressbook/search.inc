@@ -285,7 +285,7 @@ function rcmail_contact_search_form($attrib)
 
         if (is_array($CONTACTS->coltypes)) {
             $contact_cols = $CONTACTS->coltypes[0] ? array_flip($CONTACTS->coltypes) : $CONTACTS->coltypes;
-            $coltypes = array_merge($coltypes, $contact_cols);
+            $coltypes     = array_merge($coltypes, $contact_cols);
         }
     }
 
@@ -295,22 +295,24 @@ function rcmail_contact_search_form($attrib)
     }
 
     // build form fields list
-    foreach ($coltypes as $col => $colprop)
-    {
-        if ($colprop['type'] != 'image' && !$colprop['nosearch'])
-        {
+    foreach ($coltypes as $col => $colprop) {
+        if ($colprop['type'] != 'image' && !$colprop['nosearch']) {
             $ftype    = $colprop['type'] == 'select' ? 'select' : 'text';
             $label    = isset($colprop['label']) ? $colprop['label'] : $RCMAIL->gettext($col);
             $category = $colprop['category'] ?: 'other';
 
             // load jquery UI datepicker for date fields 
-            if ($colprop['type'] == 'date')
+            if ($colprop['type'] == 'date') {
                 $colprop['class'] .= ($colprop['class'] ? ' ' : '') . 'datepicker';
-            else if ($ftype == 'text')
+            }
+            else if ($ftype == 'text') {
                 $colprop['size'] = $i_size;
+            }
 
+            $colprop['id'] = '_search_' . $col;
 
-            $content  = html::div('row', html::div('contactfieldlabel label', rcube::Q($label))
+            $content  = html::div('row',
+                html::label(array('class' => 'contactfieldlabel label', 'for' => $colprop['id']), rcube::Q($label))
                 . html::div('contactfieldcontent', rcube_output::get_edit_field('search_'.$col, '', $colprop, $ftype)));
 
             $form[$category]['content'][] = $content;
@@ -321,9 +323,12 @@ function rcmail_contact_search_form($attrib)
     $hiddenfields->add(array('name' => '_adv', 'value' => 1));
 
     $out = $RCMAIL->output->request_form(array(
-        'name' => 'form', 'method' => 'post',
-        'task' => $RCMAIL->task, 'action' => 'search',
-        'noclose' => true) + $attrib, $hiddenfields->show());
+            'name'    => 'form',
+            'method'  => 'post',
+            'task'    => $RCMAIL->task,
+            'action'  => 'search',
+            'noclose' => true,
+        ) + $attrib, $hiddenfields->show());
 
     $RCMAIL->output->add_gui_object('editform', $attrib['id']);
 
