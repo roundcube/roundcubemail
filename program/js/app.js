@@ -6498,20 +6498,21 @@ function rcube_webmail()
     if (!elem)
       elem = $('.ff_' + col);
 
-    if (label)
+    if (label && !$('label[for="ff_' + col + '"]').length)
       elem.placeholder(label);
   };
 
   this.insert_edit_field = function(col, section, menu)
   {
     // just make pre-defined input field visible
-    var elem = $('#ff_'+col);
+    var elem = $('#ff_' + col);
     if (elem.length) {
+      $('label[for="ff_' + col + '"]').parent().show();
       elem.show().focus();
-      $(menu).children('option[value="'+col+'"]').prop('disabled', true);
+      $(menu).children('option[value="' + col + '"]').prop('disabled', true);
     }
     else {
-      var lastelem = $('.ff_'+col),
+      var lastelem = $('.ff_' + col),
         appendcontainer = $('#contactsection'+section+' .contactcontroller'+col);
 
       if (!appendcontainer.length) {
@@ -6524,25 +6525,31 @@ function rcube_webmail()
           sect.prepend(appendcontainer);
       }
 
-      if (appendcontainer.length && appendcontainer.get(0).nodeName == 'FIELDSET') {
-        var input, colprop = this.env.coltypes[col],
+      if (appendcontainer.get(0).nodeName == 'FIELDSET') {
+        var label, input,
+          colprop = this.env.coltypes[col],
+          name_suffix = colprop.limit != 1 ? '[]' : '',
+          compact = $(menu).data('compact') ? true : false,
           input_id = 'ff_' + col + (colprop.count || 0),
-          row = $('<div>').addClass('row'),
-          cell = $('<div>').addClass('contactfieldcontent data'),
-          label = $('<div>').addClass('contactfieldlabel label');
+          row = $('<div>').addClass('row input-group'),
+          cell = $('<div>').addClass('contactfieldcontent ' + colprop.type);
 
-        if (colprop.subtypes_select)
-          label.html(colprop.subtypes_select);
+        // Field label
+        if (colprop.subtypes_select) {
+          label = $(colprop.subtypes_select);
+          if (!compact)
+            label = $('<div>').addClass('contactfieldlabel label').append(label);
+          else
+            label.addClass('input-group-addon');
+        }
         else
-          label.html('<label for="' + input_id + '">' + colprop.label + '</label>');
+          label = $('<label>').addClass('contactfieldlabel label input-group-addon').attr('for', input_id).text(colprop.label);
 
-        var name_suffix = colprop.limit != 1 ? '[]' : '';
-
+        // Field input
         if (colprop.type == 'text' || colprop.type == 'date') {
           input = $('<input>')
-            .addClass('ff_'+col)
-            .attr({type: 'text', name: '_'+col+name_suffix, size: colprop.size, id: input_id})
-            .appendTo(cell);
+            .addClass('form-control ff_' + col)
+            .attr({type: 'text', name: '_'+col+name_suffix, size: colprop.size, id: input_id});
 
           this.init_edit_field(col, input);
 
@@ -6551,17 +6558,19 @@ function rcube_webmail()
         }
         else if (colprop.type == 'textarea') {
           input = $('<textarea>')
-            .addClass('ff_'+col)
-            .attr({ name: '_'+col+name_suffix, cols:colprop.size, rows:colprop.rows, id: input_id })
-            .appendTo(cell);
+            .addClass('form-control ff_' + col)
+            .attr({ name: '_' + col + name_suffix, cols: colprop.size, rows: colprop.rows, id: input_id });
 
           this.init_edit_field(col, input);
         }
         else if (colprop.type == 'composite') {
-          var i, childcol, cp, first, templ, cols = [], suffices = [];
+          var i, childcol, cp, first, templ, cols = [], suffices = [], content = cell;
+
+          if (compact)
+            content = $('<div class="content input-group-addon">');
 
           // read template for composite field order
-          if ((templ = this.env[col+'_template'])) {
+          if (templ = this.env[col + '_template']) {
             for (i=0; i < templ.length; i++) {
               cols.push(templ[i][1]);
               suffices.push(templ[i][2]);
@@ -6576,42 +6585,61 @@ function rcube_webmail()
             childcol = cols[i];
             cp = colprop.childs[childcol];
             input = $('<input>')
-              .addClass('ff_'+childcol)
-              .attr({ type: 'text', name: '_'+childcol+name_suffix, size: cp.size })
-              .appendTo(cell);
-            cell.append(suffices[i] || " ");
+              .addClass('form-control ff_' + childcol)
+              .attr({ type: 'text', name: '_' + childcol + name_suffix, size: cp.size })
+              .appendTo(content);
+
+            if (!compact)
+              content.append(suffices[i] || " ");
+
             this.init_edit_field(childcol, input);
             if (!first) first = input;
           }
-          input = first;  // set focus to the first of this composite fields
+
+          if (compact)
+            input = content;
+          else
+            input = first;  // set focus to the first of this composite fields
         }
         else if (colprop.type == 'select') {
           input = $('<select>')
-            .addClass('ff_'+col)
-            .attr({ 'name': '_'+col+name_suffix, id: input_id })
-            .appendTo(cell);
+            .addClass('form-control ff_' + col)
+            .attr({ name: '_' + col + name_suffix, id: input_id });
 
           var options = input.attr('options');
           options[options.length] = new Option('---', '');
           if (colprop.options)
-            $.each(colprop.options, function(i, val){ options[options.length] = new Option(val, i); });
+            $.each(colprop.options, function(i, val) { options[options.length] = new Option(val, i); });
         }
 
         if (input) {
           var delbutton = $('<a href="#del"></a>')
-            .addClass('contactfieldbutton deletebutton')
+            .addClass('contactfieldbutton deletebutton input-group-addon icon delete')
             .attr({title: this.get_label('delete'), rel: col})
             .html(this.env.delbutton)
-            .click(function(){ ref.delete_edit_field(this); return false })
-            .appendTo(cell);
+            .click(function() { ref.delete_edit_field(this); return false; });
 
-          row.append(label).append(cell).appendTo(appendcontainer.show());
-          input.first().focus();
+          row.append(label);
+
+          if (!compact) {
+            if (colprop.type != 'composite')
+              cell.append(input);
+            row.append(cell.append(delbutton));
+          }
+          else
+            row.append(input).append(delbutton);
+
+          row.appendTo(appendcontainer.show());
+
+          if (input.is('div'))
+            input.find('input:first').focus();
+          else
+            input.first().focus();
 
           // disable option if limit reached
           if (!colprop.count) colprop.count = 0;
           if (++colprop.count == colprop.limit && colprop.limit)
-            $(menu).children('option[value="'+col+'"]').prop('disabled', true);
+            $(menu).children('option[value="' + col + '"]').prop('disabled', true);
         }
       }
     }
@@ -6626,7 +6654,7 @@ function rcube_webmail()
 
     // just clear input but don't hide the last field
     if (--colprop.count <= 0 && colprop.visible)
-      $(elem).parent().children('input').val('').blur();
+      $(elem).parent().find('input').val('').blur();
     else {
       $(elem).parents('div.row').remove();
       // hide entire fieldset if no more rows
