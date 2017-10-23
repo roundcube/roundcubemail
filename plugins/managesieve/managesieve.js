@@ -890,7 +890,6 @@ rcube_webmail.prototype.managesieve_tip_register = function(tips)
     tip = framed ? parent.rcmail.env.ms_tip_layer : rcmail.env.ms_tip_layer;
 
   for (n in tips) {
-console.log(tips[n]);
     $('#'+tips[n][0])
       .data('tip-class', tips[n][1])
       .data('tip-msg', tips[n][2])
