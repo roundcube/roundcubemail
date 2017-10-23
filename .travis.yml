@@ -8,8 +8,8 @@ matrix:
     - php: 5.4
     - php: 5.5
     - php: 5.6
-      env: CS_CHECK=1
     - php: 7.0
+      env: CS_CHECK=1
     - php: 7.1
       env: CODE_COVERAGE=1
     - php: 7.2
