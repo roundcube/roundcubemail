@@ -24,6 +24,7 @@ return PhpCsFixer\Config::create()
         'semicolon_after_instruction' => true,
         'simplified_null_return' => true,
         'single_quote' => false,
+        'yoda_style' => false,
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
