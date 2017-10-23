@@ -9,6 +9,7 @@ return PhpCsFixer\Config::create()
         'concat_space' => ['spacing' => 'one'],
         'heredoc_to_nowdoc' => true,
         'method_argument_space' => true,
+        'modernize_types_casting' => false,
         'no_extra_consecutive_blank_lines' => ['break', 'continue', 'extra', 'return', 'throw', 'use', 'parenthesis_brace_block', 'square_brace_block', 'curly_brace_block'],
         'no_php4_constructor' => true,
         'no_short_echo_tag' => true,
