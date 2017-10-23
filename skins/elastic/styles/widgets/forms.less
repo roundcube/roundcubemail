@@ -121,6 +121,83 @@ input.smart-upload {
     .rulerow {
         margin-bottom: .5rem;
     }
+
+    &.groupped {
+        legend {
+            margin: 0;
+        }
+
+        &.readonly {
+            label {
+                min-width: 7rem;
+                /* Overwrite Bootstrap .input-group-addon style to make the label transparent */
+                background-color: transparent;
+                border: 0;
+                border-radius: 0;
+            }
+        }
+
+        .row.input-group {
+            margin-bottom: .5rem;
+            flex-wrap: nowrap;
+
+            & > *:first-child {
+                min-width: 8rem;
+                height: auto;
+                padding-right: .375rem;
+                padding-left: .375rem;
+            }
+
+            & > *:nth-child(2) {
+                flex-grow: 30;
+            }
+
+            select {
+                text-align: left;
+                height: auto;
+            }
+
+            .content {
+                padding: 0;
+                display: flex;
+                flex-wrap: wrap;
+
+                input {
+                    border-radius: 0;
+                    border-color: transparent;
+                }
+
+                .ff_street {
+                    width: 100%;
+                }
+
+                .ff_locality {
+                    width: 75%;
+                }
+
+                .ff_zipcode {
+                    width: 25%;
+                }
+
+                .ff_country, .ff_region {
+                    width: 50%;
+                }
+            }
+        }
+
+        .form-control-plaintext {
+            flex-grow: 1;
+        }
+    }
+
+    .addfield {
+        margin: 0;
+
+        select {
+            width: 8rem;
+            margin-top: .5rem;
+        }
+    }
 }
 
 @media screen and (max-width: 576px) {
@@ -205,6 +282,10 @@ html.ms .propform {
 
     .formbuttons {
         padding: 0.5rem 1rem;
+
+        button {
+            margin-right: .5rem;
+        }
     }
 }
 
@@ -229,6 +310,7 @@ html.layout-phone {
             padding: 0;
         }
 
+        .form-control-plaintext,
         label.col-form-label {
             padding-top: .375rem;
             padding-bottom: .375rem;
@@ -274,6 +356,23 @@ html.layout-phone {
         margin-bottom: 1em;
         font-style: italic;
     }
+
+    .contact-header {
+        display: flex;
+        margin-bottom: 1rem;
+
+        .contact-head {
+            margin-left: 1rem;
+
+            legend {
+                display: none;
+            }
+
+            &.propform {
+                margin-left: 2.5rem;
+            }
+        }
+    }
 }
 
 @media screen and (max-width: @screen-width-mini) {
@@ -311,6 +410,9 @@ html.layout-phone {
     &.cancel:before {
         content: @fa-var-close;
     }
+    &.delete:before {
+        content: @fa-var-trash-o;
+    }
     &.edit:before {
         content: @fa-var-pencil;
     }
@@ -330,10 +432,6 @@ html.layout-phone {
 }
 
 td.editfield { width: 99%;  /* TODO */ }
-
-.form-group {
-    margin-bottom: .5rem; /* overwrites Bootstrap style */
-}
 
 
 ul.proplist {
@@ -544,10 +642,12 @@ html.touch .popupmenu.form {
 
 /*** Smart recipient input field ***/
 
+@recipient-input-margin-fix: .375rem;
+
 .recipient-input {
     display: flex;
     flex-wrap: wrap;
-    padding: 0 .75rem .25rem .75rem;
+    padding: 0 .75rem @recipient-input-margin-fix .75rem;
 
     &.focus {
         border-color: @color-input-border-focus;
@@ -562,7 +662,7 @@ html.touch .popupmenu.form {
         background-color: @color-recipient-input-background;
         border-radius: .25em;
         padding: 0 .25em;
-        margin-top: .25rem;
+        margin-top: @recipient-input-margin-fix;
         margin-right: .2em;
         white-space: nowrap;
 
@@ -576,7 +676,7 @@ html.touch .popupmenu.form {
         flex-grow: 1;
         display: inline-block;
         line-height: 1.1;
-        padding: .25em;
+        padding: .25rem;
         vertical-align: middle;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -612,7 +712,7 @@ html.touch .popupmenu.form {
         min-width: 25%;
         background: transparent !important;
         border: 0 !important;
-        margin-top: .25rem;
+        margin-top: @recipient-input-margin-fix;
         outline: 0;
     }
 }
@@ -679,6 +779,7 @@ html.touch .popupmenu.form {
         width: 2.5em;
         padding: .5em;
         margin: .5em;
+        line-height: 1;
     }
 
     &.changed a.button {
@@ -848,6 +949,8 @@ html.touch input.icon-checkbox + label {
     }
 }
 
+/* Bootstrap style overrides */
+
 .form-control, .form-control:focus {
     color: @color-font;
 }
@@ -858,4 +961,8 @@ html.touch input.icon-checkbox + label {
 
 .form-control.is-invalid {
     border-color: @color-input-border-invalid;
+}
+
+.form-group {
+    margin-bottom: .5rem;
 }

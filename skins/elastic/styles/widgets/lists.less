@@ -628,7 +628,6 @@ table.fixedcopy {
 
 }
 
-
 html.layout-phone,
 html.touch {
     .messagelist {
@@ -645,6 +644,29 @@ html.touch {
             padding: 0;
             width: 2em;
         }
+    }
+}
+
+
+/* Contacts list */
+
+.contactlist {
+    .contact.readonly td {
+        font-style: italic;
+    }
+
+    td.action {
+        /* TODO */
+        a {
+            /* TODO */
+        }
+    }
+
+    span.email {
+        display: inline;
+        color: @color-list-secondary;
+        font-style: italic;
+        margin-left: .5em;
     }
 }
 

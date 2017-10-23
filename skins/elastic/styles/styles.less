@@ -154,26 +154,6 @@ a:hover {
 
 /*** Addressbook UI ***/
 
-#contacts-table {
-    .contact.readonly td {
-        font-style: italic;
-    }
-
-    td.action {
-        /* TODO */
-        a {
-            /* TODO */
-        }
-    }
-
-    span.email {
-        display: inline;
-        color: @color-list-secondary;
-        font-style: italic;
-        margin-left: .5em;
-    }
-}
-
 #contactpic {
     /* TODO: merge with file-upload? */
     min-width: 112px;
@@ -188,11 +168,14 @@ a:hover {
     }
 }
 
-#contactphoto {
- /* TODO */
-    float: left;
-    margin-right: .5em;
-}
+#contacthead {
+    .names {
+        margin-bottom: .5rem;
 
-#contacthead { /* TODO */ }
-.contactfieldgroup { /* TODO */ }
+        span.namefield {
+            font-size: 1.5rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+    }
+}

@@ -507,13 +507,34 @@ function rcube_elastic_ui()
         });
 
         // Other forms, e.g. Contact advanced search
-        $('fieldset.propform > .contactfieldgroup', context).each(function() {
-            $('.row', this).addClass('form-group').each(function() {
-                $('div:first', this).addClass('col-sm-4');
-                $('div:last', this).addClass('col-sm-8');
+        $('fieldset.propform:not(.groupped) div.row', context).each(function() {
+            var has_input = $('input,select,textarea', this).addClass('form-control').length > 0;
+
+            $(this).children().last().addClass('col-sm-8' + (!has_input ? ' form-control-plaintext' : ''));
+            $(this).children().first().addClass('col-sm-4 col-form-label');
+            $(this).addClass('form-group');
+        });
+
+        // Contact info/edit form
+        $('fieldset.propform.groupped fieldset', context).each(function() {
+            $('.row', this).each(function() {
+                var label, has_input = $('input,select,textarea', this).addClass('form-control').length > 0,
+                    items = $(this).children();
+
+                if (items.length < 2) {
+                    return;
+                }
+
+                items.first().addClass('input-group-addon').not('select').addClass('col-form-label');
+
+                if (!has_input) {
+                    items.last().addClass('form-control-plaintext');
+                }
+
+                $('.content', this).addClass('input-group-addon');
+                $('a.deletebutton', this).addClass('input-group-addon icon delete');
+                $(this).addClass('input-group');
             });
-            $('.label', this).addClass('col-form-label');
-            $('input,select,textarea', this).addClass('form-control');
         });
 
         // Other forms, e.g. Insert response
@@ -2210,7 +2231,7 @@ function rcube_elastic_ui()
     function image_upload_input(obj)
     {
         var reset_button = $('<a>')
-            .attr({'class': 'icon button cancel', href: '#', })
+            .attr({'class': 'icon button delete', href: '#', })
             .click(function(e) { rcmail.command('delete-photo', '', this, e); return false; });
 
         $(obj).append(reset_button).click(function() { rcmail.upload_input('upload-form'); });
