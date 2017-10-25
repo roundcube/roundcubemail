@@ -155,16 +155,17 @@ a:hover {
 /*** Addressbook UI ***/
 
 #contactpic {
-    /* TODO: merge with file-upload? */
-    min-width: 112px;
-    min-height: 112px;
-    text-align: center;
-    border-radius: 5px;
+    min-width: @layout-contact-icon-width;
+    min-height: @layout-contact-icon-width;
+    border-radius: .5rem;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     img {
-        max-width: 112px;
-        max-height: 135px;
+        max-width: @layout-contact-icon-width;
+        max-height: @layout-contact-icon-height;
     }
 }
 

@@ -123,11 +123,11 @@ input.smart-upload {
     }
 
     &.groupped {
-        legend {
-            margin: 0;
-        }
-
         &.readonly {
+            legend {
+                margin: 0;
+            }
+
             label {
                 min-width: 7rem;
                 /* Overwrite Bootstrap .input-group-addon style to make the label transparent */
@@ -146,10 +146,22 @@ input.smart-upload {
                 height: auto;
                 padding-right: .375rem;
                 padding-left: .375rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                @media screen and (max-width: @screen-width-xs) {
+                    min-width: 6rem;
+                    width: 6rem;
+                    flex-grow: unset;
+                }
             }
 
             & > *:nth-child(2) {
                 flex-grow: 30;
+            }
+
+            &:last-child {
+                margin-bottom: 1rem;
             }
 
             select {
@@ -361,15 +373,15 @@ html.layout-phone {
         display: flex;
         margin-bottom: 1rem;
 
+        .contact-photo {
+            min-width: @layout-contact-icon-width;
+        }
+
         .contact-head {
             margin-left: 1rem;
 
             legend {
                 display: none;
-            }
-
-            &.propform {
-                margin-left: 2.5rem;
             }
         }
     }
@@ -768,12 +780,13 @@ html.touch .popupmenu.form {
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    background-color: @color-image-upload-background;
 
     a.button {
         display: none;
         position: absolute;
         left: 0;
-        right: 0;
+        top: 0;
         background-color: rgba(255, 255, 255, .85);
         border-radius: 5px;
         width: 2.5em;
