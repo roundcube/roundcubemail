@@ -93,7 +93,7 @@ function rcube_elastic_ui()
      */
     function setup()
     {
-        var title,
+        var title, form,
             content_buttons = [],
             is_framed = rcmail.is_framed();
 
@@ -193,29 +193,33 @@ function rcube_elastic_ui()
         $('[data-recipient-input]').each(function() { recipient_input(this); });
         $('.image-upload').each(function() { image_upload_input(this); });
 
-        // Show input elements with non-empty value
-        // These event handlers need to be registered before rcmail 'init' event
-        $('#_cc, #_bcc, #_replyto, #_followupto', $('.compose-headers')).each(function() {
-            $(this).on('change', function() {
-                $('#compose' + $(this).attr('id'))[this.value ? 'removeClass' : 'addClass']('hidden');
+        // Mail compose features
+        if (form = rcmail.gui_objects.messageform) {
+            form = $('form[name="' + form + '"]');
+            // Show input elements with non-empty value
+            // These event handlers need to be registered before rcmail 'init' event
+            $('#_cc, #_bcc, #_replyto, #_followupto', $('.compose-headers')).each(function() {
+                $(this).on('change', function() {
+                    $('#compose' + $(this).attr('id'))[this.value ? 'removeClass' : 'addClass']('hidden');
+                });
             });
-        });
 
-        // We put compose options for outside of the main form
-        // Because IE/Edge does not support 'form' attribute we'll copy
-        // inputs into the main form hidden fields
-        // TODO: Consider doing this for IE/Edge only, just set the 'form' attribute on others
-        $('#compose-options').find('textarea,input,select').each(function() {
-            var hidden = $('<input>')
-                .attr({type: 'hidden', name: $(this).attr('name')})
-                .appendTo(rcmail.gui_objects.messageform);
+            // We put compose options for outside of the main form
+            // Because IE/Edge does not support 'form' attribute we'll copy
+            // inputs into the main form hidden fields
+            // TODO: Consider doing this for IE/Edge only, just set the 'form' attribute on others
+            $('#compose-options').find('textarea,input,select').each(function() {
+                var hidden = $('<input>')
+                    .attr({type: 'hidden', name: $(this).attr('name')})
+                    .appendTo(form);
 
-            $(this).attr('tabindex', 2)
-                .on('change', function() {
-                    hidden.val(this.type != 'checkbox' || this.checked ? $(this).val() : '');
-                })
-                .change();
-        });
+                $(this).attr('tabindex', 2)
+                    .on('change', function() {
+                        hidden.val(this.type != 'checkbox' || this.checked ? $(this).val() : '');
+                    })
+                    .change();
+            });
+        }
 
         // Add HTML/Plain tabs (switch) on top of textarea with TinyMCE editor
         $('textarea[data-html-editor]').each(function() { html_editor_init(this); });
