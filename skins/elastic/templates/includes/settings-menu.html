@@ -3,10 +3,10 @@
 		<a class="button icon menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 		<span id="aria-label-settingstabs" class="header-title"><roundcube:label name="settings" /></span>
 	</div>
-	<div id="settings-menu" class="scroller">
-		<ul class="listing iconized">
+	<div class="scroller">
+		<ul id="settings-menu" class="listing iconized<roundcube:exp expression="!request:_action ? ' selection-large-only' : ''"/>">
 			<roundcube:object name="settingstabs" class="listitem" tagname="li" />
+			<roundcube:container name="tabs" id="settings-menu" />
 		</ul>
-		<roundcube:container name="tabs" id="settings-menu" />
 	</div>
 </div>
