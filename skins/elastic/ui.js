@@ -162,7 +162,6 @@ function rcube_elastic_ui()
         });
 
         // Move form buttons from the content frame into the frame footer (on parent window)
-        // TODO: Active button state
         $('.formbuttons').children().each(function() {
             var target = $(this);
 
@@ -195,9 +194,9 @@ function rcube_elastic_ui()
                 });
             });
 
-            // We put compose options for outside of the main form
-            // Because IE/Edge does not support 'form' attribute we'll copy
-            // inputs into the main form hidden fields
+            // We put compose options outside of the main form
+            // Because IE/Edge (<16) does not support 'form' attribute we'll copy
+            // inputs into the main form as hidden fields
             // TODO: Consider doing this for IE/Edge only, just set the 'form' attribute on others
             $('#compose-options').find('textarea,input,select').each(function() {
                 var hidden = $('<input>')
@@ -723,7 +722,6 @@ function rcube_elastic_ui()
     function content_frame_navigation(href, event)
     {
         // Don't display navigation for create/add action frames
-        // TODO: managesieve and enigma plugins use different action name scheme
         if (href.match(/_action=(create|add)/) || href.match(/_nav=hide/)) {
             $(env.frame_nav).addClass('hide-nav-buttons');
             return;
@@ -864,7 +862,7 @@ function rcube_elastic_ui()
      */
     function resize()
     {
-        var meta, size, width = $(window).width();
+        var size, mobile, width = $(window).width();
 
         if (width <= 480)
             size = 'phone';
@@ -881,10 +879,8 @@ function rcube_elastic_ui()
         screen_resize_html();
 //        display_screen_size(); // debug info
 
-        meta = layout_metadata();
-
         // disable ext-windows and other features
-        if (meta.mode == 'small' || meta.mode == 'phone') {
+        if (mobile = is_mobile()) {
             rcmail.set_env(env.small_screen_config);
             rcmail.enable_command('extwin', false);
         }
@@ -892,6 +888,9 @@ function rcube_elastic_ui()
             rcmail.set_env(env.config);
             rcmail.enable_command('extwin', true);
         }
+
+        // Hide content frame buttons on small devices (with frame toolbar in parent window)
+        $.each(content_buttons, function() { $(this)[mobile ? 'hide' : 'show'](); });
     };
 
     // for development only (to be removed)
@@ -916,7 +915,9 @@ function rcube_elastic_ui()
 
     function screen_resize()
     {
-        // TODO: Shall we do this in iframes?
+        if (is_framed) {
+            return;
+        }
 
         switch (mode) {
             case 'phone': screen_resize_phone(); break;
@@ -1063,14 +1064,11 @@ function rcube_elastic_ui()
         }
 
         $('.header > ul.toolbar', layout.content).addClass('popupmenu');
-
-        $.each(content_buttons, function() { $(this).hide(); });
     };
 
     function screen_resize_small_none()
     {
         buttons.back_list.hide();
-        $.each(content_buttons, function() { $(this).show(); });
         $('ul.toolbar.popupmenu').removeClass('popupmenu');
     };
 
