@@ -567,7 +567,12 @@ function rcube_elastic_ui()
                     $('<a>').addClass('nav-link')
                         .attr({role: 'tab', 'href': '#' + id})
                         .text($('legend:first', fieldset).text())
-                        .click(function() { $(this).tab('show'); })
+                        .click(function() {
+                            $(this).tab('show');
+                            // Returning false here prevents from strange scrolling issue
+                            // when the form is in an iframe, e.g. contact edit form
+                            return false;
+                        })
                 );
 
                 $('legend:first', fieldset).hide();
