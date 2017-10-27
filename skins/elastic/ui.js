@@ -18,6 +18,7 @@ function rcube_elastic_ui()
     var ref = this,
         mode = 'normal', // one of: large, normal, small, phone
         touch = false,
+        is_framed = rcmail.is_framed(),
         env = {
             config: {
                 standard_windows: rcmail.env.standard_windows,
@@ -34,6 +35,7 @@ function rcube_elastic_ui()
         },
         menus = {},
         content_buttons = [],
+        frame_buttons = [],
         layout = {
             menu: $('#layout > .menu'),
             sidebar: $('#layout > .sidebar'),
@@ -93,9 +95,7 @@ function rcube_elastic_ui()
      */
     function setup()
     {
-        var title, form,
-            content_buttons = [],
-            is_framed = rcmail.is_framed();
+        var title, form, content_buttons = [];
 
         // Initialize search forms (in list headers)
         $('.header > .searchbar').each(function() { searchbar_init(this); });
@@ -179,16 +179,7 @@ function rcube_elastic_ui()
             content_buttons.push(create_cloned_button(target, true));
         });
 
-        if (content_buttons.length) {
-            if (is_framed) {
-                if (parent.UI) {
-                    parent.UI.register_content_buttons(content_buttons);
-                }
-            }
-            else {
-                register_content_buttons(content_buttons);
-            }
-        }
+        (is_framed ? parent.UI : ref).register_content_buttons(content_buttons);
 
         $('[data-recipient-input]').each(function() { recipient_input(this); });
         $('.image-upload').each(function() { image_upload_input(this); });
@@ -334,16 +325,19 @@ function rcube_elastic_ui()
      */
     function create_cloned_button(target, is_ext)
     {
-        var button = $('<a>'), btn_class = target[0].className;
+        var button = $('<a>'),
+            button_id = target.attr('id') + '-clone',
+            btn_class = target[0].className;
 
-        btn_class = $.trim(btn_class.replace('btn-primary', 'primary').replace(/btn(-[a-z+]+)?/g, '')) + ' button';
+        btn_class = $.trim(btn_class.replace('btn-primary', 'primary').replace(/btn(-[a-z+]+)?/g, '')) + ' button disabled';
 
-        button.attr({'onclick': '', id: target.attr('id') + '-clone', href: '#', 'class': btn_class})
+        button.attr({'onclick': '', id: button_id, href: '#', 'class': btn_class})
             .append($('<span class="inner">').text(target.text()))
             .on('click', function(e) { target.click(); });
 
         if (is_ext) {
             button.data('target', target);
+            frame_buttons.push($.extend({button_id: button_id}, find_button(target[0].id)));
         }
 
         return button;
@@ -404,6 +398,7 @@ function rcube_elastic_ui()
             .addEventListener('editor-init', tinymce_init)
             .addEventListener('autocomplete_create', rcmail_popup_init)
             .addEventListener('googiespell_create', rcmail_popup_init)
+            .addEventListener('enable-command', enable_command_handler)
             .addEventListener('init', init);
     };
 
@@ -554,7 +549,6 @@ function rcube_elastic_ui()
         // Testing Bootstrap Tabs on contact info/edit page
         // Tabs do not scale nicely on very small screen, so can be used
         // only with small number of tabs with short text labels
-        // TODO: Should we use Accordion widget instead on mobile?
         $('form.tabbed,div.tabbed', context).each(function(idx, item) {
             var tabs = [], nav = $('<ul>').attr({'class': 'nav nav-tabs', role: 'tablist'});
 
@@ -853,6 +847,17 @@ function rcube_elastic_ui()
         }
     };
 
+    function enable_command_handler(args)
+    {
+        if (is_framed) {
+            $.each(frame_buttons, function(i, button) {
+                if (args.command == button.command) {
+                    parent.$('#' + button.button_id)[args.status ? 'removeClass' : 'addClass']('disabled');
+                }
+            });
+        }
+    };
+
     /**
      * Window resize handler
      * Does layout reflows e.g. on screen orientation change
@@ -892,7 +897,7 @@ function rcube_elastic_ui()
     // for development only (to be removed)
     function display_screen_size()
     {
-        if (rcmail.is_framed()) {
+        if (is_framed) {
             return;
         }
 
@@ -901,7 +906,7 @@ function rcube_elastic_ui()
             div = $('<div>').attr({
                 id: 'screen-size',
                 style: 'position:absolute;display:block;right:0;z-index:100;'
-                    + (rcmail.is_framed() ? 'top:0;' : 'bottom:0;')
+                    + (is_framed ? 'top:0;' : 'bottom:0;')
                     + 'opacity:0.5;color:white;background-color:black;white-space:nowrap'
             }).appendTo(document.body);
         }
@@ -2593,7 +2598,7 @@ function rcube_elastic_ui()
      */
     function layout_metadata()
     {
-        if (rcmail.is_framed()) {
+        if (is_framed) {
             var doc = $(parent.document.documentElement);
 
             return {
