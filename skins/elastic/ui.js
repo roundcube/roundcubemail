@@ -151,14 +151,7 @@ function rcube_elastic_ui()
 
         // Move some buttons to the frame footer toolbar
         $('a[data-content-button]').each(function() {
-            var target = $(this),
-                target_id = target.attr('id'),
-                button_id = target_id + '-clone';
-
-            content_buttons.push(create_cloned_button(target));
-
-            // Register the button to get active state updates
-            register_cloned_button(target_id, button_id);
+            content_buttons.push(create_cloned_button($(this)));
         });
 
         // Move form buttons from the content frame into the frame footer (on parent window)
@@ -175,7 +168,7 @@ function rcube_elastic_ui()
                 return;
             }
 
-            content_buttons.push(create_cloned_button(target, true));
+            content_buttons.push(create_cloned_button(target));
         });
 
         (is_framed ? parent.UI : ref).register_content_buttons(content_buttons);
@@ -309,13 +302,11 @@ function rcube_elastic_ui()
     /**
      * Registers cloned button
      */
-    function register_cloned_button(old_id, new_id)
+    function register_cloned_button(old_id, new_id, active_class)
     {
         var button = find_button(old_id);
-
         if (button) {
-            rcmail.register_button(button.command, new_id,
-                button.data.type, button.data.act, button.data.sel, button.data.over);
+            rcmail.register_button(button.command, new_id, button.data.type, active_class, button.data.sel);
         }
     };
 
@@ -325,18 +316,24 @@ function rcube_elastic_ui()
     function create_cloned_button(target, is_ext)
     {
         var button = $('<a>'),
-            button_id = target.attr('id') + '-clone',
+            target_id = target.attr('id'),
+            button_id = target_id + '-clone',
             btn_class = target[0].className;
 
-        btn_class = $.trim(btn_class.replace('btn-primary', 'primary').replace(/btn(-[a-z+]+)?/g, '')) + ' button disabled';
+        btn_class = $.trim(btn_class.replace('btn-primary', 'primary').replace(/(btn[a-z-]*|button|disabled)/g, ''))
+        btn_class += ' button disabled';
 
         button.attr({'onclick': '', id: button_id, href: '#', 'class': btn_class})
             .append($('<span class="inner">').text(target.text()))
             .on('click', function(e) { target.click(); });
 
-        if (is_ext) {
+        if (is_framed) {
             button.data('target', target);
             frame_buttons.push($.extend({button_id: button_id}, find_button(target[0].id)));
+        }
+        else {
+            // Register the button to get active state updates
+            register_cloned_button(target_id, button_id, btn_class.replace(' disabled', ''));
         }
 
         return button;
