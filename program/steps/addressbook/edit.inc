@@ -140,12 +140,14 @@ function rcmail_contact_editform($attrib)
     $record = rcmail_get_edit_record();
 
     // copy (parsed) address template to client
-    if (preg_match_all('/\{([a-z0-9]+)\}([^{]*)/i', $RCMAIL->config->get('address_template', ''), $templ, PREG_SET_ORDER))
-      $RCMAIL->output->set_env('address_template', $templ);
+    if (preg_match_all('/\{([a-z0-9]+)\}([^{]*)/i', $RCMAIL->config->get('address_template', ''), $templ, PREG_SET_ORDER)) {
+        $RCMAIL->output->set_env('address_template', $templ);
+    }
 
-    $i_size = $attrib['size'] ?: 40;
-    $t_rows = $attrib['textarearows'] ?: 10;
-    $t_cols = $attrib['textareacols'] ?: 40;
+    $i_size       = $attrib['size'] ?: 40;
+    $t_rows       = $attrib['textarearows'] ?: 10;
+    $t_cols       = $attrib['textareacols'] ?: 40;
+    $short_labels = rcube_utils::get_boolean($attrib['short-legend-labels']);
 
     $form = array(
         'contact' => array(
@@ -159,7 +161,7 @@ function rcmail_contact_editform($attrib)
             ),
         ),
         'personal' => array(
-            'name'    => $RCMAIL->gettext('personalinfo'),
+            'name'    => $RCMAIL->gettext($short_labels ? 'personal' : 'personalinfo'),
             'content' => array(
                 'gender' => array('visible' => true),
                 'maidenname' => array('size' => $i_size),
