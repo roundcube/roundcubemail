@@ -410,6 +410,7 @@ $labels['contacts'] = 'Contacts';
 $labels['contactproperties'] = 'Contact properties';
 $labels['contactnameandorg'] = 'Name and Organization';
 $labels['personalinfo'] = 'Personal information';
+$labels['personal'] = 'Personal';
 $labels['contactphoto'] = 'Contact photo';
 
 $labels['edit']   = 'Edit';
