@@ -7355,7 +7355,8 @@ function rcube_webmail()
   this.show_folder = function(folder, path, force)
   {
     var win, target = window,
-      url = '&_action=edit-folder&_mbox='+urlencode(folder);
+      action = folder === '' ? 'add' : 'edit',
+      url = '&_action=' + action + '-folder&_mbox=' + urlencode(folder);
 
     if (path)
       url += '&_path='+urlencode(path);

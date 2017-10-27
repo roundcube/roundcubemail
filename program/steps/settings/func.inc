@@ -40,6 +40,7 @@ $RCMAIL->register_action_map(array(
     'unsubscribe'   => 'folders.inc',
     'purge'         => 'folders.inc',
     'folder-size'   => 'folders.inc',
+    'add-folder'    => 'edit_folder.inc',
     'add-identity'  => 'edit_identity.inc',
     'add-response'  => 'edit_response.inc',
     'save-response' => 'edit_response.inc',
