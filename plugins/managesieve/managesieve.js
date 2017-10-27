@@ -115,7 +115,7 @@ if (window.rcmail) {
 
 rcube_webmail.prototype.managesieve_add = function()
 {
-  this.load_managesieveframe('', true);
+  this.load_managesieveframe('_nav=hide', true);
 };
 
 rcube_webmail.prototype.managesieve_del = function()
@@ -234,13 +234,13 @@ rcube_webmail.prototype.managesieve_seteditraw = function()
   var id = this.filtersets_list.get_single_selection(),
     script = this.env.filtersets[id];
 
-  this.load_managesieveframe('_seteditraw=1&_set=' + urlencode(script), true);
-}
+  this.load_managesieveframe('_nav=hide&_seteditraw=1&_set=' + urlencode(script), true);
+};
 
 // Set add request
 rcube_webmail.prototype.managesieve_setadd = function()
 {
-  this.load_managesieveframe('_newset=1', true);
+  this.load_managesieveframe('_nav=hide&_newset=1', true);
 };
 
 rcube_webmail.prototype.managesieve_updatelist = function(action, o)

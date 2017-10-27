@@ -118,7 +118,7 @@ rcube_webmail.prototype.enigma_import_success = function()
 // Display key(s) generation form
 rcube_webmail.prototype.enigma_key_create = function()
 {
-    this.enigma_loadframe('&_action=plugin.enigmakeys&_a=create');
+    this.enigma_loadframe('&_action=plugin.enigmakeys&_a=create&_nav=hide');
 };
 
 // Generate key(s) and submit them
