@@ -724,9 +724,8 @@ function rcube_elastic_ui()
     function content_frame_navigation(href, event)
     {
         // Don't display navigation for create/add action frames
-        // TODO: edit-folder should really be create-folder
         // TODO: managesieve and enigma plugins use different action name scheme
-        if (href.match(/_action=(create|add)/) || (href.match(/_action=edit-folder/) && href.match(/_mbox=&/))) {
+        if (href.match(/_action=(create|add)/) || href.match(/_nav=hide/)) {
             $(env.frame_nav).addClass('hide-nav-buttons');
             return;
         }

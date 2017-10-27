@@ -94,5 +94,12 @@ RULES:
       Can be used for example for functionality not implemented or that has no sense
       on phones or touch devices. Contains a comma-separated list following values:
       `large` (width > 1200px), `big` (width > 768px), `small` (width =< 768px).
+
     - `data-content-button`: Makes the action button with this attribute to be copied
       to the content frame header on small/phone screens.
+
+- Special URLs:
+    In phone mode we display Prev/Next navigation buttons below the content preview
+    frame. We do this e.g. for mail preview or contact preview. Plugins should use
+    _action=add* or _action=create* or _nav=hide in the frame URL if the navigation
+    should be hidden, which is the case when you create a content object.
