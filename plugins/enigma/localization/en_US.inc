@@ -68,10 +68,10 @@ $labels['keyrevoke'] = 'Revoke';
 $labels['keysend'] = 'Send public key in a message';
 $labels['keychpass'] = 'Change password';
 
-$labels['newkeyident'] = 'Identity:';
-$labels['newkeypass'] = 'Password:';
-$labels['newkeypassconfirm'] = 'Confirm password:';
-$labels['newkeysize'] = 'Key size:';
+$labels['newkeyident'] = 'Identity';
+$labels['newkeypass'] = 'Password';
+$labels['newkeypassconfirm'] = 'Confirm password';
+$labels['newkeysize'] = 'Key size';
 $labels['key2048'] = '2048 bits - default';
 $labels['key4096'] = '4096 bits - more secure';
 $labels['keygenerating'] = 'Generating keys...';
