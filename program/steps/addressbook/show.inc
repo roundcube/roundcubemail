@@ -98,7 +98,8 @@ function rcmail_contact_details($attrib)
         return false;
     }
 
-    $i_size = $attrib['size'] ?: 40;
+    $i_size       = $attrib['size'] ?: 40;
+    $short_labels = rcube_utils::get_boolean($attrib['short-legend-labels']);
 
     $form = array(
         'contact' => array(
@@ -112,7 +113,7 @@ function rcmail_contact_details($attrib)
             ),
         ),
         'personal' => array(
-            'name'    => $RCMAIL->gettext('personalinfo'),
+            'name'    => $RCMAIL->gettext($short_labels ? 'personal' : 'personalinfo'),
             'content' => array(
                 'gender' => array('size' => $i_size),
                 'maidenname' => array('size' => $i_size),
