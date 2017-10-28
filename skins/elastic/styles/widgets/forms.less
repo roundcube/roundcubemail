@@ -317,8 +317,9 @@ html.layout-phone {
         margin-right: 0; /* without these the form is too wide causing horizontal scrollbar appearence */
         margin-left: 0;
 
-        .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9,
-        .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9 {
+        /* Note: We never use odd numbers here */
+        .col, .col-2, .col-4, .col-6, .col-8, .col-10, .col-12,
+        .col-sm, .col-sm-2, .col-sm-4, .col-sm-6, .col-sm-8, .col-sm-10, .col-sm-12 {
             /* overwrite Bootstrap's redundant padding */
             padding: 0;
         }
@@ -393,7 +394,7 @@ html.layout-phone {
             flex: auto;
             max-width: 100%;
         }
-        .col-10 {
+        .col-6, .col-8, .col-10 {
             flex: auto;
             max-width: 100%;
         }
