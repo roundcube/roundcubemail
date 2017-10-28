@@ -668,11 +668,17 @@ function rcmail_message_body($attrib)
                 $container_id     = $container_class . (++$part_no);
                 $container_attrib = array('class' => $container_class, 'id' => $container_id);
 
-                // Assign container ID to a global variable for use in rcmail_washtml_link_callback()
-                $GLOBALS['rcmail_html_container_id'] = $container_id;
+                $body_args = array(
+                    'safe'         => $safe_mode,
+                    'plain'        => !$RCMAIL->config->get('prefer_html'),
+                    'css_prefix'   => 'v' . $part_no,
+                    'body_class'   => 'rcmBody',
+                    'container_id'     => $container_id,
+                    'container_attrib' => $container_attrib,
+                );
 
                 // Parse the part content for display
-                $body = rcmail_print_body($body, $part, array('safe' => $safe_mode, 'plain' => !$RCMAIL->config->get('prefer_html')));
+                $body = rcmail_print_body($body, $part, $body_args);
 
                 // check if the message body is PGP encrypted
                 if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
@@ -680,7 +686,7 @@ function rcmail_message_body($attrib)
                 }
 
                 if ($part->ctype_secondary == 'html') {
-                    $body = rcmail_html4inline($body, $container_id, 'rcmBody', $container_attrib, $safe_mode);
+                    $body = rcmail_html4inline($body, $body_args);
                 }
 
                 $out .= html::div($container_attrib, $plugin['prefix'] . $body);
