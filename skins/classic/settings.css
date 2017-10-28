@@ -140,6 +140,11 @@ body.iframe,
   width: 100%;
 }
 
+.footerleft
+{
+  padding-left: 10px;
+}
+
 #formfooter .footerleft
 {
   padding: 0 2px 10px;

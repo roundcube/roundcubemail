@@ -282,24 +282,23 @@ class password extends rcube_plugin
                 'class'   => 'button mainaction submit',
                 'label'   => 'save',
         ));
-        $form_buttons = html::p(array('class' => 'formbuttons'), $submit_button);
-
-        $out = html::div(array('class' => 'box'),
-            html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changepasswd'))
-            . html::div(array('class' => 'boxcontent'),
-                $disabled_msg . $table->show() . $rules . $form_buttons));
+        $form_buttons = html::p(array('class' => 'formbuttons footerleft'), $submit_button);
 
         $rcmail->output->add_gui_object('passform', 'password-form');
 
         $this->include_script('password.js');
 
-        return $rcmail->output->form_tag(array(
+        $form = $rcmail->output->form_tag(array(
             'id'     => 'password-form',
             'name'   => 'password-form',
             'method' => 'post',
-            'class'  => 'formcontent',
             'action' => './?_task=settings&_action=plugin.password-save',
-        ), $out);
+        ), $disabled_msg . $table->show() . $rules);
+
+        return html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changepasswd'))
+            . html::div(array('class' => 'box formcontainer scroller'),
+                html::div(array('class' => 'boxcontent formcontent'), $form)
+                . $form_buttons);
     }
 
     private function _save($curpass, $passwd)
