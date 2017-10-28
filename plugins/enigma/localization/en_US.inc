@@ -27,6 +27,7 @@ $labels['keyuserid'] = 'User ID';
 $labels['keytype'] = 'Key type';
 $labels['fingerprint'] = 'Fingerprint';
 $labels['subkeys'] = 'Subkeys';
+$labels['keyprops'] = 'Key properties';
 $labels['basicinfo'] = 'Basic Information';
 $labels['userids'] = 'Additional Users';
 $labels['typepublickey'] = 'public key';
