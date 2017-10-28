@@ -858,6 +858,7 @@ class enigma_ui
                 $chbox->show($this->rc->config->get('enigma_sign_all') ? 1 : 0, array(
                         'name'     => '_enigma_sign',
                         'id'       => 'enigmasignopt',
+                        'class'    => 'form-check-input',
                         'disabled' => in_array('sign', $locks),
                 ))));
 
@@ -868,6 +869,7 @@ class enigma_ui
                 $chbox->show($this->rc->config->get('enigma_encrypt_all') ? 1 : 0, array(
                         'name'     => '_enigma_encrypt',
                         'id'       => 'enigmaencryptopt',
+                        'class'    => 'form-check-input',
                         'disabled' => in_array('encrypt', $locks),
                 ))));
 
@@ -878,6 +880,7 @@ class enigma_ui
                 $chbox->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0, array(
                         'name'     => '_enigma_attachpubkey',
                         'id'       => 'enigmaattachpubkeyopt',
+                        'class'    => 'form-check-input',
                         'disabled' => in_array('pubkey', $locks),
                 ))));
 
