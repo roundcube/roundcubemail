@@ -126,7 +126,7 @@ function rcube_elastic_ui()
                 parent.$('#layout > .content > .header > .header-title').text(title);
             }
         }
-        else {
+        else if (!is_framed) {
             title = $('.boxtitle:first', layout.content).detach().text();
 
             if (!title) {
@@ -727,10 +727,14 @@ function rcube_elastic_ui()
         var uid, list, _list = $('[data-list]', layout.list).data('list');
 
         if (!_list || !(list = rcmail[_list])) {
+            // hide navbar if there are no visible buttons, e.g. Help plugin UI
+            if ($(env.frame_nav).is('.hide-nav-buttons') && !$('.buttons', env.frame_nav).children().length) {
+                $(env.frame_nav).addClass('hidden');
+            }
             return;
         }
 
-        $(env.frame_nav).removeClass('hide-nav-buttons');
+        $(env.frame_nav).removeClass('hide-nav-buttons hidden');
 
         // expand collapsed row so we do not skip the whole thread
         // TODO: Unified interface for list and treelist widgets
