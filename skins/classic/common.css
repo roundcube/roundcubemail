@@ -1091,6 +1091,11 @@ div.searchbox > input
   width: 97%;
 }
 
+.formcontainer
+{
+  background-color: #f2f2f2;
+}
+
 .formcontent table {
   width: 100%;
 }
