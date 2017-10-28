@@ -125,13 +125,16 @@
 
             .ui-dialog-buttonset {
                 display: flex;
+                justify-content: space-around;
 
                 button {
                     margin: 0 !important;
                     border: 0 !important;
                     box-shadow: none;
-                    flex-grow: 1;
                     height: @layout-header-height;
+                    min-width: 5rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
 
                     &:before {
                         display: block !important;
@@ -146,7 +149,7 @@
                     }
 
                     &.btn-secondary {
-                        color: #868e96; /* TODO: var */
+                        color: @color-toolbar-button;
                         background: transparent;
                     }
                 }
