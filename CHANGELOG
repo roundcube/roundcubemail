@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Replace display_version with display_product_version (#5904)
+- Extend disabled_actions config so it accepts also button names (#5903)
 - Handle remote stylesheets the same as remote images, ask the user to allow them (#5994)
 - Add Message-ID to the sendmail log (#5871)
 - Managesieve: Add ability to disable filter sets and other actions (#5496, #5898)

@@ -33,11 +33,7 @@ class rcube_sieve_engine
     protected $script  = array();
     protected $exts    = array();
     protected $active  = array();
-    protected $headers = array(
-        'subject' => 'Subject',
-        'from'    => 'From',
-        'to'      => 'To',
-    );
+    protected $headers = array();
     protected $addr_headers = array(
         // Required
         "from", "to", "cc", "bcc", "sender", "resent-from", "resent-to",
@@ -74,8 +70,9 @@ class rcube_sieve_engine
      */
     function __construct($plugin)
     {
-        $this->rc     = rcube::get_instance();
-        $this->plugin = $plugin;
+        $this->rc      = rcube::get_instance();
+        $this->plugin  = $plugin;
+        $this->headers = $this->get_default_headers();
     }
 
     /**
@@ -2823,5 +2820,21 @@ class rcube_sieve_engine
         sort($addresses);
 
         return $addresses;
+    }
+
+    /**
+     * Convert configured default headers into internal format
+     */
+    protected function get_default_headers()
+    {
+        $default = array('Subject', 'From', 'To');
+        $headers = (array) $this->rc->config->get('managesieve_default_headers', $default);
+        $keys    = array_map('strtolower', $headers);
+        $headers = array_combine($keys, $headers);
+
+        // make sure there's no Date header
+        unset($headers['date']);
+
+        return $headers;
     }
 }
