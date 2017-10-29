@@ -113,7 +113,7 @@
         .ui-dialog-content {
             flex: 1;
             &:not(.iframe) {
-                padding: .5em !important;
+                padding: 1rem;
             }
         }
 
@@ -251,8 +251,13 @@ html.touch {
 @media screen and (max-width: @screen-width-mini) {
     .ui-widget-content {
         border-radius: 0;
-        width: 100% !important;
         left: 0 !important;
+    }
+
+    .ui-dialog {
+        .ui-dialog-content:not(.iframe) {
+            padding: .65rem;
+        }
     }
 
     .ui-autocomplete {

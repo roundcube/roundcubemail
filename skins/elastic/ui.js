@@ -464,6 +464,32 @@ function rcube_elastic_ui()
             });
         });
 
+        // Convert structure of single dialogs (one input or just an image),
+        // e.g. group create, attachment rename where we use <label>Label<input></label>
+        if (context != document && $('.popup', context).children().length == 1) {
+            var content = $('.popup', context).children().first();
+            if (content.is('img')) {
+                $('.popup', context).addClass('justified');
+            }
+            else if (content.is('label')) {
+                var input = content.find('input').detach(),
+                    label = content.detach(),
+                    id = input.attr('id');
+
+                if (!id) {
+                    input.attr('id', id = 'dialog-input-elastic');
+                }
+
+                $('.popup', context).addClass('formcontent').append(
+                    $('<div class="form-group row">')
+                        .append(label.attr('for', id).addClass('col-sm-2 col-form-label'))
+                        .append($('<div class="col-sm-10">').append(input))
+                );
+
+                input.focus();
+            }
+        }
+
         // Forms
         $('input:not(.button,[type=file],[type=radio],[type=checkbox]),select,textarea', $('.propform', context)).addClass('form-control');
         $('[type=checkbox]', $('.propform', context)).addClass('form-check-input');
