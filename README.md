@@ -2,6 +2,7 @@ Roundcube Webmail
 =================
 [roundcube.net](http://roundcube.net)
 
+[![Build Status](https://api.travis-ci.org/roundcube/roundcubemail.svg?branch=release-1.3)](https://travis-ci.org/roundcube/roundcubemail)
 
 ATTENTION
 ---------
