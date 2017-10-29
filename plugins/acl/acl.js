@@ -30,7 +30,7 @@ if (window.rcmail) {
         rcmail.enable_command('acl-delete', 'acl-edit', false);
 
         if (rcmail.env.acl_advanced)
-            $('#acl-switch').addClass('selected');
+            $('#acl-switch').addClass('selected').find('input').prop('checked', true);
     });
 }
 
