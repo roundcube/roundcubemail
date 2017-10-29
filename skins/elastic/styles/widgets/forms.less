@@ -639,9 +639,17 @@ html.touch .popupmenu.form {
     .attachmentslist {
         list-style: none;
 
+        /* TODO: To be verified when we have .attachmentlist style finished */
         li {
-            display: block;
+            display: flex;
             padding-bottom: .5em;
+
+            a.filename {
+                flex-grow: 1;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
     }
 
