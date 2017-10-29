@@ -1,0 +1,28 @@
+language: php
+
+sudo: false
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.4
+    - php: 5.5
+    - php: 5.6
+    - php: 7.0
+    - php: 7.1
+      env: CODE_COVERAGE=1
+
+cache:
+  directories:
+    - $HOME/.composer
+
+install:
+  - if [ "$CODE_COVERAGE" != 1 ]; then phpenv config-rm xdebug.ini || true; fi
+  - cp composer.json-dist composer.json
+  - composer install --prefer-dist
+
+script:
+  - if [ "$CODE_COVERAGE" = 1 ]; then CODE_COVERAGE_ARGS="--coverage-text"; fi; vendor/bin/phpunit -c tests/phpunit.xml $CODE_COVERAGE_ARGS
+
+notifications:
+  email: false
