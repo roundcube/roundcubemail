@@ -57,7 +57,14 @@ if (window.rcmail) {
 
     // set css style for archive folder
     var li;
-    if (rcmail.env.archive_folder && (li = rcmail.get_folder_li(rcmail.env.archive_folder, '', true)))
-      $(li).addClass('archive');
+    if (rcmail.env.archive_folder) {
+      if (rcmail.subscription_list)
+        li = rcmail.subscription_list.get_item(rcmail.env.archive_folder);
+      else
+        li = rcmail.get_folder_li(rcmail.env.archive_folder, '', true);
+
+      if (li)
+        $(li).addClass('archive');
+    }
   });
 }
