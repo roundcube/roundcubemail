@@ -442,7 +442,6 @@ $labels['autoaddsignature'] = 'Tự động thêm chữ ký';
 $labels['newmessageonly'] = 'chỉ thư mới';
 $labels['replyandforwardonly'] = 'chỉ trả lời và chuyển tiếp thư';
 $labels['insertsignature'] = 'Chèn chữ ký';
-$labels['previewpanemarkread']  = 'Đánh dẫu thư xem thử là đã đọc';
 $labels['afternseconds']  = 'sau $n giây';
 $labels['reqmdn'] = 'Luôn luôn yêu cầu biên nhận khi gửi thư';
 $labels['reqdsn'] = 'Luôn yêu cầu xác nhận trạng thái thư cho người gửi';

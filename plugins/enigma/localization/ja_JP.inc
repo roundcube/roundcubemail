@@ -73,6 +73,7 @@ $labels['keygenerating'] = 'キーを精製中...';
 $labels['encryptionoptions'] = '暗号のオプション...';
 $labels['encryptmsg'] = 'このメッセージを暗号化';
 $labels['signmsg'] = 'このメッセージに電子署名';
+$labels['sendunencrypted'] = '暗号化しないで送信';
 $labels['enterkeypasstitle'] = 'キーのパスフレーズを入力';
 $labels['enterkeypass'] = 'ユーザー: $userの秘密鍵($keyid)の解除にパスフレーズが必要です。';
 $labels['arialabelkeyexportoptions'] = 'キーのエクスポートのオプション';

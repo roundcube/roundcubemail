@@ -97,6 +97,7 @@ $messages['disclosedreciptitle'] = 'Terlalu banyak penerima publik';
 $messages['nosubjectwarning']  = '"Judul" kosong. Isi judul sekarang?';
 $messages['nosubjecttitle']  = 'Tanpa subjek';
 $messages['nobodywarning'] = 'Kirim pesan ini tanpa teks?';
+$messages['notsentwarning'] = 'Pesan belum terkirim dan tersimpan. Apakah kamu ingin membuang pengubahan?';
 $messages['restoresavedcomposedata'] = 'Sebelumnya disimpan tetapi pesan tidak terkirim ditemukan.\n\nJudul: $subject\nDisimpan: $date\n\nAnda yakin mengembalikan pesan ini?';
 $messages['noldapserver'] = 'Tolong pilih server LDAP untuk pencarian';
 $messages['nosearchname'] = 'Tolong masukkan nama kontak atau alamat email';

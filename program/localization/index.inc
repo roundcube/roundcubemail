@@ -105,6 +105,7 @@ $rcube_languages = array(
   'tzl'   => 'Talossan',
   'uk_UA' => 'Ukrainian (Українська)',
   'ur_PK' => 'Urdu (اُردو)',
+  'uz'    => 'Uzbek (Oʻzbekcha)',
   'vi_VN' => 'Vietnamese (Tiếng Việt)',
   'cy_GB' => 'Welsh (Cymraeg)',
   'fy_NL' => 'West Frisian (Frysk)',

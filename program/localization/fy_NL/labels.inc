@@ -481,7 +481,6 @@ $labels['replyandforwardonly'] = 'by antwurdzjen en trochstjoeren';
 $labels['insertsignature'] = 'Hantekening ynfoegje';
 $labels['sigbelow'] = 'Hantekening ûnder it siteare berjocht';
 $labels['sigseparator'] = 'Forsearje standert skiedingsteken yn hantekenings';
-$labels['previewpanemarkread']  = 'Markearje foarbyld berjochten as lêzen';
 $labels['afternseconds']  = 'nei $n sekonden';
 $labels['reqmdn'] = 'Freegje altyd in ûntfangstbewiis';
 $labels['reqdsn'] = 'Freegje altyd in levering status notifikaasje';

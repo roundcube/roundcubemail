@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Toto heslo už bolo predtým použité.';
 $messages['samepasswd'] = 'Nové heslo by sa malo odlišovať od pôvodného hesla.';
 $messages['passwdexpirewarning'] = 'Pozor! Platnosť Vášho hesla čoskoro vyprší, zmeňte ho pred $expirationdatetime.';
 $messages['passwdexpired'] = 'Platnosť Vášho hesla vypršala, teraz ho musíte zmeniť!';
+$messages['passwdconstraintviolation'] = 'Výnimka obmedzenia hesla. Heslo je pravdepodobne príliš ľahké.';

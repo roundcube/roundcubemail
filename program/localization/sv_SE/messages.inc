@@ -55,6 +55,7 @@ $messages['addedsuccessfully'] = 'Kontakten har lagts till i adressboken.';
 $messages['contactexists'] = 'En kontakt med den här adressen finns redan.';
 $messages['contactnameexists'] = 'En kontakt med det här namnet finns redan.';
 $messages['blockedimages'] = 'Externt länkade bilder i meddelandet har blockerats.';
+$messages['blockedresources'] = 'Externt länkade resurser i meddelandet har blockerats.';
 $messages['encryptedmessage'] = 'Meddelandet är krypterat och kan tyvärr inte visas.';
 $messages['externalmessagedecryption'] = 'Meddelandet är krypterat och kan visas med ett tillägg i webbläsaren.';
 $messages['nopubkeyfor'] = 'Ingen giltig offentlig nyckel hittades för $email';

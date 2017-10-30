@@ -73,6 +73,7 @@ $labels['keygenerating'] = 'Kulcsok generálása…';
 $labels['encryptionoptions'] = 'Titkosítási beállítások...';
 $labels['encryptmsg'] = 'Titkosítsa ezt az üzenetet';
 $labels['signmsg'] = 'Ennek az üzenetnek  a digtális aláírása';
+$labels['sendunencrypted'] = 'Küldés titkosítatlanul';
 $labels['enterkeypasstitle'] = 'Írd be a jelmondatot';
 $labels['enterkeypass'] = 'Jelmondat(passphrase) szükséges a titkos kulcs ($keyid)  felhasznlóhoz ($user) feloldásához. ';
 $labels['arialabelkeyexportoptions'] = 'Kulcsok exportálásához opciók';

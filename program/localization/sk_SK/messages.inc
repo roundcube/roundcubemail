@@ -55,6 +55,7 @@ $messages['addedsuccessfully'] = 'Kontakt bol pridaný do adresára.';
 $messages['contactexists'] = 'Kontakt s takouto e-mailovou adresou už existuje.';
 $messages['contactnameexists'] = 'Kontakt s takýmto menom už existuje.';
 $messages['blockedimages'] = 'Kvôli ochrane vášho súkromia boli v tejto správe zablokované vzdialené obrázky.';
+$messages['blockedresources'] = 'Kvôli ochrane vášho súkromia boli zablokované vzdialené zdroje údajov.';
 $messages['encryptedmessage'] = 'Táto správa je zašifrovaná, a nie je možné ju zobraziť. Prepáčte!';
 $messages['externalmessagedecryption'] = 'Táto správa je zašifrovaná a dešifrovať ju môžete pomocou rozšírenia vášho prehliadača.';
 $messages['nopubkeyfor'] = 'Pre $email sa nenašiel žiadny platný verejný kľúč';

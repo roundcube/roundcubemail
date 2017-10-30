@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'A megadott jelszó volt már használva.';
 $messages['samepasswd'] = 'Az új jelszó nem lehet azonos a régi jelszóval.';
 $messages['passwdexpirewarning'] = 'Figyelem! A jelszavad hamarosan lejár, változtasd meg még $expirationdatetime elött.';
 $messages['passwdexpired'] = 'A jelszavad lejárt, adj meg újat.';
+$messages['passwdconstraintviolation'] = 'Jelszó szabály megsértése. A jelszó valószínűleg túl gyenge.';

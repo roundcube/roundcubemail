@@ -470,7 +470,6 @@ $labels['replyandforwardonly'] = 'evit ar respontoù hag an treuzkasoù hepken';
 $labels['insertsignature'] = 'Enlakaat ar sinadur';
 $labels['sigbelow'] = 'Lakaat ar sinadur a-us d\'ar gemennadenn veneget';
 $labels['sigseparator'] = 'Rediañ an disranner skoueriek er sinadurioù';
-$labels['previewpanemarkread']  = 'Merkañ ar c\'hemennadennoù rakwelet evel lennet';
 $labels['afternseconds']  = 'goude $n eilenn';
 $labels['reqmdn'] = 'Atav goulenn un testeni degemer';
 $labels['reqdsn'] = 'Atav goulenn ur rebuziñ stad ar c\'has';

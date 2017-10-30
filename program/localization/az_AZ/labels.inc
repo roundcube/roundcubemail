@@ -444,7 +444,6 @@ $labels['autoaddsignature'] = 'İmzanı avtomatik əlavə et';
 $labels['newmessageonly'] = 'yalnız yeni məktublarda';
 $labels['replyandforwardonly'] = 'Yalnız cavab və yönəldilənlərdə';
 $labels['insertsignature'] = 'İmza əlavə et';
-$labels['previewpanemarkread']  = 'Baxılmış şəkilləri oxunmuş kimi qeyd et';
 $labels['afternseconds']  = '$n saniyədən sonra';
 $labels['reqmdn'] = 'Hər zaman çatdırılma bildirişini istə';
 $labels['reqdsn'] = 'Hər zaman çatıdrılma haqda statusu istə';

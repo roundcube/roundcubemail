@@ -97,6 +97,7 @@ $messages['disclosedreciptitle'] = 'יותר מדי מכותבים גלויים'
 $messages['nosubjectwarning']  = 'שורת הנושא ריקה. האם ברצונך להוסיף נושא כעת?';
 $messages['nosubjecttitle']  = 'אין נושא';
 $messages['nobodywarning'] = 'האם לשלוח הודעה ללא תוכן?';
+$messages['notsentwarning'] = 'ההודעה טרם נשלחה ויש בה שינויים שלא נשמרו. האם לוותר על כל השינויים?';
 $messages['restoresavedcomposedata'] = 'נמצאה הודעה שנערכה אך לא נשלחה. \n\nSubject: $subject\nנשמרה:  $date\n\nהאם לשחזר את ההודעה?';
 $messages['noldapserver'] = 'נא לבחור שרת כתובות לחיפוש';
 $messages['nosearchname'] = 'נא להוסיף איש קשר או כתובת דוא"ל';

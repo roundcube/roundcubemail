@@ -55,6 +55,7 @@ $messages['addedsuccessfully'] = 'Kontakt zum Adressbuch hinzugefügt.';
 $messages['contactexists'] = 'Es existiert bereits ein Kontakt mit dieser E-Mail-Adresse.';
 $messages['contactnameexists'] = 'Ein Kontakt mit dem gleichen Namen existiert bereits.';
 $messages['blockedimages'] = 'Um Ihre Privatsphäre zur schützen, wurden externe Bilder blockiert.';
+$messages['blockedresources'] = 'Um Ihre Privatsphäre zur schützen, wurden externe Ressourcen blockiert.';
 $messages['encryptedmessage'] = 'Dies ist eine verschlüsselte Nachricht und kann leider nicht angezeigt werden.';
 $messages['externalmessagedecryption'] = 'Dies ist eine verschlüsselte Nachricht und kann mit Ihrer Browser-Erweiterung entschlüsselt werden.';
 $messages['nopubkeyfor'] = 'Kein gültiger öffentlicher Schlüssel für $email gefunden';

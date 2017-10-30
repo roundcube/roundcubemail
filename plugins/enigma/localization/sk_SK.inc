@@ -73,6 +73,7 @@ $labels['keygenerating'] = 'Generovanie kľúčov...';
 $labels['encryptionoptions'] = 'Nastavenia šifrovania...';
 $labels['encryptmsg'] = 'Zašifrovať túto správu';
 $labels['signmsg'] = 'Digitálne podpísať túto správu';
+$labels['sendunencrypted'] = 'Odoslať nezašifrované';
 $labels['enterkeypasstitle'] = 'Zadať kľúčovú frázu';
 $labels['enterkeypass'] = 'Na odomknutie tajného kľúča je potrebná kľúčová fráza ($keyid) pre používateľa: $user.';
 $labels['arialabelkeyexportoptions'] = 'Nastavenia exportu kľúčov';

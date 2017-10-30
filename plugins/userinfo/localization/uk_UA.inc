@@ -18,5 +18,5 @@
 $labels['userinfo'] = 'Інформація';
 $labels['created'] = 'Створено';
 $labels['lastlogin'] = 'Останнє входження';
-$labels['defaultidentity'] = 'Профіль за замовчуванням';
+$labels['defaultidentity'] = 'Типовий профіль';
 ?>

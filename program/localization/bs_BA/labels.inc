@@ -452,7 +452,6 @@ $labels['autoaddsignature'] = 'Automatski dodaj potpis';
 $labels['newmessageonly'] = 'samo za nove poruke';
 $labels['replyandforwardonly'] = 'samo za odgovore i prosljeđivanja';
 $labels['insertsignature'] = 'Umetni potpis';
-$labels['previewpanemarkread']  = 'Obilježi prikazane poruke kao pročitane';
 $labels['afternseconds']  = 'nakon $n sekundi';
 $labels['reqmdn'] = 'Uvijek zahtjevaj povratnicu';
 $labels['reqdsn'] = 'Uvijek zahtjevaj obavijest o statusu dostave';

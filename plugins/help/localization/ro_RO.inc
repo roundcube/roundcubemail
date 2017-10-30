@@ -18,4 +18,5 @@
 $labels['help'] = 'Ajutor';
 $labels['about'] = 'Despre';
 $labels['license'] = 'Licența';
+$labels['csrfinfo'] = 'Citiți mai multe despre CSRF și cum vă protejăm';
 ?>

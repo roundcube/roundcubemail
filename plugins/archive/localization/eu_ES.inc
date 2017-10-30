@@ -25,7 +25,9 @@ $labels['settingstitle'] = 'Gorde';
 $labels['archivetype'] = 'Banatu honen arabera';
 $labels['archivetypeyear'] = 'Urtea (e.b. Archive/2012)';
 $labels['archivetypemonth'] = 'Hilabete (e.b. Archive/2012/06)';
+$labels['archivetypetbmonth'] = 'Hilabetea - Thunderbird-ekin bateragarria (ad. Artxiboa/2012/2012-06)';
 $labels['archivetypefolder'] = 'Jatorrizko karpeta';
 $labels['archivetypesender'] = 'Bidaltzailearen helbidea';
 $labels['unkownsender'] = 'ezezaguna';
+$labels['readonarchive'] = 'Markatu mezua irakurri bezala artxiboan';
 ?>

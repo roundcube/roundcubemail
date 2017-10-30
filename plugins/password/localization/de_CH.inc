@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Dieses Passwort wurde bereits einmal verwendet.';
 $messages['samepasswd'] = 'Das neue Passwort muss sich von dem Alten unterscheiden.';
 $messages['passwdexpirewarning'] = 'Achtung! Ihr Passwort läuft am $expirationdatetime ab. Ändern Sie es rechtzeitig.';
 $messages['passwdexpired'] = 'Ihr Passwort ist abgelaufen, bitte ändern Sie es jetzt!';
+$messages['passwdconstraintviolation'] = 'Passwortrichtlinien nicht erfüllt. Das Passwort ist wahrscheinlich zu schwach.';

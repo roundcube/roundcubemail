@@ -35,3 +35,4 @@ $messages['passwinhistory'] = '이 암호는 이미 이전에 사용됐습니다
 $messages['samepasswd'] = '새로운 암호는 예전 암호와 달라야 합니다.';
 $messages['passwdexpirewarning'] = '경고! 암호가 곧 만료됩니다. $expirationdatetime 이전에 변경하십시오.';
 $messages['passwdexpired'] = '암호가 만료됐습니다. 지금 변경하셔야 합니다!';
+$messages['passwdconstraintviolation'] = '암호 제약 위반. 암호가 취약한 것 같음.';
