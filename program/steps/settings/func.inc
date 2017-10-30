@@ -936,8 +936,8 @@ function rcmail_user_prefs($current = null)
 
                 $blocks['main']['options']['default_font'] = array(
                     'title' => html::label($field_id, rcube::Q($RCMAIL->gettext('defaultfont'))),
-                    'content' => $select_default_font->show($RCMAIL->config->get('default_font', 1)) .
-                        $select_default_font_size->show($RCMAIL->config->get('default_font_size', 1))
+                    'content' => html::div('input-group', $select_default_font->show($RCMAIL->config->get('default_font', 1)) .
+                        $select_default_font_size->show($RCMAIL->config->get('default_font_size', 1)))
                 );
             }
 
