@@ -508,8 +508,12 @@ function rcube_elastic_ui()
 
                 if (last.find('[type=checkbox]').length == 1 && !last.find('.proplist').length) {
                     row_classes.push('form-check');
+
+                    if (last.find('a').length) {
+                        row_classes.push('with-link');
+                    }
                 }
-                else if (!last.find('input,textarea,radio,select').length) {
+                else if (!last.find('input:not([type=hidden]),textarea,radio,select').length) {
                     last.addClass('form-control-plaintext');
                 }
 

@@ -352,6 +352,10 @@ html.layout-phone {
                 min-width: 2.2em; /* for icon-checkbox */
                 padding-right: 15px;
             }
+
+            &.with-link > *:last-child {
+                min-width: 8rem;
+            }
         }
 
         .form-check-input {
@@ -828,6 +832,14 @@ input.icon-checkbox {
             margin: 0;
             color: @color-checkbox;
             height: 2rem;
+        }
+
+        /* A link after checkbox in a form, used in e.g. newmail_notifier plugin */
+        & + a {
+            display: inline-block;
+            line-height: 2rem;
+            padding-left: .5rem;
+            white-space: nowrap;
         }
     }
 

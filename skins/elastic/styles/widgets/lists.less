@@ -227,6 +227,15 @@ html.touch {
     &.userinfo > a:before {
         content: @fa-var-info-circle;
     }
+    &.activesync > a:before {
+        content: @fa-var-feed;
+    }
+    &.delegation > a:before {
+        content: @fa-var-user-secret; /* TODO: a better icon */
+    }
+    &.twofactorauth > a:before {
+        content: @fa-var-sign-in;
+    }
 
     a.help:before {
         content: @fa-var-life-bouy;
@@ -287,6 +296,9 @@ html.ie11 .listing.iconized li a:before {
     }
     &.enigma > td.section:before {
         content: @fa-var-lock;
+    }
+    &.calendar > td.section:before {
+        content: @fa-var-calendar;
     }
 }
 
@@ -444,13 +456,13 @@ ul.treelist li {
             margin-right: .5rem;
         }
 
-        &.inbox a:before {
+        &.inbox > a:before {
             content: @fa-var-inbox;
         }
         &.trash a:before {
             content: @fa-var-trash;
         }
-        &.trash.empty a:before {
+        &.trash.empty > a:before {
             content: @fa-var-trash-o;
         }
         &.drafts a:before {
@@ -462,8 +474,33 @@ ul.treelist li {
         &.junk a:before {
             content: @fa-var-recycle;
         }
-        &.archive a:before {
+        &.archive > a:before {
             content: @fa-var-archive;
+        }
+
+        &.type-event > a:before {
+            content: @fa-var-calendar;
+        }
+        &.type-task > a:before {
+            content: @fa-var-tasks;
+        }
+        &.type-journal > a:before {
+            content: @fa-var-calendar-o;
+        }
+        &.type-contact > a:before {
+            content: @fa-var-address-book-o;
+        }
+        &.type-note > a:before {
+            content: @fa-var-sticky-note-o;
+        }
+        &.type-configuration > a:before {
+            content: @fa-var-cog;
+        }
+        &.type-freebusy > a:before {
+            content: @fa-var-calendar-o;
+        }
+        &.type-file > a:before {
+            content: @fa-var-folder;
         }
     }
 }
