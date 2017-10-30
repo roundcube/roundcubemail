@@ -486,7 +486,6 @@ $labels['replyandforwardonly'] = 'tik atsakymuose ir persiunčiamuose laiškuose
 $labels['insertsignature'] = 'Pridėti parašą';
 $labels['sigbelow'] = 'Įterpti parašą žemiau kabutėmis išskirto laiško turinio';
 $labels['sigseparator'] = 'Priverstinai naudoti standartinį skyriklį parašuose';
-$labels['previewpanemarkread']  = 'Peržiūros polangyje parodytus laiškus žymėti skaitytais';
 $labels['afternseconds']  = 'praėjus $n sek.';
 $labels['reqmdn'] = 'Visuomet prašyti patvirtinimo, jog laiškas perskaitytas';
 $labels['reqdsn'] = 'Visuomet prašyti laiško pristatymo pažymos';

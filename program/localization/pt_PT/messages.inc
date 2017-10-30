@@ -55,6 +55,7 @@ $messages['addedsuccessfully'] = 'Contacto adicionado com sucesso';
 $messages['contactexists'] = 'Já existe um contacto com este e-mail';
 $messages['contactnameexists'] = 'Já existe um contacto com este nome.';
 $messages['blockedimages'] = 'Para proteger a sua privacidade, as imagens desta mensagem foram bloqueadas';
+$messages['blockedresources'] = 'Para proteger a sua privacidade os recursos remotos foram bloqueados.';
 $messages['encryptedmessage'] = 'Esta mensagem está encriptada e não pode ser apresentada. Desculpe!';
 $messages['externalmessagedecryption'] = 'Isto é uma mensagem encriptada e pode ser desencriptada com uma extensão do seu navegador.';
 $messages['nopubkeyfor'] = 'Não foi encontrada nenhuma chave pública válida para $email';

@@ -73,6 +73,7 @@ $labels['keygenerating'] = 'Génération des clés...';
 $labels['encryptionoptions'] = 'Options de chiffrement...';
 $labels['encryptmsg'] = 'Chiffrer ce courriel';
 $labels['signmsg'] = 'Signer numériquement ce courriel';
+$labels['sendunencrypted'] = 'Envoyer non chiffré';
 $labels['enterkeypasstitle'] = 'Saisir la phrase de passe de la clé';
 $labels['enterkeypass'] = 'Un phrase de passe est nécessaire pour débloquer la clé secrète ($keyid) pour l\'utilisateur : $user.';
 $labels['arialabelkeyexportoptions'] = 'Options d\'exportation des clés';

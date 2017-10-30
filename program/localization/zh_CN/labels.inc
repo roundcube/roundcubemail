@@ -482,7 +482,6 @@ $labels['replyandforwardonly'] = '仅回复和转发邮件';
 $labels['insertsignature'] = '插入签名';
 $labels['sigbelow'] = '在引文的下方放置签名';
 $labels['sigseparator'] = '强制标准的签名分隔符';
-$labels['previewpanemarkread']  = '标记预览邮件为已读';
 $labels['afternseconds']  = '$n 秒之后';
 $labels['reqmdn'] = '总是要求回执';
 $labels['reqdsn'] = '总是要求投递状态通知';

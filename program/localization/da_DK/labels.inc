@@ -484,7 +484,6 @@ $labels['newmessageonly'] = 'kun på nye beskeder';
 $labels['replyandforwardonly'] = 'kun på svar og videresendelse af beskeder';
 $labels['insertsignature'] = 'Indsæt signatur';
 $labels['sigbelow'] = 'Placer signaturen under den citerede tekst';
-$labels['previewpanemarkread']  = 'Markér forhåndsviste beskeder som læst';
 $labels['afternseconds']  = 'efter $n sekunder';
 $labels['reqmdn'] = 'Anmod altid om kvittering for læsning';
 $labels['reqdsn'] = 'Anmod altid om at leveringsstatus';

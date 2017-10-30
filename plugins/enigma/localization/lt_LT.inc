@@ -73,6 +73,7 @@ $labels['keygenerating'] = 'Raktai generuojami…';
 $labels['encryptionoptions'] = 'Šifravimo parinktys…';
 $labels['encryptmsg'] = 'Šifruoti šį laišką';
 $labels['signmsg'] = 'Pasirašyti šį laišką';
+$labels['sendunencrypted'] = 'Siųsti nešifruotą';
 $labels['enterkeypasstitle'] = 'Įveskite rakto slaptafrazę';
 $labels['enterkeypass'] = 'Naudotojo $user slaptajam raktui ($keyid) atrakinti reikalinga slaptafrazė.';
 $labels['arialabelkeyexportoptions'] = 'Raktų eksportavimo parinktys';

@@ -73,6 +73,7 @@ $labels['keygenerating'] = 'A gerar chaves...';
 $labels['encryptionoptions'] = 'Opções de encriptação...';
 $labels['encryptmsg'] = 'Encriptar esta mensagem';
 $labels['signmsg'] = 'Assinar digitalmente esta mensagem';
+$labels['sendunencrypted'] = 'Enviar desencriptado';
 $labels['enterkeypasstitle'] = 'Digite chave de frase de acesso';
 $labels['enterkeypass'] = 'É necessária uma frase de acesso para desbloquear a chave secreta ($keyid) do utilizador: $user.';
 $labels['arialabelkeyexportoptions'] = 'Opções de exportação de chaves';

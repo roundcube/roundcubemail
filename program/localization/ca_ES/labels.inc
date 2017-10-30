@@ -481,7 +481,6 @@ $labels['replyandforwardonly'] = 'només a respostes i reenviaments';
 $labels['insertsignature'] = 'Inclou la signatura';
 $labels['sigbelow'] = 'Posa la signatura a sota del missatge que es respon';
 $labels['sigseparator'] = 'Força el separador estàndard de signatures';
-$labels['previewpanemarkread']  = 'Marca els missatges previsualitzats com a llegits';
 $labels['afternseconds']  = 'després de $n segons';
 $labels['reqmdn'] = 'Demana sempre la confirmació de recepció';
 $labels['reqdsn'] = 'Demana sempre una notificació d\'estat de lliurament';

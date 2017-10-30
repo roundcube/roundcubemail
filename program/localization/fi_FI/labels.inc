@@ -482,7 +482,6 @@ $labels['replyandforwardonly'] = 'vain vastauksiin ja välityksiin';
 $labels['insertsignature'] = 'Lisää allekirjoitus';
 $labels['sigbelow'] = 'Aseta allekirjoitus lainatun viestin alapuolelle';
 $labels['sigseparator'] = 'Pakota standardi erotin allekirjoituksissa';
-$labels['previewpanemarkread']  = 'Merkitse esikatsellut viestit luetuiksi';
 $labels['afternseconds']  = '$n sekunnin jälkeen';
 $labels['reqmdn'] = 'Pyydä aina kuittausviestiä';
 $labels['reqdsn'] = 'Pyydä aina toimituksen tilailmoitus';

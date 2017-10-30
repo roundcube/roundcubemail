@@ -451,7 +451,6 @@ $labels['autoaddsignature'] = 'اضافه کردن خودکار امضاء';
 $labels['newmessageonly'] = 'فقط پیام جدید';
 $labels['replyandforwardonly'] = 'فقط پاسخ‌ها و ارجاع‌ها';
 $labels['insertsignature'] = 'درج امضاء';
-$labels['previewpanemarkread']  = 'نشانه‌گذاری پیام‌های پیش مرور شده به عنوان خوانده شده';
 $labels['afternseconds']  = 'بعد از $s ثانیه';
 $labels['reqmdn'] = 'درخواست همیشگی رسید برگشت';
 $labels['reqdsn'] = 'درخواست همیشگی تذکر وضعیت تحویل';

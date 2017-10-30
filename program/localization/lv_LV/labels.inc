@@ -490,7 +490,6 @@ $labels['replyandforwardonly'] = 'tikai atbildēm un pārsūtījumiem';
 $labels['insertsignature'] = 'Ievietot parakstu';
 $labels['sigbelow'] = 'Parakstu novietot zem sūtītās vēstules oriģinālā';
 $labels['sigseparator'] = 'Parakstam obligāti izmantot standarta dalītāju';
-$labels['previewpanemarkread']  = 'Atzīmēt priekšskatītās vēstules kā lasītas';
 $labels['afternseconds']  = 'pēc $n sekundēm';
 $labels['reqmdn'] = 'Vienmēr pieprasīt saņemšanas apstiprinājumu';
 $labels['reqdsn'] = 'Vienmēr pieprasīt atskati par piegādi';

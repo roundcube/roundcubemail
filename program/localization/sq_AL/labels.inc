@@ -476,7 +476,6 @@ $labels['replyandforwardonly'] = 'vetëm për përgjigje dhe përcjellje';
 $labels['insertsignature'] = 'Fut nënshkrim';
 $labels['sigbelow'] = 'Nënshkrimin vendose nën mesazhin e cituar';
 $labels['sigseparator'] = 'Në nënshkrime përdor detyrimisht ndarës standardë';
-$labels['previewpanemarkread']  = 'Mesazheve të mëparshëm vëru shenjë si të lexuar';
 $labels['afternseconds']  = 'pas $n sekondash';
 $labels['reqmdn'] = 'Kërko përherë dëftesë kthimi';
 $labels['reqdsn'] = 'Kërko përherë njoftim mbi gjendje dërgimi';

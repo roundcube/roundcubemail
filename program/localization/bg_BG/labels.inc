@@ -480,7 +480,6 @@ $labels['replyandforwardonly'] = 'само на отговори и препра
 $labels['insertsignature'] = 'Вмъкване на подпис';
 $labels['sigbelow'] = 'Постави подписа след цитираното съобщение';
 $labels['sigseparator'] = 'Използвай стандартен разделител в подписите';
-$labels['previewpanemarkread']  = 'Маркиране на прегледаните писма като прочетени';
 $labels['afternseconds']  = 'след $n секунди';
 $labels['reqmdn'] = 'Винаги изисквай обратна разписка';
 $labels['reqdsn'] = 'Винаги изисквай статус доставка на писмото';

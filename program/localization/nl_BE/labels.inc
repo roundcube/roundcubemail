@@ -392,7 +392,6 @@ $labels['autoaddsignature'] = 'Handtekening automatisch toevoegen';
 $labels['newmessageonly'] = 'alleen bij nieuwe berichten';
 $labels['replyandforwardonly'] = 'alleen bij beantwoorden en doorsturen';
 $labels['insertsignature'] = 'Handtekening invoegen';
-$labels['previewpanemarkread']  = 'Markeer voorbeeldbericht als gelezen';
 $labels['afternseconds']  = 'Na $n seconden';
 $labels['reqmdn'] = 'Vraag altijd een ontvangstbevestiging';
 $labels['reqdsn'] = 'Vraag altijd een Delivery Status Notification';

@@ -55,6 +55,7 @@ $messages['addedsuccessfully'] = 'Kişi adres defterine eklendi';
 $messages['contactexists'] = 'Bu e-posta adresi rehberde var.';
 $messages['contactnameexists'] = 'Rehberde aynı adlı biri zaten var.';
 $messages['blockedimages'] = 'Kişisel gizliliğinizi korumak amacıyla iletideki görseller engellendi.';
+$messages['blockedresources'] = 'Kişisel gizliliğinizi korumak amacıyla iletideki uzak kaynaklar engellendi.';
 $messages['encryptedmessage'] = 'Bu ileti şifrelenmiş olduğundan görüntülenemiyor.';
 $messages['externalmessagedecryption'] = 'Bu iletinin şifresi tarayıcınızın eklentileri ile çözülebilir.';
 $messages['nopubkeyfor'] = '$email için geçerli bir genel anahtar bulunamadı';

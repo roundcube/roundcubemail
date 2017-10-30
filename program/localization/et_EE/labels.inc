@@ -478,7 +478,6 @@ $labels['autoaddsignature'] = 'Lisa allkiri automaatselt';
 $labels['newmessageonly'] = 'ainult uutele';
 $labels['replyandforwardonly'] = 'ainult vastates ja edastades';
 $labels['insertsignature'] = 'Sisesta allkiri';
-$labels['previewpanemarkread']  = 'Märgi eelvaadatud kirjad loetuks';
 $labels['afternseconds']  = '$n sekundi pärast';
 $labels['reqmdn'] = 'Nõua alati kättesaamiskinnitust';
 $labels['reqdsn'] = 'Nõua alati kohalejõudmisteavitust';

@@ -485,7 +485,6 @@ $labels['replyandforwardonly'] = 'respuestas y reenvíos solamente';
 $labels['insertsignature'] = 'Insertar firma';
 $labels['sigbelow'] = 'Escribir la firma debajo del mensaje entrecomillado';
 $labels['sigseparator'] = 'Forzar el separador estándar en las firmas';
-$labels['previewpanemarkread']  = 'Marcar mensaje previsualizado como leído';
 $labels['afternseconds']  = 'después de $n segundos';
 $labels['reqmdn'] = 'Siempre solicitar confirmación de recibo';
 $labels['reqdsn'] = 'Siempre solicitar notificación del estado de la entrega';

@@ -73,6 +73,7 @@ $labels['keygenerating'] = 'מפתחות נוצרים...';
 $labels['encryptionoptions'] = 'אפשרויות הצפנה...';
 $labels['encryptmsg'] = 'הצפנה של הודעה זו';
 $labels['signmsg'] = 'חתימה דיגיטלית של הודעה זו';
+$labels['sendunencrypted'] = 'לשלוח ללא הצפנה';
 $labels['enterkeypasstitle'] = 'נא להקיש צרור אותיות וסימנים ליצירת מפתח';
 $labels['enterkeypass'] = 'יש להקיש צרור אותיות וסימנים שנבחרו קודם כדי לשחרר נעילה של המפתח הסודי  (keyid$)  של משתמש  user$';
 $labels['arialabelkeyexportoptions'] = 'אפשרויות ייצוא של מפתחות';

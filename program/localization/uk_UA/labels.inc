@@ -476,7 +476,6 @@ $labels['replyandforwardonly'] = 'тільки при відповідях та 
 $labels['insertsignature'] = 'Додати підпис';
 $labels['sigbelow'] = 'Поставити підпис під цитованим повідомленням';
 $labels['sigseparator'] = 'Ставити стандартний розділювач підписів';
-$labels['previewpanemarkread']  = 'Позначити переглянуті листи як прочитані';
 $labels['afternseconds']  = 'через $n секунд';
 $labels['reqmdn'] = 'Завжди вимагати повідомлення про доставку';
 $labels['reqdsn'] = 'Завжди вимагати повідомлення про статус доставки';

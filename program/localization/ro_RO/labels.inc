@@ -482,7 +482,6 @@ $labels['replyandforwardonly'] = 'numai la răspunsuri si cele trimise mai depar
 $labels['insertsignature'] = 'Introduce o semnătură';
 $labels['sigbelow'] = 'Plasați semnătura sub mesajul citat';
 $labels['sigseparator'] = 'Forțează separator standard în semnături';
-$labels['previewpanemarkread']  = 'Marchează mesajele previzualizate ca citite';
 $labels['afternseconds']  = 'după $n secunde';
 $labels['reqmdn'] = 'Cere întotdeauna o confirmare de primire';
 $labels['reqdsn'] = 'Cere întotdeauna o notificare a stării de trimitere';

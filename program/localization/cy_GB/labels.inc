@@ -490,7 +490,6 @@ $labels['replyandforwardonly'] = 'atebion a danfon ymlaen yn unig';
 $labels['insertsignature'] = 'Mewnosod llofnod';
 $labels['sigbelow'] = 'Rhowch y llofnod o dan y neges wedi wreiddiol';
 $labels['sigseparator'] = 'Gorfodi gwahanwr safonol yn y llofnodion';
-$labels['previewpanemarkread']  = 'Nodi negeseuon rhagolwg fel darllenwyd';
 $labels['afternseconds']  = 'ar ôl $n eiliad';
 $labels['reqmdn'] = 'Bob amser gofyn am dderbynneb danfon';
 $labels['reqdsn'] = 'Gofyn am hysbysiad statws danfon bob amser';

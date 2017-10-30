@@ -481,7 +481,6 @@ $labels['replyandforwardonly'] = 'solo alle risposte e inoltri';
 $labels['insertsignature'] = 'Inserisci firma';
 $labels['sigbelow'] = 'Inserire la firma sotto al testo citato';
 $labels['sigseparator'] = 'Forzare il separatore standard nelle firme';
-$labels['previewpanemarkread']  = 'Segna i messaggi in anteprima come letti';
 $labels['afternseconds']  = 'dopo $n secondi';
 $labels['reqmdn'] = 'Richiedi sempre la ricevuta di ritorno';
 $labels['reqdsn'] = 'Richiedi sempre la notifica di consegna';

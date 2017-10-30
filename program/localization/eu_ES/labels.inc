@@ -491,7 +491,6 @@ $labels['replyandforwardonly'] = 'bakarri erantzun eta birbidalketak';
 $labels['insertsignature'] = 'Txertatu sinadura';
 $labels['sigbelow'] = 'Sinadura aipamenaren azpian jarri';
 $labels['sigseparator'] = 'Behartu banatzaile estandarra sinaduretan';
-$labels['previewpanemarkread']  = 'Markatu ikusitako mezuak irakurrita bezala';
 $labels['afternseconds']  = '$n segundo eta gero';
 $labels['reqmdn'] = 'Eskatu beti jasotze-agiria';
 $labels['reqdsn'] = 'Eskatu beti entrega-egoeraren jakinarazpena';

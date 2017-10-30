@@ -464,7 +464,6 @@ $labels['newmessageonly'] = 'само нове поруке';
 $labels['replyandforwardonly'] = 'само одговори и прослеђивања';
 $labels['insertsignature'] = 'Убаци потпис';
 $labels['sigbelow'] = 'Потпис испод цитиране поруке';
-$labels['previewpanemarkread']  = 'Прегледану поруку означи као прочитану';
 $labels['afternseconds']  = 'након $n сек.';
 $labels['reqmdn'] = 'Увек затражи потврду пријема';
 $labels['reqdsn'] = 'Увек затражи обавештење о статусу слања поруке';

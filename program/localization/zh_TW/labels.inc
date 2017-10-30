@@ -481,7 +481,6 @@ $labels['replyandforwardonly'] = '僅回覆或轉寄時';
 $labels['insertsignature'] = '插入簽名檔';
 $labels['sigbelow'] = '將簽名置於引用郵件之後';
 $labels['sigseparator'] = '在簽名強制使用標準分隔符號';
-$labels['previewpanemarkread']  = '標示已預覽郵件為已讀取';
 $labels['afternseconds']  = '$n 秒之後';
 $labels['reqmdn'] = '總是索取讀取回條';
 $labels['reqdsn'] = '總是要求傳送狀態通知';

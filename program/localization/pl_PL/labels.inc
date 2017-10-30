@@ -490,7 +490,6 @@ $labels['replyandforwardonly'] = 'tylko dla przekazywania i odpowiedzi';
 $labels['insertsignature'] = 'Wstaw podpis';
 $labels['sigbelow'] = 'Umieść podpis poniżej cytowanej wiadomości';
 $labels['sigseparator'] = 'Wymuś standardowy separator w podpisie';
-$labels['previewpanemarkread']  = 'Oznacz podglądane wiadomości jako przeczytane';
 $labels['afternseconds']  = 'po $n sekundach';
 $labels['reqmdn'] = 'Zawsze żądaj potwierdzenia odbioru';
 $labels['reqdsn'] = 'Zawsze żądaj statusu dostarczenia (DSN)';
