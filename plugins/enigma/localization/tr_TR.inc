@@ -73,6 +73,7 @@ $labels['keygenerating'] = 'Anahtarlar oluştur...';
 $labels['encryptionoptions'] = 'Şifreleme ayarları...';
 $labels['encryptmsg'] = 'Bu iletiyi şifrele';
 $labels['signmsg'] = 'İletiyi dijital imzala';
+$labels['sendunencrypted'] = 'Şifrelenmemiş olarak gönder';
 $labels['enterkeypasstitle'] = 'Anahtar sözcüğünüzü yazın';
 $labels['enterkeypass'] = 'Gizli anahtarı ($keyid) açmak için $user kullanıcısının anahtar sözcüğü gerekli.';
 $labels['arialabelkeyexportoptions'] = 'Anahtar dışa aktarma ayarları';

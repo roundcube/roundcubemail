@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'To geslo ste v preteklosti že uporabili.';
 $messages['samepasswd'] = 'Novo geslo se mora razlikovati od prejšnjega.';
 $messages['passwdexpirewarning'] = 'Opozorilo! Vaše geslo bo kmalu poteklo, spremenite ga pred $expirationdatetime.';
 $messages['passwdexpired'] = 'Vaše geslo je poteklo, spremenite ga!';
+$messages['passwdconstraintviolation'] = 'Geslo ne ustreza zahtevam. Verjetno je prešibko.';

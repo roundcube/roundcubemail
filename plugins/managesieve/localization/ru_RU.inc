@@ -237,4 +237,5 @@ $messages['saveerror'] = 'Невозможно сохранить данные. 
 $messages['vacationsaved'] = 'Данные об отпуске успешно сохранены.';
 $messages['emptyvacationbody'] = 'Сообщение о причине отсутствия не может быть пустым!';
 $messages['duplicate.conflict.err'] = 'Не разрешено использовать заголовок и уникальный идентификатор вместе.';
+$messages['disabledaction'] = 'Действие не разрешено.';
 ?>

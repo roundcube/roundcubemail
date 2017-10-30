@@ -23,6 +23,6 @@ $labels['title'] = 'Yeni İleti!';
 $labels['body'] = 'Yeni bir iletiniz var.';
 $labels['testbody'] = 'Bu bir test bildirimidir.';
 $labels['desktopdisabled'] = 'Web tarayıcınızda masaüstü bildirimi devre dışı bırakıldı.';
-$labels['desktopunsupported'] = 'Web tarayıcınız masaüstü bildirimleri desteklemiyor';
+$labels['desktopunsupported'] = 'Web tarayıcınız masaüstü bildirimlerini desteklemiyor';
 $labels['desktoptimeout'] = 'Masaüstü bildirimini kapat';
 ?>

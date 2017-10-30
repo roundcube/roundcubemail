@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Ce mot de passe a déjà été utilisé précéde
 $messages['samepasswd'] = 'Le nouveau mot de passe doit être différent de l\'ancien.';
 $messages['passwdexpirewarning'] = 'Avertissement ! Votre mot de passe arrivera prochainement à expiration. Changez-le avant le $expirationdatetime.';
 $messages['passwdexpired'] = 'Votre mot de passe est expiré, vous devez le changer maintenant !';
+$messages['passwdconstraintviolation'] = 'Contrainte non respectée. Le mot de passe est probablement trop faible.';

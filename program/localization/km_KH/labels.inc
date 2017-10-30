@@ -372,7 +372,6 @@ $labels['autoaddsignature'] = 'បញ្ចូលហត្តលេខាដោ�
 $labels['newmessageonly'] = 'សំរាប់សំបុត្រថ្មីតែប៉ុណ្ណោះ';
 $labels['replyandforwardonly'] = 'សំរាប់ឆើ្លយតប​និងផ្ញើបន្តតែ​ប៉ុណ្ណោះ';
 $labels['insertsignature'] = 'បញ្ចូលហត្តលេខា';
-$labels['previewpanemarkread']  = 'កំណត់សំបុត្រ​ដែល​បាន​បង្ហាញ​​ជា​សំបុត្របាន​អាន​រួច';
 $labels['afternseconds']  = 'ក្រោយពី $n វិនាទី';
 $labels['reqmdn'] = 'ក្រោយពី $n វិនាទី';
 $labels['reqdsn'] = 'ក្រោយពី $n វិនាទី';

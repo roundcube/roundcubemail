@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Chýbajúca príloha?";
 $messages['forgotattachment'] = "Nezabudli ste pridať prílohu?";
 $messages['reminderoption'] = "Pripomenúť zabudnuté prílohy";
 $messages['keywords'] = "príloha,súbor,pripojiť,priložená,priložený,priložené,v prílohe,životopis,sprievodný list";

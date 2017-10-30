@@ -28,4 +28,5 @@ $labels['archivetypemonth'] = '月(例如 存档/2012/06)';
 $labels['archivetypefolder'] = '原始文件夹';
 $labels['archivetypesender'] = '发件人邮件';
 $labels['unkownsender'] = '未知';
+$labels['readonarchive'] = '在归档中标记信息为已读';
 ?>

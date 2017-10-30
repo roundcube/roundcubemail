@@ -16,17 +16,24 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
 $labels['filters'] = 'ตัวกรองข้อมูล';
+$labels['managefilters'] = 'จัดการตัวกรองอีเมลขาเข้า';
 $labels['filtername'] = 'ชื่อตัวกรองข้อมูล';
 $labels['newfilter'] = 'สร้างตัวกรองข้อมูลใหม่';
 $labels['filteradd'] = 'เพิ่มตัวกรองข้อมูล';
 $labels['filterdel'] = 'ลบตัวกรองข้อมูล';
 $labels['moveup'] = 'เลื่อนขึ้น';
 $labels['movedown'] = 'เลื่อนลง';
+$labels['filterallof'] = 'จับคู่กฎทั้งหมดต่อไปนี้';
+$labels['filteranyof'] = 'จับคู่กฎใด ๆ ต่อไปนี้';
 $labels['filterany'] = 'ข้อความทั้งหมด';
 $labels['filtercontains'] = 'ที่มีคำว่า';
 $labels['filternotcontains'] = 'ไม่มีคำว่า';
 $labels['filteris'] = 'ที่มีค่าเท่ากับ';
 $labels['filterisnot'] = 'ที่มีค่าไม่เท่ากับ';
+$labels['filterexists'] = 'ที่มีอยู่';
+$labels['filternotexists'] = 'ไม่มีอยู่';
+$labels['filtermatches'] = 'ตรงกับนิพจน์';
+$labels['filternotmatches'] = 'ไม่ตรงกับนิพจน์';
 $labels['addrule'] = 'เพิ่มกฏ';
 $labels['delrule'] = 'ลบกฏ';
 $labels['messagemoveto'] = 'ย้ายข้อความไปที่';

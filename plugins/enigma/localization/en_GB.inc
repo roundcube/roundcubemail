@@ -73,6 +73,7 @@ $labels['keygenerating'] = 'Generating keys...';
 $labels['encryptionoptions'] = 'Encryption options...';
 $labels['encryptmsg'] = 'Encrypt this message';
 $labels['signmsg'] = 'Digitally sign this message';
+$labels['sendunencrypted'] = 'Send unencrypted';
 $labels['enterkeypasstitle'] = 'Enter key passphrase';
 $labels['enterkeypass'] = 'A passphrase is needed to unlock the secret key ($keyid) for user: $user.';
 $labels['arialabelkeyexportoptions'] = 'Keys export options';

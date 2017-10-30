@@ -471,7 +471,6 @@ $labels['replyandforwardonly'] = 'jen k odpovědi a přeposílané zprávě';
 $labels['insertsignature'] = 'Vložit podpis';
 $labels['sigbelow'] = 'Vkládat podpis pod citovanou zprávu';
 $labels['sigseparator'] = 'Vynutit standardní oddělovač v podpisech';
-$labels['previewpanemarkread']  = 'Označit zobrazené zprávy jako přečtené';
 $labels['afternseconds']  = 'po $n sekundách';
 $labels['reqmdn'] = 'Vždy požadovat doručenku';
 $labels['reqdsn'] = 'Vždy požádat o oznámení o stavu doručení';

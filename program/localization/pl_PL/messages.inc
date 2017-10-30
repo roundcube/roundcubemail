@@ -97,6 +97,7 @@ $messages['disclosedreciptitle'] = 'Zbyt wielu publicznych odbiorców';
 $messages['nosubjectwarning']  = 'Nie podano tematu wiadomości. Czy chcesz go teraz uzupełnić?';
 $messages['nosubjecttitle']  = 'Brak tematu';
 $messages['nobodywarning'] = 'Ta wiadomość jest pusta, czy mimo to chcesz ją wysłać?';
+$messages['notsentwarning'] = 'Wiadomość została zmieniona i nie została jeszcze wysłana. Czy chcesz porzucić zmiany?';
 $messages['restoresavedcomposedata'] = 'Wykryto poprzednio tworzoną ale nie wysłaną wiadomość.\n\nTemat: $subject\nZapisano: $date\n\nCzy przywrócić tą wiadomość?';
 $messages['noldapserver'] = 'Wybierz serwer LDAP!';
 $messages['nosearchname'] = 'Podaj nazwę kontaktu lub jego adres e-mail.';

@@ -73,6 +73,7 @@ $labels['keygenerating'] = 'Создание ключей...';
 $labels['encryptionoptions'] = 'Настройки шифрования...';
 $labels['encryptmsg'] = 'Зашифровать это сообщение';
 $labels['signmsg'] = 'Подписать это сообщение';
+$labels['sendunencrypted'] = 'Отправить незашифрованным';
 $labels['enterkeypasstitle'] = 'Введите фразу-пароль ключа';
 $labels['enterkeypass'] = 'Фраза-пароль нужна для разблокировки секретного ключа ($keyid) пользователя: $user.';
 $labels['arialabelkeyexportoptions'] = 'Параметры экспорта ключей';

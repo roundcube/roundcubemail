@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Lösenordet har redan använts tidigare.';
 $messages['samepasswd'] = 'Lösenordet får inte vara samma som det gamla.';
 $messages['passwdexpirewarning'] = 'Varning! Lösenordet blir snart ogiltigt, ändra det innan $expirationdatetime.';
 $messages['passwdexpired'] = 'Lösenordet är ogiltigt, du måste ändra det nu!';
+$messages['passwdconstraintviolation'] = 'Lösenordet uppfyller inte gällande kriterier. Lösenordet är troligtvis inte tillräckligt bra.';

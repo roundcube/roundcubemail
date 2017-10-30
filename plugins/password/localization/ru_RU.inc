@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Этот пароль уже использова
 $messages['samepasswd'] = 'Новый пароль должен отличаться от старого.';
 $messages['passwdexpirewarning'] = 'Внимание! Ваш пароль истекает в ближайшее время, измените его до $expirationdatetime.';
 $messages['passwdexpired'] = 'Срок действия вашего пароля истек, вы должны изменить его сейчас!';
+$messages['passwdconstraintviolation'] = 'Нарушение ограничения пароля. Вероятно, слишком слабый пароль.';

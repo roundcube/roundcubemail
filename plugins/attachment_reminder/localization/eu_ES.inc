@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Eranskina falta da?";
 $messages['forgotattachment'] = "Ahaztu zaizu fitxategia eranstea?";
 $messages['reminderoption'] = "Ohartarazi ahaztutako erankinez";
 $messages['keywords'] = "eranskin,fitxategia,erantzi,erantzita,eransten,atxikita";

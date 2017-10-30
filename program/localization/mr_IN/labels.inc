@@ -333,7 +333,6 @@ $labels['autoaddsignature'] = 'आपोआप सही करा';
 $labels['newmessageonly'] = 'फक्‍त नवीन संदेश';
 $labels['replyandforwardonly'] = 'फक्‍त उत्‍तरे आ‍णी पुढे पाठवलेले संदेश';
 $labels['insertsignature'] = 'सही मध्‍ये टाका';
-$labels['previewpanemarkread']  = 'प्रदर्शित संदेश पाहीले अशी खुण करा';
 $labels['afternseconds']  = '$n क्षणानंतर';
 $labels['reqmdn'] = 'नेहमी पोचपावतीची विनंती करा';
 $labels['reqdsn'] = 'नेहमी पोचपावती स्थिती निर्देशाची विनंती करा';
