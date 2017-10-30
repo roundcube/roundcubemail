@@ -22,9 +22,9 @@ class archive extends rcube_plugin
         // register special folder type
         rcube_storage::$folder_types[] = 'archive';
 
-        if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show')
-            && ($archive_folder = $rcmail->config->get('archive_mbox'))
-        ) {
+        $archive_folder = $rcmail->config->get('archive_mbox');
+
+        if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show') && $archive_folder) {
             $this->include_stylesheet($this->local_skin_path() . '/archive.css', true);
             $this->include_script('archive.js');
             $this->add_texts('localization', true);
@@ -57,6 +57,13 @@ class archive extends rcube_plugin
         else if ($rcmail->task == 'settings') {
             $this->add_hook('preferences_list', array($this, 'prefs_table'));
             $this->add_hook('preferences_save', array($this, 'save_prefs'));
+
+            if ($rcmail->action == 'folders' && $archive_folder) {
+                $this->include_stylesheet($this->local_skin_path() . '/archive.css', true);
+                $this->include_script('archive.js');
+                // set env variables for client
+                $rcmail->output->set_env('archive_folder', $archive_folder);
+            }
         }
     }
 
