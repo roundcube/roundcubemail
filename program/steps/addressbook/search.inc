@@ -256,7 +256,8 @@ function rcmail_contact_search_form($attrib)
 {
     global $RCMAIL, $CONTACT_COLTYPES;
 
-    $i_size = $attrib['size'] ?: 30;
+    $i_size       = $attrib['size'] ?: 30;
+    $short_labels = rcube_utils::get_boolean($attrib['short-legend-labels']);
 
     $form = array(
         'main' => array(
@@ -265,7 +266,7 @@ function rcmail_contact_search_form($attrib)
             ),
         ),
         'personal' => array(
-            'name'    => $RCMAIL->gettext('personalinfo'),
+            'name'    => $RCMAIL->gettext($short_labels ? 'personal' : 'personalinfo'),
             'content' => array(
             ),
         ),
