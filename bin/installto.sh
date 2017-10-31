@@ -64,13 +64,13 @@ if (strtolower($input) == 'y') {
     // @FIXME: should we use --delete for all directories?
     $delete  = in_array($dir, array('program', 'installer', 'vendor')) ? '--delete ' : '';
     $command = "rsync -aC --out-format=%n " . $delete . INSTALL_PATH . "$dir/ $target_dir/$dir/";
-    if (!system($command, $ret) || $ret > 0) {
+    if (system($command, $ret) === false || $ret > 0) {
       rcube::raise_error("Failed to execute command: $command", false, true);
     }
   }
   foreach (array('index.php','.htaccess','.user.ini','config/defaults.inc.php','composer.json-dist','jsdeps.json','CHANGELOG','README.md','UPGRADING','LICENSE','INSTALL') as $file) {
     $command = "rsync -a --out-format=%n " . INSTALL_PATH . "$file $target_dir/$file";
-    if (file_exists(INSTALL_PATH . $file) && (!system($command, $ret) || $ret > 0)) {
+    if (file_exists(INSTALL_PATH . $file) && (system($command, $ret) === false || $ret > 0)) {
       rcube::raise_error("Failed to execute command: $command", false, true);
     }
   }
