@@ -453,7 +453,7 @@ class acl extends rcube_plugin
                     case 1: $class = 'partial'; break;
                     default: $class = 'disabled'; break;
                 }
-                $table->add('acl' . $key . ' ' . $class, '<span/>');
+                $table->add('acl' . $key . ' ' . $class, '<span></span>');
             }
 
             $js_table[$userid] = implode($userrights);
