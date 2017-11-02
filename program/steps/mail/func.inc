@@ -1606,8 +1606,9 @@ function rcmail_washtml_link_callback($tag, $attribs, $content, $washtml)
     else if (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {
         list($mailto, $url) = explode('?', html_entity_decode($mailto[1], ENT_QUOTES, 'UTF-8'), 2);
 
-        $url       = urldecode($url);
-        $mailto    = urldecode($mailto);
+        // #6020: use raw encoding for correct "+" character handling as specified in RFC6068
+        $url       = rawurldecode($url);
+        $mailto    = rawurldecode($mailto);
         $addresses = rcube_mime::decode_address_list($mailto, null, true);
         $mailto    = array();
 
