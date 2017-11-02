@@ -135,7 +135,6 @@ class rcube_sieve_forward extends rcube_sieve_engine
 
         // find (first) simple forward rule that can be expressed with the minimal settings
         foreach ($this->script as $idx => $rule) {
-rcube::write_log('errors', print_r($rule,true));
             if (empty($this->forward) && !empty($rule['actions']) && $rule['actions'][0]['type'] == 'redirect') {
                 $ignore_rule = false;
                 $target = null;
