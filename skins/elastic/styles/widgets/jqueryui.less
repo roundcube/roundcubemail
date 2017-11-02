@@ -75,6 +75,19 @@
             display: block !important;
         }
     }
+
+    .ui-dialog-buttonpane {
+        .ui-dialog-buttonset {
+            display: flex;
+            justify-content: flex-end;
+
+            button {
+                min-width: 5rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
 }
 
 .ui-dialog iframe,
@@ -124,7 +137,6 @@
             height: @layout-header-height !important;
 
             .ui-dialog-buttonset {
-                display: flex;
                 justify-content: space-around;
 
                 button {
@@ -132,9 +144,6 @@
                     border: 0 !important;
                     box-shadow: none;
                     height: @layout-header-height;
-                    min-width: 5rem;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
 
                     &:before {
                         display: block !important;
