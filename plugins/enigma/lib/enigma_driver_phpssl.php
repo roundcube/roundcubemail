@@ -20,6 +20,7 @@ class enigma_driver_phpssl extends enigma_driver
     private $rc;
     private $homedir;
     private $user;
+    private $cainfo;
 
     function __construct($user)
     {
@@ -37,6 +38,7 @@ class enigma_driver_phpssl extends enigma_driver
     function init()
     {
         $homedir = $this->rc->config->get('enigma_smime_homedir', INSTALL_PATH . '/plugins/enigma/home');
+        $this->cainfo = $this->rc->config->get('enigma_smime_ca', array());
 
         if (!$homedir)
             return new enigma_error(enigma_error::INTERNAL,
@@ -96,10 +98,15 @@ class enigma_driver_phpssl extends enigma_driver
         fclose($fh);
 
         // @TODO: use stored certificates
-
-        // try with certificate verification
-        $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file);
+        // try with global config'd certificates
+        $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file, $this->cainfo);
         $validity = true;
+
+        if ($sig !== true) {
+            // try with server trusted certificate verification
+            $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file);
+            $validity = enigma_error::SERVER_VERIFIED;
+        }
 
         if ($sig !== true) {
             // try without certificate verification

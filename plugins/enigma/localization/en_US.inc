@@ -98,6 +98,7 @@ $messages = array();
 $messages['sigvalid'] = 'Verified signature from $sender.';
 $messages['sigvalidpartial'] = 'Verified signature from $sender, but part of the body was not signed.';
 $messages['siginvalid'] = 'Invalid signature from $sender.';
+$messages['sigserververified'] = 'Server-verified signature. Certificate ID: $keyid.';
 $messages['sigunverified'] = 'Unverified signature. Certificate not verified. Certificate ID: $keyid.';
 $messages['signokey'] = 'Unverified signature. Public key not found. Key ID: $keyid.';
 $messages['sigerror'] = 'Unverified signature. Internal error.';
