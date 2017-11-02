@@ -105,7 +105,7 @@ class rcube_sieve_engine
                 $this->rc->session->remove('managesieve_current');
             }
 
-            if ($mode != 'vacation') {
+            if ($mode != 'vacation' && $mode != 'forward') {
                 if (!empty($_GET['_set']) || !empty($_POST['_set'])) {
                     $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
                 }
