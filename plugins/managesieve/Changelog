@@ -1,4 +1,5 @@
 - Added option managesieve_default_headers
+- Added option managesieve_forward to enable settings dialog for simple forwarding (#6021)
 
 * version 9.0 [2017-10-02]
 -----------------------------------------------------------
