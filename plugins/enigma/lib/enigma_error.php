@@ -30,6 +30,7 @@ class enigma_error
     const EXPIRED     = 6;
     const UNVERIFIED  = 7;
     const NOMDC       = 8;
+    const SERVER_VERIFIED  = 9;
 
 
     function __construct($code = null, $message = '', $data = [])
