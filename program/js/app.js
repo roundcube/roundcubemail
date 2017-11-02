@@ -8152,7 +8152,7 @@ function rcube_webmail()
         var n = 0, s = 0,
           folder = ref.env.mailboxes[this],
           id = folder.id,
-          a = $(link.cloneNode(false)),
+          a = $(link.cloneNode(false)).attr('rel', folder.id),
           row = $('<li>');
 
         if (folder.virtual)
