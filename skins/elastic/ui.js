@@ -53,6 +53,7 @@ function rcube_elastic_ui()
     // Public methods
     this.register_content_buttons = register_content_buttons;
     this.menu_hide = menu_hide;
+    this.menu_toggle = menu_toggle;
     this.about_dialog = about_dialog;
     this.headers_dialog = headers_dialog;
     this.spellmenu = spellmenu;
@@ -66,6 +67,7 @@ function rcube_elastic_ui()
     this.smart_field_reset = smart_field_reset;
     this.form_errors = form_errors;
     this.switch_nav_list = switch_nav_list;
+    this.popup_init = popup_init;
 
 
     // Initialize layout
@@ -417,7 +419,7 @@ function rcube_elastic_ui()
         });
 
         rcmail.addEventListener('fileappended', function(e) { if (e.attachment.complete) attachmentmenu_append(e.item); })
-            .addEventListener('managesieve.insertrow', function(o) { console.log(o); bootstrap_style(o.obj); });
+            .addEventListener('managesieve.insertrow', function(o) { bootstrap_style(o.obj); });
 
         rcmail.init_pagejumper('.pagenav > input');
 
@@ -1498,12 +1500,43 @@ function rcube_elastic_ui()
     /**
      * Initialize a popup for specified button element
      */
-    function popup_init(item)
+    function popup_init(item, win)
     {
+        // On mobile we display the menu from the frame in the parent window
+        if (is_framed && is_mobile()) {
+            return parent.UI.popup_init(item, win || window);
+        }
+
+        if (!win) win = window;
+
         var level,
             popup_id = $(item).data('popup'),
-            popup = $('#' + popup_id),
-            title = $(item).attr('title');
+            popup = $(win.$('#' + popup_id).get(0)), // a "hack" to support elements in frames
+            popup_orig = popup,
+            title = $(item).attr('title'),
+            content_element = function() {
+                // On mobile we display a menu from the frame in the parent window
+                // To make menu actions working we have to clone the menu
+                // and pass click events to it...
+                // Warning: this function is called twice on overy popup-show (Bootstrap bug?)
+                if (win != window && !$('#' + popup_id + '-clone').length) {
+                    popup = popup_orig.clone(true, true);
+                    popup.attr('id', popup_id + '-clone')
+                        //.addClass('popupmenu')
+                        .appendTo(document.body);
+
+                    // TODO: we have some limitations here:
+                    //       we don't support multi-level menus
+                    //       we support only specified types of menu items
+                    popup.find('li > a.active, li.checkbox > label').off('click').on('click', function() {
+                        $(item).popover('hide');
+                        win.$('#' + $(this).attr('id')).click();
+                        return false;
+                    });
+                }
+
+                return popup.get(0);
+            };
 
         $(item).attr({
                 'aria-haspopup': 'true',
@@ -1511,26 +1544,33 @@ function rcube_elastic_ui()
                 'aria-owns': popup_id,
             })
             .popover({
-                content: popup,
+                content: content_element,
                 trigger: $(item).data('popup-trigger') || 'click',
                 placement: $(item).data('popup-pos') || 'bottom',
                 animation: true,
                 html: true
             })
             .on('show.bs.popover', function(event) {
-                var init_func = $(popup).data('popup-init');
+                var init_func = popup.data('popup-init');
+
+                if (popup_id && menus[popup_id]) {
+                    menus[popup_id].transitioning = true;
+                }
 
                 if (init_func && ref[init_func]) {
-                    ref[init_func](popup, item, event);
+                    ref[init_func](popup.get(0), item, event);
                 }
-                else if (init_func && window[init_func]) {
-                    window[init_func](popup, item, event);
+                else if (init_func && win[init_func]) {
+                    win[init_func](popup.get(0), item, event);
                 }
 
-                popup.attr('aria-hidden', false)
+                level = $('div.popover:visible').length + 1;
+
+                popup.removeClass('hidden').attr('aria-hidden', false)
                     // Stop propagation on menu items that have popups
                     // to make a click on them not hide their parent menu(s)
                     .find('[aria-haspopup="true"]')
+                        .data('level', level + 1)
                         .off('click.popup')
                         .on('click.popup', function(e) { e.stopPropagation(); });
 
@@ -1539,26 +1579,33 @@ function rcube_elastic_ui()
                     popup.css('max-height', Math.min(510, $(window).height() - 30));
                 }
             })
-            .on('shown.bs.popover', function(event, el) {
+            .on('shown.bs.popover', function(event) {
                 var mobile = is_mobile();
+
+                level = $(item).data('level') || 1;
 
                 // Set popup Back/Close title
                 if (mobile) {
-                    level = $('div.popover:visible').length;
-
                     var label = level > 1 ? 'back' : 'close',
                         title = rcmail.gettext(label),
                         class_name = 'button icon ' + (label == 'back' ? 'back' : 'cancel');
 
-                    $('.popover-header:last').empty()
+                    $('#' + $(item).attr('aria-describedby') + ' > .popover-header').empty()
                         .append($('<a>').attr('class', class_name).text(title))
-                        .click(function(e) {
+                        .off('click').on('click', function(e) {
+                            $(item).popover('hide');
                             if (level > 1) {
-                                $(item).popover('hide');
                                 e.stopPropagation();
                             }
                         });
                 }
+
+                // Hide other menus on the same level
+                $.each(menus, function(id, prop) {
+                    if ($(prop.target).data('level') == level && id != popup_id) {
+                        menu_hide(id);
+                    }
+                });
 
                 if (popup_id && menus[popup_id]) {
                     menus[popup_id].transitioning = false;
@@ -1571,23 +1618,36 @@ function rcube_elastic_ui()
                         .click(function() { $(this).remove(); });
                 }
             })
-            .on('hidden.bs.popover', function() {
-                var parent = popup.data('popup-parent') || document.body;
-
-                popup.attr('aria-hidden', true)
-                    // Bootstrap will detach the popup element from
-                    // the DOM (https://github.com/twbs/bootstrap/issues/20219)
-                    // making our menus to not update buttons state.
-                    // Work around this by attaching it back to the DOM tree.
-                    .appendTo(parent);
-
-                if (popup_id && menus[popup_id]) {
-                    menus[popup_id].transitioning = false;
-                }
-            })
             .on('hide.bs.popover', function() {
                 if (level == 1) {
                     $('.popover-overlay').remove();
+                }
+
+                if (popup_id && menus[popup_id] && popup.is(':visible')) {
+                    menus[popup_id].transitioning = true;
+                }
+
+            })
+            .on('hidden.bs.popover', function() {
+                if (/-clone$/.test(popup.attr('id'))) {
+                    popup.remove();
+                }
+                else {
+                    popup.attr('aria-hidden', true)
+                        // Some menus aren't being hidden, force that
+                        .addClass('hidden')
+                        // Bootstrap will detach the popup element from
+                        // the DOM (https://github.com/twbs/bootstrap/issues/20219)
+                        // making our menus to not update buttons state.
+                        // Work around this by attaching it back to the DOM tree.
+                        popup.appendTo(popup.data('popup-parent') || document.body);
+                }
+
+                // close orphaned popovers, for some reason there are sometimes such dummy elements left
+                $('.popover-body:empty').each(function() { $(this).parent().remove(); });
+
+                if (popup_id && menus[popup_id]) {
+                    delete menus[popup_id];
                 }
             })
             .on('keypress', function(event) {
@@ -1616,12 +1676,16 @@ function rcube_elastic_ui()
      */
     function popups_close(e)
     {
-        $('.popover-body:visible').each(function() {
-            var popup = $(this),
+        $('.popover.show').each(function() {
+            var popup = $('.popover-body', this),
                 button = popup.children().first().data('button');
 
             if (button && e.target != button && !$(button).find(e.target).length && typeof button !== 'string') {
                 $(button).popover('hide');
+            }
+
+            if (!button) {
+                $(this).remove();
             }
         });
     };
@@ -1633,6 +1697,11 @@ function rcube_elastic_ui()
     {
         if (!p || !p.name || (p.props && p.props.skinable === false)) {
             return;
+        }
+
+        if (is_framed && is_mobile()) {
+            p.win = window;
+            return parent.UI.menu_toggle(p);
         }
 
         if (p.name == 'messagelistmenu') {
@@ -1660,9 +1729,8 @@ function rcube_elastic_ui()
                     })
                     .appendTo(document.body).get(0);
             }
-            else {
-                pos = $(target).data('popup-pos') || 'right';
-            }
+
+            pos = $(target).data('popup-pos') || 'right';
 
             if (p.name == 'folder-selector') {
                 content.addClass('listing folderlist');
@@ -1675,6 +1743,11 @@ function rcube_elastic_ui()
                 content.addClass('simplelist');
                 p.obj.addClass('simplelist');
                 pos = 'top';
+            }
+
+            // There can be only one menu of the same type
+            if (menus[p.name]) {
+                menu_hide(p.name, p.originalEvent);
             }
 
             // Popover menus use animation. Sometimes the same menu is
@@ -1691,10 +1764,10 @@ function rcube_elastic_ui()
                         'popup-pos': pos,
                         'popup-trigger': 'manual'
                     });
-                    popup_init(target);
+                    popup_init(target, p.win);
                 }
 
-                menus[p.name] = {target: target, transitioning: true};
+                menus[p.name] = {target: target};
                 $(target).popover('show');
             }
 
@@ -1716,7 +1789,6 @@ function rcube_elastic_ui()
         var target;
 
         if (menus[name]) {
-            menus[name].transitioning = true;
             target = menus[name].target;
         }
         else {
@@ -2019,7 +2091,7 @@ function rcube_elastic_ui()
         var mailto = $(button).attr('href').replace(/^mailto:/, '');
 
         if (mailto.indexOf('@') < 0) {
-            return true; // let the browser to handle this
+            return true; // let the browser handle this
         }
 
         if (rcmail.env.has_writeable_addressbook) {
@@ -2637,7 +2709,7 @@ function rcube_elastic_ui()
         }
 
         return {mode: mode, touch: touch};
-    }
+    };
 
     /**
      * Returns true if the layout is in 'small' or 'phone' mode
@@ -2647,7 +2719,7 @@ function rcube_elastic_ui()
         var meta = layout_metadata();
 
         return meta.mode == 'phone' || meta.mode == 'small';
-    }
+    };
 
     /**
      * Returns true if the layout is in 'touch' mode
@@ -2657,7 +2729,34 @@ function rcube_elastic_ui()
         var meta = layout_metadata();
 
         return meta.touch;
-    }
+    };
 }
+
+/**
+ * Elastic version of show_menu as we don't need e.g. menu positioning from core
+ * TODO: keyboard navigation in menus
+ */
+rcmail.show_menu = function(prop, show, event)
+{
+    var name = typeof prop == 'object' ? prop.menu : prop,
+        obj = $('#' + name);
+
+    if (typeof prop == 'string') {
+        prop = {menu: name};
+    }
+
+    // just delegate the action to rcube_elastic_ui
+    return rcmail.triggerEvent(show === false ? 'menu-close' : 'menu-open', {name: name, obj: obj, props: prop, originalEvent: event});
+}
+
+/**
+ * Elastic version of hide_menu as we don't need e.g. menus stack handling
+ */
+rcmail.hide_menu = function(name, event)
+{
+    // delegate to rcube_elastic_ui
+    return rcmail.triggerEvent('menu-close', {name: name, props: {menu: name}, originalEvent: event});
+}
+
 
 var UI = new rcube_elastic_ui();
