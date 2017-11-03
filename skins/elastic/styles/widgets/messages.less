@@ -45,8 +45,8 @@
 }
 
 /*
-    .boxwarning and .boxerror classes are supported by conversion
-    to .ui.alert in bootstrap_init()
+    .boxwarning/.boxerror/.boxinformation classes are supported
+    by conversion to .ui.alert in bootstrap_init()
 */
 
 .ui.alert {
@@ -138,6 +138,8 @@
         font-weight: normal;
     }
 
+    &.boxerror,
+    &.boxinformation,
     &.boxwarning {
         float: none;
         border-radius: 0;

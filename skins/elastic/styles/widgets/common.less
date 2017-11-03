@@ -167,6 +167,10 @@ font.bold {
         }
     }
 
+    table {
+        margin: 0;
+    }
+
     /* Options table is a table with first column for identifier/description
        and other columns for a state flag. E.g. ACL table */
     table.options-table {
@@ -232,6 +236,66 @@ table.compact-table {
         padding-right: .25rem;
     }
 }
+
+table.table {
+    .checkbox-cell {
+        width: 3rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-align: center;
+
+        input.icon-checkbox + label {
+            display: inline-block;
+            padding: 0;
+
+            &:before {
+                line-height: 1;
+                height: 1rem;
+            }
+        }
+    }
+
+    th.checkbox-cell {
+        padding: .75rem 0;
+        max-width: 1rem;
+
+        &:before {
+            &:extend(.font-icon-class);
+            cursor: pointer;
+            margin: 0 1rem;
+            line-height: 1;
+        }
+
+        &.subscription:before {
+            content: @fa-var-feed;
+        }
+
+        &.alarm:before {
+            content: @fa-var-bell-o;
+        }
+
+        &.read:before {
+            content: @fa-var-eye;
+        }
+
+        &.write:before {
+            content: @fa-var-pencil;
+        }
+    }
+
+    label {
+        margin: 0;
+    }
+}
+
+html.touch {
+    table.table {
+        th.checkbox-cell:before {
+            font-size: 1.5rem;
+        }
+    }
+}
+
 
 /* Bootstrap's .table style overwrites */
 .table {
