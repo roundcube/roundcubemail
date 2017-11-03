@@ -7866,7 +7866,7 @@ function rcube_webmail()
     else
       buttons.unshift({
         text: this.get_label(save_label),
-        'class': 'mainaction ' + save_label,
+        'class': 'mainaction ' + save_label.replace(/^[^\.]+\./i, ''),
         click: function(e, ui) { if (action_func(e)) close_func(e, ui, this); }
       });
 
