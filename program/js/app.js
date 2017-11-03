@@ -8852,6 +8852,9 @@ function rcube_webmail()
   // callback when an iframe finished loading
   this.iframe_loaded = function(unlock)
   {
+    if (!unlock)
+      unlock = this.env.frame_lock;
+
     this.set_busy(false, null, unlock);
 
     if (this.submit_timer)
