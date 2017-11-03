@@ -2239,14 +2239,13 @@ function rcube_elastic_ui()
             .on('change', function(e) {
                 $('span.recipient', area).remove();
                 input.val(this.value).change();
-            });
+            })
+            // copy and parse the value already set
+            .change();
 
         // this one line is here to fix border of Bootstrap's input-group,
         // input-group should not contain any hidden elements
         $(obj).detach().insertBefore(area.parent());
-
-        // Copy and parse the value already set
-        input.text($(obj).val()).change();
 
         if (rcmail.env.autocomplete_threads > 0) {
             ac_props = {
