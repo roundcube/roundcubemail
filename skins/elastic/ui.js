@@ -54,6 +54,7 @@ function rcube_elastic_ui()
     this.register_content_buttons = register_content_buttons;
     this.menu_hide = menu_hide;
     this.menu_toggle = menu_toggle;
+    this.popup_init = popup_init;
     this.about_dialog = about_dialog;
     this.headers_dialog = headers_dialog;
     this.spellmenu = spellmenu;
@@ -67,7 +68,6 @@ function rcube_elastic_ui()
     this.smart_field_reset = smart_field_reset;
     this.form_errors = form_errors;
     this.switch_nav_list = switch_nav_list;
-    this.popup_init = popup_init;
 
 
     // Initialize layout
@@ -141,7 +141,7 @@ function rcube_elastic_ui()
         }
 
         // Add content frame toolbar in the footer, for content buttons and navigation
-        if (!is_framed && layout.content.length) {
+        if (!is_framed && layout.content.length && rcmail.env.task) {
             env.frame_nav = $('<div class="footer toolbar content-frame-navigation hide-nav-buttons">')
                 .append($('<a class="button prev">')
                     .append($('<span class="inner"></span>').text(rcmail.gettext('previous'))))
@@ -220,7 +220,7 @@ function rcube_elastic_ui()
                 var data, name = RegExp.$1,
                     button = find_button(this.id);
 
-                if (data = button.data) {
+                if (button && (data = button.data)) {
                     if (data.sel) {
                         data.sel += ' button ' + name;
                         data.sel = data.sel.replace('button-selected', 'selected');
@@ -232,9 +232,10 @@ function rcube_elastic_ui()
 
                     rcmail.buttons[button.command][button.index] = data;
                     rcmail.init_button(button.command, data);
-                    $(this).addClass('button ' + name);
-                    $('.button-inner', this).addClass('inner');
                 }
+
+                $(this).addClass('button ' + name);
+                $('.button-inner', this).addClass('inner');
             }
         });
 
@@ -2731,31 +2732,39 @@ function rcube_elastic_ui()
     };
 }
 
-/**
- * Elastic version of show_menu as we don't need e.g. menu positioning from core
- * TODO: keyboard navigation in menus
- */
-rcmail.show_menu = function(prop, show, event)
-{
-    var name = typeof prop == 'object' ? prop.menu : prop,
-        obj = $('#' + name);
+if (window.rcmail) {
+    /**
+     * Elastic version of show_menu as we don't need e.g. menu positioning from core
+     * TODO: keyboard navigation in menus
+     */
+    rcmail.show_menu = function(prop, show, event)
+    {
+        var name = typeof prop == 'object' ? prop.menu : prop,
+            obj = $('#' + name);
 
-    if (typeof prop == 'string') {
-        prop = {menu: name};
+        if (typeof prop == 'string') {
+            prop = {menu: name};
+        }
+
+        // just delegate the action to rcube_elastic_ui
+        return rcmail.triggerEvent(show === false ? 'menu-close' : 'menu-open', {name: name, obj: obj, props: prop, originalEvent: event});
     }
 
-    // just delegate the action to rcube_elastic_ui
-    return rcmail.triggerEvent(show === false ? 'menu-close' : 'menu-open', {name: name, obj: obj, props: prop, originalEvent: event});
+    /**
+     * Elastic version of hide_menu as we don't need e.g. menus stack handling
+     */
+    rcmail.hide_menu = function(name, event)
+    {
+        // delegate to rcube_elastic_ui
+        return rcmail.triggerEvent('menu-close', {name: name, props: {menu: name}, originalEvent: event});
+    }
+
+    var UI = new rcube_elastic_ui();
 }
-
-/**
- * Elastic version of hide_menu as we don't need e.g. menus stack handling
- */
-rcmail.hide_menu = function(name, event)
-{
-    // delegate to rcube_elastic_ui
-    return rcmail.triggerEvent('menu-close', {name: name, props: {menu: name}, originalEvent: event});
+else {
+    // rcmail does not exists e.g. on the error template inside a frame
+    // we fake the engine a little
+    var rcmail = parent.rcmail;
+    var rcube_webmail = parent.rcube_webmail;
+    var UI = new rcube_elastic_ui();
 }
-
-
-var UI = new rcube_elastic_ui();

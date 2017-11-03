@@ -146,7 +146,7 @@ font.bold {
     display: flex;
     flex-direction: column;
     height: 22rem;
-    margin-bottom: .25rem;
+    margin-bottom: .5rem;
     border: 1px solid @color-table-border;
 
     & > .content {
@@ -286,6 +286,10 @@ table.table {
     label {
         margin: 0;
     }
+
+    fieldset.tab-pane & thead th {
+        border: 0;
+    }
 }
 
 html.touch {
@@ -301,5 +305,6 @@ html.touch {
 .table {
     thead th {
         border-width: 1px;
+        white-space: nowrap;
     }
 }

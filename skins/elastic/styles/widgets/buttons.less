@@ -32,6 +32,7 @@ button.btn {
     &:before {
         &:extend(.font-icon-class);
     }
+    &.yes:before,
     &.submit:before,
     &.save:before {
         content: @fa-var-check;
@@ -67,6 +68,7 @@ button.btn {
     &.attach:before {
         content: @fa-var-paperclip;
     }
+    &.no:before,
     &.close:before,
     &.cancel:before {
         content: @fa-var-close;
