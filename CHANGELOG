@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Skip redundant INSERT query on successful logon when using PHP7
 - Replace display_version with display_product_version (#5904)
 - Extend disabled_actions config so it accepts also button names (#5903)
 - Handle remote stylesheets the same as remote images, ask the user to allow them (#5994)
