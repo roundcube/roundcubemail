@@ -126,6 +126,10 @@ class rcube_session_memcache extends rcube_session
      */
     public function write($key, $vars)
     {
+        if ($this->ignore_write) {
+            return true;
+        }
+
         $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars));
         $result = $this->memcache->set($key, $data, MEMCACHE_COMPRESSED, $this->lifetime + 60);
 
