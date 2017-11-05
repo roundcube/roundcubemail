@@ -1548,22 +1548,28 @@ function rcube_webmail()
   // Add variable to GET string, replace old value if exists
   this.add_url = function(url, name, value)
   {
+    var urldata, datax, hash = '';
+
     value = urlencode(value);
 
-    if (/(\?.*)$/.test(url)) {
-      var urldata = RegExp.$1,
-        datax = RegExp('((\\?|&)'+RegExp.escape(name)+'=[^&]*)');
-
-      if (datax.test(urldata)) {
-        urldata = urldata.replace(datax, RegExp.$2 + name + '=' + value);
-      }
-      else
-        urldata += '&' + name + '=' + value
-
-      return url.replace(/(\?.*)$/, urldata);
+    if (/(#[a-z0-9_-]+)$/.test(url)) {
+      hash = RegExp.$1;
+      url = url.substr(0, url.length - hash.length);
     }
 
-    return url + '?' + name + '=' + value;
+    if (/(\?.*)$/.test(url)) {
+      urldata = RegExp.$1;
+      datax = RegExp('((\\?|&)'+RegExp.escape(name)+'=[^&]*)');
+
+      if (datax.test(urldata))
+        urldata = urldata.replace(datax, RegExp.$2 + name + '=' + value);
+      else
+        urldata += '&' + name + '=' + value;
+
+      return url.replace(/(\?.*)$/, urldata) + hash;
+    }
+
+    return url + '?' + name + '=' + value + hash;
   };
 
   // append CSRF protection token to the given url
