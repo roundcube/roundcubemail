@@ -283,6 +283,24 @@ table.table {
         }
     }
 
+    .buttons-cell {
+        width: 1%;
+        white-space: nowrap;
+        text-align: center;
+
+        a.button:before {
+            line-height: 1;
+            float: none;
+            display: inline-block;
+        }
+
+        @media screen and (min-width: @screen-width-xs) {
+            a.button .inner {
+                display: inline;
+            }
+        }
+    }
+
     label {
         margin: 0;
     }

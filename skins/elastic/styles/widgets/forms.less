@@ -210,6 +210,22 @@ input.smart-upload {
             margin-top: .5rem;
         }
     }
+
+    .form-text {
+        font-size: 90%;
+        color: @color-form-hint;
+    }
+
+    /* Some dialogs may use simple one-row forms like this */
+    &.row.form-group {
+        margin-left: 0;
+        margin-right: 0;
+
+        label, div {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
 }
 
 @media screen and (max-width: 576px) {
@@ -441,6 +457,9 @@ html.layout-phone {
     }
     &.filter:before {
         content: @fa-var-filter;
+    }
+    &.key:before {
+        content: @fa-var-key;
     }
 
     .inner {
