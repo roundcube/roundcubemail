@@ -648,7 +648,12 @@ function rcube_elastic_ui()
             $('#login-form table tr').each(function() {
                 var input = $('input,select', this),
                     label = $('label', this),
+                    icon_name = input.data('icon'),
                     icon = $('<i>').attr('class', 'input-group-addon icon ' + input.attr('name').replace('_', ''));
+
+                if (icon_name) {
+                    icon.addClass(icon_name);
+                }
 
                 $(this).addClass('form-group row');
                 label.parent().css('display', 'none');
