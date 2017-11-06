@@ -141,7 +141,9 @@ function rcube_elastic_ui()
         }
 
         // Add content frame toolbar in the footer, for content buttons and navigation
-        if (!is_framed && layout.content.length && rcmail.env.task) {
+        if (!is_framed && layout.content.length && !$(layout.content).is('.no-navbar')
+            && !$(layout.content).children('.frame-content').length
+        ) {
             env.frame_nav = $('<div class="footer toolbar content-frame-navigation hide-nav-buttons">')
                 .append($('<a class="button prev">')
                     .append($('<span class="inner"></span>').text(rcmail.gettext('previous'))))
@@ -949,7 +951,7 @@ function rcube_elastic_ui()
 
     function screen_resize()
     {
-        if (is_framed) {
+        if (!layout.sidebar.length && !layout.list.length) {
             return;
         }
 
@@ -1523,17 +1525,15 @@ function rcube_elastic_ui()
                 if (win != window && !$('#' + popup_id + '-clone').length) {
                     popup = popup_orig.clone(true, true);
                     popup.attr('id', popup_id + '-clone')
-                        //.addClass('popupmenu')
-                        .appendTo(document.body);
+                        .appendTo(document.body)
+                        .find('li > a, li.checkbox > label').attr('onclick', '').off('click').on('click', function(e) {
+                            if (!$(this).is('.disabled')) {
+                                $(item).popover('hide');
+                                win.$('#' + $(this).attr('id')).click();
+                            }
 
-                    // TODO: we have some limitations here:
-                    //       we don't support multi-level menus
-                    //       we support only specified types of menu items
-                    popup.find('li > a.active, li.checkbox > label').off('click').on('click', function() {
-                        $(item).popover('hide');
-                        win.$('#' + $(this).attr('id')).click();
-                        return false;
-                    });
+                            return false;
+                        });
                 }
 
                 return popup.get(0);
@@ -1627,7 +1627,6 @@ function rcube_elastic_ui()
                 if (popup_id && menus[popup_id] && popup.is(':visible')) {
                     menus[popup_id].transitioning = true;
                 }
-
             })
             .on('hidden.bs.popover', function() {
                 if (/-clone$/.test(popup.attr('id'))) {
@@ -2675,21 +2674,24 @@ function rcube_elastic_ui()
             return env.open_window.apply(rcmail, arguments);
         }
 
-        // _extwin=1 is required to display attachment preview layout properly
-        $.each(['_framed', '_extwin'], function() {
-            if (!RegExp('(&|\\?)' + this + '=').test(url)) {
-                url += (url.match(/\?/) ? '&' : '?') + this + '=1';
-            }
-        });
+        // _extwin=1, _framed=1 are required to display attachment preview
+        // layout properly and make mobile menus working
+        url = rcmail.add_url(url, '_framed', 1);
+        url = rcmail.add_url(url, '_extwin', 1);
 
         var label, title = '',
+            props = {cancel_button: 'close'},
             frame = $('<iframe>').attr({id: 'windowframe', src: url});
 
         if (/_action=([a-z_]+)/.test(url) && (label = rcmail.labels[RegExp.$1])) {
             title = label;
         }
 
-        rcmail.simple_dialog(frame, title, null, {cancel_button: 'close'});
+        if (/_frame=1/.test(url)) {
+            props.dialogClass = 'no-titlebar';
+        }
+
+        rcmail.simple_dialog(frame, title, null, props);
 
         return true;
     };

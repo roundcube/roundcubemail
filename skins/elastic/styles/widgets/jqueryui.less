@@ -31,6 +31,12 @@
     border-radius: 0;
     box-shadow: none;
 
+    &.no-titlebar {
+        .ui-dialog-titlebar {
+            display: none;
+        }
+    }
+
     .ui-dialog-titlebar {
         height: @layout-header-height;
         border-bottom: 1px solid @color-dialog-header-border;
