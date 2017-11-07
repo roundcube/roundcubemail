@@ -2056,7 +2056,7 @@ function rcube_elastic_ui()
         $.each(['open', 'download', 'rename'], function() {
             var action = this;
             $('#attachmenu' + action, obj).off('click').attr('onclick', '').click(function(e) {
-                return rcmail.command(action + '-attachment', id, this);
+                rcmail.command(action + '-attachment', id, this, e.originalEvent);
             });
         });
 
@@ -2112,12 +2112,12 @@ function rcube_elastic_ui()
                         contact = $.trim(txt) + ' <' + contact + '>';
                     }
 
-                    return rcmail.command('add-contact', contact, this);
+                    rcmail.command('add-contact', contact, this, e.originalEvent);
                 });
         }
 
         $('.compose', obj).off('click').on('click', function(e) {
-            return rcmail.command('compose', mailto, this);
+            rcmail.command('compose', mailto, this, e.originalEvent);
         });
 
         return rcmail.command('menu-open', {menu: 'mailto-menu', link: button}, button, event);
