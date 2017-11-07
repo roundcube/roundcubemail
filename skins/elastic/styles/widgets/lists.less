@@ -727,129 +727,142 @@ html.touch {
 
 /* Attachments list */
 
+@attachmentslist-item-height:   2rem;
+
 .attachmentslist {
     padding: 0;
-}
-.attachmentslist li {
-    display: inline-block;
-    line-height: 1.25em;
+    list-style: none;
 
-    &:before {
-        &:extend(.font-icon-class);
-        content: @fa-var-file-o;
-    }
+    li {
+        display: inline-flex;
+        white-space: nowrap;
+        line-height: @attachmentslist-item-height;
 
-    &.txt:before,
-    &.text:before {
-        content: @fa-var-file-text-o;
-    }
-
-    &.pdf:before {
-        content: @fa-var-file-pdf-o;
-    }
-
-    &.odt:before,
-    &.doc:before,
-    &.docx:before,
-    &.msword:before {
-        content: @fa-var-file-word-o;
-    }
-
-    &.ods:before,
-    &.xls:before,
-    &.xlsx:before,
-    &.msexcel:before {
-        content: @fa-var-file-excel-o;
-    }
-
-    &.rar:before,
-    &.zip:before,
-    &.gz:before {
-        content: @fa-var-file-zip-o;
-    }
-
-    &.image:before,
-    &.jpg:before,
-    &.jpeg:before,
-    &.png:before {
-        content: @fa-var-file-image-o;
-    }
-
-    &.mp3:before,
-    &.audio:before {
-        content: @fa-var-file-audio-o;
-    }
-
-    &.m4p:before,
-    &.video:before {
-        content: @fa-var-file-video-o;
-    }
-
-    &.ics:before,
-    &.calendar:before {
-        /* TODO */
-    }
-
-    &.vcard:before {
-        content: @fa-var-vcard;
-    }
-
-    &.html:before {
-        content: @fa-var-file-code-o;
-    }
-
-    &.eml:before,
-    &.rfc822:before {
-        /* TODO */
-    }
-
-    &.odp:before,
-    &.otp:before,
-    &.ppt:before,
-    &.pptx:before,
-    &.ppsx:before,
-    &.vnd.mspowerpoint:before {
-        content: @fa-var-file-powerpoint-o;
-    }
-
-    &.sig:before,
-    &.pgp-signature:before,
-    &.pkcs7-signature:before {
-        /* TODO */
-    }
-
-    &.application.asc:before {
-        /* TODO */
-    }
-
-    &.application.pgp-keys:before {
-        /* TODO */
-    }
-
-    .attachment-size {
-        color: @color-list-secondary;
-    }
-
-    a.button {
-        float: right;
-    }
-
-    a.delete:before {
-        float: right;
-        &:extend(.font-icon-class);
-        content: @fa-var-trash;
-    }
-
-    &.uploading {
         &:before {
-            content: @fa-var-circle-o-notch;
-            .animated-icon-class;
+            &:extend(.font-icon-class);
+            content: @fa-var-file-o;
+            line-height: @attachmentslist-item-height;
+            height: @attachmentslist-item-height;
         }
 
-        a.cancelupload:before {
-            float: right;
+        &.txt:before,
+        &.text:before {
+            content: @fa-var-file-text-o;
+        }
+
+        &.pdf:before {
+            content: @fa-var-file-pdf-o;
+        }
+
+        &.odt:before,
+        &.doc:before,
+        &.docx:before,
+        &.msword:before {
+            content: @fa-var-file-word-o;
+        }
+
+        &.ods:before,
+        &.xls:before,
+        &.xlsx:before,
+        &.msexcel:before {
+            content: @fa-var-file-excel-o;
+        }
+
+        &.rar:before,
+        &.zip:before,
+        &.gz:before {
+            content: @fa-var-file-zip-o;
+        }
+
+        &.image:before,
+        &.jpg:before,
+        &.jpeg:before,
+        &.png:before {
+            content: @fa-var-file-image-o;
+        }
+
+        &.mp3:before,
+        &.audio:before {
+            content: @fa-var-file-audio-o;
+        }
+
+        &.m4p:before,
+        &.video:before {
+            content: @fa-var-file-video-o;
+        }
+
+        &.ics:before,
+        &.calendar:before {
+            /* TODO */
+        }
+
+        &.vcard:before {
+            content: @fa-var-vcard;
+        }
+
+        &.html:before {
+            content: @fa-var-file-code-o;
+        }
+
+        &.eml:before,
+        &.rfc822:before {
+            /* TODO */
+        }
+
+        &.odp:before,
+        &.otp:before,
+        &.ppt:before,
+        &.pptx:before,
+        &.ppsx:before,
+        &.vnd.mspowerpoint:before {
+            content: @fa-var-file-powerpoint-o;
+        }
+
+        &.sig:before,
+        &.pgp-signature:before,
+        &.pkcs7-signature:before {
+            /* TODO */
+        }
+
+        &.application.asc:before {
+            /* TODO */
+        }
+
+        &.application.pgp-keys:before {
+            /* TODO */
+        }
+
+        .attachment-size {
+            color: @color-list-secondary;
+        }
+
+        /* assume the filename is always first */
+        a:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        a.delete:before {
             &:extend(.font-icon-class);
-            content: @fa-var-remove;
+            content: @fa-var-trash;
+            text-decoration: none;
+            line-height: @attachmentslist-item-height;
+            height: @attachmentslist-item-height;
+        }
+
+        &.uploading {
+            &:before {
+                .animated-icon-class;
+                content: @fa-var-circle-o-notch;
+                line-height: @attachmentslist-item-height;
+                height: @attachmentslist-item-height;
+            }
+
+            a.cancelupload:before {
+                float: right;
+                &:extend(.font-icon-class);
+                content: @fa-var-remove;
+            }
         }
     }
 }
