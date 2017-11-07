@@ -2105,11 +2105,11 @@ function rcube_elastic_ui()
                     var i, contact = mailto,
                         txt = $(button).filter('.rcmContactAddress').text();
 
-                    contact = contact.split('?')[0].replace(/(^<|>$)/g, '');
+                    contact = contact.split('?')[0].split(',')[0].replace(/(^<|>$)/g, '');
 
                     if (txt) {
                         txt = txt.replace('<' + contact + '>', '');
-                        contact = $.trim(txt) + ' <' + contact + '>';
+                        contact = '"' + $.trim(txt) + '" <' + contact + '>';
                     }
 
                     rcmail.command('add-contact', contact, this, e.originalEvent);
