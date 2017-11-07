@@ -8195,7 +8195,6 @@ function rcube_webmail()
       // register delegate event handler for folder item clicks
       container.on('click', 'a.active', function(e) {
         container.data('callback')($(this).data('id'));
-        return false;
       });
 
       this.folder_selector_element = container;
