@@ -73,6 +73,7 @@ $labels['keygenerating'] = 'Schlüssel werden erstellt …';
 $labels['encryptionoptions'] = 'Verschlüsselungsoptionen';
 $labels['encryptmsg'] = 'Diese Nachricht verschlüsseln';
 $labels['signmsg'] = 'Diese Nachricht digital signieren';
+$labels['sendunencrypted'] = 'Unverschlüsselt senden';
 $labels['enterkeypasstitle'] = 'Bitte Schlüsselpasswort eingeben';
 $labels['enterkeypass'] = 'Ein Passwort wird benötigt, um den privaten Schlüssel ($keyid) für Benutzer »$user« zu entsperren.';
 $labels['arialabelkeyexportoptions'] = 'Optionen für Schlüsselexport';

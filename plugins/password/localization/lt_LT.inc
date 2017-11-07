@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Šis slaptažodis jau buvo naudotas anksčiau.';
 $messages['samepasswd'] = 'Naujas slaptažodis turi būti kitoks nei senasis.';
 $messages['passwdexpirewarning'] = 'Įspėjimas! Jūsų slaptažodis greitai nustos galioti, pakeiskite jį iki $expirationdatetime.';
 $messages['passwdexpired'] = 'Jūsų slaptažodis nebegalioja, jūs turite pakeisti jį dabar!';
+$messages['passwdconstraintviolation'] = 'Slaptažodžio apribojimų pažeidimas. Tikriausiai, slaptažodis pernelyg silpnas.';

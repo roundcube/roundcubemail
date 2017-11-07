@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Saknas bilaga?";
 $messages['forgotattachment'] = "Glömde du att bifoga en fil?";
 $messages['reminderoption'] = "Påminn om glömda bilagor";
 $messages['keywords'] = "bilaga,fil,bifoga,bifogad,bifogar,infogad,CV,personligt brev";

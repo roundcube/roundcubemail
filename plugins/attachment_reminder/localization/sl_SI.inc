@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Ste pozabili na priponko?";
 $messages['forgotattachment'] = "Ste pozabili pripeti datoteko?";
 $messages['reminderoption'] = "Opozorilo za dodajanje priponk";
 $messages['keywords'] = "priponka,datoteka,pripeti,pripeta,pripenjati,priložen,priložiti,CV,spremno pismo";

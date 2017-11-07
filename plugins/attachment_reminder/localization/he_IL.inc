@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "האם חסרה צרופה?";
 $messages['forgotattachment'] = "האם שכחת לצרף קובץ?";
 $messages['reminderoption'] = "להזכיר לצרף נספח";
 $messages['keywords'] = "נספח,קובץ,לצרף,מצורף,מצרף,מצרפת,רצ\"ב,קו\"ח,קורות חיים";

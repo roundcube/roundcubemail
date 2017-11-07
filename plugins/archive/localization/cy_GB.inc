@@ -25,6 +25,7 @@ $labels['settingstitle'] = 'Archif';
 $labels['archivetype'] = 'Rhannu archif gyda';
 $labels['archivetypeyear'] = 'Blwyddyn (e.g. Archif/2012)';
 $labels['archivetypemonth'] = 'Mis (e.g. Archif/2012/06)';
+$labels['archivetypetbmonth'] = 'Mis - Cydnaws a Thunderbird (e.e. Archif/2012/2012-06)';
 $labels['archivetypefolder'] = 'Ffolder gwreiddiol';
 $labels['archivetypesender'] = 'Ebost anfonwr';
 $labels['unkownsender'] = 'anhysbys';

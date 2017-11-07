@@ -481,7 +481,6 @@ $labels['replyandforwardonly'] = 'Hanya untuk dijawab dan diteruskan';
 $labels['insertsignature'] = 'Isi tanda tangan';
 $labels['sigbelow'] = 'Tempatkan tanda tangan di bawah pesan yang dikutip';
 $labels['sigseparator'] = 'Paksakan pemisah standar dalam tanda tangan';
-$labels['previewpanemarkread']  = 'Tandai pesan yang sudah dilihat';
 $labels['afternseconds']  = 'setelah $n detik';
 $labels['reqmdn'] = 'Selalu meminta tanda terima kembali';
 $labels['reqdsn'] = 'Selalu meminta pemberitahuan status terkirim';

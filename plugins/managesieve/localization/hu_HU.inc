@@ -237,4 +237,5 @@ $messages['saveerror'] = 'Az adat mentése sikertelen. Szerverhiba történt';
 $messages['vacationsaved'] = 'Vakáció adatai sikeresen elmentve.';
 $messages['emptyvacationbody'] = 'A vakácíó üzenet szövegtörzse kötelező!';
 $messages['duplicate.conflict.err'] = 'Egyszerre fejléc és egyedi azonosító nem engedélyezett.';
+$messages['disabledaction'] = 'A művelet nem megengedett.';
 ?>

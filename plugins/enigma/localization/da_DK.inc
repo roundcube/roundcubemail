@@ -19,4 +19,14 @@ $labels['keyname'] = 'Navn';
 $labels['fingerprint'] = 'Fingeravtryk';
 $labels['typeencrypt'] = 'Krypter';
 $labels['subkeyid'] = 'ID';
+$labels['subkeyexpires'] = 'Udløber';
+$labels['expiresnever'] = 'aldrig';
+$labels['unknown'] = 'ukendt';
+$labels['userid'] = 'ID';
+$labels['valid'] = 'valid';
+$labels['keyremove'] = 'Fjern';
+$labels['keychpass'] = 'Skift kodeord:';
+$labels['newkeyident'] = 'Identitet:';
+$labels['newkeypass'] = 'Kodeord';
+$labels['keyimportlabel'] = 'Importer fra fil';
 ?>

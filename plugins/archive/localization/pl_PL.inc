@@ -25,6 +25,7 @@ $labels['settingstitle'] = 'Archiwum';
 $labels['archivetype'] = 'Podziel archiwum wg';
 $labels['archivetypeyear'] = 'Roku (np. Archiwum/2012)';
 $labels['archivetypemonth'] = 'Miesiąca (np. Archiwum/2012/06)';
+$labels['archivetypetbmonth'] = 'Miesiąca - Kompatybilnie z Thunderbird (np. Archive/2012/2012-06)';
 $labels['archivetypefolder'] = 'Oryginalny folder';
 $labels['archivetypesender'] = 'E-mail nadawcy';
 $labels['unkownsender'] = 'nieznany';

@@ -55,6 +55,7 @@ $messages['addedsuccessfully'] = 'Le contact a été ajouté avec succès au car
 $messages['contactexists'] = 'Un contact avec la même adresse courriel existe déjà.';
 $messages['contactnameexists'] = 'Un contact avec le même nom existe déjà.';
 $messages['blockedimages'] = 'Pour protéger votre confidentialité, les images distantes sont bloquées dans ce courriel.';
+$messages['blockedresources'] = 'Pour protéger votre confidentialité, les ressources distantes ont été bloquées.';
 $messages['encryptedmessage'] = 'Ce courriel est chiffré et ne peut pas être affiché. Désolé !';
 $messages['externalmessagedecryption'] = 'Ce courriel est chiffré et peut être déchiffré grâce au module complémentaire de votre navigateur.';
 $messages['nopubkeyfor'] = 'Aucune clé publique valide trouvée pour $email';

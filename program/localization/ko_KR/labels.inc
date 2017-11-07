@@ -481,7 +481,6 @@ $labels['replyandforwardonly'] = '회신 및 전달 메시지에만';
 $labels['insertsignature'] = '서명 삽입';
 $labels['sigbelow'] = '인용한 메시지 아래에 서명 표시';
 $labels['sigseparator'] = '서명에 표준 분리자 강제 적용';
-$labels['previewpanemarkread']  = '미리 본 메시지를 읽음으로 표시';
 $labels['afternseconds']  = '$n초 후';
 $labels['reqmdn'] = '읽음 확인을 항상 요청';
 $labels['reqdsn'] = '전송 상태 알림을 항상 요청';

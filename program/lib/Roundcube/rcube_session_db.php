@@ -123,6 +123,10 @@ class rcube_session_db extends rcube_session
      */
     public function write($key, $vars)
     {
+        if ($this->ignore_write) {
+            return true;
+        }
+
         $now = $this->db->now();
 
         $this->db->query("INSERT INTO {$this->table_name}"

@@ -25,7 +25,9 @@ $labels['settingstitle'] = 'Arhivă';
 $labels['archivetype'] = 'Împarte arhiva pe';
 $labels['archivetypeyear'] = 'Ani (ex. Arhiva/2013)';
 $labels['archivetypemonth'] = 'Luni (ex. Arhiva/2013/06)';
+$labels['archivetypetbmonth'] = 'Luni - Compatibil Thunderbird (ex. Arhivă/2012/2012-06)';
 $labels['archivetypefolder'] = 'Dosar original';
 $labels['archivetypesender'] = 'E-mail expeditor';
 $labels['unkownsender'] = 'necunoscut';
+$labels['readonarchive'] = 'Marchează mesajul ca citit în arhivă';
 ?>

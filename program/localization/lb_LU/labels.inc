@@ -426,7 +426,6 @@ $labels['autoaddsignature'] = 'Ënnerschrëft automatesch drasetzen';
 $labels['newmessageonly'] = 'just bei neie Messagen';
 $labels['replyandforwardonly'] = 'just bei Äntwerten a Weiderleedungen';
 $labels['insertsignature'] = 'Ënnerschrëft drasetzen';
-$labels['previewpanemarkread']  = 'D\'Messagen an der Virschau als gelies markéieren';
 $labels['afternseconds']  = 'no $n Sekonnen';
 $labels['reqmdn'] = 'Ëmmer eng Empfanksbestätegung ufroen';
 $labels['reqdsn'] = 'Ëmmer eng Empfanks-Status-Meldung ufroen';

@@ -442,7 +442,6 @@ $labels['autoaddsignature'] = 'Amestar robla automáticamente';
 $labels['newmessageonly'] = 'namái mensaxe nuevu';
 $labels['replyandforwardonly'] = 'namái rempuestes y reunvios';
 $labels['insertsignature'] = 'Inxertar robla';
-$labels['previewpanemarkread']  = 'Conseñar mensaxes previsualizaos como lleíos';
 $labels['afternseconds']  = 'dempués de $n segundos';
 $labels['reqmdn'] = 'Solicitar siempres un recibu';
 $labels['reqdsn'] = 'Solicitar siempres la notificación d\'estáu d\'entrega';

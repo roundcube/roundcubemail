@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "添付ファイルを忘れてませんか?";
 $messages['forgotattachment'] = "ファイルの添付を忘れていませんか?";
 $messages['reminderoption'] = "添付ファイルの付け忘れを確認";
 $messages['keywords'] = "添付,ファイル,添付ファイル,同封,添え状";

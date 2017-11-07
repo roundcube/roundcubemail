@@ -449,7 +449,6 @@ $labels['autoaddsignature'] = 'Agregar la firma automáticamente';
 $labels['newmessageonly'] = 'nuevos mensajes solamente';
 $labels['replyandforwardonly'] = 'respuestas o reenvios solamente';
 $labels['insertsignature'] = 'Insertar firma';
-$labels['previewpanemarkread']  = 'Marcar mensajes previsualizados como leidos';
 $labels['afternseconds']  = 'despues de $n segundos';
 $labels['reqmdn'] = 'Siempre solicitar acuse de recibo';
 $labels['reqdsn'] = 'Siempre solicitar notificación de estado de envío';

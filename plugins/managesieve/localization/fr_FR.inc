@@ -237,4 +237,5 @@ $messages['saveerror'] = 'Impossible d\'enregistrer les données. Une erreur du 
 $messages['vacationsaved'] = 'Les données de vacances ont été enregistrées avec succès.';
 $messages['emptyvacationbody'] = 'Le corps du courriel de vacances est exigé !';
 $messages['duplicate.conflict.err'] = 'L\'en-tête et l\'identifiant unique ne sont pas permis.';
+$messages['disabledaction'] = 'L\'action n\'est pas permise.';
 ?>

@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Kata sandi sudah pernah digunakan';
 $messages['samepasswd'] = 'Kata sandi harus berbeda dengan yang sebelumnya';
 $messages['passwdexpirewarning'] = 'Peringatan! Masa kata sandi segera berakhir, ganti sebelum $expirationdatetime.';
 $messages['passwdexpired'] = 'Kata sandi kadaluarsa, harus diganti sekarang.';
+$messages['passwdconstraintviolation'] = 'Kata sandi melanggar aturan. Mungkin kata sandi terlalu lemah.';

@@ -17,4 +17,6 @@
 */
 $labels['addvcardmsg'] = 'Dodaj vCard med Stike.';
 $labels['vcardsavefailed'] = 'Stika vCard ni bilo mogoče shraniti.';
+$labels['attachvcard'] = 'Pripni vCard';
+$labels['vcard'] = 'vCard';
 ?>

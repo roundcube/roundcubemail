@@ -55,6 +55,7 @@ $messages['addedsuccessfully'] = '連絡先をアドレス帳に追加しまし�
 $messages['contactexists'] = '同じ電子メールアドレスの連絡先が既に存在します。';
 $messages['contactnameexists'] = '同じ名前の連絡先が既に存在します。';
 $messages['blockedimages'] = 'あなたのプライバシーを守るため、このメッセージに含まれる外部画像を遮断しました。';
+$messages['blockedresources'] = 'あなたのプライバシーを守るためリモートのリソースを遮断しました。';
 $messages['encryptedmessage'] = 'このメッセージは暗号化されていて表示できません、ごめんなさい!';
 $messages['externalmessagedecryption'] = 'このメッセージは暗号化されていて、ブラウザーの拡張で復号できるでしょう。';
 $messages['nopubkeyfor'] = '$email への有効な公開鍵がありません。';
