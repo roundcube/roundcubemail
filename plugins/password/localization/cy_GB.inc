@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Defnyddiwyd y cyfrinair hwn o\'r blaen.';
 $messages['samepasswd'] = 'Rhaid i\'r cyfrinair newydd fod yn wahanol i\'r hen un.';
 $messages['passwdexpirewarning'] = 'Rhybudd! Fe fydd eich cyfrinair yn dod i ben cyn hir, newidiwch e cyn $expirationdatetime.';
 $messages['passwdexpired'] = 'Mae\'ch cyfrinair wedi dod i ben, rhaid i chi ei newid nawr!';
+$messages['passwdconstraintviolation'] = 'Mae hwn yn torri cyfyngiad cyfrinair. Mae\'n bosib fod y cyfrinair yn rhy wan.';

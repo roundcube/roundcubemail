@@ -237,4 +237,5 @@ $messages['saveerror'] = 'Ein Serverfehler ist aufgetreten, Speicherung war nich
 $messages['vacationsaved'] = 'Urlaubsdaten erfolgreich gespeichert.';
 $messages['emptyvacationbody'] = 'Inhalt der Abwesenheitsbenachrichtigung wird benötigt!';
 $messages['duplicate.conflict.err'] = 'Beides, Kopfzeilen und eindeutige Kennzeichner, sind nicht erlaubt.';
+$messages['disabledaction'] = 'Aktion nicht erlaubt.';
 ?>

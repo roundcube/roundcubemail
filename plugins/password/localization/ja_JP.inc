@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'このパスワードは以前に使用してい�
 $messages['samepasswd'] = '新しいパスワードは以前のものと異なっていなければなりません。';
 $messages['passwdexpirewarning'] = '警告!  パスワードの有効期限がすぐに切れます、$expirationdatetimeよりも前に変更してください。';
 $messages['passwdexpired'] = 'パスワードの期限が切れています、今すぐ変更しなければなりません!';
+$messages['passwdconstraintviolation'] = 'パスワードの制限に違反しました。おそらくパスワードがの強度が弱すぎます。';

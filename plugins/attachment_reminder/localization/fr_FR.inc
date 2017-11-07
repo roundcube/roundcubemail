@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Pièce jointe manquante ?";
 $messages['forgotattachment'] = "Avez-vous oublié de joindre un fichier ?";
 $messages['reminderoption'] = "Rappel sur les pièces jointes oubliées";
 $messages['keywords'] = "pièce jointe,fichier,joindre,joins,joint,attaché,inclus,ci-inclus,CV, lettre d'accompagnement";

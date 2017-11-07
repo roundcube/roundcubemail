@@ -97,6 +97,7 @@ $messages['disclosedreciptitle'] = 'Превише јавних корисика
 $messages['nosubjectwarning']  = 'Поље „Наслов“ је празно. Желите ли да унесете наслов?';
 $messages['nosubjecttitle']  = 'Нема теме';
 $messages['nobodywarning'] = 'Да ли желите да пошаљете поруку без текста?';
+$messages['notsentwarning'] = 'Порука није послата и има несачуване измене. Желите ли да одбаците измене?';
 $messages['restoresavedcomposedata'] = 'Нађена је порука претходно састављена али није послата.\n\nПредмет: $subject\nСачувана: $date\n\nЖелите ли да вратите ову поруку?';
 $messages['noldapserver'] = 'Унесите ЛДАП сервер за претрагу';
 $messages['nosearchname'] = 'Унесите име контакта или е-адресу.';

@@ -25,6 +25,7 @@ $labels['settingstitle'] = 'Archív';
 $labels['archivetype'] = 'Rozdeliť archív po';
 $labels['archivetypeyear'] = 'rokoch (napríklad Archív/2012)';
 $labels['archivetypemonth'] = 'mesiacoch (napríklad Archív/2012/06)';
+$labels['archivetypetbmonth'] = 'mesiacoch - kompatibilne s Thunderbird (napríklad Archív /2012/2012-06)';
 $labels['archivetypefolder'] = 'Pôvodný priečinok';
 $labels['archivetypesender'] = 'E-mailová adresa odosielateľa';
 $labels['unkownsender'] = 'neznámy';

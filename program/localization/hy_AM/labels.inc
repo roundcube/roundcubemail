@@ -392,7 +392,6 @@ $labels['autoaddsignature'] = 'Ավելացնել ստորագրություն';
 $labels['newmessageonly'] = 'միայն նոր հաղորդագրություններում';
 $labels['replyandforwardonly'] = 'պատասխաններում և փոխանցումներում';
 $labels['insertsignature'] = 'Ներդնել ստորագրությունը';
-$labels['previewpanemarkread']  = 'Նշել նախադիտված հաղորդագրությունները որպես ընթերցված';
 $labels['afternseconds']  = '$n վարկյան հետո';
 $labels['reqmdn'] = 'Միշտ պատվիրել ստացական';
 $labels['reqdsn'] = 'Միշտ պատվիրել առաքման կարգավիճակի ծանուցում';

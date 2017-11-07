@@ -208,7 +208,7 @@ $messages['filtersaveerror'] = 'フィルターの保存できません。サー
 $messages['filterformerror'] = 'フィルターのフォームにエラーがあります。';
 $messages['filterdeleteconfirm'] = '本当に選択したフィルターを削除しますか?';
 $messages['ruledeleteconfirm'] = '本当に選択したルールを削除しますか?';
-$messages['actiondeleteconfirm'] = '本当に選択した操作を削除しますか?';
+$messages['actiondeleteconfirm'] = '本当に選択した動作を削除しますか?';
 $messages['forbiddenchars'] = '項目に禁止している文字が含まれています。';
 $messages['cannotbeempty'] = '項目は空欄にできません。';
 $messages['ruleexist'] = '指定した名前のフィルターが既に存在します。';
@@ -237,4 +237,5 @@ $messages['saveerror'] = 'フィルターの保存できません。サーバー
 $messages['vacationsaved'] = '休暇のデータを保存しました。';
 $messages['emptyvacationbody'] = '休暇のメッセージの本文が必要です!';
 $messages['duplicate.conflict.err'] = 'ヘッダーと一意な識別子の両方は同時に使用できません。';
+$messages['disabledaction'] = '許可されていない動作です。';
 ?>

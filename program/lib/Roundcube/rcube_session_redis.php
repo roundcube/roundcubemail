@@ -202,6 +202,10 @@ class rcube_session_redis extends rcube_session {
      */
     public function write($key, $vars)
     {
+        if ($this->ignore_write) {
+            return true;
+        }
+
         $data = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars));
 
         return $this->redis->setex($key, $this->lifetime + 60, $data);

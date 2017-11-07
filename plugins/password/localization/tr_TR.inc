@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Bu parola daha önce kullanılmış.';
 $messages['samepasswd'] = 'Yeni parola eski paroladan farklı olmalıdır.';
 $messages['passwdexpirewarning'] = 'Uyarı! Parolanızın kullanma süresi yakında dolacak. $expirationdatetime tarihinden önce değiştirin.';
 $messages['passwdexpired'] = 'Parolanızın kullanma süresi dolmuş. Şimdi değiştirmelisiniz!';
+$messages['passwdconstraintviolation'] = 'Parola istenilen karmaşıklıkta değil. Büyük olasılıkla oldukça kolay.';

@@ -20,6 +20,7 @@ $labels['username']  = 'نام‌کاربری';
 $labels['password']  = 'گذرواژه';
 $labels['server']    = 'سرور';
 $labels['login']     = 'ورود';
+$labels['menu']     = 'فهرست';
 $labels['logout']   = 'خروج';
 $labels['mail']     = 'پست';
 $labels['settings'] = 'تنظیمات';
@@ -44,6 +45,7 @@ $labels['priority'] = 'اولویت';
 $labels['organization'] = 'سازمان';
 $labels['readstatus'] = 'وضعیت خوانده شدن';
 $labels['listoptions'] = 'فهرست گزینه‌ها...';
+$labels['listoptionstitle'] = 'گزینه‌های لیست';
 $labels['mailboxlist'] = 'پوشه‌ها';
 $labels['messagesfromto'] = 'پیغام‌های $from تا $to از $count';
 $labels['threadsfromto'] = 'رشته‌های $from تا $to از $count';
@@ -61,7 +63,7 @@ $labels['filename'] = 'نام پرونده';
 $labels['filesize'] = 'اندازه پرونده';
 $labels['addtoaddressbook'] = 'افزودن به دفتر نشانی‌ها';
 $labels['sun'] = 'یک‌شنبه';
-$labels['mon'] = 'دوشنبه';
+$labels['mon'] = 'دوش';
 $labels['tue'] = 'سه‌شنبه';
 $labels['wed'] = 'چهارشنبه';
 $labels['thu'] = 'پنج‌شنبه';
@@ -100,9 +102,9 @@ $labels['longnov']	= 'نوامبر';
 $labels['longdec']	= 'دسامبر';
 $labels['today'] = 'امروز';
 $labels['refresh']          = 'نوسازی';
-$labels['checkmail']        = 'بررسی برای پیغام‌های جدید';
-$labels['compose']          = 'نوشتن پیغام';
-$labels['writenewmessage']  = 'ایجاد پیغام جدید';
+$labels['checkmail']        = 'بررسی برای پیام‌های جدید';
+$labels['compose']          = 'نوشتن پیام';
+$labels['writenewmessage']  = 'ایجاد پیام جدید';
 $labels['reply']            = 'پاسخ';
 $labels['replytomessage']   = 'پاسخ به فرستنده';
 $labels['replytoallmessage'] = 'پاسخ به فهرست یا به فرستنده و تمام گیرنده‌ها';
@@ -111,7 +113,7 @@ $labels['replylist']        = 'پاسخ به فهرست';
 $labels['forward']          = 'ارجاع';
 $labels['forwardinline']    = 'ارجاع خطی';
 $labels['forwardattachment'] = 'ارجاع به صورت پیوست';
-$labels['forwardmessage']   = 'ارجاع پیغام';
+$labels['forwardmessage']   = 'ارجاع پیام';
 $labels['deletemessage']    = 'حذف پیغام';
 $labels['movemessagetotrash'] = 'انتقال پیغام به زباله‌دان';
 $labels['printmessage']     = 'چاپ این پیغام';
@@ -157,9 +159,9 @@ $labels['expand-all'] = 'باز کردن همه';
 $labels['expand-unread'] = 'بازکردن خوانده نشده‌ها';
 $labels['collapse-all'] = 'جمع کردن همه';
 $labels['threaded'] = 'رشته شده';
-$labels['autoexpand_threads'] = 'باز کردن رشته‌های پیغام';
+$labels['autoexpand_threads'] = 'باز کردن رشته‌های پیام';
 $labels['do_expand'] = 'همه رشته‌ها';
-$labels['expand_only_unread'] = 'فقط با پیغام‌های خوانده نشده';
+$labels['expand_only_unread'] = 'فقط با پیام‌های خوانده نشده';
 $labels['fromto'] = 'از/به';
 $labels['flag'] = 'پرچم';
 $labels['attachment'] = 'پیوست';
@@ -172,10 +174,14 @@ $labels['listcolumns'] = 'ستون‌های فهرست';
 $labels['listsorting'] = 'ستون مرتب‌سازی';
 $labels['listorder'] = 'ترتیب مرتب‌سازی';
 $labels['listmode'] = 'نوع مشاهده فهرست';
+$labels['layout'] = 'چیدمان';
+$labels['layoutwidescreen'] = 'عریض';
+$labels['layoutdesktop'] = 'رومیزی';
+$labels['layoutlist'] = 'لیست';
 $labels['folderactions'] = 'اعمال پوشه...';
 $labels['compact'] = 'فشرده';
 $labels['empty'] = 'خالی';
-$labels['importmessages'] = 'وارد کردن پیغام‌ها';
+$labels['importmessages'] = 'وارد کردن پیام‌ها';
 $labels['quota'] = 'فضای استفاده شده';
 $labels['unknown']  = 'ناشناخته';
 $labels['unlimited']  = 'نامحدود';
@@ -183,10 +189,12 @@ $labels['quotatype'] = 'نوع سهمیه';
 $labels['quotatotal'] = 'محدود کردن';
 $labels['quotaused'] = 'استفاده شده';
 $labels['quotastorage'] = 'فضای دیسک';
+$labels['quotamessage'] = 'تعداد پیغام‌ها';
 $labels['quicksearch']  = 'جستجوی سریع';
+$labels['searchplaceholder']  = 'جستجو...';
 $labels['resetsearch']  = 'جستجوی دوباره';
 $labels['searchmod']  = 'اصلاحات جستجو';
-$labels['msgtext']  = 'کل پیغام';
+$labels['msgtext']  = 'کل پیام';
 $labels['body']  = 'بدنه';
 $labels['type'] = 'نوع';
 $labels['namex'] = 'نام';
@@ -207,17 +215,22 @@ $labels['editortype']     = 'نوع ویرایش‌گر';
 $labels['returnreceipt']  = 'رسید دریافت';
 $labels['dsn']            = 'اعلام وضعیت دریافت';
 $labels['mailreplyintro'] = 'در $date، $sender نوشته است:';
-$labels['originalmessage'] = 'پیغام اصلی';
+$labels['originalmessage'] = 'پیام اصلی';
 $labels['selectimage']    = 'انتخاب تصویر';
 $labels['addimage']       = 'افزودن تصویر';
 $labels['addmedia']       = 'افزودن رسانه';
+$labels['encrypt']        = 'رمزگذاری';
+$labels['encryptmessage'] = 'رمزگذاری پیغام';
+$labels['keyid']          = 'کلید شناسه';
+$labels['keyexpired']     = 'منقضی شده';
 $labels['editidents']    = 'ویرایش شناسه‌ها';
 $labels['spellcheck']    = 'املاء';
 $labels['checkspelling'] = 'بررسی املایی';
 $labels['resumeediting'] = 'ادامه‌ی ویرایش';
 $labels['revertto']      = 'برگرداندن به';
 $labels['restore'] = 'بازیابی';
-$labels['restoremessage'] = 'بازیابی پیغام؟';
+$labels['restoremessage'] = 'بازیابی پیام؟';
+$labels['ignore'] = 'نادیده گرفتن';
 $labels['responses'] = 'پاسخ‌ها';
 $labels['insertresponse'] = 'درج پاسخ';
 $labels['manageresponses'] = 'مدیریت پاسخ‌ها';
@@ -229,8 +242,9 @@ $labels['responsetext'] = 'متن پاسخ';
 $labels['attach'] = 'پیوست کردن';
 $labels['attachments'] = 'پیوست‌ها';
 $labels['upload'] = 'بارگذاری';
+$labels['uploadprogress'] = '$percent ($current از $total)';
 $labels['close']  = 'بستن';
-$labels['messageoptions']  = 'گزینه‌های پیغام...';
+$labels['messageoptions']  = 'گزینه‌های پیام...';
 $labels['low']     = 'کم';
 $labels['lowest']  = 'کم‌ترین';
 $labels['normal']  = 'معمولی';
@@ -241,21 +255,21 @@ $labels['showimages'] = 'نمایش عکس‌ها';
 $labels['alwaysshow'] = 'همیشه عکس‌های دریافتی از $sender را نمایش داده شود';
 $labels['isdraft']    = 'این یک پیغام پیش‌نویس است.';
 $labels['andnmore']   = '$nr بیشتر...';
-$labels['togglemoreheaders'] = 'نمایش سربرگ‌های بیشتر پیغام';
-$labels['togglefullheaders'] = 'تعویض سربرگ‌های پیغام خام';
-$labels['htmltoggle'] = 'اچ‌تی‌ام‌ال';
+$labels['togglemoreheaders'] = 'نمایش سربرگ‌های بیشتر پیام';
+$labels['togglefullheaders'] = 'تعویض سربرگ‌های پیام خام';
+$labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'متن ساده';
-$labels['savesentmessagein'] = 'ذخیره پیغام ارسالی در';
+$labels['savesentmessagein'] = 'ذخیره پیام ارسالی در';
 $labels['dontsave'] = 'ذخیره نکن';
 $labels['maxuploadsize'] = 'حجم پرونده حداکثر تا میزان $size می‌باشد';
 $labels['addcc'] = 'افزودن رونوشت';
 $labels['addbcc'] = 'افزودن رونوشت مخفی';
 $labels['addreplyto'] = 'افزودن پاسخ-به';
 $labels['addfollowupto'] = 'افزودن پیگیری-به';
-$labels['mdnrequest'] = 'فرستنده‌ی این پیغام خواسته است که وقتی شما این پیغام را می‌خوانید، آگاه شود. آیا مایلید فرستنده را آگاه سازید؟';
+$labels['mdnrequest'] = 'فرستنده‌ی این پیام خواسته است که وقتی شما این پیام را می‌خوانید، آگاه شود. آیا مایلید فرستنده را آگاه سازید؟';
 $labels['receiptread'] = 'رسید دریافت (خواندن)';
-$labels['yourmessage'] = 'این یک رسید دریافت برای پیغام شماست';
-$labels['receiptnote'] = 'تذکر: این رسید فقط تصدیق می‌کند که پیغام، روی رایانه گیرنده نمایش داده شده است. هیچ تضمینی نیست که گیرنده، محتوای پیغام را خوانده یا فهمیده باشد.';
+$labels['yourmessage'] = 'این یک رسید دریافت برای پیام شماست';
+$labels['receiptnote'] = 'تذکر: این رسید فقط تصدیق می‌کند که پیام، روی رایانه گیرنده نمایش داده شده است. هیچ تضمینی نیست که گیرنده، محتوای پیام را خوانده یا فهمیده باشد.';
 $labels['name']         = 'نمایش نام';
 $labels['firstname']    = 'نام';
 $labels['surname']      = 'نام خانوادگی';
@@ -278,7 +292,7 @@ $labels['country']      = 'کشور';
 $labels['birthday']     = 'زادروز';
 $labels['anniversary']  = 'سالگرد';
 $labels['website']      = 'وب‌سایت';
-$labels['instantmessenger'] = 'IM';
+$labels['instantmessenger'] = 'پیام‌رسان';
 $labels['notes'] = 'یادداشت‌ها';
 $labels['male']   = 'مرد';
 $labels['female'] = 'زن';
@@ -291,6 +305,7 @@ $labels['searchresult'] = 'نتیجه جستجو';
 $labels['advsearch'] = 'جستجوی پیشرفته';
 $labels['advanced'] = 'پیشرفته';
 $labels['other'] = 'سایر';
+$labels['qrcode'] = 'کد کیوآر';
 $labels['typehome']   = 'خانه';
 $labels['typework']   = 'کار';
 $labels['typeother']  = 'سایر';
@@ -363,7 +378,7 @@ $labels['addidentity'] = 'افزودن هویت';
 $labels['editidentity'] = 'ویرایش شناسه';
 $labels['preferhtml'] = 'HTML نمایش';
 $labels['defaultcharset'] = 'مجموعه نمایه پیش‌فرض';
-$labels['htmlmessage'] = 'HTML پیغام';
+$labels['htmlmessage'] = 'پیغام HTML';
 $labels['messagepart'] = 'قسمت';
 $labels['digitalsig'] = 'امضای دیجیتال';
 $labels['dateformat'] = 'قالب تاریخ';
@@ -376,12 +391,12 @@ $labels['timezone']  = 'محدوده‌ی زمانی';
 $labels['pagesize']  = 'سطر در صفحه';
 $labels['signature'] = 'امضاء';
 $labels['dstactive']  = 'ساعت تابستانی';
-$labels['showinextwin'] = 'نمایش پیغام در پنجره جدید';
-$labels['composeextwin'] = 'نوشتن پیغام  در پنجره جدید';
-$labels['htmleditor'] = 'HTML ‌نوشتن پیغام‌های';
-$labels['htmlonreply'] = 'فقط در پاسخ به پیغام HTML';
-$labels['htmlonreplyandforward'] = 'در بازگردانی یا پاسخ به پیغام‌های HTML';
-$labels['htmlsignature'] = 'HTML امضای';
+$labels['showinextwin'] = 'نمایش پیام در پنجره جدید';
+$labels['composeextwin'] = 'نوشتن پیام  در پنجره جدید';
+$labels['htmleditor'] = 'نوشتن پیام‌های HTML';
+$labels['htmlonreply'] = 'فقط در پاسخ به پیام HTML';
+$labels['htmlonreplyandforward'] = 'در بازگردانی یا پاسخ به پیام‌های HTML';
+$labels['htmlsignature'] = 'امضای HTML';
 $labels['showemail'] = 'نمایش نشانی رایانامه با نام نمایشی';
 $labels['previewpane'] = 'نمایش قاب پیش‌نمایش';
 $labels['skin'] = 'پوسته ظاهری';
@@ -389,62 +404,61 @@ $labels['logoutclear'] = 'تمیز کردن زباله دان هنگام برو�
 $labels['logoutcompact'] = 'فشرده‌سازی صندوق در هنگام خروچ';
 $labels['uisettings'] = 'محیط کاربری';
 $labels['serversettings'] = 'تنظیمات سرور';
-$labels['mailboxview'] = 'دیدن صندوق‌پستی';
+$labels['mailboxview'] = 'نمای صندوق پستی';
 $labels['mdnrequests'] = 'تاییدهای فرستنده';
 $labels['askuser'] = 'پرسش از کاربر';
 $labels['autosend'] = 'ارسال رسید';
 $labels['autosendknown'] = 'ارسال رسید به تماس‌های من، در غیر این صورت سوال کن';
 $labels['autosendknownignore'] = 'ارسال رسید به تماس‌های من، درغیر این صورت چشم‌پوشی کن';
-$labels['readwhendeleted'] = 'در هنگام پاک کردن، پیغام را به عنوان خوانده شده علامت بزن';
-$labels['flagfordeletion'] = 'پیغام را به جای پاک کردن، با پرچم نشانه‌گذاری کن';
-$labels['skipdeleted'] = 'پیغام‌های حذف شده را نمایش نده';
-$labels['deletealways'] = 'اگر انتقال پیغام به زباله‌دان ناموفق بود، آن‌ها را حذف کن';
-$labels['deletejunk'] = 'حذف مستقیم پیغام‌های زباله';
+$labels['readwhendeleted'] = 'در هنگام پاک کردن، پیام را به عنوان خوانده شده علامت بزن';
+$labels['flagfordeletion'] = 'پیام را به جای پاک کردن، با پرچم نشانه‌گذاری کن';
+$labels['skipdeleted'] = 'پیام‌های حذف شده را نمایش نده';
+$labels['deletealways'] = 'اگر انتقال پیام به زباله‌دان ناموفق بود، آن‌ها را حذف کن';
+$labels['deletejunk'] = 'حذف مستقیم پیام‌های زباله';
 $labels['showremoteimages'] = 'تصاویر پیوند شده را نمایش بده';
 $labels['fromknownsenders'] = 'از فرستنده شناس';
 $labels['always'] = 'همواره';
-$labels['showinlineimages'] = 'نمایش عکس‌های پیوست شده در پایین پیغام';
+$labels['showinlineimages'] = 'نمایش عکس‌های پیوست شده در پایین پیام';
 $labels['autosavedraft']  = 'ذخیره‌ی خودکار پیش‌نویس';
 $labels['everynminutes']  = 'در هر $n دقیقه';
-$labels['refreshinterval']  = 'تازه کردن (بررسی برای پیغام‌های جدید، مثلا)';
+$labels['refreshinterval']  = 'تازه کردن (بررسی برای پیام‌های جدید، مثلا)';
 $labels['never']  = 'هرگز';
 $labels['immediately']  = 'بلافاصله';
-$labels['messagesdisplaying'] = 'نمایش دادن پیغام‌ها';
-$labels['messagescomposition'] = 'نوشتن پیغام‌ها';
+$labels['messagesdisplaying'] = 'نمای پیام‌ها';
+$labels['messagescomposition'] = 'نوشتن پیام‌ها';
 $labels['mimeparamfolding'] = 'عناوین پیوستی';
 $labels['2231folding'] = 'Full RFC 2231 (Thunderbird)';
 $labels['miscfolding'] = 'RFC 2047/2231 (MS Outlook)';
 $labels['2047folding'] = 'Full RFC 2047 (سایر)';
 $labels['force7bit'] = 'از MIME encoding برای کارکترهای ۸-بیتی استفاده کن';
 $labels['advancedoptions'] = 'گزینه‌های پیشرفته';
-$labels['focusonnewmessage'] = 'مشخص نمودن پیغام جدید';
-$labels['checkallfolders'] = 'همه پوشه‌ها را برای مشاهده پیغام‌های جدید بررسی کن';
-$labels['displaynext'] = 'بعد از انتقال/حذف پیغام، پیغام بعدی نمایش داده شود';
-$labels['defaultfont'] = 'فونت پیش فرض برای پیغام HTML';
+$labels['focusonnewmessage'] = 'مشخص نمودن پیام جدید';
+$labels['checkallfolders'] = 'همه پوشه‌ها را برای مشاهده پیام‌های جدید بررسی کن';
+$labels['displaynext'] = 'بعد از انتقال/حذف پیام، پیام بعدی نمایش داده شود';
+$labels['defaultfont'] = 'فونت پیش فرض برای پیام HTML';
 $labels['mainoptions'] = 'گزینه‌های اصلی';
 $labels['browseroptions'] = 'گزینه‌‌های مرورگر';
 $labels['section'] = 'بخش';
 $labels['maintenance'] = 'نگهداشت';
-$labels['newmessage'] = 'پیغام جدید';
+$labels['newmessage'] = 'پیام جدید';
 $labels['signatureoptions'] = 'گزینه‌های امضاء';
 $labels['whenreplying'] = 'هنگام پاسخ';
-$labels['replyempty'] = 'نقل قول نکردن پیغام اصلی';
-$labels['replytopposting'] = 'شروع پیغام جدید بالای اصلی';
-$labels['replybottomposting'] = 'شروع پیغام جدید پایین اصلی';
-$labels['replyremovesignature'] = 'هنگام پاسخ امضاء اصلی را از پیغام پاک کن';
+$labels['replyempty'] = 'نقل قول نکردن پیام اصلی';
+$labels['replytopposting'] = 'شروع پیام جدید بالای اصلی';
+$labels['replybottomposting'] = 'شروع پیام جدید پایین اصلی';
+$labels['replyremovesignature'] = 'هنگام پاسخ امضاء اصلی را از پیام پاک کن';
 $labels['autoaddsignature'] = 'اضافه کردن خودکار امضاء';
-$labels['newmessageonly'] = 'فقط پیغام جدید';
+$labels['newmessageonly'] = 'فقط پیام جدید';
 $labels['replyandforwardonly'] = 'فقط پاسخ‌ها و ارجاع‌ها';
 $labels['insertsignature'] = 'درج امضاء';
-$labels['previewpanemarkread']  = 'نشانه‌گذاری پیغام‌های پیش مرور شده به عنوان خوانده شده';
 $labels['afternseconds']  = 'بعد از $s ثانیه';
 $labels['reqmdn'] = 'درخواست همیشگی رسید برگشت';
 $labels['reqdsn'] = 'درخواست همیشگی تذکر وضعیت تحویل';
-$labels['replysamefolder'] = 'پاسخ‌ها را در پوشه‌ای پیغام‌هایی که باید پاسخ داده شود گرفته بده.';
+$labels['replysamefolder'] = 'پاسخ‌ها را در پوشه‌ای پیام‌هایی که باید پاسخ داده شود گرفته بده.';
 $labels['defaultabook'] = 'دفترچه نشانی پیش‌فرض';
 $labels['autocompletesingle'] = 'رد کردن نشانی‌های رایانامه دیگر در تکمیل خودکار';
 $labels['listnamedisplay'] = 'فهرست تماس‌ها به عنوان';
-$labels['spellcheckbeforesend'] = 'بررسی املایی قبل از ارسال پیغام';
+$labels['spellcheckbeforesend'] = 'بررسی املایی قبل از ارسال پیام';
 $labels['spellcheckoptions'] = 'گزینه‌های بررسی املاء';
 $labels['spellcheckignoresyms'] = 'نادیده گرفتن کلمات دارای نماد';
 $labels['spellcheckignorenums'] = 'نادیده گرفتن کلمات دارای عدد';
@@ -452,7 +466,7 @@ $labels['spellcheckignorecaps'] = 'نادیده گرفتن کلمات با حر�
 $labels['addtodict'] = 'اضافه کردن به واژه‌نامه';
 $labels['mailtoprotohandler'] = 'ثبت نگه‌دارنده پروتوکل برای mailto: پیوندها';
 $labels['standardwindows'] = 'بکار بردن پاپ‌آپ‌ها به صورت پنجره‌ی استاندارد';
-$labels['forwardmode'] = 'بازگردانی پیغام';
+$labels['forwardmode'] = 'بازگردانی پیام';
 $labels['inline'] = 'خطی';
 $labels['asattachment'] = 'به عنوان پیوست';
 $labels['replyallmode'] = 'عمل پیش‌فرض برای دکمه [پاسخ به همه]';
@@ -462,7 +476,7 @@ $labels['folder'] = 'پوشه';
 $labels['folders'] = 'پوشه‌ها';
 $labels['foldername'] = 'نام پوشه';
 $labels['subscribed'] = 'مشترک شد';
-$labels['messagecount'] = 'پیغام‌ها';
+$labels['messagecount'] = 'پیام‌ها';
 $labels['create'] = 'ایجاد';
 $labels['createfolder'] = 'ایجاد پوشه‌ی جدید';
 $labels['managefolders'] = 'مدیریت پوشه‌ها';
@@ -478,7 +492,9 @@ $labels['foldertype'] = 'نوع پوشه';
 $labels['personalfolder'] = 'پوشه خصوصی';
 $labels['otherfolder'] = 'پوشه کاربران دیگر';
 $labels['sharedfolder'] = 'پوشه عمومی';
+$labels['findfolders'] = 'پیدا کردن پوشه';
 $labels['namespace.personal'] = 'شخصی';
+$labels['dualusefolder'] = 'پوشه‌ها';
 $labels['sortby'] = 'مرتب‌سازی بر اساس';
 $labels['sortasc']  = 'مرتب‌سازی صعودی';
 $labels['sortdesc'] = 'مرتب‌سازی نزولی';
@@ -489,10 +505,10 @@ $labels['version'] = 'نسخه';
 $labels['source'] = 'منبع';
 $labels['license'] = 'گواهینامه';
 $labels['support'] = 'پشتیبانی';
-$labels['B'] = 'بایت';
-$labels['KB'] = 'کیلوبایت';
-$labels['MB'] = 'مگابایت';
-$labels['GB'] = 'گیگابایت';
+$labels['B'] = 'B';
+$labels['KB'] = 'KB';
+$labels['MB'] = 'MB';
+$labels['GB'] = 'GB';
 $labels['unicode'] = 'یونیکد';
 $labels['english'] = 'انگلیسی';
 $labels['westerneuropean'] = 'اروپای غربی';
@@ -514,19 +530,20 @@ $labels['chinese'] = 'چینی';
 $labels['arialabeltopnav'] = 'کنترل پنجره';
 $labels['arialabelactivetask'] = 'وظیفه فعال';
 $labels['arialabelmessagessearchfilter'] = 'پالایه فهرست‌گیری رایانامه';
-$labels['arialabelmailsearchform'] = 'فرم جستجوی پیغام رایانامه';
+$labels['arialabelmailsearchform'] = 'فرم جستجوی پیام رایانامه';
 $labels['arialabelmailquicksearchbox'] = 'ورودی جستجوی رایانامه';
 $labels['arialabelquicksearchbox'] = 'وردوی جستجو';
 $labels['arialabelfoldersearchfilter'] = 'پالایه فهرست‌گیری پوشه';
+$labels['arialabelfoldersearchform'] = 'فرم جستجوی پوشه';
 $labels['arialabelfolderlist'] = 'انتخاب پوشه رایانامه';
-$labels['arialabelmessagelist'] = 'فهرست‌گیری پیغام‌های رایانامه';
-$labels['arialabelmailpreviewframe'] = 'پیش‌نمایش پیغام';
-$labels['arialabelmessagenav'] = 'ناوبری پیغام';
-$labels['arialabelmessagebody'] = 'بدنه پیغام';
-$labels['arialabelmessageactions'] = 'کنش‌های پیغام';
+$labels['arialabelmessagelist'] = 'فهرست‌گیری پیام‌های رایانامه';
+$labels['arialabelmailpreviewframe'] = 'پیش‌نمایش پیام';
+$labels['arialabelmessagenav'] = 'ناوبری پیام';
+$labels['arialabelmessagebody'] = 'بدنه پیام';
+$labels['arialabelmessageactions'] = 'کنش‌های پیام';
 $labels['arialabelcontactquicksearch'] = 'فرم جستجوی تماس‌ها';
 $labels['arialabelcontactsearchbox'] = 'ورودی جستجوی تماس';
-$labels['arialabelmessageheaders'] = 'سربرگ‌های پیغام';
+$labels['arialabelmessageheaders'] = 'سربرگ‌های پیام';
 $labels['arialabelforwardingoptions'] = 'گزینه‌های بازگردانی';
 $labels['arialabelreplyalloptions'] = 'گزینه‌های پاسخ به همه';
 $labels['arialabelcomposeoptions'] = 'گزینه‌های انشاء';

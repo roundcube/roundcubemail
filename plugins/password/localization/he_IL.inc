@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'הסיסמה היתה בשימוש מקודם';
 $messages['samepasswd'] = 'הסיסמה החדשה צריכה להיות שונה מהישנה';
 $messages['passwdexpirewarning'] = 'אזהרה! הסיסמה תפוג בקרוב. יש לשנותה לפני expirationdatetime$.';
 $messages['passwdexpired'] = 'פג תוקפה של הסיסמה. יש לשנותה כעת!';
+$messages['passwdconstraintviolation'] = 'סיסמה לא חוקית. כנראה חלשה מדי.';

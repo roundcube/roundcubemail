@@ -414,7 +414,6 @@ $labels['autoaddsignature'] = 'Legg til signatur';
 $labels['newmessageonly'] = 'kun på nye meldinger';
 $labels['replyandforwardonly'] = 'kun i svar og videresendinger';
 $labels['insertsignature'] = 'Sett inn signatur';
-$labels['previewpanemarkread']  = 'Merk forhåndsviste meldinger som lest';
 $labels['afternseconds']  = 'etter $n sekunder';
 $labels['reqmdn'] = 'Alltid be om svarkvittering';
 $labels['reqdsn'] = 'Alltid be om leveringsstatus';

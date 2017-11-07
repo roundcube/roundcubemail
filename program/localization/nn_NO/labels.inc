@@ -386,7 +386,6 @@ $labels['autoaddsignature'] = 'Legg signatur til automatisk';
 $labels['newmessageonly'] = 'berre på nye epostar';
 $labels['replyandforwardonly'] = 'berre på svar og vidaresending';
 $labels['insertsignature'] = 'Sett inn signatur';
-$labels['previewpanemarkread']  = 'Merk forehandsviste epostar som leste';
 $labels['afternseconds']  = 'etter $n sekund';
 $labels['reqmdn'] = 'Alltid be om svarkvittering';
 $labels['reqdsn'] = 'Alltid be om leveringsstatus';

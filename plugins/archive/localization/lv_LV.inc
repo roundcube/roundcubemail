@@ -25,7 +25,9 @@ $labels['settingstitle'] = 'Arhīvs';
 $labels['archivetype'] = 'Sadalīt arhīvu pa';
 $labels['archivetypeyear'] = 'Gadiem (piem. Arhīvs/2012)';
 $labels['archivetypemonth'] = 'Mēnešiem (piem. Arhīvs/2012/06)';
+$labels['archivetypetbmonth'] = 'Mēnesis - Savietojams ar Thunderbird (piem. Arhīvs/2012/2012-06)';
 $labels['archivetypefolder'] = 'Sākotnējā mape';
 $labels['archivetypesender'] = 'Sūtītāja e-pasts';
 $labels['unkownsender'] = 'nezināms';
+$labels['readonarchive'] = 'Arhivējot, atzīmēt vēstuli kā izlasītu';
 ?>

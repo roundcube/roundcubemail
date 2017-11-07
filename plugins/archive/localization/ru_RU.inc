@@ -25,6 +25,7 @@ $labels['settingstitle'] = 'Архив';
 $labels['archivetype'] = 'Разделить архив по';
 $labels['archivetypeyear'] = 'Год (например, Архив/2012)';
 $labels['archivetypemonth'] = 'Месяц (например, Архив/2012/06)';
+$labels['archivetypetbmonth'] = 'Месяц - совместимо с Thunderbird (например, Архив/2012/2012-06)';
 $labels['archivetypefolder'] = 'Исходная папка';
 $labels['archivetypesender'] = 'Адрес отправителя';
 $labels['unkownsender'] = 'неизвестно';

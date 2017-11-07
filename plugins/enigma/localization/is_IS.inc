@@ -15,6 +15,8 @@
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+$labels['encryption'] = 'Dulritun';
+$labels['enigmakeys'] = 'PGP-lyklar';
 $labels['keyname'] = 'Heiti';
 $labels['keyid'] = 'Auðkenni lykils';
 $labels['typeencrypt'] = 'Dulrita';

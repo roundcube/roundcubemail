@@ -481,7 +481,6 @@ $labels['replyandforwardonly'] = 'alleen bij antwoorden en doorsturen';
 $labels['insertsignature'] = 'Ondertekening invoegen';
 $labels['sigbelow'] = 'Plaats ondertekening onder het geciteerde bericht';
 $labels['sigseparator'] = 'Forceer standaard scheidingsteken in ondertekeningen';
-$labels['previewpanemarkread']  = 'Markeer voorbeeldberichten als gelezen';
 $labels['afternseconds']  = 'na $n seconden';
 $labels['reqmdn'] = 'Vraag altijd een ontvangstbevestiging';
 $labels['reqdsn'] = 'Vraag altijd om een afleveringsbericht';

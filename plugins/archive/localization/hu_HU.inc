@@ -25,6 +25,7 @@ $labels['settingstitle'] = 'Archiválás';
 $labels['archivetype'] = 'Arhívum tovább bontása a következő szerint';
 $labels['archivetypeyear'] = 'Év ( pl Arhívum/2012)';
 $labels['archivetypemonth'] = 'Honap ( pl Arhívum/2012/06)';
+$labels['archivetypetbmonth'] = 'Honap - Thunderbird kompatibilis ( pl Arhívum/2012/2012-06)';
 $labels['archivetypefolder'] = 'Eredeti mappa';
 $labels['archivetypesender'] = 'Feladó';
 $labels['unkownsender'] = 'ismeretlen';

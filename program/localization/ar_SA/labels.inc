@@ -413,7 +413,6 @@ $labels['autoaddsignature'] = 'إضافة التوقيع آلياً';
 $labels['newmessageonly'] = 'الرسالة الجديدة فقط';
 $labels['replyandforwardonly'] = 'الردود والتمريرات فقط';
 $labels['insertsignature'] = 'إضافة التوقيع';
-$labels['previewpanemarkread']  = 'تحديد الرسائل المُعاينة كمقروءة';
 $labels['afternseconds']  = 'بعد $n ثواني';
 $labels['reqmdn'] = 'طلب إشعار استلام دائماً';
 $labels['reqdsn'] = 'طلب تنويه لحالة التوصيل دائماً';

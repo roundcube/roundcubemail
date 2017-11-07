@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Ky fjalëkalim është përdorur një herë më p
 $messages['samepasswd'] = 'Fjalëkalimi i ri duhet të jetë i ndryshëm nga i vjetri.';
 $messages['passwdexpirewarning'] = 'Kujdes! Fjalëkalimi juaj do të skadojë së shpejti, ndryshojeni para $expirationdatetime.';
 $messages['passwdexpired'] = 'Fjalëkalimi juaj ka skaduar, lypset ta ndryshoni tani!';
+$messages['passwdconstraintviolation'] = 'Cenim kufizimi fjalëkalimi. Mundet fjalëkalim shumë i dobët.';

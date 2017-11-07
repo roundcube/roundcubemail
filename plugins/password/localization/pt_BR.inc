@@ -35,3 +35,4 @@ $messages['passwinhistory'] = 'Esta senha já foi usada antes.';
 $messages['samepasswd'] = 'A nova senha deve ser diferente da antiga.';
 $messages['passwdexpirewarning'] = 'Atenção! Sua senha vai expirar em breve, altere ela antes de $expirationdatetime.';
 $messages['passwdexpired'] = 'Sua senha expirou, você precisa alterá-la agora!';
+$messages['passwdconstraintviolation'] = 'Restrição de senha violada. Senha provavelmente muito fraca.';

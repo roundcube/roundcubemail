@@ -15,6 +15,7 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
+$messages['missingattachment'] = "Atodiad ar goll?";
 $messages['forgotattachment'] = "Wedi anghofio atodi ffeil?";
 $messages['reminderoption'] = "Atgoffa am atodiadau ar goll";
 $messages['keywords'] = "atodiad,atodi,atodaf,atodwyd,atodir,amgaedig,dogfen,llythyr,ffeil,attachment,file,attach,attached,attaching,enclosed,CV,cover letter,";

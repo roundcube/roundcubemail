@@ -470,7 +470,6 @@ $labels['replyandforwardonly'] = 'svar og víðarsendingar einans';
 $labels['insertsignature'] = 'Innset undirskrift';
 $labels['sigbelow'] = 'Set undirskrift undir tey siteraðu boðini';
 $labels['sigseparator'] = 'Tvinga vanliga hvørviskilju í undirskriftum';
-$labels['previewpanemarkread']  = 'Merk undansýnd boð sum lisin';
 $labels['afternseconds']  = 'eftir $n sekund';
 $labels['reqmdn'] = 'Bið altíð um eina kvittan';
 $labels['reqdsn'] = 'Bið altíð um status kunngerð';
