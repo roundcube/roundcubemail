@@ -276,7 +276,9 @@ function rcmail_message_buttons()
     $dbox  = $RCMAIL->config->get('drafts_mbox');
 
     // the message is not a draft
-    if ($MESSAGE->folder != $dbox && strpos($MESSAGE->folder, $dbox.$delim) !== 0) {
+    if ($MESSAGE->context
+        || ($MESSAGE->folder != $dbox && strpos($MESSAGE->folder, $dbox.$delim) !== 0)
+    ) {
         return '';
     }
 
@@ -522,7 +524,7 @@ function rcmail_message_summary($attrib)
         return;
     }
 
-    $header = rcmail_message_list_smart_column_name();
+    $header = $MESSAGE->context ? 'from' : rcmail_message_list_smart_column_name();
     $label  = 'shortheader' . $header;
     $date   = $RCMAIL->format_date($MESSAGE->headers->date, $RCMAIL->config->get('date_long', 'x'));
     $user   = $MESSAGE->headers->$header;
