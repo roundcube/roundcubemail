@@ -142,12 +142,11 @@ input.smart-upload {
             flex-wrap: nowrap;
 
             & > *:first-child {
+                .overflow-ellipsis;
                 min-width: 8rem;
                 height: auto;
                 padding-right: .375rem;
                 padding-left: .375rem;
-                overflow: hidden;
-                text-overflow: ellipsis;
 
                 @media screen and (max-width: @screen-width-xs) {
                     min-width: 6rem;
@@ -711,13 +710,12 @@ html.touch .popupmenu.form {
     }
 
     .name {
+        .overflow-ellipsis;
         flex-grow: 1;
         display: inline-block;
         line-height: 1.1;
         padding: .25rem;
         vertical-align: middle;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
 
     .email {

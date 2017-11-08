@@ -29,9 +29,8 @@
     }
 
     tbody td {
+        .overflow-ellipsis;
         outline: none;
-        overflow: hidden;
-        text-overflow: ellipsis;
 
         a {
             color: @color-list;
@@ -62,8 +61,7 @@
     }
 
     td.name {
-        overflow: hidden;
-        text-overflow: ellipsis;
+        .overflow-ellipsis;
     }
 
     td.action {
@@ -128,8 +126,7 @@ ul.listing {
     }
 
     li {
-        overflow: hidden;
-        text-overflow: ellipsis;
+        .overflow-ellipsis;
         white-space: nowrap;
         position: relative;
 
@@ -324,8 +321,7 @@ html.ie11 .listing.iconized li a:before {
     }
 
     td {
-        overflow: hidden;
-        text-overflow: ellipsis;
+        .overflow-ellipsis;
     }
 }
 
@@ -358,8 +354,7 @@ ul.treelist li {
     }
 
     & > a {
-        overflow: hidden;
-        text-overflow: ellipsis;
+        .overflow-ellipsis;
     }
 
     &.selected > a {
@@ -550,18 +545,16 @@ table.fixedcopy {
             }
 
             &.fromto {
+                .overflow-ellipsis;
                 flex: 1;
                 font-size: 90%;
                 color: @color-list-secondary;
                 padding-left: 1.5em;
                 padding-right: .5rem;
-                overflow: hidden;
-                text-overflow: ellipsis;
             }
 
             &.subject {
-                overflow: hidden;
-                text-overflow: ellipsis;
+                .overflow-ellipsis;
                 width: 100%;
             }
         }
@@ -839,8 +832,7 @@ html.touch {
 
         /* assume the filename is always first */
         a:first-child {
-            overflow: hidden;
-            text-overflow: ellipsis;
+            .overflow-ellipsis;
         }
 
         a.delete:before {

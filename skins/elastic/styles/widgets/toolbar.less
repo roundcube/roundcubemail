@@ -237,12 +237,11 @@
         }
 
         .pagenav-text {
+            .overflow-ellipsis;
             flex-grow: 4;
             line-height: @layout-pagenav-height;
             font-size: 80%;
             color: @color-list-pagenav;
-            text-overflow: ellipsis;
-            overflow: hidden;
             white-space: nowrap;
         }
 
@@ -352,8 +351,7 @@
         display: flex;
 
         a.button:first-child {
-            overflow: hidden;
-            text-overflow: ellipsis;
+            .overflow-ellipsis;
             flex: 1;
         }
 

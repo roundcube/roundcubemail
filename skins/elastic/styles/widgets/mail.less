@@ -19,11 +19,10 @@
     margin-bottom: 1rem;
 
     .subject {
+        .overflow-ellipsis;
         font-size: 1.5rem;
         font-weight: bold;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
 
     .short-header {
@@ -105,14 +104,13 @@ div.message-htmlpart {
     }
 
     blockquote {
+        .overflow-ellipsis;
         color: @color-blockquote-0;
         border-left: 2px solid @color-blockquote-0-border;
         border-right: 2px solid @color-blockquote-0-border;
         background-color: @color-blockquote-background;
         margin: 2px 0;
         padding: 0 .4em;
-        overflow: hidden;
-        text-overflow: ellipsis;
 
         blockquote {
             color: @color-blockquote-1;
