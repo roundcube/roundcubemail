@@ -7,11 +7,18 @@
  * attachments of messages currently being composed, writing attachments
  * to disk when drafts with attachments are re-opened and writing
  * attachments to disk for inline display in current html compositions.
+ * It also handles uploaded files for other uses, so not only attachments.
  *
  * Developers may wish to extend this class when creating attachment
  * handler plugins:
  *   require_once('plugins/filesystem_attachments/filesystem_attachments.php');
  *   class myCustom_attachments extends filesystem_attachments
+ *
+ * Note for developers: It is plugin's responsibility to care about security.
+ * So, e.g. if the plugin is asked about some file path it should check
+ * if it's really the storage path of the plugin and not e.g. /etc/passwd.
+ * It is done by setting 'status' flag on every plugin hook it uses.
+ * Roundcube core will trust the returned path if status=true.
  *
  * @license GNU GPLv3+
  * @author Ziba Scott <ziba@umich.edu>
@@ -107,7 +114,7 @@ class filesystem_attachments extends rcube_plugin
      */
     function remove($args)
     {
-        $args['status'] = @unlink($args['path']);
+        $args['status'] = $this->verify_path($args['path']) && @unlink($args['path']);
         return $args;
     }
 
@@ -118,7 +125,7 @@ class filesystem_attachments extends rcube_plugin
      */
     function display($args)
     {
-        $args['status'] = file_exists($args['path']);
+        $args['status'] = $this->verify_path($args['path']) && file_exists($args['path']);
         return $args;
     }
 
@@ -129,6 +136,10 @@ class filesystem_attachments extends rcube_plugin
      */
     function get($args)
     {
+        if (!$this->verify_path($args['path'])) {
+            $args['path'] = null;
+        }
+
         return $args;
     }
 
@@ -147,7 +158,7 @@ class filesystem_attachments extends rcube_plugin
                 }
 
                 foreach ((array)$files as $filename) {
-                    if(file_exists($filename)) {
+                    if (file_exists($filename)) {
                         unlink($filename);
                     }
                 }
@@ -181,5 +192,35 @@ class filesystem_attachments extends rcube_plugin
                 return true;
             }
         }
+    }
+
+    /**
+     * For security we'll always verify the file path stored in session,
+     * as session entries can be faked in various ways e.g. #6026.
+     * We allow only files in Roundcube temp dir
+     */
+    protected function verify_path($path)
+    {
+        if (empty($path)) {
+            return false;
+        }
+
+        $rcmail    = rcube::get_instance();
+        $temp_dir  = $rcmail->config->get('temp_dir');
+        $file_path = pathinfo($path, PATHINFO_DIRNAME);
+
+        if ($temp_dir !== $file_path) {
+            rcube::raise_error(array(
+                    'code'    => 403,
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                    'message' => sprintf("%s can't read %s (not in temp_dir)",
+                        $rcmail->get_user_name(), substr($path, 0, 512))
+                ), true, false);
+
+            return false;
+        }
+
+        return true;
     }
 }
