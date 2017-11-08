@@ -53,6 +53,7 @@ CHANGELOG Roundcube Webmail
 - Fix decoding of mailto: links with + character in HTML messages (#6020)
 - Fix false reporting of failed upgrade in installto.sh (#6019)
 - Fix file disclosure vulnerability caused by insuficient input validation in relation to attachment plugins (#6026)
+- Fix mangled non-ASCII characters in links in HTML messages (#6028)
 
 RELEASE 1.3.2
 -------------
