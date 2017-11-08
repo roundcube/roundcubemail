@@ -349,7 +349,10 @@ class html
     public static function parse_attrib_string($str)
     {
         $attrib = array();
-        $html   = '<html><body><div ' . rtrim($str, '/ ') . ' /></body></html>';
+        $html   = '<html>'
+            . '<head><meta http-equiv="Content-Type" content="text/html; charset=' . RCUBE_CHARSET . '" /></head>'
+            . '<body><div ' . rtrim($str, '/ ') . ' /></body>'
+            . '</html>';
 
         $document = new DOMDocument('1.0', RCUBE_CHARSET);
         @$document->loadHTML($html);
