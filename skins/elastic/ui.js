@@ -1705,7 +1705,9 @@ function rcube_elastic_ui()
         }
 
         if (is_framed && is_mobile()) {
-            p.win = window;
+            if (!p.win) {
+                p.win = window;
+            }
             return parent.UI.menu_toggle(p);
         }
 
