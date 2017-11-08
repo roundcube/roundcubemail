@@ -1,7 +1,9 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix file disclosure vulnerability caused by insuficient input validation in relation to attachment plugins (#6026)
+RELEASE 1.0.12
+--------------
+- Fix file disclosure vulnerability caused by insufficient input validation [CVE-2017-16651] (#6026)
 
 RELEASE 1.0.11
 --------------
