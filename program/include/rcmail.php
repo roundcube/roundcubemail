@@ -640,8 +640,9 @@ class rcmail extends rcube
             $_SESSION['password']     = $this->encrypt($pass);
             $_SESSION['login_time']   = time();
 
-            if (isset($_REQUEST['_timezone']) && $_REQUEST['_timezone'] != '_default_') {
-                $_SESSION['timezone'] = rcube_utils::get_input_value('_timezone', rcube_utils::INPUT_GPC);
+            $timezone = rcube_utils::get_input_value('_timezone', rcube_utils::INPUT_GPC);
+            if ($timezone && is_string($timezone) && $timezone != '_default_') {
+                $_SESSION['timezone'] = $timezone;
             }
 
             // fix some old settings according to namespace prefix

@@ -67,6 +67,8 @@ class database_attachments extends filesystem_attachments
             if ($args['data'] === false) {
                 return $args;
             }
+
+            $args['path'] = null;
         }
 
         $data   = base64_encode($args['data']);
@@ -113,9 +115,12 @@ class database_attachments extends filesystem_attachments
         $cache = $this->get_cache();
         $data  = $cache->read($args['id']);
 
-        if ($data) {
+        if ($data !== null && $data !== false) {
             $args['data'] = base64_decode($data);
             $args['status'] = true;
+        }
+        else {
+            $args['status'] = false;
         }
 
         return $args;
