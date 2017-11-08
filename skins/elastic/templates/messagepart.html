@@ -14,7 +14,7 @@
 <div class="content selected">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
-		<span class="header-title"><roundcube:var name="env:filename" /></span>
+		<span class="header-title constant"><roundcube:var name="env:filename" /></span>
 		<div id="messagetoolbar" class="toolbar">
 			<a class="button properties" id="properties-button" href="#properties" onclick="UI.show_sidebar()" data-hidden="big">
 				<span class="inner"><roundcube:label name="properties"></span>
@@ -47,8 +47,8 @@
 				</span>
 				<span class="spacer"></span>
 				<roundcube:button name="messagemenulink" id="messagemenulink" type="link"
-					class="button more" label="more" title="moreactions" data-popup="message-menu" innerclass="inner" />
-						<roundcube:endif />
+					class="button more" label="more" title="moreactions" data-popup="message-menu"
+					innerclass="inner" data-hidden="small" />
 			<roundcube:endif />
 		</div>
 	</div>

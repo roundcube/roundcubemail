@@ -125,7 +125,7 @@ function rcube_elastic_ui()
         // Set content frame title in parent window (exclude ext-windows and dialog frames)
         if (is_framed && !rcmail.env.extwin && !parent.$('.ui-dialog:visible').length) {
             if (title = $('h1.voice:first').text()) {
-                parent.$('#layout > .content > .header > .header-title').text(title);
+                parent.$('#layout > .content > .header > .header-title:not(.constant)').text(title);
             }
         }
         else if (!is_framed) {
