@@ -2687,7 +2687,7 @@ function rcube_elastic_ui()
         url = rcmail.add_url(url, '_extwin', 1);
 
         var label, title = '',
-            props = {cancel_button: 'close'},
+            props = {cancel_button: 'close', width: 768, height: 768},
             frame = $('<iframe>').attr({id: 'windowframe', src: url});
 
         if (/_action=([a-z_]+)/.test(url) && (label = rcmail.labels[RegExp.$1])) {
