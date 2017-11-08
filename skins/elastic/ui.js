@@ -1526,8 +1526,7 @@ function rcube_elastic_ui()
                 // On mobile we display a menu from the frame in the parent window
                 // To make menu actions working we have to clone the menu
                 // and pass click events to it...
-                // Warning: this function is called twice on overy popup-show (Bootstrap bug?)
-                if (win != window && !$('#' + popup_id + '-clone').length) {
+                if (win != window) {
                     popup = popup_orig.clone(true, true);
                     popup.attr('id', popup_id + '-clone')
                         .appendTo(document.body)
