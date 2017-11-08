@@ -3,7 +3,7 @@
 /**
  +-------------------------------------------------------------------------+
  | Roundcube Webmail setup tool                                            |
- | Version 1.3.2                                                           |
+ | Version 1.3.3                                                           |
  |                                                                         |
  | Copyright (C) 2009-2015, The Roundcube Dev Team                         |
  |                                                                         |
