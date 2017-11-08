@@ -117,6 +117,10 @@ class Framework_Html extends PHPUnit_Framework_TestCase
                 'expression="test == true ? \' test\' : \'\'" ',
                 array('expression' => 'test == true ? \' test\' : \'\''),
             ),
+            array(
+                'href="http://domain.tld/страница"',
+                array('href' => 'http://domain.tld/страница'),
+            ),
         );
     }
 
