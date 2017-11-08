@@ -165,6 +165,7 @@ $labels['more']             = 'More';
 $labels['back']             = 'Back';
 $labels['options']          = 'Options';
 $labels['composeoptions']   = 'Compose options';
+$labels['optionsandattachments'] = 'Options and attachments';
 $labels['actions']          = 'Actions';
 
 $labels['first'] = 'First';
@@ -684,6 +685,7 @@ $labels['arialabelcomposeoptions'] = 'Composition options';
 $labels['arialabelresponsesmenu'] = 'Canned responses menu';
 $labels['arialabelattachmentuploadform'] = 'Attachment upload form';
 $labels['arialabelattachmentmenu'] = 'Attachment options';
+$labels['arialabelmailtomenu'] = 'Email address options';
 $labels['arialabelattachmentpreview'] = 'Attachment preview';
 $labels['ariasummarycomposecontacts'] = 'List of contacts and groups to select as recipients';
 $labels['arialabelcontactexportoptions'] = 'Contact export options';
