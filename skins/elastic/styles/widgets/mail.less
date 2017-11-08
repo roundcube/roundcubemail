@@ -172,7 +172,22 @@ div.message-part {
 }
 
 div.message-partheaders {
-    /* TODO */
+    padding: .5rem 0;
+    margin: .5rem 0;
+    font-size: 90%;
+    border-top: 1px solid lighten(@color-mail-headers, 50%);
+    border-bottom: 1px solid lighten(@color-mail-headers, 50%);
+    color: @color-mail-headers;
+
+    .header-title {
+        font-weight: bold;
+        padding-right: 1rem;
+        vertical-align: top;
+    }
+
+    .subject {
+        font-weight: bold;
+    }
 }
 
 #messagepartframe {
