@@ -38,7 +38,9 @@
     }
 
     li a {
-        display: block;
+        /* have to be inline-block for Chrome, there are issues
+           with block on threelists, Firefox works with block fine */
+        display: inline-block;
         text-decoration: none;
         cursor: default;
         width: 100%;
@@ -315,6 +317,10 @@ html.ie11 .listing.iconized li a:before {
 }
 
 .popupmenu .listing {
+    li > a {
+        border-left: 0;
+    }
+
     li.selected {
         color: @color-toolbarmenu-hover;
         background-color: @color-toolbarmenu-hover-background;
@@ -357,14 +363,16 @@ ul.treelist li {
         .overflow-ellipsis;
     }
 
-    &.selected > a {
-        color: @color-list-selected;
-        background-color: @color-list-selected-background;
-    }
-
     &.selected {
+        /* reset .listing selection style */
         color: inherit;
         background-color: transparent;
+
+        & > div > a, /* this is used e.g. by kolab_addressbook */
+        & > a {
+            color: @color-list-selected;
+            background-color: @color-list-selected-background;
+        }
     }
 
     ul {
@@ -507,7 +515,16 @@ ul.treelist li {
     &.toolbarmenu a:before {
         margin-left: .5em;
     }
+
+    &.toolbarmenu {
+        li {
+            a:before {
+                margin-right: .25em;
+            }
+        }
+    }
 }
+
 
 /*** Messages list widget ***/
 
