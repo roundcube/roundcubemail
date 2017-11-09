@@ -60,7 +60,7 @@ Header set X-Robots-Tag "noindex, nofollow"
 
 # Optional security header
 # Only increased security if the browser support those features
-# Be careful! Testing is required! They should be adusted to your intallation / user environment
+# Be careful! Testing is required! They should be adjusted to your installation / user environment
 
 # HSTS - HTTP Strict Transport Security
 #Header always set Strict-Transport-Security "max-age=31536000; preload" env=HTTPS
