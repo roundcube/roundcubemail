@@ -246,14 +246,14 @@ class rcube_config
 
         // set PHP error logging according to config
         if ($this->prop['debug_level'] & 1) {
-            ini_set('log_errors', 1);
+            $error_log = $this->prop['log_driver'];
+            if ($error_log != 'syslog') {
+                $error_log  = $this->prop['log_dir'] . '/errors';
+                $error_log .= isset($this->prop['log_file_ext']) ? $this->prop['log_file_ext'] : '.log';
+            }
 
-            if ($this->prop['log_driver'] == 'syslog') {
-                ini_set('error_log', 'syslog');
-            }
-            else {
-                ini_set('error_log', $this->prop['log_dir'].'/errors');
-            }
+            ini_set('error_log', $error_log);
+            ini_set('log_errors', 1);
         }
 
         // enable display_errors in 'show' level, but not for ajax requests
