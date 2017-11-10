@@ -58,9 +58,9 @@ Header set X-Robots-Tag "noindex, nofollow"
 # replace 'append' with 'merge' for Apache version 2.2.9 and later
 #Header append Cache-Control public env=!NO_CACHE
 
-# Optional security header
-# Only increased security if the browser support those features
-# Be careful! Testing is required! They should be adusted to your intallation / user environment
+# Optional security headers
+# Only provides increased security if the browser supports those features
+# Be careful! Testing is required! They should be adjusted to your installation / user environment
 
 # HSTS - HTTP Strict Transport Security
 #Header always set Strict-Transport-Security "max-age=31536000; preload" env=HTTPS
