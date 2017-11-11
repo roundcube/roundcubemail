@@ -34,6 +34,12 @@ RewriteRule ^/?(\.git|\.tx|SQL|bin|config|logs|temp|tests|program\/(include|lib|
 RewriteRule ^/vendor\/bin\/.* - [F]
 # - deny access to some documentation files
 RewriteRule /?(README\.md|composer\.json-dist|composer\.json|package\.xml|jsdeps.json|Dockerfile)$ - [F]
+
+# Optional SSL/TLS redirect
+# All plain HTTP requests to Roundcube will be rewritten to HTTPS
+# You may also want to consider enabling the HSTS header if you enable this
+#RewriteCond %{HTTPS} off
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </IfModule>
 
 <IfModule mod_deflate.c>
