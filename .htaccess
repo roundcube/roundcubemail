@@ -82,8 +82,12 @@ Header set X-Robots-Tag "noindex, nofollow"
 # It prevents Google Chrome and Internet Explorer from trying to mime-sniff the content-type of a response away from the one being declared by the server.
 #Header set X-Content-Type-Options: "nosniff"
 
-# CSP - Content Security Policy
+# Referrer policy
 # for better privacy/security ask browsers to not set the Referer
+#Header set Referrer-Policy no-referrer
+
+# CSP - Content Security Policy
+# Help mitigate and prevent data injection/XSS attacks 
 # more flags for script, stylesheets and images available, read RFC for more information
-#Header set Content-Security-Policy "referrer no-referrer"
+#Header set Content-Security-Policy "default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval';"
 </IfModule>
