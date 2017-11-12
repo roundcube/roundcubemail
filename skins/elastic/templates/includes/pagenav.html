@@ -10,7 +10,7 @@
 		<input class="form-control" type="text" size="3" disabled title="<roundcube:label name="currpage" />" />
 	<roundcube:elseif condition="template:name == 'addressbook'" />
 		<span class="pagenav-text" aria-live="polite" aria-relevant="text">
-			<roundcube:label name="contacts" /> <roundcube:object name="recordsCountDisplay" label="fromtoshort" />
+			<roundcube:object name="recordsCountDisplay" label="fromtoshort" />
 		</span>
 	<roundcube:else />
 		<span class="pagenav-text" aria-live="polite" aria-relevant="text">&nbsp;</span>
