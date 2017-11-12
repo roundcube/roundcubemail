@@ -7844,10 +7844,15 @@ function rcube_webmail()
 
     // resize and center popup
     var win = $(window), w = win.width(), h = win.height(),
-      width = popup.width(), height = options.height || (popup[0].scrollHeight + 20);
+      width = popup.width(),
+      height = options.height || (popup[0].scrollHeight + 20),
+      dialog = popup.parent(),
+      titlebar_height = $('.ui-dialog-titlebar', dialog).outerHeight(),
+      buttonpane_height = $('.ui-dialog-buttonpane', dialog).outerHeight(),
+      padding = (parseInt(dialog.css('padding-top')) + parseInt(popup.css('padding-top'))) * 2;
 
     popup.dialog('option', {
-      height: Math.min(h - 40, height + 70 + (buttons ? 50 : 0)),
+      height: Math.min(h - 40, height + titlebar_height + buttonpane_height + padding + 2),
       width: Math.min(w - 20, width + 24)
     });
 
