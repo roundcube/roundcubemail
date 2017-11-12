@@ -38,9 +38,7 @@
     }
 
     li a {
-        /* have to be inline-block for Chrome, there are issues
-           with block on threelists, Firefox works with block fine */
-        display: inline-block;
+        display: block;
         text-decoration: none;
         cursor: default;
         width: 100%;
@@ -119,7 +117,6 @@ table.listing {
 }
 
 ul.listing {
-    list-style: none;
     margin: 0;
     padding: 0;
 
@@ -131,6 +128,7 @@ ul.listing {
         .overflow-ellipsis;
         white-space: nowrap;
         position: relative;
+        list-style: none;
 
         ul {
             border-top: 1px solid @color-list-border;
@@ -741,9 +739,9 @@ html.touch {
 
 .attachmentslist {
     padding: 0;
-    list-style: none;
 
     li {
+        list-style: none;
         display: inline-flex;
         white-space: nowrap;
         line-height: @attachmentslist-item-height;
