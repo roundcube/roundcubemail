@@ -25,12 +25,12 @@ input.smart-upload {
 
 
 .propform {
-    /* TODO: do we need this? */
+    // TODO: do we need this?
     &:not(.popupmenu) {
         width: 100%;
     }
 
-    /* This is the way we can have multiple checkboxes in a single form field */
+    // This is the way we can have multiple checkboxes in a single form field
     .form-check td:not(.title) > label {
         display: block;
         margin: 0;
@@ -130,7 +130,7 @@ input.smart-upload {
 
             label {
                 min-width: 7rem;
-                /* Overwrite Bootstrap .input-group-addon style to make the label transparent */
+                // Overwrite Bootstrap .input-group-addon style to make the label transparent
                 background-color: transparent;
                 border: 0;
                 border-radius: 0;
@@ -215,7 +215,7 @@ input.smart-upload {
         color: @color-form-hint;
     }
 
-    /* Some dialogs may use simple one-row forms like this */
+    // Some dialogs may use simple one-row forms like this
     &.row.form-group {
         margin-left: 0;
         margin-right: 0;
@@ -277,7 +277,7 @@ input.smart-upload {
 }
 
 
-/* Forms fixes for IE and Edge */
+// Forms fixes for IE and Edge
 html.ms .propform {
     .row:not(.form-check) > td {
         display: flex;
@@ -329,13 +329,13 @@ html.layout-phone {
     padding: 1rem;
 
     .row {
-        margin-right: 0; /* without these the form is too wide causing horizontal scrollbar appearence */
+        margin-right: 0; // without these the form is too wide causing horizontal scrollbar appearence
         margin-left: 0;
 
-        /* Note: We never use odd numbers here */
+        // Note: We never use odd numbers here
         .col, .col-2, .col-4, .col-6, .col-8, .col-10, .col-12,
         .col-sm, .col-sm-2, .col-sm-4, .col-sm-6, .col-sm-8, .col-sm-10, .col-sm-12 {
-            /* overwrite Bootstrap's redundant padding */
+            // overwrite Bootstrap's redundant padding
             padding: 0;
         }
 
@@ -346,16 +346,16 @@ html.layout-phone {
     }
 
     .row.form-check {
-        padding-right: 0; /* without these e.g. inputs in compose screen are not aligned properly */
-        display: flex; /* https://github.com/twbs/bootstrap/issues/22348 */
+        padding-right: 0; // without these e.g. inputs in compose screen are not aligned properly
+        display: flex; // https://github.com/twbs/bootstrap/issues/22348
         flex-wrap: nowrap;
 
-        /* fixed checkbox vertical alignment */
+        // fixed checkbox vertical alignment
         td:not(.col-form-label) {
             padding: 0;
         }
 
-        /* alignment fixes needed because we do not stick precissely to Bootstrap's form structure */
+        // alignment fixes needed because we do not stick precissely to Bootstrap's form structure
         @media screen and (max-width: 576px) {
             .col-6 {
                 max-width: 100%;
@@ -364,7 +364,7 @@ html.layout-phone {
 
             & > *:last-child {
                 width: 1%;
-                min-width: 2.2em; /* for icon-checkbox */
+                min-width: 2.2em; // for icon-checkbox
                 padding-right: 15px;
             }
 
@@ -374,7 +374,7 @@ html.layout-phone {
         }
 
         .form-check-input {
-            margin: 0; /* fixes checkbox alignment with other inputs in a form */
+            margin: 0; // fixes checkbox alignment with other inputs in a form
             margin-top: .5rem;
             margin-bottom: .5rem;
         }
@@ -588,7 +588,7 @@ html.touch .popupmenu.form {
             border: 1px solid @color-input-border-focus;
         }
 
-        /* TODO: style button focus */
+        // TODO: style button focus
     }
 
     .input-group {
@@ -605,7 +605,7 @@ html.touch .popupmenu.form {
 
     .input-group-addon,
     .form-control {
-        height: 2.25rem; /* to be the same height as select.form-control element */
+        height: 2.25rem; // to be the same height as select.form-control element
     }
 
     input.form-control {
@@ -643,7 +643,7 @@ html.touch .popupmenu.form {
 /*** Files upload widget with list of files, upload form and drop area ***/
 
 .file-upload {
-    /* TODO */
+    // TODO
 
     padding: 1em 1em 12em;
     margin: 1em;
@@ -844,7 +844,7 @@ input.icon-checkbox {
             height: 2rem;
         }
 
-        /* A link after checkbox in a form, used in e.g. newmail_notifier plugin */
+        // A link after checkbox in a form, used in e.g. newmail_notifier plugin
         & + a {
             display: inline-block;
             line-height: 2rem;
@@ -946,7 +946,7 @@ html.touch input.icon-checkbox + label {
 .googie_edit_layer {
     font-family: monospace;
 
-    /* from Bootstrap's textarea */
+    // from Bootstrap's textarea
     padding: .5rem .75rem;
     border: 1px solid @color-input-border;
     border-radius: .3rem;

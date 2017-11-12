@@ -15,7 +15,7 @@
     position: absolute;
     bottom: .5em;
     right: .7em;
-    z-index: 102; /* needs to be above .ui-widget-overlay */
+    z-index: 102; // needs to be above .ui-widget-overlay
     width: 320px;
     height: auto;
     max-height: 85%;
@@ -44,10 +44,8 @@
     }
 }
 
-/*
-    .boxwarning/.boxerror/.boxinformation classes are supported
-    by conversion to .ui.alert in bootstrap_init()
-*/
+// .boxwarning/.boxerror/.boxinformation classes are supported
+// by conversion to .ui.alert in bootstrap_init()
 
 .ui.alert {
     margin: 0;
@@ -58,7 +56,7 @@
     padding: .75em;
     color: @color-message;
     border: 1px solid @color-message-border;
-/*    box-shadow: 1px 1px 2px @color-message-shadow; */
+//    box-shadow: 1px 1px 2px @color-message-shadow;
     background-color: @color-message-background;
     display: flex;
     align-items: center;
@@ -115,12 +113,11 @@
     }
 
     &.vcardattachment > i.icon:before {
-        content: @fa-var-vcard; /* vcard_attachments plugin */
+        content: @fa-var-vcard; // vcard_attachments plugin
     }
 
-    /* This works with following structure: <i> <span> [button].
-       <span> here is a one-line text, and button can be anything but <span>.
-     */
+    // This works with following structure: <i> <span> [button].
+    // <span> here is a one-line text, and button can be anything but <span>.
     &.aligned-buttons {
         display: flex;
 

@@ -65,7 +65,7 @@
     }
 
     td.action {
-        /* TODO */
+        // TODO
         padding: 0 .5em;
         width: 2em;
         text-align: center;
@@ -89,8 +89,9 @@
         color: @color-list-secondary;
     }
 
-    /* Focus indicator */
-    /* because of border-collapse, we make the left border twice what we want it to be - half will be hidden to the left */
+    // Focus indicator
+    // because of border-collapse, we make the left border twice what we want it to be
+    // - half will be hidden to the left
     @media screen and (min-width: @screen-width-large) {
         li > a,
         tbody tr > td:first-child {
@@ -107,11 +108,9 @@
 table.listing {
     width: 100%;
     table-layout: fixed;
-    /*
-      border-spacing/border-collapse here fix problem with our focus indicator
-      when the table cells use overflow: hidden. I.e. we use border-spacing:0
-      instead of Bootstrap's border-collapse:collapse. Is this cross-browser?
-    */
+    // border-spacing/border-collapse here fix problem with our focus indicator
+    // when the table cells use overflow: hidden. I.e. we use border-spacing:0
+    // instead of Bootstrap's border-collapse:collapse. Is this cross-browser?
     border-spacing: 0;
     border-collapse: unset;
 }
@@ -189,7 +188,7 @@ html.touch {
 .listing.iconized li {
     a:before {
         &:extend(.font-icon-class);
-        height: 2em; /* TODO: ? */
+        height: 2em; // TODO: ?
         margin-right: .5rem;
     }
     &.preferences > a:before {
@@ -232,7 +231,7 @@ html.touch {
         content: @fa-var-feed;
     }
     &.delegation > a:before {
-        content: @fa-var-user-secret; /* TODO: a better icon */
+        content: @fa-var-user-secret; // TODO: a better icon
     }
     &.twofactorauth > a:before {
         content: @fa-var-sign-in;
@@ -248,7 +247,7 @@ html.touch {
         content: @fa-var-shield;
     }
 
-    /* autocomplete popup */
+    // autocomplete popup
     & > i:before {
         &:extend(.font-icon-class);
         content: @fa-var-user;
@@ -362,11 +361,11 @@ ul.treelist li {
     }
 
     &.selected {
-        /* reset .listing selection style */
+        // reset .listing selection style
         color: inherit;
         background-color: transparent;
 
-        & > div > a, /* this is used e.g. by kolab_addressbook */
+        & > div > a, // this is used e.g. by kolab_addressbook
         & > a {
             color: @color-list-selected;
             background-color: @color-list-selected-background;
@@ -410,7 +409,7 @@ ul.treelist li {
     li {
         &.mailbox {
             &.unread {
-                /* TODO */
+                // TODO
                 & > a {
                     padding-right: 2.8em;
                 }
@@ -441,7 +440,7 @@ ul.treelist li {
             }
 
             &.selected .unreadcount {
-                /* todo */;
+                // todo
             }
 
             &.recent > .unreadcount {
@@ -451,7 +450,7 @@ ul.treelist li {
 
             &.root {
                 display: none !important;
-                /* FIXME: This element is confusing, I propose to not use it */
+                // FIXME: This element is confusing, I propose to not use it
             }
         }
 
@@ -509,7 +508,7 @@ ul.treelist li {
         }
     }
 
-    /* folder-selector fix for left padding */
+    // folder-selector fix for left padding
     &.toolbarmenu a:before {
         margin-left: .5em;
     }
@@ -612,7 +611,7 @@ table.fixedcopy {
         font-weight: bold;
     }
 
-    /* thread parent message with unread children */
+    // thread parent message with unread children
     tr.unroot td.subject a {
         text-decoration: underline;
     }
@@ -653,7 +652,7 @@ table.fixedcopy {
         width: 1em;
     }
     td.subject span.msgicon.status.replied.forwarded:before {
-        content: @fa-var-mail-forward; /* TODO */
+        content: @fa-var-mail-forward; // TODO
         font-size: 1.2em;
         width: 1em;
     }
@@ -677,7 +676,7 @@ table.fixedcopy {
             content: @fa-var-lock;
         }
         &.vcard:before {
-            content: @fa-var-user-o; /* vcard_attachments plugin */
+            content: @fa-var-user-o; // vcard_attachments plugin
         }
     }
 
@@ -718,9 +717,9 @@ html.touch {
     }
 
     td.action {
-        /* TODO */
+        // TODO
         a {
-            /* TODO */
+            // TODO
         }
     }
 
@@ -802,7 +801,7 @@ html.touch {
 
         &.ics:before,
         &.calendar:before {
-            /* TODO */
+            // TODO
         }
 
         &.vcard:before {
@@ -815,7 +814,7 @@ html.touch {
 
         &.eml:before,
         &.rfc822:before {
-            /* TODO */
+            // TODO
         }
 
         &.odp:before,
@@ -830,15 +829,15 @@ html.touch {
         &.sig:before,
         &.pgp-signature:before,
         &.pkcs7-signature:before {
-            /* TODO */
+            // TODO
         }
 
         &.application.asc:before {
-            /* TODO */
+            // TODO
         }
 
         &.application.pgp-keys:before {
-            /* TODO */
+            // TODO
         }
 
         .attachment-size {

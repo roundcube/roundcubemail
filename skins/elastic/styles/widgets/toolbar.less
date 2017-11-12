@@ -18,7 +18,7 @@
     &.listing a,
     a {
         text-decoration: none;
-        cursor: pointer !important; /* TODO: re-consider .listing class use on toolbar */
+        cursor: pointer !important; // TODO: re-consider .listing class use on toolbar
         color: @color-toolbar-button;
     }
 
@@ -28,7 +28,7 @@
         height: @layout-header-height;
         min-width: 3.5rem;
         max-width: 6rem;
-        width: auto; /* reset width defined for links in .listing */
+        width: auto; // reset width defined for links in .listing
         padding: .45rem;
         text-align: center;
         text-overflow: ellipsis;
@@ -143,10 +143,10 @@
             content: @fa-var-paperclip;
         }
         &.spellcheck:before {
-            content: @fa-var-magic; /* TODO */
+            content: @fa-var-magic; // TODO
         }
         &.signature:before {
-            content: @fa-var-at; /* TODO */
+            content: @fa-var-at; // TODO
         }
         &.responses:before {
             content: @fa-var-comment;
@@ -200,7 +200,7 @@
     .dropbutton {
         a.button.dropdown {
             font-size: 75%;
-            overflow: hidden; /* for IE11 */
+            overflow: hidden; // for IE11
 
             span.inner {
                 display: none;
@@ -384,7 +384,7 @@
 
 .toolbarmenu li {
     &.separator {
-        /* TODO: all separator properties */
+        // TODO: all separator properties
         line-height: 1.5rem !important;
         font-size: .75rem;
         padding: 0 .5rem;
@@ -392,7 +392,7 @@
         background-color: @color-popover-separator-background;
 
         label {
-            margin: 0; /* Unsets Bootstrap label margin, bug? */
+            margin: 0; // Unsets Bootstrap label margin, bug?
         }
     }
 
@@ -457,10 +457,10 @@
         content: @fa-var-plus-square;
     }
     a.edit:before {
-        content: @fa-var-edit; /* TODO: edit.asnew */
+        content: @fa-var-edit; // TODO: edit.asnew
     }
     a.rename:before {
-        content: @fa-var-pencil; /* TODO: better icon?  */
+        content: @fa-var-pencil; // TODO: better icon?
     }
     a.read:before {
         content: @fa-var-star-o;

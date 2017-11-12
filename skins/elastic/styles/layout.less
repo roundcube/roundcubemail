@@ -89,7 +89,7 @@ body > #layout {
             min-width: 50%;
             background-color: @color-layout-content-background;
 
-            & > .formcontent, /* e.g. Help plugin */
+            & > .formcontent, // e.g. Help plugin
             & > iframe,
             & > .content,
             & > .content > iframe {
@@ -137,7 +137,7 @@ body > #layout {
             min-height: @layout-header-height;
             padding: 0 .25em;
             margin: 0;
-            position: relative; /* for absolute positioning of searchbar */
+            position: relative; // for absolute positioning of searchbar
             overflow: hidden;
             white-space: nowrap;
             display: flex;
@@ -223,7 +223,7 @@ html.iframe body {
 @media screen and (max-width: @screen-width-xs) {
     body > #layout > div.menu {
         position: absolute;
-        z-index: 30001; /* because autocompletion popup uses z-index:30000 */
+        z-index: 30001; // because autocompletion popup uses z-index:30000
         top: 0;
         left: 0;
         right: 0;
