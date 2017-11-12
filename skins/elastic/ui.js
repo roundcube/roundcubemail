@@ -416,6 +416,17 @@ function rcube_elastic_ui()
             }
         });
 
+        // https://github.com/roundcube/elastic/issues/45
+        // Draggable blocks scrolling on touch devices, we'll disable it there
+        if (is_touch()) {
+            $('[data-list]', layout.list).each(function() {
+                var list = $(this).data('list');
+                if (rcmail[list] && typeof rcmail[list].draggable == 'function') {
+                    rcmail[list].draggable('destroy');
+                }
+            });
+        }
+
         // Add menu link for each attachment
         $('#attachment-list > li').each(function() {
             attachmentmenu_append(this);
