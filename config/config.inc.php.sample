@@ -84,3 +84,9 @@ $config['plugins'] = array(
 
 // skin name: folder from skins/
 $config['skin'] = 'larry';
+
+// Automatic identity creation rules
+// Replace _ in usernames with . (john_doe -> john.doe)
+// $config['user_to_email_regex'] = '/_/';
+// $config['user_to_email_pattern'] = '.';
+

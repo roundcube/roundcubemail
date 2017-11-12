@@ -1,6 +1,6 @@
 CHANGELOG Roundcube Webmail
 ===========================
-
+- Add rules for automatic identity creation (for modifying usernames in generated email addresses)
 - Changed defaults for smtp_user (%u), smtp_pass (%p) and smtp_port (587)
 - Composer: Fix certificate validation errors by using packagist only (#5148)
 - Enigma: Add button to send mail unencrypted if no key was found (#5913)

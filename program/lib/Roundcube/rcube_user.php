@@ -646,8 +646,13 @@ class rcube_user
             $email_list  = $data['email_list'];
 
             if (empty($email_list)) {
-                if (empty($user_email)) {
-                    $user_email = strpos($data['user'], '@') ? $user : sprintf('%s@%s', $data['user'], $mail_domain);
+		if (empty($user_email)) {
+			if (array_key_exists('user_to_email_regex', $config) && array_key_exists('user_to_email_pattern', $config)) {
+			$username = preg_replace($config['user_to_email_regex'], $config['user_to_email_pattern'], $data['user']);
+                        $user_email = strpos($username, '@') ? $username : sprintf('%s@%s', $username, $mail_domain);
+                    } else {
+                        $user_email = strpos($data['user'], '@') ? $user : sprintf('%s@%s', $data['user'], $mail_domain);
+                    }
                 }
                 $email_list[] = $user_email;
             }
