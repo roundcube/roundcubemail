@@ -522,6 +522,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
 
     // group fields
     $head_fields = array(
+        'source'       => array('source'),
         'names'        => array('prefix','firstname','middlename','surname','suffix'),
         'displayname'  => array('name'),
         'nickname'     => array('nickname'),
@@ -540,6 +541,7 @@ function rcmail_contact_form($form, $record, $attrib = null)
     $edit_mode   = $RCMAIL->action != 'show' && $RCMAIL->action != 'print';
     $compact     = rcube_utils::get_boolean($attrib['compact-form']);
     $use_labels  = rcube_utils::get_boolean($attrib['use-labels']);
+    $with_source = rcube_utils::get_boolean($attrib['with-source']);
     $out         = '';
 
     if ($attrib['deleteicon']) {
@@ -591,8 +593,23 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 $block_attr = array('class' => $blockname  . (count($colnames) == 1 ? ' row' : ''));
 
                 foreach ($colnames as $col) {
+                    if ($col == 'source') {
+                        if (!$with_source || !($source = $RCMAIL->output->get_env('sourcename'))) {
+                            continue;
+                        }
+
+                        if (!$edit_mode) {
+                            $record['source'] = $RCMAIL->gettext('addressbook') . ': ' . $source;
+                        }
+                        else if ($RCMAIL->action == 'add') {
+                            $record['source'] = $source;
+                        }
+                        else {
+                            continue;
+                        }
+                    }
                     // skip cols unknown to the backend
-                    if (!$coltypes[$col]) {
+                    else if (!$coltypes[$col]) {
                         continue;
                     }
 
@@ -612,9 +629,12 @@ function rcmail_contact_form($form, $record, $attrib = null)
                         }
                     }
                     else {
-                        $colprop       = (array)$fieldset['content'][$col] + (array)$coltypes[$col];
-                        $colprop['id'] = 'ff_' . $col;
-                        $visible       = true;
+                        $colprop = (array)$fieldset['content'][$col] + (array)$coltypes[$col];
+                        $visible = true;
+
+                        if (empty($colprop['id'])) {
+                            $colprop['id'] = 'ff_' . $col;
+                        }
 
                         if (empty($record[$col]) && !$colprop['visible']) {
                             $visible          = false;
@@ -622,7 +642,12 @@ function rcmail_contact_form($form, $record, $attrib = null)
                             $select_add->add($colprop['label'], $col);
                         }
 
-                        $input = rcube_output::get_edit_field($col, $record[$col], $colprop, $colprop['type']);
+                        if ($col == 'source') {
+                            $input = rcmail_source_selector(array('id' => $colprop['id']));
+                        }
+                        else {
+                            $input = rcube_output::get_edit_field($col, $record[$col], $colprop, $colprop['type']);
+                        }
 
                         if ($use_labels) {
                             $_content = html::label($colprop['id'], rcube::Q($colprop['label'])) . html::div(null, $input);
@@ -647,7 +672,8 @@ function rcmail_contact_form($form, $record, $attrib = null)
                 $content .= html::p('addfield', $select_add->show(null));
             }
 
-            $out .= html::tag('fieldset', $attrib, (!empty($fieldset['name']) ? html::tag('legend', null, rcube::Q($fieldset['name'])) : '') . $content) ."\n";
+            $legend = !empty($fieldset['name']) ? html::tag('legend', null, rcube::Q($fieldset['name'])) : '';
+            $out   .= html::tag('fieldset', $attrib, $legend . $content, html::$common_attrib) ."\n";
             continue;
         }
 

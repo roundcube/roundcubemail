@@ -110,16 +110,17 @@ function rcmail_contact_edithead($attrib)
         'head' => array(
             'name' => $RCMAIL->gettext('contactnameandorg'),
             'content' => array(
-                'prefix' => array('size' => $i_size),
-                'firstname' => array('size' => $i_size, 'visible' => true),
-                'middlename' => array('size' => $i_size),
-                'surname' => array('size' => $i_size, 'visible' => true),
-                'suffix' => array('size' => $i_size),
-                'name' => array('size' => 2*$i_size),
-                'nickname' => array('size' => 2*$i_size),
-                'organization' => array('size' => 2*$i_size),
-                'department' => array('size' => 2*$i_size),
-                'jobtitle' => array('size' => 2*$i_size),
+                'source'        => array('id' => '_source', 'label' => $RCMAIL->gettext('addressbook')),
+                'prefix'        => array('size' => $i_size),
+                'firstname'     => array('size' => $i_size, 'visible' => true),
+                'middlename'    => array('size' => $i_size),
+                'surname'       => array('size' => $i_size, 'visible' => true),
+                'suffix'        => array('size' => $i_size),
+                'name'          => array('size' => 2*$i_size),
+                'nickname'      => array('size' => 2*$i_size),
+                'organization'  => array('size' => 2*$i_size),
+                'department'    => array('size' => 2*$i_size),
+                'jobtitle'      => array('size' => 2*$i_size),
             )
         )
     );
