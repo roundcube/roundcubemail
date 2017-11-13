@@ -145,13 +145,13 @@ font.bold {
 .table-widget {
     display: flex;
     flex-direction: column;
-    height: 22rem;
     margin-bottom: .5rem;
     border: 1px solid @color-table-border;
 
     & > .content {
         overflow-x: auto;
         flex-grow: 1;
+        height: 18.5em;
 
         table th {
             border-top: 0;
@@ -169,6 +169,7 @@ font.bold {
 
     table {
         margin: 0;
+        height: 18.5em;
     }
 
     // Options table is a table with first column for identifier/description
@@ -182,6 +183,10 @@ font.bold {
                 .overflow-ellipsis;
                 text-align: left;
             }
+        }
+
+        tr:last-child td {
+            border-bottom: 1px solid #e9ecef; // TODO: color from Bootstrap, use var
         }
 
         tr.selected td {

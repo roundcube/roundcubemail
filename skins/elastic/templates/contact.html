@@ -3,17 +3,16 @@
 <h1 class="voice"><roundcube:label name="contactproperties" /></h1>
 
 <div class="formcontent">
-	<roundcube:if condition="strlen(env:sourcename)" />
-		<div id="sourcename"><roundcube:label name="addressbook" />: <roundcube:var name="env:sourcename" /></div>
-	<roundcube:endif />
 	<div class="contact-header">
 		<div id="contactphoto" class="contact-photo">
-			<roundcube:object name="contactphoto" id="contactpic" placeholder="/images/contactpic.png" placeholderGroup="/images/contactgroup.png" />
+			<roundcube:object name="contactphoto" id="contactpic" placeholder="/images/contactpic.png"
+				placeholderGroup="/images/contactgroup.png" />
 		</div>
-		<roundcube:object name="contacthead" id="contacthead" class="contact-head" />
+		<roundcube:object name="contacthead" id="contacthead" class="contact-head readonly" with-source="true" />
 	</div>
 	<div id="contacttabs" class="tabbed">
-		<roundcube:object name="contactdetails" fieldset-class="propform groupped readonly" short-legend-labels="true" />
+		<roundcube:object name="contactdetails" fieldset-class="propform groupped readonly"
+			short-legend-labels="true" />
 	</div>
 </div>
 
