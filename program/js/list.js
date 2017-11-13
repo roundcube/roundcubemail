@@ -1600,7 +1600,7 @@ drag_mouse_move: function(e)
     // append subject (of every row up to the limit) to the drag layer
     $.each(selection, function(i, uid) {
       if (i > limit) {
-        self.draglayer.append('...');
+        self.draglayer.append($('<div>').text('...'));
         return false;
       }
 
