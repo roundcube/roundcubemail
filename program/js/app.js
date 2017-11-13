@@ -5170,14 +5170,16 @@ function rcube_webmail()
     if (!this.gui_objects.attachmentlist)
       return false;
 
+    var label, indicator, li = $('<li>');
+
     if (!att.complete && this.env.loadingicon)
       att.html = '<img src="'+this.env.loadingicon+'" alt="" class="uploading" />' + att.html;
 
-    if (!att.complete && att.frame)
-      att.html = '<a title="'+this.get_label('cancel')+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\', \''+att.frame+'\');" href="#cancelupload" class="cancelupload">'
-        + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="'+this.get_label('cancel')+'" />' : this.get_label('cancel')) + '</a>' + att.html;
-
-    var indicator, li = $('<li>');
+    if (!att.complete && att.frame) {
+      label = this.get_label('cancel');
+      att.html = '<a title="'+label+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\', \''+att.frame+'\');" href="#cancelupload" class="cancelupload">'
+        + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="'+label+'" />' : '<span class="inner">' + label + '</span>') + '</a>' + att.html;
+    }
 
     li.attr('id', name)
       .addClass(att.classname)
