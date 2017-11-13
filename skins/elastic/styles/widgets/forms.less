@@ -651,11 +651,12 @@ html.touch .popupmenu.form {
 /*** Files upload widget with list of files, upload form and drop area ***/
 
 .file-upload {
-    // TODO
+    padding: 1rem 1rem 12rem;
+    margin: 0 1rem .25rem 1rem;
+    border-radius: .5rem;
+    border: .2rem dashed #ddd;
 
-    padding: 1em 1em 12em;
-    margin: 1em;
-    background-color: #f4f4f4;
+    // TODO background image
 
     .upload-form {
         text-align: center;
@@ -664,22 +665,43 @@ html.touch .popupmenu.form {
 
    .hint {
         margin-bottom: .5rem;
+        color: @color-form-hint;
     }
 
     .attachmentslist {
         li {
+            position: relative;
             display: flex;
+            padding-right: 1.8em;
 
             a.filename {
                 flex-grow: 1;
+            }
+
+            a.delete,
+            a.cancelupload {
+                position: absolute;
+                right: 0;
+
+                &:before {
+                    margin: 0;
+                }
+            }
+
+            .inner {
+                display: none;
             }
         }
     }
 
     &.droptarget {
-        &.hover {
-        }
         &.active {
+            border-color: darken(@color-toolbar-button-background-hover, 20%);
+        }
+
+        &.hover {
+            border-color: darken(@color-toolbar-button-background-hover, 20%);
+            background-color: @color-toolbar-button-background-hover;
         }
     }
 }

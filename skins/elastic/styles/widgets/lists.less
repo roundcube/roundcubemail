@@ -749,7 +749,6 @@ html.touch {
         &:before {
             &:extend(.font-icon-class);
             content: @fa-var-file-o;
-            line-height: @attachmentslist-item-height;
             height: @attachmentslist-item-height;
         }
 
@@ -844,32 +843,28 @@ html.touch {
             color: @color-list-secondary;
         }
 
-        /* assume the filename is always first */
-        a:first-child {
-            .overflow-ellipsis;
+        a {
+            text-decoration: none;
+            line-height: @attachmentslist-item-height;
+            height: @attachmentslist-item-height;
+
+            // assume the filename is always first
+            &:first-child {
+                .overflow-ellipsis;
+            }
         }
 
+        a.cancelupload:before,
         a.delete:before {
             &:extend(.font-icon-class);
             content: @fa-var-trash;
-            text-decoration: none;
             line-height: @attachmentslist-item-height;
             height: @attachmentslist-item-height;
         }
 
-        &.uploading {
-            &:before {
-                .animated-icon-class;
-                content: @fa-var-circle-o-notch;
-                line-height: @attachmentslist-item-height;
-                height: @attachmentslist-item-height;
-            }
-
-            a.cancelupload:before {
-                float: right;
-                &:extend(.font-icon-class);
-                content: @fa-var-remove;
-            }
+        &.uploading:before {
+            .animated-icon-class;
+            content: @fa-var-circle-o-notch;
         }
     }
 }
