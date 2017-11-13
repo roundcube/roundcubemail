@@ -720,14 +720,18 @@ function rcube_webmail()
 
     // check input before leaving compose step
     if (this.task == 'mail' && this.env.action == 'compose' && !this.env.server_error && command != 'save-pref'
-      && $.inArray(command, this.env.compose_commands) < 0
+      && $.inArray(command, this.env.compose_commands) < 0 && !this.compose_skip_unsavedcheck
     ) {
-      if (!this.env.is_sent && this.cmp_hash != this.compose_field_hash() && !confirm(this.get_label('notsentwarning')))
+      if (!this.env.is_sent && this.cmp_hash != this.compose_field_hash()) {
+        this.show_confirm(this.get_label('notsentwarning'), 'discard', function() {
+            // remove copy from local storage if compose screen is left intentionally
+            ref.remove_compose_data(ref.env.compose_id);
+            ref.compose_skip_unsavedcheck = true;
+            ref.command(command, props, obj, event);
+            return true;
+          });
         return false;
-
-      // remove copy from local storage if compose screen is left intentionally
-      this.remove_compose_data(this.env.compose_id);
-      this.compose_skip_unsavedcheck = true;
+      }
     }
 
     this.last_command = command;
@@ -3155,8 +3159,10 @@ function rcube_webmail()
     else {
       // if shift was pressed delete it immediately
       if ((list && list.modkey == SHIFT_KEY) || (event && rcube_event.get_modifier(event) == SHIFT_KEY)) {
-        if (confirm(this.get_label('deletemessagesconfirm')))
-          this.permanently_remove_messages();
+        this.show_confirm(this.get_label('deletemessagesconfirm'), 'delete', function() {
+            ref.permanently_remove_messages();
+            return true;
+          });
       }
       else
         this.move_messages(trash);
@@ -4036,17 +4042,19 @@ function rcube_webmail()
   {
     var lock, post_data = {_mbox: mbox};
 
-    if (!confirm(this.get_label('purgefolderconfirm')))
-      return false;
+    this.show_confirm(this.get_label('purgefolderconfirm'), 'delete', function() {
+        // lock interface if it's the active mailbox
+        if (mbox == ref.env.mailbox) {
+           lock = ref.set_busy(true, 'loading');
+           post_data._reload = 1;
+        }
 
-    // lock interface if it's the active mailbox
-    if (mbox == this.env.mailbox) {
-       lock = this.set_busy(true, 'loading');
-       post_data._reload = 1;
-    }
+        // send request to server
+        ref.http_post('purge', post_data, lock);
+        return true;
+      });
 
-    // send request to server
-    this.http_post('purge', post_data, lock);
+    return false;
   };
 
   // test if purge command is allowed
@@ -4762,8 +4770,11 @@ function rcube_webmail()
     }
 
     // submit delete request
-    if (key && confirm(this.get_label('deleteresponseconfirm'))) {
-      this.http_post('settings/delete-response', { _key: key }, false);
+    if (key) {
+      this.show_confirm(this.get_label('deleteresponseconfirm'), 'delete', function() {
+          ref.http_post('settings/delete-response', { _key: key }, false);
+          return true;
+        });
     }
   };
 
@@ -6204,10 +6215,12 @@ function rcube_webmail()
   {
     var undelete = this.env.source && this.env.address_sources[this.env.source].undelete;
 
-    if (!undelete && !confirm(this.get_label('deletecontactconfirm')))
-      return;
-
-    return this._with_selected_contacts('delete');
+    if (!undelete) {
+      this.show_confirm(this.get_label('deletecontactconfirm'), 'delete', function() {
+          ref._with_selected_contacts('delete');
+          return true;
+        });
+    }
   };
 
   this._with_selected_contacts = function(action, post_data)
@@ -6389,9 +6402,12 @@ function rcube_webmail()
 
   this.group_delete = function()
   {
-    if (this.env.group && confirm(this.get_label('deletegroupconfirm'))) {
-      var lock = this.set_busy(true, 'groupdeleting');
-      this.http_post('group-delete', {_source: this.env.source, _gid: this.env.group}, lock);
+    if (this.env.group) {
+      this.show_confirm(this.get_label('deletegroupconfirm'), 'delete', function() {
+          var lock = ref.set_busy(true, 'groupdeleting');
+          ref.http_post('group-delete', {_source: ref.env.source, _gid: ref.env.group}, lock);
+          return true;
+        });
     }
   };
 
@@ -6924,8 +6940,12 @@ function rcube_webmail()
       id = this.env.iid ? this.env.iid : selection[0];
 
     // submit request with appended token
-    if (id && confirm(this.get_label('deleteidentityconfirm')))
-      this.http_post('settings/delete-identity', { _iid: id }, true);
+    if (id) {
+      this.show_confirm(this.get_label('deleteidentityconfirm'), 'delete', function() {
+          ref.http_post('settings/delete-identity', { _iid: id }, true);
+          return true;
+        });
+    }
   };
 
   this.update_identity_row = function(id, name, add)
@@ -7088,8 +7108,11 @@ function rcube_webmail()
     if (!name)
       name = this.env.mailbox;
 
-    if (name && confirm(this.get_label('deletefolderconfirm'))) {
-      this.http_post('delete-folder', {_mbox: name}, this.set_busy(true, 'folderdeleting'));
+    if (name) {
+      this.show_confirm(this.get_label('deletefolderconfirm'), 'delete', function() {
+          ref.http_post('delete-folder', {_mbox: name}, ref.set_busy(true, 'folderdeleting'));
+          return true;
+        });
     }
   };
 
@@ -7878,10 +7901,17 @@ function rcube_webmail()
       buttons.unshift({
         text: this.get_label(save_label),
         'class': 'mainaction ' + save_label.replace(/^[^\.]+\./i, ''),
-        click: function(e, ui) { if (action_func(e)) close_func(e, ui, this); }
+        click: function(e, ui) { if (action_func(e, ref)) close_func(e, ui, this); }
       });
 
     return this.show_popup_dialog(content, title, buttons, options);
+  };
+
+  // simple_dialog() wrapper for confirm() type dialogs
+  this.show_confirm = function(content, button_label, action_func)
+  {
+    var options = { button: button_label || 'continue' };
+    return this.simple_dialog(content, this.get_label('confirmationtitle'), action_func, options);
   };
 
   // enable/disable buttons for page shifting

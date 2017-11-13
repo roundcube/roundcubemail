@@ -76,6 +76,7 @@ $messages['errormoving'] = 'Could not move the message(s).';
 $messages['errorcopying'] = 'Could not copy the message(s).';
 $messages['errordeleting'] = 'Could not delete the message(s).';
 $messages['errormarking'] = 'Could not mark the message(s).';
+$messages['confirmationtitle'] = 'Are you sure...';
 $messages['deletecontactconfirm']  = 'Do you really want to delete the selected contact(s)?';
 $messages['deletegroupconfirm']  = 'Do you really want to delete the selected group?';
 $messages['deletemessagesconfirm'] = 'Do you really want to delete the selected message(s)?';
