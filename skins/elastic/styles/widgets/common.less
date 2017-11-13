@@ -28,13 +28,20 @@ font.bold {
 
 #rcmdraglayer {
     min-width: 260px;
-    width: auto !important;
     width: 260px;
-    background: @color-drag-layer-background;
-    z-index: 250;
+    background-color: @color-drag-layer-background;
     color: @color-drag-layer;
-    white-space: nowrap;
+    box-shadow: 3px 3px 5px @color-drag-layer-shadow;
+    border-radius: .3rem;
+    z-index: 250;
     opacity: .92;
+    padding: .5rem;
+    white-space: nowrap;
+
+    div {
+        line-height: 1.6em;
+        .overflow-ellipsis;
+    }
 }
 
 .frame-content {
