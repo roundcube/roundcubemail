@@ -58,6 +58,13 @@ $config['enigma_attach_pubkey'] = false;
 // When set to 0 passwords will be stored for the whole session.
 $config['enigma_password_time'] = 5;
 
+// Trusted Root CAs
+// When this array is filled with root(!) CA files,
+// enigma will first try to use these CAs to verify a signature.
+// If this fails, verification with default system CAs will still be attempted,
+// but lower trust will be signalled to user.
+$config['enigma_smime_ca'] = array();
+
 // With this option you can lock composing options
 // of the plugin forcing the user to use configured settings.
 // The array accepts: 'sign', 'encrypt', 'pubkey'.
