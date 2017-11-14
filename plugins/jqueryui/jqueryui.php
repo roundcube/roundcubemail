@@ -94,9 +94,12 @@ class jqueryui extends rcube_plugin
             $css = "plugins/jqueryui/themes/larry/jquery.minicolors.css";
         }
 
+        $colors_theme = $rcube->config->get('jquery_ui_colors_theme', 'default');
+        $conf         = rcube_output::json_serialize(array('theme' => $colors_theme));
+
         $rcube->output->include_css($css);
         $rcube->output->add_header(html::tag('script', array('type' => "text/javascript", 'src' => $script)));
-        $rcube->output->add_script('$.fn.miniColors = $.fn.minicolors; $("input.colors").minicolors()', 'docready');
+        $rcube->output->add_script('$.fn.miniColors = $.fn.minicolors; $("input.colors").minicolors(' . $conf . ')', 'docready');
     }
 
     public static function tagedit()
