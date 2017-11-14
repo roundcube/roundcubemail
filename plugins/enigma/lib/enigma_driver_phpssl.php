@@ -67,6 +67,15 @@ class enigma_driver_phpssl extends enigma_driver
 
         $this->homedir = $homedir;
 
+        #XXX: Workaround for https://bugs.php.net/bug.php?id=75494
+        if (count($this->cainfo) > 0) {
+            $dummy_cert_dir = $this->homedir . '/' . 'cert_dummy';
+            if (!file_exists($dummy_cert_dir)) {
+                mkdir($dummy_cert_dir, 0700);
+            }
+            $this->cainfo[] = $dummy_cert_dir;
+        }
+
     }
 
     function encrypt($text, $keys, $sign_key = null)
