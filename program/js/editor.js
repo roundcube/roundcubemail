@@ -436,7 +436,7 @@ function rcube_text_editor(config, id)
     // replace selection in compose textarea
     else if (ed = rcube_find_object(this.id)) {
       var selection = $(ed).is(':focus') ? rcmail.get_input_selection(ed) : {start: 0, end: 0},
-        value = ed.value;
+        value = ed.value,
         pre = value.substring(0, selection.start),
         end = value.substring(selection.end, value.length);
 
