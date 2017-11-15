@@ -57,6 +57,7 @@ function rcube_elastic_ui()
     this.popup_init = popup_init;
     this.about_dialog = about_dialog;
     this.headers_dialog = headers_dialog;
+    this.headers_show = headers_show;
     this.spellmenu = spellmenu;
     this.searchmenu = searchmenu;
     this.headersmenu = headersmenu;
@@ -1894,6 +1895,15 @@ function rcube_elastic_ui()
             width: 600,
             height: 400
         });
+    };
+
+    /**
+     * Show/hide more mail headers (envelope)
+     */
+    function headers_show(button)
+    {
+        var headers = $(button).parent().prev();
+        headers[headers.is('.hidden') ? 'removeClass' : 'addClass']('hidden');
     };
 
     /**

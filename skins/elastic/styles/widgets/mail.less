@@ -15,7 +15,7 @@
 @mail-header-photo-height:      4rem;
 
 
-.content #message-header {
+#message-header {
     margin-bottom: 1rem;
 
     .subject {
@@ -74,6 +74,10 @@
                     content: @fa-var-wrench;
                 }
 
+                &.envelope:before {
+                    content: @fa-var-envelope-o;
+                }
+
                 &.html:before {
                     content: @fa-var-image;
                 }
@@ -82,6 +86,11 @@
                     content: @fa-var-align-justify;
                 }
             }
+        }
+
+        .message-partheaders {
+            margin: 0 !important;
+            padding: .25rem 0 !important;
         }
     }
 }
@@ -94,8 +103,8 @@
     }
 }
 
-div.message-part,
-div.message-htmlpart {
+.message-part,
+.message-htmlpart {
     // TODO
 
     div.rcmBody {
@@ -163,13 +172,13 @@ div.message-htmlpart {
     }
 }
 
-div.message-part {
+.message-part {
     span.sig {
         color: @color-mail-signature;
     }
 }
 
-div.message-partheaders {
+.message-partheaders {
     padding: .5rem 0;
     margin: .5rem 0;
     font-size: 90%;

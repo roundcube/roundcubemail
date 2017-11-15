@@ -26,8 +26,12 @@
 				<roundcube:object name="contactphoto" class="contactphoto" placeholder="/images/contactpic.png" />
 				<div class="header-content">
 					<roundcube:object name="messageSummary" addicon="virtual" class="header-subject" />
+					<div class="message-partheaders hidden">
+						<roundcube:object name="messageHeaders" class="headers-table" addicon="virtual" exclude="subject" max="10" />
+					</div>
 					<div class="header-links">
-						<a href="#all-headers" class="headers" onclick="return UI.headers_dialog()"><roundcube:label name="arialabelmessageheaders" /></a>
+						<a href="#headers" class="envelope" onclick="return UI.headers_show(this)"><roundcube:label name="envelope" /></a>
+						<a href="#all-headers" class="headers" onclick="return UI.headers_dialog()"><roundcube:label name="headers" /></a>
 						<roundcube:add_label name="arialabelmessageheaders" />
 						<roundcube:if condition="!env:message_context">
 							<roundcube:button command="extwin" type="link" class="extwin" innerClass="inner"
