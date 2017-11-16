@@ -159,9 +159,13 @@ p.image-attachment {
 
 // this is when image thumbnails are disabled
 fieldset.image-attachment {
+    margin-top: .5rem;
+
     legend {
         color: @color-form-hint;
-        font-size: 1rem;
+        font-size: .9rem;
+        border-top: 1px solid lighten(@color-mail-headers, 50%);
+        margin: 0;
     }
 
     img {
