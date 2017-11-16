@@ -80,19 +80,92 @@ font.bold {
     }
 }
 
-.image-attachment {
-    /* TODO */
+@image-attachment-size: 250px;
+
+// this is when image thumbnails are enabled
+p.image-attachment {
+    position: relative;
+    border: 1px solid @color-border;
+    border-radius: .3rem;
+    float: left;
+    margin: .5rem;
+    min-width: 47%;
+    min-height: @image-attachment-size;
+    // use flexbox to center the image
+    display: flex;
+    justify-content: center;
+
+    @media screen and (max-width: @screen-width-xs) {
+        float: none;
+    }
 
     .image-link {
+        align-self: center;
+        text-align: center;
+        margin: 1.6rem .5rem;
+    }
+
+    span {
+        color: @color-form-hint;
+        padding: 0 .5rem;
+        font-size: 90%;
+        white-space: nowrap;
+        position: absolute;
+        line-height: 1.5rem;
     }
 
     .image-filename {
+        .overflow-ellipsis;
+        left: 0;
+        top: 0;
+        right: 0;
+        padding-right: 4rem;
+        background-color: @color-message-background;
     }
 
     .image-filesize {
+        right: 0;
+        top: 0;
     }
 
     .attachment-links {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+
+        a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 0 .5rem;
+            line-height: 1.5rem;
+        }
+
+        a:before {
+            &:extend(.font-icon-class);
+            display: inline-block;
+        }
+
+        a.open:before {
+            content: @fa-var-external-link;
+        }
+
+        a.download:before {
+            content: @fa-var-download;
+        }
+    }
+}
+
+// this is when image thumbnails are disabled
+fieldset.image-attachment {
+    legend {
+        color: @color-form-hint;
+        font-size: 1rem;
+    }
+
+    img {
+        max-width: 100%;
     }
 }
 
