@@ -197,36 +197,34 @@ function rcmail_message_attachments($attrib)
         foreach ($MESSAGE->attachments as $attach_prop) {
             $filename = rcmail_attachment_name($attach_prop, true);
             $filesize = $RCMAIL->message_part_size($attach_prop);
+            $mimetype = rcmail_fix_mimetype($attach_prop->mimetype);
+            $class    = rcube_utils::file2class($mimetype, $filename);
+            $id       = 'attach' . $attach_prop->mime_id;
+            $size     = html::span('attachment-size', '(' . rcube::Q($filesize) . ')');
 
-            if ($PRINT_MODE) {
-                $ol .= html::tag('li', array('id' => 'attach' . $attach_prop->mime_id),
-                    rcube::Q(sprintf("%s (%s)", $filename, $filesize)));
+            if ($attrib['maxlength'] && mb_strlen($filename) > $attrib['maxlength']) {
+                $title    = $filename;
+                $filename = abbreviate_string($filename, $attrib['maxlength']);
             }
             else {
-                if ($attrib['maxlength'] && mb_strlen($filename) > $attrib['maxlength']) {
-                    $title    = $filename;
-                    $filename = abbreviate_string($filename, $attrib['maxlength']);
-                }
-                else {
-                    $title = '';
-                }
+                $title = '';
+            }
 
-                $size     = ' ' . html::span('attachment-size', '(' . rcube::Q($filesize) . ')');
-                $mimetype = rcmail_fix_mimetype($attach_prop->mimetype);
-                $class    = rcube_utils::file2class($mimetype, $filename);
-                $id       = 'attach' . $attach_prop->mime_id;
-                $link     = html::a(array(
+            $item = rcube::Q($filename) . ' ' . $size;
+
+            if (!$PRINT_MODE) {
+                $item = html::a(array(
                     'href'        => $MESSAGE->get_part_url($attach_prop->mime_id, false),
                     'onclick'     => sprintf('return %s.command(\'load-attachment\',\'%s\',this)',
                         rcmail_output::JS_OBJECT_NAME, $attach_prop->mime_id),
                     'onmouseover' => $title ? '' : 'rcube_webmail.long_subject_title_ex(this, 0)',
                     'title'       => $title,
-                    ), rcube::Q($filename) . $size);
-
-                $ol .= html::tag('li', array('class' => $class, 'id' => $id), $link);
+                    ), $item);
 
                 $attachments[$attach_prop->mime_id] = $mimetype;
             }
+
+            $ol .= html::tag('li', array('class' => $class, 'id' => $id), $item);
         }
 
         $out = html::tag('ul', $attrib, $ol, html::$common_attrib);
