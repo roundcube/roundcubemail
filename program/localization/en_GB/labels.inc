@@ -363,6 +363,7 @@ $labels['save']   = 'Save';
 $labels['delete'] = 'Delete';
 $labels['discard'] = 'Discard';
 $labels['continue'] = 'Continue';
+$labels['ok'] = 'OK';
 $labels['rename'] = 'Rename';
 $labels['addphoto'] = 'Add';
 $labels['replacephoto'] = 'Replace';

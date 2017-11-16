@@ -948,8 +948,10 @@ function rcube_webmail()
         if (form) {
           // user prefs
           if ((input = $("[name='_pagesize']", form)) && input.length && isNaN(parseInt(input.val()))) {
-            alert(this.get_label('nopagesizewarning'));
-            input.focus();
+            this.show_alert(this.get_label('nopagesizewarning'), function() {
+              input.focus();
+              return true;
+            });
             break;
           }
           // contacts/identities
@@ -961,8 +963,10 @@ function rcube_webmail()
             else if (this.task == 'settings' && (this.env.identities_level % 2) == 0  &&
               (input = $("[name='_email']", form)) && input.length && !rcube_check_email(input.val())
             ) {
-              alert(this.get_label('noemailwarning'));
-              input.focus();
+              this.show_alert(this.get_label('noemailwarning'), function() {
+                input.focus();
+                return true;
+              });
               break;
             }
           }
@@ -1203,7 +1207,7 @@ function rcube_webmail()
 
         if (!(flag = this.upload_file(props || this.gui_objects.uploadform, 'upload'))) {
           if (flag !== false)
-            alert(this.get_label('selectimportfile'));
+            this.show_alert(this.get_label('selectimportfile'));
           aborted = true;
         }
         break;
@@ -1355,7 +1359,7 @@ function rcube_webmail()
         if (!(flag = this.upload_file(form, 'import', importlock))) {
           this.set_busy(false, null, importlock);
           if (flag !== false)
-            alert(this.get_label('selectimportfile'));
+            this.show_alert(this.get_label('selectimportfile'));
           aborted = true;
         }
         break;
@@ -1370,7 +1374,7 @@ function rcube_webmail()
             if (form) {
               var lock, file = win.$('#rcmimportfile')[0];
               if (file && !file.value) {
-                alert(win.rcmail.get_label('selectimportfile'));
+                win.rcmail.show_alert(win.rcmail.get_label('selectimportfile'));
                 return;
               }
 
@@ -3710,7 +3714,7 @@ function rcube_webmail()
 
         // notify user about loosing attachments
         if (ref.env.attachments && !$.isEmptyObject(ref.env.attachments)) {
-          alert(ref.get_label('encryptnoattachments'));
+          ref.show_alert(ref.get_label('encryptnoattachments'));
 
           $.each(ref.env.attachments, function(name, attach) {
             ref.remove_from_attachment_list(name);
@@ -3767,8 +3771,10 @@ function rcube_webmail()
 
       if (!isvalid) {
         if (!recipients.length) {
-          alert(ref.get_label('norecipientwarning'));
-          $("[name='_to']").focus();
+          ref.show_alert(ref.get_label('norecipientwarning'), function() {
+            $("[name='_to']").focus();
+            return true;
+          });
         }
         return false;
       }
@@ -4002,7 +4008,7 @@ function rcube_webmail()
           // import to keyring
           ref.mailvelope_keyring.importPublicKey(armored).then(function(status) {
             if (status === 'REJECTED') {
-              // alert(ref.get_label('Key import was rejected'));
+              // ref.show_alert(ref.get_label('Key import was rejected'));
             }
             else {
               var $key = keyid.substr(-8).toUpperCase();
@@ -4523,7 +4529,7 @@ function rcube_webmail()
     // check if all files has been uploaded
     for (key in this.env.attachments) {
       if (typeof this.env.attachments[key] === 'object' && !this.env.attachments[key].complete) {
-        alert(this.get_label('notuploadedwarning'));
+        this.show_alert(this.get_label('notuploadedwarning'));
         return false;
       }
     }
@@ -4605,15 +4611,19 @@ function rcube_webmail()
 
     // check sender (if have no identities)
     if (input_from.prop('type') == 'text' && !rcube_check_email(input_from.val(), true)) {
-      alert(this.get_label('nosenderwarning'));
-      input_from.focus();
+      this.show_alert(this.get_label('nosenderwarning'), function() {
+        input_from.focus();
+        return true;
+      });
       return false;
     }
 
     // check for empty recipient
     if (!rcube_check_email(get_recipients([input_to, input_cc, input_bcc]), true)) {
-      alert(this.get_label('norecipientwarning'));
-      input_to.focus();
+      this.show_alert(this.get_label('norecipientwarning'), function() {
+        input_to.focus();
+        return true;
+      });
       return false;
     }
 
@@ -7905,6 +7915,20 @@ function rcube_webmail()
       });
 
     return this.show_popup_dialog(content, title, buttons, options);
+  };
+
+  // show_popup_dialog() wrapper for alert() type dialogs
+  this.show_alert = function(content, action_func)
+  {
+    var close_func = function(e, ui, dialog) { (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close'); },
+      buttons = [{
+        text: ref.get_label('ok'),
+        'class': 'mainaction ok',
+        click: function(e, ui) { if (!action_func || action_func(e, ref)) close_func(e, ui, this); }
+      }],
+      options = { close: buttons[0].click };
+
+    return this.show_popup_dialog(content, this.get_label('alerttitle'), buttons, options);
   };
 
   // simple_dialog() wrapper for confirm() type dialogs
