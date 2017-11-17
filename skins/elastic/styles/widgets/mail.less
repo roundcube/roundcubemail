@@ -44,26 +44,26 @@
             line-height: @mail-header-photo-height/2;
 
             & > span {
-                line-height: normal;
+                line-height: 1.5;
                 display: inline-block;
                 vertical-align: middle;
             }
         }
 
         div.header-links {
-            line-height: @mail-header-photo-height/2;
-
             a {
                 color: #aaa;
                 font-size: 90%;
                 margin-right: .5rem;
                 text-decoration: none;
                 white-space: nowrap;
+                line-height: 1.5;
+                display: inline-block;
 
                 &:before {
                     &:extend(.font-icon-class);
+                    display: inline-block;
                     float: none;
-                    display: inline;
                 }
 
                 &.extwin:before {
@@ -84,6 +84,10 @@
 
                 &.plain:before {
                     content: @fa-var-align-justify;
+                }
+
+                &.zipdownload:before {
+                    content: @fa-var-download;
                 }
             }
         }

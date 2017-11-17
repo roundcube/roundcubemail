@@ -283,6 +283,9 @@ function rcube_elastic_ui()
                 }
             });
         }
+
+        // move "Download all attachments" button into a better location
+        $('#attachment-list + a.zipdownload').appendTo('.header-links');
     };
 
     /**
