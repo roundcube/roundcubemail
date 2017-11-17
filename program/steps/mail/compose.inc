@@ -711,7 +711,7 @@ function rcmail_create_reply_body($body, $bodyIsHtml)
     else {
         $prefix = rcmail_get_reply_header($MESSAGE);
         if ($bodyIsHtml) {
-            $prefix = '<p>' . rcube::Q($prefix) . '</p>';
+            $prefix = '<p id="reply-intro">' . rcube::Q($prefix) . '</p>';
         }
         else {
             $prefix .= "\n";
