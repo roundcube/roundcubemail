@@ -164,6 +164,7 @@ $messages['smtpautherror'] = 'SMTP Error ($code): Authentication failed.';
 $messages['smtpfromerror'] = 'SMTP Error ($code): Failed to set sender "$from" ($msg).';
 $messages['smtptoerror'] = 'SMTP Error ($code): Failed to add recipient "$to" ($msg).';
 $messages['smtprecipientserror'] = 'SMTP Error: Unable to parse recipients list.';
+$messages['smtpsizeerror'] = 'SMTP Error: Message size exceeds server limit ($limit)';
 $messages['smtperror'] = 'SMTP Error: $msg';
 $messages['emailformaterror'] = 'Invalid email address: $email';
 $messages['toomanyrecipients'] = 'Too many recipients. Reduce the number of recipients to $max.';
