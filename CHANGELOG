@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Display value of the SMTP message size limit in the error message (#6032)
 - Skip redundant INSERT query on successful logon when using PHP7
 - Replace display_version with display_product_version (#5904)
 - Extend disabled_actions config so it accepts also button names (#5903)

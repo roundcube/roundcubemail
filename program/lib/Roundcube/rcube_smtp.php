@@ -300,15 +300,37 @@ class rcube_smtp
         // Send the message's headers and the body as SMTP data.
         $result = $this->conn->data($data, $text_headers);
         if (is_a($result, 'PEAR_Error')) {
-            $err = $this->conn->getResponse();
+            $err       = $this->conn->getResponse();
+            $err_label = 'smtperror';
+            $err_vars  = array();
+
             if (!in_array($err[0], array(354, 250, 221))) {
                 $msg = sprintf('[%d] %s', $err[0], $err[1]);
             }
             else {
                 $msg = $result->getMessage();
+
+                if (strpos($msg, 'size exceeds')) {
+                    $err_label = 'smtpsizeerror';
+                    $exts      = $this->conn->getServiceExtensions();
+                    $limit     = $exts['SIZE'];
+
+                    if ($limit) {
+                        $msg .= " (Limit: $limit)";
+                        $rcube = rcube::get_instance();
+                        if (method_exists($rcube, 'show_bytes')) {
+                            $limit = $rcube->show_bytes($limit);
+                        }
+
+                        $err_vars['limit'] = $limit;
+                        $err_label         = 'smtpsizeerror';
+                    }
+                }
             }
 
-            $this->error = array('label' => 'smtperror', 'vars' => array('msg' => $msg));
+            $err_vars['msg'] = $msg;
+
+            $this->error = array('label' => $err_label, 'vars' => $err_vars);
             $this->response[] = "Failed to send data. " . $msg;
             $this->reset();
             return false;
