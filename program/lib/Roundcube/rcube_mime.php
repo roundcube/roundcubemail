@@ -212,9 +212,21 @@ class rcube_mime
 
                 // Decode and join encoded-word's chunks
                 if ($encoding == 'B' || $encoding == 'b') {
-                    // base64 must be decoded a segment at a time
-                    for ($i=0; $i<$count; $i++)
-                        $text .= base64_decode($tmp[$i]);
+                    $rest  = '';
+                    // base64 must be decoded a segment at a time.
+                    // However, there are broken implementations that continue
+                    // in the following word, we'll handle that (#6048)
+                    for ($i=0; $i<$count; $i++) {
+                        $chunk  = $rest . $tmp[$i];
+                        $length = strlen($chunk);
+                        if ($length % 4) {
+                            $length = floor($length / 4) * 4;
+                            $rest   = substr($chunk, $length);
+                            $chunk  = substr($chunk, 0, $length);
+                        }
+
+                        $text .= base64_decode($chunk);
+                    }
                 }
                 else { //if ($encoding == 'Q' || $encoding == 'q') {
                     // quoted printable can be combined and processed at once

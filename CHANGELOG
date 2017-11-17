@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix broken long filenames when using imap4d server - workaround server bug (#6048)
+
 RELEASE 1.3.3
 -------------
 - Fix decoding of mailto: links with + character in HTML messages (#6020)
