@@ -122,7 +122,7 @@ rcube_webmail.prototype.managesieve_del = function()
 {
   var id = this.filters_list.get_single_selection();
 
-  this.show_confirm(this.get_label('managesieve.filterdeleteconfirm'), 'delete', function() {
+  this.confirm_dialog(this.get_label('managesieve.filterdeleteconfirm'), 'delete', function() {
       var lock = rcmail.set_busy(true, 'loading');
       rcmail.http_post('plugin.managesieve-action',
         '_act=delete&_fid='+rcmail.filters_list.rows[id].uid, lock);
@@ -223,7 +223,7 @@ rcube_webmail.prototype.managesieve_setdel = function()
   var id = this.filtersets_list.get_single_selection(),
     script = this.env.filtersets[id];
 
-  this.show_confirm(this.get_label('managesieve.setdeleteconfirm'), 'delete', function() {
+  this.confirm_dialog(this.get_label('managesieve.setdeleteconfirm'), 'delete', function() {
       lock = rcmail.set_busy(true, 'loading'),
       rcmail.http_post('plugin.managesieve-action', '_act=setdel&_set='+urlencode(script), lock);
       return true;
@@ -540,7 +540,7 @@ rcube_webmail.prototype.managesieve_ruledel = function(id)
   if ($('#ruledel'+id).hasClass('disabled'))
     return;
 
-  this.show_confirm(this.get_label('managesieve.ruledeleteconfirm'), 'delete', function() {
+  this.confirm_dialog(this.get_label('managesieve.ruledeleteconfirm'), 'delete', function() {
       var row = document.getElementById('rulerow'+id);
       row.parentNode.removeChild(row);
       rcmail.managesieve_formbuttons(document.getElementById('rules'));
@@ -576,7 +576,7 @@ rcube_webmail.prototype.managesieve_actiondel = function(id)
   if ($('#actiondel'+id).hasClass('disabled'))
     return;
 
-  this.show_confirm(this.get_label('managesieve.actiondeleteconfirm'), 'delete', function() {
+  this.confirm_dialog(this.get_label('managesieve.actiondeleteconfirm'), 'delete', function() {
       var row = document.getElementById('actionrow'+id);
       row.parentNode.removeChild(row);
       rcmail.managesieve_formbuttons(document.getElementById('actions'));
@@ -1117,7 +1117,7 @@ rcube_webmail.prototype.managesieve_create = function(force)
     // check if there's at least one checkbox checked
     var hdrs = $('input[name="headers[]"]:checked', dialog);
     if (!hdrs.length) {
-      rcmail.show_alert(rcmail.get_label('managesieve.nodata'));
+      rcmail.alert_dialog(rcmail.get_label('managesieve.nodata'));
       return;
     }
 

@@ -30,25 +30,25 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             input_confpasswd = rcube_find_object('_confpasswd');
 
       if (input_curpasswd && input_curpasswd.value == '') {
-          rcmail.show_alert(rcmail.get_label('nocurpassword', 'password'), function() {
+          rcmail.alert_dialog(rcmail.get_label('nocurpassword', 'password'), function() {
               input_curpasswd.focus();
               return true;
             });
       }
       else if (input_newpasswd && input_newpasswd.value == '') {
-          rcmail.show_alert(rcmail.get_label('nopassword', 'password'), function() {
+          rcmail.alert_dialog(rcmail.get_label('nopassword', 'password'), function() {
               input_newpasswd.focus();
               return true;
             });
       }
       else if (input_confpasswd && input_confpasswd.value == '') {
-          rcmail.show_alert(rcmail.get_label('nopassword', 'password'), function() {
+          rcmail.alert_dialog(rcmail.get_label('nopassword', 'password'), function() {
               input_confpasswd.focus();
               return true;
             });
       }
       else if (input_newpasswd && input_confpasswd && input_newpasswd.value != input_confpasswd.value) {
-          rcmail.show_alert(rcmail.get_label('passwordinconsistency', 'password'), function() {
+          rcmail.alert_dialog(rcmail.get_label('passwordinconsistency', 'password'), function() {
               input_newpasswd.focus();
               return true;
             });

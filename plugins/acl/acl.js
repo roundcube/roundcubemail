@@ -55,7 +55,7 @@ rcube_webmail.prototype.acl_delete = function()
     var users = this.acl_get_usernames();
 
     if (users && users.length) {
-      this.show_confirm(this.get_label('acl.deleteconfirm'), 'delete', function() {
+      this.confirm_dialog(this.get_label('acl.deleteconfirm'), 'delete', function() {
           rcmail.http_post('settings/plugin.acl', {
             _act: 'delete',
             _user: users.join(','),
@@ -84,11 +84,11 @@ rcube_webmail.prototype.acl_save = function()
     }
 
     if (!user) {
-        this.show_alert(this.get_label('acl.nouser'));
+        this.alert_dialog(this.get_label('acl.nouser'));
         return;
     }
     if (!rights) {
-        this.show_alert(this.get_label('acl.norights'));
+        this.alert_dialog(this.get_label('acl.norights'));
         return;
     }
 
