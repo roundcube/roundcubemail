@@ -723,7 +723,7 @@ function rcube_webmail()
       && $.inArray(command, this.env.compose_commands) < 0 && !this.compose_skip_unsavedcheck
     ) {
       if (!this.env.is_sent && this.cmp_hash != this.compose_field_hash()) {
-        this.confirm_dialog(this.get_label('notsentwarning'), 'discard', function() {
+        this.confirm_dialog(this.get_label('notsentwarning'), 'discard', function(e, ref) {
             // remove copy from local storage if compose screen is left intentionally
             ref.remove_compose_data(ref.env.compose_id);
             ref.compose_skip_unsavedcheck = true;
@@ -3163,7 +3163,7 @@ function rcube_webmail()
     else {
       // if shift was pressed delete it immediately
       if ((list && list.modkey == SHIFT_KEY) || (event && rcube_event.get_modifier(event) == SHIFT_KEY)) {
-        this.confirm_dialog(this.get_label('deletemessagesconfirm'), 'delete', function() {
+        this.confirm_dialog(this.get_label('deletemessagesconfirm'), 'delete', function(e, ref) {
             ref.permanently_remove_messages();
             return true;
           });
@@ -4048,7 +4048,7 @@ function rcube_webmail()
   {
     var lock, post_data = {_mbox: mbox};
 
-    this.confirm_dialog(this.get_label('purgefolderconfirm'), 'delete', function() {
+    this.confirm_dialog(this.get_label('purgefolderconfirm'), 'delete', function(e, ref) {
         // lock interface if it's the active mailbox
         if (mbox == ref.env.mailbox) {
            lock = ref.set_busy(true, 'loading');
@@ -4781,7 +4781,7 @@ function rcube_webmail()
 
     // submit delete request
     if (key) {
-      this.confirm_dialog(this.get_label('deleteresponseconfirm'), 'delete', function() {
+      this.confirm_dialog(this.get_label('deleteresponseconfirm'), 'delete', function(e, ref) {
           ref.http_post('settings/delete-response', { _key: key }, false);
           return true;
         });
@@ -6226,7 +6226,7 @@ function rcube_webmail()
     var undelete = this.env.source && this.env.address_sources[this.env.source].undelete;
 
     if (!undelete) {
-      this.confirm_dialog(this.get_label('deletecontactconfirm'), 'delete', function() {
+      this.confirm_dialog(this.get_label('deletecontactconfirm'), 'delete', function(e, ref) {
           ref._with_selected_contacts('delete');
           return true;
         });
@@ -6413,7 +6413,7 @@ function rcube_webmail()
   this.group_delete = function()
   {
     if (this.env.group) {
-      this.confirm_dialog(this.get_label('deletegroupconfirm'), 'delete', function() {
+      this.confirm_dialog(this.get_label('deletegroupconfirm'), 'delete', function(e, ref) {
           var lock = ref.set_busy(true, 'groupdeleting');
           ref.http_post('group-delete', {_source: ref.env.source, _gid: ref.env.group}, lock);
           return true;
@@ -6951,7 +6951,7 @@ function rcube_webmail()
 
     // submit request with appended token
     if (id) {
-      this.confirm_dialog(this.get_label('deleteidentityconfirm'), 'delete', function() {
+      this.confirm_dialog(this.get_label('deleteidentityconfirm'), 'delete', function(e, ref) {
           ref.http_post('settings/delete-identity', { _iid: id }, true);
           return true;
         });
@@ -7119,7 +7119,7 @@ function rcube_webmail()
       name = this.env.mailbox;
 
     if (name) {
-      this.confirm_dialog(this.get_label('deletefolderconfirm'), 'delete', function() {
+      this.confirm_dialog(this.get_label('deletefolderconfirm'), 'delete', function(e, ref) {
           ref.http_post('delete-folder', {_mbox: name}, ref.set_busy(true, 'folderdeleting'));
           return true;
         });
@@ -7898,9 +7898,11 @@ function rcube_webmail()
     var title = this.get_label(title),
       cancel_label = (options || {}).cancel_button || 'cancel',
       save_label = (options || {}).button || 'save',
+      save_class = (options || {}).button_class || save_label.replace(/^[^\.]+\./i, ''),
       close_func = function(e, ui, dialog) { (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close'); },
+      obj = this.is_framed() ? parent.rcmail : this,
       buttons = [{
-        text: ref.get_label(cancel_label),
+        text: this.get_label(cancel_label),
         'class': 'cancel',
         click: close_func
       }];
@@ -7910,32 +7912,39 @@ function rcube_webmail()
     else
       buttons.unshift({
         text: this.get_label(save_label),
-        'class': 'mainaction ' + save_label.replace(/^[^\.]+\./i, ''),
-        click: function(e, ui) { if (action_func(e, ref)) close_func(e, ui, this); }
+        'class': 'mainaction ' + save_class,
+        click: function(e, ui) { if (action_func(e, obj)) close_func(e, ui, this); }
       });
 
     return this.show_popup_dialog(content, title, buttons, options);
   };
 
   // show_popup_dialog() wrapper for alert() type dialogs
-  this.alert_dialog = function(content, action_func)
+  this.alert_dialog = function(content, action_func, options)
   {
-    var close_func = function(e, ui, dialog) { (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close'); },
+    var title = (options || {}).title || 'alerttitle',
+      close_func = function(e, ui, dialog) { (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close'); },
+      obj = this.is_framed() ? parent.rcmail : this,
       buttons = [{
-        text: ref.get_label('ok'),
+        text: this.get_label('ok'),
         'class': 'mainaction ok',
-        click: function(e, ui) { if (!action_func || action_func(e, ref)) close_func(e, ui, this); }
+        click: function(e, ui) { if (!action_func || action_func(e, obj)) close_func(e, ui, this); }
       }],
-      options = { close: buttons[0].click };
+      args = { close: buttons[0].click };
 
-    return this.show_popup_dialog(content, this.get_label('alerttitle'), buttons, options);
+    return this.show_popup_dialog(content, this.get_label(title), buttons, args);
   };
 
   // simple_dialog() wrapper for confirm() type dialogs
-  this.confirm_dialog = function(content, button_label, action_func)
+  this.confirm_dialog = function(content, button_label, action_func, options)
   {
-    var options = { button: button_label || 'continue' };
-    return this.simple_dialog(content, this.get_label('confirmationtitle'), action_func, options);
+    var title = (options || {}).title || 'confirmationtitle',
+      args = {
+        button: button_label || 'continue',
+        button_class: (options || {}).button_class || ''
+      };
+
+    return this.simple_dialog(content, this.get_label(title), action_func, args);
   };
 
   // enable/disable buttons for page shifting

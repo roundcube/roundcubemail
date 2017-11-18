@@ -122,10 +122,10 @@ rcube_webmail.prototype.managesieve_del = function()
 {
   var id = this.filters_list.get_single_selection();
 
-  this.confirm_dialog(this.get_label('managesieve.filterdeleteconfirm'), 'delete', function() {
-      var lock = rcmail.set_busy(true, 'loading');
-      rcmail.http_post('plugin.managesieve-action',
-        '_act=delete&_fid='+rcmail.filters_list.rows[id].uid, lock);
+  this.confirm_dialog(this.get_label('managesieve.filterdeleteconfirm'), 'delete', function(e, ref) {
+      var lock = ref.set_busy(true, 'loading');
+      ref.http_post('plugin.managesieve-action',
+        '_act=delete&_fid='+ref.filters_list.rows[id].uid, lock);
       return true;
     });
 };
@@ -223,9 +223,9 @@ rcube_webmail.prototype.managesieve_setdel = function()
   var id = this.filtersets_list.get_single_selection(),
     script = this.env.filtersets[id];
 
-  this.confirm_dialog(this.get_label('managesieve.setdeleteconfirm'), 'delete', function() {
-      lock = rcmail.set_busy(true, 'loading'),
-      rcmail.http_post('plugin.managesieve-action', '_act=setdel&_set='+urlencode(script), lock);
+  this.confirm_dialog(this.get_label('managesieve.setdeleteconfirm'), 'delete', function(e, ref) {
+      lock = ref.set_busy(true, 'loading'),
+      ref.http_post('plugin.managesieve-action', '_act=setdel&_set='+urlencode(script), lock);
       return true;
     });
 };
@@ -540,10 +540,10 @@ rcube_webmail.prototype.managesieve_ruledel = function(id)
   if ($('#ruledel'+id).hasClass('disabled'))
     return;
 
-  this.confirm_dialog(this.get_label('managesieve.ruledeleteconfirm'), 'delete', function() {
+  this.confirm_dialog(this.get_label('managesieve.ruledeleteconfirm'), 'delete', function(e, ref) {
       var row = document.getElementById('rulerow'+id);
       row.parentNode.removeChild(row);
-      rcmail.managesieve_formbuttons(document.getElementById('rules'));
+      ref.managesieve_formbuttons(document.getElementById('rules'));
       return true;
     });
 };
@@ -576,10 +576,10 @@ rcube_webmail.prototype.managesieve_actiondel = function(id)
   if ($('#actiondel'+id).hasClass('disabled'))
     return;
 
-  this.confirm_dialog(this.get_label('managesieve.actiondeleteconfirm'), 'delete', function() {
+  this.confirm_dialog(this.get_label('managesieve.actiondeleteconfirm'), 'delete', function(e, ref) {
       var row = document.getElementById('actionrow'+id);
       row.parentNode.removeChild(row);
-      rcmail.managesieve_formbuttons(document.getElementById('actions'));
+      ref.managesieve_formbuttons(document.getElementById('actions'));
       return true;
     });
 };
