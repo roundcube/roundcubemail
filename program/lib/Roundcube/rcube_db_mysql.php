@@ -158,19 +158,34 @@ class rcube_db_mysql extends rcube_db
     {
         // get tables if not cached
         if ($this->tables === null) {
-            // first fetch current database name
-            $d = $this->query("SELECT database()");
-            $d = $this->fetch_array($d);
-
-            // get list of tables in current database
             $q = $this->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
                 . " WHERE TABLE_SCHEMA = ? AND TABLE_TYPE = 'BASE TABLE'"
-                . " ORDER BY TABLE_NAME", $d ? $d[0] : '');
+                . " ORDER BY TABLE_NAME", $this->db_dsnw_array['database']);
 
             $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : array();
         }
 
         return $this->tables;
+    }
+
+    /**
+     * Returns list of columns in database table
+     *
+     * @param string $table Table name
+     *
+     * @return array List of table cols
+     */
+    public function list_cols($table)
+    {
+        $q = $this->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS"
+            . " WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?",
+            $this->db_dsnw_array['database'], $table);
+
+        if ($q) {
+            return $q->fetchAll(PDO::FETCH_COLUMN, 0);
+        }
+
+        return array();
     }
 
     /**
