@@ -141,6 +141,11 @@ th {
   text-align: left;
 }
 
+td > label {
+    min-width: 6em;
+    display: inline-block;
+}
+
 ul li {
   margin: 0.3em 0 0.4em -1em;
 }
