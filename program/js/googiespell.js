@@ -140,7 +140,7 @@ this.decorateTextarea = function(id)
         this.checkSpellingState();
     }
     else if (this.report_ta_not_found) {
-        rcmail.show_alert('Text area not found');
+        rcmail.alert_dialog('Text area not found');
     }
 };
 
@@ -257,7 +257,7 @@ this.spellCheck = function(ignore)
                 ref.custom_ajax_error(ref);
             }
             else {
-                rcmail.show_alert('An error was encountered on the server. Please try again later.');
+                rcmail.alert_dialog('An error was encountered on the server. Please try again later.');
             }
             if (ref.main_controller) {
                 $(ref.spell_span).remove();
@@ -291,7 +291,7 @@ this.learnWord = function(word, id)
                 ref.custom_ajax_error(ref);
             }
             else {
-                rcmail.show_alert('An error was encountered on the server. Please try again later.');
+                rcmail.alert_dialog('An error was encountered on the server. Please try again later.');
             }
         },
         success: function(data) {

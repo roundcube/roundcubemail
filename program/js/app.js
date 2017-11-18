@@ -723,7 +723,7 @@ function rcube_webmail()
       && $.inArray(command, this.env.compose_commands) < 0 && !this.compose_skip_unsavedcheck
     ) {
       if (!this.env.is_sent && this.cmp_hash != this.compose_field_hash()) {
-        this.show_confirm(this.get_label('notsentwarning'), 'discard', function() {
+        this.confirm_dialog(this.get_label('notsentwarning'), 'discard', function() {
             // remove copy from local storage if compose screen is left intentionally
             ref.remove_compose_data(ref.env.compose_id);
             ref.compose_skip_unsavedcheck = true;
@@ -948,7 +948,7 @@ function rcube_webmail()
         if (form) {
           // user prefs
           if ((input = $("[name='_pagesize']", form)) && input.length && isNaN(parseInt(input.val()))) {
-            this.show_alert(this.get_label('nopagesizewarning'), function() {
+            this.alert_dialog(this.get_label('nopagesizewarning'), function() {
               input.focus();
               return true;
             });
@@ -963,7 +963,7 @@ function rcube_webmail()
             else if (this.task == 'settings' && (this.env.identities_level % 2) == 0  &&
               (input = $("[name='_email']", form)) && input.length && !rcube_check_email(input.val())
             ) {
-              this.show_alert(this.get_label('noemailwarning'), function() {
+              this.alert_dialog(this.get_label('noemailwarning'), function() {
                 input.focus();
                 return true;
               });
@@ -1207,7 +1207,7 @@ function rcube_webmail()
 
         if (!(flag = this.upload_file(props || this.gui_objects.uploadform, 'upload'))) {
           if (flag !== false)
-            this.show_alert(this.get_label('selectimportfile'));
+            this.alert_dialog(this.get_label('selectimportfile'));
           aborted = true;
         }
         break;
@@ -1359,7 +1359,7 @@ function rcube_webmail()
         if (!(flag = this.upload_file(form, 'import', importlock))) {
           this.set_busy(false, null, importlock);
           if (flag !== false)
-            this.show_alert(this.get_label('selectimportfile'));
+            this.alert_dialog(this.get_label('selectimportfile'));
           aborted = true;
         }
         break;
@@ -1374,7 +1374,7 @@ function rcube_webmail()
             if (form) {
               var lock, file = win.$('#rcmimportfile')[0];
               if (file && !file.value) {
-                win.rcmail.show_alert(win.rcmail.get_label('selectimportfile'));
+                win.rcmail.alert_dialog(win.rcmail.get_label('selectimportfile'));
                 return;
               }
 
@@ -3163,7 +3163,7 @@ function rcube_webmail()
     else {
       // if shift was pressed delete it immediately
       if ((list && list.modkey == SHIFT_KEY) || (event && rcube_event.get_modifier(event) == SHIFT_KEY)) {
-        this.show_confirm(this.get_label('deletemessagesconfirm'), 'delete', function() {
+        this.confirm_dialog(this.get_label('deletemessagesconfirm'), 'delete', function() {
             ref.permanently_remove_messages();
             return true;
           });
@@ -3714,7 +3714,7 @@ function rcube_webmail()
 
         // notify user about loosing attachments
         if (ref.env.attachments && !$.isEmptyObject(ref.env.attachments)) {
-          ref.show_alert(ref.get_label('encryptnoattachments'));
+          ref.alert_dialog(ref.get_label('encryptnoattachments'));
 
           $.each(ref.env.attachments, function(name, attach) {
             ref.remove_from_attachment_list(name);
@@ -3771,7 +3771,7 @@ function rcube_webmail()
 
       if (!isvalid) {
         if (!recipients.length) {
-          ref.show_alert(ref.get_label('norecipientwarning'), function() {
+          ref.alert_dialog(ref.get_label('norecipientwarning'), function() {
             $("[name='_to']").focus();
             return true;
           });
@@ -4008,7 +4008,7 @@ function rcube_webmail()
           // import to keyring
           ref.mailvelope_keyring.importPublicKey(armored).then(function(status) {
             if (status === 'REJECTED') {
-              // ref.show_alert(ref.get_label('Key import was rejected'));
+              // ref.alert_dialog(ref.get_label('Key import was rejected'));
             }
             else {
               var $key = keyid.substr(-8).toUpperCase();
@@ -4048,7 +4048,7 @@ function rcube_webmail()
   {
     var lock, post_data = {_mbox: mbox};
 
-    this.show_confirm(this.get_label('purgefolderconfirm'), 'delete', function() {
+    this.confirm_dialog(this.get_label('purgefolderconfirm'), 'delete', function() {
         // lock interface if it's the active mailbox
         if (mbox == ref.env.mailbox) {
            lock = ref.set_busy(true, 'loading');
@@ -4529,7 +4529,7 @@ function rcube_webmail()
     // check if all files has been uploaded
     for (key in this.env.attachments) {
       if (typeof this.env.attachments[key] === 'object' && !this.env.attachments[key].complete) {
-        this.show_alert(this.get_label('notuploadedwarning'));
+        this.alert_dialog(this.get_label('notuploadedwarning'));
         return false;
       }
     }
@@ -4611,7 +4611,7 @@ function rcube_webmail()
 
     // check sender (if have no identities)
     if (input_from.prop('type') == 'text' && !rcube_check_email(input_from.val(), true)) {
-      this.show_alert(this.get_label('nosenderwarning'), function() {
+      this.alert_dialog(this.get_label('nosenderwarning'), function() {
         input_from.focus();
         return true;
       });
@@ -4620,7 +4620,7 @@ function rcube_webmail()
 
     // check for empty recipient
     if (!rcube_check_email(get_recipients([input_to, input_cc, input_bcc]), true)) {
-      this.show_alert(this.get_label('norecipientwarning'), function() {
+      this.alert_dialog(this.get_label('norecipientwarning'), function() {
         input_to.focus();
         return true;
       });
@@ -4781,7 +4781,7 @@ function rcube_webmail()
 
     // submit delete request
     if (key) {
-      this.show_confirm(this.get_label('deleteresponseconfirm'), 'delete', function() {
+      this.confirm_dialog(this.get_label('deleteresponseconfirm'), 'delete', function() {
           ref.http_post('settings/delete-response', { _key: key }, false);
           return true;
         });
@@ -6226,7 +6226,7 @@ function rcube_webmail()
     var undelete = this.env.source && this.env.address_sources[this.env.source].undelete;
 
     if (!undelete) {
-      this.show_confirm(this.get_label('deletecontactconfirm'), 'delete', function() {
+      this.confirm_dialog(this.get_label('deletecontactconfirm'), 'delete', function() {
           ref._with_selected_contacts('delete');
           return true;
         });
@@ -6413,7 +6413,7 @@ function rcube_webmail()
   this.group_delete = function()
   {
     if (this.env.group) {
-      this.show_confirm(this.get_label('deletegroupconfirm'), 'delete', function() {
+      this.confirm_dialog(this.get_label('deletegroupconfirm'), 'delete', function() {
           var lock = ref.set_busy(true, 'groupdeleting');
           ref.http_post('group-delete', {_source: ref.env.source, _gid: ref.env.group}, lock);
           return true;
@@ -6951,7 +6951,7 @@ function rcube_webmail()
 
     // submit request with appended token
     if (id) {
-      this.show_confirm(this.get_label('deleteidentityconfirm'), 'delete', function() {
+      this.confirm_dialog(this.get_label('deleteidentityconfirm'), 'delete', function() {
           ref.http_post('settings/delete-identity', { _iid: id }, true);
           return true;
         });
@@ -7119,7 +7119,7 @@ function rcube_webmail()
       name = this.env.mailbox;
 
     if (name) {
-      this.show_confirm(this.get_label('deletefolderconfirm'), 'delete', function() {
+      this.confirm_dialog(this.get_label('deletefolderconfirm'), 'delete', function() {
           ref.http_post('delete-folder', {_mbox: name}, ref.set_busy(true, 'folderdeleting'));
           return true;
         });
@@ -7918,7 +7918,7 @@ function rcube_webmail()
   };
 
   // show_popup_dialog() wrapper for alert() type dialogs
-  this.show_alert = function(content, action_func)
+  this.alert_dialog = function(content, action_func)
   {
     var close_func = function(e, ui, dialog) { (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close'); },
       buttons = [{
@@ -7932,7 +7932,7 @@ function rcube_webmail()
   };
 
   // simple_dialog() wrapper for confirm() type dialogs
-  this.show_confirm = function(content, button_label, action_func)
+  this.confirm_dialog = function(content, button_label, action_func)
   {
     var options = { button: button_label || 'continue' };
     return this.simple_dialog(content, this.get_label('confirmationtitle'), action_func, options);

@@ -135,17 +135,17 @@ rcube_webmail.prototype.enigma_key_create_save = function()
 
     // validate the form
     if (!password || !confirm) {
-        this.show_alert(this.get_label('enigma.formerror'));
+        this.alert_dialog(this.get_label('enigma.formerror'));
         return;
     }
 
     if (password != confirm) {
-        this.show_alert(this.get_label('enigma.passwordsdiffer'));
+        this.alert_dialog(this.get_label('enigma.passwordsdiffer'));
         return;
     }
 
     if (!users.length) {
-        this.show_alert(this.get_label('enigma.noidentselected'));
+        this.alert_dialog(this.get_label('enigma.noidentselected'));
         return;
     }
 
@@ -191,7 +191,7 @@ rcube_webmail.prototype.enigma_delete = function()
     if (!keys.length)
         return;
 
-    this.show_confirm(this.get_label('enigma.keyremoveconfirm'), 'delete', function() {
+    this.confirm_dialog(this.get_label('enigma.keyremoveconfirm'), 'delete', function() {
       var lock = rcmail.display_message(rcmail.get_label('enigma.keyremoving'), 'loading'),
         post = {_a: 'delete', _keys: keys};
 
@@ -276,7 +276,7 @@ rcube_webmail.prototype.enigma_import = function()
     if (form = this.gui_objects.importform) {
         file = document.getElementById('rcmimportfile');
         if (file && !file.value) {
-            this.show_alert(this.get_label('selectimportfile'));
+            this.alert_dialog(this.get_label('selectimportfile'));
             return;
         }
 
