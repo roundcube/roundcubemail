@@ -139,8 +139,9 @@ this.decorateTextarea = function(id)
 
         this.checkSpellingState();
     }
-    else if (this.report_ta_not_found)
-        alert('Text area not found');
+    else if (this.report_ta_not_found) {
+        rcmail.show_alert('Text area not found');
+    }
 };
 
 //////
@@ -252,10 +253,12 @@ this.spellCheck = function(ignore)
 
     $.ajax({ type: 'POST', url: this.getUrl(), data: this.createXMLReq(req_text), dataType: 'text',
         error: function(o) {
-            if (ref.custom_ajax_error)
+            if (ref.custom_ajax_error) {
                 ref.custom_ajax_error(ref);
-            else
-                alert('An error was encountered on the server. Please try again later.');
+            }
+            else {
+                rcmail.show_alert('An error was encountered on the server. Please try again later.');
+            }
             if (ref.main_controller) {
                 $(ref.spell_span).remove();
                 ref.removeIndicator();
@@ -284,10 +287,12 @@ this.learnWord = function(word, id)
 
     $.ajax({ type: 'POST', url: this.getUrl(), data: req_text, dataType: 'text',
         error: function(o) {
-            if (ref.custom_ajax_error)
+            if (ref.custom_ajax_error) {
                 ref.custom_ajax_error(ref);
-            else
-                alert('An error was encountered on the server. Please try again later.');
+            }
+            else {
+                rcmail.show_alert('An error was encountered on the server. Please try again later.');
+            }
         },
         success: function(data) {
         }

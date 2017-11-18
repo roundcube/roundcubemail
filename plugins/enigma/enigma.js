@@ -134,14 +134,20 @@ rcube_webmail.prototype.enigma_key_create_save = function()
     });
 
     // validate the form
-    if (!password || !confirm)
-        return alert(this.get_label('enigma.formerror'));
+    if (!password || !confirm) {
+        this.show_alert(this.get_label('enigma.formerror'));
+        return;
+    }
 
-    if (password != confirm)
-        return alert(this.get_label('enigma.passwordsdiffer'));
+    if (password != confirm) {
+        this.show_alert(this.get_label('enigma.passwordsdiffer'));
+        return;
+    }
 
-    if (!users.length)
-        return alert(this.get_label('enigma.noidentselected'));
+    if (!users.length) {
+        this.show_alert(this.get_label('enigma.noidentselected'));
+        return;
+    }
 
     // generate keys
     // use OpenPGP.js if browser supports required features
@@ -182,14 +188,16 @@ rcube_webmail.prototype.enigma_delete = function()
 {
     var keys = this.keys_list.get_selection();
 
-    if (!keys.length || !confirm(this.get_label('enigma.keyremoveconfirm')))
+    if (!keys.length)
         return;
 
-    var lock = this.display_message(this.get_label('enigma.keyremoving'), 'loading'),
+    this.show_confirm(this.get_label('enigma.keyremoveconfirm'), 'delete', function() {
+      var lock = rcmail.display_message(rcmail.get_label('enigma.keyremoving'), 'loading'),
         post = {_a: 'delete', _keys: keys};
 
-    // send request to server
-    this.http_post('plugin.enigmakeys', post, lock);
+      // send request to server
+      rcmail.http_post('plugin.enigmakeys', post, lock);
+    });
 };
 
 // Export key(s)
@@ -268,7 +276,7 @@ rcube_webmail.prototype.enigma_import = function()
     if (form = this.gui_objects.importform) {
         file = document.getElementById('rcmimportfile');
         if (file && !file.value) {
-            alert(this.get_label('selectimportfile'));
+            this.show_alert(this.get_label('selectimportfile'));
             return;
         }
 
