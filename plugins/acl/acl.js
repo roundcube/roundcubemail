@@ -55,13 +55,13 @@ rcube_webmail.prototype.acl_delete = function()
     var users = this.acl_get_usernames();
 
     if (users && users.length) {
-      this.confirm_dialog(this.get_label('acl.deleteconfirm'), 'delete', function() {
-          rcmail.http_post('settings/plugin.acl', {
+      this.confirm_dialog(this.get_label('acl.deleteconfirm'), 'delete', function(e, ref) {
+          ref.http_post('settings/plugin.acl', {
             _act: 'delete',
             _user: users.join(','),
             _mbox: rcmail.env.mailbox
           },
-          rcmail.set_busy(true, 'acl.deleting'));
+          ref.set_busy(true, 'acl.deleting'));
 
           return true;
         });
