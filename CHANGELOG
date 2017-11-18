@@ -46,6 +46,7 @@ CHANGELOG Roundcube Webmail
 - Localized timezone selector (#4983)
 - Use 7bit encoding for ISO-2022-* charsets in sent mail (#5640)
 - Handle inline images also inside multipart/mixed messages (#5905)
+- Fix checking table columns when there's more schemas/databases in postgres/mysql (#6047)
 - Fix css conflicts in user interface and e-mail content (#5891)
 - Fix duplicated signature when using Back button in Chrome (#5809)
 - Fix touch event issue on messages list in IE/Edge (#5781)

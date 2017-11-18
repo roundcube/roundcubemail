@@ -182,14 +182,51 @@ class rcube_db_pgsql extends rcube_db
     {
         // get tables if not cached
         if ($this->tables === null) {
+            if ($schema = $this->options['table_prefix']) {
+                $schema = str_replace('.', '', $schema);
+                $add    = " AND TABLE_SCHEMA = " . $this->quote($schema);
+            }
+            else {
+                $add = " AND TABLE_SCHEMA NOT IN ('pg_catalog', 'information_schema')";
+            }
+
             $q = $this->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
-                . " WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA NOT IN ('pg_catalog', 'information_schema')"
+                . " WHERE TABLE_TYPE = 'BASE TABLE'" . $add
                 . " ORDER BY TABLE_NAME");
 
             $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : array();
         }
 
         return $this->tables;
+    }
+
+    /**
+     * Returns list of columns in database table
+     *
+     * @param string $table Table name
+     *
+     * @return array List of table cols
+     */
+    public function list_cols($table)
+    {
+        $args = array($table);
+
+        if ($schema = $this->options['table_prefix']) {
+            $add    = " AND TABLE_SCHEMA = ?";
+            $args[] = str_replace('.', '', $schema);
+        }
+        else {
+            $add = " AND TABLE_SCHEMA NOT IN ('pg_catalog', 'information_schema')";
+        }
+
+        $q = $this->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS"
+            . " WHERE TABLE_NAME = ?" . $add, $args);
+
+        if ($q) {
+            return $q->fetchAll(PDO::FETCH_COLUMN, 0);
+        }
+
+        return array();
     }
 
     /**
