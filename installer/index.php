@@ -36,25 +36,11 @@
  +-------------------------------------------------------------------------+
 */
 
-ini_set('error_reporting', E_ALL &~ (E_NOTICE | E_STRICT));
 ini_set('display_errors', 1);
 
 define('INSTALL_PATH', realpath(__DIR__ . '/../').'/');
-define('RCUBE_INSTALL_PATH', INSTALL_PATH);
-define('RCUBE_CONFIG_DIR', INSTALL_PATH . 'config/');
 
-$include_path  = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
-$include_path .= INSTALL_PATH . 'program/include' . PATH_SEPARATOR;
-$include_path .= ini_get('include_path');
-
-set_include_path($include_path);
-
-// include composer autoloader (if available)
-if (@file_exists(INSTALL_PATH . 'vendor/autoload.php')) {
-    require INSTALL_PATH . 'vendor/autoload.php';
-}
-
-require_once 'Roundcube/bootstrap.php';
+require INSTALL_PATH . 'program/include/iniset.php';
 
 if (function_exists('session_start'))
   session_start();
