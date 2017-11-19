@@ -69,7 +69,7 @@ else if ($ERROR_CODE == 404) {
     $__error_text  = nl2br($rcmail->gettext('errnotfoundexplain') . "\n" .
                         $rcmail->gettext('errcontactserveradmin'));
 
-    $__error_text .= '<p><i>' . $rcmail->gettext('errfailedrequest') . ":</i><br />\n<tt>//$request_url</tt></p>";
+    $__error_text .= '<p><i>' . $rcmail->gettext('errfailedrequest') . ": $request_url</i></p>";
 }
 
 // invalid compose ID
@@ -130,7 +130,7 @@ if ($rcmail->output && $rcmail->output->type == 'js') {
 
 // compose page content
 $__page_content = <<<EOF
-<div>
+<div class="boxerror">
 <h3 class="error-title">$__error_title</h3>
 <div class="error-text">$__error_text</div>
 </div>

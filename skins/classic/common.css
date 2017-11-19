@@ -179,6 +179,13 @@ label span
   vertical-align: middle;
 }
 
+ul.proplist
+{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
 
 /** common user interface objects */
 
@@ -1084,6 +1091,20 @@ div.searchbox > input
   width: 97%;
 }
 
+.formcontainer
+{
+  background-color: #f2f2f2;
+}
+
+.formcontent table {
+  width: 100%;
+}
+
+.formcontent input,
+.formcontent textarea {
+  width: 95%;
+}
+
 .listsearchbox
 {
   border-bottom: solid 1px #ddd;
@@ -1627,13 +1648,13 @@ table.quota-info td.root {
   padding: 2px;
 }
 
-.pgpkeyimport div.key input.button.importkey {
+.pgpkeyimport div.key button.importkey {
   position: absolute;
   top: 0.8em;
   right: 0.8em;
   padding: 2px 6px;
 }
 
-.pgpkeyimport div.key input.button[disabled] {
+.pgpkeyimport div.key button[disabled] {
   display: none;
 }

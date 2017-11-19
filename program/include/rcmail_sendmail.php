@@ -1195,7 +1195,11 @@ class rcmail_sendmail
             $hiddenfields->add(array('name' => '_id', 'value' => $this->data['id']));
             $hiddenfields->add(array('name' => '_attachments'));
 
-            $form_start = empty($attrib['form']) ? $this->rcmail->output->form_tag(array('name' => "form", 'method' => "post")) : '';
+            if (empty($attrib['form'])) {
+                $form_attr  = array('name' => "form", 'method' => "post", 'class' => $attrib['class']);
+                $form_start = $this->rcmail->output->form_tag($form_attr);
+            }
+
             $form_start .= $hiddenfields->show();
         }
 

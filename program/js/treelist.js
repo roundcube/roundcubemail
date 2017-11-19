@@ -95,6 +95,9 @@ function rcube_treelist_widget(node, p)
   this.get_item = get_item;
   this.get_node = get_node;
   this.get_selection = get_selection;
+  this.get_next = get_next;
+  this.get_prev = get_prev;
+  this.get_single_selection = get_selection;
   this.is_search = is_search;
   this.reset_search = reset_search;
 
@@ -927,6 +930,44 @@ function rcube_treelist_widget(node, p)
     }
   }
 
+
+  function get_next()
+  {
+    var node, child;
+    if (selection && (node = id2dom(selection))) {
+      child = node.children('ul').children('li:first');
+      if (child.length) {
+        return dom2id(child);
+      }
+
+      node = node.next();
+      if (node.length) {
+        return dom2id(node);
+      }
+    }
+  }
+
+  function get_prev()
+  {
+    var node, prev, child;
+    if (selection && (node = id2dom(selection))) {
+      prev = node.prev();
+      child = prev.find('li:last');
+
+      if (child.length) {
+        return dom2id(child);
+      }
+
+      if (prev.length) {
+        return dom2id(prev);
+      }
+
+      node = node.parent().parent();
+      if (node.length && node.is('li')) {
+        return dom2id(node);
+      }
+    }
+  }
 
   ///// drag & drop support
 

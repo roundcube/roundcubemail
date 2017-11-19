@@ -1692,6 +1692,11 @@ ul.proplist li {
 	width: auto;
 }
 
+ul.proplist.simplelist li {
+	border: 0;
+	background: transparent;
+}
+
 #pluginbody {
 	position: absolute;
 	top: 0;
@@ -1700,6 +1705,15 @@ ul.proplist li {
 	bottom: 0;
 }
 
+.formcontent input,
+.formcontent textarea {
+	width: 95%;
+}
+
+.formcontent .hint {
+	font-style: italic;
+	margin-bottom: 1em;
+}
 
 /*** Login form ***/
 
@@ -3083,13 +3097,13 @@ button.mce-close,
 	padding: 0.3em;
 }
 
-.pgpkeyimport div.key input.button.importkey {
+.pgpkeyimport div.key button.importkey {
 	position: absolute;
 	top: 0.8em;
 	right: 0.8em;
 	padding: 4px 6px;
 }
 
-.pgpkeyimport div.key input.button[disabled] {
+.pgpkeyimport div.key button[disabled] {
 	display: none;
 }

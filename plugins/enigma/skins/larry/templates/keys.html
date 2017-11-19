@@ -14,6 +14,7 @@
     <!-- toolbar -->
     <h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
     <div id="keystoolbar" class="toolbar" role="toolbar" aria-labelledby="aria-label-toolbar">
+        <roundcube:button command="plugin.enigma-key-import-search" type="link" class="button search disabled" classAct="button search" classSel="button search pressed" label="search" title="enigma.keyimportsearchlabel" />
         <roundcube:button command="plugin.enigma-key-import" type="link" class="button import disabled" classAct="button import" classSel="button import pressed" label="import" title="enigma.importkeys" />
         <span class="dropbutton">
             <roundcube:button command="plugin.enigma-key-export" type="link" class="button export disabled" classAct="button export" classSel="button export pressed" label="export" title="enigma.exportkeys" />
@@ -34,7 +35,7 @@
         <label for="quicksearchbox" class="voice"><roundcube:label name="arialabelmailquicksearchbox" /></label>
         <roundcube:object name="searchform" id="quicksearchbox" />
         <a id="searchmenulink" class="iconbutton searchicon" > </a>
-        <roundcube:button command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
+        <roundcube:button command="reset-search" id="searchreset" type="link" class="iconbutton reset" title="resetsearch" label="resetsearch" />
     </div>
 
     <roundcube:include file="/includes/settingstabs.html" />
@@ -70,7 +71,7 @@
 
 <div id="keyoptions" class="popupmenu">
     <ul class="toolbarmenu">
-        <li><roundcube:button class="deletelink" command="plugin.enigma-key-delete" label="enigma.keyremove" target="_blank" classAct="deletelink active" /></li>
+        <li><roundcube:button class="deletelink" type="link" command="plugin.enigma-key-delete" label="enigma.keyremove" target="_blank" classAct="deletelink active" /></li>
 <!--
         <li><roundcube:button class="disablelink" command="enigma.key-disable" label="enigma.keydisable" target="_blank" classAct="disablelink active" /></li>
         <li><roundcube:button class="revokelink" command="enigma.key-revoke" label="enigma.keyrevoke" classAct="revokelink active" /></li>

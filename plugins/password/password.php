@@ -213,7 +213,7 @@ class password extends rcube_plugin
         $rcmail->output->set_env('product_name', $rcmail->config->get('product_name'));
         $rcmail->output->set_env('password_disabled', !empty($form_disabled));
 
-        $table = new html_table(array('cols' => 2));
+        $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
         if ($rcmail->config->get('password_confirm_current')) {
             // show current password selection
@@ -279,26 +279,26 @@ class password extends rcube_plugin
 
         $submit_button = $rcmail->output->button(array(
                 'command' => 'plugin.password-save',
-                'class'   => 'button mainaction save',
+                'class'   => 'button mainaction submit',
                 'label'   => 'save',
         ));
-        $form_buttons = html::p(array('class' => 'formbuttons'), $submit_button);
-
-        $out = html::div(array('class' => 'box'),
-            html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changepasswd'))
-            . html::div(array('class' => 'boxcontent'),
-                $disabled_msg . $table->show() . $rules . $form_buttons));
+        $form_buttons = html::p(array('class' => 'formbuttons footerleft'), $submit_button);
 
         $rcmail->output->add_gui_object('passform', 'password-form');
 
         $this->include_script('password.js');
 
-        return $rcmail->output->form_tag(array(
+        $form = $rcmail->output->form_tag(array(
             'id'     => 'password-form',
             'name'   => 'password-form',
             'method' => 'post',
             'action' => './?_task=settings&_action=plugin.password-save',
-        ), $out);
+        ), $disabled_msg . $table->show() . $rules);
+
+        return html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changepasswd'))
+            . html::div(array('class' => 'box formcontainer scroller'),
+                html::div(array('class' => 'boxcontent formcontent'), $form)
+                . $form_buttons);
     }
 
     private function _save($curpass, $passwd)

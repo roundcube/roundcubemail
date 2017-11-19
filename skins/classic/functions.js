@@ -1106,6 +1106,9 @@ function rcube_init_mail_ui()
       if (rcmail.env.action == 'folders') {
         rcmail_ui.folder_search_init($('#folder-manager'));
       }
+
+      $('#mainscreen > #prefs-title').detach().prependTo($('#mainscreen > .box'));
     }
   });
 }
+

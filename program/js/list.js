@@ -931,7 +931,7 @@ get_first_row: function()
     var i, uid, rows = this.tbody.childNodes;
 
     for (i=0; i<rows.length; i++)
-      if (rows[i].id && (uid = this.get_row_uid(rows[i])))
+      if (rows[i].id && (uid = this.get_row_uid(rows[i])) && this.rows[uid])
         return uid;
   }
 
@@ -944,11 +944,27 @@ get_last_row: function()
     var i, uid, rows = this.tbody.childNodes;
 
     for (i=rows.length-1; i>=0; i--)
-      if (rows[i].id && (uid = this.get_row_uid(rows[i])))
+      if (rows[i].id && (uid = this.get_row_uid(rows[i])) && this.rows[uid])
         return uid;
   }
 
   return null;
+},
+
+get_next: function()
+{
+  var row;
+  if (row = this.get_next_row()) {
+    return row.uid;
+  }
+},
+
+get_prev: function()
+{
+  var row;
+  if (row = this.get_prev_row()) {
+    return row.uid;
+  }
 },
 
 row_tagname: function()
@@ -1584,7 +1600,7 @@ drag_mouse_move: function(e)
     // append subject (of every row up to the limit) to the drag layer
     $.each(selection, function(i, uid) {
       if (i > limit) {
-        self.draglayer.append('...');
+        self.draglayer.append($('<div>').text('...'));
         return false;
       }
 
