@@ -121,11 +121,13 @@ rcube_webmail.prototype.managesieve_add = function()
 rcube_webmail.prototype.managesieve_del = function()
 {
   var id = this.filters_list.get_single_selection();
-  if (confirm(this.get_label('managesieve.filterdeleteconfirm'))) {
-    var lock = this.set_busy(true, 'loading');
-    this.http_post('plugin.managesieve-action',
-      '_act=delete&_fid='+this.filters_list.rows[id].uid, lock);
-  }
+
+  this.confirm_dialog(this.get_label('managesieve.filterdeleteconfirm'), 'delete', function(e, ref) {
+      var lock = ref.set_busy(true, 'loading');
+      ref.http_post('plugin.managesieve-action',
+        '_act=delete&_fid='+ref.filters_list.rows[id].uid, lock);
+      return true;
+    });
 };
 
 rcube_webmail.prototype.managesieve_act = function()
@@ -218,14 +220,14 @@ rcube_webmail.prototype.managesieve_setact = function()
 // Set delete request
 rcube_webmail.prototype.managesieve_setdel = function()
 {
-  if (!confirm(this.get_label('managesieve.setdeleteconfirm')))
-    return false;
-
   var id = this.filtersets_list.get_single_selection(),
-    lock = this.set_busy(true, 'loading'),
     script = this.env.filtersets[id];
 
-  this.http_post('plugin.managesieve-action', '_act=setdel&_set='+urlencode(script), lock);
+  this.confirm_dialog(this.get_label('managesieve.setdeleteconfirm'), 'delete', function(e, ref) {
+      lock = ref.set_busy(true, 'loading'),
+      ref.http_post('plugin.managesieve-action', '_act=setdel&_set='+urlencode(script), lock);
+      return true;
+    });
 };
 
 // Set edit raw request
@@ -538,11 +540,12 @@ rcube_webmail.prototype.managesieve_ruledel = function(id)
   if ($('#ruledel'+id).hasClass('disabled'))
     return;
 
-  if (confirm(this.get_label('managesieve.ruledeleteconfirm'))) {
-    var row = document.getElementById('rulerow'+id);
-    row.parentNode.removeChild(row);
-    this.managesieve_formbuttons(document.getElementById('rules'));
-  }
+  this.confirm_dialog(this.get_label('managesieve.ruledeleteconfirm'), 'delete', function(e, ref) {
+      var row = document.getElementById('rulerow'+id);
+      row.parentNode.removeChild(row);
+      ref.managesieve_formbuttons(document.getElementById('rules'));
+      return true;
+    });
 };
 
 rcube_webmail.prototype.managesieve_actionadd = function(id)
@@ -573,11 +576,12 @@ rcube_webmail.prototype.managesieve_actiondel = function(id)
   if ($('#actiondel'+id).hasClass('disabled'))
     return;
 
-  if (confirm(this.get_label('managesieve.actiondeleteconfirm'))) {
-    var row = document.getElementById('actionrow'+id);
-    row.parentNode.removeChild(row);
-    this.managesieve_formbuttons(document.getElementById('actions'));
-  }
+  this.confirm_dialog(this.get_label('managesieve.actiondeleteconfirm'), 'delete', function(e, ref) {
+      var row = document.getElementById('actionrow'+id);
+      row.parentNode.removeChild(row);
+      ref.managesieve_formbuttons(document.getElementById('actions'));
+      return true;
+    });
 };
 
 // insert rule/action row in specified place on the list
@@ -1113,7 +1117,7 @@ rcube_webmail.prototype.managesieve_create = function(force)
     // check if there's at least one checkbox checked
     var hdrs = $('input[name="headers[]"]:checked', dialog);
     if (!hdrs.length) {
-      alert(rcmail.get_label('managesieve.nodata'));
+      rcmail.alert_dialog(rcmail.get_label('managesieve.nodata'));
       return;
     }
 
