@@ -53,73 +53,82 @@ class new_user_dialog extends rcube_plugin
             $identities_level = intval($rcmail->config->get('identities_level', 0));
 
             // compose user-identity dialog
-            $table = new html_table(array('cols' => 2));
+            $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
-            $table->add('title', $this->gettext('name'));
+            $table->add('title', html::label('newuserdialog-name', $this->gettext('name')));
             $table->add(null, html::tag('input', array(
+                    'id'       => 'newuserdialog-name',
                     'type'     => 'text',
                     'name'     => '_name',
                     'value'    => $identity['name'],
                     'disabled' => $identities_level == 4
             )));
 
-            $table->add('title', $this->gettext('email'));
+            $table->add('title', html::label('newuserdialog-email', $this->gettext('email')));
             $table->add(null, html::tag('input', array(
+                    'id'       => 'newuserdialog-email',
                     'type'     => 'text',
                     'name'     => '_email',
                     'value'    => rcube_utils::idn_to_utf8($identity['email']),
                     'disabled' => in_array($identities_level, array(1, 3, 4))
             )));
 
-            $table->add('title', $this->gettext('organization'));
+            $table->add('title', html::label('newuserdialog-org', $this->gettext('organization')));
             $table->add(null, html::tag('input', array(
+                    'id'       => 'newuserdialog-org',
                     'type'     => 'text',
                     'name'     => '_organization',
                     'value'    => $identity['organization'],
                     'disabled' => $identities_level == 4
             )));
 
-            $table->add('title', $this->gettext('signature'));
+            $table->add('title', html::label('newuserdialog-sig', $this->gettext('signature')));
             $table->add(null, html::tag('textarea', array(
+                    'id'   => 'newuserdialog-sig',
                     'name' => '_signature',
-                    'rows' => '3',
+                    'rows' => '5',
                 ),
                 $identity['signature']
             ));
 
             // add overlay input box to html page
             $rcmail->output->add_footer(html::tag('form', array(
-                    'id' => 'newuserdialog',
+                    'id'     => 'newuserdialog',
                     'action' => $rcmail->url('plugin.newusersave'),
-                    'method' => 'post'
+                    'method' => 'post',
+                    'class'  => 'formcontent',
+                    'style'  => 'display: none',
                 ),
-                html::p('hint', rcube::Q($this->gettext('identitydialoghint'))) .
-                    $table->show() .
-                    html::p(array('class' => 'formbuttons'),
-                        html::tag('input', array('type' => 'submit',
-                            'class' => 'button mainaction', 'value' => $this->gettext('save'))))
+                html::p('hint', rcube::Q($this->gettext('identitydialoghint'))) . $table->show()
             ));
 
             $title  = rcube::JQ($this->gettext('identitydialogtitle'));
             $script = "
-$('#newuserdialog').show()
-  .dialog({modal:true, resizable:false, closeOnEscape:false, width:450, title:'$title'})
-  .submit(function() {
-    var i, request = {}, form = $(this).serializeArray();
-    for (i in form)
-      request[form[i].name] = form[i].value;
+var newuserdialog = rcmail.show_popup_dialog($('#newuserdialog'), '$title', [{
+    text: rcmail.get_label('save'),
+    'class': 'mainaction save',
+    click: function() {
+      var request = {};
+      $.each($('form', this).serializeArray(), function() {
+        request[this.name] = this.value;
+      });
 
       rcmail.http_post('plugin.newusersave', request, true);
       return false;
-  });
-
-$('input[name=_name]').focus();
-rcube_webmail.prototype.new_user_dialog_close = function() { $('#newuserdialog').dialog('close'); }
+    }
+  }],
+  {
+    resizable: false,
+    closeOnEscape: false,
+    width: 500,
+    open: function() { $('#newuserdialog').show(); $('#newuserdialog-name').focus(); },
+    beforeClose: function() { return false; }
+  }
+);
+rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialog('destroy'); };
 ";
             // disable keyboard events for messages list (#1486726)
             $rcmail->output->add_script($script, 'docready');
-
-            $this->include_stylesheet('newuserdialog.css');
         }
     }
 

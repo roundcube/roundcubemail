@@ -392,10 +392,10 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $interval_select = new html_select(array('name' => 'vacation_interval_type'));
             $interval_select->add($this->plugin->gettext('days'), 'days');
             $interval_select->add($this->plugin->gettext('seconds'), 'seconds');
-            $interval_txt .= '&nbsp;' . $interval_select->show(isset($this->vacation['seconds']) ? 'seconds' : 'days');
+            $interval_txt .= $interval_select->show(isset($this->vacation['seconds']) ? 'seconds' : 'days');
         }
         else {
-            $interval_txt .= '&nbsp;' . $this->plugin->gettext('days');
+            $interval_txt .= "\n" . html::span('input-group-addon', $this->plugin->gettext('days'));
         }
 
         if ($date_extension || $regex_extension) {
@@ -495,7 +495,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $table->add('title', html::label('vacation_addresses', $this->plugin->gettext('vacation.addresses')));
         $table->add(null, $addresses . $addresses_link->show($this->plugin->gettext('filladdresses')));
         $table->add('title', html::label('vacation_interval', $this->plugin->gettext('vacation.interval')));
-        $table->add(null, $interval_txt);
+        $table->add('input-group', $interval_txt);
 
         if ($after) {
             $table->add('title', html::label('vacation_after', $this->plugin->gettext('vacation.after')));

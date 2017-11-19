@@ -86,7 +86,7 @@ class zipdownload extends rcube_plugin
                     break;
             }
 
-            $this->include_stylesheet($this->local_skin_path() . '/zipdownload.css');
+            $this->include_stylesheet($this->local_skin_path() . '/zipdownload.css', true);
         }
 
         return $p;
@@ -111,7 +111,8 @@ class zipdownload extends rcube_plugin
             $menu[] = html::tag('li', null, $rcmail->output->button(array(
                     'command'  => "download-$type",
                     'label'    => "zipdownload.download$type",
-                    'classact' => 'active',
+                    'class'    => "download $type",
+                    'classact' => "download $type active",
                     'type'     => 'link',
             )));
         }

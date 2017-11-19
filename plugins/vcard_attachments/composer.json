@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "Detects vCard attachments and allows to add them to address book. Also allows to attach vCards of your contacts to composed messages",
     "license": "GPLv3+",
-    "version": "4.0",
+    "version": "4.1",
     "authors": [
         {
             "name": "Thomas Bruederli",

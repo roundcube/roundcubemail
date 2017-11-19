@@ -81,7 +81,7 @@ $OUTPUT->add_label('notuploadedwarning', 'savingmessage',
     'selectimportfile', 'messageissent', 'loadingdata', 'nopubkeyfor', 'nopubkeyforsender',
     'encryptnoattachments','encryptedsendialog','searchpubkeyservers', 'importpubkeys',
     'encryptpubkeysfound',  'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
-    'keyrevoked', 'keyimportsuccess', 'keyservererror', 'attaching', 'namex', 'attachmentrename'
+    'keyrevoked', 'keyimportsuccess', 'keyservererror', 'attaching', 'namex', 'attachmentrename', 'discard'
 );
 
 $OUTPUT->set_pagetitle($RCMAIL->gettext('compose'));
@@ -619,8 +619,9 @@ function rcmail_compose_body($attrib)
     }
 
     // If desired, set this textarea to be editable by TinyMCE
+    $attrib['data-html-editor'] = true;
     if ($HTML_MODE) {
-        $attrib['class'] = 'mce_editor';
+        $attrib['class'] = trim($attrib['class'] . ' mce_editor');
     }
 
     $attrib['name'] = '_message';

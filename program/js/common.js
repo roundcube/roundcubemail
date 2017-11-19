@@ -283,10 +283,13 @@ cancel: function(evt)
  */
 is_keyboard: function(e)
 {
-  return e && (
-      (e.type && String(e.type).match(/^key/)) // DOM3-compatible
-      || (!e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0) // others
-    );
+  if (!e)
+    return false;
+
+  if (e.type)
+    return !!e.type.match(/^key/); // DOM3-compatible
+
+  return !e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0;
 },
 
 /**
