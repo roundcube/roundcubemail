@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Use UI dialogs instead of confirm() and alert() where possible
 - Display value of the SMTP message size limit in the error message (#6032)
 - Skip redundant INSERT query on successful logon when using PHP7
 - Replace display_version with display_product_version (#5904)
@@ -31,6 +32,7 @@ CHANGELOG Roundcube Webmail
 - Make 'compose' command always enabled
 - Add .log suffix to all log file names, add option log_file_ext to control this (#313)
 - Archive: Fix archiving by sender address on cyrus-imap
+- Archive: Style Archive folder also on folder selector and folder manager lists
 - Archive: Add Thunderbird compatible Month option (#5623)
 - Return "401 Unauthorized" status when login fails (#5663)
 - Support both comma and semicolon as recipient separator, drop recipients_separator option (#5092)
