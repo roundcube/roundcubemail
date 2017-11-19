@@ -120,13 +120,12 @@ rcube_webmail.prototype.managesieve_add = function()
 
 rcube_webmail.prototype.managesieve_del = function()
 {
-  var id = this.filters_list.get_single_selection();
-
   this.confirm_dialog(this.get_label('managesieve.filterdeleteconfirm'), 'delete', function(e, ref) {
-      var lock = ref.set_busy(true, 'loading');
-      ref.http_post('plugin.managesieve-action',
-        '_act=delete&_fid='+ref.filters_list.rows[id].uid, lock);
-      return true;
+      var id = ref.filters_list.get_single_selection(),
+        post = '_act=delete&_fid=' + ref.filters_list.rows[id].uid,
+        lock = ref.set_busy(true, 'loading');
+
+      ref.http_post('plugin.managesieve-action', post, lock);
     });
 };
 
@@ -220,13 +219,12 @@ rcube_webmail.prototype.managesieve_setact = function()
 // Set delete request
 rcube_webmail.prototype.managesieve_setdel = function()
 {
-  var id = this.filtersets_list.get_single_selection(),
-    script = this.env.filtersets[id];
-
   this.confirm_dialog(this.get_label('managesieve.setdeleteconfirm'), 'delete', function(e, ref) {
-      lock = ref.set_busy(true, 'loading'),
-      ref.http_post('plugin.managesieve-action', '_act=setdel&_set='+urlencode(script), lock);
-      return true;
+      var id = ref.filtersets_list.get_single_selection(),
+        script = ref.env.filtersets[id],
+        lock = ref.set_busy(true, 'loading');
+
+      ref.http_post('plugin.managesieve-action', '_act=setdel&_set=' + urlencode(script), lock);
     });
 };
 
@@ -544,7 +542,6 @@ rcube_webmail.prototype.managesieve_ruledel = function(id)
       var row = document.getElementById('rulerow'+id);
       row.parentNode.removeChild(row);
       ref.managesieve_formbuttons(document.getElementById('rules'));
-      return true;
     });
 };
 
@@ -580,7 +577,6 @@ rcube_webmail.prototype.managesieve_actiondel = function(id)
       var row = document.getElementById('actionrow'+id);
       row.parentNode.removeChild(row);
       ref.managesieve_formbuttons(document.getElementById('actions'));
-      return true;
     });
 };
 
