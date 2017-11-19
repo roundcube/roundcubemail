@@ -28,10 +28,11 @@ Cleanup css/html and unify as much as possible.
 
 INSTALLATION (development):
 ---------------------------
-1. git clone https://github.com/roundcube/roundcubemail.git --branch dev-elastic
+1. git clone https://github.com/roundcube/roundcubemail.git
 2. cd roundcubemail/skins
 3. git clone https://github.com/roundcube/elastic.git
-4. Disable all plugins (we're not there yet) and set devel_mode=true.
+4. Disable all external plugins and set devel_mode=true.
+
 
 INSTALLATION (production):
 --------------------------
