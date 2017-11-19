@@ -192,11 +192,11 @@ rcube_webmail.prototype.enigma_delete = function()
         return;
 
     this.confirm_dialog(this.get_label('enigma.keyremoveconfirm'), 'delete', function(e, ref) {
-      var lock = ref.display_message(ref.get_label('enigma.keyremoving'), 'loading'),
-        post = {_a: 'delete', _keys: keys};
+        var lock = ref.display_message(ref.get_label('enigma.keyremoving'), 'loading'),
+            post = {_a: 'delete', _keys: keys};
 
-      // send request to server
-      ref.http_post('plugin.enigmakeys', post, lock);
+        // send request to server
+        ref.http_post('plugin.enigmakeys', post, lock);
     });
 };
 
