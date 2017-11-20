@@ -134,5 +134,5 @@ function rcmail_contact_details($attrib)
         }
     }
 
-    return rcmail_contact_form($form, $record);
+    return rcmail_contact_form($form, $record, $attrib);
 }
