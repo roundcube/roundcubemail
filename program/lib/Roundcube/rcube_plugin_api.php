@@ -611,8 +611,18 @@ class rcube_plugin_api
     {
         if (is_object($this->output) && $this->output->type == 'html') {
             if ($if_exists && $fn[0] != '/' && !preg_match('|^https?://|i', $fn)) {
-                $rcube = rcube::get_instance();
-                $path  = unslashify($rcube->config->get('assets_dir') ?: RCUBE_INSTALL_PATH);
+                $rcube      = rcube::get_instance();
+                $devel_mode = $rcube->config->get('devel_mode');
+                $assets_dir = $rcube->config->get('assets_dir');
+                $path       = unslashify($assets_dir ?: RCUBE_INSTALL_PATH);
+
+                // Prefer .less files in devel_mode (assume less.js is loaded)
+                if ($devel_mode) {
+                    $less = preg_replace('/\.css$/i', '.less', $fn);
+                    if ($less != $fn && is_file("$path/plugins/$less")) {
+                        $fn = $less;
+                    }
+                }
 
                 if (!is_file("$path/plugins/$fn")) {
                     return;
