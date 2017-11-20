@@ -354,10 +354,9 @@ abstract class rcube_plugin
     /**
      * Make this stylesheet available on the client
      *
-     * @param string $fn        File path; absolute or relative to the plugin directory
-     * @param bool   $if_exists Include the file only if exists
+     * @param string $fn File path; absolute or relative to the plugin directory
      */
-    public function include_stylesheet($fn, $if_exists = false)
+    public function include_stylesheet($fn)
     {
         $this->api->include_stylesheet($this->resource_url($fn), $if_exists);
     }

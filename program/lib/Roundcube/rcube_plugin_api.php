@@ -604,13 +604,12 @@ class rcube_plugin_api
     /**
      * Include a plugin stylesheet in the current HTML page
      *
-     * @param string $fn        Path to stylesheet
-     * @param bool   $if_exists Include stylesheet only if the file exists
+     * @param string $fn Path to stylesheet
      */
-    public function include_stylesheet($fn, $if_exists = false)
+    public function include_stylesheet($fn)
     {
         if (is_object($this->output) && $this->output->type == 'html') {
-            if ($if_exists && $fn[0] != '/' && !preg_match('|^https?://|i', $fn)) {
+            if ($fn[0] != '/' && !preg_match('|^https?://|i', $fn)) {
                 $rcube      = rcube::get_instance();
                 $devel_mode = $rcube->config->get('devel_mode');
                 $assets_dir = $rcube->config->get('assets_dir');

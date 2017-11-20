@@ -125,7 +125,7 @@ class enigma_ui
         }
 
         $skin_path = $this->enigma->local_skin_path();
-        $this->enigma->include_stylesheet("$skin_path/enigma.css", true);
+        $this->enigma->include_stylesheet("$skin_path/enigma.css");
         $this->css_loaded = true;
     }
 

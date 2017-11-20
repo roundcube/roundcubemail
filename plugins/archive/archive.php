@@ -25,7 +25,7 @@ class archive extends rcube_plugin
         $archive_folder = $rcmail->config->get('archive_mbox');
 
         if ($rcmail->task == 'mail' && ($rcmail->action == '' || $rcmail->action == 'show') && $archive_folder) {
-            $this->include_stylesheet($this->local_skin_path() . '/archive.css', true);
+            $this->include_stylesheet($this->local_skin_path() . '/archive.css');
             $this->include_script('archive.js');
             $this->add_texts('localization', true);
             $this->add_button(
@@ -59,7 +59,7 @@ class archive extends rcube_plugin
             $this->add_hook('preferences_save', array($this, 'save_prefs'));
 
             if ($rcmail->action == 'folders' && $archive_folder) {
-                $this->include_stylesheet($this->local_skin_path() . '/archive.css', true);
+                $this->include_stylesheet($this->local_skin_path() . '/archive.css');
                 $this->include_script('archive.js');
                 // set env variables for client
                 $rcmail->output->set_env('archive_folder', $archive_folder);

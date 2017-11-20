@@ -23,7 +23,7 @@ class markasjunk extends rcube_plugin
         if ($rcmail->action == '' || $rcmail->action == 'show') {
             $this->add_texts('localization', true);
             $this->include_script('markasjunk.js');
-            $this->include_stylesheet($this->local_skin_path() . '/markasjunk.css', true);
+            $this->include_stylesheet($this->local_skin_path() . '/markasjunk.css');
 
             $this->add_button(array(
                     'type'       => 'link',
