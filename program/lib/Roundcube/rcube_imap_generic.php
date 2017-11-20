@@ -3715,7 +3715,7 @@ class rcube_imap_generic
             }
 
             // parse untagged response for [COPYUID 1204196876 3456:3457 123:124] (RFC6851)
-            if ($line && $command == 'UID MOVE' && substr_compare($line, '* OK', 0, 4, true)) {
+            if ($line && $command == 'UID MOVE') {
                 if (preg_match("/^\* OK \[COPYUID [0-9]+ ([0-9,:]+) ([0-9,:]+)\]/i", $line, $m)) {
                     $this->data['COPYUID'] = array($m[1], $m[2]);
                 }
