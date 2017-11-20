@@ -210,8 +210,20 @@ class filesystem_attachments extends rcube_plugin
         $file_path = pathinfo($path, PATHINFO_DIRNAME);
 
         if ($temp_dir !== $file_path) {
+            // When the configured directory is not writable, or out of open_basedir path
+            // tempnam() fallbacks to system temp without a warning.
+            // We allow that, but we'll let to know the user about the misconfiguration.
+            if ($file_path == sys_get_temp_dir()) {
+                rcube::raise_error(array(
+                        'file'    => __FILE__,
+                        'line'    => __LINE__,
+                        'message' => "Detected 'temp_dir' change. Access to '$temp_dir' restricted by filesystem permissions or open_basedir",
+                    ), true, false);
+
+                return true;
+            }
+
             rcube::raise_error(array(
-                    'code'    => 403,
                     'file'    => __FILE__,
                     'line'    => __LINE__,
                     'message' => sprintf("%s can't read %s (not in temp_dir)",
