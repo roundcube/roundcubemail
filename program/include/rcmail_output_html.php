@@ -1716,8 +1716,13 @@ EOF;
         ) {
             $css = '';
             foreach ($this->css_files as $file) {
-                $css .= html::tag('link', array('rel' => 'stylesheet',
-                    'type' => 'text/css', 'href' => $file, 'nl' => true));
+                $is_less = substr_compare($file, '.less', -5, 5, true) === 0;
+                $css    .= html::tag('link', array(
+                        'rel'  => $is_less ? 'stylesheet/less' : 'stylesheet',
+                        'type' => 'text/css',
+                        'href' => $file,
+                        'nl'   => true,
+                ));
             }
             $output = substr_replace($output, $css, $pos, 0);
         }
