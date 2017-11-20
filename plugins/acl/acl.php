@@ -177,7 +177,7 @@ class acl extends rcube_plugin
         $this->rc->output->add_label('save', 'cancel');
         $this->include_script('acl.js');
         $this->rc->output->include_script('list.js');
-        $this->include_stylesheet($this->local_skin_path() . '/acl.css', true);
+        $this->include_stylesheet($this->local_skin_path() . '/acl.css');
 
         // add Info fieldset if it doesn't exist
         if (!isset($args['form']['props']['fieldsets']['info']))

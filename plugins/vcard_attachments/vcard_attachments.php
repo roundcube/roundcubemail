@@ -32,7 +32,7 @@ class vcard_attachments extends rcube_plugin
             $btn_class = strpos($skin_path, 'classic') ? 'button' : 'listbutton';
 
             $this->add_texts('localization', true);
-            $this->include_stylesheet($skin_path . '/style.css', true);
+            $this->include_stylesheet($skin_path . '/style.css');
             $this->include_script('vcardattach.js');
             $this->add_button(
                 array(
@@ -48,7 +48,7 @@ class vcard_attachments extends rcube_plugin
         }
         else if (!$rcmail->output->framed && (!$rcmail->action || $rcmail->action == 'list')) {
             $skin_path = $this->local_skin_path();
-            $this->include_stylesheet($skin_path . '/style.css', true);
+            $this->include_stylesheet($skin_path . '/style.css');
             $this->include_script('vcardattach.js');
         }
 
@@ -123,7 +123,7 @@ class vcard_attachments extends rcube_plugin
 
         if ($attach_script) {
             $this->include_script('vcardattach.js');
-            $this->include_stylesheet($this->local_skin_path() . '/style.css', true);
+            $this->include_stylesheet($this->local_skin_path() . '/style.css');
         }
 
         return $p;

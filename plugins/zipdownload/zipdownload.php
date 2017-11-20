@@ -86,7 +86,7 @@ class zipdownload extends rcube_plugin
                     break;
             }
 
-            $this->include_stylesheet($this->local_skin_path() . '/zipdownload.css', true);
+            $this->include_stylesheet($this->local_skin_path() . '/zipdownload.css');
         }
 
         return $p;
