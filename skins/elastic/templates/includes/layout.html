@@ -30,5 +30,5 @@
 </head>
 <body class="task-<roundcube:exp expression="env:task ?: 'error'">">
 	<roundcube:if condition="!env:framed || env:extwin" />
-		<div id="layout">
+		<div id="<roundcube:exp expression="env:action == 'print' ? 'print-' : ''">layout">
 	<roundcube:endif />

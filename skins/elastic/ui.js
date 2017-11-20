@@ -432,9 +432,11 @@ function rcube_elastic_ui()
         }
 
         // Add menu link for each attachment
-        $('#attachment-list > li').each(function() {
-            attachmentmenu_append(this);
-        });
+        if (rcmail.env.action != 'print') {
+            $('#attachment-list > li').each(function() {
+                attachmentmenu_append(this);
+            });
+        }
 
         rcmail.addEventListener('fileappended', function(e) { if (e.attachment.complete) attachmentmenu_append(e.item); })
             .addEventListener('managesieve.insertrow', function(o) { bootstrap_style(o.obj); });

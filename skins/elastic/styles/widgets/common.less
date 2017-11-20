@@ -80,6 +80,25 @@ font.bold {
     }
 }
 
+
+.contact-header {
+    display: flex;
+    margin-bottom: 1rem;
+
+    .contact-photo {
+        min-width: @layout-contact-icon-width;
+    }
+
+    .contact-head {
+        margin-left: 1rem;
+
+        legend {
+            display: none;
+        }
+    }
+}
+
+
 @image-attachment-size: 250px;
 
 // this is when image thumbnails are enabled
@@ -91,6 +110,7 @@ p.image-attachment {
     margin: .5rem;
     min-width: 47%;
     min-height: @image-attachment-size;
+    overflow: hidden;
     // use flexbox to center the image
     display: flex;
     justify-content: center;
