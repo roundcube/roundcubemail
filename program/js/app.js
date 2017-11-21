@@ -7879,20 +7879,26 @@ function rcube_webmail()
       width: Math.min(w - 20, width + 24)
     });
 
+    // Don't propagate keyboard events to the UI below the dialog (#6055)
+    popup.parent().on('keydown', function(e) { e.stopPropagation(); });
+
     return popup;
   };
 
   // show_popup_dialog() wrapper for simple dialogs with action and Cancel buttons
   this.simple_dialog = function(content, title, action_func, options)
   {
+    if (!options)
+      options = {};
+
     var title = this.get_label(title),
-      save_label = (options || {}).button || 'save',
-      save_class = (options || {}).button_class || save_label.replace(/^[^\.]+\./i, ''),
-      cancel_label = (options || {}).cancel_button || 'cancel',
-      cancel_class = (options || {}).cancel_class || cancel_label.replace(/^[^\.]+\./i, ''),
+      save_label = options.button || 'save',
+      save_class = options.button_class || save_label.replace(/^[^\.]+\./i, ''),
+      cancel_label = options.cancel_button || 'cancel',
+      cancel_class = options.cancel_class || cancel_label.replace(/^[^\.]+\./i, ''),
       close_func = function(e, ui, dialog) {
         (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close');
-        if (options && options.cancel_func) options.cancel_func(e, ref);
+        if (options.cancel_func) options.cancel_func(e, ref);
       },
       buttons = [{
         text: this.get_label(cancel_label),
