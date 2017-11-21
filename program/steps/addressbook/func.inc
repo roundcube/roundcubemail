@@ -666,7 +666,9 @@ function rcmail_contact_form($form, $record, $attrib = null)
                     }
                 }
 
-                $content .= html::div($block_attr, $fields);
+                if ($fields) {
+                    $content .= html::div($block_attr, $fields);
+                }
             }
 
             if ($edit_mode) {
