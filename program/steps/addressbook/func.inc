@@ -412,6 +412,7 @@ function rcmail_js_contacts_list($result, $prefix='')
                             'rel' => $row['ID'],
                             'title' => $RCMAIL->gettext('listgroup'),
                             'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)", rcmail_output::JS_OBJECT_NAME, $source_id, $row['CID']),
+                            'data-action-link' => true,
                         ), '&raquo;');
                     }
                     else
