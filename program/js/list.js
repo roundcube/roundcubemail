@@ -666,7 +666,7 @@ is_event_target: function(e)
   var target = rcube_event.get_target(e),
     tagname = target.tagName.toLowerCase();
 
-  return !(target && (tagname == 'input' || tagname == 'img' || (tagname != 'a' && target.onclick)));
+  return !(target && (tagname == 'input' || tagname == 'img' || (tagname != 'a' && target.onclick) || $(target).data('action-link')));
 },
 
 
