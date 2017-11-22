@@ -240,6 +240,70 @@ fieldset.image-attachment {
     bottom: @layout-header-height;
 }
 
+.quota-widget {
+    width: 5rem;
+    max-width: 8rem;
+    padding: .5rem;
+    text-align: center;
+    position: relative;
+
+    .count {
+        display: block;
+        color: #999;
+        font-size: 1.1rem;
+        line-height: 2;
+    }
+
+    .bar {
+        display: block;
+        height: .5rem;
+        position: absolute;
+        bottom: .85rem;
+        left: .5rem;
+        right: .5rem;
+        background-color: @color-quota-background;
+        border-radius: .25rem;
+    }
+
+    .value {
+        display: block;
+        background-color: @color-quota-value;
+        border-radius: .25rem;
+        height: .5rem;
+        opacity: .75;
+
+        &.warning {
+            background-color: @color-quota-value-warning;
+        }
+    }
+}
+
+.quota-info {
+    width: 100%;
+    display: table !important;
+
+    td,th {
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    th {
+        border-top: 0;
+    }
+
+    .root {
+        line-height: 1;
+        font-style: italic;
+        color: @color-popover-separator;
+        background-color: @color-popover-separator-background;
+    }
+
+    th:first-child,
+    .name {
+        text-align: left;
+    }
+}
+
 .table-widget {
     display: flex;
     flex-direction: column;

@@ -403,6 +403,7 @@ function rcube_elastic_ui()
             .addEventListener('editor-init', tinymce_init)
             .addEventListener('autocomplete_create', rcmail_popup_init)
             .addEventListener('googiespell_create', rcmail_popup_init)
+            .addEventListener('setquota', update_quota)
             .addEventListener('enable-command', enable_command_handler)
             .addEventListener('init', init);
     };
@@ -1734,7 +1735,7 @@ function rcube_elastic_ui()
         else if (p.event == 'menu-open') {
             var fn, pos,
                 content = $('ul:first', p.obj),
-                target = p.originalEvent.target;
+                target = p.props && p.props.link ? p.props.link : p.originalEvent.target;
 
             if ($(target).is('span')) {
                 target = $(target).parents('a,li')[0];
@@ -2174,6 +2175,34 @@ function rcube_elastic_ui()
                     $(target).removeClass('hidden').find('.recipient-input > input').focus();
                 });
         });
+    };
+
+    /**
+     * Create/Update quota widget (setquota event handler)
+     */
+    function update_quota(p)
+    {
+        var element = $('#quotadisplay'),
+            bar = element.find('.bar'),
+            value = p.total ? p.percent : 0;
+
+        if (!bar.length) {
+            bar = $('<span class="bar"><span class="value"></span></span>').appendTo(element);
+        }
+
+        if (value > 0 && value < 10) {
+            value = 10; // smaller values look not so nice
+        }
+
+        bar.find('.value').css('width', value + '%')[value >= 90 ? 'addClass' : 'removeClass']('warning');
+        element.attr('title', element.find('.count').attr('title'));
+
+        if (p.table) {
+            element.css('cursor', 'pointer').data('popup-pos', 'top')
+                .off('click').on('click', function(e) {
+                    rcmail.simple_dialog(p.table, 'quota', null, {cancel_button: 'close'});
+                });
+        }
     };
 
     /**
@@ -2793,13 +2822,12 @@ if (window.rcmail) {
         // delegate to rcube_elastic_ui
         return rcmail.triggerEvent('menu-close', {name: name, props: {menu: name}, originalEvent: event});
     }
-
-    var UI = new rcube_elastic_ui();
 }
 else {
     // rcmail does not exists e.g. on the error template inside a frame
     // we fake the engine a little
     var rcmail = parent.rcmail;
     var rcube_webmail = parent.rcube_webmail;
-    var UI = new rcube_elastic_ui();
 }
+
+var UI = new rcube_elastic_ui();

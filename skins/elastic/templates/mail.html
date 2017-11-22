@@ -16,12 +16,12 @@
 	<div id="folderlist-footer" class="footer toolbar">
 		<roundcube:button name="folderactions" type="link" title="folderactions" label="actions"
 			class="button actions" innerclass="inner" data-popup="mailboxoptions-menu" />
-<!--
 		<roundcube:if condition="env:quota" />
-			<span class="voice"><roundcube:label name="quota"></span>
-			<roundcube:object name="quotaDisplay" id="quotadisplay" class="countdisplay" display="text" />
+			<div id="quotadisplay" class="quota-widget">
+				<span class="voice"><roundcube:label name="quota"></span>
+				<roundcube:object name="quotaDisplay" class="count" display="text" />
+			</div>
 		<roundcube:endif />
--->
 	</div>
 </div>
 
