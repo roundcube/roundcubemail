@@ -120,3 +120,68 @@ html.touch {
         box-shadow: none;
     }
 }
+
+/*** Bootstrap button style overrides ***/
+
+.btn-secondary {
+    color: @color-btn-secondary;
+    background: @color-btn-secondary-background;
+    border-color: @color-btn-secondary-background;
+
+    &:focus {
+        box-shadow: 0 0 0 .2rem fade(@color-btn-secondary-background, 50%);
+    }
+
+    &:hover {
+        background: darken(@color-btn-secondary-background, 8%);
+        border-color: darken(@color-btn-secondary-background, 10%);
+    }
+
+    &:not([disabled]):not(.disabled):active {
+        background: darken(@color-btn-secondary-background, 11%);
+        border-color: darken(@color-btn-secondary-background, 13%);
+        box-shadow: 0 0 0 .2rem fade(@color-btn-secondary-background, 53%);
+    }
+}
+
+.btn-primary {
+    color: @color-btn-primary;
+    background: @color-btn-primary-background;
+    border-color: @color-btn-primary-background;
+
+    &:focus {
+        box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 50%);
+    }
+
+    &:hover {
+        background: darken(@color-btn-primary-background, 8%);
+        border-color: darken(@color-btn-primary-background, 10%);
+    }
+
+    &:not([disabled]):not(.disabled):active {
+        background: darken(@color-btn-primary-background, 11%);
+        border-color: darken(@color-btn-primary-background, 13%);
+        box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 53%);
+    }
+}
+
+.btn-danger {
+    color: @color-btn-danger;
+    background: @color-btn-danger-background;
+    border-color: @color-btn-danger-background;
+
+    &:focus {
+        box-shadow: 0 0 0 .2rem fade(@color-btn-danger-background, 50%);
+    }
+
+    &:hover {
+        background: darken(@color-btn-danger-background, 8%);
+        border-color: darken(@color-btn-danger-background, 10%);
+    }
+
+    &:not([disabled]):not(.disabled):active {
+        background: darken(@color-btn-danger-background, 11%);
+        border-color: darken(@color-btn-danger-background, 13%);
+        box-shadow: 0 0 0 .2rem fade(@color-btn-danger-background, 53%);
+    }
+}

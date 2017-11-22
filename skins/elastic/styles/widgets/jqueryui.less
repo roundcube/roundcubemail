@@ -42,8 +42,6 @@
         border-bottom: 1px solid @color-dialog-header-border;
 
         button {
-            margin-right: .25rem;
-
             &:before {
                 margin: 0;
             }
@@ -64,7 +62,8 @@
         right: 0;
         top: 0;
         position: absolute;
-        height: @layout-header-height;
+        height: (@layout-header-height - .7rem);
+        margin: .25rem;
         cursor: pointer;
 
         &:before {
@@ -90,6 +89,11 @@
             button {
                 .overflow-ellipsis;
                 min-width: 5rem;
+                margin: .65rem .3rem;
+
+                &:last-child {
+                    margin-right: 0;
+                }
             }
         }
     }

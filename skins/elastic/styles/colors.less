@@ -44,7 +44,7 @@
 @color-taskmenu-button-background-hover:        lighten(@color-taskmenu-background, 10%);
 @color-taskmenu-button-action-background-hover: lighten(@color-taskmenu-button-action-background, 10%);
 @color-taskmenu-button-special-background-hover:lighten(@color-taskmenu-button-special-background, 10%);
-@color-taskmenu-button-logout-hover:            #ff1a1a;
+@color-taskmenu-button-logout-hover:            @color-error;
 
 
 // Toolbar
@@ -56,14 +56,14 @@
 
 // Toolbar menu
 @color-toolbarmenu-hover:               #fff;
-@color-toolbarmenu-hover-background:    darken(@color-main, 20%);
+@color-toolbarmenu-hover-background:    @color-main;
 
 
 // Listings
 @color-list:                        @color-font;
 @color-list-selected:               inherit;
 @color-list-selected-background:    tint(@color-main, 96%);
-@color-list-flagged:                #ff5c33;
+@color-list-flagged:                @color-error;
 @color-list-deleted:                #ccc;
 @color-list-secondary:              #666;
 @color-list-droptarget-background:  #ffffcc;
@@ -132,6 +132,14 @@
 @color-form-hint:                   #888;
 
 @color-image-upload-background:     #f6f6f6;
+
+@color-btn-secondary:               #fff;
+@color-btn-secondary-background:    #7f8a90;
+@color-btn-primary:                 #fff;
+@color-btn-primary-background:      @color-main;
+@color-btn-danger:                  #fff;
+@color-btn-danger-background:       @color-error;
+
 
 @color-blockquote-background:       #f6f6f6;
 @color-blockquote-0:                blue;

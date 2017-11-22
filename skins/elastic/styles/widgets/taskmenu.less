@@ -16,6 +16,7 @@
     height: 100%;
 
     a {
+        .overflow-ellipsis;
         text-decoration: none;
         padding: .45rem 0;
         display: block;
@@ -80,6 +81,7 @@
 
         span.inner {
             font-size: 90%;
+            padding: 0 .1em;
         }
     }
 
@@ -150,18 +152,18 @@
     }
 
     @media screen and (max-width: @screen-width-xs) {
-        a {
-            height: auto;
-            margin-top: 1rem;
-            background: transparent;
-        }
-
         a,
         a:before {
             height: 2.25rem;
             display: inline-block;
             width: 310px / 3;
             font-size: 1.25em;
+        }
+
+        a {
+            height: auto;
+            margin-top: 1rem;
+            background: transparent;
         }
 
         a:hover {
@@ -183,12 +185,6 @@
         }
     }
 
-    @media screen and (min-width: (@screen-width-xs + 1px)) {
-        .menu-header {
-            display: none;
-        }
-    }
-
     .menu-header {
         border-bottom: 1px solid @color-taskmenu-button;
         height: @layout-touch-header-height;
@@ -206,11 +202,18 @@
                 line-height: @layout-touch-header-height;
                 height: @layout-touch-header-height;
                 width: auto;
+                margin-right: .25rem;
             }
 
             &:hover {
                 background: inherit;
             }
+        }
+    }
+
+    @media screen and (min-width: (@screen-width-xs + 1px)) {
+        .menu-header {
+            display: none;
         }
     }
 }
