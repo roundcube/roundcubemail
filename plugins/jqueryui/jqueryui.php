@@ -95,11 +95,13 @@ class jqueryui extends rcube_plugin
         }
 
         $colors_theme = $rcube->config->get('jquery_ui_colors_theme', 'default');
-        $conf         = rcube_output::json_serialize(array('theme' => $colors_theme));
+        $config       = array('theme' => $colors_theme);
+        $config_str   = rcube_output::json_serialize($config);
 
         $rcube->output->include_css($css);
-        $rcube->output->add_header(html::tag('script', array('type' => "text/javascript", 'src' => $script)));
-        $rcube->output->add_script('$.fn.miniColors = $.fn.minicolors; $("input.colors").minicolors(' . $conf . ')', 'docready');
+        $rcube->output->add_header(html::tag('script', array('type' => 'text/javascript', 'src' => $script)));
+        $rcube->output->add_script('$.fn.miniColors = $.fn.minicolors; $("input.colors").minicolors(' . $config_str . ')', 'docready');
+        $rcube->output->set_env('minicolors_config', $config);
     }
 
     public static function tagedit()
