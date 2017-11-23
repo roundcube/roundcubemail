@@ -26,9 +26,15 @@ function hide_blockquote()
     return;
 
   $('div.message-part div.pre > blockquote', $('#messagebody')).each(function() {
-    var div, link, q = $(this),
-      text = $.trim(q.text()),
-      res = text.split(/\n/);
+    var res, text, div, link, q = $(this);
+
+    // Add new-line character before each blockquote
+    // This fixes counting lines of text, it also prevents
+    // from merging lines from different quoting level
+    $('blockquote').before(document.createTextNode("\n"));
+
+    text = $.trim(q.text());
+    res = text.split(/\n/);
 
     if (res.length <= limit) {
       // there can be also a block with very long wrapped line
