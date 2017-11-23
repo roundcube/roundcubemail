@@ -147,17 +147,15 @@
             cursor: pointer;
             right: .5rem;
             min-width: 4rem;
-            padding-left: .5rem;
-            padding-right: .25rem;
+            padding: .2rem .25rem .2rem .5rem;
             font-size: 90%;
-            color: @color-font;
             text-align: center;
+            color: @color-black-shade-text;
             background: @color-black-shade-bg;
             border: 1px solid @color-black-shade-border;
-            border-top: none;
-            border-bottom-right-radius: .3rem;
-            border-bottom-left-radius: .3rem;
-
+            border-radius: .3rem;
+            line-height: 1;
+            .font-family; // don't inherit monospace font
 
             &:after {
                 &:extend(.font-icon-class);
@@ -166,7 +164,6 @@
                 float: none;
                 margin: 0;
                 font-size: 90%;
-                height: 1.1rem;
             }
 
             &.collapsed:after {
