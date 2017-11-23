@@ -279,6 +279,22 @@ html.touch {
     padding: 1px;
 }
 
+.input-group {
+    .minicolors-input {
+        width: 100%;
+        // needed so minicolors panel is not out of screen
+        // when the input is on the right side, e.g. Calendar plugin settings
+        // This is obviously minicolors script issue
+        min-width: 130px;
+        border-left: 0;
+        border-right: 0;
+    }
+
+    .minicolors-swatch {
+        height: 25px !important;
+    }
+}
+
 @media screen and (max-width: @screen-width-mini) {
     .ui-widget-content {
         border-radius: 0;

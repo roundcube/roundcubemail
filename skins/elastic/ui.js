@@ -545,6 +545,9 @@ function rcube_elastic_ui()
                     last.addClass('datetime');
                 }
             }
+            else if (cells.length == 1) {
+                cells.css('width', '100%');
+            }
 
             row.addClass(row_classes.join(' '));
         });
