@@ -443,7 +443,6 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         // force domain selection in redirect email input
         $domains  = (array) $this->rc->config->get('managesieve_domains');
         $redirect = $this->vacation['action'] == 'redirect' || $this->vacation['action'] == 'copy';
-
         if (!empty($domains)) {
             sort($domains);
 
@@ -460,11 +459,11 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         // redirect target
-        $action_target = ' <span id="action_target_span" style="display:' . ($redirect ? 'inline' : 'none') . '">'
+        $action_target = ' <span id="action_target_span" class="input-group" style="display:' . ($redirect ? 'inline' : 'none') . '">'
             . '<input type="text" name="action_target" id="action_target"'
             . ' value="' .($redirect ? rcube::Q($this->vacation['target'], 'strict', false) : '') . '"'
             . (!empty($domains) ? ' size="20"' : ' size="35"') . '/>'
-            . (!empty($domains) ? ' @ ' . $domain_select->show($this->vacation['domain']) : '')
+            . (!empty($domains) ? ' <span class="input-group-addon">@</span> ' . $domain_select->show($this->vacation['domain']) : '')
             . '</span>';
 
         // Message tab
