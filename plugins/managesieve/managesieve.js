@@ -495,6 +495,12 @@ rcube_webmail.prototype.managesieve_save = function()
     return;
   }
 
+  if (this.env.action == 'plugin.managesieve-forward') {
+    var data = $(this.gui_objects.sieveform).serialize();
+    this.http_post('plugin.managesieve-forward', data, this.display_message(this.get_label('managesieve.forward.saving'), 'loading'));
+    return;
+  }
+
   if (this.gui_objects.sieveform) {
     if (parent.rcmail && parent.rcmail.filters_list && this.gui_objects.sieveform.name != 'filtersetform') {
       var id = parent.rcmail.filters_list.get_single_selection();
@@ -736,6 +742,7 @@ function action_type_select(id)
       target_area: document.getElementById('action_target_area' + id),
       flags: document.getElementById('action_flags' + id),
       vacation: document.getElementById('action_vacation' + id),
+      forward: document.getElementById('action_forward' + id),
       set: document.getElementById('action_set' + id),
       notify: document.getElementById('action_notify' + id)
     };
@@ -754,6 +761,9 @@ function action_type_select(id)
   }
   else if (v == 'vacation') {
     enabled.vacation = 1;
+  }
+  else if (v == 'forward') {
+    enabled.forward = 1;
   }
   else if (v == 'set') {
     enabled.set = 1;
