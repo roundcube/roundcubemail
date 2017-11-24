@@ -273,7 +273,6 @@ function rcube_elastic_ui()
             $('input[type=checkbox]', this).each(function() { pretty_checkbox(this); });
         });
 
-
         // Assign .formcontainer class to the iframe body, when it
         // contains .formcontent and .formbuttons.
         if (is_framed) {
@@ -653,6 +652,11 @@ function rcube_elastic_ui()
         $('.propform input[type=checkbox], .form-check > input, .popupmenu.form input[type=checkbox], .toolbarmenu input[type=checkbox]', context)
             .each(function() { pretty_checkbox(this); });
 
+        // Also when we add action-row of the form, e.g. Managesieve plugin adds them after the page is ready
+        if ($(context).is('.actionrow')) {
+            $('input[type=checkbox]', context).each(function() { pretty_checkbox(this); });
+        }
+
         // Make message-objects alerts pretty (the same as UI alerts)
         $('#message-objects', context).children().each(function() {
             alert_style(this, $(this).addClass('boxwarning').attr('class').split(/\s/)[0]);
@@ -660,12 +664,12 @@ function rcube_elastic_ui()
         });
 
         // Style calendar widget (we use setTimeout() because there's no widget event we could bind to)
-        $('input.datepicker').focus(function() {
+        $('input.datepicker', context).focus(function() {
             setTimeout(function() { bootstrap_style($('.ui-datepicker')); }, 5);
         });
 
         // Form validation errors (managesieve plugin)
-        $('.error').addClass('is-invalid');
+        $('.error', context).addClass('is-invalid');
 
         // Make logon form prettier
         if (rcmail.env.task == 'login' && context == document) {
@@ -2454,7 +2458,7 @@ function rcube_elastic_ui()
             checkbox.attr('id', id);
         }
 
-        checkbox.addClass('icon-checkbox').after(
+        checkbox.addClass('icon-checkbox form-check-input').after(
             $('<label>').attr({'for': id, title: checkbox.attr('title') || ''})
         );
     };
