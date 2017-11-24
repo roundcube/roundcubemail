@@ -2180,6 +2180,12 @@ class rcube_sieve_engine
                 ))
                 . rcube::Q($this->plugin->gettext('flag'.$fidx))) . '<br>';
         }
+
+        $flags_target = array_filter($flags_target, function($v) use($flags) {
+            return !in_array_nocase($v, $flags);
+        });
+        $flout .= $this->list_input($id, 'action_flags', $flags_target, true,
+            $this->error_class($id, 'action', 'flags', 'action_flags'));
         $out .= html::div(array(
                 'id'    => 'action_flags' . $id,
                 'style' => 'display:' . (preg_match('/^(set|add|remove)flag$/', $action['type']) ? 'inline' : 'none'),
