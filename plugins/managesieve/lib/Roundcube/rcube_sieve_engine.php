@@ -2168,27 +2168,35 @@ class rcube_sieve_engine
             'deleted'   => '\\Deleted',
             'draft'     => '\\Draft',
         );
-        $flags_target = (array)$action['target'];
+
+        $flags_target   = (array) $action['target'];
+        $custom_flags   = array();
+        $is_flag_action = preg_match('/^(set|add|remove)flag$/', $action['type']);
+
+        if ($is_flag_action) {
+            $custom_flags = array_filter($flags_target, function($v) use($flags) {
+                return !in_array_nocase($v, $flags);
+            });
+        }
 
         $flout = '';
+
         foreach ($flags as $fidx => $flag) {
             $flout .= html::label(null, html::tag('input', array(
                     'type'    => 'checkbox',
                     'name'    => '_action_flags[' .$id .'][]',
                     'value'   => $flag,
-                    'checked' => in_array_nocase($flag, $flags_target),
+                    'checked' => $is_flag_action && in_array_nocase($flag, $flags_target),
                 ))
                 . rcube::Q($this->plugin->gettext('flag'.$fidx))) . '<br>';
         }
 
-        $flags_target = array_filter($flags_target, function($v) use($flags) {
-            return !in_array_nocase($v, $flags);
-        });
-        $flout .= $this->list_input($id, 'action_flags', $flags_target, true,
+        $flout .= $this->list_input($id, 'action_flags', $custom_flags, true,
             $this->error_class($id, 'action', 'flags', 'action_flags'));
+
         $out .= html::div(array(
                 'id'    => 'action_flags' . $id,
-                'style' => 'display:' . (preg_match('/^(set|add|remove)flag$/', $action['type']) ? 'inline' : 'none'),
+                'style' => 'display:' . ($is_flag_action ? 'inline' : 'none'),
                 'class' => trim('checklist ' . $this->error_class($id, 'action', 'flags', 'action_flags')),
             ), $flout);
 

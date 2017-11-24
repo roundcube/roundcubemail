@@ -1,4 +1,5 @@
 - Added option managesieve_default_headers
+- Support filter action with custom IMAP flags (#6011)
 
 * version 9.0 [2017-10-02]
 -----------------------------------------------------------
