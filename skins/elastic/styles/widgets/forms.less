@@ -229,6 +229,13 @@ input.smart-upload {
             padding-right: 0;
         }
     }
+
+    // Some forms may use multiple elements that are not part of .input-group
+    // add proper spacing
+    select + select,
+    select + .input-group {
+        padding-top: .5rem;
+    }
 }
 
 @media screen and (max-width: 576px) {
