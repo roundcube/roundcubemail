@@ -5,7 +5,7 @@
  *
  * Engine part of Managesieve plugin implementing UI and backend access.
  *
- * Copyright (C) 2011-2014, Kolab Systems AG
+ * Copyright (C) 2011-2017, Kolab Systems AG
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -300,18 +300,18 @@ class rcube_sieve_forward extends rcube_sieve_engine
         }
 
         // redirect target
-        $action_target = ' <span id="action_target_span">'
+        $action_target = '<span id="action_target_span" class="input-group">'
             . '<input type="text" name="action_target" id="action_target"'
             . ' value="' .($redirect ? rcube::Q($this->forward['target'], 'strict', false) : '') . '"'
             . (!empty($domains) ? ' size="20"' : ' size="35"') . '/>'
-            . (!empty($domains) ? ' @ ' . $domain_select->show($this->forward['domain']) : '')
+            . (!empty($domains) ? ' <span class="input-group-addon">@</span> ' . $domain_select->show($this->forward['domain']) : '')
             . '</span>';
 
         // Message tab
         $table = new html_table(array('cols' => 2));
 
         $table->add('title', html::label('forward_action', $this->plugin->gettext('forward.action')));
-        $table->add('forward', $action->show($this->forward['action']) . $action_target);
+        $table->add('forward', $action->show($this->forward['action']) . ' ' . $action_target);
 
         $table->add('title', html::label('forward_status', $this->plugin->gettext('forward.status')));
         $table->add(null, $status->show(!isset($this->forward['disabled']) || $this->forward['disabled'] ? 'off' : 'on'));

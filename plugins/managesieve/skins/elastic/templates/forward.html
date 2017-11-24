@@ -1,0 +1,23 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+<roundcube:include file="includes/settings-menu.html" />
+
+<h1 class="voice"><roundcube:label name="managesieve.forward" /></h1>
+
+<div class="content selected" role="main">
+	<div class="header">
+		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+		<span class="header-title"></span>
+	</div>
+	<div class="formcontainer scroller" aria-labelledby="aria-label-forwardform">
+		<div class="formcontent">
+			<h2 class="voice" id="aria-label-forwardform"><roundcube:label name="managesieve.forward" /></h2>
+			<roundcube:object name="forwardform" id="forwardform" class="propform" />
+		</div>
+		<div class="formbuttons">
+			<roundcube:button command="plugin.managesieve-save" class="btn btn-primary submit" label="save" />
+		</div>
+	</div>
+</div>
+
+<roundcube:include file="includes/footer.html" />
