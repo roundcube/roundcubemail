@@ -15,9 +15,16 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     echo >&2 "Complete! ROUNDCUBEMAIL has been successfully copied to $PWD"
   fi
 
-  if [ ! -z "${!MYSQL_ENV_MYSQL_*}" ]; then
+  if [ ! -z "${!POSTGRES_ENV_POSTGRES_*}" ]; then
+    : "${ROUNDCUBEMAIL_DB_TYPE:=pgsql}"
+    : "${ROUNDCUBEMAIL_DB_HOST:=postgres}"
+    : "${ROUNDCUBEMAIL_DB_USER:=${POSTGRES_ENV_POSTGRES_USER}}"
+    : "${ROUNDCUBEMAIL_DB_PASSWORD:=${POSTGRES_ENV_POSTGRES_PASSWORD}}"
+    : "${ROUNDCUBEMAIL_DB_NAME:=${POSTGRES_ENV_POSTGRES_DB:-roundcubemail}}"
+    : "${ROUNDCUBEMAIL_DSNW:=${ROUNDCUBEMAIL_DB_TYPE}://${ROUNDCUBEMAIL_DB_USER}:${ROUNDCUBEMAIL_DB_PASSWORD}@${ROUNDCUBEMAIL_DB_HOST}/${ROUNDCUBEMAIL_DB_NAME}}"
+  elif [ ! -z "${!MYSQL_ENV_MYSQL_*}" ]; then
     : "${ROUNDCUBEMAIL_DB_TYPE:=mysql}"
-    : "${ROUNDCUBEMAIL_DB_HOST:=${MYSQL_ENV_MYSQL_HOST:-mysql}}"
+    : "${ROUNDCUBEMAIL_DB_HOST:=mysql}"
     : "${ROUNDCUBEMAIL_DB_USER:=${MYSQL_ENV_MYSQL_USER:-root}}"
     if [ "$ROUNDCUBEMAIL_DB_USER" = 'root' ]; then
       : "${ROUNDCUBEMAIL_DB_PASSWORD:=${MYSQL_ENV_MYSQL_ROOT_PASSWORD}}"
@@ -28,8 +35,10 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     : "${ROUNDCUBEMAIL_DSNW:=${ROUNDCUBEMAIL_DB_TYPE}://${ROUNDCUBEMAIL_DB_USER}:${ROUNDCUBEMAIL_DB_PASSWORD}@${ROUNDCUBEMAIL_DB_HOST}/${ROUNDCUBEMAIL_DB_NAME}}"
   else
     # use local SQLite DB in /var/www/html/db
+    : "${ROUNDCUBEMAIL_DB_TYPE:=sqlite}"
     : "${ROUNDCUBEMAIL_DB_DIR:=$PWD/db}"
-    : "${ROUNDCUBEMAIL_DSNW:=sqlite:///$ROUNDCUBEMAIL_DB_DIR/sqlite.db?mode=0646}"
+    : "${ROUNDCUBEMAIL_DB_NAME:=sqlite}"
+    : "${ROUNDCUBEMAIL_DSNW:=${ROUNDCUBEMAIL_DB_TYPE}:///$ROUNDCUBEMAIL_DB_DIR/${ROUNDCUBEMAIL_DB_NAME}.db?mode=0646}"
 
     mkdir -p $ROUNDCUBEMAIL_DB_DIR
     chown www-data:www-data $ROUNDCUBEMAIL_DB_DIR
