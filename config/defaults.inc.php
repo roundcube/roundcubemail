@@ -1007,6 +1007,11 @@ $config['autocomplete_threads'] = 0;
 // Max. numer of entries in autocomplete popup. Default: 15.
 $config['autocomplete_max'] = 15;
 
+// An ordered array of the ids of the addressbooks that should be searched
+// when checking if remote resources should be displayed ex: array('sql','Verisign');
+// Default: null, the default_addressbook will be used
+$config['safe_addressbooks'] = null;
+
 // show address fields in this order
 // available placeholders: {street}, {locality}, {zipcode}, {country}, {region}
 $config['address_template'] = '{street}<br/>{locality} {zipcode}<br/>{country} {region}';
@@ -1067,7 +1072,7 @@ $config['prefer_html'] = true;
 
 // display remote resources (inline images, styles)
 // 0 - Never, always ask
-// 1 - Ask if sender is not in address book
+// 1 - Ask if sender is not in address book (see also safe_addressbooks)
 // 2 - Always allow
 $config['show_images'] = 0;
 

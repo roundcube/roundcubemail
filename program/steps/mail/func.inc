@@ -815,13 +815,18 @@ function rcmail_check_safe($message)
     ) {
         switch ($show_images) {
         case 1: // known senders only
-            // get default addressbook, like in addcontact.inc
-            $CONTACTS = $RCMAIL->get_address_book(-1, true);
+            // get list of safe address books
+            $book_types = (array) $RCMAIL->config->get('safe_addressbooks', -1);
 
-            if ($CONTACTS && $message->sender['mailto']) {
-                $result = $CONTACTS->search('email', $message->sender['mailto'], 1, false);
-                if ($result->count) {
-                    $message->set_safe(true);
+            foreach ($book_types as $abook_id) {
+                $CONTACTS = $RCMAIL->get_address_book($abook_id);
+
+                if ($CONTACTS && $message->sender['mailto']) {
+                    $result = $CONTACTS->search('email', $message->sender['mailto'], 1, false);
+                    if ($result->count) {
+                        $message->set_safe(true);
+                        break;
+                    }
                 }
             }
 
