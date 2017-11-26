@@ -22,7 +22,7 @@ The following env variables can be set to configure your Roundcube Docker instan
 
 By default, the image will use a local SQLite database for storing user account metadata.
 It'll be created inside the `/var/www/html` volume and can be backed up from there. Please note that
-this option should not be used for production.
+this option should not be used for production environments.
 
 ### Connect to a MySQL Database
 
@@ -37,8 +37,8 @@ The recommended way to run Roundcube is connected to a MySQL database. Specify t
 
 `MYSQL_ENV_MYSQL_DATABASE` - The database name for Roundcube to use; defaults to `roundcubemail`
 
-Before staring the container, please make sure that the supplied database exists and the given database user has privileges
-to create tables.
+Before starting the container, please make sure that the supplied database exists and the given database user
+has privileges to create tables.
 
 Run it with a link to the MySQL host and the username/password variables:
 
@@ -46,14 +46,14 @@ Run it with a link to the MySQL host and the username/password variables:
 docker run -e MYSQL_ENV_MYSQL_ROOT_PASSWORD=my-secret-password --link=mysql:mysql -d roundcube/roundcubemail
 ```
 
-## Building a Docker Container
+## Building a Docker image
 
-Use the `Dockerfile` in this directory to build you own Docker image.
+Use the `Dockerfile` in this directory to build your own Docker image.
 It pulls the latest build of Roundcube Webmail from the Github download page and builds it on top of a `php:7.1-apache` Docker image.
 
 Build it from this directory with
 
 ```
-docker build -t roundcubemail
+docker build -t roundcubemail .
 ```
 
