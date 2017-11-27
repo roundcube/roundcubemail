@@ -476,7 +476,7 @@ function rcube_elastic_ui()
             context = document;
         }
 
-        $('input.button,button', context).addClass('btn').not('.btn-primary,.primary,.mainaction').addClass('btn-secondary');
+        $('input.button,button', context).not('.btn').addClass('btn').not('.btn-primary,.primary,.mainaction').addClass('btn-secondary');
         $('input.button.mainaction,button.primary,button.mainaction', context).addClass('btn-primary');
         $('button.btn.delete,button.btn.discard', context).addClass('btn-danger');
 
