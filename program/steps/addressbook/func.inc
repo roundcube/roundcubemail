@@ -408,10 +408,11 @@ function rcmail_js_contacts_list($result, $prefix='')
                 case 'action':
                     if ($row['_type'] == 'group') {
                         $val = html::a(array(
-                            'href' => '#list',
-                            'rel' => $row['ID'],
-                            'title' => $RCMAIL->gettext('listgroup'),
+                            'href'    => '#list',
+                            'rel'     => $row['ID'],
+                            'title'   => $RCMAIL->gettext('listgroup'),
                             'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)", rcmail_output::JS_OBJECT_NAME, $source_id, $row['CID']),
+                            'class'   => 'pushgroup',
                             'data-action-link' => true,
                         ), '&raquo;');
                     }
