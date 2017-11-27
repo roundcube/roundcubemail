@@ -1,7 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
-- Fix a couple of warnings on PHP 7.2
+- Fix a couple of warnings on PHP 7.2 (#6098)
 - Fix broken long filenames when using imap4d server - workaround server bug (#6048)
 - Fix so temp_dir misconfiguration prints an error to the log (#6045)
 - Fix untagged COPYUID responses handling - again (#5982)

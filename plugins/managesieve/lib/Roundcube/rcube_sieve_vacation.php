@@ -287,7 +287,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if (empty($vacation_tests)) {
-            $vacation_tests = $this->rc->config->get('managesieve_vacation_test', array(array('test' => 'true')));
+            $vacation_tests = (array) $this->rc->config->get('managesieve_vacation_test', array(array('test' => 'true')));
         }
 
         if (!$error) {
@@ -378,7 +378,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $action->add($this->plugin->gettext('vacation.copy'), 'copy');
         }
 
-        if ($this->rc->config->get('managesieve_vacation') != 2 && count($this->vacation['list'])) {
+        if ($this->rc->config->get('managesieve_vacation') != 2 && !empty($this->vacation['list'])) {
             $after = new html_select(array('name' => 'vacation_after', 'id' => 'vacation_after'));
 
             $after->add('', '');
@@ -887,7 +887,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if (empty($vacation_tests)) {
-            $vacation_tests = $this->rc->config->get('managesieve_vacation_test', array(array('test' => 'true')));
+            $vacation_tests = (array) $this->rc->config->get('managesieve_vacation_test', array(array('test' => 'true')));
         }
 
         $rule             = $this->vacation;

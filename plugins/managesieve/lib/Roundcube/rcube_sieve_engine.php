@@ -467,16 +467,15 @@ class rcube_sieve_engine
             // Initialize the form
             $rules = rcube_utils::get_input_value('r', rcube_utils::INPUT_GET);
             if (!empty($rules)) {
-                $i = 0;
+                $tests = array();
                 foreach ($rules as $rule) {
                     list($header, $value) = explode(':', $rule, 2);
-                    $tests[$i] = array(
+                    $tests[] = array(
                         'type' => 'contains',
                         'test' => 'header',
                         'arg1' => $header,
                         'arg2' => $value,
                     );
-                    $i++;
                 }
 
                 $this->form = array(
@@ -744,7 +743,7 @@ class rcube_sieve_engine
                         $this->form['tests'][$i]['arg']  = $target;
 
                         if ($type != 'exists') {
-                            if (!count($target)) {
+                            if (empty($target)) {
                                 $this->errors['tests'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
                             }
                             else if (strpos($type, 'count-') === 0) {
@@ -761,7 +760,7 @@ class rcube_sieve_engine
                                 }
                             }
 
-                            if (!preg_match('/^(regex|matches|count-)/', $type) && count($target)) {
+                            if (!preg_match('/^(regex|matches|count-)/', $type) && !empty($target)) {
                                 foreach ($target as $arg) {
                                     if (!$this->validate_date_part($datepart, $arg)) {
                                         $this->errors['tests'][$i]['target'] = $this->plugin->gettext('invaliddateformat');
@@ -804,7 +803,7 @@ class rcube_sieve_engine
                         $this->form['tests'][$i]['header'] = $dateheader;
 
                         if ($type != 'exists') {
-                            if (!count($target)) {
+                            if (empty($target)) {
                                 $this->errors['tests'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
                             }
                             else if (strpos($type, 'count-') === 0) {
@@ -821,7 +820,7 @@ class rcube_sieve_engine
                                 }
                             }
 
-                            if (count($target) && !preg_match('/^(regex|matches|count-)/', $type)) {
+                            if (!empty($target) && !preg_match('/^(regex|matches|count-)/', $type)) {
                                 foreach ($target as $arg) {
                                     if (!$this->validate_date_part($datepart, $arg)) {
                                         $this->errors['tests'][$i]['target'] = $this->plugin->gettext('invaliddateformat');
@@ -1432,7 +1431,7 @@ class rcube_sieve_engine
 
         // 'any' flag
         if ((!isset($this->form) && empty($scr['tests']) && !empty($scr))
-            || (count($scr['tests']) == 1 && $scr['tests'][0]['test'] == 'true' && !$scr['tests'][0]['not'])
+            || (is_array($scr['tests']) && count($scr['tests']) == 1 && $scr['tests'][0]['test'] == 'true' && !$scr['tests'][0]['not'])
         ) {
             $any = true;
         }
@@ -1530,8 +1529,17 @@ class rcube_sieve_engine
 
     function rule_div($fid, $id, $div=true)
     {
-        $rule     = isset($this->form) ? $this->form['tests'][$id] : $this->script[$fid]['tests'][$id];
-        $rows_num = isset($this->form) ? count($this->form['tests']) : count($this->script[$fid]['tests']);
+        $rule = isset($this->form) ? $this->form['tests'][$id] : $this->script[$fid]['tests'][$id];
+
+        if (isset($this->form['tests'])) {
+            $rows_num = count($this->form['tests']);
+        }
+        else if (isset($this->script[$fid]['tests'])) {
+            $rows_num = count($this->script[$fid]['tests']);
+        }
+        else {
+            $rows_num = 0;
+        }
 
         // headers select
         $select_header = new html_select(array('name' => "_header[]", 'id' => 'header'.$id,
@@ -1934,8 +1942,17 @@ class rcube_sieve_engine
 
     function action_div($fid, $id, $div=true)
     {
-        $action   = isset($this->form) ? $this->form['actions'][$id] : $this->script[$fid]['actions'][$id];
-        $rows_num = isset($this->form) ? count($this->form['actions']) : count($this->script[$fid]['actions']);
+        $action = isset($this->form) ? $this->form['actions'][$id] : $this->script[$fid]['actions'][$id];
+
+        if (isset($this->form['actions'])) {
+            $rows_num = count($this->form['actions']);
+        }
+        else if (isset($this->script[$fid]['actions'])) {
+            $rows_num = count($this->script[$fid]['actions']);
+        }
+        else {
+            $rows_num = 0;
+        }
 
         $out = $div ? '<div class="actionrow" id="actionrow' .$id .'">'."\n" : '';
 
