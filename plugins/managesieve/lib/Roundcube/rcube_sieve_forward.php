@@ -220,7 +220,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
         }
 
         if (empty($forward_tests)) {
-            $forward_tests = $this->rc->config->get('managesieve_forward_test', array(array('test' => 'true')));
+            $forward_tests = (array) $this->rc->config->get('managesieve_forward_test', array(array('test' => 'true')));
         }
 
         if (!$error) {
@@ -468,7 +468,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
         }
 
         if (empty($forward_tests)) {
-            $forward_tests = $this->rc->config->get('managesieve_forward_test', array(array('test' => 'true')));
+            $forward_tests = (array) $this->rc->config->get('managesieve_forward_test', array(array('test' => 'true')));
         }
 
         $rule             = $this->forward;
