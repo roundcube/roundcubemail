@@ -65,13 +65,28 @@
     }
 
     td.action {
-        // TODO
         padding: 0 .5em;
         width: 2em;
         text-align: center;
 
         &:empty {
             width: 0;
+        }
+
+        a {
+            display: block;
+            overflow: hidden;
+            text-decoration: none;
+
+            &:before {
+                &:extend(.font-icon-class);
+                margin: 0;
+                font-size: 1rem;
+            }
+        }
+
+        a.pushgroup:before {
+            content: @fa-var-chevron-right;
         }
     }
 
