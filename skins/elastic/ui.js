@@ -69,6 +69,7 @@ function rcube_elastic_ui()
     this.smart_field_reset = smart_field_reset;
     this.form_errors = form_errors;
     this.switch_nav_list = switch_nav_list;
+    this.searchbar_init = searchbar_init;
 
 
     // Initialize layout
@@ -1317,7 +1318,8 @@ function rcube_elastic_ui()
      */
     function searchbar_init(bar)
     {
-        var input = $('input', bar).addClass('form-control'),
+        var parent_class = 'with-search',
+            input = $('input', bar).addClass('form-control'),
             button = $('a.button.search', bar),
             form = $('form', bar),
             is_search_pending = function() {
@@ -1338,7 +1340,11 @@ function rcube_elastic_ui()
                 }
             };
 
-        $(bar).parent().addClass('with-search');
+        if (!$(bar).next().length) {
+            parent_class += ' no-toolbar';
+        }
+
+        $(bar).parent().addClass(parent_class);
 
         if (is_search_pending()) {
             $(bar).addClass('active');
@@ -1347,8 +1353,8 @@ function rcube_elastic_ui()
         // make the input pretty
         form.addClass('input-group')
             .prepend($('<i class="input-group-addon icon search">'))
-            .append($('a.options').detach().removeClass('button').addClass('icon input-group-addon'))
-            .append($('a.reset').detach().removeClass('button').addClass('icon input-group-addon'))
+            .append($('a.options', bar).detach().removeClass('button').addClass('icon input-group-addon'))
+            .append($('a.reset', bar).detach().removeClass('button').addClass('icon input-group-addon'))
             .append($('<a class="icon cancel input-group-addon" href="#">'));
 
         // Display search form
