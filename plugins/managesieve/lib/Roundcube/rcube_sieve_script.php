@@ -39,7 +39,7 @@ class rcube_sieve_script
         'imap4flags',               // RFC5232
         'include',                  // RFC6609
         'index',                    // RFC5260
-        'mime',                     // RFC5703 (except: foreverypart, break, enclose, extracttext)
+        'mime',                     // RFC5703 (except: foreverypart/break, enclose, extracttext)
         'notify',                   // RFC5435
         'regex',                    // draft-ietf-sieve-regex-01
         'reject',                   // RFC5429

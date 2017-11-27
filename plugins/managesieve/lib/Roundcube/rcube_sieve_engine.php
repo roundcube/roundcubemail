@@ -660,6 +660,9 @@ class rcube_sieve_engine
             $lastindexes    = rcube_utils::get_input_value('_rule_index_last', rcube_utils::INPUT_POST);
             $dateheaders    = rcube_utils::get_input_value('_rule_date_header', rcube_utils::INPUT_POST);
             $dateparts      = rcube_utils::get_input_value('_rule_date_part', rcube_utils::INPUT_POST);
+            $mime_parts     = rcube_utils::get_input_value('_rule_mime_part', rcube_utils::INPUT_POST);
+            $mime_types     = rcube_utils::get_input_value('_rule_mime_type', rcube_utils::INPUT_POST);
+            $mime_params    = rcube_utils::get_input_value('_rule_mime_param', rcube_utils::INPUT_POST, true);
             $message        = rcube_utils::get_input_value('_rule_message', rcube_utils::INPUT_POST);
             $dup_handles    = rcube_utils::get_input_value('_rule_duplicate_handle', rcube_utils::INPUT_POST, true);
             $dup_headers    = rcube_utils::get_input_value('_rule_duplicate_header', rcube_utils::INPUT_POST, true);
@@ -789,8 +792,10 @@ class rcube_sieve_engine
                         $index       = $this->strip_value($indexes[$idx]);
                         $indexlast   = $this->strip_value($lastindexes[$idx]);
 
-                        if (preg_match('/^not/', $operator))
+                        if (preg_match('/^not/', $operator)) {
                             $this->form['tests'][$i]['not'] = true;
+                        }
+
                         $type = preg_replace('/^not/', '', $operator);
 
                         if ($type == 'exists') {
@@ -909,6 +914,9 @@ class rcube_sieve_engine
                         $mod_type    = $this->strip_value($mod_types[$idx]);
                         $index       = $this->strip_value($indexes[$idx]);
                         $indexlast   = $this->strip_value($lastindexes[$idx]);
+                        $mime_param  = $this->strip_value($mime_params[$idx]);
+                        $mime_type   = $mime_types[$idx];
+                        $mime_part   = $mime_parts[$idx];
 
                         if ($header == 'string') {
                             $cust_var = $headers = $this->strip_value(array_shift($cust_vars));
@@ -986,6 +994,23 @@ class rcube_sieve_engine
 
                             if ($mod) {
                                 $this->form['tests'][$i]['part'] = $mod_type;
+                            }
+                        }
+
+                        if ($test == 'header') {
+                            if (in_array($mime_type, array('type', 'subtype', 'contenttype', 'param'))) {
+                                $this->form['tests'][$i]['mime-' . $mime_type] = true;
+                                if ($mime_type == 'param') {
+                                    if (empty($mime_param)) {
+                                        $this->errors['tests'][$i]['mime-param'] = $this->plugin->gettext('cannotbeempty');
+                                    }
+
+                                    $this->form['tests'][$i]['mime-param'] = $mime_param;
+                                }
+                            }
+
+                            if ($mime_part == 'anychild') {
+                                $this->form['tests'][$i]['mime-anychild'] = true;
                             }
                         }
                     }
@@ -1819,6 +1844,53 @@ class rcube_sieve_engine
         $mout .= $select_type->show($rule['part']);
         $mout .= '</div>';
 
+        // Advanced modifiers (comparators)
+        $select_comp = new html_select(array('name' => "_rule_comp[]", 'id' => 'rule_comp_op'.$id));
+        $select_comp->add(rcube::Q($this->plugin->gettext('default')), '');
+        $select_comp->add(rcube::Q($this->plugin->gettext('octet')), 'i;octet');
+        $select_comp->add(rcube::Q($this->plugin->gettext('asciicasemap')), 'i;ascii-casemap');
+        if (in_array('comparator-i;ascii-numeric', $this->exts)) {
+            $select_comp->add(rcube::Q($this->plugin->gettext('asciinumeric')), 'i;ascii-numeric');
+        }
+
+        $need_comp = $rule['test'] != 'size' && $rule['test'] != 'duplicate';
+        $mout .= '<div id="rule_comp' .$id. '" class="adv input-group"' . (!$need_comp ? ' style="display:none"' : '') . '>';
+        $mout .= '<span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('comparator')) . '</span>';
+        $mout .= $select_comp->show($rule['comparator']);
+        $mout .= '</div>';
+
+        // Advanced modifiers (mime)
+        if (in_array('mime', $this->exts)) {
+            $need_mime   = !$rule || in_array($rule['test'], array('header', 'address', 'exists'));
+            $mime_type   = '';
+            $select_mime = new html_select(array('name' => '_rule_mime_type[]', 'id' => 'rule_mime_type' . $id,
+                'style' => 'min-width:8em', 'onchange' => 'rule_mime_select(' . $id . ')'));
+            $select_mime->add('', '');
+
+            foreach (array('contenttype', 'type', 'subtype', 'param') as $val) {
+                if (isset($rule['mime-' . $val])) {
+                    $mime_type = $val;
+                }
+
+                $select_mime->add(rcube::Q($this->plugin->gettext('mime-' . $val)), $val);
+            }
+
+            $select_mime_part = new html_select(array('name' => '_rule_mime_part[]', 'id' => 'rule_mime_part' . $id));
+            $select_mime_part->add(rcube::Q($this->plugin->gettext('mime-message')), '');
+            $select_mime_part->add(rcube::Q($this->plugin->gettext('mime-anychild')), 'anychild');
+
+            $mout .= '<div id="rule_mime_part' .$id. '" class="adv input-group"' . (!$need_mime ? ' style="display:none"' : '') . '>';
+            $mout .= ' <span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('mimepart')) . ' </span>';
+            $mout .= $select_mime_part->show(!empty($rule['mime-anychild']) ? 'anychild' : '');
+            $mout .= '</div>';
+            $mout .= '<div id="rule_mime' .$id. '" class="adv input-group"' . (!$need_mime ? ' style="display:none"' : '') . '>';
+            $mout .= ' <span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('mime')) . ' </span>';
+            $mout .= $select_mime->show($mime_type);
+            $mout .= $this->list_input($id, 'rule_mime_param', $rule['mime-param'], true,
+                    $this->error_class($id, 'test', 'mime_param', 'rule_mime_param'), 30, $mime_type != 'param');
+            $mout .= '</div>';
+        }
+
         // Advanced modifiers (body transformations)
         $select_mod = new html_select(array('name' => "_rule_trans[]", 'id' => 'rule_trans_op'.$id,
             'onchange' => 'rule_trans_select(' .$id .')'));
@@ -1838,22 +1910,6 @@ class rcube_sieve_engine
                 'style' => $rule['part'] != 'content' ? 'display:none' : '',
                 'class' => $this->error_class($id, 'test', 'part', 'rule_trans_type'),
             ));
-        $mout .= '</div>';
-
-        // Advanced modifiers (body transformations)
-        $select_comp = new html_select(array('name' => "_rule_comp[]", 'id' => 'rule_comp_op'.$id));
-        $select_comp->add(rcube::Q($this->plugin->gettext('default')), '');
-        $select_comp->add(rcube::Q($this->plugin->gettext('octet')), 'i;octet');
-        $select_comp->add(rcube::Q($this->plugin->gettext('asciicasemap')), 'i;ascii-casemap');
-        if (in_array('comparator-i;ascii-numeric', $this->exts)) {
-            $select_comp->add(rcube::Q($this->plugin->gettext('asciinumeric')), 'i;ascii-numeric');
-        }
-
-        // Comparators
-        $need_comp = $rule['test'] != 'size' && $rule['test'] != 'duplicate';
-        $mout .= '<div id="rule_comp' .$id. '" class="adv input-group"' . (!$need_comp ? ' style="display:none"' : '') . '>';
-        $mout .= '<span class="label input-group-addon">' . rcube::Q($this->plugin->gettext('comparator')) . '</span>';
-        $mout .= $select_comp->show($rule['comparator']);
         $mout .= '</div>';
 
         // Date header
@@ -2424,7 +2480,7 @@ class rcube_sieve_engine
         $this->rc->output->add_script($script, 'foot');
     }
 
-    protected function list_input($id, $name, $value, $enabled, $class, $size=null)
+    protected function list_input($id, $name, $value, $enabled, $class, $size = null, $hidden = false)
     {
         $value = (array) $value;
         $value = array_map(array('rcube', 'Q'), $value);
@@ -2433,6 +2489,7 @@ class rcube_sieve_engine
         return html::tag('textarea', array(
                 'data-type' => 'list',
                 'data-size' => $size,
+                'data-hidden' => $hidden ?: null,
                 'name'      => '_' . $name . '['. $id .']',
                 'id'        => $name.$id,
                 'disabled'  => !$enabled,

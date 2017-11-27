@@ -625,7 +625,8 @@ rcube_webmail.prototype.managesieve_vacation_addresses_update = function(id, add
 
 function rule_header_select(id)
 {
-  var obj = document.getElementById('header' + id),
+  var is_header,
+    obj = document.getElementById('header' + id),
     size = document.getElementById('rule_size' + id),
     msg = document.getElementById('rule_message' + id),
     op = document.getElementById('rule_op' + id),
@@ -634,11 +635,13 @@ function rule_header_select(id)
     mod = document.getElementById('rule_mod' + id),
     trans = document.getElementById('rule_trans' + id),
     comp = document.getElementById('rule_comp' + id),
+    mime = document.getElementById('rule_mime' + id),
+    mime_part = document.getElementById('rule_mime_part' + id),
     datepart = document.getElementById('rule_date_part' + id),
     dateheader = document.getElementById('rule_date_header_div' + id),
     rule = $('#rule_op' + id),
     h = obj.value,
-    set = [op, header, custstr, mod, trans, comp, size];
+    set = [op, header, custstr, mod, trans, comp, size, mime, mime_part];
 
   if (h == 'size') {
     if (msg) set.push(msg);
@@ -650,12 +653,15 @@ function rule_header_select(id)
     msg.style.display = '';
   }
   else {
+    is_header = h != 'body' && h != 'currentdate' && h != 'date' && h != 'string';
     header.style.display = h != '...' ? 'none' : '';
     custstr.style.display = h != 'string' ? 'none' : '';
     size.style.display = 'none';
     op.style.display = '';
     comp.style.display = '';
-    mod.style.display = h == 'body' || h == 'currentdate' || h == 'date' || h == 'string' ? 'none' : '';
+    mime.style.display =  is_header ? '' : 'none';
+    mime_part.style.display = is_header ? '' : 'none';
+    mod.style.display = is_header ? '' : 'none';
     trans.style.display = h == 'body' ? '' : 'none';
     if (msg)
       msg.style.display = h == 'message' ? '' : 'none';
@@ -672,6 +678,7 @@ function rule_header_select(id)
 
   rule_op_select(op, id, h);
   rule_mod_select(id, h);
+  rule_mime_select(id);
 
   obj.style.width = h == '...' ? '40px' : '';
 };
@@ -730,6 +737,13 @@ function rule_adv_switch(id, elem)
     adv.get(0).style.display = '';
     elem.removeClass('show').addClass('hide');
   }
+};
+
+function rule_mime_select(id)
+{
+    var elem = $('#rule_mime_type' + id);
+
+    elem.parent().find('.listarea')[0].style.display = elem.val() == 'param' ? '' : 'none';
 };
 
 function action_type_select(id)
@@ -810,6 +824,9 @@ function smart_field_init(field)
   // disable the original field anyway, we don't want it in POST
   else
     field.prop('disabled', true);
+
+  if (field.data('hidden'))
+    area.hide();
 
   field.after(area);
 
