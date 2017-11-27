@@ -659,10 +659,12 @@ function rule_header_select(id)
     size.style.display = 'none';
     op.style.display = '';
     comp.style.display = '';
-    mime.style.display =  is_header ? '' : 'none';
-    mime_part.style.display = is_header ? '' : 'none';
     mod.style.display = is_header ? '' : 'none';
     trans.style.display = h == 'body' ? '' : 'none';
+    if (mime)
+      mime.style.display =  is_header ? '' : 'none';
+    if (mime_part)
+      mime_part.style.display = is_header ? '' : 'none';
     if (msg)
       msg.style.display = h == 'message' ? '' : 'none';
   }
@@ -741,9 +743,11 @@ function rule_adv_switch(id, elem)
 
 function rule_mime_select(id)
 {
-    var elem = $('#rule_mime_type' + id);
+  var elem = $('#rule_mime_type' + id),
+    param_elem = $('#rule_mime_param' + id + '_list');
 
-    elem.parent().find('.listarea')[0].style.display = elem.val() == 'param' ? '' : 'none';
+  if (param_elem.length)
+    param_elem[0].style.display = elem.val() == 'param' ? '' : 'none';
 };
 
 function action_type_select(id)
