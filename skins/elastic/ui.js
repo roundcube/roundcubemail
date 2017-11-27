@@ -2606,6 +2606,10 @@ function rcube_elastic_ui()
             field.prop('disabled', true);
         }
 
+        if (field.data('hidden')) {
+            area.hide();
+        }
+
         field.after(area);
 
         if (field.hasClass('is-invalid')) {
