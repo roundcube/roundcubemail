@@ -1865,7 +1865,7 @@ class rcube_sieve_engine
             $mime_type   = '';
             $select_mime = new html_select(array('name' => '_rule_mime_type[]', 'id' => 'rule_mime_type' . $id,
                 'style' => 'min-width:8em', 'onchange' => 'rule_mime_select(' . $id . ')'));
-            $select_mime->add('', '');
+            $select_mime->add('-', '');
 
             foreach (array('contenttype', 'type', 'subtype', 'param') as $val) {
                 if (isset($rule['mime-' . $val])) {
