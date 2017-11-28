@@ -305,6 +305,11 @@ EOF;
         foreach ((array) $meta['config'] as $key => $value) {
             $this->config->set($key, $value, true);
         }
+
+        if (!empty($meta['config'])) {
+            $value = array_merge((array) $this->config->get('dont_override'), array_keys($meta['config']));
+            $this->config->set('dont_override', $value, true);
+        }
     }
 
     /**
