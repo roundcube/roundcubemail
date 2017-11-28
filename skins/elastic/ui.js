@@ -1402,7 +1402,7 @@ function rcube_elastic_ui()
         bar = $('<div class="searchfilterbar searchbar toolbar">')
             .insertAfter(bar)
             .append($(bar).detach())
-            .append($('<a class="button icon filter">').attr('title', rcmail.gettext('filter')));
+            .append($('<a class="button icon filter">').attr({title: rcmail.gettext('filter'), tabindex: 0}));
 
         $('select', bar).wrap($('<div class="input-group">'))
             .parent().prepend($('<i class="input-group-addon icon filter">'))
