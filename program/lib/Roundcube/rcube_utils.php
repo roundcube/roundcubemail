@@ -596,20 +596,38 @@ class rcube_utils
      */
     public static function remote_ip()
     {
-        $address = $_SERVER['REMOTE_ADDR'];
+        // IPv4
+        if (strpos($_SERVER['REMOTE_ADDR'], ':') === false) {
+            $address = $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'];
+        // IPv6
+        } else {
+            $address = '[' . $_SERVER['REMOTE_ADDR'] . ']:' . $_SERVER['REMOTE_PORT'];
+        }
 
         // append the NGINX X-Real-IP header, if set
         if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
-            $remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
+            // IPv4
+            if (strpos($_SERVER['HTTP_X_REAL_IP'], ':') === false) {
+                $remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'] . ':' . $_SERVER['HTTP_X_REAL_PORT'];
+            // IPv6
+            } else {
+                $remote_ip[] = 'X-Real-IP: [' . $_SERVER['HTTP_X_REAL_IP'] . ']:' . $_SERVER['HTTP_X_REAL_PORT'];
+            }
         }
 
-        // append the X-Forwarded-For header, if set
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
+        // append the X-Forwarded-For header, if set and different from X-Real-IP one
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) and (strcmp($_SERVER['HTTP_X_FORWARDED_FOR'], $_SERVER['HTTP_X_REAL_IP']) !== 0)) {
+            // IPv4
+            if (strpos($_SERVER['HTTP_X_REAL_IP'], ':') === false) {
+                $remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ':' . $_SERVER['HTTP_X_FORWARDED_PORT'];
+            // IPv6
+            } else {
+                $remote_ip[] = 'X-Forwarded-For: [' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ']:' . $_SERVER['HTTP_X_FORWARDED_PORT'];
+            }
         }
 
         if (!empty($remote_ip)) {
-            $address .= '(' . implode(',', $remote_ip) . ')';
+            $address .= ' (' . implode(',', $remote_ip) . ')';
         }
 
         return $address;
@@ -640,11 +658,11 @@ class rcube_utils
             }
         }
 
-        if (!empty($_SERVER['REMOTE_ADDR'])) {
-            return $_SERVER['REMOTE_ADDR'];
-        }
-
-        return '';
+        if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+            return $_SERVER['HTTP_X_REAL_IP'];
+        } else {
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+	}
     }
 
     /**
