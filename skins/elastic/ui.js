@@ -70,6 +70,7 @@ function rcube_elastic_ui()
     this.form_errors = form_errors;
     this.switch_nav_list = switch_nav_list;
     this.searchbar_init = searchbar_init;
+    this.pretty_checkbox = pretty_checkbox;
 
 
     // Initialize layout
