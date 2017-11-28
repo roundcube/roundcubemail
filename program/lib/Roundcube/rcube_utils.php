@@ -662,7 +662,7 @@ class rcube_utils
             return $_SERVER['HTTP_X_REAL_IP'];
         } else {
             return $_SERVER['HTTP_X_FORWARDED_FOR'];
-	    }
+        }
     }
 
     /**
