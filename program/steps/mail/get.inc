@@ -76,7 +76,7 @@ if (!empty($_GET['_frame'])) {
 // render thumbnail of an image attachment
 if (!empty($_GET['_thumb']) && $attachment->is_valid()) {
     $thumbnail_size = $RCMAIL->config->get('image_thumbnail_size', 240);
-    $temp_dir       = $RCMAIL->config->get('temp_dir');
+    $temp_dir       = $RCMAIL->config->get('temp_dir') . '/thumbs/' . sprintf("%02d", rand(00, 99));
     $file_ident     = $attachment->ident;
     $cache_basename = $temp_dir . '/' . md5($file_ident . ':' . $RCMAIL->user->ID . ':' . $thumbnail_size);
     $cache_file     = $cache_basename . '.thumb';
