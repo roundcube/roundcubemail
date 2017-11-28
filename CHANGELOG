@@ -5,6 +5,7 @@ CHANGELOG Roundcube Webmail
 - Fix broken long filenames when using imap4d server - workaround server bug (#6048)
 - Fix so temp_dir misconfiguration prints an error to the log (#6045)
 - Fix untagged COPYUID responses handling - again (#5982)
+- Add GeoIP and verbose datas when logging user sendmail
 
 RELEASE 1.3.3
 -------------
