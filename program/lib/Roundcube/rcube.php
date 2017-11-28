@@ -1680,11 +1680,20 @@ class rcube
                 // get all recipient addresses
                 $mailto = implode(',', $a_recipients);
                 $mailto = rcube_mime::decode_address_list($mailto, null, false, null, true);
+                $geoip = geoip_record_by_name(rcube_utils::remote_addr());
+                $geostring = '';
+                if (is_array($geoip)) {
+                    $geostring = implode('/', array_slice($geoip, 0, 6));
+                }
 
-                self::write_log('sendmail', sprintf("User %s [%s]; Message for %s; %s",
+                self::write_log('sendmail', sprintf("IP: %s GeoIP: %s UA: %s Login: %s From: %s To: %s Subject: %s SMTP: %s",
+                    rcube_utils::remote_ip(),
+                    $geostring,
+                    $_SERVER['HTTP_USER_AGENT'],
                     $this->user->get_username(),
-                    rcube_utils::remote_addr(),
+                    $headers['From'],
                     implode(', ', $mailto),
+                    rcube_mime::decode_header($headers['Subject']),
                     !empty($response) ? join('; ', $response) : ''));
             }
         }
