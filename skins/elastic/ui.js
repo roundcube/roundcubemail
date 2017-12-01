@@ -54,6 +54,7 @@ function rcube_elastic_ui()
     this.register_content_buttons = register_content_buttons;
     this.menu_hide = menu_hide;
     this.menu_toggle = menu_toggle;
+    this.menu_destroy = menu_destroy;
     this.popup_init = popup_init;
     this.about_dialog = about_dialog;
     this.headers_dialog = headers_dialog;
@@ -1815,6 +1816,39 @@ function rcube_elastic_ui()
      */
     function menu_hide(name, event)
     {
+        var target = menu_target(name);
+
+        if (name.match(/^drag/)) {
+            $(target).popover('dispose').remove();
+        }
+        else {
+            $(target).popover('hide');
+
+            // In phone mode close all menus when forwardmenu is requested to be closed
+            // FIXME: This is a hack, we need some generic solution.
+            if (name == 'forwardmenu') {
+                popups_close(event);
+            }
+        }
+    };
+
+    /**
+     * Destroys menu by name
+     *
+     * This is required when you replace the menu content element
+     */
+    function menu_destroy(name)
+    {
+        var target = menu_target(name);
+
+        $(target || '[aria-owns=' + name + ']').popover('dispose');
+    };
+
+    /**
+     * Get menu target by name
+     */
+    function menu_target(name)
+    {
         var target;
 
         if (menus[name]) {
@@ -1829,18 +1863,7 @@ function rcube_elastic_ui()
             }
         }
 
-        if (name.match(/^drag/)) {
-            $(target).popover('dispose').remove();
-        }
-        else {
-            $(target).popover('hide');
-
-            // In phone mode close all menus when forwardmenu is requested to be closed
-            // FIXME: This is a hack, we need some generic solution.
-            if (name == 'forwardmenu') {
-                popups_close(event);
-            }
-        }
+        return target;
     };
 
     /**
