@@ -702,16 +702,6 @@ function rcube_elastic_ui()
     {
         $('[data-popup]').each(function() { popup_init(this); });
 
-        // close popups on click in an iframe on the page
-        var close_all_popups = function(e) {
-            $('.popover-body:visible').each(function() {
-                var button = $(this).children('*:first').data('button');
-                if (e.target != button && typeof button !== 'string') {
-                    $(button).popover('hide');
-                }
-            });
-        };
-
         $(document).on('click', popups_close);
         rcube_webmail.set_iframe_events({mousedown: popups_close});
     };
