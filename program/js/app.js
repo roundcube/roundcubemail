@@ -3573,17 +3573,15 @@ function rcube_webmail()
     if (this.env.browser_capabilities)
       this.env.browser_capabilities['pgpmime'] = 1;
 
-    var keyring = this.env.user_id;
-
-    mailvelope.getKeyring(keyring).then(function(kr) {
-      ref.mailvelope_keyring = kr;
-      ref.mailvelope_init(action, kr);
-    }, function(err) {
-      // attempt to create a new keyring for this app/user
-      mailvelope.createKeyring(keyring).then(function(kr) {
+    var keyring = this.env.user_id,
+      fn = function(kr) {
         ref.mailvelope_keyring = kr;
         ref.mailvelope_init(action, kr);
-      }, function(err) {
+      };
+
+    mailvelope.getKeyring(keyring).then(fn, function(err) {
+      // attempt to create a new keyring for this app/user
+      mailvelope.createKeyring(keyring).then(fn, function(err) {
         console.error(err);
       });
     });
