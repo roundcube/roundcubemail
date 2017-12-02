@@ -961,12 +961,19 @@ html.touch input.icon-checkbox + label {
         }
     }
 
+    & > iframe, // e.g. mailvelope frame
     & > .googie_edit_layer,
     & > .mce-tinymce,
     & > textarea {
         margin-top: 2.55rem;
         font-family: monospace;
         width: 100% !important;
+    }
+
+    & > iframe { // e.g. mailvelope frame
+        border-radius: .3rem;
+        border: 1px solid @color-input-border;
+        min-height: 35em;
     }
 }
 

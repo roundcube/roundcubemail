@@ -447,10 +447,17 @@ function rcube_elastic_ui()
         rcmail.init_pagejumper('.pagenav > input');
 
         if (rcmail.task == 'mail') {
-            // In compose window we do not provide "Back' button, instead
-            // we modify the Mail button in the task menu to act like it (i.e. calls 'list' command)
-            if (rcmail.env.action == 'compose' && !rcmail.env.extwin) {
-                $('a.button.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
+            if (rcmail.env.action == 'compose') {
+                // In compose window we do not provide "Back' button, instead
+                // we modify the Mail button in the task menu to act like it (i.e. calls 'list' command)
+                if (!rcmail.env.extwin) {
+                    $('a.button.mail', layout.menu).attr('onclick', "return rcmail.command('list','',this,event)");
+                }
+
+                rcmail.addEventListener('compose-encrypted', function(e) {
+                    $("a.mode-html, button.attach").prop('disabled', e.active);
+                    $('a.button.attach, a.button.responses')[e.active ? 'addClass' : 'removeClass']('disabled');
+                });
             }
 
             // Append contact menu to all mailto: links
@@ -905,6 +912,9 @@ function rcube_elastic_ui()
         }
     };
 
+    /**
+     * Handler for 'enable-command' event
+     */
     function enable_command_handler(args)
     {
         if (is_framed) {
@@ -913,6 +923,24 @@ function rcube_elastic_ui()
                     parent.$('#' + button.button_id)[args.status ? 'removeClass' : 'addClass']('disabled');
                 }
             });
+        }
+
+        if (rcmail.task == 'mail') {
+            switch (args.command) {
+            case 'reply-list':
+                if (rcmail.env.reply_all_mode == 1) {
+                    var label = rcmail.gettext(args.status ? 'replylist' : 'replyall');
+                    $('a.button.reply-all').attr('title', label).find('.inner').text(label);
+                }
+                break;
+
+            case 'compose-encrypted':
+                // show the toolbar button for Mailvelope
+                if (args.status) {
+                    $('a.button.encrypt').show();
+                }
+                break;
+            }
         }
     };
 
