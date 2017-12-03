@@ -72,8 +72,8 @@ function roundcube_browser()
     this.safari = !this.chrome && !this.opera && (this.webkit || this.agent_lc.indexOf('safari') > 0);
     this.konq = this.agent_lc.indexOf('konqueror') > 0;
     this.mz = this.dom && !this.chrome && !this.safari && !this.konq && !this.opera && this.agent.indexOf('Mozilla') >= 0;
-    this.iphone = this.safari && (this.agent_lc.indexOf('iphone') > 0 || this.agent_lc.indexOf('ipod') > 0);
-    this.ipad = this.safari && this.agent_lc.indexOf('ipad') > 0;
+    this.iphone = this.safari && (this.agent_lc.indexOf('iphone') > 0 || this.agent_lc.indexOf('ipod') > 0 || this.platform == 'ipod' || this.platform == 'iphone');
+    this.ipad = this.safari && (this.agent_lc.indexOf('ipad') > 0 || this.platform == 'ipad');
   }
 
   if (!this.vendver) {
