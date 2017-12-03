@@ -99,8 +99,8 @@ if (!$savedraft) {
             array(
                 // remove empty signature div
                 '/<div id="_rc_sig">(&nbsp;)?<\/div>[\s\r\n]*$/',
-                // remove signature's div ID
-                '/\s*id="_rc_sig"/',
+                // replace signature's div ID (#6073)
+                '/ id="_rc_sig"/',
                 // add inline css for blockquotes and container
                 '/<blockquote>/',
                 '/<div class="pre">/',
@@ -109,7 +109,7 @@ if (!$savedraft) {
             ),
             array(
                 '',
-                '',
+                ' id="signature"',
                 '<blockquote type="cite" style="'.$b_style.'">',
                 '<div class="pre" style="'.$pre_style.'">',
                 '<p><br /></p>',
