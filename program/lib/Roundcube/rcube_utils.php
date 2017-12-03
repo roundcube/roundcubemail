@@ -886,13 +886,23 @@ class rcube_utils
     {
         if ($at = strpos($input, '@')) {
             $user   = substr($input, 0, $at);
-            $domain = substr($input, $at+1);
+            $domain = substr($input, $at + 1);
         }
         else {
             $domain = $input;
         }
 
-        $domain = $is_utf ? idn_to_ascii($domain) : idn_to_utf8($domain);
+        // Note that in PHP 7.2/7.3 calling idn_to_* functions with default arguments
+        // throws a warning, so we have to set the variant explicitely (#6075)
+        $variant = INTL_IDNA_VARIANT_UTS46;
+        $options = 0;
+
+        if ($is_utf) {
+            $domain = idn_to_ascii($domain, $options, $variant);
+        }
+        else {
+            $domain = idn_to_utf8($domain, $options, $variant);
+        }
 
         if ($domain === false) {
             return '';
