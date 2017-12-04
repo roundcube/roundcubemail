@@ -28,14 +28,15 @@ this option should not be used for production environments.
 
 The recommended way to run Roundcube is connected to a MySQL database. Specify the following env variables to do so:
 
-`MYSQL_ENV_MYSQL_HOST` - Host (or Docker instance) name of the MySQL service; defaults to `mysql`
+`ROUNDCUBEMAIL_DB_TYPE` - Database provider; currently supported: `mysql`, `pgsql`, `sqlite`
 
-`MYSQL_ENV_MYSQL_USER` - The database username for Roundcube; defaults to `root`
+`ROUNDCUBEMAIL_DB_HOST` - Host (or Docker instance) name of the database service; defaults to `mysql` or `postgres` depending on linked containers.
 
-`MYSQL_ENV_MYSQL_PASSWORD` - The password for the database connection or
-`MYSQL_ENV_MYSQL_ROOT_PASSWORD` - if the database username is `root`
+`ROUNDCUBEMAIL_DB_USER` - The database username for Roundcube; defaults to `root` on `mysql`
 
-`MYSQL_ENV_MYSQL_DATABASE` - The database name for Roundcube to use; defaults to `roundcubemail`
+`ROUNDCUBEMAIL_DB_PASSWORD` - The password for the database connection
+
+`ROUNDCUBEMAIL_DB_NAME` - The database name for Roundcube to use; defaults to `roundcubemail`
 
 Before starting the container, please make sure that the supplied database exists and the given database user
 has privileges to create tables.
@@ -43,7 +44,7 @@ has privileges to create tables.
 Run it with a link to the MySQL host and the username/password variables:
 
 ```
-docker run -e MYSQL_ENV_MYSQL_ROOT_PASSWORD=my-secret-password --link=mysql:mysql -d roundcube/roundcubemail
+docker run --link=mysql:mysql -d roundcube/roundcubemail
 ```
 
 ## Building a Docker image
