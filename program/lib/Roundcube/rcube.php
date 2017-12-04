@@ -547,7 +547,7 @@ class rcube
 
     /**
      * Garbage collector function for temp files.
-     * Remove temp files older than two days
+     * Removes temporary files older than temp_dir_ttl.
      */
     public function gc_temp()
     {
@@ -556,8 +556,9 @@ class rcube
         // expire in 48 hours by default
         $temp_dir_ttl = $this->config->get('temp_dir_ttl', '48h');
         $temp_dir_ttl = get_offset_sec($temp_dir_ttl);
-        if ($temp_dir_ttl < 6*3600)
+        if ($temp_dir_ttl < 6*3600) {
             $temp_dir_ttl = 6*3600;   // 6 hours sensible lower bound.
+        }
 
         $expire = time() - $temp_dir_ttl;
 
@@ -567,8 +568,8 @@ class rcube
                     continue;
                 }
 
-                if (@filemtime($tmp.'/'.$fname) < $expire) {
-                    @unlink($tmp.'/'.$fname);
+                if (@filemtime("$tmp/$fname") < $expire) {
+                    @unlink("$tmp/$fname");
                 }
             }
 
