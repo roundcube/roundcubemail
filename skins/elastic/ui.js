@@ -18,6 +18,7 @@ function rcube_elastic_ui()
     var ref = this,
         mode = 'normal', // one of: large, normal, small, phone
         touch = false,
+        ios = false,
         is_framed = rcmail.is_framed(),
         env = {
             config: {
@@ -288,6 +289,10 @@ function rcube_elastic_ui()
 
         // move "Download all attachments" button into a better location
         $('#attachment-list + a.zipdownload').appendTo('.header-links');
+
+        if (ios = $('html').is('.ipad,.iphone')) {
+            $('.iframe-wrapper, .scroller').addClass('ios-scroll');
+        }
     };
 
     /**
@@ -728,6 +733,10 @@ function rcube_elastic_ui()
         // when loading content-frame in small-screen mode display it
         layout.content.find('iframe').on('load', function(e) {
             var href = '', show = true;
+
+            // Reset the scroll position of the iframe-wrapper
+            $(this).parent('.iframe-wrapper').scrollTop(0);
+
             try {
                 href = e.target.contentWindow.location.href;
                 show = !href.endsWith(rcmail.env.blankpage);
@@ -1015,6 +1024,16 @@ function rcube_elastic_ui()
         }
 
         screen_resize_headers();
+
+        // On iOS and Android the content frame height is never correct, fix it
+        if (bw.webkit) {
+            $('.iframe-wrapper').each(function() {
+                var h = $(this).height();
+                if (h) {
+                    $(this).children('iframe').height(h);
+                }
+            });
+        }
     };
 
     /**
@@ -2489,6 +2508,11 @@ function rcube_elastic_ui()
                     setTimeout(function() { loader.remove(); }, 500);
                 })
                 .parent().append(loader);
+
+            // fix scrolling in iOS
+            if (ios) {
+                frame.parent().addClass('ios-scroll');
+            }
         }
     };
 

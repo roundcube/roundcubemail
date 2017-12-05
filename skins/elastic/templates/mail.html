@@ -69,12 +69,14 @@
 		<roundcube:include file="includes/mail-menu.html" />
 	</div>
 	<h2 id="aria-label-mailpreviewframe" class="voice"><roundcube:label name="arialabelmailpreviewframe" /></h2>
-	<roundcube:object name="messagecontentframe"
-		id="messagecontframe"
-		aria-labelledby="aria-label-mailpreviewframe"
-		src="/watermark.html"
-		title="arialabelmailpreviewframe"
-	/>
+	<div class="iframe-wrapper">
+		<roundcube:object name="messagecontentframe"
+			id="messagecontframe"
+			aria-labelledby="aria-label-mailpreviewframe"
+			src="/watermark.html"
+			title="arialabelmailpreviewframe"
+		/>
+	</div>
 </div>
 
 <!-- popup menus -->

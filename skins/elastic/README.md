@@ -57,7 +57,7 @@ destination system.
 RULES:
 ------
 - Supported browsers: IE11+, Edge, Last 2 versions for Chrome/Firefox/Safari,
-  Android Browser 5+, iOS Safari 7+.
+  Android Browser 5+, iOS Safari 9+.
 
 - Minimum supported screen width is 240px (note that even if the device screen
   resolution is e.g.320x372 changing the text size in device settings will reduce

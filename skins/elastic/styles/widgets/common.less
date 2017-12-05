@@ -240,6 +240,17 @@ fieldset.image-attachment {
     bottom: @layout-header-height;
 }
 
+// iOS: Fix scrolling of iframe, display scrollbars on scrollable elements
+.ios-scroll {
+    padding: 0;
+    -webkit-overflow-scrolling: touch !important;
+    overflow: scroll !important;
+
+    &.iframe-wrapper {
+        margin-top: 1px; // FIXME: without this scrolling hides the wrapper neighbours' border
+    }
+}
+
 .quota-widget {
     width: 5rem;
     max-width: 8rem;

@@ -53,8 +53,10 @@
 		</div>
 	</div>
 	<h2 id="aria-label-messagepart" class="voice"><roundcube:label name="arialabelattachmentpreview" /></h2>
-	<roundcube:object name="messagePartFrame" id="messagepartframe" title="arialabelattachmentpreview"
-		role="main" aria-labelledby="aria-label-messagepart" />
+	<div class="iframe-wrapper">
+		<roundcube:object name="messagePartFrame" id="messagepartframe" title="arialabelattachmentpreview"
+			role="main" aria-labelledby="aria-label-messagepart" />
+	</div>
 </div>
 
 <roundcube:if condition="env:is_message" />

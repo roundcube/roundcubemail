@@ -311,7 +311,6 @@ html.ms .propform {
     flex-direction: column;
     justify-content:flex-start;
     overflow-y: hidden !important;
-    height: 100%;
 
     .formcontent {
         overflow-x: hidden;
@@ -325,16 +324,27 @@ html.ms .propform {
             margin-right: .5rem;
         }
     }
-}
 
-html.layout-small,
-html.layout-phone {
-    .formcontainer {
+    // FIXME: iOS/Android frames have some problem with form buttons element
+    //        when the form height is bigger than the iframe height
+    //        We got rid of the floating buttons effect to fix that,
+    //        which is not perfect because Save button are visible only after
+    //        the page is scrolled to the bottom
+    .webkit.tablet &,
+    .iframe.ipad &,
+    .iframe.iphone & {
+        display: block;
+    }
+
+    // We don't need buttons element on small devices
+    html.layout-small &,
+    html.layout-phone & {
         .formbuttons {
             display: none;
         }
     }
 }
+
 
 .formcontent {
     padding: 1rem;
