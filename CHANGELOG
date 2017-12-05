@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support additional connect parameters in PostgreSQL database wrapper
 - Use UI dialogs instead of confirm() and alert() where possible
 - Display value of the SMTP message size limit in the error message (#6032)
 - Skip redundant INSERT query on successful logon when using PHP7
@@ -60,7 +61,6 @@ CHANGELOG Roundcube Webmail
 - Fix broken long filenames when using imap4d server - workaround server bug (#6048)
 - Fix so temp_dir misconfiguration prints an error to the log (#6045)
 - Fix untagged COPYUID responses handling - again (#5982)
-- Support additional connect parameters in PostgreSQL database wrapper
 
 RELEASE 1.3.3
 -------------

@@ -28,6 +28,9 @@ class rcube_db_pgsql extends rcube_db
 {
     public $db_provider = 'postgres';
 
+    // See https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-PARAMKEYWORDS
+    private static $libpq_connect_params = array("application_name", "sslmode", "sslcert", "sslkey", "sslrootcert", "sslcrl", "sslcompression", "service");
+
     /**
      * Object constructor
      *
@@ -256,37 +259,10 @@ class rcube_db_pgsql extends rcube_db
             $params[] = 'dbname=' . $dsn['database'];
         }
 
-        // See https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-PARAMKEYWORDS
-        if ($dsn['application_name']) {
-            $params[] = 'application_name=' . $dsn['application_name'];
-        }
-
-        if ($dsn['sslmode']) {
-            $params[] = 'sslmode=' . $dsn['sslmode'];
-        }
-
-        if ($dsn['sslcert']) {
-            $params[] = 'sslcert=' . $dsn['sslcert'];
-        }
-
-        if ($dsn['sslkey']) {
-            $params[] = 'sslkey=' . $dsn['sslkey'];
-        }
-
-        if ($dsn['sslrootcert']) {
-            $params[] = 'sslrootcert=' . $dsn['sslrootcert'];
-        }
-
-        if ($dsn['sslcrl']) {
-            $params[] = 'sslcrl=' . $dsn['sslcrl'];
-        }
-
-        if ($dsn['sslcompression']) {
-            $params[] = 'sslcompression=' . $dsn['sslcompression'];
-        }
-
-        if ($dsn['service']) {
-            $params[] = 'service=' . $dsn['service'];
+        foreach (self::$libpq_connect_params as $param) {
+            if ($dsn[$param]) {
+                $params[] = $param . '=' . $dsn[$param];
+            }
         }
 
         if (!empty($params)) {
