@@ -122,7 +122,7 @@ foreach ($cids as $source => $cid) {
 if (!$success)
     $OUTPUT->show_message($errormsg, 'error');
 else
-    $OUTPUT->show_message('copysuccess', 'notice', array('nr' => $success));
+    $OUTPUT->show_message('copysuccess', 'confirmation', array('nr' => $success));
 
 // send response
 $OUTPUT->send();
