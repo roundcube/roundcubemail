@@ -1300,8 +1300,8 @@ function rcube_elastic_ui()
         var tmp, classes = 'ui alert',
             map = {
                 information: 'alert-info',
+                notice: 'alert-info',
                 confirmation: 'alert-success',
-                notice: 'alert-warning',
                 warning: 'alert-warning',
                 error: 'alert-danger',
                 loading: 'alert-info loading',
