@@ -208,7 +208,7 @@ else {
 if (!$success)
     $OUTPUT->show_message($errormsg, 'error');
 else
-    $OUTPUT->show_message('movesuccess', 'notice', array('nr' => $success));
+    $OUTPUT->show_message('movesuccess', 'confirmation', array('nr' => $success));
 
 // send response
 $OUTPUT->send();
