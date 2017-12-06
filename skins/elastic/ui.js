@@ -949,6 +949,11 @@ function rcube_elastic_ui()
                     $('a.button.encrypt').show();
                 }
                 break;
+
+            case 'mark':
+                // show the toolbar button for Mailvelope
+                $('a.button.markmessage')[args.status ? 'removeClass' : 'addClass']('disabled');
+                break;
             }
         }
     };
