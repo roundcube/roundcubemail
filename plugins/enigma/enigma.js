@@ -631,7 +631,7 @@ rcube_webmail.prototype.enigma_password_compose_submit = function(data)
 // Display no-key error with key search button
 rcube_webmail.prototype.enigma_key_not_found = function(data)
 {
-    var params = {width: 400, dialogClass: 'error'},
+    var params = {width: 500, dialogClass: 'error'},
         buttons = [{
             'class': 'mainaction search',
             text: data.button,
