@@ -47,6 +47,19 @@ Run it with a link to the MySQL host and the username/password variables:
 docker run --link=mysql:mysql -d roundcube/roundcubemail
 ```
 
+### Advanced configuration
+
+Apart from the above described environment variables, the Docker image also allows to add custom config files
+which are merged into Roundcube's default config. Therefore the image defines a volume `/var/roundcube/config`
+where additional config files (`*.php`) are searched and included. Mount a local directory with your config
+files - check for valid PHP syntax - when starting the Docker container:
+
+```
+docker run -v ./config/:/var/roundcube/config/ -d roundcube/roundcubemail
+```
+
+Check our wiki for a reference of [Roundcube config options](https://github.com/roundcube/roundcubemail/wiki/Configuration).
+
 ## Building a Docker image
 
 Use the `Dockerfile` in this directory to build your own Docker image.

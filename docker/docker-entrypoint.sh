@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+# set -ex
 
 # PWD=`pwd`
 
@@ -22,6 +22,8 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     : "${ROUNDCUBEMAIL_DB_PASSWORD:=${POSTGRES_ENV_POSTGRES_PASSWORD}}"
     : "${ROUNDCUBEMAIL_DB_NAME:=${POSTGRES_ENV_POSTGRES_DB:-roundcubemail}}"
     : "${ROUNDCUBEMAIL_DSNW:=${ROUNDCUBEMAIL_DB_TYPE}://${ROUNDCUBEMAIL_DB_USER}:${ROUNDCUBEMAIL_DB_PASSWORD}@${ROUNDCUBEMAIL_DB_HOST}/${ROUNDCUBEMAIL_DB_NAME}}"
+
+    /wait-for-it.sh ${ROUNDCUBEMAIL_DB_HOST}:5432 -t 30
   elif [ ! -z "${!MYSQL_ENV_MYSQL_*}" ]; then
     : "${ROUNDCUBEMAIL_DB_TYPE:=mysql}"
     : "${ROUNDCUBEMAIL_DB_HOST:=mysql}"
@@ -33,6 +35,8 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     fi
     : "${ROUNDCUBEMAIL_DB_NAME:=${MYSQL_ENV_MYSQL_DATABASE:-roundcubemail}}"
     : "${ROUNDCUBEMAIL_DSNW:=${ROUNDCUBEMAIL_DB_TYPE}://${ROUNDCUBEMAIL_DB_USER}:${ROUNDCUBEMAIL_DB_PASSWORD}@${ROUNDCUBEMAIL_DB_HOST}/${ROUNDCUBEMAIL_DB_NAME}}"
+
+    /wait-for-it.sh ${ROUNDCUBEMAIL_DB_HOST}:3306 -t 30
   else
     # use local SQLite DB in /var/www/html/db
     : "${ROUNDCUBEMAIL_DB_TYPE:=sqlite}"
@@ -69,10 +73,14 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     \$config['log_dir'] = '${ROUNDCUBEMAIL_LOG_DIR}';
     \$config['temp_dir'] = '${ROUNDCUBEMAIL_TEMP_DIR}';
     \$config['plugins'] = ['${ROUNDCUBEMAIL_PLUGINS_PHP}'];
-    ?>" | tee config/config.inc.php
+    " | tee config/config.inc.php
+
+    for fn in `ls /var/roundcube/config/*.php`; do
+      echo "include('$fn');" >> config/config.inc.php
+    done
 
     # initialize DB if not SQLite
-    echo "${ROUNDCUBEMAIL_DSNW}" | grep -q 'sqlite:' || bin/initdb.sh --dir=$PWD/SQL || bin/updatedb.sh --dir=$PWD/SQL --package=roundcube
+    echo "${ROUNDCUBEMAIL_DSNW}" | grep -q 'sqlite:' || bin/initdb.sh --dir=$PWD/SQL || bin/updatedb.sh --dir=$PWD/SQL --package=roundcube || echo "Failed to initialize databse. Please run $PWD/bin/initdb.sh manually."
   else
     echo "WARNING: $PWD/config/config.inc.php already exists."
     echo "ROUNDCUBEMAIL_* environment variables have been ignored."
