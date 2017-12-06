@@ -11,17 +11,93 @@
 
 /* Style for embedded inline warning */
 
-// TODO: review
+@import (reference) "fontawesome";
+@import (reference) "colors";
+@import (reference) "mixins";
+@import (reference) "variables";
 
-.rcmail-inline-message {
-    font-family: sans-serif;
+@font-face {
+  font-family: 'Icons';
+  src: url("../fonts/fontawesome.woff2") format('woff2'),
+       url("../fonts/fontawesome.woff") format('woff');
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-decoration: inherit;
+  text-transform: none;
 }
 
-.rcmail-inline-message em {
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'),
+       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-regular.woff2') format('woff2'), // Chrome 26+, Opera 23+, Firefox 39+
+       url('../fonts/roboto-v18-greek-ext_cyrillic-ext_cyrillic_greek_latin-ext_latin-regular.woff') format('woff'); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+}
+
+.rcmail-inline-message {
+    .font-family;
+    font-size: @page-font-size;
+    padding: .5em;
+    margin: 0 0 .5em 0;
+    opacity: .95;
+    color: @color-message;
+    background-color: @color-message-background;
+    display: flex;
+    align-items: center;
+
+    &:before {
+        .font-icon-class;
+        font-size: 1.5em;
+        line-height: 1;
+        width: 1em;
+        margin-right: .3em;
+        content: @fa-var-warning;
+        color: @color-message-warning;
+    }
+
+    span {
+        line-height: 1.5;
+    }
+
+    a {
+        color: @color-link;
+    }
+
+    a:hover {
+        color: @color-link-hover;
+    }
+
+    button {
+        vertical-align: middle;
+        white-space: nowrap;
+        padding: .375em .75em;
+        margin-left: .5em;
+        font-size: 1em;
+        line-height: 1.5;
+        border-radius: .25em;
+        border: 1px solid transparent;
+        color: @color-btn-primary;
+        background: @color-btn-primary-background;
+
+        &:focus {
+            box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 50%);
+        }
+
+        &:hover {
+            background: darken(@color-btn-primary-background, 8%);
+            border-color: darken(@color-btn-primary-background, 10%);
+        }
+
+        &:not([disabled]):not(.disabled):active {
+            background: darken(@color-btn-primary-background, 11%);
+            border-color: darken(@color-btn-primary-background, 13%);
+            box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 53%);
+        }
+    }
 }
 
 .rcmail-inline-buttons {
-}
-
-.rcmail-inline-buttons > button {
+    margin: 0;
 }
