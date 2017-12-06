@@ -28,6 +28,9 @@ class rcube_db_pgsql extends rcube_db
 {
     public $db_provider = 'postgres';
 
+    // See https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-PARAMKEYWORDS
+    private static $libpq_connect_params = array("application_name", "sslmode", "sslcert", "sslkey", "sslrootcert", "sslcrl", "sslcompression", "service");
+
     /**
      * Object constructor
      *
@@ -254,6 +257,12 @@ class rcube_db_pgsql extends rcube_db
 
         if ($dsn['database']) {
             $params[] = 'dbname=' . $dsn['database'];
+        }
+
+        foreach (self::$libpq_connect_params as $param) {
+            if ($dsn[$param]) {
+                $params[] = $param . '=' . $dsn[$param];
+            }
         }
 
         if (!empty($params)) {

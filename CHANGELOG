@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Support additional connect parameters in PostgreSQL database wrapper
 - Use UI dialogs instead of confirm() and alert() where possible
 - Display value of the SMTP message size limit in the error message (#6032)
 - Skip redundant INSERT query on successful logon when using PHP7
