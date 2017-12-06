@@ -164,6 +164,9 @@
         &.actions:before {
             content: @fa-var-cog;
         }
+        &.refresh:before {
+            content: @fa-var-refresh;
+        }
         &.addto:before {
             content: @fa-var-envelope-o;
         }
@@ -290,7 +293,15 @@
             display: none;
         }
     }
+
+
+    .listselectors {
+        max-width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
 }
+
 
 .header {
     a.button {
@@ -665,13 +676,8 @@ html.ie11 .toolbar .dropbutton a.dropdown:before {
             justify-content: space-around;
         }
 
-        .listselectors {
-            display: flex;
-            justify-content: space-around;
-
-            & > * {
-                flex-grow: 1;
-            }
+        .listselectors > * {
+            flex-grow: 1;
         }
     }
 }

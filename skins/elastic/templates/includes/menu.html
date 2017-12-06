@@ -3,12 +3,7 @@
 	<div id="taskmenu" role="navigation" aria-labelledby="aria-label-tasknav">
 		<div class="menu-header"><a class="button icon cancel"><roundcube:label name="close" /></a></div>
 		<span class="action-buttons">
-			<roundcube:if condition="env:task != 'mail' || env:action != 'compose'" />
-				<roundcube:button command="compose" type="link" class="button compose" label="compose" title="writenewmessage" innerclass="inner" />
-			<roundcube:endif />
-			<roundcube:if condition="env:task == 'mail' && !env:action" />
-				<roundcube:button command="checkmail" type="link" class="button refresh" label="refresh" title="checkmail" innerclass="inner" />
-			<roundcube:endif />
+			<roundcube:button command="compose" type="link" class="button compose" label="compose" title="writenewmessage" innerclass="inner" />
 		</span>
 		<roundcube:button command="mail" label="mail" type="link" class="button mail"
 			classSel="button mail selected" innerClass="inner" />
