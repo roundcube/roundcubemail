@@ -70,7 +70,7 @@ class rcmail_html_page extends rcmail_output_html
      */
     public function register_inline_warning($text, $button_label = null, $button_url = null)
     {
-        $text = rcube::Q($text);
+        $text = html::span('', rcube::Q($text));
 
         if ($button_label) {
             $onclick = "location.href = '$button_url'";
