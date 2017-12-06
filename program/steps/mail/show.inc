@@ -244,7 +244,7 @@ function rcmail_remote_objects_msg()
     $attrib['class'] = 'notice';
     $attrib['style'] = 'display: none';
 
-    $msg = html::span('', rcube::Q($RCMAIL->gettext('blockedresources'))) . '&nbsp;'
+    $msg = html::span(null, rcube::Q($RCMAIL->gettext('blockedresources'))) . '&nbsp;'
         . html::a(array(
             'href'    => "#loadremote",
             'onclick' => rcmail_output::JS_OBJECT_NAME.".command('load-remote')"
@@ -283,7 +283,7 @@ function rcmail_message_buttons()
     $attrib['id']    = 'message-buttons';
     $attrib['class'] = 'notice';
 
-    $msg = html::span('', rcube::Q($RCMAIL->gettext('isdraft'))) . '&nbsp;';
+    $msg = html::span(null, rcube::Q($RCMAIL->gettext('isdraft'))) . '&nbsp;';
     $msg .= html::a(array(
             'href'    => "#edit",
             'onclick' => rcmail_output::JS_OBJECT_NAME.".command('edit')"
