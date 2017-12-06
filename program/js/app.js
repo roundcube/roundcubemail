@@ -4829,14 +4829,8 @@ function rcube_webmail()
   // Create (attach) 'savetarget' iframe before use
   this.get_save_target = function()
   {
-    $('<iframe>').attr({
-        name: "savetarget",
-        src: "about:blank",
-        style: "width:0;height:0;visibility:hidden;",
-        'aria-hidden': "true"
-      })
-      .appendTo('body')
-      // Removing savetarget frame to workaround issues with window history
+    // Removing the frame on load/error to workaround issues with window history
+    this.dummy_iframe('savetarget', 'about:blank')
       .on('load error', function() { $(this).remove(); });
 
     return 'savetarget';
@@ -9057,7 +9051,7 @@ function rcube_webmail()
     // create hidden iframe
     var ts = new Date().getTime(),
       frame_name = 'rcmupload' + ts,
-      frame = this.async_upload_form_frame(frame_name);
+      frame = this.dummy_iframe(frame_name);
 
     // upload progress support
     if (this.env.upload_progress_name) {
@@ -9085,11 +9079,16 @@ function rcube_webmail()
     return frame_name;
   };
 
-  // create iframe element for files upload
-  this.async_upload_form_frame = function(name)
+  // create hidden iframe element
+  this.dummy_iframe = function(name, src)
   {
-    return $('<iframe>').attr({name: name, style: 'border: none; width: 0; height: 0; visibility: hidden'})
-      .appendTo(document.body);
+    return $('<iframe>').attr({
+        name: name,
+        src: src,
+        style: 'width:0;height:0;visibility:hidden',
+        'aria-hidden': 'true'
+      })
+      .appendTo('body');
   };
 
   // html5 file-drop API
