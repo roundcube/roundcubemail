@@ -14,7 +14,6 @@
 .searchbar {
     position: absolute;
     background-color: @color-layout-header-background;
-    z-index: 10;
     right: 0;
     height: @layout-header-height;
     display: block !important;
@@ -22,6 +21,7 @@
     a.button {
         min-width: auto;
         padding: 0 .5rem;
+        display: block;
 
         &:before {
             line-height: @layout-header-height;
@@ -37,6 +37,10 @@
     .input-group-addon {
         padding: .5rem;
         font-size: 80%;
+    }
+
+    form {
+        display: none;
     }
 
     a.icon {
@@ -55,6 +59,25 @@
 
     &.active a.button.search {
         color: @color-searchbar-icon-active;
+    }
+
+    &.open {
+        z-index: 10;
+        left: 0 !important;
+        right: 0 !important;
+
+        .input-group {
+            display: flex;
+        }
+
+        form {
+            display: flex;
+        }
+
+        a.button.filter,
+        a.button.search {
+            display: none;
+        }
     }
 }
 

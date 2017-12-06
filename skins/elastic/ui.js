@@ -1375,10 +1375,9 @@ function rcube_elastic_ui()
                 if (button.is(':visible')) {
                     return;
                 }
-                form.hide();
-                // width:auto fixes search button position in Chrome
-                $(bar).css('left', 'auto')[is_search_pending() ? 'addClass' : 'removeClass']('active');
-                button.css('display', 'block');
+
+                $(bar).removeClass('open')[is_search_pending() ? 'addClass' : 'removeClass']('active');
+
                 if (focus && rcube_event.is_keyboard(event)) {
                     button.focus();
                 }
@@ -1403,9 +1402,7 @@ function rcube_elastic_ui()
 
         // Display search form
         button.on('click', function() {
-            $(bar).css('left', 0);
-            form.css('display', 'flex');
-            button.hide();
+            $(bar).addClass('open');
             input.focus();
         });
 
@@ -1463,9 +1460,9 @@ function rcube_elastic_ui()
                 if (button.is(':visible')) {
                     return;
                 }
-                form.hide();
-                bar.css('left', 'auto')[is_filter_enabled() ? 'addClass' : 'removeClass']('active');
-                button.css('display', 'block');
+
+                bar.removeClass('open')[is_filter_enabled() ? 'addClass' : 'removeClass']('active');
+
                 if (focus && rcube_event.is_keyboard(event)) {
                     button.focus();
                 }
@@ -1488,9 +1485,7 @@ function rcube_elastic_ui()
 
         // Display filter selection (with animation effect)
         button.on('click', function() {
-            $(bar).css('left', 0);
-            form.css('display', 'flex');
-            button.hide();
+            bar.addClass('open');
             select.focus();
         });
 
