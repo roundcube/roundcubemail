@@ -1606,12 +1606,12 @@ EOF;
     /**
      * Process template and write to stdOut
      *
-     * @param string $templ     HTML template
+     * @param string $output    HTML output
      * @param string $base_path Base for absolute paths
      */
-    protected function _write($templ = '', $base_path = '')
+    protected function _write($output = '', $base_path = '')
     {
-        $output = trim($templ);
+        $output = trim($output);
 
         if (empty($output)) {
             $output   = html::doctype('html5') . "\n" . $this->default_template;
