@@ -90,6 +90,9 @@ RULES:
 - Every button, that is not <button> nor <input> should have inner <span class="inner"> element
   for the button label.
 
+- Every iframe need to be wrapped by an element with `iframe-wrapper` class. It is
+  required to have proper scrolling on mobile devices.
+
 - Special attributes:
     - `data-hidden`: Makes a menu entry/button hidden on specified screen sizes.
       Can be used for example for functionality not implemented or that has no sense
