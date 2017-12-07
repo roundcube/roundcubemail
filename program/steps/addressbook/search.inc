@@ -302,7 +302,7 @@ function rcmail_contact_search_form($attrib)
             $label    = isset($colprop['label']) ? $colprop['label'] : $RCMAIL->gettext($col);
             $category = $colprop['category'] ?: 'other';
 
-            // load jquery UI datepicker for date fields 
+            // load jquery UI datepicker for date fields
             if ($colprop['type'] == 'date') {
                 $colprop['class'] .= ($colprop['class'] ? ' ' : '') . 'datepicker';
             }

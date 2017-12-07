@@ -630,6 +630,13 @@ $labels['license'] = 'License';
 $labels['support'] = 'Get support';
 $labels['savedsearches'] = 'Saved searches';
 
+$labels['dateformatY'] = 'YYYY';
+$labels['dateformaty'] = 'YY';
+$labels['dateformatm'] = 'MM';
+$labels['dateformatd'] = 'DD';
+$labels['dateformatj'] = 'D';
+$labels['dateformatn'] = 'M';
+
 // units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
