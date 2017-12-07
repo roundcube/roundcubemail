@@ -6341,7 +6341,6 @@ function rcube_webmail()
         yearRange: '-120:+10',
         showOtherMonths: true,
         selectOtherMonths: true
-//        onSelect: function(dateText) { $(this).focus().val(dateText); }
       });
       $('input.datepicker').datepicker();
     }
@@ -6656,6 +6655,8 @@ function rcube_webmail()
           if (!colprop.count) colprop.count = 0;
           if (++colprop.count == colprop.limit && colprop.limit)
             $(menu).children('option[value="' + col + '"]').prop('disabled', true);
+
+          this.triggerEvent('insert-edit-field', input);
         }
       }
     }

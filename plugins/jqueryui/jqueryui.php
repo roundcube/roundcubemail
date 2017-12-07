@@ -65,7 +65,7 @@ class jqueryui extends rcube_plugin
         }
 
         // Date format for datepicker
-        $date_format = $rcmail->config->get('date_format', 'Y-m-d');
+        $date_format = $date_format_localized = $rcmail->config->get('date_format', 'Y-m-d');
         $date_format = strtr($date_format, array(
                 'y' => 'y',
                 'Y' => 'yy',
@@ -74,7 +74,19 @@ class jqueryui extends rcube_plugin
                 'd' => 'dd',
                 'j' => 'd',
         ));
+
+        $replaces = array('Y' => 'yyyy', 'y' => 'yy', 'm' => 'mm', 'd' => 'dd', 'j' => 'd', 'n' => 'm');
+
+        foreach (array_keys($replaces) as $key) {
+            if ($rcmail->text_exists("dateformat$key")) {
+                $replaces[$key] = $rcmail->gettext("dateformat$key");
+            }
+        }
+
+        $date_format_localized = strtr($date_format_localized, $replaces);
+
         $rcmail->output->set_env('date_format', $date_format);
+        $rcmail->output->set_env('date_format_localized', $date_format_localized);
     }
 
     public static function miniColors()
