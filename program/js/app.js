@@ -6569,7 +6569,7 @@ function rcube_webmail()
           this.init_edit_field(col, input);
 
           if (colprop.type == 'date' && $.datepicker)
-            input.datepicker();
+            input.addClass('datepicker').datepicker();
         }
         else if (colprop.type == 'textarea') {
           input = $('<textarea>')
