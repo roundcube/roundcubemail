@@ -19,7 +19,10 @@ RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu && docker-p
 # enable mod_rewrite
 RUN a2enmod rewrite
 
+# expose these volumes
 VOLUME /var/www/html
+VOLUME /var/roundcube/config
+VOLUME /tmp/roundcube-temp
 
 # Define Roundcubemail version
 ENV ROUNDCUBEMAIL_VERSION 1.3.3
@@ -36,6 +39,9 @@ RUN curl -o roundcubemail.tar.gz -SL https://github.com/roundcube/roundcubemail/
   && mv /usr/src/roundcubemail-${ROUNDCUBEMAIL_VERSION} /usr/src/roundcubemail \
   && rm -rf /usr/src/roundcubemail/installer \
 && rm roundcubemail.tar.gz
+
+# include the wait-for-it.sh script
+RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait-for-it.sh && chmod +x /wait-for-it.sh
 
 COPY docker-entrypoint.sh /
 
