@@ -479,6 +479,13 @@ function rcube_elastic_ui()
         if (rcmail.env.devel_mode) {
             setTimeout(resize, 1000);
         }
+
+        // Add date format placeholder to datepicker inputs
+        if (rcmail.env.date_format_localized) {
+            var placeholder_func = function(input) { $(input).attr('placeholder', rcmail.env.date_format_localized); };
+            $('input.datepicker').each(function() { placeholder_func(this); });
+            rcmail.addEventListener('insert-edit-field', placeholder_func);
+        }
     };
 
     /**
