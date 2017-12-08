@@ -42,7 +42,7 @@ button.btn {
         content: @fa-var-plus-square;
     }
     &.edit:before {
-        content: @fa-var-pencil;
+        content: @fa-var-pencil-alt;
     }
     &.qrcode:before {
         content: @fa-var-qrcode;
@@ -58,7 +58,7 @@ button.btn {
     }
     &.discard:before,
     &.delete:before {
-        content: @fa-var-trash-o;
+        .font-icon-regular(@fa-var-trash-alt);
     }
     &.next:before {
         content: @fa-var-arrow-right;
@@ -76,10 +76,10 @@ button.btn {
     &.no:before,
     &.close:before,
     &.cancel:before {
-        content: @fa-var-close;
+        content: @fa-var-times;
     }
     &.mark:before {
-        content: @fa-var-star-o;
+        .font-icon-regular(@fa-var-star);
     }
     &.toolbar-menu-button:before {
         content: @fa-var-ellipsis-v;
@@ -94,7 +94,7 @@ button.btn {
     }
     &.back-content-button:before,
     &.remove:before {
-        content: @fa-var-close;
+        content: @fa-var-times;
     }
     &.unlock:before {
         content: @fa-var-unlock;

@@ -207,7 +207,7 @@ html.touch {
         margin-right: .5rem;
     }
     &.preferences > a:before {
-        content: @fa-var-sliders;
+        content: @fa-var-sliders-h;
     }
     &.folders > a:before {
         content: @fa-var-folder;
@@ -222,10 +222,10 @@ html.touch {
         content: @fa-var-lock;
     }
     &.addressbook a:before {
-        content: @fa-var-address-book-o;
+        .font-icon-regular(@fa-var-address-book);
     }
     &.contactgroup a:before {
-        content: @fa-var-group;
+        .font-icon-solid(@fa-var-users);
     }
     &.contactsearch a:before {
         content: @fa-var-search;
@@ -234,7 +234,7 @@ html.touch {
         content: @fa-var-filter;
     }
     &.vacation > a:before {
-        content: @fa-var-clock-o;
+        .font-icon-regular(@fa-var-clock);
     }
     &.forward > a:before {
         content: @fa-var-share-square;
@@ -246,23 +246,23 @@ html.touch {
         content: @fa-var-info-circle;
     }
     &.activesync > a:before {
-        content: @fa-var-feed;
+        content: @fa-var-rss-square;
     }
     &.delegation > a:before {
         content: @fa-var-user-secret; // TODO: a better icon
     }
     &.twofactorauth > a:before {
-        content: @fa-var-sign-in;
+        content: @fa-var-sign-in-alt;
     }
 
     a.help:before {
-        content: @fa-var-life-bouy;
+        content: @fa-var-life-ring;
     }
     a.about:before {
-        content: @fa-var-question-circle-o;
+        .font-icon-regular(@fa-var-question-circle);
     }
     a.license:before {
-        content: @fa-var-shield;
+        content: @fa-var-shield-alt;
     }
 
     // autocomplete popup
@@ -272,7 +272,7 @@ html.touch {
         margin-left: .5rem;
     }
     &.group > i:before {
-        content: @fa-var-group;
+        content: @fa-var-users;
     }
 }
 
@@ -289,13 +289,13 @@ html.ie11 .listing.iconized li a:before {
         content: @fa-var-user;
     }
     &.contact.group td.name:before {
-        content: @fa-var-group;
+        content: @fa-var-users;
     }
     &.general > td.section:before {
         content: @fa-var-desktop;
     }
     &.mailbox > td.section:before {
-        content: @fa-var-envelope-o;
+        .font-icon-regular(@fa-var-envelope);
     }
     &.mailview > td.section:before {
         content: @fa-var-inbox;
@@ -307,7 +307,7 @@ html.ie11 .listing.iconized li a:before {
         content: @fa-var-user;
     }
     &.folders > td.section:before {
-        content: @fa-var-folder-o;
+        .font-icon-regular(@fa-var-folder);
     }
     &.server > td.section:before {
         content: @fa-var-server;
@@ -362,7 +362,7 @@ ul.treelist li {
 
         &:before {
             &:extend(.font-icon-class);
-            content: @fa-var-plus-square-o;
+            .font-icon-regular(@fa-var-plus-square);
             font-size: .8em;
             width: .8em;
             height: .8em;
@@ -370,7 +370,7 @@ ul.treelist li {
         }
 
         &.expanded:before {
-            content: @fa-var-minus-square-o;
+            .font-icon-regular(@fa-var-minus-square);
         }
     }
 
@@ -474,55 +474,55 @@ ul.treelist li {
 
         a:before {
             &:extend(.font-icon-class);
-            content: @fa-var-folder-o;
+            .font-icon-regular(@fa-var-folder);
             margin-right: .5rem;
         }
 
         &.inbox > a:before {
-            content: @fa-var-inbox;
+            .font-icon-solid(@fa-var-inbox);
         }
         &.trash a:before {
-            content: @fa-var-trash;
+            .font-icon-solid(@fa-var-trash-alt);
         }
         &.trash.empty > a:before {
-            content: @fa-var-trash-o;
+            .font-icon-regular(@fa-var-trash-alt);
         }
         &.drafts a:before {
-            content: @fa-var-edit;
+            .font-icon-solid(@fa-var-pencil-alt);
         }
         &.sent a:before {
-            content: @fa-var-paper-plane;
+            .font-icon-solid(@fa-var-paper-plane);
         }
         &.junk a:before {
-            content: @fa-var-recycle;
+            .font-icon-solid(@fa-var-recycle);
         }
         &.archive > a:before {
-            content: @fa-var-archive;
+            .font-icon-solid(@fa-var-archive);
         }
 
         &.type-event > a:before {
-            content: @fa-var-calendar;
+            .font-icon-solid(@fa-var-calendar);
         }
         &.type-task > a:before {
-            content: @fa-var-tasks;
+            .font-icon-solid(@fa-var-tasks);
         }
         &.type-journal > a:before {
-            content: @fa-var-calendar-o;
+            .font-icon-regular(@fa-var-calendar);
         }
         &.type-contact > a:before {
-            content: @fa-var-address-book-o;
+            .font-icon-regular(@fa-var-address-book);
         }
         &.type-note > a:before {
-            content: @fa-var-sticky-note-o;
+            .font-icon-regular(@fa-var-sticky-note);
         }
         &.type-configuration > a:before {
-            content: @fa-var-cog;
+            .font-icon-solid(@fa-var-cog);
         }
         &.type-freebusy > a:before {
-            content: @fa-var-calendar-o;
+            .font-icon-regular(@fa-var-calendar);
         }
         &.type-file > a:before {
-            content: @fa-var-folder;
+            .font-icon-solid(@fa-var-folder);
         }
     }
 
@@ -655,22 +655,22 @@ table.fixedcopy {
         width: 1em;
     }
     td.subject span.msgicon.status.unreadchildren:before {
-        content: @fa-var-star-half-o;
+        .font-icon-regular(@fa-var-star-half);
         font-size: 1.2em;
         width: 1em;
     }
     td.subject span.msgicon.status.replied:before {
-        content: @fa-var-mail-reply;
+        content: @fa-var-reply;
         font-size: 1.2em;
         width: 1em;
     }
     td.subject span.msgicon.status.forwarded:before {
-        content: @fa-var-mail-forward;
+        content: @fa-var-share;
         font-size: 1.2em;
         width: 1em;
     }
     td.subject span.msgicon.status.replied.forwarded:before {
-        content: @fa-var-mail-forward; // TODO
+        content: @fa-var-share; // TODO
         font-size: 1.2em;
         width: 1em;
     }
@@ -688,13 +688,13 @@ table.fixedcopy {
             content: @fa-var-paperclip;
         }
         &.report:before {
-            content: @fa-var-file-text-o;
+            .font-icon-regular(@fa-var-file-alt);
         }
         &.encrypted:before {
             content: @fa-var-lock;
         }
         &.vcard:before {
-            content: @fa-var-user-o; // vcard_attachments plugin
+            .font-icon-regular(@fa-var-user); // vcard_attachments plugin
         }
     }
 
@@ -705,7 +705,7 @@ table.fixedcopy {
 
     tr:hover span.unflagged:before {
         &:extend(.font-icon-class);
-        content: @fa-var-flag-o;
+        .font-icon-regular(@fa-var-flag);
     }
 
 }
@@ -767,54 +767,54 @@ html.touch {
 
         &:before {
             &:extend(.font-icon-class);
-            content: @fa-var-file-o;
+            .font-icon-regular(@fa-var-file);
             height: @attachmentslist-item-height;
         }
 
         &.txt:before,
         &.text:before {
-            content: @fa-var-file-text-o;
+            .font-icon-regular(@fa-var-file-alt);
         }
 
         &.pdf:before {
-            content: @fa-var-file-pdf-o;
+            .font-icon-regular(@fa-var-file-pdf);
         }
 
         &.odt:before,
         &.doc:before,
         &.docx:before,
         &.msword:before {
-            content: @fa-var-file-word-o;
+            .font-icon-regular(@fa-var-file-word);
         }
 
         &.ods:before,
         &.xls:before,
         &.xlsx:before,
         &.msexcel:before {
-            content: @fa-var-file-excel-o;
+            .font-icon-regular(@fa-var-file-excel);
         }
 
         &.rar:before,
         &.zip:before,
         &.gz:before {
-            content: @fa-var-file-zip-o;
+            .font-icon-regular(@fa-var-file-archive);
         }
 
         &.image:before,
         &.jpg:before,
         &.jpeg:before,
         &.png:before {
-            content: @fa-var-file-image-o;
+            .font-icon-regular(@fa-var-file-image);
         }
 
         &.mp3:before,
         &.audio:before {
-            content: @fa-var-file-audio-o;
+            .font-icon-regular(@fa-var-file-audio);
         }
 
         &.m4p:before,
         &.video:before {
-            content: @fa-var-file-video-o;
+            .font-icon-regular(@fa-var-file-video);
         }
 
         &.ics:before,
@@ -823,11 +823,11 @@ html.touch {
         }
 
         &.vcard:before {
-            content: @fa-var-vcard;
+            .font-icon-regular(@fa-var-address-card);
         }
 
         &.html:before {
-            content: @fa-var-file-code-o;
+            .font-icon-regular(@fa-var-file-code);
         }
 
         &.eml:before,
@@ -841,7 +841,7 @@ html.touch {
         &.pptx:before,
         &.ppsx:before,
         &.vnd.mspowerpoint:before {
-            content: @fa-var-file-powerpoint-o;
+            .font-icon-regular(@fa-var-file-powerpoint);
         }
 
         &.sig:before,
@@ -876,14 +876,14 @@ html.touch {
         a.cancelupload:before,
         a.delete:before {
             &:extend(.font-icon-class);
-            content: @fa-var-trash;
+            content: @fa-var-trash-alt;
             line-height: @attachmentslist-item-height;
             height: @attachmentslist-item-height;
         }
 
         &.uploading:before {
             .animated-icon-class;
-            content: @fa-var-circle-o-notch;
+            .font-icon-regular(@fa-var-circle-notch);
         }
     }
 }

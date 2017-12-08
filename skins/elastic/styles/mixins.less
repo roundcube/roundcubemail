@@ -22,7 +22,7 @@
     height: 1em;
     font-family: 'Icons';
     font-style: normal;
-    font-weight: normal;
+    font-weight: 900;
     text-decoration: inherit;
     text-align: center;
     speak: none;
@@ -35,6 +35,16 @@
     // fa-spin is defined in styles.less
     -webkit-animation: fa-spin 2s infinite linear;
     animation: fa-spin 2s infinite linear;
+}
+
+.font-icon-solid(@icon) {
+    content: @icon;
+    font-weight: 900;
+}
+
+.font-icon-regular(@icon) {
+    content: @icon;
+    font-weight: 400;
 }
 
 .overflow-ellipsis {

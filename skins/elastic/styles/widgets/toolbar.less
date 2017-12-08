@@ -53,16 +53,16 @@
         }
 
         &.reply:before {
-            content: @fa-var-mail-reply;
+            content: @fa-var-reply;
         }
         &.reply-all:before {
-            content: @fa-var-mail-reply-all;
+            content: @fa-var-reply-all;
         }
         &.forward:before {
-            content: @fa-var-mail-forward;
+            content: @fa-var-share;
         }
         &.delete:before {
-            content: @fa-var-trash-o;
+            content: @fa-var-trash-alt;
         }
         &.markmessage:before {
             content: @fa-var-tag;
@@ -74,13 +74,13 @@
             content: @fa-var-caret-down;
         }
         &.settings:before {
-            content: @fa-var-sliders;
+            content: @fa-var-sliders-h;
         }
         &.create:before {
             content: @fa-var-plus-square;
         }
         &.move:before {
-            content: @fa-var-arrows;
+            content: @fa-var-arrows-alt;
         }
         &.purge:before {
             content: @fa-var-eraser;
@@ -140,7 +140,7 @@
             content: @fa-var-window-close;
         }
         &.save:before {
-            content: @fa-var-floppy-o;
+            .font-icon-regular(@fa-var-save);
         }
         &.vcard:before,
         &.attach:before {
@@ -156,7 +156,7 @@
             content: @fa-var-comment;
         }
         &.select:before {
-            content: @fa-var-check-square-o;
+            .font-icon-regular(@fa-var-check-square);
         }
         &.threads:before {
             content: @fa-var-comments;
@@ -165,16 +165,16 @@
             content: @fa-var-cog;
         }
         &.refresh:before {
-            content: @fa-var-refresh;
+            content: @fa-var-sync;
         }
         &.addto:before {
-            content: @fa-var-envelope-o;
+            .font-icon-regular(@fa-var-envelope);
         }
         &.addcc:before {
-            content: @fa-var-envelope-o;
+            .font-icon-regular(@fa-var-envelope);
         }
         &.addbcc:before {
-            content: @fa-var-envelope-o;
+            .font-icon-regular(@fa-var-envelope);
         }
         &.addressbook:before {
             content: @fa-var-user;
@@ -189,7 +189,7 @@
             content: @fa-var-check;
         }
         &.edit:before {
-            content: @fa-var-pencil;
+            content: @fa-var-pencil-alt;
         }
         &.qrcode:before {
             content: @fa-var-qrcode;
@@ -337,7 +337,7 @@
             }
 
             &.reply:before {
-                content: @fa-var-mail-reply;
+                content: @fa-var-reply;
             }
 
             &.send:before {
@@ -457,7 +457,10 @@
         content: @fa-var-copy;
     }
     a.move:before {
-        content: @fa-var-arrows;
+        content: @fa-var-arrows-alt;
+    }
+    a.purge:before {
+        content: @fa-var-eraser;
     }
     a.source:before {
         content: @fa-var-flask;
@@ -466,7 +469,7 @@
         content: @fa-var-download;
     }
     a.extwin:before {
-        content: @fa-var-external-link;
+        content: @fa-var-external-link-alt;
     }
     a.create:before {
         content: @fa-var-plus-square;
@@ -475,10 +478,10 @@
         content: @fa-var-edit; // TODO: edit.asnew
     }
     a.rename:before {
-        content: @fa-var-pencil; // TODO: better icon?
+        content: @fa-var-pencil-alt; // TODO: better icon?
     }
     a.read:before {
-        content: @fa-var-star-o;
+        .font-icon-regular(@fa-var-star);
     }
     a.unread:before {
         content: @fa-var-star;
@@ -487,20 +490,20 @@
         content: @fa-var-flag;
     }
     a.unflag:before {
-        content: @fa-var-flag-o;
+        .font-icon-regular(@fa-var-flag);
     }
     a.filterlink:before {
         content: @fa-var-filter;
     }
     a.reply.list:before,
     a.reply.all:before {
-        content: @fa-var-mail-reply-all;
+        content: @fa-var-reply-all;
     }
     a.forward:before,
     a.forward.bounce:before,
     a.forward.attachment:before,
     a.forward.inline:before {
-        content: @fa-var-mail-forward;
+        content: @fa-var-share;
     }
     a.download.mbox:before,
     a.download.eml:before,
@@ -512,13 +515,13 @@
         content: @fa-var-download;
     }
     a.select.all:before {
-        content: @fa-var-check-square-o;
+        .font-icon-regular(@fa-var-check-square);
     }
     a.select.none:before {
         content: @fa-var-times;
     }
     a.select.page:before {
-        content: @fa-var-reorder;
+        content: @fa-var-bars;
     }
     a.select.flagged:before {
         content: @fa-var-flag;
@@ -527,7 +530,7 @@
         content: @fa-var-star;
     }
     a.select.invert:before {
-        content: @fa-var-square-o;
+        .font-icon-regular(@fa-var-square);
     }
     a.expand.all:before,
     a.expand.unread:before,
@@ -538,7 +541,7 @@
         content: @fa-var-search;
     }
     a.delete:before {
-        content: @fa-var-trash;
+        content: @fa-var-trash-alt;
     }
     a.expunge:before {
         content: @fa-var-compress;
@@ -547,7 +550,7 @@
         content: @fa-var-upload;
     }
     a.settings:before {
-        content: @fa-var-sliders;
+        content: @fa-var-sliders-h;
     }
     a.insertresponse:before {
         content: @fa-var-comment;
@@ -559,10 +562,10 @@
         content: @fa-var-user;
     }
     a.recipient:before {
-        content: @fa-var-envelope-o;
+        .font-icon-regular(@fa-var-envelope);
     }
     a.status:before {
-        content: @fa-var-lightbulb-o;
+        .font-icon-regular(@fa-var-lightbulb);
     }
     a.folders:before {
         content: @fa-var-folder;

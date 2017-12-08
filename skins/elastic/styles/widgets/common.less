@@ -162,7 +162,7 @@ p.image-attachment {
         }
 
         a.open:before {
-            content: @fa-var-external-link;
+            content: @fa-var-external-link-alt;
         }
 
         a.download:before {
@@ -444,11 +444,11 @@ table.table {
         }
 
         &.subscription:before {
-            content: @fa-var-feed;
+            content: @fa-var-rss-square;
         }
 
         &.alarm:before {
-            content: @fa-var-bell-o;
+            .font-icon-regular(@fa-var-bell);
         }
 
         &.read:before {
@@ -456,7 +456,7 @@ table.table {
         }
 
         &.write:before {
-            content: @fa-var-pencil;
+            content: @fa-var-pencil-alt;
         }
     }
 

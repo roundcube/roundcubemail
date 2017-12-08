@@ -9,22 +9,25 @@
  * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
  */
 
-@import (reference) "fontawesome";
-@import (reference) "colors";
-@import (reference) "mixins";
 @import (reference) "variables";
+@import (reference) "mixins";
 
 /*** Fonts ***/
 
 @font-face {
   font-family: 'Icons';
-  src: url("../fonts/fontawesome.woff2") format('woff2'),
-       url("../fonts/fontawesome.woff") format('woff');
   font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-decoration: inherit;
-  text-transform: none;
+  font-weight: 900;
+  src: url("../fonts/fa-solid-900.woff2") format('woff2'),
+       url("../fonts/fa-solid-900.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/fa-regular-400.woff2") format('woff2'),
+       url("../fonts/fa-regular-400.woff") format('woff');
 }
 
 @font-face {

@@ -73,7 +73,7 @@ input.smart-upload {
             }
 
             &.delete:before {
-                content: @fa-var-trash-o;
+                content: @fa-var-trash-alt;
             }
 
             &.advanced:before {
@@ -455,13 +455,13 @@ html.ms .propform {
         content: @fa-var-home;
     }
     &.cancel:before {
-        content: @fa-var-close;
+        content: @fa-var-times;
     }
     &.delete:before {
-        content: @fa-var-trash-o;
+        content: @fa-var-trash-alt;
     }
     &.edit:before {
-        content: @fa-var-pencil;
+        content: @fa-var-pencil-alt;
     }
     &.add:before {
         content: @fa-var-plus;
@@ -615,7 +615,7 @@ html.touch .popupmenu.form {
 
         &.reset:before {
             &:extend(.font-icon-class);
-            content: @fa-var-trash-o;
+            content: @fa-var-trash-alt;
             margin: 0;
         }
     }
@@ -875,6 +875,7 @@ input.icon-checkbox {
         display: inline;
         font-size: 1.2rem;
         cursor: pointer;
+        width: 1.5em;
 
         &:before {
             &:extend(.font-icon-class);
