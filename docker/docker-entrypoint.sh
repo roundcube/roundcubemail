@@ -57,7 +57,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
   : "${ROUNDCUBEMAIL_LOG_DIR:=/var/log/roundcubemail}"
 
   if [ ! -e config/config.inc.php ]; then
-    ROUNDCUBEMAIL_PLUGINS_PHP=`echo "${ROUNDCUBEMAIL_PLUGINS}" | sed -E "s/[, ]+/', '/"`
+    ROUNDCUBEMAIL_PLUGINS_PHP=`echo "${ROUNDCUBEMAIL_PLUGINS}" | sed -E "s/[, ]+/', '/g"`
     mkdir -p ${ROUNDCUBEMAIL_TEMP_DIR} && chown www-data ${ROUNDCUBEMAIL_TEMP_DIR}
     mkdir -p ${ROUNDCUBEMAIL_LOG_DIR} && chown www-data ${ROUNDCUBEMAIL_LOG_DIR}
     touch config/config.inc.php
