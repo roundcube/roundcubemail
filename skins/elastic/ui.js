@@ -806,7 +806,7 @@ function rcube_elastic_ui()
             return;
         }
 
-        var uid, list, _list = $('[data-list]', layout.list).data('list');
+        var node, uid, list, _list = $('[data-list]', layout.list).data('list');
 
         if (!_list || !(list = rcmail[_list])) {
             // hide navbar if there are no visible buttons, e.g. Help plugin UI
@@ -824,7 +824,7 @@ function rcube_elastic_ui()
             if (list.rows && list.rows[uid] && !list.rows[uid].expanded) {
                 list.expand_row(event, uid);
             }
-            else if (list.get_node && list.get_node(uid).collapsed) {
+            else if (list.get_node && (node = list.get_node(uid)) && node.collapsed) {
                 list.expand(uid);
             }
         }
