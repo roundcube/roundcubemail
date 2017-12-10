@@ -140,6 +140,13 @@ html.touch {
         border-color: darken(@color-btn-secondary-background, 10%);
     }
 
+    &.disabled,
+    &:disabled {
+        background: lighten(@color-btn-secondary-background, 20%);
+        border-color: lighten(@color-btn-secondary-background, 20%);
+        opacity: 1;
+    }
+
     &:not([disabled]):not(.disabled):active {
         background: darken(@color-btn-secondary-background, 11%);
         border-color: darken(@color-btn-secondary-background, 13%);
@@ -161,6 +168,13 @@ html.touch {
         border-color: darken(@color-btn-primary-background, 10%);
     }
 
+    &.disabled,
+    &:disabled {
+        background: lighten(@color-btn-primary-background, 20%);
+        border-color: lighten(@color-btn-primary-background, 20%);
+        opacity: 1;
+    }
+
     &:not([disabled]):not(.disabled):active {
         background: darken(@color-btn-primary-background, 11%);
         border-color: darken(@color-btn-primary-background, 13%);
@@ -180,6 +194,13 @@ html.touch {
     &:hover {
         background: darken(@color-btn-danger-background, 8%);
         border-color: darken(@color-btn-danger-background, 10%);
+    }
+
+    &.disabled,
+    &:disabled {
+        background: lighten(@color-btn-danger-background, 20%);
+        border-color: lighten(@color-btn-danger-background, 20%);
+        opacity: 1;
     }
 
     &:not([disabled]):not(.disabled):active {
