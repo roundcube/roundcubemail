@@ -940,9 +940,16 @@ function rcube_treelist_widget(node, p)
         return dom2id(child);
       }
 
-      node = node.next();
-      if (node.length) {
-        return dom2id(node);
+      child = node.next();
+      if (child.length) {
+        return dom2id(child);
+      }
+
+      while ((node = node.parent('ul').parent('li')) && node.length) {
+        child = node.next();
+        if (child.length) {
+          return dom2id(child);
+        }
       }
     }
   }
