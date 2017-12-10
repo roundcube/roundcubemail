@@ -1221,6 +1221,7 @@ function rcube_elastic_ui()
         }
 
         screen_resize_headers();
+        env.last_selected = layout.sidebar[0];
     };
 
     function show_list(scroll)
@@ -1240,6 +1241,8 @@ function rcube_elastic_ui()
             if (scroll) {
                 layout.list.children('.scroller').scrollTop(0);
             }
+
+            env.last_selected = layout.list[0];
         }
 
         screen_resize_headers();
