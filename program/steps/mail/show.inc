@@ -281,7 +281,7 @@ function rcmail_message_buttons()
     }
 
     $attrib['id']    = 'message-buttons';
-    $attrib['class'] = 'notice';
+    $attrib['class'] = 'information notice';
 
     $msg = html::span(null, rcube::Q($RCMAIL->gettext('isdraft'))) . '&nbsp;';
     $msg .= html::a(array(
