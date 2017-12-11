@@ -8,7 +8,6 @@ the terms described in the LICENSE section.
 For information about building or modifying Roundcube skins please visit
 https://github.com/roundcube/roundcubemail/wiki/Skins
 
-Roboto font from https://google-webfonts-helper.herokuapp.com/fonts/roboto?subsets=cyrillic,latin-ext,cyrillic-ext,latin,greek,greek-ext
 
 LICENSE
 -------
@@ -17,6 +16,11 @@ Attribution-ShareAlike License. It is allowed to copy, distribute,
 transmit and to adapt the work by keeping credits to the original
 authors in the README.md file.
 See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+
+This folder also contains code licensed separately:
+- Bootstrap Framework 4 from https://github.com/twbs/bootstrap
+- FontAwesome 5 fonts from https://fontawesome.com/
+- Roboto font from https://google-webfonts-helper.herokuapp.com/fonts/roboto?subsets=cyrillic,latin-ext,cyrillic-ext,latin,greek,greek-ext
 
 
 PROJECT GOALS
