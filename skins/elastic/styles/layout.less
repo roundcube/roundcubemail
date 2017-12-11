@@ -152,11 +152,20 @@ body > #layout {
     }
 }
 
-html.iframe body {
-    overflow: auto;
+html.iframe {
+    &.ipad,
+    &.iphone,
+    &.webkit.mobile,
+    &.webkit.tablet {
+        .webkit-scroller;
+    }
 
-    #layout > .content {
-        height: 100%;
+    body {
+        overflow: auto;
+
+        #layout > .content {
+            height: 100%;
+        }
     }
 }
 

@@ -332,15 +332,12 @@ html.ms .propform {
         }
     }
 
-    // FIXME: iOS/Android frames have some problem with form buttons element
-    //        when the form height is bigger than the iframe height
-    //        We got rid of the floating buttons effect to fix that,
-    //        which is not perfect because Save button are visible only after
-    //        the page is scrolled to the bottom
-    .webkit.tablet &,
-    .iframe.ipad &,
-    .iframe.iphone & {
-        display: block;
+    // Prevent button truncation on tablets
+    html.iframe.ipad &,
+    html.iframe.webkit.tablet & {
+        .formbuttons {
+            min-height: 4rem;
+        }
     }
 
     // We don't need buttons element on small devices
