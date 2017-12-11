@@ -12,7 +12,7 @@
  */
 class archive extends rcube_plugin
 {
-    public $task = 'settings|mail';
+    public $task = 'settings|mail|login';
 
 
     function init()
