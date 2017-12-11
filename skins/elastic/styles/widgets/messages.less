@@ -44,8 +44,7 @@
     }
 }
 
-// .boxwarning/.boxerror/.boxinformation classes are supported
-// by conversion to .ui.alert in bootstrap_init()
+// .boxwarning/.boxerror/.boxinformation classes are converted to .ui.alert in bootstrap_init()
 
 .ui.alert {
     margin: 0;
@@ -163,5 +162,17 @@
         & + :not(.boxwarning) {
             margin-top: 1rem;
         }
+    }
+
+    &.boxerror {
+        background-color: @color-message-error-background;
+    }
+
+    &.boxinformation {
+        background-color: @color-message-information-background;
+    }
+
+    &.boxwarning {
+        background-color: @color-message-warning-background;
     }
 }
