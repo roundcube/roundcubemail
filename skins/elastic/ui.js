@@ -422,9 +422,27 @@ function rcube_elastic_ui()
     {
         // Enable checkbox selection on list widgets
         $('table[data-list]').each(function() {
-            var list = $(this).data('list');
+            var button, table = $(this), list = table.data('list');
             if (rcmail[list] && rcmail[list].multiselect) {
                 rcmail[list].checkbox_selection = true;
+
+                // Add Select button to the list navigation bar
+                button = $('<a>').attr({'class': 'button toggleselect disabled', role: 'button'})
+                    .on('click', function() { if ($(this).is('.active')) table.toggleClass('withselection'); })
+                    .append($('<span class="inner">').text(rcmail.gettext('select')))
+                    .prependTo(table.parent().prev('.pagenav'));
+
+                // Update Select button state on list update
+                rcmail.addEventListener('listupdate', function(prop) {
+                    if (prop.list && prop.list == rcmail[list]) {
+                        if (prop.rowcount) {
+                            button.addClass('active').removeClass('disabled').attr('tabindex', 0);
+                        }
+                        else {
+                            button.removeClass('active').addClass('disabled').attr('tabindex', -1);
+                        }
+                    }
+                });
             }
         });
 

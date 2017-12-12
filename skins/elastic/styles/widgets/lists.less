@@ -60,6 +60,10 @@
         }
     }
 
+    &:not(.withselection) td.selection {
+        display: none;
+    }
+
     td.name {
         .overflow-ellipsis;
     }
@@ -109,11 +113,14 @@
     // - half will be hidden to the left
     @media screen and (min-width: @screen-width-large) {
         li > a,
-        tbody tr > td:first-child {
+        &.withselection tbody tr > td:nth-child(1),
+        &:not(.withselection) tbody tr > td:nth-child(2) {
             border-left: 2px solid transparent;
         }
+
         li > a:focus,
-        &.focus tbody tr.focused > td:first-child {
+        &.focus.withselection tbody tr.focused > td:nth-child(1),
+        &.focus:not(.withselection) tbody tr.focused > td:nth-child(2) {
             border-left: 2px solid @color-list-focus-indicator;
             outline: 0;
         }
