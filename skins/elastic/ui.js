@@ -495,7 +495,7 @@ function rcube_elastic_ui()
 
         // In devel mode we have to wait until all styles are aplied by less
         if (rcmail.env.devel_mode) {
-            setTimeout(resize, 1000);
+            setTimeout(resize, 2000);
         }
 
         // Add date format placeholder to datepicker inputs
