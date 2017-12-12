@@ -329,7 +329,7 @@ function rcube_elastic_ui()
     /**
      * Create a button clone for use in toolbar
      */
-    function create_cloned_button(target, is_ext)
+    function create_cloned_button(target)
     {
         var button = $('<a>'),
             target_id = target.attr('id'),
@@ -455,6 +455,27 @@ function rcube_elastic_ui()
                     rcmail[list].draggable('destroy');
                 }
             });
+        }
+
+        // Create floating action button(s)
+        if (layout.list.length && is_mobile()) {
+            var fabuttons = [];
+
+            $('[data-fab]').each(function() {
+                var button = $(this),
+                    task = button.data('fab-task') || '*',
+                    action = button.data('fab-action') || '*';
+
+                if ((task == '*' || task == rcmail.task)
+                    && (action == '*' || action == rcmail.env.action || (action == 'none' && !rcmail.env.action))
+                ) {
+                    fabuttons.push(create_cloned_button(button));
+                }
+            });
+
+            if (fabuttons.length) {
+                $('<div class="floating-action-buttons">').append(fabuttons).appendTo(layout.list);
+            }
         }
 
         // Add menu link for each attachment

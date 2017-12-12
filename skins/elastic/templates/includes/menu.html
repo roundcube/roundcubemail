@@ -3,7 +3,9 @@
 	<div id="taskmenu" role="navigation" aria-labelledby="aria-label-tasknav">
 		<div class="menu-header"><a class="button icon cancel"><roundcube:label name="close" /></a></div>
 		<span class="action-buttons">
-			<roundcube:button command="compose" type="link" class="button compose" label="compose" title="writenewmessage" innerclass="inner" />
+			<roundcube:button command="compose" type="link" class="button compose"
+				label="compose" title="writenewmessage" innerclass="inner"
+				data-fab="true" data-fab-task="mail" data-fab-action="none" />
 		</span>
 		<roundcube:button command="mail" label="mail" type="link" class="button mail"
 			classSel="button mail selected" innerClass="inner" />

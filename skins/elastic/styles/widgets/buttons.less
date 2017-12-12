@@ -124,6 +124,43 @@ html.touch {
     }
 }
 
+@floating-action-button-size: 4rem;
+
+.floating-action-buttons {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    .footer:not(:empty) + & {
+        bottom: @layout-touch-header-height;
+    }
+
+    a.button {
+        display: block;
+        float: left;
+        width: @floating-action-button-size;
+        height: @floating-action-button-size;
+        border-radius: 50%;
+        background: @color-taskmenu-background;
+        color: white;
+        opacity: .95;
+        box-shadow: 0 0 5px 5px @color-popover-shadow;
+        margin: 0 1rem 1rem 0;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-plus;
+            width: @floating-action-button-size;
+            height: @floating-action-button-size;
+            line-height: @floating-action-button-size;
+        }
+
+        .inner {
+            display: none;
+        }
+    }
+}
+
 /*** Bootstrap button style overrides ***/
 
 .btn-secondary {
