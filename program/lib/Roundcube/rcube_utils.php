@@ -714,15 +714,19 @@ class rcube_utils
             return (int) $date;
         }
 
+        // It can be very slow when provided string is not a date and very long
+        if (strlen($date) > 128) {
+            $date = substr($date, 0, 128);
+        }
+
         // if date parsing fails, we have a date in non-rfc format.
         // remove token from the end and try again
-        while ((($ts = @strtotime($date . $tzname)) === false) || ($ts < 0)) {
-            $d = explode(' ', $date);
-            array_pop($d);
-            if (!$d) {
+        while (($ts = @strtotime($date . $tzname)) === false || $ts < 0) {
+            if (($pos = strrpos($date, ' ')) === false) {
                 break;
             }
-            $date = implode(' ', $d);
+
+            $date = rtrim(substr($date, 0, $pos));
         }
 
         return (int) $ts;
