@@ -63,6 +63,7 @@ CHANGELOG Roundcube Webmail
 - Fix untagged COPYUID responses handling - again (#5982)
 - Fix PHP warning "idn_to_utf8(): INTL_IDNA_VARIANT_2003 is deprecated" with PHP 7.2 (#6075)
 - Fix bug where Archive folder wasn't auto-created on login with create_default_folders=true
+- Fix performance issue when parsing malformed and long Date header (#6087)
 
 RELEASE 1.3.3
 -------------
