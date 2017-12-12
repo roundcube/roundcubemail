@@ -240,7 +240,6 @@ function rcube_webmail()
             .addEventListener('dragend', function(e) { ref.drag_end(e); })
             .addEventListener('expandcollapse', function(o) { ref.msglist_expand(o); })
             .addEventListener('column_replace', function(o) { ref.msglist_set_coltypes(o); })
-            .addEventListener('listupdate', function(o) { ref.triggerEvent('listupdate', o); })
             .init();
 
           // TODO: this should go into the list-widget code
@@ -8718,7 +8717,7 @@ function rcube_webmail()
             this.enable_command('reply-list', false);
         }
         else if (this.task == 'addressbook') {
-          this.triggerEvent('listupdate', { folder:this.env.source, rowcount:this.contact_list.rowcount });
+          this.triggerEvent('listupdate', { list:this.contact_list, folder:this.env.source, rowcount:this.contact_list.rowcount });
         }
 
       case 'purge':
@@ -8733,7 +8732,7 @@ function rcube_webmail()
               'select-all', 'select-none', 'expand-all', 'expand-unread', 'collapse-all', false);
           }
           if (this.message_list)
-            this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:this.message_list.rowcount });
+            this.triggerEvent('listupdate', { list:this.message_list, folder:this.env.mailbox, rowcount:this.message_list.rowcount });
         }
         break;
 
@@ -8795,7 +8794,7 @@ function rcube_webmail()
             }
 
             if (response.action != 'getunread')
-              this.triggerEvent('listupdate', { folder:this.env.mailbox, rowcount:list.rowcount });
+              this.triggerEvent('listupdate', { list:list, folder:this.env.mailbox, rowcount:list.rowcount });
           }
         }
         else if (this.task == 'addressbook') {
@@ -8830,15 +8829,18 @@ function rcube_webmail()
             if (list.rowcount > 0 && !$(document.activeElement).is('input,textarea'))
               list.focus();
 
-            this.triggerEvent('listupdate', { folder:this.env.source, rowcount:list.rowcount });
+            this.triggerEvent('listupdate', { list:list, folder:this.env.source, rowcount:list.rowcount });
           }
         }
         break;
 
       case 'list-contacts':
       case 'search-contacts':
-        if (this.contact_list && this.contact_list.rowcount > 0)
-          this.contact_list.focus();
+        if (this.contact_list) {
+          if (this.contact_list.rowcount > 0)
+            this.contact_list.focus();
+          this.triggerEvent('listupdate', { list:this.contact_list, rowcount:this.contact_list.rowcount });
+        }
         break;
     }
 
