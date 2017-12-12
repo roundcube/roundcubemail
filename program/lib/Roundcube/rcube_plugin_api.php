@@ -622,6 +622,12 @@ class rcube_plugin_api
                         $fn = $less;
                     }
                 }
+                else if (!preg_match('/\.min\.css$/', $fn)) {
+                    $min = preg_replace('/\.css$/i', '.min.css', $fn);
+                    if (is_file("$path/plugins/$min")) {
+                        $fn = $min;
+                    }
+                }
 
                 if (!is_file("$path/plugins/$fn")) {
                     return;
