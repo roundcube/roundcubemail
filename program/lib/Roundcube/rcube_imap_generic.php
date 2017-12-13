@@ -2504,7 +2504,8 @@ class rcube_imap_generic
 
                         switch ($field) {
                         case 'date';
-                            $result[$id]->date = $string;
+                            $string                 = substr($string, 0, 128);
+                            $result[$id]->date      = $string;
                             $result[$id]->timestamp = rcube_utils::strtotime($string);
                             break;
                         case 'to':
@@ -2512,6 +2513,7 @@ class rcube_imap_generic
                             break;
                         case 'from':
                         case 'subject':
+                            $string = substr($string, 0, 2048);
                         case 'cc':
                         case 'bcc':
                         case 'references':
@@ -2521,7 +2523,7 @@ class rcube_imap_generic
                             $result[$id]->replyto = $string;
                             break;
                         case 'content-transfer-encoding':
-                            $result[$id]->encoding = $string;
+                            $result[$id]->encoding = substr($string, 0, 32);
                         break;
                         case 'content-type':
                             $ctype_parts = preg_split('/[; ]+/', $string);
@@ -2536,10 +2538,10 @@ class rcube_imap_generic
                         case 'return-receipt-to':
                         case 'disposition-notification-to':
                         case 'x-confirm-reading-to':
-                            $result[$id]->mdn_to = $string;
+                            $result[$id]->mdn_to = substr($string, 0, 2048);
                             break;
                         case 'message-id':
-                            $result[$id]->messageID = $string;
+                            $result[$id]->messageID = substr($string, 0, 2048);
                             break;
                         case 'x-priority':
                             if (preg_match('/^(\d+)/', $string, $matches)) {
