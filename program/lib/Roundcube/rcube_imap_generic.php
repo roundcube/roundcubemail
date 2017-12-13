@@ -2500,6 +2500,13 @@ class rcube_imap_generic
                         list($field, $string) = explode(':', $str, 2);
 
                         $field  = strtolower($field);
+                        if ($field == 'date') {
+                            $newlinepos = strpos($string,"\n");
+                            if ($newlinepos) {
+                                // ensure Date string is only a single line so that parsing doesn't hang
+                                $string = substr($string,0,$newlinepos);
+                            }
+                        }
                         $string = preg_replace('/\n[\t\s]*/', ' ', trim($string));
 
                         switch ($field) {
