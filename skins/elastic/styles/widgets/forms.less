@@ -368,6 +368,14 @@ html.ms .propform {
         label.col-form-label {
             padding: .375rem .375rem .375rem 0;
         }
+
+        @media screen and (max-width: 576px) {
+            &.form-group {
+                & > td label {
+                    padding-bottom: 0;
+                }
+            }
+        }
     }
 
     .row.form-check {
