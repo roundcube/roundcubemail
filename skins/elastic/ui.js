@@ -182,9 +182,6 @@ function rcube_elastic_ui()
 
         (is_framed ? parent.UI : ref).register_content_buttons(content_buttons);
 
-        $('[data-recipient-input]').each(function() { recipient_input(this); });
-        $('.image-upload').each(function() { image_upload_input(this); });
-
         // Mail compose features
         if (form = rcmail.gui_objects.messageform) {
             form = $('form[name="' + form + '"]');
@@ -212,6 +209,13 @@ function rcube_elastic_ui()
                     .change();
             });
         }
+
+        // Use smart recipient inputs
+        // This have to be after mail compose feature above
+        $('[data-recipient-input]').each(function() { recipient_input(this); });
+
+        // Image upload widget
+        $('.image-upload').each(function() { image_upload_input(this); });
 
         // Add HTML/Plain tabs (switch) on top of textarea with TinyMCE editor
         $('textarea[data-html-editor]').each(function() { html_editor_init(this); });
