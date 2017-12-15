@@ -518,9 +518,11 @@ function rcube_elastic_ui()
 
         rcmail.env.thread_padding = '1.5rem';
 
-        // In devel mode we have to wait until all styles are aplied by less
-        if (rcmail.env.devel_mode) {
-            setTimeout(resize, 2000);
+        // In devel mode we have to wait until all styles are applied by less
+        if (rcmail.env.devel_mode && window.less) {
+            less.pageLoadFinished.then(function() {
+                resize();
+            });
         }
 
         // Add date format placeholder to datepicker inputs
