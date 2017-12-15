@@ -177,7 +177,7 @@ function rcube_webmail()
       this.gui_objects[n] = rcube_find_object(this.gui_objects[n]);
 
     // clickjacking protection
-    if (n = this.env.x_frame_options) {
+    if ((n = this.env.x_frame_options) && self !== top) {
       try {
         // bust frame if not allowed
         if (n.toLowerCase() == 'deny' && top.location.href != self.location.href)
