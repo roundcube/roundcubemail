@@ -562,7 +562,7 @@ ul.proplist {
 
         label {
             margin: 0;
-            height: @listing-line-height;
+            line-height: @listing-line-height;
 
             input {
                 margin-right: .5rem;
@@ -572,7 +572,6 @@ ul.proplist {
 
     input {
         vertical-align: middle;
-        height: @listing-line-height !important;
     }
 
     select {
@@ -874,6 +873,7 @@ html.touch .popupmenu.form {
 input.icon-checkbox {
     opacity: 0;
     margin-left: -1.5em;
+    cursor: pointer;
 
     & + label {
         margin: 0;

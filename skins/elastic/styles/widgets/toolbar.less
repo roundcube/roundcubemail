@@ -415,19 +415,16 @@
 
     &.checkbox > label {
         margin: 0;
-        padding: 0 .5rem 0 2.25rem;
         width: 100%;
-        position: relative;
 
-        input.icon-checkbox + label {
-            left: 0;
-            margin: 0 .5rem;
-            font-size: 1rem;
-        }
+        input.icon-checkbox {
+            right: auto;
 
-        &:hover {
-            color: @color-toolbarmenu-hover;
-            background-color: @color-toolbarmenu-hover-background;
+            & + label {
+                left: 0;
+                margin: 0 .2em 0 .35em;
+                font-size: 1.1rem;
+            }
         }
     }
 
@@ -436,11 +433,6 @@
 
         &.active {
             opacity: 1;
-
-            &:hover {
-                color: @color-toolbarmenu-hover;
-                background-color: @color-toolbarmenu-hover-background;
-            }
         }
     }
 
@@ -580,6 +572,21 @@
     }
 }
 
+.toolbarmenu.listing li {
+    &.checkbox > label {
+        padding: 0 .5rem 0 2.5em;
+    }
+
+    &:hover {
+        &.checkbox > label,
+        input.icon-checkbox + label:before,
+        a.active {
+            color: @color-toolbarmenu-hover;
+            background-color: @color-toolbarmenu-hover-background;
+        }
+    }
+}
+
 #layout > .sidebar > .header,
 #layout > .list > .header {
     span.inner {
@@ -598,13 +605,15 @@ html.touch {
         font-size: 1.2rem;
     }
 
-    .toolbarmenu li {
+    .toolbarmenu.listing li {
         &.checkbox > label {
             padding: 0 .5rem 0 2.75rem;
+        }
+    }
 
-            input.icon-checkbox + label {
-                font-size: 1.3rem;
-            }
+    .toolbarmenu li {
+        input.icon-checkbox + label {
+            font-size: 1.3rem;
         }
     }
 }
