@@ -639,7 +639,7 @@ function rcube_elastic_ui()
 
         // Other forms, e.g. Contact advanced search
         $('fieldset.propform:not(.groupped) div.row', context).each(function() {
-            var has_input = $('input,select,textarea', this).addClass('form-control').length > 0;
+            var has_input = $('input:not([type=hidden]),select,textarea', this).addClass('form-control').length > 0;
 
             $(this).children().last().addClass('col-sm-8' + (!has_input ? ' form-control-plaintext' : ''));
             $(this).children().first().addClass('col-sm-4 col-form-label');
