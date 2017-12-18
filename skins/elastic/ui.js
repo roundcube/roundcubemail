@@ -583,7 +583,7 @@ function rcube_elastic_ui()
         $('input:not(.button,[type=file],[type=radio],[type=checkbox]),select,textarea', $('.propform', context)).addClass('form-control');
         $('[type=checkbox]', $('.propform', context)).addClass('form-check-input');
         $('table.propform', context).each(function() {
-            var text_only = true;
+            var text_rows = 0, form_rows = 0;
 
             $(this).find('> tbody > tr').each(function() {
                 var first, last, row = $(this),
@@ -605,13 +605,14 @@ function rcube_elastic_ui()
                             row_classes.push('with-link');
                         }
 
-                        text_only = false;
+                        form_rows++;
                     }
                     else if (!last.find('input:not([type=hidden]),textarea,radio,select').length) {
                         last.addClass('form-control-plaintext');
+                        text_rows++;
                     }
                     else {
-                        text_only = false;
+                        form_rows++;
                     }
 
                     // style some multi-input fields
@@ -626,7 +627,7 @@ function rcube_elastic_ui()
                 row.addClass(row_classes.join(' '));
             });
 
-            if (text_only) {
+            if (text_rows > form_rows) {
                 $(this).addClass('text-only');
             }
         });
