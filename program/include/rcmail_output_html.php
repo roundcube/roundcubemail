@@ -650,7 +650,8 @@ EOF;
         $output = $this->parse_xml($output);
 
         // trigger generic hook where plugins can put additional content to the page
-        $hook = $this->app->plugins->exec_hook("render_page", array('template' => $realname, 'content' => $output));
+        $hook = $this->app->plugins->exec_hook("render_page", array(
+                'template' => $realname, 'content' => $output, 'write' => $write));
 
         // save some memory
         $output = $hook['content'];
