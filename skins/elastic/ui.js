@@ -582,40 +582,53 @@ function rcube_elastic_ui()
         // Forms
         $('input:not(.button,[type=file],[type=radio],[type=checkbox]),select,textarea', $('.propform', context)).addClass('form-control');
         $('[type=checkbox]', $('.propform', context)).addClass('form-check-input');
-        $('table.propform > tbody > tr', context).each(function() {
-            var first, last, row = $(this),
-                row_classes = ['form-group', 'row'],
-                cells = row.children('td');
+        $('table.propform', context).each(function() {
+            var text_only = true;
 
-            if (cells.length == 2) {
-                first = cells.first();
-                last = cells.last();
+            $(this).find('> tbody > tr').each(function() {
+                var first, last, row = $(this),
+                    row_classes = ['form-group', 'row'],
+                    cells = row.children('td');
 
-                $('label', first).addClass('col-form-label');
-                first.addClass('col-sm-4');
-                last.addClass('col-sm-8');
+                if (cells.length == 2) {
+                    first = cells.first();
+                    last = cells.last();
 
-                if (last.find('[type=checkbox]').length == 1 && !last.find('.proplist').length) {
-                    row_classes.push('form-check');
+                    $('label', first).addClass('col-form-label');
+                    first.addClass('col-sm-4');
+                    last.addClass('col-sm-8');
 
-                    if (last.find('a').length) {
-                        row_classes.push('with-link');
+                    if (last.find('[type=checkbox]').length == 1 && !last.find('.proplist').length) {
+                        row_classes.push('form-check');
+
+                        if (last.find('a').length) {
+                            row_classes.push('with-link');
+                        }
+
+                        text_only = false;
+                    }
+                    else if (!last.find('input:not([type=hidden]),textarea,radio,select').length) {
+                        last.addClass('form-control-plaintext');
+                    }
+                    else {
+                        text_only = false;
+                    }
+
+                    // style some multi-input fields
+                    if (last.children('.datepicker') && last.children('input').length == 2) {
+                        last.addClass('datetime');
                     }
                 }
-                else if (!last.find('input:not([type=hidden]),textarea,radio,select').length) {
-                    last.addClass('form-control-plaintext');
+                else if (cells.length == 1) {
+                    cells.css('width', '100%');
                 }
 
-                // style some multi-input fields
-                if (last.children('.datepicker') && last.children('input').length == 2) {
-                    last.addClass('datetime');
-                }
-            }
-            else if (cells.length == 1) {
-                cells.css('width', '100%');
-            }
+                row.addClass(row_classes.join(' '));
+            });
 
-            row.addClass(row_classes.join(' '));
+            if (text_only) {
+                $(this).addClass('text-only');
+            }
         });
 
         // Special input + anything entry

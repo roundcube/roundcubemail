@@ -236,6 +236,32 @@ input.smart-upload {
     select + .input-group {
         padding-top: .5rem;
     }
+
+    &.text-only {
+        margin-bottom: .25rem;
+
+        tr {
+            margin: 0;
+        }
+
+        label {
+            padding-bottom: 0 !important;
+        }
+
+        @media screen and (max-width: 576px) {
+            tr {
+                display: table-row;
+            }
+
+            td {
+                width: auto;
+
+                &:first-child {
+                    width: 33%;
+                }
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 576px) {
@@ -369,6 +395,10 @@ html.ms .propform {
             padding: .375rem .375rem .375rem 0;
         }
 
+        .form-control-plaintext {
+            padding-bottom: 0;
+        }
+
         @media screen and (max-width: 576px) {
             &.form-group {
                 & > td label {
@@ -410,6 +440,10 @@ html.ms .propform {
             margin: 0; // fixes checkbox alignment with other inputs in a form
             margin-top: .5rem;
             margin-bottom: .5rem;
+
+            & + label {
+                display: inline;
+            }
         }
     }
 
@@ -830,6 +864,11 @@ html.touch .popupmenu.form {
 
     .skinlicense a:hover {
         text-decoration: underline;
+    }
+
+    .skinlicense,
+    .skinauthor {
+        font-size: 90%;
     }
 
     .skinthumbnail {
