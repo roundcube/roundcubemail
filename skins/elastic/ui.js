@@ -2604,6 +2604,7 @@ function rcube_elastic_ui()
 
         checkbox.addClass('icon-checkbox form-check-input').after(
             $('<label>').attr({'for': id, title: checkbox.attr('title') || ''})
+                .on('click', function(e) { e.stopPropagation(); })
         );
     };
 
