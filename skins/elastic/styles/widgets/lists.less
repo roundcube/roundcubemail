@@ -752,6 +752,18 @@ html.touch {
         }
     }
 
+    // for contacts list in mail compose
+    td.contact:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-user;
+    }
+
+    // for contacts list in mail compose
+    td.contactgroup:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-users;
+    }
+
     span.email {
         display: inline;
         color: @color-list-secondary;
