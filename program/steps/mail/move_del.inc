@@ -41,10 +41,10 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
 
     foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
         if ($mbox === $target) {
-            $count += count($uids);
+            $count += is_array($uids) ? count($uids) : 1;
         }
         else if ($RCMAIL->storage->move_message($uids, $target, $mbox)) {
-            $count += count($uids);
+            $count += is_array($uids) ? count($uids) : 1;
             $sources[] = $mbox;
         }
         else {
@@ -75,14 +75,16 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
 else if ($RCMAIL->action == 'delete' && !empty($_POST['_uid'])) {
     foreach (rcmail::get_uids(null, null, $multifolder) as $mbox => $uids) {
         $del      += (int)$RCMAIL->storage->delete_message($uids, $mbox);
-        $count    += count($uids);
+        $count    += is_array($uids) ? count($uids) : 1;
         $sources[] = $mbox;
     }
 
     if (!$del) {
         // send error message
-        if ($_POST['_from'] != 'show')
+        if ($_POST['_from'] != 'show') {
             $OUTPUT->command('list_mailbox');
+        }
+
         $RCMAIL->display_server_error('errordeleting');
         $OUTPUT->send();
     }
