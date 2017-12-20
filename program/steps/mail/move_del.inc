@@ -54,8 +54,10 @@ if ($RCMAIL->action == 'move' && !empty($_POST['_uid']) && strlen($_POST['_targe
 
     if (!$success) {
         // send error message
-        if ($_POST['_from'] != 'show')
+        if ($_POST['_from'] != 'show') {
             $OUTPUT->command('list_mailbox');
+        }
+
         $RCMAIL->display_server_error('errormoving', null, $target == $trash ? 'delete' : '');
         $OUTPUT->send();
     }
