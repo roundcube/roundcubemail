@@ -71,6 +71,11 @@ else if (!empty($_REQUEST['_cid'])) {
 
     foreach ($cids as $s => $ids) {
         $source = $RCMAIL->get_address_book($s);
+
+        // reset page and page size (#6103)
+        $source->set_page(1);
+        $source->set_pagesize(count($ids));
+
         $result = $source->search('ID', $ids, 1, true, true);
 
         while ($record = $result->next()) {
