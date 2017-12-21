@@ -2055,7 +2055,7 @@ EOF;
             $header = html::tag($attrib['ariatag'] ?: 'h2', array(
                     'id'    => 'aria-label-' . $attrib['label'],
                     'class' => 'voice'
-                ), rcube::Q($this->app->gettext('arialabel' . $attrib['label'])));
+                ), rcube::Q($this->app->gettext('arialabel' . $attrib['label'], $attrib['label-domain'])));
 
             if ($attrib['options']) {
                 $options_button = $this->button(array(
