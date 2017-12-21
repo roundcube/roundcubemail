@@ -33,7 +33,7 @@ RewriteRule ^/?(\.git|\.tx|SQL|bin|config|logs|temp|tests|program\/(include|lib|
 # - deny access to composer binaries
 RewriteRule ^/vendor\/bin\/.* - [F]
 # - deny access to some documentation files
-RewriteRule /?(README\.md|composer\.json-dist|composer\.json|package\.xml|jsdeps.json|Dockerfile)$ - [F]
+RewriteRule /?(README\.md|composer\.json-dist|composer\.json|package\.xml|jsdeps.json)$ - [F]
 </IfModule>
 
 <IfModule mod_deflate.c>
