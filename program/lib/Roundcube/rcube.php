@@ -481,8 +481,8 @@ class rcube
      */
     public function storage_log_session($args)
     {
-        if (!empty($args['session']) && session_id()) {
-            $this->write_log('imap_session', $args['session']);
+        if (!empty($args['user']) && session_id()) {
+            $this->write_log('imap_session', $args['user']);
         }
     }
 
