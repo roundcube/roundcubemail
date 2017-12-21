@@ -106,6 +106,10 @@ label input + span {
 	-webkit-user-select: none;
 }
 
+li > .input-group {
+	display: inline;
+}
+
 /*** buttons ***/
 
 button,
