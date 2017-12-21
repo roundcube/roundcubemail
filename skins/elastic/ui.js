@@ -2359,7 +2359,7 @@ function rcube_elastic_ui()
         var area, input, ac_props,
             apply_func = function() {
                 // update the original input
-                $(obj).val(area.text());
+                $(obj).val(area.text() + input.val());
             },
             focus_func = function() {
                 area.addClass('focus');
@@ -2388,15 +2388,16 @@ function rcube_elastic_ui()
             },
             update_func = function() {
                 var text = input.val().replace(/[,;\s]+$/, ''),
-                    recipients = recipient_input_parser(text);
+                    result = recipient_input_parser(text);
 
-                $.each(recipients, function() {
+                $.each(result.recipients, function() {
                     insert_recipient(this.name, this.email);
                 });
 
-                if (recipients.length) {
-                    input.val('');
-                    apply_func();
+                input.val(result.text);
+                apply_func();
+
+                if (result.recipients.length) {
                     return true;
                 }
             },
@@ -2488,10 +2489,14 @@ function rcube_elastic_ui()
                     email: email.replace(/(^<|>$)/g, ''),
                     text: this
                 });
+
+                text = text.replace(this, '');
             }
         });
 
-        return recipients;
+        text = text.replace(/[,;]+/, ',').replace(/^[,;]/, '');
+
+        return {recipients: recipients, text: text};
     };
 
     /**
