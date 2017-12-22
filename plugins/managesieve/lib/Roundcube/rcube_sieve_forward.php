@@ -72,7 +72,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
                 if ($this->sieve->load($script)) {
                     foreach ($this->sieve->script->as_array() as $rule) {
                         if (!empty($rule['actions'])) {
-                            if ($rule['actions'][0]['type'] == 'forward') {
+                            if ($rule['actions'][0]['type'] == 'redirect') {
                                 $this->script_name = $script;
                                 return 0;
                             }
@@ -88,7 +88,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
             foreach ($included as $script) {
                 if ($this->sieve->load($script)) {
                     foreach ($this->sieve->script->as_array() as $rule) {
-                        if (!empty($rule['actions']) && $rule['actions'][0]['type'] == 'forward') {
+                        if (!empty($rule['actions']) && $rule['actions'][0]['type'] == 'redirect') {
                             $this->script_name = $script;
                             return 0;
                         }
@@ -103,7 +103,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
             foreach (array_diff($list, $included, $this->active) as $script) {
                 if ($this->sieve->load($script)) {
                     foreach ($this->sieve->script->as_array() as $rule) {
-                        if (!empty($rule['actions']) && $rule['actions'][0]['type'] == 'forward') {
+                        if (!empty($rule['actions']) && $rule['actions'][0]['type'] == 'redirect') {
                             $this->script_name = $script;
                             return 0;
                         }
