@@ -762,13 +762,13 @@ html.touch .popupmenu.form {
     display: flex;
     flex-wrap: wrap;
     padding: 0 .75rem @recipient-input-margin-fix .75rem;
+    list-style-type: none;
 
     &.focus {
         border-color: @color-input-border-focus;
     }
 
     .recipient {
-        flex: 1;
         display: flex;
         position: relative;
         max-width: 50%;
@@ -821,8 +821,7 @@ html.touch .popupmenu.form {
     }
 
     input {
-        flex-grow: 1;
-        min-width: 25%;
+        width: 15px;
         background: transparent !important;
         border: 0 !important;
         margin-top: @recipient-input-margin-fix;

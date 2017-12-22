@@ -2356,16 +2356,21 @@ function rcube_elastic_ui()
      */
     function recipient_input(obj)
     {
-        var area, input, ac_props,
+        var list, input, ac_props,
+            input_len_update = function() {
+                input.css('width', input.val().length * 10 + 15);
+            },
             apply_func = function() {
                 // update the original input
-                $(obj).val(area.text() + input.val());
+                $(obj).val(list.text() + input.val());
             },
             focus_func = function() {
-                area.addClass('focus');
+                list.addClass('focus');
+                // move cursor to the end of input text, use setTimeout for Firefox
+                setTimeout(function() { rcmail.set_caret_pos(input.get(0), input.val().length); }, 1);
             },
             insert_recipient = function(name, email) {
-                var recipient = $('<span class="recipient">'),
+                var recipient = $('<li class="recipient">'),
                     name_element = $('<span class="name">').html(recipient_input_name(name || email)),
                     email_element = $('<span class="email">'),
                     // TODO: should the 'close' link have tabindex?
@@ -2384,7 +2389,7 @@ function rcube_elastic_ui()
                 email_element.text((name ? email : '') + ',');
                 recipient.attr('title', name ? (name + email) : null)
                     .append([name_element, email_element, link])
-                    .insertBefore(input);
+                    .insertBefore(input.parent());
             },
             update_func = function() {
                 var text = input.val().replace(/[,;\s]+$/, ''),
@@ -2396,6 +2401,7 @@ function rcube_elastic_ui()
 
                 input.val(result.text);
                 apply_func();
+                input_len_update();
 
                 if (result.recipients.length) {
                     return true;
@@ -2406,13 +2412,13 @@ function rcube_elastic_ui()
                 update_func();
 
                 if (e.type == 'blur') {
-                    area.removeClass('focus');
+                    list.removeClass('focus');
                 }
             },
             keydown_func = function(e) {
                 // On Backspace remove the last recipient
                 if (e.keyCode == 8 && !input.val().length) {
-                    area.children('span.recipient:last').remove();
+                    list.children('li.recipient:last').remove();
                     apply_func();
                     return false;
                 }
@@ -2422,16 +2428,18 @@ function rcube_elastic_ui()
                         return false;
                     }
                 }
+
+                input_len_update();
             };
 
-        // Create the content-editable div
+        // Create the input elemennt and "editable" area
         input = $('<input>').attr({type: 'text', tabindex: $(obj).attr('tabindex')})
             .on('paste change blur', parse_func)
             .on('keydown', keydown_func)
             .on('focus mousedown', focus_func);
 
-        area = $('<div>').addClass('form-control recipient-input')
-            .append(input)
+        list = $('<ul>').addClass('form-control recipient-input')
+            .append($('<li>').append(input))
             .on('click', function() { input.focus(); });
 
         // "Replace" the original input/textarea with the content-editable div
@@ -2440,13 +2448,13 @@ function rcube_elastic_ui()
         // Note: tabindex:-1 to make Shift+TAB working on these widgets
         $(obj).css({position: 'absolute', opacity: 0, left: '-5000px', width: '10px'})
             .attr('tabindex', -1)
-            .after(area)
+            .after(list)
             // some core code sometimes focuses or changes the original node
             // in such cases we wan't to parse it's value and apply changes
             // to the widget element
             .on('focus', function(e) { input.focus(); })
             .on('change', function(e) {
-                $('span.recipient', area).remove();
+                $('li.recipient', list).remove();
                 input.val(this.value).change();
             })
             // copy and parse the value already set
@@ -2454,7 +2462,7 @@ function rcube_elastic_ui()
 
         // this one line is here to fix border of Bootstrap's input-group,
         // input-group should not contain any hidden elements
-        $(obj).detach().insertBefore(area.parent());
+        $(obj).detach().insertBefore(list.parent());
 
         if (rcmail.env.autocomplete_threads > 0) {
             ac_props = {
