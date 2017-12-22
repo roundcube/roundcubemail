@@ -490,7 +490,12 @@ function rcube_elastic_ui()
         }
 
         rcmail.addEventListener('fileappended', function(e) { if (e.attachment.complete) attachmentmenu_append(e.item); })
-            .addEventListener('managesieve.insertrow', function(o) { bootstrap_style(o.obj); });
+            .addEventListener('managesieve.insertrow', function(o) { bootstrap_style(o.obj); })
+            .addEventListener('add-recipient', function() {
+                if (mode == 'phone') {
+                    rcmail.display_message(rcmail.gettext('recipientsadded'), 'confirmation');
+                }
+            });
 
         rcmail.init_pagejumper('.pagenav > input');
 
