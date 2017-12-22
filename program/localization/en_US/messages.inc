@@ -96,6 +96,7 @@ $messages['noemailwarning'] = 'Please enter a valid email address.';
 $messages['nonamewarning']  = 'Please enter a name.';
 $messages['nopagesizewarning'] = 'Please enter a page size.';
 $messages['nosenderwarning'] = 'Please enter sender email address.';
+$messages['recipientsadded'] = 'Recipient(s) added successfully.';
 $messages['norecipientwarning'] = 'Please enter at least one recipient.';
 $messages['disclosedrecipwarning'] = 'All recipients will see each others e-mail addresses. To prevent this and protect their privacy you can use the Bcc field.';
 $messages['disclosedreciptitle'] = 'Too many public recipients';
