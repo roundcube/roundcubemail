@@ -136,10 +136,12 @@ a:hover {
     text-align: center;
     width: 100%;
     background: url(../images/watermark.jpg) center -20px no-repeat;
+    background-size: auto 40%;
 }
 
 #login-form {
     margin: auto;
+    margin-top: 35%;
     width: 95%;
     max-width: 280px;
 
@@ -148,6 +150,28 @@ a:hover {
         max-width: 280px;
         margin-right: 0;
         margin-left: 0;
+    }
+}
+
+#login-footer {
+    flex: 1;
+    color: @color-black-shade-text;
+}
+
+#login-addon {
+    position: absolute;
+    bottom: 0;
+    max-height: 30%;
+    margin: 1rem !important;
+    width: auto !important;
+    overflow: auto;
+
+    @media screen and (min-width: (@screen-width-small + 1px)) {
+        max-width: @screen-width-small;
+        margin: auto !important;
+        bottom: 1rem;
+        left: 0;
+        right: 0;
     }
 }
 
