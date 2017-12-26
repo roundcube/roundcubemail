@@ -10,6 +10,7 @@ CHANGELOG Roundcube Webmail
 - Fix performance issue when parsing malformed and long Date header (#6087)
 - Fix syntax error in mssql.initial.sql (#6097)
 - Fix bug where contacts export by selection returned no more than 10 entries (#6103)
+- Fix searching contacts by address in LDAP source (#6084)
 
 RELEASE 1.3.3
 -------------
