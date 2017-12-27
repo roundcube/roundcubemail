@@ -69,7 +69,10 @@ input.smart-upload {
             &:before {
                 &:extend(.font-icon-class);
                 content: @fa-var-plus;
-                margin: 0;
+
+                @media screen and (min-width: (@screen-width-bs-phone + 1px)) {
+                    margin: 0;
+                }
             }
 
             &.delete:before {
@@ -248,7 +251,7 @@ input.smart-upload {
             padding-bottom: 0 !important;
         }
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: @screen-width-bs-phone) {
             tr {
                 display: table-row;
             }
@@ -264,7 +267,7 @@ input.smart-upload {
     }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: @screen-width-bs-phone) {
     .propform {
         table.compact-table {
             overflow-x: initial;
@@ -326,12 +329,12 @@ html.ms .propform {
     .row:not(.form-check) > td {
         display: flex;
     }
-    @media screen and (min-width: 576px) {
+    @media screen and (min-width: @screen-width-bs-phone) {
         .row.form-check > td {
             display: flex;
         }
     }
-    @media screen and (max-width: 575px) {
+    @media screen and (max-width: (@screen-width-bs-phone - 1px)) {
         .row {
             display: block;
         }
@@ -399,7 +402,7 @@ html.ms .propform {
             padding-bottom: 0;
         }
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: @screen-width-bs-phone) {
             &.form-group {
                 & > td label {
                     padding-bottom: 0;
@@ -419,7 +422,7 @@ html.ms .propform {
         }
 
         // alignment fixes needed because we do not stick precissely to Bootstrap's form structure
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: @screen-width-bs-phone) {
             .col-6 {
                 max-width: 100%;
                 flex: auto;
