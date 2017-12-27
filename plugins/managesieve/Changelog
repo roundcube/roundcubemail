@@ -2,6 +2,7 @@
 - Added option managesieve_forward to enable settings dialog for simple forwarding (#6021)
 - Support filter action with custom IMAP flags (#6011)
 - Support 'mime' extension tests - RFC5703 (#5832)
+- Support Elastic skin
 
 * version 9.0 [2017-10-02]
 -----------------------------------------------------------
