@@ -403,21 +403,30 @@ insert_row: function(row, before)
   }
 
   if (this.checkbox_selection) {
-    var cell = document.createElement(this.col_tagname()),
+    var key, cell = document.createElement(this.col_tagname()),
       chbox = document.createElement('input');
 
     chbox.type = 'checkbox';
     chbox.onchange = function(e) {
-      self.select_row(row.uid, CONTROL_KEY, true);
+      self.select_row(row.uid, key || CONTROL_KEY, true);
       e.stopPropagation();
+      key = null;
     };
+    chbox.onmousedown = function(e) {
+      key = rcube_event.get_modifier(e);
+    };
+
     cell.className = 'selection';
+    // make the whole cell "touchable" for touch devices
     cell.onclick = function(e) {
-      // this event handler fixes checkbox selection on touch devices
-      if (e.target.nodeName != 'INPUT')
-        chbox.click();
+      if (!$(e.target).is('input')) {
+        key = rcube_event.get_modifier(e);
+        $(chbox).prop('checked', !chbox.checked).change();
+      }
+
       e.stopPropagation();
     };
+
     cell.appendChild(chbox);
 
     row.insertBefore(cell, row.firstChild);
