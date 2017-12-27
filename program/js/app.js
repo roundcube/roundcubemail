@@ -7121,7 +7121,9 @@ function rcube_webmail()
     }
 
     // disable drag-n-drop temporarily
-    this.subscription_list.draggable('destroy').droppable('destroy');
+    // some skins disable dragging in mobile mode, so we have to check if it is still draggable
+    if (this.subscription_list.is_draggable())
+      this.subscription_list.draggable('destroy').droppable('destroy');
 
     var row, n, tmp, tmp_name, rowid, collator, pos, p, parent = '',
       folders = [], list = [], slist = [],

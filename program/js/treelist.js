@@ -89,6 +89,7 @@ function rcube_treelist_widget(node, p)
   this.intersects = intersects;
   this.droppable = droppable;
   this.draggable = draggable;
+  this.is_draggable = is_draggable;
   this.update = update_node;
   this.insert = insert;
   this.remove = remove;
@@ -1244,6 +1245,11 @@ function rcube_treelist_widget(node, p)
     $('li:not(.virtual)', container).draggable(my_opts);
 
     return this;
+  }
+
+  function is_draggable()
+  {
+    return !!ui_draggable;
   }
 }
 
