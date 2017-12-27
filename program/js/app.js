@@ -6978,9 +6978,7 @@ function rcube_webmail()
 
     if (this.responses_list) {
       this.responses_list.remove_row(key);
-      if (frame = this.get_frame_window(this.env.contentframe)) {
-        frame.location.href = this.env.blankpage;
-      }
+      this.show_contentframe(false);
     }
 
     this.enable_command('delete', false);
@@ -6993,9 +6991,7 @@ function rcube_webmail()
 
     if (list && id) {
       list.remove_row(rid);
-      if (frame = this.get_frame_window(this.env.contentframe)) {
-        frame.location.href = this.env.blankpage;
-      }
+     this.show_contentframe(false);
     }
 
     this.enable_command('delete', false);
