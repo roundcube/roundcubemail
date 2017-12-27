@@ -489,13 +489,22 @@ function rcube_elastic_ui()
             });
         }
 
-        rcmail.addEventListener('fileappended', function(e) { if (e.attachment.complete) attachmentmenu_append(e.item); })
-            .addEventListener('managesieve.insertrow', function(o) { bootstrap_style(o.obj); })
-            .addEventListener('add-recipient', function() {
-                if (mode == 'phone') {
-                    rcmail.display_message(rcmail.gettext('recipientsadded'), 'confirmation');
+        var phone_confirmation = function(label) {
+            if (mode == 'phone') {
+                rcmail.display_message(rcmail.gettext(label), 'confirmation');
+            }
+        };
+
+        rcmail.addEventListener('fileappended', function(e) {
+                if (e.attachment.complete) {
+                    attachmentmenu_append(e.item);
+                    if (e.attachment.mimetype == 'text/vcard' && rcmail.commands['attach-vcard']) {
+                        phone_confirmation('vcard_attachments.vcardattached');
+                    }
                 }
-            });
+            })
+            .addEventListener('managesieve.insertrow', function(o) { bootstrap_style(o.obj); })
+            .addEventListener('add-recipient', function() { phone_confirmation('recipientsadded'); });
 
         rcmail.init_pagejumper('.pagenav > input');
 
@@ -510,6 +519,12 @@ function rcube_elastic_ui()
                 rcmail.addEventListener('compose-encrypted', function(e) {
                     $("a.mode-html, button.attach").prop('disabled', e.active);
                     $('a.button.attach, a.button.responses')[e.active ? 'addClass' : 'removeClass']('disabled');
+                });
+
+                $('.sidebar > .footer > a.button').click(function() {
+                    if ($(this).is('.disabled')) {
+                        rcmail.display_message(rcmail.gettext('nocontactselected'), 'warning');
+                    }
                 });
             }
 
