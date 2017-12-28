@@ -136,6 +136,14 @@ function rcube_text_editor(config, id)
     ed.on('keypress', function() {
       rcmail.compose_type_activity++;
     });
+    // make links open on shift-click
+    ed.on('click', function(e) {
+      var link = $(e.target).closest('a');
+      if (link.length && e.shiftKey) {
+        window.open(link.get(0).href, '_blank');
+        return false;
+      }
+    });
   };
 
   rcmail.triggerEvent('editor-init', {config: conf, ref: ref});
@@ -151,6 +159,8 @@ function rcube_text_editor(config, id)
   this.init_callback = function(event)
   {
     this.editor = event.target;
+
+    rcmail.triggerEvent('editor-load', {config: conf, ref: ref});
 
     if (rcmail.env.action != 'compose') {
       return;
