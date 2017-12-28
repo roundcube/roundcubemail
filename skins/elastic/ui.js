@@ -1744,7 +1744,7 @@ function rcube_elastic_ui()
 
                 if (!is_mobile()) {
                     // Set popup height so it is less than the window height
-                    popup.css('max-height', Math.min(510, $(window).height() - 30));
+                    popup.css('max-height', Math.min(36 * 15 - 1, $(window).height() - 30));
                 }
             })
             .on('shown.bs.popover', function(event) {
