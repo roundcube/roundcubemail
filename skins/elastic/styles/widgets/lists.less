@@ -659,40 +659,50 @@ table.fixedcopy {
         cursor: pointer;
         font-size: .4em;
         width: 3em;
+        height: 2rem;
     }
     td.subject span.msgicon.status.unread:before {
         content: @fa-var-star;
-        font-size: 1.2em;
-        width: 1em;
+        font-size: 1.1em;
+        width: 1.1em;
+        line-height: 1.75;
+        color: @color-warning;
     }
     td.subject span.msgicon.status.unreadchildren:before {
-        .font-icon-regular(@fa-var-star-half);
-        font-size: 1.2em;
-        width: 1em;
+        .font-icon-regular(@fa-var-star);
+        font-size: 1.1em;
+        width: 1.1em;
+        line-height: 1.75;
+        color: @color-warning;
     }
     td.subject span.msgicon.status.replied:before {
         content: @fa-var-reply;
-        font-size: 1.2em;
-        width: 1em;
+        font-size: 1.1em;
+        line-height: 1.75;
+        width: 1.1em;
     }
     td.subject span.msgicon.status.forwarded:before {
         content: @fa-var-share;
-        font-size: 1.2em;
-        width: 1em;
+        font-size: 1.1em;
+        line-height: 1.75;
+        width: 1.1em;
     }
     td.subject span.msgicon.status.replied.forwarded:before {
-        content: @fa-var-share; // TODO
-        font-size: 1.2em;
-        width: 1em;
+        content: @fa-var-reply; // TODO
+        font-size: 1.1em;
+        line-height: 1.75;
+        width: 1.1em;
     }
     tr.deleted td.subject span.msgicon.status:before {
         content: @fa-var-ban;
-        font-size: 1.2em;
-        width: 1em;
+        font-size: 1.1em;
+        line-height: 1.75;
+        width: 1.1em;
     }
 
     span.attachment span {
         &:extend(.font-icon-class);
+        color: @color-list-icon;
 
         &:before {
             margin: 0;
