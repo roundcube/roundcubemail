@@ -549,4 +549,53 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
         $this->assertSame(0, strlen(rcube_utils::random_bytes(0)));
         $this->assertSame(0, strlen(rcube_utils::random_bytes(-1)));
     }
+
+    /**
+     * Test-Cases for IDN to ASCII and IDN to UTF-8
+     */
+    function data_idn_convert()
+    {
+
+        /*
+         * Check https://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Internationalized_brand_top-level_domains
+         * and https://github.com/true/php-punycode/blob/master/tests/PunycodeTest.php for more Test-Data
+         */
+
+        return array(
+            array('test@vermögensberater', 'test@xn--vermgensberater-ctb'),
+            array('test@vermögensberatung', 'test@xn--vermgensberatung-pwb'),
+            array('test@グーグル', 'test@xn--qcka1pmc'),
+            array('test@谷歌', 'test@xn--flw351e'),
+            array('test@中信', 'test@xn--fiq64b'),
+            array('test@рф.ru', 'test@xn--p1ai.ru'),
+            array('test@δοκιμή.gr', 'test@xn--jxalpdlp.gr'),
+            array('test@gwóźdź.pl', 'test@xn--gwd-hna98db.pl'),
+        );
+
+    }
+
+    /**
+     * Test idn_to_ascii
+     *
+     * @param string $decoded Decoded email address
+     * @param string $encoded Encoded email address
+     * @dataProvider data_idn_convert
+     */
+    function test_idn_to_ascii($decoded, $encoded)
+    {
+        $this->assertEquals(rcube_utils::idn_to_ascii($decoded), $encoded);
+    }
+
+    /**
+     * Test idn_to_utf8
+     *
+     * @param string $decoded Decoded email address
+     * @param string $encoded Encoded email address
+     * @dataProvider data_idn_convert
+     */
+    function test_idn_to_utf8($decoded, $encoded)
+    {
+        $this->assertEquals(rcube_utils::idn_to_utf8($encoded), $decoded);
+    }
+
 }
