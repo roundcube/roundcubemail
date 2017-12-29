@@ -73,7 +73,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     \$config['log_dir'] = '${ROUNDCUBEMAIL_LOG_DIR}';
     \$config['temp_dir'] = '${ROUNDCUBEMAIL_TEMP_DIR}';
     \$config['plugins'] = ['${ROUNDCUBEMAIL_PLUGINS_PHP}'];
-    " | tee config/config.inc.php
+    " > config/config.inc.php
 
     for fn in `ls /var/roundcube/config/*.php`; do
       echo "include('$fn');" >> config/config.inc.php
