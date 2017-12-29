@@ -464,13 +464,29 @@ function rcube_text_editor(config, id)
     }
   };
 
+  // Fill the editor with specified content
+  // TODO: support format conversion
+  this.set_content = function(content)
+  {
+    if (this.editor) {
+      this.editor.setContent(content);
+      this.editor.getWin().focus();
+    }
+    else if (ed = rcube_find_object(this.id)) {
+      $(ed).val(content).focus();
+    }
+  };
+
   // get selected text (if no selection returns all text) from the editor
   this.get_content = function(args)
   {
     var sigstart, ed = this.editor, text = '', strip = false,
       defaults = {refresh: true, selection: false, nosig: false, format: 'html'};
 
-    args = $.extend(defaults, args);
+    if (!args)
+      args = defaults;
+    else
+      args = $.extend(defaults, args);
 
     // apply spellcheck changes if spell checker is active
     if (args.refresh) {
