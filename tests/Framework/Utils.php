@@ -570,6 +570,14 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             array('test@рф.ru', 'test@xn--p1ai.ru'),
             array('test@δοκιμή.gr', 'test@xn--jxalpdlp.gr'),
             array('test@gwóźdź.pl', 'test@xn--gwd-hna98db.pl'),
+            array('vermögensberater', 'xn--vermgensberater-ctb'),
+            array('vermögensberatung', 'xn--vermgensberatung-pwb'),
+            array('グーグル', 'xn--qcka1pmc'),
+            array('谷歌', 'xn--flw351e'),
+            array('中信', 'xn--fiq64b'),
+            array('рф.ru', 'xn--p1ai.ru'),
+            array('δοκιμή.gr', 'xn--jxalpdlp.gr'),
+            array('gwóźdź.pl', 'xn--gwd-hna98db.pl'),
         );
 
     }
