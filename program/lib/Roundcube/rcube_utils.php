@@ -875,9 +875,7 @@ class rcube_utils
      */
     public static function idn_to_ascii($str)
     {
-        return self::idn_convert($str, function($domain, $options, $variant) {
-            return idn_to_ascii($domain, $options, $variant);
-        });
+        return self::idn_convert($str, true);
     }
 
     /**
@@ -888,9 +886,7 @@ class rcube_utils
      */
     public static function idn_to_utf8($str)
     {
-        return self::idn_convert($str, function($domain, $options, $variant) {
-            return idn_to_utf8($domain, $options, $variant);
-        });
+        return self::idn_convert($str, false);
     }
 
 
@@ -898,10 +894,10 @@ class rcube_utils
      * Convert an string for to ascii or utf8
      *
      * @param string $input
-     * @param callable $callback
+     * @param boolean $is_utf
      * @return string
      */
-    public static function idn_convert($input, $callback)
+    public static function idn_convert($input, $is_utf = false)
     {
         if ($at = strpos($input, '@')) {
             $domain = substr($input, $at + 1);
@@ -915,7 +911,12 @@ class rcube_utils
         $variant = defined('INTL_IDNA_VARIANT_UTS46') ? INTL_IDNA_VARIANT_UTS46 : null;
         $options = 0;
 
-        $new_domain = $callback($domain, $options, $variant);
+        if ($is_utf) {
+            $new_domain = idn_to_ascii($domain, $options, $variant);
+        }
+        else {
+            $new_domain = idn_to_utf8($domain, $options, $variant);
+        }
 
         if ($new_domain === false) {
             return '';
