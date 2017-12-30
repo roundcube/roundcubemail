@@ -593,8 +593,7 @@ class rcube_utils
         // %s - domain name after the '@' from e-mail address provided at login screen.
         //      Returns FALSE if an invalid email is provided
         if (strpos($name, '%s') !== false) {
-            $user_email = self::get_input_value('_user', self::INPUT_POST);
-            $user_email = self::idn_convert($user_email, true);
+            $user_email = self::idn_to_ascii(self::get_input_value('_user', self::INPUT_POST));
             $matches    = preg_match('/(.*)@([a-z0-9\.\-\[\]\:]+)/i', $user_email, $s);
             if ($matches < 1 || filter_var($s[1]."@".$s[2], FILTER_VALIDATE_EMAIL) === false) {
                 return false;
@@ -868,28 +867,42 @@ class rcube_utils
         return $date;
     }
 
-    /*
-     * Idn_to_ascii wrapper.
-     * Intl/Idn modules version of this function doesn't work with e-mail address
+    /**
+     * Wrapper for idn_to_ascii with support for e-mail address
+     * @param string $str
+     * @return string
      */
     public static function idn_to_ascii($str)
     {
-        return self::idn_convert($str, true);
+        return self::idn_convert($str, function($domain, $options, $variant) {
+            return idn_to_ascii($domain, $options, $variant);
+        });
     }
 
-    /*
-     * Idn_to_ascii wrapper.
-     * Intl/Idn modules version of this function doesn't work with e-mail address
+    /**
+     * Wrapper for idn_to_utf8 with support for e-mail address
+     *
+     * @param string $str
+     * @return string
      */
     public static function idn_to_utf8($str)
     {
-        return self::idn_convert($str, false);
+        return self::idn_convert($str, function($domain, $options, $variant) {
+            return idn_to_utf8($domain, $options, $variant);
+        });
     }
 
-    public static function idn_convert($input, $is_utf = false)
+
+    /**
+     * Convert an string for to ascii or utf8
+     *
+     * @param string $input
+     * @param callable $callback
+     * @return string
+     */
+    public static function idn_convert($input, $callback)
     {
         if ($at = strpos($input, '@')) {
-            $user   = substr($input, 0, $at);
             $domain = substr($input, $at + 1);
         }
         else {
@@ -901,18 +914,13 @@ class rcube_utils
         $variant = defined('INTL_IDNA_VARIANT_UTS46') ? INTL_IDNA_VARIANT_UTS46 : null;
         $options = 0;
 
-        if ($is_utf) {
-            $domain = idn_to_ascii($domain, $options, $variant);
-        }
-        else {
-            $domain = idn_to_utf8($domain, $options, $variant);
-        }
+        $new_domain = $callback($domain, $options, $variant);
 
-        if ($domain === false) {
+        if ($new_domain === false) {
             return '';
         }
 
-        return $at ? $user . '@' . $domain : $domain;
+        return strtr($input, array($domain => $new_domain));
     }
 
     /**
