@@ -870,8 +870,8 @@ class rcube_utils
     /**
      * Wrapper for idn_to_ascii with support for e-mail address
      *
-     * @param string $str
-     * @return string
+     * @param string $str Decoded e-mail address
+     * @return string Encoded e-mail address
      */
     public static function idn_to_ascii($str)
     {
@@ -881,8 +881,8 @@ class rcube_utils
     /**
      * Wrapper for idn_to_utf8 with support for e-mail address
      *
-     * @param string $str
-     * @return string
+     * @param string $str Decoded e-mail address
+     * @return string Encoded e-mail address
      */
     public static function idn_to_utf8($str)
     {
@@ -891,11 +891,11 @@ class rcube_utils
 
 
     /**
-     * Convert an string for to ascii or utf8
+     * Convert a string to ascii or utf8
      *
-     * @param string $input
-     * @param boolean $is_utf
-     * @return string
+     * @param string $input Decoded e-mail address
+     * @param boolean $is_utf Convert by idn_to_ascii if true and idn_to_utf8 if false
+     * @return string Encoded e-mail address
      */
     public static function idn_convert($input, $is_utf = false)
     {
