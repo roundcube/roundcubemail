@@ -869,6 +869,7 @@ class rcube_utils
 
     /**
      * Wrapper for idn_to_ascii with support for e-mail address
+     *
      * @param string $str
      * @return string
      */
