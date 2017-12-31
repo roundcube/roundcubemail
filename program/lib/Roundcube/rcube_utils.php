@@ -904,7 +904,7 @@ class rcube_utils
             $domain = substr($input, $at + 1);
         }
         else {
-            $user = null;
+            $user = '';
             $domain = $input;
         }
 
