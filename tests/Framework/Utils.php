@@ -570,6 +570,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             array('test@рф.ru', 'test@xn--p1ai.ru'),
             array('test@δοκιμή.gr', 'test@xn--jxalpdlp.gr'),
             array('test@gwóźdź.pl', 'test@xn--gwd-hna98db.pl'),
+            array('рф.ru@рф.ru', 'рф.ru@xn--p1ai.ru'),
             array('vermögensberater', 'xn--vermgensberater-ctb'),
             array('vermögensberatung', 'xn--vermgensberatung-pwb'),
             array('グーグル', 'xn--qcka1pmc'),

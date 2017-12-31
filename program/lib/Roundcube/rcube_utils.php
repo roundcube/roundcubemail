@@ -900,9 +900,11 @@ class rcube_utils
     public static function idn_convert($input, $is_utf = false)
     {
         if ($at = strpos($input, '@')) {
+            $user = substr($input, 0, $at);
             $domain = substr($input, $at + 1);
         }
         else {
+            $user = null;
             $domain = $input;
         }
 
@@ -912,17 +914,17 @@ class rcube_utils
         $options = 0;
 
         if ($is_utf) {
-            $new_domain = idn_to_ascii($domain, $options, $variant);
+            $domain = idn_to_ascii($domain, $options, $variant);
         }
         else {
-            $new_domain = idn_to_utf8($domain, $options, $variant);
+            $domain = idn_to_utf8($domain, $options, $variant);
         }
 
-        if ($new_domain === false) {
+        if ($domain === false) {
             return '';
         }
 
-        return strtr($input, array($domain => $new_domain));
+        return $at ? $user . '@' . $domain : $domain;
     }
 
     /**
