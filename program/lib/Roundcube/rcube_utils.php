@@ -596,8 +596,7 @@ class rcube_utils
         // %s - domain name after the '@' from e-mail address provided at login screen.
         //      Returns FALSE if an invalid email is provided
         if (strpos($name, '%s') !== false) {
-            $user_email = self::get_input_value('_user', self::INPUT_POST);
-            $user_email = self::idn_convert($user_email, true);
+            $user_email = self::idn_to_ascii(self::get_input_value('_user', self::INPUT_POST));
             $matches    = preg_match('/(.*)@([a-z0-9\.\-\[\]\:]+)/i', $user_email, $s);
             if ($matches < 1 || filter_var($s[1]."@".$s[2], FILTER_VALIDATE_EMAIL) === false) {
                 return false;
@@ -871,31 +870,44 @@ class rcube_utils
         return $date;
     }
 
-    /*
-     * Idn_to_ascii wrapper.
-     * Intl/Idn modules version of this function doesn't work with e-mail address
+    /**
+     * Wrapper for idn_to_ascii with support for e-mail address
+     *
+     * @param string $str Decoded e-mail address
+     * @return string Encoded e-mail address
      */
     public static function idn_to_ascii($str)
     {
         return self::idn_convert($str, true);
     }
 
-    /*
-     * Idn_to_ascii wrapper.
-     * Intl/Idn modules version of this function doesn't work with e-mail address
+    /**
+     * Wrapper for idn_to_utf8 with support for e-mail address
+     *
+     * @param string $str Decoded e-mail address
+     * @return string Encoded e-mail address
      */
     public static function idn_to_utf8($str)
     {
         return self::idn_convert($str, false);
     }
 
+
+    /**
+     * Convert a string to ascii or utf8
+     *
+     * @param string $input Decoded e-mail address
+     * @param boolean $is_utf Convert by idn_to_ascii if true and idn_to_utf8 if false
+     * @return string Encoded e-mail address
+     */
     public static function idn_convert($input, $is_utf = false)
     {
         if ($at = strpos($input, '@')) {
-            $user   = substr($input, 0, $at);
+            $user = substr($input, 0, $at);
             $domain = substr($input, $at + 1);
         }
         else {
+            $user = '';
             $domain = $input;
         }
 
