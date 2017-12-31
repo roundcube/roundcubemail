@@ -64,7 +64,7 @@ class rcube_utils
     public static function check_email($email, $dns_check=true)
     {
         // Check for invalid characters
-        if (preg_match('/[\x00-\x1F\x7F-\xFF]/', $email)) {
+        if (preg_match('/\p{Cc}/u', $email)) {
             return false;
         }
 
@@ -83,14 +83,30 @@ class rcube_utils
         $domain_part = array_pop($email_array);
         $local_part  = implode('@', $email_array);
 
-        // from PEAR::Validate
-        $regexp = '&^(?:
-            ("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+")|                             #1 quoted name
-            ([-\w!\#\$%\&\'*+~/^`|{}=]+(?:\.[-\w!\#\$%\&\'*+~/^`|{}=]+)*))  #2 OR dot-atom (RFC5322)
-            $&xi';
-
-        if (!preg_match($regexp, $local_part)) {
+        // XXX RFC states that ".." is not allowed in a local-part
+        // of an email address, but apparently gmail allows it.
+        if(preg_match('/^\.|\.$/',$local_part)) {
             return false;
+        }
+
+        $local_subparts;
+        preg_match_all('/"(?:\\\\.|[^\\\\"])*"|[^\.]+/',$local_part,$local_subparts);
+
+        foreach ($local_subparts[0] as $l) {
+            if(substr($l,0,1) == '"') {
+                // quoted-string, make sure all backslashes and quotes are
+                // escaped
+                $local_quoted = preg_replace('/\\\\(\\\\|\")/','',substr($l,1,-1));
+                if(preg_match('/\\\\|"/',$local_quoted)) {
+                    return false;
+                }
+            }
+            else {
+                // dot-atom portion, make sure there's no prohibited characters
+                if(preg_match('/[\\ ",:;<>@]/',$l)) {
+                    return false;
+                }
+            }
         }
 
         // Validate domain part

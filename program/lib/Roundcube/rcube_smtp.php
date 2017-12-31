@@ -226,15 +226,31 @@ class rcube_smtp
             return false;
         }
 
+        $exts = $this->conn->getServiceExtensions();
+
         // RFC3461: Delivery Status Notification
         if ($opts['dsn']) {
-            $exts = $this->conn->getServiceExtensions();
-
             if (isset($exts['DSN'])) {
                 $from_params      = 'RET=HDRS';
                 $recipient_params = 'NOTIFY=SUCCESS,FAILURE';
             }
         }
+        //RFC6531: request smtputf8 if needed
+        if (
+            !mb_check_encoding($from,'ASCII') ||
+            !mb_check_encoding($recipients,'ASCII')
+        ) {
+            if (isset($exts['SMTPUTF8'])) {
+                if (!empty($from_params)) {
+                    $from_params .= ' ';
+                }
+                $from_params .= 'SMTPUTF8';
+             }
+             else {
+                 return false;
+             }
+        }
+
 
         // RFC2298.3: remove envelope sender address
         if (empty($opts['mdn_use_from'])
