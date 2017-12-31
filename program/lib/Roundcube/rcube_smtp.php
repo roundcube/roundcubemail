@@ -226,6 +226,14 @@ class rcube_smtp
             return false;
         }
 
+        // prepare list of recipients
+        $recipients = $this->_parse_rfc822($recipients);
+        if (is_a($recipients, 'PEAR_Error')) {
+            $this->error = array('label' => 'smtprecipientserror');
+            $this->reset();
+            return false;
+        }
+
         $exts = $this->conn->getServiceExtensions();
 
         // RFC3461: Delivery Status Notification
@@ -235,22 +243,19 @@ class rcube_smtp
                 $recipient_params = 'NOTIFY=SUCCESS,FAILURE';
             }
         }
-        //RFC6531: request smtputf8 if needed
-        if (
-            !mb_check_encoding($from,'ASCII') ||
-            !mb_check_encoding($recipients,'ASCII')
-        ) {
-            if (isset($exts['SMTPUTF8'])) {
-                if (!empty($from_params)) {
-                    $from_params .= ' ';
-                }
-                $from_params .= 'SMTPUTF8';
-             }
-             else {
-                 return false;
-             }
-        }
 
+        // RFC6531: request SMTPUTF8 if needed
+        if (preg_match('/[^\x00-\x7F]/', $from . implode('', $recipients))) {
+            if (isset($exts['SMTPUTF8'])) {
+                $from_params = ltrim($from_params . ' SMTPUTF8');
+            }
+            else {
+                $this->error = array('label' => 'smtputf8error');
+                $this->response[] = "SMTP server does not support unicode in email addresses";
+                $this->reset();
+                return false;
+            }
+        }
 
         // RFC2298.3: remove envelope sender address
         if (empty($opts['mdn_use_from'])
@@ -268,14 +273,6 @@ class rcube_smtp
                 'from' => $from, 'code' => $err[0], 'msg' => $err[1]));
             $this->response[] = "Failed to set sender '$from'. "
                 . $err[1] . ' (Code: ' . $err[0] . ')';
-            $this->reset();
-            return false;
-        }
-
-        // prepare list of recipients
-        $recipients = $this->_parse_rfc822($recipients);
-        if (is_a($recipients, 'PEAR_Error')) {
-            $this->error = array('label' => 'smtprecipientserror');
             $this->reset();
             return false;
         }
