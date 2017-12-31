@@ -167,6 +167,7 @@ $messages['smtpautherror'] = 'SMTP Error ($code): Authentication failed.';
 $messages['smtpfromerror'] = 'SMTP Error ($code): Failed to set sender "$from" ($msg).';
 $messages['smtptoerror'] = 'SMTP Error ($code): Failed to add recipient "$to" ($msg).';
 $messages['smtprecipientserror'] = 'SMTP Error: Unable to parse recipients list.';
+$messages['smtputf8error'] = 'SMTP Error: Server does not support unicode in email address.';
 $messages['smtpsizeerror'] = 'SMTP Error: Message size exceeds server limit ($limit)';
 $messages['smtperror'] = 'SMTP Error: $msg';
 $messages['emailformaterror'] = 'Invalid email address: $email';

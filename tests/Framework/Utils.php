@@ -30,6 +30,7 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             array('email@domain.co.jp', 'Dot in Top Level Domain name also considered valid (use co.jp as example here)'),
             array('firstname-lastname@domain.com', 'Dash in address field is valid'),
             array('test@xn--e1aaa0cbbbcacac.xn--p1ai', 'IDNA domain'),
+            array('あいうえお@domain.com', 'Unicode char as address'),
         );
     }
 
@@ -48,7 +49,6 @@ class Framework_Utils extends PHPUnit_Framework_TestCase
             array('.email@domain.com', 'Leading dot in address is not allowed'),
             array('email.@domain.com', 'Trailing dot in address is not allowed'),
             array('email..email@domain.com', 'Multiple dots'),
-            array('あいうえお@domain.com', 'Unicode char as address'),
             array('email@domain.com (Joe Smith)', 'Text followed email is not allowed'),
             array('email@domain', 'Missing top level domain (.com/.net/.org/etc)'),
             array('email@-domain.com', 'Leading dash in front of domain is invalid'),
