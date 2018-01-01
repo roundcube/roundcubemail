@@ -535,7 +535,7 @@ class rcmail_sendmail
             $http_header .= $this->received_host($_SERVER['REMOTE_ADDR']);
 
             // BY
-            $http_header .= $nldlm . 'by ' . $_SERVER['HTTP_HOST'];
+            $http_header .= $nldlm . 'by ' . rcube_utils::server_name('HTTP_HOST');
 
             // WITH
             $http_header .= $nldlm . 'with HTTP (' . $_SERVER['SERVER_PROTOCOL']
