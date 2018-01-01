@@ -468,17 +468,20 @@ $config['session_path'] = null;
 // Setting this value to 'php' will use the default session save handler configured in PHP
 $config['session_storage'] = 'db';
 
-// check client IP in session authorization
-$config['ip_check'] = false;
-
 // List of trusted proxies
 // X_FORWARDED_* and X_REAL_IP headers are only accepted from these IPs
 $config['proxy_whitelist'] = array();
 
 // List of trusted host names
-// since $_SERVER['SERVER_NAME'] can be modified via the Host header
-// An empty list accepts any host name.
+// Attackers can modify Host header of the HTTP request causing $_SERVER['SERVER_NAME']
+// or $_SERVER['HTTP_HOST'] variables pointing to a different host, that could be used
+// to collect user names and passwords. Some server configurations prevent that, but not all.
+// An empty list accepts any host name. The list can contain host names
+// or PCRE patterns (without // delimiters, that will be added automatically).
 $config['trusted_host_patterns'] = array();
+
+// check client IP in session authorization
+$config['ip_check'] = false;
 
 // check referer of incoming requests
 $config['referer_check'] = false;

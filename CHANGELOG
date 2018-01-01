@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Add option trusted_host_patterns (#6009, #5752)
 - Support SMTPUTF8 and relax email address validation to support unicode in local part (#5120)
 - Support additional connect parameters in PostgreSQL database wrapper
 - Use UI dialogs instead of confirm() and alert() where possible

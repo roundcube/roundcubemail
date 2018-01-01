@@ -588,7 +588,7 @@ class rcube_utils
         // %t - host name without first part, e.g. %n=mail.domain.tld, %t=domain.tld
         $t = preg_replace('/^[^\.]+\./', '', $n);
         // %d - domain name without first part
-        $d = preg_replace('/^[^\.]+\./', '', self::server_name($_SERVER['HTTP_HOST']));
+        $d = preg_replace('/^[^\.]+\./', '', self::server_name('HTTP_HOST'));
         // %h - IMAP host
         $h = $_SESSION['storage_host'] ?: $host;
         // %z - IMAP domain without first part, e.g. %h=imap.domain.tld, %z=domain.tld
@@ -607,34 +607,37 @@ class rcube_utils
     }
 
     /**
-     * Returns the given host name after checking it against trusted hostname
-     * patterns, otherwise returns localhost
+     * Returns the host name after checking it against trusted hostname
+     * patterns, otherwise returns localhost (and logs a warning)
      *
-     * @param string $name Hostname to check; use SERVER_NAME if none is given.
-     * @param boolean $strip_port Strip PORT from the host name; default is true.
+     * @param string  $type       The $_SERVER key, e.g. 'HTTP_HOST', Default: 'SERVER_NAME'.
+     * @param boolean $strip_port Strip port from the host name
      *
      * @return string Server name
      */
-    public static function server_name($name = null, $strip_port = true)
+    public static function server_name($type = null, $strip_port = true)
     {
-        if (!is_string($name)) {
-            $name = $_SERVER['SERVER_NAME'];
-        }
+        $name     = $_SERVER[$type ?: 'SERVER_NAME'];
+        $rcube    = rcube::get_instance();
+        $patterns = (array) $rcube->config->get('trusted_host_patterns');
 
         if ($strip_port) {
             $name = preg_replace('/:\d+$/', '', $name);
         }
 
-        $trusted_host_patterns = rcube::get_instance()->config->get('trusted_host_patterns', array());
-
-        if (empty($trusted_host_patterns) || in_array($name, $trusted_host_patterns)) {
+        if (empty($patterns) || in_array_nocase($name, $patterns)) {
             return $name;
         }
 
-        foreach ($trusted_host_patterns as $pattern) {
-            if (preg_match("/$pattern/", $name)) {
-                return $name;
+        if (!empty($name)) {
+            foreach ($patterns as $pattern) {
+                if (preg_match("/$pattern/", $name)) {
+                    return $name;
+                }
             }
+
+            $rcube->raise_error(array('file' => __FILE__, 'line' => __LINE__,
+                'message' => "Specified host is not trusted. Using 'localhost'."), true, false);
         }
 
         return 'localhost';
