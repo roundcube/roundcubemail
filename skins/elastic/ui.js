@@ -451,8 +451,13 @@ function rcube_elastic_ui()
 
             // https://github.com/roundcube/elastic/issues/45
             // Draggable blocks scrolling on touch devices, we'll disable it there
-            if (touch && rcmail[list] && typeof rcmail[list].draggable == 'function') {
-                rcmail[list].draggable('destroy');
+            if (touch && rcmail[list]) {
+                if (typeof rcmail[list].draggable == 'function') {
+                    rcmail[list].draggable('destroy');
+                }
+                else if (typeof rcmail[list].draggable == 'boolean') {
+                    rcmail[list].draggable = false;
+                }
             }
         });
 
