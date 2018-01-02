@@ -151,7 +151,7 @@ var rcube_event = {
 get_target: function(e)
 {
   e = e || window.event;
-  return e && e.target ? e.target : e.srcElement;
+  return e && e.target ? e.target : e.srcElement || document;
 },
 
 /**
