@@ -407,6 +407,7 @@ insert_row: function(row, before)
       chbox = document.createElement('input');
 
     chbox.type = 'checkbox';
+    chbox.tabIndex = -1;
     chbox.onchange = function(e) {
       self.select_row(row.uid, key || CONTROL_KEY, true);
       e.stopPropagation();
