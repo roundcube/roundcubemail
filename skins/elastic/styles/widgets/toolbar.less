@@ -130,8 +130,11 @@
         &.lastpage:before {
             content: @fa-var-fast-forward;
         }
-        &.toggleselect:before {
-            .font-icon-regular(@fa-var-hand-pointer);
+        &.toggleselect {
+            max-width: 2rem;
+            &:before {
+                .font-icon-regular(@fa-var-hand-pointer);
+            }
         }
         &.send:before {
             content: @fa-var-paper-plane;

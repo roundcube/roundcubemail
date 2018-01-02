@@ -448,18 +448,13 @@ function rcube_elastic_ui()
                     }
                 });
             }
-        });
 
-        // https://github.com/roundcube/elastic/issues/45
-        // Draggable blocks scrolling on touch devices, we'll disable it there
-        if (is_touch()) {
-            $('[data-list]', layout.list).each(function() {
-                var list = $(this).data('list');
-                if (rcmail[list] && typeof rcmail[list].draggable == 'function') {
-                    rcmail[list].draggable('destroy');
-                }
-            });
-        }
+            // https://github.com/roundcube/elastic/issues/45
+            // Draggable blocks scrolling on touch devices, we'll disable it there
+            if (touch && rcmail[list] && typeof rcmail[list].draggable == 'function') {
+                rcmail[list].draggable('destroy');
+            }
+        });
 
         // Create floating action button(s)
         if (layout.list.length && is_mobile()) {
@@ -546,10 +541,11 @@ function rcube_elastic_ui()
         }
 
         // Add date format placeholder to datepicker inputs
-        if (rcmail.env.date_format_localized) {
-            var placeholder_func = function(input) { $(input).filter('.datepicker').attr('placeholder', rcmail.env.date_format_localized); };
-            $('input.datepicker').each(function() { placeholder_func(this); });
-            rcmail.addEventListener('insert-edit-field', placeholder_func);
+        var func, format;
+        if (format = rcmail.env.date_format_localized) {
+            func = function(input) { $(input).filter('.datepicker').attr('placeholder', format); };
+            $('input.datepicker').each(function() { func(this); });
+            rcmail.addEventListener('insert-edit-field', func);
         }
     };
 
@@ -732,7 +728,7 @@ function rcube_elastic_ui()
         });
 
         // Make tables pretier
-        $('table:not(.propform):not(.listing)', context)
+        $('table:not(.propform,.listing)', context)
             .filter(function() {
                 // exclude direct propform children and external content
                 return !$(this).parent().is('.propform')
@@ -814,10 +810,65 @@ function rcube_elastic_ui()
     function content_frame_init()
     {
         var last_selected = env.last_selected,
-            title_reset = function() {
-                var title = $('h1.voice').text() || $('title').text() || '';
-                $('.header > .header-title', layout.content).text(title);
+            title_reset = function(title) {
+                $('.header > .header-title', layout.content).text(title || $('h1.voice').text() || $('title').text() || '');
             };
+
+        // display or reset the content frame
+        var common_content_handler = function(e, href, show, title)
+        {
+            content_frame_navigation(href, e);
+
+            if (show && !layout.content.is(':visible')) {
+                env.last_selected = layout.content[0];
+                screen_resize();
+
+                if (title) {
+                    title_reset(title);
+                }
+            }
+            else if (!show) {
+                if (env.last_selected != last_selected && !env.content_lock) {
+                    env.last_selected = last_selected;
+                    screen_resize();
+                }
+                title_reset();
+            }
+
+            env.content_lock = false;
+        };
+
+        // display the list widget after 'list' and 'listgroup' commands
+        var common_list_handler = function(e) {
+            if (mode != 'large' && !env.content_lock && e.list) {
+                show_list();
+            }
+
+            env.content_lock = false;
+
+            // display current folder name in list header
+            if (e.title) {
+                $('.header > .header-title', layout.list).text(e.title);
+            }
+        };
+
+        var list_handler = function(e) {
+            var args = {};
+
+            if (rcmail.env.task == 'addressbook' || (rcmail.env.task == 'mail' && !rcmail.env.action)) {
+                args.list = true;
+            }
+
+            // display current folder name in list header
+            if (rcmail.env.task == 'mail' && !rcmail.env.action) {
+                var name = $.type(e) == 'string' ? e : rcmail.env.mailbox,
+                    folder = rcmail.env.mailboxes[name];
+
+                args.title = folder.name;
+            }
+
+            common_list_handler(args);
+        };
 
         // when loading content-frame in small-screen mode display it
         layout.content.find('iframe').on('load', function(e) {
@@ -834,47 +885,25 @@ function rcube_elastic_ui()
             }
             catch(e) { /* ignore */ }
 
-            content_frame_navigation(href, e);
-
-            if (show && !layout.content.is(':visible')) {
-                env.last_selected = layout.content[0];
-                screen_resize();
-            }
-            else if (!show) {
-                if (env.last_selected != last_selected && !env.content_lock) {
-                    env.last_selected = last_selected;
-                    screen_resize();
-                }
-                title_reset();
-            }
-
-            env.content_lock = false;
+            common_content_handler(e, href, show);
         });
-
-        // display the list widget after 'list' and 'listgroup' commands
-        // @TODO: plugins should be able to do the same
-        var list_handler = function(e) {
-            if (mode != 'large' && !env.content_lock) {
-                if (rcmail.env.task == 'addressbook' || (rcmail.env.task == 'mail' && !rcmail.env.action)) {
-                    show_list();
-                }
-            }
-
-            env.content_lock = false;
-
-            // display current folder name in list header
-            if (rcmail.env.task == 'mail' && !rcmail.env.action) {
-                var name = $.type(e) == 'string' ? e : rcmail.env.mailbox,
-                    folder = rcmail.env.mailboxes[name];
-
-                $('.header > .header-title', layout.list).text(folder ? folder.name : '');
-            }
-        };
 
         rcmail
             .addEventListener('afterlist', list_handler)
             .addEventListener('afterlistgroup', list_handler)
-            .addEventListener('afterlistsearch', list_handler);
+            .addEventListener('afterlistsearch', list_handler)
+            // plugins
+            .addEventListener('show-list', function(e) {
+                e.list = true;
+                common_list_handler(e);
+            })
+            .addEventListener('show-content', function(e) {
+                if (!$(e.obj).is('iframe')) {
+                    $(e.scrollElement || e.obj).scrollTop(0);
+                    iframe_loader(e.obj);
+                }
+                common_content_handler(e.event || new Event, '_action=' + (e.mode || 'edit'), true, e.title);
+            });
     };
 
     /**
@@ -2608,7 +2637,9 @@ function rcube_elastic_ui()
             var loader = $('<div>').attr('class', 'iframe-loader')
                 .append($('<div>').attr('class', 'spinner').text(rcmail.gettext('loading')));
 
-            frame.on('load error', function() {
+            // custom 'loaded' event is expected to be triggered by plugins
+            // when using the loader not on an iframe
+            frame.on('load error loaded', function() {
                     // wait some time to make sure the iframe stopped loading
                     setTimeout(function() { loader.remove(); }, 500);
                 })
