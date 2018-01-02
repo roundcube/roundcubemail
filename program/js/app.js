@@ -3526,6 +3526,7 @@ function rcube_webmail()
           }
           // esc, tab
           else if (e.which == 27 || e.which == 9) {
+            ref.hide_menu('pagejump-selector', e);
             return $(element).val(ref.env.current_page);
           }
         }
