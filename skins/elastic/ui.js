@@ -905,7 +905,9 @@ function rcube_elastic_ui()
             .addEventListener('show-content', function(e) {
                 if (!$(e.obj).is('iframe')) {
                     $(e.scrollElement || e.obj).scrollTop(0);
-                    iframe_loader(e.obj);
+                    if (is_mobile()) {
+                        iframe_loader(e.obj);
+                    }
                 }
                 common_content_handler(e.event || new Event, '_action=' + (e.mode || 'edit'), true, e.title);
             });
