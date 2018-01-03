@@ -108,7 +108,7 @@ class vcard_attachments extends rcube_plugin
                 $vid     = rcube::JQ($part.':'.$idx);
 
                 // add box below message body
-                $p['content'][] = html::p(array('class' => 'vcardattachment aligned-buttons'),
+                $p['content'][] = html::p(array('class' => 'vcardattachment aligned-buttons boxinformation'),
                     html::span(null, rcube::Q($display)) .
                     html::tag('button', array(
                             'onclick' => "return plugin_vcard_save_contact('$vid')",
