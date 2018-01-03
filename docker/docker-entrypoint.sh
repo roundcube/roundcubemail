@@ -85,6 +85,10 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     echo "WARNING: $PWD/config/config.inc.php already exists."
     echo "ROUNDCUBEMAIL_* environment variables have been ignored."
   fi
+
+  if [ ! -z "${ROUNDCUBEMAIL_UPLOAD_MAX_FILESIZE}" ]; then
+    sed -i -E "s/(upload_max_filesize|post_max_size) +[0-9BKMG]+/\1 ${ROUNDCUBEMAIL_UPLOAD_MAX_FILESIZE}/g" $PWD/.htaccess
+  fi
 fi
 
 exec "$@"
