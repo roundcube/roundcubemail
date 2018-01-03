@@ -570,7 +570,7 @@ function rcube_elastic_ui()
         $.each(['warning', 'error', 'information'], function() {
             var type = this;
             $('.box' + type, context).each(function() {
-                message_displayed({object: this, type: type});
+                alert_style(this, type, true);
             });
         });
 
@@ -760,7 +760,7 @@ function rcube_elastic_ui()
         }
 
         // Make message-objects alerts pretty (the same as UI alerts)
-        $('#message-objects', context).children().each(function() {
+        $('#message-objects', context).children(':not(.ui.alert)').each(function() {
             // message objects with notice class are really warnings
             var cl = $(this).removeClass('notice').attr('class').split(/\s/)[0] || 'warning';
             alert_style(this, cl);
@@ -1441,7 +1441,7 @@ function rcube_elastic_ui()
                 vcardattachment: 'alert-info' /* vcard_attachments plugin */
             };
 
-        if (wrap) {
+        if (wrap && !$(object).is('.aligned-buttons')) {
             // we need the content to be non-text node for best alignment
             tmp = $(object).html();
             $(object).html($('<span>').html(tmp));
