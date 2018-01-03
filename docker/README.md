@@ -20,6 +20,8 @@ The following env variables can be set to configure your Roundcube Docker instan
 
 `ROUNDCUBEMAIL_PLUGINS` - List of built-in plugins to activate. Defaults to `archive,zipdownload`
 
+`ROUNDCUBEMAIL_UPLOAD_MAX_FILESIZE` - File upload size limit; defaults to `5M`
+
 By default, the image will use a local SQLite database for storing user account metadata.
 It'll be created inside the `/var/www/html` volume and can be backed up from there. Please note that
 this option should not be used for production environments.
