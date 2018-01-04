@@ -323,7 +323,7 @@ $config['ldap_cache_ttl'] = '10m';
 
 // Use these hosts for accessing memcached
 // Define any number of hosts in the form of hostname:port, hostname:port:weight or unix:///path/to/socket.file
-$config['memcache_hosts'] = array('localhost:11211'); // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
+$config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
 
 // Controls the use of a persistent connections to memcache servers
 // See http://php.net/manual/en/memcache.addserver.php
