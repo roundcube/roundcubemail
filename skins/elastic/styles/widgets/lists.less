@@ -883,19 +883,10 @@ html.touch {
             // TODO
         }
 
-        .attachment-size {
-            color: @color-list-secondary;
-        }
-
         a {
             text-decoration: none;
             line-height: @attachmentslist-item-height;
             height: @attachmentslist-item-height;
-
-            // assume the filename is always first
-            &:first-child {
-                .overflow-ellipsis;
-            }
         }
 
         a.cancelupload:before,
@@ -908,7 +899,21 @@ html.touch {
 
         &.uploading:before {
             .animated-icon-class;
-            .font-icon-regular(@fa-var-circle-notch);
+            .font-icon-solid(@fa-var-circle-notch);
+        }
+
+        a.filename {
+            display: flex;
+            overflow: hidden;
+        }
+
+        .attachment-name {
+            .overflow-ellipsis;
+        }
+
+        .attachment-size {
+            color: @color-list-secondary;
+            padding: 0 .25em;
         }
     }
 }
