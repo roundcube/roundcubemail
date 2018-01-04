@@ -115,14 +115,14 @@
     // Focus indicator
     @media screen and (min-width: @screen-width-large) {
         li > a,
-        &.withselection tbody tr > td:nth-child(1),
-        &:not(.withselection) tbody tr > td:nth-child(2) {
+        tbody tr > td:first-child,
+        &:not(.withselection) tbody tr > td.selection + td {
             border-left: 2px solid transparent;
         }
 
         li > a:focus,
-        &.focus.withselection tbody tr.focused > td:nth-child(1),
-        &.focus:not(.withselection) tbody tr.focused > td:nth-child(2) {
+        &.focus tbody tr.focused > td:first-child,
+        &.focus:not(.withselection) tbody tr.focused > td.selection + td {
             border-left: 2px solid @color-list-focus-indicator;
             outline: 0;
         }
