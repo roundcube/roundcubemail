@@ -9473,7 +9473,10 @@ function rcube_webmail()
     var nav = window.navigator;
 
     if (!nav || (typeof nav.registerProtocolHandler != 'function')) {
-      $(elem).addClass('disabled').click(function(){ return false; });
+      $(elem).addClass('disabled').click(function() {
+        ref.display_message(ref.gettext('nosupporterror'), 'error');
+        return false;
+      });
     }
     else if (typeof nav.isProtocolHandlerRegistered == 'function') {
       var status = nav.isProtocolHandlerRegistered('mailto', this.mailto_handler_uri());

@@ -216,3 +216,4 @@ $messages['clicktoresumesession'] = 'Click here to resume your previous session'
 $messages['errcomposesession'] = 'Compose session error';
 $messages['errcomposesessionexplain'] = 'Requested compose session not found.';
 $messages['clicktocompose'] = 'Click here to compose a new message';
+$messages['nosupporterror'] = 'This feature is not supported by your web browser.';
