@@ -17,9 +17,6 @@ cache:
   directories:
     - $HOME/.composer
 
-services:
-  - memcached
-
 install:
   - if [ "$CODE_COVERAGE" != 1 ]; then phpenv config-rm xdebug.ini || true; fi
   - cp composer.json-dist composer.json
@@ -30,6 +27,3 @@ script:
 
 notifications:
   email: false
-
-env:
-  - TEST_MEMCACHE=yes
