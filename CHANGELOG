@@ -1,6 +1,7 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Display an error when clicking disabled link to register protocol handler (#6079)
 - Add option trusted_host_patterns (#6009, #5752)
 - Support SMTPUTF8 and relax email address validation to support unicode in local part (#5120)
 - Support additional connect parameters in PostgreSQL database wrapper
