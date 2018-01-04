@@ -28,27 +28,55 @@
  * @author     Aleksander Machniak <alec@alec.pl>
  * @author     Cor Bosman <cor@roundcu.be>
  */
-class rcube_session_memcache extends rcube_session
+class rcube_session_memcache extends rcube_session implements SessionHandlerInterface
 {
     private $memcache;
     private $debug;
 
     /**
-     * @param Object $config
+     * rcube_session_memcache constructor.
+     * @param rcube_config $config
      */
     public function __construct($config)
     {
         parent::__construct($config);
 
-        $this->memcache = rcube::get_instance()->get_memcache();
-        $this->debug    = $config->get('memcache_debug');
-
-        if (!$this->memcache) {
+        if (!class_exists('Memcached')) {
             rcube::raise_error(array(
-                    'code' => 604, 'type' => 'db',
-                    'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Failed to connect to memcached. Please check configuration"),
-                true, true);
+                'code' => 604,
+                'type' => 'db',
+                'line' => __LINE__,
+                'file' => __FILE__,
+                'message' => 'Please enable memcached extension for php',
+            ), true, true);
+        }
+
+        if ($config->get('memcache_pconnect', true)) {
+            $this->memcache = new Memcached('roundcube_session');
+        }
+        else {
+            $this->memcache = new Memcached();
+        }
+
+        $this->memcache->setOptions(array(
+            Memcached::OPT_CONNECT_TIMEOUT => $config->get('memcache_timeout', 1),
+            Memcached::OPT_RETRY_TIMEOUT => $config->get('memcache_retry_interval', 15),
+        ));
+
+        $this->debug = $config->get('memcache_debug');
+
+        foreach ($config->get('memcache_hosts', array()) as $host) {
+            $this->add_server($host);
+        }
+
+        if ($this->memcache->getVersion() === false) {
+            rcube::raise_error(array(
+                'code' => 604,
+                'type' => 'db',
+                'line' => __LINE__,
+                'file' => __FILE__,
+                'message' => 'Failed to connect to memcached. Please check configuration',
+            ), true, true);
         }
 
         // register sessions handler
@@ -56,9 +84,15 @@ class rcube_session_memcache extends rcube_session
     }
 
     /**
-     * @param $save_path
-     * @param $session_name
-     * @return bool
+     * Initialize session
+     * @link http://php.net/manual/en/sessionhandlerinterface.open.php
+     * @param string $save_path The path where to store/retrieve the session.
+     * @param string $name The session name.
+     * @return bool <p>
+     * The return value (usually TRUE on success, FALSE on failure).
+     * Note this value is returned internally to PHP for processing.
+     * </p>
+     * @since 5.4.0
      */
     public function open($save_path, $session_name)
     {
@@ -66,7 +100,13 @@ class rcube_session_memcache extends rcube_session
     }
 
     /**
-     * @return bool
+     * Close the session
+     * @link http://php.net/manual/en/sessionhandlerinterface.close.php
+     * @return bool <p>
+     * The return value (usually TRUE on success, FALSE on failure).
+     * Note this value is returned internally to PHP for processing.
+     * </p>
+     * @since 5.4.0
      */
     public function close()
     {
@@ -74,110 +114,141 @@ class rcube_session_memcache extends rcube_session
     }
 
     /**
-     * Handler for session_destroy() with memcache backend
-     *
-     * @param $key
-     * @return bool
+     * Destroy a session
+     * @link http://php.net/manual/en/sessionhandlerinterface.destroy.php
+     * @param string $session_id The session ID being destroyed.
+     * @return bool <p>
+     * The return value (usually TRUE on success, FALSE on failure).
+     * Note this value is returned internally to PHP for processing.
+     * </p>
+     * @since 5.4.0
      */
-    public function destroy($key)
+    public function destroy($session_id)
     {
-        if ($key) {
-            // #1488592: use 2nd argument
-            $result = $this->memcache->delete($key, 0);
-
-            if ($this->debug) {
-                $this->debug('delete', $key, null, $result);
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Read session data from memcache
-     *
-     * @param $key
-     * @return null|string
-     */
-    public function read($key)
-    {
-        if ($value = $this->memcache->get($key)) {
-            $arr = unserialize($value);
-            $this->changed = $arr['changed'];
-            $this->ip      = $arr['ip'];
-            $this->vars    = $arr['vars'];
-            $this->key     = $key;
-        }
-
-        if ($this->debug) {
-            $this->debug('get', $key, $value);
-        }
-
-        return $this->vars ?: '';
-    }
-
-    /**
-     * Write data to memcache storage
-     *
-     * @param $key
-     * @param $vars
-     *
-     * @return bool
-     */
-    public function write($key, $vars)
-    {
-        if ($this->ignore_write) {
-            return true;
-        }
-
-        $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $vars));
-        $result = $this->memcache->set($key, $data, MEMCACHE_COMPRESSED, $this->lifetime + 60);
-
-        if ($this->debug) {
-            $this->debug('set', $key, $data, $result);
-        }
+        $result = $this->memcache->delete($session_id);
+        $this->debug('delete', $session_id, null, $result);
 
         return $result;
     }
 
     /**
-     * Update memcache session data
+     * Read session data
+     * @link http://php.net/manual/en/sessionhandlerinterface.read.php
+     * @param string $session_id The session id to read data for.
+     * @return string <p>
+     * Returns an encoded string of the read data.
+     * If nothing was read, it must return an empty string.
+     * Note this value is returned internally to PHP for processing.
+     * </p>
+     * @since 5.4.0
+     */
+    public function read($session_id)
+    {
+        $value = $this->memcache->get($session_id);
+        $this->debug('get', $session_id, $value);
+
+        if ($value === false) {
+            return '';
+        }
+
+        $data = unserialize($value);
+
+        $this->changed = $data['changed'];
+        $this->ip = $data['ip'];
+        $this->vars = $data['vars'];
+        $this->key = $session_id;
+
+        return $this->vars ?: '';
+    }
+
+    /**
+     * Write session data
+     * @link http://php.net/manual/en/sessionhandlerinterface.write.php
+     * @param string $session_id The session id.
+     * @param string $session_data <p>
+     * The encoded session data. This data is the
+     * result of the PHP internally encoding
+     * the $_SESSION superglobal to a serialized
+     * string and passing it as this parameter.
+     * Please note sessions use an alternative serialization method.
+     * </p>
+     * @return bool <p>
+     * The return value (usually TRUE on success, FALSE on failure).
+     * Note this value is returned internally to PHP for processing.
+     * </p>
+     * @since 5.4.0
+     */
+    public function write($session_id, $session_data)
+    {
+        // ignore write is handled by sess_write from rcube_session
+        $data = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $session_data));
+
+        $result = $this->memcache->set($session_id, $data, $this->lifetime + 60);
+        $this->debug('set', $session_id, $data, $result);
+
+        return $result;
+    }
+
+    /**
+     * Update session data
      *
-     * @param $key
-     * @param $newvars
-     * @param $oldvars
+     * @param string $session_id The session id.
+     * @param string $session_data
+     * @param string $old_session_data
      *
      * @return bool
      */
-    public function update($key, $newvars, $oldvars)
+    public function update($session_id, $session_data, $old_session_data)
     {
-        $ts = microtime(true);
-
-        if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
-            $data   = serialize(array('changed' => time(), 'ip' => $this->ip, 'vars' => $newvars));
-            $result = $this->memcache->set($key, $data, MEMCACHE_COMPRESSED, $this->lifetime + 60);
-
-            if ($this->debug) {
-                $this->debug('set', $key, $data, $result);
-            }
-
-            return $result;
-        }
-
-        return true;
+        // write and update is the same for memcache
+        return $this->write($session_id, $session_data);
     }
 
     /**
      * Write memcache debug info to the log
+     *
+     * @param $type
+     * @param $key
+     * @param null $data
+     * @param null $result
      */
-    protected function debug($type, $key, $data = null, $result = null)
+    private function debug($type, $key, $data = null, $result = null)
     {
-        $line = strtoupper($type) . ' ' . $key;
+        if ($this->debug) {
+            $line = strtoupper($type) . ' ' . $key;
 
-        if ($data !== null) {
-            $line .= ' ' . $data;
+            if ($data !== null) {
+                $line = $line . ' ' . $data;
+            }
+
+            rcube::debug('memcache', $line, $result);
+        }
+    }
+
+    /**
+     * Connect to memcache instance by unix socket or tcp
+     *
+     * @param $host
+     * @return bool
+     */
+    private function add_server($host)
+    {
+        // connect to server by unix socket
+        if (substr($host, 0, 7) === 'unix://') {
+            return $this->memcache->addServer($host, 0);
         }
 
-        rcube::debug('memcache', $line, $result);
+        // connect to server by tcp
+        $configuration = explode(':', $host);
+
+        if (count($configuration) === 2) {
+            return $this->memcache->addServer($configuration[0], (int)$configuration[1]);
+        }
+
+        if (count($configuration) === 3) {
+            return $this->memcache->addServer($configuration[0], (int)$configuration[1], (int)$configuration[2]);
+        }
+
+        return false;
     }
 }
