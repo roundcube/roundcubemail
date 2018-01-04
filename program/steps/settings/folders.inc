@@ -187,7 +187,7 @@ $OUTPUT->add_label('deletefolderconfirm', 'purgefolderconfirm', 'folderdeleting'
 
 // register UI objects
 $OUTPUT->add_handlers(array(
-    'foldersubscription' => 'rcmail_subscription_form',
+    'foldersubscription' => 'rcmail_folder_subscriptions',
     'folderframe'        => 'rcmail_folder_frame',
     'folderfilter'       => 'rcmail_folder_filter',
     'quotadisplay'       => array($RCMAIL, 'quota_display'),
@@ -198,12 +198,9 @@ $OUTPUT->send('folders');
 
 
 // build table with all folders listed by server
-function rcmail_subscription_form($attrib)
+function rcmail_folder_subscriptions($attrib)
 {
     global $RCMAIL, $OUTPUT;
-
-    list($form_start, $form_end) = get_form_tags($attrib, 'folders');
-    unset($attrib['form']);
 
     if (!$attrib['id']) {
         $attrib['id'] = 'rcmSubscriptionlist';
@@ -391,7 +388,7 @@ function rcmail_subscription_form($attrib)
     $OUTPUT->set_env('collapsed_folders', $collapsed);
     $OUTPUT->set_env('delimiter', $delimiter);
 
-    return $form_start . html::tag('ul', $attrib, implode('', $folders), html::$common_attrib) . $form_end;
+    return html::tag('ul', $attrib, implode('', $folders), html::$common_attrib);
 }
 
 function rcmail_folder_tree_element($folders, &$key, &$js_folders)
