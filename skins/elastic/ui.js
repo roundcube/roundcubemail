@@ -1431,6 +1431,7 @@ function rcube_elastic_ui()
     function alert_style(object, type, wrap)
     {
         var tmp, classes = 'ui alert',
+            addicon = !$(object).is('.noicon'),
             map = {
                 information: 'alert-info',
                 notice: 'alert-info',
@@ -1441,7 +1442,7 @@ function rcube_elastic_ui()
                 vcardattachment: 'alert-info' /* vcard_attachments plugin */
             };
 
-        if (wrap && !$(object).is('.aligned-buttons')) {
+        if (wrap && addicon && !$(object).is('.aligned-buttons')) {
             // we need the content to be non-text node for best alignment
             tmp = $(object).html();
             $(object).html($('<span>').html(tmp));
@@ -1449,7 +1450,9 @@ function rcube_elastic_ui()
 
         if (tmp = map[type]) {
             classes += ' ' + tmp;
-            $('<i>').attr('class', 'icon').prependTo(object);
+            if (addicon) {
+                $('<i>').attr('class', 'icon').prependTo(object);
+            }
         }
 
         $(object).addClass(classes);
