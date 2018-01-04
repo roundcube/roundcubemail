@@ -35,6 +35,7 @@ abstract class rcube_session
     protected $changed;
     protected $start;
     protected $vars;
+    protected $lifetime;
     protected $now;
     protected $time_diff    = 0;
     protected $reloaded     = false;
