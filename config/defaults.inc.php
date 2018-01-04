@@ -322,19 +322,22 @@ $config['ldap_cache_ttl'] = '10m';
 // ----------------------------------
 
 // Use these hosts for accessing memcached
-// Define any number of hosts in the form of hostname:port, hostname:port:weight or unix:///path/to/socket.file
+// Define any number of hosts in the form of hostname:port, hostname:port or unix:///path/to/socket.file
 $config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
 
 // Controls the use of a persistent connections to memcache servers
+// Configuration ignored for session_storage = memcache
 // See http://php.net/manual/en/memcache.addserver.php
 $config['memcache_pconnect'] = true;
 
 // Value in seconds which will be used for connecting to the daemon
+// Configuration ignored for session_storage = memcache
 // See http://php.net/manual/en/memcache.addserver.php
 $config['memcache_timeout'] = 1;
 
 // Controls how often a failed server will be retried (value in seconds).
 // Setting this parameter to -1 disables automatic retry.
+// Configuration ignored for session_storage = memcache
 // See http://php.net/manual/en/memcache.addserver.php
 $config['memcache_retry_interval'] = 15;
 
