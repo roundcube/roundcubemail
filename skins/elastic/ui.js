@@ -2947,7 +2947,7 @@ function rcube_elastic_ui()
             records = $('tr,li', navlist).filter(function() { return this.style.display != 'none'; });
             height = $(records[0]).height() || 50;
 
-            navlist.animate({height: (Math.min(5, records.length) * height) + 'px'}, speed);
+            navlist.animate({height: (Math.min(5, records.length) * height + 1) + 'px'}, speed);
             button.addClass('collapse').removeClass('expand');
         }
         else {

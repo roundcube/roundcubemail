@@ -918,3 +918,31 @@ html.touch {
         }
     }
 }
+
+#identities-table {
+    td.mail:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-at;
+    }
+}
+
+#responses-table {
+    td.name:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-comment;
+    }
+}
+
+#filterslist {
+    td.name:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-filter;
+    }
+}
+
+#filtersetslist {
+    td.name:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-file-alt;
+    }
+}
