@@ -112,6 +112,11 @@ a:hover {
     color: @color-link-hover;
 }
 
+a.disabled:not(.btn) {
+    // do the same Bootstrap does for disabled buttons
+    opacity: .65;
+}
+
 @import "layout";
 
 /*** Widgets ***/
