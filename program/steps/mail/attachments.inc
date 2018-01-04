@@ -226,7 +226,7 @@ function rcmail_attachment_success($attachment, $uploadid)
         $button = '';
     }
 
-    $link_content = sprintf('%s <span class="attachment-size"> (%s)</span>',
+    $link_content = sprintf('<span class="attachment-name">%s</span><span class="attachment-size">(%s)</span>',
         rcube::Q($attachment['name']), $RCMAIL->show_bytes($attachment['size']));
 
     $content_link = html::a(array(
