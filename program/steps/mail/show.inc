@@ -200,7 +200,6 @@ function rcmail_message_attachments($attrib)
             $mimetype = rcmail_fix_mimetype($attach_prop->mimetype);
             $class    = rcube_utils::file2class($mimetype, $filename);
             $id       = 'attach' . $attach_prop->mime_id;
-            $size     = html::span('attachment-size', '(' . rcube::Q($filesize) . ')');
 
             if ($attrib['maxlength'] && mb_strlen($filename) > $attrib['maxlength']) {
                 $title    = $filename;
@@ -210,7 +209,8 @@ function rcmail_message_attachments($attrib)
                 $title = '';
             }
 
-            $item = rcube::Q($filename) . ' ' . $size;
+            $item = html::span('attachment-name', rcube::Q($filename))
+                . html::span('attachment-size', '(' . rcube::Q($filesize) . ')');
 
             if (!$PRINT_MODE) {
                 $item = html::a(array(
@@ -219,6 +219,7 @@ function rcmail_message_attachments($attrib)
                         rcmail_output::JS_OBJECT_NAME, $attach_prop->mime_id),
                     'onmouseover' => $title ? '' : 'rcube_webmail.long_subject_title_ex(this, 0)',
                     'title'       => $title,
+                    'class'       => 'filename',
                     ), $item);
 
                 $attachments[$attach_prop->mime_id] = $mimetype;

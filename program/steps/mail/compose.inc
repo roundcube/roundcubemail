@@ -1185,7 +1185,7 @@ function rcmail_compose_attachment_list($attrib)
                 continue;
             }
 
-            $link_content = sprintf('%s <span class="attachment-size"> (%s)</span>',
+            $link_content = sprintf('<span class="attachment-name">%s</span> <span class="attachment-size">(%s)</span>',
                 rcube::Q($a_prop['name']), $RCMAIL->show_bytes($a_prop['size']));
 
             $content_link = html::a(array(

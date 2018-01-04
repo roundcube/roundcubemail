@@ -2979,6 +2979,20 @@ ul.toolbarmenu li span.copy {
 	background-position: -6px -378px;
 }
 
+.attachmentslist li a.filename {
+	display: flex;
+	overflow: hidden;
+}
+.attachmentslist li .attachment-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.attachmentslist li .attachment-size {
+	padding: 0 .25em;
+}
+
+
 /*** fieldset tabs ***/
 
 .tabbed.ui-tabs {
