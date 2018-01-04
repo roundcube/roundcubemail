@@ -62,8 +62,7 @@ class rcube_session_memcache extends rcube_session_php
                     'line' => __LINE__,
                     'file' => __FILE__,
                     'message' => 'Please specify at least one memcache instance'
-                ),
-                true, true
+                ), true, true
             );
         }
 
