@@ -66,8 +66,12 @@ class rcube_session_memcache extends rcube_session_php
             );
         }
 
+        // register memcache as session handler
         ini_set('session.save_handler', 'memcached');
         ini_set('session.save_path', implode(',', $hosts));
+
+        // disable session locking
+        ini_set('memcached.sess_locking', 0);
     }
 
 }
