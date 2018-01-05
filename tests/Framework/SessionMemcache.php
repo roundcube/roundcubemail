@@ -19,7 +19,10 @@ class Framework_SessionMemcache extends PHPUnit_Framework_TestCase
         $config->set('session_storage', 'memcache');
 
         $object = rcube_session::factory($config);
-        $this->assertInstanceOf('rcube_session_memcache', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_session_memcache', $object, 'Class constructor');
+
+        $this->assertEquals('memcached', ini_get('session.save_handler'));
+        $this->assertEquals(0, ini_get('memcached.sess_locking'));
     }
 
 }
