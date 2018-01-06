@@ -110,13 +110,13 @@ class rcube_config
 
         // array requires hint to be passed.
 
-        if (preg_match('/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/', $value) !== false) {
+        if (preg_match('/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/', $value)) {
             $type = 'double';
         }
-        else if (preg_match('/^\d+$/', $value) !== false) {
+        else if (preg_match('/^\d+$/', $value)) {
             $type = 'integer';
         }
-        else if (preg_match('/(t(rue)?)|(f(alse)?)/i', $value) !== false) {
+        else if (preg_match('/^(t(rue)?)|(f(alse)?)$/i', $value)) {
             $type = 'boolean';
         }
 
