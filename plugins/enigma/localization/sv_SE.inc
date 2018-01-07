@@ -25,6 +25,7 @@ $labels['keyuserid'] = 'Användar-ID';
 $labels['keytype'] = 'Nyckeltyp';
 $labels['fingerprint'] = 'Fingeravtryck';
 $labels['subkeys'] = 'Undernycklar';
+$labels['keyprops'] = 'Nyckelegenskaper';
 $labels['basicinfo'] = 'Grundläggande information';
 $labels['userids'] = 'Ytterligare användare';
 $labels['typepublickey'] = 'offentlig nyckel';

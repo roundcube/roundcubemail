@@ -156,6 +156,7 @@ $labels['listcolumns'] = 'Senarai ruang';
 $labels['listsorting'] = 'pengisihan ruang';
 $labels['listorder'] = 'Urutan pengisihan';
 $labels['listmode'] = 'Mod senarai paparan';
+$labels['layoutlist'] = 'Senarai';
 $labels['folderactions'] = 'Aksi folder';
 $labels['compact'] = 'Kompak';
 $labels['empty'] = 'Kosong';

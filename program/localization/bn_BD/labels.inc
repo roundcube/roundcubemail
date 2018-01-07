@@ -128,6 +128,7 @@ $labels['unanswered'] = 'উত্তর না দেওয়া গুলো';
 $labels['filter'] = 'ছাকনি';
 $labels['list'] = 'তালিকা';
 $labels['nonesort'] = 'কোনোটাই না';
+$labels['layoutlist'] = 'তালিকা';
 $labels['compact'] = 'টাইটকরুন';
 $labels['empty'] = 'খালিকরুন';
 $labels['quota'] = 'ডিস্ক এ খালি যায়গা';

@@ -345,6 +345,7 @@ $labels['contacts'] = 'Kontaktid';
 $labels['contactproperties'] = 'Kontakti omadused';
 $labels['contactnameandorg'] = 'Nimi ja Organisatsioon';
 $labels['personalinfo'] = 'Isiklik info';
+$labels['personal'] = 'Isiklik';
 $labels['contactphoto'] = 'Kontakti pilt';
 $labels['edit']   = 'Muuda';
 $labels['cancel'] = 'Katkesta';

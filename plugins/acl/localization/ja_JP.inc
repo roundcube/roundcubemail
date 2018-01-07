@@ -19,6 +19,7 @@ $labels['sharing'] = '共有';
 $labels['myrights'] = 'アクセス権';
 $labels['username'] = 'ユーザー:';
 $labels['advanced'] = '詳細なモード';
+$labels['add'] = '追加';
 $labels['newuser'] = '項目を追加';
 $labels['editperms'] = '編集の権限';
 $labels['actions'] = 'アクセス権の動作...';

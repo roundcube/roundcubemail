@@ -88,7 +88,6 @@ $messages['nosubjecttitle']  = 'بدون موضوع';
 $messages['nobodywarning'] = 'این پیام بدون متن ارسال شود؟';
 $messages['restoresavedcomposedata'] = 'نامه قبلا نوشته و نفرستاده یافت شد.\n\nموضوع: $subject\n
 ذخیره شده: $date\n\nآیا می‌خواهید این پیام را بازیابی نمایید؟';
-$messages['noldapserver'] = 'لطفا یک سرور LDAP برای جست‌و‌جو انتخاب کنید.';
 $messages['nosearchname'] = 'لطفا یک نام مخاطب یا نشانی رایانامه وارد نمایید.';
 $messages['notuploadedwarning'] = 'همه پیوست ها هنوز بارگذاری نشده‌اند. لطفا صبر کرده یا بارگذاری را لغو کنید.';
 $messages['searchsuccessful'] = '$nr پیام پیدا شد.';
@@ -175,6 +174,5 @@ $messages['invalidimageformat'] = 'فرمت تصویر نامعتبر است.';
 $messages['mispellingsfound'] = 'خطای املایی در پیام شناسایی شد.';
 $messages['parentnotwritable'] = 'به دلیل نداشتن حق دسترسی، ایجاد/انتقال پوشه به پوشه والد انتخاب شده، انجام نشد.';
 $messages['messagetoobig'] = 'بخش پیام برای پردازش آن خیلی بزرگ است.';
-$messages['attachmentvalidationerror'] = 'هشدار! این پیوست مشکوک است زیرا نوع آن با نوعی که در پیام اشاره شده مطابقت ندارد. اگر شما به فرستنده اطمینان ندارید، نباید آن را در مرورگر باز نمایید زیرا ممکن است که شامل محتوای مخرب باشد.<br><br><em>مورد انتظار: $expected; یافت شده: $detected</em>';
 $messages['noscriptwarning'] = 'هشدار: این برنامه به جاوااسکریپت نیاز دارد! برای استفاده از این برنامه لطفا جاوااسکریپت را در تنظیمات مرورگر خود فعال نمایید.';
 $messages['errnotfound'] = 'پرونده پیدا نشد';

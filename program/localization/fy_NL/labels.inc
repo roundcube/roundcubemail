@@ -346,6 +346,7 @@ $labels['contacts'] = 'Kontakten';
 $labels['contactproperties'] = 'Kontakt eigenskippen';
 $labels['contactnameandorg'] = 'Namme en Organisaasje';
 $labels['personalinfo'] = 'Persoanlike ynformaasje';
+$labels['personal'] = 'Persoanlik';
 $labels['contactphoto'] = 'Kontakt foto';
 $labels['edit']   = 'Bewurkje';
 $labels['cancel'] = 'Annulearje';

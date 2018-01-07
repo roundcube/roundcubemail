@@ -159,6 +159,7 @@ $labels['listcolumns'] = 'Kolommen';
 $labels['listsorting'] = 'Sorteerkolom';
 $labels['listorder'] = 'Sorteervolgorde';
 $labels['listmode'] = 'Lijstweergave mode';
+$labels['layoutlist'] = 'Lijst';
 $labels['folderactions'] = 'Acties voor map...';
 $labels['compact'] = 'Comprimeren';
 $labels['empty'] = 'Legen';

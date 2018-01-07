@@ -15,6 +15,13 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+$labels['add'] = 'Toevoegen';
 $labels['aclother'] = 'Anders';
+$labels['acldelete'] = 'Verwijderen';
+$labels['shortaclc'] = 'Aanmaken';
+$labels['shortaclk'] = 'Aanmaken';
+$labels['shortacld'] = 'Verwijderen';
+$labels['shortaclt'] = 'Verwijderen';
 $labels['shortaclother'] = 'Anders';
+$labels['shortacldelete'] = 'Verwijderen';
 ?>

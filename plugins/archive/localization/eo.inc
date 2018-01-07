@@ -19,4 +19,6 @@ $labels['buttontext'] = 'Arkivigi';
 $labels['buttontitle'] = 'Arkivigi ĉi tiun mesaĝon';
 $labels['archived'] = 'Sukcese arkivigita';
 $labels['archivefolder'] = 'Arkivo';
+$labels['settingstitle'] = 'Arkivigi';
+$labels['unkownsender'] = 'nekonata';
 ?>

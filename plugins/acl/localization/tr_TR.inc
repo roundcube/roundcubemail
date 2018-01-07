@@ -19,6 +19,7 @@ $labels['sharing'] = 'Paylaşım';
 $labels['myrights'] = 'Erişim İzinleri';
 $labels['username'] = 'Kullanıcı:';
 $labels['advanced'] = 'Gelişmiş kip';
+$labels['add'] = 'Ekle';
 $labels['newuser'] = 'Kayıt ekle';
 $labels['editperms'] = 'İzinleri düzenle';
 $labels['actions'] = 'Erişim izinleri işlemleri...';

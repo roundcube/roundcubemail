@@ -45,4 +45,9 @@ $labels['messagecopyto'] = 'Захиа хуулж явуулах';
 $labels['messagesendcopy'] = 'Захианы хуулбарыг илгээх';
 $labels['messagereply'] = 'Захианд хариулах';
 $labels['messagedelete'] = 'Захиа устгах';
+$labels['del'] = 'Устгах';
+$labels['sender'] = 'Илгээгч';
+$labels['flagread'] = 'Унших';
+$labels['datetest'] = 'Огноо';
+$labels['vacation.subject'] = 'Гарчиг';
 ?>

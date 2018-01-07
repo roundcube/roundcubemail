@@ -19,6 +19,7 @@ $labels['sharing'] = 'Comhroinnt';
 $labels['myrights'] = 'Cearta rochtana';
 $labels['username'] = 'An tÚsáideoir:';
 $labels['advanced'] = 'Mód le hardroghanna';
+$labels['add'] = 'Cuir leis';
 $labels['newuser'] = 'Cuir iontráil leis';
 $labels['editperms'] = 'Cuir na ceadanna in eagar';
 $labels['actions'] = 'Gníomhartha maidir le cearta rochtana...';

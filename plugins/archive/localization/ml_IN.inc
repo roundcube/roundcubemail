@@ -19,4 +19,6 @@ $labels['buttontext'] = 'ശേഖരം';
 $labels['buttontitle'] = 'ഈ മെസ്സേജ് ശേഖരിക്കുക';
 $labels['archived'] = 'വിജയകരമായി ശേഖരിച്ചു';
 $labels['archivefolder'] = 'ശേഖരം';
+$labels['settingstitle'] = 'ശേഖരം';
+$labels['unkownsender'] = 'അറിയാത്ത';
 ?>

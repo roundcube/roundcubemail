@@ -19,6 +19,7 @@ $labels['sharing'] = 'Deling';
 $labels['myrights'] = 'Tilgangsrettigheter';
 $labels['username'] = 'Bruker:';
 $labels['advanced'] = 'Avansert modus';
+$labels['add'] = 'Legg til';
 $labels['newuser'] = 'Legg til oppføring';
 $labels['editperms'] = 'Rediger tilgangsrettigheter';
 $labels['actions'] = 'Valg for tilgangsrettigheter.';

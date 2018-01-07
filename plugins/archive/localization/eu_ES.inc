@@ -15,13 +15,13 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
-$labels['buttontext'] = 'Gorde';
-$labels['buttontitle'] = 'Gorde mezu hau';
-$labels['archived'] = 'Ongi gorde da';
-$labels['archivedreload'] = 'Ongi gorde da. Freskatu orria fitxategi-karpeta berria ikusteko.';
-$labels['archiveerror'] = 'Mezu batzuk ezin dira gorde.';
-$labels['archivefolder'] = 'Gorde';
-$labels['settingstitle'] = 'Gorde';
+$labels['buttontext'] = 'Artxibatu';
+$labels['buttontitle'] = 'Artxibatu mezu hau';
+$labels['archived'] = 'Ongi artxibatu da';
+$labels['archivedreload'] = 'Ongi artxibatu da. Birkargatu orria artxiboan karpeta berriak ikusteko.';
+$labels['archiveerror'] = 'Mezu batzuk ezin izan dira artxibatu';
+$labels['archivefolder'] = 'Artxibatu';
+$labels['settingstitle'] = 'Artxibatu';
 $labels['archivetype'] = 'Banatu honen arabera';
 $labels['archivetypeyear'] = 'Urtea (e.b. Archive/2012)';
 $labels['archivetypemonth'] = 'Hilabete (e.b. Archive/2012/06)';
@@ -29,5 +29,5 @@ $labels['archivetypetbmonth'] = 'Hilabetea - Thunderbird-ekin bateragarria (ad. 
 $labels['archivetypefolder'] = 'Jatorrizko karpeta';
 $labels['archivetypesender'] = 'Bidaltzailearen helbidea';
 $labels['unkownsender'] = 'ezezaguna';
-$labels['readonarchive'] = 'Markatu mezua irakurri bezala artxiboan';
+$labels['readonarchive'] = 'Markatu mezua irakurrita bezala artxiboan';
 ?>

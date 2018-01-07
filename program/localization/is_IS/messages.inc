@@ -96,7 +96,6 @@ $messages['nosubjectwarning']  = 'Efnislínan er tóm. Viltu slá eitthvað inn 
 $messages['nosubjecttitle']  = 'Án titils';
 $messages['nobodywarning'] = 'Viltu senda tómt skeyti?';
 $messages['notsentwarning'] = 'Þetta skeyti hefur ekki verið sent og er með óvistaðar breytingar. Viltu henda þessum breytingum?';
-$messages['noldapserver'] = 'Please select an ldap server to search';
 $messages['nosearchname'] = 'Sláðu inn nafn eða netfang';
 $messages['searchsuccessful'] = '$nr skeyti fundust';
 $messages['contactsearchsuccessful'] = '$nr tengiliðir fundust.';

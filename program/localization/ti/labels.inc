@@ -59,4 +59,12 @@ $labels['wednesday'] = 'ረቡዕ';
 $labels['thursday']  = 'ሓሙስ';
 $labels['friday']    = 'ዓርቢ ';
 $labels['saturday']  = 'ቀዳም';
+$labels['isread'] = 'ከንብብ';
+$labels['other'] = 'ካሊእ';
+$labels['typeother']  = 'ካሊእ';
+$labels['delete'] = 'ይጥፋእ';
+$labels['about'] = 'ብዛዕባ';
+$labels['folders'] = 'ማህዸራት';
+$labels['create'] = 'ይፈጠር';
+$labels['license'] = 'ፍቓድ';
 ?>

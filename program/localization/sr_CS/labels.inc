@@ -340,6 +340,7 @@ $labels['contacts'] = 'Конакти';
 $labels['contactproperties'] = 'Својства контакта';
 $labels['contactnameandorg'] = 'Име и организација';
 $labels['personalinfo'] = 'Лични подаци';
+$labels['personal'] = 'Лично';
 $labels['contactphoto'] = 'Фоографија контакта';
 $labels['edit']   = 'Измени';
 $labels['cancel'] = 'Одустани';

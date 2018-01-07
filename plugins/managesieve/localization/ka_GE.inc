@@ -15,8 +15,18 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+$labels['messagedelete'] = 'წაშლა';
+$labels['add'] = 'დამატება';
+$labels['del'] = 'წაშლა';
 $labels['sender'] = 'გამგზავნელი';
 $labels['flagread'] = 'წაკითხვა';
+$labels['flagdeleted'] = 'წაშლილი';
+$labels['flagflagged'] = 'მონიშნული';
+$labels['notifymethodmailto'] = 'ელ–ფოსტა';
+$labels['notifymethodtel'] = 'ტელეფონი';
+$labels['datetest'] = 'თარიღი';
+$labels['advancedopts'] = 'დამატებითი პარამეტრები';
 $labels['body'] = 'შეტყობინების ტექსტი';
+$labels['vacation.subject'] = 'სათაური';
 $labels['vacation.body'] = 'შეტყობინების ტექსტი';
 ?>

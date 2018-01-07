@@ -19,6 +19,7 @@ $labels['sharing'] = 'Parvekirin';
 $labels['myrights'] = 'Mafên Têketinê';
 $labels['username'] = 'Bikarhêner:';
 $labels['advanced'] = 'Moda pêşketî';
+$labels['add'] = 'Tev bike';
 $labels['newuser'] = 'Têketinek zêde bike';
 $labels['editperms'] = 'Destûrdayînan Sererast Bike';
 $labels['actions'] = 'Digihîje tevgerên çê..';

@@ -15,9 +15,11 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+$labels['sharing'] = 'Ndarje Me të Tjerë';
 $labels['myrights'] = 'Të drejta Hyrjeje';
 $labels['username'] = 'Përdorues:';
 $labels['advanced'] = 'Mënyra e përparuar';
+$labels['add'] = 'Shtoje';
 $labels['newuser'] = 'Shtoni zë';
 $labels['editperms'] = 'Përpunoni leje';
 $labels['actions'] = 'Veprime të drejtash hyrjeje…';

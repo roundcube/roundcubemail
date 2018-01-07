@@ -19,6 +19,7 @@ $labels['sharing'] = 'Sdílení';
 $labels['myrights'] = 'Přístupová práva';
 $labels['username'] = 'Uživatel:';
 $labels['advanced'] = 'Pokročilý režim';
+$labels['add'] = 'Přidej';
 $labels['newuser'] = 'Přidat záznam';
 $labels['editperms'] = 'Upravit oprávnění';
 $labels['actions'] = 'Přístupové právo akce ...';

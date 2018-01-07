@@ -19,6 +19,7 @@ $labels['sharing'] = 'Rannañ';
 $labels['myrights'] = 'Aotreoù mont e-barzh';
 $labels['username'] = 'Implijer:';
 $labels['advanced'] = 'Mod kempleshoc\'h';
+$labels['add'] = 'Ouzhpennañ';
 $labels['newuser'] = 'Ouzhpennañ un elfenn';
 $labels['editperms'] = 'Embann an aotreoù';
 $labels['actions'] = 'Aotreoù mont e-barzh';

@@ -17,4 +17,6 @@
 */
 $labels['addvcardmsg'] = '添加 vCard 至地址簿中';
 $labels['vcardsavefailed'] = '无法保存 vCard';
+$labels['attachvcard'] = '附加 vCard';
+$labels['vcard'] = 'vCard';
 ?>

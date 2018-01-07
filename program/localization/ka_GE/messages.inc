@@ -80,7 +80,6 @@ $messages['nopagesizewarning'] = 'მიუთითეთ ფურცლის
 $messages['norecipientwarning'] = 'მიუთითეთ მიმღები';
 $messages['nosubjectwarning']  = 'გსურთ თუ არა შეტყობინების გაგზავნა უსათაუროდ?';
 $messages['nobodywarning'] = 'გსურთ თუ არა შეტყობინების გაგზავნა უტექსტოდ?';
-$messages['noldapserver'] = 'მიუთითეთ LDAP სერვერი ძიებისთვის';
 $messages['nosearchname'] = 'მიუთითეთ სახელი ან ელ–ფოსტის მისამართი';
 $messages['notuploadedwarning'] = 'ჯერ არ ატვირთულა ყველა მიმაგრებული ფაილი. დაელოდეთ ან გააუქმეთ ატვირთვა.';
 $messages['searchsuccessful'] = '$nr შეტყობინეა მოიძებნა';

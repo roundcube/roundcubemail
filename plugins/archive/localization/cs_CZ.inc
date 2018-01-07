@@ -25,7 +25,9 @@ $labels['settingstitle'] = 'Archiv';
 $labels['archivetype'] = 'Rozdělit archiv podle';
 $labels['archivetypeyear'] = 'Rok (např.  Archiv/2012)';
 $labels['archivetypemonth'] = 'Měsíc (např. Archiv/2012/06)';
+$labels['archivetypetbmonth'] = 'Měsíc - kompatibilní s Thunderbird klientem (např. Archiv/2012/2012-06)';
 $labels['archivetypefolder'] = 'Původní složka';
 $labels['archivetypesender'] = 'E-mail odesílatele';
 $labels['unkownsender'] = 'neznámý';
+$labels['readonarchive'] = 'Při archivaci označit zprávu jako přečtenou';
 ?>

@@ -19,4 +19,6 @@ $labels['buttontext'] = 'සංරක්‍ෂණය';
 $labels['buttontitle'] = 'මෙම පණිවිඩය සංරක්‍ෂණය කරන්න';
 $labels['archived'] = 'සංරක්‍ෂණය සාර්ථකයි';
 $labels['archivefolder'] = 'සංරක්‍ෂණය';
+$labels['settingstitle'] = 'සංරක්‍ෂණය';
+$labels['unkownsender'] = 'නොදනී';
 ?>

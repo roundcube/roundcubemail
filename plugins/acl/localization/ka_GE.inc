@@ -15,7 +15,16 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+$labels['add'] = 'დამატება';
+$labels['aclother'] = 'სხვა';
 $labels['aclread'] = 'წაკითხვა';
+$labels['acldelete'] = 'წაშლა';
 $labels['shortaclr'] = 'წაკითხვა';
+$labels['shortaclc'] = 'შექმნა';
+$labels['shortaclk'] = 'შექმნა';
+$labels['shortacld'] = 'წაშლა';
+$labels['shortaclt'] = 'წაშლა';
+$labels['shortaclother'] = 'სხვა';
 $labels['shortaclread'] = 'წაკითხვა';
+$labels['shortacldelete'] = 'წაშლა';
 ?>

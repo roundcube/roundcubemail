@@ -18,5 +18,6 @@
 $labels['addvcardmsg'] = 'Shtoje vCard-in te libër adresash';
 $labels['vcardsavefailed'] = 'S’arrihet të ruhet vCard-i';
 $labels['attachvcard'] = 'Bashkëngjitni vCard';
+$labels['vcardattached'] = 'Kartela vCard u bashkëngjit.';
 $labels['vcard'] = 'vCard';
 ?>

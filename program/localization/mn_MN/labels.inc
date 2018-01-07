@@ -45,4 +45,14 @@ $labels['readstatus'] = 'Уншсан төлөв';
 $labels['listoptions'] = 'Жагсаалтын тохиргоо...';
 $labels['mailboxlist'] = 'Хавтас';
 $labels['messagesfromto'] = 'Нийт $count захианы from-с $to';
+$labels['showattachment'] = 'Харах';
+$labels['deletemessage']    = 'Захиа устгах';
+$labels['isread'] = 'Унших';
+$labels['unknown']  = 'мэдэгдэхгүй';
+$labels['other'] = 'Бусад';
+$labels['typeother']  = 'Бусад';
+$labels['delete'] = 'Устгах';
+$labels['about'] = 'Танилцуулга';
+$labels['folders'] = 'Хавтас';
+$labels['license'] = 'Лиценз';
 ?>

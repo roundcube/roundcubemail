@@ -18,6 +18,7 @@
 $labels['sharing'] = 'Deling';
 $labels['myrights'] = 'Tilgangsrettar';
 $labels['username'] = 'Brukar:';
+$labels['add'] = 'Legg til';
 $labels['newuser'] = 'Legg til oppføring';
 $labels['actions'] = 'Val for tilgangsrettar...';
 $labels['anyone'] = 'Alle brukarar (alle)';

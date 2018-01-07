@@ -19,6 +19,7 @@ $labels['sharing'] = 'Deling';
 $labels['myrights'] = 'Adgangrettigheder';
 $labels['username'] = 'Bruger:';
 $labels['advanced'] = 'Avanceret tilstand';
+$labels['add'] = 'Tilføje';
 $labels['newuser'] = 'Tilføj indgang';
 $labels['editperms'] = 'Rediger tilladelser';
 $labels['actions'] = 'Tilgangsrettigheder...';

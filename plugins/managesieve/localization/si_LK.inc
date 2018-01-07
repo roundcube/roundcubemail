@@ -32,11 +32,15 @@ $labels['none'] = 'කිසිවක් නැත';
 $labels['flagread'] = 'කියවන්න';
 $labels['flagdeleted'] = 'මකන ලදී';
 $labels['flagdraft'] = 'කටු සටහන';
+$labels['notifymethodmailto'] = 'විද්‍යුත් තැපෑල';
+$labels['notifymethodtel'] = 'දුරකථනය';
 $labels['nextstep'] = 'මීලග පියවර';
 $labels['...'] = '...';
+$labels['datetest'] = 'දිනය';
 $labels['address'] = 'ලිපිනය';
 $labels['envelope'] = 'ලියුම් කවරය';
 $labels['modtype'] = 'වර්ගය:';
 $labels['allparts'] = 'සියල්ල';
+$labels['vacation.subject'] = 'මාතෘකාව';
 $messages['nametoolong'] = 'නම දිග වැඩිය.';
 ?>

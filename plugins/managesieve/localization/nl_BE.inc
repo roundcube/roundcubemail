@@ -15,6 +15,15 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+$labels['messagedelete'] = 'Dit bericht verwijderen';
 $labels['add'] = 'Toevoegen';
+$labels['del'] = 'Verwijderen';
+$labels['sender'] = 'Afzender';
+$labels['flagdeleted'] = 'Verwijderd';
+$labels['flagflagged'] = 'Geselecteerd';
+$labels['notifymethodmailto'] = 'E-mailadres';
 $labels['notifymethodtel'] = 'Telefoonnummer';
+$labels['datetest'] = 'Datum';
+$labels['advancedopts'] = 'Geavanceerde opties';
+$labels['vacation.subject'] = 'Onderwerp';
 ?>

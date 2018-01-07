@@ -58,7 +58,5 @@ $labels['keyremove'] = 'Rimuovi';
 $labels['keydisable'] = 'Disabilita';
 $labels['keyrevoke'] = 'Revoca';
 $labels['keychpass'] = 'Cambia password';
-$labels['newkeyident'] = 'Identità:';
-$labels['newkeypass'] = 'Password:';
-$labels['newkeypassconfirm'] = 'Conferma password:';
+$labels['newkeypass'] = 'Password';
 ?>

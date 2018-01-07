@@ -19,6 +19,7 @@ $labels['sharing'] = 'Dalinimasis';
 $labels['myrights'] = 'Prieigos teisės';
 $labels['username'] = 'Vartotojas:';
 $labels['advanced'] = 'Pažengusio vartotojo rėžimas';
+$labels['add'] = 'Pridėti';
 $labels['newuser'] = 'Pridėti įrašą';
 $labels['editperms'] = 'Tvarkyti leidimus';
 $labels['actions'] = 'Prieigos teisių veiksmai...';

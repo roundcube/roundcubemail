@@ -17,10 +17,23 @@
 */
 $labels['sharing'] = 'اشتراک گذاری';
 $labels['username'] = 'کاربر:';
+$labels['add'] = 'افزودن';
 $labels['newuser'] = 'افزودن مدخل';
 $labels['aclw'] = 'نوشتن نشانه ها';
 $labels['aclp'] = 'ارسال';
 $labels['acla'] = 'مدیر';
 $labels['aclfull'] = 'کنترل کامل';
 $labels['aclother'] = 'دیگر';
+$labels['aclread'] = 'خواندن';
+$labels['acldelete'] = 'حذف';
+$labels['shortaclr'] = 'خواندن';
+$labels['shortaclp'] = 'ارسال';
+$labels['shortaclc'] = 'ایجاد کردن';
+$labels['shortaclk'] = 'ایجاد کردن';
+$labels['shortacld'] = 'حذف';
+$labels['shortaclt'] = 'حذف';
+$labels['shortacla'] = 'مدیر';
+$labels['shortaclother'] = 'دیگر';
+$labels['shortaclread'] = 'خواندن';
+$labels['shortacldelete'] = 'حذف';
 ?>

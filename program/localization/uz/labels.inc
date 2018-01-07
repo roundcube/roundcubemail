@@ -354,6 +354,7 @@ $labels['contacts'] = 'Kontaktlar';
 $labels['contactproperties'] = 'Kontakt xossalari';
 $labels['contactnameandorg'] = 'Nom va tashkilot';
 $labels['personalinfo'] = 'Shaxsiy ma`lumot';
+$labels['personal'] = 'Shaxsiy';
 $labels['contactphoto'] = 'Kontakt surati';
 $labels['edit']   = 'Tahrirlash';
 $labels['cancel'] = 'Bekor qilish';

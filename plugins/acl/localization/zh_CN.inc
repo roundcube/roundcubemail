@@ -19,6 +19,7 @@ $labels['sharing'] = '共享';
 $labels['myrights'] = '访问权限';
 $labels['username'] = '用户：';
 $labels['advanced'] = '高级模式';
+$labels['add'] = '添加';
 $labels['newuser'] = '新增条目';
 $labels['editperms'] = '编辑权限';
 $labels['actions'] = '权限设置...';
