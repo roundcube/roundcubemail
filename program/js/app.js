@@ -176,24 +176,6 @@ function rcube_webmail()
     for (n in this.gui_objects)
       this.gui_objects[n] = rcube_find_object(this.gui_objects[n]);
 
-    // clickjacking protection
-    if ((n = this.env.x_frame_options) && self !== top) {
-      try {
-        // bust frame if not allowed
-        if (n.toLowerCase() == 'deny' && top.location.href != self.location.href)
-          top.location.href = self.location.href;
-        else if (/^allow-from[\s\t]+(.+)$/i.test(n) && RegExp.$1.indexOf(top.location.origin) != 0)
-          throw 1;
-        else if (top.location.hostname != self.location.hostname)
-          throw 1;
-      } catch (e) {
-        // possible clickjacking attack: disable all form elements
-        $('form').each(function(){ ref.lock_form(this, true); });
-        this.display_message("Blocked: possible clickjacking attack!", 'error');
-        return;
-      }
-    }
-
     // init registered buttons
     this.init_buttons();
 
