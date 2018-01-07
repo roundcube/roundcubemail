@@ -29,7 +29,7 @@ if (!defined('INSTALL_PATH')) {
 }
 
 if (getenv('RCMAIL_CONFIG_DIR')) {
-    define('RCMAIL_CONFIG_DIR', getenv('RCMAIL_CONFIG_DIR'));
+    define('RCMAIL_CONFIG_DIR', getenv('ROUNDCUBE_CONFIG_DIR'));
 }
 
 if (!defined('RCMAIL_CONFIG_DIR')) {
