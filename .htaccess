@@ -29,11 +29,9 @@ RewriteRule ^favicon\.ico$ skins/larry/images/favicon.ico
 #   in all locations except installer directory
 RewriteRule ^(?!installer|\.well-known\/|[a-zA-Z0-9]{16})(\.?[^\.]+)$ - [F]
 # - deny access to some locations
-RewriteRule ^/?(\.git|\.tx|SQL|bin|config|logs|temp|tests|program\/(include|lib|localization|steps)) - [F]
-# - deny access to composer binaries
-RewriteRule ^/vendor\/bin\/.* - [F]
+RewriteRule ^/?(\.git|\.tx|SQL|bin|config|logs|temp|tests|vendor|program\/(include|lib|localization|steps)) - [F]
 # - deny access to some documentation files
-RewriteRule /?(README\.md|composer\.json-dist|composer\.json|composer\.lock|package\.xml|jsdeps.json)$ - [F]
+RewriteRule /?(README.*|meta\.json|composer\..*|jsdeps.json)$ - [F]
 </IfModule>
 
 <IfModule mod_deflate.c>
