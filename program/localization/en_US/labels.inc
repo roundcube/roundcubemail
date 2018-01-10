@@ -441,6 +441,8 @@ $labels['newgroup']       = 'Create new group';
 $labels['addgroup']       = 'Add group';
 $labels['grouprename']    = 'Rename group';
 $labels['groupdelete']    = 'Delete group';
+$labels['groupassign']    = 'Assign to group';
+$labels['groupremove']    = 'Remove from group';
 $labels['groupremoveselected'] = 'Remove selected contacts from group';
 $labels['uponelevel']     = 'Up one level';
 
@@ -692,6 +694,7 @@ $labels['arialabelmessageheaders'] = 'Message headers';
 $labels['arialabelforwardingoptions'] = 'Forwarding options';
 $labels['arialabelreplyalloptions'] = 'Reply-all options';
 $labels['arialabelmoremessageactions'] = 'More message actions';
+$labels['arialabelmorecontactactions'] = 'More contact actions';
 $labels['arialabelmarkmessagesas'] = 'Mark selected messages as...';
 $labels['arialabelcomposeoptions'] = 'Composition options';
 $labels['arialabelresponsesmenu'] = 'Canned responses menu';

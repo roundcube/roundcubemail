@@ -47,6 +47,7 @@ function rcube_webmail()
   this.group2expand = {};
   this.http_request_jobs = {};
   this.menu_stack = [];
+  this.entity_selectors = [];
 
   // webmail client settings
   this.dblclick_time = 500;
@@ -979,14 +980,14 @@ function rcube_webmail()
         if (this.task == 'mail')
           this.move_messages(props, event);
         else if (this.task == 'addressbook')
-          this.move_contacts(props);
+          this.move_contacts(props, event);
         break;
 
       case 'copy':
         if (this.task == 'mail')
           this.copy_messages(props, event);
         else if (this.task == 'addressbook')
-          this.copy_contacts(props);
+          this.copy_contacts(props, event);
         break;
 
       case 'mark':
@@ -5903,10 +5904,15 @@ function rcube_webmail()
       }
 
       this.env.selection_sources = $.unique(this.env.selection_sources);
+
+      var groupcount = 0;
+      if (source.groups)
+        $.each(this.env.contactgroups, function(){ if (this.source === ref.env.source) groupcount++ });
     }
 
     // if a group is currently selected, and there is at least one contact selected
     // thend we can enable the group-remove-selected command
+    this.enable_command('group-assign-selected', groupcount > 0 && selected && writable);
     this.enable_command('group-remove-selected', this.env.group && selected && writable);
     this.enable_command('print', selected == 1);
     this.enable_command('export-selected', 'copy', selected > 0);
@@ -5952,6 +5958,9 @@ function rcube_webmail()
     });
 
     this.env.address_group_stack = index < 0 ? [] : this.env.address_group_stack.slice(0, index);
+
+    // remove cached contact group selector
+    this.destroy_entity_selector('contactgroup-selector');
 
     // make sure the current group is on top of the stack
     if (this.env.group) {
@@ -6130,8 +6139,15 @@ function rcube_webmail()
   };
 
   // copy contact(s) to the specified target (group or directory)
-  this.copy_contacts = function(to)
+  this.copy_contacts = function(to, event)
   {
+    if (!to) {
+      return this.addressbook_selector(event, function(to, obj) {
+          var to = $(obj).data('source') ? ref.env.contactgroups['G' + $(obj).data('source') + $(obj).data('gid')] : ref.env.address_sources[to];
+          ref.command('copy', to);
+        });
+    }
+
     var dest = to.type == 'group' ? to.source : to.id,
       source = this.env.source,
       group = this.env.group ? this.env.group : '',
@@ -6164,8 +6180,15 @@ function rcube_webmail()
   };
 
   // move contact(s) to the specified target (group or directory)
-  this.move_contacts = function(to)
+  this.move_contacts = function(to, event)
   {
+    if (!to) {
+      return this.addressbook_selector(event, function(to, obj) {
+          var to = $(obj).data('source') ? ref.env.contactgroups['G' + $(obj).data('source') + $(obj).data('gid')] : ref.env.address_sources[to];
+          ref.command('move', to);
+        });
+    }
+
     var dest = to.type == 'group' ? to.source : to.id,
       source = this.env.source,
       group = this.env.group ? this.env.group : '';
@@ -6392,6 +6415,10 @@ function rcube_webmail()
     var key = 'G'+prop.source+prop.id;
 
     if (this.treelist.remove(key)) {
+      // make sure there is no cached address book or contact group selectors
+      this.destroy_entity_selector('addressbook-selector');
+      this.destroy_entity_selector('contactgroup-selector');
+
       this.triggerEvent('group_delete', { source:prop.source, id:prop.id });
       delete this.env.contactfolders[key];
       delete this.env.contactgroups[key];
@@ -6399,6 +6426,12 @@ function rcube_webmail()
 
     if (prop.source == this.env.source && prop.id == this.env.group)
       this.list_contacts(prop.source, 0);
+  };
+
+  //assign selected contacts to a group
+  this.group_assign_selected = function(props, obj, event)
+  {
+    this.contactgroup_selector(event, function(to) { ref.group_member_change('add', ref.contact_list.get_selection(), ref.env.source, to); });
   };
 
   //remove selected contacts from current active group
@@ -6416,6 +6449,7 @@ function rcube_webmail()
       for (n=0; n<selection.length; n++) {
         id = selection[n];
         this.contact_list.remove_row(id, (n == selection.length-1));
+        this.contact_list.clear_selection();
       }
     }
   };
@@ -6433,6 +6467,10 @@ function rcube_webmail()
 
     this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
     this.treelist.insert({ id:key, html:link, classes:['contactgroup'] }, prop.source, 'contactgroup');
+
+    // make sure there is no cached address book or contact group selectors
+    this.destroy_entity_selector('addressbook-selector');
+    this.destroy_entity_selector('contactgroup-selector');
 
     this.triggerEvent('group_insert', { id:prop.id, source:prop.source, name:prop.name, li:this.treelist.get_item(key) });
   };
@@ -6475,6 +6513,10 @@ function rcube_webmail()
 
     // update list node and re-sort it
     this.treelist.update(key, newnode, true);
+
+    // make sure there is no cached address book or contact group selectors
+    this.destroy_entity_selector('addressbook-selector');
+    this.destroy_entity_selector('contactgroup-selector');
 
     this.triggerEvent('group_update', { id:prop.id, source:prop.source, name:prop.name, li:this.treelist.get_item(key), newid:prop.newid });
   };
@@ -8174,48 +8216,113 @@ function rcube_webmail()
     elem.onclick = function() { ref.command('show-headers', '', elem); };
   };
 
-  // create folder selector popup, position and display it
+  // create folder selector popup
   this.folder_selector = function(event, callback)
   {
-    var container = this.folder_selector_element;
+    this.entity_selector('folder-selector', callback, this.env.mailboxes_list, function(obj, a) {
+      var n = 0, s = 0,
+        delim = ref.env.delimiter,
+        folder = ref.env.mailboxes[obj],
+        id = folder.id,
+        row = $('<li>');
+
+      if (folder.virtual)
+        a.addClass('virtual').attr({'aria-disabled': 'true', tabindex: '-1'});
+      else
+        a.addClass('active').data('id', folder.id);
+
+      if (folder['class'])
+        row.addClass(folder['class']);
+
+      // calculate/set indentation level
+      while ((s = id.indexOf(delim, s)) >= 0) {
+        n++; s++;
+      }
+      a.css('padding-left', n ? (n * 16) + 'px' : 0);
+
+      // add folder name element
+      a.append($('<span>').text(folder.name));
+
+      return row.append(a);
+    }, event);
+  };
+
+  // create addressbook selector popup
+  this.addressbook_selector = function(event, callback)
+  {
+    // build addressbook + groups list
+    var combined_sources = [];
+
+    // check we really need it before processing
+    if (!this.entity_selectors['addressbook-selector']) {
+      $.each(this.env.address_sources, function() {
+        if (!this.readonly) {
+          var source = this;
+          combined_sources.push(source);
+
+          $.each(ref.env.contactgroups, function() {
+            if (source.id === this.source) {
+              combined_sources.push(this);
+            }
+          });
+        }
+      });
+    }
+
+    this.entity_selector('addressbook-selector', callback, combined_sources, function(obj, a) {
+      var row = $('<li>');
+
+      if (obj.type == 'group') {
+        a.attr('rel', this.source + ':' + this.id);
+        a.addClass('contactgroup');
+        a.data('source', this.source).data('gid', this.id);
+        a.addClass('active').data('id', this.source + ':' + this.id);
+        a.css('padding-left', '16px');
+      }
+      else {
+        a.addClass('addressbook');
+        a.addClass('active').data('id', obj.id);
+      }
+      a.append($('<span>').text(obj.name));
+
+      return row.append(a);
+    }, event);
+  };
+
+  // create contactgroup selector popup
+  this.contactgroup_selector = function(event, callback)
+  {
+    this.entity_selector('contactgroup-selector', callback, this.env.contactgroups, function(obj, a) {
+      if (ref.env.source === obj.source) {
+        var row = $('<li>');
+
+        a.addClass('contactgroup');
+        a.addClass('active').data('id', obj.id);
+        a.append($('<span>').text(obj.name));
+
+        return row.append(a);
+      }
+    }, event);
+  };
+
+  // create selector popup (eg for folders or address books), position and display it
+  this.entity_selector = function(name, click_callback, entity_list, list_callback, event)
+  {
+    var container = this.entity_selectors[name];
 
     if (!container) {
       var rows = [],
-        delim = this.env.delimiter,
-        ul = $('<ul class="toolbarmenu">'),
+        container = $('<div>').attr('id', name).addClass('popupmenu'),
+        ul = $('<ul>').addClass('toolbarmenu'),
         link = document.createElement('a');
 
-      container = $('<div id="folder-selector" class="popupmenu"></div>');
       link.href = '#';
       link.className = 'icon';
 
-      // loop over sorted folders list
-      $.each(this.env.mailboxes_list, function() {
-        var n = 0, s = 0,
-          folder = ref.env.mailboxes[this],
-          id = folder.id,
-          a = $(link.cloneNode(false)).attr('rel', folder.id),
-          row = $('<li>');
-
-        if (folder.virtual)
-          a.addClass('virtual').attr({'aria-disabled': 'true', tabindex: '-1'});
-        else
-          a.addClass('active').data('id', folder.id);
-
-        if (folder['class'])
-          row.addClass(folder['class']);
-
-        // calculate/set indentation level
-        while ((s = id.indexOf(delim, s)) >= 0) {
-          n++; s++;
-        }
-        a.css('padding-left', n ? (n * 16) + 'px' : 0);
-
-        // add folder name element
-        a.append($('<span>').text(folder.name));
-
-        row.append(a);
-        rows.push(row);
+      // loop over entity list
+      $.each(entity_list, function() {
+        var a = $(link.cloneNode(false)).attr('rel', this.id);
+        rows.push(list_callback(this, a));
       });
 
       ul.append(rows).appendTo(container);
@@ -8230,18 +8337,23 @@ function rcube_webmail()
 
       // register delegate event handler for folder item clicks
       container.on('click', 'a.active', function(e) {
-        container.data('callback')($(this).data('id'));
+        container.data('callback')($(this).data('id'), this);
       });
 
-      this.folder_selector_element = container;
+      this.entity_selectors[name] = container;
     }
 
-    container.data('callback', callback);
+    container.data('callback', click_callback);
 
     // position menu on the screen
-    this.show_menu('folder-selector', true, event);
+    this.show_menu(name, true, event);
   };
 
+  this.destroy_entity_selector = function(name)
+  {
+    $("#" + name).remove();
+    delete this.entity_selectors[name];
+  };
 
   /***********************************************/
   /*********    popup menu functions     *********/
