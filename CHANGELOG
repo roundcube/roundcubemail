@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- Fix bug where contacts search could skip some records (#6130)
+
 RELEASE 1.3.4
 -------------
 - Fix a couple of warnings on PHP 7.2 (#6098)
