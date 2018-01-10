@@ -19,7 +19,7 @@
         "pear/crypt_gpg": "~1.6.2",
         "pear/net_sieve": "~1.4.0",
         "roundcube/plugin-installer": "~0.1.6",
-        "endroid/qrcode": "~1.6.5"
+        "endroid/qr-code": "~1.6.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8.36 || ^5.7.21"
