@@ -654,12 +654,15 @@ abstract class rcube_addressbook
      */
     public static function compose_contact_key($contact, $sort_col)
     {
-        $key = $contact[$sort_col] . ':' . $contact['sourceid'];
+        $key = $contact[$sort_col];
 
         // add email to a key to not skip contacts with the same name (#1488375)
         if (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
             $key .= ':' . implode(':', (array)$email);
         }
+
+        // Make the key really unique (as we e.g. support contacts with no email)
+        $key .= ':' . $contact['sourceid'] . ':' . $contact['ID'];
 
         return $key;
     }
