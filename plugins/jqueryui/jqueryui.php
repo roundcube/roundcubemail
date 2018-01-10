@@ -129,11 +129,14 @@ class jqueryui extends rcube_plugin
         $ui_theme = self::$ui_theme;
         $css      = "plugins/jqueryui/themes/$ui_theme/tagedit.css";
 
-        if (!file_exists(INSTALL_PATH . $css)) {
-            $css = "plugins/jqueryui/themes/larry/tagedit.css";
+        if ($ui_theme != 'elastic') {
+            if (!file_exists(INSTALL_PATH . $css)) {
+                $css = "plugins/jqueryui/themes/larry/tagedit.css";
+            }
+
+            $rcube->output->include_css($css);
         }
 
-        $rcube->output->include_css($css);
         $rcube->output->add_header(html::tag('script', array('type' => "text/javascript", 'src' => $script)));
     }
 }
