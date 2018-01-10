@@ -404,6 +404,10 @@ a.deletebutton {
   max-width: 50em;
 }
 
+ul.toolbarmenu li span.qrcode {
+	background-position: 0 -2408px;
+}
+
 ul.toolbarmenu li span.assigngroup {
 	background-position: 0 -2358px;
 }

@@ -5918,6 +5918,7 @@ function rcube_webmail()
     this.enable_command('export-selected', 'copy', selected > 0);
     this.enable_command('edit', id && writable);
     this.enable_command('delete', 'move', selected && writable);
+    this.enable_command('qrcode', selected == 1);
 
     return false;
   };
@@ -6876,7 +6877,7 @@ function rcube_webmail()
       options = {button: false, cancel_button: 'close', width: 300, height: 300},
       img = new Image(300, 300);
 
-    img.src = this.url('addressbook/qrcode', {_source: this.env.source, _cid: this.env.cid});
+    img.src = this.url('addressbook/qrcode', {_source: this.env.source, _cid: this.env.cid || this.contact_list.get_single_selection()});
 
     return this.simple_dialog(img, title, null, options);
   };
