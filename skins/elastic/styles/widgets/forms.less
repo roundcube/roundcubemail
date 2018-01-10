@@ -813,7 +813,7 @@ html.touch .popupmenu.form {
     a.button.icon {
         font-size: .8em;
         cursor: pointer;
-        line-height: 1.5;
+        line-height: 1.6;
 
         &:before {
             float: none;
@@ -829,6 +829,80 @@ html.touch .popupmenu.form {
         border: 0 !important;
         margin-top: @recipient-input-margin-fix;
         outline: 0;
+    }
+}
+
+/*** Tagedit widget (from jqueryui plugin) ***/
+
+.tagedit-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 .75rem @recipient-input-margin-fix .75rem;
+    margin: 0;
+    list-style-type: none;
+    min-height: 2.3rem;
+
+    & + .placeholder {
+        display: none;
+    }
+
+    li.tagedit-listelement-new {
+        margin-top: @recipient-input-margin-fix;
+
+        input {
+            width: 15px;
+            background: transparent !important;
+            border: 0;
+            outline: 0;
+            margin: 0;
+            padding: 0;
+
+            &.tagedit-input-disabled {
+                visibility: hidden;
+            }
+        }
+    }
+
+    li.tagedit-listelement-old {
+        max-width: 50%;
+        border: 1px solid @color-recipient-input-border;
+        background-color: @color-recipient-input-background;
+        border-radius: .25em;
+        padding: 0 .25em;
+        margin-top: @recipient-input-margin-fix;
+        margin-right: .2em;
+        white-space: nowrap;
+
+        a /* TODO: .tagedit-close, .tagedit-break, .tagedit-delete, .tagedit-save */ {
+            font-size: .8em;
+            cursor: pointer;
+            display: inline-block;
+            width: 1.1em;
+            overflow: hidden;
+            vertical-align: middle;
+            margin-right: .2rem;
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-times;
+                width: 1em;
+                line-height: 1.2;
+            }
+        }
+
+        span {
+            .overflow-ellipsis;
+            flex-grow: 1;
+            display: inline-block;
+            line-height: 1;
+            height: 1em;
+            padding: 0 .25rem;
+            vertical-align: middle;
+        }
+    }
+
+    li.tagedit-listelement-focus {
+        // TODO
     }
 }
 
