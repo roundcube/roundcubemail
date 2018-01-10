@@ -59,6 +59,9 @@
 
 <div id="contactmenu" class="popupmenu">
   <ul class="toolbarmenu" id="contactmenumenu">
+    <roundcube:if condition="env:qrcode" />
+    <roundcube:button type="link-menuitem" class="qrcode" command="qrcode" label="qrcode" classAct="qrcode active" />
+    <roundcube:endif />
     <roundcube:button type="link-menuitem" class="assigngroup" command="group-assign-selected" label="groupassign" classAct="assigngroup active" innerclass="folder-selector-link" />
     <roundcube:button type="link-menuitem" class="removegroup" command="group-remove-selected" label="groupremove" classAct="removegroup active" />
     <roundcube:if condition="env:writable_source &gt; 1" />

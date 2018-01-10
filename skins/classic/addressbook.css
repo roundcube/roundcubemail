@@ -104,6 +104,11 @@
   background-position: 7px 20px;
 }
 
+#contactmenu li a.qrcode
+{
+  background-position: 7px -39px;
+}
+
 #contactmenu li a.assigngroup
 {
   background-position: 7px 0;

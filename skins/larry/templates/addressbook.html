@@ -39,6 +39,9 @@
 	<div id="contactmenu" class="popupmenu" aria-hidden="true">
 		<h3 id="aria-label-contactmenu" class="voice"><roundcube:label name="arialabelmorecontactactions" /></h3>
 		<ul id="contactmenu-menu" class="toolbarmenu iconized" role="menu" aria-labelledby="aria-label-contactmenu">
+			<roundcube:if condition="env:qrcode" />
+			<roundcube:button type="link-menuitem" command="qrcode" label="qrcode" class="icon" classAct="icon active" innerclass="icon qrcode" />
+			<roundcube:endif />
 			<roundcube:button type="link-menuitem" command="group-assign-selected" label="groupassign" class="icon" classAct="icon active" innerclass="icon assigngroup folder-selector-link" />
 			<roundcube:button type="link-menuitem" command="group-remove-selected" label="groupremove" class="icon" classAct="icon active" innerclass="icon removegroup" />
 			<roundcube:if condition="env:writable_source &gt; 1" />
