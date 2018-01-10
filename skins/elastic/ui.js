@@ -431,10 +431,10 @@ function rcube_elastic_ui()
                 rcmail[list].checkbox_selection = true;
 
                 // Add Select button to the list navigation bar
-                button = $('<a>').attr({'class': 'button toggleselect disabled', role: 'button'})
+                button = $('<a>').attr({'class': 'button icon toggleselect disabled', role: 'button'})
                     .on('click', function() { if ($(this).is('.active')) table.toggleClass('withselection'); })
                     .append($('<span class="inner">').text(rcmail.gettext('select')))
-                    .prependTo(table.parent().prev('.pagenav'));
+                    .insertBefore(table.parents('.sidebar,.list').find('.header-title'));
 
                 // Update Select button state on list update
                 rcmail.addEventListener('listupdate', function(prop) {
@@ -816,7 +816,11 @@ function rcube_elastic_ui()
     {
         var last_selected = env.last_selected,
             title_reset = function(title) {
-                $('.header > .header-title', layout.content).text(title || $('h1.voice').text() || $('title').text() || '');
+                if (typeof title !== 'string' || !title.length) {
+                    title = $('h1.voice').text() || $('title').text() || '';
+                }
+
+                $('.header > .header-title', layout.content).text(title);
             };
 
         // display or reset the content frame
@@ -909,6 +913,7 @@ function rcube_elastic_ui()
                         iframe_loader(e.obj);
                     }
                 }
+
                 common_content_handler(e.event || new Event, '_action=' + (e.mode || 'edit'), true, e.title);
             });
     };
@@ -1305,7 +1310,7 @@ function rcube_elastic_ui()
 
     function screen_resize_small_none()
     {
-        buttons.back_list.hide();
+        buttons.back_list.filter(function() { return $(this).parents('.sidebar').length == 0; }).hide();
         $('ul.toolbar.popupmenu').removeClass('popupmenu');
     };
 

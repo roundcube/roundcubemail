@@ -130,12 +130,6 @@
         &.lastpage:before {
             content: @fa-var-fast-forward;
         }
-        &.toggleselect {
-            max-width: 2rem;
-            &:before {
-                .font-icon-regular(@fa-var-hand-pointer);
-            }
-        }
         &.send:before {
             content: @fa-var-paper-plane;
         }
@@ -677,6 +671,18 @@ html.ie11 .toolbar .dropbutton a.dropdown:before {
 
     .toolbar.content-frame-navigation {
         display: none !important;
+    }
+
+    .header a.button.icon {
+        &:not(.disabled):focus,
+        &:not(.disabled):hover {
+            background-color: @color-toolbar-button-background-hover;
+            outline: 0;
+        }
+
+        &:before {
+            margin: 0;
+        }
     }
 }
 

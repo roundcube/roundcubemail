@@ -22,6 +22,10 @@ a.rcmaddcontact {
 
 a.button {
     text-decoration: none;
+
+    &.active {
+        cursor: pointer;
+    }
 }
 
 
@@ -31,6 +35,17 @@ a.button.icon,
 button.btn {
     &:before {
         &:extend(.font-icon-class);
+    }
+    &.toolbar-menu-button:before {
+        content: @fa-var-ellipsis-v;
+    }
+    &.menu-button:before {
+        content: @fa-var-bars;
+    }
+    &.back-sidebar-button:before,
+    &.back-content-button:before,
+    &.back-list-button:before {
+        content: @fa-var-chevron-left;
     }
     &.yes:before,
     &.submit:before,
@@ -82,18 +97,9 @@ button.btn {
     &.mark:before {
         .font-icon-regular(@fa-var-star);
     }
-    &.toolbar-menu-button:before {
-        content: @fa-var-ellipsis-v;
-    }
-    &.menu-button:before {
-        content: @fa-var-bars;
-    }
-    &.back:before,
-    &.back-sidebar-button:before,
-    &.back-list-button:before {
+    &.back:before {
         content: @fa-var-chevron-left;
     }
-    &.back-content-button:before,
     &.remove:before {
         content: @fa-var-times;
     }
@@ -102,6 +108,12 @@ button.btn {
     }
     &.help:before {
         .font-icon-regular(@fa-var-life-ring);
+    }
+    &.toggleselect:before {
+        .font-icon-regular(@fa-var-check-square);
+    }
+    &.folders:before {
+        content: @fa-var-folder-open;
     }
 }
 

@@ -14,13 +14,13 @@
 .searchbar {
     position: absolute;
     background-color: @color-layout-header-background;
-    right: 0;
+    right: .25rem;
     height: @layout-header-height;
     display: block !important;
 
     a.button {
         min-width: auto;
-        padding: 0 .5rem;
+        padding: 0;
         display: block;
 
         &:before {
@@ -82,7 +82,7 @@
 }
 
 .searchfilterbar {
-    right: @layout-touch-icon-width;
+    right: @layout-touch-icon-width + .25rem;
 
     &.active a.button.filter {
         color: @color-searchbar-icon-active;
