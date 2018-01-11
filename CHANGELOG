@@ -2,6 +2,7 @@ CHANGELOG Roundcube Webmail
 ===========================
 
 - Fix bug where contacts search could skip some records (#6130)
+- Fix possible information leak - add more strict sql error check on user creation (#6125)
 
 RELEASE 1.3.4
 -------------
