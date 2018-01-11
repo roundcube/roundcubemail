@@ -159,7 +159,7 @@ init_row: function(row)
       // set eventhandlers to table row (only left-button-clicks in mouseup)
       .mousedown(function(e) { return self.drag_row(e, this.uid); })
       .mouseup(function(e) {
-        if (e.which == 1 && !self.drag_active)
+        if (e.which == 1 && !self.drag_active && !$(e.currentTarget).is('.ui-droppable-active'))
           return self.click_row(e, this.uid);
         else
           return true;
