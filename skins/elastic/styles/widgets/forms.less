@@ -307,7 +307,6 @@ input.smart-upload {
     }
 }
 
-
 .propform,
 .formcontent {
     legend {
@@ -323,6 +322,21 @@ input.smart-upload {
     }
 }
 
+@media screen and (max-width: @screen-width-bs-phone) {
+    .formcontent .text-only {
+        .form-group {
+            margin-bottom: .25rem;
+
+            .col-form-label {
+                width: 33%;
+
+                & + span {
+                    width: 67%;
+                }
+            }
+        }
+    }
+}
 
 // Forms fixes for IE and Edge
 html.ms .propform {
