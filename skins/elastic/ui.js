@@ -1948,6 +1948,9 @@ function rcube_elastic_ui()
             if (p.name == 'folder-selector') {
                 content.addClass('listing folderlist');
             }
+            else if (p.name == 'addressbook-selector' || p.name == 'contactgroup-selector') {
+                content.addClass('listing contactlist');
+            }
             else if (content.hasClass('toolbarmenu')) {
                 content.addClass('listing');
             }

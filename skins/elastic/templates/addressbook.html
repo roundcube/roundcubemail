@@ -57,9 +57,6 @@
 			<roundcube:button command="delete" type="link"
 				class="button delete disabled" classAct="button delete"
 				label="delete" title="deletecontact" innerClass="inner" />
-<!-- TODO
-			<roundcube:button command="group-remove-selected" type="link" title="groupremoveselected" class="button removegroup disabled" classAct="button removegroup" innerClass="inner" label="groupremoveselected" />
--->
 			<span class="spacer"></span>
 <!--
 			<roundcube:button command="compose" type="link"
@@ -81,6 +78,9 @@
 					<span class="inner"><roundcube:label name="arialabelcontactexportoptions" /></span>
 				</a>
 			</span>
+			<roundcube:button name="contactmenulink" id="contactmenulink" type="link"
+				class="button more" label="more" title="moreactions"
+				data-popup="contact-menu" innerclass="inner" />
 		</div>
 	</div>
 	<h2 id="aria-label-contact-frame" class="voice"><roundcube:label name="contactproperties" /></h2>
@@ -127,6 +127,22 @@
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-dragcontact-menu">
 		<roundcube:button type="link-menuitem" command="move" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" />
 		<roundcube:button type="link-menuitem" command="copy" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" />
+	</ul>
+</div>
+
+<div id="contact-menu" class="popupmenu">
+	<h3 id="aria-label-contact-menu" class="voice"><roundcube:label name="arialabelmorecontactactions" /></h3>
+	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-contact-menu">
+		<roundcube:if condition="env:qrcode" />
+		<roundcube:button type="link-menuitem" command="qrcode" label="qrcode" data-hidden="small" class="qrcode" classAct="qrcode active" />
+		<roundcube:endif />
+		<roundcube:button type="link-menuitem" command="group-assign-selected" label="groupassign" class="assigngroup" classAct="assigngroup active" innerclass="folder-selector-link"  aria-haspopup="true" />
+		<roundcube:button type="link-menuitem" command="group-remove-selected" label="groupremove" class="removegroup" classAct="removegroup active" />
+		<roundcube:if condition="env:writable_source &gt; 1" />
+		<roundcube:button type="link-menuitem" command="move" label="moveto" class="move" classAct="move active" innerclass="folder-selector-link" aria-haspopup="true" />
+		<roundcube:button type="link-menuitem" command="copy" label="copyto" class="copy" classAct="copy active" innerclass="folder-selector-link" aria-haspopup="true" />
+		<roundcube:endif />
+		<roundcube:container name="contactmenu" id="contact-menu" />
 	</ul>
 </div>
 

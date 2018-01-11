@@ -772,6 +772,21 @@ html.touch {
         font-style: italic;
         margin-left: .5em;
     }
+
+    li {
+        a:before {
+            &:extend(.font-icon-class);
+            margin-right: .5rem;
+        }
+
+        a.addressbook::before {
+            .font-icon-regular(@fa-var-address-book);
+        }
+
+        a.contactgroup::before {
+            .font-icon-solid(@fa-var-users);
+        }
+    }
 }
 
 
