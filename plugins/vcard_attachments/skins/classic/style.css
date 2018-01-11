@@ -39,3 +39,8 @@ p.vcardattachment button {
 .messagelist tr .attachment span.attachment.vcard {
 	background: url(vcard.png) 0 center no-repeat;
 }
+
+#contactmenu li a.vcard {
+	background: url(../../../../skins/classic/images/messageicons.png) no-repeat 7px 0;
+	background-position: 6px -168px;
+}
