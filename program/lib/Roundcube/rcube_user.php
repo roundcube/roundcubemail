@@ -400,11 +400,14 @@ class rcube_user
 
         unset($data['user_id']);
 
-        $insert_cols = $insert_values = array();
+        $insert_cols   = array();
+        $insert_values = array();
+
         foreach ((array)$data as $col => $value) {
             $insert_cols[]   = $this->db->quote_identifier($col);
             $insert_values[] = $value;
         }
+
         $insert_cols[]   = $this->db->quote_identifier('user_id');
         $insert_values[] = $this->ID;
 
@@ -412,14 +415,13 @@ class rcube_user
             " (`changed`, ".join(', ', $insert_cols).")".
             " VALUES (".$this->db->now().", ".join(', ', array_pad(array(), count($insert_values), '?')).")";
 
-        call_user_func_array(array($this->db, 'query'),
-            array_merge(array($sql), $insert_values));
+        $insert = $this->db->query($sql, $insert_values);
 
         // clear the cache
         $this->identities = array();
         $this->emails     = null;
 
-        return $this->db->insert_id('identities') ?: false;
+        return $this->db->affected_rows($insert) ? $this->db->insert_id('identities') : false;
     }
 
     /**
@@ -623,7 +625,7 @@ class rcube_user
             return;
         }
 
-        $dbh->query(
+        $insert = $dbh->query(
             "INSERT INTO ".$dbh->table_name('users', true).
             " (`created`, `last_login`, `username`, `mail_host`, `language`)".
             " VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?)",
@@ -631,7 +633,7 @@ class rcube_user
             $data['host'],
             $data['language']);
 
-        if ($user_id = $dbh->insert_id('users')) {
+        if ($dbh->affected_rows($insert) && ($user_id = $dbh->insert_id('users'))) {
             // create rcube_user instance to make plugin hooks work
             $user_instance = new rcube_user($user_id, array(
                 'user_id'   => $user_id,
@@ -850,9 +852,8 @@ class rcube_user
             ." (".join(', ', $insert_cols).")"
             ." VALUES (".join(', ', array_pad(array(), count($insert_values), '?')).")";
 
-        call_user_func_array(array($this->db, 'query'),
-            array_merge(array($sql), $insert_values));
+        $insert = $this->db->query($sql, $insert_values);
 
-        return $this->db->insert_id('searches') ?: false;
+        return $this->db->affected_rows($insert) ? $this->db->insert_id('searches') : false;
     }
 }
