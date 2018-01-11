@@ -9,7 +9,7 @@
  */
 class vcard_attachments extends rcube_plugin
 {
-    public $task = 'mail';
+    public $task = 'mail|addressbook';
 
     private $message;
     private $vcard_parts  = array();
@@ -19,37 +19,57 @@ class vcard_attachments extends rcube_plugin
     {
         $rcmail = rcmail::get_instance();
 
-        if ($rcmail->action == 'show' || $rcmail->action == 'preview') {
-            $this->add_hook('message_load', array($this, 'message_load'));
-            $this->add_hook('message_objects', array($this, 'message_objects'));
-            $this->add_hook('template_object_messagebody', array($this, 'html_output'));
-        }
-        else if ($rcmail->action == 'upload') {
-            $this->add_hook('attachment_from_uri', array($this, 'attach_vcard'));
-        }
-        else if ($rcmail->action == 'compose' && !$rcmail->output->framed) {
+        if ($rcmail->task == 'addressbook') {
             $skin_path = $this->local_skin_path();
-            $btn_class = strpos($skin_path, 'classic') ? 'button' : 'listbutton';
-
             $this->add_texts('localization', true);
             $this->include_stylesheet($skin_path . '/style.css');
             $this->include_script('vcardattach.js');
             $this->add_button(
                 array(
-                    'type'     => 'link',
-                    'label'    => 'vcard_attachments.vcard',
+                    'type'     => 'link-menuitem',
+                    'label'    => 'vcard_attachments.forwardvcard',
                     'command'  => 'attach-vcard',
-                    'class'    => $btn_class . ' vcard disabled',
-                    'classact' => $btn_class . ' vcard',
-                    'title'    => 'vcard_attachments.attachvcard',
-                    'innerclass' => 'inner',
+                    'class'    => 'icon vcard',
+                    'classact' => 'icon vcard active',
+                    'innerclass' => 'icon vcard',
                 ),
-                'compose-contacts-toolbar');
+                'contactmenu');
         }
-        else if (!$rcmail->output->framed && (!$rcmail->action || $rcmail->action == 'list')) {
-            $skin_path = $this->local_skin_path();
-            $this->include_stylesheet($skin_path . '/style.css');
-            $this->include_script('vcardattach.js');
+        else {
+            if ($rcmail->action == 'show' || $rcmail->action == 'preview') {
+                $this->add_hook('message_load', array($this, 'message_load'));
+                $this->add_hook('message_objects', array($this, 'message_objects'));
+                $this->add_hook('template_object_messagebody', array($this, 'html_output'));
+            }
+            else if ($rcmail->action == 'upload') {
+                $this->add_hook('attachment_from_uri', array($this, 'attach_vcard'));
+            }
+            else if ($rcmail->action == 'compose' && !$rcmail->output->framed) {
+                $skin_path = $this->local_skin_path();
+                $btn_class = strpos($skin_path, 'classic') ? 'button' : 'listbutton';
+
+                $this->add_texts('localization', true);
+                $this->include_stylesheet($skin_path . '/style.css');
+                $this->include_script('vcardattach.js');
+                $this->add_button(
+                    array(
+                        'type'     => 'link',
+                        'label'    => 'vcard_attachments.vcard',
+                        'command'  => 'attach-vcard',
+                        'class'    => $btn_class . ' vcard disabled',
+                        'classact' => $btn_class . ' vcard',
+                        'title'    => 'vcard_attachments.attachvcard',
+                        'innerclass' => 'inner',
+                    ),
+                    'compose-contacts-toolbar');
+
+                $this->add_hook('message_compose', array($this, 'message_compose'));
+            }
+            else if (!$rcmail->output->framed && (!$rcmail->action || $rcmail->action == 'list')) {
+                $skin_path = $this->local_skin_path();
+                $this->include_stylesheet($skin_path . '/style.css');
+                $this->include_script('vcardattach.js');
+            }
         }
 
         $this->register_action('plugin.savevcard', array($this, 'save_vcard'));
@@ -124,6 +144,20 @@ class vcard_attachments extends rcube_plugin
         if ($attach_script) {
             $this->include_script('vcardattach.js');
             $this->include_stylesheet($this->local_skin_path() . '/style.css');
+        }
+
+        return $p;
+    }
+
+    /**
+     * This callback function adds a vCard to the message when attached from the Address book
+     */
+    function message_compose($p)
+    {
+        if (rcube_utils::get_input_value('_attach_vcard', rcube_utils::INPUT_GET) == '1' && ($uri = rcube_utils::get_input_value('_uri', rcube_utils::INPUT_GET))) {
+            if ($attachment = $this->attach_vcard(array('compose_id' => $p['compose_id'], 'uri' => $uri))) {
+                $p['attachments'][] = $attachment;
+            };
         }
 
         return $p;
@@ -268,7 +302,7 @@ class vcard_attachments extends rcube_plugin
     public function attach_vcard($args)
     {
         if (preg_match('|^vcard://(.+)$|', $args['uri'], $m)) {
-            list($cid, $source) = explode('-', $m[1]);
+            list($source, $cid, $email) = explode('-', $m[1]);
 
             $vcard  = $this->get_contact_vcard($source, $cid, $filename);
             $params = array(
