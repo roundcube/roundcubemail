@@ -1234,7 +1234,7 @@ function rcube_webmail()
 
       case 'print':
         if (this.task == 'addressbook') {
-          if (uid = this.contact_list.get_single_selection()) {
+          if (uid = this.get_single_cid()) {
             url = '&_action=print&_cid=' + uid;
             if (this.env.source)
               url += '&_source=' + urlencode(this.env.source);
@@ -6877,7 +6877,7 @@ function rcube_webmail()
       options = {button: false, cancel_button: 'close', width: 300, height: 300},
       img = new Image(300, 300);
 
-    img.src = this.url('addressbook/qrcode', {_source: this.env.source, _cid: this.env.cid || this.contact_list.get_single_selection()});
+    img.src = this.url('addressbook/qrcode', {_source: this.env.source, _cid: this.get_single_cid()});
 
     return this.simple_dialog(img, title, null, options);
   };
