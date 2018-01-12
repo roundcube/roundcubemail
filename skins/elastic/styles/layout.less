@@ -55,6 +55,13 @@ body > #layout {
             flex-direction: column;
             max-width: 30%;
             border-right: 1px solid @color-layout-border;
+
+            & > .header {
+                a.button {
+                    margin: 0;
+                    padding: 0 .5rem;
+                }
+            }
         }
 
         &.content {
@@ -139,14 +146,6 @@ body > #layout {
                 flex: 1;
                 text-align: center;
                 margin: 0 -20rem;
-            }
-        }
-
-        &.sidebar > &.header,
-        &.list > .header {
-            a.button {
-                margin: 0;
-                padding: 0 .5rem;
             }
         }
 
