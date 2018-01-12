@@ -32,7 +32,7 @@ function plugin_vcard_insertrow(data)
 
 function plugin_vcard_attach()
 {
-  var source, id, n, contacts = [],
+  var id, n, contacts = [],
     ts = new Date().getTime(),
     args = {_uploadid: ts, _id: rcmail.env.compose_id || null},
     selection = rcmail.contact_list.get_selection();
