@@ -232,7 +232,7 @@ abstract class rcube_output
             $disposition .= sprintf("; filename=\"%s\"", $filename);
         }
         else {
-            $disposition .= sprintf("; filename*=\"%s''%s\"", $params['charset'] ?: $this->charset, rawurlencode($filename));
+            $disposition .= sprintf("; filename*=%s''%s", $params['charset'] ?: $this->charset, rawurlencode($filename));
         }
 
         header($disposition);
