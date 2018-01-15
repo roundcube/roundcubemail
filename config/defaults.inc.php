@@ -70,7 +70,7 @@ $config['db_max_allowed_packet'] = null;
 // LOGGING/DEBUGGING
 // ----------------------------------
 
-// log driver:  'syslog', 'stdout' or 'file'.
+// log driver:  'syslog', 'stdout', 'file', or 'php'.
 $config['log_driver'] = 'file';
 
 // date format for log entries
