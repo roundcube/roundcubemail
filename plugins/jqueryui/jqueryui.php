@@ -57,8 +57,7 @@ class jqueryui extends rcube_plugin
                 if (file_exists($this->home . "/js/i18n/jquery.ui.$package-$lang_l.js")) {
                     $this->include_script("js/i18n/jquery.ui.$package-$lang_l.js");
                 }
-                else
-                if (file_exists($this->home . "/js/i18n/jquery.ui.$package-$lang_s.js")) {
+                else if (file_exists($this->home . "/js/i18n/jquery.ui.$package-$lang_s.js")) {
                     $this->include_script("js/i18n/jquery.ui.$package-$lang_s.js");
                 }
             }
