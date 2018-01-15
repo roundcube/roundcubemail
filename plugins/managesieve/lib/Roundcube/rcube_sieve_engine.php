@@ -1653,7 +1653,7 @@ class rcube_sieve_engine
                     $rule['arg1'] = $rule['arg1'][0];
                 }
 
-                $matches = ($header = strtolower($rule['arg1'])) && isset($this->headers[$header]);
+                $matches = !is_array($rule['arg1']) && ($header = strtolower($rule['arg1'])) && isset($this->headers[$header]);
                 $test    = $matches ? $header : '...';
             }
             else if ($rule['test'] == 'exists') {
@@ -1661,7 +1661,7 @@ class rcube_sieve_engine
                     $rule['arg'] = $rule['arg'][0];
                 }
 
-                $matches = ($header = strtolower($rule['arg'])) && isset($this->headers[$header]);
+                $matches = !is_array($rule['arg']) && ($header = strtolower($rule['arg'])) && isset($this->headers[$header]);
                 $test    = $matches ? $header : '...';
             }
             else if (in_array($rule['test'], array('size', 'body', 'date', 'currentdate', 'string'))) {
