@@ -109,6 +109,11 @@
     }
 }
 
+// Overwriting this icon generally prevents from loading bigger images sprite from jQuery-UI
+.ui-widget-content .ui-icon.ui-resizable-se {
+    background: @icon-resize-corner;
+    background-size: cover;
+}
 
 /* FIXME: why do I need !important here? */
 
