@@ -243,7 +243,7 @@ class rcube_config
             $error_log .= $this->prop['log_file_ext'] ?? '.log';
         }
 
-        if ($error_log && $error_log != 'stdout') {
+        if ($error_log && ($error_log != 'stdout' && $error_log != 'php')) {
             ini_set('error_log', $error_log);
         }
 
