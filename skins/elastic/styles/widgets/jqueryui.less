@@ -13,6 +13,7 @@
 
 .ui-widget-overlay {
     background-color: @color-dialog-overlay-background;
+    opacity: 1 !important; // override jQuery-UI opacity, the color above is semi-transparent
 }
 
 .ui-widget {
@@ -186,9 +187,13 @@
 /* Datepicker widget */
 
 .ui-datepicker {
-    padding: 0;
-    overflow: hidden;
     z-index: 2 !important; // above Bootstrap form controls that use z-index: 1
+    // Always display datepicker centered, overwriting widgets position
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    box-shadow: 10px 10px 10px 1000px @color-dialog-overlay-background;
 
     .ui-datepicker-header,
     .ui-datepicker-title {
@@ -264,7 +269,7 @@
 
 html.touch {
     .ui-datepicker {
-        width: @screen-width-mini;
+        min-width: (@screen-width-mini - 20px);
 
         td a {
             font-size: 1.2em;
