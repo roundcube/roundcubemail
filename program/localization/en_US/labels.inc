@@ -459,7 +459,7 @@ $labels['searchdelete'] = 'Delete search';
 
 $labels['import'] = 'Import';
 $labels['importcontacts'] = 'Import contacts';
-$labels['importfromfile'] = 'Import from file:';
+$labels['importfromfile'] = 'Import from file';
 $labels['importtarget'] = 'Add contacts to';
 $labels['importreplace'] = 'Replace the entire address book';
 $labels['importgroups'] = 'Import group assignments';

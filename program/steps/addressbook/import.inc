@@ -204,15 +204,19 @@ function rcmail_import_form($attrib)
 
     $writable_books = $RCMAIL->get_address_sources(true, true);
 
+    $form   = '';
+    $table  = new html_table(array('cols' => 2));
     $upload = new html_inputfield(array(
         'type'     => 'file',
         'name'     => '_file[]',
         'id'       => 'rcmimportfile',
         'size'     => 40,
         'multiple' => 'multiple',
+        'class'    => 'form-control-file',
     ));
-    $form  = html::p(null, html::label('rcmimportfile', $RCMAIL->gettext('importfromfile')) . $upload->show());
-    $table = new html_table(array('cols' => 2));
+
+    $table->add('title', html::label('rcmimportfile', $RCMAIL->gettext('importfromfile')));
+    $table->add(null, $upload->show());
 
     // addressbook selector
     if (count($writable_books) > 1) {
