@@ -495,6 +495,13 @@ class acl extends rcube_plugin
                 if (!strpos($user, '@') && ($realm = $this->get_realm())) {
                     $user .= '@' . rcube_utils::idn_to_ascii(preg_replace('/^@/', '', $realm));
                 }
+
+                // Make sure it's valid email address to prevent from "disappearing folder"
+                // issue in Cyrus IMAP e.g. when the acl user identifier contains spaces inside.
+                if (strpos($user, '@') && !rcube_utils::check_email($user, false)) {
+                    $user = null;
+                }
+
                 $username = $user;
             }
 
