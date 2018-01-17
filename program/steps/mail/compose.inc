@@ -74,7 +74,7 @@ if (!is_array($COMPOSE)) {
 
 
 // add some labels to client
-$OUTPUT->add_label('notuploadedwarning', 'savingmessage',
+$OUTPUT->add_label('notuploadedwarning', 'savingmessage', 'siginserted', 'responseinserted',
     'messagesaved', 'converting', 'editorwarning', 'uploading', 'uploadingmany',
     'fileuploaderror', 'sendmessage', 'newresponse', 'responsename', 'responsetext', 'save',
     'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore', 'ignore',

@@ -4671,7 +4671,8 @@ function rcube_webmail()
   // Inserts a predefined response to the compose editor
   this.insert_response = function(key)
   {
-    return this.editor.replace(this.env.textresponses[key]);
+    this.editor.replace(this.env.textresponses[key]);
+    this.display_message(rcmail.gettext('responseinserted'), 'confirmation');
   };
 
   /**
@@ -4990,21 +4991,21 @@ function rcube_webmail()
     this.local_storage_remove_item('compose.index');
   };
 
-  this.change_identity = function(obj, show_sig)
+  this.change_identity = function(obj, show)
   {
     if (!obj || !obj.options)
       return false;
 
-    if (!show_sig)
-      show_sig = this.env.show_sig;
-
-    var id = obj.options[obj.selectedIndex].value,
-      sig = this.env.identity;
+    var id = $(obj).val(),
+      got_sig = this.env.signatures && this.env.signatures[id],
+      sig = this.env.identity,
+      show_sig = show ? show : this.env.show_sig;
 
     // enable manual signature insert
-    if (this.env.signatures && this.env.signatures[id]) {
+    if (got_sig) {
       this.enable_command('insert-sig', true);
       this.env.compose_commands.push('insert-sig');
+      got_sig = true;
     }
     else
       this.enable_command('insert-sig', false);
@@ -5049,6 +5050,9 @@ function rcube_webmail()
 
     if (this.editor)
       this.editor.change_signature(id, show_sig);
+
+    if (show && got_sig)
+      this.display_message(rcmail.gettext('siginserted'), 'confirmation');
 
     this.env.identity = id;
     this.triggerEvent('change_identity');
