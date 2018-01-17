@@ -64,8 +64,10 @@
     <roundcube:endif />
     <roundcube:button type="link-menuitem" class="assigngroup" command="group-assign-selected" label="groupassign" classAct="assigngroup active" innerclass="folder-selector-link" />
     <roundcube:button type="link-menuitem" class="removegroup" command="group-remove-selected" label="groupremove" classAct="removegroup active" />
-    <roundcube:if condition="env:writable_source &gt; 1" />
+    <roundcube:if condition="env:contact_move_enabled" />
     <roundcube:button type="link-menuitem" class="movelink" command="move" label="moveto" classAct="movelink active" innerclass="folder-selector-link" />
+    <roundcube:endif />
+    <roundcube:if condition="env:contact_copy_enabled" />
     <roundcube:button type="link-menuitem" class="copylink" command="copy" label="copyto" classAct="copylink active" innerclass="folder-selector-link" />
     <roundcube:endif />
     <roundcube:container name="contactmenu" id="contactmenumenu" />

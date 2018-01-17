@@ -35,22 +35,6 @@
 			<roundcube:button type="link-menuitem" command="export-selected" label="exportsel" prop="sub" class="exportsellink" classAct="exportsellink active" />
 		</ul>
 	</div>
-
-	<div id="contactmenu" class="popupmenu" aria-hidden="true">
-		<h3 id="aria-label-contactmenu" class="voice"><roundcube:label name="arialabelmorecontactactions" /></h3>
-		<ul id="contactmenu-menu" class="toolbarmenu iconized" role="menu" aria-labelledby="aria-label-contactmenu">
-			<roundcube:if condition="env:qrcode" />
-			<roundcube:button type="link-menuitem" command="qrcode" label="qrcode" class="icon" classAct="icon active" innerclass="icon qrcode" />
-			<roundcube:endif />
-			<roundcube:button type="link-menuitem" command="group-assign-selected" label="groupassign" class="icon" classAct="icon active" innerclass="icon assigngroup folder-selector-link" />
-			<roundcube:button type="link-menuitem" command="group-remove-selected" label="groupremove" class="icon" classAct="icon active" innerclass="icon removegroup" />
-			<roundcube:if condition="env:writable_source &gt; 1" />
-			<roundcube:button type="link-menuitem" command="move" label="moveto" class="icon" classAct="icon active" innerclass="icon move folder-selector-link" />
-			<roundcube:button type="link-menuitem" command="copy" label="copyto" class="icon" classAct="icon active" innerclass="icon copy folder-selector-link" />
-			<roundcube:endif />
-			<roundcube:container name="contactmenu" id="contactmenu-menu" />
-		</ul>
-	</div>
 </div>
 
 <!-- search box -->
@@ -152,6 +136,24 @@
 	<ul class="toolbarmenu" role="menu">
 		<roundcube:button type="link-menuitem" command="move" onclick="return rcmail.drag_menu_action('move')" label="move" classAct="active" />
 		<roundcube:button type="link-menuitem" command="copy" onclick="return rcmail.drag_menu_action('copy')" label="copy" classAct="active" />
+	</ul>
+</div>
+
+<div id="contactmenu" class="popupmenu" aria-hidden="true">
+	<h3 id="aria-label-contactmenu" class="voice"><roundcube:label name="arialabelmorecontactactions" /></h3>
+	<ul id="contactmenu-menu" class="toolbarmenu iconized" role="menu" aria-labelledby="aria-label-contactmenu">
+		<roundcube:if condition="env:qrcode" />
+		<roundcube:button type="link-menuitem" command="qrcode" label="qrcode" class="icon" classAct="icon active" innerclass="icon qrcode" />
+		<roundcube:endif />
+		<roundcube:button type="link-menuitem" command="group-assign-selected" label="groupassign" class="icon" classAct="icon active" innerclass="icon assigngroup folder-selector-link" />
+		<roundcube:button type="link-menuitem" command="group-remove-selected" label="groupremove" class="icon" classAct="icon active" innerclass="icon removegroup" />
+		<roundcube:if condition="env:contact_move_enabled" />
+		<roundcube:button type="link-menuitem" command="move" label="moveto" class="icon" classAct="icon active" innerclass="icon move folder-selector-link" />
+		<roundcube:endif />
+		<roundcube:if condition="env:contact_copy_enabled" />
+		<roundcube:button type="link-menuitem" command="copy" label="copyto" class="icon" classAct="icon active" innerclass="icon copy folder-selector-link" />
+		<roundcube:endif />
+		<roundcube:container name="contactmenu" id="contactmenu-menu" />
 	</ul>
 </div>
 
