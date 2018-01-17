@@ -92,6 +92,45 @@
   background-position: -170px -32px;
 }
 
+#abooktoolbar a.contactmenu {
+  background: url(images/mail_toolbar.png) 0 0 no-repeat transparent;
+  background-position: -320px 0;
+  width: 34px;
+}
+
+#contactmenu li a
+{
+  background: url(images/contactactions.png) no-repeat 7px 0;
+  background-position: 7px 20px;
+}
+
+#contactmenu li a.qrcode
+{
+  background-position: 7px -39px;
+}
+
+#contactmenu li a.assigngroup
+{
+  background-position: 7px 0;
+}
+
+#contactmenu li a.removegroup
+{
+  background-position: 7px -19px;
+}
+
+#contactmenu li a.movelink
+{
+  background: url(images/messageactions.png) no-repeat 7px 0;
+  background-position: 6px -160px;
+}
+
+#contactmenu li a.copylink
+{
+  background: url(images/messageactions.png) no-repeat 7px 0;
+  background-position: 6px -142px;
+}
+
 #abookcountbar
 {
   margin-top: 4px;
@@ -142,7 +181,9 @@
 }
 
 #directorylist li a,
-#savedsearchlist li a
+#savedsearchlist li a,
+#addressbook-selector li a,
+#contactgroup-selector li a
 {
   cursor: default;
   display: block;
@@ -198,6 +239,23 @@
 #savedsearchlist li.contactsearch a
 {
   background-position: 6px -162px;
+}
+
+#addressbook-selector li a.addressbook
+{
+  padding-left: 25px;
+}
+
+#addressbook-selector li a.contactgroup
+{
+  padding-left: 45px !important;
+  background-position: 25px -143px;
+}
+
+#contactgroup-selector li a
+{
+  padding-left: 25px;
+  background-position: 5px -143px;
 }
 
 #contacts-table

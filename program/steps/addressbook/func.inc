@@ -131,7 +131,9 @@ $RCMAIL->register_action_map(array(
     'search-delete'    => 'search.inc',
 ));
 
-
+// Disable qr-code if php-gd or Endroid's QrCode is not installed
+$OUTPUT->set_env('qrcode', function_exists('imagecreate') && class_exists('Endroid\QrCode\QrCode'));
+$OUTPUT->add_label('qrcode');
 
 // instantiate a contacts object according to the given source
 function rcmail_contact_source($source=null, $init_env=false, $writable=false)
