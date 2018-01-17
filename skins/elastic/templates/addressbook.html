@@ -134,7 +134,7 @@
 	<h3 id="aria-label-contact-menu" class="voice"><roundcube:label name="arialabelmorecontactactions" /></h3>
 	<ul class="toolbarmenu listing" role="menu" aria-labelledby="aria-label-contact-menu">
 		<roundcube:if condition="env:qrcode" />
-		<roundcube:button type="link-menuitem" command="qrcode" label="qrcode" data-hidden="small" class="qrcode" classAct="qrcode active" />
+		<roundcube:button type="link-menuitem" command="qrcode" label="qrcode" class="qrcode" classAct="qrcode active" />
 		<roundcube:endif />
 		<roundcube:button type="link-menuitem" command="group-assign-selected" label="groupassign" class="assigngroup" classAct="assigngroup active" innerclass="folder-selector-link"  aria-haspopup="true" />
 		<roundcube:button type="link-menuitem" command="group-remove-selected" label="groupremove" class="removegroup" classAct="removegroup active" />
