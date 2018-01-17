@@ -34,13 +34,19 @@ function plugin_vcard_attach()
 {
   var id, n, contacts = [],
     ts = new Date().getTime(),
-    args = {_uploadid: ts, _id: rcmail.env.compose_id},
+    args = {_uploadid: ts, _id: rcmail.env.compose_id || null},
     selection = rcmail.contact_list.get_selection();
 
   for (n=0; n < selection.length; n++) {
-    id = selection[n];
-    if (id && id.charAt(0) != 'E' && rcmail.env.contactdata[id])
-      contacts.push(id);
+    if (rcmail.env.task == 'addressbook') {
+      id = selection[n];
+      contacts.push(rcmail.env.source + '-' + id + '-0');
+    }
+    else {
+      id = selection[n];
+      if (id && id.charAt(0) != 'E' && rcmail.env.contactdata[id])
+        contacts.push(id);
+    }
   }
 
   if (!contacts.length)
@@ -48,19 +54,27 @@ function plugin_vcard_attach()
 
   args._uri = 'vcard://' + contacts.join(',');
 
-  // add to attachments list
-  if (!rcmail.add2attachment_list(ts, {name: '', html: rcmail.get_label('attaching'), classname: 'uploading', complete: false}))
-    rcmail.file_upload_id = rcmail.set_busy(true, 'attaching');
+  if (rcmail.env.task == 'addressbook') {
+      args._attach_vcard = 1;
+      rcmail.open_compose_step(args);
+  }
+  else {
+    // add to attachments list
+    if (!rcmail.add2attachment_list(ts, {name: '', html: rcmail.get_label('attaching'), classname: 'uploading', complete: false}))
+      rcmail.file_upload_id = rcmail.set_busy(true, 'attaching');
 
-  rcmail.http_post('upload', args);
+    rcmail.http_post('upload', args);
+  }
 }
 
 window.rcmail && rcmail.addEventListener('init', function(evt) {
   if (rcmail.gui_objects.messagelist)
     rcmail.addEventListener('insertrow', function(data, evt) { plugin_vcard_insertrow(data); });
 
-  if (rcmail.env.action == 'compose' && rcmail.gui_objects.contactslist) {
-    rcmail.env.compose_commands.push('attach-vcard');
+  if ((rcmail.env.action == 'compose' || (rcmail.env.task == 'addressbook' && rcmail.env.action == '')) && rcmail.gui_objects.contactslist) {
+    if (rcmail.env.action == 'compose')
+      rcmail.env.compose_commands.push('attach-vcard');
+
     rcmail.register_command('attach-vcard', function() { plugin_vcard_attach(); });
     rcmail.contact_list.addEventListener('select', function(list) {
       // TODO: support attaching more than one at once

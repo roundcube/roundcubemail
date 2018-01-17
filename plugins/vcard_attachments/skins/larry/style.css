@@ -33,3 +33,8 @@ a.listbutton.vcard .inner
 .messagelist tbody tr .attachment span.attachment.vcard {
 	background: url(vcard.png) 0 center no-repeat;
 }
+
+ul.toolbarmenu li span.vcard {
+	background: url(listicons.png) no-repeat 7px 0;
+	background-position: 0 -3px;
+}

@@ -403,3 +403,41 @@ a.deletebutton {
 #import-box .propform {
   max-width: 50em;
 }
+
+ul.toolbarmenu li span.qrcode {
+	background-position: 0 -2408px;
+}
+
+ul.toolbarmenu li span.assigngroup {
+	background-position: 0 -2358px;
+}
+
+ul.toolbarmenu li span.removegroup {
+	background-position: 0 -2384px;
+}
+
+#addressbook-selector li a,
+#contactgroup-selector li a {
+	padding-left: 2px;
+}
+
+#addressbook-selector li a span,
+#contactgroup-selector li a span {
+	background: url(images/listicons.png) 4px 20px no-repeat;
+	display: block;
+	height: 17px;
+	min-height: 14px;
+	padding: 4px 4px 1px 28px;
+	overflow: hidden;
+	max-width: 120px;
+	text-overflow: ellipsis;
+}
+
+#addressbook-selector li a.addressbook span {
+	background-position: 4px -2222px;
+}
+
+#addressbook-selector li a.contactgroup span,
+#contactgroup-selector li a.contactgroup span {
+	background-position: 4px -2245px;
+}

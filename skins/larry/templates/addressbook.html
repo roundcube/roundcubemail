@@ -26,6 +26,7 @@
 	<roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" title="printcontact" />
 	<roundcube:button command="advanced-search" type="link" class="button search disabled" classAct="button search" classSel="button search pressed" label="advanced" title="advsearch" />
 	<roundcube:container name="toolbar" id="addressbooktoolbar" />
+	<roundcube:button name="contactmenulink" id="contactmenulink" type="link" class="button more" label="more" title="moreactions" onclick="UI.toggle_popup('contactmenu',event);return false" aria-haspopup="true" aria-expanded="false" aria-owns="contactmenu-menu" />
 
 	<div id="exportmenu" class="popupmenu" aria-hidden="true">
 		<h3 id="aria-label-exportmenu" class="voice"><roundcube:label name="arialabelcontactexportoptions" /></h3>
@@ -35,6 +36,21 @@
 		</ul>
 	</div>
 
+	<div id="contactmenu" class="popupmenu" aria-hidden="true">
+		<h3 id="aria-label-contactmenu" class="voice"><roundcube:label name="arialabelmorecontactactions" /></h3>
+		<ul id="contactmenu-menu" class="toolbarmenu iconized" role="menu" aria-labelledby="aria-label-contactmenu">
+			<roundcube:if condition="env:qrcode" />
+			<roundcube:button type="link-menuitem" command="qrcode" label="qrcode" class="icon" classAct="icon active" innerclass="icon qrcode" />
+			<roundcube:endif />
+			<roundcube:button type="link-menuitem" command="group-assign-selected" label="groupassign" class="icon" classAct="icon active" innerclass="icon assigngroup folder-selector-link" />
+			<roundcube:button type="link-menuitem" command="group-remove-selected" label="groupremove" class="icon" classAct="icon active" innerclass="icon removegroup" />
+			<roundcube:if condition="env:writable_source &gt; 1" />
+			<roundcube:button type="link-menuitem" command="move" label="moveto" class="icon" classAct="icon active" innerclass="icon move folder-selector-link" />
+			<roundcube:button type="link-menuitem" command="copy" label="copyto" class="icon" classAct="icon active" innerclass="icon copy folder-selector-link" />
+			<roundcube:endif />
+			<roundcube:container name="contactmenu" id="contactmenu-menu" />
+		</ul>
+	</div>
 </div>
 
 <!-- search box -->
@@ -103,7 +119,7 @@
 	<roundcube:button command="lastpage" type="link" class="icon lastpage disabled" classAct="icon lastpage" title="lastpage" label="last" />
 </div>
 <div class="boxfooter">
-	<roundcube:button command="add" type="link" title="newcontact" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" label="addcontact" /><roundcube:button command="delete" type="link" title="deletecontact" class="listbutton delete disabled" classAct="listbutton delete" innerClass="inner" label="deletecontact" /><roundcube:button command="group-remove-selected" type="link" title="groupremoveselected" class="listbutton removegroup disabled" classAct="listbutton removegroup" innerClass="inner" label="groupremoveselected" />
+	<roundcube:button command="add" type="link" title="newcontact" class="listbutton add disabled" classAct="listbutton add" innerClass="inner" label="addcontact" /><roundcube:button command="delete" type="link" title="deletecontact" class="listbutton delete disabled" classAct="listbutton delete" innerClass="inner" label="deletecontact" />
 	<span class="countdisplay" aria-live="polite" aria-relevant="text">
 		<span class="voice"><roundcube:label name="contacts" /></span>
 		<roundcube:object name="recordsCountDisplay" label="fromtoshort" />

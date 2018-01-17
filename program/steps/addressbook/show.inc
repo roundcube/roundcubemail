@@ -42,10 +42,6 @@ if ($cid && ($record = ($CONTACT_RECORD ?: $CONTACTS->get_record($cid, true)))) 
 // get address book name (for display)
 rcmail_set_sourcename($CONTACTS);
 
-// Disable qr-code if php-gd or Endroid's QrCode is not installed
-$OUTPUT->set_env('qrcode', function_exists('imagecreate') && class_exists('Endroid\QrCode\QrCode'));
-$OUTPUT->add_label('qrcode');
-
 $OUTPUT->add_handlers(array(
     'contacthead'    => 'rcmail_contact_head',
     'contactdetails' => 'rcmail_contact_details',
