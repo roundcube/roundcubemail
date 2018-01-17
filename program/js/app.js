@@ -8271,22 +8271,18 @@ function rcube_webmail()
     }
 
     this.entity_selector('addressbook-selector', callback, combined_sources, function(obj, a) {
-      var row = $('<li>');
-
       if (obj.type == 'group') {
-        a.attr('rel', this.source + ':' + this.id);
-        a.addClass('contactgroup');
-        a.data('source', this.source).data('gid', this.id);
-        a.addClass('active').data('id', this.source + ':' + this.id);
-        a.css('padding-left', '16px');
+        a.attr('rel', obj.source + ':' + obj.id)
+            .addClass('contactgroup active')
+            .data({source: obj.source, gid: obj.id, id: obj.source + ':' + obj.id})
+            .css('padding-left', '16px');
       }
       else {
-        a.addClass('addressbook');
-        a.addClass('active').data('id', obj.id);
+        a.addClass('addressbook active').data('id', obj.id);
       }
       a.append($('<span>').text(obj.name));
 
-      return row.append(a);
+      return $('<li>').append(a);
     }, event);
   };
 
@@ -8295,13 +8291,11 @@ function rcube_webmail()
   {
     this.entity_selector('contactgroup-selector', callback, this.env.contactgroups, function(obj, a) {
       if (ref.env.source === obj.source) {
-        var row = $('<li>');
+        a.addClass('contactgroup active')
+            .data({id: obj.id})
+            .append($('<span>').text(obj.name));
 
-        a.addClass('contactgroup');
-        a.addClass('active').data('id', obj.id);
-        a.append($('<span>').text(obj.name));
-
-        return row.append(a);
+        return $('<li>').append(a);
       }
     }, event);
   };

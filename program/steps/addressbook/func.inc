@@ -65,7 +65,8 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
 
     // count all/writeable sources
     $writeable = 0;
-    $count = 0;
+    $count     = 0;
+
     foreach ($js_list as $sid => $s) {
         $count++;
         if (!$s['readonly']) {
@@ -81,6 +82,8 @@ if (!$RCMAIL->action && !$OUTPUT->ajax_call) {
     $OUTPUT->set_env('search_mods', $search_mods);
     $OUTPUT->set_env('address_sources', $js_list);
     $OUTPUT->set_env('writable_source', $writeable);
+    $OUTPUT->set_env('contact_move_enabled', $writeable > 1);
+    $OUTPUT->set_env('contact_copy_enabled', $writeable > 1 || ($writeable == 1 && count($js_list) > 1));
 
     $OUTPUT->set_pagetitle($RCMAIL->gettext('contacts'));
     $_SESSION['addressbooks_count'] = $count;
