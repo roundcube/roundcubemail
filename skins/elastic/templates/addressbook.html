@@ -138,8 +138,10 @@
 		<roundcube:endif />
 		<roundcube:button type="link-menuitem" command="group-assign-selected" label="groupassign" class="assigngroup" classAct="assigngroup active" innerclass="folder-selector-link"  aria-haspopup="true" />
 		<roundcube:button type="link-menuitem" command="group-remove-selected" label="groupremove" class="removegroup" classAct="removegroup active" />
-		<roundcube:if condition="env:writable_source &gt; 1" />
+		<roundcube:if condition="env:contact_move_enabled" />
 		<roundcube:button type="link-menuitem" command="move" label="moveto" class="move" classAct="move active" innerclass="folder-selector-link" aria-haspopup="true" />
+		<roundcube:endif />
+		<roundcube:if condition="env:contact_copy_enabled" />
 		<roundcube:button type="link-menuitem" command="copy" label="copyto" class="copy" classAct="copy active" innerclass="folder-selector-link" aria-haspopup="true" />
 		<roundcube:endif />
 		<roundcube:container name="contactmenu" id="contact-menu" />
