@@ -1,6 +1,8 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+- vcard_attachments: Add possibility to send contact vCard from Contacts toolbar (#6080)
+- Add More actions button in Contacts toolbar with Copy/Move actions (#6081)
 - Display an error when clicking disabled link to register protocol handler (#6079)
 - Add option trusted_host_patterns (#6009, #5752)
 - Support SMTPUTF8 and relax email address validation to support unicode in local part (#5120)
