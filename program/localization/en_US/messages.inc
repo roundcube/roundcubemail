@@ -217,3 +217,5 @@ $messages['errcomposesession'] = 'Compose session error';
 $messages['errcomposesessionexplain'] = 'Requested compose session not found.';
 $messages['clicktocompose'] = 'Click here to compose a new message';
 $messages['nosupporterror'] = 'This feature is not supported by your web browser.';
+$messages['siginserted'] = 'Signature inserted successfully.';
+$messages['responseinserted'] = 'Response inserted successfully.';
