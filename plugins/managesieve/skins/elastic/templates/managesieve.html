@@ -24,7 +24,8 @@
 	<roundcube:endif />
 	<div class="scroller" aria-labelledby="aria-label-filterslist">
 		<roundcube:object name="filterslist" id="filterslist" class="listing" noheader="true"
-			role="listbox" data-list="filters_list" />
+			role="listbox" data-list="filters_list"
+			data-label-msg="listempty" data-label-ext="listusebutton" data-create-command="plugin.managesieve-add" />
 	</div>
 	<roundcube:if condition="!env:managesieve_no_set_list" />
 	<div class="footer toolbar">
