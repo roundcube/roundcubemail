@@ -219,3 +219,5 @@ $messages['clicktocompose'] = 'Click here to compose a new message';
 $messages['nosupporterror'] = 'This feature is not supported by your web browser.';
 $messages['siginserted'] = 'Signature inserted successfully.';
 $messages['responseinserted'] = 'Response inserted successfully.';
+$messages['listempty'] = 'The list is empty.';
+$messages['listusebutton'] = 'Use the Create button to add a new record.';
