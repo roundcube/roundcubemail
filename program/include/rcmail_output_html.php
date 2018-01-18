@@ -1162,6 +1162,8 @@ EOF;
                 // we are calling a class/method
                 if (($handler = $this->object_handlers[$object]) && is_array($handler)) {
                     if (is_callable($handler)) {
+                        $this->prepare_object_attribs($attrib);
+
                         // We assume that objects with src attribute are internal (in most
                         // cases this is a watermark frame). We need this to make sure assets_path
                         // is added to the internal assets paths
@@ -1171,6 +1173,7 @@ EOF;
                 }
                 // execute object handler function
                 else if (function_exists($handler)) {
+                    $this->prepare_object_attribs($attrib);
                     $content = call_user_func($handler, $attrib);
                 }
                 else if ($object == 'doctype') {
@@ -1294,6 +1297,21 @@ EOF;
                 return $this->form_tag($attrib);
         }
         return '';
+    }
+
+    /**
+     * Prepares template object attributes
+     *
+     * @param array &$attribs Attributes
+     */
+    protected function prepare_object_attribs(&$attribs)
+    {
+        // Localize data-label-* attributes
+        array_walk($attribs, function(&$value, $key, $rcube) {
+            if (strpos($key, 'data-label-') === 0) {
+                $value = $rcube->gettext($value);
+            }
+        }, $this->app);
     }
 
     /**
