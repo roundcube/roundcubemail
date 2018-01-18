@@ -35,8 +35,9 @@
 	<roundcube:include file="includes/pagenav.html" />
 	<div class="scroller">
 		<h2 id="aria-label-contactslist" class="voice"><roundcube:label name="contacts" /></h2>
-		<roundcube:object name="addresslist" id="contacts-table" class="listing iconized contactlist" noheader="true"
-			role="listbox" data-list="contact_list" />
+		<roundcube:object name="addresslist" id="contacts-table" class="listing iconized contactlist"
+			noheader="true" role="listbox" data-list="contact_list"
+			data-label-msg="listempty" data-label-ext="listusebutton" data-create-command="add" />
 	</div>
 </div>
 

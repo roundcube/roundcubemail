@@ -40,12 +40,10 @@
 	<roundcube:include file="includes/pagenav.html" />
 	<div id="messagelist-content" class="scroller" tabindex="-1">
 		<h2 id="aria-label-messagelist" class="voice"><roundcube:label name="arialabelmessagelist" /></h2>
-		<roundcube:object name="messages"
-			id="messagelist"
+		<roundcube:object name="messages" id="messagelist" optionsmenuIcon="true"
 			class="listing messagelist sortheader fixedheader"
-			optionsmenuIcon="true"
 			aria-labelledby="aria-label-messagelist"
-			data-list="message_list"
+			data-list="message_list" data-label-msg="listempty"
 		/>
 	</div>
 	<div id="messagelist-footer" class="footer toolbar" role="toolbar">

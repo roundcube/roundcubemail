@@ -424,10 +424,14 @@ function rcube_elastic_ui()
      */
     function init()
     {
-        // Enable checkbox selection on list widgets
+        // Additional functionality on list widgets
         $('table[data-list]').each(function() {
-            var button, table = $(this), list = table.data('list');
+            var button,
+                table = $(this),
+                list = table.data('list');
+
             if (rcmail[list] && rcmail[list].multiselect) {
+                // Enable checkbox selection on list widgets
                 rcmail[list].checkbox_selection = true;
 
                 // Add Select button to the list navigation bar
@@ -460,6 +464,54 @@ function rcube_elastic_ui()
                 }
             }
         });
+
+        // Display "List is empty..." on the list
+        if (window.MutationObserver) {
+            $('[data-label-msg]').filter('li,table').each(function() {
+                var fn, observer, callback,
+                    info = $('<div class="listing-info hidden">').insertAfter(this),
+                    table = $(this),
+
+                fn = function() {
+                    var ext, command,
+                        msg = table.data('label-msg'),
+                        list = table.is('ul') ? table : table.children('tbody');
+
+                    if (!rcmail.env.search_request && !rcmail.env.qsearch
+                        && msg && !list.children(':visible').length
+                    ) {
+                        ext = table.data('label-ext');
+                        command = table.data('create-command');
+
+                        if (ext && (!command || rcmail.commands[command])) {
+                            msg += ' ' + ext;
+                        }
+
+                        info.text(msg).removeClass('hidden');
+                        return;
+                    }
+
+                    info.addClass('hidden');
+                };
+
+                callback = function() {
+                    // wait until the UI stops loading and the list is visible
+                    if (rcmail.busy || !table.is(':visible')) {
+                        return setTimeout(callback, 250);
+                    }
+
+                    clearTimeout(env.list_timer);
+                    env.list_timer = setTimeout(fn, 50);
+                };
+
+                // show/hide the message when something changes on the list
+                observer = new MutationObserver(callback);
+                observer.observe(table[0], {childList: true, subtree: true, attributes: true, attributeFilter: ['style']});
+
+                // initialize the message
+                callback();
+            });
+        }
 
         // Create floating action button(s)
         if (layout.list.length && is_mobile()) {

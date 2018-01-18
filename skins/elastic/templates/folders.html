@@ -15,7 +15,8 @@
 	</div>
 	<div class="scroller" tabindex="-1">
 		<roundcube:object name="foldersubscription" id="subscription-table"
-			class="treelist listing folderlist iconized" role="listbox" data-list="subscription_list" />
+			class="treelist listing folderlist iconized" role="listbox" data-list="subscription_list"
+			data-label-msg="listempty" data-label-ext="listusebutton" data-create-command="folder-create" />
 	</div>
 	<div class="footer">
 		<roundcube:if condition="env:quota" />
