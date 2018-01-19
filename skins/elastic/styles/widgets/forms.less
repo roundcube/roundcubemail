@@ -324,7 +324,7 @@ input.smart-upload {
 
 @media screen and (max-width: @screen-width-bs-phone) {
     .formcontent .text-only {
-        .form-group {
+        .form-group:not(tr) {
             margin-bottom: .25rem;
 
             .col-form-label {
@@ -1180,7 +1180,10 @@ html.touch input.icon-checkbox + label {
     }
 }
 
-/* Remove outline on selects in Firefox */
+
+/*** General browser hacks ***/
+
+// Remove outline on selects in Firefox
 @-moz-document url-prefix() {
     select:-moz-focusring {
        color: transparent !important;
@@ -1188,7 +1191,8 @@ html.touch input.icon-checkbox + label {
     }
 }
 
-/* Bootstrap style overrides */
+
+/*** Bootstrap style overrides ***/
 
 .form-control, .form-control:focus {
     color: @color-font;
