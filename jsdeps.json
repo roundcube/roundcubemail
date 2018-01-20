@@ -3,13 +3,13 @@
     {
       "lib": "jquery",
       "name": "jQuery",
-      "version": "3.2.1",
-      "url": "https://code.jquery.com/jquery-3.2.1.min.js",
+      "version": "3.3.1",
+      "url": "https://code.jquery.com/jquery-3.3.1.min.js",
       "dest": "program/js/jquery.min.js",
-      "sha1": "1055018c28ab41087ef9ccefe411606893dabea2",
+      "sha1": "0dc32db4aa9c5f03f3b38c47d883dbd4fed13aae",
       "license": "MIT",
-      "copyright": "Copyright 2005, 2015 jQuery Foundation, Inc.",
-      "source": "https://github.com/jquery/jquery/tree/3.2.1"
+      "copyright": "Copyright JS Foundation and other contributors",
+      "source": "https://github.com/jquery/jquery/tree/3.3.1"
     },
     {
       "lib": "jstz",
