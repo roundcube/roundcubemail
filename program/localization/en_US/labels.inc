@@ -482,6 +482,7 @@ $labels['manageidentities'] = 'Manage identities';
 $labels['newidentity'] = 'Create new identity';
 $labels['addidentity'] = 'Add identity';
 $labels['editidentity'] = 'Edit identity';
+$labels['identityencryption'] = 'Encryption';
 
 $labels['preferhtml'] = 'Display HTML';
 $labels['defaultcharset'] = 'Default Character Set';
@@ -618,6 +619,12 @@ $labels['namespace.shared'] = 'Shared';
 $labels['dualuselabel'] = 'Can contain only';
 $labels['dualusemail'] = 'messages';
 $labels['dualusefolder'] = 'folders';
+
+$labels['generate'] = 'Generate';
+$labels['encryptioncreatekey'] = 'Create a new key pair';
+$labels['openmailvelopesettings'] = 'Open Mailvelope Settings';
+$labels['encryptionprivkeysinmailvelope'] = 'You have $nr matching private keys stored in your Mailvelope keyring:';
+$labels['encryptionnoprivkeysinmailvelope'] = 'This sender identity doesn\'t yet have a PGP private key stored in your Mailvelope extension. Would you like to create one in order to enable encrypted messaging?';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc']  = 'Sort ascending';

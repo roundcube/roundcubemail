@@ -221,3 +221,4 @@ $messages['siginserted'] = 'Signature inserted successfully.';
 $messages['responseinserted'] = 'Response inserted successfully.';
 $messages['listempty'] = 'The list is empty.';
 $messages['listusebutton'] = 'Use the Create button to add a new record.';
+$messages['keypaircreatesuccess'] = 'A new key pair has been successfully created for $identity.';
