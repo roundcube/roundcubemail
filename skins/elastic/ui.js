@@ -587,6 +587,14 @@ function rcube_elastic_ui()
                 });
             }
         }
+        else if (rcmail.task == 'settings') {
+            rcmail.addEventListener('identity-encryption-show', function(p) {
+                bootstrap_style(p.container);
+            });
+            rcmail.addEventListener('identity-encryption-update', function(p) {
+                bootstrap_style(p.container);
+            });
+        }
 
         rcmail.env.thread_padding = '1.5rem';
 
