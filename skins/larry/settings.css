@@ -78,6 +78,21 @@
 	background-position: -24px -1137px;
 }
 
+#preferences-details .identity-encryption-block {
+	background-color: #eee;
+	padding: 8px 10px;
+}
+
+#preferences-details .identity-encryption-block ul.keylist {
+	list-style: none;
+	margin: 8px 0 12px 0;
+}
+
+#preferences-details .identity-encryption-block ul.keylist {
+	display: block;
+	padding: 4px 10px 4px 0;
+}
+
 #sections-table tbody td,
 #sections-table .listitem span,
 #settings-sections .listitem a,

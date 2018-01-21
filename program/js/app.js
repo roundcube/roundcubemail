@@ -511,6 +511,8 @@ function rcube_webmail()
 
           // initialize HTML editor
           this.editor_init(this.env.editor_config, 'rcmfd_signature');
+
+          this.check_mailvelope(this.env.action);
         }
         else if (this.env.action == 'folders') {
           this.enable_command('subscribe', 'unsubscribe', 'create-folder', 'rename-folder', true);
@@ -3638,6 +3640,8 @@ function rcube_webmail()
         if (args.ret && args.action == 'toggle-editor')
           ref.enable_command('compose-encrypted', !args.props.html);
       });
+    } else if (action == 'edit-identity') {
+      ref.mailvelope_identity_keygen();
     }
   };
 
@@ -4000,6 +4004,127 @@ function rcube_webmail()
 
   };
 
+  // enable key management for identity
+  this.mailvelope_identity_keygen = function()
+  {
+    var container = $(this.gui_objects.editform).find('.identity-encryption').first();
+    var identity_email = $.trim($(this.gui_objects.editform).find('.ff_email').val());
+    if (!container.length || !identity_email || !this.mailvelope_keyring.createKeyGenContainer)
+      return;
+
+    var key_fingerprint;
+    this.mailvelope_keyring.validKeyForAddress([identity_email])
+      .then(function(keys) {
+        var private_keys = [];
+
+        if (keys && keys[identity_email] && Array.isArray(keys[identity_email].keys)) {
+          var checks = [];
+          for (var j=0; j < keys[identity_email].keys.length; j++) {
+            checks.push((function(key) {
+              return ref.mailvelope_keyring.hasPrivateKey(key.fingerprint)
+                .then(function(found) {
+                  if (found) {
+                    private_keys.push(key);
+                  }
+                });
+            })(keys[identity_email].keys[j]));
+          }
+          return Promise.all(checks)
+            .then(function() {
+              return private_keys;
+            });
+        }
+
+        return private_keys;
+      }).then(function(private_keys) {
+        var content = container.find('.identity-encryption-block').empty();
+        if (private_keys && private_keys.length) {
+          // show private key information
+          $('<p>').text(ref.get_label('encryptionprivkeysinmailvelope').replace('$nr', private_keys.length)).appendTo(content);
+          var ul = $('<ul>').addClass('keylist').appendTo(content);
+          $.each(private_keys, function(i, key) {
+            $('<li>').appendTo(ul)
+              .append($('<span>').addClass('identity').text('<' + identity_email + '> '))
+              .append($('<strong>').addClass('fingerprint').text(String(key.fingerprint).toUpperCase()));
+          });
+        } else {
+          $('<p>').text(ref.get_label('encryptionnoprivkeysinmailvelope')).appendTo(content);
+        }
+
+        // show button to create a new key
+        $('<button>')
+          .attr('type', 'button')
+          .addClass('button create')
+          .text(ref.get_label('encryptioncreatekey'))
+          .appendTo(content)
+          .on('click', function() { ref.mailvelope_show_keygen_container(content, identity_email); });
+        $('<button>')
+          .attr('type', 'button')
+          .addClass('button settings')
+          .text(ref.get_label('openmailvelopesettings'))
+          .appendTo(content)
+          .on('click', function() { ref.mailvelope_keyring.openSettings(); });
+
+        container.show();
+      })
+      .catch(function(err) {
+        console.error('Mailvelope keyring error', err);
+      })
+  };
+
+  // start pgp key generation using Mailvelope
+  this.mailvelope_show_keygen_container = function(container, identity_email)
+    {
+    var cid = new Date().getTime();
+    var user_id = {email: identity_email, fullName: $.trim($(ref.gui_objects.editform).find('.ff_name').val())};
+    var options = {userIds: [user_id], keySize: 4096};
+
+    $('<div>').attr('id', 'mailvelope-keygen-container-' + cid)
+      .css({height: '245px', marginBottom: '10px'})
+      .appendTo(container.empty());
+
+    this.mailvelope_keyring.createKeyGenContainer('#mailvelope-keygen-container-' + cid, options)
+      .then(function(generator) {
+        if (generator instanceof Error) {
+          throw generator;
+        }
+
+        // append button to start key generation
+        $('<button>')
+          .attr('type', 'button')
+          .addClass('button mainaction generate')
+          .text(ref.get_label('generate'))
+          .appendTo(container)
+          .on('click', function() {
+            var btn = $(this).prop('disabled', true);
+            generator.generate()
+              .then(function(result) {
+                if (typeof result === 'string' && result.indexOf('BEGIN PGP') > 0) {
+                  ref.display_message(ref.get_label('keypaircreatesuccess').replace('$identity', identity_email), 'confirmation');
+                  // reset keygen view
+                  ref.mailvelope_identity_keygen();
+                }
+              })
+              .catch(function(err) {
+                debugger;
+                ref.display_message(err.message || 'errortitle', 'error');
+                btn.prop('disabled', false);
+            });
+          });
+
+        $('<button>')
+          .attr('type', 'button')
+          .addClass('button cancel')
+          .text(ref.get_label('cancel'))
+          .appendTo(container)
+          .on('click', function() { ref.mailvelope_identity_keygen(); });
+      })
+      .catch(function(err) {
+        ref.display_message('errortitle', 'error');
+        // start over
+        ref.mailvelope_identity_keygen();
+      });
+    };
 
   /*********************************************************/
   /*********       mailbox folders methods         *********/
