@@ -105,14 +105,6 @@ body > #layout {
             min-width: 300px;
             background-color: @color-layout-list-background;
         }
-
-        &.menu {
-            width: @layout-menu-width;
-            // FIXME: we set background color here not in taskmenu.less, because
-            // otherwise background is partially white on Android/iOS
-            background-color: @color-taskmenu-background;
-        }
-
         & > .scroller {
             flex: 1;
             position: relative; // for .listing-info positioning
@@ -187,9 +179,6 @@ html.iframe {
 }
 
 @media screen and (max-width: @screen-width-medium) {
-    body > #layout > div.menu {
-        width: @layout-menu-width/2;
-    }
 }
 
 @media screen and (max-width: @screen-width-small) {
@@ -236,16 +225,6 @@ html.iframe {
 }
 
 @media screen and (max-width: @screen-width-xs) {
-    body > #layout > div.menu {
-        position: absolute;
-        z-index: 30001; // because autocompletion popup uses z-index:30000
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: auto;
-        text-align: center;
-    }
 }
 
 @media screen and (max-width: @screen-width-mini) {
@@ -255,10 +234,15 @@ html.iframe {
     }
 }
 
-@media screen and (min-width: (@screen-width-large + 1px)) {
-    body > #layout > div > .header > a.back-list-button,
-    body > #layout > div > .header > a.back-sidebar-button {
+@media screen and (min-width: (@screen-width-xs + 1px)) {
+    body > #layout > div > .header > a.menu-button {
         display: none;
+    }
+
+    body > #layout > .menu {
+        // FIXME: we set background color here not in taskmenu.less, because
+        // otherwise background is partially white on Android/iOS
+        background-color: @color-taskmenu-background;
     }
 }
 
@@ -269,11 +253,28 @@ html.iframe {
     body > #layout > div > .header > a.toolbar-menu-button {
         display: none;
     }
+
+    body > #layout > .menu {
+        width: @layout-menu-width/2;
+    }
 }
 
-@media screen and (min-width: (@screen-width-xs + 1px)) {
-    body > #layout > div > .header > a.menu-button {
+@media screen and (min-width: (@screen-width-medium + 1px)) {
+    body > #layout > .menu {
+        width: @layout-menu-width;
+    }
+}
+
+@media screen and (min-width: (@screen-width-large + 1px)) {
+    body > #layout > div > .header > a.back-list-button,
+    body > #layout > div > .header > a.back-sidebar-button {
         display: none;
+    }
+}
+
+html.layout-phone {
+    .hidden-phone {
+        display: none !important;
     }
 }
 

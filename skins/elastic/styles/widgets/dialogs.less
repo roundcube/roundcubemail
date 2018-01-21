@@ -49,7 +49,7 @@
     box-shadow: 3px 3px 5px @color-popover-shadow;
     padding: 0;
 
-    & > h3 {
+    .popover-header {
         // On mobile don't display popup arrows and titles
         display: none;
     }
@@ -72,36 +72,19 @@ html.layout-phone {
         padding: 0;
         right: 0;
         bottom: 0;
-        width: 276px;
+        top: 0;
+        width: @layout-mobile-menu-width;
         transform: none !important;
         border-radius: 0;
         border: 0;
         display: flex;
         flex-direction: column;
+        .webkit-scroller;
 
         div.arrow {
             display: none;
         }
 
-        & > h3 {
-            display: block;
-            border-radius: 0;
-            padding: 0 .5em;
-            height: @layout-touch-header-height;
-            line-height: @layout-touch-header-height;
-            font-size: @layout-touch-header-font-size;
-            color: @color-popover-header;
-            background-color: @color-popover-header-background;
-
-            a {
-                display: inline-block;
-                width: 100%;
-            }
-        }
-
-        .popover-body > * {
-            max-height: 100% !important;
-        }
 
         .listing li:last-child {
             border-bottom: 1px solid @color-list-border;
@@ -125,6 +108,26 @@ html.layout-phone {
         bottom: auto;
         border: 1px solid @color-input-border;
         box-shadow: none;
+    }
+
+    .popover-header {
+        display: block;
+        border-radius: 0;
+        padding: 0 .5em;
+        height: @layout-touch-header-height;
+        line-height: @layout-touch-header-height;
+        font-size: @layout-touch-header-font-size;
+        color: @color-popover-header;
+        background-color: @color-popover-header-background;
+
+        a {
+            display: inline-block;
+            width: 100%;
+        }
+    }
+
+    .popover-body > * {
+        max-height: 100% !important;
     }
 }
 

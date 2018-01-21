@@ -120,12 +120,10 @@ function rcube_elastic_ui()
         }
 
         // menu/sidebar/list button
-        buttons.menu.on('click', function() { show_menu(); return false; });
+        buttons.menu.on('click', function() { app_menu(true); return false; });
         buttons.back_sidebar.on('click', function() { show_sidebar(); return false; });
         buttons.back_list.on('click', function() { show_list(); return false; });
         buttons.back_content.on('click', function() { show_content(true); return false; });
-
-        $('body').on('click', function() { if (mode == 'phone') layout.menu.addClass('hidden'); });
 
         // Set content frame title in parent window (exclude ext-windows and dialog frames)
         if (is_framed && !rcmail.env.extwin && !parent.$('.ui-dialog:visible').length) {
@@ -268,7 +266,7 @@ function rcube_elastic_ui()
         });
 
         // buttons that should be hidden on small screen devices
-        $('a[data-hidden],button[data-hidden]').each(function() {
+        $('[data-hidden]').each(function() {
             var parent = $(this).parent('li'),
                 sizes = $(this).data('hidden').split(',');
 
@@ -1305,15 +1303,13 @@ function rcube_elastic_ui()
     function screen_resize_phone()
     {
         screen_resize_small_all();
-
-        layout.menu.addClass('hidden');
+        app_menu(false);
     };
 
     function screen_resize_small()
     {
         screen_resize_small_all();
-
-        layout.menu.removeClass('hidden');
+        app_menu(true);
     };
 
     function screen_resize_normal()
@@ -1330,8 +1326,7 @@ function rcube_elastic_ui()
         }
 
         layout.content.removeClass('hidden');
-        layout.menu.removeClass('hidden');
-
+        app_menu(true);
         screen_resize_small_none();
     };
 
@@ -1455,15 +1450,26 @@ function rcube_elastic_ui()
     };
 
     // show menu widget
-    function show_menu()
+    function app_menu(show)
     {
-        var show = true;
+        if (show) {
+            if (mode == 'phone') {
+                $('<div id="menu-overlay" class="popover-overlay">').appendTo('body');
 
-        if (mode == 'phone') {
-            show = layout.menu.is(':visible') ? false : true;
+                if (!env.menu_initialized) {
+                    env.menu_initialized = true;
+                    $('a', layout.menu).on('click', function(e) { if (mode == 'phone') app_menu(); });
+                }
+
+                layout.menu.addClass('popover');
+            }
+
+            layout.menu.removeClass('hidden');
         }
-
-        layout.menu[show ? 'removeClass' : 'addClass']('hidden');
+        else {
+            $('#menu-overlay').remove();
+            layout.menu.addClass('hidden').removeClass('popover');
+        }
     };
 
     /**

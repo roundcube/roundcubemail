@@ -17,28 +17,10 @@
     a {
         .overflow-ellipsis;
         text-decoration: none;
-        padding: .45rem 0;
         display: block;
-        text-align: center;
-        color: @color-taskmenu-button;
 
         &:before {
             &:extend(.font-icon-class);
-            display: block;
-            height: 1.75rem;
-            line-height: 1.5;
-            width: @layout-menu-width;
-            margin: 0;
-        }
-
-        &:hover {
-            color: @color-taskmenu-button-hover;
-            background: @color-taskmenu-button-background-hover;
-        }
-
-        &.selected {
-            color: @color-taskmenu-button-selected;
-            background: @color-taskmenu-button-selected-background;
         }
 
         &.mail:before {
@@ -77,136 +59,117 @@
         &.notes:before {
             content: @fa-var-sticky-note;
         }
-
-        span.inner {
-            font-size: 90%;
-            padding: 0 .1em;
-        }
     }
 
-    .special-buttons {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: @layout-menu-width;
+    a.logout {
+        color: @color-taskmenu-button-logout-hover !important;
+    }
 
-        @media screen and (max-width: @screen-width-xs) {
-            position: relative;
-        }
+    @media screen and (max-width: @screen-width-xs) {
+        z-index: 30001; // because autocompletion popup uses z-index:30000
+        overflow-x: hidden;
 
         a {
-            color: @color-taskmenu-button-special;
-            background: @color-taskmenu-button-special-background;
+            width: 100%;
+            padding: 0 .5em;
+            text-align: left;
+            line-height: @layout-touch-menu-record-height;
+            height: @layout-touch-menu-record-height;
+            border-bottom: 1px solid @color-list-border;
+            color: @color-list;
+            font-size: 1.2rem;
 
-            &:hover {
-                color: @color-taskmenu-button-special-hover;
-                background: @color-taskmenu-button-special-background-hover;
-
-                &.logout {
-                    color: @color-taskmenu-button-logout-hover !important;
-                }
-            }
-
-            @media screen and (max-width: @screen-width-xs) {
-                &.logout {
-                    color: @color-taskmenu-button-logout-hover !important;
-                }
+            &:before {
+                margin-right: .5rem;
             }
         }
     }
 
-    .action-buttons {
+    @media screen and (min-width: (@screen-width-xs + 1px)) {
         a {
-            color: @color-taskmenu-button-action;
-            background: @color-taskmenu-button-action-background;
-
-            &:hover {
-                color: @color-taskmenu-button-action-hover;
-                background: @color-taskmenu-button-action-background-hover;
-            }
-        }
-    }
-
-    @media screen and (max-width: @screen-width-medium) {
-        a,
-        a:before {
+            text-align: center;
+            color: @color-taskmenu-button;
+            padding: .45rem 0;
             width: @layout-menu-width/2;
+            font-size: 1.2rem;
+
+            &:before {
+                display: block;
+                height: 2.1rem;
+                line-height: 1.5;
+                width: @layout-menu-width/2;
+                margin: 0;
+            }
+
+            &:hover {
+                color: @color-taskmenu-button;
+                background: @color-taskmenu-button-background-hover;
+            }
+
+            &.selected {
+                color: @color-taskmenu-button-selected;
+                background: @color-taskmenu-button-selected-background;
+            }
         }
 
-        a {
-            height: 3.25rem;
-            font-size: 1.25rem;
-        }
-
-        span.inner {
-            display: none;
+        .special-buttons {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: @layout-menu-width;
         }
 
         .action-buttons {
             a {
                 color: @color-taskmenu-button-action-background;
                 background: @color-taskmenu-background;
+
+                &:hover {
+                    color: @color-taskmenu-button-action-hover;
+                    background: @color-taskmenu-button-action-background-hover;
+                }
             }
-        }
-    }
-
-    @media screen and (max-width: @screen-width-xs) {
-        a,
-        a:before {
-            height: 2.25rem;
-            display: inline-block;
-            width: 310px / 3;
-            font-size: 1.25em;
-        }
-
-        a {
-            height: auto;
-            margin-top: 1rem;
-            background: transparent;
-        }
-
-        a:hover {
-            background: transparent !important;
         }
 
         span.inner {
-            display: block;
+            display: none;
         }
     }
 
-    @media screen and (max-width: @screen-width-xs) and (min-width: 320px) and (min-height: 480px) {
-        text-align: left;
-    }
-
-    .menu-header {
-        border-bottom: 1px solid @color-taskmenu-button;
-        height: @layout-touch-header-height;
-        line-height: @layout-touch-header-height;
-        text-align: left;
-        padding: 0 .5em;
-        font-size: 1.2rem;
-
+    @media screen and (min-width: (@screen-width-medium + 1px)) {
         a {
-            color: @color-taskmenu-button;
-            font-size: 100%;
-            display: inline;
+            width: @layout-menu-width;
+            height: @layout-header-height;
+            font-size: 1.1rem;
 
             &:before {
-                line-height: @layout-touch-header-height;
-                height: @layout-touch-header-height;
-                width: auto;
-                margin-right: .25rem;
-            }
-
-            &:hover {
-                background: inherit;
+                width: @layout-menu-width;
+                height: 1.75rem;
+                line-height: 1.5;
             }
         }
-    }
 
-    @media screen and (min-width: (@screen-width-xs + 1px)) {
-        .menu-header {
-            display: none;
+        .action-buttons {
+            a {
+                color: @color-taskmenu-button-action;
+                background: @color-taskmenu-button-action-background;
+            }
+        }
+
+        span.inner {
+            display: inline;
+            font-size: 85%;
+            padding: 0 .1em;
+        }
+    }
+}
+
+.menu {
+    .webkit-scroller;
+
+    .popover-header {
+        @media screen and (min-width: (@screen-width-xs + 1px)) {
+            display: none !important;
         }
     }
 }

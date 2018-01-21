@@ -35,16 +35,15 @@
 
 // Task menu
 @color-taskmenu-background:                     #414e54;
-@color-taskmenu-button:                         #959c9f;
-@color-taskmenu-button-selected:                #fff;
-@color-taskmenu-button-action:                  #fff;
+@color-taskmenu-button:                         #fff;
+@color-taskmenu-button-selected:                @color-taskmenu-button;
+@color-taskmenu-button-action:                  @color-taskmenu-button;
 @color-taskmenu-button-special:                 @color-taskmenu-button;
 
-@color-taskmenu-button-selected-background:     @color-taskmenu-background;
+@color-taskmenu-button-selected-background:     lighten(@color-taskmenu-background, 10%);
 @color-taskmenu-button-action-background:       @color-main;
 @color-taskmenu-button-special-background:      @color-taskmenu-background;
 
-@color-taskmenu-button-hover:                   lighten(@color-taskmenu-button, 10%);
 @color-taskmenu-button-selected-hover:          #fff;
 @color-taskmenu-button-action-hover:            #fff;
 @color-taskmenu-button-special-hover:           lighten(@color-taskmenu-button-special, 10%);
