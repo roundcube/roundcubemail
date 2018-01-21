@@ -4058,6 +4058,7 @@ function rcube_webmail()
           .text(ref.get_label('encryptioncreatekey'))
           .appendTo(content)
           .on('click', function() { ref.mailvelope_show_keygen_container(content, identity_email); });
+        $('<span>').addClass('space').html('&nbsp;').appendTo(content);
         $('<button>')
           .attr('type', 'button')
           .addClass('button settings')
@@ -4113,12 +4114,16 @@ function rcube_webmail()
             });
           });
 
+        $('<span>').addClass('space').html('&nbsp;').appendTo(container);
+
         $('<button>')
           .attr('type', 'button')
           .addClass('button cancel')
           .text(ref.get_label('cancel'))
           .appendTo(container)
           .on('click', function() { ref.mailvelope_identity_keygen(); });
+
+        ref.triggerEvent('identity-encryption-update', { container: container });
       })
       .catch(function(err) {
         ref.display_message('errortitle', 'error');
